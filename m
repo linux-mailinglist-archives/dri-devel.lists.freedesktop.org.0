@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B90BCB6F9C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 20:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D151CB6FD0
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 20:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E235E10E828;
-	Thu, 11 Dec 2025 19:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24D7F10E148;
+	Thu, 11 Dec 2025 19:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QfxQyz+0";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MtyKdMYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012068.outbound.protection.outlook.com [52.101.43.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A09D10E828
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 19:08:05 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011056.outbound.protection.outlook.com [52.101.52.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1EA710E148
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 19:16:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DBW6VAv7aS00tJY+JL72XX+EdybQiM0d9UjvhA+lZPJj5QE3+ZpFVyv6Bg0TpdhZwZYOCahk5MC0vXdFIdYpywaKiu+8/9tsXLX+i99iUUrlhJn0a804WDN5McwLRTL+QWInwUxV0WzARGW+hLqIQYQfKYz+PmgozeAd6hOkDQOjk62Ag4s7OHz6XzblZODt2qRSnplNLe1qdHZDNqBZPi6Q7EucBTScAGJWYZHfOiY//efGXMVy/QRxy1eTAnkTwQZdxvDb/5td4X77lBRU9RJQcnBHQ1RmhpjdQErtZOkNYMB1T/Z9FMa9IT//ehhA+T/YORSJmfoZfDMBqFEI9Q==
+ b=lVwXMz0YMI2KLoqcb/mldpsJjXyzIhacF1Xp98Qx6hN+um8EQsm1a4MKhK6iiyhb02gyzpnywuYhkKJwghDe8yP82mL7DFi2NDreAFIs+QQevs3HYheY/QwtBbCvT7HO6CHGjxFuXL4ay79NNVvRlos2MMdvInkdVyHr8mPrtxKtkkE5XB6nIxs/5uvqvBG/7+TRoBJj6yW5p/aInhtJb1KlcpbPl3nW+7acMb3EOvwLDd+t0988alw3pGGWvP25lyQcewXYtEECF6CEsk1k1AIa0oqcxodaLFjhbO2ETVy1XweOBHBcoZJBwJ4GiqOHR/CY7fuMz2/Jej5D0QCknw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mQkyK4axOQtkhFPHLFqwYjurS07nJGtt4V0EPAKJCpY=;
- b=vG2ZP1etpdebXJaZVhfzZYOvviK5FUJHbENv25yZ6u+aUX4z+GHP+yZbhlEBE7jYRfEOHLnCzZAqbnPvEIoD6s8AdW00/dVf+P6ymb5b/1CNCeyfkWydNVDVBiwk7oQOWO5vmpIUdZOBxYQdQ3kGHJ7mJ3mJWX4iryPbzdVRiJy9bXhNs7c4UcgBmF+yrrOM2t54kB8XfKMDMDe6G8yJrhvvjMGB4amGfAaE572lFPohhR8EC4smEZjhTBNybBggnDRTXDzsrg/GPwq4BEF/DHyrPXrqCvXIbLkQzpvOWHNATqop09T2uuOp9ojd+EpStPl9gKmqk7gJXZ7zDnJAAw==
+ bh=w3bpEksMo7UkaxldXkbCkAV6uFc23dj9EkQ6gPpLmgI=;
+ b=iYRKQBLEJo3kFuJlnOnVaC9vD/paJ7EK6U78zC12EetFcajg9gbT64WA49HZXNpo+AKhVNsSmFpqA2GU7l+DzanQDVJmQrwWPPXEmND5IRCcI80EFdaBy70wLN+oQDoikeeh/7RjFfWFCUHqUnyBrcS89CH2f7sgD64bobm14/fuCAQtQygY9VXVbyIs5nsc4Lck/Zz+r+0YI8BuTwmPI8b+AvMUUT3NhZiqeMAEaeDlP0x2f4RL5d3RNF1CaSr6WUsb7Q3QKjOh5sw/IbDcNUIN8/eMDo5woxfqBSpqO40sLqMAJQXh4Mqg2Dy5Bf7uwVKsuXTaHkIzZQvdkdoY/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mQkyK4axOQtkhFPHLFqwYjurS07nJGtt4V0EPAKJCpY=;
- b=QfxQyz+01NT4K7r52tn+cOyqaXe6CjbMnG3uZSJdzuqpcmFB2ulRe4o5dlFg5Jqvn+rxpY1gQZRYMu5KdGqWAIuBv1puuv+M3WtxCeZpMYGbhC7V/2uYaJB5G6AiB7hC6AfdF8Hrcwm9U37MA7szTpV9c1dagGz0gFU0uPTuOK0=
-Received: from DS7PR03CA0173.namprd03.prod.outlook.com (2603:10b6:5:3b2::28)
- by DM3PR12MB9413.namprd12.prod.outlook.com (2603:10b6:8:1af::12) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=w3bpEksMo7UkaxldXkbCkAV6uFc23dj9EkQ6gPpLmgI=;
+ b=MtyKdMYAfQv/SyzhI+qREEOdfdCVigd6as3yYY//cS8GVrTFMPFu9Gcb2rBoHrGdhTI95OSZyGvauaEVnsUzkWZmW++dWP7+3J0QiLMq5CIN/qN1PA9/u+Ffo8oe+9JyNZmUJ7bbD+Sj9aGzMGNQFBQea66fpvLG0IK8hGIPR2o=
+Received: from BYAPR06CA0022.namprd06.prod.outlook.com (2603:10b6:a03:d4::35)
+ by MN0PR12MB6127.namprd12.prod.outlook.com (2603:10b6:208:3c5::11)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
- 2025 19:07:57 +0000
-Received: from CH3PEPF00000016.namprd21.prod.outlook.com
- (2603:10b6:5:3b2:cafe::f9) by DS7PR03CA0173.outlook.office365.com
- (2603:10b6:5:3b2::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Thu,
- 11 Dec 2025 19:07:30 +0000
+ 2025 19:16:31 +0000
+Received: from MWH0EPF000971E9.namprd02.prod.outlook.com
+ (2603:10b6:a03:d4:cafe::73) by BYAPR06CA0022.outlook.office365.com
+ (2603:10b6:a03:d4::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.9 via Frontend Transport; Thu,
+ 11 Dec 2025 19:16:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,100 +48,98 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- CH3PEPF00000016.mail.protection.outlook.com (10.167.244.121) with Microsoft
+ MWH0EPF000971E9.mail.protection.outlook.com (10.167.243.71) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.0 via Frontend Transport; Thu, 11 Dec 2025 19:07:56 +0000
+ 15.20.9412.4 via Frontend Transport; Thu, 11 Dec 2025 19:16:30 +0000
 Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 11 Dec
- 2025 13:07:54 -0600
+ 2025 13:16:26 -0600
 Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
  (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 11 Dec
- 2025 11:07:54 -0800
+ 2025 11:16:25 -0800
 Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Thu, 11 Dec 2025 11:07:53 -0800
-Message-ID: <26ee5a0e-994e-16d5-97f6-322ce993d8cc@amd.com>
-Date: Thu, 11 Dec 2025 11:07:53 -0800
+ Transport; Thu, 11 Dec 2025 11:16:24 -0800
+Message-ID: <1b4e61c5-bf4b-4044-0dbf-bb16a331d8bc@amd.com>
+Date: Thu, 11 Dec 2025 11:16:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH V1 1/2] platform/x86/amd/pmf: Introduce new interface to
- export NPU metrics
+Subject: Re: [PATCH V1 0/2] Get real time power input via AMD PMF
 Content-Language: en-US
-To: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: Hans de Goede <hansg@kernel.org>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>, "Shyam Sundar S
- K" <Shyam-sundar.S-k@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>,
- <platform-driver-x86@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <VinitKumar.Shukla@amd.com>, Patil Rajesh Reddy <Patil.Reddy@amd.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ <ilpo.jarvinen@linux.intel.com>, <hansg@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <platform-driver-x86@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <Shyam-sundar.S-k@amd.com>,
+ <VinitKumar.Shukla@amd.com>
 References: <20251211175802.1760860-1-lizhi.hou@amd.com>
- <20251211175802.1760860-2-lizhi.hou@amd.com>
- <5217a9b3-8489-fd18-051a-46a497ff56bd@linux.intel.com>
+ <a77c3b39-49e2-481f-af53-70b5fbe58ffd@amd.com>
 From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <5217a9b3-8489-fd18-051a-46a497ff56bd@linux.intel.com>
+In-Reply-To: <a77c3b39-49e2-481f-af53-70b5fbe58ffd@amd.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000016:EE_|DM3PR12MB9413:EE_
-X-MS-Office365-Filtering-Correlation-Id: d575851c-de9a-4375-2f57-08de38e89833
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E9:EE_|MN0PR12MB6127:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b1c075f-f2ff-4270-ac6a-08de38e9ca8d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NGVXZ2w3MURRQ2kzMmxvckRucWFqVXdjU1YxT2RFaGFiTFR3RGxsQ1FoMmho?=
- =?utf-8?B?dDZ5VXdCaCsxdHJTNlREOTFDTGxOTUFiNVB6NHMyOE5tSTdWdjg5YmVpblMv?=
- =?utf-8?B?a1pjNzl2WTJrSGQ5bmNkQU81WWRsWmFPaUFhOGtCOVQyNUYweWpqZE56a1Z4?=
- =?utf-8?B?Qzk3UThQd2ZqclgyVmZKMHpBNEp2Q2FpMDY5M3lRM0RxQnNuYkxWSDhFVDZm?=
- =?utf-8?B?amcyMk9rZVVyUUcvYWw4cDRwUDlUMnErSjRlclpnNThSMWl5T3NjU05lcVJ5?=
- =?utf-8?B?bmw3S2o5dkVhd3RJcFZWbFh1OGVKTXlqaEdZQ0pkZ2pTcWw0T25GdDB1TXJW?=
- =?utf-8?B?U1dxeVlTaWtDY013Z3pxdEFlMTlFVnNvT2UxbkpmQXZhRDZNS2tkbHI1M2hl?=
- =?utf-8?B?UFh3OU5uUXRBU3laRVN4VkNCTzdiYUJPUmV6MXZtWW9NYTNxSUlnQnpzVU5C?=
- =?utf-8?B?STBSQ2NoN2cvKzgrQXd0RVE1UEJkazA2bkkvek1YbWwyVit4RUVhd2RqL3RH?=
- =?utf-8?B?Tis1QVJ1TVpJZzNaSHZNVXlsS0RLYVNSdVVjTmErTWtEb2Y3eGxWMU9EcXRW?=
- =?utf-8?B?NUVBZ3FmVmN5anh3NVBsZVdkV041NWZ6TzBLbXJOSzlMQi91amJXZzI1YzBk?=
- =?utf-8?B?eTBvZCtTMzFBSGViM2ZxQW45NFE0TWd1TDhhd0liTE1MVE1XSDU2ckt3TVMw?=
- =?utf-8?B?OTh6V0RPY1dIdFIrQkpIblIzM0E4SDB5OFRpcmVyb0c2RFpUWlZ5cVc5QnE0?=
- =?utf-8?B?eGZscEdSc3RrbEg2M2xydWFFaDA2VG83Z1hCWWU4VzIzc1lXQ0c3R2QyOXp4?=
- =?utf-8?B?K3A3V3JJaU9lUlFreTl1WndUZWtqYStBdnpCdHJnS1ptU0ZjYS9oQTBjOXlZ?=
- =?utf-8?B?Wnh1VUNsYlNFbDdMbWNFUXhWOWZaa1B5YkkvOVl2YmtHTEFLbVdvNFVMMlo5?=
- =?utf-8?B?cjVzNUNvcmhveGFORWhVNUpVbzltN2xleUplc3VWRWlOUllCNXVvc3ViaERk?=
- =?utf-8?B?cDdhMWl2T0pMU1IyRG52SGFsQmpiVGN6ZWplMUFtWmk4OVBHcDBLUkt5eEd4?=
- =?utf-8?B?Z0s5VlBIWml0ZVR2YllBejkwenliMHhZS2pvVjBDcUZJK1czTHNFZlhlNklW?=
- =?utf-8?B?Q1VhcGRPVk10bHlJbENzWmlqK0NVaEJHVHZwTGdwdXowRCtGN2o4T3EzbWpx?=
- =?utf-8?B?RlZwMEtxcXArYmUvZElOUTk4QmFWNll6aVQxemFuVVNtbGVUSkx1R2htTkJm?=
- =?utf-8?B?enl4aHl0OHh1TjB4MU43UFpMR01PeHVGTWR2QXQzTW9pL2F1RktsOFJVS3ND?=
- =?utf-8?B?WEdrOW9QWXZKaVloeW44Titya1NyY3JFSTRRbjJMdjFqTHNuYk5pYWU4UlVn?=
- =?utf-8?B?Z0FyQWFuKzVrb0ZreWNDZHZERi8vZ20rWHFPWlhKRUlxVE10MEw3MzRiREFa?=
- =?utf-8?B?RjkzNWtUV2U4U0htZ2c1Qyt2cDNHT3VJeCszV1FmQzNzYUtnSHh0bi9Yam5F?=
- =?utf-8?B?NDZsTU5NQmVXUWxrc3JpOGdaT3VzUzBpZ0paM3BMR29PU3NLWTNWSjhLU0wv?=
- =?utf-8?B?N0hPbVhlUkdBTE1UclA5bjgyNmFBRnprOWJzdkloNGc5V2ZDcXg4ZFprWlVM?=
- =?utf-8?B?MnVybW9vZXhWSEUwY3BFdzF5ZVdkcUFKbWxsZ1RneTBtbFFyb2VLUjQwODgv?=
- =?utf-8?B?SXFISkVidHBUclRhNnNrV1RLQkFvWjE5MTBxRGhaNGQ3ZzIrQUFXRzZyR2NZ?=
- =?utf-8?B?TC8rVWY2Z0xZaFd1SlhKNmRHLzlUazBrcTNJYVk5cXpLUHVQN2wzN0lsc3B3?=
- =?utf-8?B?TW05RTEyNUZrOTcwaHYrVzdlTHhvK1h2UU9TVm1DRFBlRWM2N0FMektCMlNV?=
- =?utf-8?B?bUhwMlE3SnBkQnNhem9lZkhOUkxWN09TZEdwcER4MTlvekQxQVorUWVPcHNt?=
- =?utf-8?B?cDRCclJPYlJPc3dDU01iK0NWaHk1SFpjMHhVU0c3VWJlclNSQ2pISTVFZzZG?=
- =?utf-8?B?Z3VRbFdrSlJtSzhpK0lEbzlLN2xpeXNqMk92OVNWTzFzSlhxNm5KSjBzU2Vn?=
- =?utf-8?B?ZlA1VHAxOXhpM1MzdlVsOEh1YXFrcjVEbEtMT3AwZDJMTHo2RERGMEpaYWJk?=
- =?utf-8?Q?uPc8=3D?=
+ ARA:13230040|36860700013|82310400026|376014|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Ris4RjYxY1BPWkhGQXQvajhuTXN6dy9LLzRZYnRHTnBGaStTKys3aHhackxv?=
+ =?utf-8?B?TkJqMTlWTGRIZTJ0eVNlYmRXdHdaaVFSTVRzL25JOC9TV25vcEdpd2dxb0FR?=
+ =?utf-8?B?T3ROUDh5K0N0bld5RHRSZjRTa0NIT1hhMFU5NmlOUWVIYmdrYTJ6UlFwM1dD?=
+ =?utf-8?B?MnZlODFRYXNpQ0hvcVh6dHkyUG96b2QvQUJNODdjRTRKTkhlS2NrZE1rTjVV?=
+ =?utf-8?B?MEFId1RjQkVWeUlkNUxkMVlmTzJEM1d0UVc0dVo2UmgyQlJCTHBWRVlVMSt1?=
+ =?utf-8?B?d1NCUlkyWmdxMThneHZQSC9UL2VIcjhJb3ZxbENyVndpUlNzYTNVZFp4U1dI?=
+ =?utf-8?B?UHZuVEU5ZTN5dzBhZUQwSW9UN2wxaUt5WTFsd1VOQ1hMYVVocTFlNTJGcVVC?=
+ =?utf-8?B?ZVBRZ1RSTGdmSUFvODg5OHozMTE2L2tpZTBUZG9mdVlIc2ErMUNqVWszTWRL?=
+ =?utf-8?B?SzliWVh2Q0xMSTNENS9oSTBLNGlWYzVkQ0NqeE95eTZKN2FOUlE2V0laeXZT?=
+ =?utf-8?B?bU54dXpuQjR1eHlGL215RlFuOUVMOHkrVytsb1p1S1RXNGpySkxZOFBtaVVQ?=
+ =?utf-8?B?YW5xS2VYeEJVcTVVM2N1SzZFU3VMaUlnUWUxeUtTVkd1WldIV1FnYlNvSTNB?=
+ =?utf-8?B?MmFSc1pKY0xUT3VRb0t0bUdWb2ZwcGRtc2p1OTN3WEJ0Mk1ucDF0Y0d6VUtJ?=
+ =?utf-8?B?N1FXZThxa1lZa3BiMno4Yk9JNkhscTVlQlMya044dkNxbUNWSW9uNHc2Q2kr?=
+ =?utf-8?B?M3lCZGk4T1RITzZ0Vi9rMzJaR09BdEM2RXpPNWQxYUthSDhDZ3NqNnpLdjBO?=
+ =?utf-8?B?Q1NPcW9pRkJqQ3hPejAyRU52NE4vL0JPQkg4WGJPcnJyNFdYNHhoZDFnM3Av?=
+ =?utf-8?B?MXp2TG5jVGlZc2FyUWw0aytaSHA0c1htemc1NEFMbDFiU0xBbzBMV0lJTHZL?=
+ =?utf-8?B?WGpXQ2U1RWNtVnBIbGl5cnBYb0VXNjRmOTYvaU8vTDNESk90VjU1T1E4c3NY?=
+ =?utf-8?B?MjVMNkl0Tmt4OHdSTTIwbHVzTjRNNmZaQ2VTV0dsdGVBUCtLd0ZGTnBwRDNo?=
+ =?utf-8?B?VmZTS2FvMGFqaFoyRUVKZW56Yk9leDZNemRLdzA2dXZhOXhWVXZEbTQwdmJp?=
+ =?utf-8?B?RmlsTi8wNi9LenQzOGN2bXhMUTRvcWV3aHdMMDdmWjkvRk5razVnZWdIZWVW?=
+ =?utf-8?B?QWNOaWNZYWdrTHdvYzhrL3BXU3A1Ung0eU1vamVmMTR1NWJmSEgycGp2YTN5?=
+ =?utf-8?B?WE9Xb0ZMb1Q0RHVKWXFJZlZkdVU5dkEyYnpNYVlORmRwQ2tQV2VoY21Nc1oy?=
+ =?utf-8?B?Z3dhTEtpWm52dXpnNGtqbUtJZ2tNLytQdWtuaDVVQnY0NFVMTk1DaWYvb0Fp?=
+ =?utf-8?B?a2lPYWY5dWgzWUdhdEtLRkVMNWp6YVRRZEMrVzBWRWZ0U3A5RHMrNjJxNm1F?=
+ =?utf-8?B?dUhmSHFQNjl3ejVrenFBVjlNZkxhc2RWMDU1d0ZKVU81WHRFYkl3SjVIdTRE?=
+ =?utf-8?B?N002dHJKTmJxb1Y0V213dkFiOEpjS1lHRFVHbUc2ektZcHN4R1FDL2RESE9l?=
+ =?utf-8?B?bWdnNGkxcDFMYjh0UEpBWHE2QTNSVzBxaFdhckZPRVljbU1rUnFhSjU5N0JJ?=
+ =?utf-8?B?TGJwM3VSU2ZaU25RV3lQWmZhVGU0cmI5OE56OUQycHFwd0NNK04vZTFlSncy?=
+ =?utf-8?B?cWtOdnpIS2xVMmhIQkI4ZTU0VTZXSWVHWnM2ZW9oeUNoL1ZWR3VUL1l5RG9B?=
+ =?utf-8?B?YXFtQ3hpWWU0azI3cEsxc1ZBY2JyRFcyQTZKcE9PYVQzMmpBVWRwQS9pS2dG?=
+ =?utf-8?B?OHVoWS9ZVmV3RGVvTGp4bHhwd1BRSWdyb0czdXNNdWFzUEQzNHIvWmpwZjJu?=
+ =?utf-8?B?MWdUZWFwVEdZNm5lWVZhbFA3bDU1V0M5aEZJR3hCRmxBcXl1YklwVDVRbjBI?=
+ =?utf-8?B?TnBEVFk0WUNsZmF5RHJXSVQvZUlHcGJwZ0lPTlhWN2pMZmpUak9lbjZZS2F1?=
+ =?utf-8?B?Mld2WFBLY3c3RDRXdDNxZjNNREtsWEg0SzIzNy95S0o2SC9Sc2I0TVYzVVZs?=
+ =?utf-8?B?WVdDWWV1NFZDLzU0R3BxZHFsczVrOW9MVVdPWTIrNWRLLzdVZ3UzYm1tTm1E?=
+ =?utf-8?Q?R6lE=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 19:07:56.9961 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d575851c-de9a-4375-2f57-08de38e89833
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 19:16:30.8664 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b1c075f-f2ff-4270-ac6a-08de38e9ca8d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000016.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E9.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9413
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,206 +156,44 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/11/25 10:28, Ilpo Järvinen wrote:
-> On Thu, 11 Dec 2025, Lizhi Hou wrote:
+On 12/11/25 10:22, Mario Limonciello wrote:
+> On 12/11/25 11:58 AM, Lizhi Hou wrote:
+>> Adding new NPU metrics API to AMD PMF driver is pending because of
+>> lacking real case.
+>> https://lore.kernel.org/all/d344b850-f68d-f9a5-f0dc-55af4b48b714@linux.intel.com/
+>>
+>> Create xdna driver patch to fetch real time power input via PMF API.
+>> Here is an example output with xrt-smi(1) tool.
+>>
+>> # xrt-smi examine -r all | grep Power
+>>    Power Mode             : Default
+>> Estimated Power          : 0.563 Watts
+>>
+>> Lizhi Hou (1):
+>>    accel/amdxdna: Add IOCTL to retrieve realtime NPU power estimate
+>>
+>> Shyam Sundar S K (1):
+>>    platform/x86/amd/pmf: Introduce new interface to export NPU metrics
+>>
+>>   drivers/accel/amdxdna/aie2_pci.c        | 29 ++++++++++
+>>   drivers/accel/amdxdna/aie2_pci.h        | 18 ++++++
+>>   drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 +-
+>>   drivers/platform/x86/amd/pmf/core.c     | 75 +++++++++++++++++++++++++
+>>   drivers/platform/x86/amd/pmf/pmf.h      |  2 +
+>>   include/linux/amd-pmf-io.h              | 21 +++++++
+>>   6 files changed, 147 insertions(+), 1 deletion(-)
+>>
 >
->> From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>
->> The PMF driver retrieves NPU metrics data from the PMFW. Introduce a new
->> interface to make NPU metrics accessible to other drivers like AMDXDNA
->> driver, which can access and utilize this information as needed.
->>
->> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
->> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
->> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
->> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->> ---
->>   drivers/platform/x86/amd/pmf/core.c | 75 +++++++++++++++++++++++++++++
->>   drivers/platform/x86/amd/pmf/pmf.h  |  2 +
->>   include/linux/amd-pmf-io.h          | 21 ++++++++
->>   3 files changed, 98 insertions(+)
->>
->> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
->> index a6a5d416edf9..8e4ce91b3527 100644
->> --- a/drivers/platform/x86/amd/pmf/core.c
->> +++ b/drivers/platform/x86/amd/pmf/core.c
->> @@ -8,12 +8,15 @@
->>    * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>    */
->>   
->> +#include <linux/array_size.h>
->> +#include <linux/cleanup.h>
->>   #include <linux/debugfs.h>
->>   #include <linux/iopoll.h>
->>   #include <linux/module.h>
->>   #include <linux/pci.h>
->>   #include <linux/platform_device.h>
->>   #include <linux/power_supply.h>
->> +#include <linux/string.h>
->>   #include <asm/amd/node.h>
->>   #include "pmf.h"
->>   
->> @@ -53,6 +56,8 @@ static bool force_load;
->>   module_param(force_load, bool, 0444);
->>   MODULE_PARM_DESC(force_load, "Force load this driver on supported older platforms (experimental)");
->>   
->> +static struct device *pmf_device;
->> +
->>   static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long event, void *data)
->>   {
->>   	struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, pwr_src_notifier);
->> @@ -314,6 +319,70 @@ int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev)
->>   	return 0;
->>   }
->>   
->> +static int is_npu_metrics_supported(struct amd_pmf_dev *pdev)
->> +{
->> +	switch (pdev->cpu_id) {
->> +	case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
->> +	case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
->> +		return 0;
->> +	default:
->> +		return -EOPNOTSUPP;
->> +	}
->> +}
->> +
->> +static int amd_pmf_get_smu_metrics(struct amd_pmf_dev *dev, struct amd_pmf_npu_metrics *data)
->> +{
->> +	int ret, i;
->> +
->> +	guard(mutex)(&dev->metrics_mutex);
->> +
->> +	if (is_npu_metrics_supported(dev))
->> +		return -EOPNOTSUPP;
->> +
->> +	ret = amd_pmf_set_dram_addr(dev, true);
->> +	if (ret)
->> +		return ret;
->> +
->> +	memset(dev->buf, 0, dev->mtable_size);
->> +
->> +	/* Send SMU command to get NPU metrics */
->> +	ret = amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, SET_CMD, METRICS_TABLE_ID, NULL);
->> +	if (ret) {
->> +		dev_err(dev->dev, "SMU command failed to get NPU metrics: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	memcpy(&dev->m_table_v2, dev->buf, dev->mtable_size);
->> +
->> +	data->npuclk_freq = dev->m_table_v2.npuclk_freq;
->> +	for (i = 0; i < ARRAY_SIZE(data->npu_busy); i++)
->> +		data->npu_busy[i] = dev->m_table_v2.npu_busy[i];
->> +	data->npu_power = dev->m_table_v2.npu_power;
->> +	data->mpnpuclk_freq = dev->m_table_v2.mpnpuclk_freq;
->> +	data->npu_reads = dev->m_table_v2.npu_reads;
->> +	data->npu_writes = dev->m_table_v2.npu_writes;
->> +
->> +	return 0;
->> +}
->> +
->> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info)
->> +{
->> +	struct amd_pmf_dev *pdev;
->> +
->> +	if (!info)
->> +		return -EINVAL;
->> +
->> +	if (!pmf_device)
->> +		return -ENODEV;
->> +
->> +	pdev = dev_get_drvdata(pmf_device);
->> +	if (!pdev)
->> +		return -ENODEV;
->> +
->> +	return amd_pmf_get_smu_metrics(pdev, info);
->> +}
->> +EXPORT_SYMBOL_GPL(amd_pmf_get_npu_data);
->> +
->>   static int amd_pmf_suspend_handler(struct device *dev)
->>   {
->>   	struct amd_pmf_dev *pdev = dev_get_drvdata(dev);
->> @@ -469,6 +538,10 @@ static int amd_pmf_probe(struct platform_device *pdev)
->>   	mutex_init(&dev->update_mutex);
->>   	mutex_init(&dev->cb_mutex);
->>   
->> +	err = devm_mutex_init(dev->dev, &dev->metrics_mutex);
->> +	if (err)
->> +		return err;
->> +
->>   	apmf_acpi_init(dev);
->>   	platform_set_drvdata(pdev, dev);
->>   	amd_pmf_dbgfs_register(dev);
->> @@ -477,6 +550,8 @@ static int amd_pmf_probe(struct platform_device *pdev)
->>   	if (is_apmf_func_supported(dev, APMF_FUNC_SBIOS_HEARTBEAT_V2))
->>   		amd_pmf_notify_sbios_heartbeat_event_v2(dev, ON_LOAD);
->>   
->> +	pmf_device = dev->dev;
->> +
->>   	dev_info(dev->dev, "registered PMF device successfully\n");
->>   
->>   	return 0;
->> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
->> index f07e9f4c660a..0354cc5dc79e 100644
->> --- a/drivers/platform/x86/amd/pmf/pmf.h
->> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->> @@ -12,6 +12,7 @@
->>   #define PMF_H
->>   
->>   #include <linux/acpi.h>
->> +#include <linux/amd-pmf-io.h>
->>   #include <linux/input.h>
->>   #include <linux/platform_device.h>
->>   #include <linux/platform_profile.h>
->> @@ -412,6 +413,7 @@ struct amd_pmf_dev {
->>   	struct apmf_sbios_req_v1 req1;
->>   	struct pmf_bios_inputs_prev cb_prev; /* To preserve custom BIOS inputs */
->>   	bool cb_flag;			     /* To handle first custom BIOS input */
->> +	struct mutex metrics_mutex;
-> This files seems to lack include for struct mutex (despite using them
-> already so please add it finally there :-)).
+> Do you have a preference on how this gets merged ? Should it go 
+> through drm-next or platform-x86-next?
+>
+> I suppose whoever is going to have more development layering on top 
+> the next cycle it would be preferable to put in that tree.
 
-Sure, I will add it.
-
+I do not have preference. :) And this depends on Shyam's previous patch 
+which is not in drm-next yet?
 
 Thanks,
 
 Lizhi
 
->
->>   };
->>   
->>   struct apmf_sps_prop_granular_v2 {
->> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->> index 6fa510f419c0..55198d2875cc 100644
->> --- a/include/linux/amd-pmf-io.h
->> +++ b/include/linux/amd-pmf-io.h
->> @@ -61,5 +61,26 @@ enum laptop_placement {
->>   	LP_UNDEFINED,
->>   };
->>   
->> +/**
->> + * struct amd_pmf_npu_metrics: Get NPU metrics data from PMF driver
->> + * @npuclk_freq: NPU clock frequency [MHz]
->> + * @npu_busy: NPU busy % [0-100]
->> + * @npu_power: NPU power [mW]
->> + * @mpnpuclk_freq: MPNPU [MHz]
->> + * @npu_reads: NPU read bandwidth [MB/sec]
->> + * @npu_writes: NPU write bandwidth [MB/sec]
->> + */
->> +struct amd_pmf_npu_metrics {
->> +	u16 npuclk_freq;
->> +	u16 npu_busy[8];
->> +	u16 npu_power;
->> +	u16 mpnpuclk_freq;
->> +	u16 npu_reads;
->> +	u16 npu_writes;
->> +};
->> +
->>   int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op);
->> +
->> +/* AMD PMF and NPU interface */
->> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info);
->>   #endif
->>
