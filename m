@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DCACB6576
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6C4CB5611
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 10:40:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF0B10E81C;
-	Thu, 11 Dec 2025 15:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F63310E2A7;
+	Thu, 11 Dec 2025 09:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="aob9AFqO";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="N8BY+0RW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 437 seconds by postgrey-1.36 at gabe;
- Thu, 11 Dec 2025 09:47:09 UTC
-Received: from forwardcorp1d.mail.yandex.net (forwardcorp1d.mail.yandex.net
- [178.154.239.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B814E10E2AF;
- Thu, 11 Dec 2025 09:47:09 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net
- [IPv6:2a02:6b8:c42:94a9:0:640:a3fa:0])
- by forwardcorp1d.mail.yandex.net (Yandex) with ESMTPS id 889C5807A3;
- Thu, 11 Dec 2025 12:39:49 +0300 (MSK)
-Received: from kniv-nix.yandex-team.ru (unknown [2a02:6bf:8080:c5c::1:37])
- by mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id MdLltr0FqCg0-XKazNBt7; Thu, 11 Dec 2025 12:39:49 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; t=1765445989;
- bh=gZ19bStIXK8ZTYeaIB4Wio3OCyGR20Y3eysM2vFARVU=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=aob9AFqOPibHIQfZ9z38+gzDHxMpxstejtPnTKQO/EzicSIfSGqNyRh6d5m/WF5Nm
- oDW7M1xsayyjBm1k9hLOCAkQOIGS1Q0nJ/F3V+ME4C4kYye8VWMq7jRTZYlaC3f2wX
- 1vjFwfVpduMxoB8mv5sY5U5kF5EcH+VW2qYkNPFY=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Nikolay Kuratov <kniv@yandex-team.ru>
-To: linux-kernel@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, Jessica Zhang <jesszhan0024@gmail.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Nikolay Kuratov <kniv@yandex-team.ru>, stable@vger.kernel.org
-Subject: [PATCH] drm/msm/dpu: Add missing NULL pointer check for pingpong
- interface
-Date: Thu, 11 Dec 2025 12:36:30 +0300
-Message-Id: <20251211093630.171014-1-kniv@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93DBD10E2A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 09:40:35 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 17EB01A20DF;
+ Thu, 11 Dec 2025 09:40:34 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id DF0096068C;
+ Thu, 11 Dec 2025 09:40:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 14F2B103C8D53; Thu, 11 Dec 2025 10:40:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1765446032; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=WZVCcNfKSTt2Hd14gUawnCXPs39wl8U5m2GxT9YHICY=;
+ b=N8BY+0RW1/KCWSmz1ejzT8wkU32hMHoROWuSW1FXKVX56lJPTLnrOG87aYRBJX3eLmwdQz
+ ElonbiZKTB2yohpJE+9k8TDVw2t9dMGuu4ov3c9BVvflGTXLZViwe/G9lROCs1KMjA5Cg1
+ HqAOW3glYucmbg2jWQCfC+vmSqV0f3bRAfIGwFYLKzsrZIZn5PifwpK4SdhZWFCK8zSDep
+ NJinbhnm5mFm/zI9m2xrgrfv6TFXNgAyWJZmSCZG+MROAk2te2haBPin+EoimEwAAmRl4c
+ 665fBJnGyGTn7KpP/dBIwnBN6Ey1VxFEPONWoRQP8/KCoFPe22GeYDOR7es8FA==
+Date: Thu, 11 Dec 2025 10:40:24 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
+ Schneider-Pargmann" <msp@baylibre.com>, "Louis Chauvet"
+ <louis.chauvet@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
+ <miguel.gazquez@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-omap@vger.kernel.org>
+Subject: Re: [PATCH 03/21] drm/tilcdc: Remove simulate_vesa_sync flag
+Message-ID: <20251211104024.1e7d5c42@kmaincent-XPS-13-7390>
+In-Reply-To: <DEUQM2HNEOQU.3K4ZPL44GVZAJ@bootlin.com>
+References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
+ <20251126-feature_tilcdc-v1-3-49b9ef2e3aa0@bootlin.com>
+ <DEUQM2HNEOQU.3K4ZPL44GVZAJ@bootlin.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 11 Dec 2025 15:27:30 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +80,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is checked almost always in dpu_encoder_phys_wb_setup_ctl(), but in a
-single place the check is missing.
-Also use convenient locals instead of phys_enc->* where available.
+On Wed, 10 Dec 2025 19:10:45 +0100
+"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
 
-Cc: stable@vger.kernel.org
-Fixes: d7d0e73f7de33 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
-Signed-off-by: Nikolay Kuratov <kniv@yandex-team.ru>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+> Hi K=C3=B6ry,
+>=20
+> On Wed Nov 26, 2025 at 6:35 PM CET, Kory Maincent (TI.com) wrote:
+> > The tilcdc hardware does not generate VESA-compliant sync signals. It
+> > aligns the vertical sync (VS) on the second edge of the horizontal sync
+> > (HS) instead of the first edge. To compensate for this hardware
+> > behavior, the driver applies a timing adjustment in mode_fixup().
+> >
+> > Previously, this adjustment was conditional based on the simulate_vesa_=
+sync
+> > flag, which was only set when using external encoders. This appears
+> > problematic because:
+> >
+> > 1. The timing adjustment seems needed for the hardware behavior regardl=
+ess
+> >    of whether an external encoder is used
+> > 2. The external encoder infrastructure is driver-specific and being
+> >    removed due to design issues
+> > 3. Boards using tilcdc without bridges (e.g., am335x-evm, am335x-evmsk)
+> >    may not be getting the necessary timing adjustments
+> >
+> > Remove the simulate_vesa_sync flag and apply the VESA sync timing
+> > adjustment unconditionally, ensuring consistent behavior across all
+> > configurations. While it's unclear if the previous conditional behavior
+> > was causing actual issues, the unconditional adjustment better reflects
+> > the hardware's characteristics.
+> >
+> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+> > ---
+> >
+> > Only few board currently use tilcdc not associated to a bridge like the
+> > am335x_evm or the am335x-evmsk. =20
+>=20
+> Have you tested this change on any affected board?
+>=20
+> The change looks good to me but without some testing it would be risky.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-index 46f348972a97..6d28f2281c76 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-@@ -247,14 +247,12 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
- 		if (hw_cdm)
- 			intf_cfg.cdm = hw_cdm->idx;
- 
--		if (phys_enc->hw_pp->merge_3d && phys_enc->hw_pp->merge_3d->ops.setup_3d_mode)
--			phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
--					mode_3d);
-+		if (hw_pp && hw_pp->merge_3d && hw_pp->merge_3d->ops.setup_3d_mode)
-+			hw_pp->merge_3d->ops.setup_3d_mode(hw_pp->merge_3d, mode_3d);
- 
- 		/* setup which pp blk will connect to this wb */
--		if (hw_pp && phys_enc->hw_wb->ops.bind_pingpong_blk)
--			phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb,
--					phys_enc->hw_pp->idx);
-+		if (hw_pp && hw_wb->ops.bind_pingpong_blk)
-+			hw_wb->ops.bind_pingpong_blk(hw_wb, hw_pp->idx);
- 
- 		phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
- 	} else if (phys_enc->hw_ctl && phys_enc->hw_ctl->ops.setup_intf_cfg) {
--- 
-2.34.1
+I have tested it on few boards but not these mainline devicetree as I don't
+have them.
 
+I have tested a tilcdc with tda998x bridge (BeagleBone Black), a tilcdc with
+ti,tilcdc,panel panel (BeagleBone with LCD cape), a tilcdc with it66121 bri=
+dge
+(new Beagle Bone Green Eco board with HDMI cape).
+That's all the boards I have.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
