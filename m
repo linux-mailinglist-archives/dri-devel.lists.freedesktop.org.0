@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6162CB72E3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 21:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADD3CB72EC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 21:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5D110E856;
-	Thu, 11 Dec 2025 20:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39EF10E89B;
+	Thu, 11 Dec 2025 20:41:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="T3k8k7tf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NrZSNBB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439B710E89C
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 20:41:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765485679; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569F810E89B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 20:41:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765485683; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=DvYxZ8Bdzg9MhqZWC1IgZq8yuEbBfCWE/yDthNWElkMNWlW6aSso7CxkUJNiCKyQh5V995U12CJhzNsXvU046e+KOlYgePpRUiwQs8ERTMpOIMUa9pclpiA/E6dWS3HBx2rVe8GlcmGGooYmi99nJbO3DIFKD6w/k+8oIp4N5fs=
+ b=nTuUEHfElXWe7b51kcRNMXT70DSsCsLlGHBw26ZyyyvsR1ObeACCtE5SzRvOO8UwIygLEyByVUATVMuXAe8yAec8nK9PSCyFkp+bKOzwaZ6biuMy80KK0mWrDJJLM5BqXDBxWDSaFCK2ArsdYHHLbsZiZTQ/MMSvoFHYADcgIRw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765485679;
+ s=zohoarc; t=1765485683;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=RPbccTq6F1zzr9R/aer7AacGufcSyFhvzwy1HOUPRnY=; 
- b=aPOBHz1jmodV1E/qleg5dbNkdNS/lOtn+1YtB+Zb0breoEnoCOC2CWbaZzYT7QDuLHAOU8udmv6zLtAle/0s6/SEHCBSGNY/+uKQ784uKjqOB8H073MReG+EiPqHCMwD8tQj8egtViUQe6j+iNXKWkuR9yHaDK/2eaFvoydMxjU=
+ bh=cyimSXgzghEkD7AK9n4RAXt1HxLuNqEsyDrb+we5XHA=; 
+ b=AALCR3RnwD1vyuFrbw0d5H+hG5taj7OBnYOwwoS9aqPM/kuRtOTXCa+YBiw1qWCC6QoACgk0qaoG/dssVedX5Z8f56/Dy2+J6rfXFIrLibkkazX4BfOZjwyx3bUbwrNAroQU6XjaIzP4NKX9muh21htWytynt3reZ9GwQGEzY3E=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765485679; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765485683; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=RPbccTq6F1zzr9R/aer7AacGufcSyFhvzwy1HOUPRnY=;
- b=T3k8k7tf3CkZ1P4k9+gQs2Z90l2OA5G+qy6HK++tEPIzYcUHYTHZodCsO1Hz6Yin
- 6HqHyQOf1rUnd8h6ncdd2RWh8MTX9VyGQevx1hRiReWkDehnv/To0qjYA5NwnPR1ajz
- Gjbf/BavYzz/OCLVC5gVZq9gf0rIbc+T+wmXqheU=
-Received: by mx.zohomail.com with SMTPS id 1765485678944380.27112216237947;
- Thu, 11 Dec 2025 12:41:18 -0800 (PST)
+ bh=cyimSXgzghEkD7AK9n4RAXt1HxLuNqEsyDrb+we5XHA=;
+ b=NrZSNBB6NCcgPT6BrU3ZzXgjY/Ri+qQBEJsj8P/whLHxAxGw9aRQEzkKrcTszOy8
+ /zoHlYjhXNxURqTtfHxsHVqWnoW9RB8NyQlrwkQ4aGGN8UkhUsqS2K5xAxidBXTmq1b
+ Fxtps/LQiW0RxAzV/TqJcr9TYuIff4XEP+qBzt2w=
+Received: by mx.zohomail.com with SMTPS id 1765485682758910.2079946657038;
+ Thu, 11 Dec 2025 12:41:22 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 11 Dec 2025 21:40:37 +0100
-Subject: [PATCH v4 7/8] drm/rockchip: vop2: Use drm_is_afbc helper function
+Date: Thu, 11 Dec 2025 21:40:38 +0100
+Subject: [PATCH v4 8/8] drm/rockchip: vop2: Simplify format_mod_supported
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-vop2-atomic-fixups-v4-7-5d50eda26bf8@collabora.com>
+Message-Id: <20251211-vop2-atomic-fixups-v4-8-5d50eda26bf8@collabora.com>
 References: <20251211-vop2-atomic-fixups-v4-0-5d50eda26bf8@collabora.com>
 In-Reply-To: <20251211-vop2-atomic-fixups-v4-0-5d50eda26bf8@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -75,28 +75,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Stone <daniels@collabora.com>
 
-We don't need to do a long open-coded walk here; we can simply check the
-modifier value.
+Make it a little less convoluted, and just directly check if the
+combination of plane + format + modifier is supported.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 56 +++++++++++-----------------
+ 1 file changed, 22 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 1d12e00ec49f..494f4d48f9fe 100644
+index 494f4d48f9fe..4659c55d0da4 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1207,7 +1207,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 		return;
+@@ -367,59 +367,47 @@ static bool is_yuv_output(u32 bus_format)
+ 	}
+ }
+ 
+-static bool rockchip_afbc(struct drm_plane *plane, u64 modifier)
+-{
+-	int i;
+-
+-	if (modifier == DRM_FORMAT_MOD_LINEAR)
+-		return false;
+-
+-	for (i = 0 ; i < plane->modifier_count; i++)
+-		if (plane->modifiers[i] == modifier)
+-			return true;
+-
+-	return false;
+-}
+-
+ static bool rockchip_vop2_mod_supported(struct drm_plane *plane, u32 format,
+ 					u64 modifier)
+ {
+ 	struct vop2_win *win = to_vop2_win(plane);
+ 	struct vop2 *vop2 = win->vop2;
++	int i;
+ 
++	/* No support for implicit modifiers */
+ 	if (modifier == DRM_FORMAT_MOD_INVALID)
+ 		return false;
+ 
+-	if (vop2->version == VOP_VERSION_RK3568) {
+-		if (vop2_cluster_window(win)) {
+-			if (modifier == DRM_FORMAT_MOD_LINEAR) {
+-				drm_dbg_kms(vop2->drm,
+-					    "Cluster window only supports format with afbc\n");
+-				return false;
+-			}
+-		}
++	/* The cluster window on 3568 is AFBC-only */
++	if (vop2->version == VOP_VERSION_RK3568 && vop2_cluster_window(win) &&
++	    !drm_is_afbc(modifier)) {
++		drm_dbg_kms(vop2->drm,
++			    "Cluster window only supports format with afbc\n");
++		return false;
  	}
  
--	afbc_en = rockchip_afbc(plane, fb->modifier);
-+	afbc_en = drm_is_afbc(fb->modifier);
+-	if (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010) {
+-		if (vop2->version == VOP_VERSION_RK3588) {
+-			if (!rockchip_afbc(plane, modifier)) {
+-				drm_dbg_kms(vop2->drm, "Only support 32 bpp format with afbc\n");
+-				return false;
+-			}
+-		}
++	/* 10bpc formats on 3588 are AFBC-only */
++	if (vop2->version == VOP_VERSION_RK3588 && !drm_is_afbc(modifier) &&
++	    (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010)) {
++		drm_dbg_kms(vop2->drm, "Only support 10bpc format with afbc\n");
++		return false;
+ 	}
  
- 	offset = (src->x1 >> 16) * fb->format->cpp[0];
++	/* Linear is otherwise supported everywhere */
+ 	if (modifier == DRM_FORMAT_MOD_LINEAR)
+ 		return true;
  
+-	if (!rockchip_afbc(plane, modifier)) {
+-		drm_dbg_kms(vop2->drm, "Unsupported format modifier 0x%llx\n",
+-			    modifier);
+-
++	/* Not all format+modifier combinations are allowable */
++	if (vop2_convert_afbc_format(format) == VOP2_AFBC_FMT_INVALID)
+ 		return false;
++
++	/* Different windows have different format/modifier support */
++	for (i = 0; i < plane->modifier_count; i++) {
++		if (plane->modifiers[i] == modifier)
++			return true;
+ 	}
+ 
+-	return vop2_convert_afbc_format(format) >= 0;
++	return false;
+ }
+ 
+ /*
 
 -- 
 2.52.0
