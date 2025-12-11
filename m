@@ -2,223 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA606CB7366
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167D2CB73B4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:49:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DFD10E251;
-	Thu, 11 Dec 2025 21:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC51010E300;
+	Thu, 11 Dec 2025 21:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=akamai.com header.i=@akamai.com header.b="Mv5Pr63G";
-	dkim=pass (1024-bit key; unprotected) header.d=akamai365.onmicrosoft.com header.i=@akamai365.onmicrosoft.com header.b="gHYArd39";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xmxbc1RX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com
- [67.231.149.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8FA610E251
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:26:07 +0000 (UTC)
-Received: from pps.filterd (m0122332.ppops.net [127.0.0.1])
- by mx0a-00190b01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BBBYYKd718392; Thu, 11 Dec 2025 21:26:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=jan2016.eng;
- bh=nagqxEIRf3WRTOZ6nz3PYB6ySDNRO7HCWu+K4SX6D6g=; b=Mv5Pr63GMh6o
- 3dcJIODYHo8MRe1ONdmPWTZC2krPOabjV1s8AFt5AI9hCUFA6qlHcUDzLZ3vz9Fc
- wAjtgziNTeRGZi/9zht2EHtGQpAOMu+lKZ2nb/R4OVtN5VYCVfiKloVOZvjTWLQd
- CcJFCjQ5PLDkiRbFtGlIKs5h5Ho2aFJjjuuyu78Ao9JXn/cJCeQMMChsDGr3eIU7
- WH8gtnnVsVjSY+VBnxucVAZiQ7GqYDxb54ChoWeBjOctVJRzOj9M3TojFrWzm753
- WPb53o+fhEVfY61HI4+4ClAibnKd37PZi2MXcT5PeTnG/qV+UgYBoVlJyXgv50cz
- Dt2x2cESDQ==
-Received: from prod-mail-ppoint8
- (a72-247-45-34.deploy.static.akamaitechnologies.com [72.247.45.34] (may be
- forged))
- by mx0a-00190b01.pphosted.com (PPS) with ESMTPS id 4ayw6r7ur3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Dec 2025 21:26:02 +0000 (GMT)
-Received: from pps.filterd (prod-mail-ppoint8.akamai.com [127.0.0.1])
- by prod-mail-ppoint8.akamai.com (8.18.1.2/8.18.1.2) with ESMTP id
- 5BBK0u3l010502; Thu, 11 Dec 2025 16:26:01 -0500
-Received: from email.msg.corp.akamai.com ([172.27.50.220])
- by prod-mail-ppoint8.akamai.com (PPS) with ESMTPS id 4avgq22ppg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Dec 2025 16:26:01 -0500
-Received: from ustx2ex-dag4mb3.msg.corp.akamai.com (172.27.50.202) by
- ustx2ex-dag5mb3.msg.corp.akamai.com (172.27.50.220) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 11 Dec 2025 13:26:00 -0800
-Received: from ustx2ex-exedge3.msg.corp.akamai.com (172.27.50.214) by
- ustx2ex-dag4mb3.msg.corp.akamai.com (172.27.50.202) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 11 Dec 2025 13:26:00 -0800
-Received: from PH0PR07CU006.outbound.protection.outlook.com (72.247.45.132) by
- ustx2ex-exedge3.msg.corp.akamai.com (172.27.50.214) with Microsoft
- SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 11 Dec 2025 15:26:00 -0600
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010018.outbound.protection.outlook.com [52.101.61.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBFF10E300
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:49:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iModLozbpbHAxchaknbtHLtJ6qFoLKj4L5zkN70wq2LTzVFbjQKEg5ol45bqof0rhpsqULiz2+BMSiVm2wd788mxApQ28g3V7oOwHtYivqqrWLJiiETMVdKBQxHrcNhpn89SPwCsmQGWzvRyoAu0+F05O4ywioUAmA6eIvdcdrubWQGfkgMRov9WWzKds9V0tEvcB50TdNk/3v+otHjt/OqwZEZ7+1tYg4iCdFMRaSjLdnzOAWhitkN4nrNTJUxkT5E6FM6bu0S4smHJ5yLm6/I9y1jA20rLhxdkEuOG1q08Erv7VfWOIz1atl02Vr9wn3et2m5Fv633QxxLCfH9bQ==
+ b=RNfgLwZmof2EgloOvYP6isBLxcZLM32fMOmDnCQw+XPXxTte3AaiUuev3cnzSWIamnFYZEjCIRXXwb06dpO6vgndMqmsBz4BAA4tawHmb0lHlKBEMK74IXS7vL5E5OitCOxYEo6Pea5qIqCd698AvVXFbUjoYg8NR8omq7FsTW0rYsqmTQy+UWra/7XO/7KB3mzFePk2DYh9hMEWQZJnMoUhnCbx3QeOrLKpi1i1kxFmBVsKEjCAnWSS/DeAJGmouMsCIu9Pu1/LjhMNWzTVIXSlJ1KvLPUHGspH8wXGLEJvGHYdvWXQVRyBKIjhCOMd+KsrNIEp7jbb4nz5xnmYzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nagqxEIRf3WRTOZ6nz3PYB6ySDNRO7HCWu+K4SX6D6g=;
- b=K40PWvj4JeND6fW+EVK4xCV6pmUJJHsjHuXht+ll2zda8cqpU7zGnpapI4YXWebGify+TD4eZGeabS5VpS4LknmKlXeoK4U88+1k8sv9/dP6064IhBhjGj2BkHdCYLTaSM2itEL67AylnrX8QuSREnPgBLoDyGXCiucLxn5vUE4xUIC7C0DyigAMXf8eXRpmbmKIXm5YVsPDFOEqFcsXZyGzZ17lPV2AE42+KDggAtA2Co8nR7a1bgo5W3srCyXjROWM8n3bSX4yzSJujNQNvtleVWxzJ/7ub0GKEl58fo66Hvhy8TOxSTYGQnYsxDhsBXnSzkeuiwXGgFseUYRafQ==
+ bh=4dm6kfhE03KFpIunOmpOYj5iU3zN3LZlnjtZAu9H3bg=;
+ b=Qs8AZtqkDBZO13o/+NjYBuNOXsApzeDhFMPQfItTLQPw+H+dzUg6KcWRhi8EM4ixYbnAu8ev77LrL50kzpEKcS3tFqj3gacbjIYvStdT7Y/LDEkj+s5B+g2Ku6X52r1VUHk0aQdd5eSPjc6T5CkGhHHgBQN2gPU5bfheMcSQwWB4iOfAehkSAsJnPFzhpyiqU9BbQrBgNYCJElXq3f9blAkrK3QqLwLb5vkMT96lUxsiAh454ne9LPhnjSSMwfg6cGjgV1BvHAXlErbQ7wiHbbywLSWZ+oNIKAHOXlvX3mQulvZLC6MWpZrUdN8eW2ipRsS+xCSSeDxHkFU50ddEKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=akamai.com; dmarc=pass action=none header.from=akamai.com;
- dkim=pass header.d=akamai.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=akamai365.onmicrosoft.com; s=selector1-akamai365-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nagqxEIRf3WRTOZ6nz3PYB6ySDNRO7HCWu+K4SX6D6g=;
- b=gHYArd39ytyLIgIRac6xDalK/yMp2HAdCDss4yMoA+L6DhgdhJ5L6oChGVXhhY/oV7EH0KUn7x5RPwO9imqRxYS1KasoyzWyMpn4CxagsQ1GR/OkBDaP+H0ARIWwhNpGZYmCtSK/o0qGH/bpWUvVoPaIhmoUlSIkkbbHJMJrQYU=
-Received: from SJ0PR17MB4870.namprd17.prod.outlook.com (2603:10b6:a03:37b::13)
- by MN6PR17MB6970.namprd17.prod.outlook.com (2603:10b6:208:477::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.8; Thu, 11 Dec
- 2025 21:25:56 +0000
-Received: from SJ0PR17MB4870.namprd17.prod.outlook.com
- ([fe80::ff21:c3fa:86eb:2f36]) by SJ0PR17MB4870.namprd17.prod.outlook.com
- ([fe80::ff21:c3fa:86eb:2f36%3]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 21:25:56 +0000
-Message-ID: <ec20defe-8559-482e-8643-b69a4279cec1@akamai.com>
-Date: Thu, 11 Dec 2025 16:25:29 -0500
+ bh=4dm6kfhE03KFpIunOmpOYj5iU3zN3LZlnjtZAu9H3bg=;
+ b=xmxbc1RXa5vhWQHMdIkcSmVm4I2zShMWuQUxpzViwEFc6DaNGCj6i9cMdy7/ultOBAJNTTbpRQAFmsqFZftdRuwt/oWlWlbN1urhnyq+ghPjQOe6krMx2DMxZ4OFG/JEhRP5ouUHFU+qttdiQsjBHhgEsjm3YYvV5xsWWd5DGpY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB6607.namprd12.prod.outlook.com (2603:10b6:8:d1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
+ 2025 21:48:58 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
+ 21:48:53 +0000
+Message-ID: <b6286dcf-d9a4-4dbd-b8e4-5b0640c7dae5@amd.com>
+Date: Thu, 11 Dec 2025 15:48:00 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 29/31] dyndbg: resolve "protection" of class'd pr_debug
-To: Jim Cromie <jim.cromie@gmail.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <gregkh@linuxfoundation.org>
-CC: <ukaszb@chromium.org>, <louis.chauvet@bootlin.com>
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <20251118201842.1447666-30-jim.cromie@gmail.com>
+Subject: Re: [PATCH V1] accel/amdxdna: Fix race where send ring appears full
+ due to delayed head update
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
+ maciej.falkowski@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
+References: <20251211045125.1724604-1-lizhi.hou@amd.com>
 Content-Language: en-US
-From: Jason Baron <jbaron@akamai.com>
-In-Reply-To: <20251118201842.1447666-30-jim.cromie@gmail.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20251211045125.1724604-1-lizhi.hou@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR11CA0009.namprd11.prod.outlook.com
- (2603:10b6:208:23b::14) To SJ0PR17MB4870.namprd17.prod.outlook.com
- (2603:10b6:a03:37b::13)
+X-ClientProxiedBy: SA0PR11CA0121.namprd11.prod.outlook.com
+ (2603:10b6:806:131::6) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB4870:EE_|MN6PR17MB6970:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11130f97-1d9a-47c2-69f1-08de38fbdf28
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB6607:EE_
+X-MS-Office365-Filtering-Correlation-Id: 928dbf3c-1c0b-411a-1585-08de38ff13d5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QXFKZnVWbnVIN3dHRllPWmlYVnNEVkZnbUIzY282b3BmZ2t1TExncWhTSVd6?=
- =?utf-8?B?STJYOHRNZEpQRUJhQTZwc01Jc2xTbGtHL3NheXZnL2t4VGhOcnVUWE9KQTNQ?=
- =?utf-8?B?Uk10NFozZnVMOE02QXFKLytVTlpsOVBQK0hjTUdyc1FTWVBONWgwZGJQZXlB?=
- =?utf-8?B?L1NpZ1FWRk9iTUhZcnJiQ0RJRVhrc1pNZHhSaGM5bmhZK0VWdFFlWUZMNHdu?=
- =?utf-8?B?Z1R3amY1aVc2LzZYbHY3TDIyM0lsNGlOVlJDL1ptaUd6a29DU0l3VXNDcXlP?=
- =?utf-8?B?L0RmcklqZGN6V3JlYkFZRnlFd3lEelF1SjQrQm9sRFpsajRyV1ZwVzBoTndX?=
- =?utf-8?B?d3RLYjlHUGdnLyt1MHBTU3pSMTV2Mjc4WWl3TWhoQzVOazRkOEZDMFpxSlBp?=
- =?utf-8?B?SXRsWitLOG5BeW4vOUJ3VjdQUkFvRVZQdi9MT3pydmp5NnNnMEZ6K1dkcTZF?=
- =?utf-8?B?aENVb1VycFFBM2FCc1pQOFlEc0JxN0ZoY21BVUpNSUxrbG40QTdlcnhJQWRX?=
- =?utf-8?B?NUwrSzAxeUVOL3IzTjNFbjJvOVVOblNQb3Q4SG9SYURSVUNXQ2h2cGNLd0pz?=
- =?utf-8?B?QkRueVYvTWYvOGJmdVBlajd5SUhWWEQ5bFJwd1RQeEk0NmhoRWZtUmxYZFhs?=
- =?utf-8?B?dGdXRDRPcWQ2K2JoVm13bW55dVVRU0c5Nm9tcm1iMnVQRDk1YzJlcldkcTBZ?=
- =?utf-8?B?bFcvNjlscHVEc1R0bDIrOU9qSHphaUR6T2E5MTU3NUZlcWhlNGRVTGI0NUR3?=
- =?utf-8?B?RGo3NkJYTjZDa0k1b1FmZlhla1A4SzBFT2F1SFpsMXNiejJzMFhENHIxTjRl?=
- =?utf-8?B?Y2VkSXF1WGxUQnQwRWgyN2xZbGhhcXU3WkdPRVBwT2xhQTdXOS94S0lrY0pp?=
- =?utf-8?B?YVN6eFB5MEcwWG5sOWRSbHJXK1JZRjMwU2hZUGppdG05Z3pLN1VySGN3c1pp?=
- =?utf-8?B?MlArUkdTbnk5WEFNbis1cktuN2xxYkt4UzFWMlh1cytJRjAzUHBVZXhlOWs4?=
- =?utf-8?B?cXh0MSsxcEFSTjlLbUJFQ1ZWa0RMN2JIRlR4NVQ2REVSZVpyR2U5ckFVd0hx?=
- =?utf-8?B?eWk3cTl4dXo0L1lpNjRpNnd6Zi90WXZQMFVOYUgxTW9zMzRzY1cwWjBHMDR0?=
- =?utf-8?B?OWxVTE9nd3hzTEdBOVpBUU9YR01nQ0M4RGlrK3M4TS9kdkY1ZWo2NHNMRWlH?=
- =?utf-8?B?RXMxRHRaL2p6aXEzSENXaEpKVEdhL1dlTUh2MW5tYVNEeWpjcTRyMER2RDRZ?=
- =?utf-8?B?ZHdlRFNpMGhWcmJrMEhOSFdDZ2NhSUhRMXU4T3NYV2I1dWNHZEdBcEt3Ukwv?=
- =?utf-8?B?a1Q4V2ZncXlTdzNKRUsxdmZQZW9hSzMvNERBWmllVWJhWjFIVHkzbjB0bENz?=
- =?utf-8?B?VUtkVmFlbU96T1FZYnY1dm5KVlU0QTBOTGhQa09ycWYrd1FvbGVva2pvNVph?=
- =?utf-8?B?SFdWQk5zcTRMNnRRUThaQ2FqdmljUWZOb0hJZnk2SUVrTmNGbWp0dWVtMXNB?=
- =?utf-8?B?aG90c3RpKzM3TzlNb1NJeGN6REw3d3BDS25PQlR3a2x0aFZXM0lEZWw3bm1J?=
- =?utf-8?B?Nkt2Y0dNWEFBVzBTR3hsMFJhR0x1MzZyeGsva0MwL3dZeGUvMXZoRDkveVVM?=
- =?utf-8?B?TDB4RmlLTllZV1h3M0FmZWpJaWxiS014ZHgweHhaRmVSSGNyMmxYczRXUHlM?=
- =?utf-8?B?aGY3SG9QUGRNTDZwUHJld3FQbFNLTlkxcmxmdVVQYy9ySy85UUpuZWMzWjZ2?=
- =?utf-8?B?WTZ1Tzd6SnMwbU9qYnNrZW4vcXgvVEtab1Vvek5yZmkvN0lwSm13d1pWdGxB?=
- =?utf-8?B?VjRocm1CWkN1aytuWjFxT2NnRUFNcm45MU5SNzY4UVk3VGJQZmdqWlZEWnAv?=
- =?utf-8?B?WnlXUjRSdHpnTGVSbzBKcUc0T2Vzc1pkWG14ZEdpM2tRaEpmTm94dk4vTkZG?=
- =?utf-8?Q?EVldWTD/ilGm1s3IlGupNJ2E614zM/Iy?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eGhkclB3Z0Z3R2tRMEQ3ZnMwKzFWZHovSE0rdHM3VXhVZUNBU1lRSXJuMXE0?=
+ =?utf-8?B?djhaYjduZXJxVFhIRWt3bGRJcXUybzlaOGo2T2xmbGVyUXh3bUQvZk1TKy9Y?=
+ =?utf-8?B?K0VKQWZVbVRUS0VZU04vdHN2M2trTEF1THQ0dDVhNi9OWWdRbFNjdkZWWDRR?=
+ =?utf-8?B?MHpHVU9RL3ZrU3hqM29yUi8wSG1PSFZVc3BSQmZ5SDFTRGkrKzBkcW9ydlZh?=
+ =?utf-8?B?ZkFlV2gySlBiektrNkRkWXRxZzRhWHNNQWZsNmY0NnJVUlFkdzlnaW5kdzcz?=
+ =?utf-8?B?RnhtUml6V0tjZ2Z5NkpMZmN5SXNzdmxxR0RoeEVsS1NZMmlJN2k4V1R1dnBa?=
+ =?utf-8?B?UkVLT0pkT25jRUdFUUd6NDhobHFJNFpocmhZQ3VvRm81cG1mODFUbHgwaVNm?=
+ =?utf-8?B?ajlkM09uKzc3M2czWDVNVE0vdU9KYlNLb2NHc2F1M3lTWHo0VzV4eVVqcHQ0?=
+ =?utf-8?B?eWwzSjhjdks1ZWR6a29nVWFBd2lWZlVVcks0YitsYldQeWROYkg5RDVwc2Va?=
+ =?utf-8?B?aVJmNVNUb3JEZ3RuT00vU05LOW9jL1hLbkZ0d3FKV210UzdRc0E1Q1oyelBs?=
+ =?utf-8?B?MEhSU3lWbE1MajR1eXdSTmM4bS9FRXZnM1RhVDJjV096N2x6RmJlMzNhcEtJ?=
+ =?utf-8?B?dm9PM2Z5d3dEYUJDMFpkdmlqS0tjWkhFYTlSR3U1WG1nSHl3VVR5N1h5bUNH?=
+ =?utf-8?B?SjRFMFpJdGJiS0x1Y3ZhOVVERVQ0bnNIbFZtV3RqbmRCbktKQjZidWxnSzJ4?=
+ =?utf-8?B?bHNJcklLUzhUMzNzMGcvaTVLZUlPSW9YTC9uaWlqUnBqQkJJQ3ZwcTZrVnFo?=
+ =?utf-8?B?WW10WTRiSDg0V2psakFrYThESHNmUzZ0QTc5ZEk1VWQ0eWRhcElqMld5N2NR?=
+ =?utf-8?B?TDQwMDRHUGsvQ1BVWXVYZ211cDd3SUhLMWt1cWJrTHhPYVdHanI1SUNNNjN3?=
+ =?utf-8?B?U0NpTG5hUWg5VjA1L0NNMG82Z2xZS3gvNURTazVYK3pnYUpIQm1hSUhRSzdM?=
+ =?utf-8?B?dXZvK1RiV0JJNUpTNjBNU0lpQXg5dUZtSGxSSU45Y1NrZElvUEYwQTc5VjE5?=
+ =?utf-8?B?Vm9XZG5leTJpYjFFdGloY3o0aDRVTXJoZnpMeHZZN2paTm9teFVWUENWdUp2?=
+ =?utf-8?B?TTRLWlE1Rldmd2owZDNwM1VOTm1JZHB0ZTJPVHFUMUtVWEM3NmFrN2hPOG5D?=
+ =?utf-8?B?UTZWaVJpc0RteENGTFhUT1pOSm9uT2Vud1NBSlc5MTVDMVpLNUdYZmJSdjQ1?=
+ =?utf-8?B?aWo3YXl4M1BMVE9JandkUU1rMTNIdkhWSUw3UjdRRnpHa3RtSHJWWWN6RjA5?=
+ =?utf-8?B?ckhWSGhCWWRRQ1AybjlYQkNjRVFLNFZUYUZSMkYxcEZwaVVITFdENHAxdk1H?=
+ =?utf-8?B?ZmhQeGo1Y1F1Z3A5V2RUSktza3o4VmorUEt1UWV5Y3JBSXFyUkV4OEl6Tml0?=
+ =?utf-8?B?YTFOd0hlTHRCRzYxVENiN3hpdklSSGlrUy9ucTcyM0t4bXF6eksrTDByYnBH?=
+ =?utf-8?B?Z1JLNVBtdFl2ejd4V0pGZFNXeHhVSnBhTlF5WFhuUDB2MWovVDByVTljdmJt?=
+ =?utf-8?B?S2xkTGNkQ2VaUjdLQjNyTFFHbnBHbGdUQUI1SlNIV3JDSHpCTC9CVkRkY1ho?=
+ =?utf-8?B?Q2JZYjZrNEtJUnYydW9EV3gzbENOSXZrem9rcTIwdzNWeGxSclh4cWZjVk5X?=
+ =?utf-8?B?SENOM2pjVkEweHdzVUdZTk4razFqYzhnbFB3WGFGSUErckVEWUlqQ2FCaUVG?=
+ =?utf-8?B?d002VHYrVTlLdm9kT3J0eU5MNGVuV0UvdDZ5MWlncXBzTWFQcTI5WitsMy9S?=
+ =?utf-8?B?eExhbC9BcGt2amhENitMb3h2SXJZRGd5SG0ybUY4NGpodVRmejRhUzUvQktK?=
+ =?utf-8?B?OUcrTy9HZGk5VDMwSzlTSWtaK1JUSkhZYmo2bWRJbFpUWVhEYnVLVTU2b25R?=
+ =?utf-8?Q?uc89KdPDtu09qdXzv1roIY8ELAuXcpvE?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR17MB4870.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGI5NEFnWFlEejhuWHVQRk53SXhpc1FFNDJ4dU54N01QZmdabWJ0cmZqdmtQ?=
- =?utf-8?B?ZlBWUWJONCtKbjNrRHRSVHBNelozUTJibFFQanlVK3QxNWo5QndLRDFCQVV6?=
- =?utf-8?B?M1pyREpWQ1crZFpMY20rTHRxSllJRFpIMk5VcUNTTWpDVElGU3cxR0FIS2gz?=
- =?utf-8?B?SlFiSlZIUXY5V3pjbXAxM0dRUkFkYnFIQW5KNkVrdFlGOFBTcE5SaXFBcG1h?=
- =?utf-8?B?NGJtRytYWnZZTVI5MTBNSXYwNXNxdDMwVGJWbVRnbnVNWVJPcHV6UU15Mll4?=
- =?utf-8?B?bGM1MVRvZkU4a1pseGJQMnB4Zk9TTk94cFZSdm4vZkswREFHK0tvQzRuQ3NO?=
- =?utf-8?B?Vkt0RzMyMXFWK0wrTzBFTFhHa0NhU3VEUnJBaEFpNkd2dm1OY3BLM2dLZGMw?=
- =?utf-8?B?TnN2em8zWnlVWFdoMU9LSXM4TVFDQnhqUHpycGRhR1lIbXBNalp6MXgvajdj?=
- =?utf-8?B?RkVVKzVxUmFFYkVmSDB2RmZybUo4ajFrb1ZMUkZHWUlFRSt5WHBxVVhOSEVK?=
- =?utf-8?B?ZGNBeEE3THdBZFh4Ym93elhMN0tNVUhYMDFuTDVkYjZORjdnZk50dy85U2Y2?=
- =?utf-8?B?YmZ4Q0hyRjVIRm1od3h6TFFZd0J2a3F3am0xdzk2UGFFK2lzbXloaHVVcXhH?=
- =?utf-8?B?NFNzM0Q0ZG1NS2QrOFBvUDdyeUFrdzZyOFh5TFdTbXBxSDFocmh0OHRXb3l4?=
- =?utf-8?B?aFlNb3lVbXZqSitxNlpZczBPa0tLSkFQK2ZNRzhxWXFkUlZsWFR4MDJMRHBw?=
- =?utf-8?B?NXVWRWh3Sk9yRE5nSmdCNXp1YUU3YTlHMER4Q3c2WUZOSzRIWDBhK1VqWVl2?=
- =?utf-8?B?VE1FTUU1NktLbG5CM3M1cTRua2pRRGNJdnlwaXlsemFGUVRyMU9tNCtoM1JM?=
- =?utf-8?B?MURJVUdyNjYxY21uRUZJbE9kUzNhMnpidzdKZnZaajk0Mk54TjNaNkhSZjh2?=
- =?utf-8?B?QnB1Y2dOSXBaU2t1VkJGWHhFTVV0N3lDaFBobzBUYUl5eEQ2NVMzNjFTSUNS?=
- =?utf-8?B?Tm9TZk5WYTBGRk1aR1ZCVW56RXpJVW0wdk1adW1PbWxiZHh0ZXpSbEMwMDli?=
- =?utf-8?B?czRLYVI2a1VlNU9PNjFkU2JDcUsxWDNVaDh6QnNvWHNWTENWM0F3aCsvWDBW?=
- =?utf-8?B?THdmVzg4NTRsY0dpdnZjdHFKdWxNUzFJNGw0dzVtWTF5dEdYcnJCcVBaUTFZ?=
- =?utf-8?B?SHlZWWZsTUZqUWo4SnZGY2NWMEFnM2VJTFJISGhqbEQ1bDNWcjNCbWpNWmFI?=
- =?utf-8?B?Z2xmc2JXRFRndW5Hcis3dUt4d28xNHErSXAvSlBMYWdIZCtpYTlrcVhZdlV0?=
- =?utf-8?B?Nmlzb0FkL2l4d0RHYmZyOUdGb2lhYTdDaFBYYUUxdnovNG5XUndpMVI5eUpw?=
- =?utf-8?B?b2FlMHoxOU15bkZKMGlOVkVxRXJXT1FoRlNpT0t3L01tMkhwWHZBMzBmK0ls?=
- =?utf-8?B?ZXRxaUY1NTBBM045RktMNDBhVk41c1NhQmpSUjV4U2lyRVZkN0huekJTQmln?=
- =?utf-8?B?aEtrT2xlQUxCeitiaGx3KzRMaWV4YmttVUdtQjk4NElXZVNwWkl2OFhOQUJp?=
- =?utf-8?B?OFdoN1I4bVM3cngybG5CYisvT2dUbmtCKzloRlZpa09FL1M0OVNmbi9jd296?=
- =?utf-8?B?S21IbkFQdUJnNTVuVjhxeTQvQk1BbTE1K0FGaTAzdlRleTIvRkxKYmdhZ3JT?=
- =?utf-8?B?VWpWaEZhZm5udE8zeThUMWV0d0QrU3Q0UG5oTnRuekFLdHZtSUsyWVZOQVlT?=
- =?utf-8?B?TzgrWVFPOUIwVXVRVUZXR1l0U1BRbXVFKzJmTFdTamg4Vm9zeHRsTnNMOUlW?=
- =?utf-8?B?cWRLZzJOTVdMeGprL3IvWnhDcXhxbjI5cGxxd0hUazZLb0NnLzMzaDlSRVlS?=
- =?utf-8?B?cE5NL2pnYTJ3dXdmZ1FRcHpQSkxaNmpvRTVWalE2TEN3Y1lXdVBZdFVMbWFH?=
- =?utf-8?B?Z1NGVjJhQnllQ2pjNlpzSXVzSWpUN0IxZjB1RXA5QWduVnhMa1VBUkNNenRQ?=
- =?utf-8?B?akliamNEYXpISFV6MWl0OFFXd1N5M3l4U2VOdEtycjQ5dUQxK0hsY21CT2hC?=
- =?utf-8?B?SW9ZK1FldzRrSFN2UnNObEQvaHhrY1hmSnphcDQ2VzcxQ3B0Q0lpa0hobFNN?=
- =?utf-8?Q?gNLBDbzZoaBtZ8Ua5sM2i1NkP?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11130f97-1d9a-47c2-69f1-08de38fbdf28
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB4870.namprd17.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1ZUemRzbXZrVXczT2RpU1Q0TVBINEMrK2RsMmUvUUpsdHBlUnVWR3U2WXdx?=
+ =?utf-8?B?dXpmT0xwQWNrVkZ0eEJuR3hUSmRVa0pWc25YUkY0bXhxUnZER2lOK2FDc0ZL?=
+ =?utf-8?B?ZW9PMnhNcnZPNENzK3NPdXExbTNiZG56emltdzczLzR3K2FmUVR5b0dLZHVG?=
+ =?utf-8?B?Vk40NVlSdTV4QzNrMllMSDBSbm42MWJTeGFFT1BWeEdLK24rQ2NTQ290a1l4?=
+ =?utf-8?B?TmdvSjJ2NHRtZjhMbVFpZTV5bEMvWHVZbVViTjYrazNZc3FLQzZlR3dyQ0xW?=
+ =?utf-8?B?bGNCdHB0a0R6YXJsWWRiUDJtOWUydXVLR1FHSGxTYi9PWlZtNGgrcVFTZnZ1?=
+ =?utf-8?B?aEd3QitReExtTkY3Skh6VGVMY28zR0dsTHhlKzhpM0I1d1BFTE0wTGhkaDh3?=
+ =?utf-8?B?RTZEdkdFZGNXR0lDYmpFai9IUGtlWFdKMkk4TTQwM0VmVFkxa2Fpb2Y5QjBi?=
+ =?utf-8?B?TjdQeE5sKytUUmlPeURNQU5takhqZnEvbmxFQ3o0dk5GQlFPTVdMVU4vbHZJ?=
+ =?utf-8?B?Z3JvczFZZFVvTXBWNzc4SFE1aXprWm9LOVNmRWxvYnJYZW9KcUdEZnpoRkxn?=
+ =?utf-8?B?WkFubFJOWFc0VDc2aHFucmJYRnkrZ0dFbm1XT2Nua1lMN29oMHM3SlplT1V3?=
+ =?utf-8?B?NFlmTlZGSDhNTHJlQStDQktmSGxpYXpvZ1RQRmZiTGVKL3RBWGgzVElBTlYy?=
+ =?utf-8?B?Z0dVUTFNWlQwV3Vra2owQmVsNVhzVlM1SjJvQ2J1STFBTUF4OWt1emdFSkZU?=
+ =?utf-8?B?aHE3amRrZ2tKQ3BYeDBWdTM4aW12c0RzSWkvRWhVN3JXTEVaL2c3THYvREF5?=
+ =?utf-8?B?WHoxYUx6cDBJQi82YjNua2hhcHM5WTJlNy9WcENtbSswQVliM3Faa1BsY1ZC?=
+ =?utf-8?B?V2pFYzZIamxOb004eldibTVPQ0JjT29HM0NyemFwYnplYTdSQVJZMkE4S2Rn?=
+ =?utf-8?B?U0taZ0NoUU96MktiV1diSXVnWGFpSjNwd0FDcGE0TGJzajRQeFVmRUIxVlpK?=
+ =?utf-8?B?RVpaT3JTVHhpQXFtODFIaG03d1Q2aHpVU2cwQ1h0N1ZZajlNQnpSemFlTmRJ?=
+ =?utf-8?B?TWxlcFZ5azRuY2trLzFxS2RzdGNxM2pkdDhTbU1FbVlpS2tyTEQzWW9JYXUx?=
+ =?utf-8?B?aVR5YUhVSmMyQlRJdGtnOHZ4NVUwYnJmcXJibnJzVzQ0cWgrK08zQXdLdzV6?=
+ =?utf-8?B?UnRsZmswT0NsTS95ZEc0Zmx5cmdXL1FlbHNPZk93VmQ1bUo0QW1tZXFWR25F?=
+ =?utf-8?B?K0NRTXp4dDFuUzlpNzV2OVJrOHF5VnFRbDNWSDdKaTFNOTlTa3lzOW12NTNq?=
+ =?utf-8?B?VlR0cTFNMHg3NzZUMDBBL25KSFRkVGNWQVZHWkgzM0JLdS9BckVPQ1BnMzJi?=
+ =?utf-8?B?WHg4VUFUZkx5ZHYzYW9xaUFWUFVnNmNnUzVNQlVTSXhSK2kwUmR3SHFsN0NU?=
+ =?utf-8?B?TzhyOEhRNmFtTGYyVElGRkZ5N1phOVkyRWZONXk3VlJmdHA2aXY5azBva1VC?=
+ =?utf-8?B?U2lXb0VvU2xzbVFFVGowR0JmdW5yWnFxN1R3Z21xandVYjlMSnp6eWR5SXZQ?=
+ =?utf-8?B?cFFXc25MdjFMQlVmUFljeWI2L3lOZGJUSjFoQXpaZW10QXZJTWlTeHdsYzhC?=
+ =?utf-8?B?NFFwZTQzYW5ibkpQTHlaL3RsUlFYZjdtT3I1SU01ejUvK0s0eEtXK2k2M2NL?=
+ =?utf-8?B?QkNIWXZIMjlEbG5oVk9TUGdXa3Z4djlaZkVEZDFOM2FSQmJSYU5xamhUNUtw?=
+ =?utf-8?B?NzJsNkFlQmRvMHIxejRPenJUQ1NYQkpKVG1PQ2J0MWhHcUhnTDBiL2JvUHBO?=
+ =?utf-8?B?UWZURDF5THZQUVdVeWFGYTQyaVdQbGpOdUxXZjNxRXErQkJSNWlCa3JNeWZ6?=
+ =?utf-8?B?K0xZendJTUlRekZGbllUWHh6Z1cwYi80SURPTElMeDBTclRaQnB1TlRiT2Qv?=
+ =?utf-8?B?cVF3RVNqRVdOWjhMak0wd1R3Q09EMlo2M3NoNDdpZW9wSWNWZVJ5d0s2NExT?=
+ =?utf-8?B?a0hKbk9MY2dkNTNpUDFuQ3Y4cm1vU0pVSkgvRGlKc04zZm9BeERuWGdFUlBj?=
+ =?utf-8?B?M2puOVRGNjlEZk0yUEFiK3JoaytqaWFNYXY0NlRqWFVueW5TOHFRdnpwQVE1?=
+ =?utf-8?Q?yMhrnKwQAN4RaGGakzXa8oalq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 928dbf3c-1c0b-411a-1585-08de38ff13d5
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:25:56.6268 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:48:53.5639 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 514876bd-5965-4b40-b0c8-e336cf72c743
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dZxLC5+/04KZ3TYuAobiJY9ONS1w71AandLgyvUx+eBJpx2uFR21k7yi8WclPUv+YsAG759l4YZZni98mF9ngw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR17MB6970
-X-OriginatorOrg: akamai.com
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-11_03,2025-12-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0 mlxscore=0
- spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2512110171
-X-Proofpoint-ORIG-GUID: qNkic4cwYmRmBDojLMtK1QOtB6uzo8_f
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDE3MiBTYWx0ZWRfXyzGGtfDHPrcX
- 0MTayowkmMb82CvRPmCEzmi9VvfYsJPCdAQm8CZ2/loIGxm7y3w2Q9tTWumEkbioXlD6/Q2JpkK
- ybKoSCiFJAYOFVzsrkhJ85vWdsfKhFRAr6o5wdI+sKvPzQIV/0ZDLEBwhYUUQcgj12lHoom1OiR
- CPGmoxjy31qs+aQc7e2Qus3gxwGVVyhH6rxkJnYf5TIWl1O1eWaxvoGXmX9TVaH7nsBGx41iXKx
- yGpXC5CiaLd5mwtk55z1I48aa2zfyhIT2cPpF3zcKGwP2fKIw5PLTZGGvk+m13Aay+R0b7DWxPJ
- ZpdkonPYP0c1CYjDIaOpOccdGcCddbvfCXmliiriHRuGp+dPYZus1aFSTOeMAd+fONqaAuTXcqs
- zuGj9TfybmH/w6zNnEJGIY0S8QMVKQ==
-X-Proofpoint-GUID: qNkic4cwYmRmBDojLMtK1QOtB6uzo8_f
-X-Authority-Analysis: v=2.4 cv=NO/YOk6g c=1 sm=1 tr=0 ts=693b36ea cx=c_pps
- a=YfDTZII5gR69fLX6qI1EXA==:117 a=YfDTZII5gR69fLX6qI1EXA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=g1y_e2JewP0A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=DQ2I1JIJHPYleXYAsOcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-11_03,2025-12-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- phishscore=0 clxscore=1015 spamscore=0
- suspectscore=0 lowpriorityscore=0
- adultscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110172
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZBij9gTLg7OMn3+eEYa7oZk7gLo8wU0yi3qj+fY2+IsxHt4709YH8wn6V+wUYr4SKGZqwQO6tHhnV6g/avrt8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6607
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -234,298 +164,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/10/25 10:51 PM, Lizhi Hou wrote:
+> The firmware sends a response and interrupts the driver before advancing
+> the mailbox send ring head pointer. 
 
-
-On 11/18/25 3:18 PM, Jim Cromie wrote:
-> !-------------------------------------------------------------------|
->    This Message Is From an External Sender
->    This message came from outside your organization.
-> |-------------------------------------------------------------------!
+What's the point of the interrupt then?  Is this possible to improve in 
+future firmware or is this really a hardware issue?  If it can be fixed 
+in firmware it would be ideal to conditionalize such behavior on 
+firmware version.
+> As a result, the driver may observe
+> the response and attempt to send a new request before the firmware has
+> updated the head pointer. In this window, the send ring still appears
+> full, causing the driver to incorrectly fail the send operation.
 > 
-> classmap-v1 code protected class'd pr_debugs from unintended
-> changes by unclassed/_DFLT queries:
+> This race can be triggered more easily in a multithreaded environment,
+> leading to unexpected and spurious "send ring full" failures.
 > 
->    # - to declutter examples:
->    alias ddcmd='echo $* > /proc/dynamic_debug/control'
+> To address this, poll the send ring head pointer for up to 100us before
+> returning a full-ring condition. This allows the firmware time to update
+> the head pointer.
 > 
->    # IOW, this should NOT alter drm.debug settings
->    ddcmd -p
-> 
->    # Instead, you must name the class to change it.
->    # Protective but tedious
->    ddcmd class DRM_UT_CORE +p
-> 
->    # Or do it the (old school) subsystem way
->    # This is ABI !!
->    echo 1 > /sys/module/drm/parameters/debug
-> 
-> Since the debug sysfs-node is ABI, if dyndbg is going to implement it,
-> it must also honor its settings; it must at least protect against
-> accidental changes to its classes from legacy queries.
-> 
-> The protection allows all previously conceived queries to work the way
-> they always have; ie select the same set of pr_debugs, despite the
-> inclusion of whole new classes of pr_debugs.
-> 
-> But that choice has 2 downsides:
-> 
-> 1. "name the class to change it" makes a tedious long-winded
-> interface, needing many commands to set DRM_UT_* one at a time.
-> 
-> 2. It makes the class keyword special in some sense; the other
-> keywords skip only on query mismatch, otherwise the code falls thru to
-> adjust the pr-debug site.
-> 
->   Jason Baron	didn't like v1 on point 2.
->   Louis Chauvet	didn't like recent rev on point 1 tedium.
-> 
-> But that said: /sys/ is ABI, so this must be reliable:
-> 
->    #> echo 0x1f > /sys/module/drm/parameters/debug
-> 
-> It 'just works' without dyndbg underneath; we must deliver that same
-> stability.  Convenience is secondary.
-> 
-> The new resolution:
-> 
-> If ABI is the blocking issue, then no ABI means no blocking issue.
-> IOW, if the classmap has no presence under /sys/*, ie no PARAM, there
-> is no ABI to guard, and no reason to enforce a tedious interface.
-> 
-> In the future, if DRM wants to alter this protection, that is
-> practical, but I think default-on is the correct mode.
-> 
-> So atm classes without a PARAM are unprotected at >control, allowing
-> admins their shortcuts.  I think this could satisfy all viewpoints.
-> 
-> That said, theres also a possibility of wildcard classes:
-> 
->     #> ddcmd class '*' +p
-> 
-> Currently, the query-class is exact-matched against each module's
-> classmaps.names.  This gives precise behavior, a good basis.
-> 
-> But class wildcards are possible, they just did'nt appear useful for
-> DRM, whose classmap names are a flat DRM_UT_* namespace.
-> 
-> IOW, theres no useful selectivity there:
-> 
->     #> ddcmd class "DRM_*" +p		# these enable every DRM_* class
->     #> ddcmd class "DRM_UT_*" +p
-> 
->     #> ddcmd class "DRM_UT_V*" +p	# finally select just 1: DRM_UT_VBL
->     #> ddcmd class "DRM_UT_D*" +p	# but this gets 3
-> 
->     #> ddcmd class "D*V*" +p		# here be dragons
-> 
-> But there is debatable utility in the feature.
-> 
->     #> ddcmd class __DEFAULT__ -p	# what about this ?
->     #> ddcmd -p				# thats what this does. automatically
-> 
-> Anyway, this patch does:
-> 
-> 1. adds link field from _ddebug_class_map to the .controlling_param
-> 
-> 2. sets it in ddebug_match_apply_kparam(), during modprobe/init,
->     when options like drm.debug=VAL are handled.
-> 
-> 3. ddebug_class_has_param() now checks .controlling_param
-> 
-> 4. ddebug_class_wants_protection() macro renames 3.
->     this frames it as a separable policy decision
-> 
-> 5. ddebug_match_desc() gets the most attention:
-> 
-> a. move classmap consideration to the bottom
->     this insures all other constraints act 1st.
->     allows simpler 'final' decisions.
-> 
-> b. split class choices cleanly on query:
->     class FOO vs none, and class'd vs _DPRINTK_CLASS_DFLT site.
-> 
-> c. calls 4 when applying a class-less query to a class'd pr_debug
->     here we need a new fn to find the classmap with this .class_id
-> 
-> d. calls new ddebug_find_classmap_by_class_id().
->     when class-less query looks at a class'd pr_debug.
->     finds classmap, which can then decide, currently by PARAM existence.
-> 
-> NOTES:
-> 
-> protection is only against class-less queries, explicit "class FOO"
-> adjustments are allowed (that is the mechanism).
-> 
-> The drm.debug sysfs-node heavily under-specifies the class'd pr_debugs
-> it controls; none of the +mfls prefixing flags have any effect, and
-> each callsite remains individually controllable. drm.debug just
-> toggles the +p flag for all the modules' class'd pr_debugs.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 > ---
-> history
-> -v0 - original, before classmaps: no special case keywords
-> -v1 - "class DEFAULT" is assumed if not mentioned.
->        this protects classes from class-less queries
+>   drivers/accel/amdxdna/amdxdna_mailbox.c | 27 +++++++++++++++----------
+>   1 file changed, 16 insertions(+), 11 deletions(-)
 > 
-> -v2.pre-this-patch - protection macro'd to false
-> -v2.with-this-patch - sysfs knob decides
-> -v2.speculative - module decides wrt classmap protection
-> 		  seems unneeded now, TBD
-> 
-> v3 - new patch
-> v4
-> - drop fn-scope map var, with 2 local vars, renamed to purpose
-> - fix for NULL ptr case.
-> - Add loop-var to reduce many "&dt->info." exprs to "di->"
-> - add 1-liner postcondition comments
-> 
-> fixus
-> ---
->   include/linux/dynamic_debug.h |  14 ++--
->   lib/dynamic_debug.c           | 127 +++++++++++++++++++++++++++-------
->   2 files changed, 110 insertions(+), 31 deletions(-)
-> 
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index b1d11d946780..b22da40e2583 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -75,6 +75,7 @@ enum ddebug_class_map_type {
->    * map @class_names 0..N to consecutive constants starting at @base.
->    */
->   struct _ddebug_class_map {
-> +	struct _ddebug_class_param *controlling_param;
->   	const struct module *mod;	/* NULL for builtins */
->   	const char *mod_name;
->   	const char **class_names;
-> @@ -259,7 +260,12 @@ struct _ddebug_class_param {
->    *
->    * Creates a sysfs-param to control the classes defined by the
->    * exported classmap, with bits 0..N-1 mapped to the classes named.
-> - * This version keeps class-state in a private long int.
-> + *
-> + * Since sysfs-params are ABI, this also protects the classmap'd
-> + * pr_debugs from un-class'd `echo -p > /proc/dynamic_debug/control`
-> + * changes.
-> + *
-> + * This keeps class-state in a private long int.
->    */
->   #define DYNAMIC_DEBUG_CLASSMAP_PARAM(_name, _var, _flags)		\
->   	static unsigned long _name##_bvec;				\
-> @@ -272,10 +278,8 @@ struct _ddebug_class_param {
->    * @_var:   name of the (exported) classmap var defining the classes/bits
->    * @_flags: flags to be toggled, typically just 'p'
->    *
-> - * Creates a sysfs-param to control the classes defined by the
-> - * exported clasmap, with bits 0..N-1 mapped to the classes named.
-> - * This version keeps class-state in user @_bits.  This lets drm check
-> - * __drm_debug elsewhere too.
-> + * Like DYNAMIC_DEBUG_CLASSMAP_PARAM, but maintains param-state in
-> + * extern @_bits.  This lets DRM check __drm_debug elsewhere too.
->    */
->   #define DYNAMIC_DEBUG_CLASSMAP_PARAM_REF(_name, _bits, _var, _flags)	\
->   	__DYNAMIC_DEBUG_CLASSMAP_PARAM(_name, _bits, _var, _flags)
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 636a6b5741f7..1082e0273f0e 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -206,6 +206,50 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
->   	return NULL;
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index a60a85ce564c..469242ed8224 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -191,26 +191,34 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
+>   	u32 head, tail;
+>   	u32 start_addr;
+>   	u32 tmp_tail;
+> +	int ret;
+>   
+>   	head = mailbox_get_headptr(mb_chann, CHAN_RES_X2I);
+>   	tail = mb_chann->x2i_tail;
+> -	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I);
+> +	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I) - sizeof(u32);
+>   	start_addr = mb_chann->res[CHAN_RES_X2I].rb_start_addr;
+>   	tmp_tail = tail + mb_msg->pkg_size;
+>   
+> -	if (tail < head && tmp_tail >= head)
+> -		goto no_space;
+> -
+> -	if (tail >= head && (tmp_tail > ringbuf_size - sizeof(u32) &&
+> -			     mb_msg->pkg_size >= head))
+> -		goto no_space;
+>   
+> -	if (tail >= head && tmp_tail > ringbuf_size - sizeof(u32)) {
+> +check_again:
+> +	if (tail >= head && tmp_tail > ringbuf_size) {
+>   		write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
+>   		writel(TOMBSTONE, write_addr);
+>   
+>   		/* tombstone is set. Write from the start of the ringbuf */
+>   		tail = 0;
+> +		tmp_tail = tail + mb_msg->pkg_size;
+> +	}
+> +
+> +	if (tail < head && tmp_tail >= head) {
+> +		ret = read_poll_timeout(mailbox_get_headptr, head,
+> +					tmp_tail < head || tail >= head,
+> +					1, 100, false, mb_chann, CHAN_RES_X2I);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (tail >= head)
+> +			goto check_again;
+>   	}
+>   
+>   	write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
+> @@ -222,9 +230,6 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
+>   			    mb_msg->pkg.header.id);
+>   
+>   	return 0;
+> -
+> -no_space:
+> -	return -ENOSPC;
 >   }
 >   
-> +static bool ddebug_class_in_range(const int class_id, const struct _ddebug_class_map *map)
-> +{
-> +	return (class_id >= map->base &&
-> +		class_id < map->base + map->length);
-> +}
-> +
-> +static struct _ddebug_class_map *
-> +ddebug_find_map_by_class_id(struct _ddebug_info *di, int class_id)
-> +{
-> +	struct _ddebug_class_map *map;
-> +	struct _ddebug_class_user *cli;
-> +	int i;
-> +
-> +	for_subvec(i, map, di, maps)
-> +		if (ddebug_class_in_range(class_id, map))
-> +			return map;
-> +
-> +	for_subvec(i, cli, di, users)
-> +		if (ddebug_class_in_range(class_id, cli->map))
-> +			return cli->map;
-> +
-> +	return NULL;
-> +}
-> +
-> +/*
-> + * classmaps-V1 protected classes from changes by legacy commands
-> + * (those selecting _DPRINTK_CLASS_DFLT by omission).  This had the
-> + * downside that saying "class FOO" for every change can get tedious.
-> + *
-> + * V2 is smarter, it protects class-maps if the defining module also
-> + * calls DYNAMIC_DEBUG_CLASSMAP_PARAM to create a sysfs parameter.
-> + * Since the author wants the knob, we should assume they intend to
-> + * use it (in preference to "class FOO +p" >control), and want to
-> + * trust its settings.  This gives protection when its useful, and not
-> + * when its just tedious.
-> + */
-> +static inline bool ddebug_class_has_param(const struct _ddebug_class_map *map)
-> +{
-> +	return !!(map->controlling_param);
-> +}
-> +
-> +/* re-framed as a policy choice */
-> +#define ddebug_class_wants_protection(map) (ddebug_class_has_param(map))
-> +
->   /*
->    * Search the tables for _ddebug's which match the given `query' and
->    * apply the `flags' and `mask' to them.  Returns number of matching
-> @@ -214,11 +258,10 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
->    */
->   static bool ddebug_match_desc(const struct ddebug_query *query,
->   			      struct _ddebug *dp,
-> -			      int valid_class)
-> +			      struct _ddebug_info *di,
-> +			      int selected_class)
->   {
-> -	/* match site against query-class */
-> -	if (dp->class_id != valid_class)
-> -		return false;
-> +	struct _ddebug_class_map *site_map;
->   
->   	/* match against the source filename */
->   	if (query->filename &&
-> @@ -255,7 +298,28 @@ static bool ddebug_match_desc(const struct ddebug_query *query,
->   	    dp->lineno > query->last_lineno)
->   		return false;
->   
-> -	return true;
-> +	/*
-> +	 * above are all satisfied, so we can make final decisions:
-> +	 * 1- class FOO or implied class __DEFAULT__
-> +	 * 2- site.is_classed or not
-> +	 */
-> +	if (query->class_string) {
-> +		/* class FOO given, exact match required */
-> +		return (dp->class_id == selected_class);
-> +	}
-> +	/* query class __DEFAULT__ by omission. */
-> +	if (dp->class_id == _DPRINTK_CLASS_DFLT) {
-> +		/* un-classed site */
-> +		return true;
-> +	}
-> +	/* site is class'd */
-> +	site_map = ddebug_find_map_by_class_id(di, dp->class_id);
-> +	if (!site_map) {
-> +		/* _UNKNOWN_ class_id. XXX: Allow changes here ? */
-> +		return false;
-> +	}
-
-Do we want a WARN_ON_ONCE() here? I think this is the case where we have 
-class_id for the call site but it's not default, so shouldn't it always 
-have a map or be a user of the map?
-
-Thanks,
-
--Jason
+>   static int
 
