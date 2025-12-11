@@ -2,145 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D56ACB5AC8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 12:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DC7CB5B56
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 12:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF3710E7DE;
-	Thu, 11 Dec 2025 11:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3440310E0C4;
+	Thu, 11 Dec 2025 11:52:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WnOtEbwE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="49OCEhjz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L4UTJ5Wt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O+wS+Frl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eXGALX8s";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VVP8DXE3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5201610E7DE
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:42:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ABD755BDD7;
- Thu, 11 Dec 2025 11:42:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765453351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=suPLn25bzpPzn3lp3Mm/1vAoSbzYEhI5twxwyK7zIkI=;
- b=WnOtEbwEcpL5GIOxrSyPet3PyxpD5m72QSZxIpDubvgVuCmeevLF+9pySeRARMGzce8qSi
- 790Ld02VgGZrDgM0zNuXSPTo7hMoamVDr+jedp9Gl8mL2vEAqAl9ro0ghTNHm0DJGvi0SE
- f33BTOyRbyIzKTVE895jkmFIsg3WZmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765453351;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=suPLn25bzpPzn3lp3Mm/1vAoSbzYEhI5twxwyK7zIkI=;
- b=49OCEhjzAyAP4UnbwUN3gbB/LAZQ1bL7VbLeCH1A2TxnAa7rgz58pt33qxzJsiucia4EDZ
- BhzXF3f/ARhhIZCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L4UTJ5Wt;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=O+wS+Frl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765453350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=suPLn25bzpPzn3lp3Mm/1vAoSbzYEhI5twxwyK7zIkI=;
- b=L4UTJ5WtopiehHTYlrp9XDJ0T054nqlJuho2DDLQm/I18IACCVga0gvquXJUOt7vrrXqMc
- ZPEv0QXppYzPIDj1HcSUgo6kMx4cLjhEQmaHUopnls2QwguORghnkFHh1xQ8AXm4vsndsJ
- Tg5DFAoZ3AkeNa7vdZEKIwncdfsXE/4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765453350;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=suPLn25bzpPzn3lp3Mm/1vAoSbzYEhI5twxwyK7zIkI=;
- b=O+wS+FrlWE4Fqb6JP7wet93fHI5rjN+/XSTyIvVoSgAmC6qQHssvD+GJN3/sFL7tDPCxV9
- rI+hwqeG/vp9CWAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 561D73EA63;
- Thu, 11 Dec 2025 11:42:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id LCaYEyauOmlMdQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 11:42:30 +0000
-Message-ID: <c8ed7bf9-b5fb-4246-a079-2c77bd98989d@suse.de>
-Date: Thu, 11 Dec 2025 12:42:29 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DEB310E0C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:52:51 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BBAXtkB1182148
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:52:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pYeW9busX86La2oKvlYlFkOyAk2JyhjvYrKKb2CZJwQ=; b=eXGALX8sTQUHfgr1
+ W/3ClXcYK2wmkDAXaeA67sLf2Yqi0Om0IOtuvn9F4m9F/vRf9WFhenlu9vJhqeWQ
+ 3BNUrYw+xqCVTZUGl7EKIGMu1ihenVp8wpruSGsEuFRpbg4nPQ+mhjXnbF5RjY5v
+ 4vCtY2mOV+dvapXEwJu3rPYGgqHhaMFHjpmcqj0IqEgyafY01QVtl3UZ1+G54M10
+ btqi+FE90zh/hvptBJ+XyC2B+WbRhPNHqjOTf0mo2fxHDyXpI6RjVke5uC8fnjVV
+ ig5JmLLy5oEQ7gcDuCaJOOFiVbBjoSJMPrwqXsNe82RbYeQ9ln/rwFhozavIcsq5
+ 9XAPig==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygsx29dk-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:52:50 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-343725e6243so1444967a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 03:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765453970; x=1766058770;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=pYeW9busX86La2oKvlYlFkOyAk2JyhjvYrKKb2CZJwQ=;
+ b=VVP8DXE3+v5zZcFFkNZk5EEgyLyY5/dA0EC0PZnMxY+WGFx9Aas5lR/KkSuaXARoAr
+ x6YTe0W/ig6Vtwb2WlgsUiFynaudeRULDkCm6zGo1N2/UB+VMqg+QPzcDQNJXdgXEvnu
+ UEe2Ii7LXM4oHHeiXu7KqxL7QJOL2Jo1aJC2kp4ipeCxfkLefRZCIvTLI6MSAAs4jOxH
+ S41gThXA39SJIXF+vpBc7hf+FWzPwEcJfpYWP5UfDmhTzIWeHN2Pwmg4tHZOJDn1ODNH
+ V4Fg+F0Nx9h2C6kOYkZGGzBjS983g/XpTJwHIyM4RncsrK9CcuJusdk8iXMgMEXmd8XF
+ 7rxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765453970; x=1766058770;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pYeW9busX86La2oKvlYlFkOyAk2JyhjvYrKKb2CZJwQ=;
+ b=fXokgvuf7YN/xAIXGqkF9whvu2LtU+en2GXx6EoFE9ZI2//QH8fS1E3jl67QoCDVn9
+ Ihu9zhyvnwAJNuapra1MPEBjXZvqIcTwDbUL02kACAgXogV/CXWeadCCMM3poWSf/BK/
+ BM+5/7IZMJxgTpvIncJ/eV2nozAKId3kaEJp6m/4IEB1RxjY+jgBgha2vHCRQikS8E6U
+ 5UbPnagagvzXMFTWw4S4kAd/YzA5gnBMgz3XJQ8OSMOfFnE8gGC1BA67pC+GAtwJSCXP
+ DSWWjIlxPSBxz1kBn0xkfqIxplyttWFXi/6803PuOm5PrrZGvXsNMKFD/O3lfH1dZuk5
+ t9vQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVKNuOQFmTQCb6vvsBmyO8nKpzKqeIqWDjKOFHtodmUiBIHrRyVMwW0lzgfSbugJsocKJX5B25+4Z0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRFCONDseGNLaJIFkCM/s847r2//Fm7FS9ZaZRK0606zgv3Dz3
+ daxQ27+ZiPM5XLfw+8dvvEi6zncq38UuJ25GghC6fzzulCNT7LYi2uKUgxYsRe/e2xizvk2rLt1
+ m+RTuoRHL2C3wH0W8f0u+hWxZCBrOD1PoFsrmyj/71UuVKUQML5lCL2W6kGmimHOwu4BZ+42IG+
+ 743uY=
+X-Gm-Gg: AY/fxX4Bv1RLC3jBbLgx0XcD0RD0GMi8C9BjgGs4LPPpvw2Z/V4fU3aMQOQRUkDR9m/
+ JoG9rgy8tlCQAZ1DuEEe4qWwLLlp5YFjRCc13QwAbbUNlqh1sdGNKDzyCoysxFXp33c9SZE0ZMi
+ mvH6g3YWHPD+bL/96ER4TRLWqBBlDElAbPvKd6Pi2XdwkTm0hcijh8UUXhcWazAc/SRjWkwl4ND
+ p+JBDbGY8zAYwuxvA7QK/NfKBOoTvnYEn4SyYwS6NL/1ryIL+dOqH7nFH1Qqe75tRph4Ge+RyM+
+ Lt2D6dWyGJVXe60mThPauosrUNB0mP3YVtJ6H4ao99udBhTu1XVHXgTSHTPjUiRyyyh7JYwgChH
+ 6lAE5vhtEuwlz/l04BO3ZN4+RL1t4pnbX
+X-Received: by 2002:a17:902:f70b:b0:297:f0c3:32e0 with SMTP id
+ d9443c01a7336-29eeeefe84bmr19593195ad.12.1765453969766; 
+ Thu, 11 Dec 2025 03:52:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGJd//arf73TWCOacAWMvB2OIe32AEM2dS8B17eTP0Qnts6r0p4wYYaEE2JwQDFes26CzNWLw==
+X-Received: by 2002:a17:902:f70b:b0:297:f0c3:32e0 with SMTP id
+ d9443c01a7336-29eeeefe84bmr19592945ad.12.1765453969254; 
+ Thu, 11 Dec 2025 03:52:49 -0800 (PST)
+Received: from [192.168.1.5] ([106.222.234.96])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29ee9d397b2sm22771485ad.41.2025.12.11.03.52.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Dec 2025 03:52:48 -0800 (PST)
+Message-ID: <812cfa55-269d-4b19-8e18-4815608b6bbb@oss.qualcomm.com>
+Date: Thu, 11 Dec 2025 17:22:40 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm: Add driver for Sitronix ST7920 LCD displays
-To: Iker Pedrosa <ikerpedrosam@gmail.com>,
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20251126-st7920-v5-0-64eda5267d35@gmail.com>
- <20251126-st7920-v5-2-64eda5267d35@gmail.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+ <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
+ <90bc84e7-19ca-450d-b41f-fd96367e8cce@oss.qualcomm.com>
+ <2e5sqv2gnxdfwnfsepzdkchxip5zdeamp6bzbamq6kbk77kr3p@u5i4rrnrywno>
+ <9971bd9b-88db-4628-b36b-de50c1619396@oss.qualcomm.com>
+ <raj276z7euq7skvhsw7prwzlgsdy6ay7bhm4wgb64mt63q4ot4@eyvhcou7qwgg>
+ <57706b2e-becf-47ac-a874-79ce17d12b74@oss.qualcomm.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251126-st7920-v5-2-64eda5267d35@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,redhat.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- TAGGED_RCPT(0.00)[dt]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.com:url,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: ABD755BDD7
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
+In-Reply-To: <57706b2e-becf-47ac-a874-79ce17d12b74@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: AK-T9y2x_snWtzFncGAZ7F73RHfrJXpQ
+X-Authority-Analysis: v=2.4 cv=d974CBjE c=1 sm=1 tr=0 ts=693ab092 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=CcjbiXvC7xLhAd+qVKJczA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=z5OntCrvQ4ZuVe3goJoA:9 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA5MSBTYWx0ZWRfXzoDTed+l4uf5
+ jA0x4kX7AHeTeRoWlSmosc/5DBIO/BE8/bzSyZhzaLM5bgQeZOQKXapXkVZYC3bIRC9/7VJ5pGY
+ sQQ1Cv1WmAncVpGKQl9XG+komnwNo/EoZDwHXRHoUfRMr+N3crha6XR5UujThWxjY3vSi5cuNtE
+ Gg7etG53SKE7HfL+iRKougf0LkJaKMTNUUFCrKoJOQp7yYClJXe/yCaCeVR7b5kwvgJhe5EuzrX
+ IRw34cw3s55ASuVYrhhArwqYAbJBFJ50qlEixbAmpvu+TKAN9rLfY/4et+4TlSgAjELjBTRqzLp
+ EWUxQjSmZcCm1R3UtTOyCBtlQKxKNmR7IQeZV+bJ+SUyjfGwAfla4Px5tRd3Z8/TVhrH7I1xYdx
+ 6Oc9WReCjY878dNTqgwPleBxf0Ewdw==
+X-Proofpoint-ORIG-GUID: AK-T9y2x_snWtzFncGAZ7F73RHfrJXpQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,945 +165,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/11/2025 4:42 PM, Akhil P Oommen wrote:
+> On 12/11/2025 6:06 AM, Dmitry Baryshkov wrote:
+>> On Thu, Dec 11, 2025 at 02:40:52AM +0530, Akhil P Oommen wrote:
+>>> On 12/6/2025 2:04 AM, Dmitry Baryshkov wrote:
+>>>> On Fri, Dec 05, 2025 at 03:59:09PM +0530, Akhil P Oommen wrote:
+>>>>> On 12/4/2025 7:49 PM, Dmitry Baryshkov wrote:
+>>>>>> On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
+>>>>>>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+>>>>>>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+>>>>>>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+>>>>>>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>>>>
+>>>>>>>>>> Add gpu and rgmu nodes for qcs615 chipset.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>>>>>>>>> ---
+>>>>>>>>>
+>>>>>>>>> [...]
+>>>>>>>>>
+>>>>>>>>>> +			gpu_opp_table: opp-table {
+>>>>>>>>>> +				compatible = "operating-points-v2";
+>>>>>>>>>> +
+>>>>>>>>>> +				opp-845000000 {
+>>>>>>>>>> +					opp-hz = /bits/ 64 <845000000>;
+>>>>>>>>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>>>>>>>>> +					opp-peak-kBps = <7050000>;
+>>>>>>>>>> +				};
+>>>>>>>>>
+>>>>>>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+>>>>>>>>> or mobile parts specifically?
+>>>>>>>>
+>>>>>>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+>>>>>>>> here.
+>>>>>>>
+>>>>>>> The IoT/Auto variants have a different frequency plan compared to the
+>>>>>>> mobile variant. I reviewed the downstream code and this aligns with that
+>>>>>>> except the 290Mhz corner. We can remove that one.
+>>>>>>>
+>>>>>>> Here we are describing the IoT variant of Talos. So we can ignore the
+>>>>>>> speedbins from the mobile variant until that is supported.
+>>>>>>
+>>>>>> No, we are describing just Talos, which hopefully covers both mobile and
+>>>>>> non-mobile platforms.
+>>>>>
+>>>>> We cannot assume that.
+>>>>>
+>>>>> Even if we assume that there is no variation in silicon, the firmware
+>>>>> (AOP, TZ, HYP etc) is different between mobile and IoT version. So it is
+>>>>> wise to use the configuration that is commercialized, especially when it
+>>>>> is power related.
+>>>>
+>>>> How does it affect the speed bins? I'd really prefer if we:
+>>>> - describe OPP tables and speed bins here
+>>>> - remove speed bins cell for the Auto / IoT boards
+>>>> - make sure that the driver uses the IoT bin if there is no speed bin
+>>>>   declared in the GPU.
+>>>>
+>>>
+>>> The frequency plan is different between mobile and IoT. Are you
+>>> proposing to describe a union of OPP table from both mobile and IoT?
+>>
+>> Okay, this prompted me to check the sa6155p.dtsi from msm-4.14... And it
+>> has speed bins. How comes we don't have bins for the IoT variant?
+>>
+>> Mobile bins: 0, 177, 187, 156, 136, 105, 73
+>> Auto bins:   0, 177,      156, 136, 105, 73
+>>
+>> Both Mobile and Auto chips used the same NVMEM cell (0x6004, 8 bits
+>> starting from bit 21).
+>>
+>> Mobile freqs:
+>> 0:         845M, 745M, 700M,       550M,       435M,       290M
+>> 177:       845M, 745M, 700M,       550M,       435M,       290M
+>> 187: 895M, 845M, 745M, 700M,       550M,       435M,       290M
+>> 156:             745M, 700M,       550M,       435M,       290M
+>> 136:                         650M, 550M,       435M,       290M
+>> 105:                                     500M, 435M,       290M
+>> 73:                                                  350M, 290M
+>>
+>> Auto freqs:
+>> 0:         845M, 745M, 650M, 500M, 435M
+>> 177:       845M, 745M, 650M, 500M, 435M
+>> 156:             745M, 650M, 500M, 435M
+>> 136:                   650M, 500M, 435M
+>> 105:                         500M, 435M
+>> 73:                                      350M
+>>
+>> 290M was a part of the freq table, but later it was removed as "not
+>> required", so probably it can be brought back, but I'm not sure how to
+>> handle 650 MHz vs 700 MHz and 500 MHz vs 550 MHz differences.
+>>
+>> I'm a bit persistent here because I really want to avoid the situation
+>> where we define a bin-less OPP table and later we face binned QCS615
+>> chips (which is possible since both SM and SA were binned).
+> 
+> Why is that a problem as long as KMD can handle it without breaking
+> backward compatibility?
 
+I replied too soon. I see your point. Can't we keep separate OPP tables
+when that happen? That is neat-er than complicating the driver, isn't it?
 
-Am 26.11.25 um 18:03 schrieb Iker Pedrosa:
-> Add a new DRM/KMS driver for displays using the Sitronix ST7920
-> controller connected via the SPI bus. This provides a standard
-> framebuffer interface for these common monochrome LCDs.
->
-> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
-> ---
->   drivers/gpu/drm/sitronix/Kconfig  |  10 +
->   drivers/gpu/drm/sitronix/Makefile |   1 +
->   drivers/gpu/drm/sitronix/st7920.c | 866 ++++++++++++++++++++++++++++++++++++++
->   3 files changed, 877 insertions(+)
->
-> diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
-> index 6de7d92d9b74c72746915b945869dba91f161d2b..f14115350069849b668d75188f6d504d56fa3dda 100644
-> --- a/drivers/gpu/drm/sitronix/Kconfig
-> +++ b/drivers/gpu/drm/sitronix/Kconfig
-> @@ -40,3 +40,13 @@ config DRM_ST7735R
->   
->   	  If M is selected the module will be called st7735r.
->   
-> +config DRM_ST7920
-> +	tristate "DRM support for Sitronix ST7920 LCD displays"
-> +	depends on DRM && SPI && MMU
-> +	select DRM_GEM_SHMEM_HELPER
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_SPI
-> +	help
-> +	  DRM driver for the ST7920 Sitronix LCD controllers.
-> +
-> +	  If M is selected the module will be called st7920.
-> diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitronix/Makefile
-> index bd139e5a6995fa026cc635b3c29782473d1efad7..2f064a518121bfee3cca73acd42589e8c54cd4d7 100644
-> --- a/drivers/gpu/drm/sitronix/Makefile
-> +++ b/drivers/gpu/drm/sitronix/Makefile
-> @@ -1,3 +1,4 @@
->   obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
->   obj-$(CONFIG_DRM_ST7586)		+= st7586.o
->   obj-$(CONFIG_DRM_ST7735R)		+= st7735r.o
-> +obj-$(CONFIG_DRM_ST7920))		+= st7920.o
-> diff --git a/drivers/gpu/drm/sitronix/st7920.c b/drivers/gpu/drm/sitronix/st7920.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..afa266b666f860494ba9dc55646ee783f036e076
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sitronix/st7920.c
-> @@ -0,0 +1,866 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * DRM driver for Sitronix ST7920 LCD displays
-> + *
-> + * Copyright 2025 Iker Pedrosa <ikerpedrosam@gmail.com>
-> + *
-> + */
-> +
-> +#include <linux/bitrev.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/spi/spi.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_client_setup.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fbdev_shmem.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#define DRIVER_NAME	"sitronix_st7920"
-> +#define DRIVER_DESC	"DRM driver for Sitronix ST7920 LCD displays"
-> +#define DRIVER_DATE	"20250723"
-> +#define DRIVER_MAJOR	1
-> +#define DRIVER_MINOR	0
-> +
-> +/* Display organization */
-> +#define ST7920_PITCH		16
-> +#define ST7920_SCANLINES	64
-> +#define BYTES_IN_DISPLAY	(ST7920_PITCH * ST7920_SCANLINES)
-> +#define BYTES_IN_SEGMENT	2
-> +#define PIXELS_PER_SEGMENT	(BYTES_IN_SEGMENT * 8)
-> +#define ST7920_DEFAULT_WIDTH	128
-> +#define ST7920_DEFAULT_HEIGHT	64
-> +
-> +/* Sync sequence */
-> +#define SYNC_BITS			0xF8
-> +#define RW_HIGH				0x04
-> +#define RS_HIGH				0x02
-> +
-> +/* Commands */
-> +#define SET_DISPLAY_ON			0x0C
-> +#define SET_DISPLAY_OFF			0x08
-> +#define SET_DISPLAY_CLEAR		0x01
-> +#define SET_BASIC_INSTRUCTION_SET	0x30
-> +#define SET_EXT_INSTRUCTION_SET		0x34
-> +#define SET_GRAPHICS_DISPLAY		0x36
-> +#define SET_GDRAM_ADDRESS		0x80
-> +#define SET_GDRAM_DATA			0xFF /* Driver internal command */
-> +
-> +/* Masks */
-> +#define HIGH_DATA_MASK			0xF0
-> +#define LOW_DATA_MASK			0x0F
-> +#define TOP_VERTICAL_ADDRESS		0x80
-> +#define BOTTOM_VERTICAL_ADDRESS		0x60
-> +#define TOP_HORIZONTAL_ADDRESS		0x00
-> +#define BOTTOM_HORIZONTAL_ADDRESS	0x80
-> +
-> +#define CMD_SIZE			35
-> +
-> +struct spi7920_error {
-> +	int errno;
-> +};
-> +
-> +struct st7920_device {
-> +	struct drm_device drm;
-> +	struct drm_display_mode mode;
-> +	struct drm_plane primary_plane;
-> +	struct drm_crtc crtc;
-> +	struct drm_encoder encoder;
-> +	struct drm_connector connector;
-> +	struct spi_device *spi;
-> +
-> +	struct regmap *regmap;
-> +
-> +	struct gpio_desc *reset_gpio;
-> +
-> +	u32 height;
-> +	u32 width;
-> +};
-> +
-> +struct st7920_plane_state {
-> +	struct drm_shadow_plane_state base;
-> +	/* Intermediate buffer to convert pixels from XRGB8888 to HW format */
-> +	u8 *buffer;
-> +};
-> +
-> +struct st7920_crtc_state {
-> +	struct drm_crtc_state base;
-> +	/* Buffer to store pixels in HW format and written to the panel */
-> +	u8 *data_array;
-> +};
-> +
-> +static inline struct st7920_plane_state *to_st7920_plane_state(struct drm_plane_state *state)
-> +{
-> +	return container_of(state, struct st7920_plane_state, base.base);
-> +}
-> +
-> +static inline struct st7920_crtc_state *to_st7920_crtc_state(struct drm_crtc_state *state)
-> +{
-> +	return container_of(state, struct st7920_crtc_state, base);
-> +}
-> +
-> +static inline struct st7920_device *drm_to_st7920(struct drm_device *drm)
-> +{
-> +	return container_of(drm, struct st7920_device, drm);
-> +}
-> +
-> +static int st7920_store_gdram_address(const void *data, u8 *reg)
-> +{
-> +	const u8 y_addr = *(const u8 *)data;
-> +	bool bottom_screen = (y_addr >= 32);
-> +	int i = 0;
-> +
-> +	reg[i++] = SYNC_BITS;
-> +	/* Set vertical address */
-> +	if (!bottom_screen)
-> +		reg[i++] = TOP_VERTICAL_ADDRESS + (*(uint8_t *)data & HIGH_DATA_MASK);
-> +	else
-> +		reg[i++] = BOTTOM_VERTICAL_ADDRESS + (*(uint8_t *)data & HIGH_DATA_MASK);
-> +
-> +	reg[i++] = *(uint8_t *)data << 4;
-> +	/* Set horizontal address */
-> +	reg[i++] = SET_GDRAM_ADDRESS;
-> +	if (!bottom_screen)
-> +		reg[i++] = TOP_HORIZONTAL_ADDRESS;
-> +	else
-> +		reg[i++] = BOTTOM_HORIZONTAL_ADDRESS;
-> +
-> +	return i;
-> +}
-> +
-> +static int st7920_store_gdram_data(const void *data, u8 *reg)
-> +{
-> +	const u8 *line_data = data;
-> +	int i = 0, j = 0;
-> +
-> +	reg[i++] = SYNC_BITS | RS_HIGH;
-> +
-> +	for (j = 0; j < 16; j++) {
-> +		reg[i++] = line_data[j] & 0xF0;
-> +		reg[i++] = (line_data[j] << 4) & 0xF0;
-> +	}
-> +
-> +	return i;
-> +}
-> +
-> +static int st7920_store_others(int cmd, const void *data, u8 *reg)
-> +{
-> +	int i = 0;
-> +
-> +	reg[i++] = SYNC_BITS;
-> +	reg[i++] = cmd & HIGH_DATA_MASK;
-> +	reg[i++] = (cmd & LOW_DATA_MASK) << 4;
-> +
-> +	return i;
-> +}
-> +
-> +static void st7920_spi_write(struct spi_device *spi, int cmd, const void *data,
-> +			     int delay_us, struct spi7920_error *err)
-> +{
-> +	u8 reg[CMD_SIZE] = {0};
-> +	int size = 0;
-> +	int ret;
-> +
-> +	if (err->errno)
-> +		return;
-> +
-> +	/*
-> +	 * First the sync bits are sent: 11111WS0.
-> +	 * Where W is the read/write (RW) bit and S is the register/data (RS) bit.
-> +	 * Then, every 8 bits instruction/data will be separated into 2 groups.
-> +	 * Higher 4 bits (DB7~DB4) will be placed in the first section followed by
-> +	 * 4 '0's. And lower 4 bits (DB3~DB0) will be placed in the second section
-> +	 * followed by 4 '0's.
-> +	 */
-> +	if (cmd == SET_GDRAM_ADDRESS)
-> +		size = st7920_store_gdram_address(data, reg);
-> +	else if (cmd == SET_GDRAM_DATA)
-> +		size = st7920_store_gdram_data(data, reg);
-> +	else
-> +		size = st7920_store_others(cmd, data, reg);
-> +
-> +	ret = spi_write(spi, reg, size);
-> +	if (ret) {
-> +		err->errno = ret;
-> +		return;
-> +	}
-> +
-> +	if (delay_us)
-> +		udelay(delay_us);
-> +}
-> +
-> +static const struct regmap_config st7920_spi_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +};
-> +
-> +static const struct of_device_id st7920_of_match[] = {
-> +	/* st7920 family */
-> +	{
-> +		.compatible = "sitronix,st7920",
-> +	},
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, st7920_of_match);
-> +
-> +/*
-> + * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
-> + * if the device was registered via OF. This means that the module will not be
-> + * auto loaded, unless it contains an alias that matches the MODALIAS reported.
-> + *
-> + * To workaround this issue, add a SPI device ID table. Even when this should
-> + * not be needed for this driver to match the registered SPI devices.
-> + */
-> +static const struct spi_device_id st7920_spi_id[] = {
-> +	/* st7920 family */
-> +	{ "st7920",  0 },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(spi, st7920_spi_id);
-> +
-> +static void st7920_power_on(struct st7920_device *st7920,
-> +			    struct spi7920_error *err)
-> +{
-> +	st7920_spi_write(st7920->spi, SET_DISPLAY_ON, NULL, 72, err);
-> +}
-> +
-> +static void st7920_power_off(struct st7920_device *st7920,
-> +			     struct spi7920_error *err)
-> +{
-> +	st7920_spi_write(st7920->spi, SET_DISPLAY_CLEAR, NULL, 1600, err);
-> +	st7920_spi_write(st7920->spi, SET_DISPLAY_OFF, NULL, 72, err);
-> +}
-> +
-> +static void st7920_hw_reset(struct st7920_device *st7920)
-> +{
-> +	if (!st7920->reset_gpio)
-> +		return;
-> +
-> +	gpiod_set_value_cansleep(st7920->reset_gpio, 1);
-> +	usleep_range(15, 20);
-> +	gpiod_set_value_cansleep(st7920->reset_gpio, 0);
-> +	msleep(40);
-> +}
-> +
-> +static int st7920_init(struct st7920_device *st7920)
-> +{
-> +	struct spi7920_error err = {0};
-> +
-> +	st7920_spi_write(st7920->spi, SET_BASIC_INSTRUCTION_SET, NULL, 72, &err);
-> +	st7920_power_on(st7920, &err);
-> +	st7920_spi_write(st7920->spi, SET_GRAPHICS_DISPLAY, NULL, 72, &err);
-> +	st7920_spi_write(st7920->spi, SET_DISPLAY_CLEAR, NULL, 1600, &err);
-> +
-> +	return err.errno;
-> +}
-> +
-> +static int st7920_update_rect(struct st7920_device *st7920,
-> +			       struct drm_rect *rect, u8 *buf,
-> +			       u8 *data_array)
-> +{
-> +	struct spi7920_error err;
+> 
+>>
+>> Also I don't see separate QFPROM memory map definitions for Mobile, IoT
+>> and Auto SKUs. If you have access to the QCS615 hardware, what is the
+>> value written in that fuse area?
+>>
+>>> Another wrinkle we need to address is that, so far, we have never had a
+>>> dt binding where opp-supp-hw property exist without the speedbin cells.
+>>> And that adds a bit of complexity on the driver side because, today, the
+>>> KMD relies on the presence of speed bin cells to decide whether to
+>>> select bin via opp_supp_hw API or not. Also, we may have to reserve this
+>>> combination (opp bins without speedbin cells) to help KMD detect that it
+>>> should use socinfo APIs instead of speedbin cells on certain chipsets.\
 
-Needs to be initialized with  = {0};
+> If it is a soft fuse, it could fall into an unused region in qfprom. On
+> other IoT chipsets like Lemans, Product teams preferred a soft fuse
+> instead of the hard fuse. The downside of the hard fuse that it should
+> be blown from factory and not flexible to update from software later in
+> the program.
 
-> +	u32 array_idx = 0;
-> +	int i, j;
-> +
-> +	/*
-> +	 * The screen is divided in 64(Y)x8(X) segments and each segment is
-> +	 * further divided in 2 bytes (D15~D0).
-> +	 *
-> +	 * Segment 0x0 is in the top-right corner, while segment 63x15 is in the
-> +	 * bottom-left. They would be displayed in the screen in the following way:
-> +	 * 0x0  0x1  0x2  ... 0x15
-> +	 * 1x0  1x1  1x2  ... 1x15
-> +	 * ...
-> +	 * 63x0 63x1 63x2 ... 63x15
-> +	 *
-> +	 * The data in each byte is big endian.
-> +	 */
-> +
-> +	for (i = 0; i < ST7920_SCANLINES; i++) {
-> +		u8 *line_start = buf + (i * ST7920_PITCH);
-> +		u8 line_buffer[ST7920_PITCH];
-> +
-> +		for (j = 0; j < ST7920_PITCH; j++) {
-> +			line_buffer[j] = bitrev8(line_start[j]);
-> +			data_array[array_idx++] = line_buffer[j];
-> +		}
-> +
-> +		st7920_spi_write(st7920->spi, SET_GDRAM_ADDRESS, &i, 72, &err);
-> +		st7920_spi_write(st7920->spi, SET_GDRAM_DATA, line_buffer, 72, &err);
-> +	}
-> +
-> +	return err.errno;
-> +}
-> +
-> +static void st7920_clear_screen(struct st7920_device *st7920, u8 *data_array)
-> +{
-> +	struct spi7920_error err;
+This response is for your comment above. Adding to that, the value for
+the hard fuse is mostly likely to be '0' (unfused), but all internal
+parts are always unfused. Maybe it is 'practically' harmless to use the
+freq-limiter hard fuse for now, because 845Mhz is the Fmax for '0' on
+mobile, Auto and IoT. I am not sure.
 
-Init with = {0};
+I am trying to play safe here as this is dt. We don't want to configure
+the wrong thing now and later struggle to correct it. It is safe to
+defer things which we don't know.
 
-> +
-> +	memset(data_array, 0, BYTES_IN_DISPLAY);
-> +
-> +	st7920_spi_write(st7920->spi, SET_DISPLAY_CLEAR, NULL, 1600, &err);
-> +}
-> +
-> +static int st7920_fb_blit_rect(struct drm_framebuffer *fb,
-> +				const struct iosys_map *vmap,
-> +				struct drm_rect *rect,
-> +				u8 *buf, u8 *data_array,
-> +				struct drm_format_conv_state *fmtcnv_state)
-> +{
-> +	struct st7920_device *st7920 = drm_to_st7920(fb->dev);
-> +	struct iosys_map dst;
-> +	unsigned int dst_pitch;
-> +	int ret;
-> +
-> +	/* Align y to display page boundaries */
-> +	rect->y1 = round_down(rect->y1, PIXELS_PER_SEGMENT);
-> +	rect->y2 = min_t(unsigned int, round_up(rect->y2, PIXELS_PER_SEGMENT), st7920->height);
-> +
-> +	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
-> +
-> +	iosys_map_set_vaddr(&dst, buf);
-> +	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-> +
-> +	ret = st7920_update_rect(st7920, rect, buf, data_array);
-> +
-> +	return ret;
-> +}
-> +
-> +static int st7920_primary_plane_atomic_check(struct drm_plane *plane,
-> +					      struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = plane->dev;
-> +	struct st7920_device *st7920 = drm_to_st7920(drm);
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct st7920_plane_state *st7920_state = to_st7920_plane_state(plane_state);
-> +	struct drm_shadow_plane_state *shadow_plane_state = &st7920_state->base;
-> +	struct drm_crtc *crtc = plane_state->crtc;
-> +	struct drm_crtc_state *crtc_state = NULL;
-> +	const struct drm_format_info *fi;
-> +	unsigned int pitch;
-> +	int ret;
-> +
-> +	if (crtc)
-> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +
-> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, false);
-> +	if (ret)
-> +		return ret;
-> +	else if (!plane_state->visible)
-> +		return 0;
-> +
-> +	fi = drm_format_info(DRM_FORMAT_R1);
-> +	if (!fi)
-> +		return -EINVAL;
-> +
-> +	pitch = drm_format_info_min_pitch(fi, 0, st7920->width);
-> +
-> +	if (plane_state->fb->format != fi) {
-> +		void *buf;
-> +
-> +		/* format conversion necessary; reserve buffer */
-> +		buf = drm_format_conv_state_reserve(&shadow_plane_state->fmtcnv_state,
-> +						    pitch, GFP_KERNEL);
-> +		if (!buf)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	st7920_state->buffer = kcalloc(pitch, st7920->height, GFP_KERNEL);
-> +	if (!st7920_state->buffer)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
-> +static void st7920_primary_plane_atomic_update(struct drm_plane *plane,
-> +						struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> +	struct st7920_crtc_state *st7920_crtc_state =  to_st7920_crtc_state(crtc_state);
-> +	struct st7920_plane_state *st7920_plane_state = to_st7920_plane_state(plane_state);
-> +	struct drm_framebuffer *fb = plane_state->fb;
-> +	struct drm_atomic_helper_damage_iter iter;
-> +	struct drm_device *drm = plane->dev;
-> +	struct drm_rect dst_clip;
-> +	struct drm_rect damage;
-> +	int idx;
-> +	int ret;
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-> +		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-> +		drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +			dst_clip = plane_state->dst;
-> +
-> +			if (!drm_rect_intersect(&dst_clip, &damage))
-> +				continue;
-> +
-> +			ret = st7920_fb_blit_rect(fb, &shadow_plane_state->data[0], &dst_clip,
-> +					st7920_plane_state->buffer,
-> +					st7920_crtc_state->data_array,
-> +					&shadow_plane_state->fmtcnv_state);
-> +			if (ret)
-> +				drm_err_once(plane->dev, "Failed to write to device: %d.\n", ret);
-> +		}
-> +
-> +		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-> +	}
+-Akhil.
 
-Also call drm_dev_exit() [1] here before you return..
-
-[1] https://elixir.bootlin.com/linux/v6.18/source/include/drm/drm_drv.h#L488
-
-The rest of the code looks good and I think this can go in with the 
-final fixes applied.
-
-Best regards
-Thomas
-
-
-> +}
-> +
-> +static void st7920_primary_plane_atomic_disable(struct drm_plane *plane,
-> +						 struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = plane->dev;
-> +	struct st7920_device *st7920 = drm_to_st7920(drm);
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc_state *crtc_state;
-> +	struct st7920_crtc_state *st7920_crtc_state;
-> +	int idx;
-> +
-> +	if (!plane_state->crtc)
-> +		return;
-> +
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> +	st7920_crtc_state = to_st7920_crtc_state(crtc_state);
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	st7920_clear_screen(st7920, st7920_crtc_state->data_array);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +/* Called during init to allocate the plane's atomic state. */
-> +static void st7920_primary_plane_reset(struct drm_plane *plane)
-> +{
-> +	struct st7920_plane_state *st7920_state;
-> +
-> +	drm_WARN_ON_ONCE(plane->dev, plane->state);
-> +
-> +	st7920_state = kzalloc(sizeof(*st7920_state), GFP_KERNEL);
-> +	if (!st7920_state)
-> +		return;
-> +
-> +	__drm_gem_reset_shadow_plane(plane, &st7920_state->base);
-> +}
-> +
-> +static struct drm_plane_state *st7920_primary_plane_duplicate_state(struct drm_plane *plane)
-> +{
-> +	struct drm_shadow_plane_state *new_shadow_plane_state;
-> +	struct st7920_plane_state *st7920_state;
-> +
-> +	if (drm_WARN_ON_ONCE(plane->dev, !plane->state))
-> +		return NULL;
-> +
-> +	st7920_state = kzalloc(sizeof(*st7920_state), GFP_KERNEL);
-> +	if (!st7920_state)
-> +		return NULL;
-> +
-> +	new_shadow_plane_state = &st7920_state->base;
-> +
-> +	__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
-> +
-> +	return &new_shadow_plane_state->base;
-> +}
-> +
-> +static void st7920_primary_plane_destroy_state(struct drm_plane *plane,
-> +						struct drm_plane_state *state)
-> +{
-> +	struct st7920_plane_state *st7920_state = to_st7920_plane_state(state);
-> +
-> +	kfree(st7920_state->buffer);
-> +
-> +	__drm_gem_destroy_shadow_plane_state(&st7920_state->base);
-> +
-> +	kfree(st7920_state);
-> +}
-> +
-> +static const struct drm_plane_helper_funcs st7920_primary_plane_helper_funcs = {
-> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +	.atomic_check = st7920_primary_plane_atomic_check,
-> +	.atomic_update = st7920_primary_plane_atomic_update,
-> +	.atomic_disable = st7920_primary_plane_atomic_disable,
-> +};
-> +
-> +static const struct drm_plane_funcs st7920_primary_plane_funcs = {
-> +	.update_plane = drm_atomic_helper_update_plane,
-> +	.disable_plane = drm_atomic_helper_disable_plane,
-> +	.reset = st7920_primary_plane_reset,
-> +	.atomic_duplicate_state = st7920_primary_plane_duplicate_state,
-> +	.atomic_destroy_state = st7920_primary_plane_destroy_state,
-> +	.destroy = drm_plane_cleanup,
-> +};
-> +
-> +static enum drm_mode_status st7920_crtc_mode_valid(struct drm_crtc *crtc,
-> +						    const struct drm_display_mode *mode)
-> +{
-> +	struct st7920_device *st7920 = drm_to_st7920(crtc->dev);
-> +
-> +	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &st7920->mode);
-> +}
-> +
-> +static int st7920_crtc_atomic_check(struct drm_crtc *crtc,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +	struct st7920_crtc_state *st7920_state = to_st7920_crtc_state(crtc_state);
-> +	int ret;
-> +
-> +	ret = drm_crtc_helper_atomic_check(crtc, state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	st7920_state->data_array = kmalloc(BYTES_IN_DISPLAY, GFP_KERNEL);
-> +	if (!st7920_state->data_array)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
-> +static void st7920_crtc_atomic_enable(struct drm_crtc *crtc,
-> +				      struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = crtc->dev;
-> +	struct st7920_device *st7920 = drm_to_st7920(drm);
-> +	int idx;
-> +	int ret;
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	st7920_hw_reset(st7920);
-> +
-> +	ret = st7920_init(st7920);
-> +	if (ret)
-> +		drm_err(drm, "Failed to init hardware: %d\n", ret);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +static void st7920_crtc_atomic_disable(struct drm_crtc *crtc,
-> +				       struct drm_atomic_state *state)
-> +{
-> +	struct spi7920_error err = {0};
-> +	struct drm_device *drm = crtc->dev;
-> +	struct st7920_device *st7920 = drm_to_st7920(drm);
-> +	int idx;
-> +
-> +	drm_dev_enter(drm, &idx);
-> +
-> +	st7920_power_off(st7920, &err);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +/* Called during init to allocate the CRTC's atomic state. */
-> +static void st7920_crtc_reset(struct drm_crtc *crtc)
-> +{
-> +	struct st7920_crtc_state *st7920_state;
-> +
-> +	drm_WARN_ON_ONCE(crtc->dev, crtc->state);
-> +
-> +	st7920_state = kzalloc(sizeof(*st7920_state), GFP_KERNEL);
-> +	if (!st7920_state)
-> +		return;
-> +
-> +	__drm_atomic_helper_crtc_reset(crtc, &st7920_state->base);
-> +}
-> +
-> +static struct drm_crtc_state *st7920_crtc_duplicate_state(struct drm_crtc *crtc)
-> +{
-> +	struct st7920_crtc_state *st7920_state;
-> +
-> +	if (drm_WARN_ON_ONCE(crtc->dev, !crtc->state))
-> +		return NULL;
-> +
-> +	st7920_state = kzalloc(sizeof(*st7920_state), GFP_KERNEL);
-> +	if (!st7920_state)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_crtc_duplicate_state(crtc, &st7920_state->base);
-> +
-> +	return &st7920_state->base;
-> +}
-> +
-> +static void st7920_crtc_destroy_state(struct drm_crtc *crtc,
-> +						struct drm_crtc_state *state)
-> +{
-> +	struct st7920_crtc_state *st7920_state = to_st7920_crtc_state(state);
-> +
-> +	kfree(st7920_state->data_array);
-> +
-> +	__drm_atomic_helper_crtc_destroy_state(state);
-> +
-> +	kfree(st7920_state);
-> +}
-> +
-> +/*
-> + * The CRTC is always enabled. Screen updates are performed by
-> + * the primary plane's atomic_update function. Disabling clears
-> + * the screen in the primary plane's atomic_disable function.
-> + */
-> +static const struct drm_crtc_helper_funcs st7920_crtc_helper_funcs = {
-> +	.mode_valid = st7920_crtc_mode_valid,
-> +	.atomic_check = st7920_crtc_atomic_check,
-> +	.atomic_enable = st7920_crtc_atomic_enable,
-> +	.atomic_disable = st7920_crtc_atomic_disable,
-> +};
-> +
-> +static const struct drm_crtc_funcs st7920_crtc_funcs = {
-> +	.reset = st7920_crtc_reset,
-> +	.destroy = drm_crtc_cleanup,
-> +	.set_config = drm_atomic_helper_set_config,
-> +	.page_flip = drm_atomic_helper_page_flip,
-> +	.atomic_duplicate_state = st7920_crtc_duplicate_state,
-> +	.atomic_destroy_state = st7920_crtc_destroy_state,
-> +};
-> +
-> +static const struct drm_encoder_funcs st7920_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
-> +static int st7920_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	struct st7920_device *st7920 = drm_to_st7920(connector->dev);
-> +
-> +	return drm_connector_helper_get_modes_fixed(connector, &st7920->mode);
-> +}
-> +
-> +static const struct drm_connector_helper_funcs st7920_connector_helper_funcs = {
-> +	.get_modes = st7920_connector_get_modes,
-> +};
-> +
-> +static const struct drm_connector_funcs st7920_connector_funcs = {
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.destroy = drm_connector_cleanup,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static const struct drm_mode_config_funcs st7920_mode_config_funcs = {
-> +	.fb_create = drm_gem_fb_create_with_dirty,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +};
-> +
-> +static const uint32_t st7920_formats[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +DEFINE_DRM_GEM_FOPS(st7920_fops);
-> +
-> +static const struct drm_driver st7920_drm_driver = {
-> +	DRM_GEM_SHMEM_DRIVER_OPS,
-> +	DRM_FBDEV_SHMEM_DRIVER_OPS,
-> +	.name			= DRIVER_NAME,
-> +	.desc			= DRIVER_DESC,
-> +	.date			= DRIVER_DATE,
-> +	.major			= DRIVER_MAJOR,
-> +	.minor			= DRIVER_MINOR,
-> +	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-> +	.fops			= &st7920_fops,
-> +};
-> +
-> +static int st7920_init_modeset(struct st7920_device *st7920)
-> +{
-> +	struct drm_display_mode *mode = &st7920->mode;
-> +	struct drm_device *drm = &st7920->drm;
-> +	unsigned long max_width, max_height;
-> +	struct drm_plane *primary_plane;
-> +	struct drm_crtc *crtc;
-> +	struct drm_encoder *encoder;
-> +	struct drm_connector *connector;
-> +	int ret;
-> +
-> +	/*
-> +	 * Modesetting
-> +	 */
-> +
-> +	ret = drmm_mode_config_init(drm);
-> +	if (ret) {
-> +		drm_err(drm, "DRM mode config init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	mode->type = DRM_MODE_TYPE_DRIVER;
-> +	mode->clock = 30;
-> +	mode->hdisplay = st7920->width;
-> +	mode->htotal = st7920->width;
-> +	mode->hsync_start = st7920->width;
-> +	mode->hsync_end = st7920->width;
-> +	mode->vdisplay = st7920->height;
-> +	mode->vtotal = st7920->height;
-> +	mode->vsync_start = st7920->height;
-> +	mode->vsync_end = st7920->height;
-> +	mode->width_mm = 27;
-> +	mode->height_mm = 27;
-> +
-> +	max_width = max_t(unsigned long, mode->hdisplay, DRM_SHADOW_PLANE_MAX_WIDTH);
-> +	max_height = max_t(unsigned long, mode->vdisplay, DRM_SHADOW_PLANE_MAX_HEIGHT);
-> +
-> +	drm->mode_config.min_width = mode->hdisplay;
-> +	drm->mode_config.max_width = max_width;
-> +	drm->mode_config.min_height = mode->vdisplay;
-> +	drm->mode_config.max_height = max_height;
-> +	drm->mode_config.preferred_depth = 24;
-> +	drm->mode_config.funcs = &st7920_mode_config_funcs;
-> +
-> +	/* Primary plane */
-> +
-> +	primary_plane = &st7920->primary_plane;
-> +	ret = drm_universal_plane_init(drm, primary_plane, 0, &st7920_primary_plane_funcs,
-> +				    st7920_formats, ARRAY_SIZE(st7920_formats),
-> +				    NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
-> +	if (ret) {
-> +		drm_err(drm, "DRM primary plane init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_plane_helper_add(primary_plane, &st7920_primary_plane_helper_funcs);
-> +
-> +	drm_plane_enable_fb_damage_clips(primary_plane);
-> +
-> +	/* CRTC */
-> +
-> +	crtc = &st7920->crtc;
-> +	ret = drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
-> +					&st7920_crtc_funcs, NULL);
-> +	if (ret) {
-> +		drm_err(drm, "DRM crtc init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_crtc_helper_add(crtc, &st7920_crtc_helper_funcs);
-> +
-> +	/* Encoder */
-> +
-> +	encoder = &st7920->encoder;
-> +	ret = drm_encoder_init(drm, encoder, &st7920_encoder_funcs,
-> +			       DRM_MODE_ENCODER_NONE, NULL);
-> +	if (ret) {
-> +		drm_err(drm, "DRM encoder init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> +
-> +	/* Connector */
-> +
-> +	connector = &st7920->connector;
-> +	ret = drm_connector_init(drm, connector, &st7920_connector_funcs,
-> +				 DRM_MODE_CONNECTOR_Unknown);
-> +	if (ret) {
-> +		drm_err(drm, "DRM connector init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_connector_helper_add(connector, &st7920_connector_helper_funcs);
-> +
-> +	ret = drm_connector_attach_encoder(connector, encoder);
-> +	if (ret) {
-> +		drm_err(drm, "DRM attach connector to encoder failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_mode_config_reset(drm);
-> +
-> +	return 0;
-> +}
-> +
-> +static int st7920_probe(struct spi_device *spi)
-> +{
-> +	struct st7920_device *st7920;
-> +	struct regmap *regmap;
-> +	struct device *dev = &spi->dev;
-> +	struct drm_device *drm;
-> +	int ret;
-> +
-> +	regmap = devm_regmap_init_spi(spi, &st7920_spi_regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	st7920 = devm_drm_dev_alloc(dev, &st7920_drm_driver,
-> +				    struct st7920_device, drm);
-> +	if (IS_ERR(st7920))
-> +		return PTR_ERR(st7920);
-> +
-> +	drm = &st7920->drm;
-> +
-> +	st7920->drm.dev = dev;
-> +	st7920->regmap = regmap;
-> +	st7920->spi = spi;
-> +	st7920->width = ST7920_DEFAULT_WIDTH;
-> +	st7920->height = ST7920_DEFAULT_HEIGHT;
-> +
-> +	st7920->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-> +	if (IS_ERR(st7920->reset_gpio)) {
-> +		ret = PTR_ERR(st7920->reset_gpio);
-> +		return dev_err_probe(dev, ret, "Unable to retrieve reset GPIO\n");
-> +	}
-> +
-> +	spi_set_drvdata(spi, st7920);
-> +
-> +	ret = st7920_init_modeset(st7920);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "DRM device register failed\n");
-> +
-> +	drm_client_setup(drm, NULL);
-> +
-> +	return 0;
-> +}
-> +
-> +static void st7920_remove(struct spi_device *spi)
-> +{
-> +	struct st7920_device *st7920 = spi_get_drvdata(spi);
-> +
-> +	drm_dev_unplug(&st7920->drm);
-> +	drm_atomic_helper_shutdown(&st7920->drm);
-> +}
-> +
-> +static void st7920_shutdown(struct spi_device *spi)
-> +{
-> +	struct st7920_device *st7920 = spi_get_drvdata(spi);
-> +
-> +	drm_atomic_helper_shutdown(&st7920->drm);
-> +}
-> +
-> +static struct spi_driver st7920_spi_driver = {
-> +	.driver = {
-> +		.name = DRIVER_NAME,
-> +		.of_match_table = st7920_of_match,
-> +	},
-> +	.id_table = st7920_spi_id,
-> +	.probe = st7920_probe,
-> +	.remove = st7920_remove,
-> +	.shutdown = st7920_shutdown,
-> +};
-> +module_spi_driver(st7920_spi_driver);
-> +
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_AUTHOR("Iker Pedrosa <ipedrosam@gmail.com>");
-> +MODULE_LICENSE("GPL v2");
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+> 
+> -Akhil.
+> 
+>>
+>> We already have "machine" as another axis in the GPU catalog. I'd
+>> suggest defining separate speed bins for mobile and auto/IoT in the DT
+>> (0x1 - 0x20 for mobile, 0x100 - 0x1000 for auto) and then in the driver
+>> mapping those by the machine compat.
+>>
+> 
 
