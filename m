@@ -2,69 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6C4CB5611
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 10:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6BCCB5626
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 10:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F63310E2A7;
-	Thu, 11 Dec 2025 09:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 905FA10E7AB;
+	Thu, 11 Dec 2025 09:42:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="N8BY+0RW";
+	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="HvulFSoM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93DBD10E2A7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 09:40:35 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 17EB01A20DF;
- Thu, 11 Dec 2025 09:40:34 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id DF0096068C;
- Thu, 11 Dec 2025 09:40:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 14F2B103C8D53; Thu, 11 Dec 2025 10:40:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765446032; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=WZVCcNfKSTt2Hd14gUawnCXPs39wl8U5m2GxT9YHICY=;
- b=N8BY+0RW1/KCWSmz1ejzT8wkU32hMHoROWuSW1FXKVX56lJPTLnrOG87aYRBJX3eLmwdQz
- ElonbiZKTB2yohpJE+9k8TDVw2t9dMGuu4ov3c9BVvflGTXLZViwe/G9lROCs1KMjA5Cg1
- HqAOW3glYucmbg2jWQCfC+vmSqV0f3bRAfIGwFYLKzsrZIZn5PifwpK4SdhZWFCK8zSDep
- NJinbhnm5mFm/zI9m2xrgrfv6TFXNgAyWJZmSCZG+MROAk2te2haBPin+EoimEwAAmRl4c
- 665fBJnGyGTn7KpP/dBIwnBN6Ey1VxFEPONWoRQP8/KCoFPe22GeYDOR7es8FA==
-Date: Thu, 11 Dec 2025 10:40:24 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
- Schneider-Pargmann" <msp@baylibre.com>, "Louis Chauvet"
- <louis.chauvet@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH 03/21] drm/tilcdc: Remove simulate_vesa_sync flag
-Message-ID: <20251211104024.1e7d5c42@kmaincent-XPS-13-7390>
-In-Reply-To: <DEUQM2HNEOQU.3K4ZPL44GVZAJ@bootlin.com>
-References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
- <20251126-feature_tilcdc-v1-3-49b9ef2e3aa0@bootlin.com>
- <DEUQM2HNEOQU.3K4ZPL44GVZAJ@bootlin.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEEC10E2A6;
+ Thu, 11 Dec 2025 09:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+ s=default; t=1765446124;
+ bh=dMpqiFCJMHAu/S8QPIMqKAclh6zs9Butm4v+vxWTzu0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HvulFSoM3N2nKQW39FmjmTaowyywmfU5JBjzT47ZA1TdF9xJa/sYNTd8/k4wEBW+s
+ Y5k9JFF+AkTArJmWMsIGlAZYLPyxLhtFv3HkauF5ILghphcSZXbqQGnIl9nwmZmApe
+ TtfZgPkviZyqSIIfc3rWzf00YlV7P00YE19SvE2B6xgoxa8JLbDk5OR0g1oX07U2TP
+ KnpW4WBIswLLCI4IyJ+o9kpDk7FND8jjEWdmCQ0nbZ2dJacHnp30oXx7bIfI8FbT14
+ mVT1IRa+jLbfGqLJ1lz1LYu6ZoziprrDv4E0sRca4oE2xU4coh2XspEFDwZKMRseEq
+ Vbr0zd3GwNvsw==
+Message-ID: <d6c4af43-0b79-4d4e-980b-0135b05da74a@lankhorst.se>
+Date: Thu, 11 Dec 2025 10:42:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/me/gsc: mei interrupt top half should be in irq
+ disabled context
+To: Junxiao Chang <junxiao.chang@intel.com>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, airlied@gmail.com,
+ simona@ffwll.ch, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ rostedt@goodmis.org, daniele.ceraolospurio@intel.com,
+ alexander.usyskin@intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>
+Cc: baoli.zhang@intel.com
+References: <20251107033152.834960-1-junxiao.chang@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20251107033152.834960-1-junxiao.chang@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +60,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Dec 2025 19:10:45 +0100
-"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
+Thanks for the patch, I pushed it.
 
-> Hi K=C3=B6ry,
->=20
-> On Wed Nov 26, 2025 at 6:35 PM CET, Kory Maincent (TI.com) wrote:
-> > The tilcdc hardware does not generate VESA-compliant sync signals. It
-> > aligns the vertical sync (VS) on the second edge of the horizontal sync
-> > (HS) instead of the first edge. To compensate for this hardware
-> > behavior, the driver applies a timing adjustment in mode_fixup().
-> >
-> > Previously, this adjustment was conditional based on the simulate_vesa_=
-sync
-> > flag, which was only set when using external encoders. This appears
-> > problematic because:
-> >
-> > 1. The timing adjustment seems needed for the hardware behavior regardl=
-ess
-> >    of whether an external encoder is used
-> > 2. The external encoder infrastructure is driver-specific and being
-> >    removed due to design issues
-> > 3. Boards using tilcdc without bridges (e.g., am335x-evm, am335x-evmsk)
-> >    may not be getting the necessary timing adjustments
-> >
-> > Remove the simulate_vesa_sync flag and apply the VESA sync timing
-> > adjustment unconditionally, ensuring consistent behavior across all
-> > configurations. While it's unclear if the previous conditional behavior
-> > was causing actual issues, the unconditional adjustment better reflects
-> > the hardware's characteristics.
-> >
-> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
-> > ---
-> >
-> > Only few board currently use tilcdc not associated to a bridge like the
-> > am335x_evm or the am335x-evmsk. =20
->=20
-> Have you tested this change on any affected board?
->=20
-> The change looks good to me but without some testing it would be risky.
+I also added Matthew Brost's r-b, as I submitted this patch separately, and b4-am recognised it as the same patch.
 
-I have tested it on few boards but not these mainline devicetree as I don't
-have them.
+Kind regards,
+~Maarten Lankhorst
 
-I have tested a tilcdc with tda998x bridge (BeagleBone Black), a tilcdc with
-ti,tilcdc,panel panel (BeagleBone with LCD cape), a tilcdc with it66121 bri=
-dge
-(new Beagle Bone Green Eco board with HDMI cape).
-That's all the boards I have.
+Den 2025-11-07 kl. 04:31, skrev Junxiao Chang:
+> MEI GSC interrupt comes from i915 or xe driver. It has top half and
+> bottom half. Top half is called from i915/xe interrupt handler. It
+> should be in irq disabled context.
+> 
+> With RT kernel(PREEMPT_RT enabled), by default IRQ handler is in
+> threaded IRQ. MEI GSC top half might be in threaded IRQ context.
+> generic_handle_irq_safe API could be called from either IRQ or
+> process context, it disables local IRQ then calls MEI GSC interrupt
+> top half.
+> 
+> This change fixes B580 GPU boot issue with RT enabled.
+> 
+> Fixes: e02cea83d32d ("drm/xe/gsc: add Battlemage support")
+> Tested-by: Baoli Zhang <baoli.zhang@intel.com>
+> Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_heci_gsc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_heci_gsc.c b/drivers/gpu/drm/xe/xe_heci_gsc.c
+> index a415ca4887914..32d509b113915 100644
+> --- a/drivers/gpu/drm/xe/xe_heci_gsc.c
+> +++ b/drivers/gpu/drm/xe/xe_heci_gsc.c
+> @@ -221,7 +221,7 @@ void xe_heci_gsc_irq_handler(struct xe_device *xe, u32 iir)
+>  	if (xe->heci_gsc.irq < 0)
+>  		return;
+>  
+> -	ret = generic_handle_irq(xe->heci_gsc.irq);
+> +	ret = generic_handle_irq_safe(xe->heci_gsc.irq);
+>  	if (ret)
+>  		drm_err_ratelimited(&xe->drm, "error handling GSC irq: %d\n", ret);
+>  }
+> @@ -241,7 +241,7 @@ void xe_heci_csc_irq_handler(struct xe_device *xe, u32 iir)
+>  	if (xe->heci_gsc.irq < 0)
+>  		return;
+>  
+> -	ret = generic_handle_irq(xe->heci_gsc.irq);
+> +	ret = generic_handle_irq_safe(xe->heci_gsc.irq);
+>  	if (ret)
+>  		drm_err_ratelimited(&xe->drm, "error handling GSC irq: %d\n", ret);
+>  }
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
