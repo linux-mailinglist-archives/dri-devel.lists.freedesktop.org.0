@@ -2,82 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53504CB662C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BF5CB6635
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 240B410E557;
-	Thu, 11 Dec 2025 15:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D6710E718;
+	Thu, 11 Dec 2025 15:53:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ntaAuvbY";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="yParY135";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC0D10E557
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 15:53:13 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-64455a2a096so210379d50.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 07:53:13 -0800 (PST)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F2710E718
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 15:53:32 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-6498850d3f6so357974a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 07:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1765468392; x=1766073192; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+dBGjpPP9YE4qDIRAWgDomHdulI38A9FYt2FyWSnbZc=;
- b=ntaAuvbYf7vYH+M3+X2c4+BpJeujEilmJJfTf07GHQ9rv4nBVjRtNLQY2xOnwPYZIJ
- EMXzYixQnoqeiJHxfoOBUwLoeEntnmBUge9PV7E40ZNr5/XS5XBml/E5LyI77ytNNvK5
- uQ53JK+Kf3Aoii4N2yXS2/jcgs+c38Dv2ndJbs+tj4bcUkYMNtxqwotAD4dk0zCGk460
- wR1Zi9Um6G760PuJIq9WUZxLP1DSBUu7UK8bZpEYYHxDMTYgojRvV+tIh7oY5azcxBxM
- ZMMH5rNFwsVwJSCWJUgJ4mIpTJ3S2wVoeYzQFgDr6wDaZDWznWbEFP/4PRfVKQhYlHp1
- cmyw==
+ d=ursulin.net; s=google; t=1765468410; x=1766073210; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=//kf8epaTiQVajSqLUSI6FTZoYhi+XOxmn4MslT1I1s=;
+ b=yParY135f3v2hjqyYVdd4xg8/pEsOWXPff6yjlCmjWSF6m0IhBqwm+fIXPXtTM4092
+ nujANVbpZ+vnl5mHppEejyupMr+j7RCBwYiM0WUreGafWUWkjGFEgNJE+Wadi/Jvyr7x
+ S10KUAl5pmgVVBRp8mvZz6IEH1voMlVS/FRhffI8+v7CDBZ02dbP0r2ubTygQj7Gp7A/
+ BOWlNaR48PoOJ8XOFtn+A0yhOZjOg7HhxtthnDjpA9iQym7iBw6wCaYpOx4VQkJJX6zY
+ IKXkrxP7RrcwwE26z8gg5m05V3Dv4leFLu/IByEbhEoGgNhLXLLF0doiPjDrkDIxd4by
+ qnmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765468392; x=1766073192;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+dBGjpPP9YE4qDIRAWgDomHdulI38A9FYt2FyWSnbZc=;
- b=S4HvOdpgJG97F9vrItOuHtyB9JunSqMKait4iAFemzii6SIqe6eg0jUlOda+a9yYkI
- 9HV3sUho1RYx6ro3Yyelpd7qtiywcwyGjzxYafockHeKI+arl2ewRItCWCtBw7ziR2o7
- BL2Sqzzuk2daKTC0PAsObr97Je89XMVZHPJh5/sRi4GrhNqE3c6wlzOsgJQkSwGMhDOC
- wSiAOQ64qAPhT2qVczrqW+jvlQtGJ2ayPc0bc+DV1EqfKxUPGcG3oTV16XLRwXnyU9nD
- uRFVsPZK2BrR+TxvPFy9fumCYA1O3QAGMumg6iowpQDSB0MHkiQPhBOe2t3dqzyK1qtO
- JyeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWdFetKMMxDKcq8UPpIC3td/u8anExIsHsgJRJDTGcqtWHcz8+XgBQtmHFYIRtV8IrKZmb6owB92z0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxzPvWhRqEebPkLYwxq4sOpMn1TvaOJC+Bpfvt4iTczchxKNa4N
- Sb3Z7oSY2yB8TOFr2M3GMN0hYdVj2xd082WMA4ORczhEOGP2AgCJQNkfY0pusIniNcy04fWd9o+
- Q0Fbkfnphasb9HU4NeiyxxRcZxI85sfGWk1mZGZZAIg==
-X-Gm-Gg: AY/fxX5r8lzAdBL8/Kt+2LEor9jpSIo5YOSLBeF7Dg1P0M0CLjtFfhPi5qxLKmNQ49a
- iuzO7/1EKwP3/Yt1nRVIaa8QTZEHmx4Om7T3Pk+RZJRqeZU2jWttrbB2XT9vjh8tLI1zAj01Vfk
- iubzgj3qcbLuHMF0Upk5Q+FRIaehih7vzgW8ECT7TKYheXM1dMfhQwkImvXIQgtTSp/2G0YYly0
- JhfckMy1YcLcT4b6GgiSH1M9nnZ1q+hZfShh1DOhswHakJKWp1vRUSDNil2rlnVvXYEy0/m
-X-Google-Smtp-Source: AGHT+IGUsgtLkKLPoU+swAXCvd5pN2AtL71+QRCilZtTLV74Ki6ExMqENzFZ32j2du28KaBbdflguLNUhqYGK/g3wsw=
-X-Received: by 2002:a05:690c:48c9:b0:787:e3c0:f61f with SMTP id
- 00721157ae682-78c9d79d6damr110404867b3.57.1765468391890; Thu, 11 Dec 2025
- 07:53:11 -0800 (PST)
+ d=1e100.net; s=20230601; t=1765468410; x=1766073210;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=//kf8epaTiQVajSqLUSI6FTZoYhi+XOxmn4MslT1I1s=;
+ b=kdF+dLDyloDLXWehJl9EiGfuHEf067z0NTnzgf+EyE5BX1LUlI7fyNXxBoM4ZKhITZ
+ xvF3L+CKHqfS8/yjobJA3UTHpnqsUm4BxdtdsWaHsgi80I61t5eT184ur2rrgt4gisc2
+ 8hbq3gWvmm57gKiWxPE8Mpis5t8SfJIaHBoAHflQBhOOwFwUwOinJr6kK7ldo8001C1C
+ trDb4PzESAb63y1eDIhunC781BUbAe6FTzBwEXg9NH6XKIpy88lyMrHtY/nXpHIs+iH+
+ Z+nKfRQkF+InQTeHSzT6NOVS9omrWWZqeEDwqWDmEUN2o2q6Lt1pPoFGJTZqAyvhr2pX
+ NaXw==
+X-Gm-Message-State: AOJu0YyjTCKj6DFxBJ31avZMwHG9UzAU7Xws2INL78F1vF/CFy+CK9Jx
+ 5lAL/hDmH6USBmFNFhMCd8SWHg9AUTT4mtvKsn6eKgoXPShIKyhgB1RiGGM1TX0d4D0=
+X-Gm-Gg: AY/fxX7lqcaJRihPyqeXjwxqvKdw6HlXH6W8qs4Bn9Qxl5OTYg5ODeu3MVX6bGucakU
+ O6lJkTQ5EScpplYYulfc028kuZNKrM+Pl2X/i+HD10MCEhI41fDn/kk2UUwhX05qkQ37D5SqdQY
+ jZ4Xvb8xHYP0OE/QpCFcDmvv1cwKfhzp++EJ8JA6RIJq0SADmTOfJKMktPPxwtFeT8eOkV/HoZO
+ 4JznwOBd8riQyrb2SpoDPSsZDDG7dqOFC5Nlohk5uxc+ap2wke8bftxh7to1Z1kEQWwFfUb9K9p
+ xFPvrjH4qQO7ens0iVR9vNg/ZXYrZqoAX2kwYGaUen/ZVzQ/A+1MrJkwJBV5trdVwSBSc1+viIx
+ 2bqKNRlOKIxoIO2UmpU5H/Am9U6awVAlh5RPlezAIt2XOV+cjAtKQz6DUeYFRLLwwclffqtU9sY
+ zd9e79ieVXhS0qoYIsw4FDVJACJSIl
+X-Google-Smtp-Source: AGHT+IH7Zd5E84BS+SQiw7Gqd8PtDloJOM0ZHPRsWbUyKSkrntowtEEA4JshbEvBCrsPplDcIOlK+Q==
+X-Received: by 2002:a17:907:96a6:b0:b7a:1bdd:3313 with SMTP id
+ a640c23a62f3a-b7ce85a250amr677917766b.64.1765468410463; 
+ Thu, 11 Dec 2025 07:53:30 -0800 (PST)
+Received: from [192.168.1.83] ([86.33.28.86]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b7cfa29f51esm304755266b.14.2025.12.11.07.53.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Dec 2025 07:53:30 -0800 (PST)
+Message-ID: <e426d618-3d6e-4d93-b6fd-4c5e1b11d9f2@ursulin.net>
+Date: Thu, 11 Dec 2025 16:53:29 +0100
 MIME-Version: 1.0
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
- <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
- <tjakx64c25gyakblncsvuoj2iquoknx4ngwujt2uf2clhhfvfl@lbvhrimf6gwp>
- <i234zyh7ajsxdvbkzindyk5h6wilds226jqmh32kml4aweesav@frlk2l7zgmg4>
-In-Reply-To: <i234zyh7ajsxdvbkzindyk5h6wilds226jqmh32kml4aweesav@frlk2l7zgmg4>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 11 Dec 2025 23:53:00 +0800
-X-Gm-Features: AQt7F2owJprXjxEiZG8aZ_nuD-7s3hT0ej3bNeUC-m6nLc4sVw6LJdRemDoFFrU
-Message-ID: <CABymUCNm5fpFN-Zpw7WkqP4EdBGXR9JCFyppOkuWs-r9MFx3dg@mail.gmail.com>
-Subject: Re: [PATCH v16 10/10] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/19] drm/amdgpu: independence for the amdgpu_fence! v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20251211122407.1709-1-christian.koenig@amd.com>
+ <20251211122407.1709-12-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251211122407.1709-12-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,198 +91,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=B4=
-12=E6=9C=8811=E6=97=A5=E5=91=A8=E5=9B=9B 03:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sat, Nov 29, 2025 at 05:37:43PM +0100, Marijn Suijten wrote:
-> > On 2025-09-18 21:29:02, Jun Nie wrote:
-> > > To support high-resolution cases that exceed the width limitation of
-> > > a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate=
-,
-> > > additional pipes are necessary to enable parallel data processing
-> > > within the SSPP width constraints and MDP clock rate.
-> > >
-> > > Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-> > > and dual interfaces are enabled. More use cases can be incorporated
-> > > later if quad-pipe capabilities are required.
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 ++++++++++++++=
-+++------
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++------=
-----------
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
-> > >  6 files changed, 35 insertions(+), 32 deletions(-)
-> >
-> > With this patch applied, I get the following crash on the Sony Xperia 1=
- III, a
-> > dual-DSI dual-DSC device:
-> >
-> >       Unable to handle kernel NULL pointer dereference at virtual addre=
-ss 0000000000000020
-> >       Mem abort info:
-> >         ESR =3D 0x0000000096000004
-> >         EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> >         SET =3D 0, FnV =3D 0
-> >         EA =3D 0, S1PTW =3D 0
-> >         FSC =3D 0x04: level 0 translation fault
-> >       Data abort info:
-> >         ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
-> >         CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-> >         GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> >       user pgtable: 4k pages, 48-bit VAs, pgdp=3D000000012d4e1000
-> >       [0000000000000020] pgd=3D0000000000000000, p4d=3D0000000000000000
-> >       Internal error: Oops: 0000000096000004 [#1]  SMP
-> >       Modules linked in: msm drm_client_lib ubwc_config drm_dp_aux_bus =
-gpu_sched drm_gpuvm drm_exec
-> >       CPU: 5 UID: 0 PID: 3081 Comm: (sd-close) Tainted: G     U        =
-      6.18.0-rc7-next-20251127-SoMainline-12422-g10b6db5b056d-dirty #21 NON=
-E
-> >       Tainted: [U]=3DUSER
-> >       Hardware name: Sony Xperia 1 III (DT)
-> >       pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-> >       pc : dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm]
-> >       lr : dpu_plane_atomic_check_sspp.isra.0+0x84/0x3f4 [msm]
-> >       sp : ffff800081e23940
-> >       x29: ffff800081e23950 x28: ffff0000bf2700d0 x27: 0000000000000a00
-> >       x26: ffff0000bf270000 x25: 0000000000000a00 x24: ffff0000bd0e5c18
-> >       x23: ffff000087a6c080 x22: 0000000000000224 x21: ffff00008ce88080
-> >       x20: 0000000000000002 x19: ffff0000bf270138 x18: ffff8000818350b0
-> >       x17: 000000040044ffff x16: ffffc488ae2e37e0 x15: 0000000000000005
-> >       x14: 0000000000000a00 x13: 0000000000000000 x12: 0000000000000138
-> >       x11: 0000000000000000 x10: 0000000000000012 x9 : 0000000000000000
-> >       x8 : 0000000000000a00 x7 : 0000000000000000 x6 : 0000000000000000
-> >       x5 : 0000000000000002 x4 : 0000000000000000 x3 : ffffc48897741db0
-> >       x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
-> >       Call trace:
-> >        dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm] (P)
-> >        dpu_plane_atomic_check+0x100/0x1a0 [msm]
-> >        drm_atomic_helper_check_planes+0xd8/0x224
-> >        drm_atomic_helper_check+0x50/0xb4
-> >        msm_atomic_check+0xd0/0xe0 [msm]
-> >        drm_atomic_check_only+0x4e0/0x928
-> >        drm_atomic_commit+0x50/0xd4
-> >        drm_client_modeset_commit_atomic+0x200/0x260
-> >        drm_client_modeset_commit_locked+0x64/0x180
-> >        drm_client_modeset_commit+0x30/0x60
-> >        drm_fb_helper_lastclose+0x60/0xb0
-> >        drm_fbdev_client_restore+0x18/0x38 [drm_client_lib]
-> >        drm_client_dev_restore+0xac/0xf8
-> >        drm_release+0x124/0x158
-> >        __fput+0xd4/0x2e4
-> >        fput_close_sync+0x3c/0xe0
-> >        __arm64_sys_close+0x3c/0x84
-> >        invoke_syscall.constprop.0+0x44/0x100
-> >        el0_svc_common.constprop.0+0x3c/0xe4
-> >        do_el0_svc+0x20/0x3c
-> >        el0_svc+0x38/0x110
-> >        el0t_64_sync_handler+0xa8/0xec
-> >        el0t_64_sync+0x1a0/0x1a4
-> >       Code: 2a1403e5 52800082 94008e28 f9400380 (f940101b)
-> >       ---[ end trace 0000000000000000 ]---
-> >       pstore: backend (ramoops) writing error (-28)
-> >       [drm:dpu_encoder_frame_done_timeout:2726] [dpu error]enc33 frame =
-done timeout
-> >
-> > I don't see any thought given to it in the extremely terse patch descri=
-ption,
-> > but this patch seems to unconditionally select 4 DSCs and 4 LMs on this=
- device
-> > because the underlying SM8350 SoC has 4 available in its catalog - whil=
-e it
-> > was previously affixed to 2:2:2 matching the downstream and known-worki=
-ng
-> > configuration of this device - and I can only imagine things are rollin=
-g
-> > downhill from there.
-> >
-> > faddr2line seems to be failing for me, but this is the line
-> > `dpu_plane_atomic_check_sspp.isra.0+0x88` seems to be referring to:
-> >
-> >       aarch64-linux-gnu-objdump .output/drivers/gpu/drm/msm/msm.ko -dS =
-| grep dpu_plane_atomic_check_sspp.isra.0\> -A80
-> >       00000000000671ac <dpu_plane_atomic_check_sspp.isra.0>:
-> >       static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> >       ...
-> >          67234:       f940101b        ldr     x27, [x0, #32]
-> >               if (!(sblk->scaler_blk.len && pipe->sspp->ops.setup_scale=
-r) &&
->
-> I think it is:
->
->         pipe_hw_caps =3D pipe->sspp->cap;
->     14bc:       f9401018        ldr     x24, [x0, #32]
->
->
-> So, please check why pipe->sspp becomes NULL (or where do we miss the
-> NULL check for pipe->sspp).
 
-Yeah, per panic log and objdump, it should be due to this line. But no
-clue is found
-with code analysis.
-Did you reproduce it? If so, what's the platform and git commit id? I
-tested with
-HDK8650 dual-DSI HDMI bridged monitor, but kernel does not panic.
-
-resource mapping:
-        pingpong=3D104 104 # # # # - - # # # # -
-        mixer=3D104 104 # # # # - -
-        ctl=3D104 # # # # # - -
-        dspp=3D# # # # - - - -
-        dsc=3D# # # # # # - -
-        cdm=3D#
-        sspp=3D# # # # - - - - 104 # # # # # - -
-        cwb=3D# # # #
-
-
-Hi Marijn,
-Could you help collect debug info with this change? Thanks!
-BTW: my irc id: niej
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index d07a6ab6e7ee1..fc61c2fbb0699 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -886,6 +886,7 @@ static int dpu_plane_atomic_check_nosspp(struct
-drm_plane *plane,
-                        new_plane_state->fb->width, new_plane_state->fb->he=
-ight,
-                        new_plane_state->rotation);
-
-+       memset(&pstate->pipe_cfg[0], 0, PIPES_PER_PLANE *
-sizeof(struct dpu_sw_pipe_cfg));
-        /*
-         * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topology, 2 mixer p=
-air
-         * configs for left and right half screen in case of 4:4:2 topology=
-.
-@@ -1055,6 +1056,13 @@ static int dpu_plane_atomic_check_sspp(struct
-drm_plane *plane,
-                if (!drm_rect_width(&pipe_cfg->src_rect))
-                        continue;
-                DPU_DEBUG_PLANE(pdpu, "pipe %d is in use, validate it\n", i=
-);
-+               if(!pipe->sspp) {
-+                       WARN(1, "%svirtual plane pipe %d is null with
-width %d height %d!!\n",
-+                               dpu_use_virtual_planes ? " " : "non-",
-+                               i,
-+                               drm_rect_width(&pipe_cfg->src_rect),
-+                               drm_rect_height(&pipe_cfg->src_rect));
-+               }
-                ret =3D dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
-                                                  &crtc_state->adjusted_mod=
-e,
-                                                  new_plane_state);
+On 11/12/2025 13:16, Christian König wrote:
+> This allows amdgpu_fences to outlive the amdgpu module.
 >
+> v2: use dma_fence_get_rcu_safe to be NULL safe here.
 >
-> --
-> With best wishes
-> Dmitry
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 63 +++++++----------------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h  |  1 -
+>   2 files changed, 20 insertions(+), 44 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> index c7843e336310..c636347801c1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> @@ -112,8 +112,7 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct amdgpu_fence *af,
+>   	af->ring = ring;
+>   
+>   	seq = ++ring->fence_drv.sync_seq;
+> -	dma_fence_init(fence, &amdgpu_fence_ops,
+> -		       &ring->fence_drv.lock,
+> +	dma_fence_init(fence, &amdgpu_fence_ops, NULL,
+>   		       adev->fence_context + ring->idx, seq);
+>   
+>   	amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
+> @@ -467,7 +466,6 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring)
+>   	timer_setup(&ring->fence_drv.fallback_timer, amdgpu_fence_fallback, 0);
+>   
+>   	ring->fence_drv.num_fences_mask = ring->num_hw_submission * 2 - 1;
+> -	spin_lock_init(&ring->fence_drv.lock);
+>   	ring->fence_drv.fences = kcalloc(ring->num_hw_submission * 2, sizeof(void *),
+>   					 GFP_KERNEL);
+>   
+> @@ -654,16 +652,20 @@ void amdgpu_fence_driver_set_error(struct amdgpu_ring *ring, int error)
+>   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
+>   	unsigned long flags;
+>   
+> -	spin_lock_irqsave(&drv->lock, flags);
+> +	rcu_read_lock();
+>   	for (unsigned int i = 0; i <= drv->num_fences_mask; ++i) {
+>   		struct dma_fence *fence;
+>   
+> -		fence = rcu_dereference_protected(drv->fences[i],
+> -						  lockdep_is_held(&drv->lock));
+> -		if (fence && !dma_fence_is_signaled_locked(fence))
+> +		fence = dma_fence_get_rcu(drv->fences[i]);
+
+dma_fence_get_rcu is not safe against passing a NULL fence in, while the 
+existing code makes it look like drv->fence[] slot can contain NULL at 
+this point?
+
+amdgpu_fence_process() is the place which can NULL the slots? Irq 
+context? Why is that safe with no reference held from clearing the slot 
+to operating on the fence?
+
+> +		if (!fence)
+> +			continue;
+> +
+> +		dma_fence_lock_irqsave(fence, flags);
+> +		if (!dma_fence_is_signaled_locked(fence))
+>   			dma_fence_set_error(fence, error);
+> +		dma_fence_unlock_irqrestore(fence, flags);
+>   	}
+> -	spin_unlock_irqrestore(&drv->lock, flags);
+> +	rcu_read_unlock();
+>   }
+>   
+>   /**
+> @@ -714,16 +716,19 @@ void amdgpu_fence_driver_guilty_force_completion(struct amdgpu_fence *af)
+>   	seq = ring->fence_drv.sync_seq & ring->fence_drv.num_fences_mask;
+>   
+>   	/* mark all fences from the guilty context with an error */
+> -	spin_lock_irqsave(&ring->fence_drv.lock, flags);
+> +	rcu_read_lock();
+>   	do {
+>   		last_seq++;
+>   		last_seq &= ring->fence_drv.num_fences_mask;
+>   
+>   		ptr = &ring->fence_drv.fences[last_seq];
+> -		rcu_read_lock();
+> -		unprocessed = rcu_dereference(*ptr);
+> +		unprocessed = dma_fence_get_rcu_safe(ptr);
+
+Similar concern like the above.
+
+Regards,
+
+Tvrtko
+> +
+> +		if (!unprocessed)
+> +			continue;
+>   
+> -		if (unprocessed && !dma_fence_is_signaled_locked(unprocessed)) {
+> +		dma_fence_lock_irqsave(unprocessed, flags);
+> +		if (dma_fence_is_signaled_locked(unprocessed)) {
+>   			fence = container_of(unprocessed, struct amdgpu_fence, base);
+>   
+>   			if (fence == af)
+> @@ -731,9 +736,10 @@ void amdgpu_fence_driver_guilty_force_completion(struct amdgpu_fence *af)
+>   			else if (fence->context == af->context)
+>   				dma_fence_set_error(&fence->base, -ECANCELED);
+>   		}
+> -		rcu_read_unlock();
+> +		dma_fence_unlock_irqrestore(unprocessed, flags);
+> +		dma_fence_put(unprocessed);
+>   	} while (last_seq != seq);
+> -	spin_unlock_irqrestore(&ring->fence_drv.lock, flags);
+> +	rcu_read_unlock();
+>   	/* signal the guilty fence */
+>   	amdgpu_fence_write(ring, (u32)af->base.seqno);
+>   	amdgpu_fence_process(ring);
+> @@ -823,39 +829,10 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
+>   	return true;
+>   }
+>   
+> -/**
+> - * amdgpu_fence_free - free up the fence memory
+> - *
+> - * @rcu: RCU callback head
+> - *
+> - * Free up the fence memory after the RCU grace period.
+> - */
+> -static void amdgpu_fence_free(struct rcu_head *rcu)
+> -{
+> -	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
+> -
+> -	/* free fence_slab if it's separated fence*/
+> -	kfree(to_amdgpu_fence(f));
+> -}
+> -
+> -/**
+> - * amdgpu_fence_release - callback that fence can be freed
+> - *
+> - * @f: fence
+> - *
+> - * This function is called when the reference count becomes zero.
+> - * It just RCU schedules freeing up the fence.
+> - */
+> -static void amdgpu_fence_release(struct dma_fence *f)
+> -{
+> -	call_rcu(&f->rcu, amdgpu_fence_free);
+> -}
+> -
+>   static const struct dma_fence_ops amdgpu_fence_ops = {
+>   	.get_driver_name = amdgpu_fence_get_driver_name,
+>   	.get_timeline_name = amdgpu_fence_get_timeline_name,
+>   	.enable_signaling = amdgpu_fence_enable_signaling,
+> -	.release = amdgpu_fence_release,
+>   };
+>   
+>   /*
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> index 7a27c6c4bb44..9cbf63454004 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> @@ -125,7 +125,6 @@ struct amdgpu_fence_driver {
+>   	unsigned			irq_type;
+>   	struct timer_list		fallback_timer;
+>   	unsigned			num_fences_mask;
+> -	spinlock_t			lock;
+>   	struct dma_fence		**fences;
+>   };
+>   
+
