@@ -2,81 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421E8CB66E6
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB69CB670D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:16:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22CD710E06B;
-	Thu, 11 Dec 2025 16:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47B3310E814;
+	Thu, 11 Dec 2025 16:16:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="pOpD6WT9";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="AXQruz8+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC4E410E06B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:12:22 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-64175dfc338so531594a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 08:12:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1765469541; x=1766074341; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LzVRfSKl/WN/EHJoZomti6kxNUqFfcV9bF9+XtrouJs=;
- b=pOpD6WT9FFYg7HZ+f8IXel9WO7OkvgRwvyvtofCk58NOfNgbP+5Ya8tlzNTNBNVJdX
- Ti6KdVLRObcM0TDsCcsicH5QvlEcyTk87s7GfKtTCJwzti5yOkZpeEbj4mwlPxrqnchy
- MMctpcOVqALJYsPJIk7VEACLjl9rTPV9Mmxh6KbdAlcpw8PvWXGnGAT9MLqDDHTK7N4i
- wq648fD0Dsk7kkXLkltS1qqCwCCcvx5IKPfCLy4OzwdEKYWmHXMI41ODT3iyDXfYJpEt
- CjsFzJEbMfmVdSX2A6bLveej7gMxHc9SUZ/oahe10A+oTDxpzgg7DdBE+9vVkE9qZ6Dl
- 2rvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765469541; x=1766074341;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LzVRfSKl/WN/EHJoZomti6kxNUqFfcV9bF9+XtrouJs=;
- b=Xiho6K6Sh3med4cmBGcEsxtoccBZomx/Un2KhIhv0O+cVRn6WxsApNkxTbOub9kQ0m
- Z7XK3hrAe3OviewtxxbS2wbThJ0eu6gfIpuFqwtGIoZAsl0Q8/Qg/l8A0q10TflaphyT
- bHe8fePaT3YDbnuIUCNunDSWGPQmZvS1K0U0IOucHIZeHGRqZgt4wxim4Wac6cKY+zC7
- ykeL7yFaJ96EHEagr+7UvadMX7ef395KUFhtkxtHpJfrW+7CNebSlrtELzes6LQFg4eX
- KonXfVouyUeh5HhFMc80XSOx96C0xb+k9onNSVSTihelsFda/1zFoMvgjfLa669X2FPZ
- r99g==
-X-Gm-Message-State: AOJu0YylRKR8zpfNJsdNhtugpVixulhnUckgRLFWlY2gqM8myurvv4BI
- I+iA+6mV+E6fbByKDzbgpRenmHfpSEBqq5H0602S4R7/+njV08D7GBBh5T6DrzaoifKHwPh25Hw
- rvZ5GhV8=
-X-Gm-Gg: AY/fxX4czczulrDfLPrB/o1UnD4nM97HzJgd+EpCJWg93t3QRawBeHiDwAJof4BrXDW
- Natd1bp3IN+DAiFeqzBncph353ggPAnR+g1Kv5aJgtMXmH85ruQtKtNjgWNx0lsY6V5+qcny/WN
- y4qw7dcKYHNLAuh8M//kKvok6igMoE2a0QtccH8DGL3pv1RzPRVj22h+R6ldcBwu81Ljzcj6fnF
- 6vuAcjFCNvQ2KIP56lyFR1WAgDShfQCNOKnE5iheeHTMrIk/C+FYYKmbpSwo4mq+SlmTbxYyaOX
- wZIxCJZgNbvKF7emVsaq07yZGaWHVopdqFWDF3T/Ayn6y7zZUVfWgm2VbcAO/DE9dbAuyuO2IBd
- IikjL6c26ZacReaxBkapBwoeCgeFL93umIROz9IHnbq/cwduiF2dVcDoTNXpKx9ytEq5mhNjnrX
- VXBaN8MhAQfUqZgakpg7EEiwrDv2bv
-X-Google-Smtp-Source: AGHT+IEzn40vyyJWZkN36uGVUKT0iwcAejXCkbp60JNiUcN1OZjPYMx4GihuDMtetBql5Fe+Al12bQ==
-X-Received: by 2002:a05:6402:42c8:b0:643:1659:7584 with SMTP id
- 4fb4d7f45d1cf-6496d5e577amr6111166a12.33.1765469541392; 
- Thu, 11 Dec 2025 08:12:21 -0800 (PST)
-Received: from [192.168.1.83] ([86.33.28.86]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64982131ed7sm2921480a12.32.2025.12.11.08.12.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Dec 2025 08:12:21 -0800 (PST)
-Message-ID: <3276bb85-3bcc-4f55-95b1-4c05fe198d31@ursulin.net>
-Date: Thu, 11 Dec 2025 17:12:20 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8986710E2DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:16:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765469761; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JRC9TTTk7ivce09mfx9r+Lm8STMUEcldj5LMB1JctiUgLxerzNvGNLMcU/fSDaljtDBTWbFDnKBYLewAa8CUYZAotERnDoo7tr7qNlTx5lsj6zKDlvOoiwvbPFdJQexJL1QXgtfXjbMgHGaEe5oe2BggZhLPthmoMXiIqF4VokY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1765469761;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=JiN7+WmFR/BEvsDyqOmJNNXU/EA7tG/mo26wtMdMTjM=; 
+ b=XxOR6TzEH3KWT24JNwsaL7nyomE+cQufxYVqKXWdEWsvGEXHQI6i5FYCcbQy7GBYCHxVyaRnpM/a/001ob9LsrZT9Y7DFV9/ZoiETzYcCfuT4Fn4tU2oT5vY8Wa74WhTghtXQlM9LhbYUnMtLY1sIyLaJ7U1IYyZLy1Lh9PiM9o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765469761; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=JiN7+WmFR/BEvsDyqOmJNNXU/EA7tG/mo26wtMdMTjM=;
+ b=AXQruz8+G0JfKvkqrkYfHdtkV0mt4ZYsEcDvkD8kEMMROcPHf+GymcO2yuPrjWfo
+ hfuydbvGZb55C0UB6EzMyXVJ11C0GsqCmdZtwFyDVurBAJP921id4Fnam6Mdmqbofu1
+ 6ecvKFDGcwCmTlQWqMqLYVShYXQUfsPmPZ+i7MUI=
+Received: by mx.zohomail.com with SMTPS id 1765469758925478.4331588496592;
+ Thu, 11 Dec 2025 08:15:58 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v3 0/3] Add a few tracepoints to panthor
+Date: Thu, 11 Dec 2025 17:15:34 +0100
+Message-Id: <20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/19] drm/amdgpu: independence for the amdgpu_userq_fence!
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-16-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251211122407.1709-16-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACbuOmkC/32OQQ6CMBBFr0K6ttpWlMLKexgXpQwyCVCcVqIx3
+ N0KLowxriZvkv/+fzAPhOBZkTwYwYgeXR9hu0qYbUx/Bo5VZKaE2kkltnwwfWgc8UDGwuCwD56
+ nWpta5FW6h4zF5EBQ4222Hk8LE1yuUR6WJyuNB25d12Eokoo6HnDYvC97RRr0wdF93jXKOfN3w
+ ii54DqTVucyA6HTg3Vta0pHZh17ZueoPjxS/Pao6ImoQOWlqUT97Zmm6QlxoCxmNQEAAA==
+X-Change-ID: 20251203-panthor-tracepoints-488af09d46e7
+To: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,207 +74,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds two tracepoints to panthor.
 
-On 11/12/2025 13:16, Christian König wrote:
-> This allows amdgpu_userq_fences to outlive the amdgpu module.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 13 +----
->   .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   | 54 ++++---------------
->   .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.h   |  8 ---
->   3 files changed, 11 insertions(+), 64 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 2dfbddcef9ab..f206297aae8b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -3155,11 +3155,7 @@ static int __init amdgpu_init(void)
->   
->   	r = amdgpu_sync_init();
->   	if (r)
-> -		goto error_sync;
-> -
-> -	r = amdgpu_userq_fence_slab_init();
-> -	if (r)
-> -		goto error_fence;
-> +		return r;
->   
->   	DRM_INFO("amdgpu kernel modesetting enabled.\n");
->   	amdgpu_register_atpx_handler();
-> @@ -3176,12 +3172,6 @@ static int __init amdgpu_init(void)
->   
->   	/* let modprobe override vga console setting */
->   	return pci_register_driver(&amdgpu_kms_pci_driver);
-> -
-> -error_fence:
-> -	amdgpu_sync_fini();
-> -
-> -error_sync:
-> -	return r;
->   }
->   
->   static void __exit amdgpu_exit(void)
-> @@ -3191,7 +3181,6 @@ static void __exit amdgpu_exit(void)
->   	amdgpu_unregister_atpx_handler();
->   	amdgpu_acpi_release();
->   	amdgpu_sync_fini();
-> -	amdgpu_userq_fence_slab_fini();
->   	mmu_notifier_synchronize();
->   	amdgpu_xcp_drv_release();
->   }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-> index eba9fb359047..bb19f72770b0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-> @@ -33,26 +33,6 @@
->   #include "amdgpu_userq_fence.h"
->   
->   static const struct dma_fence_ops amdgpu_userq_fence_ops;
-> -static struct kmem_cache *amdgpu_userq_fence_slab;
-> -
-> -int amdgpu_userq_fence_slab_init(void)
-> -{
-> -	amdgpu_userq_fence_slab = kmem_cache_create("amdgpu_userq_fence",
-> -						    sizeof(struct amdgpu_userq_fence),
-> -						    0,
-> -						    SLAB_HWCACHE_ALIGN,
-> -						    NULL);
-> -	if (!amdgpu_userq_fence_slab)
-> -		return -ENOMEM;
-> -
-> -	return 0;
-> -}
-> -
-> -void amdgpu_userq_fence_slab_fini(void)
-> -{
-> -	rcu_barrier();
+The first tracepoint allows for inspecting the power status of the
+hardware subdivisions, e.g. how many shader cores are powered on. This
+is done by reading three hardware registers when a certain IRQ fires.
 
-What was this rcu_barrier() for? Cargo culted or more to it?
-> -	kmem_cache_destroy(amdgpu_userq_fence_slab);
-> -}
->   
->   static inline struct amdgpu_userq_fence *to_amdgpu_userq_fence(struct dma_fence *f)
->   {
-> @@ -227,7 +207,7 @@ void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv)
->   
->   static int amdgpu_userq_fence_alloc(struct amdgpu_userq_fence **userq_fence)
->   {
-> -	*userq_fence = kmem_cache_alloc(amdgpu_userq_fence_slab, GFP_ATOMIC);
-> +	*userq_fence = kmalloc(sizeof(**userq_fence), GFP_ATOMIC);
-This GFP_ATOMIC is suboptimal for sure being on the ioctl path. It is 
-outside of the scope for this patch, but once my userq cleanup patches 
-get reviewed next on my list was to try and understand this.
->   	return *userq_fence ? 0 : -ENOMEM;
->   }
->   
-> @@ -243,12 +223,11 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->   	if (!fence_drv)
->   		return -EINVAL;
->   
-> -	spin_lock_init(&userq_fence->lock);
->   	INIT_LIST_HEAD(&userq_fence->link);
->   	fence = &userq_fence->base;
->   	userq_fence->fence_drv = fence_drv;
->   
-> -	dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
-> +	dma_fence_init64(fence, &amdgpu_userq_fence_ops, NULL,
->   			 fence_drv->context, seq);
->   
->   	amdgpu_userq_fence_driver_get(fence_drv);
-> @@ -318,35 +297,22 @@ static bool amdgpu_userq_fence_signaled(struct dma_fence *f)
->   	rptr = amdgpu_userq_fence_read(fence_drv);
->   	wptr = fence->base.seqno;
->   
-> -	if (rptr >= wptr)
-> +	if (rptr >= wptr) {
-> +		amdgpu_userq_fence_driver_put(fence->fence_drv);
+The second tracepoint instruments panthor's job IRQ handler. This is
+more useful than the generic interrupt tracing functionality, as the
+tracepoint has the events bit mask included, which indicates which
+command stream group interfaces triggered the interrupt.
 
-fence_drv is in a local already.
+To test the tracepoints, the following can be used:
 
-> +		fence->fence_drv = NULL;
+  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_power_status/enable
+  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_job_irq/enable
+  :~# echo 1 > /sys/kernel/tracing/tracing_on
+  :~# cat /sys/kernel/tracing/trace_pipe
 
-amdgpu_userq_fence_get_timeline_name could now oops somehow?
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Changes in v3:
+- Drop PWRFEATURES patch, as this register is no longer needed by this
+  series.
+- Eliminate the rt_on field from the gpu_power_status register, as per
+  Steven Price's feedback.
+- Make gpu_power_status tracepoint reg/unreg functions generic across
+  hardware generations by wrapping a hw op in panthor_hw.c.
+- Reimplement the <= v13 IRQ mask modification functions as the new hw
+  ops functions. v14 can add its own ops in due time.
+- Link to v2: https://lore.kernel.org/r/20251210-panthor-tracepoints-v2-0-ace2e29bad0f@collabora.com
 
-> +
-> +		kvfree(fence->fence_drv_array);
-> +		fence->fence_drv_array = NULL;
+Changes in v2:
+- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits when the
+  tracepoint is enabled. Necessitates the new irq helper patch.
+- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits if the hardware
+  architecture is <= v13, as v14 changes things.
+- Use _READY instead of _PWRACTIVE registers, and rename the tracepoint
+  accordingly.
+- Also read the status of the ray tracing unit's power. This is a global
+  flag for all shader cores, it seems. Necessitates the new register
+  definition patch.
+- Move the POWER_CHANGED_* check to earlier in the interrupt handler.
+- Also listen to POWER_CHANGED, not just POWER_CHANGED_ALL, as this
+  provides useful information with the _READY registers.
+- Print the device name in both tracepoints, to disambiguate things on
+  systems with multiple Mali GPUs.
+- Document the gpu_power_status tracepoint, so the meaning of the fields
+  is made clear.
+- Link to v1: https://lore.kernel.org/r/20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com
 
-Not sure if this is safe either. amdgpu_userq_fence_driver_process() 
-drops its reference before it unlinks the fence from the list. Can 
-someone external trigger the fence_is_signaled check, before the 
-interrupt processing kicks in, which will clear fence_drv_array, and so 
-amdgpu_userq_fence_driver_process() would oops?
+---
+Nicolas Frattaroli (3):
+      drm/panthor: Add panthor_*_irq_mask_set helper
+      drm/panthor: Add tracepoint for hardware utilisation changes
+      drm/panthor: Add gpu_job_irq tracepoint
 
-Regards,
+ drivers/gpu/drm/panthor/panthor_device.h |  7 +++
+ drivers/gpu/drm/panthor/panthor_fw.c     | 13 +++++
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 38 +++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gpu.h    |  2 +
+ drivers/gpu/drm/panthor/panthor_hw.c     | 62 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_hw.h     |  8 +++
+ drivers/gpu/drm/panthor/panthor_trace.h  | 87 ++++++++++++++++++++++++++++++++
+ 7 files changed, 215 insertions(+), 2 deletions(-)
+---
+base-commit: f8da8e7cee8489b7d7d92d34adf1bd8be14cf527
+change-id: 20251203-panthor-tracepoints-488af09d46e7
 
-Tvrtko
-
->   		return true;
-> +	}
->   
->   	return false;
->   }
->   
-> -static void amdgpu_userq_fence_free(struct rcu_head *rcu)
-> -{
-> -	struct dma_fence *fence = container_of(rcu, struct dma_fence, rcu);
-> -	struct amdgpu_userq_fence *userq_fence = to_amdgpu_userq_fence(fence);
-> -	struct amdgpu_userq_fence_driver *fence_drv = userq_fence->fence_drv;
-> -
-> -	/* Release the fence driver reference */
-> -	amdgpu_userq_fence_driver_put(fence_drv);
-> -
-> -	kvfree(userq_fence->fence_drv_array);
-> -	kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
-> -}
-> -
-> -static void amdgpu_userq_fence_release(struct dma_fence *f)
-> -{
-> -	call_rcu(&f->rcu, amdgpu_userq_fence_free);
-> -}
-> -
->   static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->   	.get_driver_name = amdgpu_userq_fence_get_driver_name,
->   	.get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->   	.signaled = amdgpu_userq_fence_signaled,
-> -	.release = amdgpu_userq_fence_release,
->   };
->   
->   /**
-> @@ -560,7 +526,7 @@ int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
->   	r = amdgpu_userq_fence_create(queue, userq_fence, wptr, &fence);
->   	if (r) {
->   		mutex_unlock(&userq_mgr->userq_mutex);
-> -		kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
-> +		kfree(userq_fence);
->   		goto put_gobj_write;
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
-> index d76add2afc77..6f04782f3ea9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
-> @@ -31,11 +31,6 @@
->   
->   struct amdgpu_userq_fence {
->   	struct dma_fence base;
-> -	/*
-> -	 * This lock is necessary to synchronize the
-> -	 * userqueue dma fence operations.
-> -	 */
-> -	spinlock_t lock;
->   	struct list_head link;
->   	unsigned long fence_drv_array_count;
->   	struct amdgpu_userq_fence_driver *fence_drv;
-> @@ -58,9 +53,6 @@ struct amdgpu_userq_fence_driver {
->   	char timeline_name[TASK_COMM_LEN];
->   };
->   
-> -int amdgpu_userq_fence_slab_init(void);
-> -void amdgpu_userq_fence_slab_fini(void);
-> -
->   void amdgpu_userq_fence_driver_get(struct amdgpu_userq_fence_driver *fence_drv);
->   void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv);
->   int amdgpu_userq_fence_driver_alloc(struct amdgpu_device *adev,
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
