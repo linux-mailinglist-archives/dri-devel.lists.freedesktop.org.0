@@ -2,101 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA97CB574C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 11:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B812CB599E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 12:06:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE4110E7D5;
-	Thu, 11 Dec 2025 10:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8E6910E2C5;
+	Thu, 11 Dec 2025 11:06:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="j2dFDH62";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="SiRUC79W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D0110E7CF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 10:09:53 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BB9ZREE1054833; Thu, 11 Dec 2025 10:09:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=iiYtERK5lDS
- jU0f7TnMrdUzOzeVIfDyXuyD3Ay+56Fk=; b=j2dFDH62SWidfTwwYK+uRupV80O
- +ICsjsjWNnRD7eJXS6u1gUeBnS79XHt7IwnJJhsHzPEo9rFHhe0VXxTYMk+3shHT
- p5/RYwxwLkRxMtfkWMtxEQ6NPs1pIyGX3YnpMDJoZLGptr8hYIgcNlg9sEUrkkiQ
- Vt4A6UVtTldPmOFrIUBZIXl0bczdRmJLpTjOLoF7J9RQw+wmj7t0PbZZX4q+EPsf
- D5UzcOwHkBCOWXczzNNd2wRPiliaMJjk+tbrLtEfaMQGMlUrqCaW1f/Y6BauGGHX
- 64h36SyU2fqGzSKo23cUOQ2oXJHa5XGD5znj4qz1Wzb1eel1UjsHp/7A5rg==
-Received: from apblrppmta01.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygsx1yav-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Dec 2025 10:09:49 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BBA9kaV013920; 
- Thu, 11 Dec 2025 10:09:46 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4avdjnuppp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Dec 2025 10:09:46 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BBA9kKr013904;
- Thu, 11 Dec 2025 10:09:46 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
- [10.147.243.7])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5BBA9jwA013896
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Dec 2025 10:09:46 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id A6DD756A; Thu, 11 Dec 2025 15:39:44 +0530 (+0530)
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com, 
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- ktadakam@qti.qualcomm.com
-Subject: [PATCH v6 4/4] misc: fastrpc: Update dma_bits for CDSP support on
- Kaanapali SoC
-Date: Thu, 11 Dec 2025 15:39:33 +0530
-Message-Id: <20251211100933.1285093-5-kumari.pallavi@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251211100933.1285093-1-kumari.pallavi@oss.qualcomm.com>
-References: <20251211100933.1285093-1-kumari.pallavi@oss.qualcomm.com>
+Received: from mail-m49237.qiye.163.com (mail-m49237.qiye.163.com
+ [45.254.49.237])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5F410E2C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:06:42 +0000 (UTC)
+Received: from [172.16.12.51] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2cdc4d36a;
+ Thu, 11 Dec 2025 19:06:39 +0800 (GMT+08:00)
+Message-ID: <fdd333ac-0542-4312-8ec0-22fded3b1ce0@rock-chips.com>
+Date: Thu, 11 Dec 2025 19:06:38 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: r9lxgX0muM-eLe9b-Ua8Suynkwm33XWk
-X-Authority-Analysis: v=2.4 cv=d974CBjE c=1 sm=1 tr=0 ts=693a986d cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=pfE1wiWnY1F2L3mdSfMA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA3NyBTYWx0ZWRfX7g28sQSf5yvk
- pUJ8L3wid5/PpsB0PD6EIPLTHLKndsiw55KKIaf+TgNdHMdhyx2vc0jIyrcLDz8ptwCgFjdLeRx
- GVW800EIOXM7rxrJjMWLOsO8xZLRuZz5bezjELi5ODcldmVd1C6GPkA0w6fClxJJAlBE5LRGwPQ
- QKDIgTBmClsrMXkBukOKvTBP3mvHUFOUjSRYKa1gUS9svNeF3h5AwvsizPPXFRb8TTZ4iuReIay
- aRe6K9JEwT3TpDDPOKrfC2vC9ttq6JEwOg78YY7HVHikrlrymJ6OpdGXvpQJ4tBQIKzZbhiv5PY
- d54xKSkQkUrwp/+Qp5hek5I1t1Q9CEReTdpUflNoBb8hyweVG2rJp1Ug0jbOHZ1uUwf1l2P9Wzw
- KCtXtU6LtWfBfWH8YSHvSAfns+J39g==
-X-Proofpoint-ORIG-GUID: r9lxgX0muM-eLe9b-Ua8Suynkwm33XWk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110077
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/8] drm/rockchip: vop2: Enforce AFBC source alignment
+ in plane_check
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>
+References: <20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com>
+ <f9f7b446-8575-4f16-aa96-5197b22846e3@rock-chips.com>
+ <4696988.LvFx2qVVIh@workhorse> <8655687.NyiUUSuA9g@workhorse>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <8655687.NyiUUSuA9g@workhorse>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9b0d1771e803abkunm50152fe2115a8d
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0lIHVZJTh4ZS0pMGR5ITEtWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
+ 5VSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=SiRUC79WbAVbCar94Hz/l0hwS+ckaDYSZAqcra50MkjyB8xo7OSuo2+VE9HHt7/cFzuKJXLskRNb73d0g35VrWPlXjruR0hDbg01mexXyRCcyOr1TZhYJiQ4WaCV0d12X43FIz6SvqWz/nJGeEjQUosuEoyXHPuX9Y2Kso4Pj3M=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=BnBEF6LrWFIGkywzce9cwqFmUT3UEuCa3O6j8eqOGZQ=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,84 +68,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-both Q6 and user DMA (uDMA) access. This is being upgraded to
-34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-Kaanapali SoC, which expands the DMA addressable range.
-Update DMA bits configuration in the driver to support CDSP on
-Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
-it to 34-bit based on CDSP and OF matching on the fastrpc node.
+Hello Nicolas,
 
-Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
----
- drivers/misc/fastrpc.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+On 12/9/2025 6:58 PM, Nicolas Frattaroli wrote:
+> Hi Chaoyi Chen, Andy Yan,
+> 
+> On Monday, 8 December 2025 08:24:52 Central European Standard Time Nicolas Frattaroli wrote:
+>> On Monday, 8 December 2025 03:48:24 Central European Standard Time Chaoyi Chen wrote:
+>>> Hello Nicolas, Daniel,
+>>>
+>>> On 12/7/2025 4:45 AM, Nicolas Frattaroli wrote:
+>>>> From: Daniel Stone <daniels@collabora.com>
+>>>>
+>>>> Planes can only source AFBC framebuffers at multiples of 4px wide on
+>>>> RK3566/RK3568. Instead of clipping on all SoCs when the user asks for an
+>>>> unaligned source rectangle, reject the configuration in the plane's
+>>>> atomic check on RK3566/RK3568 only.
+>>>>
+>>>> Signed-off-by: Daniel Stone <daniels@collabora.com>
+>>>> [Make RK3566/RK3568 specific, reword message]
+>>>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+>>>> ---
+>>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 +++++++++-----
+>>>>  1 file changed, 9 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> index bc1ed0ffede0..e23213337104 100644
+>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> @@ -1076,6 +1076,13 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+>>>>  		return -EINVAL;
+>>>>  	}
+>>>>  
+>>>> +	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier) && src_w % 4) {
+>>>> +		drm_dbg_kms(vop2->drm,
+>>>> +			    "AFBC source rectangles must be 4-byte aligned; is %d\n",
+>>>> +			    src_w);
+>>>> +		return -EINVAL;
+>>>> +	}
+>>>> +
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> @@ -1237,11 +1244,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>>>>  	WARN_ON(src_w < 4);
+>>>>  	WARN_ON(src_h < 4);
+>>>>  
+>>>> -	if (afbc_en && src_w % 4) {
+>>>> -		drm_dbg_kms(vop2->drm, "vp%d %s src_w[%d] not 4 pixel aligned\n",
+>>>> -			    vp->id, win->data->name, src_w);
+>>>> -		src_w = ALIGN_DOWN(src_w, 4);
+>>>> -	}
+>>>> +	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier))
+>>>> +		WARN_ON(src_w % 4);
+>>>>  
+>>>>  	act_info = (src_h - 1) << 16 | ((src_w - 1) & 0xffff);
+>>>>  	dsp_info = (dsp_h - 1) << 16 | ((dsp_w - 1) & 0xffff);
+>>>>
+>>>
+>>> You haven't replied to Andy's comment yet [0].
+>>>
+>>> [0] https://lore.kernel.org/dri-devel/7b4e26ec.75f3.19a77276b53.Coremail.andyshrk@163.com/
+>>>
+>>
+>> Hello,
+>>
+>> I addressed the follow-ups where it was clarified that the 4 pixel
+>> limitation was RK3566/RK3568-only. I'm not going to bring back the
+>> post-atomic_check modification for a fast path, but I'm open to
+>> suggestions on how to do this differently.
+>>
+>> One solution might be to modify the state with the ALIGN_DOWN stuff
+>> in atomic_check instead, where userspace is then aware of the change
+>> being done to its requested parameters. I'll need to double-check
+>> whether this is in line with atomic modesetting's design.
+>>
+>> Kind regards,
+>> Nicolas Frattaroli
+> 
+> Okay, so I've asked internally, and atomic_check isn't allowed to
+> modify any of the parameters either. There's efforts [0] underway
+> to allow error codes to be more specific, so that userspace knows
+> which constraint is being violated. That would allow userspace
+> applications to react by either adjusting their size or turning
+> off AFBC in this case. Turning off AFBC seems more generally
+> applicable here, since it means it won't need to resize the plane
+> and it'll save more than enough memory bandwidth by not going
+> through the GPU.
+> 
+> On that note: Andy, I didn't find a weston-simple-egl test in the
+> Weston 14.0.2 or git test suite, and weston-simple-egl itself does
+> not tell me whether GPU compositing is being used or not. Do you
+> have more information on how to test for this? I'd like to know
+> for when we have the necessary functionality in place to make
+> userspace smart enough to pick the fast path again.
+> 
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index af92876f1cc1..333be4c4f10b 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -276,6 +276,8 @@ struct fastrpc_session_ctx {
- 
- struct fastrpc_soc_data {
- 	u32 sid_pos;
-+	u32 dma_addr_bits_cdsp;
-+	u32 dma_addr_bits_default;
- };
- 
- struct fastrpc_channel_ctx {
-@@ -2202,6 +2204,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 	int i, sessions = 0;
- 	unsigned long flags;
- 	int rc;
-+	u32 dma_bits;
- 
- 	cctx = dev_get_drvdata(dev->parent);
- 	if (!cctx)
-@@ -2215,12 +2218,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		spin_unlock_irqrestore(&cctx->lock, flags);
- 		return -ENOSPC;
- 	}
-+	dma_bits = cctx->soc_data->dma_addr_bits_default;
- 	sess = &cctx->session[cctx->sesscount++];
- 	sess->used = false;
- 	sess->valid = true;
- 	sess->dev = dev;
- 	dev_set_drvdata(dev, sess);
- 
-+	if (cctx->domain_id == CDSP_DOMAIN_ID)
-+		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
-+
- 	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
- 		dev_info(dev, "FastRPC Session ID not specified in DT\n");
- 
-@@ -2235,9 +2242,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		}
- 	}
- 	spin_unlock_irqrestore(&cctx->lock, flags);
--	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-+	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
- 	if (rc) {
--		dev_err(dev, "32-bit DMA enable failed\n");
-+		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
- 		return rc;
- 	}
- 
-@@ -2324,10 +2331,14 @@ static int fastrpc_get_domain_id(const char *domain)
- 
- static const struct fastrpc_soc_data kaanapali_soc_data = {
- 	.sid_pos = 56,
-+	.dma_addr_bits_cdsp = 34,
-+	.dma_addr_bits_default = 32,
- };
- 
- static const struct fastrpc_soc_data default_soc_data = {
- 	.sid_pos = 32,
-+	.dma_addr_bits_cdsp = 32,
-+	.dma_addr_bits_default = 32,
- };
- 
- static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+I think weston-simple-egl is part of the weston client. When you build
+weston from source, you should obtain it. Just run `weston-simple-egl` 
+after compile and install weston.
+
+And I guess you're using Debian... The weston package there also ships
+with a weston-simple-egl binary [2].
+
+[1]: https://gitlab.freedesktop.org/wayland/weston/-/blob/main/clients/simple-egl.c
+[2]: https://packages.debian.org/sid/arm64/weston/filelist
+
+> In either case, I think adhering to the atomic API to ensure
+> artifact-free presentation is more important here than enabling
+> a fast-path on RK3568. I do think in most real-world use case
+> scenarios, the fallback won't degrade user experience, because
+> almost everything performance intensive I can think of (video
+> playback, games) will likely already use a plane geometry
+> where the width is divisible by 4. 800, 1024, 1280, 1600, 1920,
+> 2560, 3840 are all divisible by 4, so a window or full-screen
+> playback of common content won't need to fall back to GPU
+> compositing.
+> 
+> I'll send a v2 to fix another instance of "eSmart" left in a
+> message, but beyond that I think we should be good.
+> 
+> Kind regards,
+> Nicolas Frattaroli
+> 
+> https://lore.kernel.org/dri-devel/20251009-atomic-v6-0-d209709cc3ba@intel.com/ [0]
+> 
+> 
+> 
+> 
+
 -- 
-2.34.1
-
+Best, 
+Chaoyi
