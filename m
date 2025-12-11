@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203D5CB67BC
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B4FCB67C5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:39:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A7810E7EE;
-	Thu, 11 Dec 2025 16:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09D610E842;
+	Thu, 11 Dec 2025 16:39:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cHNvQEJx";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Bs3BQ+pF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B3410E7EE
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:39:48 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DD310E842
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:39:51 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 15DC3C1934E;
- Thu, 11 Dec 2025 16:39:23 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 78B674E41B7C;
+ Thu, 11 Dec 2025 16:39:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 1A9966072F;
- Thu, 11 Dec 2025 16:39:47 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4C7456072F;
+ Thu, 11 Dec 2025 16:39:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 52560103C8C7B; Thu, 11 Dec 2025 17:39:43 +0100 (CET)
+ with ESMTPSA id 21F4D103C8C1E; Thu, 11 Dec 2025 17:39:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765471185; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1765471188; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=sVcTUwOCRH5tnQZK1SD7eSjVIvUKNCHhAOFhXPDQ2uA=;
- b=cHNvQEJxuvuPsT39IuUKHb36IrNHyBSryBir25sEu70JFNA18i6VTtebbBVbtwIOLy6Tn9
- 2lFVUZzZ7Z5cUy6m9qMX2TDwaMdWW/+VUiKA2RKbG/pnBaG8A0yxzqtSIH5C16NRZTusYh
- kssZoSJVT5KZwolD9I1MMu1mwNf5kej8nmnVHfraI+MfKq38Ct50lRjm7z/elItW4RUzMX
- iZMsMjgBniz1bIcr3RnPC3YbaSPLX2PUyX0XM65851mTSh0VdM9CZvEmLi89XoKuqrPyjw
- hqwQmSS7uDqDazxhL0AASbrClk2Hj+KGz4b7sXG7Z8CJXtmwKTdEalymfzJ7kg==
+ bh=i06U48V1QlfdC71Az6GT0AOQaJkHqXg7US8ufDzb8no=;
+ b=Bs3BQ+pFVmaC9vUuIx5BPNRRVJ2vy3VTEQMGqqd/1413JVjvY9XBgyJlXPfAW0NamnamLb
+ Rf69FJI3t0m+CwfxHoW/WfNrAPjYcOIOWeW3BNDpFm8CgqdCigsLUHjm+KcSdYNmO1471z
+ xBSxQJCdgVmPlLcVQR8WnJLnfqnok6piBbvOYO9ZPav1uNYKkqtA73QWZYF0SpaSGc0REN
+ sWmpWDezSHerVhNNpmIqB0JteM5UjfFPPJCdf6sRC/8r0EY2oBQTyX8Z5R1WY8pWyQMNdb
+ 3ht0JpCTAOe2kemvXFd527WmtSn7RKZih82tfN2Iij5sw28VT6FBPE2c9AW/Gg==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Thu, 11 Dec 2025 17:38:46 +0100
-Subject: [PATCH v2 02/20] dt-bindings: display: tilcdc: Mark panel binding
- as deprecated
+Date: Thu, 11 Dec 2025 17:38:47 +0100
+Subject: [PATCH v2 03/20] drm/tilcdc: Remove simulate_vesa_sync flag
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-feature_tilcdc-v2-2-f48bac3cd33e@bootlin.com>
+Message-Id: <20251211-feature_tilcdc-v2-3-f48bac3cd33e@bootlin.com>
 References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
 In-Reply-To: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -81,29 +80,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark the ti,tilcdc,panel binding as deprecated in the documentation.
-This legacy binding should no longer be used for new designs. Users
-should migrate to the standard DRM panel bindings instead.
+The tilcdc hardware does not generate VESA-compliant sync signals. It
+aligns the vertical sync (VS) on the second edge of the horizontal sync
+(HS) instead of the first edge. To compensate for this hardware
+behavior, the driver applies a timing adjustment in mode_fixup().
+
+Previously, this adjustment was conditional based on the simulate_vesa_sync
+flag, which was only set when using external encoders. This appears
+problematic because:
+
+1. The timing adjustment seems needed for the hardware behavior regardless
+   of whether an external encoder is used
+2. The external encoder infrastructure is driver-specific and being
+   removed due to design issues
+3. Boards using tilcdc without bridges (e.g., am335x-evm, am335x-evmsk)
+   may not be getting the necessary timing adjustments
+
+Remove the simulate_vesa_sync flag and apply the VESA sync timing
+adjustment unconditionally, ensuring consistent behavior across all
+configurations. While it's unclear if the previous conditional behavior
+was causing actual issues, the unconditional adjustment better reflects
+the hardware's characteristics.
 
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
 
-Change in v2:
-- New patch
+Only few board currently use tilcdc not associated to a bridge like the
+am335x_evm or the am335x-evmsk.
 ---
- Documentation/devicetree/bindings/display/tilcdc/panel.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c     | 16 ----------------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h      |  2 --
+ drivers/gpu/drm/tilcdc/tilcdc_external.c |  1 -
+ 3 files changed, 19 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tilcdc/panel.txt b/Documentation/devicetree/bindings/display/tilcdc/panel.txt
-index 808216310ea27..b973174d704ed 100644
---- a/Documentation/devicetree/bindings/display/tilcdc/panel.txt
-+++ b/Documentation/devicetree/bindings/display/tilcdc/panel.txt
-@@ -1,4 +1,5 @@
- Device-Tree bindings for tilcdc DRM generic panel output driver
-+This binding is deprecated and should not be used.
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index 52c95131af5af..b06b1453db2dd 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -47,9 +47,6 @@ struct tilcdc_crtc {
  
- Required properties:
-  - compatible: value should be "ti,tilcdc,panel".
+ 	struct drm_framebuffer *next_fb;
+ 
+-	/* Only set if an external encoder is connected */
+-	bool simulate_vesa_sync;
+-
+ 	int sync_lost_count;
+ 	bool frame_intact;
+ 	struct work_struct recover_work;
+@@ -642,11 +639,6 @@ static bool tilcdc_crtc_mode_fixup(struct drm_crtc *crtc,
+ 		const struct drm_display_mode *mode,
+ 		struct drm_display_mode *adjusted_mode)
+ {
+-	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-
+-	if (!tilcdc_crtc->simulate_vesa_sync)
+-		return true;
+-
+ 	/*
+ 	 * tilcdc does not generate VESA-compliant sync but aligns
+ 	 * VS on the second edge of HS instead of first edge.
+@@ -866,14 +858,6 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
+ 	tilcdc_crtc->info = info;
+ }
+ 
+-void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+-					bool simulate_vesa_sync)
+-{
+-	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-
+-	tilcdc_crtc->simulate_vesa_sync = simulate_vesa_sync;
+-}
+-
+ void tilcdc_crtc_update_clk(struct drm_crtc *crtc)
+ {
+ 	struct drm_device *dev = crtc->dev;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index 58b276f82a669..3aba3a1155ba0 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -160,8 +160,6 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc);
+ void tilcdc_crtc_update_clk(struct drm_crtc *crtc);
+ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
+ 		const struct tilcdc_panel_info *info);
+-void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+-					bool simulate_vesa_sync);
+ void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
+ void tilcdc_crtc_destroy(struct drm_crtc *crtc);
+ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+index 3b86d002ef62e..da755a411d9ff 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+@@ -80,7 +80,6 @@ int tilcdc_add_component_encoder(struct drm_device *ddev)
+ 		return -ENODEV;
+ 
+ 	/* Only tda998x is supported at the moment. */
+-	tilcdc_crtc_set_simulate_vesa_sync(priv->crtc, true);
+ 	tilcdc_crtc_set_panel_info(priv->crtc, &panel_info_tda998x);
+ 
+ 	return 0;
 
 -- 
 2.43.0
