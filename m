@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991BACB5195
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 09:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9039DCB544A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 09:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E596E10E779;
-	Thu, 11 Dec 2025 08:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B7410E79F;
+	Thu, 11 Dec 2025 08:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nkKh22R7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ih8cHupn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46F9710E770
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 08:28:39 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 299B8C19347;
- Thu, 11 Dec 2025 08:28:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 16FC26068C;
- Thu, 11 Dec 2025 08:28:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E6ACF103C8C1E; Thu, 11 Dec 2025 09:28:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765441716; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=0SrfXUdcUykyhFz/Z2PprfF3ar6YbChnSr+9vH8ynbE=;
- b=nkKh22R7g0PLjyBcO7yn2yXRd61A0yeRhie7iL8AkagNhIYKDDPex+SbNyXNEKlhHFadEX
- o49mTdgbZNoOH9/+Ynuh8dxNkX4OsiIGa3Nsm3mN2LGrY2E53EKTGyCSKd8NeV/2SK7Pc7
- 8s2+/C0R85xxoGQjWWvzVF1QYlM/TZAS5dlBEujUnlHAl4EkfBvFeg50GDgEcfE2AsEjMC
- dAt8d3iBcLg64TqoLzd0eiQ5HLbJg7DuZT46lYpKC3Dz7jA2yfcYWWCP9ph8AhAwZx0j5m
- NxvETRYA1fNTDLY1tmtyqggyYSR2w4AzxCTY+YiT69m3sj3NSuDqAYPaI77UBw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Dec 2025 09:28:29 +0100
-Message-Id: <DEV8UT3JZ42I.3UQX5KEVZEXO1@bootlin.com>
-Subject: Re: [PATCH v3 0/2] drm/bridge: handle gracefully atomic updates
- during bridge removal
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "David Airlie"
- <airlied@gmail.com>, "Dmitry Baryshkov" <lumag@kernel.org>, "Hui Pu"
- <Hui.Pu@gehealthcare.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Francesco Dolcini" <francesco@dolcini.it>, "Emanuele Ghidoli"
- <ghidoliemanuele@gmail.com>, =?utf-8?q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
- <jpaulo.silvagoncalves@gmail.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
- <546bc098a35360c659b6dfb88d5cb451@kernel.org>
- <DEK6B0KMDCCN.3U4FLO44L04FC@bootlin.com>
- <20251128-cheerful-muscular-chameleon-1ec2f5@houat>
-In-Reply-To: <20251128-cheerful-muscular-chameleon-1ec2f5@houat>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC8610E7B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 08:59:33 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4775ae5684fso2954045e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 00:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765443572; x=1766048372; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d7Dcmeo17/ho3pwIJKnx+P3oKTwjiCKC8M+QuOO4Bzs=;
+ b=ih8cHupn/Lci18bE92Oae1ZW9nhHdgCuXoDfE0ZRw8mQpMjZWzs30Sp/NgP9H11t3S
+ soGcvfIv1oDFyeS1yG4H5YpBedq/ixvnV5IxwVumBa5l8JUpenapNVkKN5XTPKo94eWS
+ 8DrWgt3Blk6yvalEROgo4/VpUvQ1ELMXrdLMhFj8Co2v+ORVSApdzX7ihmJOZxd10rE9
+ otYTHv//dcsvobGdRtCb0iy4G0FsA4VK9CJdTOBirwuFIYPq1FLbykcIbwgPqOuSaFmu
+ LPVlRFpE3Ccao2bhKU9434Iaxn1hwxwVSsmlFxHcIe3kwl/kgL2vgj9srARz/rYYj8w7
+ mqBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765443572; x=1766048372;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d7Dcmeo17/ho3pwIJKnx+P3oKTwjiCKC8M+QuOO4Bzs=;
+ b=PsAIaR3+77SwtKniXBF3l+UdGL67lbOxBCc54bhyxqk5ecT0XfG9u2pE66dtbXEeBw
+ rOki5izHYLxOW6Ia2QC2a1iRoEyj4y4pS2aBq4zw303yfg5GQhHULWiULcmZJ8SrqQdT
+ VUdUU7PuoU9QlweaXZfvIdHO2liz7ZVqzHKCqXy+txzQ22X1equjRBiK+RtVWFaHDdzM
+ xnOQiIojE8fWovD3FKv2OkRUhPTTeRAYmqc9ZX7cFc4gPT/ocEphUX1udQofVG/O3Wj7
+ hbrjG8WmQllLv18qI3tTSB6C1/9GX9+9eC4SM3Um9LsJ803fy//0lVYs746DXtf9gzWz
+ QTng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXryy7byRY7ZHasFB8H3qT5RPz/omHbXqTFf+ebz++KDwaEF7YOW0MA6BuLemeNvOIefLHlUSLm+P0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFVd/nRmTeFy0FFmHrevNstJ4J8QDa3GNWYKXuH5fs5Bj47YML
+ 07bW70ztBtxdxALSQMOykIPJbSNGCw/IaTa+GMDjbhOJaGcsn+lA2c9m
+X-Gm-Gg: AY/fxX5qOYL33jE4j4cgdtyMWMHQBVgzw4iqZZRWFj5EdImwHpYMLJbExeNJU7UKnJN
+ /RzffRofqWrjubVFI9+XuIQccS70K51UZ7m1CGRULBvN7i0nzfPn7A8Nz6fQ3e/pgYEla6zp8We
+ wvec6VMitZ9r+ADBUNWhD1g0izUXfyAaJZXe6H3i41dgc8k586tUo2m9foqA0qWlI5FnAXFAnTY
+ gXtKyFXA1oPvRAultuzgWaplLx9JCoxn+Pywz1zVuxPvK4yMfBvaXcZ/WUTGBqYrFqyVslk4BQW
+ FVEgeYemjFtwD0sW2GyjYJ7yAqZJnXuZ5X5a1yZ8LglV3u+QfYQwdDLgXbPmcw7KxORxLiDpiFF
+ MaphQDuVtr5/kjVEqdijyBnwQ8D+Ol1GKfPz8et1LusmDK7GIpqZpg5v3EpVrlUF/5NLdOHdUhV
+ PQ9nmKJg==
+X-Google-Smtp-Source: AGHT+IFfevukgFnWT3LKBWertJrehx/v0qPaRwBDg4O1Pd1KYzneq0UfgHhekRMu8pvpp3JFeKvIGQ==
+X-Received: by 2002:a05:600c:354a:b0:477:97c7:9be7 with SMTP id
+ 5b1f17b1804b1-47a837fcbb4mr55532325e9.1.1765443572110; 
+ Thu, 11 Dec 2025 00:59:32 -0800 (PST)
+Received: from pc.. ([105.163.2.215]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47a89ed6c64sm8683195e9.12.2025.12.11.00.59.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Dec 2025 00:59:31 -0800 (PST)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] drm/radeon : Use devm_i2c_add_adapter instead of
+ i2c_add_adapter
+Date: Thu, 11 Dec 2025 11:59:23 +0300
+Message-ID: <20251211085923.737742-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,46 +88,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Replace i2c_add_adapter() with devm_i2c_add_adapter() and remove all
+associated cleanup, as devm_i2c_add_adapter() handles adapter teardown
+automatically.
 
-On Fri Nov 28, 2025 at 11:07 AM CET, Maxime Ripard wrote:
-> On Fri, Nov 28, 2025 at 09:09:17AM +0100, Luca Ceresoli wrote:
->> Hi Maxime,
->>
->> +Cc Emanuele, Francesco, Jo=C3=A3o
->>
->> On Thu Nov 27, 2025 at 7:35 PM CET, Maxime Ripard wrote:
->> > On Wed, 12 Nov 2025 17:34:33 +0100, Luca Ceresoli wrote:
->> >> This is a first attempt at gracefully handling the case of atomic upd=
-ates
->> >> happening concurrently to physical removal of DRM bridges.
->> >>
->> >> This is part of the work to support hotplug of DRM bridges. The grand=
- plan
->> >> was discussed in [1].
->> >>
->> >> [ ... ]
->> >
->> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
->>
->> Thanks for reviewing!
->>
->> Two alternative patches [0][1] have been sent to address the issue with
->> PLL_UNLOCK, and both would conflict with patch 2 of this series. So I'd
->> keep this series on hold for a while, waiting for a decision to be taken
->> about how the PLL_UNLOCK issue will be handled. I'll then rebase this
->> series as needed.
->
-> Yep, agreed.
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_i2c.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
-Turns out the patch that got applied does not conflict with this series,
-out of luck with the code layout.
+diff --git a/drivers/gpu/drm/radeon/radeon_i2c.c b/drivers/gpu/drm/radeon/radeon_i2c.c
+index 1f16619ed06e..f3ba4187092c 100644
+--- a/drivers/gpu/drm/radeon/radeon_i2c.c
++++ b/drivers/gpu/drm/radeon/radeon_i2c.c
+@@ -931,7 +931,7 @@ struct radeon_i2c_chan *radeon_i2c_create(struct drm_device *dev,
+ 		snprintf(i2c->adapter.name, sizeof(i2c->adapter.name),
+ 			 "Radeon i2c hw bus %s", name);
+ 		i2c->adapter.algo = &radeon_i2c_algo;
+-		ret = i2c_add_adapter(&i2c->adapter);
++		ret = devm_i2c_add_adapter(dev->dev, &i2c->adapter);
+ 		if (ret)
+ 			goto out_free;
+ 	} else if (rec->hw_capable &&
+@@ -972,15 +972,6 @@ struct radeon_i2c_chan *radeon_i2c_create(struct drm_device *dev,
+ 
+ }
+ 
+-void radeon_i2c_destroy(struct radeon_i2c_chan *i2c)
+-{
+-	if (!i2c)
+-		return;
+-	WARN_ON(i2c->has_aux);
+-	i2c_del_adapter(&i2c->adapter);
+-	kfree(i2c);
+-}
+-
+ /* Add the default buses */
+ void radeon_i2c_init(struct radeon_device *rdev)
+ {
+@@ -999,10 +990,8 @@ void radeon_i2c_fini(struct radeon_device *rdev)
+ 	int i;
+ 
+ 	for (i = 0; i < RADEON_MAX_I2C_BUS; i++) {
+-		if (rdev->i2c_bus[i]) {
+-			radeon_i2c_destroy(rdev->i2c_bus[i]);
++		if (rdev->i2c_bus[i])
+ 			rdev->i2c_bus[i] = NULL;
+-		}
+ 	}
+ }
+ 
+-- 
+2.43.0
 
-So I'm applying this one today.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
