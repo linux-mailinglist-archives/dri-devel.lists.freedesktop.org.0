@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CB5CB74F0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 23:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B849CB74F9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 23:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C283210E021;
-	Thu, 11 Dec 2025 22:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6886C10E113;
+	Thu, 11 Dec 2025 22:41:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QV12dOb0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jGz99nO8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3BC10E021
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 22:38:26 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-477a1c28778so6778385e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 14:38:26 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C736010E113
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 22:41:05 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-47755de027eso4724265e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 14:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765492705; x=1766097505; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765492864; x=1766097664; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hJB9vsPJhBGqG1y/+P5/s4l3WFLRuJ78lA6bLowUWtk=;
- b=QV12dOb0CDVksv9t6AFCiUCLV4VQ9tGv97UVf9CnvBmBK25s8R60BCa4qEDFXSAM5f
- 2Yjw9yZxEzZG9jZB6v/jk41YVZdiY9HsODkDKwYI6tmWR89dRCadwe4FeVvB22/WOQiA
- 3mro2ofsrEUqh5NAH+ypCSKPkCbjG4zCdGShTpbieVBzsAP0/22cND2XbKBJpcw9mC9U
- YPQ1pJ/ePTe3sI6PKSL6urfhJZ8+DezqhEfX5mxgOXDP244jEqNougNggVWsoGY31CLY
- CszlzguSxQ7SETg9K/yanNsMSyfSo3BIWm43+se/NYrqDDBzr4UpXyw8xuwNTEYWeOxW
- K/Eg==
+ bh=oc1kTCaPU/Up3VBWwNqeucLbtfTNSR3ZKTbW8ftdd+s=;
+ b=jGz99nO84ABhAg0PLwAZ562tzPYn5gx/Qj7MlrZtfvHO6MZeNMuyW6diBWfHwGDAuL
+ sgayqcNz+7PeWl3CeVa348ahrP7FFFB2/HTe0fsNuTWEicasXw2CpXy07hrQnE5WLpIs
+ sOb3QORVhNTchtHVd7KBDhPr1NcVpB+QeFBAHGmMsII0n8oN5ay04E2vmvJHEuCaYS+8
+ LIhqCyqvqDyjEw0UNnfrS+IPSf2L2AkNwc6le+dVZEpjdbRxthfqkrV6IeCLKGggKBR7
+ l0k2rVf4k/wP/2JXz9r05awUn0Y3+m81kKe/tOZV4iwPinYDIzfMVJyLUM9kdiRgUeqW
+ YGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765492705; x=1766097505;
+ d=1e100.net; s=20230601; t=1765492864; x=1766097664;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=hJB9vsPJhBGqG1y/+P5/s4l3WFLRuJ78lA6bLowUWtk=;
- b=xEKNKk4sbbilERt4Rpcj0Z+tR2Faz2PGBWX+2huwJjMdER6VOrVrLFXLmVo8q6OW7x
- YunQd9d9K6Kv61T44rRNAPwL1wVc/+vFzdzRjYSEgmdCIKP0BJw4CrwSfSXJNdnXaoLI
- KbG0tJhTcjWTDpqFjt+pOV1wbNjBPn5vB3EJU3BgLh74lE98SJ0uRql0rmXjMEF7HZBF
- zIFxnfx6HPOoFnxcP7KmrD+SH1BNgISnDhI9NibDwAFNLRr1ivaBXo+rJC6HI0LNm9mn
- CJnf21kACqdWkjk/QSRNxUXxeawl2gdQMb/adZtCrV0CaT5/7Yg6dTwJpm2SiPxfowOX
- MXyQ==
+ bh=oc1kTCaPU/Up3VBWwNqeucLbtfTNSR3ZKTbW8ftdd+s=;
+ b=RLzuMCsTBQoaEtSdflpYMMLZMvllkLgc3Mwf1ax++Ozqxv1h0n9i9h6u+/wp5beXnZ
+ QfkAqvT0jPoOgcZ0+PrHOaAL+z5roegyVUCm5U0/Vbo4wXbbApM9KGKXpuX/aGhZ0uR3
+ EunvpippLRkVTEiSE8Ac9NZzDJNiw12AJp4PIbMcUWQX2YiKVCamD6+hVFjKHxob4t+T
+ sW+I+/TZ+/bYNWiBiPJs7n8roSw0d84jIK9iP3Qpd30KMgNhLby2+RYJsA/lM0FxpSzv
+ Mqi5z8E/y1xZvDFF7cc/g4BGrgRgAyPeD6IS0gog1bW6mW+x6UF3wuiZ0ZuyMC5AtMoB
+ GwsA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUwLhmuTuWHCZKoJEBx6mEMHfXrojo4deZTka5Vm2wnc8ApqTLL0/Zkj1FlzjVzJHGmS9QD8KdRll0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyF2o6pf68fg3Z1IsRGe2r+vsP3BGSPyej5oL0CvLWKd7jch1R+
- m4SzRxFq8eQyCo03VrAsJULVqEK7T4xaqxkc/xalWnlnbnNq2q45FPje
-X-Gm-Gg: AY/fxX6lQGnGQ2kHR+D1ONs427/jAcQhLX48IVxrTCSVBZoIl1+uLaLSmcEmihpBMXS
- Ca0W7CtH+nMsLrtNmTPwp1ADjF6dhaqvsdhrI6jO1BVwTTLZ98B/6v88XvaQtqsMBlWjL7Ufkbk
- Y7pIuTJoYLH6Mazp9Io0iWD3MHfJo5Y2yG5F6Eidbtr4x+nqQibqK3M5SUysxwXIVvCSy/1kAKX
- kkL6yiy2KFws0QwwXiAQwV3nCI3favWLyTrZiQHawFhvPcuNPdbBpAbbb3Se/alfEdI/DhY6ohe
- NCycQF0YazbBsoJeBIllut/jlTdwooAV0ko65OSgz2gR2mp1CYKoONYYA3UH0qdy6j6KHtj8juK
- Kv7yUxCWCNnXPDCgpalRrd2o39/tWz1NT5AGy8vY0qgI8LsLE2PFAnA2nJnLkotqw0MJhDJGRO0
- rRUpM7YTRQqa2Rs7OFxFAsN6mEc6tsgkZMOQPrfRVJe5qvAJ3j9jPU
-X-Google-Smtp-Source: AGHT+IHLwdFc72oZ+XpABv665DoqMI2joXHmdbmUSRJgh1kVpg1rJGVTxEvlCZOJHg/L9U83lkVLTQ==
-X-Received: by 2002:a05:600c:a06:b0:475:e007:bae0 with SMTP id
- 5b1f17b1804b1-47a8375362emr95622175e9.16.1765492704852; 
- Thu, 11 Dec 2025 14:38:24 -0800 (PST)
+ AJvYcCWNXMYnCxJ4WBV/OmSqY4ugJjJ7umt5ZF0TDjJPftj0KO9H2DvrixhF7Sbm4SqQHehG4/SqbkRkMew=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yym06RqeNeYPrFCf2JmJbiUi0s+b7y5ZlJxrY9lWEiVf8Lr5x0X
+ XtbsMqrUuuiKvCBZMSwcxfdeuA/S5uw54dUW7XAuLIWwkDk0hGG2/upD
+X-Gm-Gg: AY/fxX6tKvt/yfgyZHPkv5qZXsKr/U5IuJOq+2WDquT/8Lm4uh5fslynT+W3otGkPBj
+ ztddSd/JlJR2QEOPMCFkRyws4tZsvqvxAlISAzc1TdYyi/Wc16/xDASvI9uCAzOAb1kdOKleF7L
+ +ygNluIf6n3iE9ig+xuF6Liy8o8hNYfEtSdnyZPcWV3st1Mk7rZk+njf6y/xsNaR4zG7aewlPHc
+ sCR0RFOP75j6njf8VnR0FOuKE0vpQaAtW+FHhkzs/pHwGkmgGlIzTe2l6TXqb3oOq6qf+y9mDc0
+ 1ON1GhA3P2SvjaRb3KPHQ+HSaYSJtBn/EBVzsPrvPQc5YqAqzd5DwcLHn0Q150YPKkrQzq/DC6y
+ sNGYUf2S8eQcvcwK2MT/VY5SOH/pqU6oY+Pmnqlhiz2N6+istIdHmOq3b4gqxJ6z8iLjoUPgCip
+ pgT33k3puwyd/TNxnJGn0tSbl7yLcKfuYcL30UPg3W4hCIeBvO+b0O
+X-Google-Smtp-Source: AGHT+IG1bTT2BZs5zspIv+MpSidSuvbOeyRhbmBxmTJnjzWF8kBNNUW7JY1Buz+51tBubecYulXc/w==
+X-Received: by 2002:a05:600c:1991:b0:47a:80f8:82ab with SMTP id
+ 5b1f17b1804b1-47a83843776mr80137805e9.24.1765492864263; 
+ Thu, 11 Dec 2025 14:41:04 -0800 (PST)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a8f3a20c2sm508975e9.6.2025.12.11.14.38.24
+ 5b1f17b1804b1-47a8f4c624esm326205e9.15.2025.12.11.14.41.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Dec 2025 14:38:24 -0800 (PST)
-Date: Thu, 11 Dec 2025 22:38:22 +0000
+ Thu, 11 Dec 2025 14:41:04 -0800 (PST)
+Date: Thu, 11 Dec 2025 22:41:02 +0000
 From: David Laight <david.laight.linux@gmail.com>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: Sandy Huang <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?=
@@ -74,12 +74,12 @@ Cc: Sandy Huang <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?=
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Daniel
  Stone <daniels@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v4 1/8] drm/rockchip: vop2: Switch impossible format
+Subject: Re: [PATCH v4 2/8] drm/rockchip: vop2: Switch impossible pos
  conditional to WARN_ON
-Message-ID: <20251211223822.6eeabb4d@pumpkin>
-In-Reply-To: <20251211-vop2-atomic-fixups-v4-1-5d50eda26bf8@collabora.com>
+Message-ID: <20251211224102.5e079d70@pumpkin>
+In-Reply-To: <20251211-vop2-atomic-fixups-v4-2-5d50eda26bf8@collabora.com>
 References: <20251211-vop2-atomic-fixups-v4-0-5d50eda26bf8@collabora.com>
- <20251211-vop2-atomic-fixups-v4-1-5d50eda26bf8@collabora.com>
+ <20251211-vop2-atomic-fixups-v4-2-5d50eda26bf8@collabora.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -99,41 +99,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Dec 2025 21:40:31 +0100
+On Thu, 11 Dec 2025 21:40:32 +0100
 Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
 
 > From: Daniel Stone <daniels@collabora.com>
 > 
-> We should never be able to create a framebuffer with an unsupported
-> format, so throw a warning if this ever happens, instead of attempting
-> to stagger on.
-
-It doesn't look like you've changed the behaviour.
-Except that all the systems with PANIC_ON_WARN set will panic.
-I believe that is somewhere over 90% of systems.
-
-	David
-
+> We already clip the plane to the display bounds in atomic_check, and
+> ensure that it is sufficiently sized. Instead of trying to catch this
+> and adjust for it in atomic_update, just assert that atomic_check has
+> done its job.
 > 
 > Signed-off-by: Daniel Stone <daniels@collabora.com>
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 29 +++++++++-------------------
+>  1 file changed, 9 insertions(+), 20 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 498df0ce4680..20b49209ddcd 100644
+> index 20b49209ddcd..81b3eba07095 100644
 > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -1030,7 +1030,8 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
->  		return 0;
+> @@ -1214,28 +1214,17 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>  	src_w = drm_rect_width(src) >> 16;
+>  	src_h = drm_rect_height(src) >> 16;
+>  	dsp_w = drm_rect_width(dest);
+> -
+> -	if (dest->x1 + dsp_w > adjusted_mode->hdisplay) {
+> -		drm_dbg_kms(vop2->drm,
+> -			    "vp%d %s dest->x1[%d] + dsp_w[%d] exceed mode hdisplay[%d]\n",
+> -			    vp->id, win->data->name, dest->x1, dsp_w, adjusted_mode->hdisplay);
+> -		dsp_w = adjusted_mode->hdisplay - dest->x1;
+> -		if (dsp_w < 4)
+> -			dsp_w = 4;
+> -		src_w = dsp_w * src_w / drm_rect_width(dest);
+> -	}
+> -
+>  	dsp_h = drm_rect_height(dest);
 >  
->  	format = vop2_convert_format(fb->format->format);
-> -	if (format < 0)
-> +	/* We shouldn't be able to create a fb for an unsupported format */
-> +	if (WARN_ON(format < 0))
->  		return format;
+> -	if (dest->y1 + dsp_h > adjusted_mode->vdisplay) {
+> -		drm_dbg_kms(vop2->drm,
+> -			    "vp%d %s dest->y1[%d] + dsp_h[%d] exceed mode vdisplay[%d]\n",
+> -			    vp->id, win->data->name, dest->y1, dsp_h, adjusted_mode->vdisplay);
+> -		dsp_h = adjusted_mode->vdisplay - dest->y1;
+> -		if (dsp_h < 4)
+> -			dsp_h = 4;
+> -		src_h = dsp_h * src_h / drm_rect_height(dest);
+> -	}
+> +	/* drm_atomic_helper_check_plane_state calls drm_rect_clip_scaled for
+> +	 * us, which keeps our planes bounded within the CRTC active area
+> +	 */
+> +	WARN_ON(dest->x1 + dsp_w > adjusted_mode->hdisplay);
+> +	WARN_ON(dest->y1 + dsp_h > adjusted_mode->vdisplay);
+> +	WARN_ON(dsp_w < 4);
+> +	WARN_ON(dsp_h < 4);
+> +	WARN_ON(src_w < 4);
+> +	WARN_ON(src_h < 4);
+
+You need to do something when the tests fail.
+Carrying on regardless is never right.
+
+	David
+
+
+
 >  
->  	/* Co-ordinates have now been clipped */
+>  	/*
+>  	 * This is workaround solution for IC design:
 > 
 
