@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB043CB71C0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 20:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4948ECB721C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 21:16:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E99B10E764;
-	Thu, 11 Dec 2025 19:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906ED10E069;
+	Thu, 11 Dec 2025 20:16:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="U5toQvtR";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="OBeTBpVW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD3B10E625;
- Thu, 11 Dec 2025 19:59:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765483166; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0264D10E069
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 20:16:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765484150; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=PapCYrGOA0DdMdEGqYe8wSbVIMgmWtTx9Ajd3S+/lPqhJQ/Tpj8uBEwf+hBtuyHSFC/706YpOtQ6gsr8LHXYsIb1Yb9TlGNzvX4TItjetl7m/Y14QiE77f5CcqVB9hnnQbYK/SqjO4gxHLNKl3eEoMSr40w2cXD7hIERrS5pKRU=
+ b=n8JN/cQD+ZDxR7e0vEcnmw+OoG0B1OWfYMQomIxkuqh3LIqsYrDeAvy92Fp3Gxrph5muti8av56YAbtrQ8jQIa0/iLJ/pma0tSiR/FL2rO6VdU7wQ2TQ/s0lA7rYN4ceql5xdhailmTU9FXoeD1uxHXOFOqZ1Z5cqPh/HV+R2pI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765483166;
+ s=zohoarc; t=1765484150;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=1Dh7aECitOB9k9I8NTgAp9Wi9RahEZHruitjqRy2ayc=; 
- b=BKn84KfImSg64WEv/gHkaFqxl2XbwOYSVlJj6kC7tLzf4FfvHc0KAXPiaQWvFG22irZUtesPQHpS6atOwKkKwVimS5tFUrVDABB1JJJbs94pGfkSJSItfFaDs0VRCQ0URWX9aHNinF7QbpqAkZRhIpdt6xDuiFjgD2itpWr4Q6Y=
+ bh=FtV52pEpZTOsw5iM7zwEC77GwPIreWMX9hf9Bu98lY8=; 
+ b=WXvjk7jPfLXPgDbZyGrX3BZtQcygfxxy+I/OrPxBFNrAZSH0sEBxk4Bs+icmv7BDW+AMi/wtXXTgQPACi/X0Y9tWt5rKgIS61SHOJhU82NzkX+TTHxtTOTVi10zLVqNFeSuemgOOp078nfVvKAnVpX33c/Vrtmv2yNV6di+TNI8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765483166; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765484150; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=1Dh7aECitOB9k9I8NTgAp9Wi9RahEZHruitjqRy2ayc=;
- b=U5toQvtRKHWzGyOiOOT0n9f8hMBVqtET17wX+Ha5qp60DmHE0JxiLQ+B05LilYa5
- /cVsZJEEwURhPFX+3AF4ZuqBtma4nmBCO9IHA1HSsKx6CBuEcNlNXlJvkB7GL0rHiRI
- G4GFL8yY4SMgQHfu9hAz/6+OC2BxiK+5FRPy94O4=
-Received: by mx.zohomail.com with SMTPS id 1765483163864458.18267084626757;
- Thu, 11 Dec 2025 11:59:23 -0800 (PST)
+ bh=FtV52pEpZTOsw5iM7zwEC77GwPIreWMX9hf9Bu98lY8=;
+ b=OBeTBpVWdTJQ7VV4IwKpbXH27L54a7lYh6DnqdgpvtFJhEOJ+Xj3hkSMzxPsSibG
+ uFt1bcAk3aBmaChAmreoopk5f2z+pSLi7nBIkBWmuqE/ZvvkXA/eBS01vkjBUXUEPJp
+ dF5R9yHJSLIW7fkj+5Dqava5PXLqkT+BfWKq7gMA=
+Received: by mx.zohomail.com with SMTPS id 1765484148729613.6340809912248;
+ Thu, 11 Dec 2025 12:15:48 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v5 06/17] drm/display: hdmi-state-helper: Try subsampling
- in mode_valid
-Date: Thu, 11 Dec 2025 20:59:14 +0100
-Message-ID: <9409315.NyiUUSuA9g@workhorse>
-In-Reply-To: <20251209-dramatic-caiman-of-luck-db9d0f@houat>
-References: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
- <20251128-color-format-v5-6-63e82f1db1e1@collabora.com>
- <20251209-dramatic-caiman-of-luck-db9d0f@houat>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/3] drm/panthor: Add tracepoint for hardware
+ utilisation changes
+Date: Thu, 11 Dec 2025 21:15:43 +0100
+Message-ID: <2740907.taCxCBeP46@workhorse>
+In-Reply-To: <6e261518-6b91-4790-8f95-b36f0435fb81@arm.com>
+References: <20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com>
+ <20251211-panthor-tracepoints-v3-2-924c9d356a5c@collabora.com>
+ <6e261518-6b91-4790-8f95-b36f0435fb81@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
@@ -88,78 +72,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 9 December 2025 15:18:25 Central European Standard Time Maxime Ripard wrote:
-> On Fri, Nov 28, 2025 at 10:05:42PM +0100, Nicolas Frattaroli wrote:
-> > drm_hdmi_connector_mode_valid assumes modes are only valid if they work
-> > with RGB. The reality is more complex however: YCbCr 4:2:0
-> > chroma-subsampled modes only require half the pixel clock that the same
-> > mode would require in RGB.
+On Thursday, 11 December 2025 20:37:09 Central European Standard Time Karunika Choo wrote:
+> On 11/12/2025 16:15, Nicolas Frattaroli wrote:
+> > Mali GPUs have three registers that indicate which parts of the hardware
+> > are powered at any moment. These take the form of bitmaps. In the case
+> > of SHADER_READY for example, a high bit indicates that the shader core
+> > corresponding to that bit index is powered on. These bitmaps aren't
+> > solely contiguous bits, as it's common to have holes in the sequence of
+> > shader core indices, and the actual set of which cores are present is
+> > defined by the "shader present" register.
 > > 
-> > This leads to drm_hdmi_connector_mode_valid rejecting perfectly valid
-> > 420-only modes.
+> > When the GPU finishes a power state transition, it fires a
+> > GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
+> > received, the _READY registers will contain new interesting data. During
+> > power transitions, the GPU_IRQ_POWER_CHANGED interrupt will fire, and
+> > the registers will likewise contain potentially changed data.
 > > 
-> > Fix this by checking whether the mode is 420-only first. If so, then
-> > proceed by checking it with HDMI_COLORSPACE_YUV420 so long as the
-> > connector has legalized 420, otherwise error out. If the mode is not
-> > 420-only, check with RGB as was previously always the case.
+> > This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
+> > which is something related to Mali v14+'s power control logic. The
+> > _READY registers and corresponding interrupts are already available in
+> > v9 and onwards.
 > > 
-> > Fixes: 47368ab437fd ("drm/display: hdmi: add generic mode_valid helper")
+> > Expose the data as a tracepoint to userspace. This allows users to debug
+> > various scenarios and gather interesting information, such as: knowing
+> > how much hardware is lit up at any given time, correlating graphics
+> > corruption with a specific powered shader core, measuring when hardware
+> > is allowed to go to a powered off state again, and so on.
+> > 
+> > The registration/unregistration functions for the tracepoint go through
+> > a wrapper in panthor_hw.c, so that v14+ can implement the same
+> > tracepoint by adding its hardware specific IRQ on/off callbacks to the
+> > panthor_hw.ops member.
+> > 
 > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > > ---
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> >  drivers/gpu/drm/panthor/panthor_gpu.c   | 38 ++++++++++++++++++--
+> >  drivers/gpu/drm/panthor/panthor_gpu.h   |  2 ++
+> >  drivers/gpu/drm/panthor/panthor_hw.c    | 62 +++++++++++++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_hw.h    |  8 +++++
+> >  drivers/gpu/drm/panthor/panthor_trace.h | 59 +++++++++++++++++++++++++++++++
+> >  5 files changed, 167 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > index 5da956bdd68c..1800e00b30c5 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > @@ -892,8 +892,18 @@ drm_hdmi_connector_mode_valid(struct drm_connector *connector,
-> >  			      const struct drm_display_mode *mode)
-> >  {
-> >  	unsigned long long clock;
-> > +	enum hdmi_colorspace fmt;
+> > [...]
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+> > new file mode 100644
+> > index 000000000000..2b59d7f156b6
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panthor/panthor_trace.h
+> > @@ -0,0 +1,59 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> > +/* Copyright 2025 Collabora ltd. */
 > > +
-> > +	if (drm_mode_is_420_only(&connector->display_info, mode)) {
-> > +		if (connector->ycbcr_420_allowed)
-> > +			fmt = HDMI_COLORSPACE_YUV420;
-> > +		else
-> > +			return MODE_NO_420;
-> > +	} else {
-> > +		fmt = HDMI_COLORSPACE_RGB;
-> > +	}
-> >  
-> > -	clock = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
-> > +	clock = drm_hdmi_compute_mode_clock(mode, 8, fmt);
+> > +#undef TRACE_SYSTEM
+> > +#define TRACE_SYSTEM panthor
+> > +
+> > +#if !defined(__PANTHOR_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+> > +#define __PANTHOR_TRACE_H__
+> > +
+> > +#include <linux/tracepoint.h>
+> > +#include <linux/types.h>
+> > +
+> > +int panthor_hw_power_status_register(void);
+> > +void panthor_hw_power_status_unregister(void);
 > 
-> I agree on principle, but we need to have a test for this.
+> Hello, not sure if I'm missing something but, would doing
+> 
+>     #include "panthor_hw.h" 
+> 
+> address the need to redeclare panthor_hw_power_status_* in this file?
+> The change looks good otherwise.
 
-I'd like to change `drm_mode_is_420_only` to `drm_mode_is_420` in
-the next revision, and modify the control flow to work correctly
-in this case, because rejecting 420-also modes on the basis that
-we can't do them in RGB isn't correct either.
+It would, but only in that it now pulls in a whole bunch of header
+definitions that the trace header does not want or need, all for
+two function prototypes. Since the function signature of the reg/unreg
+functions are fixed aside from the name, I don't see any harm in
+this particular instance of duplicating it.
 
-But my concern with adding yet more tests is that I found this bug
-in a function unrelated to the series while adding tests you asked
-for, because the tests relied on this function to not be broken as
-part of the test setup. Yes, I was not be able to get any 4:2:0
-modes on the test connector in the kunit tests because
-drm_hdmi_connector_mode_valid helpfully discarded all of them.
+Similarly, panthor_hw.c probably doesn't want the special magic
+tracepoint stuff from panthor_trace.h, but it does need to implement
+those two functions, so it needs to have a prototype somewhere.
 
-So now I am wondering whether adding yet more tests will uncover
-more bugs in functions unrelated to implementing the "color format"
-property, that were only called because the new test required them
-to set up some test fixture. And then I have to add another fix and
-another test to this series, rinse and repeat.
+Maybe someone else has stronger opinions on this, I'm fine with
+including panthor_hw.h as well (it's what I had it do originally
+as well), but I suspect many more experienced kernel devs are
+wary of overeager header inclusions, because it leads to really
+slow compilation quite quickly.
 
-Can we just agree that I am not going to expand the scope of this
-series any further? If you want me to send a follow-up series that
-adds tests to some of the hdmi state helper functions, then I can
-do that, but I don't want to do it as a precondition for the 17
-other patches in this series to get merged.
+Kind regards,
+Nicolas Frattaroli
 
 > 
-> Maxime
+> Reviewed-by: Karunika Choo <karunika.choo@arm.com>
 > 
+> > [...]
 
 
 
