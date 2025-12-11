@@ -2,152 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167D2CB73B4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0ADCB73BE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:51:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC51010E300;
-	Thu, 11 Dec 2025 21:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FA410E302;
+	Thu, 11 Dec 2025 21:50:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xmxbc1RX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="w6My6m53";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010018.outbound.protection.outlook.com [52.101.61.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBFF10E300
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:49:04 +0000 (UTC)
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011050.outbound.protection.outlook.com [40.107.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8DAF10E302
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:50:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RNfgLwZmof2EgloOvYP6isBLxcZLM32fMOmDnCQw+XPXxTte3AaiUuev3cnzSWIamnFYZEjCIRXXwb06dpO6vgndMqmsBz4BAA4tawHmb0lHlKBEMK74IXS7vL5E5OitCOxYEo6Pea5qIqCd698AvVXFbUjoYg8NR8omq7FsTW0rYsqmTQy+UWra/7XO/7KB3mzFePk2DYh9hMEWQZJnMoUhnCbx3QeOrLKpi1i1kxFmBVsKEjCAnWSS/DeAJGmouMsCIu9Pu1/LjhMNWzTVIXSlJ1KvLPUHGspH8wXGLEJvGHYdvWXQVRyBKIjhCOMd+KsrNIEp7jbb4nz5xnmYzQ==
+ b=yky597a7ZdUFUKGTyLgwdZTuByyzUxx70r2DjITdkd9C2JEv5NWrkiJJSeG/fzK98tPZoiqP1ALG/nVM0rqAED86CT89OZwTVSyCUYK2NV03iJ0tkWZXwLKjp/wzrxLoHN434nni0oWkUAN2Nv6i/JZ/g8AFkEZIlBbQXEplwKvPTDcDL4QHef0o80YABpqDjjfISwAW4OQ4it5sutPLgP2PeZErnYqy5gAHNtdBw7AZrO10dwU9pHjprcgaUhR3sx8Wqm9txxD6a/Tw2BoOe2XC6gyGYzfVDaJOzcHtGJPpgH8+6/BdYfuLA8k3kMcor0DyEHb7asEy8JR2/e58Tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4dm6kfhE03KFpIunOmpOYj5iU3zN3LZlnjtZAu9H3bg=;
- b=Qs8AZtqkDBZO13o/+NjYBuNOXsApzeDhFMPQfItTLQPw+H+dzUg6KcWRhi8EM4ixYbnAu8ev77LrL50kzpEKcS3tFqj3gacbjIYvStdT7Y/LDEkj+s5B+g2Ku6X52r1VUHk0aQdd5eSPjc6T5CkGhHHgBQN2gPU5bfheMcSQwWB4iOfAehkSAsJnPFzhpyiqU9BbQrBgNYCJElXq3f9blAkrK3QqLwLb5vkMT96lUxsiAh454ne9LPhnjSSMwfg6cGjgV1BvHAXlErbQ7wiHbbywLSWZ+oNIKAHOXlvX3mQulvZLC6MWpZrUdN8eW2ipRsS+xCSSeDxHkFU50ddEKA==
+ bh=bxrSTiSmtJeQYv1O1J4IT++M6sTI95KrCxlFsWQ2lnY=;
+ b=VZ06Y0m2ClvEPpYX3UojgzI315YF7GIGt2pLBsp9JacsWIptRZHyfZ63/9Y0DSXmCXiNqWkDLGy+flxephZyyNVy7wbLI6Xvn1ZBwYa8b5EFIaKraHxHbRuKMS3Xg3s5F1/k1iweqVjkwQFGpqNKrObcdzyEny638ZA6XhaqwEUzu0b6XKFJwc7XJkGfynbEB28Hv4Sbt48lK7xjBgKUp4x7gu0AqqYns2ZhyuwaK50OSZVUpBWlLwSt7I4rUImi+wsZ1tnN9E2UjgHxRVFaXcrTcb8N9dfYojs677MYIr5ozQLhAQ5DNoG8o5a/Yt0sqq54H/hgNVBre8ZIcq1nnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4dm6kfhE03KFpIunOmpOYj5iU3zN3LZlnjtZAu9H3bg=;
- b=xmxbc1RXa5vhWQHMdIkcSmVm4I2zShMWuQUxpzViwEFc6DaNGCj6i9cMdy7/ultOBAJNTTbpRQAFmsqFZftdRuwt/oWlWlbN1urhnyq+ghPjQOe6krMx2DMxZ4OFG/JEhRP5ouUHFU+qttdiQsjBHhgEsjm3YYvV5xsWWd5DGpY=
+ bh=bxrSTiSmtJeQYv1O1J4IT++M6sTI95KrCxlFsWQ2lnY=;
+ b=w6My6m536Iza//6NrlKUsLCGsHmh1s/LzgeeSk4uLDtGJxNnJL6wB9OI8Bg70HlR/bhGS96FIZ3I9WsHd+NjfXBDr5d6z5I3io87qPDYqWLoDGZgZ5xQNEB7lyai4ZKn8I1lCiGfIbB1MCZL93ShJa0NvNMLWNFUEtwvqGxY+MA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
  by DS0PR12MB6607.namprd12.prod.outlook.com (2603:10b6:8:d1::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
- 2025 21:48:58 +0000
+ 2025 21:50:46 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 21:48:53 +0000
-Message-ID: <b6286dcf-d9a4-4dbd-b8e4-5b0640c7dae5@amd.com>
-Date: Thu, 11 Dec 2025 15:48:00 -0600
+ 21:50:46 +0000
+Message-ID: <36165050-73c0-4ed8-85d3-42a874ae125f@amd.com>
+Date: Thu, 11 Dec 2025 15:50:42 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Fix race where send ring appears full
- due to delayed head update
+Subject: Re: [PATCH V1] accel/amdxdna: Fix potential NULL pointer dereference
+ in context cleanup
 To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
  quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
  maciej.falkowski@linux.intel.com
 Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20251211045125.1724604-1-lizhi.hou@amd.com>
+References: <20251211045647.1725300-1-lizhi.hou@amd.com>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20251211045125.1724604-1-lizhi.hou@amd.com>
+In-Reply-To: <20251211045647.1725300-1-lizhi.hou@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0121.namprd11.prod.outlook.com
- (2603:10b6:806:131::6) To MN0PR12MB6101.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA0PR11CA0132.namprd11.prod.outlook.com
+ (2603:10b6:806:131::17) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB6607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 928dbf3c-1c0b-411a-1585-08de38ff13d5
+X-MS-Office365-Filtering-Correlation-Id: 75a1c8ee-5281-4020-8712-08de38ff56d4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eGhkclB3Z0Z3R2tRMEQ3ZnMwKzFWZHovSE0rdHM3VXhVZUNBU1lRSXJuMXE0?=
- =?utf-8?B?djhaYjduZXJxVFhIRWt3bGRJcXUybzlaOGo2T2xmbGVyUXh3bUQvZk1TKy9Y?=
- =?utf-8?B?K0VKQWZVbVRUS0VZU04vdHN2M2trTEF1THQ0dDVhNi9OWWdRbFNjdkZWWDRR?=
- =?utf-8?B?MHpHVU9RL3ZrU3hqM29yUi8wSG1PSFZVc3BSQmZ5SDFTRGkrKzBkcW9ydlZh?=
- =?utf-8?B?ZkFlV2gySlBiektrNkRkWXRxZzRhWHNNQWZsNmY0NnJVUlFkdzlnaW5kdzcz?=
- =?utf-8?B?RnhtUml6V0tjZ2Z5NkpMZmN5SXNzdmxxR0RoeEVsS1NZMmlJN2k4V1R1dnBa?=
- =?utf-8?B?UkVLT0pkT25jRUdFUUd6NDhobHFJNFpocmhZQ3VvRm81cG1mODFUbHgwaVNm?=
- =?utf-8?B?ajlkM09uKzc3M2czWDVNVE0vdU9KYlNLb2NHc2F1M3lTWHo0VzV4eVVqcHQ0?=
- =?utf-8?B?eWwzSjhjdks1ZWR6a29nVWFBd2lWZlVVcks0YitsYldQeWROYkg5RDVwc2Va?=
- =?utf-8?B?aVJmNVNUb3JEZ3RuT00vU05LOW9jL1hLbkZ0d3FKV210UzdRc0E1Q1oyelBs?=
- =?utf-8?B?MEhSU3lWbE1MajR1eXdSTmM4bS9FRXZnM1RhVDJjV096N2x6RmJlMzNhcEtJ?=
- =?utf-8?B?dm9PM2Z5d3dEYUJDMFpkdmlqS0tjWkhFYTlSR3U1WG1nSHl3VVR5N1h5bUNH?=
- =?utf-8?B?SjRFMFpJdGJiS0x1Y3ZhOVVERVQ0bnNIbFZtV3RqbmRCbktKQjZidWxnSzJ4?=
- =?utf-8?B?bHNJcklLUzhUMzNzMGcvaTVLZUlPSW9YTC9uaWlqUnBqQkJJQ3ZwcTZrVnFo?=
- =?utf-8?B?WW10WTRiSDg0V2psakFrYThESHNmUzZ0QTc5ZEk1VWQ0eWRhcElqMld5N2NR?=
- =?utf-8?B?TDQwMDRHUGsvQ1BVWXVYZ211cDd3SUhLMWt1cWJrTHhPYVdHanI1SUNNNjN3?=
- =?utf-8?B?U0NpTG5hUWg5VjA1L0NNMG82Z2xZS3gvNURTazVYK3pnYUpIQm1hSUhRSzdM?=
- =?utf-8?B?dXZvK1RiV0JJNUpTNjBNU0lpQXg5dUZtSGxSSU45Y1NrZElvUEYwQTc5VjE5?=
- =?utf-8?B?Vm9XZG5leTJpYjFFdGloY3o0aDRVTXJoZnpMeHZZN2paTm9teFVWUENWdUp2?=
- =?utf-8?B?TTRLWlE1Rldmd2owZDNwM1VOTm1JZHB0ZTJPVHFUMUtVWEM3NmFrN2hPOG5D?=
- =?utf-8?B?UTZWaVJpc0RteENGTFhUT1pOSm9uT2Vud1NBSlc5MTVDMVpLNUdYZmJSdjQ1?=
- =?utf-8?B?aWo3YXl4M1BMVE9JandkUU1rMTNIdkhWSUw3UjdRRnpHa3RtSHJWWWN6RjA5?=
- =?utf-8?B?ckhWSGhCWWRRQ1AybjlYQkNjRVFLNFZUYUZSMkYxcEZwaVVITFdENHAxdk1H?=
- =?utf-8?B?ZmhQeGo1Y1F1Z3A5V2RUSktza3o4VmorUEt1UWV5Y3JBSXFyUkV4OEl6Tml0?=
- =?utf-8?B?YTFOd0hlTHRCRzYxVENiN3hpdklSSGlrUy9ucTcyM0t4bXF6eksrTDByYnBH?=
- =?utf-8?B?Z1JLNVBtdFl2ejd4V0pGZFNXeHhVSnBhTlF5WFhuUDB2MWovVDByVTljdmJt?=
- =?utf-8?B?S2xkTGNkQ2VaUjdLQjNyTFFHbnBHbGdUQUI1SlNIV3JDSHpCTC9CVkRkY1ho?=
- =?utf-8?B?Q2JZYjZrNEtJUnYydW9EV3gzbENOSXZrem9rcTIwdzNWeGxSclh4cWZjVk5X?=
- =?utf-8?B?SENOM2pjVkEweHdzVUdZTk4razFqYzhnbFB3WGFGSUErckVEWUlqQ2FCaUVG?=
- =?utf-8?B?d002VHYrVTlLdm9kT3J0eU5MNGVuV0UvdDZ5MWlncXBzTWFQcTI5WitsMy9S?=
- =?utf-8?B?eExhbC9BcGt2amhENitMb3h2SXJZRGd5SG0ybUY4NGpodVRmejRhUzUvQktK?=
- =?utf-8?B?OUcrTy9HZGk5VDMwSzlTSWtaK1JUSkhZYmo2bWRJbFpUWVhEYnVLVTU2b25R?=
- =?utf-8?Q?uc89KdPDtu09qdXzv1roIY8ELAuXcpvE?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1FkWFZidGFkc0cvNnpXTndZOElTaDhtZVJ6Unc1Y1ZUb3N0WllXR1YrVGlh?=
+ =?utf-8?B?TnQzdFRGY3NQTStBN2lNdWEzRzJ5WUduMVQ5RmYvWUpUeWpZNExLVnFPRnBR?=
+ =?utf-8?B?clgvS2FBREZSVVBJbEpJZHFDUHUrQVo4Vml1Y2FhbWl3ZDJzUjdMR0YzRnN4?=
+ =?utf-8?B?Y0JHaTZPZjFuVmZ4UThZSUttUWJjbWdKcDlCak1VL0lOTVN3LyswZCtuejB3?=
+ =?utf-8?B?SklQVVFJSG1CSGVGU3VteTU4V01Vem9QdmExUXk5TVlpdEZnSXFROGtCUCtz?=
+ =?utf-8?B?K3ZPdm8rNWJDRGpIelQyT2pjdUYwWkZqdEpVOE43WWFaUXVwemJUckhvUGtB?=
+ =?utf-8?B?SGVubnlCYVk0cjJNNXVlRElOSmtnUnZscmY2S05MRUpEd1l1QVZqZmY2alpk?=
+ =?utf-8?B?cUFtRFVzYTdjamdQTW5XcUVkWXFuV1NnQzYwVXh1dzRsU0Q2YUdYWVRUU2lQ?=
+ =?utf-8?B?bktlQmlsdGdIaU1ab0R4ZVFZUkxYenlXR3JwY1pBSHJGNyszLytEUUhhTjZI?=
+ =?utf-8?B?TFpJOVkxdTRMQjdvK2FUS2dvOVE0S2tlckoyWVB1ckdERnlyd1NuQWo2Umsr?=
+ =?utf-8?B?LzAzYTBvYXdadGlCZlAyTUNXWjVWb210dHIzc3JrcnFYWkZhcmY3Sm9aK3pM?=
+ =?utf-8?B?M01QWnBZa2tRaHVBQzlOb1ErNk5sRmNBMkRaM2dhbkxrMG05VTdpZng1QVIz?=
+ =?utf-8?B?QS9mdE5YQzdVOE9Dbng3aDJJdEd2cU56dW1haDl2VDlObWMvOTAzSTVhbzNn?=
+ =?utf-8?B?NE1GVk9oSWRMUGNJOGQ0REhlMUwvbldZRmRtanBYT3lBUGZ4Y3lVbjlKMVRr?=
+ =?utf-8?B?UjQvZDVqTmFlTXQ4OG9aWlBuUmI4bklaOGl5TjY3OEIzazNRZUpkczhWT1NL?=
+ =?utf-8?B?S0ZPTjlMMVVNM01nOWp3S3ZvTndQSmFCaE90WTNFT1RybE1QZDIxZFkreXQ4?=
+ =?utf-8?B?eHFtZFlDT1o4a1RHL1M5Yldab3dPaTdycnplQ3hncWwxSitDL2lBMVhBTUJs?=
+ =?utf-8?B?WGY4akJNa2RsSmZhSXFTVnYrSWNpM3N6L0M5dkdkK1JnTWdDN0pEWFhQUGFa?=
+ =?utf-8?B?YWhDcWtqQ09STXo4c2dnRlRUYk00TE5vNUF5eS9uTVM1dFFMSVJ6Mnoyd3Jv?=
+ =?utf-8?B?MU8vNk8rOURRQUg0Q0VTeGV2TEI0T09FVVFaR282L2dhaWlDRDEzOER6a1pO?=
+ =?utf-8?B?bjJzeW9YR2k2Sk9STDNtaU5DSXdqd005enNLTGRmZXZFbFNRWGEzYUtNUG9H?=
+ =?utf-8?B?dFVJUDF5ME9iSy93aDZoS2hVREN1M3h3VVR0QytML0t2MzNGTXJpMDgwRVRV?=
+ =?utf-8?B?OWc1U04wOEJkSFRMVDM1bE5KQ2FrK3ZOYzhZMERxckpROHNDMXVSdE5Xbllr?=
+ =?utf-8?B?dVk2SkpycGRCOVpjS3VKSldCUTg0UlJwM1pVOExPWXRmMWNFbWpQREVyNktZ?=
+ =?utf-8?B?WmpKSFZOYkFZWVVOTkVZaUhBdTh1Z1k1MXlJSXc2RnFkN1FmN0h2ZDUzQ3Mw?=
+ =?utf-8?B?dytIT3Q5S1UzK0tCZkRpQ0szaDNIQkNrbmpLTGpmamFSRGNFaGlMYWltRW11?=
+ =?utf-8?B?Q3VjU29JYXJYT1RQRG1jT3hxZml1cFQycmwzR3dSUUQwYWl2aFptR0FLejlq?=
+ =?utf-8?B?cUJ6M0lOU005N2dZUDRuRmlSQndOSy9wMk1KY0xvbFlNT1IyKzE3Z1c2V3lN?=
+ =?utf-8?B?Nnlsekk2VjNWcGpvY0h5YUtNby83ZWl6VDZ5MXZ5MGVmRFRtRkU5VGxUYVF5?=
+ =?utf-8?B?Myt3Q2taUmVvTXZEL3BLKytibzFmenYrWmZ5MzNZY3VkQkxnZGxhU1I3NXNl?=
+ =?utf-8?B?ZlMzQ2hISWxqZVZ2VEFIVkJ2ZEk2YjJUMDB2RU53em9nR2tRWkw1NmFSVUhH?=
+ =?utf-8?B?K0hUamZSRElTTXpXMUFxa0ptT2x2WjdZaGt0bDhteC9ZcVBDa1BsY0V5ZmhF?=
+ =?utf-8?Q?8RpP2ejybWErwpFhax9RIPp/lj7I4P+b?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1ZUemRzbXZrVXczT2RpU1Q0TVBINEMrK2RsMmUvUUpsdHBlUnVWR3U2WXdx?=
- =?utf-8?B?dXpmT0xwQWNrVkZ0eEJuR3hUSmRVa0pWc25YUkY0bXhxUnZER2lOK2FDc0ZL?=
- =?utf-8?B?ZW9PMnhNcnZPNENzK3NPdXExbTNiZG56emltdzczLzR3K2FmUVR5b0dLZHVG?=
- =?utf-8?B?Vk40NVlSdTV4QzNrMllMSDBSbm42MWJTeGFFT1BWeEdLK24rQ2NTQ290a1l4?=
- =?utf-8?B?TmdvSjJ2NHRtZjhMbVFpZTV5bEMvWHVZbVViTjYrazNZc3FLQzZlR3dyQ0xW?=
- =?utf-8?B?bGNCdHB0a0R6YXJsWWRiUDJtOWUydXVLR1FHSGxTYi9PWlZtNGgrcVFTZnZ1?=
- =?utf-8?B?aEd3QitReExtTkY3Skh6VGVMY28zR0dsTHhlKzhpM0I1d1BFTE0wTGhkaDh3?=
- =?utf-8?B?RTZEdkdFZGNXR0lDYmpFai9IUGtlWFdKMkk4TTQwM0VmVFkxa2Fpb2Y5QjBi?=
- =?utf-8?B?TjdQeE5sKytUUmlPeURNQU5takhqZnEvbmxFQ3o0dk5GQlFPTVdMVU4vbHZJ?=
- =?utf-8?B?Z3JvczFZZFVvTXBWNzc4SFE1aXprWm9LOVNmRWxvYnJYZW9KcUdEZnpoRkxn?=
- =?utf-8?B?WkFubFJOWFc0VDc2aHFucmJYRnkrZ0dFbm1XT2Nua1lMN29oMHM3SlplT1V3?=
- =?utf-8?B?NFlmTlZGSDhNTHJlQStDQktmSGxpYXpvZ1RQRmZiTGVKL3RBWGgzVElBTlYy?=
- =?utf-8?B?Z0dVUTFNWlQwV3Vra2owQmVsNVhzVlM1SjJvQ2J1STFBTUF4OWt1emdFSkZU?=
- =?utf-8?B?aHE3amRrZ2tKQ3BYeDBWdTM4aW12c0RzSWkvRWhVN3JXTEVaL2c3THYvREF5?=
- =?utf-8?B?WHoxYUx6cDBJQi82YjNua2hhcHM5WTJlNy9WcENtbSswQVliM3Faa1BsY1ZC?=
- =?utf-8?B?V2pFYzZIamxOb004eldibTVPQ0JjT29HM0NyemFwYnplYTdSQVJZMkE4S2Rn?=
- =?utf-8?B?U0taZ0NoUU96MktiV1diSXVnWGFpSjNwd0FDcGE0TGJzajRQeFVmRUIxVlpK?=
- =?utf-8?B?RVpaT3JTVHhpQXFtODFIaG03d1Q2aHpVU2cwQ1h0N1ZZajlNQnpSemFlTmRJ?=
- =?utf-8?B?TWxlcFZ5azRuY2trLzFxS2RzdGNxM2pkdDhTbU1FbVlpS2tyTEQzWW9JYXUx?=
- =?utf-8?B?aVR5YUhVSmMyQlRJdGtnOHZ4NVUwYnJmcXJibnJzVzQ0cWgrK08zQXdLdzV6?=
- =?utf-8?B?UnRsZmswT0NsTS95ZEc0Zmx5cmdXL1FlbHNPZk93VmQ1bUo0QW1tZXFWR25F?=
- =?utf-8?B?K0NRTXp4dDFuUzlpNzV2OVJrOHF5VnFRbDNWSDdKaTFNOTlTa3lzOW12NTNq?=
- =?utf-8?B?VlR0cTFNMHg3NzZUMDBBL25KSFRkVGNWQVZHWkgzM0JLdS9BckVPQ1BnMzJi?=
- =?utf-8?B?WHg4VUFUZkx5ZHYzYW9xaUFWUFVnNmNnUzVNQlVTSXhSK2kwUmR3SHFsN0NU?=
- =?utf-8?B?TzhyOEhRNmFtTGYyVElGRkZ5N1phOVkyRWZONXk3VlJmdHA2aXY5azBva1VC?=
- =?utf-8?B?U2lXb0VvU2xzbVFFVGowR0JmdW5yWnFxN1R3Z21xandVYjlMSnp6eWR5SXZQ?=
- =?utf-8?B?cFFXc25MdjFMQlVmUFljeWI2L3lOZGJUSjFoQXpaZW10QXZJTWlTeHdsYzhC?=
- =?utf-8?B?NFFwZTQzYW5ibkpQTHlaL3RsUlFYZjdtT3I1SU01ejUvK0s0eEtXK2k2M2NL?=
- =?utf-8?B?QkNIWXZIMjlEbG5oVk9TUGdXa3Z4djlaZkVEZDFOM2FSQmJSYU5xamhUNUtw?=
- =?utf-8?B?NzJsNkFlQmRvMHIxejRPenJUQ1NYQkpKVG1PQ2J0MWhHcUhnTDBiL2JvUHBO?=
- =?utf-8?B?UWZURDF5THZQUVdVeWFGYTQyaVdQbGpOdUxXZjNxRXErQkJSNWlCa3JNeWZ6?=
- =?utf-8?B?K0xZendJTUlRekZGbllUWHh6Z1cwYi80SURPTElMeDBTclRaQnB1TlRiT2Qv?=
- =?utf-8?B?cVF3RVNqRVdOWjhMak0wd1R3Q09EMlo2M3NoNDdpZW9wSWNWZVJ5d0s2NExT?=
- =?utf-8?B?a0hKbk9MY2dkNTNpUDFuQ3Y4cm1vU0pVSkgvRGlKc04zZm9BeERuWGdFUlBj?=
- =?utf-8?B?M2puOVRGNjlEZk0yUEFiK3JoaytqaWFNYXY0NlRqWFVueW5TOHFRdnpwQVE1?=
- =?utf-8?Q?yMhrnKwQAN4RaGGakzXa8oalq?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWxGNG00ZnVCS0g1MExiNk5GS05WLzZ5OGxydHBIdDVPL2grWE03WEFTQ3Fa?=
+ =?utf-8?B?cHoyNUtTUUlPdGFwYnlubWxtbWgyLzhXeWNaNXZ2WDV3M0VLM2FUQVdXU09T?=
+ =?utf-8?B?RUxaR1dVeW8wcmx4aFBDckl1U0wvcTN4T3YrOUNJQzV3d1E2anNDdFQwNEhs?=
+ =?utf-8?B?ZUNSWFdRaUpCWmtKL0hXTml5emdzZHlSZlZjWVZwS1lyV1FpbHU1WkoyZlcv?=
+ =?utf-8?B?NlJlNTBucUx5L1N4RDJOc1I1a3FhVmVmZ0M3VEJFd0UyOFVYdHFFMkhGcTIw?=
+ =?utf-8?B?MkV1ekZRV3dUaWYwckc4SjcyZVY3UzhtRitRVUtnYitTTjViMk5Oa1BWMmVj?=
+ =?utf-8?B?amFzM1ZZUDBLM2Z5aStMc3QrV2MwVnpEaTQwSU1lWU9XZk05K1VIN0VxMDNu?=
+ =?utf-8?B?aDJya3VRcmRUdjUvREVmUlRyL1F4OC82NlFZSWVWeUZ5NXhYOXRYOXZHYmFH?=
+ =?utf-8?B?RXo1Y1MrZDVpVWFuc1RrY1lUODdESllWZGZWQng0UWRtRmdaamlBMDhIb09K?=
+ =?utf-8?B?WE5jZTJGS1h6Zld5OVZyMk1RdTJaNU5iaVdWQkhBcVVPK1haeHM3c2ZGclRz?=
+ =?utf-8?B?clJNaXg5K25oOUtOa1l6WjVUeTE0SzhJOUVxSzgrdVNNRlpYYzVkL2VqTnJ5?=
+ =?utf-8?B?SnA4dStwQzRzeW40WXpIaUpYYWR1ZEtvMUpzbXhEZE9rSVVZcm1hSlJDRHVF?=
+ =?utf-8?B?RW14Z1JTR2xRRWFCMzJhZjNqdjlDNFZuZ3g5aXNtZTFSeVpMZGdnYXI4UGV3?=
+ =?utf-8?B?ckZRVVJPNkVnZXVuaVV6OGt2eXdnNW15MU9EcUpWUDE4RWFrUDNJZkE3aXZs?=
+ =?utf-8?B?bHRqczBMeWNHcldNNjNvcWx2YS9Mck84TnZoLzBybWwrYUZPZ1JjMTJNMmcw?=
+ =?utf-8?B?ejRTeTNPTVcwNkZ2eE41UWRMaVJRYmhYenZjSzhybDBEbUlSVFhHQjh3T05S?=
+ =?utf-8?B?QmJxOUNYZ2xIbENISnNjUEJBakY3RzdYWTlmSUNOOVhrdU5NYm15emdDOW1i?=
+ =?utf-8?B?MEcyM0x0b3MyVUlXcVJsc2JhS0lNWmFNWER6b2FrWngwanF2YXQ5MVVSdXg4?=
+ =?utf-8?B?enVOWmJ6elJSM2VtaG5hWWgwNjh6SU4xbzdrRU1mcGM0ZlI5aXRBbHhvWWsw?=
+ =?utf-8?B?TTg4MnVvMWVPdDRiY3NvdTJLNkdNK2FuQjVuMVRLN2JXK1FYdXFJVTlGNVVx?=
+ =?utf-8?B?OTI3R3QxaGFPcno0WjlqT3BiLzFkanBJVWliUCsrRWlsdmVSdmhOaHZoTllp?=
+ =?utf-8?B?cytHVzNaRXE2elJuSkpGN2MrMW5Nb1lFdFZVOTFWcktCOE8zeEozTDZvOFl5?=
+ =?utf-8?B?Nmh5YjN6Vm9LUW5FKy9MNVhVTnVlaVh2Z2IzbHo2NVBBWjBlMCt5ZTJwaHhR?=
+ =?utf-8?B?VVk5dkFBOGp6a21nc1d4NXdocXlWWk1nTDhEcGE0QUhORHU2aUZnUXJrZnd0?=
+ =?utf-8?B?eDNwMTlxN0NZNmVCdituOThHUHErb2lzTEdMaUN0OXhvUGg0UFJyM3RML2kx?=
+ =?utf-8?B?N3YyNy9vK3llMjZCbzErOS9ZOXZZT1FqRmd2QjJzN3pXcS9xNzBiWlJKR2Yz?=
+ =?utf-8?B?SWRkam8xb1A1UGU0cFhacnRod0E2VnlJK2w4RnlEUC9yTzNTcVJvNnVSMWtH?=
+ =?utf-8?B?YzZzWUZLWS9hQmovdHlqQUp0N1k1WkdaMzFjZ09wVlE5YnZTUE5JL3g3QkN2?=
+ =?utf-8?B?V3R0dndKZ01NNGV6eXk2OU5oS1ljM2orRUQ5RERRenBEbHhyNU1Nck1Gamhw?=
+ =?utf-8?B?QTU3OU11ZERzd0NOcHFpa090bmMyQ0d0WkNFTGZCMDhJcE5zUlJ5SHlYT2pN?=
+ =?utf-8?B?TWdUZ3BSRXArMXozRVQzL0ZsdS9KUkw1ZE0xT0ZCZ1h0VktpUjhNMm5ZcGlH?=
+ =?utf-8?B?eXNZUVdPRHR6UXZyck1hemE2ckc2M3pyUXhvMktZWVo2R0xWTFlsOFdtTHhY?=
+ =?utf-8?B?dVUyK0dTVmhNUTFlWURFTEdtRml0UUQ1VVd2dTNjNmpncEU2OEFVRVFKV21s?=
+ =?utf-8?B?QzEyTzVUWnNOblV6R3lCY0ZraVNoSXV5VC9YU25mcDJyNWE0R3VYTFFOaDVZ?=
+ =?utf-8?B?bnlsZWJHSzhCdVIwSHFIQzdjYWtoMGZXU1NYekQvaTVUdEd4eG15SmpZZkhW?=
+ =?utf-8?Q?n+c/15nYibte9O5oegZI23c62?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 928dbf3c-1c0b-411a-1585-08de38ff13d5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75a1c8ee-5281-4020-8712-08de38ff56d4
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:48:53.5639 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:50:45.9138 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZBij9gTLg7OMn3+eEYa7oZk7gLo8wU0yi3qj+fY2+IsxHt4709YH8wn6V+wUYr4SKGZqwQO6tHhnV6g/avrt8A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: VdJ6Uh0Jf6tazug6nON4hl4x8Jiv0QsJHz/b304rYqVbTT+Q8ruxU7KQ6e1m/F/ydNSUJh1YAFOx3FPeWqghbQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6607
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -164,87 +164,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/25 10:51 PM, Lizhi Hou wrote:
-> The firmware sends a response and interrupts the driver before advancing
-> the mailbox send ring head pointer. 
-
-What's the point of the interrupt then?  Is this possible to improve in 
-future firmware or is this really a hardware issue?  If it can be fixed 
-in firmware it would be ideal to conditionalize such behavior on 
-firmware version.
-> As a result, the driver may observe
-> the response and attempt to send a new request before the firmware has
-> updated the head pointer. In this window, the send ring still appears
-> full, causing the driver to incorrectly fail the send operation.
+On 12/10/25 10:56 PM, Lizhi Hou wrote:
+> aie_destroy_context() is invoked during error handling in
+> aie2_create_context(). However, aie_destroy_context() assumes that the
+> context's mailbox channel pointer is non-NULL. If mailbox channel
+> creation fails, the pointer remains NULL and calling aie_destroy_context()
+> can lead to a NULL pointer dereference.
 > 
-> This race can be triggered more easily in a multithreaded environment,
-> leading to unexpected and spurious "send ring full" failures.
+> In aie2_create_context(), replace aie_destroy_context() with a function
+> which request firmware to remove the context created previously.
 > 
-> To address this, poll the send ring head pointer for up to 100us before
-> returning a full-ring condition. This allows the firmware time to update
-> the head pointer.
-> 
-> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+> Fixes: be462c97b7df ("accel/amdxdna: Add hardware context")
 > Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 > ---
->   drivers/accel/amdxdna/amdxdna_mailbox.c | 27 +++++++++++++++----------
->   1 file changed, 16 insertions(+), 11 deletions(-)
+>   drivers/accel/amdxdna/aie2_message.c | 52 +++++++++++++++-------------
+>   1 file changed, 28 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> index a60a85ce564c..469242ed8224 100644
-> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> @@ -191,26 +191,34 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
->   	u32 head, tail;
->   	u32 start_addr;
->   	u32 tmp_tail;
-> +	int ret;
->   
->   	head = mailbox_get_headptr(mb_chann, CHAN_RES_X2I);
->   	tail = mb_chann->x2i_tail;
-> -	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I);
-> +	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I) - sizeof(u32);
->   	start_addr = mb_chann->res[CHAN_RES_X2I].rb_start_addr;
->   	tmp_tail = tail + mb_msg->pkg_size;
->   
-> -	if (tail < head && tmp_tail >= head)
-> -		goto no_space;
-> -
-> -	if (tail >= head && (tmp_tail > ringbuf_size - sizeof(u32) &&
-> -			     mb_msg->pkg_size >= head))
-> -		goto no_space;
->   
-> -	if (tail >= head && tmp_tail > ringbuf_size - sizeof(u32)) {
-> +check_again:
-> +	if (tail >= head && tmp_tail > ringbuf_size) {
->   		write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
->   		writel(TOMBSTONE, write_addr);
->   
->   		/* tombstone is set. Write from the start of the ringbuf */
->   		tail = 0;
-> +		tmp_tail = tail + mb_msg->pkg_size;
-> +	}
-> +
-> +	if (tail < head && tmp_tail >= head) {
-> +		ret = read_poll_timeout(mailbox_get_headptr, head,
-> +					tmp_tail < head || tail >= head,
-> +					1, 100, false, mb_chann, CHAN_RES_X2I);
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (tail >= head)
-> +			goto check_again;
->   	}
->   
->   	write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
-> @@ -222,9 +230,6 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
->   			    mb_msg->pkg.header.id);
->   
+> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+> index 03b75757a6e6..980aef9dc51a 100644
+> --- a/drivers/accel/amdxdna/aie2_message.c
+> +++ b/drivers/accel/amdxdna/aie2_message.c
+> @@ -192,6 +192,19 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
 >   	return 0;
-> -
-> -no_space:
-> -	return -ENOSPC;
 >   }
 >   
->   static int
+> +static int aie2_destroy_context_req(struct amdxdna_dev_hdl *ndev, u32 id)
+> +{
+> +	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
+> +	struct amdxdna_dev *xdna = ndev->xdna;
+> +	int ret;
+> +
+> +	req.context_id = id;
+> +	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+> +	if (ret)
+> +		XDNA_WARN(xdna, "Destroy context failed, ret %d", ret);
+> +
+> +	return ret;
+> +}
+>   int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
+>   {
+>   	DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
+> @@ -214,13 +227,16 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
+>   		return ret;
+>   
+>   	hwctx->fw_ctx_id = resp.context_id;
+> -	WARN_ONCE(hwctx->fw_ctx_id == -1, "Unexpected context id");
+> +	if (hwctx->fw_ctx_id == -1) {
+> +		WARN_ON_ONCE("Unexpected context id");
+> +		return -EINVAL;
+> +	}
+
+Is the message super important?  I'd think just do this:
+
+if (WARN_ON_ONCE(hwctx->fw_ctx_id == -1))
+	return -EINVAL;>
+>   	if (ndev->force_preempt_enabled) {
+>   		ret = aie2_runtime_cfg(ndev, AIE2_RT_CFG_FORCE_PREEMPT, &hwctx->fw_ctx_id);
+>   		if (ret) {
+>   			XDNA_ERR(xdna, "failed to enable force preempt %d", ret);
+> -			return ret;
+> +			goto del_ctx_req;
+>   		}
+>   	}
+>   
+> @@ -237,51 +253,39 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
+>   
+>   	ret = pci_irq_vector(to_pci_dev(xdna->ddev.dev), resp.msix_id);
+>   	if (ret == -EINVAL) {
+> -		XDNA_ERR(xdna, "not able to create channel");
+> -		goto out_destroy_context;
+> +		XDNA_ERR(xdna, "Alloc IRQ failed %d", ret);
+> +		goto del_ctx_req;
+>   	}
+>   
+>   	intr_reg = i2x.mb_head_ptr_reg + 4;
+>   	hwctx->priv->mbox_chann = xdna_mailbox_create_channel(ndev->mbox, &x2i, &i2x,
+>   							      intr_reg, ret);
+>   	if (!hwctx->priv->mbox_chann) {
+> -		XDNA_ERR(xdna, "not able to create channel");
+> +		XDNA_ERR(xdna, "Not able to create channel");
+>   		ret = -EINVAL;
+> -		goto out_destroy_context;
+> +		goto del_ctx_req;
+>   	}
+>   	ndev->hwctx_num++;
+>   
+> -	XDNA_DBG(xdna, "%s mailbox channel irq: %d, msix_id: %d",
+> -		 hwctx->name, ret, resp.msix_id);
+> -	XDNA_DBG(xdna, "%s created fw ctx %d pasid %d", hwctx->name,
+> -		 hwctx->fw_ctx_id, hwctx->client->pasid);
+> +	XDNA_DBG(xdna, "Mailbox channel irq: %d, msix_id: %d", ret, resp.msix_id);
+> +	XDNA_DBG(xdna, "Created fw ctx %d pasid %d", hwctx->fw_ctx_id, hwctx->client->pasid);
+>   
+>   	return 0;
+>   
+> -out_destroy_context:
+> -	aie2_destroy_context(ndev, hwctx);
+> +del_ctx_req:
+> +	aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
+>   	return ret;
+>   }
+>   
+>   int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
+>   {
+> -	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
+>   	struct amdxdna_dev *xdna = ndev->xdna;
+>   	int ret;
+>   
+> -	if (hwctx->fw_ctx_id == -1)
+> -		return 0;
+> -
+>   	xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
+> -
+> -	req.context_id = hwctx->fw_ctx_id;
+> -	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+> -	if (ret)
+> -		XDNA_WARN(xdna, "%s destroy context failed, ret %d", hwctx->name, ret);
+> -
+> +	ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
+>   	xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
+> -	XDNA_DBG(xdna, "%s destroyed fw ctx %d", hwctx->name,
+> -		 hwctx->fw_ctx_id);
+> +	XDNA_DBG(xdna, "Destroyed fw ctx %d", hwctx->fw_ctx_id);
+>   	hwctx->priv->mbox_chann = NULL;
+>   	hwctx->fw_ctx_id = -1;
+>   	ndev->hwctx_num--;
 
