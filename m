@@ -2,187 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B2ACB9597
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 17:49:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E075ECB9504
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 17:43:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA48010E916;
-	Fri, 12 Dec 2025 16:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F33D10E093;
+	Fri, 12 Dec 2025 16:43:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=advantech.com header.i=@advantech.com header.b="qCE/Oxdb";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="njm9bQNa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11022141.outbound.protection.outlook.com [40.107.75.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 129D010E093
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 16:42:11 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012069.outbound.protection.outlook.com [52.101.53.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2099310E093
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 16:43:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tqtISj+e6XS4/DYgwWo7vfg1YgQg00mFZl/lclaX09NftgjfLeM481Uu0zMnfyOIe0vfvWzRoXuQw0UkRMCmE/cTil84ipgV726UisHoymAC2tbydEU13/z7TQ/tupGc5rI3iptFQNozsZmJkXd+xOeIXkwMbjr1rLOW6wnaCil37Bw3KsSdaJGltaYEDIHQ1yMbcNnR+DkkxADUVfdGoRDqlWjSw8VwcKvlNmmO+ZLQR/wgLz/NrrMI18P9pUI6WQF0WrWxIlAetNRQSj3TESHbWKHKpGuA72rQpmudiTZXSx+LKiPHajjXMXO/+o3I0P1bb//VKptpQVYx/3oTtA==
+ b=XQgAWiV6kpnywbiKQXbKfTVp8Ul02BpHxvLuJH7Ipf2d+LhQktSkIoqEZDoXdV4DowlIZzSAhXUe6Ku4NqABy6hP7Ey+A4zNVIHxOzfd1Ml2lfz+PUhlDHKfSN9wuWZxC4gII6DzzvZUnuoMTDR2PktocPex5IuSJRAvlsTC4KItCKECalkaYbA5FfaGBXOl/1Orieclsg4v039cKDNvctANMY1R3LtdgWIh3f2mJah3EYQ2ffyANEbYUCw26IuntMjr2emLXEluKl9COE9Ri92HEvu3nKPULM6F6V5kO8Y+XAhvbJ5AmXbLuRz2M0M5l6URQOB4BI8ayaV1leI0wQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QqUN7pptFhqfCYONenv7vxAeHgv1MtZwOFVyEjl+bHw=;
- b=je2i8779o50Mk3XAk4c2NbsYFFpwfvx2bOdtBxYi5zVbNzlma7Ba1PnoVajYK1LoxgutM/AMm4qdDwSY5dEkMBErnFny4Vn6SJuCWSvqd7z8QLyaqqLS268jesE7YzLoIOL21fXDzp9FZFexv+ObbQMHx/TRjzwmaSDa5wA287wI6Nq7N9efsM4uKCSAhvQYiDSERMsF0mwUfukCr0rH9jJ6xKuuxb+l2Qi9VaMEvLh8wiCMq/+US95yi1yVTpUa13rKHkQEJTHsPKUpd7QqluaMt48/N4fAZ/w1BwNtpeFXaWVNfngVQtNyXEwsHKG+DO4Kw7pc0r5dR7U8wQN5HQ==
+ bh=YepKhbekqHjG49KEvJbjI2iXEw3s6WQDn79uFwMXpUY=;
+ b=Lol6j2eI9mdmUkTS5OuASvw5rNqdTa1thgojQZpFzTue3h0NiUxM4dA6yohWeKdpv26X9JJ5RrgwwUjB0tXYf2GrFtQipezGM6WOzQsMWWcpnlwJPTCSxIb2dMalyRX9HHrCfNp9X3/PBewJG1JKhZwDRQkh96o00u8XIb4XoI1cmWJextT1awKtmSY/HQVla0SE+0iqPW+Hi0aRj3MwF08QBQyLkwYij5geNUtjrJzaHzlwg/M3ZfjiAbQZxEN+eTTvXhnLwOANkig4MN88bjioXYUBm19AL8P5cLe09VoeS63DItPmxo871sCffusCsUYVHUrwzcUWXJY3In5eZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=advantech.de; dmarc=pass action=none header.from=advantech.com; 
- dkim=pass header.d=advantech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=advantech.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QqUN7pptFhqfCYONenv7vxAeHgv1MtZwOFVyEjl+bHw=;
- b=qCE/OxdbWc0F9LGZgEm6Y+goJ4bRIgAj/z7a0sae2rquuiveugiJFov3TQhqyrOsz9GopHuBTFRy3uXCaiJ9VoVWbkCcKS/0wu1bHkFLkx0TqbsCKu4nis7FVIHWjVMgCfB4mcfi4fJZ2p1a5agkthjCmJH4Girn09UOVOWW9qXHeQuh+BvkStO5R/rXnrGiaBez5xHCvKTeX/NlRoCxQf9sPF3RRLE9XQEGAGZwSSXilTn0oK74tCAmTuvecFFi7bHXYotfhAKDKLVPZ8/bbboceQKY32Jr+6IADZr2hRcueldEg51yqBiL1Kgg8wAm3OLoTrk7V0PumZsQSpsEDg==
+ bh=YepKhbekqHjG49KEvJbjI2iXEw3s6WQDn79uFwMXpUY=;
+ b=njm9bQNaYBUALxlTosZ3GJSAFQAvYnRJs+5u6Doit4WFoVJWY60/9glMgsTuIH1t+WnptGY0TRk3ko+hb1qEYRrmTtEyd7tDZjNIC9QaAzYdWPH3tYbE9kylu71+6rJfbz0UU277zNU90VfpWrp3qPWSI8Rj81KXC+/QyovkwnQ=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=advantech.com;
-Received: from PSAPR02MB4502.apcprd02.prod.outlook.com (2603:1096:301:21::6)
- by JH0PR02MB6564.apcprd02.prod.outlook.com (2603:1096:990:3f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.11; Fri, 12 Dec
- 2025 16:42:08 +0000
-Received: from PSAPR02MB4502.apcprd02.prod.outlook.com
- ([fe80::59c9:fe0:25f6:702b]) by PSAPR02MB4502.apcprd02.prod.outlook.com
- ([fe80::59c9:fe0:25f6:702b%6]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
- 16:42:08 +0000
-From: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-Date: Fri, 12 Dec 2025 17:40:59 +0100
-Subject: [PATCH 8/8] Add Advantech EIO Fan driver
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251212-upstream-v1-v1-8-d50d40ec8d8a@advantech.com>
-References: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
-In-Reply-To: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
-To: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, 
- Bartosz Golaszewski <brgl@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
- Andi Shyti <andi.shyti@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org, 
- Wenkai Chung <wenkai.chung@advantech.com.tw>, 
- Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>, 
- Hongzhi Wang <hongzhi.wang@advantech.com>, 
- Mikhail Tsukerman <mikhail.tsukerman@advantech.com>, 
- Thomas Kastner <thomas.kastner@advantech.com>, 
- Ramiro Oliveira <ramiro.oliveira@advantech.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15819;
- i=ramiro.oliveira@advantech.com; h=from:subject:message-id;
- bh=51WajgEbvqgEKRA7RH5RVOmoSeCUuZhN+95x5loIgvM=;
- b=owEB7QES/pANAwAKAc7t0Ke8vbAJAcsmYgBpPEWhfKRACF01ila+8eGN3kwcftzUzGOqanEwl
- QQ3waIjsCeJAbMEAAEKAB0WIQS1Nkng0ZvJmBKh6GLO7dCnvL2wCQUCaTxFoQAKCRDO7dCnvL2w
- CbGCDADD/LewB6FT+KGC0hVpUy8uIvHVcyhhscDZ2EP5xHd/VWhdRX/SM+RTbQBGxERWuzR92JP
- sC5vUWkNp7sIlsAFp9hWhMS/TggAmmWWyLgdaQSGsM6LHjcN9+XkTDCVO+85Ph+sTG7ifpEk9wV
- iKOOSFTkm3uyWQBWMcF5zEvHODSVEe3INiy94PD328yL7BMLcJvSr+R1Sc0v+EmcRXg5MRNibh2
- zL3qqxYkLBAn6IW3WMgh8Lp0vrDCMc50zWSJOU75jTfdGaXcBmyj59T7Y5ul0+18ZDHTZL9z0BT
- Z+W4/ZSBUFmhHRNzXBdsg8ll6ay+9azR6SgzAjLbID1rbM5LMH2gtuFV8ogf1W5Tjnr6y9T5X+w
- lAejA5sdE1ilWeiGr/h1V5lW/YUVCEcIGG3KrRJyUcMegD2Y+GFsj8vKtmKqdfbAlX+4rTDx/yw
- Tn4VoCQ0KLfGLkOKS+dLJ3JpGmi9c+mULw6S+uh3UGSRSszpp7+3Cu1HyFQDchgi+H0ao=
-X-Developer-Key: i=ramiro.oliveira@advantech.com; a=openpgp;
- fpr=B53649E0D19BC99812A1E862CEEDD0A7BCBDB009
-X-ClientProxiedBy: FR4P281CA0175.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b7::12) To PSAPR02MB4502.apcprd02.prod.outlook.com
- (2603:1096:301:21::6)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SA1PR12MB999083.namprd12.prod.outlook.com (2603:10b6:806:49e::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Fri, 12 Dec
+ 2025 16:43:49 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
+ 16:43:48 +0000
+Message-ID: <15ee6051-0639-4c4a-bc1c-8762a5ae5128@amd.com>
+Date: Fri, 12 Dec 2025 10:43:44 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1] accel/amdxdna: Fix race where send ring appears full
+ due to delayed head update
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
+ maciej.falkowski@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
+References: <20251211045125.1724604-1-lizhi.hou@amd.com>
+ <b6286dcf-d9a4-4dbd-b8e4-5b0640c7dae5@amd.com>
+ <6589ed1e-498e-0f3c-740d-ada6d3e02c4a@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <6589ed1e-498e-0f3c-740d-ada6d3e02c4a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1PR02CA0020.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::27) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PSAPR02MB4502:EE_|JH0PR02MB6564:EE_
-X-MS-Office365-Filtering-Correlation-Id: db491152-3f02-4021-5de5-08de399d640d
-X-MS-Exchange-AtpMessageProperties: SA
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SA1PR12MB999083:EE_
+X-MS-Office365-Filtering-Correlation-Id: af833979-782f-48a8-fc35-08de399d9f8c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|366016|52116014|376014|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0NaekpJU3g0cUlJenUwdW5qQ0Fld2E3TVIrTC9iYk0vZXVOeG9NM3duREJ5?=
- =?utf-8?B?UkxtR0ErN05pU1ZVKzBsTm40cFplVDI3b3RjOUhNbjJHcFRvVEhhb05iTmZG?=
- =?utf-8?B?ZWZvZ0E3TlNxVnJ1OVBKK0ZKb2tTbjkzSWhicnRMM0JOMkNrZEtkT01rbzFP?=
- =?utf-8?B?OTRxNW05UFJiL3RYMUszVWZJcWt6bkFrbHNEbGRtTzZ2MlZVakN4NVplOG93?=
- =?utf-8?B?QS9rWXlxSDdhTE8ycExMUnNGVGRTK3haRTFjVUNobEhla0tVVkFzV0N1ZFFk?=
- =?utf-8?B?RXVRS2VBUFQ5S0tIMFJEVUluc2ZQc3FMRDBuWHNPTUowM0NKY0pwZlppcm1N?=
- =?utf-8?B?OW5ydlUyV3A2RmJsbUcwamlNcWFlNThFMXYwd3VTWFZUenFEaWxsMG1tTEJK?=
- =?utf-8?B?OUxVM0c0VEdRckJJZWEzSGNrWHJUMHErZTErMWhRUW1KcTFIZnRBdUF4a2lP?=
- =?utf-8?B?eVk4RmpFZzltcm4xOG0vdlNTcDcvMTlZK2dqWENoamRTNTFWYjQ1U2p0Qkw1?=
- =?utf-8?B?c0Zpc044RmNINHUxRnlKdVQ0UVJtM2VpNGg5RENEMk5uRVpPd2dQUHkrd2Ex?=
- =?utf-8?B?SThicWQ1KzNqUmsxVnhQcnU5UW1UblJoQ1NwdjlCN2FpWU56OUpiWWZ0bysz?=
- =?utf-8?B?aVVTREs4Qk5tSC82UDV6Tno2VmZlZjN4Q2FhYngvTERpdUVCbjh0NjZFZDNl?=
- =?utf-8?B?ZjdKUk56dGJ3eWMzWUpqRWo2Wk4wSmZydXNnaGhtQVRsa0U1YzB1NjZjeFdZ?=
- =?utf-8?B?L2twcHFUYlp6WDU5dER1emVtWDJZcDI5WmdqVnd1Qmwweks3ODdYZFFJVWpK?=
- =?utf-8?B?RStPcFBFM2R3QlNYbjdMNGR3amlnNnY1NXJSaFFsNVFSajNBZVJOWjczVkNq?=
- =?utf-8?B?MFZpK0ZWaEQyalNXd2owZjdJNHIxcXZHTkdLRjdmS0xYdER0OHliVXBsSmlY?=
- =?utf-8?B?MFArME05eStncDU2SGE0c3g5QjVGMXpxRlFqRU04UFJtcmRweGhNTExOU1VD?=
- =?utf-8?B?NUZkQk9NRjB1OGlkRWg5RmtQSkZETWlXUFRRNHJSb3VJZXUvL216ejM5SmMx?=
- =?utf-8?B?VVJPQjFMRncvSzFzaFlFL0FpMUJjR2FhYzlPeGV0anJncjRRWk5vQkcwc3Bt?=
- =?utf-8?B?Yi9yekYxUWdTS0VudUpRM1lhRlFzZ3BpeDBqU05uV3Q3R2IwL1VjTk55L0Fk?=
- =?utf-8?B?elFsVFkvbm54MWhXK0V2c2hJYjh3NDlpOVRjNnBhc0c2ZlNUUXBFM3hqYlVP?=
- =?utf-8?B?eUlLWHc5KzhuTnpzNDJkWm00anJZd2VjRkNsZGtKUFBkS2pZbVZBbTRCeVd0?=
- =?utf-8?B?YlRWVWdqN05tMFMwTWdIM21PUTFad1A4czB5RUNlT25MTmduMFBxQmFYZXRK?=
- =?utf-8?B?a0RCczVGZXM3NVdwc2NTWkE0OTNMOFJXM0FkL2wvcHNia3Y5Yk9FSW4wT3FX?=
- =?utf-8?B?cWFtM3lHSzhJU1dzQWwrSFp0QkdFYzh5ZlQ5aFgxRkpCYmVCTk1NNGUxOFVS?=
- =?utf-8?B?SHlXMXBMcWdGanp0NExhQlBHUGkrYW80TkJxRm9FcHQ2YUE2dllyZmpxc09N?=
- =?utf-8?B?cVZraVI0UE5KaVV3dnpzR0Fpc3RFengxdTBZdXQrZDVyUzFURVIxV2MxalY5?=
- =?utf-8?B?TmNaQUcrekdSU0REODNwQnVIV0pFZ2xXa1FLNXdiOVFKVW5uYkVOazZlL05M?=
- =?utf-8?B?VFI5MnVWbHJPdXhGV1A4WkpIM2ZSSGgxTVpiWnhMMkM0VW8wOGIyYlpPZ2l6?=
- =?utf-8?B?akdLK2tnOGR3d05JN0FhcVA0dTlhOWxSRXlEYXgrWThJUlRpNmkrOElJYkJo?=
- =?utf-8?B?eDZGYWdZdmpMUjVmTFBKanFwbUU3QXY3c1dlZDBGZGZBQktaSEh5blBJUHNY?=
- =?utf-8?B?TTloS3N4TEUxTy9teTh3aUJhQnBsRXhsOGxCQlRBV0t3Slp4L0lXOXlhUFVK?=
- =?utf-8?B?RU90MUhXaER0Njg5VUZobFlyN01jeEgxQUVDeEMxeGFCUkZZdk14OENCVW83?=
- =?utf-8?B?Snk5L1ArWnpHcGVsM1E3aWY1R1pEd1pEUk1KTUNkaTkxQ3I4eXpES3dIVDJY?=
- =?utf-8?B?VHJ0OFoydHpmV0pWT2I1aW5HTkxQMXYrUnk5UT09?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R2J0V1VUcElLNmlqeXBYL0pNRVE1bWtGOGlVbmFyWTE1TWtDU0xpVHY3THFR?=
+ =?utf-8?B?QUdJbWYwdE1GdnZEZ3BsRGV5T0RSR1hCeEpUVUJLYng5WVdUc1pjd0JXcDdQ?=
+ =?utf-8?B?V2RJTnhGcUJ4YWY4Z1JoME1ZR0IxRWJHVDczczNOTUdRNTBReXFBMXFUWlRS?=
+ =?utf-8?B?di9pMnhySVpTVEI3YmJHOElYRm1tR3lJLzl4Q1R2WTVjMGozdGc5c2F5S01D?=
+ =?utf-8?B?eE1MaFZNOEhlRW9KVWlISnR5VkN0c2d2TG4xeG9yT2N4OUtxVFlxd0Juc3hU?=
+ =?utf-8?B?QWdrZnVDTUQ2R1UzM3Raa1hXcHNRb2YyelBRcWdXMFJmbFFWTTVpSE5FbXl1?=
+ =?utf-8?B?bDAvdTFSMkdSdVdQbEZPQ21VWWJiN3V6TmVNQWE3V3lDUGdRRkFHRncwemJU?=
+ =?utf-8?B?ek83NGJ3MTA1eTVmMDJlM3ZzeVVWQU5OZDQraC9uR0NSV1VFU01WUDJOWmVD?=
+ =?utf-8?B?MVhBZE9YUkt6YnoxTERDT0RIOWhxL1RnM1kzdU8zNndHQW1wTnFZbWR5aFlS?=
+ =?utf-8?B?a1gwV0JYdGlPcElicmpNNXdvSWpnK1VEODlUMDBnOXVqQitxcUpSUEVOeWNi?=
+ =?utf-8?B?ajRzd0NYMDVnT1N1cFpsVUlFa2dWWTBpQXJqblpVamRiUkpVaGpWOHZSbjNt?=
+ =?utf-8?B?YytMYklhdzFDOGdKWW1Bemp3ZktyQWd2R05IMFVFZGVSRE5QRW5wTWJKdjg5?=
+ =?utf-8?B?NVFvekRXZXFjRXFNc3R6cm9iN0ZDMHhFYjFHMldzWitKcGVaSGN6YTFwekdB?=
+ =?utf-8?B?aFArUnB4TGtoRXROYVU3Wkh1RGFDWHdULzlMdHVHVU10U2JYZzkwSUhobGV2?=
+ =?utf-8?B?R2diQlNCbnBRNlJ3RTkwVFMrbTcvT3dMcVVjcEF1SW0vMzZpV1ZNdnJLKzB0?=
+ =?utf-8?B?QWlBSG8xWE5TMlo2bW9TdGRvd1ptYnA5S2hBMWVraDdLV1IxTS9Lc1V0azNz?=
+ =?utf-8?B?cEJnQ2hMQzA4c05jWUFsRmprNnhoc0lSUVJKaTFGN1UvbHVxM0hDc053N3ZZ?=
+ =?utf-8?B?eE1FT1N5RzhYMVJPdWVFeWZiU044cEpZRmthOEE2Q2RPQ21WWnZEZUhzOS8z?=
+ =?utf-8?B?MWhiQ0RZQXp2RTZOdWdRQm9LdERNZXY4NVhMakR0NXNNNlhjSGkveUZmZ1hu?=
+ =?utf-8?B?Rk9RYmxwbXlSUE02eVBaeU9YTWNpRytSK3hubkJ2VmN5K0t6MGwrajUxTTcy?=
+ =?utf-8?B?dGFoL21ZSWJTVU9kUjZSQUVhdXBFRU83c292WUYzeVh1YUhqRkgxUlV5eWJz?=
+ =?utf-8?B?Q1hOaW50Mi9zMTdmUGxUZUdabXR4ZWxseXRaTGIxbHNnVjNjc3d5V0FZOHN0?=
+ =?utf-8?B?MjhjOXN6MDZMbWQ2L3JEZis1K3VFa3F3Ukt4QmpiaE5KOXJLYVBhS0FqMDcz?=
+ =?utf-8?B?NEVpSFZzZ3IrTEMvRkE0SzFqQjBRSndvU3ppeHBYeFg2QU5rMHpGaHFnVzcr?=
+ =?utf-8?B?NXVOWENhNTB3eGlWUU0yaVFNbE5EbUFBN3BTbkM4R29ydk9PRmQ5WkJmWTQ3?=
+ =?utf-8?B?d0NEOXZhaksxcFU1SU4wRGZ3bld5QTMxMktDYmhJL2o0UVVDVFg4bzcwSFdS?=
+ =?utf-8?B?bGlDTDV4UWZQV3VZVXJSNDhjMUZVUXkxTTdtbk94eFJZNGtUT1hLak9WYnp5?=
+ =?utf-8?B?dXJDdDVDb2lGWFJEazZwb3h0cWhOM0hULzVPOXNJdkFhQkxLaGNwSWxWcUZI?=
+ =?utf-8?B?UEJjSmdaUVVpb3lqajhxZVhUMi85SW9jRXFqOUJFN0psY2pTWDJJU3FYeW9M?=
+ =?utf-8?B?UGdmakRRTHZPUnlqQ3NKY09paDlHcEM2ZnducDhyN0o3Wjl0TmJITGJnNnFX?=
+ =?utf-8?B?QkJoSzJNVFdvdzNWaEhTN3ZIMG41MFNNM21VNE5xSVdOcTYvaG5KUXFKTitu?=
+ =?utf-8?B?Yitxbmt5eHNiY1dUZWdadERMVHh0MkJhbGVLNDNVNzhtVjlSNDZ3OFE1VzNZ?=
+ =?utf-8?Q?/s/wPtv5pFQuIstVSYwFEi/SlWqfN+It?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PSAPR02MB4502.apcprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(52116014)(376014)(38350700014)(921020);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFJHYi93R25NdXpDbDVVL0prR280WW9VSGpXQnJIc0FPWEsrRVlwY1ZaeUpJ?=
- =?utf-8?B?UWxpSFl0ZGh1V3RTMWJCaFhrNUNTTHovaS9zWjFKVnVURVNWZSt1TlBRcGo4?=
- =?utf-8?B?S0dqK1hrdnhLL3VOUjFEcG1kVUdyY2VKR29wR2xaN2cwNkhtOFJxNis4TXpr?=
- =?utf-8?B?WEUxVEhReTdPSWJEelo5ZmFpSGQ3S2tBQThlZSt2elBKMHpKaVQxOUdJTHFO?=
- =?utf-8?B?RG5hZTBSNzJzdnJsbGl3T3ROeTVHaEZUSWFCOWp4cUZ5QTY2clJsL0VaRXhN?=
- =?utf-8?B?QlROak1FYytiaHRDb2dOKzk3SGthaE9Pd0RTOHVoY0RDTHB1Y0hvOVExaEVz?=
- =?utf-8?B?VWtTQ1VjaWlZSFpubkw3OXlCcFZ1bm1sSDJZR1pOZ0dLaVYxZ0tlTTVjd2sv?=
- =?utf-8?B?UlBKSFlxNk1Kd3NKcGZsQTFKVTJsR3Z4VWdvckFJY2kvL0F2OHorSzJnYVdB?=
- =?utf-8?B?cGIwYUtlNlN2YjZqd0VmR0thZG9aRTBseUsyaTBpVGhJVE5scWZrWjRHTW1V?=
- =?utf-8?B?cFFRSTNIYVdKSXdrL2tmczRaazhndjV5bHNRR3d6SStJYU1mTktlT2NuTnM1?=
- =?utf-8?B?WHZDUjduM3hnZktMYThhYjdpNkx6c0Z3azZ5cVAwUzNIM25OVzFHdHRiL3FX?=
- =?utf-8?B?ampCc3dLSFZQY1hidm5EK04rNURTbUs5MjVtMUpQRnhQekhGYk12YTN1SWtw?=
- =?utf-8?B?Nk5KOUlpZzVXYmtFTlI0RnQxOWxXZ0xnLzNPMDdQL1NZYW5jYnhpcWQ4Znli?=
- =?utf-8?B?ZFZKYis4WDF3TXY5UW5lWEp4VTQwM0krajJOQklIcHpUR0YwdmR2SW5WVWg0?=
- =?utf-8?B?aFY5Z0hDeGc4WVczSXF1SE5WVXQxL3JRUXNMNmpnaWlCcWJEVVRUVkZwREs0?=
- =?utf-8?B?V1JKQjhqRittWGdSa1hXVXUxMlAvUUdCRFJxNEdzSXpPZXdTclRGL0w2YzI3?=
- =?utf-8?B?dmE4VDNsZm9SZXhLWnN6YStadGVTeUNhY282cmVjR0I4ejJha3dmNHlUaWV2?=
- =?utf-8?B?L20waExwZ1ZBUkNOdlg5UFd2THluV1QzakZtb2g0RCt0cllJR2RRWk5HVlN1?=
- =?utf-8?B?SjJ6OHY4MkxGQWlZUW9sRFZuZFlpT05nTlVsS1c1NTYrd0dkT0ZQQndVUDlQ?=
- =?utf-8?B?MlFmc3gyVjNxei9tNXJzYlFkUkNGdXA5b2ZJNjlHeUkyUmdJR0xJbWZWaWw3?=
- =?utf-8?B?RDVha0QzSHRxL2RQbTA5a1JWdFVMUDhHRnlsQkZvcDNlS2Y4anNTQkNJdGRL?=
- =?utf-8?B?bGYxVzlZRi85TmhXSnhDM0xuZklScFhyRFpNeS94dERtRDFidGtNSWVsWTZ0?=
- =?utf-8?B?ZzZXekQ2bnZUK0VYRnRzbldqbGZpdHpWcXlwckZveXZncEVPdFgxY3drbzlM?=
- =?utf-8?B?MHlBOHNweWRJWWttYW1EQWVhRmxSSmZhdDRqZkJEaDQrd0p4TnV2ZUQwaTNp?=
- =?utf-8?B?R2xoTkFPRjFld2lLQjhaZFQ1cUZ2ck9iUVV1bjJmV2tBeVpSQzhOWmxNTmJ3?=
- =?utf-8?B?UlRUNE5WZHF5TWhkTUxaQW1Cc25CZE1kRGs2STlRd21HbzQ2OU1NczVHV3Z2?=
- =?utf-8?B?RmhOcFR3Y3pFT1ZBdHVreTBrdS9xdzNCVkQraC83VUw3T0tyazdScGY3T1BS?=
- =?utf-8?B?eXRuQlhLbkFUcFVJTlNJeXVkdUw5bHRTa0xVTFFtWlRhaWVRaW95OG41dDM5?=
- =?utf-8?B?UTJZMHY3QTJJM0lWbE41NW1xL1NXVGFURVdvNXo2VUhheTRhV1FxMzZwNDVs?=
- =?utf-8?B?MWJGQ0NDd05ZRlk5Y0FKdGZHM3VaM1ovcUhCYXBXSEx1S2dNVXh6c2YyZ0FU?=
- =?utf-8?B?cjZSeEM3eDFOLy9QOVFLSVc4NUhLSGY1R3hCVGZOQWtMQ2ZhYzRHNk9FYWNY?=
- =?utf-8?B?ZTVISU5GeGtBaFBwZnF2cW9mMlozYS9QVXgwTVJ4bk9uTnBwZUZpd3JJVytl?=
- =?utf-8?B?MUczV1pHRFptMkQwZ21XWHM3YThxL2piN3VWdkxOSUkrNU56Z3RoMlJIRWVT?=
- =?utf-8?B?TDE5bDZFK3RiV0lTVjZxbFlPR2drdzIxTzJMZlpneER2TjFSZG1QbzJvd1g3?=
- =?utf-8?B?THBCZmprRGRRSTVTcnB0LzhGQ0Z1MlNtSUlJeXBLSkpRQUozVkdqZm9DVUtH?=
- =?utf-8?B?SlJrZUpKNWFRWmhPRmNUMnFNVDJXRk81cEw3WHk5YlNQMDlQYnZZT2NUd1Rp?=
- =?utf-8?Q?+J6z8aIll8HmvB56YBPieFg=3D?=
-X-OriginatorOrg: advantech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db491152-3f02-4021-5de5-08de399d640d
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR02MB4502.apcprd02.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWhvTjJnakorTUw0ZVp5WFloWVd4TXN2TnNOdVkzeTVySjhzK3MrY09oelBu?=
+ =?utf-8?B?L3FhTEI2YmlQL0ozM2E2blBjZEpMRTR1OHdBSit4Q1JEVUZtSTBnTkpPTWg3?=
+ =?utf-8?B?dnlySnMvKzdMOEltTVlsN1NNR1kzcnFGck1JZlVRWk1DTDFoRzRFNWFvUnEx?=
+ =?utf-8?B?YXJIUWJiSVliRU1FUC9YZEFsbFlrQ0hTU1NsMllWSSs0L2tLdEpCSTBoOXlX?=
+ =?utf-8?B?QXpoQklEZlloWXdkT1Jsdmp1cDV1bU0vcUh1amUvVENwZzE3TVVjRDRUMlZN?=
+ =?utf-8?B?dVhnWHVLdXB0NXcyZG5YZXkxTmJaODRPNDZiTVBCVytMcXF4clJ6SzNSZTU0?=
+ =?utf-8?B?UzdudlczZmJQMkJIVnZhd015U1lYZGR3bEpobENYSU9SYU9uQUcrb0lvTncw?=
+ =?utf-8?B?ZU56b1plRE52M0tVMlZMcnBwR0lpQy9YYUFYVFZQVFNDNGJHYUNvWDRuZGcv?=
+ =?utf-8?B?dm16SEhWcHhTMUJ5ZDF2ZmY5NllpRi95MXlQMC9Zb1g0TlVXMkFRM0NwcnNE?=
+ =?utf-8?B?elUrL3VoZnF1Q2pFUVJxUy9RVWJlWk9SeEREY1hEalFIMW1jV0k3NGlUdWkr?=
+ =?utf-8?B?OFhROFhOdFRkWkV4Zkowbm1WVXNYOWJkRHZBaDg1dmtWSGNvL1NYN09EYmEr?=
+ =?utf-8?B?bUpyQTFHNTQzd25oRXNNdmo4VjlCOEkvNElobG9XalplTldmVHh2ZUg1dndR?=
+ =?utf-8?B?c1hTN0k5a2JwMUoxNVV4R2F1QVBOME1rNzFOTnNoeld2ZDNOUkJ0OGZrZ2Jt?=
+ =?utf-8?B?YXZXRUozT08wRUQ3UFlqV2NwUldYNFBOY29pUDNKSm5tbzlqdG5tMHp6dHp6?=
+ =?utf-8?B?RVBXWG9ub21wMVhrckVpQmFnbWZOZGJ4N3FMRzEzWTJ4eURyMzFLNFgwaDhu?=
+ =?utf-8?B?bVRkbGNPRXBqd25NR2dRUHNRck9USnRhMW1tTTdjMkdjckdBMXJDR0p0NGdY?=
+ =?utf-8?B?aEFYM3N2SjI0cTNlZkJVbXF3aXMvNENYRkVEWmltWkpGVW9iYVBUdGpuQnRW?=
+ =?utf-8?B?aU1nZGVaeGx4ZnExUUtCSzY2NTZWcnNObXRKQ2FVdXNJajZ5ZHRVZXVQcWNH?=
+ =?utf-8?B?dDNOdmxjRCsxQ3ZmcE5RNlBHRzM0c0R0VEVNQlNoUDRmRFg3RUNDOER1Wmlr?=
+ =?utf-8?B?bWxwMHhjOTZsc2xtdTJGdzg2dTRjaTZ3di8vYmV2Q24vTXhwNHcyNmRtZnRP?=
+ =?utf-8?B?NHl1U0JxaGNmOXh2VkFxSXRHMzUvY3FSRXpsL3YxemY2OThSd0FucGNlUmtz?=
+ =?utf-8?B?NklmQUFSOEpmcmJiSUEzZENpWDdjM25wYXBXQjQ2MEZXMTNOa1ZuVnZXeG1E?=
+ =?utf-8?B?bFRpcjVjdWxFalFYUmUzTnM1clNLSE1aaGxBZ2JUL05zYVNOMDNObWdOMFE2?=
+ =?utf-8?B?TjU3blAxZjE0MEdCYlA5L3cvbTVwOVJzYlhyQXNHdTE1ZjBhUThzR3drRm1m?=
+ =?utf-8?B?YnRtT0pIamNhc3h3YnkvTmZJV0FMbTFhVnVZWURGZ1dSTmlHZVVaOTZhRTB6?=
+ =?utf-8?B?R1A0eVg0TzV3OUlKRE1tazRuZzNOUGszeVo0SXFYdStNYXRvMVozT2t4RWJT?=
+ =?utf-8?B?dGZEQi9tam53S0thTDEvbGxYWG8xRlh5UWZUMGIxR0crWFhnOVc1UERGUkNY?=
+ =?utf-8?B?ay9oNWF5Qm5OS0RhaGtZWVhWMVV4ZW1zY2lxUVVNUW9BSFZPRnlNOTl6Mk5P?=
+ =?utf-8?B?K0RncmxOeDlvSVROa2hEeG42TnBPSXNRbmRkY21lRlRia2tDTXhvN0VLZ2hx?=
+ =?utf-8?B?VUxUcU4zM21WU2lGTWtvblozMFVrZ3U1eDk5dCtBTXFXeEF2NldTdVJTNjJq?=
+ =?utf-8?B?dGNFZWNob3EzTEcrOEo0QkI5Y2tUdEwvREdPM0phS2YzNHQ5cDZ0cHhaWE1L?=
+ =?utf-8?B?bEtjYnM4SHRVeDlkT3JsT1lOTndyd1lUQmRZTmhNZS82d1lwdzM0Z3UzNjdk?=
+ =?utf-8?B?bGhoRTdLckgxTDVHbzB1WDRjeGtyQXp3Rm9CZkRTTWVVL2xtZ1V1TXFIOTU5?=
+ =?utf-8?B?K1RiVmZEZ04va3VISGhMTXAvSmpXU1N6cWs4MFJpU2pkKysxT2dIdmNpNzMy?=
+ =?utf-8?B?NkFhN09WRzdqREw2S3hBbWNHNHVXL21lMFBmOERUSEhvaXRzT1pjVkROYkdr?=
+ =?utf-8?Q?fKcO2MdTyhOanBARNTLM32Bk2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af833979-782f-48a8-fc35-08de399d9f8c
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 16:42:08.5609 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 16:43:48.4370 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a77d40d9-dcba-4dda-b571-5f18e6da853f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EYglerHuhbCiuJqTykCDb9EmBur234FsFi/x4ej3Hf4nIx+nb7VEt+X/S7wdKKEiGvYu+4D9eNVE0AaQGJtOlZIoVKmxwCxzf2k7c9Ehdc8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR02MB6564
-X-Mailman-Approved-At: Fri, 12 Dec 2025 16:49:07 +0000
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8tMuJh9yrdh3vpNii/rOeyB+fUKJaA8VObbpYV9vxEX4ZrRWs2oUchNn3jqSB+KnWWh1OQvCHMVZERdYIZSXog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,557 +166,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit adds the driver to control the Advantech EIO Fan block,
-which is included in the Advantech EIO Embedded Controller.
+On 12/11/25 10:41 PM, Lizhi Hou wrote:
+> 
+> On 12/11/25 13:48, Mario Limonciello wrote:
+>> On 12/10/25 10:51 PM, Lizhi Hou wrote:
+>>> The firmware sends a response and interrupts the driver before advancing
+>>> the mailbox send ring head pointer. 
+>>
+>> What's the point of the interrupt then?  Is this possible to improve 
+>> in future firmware or is this really a hardware issue?  If it can be 
+>> fixed in firmware it would be ideal to conditionalize such behavior on 
+>> firmware version.
+> 
+> This has been found recently with a muti-thread stress test with 
+> released firmware. My understanding is that this is a firmware issue. I 
+> am not sure if it could be improved in future firmware.
 
-Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
----
- MAINTAINERS               |   1 +
- drivers/thermal/Kconfig   |   8 +
- drivers/thermal/Makefile  |   1 +
- drivers/thermal/eio_fan.c | 490 ++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 500 insertions(+)
+OK, thanks for explaining.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 770b2f82d01a..b227a9d28191 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -623,6 +623,7 @@ F:	drivers/gpio/gpio-eio.c
- F:	drivers/hwmon/eio-hwmon.c
- F:	drivers/i2c/busses/i2c-eio.c
- F:	drivers/mfd/eio_core.c
-+F:	drivers/thermal/eio_fan.c
- F:	drivers/thermal/eio_thermal.c
- F:	drivers/video/backlight/eio_bl.c
- F:	drivers/watchdog/eio_wdt.c
-diff --git a/drivers/thermal/Kconfig b/drivers/thermal/Kconfig
-index 7309f7e7a1c1..ba4958ff0962 100644
---- a/drivers/thermal/Kconfig
-+++ b/drivers/thermal/Kconfig
-@@ -436,6 +436,14 @@ config EIO_THERMAL
- 	  the Linux thermal framework. It communicates with the EC through the
- 	  EIO MFD core.
- 
-+config EIO_FAN
-+        tristate "Advantech EIO Fan cooling device"
-+        depends on MFD_EIO && THERMAL
-+        help
-+          Fan cooling device for the Advantech EIO. This driver exposes a
-+          thermal cooling device with controllable states (e.g. Auto/Manual/PWM).
-+          It communicates with the EC through the EIO MFD core.
-+
- menu "Mediatek thermal drivers"
- depends on ARCH_MEDIATEK || COMPILE_TEST
- source "drivers/thermal/mediatek/Kconfig"
-diff --git a/drivers/thermal/Makefile b/drivers/thermal/Makefile
-index 3740540d8a18..2633e8ed9fdc 100644
---- a/drivers/thermal/Makefile
-+++ b/drivers/thermal/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_IMX91_THERMAL)	+= imx91_thermal.o
- obj-$(CONFIG_MAX77620_THERMAL)	+= max77620_thermal.o
- obj-$(CONFIG_QORIQ_THERMAL)	+= qoriq_thermal.o
- obj-$(CONFIG_DA9062_THERMAL)	+= da9062-thermal.o
-+obj-$(CONFIG_EIO_FAN)		+= eio_fan.o
- obj-$(CONFIG_EIO_THERMAL)	+= eio_thermal.o
- obj-y				+= intel/
- obj-$(CONFIG_TI_SOC_THERMAL)	+= ti-soc-thermal/
-diff --git a/drivers/thermal/eio_fan.c b/drivers/thermal/eio_fan.c
-new file mode 100644
-index 000000000000..7f0529a1907e
---- /dev/null
-+++ b/drivers/thermal/eio_fan.c
-@@ -0,0 +1,490 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * eio_fan
-+ * ============
-+ * Thermal zone driver for Advantech EIO embedded controller's smart
-+ * fan mechanism.
-+ *
-+ * We create a sysfs 'name' of the zone, point out where the fan is. Such as
-+ * CPU0, SYS3, etc.
-+ *
-+ * The sysfs 'fan_mode' can be one of 'Stop', 'Full', 'Manual' or 'Auto'.
-+ * If 'Manual'. You can control fan speed via sysfs 'PWM'.
-+ * If it is 'Auto'. It enables the smart fan mechanism as below.
-+ *
-+ * In EIO chip. The smart fan has 3 trips. When the temperature is:
-+ * - Over Temp High(trip0), the Fan runs at the fan PWM High.
-+ * - Between Temp Low and Temp High(trip1 - trip0), the fan PWM value slopes
-+ *   from PWM Low to PWM High.
-+ * - Between Temp Stop and Temp Low(trip2 - trip1), the fan PWM is PWM low.
-+ * - Below Temp Stop, the fan stopped.
-+ *
-+ * (PWM)|
-+ *	|
-+ * High |............................. ______________
-+ * (Max)|			      /:
-+ *	|			     / :
-+ *	|			    /  :
-+ *	|			   /   :
-+ *	|			  /    :
-+ *	|			 /     :
-+ *	|			/      :
-+ *	|		       /       :
-+ *  Low	|.......... __________/	       :
-+ *	|	    |	      :	       :
-+ *	|	    |	      :	       :
-+ *    0	+===========+---------+--------+-------------
-+ *	0	   Stop	     Low      High	(Temp)
-+ *
-+ * Copyright (C) 2025 Advantech Corporation. All rights reserved.
-+ */
-+
-+#include <linux/ctype.h>
-+#include <linux/errno.h>
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/eio.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/sysfs.h>
-+#include <linux/thermal.h>
-+
-+#define CMD_FAN_WRITE		0x24
-+#define CMD_FAN_READ		0x25
-+#define FAN_MAX			0x04
-+
-+#define CMD_THERM_WRITE		0x10
-+#define CMD_THERM_READ		0x11
-+#define THERM_MAX		0x04
-+#define THERM_MULTI		100
-+
-+#define CTRL_STATE		0x00
-+#define CTRL_TYPE		0x01
-+#define CTRL_CTRL		0x02
-+#define CTRL_ERROR		0x04
-+#define CTRL_VALUE		0x10
-+#define CTRL_INVERT		0x11
-+#define CTRL_FREQ		0x12
-+#define CTRL_THERM_HIGH		0x13
-+#define CTRL_THERM_LOW		0x14
-+#define CTRL_THERM_STOP		0x15
-+#define CTRL_PWM_HIGH		0x16
-+#define CTRL_PWM_LOW		0x17
-+#define CTRL_THERM_SRC		0x20
-+
-+#define CTRLMODE_STOP		0x00
-+#define CTRLMODE_FULL		0x01
-+#define CTRLMODE_MANUAL		0x02
-+#define CTRLMODE_AUTO		0x03
-+
-+#define DUTY_MAX		100
-+#define UNIT_PER_TEMP		10
-+#define NAME_SIZE		4
-+
-+#define TRIP_HIGH		0
-+#define TRIP_LOW		1
-+#define TRIP_STOP		2
-+#define TRIP_NUM		3
-+
-+/* Bitfields inside CTRL_CTRL */
-+#define FAN_MODE_MASK           GENMASK(1, 0)
-+#define FAN_SCM_BIT             BIT(2)
-+#define FAN_FRAME_BIT           BIT(3)
-+#define FAN_SRC_MASK            GENMASK(7, 4)
-+
-+#define FAN_SRC(val)            (((int)(val)) >> 4)
-+
-+#ifndef DECI_KELVIN_TO_MILLI_CELSIUS
-+#define DECI_KELVIN_TO_MILLI_CELSIUS(t)  ((((t) - 2731) * 100))
-+#endif
-+
-+#ifndef MILLI_CELSIUS_TO_DECI_KELVIN
-+#define MILLI_CELSIUS_TO_DECI_KELVIN(t)  ((((t) / 100) + 2731))
-+#endif
-+
-+static const u8 pmc_len[CTRL_THERM_SRC + 1] = {
-+/*      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f */
-+	1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+	1, 1, 4, 2, 2, 2, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0,
-+	1,
-+};
-+
-+static const char fan_name[0x20][NAME_SIZE + 1] = {
-+	"CPU0", "CPU1", "CPU2", "CPU3", "SYS0", "SYS1", "SYS2", "SYS3",
-+	"", "", "", "", "", "", "", "",
-+	"", "", "", "", "", "", "", "",
-+	"", "", "", "", "OEM0", "OEM1", "OEM2", "OEM3",
-+};
-+
-+struct eio_fan_trip {
-+	u8 trip_ctl;
-+};
-+
-+struct eio_fan_dev {
-+	struct device *mfd;
-+	struct device *dev;
-+	u8 id;
-+	struct thermal_zone_device *tzd;
-+	struct eio_fan_trip trip_priv[TRIP_NUM];
-+};
-+
-+static int timeout;
-+module_param(timeout, int, 0444);
-+MODULE_PARM_DESC(timeout, "Set PMC command timeout value.\n");
-+
-+static int pmc_write(struct device *mfd, u8 ctrl, u8 id, void *data)
-+{
-+	if (ctrl >= ARRAY_SIZE(pmc_len))
-+		return -EINVAL;
-+
-+	struct pmc_op op = {
-+		.cmd       = CMD_FAN_WRITE,
-+		.control   = ctrl,
-+		.device_id = id,
-+		.size	   = pmc_len[ctrl],
-+		.payload   = (u8 *)data,
-+		.timeout   = timeout,
-+	};
-+	return eio_core_pmc_operation(mfd, &op);
-+}
-+
-+static int pmc_read(struct device *mfd, u8 ctrl, u8 id, void *data)
-+{
-+	struct pmc_op op = {
-+		.cmd       = CMD_FAN_READ,
-+		.control   = ctrl,
-+		.device_id = id,
-+		.size	   = pmc_len[ctrl],
-+		.payload   = (u8 *)data,
-+		.timeout   = timeout,
-+	};
-+	return eio_core_pmc_operation(mfd, &op);
-+}
-+
-+static int pmc_read_therm(struct device *mfd, u8 ctrl, u8 id, void *data)
-+{
-+	struct pmc_op op = {
-+		.cmd       = CMD_THERM_READ,
-+		.control   = ctrl,
-+		.device_id = id,
-+		.size	   = 2,
-+		.payload   = (u8 *)data,
-+		.timeout   = timeout,
-+	};
-+	return eio_core_pmc_operation(mfd, &op);
-+}
-+
-+static int eio_fan_get_temp(struct thermal_zone_device *tzd, int *temp)
-+{
-+	struct eio_fan_dev *fan = thermal_zone_device_priv(tzd);
-+	struct device *mfd = fan->mfd;
-+	u8 ch = fan->id;
-+	int sensor = 0;
-+	u16 val = 0;
-+	int ret;
-+
-+	ret = pmc_read(mfd, CTRL_CTRL, ch, &sensor);
-+	if (ret)
-+		return ret;
-+
-+	ret = pmc_read_therm(mfd, CTRL_VALUE, (u8)FAN_SRC(sensor), &val);
-+	if (ret)
-+		return ret;
-+
-+	*temp = DECI_KELVIN_TO_MILLI_CELSIUS(val);
-+	return 0;
-+}
-+
-+static int eio_fan_set_trip_temp(struct thermal_zone_device *tzd,
-+				 const struct thermal_trip *trip, int temp)
-+{
-+	struct eio_fan_dev *fan = thermal_zone_device_priv(tzd);
-+	const struct eio_fan_trip *fan_trip = trip->priv;
-+	u8 ctl = CTRL_THERM_HIGH + fan_trip->trip_ctl;
-+	u16 val;
-+
-+	if (temp < 1000)
-+		return -EINVAL;
-+
-+	val = MILLI_CELSIUS_TO_DECI_KELVIN(temp);
-+	return pmc_write(fan->mfd, ctl, fan->id, &val);
-+}
-+
-+static bool eio_fan_should_bind(struct thermal_zone_device *tzd,
-+				const struct thermal_trip *trip,
-+				struct thermal_cooling_device *cdev,
-+				struct cooling_spec *spec)
-+{
-+	struct eio_fan_dev *tz_fan  = thermal_zone_device_priv(tzd);
-+	struct eio_fan_dev *cd_fan  = cdev->devdata;
-+
-+	if (!tz_fan || !cd_fan)
-+		return false;
-+
-+	if (tz_fan->mfd != cd_fan->mfd || tz_fan->id != cd_fan->id)
-+		return false;
-+
-+	return true;
-+}
-+
-+static const struct thermal_zone_device_ops zone_ops = {
-+	.get_temp = eio_fan_get_temp,
-+	.set_trip_temp = eio_fan_set_trip_temp,
-+	.should_bind   = eio_fan_should_bind,
-+};
-+
-+static int eio_fan_get_max_state(struct thermal_cooling_device *cdev,
-+				 unsigned long *state)
-+{
-+	*state = 100;
-+	return 0;
-+}
-+
-+static int eio_fan_get_cur_state(struct thermal_cooling_device *cdev,
-+				 unsigned long *state)
-+{
-+	struct eio_fan_dev *fan = cdev->devdata;
-+	int fan_mode = 0;
-+	u8 duty = 0;
-+	int ret = 0;
-+
-+	*state = 0;
-+	ret = pmc_read(fan->mfd, CTRL_CTRL, fan->id, &fan_mode);
-+	if (ret)
-+		return ret;
-+
-+	switch (fan_mode & FAN_MODE_MASK) {
-+	case CTRLMODE_STOP:
-+		*state = 0;
-+		break;
-+	case CTRLMODE_FULL:
-+		*state = 100;
-+		break;
-+	case CTRLMODE_AUTO:
-+		*state = 0;
-+		ret = 0;
-+		break;
-+	case CTRLMODE_MANUAL:
-+		ret = pmc_read(fan->mfd, CTRL_VALUE, fan->id, &duty);
-+		if (ret)
-+			return ret;
-+		duty = (u8)clamp_val(duty, 0, 100);
-+		*state = duty;
-+		break;
-+	default:
-+		*state = 0;
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
-+
-+static int eio_fan_set_cur_state(struct thermal_cooling_device *cdev,
-+				 unsigned long state)
-+{
-+	struct eio_fan_dev *fan = cdev->devdata;
-+	u8 ctrl = 0;
-+	u8 duty;
-+	int ret;
-+
-+	ret = pmc_read(fan->mfd, CTRL_CTRL, fan->id, &ctrl);
-+	if (ret)
-+		return ret;
-+
-+	if ((ctrl & FAN_MODE_MASK) != CTRLMODE_MANUAL)
-+		return -EOPNOTSUPP;
-+
-+	duty = (u8)clamp_val(state, 0, 100);
-+
-+	ret = pmc_write(fan->mfd, CTRL_VALUE, fan->id, &duty);
-+
-+	return ret;
-+}
-+
-+static const struct thermal_cooling_device_ops cooling_ops = {
-+	.get_max_state = eio_fan_get_max_state,
-+	.get_cur_state = eio_fan_get_cur_state,
-+	.set_cur_state = eio_fan_set_cur_state,
-+};
-+
-+static ssize_t fan_mode_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	static const char * const names[] = { "Stop", "Full", "Manual", "Auto" };
-+	struct thermal_zone_device *tzd = dev_get_drvdata(dev);
-+	struct eio_fan_dev *fan = thermal_zone_device_priv(tzd);
-+	u8 mode = 0;
-+
-+	int ret = pmc_read(fan->mfd, CTRL_CTRL, fan->id, &mode);
-+
-+	if (ret)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%s\n", names[mode & 0x03]);
-+}
-+
-+static ssize_t fan_mode_store(struct device *dev, struct device_attribute *attr,
-+			      const char *buf, size_t count)
-+{
-+	static const char * const names[] = { "Stop", "Full", "Manual", "Auto" };
-+	struct thermal_zone_device *tzd = dev_get_drvdata(dev);
-+	struct eio_fan_dev *fan = thermal_zone_device_priv(tzd);
-+	u8 ctrl, newc;
-+	int mode_idx, ret;
-+
-+	for (mode_idx = 0; mode_idx < ARRAY_SIZE(names); mode_idx++) {
-+		if (strncasecmp(buf, names[mode_idx], strlen(names[mode_idx])))
-+			continue;
-+
-+		ret = pmc_read(fan->mfd, CTRL_CTRL, fan->id, &ctrl);
-+		if (ret)
-+			return -EIO;
-+
-+		newc  = ctrl & FAN_SRC_MASK;
-+
-+		switch (mode_idx) {
-+		case CTRLMODE_AUTO:
-+			newc |= FAN_FRAME_BIT;
-+			newc &= ~FAN_SCM_BIT;
-+			newc |= CTRLMODE_AUTO;
-+			break;
-+		case CTRLMODE_MANUAL:
-+			newc &= ~FAN_FRAME_BIT;
-+			newc &= ~FAN_SCM_BIT;
-+			newc |= CTRLMODE_MANUAL;
-+			break;
-+		case CTRLMODE_FULL:
-+			newc &= ~FAN_FRAME_BIT;
-+			newc &= ~FAN_SCM_BIT;
-+			newc |= CTRLMODE_FULL;
-+			break;
-+		case CTRLMODE_STOP:
-+		default:
-+			newc &= ~FAN_FRAME_BIT;
-+			newc &= ~FAN_SCM_BIT;
-+			newc |= CTRLMODE_STOP;
-+			break;
-+		}
-+
-+		ret = pmc_write(fan->mfd, CTRL_CTRL, fan->id, &newc);
-+		return ret ? ret : count;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static DEVICE_ATTR_RW(fan_mode);
-+
-+static int eio_fan_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	unsigned int fan_id;
-+	int ret;
-+
-+	if (!dev_get_drvdata(dev->parent)) {
-+		dev_err(dev, "eio_core not present\n");
-+		return -ENODEV;
-+	}
-+
-+	for (fan_id = 0; fan_id < FAN_MAX; fan_id++) {
-+		u8 state = 0, name = 0;
-+		int trip_hi = 0, trip_lo = 0, trip_stop = 0;
-+		int pwm_hi = 0, pwm_lo = 0;
-+		int temps_mc[TRIP_NUM];
-+		struct eio_fan_dev *fan;
-+		struct thermal_zone_device *tzd;
-+		struct thermal_cooling_device *cdev;
-+
-+		if (pmc_read(dev->parent, CTRL_STATE, fan_id, &state) ||
-+		    pmc_read(dev->parent, CTRL_TYPE, fan_id, &name) ||
-+		    pmc_read(dev->parent, CTRL_THERM_HIGH, fan_id, &trip_hi) ||
-+		    pmc_read(dev->parent, CTRL_THERM_LOW, fan_id, &trip_lo) ||
-+		    pmc_read(dev->parent, CTRL_THERM_STOP, fan_id, &trip_stop) ||
-+		    pmc_read(dev->parent, CTRL_PWM_HIGH, fan_id, &pwm_hi) ||
-+		    pmc_read(dev->parent, CTRL_PWM_LOW, fan_id, &pwm_lo)) {
-+			dev_info(dev, "fan%u: pmc read error, skipping\n", fan_id);
-+			continue;
-+		}
-+
-+		if (!(state & 0x1)) {
-+			dev_info(dev, "fan%u: firmware reports disabled\n", fan_id);
-+			continue;
-+		}
-+
-+		if (!fan_name[name][0]) {
-+			dev_info(dev, "fan%u: unknown name index %u\n", fan_id, name);
-+			continue;
-+		}
-+
-+		temps_mc[TRIP_HIGH] = DECI_KELVIN_TO_MILLI_CELSIUS(trip_hi);
-+		temps_mc[TRIP_LOW]  = DECI_KELVIN_TO_MILLI_CELSIUS(trip_lo);
-+		temps_mc[TRIP_STOP] = DECI_KELVIN_TO_MILLI_CELSIUS(trip_stop);
-+
-+		fan = devm_kzalloc(dev, sizeof(*fan), GFP_KERNEL);
-+		if (!fan)
-+			return -ENOMEM;
-+
-+		fan->mfd = dev->parent;
-+		fan->id  = (u8)fan_id;
-+
-+		fan->trip_priv[TRIP_HIGH].trip_ctl = CTRL_THERM_HIGH;
-+		fan->trip_priv[TRIP_LOW].trip_ctl  = CTRL_THERM_LOW;
-+		fan->trip_priv[TRIP_STOP].trip_ctl = CTRL_THERM_STOP;
-+
-+		struct thermal_trip trips[TRIP_NUM] = {
-+			[TRIP_HIGH] = {
-+				.type = THERMAL_TRIP_ACTIVE,
-+				.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_hi),
-+				.flags = THERMAL_TRIP_FLAG_RW_TEMP,
-+				.priv = &fan->trip_priv[TRIP_HIGH],
-+			},
-+			[TRIP_LOW] = {
-+				.type = THERMAL_TRIP_ACTIVE,
-+				.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_lo),
-+				.flags = THERMAL_TRIP_FLAG_RW_TEMP,
-+				.priv = &fan->trip_priv[TRIP_LOW],
-+			},
-+			[TRIP_STOP] = {
-+				.type = THERMAL_TRIP_ACTIVE,
-+				.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_stop),
-+				.flags = THERMAL_TRIP_FLAG_RW_TEMP,
-+				.priv = &fan->trip_priv[TRIP_STOP],
-+			},
-+		};
-+
-+		tzd = thermal_zone_device_register_with_trips(fan_name[name],
-+							      trips, TRIP_NUM,
-+							      fan,
-+							      &zone_ops,
-+							      NULL,
-+							      0, 0);
-+		if (IS_ERR(tzd))
-+			return PTR_ERR(tzd);
-+
-+		cdev = thermal_cooling_device_register(fan_name[name], fan, &cooling_ops);
-+		if (IS_ERR(cdev)) {
-+			thermal_zone_device_unregister(tzd);
-+			dev_err(dev, "fan%u: cdev register failed: %ld\n",
-+				fan_id, PTR_ERR(cdev));
-+			return PTR_ERR(cdev);
-+		}
-+
-+		dev_set_drvdata(thermal_zone_device(tzd), tzd);
-+		ret = device_create_file(thermal_zone_device(tzd), &dev_attr_fan_mode);
-+		if (ret)
-+			dev_warn(dev, "Error create thermal zone fan_mode sysfs\n");
-+	}
-+	return 0;
-+}
-+
-+static struct platform_driver eio_fan_driver = {
-+	.probe  = eio_fan_probe,
-+	.driver = {
-+		.name = "eio_fan",
-+	},
-+};
-+
-+module_platform_driver(eio_fan_driver);
-+
-+MODULE_AUTHOR("Wenkai Chung <wenkai.chung@advantech.com.tw>");
-+MODULE_AUTHOR("Ramiro Oliveira <ramiro.oliveira@advantech.com>");
-+MODULE_DESCRIPTION("Fan driver for Advantech EIO embedded controller");
-+MODULE_LICENSE("GPL");
+> 
+> I believe this driver change is more robust. It does not change the 
+> logic but adds an polling instead of returning error. If the firmware 
+> updates header quick, there will not be any polling. It works for both 
+> current and future firmware.
+> 
+> 
 
--- 
-2.43.0
+Yeah I don't think it's harmful, it's just unfortunate to have to land 
+code like this when it sounds like a firmware bug with interrupt 
+handling.  If the firmware can be improved at least it will be right on 
+the very first read in the polling.
+
+Reviewed-by: Mario Limonciello (AMD)
+
+> Thanks,
+> 
+> Lizhi
+> 
+>>> As a result, the driver may observe
+>>> the response and attempt to send a new request before the firmware has
+>>> updated the head pointer. In this window, the send ring still appears
+>>> full, causing the driver to incorrectly fail the send operation.
+>>>
+>>> This race can be triggered more easily in a multithreaded environment,
+>>> leading to unexpected and spurious "send ring full" failures.
+>>>
+>>> To address this, poll the send ring head pointer for up to 100us before
+>>> returning a full-ring condition. This allows the firmware time to update
+>>> the head pointer.
+>>>
+>>> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+>>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>>> ---
+>>>   drivers/accel/amdxdna/amdxdna_mailbox.c | 27 +++++++++++++++----------
+>>>   1 file changed, 16 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/ 
+>>> amdxdna/amdxdna_mailbox.c
+>>> index a60a85ce564c..469242ed8224 100644
+>>> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+>>> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+>>> @@ -191,26 +191,34 @@ mailbox_send_msg(struct mailbox_channel 
+>>> *mb_chann, struct mailbox_msg *mb_msg)
+>>>       u32 head, tail;
+>>>       u32 start_addr;
+>>>       u32 tmp_tail;
+>>> +    int ret;
+>>>         head = mailbox_get_headptr(mb_chann, CHAN_RES_X2I);
+>>>       tail = mb_chann->x2i_tail;
+>>> -    ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I);
+>>> +    ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I) 
+>>> - sizeof(u32);
+>>>       start_addr = mb_chann->res[CHAN_RES_X2I].rb_start_addr;
+>>>       tmp_tail = tail + mb_msg->pkg_size;
+>>>   -    if (tail < head && tmp_tail >= head)
+>>> -        goto no_space;
+>>> -
+>>> -    if (tail >= head && (tmp_tail > ringbuf_size - sizeof(u32) &&
+>>> -                 mb_msg->pkg_size >= head))
+>>> -        goto no_space;
+>>>   -    if (tail >= head && tmp_tail > ringbuf_size - sizeof(u32)) {
+>>> +check_again:
+>>> +    if (tail >= head && tmp_tail > ringbuf_size) {
+>>>           write_addr = mb_chann->mb->res.ringbuf_base + start_addr + 
+>>> tail;
+>>>           writel(TOMBSTONE, write_addr);
+>>>             /* tombstone is set. Write from the start of the ringbuf */
+>>>           tail = 0;
+>>> +        tmp_tail = tail + mb_msg->pkg_size;
+>>> +    }
+>>> +
+>>> +    if (tail < head && tmp_tail >= head) {
+>>> +        ret = read_poll_timeout(mailbox_get_headptr, head,
+>>> +                    tmp_tail < head || tail >= head,
+>>> +                    1, 100, false, mb_chann, CHAN_RES_X2I);
+>>> +        if (ret)
+>>> +            return ret;
+>>> +
+>>> +        if (tail >= head)
+>>> +            goto check_again;
+>>>       }
+>>>         write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
+>>> @@ -222,9 +230,6 @@ mailbox_send_msg(struct mailbox_channel 
+>>> *mb_chann, struct mailbox_msg *mb_msg)
+>>>                   mb_msg->pkg.header.id);
+>>>         return 0;
+>>> -
+>>> -no_space:
+>>> -    return -ENOSPC;
+>>>   }
+>>>     static int
+>>
 
