@@ -2,153 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D9BCB8683
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 10:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8532CCB869E
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 10:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B27610E576;
-	Fri, 12 Dec 2025 09:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D6110E587;
+	Fri, 12 Dec 2025 09:19:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3b+nAG9G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WxUHWMzf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11012039.outbound.protection.outlook.com
- [40.93.195.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1881110E576
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 09:17:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kPVusYXZdaS+mddzTExh/B1Wjb7ak8YbsiNiZtHQ29g7jY+k3WF0cD8jJTfQzs+HEKBXESDnJQ689fbVNNbTHG04Jikz5jdm0SXqmfojq4Pd7I+cbKMcLmRcZwdD7SdZBMYTKIl6kkHMsjnY9UPZEfr6vwJs/NGYZnxzYgEmxrvIx2X8S8FxUXIRAcovVi77/KvSGjoZgn4rQk312bZdxCJh00Md/Ryowi9Nj0ZDJCfoT4p/9Yce4tQ5j4EQHfk8zCa4n4QFeXZ+zKAm2pq7NHXgFNVZhFIvl4Y62e4z+B6YGoNH+lwh7ZKmr2pRvU/nZNMdOv3b9zwwkgsP8tEA1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D4KVpBPRh1a8vbN28jTcq6RVrTqFK46QJRpE/aCkdAM=;
- b=e3lkYbvgWgrpv/3uNHb0P9IXz+ngoy2FbqBL4u84xM+GV6gsYAV5UYPQ0GJsiqwM56ZRMS9VT6r+HWaQAkKrnSQir7LP2m3JVpGoS1S8o+210KZp4DCPGZYK1BDbcJMup5+jC8x6BHNBefReZ0nP+WqoVQUS9N16c1gyDtSUeUe8g0h5s7zB0IapG1wgcnVQUgVv+t2xLodsPjbEA0obY01Ae3AG+EDwo7GplIx7XHeKkuFba91fagmo0AWUfzIbxfzGL3joR5kNkca66FRKQGqC8W7UVi4Ou0URy//s+WKwnU9J+bfxgYKyziJkFDR7diHlzO8WbTe7/Si318u9uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D4KVpBPRh1a8vbN28jTcq6RVrTqFK46QJRpE/aCkdAM=;
- b=3b+nAG9GWJHYAhvAgo9KS0Xrv9nCakG5CEbSim/e5KirF8LMFu+mPBZYyUKPwnY4mVSizfrepEdkjCFMdPiFGYHPpiWF3mDjPXPCatu+spbNLEXScHpZHn9aNFEGNKw2nNwn9JCdeGuq1wHbo7Vv+wV4fYShUvhbwvn7lmNQuco=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS7PR12MB8292.namprd12.prod.outlook.com (2603:10b6:8:e2::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.11; Fri, 12 Dec
- 2025 09:17:37 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
- 09:17:37 +0000
-Message-ID: <ee754704-f81c-42da-955f-bce0b2f6a574@amd.com>
-Date: Fri, 12 Dec 2025 10:17:32 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: Independence for dma_fences! v4
-To: phasta@kernel.org, tursulin@ursulin.net, matthew.brost@intel.com,
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <34407595c6ffb9cff3e00736b1256abb75c1adef.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <34407595c6ffb9cff3e00736b1256abb75c1adef.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN0PR04CA0164.namprd04.prod.outlook.com
- (2603:10b6:408:eb::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D04B010E5C2;
+ Fri, 12 Dec 2025 09:19:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 71E02418B3;
+ Fri, 12 Dec 2025 09:19:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C05CDC4CEF1;
+ Fri, 12 Dec 2025 09:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765531156;
+ bh=rTVFEIXlAg4LKVZxNm5Zj42H5X95E6SJwUkQ3nsB4/c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WxUHWMzf+cKqrT/hmU19HU6p9JKSZpHCh0Vh9QdfCoh2bxafgcT3npLlPcUEV2xUp
+ 1OLeISnrsthiDXk7NmXqos5Wh2OTLSa5DhrIJ/gX7NrQUHlGkylNTyqRbgfTmWOcWP
+ yhOHPIRC3ffNYfwJESW5hsnEXBYHuV8i+V9MFWlo5PCn9Kahza4Q9w8cOdKqD6iHhF
+ uucV7m+wdXGTqr9aK2Q1bTFLo93QK0jWShlYUKFLkypQuOCzvY6pJYB0fpRf8TkljL
+ 5NQu8NDLNXcK0wQ6dzCc9Ftgtky/5+7UpTBJpa4dMlju1E9F9zpSzpOMhNIPsOEEaa
+ 0YEULTJDFf+QA==
+Date: Fri, 12 Dec 2025 10:19:13 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v5 17/17] drm/tests: hdmi: Add tests for the color_format
+ property
+Message-ID: <20251212-discreet-wisteria-perch-edccad@penduick>
+References: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
+ <20251128-color-format-v5-17-63e82f1db1e1@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB8292:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18f698e8-7b3c-4a3a-46f5-08de395f4ac9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bEZraTRSWWF4c1JuVkR5ZUJzMzloNGlRVjJzbTBWZDZ1NmJPZUxha3ZRbGli?=
- =?utf-8?B?clZuWFNlYWtUaTJ2dkp2UXdxeWRjQm1zTktueTFWYld4LzIxb0hHbmZ5Z3l6?=
- =?utf-8?B?cm44OEhkYytHeXcyZDFteGxoVTBNTnBjVXE4ZTIrZWZKdHB6eUVPNUp6dUc5?=
- =?utf-8?B?WWFaZUpSaWU2OWJuenZTL2JtMktHUWNOOGE0eVJOZjJnd0tMSG1UQmZFbGdJ?=
- =?utf-8?B?MVNSOFVMRWcxcEt0UG50VWFEM3FTLzJzanlGa1hPaGFuNSs0Q1JnaGQyNlJn?=
- =?utf-8?B?RGVITFdobU4yUlY4eC9RQU9wMVh2cVYwV0RTS1lBSHNtNUJlQ3JmaHBWbXQy?=
- =?utf-8?B?MjNWNUtxdENhRi9yZzg5Tmd6dXV5c2g2QmpiZVJYNmlmN1o5RThqUlRYZ1BM?=
- =?utf-8?B?ZlM0bnNWSlkvQlNqY1FLbEZmd0tPcmRmM2ZzckU3ZTRtMlFSanVWT01Ic0dp?=
- =?utf-8?B?RmI5V2thTnpodDZtaWt2S2h3QWpSbHEydC9NVkJVeG5nUmNGUmNsTC9Gd25s?=
- =?utf-8?B?VlRmcHdaZ0VYdU52RzJCYWZOUTFlb0pCbTZ4NXlqektkbEFqenVNcGw5Nzc2?=
- =?utf-8?B?YllOQ0wxdXRLVmFITEVQWkZGc09pSk5Ca2ZVMG8wTWJJVTRYRnA1MVpvVzZk?=
- =?utf-8?B?VFJjUkhxMHFkRkVTUmRZZk9IdHpBYmdyWmRIZGhYV3c2c09QZWYvYkEvZkQy?=
- =?utf-8?B?L0l5WWQ3OWZodjJ0VkpoVjBTdFZxL2NINWxzVGxEKzJ5MEVKNHp5ZGtJT0Vx?=
- =?utf-8?B?dVRQZXJQcEJVdmU2OWxSQUlzaVNFYVl4WC9jZURhUDhFUWRBUVNwblFiRDZU?=
- =?utf-8?B?aXVqeWxGWEp4L2tvcXJXd3k1dkdPek9MVkRWN0RnV3lKQ2h3bmdMSTE1OW1J?=
- =?utf-8?B?clZjekUvNjRNZXFlTFJDMFMyNmgzNHAwYmF4YXJ6a3kzRmwwWXVOSVhPekc5?=
- =?utf-8?B?Z211em9VNzNSaGNwZUR5MmRjYVFDcXl5K3hWOHhRQmc5dlMyTU9QUXBBd0M4?=
- =?utf-8?B?emJYNkwybXRraWEva25iM2lSdDV2SDdQbExzaDQyY0tjci9mUnpZK3lVT3Nl?=
- =?utf-8?B?TDBTZEEzN09IT2k5QlZnVk8wQURjeWZQbHhsUmNPUnNZM1V3VXRkRnRzc0U4?=
- =?utf-8?B?bjN4QTdXRFhxM3lPVXFXSWVYOTdoYVg0RTRCbFNaODVGOUlsQnBvOFU3VjBC?=
- =?utf-8?B?RWpJMVIza0lNVkZpN2hSNmJlZ25jeXh6RUd1TzI3MEF0cHVJM25yd1NPakE1?=
- =?utf-8?B?TllQSkROT0JXaFZkM3V1emtLbVRjWnp1QndJb0JpNUhESGRlVlFSTm5zL1J4?=
- =?utf-8?B?TDdURGdVeUh3K2VNWkJHNDVqbm9KZFRVRWNSNkFPNVlUOGVZeW82Y1ZQTHR2?=
- =?utf-8?B?VmdEVHJqdlJDK1BqS0NTRkE1WUdhWld3UEIwTndWNlVla1RNem9RajNYWGFx?=
- =?utf-8?B?UktHVnpmTURMUlhxcVBCaktIY09jdjAvQlZ0VjEvTFdtK2ZQOVo0c2xHVnZx?=
- =?utf-8?B?MmJwRjhOdGl5VXY0RVFPcTlQMHpEY1J6cEFCaXpRTG9YRXprQlVFaGU5dGdP?=
- =?utf-8?B?WTNVQ0V5MXkzVjRNZllvUE9acnVKZDJRWk4vWWhxeDg3VWhrcnBMVzhTbFRl?=
- =?utf-8?B?S3E1bG4rVWJocGczcDBtTWVicm5MZTRubCtTOU84M3ErSENaelpLWFV5OFhF?=
- =?utf-8?B?Njl2ZHZpZTA3b3E2VzBEaW1zTUhMMWsyNXRkSzBQQTIyMy9JWVFZUnhYRUlL?=
- =?utf-8?B?ZzM1T3pqMkJEMGNzS1Q5SmFkcW5kZ2M0TkE4WnBwQ0d0NU9LS1d2RmJqSExr?=
- =?utf-8?B?RlNsUmcyV1lrc0xDS1hSRWowQXJDQnQ2VWdPOHdOb3YyanpqUU9Vd0h0Mzdo?=
- =?utf-8?B?T3BBT0Z3MXo3WjRJTjA4S1pZR2tVNDlvV0dHS0ZOWlZLalNyRDc0M2VPT0FP?=
- =?utf-8?Q?inrMszQ0vk4yWK4LvKQhT0GrzO+yIfvW?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHpHcmFvWHBReUZDZm1ZOGpTeThsTFVCdVo5SjBoSUlUaGxYVWJDVXZIOHNn?=
- =?utf-8?B?bTgxelFYa012cVU2ZnFROXZHMEdtbVk0VjZaTHk5MkIyRys3NzlqTUE1MjlX?=
- =?utf-8?B?Nm5lQytRMnZnVWJ2Z3Z4anlpS1ZCZU5RREd2T25NOTJnRWlBNFhQQkp3dVlj?=
- =?utf-8?B?NndtN3JyekNtRm5PUHVzNVJLMkU2em9XZzlQOUZlaVU1ZnhQYWkwM3YzSG5r?=
- =?utf-8?B?Yy9YQjNNNUhubGhNWWlxWUlaSENyclAwMVJyM0FVem94Ry9nTmNoWU51WUJr?=
- =?utf-8?B?SmNMREhzOWFCMXIvcVdwK1cwVUtEQ2N2cVhNcEFsaVFWUWlnUGxtSDZrT0NW?=
- =?utf-8?B?d0NBWllRM3JRWWxDUGI5ZzBkRDNxaE9qSFZSRk0wcGRtaGdna3JxYkt0aVRV?=
- =?utf-8?B?TUJaODZNYlFvWTYyODRBRE8vWEVnNjJhV3JJQmgxQUI3cXVHaEMycEc2dlk3?=
- =?utf-8?B?WG5ZMFZTNFBZM0l1RkRYRjk3T2tXVVppbEZmUFZiYlpZV2h4ekwyOE10RFo0?=
- =?utf-8?B?djBkYTdVNGNjS1drSVorLzZRL3p5SFc4ZmN0WXhMYTZUVXhFZjVuMUp5bUxa?=
- =?utf-8?B?V09mL3FaVldqRUhQbmgwYkVCTmlvelA3cTFTendkcUF2TCtSQXYwSU9aOUlh?=
- =?utf-8?B?SUp6dURhNnMrT3BXcmxNMzYxZWxaZFpKVGQ5Y0M2WnYyTld6Y0ErL1kzWnpz?=
- =?utf-8?B?YzRzbHk1U0lJM3V1TXIzanRlU3dlMjRKUU1WRDB6RFBWV2tYdXJPNUxwZWJV?=
- =?utf-8?B?Vml6enl1OHc3b3JsaXR5QkRYVEhkeHNoMG85eWRKamwwSUlneDZyRUhIczVJ?=
- =?utf-8?B?Nlc4aVlrN1V4ODJGYWp6VGlqd2hsL3ZHeDd4WFdnZVhhZ0xTdFJ1TGRJQmRr?=
- =?utf-8?B?amJ5SlZZZWxUK3o5Y0xHeGlCUUY2cWNGeG5QU05QWWNuRFNIWTI5TmNZODB5?=
- =?utf-8?B?akJoVjFVK1E3c21iQ2oyNkZUK28waGRoWHlEUy9ZeVVCRlRUREpJc3pJeW8v?=
- =?utf-8?B?Q21tK09MTUttd3pDaVNLbUJGR0EwTG95TEgvRWFId1RKZFhLZWlzV3paWnpH?=
- =?utf-8?B?c1hIVHVHSjU4bFFOWFlCREo4dXFsQ25CQzE5UFJicVVqREIxS1diV1RiMW5T?=
- =?utf-8?B?OVZoTEd3ODJQc3diVXJQaVFOZmxHeU54ZWI0bkswVHd3V0UwbnpUMjFEV2dT?=
- =?utf-8?B?a1Y2bHlSL2dsbEZJcGxzSXNWeWdjUHNvd0NCbDdqejZVVHlaMUFFSmhKdDNG?=
- =?utf-8?B?eXloRlIyTlFTTnlSN2lHRDZ0Tk5ENDltRjhqYjAwMmg5Y3R4aU9ZM3d1MjdI?=
- =?utf-8?B?MExEZ0N0RzBwRk9nLzNGUkh2WlhCdk5acVNYYno5azFYS0IzeWwxYS9DTmEz?=
- =?utf-8?B?eDZjTFE0QzhuYkdNbHZWWmNRdEdZUlRzQnJhMTFPOGdrVFZaN3RvVmIxR0Z1?=
- =?utf-8?B?d3UwY1MwTXQvNmxqYlRDQmd0dFovUGoxNU9EcFdJa3AyOCtUb0IvUGx6TkU2?=
- =?utf-8?B?TE9WbUE5RVlETW9RbWFhU2E2bnRRN0d6OUo3WkdXWFJTSC9FSUdZOC9vUXcz?=
- =?utf-8?B?N1ZvM0VpTm1HZnFoQVJVQlRjYmYwSlhVVkhmMjZmQ2N3Y09yWnJFbDJ6UE5q?=
- =?utf-8?B?MDRMajZKN2h2NVNlUysycjNuelc1VTFRMFRGbExBSllZUUxBSnRiaWpwTXFy?=
- =?utf-8?B?U0Y1TzNyRnBkU0x5YUFiUTlNdGRvV3pVQU5vemFHTEt2QkNXR2NqdDFGNHl5?=
- =?utf-8?B?S2o0M0FYUXRUaENYWWpLMExndjF0cEI4Skg0MlczdTN3ZU1DdlY4R3IrQXNk?=
- =?utf-8?B?ZGpUZkFXL05kZkp2S1AxdlB1My83a2hGMVpaYS9ESEVHakh0VXZ6RklsRVEr?=
- =?utf-8?B?WTYwb1ZxOElqbURONWFFNjVac2ZZNmFOV2dDWGpXRnd0MFBIbCtabDJzQ0s5?=
- =?utf-8?B?dVhKTEh1UlI0OG9FZ2lZS0NaRzFyc0Z6SGR1YWdFenhUSTArNUlpSzFwRWQy?=
- =?utf-8?B?cnFMTUYzQTBaSkZuU2tPYWc3b3NVU0d4cHVCRldyWXlTU2FKTVNFcEhXQmsv?=
- =?utf-8?B?VlloWGlhVEdCM3dITDZ0S2VPKzBDc1Y5aHBaK3YxQmJiWkhjVGJ3Vm5NZGtP?=
- =?utf-8?Q?y52Q=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18f698e8-7b3c-4a3a-46f5-08de395f4ac9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 09:17:37.4569 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l4BFbALJcLKDYaYfXF8hFG3uOEQpnwvVGPWhrrcUREJdT6GeNcnfEMrNhvcJSKFt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8292
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7b5r3ycny55zq4mq"
+Content-Disposition: inline
+In-Reply-To: <20251128-color-format-v5-17-63e82f1db1e1@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,81 +82,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/11/25 13:33, Philipp Stanner wrote:
-> On Thu, 2025-12-11 at 13:16 +0100, Christian König wrote:
->> Hi everyone,
->>
->> dma_fences have ever lived under the tyranny dictated by the module
->> lifetime of their issuer, leading to crashes should anybody still holding
->> a reference to a dma_fence when the module of the issuer was unloaded.
->>
->> The basic problem is that when buffer are shared between drivers
->> dma_fence objects can leak into external drivers and stay there even
->> after they are signaled. The dma_resv object for example only lazy releases
->> dma_fences.
->>
->> So what happens is that when the module who originally created the dma_fence
->> unloads the dma_fence_ops function table becomes unavailable as well and so
->> any attempt to release the fence crashes the system.
->>
->> Previously various approaches have been discussed, including changing the
->> locking semantics of the dma_fence callbacks (by me) as well as using the
->> drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
->> from their actual users, but none of them are actually solving all problems.
->>
->> Tvrtko did some really nice prerequisite work by protecting the returned
->> strings of the dma_fence_ops by RCU. This way dma_fence creators where
->> able to just wait for an RCU grace period after fence signaling before
->> they could be save to free those data structures.
->>
->> Now this patch set here goes a step further and protects the whole
->> dma_fence_ops structure by RCU, so that after the fence signals the
->> pointer to the dma_fence_ops is set to NULL when there is no wait nor
->> release callback given. All functionality which use the dma_fence_ops
->> reference are put inside an RCU critical section, except for the
->> deprecated issuer specific wait and of course the optional release
->> callback.
->>
->> Additional to the RCU changes the lock protecting the dma_fence state
->> previously had to be allocated external. This set here now changes the
->> functionality to make that external lock optional and allows dma_fences
->> to use an inline lock and be self contained.
->>
->> v4:
->>
->> Rebases the whole set on upstream changes, especially the cleanup
->> from Philip in patch "drm/amdgpu: independence for the amdkfd_fence!".
->>
->> Adding two patches which brings the DMA-fence self tests up to date.
->> The first selftest changes removes the mock_wait and so actually starts
->> testing the default behavior instead of some hacky implementation in the
->> test. This one should probably go upstream independent of this set.
->> The second drops the mock_fence as well and tests the new RCU and inline
->> spinlock functionality.
->>
->> Especially the first patch still needs a Reviewed-by, apart from that I
->> think I've addressed all review comments.
->>
->> The plan is to push the core DMA-buf changes to drm-misc-next and then the
->> driver specific changes through the driver channels as approprite.
-> 
-> This does not apply to drm-misc-next (unless I'm screwing up badly).
-> 
-> Where can I apply it? I'd like to test the drm_sched changes before
-> this gets merged.
 
-drm-tip from a few days ago, otherwise the xe changes won't work.
+--7b5r3ycny55zq4mq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 17/17] drm/tests: hdmi: Add tests for the color_format
+ property
+MIME-Version: 1.0
 
-Regards,
-Christian.
+On Fri, Nov 28, 2025 at 10:05:53PM +0100, Nicolas Frattaroli wrote:
+> Add some KUnit tests to check the color_format property is working as
+> expected with the HDMI state helper.
+>=20
+> The added tests check that AUTO results in RGB, and the YCBCR modes
+> result in the corresponding YUV modes. An additional test ensures that
+> only DRM_COLOR_FORMAT_AUTO falls back to YUV420 with a YUV420-only mode,
+> and RGB errors out instead, while explicitly asking for YUV420 still
+> works.
+>=20
+> This requires exporting hdmi_compute_config, so that it is accessible
+> from the tests.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |   3 +-
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 109 +++++++++++++++=
+++++++
+>  include/drm/display/drm_hdmi_state_helper.h        |   4 +
+>  3 files changed, 115 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index 1800e00b30c5..e86fb837ceaf 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -641,7 +641,7 @@ hdmi_compute_format_bpc(const struct drm_connector *c=
+onnector,
+>  	return -EINVAL;
+>  }
+> =20
+> -static int
+> +int
+>  hdmi_compute_config(const struct drm_connector *connector,
+>  		    struct drm_connector_state *conn_state,
+>  		    const struct drm_display_mode *mode)
+> @@ -680,6 +680,7 @@ hdmi_compute_config(const struct drm_connector *conne=
+ctor,
+> =20
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL(hdmi_compute_config);
 
-> 
-> P.
-> 
->>
->> Please review and comment,
->> Christian.
->>
->>
-> 
+I don't think we need to export hdmi_compute_config directly, and if we
+do, it shouldn't be named that way.
 
+The rest of the tests in the suite manage to test everything fine
+without exporting it. Is there any reason you can't do it for these
+tests?
+
+>  static int hdmi_generate_avi_infoframe(const struct drm_connector *conne=
+ctor,
+>  				       struct drm_connector_state *conn_state)
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 8bd412735000..e7050cd9cb12 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -55,6 +55,23 @@ static struct drm_display_mode *find_preferred_mode(st=
+ruct drm_connector *connec
+>  	return preferred;
+>  }
+> =20
+> +static struct drm_display_mode *find_420_only_mode(struct drm_connector =
+*connector)
+> +{
+> +	struct drm_device *drm =3D connector->dev;
+> +	struct drm_display_mode *mode;
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	list_for_each_entry(mode, &connector->modes, head) {
+> +		if (drm_mode_is_420_only(&connector->display_info, mode)) {
+> +			mutex_unlock(&drm->mode_config.mutex);
+> +			return mode;
+> +		}
+> +	}
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +
+> +	return NULL;
+> +}
+> +
+>  static int set_connector_edid(struct kunit *test, struct drm_connector *=
+connector,
+>  			      const void *edid, size_t edid_len)
+>  {
+> @@ -1999,6 +2016,95 @@ static void drm_test_check_disable_connector(struc=
+t kunit *test)
+>  	drm_modeset_acquire_fini(&ctx);
+>  }
+> =20
+> +struct color_format_test_param {
+> +	enum drm_color_format fmt;
+> +	enum hdmi_colorspace expected;
+> +	const char *desc;
+> +};
+> +
+> +/* Test that AUTO results in RGB, and explicit choices result in those */
+
+We need a bit more details. Which EDID are you using, with which monitor
+capabilities?
+
+IIRC, we already have tests to make sure that the fallback happens and
+only when it's supposed to. We just need to make sure we have asserts on
+the property being auto for those.
+
+This means we only need to test the !auto values, but we need to test it
+both ways: that when the property is set and the display supports it,
+the format chosen is indeed the one we asked for, but also that when the
+property is set but the display doesn't support it, we get an error.
+
+> +static void drm_test_check_hdmi_color_format(struct kunit *test)
+> +{
+> +	const struct color_format_test_param *param =3D test->param_value;
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_display_info *info;
+> +	struct drm_display_mode *preferred;
+> +	int ret;
+> +
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
+> +				BIT(HDMI_COLORSPACE_RGB) |
+> +				BIT(HDMI_COLORSPACE_YUV422) |
+> +				BIT(HDMI_COLORSPACE_YUV420) |
+> +				BIT(HDMI_COLORSPACE_YUV444),
+> +				12,
+> +				&dummy_connector_hdmi_funcs,
+> +				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	conn_state =3D priv->connector.state;
+> +	info =3D &priv->connector.display_info;
+> +	conn_state->color_format =3D param->fmt;
+> +	KUNIT_ASSERT_TRUE(test, priv->connector.ycbcr_420_allowed);
+> +
+> +	preferred =3D find_preferred_mode(&priv->connector);
+> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420(info, preferred));
+> +
+> +	ret =3D hdmi_compute_config(&priv->connector, conn_state, preferred);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, param->expected);
+> +}
+> +
+> +static const struct color_format_test_param hdmi_color_format_params[] =
+=3D {
+> +	{ DRM_COLOR_FORMAT_AUTO, HDMI_COLORSPACE_RGB, "AUTO -> RGB" },
+> +	{ DRM_COLOR_FORMAT_YCBCR422, HDMI_COLORSPACE_YUV422, "YCBCR422 -> YUV42=
+2" },
+> +	{ DRM_COLOR_FORMAT_YCBCR420, HDMI_COLORSPACE_YUV420, "YCBCR420 -> YUV42=
+0" },
+> +	{ DRM_COLOR_FORMAT_YCBCR444, HDMI_COLORSPACE_YUV444, "YCBCR444 -> YUV44=
+4" },
+> +	{ DRM_COLOR_FORMAT_RGB444, HDMI_COLORSPACE_RGB, "RGB -> RGB" },
+> +};
+> +
+> +KUNIT_ARRAY_PARAM_DESC(check_hdmi_color_format,
+> +		  hdmi_color_format_params, desc);
+> +
+> +
+> +/* Test that AUTO falls back to YUV420, and that RGB does not, but YUV42=
+0 works */
+
+Same thing, the description needs to be improved here.
+
+Maxime
+
+--7b5r3ycny55zq4mq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTveEAAKCRAnX84Zoj2+
+dhf5AX0axu9eaz5PUFxm9wL8Scfvc12z75lvKpvF0Wa+0bZkHwFULJ8HlYvqkr0u
+oaYG9h0Bf0ZRw+vCCL1izypO7FHFjavaMv/SjEhLVwTma92SorSqBsGraXbbXej1
+NHkfv9J3OA==
+=9ejj
+-----END PGP SIGNATURE-----
+
+--7b5r3ycny55zq4mq--
