@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A89CB90AF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 16:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C8CB90EB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 16:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2B010E00E;
-	Fri, 12 Dec 2025 15:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BAC10E82D;
+	Fri, 12 Dec 2025 15:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IfgY0Z3s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NYU34fpw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF1D010E00E;
- Fri, 12 Dec 2025 15:06:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F12BA10E07B;
+ Fri, 12 Dec 2025 15:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765552005; x=1797088005;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xV3J185BOFawITpmBxVAswdNlzbEbaK9mn97CIyMvQ0=;
- b=IfgY0Z3sj2+/TbD5dhHw+aMZRG62yIpLmdrvJ+ZouO3jqiKUR4a37HGD
- WYT+f9UDXG06dH5z6ahYL8H71ifTKFPoJtlJgSBT4bS4EWhv9XzJHmQH0
- JiIXSRmcbHlvZnr0r6gvULB5PReLjwkVtK9t8fezZfj+eYP2FphBXA0Iq
- LgyLlgXpRsUE9ZZ02oEgLTm6/GXN67ZKpfzKySggoseqXxO+EDZH1XZT0
- BPIstW9o0ceikp6PH10dvFhBfvbbEqRI3zyvdakrYI9QordbohnY9j5Np
- vCZdK9Yq+NZgLGVF+13Keg2CMQtEnJJDDexRzYsXOmweN2a1s8vXtovCz g==;
-X-CSE-ConnectionGUID: hFFo+pHiTp6BYnu97vmbgg==
-X-CSE-MsgGUID: 6STHd5iNQDGYNV8BDm7ywQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78669594"
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="78669594"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 07:06:44 -0800
-X-CSE-ConnectionGUID: jEUr4DfoT6aHfV6jWCL2nA==
-X-CSE-MsgGUID: ZvjytAk8T8WZfFQF/xqKrA==
+ t=1765552139; x=1797088139;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=HnGdM6nX9FdHQsZj25d0Xh7SqYJyE+86qlBS+1claN4=;
+ b=NYU34fpwYiNo8ybBMXUBOuxKG/9nTZy6sWGkMgSmwE3APbgVvBEpCZfW
+ g2T2fbi4pWFcl6oufq9cw46kHBIZvmpCF8Dq8n15BGI8jFpos4WgRbpFC
+ mrdA3zYzSKpLGxxTQYKirHvU5o6WJqUzV/5NmCEKHTjlWZEVOGMOswXIB
+ x9JTyloJtGmnyZj8FnmHVHeOK9Is2Y07vKQdTK3DqQWIF++fMiccxFWiy
+ D17aq9aph5CnAzmjRFqjp/UKgr/zn5mObQFVHc92oyPCxcWqGo1DjClgR
+ ahZPWCbsopnRC12uZYunBoEZZ896TwW2SCEKzpPECSqHFdUm99Y7QR0gQ w==;
+X-CSE-ConnectionGUID: Wr2h7J0KRnmEuOGmjOiLUg==
+X-CSE-MsgGUID: 1j+fj0LGQTansKfx5BI4yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67715297"
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="67715297"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2025 07:08:59 -0800
+X-CSE-ConnectionGUID: si564PKyQtyESubsp7L6kQ==
+X-CSE-MsgGUID: Ol0cD7cTSu6ik9/e5j6QGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="234509303"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.69])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 07:06:41 -0800
-From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: stable@vger.kernel.org,
- =?UTF-8?q?=EA=B9=80=EA=B0=95=EB=AF=BC?= <km.kim1503@gmail.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: [PATCH v4] drm/i915/gem: Zero-initialize the eb.vma array in
- i915_gem_do_execbuffer
-Date: Fri, 12 Dec 2025 16:06:12 +0100
-Message-ID: <20251212150611.18757-2-krzysztof.niemiec@intel.com>
-X-Mailer: git-send-email 2.45.2
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="196857950"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.152])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2025 07:08:55 -0800
+Date: Fri, 12 Dec 2025 17:08:52 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Uma Shankar <uma.shankar@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, chaitanya.kumar.borah@intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr,
+ harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, swati2.sharma@intel.com,
+ alex.hung@amd.com, jani.nikula@intel.com, suraj.kandpal@intel.com
+Subject: Re: [v8 14/15] drm/i915/color: Add 3D LUT to color pipeline
+Message-ID: <aTwwBMKUp5AYmFTN@intel.com>
+References: <20251203085211.3663374-1-uma.shankar@intel.com>
+ <20251203085211.3663374-15-uma.shankar@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251203085211.3663374-15-uma.shankar@intel.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,152 +77,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the eb.vma array with values of 0 when the eb structure is
-first set up. In particular, this sets the eb->vma[i].vma pointers to
-NULL, simplifying cleanup and getting rid of the bug described below.
+On Wed, Dec 03, 2025 at 02:22:10PM +0530, Uma Shankar wrote:
+> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> 
+> Add helpers to program the 3D LUT registers and arm them.
+> 
+> LUT_3D_READY in LUT_3D_CLT is cleared off by the HW once
+> the LUT buffer is loaded into it's internal working RAM.
+> So by the time we try to load/commit new values, we expect
+> it to be cleared off. If not, log an error and return
+> without writing new values. Do it only when writing with MMIO.
+> There is no way to read register within DSB execution.
+> 
+> v2:
+> - Add information regarding LUT_3D_READY to commit message (Jani)
+> - Log error instead of a drm_warn and return without committing changes
+>   if 3DLUT HW is not ready to accept new values.
+> - Refactor intel_color_crtc_has_3dlut()
+>   Also remove Gen10 check (Suraj)
+> v3:
+> - Addressed review comments (Suraj)
+> 
+> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_color.c    | 78 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_color.h    |  4 +
+>  .../drm/i915/display/intel_color_pipeline.c   | 29 +++++--
+>  .../drm/i915/display/intel_color_pipeline.h   |  3 +-
+>  .../drm/i915/display/intel_display_limits.h   |  1 +
+>  .../drm/i915/display/intel_display_types.h    |  2 +-
+>  drivers/gpu/drm/i915/display/intel_plane.c    |  2 +
+>  7 files changed, 112 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+> index 08f3b5b47b8e..e7950655434b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> @@ -4062,6 +4062,52 @@ xelpd_plane_load_luts(struct intel_dsb *dsb, const struct intel_plane_state *pla
+>  		xelpd_program_plane_post_csc_lut(dsb, plane_state);
+>  }
+>  
+> +static u32 glk_3dlut_10(const struct drm_color_lut32 *color)
+> +{
+> +	return REG_FIELD_PREP(LUT_3D_DATA_RED_MASK, drm_color_lut32_extract(color->red, 10)) |
+> +		REG_FIELD_PREP(LUT_3D_DATA_GREEN_MASK, drm_color_lut32_extract(color->green, 10)) |
+> +		REG_FIELD_PREP(LUT_3D_DATA_BLUE_MASK, drm_color_lut32_extract(color->blue, 10));
+> +}
+> +
+> +static void glk_load_lut_3d(struct intel_dsb *dsb,
+> +			    struct intel_crtc *crtc,
+> +			    const struct drm_property_blob *blob)
+> +{
+> +	struct intel_display *display = to_intel_display(crtc->base.dev);
+> +	const struct drm_color_lut32 *lut = blob->data;
+> +	int i, lut_size = drm_color_lut32_size(blob);
+> +	enum pipe pipe = crtc->pipe;
+> +
+> +	if (!dsb && intel_de_read(display, LUT_3D_CTL(pipe)) & LUT_3D_READY) {
+> +		drm_err(display->drm, "[CRTC:%d:%s] 3D LUT not ready, not loading LUTs\n",
+> +			crtc->base.base.id, crtc->base.name);
+> +		return;
 
-During the execution of eb_lookup_vmas(), the eb->vma array is
-successively filled up with struct eb_vma objects. This process includes
-calling eb_add_vma(), which might fail; however, even in the event of
-failure, eb->vma[i].vma is set for the currently processed buffer.
+Just ran into this while perusing the code...
 
-If eb_add_vma() fails, eb_lookup_vmas() returns with an error, which
-prompts a call to eb_release_vmas() to clean up the mess. Since
-eb_lookup_vmas() might fail during processing any (possibly not first)
-buffer, eb_release_vmas() checks whether a buffer's vma is NULL to know
-at what point did the lookup function fail.
+This check could be implemented exactly like intel_vrr_check_push_sent()
+so that it works for both the DSB and non-DSB paths. The 'return' should
+just get nuked IMO.
 
-In eb_lookup_vmas(), eb->vma[i].vma is set to NULL if either the helper
-function eb_lookup_vma() or eb_validate_vma() fails. eb->vma[i+1].vma is
-set to NULL in case i915_gem_object_userptr_submit_init() fails; the
-current one needs to be cleaned up by eb_release_vmas() at this point,
-so the next one is set. If eb_add_vma() fails, neither the current nor
-the next vma is nullified, which is a source of a NULL deref bug
-described in [1].
+> +void intel_color_plane_commit_arm(struct intel_dsb *dsb,
+> +				  const struct intel_plane_state *plane_state)
+> +{
+> +	struct intel_display *display = to_intel_display(plane_state);
+> +	struct intel_crtc *crtc = to_intel_crtc(plane_state->uapi.crtc);
+> +
+> +	if (crtc && intel_color_crtc_has_3dlut(display, crtc->pipe))
+> +		glk_lut_3d_commit(dsb, crtc, !!plane_state->hw.lut_3d);
+                                              ^^^^^^^^^^^^
 
-When entering eb_lookup_vmas(), the vma pointers are set to the slab
-poison value, instead of NULL. This doesn't matter for the actual
-lookup, since it gets overwritten anyway, however the eb_release_vmas()
-function only recognizes NULL as the stopping value, hence the pointers
-are being nullified as they go in case of intermediate failure. This
-patch changes the approach to filling them all with NULL at the start
-instead, rather than handling that manually during failure.
+And this looks like a pretty major fail. Why is the 3D LUT stored in
+the *plane* state when it's a pipe level thing?
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
-Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
-Reported-by: Gangmin Kim <km.kim1503@gmail.com>
-Cc: <stable@vger.kernel.org> # 5.16.x
-Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
----
-I messed up the continuity in previous revisions; the original patch
-was sent as [1], and the first revision (which I didn't mark as v2 due
-to the title change) was sent as [2].
-
-This is the full current changelog:
-
-v4:
-   - delete an empty line (Janusz), reword the comment a bit (Krzysztof,
-     Janusz)
-v3:
-   - use memset() to fill the entire eb.vma array with zeros instead of
-   looping through the elements (Janusz)
-   - add a comment clarifying the mechanism of the initial allocation (Janusz)
-   - change the commit log again, including title
-   - rearrange the tags to keep checkpatch happy
-v2:
-   - set the eb->vma[i].vma pointers to NULL during setup instead of
-     ad-hoc at failure (Janusz)
-   - romanize the reporter's name (Andi, offline)
-   - change the commit log, including title
-
-[1] https://patchwork.freedesktop.org/series/156832/
-[2] https://patchwork.freedesktop.org/series/158036/
-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 37 +++++++++----------
- 1 file changed, 17 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index b057c2fa03a4..348023d13668 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -951,13 +951,13 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
- 		vma = eb_lookup_vma(eb, eb->exec[i].handle);
- 		if (IS_ERR(vma)) {
- 			err = PTR_ERR(vma);
--			goto err;
-+			return err;
- 		}
- 
- 		err = eb_validate_vma(eb, &eb->exec[i], vma);
- 		if (unlikely(err)) {
- 			i915_vma_put(vma);
--			goto err;
-+			return err;
- 		}
- 
- 		err = eb_add_vma(eb, &current_batch, i, vma);
-@@ -966,19 +966,8 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
- 
- 		if (i915_gem_object_is_userptr(vma->obj)) {
- 			err = i915_gem_object_userptr_submit_init(vma->obj);
--			if (err) {
--				if (i + 1 < eb->buffer_count) {
--					/*
--					 * Execbuffer code expects last vma entry to be NULL,
--					 * since we already initialized this entry,
--					 * set the next value to NULL or we mess up
--					 * cleanup handling.
--					 */
--					eb->vma[i + 1].vma = NULL;
--				}
--
-+			if (err)
- 				return err;
--			}
- 
- 			eb->vma[i].flags |= __EXEC_OBJECT_USERPTR_INIT;
- 			eb->args->flags |= __EXEC_USERPTR_USED;
-@@ -986,10 +975,6 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
- 	}
- 
- 	return 0;
--
--err:
--	eb->vma[i].vma = NULL;
--	return err;
- }
- 
- static int eb_lock_vmas(struct i915_execbuffer *eb)
-@@ -3375,7 +3360,8 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 
- 	eb.exec = exec;
- 	eb.vma = (struct eb_vma *)(exec + args->buffer_count + 1);
--	eb.vma[0].vma = NULL;
-+	memset(eb.vma, 0x00, args->buffer_count * sizeof(struct eb_vma));
-+
- 	eb.batch_pool = NULL;
- 
- 	eb.invalid_flags = __EXEC_OBJECT_UNKNOWN_FLAGS;
-@@ -3584,7 +3570,18 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
- 	if (err)
- 		return err;
- 
--	/* Allocate extra slots for use by the command parser */
-+	/*
-+	 * Allocate extra slots for use by the command parser.
-+	 *
-+	 * Note that this allocation handles two different arrays (the
-+	 * exec2_list array, and the eventual eb.vma array introduced in
-+	 * i915_gem_do_execubuffer()), that reside in virtually contiguous
-+	 * memory. Also note that the allocation intentionally doesn't fill the
-+	 * area with zeros (because the exec2_list part doesn't need to be, as
-+	 * it's immediately overwritten by user data a few lines below).
-+	 * However, the eb.vma part is explicitly zeroed later in
-+	 * i915_gem_do_execbuffer().
-+	 */
- 	exec2_list = kvmalloc_array(count + 2, eb_element_size(),
- 				    __GFP_NOWARN | GFP_KERNEL);
- 	if (exec2_list == NULL) {
 -- 
-2.45.2
-
+Ville Syrjälä
+Intel
