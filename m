@@ -2,97 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C7CB97EF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 18:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA716CB9898
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:19:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 289CD10E90E;
-	Fri, 12 Dec 2025 17:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3355810E924;
+	Fri, 12 Dec 2025 18:19:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="Fs7jIua0";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="u2D9KClp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0EF610E90E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 17:59:30 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4779cb0a33fso19102575e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 09:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1765562369; x=1766167169;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ubelhp76EoglMTwgFjlgjRSHe1znCMF5dPcLNfQfdkg=;
- b=Fs7jIua0swQhSPwAxGAZMbqWGUirWt+isfsjyehWA9Wuq6S6cT4XRdqCd0tqH81V8h
- 7erR7j7x8fSvysV4jC9dx+PopLTSIF5t14cWUxWygxo5GYdlKAuPidAJOJxAnOg2/oR8
- xUMau+t3+Y12f+yo135wWx/cmYT8wze9MBCs/l7OEh+ygMsyDJfU8phhUIo87kNxDd/u
- aNyZ0yNwHDpf6Ml41adkuBmx+G16vvVlzQ7IuhVyMB0d3UbV1mAO0fJJqUOQMd7zmzUY
- SWg/cN+K6XUylzv5oawgZG/AhmZteB3E57YWLwhyZTJlEBGUUYlrZcUesIDeqUgdIctp
- ByFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765562369; x=1766167169;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ubelhp76EoglMTwgFjlgjRSHe1znCMF5dPcLNfQfdkg=;
- b=kt06sfNzZuvud3gz7nBVNOs3gZYF++79Jhv5OvAeYjObBIMD4ZMQ9w3DmOj15zLTAZ
- i0+l4OpWzkeNVZCA/Q+9cheFqzOSNmuPnx/m4m5bLqslQ996sSvW1bYJHKMwmz5D4ceS
- MOmMKqaL7Wajd5iXBNbtua9myZM8ej2yv6Sf/ajAtiTXZBxPuCzl8UGCoDhYK2X/HQc/
- QLi+E3nolEBJuoz4azqYwZTa1Hk1k7H3ad3evvOTnt0otV+MRJYQB0diCMGhHUqbIDGn
- 0Ij9NQQEYYwoAjlSe/R11DqXIhEopmDrCirOLHpb6m7sFvxKStu6XsdHrulBB131sx6W
- cQxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHsfsX6MA5QNNr961u7wU7QLz6Ns4HAILNymqEHdxDa/c0DEWE88U6+a/e7zDYUWWxuqJ5tfaJkWA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVr6Ogs/bHR/GAQC0ZhsxoAOKwrt3bUc1FESo369erm1Q1lRda
- 2eNzy1xaL92VDz4+hVCOk0WPz3r1Tl7bIawuEfL8srskVmx7x0VxzXrCeThpdVv6Xxk=
-X-Gm-Gg: AY/fxX62EZ0KU4dMECJrV5fTd61uaNjH7RmcP0isc6L955csTi/dQBXRS2WT+JG94tv
- 7U6YfC+OR6QJ2WEPEF6e4gQHLlwe2cYE7wPlLi2X70s6UR8oHhf3dbHcHxRPvD6cL6t61AuHUuk
- m9fpYupm2zYDWZXBPpFLKJd5/x3gvl+zNMauLeOAoobhp7bTk5JRHB73VAIzm87QAa6SjCDaFjY
- 9ElF3jNNMlDxNHoUHRjYYXrQuQ9pVIWZ3hPasca3zNr4Ir0XRooS3BrZaZcsosIDhKCKTt/6bHr
- rgPiyYx3Rq1XK4cfjFwTP7p1uCc16hMDAfKimBftLzsj5TFF7AOK3y6tXbGv0kyScoY5LYSpwVO
- ABUSmNVu0Xk03LhkcDHJzCem6EbeSwR9dsM4V8WMzjvkLojeEUFWdHUxuIzwzqgX9RZNP6H6640
- LTHf5JKDsgzp4TezX+35yVyOyS/xEfgoDdwC8P0ak3QSkpo+teAv2LWsWuGzdHPIGp2H+Pvh5rT
- EfamkBQJm4D9lk81jMW6yxhz9tikOEehkINNk8rjZ9ecGZx0pBhWzNCUmv81KS4xrEG5yGM
-X-Google-Smtp-Source: AGHT+IGeTjk6mCqcqXAmzigHg26e/hao9mUU0yoaEX7eguJmL9pnsx3hmz6itwRthZLln0sfewFnoA==
-X-Received: by 2002:a05:6000:238a:b0:42b:3dbe:3a43 with SMTP id
- ffacd0b85a97d-42fb491d917mr3488705f8f.50.1765562368969; 
- Fri, 12 Dec 2025 09:59:28 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42fa8a70379sm14423736f8f.11.2025.12.12.09.59.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Dec 2025 09:59:28 -0800 (PST)
-Date: Fri, 12 Dec 2025 17:59:26 +0000
-From: Daniel Thompson <daniel@riscstar.com>
-To: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Andi Shyti <andi.shyti@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
- Wenkai Chung <wenkai.chung@advantech.com.tw>,
- Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>,
- Hongzhi Wang <hongzhi.wang@advantech.com>,
- Mikhail Tsukerman <mikhail.tsukerman@advantech.com>,
- Thomas Kastner <thomas.kastner@advantech.com>
-Subject: Re: [PATCH 5/8] Add Advantech EIO Backlight driver
-Message-ID: <aTxX_qUCNqpSSjyB@aspen.lan>
-References: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
- <20251212-upstream-v1-v1-5-d50d40ec8d8a@advantech.com>
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010071.outbound.protection.outlook.com
+ [40.93.198.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F4010E924
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:18:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OV2mlTv91vBy4XcOXooSyemmRn37Jn2cM5wYNnl5Ogl/5NqEmuC0efMfv4liC8awOdfrKIcFc42YrG7dt3sryLndmD0jGrXsddeyQxQ9p3jXOYowFKnQhnnyEIXsXmdMz9/ztvMfBGy/4XVyxTaq7U8NbSwJFvVy9mQ4Oyq5iuYIARQOS77Pkr49rs7xxG2eGTUXduzAhL/KGuV3mA8huQLhWU6R8xJNDR/1rCUp0cvL4Tk6XeaGQUS3v/zUeB4e8CnF1BxEMmUWot+E51b9hKs3IjDnzgHcSdpV63IyRdWuwFHPjza5m2fMQ2LnCZlKROreWpdz3M33ELQniTSRwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j00sdrh4sE5HHfvjFj5+TH3bUIOBiCiInhEIZZqt1vQ=;
+ b=vNs4nE4ocLkv7ByivGRycRRlQBCJvUogRSMtc8msihtC1/CpCvCn20bfkiL4KtFcAxUV+Pc1KNN4MVOCj/9qgcl47VT3K7aAcW2vwMvV3LnrXrRNZfWnK6ZQk122ABcpSaZZCQD0khdDgLYpn4CRoJIvNA+CYYr7kgrp3QQNG9s4YlEP1IIKhdofPaaYJDkBgrNnlXBFqeY0GDwVZDPBaZ0y/k9Zx9lrwlr2SJG2KCr5z1RyVLLfijO1gmlmhICBo7Aznx3dRG7tXMWpAxJnI9UGukGM8ngidOeQ1xCoJ0nHS5kNnlXtEj5cekmZDm2SGRPBH+CfufCRFDXnoKjhQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j00sdrh4sE5HHfvjFj5+TH3bUIOBiCiInhEIZZqt1vQ=;
+ b=u2D9KClpB3LsqGazkx5iNUdUezkF3AQM6ODxxuswDr4yxisMD/O/jPLXAygsr/oCRpbxDH2nMV5shtRRjNZdSCfS6k9sBku4e9c3YkyBjcde9z0+VInPzoBwxJ9BdQaSbskEjW7MqSV7JEJwpdbFWW3ukUgTrPKdQyfHyfMejrU=
+Received: from SN7P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::16)
+ by DM6PR12MB4372.namprd12.prod.outlook.com (2603:10b6:5:2af::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Fri, 12 Dec
+ 2025 18:18:55 +0000
+Received: from SA2PEPF00003F68.namprd04.prod.outlook.com
+ (2603:10b6:806:123:cafe::a8) by SN7P220CA0011.outlook.office365.com
+ (2603:10b6:806:123::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.10 via Frontend Transport; Fri,
+ 12 Dec 2025 18:18:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00003F68.mail.protection.outlook.com (10.167.248.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 18:18:54 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 12 Dec
+ 2025 12:18:53 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Fri, 12 Dec 2025 10:18:52 -0800
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ilpo.jarvinen@linux.intel.com>, <hansg@kernel.org>, <ogabbay@kernel.org>, 
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <platform-driver-x86@vger.kernel.org>,
+ <Shyam-sundar.S-k@amd.com>, <VinitKumar.Shukla@amd.com>
+Subject: [PATCH V2 0/2] Get real time power input via AMD PMF
+Date: Fri, 12 Dec 2025 10:18:01 -0800
+Message-ID: <20251212181803.1825142-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251212-upstream-v1-v1-5-d50d40ec8d8a@advantech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F68:EE_|DM6PR12MB4372:EE_
+X-MS-Office365-Filtering-Correlation-Id: a25fc289-415c-4010-60c5-08de39aae894
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|82310400026|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xUMryNPOkkvDpG/I8TtKcVNqCOkA92LZHI9pwp7z1iRKVRNnTB0YsOdB5Jj9?=
+ =?us-ascii?Q?8kAd7VOh9M/O32upuj0sMyKajJBFSbAjoY0aqlKWtxM9DvtcXcEwypHejfau?=
+ =?us-ascii?Q?zvmwPRWof0fDiPKsLE6u2MMp9M6MrEIoYZcTyfusMbAjQo1g5gmTS2SMk3Sb?=
+ =?us-ascii?Q?MOrjHOQ5M8NThmR4VoecPgHd0IeBvfVukuU7AEirDxUkRjr7qGaxACnJ0AHG?=
+ =?us-ascii?Q?YTNRy8zuzCEyva3r2dWGE2zrLp/sy67b3d/BLSTZGUzMu2rsU9Wm1HyhNmT8?=
+ =?us-ascii?Q?kBThYM07d+j1+1go+TSUmh2I/C7mqCkTnv4a3Y/EzuQFfz0SKsTlCW7tj7n5?=
+ =?us-ascii?Q?u9JILstUUq9ej/8xg51gpP+MtWDGl5o1nbYmF9GeLRw9fLXI5LqsN56dPy+R?=
+ =?us-ascii?Q?cYepeXv3DyTdmtY8BXnMPRCqSq1LR2f9hw+/KeRJ2SRi4n+7FefAFkH0RjZ4?=
+ =?us-ascii?Q?ZhIklvuA4Wqa8wYe71fou9YHIp8WPsmsCk0Hui+Zkv+Vh1BngL1tJjpUdn1L?=
+ =?us-ascii?Q?U4eDUeiTHZFcR8rBpym/ZBdmQoFDIp3S3UNsjdjeniUV3hpE7U76yHq4v7qG?=
+ =?us-ascii?Q?aMlh0I37ev30P/qiPCXo4Bz4tsZ6WDIqvFPnxNL1CqLJPvtRqb1SDJwMQkTd?=
+ =?us-ascii?Q?UV+CBXiVxb0RsUr1GE2XqFsqluz+6R8udihLw3A9jJaPraCZ/cLvkj4ywJ64?=
+ =?us-ascii?Q?WyCv+Qjk9u7EkF7NeDQTURAwBH66HudVpFPDsIds97R+9Im+ur9ha+NeqVKx?=
+ =?us-ascii?Q?79m6P4uRU7suhoBxdixKyGFly8CIBva31d+0vqWGJUaZ+NDuc27WOsTceYk2?=
+ =?us-ascii?Q?nkAzrYsMZXEkn8czBBI8jRAvlix+bkivCxOxGz/twC6j/797ecmLxNRrt3sz?=
+ =?us-ascii?Q?NCbPOicXj87fdMuyxmTgpcB/3bMA4wZ1cpxOw7q//hRUFXSqwlgNX4Ho4STI?=
+ =?us-ascii?Q?qJtUb0ubejuygGYr53L8+eZoa2066NBEJGo6ZV22Xk+/7E1B2fcsVTS2Anbs?=
+ =?us-ascii?Q?dw7cyhFeXvjvBnR29qQlObMVkZsb7OkHwBAU5EiR6JO50SKJptpCgSrZj66S?=
+ =?us-ascii?Q?O8pD5BMchptmCXSzTJxRw4X5ChJVQijqZtj+L6VKhP94YRiLSHJzB5HB4llc?=
+ =?us-ascii?Q?qm2Mr++rv0MH+Eh9cXFS5zoeaKqPRbbzhIWFRsO4u8oFvU0Z+oKwYa46CGm7?=
+ =?us-ascii?Q?tlLAFbx9QUqv7sweEr0XJGMFBNSfuxWBwoYk6/GkzqeVmX/qHZsWuB3UZhSg?=
+ =?us-ascii?Q?CI11B34vXNveDkv09id17FaHHP2gKOeEW5xoJ3e3UPbt/dtHMSoDOFsK4oJ/?=
+ =?us-ascii?Q?KJcOJ5JHNjtWRo/TjghCeXyRD5KaOVGy2+CiQsLxRh+mKp+ipRZdsLfhGDmG?=
+ =?us-ascii?Q?evu6Zw/7ah772l3GeSSTECPa1rnYr/gEjvpsGhHhEqYo0abJTD0xmdhg066P?=
+ =?us-ascii?Q?W6P+KgfjnUElodnLzzMtGmD96wZCr1eT9Yw3SxC16t8FPkXyKP8kS/IgPpHk?=
+ =?us-ascii?Q?Pvw7kAY79ju3BfiV62YNH6oA11fteggGV0CVwAJSXPnmWXyLul64cVv9rVc4?=
+ =?us-ascii?Q?SGbZdAJvuxPE6GafFfprIZCwSWGCsR4Gcbi3JQOa?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 18:18:54.1724 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a25fc289-415c-4010-60c5-08de39aae894
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F68.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4372
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,390 +137,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 12, 2025 at 05:40:56PM +0100, Ramiro Oliveira wrote:
-> This driver controls the Video Backlight block of the Advantech EIO chip.
->
-> Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
+Adding new NPU metrics API to AMD PMF driver is pending because of
+lacking real case.
+  https://lore.kernel.org/all/d344b850-f68d-f9a5-f0dc-55af4b48b714@linux.intel.com/
 
-Thanks for the patch.
+Create xdna driver patch to fetch real time power input via PMF API.
+Here is an example output with xrt-smi(1) tool.
 
-Review below...
+# xrt-smi examine -r all | grep Power
+  Power Mode             : Default
+Estimated Power          : 0.563 Watts
 
+V2:
+    Including header file for struct mutex will be added by
+        https://patchwork.kernel.org/project/platform-driver-x86/patch/20251202042219.245173-1-Shyam-sundar.S-k@amd.com/
+    Add include for U32_MAX
+    Replace snprintf by scnprintf
+    Fix coding style
 
-> ---
->  MAINTAINERS                      |   1 +
->  drivers/video/backlight/Kconfig  |   6 +
->  drivers/video/backlight/Makefile |   1 +
->  drivers/video/backlight/eio_bl.c | 268 +++++++++++++++++++++++++++++++++++++++
->  4 files changed, 276 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index be9d3c4e1ce1..df4b4cc31257 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -623,6 +623,7 @@ F:	drivers/gpio/gpio-eio.c
->  F:	drivers/hwmon/eio-hwmon.c
->  F:	drivers/i2c/busses/i2c-eio.c
->  F:	drivers/mfd/eio_core.c
-> +F:	drivers/video/backlight/eio_bl.c
->  F:	include/linux/mfd/eio.h
->
->  ADXL313 THREE-AXIS DIGITAL ACCELEROMETER DRIVER
-> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> index a1422ddd1c22..ddd3d6922553 100644
-> --- a/drivers/video/backlight/Kconfig
-> +++ b/drivers/video/backlight/Kconfig
-> @@ -496,6 +496,12 @@ config BACKLIGHT_RAVE_SP
->  	help
->  	  Support for backlight control on RAVE SP device.
->
-> +config BACKLIGHT_EIO
-> +	tristate "Advantech EIO Backlight"
-> +	depends on MFD_EIO && BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Backlight driver for Advantech EIO.
-> +
->  config BACKLIGHT_LED
->  	tristate "Generic LED based Backlight Driver"
->  	depends on LEDS_CLASS && OF
-> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-> index a5d62b018102..4601b644b6d4 100644
-> --- a/drivers/video/backlight/Makefile
-> +++ b/drivers/video/backlight/Makefile
-> @@ -30,6 +30,7 @@ obj-$(CONFIG_BACKLIGHT_BD6107)		+= bd6107.o
->  obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
->  obj-$(CONFIG_BACKLIGHT_DA903X)		+= da903x_bl.o
->  obj-$(CONFIG_BACKLIGHT_DA9052)		+= da9052_bl.o
-> +obj-$(CONFIG_BACKLIGHT_EIO)		+= eio_bl.o
->  obj-$(CONFIG_BACKLIGHT_EP93XX)		+= ep93xx_bl.o
->  obj-$(CONFIG_BACKLIGHT_GPIO)		+= gpio_backlight.o
->  obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
-> diff --git a/drivers/video/backlight/eio_bl.c b/drivers/video/backlight/eio_bl.c
-> new file mode 100644
-> index 000000000000..2b9fd4d48d30
-> --- /dev/null
-> +++ b/drivers/video/backlight/eio_bl.c
-> @@ -0,0 +1,268 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Backlight driver for Advantech EIO Embedded controller.
-> + *
-> + * Copyright (C) 2025 Advantech Corporation. All rights reserved.
-> + */
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/errno.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/mfd/eio.h>
-> +#include <linux/module.h>
-> +#include <linux/uaccess.h>
-> +
-> +#define PMC_BL_WRITE		0x20
-> +#define PMC_BL_READ		0x21
-> +
-> +#define BL_CTRL_STATUS		0x00
-> +#define BL_CTRL_ENABLE		0x12
-> +#define BL_CTRL_ENABLE_INVERT	0x13
-> +#define BL_CTRL_DUTY		0x14
-> +#define BL_CTRL_INVERT		0x15
-> +#define BL_CTRL_FREQ		0x16
-> +
-> +#define BL_MAX			2
-> +
-> +#define BL_STATUS_AVAIL		0x01
-> +#define BL_ENABLE_OFF		0x00
-> +#define BL_ENABLE_ON		0x01
-> +#define BL_ENABLE_AUTO		BIT(1)
-> +
-> +#define USE_DEFAULT		-1
-> +#define THERMAL_MAX		100
-> +
-> +#define BL_AVAIL		BIT(0)
-> +#define BL_PWM_DC		BIT(1)
-> +#define BL_PWM_SRC		BIT(2)
-> +#define BL_BRI_INVERT		BIT(3)
-> +#define BL_ENABLE_PIN_SUPP	BIT(4)
-> +#define BL_POWER_INVERT		BIT(5)
-> +#define BL_ENABLE_PIN_EN	BIT(6)
-> +#define BL_FIRMWARE_ERROR	BIT(7)
+Lizhi Hou (1):
+  accel/amdxdna: Add IOCTL to retrieve realtime NPU power estimate
 
-These appear to be unused.
+Shyam Sundar S K (1):
+  platform/x86/amd/pmf: Introduce new interface to export NPU metrics
 
-> +
-> +static uint bri_freq = USE_DEFAULT;
-> +module_param(bri_freq, uint, 0444);
-> +MODULE_PARM_DESC(bri_freq, "Setup backlight PWM frequency.\n");
-> +
-> +static int bri_invert = USE_DEFAULT;
-> +module_param(bri_invert, int, 0444);
-> +MODULE_PARM_DESC(bri_invert, "Setup backlight PWM polarity.\n");
-> +
-> +static int bl_power_invert = USE_DEFAULT;
-> +module_param(bl_power_invert, int, 0444);
-> +MODULE_PARM_DESC(bl_power_invert, "Setup backlight enable pin polarity.\n");
-> +
-> +static int timeout;
-> +module_param(timeout, int, 0444);
-> +MODULE_PARM_DESC(timeout, "Set PMC command timeout value.\n");
+ drivers/accel/amdxdna/aie2_pci.c        | 29 ++++++++++
+ drivers/accel/amdxdna/aie2_pci.h        | 20 +++++++
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 +-
+ drivers/platform/x86/amd/pmf/core.c     | 75 +++++++++++++++++++++++++
+ drivers/platform/x86/amd/pmf/pmf.h      |  2 +
+ include/linux/amd-pmf-io.h              | 21 +++++++
+ 6 files changed, 149 insertions(+), 1 deletion(-)
 
-Module parameters are not really expected these days and are
-pretty user hostile.
+-- 
+2.34.1
 
-Are they really needed? AFAICT this is a firmware based device. Why
-doesn't the firmware provide this information if the drivers need it
-(either directly or via PNP ID and a lookup table)?
-
-
-> +
-> +struct eio_bl_dev {
-> +	struct device *mfd;
-> +	u8 id;
-> +	u8 max;
-
-The value in max is never read.
-
-
-> +};
-> +
-> +static int pmc_write(struct device *mfd, u8 ctrl, u8 dev_id, void *data)
-> +{
-> +	struct pmc_op op = {
-> +		.cmd       = PMC_BL_WRITE,
-> +		.control   = ctrl,
-> +		.device_id = dev_id,
-> +		.payload   = (u8 *)data,
-> +		.size      = (ctrl == BL_CTRL_FREQ) ? 4 : 1,
-> +		.timeout   = timeout,
-> +	};
-> +
-> +	return eio_core_pmc_operation(mfd, &op);
-> +}
-> +
-> +static int pmc_read(struct device *mfd, u8 ctrl, u8 dev_id, void *data)
-> +{
-> +	struct pmc_op op = {
-> +		.cmd       = PMC_BL_READ,
-> +		.control   = ctrl,
-> +		.device_id = dev_id,
-> +		.payload   = (u8 *)data,
-> +		.size      = (ctrl == BL_CTRL_FREQ) ? 4 : 1,
-> +		.timeout   = timeout,
-> +	};
-> +
-> +	return eio_core_pmc_operation(mfd, &op);
-> +}
-> +
-> +static int bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct eio_bl_dev *eio_bl = bl_get_data(bl);
-> +	u32 max  = bl->props.max_brightness;
-> +	u8 duty = clamp_val(bl->props.brightness, 0, max);
-> +	u8 sw = bl->props.power == BACKLIGHT_POWER_OFF;
-
-You shouldn't need to read anything from bl->props directly.
-Please use the helper functions to get the duty value and power
-state.
-
-> +	int ret;
-> +
-> +	/* Setup PWM duty */
-> +	ret = pmc_write(eio_bl->mfd, BL_CTRL_DUTY, eio_bl->id, &duty);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Setup backlight enable pin */
-> +	return pmc_write(eio_bl->mfd, BL_CTRL_ENABLE, eio_bl->id, &sw);
-> +}
-> +
-> +static int bl_get_brightness(struct backlight_device *bl)
-> +{
-> +	struct eio_bl_dev *eio_bl = bl_get_data(bl);
-> +	u8 duty = 0;
-> +	int ret;
-> +
-> +	ret = pmc_read(eio_bl->mfd, BL_CTRL_DUTY, eio_bl->id, &duty);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	return duty;
-> +}
-> +
-> +static const struct backlight_ops bl_ops = {
-> +	.get_brightness = bl_get_brightness,
-> +	.update_status	= bl_update_status,
-> +	.options	= BL_CORE_SUSPENDRESUME,
-> +};
-> +
-> +static int bl_init(struct device *dev, int id,
-> +		   struct backlight_properties *props)
-> +{
-> +	int ret;
-> +	u8 enabled = 0;
-> +	u8 status = 0;
-> +
-> +	/* Check EC-supported backlight */
-> +	ret = pmc_read(dev, BL_CTRL_STATUS, id, &status);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!(status & BL_STATUS_AVAIL)) {
-> +		dev_dbg(dev, "eio_bl%d hardware report disabled.\n", id);
-> +		return -ENXIO;
-
-Is -ENODEV more appropriate here?
-
-
-> +	}
-> +
-> +	ret = pmc_read(dev, BL_CTRL_DUTY, id, &props->brightness);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Invert PWM */
-> +	dev_dbg(dev, "bri_invert=%d\n", bri_invert);
-
-Let's drop the dev_dbg() messages, printing module parameter values
-isn't very useful.
-
-
-> +	if (bri_invert > USE_DEFAULT) {
-> +		ret = pmc_write(dev, BL_CTRL_INVERT, id, &bri_invert);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	bri_invert = 0;
-> +	ret = pmc_read(dev, BL_CTRL_INVERT, id, &bri_invert);
-> +	if (ret)
-> +		return ret;
-
-Writing back to module parameters during probe is rather unusual. Is it
-really needed?
-
-
-> +
-> +	dev_dbg(dev, "bri_freq=%u\n", bri_freq);
-> +	if (bri_freq != USE_DEFAULT) {
-> +		ret = pmc_write(dev, BL_CTRL_FREQ, id, &bri_freq);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret = pmc_read(dev, BL_CTRL_FREQ, id, &bri_freq);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dev_dbg(dev, "bl_power_invert=%d\n", bl_power_invert);
-> +	if (bl_power_invert >= USE_DEFAULT) {
-> +		ret = pmc_write(dev, BL_CTRL_ENABLE_INVERT, id, &bl_power_invert);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	bl_power_invert = 0;
-> +	ret = pmc_read(dev, BL_CTRL_ENABLE_INVERT, id, &bl_power_invert);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Read power state */
-> +	ret = pmc_read(dev, BL_CTRL_ENABLE, id, &enabled);
-> +	if (ret)
-> +		return ret;
-> +
-> +	props->power = enabled ? BACKLIGHT_POWER_OFF : BACKLIGHT_POWER_ON;
-> +
-> +	return 0;
-> +}
-> +
-> +static int bl_probe(struct platform_device *pdev)
-> +{
-> +	u8 id;
-> +	struct device *dev = &pdev->dev;
-> +	struct eio_dev *eio_dev = dev_get_drvdata(dev->parent);
-> +
-> +	if (!eio_dev) {
-> +		dev_err(dev, "eio_core not present\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	for (id = 0; id < BL_MAX; id++) {
-> +		char name[32];
-> +		struct backlight_properties props;
-> +		struct eio_bl_dev *eio_bl;
-> +		struct backlight_device *bl;
-> +		int ret;
-> +
-> +		memset(&props, 0, sizeof(props));
-> +		props.type           = BACKLIGHT_RAW;
-> +		props.max_brightness = THERMAL_MAX;
-> +		props.power          = BACKLIGHT_POWER_OFF;
-> +		props.brightness     = props.max_brightness;
-
-New drivers should not initialize props.scale as UNKNOWN. Please
-set to match the hardware behaviour (if brightness 50% looks roughly
-half as bright as 100% then the scale is non-linear).
-
-
-> +
-> +		eio_bl = devm_kzalloc(dev, sizeof(*eio_bl), GFP_KERNEL);
-> +		if (!eio_bl)
-> +			return -ENOMEM;
-> +
-> +		eio_bl->mfd = dev->parent;
-> +		eio_bl->id  = id;
-> +		eio_bl->max = props.max_brightness;
-> +
-> +		ret = bl_init(eio_bl->mfd, id, &props);
-> +		if (ret) {
-> +			dev_info(dev, "%d No Backlight %u enabled!\n", ret, id);
-> +			continue;
-> +		}
-
-If neither backlight is enabled if would be good to propagate the return
-value (to prevent the probe from spuriously succeeding).
-
-
-> +
-> +		snprintf(name, sizeof(name), "%s%u", pdev->name, id);
-> +
-> +		bl = devm_backlight_device_register(dev, name, dev, eio_bl,
-> +						    &bl_ops, &props);
-> +
-> +		if (IS_ERR(bl)) {
-> +			ret = PTR_ERR(bl);
-> +			if (ret == -EPROBE_DEFER)
-> +				return ret;
-> +
-> +			dev_err(dev, "register %s failed: %d\n", name, ret);
-> +			continue;
-> +		}
-> +
-> +		dev_info(dev, "%s registered (max=%u)\n", name, props.max_brightness);
-
-Silence (on success) is golden. Please remove this.
-
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver bl_driver = {
-> +	.probe  = bl_probe,
-> +	.driver = {
-> +		.name = "eio_bl",
-> +	},
-> +};
-> +
-> +module_platform_driver(bl_driver);
-> +
-> +MODULE_AUTHOR("Wenkai Chung <wenkai.chung@advantech.com.tw>");
-> +MODULE_AUTHOR("Ramiro Oliveira <ramiro.oliveira@advantech.com>");
-> +MODULE_DESCRIPTION("Backlight driver for Advantech EIO embedded controller");
-> +MODULE_LICENSE("GPL");
-
-
-Thanks
-
-Daniel.
