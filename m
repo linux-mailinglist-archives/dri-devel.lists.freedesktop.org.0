@@ -2,41 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEC1CB9B93
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 21:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54CECB9BA8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 21:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A0710E92B;
-	Fri, 12 Dec 2025 20:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0428010E95D;
+	Fri, 12 Dec 2025 20:10:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="F6abWy6Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="dKPDXOLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exactco.de (exactco.de [176.9.10.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6C910E92B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 20:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:From:Subject:Cc:To
- :Message-Id:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
- References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
- List-Owner:List-Archive; bh=1ajfBSYTJP67RDhKYmipkvA8f5Djql9PgZl5Sg4qV+8=; b=F
- 6abWy6ZVyOcnC9CwB3pi903LQkX1CK8OOB6iH7SdmWWGJBJGj1KXXCia3L+jLm3r8mo+YbOkbG6X1
- APvTlIfdEfCGQ920QjaaHlJTAUddgM5FoADAeTyhWPs9ufW3BjPu+ME3lP3pZuL5076mdQCt8/LeP
- o5GUHa/vhyLkevub0VQvpHSZHiQUCdCxIQrFkx9dqZ6d4cyIErKfviFE1Fkc5kyROdyMrrS0UkmZg
- ca/x+6DuWUVECT8ZhTbvTF/i4475ciobscnx8rOslfrXxiB8N4b1TsAI2QyRrnYb6Y03FrpZZGTPu
- 9sjJv6+VHUiE1DgCyV3/2ZW5xePyl0G3w==;
-Date: Fri, 12 Dec 2025 21:05:04 +0100 (CET)
-Message-Id: <20251212.210504.1355099120650239629.rene@exactco.de>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH V4] drm/ast: Swap framebuffer writes on big-endian machines
-From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-X-Mailer: Mew version 6.10 on Emacs 30.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A56C10E95C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 20:10:55 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-29845b06dd2so19484185ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 12:10:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1765570255; x=1766175055;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gsVed5WgXtZPXSfJ2PXjLRbNCmFwRAyF31OH8siBSJw=;
+ b=dKPDXOLtCdMTVzEATp1XhDwWt+h0zxzxlEk09SpMR4zI44kpnEephSPbJ1lxdAyo3X
+ nrRT1HxB4bfEuluqMuesfyvMz/aGXyRsBlxjGjw/czBnyEEodOYxUzBGkMJzn7GYMdrC
+ Q29h0wNZY7HEVjYfqDIGn2geG16Fu2/a99sIdrfHGGxsUL7PW+e8RkAXabJKzZIa8OR9
+ 3UuKqsL5RUjNfwmtQVj9k8ZjKL/sLhyz9jJnBIwyvtq9DfibWaw5fLH517XF1MkhJXeP
+ /0S+a2wYRzCbawZwnY/ShFF9naQ2LVtkD2ACJKIjJDjYqCzebjUFUdVTkqzbo8uUkmdH
+ 6jNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765570255; x=1766175055;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gsVed5WgXtZPXSfJ2PXjLRbNCmFwRAyF31OH8siBSJw=;
+ b=GJgS/SA5WM+i2303+2uES16f2OYsIsqs+9GyWHyGle35NlreZrhqFCRk9kFiJ8C7XI
+ doClsqgVFLC7ZhoMuWlkunftojlIyz/diKcK9S2UiremnM9mixUY7XOq6HMQg1hsIFRk
+ nXbLJERyiXrgtBT79/fC8MLPJW2cLCgTox5/iQijLTN35jCjBFR0Ugop6m4tOUH0RILO
+ 4tV2VFJFVPoDtOMPghgVxTGmjSV9Fe5ntkXwGaNSkue+A78XW+ao8NwBfPts8s9r3YMS
+ nwXB8ShGvy8H7vJfL0+6JDlL1jqqAsMY7+8K2dw6sZdymuOGsBZrZyAZ3stZ6En+pcYc
+ n43A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8z29iB53cxpTyHi8M3ZoH6ef9A45QBH4FpwuCimhouCB3lUt5XGOEgmQllo1RvazVd/FyMtWr+fk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6pfRMafXbftYcWd3FlQ6EHG1AF61PsQ1EE9lpGfPorTJUCO7K
+ y6UhPAjzZpiIn4jpy1za/2Z1waV2qGmgt6PuszIWYOlUUI+yNfak21KEk4KfTCDDZ+o=
+X-Gm-Gg: AY/fxX4eeR171wuTbFzZo+7ad7v7Wgb4ZIaAGZrj0cqPV7bOSwJL4JOcvvGeE8mpf6u
+ tfSMCfWdf/BbO52Svav1FDghZ0rd+by8M0cKfhy1+JmtutyUyhzikVNzMPYr/a9/ftQ7fcp3ed7
+ J6l0PyTDu2nhQ7cesBh5dTHuhB2CA88erD0TsQe04o0k0jL19hv58O4fjDr43ndhR/+qfejC+/d
+ HfRzL6b49g1HVUPcWV3JN3qZLiQ0cEX44N1Ii1qqwFhz4IZ357bioBU9P+e0tVeiPkyv0SNqkbk
+ gtZtZT5zM1n+cZTab19mZAbLD8ceWlrAtT6m2BDWaPeBj48vVsA3pUfgWwG93G/SaSJYa2i33YI
+ W9mr/kry6HYuqLO3TcuMBOhJJrGaxNPloTCQ0Lhpb1jicxjlAyig4p53DiDtNiJ8Tv4LVT/3TQi
+ W2pW8/LoAjcpOW38AtGBpXeXsQ32bneb22yy2ryKPirvFB9fvR/w==
+X-Google-Smtp-Source: AGHT+IH4YKlBbDeLqTy95z05gm75S6dqOblA2F2FrB859WtV1ZEekn7/gpBPyoL8TMFo+3JpfAzaQQ==
+X-Received: by 2002:a17:902:f688:b0:29f:29a8:608b with SMTP id
+ d9443c01a7336-29f29a861cemr19807075ad.13.1765570255065; 
+ Fri, 12 Dec 2025 12:10:55 -0800 (PST)
+Received: from [172.20.4.188] (221x255x142x61.ap221.ftth.ucom.ne.jp.
+ [221.255.142.61]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29ee9d38c7fsm62825655ad.39.2025.12.12.12.10.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Dec 2025 12:10:54 -0800 (PST)
+Message-ID: <2729b31b-ba58-4f32-b71a-75bd07524ac8@kernel.dk>
+Date: Fri, 12 Dec 2025 13:10:50 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 03/11] block: move around bio flagging helpers
+To: Pavel Begunkov <asml.silence@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+ tushar.gohad@intel.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
+ <aTFl290ou0_RIT6-@infradead.org>
+ <4ed581b6-af0f-49e6-8782-63f85e02503c@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <4ed581b6-af0f-49e6-8782-63f85e02503c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,85 +107,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Swap the pixel data when writing to framebuffer memory on big-endian
-machines. Fixes incorrect output. Aspeed graphics does not appear to
-support big-endian framebuffers after AST2400, although the feature
-has been documented.
+On 12/11/25 6:08 PM, Pavel Begunkov wrote:
+> On 12/4/25 10:43, Christoph Hellwig wrote:
+>> On Sun, Nov 23, 2025 at 10:51:23PM +0000, Pavel Begunkov wrote:
+>>> We'll need bio_flagged() earlier in bio.h in the next patch, move it
+>>> together with all related helpers, and mark the bio_flagged()'s bio
+>>> argument as const.
+>>>
+>>> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>>
+>> Looks good:
+>>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>>
+>> Maybe ask Jens to queue it up ASAP to get it out of the way?
+> 
+> I was away, so a bit late for that. I definitely wouldn't
+> mind if Jens pulls it in, but for a separate patch I'd need
+> to justify it, and I don't think it brings anything
+> meaningful in itself.
 
-There's a lengthy discussion at [1].
-
-Signed-off-by: René Rebe <rene@exactco.de>
-Link: https://lore.kernel.org/dri-devel/20251202.170626.2134482663677806825.rene@exactco.de/ # [1]
----
-The ARGB4444 cursor not yet 100% correct, but that might be another layer/helper bug.
-Tested on sparc64 T4-1 running T2/Linux.
----
- drivers/gpu/drm/ast/ast_cursor.c | 11 ++++++++---
- drivers/gpu/drm/ast/ast_mode.c   | 11 +++++++++--
- 2 files changed, 17 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 2d3ad7610c2e..d4620171d845 100644
---- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -92,12 +92,17 @@ static void ast_set_cursor_image(struct ast_device *ast, const u8 *src,
- 				 unsigned int width, unsigned int height)
- {
- 	u8 __iomem *dst = ast_plane_vaddr(&ast->cursor_plane.base);
--	u32 csum;
--
--	csum = ast_cursor_calculate_checksum(src, width, height);
-+	u32 csum = ast_cursor_calculate_checksum(src, width, height);
- 
- 	/* write pixel data */
-+#if defined(__BIG_ENDIAN)
-+	unsigned int i;
-+
-+	for (i = 0; i < AST_HWC_SIZE; i += 2)
-+		writew(swab16(*(const __be16 *)&src[i]), &dst[i]);
-+#else
- 	memcpy_toio(dst, src, AST_HWC_SIZE);
-+#endif
- 
- 	/* write checksum + signature */
- 	dst += AST_HWC_SIZE;
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index cd08990a10f9..57c6fbc3232b 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -526,12 +526,18 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 
- static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
- 			      struct drm_framebuffer *fb,
--			      const struct drm_rect *clip)
-+			      const struct drm_rect *clip,
-+			      struct drm_format_conv_state *fmtcnv_state)
- {
- 	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
- 
- 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
-+
-+#if defined(__BIG_ENDIAN)
-+	drm_fb_swab(&dst, fb->pitches, src, fb, clip, !src[0].is_iomem, fmtcnv_state);
-+#else
- 	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-+#endif
- }
- 
- static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
-@@ -561,7 +567,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
- 		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 		drm_atomic_for_each_plane_damage(&iter, &damage) {
--			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-+			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage,
-+					  &shadow_plane_state->fmtcnv_state);
- 		}
- 
- 		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
--- 
-2.52.0
+I like getting prep stuff like that out of the way, and honestly the
+patch makes sense on its own anyway as it's always nicer to have related
+code closer together.
 
 -- 
-René Rebe, ExactCODE GmbH, Berlin, Germany
-https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
+Jens Axboe
