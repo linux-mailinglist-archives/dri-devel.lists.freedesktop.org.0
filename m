@@ -2,143 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C48ACB7E01
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 05:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81FFCB7FE8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 07:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA6710E16B;
-	Fri, 12 Dec 2025 04:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACC410E32E;
+	Fri, 12 Dec 2025 06:00:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="JjOhooZC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="asoeCfeG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012060.outbound.protection.outlook.com
- [40.107.200.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3587410E16B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 04:41:09 +0000 (UTC)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012011.outbound.protection.outlook.com
+ [40.93.195.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426C910E32E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 06:00:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IzALXdXl7y8GItsvVImQQlqfyYFhdrd2tC/ozGljxP2kiQiKs+Ck2y8Js9nAUbW7iSlvG4hIDsIKrIBVsoxgZNnsQPlPwIppOnJ30HjOWqnI203hI6x3UABdQChWNfiOo9v/weUTa0v3tDchsn1v6zcXPYUX0ZQCAdjlTIW/fCL7mLTVItk40EM0LrXcdshDyIZ1peLwcphcMlPbc0lCbIRp4luF8yJUGXb3lVpW0al7HL5DH7CAAa7QPokscJW6d0NHMUJnxJCc11fXd8yA+eCG5Ft9ZNn6iUDkFirMrVOq66UZmb58XRWL+DZEOJr7XPpCoPtud7iFdaKiTZ06Hg==
+ b=Rg7kUNoytkEpc7rYeBTWP/JQswGrUtRHvKKha/NoWO/uU+cWLVwWIZF1Oc/+R6Fgr0VtpXU4Mx0IHWqFKDS5bLp+rRHK+54Bjlo4s+J3GtuVJuqYClsfcM/2AePSa2uzhLM3algBAFLxoHRtAG4mI3X9Jgd2Iloy4BdzuvjWWD9UzGUNKIpDaAjgtcCOPCEleEFQPRVrzOtRE1wI1jN/lvPXYKg8hN30cg0mSIcpQXRvlTF1u+vLLJG8zcw9R8iiuXVNVmFJqfcktQcI4eKDmMwyhnGzGRwB/djo84rmc2K84p3YqvXfBxdSUUfgI3XyRxPNnBsBjj/db+2Zq4BOsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7a93Jx5A9ejvdNJOJbKWOUfMbe3U5NjOSTe9KTvgQp8=;
- b=oN/BxU/kyIhdM/Pl2SrHxIZSbvnU/yRgXIQxh67Q23uQh6yWlHGNWvKRbYs0kcei/dWuXQiOkE7Wi0eDTRRSzegFF6BJDjctuLMP1CbM35CYrsfu5I7fkZmUY1wSrr+ip+OZaLI91scUHI+ZPR2fmRT6e/E90gmIBKlOLKvmK4VoIG55iTvBsG9O3Og/bvIoBsyo5ayo+DIya3qCx3jWzzi9qx6Sn0ZWTTV7VRg6FeXGwkYk8sIngYI5xV014h9MJm+SRikImCIxQOc5fY2UBYj7USlLXFoSAefgqzLnhCsx+98815/rfEZTe6C7meEfLs0yjPvajGJIV9pTm56/lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=fu5frvd74PyqmdLck1t+0WZAVuoYaWvfTj9rQCTrg6I=;
+ b=m2/KpWSYUqeY3AZITo0qgktxfwkaNadfzoS8fFtqS4FymXXspDbSn2Uhrcg1Xlqj04rYt+DnADip7WexVPBC7lJ/aInTiCQeZ317PAt7+zmjfCnJzGjNG289jA4xbuOmTXdF+7VpzkN/Qd57AB6lyBwKVrmbQx2PlO/ePmpKrClgtu/Uk8QlCGvqYbMjyiboeoyRkon2r76hlyvwBDKPgyGwSd2rtocuv6O/XpVG6ZqX4kcAlqEYaLjAjbZbkD+ht+zfMo/3Uch58PMkpO2M09oDIF/He6sNafGNjK4IjTdVbiLVCt8nJyt/QzAsxURuVU4lg0ELaz3dIZJJiYZgpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7a93Jx5A9ejvdNJOJbKWOUfMbe3U5NjOSTe9KTvgQp8=;
- b=JjOhooZCiWo051plqpU9eVFsObuafs63xYwEEkpZHfmSlr9sT4RpCpZk7595D6K8YAPbTqSr1+Oci3WC03G2hgNUi/Njx1O5Vah2CeVBJVtW0aUb6bbel60qMgMAHDRxyLQMFJ7qF3MrJUSTwBRQkH7PCeO2zV2G8eBn9S/6Rww=
-Received: from IA4P220CA0012.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:558::17)
- by LV8PR12MB9111.namprd12.prod.outlook.com (2603:10b6:408:189::18)
+ bh=fu5frvd74PyqmdLck1t+0WZAVuoYaWvfTj9rQCTrg6I=;
+ b=asoeCfeGyO74TNqGdqhnc6S0n7G5MElVqBsUg48lKhIQNe0fforTAkgLauJ3jKA4KITPBsCeVnuwLvI41ZZQe26r5ar+Vwco8moINgmA4FiV1VNePYFGxLpG/CggZrkwLjEfaNFo5HAwBprkc8SJwgPmtXpn4xR1gdVqkJ5DCcQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by IA0PR12MB7603.namprd12.prod.outlook.com (2603:10b6:208:439::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.8; Fri, 12 Dec
- 2025 04:41:05 +0000
-Received: from BL6PEPF00020E5F.namprd04.prod.outlook.com
- (2603:10b6:208:558:cafe::f3) by IA4P220CA0012.outlook.office365.com
- (2603:10b6:208:558::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.10 via Frontend Transport; Fri,
- 12 Dec 2025 04:41:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF00020E5F.mail.protection.outlook.com (10.167.249.20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 04:41:04 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 11 Dec
- 2025 22:41:04 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 11 Dec
- 2025 22:41:04 -0600
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Thu, 11 Dec 2025 20:41:03 -0800
-Message-ID: <6589ed1e-498e-0f3c-740d-ada6d3e02c4a@amd.com>
-Date: Thu, 11 Dec 2025 20:41:03 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1] accel/amdxdna: Fix race where send ring appears full
- due to delayed head update
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.11; Fri, 12 Dec
+ 2025 06:00:36 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4%6]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
+ 06:00:36 +0000
+Message-ID: <b3ed5b11-c0cb-46c5-a498-95e6ba6f4e01@amd.com>
+Date: Fri, 12 Dec 2025 11:30:29 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1 1/2] platform/x86/amd/pmf: Introduce new interface to
+ export NPU metrics
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Lizhi Hou <lizhi.hou@amd.com>
+Cc: Hans de Goede <hansg@kernel.org>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, maciej.falkowski@linux.intel.com,
+ LKML <linux-kernel@vger.kernel.org>, max.zhen@amd.com, sonal.santan@amd.com,
+ mario.limonciello@amd.com, platform-driver-x86@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, VinitKumar.Shukla@amd.com,
+ Patil Rajesh Reddy <Patil.Reddy@amd.com>
+References: <20251211175802.1760860-1-lizhi.hou@amd.com>
+ <20251211175802.1760860-2-lizhi.hou@amd.com>
+ <5217a9b3-8489-fd18-051a-46a497ff56bd@linux.intel.com>
 Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
- <maciej.falkowski@linux.intel.com>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
-References: <20251211045125.1724604-1-lizhi.hou@amd.com>
- <b6286dcf-d9a4-4dbd-b8e4-5b0640c7dae5@amd.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <b6286dcf-d9a4-4dbd-b8e4-5b0640c7dae5@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <5217a9b3-8489-fd18-051a-46a497ff56bd@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: PN2PR01CA0227.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::14) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E5F:EE_|LV8PR12MB9111:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb6125d0-2b10-4f61-bf54-08de3938a90a
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|IA0PR12MB7603:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00eaa7c0-2499-46d6-ea67-08de3943c4e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QmMxaGVvaVAwZjhacXY3dEpRb1U3RmhOWS8zR2lseTdNZWlNYnltSXora3J1?=
- =?utf-8?B?aTd2MHFaTWZpOUFKWFdTSlRjTnYyUmtxYjl3NGx3SHRtUHluNExaUld0VlBO?=
- =?utf-8?B?SU96bWpqMFY2RnM1eFpPaVBwWDlFMndBcHYvVUVYY2o5RGl1VGpha0VrZVFE?=
- =?utf-8?B?MlZ6dm5VQzcwMFRRUGV1eVNxeHdLQWhvWnFDWldRZkZ5YVVrZzhWVTdRbEZq?=
- =?utf-8?B?OUNaY2ovKzdsUEhlN3JSRFZ0NEU0anNPb05QTVJJTldiYWtWd0JTYytkN0Na?=
- =?utf-8?B?cFpPUWQwcGJOQ1VXYzdtVXA2eUtDRjVkQUo2REFXZHQrZStEMXdHd1JzeHpx?=
- =?utf-8?B?Q25TbEIwRk1UaG4wSWtkS3c0Nzd6bjd3VEVCMDVkMjJCKzJ1WWd0VmNDSlA3?=
- =?utf-8?B?STY3RWhxWUU1NjJybGlRYXptL0JMbXpPZFI0NWppdzc2VzZzaXpQVmRhY2dI?=
- =?utf-8?B?OW1BTXdzRVJsZWxrbnh5TDduRGVWRmV0cG1tTjl1T3FQZTFCY3UvRlhyd3Rz?=
- =?utf-8?B?RHlHTmdzMXJlSEVlemdBa3N2ZjdhREtNa0pZN2xCb3JiSTJ4REpuemFMV1Ja?=
- =?utf-8?B?d05pWVpLTEh4U0pRQjIyOUtWWEtVdklUQUpFMXRqUG5pQXNScVpBWEZVYUFE?=
- =?utf-8?B?aVJuUzdmTDFFWkVUblFMT29HbG5aM1ZiWmxZWjlEYXJROC9NQ1ozUFZ5eHhK?=
- =?utf-8?B?N1JYRkZHZW5yR205d2VpWmVkc1MvaHlVY1Q4SmFoUmF6SHd0aVRDMXByZmFM?=
- =?utf-8?B?dTZITWhqZVM0TnlLM0ZSMDFsam80RXJnQmVZMDdTNVR2Z3k0ZWh1RzhmbXZk?=
- =?utf-8?B?cVZydzdrekl1NngwbjVLMDhPT21hYVg1T1Rtdy9VMVd5TWpzMmV4T3Z0b1Rh?=
- =?utf-8?B?QjlMZUxVcWlRelpnM1h2cHNpcnp0LzIyNUJrRG1PT2x2SFhwOG9uUm0zQVMw?=
- =?utf-8?B?emVNMzY2TGwzMUlZUVRqWWNER01aSldLaWV2UDF4V01EdHZyK0dIYnIvanJs?=
- =?utf-8?B?V2hwUERIUVdRQ2l6WHB3N2kzZDRldnBUcXZDakhEa2ZMVTZuRHl6UHVQUjJR?=
- =?utf-8?B?YTRoR0FCVzU3QW9sdE9TUjZtckErOUpocGg2Mm5zcGZkdFNrMHowVjJVankv?=
- =?utf-8?B?VUpUVTdlSHZDOS9RZ0ZCeW05WkhaV3RVdldld3ZhdFQ5eGRBdVZ6Rk9rTklw?=
- =?utf-8?B?WVQ4YkhIM1JSaTRIaE1CSGFzMTRidmJGamkrN0RQUVdNbXp1aWUzOFg0anRp?=
- =?utf-8?B?V0lXaG1QdWR5N0xtejMrSHdKRU9CTGRPZVhxWWszRzh1WEI3WUNQR0JxaDZk?=
- =?utf-8?B?N3c3c0dDWmIyT2dFVWcvV1N1UnBFMVdiZ1dpYWF5NXNnRHBqNENXNlVWekpr?=
- =?utf-8?B?aVAzN1VjZE9nZEV0MGgzMi9VVEtDVUR2dGtscVlNK2F4RkZIekkwZGxFMGNy?=
- =?utf-8?B?c1pGSE96c3JCMlNUd2p0VXljUEZRZFRmRWRCUDJPSFJ6RDd0UVl5ODM4RytW?=
- =?utf-8?B?YlpoQ3JLcnpnWTR6ZHZlMWN6SGpsU2t0bVkrOU41V3Z5UTJhV2VJUStlczdO?=
- =?utf-8?B?Q0dpcjFKT1Q1L0k4bjJpUnRzYTdQNjhLd0JVbGFHQzBsb0tVQ3RSeVVtVGFE?=
- =?utf-8?B?YWhidUkyL3gyaXRXdGJZb0ZPd2dkU1pHUm5uWC81bVJqdVJKR2RiKzRaMVoy?=
- =?utf-8?B?KzRNZGkxbW5iM2pkUjRvcEpZOHdIaDZaditMc20xNSt2ZktrNTE0ODVvc0gx?=
- =?utf-8?B?U3NxRTJ5VFpnQnk1clRMZy9TcXZLVWMwWkFjQUo1Zm11aFUzbE8zTkcyQXEr?=
- =?utf-8?B?TGtncVR1Tk1KbXpDc2JtTUg5ZTJFY1dicXc3bVQ4bkRhZytlelU0Tm43Qy9q?=
- =?utf-8?B?a2ZROXdrbjRNNFNjaHN6NFFvcUhpNG5QOUwvN0Z3QndDOUpUMkpaaHlGdys2?=
- =?utf-8?B?UUVOSmRYTGNkUFBteVV0YTYvd2FSamw4L1NrYUF3WHBhSURDdHhrUkRhYmhH?=
- =?utf-8?B?SjhzcUdza0ozZ2FuSk9Mdmk1Z0ZVbWdRT0VZR3U3L1ZEUVg0WmJ0NUhKeFd2?=
- =?utf-8?B?RDdrZlE2dEx5Q0ZuZ3orUFdnZjUxYXVqcEZvT3hxMGQ3dVFRZUc5VFpOYTds?=
- =?utf-8?Q?nX0Q=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MStZaDZPZUQ2a3ZiNXJwcG83MTVMVzhISzh4KzFnRDJhV1c5MHpvTUNSZ2VS?=
+ =?utf-8?B?ZEZ6Q1QwMzJpZW9ydHNBcjJDSFlhWm1UajhETFYzTHQycWZKeER6U0oxelBo?=
+ =?utf-8?B?a0E2Slc2S3l4TSsyOTcyNk1JMkszanpHV3BobGpKZFJPQ1RNYVphNUExSmRt?=
+ =?utf-8?B?NVpZclhqaW0rN3VYSTZQVld6Rmd5cjVpeDh3M3RJa0FKWFJ5MjFsVHpXU0FS?=
+ =?utf-8?B?OVZ2T0MyRE1JV3BiS2pWS0VleHB5aEs1QnJwOUhSeW8wQjdLMTJyZmU2d0FS?=
+ =?utf-8?B?VFJUVEJlQTV5V2dyTkZ4QkNPZDFMOStSZXNJL1c3alN0Z3c0ZjMwaFliRStx?=
+ =?utf-8?B?UkJibEZTTDJLMTEyd25IY0Irb3lnR2FJUXNKNkRCUkExdUpDcmo3L0ZwbTA0?=
+ =?utf-8?B?MVBzeTlkVWpGenNuTzErS2hYemNwSWhmWHNlbE1BZkVTdkQwbFRGei9ySm1k?=
+ =?utf-8?B?S2tEN3NxaHF1S2NIcFdEWGxIZHAzd0F1Z3Nkd1I4ejBaUmlFcmVwRS9BeTRV?=
+ =?utf-8?B?aVk2M293bGFucnpVVWtEMG5haS9xNnc3WjhwY0lhK0J1Z1g0OHZjUUwrK21N?=
+ =?utf-8?B?T1NkUHRia1RQVHI4a0J0YVlYUjVjaHM5VE9iQURTOXFsaXhjUGxxNnZBVEY3?=
+ =?utf-8?B?ZzNoV3RMaWx2Z0JFWGlkOXVOZ01tdXh4RWI5b3VwZzRNdzBHZVRyTlJZbG5Q?=
+ =?utf-8?B?d0VnbE5TZ3k4SWpERHorN1lZOSs3K2MvOUJNMkpmTnd0bUljWE0yck91MUpo?=
+ =?utf-8?B?WkhPYkd5TzBZZHN3TEcrWExUd2tKbDFaZkxJaTB5VVZRTFdua2gvbitRb3I1?=
+ =?utf-8?B?Q1l1N3Y4amp6UEV0aDk2allJYlFFS2k1N0FkMXRaTzZuMEdCa2tQN1Z6WUN2?=
+ =?utf-8?B?L1Bzd0lSZVBSSWJTbmRrVU11Qzd4M3RlcHVyRnFhVmlBNXFtZlBoc2FOaitY?=
+ =?utf-8?B?UDBlcnZRWEJqS1dXaUEvT3FKSlJXSGIrK2xpbit0aUVyQnFqMUEyby9IT0F0?=
+ =?utf-8?B?dnBGMEJWbCt6U2RhRklwOEtJVXFMbUNPVkU4YmZmQjVtR0tXTitkSjQvZElK?=
+ =?utf-8?B?TzYrZVhGZHRid25hc084WnhxbmhKOE80VFBNT0IyaEZTdEtNb3YxOW1FRVVQ?=
+ =?utf-8?B?aCtYNkYybEhiWXQzUUFmQ1NnWmZLNnVRZ0pmZFlnWnV6TVhiT20yMlF0b2VX?=
+ =?utf-8?B?bEtxYzQvZVdQUkdvaU15US9vQkM2SDRtNVUrdGwyK0VlQkN1NTNJakl3ajBT?=
+ =?utf-8?B?V1dNNXlqSVBrQzdvaThpWXJkUHFGRHJmVXQydk9aT3F1MDBzem1tS3B6Y2ZM?=
+ =?utf-8?B?VkxHR3kycm05RWt3QXAxazNvWnZlY1F0YzVwdU9yMGRMMFRwZXFnTmNGQ0ts?=
+ =?utf-8?B?cXZneHEvWlZXTWQ2bVpneVJ6cmFIRm5lejZYTHBVYmc3aC9KbEM5LzlSVy9F?=
+ =?utf-8?B?aC90RktCOVdlWjVLSllNZFp0bkIzMndieDVscTBFTHE4S1VtUDNhWWRxV1Z5?=
+ =?utf-8?B?TkoxTExTaFMrVzhXcUFHcGFjTXQrZHVjV2NOYXh0U0krQTBOV2NvT2k5cHRy?=
+ =?utf-8?B?WUF4K2xha1pqS1ZOemd1TlNJZUtTRDJySXpQN2UrMXNIUXdENFNWWTFBNGgw?=
+ =?utf-8?B?UFBTM0JDM3hLMk5KYWl1c1dEU3c2U1ZLSTB1emlyMjcyOXowemZYV0s2a09y?=
+ =?utf-8?B?QlZrbUsvdmkxVkhwQkNyakNZUC9NOFh4TzJJbG9uNW9FT01nS1RDNGNNcExs?=
+ =?utf-8?B?eEVHcW40MmtTMk13a3RiUWFMQjZWMGhHRjlFckRZUVRXbzBrV3d4VmZWMm5W?=
+ =?utf-8?B?aFRTdm1SUDFiZkdrWVVSUzFRSHNqRURQZU9lMzlsZnVXSTRUVlJRVkJBY0dJ?=
+ =?utf-8?B?VzlGNGw5dkNWSFJhaWU0UWN0Mm1xdUZSazRwd2hDR2lJSFF5cWRNZUk3ajUr?=
+ =?utf-8?B?cFYrTWJ4ZlRXZm82MzIvSjBFbDFRNDhPZS9hU0RrYW9ONmlWVEVFcCtXMnpR?=
+ =?utf-8?B?TW5LeDhSa2pnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VitWeGo5Z3FSWElXaVh4U2JNbmYzaytuTlNjUWRJTmZnMGNVS254VkNmMnc2?=
+ =?utf-8?B?VHpmMVhjT2NwYllvdS96Sllzem1sVllyaHVZVFdYMUc5K0ZmZzU2anMyNERo?=
+ =?utf-8?B?VjJvK2JVTG5wbWdUMW42TnNMQyt0OTJUOGpWckM3OEZoR2NNR3owQlVGbFBl?=
+ =?utf-8?B?b1R3aVFyVnpyK0QwQVF4ZzJxcU1nYTZaaHlaY0JZTWZYbll3SmpRSU42d3o4?=
+ =?utf-8?B?cWVOaDliL0Z3UkNUbnU1WkVVNFhKT0IxYlFNdWFzREpWR3ljVFhlZlJpM1V5?=
+ =?utf-8?B?YUZkTU1XV3RNSlVFanRwdHZqTEpVd1NRdHg2ZHo3TmFTRS8yZkVwdTFHbEJ6?=
+ =?utf-8?B?Q2NPNnpMajUvc0RFdGRxYlhsSjdyWEgzRW04Q0JVR0JBRnM5TGtHempadllw?=
+ =?utf-8?B?MFhRT2UyNm1pQnkyRXd3Znd4eWJqdjNRb3BoUmhZUm1mT01yUkI1WkdoczlS?=
+ =?utf-8?B?SGtocit5eUlHdkxOVy9NemhKUmpOTW1tTmJHQkwyOXhZWXcrd3VkV21MUExM?=
+ =?utf-8?B?ZUk5ZjdVdnZKL3FGOWlhYTZpZE1MMHhZYzVINy8xT3JXRWErU1pUa2xaL3A0?=
+ =?utf-8?B?MEsvNDVscmhqbkdzK1ozZmdsM2NnMlZxWW1nRzdvUVc3cjgzVWVvbk5ERFZK?=
+ =?utf-8?B?RTYraEN3Ym5OWXExR0xUYmR6OElkaURHMDJmZFkrU1Uza3VDK2c4UXlnY0xP?=
+ =?utf-8?B?dytRZjlGdm9zTnVlOHB0cjVyTk9DanBpV2lsU09XMEhFZ1dYSXp5U0FQU1Uz?=
+ =?utf-8?B?SGNUV2ZQV2FaM1BXbno1M3NxSzlqOFNzWXBwWDB4R25wSTRNOVZXa1U4ZGp2?=
+ =?utf-8?B?QWlCcEFzZ2RuQWJ1Yk9SNkpOa1lXd1NWZVBSKzRBQlp2bmpwVHdWU0VFdkRr?=
+ =?utf-8?B?Wlg1bms1VUUwRll3Ykd4ejV3Q3gwYWpJcklPUjFHandjb0xreHB1QUxFRUk5?=
+ =?utf-8?B?SDF6WjZkOGp6NXFUQ1VITnlxaytDSnN0NGc5dlBOUXpudEtoU1ZJSnJreVVY?=
+ =?utf-8?B?TlQ0bTh4b1ZzLy9mWGhFWWFob0F2dXpLNW5qMzIwTGY4d1d6M1ZmaldXL2Ux?=
+ =?utf-8?B?TTliUGptYjZhL1JkY25KeGRBYjEvUU9SNEFCalZ3UjR0U2RVb3FNSkMwYmUx?=
+ =?utf-8?B?S1dBVUNCUk9uc1ZCZGN1d3hNVVVmSVArZnduUDJia1RTNVdFSThiL2lKc250?=
+ =?utf-8?B?dTBoUFo5N2hUZExwNXE2bUQ0NGlRZVZjTXhhc29oajh1L1VjdkpORmhtVDgv?=
+ =?utf-8?B?dDRDaEduN0xrY25STWQ3TFNZRnNnL2xwN0ZINzhhNGUvMUcrMWljSW4yVDlT?=
+ =?utf-8?B?Q1UxZmJsRHl0aCtPcGowMytHTjA0R0NPWi8vT2xmNDM2czNGVGVFaEZjWEdQ?=
+ =?utf-8?B?RG1BaWVndWRBTFFGcGpKZFVyYzRSMEpRWWM5N3VlenZ6dTdlU0FaWWo0RmRt?=
+ =?utf-8?B?OUlXQ0VpQVltNUNuOVYxeE5VN2Q3VVNjMDR4U0JXZnNrcFU5MUpjb0o1VFpD?=
+ =?utf-8?B?QXJLU0doTE4rN1hqM0RJT0F2NXY2bU1qZ2FkN0lHczlTZytrM1g3cjBoekpN?=
+ =?utf-8?B?VnIra0NpODJjQWtzZVN1VWNyc2c0aVJIU3ZVK2RuS3ppMXVxOGtEZ1plL2R6?=
+ =?utf-8?B?cnBickxHYTJJZXNpQ2RyNFFsMXZXanZ0b3o5dCt0ZXZnNWJ4YXhNczdIMWY4?=
+ =?utf-8?B?MkdYY05OQ0F4S2R5aG5Fd0pVTVFFYWpIS0cySlJydVc1VXRmd2pVSHBvVmYz?=
+ =?utf-8?B?dHNBa01vdFhIOHU1S2x4YjdGSWx3VjJkbzQ0K2FYcW9DelZMT3A1RVFObjRs?=
+ =?utf-8?B?QitsS0JJeW1QcXA1clU1RW5NaEZFbStTV2ozQ3lTZzQ2N1M2dWhiSjgxUklS?=
+ =?utf-8?B?UUVGU2cwRktHeU5kYmxvRWFINE4vaXM0WGNrSmgyVmNST2hwOGZsdzI0REVM?=
+ =?utf-8?B?U0hUdXEycGZoTnRFYVdjNktMendvWlcyZ3JCdGNKY005bXplaHdGcGVkUUpr?=
+ =?utf-8?B?VmlYejNsaEwzdy9pOFBvY1czeXd2TlJyc2NnWldSRm5kVndPdmdXaUJvT0JB?=
+ =?utf-8?B?V1NrTm5JdFJuYkZVaUJFdmpXbEdDUERNaUtjN0NKUnZBR081dVExMkpwRTJI?=
+ =?utf-8?Q?TcRkEi2o47xBPMIyj1e5yS9A6?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 04:41:04.9761 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb6125d0-2b10-4f61-bf54-08de3938a90a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00eaa7c0-2499-46d6-ea67-08de3943c4e3
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 06:00:36.5568 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00020E5F.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UZ7vTidbnvMAVuy3Gx3k8sx2mSVxG8lIGn/42MQZgcZCIgfNP9cXHK+vcf5AsaVSi2pfqK5mzXbx1wmDJvGuaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7603
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,101 +173,172 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/11/25 13:48, Mario Limonciello wrote:
-> On 12/10/25 10:51 PM, Lizhi Hou wrote:
->> The firmware sends a response and interrupts the driver before advancing
->> the mailbox send ring head pointer. 
->
-> What's the point of the interrupt then?  Is this possible to improve 
-> in future firmware or is this really a hardware issue?  If it can be 
-> fixed in firmware it would be ideal to conditionalize such behavior on 
-> firmware version.
 
-This has been found recently with a muti-thread stress test with 
-released firmware. My understanding is that this is a firmware issue. I 
-am not sure if it could be improved in future firmware.
-
-I believe this driver change is more robust. It does not change the 
-logic but adds an polling instead of returning error. If the firmware 
-updates header quick, there will not be any polling. It works for both 
-current and future firmware.
-
-
-Thanks,
-
-Lizhi
-
->> As a result, the driver may observe
->> the response and attempt to send a new request before the firmware has
->> updated the head pointer. In this window, the send ring still appears
->> full, causing the driver to incorrectly fail the send operation.
+On 12/11/2025 23:58, Ilpo Järvinen wrote:
+> On Thu, 11 Dec 2025, Lizhi Hou wrote:
+> 
+>> From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 >>
->> This race can be triggered more easily in a multithreaded environment,
->> leading to unexpected and spurious "send ring full" failures.
+>> The PMF driver retrieves NPU metrics data from the PMFW. Introduce a new
+>> interface to make NPU metrics accessible to other drivers like AMDXDNA
+>> driver, which can access and utilize this information as needed.
 >>
->> To address this, poll the send ring head pointer for up to 100us before
->> returning a full-ring condition. This allows the firmware time to update
->> the head pointer.
->>
->> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+>> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 >> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 >> ---
->>   drivers/accel/amdxdna/amdxdna_mailbox.c | 27 +++++++++++++++----------
->>   1 file changed, 16 insertions(+), 11 deletions(-)
+>>  drivers/platform/x86/amd/pmf/core.c | 75 +++++++++++++++++++++++++++++
+>>  drivers/platform/x86/amd/pmf/pmf.h  |  2 +
+>>  include/linux/amd-pmf-io.h          | 21 ++++++++
+>>  3 files changed, 98 insertions(+)
 >>
->> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c 
->> b/drivers/accel/amdxdna/amdxdna_mailbox.c
->> index a60a85ce564c..469242ed8224 100644
->> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
->> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
->> @@ -191,26 +191,34 @@ mailbox_send_msg(struct mailbox_channel 
->> *mb_chann, struct mailbox_msg *mb_msg)
->>       u32 head, tail;
->>       u32 start_addr;
->>       u32 tmp_tail;
->> +    int ret;
->>         head = mailbox_get_headptr(mb_chann, CHAN_RES_X2I);
->>       tail = mb_chann->x2i_tail;
->> -    ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I);
->> +    ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_X2I) 
->> - sizeof(u32);
->>       start_addr = mb_chann->res[CHAN_RES_X2I].rb_start_addr;
->>       tmp_tail = tail + mb_msg->pkg_size;
->>   -    if (tail < head && tmp_tail >= head)
->> -        goto no_space;
->> -
->> -    if (tail >= head && (tmp_tail > ringbuf_size - sizeof(u32) &&
->> -                 mb_msg->pkg_size >= head))
->> -        goto no_space;
->>   -    if (tail >= head && tmp_tail > ringbuf_size - sizeof(u32)) {
->> +check_again:
->> +    if (tail >= head && tmp_tail > ringbuf_size) {
->>           write_addr = mb_chann->mb->res.ringbuf_base + start_addr + 
->> tail;
->>           writel(TOMBSTONE, write_addr);
->>             /* tombstone is set. Write from the start of the ringbuf */
->>           tail = 0;
->> +        tmp_tail = tail + mb_msg->pkg_size;
->> +    }
+>> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+>> index a6a5d416edf9..8e4ce91b3527 100644
+>> --- a/drivers/platform/x86/amd/pmf/core.c
+>> +++ b/drivers/platform/x86/amd/pmf/core.c
+>> @@ -8,12 +8,15 @@
+>>   * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>   */
+>>  
+>> +#include <linux/array_size.h>
+>> +#include <linux/cleanup.h>
+>>  #include <linux/debugfs.h>
+>>  #include <linux/iopoll.h>
+>>  #include <linux/module.h>
+>>  #include <linux/pci.h>
+>>  #include <linux/platform_device.h>
+>>  #include <linux/power_supply.h>
+>> +#include <linux/string.h>
+>>  #include <asm/amd/node.h>
+>>  #include "pmf.h"
+>>  
+>> @@ -53,6 +56,8 @@ static bool force_load;
+>>  module_param(force_load, bool, 0444);
+>>  MODULE_PARM_DESC(force_load, "Force load this driver on supported older platforms (experimental)");
+>>  
+>> +static struct device *pmf_device;
 >> +
->> +    if (tail < head && tmp_tail >= head) {
->> +        ret = read_poll_timeout(mailbox_get_headptr, head,
->> +                    tmp_tail < head || tail >= head,
->> +                    1, 100, false, mb_chann, CHAN_RES_X2I);
->> +        if (ret)
->> +            return ret;
+>>  static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long event, void *data)
+>>  {
+>>  	struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, pwr_src_notifier);
+>> @@ -314,6 +319,70 @@ int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev)
+>>  	return 0;
+>>  }
+>>  
+>> +static int is_npu_metrics_supported(struct amd_pmf_dev *pdev)
+>> +{
+>> +	switch (pdev->cpu_id) {
+>> +	case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
+>> +	case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
 >> +
->> +        if (tail >= head)
->> +            goto check_again;
->>       }
->>         write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
->> @@ -222,9 +230,6 @@ mailbox_send_msg(struct mailbox_channel 
->> *mb_chann, struct mailbox_msg *mb_msg)
->>                   mb_msg->pkg.header.id);
->>         return 0;
->> -
->> -no_space:
->> -    return -ENOSPC;
->>   }
->>     static int
->
+>> +static int amd_pmf_get_smu_metrics(struct amd_pmf_dev *dev, struct amd_pmf_npu_metrics *data)
+>> +{
+>> +	int ret, i;
+>> +
+>> +	guard(mutex)(&dev->metrics_mutex);
+>> +
+>> +	if (is_npu_metrics_supported(dev))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	ret = amd_pmf_set_dram_addr(dev, true);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	memset(dev->buf, 0, dev->mtable_size);
+>> +
+>> +	/* Send SMU command to get NPU metrics */
+>> +	ret = amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, SET_CMD, METRICS_TABLE_ID, NULL);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "SMU command failed to get NPU metrics: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	memcpy(&dev->m_table_v2, dev->buf, dev->mtable_size);
+>> +
+>> +	data->npuclk_freq = dev->m_table_v2.npuclk_freq;
+>> +	for (i = 0; i < ARRAY_SIZE(data->npu_busy); i++)
+>> +		data->npu_busy[i] = dev->m_table_v2.npu_busy[i];
+>> +	data->npu_power = dev->m_table_v2.npu_power;
+>> +	data->mpnpuclk_freq = dev->m_table_v2.mpnpuclk_freq;
+>> +	data->npu_reads = dev->m_table_v2.npu_reads;
+>> +	data->npu_writes = dev->m_table_v2.npu_writes;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info)
+>> +{
+>> +	struct amd_pmf_dev *pdev;
+>> +
+>> +	if (!info)
+>> +		return -EINVAL;
+>> +
+>> +	if (!pmf_device)
+>> +		return -ENODEV;
+>> +
+>> +	pdev = dev_get_drvdata(pmf_device);
+>> +	if (!pdev)
+>> +		return -ENODEV;
+>> +
+>> +	return amd_pmf_get_smu_metrics(pdev, info);
+>> +}
+>> +EXPORT_SYMBOL_GPL(amd_pmf_get_npu_data);
+>> +
+>>  static int amd_pmf_suspend_handler(struct device *dev)
+>>  {
+>>  	struct amd_pmf_dev *pdev = dev_get_drvdata(dev);
+>> @@ -469,6 +538,10 @@ static int amd_pmf_probe(struct platform_device *pdev)
+>>  	mutex_init(&dev->update_mutex);
+>>  	mutex_init(&dev->cb_mutex);
+>>  
+>> +	err = devm_mutex_init(dev->dev, &dev->metrics_mutex);
+>> +	if (err)
+>> +		return err;
+>> +
+>>  	apmf_acpi_init(dev);
+>>  	platform_set_drvdata(pdev, dev);
+>>  	amd_pmf_dbgfs_register(dev);
+>> @@ -477,6 +550,8 @@ static int amd_pmf_probe(struct platform_device *pdev)
+>>  	if (is_apmf_func_supported(dev, APMF_FUNC_SBIOS_HEARTBEAT_V2))
+>>  		amd_pmf_notify_sbios_heartbeat_event_v2(dev, ON_LOAD);
+>>  
+>> +	pmf_device = dev->dev;
+>> +
+>>  	dev_info(dev->dev, "registered PMF device successfully\n");
+>>  
+>>  	return 0;
+>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+>> index f07e9f4c660a..0354cc5dc79e 100644
+>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>> @@ -12,6 +12,7 @@
+>>  #define PMF_H
+>>  
+>>  #include <linux/acpi.h>
+>> +#include <linux/amd-pmf-io.h>
+>>  #include <linux/input.h>
+>>  #include <linux/platform_device.h>
+>>  #include <linux/platform_profile.h>
+>> @@ -412,6 +413,7 @@ struct amd_pmf_dev {
+>>  	struct apmf_sbios_req_v1 req1;
+>>  	struct pmf_bios_inputs_prev cb_prev; /* To preserve custom BIOS inputs */
+>>  	bool cb_flag;			     /* To handle first custom BIOS input */
+>> +	struct mutex metrics_mutex;
+> 
+> This files seems to lack include for struct mutex (despite using them 
+> already so please add it finally there :-)).
+
+This is already taken care in one of the patch already in queue.
+
+https://patchwork.kernel.org/project/platform-driver-x86/patch/20251202042219.245173-1-Shyam-sundar.S-k@amd.com/
+
+Thanks,
+Shyam
+
