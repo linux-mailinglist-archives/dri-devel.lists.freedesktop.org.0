@@ -2,63 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7467ACB832C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 09:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3B4CB8365
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 09:10:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED4D10E57A;
-	Fri, 12 Dec 2025 08:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 554CB10E09B;
+	Fri, 12 Dec 2025 08:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cTzBA3Gv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JqCkd3jM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1BF10E574;
- Fri, 12 Dec 2025 08:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765526553; x=1797062553;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=YOgDUhSshfBzhEBZ7qzYvA3TdNhCWuzfxWuMGePWsDo=;
- b=cTzBA3Gvz4TRm68lFpR45BZP0fNWUxdYqCKips6EdD/dYwdQL9lf1hnW
- SZSWsJWsVewIJ8OAPYRTypOTHvIr15/OfCL3FgvAar+1FZ4J16vJH3iJT
- GJzEvzW0Hvaw3+r49cZ8K96K3pKa3iml/H9sxhUv6YF67VZLJs0H8AAy1
- MBfvDoG2iFnkCPieB8GHSJfJn1spyscAJ6YV88sn0GjkWHpWGlNioLuVS
- 87ma0gRNzO5Hrp504+Caz7f0/TgfqZ7ZDvptU36tBRVlDMvYYoOeOmu2n
- oVU41D1Zjb5/2JYLIUmKUNcOfjozQ/hlpX9FDFENyBB0+q2diFZ2T5rSJ Q==;
-X-CSE-ConnectionGUID: 5nZsMnF0TUeDHj5yiFrWcQ==
-X-CSE-MsgGUID: jr6esjGYS+e52v7dNyDxTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78220167"
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="78220167"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 00:02:33 -0800
-X-CSE-ConnectionGUID: fuXwU2buQGKfVPwAdBSZdQ==
-X-CSE-MsgGUID: kkKL5IjoQXmTD1L8p0xZpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="234420698"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.39])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 00:02:29 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Oded
- Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes for v6.19-rc1
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-Date: Fri, 12 Dec 2025 10:02:26 +0200
-Message-ID: <281309f78560bcceebac8d5c0511efe66baf641c@intel.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 916FE10E57F
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 08:10:05 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-42e2d52c24dso510022f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 00:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765527004; x=1766131804; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fJ/CIq+S550sT8g8cfuPfmVxbEDEzZdlgJAf7FID7wY=;
+ b=JqCkd3jMku6gzepKd9mUEek3y/sYrJLQMpg8Y6JsRUVPXmdAlUD2hMMaZ9K3013S4S
+ YQrT4XmFZO7iftlxGD6jWd8ytaEm8uVbajnQnIQGtFGoyzRUNObOIaxuMkPqOrPn4W5W
+ 4K2zlG51vt9or2wp2//vpqhs8TPsHe0eAdymwTjoEG5+HzPfxZEjQDg4fBqHzqojU/sH
+ 5duPd1630CGTm0osl7cQPlMXjxDKbX7zcECA3Trd8nnJ3UlHjeqBjVFVJspHQjjZKGw5
+ da7CnXYxcx3ShvKL+gRF+ReRUDjjalSkYuOyCIQENa1YavYHA4zQsRa7DMQhexKaiAdn
+ aVlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765527004; x=1766131804;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fJ/CIq+S550sT8g8cfuPfmVxbEDEzZdlgJAf7FID7wY=;
+ b=pfBIpTv2k4aW0FqXhmbHUl03cpfn4RjbAOW83lZo2P7okariQrS8bbk0JeTOTAne91
+ UM4jTKpgUTZF3pT7mWsuyy8QmfAGyabi0FKuAdQ6LBt9A5ojjCoT3En+SmPGUNIzsPoE
+ 6AYLOV9PUBGWxqbWM9CiBElLfpJjiGwxzbBJVVfAhqJrI/pCYYuY+wOSY7vC22Tpj/Ja
+ eI5Fl5LvQibciJYpyCEJ8mIphhQLvvW7+ooGu53wcb81ulqBNQeoAdqOyw2077eYMq/g
+ GhnjqEfymlOQBeZ0fxPtYINf8SzjZRT94Fk8uammmIijGWvXkBK6FHIYxo6htuf0AOKM
+ YOOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyujYMdGgWdtGUV17ldnbCdDXNLlApQ21QccTX4u8nVjBEnYGYgOWY+TKbaR1TGZjyQRESv+/Ufmo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHRtK+NSHqj3d4laliPeauXINspvRMTv3JmayfTJQo5z+NM6su
+ PZfRcd7C+9+NtmtLhAb0sG0g9rFVZFA94CO7PZb6yRCTfsnkb1zykQcQ
+X-Gm-Gg: AY/fxX7FzE3f8HaJYNuVFM96KRl4wPftg2Jtr2dI1JkdmyeVm3bPQQ7Ch5VcdWzPP4P
+ 2AKbN++jKBp6excFVOKnerRIsWE7sfc0faOKIrtL2hIECMHB1djSk2YqQsSR/xCDFVMcMVlEUzI
+ BK5C6XiwS9nLDg6UE1PJBtkLcBUCUghBKGWu2DftnvR4m6P9SKP0Sim8ztr2IX9Ar+HJNhsN31w
+ QjQlW17O4cjFcyRpXm271ulpCeFdz5fP045Dul97yI+xqUG4rj6LpmP3jfb9cKnvqdwrGJ8tEVu
+ 8vDjpZHVxhjdElzZiCreFrp1M39PcRC6nNzcXLQ/B03w4mcAnh6L6tzqPS0/Hw9fOCug8ul6fEW
+ CX6S0pARKLAkvCUDPwhAJqiO5PlIaLWcl6t6tdU/rFuj+DTbQtSFtdiu9mIxAXNpIC9Bt4ZAsz+
+ XtvfDtlPDx3hu0jUkOQrl/IfzjjzpWnl3R98wSg3qX9b70ZWe4fMSqCa48bYL7fusrCu1fWDZVP
+ hDuLr4C+xTfox1wVb+m4I9oqD5Idwz3qDX6ijLEEAocZQ==
+X-Google-Smtp-Source: AGHT+IGTJIGEa6611HGPyO7WCyo7XVD/0HX+3HAeJdXdjKMR+z9KB5y2eg2ivEwm/6LLYaeomx6J1Q==
+X-Received: by 2002:a05:6000:4012:b0:42b:2f79:755e with SMTP id
+ ffacd0b85a97d-42fb44d46b4mr1032448f8f.3.1765527003664; 
+ Fri, 12 Dec 2025 00:10:03 -0800 (PST)
+Received: from ?IPV6:2003:df:bf2d:e300:84fc:a859:31e5:6980?
+ (p200300dfbf2de30084fca85931e56980.dip0.t-ipconnect.de.
+ [2003:df:bf2d:e300:84fc:a859:31e5:6980])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42fa8b9b1f1sm10460373f8f.39.2025.12.12.00.10.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Dec 2025 00:10:03 -0800 (PST)
+Message-ID: <25aa90a7-e9f4-471e-9d93-c61b9a7a429c@gmail.com>
+Date: Fri, 12 Dec 2025 09:10:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] gpu: nova-core: gsp: Fix length of received messages
+To: Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>
+References: <20251122-nova-fixes-v1-0-a91eafeed7b5@nvidia.com>
+ <20251122-nova-fixes-v1-2-a91eafeed7b5@nvidia.com>
+ <504C636B-FB96-4B54-B9CD-C506026CCDB1@nvidia.com>
+Content-Language: de-AT-frami, en-US
+From: Dirk Behme <dirk.behme@gmail.com>
+In-Reply-To: <504C636B-FB96-4B54-B9CD-C506026CCDB1@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,44 +110,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12.12.25 08:59, Joel Fernandes wrote:
+> Hi Alex,
+> 
+>> On Nov 22, 2025, at 12:00 AM, Alexandre Courbot <acourbot@nvidia.com> wrote:
+>>
+>> ﻿The size of messages' payload is miscalculated, leading to extra data
+>> passed to the message handler. While this is not a problem with our
+>> current set of commands, others with a variable-length payload may
+>> misbehave. Fix this.
+>>
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>> ---
+>> drivers/gpu/nova-core/gsp/cmdq.rs | 11 +++++++----
+>> drivers/gpu/nova-core/gsp/fw.rs   |  2 +-
+>> 2 files changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+>> index 6f946d14868a..dab73377c526 100644
+>> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+>> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+>> @@ -588,21 +588,24 @@ fn wait_for_msg(&self, timeout: Delta) -> Result<GspMessage<'_>> {
+>>             header.length(),
+>>         );
+>>
+>> +        // The length of the message that follows the header.
+>> +        let msg_length = header.length() - size_of::<GspMsgElement>();
+> 
+> Is this immune to under flow without one of the checked subtraction wrappers? Either way, we should not tolerate the underflow I think. Which means it can panic when the rust overflow checks are enabled. Since the header length comes from firmware, this cannot be guaranteed to not underflow in the event of a malformed message.
 
-Hi Dave & Sima -
+Would this be a possible use case for the untrusted data proposal
 
-drm-intel-next-fixes-2025-12-12:
-drm/i915 fixes for v6.19-rc1:
-- Fix format string truncation warning
-- FIx runtime PM reference during fbdev BO creation
+https://lwn.net/Articles/1034603/
 
-BR,
-Jani.
+?
 
-The following changes since commit c7685d11108acb387e44e3d81194d0d8959eaa44:
+Cheers
 
-  Merge tag 'topic/drm-intel-plane-color-pipeline-2025-12-04' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2025-12-05 10:27:57 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2025-12-12
-
-for you to fetch changes up to 1c7f9e528f8f488b060b786bfb90b40540854db3:
-
-  drm/i915: Fix format string truncation warning (2025-12-09 15:53:12 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.19-rc1:
-- Fix format string truncation warning
-- FIx runtime PM reference during fbdev BO creation
-
-----------------------------------------------------------------
-Ard Biesheuvel (1):
-      drm/i915: Fix format string truncation warning
-
-Dibin Moolakadan Subrahmanian (1):
-      drm/i915/fbdev: Hold runtime PM ref during fbdev BO creation
-
- drivers/gpu/drm/i915/display/intel_fbdev.c | 11 +++++++----
- drivers/gpu/drm/i915/intel_memory_region.h |  2 +-
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
--- 
-Jani Nikula, Intel
+Dirk
