@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8521CB82EA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 08:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4C4CB82F0
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 08:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF8CC10E56C;
-	Fri, 12 Dec 2025 07:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5E810E56D;
+	Fri, 12 Dec 2025 07:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KI2f1F0X";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="luuknRFb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013033.outbound.protection.outlook.com
- [40.93.201.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A841D10E55A;
- Fri, 12 Dec 2025 07:59:47 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011033.outbound.protection.outlook.com [52.101.52.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9032810E566;
+ Fri, 12 Dec 2025 07:59:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yggr1JWVvqLA66NZvlIIXRhq8X+RvrEyeA0EMo5Sa0T5mUDpJjCCOITtEu5H4Zz59NC7ubMTdI4oqk2T/Kj9uzHaXLo7zuWTrFP1ytyzV/XQrFWKifov46LrGNLCBahOOt2LYP0gSJpblzb6aVHo1Aw2LrEYZt25F42HY5C3qZUBMXasPhs48dXk7U7KtPVgXbB1MZOfTjRBF5SMynJfG6Ba8s7UHm9+pZL/hoahktNY6ksZrPYDWmQ0RS5+8oDt5vIJA8GPLhMumV7nE1Fn0S55mnNM2Vu2dNRAfpnyjN/q9uYjedT2HjjKhud+A8vClwI8p2twLeGmUwhJeg+F9A==
+ b=tiz5RauYsULgrrTffjHIBoTY+hxVpbo/Ckq5Vgxbpuuo3O6PIEZriOldrOM7/dKKGPo45qzS/Nc7Mv7Y5IfUTcbR+ciL2u/ai5/CRA1scYYxG2GjykTpwwjdBdGDnk3S7+b4DjaGzPY3lIMWdXfzNm4C86d6kf8HLOK6Bga1Ni2uZkfKWZG1AjEtgnzLpNlxywrrBg5LB+7/PWsXDTqk1wjly4c2+FnFExoYw7rzId48TpShxs5/MOIOLfyvMYfwqNfz353LaTX3ZMNo2lbGC6QMGGwXxy0X1QOMamNo9z91nZPVJnnWfXQDgk7Kf4yeVg3trwc2WUsipQb0whmmEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1s1agTl5/wK5jsZeSEoayqP66OsRkfzvC7pHS+q6110=;
- b=TxmsjOBO1XjvezIrGDV2bl2lSM3ziUVdZl5YdPqhL/itN3t9vk+OeSZW6w66Ry/gbkMMmAKIXMMQEdk5pM1ybRCzGP0CJx1GVlOIqZcOkQ3CLupel+m4jEuDQ7iVsLf5KEIudNksS/+3N0K5pkrrsBm6d2IMivpfnQetgpiPmPW4lSVwrzvT/X6LAfGk/7Xvm2f2N6kU546pUPkKIPpUoVsETkxhACTaEvNfl6ZyJCh+fW4J0bYtqRsMe6Fg23hLWSajGYCVJ1/i/j+4WVikhZuzcL5/SMosQuM+/qvUO3HGn1IcrBvriZbQB9u/ZCuR048AjPWka7RULfIc4lUOIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=dNHdvWdv0VSrnDeBDJ1DnvTDCpcSgm0o9fbtVqDN9bk=;
+ b=oQ7qZG//EdcC7an3LZrj7ugcHqICLwCOuh1G0ZGnDvIEODQm9HUNH16k1lJV+7vRDD04UltM+k9pf90ojJp1MUwj5iYY0Vwi0iQR4jWSKalOXLA3+s7U66ITsV94szbBpiMA+0p9J/VJAbbfOnBDT6kgrk5J8/ZCzNZ676t/up+acV3P+oma2d2KtYuenFlBazRl/yc6uuUjUDhy4P4B0ZIXdmi2uEe7318ITpnVqkC3tOEl6EMrWa7oHJ55L6/iyMvDmRCz2xtscLX7opHk+BYnohpoXUXHP1mPujyp7T+X9lt/NXVhylbAuHhbLbTUX13nZoneW7dYJFiWSqxscA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 165.204.84.17) smtp.rcpttodomain=kernel.org
+ smtp.mailfrom=amd.com; 
+ dmarc=temperror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1s1agTl5/wK5jsZeSEoayqP66OsRkfzvC7pHS+q6110=;
- b=KI2f1F0XwMzTse8VSOiPa3ATnAhRDw6a0iZoaQ+UZjq0mMf7AbMseCi7RATBN4ukh9lTO1cNL+Zdrc8bPybBb5LbzmT3q15Ipg4qsWKziHzmkelJB5qgzoEt52v6hGAQd4t6ckQ5vXhxzSCagAHEOe4fw6110zCYPkN4mRvkVkE=
-Received: from BL1PR13CA0378.namprd13.prod.outlook.com (2603:10b6:208:2c0::23)
- by SN7PR12MB8057.namprd12.prod.outlook.com (2603:10b6:806:34a::17)
+ bh=dNHdvWdv0VSrnDeBDJ1DnvTDCpcSgm0o9fbtVqDN9bk=;
+ b=luuknRFbX9OPxSfP4R6FpRVofAF0yiKOBgTjHW2EEMjJS542tBERQWAxZfEGq85HYD5Z7JCvb0RhdAL0ANWF3+X9WN98t0n71x+qgEbdo9Zwp5rnko3CrPa1tFYIjZSkKj9hVbZsabLEPb6IPsto7DgXBFOFqqz9udjyFmlbS/g=
+Received: from MN0PR05CA0028.namprd05.prod.outlook.com (2603:10b6:208:52c::12)
+ by LV8PR12MB9229.namprd12.prod.outlook.com (2603:10b6:408:191::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
- 2025 07:59:42 +0000
-Received: from BL02EPF00021F6B.namprd02.prod.outlook.com
- (2603:10b6:208:2c0:cafe::be) by BL1PR13CA0378.outlook.office365.com
- (2603:10b6:208:2c0::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.7 via Frontend Transport; Fri,
- 12 Dec 2025 07:59:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Fri, 12 Dec
+ 2025 07:59:46 +0000
+Received: from BL02EPF00021F6F.namprd02.prod.outlook.com
+ (2603:10b6:208:52c:cafe::c5) by MN0PR05CA0028.outlook.office365.com
+ (2603:10b6:208:52c::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.5 via Frontend Transport; Fri,
+ 12 Dec 2025 07:59:46 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=amd.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of amd.com: DNS Timeout)
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BL02EPF00021F6B.mail.protection.outlook.com (10.167.249.7) with Microsoft
+ BL02EPF00021F6F.mail.protection.outlook.com (10.167.249.11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 07:59:41 +0000
+ 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 07:59:45 +0000
 Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 12 Dec
- 2025 01:59:38 -0600
+ 2025 01:59:41 -0600
 From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Date: Fri, 12 Dec 2025 15:59:14 +0800
-Subject: [PATCH v6 2/5] drm/amdgpu: add helper to read UMA carveout info
+Date: Fri, 12 Dec 2025 15:59:15 +0800
+Subject: [PATCH v6 3/5] drm/amdgpu: add UMA allocation setting helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251212-vram-carveout-tuning-for-upstream-v6-2-50c02fd180c9@amd.com>
+Message-ID: <20251212-vram-carveout-tuning-for-upstream-v6-3-50c02fd180c9@amd.com>
 References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
 In-Reply-To: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
@@ -75,20 +74,20 @@ CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
  <superm1@kernel.org>, "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5797; i=Leo.Lin@amd.com;
- h=from:subject:message-id; bh=ASdiq3kjKJdaJjxTBSLBkmVna+yxq0v6+iOeXV/tDKA=;
- b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpO8th+V4xSaAgRy1XBQJBLCBYlqmrQyqIn+Zn/
- yig/oAlX16JAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaTvLYQAKCRBfF7GWSinu
- hoUgD/47Eq268Io10jgq9hzdGf7qAvwg7xSMWLYkT3VlCf+X0HJlAMi6pCuJrjM5XsbBhW22y/S
- 0JmU1XGdX2gFRjhiRAjVEooKd/bHcAgnEUNaVOvas++e3wMMyvjgkXpbF/k+YXZbPoyppSELLmN
- 9Y2iQnojt+88fZBDcdsmM6hudw/I/EA3S7/hhrPDXEPhTS4dKWKNJLIpUtjRGsYW1dGqGzasmYj
- tSD6oClL9LbGCUcZnn7Z/jkCS8HHx4gCwKb+P03gzK705PBY101CImKMWMdtevnKXJ+JvLJxxo1
- 2VDe6ycA2kHOo3KdxJvQ5uaMFKVr2i5SGcZXODovgzfYrelWT0vssj7JLtucHt1bQUni3XJf14T
- ywNJB3km5ASpugr0xX54x6GSp9wmt6PCxaS92CpymKDqnLjp0NNbETPmDBVZv9U9yMEiZr/kV/C
- dgs4jdqpmZunFnT/LvL5PChTGh0fXTtJgdDx8rrsoNl0WaQkl0v2W0r0ft7sWP4aRGGW3/wenhM
- Z0NyQfqOiwmNG5mq/MR4aoF7lH1w1bSIvWU6kUrqh+YEBAzL+RXQyX+9tGYNNUMAfsMLSS7P8WN
- mT1vUL7fPRX+2LRwGTqfGq1cKd45w/enG5jlma6mbZtPR81ZMXaKztcZzdE/llsjk0BUNhDq/iL
- Ew/cz3WrF7ZTwcw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6465; i=Leo.Lin@amd.com;
+ h=from:subject:message-id; bh=1JTUnYaMBwN88BupbbAJ9raQhG9A/tKHalgh9CtVNqY=;
+ b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpO8thYpFYmhXlTY1S9PSyAzaMjAkVAi/ZqzOj5
+ KxPIXldwz2JAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaTvLYQAKCRBfF7GWSinu
+ hmrcD/wODrFur5v49b0dYdGIFh2HSN9SxSwZsU782lGlWPoleLq+ogGp1QietbCffffYab2PvIe
+ J0gC7tm2WZnaClvoCWgfZe+ynKQxCdk0lywVH8sZjkFoQgSbYpttxNfMduQniHhmf7KntZW6Xuo
+ zcqwtD/+TqJ19mQcD6pt0fD3Ln5ONOoLr2IXYFHl/6pk4kHRGvsyuJNu/rE8037oBHD3yjkt0e4
+ ErjiDecNNyqV27iz8cQ7iPnSXqwgNAKBpEcfIUlpGtYJa/PpAwUWxbM9vvy2PptH+1IP30t0zAp
+ oi4lP2xlrzIqs5Y6egwYfXTP7IQC0qwMTC8FeKGc99iMvPcp/C/T2bSLVo89KxHj1dp0RbWQYMt
+ aOpHrfutz4qrzK1NXci3mQgAaXUzIUHOdV54cAqML2+eYJEdMT30IAT6M9gx125fZTNbc7VlmnA
+ u4YVGalWN+F6oZcjjF7T7dZxXWE0SiTCveIJ+itWWl7t546OHnDQnQiWZ0nP2WoYg6S/a/fgUEh
+ 9AhMaAb0Lh2/OmUYu4QUWh3oJLKXO6LnIjYRmJugwheEQaFdaqxp9YqL5D5Tan0oKoMl/FwJQc8
+ tjZOrAhsdUBRucTKjYnk46QNxdpMAnbmrHVSpSdF76y9XWaMkkaktcTTBFwYzAE6TClwGWCSumz
+ hUHkuMhfpFT7bQw==
 X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
  fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
 X-Originating-IP: [10.180.168.240]
@@ -96,62 +95,62 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6B:EE_|SN7PR12MB8057:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3cb271e8-3ff9-41f9-7987-08de3954680d
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6F:EE_|LV8PR12MB9229:EE_
+X-MS-Office365-Filtering-Correlation-Id: c36fe6c6-d1ea-4205-1c63-08de39546a48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YXkyVFRWd3JxcmtmbDF3S2s2dll6ZXJVZ1RTM3BxK0svR29tR28wcFpJZ1dD?=
- =?utf-8?B?WVhjRkJCSENKTmJ6NmZxSDc5ZlE4UlFncWdqaGdXaUhBOGphT0daMzJxeFRY?=
- =?utf-8?B?bW90NE9DT2FVYUZ2QVFMdEI0eFdLbDhEOW5mamgvb2NXUlBIOXduQ2Q1Y202?=
- =?utf-8?B?YXhQM2Q0QmdBcHJTakprdnBaTENKSjJmQ0hHb1U5RTczdTBqYmZ0L2toWXZB?=
- =?utf-8?B?MWZTamdVaDAzN24wOGhKTWQ4S1NVYzBxbndUVC9HZ0laQ2RaSFBCb3N4T1ZC?=
- =?utf-8?B?SHNjeGVFU2lXWHlTYkc0Rk1wckdGTThOeTdVcVdjSDJZaC9WeHBSbTlESDlj?=
- =?utf-8?B?T0paUk5BeVFRd0dVcnpqZlpnY2RUa2F5NFVaTzBFZlRaelJEbEMzWnhlbzNR?=
- =?utf-8?B?RTdCeXFVNS9wZ2hCL2JLdC9WeUptV0Y0ZDhtTlFLU2ZmZjVpYmRBRVJtMVVY?=
- =?utf-8?B?c2xOODNlNExDLzkrd3NLWUlUS0xSN0crejhVVGNmSXVkeGg3TUlrU3JMZEdH?=
- =?utf-8?B?YlE3QzF6YXRMSitmeTNQMG5VYnRybnpELy9neUNVVkRUY0JwYS9HSU42Z1Rr?=
- =?utf-8?B?QUcvdzJkV0pkYlJVR2lsMVVDajdJOUdDejVHM01rcy9EenNJNW9uSXorb05I?=
- =?utf-8?B?UU1VQWtDZEFFcjM1Z2JTNmsvWlQvZWRJWndRcHRzczJkdXpLaHJWZDdMbS9M?=
- =?utf-8?B?NFJOaG5KY0Zlak50Q3ZtRExyeDdpM29uSlpPRHNqa3R2eURWdWQ2M2tMVjJv?=
- =?utf-8?B?KzlGem9KTHMzVFZwelI3dENmTGxyWC9nTlpwR1JiejlsTllDaGYydjJlOW0z?=
- =?utf-8?B?VFhLdFlDejdVMWlyOERsTzVlbkpyMGNjOHplbmdOMEhMbHdjbU9sUW9GTlZC?=
- =?utf-8?B?Q296b050SHp4QUI1UFR2SCtBTDhyaTU1bGsvdTZKN05hUmZnQVVmUlB1UFVz?=
- =?utf-8?B?OGpJc1FyNm9jVDhsQmRvK1hTbGJCTWlzNG05WmpPejR6NHFNSmlqZ0I1QVZm?=
- =?utf-8?B?N1EyY01SL0QwWUdWMk5WaUFRdE9WcllSbjl3aVdOcWRzSkdBUXJEVjBWSTNY?=
- =?utf-8?B?emswcll6MllUMUZSMGlyR2V0NWVtWE9IV29nOWJ3QlU4VmNMMDFib1BhRm9C?=
- =?utf-8?B?N2toQlZSN3Z0eUgzRjlkUWxjRHRrS3k3ek80Qm9UWjFBeXdYU1RkeVRmeW5M?=
- =?utf-8?B?Sll5akFCc3R3QmNMWWJJSFZMZEF6WjZpaDE0WUJ3d09IZkxBS3FHVUlzbDRi?=
- =?utf-8?B?b2dEZGlLL2hZT2RUQUJqSzRueEZRakVjZW9QZDA0aU4rT3FMR2pDWUx5a2o4?=
- =?utf-8?B?V0g1OTRBcGh5cEF5azBnYUVscHVJQzdRdlQ2WFRlRWRtTWJJQkVrc1dzbFJR?=
- =?utf-8?B?SGhyelk3d1RtWHZUMi9TOXVMLzhYTnV2U3V0dldvaS9kdUR2L3cxYTBQdU9k?=
- =?utf-8?B?UWwrRFJobk9Obzc4eURNM1M3cThMNEw2L1ZuRng5ZmxERjY3SGJnREY3clEx?=
- =?utf-8?B?WWV1RCtiRDd6ZUZoR2RRdDQvM05KdzdHOVNMYm1UNDB2S0lQZ3FQWXF5Y3Nv?=
- =?utf-8?B?WStiZzZhMHpxWnBvZzh1dUZJbEJXN2NOL3B1N3BJSmh6R0xqbFByUVJUSUwx?=
- =?utf-8?B?MUZlZ0RCTXErekl1ODQyQkl3MkJQT0lkc1dJYUdjZHlHOEtlbVdFVnlHZ0lD?=
- =?utf-8?B?OEtJRytTZElLZ1l2OWpRKy9FL2pUSVJ6OTh6WGZjWHlXbUtLb010YmRDZDc3?=
- =?utf-8?B?SG5wRHk0MEVHOGwrODhZS29yTlVNYlpoWVhJZVFKbkU2ZnZwQWgvZ0sxVGNs?=
- =?utf-8?B?VXl1MTN6MEk3akJrWjRZRnB5Y1hpb1hEZTVSTHZuVkhyZVRCcFk1YitnWHJY?=
- =?utf-8?B?THoyUVo2ZmZ4Nnd0cHh3Q0QzYzJZbjBUQ3UvaVpxbnRVM2VKMUNtektkRTNC?=
- =?utf-8?B?ZVZFN2YzTVBCQkNRUitVNXhndWd1dHFQNk0xN1ZlcnIwWG9zdmN1MytkeEJo?=
- =?utf-8?B?akk0NFQzQ1FZWEdLK201ZW5acmZLdUNWVHZNZ0dKWjlKcENBWlR0L0gxMmZH?=
- =?utf-8?B?Y2F5clFCcytqL3FRVEpLZWpHVkxvcW5CK2RPTkJMSThGdFA3bHI4ekc0OFZq?=
- =?utf-8?Q?LoME=3D?=
+ ARA:13230040|36860700013|1800799024|82310400026|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V1dROWgvZk1kN0t0NmYydTFLOFpzM2x3cjJabHVFWitQU2JHb1V3OWFqZjRQ?=
+ =?utf-8?B?SnAyMXl5d2MxUWNSOVpSVnA0VmF4blk0bENVZXZqemowZW5VUWsrREVmNzNY?=
+ =?utf-8?B?QStjeEtoQzR0TUJQMFRGbWRtWGdob0ZsVTVodGVER3l0UksyUm05U0NBak1z?=
+ =?utf-8?B?QWFndzNRaHozeG9mcDBNcjVrVmVWV2xhUEpqZTF0NXMrNTFlQlRwbHpDRnNX?=
+ =?utf-8?B?ZnlZd0JJT2dTMGRLa0Z0SlNLMlhRRUdrQVh0TDh2MDc4cG9MSG56VDZjQUNr?=
+ =?utf-8?B?NU82SFdtRldIRC9tTUp0WUgvTzVOaENyU0FCZVVLaHVJTThNaGdnSDY1R2VF?=
+ =?utf-8?B?NUR2eHNVVXg0WlNuRTI0Szl2U2Z5SEIycW8xc3dBTUcwT01pL0FSZEVHdGJM?=
+ =?utf-8?B?elRpQVB3Z1YwWEVmYkhpK0RsQW5qOUxid1dCNVB4ZWw4NURMVWJWWnNlOFNm?=
+ =?utf-8?B?MG1iVkRZNkdOVXlONi9pUjd5VnVuKy9yWC93MFJ0UnB5UkVUbit3N05SSXNG?=
+ =?utf-8?B?ZWJjaU9pc3lxSFRkVUxpMlhIVEUvaDZ0ZEIxaUYrNCtJVU1mdHFxR3k2cjBK?=
+ =?utf-8?B?UWQ0cWc0TjVhOFRuaE9pTU91NWNWMStjb1cyREJCSUtjUUcvZEowYVYrZGJr?=
+ =?utf-8?B?OGh4eHZ1cG9kK3hwbzQ3b1BkKzRpUUJhNTMxbnVreVRpMUd3L0tMRXI5NXgv?=
+ =?utf-8?B?aDEyYkcwaXh1bUhnaUZpb3RGVkhDY2xZWUErTi9Yc3hKbVZjRE1QeENjUG0r?=
+ =?utf-8?B?VUFZT1VLQ3N1SVFqMmN1RXFxenpQc05VTUVpOVNaMlg2WktrSnBIV0FFQmhH?=
+ =?utf-8?B?R3E3N1lUVm1OQW1kWkQrME51YVBuL1Z3bm1uZkcvc1NMVVFYV0c0VW5pQnFp?=
+ =?utf-8?B?cFE1bERSeGlLOHpMUGtRSDlzZVRwTXZwdFdyNU9saGRUeUM2NkczdWRXZ2M0?=
+ =?utf-8?B?RW05QWwyYVZ0eU9rN0hxam5OZjF0V0FqQUNEQVFrQWNrWVh4V1hid0ltT0pm?=
+ =?utf-8?B?a1VFLzd1Q0FXQ041eXB4OENjWVVLWlBRQjRvaFk1SGhuNHpUbVNHSnc3dEgv?=
+ =?utf-8?B?SWluZndRSjd2Q25KNUVYRm1vZzRxZWFpWjF5SkxEV1BSc1hWbUlFVFg2ZGVu?=
+ =?utf-8?B?UmYvUkJJbVFSS29IcWxpRkdaNDhGQjhPcmZnWmI1UjdZS0ppeGNxK3U1Q3JU?=
+ =?utf-8?B?RjJNODlZWU0xWWJvWVU0WWZJQVJCTkhNbnZtL2Y3aytzL2JHUmxrQnJLTDd2?=
+ =?utf-8?B?TEVuaFQ2V2NRWXhlSE84LzFBR0d0S1RpNlFNYUVES0FiMWlEaFQyamtwTTVC?=
+ =?utf-8?B?NmtxOGRJV0pSS1VldVVDb2p1eGZLVjBPWUFtRmJwdUdUZW9rdldTT1JhZmtU?=
+ =?utf-8?B?Y21xZWtTTFVvNmVLYkZYcDdtbFhIcGNhMkJXcW0vVmdua1U3a2hLR3NDVUVO?=
+ =?utf-8?B?ek13eFI4TjdHajByQXVpY3VjanNqcXZNaHZ3UmM4NzdaZHRpaU1LKzZWS3Vv?=
+ =?utf-8?B?YWh2TFcxb3R3K2ZyOUhyL2gzU3NXcXZhZzZwai9SQllMU3RSc1h5Qk96eGFw?=
+ =?utf-8?B?QVFsL05sY0JoaUd5RE9ncFNvUnJKS1lCRnc0ZXEyaW1DVEh2U1o2eVdWS0Jk?=
+ =?utf-8?B?SElvRk1tV1phVmpZTFZ3V1c4cXZvbVZjVVJBdHZ6cGE1dUVEcTF2eGVMREV5?=
+ =?utf-8?B?ZXpFVmFwc0NUZkpNL0daMjNQV0cxL1dRTExQR0NyajBXaTZwUWNxeTc4a1Bk?=
+ =?utf-8?B?RkFUQlhVbnloak9NMUF5ZzloWC81SDUrcERxTEUvSURGNFlvcEZ5dCtnL3gr?=
+ =?utf-8?B?UERVaXc5V3BoSWdXNDg0U1RPbmd3SFRmWGkyaEVvbjdQZmZwdlh0dDFOUDZr?=
+ =?utf-8?B?NnFjVU1mOGRlTkhSL1FQcTlGWVNHUXFRcUhZemRmektJV0dXVjZBSTVVaTVN?=
+ =?utf-8?B?Y1FYSDRaU0RDNjNyT3pHYkxGbVJzU0JzWXUwcUZoK0ZSUVVzV1hPQVFVSlRG?=
+ =?utf-8?B?bGtybXB1ZkxoZnFpMmFGeTM2QnMxYXVudHVzYzZDcEJhQ3JpaTd3b2JXNW1Q?=
+ =?utf-8?B?eDNCcVY0UUFzQ0c1amtmR1hwbkRhRmpodjlXcDg1Y0RCbGU0WXRwTFAyc1U2?=
+ =?utf-8?Q?E8g8=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(36860700013); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 07:59:41.8498 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cb271e8-3ff9-41f9-7987-08de3954680d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 07:59:45.5903 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c36fe6c6-d1ea-4205-1c63-08de39546a48
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6F.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8057
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9229
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,173 +166,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the available UMA allocation configs in the integrated system
-information table have not been parsed. Add a helper function to retrieve
-and store these configs.
+On some platforms, UMA allocation size can be set using the ATCS
+methods. Add helper functions to interact with this functionality.
 
 Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h              | 34 +++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c | 77 ++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |  2 +
- 3 files changed, 113 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  7 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 43 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/amd/include/amd_acpi.h   | 30 ++++++++++++++++++++++
+ 3 files changed, 80 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 9f9774f58ce1..aca2ddddc64c 100644
+index aca2ddddc64c..6bf626a51dfc 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -836,6 +836,38 @@ struct amdgpu_uid {
- 	struct amdgpu_device *adev;
- };
+@@ -1720,12 +1720,14 @@ int amdgpu_acpi_init(struct amdgpu_device *adev);
+ void amdgpu_acpi_fini(struct amdgpu_device *adev);
+ bool amdgpu_acpi_is_pcie_performance_request_supported(struct amdgpu_device *adev);
+ bool amdgpu_acpi_is_power_shift_control_supported(void);
++bool amdgpu_acpi_is_set_uma_allocation_size_supported(void);
+ int amdgpu_acpi_pcie_performance_request(struct amdgpu_device *adev,
+ 						u8 perf_req, bool advertise);
+ int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
+ 				    u8 dev_state, bool drv_state);
+ int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
+ 				   enum amdgpu_ss ss_state);
++int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type);
+ int amdgpu_acpi_pcie_notify_device_ready(struct amdgpu_device *adev);
+ int amdgpu_acpi_get_tmr_info(struct amdgpu_device *adev, u64 *tmr_offset,
+ 			     u64 *tmr_size);
+@@ -1754,6 +1756,7 @@ static inline bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev) { re
+ static inline void amdgpu_acpi_detect(void) { }
+ static inline void amdgpu_acpi_release(void) { }
+ static inline bool amdgpu_acpi_is_power_shift_control_supported(void) { return false; }
++static inline bool amdgpu_acpi_is_set_uma_allocation_size_supported(void) { return false; }
+ static inline int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
+ 						  u8 dev_state, bool drv_state) { return 0; }
+ static inline int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
+@@ -1761,6 +1764,10 @@ static inline int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
+ {
+ 	return 0;
+ }
++static inline int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type)
++{
++	return -EINVAL;
++}
+ static inline void amdgpu_acpi_get_backlight_caps(struct amdgpu_dm_backlight_caps *caps) { }
+ #endif
  
-+#define MAX_UMA_OPTION_NAME	28
-+#define MAX_UMA_OPTION_ENTRIES	19
-+
-+#define AMDGPU_UMA_FLAG_AUTO	BIT(1)
-+#define AMDGPU_UMA_FLAG_CUSTOM	BIT(0)
-+
-+/**
-+ * struct amdgpu_uma_carveout_option - single UMA carveout option
-+ * @name: Name of the carveout option
-+ * @memory_carved_mb: Amount of memory carved in MB
-+ * @flags: ATCS flags supported by this option
-+ */
-+struct amdgpu_uma_carveout_option {
-+	char name[MAX_UMA_OPTION_NAME];
-+	uint32_t memory_carved_mb;
-+	uint8_t flags;
-+};
-+
-+/**
-+ * struct amdgpu_uma_carveout_info - table of available UMA carveout options
-+ * @num_entries: Number of available options
-+ * @uma_option_index: The index of the option currently applied
-+ * @update_lock: Lock to serialize changes to the option
-+ * @entries: The array of carveout options
-+ */
-+struct amdgpu_uma_carveout_info {
-+	uint8_t num_entries;
-+	uint8_t uma_option_index;
-+	struct mutex update_lock;
-+	struct amdgpu_uma_carveout_option entries[MAX_UMA_OPTION_ENTRIES];
-+};
-+
- struct amd_powerplay {
- 	void *pp_handle;
- 	const struct amd_pm_funcs *pp_funcs;
-@@ -1319,6 +1351,8 @@ struct amdgpu_device {
- 	struct work_struct              userq_reset_work;
- 	struct amdgpu_uid *uid_info;
- 
-+	struct amdgpu_uma_carveout_info uma_info;
-+
- 	/* KFD
- 	 * Must be last --ends in a flexible-array member.
- 	 */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-index 636385c80f64..7f4751e5caaf 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-@@ -296,6 +296,83 @@ static int convert_atom_mem_type_to_vram_type(struct amdgpu_device *adev,
- 	return vram_type;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index 610449d73a6c..bdafcde51107 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -668,6 +668,11 @@ bool amdgpu_acpi_is_power_shift_control_supported(void)
+ 	return amdgpu_acpi_priv.atcs.functions.power_shift_control;
  }
  
-+static int amdgpu_atomfirmware_get_uma_carveout_info_v2_3(struct amdgpu_device *adev,
-+							  union igp_info *igp_info,
-+							  struct amdgpu_uma_carveout_info *uma_info)
++bool amdgpu_acpi_is_set_uma_allocation_size_supported(void)
 +{
-+	struct uma_carveout_option *opts;
-+	uint8_t nr_uma_options;
-+	int i;
++	return amdgpu_acpi_priv.atcs.functions.set_uma_allocation_size;
++}
 +
-+	nr_uma_options = igp_info->v23.UMACarveoutIndexMax;
+ /**
+  * amdgpu_acpi_pcie_notify_device_ready
+  *
+@@ -908,6 +913,44 @@ static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
+ }
+ #endif
+ 
++/**
++ * amdgpu_acpi_set_uma_allocation_size - Set Unified Memory Architecture allocation size via ACPI
++ * @adev: Pointer to the amdgpu_device structure
++ * @index: Index specifying the UMA allocation
++ * @type: Type of UMA allocation
++ *
++ * This function configures the UMA allocation size for the specified device
++ * using ACPI methods. The allocation is determined by the provided index and type.
++ * Returns 0 on success or a negative error code on failure.
++ */
++int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type)
++{
++	struct atcs_set_uma_allocation_size_input atcs_input;
++	struct amdgpu_atcs *atcs = &amdgpu_acpi_priv.atcs;
++	struct acpi_buffer params;
++	union acpi_object *info;
 +
-+	if (!nr_uma_options)
-+		return -ENODEV;
-+
-+	if (nr_uma_options > MAX_UMA_OPTION_ENTRIES) {
-+		drm_dbg(adev_to_drm(adev),
-+			"Number of UMA options exceeds max table size. Options will not be parsed");
++	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
 +		return -EINVAL;
++
++	atcs_input.size = sizeof(struct atcs_set_uma_allocation_size_input);
++	atcs_input.uma_size_index = index;
++	atcs_input.uma_size_type = type;
++
++	params.length = sizeof(struct atcs_set_uma_allocation_size_input);
++	params.pointer = &atcs_input;
++
++	info = amdgpu_atcs_call(atcs, ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE, &params);
++	if (!info) {
++		drm_err(adev_to_drm(adev), "ATCS UMA allocation size update failed\n");
++		return -EIO;
 +	}
 +
-+	uma_info->num_entries = nr_uma_options;
-+	uma_info->uma_option_index = igp_info->v23.UMACarveoutIndex;
-+
-+	opts = igp_info->v23.UMASizeControlOption;
-+
-+	for (i = 0; i < nr_uma_options; i++) {
-+		if (!opts[i].memoryCarvedGb)
-+			uma_info->entries[i].memory_carved_mb = 512;
-+		else
-+			uma_info->entries[i].memory_carved_mb = (uint32_t)opts[i].memoryCarvedGb << 10;
-+
-+		uma_info->entries[i].flags = opts[i].uma_carveout_option_flags.all8;
-+		strscpy(uma_info->entries[i].name, opts[i].optionName, MAX_UMA_OPTION_NAME);
-+	}
++	kfree(info);
 +
 +	return 0;
 +}
 +
-+int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev,
-+					      struct amdgpu_uma_carveout_info *uma_info)
-+{
-+	struct amdgpu_mode_info *mode_info = &adev->mode_info;
-+	union igp_info *igp_info;
-+	u16 data_offset, size;
-+	u8 frev, crev;
-+	int index;
+ /**
+  * amdgpu_acpi_get_node_id - obtain the NUMA node id for corresponding amdgpu
+  * acpi device handle
+diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
+index e582339e8e8e..84933c07f720 100644
+--- a/drivers/gpu/drm/amd/include/amd_acpi.h
++++ b/drivers/gpu/drm/amd/include/amd_acpi.h
+@@ -24,6 +24,8 @@
+ #ifndef AMD_ACPI_H
+ #define AMD_ACPI_H
+ 
++#include <linux/types.h>
 +
-+	if (!(adev->flags & AMD_IS_APU))
-+		return -ENODEV;
+ #define ACPI_AC_CLASS           "ac_adapter"
+ 
+ struct atif_verify_interface {
+@@ -112,6 +114,17 @@ struct atcs_pwr_shift_input {
+ 	u8 drv_state;	/* 0 = operational, 1 = not operational */
+ } __packed;
+ 
++struct atcs_get_uma_size_output {
++	u16 size;		/* structure size in bytes (includes size field) */
++	u32 uma_size_mb;	/* allocated UMA size in MB */
++} __packed;
 +
-+	index = get_index_into_master_table(atom_master_list_of_data_tables_v2_1,
-+					    integratedsysteminfo);
++struct atcs_set_uma_allocation_size_input {
++	u16 size;		/* structure size in bytes (includes size field) */
++	u8 uma_size_index;	/* UMA size index */
++	u8 uma_size_type;	/* UMA size type */
++} __packed;
 +
-+	if (!amdgpu_atom_parse_data_header(mode_info->atom_context,
-+					  index, &size,
-+					  &frev, &crev, &data_offset)) {
-+		return -EINVAL;
-+	}
+ /* AMD hw uses four ACPI control methods:
+  * 1. ATIF
+  * ARG0: (ACPI_INTEGER) function code
+@@ -494,4 +507,21 @@ struct atcs_pwr_shift_input {
+  * OUTPUT: none
+  */
+ 
++#define ATCS_FUNCTION_GET_UMA_SIZE                                 0x6
++/* ARG0: ATCS_FUNCTION_GET_UMA_SIZE
++ * ARG1: none
++ * OUTPUT:
++ * WORD  - structure size in bytes (includes size field)
++ * DWORD - allocated UMA size in MB
++ */
 +
-+	igp_info = (union igp_info *)
-+			(mode_info->atom_context->bios + data_offset);
++#define ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE                     0xA
++/* ARG0: ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE
++ * ARG1:
++ * WORD  - structure size in bytes (includes size field)
++ * BYTE  - UMA size index
++ * BYTE  - UMA size type
++ * OUTPUT: none
++ */
 +
-+	switch (frev) {
-+	case 2:
-+		switch (crev) {
-+		case 3:
-+			return amdgpu_atomfirmware_get_uma_carveout_info_v2_3(adev, igp_info, uma_info);
-+		break;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+	return -ENODEV;
-+}
-+
- int
- amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
- 				  int *vram_width, int *vram_type,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-index 649b5530d8ae..67c8d105729b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-@@ -32,6 +32,8 @@ void amdgpu_atomfirmware_scratch_regs_init(struct amdgpu_device *adev);
- int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev);
- int amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
- 	int *vram_width, int *vram_type, int *vram_vendor);
-+int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev,
-+					      struct amdgpu_uma_carveout_info *uma_info);
- int amdgpu_atomfirmware_get_clock_info(struct amdgpu_device *adev);
- int amdgpu_atomfirmware_get_gfx_info(struct amdgpu_device *adev);
- bool amdgpu_atomfirmware_mem_ecc_supported(struct amdgpu_device *adev);
+ #endif
 
 -- 
 2.43.0
