@@ -2,94 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC30CB98B3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:21:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921E8CB98F5
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 222A510E929;
-	Fri, 12 Dec 2025 18:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3069A10E12B;
+	Fri, 12 Dec 2025 18:25:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aWJ093LC";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Mz7z41gV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E7210E929
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:21:08 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7bb710d1d1dso2076182b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 10:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765563668; x=1766168468; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=hB3cZ2WQZPicl3MYmnszfY/TO/CzwI8J7PmE+kdYZCY=;
- b=aWJ093LCdWc62Z2aSwPQj1wE17pkQeQjk7iEuU5pnzH0KPfBTKTDFkoqXy+t3Gc+vy
- sSVFr3g6ebjRLZweM7yxrNLhp/NeA2PS01Oet/miCvkYROS9i3BnHRdt8rNJWoPZKxPN
- WyvyC+DsqbpHjJS0g0C7JcQxTqHeAUId4Q9C39rvzGsLCnx0QuRX5Wt4XYsXXk5cqXtL
- ALGMIUa/cHwGYeb0oL9uZ+UfEcx2JGbLwdECLRmuuEeaimlK72oh97DXqctl3fDCp5cd
- baTq4xg58QcnyBDdLAVGAHhD7aPChRYGCTjB6Rv+1p7gdNhHieMsb/Qdg/DqkknB77HV
- d4pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765563668; x=1766168468;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=hB3cZ2WQZPicl3MYmnszfY/TO/CzwI8J7PmE+kdYZCY=;
- b=R8stFa7gUYnQnViYEri7cb4l3K88Vf4Zq/waXLcap6r8aqklZYrtV2eyF3dawDfO5/
- otgsLfu0aqSouBhxdWHu7gnJapsbF1GsdBEPTxbDuM+IcmhAKQxLkdlI1XUKmd21VI4k
- bZpYp4t5rUus3/rCX7x9w42mN/7S17S4Q04yiU7ofT397QVu8EJjhKt452rbaJU0Xafm
- mltChB7749ZeDvSaZS2a70WgzmhyMUvp7ED7X3hCzcXHkoOnYHvaYdK7Zlpx/u8nD12o
- ghNI6hhcAMVKoiDtzOcEeyqsuNZpK3u0QrgMrs8K5Wo51PfU5jpITQffgCSEJN3RBlnW
- 2RuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWddsA7HBPjNh/39/M6RajdYS4Rm37OUVIR5n7J4F1J5S0wr3UfHkwVwExFbxOuekbjLds7cBTAURE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPeX7C08iTQZ9RKhvGck89WnAi6SdT1lBZImB9LayqrUbF5Fs0
- fGPFXlL4EnY2vMu7XWp3yUyYJm+kXR6SKyFNe5SQCvn9Kv2beixZccCw
-X-Gm-Gg: AY/fxX6F4WRrqN4Ld1j4GmVTUcGQsh551LaJmaCfqthD3wjaAd3Nz+bKKf/ifi8OVAj
- pJXcSI3bN2YmchPIWk3k8k/fHhMxbVjqCpDzHQ4znIEaiW2avLU1uSSC79ZwUn/1Rc9awAtie7C
- sCPyNxWSKBIUtGXOfqIpCbW2xOsSJ17Vv9f+PVOspjMEN/4NtBiPaAGDhcqsrSURMcUABXzO/Db
- Ji3DUWyIVZShy6l6B+xrqly6bO9UxBzgQ0Zh8vKPqt16hV/S4Om+a4V/ESwapjc7EJT+StKIFFY
- 2Cv8RjTDC0RTwzfIjE6MIf9jblYMViiVMygqK77slhGOSmSlpk9Ch15iMOPr20xM/EY6s+H3K4P
- 7/pfRXiZ6tF0p3D82zWszVmyOJNFGm1HBLsHRygqz+TgD/NUuCIuLRHkcvPlPIsoVZUdx6IfJtf
- 3GZpnRIL82PXLfk2NkxVbaKpk=
-X-Google-Smtp-Source: AGHT+IF3m7yCMLLkl2XAvF0/1WUoK+uPc8b/WflcecrYvszrOj5LsvD+GWVrr3M53pYormaol8LS+A==
-X-Received: by 2002:a05:7022:628c:b0:11a:126f:ee7d with SMTP id
- a92af1059eb24-11f34c42dccmr2393717c88.35.1765563667880; 
- Fri, 12 Dec 2025 10:21:07 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-11f2e2b46f5sm19164059c88.5.2025.12.12.10.21.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Dec 2025 10:21:07 -0800 (PST)
-Date: Fri, 12 Dec 2025 10:21:05 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
- Wenkai Chung <wenkai.chung@advantech.com.tw>,
- Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>,
- Hongzhi Wang <hongzhi.wang@advantech.com>,
- Mikhail Tsukerman <mikhail.tsukerman@advantech.com>,
- Thomas Kastner <thomas.kastner@advantech.com>
-Subject: Re: [PATCH 3/8] Add Advantech EIO Hardware Monitor driver
-Message-ID: <ed9f6395-ee98-42e5-98e7-c1de16440b7f@roeck-us.net>
-References: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
- <20251212-upstream-v1-v1-3-d50d40ec8d8a@advantech.com>
+X-Greylist: delayed 92697 seconds by postgrey-1.36 at gabe;
+ Fri, 12 Dec 2025 18:25:18 UTC
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A33210E12B
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1765563915; x=1765823115;
+ bh=81lZ9AJhVuXTcVwub06bRA2fhpUQeVRjqZRon6G/4p8=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Mz7z41gVkBF0viIbbzW/hJjc7zOTxxQRByJd5r3mGtgScGMdZiDbty/EiDofibxiN
+ xYeZ/Hv8qdf1b80N+MC1fnVSWBCTCftlfkYt4b5ETwgcAa0ZzUf4lDZ0I+TZwmUvyV
+ RPD8C8YJvl4bSwIzlATCO5PZWxYnh+ihj/7e5huohOSSXQerUr6qZNKxJq7GSx8usq
+ neyc6bHxx+NOTQEX82U9LI3jklvu79o7vblsOENttcB9WyR7zQ2+jhpnbAe70zNdKq
+ 3JhZunyln7+6Po4HgmlTkUtDbc0sv148H8dkSI8IlVJMAAlKC2CsVIg55IPFN6qI9w
+ CJ8PZqLCQ7L8A==
+Date: Fri, 12 Dec 2025 18:25:09 +0000
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ pekka.paalanen@collabora.com, harry.wentland@amd.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, swati2.sharma@intel.com,
+ alex.hung@amd.com, jani.nikula@intel.com, suraj.kandpal@intel.com
+Subject: Re: [v8 14/15] drm/i915/color: Add 3D LUT to color pipeline
+Message-ID: <k4mMdQv6X-RIzc4veUD5pP2oD1KGp1Tx6ifJM6S8W3nrowRPz275vsfcNUHeflvxZaISPaM_e861Q-1rO1jnV8bNNmOdPJ3tyS3GVbnpbao=@emersion.fr>
+In-Reply-To: <f24364ad-a861-4fcd-93ab-3230a6b3299b@intel.com>
+References: <20251203085211.3663374-1-uma.shankar@intel.com>
+ <20251203085211.3663374-15-uma.shankar@intel.com>
+ <aTwwBMKUp5AYmFTN@intel.com> <f24364ad-a861-4fcd-93ab-3230a6b3299b@intel.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 87980b23961ea0d05cce49096a84bcfd60ed80d3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251212-upstream-v1-v1-3-d50d40ec8d8a@advantech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,430 +64,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 12, 2025 at 05:40:54PM +0100, Ramiro Oliveira wrote:
-> This driver controls the Hardware Monitor block of the Advantech EIO chip.
-> 
-> Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-> ---
->  MAINTAINERS               |   1 +
->  drivers/hwmon/Kconfig     |  10 ++
->  drivers/hwmon/Makefile    |   1 +
->  drivers/hwmon/eio-hwmon.c | 344 ++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 356 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 359d4a13f212..fdd39b152f41 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -620,6 +620,7 @@ ADVANTECH EIO DRIVER
->  M:	Ramiro Oliveira <ramiro.oliveira@advantech.com>
->  S:	Maintained
->  F:	drivers/gpio/gpio-eio.c
-> +F:	drivers/hwmon/eio-hwmon.c
->  F:	drivers/mfd/eio_core.c
->  F:	include/linux/mfd/eio.h
->  
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 157678b821fc..08993b993596 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -2043,6 +2043,16 @@ config SENSORS_DME1737
->  	  This driver can also be built as a module. If so, the module
->  	  will be called dme1737.
->  
-> +config SENSORS_EIO
-> +	tristate "Advantech EIO HWMON"
-> +	depends on MFD_EIO
-> +	help
-> +	  If you say yes here you get support for the Advantech EIO
-> +	  temperature, voltage and fan speed monitoring block.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called eio-hwmon
-> +
->  config SENSORS_EMC1403
->  	tristate "SMSC EMC1403/23 thermal sensor"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index eade8e3b1bde..e69f03b41fae 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -72,6 +72,7 @@ obj-$(CONFIG_SENSORS_DME1737)	+= dme1737.o
->  obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
->  obj-$(CONFIG_SENSORS_DS620)	+= ds620.o
->  obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
-> +obj-$(CONFIG_SENSORS_EIO)	+= eio-hwmon.o
->  obj-$(CONFIG_SENSORS_EMC1403)	+= emc1403.o
->  obj-$(CONFIG_SENSORS_EMC2103)	+= emc2103.o
->  obj-$(CONFIG_SENSORS_EMC2305)	+= emc2305.o
-> diff --git a/drivers/hwmon/eio-hwmon.c b/drivers/hwmon/eio-hwmon.c
-> new file mode 100644
-> index 000000000000..164591aa31a7
-> --- /dev/null
-> +++ b/drivers/hwmon/eio-hwmon.c
-> @@ -0,0 +1,344 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * GPIO driver for Advantech EIO embedded controller.
-> + *
-> + * Copyright (C) 2025 Advantech Corporation. All rights reserved.
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/mfd/eio.h>
-> +#include <linux/module.h>
-> +
-> +#define MAX_DEV 128
-> +#define MAX_NAME 32
-> +
-> +static uint timeout;
-> +module_param(timeout, uint, 0444);
-> +MODULE_PARM_DESC(timeout,
-> +		 "Default pmc command timeout in micro-seconds.\n");
-> +
+On Friday, December 12th, 2025 at 18:47, Borah, Chaitanya Kumar <chaitanya.=
+kumar.borah@intel.com> wrote:
 
-It does not make sense to me to have this as module parameter for each of
-the drivers.
+> > > +void intel_color_plane_commit_arm(struct intel_dsb *dsb,
+> > > + const struct intel_plane_state *plane_state)
+> > > +{
+> > > + struct intel_display *display =3D to_intel_display(plane_state);
+> > > + struct intel_crtc *crtc =3D to_intel_crtc(plane_state->uapi.crtc);
+> > > +
+> > > + if (crtc && intel_color_crtc_has_3dlut(display, crtc->pipe))
+> > > + glk_lut_3d_commit(dsb, crtc, !!plane_state->hw.lut_3d);
+> > > ^^^^^^^^^^^^
+> >=20
+> > And this looks like a pretty major fail. Why is the 3D LUT stored in
+> > the plane state when it's a pipe level thing?
+>=20
+> With DISPLAY_VER(display) >=3D 35, 3DLUT can be attached to a plane.
+>=20
+> (Bits[23:22] in 3DLUT_CTL). This is the only way we are exposing the HW
+> to the userspace right now (through the new plane color pipeline uapi).
+> Therefore, it lies in the plane state.
+>=20
+> However, there are (soonish)plans to adopt the color pipeline for crtcs
+> too. Once that happens, it needs to be handled a bit more carefully. A
+> potential approach is to allow userspace to program the block with a
+> first come first served semantics and fail the commit if it tries to set
+> 3DLUT both on plane and crtc in the same commit.
 
-> +struct eio_hwmon_dev {
-> +	struct device *mfd;
-> +};
-> +
-> +enum _sen_type {
-> +	NONE,
-> +	VOLTAGE,
-> +	CURRENT,
-> +	TEMP,
-> +	PWM,
-> +	TACHO,
-> +	FAN,
-> +	CASEOPEN,
-> +};
-> +
-> +struct eio_key {
-> +	enum _sen_type type;
-> +	u8 chan;
-> +	u8 item;
-> +	u8 label_idx;
-> +};
-> +
-> +struct eio_attr {
-> +	struct sensor_device_attribute sda;
-> +	struct eio_key key;
-> +};
-> +
-> +static struct {
-> +	u8   cmd;
-> +	u8   max;
-> +	signed int shift;
-> +	char name[32];
-> +	u8   ctrl[16];
-> +	u16  multi[16];
-> +	char item[16][32];
-> +	char labels[32][32];
-> +
-> +} sen_info[] = {
-> +	{ 0x00, 0, 0, "none" },
-> +	{ 0x12, 8, 0, "in",
-> +		{ 0xFF, 0x10, 0x11, 0x12 },
-> +		{ 1,    10,   10,   10 },
-> +		{ "label", "input", "max", "min" },
-> +		{ "5V", "5Vs5", "12V", "12Vs5",
-> +		  "3V3", "3V3", "5Vsb", "3Vsb",
-> +		  "Vcmos", "Vbat", "Vdc", "Vstb",
-> +		  "Vcore_a", "Vcore_b", "", "",
-> +		  "Voem0", "Voem1", "Voem2", "Voem3"
-> +		},
-> +	},
-> +	{ 0x1a, 2, 0, "curr",
-> +		{ 0xFF, 0x10, 0x11, 0x12 },
-> +		{ 1,    10,   10,   10 },
-> +		{ "label", "input", "max", "min" },
-> +		{ "dc", "oem0" },
-> +	},
-> +	{ 0x10, 4, -2731, "temp",
-> +		{ 0xFF, 0x10, 0x11, 0x12, 0x21, 0x41 },
-> +		{ 1,    100,  100,  100,  100,  100 },
-> +		{ "label", "input", "max", "min", "crit", "emergency" },
-> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
-> +		  "sys0", "sys1", "sys2", "sys3",
-> +		  "aux0", "aux1", "aux2", "aux3",
-> +		  "dimm0", "dimm1", "dimm2", "dimm3",
-> +		  "pch", "gpu", "", "",
-> +		  "", "", "", "",
-> +		  "", "", "", "",
-> +		  "oem0", "oem1", "oem", "oem3" },
-> +	},
-> +	{ 0x14, 0, 0, "pwm",
-> +		{ 0xFF, 0x11, 0x12 },
-> +		{ 1, 1, 1 },
-> +		{ "label", "polarity", "freq" },
-> +		{ "pwm0", "pwm0", "pwm0", "pwm0" },
-> +	},
-> +	{ 0x16, 2, 0, "tacho",
-> +		{ 0xFF, 0x10 },
-> +		{ 1, 1 },
-> +		{ "label", "input"},
-> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
-> +		  "sys0", "sys1", "sys2", "sys3",
-> +		  "", "", "", "", "", "", "", "",
-> +		  "", "", "", "", "", "", "", "",
-> +		  "", "", "", "",
-> +		  "oem0", "oem1", "oem2", "oem3"
-> +		},
-> +	},
-> +	{ 0x24, 4, 0, "fan",
-> +		{ 0xFF, 0x1A },
-> +		{ 1, 1 },
-> +		{ "label", "input"},
-> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
-> +		  "sys0", "sys1", "sys2", "sys3",
-> +		  "", "", "", "", "", "", "", "",
-> +		  "", "", "", "", "", "", "", "",
-> +		  "", "", "", "",
-> +		  "oem0", "oem1", "oem2", "oem3",
-> +		},
-> +	},
-> +	{ 0x28, 1, 0, "intrusion",
-> +		{ 0xFF, 0x02 },
-> +		{ 1, 1 },
-> +		{ "label", "input" },
-> +		{ "case_open" }
-> +	}
-> +};
-> +
-> +static struct {
-> +	enum _sen_type type;
-> +	u8   ctrl;
-> +	int  size;
-> +	bool write;
-> +
-> +} ctrl_para[] = {
-> +	{ NONE,     0x00, 0, false },
-> +
-> +	{ VOLTAGE,  0x00, 1, false }, { VOLTAGE,  0x01, 1, false },
-> +	{ VOLTAGE,  0x10, 2, false }, { VOLTAGE,  0x11, 2, false },
-> +	{ VOLTAGE,  0x12, 2, false },
-> +
-> +	{ CURRENT,  0x00, 1, false }, { CURRENT,  0x01, 1, false },
-> +	{ CURRENT,  0x10, 2, false }, { CURRENT,  0x11, 2, false },
-> +	{ CURRENT,  0x12, 2, false },
-> +
-> +	{ TEMP,	    0x00, 2, false }, { TEMP,	  0x01, 1, false },
-> +	{ TEMP,     0x04, 1, false }, { TEMP,	  0x10, 2, false },
-> +	{ TEMP,     0x11, 2, false }, { TEMP,	  0x12, 2, false },
-> +	{ TEMP,     0x21, 2, false }, { TEMP,	  0x41, 2, false },
-> +
-> +	{ PWM,      0x00, 1, false }, { PWM,	  0x10, 1, true  },
-> +	{ PWM,      0x11, 1, true  }, { PWM,	  0x12, 4, true  },
-> +
-> +	{ TACHO,    0x00, 1, false }, { TACHO,	  0x01, 1, false },
-> +	{ TACHO,    0x10, 4, true  },
-> +
-> +	{ FAN,      0x00, 1, false }, { FAN,	  0x01, 1, false },
-> +	{ FAN,      0x03, 1, true  }, { FAN,	  0x1A, 2, false },
-> +
-> +	{ CASEOPEN, 0x00, 1, false }, { CASEOPEN, 0x02, 1, true  },
-> +};
-> +
-> +static int para_idx(enum _sen_type type, u8 ctrl)
-> +{
-> +	int i;
-> +
-> +	for (i = 1 ; i < ARRAY_SIZE(ctrl_para) ; i++)
-> +		if (type == ctrl_para[i].type &&
-> +		    ctrl == ctrl_para[i].ctrl)
-> +			return i;
-> +
-> +	return 0;
-> +}
-> +
-> +static int pmc_read(struct device *mfd, enum _sen_type type, u8 dev_id, u8 ctrl, void *data)
-> +{
-> +	int idx = para_idx(type, ctrl);
-> +	int ret = 0;
-> +
-> +	if (idx == 0)
-> +		return -EINVAL;
-> +
-> +	if (WARN_ON(!data))
-> +		return -EINVAL;
-> +
-> +	struct pmc_op op = {
-> +		 .cmd       = sen_info[type].cmd | EIO_FLAG_PMC_READ,
-> +		 .control   = ctrl,
-> +		 .device_id = dev_id,
-> +		 .size	    = ctrl_para[idx].size,
-> +		 .payload   = (u8 *)data,
-> +		 .timeout   = timeout,
-> +	};
-> +
-> +	ret = eio_core_pmc_operation(mfd, &op);
-> +	return ret;
-> +}
-> +
-> +static ssize_t eio_show(struct device *dev, struct device_attribute *attr,
-> +			char *buf)
-> +{
-> +	struct eio_hwmon_dev *eio_hwmon = dev_get_drvdata(dev);
-> +	struct eio_attr *eio_attr =
-> +		container_of(attr, struct eio_attr, sda.dev_attr);
-> +	const struct eio_key *eio_key = &eio_attr->key;
-> +	int ret;
-> +	u8 data[2];
-> +	u32 temp_val;
-> +	signed int final_val;
-> +
-> +	switch (eio_key->item) {
-> +	case 0:
-> +		return sysfs_emit(buf, "%s\n",
-> +				  sen_info[eio_key->type].labels[eio_key->label_idx]);
-> +
-> +	default:
-> +		ret = pmc_read(eio_hwmon->mfd, eio_key->type, eio_key->chan,
-> +			       sen_info[eio_key->type].ctrl[eio_key->item],
-> +			       &data);
-> +		if (ret)
-> +			return ret;
-> +
-> +		temp_val = data[0] | data[1] << 8;
-> +
-> +		final_val = (signed int)temp_val + (signed int)(sen_info[eio_key->type].shift);
-> +		final_val = final_val * (signed int)sen_info[eio_key->type].multi[eio_key->item];
-> +
-> +		return sysfs_emit(buf, "%d\n", final_val);
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static char devname[MAX_DEV][MAX_NAME];
-> +static struct eio_attr devattrs[MAX_DEV];
-> +static struct attribute *attrs[MAX_DEV];
-> +
-> +static struct attribute_group group = {
-> +	.attrs = attrs,
-> +};
-> +
-> +static const struct attribute_group *groups[] = {
-> +	&group,
-> +	NULL
-> +};
-> +
-> +static int hwmon_init(struct device *mfd, struct eio_hwmon_dev *eio_hwmon)
-> +{
-> +	enum _sen_type type;
-> +	u8 i, j, data[16];
-> +	int sum = 0;
-> +	int ret;
-> +
-> +	for (type = VOLTAGE ; type <= CASEOPEN ; type++) {
-> +		int cnt = 1;
-> +
-> +		for (i = 0 ; i < sen_info[type].max ; i++) {
-> +			if (pmc_read(mfd, type, i, 0x00, data) ||
-> +			    (data[0] & 0x01) == 0)
-> +				continue;
-> +
-> +			memset(data, 0, sizeof(data));
-> +			ret = pmc_read(mfd, type, i, 0x01, data);
-> +			if (ret != 0 && ret != -EINVAL) {
-> +				dev_info(mfd, "read type id error\n");
-> +				continue;
-> +			}
-> +
-> +			for (j = 0 ; j < ARRAY_SIZE(sen_info->item) ; j++) {
-> +				struct eio_attr *eio_attr;
-> +
-> +				if (sen_info[type].item[j][0] == 0)
-> +					continue;
-> +
-> +				eio_attr = &devattrs[sum];
-> +
-> +				eio_attr->key.type      = type;
-> +				eio_attr->key.chan      = i;
-> +				eio_attr->key.item      = j;
-> +				eio_attr->key.label_idx = data[0];
-> +
-> +				snprintf(devname[sum], sizeof(devname[sum]),
-> +					 "%s%d_%s", sen_info[type].name, cnt,
-> +					 sen_info[type].item[j]);
-> +
-> +				eio_attr->sda.dev_attr.attr.name = devname[sum];
-> +				eio_attr->sda.dev_attr.attr.mode = 0444;
-> +				eio_attr->sda.dev_attr.show      = eio_show;
-> +
-> +				attrs[sum] = &eio_attr->sda.dev_attr.attr;
-> +
-> +				if (++sum >= MAX_DEV)
-> +					break;
-> +			}
-> +			cnt++;
-> +		}
-> +	}
-> +
-> +	return sum;
-> +}
-> +
-> +static int hwmon_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =  &pdev->dev;
-> +	struct eio_hwmon_dev *eio_hwmon;
-> +	struct eio_dev *eio_dev = dev_get_drvdata(dev->parent);
-> +	struct device *hwmon;
-> +
-> +	if (!eio_dev) {
-> +		dev_err(dev, "Error contact eio_core\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	eio_hwmon = devm_kzalloc(dev, sizeof(*eio_hwmon), GFP_KERNEL);
-> +	if (!eio_hwmon)
-> +		return -ENOMEM;
-> +
-> +	eio_hwmon->mfd = dev->parent;
-> +	platform_set_drvdata(pdev, eio_hwmon);
-> +
-> +	if (hwmon_init(dev->parent, eio_hwmon) <= 0)
-> +		return -ENODEV;
-> +
-> +	hwmon =	devm_hwmon_device_register_with_groups(dev, KBUILD_MODNAME,
-> +						       eio_hwmon,
-> +						       groups);
-
-This API is deprecated. Please rework to use
-devm_hwmon_device_register_with_info().
-
-Also, it is highly unusual to have both a hardware monitoring driver
-and a thermal driver (instead of instantiating the thermal device
-from the hardware monitoring driver). This warrants a detailed
-explanation.
-
-Thanks,
-Guenter
-
-> +	return PTR_ERR_OR_ZERO(hwmon);
-> +}
-> +
-> +static struct platform_driver eio_hwmon_driver = {
-> +	.probe  = hwmon_probe,
-> +	.driver = {
-> +		.name = "eio_hwmon",
-> +	},
-> +};
-> +
-> +module_platform_driver(eio_hwmon_driver);
-> +
-> +MODULE_AUTHOR("Wenkai Chung <wenkai.chung@advantech.com.tw>");
-> +MODULE_AUTHOR("Ramiro Oliveira <ramiro.oliveira@advantech.com>");
-> +MODULE_DESCRIPTION("Hardware monitor driver for Advantech EIO embedded controller");
-> +MODULE_LICENSE("GPL");
-> +
-> 
-> -- 
-> 2.43.0
-> 
-> 
+The plane 3D LUT must only be used before blending. Any pipe-level
+post-blending 3D LUT hardware block is not suitable to implement plane
+colorops.
