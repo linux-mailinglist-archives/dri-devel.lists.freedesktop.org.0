@@ -2,67 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6290CB8558
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 09:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25D1CB855B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 09:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9CD10E226;
-	Fri, 12 Dec 2025 08:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3489A10E34C;
+	Fri, 12 Dec 2025 08:56:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ARdSvpnM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mRekXSP9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 837F010E226;
- Fri, 12 Dec 2025 08:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765529794; x=1797065794;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8t/LkegwreyubdEnr0YC6cFjQmJG5vHw2FWlsxeL9LA=;
- b=ARdSvpnMGCb22TFLj75ZIp9jEGc5OLzCNvB/jI5zCEs1+EvwKrMwhT1H
- E2WusZsDoPwbhsOHogwUY49H9mH1rSqbJD1KjSciM3VRNvnhU43joz9eh
- 4eiulem0fLQ+hlWaip/uJT13Od4yjLwjrvf40rVfBotshz7eOP2YckpBQ
- rGJZUbHSpIj/7cXIX0zl2EZdGAll9F6wlBdik+QiZJy8/1/2mvgeTahBm
- wbhT7jb7qRjk7LQWcs91CaYuDbb5DUhu28k/t/XBKhUr3oi3BM6dZnlYc
- RFhwFPDnHQom1TZM1FDnI4E0Bs+pOZMoT63oETBjxQt/TgkWH6WCdODQ7 A==;
-X-CSE-ConnectionGUID: sbP4Fl2DThqtI0IyIJ7dcA==
-X-CSE-MsgGUID: q5WYfS+4R+6pewHQg6ub0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="92995394"
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="92995394"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 00:56:30 -0800
-X-CSE-ConnectionGUID: xF6Z7c3xS/msLAafrAY/MA==
-X-CSE-MsgGUID: f8bMgmrmTh2KzqDuKeOmLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="201940861"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.106])
- ([10.245.245.106])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 00:56:27 -0800
-Message-ID: <108f8133-dbb9-4446-9483-0560f7599a35@linux.intel.com>
-Date: Fri, 12 Dec 2025 09:56:06 +0100
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5504810E34C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 08:56:44 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-42e33956e76so472507f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 00:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765529803; x=1766134603; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lqc8EwKA/JJN/VhrbE0YGzJvjvxBNq94BX+UyNRbmrw=;
+ b=mRekXSP9CHu4RS2K13PGMN9bixBVUU7m7YXeWejCacu1P+uq2Tjove7eEmuGWSj+1S
+ osZ30UXcT6sc09T0wQES4PgpNq4xFDiBS8VzMUd7hCvmkks7JeBC0KVYwXaiz1h0xDoN
+ A6BxVW2/r5OPs0uanUEhGm+bmJMiKRHGjHkU8IpAXjfnT7o45L+coMM9ood1sDUtG3fa
+ JYn+xvstfJah6QGsjnWzDkj+PyF1euuJvAp3juTg1mesabFdix3QDLPNJZeTt2xNT6UV
+ UJJ9SKJ5pHK3lNg3yuimX4JBhnxDImbgQLfLsRTRVqZ3zJEdW6+ASU20RpPT8DD8g+51
+ uWwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765529803; x=1766134603;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lqc8EwKA/JJN/VhrbE0YGzJvjvxBNq94BX+UyNRbmrw=;
+ b=RbbxqIWR8MVSAxs2/Yq/j6tWBJn2QBnlFn3bER45LicOtVyU7IQQ/tTsNbTOO7OBqN
+ LkvGjKik5ZiS8qiHTI+9MywRetwy1kfTP4ZVfx16EfRwJ43PdYX6QT3//mCOosc0MZIh
+ 4gVUQC2ye/9icCsKsu7F8zFyYU8qUSfGR5fn+7EkPl+nDyp4AczFaPA8Y4TLXLpW4WW0
+ RoDXz5W6YIyvg7XZ0dQdmeT2q4C2E1e57vpHJ+udGkT58R+EjF2TMgdGDVmRWlhXgzB3
+ zW8uvuTn5W/2aWbeupHLVNcJjxuCGki3Z3237aM/STooW8Cc1ei0at9WzEMZz9okXsXI
+ XvKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtEePWgt+8lt16u3XwXIQemE7DJ472yUG9+3vLFPinHWdilMUiDbwm8DLUH50jPq/OMmzoAXD4dUU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKvgUrT2saWbLwVWbuRsyPSUA4M1LNCzliaUHTHDNr2Q2iRcV/
+ CKyMFjXhc/5gikTTvaGf+QFwOV9cOsLqrihpRFhoGs7J5Ky6lop3SOIC
+X-Gm-Gg: AY/fxX4yXyUX2ZmHp+lEaP6WItPhCLAEE3MJ0XAH55Fd5U6hqnaNN0rMPzP0OPqcBAg
+ GPhl8lb7ByrQusnwtJEjbETjyZIyknhu4CotM7Vcf1doKic0F5yUNs/cjy8McDt1Z1PPB9aCbdY
+ Pf+kfAzyoBvudR7qCH66j8EZtMb62ueIAASCAVJVXV8XW+4EWbtH/ME9pEmaja7L+EniF+9aMOM
+ hZfA/2cz9hDo2q3H9Y+02ALKxJcDa9T5C0d7eQmNb9SgExM3Q2riHAHYPM+Q0STyYUkboEPokow
+ 3QNqFNECRuCN1lh2Ep+gmbEGgJ7BYlNYKpeQ/2u7A28IosPq1dVK7wMkwX90Xj7TuFDxu+11mmY
+ 8Kp/eGCseqUie0117PK3y+1rtmnHXfgSCxXFnbBfwQ42CL+9MXqyfV4OfWt9SOA3A19pdiyfBNf
+ rtEVE93pWDGBezW3v+5Dhzudx08AjT5XUG7fGsularHsb1a70=
+X-Google-Smtp-Source: AGHT+IEL9bvnBJjJsM+/EURopC9+hpKakZ/RbDSwMtZ0R5TZS7Y0WhaB/tevm1jDyxfpkbSEtjOW/g==
+X-Received: by 2002:a05:6000:2601:b0:42f:8816:a508 with SMTP id
+ ffacd0b85a97d-42fb48e7989mr1446259f8f.61.1765529802486; 
+ Fri, 12 Dec 2025 00:56:42 -0800 (PST)
+Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([89.7.8.79])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42fa8a09fbesm10501696f8f.0.2025.12.12.00.56.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Dec 2025 00:56:42 -0800 (PST)
+From: Iker Pedrosa <ikerpedrosam@gmail.com>
+Subject: [PATCH v6 0/3] drm/sitronix/st7920: Add support for the ST7920
+ controller
+Date: Fri, 12 Dec 2025 09:56:07 +0100
+Message-Id: <20251212-st7920-v6-0-4d3067528072@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/22] drm/pagemap, drm/xe: Ensure that the devmem
- allocation is idle before use
-To: intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- apopple@nvidia.com, airlied@gmail.com, Simona Vetter
- <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20251211165909.219710-1-thomas.hellstrom@linux.intel.com>
- <20251211165909.219710-3-thomas.hellstrom@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20251211165909.219710-3-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XPwWrDMAwG4FcpPs9Dliwn3mnvMXaQG7s1rM2IS
+ 9goefc5OSQhO/5C3y/0VCUOORb1dnqqIY655P5eg3s5qfNV7peoc1ezQkCGFpwuj8Yj6NhIEMJ
+ AEpyqy99DTPlnKfr4rPmay6Mffpfe0czTfxWj0aCdlcBCNnmB98tN8tfrub+puWLEjXnwK8PKL
+ PhkWw8pcDoyWpmB3TWaWWp959glAToyu2NkVmYrI0ZvUguNC3hkvDGD2zVefoudMLqmI96zaZr
+ +AP0eUHV4AQAA
+X-Change-ID: 20250806-st7920-e7aba32b3ab6
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Iker Pedrosa <ikerpedrosam@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,304 +102,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch-series adds support for the Sitronix ST7920 controller, which
+is a monochrome dot-matrix graphical LCD controller that has SPI and
+parallel interfaces.
 
-On 12/11/25 17:58, Thomas Hellström wrote:
-> In situations where no system memory is migrated to devmem, and in
-> upcoming patches where another GPU is performing the migration to
-> the newly allocated devmem buffer, there is nothing to ensure any
-> ongoing clear to the devmem allocation or async eviction from the
-> devmem allocation is complete.
->
-> Address that by passing a struct dma_fence down to the copy
-> functions, and ensure it is waited for before migration is marked
-> complete.
->
-> v3:
-> - New patch.
-> v4:
-> - Update the logic used for determining when to wait for the
->    pre_migrate_fence.
-> - Update the logic used for determining when to warn for the
->    pre_migrate_fence since the scheduler fences apparently
->    can signal out-of-order.
->
-> Fixes: c5b3eb5a906c ("drm/xe: Add GPUSVM device memory copy vfunc functions")
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.15+
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/drm_pagemap.c | 13 ++++---
->   drivers/gpu/drm/xe/xe_svm.c   | 67 ++++++++++++++++++++++++++++++-----
->   include/drm/drm_pagemap.h     | 17 +++++++--
->   3 files changed, 81 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> index 22c44807e3fe..864a73d019ed 100644
-> --- a/drivers/gpu/drm/drm_pagemap.c
-> +++ b/drivers/gpu/drm/drm_pagemap.c
-> @@ -408,7 +408,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->   		drm_pagemap_get_devmem_page(page, zdd);
->   	}
->   
-> -	err = ops->copy_to_devmem(pages, pagemap_addr, npages);
-> +	err = ops->copy_to_devmem(pages, pagemap_addr, npages,
-> +				  devmem_allocation->pre_migrate_fence);
->   	if (err)
->   		goto err_finalize;
->   
-> @@ -596,7 +597,7 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
->   	for (i = 0; i < npages; ++i)
->   		pages[i] = migrate_pfn_to_page(src[i]);
->   
-> -	err = ops->copy_to_ram(pages, pagemap_addr, npages);
-> +	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
->   	if (err)
->   		goto err_finalize;
->   
-> @@ -732,7 +733,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
->   	for (i = 0; i < npages; ++i)
->   		pages[i] = migrate_pfn_to_page(migrate.src[i]);
->   
-> -	err = ops->copy_to_ram(pages, pagemap_addr, npages);
-> +	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
->   	if (err)
->   		goto err_finalize;
->   
-> @@ -813,11 +814,14 @@ EXPORT_SYMBOL_GPL(drm_pagemap_pagemap_ops_get);
->    * @ops: Pointer to the operations structure for GPU SVM device memory
->    * @dpagemap: The struct drm_pagemap we're allocating from.
->    * @size: Size of device memory allocation
-> + * @pre_migrate_fence: Fence to wait for or pipeline behind before migration starts.
-> + * (May be NULL).
->    */
->   void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
->   			     struct device *dev, struct mm_struct *mm,
->   			     const struct drm_pagemap_devmem_ops *ops,
-> -			     struct drm_pagemap *dpagemap, size_t size)
-> +			     struct drm_pagemap *dpagemap, size_t size,
-> +			     struct dma_fence *pre_migrate_fence)
->   {
->   	init_completion(&devmem_allocation->detached);
->   	devmem_allocation->dev = dev;
-> @@ -825,6 +829,7 @@ void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
->   	devmem_allocation->ops = ops;
->   	devmem_allocation->dpagemap = dpagemap;
->   	devmem_allocation->size = size;
-> +	devmem_allocation->pre_migrate_fence = pre_migrate_fence;
->   }
->   EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
->   
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index 36634c84d148..2152d20049e4 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -483,11 +483,12 @@ static void xe_svm_copy_us_stats_incr(struct xe_gt *gt,
->   
->   static int xe_svm_copy(struct page **pages,
->   		       struct drm_pagemap_addr *pagemap_addr,
-> -		       unsigned long npages, const enum xe_svm_copy_dir dir)
-> +		       unsigned long npages, const enum xe_svm_copy_dir dir,
-> +		       struct dma_fence *pre_migrate_fence)
->   {
->   	struct xe_vram_region *vr = NULL;
->   	struct xe_gt *gt = NULL;
-> -	struct xe_device *xe;
-> +	struct xe_device *xe = NULL;
->   	struct dma_fence *fence = NULL;
->   	unsigned long i;
->   #define XE_VRAM_ADDR_INVALID	~0x0ull
-> @@ -496,6 +497,18 @@ static int xe_svm_copy(struct page **pages,
->   	bool sram = dir == XE_SVM_COPY_TO_SRAM;
->   	ktime_t start = xe_svm_stats_ktime_get();
->   
-> +	if (pre_migrate_fence && (sram || dma_fence_is_container(pre_migrate_fence))) {
-> +		/*
-> +		 * This would typically be a p2p migration from source, or
-> +		 * a composite fence operation on the destination memory.
-> +		 * Ensure that any other GPU operation on the destination
-> +		 * is complete.
-> +		 */
-> +		err = dma_fence_wait(pre_migrate_fence, true);
-> +		if (err)
-> +			return err;
-> +	}
-> +
->   	/*
->   	 * This flow is complex: it locates physically contiguous device pages,
->   	 * derives the starting physical address, and performs a single GPU copy
-> @@ -632,10 +645,28 @@ static int xe_svm_copy(struct page **pages,
->   
->   err_out:
->   	/* Wait for all copies to complete */
-> -	if (fence) {
-> +	if (fence)
->   		dma_fence_wait(fence, false);
-> -		dma_fence_put(fence);
-> +
-> +	/*
-> +	 * If migrating to devmem, we should have pipelined the migration behind
-> +	 * the pre_migrate_fence. Verify that this is indeed likely. If we
-> +	 * didn't perform any copying, just wait for the pre_migrate_fence.
-> +	 */
-> +	if (!sram && pre_migrate_fence && !dma_fence_is_signaled(pre_migrate_fence)) {
-> +		if (xe && fence &&
-> +		    (pre_migrate_fence->context != fence->context ||
-> +		     dma_fence_is_later(pre_migrate_fence, fence))) {
-> +			drm_WARN(&xe->drm, true, "Unsignaled pre-migrate fence");
-> +			drm_warn(&xe->drm, "fence contexts: %llu %llu. container %d\n",
-> +				 (unsigned long long)fence->context,
-> +				 (unsigned long long)pre_migrate_fence->context,
-> +				 dma_fence_is_container(pre_migrate_fence));
-> +		}
-> +
-> +		dma_fence_wait(pre_migrate_fence, false);
->   	}
-> +	dma_fence_put(fence);
->   
->   	/*
->   	 * XXX: We can't derive the GT here (or anywhere in this functions, but
-> @@ -652,16 +683,20 @@ static int xe_svm_copy(struct page **pages,
->   
->   static int xe_svm_copy_to_devmem(struct page **pages,
->   				 struct drm_pagemap_addr *pagemap_addr,
-> -				 unsigned long npages)
-> +				 unsigned long npages,
-> +				 struct dma_fence *pre_migrate_fence)
->   {
-> -	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_VRAM);
-> +	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_VRAM,
-> +			   pre_migrate_fence);
->   }
->   
->   static int xe_svm_copy_to_ram(struct page **pages,
->   			      struct drm_pagemap_addr *pagemap_addr,
-> -			      unsigned long npages)
-> +			      unsigned long npages,
-> +			      struct dma_fence *pre_migrate_fence)
->   {
-> -	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_SRAM);
-> +	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_SRAM,
-> +			   pre_migrate_fence);
->   }
->   
->   static struct xe_bo *to_xe_bo(struct drm_pagemap_devmem *devmem_allocation)
-> @@ -676,6 +711,7 @@ static void xe_svm_devmem_release(struct drm_pagemap_devmem *devmem_allocation)
->   
->   	xe_bo_put_async(bo);
->   	xe_pm_runtime_put(xe);
-> +	dma_fence_put(devmem_allocation->pre_migrate_fence);
+The st7920 driver only has support for SPI so displays using other
+transport protocols are currently not supported.
 
-Needs to be moved to the start of the function before the bo put. Will 
-otherwise dereference freed memory.
+* Patch #1 adds the driver.
+* Patch #2 adds the DT binding schema.
+* Patch #3 adds the MAINTAINERS information.
 
-Will update in next revision.
+---
+Changes in v6:
+- Initialize spi7920_error structure.
+- Call drm_dev_exit() when appropriate.
+- Link to v5: https://lore.kernel.org/r/20251126-st7920-v5-0-64eda5267d35@gmail.com
 
->   }
->   
->   static u64 block_offset_to_pfn(struct xe_vram_region *vr, u64 offset)
-> @@ -868,6 +904,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->   				      unsigned long timeslice_ms)
->   {
->   	struct xe_vram_region *vr = container_of(dpagemap, typeof(*vr), dpagemap);
-> +	struct dma_fence *pre_migrate_fence = NULL;
->   	struct xe_device *xe = vr->xe;
->   	struct device *dev = xe->drm.dev;
->   	struct drm_buddy_block *block;
-> @@ -894,8 +931,20 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->   			break;
->   		}
->   
-> +		/* Ensure that any clearing or async eviction will complete before migration. */
-> +		if (!dma_resv_test_signaled(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL)) {
-> +			err = dma_resv_get_singleton(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL,
-> +						     &pre_migrate_fence);
-> +			if (err)
-> +				dma_resv_wait_timeout(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL,
-> +						      false, MAX_SCHEDULE_TIMEOUT);
-> +			else if (pre_migrate_fence)
-> +				dma_fence_enable_sw_signaling(pre_migrate_fence);
-> +		}
-> +
->   		drm_pagemap_devmem_init(&bo->devmem_allocation, dev, mm,
-> -					&dpagemap_devmem_ops, dpagemap, end - start);
-> +					&dpagemap_devmem_ops, dpagemap, end - start,
-> +					pre_migrate_fence);
->   
->   		blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
->   		list_for_each_entry(block, blocks, link)
-> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-> index f6e7e234c089..70a7991f784f 100644
-> --- a/include/drm/drm_pagemap.h
-> +++ b/include/drm/drm_pagemap.h
-> @@ -8,6 +8,7 @@
->   
->   #define NR_PAGES(order) (1U << (order))
->   
-> +struct dma_fence;
->   struct drm_pagemap;
->   struct drm_pagemap_zdd;
->   struct device;
-> @@ -174,6 +175,8 @@ struct drm_pagemap_devmem_ops {
->   	 * @pages: Pointer to array of device memory pages (destination)
->   	 * @pagemap_addr: Pointer to array of DMA information (source)
->   	 * @npages: Number of pages to copy
-> +	 * @pre_migrate_fence: dma-fence to wait for before migration start.
-> +	 * May be NULL.
->   	 *
->   	 * Copy pages to device memory. If the order of a @pagemap_addr entry
->   	 * is greater than 0, the entry is populated but subsequent entries
-> @@ -183,13 +186,16 @@ struct drm_pagemap_devmem_ops {
->   	 */
->   	int (*copy_to_devmem)(struct page **pages,
->   			      struct drm_pagemap_addr *pagemap_addr,
-> -			      unsigned long npages);
-> +			      unsigned long npages,
-> +			      struct dma_fence *pre_migrate_fence);
->   
->   	/**
->   	 * @copy_to_ram: Copy to system RAM (required for migration)
->   	 * @pages: Pointer to array of device memory pages (source)
->   	 * @pagemap_addr: Pointer to array of DMA information (destination)
->   	 * @npages: Number of pages to copy
-> +	 * @pre_migrate_fence: dma-fence to wait for before migration start.
-> +	 * May be NULL.
->   	 *
->   	 * Copy pages to system RAM. If the order of a @pagemap_addr entry
->   	 * is greater than 0, the entry is populated but subsequent entries
-> @@ -199,7 +205,8 @@ struct drm_pagemap_devmem_ops {
->   	 */
->   	int (*copy_to_ram)(struct page **pages,
->   			   struct drm_pagemap_addr *pagemap_addr,
-> -			   unsigned long npages);
-> +			   unsigned long npages,
-> +			   struct dma_fence *pre_migrate_fence);
->   };
->   
->   /**
-> @@ -212,6 +219,8 @@ struct drm_pagemap_devmem_ops {
->    * @dpagemap: The struct drm_pagemap of the pages this allocation belongs to.
->    * @size: Size of device memory allocation
->    * @timeslice_expiration: Timeslice expiration in jiffies
-> + * @pre_migrate_fence: Fence to wait for or pipeline behind before migration starts.
-> + * (May be NULL).
->    */
->   struct drm_pagemap_devmem {
->   	struct device *dev;
-> @@ -221,6 +230,7 @@ struct drm_pagemap_devmem {
->   	struct drm_pagemap *dpagemap;
->   	size_t size;
->   	u64 timeslice_expiration;
-> +	struct dma_fence *pre_migrate_fence;
->   };
->   
->   int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
-> @@ -238,7 +248,8 @@ struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
->   void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
->   			     struct device *dev, struct mm_struct *mm,
->   			     const struct drm_pagemap_devmem_ops *ops,
-> -			     struct drm_pagemap *dpagemap, size_t size);
-> +			     struct drm_pagemap *dpagemap, size_t size,
-> +			     struct dma_fence *pre_migrate_fence);
->   
->   int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->   			    unsigned long start, unsigned long end,
+Changes in v5:
+- Remove unused device variant structures and hard-code display
+  resolution.
+- Fix GPIO reset logic to correctly handle logical levels.
+- Use kzalloc() instead of kmemdup() for atomic state duplication.
+- Refactor atomic update to integrate cpu access with the damage loop.
+- Rename macros to avoid the reserved DRM_ prefix.
+- Use DRM logging helpers instead of generic device logging.
+- Link to v4: https://lore.kernel.org/r/20251031-st7920-v4-0-35291f8076b2@gmail.com
+
+Changes in v4:
+- Added definitions for the VDD power supply and the XRESET GPIO line,
+  which were identified as minimum requirements from the datasheet.
+- The error handling strategy has been refactored to propagate an
+  error-tracking struct from the caller.
+- The atomic enable/disable logic has been correctly moved from
+  drm_encoder_helper_funcs to drm_crtc_helper_funcs, as the
+  functionality is bound to the CRTC.
+- Added drm_dev_enter() and drm_dev_exit() calls to the atomic_enable
+  and atomic_disable helpers to correctly manage the device's runtime
+  power state.
+- Renamed macro definitions to match the correct terminology.
+- Link to v3: https://lore.kernel.org/r/20251006-st7920-v3-0-4f89d656fa03@gmail.com
+
+Changes in v3:
+- Reorganize the patch documenting compatible (DT bindings) before their
+  use.
+- Drop reduntant information from DT bindings.
+- Use a goto label to ensure drm_dev_exit() is called in the error path
+  of drm_gem_fb_begin_cpu_access().
+- Link to v2: https://lore.kernel.org/r/20250909-st7920-v2-0-409f4890fb5f@gmail.com
+
+Changes in v2:
+- Refactor SPI communication:
+  * Internalize error handling and delays within the st7920_spi_write()
+    helper.
+  * Split the main SPI write function into smaller, command-specific
+    helpers for clarity.
+- Improve DRM/KMS logic:
+  * Relocate CPU access calls (drm_gem_fb...) to the atomic_update hook.
+  * Use standard DRM helpers (drm_crtc_helper_mode_valid_fixed and
+    drm_connector_helper_get_modes_fixed) for mode validation and
+    creation.
+- General code cleanup:
+  * Remove dead code related to ST7920_FAMILY.
+  * Replace WARN_ON() with drm_WARN_ON_ONCE().
+  * Ensure single variable assignments per line.
+- Fix probe initialization order:
+  * Move spi_set_drvdata() and st7920_init() to occur before device
+    registration.
+- Devicetree:
+  * Update bindings to address feedback from review (e.g., reference
+    common SPI properties).
+- MAINTAINERS:
+  * Add a proper commit message to the patch.
+- Link to v1: https://lore.kernel.org/r/20250806-st7920-v1-0-64ab5a34f9a0@gmail.com
+---
+
+Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+
+---
+Iker Pedrosa (3):
+      dt-bindings: display: sitronix,st7920: Add DT schema
+      drm: Add driver for Sitronix ST7920 LCD displays
+      MAINTAINERS: Add entry for Sitronix ST7920 driver
+
+ .../bindings/display/sitronix,st7920.yaml          |  58 ++
+ MAINTAINERS                                        |   7 +
+ drivers/gpu/drm/sitronix/Kconfig                   |  10 +
+ drivers/gpu/drm/sitronix/Makefile                  |   1 +
+ drivers/gpu/drm/sitronix/st7920.c                  | 868 +++++++++++++++++++++
+ 5 files changed, 944 insertions(+)
+---
+base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
+change-id: 20250806-st7920-e7aba32b3ab6
+
+Best regards,
+-- 
+Iker Pedrosa <ikerpedrosam@gmail.com>
+
