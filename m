@@ -2,94 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43154CB8BC7
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 12:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1E6CB8BFB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 12:55:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E35C10E741;
-	Fri, 12 Dec 2025 11:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC0210E087;
+	Fri, 12 Dec 2025 11:55:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FIcQcxsS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UmzRqXnF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FB810E738
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 11:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765539844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rfwc03+ZoB3vuEuTCr1WM80W16BN6EcHvL1Gro5GaN8=;
- b=FIcQcxsSuzWFuGtIuT8XVvt8spDoZrJ+W0vhcrLGky07a4/LAxD3e0xlTk+kEnnIGvpd+e
- ScVz+2smiC8wwSIzxsbmyHR6iPItpVvZYH2Nc3h6TnbRJvkrME11g0dD8qzDbjVUiGvzIy
- 3ND7Cqn9c5/PdzmBqQXlfJEyTrSJpKk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460-9fTYP4ANMBWxEAS1-SdSbg-1; Fri, 12 Dec 2025 06:44:00 -0500
-X-MC-Unique: 9fTYP4ANMBWxEAS1-SdSbg-1
-X-Mimecast-MFC-AGG-ID: 9fTYP4ANMBWxEAS1-SdSbg_1765539840
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-42b3b5ed793so768370f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 03:44:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765539839; x=1766144639;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Rfwc03+ZoB3vuEuTCr1WM80W16BN6EcHvL1Gro5GaN8=;
- b=pbzE3l0owyMMXr1Vk34/gCQCh87M2J6dVPyEUouViAT03/UqypZLP/3PdSdKujB0es
- 0yqUmFDoIvwwV4BQQYVeuBf+7kym1CoTrHHlOhiX/ALNGR5TaojkA+K0d9XPy9n7hkFk
- +rq8QjNiXrfz1/hPe1sZTaaaFutF5VSL1zG+lzCqg1H8Zj/WB7erUl+Us678eAvlxbWZ
- 91p1Hx/OxNVF1aMgqPmdlzARRK1wEFJ7fKU1Xb1wJExj1C7xY+CRtECEmOzCVm9rXvy3
- tDTiJGuzdGO/Fsc52il3WgQsqklM0JAZR72dzbPu4o1IvL7DVhnP6TWHRrhLg5J+8zpk
- OHxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZlJKDw7q6AxuWCklndEeg+URRDcryKjWnwXA0iNTIQtPwQqgJlFzKr9nue5x1qFiybM4b2KODyGQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTcXinGdMw3r3FKtpWI1hanMUgQ0NLMDOFdeUP+f/SBFiKlJnt
- mtdHojZBf12rLY5pbSdZAgfHMrIIcFyiI4wLptMDz0jsBOiOuI9ZGV/+vU/LUzUAxZE8utN9Qc+
- fy24Jc+IRWHZuVkTQS4plHpmoWuQ5MK5MH/acaRRAbWALPgtfhVJVs6MPhp3j07jIyRCLoA==
-X-Gm-Gg: AY/fxX6AZWJ2sImeHaEInpP8Zl6qljdV2t/AY8asm2YgRcPImCAmJ1L0sfg0WHhVMWS
- sc7sgvyC+T8Fpepqvku4/ccvQANDBkiUpb1at4+CH3WFt+1slvFkXmJc9URYBt8wGIGN1BDKQWR
- 9G+yiG2aEtOFJZCdmLspsaBsBMsdqygWS7g+VCNDhRlykaIwRUgI3ZdifGribMnAJ5eFPv24AUL
- 2RMDWaKYTVUebnASy390OvWB1LCPmMbrey5IUd4xBZvcA2jPWWs9ehuX4+fxZ4kXUbqwvsgIQtW
- HBBQYl4VP78EyMfSdcGPkmdhNau06yq+cQIuRaLA4N7B5QZ9bX8lfepEmGi96Y920ejiGsmJJhf
- cq0++114TtKP3l7mAfdBug54fucIT0mB737byNQTW4Di8kSVofFKWLIV0TNwLFrd82anxQZiL2u
- VAJPw=
-X-Received: by 2002:a05:6000:2005:b0:42f:9ed4:7d39 with SMTP id
- ffacd0b85a97d-42fb491fe6amr2200259f8f.54.1765539839569; 
- Fri, 12 Dec 2025 03:43:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKpNZLEb5bHsTbeS496UoWt5zk2kAlf+6OGULEJP91P1P7zD2+xjYIIQNz8F3koY06QZc6Pw==
-X-Received: by 2002:a05:6000:2005:b0:42f:9ed4:7d39 with SMTP id
- ffacd0b85a97d-42fb491fe6amr2200227f8f.54.1765539839186; 
- Fri, 12 Dec 2025 03:43:59 -0800 (PST)
-Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net.
- [159.63.51.90]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42fa8b8a9efsm12297076f8f.33.2025.12.12.03.43.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Dec 2025 03:43:58 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Iker Pedrosa <ikerpedrosam@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Iker
- Pedrosa <ikerpedrosam@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] drm: Add driver for Sitronix ST7920 LCD displays
-In-Reply-To: <20251212-st7920-v6-2-4d3067528072@gmail.com>
-References: <20251212-st7920-v6-0-4d3067528072@gmail.com>
- <20251212-st7920-v6-2-4d3067528072@gmail.com>
-Date: Fri, 12 Dec 2025 12:43:57 +0100
-Message-ID: <875xacdiwy.fsf@ocarina.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2F910E087
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 11:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765540503; x=1797076503;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=fOUtkPZvxALB9p/w3Vfzy0YAydZr+SZQXrwowXkZxw0=;
+ b=UmzRqXnFd221I35ej81vyy110CnZUbJSmjSfQxXcOdkP1I8MK/f+slvw
+ kO437PUMmW22LDH6kilNBz+CxRAa5nUximbYHZqIiCNufP+v+m/K4qSDW
+ caVkIvFVNR11vFl06mtr2Xgm1eb2kVb8d3xka5wUH0FC3E3ltUpc0RI37
+ 4u2PYeDZ/GuKfzKrTSA1ECKQvnWfc1FuZabpWB/hppz1LVOdbazFDe2Bb
+ xLHfRnvvhs4C1ZHUdejKwt2SgQuowIkB4i9l/f4X5nc15nM+7+kd2ztUu
+ 7ABeB1UPL6JqJqwxxgP3ppLcyKUzJRSERSheGnxgxGSU6WnYrwkrHqEbp Q==;
+X-CSE-ConnectionGUID: tRLLWWmBT/2k++LTgY8VUw==
+X-CSE-MsgGUID: 3++H0KIVSO66J123gLq93A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="66713545"
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="66713545"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2025 03:55:02 -0800
+X-CSE-ConnectionGUID: 9Xb7s/mKQyS/uk0jLQp56A==
+X-CSE-MsgGUID: GU4eiGeuSvS+UaEv6NsNMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; d="scan'208";a="201987030"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.152])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2025 03:55:00 -0800
+Date: Fri, 12 Dec 2025 13:54:58 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: chintanlike@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org,
+ syzbot+fcede535e7eb57cf5b43@syzkaller.appspotmail.com
+Subject: Re: [PATCH] drm/atomic: Increase timeout in
+ drm_atomic_helper_wait_for_vblanks()
+Message-ID: <aTwCkiM687TjSEqh@intel.com>
+References: <20251209143325.102056-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2IKVS5TK26_4KZVE3rESfGz_m5UhugD1r0g8cmJvONk_1765539840
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251209143325.102056-1-tzimmermann@suse.de>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,24 +75,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Iker Pedrosa <ikerpedrosam@gmail.com> writes:
+On Tue, Dec 09, 2025 at 03:33:18PM +0100, Thomas Zimmermann wrote:
+> Increase the timeout for vblank events from 100 ms to 1000 ms. This
+> is the same fix as in commit f050da08a4ed ("drm/vblank: Increase
+> timeout in drm_wait_one_vblank()") for another vblank timeout.
+> 
+> After merging generic DRM vblank timers [1] and converting several
+> DRM drivers for virtual hardware, these drivers synchronize their
+> vblank events to the display refresh rate. This can trigger timeouts
+> within the DRM framework.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://lore.kernel.org/dri-devel/20250904145806.430568-1-tzimmermann@suse.de/ # [1]
+> Reported-by: syzbot+fcede535e7eb57cf5b43@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/dri-devel/69381d6c.050a0220.4004e.0017.GAE@google.com/
 
-Hello Iker,
+Seems fine. This will slow things down a bit when things are
+screwed up, but that slowdown is already dominated by the
+massive 10 second timeouts in the atomic commit machinery,
+so no big deal here.
 
-> Add a new DRM/KMS driver for displays using the Sitronix ST7920
-> controller connected via the SPI bus. This provides a standard
-> framebuffer interface for these common monochrome LCDs.
->
-> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
 > ---
-
-Thomas mentioned that you could add his Reviewed-by when addressing his
-latest comments. But it is OK, I can add it when applying your patches.
+>  drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index e641fcf8c568..e108f91bc3dd 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1839,7 +1839,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+>  		ret = wait_event_timeout(*queue,
+>  					 state->crtcs[i].last_vblank_count !=
+>  						drm_crtc_vblank_count(crtc),
+> -					 msecs_to_jiffies(100));
+> +					 msecs_to_jiffies(1000));
+>  
+>  		WARN(!ret, "[CRTC:%d:%s] vblank wait timed out\n",
+>  		     crtc->base.id, crtc->name);
+> -- 
+> 2.52.0
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Ville Syrjälä
+Intel
