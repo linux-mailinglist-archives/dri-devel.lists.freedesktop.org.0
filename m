@@ -2,129 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC34CB989E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC30CB98B3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081BA10E926;
-	Fri, 12 Dec 2025 18:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222A510E929;
+	Fri, 12 Dec 2025 18:21:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KOCBX6c7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aWJ093LC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011050.outbound.protection.outlook.com [52.101.52.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 405E210E926
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:19:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aZmwUt83ktGl8xbN6pAPBTznJLtXb4t4Mu85dUjGa4QqyTwxC1SC/Uye35ocjXXexfv15U/zk2heISb1xRNOwkfeAn1nEBkKOXpZjrgo5ojlQBlB35AqTJI25S0PNvJNv0u2gZHwU62R0jFBv+Wxaz1fezc6kFD5hZnYUTuwPUvWEyZh4W5hM5B+of10MT+AKYLHMyqG65p9nBdSJPNPRiDMQWH4Ig++FgALmBQsvuh4r1BEsPkUMECU//LPZ1dSlmTIonPUyougjVhNIBoZSpmiBEdsFYTh6qsM/bJz3FRWGJ/PFTF3lBFXY+UV7SODj6WeNk0YdUe3eCp0nuTo0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IM3hRlIxZB0jKtOtIWpKEqtUOd22XjRm+8Awk1QE3F0=;
- b=kGfDJMFWgXjXyA6arWr7WR89KAdq9wqRAfHZB82nWetYCp1Kx1T1RGXEM/F8c2bniCHHV8DO9fGnCbgDTeXThB3PdQH8CeZw4iphJndR/KmGc1DLuoIoRvG72zHygc7bCh6ScQR1F0/Zm0HoGzF1p0zPZWqQ+i3V93p4eRua3CgcucijyV+8aUHa7d+TPODOyVLSqEdl5SBJiIlDSH8MpGvNKjC5UYOYhMMKMtAZzNJ0VtNFV4DmAA5nXnSbJTXyjTHxWXkPc1HtPJR6vMYAIOgP2JkhE8GL1obyS08xTZHab20/iAKpcTrAq84yrWoJpUNPrDtkOoWjprzUsgzvnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IM3hRlIxZB0jKtOtIWpKEqtUOd22XjRm+8Awk1QE3F0=;
- b=KOCBX6c7CNgC/4C8Qls1leJrN+n78IgZluvz6qqA+FXJClANW/m8EL5Chs71hqaYGBa9pDbz16TrlpYrqJlmXYtpMpZfQcX9RROrkeg67WpJJsXdyg/uKQYn4EBwWCuMEQOvaFNjQmKKjNLVw2fpyjmIZaw2czaQS+LPKhwml2Y=
-Received: from DS7PR03CA0167.namprd03.prod.outlook.com (2603:10b6:5:3b2::22)
- by SN7PR12MB7130.namprd12.prod.outlook.com (2603:10b6:806:2a2::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
- 2025 18:18:57 +0000
-Received: from CY4PEPF0000FCC1.namprd03.prod.outlook.com
- (2603:10b6:5:3b2:cafe::f) by DS7PR03CA0167.outlook.office365.com
- (2603:10b6:5:3b2::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.15 via Frontend Transport; Fri,
- 12 Dec 2025 18:18:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- CY4PEPF0000FCC1.mail.protection.outlook.com (10.167.242.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 18:18:56 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 12 Dec
- 2025 12:18:55 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 12 Dec 2025 10:18:55 -0800
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ilpo.jarvinen@linux.intel.com>, <hansg@kernel.org>, <ogabbay@kernel.org>, 
- <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>,
- <dri-devel@lists.freedesktop.org>, <platform-driver-x86@vger.kernel.org>,
- <Shyam-sundar.S-k@amd.com>, <VinitKumar.Shukla@amd.com>, Mario Limonciello
- <superm1@kernel.org>
-Subject: [PATCH V2 2/2] accel/amdxdna: Add IOCTL to retrieve realtime NPU
- power estimate
-Date: Fri, 12 Dec 2025 10:18:03 -0800
-Message-ID: <20251212181803.1825142-3-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251212181803.1825142-1-lizhi.hou@amd.com>
-References: <20251212181803.1825142-1-lizhi.hou@amd.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E7210E929
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:21:08 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7bb710d1d1dso2076182b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 10:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765563668; x=1766168468; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=hB3cZ2WQZPicl3MYmnszfY/TO/CzwI8J7PmE+kdYZCY=;
+ b=aWJ093LCdWc62Z2aSwPQj1wE17pkQeQjk7iEuU5pnzH0KPfBTKTDFkoqXy+t3Gc+vy
+ sSVFr3g6ebjRLZweM7yxrNLhp/NeA2PS01Oet/miCvkYROS9i3BnHRdt8rNJWoPZKxPN
+ WyvyC+DsqbpHjJS0g0C7JcQxTqHeAUId4Q9C39rvzGsLCnx0QuRX5Wt4XYsXXk5cqXtL
+ ALGMIUa/cHwGYeb0oL9uZ+UfEcx2JGbLwdECLRmuuEeaimlK72oh97DXqctl3fDCp5cd
+ baTq4xg58QcnyBDdLAVGAHhD7aPChRYGCTjB6Rv+1p7gdNhHieMsb/Qdg/DqkknB77HV
+ d4pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765563668; x=1766168468;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=hB3cZ2WQZPicl3MYmnszfY/TO/CzwI8J7PmE+kdYZCY=;
+ b=R8stFa7gUYnQnViYEri7cb4l3K88Vf4Zq/waXLcap6r8aqklZYrtV2eyF3dawDfO5/
+ otgsLfu0aqSouBhxdWHu7gnJapsbF1GsdBEPTxbDuM+IcmhAKQxLkdlI1XUKmd21VI4k
+ bZpYp4t5rUus3/rCX7x9w42mN/7S17S4Q04yiU7ofT397QVu8EJjhKt452rbaJU0Xafm
+ mltChB7749ZeDvSaZS2a70WgzmhyMUvp7ED7X3hCzcXHkoOnYHvaYdK7Zlpx/u8nD12o
+ ghNI6hhcAMVKoiDtzOcEeyqsuNZpK3u0QrgMrs8K5Wo51PfU5jpITQffgCSEJN3RBlnW
+ 2RuA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWddsA7HBPjNh/39/M6RajdYS4Rm37OUVIR5n7J4F1J5S0wr3UfHkwVwExFbxOuekbjLds7cBTAURE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPeX7C08iTQZ9RKhvGck89WnAi6SdT1lBZImB9LayqrUbF5Fs0
+ fGPFXlL4EnY2vMu7XWp3yUyYJm+kXR6SKyFNe5SQCvn9Kv2beixZccCw
+X-Gm-Gg: AY/fxX6F4WRrqN4Ld1j4GmVTUcGQsh551LaJmaCfqthD3wjaAd3Nz+bKKf/ifi8OVAj
+ pJXcSI3bN2YmchPIWk3k8k/fHhMxbVjqCpDzHQ4znIEaiW2avLU1uSSC79ZwUn/1Rc9awAtie7C
+ sCPyNxWSKBIUtGXOfqIpCbW2xOsSJ17Vv9f+PVOspjMEN/4NtBiPaAGDhcqsrSURMcUABXzO/Db
+ Ji3DUWyIVZShy6l6B+xrqly6bO9UxBzgQ0Zh8vKPqt16hV/S4Om+a4V/ESwapjc7EJT+StKIFFY
+ 2Cv8RjTDC0RTwzfIjE6MIf9jblYMViiVMygqK77slhGOSmSlpk9Ch15iMOPr20xM/EY6s+H3K4P
+ 7/pfRXiZ6tF0p3D82zWszVmyOJNFGm1HBLsHRygqz+TgD/NUuCIuLRHkcvPlPIsoVZUdx6IfJtf
+ 3GZpnRIL82PXLfk2NkxVbaKpk=
+X-Google-Smtp-Source: AGHT+IF3m7yCMLLkl2XAvF0/1WUoK+uPc8b/WflcecrYvszrOj5LsvD+GWVrr3M53pYormaol8LS+A==
+X-Received: by 2002:a05:7022:628c:b0:11a:126f:ee7d with SMTP id
+ a92af1059eb24-11f34c42dccmr2393717c88.35.1765563667880; 
+ Fri, 12 Dec 2025 10:21:07 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+ by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-11f2e2b46f5sm19164059c88.5.2025.12.12.10.21.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Dec 2025 10:21:07 -0800 (PST)
+Date: Fri, 12 Dec 2025 10:21:05 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ramiro Oliveira <ramiro.oliveira@advantech.com>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+ Wenkai Chung <wenkai.chung@advantech.com.tw>,
+ Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>,
+ Hongzhi Wang <hongzhi.wang@advantech.com>,
+ Mikhail Tsukerman <mikhail.tsukerman@advantech.com>,
+ Thomas Kastner <thomas.kastner@advantech.com>
+Subject: Re: [PATCH 3/8] Add Advantech EIO Hardware Monitor driver
+Message-ID: <ed9f6395-ee98-42e5-98e7-c1de16440b7f@roeck-us.net>
+References: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
+ <20251212-upstream-v1-v1-3-d50d40ec8d8a@advantech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC1:EE_|SN7PR12MB7130:EE_
-X-MS-Office365-Filtering-Correlation-Id: 039eda97-8177-412f-e560-08de39aaea1e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JYNeU/inirDiRMB1m+oXzE3dWW7WPFo0z6qMxB+og9qJJdDQ0r9X2nW4Rh3S?=
- =?us-ascii?Q?i/DV4Q8fBTIOq8eAZnkR28DiE5jo+vbYu7ICppu1o2DlqWZdJw+j7obH2m+A?=
- =?us-ascii?Q?XX7tgWzzUJ8GG9X7rXi3Rugv12FzqgDpI1/Rn8/8MpWJxjoYvp6wCpwPhJPE?=
- =?us-ascii?Q?Uy6zuKCW5mNZsgPXoJGNsiYIgcibqEKCg1gjfcRV/HDA+u5AamZwbO7h+RYg?=
- =?us-ascii?Q?Zu94hGPZdqSvT5B06rXmItiQIr+CmAR5sVVno58L2kZwz1QevIiFqYttscz8?=
- =?us-ascii?Q?9scWeSuToTIAinMG/EJiRcjt2U1wQiIEAHoOLh+OLjh/rTnu5saGbmwms3W6?=
- =?us-ascii?Q?R4i5Yv3JlTlprLvYCrotZiIE2FwhkqEXh7L3bjtpDWb3IaImNbszxUEeIA4t?=
- =?us-ascii?Q?gVfwHFlrg4fxIiCqXKk2UTdgFgJIPK1wJWE0X0XTkZhWTG1cQSK3zGt5rtFG?=
- =?us-ascii?Q?jXcAd71H3rAobqNo7glL4sX6s4EvkikNjrU++qz1Gg5DmDjdYO9G0K7+dava?=
- =?us-ascii?Q?k+puzc7c81CWa3oMjXmut5qTWnpqr5nCm6Y1NP2u/MvGEZzYbKIpPOOLdPg3?=
- =?us-ascii?Q?ba8LK+FZsc7YKeNxlhLHn1XChU1JVYC3ORnuGbT5120eExLI/zuEdDD/lmYN?=
- =?us-ascii?Q?s47+RK/9RD+KBb2pOx1VAAkMtrrbKow76x2h8B+74dxIVLE5n9hOofXB6pBw?=
- =?us-ascii?Q?bxLv007Hi8s6uRRsf6Icrvqsx8jfuUvHbGuZKur9kobkNc8NuEPdAL2uIl7g?=
- =?us-ascii?Q?lQP8G/Kk6AE6Rlq9GiSpRerTm5gHj4eYjQJOIMCirlzwrilSsBfleou2GtNa?=
- =?us-ascii?Q?atop4pYMRhGHY8CP8pPIowW0Fy7KBC82C3FNAnA5aH14xh0pYkD8/A768qkJ?=
- =?us-ascii?Q?d4h+HkCDAD0VgUk0NNlAo2lrpxs40bSy0ye+w3ISD4vjrVY58EbQy29CJYmr?=
- =?us-ascii?Q?hyRnwe6e26LvL4BqnLtmdlF74j3xUDvZFdfr1ACxwlbgqb32OeaL8ImqI0qp?=
- =?us-ascii?Q?7b3NzEoGb1nT6NZnA1wlyl6ypgGL2IAZsz81A1paBSY3sLNs6ElwymfPwoHY?=
- =?us-ascii?Q?+V2sc5IU3prAlWSbJ+DuKps7kXhRTHb9vv/4MMaVkNkwVeo+NjkikVM6TBUo?=
- =?us-ascii?Q?1gr71Fw+ZK903UM5ZPGvnoIYx2ODDZ/onZRfffu0/h05h63b0+uyujSt3beh?=
- =?us-ascii?Q?unkhfgXa9Ab+sG/v+jvDWLL4woBpkCTnw7uX8w218ptXvS64QlZoM5K4K8z/?=
- =?us-ascii?Q?SH14oF7orwSr+Offo+dZ0KMGVbrcYVScUjuKGfLvXZJ/cFTfa8VmVTnit1Pw?=
- =?us-ascii?Q?s9oE73PMibRTnqKLLb80mpfmeq4rUQoyVG7a3Q1UYwP5qNZjxh2WcNGw8krD?=
- =?us-ascii?Q?UVaqvadLZI6IMHKfzgPLn6FRz+5lPVWYkA7JktdicV/LTMiryAcUiO1wHQX8?=
- =?us-ascii?Q?x8G9h1cpJRwsYF2qacRy/0kpRh2AvQq8MhTBcR3aLsEkW/eR9FRl/IYd/Ves?=
- =?us-ascii?Q?l7HC6rU8/HncHxeIwLE07DL81IW5r4EXeMi76rGE5NC/VFiTTNpN8izaIHa4?=
- =?us-ascii?Q?fM82t2gylGPli+ZpMEU=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 18:18:56.7435 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 039eda97-8177-412f-e560-08de39aaea1e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212-upstream-v1-v1-3-d50d40ec8d8a@advantech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,128 +105,430 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AMD PMF driver provides an interface to obtain realtime power
-estimates for the NPU. Expose this information to userspace through a
-new DRM_IOCTL_AMDXDNA_GET_INFO parameter, allowing applications to query
-the current NPU power level.
+On Fri, Dec 12, 2025 at 05:40:54PM +0100, Ramiro Oliveira wrote:
+> This driver controls the Hardware Monitor block of the Advantech EIO chip.
+> 
+> Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
+> ---
+>  MAINTAINERS               |   1 +
+>  drivers/hwmon/Kconfig     |  10 ++
+>  drivers/hwmon/Makefile    |   1 +
+>  drivers/hwmon/eio-hwmon.c | 344 ++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 356 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 359d4a13f212..fdd39b152f41 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -620,6 +620,7 @@ ADVANTECH EIO DRIVER
+>  M:	Ramiro Oliveira <ramiro.oliveira@advantech.com>
+>  S:	Maintained
+>  F:	drivers/gpio/gpio-eio.c
+> +F:	drivers/hwmon/eio-hwmon.c
+>  F:	drivers/mfd/eio_core.c
+>  F:	include/linux/mfd/eio.h
+>  
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 157678b821fc..08993b993596 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -2043,6 +2043,16 @@ config SENSORS_DME1737
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called dme1737.
+>  
+> +config SENSORS_EIO
+> +	tristate "Advantech EIO HWMON"
+> +	depends on MFD_EIO
+> +	help
+> +	  If you say yes here you get support for the Advantech EIO
+> +	  temperature, voltage and fan speed monitoring block.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called eio-hwmon
+> +
+>  config SENSORS_EMC1403
+>  	tristate "SMSC EMC1403/23 thermal sensor"
+>  	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index eade8e3b1bde..e69f03b41fae 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -72,6 +72,7 @@ obj-$(CONFIG_SENSORS_DME1737)	+= dme1737.o
+>  obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
+>  obj-$(CONFIG_SENSORS_DS620)	+= ds620.o
+>  obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
+> +obj-$(CONFIG_SENSORS_EIO)	+= eio-hwmon.o
+>  obj-$(CONFIG_SENSORS_EMC1403)	+= emc1403.o
+>  obj-$(CONFIG_SENSORS_EMC2103)	+= emc2103.o
+>  obj-$(CONFIG_SENSORS_EMC2305)	+= emc2305.o
+> diff --git a/drivers/hwmon/eio-hwmon.c b/drivers/hwmon/eio-hwmon.c
+> new file mode 100644
+> index 000000000000..164591aa31a7
+> --- /dev/null
+> +++ b/drivers/hwmon/eio-hwmon.c
+> @@ -0,0 +1,344 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * GPIO driver for Advantech EIO embedded controller.
+> + *
+> + * Copyright (C) 2025 Advantech Corporation. All rights reserved.
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/mfd/eio.h>
+> +#include <linux/module.h>
+> +
+> +#define MAX_DEV 128
+> +#define MAX_NAME 32
+> +
+> +static uint timeout;
+> +module_param(timeout, uint, 0444);
+> +MODULE_PARM_DESC(timeout,
+> +		 "Default pmc command timeout in micro-seconds.\n");
+> +
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_pci.c        | 29 +++++++++++++++++++++++++
- drivers/accel/amdxdna/aie2_pci.h        | 20 +++++++++++++++++
- drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 ++-
- 3 files changed, 51 insertions(+), 1 deletion(-)
+It does not make sense to me to have this as module parameter for each of
+the drivers.
 
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index 81a8e4137bfd..55fbc8f0f455 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_print.h>
- #include <drm/gpu_scheduler.h>
-+#include <linux/amd-pmf-io.h>
- #include <linux/cleanup.h>
- #include <linux/errno.h>
- #include <linux/firmware.h>
-@@ -777,6 +778,31 @@ static int aie2_get_clock_metadata(struct amdxdna_client *client,
- 	return ret;
- }
- 
-+static int aie2_get_sensors(struct amdxdna_client *client,
-+			    struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_sensor sensor = {};
-+	int ret;
-+
-+	if (args->buffer_size < sizeof(sensor))
-+		return -EINVAL;
-+
-+	ret = AIE2_GET_PMF_NPU_DATA(npu_power, sensor.input);
-+	if (ret)
-+		return ret;
-+	sensor.type = AMDXDNA_SENSOR_TYPE_POWER;
-+	sensor.unitm = -3;
-+	scnprintf(sensor.label, sizeof(sensor.label), "Total Power");
-+	scnprintf(sensor.units, sizeof(sensor.units), "mW");
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), &sensor, sizeof(sensor)))
-+		return -EFAULT;
-+
-+	args->buffer_size = sizeof(sensor);
-+
-+	return 0;
-+}
-+
- static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void *arg)
- {
- 	struct amdxdna_drm_hwctx_entry *tmp __free(kfree) = NULL;
-@@ -980,6 +1006,9 @@ static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_i
- 	case DRM_AMDXDNA_QUERY_CLOCK_METADATA:
- 		ret = aie2_get_clock_metadata(client, args);
- 		break;
-+	case DRM_AMDXDNA_QUERY_SENSORS:
-+		ret = aie2_get_sensors(client, args);
-+		break;
- 	case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
- 		ret = aie2_get_hwctx_status(client, args);
- 		break;
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index c6b5cf4ae5c4..7f588ad99240 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -7,6 +7,7 @@
- #define _AIE2_PCI_H_
- 
- #include <drm/amdxdna_accel.h>
-+#include <linux/limits.h>
- #include <linux/semaphore.h>
- 
- #include "amdxdna_mailbox.h"
-@@ -46,6 +47,25 @@
- 	pci_resource_len(NDEV2PDEV(_ndev), (_ndev)->xdna->dev_info->mbox_bar); \
- })
- 
-+#if IS_ENABLED(CONFIG_AMD_PMF)
-+#define AIE2_GET_PMF_NPU_DATA(field, val)				\
-+({									\
-+	struct amd_pmf_npu_metrics _npu_metrics;			\
-+	int _ret;							\
-+									\
-+	_ret = amd_pmf_get_npu_data(&_npu_metrics);			\
-+	val = _ret ? U32_MAX : _npu_metrics.field;			\
-+	(_ret);								\
-+})
-+#else
-+#define SENSOR_DEFAULT_npu_power	U32_MAX
-+#define AIE2_GET_PMF_NPU_DATA(field, val)				\
-+({									\
-+	val = SENSOR_DEFAULT_##field;					\
-+	(-EOPNOTSUPP);							\
-+})
-+#endif
-+
- enum aie2_smu_reg_idx {
- 	SMU_CMD_REG = 0,
- 	SMU_ARG_REG,
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-index 1973ab67721b..643ebd387074 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-@@ -32,9 +32,10 @@ MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
-  * 0.4: Support getting resource information
-  * 0.5: Support getting telemetry data
-  * 0.6: Support preemption
-+ * 0.7: Support getting power data
-  */
- #define AMDXDNA_DRIVER_MAJOR		0
--#define AMDXDNA_DRIVER_MINOR		6
-+#define AMDXDNA_DRIVER_MINOR		7
- 
- /*
-  * Bind the driver base on (vendor_id, device_id) pair and later use the
--- 
-2.34.1
+> +struct eio_hwmon_dev {
+> +	struct device *mfd;
+> +};
+> +
+> +enum _sen_type {
+> +	NONE,
+> +	VOLTAGE,
+> +	CURRENT,
+> +	TEMP,
+> +	PWM,
+> +	TACHO,
+> +	FAN,
+> +	CASEOPEN,
+> +};
+> +
+> +struct eio_key {
+> +	enum _sen_type type;
+> +	u8 chan;
+> +	u8 item;
+> +	u8 label_idx;
+> +};
+> +
+> +struct eio_attr {
+> +	struct sensor_device_attribute sda;
+> +	struct eio_key key;
+> +};
+> +
+> +static struct {
+> +	u8   cmd;
+> +	u8   max;
+> +	signed int shift;
+> +	char name[32];
+> +	u8   ctrl[16];
+> +	u16  multi[16];
+> +	char item[16][32];
+> +	char labels[32][32];
+> +
+> +} sen_info[] = {
+> +	{ 0x00, 0, 0, "none" },
+> +	{ 0x12, 8, 0, "in",
+> +		{ 0xFF, 0x10, 0x11, 0x12 },
+> +		{ 1,    10,   10,   10 },
+> +		{ "label", "input", "max", "min" },
+> +		{ "5V", "5Vs5", "12V", "12Vs5",
+> +		  "3V3", "3V3", "5Vsb", "3Vsb",
+> +		  "Vcmos", "Vbat", "Vdc", "Vstb",
+> +		  "Vcore_a", "Vcore_b", "", "",
+> +		  "Voem0", "Voem1", "Voem2", "Voem3"
+> +		},
+> +	},
+> +	{ 0x1a, 2, 0, "curr",
+> +		{ 0xFF, 0x10, 0x11, 0x12 },
+> +		{ 1,    10,   10,   10 },
+> +		{ "label", "input", "max", "min" },
+> +		{ "dc", "oem0" },
+> +	},
+> +	{ 0x10, 4, -2731, "temp",
+> +		{ 0xFF, 0x10, 0x11, 0x12, 0x21, 0x41 },
+> +		{ 1,    100,  100,  100,  100,  100 },
+> +		{ "label", "input", "max", "min", "crit", "emergency" },
+> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
+> +		  "sys0", "sys1", "sys2", "sys3",
+> +		  "aux0", "aux1", "aux2", "aux3",
+> +		  "dimm0", "dimm1", "dimm2", "dimm3",
+> +		  "pch", "gpu", "", "",
+> +		  "", "", "", "",
+> +		  "", "", "", "",
+> +		  "oem0", "oem1", "oem", "oem3" },
+> +	},
+> +	{ 0x14, 0, 0, "pwm",
+> +		{ 0xFF, 0x11, 0x12 },
+> +		{ 1, 1, 1 },
+> +		{ "label", "polarity", "freq" },
+> +		{ "pwm0", "pwm0", "pwm0", "pwm0" },
+> +	},
+> +	{ 0x16, 2, 0, "tacho",
+> +		{ 0xFF, 0x10 },
+> +		{ 1, 1 },
+> +		{ "label", "input"},
+> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
+> +		  "sys0", "sys1", "sys2", "sys3",
+> +		  "", "", "", "", "", "", "", "",
+> +		  "", "", "", "", "", "", "", "",
+> +		  "", "", "", "",
+> +		  "oem0", "oem1", "oem2", "oem3"
+> +		},
+> +	},
+> +	{ 0x24, 4, 0, "fan",
+> +		{ 0xFF, 0x1A },
+> +		{ 1, 1 },
+> +		{ "label", "input"},
+> +		{ "cpu0", "cpu1", "cpu2", "cpu3",
+> +		  "sys0", "sys1", "sys2", "sys3",
+> +		  "", "", "", "", "", "", "", "",
+> +		  "", "", "", "", "", "", "", "",
+> +		  "", "", "", "",
+> +		  "oem0", "oem1", "oem2", "oem3",
+> +		},
+> +	},
+> +	{ 0x28, 1, 0, "intrusion",
+> +		{ 0xFF, 0x02 },
+> +		{ 1, 1 },
+> +		{ "label", "input" },
+> +		{ "case_open" }
+> +	}
+> +};
+> +
+> +static struct {
+> +	enum _sen_type type;
+> +	u8   ctrl;
+> +	int  size;
+> +	bool write;
+> +
+> +} ctrl_para[] = {
+> +	{ NONE,     0x00, 0, false },
+> +
+> +	{ VOLTAGE,  0x00, 1, false }, { VOLTAGE,  0x01, 1, false },
+> +	{ VOLTAGE,  0x10, 2, false }, { VOLTAGE,  0x11, 2, false },
+> +	{ VOLTAGE,  0x12, 2, false },
+> +
+> +	{ CURRENT,  0x00, 1, false }, { CURRENT,  0x01, 1, false },
+> +	{ CURRENT,  0x10, 2, false }, { CURRENT,  0x11, 2, false },
+> +	{ CURRENT,  0x12, 2, false },
+> +
+> +	{ TEMP,	    0x00, 2, false }, { TEMP,	  0x01, 1, false },
+> +	{ TEMP,     0x04, 1, false }, { TEMP,	  0x10, 2, false },
+> +	{ TEMP,     0x11, 2, false }, { TEMP,	  0x12, 2, false },
+> +	{ TEMP,     0x21, 2, false }, { TEMP,	  0x41, 2, false },
+> +
+> +	{ PWM,      0x00, 1, false }, { PWM,	  0x10, 1, true  },
+> +	{ PWM,      0x11, 1, true  }, { PWM,	  0x12, 4, true  },
+> +
+> +	{ TACHO,    0x00, 1, false }, { TACHO,	  0x01, 1, false },
+> +	{ TACHO,    0x10, 4, true  },
+> +
+> +	{ FAN,      0x00, 1, false }, { FAN,	  0x01, 1, false },
+> +	{ FAN,      0x03, 1, true  }, { FAN,	  0x1A, 2, false },
+> +
+> +	{ CASEOPEN, 0x00, 1, false }, { CASEOPEN, 0x02, 1, true  },
+> +};
+> +
+> +static int para_idx(enum _sen_type type, u8 ctrl)
+> +{
+> +	int i;
+> +
+> +	for (i = 1 ; i < ARRAY_SIZE(ctrl_para) ; i++)
+> +		if (type == ctrl_para[i].type &&
+> +		    ctrl == ctrl_para[i].ctrl)
+> +			return i;
+> +
+> +	return 0;
+> +}
+> +
+> +static int pmc_read(struct device *mfd, enum _sen_type type, u8 dev_id, u8 ctrl, void *data)
+> +{
+> +	int idx = para_idx(type, ctrl);
+> +	int ret = 0;
+> +
+> +	if (idx == 0)
+> +		return -EINVAL;
+> +
+> +	if (WARN_ON(!data))
+> +		return -EINVAL;
+> +
+> +	struct pmc_op op = {
+> +		 .cmd       = sen_info[type].cmd | EIO_FLAG_PMC_READ,
+> +		 .control   = ctrl,
+> +		 .device_id = dev_id,
+> +		 .size	    = ctrl_para[idx].size,
+> +		 .payload   = (u8 *)data,
+> +		 .timeout   = timeout,
+> +	};
+> +
+> +	ret = eio_core_pmc_operation(mfd, &op);
+> +	return ret;
+> +}
+> +
+> +static ssize_t eio_show(struct device *dev, struct device_attribute *attr,
+> +			char *buf)
+> +{
+> +	struct eio_hwmon_dev *eio_hwmon = dev_get_drvdata(dev);
+> +	struct eio_attr *eio_attr =
+> +		container_of(attr, struct eio_attr, sda.dev_attr);
+> +	const struct eio_key *eio_key = &eio_attr->key;
+> +	int ret;
+> +	u8 data[2];
+> +	u32 temp_val;
+> +	signed int final_val;
+> +
+> +	switch (eio_key->item) {
+> +	case 0:
+> +		return sysfs_emit(buf, "%s\n",
+> +				  sen_info[eio_key->type].labels[eio_key->label_idx]);
+> +
+> +	default:
+> +		ret = pmc_read(eio_hwmon->mfd, eio_key->type, eio_key->chan,
+> +			       sen_info[eio_key->type].ctrl[eio_key->item],
+> +			       &data);
+> +		if (ret)
+> +			return ret;
+> +
+> +		temp_val = data[0] | data[1] << 8;
+> +
+> +		final_val = (signed int)temp_val + (signed int)(sen_info[eio_key->type].shift);
+> +		final_val = final_val * (signed int)sen_info[eio_key->type].multi[eio_key->item];
+> +
+> +		return sysfs_emit(buf, "%d\n", final_val);
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static char devname[MAX_DEV][MAX_NAME];
+> +static struct eio_attr devattrs[MAX_DEV];
+> +static struct attribute *attrs[MAX_DEV];
+> +
+> +static struct attribute_group group = {
+> +	.attrs = attrs,
+> +};
+> +
+> +static const struct attribute_group *groups[] = {
+> +	&group,
+> +	NULL
+> +};
+> +
+> +static int hwmon_init(struct device *mfd, struct eio_hwmon_dev *eio_hwmon)
+> +{
+> +	enum _sen_type type;
+> +	u8 i, j, data[16];
+> +	int sum = 0;
+> +	int ret;
+> +
+> +	for (type = VOLTAGE ; type <= CASEOPEN ; type++) {
+> +		int cnt = 1;
+> +
+> +		for (i = 0 ; i < sen_info[type].max ; i++) {
+> +			if (pmc_read(mfd, type, i, 0x00, data) ||
+> +			    (data[0] & 0x01) == 0)
+> +				continue;
+> +
+> +			memset(data, 0, sizeof(data));
+> +			ret = pmc_read(mfd, type, i, 0x01, data);
+> +			if (ret != 0 && ret != -EINVAL) {
+> +				dev_info(mfd, "read type id error\n");
+> +				continue;
+> +			}
+> +
+> +			for (j = 0 ; j < ARRAY_SIZE(sen_info->item) ; j++) {
+> +				struct eio_attr *eio_attr;
+> +
+> +				if (sen_info[type].item[j][0] == 0)
+> +					continue;
+> +
+> +				eio_attr = &devattrs[sum];
+> +
+> +				eio_attr->key.type      = type;
+> +				eio_attr->key.chan      = i;
+> +				eio_attr->key.item      = j;
+> +				eio_attr->key.label_idx = data[0];
+> +
+> +				snprintf(devname[sum], sizeof(devname[sum]),
+> +					 "%s%d_%s", sen_info[type].name, cnt,
+> +					 sen_info[type].item[j]);
+> +
+> +				eio_attr->sda.dev_attr.attr.name = devname[sum];
+> +				eio_attr->sda.dev_attr.attr.mode = 0444;
+> +				eio_attr->sda.dev_attr.show      = eio_show;
+> +
+> +				attrs[sum] = &eio_attr->sda.dev_attr.attr;
+> +
+> +				if (++sum >= MAX_DEV)
+> +					break;
+> +			}
+> +			cnt++;
+> +		}
+> +	}
+> +
+> +	return sum;
+> +}
+> +
+> +static int hwmon_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =  &pdev->dev;
+> +	struct eio_hwmon_dev *eio_hwmon;
+> +	struct eio_dev *eio_dev = dev_get_drvdata(dev->parent);
+> +	struct device *hwmon;
+> +
+> +	if (!eio_dev) {
+> +		dev_err(dev, "Error contact eio_core\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	eio_hwmon = devm_kzalloc(dev, sizeof(*eio_hwmon), GFP_KERNEL);
+> +	if (!eio_hwmon)
+> +		return -ENOMEM;
+> +
+> +	eio_hwmon->mfd = dev->parent;
+> +	platform_set_drvdata(pdev, eio_hwmon);
+> +
+> +	if (hwmon_init(dev->parent, eio_hwmon) <= 0)
+> +		return -ENODEV;
+> +
+> +	hwmon =	devm_hwmon_device_register_with_groups(dev, KBUILD_MODNAME,
+> +						       eio_hwmon,
+> +						       groups);
 
+This API is deprecated. Please rework to use
+devm_hwmon_device_register_with_info().
+
+Also, it is highly unusual to have both a hardware monitoring driver
+and a thermal driver (instead of instantiating the thermal device
+from the hardware monitoring driver). This warrants a detailed
+explanation.
+
+Thanks,
+Guenter
+
+> +	return PTR_ERR_OR_ZERO(hwmon);
+> +}
+> +
+> +static struct platform_driver eio_hwmon_driver = {
+> +	.probe  = hwmon_probe,
+> +	.driver = {
+> +		.name = "eio_hwmon",
+> +	},
+> +};
+> +
+> +module_platform_driver(eio_hwmon_driver);
+> +
+> +MODULE_AUTHOR("Wenkai Chung <wenkai.chung@advantech.com.tw>");
+> +MODULE_AUTHOR("Ramiro Oliveira <ramiro.oliveira@advantech.com>");
+> +MODULE_DESCRIPTION("Hardware monitor driver for Advantech EIO embedded controller");
+> +MODULE_LICENSE("GPL");
+> +
+> 
+> -- 
+> 2.43.0
+> 
+> 
