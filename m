@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C8CB90EB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 16:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C613FCB9142
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 16:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BAC10E82D;
-	Fri, 12 Dec 2025 15:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739BC10E149;
+	Fri, 12 Dec 2025 15:14:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NYU34fpw";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="SgcPkbqc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12BA10E07B;
- Fri, 12 Dec 2025 15:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765552139; x=1797088139;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HnGdM6nX9FdHQsZj25d0Xh7SqYJyE+86qlBS+1claN4=;
- b=NYU34fpwYiNo8ybBMXUBOuxKG/9nTZy6sWGkMgSmwE3APbgVvBEpCZfW
- g2T2fbi4pWFcl6oufq9cw46kHBIZvmpCF8Dq8n15BGI8jFpos4WgRbpFC
- mrdA3zYzSKpLGxxTQYKirHvU5o6WJqUzV/5NmCEKHTjlWZEVOGMOswXIB
- x9JTyloJtGmnyZj8FnmHVHeOK9Is2Y07vKQdTK3DqQWIF++fMiccxFWiy
- D17aq9aph5CnAzmjRFqjp/UKgr/zn5mObQFVHc92oyPCxcWqGo1DjClgR
- ahZPWCbsopnRC12uZYunBoEZZ896TwW2SCEKzpPECSqHFdUm99Y7QR0gQ w==;
-X-CSE-ConnectionGUID: Wr2h7J0KRnmEuOGmjOiLUg==
-X-CSE-MsgGUID: 1j+fj0LGQTansKfx5BI4yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67715297"
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="67715297"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 07:08:59 -0800
-X-CSE-ConnectionGUID: si564PKyQtyESubsp7L6kQ==
-X-CSE-MsgGUID: Ol0cD7cTSu6ik9/e5j6QGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; d="scan'208";a="196857950"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.245.152])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2025 07:08:55 -0800
-Date: Fri, 12 Dec 2025 17:08:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Uma Shankar <uma.shankar@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, chaitanya.kumar.borah@intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr,
- harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
- sebastian.wick@redhat.com, swati2.sharma@intel.com,
- alex.hung@amd.com, jani.nikula@intel.com, suraj.kandpal@intel.com
-Subject: Re: [v8 14/15] drm/i915/color: Add 3D LUT to color pipeline
-Message-ID: <aTwwBMKUp5AYmFTN@intel.com>
-References: <20251203085211.3663374-1-uma.shankar@intel.com>
- <20251203085211.3663374-15-uma.shankar@intel.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB8FE10E149
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 15:14:44 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dSY0K0NSbz9sqV;
+ Fri, 12 Dec 2025 16:14:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1765552481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A7v7jVCx3tCJx9PyEM2lA4jQjeS1rr+mNLGrWehrqfs=;
+ b=SgcPkbqcCAXQkyXTP5wrMCnX3XIOpW74cfkBLuWpBBTgBqZRSmiiRJ29RWMJmrL8FiMaX4
+ KanOogvwnQuBpUsA47XxVq42/w3a1nPClG71tQ8uXhGwzD1YH9itoVTJwtBQWkaju1LxkS
+ BYgH5RlsQHo2M7bj0AaN/JHcdGXb+KsELVL2B4FdTemVk+TBktGUtHjzcKGXE3HYRFsLVm
+ h6kIlR0qRc5EdusjbFBOzcnZPYGfy8QkOAzsG3xXdMck1HK1yNl+Da5F6j3dbuN3qQPgVs
+ 4gi5lUA/fCmziDEnJKkJ9xe74Cbp4/2J/dgri6d/jSnrv4FqnZm/jp4ODbISGw==
+Message-ID: <c5e4fd12-38d9-4169-88d1-115cc38ca409@mailbox.org>
+Date: Fri, 12 Dec 2025 16:14:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Subject: Re: [PATCH] drm/ast: Fix big-endian support
+To: Thomas Zimmermann <tzimmermann@suse.de>, =?UTF-8?Q?Ren=C3=A9_Rebe?=
+ <rene@exactco.de>
+Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, airlied@redhat.com
+References: <34cce8e3-51c5-4d44-8f6e-592a5943aec8@suse.de>
+ <20251211.134330.2200695829709887915.rene@exactco.de>
+ <3e46c10b-79db-4c11-9047-cd33e94ff5e0@suse.de>
+ <20251211.153101.411672428832661296.rene@exactco.de>
+ <2e26a6e6-6f4b-4b48-8fd0-648372856dce@suse.de>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <2e26a6e6-6f4b-4b48-8fd0-648372856dce@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251203085211.3663374-15-uma.shankar@intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MBO-RS-ID: 634548f9ad74f68829b
+X-MBO-RS-META: r5ockyn6u4ykyjpu1qw9dkn465n1ohoj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 03, 2025 at 02:22:10PM +0530, Uma Shankar wrote:
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+On 12/11/25 15:56, Thomas Zimmermann wrote:
+> Am 11.12.25 um 15:31 schrieb René Rebe:
+>> On Thu, 11 Dec 2025 15:03:48 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>
+>>>       /* write checksum + signature */
+>>> +    writel(swab32(csum), dst);
+>>> +    writel(swab32(width), dst + AST_HWC_SIGNATURE_SizeX);
+>>> +    writel(swab32(height), dst + AST_HWC_SIGNATURE_SizeY);
+>>> +    writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTX);
+>>> +    writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTY);
+>>> +#else
+>>> +    memcpy_toio(dst, src, AST_HWC_SIZE);
+>>>       dst += AST_HWC_SIZE;
+>>> +
+>>> +    /* write checksum + signature */
+>>>       writel(csum, dst);
+>>>       writel(width, dst + AST_HWC_SIGNATURE_SizeX);
+>>>       writel(height, dst + AST_HWC_SIGNATURE_SizeY);
+>>>       writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
+>>>       writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
+>>> +#endif
+>> I'm pretty sure this will break the cursor, as the position was
+>> working correctly and I only had to swap the cursor image data. The
+>> csum will also not be identical anyway, as the checksum function
+>> computes it in native byte order. Theoretically that would have to be
+>> changed. However, I do not see where it is really used, maybe only
+>> some special remote desktop vendor protocol that I'm not using. Maybe
+>> the exact checksum does not even matter and is only used as
+>> optimization to not resend an unchanged cursor image.
 > 
-> Add helpers to program the 3D LUT registers and arm them.
-> 
-> LUT_3D_READY in LUT_3D_CLT is cleared off by the HW once
-> the LUT buffer is loaded into it's internal working RAM.
-> So by the time we try to load/commit new values, we expect
-> it to be cleared off. If not, log an error and return
-> without writing new values. Do it only when writing with MMIO.
-> There is no way to read register within DSB execution.
-> 
-> v2:
-> - Add information regarding LUT_3D_READY to commit message (Jani)
-> - Log error instead of a drm_warn and return without committing changes
->   if 3DLUT HW is not ready to accept new values.
-> - Refactor intel_color_crtc_has_3dlut()
->   Also remove Gen10 check (Suraj)
-> v3:
-> - Addressed review comments (Suraj)
-> 
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_color.c    | 78 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_color.h    |  4 +
->  .../drm/i915/display/intel_color_pipeline.c   | 29 +++++--
->  .../drm/i915/display/intel_color_pipeline.h   |  3 +-
->  .../drm/i915/display/intel_display_limits.h   |  1 +
->  .../drm/i915/display/intel_display_types.h    |  2 +-
->  drivers/gpu/drm/i915/display/intel_plane.c    |  2 +
->  7 files changed, 112 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-> index 08f3b5b47b8e..e7950655434b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_color.c
-> +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> @@ -4062,6 +4062,52 @@ xelpd_plane_load_luts(struct intel_dsb *dsb, const struct intel_plane_state *pla
->  		xelpd_program_plane_post_csc_lut(dsb, plane_state);
->  }
->  
-> +static u32 glk_3dlut_10(const struct drm_color_lut32 *color)
-> +{
-> +	return REG_FIELD_PREP(LUT_3D_DATA_RED_MASK, drm_color_lut32_extract(color->red, 10)) |
-> +		REG_FIELD_PREP(LUT_3D_DATA_GREEN_MASK, drm_color_lut32_extract(color->green, 10)) |
-> +		REG_FIELD_PREP(LUT_3D_DATA_BLUE_MASK, drm_color_lut32_extract(color->blue, 10));
-> +}
-> +
-> +static void glk_load_lut_3d(struct intel_dsb *dsb,
-> +			    struct intel_crtc *crtc,
-> +			    const struct drm_property_blob *blob)
-> +{
-> +	struct intel_display *display = to_intel_display(crtc->base.dev);
-> +	const struct drm_color_lut32 *lut = blob->data;
-> +	int i, lut_size = drm_color_lut32_size(blob);
-> +	enum pipe pipe = crtc->pipe;
-> +
-> +	if (!dsb && intel_de_read(display, LUT_3D_CTL(pipe)) & LUT_3D_READY) {
-> +		drm_err(display->drm, "[CRTC:%d:%s] 3D LUT not ready, not loading LUTs\n",
-> +			crtc->base.base.id, crtc->base.name);
-> +		return;
+> Oh well! I though that the bus does implicit byte swaps? Or does writel() already swap to little endian, which the AST chip expects? I'm confused.
 
-Just ran into this while perusing the code...
+FWIW, writel indeed converts from native byte order to little endian, see include/asm-generic/io.h.
 
-This check could be implemented exactly like intel_vrr_check_push_sent()
-so that it works for both the DSB and non-DSB paths. The 'return' should
-just get nuked IMO.
+Can't help with your other questions though.
 
-> +void intel_color_plane_commit_arm(struct intel_dsb *dsb,
-> +				  const struct intel_plane_state *plane_state)
-> +{
-> +	struct intel_display *display = to_intel_display(plane_state);
-> +	struct intel_crtc *crtc = to_intel_crtc(plane_state->uapi.crtc);
-> +
-> +	if (crtc && intel_color_crtc_has_3dlut(display, crtc->pipe))
-> +		glk_lut_3d_commit(dsb, crtc, !!plane_state->hw.lut_3d);
-                                              ^^^^^^^^^^^^
-
-And this looks like a pretty major fail. Why is the 3D LUT stored in
-the *plane* state when it's a pipe level thing?
 
 -- 
-Ville Syrj�l�
-Intel
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
