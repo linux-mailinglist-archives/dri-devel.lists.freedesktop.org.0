@@ -2,124 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBB5CB9919
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B40CB9940
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 19:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BCB10E935;
-	Fri, 12 Dec 2025 18:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BA610E05C;
+	Fri, 12 Dec 2025 18:37:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HO466wSk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EMlninF7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012058.outbound.protection.outlook.com [52.101.53.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807C210E930
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:32:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ib2xvCObhQzx1jSINbdT1pnR9QrbM0qmHm1Krc+qGn+cmq6tQyV2cgDg5+A/Qzg20UDjgfNGejNxg2qI6tfYa2lw7K3tDZAOWKz5tppUGzyC8Nxqk0OAjeiU3nSD4l/Oc3A3dzI8jMApkmXPYm0Za+L3iRnkVnfTJx6X0rS9qXpgBExfqLekXovs2F5Go2vvyTtnCz5RpdlMK1DV+DxeXUIDYqnKQgx+I91ILKNkhZyVExk8ve/IHl2uweZZvqROMY3vNW3nLQc8xmNvyVqvAgzbPe0rfLYiUvNKRNRZnX3kNbHaVGBLwDe6d17sy/O5xwDzjMfrT0hDXroEK9v8ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=810kDFXraR+I+JdrLI4F3vM/B6OrfndBaFc0O29X4tw=;
- b=JTJkeNUc2ZIx7tkMKbcCoBmYbs1t01d+5qh19fyIZoNG5hUX7Qhqcxu7Zgn/I3+bgOu8QGWdfOQWMbQ609Wyz3f+PQ8IRqgBkYvvrsClrGSRLjbFzFamVh4uvcpO1KAIrrR5Cp4rMNaaRoDGMuVZDFPqEXRHOq+GrZOQ3Fw6tXgTYlhXRqfbMikbS6Nb1xG0brreU2RUrXZAGcAHtkEAQ7UcbD64BEyJOk4J3h5m54uFBKZOco26ptm6LFW6Ar4AFlDICwhR/cU1dk+bZyC3LaqvuPB0pgwK3MOSB6Q3WaQQxb4m4/qCTMvmmQeiFbp1+2dUjtIeWKfwnPfKNl164w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=810kDFXraR+I+JdrLI4F3vM/B6OrfndBaFc0O29X4tw=;
- b=HO466wSkLahT6agLU3UxvBF2r2ZsbRtEd1momm7fTm8e2U3+eKowF0xlpTMEqUXc2oWtN4vnJpRcy/8S4QtyZnVka4Dg4RJdR7unbahljfwBUzm5RSGcoI1FjQ1g8K8T6zu0glyP4j+TDrOlsmIny0rTT4Yeqc5zxyInJkgFkJs=
-Received: from PH8P220CA0029.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::13)
- by DS7PR12MB5983.namprd12.prod.outlook.com (2603:10b6:8:7e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Fri, 12 Dec
- 2025 18:32:47 +0000
-Received: from CY4PEPF0000EDD2.namprd03.prod.outlook.com
- (2603:10b6:510:348:cafe::2e) by PH8P220CA0029.outlook.office365.com
- (2603:10b6:510:348::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.11 via Frontend Transport; Fri,
- 12 Dec 2025 18:32:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000EDD2.mail.protection.outlook.com (10.167.241.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Fri, 12 Dec 2025 18:32:46 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 12 Dec
- 2025 12:32:46 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 12 Dec 2025 10:32:44 -0800
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V2] accel/amdxdna: Fix potential NULL pointer dereference in
- context cleanup
-Date: Fri, 12 Dec 2025 10:32:44 -0800
-Message-ID: <20251212183244.1826318-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA5610E05C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:37:29 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-42b3b0d76fcso882603f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 10:37:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765564648; x=1766169448; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/ojYm2I1R/IjtvUXHyoOg5tTWpIbTghzOJdRpnkuUhE=;
+ b=EMlninF70L669otoWTfwE3GLYiPFM0YQP/mJhVrtoazIWNLqLYrlymf93HIDHcakCZ
+ cLSCyQ81C+FBIkPMKAJUSkir1jV1jasFsXmT/13oDprCz0jTmaEuBCG6IbGzxNIQ3kLD
+ JAvWemcP59zgsQ/1f68FMTRBVJ+tc9c/sID3gEdv60CpLUX9zstddSlcxwXDaqmJFiE4
+ B2TX5TlZqRq3WsPge/jAUDHRf9a0quH+br7dLKWA8BcJCEvJol5goLfh5tLjZPye277D
+ sLpEFtjCTyxYSyQF9+Vkba41HpqrLa5sJFpK2f8hmh7XsLwQL+VAk0g8wC7rl9yUm8xg
+ vUpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765564648; x=1766169448;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=/ojYm2I1R/IjtvUXHyoOg5tTWpIbTghzOJdRpnkuUhE=;
+ b=gJZHzMMLdxr1QV7aa+Nukfk00TKYhn7OK89wOp0wuIulyQghseJiIu+wtxGBaroVM0
+ O1tct0Rnh6tTNssMmp+m8LVAXOlLofLPxcfqQZ+5ijnAwf6e7vXzfXYa4S4jFniuNg2w
+ shDKOGlltJrTUNmTmuZ7gPlVXa2RuDSwvwgr37D2NR7VM/RzPE5UWF6vAaOmwSnIf/gh
+ SIShlPkn5Mz9USs4X7e3+Ofwsl+M9Yz9LnHVOCpx2g1mfXe6mDumI7RhaY3oFSxePGIX
+ 1aO3E1qxslXnNGsnFn4golIXlefdHiBcfIxqpmKMn8rzIiNeyfS0kP03UOUniLcBABoQ
+ TM6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV96GjSP4Sdh+uYw8nIuUuWMIHg2h/ug1iEY35axq6jMf0mLtudaTmcJPXXHSbJUUB5I3A3UIZcvew=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTTLFZU0l/f26fSEAwTYWPx5EayU79e+/wgZZdu/IhH5nZas72
+ sUecNbDmPvZzMNp/FTBIqdPhPx2uM0xLJfcTiLTDUnivxaOxPCtHQLD+
+X-Gm-Gg: AY/fxX7D17TY6tzBs+UtWrNc+Ls6iAYV7Sw7inmc7Ndvs/R4WUh8e081G3xfi7LcVvU
+ JaQJr4oWGfaon51LKgllAxCwgIWNcXyUS+Usd5pzVu+EcrG4vOJvrCwIj5Wc4Anakm2BlIjVfaB
+ ljIEXbs6ZV0wSTB/DrzVnfsQ9OC8J2QaBVivvzwO+m1mzFfeNKhvw2H+jNdpUdboNmM9VRqhks1
+ EIG5BZeLPCU5nkIAq4N4wlzHaCrzEvcVqRR+WInnxHLo6E9LwUlX7xjMZfYleC7lMisilz01v+B
+ j3YP0sLROuYboTPq1EgVjL7XWKBBlHf6QyPU58KlO1cX3cwmBR8JoxXjCrAdqRuJELmGO+kxLeC
+ JeA9ukmZ+JfHZgQORdklpzOHl/Ox6Aarvg2ca2L1YWzmCFEXihMCjwVssz55F11LQtgMQTwPsao
+ 4P6qsNqYp25w9769uFfps=
+X-Google-Smtp-Source: AGHT+IERHQBg+JmH4NLBA3BHNsnu20ClSKQFjPqupnFe3whGUCR0+tAyOrdomDGorF5TJdawE7/qiA==
+X-Received: by 2002:a5d:584a:0:b0:42b:2c53:3abc with SMTP id
+ ffacd0b85a97d-42fb44ba63dmr3536078f8f.19.1765564647548; 
+ Fri, 12 Dec 2025 10:37:27 -0800 (PST)
+Received: from gattout.local ([213.137.177.122])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42fa8a66b97sm13510825f8f.7.2025.12.12.10.37.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Dec 2025 10:37:27 -0800 (PST)
+From: Amin GATTOUT <amin.gattout@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ dianders@chromium.org, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ Amin GATTOUT <amin.gattout@gmail.com>
+Subject: [PATCH v2] drm/panel: otm8009a: Switch to mipi_dsi_multi_context
+ helpers
+Date: Fri, 12 Dec 2025 19:37:26 +0100
+Message-ID: <20251212183726.103480-1-amin.gattout@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251204082659.84387-1-amin.gattout@gmail.com>
+References: <20251204082659.84387-1-amin.gattout@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD2:EE_|DS7PR12MB5983:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56941ebf-aa8f-4987-dfc4-08de39acd8be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Hxb14s2r9khdSBuD+Cq6geB/AUusj9zQYVf5hOBXC3ZkBjVFmnXiQ6h7XgZM?=
- =?us-ascii?Q?Yh0GAgeDBMBVoOsl3vLBK29rmYrL7B++boZtTB6tUNZ+vZ1mgcWqWDFJ9ArJ?=
- =?us-ascii?Q?VFpkSflHNt7d2a+udfHEHYkXelcS0u/IR0JhXbBZFNceFoesr5hoUl4FSDz4?=
- =?us-ascii?Q?fSKEGaxU4QIiSd/F0xOTZGMPi0m67Yt5pZngRmKaAGEw07nDyQjGgwS3+RL0?=
- =?us-ascii?Q?l+ttiXoR4x5FekmgdQoOjGRwvVIHIkFeXMIj7T4iDRPnPCWZNclOKUPngLyK?=
- =?us-ascii?Q?iF94K5H+VD4/1erKjSYNM2c0j2KSCVQHVZSOLSZbU+4lQZBRq2hiNsfDNp5W?=
- =?us-ascii?Q?ACWMTBxxEEduFSAKwofc8nbpvyc+v3NOZEw9fzZHHwnSB+uiVw+akVYXdFMI?=
- =?us-ascii?Q?Q+v3lGg4YnSO3CzFT6mixL9Td901fB2LVqil+qVhd/LNsqlSjF2ft/jiujy+?=
- =?us-ascii?Q?vSfqkvK2hludNqJiFQMAhk/u8gzli1tdTnSG9GcIwb7ayTRzhdju05gvDZDs?=
- =?us-ascii?Q?veml5v9Slp/TaQE65esERcjWOwU4ZgllaDoJajBE3XpTp72ntpCMNjwORJzi?=
- =?us-ascii?Q?ukFMnsToZs2rzl4zlEppMKtEp/Ad+U/oBRSSWiIGhunR1G+1ClX6rNpkaJBS?=
- =?us-ascii?Q?f8MLQjJJqevF4RUEP6vgs4nMOOJQ/tnSNhrU3HHX4NKV7T+a18G5kgQdYRlt?=
- =?us-ascii?Q?v11YL8iugWy4SWYX38aKzFkQMZ2fQIrSHqVGr8CMdT0k0vzWnJXrkv3F6R6x?=
- =?us-ascii?Q?l5wma6qxOfzX/xHXcQO5Q1TV+8L4VqZjiZSliHGi9zf8wW0+HZHU2vO0oB1Q?=
- =?us-ascii?Q?aVEf2Pr7NxJWKbuZp4i6b2cO9L62vXTyv7sGMM7aZhTdLwPQ90AWtMS7goEo?=
- =?us-ascii?Q?/v/UMwXJ0ACv3VgsCVlUfKC+nwvOgIFED4PL0+zKeASYr/dlWUskWfTLWADH?=
- =?us-ascii?Q?VnSTeuPATg9eZsKO1pc43MBqwRwImYDv3BJhume6RwQzEyd4gtzLLl9Zpn7/?=
- =?us-ascii?Q?E2S37bWIs+CGMFQg/lXu4kv+9kRbzY3em2XlvHiRlSAOLi4rWzuE5nJyAGcT?=
- =?us-ascii?Q?cyNsZTs5YObumNuHNy0QQwrTU22rhcp+KoMLO6bj8Co7ccfJYXP6mJlbGPdN?=
- =?us-ascii?Q?o8RPH46YBjqP7qRFzYhop8lYCRhdUXcoExNT/69x0okQ5UtyLR6te8ml+6AR?=
- =?us-ascii?Q?LwWGuQhVH6V/VJ+S4hSLkHOfCE7hfCYps+w4sxdm+ebVaqCylHY6Fi4rUsBU?=
- =?us-ascii?Q?UD9nB9nGCKuFCWMEKLdGaXy1OeEwXHmkuzK59LRl/rVxUIVfCbogORkLFggg?=
- =?us-ascii?Q?trLh1AzpskeT/TdHJjkcK58YIGeqGwJ/bjZnVJIB4sP0iqeQQF7VI6/xSM59?=
- =?us-ascii?Q?ylSu6+bvkgcyHTK2v5C/NHPOeza2q3bP4mWnQpcoFAhFevtpqTFWuVzRa1Zx?=
- =?us-ascii?Q?aNuxmjoFXMLFjlRlRT2uX3VRG82k/P95hij2XuA/37SUstJT3xWpqPZ6dAVz?=
- =?us-ascii?Q?mfqIvSBOukqWX2r4LOKAvei9z1Bo4Mp4RRLixH30lnrJrMN+S20adQ6R267M?=
- =?us-ascii?Q?pdUA+rYjA1a1QBz0E+c=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 18:32:46.5847 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56941ebf-aa8f-4987-dfc4-08de39acd8be
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD2.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5983
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,124 +93,298 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aie_destroy_context() is invoked during error handling in
-aie2_create_context(). However, aie_destroy_context() assumes that the
-context's mailbox channel pointer is non-NULL. If mailbox channel
-creation fails, the pointer remains NULL and calling aie_destroy_context()
-can lead to a NULL pointer dereference.
+Update the driver to use the non-deprecated mipi_dsi_*_multi()
+helpers, as recommended in Documentation/gpu/todo.rst. The multi
+variants provide proper error accumulation and handle the required
+DCS NOP insertions, which suits the OTM8009A command sequences.
 
-In aie2_create_context(), replace aie_destroy_context() with a function
-which request firmware to remove the context created previously.
+Refactor otm8009a_dcs_write_buf() and the dcs_write_seq/dcs_write_cmd_at
+macros to take a mipi_dsi_multi_context pointer, passing it through
+from callers. This ensures consistent error handling throughout the
+driver.
 
-Fixes: be462c97b7df ("accel/amdxdna: Add hardware context")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+Replace all mdelay() and msleep() calls within DSI command sequences
+with mipi_dsi_msleep() for proper error accumulation.
+
+The init, disable, and backlight update paths now return dsi_ctx.accum_err,
+ensuring errors are propagated to callers.
+
+Signed-off-by: Amin GATTOUT <amin.gattout@gmail.com>
 ---
- drivers/accel/amdxdna/aie2_message.c | 50 +++++++++++++++-------------
- 1 file changed, 26 insertions(+), 24 deletions(-)
+ .../gpu/drm/panel/panel-orisetech-otm8009a.c  | 171 ++++++++----------
+ 1 file changed, 74 insertions(+), 97 deletions(-)
 
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index 03b75757a6e6..9ec973028221 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -192,6 +192,19 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
- 	return 0;
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+index a0f58c3b73f6..1388e292fb60 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -109,13 +109,10 @@ static inline struct otm8009a *panel_to_otm8009a(struct drm_panel *panel)
+ 	return container_of(panel, struct otm8009a, panel);
  }
  
-+static int aie2_destroy_context_req(struct amdxdna_dev_hdl *ndev, u32 id)
-+{
-+	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
-+	struct amdxdna_dev *xdna = ndev->xdna;
-+	int ret;
-+
-+	req.context_id = id;
-+	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
-+	if (ret)
-+		XDNA_WARN(xdna, "Destroy context failed, ret %d", ret);
-+
-+	return ret;
-+}
- int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
+-static void otm8009a_dcs_write_buf(struct otm8009a *ctx, const void *data,
++static void otm8009a_dcs_write_buf(struct mipi_dsi_multi_context *dsi_ctx, const void *data,
+ 				   size_t len)
  {
- 	DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
-@@ -214,13 +227,14 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
- 		return ret;
- 
- 	hwctx->fw_ctx_id = resp.context_id;
--	WARN_ONCE(hwctx->fw_ctx_id == -1, "Unexpected context id");
-+	if (WARN_ON_ONCE(hwctx->fw_ctx_id == -1))
-+		return -EINVAL;
- 
- 	if (ndev->force_preempt_enabled) {
- 		ret = aie2_runtime_cfg(ndev, AIE2_RT_CFG_FORCE_PREEMPT, &hwctx->fw_ctx_id);
- 		if (ret) {
- 			XDNA_ERR(xdna, "failed to enable force preempt %d", ret);
--			return ret;
-+			goto del_ctx_req;
- 		}
- 	}
- 
-@@ -237,51 +251,39 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
- 
- 	ret = pci_irq_vector(to_pci_dev(xdna->ddev.dev), resp.msix_id);
- 	if (ret == -EINVAL) {
--		XDNA_ERR(xdna, "not able to create channel");
--		goto out_destroy_context;
-+		XDNA_ERR(xdna, "Alloc IRQ failed %d", ret);
-+		goto del_ctx_req;
- 	}
- 
- 	intr_reg = i2x.mb_head_ptr_reg + 4;
- 	hwctx->priv->mbox_chann = xdna_mailbox_create_channel(ndev->mbox, &x2i, &i2x,
- 							      intr_reg, ret);
- 	if (!hwctx->priv->mbox_chann) {
--		XDNA_ERR(xdna, "not able to create channel");
-+		XDNA_ERR(xdna, "Not able to create channel");
- 		ret = -EINVAL;
--		goto out_destroy_context;
-+		goto del_ctx_req;
- 	}
- 	ndev->hwctx_num++;
- 
--	XDNA_DBG(xdna, "%s mailbox channel irq: %d, msix_id: %d",
--		 hwctx->name, ret, resp.msix_id);
--	XDNA_DBG(xdna, "%s created fw ctx %d pasid %d", hwctx->name,
--		 hwctx->fw_ctx_id, hwctx->client->pasid);
-+	XDNA_DBG(xdna, "Mailbox channel irq: %d, msix_id: %d", ret, resp.msix_id);
-+	XDNA_DBG(xdna, "Created fw ctx %d pasid %d", hwctx->fw_ctx_id, hwctx->client->pasid);
- 
- 	return 0;
- 
--out_destroy_context:
--	aie2_destroy_context(ndev, hwctx);
-+del_ctx_req:
-+	aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
- 	return ret;
+-	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-
+-	if (mipi_dsi_dcs_write_buffer(dsi, data, len) < 0)
+-		dev_warn(ctx->dev, "mipi dsi dcs write buffer failed\n");
++	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, data, len);
  }
  
- int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
+ #define dcs_write_seq(ctx, seq...)			\
+@@ -133,153 +130,131 @@ static void otm8009a_dcs_write_buf(struct otm8009a *ctx, const void *data,
+ static int otm8009a_init_sequence(struct otm8009a *ctx)
  {
--	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
- 	struct amdxdna_dev *xdna = ndev->xdna;
- 	int ret;
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
--	if (hwctx->fw_ctx_id == -1)
--		return 0;
+ 	/* Enter CMD2 */
+-	dcs_write_cmd_at(ctx, MCS_CMD2_ENA1, 0x80, 0x09, 0x01);
++	dcs_write_cmd_at(&dsi_ctx, MCS_CMD2_ENA1, 0x80, 0x09, 0x01);
+ 
+ 	/* Enter Orise Command2 */
+-	dcs_write_cmd_at(ctx, MCS_CMD2_ENA2, 0x80, 0x09);
 -
- 	xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
+-	dcs_write_cmd_at(ctx, MCS_SD_PCH_CTRL, 0x30);
+-	mdelay(10);
 -
--	req.context_id = hwctx->fw_ctx_id;
--	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+-	dcs_write_cmd_at(ctx, MCS_NO_DOC1, 0x40);
+-	mdelay(10);
+-
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL4 + 1, 0xA9);
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL2 + 1, 0x34);
+-	dcs_write_cmd_at(ctx, MCS_P_DRV_M, 0x50);
+-	dcs_write_cmd_at(ctx, MCS_VCOMDC, 0x4E);
+-	dcs_write_cmd_at(ctx, MCS_OSC_ADJ, 0x66); /* 65Hz */
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL2 + 2, 0x01);
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL2 + 5, 0x34);
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL2 + 4, 0x33);
+-	dcs_write_cmd_at(ctx, MCS_GVDDSET, 0x79, 0x79);
+-	dcs_write_cmd_at(ctx, MCS_SD_CTRL + 1, 0x1B);
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL1 + 2, 0x83);
+-	dcs_write_cmd_at(ctx, MCS_SD_PCH_CTRL + 1, 0x83);
+-	dcs_write_cmd_at(ctx, MCS_RGB_VID_SET, 0x0E);
+-	dcs_write_cmd_at(ctx, MCS_PANSET, 0x00, 0x01);
+-
+-	dcs_write_cmd_at(ctx, MCS_GOAVST, 0x85, 0x01, 0x00, 0x84, 0x01, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_GOACLKA1, 0x18, 0x04, 0x03, 0x39, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_CMD2_ENA2, 0x80, 0x09);
++
++	dcs_write_cmd_at(&dsi_ctx, MCS_SD_PCH_CTRL, 0x30);
++	mipi_dsi_msleep(&dsi_ctx, 10);
++
++	dcs_write_cmd_at(&dsi_ctx, MCS_NO_DOC1, 0x40);
++	mipi_dsi_msleep(&dsi_ctx, 10);
++
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL4 + 1, 0xA9);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL2 + 1, 0x34);
++	dcs_write_cmd_at(&dsi_ctx, MCS_P_DRV_M, 0x50);
++	dcs_write_cmd_at(&dsi_ctx, MCS_VCOMDC, 0x4E);
++	dcs_write_cmd_at(&dsi_ctx, MCS_OSC_ADJ, 0x66); /* 65Hz */
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL2 + 2, 0x01);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL2 + 5, 0x34);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL2 + 4, 0x33);
++	dcs_write_cmd_at(&dsi_ctx, MCS_GVDDSET, 0x79, 0x79);
++	dcs_write_cmd_at(&dsi_ctx, MCS_SD_CTRL + 1, 0x1B);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL1 + 2, 0x83);
++	dcs_write_cmd_at(&dsi_ctx, MCS_SD_PCH_CTRL + 1, 0x83);
++	dcs_write_cmd_at(&dsi_ctx, MCS_RGB_VID_SET, 0x0E);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANSET, 0x00, 0x01);
++
++	dcs_write_cmd_at(&dsi_ctx, MCS_GOAVST, 0x85, 0x01, 0x00, 0x84, 0x01, 0x00);
++	dcs_write_cmd_at(&dsi_ctx, MCS_GOACLKA1, 0x18, 0x04, 0x03, 0x39, 0x00, 0x00,
+ 			 0x00, 0x18, 0x03, 0x03, 0x3A, 0x00, 0x00, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_GOACLKA3, 0x18, 0x02, 0x03, 0x3B, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_GOACLKA3, 0x18, 0x02, 0x03, 0x3B, 0x00, 0x00,
+ 			 0x00, 0x18, 0x01, 0x03, 0x3C, 0x00, 0x00, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_GOAECLK, 0x01, 0x01, 0x20, 0x20, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_GOAECLK, 0x01, 0x01, 0x20, 0x20, 0x00, 0x00,
+ 			 0x01, 0x02, 0x00, 0x00);
+ 
+-	dcs_write_cmd_at(ctx, MCS_NO_DOC2, 0x00);
++	dcs_write_cmd_at(&dsi_ctx, MCS_NO_DOC2, 0x00);
+ 
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 			 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 			 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET5, 0, 4, 4, 4, 4, 4, 0, 0, 0, 0,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET5, 0, 4, 4, 4, 4, 4, 0, 0, 0, 0,
+ 			 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET6, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET6, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4,
+ 			 4, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-	dcs_write_cmd_at(ctx, MCS_PANCTRLSET8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANCTRLSET8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+ 			 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+ 
+-	dcs_write_cmd_at(ctx, MCS_PANU2D1, 0x00, 0x26, 0x09, 0x0B, 0x01, 0x25,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANU2D1, 0x00, 0x26, 0x09, 0x0B, 0x01, 0x25,
+ 			 0x00, 0x00, 0x00, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_PANU2D2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANU2D2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x26, 0x0A, 0x0C, 0x02);
+-	dcs_write_cmd_at(ctx, MCS_PANU2D3, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PANU2D3, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_PAND2U1, 0x00, 0x25, 0x0C, 0x0A, 0x02, 0x26,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PAND2U1, 0x00, 0x25, 0x0C, 0x0A, 0x02, 0x26,
+ 			 0x00, 0x00, 0x00, 0x00);
+-	dcs_write_cmd_at(ctx, MCS_PAND2U2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PAND2U2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x25, 0x0B, 0x09, 0x01);
+-	dcs_write_cmd_at(ctx, MCS_PAND2U3, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00,
++	dcs_write_cmd_at(&dsi_ctx, MCS_PAND2U3, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+ 
+-	dcs_write_cmd_at(ctx, MCS_PWR_CTRL1 + 1, 0x66);
++	dcs_write_cmd_at(&dsi_ctx, MCS_PWR_CTRL1 + 1, 0x66);
+ 
+-	dcs_write_cmd_at(ctx, MCS_NO_DOC3, 0x06);
++	dcs_write_cmd_at(&dsi_ctx, MCS_NO_DOC3, 0x06);
+ 
+-	dcs_write_cmd_at(ctx, MCS_GMCT2_2P, 0x00, 0x09, 0x0F, 0x0E, 0x07, 0x10,
++	dcs_write_cmd_at(&dsi_ctx, MCS_GMCT2_2P, 0x00, 0x09, 0x0F, 0x0E, 0x07, 0x10,
+ 			 0x0B, 0x0A, 0x04, 0x07, 0x0B, 0x08, 0x0F, 0x10, 0x0A,
+ 			 0x01);
+-	dcs_write_cmd_at(ctx, MCS_GMCT2_2N, 0x00, 0x09, 0x0F, 0x0E, 0x07, 0x10,
++	dcs_write_cmd_at(&dsi_ctx, MCS_GMCT2_2N, 0x00, 0x09, 0x0F, 0x0E, 0x07, 0x10,
+ 			 0x0B, 0x0A, 0x04, 0x07, 0x0B, 0x08, 0x0F, 0x10, 0x0A,
+ 			 0x01);
+ 
+ 	/* Exit CMD2 */
+-	dcs_write_cmd_at(ctx, MCS_CMD2_ENA1, 0xFF, 0xFF, 0xFF);
+-
+-	ret = mipi_dsi_dcs_nop(dsi);
 -	if (ret)
--		XDNA_WARN(xdna, "%s destroy context failed, ret %d", hwctx->name, ret);
+-		return ret;
++	dcs_write_cmd_at(&dsi_ctx, MCS_CMD2_ENA1, 0xFF, 0xFF, 0xFF);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_nop_multi(&dsi_ctx);
+ 
+-	/* Wait for sleep out exit */
+-	mdelay(120);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+ 	/* Default portrait 480x800 rgb24 */
+-	dcs_write_seq(ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
++	dcs_write_seq(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+ 
+-	ret = mipi_dsi_dcs_set_column_address(dsi, 0, OTM8009A_HDISPLAY - 1);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, OTM8009A_HDISPLAY - 1);
+ 
+-	ret = mipi_dsi_dcs_set_page_address(dsi, 0, OTM8009A_VDISPLAY - 1);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, OTM8009A_VDISPLAY - 1);
+ 
+ 	/* See otm8009a driver documentation for pixel format descriptions */
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, MIPI_DCS_PIXEL_FMT_24BIT |
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, MIPI_DCS_PIXEL_FMT_24BIT |
+ 					    MIPI_DCS_PIXEL_FMT_24BIT << 4);
+-	if (ret)
+-		return ret;
+ 
+ 	/* Disable CABC feature */
+-	dcs_write_seq(ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++	dcs_write_seq(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+-	ret = mipi_dsi_dcs_nop(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_nop_multi(&dsi_ctx);
+ 
+ 	/* Send Command GRAM memory write (no parameters) */
+-	dcs_write_seq(ctx, MIPI_DCS_WRITE_MEMORY_START);
++	dcs_write_seq(&dsi_ctx, MIPI_DCS_WRITE_MEMORY_START);
+ 
+ 	/* Wait a short while to let the panel be ready before the 1st frame */
+-	mdelay(10);
++	mipi_dsi_msleep(&dsi_ctx, 10);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int otm8009a_disable(struct drm_panel *panel)
+ {
+ 	struct otm8009a *ctx = panel_to_otm8009a(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	backlight_disable(ctx->bl_dev);
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret)
+-		return ret;
 -
-+	ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
- 	xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
--	XDNA_DBG(xdna, "%s destroyed fw ctx %d", hwctx->name,
--		 hwctx->fw_ctx_id);
-+	XDNA_DBG(xdna, "Destroyed fw ctx %d", hwctx->fw_ctx_id);
- 	hwctx->priv->mbox_chann = NULL;
- 	hwctx->fw_ctx_id = -1;
- 	ndev->hwctx_num--;
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret)
+-		return ret;
+-
+-	msleep(120);
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int otm8009a_unprepare(struct drm_panel *panel)
+@@ -383,6 +358,8 @@ static const struct drm_panel_funcs otm8009a_drm_funcs = {
+ static int otm8009a_backlight_update_status(struct backlight_device *bd)
+ {
+ 	struct otm8009a *ctx = bl_get_data(bd);
++	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 	u8 data[2];
+ 
+ 	if (!ctx->prepared) {
+@@ -397,7 +374,7 @@ static int otm8009a_backlight_update_status(struct backlight_device *bd)
+ 		 */
+ 		data[0] = MIPI_DCS_SET_DISPLAY_BRIGHTNESS;
+ 		data[1] = bd->props.brightness;
+-		otm8009a_dcs_write_buf(ctx, data, ARRAY_SIZE(data));
++		otm8009a_dcs_write_buf(&dsi_ctx, data, ARRAY_SIZE(data));
+ 
+ 		/* set Brightness Control & Backlight on */
+ 		data[1] = 0x24;
+@@ -409,9 +386,9 @@ static int otm8009a_backlight_update_status(struct backlight_device *bd)
+ 
+ 	/* Update Brightness Control & Backlight */
+ 	data[0] = MIPI_DCS_WRITE_CONTROL_DISPLAY;
+-	otm8009a_dcs_write_buf(ctx, data, ARRAY_SIZE(data));
++	otm8009a_dcs_write_buf(&dsi_ctx, data, ARRAY_SIZE(data));
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static const struct backlight_ops otm8009a_backlight_ops = {
 -- 
-2.34.1
+2.43.0
 
