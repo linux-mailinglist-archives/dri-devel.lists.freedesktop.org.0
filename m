@@ -2,153 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E10BCB8782
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 10:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F228CB8863
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 10:50:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2F3710E5A2;
-	Fri, 12 Dec 2025 09:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5748C10E658;
+	Fri, 12 Dec 2025 09:50:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="akRrsSJC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P83BBtcw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012031.outbound.protection.outlook.com [52.101.48.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2650E10E59C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 09:31:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tAcXvHam8wWCoHgYOGc7p2IGA+vtvDuy8eL9st0si5kxshLVksRe+CDSIwyt9If/RsuCmlex2iPQpseRTWOhdXq0byGA+v0BHg5/ulGA93moSkLjTif404m9y1RxmtEUBYwFmacLsI6Vecuk0yXrAXsmPcExERVY/rCOcWMDiQqrSDhcxHSBIR0VJu6OTCOCSdDJf9d0/yzj+tdPsjmuDsMBUF9ihpllCLFcV+le/90bvF+fgA5J7AURT3BjV0mc7ggdm0nuPWyaf6O4SOmTJIo62UtrihBReRiA+kpahs8GmxFWx+m3jESltTR39pEyjSHfXhMWHfw15k0EmAU4gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIkOSidsCf7h3Q8UKm4qvDtsOOOmHCW/P3f3xcYL5jA=;
- b=UZfPzv3njnnapzX3GwNvkbLbRVHnVELb9pfF3pcWvS4FuZYUPEDg0VhhyuWSCgJGwZrQ9pRU8lWtuvo+gFhmS8mnq6Yl33TL7DRjRYnlVB26ZVib/GLxRZD/OCrnOp8nChOO+tGnZWmjb9HWyrtjOuoEQfvExoDmXQkosqzterwaKyDhNhNsgCWgVFu307BmfOmKYHjku4Z6U2MgviicDrWzsCn36F8LiA42NEbzjqM52RShDunIF7Jfni4SNyEfCqvocolkEdwkOtIHWRFs/QN7wFvtLbuRxLMntdD8oMhtR1oY3GaGUV6ZBg8BF6rhCLB5/ZVVxuKRVlYfI3qWMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tIkOSidsCf7h3Q8UKm4qvDtsOOOmHCW/P3f3xcYL5jA=;
- b=akRrsSJCuqnURmWSJ6x3QTPe1dLDZn0xHI5+QPDLl5BpBSGLgOPLdbZjGQdk0Xe+268uCn90PU9Cto0WxWgjRgY3onLdSYA1mlFiTdvulpDkCWClI0AKB4lD4Yd8DGP2kBWxoVKLbxN9lVU41AM2Nu6Qf7wZ7gMZpc5QCvGAeMQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH1PPFDB1826343.namprd12.prod.outlook.com
- (2603:10b6:61f:fc00::628) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
- 2025 09:31:07 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
- 09:31:07 +0000
-Message-ID: <36c216bc-a60a-4ec8-b87c-d9e8561eae1c@amd.com>
-Date: Fri, 12 Dec 2025 10:31:02 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/19] dma-buf: inline spinlock for fence protection v3
-To: Tvrtko Ursulin <tursulin@ursulin.net>, phasta@mailbox.org,
- matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-4-christian.koenig@amd.com>
- <cdfd4681-8680-4c6f-832e-3b7d8f9a775c@ursulin.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <cdfd4681-8680-4c6f-832e-3b7d8f9a775c@ursulin.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0144.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188CD10E5C6;
+ Fri, 12 Dec 2025 09:50:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C1BCE600C3;
+ Fri, 12 Dec 2025 09:50:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA246C4CEF1;
+ Fri, 12 Dec 2025 09:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765533029;
+ bh=BbMk3VZO8JSPX3mqFQ3xSr2dm1e9Voyl+YIkL1dgU30=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=P83BBtcwn8VRMW8mrTMtnelM8ub8sDcdXaW1Wrl+3Vnd0frCRvdKHolhpr5F1IoVU
+ PuvKvLZg4jsnrBK851fJ44pF9CJsoiyukT/iCuHdS9Mh8+onaR23JD6gz0plDVaX+d
+ PGEAdqiy4UzxDLpF5I+2TdGsA9OJAPdpRrFCoDX6hPuz/rvaEqx6BdtXgeMRJJ8+YH
+ jJ3U+c2jemjYTAs1NJedrPjBYip9TLW8dFAJk/3N7Au+8bVJxxwfENwFrXXdxz2M6T
+ bJgww4x2Lyx+IppbJyLrwVs3/cpHGzEPtgENaZ0oOHsCHB2k1dANt7oQ5ChQAl3WMB
+ QEMERfbBkCWDQ==
+Date: Fri, 12 Dec 2025 10:50:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v5 04/17] drm/bridge: Act on the DRM color format property
+Message-ID: <20251212-hidden-armored-mule-66dd32@penduick>
+References: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
+ <20251128-color-format-v5-4-63e82f1db1e1@collabora.com>
+ <20251209-smart-oarfish-of-wind-0c1c8b@houat>
+ <3772903.e9J7NaK4W3@workhorse>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH1PPFDB1826343:EE_
-X-MS-Office365-Filtering-Correlation-Id: b06423bd-2351-4e6f-192e-08de39612da6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RVMvbktRcWxkQnRYeER6c29sNEtzVzlmNHZhQjQ2S053ZkRIYUp5UlUvSjky?=
- =?utf-8?B?OU9qaVNVNm9pckkrdVVNdWFqaGJGeTgxK0Q2c2VkMGVtdW5RQ2RjSTNEeFYy?=
- =?utf-8?B?MUt3REJDZ0thbkprT0RwZ1RYdnNUaFVWZjlUYXZWVVlVS2VnWFh0OVg0NnVG?=
- =?utf-8?B?T3RCNXh2RzJBMG1Pam9ud3hES3RML3NmakU3WmY1bG9Rd0JINHBHZUVMSkVI?=
- =?utf-8?B?WWtwQ0FKYVNzbFRCSFQ2WDd5cDV3M1RTSnFNdUFHQ24zVVg0emRDRGtLak5F?=
- =?utf-8?B?dUdLby9jYS92QkRWODdWZGxESTFKSWM5WUNja1NVOCt1NUdFOWNwZFoyV3lt?=
- =?utf-8?B?aVBadVlwdms5b2J2NEVwZGI5d3MyZFVLNDZCb3VwRWsyaGtrM3ZXbThXa2tp?=
- =?utf-8?B?U3BPcmRRMk5YYk1oTW43anMyOEZTbUswR2ZDTThOZWFxSGlvbVVvUnZ4cHJY?=
- =?utf-8?B?YTFwclMrK1pLMnVxc3p6ZlJvc0djZTkvRFNPU3RITEtkYmk2T2lJNXhkdUVq?=
- =?utf-8?B?cTJUQkIwTWdnOFJYYi9zNnZ4a1pua2JYTVNxRVNSa2ZKUnIrYzdjMVpXbnRv?=
- =?utf-8?B?dkEyc2hmRXVScFJ1N05tWXZMbzhqV2hhcG4rNGpwK1BZcDAwTm0xSFd3T2lo?=
- =?utf-8?B?TTYyaWNNaDdoVDhYVysxb0VYc3RVd0YvQVI1VDJiSm0wbnRQc1gwallvRzIr?=
- =?utf-8?B?VDQwN3djODY5aE5icmVNSFBneGNFNDc1cTFUb2ExK0VzREhxZFJMUVRURlFi?=
- =?utf-8?B?eE9Xd1IyK0xVOUlxUTV1OGRFY2RodzM3OFJFNzQ4WTduUWYvb3lMT3NiZUQ4?=
- =?utf-8?B?bExuOUxHRDhDMzQrYzFXU3owVVhIWURKREhGd2dvZ0cxYUhHNlNSV2NNcHJo?=
- =?utf-8?B?T1hUY29yY1ZMcEJsdVpzaTBUekJFWTZsM29MMC8wcUhxTUN5MUhUdXk4RTFX?=
- =?utf-8?B?UXY1cTVVdmd1Ykl1NVdDUiszWWFFMDhoSlgxVEF3NVIvNnhZcG1XT2YrOU4r?=
- =?utf-8?B?UXY0bll3NU81a25DTGo2ODBQMm9TaHNheVl0R0FPY0J3Rm1mc0dreXpIOTNv?=
- =?utf-8?B?WUUxRW9xdHRvNDJ6WHIvY0NlcVcyMTFNRXlQdDU1QzVaY2J6ZHVqbEVJVTFG?=
- =?utf-8?B?S24va1UvdUVCMnBZN21FWXBNdEkvUGFIV1AvRWtOU20ya2QwMlZHYVJQVU4x?=
- =?utf-8?B?RVY2QTdDTXk2OWE0R052Nkx4RjhQcjJQWmpoQXFGNnZROW1ObUppM3JSNFI2?=
- =?utf-8?B?NlBCcXlnQ3RKV3Y2YTJDaWJBemFiYkpQQWRwYVB6U3ZBT29KczlwKzNOTStW?=
- =?utf-8?B?RlkwS1VnVHlaOFRPbExSMjBXTTVoSHVrM01pbjFqdTRpckFYQjl1YkVIa2tZ?=
- =?utf-8?B?MmpHZnErS0l6VUlsdGwxMnVTKzFmYSs3LzN5aFdiQTYrQ2M5U1ZuU1VDTkVn?=
- =?utf-8?B?KzFINEZLYzdUYkZ3ZjFwbnFIaXo0U251Z2dqYXpMekpiY1Qxajg3S3ZVcWVk?=
- =?utf-8?B?RVFPUmkyelhDNlpSb0gyVzBRcCtKTE8wRktLekZ6WHMxb2FCVTdHZExxbTNY?=
- =?utf-8?B?Ukh2VElJa1hrbXAzd2hHcHY4VW5ZSUQ3anVTYWlQQWdXMTV0TW51cHUrN0pL?=
- =?utf-8?B?ZEZnejArWVpvLzlvODAzc3NkUHFQM1B1UlNza3lMcFhyTTFTeTNrTUJWSXUr?=
- =?utf-8?B?QTlkYkJYUzhhQXczUzE2Tmt4Y1U3WGx1QytvSG40OGs3MFordkNGQytmUlF1?=
- =?utf-8?B?Wno2THdRbUIvL3JmT1AxaS9uSFFGcVhmOC8veUZTaC9Cb2pzYkVNT2pzR3VP?=
- =?utf-8?B?U3V3QlNRWFRTbDE0NDFNb0VVb3N3eThlQ2VYZGFET1JwM0lxUUZjZEE3UkR3?=
- =?utf-8?B?QTZJOUVRVkxTbHlMcmtNV1pyQVNrNC9GOXQwclFxNi8rNisrVm5wd2xvSEox?=
- =?utf-8?Q?7GDvITJY8xHUY4qr8IFZFOKuOF4MtqV1?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjZIdXhsdlQrdmFsUFo1Q0d1K2w3Z3U0bnIrM28zc3VINVR0UGlLL0JQTVhJ?=
- =?utf-8?B?THg5WmZsQUNQRE5Ec1BDRHBZN2xyalJoNEZmWGM3dHlCQ0xZV3ZDYjVmenBK?=
- =?utf-8?B?ZlZBeGwyUmdWdFJseGVGZXpkVm9lUDY1MEdTRm9veTNYSHVmOGVPT1pTNWIr?=
- =?utf-8?B?TEcxMmpOaHNMWmhJdlp5cEtOTEFaZHNBaGJDUU4zaCtWZk53RVQxZ1lZa1RV?=
- =?utf-8?B?NnJuOExGNTFmY1EvU1NWbkg5SFdENERoY3JDMFprRnVOeWVpakxCNzA0YmZJ?=
- =?utf-8?B?R3B0eDJueWp1ajZFQzhIU1M0WGhrSjFXWi8xNFNjbFMrU2xucmlpdTAvNUxE?=
- =?utf-8?B?bS9IU2dxN2JUNkowQkJZYlk1VGRaUk9OZHlRcGp0WHh5Zk5YNzBaQU9ncnB5?=
- =?utf-8?B?Y3UwWm5hUElFKzkyQUhlZURZclVGalRkYXdicmtLbnl1U3kxM3JtQ1UwWE51?=
- =?utf-8?B?eFhRbU55RCs1QnJhTFRuLyt6WS9UKy9QYnpOU1hlOGpYVGZMVG81Q0JGSTVS?=
- =?utf-8?B?RU1XNlB1VjhOdGE4Q0NRRDRCOWNmVC9jalorK2p6b2NyZDdEYXNhT1R5SXhl?=
- =?utf-8?B?VG02MDlGQzdIbS82UmJrT0wvODZBQk1yQXd6Q0IrajBqZjYrTEh5dWtEQUZI?=
- =?utf-8?B?b2tEMnJCVm8rbDJNWDdiQnROWkFpVmhUWUtZRWVaYzY5SW9qMjd3Z1grOTJa?=
- =?utf-8?B?Sm9KU3JmZ0drbjhQWmc2bThqVzZMNEZoZTVtSzBpWnpMcFRIY2N5cFFmeGow?=
- =?utf-8?B?OWRXRG5MVWZtUmtIRGVGSFFKOWM3WnFVZFVVS1BFbTZLa2g0QmlqMmUyVisy?=
- =?utf-8?B?Yi9QRVpxOXdMMTAwalp6eTBsajFsd0l5YkFINE5KdUhKVm93eHdvQzdkd0No?=
- =?utf-8?B?c3dlZ0gxaHpDVEFMK09Gb2RWM3FIMi9hQVlEbDlaUnBVTzFOTzFnd3B6RmZh?=
- =?utf-8?B?emRlSnBwK2VuMUdrOUN5QTlJdllVYVhPcUNzT2FzLzJOcFhxVWNkNXVyNmRL?=
- =?utf-8?B?Q2NYL1NtYWFBbUtRS3I2WlJMS2RVdGRibmxlOGEzN0FOTS9GTXM0NXRCS0Zi?=
- =?utf-8?B?UC95aGpTaVliamx4TWRjZmx1VXlLSHRvd1JRNU96UWNvRTVQdXZmOGJ4TlNi?=
- =?utf-8?B?VDVSWjlWNDk0ZEUvd05kQ05SQXBmSEpqQy94WTlXNE91VjdWRUYzMHd2WHFv?=
- =?utf-8?B?aEl3L3ZOejNYcTYwTGpNZkJVZWFhOWpJbGY0WmQ1S0pzRTE1UXVsbC9kdGp5?=
- =?utf-8?B?QXRFdEh2M0p6aE9IcUpuaGx1T3piYnM2VmIwVGx6SVdLNFFmNDNKSzhpV1ZD?=
- =?utf-8?B?cWI3RjlwTndnWHhObDRQMVBEYnR2WVU3eXhEdVF3NElDeStuTVV3MkRlL2Iw?=
- =?utf-8?B?NEFWNVBXM1NBcHNMSzkvb2Z3cG1UY2NHdHdveXVVUWdQbTk3YTRlbE9JUVhY?=
- =?utf-8?B?ZzU2eXR4REdiNFl0VHF1elIyM2pnKy9RSUU4dDduQ1p5VTlBT1VxejFWcUYv?=
- =?utf-8?B?QzF4amZad3pOcE1pMHZsU0psajhVbTUzYUVHV2lLd2RhZDQvZUUzR2cxeEVI?=
- =?utf-8?B?aTh4RFNnVzhkZ2Fta2d1dnJHR25vckV0bk9iU0M4OERnamlCNTZRVlNuTzdG?=
- =?utf-8?B?dW1MUWdSbldkR3Q1N2RLSGoyY09Bakpxb08rOFlpaEZocVREenlPclBScmZZ?=
- =?utf-8?B?VDlpUVFLUmRQL2VHQzNkdjJUZzFyYWhjZHV5bnhvZDdtRkFhMzZXNTZPQUVr?=
- =?utf-8?B?ckh6b0p6cXpOZEs2WU1QSG1Yb2NDelpMeHZxcThEUEtTRGpadlRKQ3MvbjE3?=
- =?utf-8?B?Q0prVEZpaHNFRGFGcklpMENGamZjLzAvYldaUFVXa2VvWmJQOEl1MEMvTElD?=
- =?utf-8?B?Mngyb1dNTEJBSVZHd3AybWhhRHpQWHYxQWlPT3pmR1BNd3RtRFFjWlZlU3pR?=
- =?utf-8?B?UWhHOU41T1NtUVpvaVlBM0RhSTJDNjc3Yk01c3EzU0laeXJNTGUvMUN1N2g4?=
- =?utf-8?B?bG5TYlhFSGNNOHVSWDNOTmVaV2FDR0F2bnZUZnVvNVJZa0MxeEwxUDVjUnZx?=
- =?utf-8?B?ZkZYeEU5TThWNkowRUM2N3pBOVlMdnpEaGtLbGxnbnorYkFJS2d3RGZuZmdZ?=
- =?utf-8?Q?rvg8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b06423bd-2351-4e6f-192e-08de39612da6
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 09:31:07.6435 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QGwv1Zsq2km2Q6MH6af+BWbZfHjwaRVM1fFhc6iT/+nPhL77qVVrCLio7vzVWxHQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFDB1826343
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="djhkclvbsznn62pt"
+Content-Disposition: inline
+In-Reply-To: <3772903.e9J7NaK4W3@workhorse>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,127 +83,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/11/25 15:35, Tvrtko Ursulin wrote:
-> 
-> Hi,
-> 
-> On 11/12/2025 13:16, Christian König wrote:
->> Implement per-fence spinlocks, allowing implementations to not give an
->> external spinlock to protect the fence internal statei. Instead a spinlock
->> embedded into the fence structure itself is used in this case.
->>
->> Shared spinlocks have the problem that implementations need to guarantee
->> that the lock live at least as long all fences referencing them.
->>
->> Using a per-fence spinlock allows completely decoupling spinlock producer
->> and consumer life times, simplifying the handling in most use cases.
->>
->> v2: improve naming, coverage and function documentation
->> v3: fix one additional locking in the selftests
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> I don't think I gave r-b on this one. Not just yet at least. Maybe you have missed the comments I had in the previous two rounds? I will repeat them below.
 
-I was already wondering why you gave comments and an rb but though that the comments might just be optional.
+--djhkclvbsznn62pt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 04/17] drm/bridge: Act on the DRM color format property
+MIME-Version: 1.0
 
-Going to remove that and see on the comments below.
+On Thu, Dec 11, 2025 at 08:34:22PM +0100, Nicolas Frattaroli wrote:
+> On Tuesday, 9 December 2025 15:27:28 Central European Standard Time Maxim=
+e Ripard wrote:
+> > On Fri, Nov 28, 2025 at 10:05:40PM +0100, Nicolas Frattaroli wrote:
+> > > The new DRM color format property allows userspace to request a speci=
+fic
+> > > color format on a connector. In turn, this fills the connector state's
+> > > color_format member to switch color formats.
+> > >=20
+> > > Make drm_bridges consider the color_format set in the connector state
+> > > during the atomic bridge check. Specifically, reject any output bus
+> > > formats that do not correspond to the requested color format.
+> > >=20
+> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_bridge.c | 45 ++++++++++++++++++++++++++++++++++=
+++++++++++
+> > >  1 file changed, 45 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridg=
+e.c
+> > > index 8f355df883d8..8aac9747f35e 100644
+> > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > @@ -1052,6 +1052,47 @@ static int select_bus_fmt_recursive(struct drm=
+_bridge *first_bridge,
+> > >  	return ret;
+> > >  }
+> > > =20
+> > > +static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_col=
+or_format fmt)
+> > > +{
+> > > +	if (fmt =3D=3D DRM_COLOR_FORMAT_AUTO)
+> > > +		return true;
+> > > +
+> > > +	switch (bus_fmt) {
+> > > +	case MEDIA_BUS_FMT_FIXED:
+> > > +		return true;
+> > > +	case MEDIA_BUS_FMT_RGB888_1X24:
+> > > +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> > > +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> > > +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> > > +		return fmt =3D=3D DRM_COLOR_FORMAT_RGB444;
+> > > +	case MEDIA_BUS_FMT_YUV8_1X24:
+> > > +	case MEDIA_BUS_FMT_YUV10_1X30:
+> > > +	case MEDIA_BUS_FMT_YUV12_1X36:
+> > > +	case MEDIA_BUS_FMT_YUV16_1X48:
+> > > +		return fmt =3D=3D DRM_COLOR_FORMAT_YCBCR444;
+> > > +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > +	case MEDIA_BUS_FMT_VYUY8_1X16:
+> > > +	case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > +	case MEDIA_BUS_FMT_YVYU8_1X16:
+> > > +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> > > +	case MEDIA_BUS_FMT_YUYV10_1X20:
+> > > +	case MEDIA_BUS_FMT_VYUY10_1X20:
+> > > +	case MEDIA_BUS_FMT_YVYU10_1X20:
+> > > +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> > > +	case MEDIA_BUS_FMT_VYUY12_1X24:
+> > > +	case MEDIA_BUS_FMT_YUYV12_1X24:
+> > > +	case MEDIA_BUS_FMT_YVYU12_1X24:
+> > > +		return fmt =3D=3D DRM_COLOR_FORMAT_YCBCR422;
+> > > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> > > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> > > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> > > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> > > +		return fmt =3D=3D DRM_COLOR_FORMAT_YCBCR420;
+> > > +	default:
+> > > +		return false;
+> > > +	}
+> > > +}
+> > > +
+> > >  /*
+> > >   * This function is called by &drm_atomic_bridge_chain_check() just =
+before
+> > >   * calling &drm_bridge_funcs.atomic_check() on all elements of the c=
+hain.
+> > > @@ -1137,6 +1178,10 @@ drm_atomic_bridge_chain_select_bus_fmts(struct=
+ drm_bridge *bridge,
+> > >  	}
+> > > =20
+> > >  	for (i =3D 0; i < num_out_bus_fmts; i++) {
+> > > +		if (!bus_format_is_color_fmt(out_bus_fmts[i], conn_state->color_fo=
+rmat)) {
+> > > +			ret =3D -ENOTSUPP;
+> > > +			continue;
+> > > +		}
+> >=20
+> > Sorry, I'm struggling a bit to understand how this would work if a brid=
+ge both supports the bus
+> > format selection and HDMI state helpers? Can you expand on it?
+>=20
+> I have very little idea of whether this makes conceptual sense.
 
->> @@ -365,7 +364,7 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>       struct dma_fence_cb *cur, *tmp;
->>       struct list_head cb_list;
->>   -    lockdep_assert_held(fence->lock);
->> +    lockdep_assert_held(dma_fence_spinlock(fence));
->>         if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>                         &fence->flags)))
->> @@ -412,9 +411,9 @@ void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
->>       if (WARN_ON(!fence))
->>           return;
->>   -    spin_lock_irqsave(fence->lock, flags);
->> +    dma_fence_lock_irqsave(fence, flags);
-> 
-> For the locking wrappers I think it would be better to introduce them in a purely mechanical patch preceding this one. That is, just add the wrappers and nothing else.
+=2E. I wasn't asking you if it makes sense, I was asking you to explain
+how you wanted it to work.
 
-That doesn't fully work for all cases, but I will separate it out a bit more.
+> The hope is that by working backwards from the last bridge and only
+> accepting either fixed formats or something that corresponds to the
+> target color format, we don't claim that a setup can do a colour
+> format if the whole bridge chain isn't able to do it.
+>=20
+> Of course, format conversions along the bridge chain where one
+> input format can be converted to a set of output formats by some
+> bridge will throw a massive wrench into this. And this is all
+> assuming that the bus format is in any way related to the color
+> format that will be sent out on the wire.
 
->>   static inline uint64_t amdgpu_vm_tlb_seq(struct amdgpu_vm *vm)
->>   {
->> +    struct dma_fence *fence;
->>       unsigned long flags;
->> -    spinlock_t *lock;
->>         /*
->>        * Workaround to stop racing between the fence signaling and handling
->> -     * the cb. The lock is static after initially setting it up, just make
->> -     * sure that the dma_fence structure isn't freed up.
->> +     * the cb.
->>        */
->>       rcu_read_lock();
->> -    lock = vm->last_tlb_flush->lock;
->> +    fence = dma_fence_get_rcu(vm->last_tlb_flush);
-> 
-> Why does this belong here? If taking a reference fixes some race it needs to be a separate patch. If it doesn't then this patch shouldn't be adding it.
+I'm not really concerned about this. As we move more and more bridges to
+the state helpers, we can always fix it, but it needs at the very least
+to document how you envision the whole thing to work, and ideally have
+bunch of tests to make sure it still does.
 
-The code previously assumed that the lock is global and can't go away while the function is called. When we start to use an inline lock that assumption is not true any more.
+> In practice, I don't have any hardware where whatever counts as
+> a "bridge" is an actually more involved setup than just the TX
+> controller. I tried looking into getting a board with one of the
+> supported DSI-to-HDMI bridge chips so I can at least test how it
+> would work in such a scenario, and I got one, but I'd need to make
+> my own flat flex PCB to adapt it to the pinout of my SBC's DSI
+> port.
+>=20
+> So yeah I don't know how it's supposed to work, I just know this
+> works for the case I'm working with, and any more complex case
+> is literally unobtanium hardware which I'm not going to bother
+> blowing days on maybe making a cable for when I'm already touching
+> three different GPU drivers here and the intel-gfx-ci is screaming
+> into my inbox about vague failures in unrelated codepaths in its
+> native language, Klingon.
 
-But you're right that can be a separate patch.
+That's uncalled for.
 
->> @@ -362,6 +368,38 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
->>       } while (1);
->>   }
->>   +/**
->> + * dma_fence_spinlock - return pointer to the spinlock protecting the fence
->> + * @fence: the fence to get the lock from
->> + *
->> + * Return either the pointer to the embedded or the external spin lock.
->> + */
->> +static inline spinlock_t *dma_fence_spinlock(struct dma_fence *fence)
->> +{
->> +    return test_bit(DMA_FENCE_FLAG_INLINE_LOCK_BIT, &fence->flags) ?
->> +        &fence->inline_lock : fence->extern_lock;
-> 
-> Is sprinkling of conditionals better than growing the struct? Probably yes, since branch misses are cheaper than cache misses. Unless the code grows significantly on some hot path and we get instruction cache misses instead. Who knows. But let say in the commit message we considered it and decided on this solution due xyz.
+> Which is all to say: is there a virtual drm bridge driver that
+> exists, where I can set what formats it supports on the input
+> and on the output, so that I can actually get a feel for how this
+> is conceptually supposed to work without needing special hardware?
 
-Sure.
+If your question is "do we have a way to replicate and test an arbitrary
+setup to check how it behaves?", then yes, we do, it's what we're doing
+in kunit. But you don't seem too fond of those.
 
-> 
-> On a quick grep there is one arch where this grows the struct past a cache line anyway, but as it is PA-RISC I guess no one cares. Lets mention that in the commit message as well.
+> Better yet: do you have a specific setup in mind where you know
+> this approach does not work?
 
-Interesting, I was aware of the problems on Sparc regarding spinlocks but that PA-RISC also has something more complicated then an int is news to me.
+Look. I was asking a genuine question. If you want to get all defensive
+about it, go ahead. But sending a series implementing something with a
+lot of history, complex interactions, etc. and then expecting it to be a
+breeze that will get merged in a few revisions is not going to work.
 
-Anyway I agree it doesn't really matter.
+Pushing back when asked to follow our documented rules, or being
+dismissive when asked design questions is not going to help you push
+this forward. If anything, and because it's complex, the more tests you
+add the better because we A) know it works in a specific set of cases,
+and B) know it will still work going forward.
 
-Regards,
-Christian.
+I'm sure you know what you're doing, but so do we.
 
-> 
-> Regards,
-> 
-> Tvrtko
->> +}
->> +
->> +/**
->> + * dma_fence_lock_irqsave - irqsave lock the fence
->> + * @fence: the fence to lock
->> + * @flags: where to store the CPU flags.
->> + *
->> + * Lock the fence, preventing it from changing to the signaled state.
->> + */
->> +#define dma_fence_lock_irqsave(fence, flags)    \
->> +    spin_lock_irqsave(dma_fence_spinlock(fence), flags)
->> +
->> +/**
->> + * dma_fence_unlock_irqrestore - unlock the fence and irqrestore
->> + * @fence: the fence to unlock
->> + * @flags the CPU flags to restore
->> + *
->> + * Unlock the fence, allowing it to change it's state to signaled again.
->> + */
->> +#define dma_fence_unlock_irqrestore(fence, flags)    \
->> +    spin_unlock_irqrestore(dma_fence_spinlock(fence), flags)
->> +
->>   #ifdef CONFIG_LOCKDEP
->>   bool dma_fence_begin_signalling(void);
->>   void dma_fence_end_signalling(bool cookie);
-> 
+Maxime
 
+--djhkclvbsznn62pt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTvlYQAKCRAnX84Zoj2+
+ds9AAYDpOz10nKcMKLPyibtdEtuyeNgvyiyX8WQbWHjsrkDdfOtvubUe7UL7QZyF
+z6LSrbIBfiVlJYqUrlofT80/bn/ebB/XyO+7ZvgSHoVicdQmR+HGHYkOnC9I7W5s
+3S7XAmFmBQ==
+=a739
+-----END PGP SIGNATURE-----
+
+--djhkclvbsznn62pt--
