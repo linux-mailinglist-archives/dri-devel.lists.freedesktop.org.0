@@ -2,67 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4588CBA2DE
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 03:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF6ECBA2EB
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 03:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B8D10E047;
-	Sat, 13 Dec 2025 02:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5D9110E380;
+	Sat, 13 Dec 2025 02:20:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fWdTDoA2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CGgZUQms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA1810E047
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 02:14:57 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-8824ce98111so26324326d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:14:57 -0800 (PST)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8038810E380
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 02:20:28 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-4ee2014c228so13679611cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:20:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765592097; x=1766196897; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ghR8RkkMCcQ7QXimfUpYMa2GwrJ+aLnHU5odT5vzyL4=;
- b=fWdTDoA2evc+TK77vxSYWj1WRIQ21OVWeOt/MYg4W/fU6mN0mO3nh2Zzo0XavwvpJ8
- vD/X0jLSWiRWZAdwoB9KW455WImMlR/GPlwwWL9EdewOAIvnlAXskM0hC3RZ9rewZcWk
- KA1I88ojD4ZiY30n//YUNuOU0Wf4UWtx0b8FdxcxpJ3Xep046DE76weWOdINNYpvkmu+
- 96cMjoNuRP5DLn5C6JDsUrmFZGYHjTR2ijlilbPPR/y1YRi6OkIn3jJCIP8pcHyiDi7H
- I+1CcyDptg0Lj8C3BqZg/MpiCQyJAGepJquDzBGL9E6oPTQUl3nO4qxwI2gmho4UceuK
- Gx3w==
+ d=gmail.com; s=20230601; t=1765592427; x=1766197227; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sB8wODuYZvbHlQE6tL+mhCiQklQJq5k9yi0b7qFeck0=;
+ b=CGgZUQmstH7y0IFI4i4gxEewS2nV1B3Sa+Y0YIBG6HfKW1//VTYHhlo3u7OrcQ4o7u
+ H/jWUSN1aGDMrbBulKGYGzH00Gnk5C35jyFn+wv57jT9wWDbALpTLUVH+knFh4tywtzS
+ f0n9aLsydKmTcnNLRchC3k1ZPPre98kat7d69zxkRl5iGufRbDz+QEnDh7ADByMf7yUD
+ anCYx427l4YQcOw+0ukXw98/HZwd1+Cs1cjEZwURbLc0kA+Urk8M3HCoCMFrIjf8Pbe3
+ 765O0ybHi5qm9x+26kVxP2PGmHd8VXAl9SXF7KQLImhdBxRGNhzYpt5Rdw4YQoVcant8
+ gVrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765592097; x=1766196897;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ghR8RkkMCcQ7QXimfUpYMa2GwrJ+aLnHU5odT5vzyL4=;
- b=VBD4bZdOdjy7BvPrdhDyxYBUau18T0OPVnXt3vjyjg7n23aU1jZ+CB0OmmMmsHp0Nt
- 9IbZkt1zYh+Re++r74QbFyniWYS8eXx3qbUiQQHK7+1dFqPXBToZLoTUAISK6ifdFkPs
- w9bklAVyNKwWVUKahin4LzTW/SNNi8qYtycEVPqfE8y0657DS44DSqjNq4szTrCI2u2N
- c7E7bieiwjVgk+E8fjVZYkYoVUWEGeY31xsyh1SfPSPnU5Bzcv1c2vbImvqlWpg3DJ84
- dxHomR5k16CdG6mUCDN7Hn1BzXx97le/1PokLA9IkRAMoDWcuJiNmFvRSrbg0QIeR5zB
- xiag==
-X-Gm-Message-State: AOJu0Ywrr6PYFXCrq0l1IXxQxJkMzPEqjIqsG+MyUEZ3lnscMRE1+yxh
- joOYx9VfUKGBggyi8dqb2gLwB19IVAnXX7Kq3TmXWzm1qmHJ4fd8SmUkeiLrNhXzzOWWbAQS2pv
- U1tyqck4eAZPdyc4NoRnK0phJDJ1CqIs=
-X-Gm-Gg: AY/fxX7ypcTd6WnLDeeoCdm0NwcZpVPXr4zrqRAGnC7BBCRwVmuoRw0M21/zjNx3B2P
- yBAur30+VZrHGWHra0WBq5/ZJ8Lqew0II00JaQF7m95OMFht4FSAQjII43TiezQ55BXZluG2gB5
- YTGOuquoIqFWu0ft3vOoAiALAG2+zrim2ZePBW2pY2of23/Os80d81w4k/16LN42Vvr7sXJP5hK
- bSL/1aYj9blBmx0B7U1By4wXqM+MwDAUSS+aLJYlMIQoLsLlg4rGYhX//VoMdvQ00Mfr18Mgw==
-X-Google-Smtp-Source: AGHT+IGIlOSNlzc8qiSs3e5iKVh0nRB77dGU8VQ7GKp+XaD2yDo4Y1PsPkjcTt09AMUaidXGGC4J2qVXL1YQ42AahGE=
-X-Received: by 2002:ac8:59c9:0:b0:4f1:b3cc:2d04 with SMTP id
- d75a77b69052e-4f1d05af1f0mr60791351cf.44.1765592096595; Fri, 12 Dec 2025
- 18:14:56 -0800 (PST)
+ d=1e100.net; s=20230601; t=1765592427; x=1766197227;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sB8wODuYZvbHlQE6tL+mhCiQklQJq5k9yi0b7qFeck0=;
+ b=w2FA528pMNd3GIBOzqee3Qxv7MT5eh5j4s9KzSMWiC1xaKvCgn7NiqFV6abGqq0H+y
+ QyaT7MmERjd0j8q7PAG2pIrXFLdYHRl+l65Ip4+MHi4ektgaf4jiFPAJCCxFjccvSjGR
+ xKyR1W21yRQ2u+lMow5wVDyPn9IFqFHiPFLW7j17a5GrLz47KbAUyUG1RAWc+J9GFFDs
+ S5j2kYYrsvWooek35+1lT7xw0OkqPz0ycLM6fICcOEnDtG2O3ajZmQ0L8l5D6dDVbwWb
+ sNzSCtUCxHWHJVupRWz409HdLGZ15AhBXv5mrBLXLuzAQAuNgxl+sy1AP6WbG7b1Vdly
+ FnNQ==
+X-Gm-Message-State: AOJu0Yy6opOLhISqDswXL6r9SZI9uo5OMRTZljIwGJfnHOadl6h0APYn
+ vcW9selZ1AO+AMsQHuciy7BAtPJLvzioMQ3X11W/K8/m2MFwEqVrrS1oCSmRrgcx9EvuGsM63rJ
+ IxYk34+DRuV/A9mioNW1yhiu24/tZsik=
+X-Gm-Gg: AY/fxX7SnV9TqAHM3nFYAW13TDOKYnuR+fsMXlSiMagr0RtloCAy+PzNvFNUHU5HEAw
+ BOcLX4fnI25dxiXus5tXPzL2CTxiPnAIUjqgTzK3Ocwtgrr3+PEbz4vYOdOBsVFIzLavzpBQ1kB
+ 5+fMK0tEekJfjlFfmCESIrME63Rdu1lNQUKt+l5yuNJsiw0rkjhnUX4FsfpKtmKYz2xlwrWTzcy
+ /cJ+bh6JSp54TG4PQKxSdJsP76IlDGZgYqfyo8TuxBggi2/imFamGNtZu7epJxLoSTrj+oJPg==
+X-Google-Smtp-Source: AGHT+IFTPrJodF4FgaJfiy+YxZUAy1LHE797/QEsBKky2gnjcj6Btlk0VcqDRIG2kJZBGRediSfY7d4VFg89+d1/YXo=
+X-Received: by 2002:a05:622a:424a:b0:4ee:2c3c:6e with SMTP id
+ d75a77b69052e-4f1d04cd38fmr57299011cf.30.1765592427554; Fri, 12 Dec 2025
+ 18:20:27 -0800 (PST)
 MIME-Version: 1.0
 From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 13 Dec 2025 12:14:45 +1000
-X-Gm-Features: AQt7F2qvZDhlb2zzwUZIah-GJWRSwpoCfIEbcdtQ_R45LDvm9qH7YA5eHsc_zkI
-Message-ID: <CAPM=9twB2eNZdfk2gZ1Tp1vnCKrsKNKz0s=3B3ZV_FFF66H0Eg@mail.gmail.com>
-Subject: [git pull] drm next fixes for 6.19-rc1
+Date: Sat, 13 Dec 2025 12:20:16 +1000
+X-Gm-Features: AQt7F2rk0txkk3q9ug3b1Hva1wVS4vOIRXJhvN9SkTMVL9QZYHv7Kv_wclmy0Bo
+Message-ID: <CAPM=9txr+eWr=nCVWwAPA=bC8bBNnA+ReSkxGCYoQmhEhhyUmQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.19-rc1
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,159 +82,126 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Linus,
 
-This is the weekly fixes for what is in next tree, mostly amdgpu and
-some i915, panthor and a core revert.
+This is the enqueued fixes that ended up in our fixes branch, nouveau
+mostly, along with some small fixes in other places.
 
-I've got a separate fixes pull after this as well that is from the 6.18 base.
-
+Regards,
 Dave.
 
-drm-next-2025-12-13:
-drm next fixes for 6.19-rc1
+drm-fixes-2025-12-13:
+drm fixes for 6.19-rc1
 
-core:
-- revert dumb bo 8 byte alignment
+plane:
+- Handle IS_ERR vs NULL in drm_plane_create_hotspot_properties().
 
-amdgpu:
-- SI fix
-- DC reduce stack usage
-- HDMI fixes
-- VCN 4.0.5 fix
-- DP MST fix
-- DC memory allocation fix
+ttm:
+- fix devcoredump for evicted bos
 
-amdkfd:
-- SVM fix
-- Trap handler fix
-- VGPR fixes for GC 11.5
+panel:
+- Fix stack usage warning in novatek-nt35560.
 
-i915:
-- Fix format string truncation warning
-- FIx runtime PM reference during fbdev BO creation
+nouveau:
+- alloc fwsec sb at boot to avoid s/r problems
+- fix strcpy usage
+- fix i2c encoder crash
 
-panthor:
-- fix UAF
+bridge:
+- Ignore spurious PLL_UNLOCK bit in ti-sn65dsi83.
 
-renesas:
-- fix sync flag handling
-The following changes since commit c7685d11108acb387e44e3d81194d0d8959eaa44:
+mgag200:
+- Fix bigendian handling in mgag200.
 
-  Merge tag 'topic/drm-intel-plane-color-pipeline-2025-12-04' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
-(2025-12-05 10:27:57 +1000)
+tilcdc:
+- Fix probe failure in tilcdc.
+The following changes since commit 7d0a66e4bb9081d75c82ec4957c50034cb0ea449=
+:
+
+  Linux 6.18 (2025-11-30 14:42:10 -0800)
 
 are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-13
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-12-13
 
-for you to fetch changes up to 37a1cefd4d4e0b3d12f140e8a265757444fa6957:
+for you to fetch changes up to 5300831555cc6bb45bf824262ac044e8891b581c:
 
-  Merge tag 'drm-intel-next-fixes-2025-12-12' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
-(2025-12-12 18:57:44 +1000)
-
-----------------------------------------------------------------
-drm next fixes for 6.19-rc1
-
-core:
-- revert dumb bo 8 byte alignment
-
-amdgpu:
-- SI fix
-- DC reduce stack usage
-- HDMI fixes
-- VCN 4.0.5 fix
-- DP MST fix
-- DC memory allocation fix
-
-amdkfd:
-- SVM fix
-- Trap handler fix
-- VGPR fixes for GC 11.5
-
-i915:
-- Fix format string truncation warning
-- FIx runtime PM reference during fbdev BO creation
-
-panthor:
-- fix UAF
-
-renesas:
-- fix sync flag handling
+  Merge tag 'drm-misc-fixes-2025-12-10' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+(2025-12-13 10:54:29 +1000)
 
 ----------------------------------------------------------------
-Akash Goel (1):
-      drm/panthor: Prevent potential UAF in group creation
+drm fixes for 6.19-rc1
 
-Alex Deucher (2):
-      drm/amd/display: Use GFP_ATOMIC in dc_create_plane_state()
-      drm/amdgpu: don't attach the tlb fence for SI
+plane:
+- Handle IS_ERR vs NULL in drm_plane_create_hotspot_properties().
 
-Alex Hung (1):
-      drm/amd/display: Refactor dml_core_mode_support to reduce stack frame
+ttm:
+- fix devcoredump for evicted bos
 
-Ard Biesheuvel (1):
-      drm/i915: Fix format string truncation warning
+panel:
+- Fix stack usage warning in novatek-nt35560.
 
-Dave Airlie (3):
-      Merge tag 'drm-misc-next-fixes-2025-12-10' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
-      Merge tag 'amd-drm-fixes-6.19-2025-12-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next
-      Merge tag 'drm-intel-next-fixes-2025-12-12' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+nouveau:
+- alloc fwsec sb at boot to avoid s/r problems
+- fix strcpy usage
+- fix i2c encoder crash
 
-Dibin Moolakadan Subrahmanian (1):
-      drm/i915/fbdev: Hold runtime PM ref during fbdev BO creation
+bridge:
+- Ignore spurious PLL_UNLOCK bit in ti-sn65dsi83.
 
-Ivan Lipski (1):
-      drm/amd/display: Improve HDMI info retrieval
+mgag200:
+- Fix bigendian handling in mgag200.
 
-Jay Cornwall (1):
-      drm/amdkfd: Trap handler support for expert scheduling mode
+tilcdc:
+- Fix probe failure in tilcdc.
 
-Jonathan Kim (1):
-      drm/amdkfd: bump minimum vgpr size for gfx1151
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/panel: novatek-nt35560: avoid on-stack device structure
 
-Ludovic Desroches (2):
-      drm/gem-dma: revert the 8-byte alignment constraint
-      drm/gem-shmem: revert the 8-byte alignment constraint
+Dan Carpenter (1):
+      drm/plane: Fix IS_ERR() vs NULL check in
+drm_plane_create_hotspot_properties()
 
-Marek Vasut (1):
-      drm/rcar-du: dsi: Handle both DRM_MODE_FLAG_N.SYNC and
-!DRM_MODE_FLAG_P.SYNC
+Dave Airlie (1):
+      Merge tag 'drm-misc-fixes-2025-12-10' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
 
-Mario Limonciello (2):
-      drm/amdkfd: Export the cwsr_size and ctl_stack_size to userspace
-      Revert "drm/amd/display: Fix pbn to kbps Conversion"
+Kory Maincent (TI.com) (1):
+      drm/tilcdc: Fix removal actions in case of failed probe
 
-Mario Limonciello (AMD) (1):
-      drm/amd: Fix unbind/rebind for VCN 4.0.5
+Luca Ceresoli (1):
+      drm/bridge: ti-sn65dsi83: ignore PLL_UNLOCK errors
 
-Rosen Penev (1):
-      drm/amd/display: shrink struct members
+Lyude Paul (1):
+      drm/nouveau/gsp: Allocate fwsec-sb at boot
 
-Xiaogang Chen (1):
-      drm/amdkfd: Use huge page size to check split svm range alignment
+Madhur Kumar (2):
+      drm/nouveau: refactor deprecated strcpy
+      drm: nouveau: Replace sprintf() with sysfs_emit()
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c            |   2 +
- drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |  62 ++++++----
- .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm |  37 ++++++
- drivers/gpu/drm/amd/amdkfd/kfd_queue.c             |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  46 ++++---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |   4 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   3 +
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   8 ++
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  59 +++++----
- drivers/gpu/drm/amd/display/dc/core/dc_surface.c   |   2 +-
- .../drm/amd/display/dc/dml2_0/display_mode_core.c  | 134 +++++++++++----------
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   3 -
- drivers/gpu/drm/amd/display/include/audio_types.h  |  14 +--
- drivers/gpu/drm/drm_gem_dma_helper.c               |   2 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c             |   2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |  11 +-
- drivers/gpu/drm/i915/intel_memory_region.h         |   2 +-
- drivers/gpu/drm/panthor/panthor_sched.c            |  19 ++-
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   4 +-
- 20 files changed, 267 insertions(+), 152 deletions(-)
+Ren=C3=A9 Rebe (2):
+      drm/nouveau: fix circular dep oops from vendored i2c encoder
+      drm/mgag200: Fix big-endian support
+
+Simon Richter (1):
+      drm/ttm: Avoid NULL pointer deref for evicted BOs
+
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              | 11 +++-
+ drivers/gpu/drm/drm_plane.c                        |  8 +--
+ drivers/gpu/drm/mgag200/mgag200_mode.c             | 25 +++++++++
+ .../gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c | 20 -------
+ .../drm/nouveau/include/dispnv04/i2c/encoder_i2c.h | 19 ++++++-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |  4 ++
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |  6 +--
+ drivers/gpu/drm/nouveau/nouveau_hwmon.c            |  4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c    | 61 +++++++++++++++---=
+----
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |  3 ++
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  | 10 +++-
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c      |  8 +--
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |  2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                | 53 ++++++++++++------=
+-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h                |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c                    |  6 +++
+ 16 files changed, 166 insertions(+), 76 deletions(-)
