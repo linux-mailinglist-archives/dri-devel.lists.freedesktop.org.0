@@ -2,69 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF6ECBA2EB
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 03:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61274CBA453
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 05:01:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D9110E380;
-	Sat, 13 Dec 2025 02:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6521510E94D;
+	Sat, 13 Dec 2025 04:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CGgZUQms";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YzveGwpq";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RQ4D4wJi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8038810E380
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 02:20:28 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4ee2014c228so13679611cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:20:28 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B2110E94D
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 04:01:42 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BD0hbqC1562645
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 04:01:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=LcNVAJsLGQf24kG2wRpel78O
+ cIah1cBrBEulv8MZ6Y8=; b=YzveGwpqsxyZMxL+MIWY6mbtC40VeRt42mhWiAQK
+ Wu3ASXaVCOZC3omld1a4BoNsJpoLKcf5ITq5he34sUjdHCV8z+UMjOA60oLrMayi
+ bnDw3cv6Lu6Fjc9j1/hbTRsAvYsIOlRh60eelyqPF79E8scE0puEOXlqRD6WrsEI
+ Xwg26V3QxPAsawjRI9VOuL0mz2bCP19fJtGXHwE1yjqz0F+KUqspWNLKzW68Q9+y
+ VSIezrJMUXYXMcwkIYfOuWtaIJUZ29xf0kki072Cr5pZHpkbBx3W61XydXQibkJp
+ Du8agDyyiaVewnsRAMtMhJluIcjCXEPD7lZPDjRzEVDvyA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b0wuf871q-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 04:01:41 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4f1b7686f0fso32737011cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 20:01:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765592427; x=1766197227; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sB8wODuYZvbHlQE6tL+mhCiQklQJq5k9yi0b7qFeck0=;
- b=CGgZUQmstH7y0IFI4i4gxEewS2nV1B3Sa+Y0YIBG6HfKW1//VTYHhlo3u7OrcQ4o7u
- H/jWUSN1aGDMrbBulKGYGzH00Gnk5C35jyFn+wv57jT9wWDbALpTLUVH+knFh4tywtzS
- f0n9aLsydKmTcnNLRchC3k1ZPPre98kat7d69zxkRl5iGufRbDz+QEnDh7ADByMf7yUD
- anCYx427l4YQcOw+0ukXw98/HZwd1+Cs1cjEZwURbLc0kA+Urk8M3HCoCMFrIjf8Pbe3
- 765O0ybHi5qm9x+26kVxP2PGmHd8VXAl9SXF7KQLImhdBxRGNhzYpt5Rdw4YQoVcant8
- gVrQ==
+ d=oss.qualcomm.com; s=google; t=1765598500; x=1766203300;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=LcNVAJsLGQf24kG2wRpel78OcIah1cBrBEulv8MZ6Y8=;
+ b=RQ4D4wJiH7moudZTFuVFqrSXNSrcQDJt3Jn8/xfuqIe1Fu/shAQcM9YavF0d+W433D
+ xLy5DaXSor+aSMkhsDmflX7brZ7GhTEZ+ISLZKgCiNnMIq9Bmk22j0DnXvLfRURfCAqA
+ 7BNTOOUrPMwP42ZpfufAfbAvZWQiJKQ01hUM9thz8vJiqP9YeRLBqbU3JMS9wl69+PwB
+ qiNmUoKBHQkYana2Mrrlw/7vpNpKHzzTyhNPwxTZCacoaP9qDAhmnj0Nm3Yicxbm+8uP
+ Wr6jXqhidkkYUAcW9fB4cfskWjenQN9RMmf5wxLtG0swS4CYmhW2/275zyOevyHgYzOR
+ dh6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765592427; x=1766197227;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sB8wODuYZvbHlQE6tL+mhCiQklQJq5k9yi0b7qFeck0=;
- b=w2FA528pMNd3GIBOzqee3Qxv7MT5eh5j4s9KzSMWiC1xaKvCgn7NiqFV6abGqq0H+y
- QyaT7MmERjd0j8q7PAG2pIrXFLdYHRl+l65Ip4+MHi4ektgaf4jiFPAJCCxFjccvSjGR
- xKyR1W21yRQ2u+lMow5wVDyPn9IFqFHiPFLW7j17a5GrLz47KbAUyUG1RAWc+J9GFFDs
- S5j2kYYrsvWooek35+1lT7xw0OkqPz0ycLM6fICcOEnDtG2O3ajZmQ0L8l5D6dDVbwWb
- sNzSCtUCxHWHJVupRWz409HdLGZ15AhBXv5mrBLXLuzAQAuNgxl+sy1AP6WbG7b1Vdly
- FnNQ==
-X-Gm-Message-State: AOJu0Yy6opOLhISqDswXL6r9SZI9uo5OMRTZljIwGJfnHOadl6h0APYn
- vcW9selZ1AO+AMsQHuciy7BAtPJLvzioMQ3X11W/K8/m2MFwEqVrrS1oCSmRrgcx9EvuGsM63rJ
- IxYk34+DRuV/A9mioNW1yhiu24/tZsik=
-X-Gm-Gg: AY/fxX7SnV9TqAHM3nFYAW13TDOKYnuR+fsMXlSiMagr0RtloCAy+PzNvFNUHU5HEAw
- BOcLX4fnI25dxiXus5tXPzL2CTxiPnAIUjqgTzK3Ocwtgrr3+PEbz4vYOdOBsVFIzLavzpBQ1kB
- 5+fMK0tEekJfjlFfmCESIrME63Rdu1lNQUKt+l5yuNJsiw0rkjhnUX4FsfpKtmKYz2xlwrWTzcy
- /cJ+bh6JSp54TG4PQKxSdJsP76IlDGZgYqfyo8TuxBggi2/imFamGNtZu7epJxLoSTrj+oJPg==
-X-Google-Smtp-Source: AGHT+IFTPrJodF4FgaJfiy+YxZUAy1LHE797/QEsBKky2gnjcj6Btlk0VcqDRIG2kJZBGRediSfY7d4VFg89+d1/YXo=
-X-Received: by 2002:a05:622a:424a:b0:4ee:2c3c:6e with SMTP id
- d75a77b69052e-4f1d04cd38fmr57299011cf.30.1765592427554; Fri, 12 Dec 2025
- 18:20:27 -0800 (PST)
+ d=1e100.net; s=20230601; t=1765598500; x=1766203300;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LcNVAJsLGQf24kG2wRpel78OcIah1cBrBEulv8MZ6Y8=;
+ b=DiFXIfAK/RqzlrhANg/nGy2gZXQjKW12ZpP99BuF/GkDEOmAcGbrQzd7Wn0UpmT0Yl
+ s87FiJBo/sVKweSXhYK4HW+aWmM6VC60FJYVl4FTruCpAMWXgnamaUS6YPhcIFeq/3lj
+ wx/iT/X+r7LNloyvJPEHg8ejPjt7kRDgVGdFq3F+4aq83ck3mOXHcaLl3zBqGi5BmcF2
+ vtizClmqOWsA6ILuchcKvynmkhTNdJDsd/PgqnD/LH8kZA8FW0jGy9GLsg8lbokyfIvs
+ 8aJ9RW7ibYjU8zYrQMagSy35/hKUtjLy0yndwkZN0TfhWSD10cykTUx74QYz63TxHShM
+ rv8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXiToId1DEJ/CJMhMF6sdvcHh32PPzX3BS7CADgBBiONNFVH6VmbPoN/ZK7TMB0mXqXpY9vH0uX+IE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxwr855Ti9DqlKWU3Wm2qIdkVNdPveS6kwdjjdv5J4O38PcQ6UG
+ bzx7uX7oSI8zv8SDB/4Dy3sHPkUZsrhp08kO3PnXUCJkDdVmbCwQ3hNJTV6/lCOWV0/IIYpBXlU
+ OIvO2B4I+zL/4JQXeSty9TiYrCWcBUME4vca7kEilTzJ79/7mMIDAuHpRfxrlVUgzYsvqJ5A=
+X-Gm-Gg: AY/fxX6G4DgoaDTlR5Y30m8tPiHg7PWkr5kFfbKKu8sD7fpcqNvZBeqC4DRZVpwPiS+
+ ubZZSRdD5N3dJxo4jEnYvFnAf3nUT+K+8pz4ZLVWs4dOx664CpfeXvXE5eOepf0uUOQ6u/smo64
+ qFD7RFx1rf/FYdBZoWYiuLTcAdPcYF2mDn2nj1pfIaTDdEMEDuNECSN7Uc/a/oLlaHCTBUEl44b
+ XrndZTeWM4PeJ39J3u7wkZ7wfLYJL4wxE5oLPnlpj35J3ASlxxktNjJK8F1wLymmNOc6oPrts6x
+ 8ZIdnYcxWy16B1nKBauul/tC8Hm0Ysz5DvmKx7cuSV2rV9FqXQ/KPiJMkuTqx1bs6N6FDseMoLN
+ vLRSrKO9c9jZEDuZfWBDAFfZopzUOsHypddSxAyKGa9JnxuIfJn9z70jNgTfvJYmNT1MK1LsuxI
+ m/+4hoQZfFuzVH1hIZXRkgHPY=
+X-Received: by 2002:a05:622a:41c5:b0:4f1:e2a4:db39 with SMTP id
+ d75a77b69052e-4f1e2a4e0ecmr999761cf.4.1765598500314; 
+ Fri, 12 Dec 2025 20:01:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEB6fsoDzbxK5AIYGHnnqvCIiJWXQuSf+BANSN6Bb11p3TUXgUWgwzIVGKz2HvArPjz2uurUQ==
+X-Received: by 2002:a05:622a:41c5:b0:4f1:e2a4:db39 with SMTP id
+ d75a77b69052e-4f1e2a4e0ecmr999371cf.4.1765598499798; 
+ Fri, 12 Dec 2025 20:01:39 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-598f2f3eeecsm2643794e87.30.2025.12.12.20.01.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Dec 2025 20:01:39 -0800 (PST)
+Date: Sat, 13 Dec 2025 06:01:36 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: david@ixit.cz
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Petr Hodina <petr.hodina@protonmail.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, phone-devel@vger.kernel.org
+Subject: Re: [PATCH 2/2] clk: qcom: rcg2, msm/dsi: Fix hangs caused by
+ register writes while clocks are off
+Message-ID: <aeefcr2yynlgnkiocv5eeqs4heaym6bts55z5iziqkysdzzqnt@oz2yau4nqwq7>
+References: <20251213-stability-discussion-v1-0-b25df8453526@ixit.cz>
+ <20251213-stability-discussion-v1-2-b25df8453526@ixit.cz>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 13 Dec 2025 12:20:16 +1000
-X-Gm-Features: AQt7F2rk0txkk3q9ug3b1Hva1wVS4vOIRXJhvN9SkTMVL9QZYHv7Kv_wclmy0Bo
-Message-ID: <CAPM=9txr+eWr=nCVWwAPA=bC8bBNnA+ReSkxGCYoQmhEhhyUmQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.19-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251213-stability-discussion-v1-2-b25df8453526@ixit.cz>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEzMDAzMCBTYWx0ZWRfX+52e+NTf+FLZ
+ 4VbMmV/8PJo+h3+PWTulf0G0KMvgT1znXemejxB05HdRy8dVGj4CTxX9BqRCZisKs5tNHw96Fs+
+ BRnDw4TUQQLf2JoBCW6FoCdsasYo9bzsAeKMrgDeTG1PwQs8NvxYQFBiyGs/cL8hjE9bzUkVWpN
+ /2b5YSfx854w48/0pkwcPjY7pvPGWEVZKx/qaqKXWP4kCBW7F9X2LIeC4akeXTz71YCMrpp2HGh
+ LZI4gjnvkwwYeITHcbQ3HDoKfV4bX5IhMv7Zdr6pI0gbNo4/NFGFk/Sp3K8TuzmZLofLiSEyxMy
+ WA9dcM9n2V1uZQ65fKXj4tvYqkitP4VpyRy7qd6C0kD7FQQvo6zMPTo7CWrx7Sr9HQdeB3otGsM
+ rmHIB4EPCpMBt8MHhzbhAjK3YmOs+w==
+X-Proofpoint-GUID: 5cblIcFpjbdYuHsaB4-STdjDy_24FMbl
+X-Proofpoint-ORIG-GUID: 5cblIcFpjbdYuHsaB4-STdjDy_24FMbl
+X-Authority-Analysis: v=2.4 cv=cObtc1eN c=1 sm=1 tr=0 ts=693ce525 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=sfOm8-O8AAAA:8 a=P0BQ7NvINjiI-4SoFKYA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TvTJqdcANYtsRzA46cdi:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-12_07,2025-12-11_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512130030
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,128 +149,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Sat, Dec 13, 2025 at 12:08:17AM +0100, David Heidelberg via B4 Relay wrote:
+> From: Petr Hodina <petr.hodina@protonmail.com>
+> 
+> This patch fixes system hangs that occur when RCG2 and DSI code paths
+> perform register accesses while the associated clocks or power domains
+> are disabled.
 
-This is the enqueued fixes that ended up in our fixes branch, nouveau
-mostly, along with some small fixes in other places.
+In general this should not be happening. Do you have a description of
+the corresponding code path?
 
-Regards,
-Dave.
+> 
+> For the Qualcomm RCG2 clock driver, updating M/N/D registers while the
+> clock is gated can cause the hardware to lock up. Avoid toggling the
+> update bit when the clock is disabled and instead write the configuration
+> directly.
+> 
+> Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  drivers/clk/qcom/clk-rcg2.c        | 18 ++++++++++++++++++
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 13 +++++++++++++
+>  2 files changed, 31 insertions(+)
 
-drm-fixes-2025-12-13:
-drm fixes for 6.19-rc1
+This needs to be split into two patches.
 
-plane:
-- Handle IS_ERR vs NULL in drm_plane_create_hotspot_properties().
+> 
+> diff --git a/drivers/clk/qcom/clk-rcg2.c b/drivers/clk/qcom/clk-rcg2.c
+> index e18cb8807d735..a18d2b9319670 100644
+> --- a/drivers/clk/qcom/clk-rcg2.c
+> +++ b/drivers/clk/qcom/clk-rcg2.c
+> @@ -1182,6 +1182,24 @@ static int clk_pixel_set_rate(struct clk_hw *hw, unsigned long rate,
+>  		f.m = frac->num;
+>  		f.n = frac->den;
+>  
+> +		/*
+> +		 * If clock is disabled, update the M, N and D registers and
+> +		 * don't hit the update bit.
+> +		 */
+> +		if (!clk_hw_is_enabled(hw)) {
+> +			int ret;
+> +
+> +			ret = regmap_read(rcg->clkr.regmap, RCG_CFG_OFFSET(rcg), &cfg);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = __clk_rcg2_configure(rcg, &f, &cfg);
+> +			if (ret)
+> +				return ret;
+> +
+> +			return regmap_write(rcg->clkr.regmap, RCG_CFG_OFFSET(rcg), cfg);
+> +		}
+> +
+>  		return clk_rcg2_configure(rcg, &f);
+>  	}
+>  	return -EINVAL;
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index e0de545d40775..374ed966e960b 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -762,6 +762,12 @@ dsi_get_cmd_fmt(const enum mipi_dsi_pixel_format mipi_fmt)
+>  
+>  static void dsi_ctrl_disable(struct msm_dsi_host *msm_host)
+>  {
+> +	/* Check if we're already powered off before writing registers */
+> +	if (!msm_host->power_on) {
+> +		pr_info("DSI CTRL: Skipping register write - host already powered off\n");
 
-ttm:
-- fix devcoredump for evicted bos
+It definitely should be dev_something. Probably dev_warn().
 
-panel:
-- Fix stack usage warning in novatek-nt35560.
+> +		return;
+> +	}
+> +
+>  	dsi_write(msm_host, REG_DSI_CTRL, 0);
+>  }
+>  
+> @@ -2489,6 +2495,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> +	int ret;
+> +
 
-nouveau:
-- alloc fwsec sb at boot to avoid s/r problems
-- fix strcpy usage
-- fix i2c encoder crash
+Extra empty line
 
-bridge:
-- Ignore spurious PLL_UNLOCK bit in ti-sn65dsi83.
+>  
+>  	mutex_lock(&msm_host->dev_mutex);
+>  	if (!msm_host->power_on) {
+> @@ -2496,6 +2504,11 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+>  		goto unlock_ret;
+>  	}
+>  
+> +	/* Ensure clocks are enabled before register access */
 
-mgag200:
-- Fix bigendian handling in mgag200.
+And this looks like yet another fix, prompting for a separate commmit.
 
-tilcdc:
-- Fix probe failure in tilcdc.
-The following changes since commit 7d0a66e4bb9081d75c82ec4957c50034cb0ea449=
-:
+> +	ret = pm_runtime_get_sync(&msm_host->pdev->dev);
+> +	if (ret < 0)
+> +		pm_runtime_put_noidle(&msm_host->pdev->dev);
 
-  Linux 6.18 (2025-11-30 14:42:10 -0800)
+pm_runtime_resume_and_get()
 
-are available in the Git repository at:
+Also, where is a corresponding put() ? We are leaking the runtime PM
+counter otherwise.
 
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-12-13
+> +
+>  	dsi_ctrl_disable(msm_host);
+>  
+>  	pinctrl_pm_select_sleep_state(&msm_host->pdev->dev);
+> 
+> -- 
+> 2.51.0
+> 
+> 
 
-for you to fetch changes up to 5300831555cc6bb45bf824262ac044e8891b581c:
-
-  Merge tag 'drm-misc-fixes-2025-12-10' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-(2025-12-13 10:54:29 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.19-rc1
-
-plane:
-- Handle IS_ERR vs NULL in drm_plane_create_hotspot_properties().
-
-ttm:
-- fix devcoredump for evicted bos
-
-panel:
-- Fix stack usage warning in novatek-nt35560.
-
-nouveau:
-- alloc fwsec sb at boot to avoid s/r problems
-- fix strcpy usage
-- fix i2c encoder crash
-
-bridge:
-- Ignore spurious PLL_UNLOCK bit in ti-sn65dsi83.
-
-mgag200:
-- Fix bigendian handling in mgag200.
-
-tilcdc:
-- Fix probe failure in tilcdc.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/panel: novatek-nt35560: avoid on-stack device structure
-
-Dan Carpenter (1):
-      drm/plane: Fix IS_ERR() vs NULL check in
-drm_plane_create_hotspot_properties()
-
-Dave Airlie (1):
-      Merge tag 'drm-misc-fixes-2025-12-10' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-
-Kory Maincent (TI.com) (1):
-      drm/tilcdc: Fix removal actions in case of failed probe
-
-Luca Ceresoli (1):
-      drm/bridge: ti-sn65dsi83: ignore PLL_UNLOCK errors
-
-Lyude Paul (1):
-      drm/nouveau/gsp: Allocate fwsec-sb at boot
-
-Madhur Kumar (2):
-      drm/nouveau: refactor deprecated strcpy
-      drm: nouveau: Replace sprintf() with sysfs_emit()
-
-Ren=C3=A9 Rebe (2):
-      drm/nouveau: fix circular dep oops from vendored i2c encoder
-      drm/mgag200: Fix big-endian support
-
-Simon Richter (1):
-      drm/ttm: Avoid NULL pointer deref for evicted BOs
-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c              | 11 +++-
- drivers/gpu/drm/drm_plane.c                        |  8 +--
- drivers/gpu/drm/mgag200/mgag200_mode.c             | 25 +++++++++
- .../gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c | 20 -------
- .../drm/nouveau/include/dispnv04/i2c/encoder_i2c.h | 19 ++++++-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |  4 ++
- drivers/gpu/drm/nouveau/nouveau_fence.c            |  6 +--
- drivers/gpu/drm/nouveau/nouveau_hwmon.c            |  4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c    | 61 +++++++++++++++---=
-----
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |  3 ++
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  | 10 +++-
- drivers/gpu/drm/panel/panel-novatek-nt35560.c      |  8 +--
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c                | 53 ++++++++++++------=
--
- drivers/gpu/drm/tilcdc/tilcdc_drv.h                |  2 +-
- drivers/gpu/drm/ttm/ttm_bo_vm.c                    |  6 +++
- 16 files changed, 166 insertions(+), 76 deletions(-)
+-- 
+With best wishes
+Dmitry
