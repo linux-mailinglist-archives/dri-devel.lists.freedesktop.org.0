@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CE5CBA598
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 06:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE229CBA5B8
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 06:54:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F82610E38C;
-	Sat, 13 Dec 2025 05:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6730D10E396;
+	Sat, 13 Dec 2025 05:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="puCa1Q7e";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M4k8Z9Gv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B7F10E38C
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 05:45:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5FEE10E396
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 05:54:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9D600600AA;
- Sat, 13 Dec 2025 05:45:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8849AC4CEF7;
- Sat, 13 Dec 2025 05:45:18 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id ED17A600AA;
+ Sat, 13 Dec 2025 05:54:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E6EC116B1;
+ Sat, 13 Dec 2025 05:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765604719;
- bh=kJBvIJcMrvNA2tAiGawV0nPHf9vSeMDTSaRAA4uWsrM=;
- h=From:To:Cc:Subject:Date:From;
- b=puCa1Q7e+iYSvuQQC2wOOvxDISE1buTbD1+Y49VrI6IeTcLpYpLCKizg4/KjKYl+e
- 9+Uds0mnJnMPcQznNmnPt+SgGmORhjaZYWOyhPPpzYz1aDNV2g1GuGDN4C7dsUyt2G
- f6MxPWZehtfcKfpz7pNIXTTV791eFQ/xEnOP6Aq3Nes/2loa+YADz2ubp8OMriEVMq
- GIJFdQMmyYyvFS9GBGKVX54N+4EdpvdqCNYPt+UoT6K15ooIjPK2ygIwOZqclkZkXW
- GQ1pkkfQ8U2k7x4bA+hM5jD3PexR6FRterRFMoQzUZvtNfWzwwhQ2tI7oZ7/VOF3sm
- GNQPe/DXEaCYA==
-From: "Mario Limonciello (AMD)" <superm1@kernel.org>
-To: mario.limonciello@amd.com, mamin506@gmail.com, lizhi.hou@amd.com,
- ogabbay@kernel.org
-Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/amdxdna: Block running under a hypervisor
-Date: Fri, 12 Dec 2025 23:44:47 -0600
-Message-ID: <20251213054513.87925-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1765605242;
+ bh=7REU5e5VElU3A11juDr69iqQ0EMXa0Bde2GzOpwqHKM=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=M4k8Z9GvJLZAGaNVE8lam17R9xHcPOaYXsasaKPJUJopcRtWx+r/mE+PH+R5t669L
+ oO2lLlqaixz7HpLg1KasN+Pj+CCpmYwhuFFhW8z/9Doi3i+caQF1pgnjS/zH+Ulrlt
+ popauDYDtMl5cTKH9d3gq7Adh5zYhvPeNQ+unreKv913A1FNrFKsyjg7FhAIstxF/t
+ bhQV0ui51ZRpbPnRZAu1ZfLRP5fjeFtfKrBUI9AWqqHrTwGdiFOoFJIEx+BZj7x8Dg
+ 89LMhol1fbqAe8C9YzVmhXFD6qxyviF71LSzQ8ELQaT9DwB6Y7gdmqZCNuiaZRZNBB
+ uEqDWcM5NrNMg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ B5BF6380A954; Sat, 13 Dec 2025 05:50:56 +0000 (UTC)
+Subject: Re: [git pull] drm next fixes for 6.19-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twB2eNZdfk2gZ1Tp1vnCKrsKNKz0s=3B3ZV_FFF66H0Eg@mail.gmail.com>
+References: <CAPM=9twB2eNZdfk2gZ1Tp1vnCKrsKNKz0s=3B3ZV_FFF66H0Eg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9twB2eNZdfk2gZ1Tp1vnCKrsKNKz0s=3B3ZV_FFF66H0Eg@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-next-2025-12-13
+X-PR-Tracked-Commit-Id: 37a1cefd4d4e0b3d12f140e8a265757444fa6957
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 237f1bbfe3d84a74ad8e6e207660bdb3e6d9a84d
+Message-Id: <176560505540.2419555.16376058882367616424.pr-tracker-bot@kernel.org>
+Date: Sat, 13 Dec 2025 05:50:55 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,40 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SVA support is required, which isn't configured by hypervisor
-solutions.
+The pull request you sent on Sat, 13 Dec 2025 12:14:45 +1000:
 
-Closes: https://github.com/QubesOS/qubes-issues/issues/10275
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4656
-Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
----
- drivers/accel/amdxdna/aie2_pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-13
 
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index ceef1c502e9e2..d892b412e4c0e 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -17,6 +17,7 @@
- #include <linux/iopoll.h>
- #include <linux/pci.h>
- #include <linux/xarray.h>
-+#include <asm/hypervisor.h>
- 
- #include "aie2_msg_priv.h"
- #include "aie2_pci.h"
-@@ -508,6 +509,11 @@ static int aie2_init(struct amdxdna_dev *xdna)
- 	unsigned long bars = 0;
- 	int i, nvec, ret;
- 
-+	if (!hypervisor_is_type(X86_HYPER_NATIVE)) {
-+		XDNA_ERR(xdna, "Running under hypervisor not supported");
-+		return -EINVAL;
-+	}
-+
- 	ndev = drmm_kzalloc(&xdna->ddev, sizeof(*ndev), GFP_KERNEL);
- 	if (!ndev)
- 		return -ENOMEM;
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/237f1bbfe3d84a74ad8e6e207660bdb3e6d9a84d
+
+Thank you!
+
 -- 
-2.43.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
