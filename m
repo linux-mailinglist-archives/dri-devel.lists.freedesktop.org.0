@@ -2,81 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD000CBA065
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 00:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4588CBA2DE
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 03:15:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F320710E981;
-	Fri, 12 Dec 2025 23:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49B8D10E047;
+	Sat, 13 Dec 2025 02:14:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TuZYf3Ox";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fWdTDoA2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E45B810E5B8;
- Fri, 12 Dec 2025 23:08:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8EBCB44189;
- Fri, 12 Dec 2025 23:08:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 672DCC16AAE;
- Fri, 12 Dec 2025 23:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765580902;
- bh=P4YcGCk8qYvmUcD/gYkROZWf22LTLSC5QlmdG/yvtDM=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=TuZYf3Oxebod+hoE9hm5BHHAPVP29El+WtO8uIrkbY14iw+hKFtvsCnH/pebvncC3
- 337E2e8Rp0maBQiuksa9TVrUgZChXSTdR4vtsEtRgx7cDWZWDukfT5XiwhVm96RB1x
- pUsnUJA1xxh3+U8S52clz/F2qNMqOIrBuY2UaT5/2idEOUB+VrbyWkea2BQQi4n0gI
- 0sepGaJS3dwdRyFqWgU0mw+3CgdYGwR3R1keknproJAj10pTAkjAS9RwdrbhG8EIXY
- XNAZmU5lvYBcDss9/bApzA7323zv3Cudvcns145sELSrSbw12RjgvPUQacyzUyqlS6
- WzGwDtH6TvHew==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0F2D59F5B;
- Fri, 12 Dec 2025 23:08:22 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 13 Dec 2025 00:08:17 +0100
-Subject: [PATCH 2/2] clk: qcom: rcg2, msm/dsi: Fix hangs caused by register
- writes while clocks are off
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAA1810E047
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 02:14:57 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-8824ce98111so26324326d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Dec 2025 18:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765592097; x=1766196897; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ghR8RkkMCcQ7QXimfUpYMa2GwrJ+aLnHU5odT5vzyL4=;
+ b=fWdTDoA2evc+TK77vxSYWj1WRIQ21OVWeOt/MYg4W/fU6mN0mO3nh2Zzo0XavwvpJ8
+ vD/X0jLSWiRWZAdwoB9KW455WImMlR/GPlwwWL9EdewOAIvnlAXskM0hC3RZ9rewZcWk
+ KA1I88ojD4ZiY30n//YUNuOU0Wf4UWtx0b8FdxcxpJ3Xep046DE76weWOdINNYpvkmu+
+ 96cMjoNuRP5DLn5C6JDsUrmFZGYHjTR2ijlilbPPR/y1YRi6OkIn3jJCIP8pcHyiDi7H
+ I+1CcyDptg0Lj8C3BqZg/MpiCQyJAGepJquDzBGL9E6oPTQUl3nO4qxwI2gmho4UceuK
+ Gx3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765592097; x=1766196897;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ghR8RkkMCcQ7QXimfUpYMa2GwrJ+aLnHU5odT5vzyL4=;
+ b=VBD4bZdOdjy7BvPrdhDyxYBUau18T0OPVnXt3vjyjg7n23aU1jZ+CB0OmmMmsHp0Nt
+ 9IbZkt1zYh+Re++r74QbFyniWYS8eXx3qbUiQQHK7+1dFqPXBToZLoTUAISK6ifdFkPs
+ w9bklAVyNKwWVUKahin4LzTW/SNNi8qYtycEVPqfE8y0657DS44DSqjNq4szTrCI2u2N
+ c7E7bieiwjVgk+E8fjVZYkYoVUWEGeY31xsyh1SfPSPnU5Bzcv1c2vbImvqlWpg3DJ84
+ dxHomR5k16CdG6mUCDN7Hn1BzXx97le/1PokLA9IkRAMoDWcuJiNmFvRSrbg0QIeR5zB
+ xiag==
+X-Gm-Message-State: AOJu0Ywrr6PYFXCrq0l1IXxQxJkMzPEqjIqsG+MyUEZ3lnscMRE1+yxh
+ joOYx9VfUKGBggyi8dqb2gLwB19IVAnXX7Kq3TmXWzm1qmHJ4fd8SmUkeiLrNhXzzOWWbAQS2pv
+ U1tyqck4eAZPdyc4NoRnK0phJDJ1CqIs=
+X-Gm-Gg: AY/fxX7ypcTd6WnLDeeoCdm0NwcZpVPXr4zrqRAGnC7BBCRwVmuoRw0M21/zjNx3B2P
+ yBAur30+VZrHGWHra0WBq5/ZJ8Lqew0II00JaQF7m95OMFht4FSAQjII43TiezQ55BXZluG2gB5
+ YTGOuquoIqFWu0ft3vOoAiALAG2+zrim2ZePBW2pY2of23/Os80d81w4k/16LN42Vvr7sXJP5hK
+ bSL/1aYj9blBmx0B7U1By4wXqM+MwDAUSS+aLJYlMIQoLsLlg4rGYhX//VoMdvQ00Mfr18Mgw==
+X-Google-Smtp-Source: AGHT+IGIlOSNlzc8qiSs3e5iKVh0nRB77dGU8VQ7GKp+XaD2yDo4Y1PsPkjcTt09AMUaidXGGC4J2qVXL1YQ42AahGE=
+X-Received: by 2002:ac8:59c9:0:b0:4f1:b3cc:2d04 with SMTP id
+ d75a77b69052e-4f1d05af1f0mr60791351cf.44.1765592096595; Fri, 12 Dec 2025
+ 18:14:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251213-stability-discussion-v1-2-b25df8453526@ixit.cz>
-References: <20251213-stability-discussion-v1-0-b25df8453526@ixit.cz>
-In-Reply-To: <20251213-stability-discussion-v1-0-b25df8453526@ixit.cz>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Petr Hodina <petr.hodina@protonmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, phone-devel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2764; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=3WwuH3iPdckITDVjZS20u/lAh5Ab6avBlAX4H4KQQAc=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpPKBkj9yTavobap8/tJezp4SUEdEk/oBwh1Cov
- RLrk4Pd4CeJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTygZAAKCRBgAj/E00kg
- cnVqD/4rWYHL9WIoDWye5vQFhBRdRw7fJ7l4Giq25T5Cw+lf79JsiHY3TsLlJDN2jenM3MYKyjV
- 6mwzr/QnRJEr21FniGTvu1PNK+5Zbu8szUBWbq4IZWJXvhFjLBaScSlnU3H+NusFgNguruc1CVo
- EB7y3eUU4+JwAkxkDJoOKV/+gHthhorJVlmW2P0JFFanF0KLnic2KgNTbiUrAdroT7hpe7eVWa9
- uKXV1uci7Lq5zPEw5vYjmMzx+trXm6hYGAMfa3CmIfcjyCOU2Xo4VYVxfStnz9s3nI8R4NrbrsY
- PYA1gueBL7qfoNqKi2zsCtphlRQnLi4hU1av04XqGHhu3Ftnxwa4bDxIrQ2NeBvhN/MeyrBvur3
- bt8f4mcxRQLI2ZowkhHTsRTNKzVXI+nXjAdQsWHIMg5BPaep5gWw/GauulMoen40cANCwH/pln/
- b6NDjv4yzodo5ImSbfjWk9I2+SqgakVeKzaN4TQEJ3NE0S2HwVl09rwBGSoccNiJfYxwOh+cZ9/
- SXdU+dWNrH+WeM1tAuhbKx2cBQm18RzGZQmYB0HlGz/XoZ8Sekg2v3XbHrSf5qAADpJJbJ63odu
- JWNVCspHBAA6AbWaJo+AqhmwMVAKt87x+/Rn8We28yCRHEruimKOdepS8KLUt3mFkTfKkPEQ4Bs
- joLia2cIgFjt10w==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 13 Dec 2025 12:14:45 +1000
+X-Gm-Features: AQt7F2qvZDhlb2zzwUZIah-GJWRSwpoCfIEbcdtQ_R45LDvm9qH7YA5eHsc_zkI
+Message-ID: <CAPM=9twB2eNZdfk2gZ1Tp1vnCKrsKNKz0s=3B3ZV_FFF66H0Eg@mail.gmail.com>
+Subject: [git pull] drm next fixes for 6.19-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,97 +75,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Petr Hodina <petr.hodina@protonmail.com>
+Hi Linus,
 
-This patch fixes system hangs that occur when RCG2 and DSI code paths
-perform register accesses while the associated clocks or power domains
-are disabled.
+This is the weekly fixes for what is in next tree, mostly amdgpu and
+some i915, panthor and a core revert.
 
-For the Qualcomm RCG2 clock driver, updating M/N/D registers while the
-clock is gated can cause the hardware to lock up. Avoid toggling the
-update bit when the clock is disabled and instead write the configuration
-directly.
+I've got a separate fixes pull after this as well that is from the 6.18 base.
 
-Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/clk/qcom/clk-rcg2.c        | 18 ++++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_host.c | 13 +++++++++++++
- 2 files changed, 31 insertions(+)
+Dave.
 
-diff --git a/drivers/clk/qcom/clk-rcg2.c b/drivers/clk/qcom/clk-rcg2.c
-index e18cb8807d735..a18d2b9319670 100644
---- a/drivers/clk/qcom/clk-rcg2.c
-+++ b/drivers/clk/qcom/clk-rcg2.c
-@@ -1182,6 +1182,24 @@ static int clk_pixel_set_rate(struct clk_hw *hw, unsigned long rate,
- 		f.m = frac->num;
- 		f.n = frac->den;
- 
-+		/*
-+		 * If clock is disabled, update the M, N and D registers and
-+		 * don't hit the update bit.
-+		 */
-+		if (!clk_hw_is_enabled(hw)) {
-+			int ret;
-+
-+			ret = regmap_read(rcg->clkr.regmap, RCG_CFG_OFFSET(rcg), &cfg);
-+			if (ret)
-+				return ret;
-+
-+			ret = __clk_rcg2_configure(rcg, &f, &cfg);
-+			if (ret)
-+				return ret;
-+
-+			return regmap_write(rcg->clkr.regmap, RCG_CFG_OFFSET(rcg), cfg);
-+		}
-+
- 		return clk_rcg2_configure(rcg, &f);
- 	}
- 	return -EINVAL;
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index e0de545d40775..374ed966e960b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -762,6 +762,12 @@ dsi_get_cmd_fmt(const enum mipi_dsi_pixel_format mipi_fmt)
- 
- static void dsi_ctrl_disable(struct msm_dsi_host *msm_host)
- {
-+	/* Check if we're already powered off before writing registers */
-+	if (!msm_host->power_on) {
-+		pr_info("DSI CTRL: Skipping register write - host already powered off\n");
-+		return;
-+	}
-+
- 	dsi_write(msm_host, REG_DSI_CTRL, 0);
- }
- 
-@@ -2489,6 +2495,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
-+	int ret;
-+
- 
- 	mutex_lock(&msm_host->dev_mutex);
- 	if (!msm_host->power_on) {
-@@ -2496,6 +2504,11 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
- 		goto unlock_ret;
- 	}
- 
-+	/* Ensure clocks are enabled before register access */
-+	ret = pm_runtime_get_sync(&msm_host->pdev->dev);
-+	if (ret < 0)
-+		pm_runtime_put_noidle(&msm_host->pdev->dev);
-+
- 	dsi_ctrl_disable(msm_host);
- 
- 	pinctrl_pm_select_sleep_state(&msm_host->pdev->dev);
+drm-next-2025-12-13:
+drm next fixes for 6.19-rc1
 
--- 
-2.51.0
+core:
+- revert dumb bo 8 byte alignment
 
+amdgpu:
+- SI fix
+- DC reduce stack usage
+- HDMI fixes
+- VCN 4.0.5 fix
+- DP MST fix
+- DC memory allocation fix
 
+amdkfd:
+- SVM fix
+- Trap handler fix
+- VGPR fixes for GC 11.5
+
+i915:
+- Fix format string truncation warning
+- FIx runtime PM reference during fbdev BO creation
+
+panthor:
+- fix UAF
+
+renesas:
+- fix sync flag handling
+The following changes since commit c7685d11108acb387e44e3d81194d0d8959eaa44:
+
+  Merge tag 'topic/drm-intel-plane-color-pipeline-2025-12-04' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+(2025-12-05 10:27:57 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-13
+
+for you to fetch changes up to 37a1cefd4d4e0b3d12f140e8a265757444fa6957:
+
+  Merge tag 'drm-intel-next-fixes-2025-12-12' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+(2025-12-12 18:57:44 +1000)
+
+----------------------------------------------------------------
+drm next fixes for 6.19-rc1
+
+core:
+- revert dumb bo 8 byte alignment
+
+amdgpu:
+- SI fix
+- DC reduce stack usage
+- HDMI fixes
+- VCN 4.0.5 fix
+- DP MST fix
+- DC memory allocation fix
+
+amdkfd:
+- SVM fix
+- Trap handler fix
+- VGPR fixes for GC 11.5
+
+i915:
+- Fix format string truncation warning
+- FIx runtime PM reference during fbdev BO creation
+
+panthor:
+- fix UAF
+
+renesas:
+- fix sync flag handling
+
+----------------------------------------------------------------
+Akash Goel (1):
+      drm/panthor: Prevent potential UAF in group creation
+
+Alex Deucher (2):
+      drm/amd/display: Use GFP_ATOMIC in dc_create_plane_state()
+      drm/amdgpu: don't attach the tlb fence for SI
+
+Alex Hung (1):
+      drm/amd/display: Refactor dml_core_mode_support to reduce stack frame
+
+Ard Biesheuvel (1):
+      drm/i915: Fix format string truncation warning
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-next-fixes-2025-12-10' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+      Merge tag 'amd-drm-fixes-6.19-2025-12-11' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'drm-intel-next-fixes-2025-12-12' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+
+Dibin Moolakadan Subrahmanian (1):
+      drm/i915/fbdev: Hold runtime PM ref during fbdev BO creation
+
+Ivan Lipski (1):
+      drm/amd/display: Improve HDMI info retrieval
+
+Jay Cornwall (1):
+      drm/amdkfd: Trap handler support for expert scheduling mode
+
+Jonathan Kim (1):
+      drm/amdkfd: bump minimum vgpr size for gfx1151
+
+Ludovic Desroches (2):
+      drm/gem-dma: revert the 8-byte alignment constraint
+      drm/gem-shmem: revert the 8-byte alignment constraint
+
+Marek Vasut (1):
+      drm/rcar-du: dsi: Handle both DRM_MODE_FLAG_N.SYNC and
+!DRM_MODE_FLAG_P.SYNC
+
+Mario Limonciello (2):
+      drm/amdkfd: Export the cwsr_size and ctl_stack_size to userspace
+      Revert "drm/amd/display: Fix pbn to kbps Conversion"
+
+Mario Limonciello (AMD) (1):
+      drm/amd: Fix unbind/rebind for VCN 4.0.5
+
+Rosen Penev (1):
+      drm/amd/display: shrink struct members
+
+Xiaogang Chen (1):
+      drm/amdkfd: Use huge page size to check split svm range alignment
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   4 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c            |   2 +
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |  62 ++++++----
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm |  37 ++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c             |   1 +
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  46 ++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |   4 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   3 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   8 ++
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  59 +++++----
+ drivers/gpu/drm/amd/display/dc/core/dc_surface.c   |   2 +-
+ .../drm/amd/display/dc/dml2_0/display_mode_core.c  | 134 +++++++++++----------
+ .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   3 -
+ drivers/gpu/drm/amd/display/include/audio_types.h  |  14 +--
+ drivers/gpu/drm/drm_gem_dma_helper.c               |   2 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |   2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |  11 +-
+ drivers/gpu/drm/i915/intel_memory_region.h         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c            |  19 ++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   4 +-
+ 20 files changed, 267 insertions(+), 152 deletions(-)
