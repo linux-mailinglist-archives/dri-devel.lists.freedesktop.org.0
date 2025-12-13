@@ -2,88 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C95ACBA831
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 11:37:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C341CBB1E0
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 18:34:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536B010E3CA;
-	Sat, 13 Dec 2025 10:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD84F10E1BE;
+	Sat, 13 Dec 2025 17:34:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmQQpUNM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hYtSeqpI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2DE10E094
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 10:20:13 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2a09d981507so1152445ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 02:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765621212; x=1766226012; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vDk2RYtju5qtTpUCS+SSH/qPrCY50aSULuux/1/O0pk=;
- b=fmQQpUNMrH74HPCUB8uJvvz1n1cSHCpYLNeg7KLbaChP/PRTlmweVGOy20Ksx+OrTB
- NswZJ5OVSiJdr9e9cU6sIV2y+6TWFFS0+miJjx44sExbC4TZSs3GYiqsvczJpj1e1TaY
- lfZAZr4yQnrXouwcq7HIktWEuOPySLt4nM0mhE/FyNN+mGHyxc5580cnClMA2cV4Act/
- SRkMxhDFKSsRnf4IjoE0N0MejOpNRg4/6fgsZ5GZeK+qQE4h9QBV2lRezW7ASW1DM432
- 63s9jujXmTHxxIk7w/6cPMgoQvikEeZT+npR8dbNtQx4HhDYni8vBRq3GXsD47jSeSPw
- t1dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765621212; x=1766226012;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vDk2RYtju5qtTpUCS+SSH/qPrCY50aSULuux/1/O0pk=;
- b=OB3Vw5xJVdmJkTSGfTJqp5k4I9+vQMNjNYQRuvTnbIrg9xyP+aUWyod2jP8NninFOx
- x5rwTYc+gUBz2/oYGrC2CWSxatSj0c+o2eQmX6hBbW4j9JC7K/twXyzJsoQUnodozwq1
- 1XRHlidRs/tX/wRNTkgpsfdouGBrPNU23AFEXh3C4r/i54DfRDdDxqxfuM7XqelRH9Pu
- /d46PmBUf+9GZtZloXATJBbJky2QvX1Ey7LSrzL7Sw8ffw82Zx2CakgbDh4XzcEArf7G
- JRXJDfvVC1GpK1F/YoqnGi5UioM9cxFvKkeBAYeH9UwpJmfGz2Ga/EEJ57p+VuWsO+3h
- 0qxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOtayXUUfUAhzZFff8fx7ftjHmq3Zehm12UgG/W4aqNwSUaBGuylAsr7J4n6CfpPfiX0Pdg++xyQw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfZ0vBn/3rx3UFXbTqjA8+81fChuAO445WNaoU3A5eLNxv1KjQ
- 2BbCHhp0lHk43LjPVrLpSEQynyDowzNYV1shFXAZuty8OJDVYdEjRA7X
-X-Gm-Gg: AY/fxX6vYZsjTEPecHjuvTxh9ue3C1kegC91OAVnmjev0wepAYnZAP8peKOXBTmGN1E
- IjYJONR1AQS3Y42QfNAGI7CLMA3TlZ6gWj8LbZ2zqdUu0TmIYPpQWEQeZ7dnxpjFeaFCJt2leod
- ILeotroHCC+NJHLc6/Bi9lJ01T6RSVATSFW8uyEZLkljr4LspGdwf2qEVfw9YJLlZXK7TZ9WQKE
- eb4XPbRahxSnTkIkDj4RALLuPzoCthy/+hZ1Qxe9MwHUP7mMBTprLtTA0gK10chDIoRfrl/VmE9
- NKq3dVqDVbptNupt7KNkOWPvq1rreTrPMtqXYbWh9fw0rmeKyqFy0qTlpR5nDscPRZWGu/TQtka
- +4NblkXPVBg07bUqet45BcDLGnhpOvHIQJST2DzHTwTw1xsPYBdaH+c/pCjXokPDwZn/pXgrJeo
- DM9vY1n9nWfseS0EoKEXM=
-X-Google-Smtp-Source: AGHT+IFu9zPL+mIphNboykWtLWGEbFoexbc06Rx6KFOEt6W1rTUNLE0jEqrLOWhn7Hq+MEnNrC1oTg==
-X-Received: by 2002:a17:902:db11:b0:295:50f5:c0e3 with SMTP id
- d9443c01a7336-29f24e6fd04mr52687645ad.14.1765621212431; 
- Sat, 13 Dec 2025 02:20:12 -0800 (PST)
-Received: from LilGuy ([2409:40c2:105b:dc88:1107:395c:23c0:2b1b])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-29eea016c6esm79041905ad.59.2025.12.13.02.20.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Dec 2025 02:20:11 -0800 (PST)
-From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-To: Helge Deller <deller@gmx.de>, Andrew Morton <akpm@linux-foundation.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Frank Li <Frank.Li@nxp.com>, Bjorn Andersson <andersson@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Qianfeng Rong <rongqianfeng@vivo.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Kees Cook <kees@kernel.org>,
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
- linux-kernel@vger.kernel.org (open list)
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Subject: [PATCH] fbdev: arkfb: Request legacy VGA I/O region
-Date: Sat, 13 Dec 2025 15:49:32 +0000
-Message-ID: <20251213154937.104301-1-swarajgaikwad1925@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76F4E10E1BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 17:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765647253; x=1797183253;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YSbuTBIlzPrLiem4wRujUcouD4hirFezUKyLBGx4aYE=;
+ b=hYtSeqpIp46wVNMxiIefbdiu7o6iWZ+tFHzDdWKGbyJ22qpyG1+33yuh
+ qqRmIMpAegGCq0H+4iJOWQvO/ligw8bT2SmwG2jWsUUItKr1GdogjW88x
+ eLJk+Hgw+bOe3uIATftsTaScsFB6W9/+MCiM9dFSs+uWe3YLmBmxCkT6S
+ OAiANzctwggkSkMQkgimQ9+tuMn362uNEe9Oqrf7R38R+siEiK/zQyFdL
+ Gi2iIdc2LhEDldpM5spbKcs5uTPZzt8VHlF7qkzlH5liD8NlF08kNbkXT
+ EwqKR0QsIuUQe9Crxwb+1E6V8gXqxJGGoMyuiLP0rDgjuCZeCtnZUh8iR g==;
+X-CSE-ConnectionGUID: 1utX8CqhTd+FnQC7ETQxzw==
+X-CSE-MsgGUID: g7UvmOh/TIiaLsaZ1Ey4Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71466840"
+X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; d="scan'208";a="71466840"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2025 09:34:13 -0800
+X-CSE-ConnectionGUID: U2A9g5b+SUy+YPvqzYTSSw==
+X-CSE-MsgGUID: qzQEF6zzTcyQTO3n73QR3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; d="scan'208";a="197617095"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 09:34:07 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vUTVN-000000007zp-00v0;
+ Sat, 13 Dec 2025 17:34:05 +0000
+Date: Sun, 14 Dec 2025 01:33:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ramiro Oliveira <ramiro.oliveira@advantech.com>,
+ Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Andi Shyti <andi.shyti@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, Wenkai Chung <wenkai.chung@advantech.com.tw>,
+ Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>,
+ Hongzhi Wang <hongzhi.wang@advantech.com>,
+ Mikhail Tsukerman <mikhail.tsukerman@advantech.com>,
+ Thomas Kastner <thomas.kastner@advantech.com>,
+ Ramiro Oliveira <ramiro.oliveira@advantech.com>
+Subject: Re: [PATCH 8/8] Add Advantech EIO Fan driver
+Message-ID: <202512140153.dNgpAKJt-lkp@intel.com>
+References: <20251212-upstream-v1-v1-8-d50d40ec8d8a@advantech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 13 Dec 2025 10:37:27 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212-upstream-v1-v1-8-d50d40ec8d8a@advantech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,40 +86,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The arkfb driver uses the legacy VGA I/O range (0x3c0+) but does not
-request it. This can cause conflicts with other drivers that try to
-reserve these ports.
+Hi Ramiro,
 
-Fix this by using devm_request_region() during the probe function.
-This ensures the region is properly reserved and automatically released
-on driver detach.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
----
-Compile-tested only on x86_64.
+[auto build test WARNING on d9771d0dbe18dd643760431870a6abf9b0866bb0]
 
- drivers/video/fbdev/arkfb.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ramiro-Oliveira/Add-Advantech-EIO-MFD-driver/20251213-004905
+base:   d9771d0dbe18dd643760431870a6abf9b0866bb0
+patch link:    https://lore.kernel.org/r/20251212-upstream-v1-v1-8-d50d40ec8d8a%40advantech.com
+patch subject: [PATCH 8/8] Add Advantech EIO Fan driver
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512140153.dNgpAKJt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140153.dNgpAKJt-lkp@intel.com/reproduce)
 
-diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-index ec084323115f..24e4c20d1a32 100644
---- a/drivers/video/fbdev/arkfb.c
-+++ b/drivers/video/fbdev/arkfb.c
-@@ -1018,6 +1018,12 @@ static int ark_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140153.dNgpAKJt-lkp@intel.com/
 
- 	pcibios_bus_to_resource(dev->bus, &vga_res, &bus_reg);
+All warnings (new ones prefixed by >>):
 
-+	if (!devm_request_region(&dev->dev, vga_res.start, 64 * 1024, "arkfb-vga")) {
-+		dev_err(info->device, "cannot reserve legacy VGA ports\n");
-+		rc = -EBUSY;
-+		goto err_find_mode;
-+	}
-+
- 	par->state.vgabase = (void __iomem *) (unsigned long) vga_res.start;
+   drivers/thermal/eio_fan.c: In function 'eio_fan_probe':
+>> drivers/thermal/eio_fan.c:391:21: warning: variable 'temps_mc' set but not used [-Wunused-but-set-variable]
+     391 |                 int temps_mc[TRIP_NUM];
+         |                     ^~~~~~~~
 
- 	/* FIXME get memsize */
 
-base-commit: a859eca0e4cc96f63ff125dbe5388d961558b0e9
---
-2.52.0
+vim +/temps_mc +391 drivers/thermal/eio_fan.c
 
+   375	
+   376	static int eio_fan_probe(struct platform_device *pdev)
+   377	{
+   378		struct device *dev = &pdev->dev;
+   379		unsigned int fan_id;
+   380		int ret;
+   381	
+   382		if (!dev_get_drvdata(dev->parent)) {
+   383			dev_err(dev, "eio_core not present\n");
+   384			return -ENODEV;
+   385		}
+   386	
+   387		for (fan_id = 0; fan_id < FAN_MAX; fan_id++) {
+   388			u8 state = 0, name = 0;
+   389			int trip_hi = 0, trip_lo = 0, trip_stop = 0;
+   390			int pwm_hi = 0, pwm_lo = 0;
+ > 391			int temps_mc[TRIP_NUM];
+   392			struct eio_fan_dev *fan;
+   393			struct thermal_zone_device *tzd;
+   394			struct thermal_cooling_device *cdev;
+   395	
+   396			if (pmc_read(dev->parent, CTRL_STATE, fan_id, &state) ||
+   397			    pmc_read(dev->parent, CTRL_TYPE, fan_id, &name) ||
+   398			    pmc_read(dev->parent, CTRL_THERM_HIGH, fan_id, &trip_hi) ||
+   399			    pmc_read(dev->parent, CTRL_THERM_LOW, fan_id, &trip_lo) ||
+   400			    pmc_read(dev->parent, CTRL_THERM_STOP, fan_id, &trip_stop) ||
+   401			    pmc_read(dev->parent, CTRL_PWM_HIGH, fan_id, &pwm_hi) ||
+   402			    pmc_read(dev->parent, CTRL_PWM_LOW, fan_id, &pwm_lo)) {
+   403				dev_info(dev, "fan%u: pmc read error, skipping\n", fan_id);
+   404				continue;
+   405			}
+   406	
+   407			if (!(state & 0x1)) {
+   408				dev_info(dev, "fan%u: firmware reports disabled\n", fan_id);
+   409				continue;
+   410			}
+   411	
+   412			if (!fan_name[name][0]) {
+   413				dev_info(dev, "fan%u: unknown name index %u\n", fan_id, name);
+   414				continue;
+   415			}
+   416	
+   417			temps_mc[TRIP_HIGH] = DECI_KELVIN_TO_MILLI_CELSIUS(trip_hi);
+   418			temps_mc[TRIP_LOW]  = DECI_KELVIN_TO_MILLI_CELSIUS(trip_lo);
+   419			temps_mc[TRIP_STOP] = DECI_KELVIN_TO_MILLI_CELSIUS(trip_stop);
+   420	
+   421			fan = devm_kzalloc(dev, sizeof(*fan), GFP_KERNEL);
+   422			if (!fan)
+   423				return -ENOMEM;
+   424	
+   425			fan->mfd = dev->parent;
+   426			fan->id  = (u8)fan_id;
+   427	
+   428			fan->trip_priv[TRIP_HIGH].trip_ctl = CTRL_THERM_HIGH;
+   429			fan->trip_priv[TRIP_LOW].trip_ctl  = CTRL_THERM_LOW;
+   430			fan->trip_priv[TRIP_STOP].trip_ctl = CTRL_THERM_STOP;
+   431	
+   432			struct thermal_trip trips[TRIP_NUM] = {
+   433				[TRIP_HIGH] = {
+   434					.type = THERMAL_TRIP_ACTIVE,
+   435					.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_hi),
+   436					.flags = THERMAL_TRIP_FLAG_RW_TEMP,
+   437					.priv = &fan->trip_priv[TRIP_HIGH],
+   438				},
+   439				[TRIP_LOW] = {
+   440					.type = THERMAL_TRIP_ACTIVE,
+   441					.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_lo),
+   442					.flags = THERMAL_TRIP_FLAG_RW_TEMP,
+   443					.priv = &fan->trip_priv[TRIP_LOW],
+   444				},
+   445				[TRIP_STOP] = {
+   446					.type = THERMAL_TRIP_ACTIVE,
+   447					.temperature = DECI_KELVIN_TO_MILLI_CELSIUS(trip_stop),
+   448					.flags = THERMAL_TRIP_FLAG_RW_TEMP,
+   449					.priv = &fan->trip_priv[TRIP_STOP],
+   450				},
+   451			};
+   452	
+   453			tzd = thermal_zone_device_register_with_trips(fan_name[name],
+   454								      trips, TRIP_NUM,
+   455								      fan,
+   456								      &zone_ops,
+   457								      NULL,
+   458								      0, 0);
+   459			if (IS_ERR(tzd))
+   460				return PTR_ERR(tzd);
+   461	
+   462			cdev = thermal_cooling_device_register(fan_name[name], fan, &cooling_ops);
+   463			if (IS_ERR(cdev)) {
+   464				thermal_zone_device_unregister(tzd);
+   465				dev_err(dev, "fan%u: cdev register failed: %ld\n",
+   466					fan_id, PTR_ERR(cdev));
+   467				return PTR_ERR(cdev);
+   468			}
+   469	
+   470			dev_set_drvdata(thermal_zone_device(tzd), tzd);
+   471			ret = device_create_file(thermal_zone_device(tzd), &dev_attr_fan_mode);
+   472			if (ret)
+   473				dev_warn(dev, "Error create thermal zone fan_mode sysfs\n");
+   474		}
+   475		return 0;
+   476	}
+   477	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
