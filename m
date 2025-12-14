@@ -2,90 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC2CCBB9D8
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 12:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67900CBB9E7
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 12:14:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C0910E465;
-	Sun, 14 Dec 2025 11:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCF710E475;
+	Sun, 14 Dec 2025 11:14:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GGPst14C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A+LFESQI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9E210E465
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 11:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765710752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bbYEGSqoTTOTTILb/IhwiwV6vikKEDBZxdDSvcoC62I=;
- b=GGPst14CSA0Z3eW88kVoRoSuBUAeAWBM/Z4TlHGBE/JaBJWcAYVJ0n3ZpjNECSHnqZdjoY
- tmJ/wyw2t0fU+39SLOqqjUuCa+HpcwwzZdk8mJnUZh6sKK70lpl1HIISbGkfbRV3wSNQg4
- Ge8Qy783+TgLE165iYr+FkaJAPDlWf4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-567-p96hF7R4PqqKh-fTX9rmZA-1; Sun, 14 Dec 2025 06:12:28 -0500
-X-MC-Unique: p96hF7R4PqqKh-fTX9rmZA-1
-X-Mimecast-MFC-AGG-ID: p96hF7R4PqqKh-fTX9rmZA_1765710747
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-477563a0c75so16369625e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 03:12:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765710747; x=1766315547;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bbYEGSqoTTOTTILb/IhwiwV6vikKEDBZxdDSvcoC62I=;
- b=PP6nxRG8I3FhlFbinu0O4+hSEKEJIhYYBbRA8yCO2vUOQTIXw2aOXPvItKGS8nXf4H
- TfFUTH6O8OG/LPjlA6PnIFjWVeZjbiJ+hqyicy2hlRcUPuNXxl4hYzBmmLX0OQ8+OlSU
- zT72eEnDwObsHfNUzu9CrWBY5WWCRjRzbqpG0wsgoXo7/7U6JL2VJaeXs0iBDG+6/8Iv
- uHox4LnA+KrGkFeBI9qV9ItI2XQA+6nfocTnaAlxzndCffl6l1UpWHl+mGhfOFYhpZWZ
- JcN4eYVluNFknE7CfNHacWBo/UWBlncK5dQ1uT4x5QluYmqQXFmunmpPTu+jsuhmPhPB
- nBow==
-X-Gm-Message-State: AOJu0YzcagXokVwQFhPACQ1V2Yjn3FNv5PVaCvKiUVwv6EIb3S5poNRc
- 9yP2oRjgx0nw4FlVC2Uy7Zwfs1XpJV88zs3g+lhTVoRk7Xj9fjQMYRoMkWfMtBQulsmaKAVpsoQ
- QkGF/BRyQUIj4ERNUMmlka70eu1VvsOvoqJCCIjh6Ysh9w6CEY35irHF6dzm9IP7t8mCayA==
-X-Gm-Gg: AY/fxX7OeJ9sTB6zaduJG4xxsg27pwAuAWgBySlm4blGmLQ1DlphhZlob0qY4dMIQxj
- BAom0XIm4K+gf4KZwQSYEuEBxUH2GF7t4oH5UQ2YCiOPxSdE345lfzOx5dq+ku0/oGJTrUBrF0y
- lMDDnqSbja3jkTkCbwLUe5Cb9ATRXx6RXprQhaftsu9yLWGej7qkC24s5kuwk2pJq/hBSvieUt6
- yBSnJuimLceuLQmcNAqyrcTl8sJ4pkmQmqCpNjk2H+n596Itx0eyJ7R0rpc8uhdPCHSSblaRveG
- PDo85WPn7hlKG3NQFtRVLjGUHCk/jc0hzLQA+ZEQGPaTyCTl7tJ2QEFTg6DPtbXw72XD5nLvC7D
- 0S53tEYZAaD11kzPDuDuiEp4plr2ot7jtZc1QrEQplOAZqp8NtuSpDD3tNNlBqAaPwMZO
-X-Received: by 2002:a05:600c:a08e:b0:479:2651:3f9c with SMTP id
- 5b1f17b1804b1-47a8f8c57e2mr72118505e9.14.1765710747047; 
- Sun, 14 Dec 2025 03:12:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEduu0M2bmnOfYfENiE/VmdZ0P7MHd5nW+vqYrSVYBCyA6TWZwfYcTT0T2+hmUnJfJRleVnTA==
-X-Received: by 2002:a05:600c:a08e:b0:479:2651:3f9c with SMTP id
- 5b1f17b1804b1-47a8f8c57e2mr72118335e9.14.1765710746658; 
- Sun, 14 Dec 2025 03:12:26 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42fb38a977esm15065577f8f.12.2025.12.14.03.12.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Dec 2025 03:12:25 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Marcus
- Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH RESEND v2 1/6] drm/sitronix/st7571-i2c: rename 'struct
- drm_device' in st7571_device
-In-Reply-To: <20251202-st7571-split-v2-1-1e537a09e92f@gmail.com>
-References: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
- <20251202-st7571-split-v2-1-1e537a09e92f@gmail.com>
-Date: Sun, 14 Dec 2025 12:12:24 +0100
-Message-ID: <87ecoxl3l3.fsf@ocarina.mail-host-address-is-not-set>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50CB510E475
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 11:14:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 026BC443D3
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 11:14:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDD9C19423
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 11:14:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765710864;
+ bh=/QLe5DRA4R5uIxIMYOd08sO2x/axkjdz2V3xzbL3jPA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=A+LFESQIXd3zItQtPPuxev+VA+1XilaSrnOr/SEUs484jKGiSDLhqWpVkx5ciMeZK
+ ilVLuA/AvXxLj5d9VY7W0g60E1WXQfidapl/33Iw+hUiU1z/fPedpgw4bpqMPV7Sax
+ olfFMfBho4k/nSmFzuyBNHwuYQXdnRM0CcgE0VMeJ56Z8e6rN6GJ3wBnRW9kQBzwv/
+ 486z5UGraXFdTNqLeP0a8ajpjRvnHw2zEMpcX0MI1Juk+htHW9SYk9ccaTOMmdwXtz
+ N0eV/QSjZK3SXVYp1Si4XIxH7DXy4crDghAuzSQ/npx1hRPdVscQTyZzOfdVYhzcJc
+ XJCl55l0Xq4Sg==
+Received: by mail-yx1-f53.google.com with SMTP id
+ 956f58d0204a3-64472c71fc0so2141420d50.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 03:14:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLThs8/S4/m4IyfZN2HhJHALwbjDdWuCSYLTaXWMIkEAgtIcD0wPI0UZotD9JmVGzFaKPTTU+OYf8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRZmiwGrOB8b5L/mjNX72C4298hKZJEapwv3yd4OEyarB0YByi
+ pQoE2g4dkZm3ET1FZ55WkUZiAScUL7H5X+Qe+xag2fCAEutNJgbquxlS2NvgCLM08/cKyKmkPCa
+ 0yTXS+RwftEgO4gkb9x209feOwkV7Wzc=
+X-Google-Smtp-Source: AGHT+IF59cxs2kdU4eDBNHMhmLTNz8MsYKlAx9mrL803Pj47S8lUi3lkvhPPv1HSTCcC+HsFx/YkSG29wQ1pVt26PNc=
+X-Received: by 2002:a05:690e:20a:b0:63f:add1:e6da with SMTP id
+ 956f58d0204a3-64555651315mr5936681d50.57.1765710863949; Sun, 14 Dec 2025
+ 03:14:23 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BbWEdJFvjYbwU9kCA7RLSsgIM2eOgS-MM8C7bCyogY0_1765710747
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+ <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
+In-Reply-To: <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 14 Dec 2025 12:14:12 +0100
+X-Gmail-Original-Message-ID: <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
+X-Gm-Features: AQt7F2ocpq33b3u9qnsKC4Ot3iW4zl2olWm7s8rxLgJ7ka5jFZMptEaRqkUdvZI
+Message-ID: <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Vicente Bergas <vicencb@gmail.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,22 +91,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+On Fri, Dec 12, 2025 at 3:21=E2=80=AFPM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> On 05/12/2025 11:51, Tomi Valkeinen wrote:
+> > Changing the enable/disable sequence in commit c9b1150a68d9
+> > ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"=
+)
+> > has caused regressions on multiple platforms: R-Car, MCDE, Rockchip.
+> >
+> > This is an alternate series to Linus' series:
+> >
+> > https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-=
+f1bffd4ec0fa%40kernel.org/
+> >
+> > This series first reverts the original commit and reverts a fix for
+> > mediatek which is no longer needed. It then exposes helper functions
+> > from DRM core, and finally implements the new sequence only in the tids=
+s
+> > driver.
+> >
+> > There is one more fix in upstream for the original commit, commit
+> > 5d91394f2361 ("drm/exynos: fimd: Guard display clock control with
+> > runtime PM calls"), but I have not reverted that one as it looks like a
+> > valid patch in its own.
+> >
+> > I added Cc stable v6.17+ to all patches, but I didn't add Fixes tags, a=
+s
+> > I wasn't sure what should they point to. But I could perhaps add Fixes:
+> > <original commit> to all of these.
 
-Hello Marcus,
-
-> Rename st7571_device.dev to st7571_device.drm in preparation to
-> introduce a 'struct device' member to this structure.
+> There has been no comments, so I assume this is the way to go.
 >
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
+> Should we merge this series as a fix for 6.18 rcs?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Too late now, so let's merge it as a fix for v6.19 rcs!
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Yours,
+Linus Walleij
