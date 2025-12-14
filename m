@@ -2,89 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0762CBBBD9
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 15:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E54CBBE7D
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 19:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4927410E4A6;
-	Sun, 14 Dec 2025 14:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFEE410E033;
+	Sun, 14 Dec 2025 18:04:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gNry0N0P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TrmXUkKv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D6210E4A1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 14:51:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9314D4448A;
- Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 62434C4AF55;
- Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765723885;
- bh=Lboai8EeopeEBFSuATB/HNZX9cbcUnOk2Po9DEsGe4U=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=gNry0N0PZWhma0E3uCgzeWZdQoW8sHcgfABn2KBWlGdz0mb2Z16gtRn+aUoLhgWVD
- sXfHbS6S1k1njEu7yVlevdmhPCenSZDb73M17MadpyaOB78+uMEoznanCoy3+zvNF0
- UGDmDomQAC6/Adq7chatTfQiqCHyl2vL7Uk/K7p+WXP0Q4VGdxmJIJbtezj1aPZabw
- Cjiki2OPAqzZGYFK0MrCsGA18QcQqZBqfpRj7p4wbX+7/wMAXg1XWeFXOuiqQuTG2T
- 44fXm6nK/y/GVZGw00Ajw8OFC+JFzphi0lCPQZ2MzZ9jTyPFj+EmhzvN+fW2nbnF5Z
- 8OSNjbxNtZXLw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 55323D5B171;
- Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sun, 14 Dec 2025 15:51:24 +0100
-Subject: [PATCH v7 8/8] arm64: dts: qcom: Add support for Pixel 3 and Pixel
- 3 XL
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com
+ [74.125.224.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CB610E033
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 18:04:39 +0000 (UTC)
+Received: by mail-yx1-f47.google.com with SMTP id
+ 956f58d0204a3-6446c2bbfe3so2472165d50.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 10:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765735478; x=1766340278; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=puG/zUrwN9pOLbndn3I4P9pnyiBZM/rq86YReFVAOto=;
+ b=TrmXUkKv9vSWxoxWJ+i6/fT0E8Qp0bkLZOxHGZUogJAtk+sk4pu80WqrQwz2AI+fwK
+ Ccgf9RWShtu/K0XJbabZuRKysjpR6FSzx+uzMTBHKcDfwH5dKRiN4oJz30avNdcDGdXt
+ 3Vg6kOeuBbsVIlIR7NpMZpFSi3xq+ICzyoYiTHaUxpIGZYraA3DSCmV6X+D9Sm38oQLY
+ eO20gE/PtDjEdGBBLrcz5zsey182PfPVsWP+E9RBWCDD5A4ydPZWqgDAPb3rWnamAX84
+ Tgkak0ii5ng29630Qof8UB2pBPbvBK978ktp3B+cSnApdBDqV4tdhhv1maFZSe0pwaAT
+ 01AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765735478; x=1766340278;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=puG/zUrwN9pOLbndn3I4P9pnyiBZM/rq86YReFVAOto=;
+ b=gASQHHtHUO65CocKp7AGEDHtC22Hap623fIMEAbY8Ty49vMK5hfIcPI7PZKwFngghA
+ 5NohXpNdzgKtSNfcoWSoTffH3MsEtZnUXvcliTpVpFZNIeJjHIEnol5lrrkRBlVQwl2N
+ FpjwWO6/3T69wLCMVfldGZjv9XM5YAeXD5HQATlekib4zKOiYaJDEV0Nm7L4L9H/Wf3k
+ XxqCdh5Ji0shgeSehcoCbN68T3+va2iwekAv+QNIU+i+4UWntEB1svQ/SN68KzYZDW4P
+ HYX4n2Pxu6aTIrdVqZGb3e8wVc7Ys2zkTvjiYnYg6XV7guVr7DCUvpYb2q9IvC6XTyML
+ N5Ew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXA73ulhXeijQEe3Ja5mP5PmPmBc3GoLXU1IJ+3V8dsB869SHYW20BtknqrWo2SFW5quaBFZG+dSPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwOFhtzDO+zhmHNgFnt+gyQ6oQRV6GXOUNjX3R7t5K2xbsRlU69
+ 0yMwaSZPE3ocaoLim/urMdOK2GsZL27g8PU0lH8AZ+sap47FulxrgS/eRY0UE0tXfpIdD+fivFA
+ GaI9XfdxrfpM4dmv2vucmVnr6+SmyTH0=
+X-Gm-Gg: AY/fxX5KgKjPPavnZcvIzKqXJ8JKQfsV1XyWqcBKZEZi+BHWaXO1hhWc/gED3YakZYP
+ ILpYCOLwHtBPi+Ukrw3QYULZykPP++DK2LQR5Lbo8N7LoLG/2NwE4ty9s9tdhfLZRaz1jPUKJnZ
+ JtiPDtOdifhFL9NOU0/vOOK0WlgZX431KYlmp0dM9YcjvCwBCmIBCBaMiCq2GQurXf1CiMSJf5C
+ /PPO++jfKh6bIUD+Gfm+PEYjfCy/ZQ0Q9MyGHCTDgAmOujVNbp0DSctLkUHLHYnQK8AEwc=
+X-Google-Smtp-Source: AGHT+IHt5bPpGheag9xUvnESpgoGPlihbC4V3XSWtT6F0PXTxFbJaqGTJ1QzaM32um1NOFSmXEoriYhggf0jHUFZafM=
+X-Received: by 2002:a05:690e:1589:20b0:644:60d9:7514 with SMTP id
+ 956f58d0204a3-645556806a0mr4850305d50.88.1765735477909; Sun, 14 Dec 2025
+ 10:04:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251214-pixel-3-v7-8-b1c0cf6f224d@ixit.cz>
-References: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
-In-Reply-To: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Petr Hodina <phodina@protonmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>, 
- Amit Pundir <amit.pundir@linaro.org>, Casey Connolly <casey@connolly.tech>, 
- Joel Selvaraj <foss@joelselvaraj.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Bjorn Andersson <andersson@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=18088; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=39zvd9k7CrDiRLbinVszmhIVwGcsW4DHVMWoYFfctZE=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpPs7qDLcGkgQREF/M9CWb5zMfn871fbtiCu9PG
- NmiUxpBqhiJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaT7O6gAKCRBgAj/E00kg
- cp+jD/9uYqHQ0yP8feXfTq0Lh/fEmLh+JLl7fhNG0UY7AKmfKoKA8zBtjp/ZONH7Kk6FWywH12c
- 6jNfbHVvEBZvY0xqEacAovAlk3QQJfCgPPMb7UVUjynz8UqnvmFo+y8JBbYs4y1VNABA2hWum8c
- FBRve1vSdp3W+XntimOISd1xGPDJa5/lkT14PEZTFFAw5EAVlngID4DiXjpLBVFdJ8ZbzdyAVfP
- ZELtxZ+pWsNyKKnLK3rtL9SWH9Epeg2d0w9m82IEDjXJC3Hn3tCHZ1qB2oEmDpPyEyF6fFDW6GP
- bbuCLP1ztCxK+qL8qvWDd+BDxSN6E/7Bt61iHiyeHk4w6GfZeD+KnHi6TytnRWSPhtLvcUhR628
- xJLh+Zs5AdiR3q+MEymVFULWHz+tK1iPDhiGZOcehBdDAE6wwQBR3k1dvkzTBYI7PHBePcVfPog
- LnkZUas3RuZ09KJE3+sKzUqKDm5TiBTjRe1QfqejXUQI1cJW2xPUd2WY15Fa1Hhen3tsuqoA7oY
- +NyizR1MVRZX7nrVGIfEYLqQUnSUm7ezvQcivtjgbJNjtCPCuvllsw1kSGOyla89G1faMVc6fU6
- 11nYPKJjU5eg4V36kHjuwlMxJShtzr9/F5b1AN9abJuyRYSQUsgI3Utp5sOHhCmoPih4gtRfpoZ
- FbLhmuWP3D3TVEA==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <20251118201842.1447666-30-jim.cromie@gmail.com>
+ <ec20defe-8559-482e-8643-b69a4279cec1@akamai.com>
+In-Reply-To: <ec20defe-8559-482e-8643-b69a4279cec1@akamai.com>
+From: jim.cromie@gmail.com
+Date: Mon, 15 Dec 2025 07:04:11 +1300
+X-Gm-Features: AQt7F2on3VIzanxyWm-iUIL1Ljoz3_TdqkbVLQN3C-gs59mYF0g081nY3HAsV1A
+Message-ID: <CAJfuBxwPBG2yOEWjf_giWGPmfNPr2nHxncah=oyF7ChXzbRdZg@mail.gmail.com>
+Subject: Re: [PATCH v6 29/31] dyndbg: resolve "protection" of class'd pr_debug
+To: Jason Baron <jbaron@akamai.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,760 +83,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
+On Fri, Dec 12, 2025 at 10:26=E2=80=AFAM Jason Baron <jbaron@akamai.com> wr=
+ote:
+>
+>
+>
+> On 11/18/25 3:18 PM, Jim Cromie wrote:
+> > !-------------------------------------------------------------------|
+> >    This Message Is From an External Sender
+> >    This message came from outside your organization.
+> > |-------------------------------------------------------------------!
+> >
+> > classmap-v1 code protected class'd pr_debugs from unintended
+> > changes by unclassed/_DFLT queries:
+> >
+> >    # - to declutter examples:
+> >    alias ddcmd=3D'echo $* > /proc/dynamic_debug/control'
+> >
+> >    # IOW, this should NOT alter drm.debug settings
+> >    ddcmd -p
+> >
+> >    # Instead, you must name the class to change it.
+> >    # Protective but tedious
+> >    ddcmd class DRM_UT_CORE +p
+> >
+> >    # Or do it the (old school) subsystem way
+> >    # This is ABI !!
+> >    echo 1 > /sys/module/drm/parameters/debug
+> >
+> > Since the debug sysfs-node is ABI, if dyndbg is going to implement it,
+> > it must also honor its settings; it must at least protect against
+> > accidental changes to its classes from legacy queries.
+> >
+> > The protection allows all previously conceived queries to work the way
+> > they always have; ie select the same set of pr_debugs, despite the
+> > inclusion of whole new classes of pr_debugs.
+> >
+> > But that choice has 2 downsides:
+> >
+> > 1. "name the class to change it" makes a tedious long-winded
+> > interface, needing many commands to set DRM_UT_* one at a time.
+> >
+> > 2. It makes the class keyword special in some sense; the other
+> > keywords skip only on query mismatch, otherwise the code falls thru to
+> > adjust the pr-debug site.
+> >
+> >   Jason Baron didn't like v1 on point 2.
+> >   Louis Chauvet       didn't like recent rev on point 1 tedium.
+> >
+> > But that said: /sys/ is ABI, so this must be reliable:
+> >
+> >    #> echo 0x1f > /sys/module/drm/parameters/debug
+> >
+> > It 'just works' without dyndbg underneath; we must deliver that same
+> > stability.  Convenience is secondary.
+> >
+> > The new resolution:
+> >
+> > If ABI is the blocking issue, then no ABI means no blocking issue.
+> > IOW, if the classmap has no presence under /sys/*, ie no PARAM, there
+> > is no ABI to guard, and no reason to enforce a tedious interface.
+> >
+> > In the future, if DRM wants to alter this protection, that is
+> > practical, but I think default-on is the correct mode.
+> >
+> > So atm classes without a PARAM are unprotected at >control, allowing
+> > admins their shortcuts.  I think this could satisfy all viewpoints.
+> >
+> > That said, theres also a possibility of wildcard classes:
+> >
+> >     #> ddcmd class '*' +p
+> >
+> > Currently, the query-class is exact-matched against each module's
+> > classmaps.names.  This gives precise behavior, a good basis.
+> >
+> > But class wildcards are possible, they just did'nt appear useful for
+> > DRM, whose classmap names are a flat DRM_UT_* namespace.
+> >
+> > IOW, theres no useful selectivity there:
+> >
+> >     #> ddcmd class "DRM_*" +p         # these enable every DRM_* class
+> >     #> ddcmd class "DRM_UT_*" +p
+> >
+> >     #> ddcmd class "DRM_UT_V*" +p     # finally select just 1: DRM_UT_V=
+BL
+> >     #> ddcmd class "DRM_UT_D*" +p     # but this gets 3
+> >
+> >     #> ddcmd class "D*V*" +p          # here be dragons
+> >
+> > But there is debatable utility in the feature.
+> >
+> >     #> ddcmd class __DEFAULT__ -p     # what about this ?
+> >     #> ddcmd -p                               # thats what this does. a=
+utomatically
+> >
+> > Anyway, this patch does:
+> >
+> > 1. adds link field from _ddebug_class_map to the .controlling_param
+> >
+> > 2. sets it in ddebug_match_apply_kparam(), during modprobe/init,
+> >     when options like drm.debug=3DVAL are handled.
+> >
+> > 3. ddebug_class_has_param() now checks .controlling_param
+> >
+> > 4. ddebug_class_wants_protection() macro renames 3.
+> >     this frames it as a separable policy decision
+> >
+> > 5. ddebug_match_desc() gets the most attention:
+> >
+> > a. move classmap consideration to the bottom
+> >     this insures all other constraints act 1st.
+> >     allows simpler 'final' decisions.
+> >
+> > b. split class choices cleanly on query:
+> >     class FOO vs none, and class'd vs _DPRINTK_CLASS_DFLT site.
+> >
+> > c. calls 4 when applying a class-less query to a class'd pr_debug
+> >     here we need a new fn to find the classmap with this .class_id
+> >
+> > d. calls new ddebug_find_classmap_by_class_id().
+> >     when class-less query looks at a class'd pr_debug.
+> >     finds classmap, which can then decide, currently by PARAM existence=
+.
+> >
+> > NOTES:
+> >
+> > protection is only against class-less queries, explicit "class FOO"
+> > adjustments are allowed (that is the mechanism).
+> >
+> > The drm.debug sysfs-node heavily under-specifies the class'd pr_debugs
+> > it controls; none of the +mfls prefixing flags have any effect, and
+> > each callsite remains individually controllable. drm.debug just
+> > toggles the +p flag for all the modules' class'd pr_debugs.
+> >
+> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> > ---
+> > history
+> > -v0 - original, before classmaps: no special case keywords
+> > -v1 - "class DEFAULT" is assumed if not mentioned.
+> >        this protects classes from class-less queries
+> >
+> > -v2.pre-this-patch - protection macro'd to false
+> > -v2.with-this-patch - sysfs knob decides
+> > -v2.speculative - module decides wrt classmap protection
+> >                 seems unneeded now, TBD
+> >
+> > v3 - new patch
+> > v4
+> > - drop fn-scope map var, with 2 local vars, renamed to purpose
+> > - fix for NULL ptr case.
+> > - Add loop-var to reduce many "&dt->info." exprs to "di->"
+> > - add 1-liner postcondition comments
+> >
+> > fixus
+> > ---
+> >   include/linux/dynamic_debug.h |  14 ++--
+> >   lib/dynamic_debug.c           | 127 +++++++++++++++++++++++++++------=
+-
+> >   2 files changed, 110 insertions(+), 31 deletions(-)
+> >
+> > diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debu=
+g.h
+> > index b1d11d946780..b22da40e2583 100644
+> > --- a/include/linux/dynamic_debug.h
+> > +++ b/include/linux/dynamic_debug.h
+> > @@ -75,6 +75,7 @@ enum ddebug_class_map_type {
+> >    * map @class_names 0..N to consecutive constants starting at @base.
+> >    */
+> >   struct _ddebug_class_map {
+> > +     struct _ddebug_class_param *controlling_param;
+> >       const struct module *mod;       /* NULL for builtins */
+> >       const char *mod_name;
+> >       const char **class_names;
+> > @@ -259,7 +260,12 @@ struct _ddebug_class_param {
+> >    *
+> >    * Creates a sysfs-param to control the classes defined by the
+> >    * exported classmap, with bits 0..N-1 mapped to the classes named.
+> > - * This version keeps class-state in a private long int.
+> > + *
+> > + * Since sysfs-params are ABI, this also protects the classmap'd
+> > + * pr_debugs from un-class'd `echo -p > /proc/dynamic_debug/control`
+> > + * changes.
+> > + *
+> > + * This keeps class-state in a private long int.
+> >    */
+> >   #define DYNAMIC_DEBUG_CLASSMAP_PARAM(_name, _var, _flags)           \
+> >       static unsigned long _name##_bvec;                              \
+> > @@ -272,10 +278,8 @@ struct _ddebug_class_param {
+> >    * @_var:   name of the (exported) classmap var defining the classes/=
+bits
+> >    * @_flags: flags to be toggled, typically just 'p'
+> >    *
+> > - * Creates a sysfs-param to control the classes defined by the
+> > - * exported clasmap, with bits 0..N-1 mapped to the classes named.
+> > - * This version keeps class-state in user @_bits.  This lets drm check
+> > - * __drm_debug elsewhere too.
+> > + * Like DYNAMIC_DEBUG_CLASSMAP_PARAM, but maintains param-state in
+> > + * extern @_bits.  This lets DRM check __drm_debug elsewhere too.
+> >    */
+> >   #define DYNAMIC_DEBUG_CLASSMAP_PARAM_REF(_name, _bits, _var, _flags) =
+       \
+> >       __DYNAMIC_DEBUG_CLASSMAP_PARAM(_name, _bits, _var, _flags)
+> > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> > index 636a6b5741f7..1082e0273f0e 100644
+> > --- a/lib/dynamic_debug.c
+> > +++ b/lib/dynamic_debug.c
+> > @@ -206,6 +206,50 @@ ddebug_find_valid_class(struct _ddebug_info const =
+*di, const char *query_class,
+> >       return NULL;
+> >   }
+> >
+> > +static bool ddebug_class_in_range(const int class_id, const struct _dd=
+ebug_class_map *map)
+> > +{
+> > +     return (class_id >=3D map->base &&
+> > +             class_id < map->base + map->length);
+> > +}
+> > +
+> > +static struct _ddebug_class_map *
+> > +ddebug_find_map_by_class_id(struct _ddebug_info *di, int class_id)
+> > +{
+> > +     struct _ddebug_class_map *map;
+> > +     struct _ddebug_class_user *cli;
+> > +     int i;
+> > +
+> > +     for_subvec(i, map, di, maps)
+> > +             if (ddebug_class_in_range(class_id, map))
+> > +                     return map;
+> > +
+> > +     for_subvec(i, cli, di, users)
+> > +             if (ddebug_class_in_range(class_id, cli->map))
+> > +                     return cli->map;
+> > +
+> > +     return NULL;
+> > +}
+> > +
+> > +/*
+> > + * classmaps-V1 protected classes from changes by legacy commands
+> > + * (those selecting _DPRINTK_CLASS_DFLT by omission).  This had the
+> > + * downside that saying "class FOO" for every change can get tedious.
+> > + *
+> > + * V2 is smarter, it protects class-maps if the defining module also
+> > + * calls DYNAMIC_DEBUG_CLASSMAP_PARAM to create a sysfs parameter.
+> > + * Since the author wants the knob, we should assume they intend to
+> > + * use it (in preference to "class FOO +p" >control), and want to
+> > + * trust its settings.  This gives protection when its useful, and not
+> > + * when its just tedious.
+> > + */
+> > +static inline bool ddebug_class_has_param(const struct _ddebug_class_m=
+ap *map)
+> > +{
+> > +     return !!(map->controlling_param);
+> > +}
+> > +
+> > +/* re-framed as a policy choice */
+> > +#define ddebug_class_wants_protection(map) (ddebug_class_has_param(map=
+))
+> > +
+> >   /*
+> >    * Search the tables for _ddebug's which match the given `query' and
+> >    * apply the `flags' and `mask' to them.  Returns number of matching
+> > @@ -214,11 +258,10 @@ ddebug_find_valid_class(struct _ddebug_info const=
+ *di, const char *query_class,
+> >    */
+> >   static bool ddebug_match_desc(const struct ddebug_query *query,
+> >                             struct _ddebug *dp,
+> > -                           int valid_class)
+> > +                           struct _ddebug_info *di,
+> > +                           int selected_class)
+> >   {
+> > -     /* match site against query-class */
+> > -     if (dp->class_id !=3D valid_class)
+> > -             return false;
+> > +     struct _ddebug_class_map *site_map;
+> >
+> >       /* match against the source filename */
+> >       if (query->filename &&
+> > @@ -255,7 +298,28 @@ static bool ddebug_match_desc(const struct ddebug_=
+query *query,
+> >           dp->lineno > query->last_lineno)
+> >               return false;
+> >
+> > -     return true;
+> > +     /*
+> > +      * above are all satisfied, so we can make final decisions:
+> > +      * 1- class FOO or implied class __DEFAULT__
+> > +      * 2- site.is_classed or not
+> > +      */
+> > +     if (query->class_string) {
+> > +             /* class FOO given, exact match required */
+> > +             return (dp->class_id =3D=3D selected_class);
+> > +     }
+> > +     /* query class __DEFAULT__ by omission. */
+> > +     if (dp->class_id =3D=3D _DPRINTK_CLASS_DFLT) {
+> > +             /* un-classed site */
+> > +             return true;
+> > +     }
+> > +     /* site is class'd */
+> > +     site_map =3D ddebug_find_map_by_class_id(di, dp->class_id);
+> > +     if (!site_map) {
+> > +             /* _UNKNOWN_ class_id. XXX: Allow changes here ? */
+> > +             return false;
+> > +     }
+>
+> Do we want a WARN_ON_ONCE() here? I think this is the case where we have
+> class_id for the call site but it's not default, so shouldn't it always
+> have a map or be a user of the map?
+>
 
-This adds initial device tree support for the following phones:
-
- - Google Pixel 3 (blueline)
- - Google Pixel 3 XL (crosshatch)
-
-Both phone boards use the same identifiers and differ only slightly
-in their connected peripherals.
-
-Supported functionality includes:
- - Debug UART
- - UFS
- - USB-C (peripheral mode)
- - Framebuffer (both u-boot and Linux)
- - Display (Pixel 3 only, and the driver needs work)
- - GPU
- - Bluetooth
- - Wi-Fi
-
-The rmtfs region is allocated using UIO, making it technically "dynamic."
-
-Its address and size can be read from sysfs:
-
-$ cat /sys/class/uio/uio0/name
-/sys/class/uio/uio0/maps/map0/addr
-0x00000000f2701000
-
-$ cat /sys/class/uio/uio0/maps/map0/size
-0x0000000000200000
-
-Like the OnePlus 6, the Pixel 3 requires 1 kB of reserved memory on either
-side of the rmtfs region to work around an XPU bug that would otherwise
-cause erroneous violations when accessing the rmtfs_mem region.
-
-Co-developed-by: Amit Pundir <amit.pundir@linaro.org>
-Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
-Co-developed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Co-developed-by: Casey Connolly <casey@connolly.tech>
-Signed-off-by: Casey Connolly <casey@connolly.tech>
-Co-developed-by: Joel Selvaraj <foss@joelselvaraj.com>
-Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
-Co-developed-by: Sumit Semwal <sumit.semwal@linaro.org>
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-Co-developed-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- arch/arm64/boot/dts/qcom/Makefile                  |   2 +
- .../arm64/boot/dts/qcom/sdm845-google-blueline.dts |  89 ++++
- arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 536 +++++++++++++++++++++
- .../boot/dts/qcom/sdm845-google-crosshatch.dts     |  36 ++
- 4 files changed, 663 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 6f34d5ed331c4..c853b28b3b198 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -250,6 +250,8 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-db845c.dtb
- sdm845-db845c-navigation-mezzanine-dtbs	:= sdm845-db845c.dtb sdm845-db845c-navigation-mezzanine.dtbo
- 
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-db845c-navigation-mezzanine.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-google-crosshatch.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-google-blueline.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-lg-judyln.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-lg-judyp.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-mtp.dtb
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-google-blueline.dts b/arch/arm64/boot/dts/qcom/sdm845-google-blueline.dts
-new file mode 100644
-index 0000000000000..fa89be500fb85
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sdm845-google-blueline.dts
-@@ -0,0 +1,89 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/dts-v1/;
-+
-+#include "sdm845-google-common.dtsi"
-+
-+/ {
-+	model = "Google Pixel 3";
-+	compatible = "google,blueline", "qcom,sdm845";
-+};
-+
-+&battery {
-+	charge-full-design-microamp-hours = <2970000>;
-+	voltage-min-design-microvolt = <3600000>;
-+	voltage-max-design-microvolt = <4400000>;
-+};
-+
-+&framebuffer0 {
-+	width = <1080>;
-+	height = <2160>;
-+	stride = <(1080 * 4)>;
-+};
-+
-+&i2c2 {
-+	clock-frequency = <1000000>;
-+
-+	status = "okay";
-+
-+	/* ST,FTS @ 49 */
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vdda_mipi_dsi0_1p2>;
-+
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "lg,sw43408-lh546wf1-ed01", "lg,sw43408";
-+		reg = <0>;
-+
-+		vddi-supply = <&vreg_l14a_1p8>;
-+		vpnl-supply = <&vreg_l28a_3p0>;
-+
-+		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&panel_default>;
-+		pinctrl-names = "default";
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+	qcom,te-source = "mdp_vsync_e";
-+};
-+
-+&mdss_dsi0_phy {
-+	vdds-supply = <&vdda_mipi_dsi0_pll>;
-+
-+	status = "okay";
-+};
-+
-+&tlmm {
-+	panel_default: panel-default-state {
-+		reset-pins {
-+			pins = "gpio6";
-+			function = "gpio";
-+			drive-strength = <8>;
-+			bias-disable;
-+		};
-+
-+		te-pins {
-+			pins = "gpio12";
-+			function = "mdp_vsync";
-+			drive-strength = <2>;
-+			bias-pull-down;
-+		};
-+	};
-+};
-+
-+&wifi {
-+	qcom,calibration-variant = "Google_blueline";
-+};
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-new file mode 100644
-index 0000000000000..fd9788d5c3f54
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-@@ -0,0 +1,536 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/dts-v1/;
-+
-+#include <dt-bindings/arm/qcom,ids.h>
-+#include <dt-bindings/dma/qcom-gpi.h>
-+#include <dt-bindings/input/linux-event-codes.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-+
-+#include "sdm845.dtsi"
-+#include "pm8998.dtsi"
-+#include "pmi8998.dtsi"
-+
-+/delete-node/ &mpss_region;
-+/delete-node/ &venus_mem;
-+/delete-node/ &cdsp_mem;
-+/delete-node/ &mba_region;
-+/delete-node/ &slpi_mem;
-+/delete-node/ &spss_mem;
-+/delete-node/ &rmtfs_mem;
-+
-+/ {
-+	chassis-type = "handset";
-+	qcom,board-id = <0x00021505 0>;
-+	qcom,msm-id = <QCOM_ID_SDM845 0x20001>;
-+
-+	aliases {
-+		serial0 = &uart9;
-+		serial1 = &uart6;
-+	};
-+
-+	battery: battery {
-+		compatible = "simple-battery";
-+	};
-+
-+	chosen {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		stdout-path = "serial0:115200n8";
-+
-+		/* Use display framebuffer as setup by bootloader */
-+		framebuffer0: framebuffer-0 {
-+			compatible = "simple-framebuffer";
-+			memory-region = <&cont_splash_mem>;
-+
-+			format = "a8r8g8b8";
-+		};
-+	};
-+
-+	reserved-memory {
-+		cont_splash_mem: splash@9d400000 {
-+			reg = <0 0x9d400000 0 0x02400000>;
-+			no-map;
-+		};
-+
-+		mpss_region: memory@8e000000 {
-+			reg = <0 0x8e000000 0 0x9800000>;
-+			no-map;
-+		};
-+
-+		venus_mem: venus@97800000 {
-+			reg = <0 0x97800000 0 0x500000>;
-+			no-map;
-+		};
-+
-+		cdsp_mem: cdsp-mem@97D00000 {
-+			reg = <0 0x97D00000 0 0x800000>;
-+			no-map;
-+		};
-+
-+		mba_region: mba@98500000 {
-+			reg = <0 0x98500000 0 0x200000>;
-+			no-map;
-+		};
-+
-+		slpi_mem: slpi@98700000 {
-+			reg = <0 0x98700000 0 0x1400000>;
-+			no-map;
-+		};
-+
-+		spss_mem: spss@99B00000 {
-+			reg = <0 0x99B00000 0 0x100000>;
-+			no-map;
-+		};
-+
-+		rmtfs_mem: rmtfs-region@f2700000 {
-+			compatible = "qcom,rmtfs-mem";
-+			reg = <0 0xf2700000 0 0x202000>;
-+			qcom,use-guard-pages;
-+			no-map;
-+
-+			qcom,client-id = <1>;
-+			qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+		label = "Volume keys";
-+		autorepeat;
-+
-+		pinctrl-0 = <&volume_up_gpio>;
-+		pinctrl-names = "default";
-+
-+		key-vol-up {
-+			label = "Volume Up";
-+			linux,code = <KEY_VOLUMEUP>;
-+			gpios = <&pm8998_gpios 6 GPIO_ACTIVE_LOW>;
-+			debounce-interval = <15>;
-+		};
-+	};
-+
-+	vph_pwr: regulator-vph-pwr {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vph_pwr";
-+		regulator-min-microvolt = <3700000>;
-+		regulator-max-microvolt = <3700000>;
-+	};
-+
-+	vreg_s4a_1p8: regulator-vreg-s4a-1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_s4a_1p8";
-+
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+
-+		vin-supply = <&vph_pwr>;
-+	};
-+};
-+
-+&adsp_pas {
-+	firmware-name = "qcom/sdm845/Google/blueline/adsp.mbn";
-+
-+	status = "okay";
-+};
-+
-+&apps_rsc {
-+	regulators-0 {
-+		compatible = "qcom,pm8998-rpmh-regulators";
-+		qcom,pmic-id = "a";
-+
-+		vdd-s1-supply = <&vph_pwr>;
-+		vdd-s2-supply = <&vph_pwr>;
-+		vdd-s3-supply = <&vph_pwr>;
-+		vdd-s4-supply = <&vph_pwr>;
-+		vdd-s5-supply = <&vph_pwr>;
-+		vdd-s6-supply = <&vph_pwr>;
-+		vdd-s7-supply = <&vph_pwr>;
-+		vdd-s8-supply = <&vph_pwr>;
-+		vdd-s9-supply = <&vph_pwr>;
-+		vdd-s10-supply = <&vph_pwr>;
-+		vdd-s11-supply = <&vph_pwr>;
-+		vdd-s12-supply = <&vph_pwr>;
-+		vdd-s13-supply = <&vph_pwr>;
-+		vdd-l1-l27-supply = <&vreg_s7a_1p025>;
-+		vdd-l2-l8-l17-supply = <&vreg_s3a_1p35>;
-+		vdd-l3-l11-supply = <&vreg_s7a_1p025>;
-+		vdd-l4-l5-supply = <&vreg_s7a_1p025>;
-+		vdd-l6-supply = <&vph_pwr>;
-+		vdd-l7-l12-l14-l15-supply = <&vreg_s5a_2p04>;
-+		vdd-l9-supply = <&vreg_bob>;
-+		vdd-l10-l23-l25-supply = <&vreg_bob>;
-+		vdd-l13-l19-l21-supply = <&vreg_bob>;
-+		vdd-l16-l28-supply = <&vreg_bob>;
-+		vdd-l18-l22-supply = <&vreg_bob>;
-+		vdd-l20-l24-supply = <&vreg_bob>;
-+		vdd-l26-supply = <&vreg_s3a_1p35>;
-+		vin-lvs-1-2-supply = <&vreg_s4a_1p8>;
-+
-+		vreg_s3a_1p35: smps3 {
-+			regulator-min-microvolt = <1352000>;
-+			regulator-max-microvolt = <1352000>;
-+		};
-+
-+		vreg_s5a_2p04: smps5 {
-+			regulator-min-microvolt = <1904000>;
-+			regulator-max-microvolt = <2040000>;
-+		};
-+
-+		vreg_s7a_1p025: smps7 {
-+			regulator-min-microvolt = <900000>;
-+			regulator-max-microvolt = <1028000>;
-+		};
-+
-+		vdda_mipi_dsi0_pll:
-+		vreg_l1a_0p875: ldo1 {
-+			regulator-min-microvolt = <880000>;
-+			regulator-max-microvolt = <880000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+			regulator-boot-on;
-+		};
-+
-+		vreg_l5a_0p8: ldo5 {
-+			regulator-min-microvolt = <800000>;
-+			regulator-max-microvolt = <800000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l12a_1p8: ldo12 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l7a_1p8: ldo7 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l13a_2p95: ldo13 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <2960000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l14a_1p8: ldo14 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+			regulator-boot-on;
-+			/*
-+			 * We can't properly bring the panel back if it gets turned off
-+			 * so keep it's regulators always on for now.
-+			 */
-+			regulator-always-on;
-+		};
-+
-+		vreg_l17a_1p3: ldo17 {
-+			regulator-min-microvolt = <1304000>;
-+			regulator-max-microvolt = <1304000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l19a_3p3: ldo19 {
-+			regulator-min-microvolt = <3300000>;
-+			regulator-max-microvolt = <3312000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+			/*
-+			 * The touchscreen needs this to be 3.3v, which is apparently
-+			 * quite close to the hardware limit for this LDO (3.312v)
-+			 * It must be kept in high power mode to prevent TS brownouts
-+			 */
-+			regulator-allowed-modes = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l20a_2p95: ldo20 {
-+			regulator-min-microvolt = <2960000>;
-+			regulator-max-microvolt = <2968000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l21a_2p95: ldo21 {
-+			regulator-min-microvolt = <2960000>;
-+			regulator-max-microvolt = <2968000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l24a_3p075: ldo24 {
-+			regulator-min-microvolt = <3088000>;
-+			regulator-max-microvolt = <3088000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l25a_3p3: ldo25 {
-+			regulator-min-microvolt = <3300000>;
-+			regulator-max-microvolt = <3312000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vdda_mipi_dsi0_1p2:
-+		vreg_l26a_1p2: ldo26 {
-+			regulator-min-microvolt = <1200000>;
-+			regulator-max-microvolt = <1200000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+			regulator-boot-on;
-+		};
-+
-+		vreg_l28a_3p0: ldo28 {
-+			regulator-min-microvolt = <2856000>;
-+			regulator-max-microvolt = <3008000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_LPM>;
-+			regulator-boot-on;
-+			/*
-+			 * We can't properly bring the panel back if it gets turned off
-+			 * so keep it's regulators always on for now.
-+			 */
-+			regulator-always-on;
-+		};
-+	};
-+
-+	regulators-1 {
-+		compatible = "qcom,pmi8998-rpmh-regulators";
-+		qcom,pmic-id = "b";
-+
-+		vdd-bob-supply = <&vph_pwr>;
-+
-+		vreg_bob: bob {
-+			regulator-min-microvolt = <3312000>;
-+			regulator-max-microvolt = <3600000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
-+			regulator-allow-bypass;
-+		};
-+	};
-+
-+	regulators-2 {
-+		compatible = "qcom,pm8005-rpmh-regulators";
-+		qcom,pmic-id = "c";
-+
-+		vdd-s1-supply = <&vph_pwr>;
-+		vdd-s2-supply = <&vph_pwr>;
-+		vdd-s3-supply = <&vph_pwr>;
-+		vdd-s4-supply = <&vph_pwr>;
-+
-+		vreg_s3c_0p6: smps3 {
-+			regulator-min-microvolt = <600000>;
-+			regulator-max-microvolt = <600000>;
-+		};
-+	};
-+};
-+
-+&cci {
-+	status = "okay";
-+};
-+
-+&cci_i2c1 {
-+	/* actuator @0c */
-+
-+	/* front camera, imx355 @1a */
-+
-+	/* eeprom @50, at24 driver says 8K */
-+};
-+
-+&cdsp_pas {
-+	firmware-name = "qcom/sdm845/Google/blueline/cdsp.mbn";
-+
-+	status = "okay";
-+};
-+
-+&gcc {
-+	protected-clocks = <GCC_QSPI_CORE_CLK>,
-+			   <GCC_QSPI_CORE_CLK_SRC>,
-+			   <GCC_QSPI_CNOC_PERIPH_AHB_CLK>;
-+};
-+
-+&gpi_dma0 {
-+	status = "okay";
-+};
-+
-+&gpi_dma1 {
-+	status = "okay";
-+};
-+
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/sdm845/Google/blueline/a630_zap.mbn";
-+};
-+
-+&i2c12 {
-+	/* Bottom spkr (right) CS35L36 @ 40 */
-+
-+	/* Top spkr (left) CS35L36 @ 41 */
-+};
-+
-+&ipa {
-+	firmware-name = "qcom/sdm845/Google/blueline/ipa_fws.mbn";
-+	memory-region = <&ipa_fw_mem>;
-+
-+	status = "okay";
-+};
-+
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mss_pil {
-+	firmware-name = "qcom/sdm845/Google/blueline/mba.mbn",
-+			"qcom/sdm845/Google/blueline/modem.mbn";
-+
-+	status = "okay";
-+};
-+
-+&pm8998_gpios {
-+	volume_up_gpio: vol-up-active-state {
-+		pins = "gpio6";
-+		function = "normal";
-+		input-enable;
-+		bias-pull-up;
-+		qcom,drive-strength = <0>;
-+	};
-+};
-+
-+&pm8998_resin {
-+	linux,code = <KEY_VOLUMEDOWN>;
-+
-+	status = "okay";
-+};
-+
-+&pmi8998_charger {
-+	monitored-battery = <&battery>;
-+
-+	status = "okay";
-+};
-+
-+&qupv3_id_0 {
-+	status = "okay";
-+};
-+
-+&qupv3_id_1 {
-+	status = "okay";
-+};
-+
-+&qup_uart9_rx {
-+	drive-strength = <2>;
-+	bias-pull-up;
-+};
-+
-+&qup_uart9_tx {
-+	drive-strength = <2>;
-+	bias-disable;
-+};
-+
-+&tlmm {
-+	gpio-reserved-ranges = < 0 4>, /* SPI (Intel MNH Pixel Visual Core) */
-+			       <81 4>; /* SPI (most likely Fingerprint Cards FPC1075) */
-+
-+	touchscreen_reset: ts-reset-state {
-+		pins = "gpio99";
-+		function = "gpio";
-+		drive-strength = <8>;
-+		bias-pull-up;
-+	};
-+
-+	touchscreen_pins: ts-pins-gpio-state {
-+		pins = "gpio125";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	touchscreen_i2c_pins: qup-i2c2-gpio-state {
-+		pins = "gpio27", "gpio28";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+};
-+
-+&uart6 {
-+	pinctrl-0 = <&qup_uart6_4pin>;
-+
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "qcom,wcn3990-bt";
-+
-+		vddio-supply = <&vreg_s4a_1p8>;
-+		vddxo-supply = <&vreg_l7a_1p8>;
-+		vddrf-supply = <&vreg_l17a_1p3>;
-+		vddch0-supply = <&vreg_l25a_3p3>;
-+		max-speed = <3200000>;
-+	};
-+};
-+
-+&uart9 {
-+	status = "okay";
-+};
-+
-+&ufs_mem_hc {
-+	reset-gpios = <&tlmm 150 GPIO_ACTIVE_LOW>;
-+
-+	vcc-supply = <&vreg_l20a_2p95>;
-+	vcc-max-microamp = <800000>;
-+
-+	status = "okay";
-+};
-+
-+&ufs_mem_phy {
-+	vdda-phy-supply = <&vreg_l1a_0p875>;
-+	vdda-pll-supply = <&vreg_l26a_1p2>;
-+
-+	status = "okay";
-+};
-+
-+&usb_1 {
-+	status = "okay";
-+};
-+
-+&usb_1_dwc3 {
-+	dr_mode = "peripheral";
-+};
-+
-+&usb_1_hsphy {
-+	vdd-supply = <&vreg_l1a_0p875>;
-+	vdda-pll-supply = <&vreg_l12a_1p8>;
-+	vdda-phy-dpdm-supply = <&vreg_l24a_3p075>;
-+
-+	qcom,imp-res-offset-value = <8>;
-+	qcom,hstx-trim-value = <QUSB2_V2_HSTX_TRIM_21_6_MA>;
-+	qcom,preemphasis-level = <QUSB2_V2_PREEMPHASIS_5_PERCENT>;
-+	qcom,preemphasis-width = <QUSB2_V2_PREEMPHASIS_WIDTH_HALF_BIT>;
-+
-+	status = "okay";
-+};
-+
-+&usb_1_qmpphy {
-+	vdda-phy-supply = <&vreg_l26a_1p2>;
-+	vdda-pll-supply = <&vreg_l1a_0p875>;
-+
-+	status = "okay";
-+};
-+
-+&venus {
-+	firmware-name = "qcom/sdm845/Google/blueline/venus.mbn";
-+
-+	status = "okay";
-+};
-+
-+&wifi {
-+	vdd-0.8-cx-mx-supply = <&vreg_l5a_0p8>;
-+	vdd-1.8-xo-supply = <&vreg_l7a_1p8>;
-+	vdd-1.3-rfa-supply = <&vreg_l17a_1p3>;
-+	vdd-3.3-ch0-supply = <&vreg_l25a_3p3>;
-+
-+	qcom,snoc-host-cap-8bit-quirk;
-+
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dts b/arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dts
-new file mode 100644
-index 0000000000000..2a81ca1d00b1b
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dts
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/dts-v1/;
-+
-+#include "sdm845-google-common.dtsi"
-+
-+/ {
-+	model = "Google Pixel 3 XL";
-+	compatible = "google,crosshatch", "qcom,sdm845";
-+};
-+
-+&battery {
-+	charge-full-design-microamp-hours = <3480000>;
-+	voltage-min-design-microvolt = <3600000>;
-+	voltage-max-design-microvolt = <4400000>;
-+};
-+
-+&dispcc {
-+	/* Disable for now so simple-framebuffer continues working */
-+	status = "disabled";
-+};
-+
-+&framebuffer0 {
-+	width = <1440>;
-+	height = <2960>;
-+	stride = <(1440 * 4)>;
-+};
-+
-+&mdss {
-+	/* Disable for now so simple-framebuffer continues working */
-+	status = "disabled";
-+};
-+
-+&wifi {
-+	qcom,calibration-variant = "Google_crosshatch";
-+};
-
--- 
-2.51.0
+Yes, I think so.
+I will add it.
 
 
+> Thanks,
+>
+> -Jason
+>
