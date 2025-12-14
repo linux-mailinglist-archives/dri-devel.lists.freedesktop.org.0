@@ -2,84 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D607FCBB6B3
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 06:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7C6CBBA04
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 12:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B52E10E0AC;
-	Sun, 14 Dec 2025 05:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035A610E47D;
+	Sun, 14 Dec 2025 11:21:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TL2yn7BN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LGnSoLOt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5A810E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 05:49:34 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-2a0ac29fca1so4367765ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 21:49:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765691374; x=1766296174; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+hDgRCphZ8iRo09ep5SU5olQTYl13jEHMw2TZJC3PDk=;
- b=TL2yn7BN48E0RQa89CVh4Qbi8JK9H/5ITRfgNZVI67T/SloOvn5agN9VPDOfZtFlIT
- 8UM1iWZ7G95g/qJtzJ9qNIXPnTeLTNa+HcvGoJOzHIla9+E1T0NwoFLlkDSgAekSTvUG
- 7zaT7rtrLNoNKs5s0wRn29FDovbpigQj163A6cOy0Z6kpu5eHmR0IxOeB7m1NjIHZ92q
- Yahm4ySDi98t1RHQJquUsmE8pto1La2qzJgIz5TTVnrhgvKgwUHDadJEd6EIyOckA3cA
- wUAch39mrmWd62g1HHU7SCwDEIv2LHcKI4lCkLJfAspSY2TIsXoD/YYYo92/OGCxIWKH
- u++Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC7D410E47D
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 11:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1765711265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c6r5POLV/N6bZpyEWnqxqiSk+sKxaoM7p1dVcdRuiVo=;
+ b=LGnSoLOtRAoLSLtxorS+iEVim/CqUGmJrO8kgVeS41/yEqXcjCFcuxIci6ynM+i1ByT+WX
+ kTQMbqNYYl6ne4OZqYG0aTrrD1cM9jHwegxKuR4e+yAz/Yo3qDmIqVWib5ztIXkf+txVEh
+ 96z5dIfqThqtKJt5+tg866wSh9dVKDc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-94-xrEq3pL6MqiGhRSbgzUa6g-1; Sun, 14 Dec 2025 06:21:02 -0500
+X-MC-Unique: xrEq3pL6MqiGhRSbgzUa6g-1
+X-Mimecast-MFC-AGG-ID: xrEq3pL6MqiGhRSbgzUa6g_1765711261
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-430fcf10287so3052f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 03:21:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765691374; x=1766296174;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+hDgRCphZ8iRo09ep5SU5olQTYl13jEHMw2TZJC3PDk=;
- b=fPZWWokkP2ZRZGYrkWI0TNcHu9EyR73DaOmGJ6JjjpTxW2qfAMTx3RKFCLWHnhOOf2
- +I/+kDpvQ5r6/Z5KcGfWbZneNsHXwPYSe+ncwMZCRYBMsYrNoonAH0ozr7HJQ5hzeyQm
- jdkFv6jV3YKG3A7yP/DH5uGbv7z8zvT6Sl/jG24HoC1TnkBZTN42/reFHG5/3xRmul2o
- 5hU5O04WgJTHhincU01QAY2G1LQVKHKePuiznUq00B3geJeaIvrHR+5sI8ulEV+24iDi
- GViTwiTqjtT/fSH9BXcL+OGiE/HFASp5YbVTDWvXehDJjveXrOQzf6zeL5HnnfL63t32
- AJJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1GOowjb1bL1dtmsamhHj8uN2umDkfDTRzFlLYCAz5kRzn0QUiUImUU2BBV/5hIT5OxpAKzhyc0ps=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoBnLm7wGkomts+w0rQYyypVgkotJTtdtvLRMn9Iw5a8bY/CcB
- rtdEJ/qK87kisHLJbVawP1psd4oGqrMatN5JDKYJki1rtfPATpGl/q8G
-X-Gm-Gg: AY/fxX63ilCXmTZZD99QlvbPiOvB3Bxr6g0RCHMg2YqtPvr15zALsehNodxx3kYfCSd
- tMFL6Xlob2ibxIhabev4yOvBmp7YGdVDRN1O+YpOljIoGqLvw5cLJjVuBvw/Fnfcm9HxmHshORD
- pnmVKfmOykYNG9lQgGUoJ5Pz85LJ25fVOdQBobqe+nox0WaDFH8u+ZKvAX2Hoiw6AVbt63nCV4q
- GB2duy5g8+vSNtNmOyrZgypo12WBN/TryZEgohiT2zxFlqoL6ZgFjVu12AIJvQf77I3dXJYAEzO
- WGfHQrC9vutjHgqHW5hT9EHqih3GejuwjCtjqB/HpvHdL5tnfYhPB44N5YV+Fwklm8PeKeX53EL
- o/RHUQHiu9GP05CFt5fubaez/h9UlrpSi/2ZaVN/dOPTjjkMkTdsUwxF2TEf7jhK/wvwuZXbJt3
- VMUNBQM53yMdRovvvIL5o=
-X-Google-Smtp-Source: AGHT+IHbBmMzxC9eOq1PBy6WNwWJgWsq6/i6rrCnGtJaL5axAS1lDM+WDsS6C+/2vxsP07EACEoEbg==
-X-Received: by 2002:a17:903:120e:b0:295:24ab:fb06 with SMTP id
- d9443c01a7336-29f23b7620amr74234765ad.22.1765691373802; 
- Sat, 13 Dec 2025 21:49:33 -0800 (PST)
-Received: from LilGuy ([2409:40c2:105b:dc88:1107:395c:23c0:2b1b])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-29ee9d38adcsm97224455ad.30.2025.12.13.21.49.27
+ d=1e100.net; s=20230601; t=1765711260; x=1766316060;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c6r5POLV/N6bZpyEWnqxqiSk+sKxaoM7p1dVcdRuiVo=;
+ b=J8mj4JHXvgAyoSjRptYh630JkKlS7vjYVkeXOHeF9S0EcPI1+UPtmp6jRHxBv7RSoy
+ 2Rr9K3hlfJfyZHngVFBZJtgp2ezEXSRTC+CKXlzozplNszDLSLTf5vjHaHeo+9e6EWOR
+ VmV1ygEKh/MnGaVGGlTamXXu92rPg/X5NHSOYYE0AcqlJXPFzTw2u+iyvOlbikN28SAV
+ h7yfniTckAiXOaymqSluDEfkEwjB6yAwoF+9CroR6j7t6o4pWaGWM23C2HP14Od79Isf
+ TVvOChuV9/JmERB1i0dAArqfedqnSxjpG+6cYz0M0f93HS54FIg7QHaJLD+VOwMSvTuK
+ XLsw==
+X-Gm-Message-State: AOJu0YxyQT822h61aUjIcM5S4s8fkI5wVT2OcbpFBxfZ/pu5zKuBfx0w
+ +j8XN6ybVPschheZw9GCb85WQhxIHQhb+/Ajj/2JWBDCo5wkAxB4R9T103X4qS6KALgSfLWdsta
+ jFh9yxx91jrIpgcxkJGbeqQ1a1ZhTN4dFM84pW1pCYhYhShGtl5WOh4dmfULdcX3Jp5xyVw==
+X-Gm-Gg: AY/fxX5sGbL1F13ssEo3/AeDGwvPqMGNjZHk2Ed+ThCj8rnBh0r+HH3fAqOYA7HIWM4
+ oprK5T7NQ0jAgs5gyang1p+xKRi/Zp13CHzU9DJJxjmfMiZcKYPGmJF8aAeet2UjCTlWiS2DP1X
+ npOPGYLwmsxG5hpmkPRWftenAvBSnVQ75kV+psYV4xPVGsfB3kZTu4TC/rnfA/Wn4Gqb9N0Q1ee
+ DF+ZvbYUSDpBzUjGu7+Ui5lb94DluQY+FsIxJp+MOPxzRjzC56HA7MO89dzJ8Zg77I166tc4iDK
+ n/SUwWmIjmHrlh9afxRRWWIDpVShPkgUNvTY+u9SxacYwA7kO2k1vfpm+VTW5Et0Bgs5dGTzW9u
+ 06HS2jrjLQLtIF9YomOtmF7Ir8pqn/ppKJylY/sbERYJmq7AD5RK5LN+/NWp9Q06SmcWh
+X-Received: by 2002:a05:6000:4285:b0:429:b8e2:1064 with SMTP id
+ ffacd0b85a97d-42fb490f769mr8493708f8f.47.1765711260695; 
+ Sun, 14 Dec 2025 03:21:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHGgPJymfCuemlmm7+ETCvsjMaxYkyAd0iEIZAqqLOH+4TfqAzY5Ma7gY+j/25are3mG2ZQ4Q==
+X-Received: by 2002:a05:6000:4285:b0:429:b8e2:1064 with SMTP id
+ ffacd0b85a97d-42fb490f769mr8493687f8f.47.1765711260269; 
+ Sun, 14 Dec 2025 03:21:00 -0800 (PST)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-430f280cf05sm8089069f8f.7.2025.12.14.03.20.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Dec 2025 21:49:33 -0800 (PST)
-From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-To: sam@ravnborg.org
-Cc: Frank.Li@nxp.com, akpm@linux-foundation.org, david.hunter.linux@gmail.com,
- deller@gmx.de, donettom@linux.ibm.com, dri-devel@lists.freedesktop.org,
- hverkuil+cisco@kernel.org, kees@kernel.org, konrad.dybcio@oss.qualcomm.com,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- nicolas.dufresne@collabora.com, rongqianfeng@vivo.com,
- skhan@linuxfoundation.org, swarajgaikwad1925@gmail.com,
- vivek.kasireddy@intel.com, ydirson@free.fr, ziy@nvidia.com
-Subject: Re: [PATCH v2] fbdev: arkfb: Request legacy VGA I/O region
-Date: Sun, 14 Dec 2025 11:19:14 +0000
-Message-ID: <20251214111914.4976-1-swarajgaikwad1925@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251213223850.GA419250@ravnborg.org>
-References: <20251213223850.GA419250@ravnborg.org>
+ Sun, 14 Dec 2025 03:20:59 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Marcus
+ Folkesson <marcus.folkesson@gmail.com>
+Subject: Re: [PATCH RESEND v2 3/6] drm/sitronix/st7571-i2c: move common
+ structures to st7571.h
+In-Reply-To: <20251202-st7571-split-v2-3-1e537a09e92f@gmail.com>
+References: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
+ <20251202-st7571-split-v2-3-1e537a09e92f@gmail.com>
+Date: Sun, 14 Dec 2025 12:20:58 +0100
+Message-ID: <878qf5l36t.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: YlgSwKzmPxsGr3mCEy9fwvwuUNwa3OGhWEL6IUiVWhY_1765711261
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,17 +101,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Thanks for the review.
+> Move all structures that will be common for all interfaces (SPI/I2C) to
+> a separate header file.
+>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
 
-You are right that the cast to (void __iomem *) makes it look like memory,
-but the resource is explicitly initialized as I/O ports a few lines earlier:
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-    vga_res.flags = IORESOURCE_IO;
-
-Since the resource flag is IORESOURCE_IO (targeting the legacy VGA ports),
-I used devm_request_region() instead of devm_request_mem_region().
-
+-- 
 Best regards,
-Swaraj
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
