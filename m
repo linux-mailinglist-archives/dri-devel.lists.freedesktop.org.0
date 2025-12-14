@@ -2,48 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED6ECBBAAD
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 13:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8FECBBB9D
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 15:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B248944A;
-	Sun, 14 Dec 2025 12:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE5110E3E2;
+	Sun, 14 Dec 2025 14:43:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="0rPIEAgr";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC42C10E463
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 12:46:51 +0000 (UTC)
-Received: from localhost.localdomain (unknown [202.112.113.212])
- by APP-03 (Coremail) with SMTP id rQCowACHqN+usT5py8WyAA--.7876S2;
- Sun, 14 Dec 2025 20:46:45 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: anitha.chrisanthus@intel.com, edmund.j.dea@intel.com, airlied@gmail.com,
- simona@ffwll.ch, sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- akpm@linux-foundation.org, Ma Ke <make24@iscas.ac.cn>,
- stable@vger.kernel.org
-Subject: [PATCH RESEND] drm/kmb: Fix error handling in kmb_probe
-Date: Sun, 14 Dec 2025 20:46:26 +0800
-Message-Id: <20251214124626.1326-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: rQCowACHqN+usT5py8WyAA--.7876S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kry8uF43tryftrWkXF4fZrb_yoW8tF1DpF
- ZrGFyFyrWrGF4IkrW7A3W8Za43Aa12yayfursrG3ykWr4YyryqgF97Z3W7AayrJFW8WFWf
- tFZrKa18uF4DXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUB014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
- YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
- 0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUOmhFUUUUU
-X-Originating-IP: [202.112.113.212]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CD210E3E2
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 14:43:53 +0000 (UTC)
+Received: from [172.16.12.102] (89-24-64-24.customers.tmcz.cz [89.24.64.24])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519) (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id B94745340C2F;
+ Sun, 14 Dec 2025 15:43:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1765723429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=di9ZCcqsLSXIeX22FHRGvyhPhPO+kWwqNhUMHEPpsz8=;
+ b=0rPIEAgrU6WV2/4hOSqm2CEzdad8d/pN/CJ4cP2fC/31iIxYM6bRqMYiKqfKNcmbWpz9FO
+ fBr7IJ7bK1JJYA+SDwCqMCxTVNwP50TSzvDEI2ZSlb2V846kHF2zQqrCeE3hxTwAzzdGoY
+ crhULlbvRIOqf6/McoU7JKscPrb8ckk=
+Message-ID: <2e67ef23-5f20-49aa-95eb-96be2e8bfccc@ixit.cz>
+Date: Sun, 14 Dec 2025 15:43:48 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/8] drm/panel: sw43408: Add enable/disable and reset
+ functions
+From: David Heidelberg <david@ixit.cz>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Petr Hodina <phodina@protonmail.com>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251208-pixel-3-v6-0-e9e559d6f412@ixit.cz>
+ <20251208-pixel-3-v6-4-e9e559d6f412@ixit.cz>
+ <lilbxguznfzupg2gpfb6xuj4ickffgtuwwlve5g4d22lzr3bsm@slkmhn4agvgr>
+ <b171d4d1-9426-49aa-b69b-339fdb78c85d@ixit.cz>
+ <eb5106b4-6beb-471f-92c6-f5f4bba4d9ff@ixit.cz>
+Content-Language: en-US
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <eb5106b4-6beb-471f-92c6-f5f4bba4d9ff@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,75 +120,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kmb_probe() obtain a reference to a platform device by
-of_find_device_by_node(). This call increases the reference count of
-the returned device, which should be dropped by calling put_device()
-when the device is no longer needed. However, the code fails to call
-put_device() in several error handling paths and the normal device
-removal path. This could result in reference count leaks that prevent
-the proper cleanup of the platform device when the driver is unloaded
-or during error recovery.
+On 12/12/2025 16:39, David Heidelberg wrote:
+> On 09/12/2025 23:51, David Heidelberg wrote:
+>> On 09/12/2025 23:37, Dmitry Baryshkov wrote:
+>>> On Mon, Dec 08, 2025 at 10:41:57AM +0100, David Heidelberg via B4 
+>>> Relay wrote:
+>>>> From: David Heidelberg <david@ixit.cz>
+>>>>
+>>>> Introduce enable(), disable() and reset() functions.
+>>>>
+>>>> The enable() and disable() callbacks keep the symmetry in the commands
+>>>> sent to the panel and also make a clearer distinction between panel
+>>>> initialization and configuration.
+>>>
+>>> It's not just it. There is a difference between commands being sent in
+>>> en/disable and prepare/unprepare.
+>>
+>> Thanks, I didn't know. Is there good rule how to distinguish, which 
+>> command should go where?
+> 
+> How about I would "reduce" this patch to putting reset sequence into own 
+> function, so Pixel 3 support could get merged?
+> 
+> The display will need more work anyway, would you be fine with this 
+> approach?
 
-Add put_device() in all code paths where dsi_pdev is no longer needed,
-including error paths and the normal removal path.
+As I did additional few changes, I'll sent v7 now, where I'll just 
+abstract _reset() into own function.
 
-Found by code review.
+I would address any other (non reviewed) changes when we manage to get 
+panel with the driver behave stable on mainline/-next.
 
-Cc: stable@vger.kernel.org
-Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/kmb/kmb_drv.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+If you decide this change is worthy of inclusion in this series, I'm 
+open to bring this commit back in future revisions.
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 7c2eb1152fc2..9733337abe92 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -474,6 +474,8 @@ static void kmb_remove(struct platform_device *pdev)
- 
- 	/* Unregister DSI host */
- 	kmb_dsi_host_unregister(kmb->kmb_dsi);
-+	if (kmb->kmb_dsi && kmb->kmb_dsi->pdev)
-+		put_device(&kmb->kmb_dsi->pdev->dev);
- 	drm_atomic_helper_shutdown(drm);
- }
- 
-@@ -518,17 +520,20 @@ static int kmb_probe(struct platform_device *pdev)
- 	ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
- 
- 	if (ret == -EPROBE_DEFER) {
--		return -EPROBE_DEFER;
-+		ret = -EPROBE_DEFER;
-+		goto err_free2;
- 	} else if (ret) {
- 		DRM_ERROR("probe failed to initialize DSI host bridge\n");
--		return ret;
-+		goto err_free2;
- 	}
- 
- 	/* Create DRM device */
- 	kmb = devm_drm_dev_alloc(dev, &kmb_driver,
- 				 struct kmb_drm_private, drm);
--	if (IS_ERR(kmb))
--		return PTR_ERR(kmb);
-+	if (IS_ERR(kmb)) {
-+		ret = PTR_ERR(kmb);
-+		goto err_free2;
-+	}
- 
- 	dev_set_drvdata(dev, &kmb->drm);
- 
-@@ -577,7 +582,8 @@ static int kmb_probe(struct platform_device *pdev)
-  err_free1:
- 	dev_set_drvdata(dev, NULL);
- 	kmb_dsi_host_unregister(kmb->kmb_dsi);
--
-+err_free2:
-+	put_device(&dsi_pdev->dev);
- 	return ret;
- }
- 
--- 
-2.17.1
-
+Thank you
+David
