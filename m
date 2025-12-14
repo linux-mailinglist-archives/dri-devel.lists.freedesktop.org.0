@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EABCBBBC7
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 15:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1799CBBBC1
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 15:51:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE44910E4A2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFFF10E4A1;
 	Sun, 14 Dec 2025 14:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X2jzb3+T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sd71ntWz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 748B710E4A6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9508710E4A8
  for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 14:51:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7FCA344479;
+ by sea.source.kernel.org (Postfix) with ESMTP id 89AFB44485;
  Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A4FFC4CEF5;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AFE1C2BCC6;
  Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1765723885;
- bh=y6g28s3phfzONL8xypvhILPRsQq+kOTNUScBGxyoliA=;
+ bh=2RANSEFOJjyzRJJyR9FuG9eSVR0Xf6BT9jHslxv2GEI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=X2jzb3+TYwf5fjkKcWQT7COWYLvPXd5QYahx++AoIQSiQuao4sI0FqJtpB3Roi337
- XAJbdm+CNtWy/LdzQ+dsqxwlDeskdtfbtpOA9l1RWAwCbtNkgzxHOXBsKwgfsfH9/z
- 3WjNg+UT+ymyKMHHTuq2MT+rVcYuLCtVx2lBOgf+h0+asfrZFHRjVSKinkCL97uKd1
- tSqYBXP9la7Q0yrc+WqHTC0ZtUdKV4xEOZtA9cXSO9zm9Nqv10O8pwjkJX5aPX8REl
- klOnGfZQ7xEBf77i1UktEEI178Y2a4gtXgt5Qw68Dnby9UrICh1AR6S7skj945xjxR
- cPh5JrGoKFRfg==
+ b=sd71ntWzGzd88dDBqj7CKcPXwfTeVMsmLBaaQr2kGtR8XPAPC8basCKMEW/XyYXON
+ IQmev1GIU8jg5jppsoIUVdmNZlDCL8hliQR4FixCLIG1zMFGVdsI15jqtVdBCfr6VT
+ bnwFYSn6CoKr5CAfhNZKFokpi8SYVP8bp/cDhUn8Vv5qPxhEHnPAHHYO/jUndbC7c/
+ igYr/VyGE388QLrOd/dhNmr1guriUA6XU8UDS9IKI2A8cOmbUUAXyqZVF67GE4nDXx
+ 9eCxDMp4UpdxBdqGGNOpxgxypnPY4DMKWPWogg1FbTwXRjhm5sAn3y9rFc2dGjFTZG
+ ezzOVkf6yh7GQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 31947D5B16D;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 41A20D5B170;
  Sun, 14 Dec 2025 14:51:25 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sun, 14 Dec 2025 15:51:22 +0100
-Subject: [PATCH v7 6/8] drm/panel: sw43408: Switch to
- devm_regulator_bulk_get_const
+Date: Sun, 14 Dec 2025 15:51:23 +0100
+Subject: [PATCH v7 7/8] drm/panel: sw43408: Improve wording when
+ reset-gpios aren't available
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251214-pixel-3-v7-6-b1c0cf6f224d@ixit.cz>
+Message-Id: <20251214-pixel-3-v7-7-b1c0cf6f224d@ixit.cz>
 References: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
 In-Reply-To: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -62,21 +62,21 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2797; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=955; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=YbTI5XGo+qxbSQavLlgp6RJoXiVCTloBAe66CkKZYwQ=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpPs7qTC1H/OPi4BByKmzb/YGo7R7rApR6xKnC7
- YJp9FGXivWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaT7O6gAKCRBgAj/E00kg
- coeAEAC03r8OEEOW045uQdSp2uA8hHGcTxau6I+WgPfpq0y2kuKvJMUCk12J+qJT7ovONOzqlJ/
- EFQq0zNVoWKiCGWmtJZRJM348dIB9PDfiXTAaMUwLc5c5goVlSRuyWrOSGfb3dxwrLtJkOmbqYk
- 99Y6qSxFFuV1HAOWw3sjehmivHBlkI9NcZUHbWl0/jwn3YvpukS44NGcR/AAg63mKR+cvfl1IwG
- Jxhh/3oNmLKKCSUB4FzOmf9Cm62xjC1KYpNkHVGwltj5qX8WW7HvqklGZHn3i8qMhXYy/Sbv7aD
- JDPeX8gGgSwaGaKGe9UchTei6qTynP0fQFwJA7a/NECtY854f2Ir571Bf/VI984sKh3wgcwD21B
- uVl25OfigYnFRj0/7d1ug5qFsdre1ACi6PLDmgGDaCdjJYNsSVpawfy/M80flg4BhITJTlpibeP
- z8Bxts0ICqGCp4dkSCFu5OFK6eiBUhRNiTbAc5xXuxkFFnkWf1eaLwlBNpvTStt/OYeGl3nQE2H
- dUdVSmg+shOE4laYnnx0Dqrtg/GwgMNr3NBsOzVwT9qpgszcpHD0jjGSV0yv8R4oA7cP88EB1wg
- O8TZxrRl3kX9nGsvPnnxw9xoDxWeyBuKGKu1Z6eOsBaGqn4gi5hz5UIgHlqLA4c0d6lwZWY0+uz
- OT40iB/VxqOR2OQ==
+ bh=xiRuRI627EVxbYMotExrfzaJ9rtq89cPkPZhyucnC8k=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpPs7qW94IO0AcSLnbrZATEICV7JcrROYo1EJ9L
+ 8yk3YNgh4yJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaT7O6gAKCRBgAj/E00kg
+ cuBaD/45BzmNR273ZnD0o/Jyo7UIWbcUXLdUkKD6Pbo2szq3SwOROX0RvCi8nOYebjycsHGcvVE
+ WLv5yXfcynjxlxJB20c+cLDqGDzu08YdRKXAKNMgJTOt+CcV42KyENUPCbzXGpJ8PJHzWXcrSlR
+ Vuc3CEPhW896+noSoNUlkWpkuXg9jdncI4amWLqipSw9qjoFeXT10LMaFW9cwjaiQc92aOEh53m
+ qL3zEYqK1LdbD/soEtMV5TX1BvoJVc23COu9NpDK+QmaxVnJB9PMByyWS7hTq42N4xoNNeXCdzj
+ EOFdFX9F1cRA67bDuhqYxFh7vJrtSLsrJ2DHyI08EMjAHzt3710Z8LF9ouHEuesOEk3YT5lcCxK
+ hylu3HgYef4/DsoQsiLgGQ3T0OMIeNUmaiYXZFq8MiMC0+0RG+kLAljf22O5hBJGnIO6hySNqH7
+ Uck1du7fkR8y20qdEM5A+oQ5D4CPi7m5cgdjaJpCAOlmIuPw4Phv5MeJwboBPJ2NwF1YA33o6Cf
+ U+spQdNZtZO0IQ6DXirFr8IqUV8nfOMFwtyAo9ye+2wHzXcOzPdYC23q8UxkFhg76nY6q79rknY
+ 93eCeeyAA1/udewU5yqYV6Du9qw9cfc0tn7XWU+UGLP2EP9QdqoY0VXmq5XAX3iI+nQbmAD/vAr
+ k1GpMcN6DWofAMA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -99,87 +99,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-Switch to devm_regulator_bulk_get_const() to stop setting the supplies
-list in probe(), and move the regulator_bulk_data struct in static const.
+Choose better wording.
 
-Cosmetic: adjust comment for regulator from 1.88V to 1.8 V.
+Cosmetic: also inline PTR_ERR.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/panel/panel-lg-sw43408.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-index f9ec6e9b02c70..a5708c7d04192 100644
+index a5708c7d04192..293826c5006b9 100644
 --- a/drivers/gpu/drm/panel/panel-lg-sw43408.c
 +++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-@@ -20,13 +20,18 @@
- #include <drm/display/drm_dsc.h>
- #include <drm/display/drm_dsc_helper.h>
+@@ -244,8 +244,8 @@ static int sw43408_add(struct sw43408_panel *ctx)
  
--#define NUM_SUPPLIES 2
-+static const struct regulator_bulk_data sw43408_supplies[] = {
-+	{ .supply = "vddi", /* 1.8 V */
-+	  .init_load_uA = 62000 },
-+	{ .supply = "vpnl", /* 3.0 V */
-+	  .init_load_uA = 857000 },
-+};
+ 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ctx->reset_gpio)) {
+-		ret = PTR_ERR(ctx->reset_gpio);
+-		return dev_err_probe(dev, ret, "cannot get reset gpio\n");
++		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
++				     "Failed to get reset-gpios\n");
+ 	}
  
- struct sw43408_panel {
- 	struct drm_panel base;
- 	struct mipi_dsi_device *link;
- 
--	struct regulator_bulk_data supplies[NUM_SUPPLIES];
-+	struct regulator_bulk_data *supplies;
- 
- 	struct gpio_desc *reset_gpio;
- 
-@@ -52,7 +57,7 @@ static int sw43408_unprepare(struct drm_panel *panel)
- 
- 	gpiod_set_value(sw43408->reset_gpio, 1);
- 
--	ret = regulator_bulk_disable(ARRAY_SIZE(sw43408->supplies), sw43408->supplies);
-+	ret = regulator_bulk_disable(ARRAY_SIZE(sw43408_supplies), sw43408->supplies);
- 
- 	return ret ? : ctx.accum_err;
- }
-@@ -134,7 +139,7 @@ static int sw43408_prepare(struct drm_panel *panel)
- 	struct sw43408_panel *ctx = to_panel_info(panel);
- 	int ret;
- 
--	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	ret = regulator_bulk_enable(ARRAY_SIZE(sw43408_supplies), ctx->supplies);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -150,7 +155,7 @@ static int sw43408_prepare(struct drm_panel *panel)
- 
- poweroff:
- 	gpiod_set_value(ctx->reset_gpio, 1);
--	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	regulator_bulk_disable(ARRAY_SIZE(sw43408_supplies), ctx->supplies);
- 	return ret;
- }
- 
-@@ -230,13 +235,10 @@ static int sw43408_add(struct sw43408_panel *ctx)
- 	struct device *dev = &ctx->link->dev;
- 	int ret;
- 
--	ctx->supplies[0].supply = "vddi"; /* 1.88 V */
--	ctx->supplies[0].init_load_uA = 62000;
--	ctx->supplies[1].supply = "vpnl"; /* 3.0 V */
--	ctx->supplies[1].init_load_uA = 857000;
--
--	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
--				      ctx->supplies);
-+	ret = devm_regulator_bulk_get_const(dev,
-+					    ARRAY_SIZE(sw43408_supplies),
-+					    sw43408_supplies,
-+					    &ctx->supplies);
- 	if (ret < 0)
- 		return ret;
- 
+ 	ret = sw43408_backlight_init(ctx);
 
 -- 
 2.51.0
