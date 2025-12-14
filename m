@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A23CBBEB1
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 19:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE06CBBB4E
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 15:03:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9D410E086;
-	Sun, 14 Dec 2025 18:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2417510E496;
+	Sun, 14 Dec 2025 14:03:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VfFCG1/v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J1ZaLZMB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com
- [74.125.224.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EFD10E086
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 18:25:01 +0000 (UTC)
-Received: by mail-yx1-f52.google.com with SMTP id
- 956f58d0204a3-6442e2dd8bbso3408582d50.0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 10:25:01 -0800 (PST)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0DBC10E497
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 14:03:25 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-7b8bbf16b71so2757528b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 06:03:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765736700; x=1766341500; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TuAQPLUSZ3+VSUKeXDxPvsUvNNE1ZJMqRxyNlR1GlTY=;
- b=VfFCG1/viwlktzwtoutH/oxHc85gRnvnAeX3bMg8VRlfdWBs2L2U/1JP0svN2QRLer
- HEO5wtxUdn+bHJ3ScrSFeJCS8uWIgHAq51CTIKEoNEPzjO3Bfrr0jFzMiup/H3OVdfw6
- noTchFP7fqsdoOcfON3kJioCuMhB2WXX5P+Tg8ph7yAo3cnX5DQ2GvDi55lCEKfnxpx3
- Wz0ZccyzOaDAzPyg+BS6lEc249X42qhXc0plpjJzAUt4sidgDbMcgZxfHMaaX0foBCIT
- fHlH9Jo2hqVMJg5oLIykAn9K8up7UnEG3i0Z5KhAYfaj2/vIuRGH19UT8MR1GlUNOAfw
- a1XA==
+ d=gmail.com; s=20230601; t=1765721005; x=1766325805; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lCxY3lhzUAu/xvlgVrdpK38D40VSsWRpy5wQseo6TFU=;
+ b=J1ZaLZMBCRGH8ICbgFq03cCFwqLrhCq2DpQpKpWQ+aCkR0Coz1a5AVE0k0079Nd7IS
+ 7yyJSDF0w2sQe7gowQ4oRk44sJPK0Sfc/TSIw1JVzziFU/mGMLAwmeQUEPlTk0kdCp0L
+ t5aYbmTaJSjwixTE9T1BZHSnRj1PyCd4S+OcCkfNsBehbynBBekmK73/PSy7dWOe1x6J
+ YxpOdUjMSjAHxcYTMgHBUJwnET7bNrDqsV8lv3QL0sP8JbtVAFF3O3/eghcIFEet/BwZ
+ PzP1k0GlNxmqMeJ9jT/C6nW3vlzGPwhNLBjWjXtsHYUPGv6SnkIp8Ik5M27A0FPnbKoF
+ xEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765736700; x=1766341500;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=TuAQPLUSZ3+VSUKeXDxPvsUvNNE1ZJMqRxyNlR1GlTY=;
- b=h5mEXV1TbcwH8XXPV0qSTMt7Jpg97zK0n6O7N4rpq6dvX6ryo+590r7NAcYpV3P0hl
- NXmbl6Bk1DpzP6rWiKualILW1Z5uoJoO/Dpz9hxXjCGUMmJ9ruNgx/b+DpLZqH3h3Nke
- TKRHe7s/ZWYjv/juls1INTlDknGLhx27l9UsMXYxQRyy9muyRu8FwgE5tgji5C4zJ2L6
- RjeiPzIETnWUDJklRDJxrP/X9zHceR2VyvhQJU8fimXspquWLv9ytV8SpS9pPbX1tF6Q
- xkfkL35cdn4ikNZQOeRZJAXf4w/4TAtkSmKTv/QnFd1AxYgtq0YBmsFuNxDBfQpi6PWP
- v6pw==
+ d=1e100.net; s=20230601; t=1765721005; x=1766325805;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lCxY3lhzUAu/xvlgVrdpK38D40VSsWRpy5wQseo6TFU=;
+ b=ob/2AeION13z1RJCuqEOOoqXVGEv4TddrUgeX6mC/YHx/5/MmNWR0c1L20eUN508cs
+ /T/308Qs2w5PmgSm1a7OLL4qQpPuF4K7fl03DqywrSbgRy6NWeu7DOV35uN20tfB30Cr
+ xNHzPAldlNJLt1tcN7C0IGuawFBt0XY1Fo38+VhrVSZNE+RVg5R5wWqK/ld3NkSI1gKP
+ Rd5Zk8sYx6aFaEbuzvxK/B++Ppwwz2b4Jcg1h8y+C4CsyN1TA9eh6+GNcfLgkfK9mSfp
+ Xu+faz8Z3yL1stxYOaJ6DflCZqUb10pICHbQadV+SoiTcN6Z1Bgvk0N1I79IKln37Y55
+ RV2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjmvRc98GXOCnQ/uWKE3+q0xLIIZGoHY3qydsywiDD0LDY6U7hH4B8IAfvP/yJ/LVGbdFR/DTJT+U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYmlqmb7CuEtgqA9/a/C/wZ0McjYD7dMFy2w/WFhWrFO+YKpLk
- bOJQv/4J7WbIaKAFvOSLaq87Jiop0WlqPxue5bjhqbdzk5XBNOfKtJZdIFkVLNGKmEy6n4R45Ka
- KPgLgELC2n+gQPjNjj7LllKswBOhTihBaFDeWeznnCA==
-X-Gm-Gg: AY/fxX6LePyFEA2v7Ll57M2+dQQgtR+SbziyXe0lBJe/6d0o2PXl2c0SnzkiUGFRLNS
- j66iz9EYQjg1VF6WHHt1u/V+jY1SrUn4D7Ne2+XNGrQKyn1wUd1VhGRtqsUCRBQTm+tm6mP0NH7
- MSvmpYdMSkkTs+2tWsC7s4tv8ZH8TaDT7/tm+HTcAIS5ZxVqimgSk4sXVUd0BAgk1hiYjS8NDrq
- Hh8H9sOGRMkKn34g6WOcFgjZ7/Y6EJzLl73kxt7Khpobj1SYTGwFcUHVIdaPlwCD72NKJy0hlrz
- 977Asw==
-X-Google-Smtp-Source: AGHT+IF/A/NCCXYbr4rTXKqs1aT87DG/QcCSsU5m5Juc/qR3uYYgnUberRojjzO8dxfqmF1ZnxBYio1mcpyV6dcIfGw=
-X-Received: by 2002:a05:690e:1187:b0:63f:31f7:b956 with SMTP id
- 956f58d0204a3-645555e8e2cmr6427288d50.27.1765736700223; Sun, 14 Dec 2025
- 10:25:00 -0800 (PST)
+ AJvYcCWTCWj7Cc9+O9doR7Oa6962+hh4MQjYW/G+TKfu+qbj96Zv9PFnvKtPqAOaGAwCuiAT1T0PbD+Pcls=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxa4Z4tEuABOx0MJDvcedTWMAmHyPMENDqS9LDrqv+VrDyiHu36
+ T0PulsXoSaW5MC+dZs2nLF9dds18Li5eES3leWNJbL/PLSsgAvgIjC9yxkqvZXYc
+X-Gm-Gg: AY/fxX5LEGKIhX/1ohsmiGXDBGcXWiP59Woqqn3D1oaiekzNk5owrCLr3GJY/5bswbw
+ 7XwHBGhYWlj9gkJKuO+E/yNDc5jGEyMJhEjlEEhc6DScSOVlE2ssIa+b5VOm94sGiMD4hRjrzQU
+ /+UgC6L9RkoDXpPVJnsntOtcUV6Ln6dcC97at/SGPe3ETnLH4lfPpNRA8c47IolcFZ6C/vGo0Hh
+ tCy7FBosaHnZKDLQMiqEn/FN4IfGFJckN3HoK13J4KP9tCyCmwPVhUj4I7GNGO0g6ZkNRA7BPRQ
+ Tq0L4SzTii6dgp/y/tAwxwtmj+XWfTYpHfYo6MWscdJRq5fuku2toJYpVq298BPG1D9uY62XV/z
+ tbqeAPP9sNkjQ2nvZtL9da5gg1dJRp7FTubdb6XyTLipXVS4UmSJeNDpz7Twc1IQo6B2ybFsRbY
+ /GpXJEirkcr789kJKe3p4=
+X-Google-Smtp-Source: AGHT+IF/8DyCTIDqIiNfR2carEZCo4WMAg6ZpjrHBT+vhF1qd9c3UkgS9nbSXUeUzJ5pPptBTCplOw==
+X-Received: by 2002:a05:6a00:8c11:b0:7e8:450c:61c1 with SMTP id
+ d2e1a72fcca58-7f671960f07mr6478071b3a.49.1765721004997; 
+ Sun, 14 Dec 2025 06:03:24 -0800 (PST)
+Received: from LilGuy ([2409:40c2:105b:dc88:1107:395c:23c0:2b1b])
+ by smtp.googlemail.com with ESMTPSA id
+ d2e1a72fcca58-7f4c53847e4sm10130683b3a.56.2025.12.14.06.03.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Dec 2025 06:03:24 -0800 (PST)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org (open list),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR LOONGSON)
+Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Subject: [PATCH] drm/loongson: Replace custom dumb_map_offset with generic
+ helper
+Date: Sun, 14 Dec 2025 19:33:01 +0000
+Message-ID: <20251214193302.14589-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <76038c97-39ca-4672-adc0-4e8fe0e39fc8@akamai.com>
- <CAJfuBxxFWD0rEjm-va+Bjmf-m2nfOD_+ZEqKy22WX6QdugQCUw@mail.gmail.com>
- <5b3d492c-7037-45a5-a001-0064f14d5f81@akamai.com>
-In-Reply-To: <5b3d492c-7037-45a5-a001-0064f14d5f81@akamai.com>
-From: jim.cromie@gmail.com
-Date: Mon, 15 Dec 2025 07:24:34 +1300
-X-Gm-Features: AQt7F2qR7epCcPZPFyfS31ZMn7q415nXmBzUWk-f7hwRotzggU7ovP6q9koFi7U
-Message-ID: <CAJfuBxzW6TMmdS74ZPfPSe1w6S=oO17WYZc-Jgn_et=-Muw05A@mail.gmail.com>
-Subject: Re: [PATCH v6 00/31] drm/dyndbg: Fix dynamic debug classmap regression
-To: Jason Baron <jbaron@akamai.com>, git@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,212 +93,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-for some reason I cannot grasp,
-git am fails to process this mbox.
+The lsdc driver implements a custom dumb_map_offset callback which is
+functionally equivalent to the generic drm_gem_dumb_map_offset helper,
+but lacks standard safety checks.
 
-It entirely misses 13/31,
-then fails to apply 14, which needs 13
+The generic helper adds:
+1. A check to prevent mapping of imported objects (which is invalid for
+   dumb buffers).
+2. A call to drm_gem_create_mmap_offset() to ensure the offset is
+   correctly allocated before access.
 
-Im able to cherry-pick 13,
-but then I cannot --continue with 14,
-even after bumping .git/rebase-apply/next (iirc)
+Replace the custom implementation with the generic helper and remove
+the now unused lsdc_dumb_map_offset() function.
 
-jimc@frodo:~/projects/lx/linux.git$ git am --empty=3Ddrop
-~/Downloads/PATCH-v6-00-31-drm-dyndbg-Fix-dynamic-debug-classmap-regression=
-.mbox
-Skipping: drm/dyndbg: Fix dynamic debug classmap regression
-Applying: dyndbg: factor ddebug_match_desc out from ddebug_change
-Applying: dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
-Applying: docs/dyndbg: update examples \012 to \n
-Applying: test-dyndbg: fixup CLASSMAP usage error
-Applying: dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-Applying: docs/dyndbg: explain flags parse 1st
-Applying: dyndbg: make ddebug_class_param union members same size
-Applying: dyndbg: drop NUM_TYPE_ARRAY
-Applying: dyndbg: tweak pr_fmt to avoid expansion conflicts
-Applying: dyndbg: reduce verbose/debug clutter
-Applying: dyndbg: refactor param_set_dyndbg_classes and below
-Applying: dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
-Applying: dyndbg: macrofy a 2-index for-loop pattern
-error: patch failed: lib/dynamic_debug.c:155
-error: lib/dynamic_debug.c: patch does not apply
-Patch failed at 0014 dyndbg: macrofy a 2-index for-loop pattern
-hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
-hint: When you have resolved this problem, run "git am --continue".
-hint: If you prefer to skip this patch, run "git am --skip" instead.
-hint: To restore the original branch and stop patching, run "git am --abort=
-".
-hint: Disable this message with "git config set advice.mergeConflict false"
-jimc@frodo:~/projects/lx/linux.git$ git help am
+This addresses the TODO:
+"Documentation/gpu/todo.rst: Remove custom dumb_map_offset implementations"
 
-IOW 1st below fails cuz 2nd was missed.
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
 
-9d3217b82474 dyndbg: macrofy a 2-index for-loop pattern
-0181185c3e75 dyndbg: replace classmap list with a vector
-ef6ee2b321ce dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
-804e6a0d59b6 dyndbg: refactor param_set_dyndbg_classes and below
-039806bc83dd dyndbg: reduce verbose/debug clutter
-162a0398fae9 dyndbg: tweak pr_fmt to avoid expansion conflicts
-d5524fc1ef31 dyndbg: drop NUM_TYPE_ARRAY
-a6e1e7f4da90 dyndbg: make ddebug_class_param union members same size
-a1d3e32dd906 dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-5692e955f0ce test-dyndbg: fixup CLASSMAP usage error
-3ee7e303e78e docs/dyndbg: explain flags parse 1st
-2f33390837fb docs/dyndbg: update examples \012 to \n
-256317aa5996 dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
-37bad039f6c7 dyndbg: factor ddebug_match_desc out from ddebug_change
-7d0a66e4bb90 (tag: v6.18, master) Linux 6.18
+Compile-tested only.
 
-On Sat, Dec 13, 2025 at 4:57=E2=80=AFAM Jason Baron <jbaron@akamai.com> wro=
-te:
->
->
->
-> On 12/10/25 4:12 PM, jim.cromie@gmail.com wrote:
-> > !-------------------------------------------------------------------|
-> >    This Message Is From an External Sender
-> >    This message came from outside your organization.
-> > |-------------------------------------------------------------------!
-> >
-> > On Thu, Dec 11, 2025 at 8:09=E2=80=AFAM Jason Baron <jbaron@akamai.com>=
- wrote:
-> >>
-> >>
-> >>
-> >> On 11/18/25 3:18 PM, Jim Cromie wrote:
-> >>> !-------------------------------------------------------------------|
-> >>>     This Message Is From an External Sender
-> >>>     This message came from outside your organization.
-> >>> |-------------------------------------------------------------------!
-> >>>
-> >>> hello all,
-> >>>
-> >>> commit aad0214f3026 ("dyndbg: add DECLARE_DYNDBG_CLASSMAP macro")
-> >>>
-> >>> added dyndbg's "classmaps" feature, which brought dyndbg's 0-off-cost
-> >>> debug to DRM.  Dyndbg wired to /sys/module/drm/parameters/debug,
-> >>> mapped its bits to classes named "DRM_UT_*", and effected the callsit=
-e
-> >>> enablements only on updates to the sys-node (and underlying >control)=
-.
-> >>>
-> >>> Sadly, it hit a CI failure, resulting in:
-> >>> commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
-> >>>
-> >>> The regression was that drivers, when modprobed, did not get the
-> >>> drm.debug=3D0xff turn-on action, because that had already been done f=
-or
-> >>> drm.ko itself.
-> >>>
-> >>> The core design bug is in the DECLARE_DYNDBG_CLASSMAP macro.  Its use
-> >>> in both drm.ko (ie core) and all drivers.ko meant that they couldn't
-> >>> fundamentally distinguish their respective roles.  They each
-> >>> "re-defined" the classmap separately, breaking K&R-101.
-> >>>
-> >>> My ad-hoc test scripting helped to hide the error from me, by 1st
-> >>> testing various combos of boot-time module.dyndbg=3D... and
-> >>> drm.debug=3D... configurations, and then inadvertently relying upon
-> >>> those initializations.
-> >>>
-> >>> This series addresses both failings:
-> >>>
-> >>> It replaces DECLARE_DYNDBG_CLASSMAP with
-> >>>
-> >>> - `DYNAMIC_DEBUG_CLASSMAP_DEFINE`: Used by core modules (e.g.,
-> >>>     `drm.ko`) to define their classmaps.  Based upon DECLARE, it expo=
-rts
-> >>>     the classmap so USE can use it.
-> >>>
-> >>> - `DYNAMIC_DEBUG_CLASSMAP_USE`: this lets other "subsystem" users
-> >>>     create a linkage to the classmap defined elsewhere (ie drm.ko).
-> >>>     These users can then find their "parent" and apply its settings.
-> >>>
-> >>> It adds a selftest script, and a 2nd "sub-module" to recapitulate
-> >>> DRM's multi-module "subsystem" use-case, including the specific
-> >>> failure scenario.
-> >>>
-> >>> It also adds minor parsing enhancements, allowing easier construction
-> >>> of multi-part debug configurations.  These enhancements are used to
-> >>> test classmaps in particular, but are not otherwize required.
-> >>>
-> >>> Thank you for your review.
-> >>>
-> >>> P.S. Id also like to "tease" some other work:
-> >>>
-> >>> 1. patchset to send pr_debugs to tracefs on +T flag
-> >>>
-> >>>      allows 63 "private" tracebufs, 1 "common" one (at 0)
-> >>>      "drm.debug_2trace=3D0x1ff" is possible
-> >>>      from Lukas Bartoski
-> >>>
-> >>> 2. patchset to save 40% of DATA_DATA footprint
-> >>>
-> >>>      move (modname,filename,function) to struct _ddebug_site
-> >>>      save their descriptor intervals to 3 maple-trees
-> >>>      3 accessors fetch on descriptor, from trees
-> >>>      move __dyndbg_sites __section to INIT_DATA
-> >>>
-> >>> 3. patchset to cache dynamic-prefixes
-> >>>      should hide 2.s cost increase.
-> >>>
-> >>>
-> >>
-> >> Hi Jim,
-> >>
-> >> I just wanted to confirm my understanding that the class names here ar=
-e
-> >> 'global'. That is if say two different modules both used say the name
-> >> "core" in their DYNAMIC_DEBUG_CLASSMAP_DEFINE() name array, then if th=
-e
-> >> user did: echo "class core +p > control", then that would enable all t=
-he
-> >> sites that had the class name "core" in both modules. One could add th=
-e
-> >> "module" modifier to the request if needed.
-> >>
-> >> One could prepend the module name to the class names to make them uniq=
-ue
-> >> but it's not much different from adding a separate 'module blah' in th=
-e
-> >> request. So probably fine as is, but maybe worth calling out in the do=
-cs
-> >> a bit?
-> >>
-> >
-> > Yes. that is correct. class CORE is global.
-> > If 2 different DEFINE()s give that classname,
-> > the defining modules will both respond to `class CORE +p > control`
-> > but they will get independent int values (which could be the same, but
-> > dont have to be)
-> >
-> > DRM is our case in point.
-> > I reused DRM_UT_CORE...
-> > because I didnt have a good reason to change it
-> > that said, Daniel Vetter noted that the _UT_ part doesnt have a real re=
-ason.
-> > So theres some space for a discussion, when I resend that patchset.
-> >
-> > `module drm class DRM_UT_CORE +p > control`
-> > will narrow the query and avoid all the drivers/helpers,
-> > which could be what someone wants.
-> > class DRM_UT_CORE would select drivers and helpers too,
-> > so the DRM_UT_  disambiguation is appropriate.
-> >
-> > I'll reread the docs to see if theres a bit more I can add to further
-> > explain this.
-> > Do you have any suggestions for wording to achieve this ?
-> >
->
->
-> Ok, so sounds like DRM_ prefix is already adding some scoping vs. just
-> the simple 'CORE' name. So maybe just something like:
->
-> Note that class names exist in a 'global' namespace. Thus, if two
-> different modules share a common class name such as 'core' both modules
-> will have sites enabled via: echo 'class core +p > control'. Thus, you
-> may wish to scope any new class names to a specific use-case or module.
-> For example, drm uses the 'DRM_' prefix, as in 'DRM_CORE'.
->
-> Thanks,
->
-> -Jason
+ drivers/gpu/drm/loongson/lsdc_drv.c |  2 +-
+ drivers/gpu/drm/loongson/lsdc_gem.c | 16 ----------------
+ drivers/gpu/drm/loongson/lsdc_gem.h |  5 -----
+ 3 files changed, 1 insertion(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+index abf5bf68eec2..50023b5573a4 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.c
++++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+@@ -45,7 +45,7 @@ static const struct drm_driver lsdc_drm_driver = {
+
+ 	.debugfs_init = lsdc_debugfs_init,
+ 	.dumb_create = lsdc_dumb_create,
+-	.dumb_map_offset = lsdc_dumb_map_offset,
++	.dumb_map_offset = drm_gem_dumb_map_offset,
+ 	.gem_prime_import_sg_table = lsdc_prime_import_sg_table,
+ 	DRM_FBDEV_TTM_DRIVER_OPS,
+ };
+diff --git a/drivers/gpu/drm/loongson/lsdc_gem.c b/drivers/gpu/drm/loongson/lsdc_gem.c
+index 6372db2d3093..9f956e63cce3 100644
+--- a/drivers/gpu/drm/loongson/lsdc_gem.c
++++ b/drivers/gpu/drm/loongson/lsdc_gem.c
+@@ -234,22 +234,6 @@ int lsdc_dumb_create(struct drm_file *file, struct drm_device *ddev,
+ 	return 0;
+ }
+
+-int lsdc_dumb_map_offset(struct drm_file *filp, struct drm_device *ddev,
+-			 u32 handle, uint64_t *offset)
+-{
+-	struct drm_gem_object *gobj;
+-
+-	gobj = drm_gem_object_lookup(filp, handle);
+-	if (!gobj)
+-		return -ENOENT;
+-
+-	*offset = drm_vma_node_offset_addr(&gobj->vma_node);
+-
+-	drm_gem_object_put(gobj);
+-
+-	return 0;
+-}
+-
+ void lsdc_gem_init(struct drm_device *ddev)
+ {
+ 	struct lsdc_device *ldev = to_lsdc(ddev);
+diff --git a/drivers/gpu/drm/loongson/lsdc_gem.h b/drivers/gpu/drm/loongson/lsdc_gem.h
+index 92cbb10e6e13..f79f06874286 100644
+--- a/drivers/gpu/drm/loongson/lsdc_gem.h
++++ b/drivers/gpu/drm/loongson/lsdc_gem.h
+@@ -14,11 +14,6 @@ lsdc_prime_import_sg_table(struct drm_device *ddev,
+ 			   struct dma_buf_attachment *attach,
+ 			   struct sg_table *sg);
+
+-int lsdc_dumb_map_offset(struct drm_file *file,
+-			 struct drm_device *dev,
+-			 u32 handle,
+-			 uint64_t *offset);
+-
+ int lsdc_dumb_create(struct drm_file *file,
+ 		     struct drm_device *ddev,
+ 		     struct drm_mode_create_dumb *args);
+
+base-commit: a859eca0e4cc96f63ff125dbe5388d961558b0e9
+prerequisite-patch-id: 84f019e50f016ed5c37c15cb809158ab022686be
+--
+2.52.0
+
