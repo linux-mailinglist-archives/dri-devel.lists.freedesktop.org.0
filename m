@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E1CCBB2D7
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 20:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46DCCBB5E1
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 03:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5C910E440;
-	Sat, 13 Dec 2025 19:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198EF10E3AD;
+	Sun, 14 Dec 2025 02:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Aephj+Q+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bknwleA+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBE9410E440
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 19:51:19 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-34a8a5f3d44so2555152a91.1
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 11:51:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765655479; x=1766260279; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IsquRE2xz+HwwOQd61l9u2JoVfbUk9ALuRhwzEKiTUI=;
- b=Aephj+Q+1qMUqvlaaB+U66N1/ocYjYGltNOdJChw0Qmp2TpeybHDv8k0Vy5UAbxuOF
- g+jTk0fwyIQa5Rgjsm3Opcqe0IggyEzS0+olV9pzPxWYrVB5nQ9WZoGJwXiD4ecVoZHa
- KsJ/7t1DT+34/zkeWR1bbmgb+B8KwBeORpbdid/IwHivOynMhJVzoSTMFKkibjybzpyB
- XeTSVvx+nQuSI4ElGEKE5R5JuOFswm0zg2OanW4YaYhXx5yh2g5wuPLkpdC0nwdpKoFj
- 1LfWAaFVtJ3OMlgKXF8k6gbNKFdi3frN3IYnzOY+UHwVds97/q+cBrHQwkOupEdqqhcV
- Vgkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765655479; x=1766260279;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IsquRE2xz+HwwOQd61l9u2JoVfbUk9ALuRhwzEKiTUI=;
- b=eTIwMTfJdHUCScGKFdYwoOR2J+4IH2c090cd+HCR9JvsWGt/AcMnix7zYn1/a88dH+
- a6FA5+BIWgPDPbYF4hocvq4uzDH3secuhstLYhSVfasySDqNxFFyWaw7bdeKNmPVUtDg
- axSLZGnjwLWNeF60Wq4Pzg90gdScGO9WYZVrMW6I79oXsJxuDSpkIeS+BStleRHMD+aJ
- zgRaQT0xFr2XKybUPWbVyVcArxpqavCXdWQBNEXNv2TR+9Y5TQry4l04p8OMGyCZeyRg
- iwxQG62d1p6sd5mgDByWkwso+ReWlHu0DmNSEwxISiTAbtgw7M3Yyn8ehuu4h/pMkhu2
- y5mQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWK+4G8k2oQQKEaSZDNMbyOeTYuOGQwCfYqPNi+stZ2mGSeJiv7MIS2XXifqlivXoK3m8GGzqozuQU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCDl/kaAI9bIBYHquLne85q1s9/gh03riDFWBuZFkpZw0gzPul
- QVJkhAhPoUF54T9HYxNpQcTcN75PqkTv2SAI2ZhuS3SNEKxHvpIlM197
-X-Gm-Gg: AY/fxX7w8JKZqS2+rwUEYDRE81xXP/Xi9zmLRXRK+zzZb/gbbxbxLEf+zPHna2lr9tB
- Y0Qo6NYbeeY3hAfP7mvgHnJG2H2zc2dqGL7s7k+V+W6mJ4+0gWdV94Ji9rrxxyzz4+nuCck2Ng4
- Wk62hxpJ9AWVeZEnvjOAOfJDI3xfL7ljt+y+nL5cc1AG0Tu9kX3Wmx+iOv90mnZ1P0qHqr7pFgx
- 0JO4EWAlCW76vhpOwD4C4gNER0X2JvasN7OzECunIjjmz2wnoTM0Nlr1/1nhkOXHrBKUwtm6LZy
- XgE/mrWsepu8Rf/9ukUJx49tUnYOj8e1Es2/VHrjLeDeiHT9tOmegmOEfz6w1fKAz67mb9OLFwQ
- ROYe40TrpeMKta7XVz476NZQagzN69UnzhO/s6fuQtXys1MnUmHTy+Ef18H1/1Xk1FWTTXcXdzb
- b7tmO4J9JycH86WyU2rAg=
-X-Google-Smtp-Source: AGHT+IHcREPDF7aTpD+URjYTZa/VwryKmBvbSW4AVWG1PR85eHFFSRycSwlqSkc8yc3qS6yEZ5ct4g==
-X-Received: by 2002:a17:90b:1dce:b0:34a:b4a2:f0bf with SMTP id
- 98e67ed59e1d1-34abd6e2833mr5665920a91.16.1765655479201; 
- Sat, 13 Dec 2025 11:51:19 -0800 (PST)
-Received: from LilGuy ([2409:40c2:105b:dc88:1107:395c:23c0:2b1b])
- by smtp.googlemail.com with ESMTPSA id
- 98e67ed59e1d1-34abe3a2623sm5001422a91.2.2025.12.13.11.51.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Dec 2025 11:51:18 -0800 (PST)
-From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-To: Andres Salomon <dilinger@queued.net>, Helge Deller <deller@gmx.de>,
- linux-geode@lists.infradead.org (moderated list:AMD GEODE PROCESSOR/CHIPSET
- SUPPORT), linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
- linux-kernel@vger.kernel.org (open list)
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Subject: [PATCH] fbdev: geode: lxfb: Use devm_request_mem_region
-Date: Sun, 14 Dec 2025 01:20:59 +0000
-Message-ID: <20251214012059.304043-1-swarajgaikwad1925@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B319010E197
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 02:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765677701; x=1797213701;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wURaac3PhhXCFR9WbS9wre3uyFsotvR2khzrrG3rbnA=;
+ b=bknwleA+QOL1IvDhna61/PeGlWDqhv9hZZ3ku25Z5kbogJlOcxe+iL2K
+ qApVzmkES+Z/sKFkRArQ4fAQ6sT3VtkaDf2va0+bcUngPW82RWxn+Kf0z
+ PNgTjJsOipE9DnQKDMHLzKS5QTkAVaSGj6pUkLXMVcR7dj7Kp9zLmKflq
+ r722goG3kxAtpJYGpbv8nph8I/dzWkq89ecJz1pjwYAZEVE/MK/IAHrUf
+ MgVQ+5mwypO3ZYxvNYiFUr9spfjc/vGmN89xciYaBg9+866bJb0fwptBb
+ QC5h5e/s93aK6lyFs3rAyTK7WqUIEEyELCrHlZiafRjll8Ol4/i9w0fcT w==;
+X-CSE-ConnectionGUID: F66PhokURRSEWseR4z17FA==
+X-CSE-MsgGUID: 6AO/xegjQCm8kHYDOdzWCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71256950"
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; d="scan'208";a="71256950"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2025 18:01:41 -0800
+X-CSE-ConnectionGUID: t9exGciVTCOVZ9sWdlLJ1g==
+X-CSE-MsgGUID: jP2eIDzcSWycglhVfZpOzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; d="scan'208";a="201610375"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 13 Dec 2025 18:01:38 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vUbQW-000000008SP-2WxE;
+ Sun, 14 Dec 2025 02:01:36 +0000
+Date: Sun, 14 Dec 2025 10:00:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, simona@ffwll.ch, airlied@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
+Message-ID: <202512140916.Z01yXO9Q-lkp@intel.com>
+References: <20251208102851.40894-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251208102851.40894-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,106 +72,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The lxfb driver currently uses pci_request_region() for memory
-reservation, which requires manual error handling and cleanup using
-pci_release_region().
+Hi Thomas,
 
-Simplify the driver by migrating to the managed helper
-devm_request_mem_region(). This ensures that resources are automatically
-released on driver detach, allowing the removal of explicit cleanup code
-in the probe error path and the remove function.
+kernel test robot noticed the following build errors:
 
-This addresses the TODO item "Request memory regions in all fbdev
-drivers" in Documentation/gpu/todo.rst.
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.18 next-20251212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
----
-Compile-tested only on x86_64.
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/vt-Remove-trailing-whitespace/20251208-183541
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20251208102851.40894-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
+config: arm-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140916.Z01yXO9Q-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140916.Z01yXO9Q-lkp@intel.com/reproduce)
 
- drivers/video/fbdev/geode/lxfb_core.c | 36 +++++++++------------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140916.Z01yXO9Q-lkp@intel.com/
 
-diff --git a/drivers/video/fbdev/geode/lxfb_core.c b/drivers/video/fbdev/geode/lxfb_core.c
-index cad99f5b7fe8..8189d6a13c5d 100644
---- a/drivers/video/fbdev/geode/lxfb_core.c
-+++ b/drivers/video/fbdev/geode/lxfb_core.c
-@@ -335,25 +335,21 @@ static int lxfb_map_video_memory(struct fb_info *info, struct pci_dev *dev)
- 	if (ret)
- 		return ret;
+All errors (new ones prefixed by >>):
 
--	ret = pci_request_region(dev, 0, "lxfb-framebuffer");
-+	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 0),
-+			      pci_resource_len(dev, 0), "lxfb-framebuffer"))
-+		return -EBUSY;
+>> drivers/video/fbdev/core/fbcon.c:3176:3: error: field designator 'con_debug_enter' does not refer to any field in type 'const struct consw'
+           .con_debug_enter        = fbcon_debug_enter,
+            ^
+>> drivers/video/fbdev/core/fbcon.c:3177:3: error: field designator 'con_debug_leave' does not refer to any field in type 'const struct consw'
+           .con_debug_leave        = fbcon_debug_leave,
+            ^
+   2 errors generated.
 
--	if (ret)
--		return ret;
--
--	ret = pci_request_region(dev, 1, "lxfb-gp");
--
--	if (ret)
--		return ret;
-+	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 1),
-+			      pci_resource_len(dev, 1), "lxfb-gp"))
-+		return -EBUSY;
 
--	ret = pci_request_region(dev, 2, "lxfb-vg");
-+	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 2),
-+			      pci_resource_len(dev, 2), "lxfb-vg"))
-+		return -EBUSY;
+vim +3176 drivers/video/fbdev/core/fbcon.c
 
--	if (ret)
--		return ret;
--
--	ret = pci_request_region(dev, 3, "lxfb-vp");
--
--	if (ret)
--		return ret;
-+	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 3),
-+			      pci_resource_len(dev, 3), "lxfb-vp"))
-+		return -EBUSY;
+fe2d70d6f6ff038 drivers/video/fbdev/core/fbcon.c Simona Vetter  2019-05-28  3154  
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3155  /*
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3156   *  The console `switch' structure for the frame buffer based console
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3157   */
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3158  
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3159  static const struct consw fb_con = {
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3160  	.owner			= THIS_MODULE,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3161  	.con_startup 		= fbcon_startup,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3162  	.con_init 		= fbcon_init,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3163  	.con_deinit 		= fbcon_deinit,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3164  	.con_clear 		= fbcon_clear,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3165  	.con_putcs 		= fbcon_putcs,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3166  	.con_cursor 		= fbcon_cursor,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3167  	.con_scroll 		= fbcon_scroll,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3168  	.con_switch 		= fbcon_switch,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3169  	.con_blank 		= fbcon_blank,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3170  	.con_font_set 		= fbcon_set_font,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3171  	.con_font_get 		= fbcon_get_font,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3172  	.con_font_default	= fbcon_set_def_font,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3173  	.con_set_palette 	= fbcon_set_palette,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3174  	.con_invert_region 	= fbcon_invert_region,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3175  	.con_resize             = fbcon_resize,
+d219adc1228a388 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3176  	.con_debug_enter	= fbcon_debug_enter,
+d219adc1228a388 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3177  	.con_debug_leave	= fbcon_debug_leave,
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3178  };
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3179  
 
- 	info->fix.smem_start = pci_resource_start(dev, 0);
- 	info->fix.smem_len = vram ? vram : lx_framebuffer_size();
-@@ -546,19 +542,15 @@ static int lxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- err:
- 	if (info->screen_base) {
- 		iounmap(info->screen_base);
--		pci_release_region(pdev, 0);
- 	}
- 	if (par->gp_regs) {
- 		iounmap(par->gp_regs);
--		pci_release_region(pdev, 1);
- 	}
- 	if (par->dc_regs) {
- 		iounmap(par->dc_regs);
--		pci_release_region(pdev, 2);
- 	}
- 	if (par->vp_regs) {
- 		iounmap(par->vp_regs);
--		pci_release_region(pdev, 3);
- 	}
-
- 	fb_dealloc_cmap(&info->cmap);
-@@ -575,16 +567,12 @@ static void lxfb_remove(struct pci_dev *pdev)
- 	unregister_framebuffer(info);
-
- 	iounmap(info->screen_base);
--	pci_release_region(pdev, 0);
-
- 	iounmap(par->gp_regs);
--	pci_release_region(pdev, 1);
-
- 	iounmap(par->dc_regs);
--	pci_release_region(pdev, 2);
-
- 	iounmap(par->vp_regs);
--	pci_release_region(pdev, 3);
-
- 	fb_dealloc_cmap(&info->cmap);
- 	framebuffer_release(info);
-
-base-commit: a859eca0e4cc96f63ff125dbe5388d961558b0e9
---
-2.52.0
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
