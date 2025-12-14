@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594ACCBB901
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 10:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBB5CBB916
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 10:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF8910E1C3;
-	Sun, 14 Dec 2025 09:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94BA10E1C2;
+	Sun, 14 Dec 2025 09:48:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XjcMW5oY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="diWZmGU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F044310E1C3
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 09:39:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3622F10E1C2
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 09:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1765705174;
- bh=h0u2cejxpXVoLRWKh5wXu2rzjmhKCUpKDzd+BVTCCOQ=;
+ s=mail; t=1765705716;
+ bh=YQw+PCCxsHQl8G5UqvorlqZ39FWiC0a0CpEWTqEurSA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XjcMW5oY2N+zRJn+Xis7mRQKT9AzEf8m3bGR+B6fYEEIVbes49yu+lcHy6BrHbWjN
- TfqYqHSTL8K4jMs0eGymgXE6bzwBQ0Qz3MLUjRK+9lGv9poaLVFO6wR7Wc/ANM5xWV
- up8O9eAhocCkA3byN/PnE4QClE3LQZTM0W9SJq2f1r0ZN1dDwb6MOqGjAuCBWfg8UZ
- cVR13CorbHM9ibBrtsLYu1yajZH+15EOEnMelUoYKXqBx/MwVD8Pys+kSH7iYkqdZN
- mp1TWrebpshAIl9qjkL9G5YFm5dX7Eyc/2JV0oA8wb8ExWPdH1re9OnEYEkeNhRb/7
- ebStE29w18YVA==
+ b=diWZmGU/jvG0gmbPt+ktgTC1jssbW9t3AqfRE/wGYMqPefcHWabBi0rIb/XjJuRi7
+ fG9FHyX/qHcLbAI9RWNgqGduMbsdmnXysetHq8c28ztYaZObOfKj8kVjsq2bVqGYlU
+ /1sNK1U/tWTflwToeIQkNpL77t0esCIk7JPjdg3Vc6Rjq3kvOqQgEK7B1J0nZYmcpB
+ FxrJ06DBO2DEMcXomvdgdHDtY8DVOzT7apkarqByXEF9OqT7RTzP/gKfA4Eb4lYDdG
+ mL3VrY7YLfzGQBdidrs2VWViJ0mCcea3GFpfgVp07pKGei9jRBP718TZZ4r+YZEsJ4
+ ViXbyAWEkYfhQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8A9E317E1292;
- Sun, 14 Dec 2025 10:39:33 +0100 (CET)
-Date: Sun, 14 Dec 2025 10:39:28 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 45ABB17E0FC2;
+ Sun, 14 Dec 2025 10:48:36 +0100 (CET)
+Date: Sun, 14 Dec 2025 10:48:30 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
@@ -43,7 +43,7 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 Subject: Re: [PATCH v3 1/1] drm/panthor: Support partial unmaps of huge pages
-Message-ID: <20251214103928.2dc0690b@fedora>
+Message-ID: <20251214104830.24b5559b@fedora>
 In-Reply-To: <20251213190835.2444075-2-adrian.larumbe@collabora.com>
 References: <20251213190835.2444075-1-adrian.larumbe@collabora.com>
  <20251213190835.2444075-2-adrian.larumbe@collabora.com>
@@ -113,11 +113,6 @@ uva_op *op, void *priv)
 HIFT];
 > +
 > +	return (folio_size(page_folio(pg)) >=3D SZ_2M);
-
-nit: you can drop the extra ()
-
-	return folio_size(page_folio(pg)) >=3D SZ_2M;
-
 > +}
 > +
 > +static void
@@ -169,13 +164,12 @@ rent unmap
 > +	 */
 > +	get_map_unmap_intervals(&op->remap, unmap_vma, &unmap_start, &unmap_ran=
 ge);
-
-Unfortunately, after 5b8fcf4777e7 ("drm/panthor: Add support for atomic
-page table updates"), that's not enough, you also need to extend the
-locked region (see [1]).
-
 > +
 >  	ret =3D panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
+
+This needs to be rebased on drm-misc-next: the panthor_vm_unmap_pages()
+prototype has changed there.
+
 >  	if (ret)
 >  		return ret;
 > =20
@@ -207,5 +201,3 @@ locked region (see [1]).
 >  		panthor_vma_init(next_vma, unmap_vma->flags);
 >  	}
 
-[1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/b4b677796c8c33b=
-5be60184bca099ef8fd8c5548
