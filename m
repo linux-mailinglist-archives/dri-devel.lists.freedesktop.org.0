@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EC9CBB57C
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Dec 2025 01:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71BFCBB2CB
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Dec 2025 20:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB3B10E00C;
-	Sun, 14 Dec 2025 00:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C15210E40F;
+	Sat, 13 Dec 2025 19:44:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FCCqmTzQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XP0OI1C2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0393910E00C
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 00:54:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9B7CF43ADC
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 00:54:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A228C16AAE
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Dec 2025 00:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765673665;
- bh=ERnGOFeUU+FQpv7jY6ycnDkzi1PWq3mrRjKSp8p+Tno=;
- h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
- b=FCCqmTzQMJfXI+75bKihD5Op6Hx1tue1ECM/xu2+KD1qPMjsbMIGH8/fHaAgwuWMJ
- 0Iva5wpt9NmU5W0rHW9jXZ0iA2zDWD4bcibWyXAXm9JJML4BZWrnqcj09eYVNEAQBg
- yU8q/bobkKUVbqaUUfwy2OS8ojfUsidNI2ZCx+yjl1+vnggoy9IQBLDgf/qsobnv4c
- iqfd9lq5DjK9Gf1wTHAQaPrs4B6pQJBWsEgAQ65fYVYyXLJqkbit27U5SqVRxdnoVD
- Wany39R3Ji8+O0xGDcXPt36gui5eD6hL8E2egkLQTDEmRU7FFFcZpkn7cWn+9g8NH/
- 447RzeFhE/eXw==
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-37b95f87d64so19725091fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 16:54:25 -0800 (PST)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B5F10E40F
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 19:44:28 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2a0c09bb78cso642565ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Dec 2025 11:44:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765655068; x=1766259868; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vpBRllM73qDKL2ScMHTVO5zPyQi4kKb5Ruh0b06m8BA=;
+ b=XP0OI1C2p3PvK2rIl92UWkU3Jvh3HsgtHkI91nO9LqRNt5MoEHLIySgofkPk8BgW8a
+ FTlvgsZcPANL+JGy1uW/AJk7iiC+/UwpyV77a9RPxGPnsw7JXg4GN5HLm65G4sgFk1f/
+ DWwFpsW+tsQUwzZF7aKmsSdnv1ZtLWAIDJibl1dlUPNw2Mztgdq3k2ksgKJzgIt4tOgr
+ 5WKrN5B3gC+S+kho6toEpr1KGpykVmohnNHOlTDrU2LPLNHS5pUntxVNXOM7UmHxQs8D
+ QIyGOL5NSDMOrTI3LVCCcJ0y717E61MIdvTzflhXvQLTDLMh0FTn/FsZnMM+FjZhGH3D
+ xsaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765655068; x=1766259868;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vpBRllM73qDKL2ScMHTVO5zPyQi4kKb5Ruh0b06m8BA=;
+ b=FRjOGANGWNDu/jhM77TKAsyM/O0KTh58vbEe/HCchWZQjx+tXp+yxZVZA1b4zDGIZd
+ QpyGMh/kTtQNDuqcA1zBnxfGLep+r3s5ja+yEhpHc6oXZJgXNCye3qzopB5HYiLmJJw8
+ q+VvAVcByZLmlEdUCkirkigRqMHHrUkyJ2CoySFURTTp8RefkxnEwr+QshAzNNkCIVYX
+ G+uqEXwG8cR65QF1xfAZxQacpcOKStzO1LaEBW6wF46yvHP1pej8TGdOfd+kk+Li1XuK
+ YYc+w0VoQIQkEJSJbiXOyp+uESl6Ap6TlC/SZtWRWeIx0T2YZe9xnqPq14rsR3bKSCx8
+ Wl6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqDH99pCM9ZdSlHNny2oDtFBdO+41+XyEYL9kQNTcRBerVir27Hz26GyF47XgnEAGpnvm5ZK2I1PQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0xK36KmNyqhAl+kLv2YgyQCUnTlvLYPbj/9ILNbtw6e6QfWg5
- /965x5d3OLftLK3mWXKHiFM0HSVmvFsP1fu8sH6wB2zaYCGGVWhIcW4hxPnsx7o7t5F6m1hQ//c
- DdwPHahplrj4lOdZLNtcRvarQslGb9MKVad2wuI83TA==
-X-Google-Smtp-Source: AGHT+IF+JTcUODVC8z3ioXKDx5XLzM5A1F8MUCHcdRDUszOJc4X0+0PBaKTTlEDU6RzJck0+mvccxy7H3ksd1gh+4p8=
-X-Received: by 2002:a2e:bd12:0:b0:37b:96e5:dc40 with SMTP id
- 38308e7fff4ca-37fd0726477mr18776321fa.8.1765673664108; Sat, 13 Dec 2025
- 16:54:24 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 13 Dec 2025 19:54:22 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 13 Dec 2025 19:54:22 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20251212-upstream-v1-v1-2-d50d40ec8d8a@advantech.com>
+ AJvYcCUkMSye0eHBB9A4B3VaQqnS5grk3b3Qy6GL4qMSsksCFseVPy+2vq/1rpyY/G7SPULkYipdoLYoyto=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhFDJ6pyEVpuu0vKdK9c14WO/WoFnceJbljygoQyEORI41Xka5
+ 4NbGLc97lzOHKRZ3mDFjxD3+08fTtDodID3xlI/eu2KBsg5szO0g2tIB
+X-Gm-Gg: AY/fxX6JzMddMzhQZzXLcAipNthRoXs6cyPtwSCZNYwiucBwvOxszYhpBVqr2DUb6Kz
+ 1ElzXyw2eaaPWFs9GQ/RBSDnijNBsizX3eexTmdHnBhCWLdAPOvN+fv8kbbb0Vyo6aLoMBvNkwa
+ MZ7GcrfYWCOQwoyTcY4GYf33Kof9NRTbQVJfGAhQt6y4Wymkz5ns71pn+hp+hf1aZFVnE0IdxCl
+ ciZZZEPWVteQe0OsrfSc6o50pWqZvSreH7pZTbBXmsFUdNLMXoijiZQuOU5aGfafRgx5MMRQ68s
+ HAGOgVXEUNqEyC5TfvUmW4j6Bx99QF8SZLrgLAOVvitg2cXZsZC2FGPC/M1t/L1/HdZAcaP88c4
+ buwDHBDaOaUGjhO4N0/G9AKhtN0zabxWW+scXXI641EIrdKhq/EWoiQPobmiPBpiChKA7umfVUQ
+ YsYSAtDPmUALkKBIddJ+JkJOVRR+5VfA==
+X-Google-Smtp-Source: AGHT+IGyg92faWHXBt9zaVvBaBKtx3YFvdCAWY30UKXOk6xfy9iaNTDpTPM7MMtl4koyXzcqOdOtQg==
+X-Received: by 2002:a17:902:d3ca:b0:298:68e:4042 with SMTP id
+ d9443c01a7336-29eeec1d557mr62341375ad.26.1765655067642; 
+ Sat, 13 Dec 2025 11:44:27 -0800 (PST)
+Received: from LilGuy ([2409:40c2:105b:dc88:1107:395c:23c0:2b1b])
+ by smtp.googlemail.com with ESMTPSA id
+ d9443c01a7336-29efd74f5e1sm72818695ad.16.2025.12.13.11.44.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Dec 2025 11:44:27 -0800 (PST)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: Andres Salomon <dilinger@queued.net>, Helge Deller <deller@gmx.de>,
+ linux-geode@lists.infradead.org (moderated list:AMD GEODE PROCESSOR/CHIPSET
+ SUPPORT), linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
+ linux-kernel@vger.kernel.org (open list)
+Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Subject: [PATCH] fbdev: geode: gxfb: Use devm_request_mem_region
+Date: Sun, 14 Dec 2025 01:13:59 +0000
+Message-ID: <20251214011400.300460-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-References: <20251212-upstream-v1-v1-0-d50d40ec8d8a@advantech.com>
- <20251212-upstream-v1-v1-2-d50d40ec8d8a@advantech.com>
-Date: Sat, 13 Dec 2025 19:54:22 -0500
-X-Gmail-Original-Message-ID: <CAMRc=McWhREAapUO1C26c7MxFhwsq9=HH7Z8BZabwbB1L5UoBw@mail.gmail.com>
-X-Gm-Features: AQt7F2rFZ6NOo1ZqC__JipFGbv1EYlUkIy_oMb4Oy-Kh-pnz_txKQTmUlgiNcFo
-Message-ID: <CAMRc=McWhREAapUO1C26c7MxFhwsq9=HH7Z8BZabwbB1L5UoBw@mail.gmail.com>
-Subject: Re: [PATCH 2/8] Add Advantech EIO GPIO driver
-To: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org, 
- Wenkai Chung <wenkai.chung@advantech.com.tw>, 
- Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>, 
- Hongzhi Wang <hongzhi.wang@advantech.com>, 
- Mikhail Tsukerman <mikhail.tsukerman@advantech.com>, 
- Thomas Kastner <thomas.kastner@advantech.com>, Lee Jones <lee@kernel.org>, 
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, 
- Andi Shyti <andi.shyti@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,377 +91,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Dec 2025 17:40:53 +0100, Ramiro Oliveira
-<ramiro.oliveira@advantech.com> said:
-> This driver controls the GPIO component of the Advantech EIO chip.
->
-> Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
-> ---
->  MAINTAINERS             |   1 +
->  drivers/gpio/Kconfig    |   6 ++
->  drivers/gpio/Makefile   |   1 +
->  drivers/gpio/gpio-eio.c | 273 ++++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 281 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bd9279796c2f..359d4a13f212 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -619,6 +619,7 @@ F:	drivers/platform/x86/adv_swbutton.c
->  ADVANTECH EIO DRIVER
->  M:	Ramiro Oliveira <ramiro.oliveira@advantech.com>
->  S:	Maintained
-> +F:	drivers/gpio/gpio-eio.c
+The gxfb driver currently uses pci_request_region() for memory
+reservation, which requires manual error handling and cleanup using
+pci_release_region().
 
-Instead of churning MAINTAINERS in every patch of the series, I suggest you
-add a separate patch adding the full entry at the end.
+Simplify the driver by migrating to the managed helper
+devm_request_mem_region(). This ensures that resources are automatically
+released on driver detach, allowing the removal of explicit cleanup code
+in the probe error path and the remove function.
 
->  F:	drivers/mfd/eio_core.c
->  F:	include/linux/mfd/eio.h
->
-> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> index bd185482a7fd..628a914842bd 100644
-> --- a/drivers/gpio/Kconfig
-> +++ b/drivers/gpio/Kconfig
-> @@ -277,6 +277,12 @@ config GPIO_DWAPB
->  	  Say Y or M here to build support for the Synopsys DesignWare APB
->  	  GPIO block.
->
-> +config GPIO_EIO
-> +	tristate "Advantech EIO GPIO"
-> +	depends on MFD_EIO
-> +	help
-> +	  Say Y or M to build support for Advantech EIO GPIO block.
-> +
->  config GPIO_EIC_SPRD
->  	tristate "Spreadtrum EIC support"
->  	depends on ARCH_SPRD || COMPILE_TEST
-> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-> index 2421a8fd3733..ba3883d5e4a0 100644
-> --- a/drivers/gpio/Makefile
-> +++ b/drivers/gpio/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_GPIO_DLN2)			+= gpio-dln2.o
->  obj-$(CONFIG_GPIO_DS4520)		+= gpio-ds4520.o
->  obj-$(CONFIG_GPIO_DWAPB)		+= gpio-dwapb.o
->  obj-$(CONFIG_GPIO_EIC_SPRD)		+= gpio-eic-sprd.o
-> +obj-$(CONFIG_GPIO_EIO)			+= gpio-eio.o
->  obj-$(CONFIG_GPIO_ELKHARTLAKE)		+= gpio-elkhartlake.o
->  obj-$(CONFIG_GPIO_EM)			+= gpio-em.o
->  obj-$(CONFIG_GPIO_EN7523)		+= gpio-en7523.o
-> diff --git a/drivers/gpio/gpio-eio.c b/drivers/gpio/gpio-eio.c
-> new file mode 100644
-> index 000000000000..50f66a325e8f
-> --- /dev/null
-> +++ b/drivers/gpio/gpio-eio.c
-> @@ -0,0 +1,273 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * GPIO driver for Advantech EIO Embedded controller.
-> + *
-> + * Copyright (C) 2025 Advantech Corporation. All rights reserved.
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/gpio.h>
+This addresses the TODO item "Request memory regions in all fbdev
+drivers" in Documentation/gpu/todo.rst.
 
-Don't include this, it's a legacy header as per one of the first lines in this
-file.
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
+Compile-tested only on x86_64.
 
-> +#include <linux/gpio/driver.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/mfd/eio.h>
-> +#include <linux/module.h>
-> +
-> +#define GPIO_MAX_PINS	48
-> +#define GPIO_WRITE	0x18
-> +#define GPIO_READ	0x19
-> +
-> +struct eio_gpio_dev {
-> +	u64 avail;
-> +	int max;
-> +	struct gpio_chip chip;
-> +	struct device *dev;
-> +};
-> +
-> +struct {
-> +	int size;
-> +	bool write;
-> +} ctrl_para[] = {
-> +	{ 0x01, false }, { 0x00, false }, { 0x00, false }, { 0x02, false },
-> +	{ 0x01, false }, { 0x00, false }, { 0x00, false }, { 0x00, false },
-> +	{ 0x00, false }, { 0x00, false }, { 0x00, false }, { 0x00, false },
-> +	{ 0x00, false }, { 0x00, false }, { 0x00, false }, { 0x00, false },
-> +	{ 0x01, true  }, { 0x01, true  }, { 0x02, true  }, { 0x02, true  },
-> +	{ 0x02, false }, { 0x10, false }
-> +};
+ drivers/video/fbdev/geode/gxfb_core.c | 36 +++++++++++----------------
+ 1 file changed, 15 insertions(+), 21 deletions(-)
 
-This should be static.
+diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
+index 8d69be7c9d31..05af546c8c92 100644
+--- a/drivers/video/fbdev/geode/gxfb_core.c
++++ b/drivers/video/fbdev/geode/gxfb_core.c
+@@ -223,31 +223,33 @@ static int gxfb_map_video_memory(struct fb_info *info, struct pci_dev *dev)
+ 	if (ret < 0)
+ 		return ret;
 
-> +
-> +enum {
-> +	GPIO_STATUS	 = 0,
-> +	GPIO_GROUP_AVAIL = 3,
-> +	GPIO_ERROR	 = 0x04,
-> +	GPIO_PIN_DIR	 = 0x10,
-> +	GPIO_PIN_LEVEL	 = 0x11,
-> +	GPIO_GROUP_DIR	 = 0x12,
-> +	GPIO_GROUP_LEVEL = 0x13,
-> +	GPIO_MAPPING	 = 0x14,
-> +	GPIO_NAME	 = 0x15
-> +} gpio_ctrl;
+-	ret = pci_request_region(dev, 3, "gxfb (video processor)");
+-	if (ret < 0)
+-		return ret;
++	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 3),
++			      pci_resource_len(dev, 3), "gxfb (video processor)"))
++		return -EBUSY;
++
+ 	par->vid_regs = pci_ioremap_bar(dev, 3);
+ 	if (!par->vid_regs)
+ 		return -ENOMEM;
 
-Do enum gpio_ctrl {. But also use a common prefix for all symbols in
-this driver.
+-	ret = pci_request_region(dev, 2, "gxfb (display controller)");
+-	if (ret < 0)
+-		return ret;
++	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 2),
++			      pci_resource_len(dev, 2), "gxfb (display controller)"))
++		return -EBUSY;
++
+ 	par->dc_regs = pci_ioremap_bar(dev, 2);
+ 	if (!par->dc_regs)
+ 		return -ENOMEM;
 
-> +
-> +struct {
-> +	int group;
-> +	int port;
-> +} group_map[] = {
-> +	{ 0, 0 }, { 0, 1 },
-> +	{ 1, 0 }, { 1, 1 },
-> +	{ 2, 0 }, { 2, 1 },
-> +	{ 3, 0 }, { 3, 1 },
-> +	{ 3, 2 }, { 3, 3 },
-> +	{ 3, 4 }, { 3, 5 },
-> +	{ 3, 6 }, { 3, 7 }
-> +};
-> +
-> +static int timeout;
-> +module_param(timeout, int, 0444);
-> +MODULE_PARM_DESC(timeout, "Set PMC command timeout value.\n");
-> +
-> +static int pmc_write(struct device *mfd_dev, u8 ctrl, u8 dev_id, void *data)
-> +{
-> +	struct pmc_op op = {
-> +		 .cmd       = GPIO_WRITE,
-> +		 .control   = ctrl,
-> +		 .device_id = dev_id,
-> +		 .payload   = (u8 *)data,
-> +		 .timeout   = timeout,
-> +	};
-> +
-> +	if (ctrl > ARRAY_SIZE(ctrl_para))
-> +		return -ENOMEM;
-> +
-> +	if (!ctrl_para[ctrl].write)
-> +		return -EINVAL;
-> +
-> +	op.size = ctrl_para[ctrl].size;
-> +
-> +	return eio_core_pmc_operation(mfd_dev, &op);
-> +}
-> +
-> +static int pmc_read(struct device *mfd_dev, u8 ctrl, u8 dev_id, void *data)
-> +{
-> +	struct pmc_op op = {
-> +		 .cmd       = GPIO_READ,
-> +		 .control   = ctrl,
-> +		 .device_id = dev_id,
-> +		 .payload   = (u8 *)data,
-> +		 .timeout   = timeout,
-> +	};
-> +
-> +	if (ctrl > ARRAY_SIZE(ctrl_para))
-> +		return -ENOMEM;
-> +
-> +	op.size = ctrl_para[ctrl].size;
-> +
-> +	return eio_core_pmc_operation(mfd_dev, &op);
-> +}
-> +
-> +static int get_dir(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	u8 dir;
-> +	int ret;
-> +
-> +	ret = pmc_read(chip->parent, GPIO_PIN_DIR, offset, &dir);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return dir ? 0 : 1;
-> +}
-> +
-> +static int dir_input(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	u8 dir = 0;
-> +
-> +	return pmc_write(chip->parent, GPIO_PIN_DIR, offset, &dir);
-> +}
-> +
-> +static int dir_output(struct gpio_chip *chip, unsigned int offset, int value)
-> +{
-> +	u8 dir = 1;
-> +	u8 val = value;
-> +
-> +	pmc_write(chip->parent, GPIO_PIN_DIR, offset, &dir);
-> +
-> +	return pmc_write(chip->parent, GPIO_PIN_LEVEL, offset, &val);
-> +}
-> +
-> +static int gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	u8 level;
-> +	int ret;
-> +
-> +	ret = pmc_read(chip->parent, GPIO_PIN_LEVEL, offset, &level);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return level;
-> +}
-> +
-> +static int gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
-> +{
-> +	u8 val = value;
-> +
-> +	pmc_write(chip->parent, GPIO_PIN_LEVEL, offset, &val);
-> +
-> +	return 0;
-> +}
-> +
-> +static int check_support(struct device *dev)
-> +{
-> +	u8  data;
-> +	int ret;
-> +
-> +	ret = pmc_read(dev, GPIO_STATUS, 0, &data);
-> +	if (!ret)
-> +		return ret;
-> +
-> +	if ((data & 0x01) == 0)
-> +		return -EOPNOTSUPP;
-> +
-> +	return 0;
-> +}
-> +
-> +static int check_pin(struct device *dev, int pin)
-> +{
-> +	int ret;
-> +	int group, bit;
-> +	u16 data;
-> +
-> +	/* Get pin mapping */
-> +	ret = pmc_read(dev, GPIO_MAPPING, pin, &data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if ((data & 0xFF) > ARRAY_SIZE(group_map))
-> +		return -EINVAL;
-> +
-> +	group = group_map[data & 0xFF].group;
-> +	bit   = data >> 8;
-> +
-> +	/* Check mapped pin */
-> +	ret = pmc_read(dev, GPIO_GROUP_AVAIL, group, &data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return data & BIT(bit) ? 0 : -EOPNOTSUPP;
-> +}
-> +
-> +static int gpio_init(struct device *mfd, struct eio_gpio_dev *eio_gpio)
-> +{
-> +	int ret;
-> +	int i;
+-	ret = pci_request_region(dev, 1, "gxfb (graphics processor)");
+-	if (ret < 0)
+-		return ret;
+-	par->gp_regs = pci_ioremap_bar(dev, 1);
++	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 1),
++			      pci_resource_len(dev, 1), "gxfb (graphics processor)"))
++		return -EBUSY;
 
-Keep these on the same line.
++	par->gp_regs = pci_ioremap_bar(dev, 1);
+ 	if (!par->gp_regs)
+ 		return -ENOMEM;
 
-> +	char str[GPIO_MAX_PINS + 1];
-> +
-> +	memset(str, 0x30, sizeof(str));
-> +
-> +	ret = check_support(mfd);
-> +	if (ret) {
-> +		dev_err(eio_gpio->dev, "GPIO not supported (%d)\n", ret);
+-	ret = pci_request_region(dev, 0, "gxfb (framebuffer)");
+-	if (ret < 0)
+-		return ret;
++	if (!devm_request_mem_region(&dev->dev, pci_resource_start(dev, 0),
++			      pci_resource_len(dev, 0), "gxfb (framebuffer)"))
++		return -EBUSY;
 
-return dev_err_probe()
+ 	info->fix.smem_start = pci_resource_start(dev, 0);
+ 	info->fix.smem_len = vram ? vram : gx_frame_buffer_size();
+@@ -414,19 +416,15 @@ static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+   err:
+ 	if (info->screen_base) {
+ 		iounmap(info->screen_base);
+-		pci_release_region(pdev, 0);
+ 	}
+ 	if (par->vid_regs) {
+ 		iounmap(par->vid_regs);
+-		pci_release_region(pdev, 3);
+ 	}
+ 	if (par->dc_regs) {
+ 		iounmap(par->dc_regs);
+-		pci_release_region(pdev, 2);
+ 	}
+ 	if (par->gp_regs) {
+ 		iounmap(par->gp_regs);
+-		pci_release_region(pdev, 1);
+ 	}
 
-> +		return ret;
-> +	}
-> +
-> +	eio_gpio->avail = 0;
-> +
-> +	for (i = 0 ; i <  GPIO_MAX_PINS ; i++) {
-> +		ret = check_pin(mfd, i);
-> +		if (ret)
-> +			continue;
-> +
-> +		eio_gpio->avail |= BIT(i);
-> +		eio_gpio->max = i + 1;
-> +		str[GPIO_MAX_PINS - i] = '1';
-> +	}
-> +
-> +	dev_info(eio_gpio->dev, "GPIO pins=%s\n", str);
-> +
+ 	fb_dealloc_cmap(&info->cmap);
+@@ -442,16 +440,12 @@ static void gxfb_remove(struct pci_dev *pdev)
+ 	unregister_framebuffer(info);
 
-No need to print anything here.
+ 	iounmap((void __iomem *)info->screen_base);
+-	pci_release_region(pdev, 0);
 
-> +	return eio_gpio->max ? 0 : -EOPNOTSUPP;
-> +}
-> +
-> +static const struct gpio_chip eio_gpio_chip = {
-> +	.label	 	  = KBUILD_MODNAME,
-> +	.owner		  = THIS_MODULE,
-> +	.direction_input  = dir_input,
-> +	.get		  = gpio_get,
-> +	.direction_output = dir_output,
-> +	.set		  = gpio_set,
-> +	.get_direction	  = get_dir,
-> +	.base		  = -1,
-> +	.can_sleep	  = true,
-> +};
+ 	iounmap(par->vid_regs);
+-	pci_release_region(pdev, 3);
 
-Instead of having an unnecessary copy of the chip in .rodata, just use compound
-literals when initiating it in probe().
+ 	iounmap(par->dc_regs);
+-	pci_release_region(pdev, 2);
 
-> +
-> +static int gpio_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =  &pdev->dev;
-> +	struct eio_gpio_dev *eio_gpio;
-> +	struct eio_dev *eio_dev = dev_get_drvdata(dev->parent);
-> +
-> +	if (!eio_dev) {
-> +		dev_err(dev, "Error contact eio_core\n");
-> +		return -ENODEV;
-> +	}
+ 	iounmap(par->gp_regs);
+-	pci_release_region(pdev, 1);
 
-return dev_err_probe()
+ 	fb_dealloc_cmap(&info->cmap);
 
-> +
-> +	eio_gpio = devm_kzalloc(dev, sizeof(*eio_gpio), GFP_KERNEL);
 
-This can fail, please check the return value.
+base-commit: a859eca0e4cc96f63ff125dbe5388d961558b0e9
+--
+2.52.0
 
-> +	eio_gpio->dev = dev;
-> +
-> +	if (gpio_init(dev->parent, eio_gpio))
-> +		return -EIO;
-> +
-> +	eio_gpio->chip	   = eio_gpio_chip;
-
-Don't use tabs like that please. Just stick to single spaces.
-
-> +	eio_gpio->chip.parent = dev->parent;
-> +	eio_gpio->chip.ngpio  = eio_gpio->max;
-> +
-> +	return devm_gpiochip_add_data(dev, &eio_gpio->chip, eio_gpio);
-> +}
-> +
-> +static struct platform_driver gpio_driver = {
-> +	.probe  = gpio_probe,
-> +	.driver = { .name = KBUILD_MODNAME, },
-> +};
-> +
-> +module_platform_driver(gpio_driver);
-> +
-> +MODULE_AUTHOR("Wenkai Chung <wenkai.chung@advantech.com.tw>");
-> +MODULE_AUTHOR("Ramiro Oliveira <ramiro.oliveira@advantech.com>");
-> +MODULE_DESCRIPTION("GPIO driver for Advantech EIO embedded controller");
-> +MODULE_LICENSE("GPL");
->
-> --
-> 2.43.0
->
->
