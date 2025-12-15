@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5D5CBF318
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A494CBF38B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:23:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3426D10E679;
-	Mon, 15 Dec 2025 17:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B6810E61B;
+	Mon, 15 Dec 2025 17:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="rPqnuhls";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rPqnuhls";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="jyUJy1hS";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jyUJy1hS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013059.outbound.protection.outlook.com [40.107.159.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94F8710E685
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:16:27 +0000 (UTC)
+ (mail-norwayeastazon11013022.outbound.protection.outlook.com [40.107.159.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F396510E61B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:23:01 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=qY2aJkY8kpSzG5gVZVIu9Sotx0xmfgeszKw06sApaxz7EhS6+2SrUaPI2RqEgTeuymQ0HYf9fclyyXoMbwN3kZlz5AAi2TBcumFXvM7hhT770PS3AVIDAHKCZJKKw7Prfy05P2Jc11SeluXI7Y1c/6xbgghRzOrFVCrvXFvsIFYtCjJK9oM8Lz0RSCHdBzyNIn3zRqJVuvU0znsdLGat+txL8sIxilNNRmPwUf87PBtT0eZY4GFq0DWZPe74nFJ9rsFIoMRu1Jbo0H2oPdkGjADF6PlwS2XOMQEM8NgoFHduiNM8iBqrW3Jwj00n6byU82f8CwUsgg8DEEG2tIdjkg==
+ b=i0c2KrqsFnp0t1eaCUq3MOtUx1f1GVAvefHV+N4b7r8PDJOS45+dV7mLYexmM2bCKUUvFEz1tengYWn+kfVzQWakbKTuOHn5DqD3EXs6oaQAD63Ty3ChuXBRahguSpcG1hjMwi6PdxrBxBOgU9wxMgIPA56zXrgwAyIXHH7YDLydHMjRaEh/nvsJpc201ghynRVahCDBj5MWGmCBf1S2Yj6+s/DBOYpIfU60ScNNdUpkBMEHEaGAMBoysoT+4dx0yPU5r4mDEeMHqySlaKAn0alBpsGbMjy0VG3a7szyWF8PwnxTWaIJbuWz9w0Yq2+PZta23jBeBEBsNUXyPzwuSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U2USbQcS11Z7da2b0QhG0w6y7bOj1D6REDcwscG5Ejs=;
- b=h2LuBDzzbD9vfdd9xlW7nW8YWlqIrlONxSC4qcERf3ye0CDX8I/DQyWbsebalrj7Ff9m9lOd+/8S0Ho6d2MjItvDvVv0sfu1Iyad7U0xB3e3gKu48rR5xRYLuPgfMS4ieUkZFX/bF+eVtxp1ggkU163OwsxkrZwCM46m87i4m3/9j8iWMNLGqjE1LqQU1xglXDTTjK4Hj69jstpgNInEaQ6LAvEWjfDfwaIm78KGJo0258snsZyQBxKRoYnd0pUwo2SkxXyB63CZHKZKYfE2yo+OdnxoSxsLYkYklSygiWgu+ckMuPJnHyoj7mGD/IDt8jclJs4XjoZTLriLxCe3Hw==
+ bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
+ b=V8IpHE1EsssJQPcphAnaTw6DENy8NSYNzoP7JjGq5gQWtJNvnF4sQdRQe7R9NuAeK/5xRJx9dtYiBFGlpi1KEbNWLUzToXw+oTcpTvhIEyD/5w1voy1qNSSHxTqTwom5wGfvxQrTkYaGNHh6IB3+qhzKg8XLlnqNhxmPKugUoweWv+VdUc1G7GJ3S1eEYmm5yUA3yAzfV/8+n2dn1u/Fn+UCu5vCtfmJaZ3jf65rfE/1FkGo0bp2NFddQbJBeqbY/bRN0p5ONXmRetdqgKyfOaR0LxpPLOzvhhsTdW6gQTJS+KhBUpnW8h+jm+NFEL7QiULdlV3ASAaZA9zfuuvYfQ==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U2USbQcS11Z7da2b0QhG0w6y7bOj1D6REDcwscG5Ejs=;
- b=rPqnuhlsRFZGezBg3aZUD+cpQSIf84WScJtaMEDUU49kLp2J8seSJ+vlYY13bCr+p8L9z+dFHVQiacQ/3sTpqpNhyBOZmG09vwmDOEWIItKPWFb6rdx6EfPx4XFzF8TlNHL7ViXRFXx2IOFzaOlUvwRtsC4HAUsLKwKvomXKPjU=
-Received: from DUZPR01CA0017.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::8) by AS2PR08MB9414.eurprd08.prod.outlook.com
- (2603:10a6:20b:596::18) with Microsoft SMTP Server (version=TLS1_2,
+ bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
+ b=jyUJy1hSbv1jFaOeeP0F4avnQlWmOfjMQlIc5d+0b/9SVbDVQUqhL9vXQ9mymvzNWEFylKUwDqYAB/KbXRDEEOU3ktLwA/oK8mOPim3TOiBgC8JpJns6b7X9J699SWBZfvkOF7aTggsgzKng7wj0uwddNCSZt7oTrkZWAldSE6Y=
+Received: from AS8PR07CA0034.eurprd07.prod.outlook.com (2603:10a6:20b:459::19)
+ by AM8PR08MB5859.eurprd08.prod.outlook.com (2603:10a6:20b:1c6::6)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 17:16:21 +0000
-Received: from DB1PEPF0003922D.eurprd03.prod.outlook.com
- (2603:10a6:10:46b:cafe::d7) by DUZPR01CA0017.outlook.office365.com
- (2603:10a6:10:46b::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Mon,
- 15 Dec 2025 17:16:24 +0000
+ 2025 17:22:56 +0000
+Received: from AMS0EPF00000194.eurprd05.prod.outlook.com
+ (2603:10a6:20b:459:cafe::32) by AS8PR07CA0034.outlook.office365.com
+ (2603:10a6:20b:459::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Mon,
+ 15 Dec 2025 17:22:56 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -51,159 +51,165 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF0003922D.mail.protection.outlook.com (10.167.8.100) with Microsoft
+ AMS0EPF00000194.mail.protection.outlook.com (10.167.16.214) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
- via Frontend Transport; Mon, 15 Dec 2025 17:16:21 +0000
+ via Frontend Transport; Mon, 15 Dec 2025 17:22:55 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IEjZDWwdbnO+TBQpfFhXZKBlvmN6lqxzfda4i2nE4WiH+MjVNzqamBp/sJcJ/tjc7A0yTXGAWWIiUhq3EwNBkgaoldg2zTfzQpXPzC7TDJDZ3EH9JhTRSbokAHKJKfuF27rW/3rIZJCqtKcHHdk8hr8LOMbovH4pT+l7jcYrTzHDC7mvLnz9QMSi64wgmRllRgtg4Vy4YMcidY75IBMKVihFbxr+p8Hsp/PcQn79LI2p0isRozcJP5v89K2LlBFPrTf9KSVdhV9h9uFcuh7eD1Dl+TbdfkeJwLHhtYQaVvkl0+pVxswaXOxS1Fe+YNMFoHL05rPdr8Bpu3CVGye4zw==
+ b=IuPJHuRlIKrzXmgQMnIYJLr2iziT33z7S2LKbLjL2mpprmwmbdPcCT6rcizwWEKMigY4Mlp/fhG++EOJKoOgo+DtZXTwW5JC95rTLlpHN5lSScbCI6vTrHgW4wOK7mMhKy+4uJVJOZW7shp2qC9IAqPXHlwWwrVIDIuAcxUoIMDu2K/SVqNeeS2pn6hYE/+VhR7IqnvORCGnAhT7gnS6rwMruPMeOkYGyp9dcyRDVhQY2XNJYjDEgPunGcO91qVTKMosSAdYkVGhyAuk2Km3CE4fDRtsXbmlJjKxnJ0Yqt0P+0c7rjvqwj5Mo2fb0Iu1VUVfCrxBoB6jdON7AUq8ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U2USbQcS11Z7da2b0QhG0w6y7bOj1D6REDcwscG5Ejs=;
- b=WqSkV+vqaE6QhBW4oZQw26z0zA3hlsVCiLo4aUclqaFNwMn5xIY5B2EK5QRrh7OrzTq7bcc93HIX6GSM5Z3a4QK648Q1IxGAYW9E+SEIyER90IpqZmftugZPL+Lue7FSTFjJCToDWjbqYzV6iTgUgGoU6AcwJn5hyvoGAp5vAcxzn0fj2jTZ2rft0jOqoYo0jpKjGo9Q0GOYK4SNIsyLFh1c/Q80A1uz1BCxRpmEgaMOoa/4kvTAsXCL6NczGHOLwFh5BGtAbOkX7Pmc/zfzxR0fNmiw8KNT5JLfH1M1e/u8ZLQLZqZ6dh0+N1aXx3ZqalTwZp/LUJd11lDqecV3gQ==
+ bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
+ b=tbki1gk2Lhq9DHSNhQC6cMMGSdRF7HSrfKNIT4tRxQPJpzzHVaDY8SxEdHXWNwbok2dvBCSjukQy2DEuB7mY38TNOI64ZzIqwouzsTz3PtvKKu1GsrDmXdta9AcRDBBIjecbOHxzQ2bw39+SGVSeByjM0u10jw5/EWxdyVu5kzAJTDBUZFOStadqHtvgKGdQMkBIm5Bh5qqiGN4cZQF7zODhl8HpCscgqZLZ5brV7ScEnMcJxCNOcEZTUXsjdHpWZ1j1igAkT8LVoSKXNRbPJ1rHcYI7Vr2leYdMYy3Jx1eEJZVIINfCI/ifEwGlBAZxYaW9puuEgh8UEni5ounNGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U2USbQcS11Z7da2b0QhG0w6y7bOj1D6REDcwscG5Ejs=;
- b=rPqnuhlsRFZGezBg3aZUD+cpQSIf84WScJtaMEDUU49kLp2J8seSJ+vlYY13bCr+p8L9z+dFHVQiacQ/3sTpqpNhyBOZmG09vwmDOEWIItKPWFb6rdx6EfPx4XFzF8TlNHL7ViXRFXx2IOFzaOlUvwRtsC4HAUsLKwKvomXKPjU=
+ bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
+ b=jyUJy1hSbv1jFaOeeP0F4avnQlWmOfjMQlIc5d+0b/9SVbDVQUqhL9vXQ9mymvzNWEFylKUwDqYAB/KbXRDEEOU3ktLwA/oK8mOPim3TOiBgC8JpJns6b7X9J699SWBZfvkOF7aTggsgzKng7wj0uwddNCSZt7oTrkZWAldSE6Y=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from AM9PR08MB6820.eurprd08.prod.outlook.com (2603:10a6:20b:30f::8)
- by GV1PR08MB10607.eurprd08.prod.outlook.com (2603:10a6:150:16c::7)
+ by PA4PR08MB6077.eurprd08.prod.outlook.com (2603:10a6:102:e7::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 17:15:18 +0000
+ 2025 17:21:53 +0000
 Received: from AM9PR08MB6820.eurprd08.prod.outlook.com
  ([fe80::a89a:b887:8053:a1fb]) by AM9PR08MB6820.eurprd08.prod.outlook.com
  ([fe80::a89a:b887:8053:a1fb%6]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 17:15:17 +0000
-From: Lukas Zapolskas <lukas.zapolskas@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
+ 17:21:53 +0000
+Message-ID: <df93c238-c9d0-4f32-a371-b0bf4bcaaa0d@arm.com>
+Date: Mon, 15 Dec 2025 17:21:52 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] drm/panthor: Add tracepoint for hardware
+ utilisation changes
+Content-Language: en-GB
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: nd@arm.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Lukas Zapolskas <lukas.zapolskas@arm.com>
-Subject: [PATCH v6 7/7] drm/panthor: Expose the panthor perf ioctls
-Date: Mon, 15 Dec 2025 17:14:53 +0000
-Message-Id: <20251215171453.2506348-8-lukas.zapolskas@arm.com>
-X-Mailer: git-send-email 2.33.0.dirty
-In-Reply-To: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
-References: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com>
+ <20251211-panthor-tracepoints-v3-2-924c9d356a5c@collabora.com>
+From: Lukas Zapolskas <lukas.zapolskas@arm.com>
+In-Reply-To: <20251211-panthor-tracepoints-v3-2-924c9d356a5c@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0621.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:294::21) To AM9PR08MB6820.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0311.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:391::16) To AM9PR08MB6820.eurprd08.prod.outlook.com
  (2603:10a6:20b:30f::8)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|GV1PR08MB10607:EE_|DB1PEPF0003922D:EE_|AS2PR08MB9414:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7648c28-d539-445d-5b67-08de3bfdab14
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|PA4PR08MB6077:EE_|AMS0EPF00000194:EE_|AM8PR08MB5859:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f9feec6-5294-48dd-e447-08de3bfe9610
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?MDErcTl0OWZmNGpvR3FNY3RrMVhjd0hYRitHTW4yL1pVV1dzZ08xbkFhOVEv?=
- =?utf-8?B?cGFJdWo5b2JYQ0l0NTFQN2gzUXczRzJZTXk1VVA0eVBiTTlkNWVERi96VDh1?=
- =?utf-8?B?Vm1Rck9vNjFjUDlwWDMwbWRxUDZ0ODA5dTloUmQ0ZmY3WTk0ZkdhVjMxdWZx?=
- =?utf-8?B?bWJzaWhuMFU0aHIxbjBxOFVOUWxtR3hVeWIwTzc3ZCtpSVJPaUQxVEVrWitj?=
- =?utf-8?B?VU9oaitQZnJORkkraU1iU0dRK1FKUU1acFE4c3AvamozWjlVeUFJZjk5RStL?=
- =?utf-8?B?MVdSOE14WVp1Q2x0NEkwWTVpK3NYVGdFRUJ3V0k2eHF2elhvVC8rYVQ1akgw?=
- =?utf-8?B?NythYzBSQitrZGZCR2RvTC9qMzZMOWtmR3I0d1gxSTh5bzhYU1REQXNGNFJs?=
- =?utf-8?B?WWExd0ZhQnVvRG5IZkZaSVo5MnJsSXlWdHNKN1F1UlhCa2NFeTVJQlB6RlFU?=
- =?utf-8?B?VzYwbXdGSzRUOERXMlJhbW13VCtRTDV6VW5zYVpGb1FHdVE4Zm9OL0NRVGow?=
- =?utf-8?B?ZlVJVTNCQzFINGw1ZHIvYTBadzJnQ3cxZ2oyZmdsZ3dWYXlIUGtqQTBZNHE1?=
- =?utf-8?B?OW5DajMxZmxtQ0FoS3VNUkxZWmpCWERXN0NhSFJoRHliMWhnc0Uyd1Y0WFRM?=
- =?utf-8?B?UHd6M25YRVoxRmhwOGx0S3RXeGZ5d3VIWlNYbXhUN2NObURLQjdGME9FRUhF?=
- =?utf-8?B?VGRpRXhyTXRiU0NONC9IUmZOM3BueXNkSzJ1Y09WY0lZeFg4M0drdVBralhP?=
- =?utf-8?B?aWNKM0NpMDUvSnM3aU1DekJFYXoxTkx2ZVZvcXpoelEvcGgwZjBiVXFLMDJz?=
- =?utf-8?B?UnB0V0t0bjdGN1dDcC92bWRPcmM1Y1pOdGpJMGx1ZjhXQUtGbFFIL2tTOWgw?=
- =?utf-8?B?Y1Y5RmVIeXROV3BHWkxrbk9ZcUl1UVhXRFNzM2RVcVJ5ME1WckNtdXFkS3BP?=
- =?utf-8?B?VnF6clhJV2VHa0swOStuZzEwUjI5cVAyUHVITHNFKzl1U1Z2bFNweTdmMHg0?=
- =?utf-8?B?UTd6LytHSVFyY2VzQXpsM0k4V0hGQXVOU2ROVGJXVDkyVmM5VWNvTDBzMXJH?=
- =?utf-8?B?cFR5dEVLZ0lkT0pTYnhnenF3dVljRldGbURHZ1Z3aldWVVhNeXRDZHRkQXIx?=
- =?utf-8?B?ekEvY3FETTZkU25UaTdKR3dNTms2UU8vempVakUvakZiV29jYlBudWlRTlFo?=
- =?utf-8?B?cHZCdDBCeEs0NjI3K0VCQURVT1hlMU5jVEJDWnArUmtQQStMMlBvRi9DZU5p?=
- =?utf-8?B?RXp5NjF5bkVKWWYrTmJJWVRhNThGdkU4UjFHcXNaMjVxNmhRRWw5Z1lnTVdM?=
- =?utf-8?B?UUlOcGZQZUZiNEhvMHYyNjlheUs0MDlmMFprTU5jS0kvSG1tR3ZxRlBWZmVn?=
- =?utf-8?B?N0VhOFFTMzFaUm9INFlJMnJ4cVNlelo1QUVQTzR2UU5oV1J6MEk2bWlOMHRB?=
- =?utf-8?B?ZlVJa21HQjQvMVp4eWtHZzdRZTdtUi9LK083aStzcHN0MUg3UjIrZTlQRmVP?=
- =?utf-8?B?UTVxZU9QT01weUhLWmRpZUY2SmdiTEQ4VVFFTWRLUmxIT1dJeXZCaENwRk9Z?=
- =?utf-8?B?RDZoVGlmMEpncFYyTGlNclZtejBxb1paZWNKbFdsSDJNUzhsOFpKSmhvclR0?=
- =?utf-8?B?RU94a2d3MmQ2QmR6SndLL2pya3FQWktDMCtDaFhwNFZMM3M5ZDlYV3pTTlNG?=
- =?utf-8?B?QjArTmhBWmNhTTN1a3ZQZ2dzR0pwY05YOU8zQThjdkxKQVM2TVhiT0ZVNDBi?=
- =?utf-8?B?ZHNwMHpKMXlkRjB0cFBBMDBGM0JyRlpGUlJ1YkhXekE2UWh5K1g1UVFKY0ZC?=
- =?utf-8?B?VURRUHVycTdYaGFUY0U0UWhBcFpocXR3YkpLSlUvdzlwbmtDd1lBcFMyaVFB?=
- =?utf-8?B?WGVrZ29IbS8weEI4SEk1TVpCNldzL09KZVB3S3lQSmd0N0VvS3JiQ1JMdjJT?=
- =?utf-8?Q?+TDInsw8KyMlvu2MGYzALUmNyZMc5sQJ?=
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?N1VEdElraXlrNytjSlF4em5NY015ekRxa3VqVDhONFplN0RuVXNyeGp2bXFI?=
+ =?utf-8?B?dXo5WUJMMXpyUDZveURxSE5ObmdxSEN3WXB3WTl3dTVsSkE4NlhwNVFXenNu?=
+ =?utf-8?B?TUM2SjByd0IrRWlRWVpRT1RqUHlKL29ZZkhYMWFqOHZ1TjJoS3IwUDgrOUN6?=
+ =?utf-8?B?SFhHZVJrNEhYWTVwaGFwdHBTRDBKVmtwd25xellqVkJEeFhtUTIvM0ZVMVJm?=
+ =?utf-8?B?RmVJamgxMU9xaXR5N3JxNVEzdEpOclpnb1hQWE9BR2Z5T3pHcVh0TEZwTXlx?=
+ =?utf-8?B?ZTUvK3FWVjhZVDhnR2x4VmtYNUZ0TTBzQnB2dG41MnBzL0ZBeTE4S0IxOTZX?=
+ =?utf-8?B?ZU5tTzd3T212QlVhQzEzWTBQSlFkaTR5WnNES05kczFjWklGVVhGWDFPYXJn?=
+ =?utf-8?B?NE5QVVFPbldCdWFPNklZZ3loNW45bk1JOG1qVTEyTGlLcTc4OGowUzExdTl5?=
+ =?utf-8?B?a0xORGJXSWQrNnFIUFBXdGNWa1d3UXNPaUN2K2tHeGdOU0lPK2hDVGttYW9i?=
+ =?utf-8?B?aHRxRjRVdjJGS1ZldnoxM0pOMGJQUXRSVERCVkFINkc0NCthT1BWVXpwbG9S?=
+ =?utf-8?B?cml0U0xycXJvZ3MzSlpNSDlNSHZzZk1yTXo4YUgySTNQdjlyVjFIM0RnR0lT?=
+ =?utf-8?B?Sm9CT1cwaUVIZkROcG1ZVEk1MEo2YkVNdHdDZU1uVkpZdG5rdHBpVGp0VjR6?=
+ =?utf-8?B?dkt3NWJXTVgyWmFCcGdrd25WS3JaUDFqY25QRHBYeEhMU0xSYU5ZNmVqZ1Rz?=
+ =?utf-8?B?Mzk3Z0xNOVFNem9UYVcxemMxY3FpRk0yNzdZVytDMXdWZmw5a2JSYnRzWmZX?=
+ =?utf-8?B?eWJId0I2SjZNM3IzNlVUMDBmVkY1NyszU0tuRHhHaHB1MTBUQjJ4RTJhSTh4?=
+ =?utf-8?B?SGJYVFFKZXREbU4yWUJuVlowMmh3eXdrN1ZneXVYcjlkRmRBMkpWRTF2aFpt?=
+ =?utf-8?B?K0ZQdGlEdHdLTHpwVCtYRHBQaUlrb3dHZ3VsU0k2ZGFHRXRJRFJmVGRqdG5r?=
+ =?utf-8?B?UC90SmVrQXdHSFZ1ZlVjTURnWDQxRVpHdjZrZnRPOXRZcDkvTEIzOFc5MW5y?=
+ =?utf-8?B?UkJYa0cwYVM5L0ZUK29nTW9wSDZUNWZ1VnlSY015QXVYNEJJaXFLb0t5blFt?=
+ =?utf-8?B?ZTZQWTg2cXRTcDdYNXVxYXZxVGk5d1FqUkIybUYvMVRqUkY2T2NzdjgrRXdq?=
+ =?utf-8?B?VWc2VklQbGFvSVRqVlByQjQydGtCeUpDY3lWcXJlOVlEa3JoZFduWXdsQXFt?=
+ =?utf-8?B?M0tSNTdRZUlpRjlJQyt4TE9BUFY4ZnRKWVJaSmhhSW5WMnZGb2hkRTZBeVps?=
+ =?utf-8?B?dmJrS1oyVnNBVGlOcEM0djVBeGorMytvRUYybnBaakdlR2lOYzFXQzVzcVlM?=
+ =?utf-8?B?N29jc3VzSXdXSVpBNFV3NnlBaStISnVOdXMweVh6WnE3WnQ1NE5xNjVrUkNq?=
+ =?utf-8?B?VEdhWTE3M1BhbUFBNUx4TkpVSU1jYTBFVkFQMWlCbzRJSm9adVpzSFJvRFl4?=
+ =?utf-8?B?V0dQamdiZDFZbk02RDdpeUZwcDFzZExMMnIzMHQzejNYWWsycnVyV2pTaFJ6?=
+ =?utf-8?B?Q3krZjcxRTlIMXl2YU1WZ2hmdjBEZDZ3dVllS2s1Uy9IQlZOcmtnZWtIKytq?=
+ =?utf-8?B?KzZDVjhTUEJvM0szN2huc1VrbXpESTFFRGtnRUVrWVpHUjB3d2N6Sk9MQ2My?=
+ =?utf-8?B?NFNUSEFleVJ0Yk9nSXFxT1o0TTNqbkZQNE1ad3ZVY0RpTWIyai84YUd4YWdh?=
+ =?utf-8?B?c2xwbm9ZcU9mcENqWHYyQ2graElOM1lCZ2wvT2VnRGovSERJRlNZNmlpU1dk?=
+ =?utf-8?B?aE5qeUhvcjRIaE1DR2Rpanh4QlRRRzhYNWxhL1hPRC9DOW4rMWk3Tmp4eVgz?=
+ =?utf-8?B?VjdRVHMwa0NEeGlRcTN4dlNhZERqRWNrZ2c3Uk9nNjd6MEl0MXlVdENzVVFH?=
+ =?utf-8?B?TXNFK3FQQlZad2hxY2Zma0swWDNmMGR2SUovWERXdXZDMFhuZWhManprUUJm?=
+ =?utf-8?Q?cOEWNoug+6pSdXww8GDtBWGj39I0YA=3D?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6820.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10607
+ PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6077
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF0003922D.eurprd03.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF00000194.eurprd05.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 0235ff5f-c912-4cd8-af5c-08de3bfd84b1
+X-MS-Office365-Filtering-Correlation-Id-Prvs: e164ad25-b2d3-40dc-9df3-08de3bfe70a6
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|14060799003|376014|35042699022|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MXM4Tlp2QVFnbk5WVHA5Vm1Sd0ZnVHVXdS9sMTZHZkNoNmkrQXdoYjVsN2Zv?=
- =?utf-8?B?ZnhmQ3B6YmNXK0RFSm1HSmtXSG9mVVZFOG9GM0JNblJYd1VaUWNMb2xhSWIr?=
- =?utf-8?B?djBudkkxVTlMcnVNaWhyY1VlOGh4ODZVVERVeHZ1MldRWGsxazRoaXAvVUZk?=
- =?utf-8?B?TVgrZGYxM1cwUUVPOGd4N09keFRmUEQybWtRcDRXVkg1djU4SHFPSDNvR1Np?=
- =?utf-8?B?K25ZbkFHY0JOSDZEc2w2b1pvRkR4RWVUL2tNUDRHYkoreXowUy9Kb3NtTkF5?=
- =?utf-8?B?cGlYcXJPeVByUU5BWjg5M1BoRno4d2ZtaHVEemNZcU1ZUTBxQTQzVjFwaGE0?=
- =?utf-8?B?Zy8vWjloYU5hZ003WlRQd1lpcE03SVB6dDNVMEhyYXdXS3RyQXBLRHNMTTRL?=
- =?utf-8?B?T29RVm5ZbzNIcWt0dEdNZnJyTjRRTU11ZVVBYXdlMktaQStFSEVQcWRKRDU2?=
- =?utf-8?B?aGQrUWhtMktYUFNxQlF6Z0M1V3RYSWRtMTgxV1Bta2V2djNUUjhLK2hrMkJP?=
- =?utf-8?B?NlZ4Z3UrWC9UL2p4aGZEaUdVT1lWeURjdlNWS2ZnYldSdTRhbVR2Y3czRVhT?=
- =?utf-8?B?OC9HblBlSWY5eVpObmZMck1EWTlJZVhZcXJTSHRRWlJ3VVNOSmpSZUdVdHZ6?=
- =?utf-8?B?UUdFSEVRNThkcURtOUVQUEM0NitYTENJdW1KYzNsdnQ0ZmwyR2JyZ3pnbDRk?=
- =?utf-8?B?SnkrYmlLb0ZHQWNMczNNcGh1WnJwUlArN213REZZZVNqc1pNQlpaMkJFOXpz?=
- =?utf-8?B?N0xkTEJUQVFhbjAyTzZxeGNzS2RlTitINjhWeDFhNUV6Zyt2SnRsMnRVeHFT?=
- =?utf-8?B?OXlqU1htYkpFK0xld0Q3VWVINnRMT0FFSTVuUlQvT0NFZy9hOEE2UU5vUHNB?=
- =?utf-8?B?c0dPbkpDQjJRbXFMVGExc1RFNnlsbHh0VmMrUTBBYTE1akZlRWJqckY4NEhj?=
- =?utf-8?B?emdWMWxGUEhybnlCTkZla0dGTzVlM2R1bVBMTVpWVDhhRjRoWWVnOTRFVmhv?=
- =?utf-8?B?N0xNU2dUeHl6WTZwK1EraHJ6aWpzMW1xWVpoVTFWSGJja3VJbStHNzZFaytV?=
- =?utf-8?B?OFZCM0FtcS9aTW5QcjYzTFNCR3ptaTZHYVhPdmY5YVhlU24vRkhtYnB2NGZh?=
- =?utf-8?B?a2xaS1JGYUJIdDdEYThpbG5wWThtbC8zR01WR1QyOUNmeVozc1kvUWhHRDhr?=
- =?utf-8?B?RytkMUZFZisyM2JRNVBTVnlkZElOUGc1TVVZNzY2OTYzSDkzbGIrMEFMMCtL?=
- =?utf-8?B?cWk4K2JMMkhpQlU5Q0ZodzNYR1VueDF1VTYvOCszakJQVkxLSGtkWkhuVkoy?=
- =?utf-8?B?UjVoOWF5b1c1Z0FuM3JQUEkrck5YUFhsL1RJWE9VQWgydWdHV3h4dFhDVVZB?=
- =?utf-8?B?STE3aUJEN0twVnVZbVRmSkprU1p0UjYxOEMwQkdmaDZxRWVqMTVhT1o1cit5?=
- =?utf-8?B?RUpGcGVRZGFuUUpaTmoxSkhzNEkxY3NhUXVFL0VkaXBpcWNuUzlENmNhMWIv?=
- =?utf-8?B?MWVDSVdxaG5WdVZ3NlVOcmRJRi81dE5JUXIzWllHOVZDWGJZUlF1Z1p4N0sy?=
- =?utf-8?B?SjRhc2kwLy9GaTdlMC80eVFxTWpDQ3BiVTYwMTNyenYrOFIvcHNhZ0ZFeCtB?=
- =?utf-8?B?Zk1uczZpZWFtWHNBVi92ajl6dnFwWjR6QllBSk5yei8zMy9xSTR1MDhyYzkv?=
- =?utf-8?B?Mm9wa3ovSVZXeUx1K29NbHVBSWtnclM5NFFFMVRVU3hGbytudnhCb2pYZ3dN?=
- =?utf-8?B?WVdNVWZSREJMOHFWckJPTUJYZzNmV2pqbk5DRitaSUZkTnJKSEFyUDNLNml1?=
- =?utf-8?B?aWJJSllxZW9BdUV4bGVsakJESTN3cHoza0hCNWw2U3VaMkh0ak14NHo2THBY?=
- =?utf-8?B?ckc0bC8zTmpoeExUR1hwNHZlR2IvN2szUXFqbllSL1Y2bTNsa3B6czByREZt?=
- =?utf-8?B?S0cyVnAyeGt3dmtLTHdQTFhhazNjUElRdDhjc3paVktqaXBUS0lDVVoxeDFz?=
- =?utf-8?B?V1JvaU8wcnp6aTNMRTlnakhybDNmd0NxUWlxUGN2QWo1YkFUcS9naHhmelJE?=
- =?utf-8?B?N25uL25JM082dU1UZmNJVXdvT0ZsbEgvZXY0N1l0OVZma29qZlJKWnJ6c0Rq?=
- =?utf-8?Q?IUZE=3D?=
+ ARA:13230040|376014|1800799024|7416014|35042699022|82310400026|14060799003|36860700013|921020|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U1JYdzVuNkhpMEZYcjB6K2pLKzlLTnVWOVZhcDFxYXR5MnJGZVZFZUJoODNP?=
+ =?utf-8?B?bU8wOGRmby9ZNXF2R05hR0dXc3RnUStiMlA3aldOQlFUUnVKeFhPa010WEFu?=
+ =?utf-8?B?eEc4OU9vcmFqZzIwazRDOFhaOVpTNkhFZUZQVXlIVjdqd0tDVW5nTUg1YlJE?=
+ =?utf-8?B?dHJPQlBlUEpUUDcrTnRxWFMrN21hVVVqdUMyak9hTncwNzYvZzRudG5mUHly?=
+ =?utf-8?B?djZnMzdkc0VwVVJRQktCVTgvM0U4YmorQ0xoOUVrSXBQSW44c2NwN0w1VXZa?=
+ =?utf-8?B?M2VLeGI5QU16RFU5TTJYc3c1dEZrSWlQcGwyc1hsSnNsUWJPeHlob2gyNGpk?=
+ =?utf-8?B?Q1RDU3dCeHY4RXdJS3dHNmZNeWtVZzNtcFJyTGRDSmpNS0pZUVYxenovREVh?=
+ =?utf-8?B?WktKMkhZc1JjUURFYW5CT1NSMzY3Rlg4QjdPZm1tWk9QdVNGL3k4WXRLNjBQ?=
+ =?utf-8?B?TlltK2N4cVRDeWh1dzNGNGRFSDBhZEFkRzVSNVhmNWdzQnd3Ky9aRXl1dEZy?=
+ =?utf-8?B?K2ZQTVRVVFhGcTdZdmlwRzNOZG5vODdjSW8wTEJucXRyRWFXaXZTSUZQVnNh?=
+ =?utf-8?B?R3paaXZadW45bitkYUE1aHFBK0h2SDVmZzl5bEdwTEtneTJDV1dtL2x1djBV?=
+ =?utf-8?B?MUpnUHRITmpWY0FUNDVuWFJKUkNnbFM2cklubFJvb3dsMWVDalNoSGR6Si90?=
+ =?utf-8?B?SUhpRlZnZUNDWE1qcm9wSVBSREMvbXBBVk9lVy9oWUo2L0tNaU05VFl1UERP?=
+ =?utf-8?B?OE50M3N6bTVWblRHTE94WlhSaUNPOEMzVzlzTTBEbVp5VElLN0NEd2Nrek1I?=
+ =?utf-8?B?SjFxOGVvNUlWOVgvTUpxc2tUSWxJeVU1alJxaFVwNmxUWm9qYTlkQ2FjRDFL?=
+ =?utf-8?B?KzA1Q2U4SU4vVG5mUkg5OFIrUWl5ZUdDd1d3S3F4ZUVPUzMyK1RxbE83TkZT?=
+ =?utf-8?B?MS9rVGFHdTc5U2JpNFFVaCtQOU53cUY1eGFyS1Y5Qm5udHhKbXV5MG54K3R5?=
+ =?utf-8?B?eTBzeXhEUjk4S0I4VkxwUEEzMXRvUWZ2UHIrRlU3S3k0QXorTWNoWVh1TlNX?=
+ =?utf-8?B?SjRKWUM1dVU1NVNIZ1pIaUIzSWxJeFhycStES2xCRkZoNUVCUC82c2pDdndz?=
+ =?utf-8?B?dmp6K1BZTmpmYkgwVzYyMERWQlY4bGhYKysvQlY0eFcrQ3YrSzh4dTR2SlJz?=
+ =?utf-8?B?ZXVJaHI2bll5T3B4NGJUNGcrV0x2a3dOOEFWTTYxdENnZytseEQ1V2NIN3FE?=
+ =?utf-8?B?NHkwS2hyUEgxWk9FMkZFSkxEWVBjaWt2SzlNMEU0OXRTbHlvZGZsM1FUT3Bl?=
+ =?utf-8?B?bVJsRERWWldtRm5QYmliaCtucG15TVZmK05hbW41NDFxNVBTZDY3T2xidlpN?=
+ =?utf-8?B?Y1d6MWIrcDVnZmhyMGg5V2FISWtFVzcraXJyd1FVU2FubEZDMkhBdEY4eWFo?=
+ =?utf-8?B?a1BnMDJNMlNudE5XVDdDZU9Ddzhvekt0ci9PbW9qcDUxVitRUlhLSDNrZW0w?=
+ =?utf-8?B?dmNoOUpLd1JzbmRxMVcxMnp4SXZ1aC9YUEU3ZzAzeFhlVDMrSW1XWTVNUExW?=
+ =?utf-8?B?RDZnVGZNNG9mMnVDUkd2cHRjekthZGlHQkJjQ1FkTU9uN0NUeHlYdE5QU3lq?=
+ =?utf-8?B?a1hENTZ4M1VyVTVHVjNwS0FVd2hTSTlBNTdreDFFSjEvY1FXbjNJbUZDaW5x?=
+ =?utf-8?B?RllNcGd2d01RN3VIR05VY3N1NmpvRGxCNFBpeDEySHh6U1hRcHVGQWo4Y3Vt?=
+ =?utf-8?B?bHgwK0NRQnNSRWpocmNnNVNXSUhjZC9YRERYajdVTVpyd09oYmpxQTdxYnoz?=
+ =?utf-8?B?YTRka01iekREVUZEVVNlbGUybGNHOU0vZGtZbEhMK0NPelAyNXU0NFpaSSt3?=
+ =?utf-8?B?TkU1ZzBmTE50UG9JNGZZNVhGcGhmR2xwOEgvUlZSMUsvOUVTQnZQOVRybUF0?=
+ =?utf-8?B?ODNNTTVMZDRrRjhwbm43U1U1emlPa3hrY0hBWVZodGp3NE5JcGhWN0psR2U2?=
+ =?utf-8?B?VEdQb0Q0ZWs1ZnN2dTN4VTRZUmtUNjg1ZDJjc0hMeTQ2Y0RwRkZPbWszQzZt?=
+ =?utf-8?B?TU5PTDUyWWQyTjREZXU5aXFLZ1hiOVVEQkdYWGlCcDkvYnVGV1E1SkZxenVP?=
+ =?utf-8?Q?H/oeq708sR+g7p63U4HxGTKx8?=
 X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
  PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(14060799003)(376014)(35042699022)(36860700013)(1800799024)(82310400026);
+ SFS:(13230040)(376014)(1800799024)(7416014)(35042699022)(82310400026)(14060799003)(36860700013)(921020)(7053199007);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 17:16:21.5072 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7648c28-d539-445d-5b67-08de3bfdab14
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 17:22:55.7634 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f9feec6-5294-48dd-e447-08de3bfe9610
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
  Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF0003922D.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF00000194.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9414
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5859
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -219,220 +225,344 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch implements the PANTHOR_PERF_CONTROL ioctl series, and
-a PANTHOR_GET_UOBJ wrapper to deal with the backwards and forwards
-compatibility of the uAPI.
+Hello Nicolas,
 
-The minor version is bumped to indicate that the feature is now
-supported.
 
-Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c | 141 +++++++++++++++++++++++++-
- 1 file changed, 139 insertions(+), 2 deletions(-)
+On 11/12/2025 16:15, Nicolas Frattaroli wrote:
+> Mali GPUs have three registers that indicate which parts of the hardware
+> are powered at any moment. These take the form of bitmaps. In the case
+> of SHADER_READY for example, a high bit indicates that the shader core
+> corresponding to that bit index is powered on. These bitmaps aren't
+> solely contiguous bits, as it's common to have holes in the sequence of
+> shader core indices, and the actual set of which cores are present is
+> defined by the "shader present" register.
+> 
+> When the GPU finishes a power state transition, it fires a
+> GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
+> received, the _READY registers will contain new interesting data. During
+> power transitions, the GPU_IRQ_POWER_CHANGED interrupt will fire, and
+> the registers will likewise contain potentially changed data.
+> 
+> This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
+> which is something related to Mali v14+'s power control logic. The
+> _READY registers and corresponding interrupts are already available in
+> v9 and onwards.
+> 
+> Expose the data as a tracepoint to userspace. This allows users to debug
+> various scenarios and gather interesting information, such as: knowing
+> how much hardware is lit up at any given time, correlating graphics
+> corruption with a specific powered shader core, measuring when hardware
+> is allowed to go to a powered off state again, and so on.
+> 
+> The registration/unregistration functions for the tracepoint go through
+> a wrapper in panthor_hw.c, so that v14+ can implement the same
+> tracepoint by adding its hardware specific IRQ on/off callbacks to the
+> panthor_hw.ops member.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c   | 38 ++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gpu.h   |  2 ++
+>  drivers/gpu/drm/panthor/panthor_hw.c    | 62 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_hw.h    |  8 +++++
+>  drivers/gpu/drm/panthor/panthor_trace.h | 59 +++++++++++++++++++++++++++++++
+>  5 files changed, 167 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 057e167468d0..67572b607b55 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -22,6 +22,9 @@
+>  #include "panthor_hw.h"
+>  #include "panthor_regs.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include "panthor_trace.h"
+> +
+>  /**
+>   * struct panthor_gpu - GPU block management data.
+>   */
+> @@ -29,6 +32,9 @@ struct panthor_gpu {
+>  	/** @irq: GPU irq. */
+>  	struct panthor_irq irq;
+>  
+> +	/** @irq_mask: GPU irq mask. */
+> +	u32 irq_mask;
+> +
+>  	/** @reqs_lock: Lock protecting access to pending_reqs. */
+>  	spinlock_t reqs_lock;
+>  
+> @@ -48,6 +54,9 @@ struct panthor_gpu {
+>  	 GPU_IRQ_RESET_COMPLETED | \
+>  	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
+>  
+> +#define GPU_POWER_INTERRUPTS_MASK	\
+> +	(GPU_IRQ_POWER_CHANGED | GPU_IRQ_POWER_CHANGED_ALL)
+> +
+>  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+>  {
+>  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
+> @@ -80,6 +89,12 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	gpu_write(ptdev, GPU_INT_CLEAR, status);
+>  
+> +	if (tracepoint_enabled(gpu_power_status) && (status & GPU_POWER_INTERRUPTS_MASK))
+> +		trace_gpu_power_status(ptdev->base.dev,
+> +				       gpu_read64(ptdev, SHADER_READY),
+> +				       gpu_read64(ptdev, TILER_READY),
+> +				       gpu_read64(ptdev, L2_READY));
+> +
+>  	if (status & GPU_IRQ_FAULT) {
+>  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
+>  		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR);
+> @@ -139,6 +154,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>  	init_waitqueue_head(&gpu->reqs_acked);
+>  	mutex_init(&gpu->cache_flush_lock);
+>  	ptdev->gpu = gpu;
+> +	gpu->irq_mask = GPU_INTERRUPTS_MASK;
+>  
+>  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
+>  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
+> @@ -150,13 +166,31 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>  	if (irq < 0)
+>  		return irq;
+>  
+> -	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, GPU_INTERRUPTS_MASK);
+> +	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, gpu->irq_mask);
+>  	if (ret)
+>  		return ret;
+>  
+>  	return 0;
+>  }
+>  
+> +int panthor_gpu_power_changed_on(struct panthor_device *ptdev)
+> +{
+> +	guard(pm_runtime_active)(ptdev->base.dev);
+> +
+> +	ptdev->gpu->irq_mask |= GPU_POWER_INTERRUPTS_MASK;
+> +	panthor_gpu_irq_mask_set(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
+> +
+> +	return 0;
+> +}
+> +
+> +void panthor_gpu_power_changed_off(struct panthor_device *ptdev)
+> +{
+> +	guard(pm_runtime_active)(ptdev->base.dev);
+> +
+> +	ptdev->gpu->irq_mask &= ~GPU_POWER_INTERRUPTS_MASK;
+> +	panthor_gpu_irq_mask_set(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
+> +}
+> +
+>  /**
+>   * panthor_gpu_block_power_off() - Power-off a specific block of the GPU
+>   * @ptdev: Device.
+> @@ -395,7 +429,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+>   */
+>  void panthor_gpu_resume(struct panthor_device *ptdev)
+>  {
+> -	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+> +	panthor_gpu_irq_resume(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
+>  	panthor_hw_l2_power_on(ptdev);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+> index 12e66f48ced1..12c263a39928 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
+> @@ -51,5 +51,7 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
+>  int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+>  			     u32 l2, u32 lsc, u32 other);
+>  int panthor_gpu_soft_reset(struct panthor_device *ptdev);
+> +void panthor_gpu_power_changed_off(struct panthor_device *ptdev);
+> +int panthor_gpu_power_changed_on(struct panthor_device *ptdev);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> index 87ebb7ae42c4..ae3320d0e251 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -1,6 +1,8 @@
+>  // SPDX-License-Identifier: GPL-2.0 or MIT
+>  /* Copyright 2025 ARM Limited. All rights reserved. */
+>  
+> +#include <linux/platform_device.h>
+> +
+>  #include <drm/drm_print.h>
+>  
+>  #include "panthor_device.h"
+> @@ -29,6 +31,8 @@ static struct panthor_hw panthor_hw_arch_v10 = {
+>  		.soft_reset = panthor_gpu_soft_reset,
+>  		.l2_power_off = panthor_gpu_l2_power_off,
+>  		.l2_power_on = panthor_gpu_l2_power_on,
+> +		.power_changed_off = panthor_gpu_power_changed_off,
+> +		.power_changed_on = panthor_gpu_power_changed_on,
+>  	},
+>  };
+>  
+> @@ -53,6 +57,64 @@ static struct panthor_hw_entry panthor_hw_match[] = {
+>  	},
+>  };
+>  
+> +static int panthor_hw_set_power_tracing(struct device *dev, void *data)
+> +{
+> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> +
+> +	if (!ptdev)
+> +		return -ENODEV;
+> +
+> +	if (!ptdev->hw)
+> +		return 0;
+> +
+> +	if (data) {
+> +		if (ptdev->hw->ops.power_changed_on)
+> +			return ptdev->hw->ops.power_changed_on(ptdev);
+> +	} else {
+> +		if (ptdev->hw->ops.power_changed_off)
+> +			ptdev->hw->ops.power_changed_off(ptdev);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int panthor_hw_power_status_register(void)
+> +{
+> +	struct device_driver *drv;
+> +	int ret;
+> +
+> +	drv = driver_find("panthor", &platform_bus_type);
+> +	if (!drv)
+> +		return -ENODEV;
+> +
+> +	ret = driver_for_each_device(drv, NULL, (void *)true,
+> +				     panthor_hw_set_power_tracing);
+> +
+> +	return ret;
+> +}
+> +
+> +void panthor_hw_power_status_unregister(void)
+> +{
+> +	struct device_driver *drv;
+> +	int ret;
+> +
+> +	drv = driver_find("panthor", &platform_bus_type);
+> +	if (!drv)
+> +		return;
+> +
+> +	ret = driver_for_each_device(drv, NULL, NULL, panthor_hw_set_power_tracing);
+> +
+> +	/*
+> +	 * Ideally, it'd be possible to ask driver_for_each_device to hand us
+> +	 * another "start" to keep going after the failing device, but it
+> +	 * doesn't do that. Minor inconvenience in what is probably a bad day
+> +	 * on the computer already though.
+> +	 */
+> +	if (ret)
+> +		pr_warn("Couldn't mask power IRQ for at least one device: %pe\n",
+> +			ERR_PTR(ret));
+> +}
+> +
+>  static char *get_gpu_model_name(struct panthor_device *ptdev)
+>  {
+>  	const u32 gpu_id = ptdev->gpu_info.gpu_id;
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+> index 56c68c1e9c26..2c28aea82841 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+> @@ -19,6 +19,12 @@ struct panthor_hw_ops {
+>  
+>  	/** @l2_power_on: L2 power on function pointer */
+>  	int (*l2_power_on)(struct panthor_device *ptdev);
+> +
+> +	/** @power_changed_on: Start listening to power change IRQs */
+> +	int (*power_changed_on)(struct panthor_device *ptdev);
+> +
+> +	/** @power_changed_off: Stop listening to power change IRQs */
+> +	void (*power_changed_off)(struct panthor_device *ptdev);
+>  };
+>  
+>  /**
+> @@ -32,6 +38,8 @@ struct panthor_hw {
+>  };
+>  
+>  int panthor_hw_init(struct panthor_device *ptdev);
+> +int panthor_hw_power_status_register(void);
+> +void panthor_hw_power_status_unregister(void);
+>  
+>  static inline int panthor_hw_soft_reset(struct panthor_device *ptdev)
+>  {
+> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+> new file mode 100644
+> index 000000000000..2b59d7f156b6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
+> @@ -0,0 +1,59 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2025 Collabora ltd. */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM panthor
+> +
+> +#if !defined(__PANTHOR_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+> +#define __PANTHOR_TRACE_H__
+> +
+> +#include <linux/tracepoint.h>
+> +#include <linux/types.h>
+> +
+> +int panthor_hw_power_status_register(void);
+> +void panthor_hw_power_status_unregister(void);
+> +
+> +/**
+> + * gpu_power_status - called whenever parts of GPU hardware are turned on or off
+> + * @dev: pointer to the &struct device, for printing the device name
+> + * @shader_bitmap: bitmap where a high bit indicates the shader core at a given
+> + *                 bit index is on, and a low bit indicates a shader core is
+> + *                 either powered off or absent
+> + * @tiler_bitmap: bitmap where a high bit indicates the tiler unit at a given
+> + *                bit index is on, and a low bit indicates a tiler unit is
+> + *                either powered off or absent
+> + * @l2_bitmap: bitmap where a high bit indicates the L2 cache at a given bit
+> + *             index is on, and a low bit indicates the L2 cache is either
+> + *             powered off or absent
+> + */
+> +TRACE_EVENT_FN(gpu_power_status,
+> +	TP_PROTO(const struct device *dev, u64 shader_bitmap, u64 tiler_bitmap,
+> +		 u64 l2_bitmap),
+> +	TP_ARGS(dev, shader_bitmap, tiler_bitmap, l2_bitmap),
+> +	TP_STRUCT__entry(
+> +		__string(dev_name, dev_name(dev))
+> +		__field(u64, shader_bitmap)
+> +		__field(u64, tiler_bitmap)
+> +		__field(u64, l2_bitmap)
+> +	),
+> +	TP_fast_assign(
+> +		__assign_str(dev_name);
+> +		__entry->shader_bitmap	= shader_bitmap;
+> +		__entry->tiler_bitmap	= tiler_bitmap;
+> +		__entry->l2_bitmap	= l2_bitmap;
+> +	),
+> +	TP_printk("%s: shader_bitmap=0x%llx tiler_bitmap=0x%llx l2_bitmap=0x%llx",
+> +		  __get_str(dev_name), __entry->shader_bitmap, __entry->tiler_bitmap,
+> +		  __entry->l2_bitmap
+> +	),
+> +	panthor_hw_power_status_register, panthor_hw_power_status_unregister
+> +);
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index f9e01c42d237..276c87985422 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -33,6 +33,7 @@
- #include "panthor_gpu.h"
- #include "panthor_heap.h"
- #include "panthor_mmu.h"
-+#include "panthor_perf.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
- 
-@@ -75,6 +76,39 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
- 	return 0;
- }
- 
-+/**
-+ * panthor_get_uobj() - Copy user object to kernel object.
-+ * @usr_ptr: Users pointer.
-+ * @usr_size: Size of the user object.
-+ * @min_size: Minimum size for this object.
-+ *
-+ * Helper automating user -> kernel object copies.
-+ *
-+ * Don't use this function directly, use PANTHOR_UOBJ_GET() instead.
-+ *
-+ * Return: valid pointer on success, an encoded error code otherwise.
-+ */
-+static void*
-+panthor_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size)
-+{
-+	int ret;
-+	void *out_alloc __free(kvfree) = NULL;
-+
-+	/* User size shouldn't be smaller than the minimal object size. */
-+	if (usr_size < min_size)
-+		return ERR_PTR(-EINVAL);
-+
-+	out_alloc = kvmalloc(min_size, GFP_KERNEL);
-+	if (!out_alloc)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = copy_struct_from_user(out_alloc, min_size, u64_to_user_ptr(usr_ptr), usr_size);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return_ptr(out_alloc);
-+}
-+
- /**
-  * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
-  * @in: The object array to copy.
-@@ -179,7 +213,11 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size), \
--		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_setup, shader_enable_mask), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_start, user_data), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_stop, user_data), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_sample, user_data))
- 
- /**
-  * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-@@ -194,6 +232,25 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
- 			 sizeof(_src_obj), &(_src_obj))
- 
-+/**
-+ * PANTHOR_UOBJ_GET() - Copies a user object from _usr_ptr to a kernel accessible _dest_ptr.
-+ * @_dest_ptr: Local variable
-+ * @_usr_size: Size of the user object.
-+ * @_usr_ptr: The pointer of the object in userspace.
-+ *
-+ * Return: Error code. See panthor_get_uobj().
-+ */
-+#define PANTHOR_UOBJ_GET(_dest_ptr, _usr_size, _usr_ptr) \
-+	({ \
-+		typeof(_dest_ptr) _tmp; \
-+		_tmp = panthor_get_uobj(_usr_ptr, _usr_size, \
-+				PANTHOR_UOBJ_MIN_SIZE(_tmp[0]), \
-+				sizeof(_tmp[0])); \
-+		if (!IS_ERR(_tmp)) \
-+			_dest_ptr = _tmp; \
-+		PTR_ERR_OR_ZERO(_tmp); \
-+	})
-+
- /**
-  * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
-  * object array.
-@@ -1470,6 +1527,83 @@ static int panthor_ioctl_bo_query_info(struct drm_device *ddev, void *data,
- 	return 0;
- }
- 
-+#define perf_cmd(command) \
-+	({ \
-+		struct drm_panthor_perf_cmd_##command *command##_args __free(kvfree) = NULL; \
-+		int _ret = PANTHOR_UOBJ_GET(command##_args, args->size, args->pointer); \
-+		if (_ret) \
-+			return _ret; \
-+		return panthor_perf_session_##command(pfile, ptdev->perf, args->handle, \
-+						      command##_args->user_data); \
-+	})
-+
-+static int panthor_ioctl_perf_control(struct drm_device *ddev, void *data,
-+				      struct drm_file *file)
-+{
-+	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-+	struct panthor_file *pfile = file->driver_priv;
-+	struct drm_panthor_perf_control *args = data;
-+	int ret;
-+
-+	if (!args->pointer) {
-+		switch (args->cmd) {
-+		case DRM_PANTHOR_PERF_COMMAND_SETUP:
-+			args->size = sizeof(struct drm_panthor_perf_cmd_setup);
-+			return 0;
-+
-+		case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-+			args->size = 0;
-+			return 0;
-+
-+		case DRM_PANTHOR_PERF_COMMAND_START:
-+			args->size = sizeof(struct drm_panthor_perf_cmd_start);
-+			return 0;
-+
-+		case DRM_PANTHOR_PERF_COMMAND_STOP:
-+			args->size = sizeof(struct drm_panthor_perf_cmd_stop);
-+			return 0;
-+
-+		case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-+			args->size = sizeof(struct drm_panthor_perf_cmd_sample);
-+			return 0;
-+
-+		default:
-+			return -EINVAL;
-+		}
-+	}
-+
-+	switch (args->cmd) {
-+	case DRM_PANTHOR_PERF_COMMAND_SETUP:
-+	{
-+		struct drm_panthor_perf_cmd_setup *setup_args __free(kvfree) = NULL;
-+
-+		ret = PANTHOR_UOBJ_GET(setup_args, args->size, args->pointer);
-+		if (ret)
-+			return -EINVAL;
-+
-+		return panthor_perf_session_setup(file, ptdev->perf, setup_args);
-+	}
-+	case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-+	{
-+		return panthor_perf_session_teardown(pfile, ptdev->perf, args->handle);
-+	}
-+	case DRM_PANTHOR_PERF_COMMAND_START:
-+	{
-+		perf_cmd(start);
-+	}
-+	case DRM_PANTHOR_PERF_COMMAND_STOP:
-+	{
-+		perf_cmd(stop);
-+	}
-+	case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-+	{
-+		perf_cmd(sample);
-+	}
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- static int
- panthor_open(struct drm_device *ddev, struct drm_file *file)
- {
-@@ -1546,6 +1680,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
- 	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
- 	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
- 	PANTHOR_IOCTL(BO_QUERY_INFO, bo_query_info, DRM_RENDER_ALLOW),
-+	PANTHOR_IOCTL(PERF_CONTROL, perf_control, DRM_RENDER_ALLOW),
- };
- 
- static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-@@ -1686,6 +1821,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
-  *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
-  *       - adds drm_panthor_gpu_info::selected_coherency
-+ * - 1.8 - adds DEV_QUERY_PERF_INFO query
-+ *       - adds PERF_CONTROL ioctl
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1699,7 +1836,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 7,
-+	.minor = 8,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
--- 
-2.33.0.dirty
+What is the expectation of stability for this tracepoint? Because I worry about future architectures 
+that add different hardware blocks: we would have to either extend this tracepoint, or deprecate it
+and make another one that is very similar. Do you have any sort of userspace tooling that is consuming
+this or is this more for local debugging? 
+
+> +
+> +#endif /* __PANTHOR_TRACE_H__ */
+> +
+> +#undef TRACE_INCLUDE_PATH
+> +#define TRACE_INCLUDE_PATH .
+> +#undef TRACE_INCLUDE_FILE
+> +#define TRACE_INCLUDE_FILE panthor_trace
+> +
+> +#include <trace/define_trace.h>
+> 
+
+Kind regards,
+Lukas
 
