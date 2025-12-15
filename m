@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED62DCBF524
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4280DCBF533
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E60610E4E0;
-	Mon, 15 Dec 2025 17:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97D8010E1E7;
+	Mon, 15 Dec 2025 17:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=fooishbar.org header.i=@fooishbar.org header.b="Nfe2GunN";
+	dkim=pass (2048-bit key; secure) header.d=fooishbar.org header.i=@fooishbar.org header.b="bC9viX4t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF8210E4E0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:55:25 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-8b2ec756de0so408508885a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:55:25 -0800 (PST)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E30F710E1E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:57:19 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4ee328b8e38so33872351cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1765821324; x=1766426124;
+ d=fooishbar.org; s=google; t=1765821439; x=1766426239;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8aCiihqyfBhDBvKtwXzCvq/yRXu9gmrOv+bogwSRfMI=;
- b=Nfe2GunNAJQSKy6QYBDDUwSc5BOqGqusNxCmw2z7UFXshIq9/TUw6CMgAW7/AEpb7k
- Lp9AbicGN3qwsMeA1+zJaoW59ut2/ZG74ZJ9FQ66llmcZpgA0XRyspBhLJLdRgIIOwIE
- KY1X76yYZ4xsosw8/jxbXb1TDvK+Epaww9pIkf+rvCgBtVyOPIFQ0Lk5A3n/4VElP/SR
- xU0lpcFSawiWhOr3wM+z4E0RZPbMaExQQWzPW6KU5qWXKT2rJXCIWjQZZ740tu+f8kRq
- OdgAiJy1zhzLcUFw3hjKfbXt1UijF8iROKp+3Zxvyof+7AeEMJOmfGOIOEg+bknv7FWc
- 4uKw==
+ bh=JrDNYX4hqSI6y4PGIj6+dxdIojaAEYXvHqNt+FhuuhY=;
+ b=bC9viX4txxbWzverDZYsazCohkdfqcqYk3JPKgb70vg9XObXdr/vSt8uy8IwD4dsBu
+ GWkAcdqDG9+AEjEo501jElvXGeoyAlrKgWyZlXsIHZ8kN73zWw9tzadHp3tZpWphRaHU
+ spoOllBKGP7mHMkNVU64FmJbotZonXlZLHYzAa0YPvv9gNlSC1KX/BkCFE5jw1V9z/UP
+ Koba8IQnqah49+AW94s/SxorKLxkGZjV8/yB3/uWKge7y+1x0VI0OK9ZbJHjtj/FrUYL
+ 88dzsvTyiY5UXfWlreBlH7BYyV2NzHwADvaVgZiYcXQXMsaDbRrDnm22xquGDYj8ZM2Z
+ cvbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765821324; x=1766426124;
+ d=1e100.net; s=20230601; t=1765821439; x=1766426239;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8aCiihqyfBhDBvKtwXzCvq/yRXu9gmrOv+bogwSRfMI=;
- b=bL9nvA6fsFfVOXFIXBSQYIif6SP9vGqmIz2Af+Bt8P/jYTZB74/1OuLSXMX3E9pc3y
- v5o4pOpqmd/f2E+bRgd6LVpr2uRpmYCm/SB/5zxTe+iAMm+Tu6myCWHuMwx2F5ETwypA
- lQ4iiSAiCD2aDI3343gs6Am4KBYOHRRUyOYpahyoFlHkV4UNITnesYOoIAs5n2ZcSBLC
- SpBrjCpZXFMvIJ7jAYwDNRgDhoXmcTw35U2rSsZZg3aV703RURgTQe73LF+frIhZmBMA
- VqTuik2PbfScij38v7q2UyKPml3LPYXZalmG8syESt1hw4O7oflUkZyxeCxB7J++3lXd
- DuxQ==
+ bh=JrDNYX4hqSI6y4PGIj6+dxdIojaAEYXvHqNt+FhuuhY=;
+ b=eIfiAVviCtUNJHMxAg+1kIH0CxiVmm5K1RDdIq8jbAqnxeR7LgIPrFxouwS344bJhX
+ a6I3u4N2UYO9tJOu1AOCsus+TR5dPzlcczmQlZyj//O6Shcbk3PcpeJXdG3m3eIe4abR
+ oX2yEH+Pv19hFNMeB3c7dQ+kOvZDkKm/3/srkUb6XZE3h/welUJNm25ffFqvCfRI4z1A
+ aPjA1sHUC1q564hrdRuywThoGiJgMsuK4maXSceHjUgDtcLN0DsFaZW8HyjK00rplNG6
+ iuumpcXt7uoR/E3cL7+vW5bdm47Tnym7pzUSPzts6Ngzhw+0aDpwAT/gc6g6iz7lGsFH
+ cCrg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRVB2qcu6RIzO4kKz2rNWW3FQtmfoYQQqhtTd+epdDqjoGEvVrrwcW7TspE0Bvz5NnaHQPn5i/Nj8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwboPjkEDpN1L5ppkynu1EqsMRKgGguRKEellXcOLCZpvcOKk8q
- JrHfSTnepoEynW7Ea5UYUztWURqHV7sRxLJcsKKhK+skC3lRTTKXb1OlUNK/rwIMppzghnt6iRA
- I1Efp+W+6EutLv9fKeULM1nQ3Q5fVIl7N6Way3F/FLw==
-X-Gm-Gg: AY/fxX5ZGmxuxRRuswVf/CcAjRIK31GHAskqtCSj3ISOUetGhy0FN7pw66L1nhv0hwc
- r+TzoJZs3aOcRtRb/OSIreNq2Rc/b+/vh1cHGG7eyTVaaZSni0h7OWZWAWjXvTF29jpihQML/Mv
- B4wnbyA+F4D+kk5Qptux7KaJZhyurFPKeEgDUcpJMcqdPdPcfvRk1Dyr/8K26gJnGgGu1HmU6Hz
- Hvrd0dp3RIbcY7SyCXYChfnUV6iJ4iJr/7dajbfkfFHDmbRsOI1+b7diD7ATKGZ+7kYRlk=
-X-Google-Smtp-Source: AGHT+IEquHwQ+urOMR2ohVWjSdQ8ANcymdBrTg3QcyuKio1k3FljEQrqH2T2Tn3/APITsfhyN5lzUFG1dY78glwUVow=
-X-Received: by 2002:a05:622a:1e96:b0:4ee:12e0:f071 with SMTP id
- d75a77b69052e-4f1d04a585cmr184413841cf.20.1765821324595; Mon, 15 Dec 2025
- 09:55:24 -0800 (PST)
+ AJvYcCWUMTBK7DwFGkRFSPPc92YgjGZIuUhnGXFmjw8QpnOkaK9O/Q8tWQKnxwyf5aTUye5E2Xz06YFdgrc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjmkJaKVBrGc56i0u19Aezknihp5Vq2ahg1J11lj1chfQivx15
+ EIwGf4K0Tgl52O7ag5f4a9BWPjUtjry/rri6sBPOlRScYSRTW3+3e5/KOhrSPgaAT8ruNdpLq5+
+ qsyw4UIIYN4YsNNE0JenH95rsXBN3DhGxKn7p+V7bVg==
+X-Gm-Gg: AY/fxX7mTlQRcPL9RJ+VcOxvjVJanPRww1q/yiFX2foi/ngdhMzV9QolqcVwMECQXeP
+ iPfh9QT+S1ZJ4rjQMw9rRHo1Hu0jukBOUkCJQJTQJG7UUYHR8Hf5R1873lTasmZ5uG5UlH8k2h5
+ 45mW/N3naDnhz/qFRvyJwm7G+AQgpu4Sk0O+qTObb8Mm3zVfwBMdY37+3NMAt0XdiaStK2T3JGg
+ igJaY18i+OVsCs3+GCjyjKjbICDCbIa2CPbiAy7LN7wnkuGhhk3rI0dQQTxvjM7hFSg5F0=
+X-Google-Smtp-Source: AGHT+IGFC2JQ4V1SECaV//h1EmhEsxokdnKGAqKcXjQqd+tP6HAhA9hYS9lkjNvisVQC+6Z2K5Vl/WM78Ka8I+v/P7A=
+X-Received: by 2002:a05:622a:481a:b0:4ee:213b:3391 with SMTP id
+ d75a77b69052e-4f1d049ff6dmr180679491cf.20.1765821438771; Mon, 15 Dec 2025
+ 09:57:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20251211-vop2-atomic-fixups-v4-0-5d50eda26bf8@collabora.com>
- <20251211-vop2-atomic-fixups-v4-1-5d50eda26bf8@collabora.com>
- <20251211223822.6eeabb4d@pumpkin> <14738785.uLZWGnKmhe@workhorse>
-In-Reply-To: <14738785.uLZWGnKmhe@workhorse>
+ <20251211-vop2-atomic-fixups-v4-2-5d50eda26bf8@collabora.com>
+ <20251211224102.5e079d70@pumpkin>
+In-Reply-To: <20251211224102.5e079d70@pumpkin>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 15 Dec 2025 17:55:13 +0000
-X-Gm-Features: AQt7F2oTFN8HvvMalRt84ZK6fte07GmPQ77VoQFhH6nEJYL6l1qYY_efw-Mj3bQ
-Message-ID: <CAPj87rMeJWLm9J=7kMrEvbpzVOMiQc-TThSNE-Gfac7nhUB3bw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] drm/rockchip: vop2: Switch impossible format
+Date: Mon, 15 Dec 2025 17:57:07 +0000
+X-Gm-Features: AQt7F2oFXSBO4SC0UxvNyq3w7s43LPnK4r_t9yQh-dyuuj24u5z5H133-vHKl9M
+Message-ID: <CAPj87rO45oAihxRhshwvP=9N6oDtd+yRN-R4M3=TsFYmwjr1cA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] drm/rockchip: vop2: Switch impossible pos
  conditional to WARN_ON
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Sandy Huang <hjc@rock-chips.com>, 
  =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, 
@@ -98,40 +98,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 12 Dec 2025 at 12:46, Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
-> On Thursday, 11 December 2025 23:38:22 Central European Standard Time David Laight wrote:
-> > Except that all the systems with PANIC_ON_WARN set will panic.
-> > I believe that is somewhere over 90% of systems.
+On Thu, 11 Dec 2025 at 22:41, David Laight <david.laight.linux@gmail.com> wrote:
+> On Thu, 11 Dec 2025 21:40:32 +0100
+> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+> > -     if (dest->y1 + dsp_h > adjusted_mode->vdisplay) {
+> > -             drm_dbg_kms(vop2->drm,
+> > -                         "vp%d %s dest->y1[%d] + dsp_h[%d] exceed mode vdisplay[%d]\n",
+> > -                         vp->id, win->data->name, dest->y1, dsp_h, adjusted_mode->vdisplay);
+> > -             dsp_h = adjusted_mode->vdisplay - dest->y1;
+> > -             if (dsp_h < 4)
+> > -                     dsp_h = 4;
+> > -             src_h = dsp_h * src_h / drm_rect_height(dest);
+> > -     }
+> > +     /* drm_atomic_helper_check_plane_state calls drm_rect_clip_scaled for
+> > +      * us, which keeps our planes bounded within the CRTC active area
+> > +      */
+> > +     WARN_ON(dest->x1 + dsp_w > adjusted_mode->hdisplay);
+> > +     WARN_ON(dest->y1 + dsp_h > adjusted_mode->vdisplay);
+> > +     WARN_ON(dsp_w < 4);
+> > +     WARN_ON(dsp_h < 4);
+> > +     WARN_ON(src_w < 4);
+> > +     WARN_ON(src_h < 4);
 >
-> I also like making up statistics. Warning here is the correct move
-> in my opinion because this warning being triggered indicates a bug
-> in the kernel code, and with PANIC_ON_WARN the user explicitly says
-> they would rather panic in such a case than treat it as an abnormal
-> condition that is recoverable.
->
-> The reason why this condition ever occurring should be treated as an
-> abnormal condition is because the DRM subsystem should guarantee we
-> don't get a framebuffer of a format we didn't explicitly declare
-> support for in the first place. So this condition being hit either
-> means drm_universal_plane_init is broken, or the array of formats
-> that's passed to it is out of sync with the conversion code, which
-> is also a bug. Or someone managed to thoroughly hose DRM's internal
-> kernel-side data structures, which is precisely the kind of thing
-> PANIC_ON_WARN users want to abort for.
+> You need to do something when the tests fail.
+> Carrying on regardless is never right.
 
-Yes, that's exactly it. We make all kinds of load-bearing assumptions
-everywhere: that PM code won't pass in a NULL struct device pointer to
-the resume handler, that our driver callbacks won't get called whilst
-the device is runtime-suspended, etc. We could try to handle every
-single one of those with if (clk == NULL) return 0; /* ??? */, or we
-could not.
+When we arrive at this point, because the load-bearing assumption in
+the comment has not been met, our options would be:
+* display random incorrect content, and hope that we aren't reading
+out of bounds from a buffer that's too small
+* turn the display off
+* there is no third option
 
-If you'd like, we could just delete every one of these checks and
-replace them with comments, explaining what we assume the invariants
-to be, and wait for an OOPS due to dereferencing invalid pointers. But
-the MISRA style of 'handling' every possible impossible case is not
-tractable.
+Which are you suggesting?
 
 Cheers,
 Daniel
