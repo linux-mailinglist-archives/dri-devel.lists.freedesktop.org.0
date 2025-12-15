@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BFFCBD860
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BC4CBD869
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0AF10E43B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9950710E433;
 	Mon, 15 Dec 2025 11:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M7ui1V+K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PvFX5UxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBE510E439
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 578A910E433
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:39:10 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-34c5f0222b0so1005417a91.3
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-34c93e0269cso522474a91.1
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 03:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1765798750; x=1766403550; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rTcY4k7PJNNctnILuEp0lcvqj1X2scOTc/Z894ZNYfE=;
- b=M7ui1V+KnFYkCty0HqvgJjWXri7Fd9oWctq9tEzWkUb3SeyjcXQEZg9sV5lPbVESag
- /NloN8Va6SLYSc7b4q+hwQKCjkXs6pjdx8jyTzNAuNQgWJlY4IHJNoNch4ep1rPbmEFc
- W0cNvKfNVqXwNck26b9hQskfJy++E+JiDtG9Bp6zUES96hCubU00OBJ/LnkoKIdA4odg
- NKxXRIK/BIJtH+mtKz5cpUe+qf9tjs9o8i1ZB3pmTZPdeanM0g9mWlrymtAWTFwUbL1I
- g9Non7Y8+AUNi2vaxfhuLSGaiLgRcjCYw9lHFuLOBOcOnqwwEvvbjMfFjuC1/tEZGeQq
- XW7A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SOExJIUd6SMMpu9ecZcijfoRnX+3TKAUcxRzAMDO5OU=;
+ b=PvFX5UxYrUAsvwyO16wvO8TFlqyf8JMX2HUVLd9L6+gMP6I1XFnajT6TZe98ehWwEb
+ tfA56lhJm+sdi61f4lYgZpG5t2jBxTriRyuvVDTKVPcXJ5DNfQcjni/zsqLn5Vh2RpEn
+ QiPoX2zcStPLORllPTf+okTtV4Pw+rgIVRE+BMwG5sg5Kn5sr++deF9N2STXGC4fg2Yh
+ HmOsO93+Kb93YlyCjjXzVkvRQQqsUqhMnlU+19ELtZ5z3bcxsDLsmbDpv0aitrirp6Uj
+ xKA0bAWpiDZKudK4onohlFwiln6lmSSZK9AENC3lP17CEPpNK4+DOIZ3nNbl+48ZUj9g
+ xZLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1765798750; x=1766403550;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rTcY4k7PJNNctnILuEp0lcvqj1X2scOTc/Z894ZNYfE=;
- b=osW3MVHTk4IkKmGt1cl+Fk3V+rFrrCgah8ojTqm/Kz8a/zZ5KraVmPZ3CvmM7rLnf4
- qmQ34QejnIjrZtjbzaJ2os6iRDEw3YBTxsZ5PDG0YXtMJ8CcArTlozL3A1PWreH6xbsh
- u4wts2IQLGE86qXeo1eWc+viyvZ8/3KF4MFnkkISiSWi00GOnNegzIFg7GXDQdUi35CT
- 81f6RHUf3g5jGreV3yTqn6W55bKaLiuncGyy8FgvL+j1qgK7/xqdUkqq32hwwzcFn9Dg
- ppxaJlk57VC1+Alg2q2p5LWdQgxg2p65CRvJlw7zmcdTTL7pbcijR3ZHiVqSWogcY1mw
- TH4w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=SOExJIUd6SMMpu9ecZcijfoRnX+3TKAUcxRzAMDO5OU=;
+ b=ff3FnqGoqxXLFBVYU+EhgYYnpE/yZTyrp1M+SK8pbfdzDHCeg6S20eZMBnyG1Z3j9J
+ tKiIbCZGdTRWY+55TjBePIjgjR4e9/7WrgqTlCWonVuo9VtM/fxJorflJci/Zv1mnarV
+ SHXODHdaV9/z+Stpn1l46Ug9RCTERzEHBT8SFoSu4nnj7Yy5qhAw5zvJ0+XMq6G8/s9j
+ c9jSUok731vFdHkDNQ1f7CRTRba9IsQx/IKt7FN+P07PFbMlyluDIJ5hcKGcT53C517F
+ 85Xy6Ec44m1v0Oqvd7iZv/wZGSSO/24fsQhRZ0JGMuK2qAIN6U4+u6zZzEqxXj3JOG0a
+ 7ArQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVLVNdzfBKAnEDFhQAFTX+iTFyZkLFrYYGYpEu1S17/5ujily1PvEDpvTJXF+el5ChASJKOmGiGDas=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyl7AMcipQfhnlAGnRZvp0T2I9ek1H4+dIhMzvflaCjisYDgVLF
- UKBlyliIMFEzt8Gx5P/vlJZ86zzA6x38vD161YB29HLDnromhow19O84
-X-Gm-Gg: AY/fxX63WmmRBmw4i51XzA44rUmP1IX819BSyqU+wfYwAYyMh7MEQghzRXAiRyaddUn
- pTR+gZHY7ZDSaJJ+cpVnpJc9XSheeWsOqVqdW9He81jVOukq3dWNENQ5NEKhz/krnl34P+MhAxX
- LYPvVWgMq2hwwdXX5LeiZm+wZ/1tvn6wrmIuPfTaJjbhkwYFuf8uil8g8MHnbBfZPBUqM+OTgKV
- Nlhir1zyfaC685CIJ3BBZiJniN0Jv88JSjjBpPXCUk4UZ5WKPdpuWzCr3UBy0sNF4EYh0JTo70r
- E9bTFjUZrFOXrqg0YYkNGAMa2/vGxEC4ikRf/VEQeffpGBeLmrnKqzOgUE09cBtkIE/nIsu5Bq5
- 7V0QH8I7a0yJI0aR42lkc5gS0VIld5eViTTxcox/URiqiyOtC3AZaUwmzVFSt9eneHrUdkLs0tC
- EQjsa+990P6I5H1LWUkkIimw==
-X-Google-Smtp-Source: AGHT+IH7Y0ZP0SVYlRqXrzHx+fOVv/+/V5Bjimjq/e2I+okG90jQDlqbjW8VY0Em0JiciGGZ262G7g==
-X-Received: by 2002:a17:902:c402:b0:295:c2e7:7199 with SMTP id
- d9443c01a7336-29f23c7b8b9mr114062105ad.29.1765798749863; 
+ AJvYcCXJxIwouLDzpK8+l7LNBSqvZz8DSlBNBbhP6h6aEHOS4ZtMRJFyKXhq69wVfuXCAz3YB93q5yhS8so=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0Rn+qZ9eJzutF8I2YuOpyiVUk+jxL5ixFulWOROpm+1TXfiDz
+ lYG4ZntGuH6qlBwzQnCp3Gd3SbJGBscGAy3/Ij9VN6t7pfejChiLUr2S
+X-Gm-Gg: AY/fxX5/0CQ6rvs+8BgPdhHYpdYfilb3R078oaEzvJTcWWUgze+4O6nrU+DXfAn7rUG
+ oG7ldIhvbpViDoj0W+t4M9SQvh6sYchAaYkbFv/exwkYYsKcELyOZAGX0tY4t56OjlUeDbaRmwQ
+ yUt4K/wK4zuLf7FvjbKEsYxVoN9TfLsFUZ4WqVeNxMSF7IkMm+oOHEDHkPeVtqD0QtYycAZXfbK
+ j1WqhAIp13RwsED71yYTzNRWhxLwVz7o+VoSg321WLQtv6WWtsNDGn1W+Lfu8BDeyIzqqb73+Y/
+ uDuG69AtTPAkEnfGXz2zw+LV5T6y6DzcrbxqMNemVwsERjrue41briV+gqbytUrgiPT3+QllHGU
+ pwcVIMIHylnlkKpnpepXF9MqRn+5O9x/orgl8hd4TBx0+LxAlordCfvB5ACowCrra7rQIf1ItRD
+ 2fH4QKLHvMS01bQHW6j5k+MQ==
+X-Google-Smtp-Source: AGHT+IEi7Much+ynnSaGi+9pLWL2hRrocApHWp5vBqFK1ft2pjcvnQtgIu8VXEyupMREgh2/mG55NA==
+X-Received: by 2002:a17:90b:2e03:b0:341:1a50:2ea9 with SMTP id
+ 98e67ed59e1d1-34a926d9c70mr13163422a91.16.1765798749780; 
  Mon, 15 Dec 2025 03:39:09 -0800 (PST)
 Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29ee9b3850csm133386495ad.17.2025.12.15.03.39.07
+ 98e67ed59e1d1-34abe294a00sm9273005a91.12.2025.12.15.03.39.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 Dec 2025 03:39:08 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
- id AC75C444B38F; Mon, 15 Dec 2025 18:39:05 +0700 (WIB)
+ id EAE05444B390; Mon, 15 Dec 2025 18:39:05 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -126,17 +127,20 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
  Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
  George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 00/14] Assorted kernel-doc fixes
-Date: Mon, 15 Dec 2025 18:38:48 +0700
-Message-ID: <20251215113903.46555-1-bagasdotme@gmail.com>
+Subject: [PATCH 01/14] genalloc: Describe @start_addr parameter in
+ genpool_algo_t
+Date: Mon, 15 Dec 2025 18:38:49 +0700
+Message-ID: <20251215113903.46555-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2064; i=bagasdotme@gmail.com;
- h=from:subject; bh=zPsruu4atyDYOaQCsKIEqnFkDKfYqb53HHp2txNqt3A=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4MMm/867RRu9s/LeXucS+TRacFsjy3x8goRK//G7
- Jyfu8O1o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOJ+cjwP9rl0j2O1i3mgnEF
- j0tV/6z5nLTvdKmsJY/NvB286XtLTzEy7D+8+dTHe63Sb6bPXnHWT1NH5vPMzba75Xe45yw3OaR
- ZzAUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=962; i=bagasdotme@gmail.com;
+ h=from:subject; bh=yvRLY8BHqBHKchvPjcPm3zDNVddYxArgXi7Qv6PDXBI=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4MeLjlRVOvo/zL51uM7fT8nbubcy37qLGeos8/kb
+ VKe75YIdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiGosZ/mm4fru/UqLr5XIZ
+ H96Qry1BDLd3LedR2Gkharj+Q1jej2pGhm7zlf21hfvmpVcxGBvN2yCmrfs71+wCw2eFqbVucQl
+ NvAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -155,51 +159,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Sphinx reports kernel-doc warning:
 
-Here are assorted kernel-doc fixes for 6.19 cycle. As the name
-implies, for the merging strategy, the patches can be taken by
-respective maintainers to appropriate fixes branches (targetting
-6.19 of course) (e.g. for mm it will be mm-hotfixes).
+WARNING: ./include/linux/genalloc.h:52 function parameter 'start_addr' not described in 'genpool_algo_t'
 
-Enjoy!
+Describe @start_addr to fix it.
 
-Bagas Sanjaya (14):
-  genalloc: Describe @start_addr parameter in genpool_algo_t
-  mm: Describe @flags parameter in memalloc_flags_save()
-  textsearch: Describe @list member in ts_ops search
-  mm: vmalloc: Fix up vrealloc_node_align() kernel-doc macro name
-  mm, kfence: Describe @slab parameter in __kfence_obj_info()
-  virtio: Describe @map and @vmap members in virtio_device struct
-  fs: Describe @isnew parameter in ilookup5_nowait()
-  VFS: fix __start_dirop() kernel-doc warnings
-  drm/amd/display: Don't use kernel-doc comment in
-    dc_register_software_state struct
-  drm/amdgpu: Describe @AMD_IP_BLOCK_TYPE_RAS in amd_ip_block_type enum
-  drm/gem/shmem: Describe @shmem and @size parameters
-  drm/scheduler: Describe @result in drm_sched_job_done()
-  drm/gpusvm: Fix drm_gpusvm_pages_valid_unlocked() kernel-doc comment
-  net: bridge: Describe @tunnel_hash member in net_bridge_vlan_group
-    struct
+Fixes: 52fbf1134d4792 ("lib/genalloc.c: fix allocation of aligned buffer from non-aligned chunk")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ include/linux/genalloc.h | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/amd/display/dc/dc.h      | 2 +-
- drivers/gpu/drm/amd/include/amd_shared.h | 1 +
- drivers/gpu/drm/drm_gem_shmem_helper.c   | 3 ++-
- drivers/gpu/drm/drm_gpusvm.c             | 4 ++--
- drivers/gpu/drm/scheduler/sched_main.c   | 1 +
- fs/inode.c                               | 1 +
- fs/namei.c                               | 3 ++-
- include/linux/genalloc.h                 | 1 +
- include/linux/kfence.h                   | 1 +
- include/linux/sched/mm.h                 | 1 +
- include/linux/textsearch.h               | 1 +
- include/linux/virtio.h                   | 2 ++
- mm/vmalloc.c                             | 2 +-
- net/bridge/br_private.h                  | 1 +
- 14 files changed, 18 insertions(+), 6 deletions(-)
-
-
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+diff --git a/include/linux/genalloc.h b/include/linux/genalloc.h
+index 0bd581003cd5df..0ee23ddd0acd3a 100644
+--- a/include/linux/genalloc.h
++++ b/include/linux/genalloc.h
+@@ -44,6 +44,7 @@ struct gen_pool;
+  * @nr: The number of zeroed bits we're looking for
+  * @data: optional additional data used by the callback
+  * @pool: the pool being allocated from
++ * @start_addr: chunk start address
+  */
+ typedef unsigned long (*genpool_algo_t)(unsigned long *map,
+ 			unsigned long size,
 -- 
 An old man doll... just what I always wanted! - Clara
 
