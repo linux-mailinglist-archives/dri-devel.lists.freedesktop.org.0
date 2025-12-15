@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C41CBE378
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 15:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39CFCBE351
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 15:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E97510E438;
-	Mon, 15 Dec 2025 14:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC1D10E4FD;
+	Mon, 15 Dec 2025 14:11:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="jOIq6HiD";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="OECsWx7F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E178710E438
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 14:12:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765807930; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lZ8rFTdi8PmRu+tQO4v+O0xTqoaSQ5nX2ukgNBUgnpyhoezI3uS+dsp8CoozRDgHdDDaUGcRdDeA91/OrPXL8+XRVRdwcvO6eVJVUDuTuIaVR0XU9XVGgAk+yYtcKU+sEig7SF66so6asE08Cd4oNWkGh9kHXHW5o9Q8UOzZx8s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765807930;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=BrCltiwnJeJBxnCzg3Wzx1kxB2QTTch2UaqTtqQ6q/I=; 
- b=heM+3J9JMnuPyDuF1y/G3JzsOcw6MZBRIVfPFAB5/gjJg4mCugQGvOLxgz/xbKUFgHNVYkWbtndeHjZbf/6Mu3esIJqwwn2zgAXt3a2vt3zZB1W5CjZXEJNY2a3Q+FKNmdjD29c782wZLCjHNqrqZPIKqlMhaoE3VJ++WEgj1e4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765807930; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=BrCltiwnJeJBxnCzg3Wzx1kxB2QTTch2UaqTtqQ6q/I=;
- b=jOIq6HiDjqQ5IHAZXt/4jCuh0XQxPka8HHLJ5oGn3m0UZZTVstqXXEBPkI3EDQnq
- mMz8IasfLT+h7wjJwuquHYF9TACbep3QXiZJSEFSGdCEAZRQV7bGo1IK7K9RI883KK4
- iCc1CAVs0b2B7HtEI2HcZ8nxQfFz8M28s7F46ygg=
-Received: by mx.zohomail.com with SMTPS id 1765807924696668.2202797637121;
- Mon, 15 Dec 2025 06:12:04 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 15 Dec 2025 15:09:24 +0100
-Subject: [PATCH v5 8/8] drm/rockchip: vop2: Simplify format_mod_supported
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-vop2-atomic-fixups-v5-8-83463c075a8d@collabora.com>
-References: <20251215-vop2-atomic-fixups-v5-0-83463c075a8d@collabora.com>
-In-Reply-To: <20251215-vop2-atomic-fixups-v5-0-83463c075a8d@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: David Laight <david.laight.linux@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Daniel Stone <daniels@collabora.com>, kernel@collabora.com, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2FC110E4FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 14:11:39 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 5646E1A21DB;
+ Mon, 15 Dec 2025 14:11:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 239FE60664;
+ Mon, 15 Dec 2025 14:11:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 29A8E119422E6; Mon, 15 Dec 2025 15:11:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1765807895; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=GaZqoyrRFDKWBlOXglMrXMF3qjcnoMmJDluDUgIWSsM=;
+ b=OECsWx7FHMnHsTiEWe95R0X/rhnlkHzsoat62TNpnal1UtUfmgJoK+UlcEImBZgrSUQtgX
+ Bi9L17rvGG0VuUJzYZe3q3F4eFbnSJmWkhqJI367VXOnYnd0WY8N3Ax4UR1sXRBMm9Qkps
+ dmoQYyFlkhiuBEQ/S81gcoBkIcia9w+KtvGl3ip4onRDdQzp5jTshjZfm+I+AmpNCYWSTa
+ JPygNzOrYXSqmHWUHMdEJdUk+ny/dxFJWUJkRFOEt8n48AdXIeerW9K8zEwP8oFZn/s1nU
+ aM+k80qaA7tqbrbCCFJmzHEp2J1aHWwdvkr7gPEk7XG54Ovqe2ESMRR92HxtdA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 Dec 2025 15:11:21 +0100
+Message-Id: <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
+ <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
+ Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+ <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+ <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+ <20251201-thick-jasmine-oarfish-1eceb0@houat>
+ <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
+ <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
+ <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+In-Reply-To: <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,104 +98,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Stone <daniels@collabora.com>
+Hi Maxime,
 
-Make it a little less convoluted, and just directly check if the
-combination of plane + format + modifier is supported.
+On Mon Dec 15, 2025 at 11:35 AM CET, Maxime Ripard wrote:
+[...]
+>> > Additionally, as a matter of fact there are currently drivers storing
+>> > bridge pointers. The next_bridge is the most common case. Code using
+>> > drm_bridge_connector_init() for example can store up to eight of them,=
+ but
+>> > individual drivers are the hardest to hunt for.
+>> >
+>> > I can see these (potential) tools to handle this (not mutually exclusi=
+ve):
+>> >
+>> >  1. remove drm_bridge pointers pointing to other bridges
+>> >  2. check whether a bridge (say B) still exists before any dereference
+>> >     to B->another_bridge: that's drm_bridge_enter/exit()
+>> >  3. let owners of bridge pointers be notified when a bridge is unplugg=
+ed,
+>> >     so they can actively put their reference and clear their pointer
+>> >
+>> > For item 1, I think the drm_of_bridge_attach() idea quoted above would
+>> > work, at least for the simple cases where bridge drivers use the
+>> > next_bridge only for attach. A next_bridge pointer in struct drm_bridg=
+e is
+>> > not even needed in that case, the pointer would be computed from OF wh=
+en
+>> > needed and not stored. I can do an experiment and send a first series,=
+ do
+>> > you think it would be useful?
+>>
+>> I had a look and, while the implementation should be simple, only a few
+>> drivers could benefit right now. The majority fall into one of these
+>> categories:
+>>
+>>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
+>>    (maybe 60-80% of all drivers, those will have to wait for the panel
+>>    improvements)
+>>  * drivers using the next_bridge pointer for more than just attach
+>>  * drivers doing more complicated stuff
+>>
+>> I think your "put next_bridge in __drm_bridge_free" idea would fit well =
+the
+>> 2nd category and perhaps also the 1st one. For the 3rd category we'd nee=
+d
+>> something different, e.g. a per-driver .destroy callback.
+>
+> Yep, that's fine. We should optimize for the common case, with an escape
+> hatch. That's exactly what we are talking about here.
 
-Signed-off-by: Daniel Stone <daniels@collabora.com>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 56 +++++++++++-----------------
- 1 file changed, 22 insertions(+), 34 deletions(-)
+Not sure why, but it's taking a while before I grasp your ideas about this
+series and meld them with mine. I hopefully got a clear POV now, so based
+on it my plan is to rework this series to:
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 707b48c7e9d8..a0099e4dd4ea 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -367,59 +367,47 @@ static bool is_yuv_output(u32 bus_format)
- 	}
- }
- 
--static bool rockchip_afbc(struct drm_plane *plane, u64 modifier)
--{
--	int i;
--
--	if (modifier == DRM_FORMAT_MOD_LINEAR)
--		return false;
--
--	for (i = 0 ; i < plane->modifier_count; i++)
--		if (plane->modifiers[i] == modifier)
--			return true;
--
--	return false;
--}
--
- static bool rockchip_vop2_mod_supported(struct drm_plane *plane, u32 format,
- 					u64 modifier)
- {
- 	struct vop2_win *win = to_vop2_win(plane);
- 	struct vop2 *vop2 = win->vop2;
-+	int i;
- 
-+	/* No support for implicit modifiers */
- 	if (modifier == DRM_FORMAT_MOD_INVALID)
- 		return false;
- 
--	if (vop2->version == VOP_VERSION_RK3568) {
--		if (vop2_cluster_window(win)) {
--			if (modifier == DRM_FORMAT_MOD_LINEAR) {
--				drm_dbg_kms(vop2->drm,
--					    "Cluster window only supports format with afbc\n");
--				return false;
--			}
--		}
-+	/* The cluster window on 3568 is AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3568 && vop2_cluster_window(win) &&
-+	    !drm_is_afbc(modifier)) {
-+		drm_dbg_kms(vop2->drm,
-+			    "Cluster window only supports format with afbc\n");
-+		return false;
- 	}
- 
--	if (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010) {
--		if (vop2->version == VOP_VERSION_RK3588) {
--			if (!rockchip_afbc(plane, modifier)) {
--				drm_dbg_kms(vop2->drm, "Only support 32 bpp format with afbc\n");
--				return false;
--			}
--		}
-+	/* 10bpc formats on 3588 are AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3588 && !drm_is_afbc(modifier) &&
-+	    (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010)) {
-+		drm_dbg_kms(vop2->drm, "Only support 10bpc format with afbc\n");
-+		return false;
- 	}
- 
-+	/* Linear is otherwise supported everywhere */
- 	if (modifier == DRM_FORMAT_MOD_LINEAR)
- 		return true;
- 
--	if (!rockchip_afbc(plane, modifier)) {
--		drm_dbg_kms(vop2->drm, "Unsupported format modifier 0x%llx\n",
--			    modifier);
--
-+	/* Not all format+modifier combinations are allowable */
-+	if (vop2_convert_afbc_format(format) == VOP2_AFBC_FMT_INVALID)
- 		return false;
-+
-+	/* Different windows have different format/modifier support */
-+	for (i = 0; i < plane->modifier_count; i++) {
-+		if (plane->modifiers[i] == modifier)
-+			return true;
- 	}
- 
--	return vop2_convert_afbc_format(format) >= 0;
-+	return false;
- }
- 
- /*
+ * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and keep
+   patches 1-5 (with the changes suggested by you and Louis, nothing big
+   and all already sent in v2)
+ * not add devm_drm_of_find_bridge()
+ * add next_bridge pointer to struct drm_bridge and call
+   drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
+ * convert patches 7-26 to use bridge->next_bridge where applicable,
+   or to do something different when needed
+ * maybe remove part of patches 7-26 just to reduce spam and rework effort
+   in case of further iterations, to send them separately once the approach
+   is accepted
 
--- 
-2.52.0
+Does it look OK?
 
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
