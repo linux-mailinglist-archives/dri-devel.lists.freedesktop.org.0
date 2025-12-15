@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBF1CBE87C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7634BCBE876
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C791D10E54D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2FD10E5BC;
 	Mon, 15 Dec 2025 15:08:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GP4naZuK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TYadxLcA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE9910E547;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D042710E547;
  Mon, 15 Dec 2025 15:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,26 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=y7HjppCHxooDn6+RiU6RhH8pPMXiepJ02c5+KZejCBQ=; b=GP4naZuK1NmEk0+jj+onAubRxB
- VXsFfI1XNZx2lO91WYvhcF/ygdQc6mmJzpu1aRI8tLeyVWk8hOSfhwUEv8mY0d28R1kRQm7KtyEIy
- ALH6FuLf+Tg1V7rhaT1u7Nht+n8v25XX+8HY9tYSNypxM5z8hoAWnpqzUPCTmTMHGZ9jP8A5lvAzm
- aALv6wWEjqkWiSs3KOpQ3m/M8JbyM5eQzQ78TT2msy4A/kLbmBeiWuYcnmkEWps0IFDcmqNy7vW4K
- B6EcfgKGZB/KSpc3eKSnnHiPsOoqDDDCz40ovrvW2jDVYLxmTH+PGkzUUTHWumyF42PFuxWomVRA9
- BhyRLdtg==;
+ bh=RV2SHLrbkosvh7YjoBOe4JvDhFE+LWvTrwNU1wbpN5k=; b=TYadxLcAKu2mj+QTWVIvpIqxDX
+ 9wxo29iKB2Jvg8YVYjYAXH77PfhfinrFlb2lr9YS6tSENSaMv6au8APdINzacHvyObiPpJ9imJLUm
+ uf8lz1O75mCLR9oZBr+dXSXhE42KkzSyjOjEJYdCf8XdpXaOU2TmeNzYZhjA1cBLTAiAX+FQt7WOc
+ 0YyY/5MCx/A3J51VTFlGAcUSnNQaObJ71cJJkDey8Zff6/9i6gGDiS0IJKdwiQuMLhS/s8k8Ip7Ou
+ PUgoa4E9w/pbhYISrVtr6CYUPdY+Dz2L2gavpL1khGuIZyKfc1OciLaKyX4bIWmvXN2QAZQEvTiac
+ S2n8bWfw==;
 Received: from [90.240.106.137] (helo=localhost)
  by fanzine2.igalia.com with utf8esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vVABl-00CzCc-Lm; Mon, 15 Dec 2025 16:08:41 +0100
+ id 1vVABm-00CzD0-H6; Mon, 15 Dec 2025 16:08:42 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
  kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Subject: [PATCH v4 23/28] drm/panfrost: Remove drm_sched_init_args->num_rqs
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Subject: [PATCH v4 24/28] drm/panthor: Remove drm_sched_init_args->num_rqs
  usage
-Date: Mon, 15 Dec 2025 15:08:02 +0000
-Message-ID: <20251215150807.58819-24-tvrtko.ursulin@igalia.com>
+Date: Mon, 15 Dec 2025 15:08:03 +0000
+Message-ID: <20251215150807.58819-25-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
 References: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
@@ -66,25 +66,40 @@ Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Rob Herring <robh@kernel.org>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
 Cc: dri-devel@lists.freedesktop.org
 Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 1 -
+ drivers/gpu/drm/panthor/panthor_sched.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 11894a6b9fcc..3ae43af02c7b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -850,7 +850,6 @@ int panfrost_jm_init(struct panfrost_device *pfdev)
- {
- 	struct drm_sched_init_args args = {
- 		.ops = &panfrost_sched_ops,
--		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = 2,
- 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
- 		.dev = pfdev->base.dev,
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 473a8bebd61e..52ef33baca22 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2336,7 +2336,6 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
+ 	const struct drm_sched_init_args sched_args = {
+ 		.ops = &panthor_vm_bind_ops,
+ 		.submit_wq = ptdev->mmu->vm.wq,
+-		.num_rqs = 1,
+ 		.credit_limit = 1,
+ 		/* Bind operations are synchronous for now, no timeout needed. */
+ 		.timeout = MAX_SCHEDULE_TIMEOUT,
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index a17b067a0439..3bd6c908f424 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3468,7 +3468,6 @@ group_create_queue(struct panthor_group *group,
+ 	struct drm_sched_init_args sched_args = {
+ 		.ops = &panthor_queue_sched_ops,
+ 		.submit_wq = group->ptdev->scheduler->wq,
+-		.num_rqs = 1,
+ 		/*
+ 		 * The credit limit argument tells us the total number of
+ 		 * instructions across all CS slots in the ringbuffer, with
 -- 
 2.51.1
 
