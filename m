@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A99BCBECC4
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2888CBECCD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 703A010E6EE;
-	Mon, 15 Dec 2025 15:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA2810E6F9;
+	Mon, 15 Dec 2025 15:58:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SABtyM3k";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IZIenGtE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B937F10E6ED
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:58:14 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4775ae5684fso16182075e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:58:14 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AD110E6EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:58:15 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-477b91680f8so36546415e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:58:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765814293; x=1766419093; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=J1Fqs4gkhlm9HacWvv6Nl3LN/FruXH1vnc3nJyMT+NI=;
- b=SABtyM3kLRPBm3ETL50LQX6SLa53PeKJsIUPD4GBh4k89uxIM2pCtqPAtxYo1l9x5J
- cYqk3vmuTn5JsN8W77XpQ14GDrb3vB65cnwqABQc25m8OhAILvB4AaUFiEzYv3/1ILHl
- /kZ8w/yyvN99f9oc0RSO+BfSqu82bHIhTRYpZ5HZ3gwZ5AP9joL3C0dBFhr24w173P/z
- Yiqv4xE3OXYbrQPtLcp3d6/80vM1OGcbHVPwv5eMUlrIMo0Nf965anx0B/PMuNihprNz
- j4l5NS1E4dH1kleG3sYiaR1SUQxCAb42RTmo2PorSeTqCJBSljjT/T4q5Gzpsqtn8VZw
- /Jpw==
+ d=gmail.com; s=20230601; t=1765814294; x=1766419094; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=z0OD6Tul6N7Ac9c9vQK1/GWaIUr26ez2juaXAYXKN8s=;
+ b=IZIenGtE0ssViCrWTtAvm3Gou2x2xSCg/SGhXYcnwWPrmAT+ggMJ4NA36WDikReht2
+ IxDvKP1yPBRrq4n9WLW3nhD06GXWyTpd4oBdfmKySv4y6WAtwKvUm+MuS1Dsr4a3NjsD
+ xiFCB5xn+ZT4yLIzJYa/RMe6wVHz+HvabNSHwJz0b+rkdwMronwCdE/P5/PESp69JXjS
+ u6X+o4GMNC0K3VWNt/aiSymh1AfmOv7QwbbWIJYHbahjOmQOjgNqcmIpBNAiuac54uWp
+ Iy6R2UWfNT5rwcUyJsQO8EBeoiVgRh+XUxE7r4vCaASUyVCj06ykQ3eSIrIiyhJtbCVV
+ mQ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765814293; x=1766419093;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J1Fqs4gkhlm9HacWvv6Nl3LN/FruXH1vnc3nJyMT+NI=;
- b=XvPDnY/yuc4YUV4l2Cd/qohOzLdriKD5ioUsBiCB45/MkPAWiBNZYFnnRblg7+r7WP
- lUPQFaFymPH+k7ZHJXGhWSj2tavW+MWOChegTrZEh9W/VciswWwGQnm87ow3YflMq6jd
- kFs6tSPEFeeD55PwuxhKZyzPcIBw9dLBF47gCdyhA7IFy5Fbf6gc9u3WqrY8qzGollFM
- mxk5GYbKEfVy60HngPLz2kVUw435g+kw3HUHkO9kZcmWHEC5nkAA4rBKbfsvhzwDoKb8
- X9UElWQgXe1h4AgwGFR4KhFMSeWeKhb5wZ2lpHxx9L9ERqTMp2+zAFZiXfxLyqu4YC46
- 988Q==
+ d=1e100.net; s=20230601; t=1765814294; x=1766419094;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=z0OD6Tul6N7Ac9c9vQK1/GWaIUr26ez2juaXAYXKN8s=;
+ b=qcGqkKQbcMeWW+KovH4vSKr0jqED76StJPeufpC/GztbqNq6fVnspNmQmoxsVHPeLH
+ 2jW/gG8shmCcK8lo0BQ3Pj/q74dFE14T3PcWv3l4l2VvsmoYOBCh1aB0lP04ibYXpNTt
+ i94FnKa2nNWL3oUP10Rx3CwMxTLIOt7wKD48uGQZUwFOHDfk5Zhk3nVuQBJFwmQXXmte
+ wRVOBAOL5cu9J8zFNI8kBAoGIJqKAW8S29ryOA5/4GTiRDUnK86GCEw1i7EJkR4Z23vo
+ odn6Xqn3XtZoW22FSXI4sGR7q4i40S6zx8bqIBcIaAaU7lZJk3GV2OqjxSMgXq8pcjha
+ casw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoGKo7K+KcVaVes8qaXyfsvH4WH0yLn0FIcygEb/pDiEe4LSxNSfumfcK4T650DmL4LIT4Iy1xe6Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7m/sdAPM3uj8e0GYpShz4uumtLKQLvLci0xcV8PbkLztGLBNC
- vYwzuyg2B9/s+Tc6/9xhJHWtctY9zQ/8NX4eObPaklKnpOwLnaYa+srJ
-X-Gm-Gg: AY/fxX7k5mJtj+7iObtI1ooPnQLBOmL5lxF3rhaIQiE5tJTav2XC0DSFxB7lFmIuq60
- oIO3Ew/+hwQexWYe0Npwxjct+vXtpk7dIrYj1TNGCPOZ/lQMy90mEzL5RDRuFE8yFoB2toPA2yc
- dlJieANLuXo4MDWImehyUx+c4U7xB67yJt2mqa5lNuakSbKqHTw0dVACPK+K1v5sYxV7LDpp/1t
- Ccv9DAicqlqHg4nY5DlruA1KdoDzPL6Mv56DPbSL66Cx8/nCcCH/zY2JM6m+bp9p7tVHkYwUU9r
- jLltbL3TEJYRq3l9HJSpLXBy0hpOzYOcv8m532595Xk0JpX372Z5VUpP3zadVIe/bQ2V2n13zXa
- +X4FgjPw41vTLxLtx3pZaFybAqoZHXN1IkyI0z6GjGnOLDI6Z5wT+lyl5P+caHjIvfMo8Dtt6Mf
- Eiln7kZh8454cjG7vrmsr9F0+68PksV7KHj5tUeUr218FHpa57mX92kA==
-X-Google-Smtp-Source: AGHT+IGMVgIhuKcVBb92cS2zOyKL0niLxMLFcAQ59Q2GrSDsIf5GQWuh/rUzbLpSm7T2OqLF9CUksw==
-X-Received: by 2002:a05:600d:13:b0:471:9da:5248 with SMTP id
- 5b1f17b1804b1-47a9327dc50mr92637315e9.26.1765814292949; 
- Mon, 15 Dec 2025 07:58:12 -0800 (PST)
+ AJvYcCUwtDzPtS7p2bjtJ6nSfIU2JmOrZsaQlFmBZuXiyTjfGWhRPsL7Ctme06RswUBpl347F7SzO4+pPmc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSYLyug7hMn/p1LhUU+ToT3/A5FKOyrNZ5E7effK93dag/bxoO
+ 7NusQkPq0mwpz1s1fJgMxtA6WBauEUDDH/eco6l1vsU3Yaj00XugB9vr
+X-Gm-Gg: AY/fxX4vuL0rq/bqqd72LaK/cjHTXMl9DRAfSrhJ//g9ECAhEC7rmU1EJzyNz/QLgyI
+ /e1TFMtqYV5UMVruF8Iek/G7KxfsGyiecX61lyTb0MD4cd4/mNHZ9BBWrlAynKl/RHPwsYksBiT
+ bTK3S5jQnLv7VUZJ0OBhqfMaonPsaHgkQvadnvCvrxLtrvNJttKvY42WDiVNaLCemdHOoOIckBz
+ ebey7ZEQFTdh3dYRU0s1HRb2ZGUPuA8VqCC9N/uwsRwtuU+77M1deWK8XlhHW8TnDBER5KMOkSL
+ QOQE37RB7g+vl5LoSz6Dj9qVHbzPSEHZ7vOxDVrDrseyMWH9XuU102QU9vs4CHe+zGAiN//G5OY
+ kLkB3+c08BwEqRpjMf3eVbaUk0Manqx6Q7wDYvCeXXnaba/jui+Sr11y2ybxdd4mkxgwUUnO7QD
+ AHpp4O2fRrmpBPWy/5jjsdUc565wopUh7+tFF+IO0cyBrCsrdf14DEMg==
+X-Google-Smtp-Source: AGHT+IHIv9GfANx2GJGw837onoHtnktqmhdBJsBRBvIpRijBv0m5CUdwq2om63NLs11Z3pgCalnZBQ==
+X-Received: by 2002:a05:600c:5254:b0:46e:37fe:f0e6 with SMTP id
+ 5b1f17b1804b1-47a8f90d28bmr119871915e9.30.1765814294213; 
+ Mon, 15 Dec 2025 07:58:14 -0800 (PST)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([67.218.238.173])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a8f3a1be5sm70209665e9.1.2025.12.15.07.58.11
+ 5b1f17b1804b1-47a8f3a1be5sm70209665e9.1.2025.12.15.07.58.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 07:58:12 -0800 (PST)
+ Mon, 15 Dec 2025 07:58:13 -0800 (PST)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Subject: [PATCH v7 0/3] drm/sitronix/st7920: Add support for the ST7920
- controller
-Date: Mon, 15 Dec 2025 16:57:53 +0100
-Message-Id: <20251215-st7920-v7-0-36771009ec01@gmail.com>
+Date: Mon, 15 Dec 2025 16:57:54 +0100
+Subject: [PATCH v7 1/3] dt-bindings: display: sitronix,st7920: Add DT
+ schema
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XPTW7DIBAF4KtErEs1zPBjuuo9qi6GAAlSE0cms
- lpFvnuxF3bqLh/iew8eoqahpCreDg8xpLHU0l9bcC8HcTzz9ZRkiS0LBDTQgZX17jyCTI4DEwb
- iYEW7fBtSLt9L0cdny+dS7/3ws/SOaj79VzEqCdJqDoZJZ8/wfrpw+Xo99hcxV4y4MQ9+ZdiYB
- p915yEHk/eMVqbgaY1mljsfrbGZgfZMPzFSK9ONkUGvcgfOBtwzszGF25pZ/pYiG7QuktkzuzF
- UuDI7PzISWGew7f1Zm6bpF8oFp42vAQAA
-X-Change-ID: 20250806-st7920-e7aba32b3ab6
+Message-Id: <20251215-st7920-v7-1-36771009ec01@gmail.com>
+References: <20251215-st7920-v7-0-36771009ec01@gmail.com>
+In-Reply-To: <20251215-st7920-v7-0-36771009ec01@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -102,106 +98,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch-series adds support for the Sitronix ST7920 controller, which
-is a monochrome dot-matrix graphical LCD controller that has SPI and
-parallel interfaces.
+Add binding for Sitronix ST7920 display.
 
-The st7920 driver only has support for SPI so displays using other
-transport protocols are currently not supported.
-
-* Patch #1 adds the driver.
-* Patch #2 adds the DT binding schema.
-* Patch #3 adds the MAINTAINERS information.
-
----
-Changes in v7:
-- Fix Makefile typo and checkpatch --strict warnings.
-- Update header paths and add missing includes.
-- Remove unused DRIVER_DATE.
-- Link to v6: https://lore.kernel.org/r/20251212-st7920-v6-0-4d3067528072@gmail.com
-
-Changes in v6:
-- Initialize spi7920_error structure.
-- Call drm_dev_exit() when appropriate.
-- Link to v5: https://lore.kernel.org/r/20251126-st7920-v5-0-64eda5267d35@gmail.com
-
-Changes in v5:
-- Remove unused device variant structures and hard-code display
-  resolution.
-- Fix GPIO reset logic to correctly handle logical levels.
-- Use kzalloc() instead of kmemdup() for atomic state duplication.
-- Refactor atomic update to integrate cpu access with the damage loop.
-- Rename macros to avoid the reserved DRM_ prefix.
-- Use DRM logging helpers instead of generic device logging.
-- Link to v4: https://lore.kernel.org/r/20251031-st7920-v4-0-35291f8076b2@gmail.com
-
-Changes in v4:
-- Added definitions for the VDD power supply and the XRESET GPIO line,
-  which were identified as minimum requirements from the datasheet.
-- The error handling strategy has been refactored to propagate an
-  error-tracking struct from the caller.
-- The atomic enable/disable logic has been correctly moved from
-  drm_encoder_helper_funcs to drm_crtc_helper_funcs, as the
-  functionality is bound to the CRTC.
-- Added drm_dev_enter() and drm_dev_exit() calls to the atomic_enable
-  and atomic_disable helpers to correctly manage the device's runtime
-  power state.
-- Renamed macro definitions to match the correct terminology.
-- Link to v3: https://lore.kernel.org/r/20251006-st7920-v3-0-4f89d656fa03@gmail.com
-
-Changes in v3:
-- Reorganize the patch documenting compatible (DT bindings) before their
-  use.
-- Drop reduntant information from DT bindings.
-- Use a goto label to ensure drm_dev_exit() is called in the error path
-  of drm_gem_fb_begin_cpu_access().
-- Link to v2: https://lore.kernel.org/r/20250909-st7920-v2-0-409f4890fb5f@gmail.com
-
-Changes in v2:
-- Refactor SPI communication:
-  * Internalize error handling and delays within the st7920_spi_write()
-    helper.
-  * Split the main SPI write function into smaller, command-specific
-    helpers for clarity.
-- Improve DRM/KMS logic:
-  * Relocate CPU access calls (drm_gem_fb...) to the atomic_update hook.
-  * Use standard DRM helpers (drm_crtc_helper_mode_valid_fixed and
-    drm_connector_helper_get_modes_fixed) for mode validation and
-    creation.
-- General code cleanup:
-  * Remove dead code related to ST7920_FAMILY.
-  * Replace WARN_ON() with drm_WARN_ON_ONCE().
-  * Ensure single variable assignments per line.
-- Fix probe initialization order:
-  * Move spi_set_drvdata() and st7920_init() to occur before device
-    registration.
-- Devicetree:
-  * Update bindings to address feedback from review (e.g., reference
-    common SPI properties).
-- MAINTAINERS:
-  * Add a proper commit message to the patch.
-- Link to v1: https://lore.kernel.org/r/20250806-st7920-v1-0-64ab5a34f9a0@gmail.com
----
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
-
 ---
-Iker Pedrosa (3):
-      dt-bindings: display: sitronix,st7920: Add DT schema
-      drm: Add driver for Sitronix ST7920 LCD displays
-      MAINTAINERS: Add entry for Sitronix ST7920 driver
+ .../bindings/display/sitronix,st7920.yaml          | 58 ++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
- .../bindings/display/sitronix,st7920.yaml          |  58 ++
- MAINTAINERS                                        |   7 +
- drivers/gpu/drm/sitronix/Kconfig                   |  10 +
- drivers/gpu/drm/sitronix/Makefile                  |   1 +
- drivers/gpu/drm/sitronix/st7920.c                  | 867 +++++++++++++++++++++
- 5 files changed, 943 insertions(+)
----
-base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
-change-id: 20250806-st7920-e7aba32b3ab6
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7920.yaml b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..c4f006fc41e1f472939725bd82b86a649f9b3f56
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sitronix,st7920.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix ST7920 LCD Display Controllers
++
++maintainers:
++  - Iker Pedrosa <ikerpedrosam@gmail.com>
++
++description:
++  The Sitronix ST7920 is a controller for monochrome dot-matrix graphical LCDs,
++  most commonly used for 128x64 pixel displays.
++
++properties:
++  compatible:
++    const: sitronix,st7920
++
++  reg:
++    maxItems: 1
++
++  vdd-supply:
++    description: Regulator that provides 5V Vdd power supply
++
++  reset-gpios:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 600000
++
++required:
++  - compatible
++  - reg
++  - spi-max-frequency
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "sitronix,st7920";
++            reg = <0>;
++            vdd-supply = <&reg_5v>;
++            reset-gpios = <&gpio 25 GPIO_ACTIVE_LOW>;
++            spi-max-frequency = <600000>;
++            spi-cs-high;
++        };
++    };
 
-Best regards,
 -- 
-Iker Pedrosa <ikerpedrosam@gmail.com>
+2.52.0
 
