@@ -2,157 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489BFCBEC6D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A99BCBECC4
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCC310E60C;
-	Mon, 15 Dec 2025 15:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 703A010E6EE;
+	Mon, 15 Dec 2025 15:58:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LglPuNZW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SABtyM3k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012058.outbound.protection.outlook.com [52.101.48.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED9010E60C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:55:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FPgwoEnGBtDNeg3tw8mU3E/fvGSMK9GZYckfsm4qda3XNvZPcgYQCSY4GrsiFQ/A7q1cnhL20A2lS0cy2hDjS6NlnwA9oovlh+VxVdWHT1OXimXyBHF7zrpm84ZRPM5vxGEVQcqcaTRzsYVeNVk5jNxyg+r5D8IiPQLE/hkbDI9g4H59PRrp7P3Gg7SJn4lUIMqlGIChgRp1Fn6TJpebkmlJaTYmJcbqjqi39Y1azMJJs9YT5LlbSDsjhOtTV7pOgIxCCetgkf9X3WuZtnbJZ7IEpuCGnVBnVIfYp3U50KX0HCS/qxeFEKAZlxj+lOmuNU/acNpu572zzp7I5yKgFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z5gvmKBU/EL+91MmOS5LZzSnfku1VlXJVhPWVz1F3Ko=;
- b=vEWHG3H7Pxz6UxXSJqkHiVcSUVYHTJE82cb1Es4knd0L+t1E14KZEuilbosW040aMqDcl50egT9YKEERe5Xc9b4kZD6Uuur4iO1Eejvcp+WZxqyYtF743QlE4TouFtNeq91c0h3ArH5mE5o3BqCBKf+yjp6CH6iT/r1WR2/3EE+WMNqvApwl9Z4tcHGQIWZ6T5nasY3x6tQI63uGbS2FqyEXvge3nt2xer5qzqmLqFbsa+CO4PWbE2Sxa54stKSpKhmynAb2LNzjACBQTGTJo/v9pS2BN0HOCBBIhJ+vroNMNMJGfAxbZvGS/mLikX6X2gBgpx6yFw6EExrYo6dnfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z5gvmKBU/EL+91MmOS5LZzSnfku1VlXJVhPWVz1F3Ko=;
- b=LglPuNZWYtRYg8ENMoCvj0OqLA1raiGyglbFcUozt1QG0V/6qzJ0QdJnJvoQs3Ml/tp2kPzBRnaMMx7mnLotfxwmsq9Zqx/o2G2dBVuPVoIms/ih8upKZHYyPAGAwb4uMkXAtV+sTejOQKyVodimwHl6ASBK3T+rM4ePpCx8rRM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB9152.namprd12.prod.outlook.com (2603:10b6:510:2ec::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 15:55:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 15:55:47 +0000
-Message-ID: <20b229f6-dcce-4bbc-8274-7744b26bfcac@amd.com>
-Date: Mon, 15 Dec 2025 16:55:41 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/19] drm/sched: use inline locks for the drm-sched-fence
-To: Tvrtko Ursulin <tursulin@ursulin.net>, phasta@mailbox.org,
- matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-10-christian.koenig@amd.com>
- <9ef8686f-820f-41e9-985e-40411b4b9bd3@ursulin.net>
- <587fb06e-cfac-4603-b074-a9b382ecea31@amd.com>
- <e19284e2-ff38-415d-a44d-0ab610032d24@ursulin.net>
- <6e2e258a-0c20-4229-8301-5a217f29eea6@amd.com>
- <07ad04cd-de4e-4c12-823d-cb3024816382@ursulin.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <07ad04cd-de4e-4c12-823d-cb3024816382@ursulin.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4P288CA0050.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d2::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B937F10E6ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:58:14 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4775ae5684fso16182075e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765814293; x=1766419093; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=J1Fqs4gkhlm9HacWvv6Nl3LN/FruXH1vnc3nJyMT+NI=;
+ b=SABtyM3kLRPBm3ETL50LQX6SLa53PeKJsIUPD4GBh4k89uxIM2pCtqPAtxYo1l9x5J
+ cYqk3vmuTn5JsN8W77XpQ14GDrb3vB65cnwqABQc25m8OhAILvB4AaUFiEzYv3/1ILHl
+ /kZ8w/yyvN99f9oc0RSO+BfSqu82bHIhTRYpZ5HZ3gwZ5AP9joL3C0dBFhr24w173P/z
+ Yiqv4xE3OXYbrQPtLcp3d6/80vM1OGcbHVPwv5eMUlrIMo0Nf965anx0B/PMuNihprNz
+ j4l5NS1E4dH1kleG3sYiaR1SUQxCAb42RTmo2PorSeTqCJBSljjT/T4q5Gzpsqtn8VZw
+ /Jpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765814293; x=1766419093;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J1Fqs4gkhlm9HacWvv6Nl3LN/FruXH1vnc3nJyMT+NI=;
+ b=XvPDnY/yuc4YUV4l2Cd/qohOzLdriKD5ioUsBiCB45/MkPAWiBNZYFnnRblg7+r7WP
+ lUPQFaFymPH+k7ZHJXGhWSj2tavW+MWOChegTrZEh9W/VciswWwGQnm87ow3YflMq6jd
+ kFs6tSPEFeeD55PwuxhKZyzPcIBw9dLBF47gCdyhA7IFy5Fbf6gc9u3WqrY8qzGollFM
+ mxk5GYbKEfVy60HngPLz2kVUw435g+kw3HUHkO9kZcmWHEC5nkAA4rBKbfsvhzwDoKb8
+ X9UElWQgXe1h4AgwGFR4KhFMSeWeKhb5wZ2lpHxx9L9ERqTMp2+zAFZiXfxLyqu4YC46
+ 988Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoGKo7K+KcVaVes8qaXyfsvH4WH0yLn0FIcygEb/pDiEe4LSxNSfumfcK4T650DmL4LIT4Iy1xe6Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7m/sdAPM3uj8e0GYpShz4uumtLKQLvLci0xcV8PbkLztGLBNC
+ vYwzuyg2B9/s+Tc6/9xhJHWtctY9zQ/8NX4eObPaklKnpOwLnaYa+srJ
+X-Gm-Gg: AY/fxX7k5mJtj+7iObtI1ooPnQLBOmL5lxF3rhaIQiE5tJTav2XC0DSFxB7lFmIuq60
+ oIO3Ew/+hwQexWYe0Npwxjct+vXtpk7dIrYj1TNGCPOZ/lQMy90mEzL5RDRuFE8yFoB2toPA2yc
+ dlJieANLuXo4MDWImehyUx+c4U7xB67yJt2mqa5lNuakSbKqHTw0dVACPK+K1v5sYxV7LDpp/1t
+ Ccv9DAicqlqHg4nY5DlruA1KdoDzPL6Mv56DPbSL66Cx8/nCcCH/zY2JM6m+bp9p7tVHkYwUU9r
+ jLltbL3TEJYRq3l9HJSpLXBy0hpOzYOcv8m532595Xk0JpX372Z5VUpP3zadVIe/bQ2V2n13zXa
+ +X4FgjPw41vTLxLtx3pZaFybAqoZHXN1IkyI0z6GjGnOLDI6Z5wT+lyl5P+caHjIvfMo8Dtt6Mf
+ Eiln7kZh8454cjG7vrmsr9F0+68PksV7KHj5tUeUr218FHpa57mX92kA==
+X-Google-Smtp-Source: AGHT+IGMVgIhuKcVBb92cS2zOyKL0niLxMLFcAQ59Q2GrSDsIf5GQWuh/rUzbLpSm7T2OqLF9CUksw==
+X-Received: by 2002:a05:600d:13:b0:471:9da:5248 with SMTP id
+ 5b1f17b1804b1-47a9327dc50mr92637315e9.26.1765814292949; 
+ Mon, 15 Dec 2025 07:58:12 -0800 (PST)
+Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([67.218.238.173])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47a8f3a1be5sm70209665e9.1.2025.12.15.07.58.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Dec 2025 07:58:12 -0800 (PST)
+From: Iker Pedrosa <ikerpedrosam@gmail.com>
+Subject: [PATCH v7 0/3] drm/sitronix/st7920: Add support for the ST7920
+ controller
+Date: Mon, 15 Dec 2025 16:57:53 +0100
+Message-Id: <20251215-st7920-v7-0-36771009ec01@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB9152:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43deed12-21f5-40a8-4b11-08de3bf269a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eFhoejR3RjAzK2NNTndnT0krSWphdlY3VXdaMXdmdjdJRTNnMU9KUzJ2NThx?=
- =?utf-8?B?U3I3SkZKdW1hK0hNZHdmUHhhckVIQjY3ZXhEaUd0ejZZNVlUSEN4Z3VtSjFH?=
- =?utf-8?B?ZkNqRXRrSXU2M0didzI0anVxL3M5V2JvMkh3cnJFa09mR2twT21lNHJFSkZY?=
- =?utf-8?B?cHNOYTA4MFB3MjVkUmpKa2xXcGhORHozdUxBWERkVEdEYm9FdEhFSDhtN1Mv?=
- =?utf-8?B?MTBSNWZwejlFWUkxWHhtZnBYbndzTU5RK1JvQjNtdGZCcUFIU0h4TjIyTTFz?=
- =?utf-8?B?RndsY1dCZVZqUUNRR0hvcit3VWpxbDJUc1hkcFRhZXFLWm9DdjhieExHeWx2?=
- =?utf-8?B?SVNJSENNY0FLOG9RMkNmZDNSMnU4VkZ4cHdaOFlaRExMaXVvdkN0QzRBMk9I?=
- =?utf-8?B?blRTeHRDYmdBRUZrbTJxOWpQUU5MbUVuNVR4YUlORVJzV1BNbVQ4aVFNbWhT?=
- =?utf-8?B?OUdMM2tOa2M1YjlhbXRmOHBNSTVZWnF1dnlNMkN6Ly80U2dTTjQvT2N6aUtY?=
- =?utf-8?B?c294cjMrck9MblV3Y05BYzFKTVd4TGkrK25zV1ZEZFlPZlhKQk9zblNCRmpw?=
- =?utf-8?B?aS90MlY5NUx0dm5vSGg0YllobjJiSk5YTVBTQThtVm54RTdLbWxDelJ5RFlh?=
- =?utf-8?B?MnRlRnduZVVRelN4cUJwcDRpMzhFcEpIS3NPVlhPc2ZIQVM2YzVxRUFZYUFO?=
- =?utf-8?B?ckc5VGtFVDBCRDI2alJ5dVRXUkdWbS8ydTlaNE93dFEwVS9kN0RoV2ZUSmNT?=
- =?utf-8?B?c2VCeXdyV0dTZ0hoV1JlUG9GRTRPK0FlRWV4TTdwZk9JMytLeEoxTFdDQ1Rk?=
- =?utf-8?B?OFF6Y1oweTAySTBQVzBwejZlbkVxSlhhTTNySWRTOVJTV2NwRVB0aVo5dE1X?=
- =?utf-8?B?M1ZveGVNMmllVVRZK3JTVWQvR2UzRXkwR01US2kxQ1gramUrMjBJc0JwMWU0?=
- =?utf-8?B?WGhRZWdvaVBIZ2xrVUlYQVRKUWlBTjJpM2pjOGZzV1QwaEUxaVV5eUdKczJ3?=
- =?utf-8?B?d3ZoYzFoNTJsZmZFbk4va0Z1V041Uld6Z1BYZXlPNTFWSU5seHVUUU9RNWJH?=
- =?utf-8?B?ZGU3b1lTeVV6QWlmYXNHeVpnVittRTlLWmFxSC9DdXJ6MDhDeEdjaThUdG9i?=
- =?utf-8?B?U2Q5NFBKVjVLNDUrZGN3WG5hSnl3ZEJZanBXdm5BODJGVGoyME92RFJYWnZH?=
- =?utf-8?B?QUFpb0h0NkYrUmUzb3F6TURlNUFSODZreWVmdmt4OUlneTRHa3VZNWRKOGRj?=
- =?utf-8?B?K3llSFpSR0JnU0x2ZFBkbW5FK1NOUXFkbUIrQUpBaWxFaXJDL21sNHk5c0gr?=
- =?utf-8?B?alpadGlWOWkzQkhCc3pHYVBpQ1U5NnBnQnN2cGtISERlMkRtdlBGN2tzTmFX?=
- =?utf-8?B?VkRIdzl6cXRXNk9EODZ2cGxZVGV5TExPaUFBOWl2cU45VFNMbnk0WXVYT095?=
- =?utf-8?B?Q3V4Ym55ZVlWbEFpRFdTNFFWb2g1Y1hRTldMNnBxOVk5dDZaeTUxazRUVWNC?=
- =?utf-8?B?SFRmUGhJNFkzOTR4T01jYVQzYjYyRmk1YXptQnRhRzd2WXRwTndUNFdwTXlB?=
- =?utf-8?B?RGNlQXVERnRyVXEvU1lLNGdEQlk0dmkvLzY0cmJrYlozUU81MlMvV01YaVRi?=
- =?utf-8?B?NjZ3OU43MVFpZGVRZkZKUHZ3d3MyZm1BbmcrT0R0TmVEc0RxUXBnc1RTeE11?=
- =?utf-8?B?ejVidW5Db0RNWE1Db0lIaVlqRjM5ZVArYmo4ZWxETHhDdk1nUElzOUIwRG0r?=
- =?utf-8?B?RXp5Sml6TUo1U1ZBbHJ2V1dIejFRNENBQ0M2dU1jcUFxV1Z3cnNmK05VZS8v?=
- =?utf-8?B?N2FRRDNRRFZFRW5TTzE2WEcxU2pOeGRrclJTUHlOQ0V0TXBiaEU0b0pqK2dV?=
- =?utf-8?B?RVFvQkpuV2czU2dOZ1NRYTZzd1pqQk5Lb0FmYVFhM041UUwwTmF6SnpvNzZU?=
- =?utf-8?Q?FdQ0HfpQD7gILjgo0uVNxq2pUcMBAgDp?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTMrcGx2TmZvOXdRbnkzME5sYjRkQkJQckQzOFdHUXNGVkJhK2ZsZUNKTDlK?=
- =?utf-8?B?UGh2YzZ1WGpOTzMvemthcjRJOVl3dzFsSGNhcEhqMDRaT2F0L24zS2hCbEVv?=
- =?utf-8?B?WE1nVnVvdStGd0tXN3RZSTdQdUszWDlOR3ZnMS9QckpBMG9ucTd6TEZnQ3k2?=
- =?utf-8?B?MUpUbWlVMGNIZjBXc2NyWEo3VFZqekVYdWxuVGJpN3BVUjNyMXVvVHV0Vjla?=
- =?utf-8?B?R3gzQWVLZk1taU1venhscTY3ckc3bXBQTGJnTGJnY1hVeUJBZ0h2YWtNaHR4?=
- =?utf-8?B?ZjkvRThrWVMzL2M5NDdURXN4MjBEZGdqUlVDYnRpTFVDOVMwY3FudjBLUTYz?=
- =?utf-8?B?RU8rRUYzd3JyU0IzSjNQclQxSEJXdDFENzVDeG84aE5kK1NteVp2d1d5WVNv?=
- =?utf-8?B?Nk9VZkQ1aEZvREl5ZEpZUHNwdWJkQlhGWHRiZmZoYytQY1BOS3gzdW1MUkxh?=
- =?utf-8?B?OENKZEJYZzlBZ2o0dHpIMUhObFl4MWFSSmc0MnI2MmVkb25ydG00QzI3Nmlz?=
- =?utf-8?B?NXV1bDR3N1dxOWJCQ24xd0ZaWWd1MHhuUllhRmhwb2VJSUVRQnB1SVgwTW5h?=
- =?utf-8?B?N05SWEhoYjFJL0Qra1VYOVgxREVDeEZmUmM2VGl0UHFtejcrR3NMbjQxaGVO?=
- =?utf-8?B?eEdWTmxYN3hCaHBxMzNjSUkxMWZMcVZyUlJIcGZSMzdDNFcwbURnVEd5eG02?=
- =?utf-8?B?dVpSM29SaVhPcys3bm5VM252WkY1eFpEOFVPMHpsNHF1S08xYXJVODk3K2hL?=
- =?utf-8?B?djkyY2xRSUZtWnNMUnYycFowYmlNQnRwMFBqaGZMOFpmUmZIbVhMdVBHay8w?=
- =?utf-8?B?UnZ3UmpGUy9xUXFXZi9RUnpUYjVXeDVKclVDZnZvTlZiaWZZT1pGYnNOMklE?=
- =?utf-8?B?eGZhcVRkczA0cHhqeGs5SFEwQmRsYXlxZmJRT1YxV2Y1clpxZExHU3hJa1I1?=
- =?utf-8?B?M1ZaRFFSSk9UY2NROUhhT1lLUnJMNU5mWVp6ZnRIV05DMUJJNXRSU2h0OVdO?=
- =?utf-8?B?TkxXTHYvNTFmdDk1OGora2VBZVQ3QnY0cTNjNWpVWWhoZWJhenpkWnU3YS8w?=
- =?utf-8?B?R0k2aXA4dTlPTWx4U1NYcjBmU2tWTmlmNlBFcWRwZVhvUGVyQnQrYWw0ZXBY?=
- =?utf-8?B?eEZxSTdDcGJBRW9XYlJPYzNVTXYrWStsT2NIS1djUVpJY3lUYWIwWFVpdlRX?=
- =?utf-8?B?OXE0Z0VqVVp4TWY3RC9md0tGbFNyQjlRN3hsUWxYUXdPZWJuZnpzdHF0a0FD?=
- =?utf-8?B?QURBSkJsMTJ3NXFVTmhPK0xyRE02RUg1NEFQY1NiMWptQUNYUDZlbzlsK3Vy?=
- =?utf-8?B?VU1wNm9vNGRLZ3V4UlNNUFpqa081RXRuQ3lOTVVRMXVra0tkOGh4dUFCcE1w?=
- =?utf-8?B?NVZETlF0Q0tBdlJJaEZnWWlFWm9BOW5FK3dwQXk1VTBMR0dzN2VpeFpHaUVQ?=
- =?utf-8?B?L2paeC95R2MrY2g2QzdvSk1JWmpJeG5Kd0dhYTV2NjBEeWF6OXBZWG13enYw?=
- =?utf-8?B?WDhpYklXbElmK28vdmswbnIweW1va1hQWHUzNnJBWVd1SksxeUZXWXU4U2NC?=
- =?utf-8?B?MlQvQ29hN2VZWEVubXZvNXBYSUY0Z2JCUWNMNjNXQUcySzdRa1g0NWtUNWRK?=
- =?utf-8?B?RDRIYkVzOU85bjFvdWprM0dVWmc2Ukt0SnFGOXVjbmFsanNUTFNRQXg0d3Zu?=
- =?utf-8?B?aG9UaTVGSkI3VVBna0g4VGtnb3JxRkhmRFBkQ2o3Y3EzQU5lNkVEa3ora3ZP?=
- =?utf-8?B?SjZJY0Rpelg5VEkvSXVyTC82Nks4OEx5amwxRzkvNGxSUERtS1c5UFJaeWsy?=
- =?utf-8?B?b3RvZStEMmFYS2ZhMTV5RFR6d3F1cEppdWQ4UVNJc3VCNDBzUHhRVDVRQlVD?=
- =?utf-8?B?Ti8zS244Zjg0STcxODV0bmVGSDNQMGZDamdKcktGVEVMdXBKTmhYTm1keTIx?=
- =?utf-8?B?Z040UjI1U0NhT1NmZnhrS3pIL0U1SGZKeVRnWlR6SEF0TTRMSkNNVkcxa29L?=
- =?utf-8?B?VTVldklEMHpvZG85bmZJTHFLMEZscTB3OEUzRnZVUDc1U0xVVDRNblAvM21V?=
- =?utf-8?B?Q2ZZVk1QckN6YitMN1JHRU9LK1BuL01MejdpeWJsK1VtVDY4K0VXbzQ2VFox?=
- =?utf-8?Q?iAtTGXJRicQQwfCpnY1ecIm0p?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43deed12-21f5-40a8-4b11-08de3bf269a0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 15:55:47.4611 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1f4E/vwnoO3drRINidl1mHDaw0p8X03Y4Wsahd4gMC/BCv9Z0fRY2ARm18QDPphm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9152
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XPTW7DIBAF4KtErEs1zPBjuuo9qi6GAAlSE0cms
+ lpFvnuxF3bqLh/iew8eoqahpCreDg8xpLHU0l9bcC8HcTzz9ZRkiS0LBDTQgZX17jyCTI4DEwb
+ iYEW7fBtSLt9L0cdny+dS7/3ws/SOaj79VzEqCdJqDoZJZ8/wfrpw+Xo99hcxV4y4MQ9+ZdiYB
+ p915yEHk/eMVqbgaY1mljsfrbGZgfZMPzFSK9ONkUGvcgfOBtwzszGF25pZ/pYiG7QuktkzuzF
+ UuDI7PzISWGew7f1Zm6bpF8oFp42vAQAA
+X-Change-ID: 20250806-st7920-e7aba32b3ab6
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Iker Pedrosa <ikerpedrosam@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,170 +102,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/25 16:53, Tvrtko Ursulin wrote:
-> 
-> On 15/12/2025 15:38, Christian König wrote:
->> On 12/15/25 10:20, Tvrtko Ursulin wrote:
->>>
->>> On 12/12/2025 15:50, Christian König wrote:
->>>> On 12/11/25 16:13, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 11/12/2025 13:16, Christian König wrote:
->>>>>> Using the inline lock is now the recommended way for dma_fence implementations.
->>>>>>
->>>>>> So use this approach for the scheduler fences as well just in case if
->>>>>> anybody uses this as blueprint for its own implementation.
->>>>>>
->>>>>> Also saves about 4 bytes for the external spinlock.
->>>>>>
->>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/scheduler/sched_fence.c | 7 +++----
->>>>>>     include/drm/gpu_scheduler.h             | 4 ----
->>>>>>     2 files changed, 3 insertions(+), 8 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>> index 08ccbde8b2f5..47471b9e43f9 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>> @@ -161,7 +161,7 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>>>>         /* If we already have an earlier deadline, keep it: */
->>>>>>         if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->>>>>>             ktime_before(fence->deadline, deadline)) {
->>>>>> -        spin_unlock_irqrestore(&fence->lock, flags);
->>>>>> +        dma_fence_unlock_irqrestore(f, flags);
->>>>>
->>>>> Rebase error I guess. Pull into the locking helpers patch.
->>>>
->>>> No that is actually completely intentional here.
->>>>
->>>> Previously we had a separate lock which protected both the DMA-fences as well as the deadline state.
->>>>
->>>> Now we turn that upside down by dropping the separate lock and protecting the deadline state with the dma_fence lock instead.
->>>
->>> I don't follow. The code is currently like this:
->>>
->>> static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>                            ktime_t deadline)
->>> {
->>>      struct drm_sched_fence *fence = to_drm_sched_fence(f);
->>>      struct dma_fence *parent;
->>>      unsigned long flags;
->>>
->>>      spin_lock_irqsave(&fence->lock, flags);
->>>
->>>      /* If we already have an earlier deadline, keep it: */
->>>      if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->>>          ktime_before(fence->deadline, deadline)) {
->>>          spin_unlock_irqrestore(&fence->lock, flags);
->>>          return;
->>>      }
->>>
->>>      fence->deadline = deadline;
->>>      set_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
->>>
->>>      spin_unlock_irqrestore(&fence->lock, flags);...
->>>
->>> The diff changes one out of the three lock/unlock operations. Other two are changed in 3/19. All three should surely be changed in the same patch.
->>
->> We could change those spin_lock/unlock calls in patch #3, but I don't think that this is clean.
->>
->> See the code here currently uses fence->lock and patch #3 would change it to use fence->finished->lock instead. That might be the pointer at the moment, but that is just by coincident and not design.
->>
->> Only this change here ontop makes it intentional that we use fence->finished->lock for everything.
-> 
-> Sorry I still don't follow. After 3/19 and before this 9/19 the function looks like this:
-> 
-> static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->                           ktime_t deadline)
-> {
->     struct drm_sched_fence *fence = to_drm_sched_fence(f);
->     struct dma_fence *parent;
->     unsigned long flags;
-> 
->     dma_fence_lock_irqsave(f, flags);
-> 
->     /* If we already have an earlier deadline, keep it: */
->     if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->         ktime_before(fence->deadline, deadline)) {
->         spin_unlock_irqrestore(&fence->lock, flags);
->         return;
->     }
-> 
->     fence->deadline = deadline;
->     set_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
-> 
->     dma_fence_unlock_irqrestore(f, flags);
-> 
-> Notice the lonely spin_unlock_irqrestore on the early return path while other two use the dma_fence_(un)lock helpers. Am I blind or how is that clean?
+This patch-series adds support for the Sitronix ST7920 controller, which
+is a monochrome dot-matrix graphical LCD controller that has SPI and
+parallel interfaces.
 
-Oh, that's what you mean. Sorry I was blind!
+The st7920 driver only has support for SPI so displays using other
+transport protocols are currently not supported.
 
-Yeah that is clearly unintentional.
+* Patch #1 adds the driver.
+* Patch #2 adds the DT binding schema.
+* Patch #3 adds the MAINTAINERS information.
 
-Thanks,
-Christian.
+---
+Changes in v7:
+- Fix Makefile typo and checkpatch --strict warnings.
+- Update header paths and add missing includes.
+- Remove unused DRIVER_DATE.
+- Link to v6: https://lore.kernel.org/r/20251212-st7920-v6-0-4d3067528072@gmail.com
 
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>> Tvrtko
->>>>>
->>>>>>             return;
->>>>>>         }
->>>>>>     @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>>>>>           fence->owner = owner;
->>>>>>         fence->drm_client_id = drm_client_id;
->>>>>> -    spin_lock_init(&fence->lock);
->>>>>>           return fence;
->>>>>>     }
->>>>>> @@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>>>>         fence->sched = entity->rq->sched;
->>>>>>         seq = atomic_inc_return(&entity->fence_seq);
->>>>>>         dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->>>>>> -               &fence->lock, entity->fence_context, seq);
->>>>>> +               NULL, entity->fence_context, seq);
->>>>>>         dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->>>>>> -               &fence->lock, entity->fence_context + 1, seq);
->>>>>> +               NULL, entity->fence_context + 1, seq);
->>>>>>     }
->>>>>>       module_init(drm_sched_fence_slab_init);
->>>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>>>>> index fb88301b3c45..b77f24a783e3 100644
->>>>>> --- a/include/drm/gpu_scheduler.h
->>>>>> +++ b/include/drm/gpu_scheduler.h
->>>>>> @@ -297,10 +297,6 @@ struct drm_sched_fence {
->>>>>>              * belongs to.
->>>>>>              */
->>>>>>         struct drm_gpu_scheduler    *sched;
->>>>>> -        /**
->>>>>> -         * @lock: the lock used by the scheduled and the finished fences.
->>>>>> -         */
->>>>>> -    spinlock_t            lock;
->>>>>>             /**
->>>>>>              * @owner: job owner for debugging
->>>>>>              */
->>>>>
->>>>
->>>
->>
-> 
+Changes in v6:
+- Initialize spi7920_error structure.
+- Call drm_dev_exit() when appropriate.
+- Link to v5: https://lore.kernel.org/r/20251126-st7920-v5-0-64eda5267d35@gmail.com
+
+Changes in v5:
+- Remove unused device variant structures and hard-code display
+  resolution.
+- Fix GPIO reset logic to correctly handle logical levels.
+- Use kzalloc() instead of kmemdup() for atomic state duplication.
+- Refactor atomic update to integrate cpu access with the damage loop.
+- Rename macros to avoid the reserved DRM_ prefix.
+- Use DRM logging helpers instead of generic device logging.
+- Link to v4: https://lore.kernel.org/r/20251031-st7920-v4-0-35291f8076b2@gmail.com
+
+Changes in v4:
+- Added definitions for the VDD power supply and the XRESET GPIO line,
+  which were identified as minimum requirements from the datasheet.
+- The error handling strategy has been refactored to propagate an
+  error-tracking struct from the caller.
+- The atomic enable/disable logic has been correctly moved from
+  drm_encoder_helper_funcs to drm_crtc_helper_funcs, as the
+  functionality is bound to the CRTC.
+- Added drm_dev_enter() and drm_dev_exit() calls to the atomic_enable
+  and atomic_disable helpers to correctly manage the device's runtime
+  power state.
+- Renamed macro definitions to match the correct terminology.
+- Link to v3: https://lore.kernel.org/r/20251006-st7920-v3-0-4f89d656fa03@gmail.com
+
+Changes in v3:
+- Reorganize the patch documenting compatible (DT bindings) before their
+  use.
+- Drop reduntant information from DT bindings.
+- Use a goto label to ensure drm_dev_exit() is called in the error path
+  of drm_gem_fb_begin_cpu_access().
+- Link to v2: https://lore.kernel.org/r/20250909-st7920-v2-0-409f4890fb5f@gmail.com
+
+Changes in v2:
+- Refactor SPI communication:
+  * Internalize error handling and delays within the st7920_spi_write()
+    helper.
+  * Split the main SPI write function into smaller, command-specific
+    helpers for clarity.
+- Improve DRM/KMS logic:
+  * Relocate CPU access calls (drm_gem_fb...) to the atomic_update hook.
+  * Use standard DRM helpers (drm_crtc_helper_mode_valid_fixed and
+    drm_connector_helper_get_modes_fixed) for mode validation and
+    creation.
+- General code cleanup:
+  * Remove dead code related to ST7920_FAMILY.
+  * Replace WARN_ON() with drm_WARN_ON_ONCE().
+  * Ensure single variable assignments per line.
+- Fix probe initialization order:
+  * Move spi_set_drvdata() and st7920_init() to occur before device
+    registration.
+- Devicetree:
+  * Update bindings to address feedback from review (e.g., reference
+    common SPI properties).
+- MAINTAINERS:
+  * Add a proper commit message to the patch.
+- Link to v1: https://lore.kernel.org/r/20250806-st7920-v1-0-64ab5a34f9a0@gmail.com
+---
+
+Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+
+---
+Iker Pedrosa (3):
+      dt-bindings: display: sitronix,st7920: Add DT schema
+      drm: Add driver for Sitronix ST7920 LCD displays
+      MAINTAINERS: Add entry for Sitronix ST7920 driver
+
+ .../bindings/display/sitronix,st7920.yaml          |  58 ++
+ MAINTAINERS                                        |   7 +
+ drivers/gpu/drm/sitronix/Kconfig                   |  10 +
+ drivers/gpu/drm/sitronix/Makefile                  |   1 +
+ drivers/gpu/drm/sitronix/st7920.c                  | 867 +++++++++++++++++++++
+ 5 files changed, 943 insertions(+)
+---
+base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
+change-id: 20250806-st7920-e7aba32b3ab6
+
+Best regards,
+-- 
+Iker Pedrosa <ikerpedrosam@gmail.com>
 
