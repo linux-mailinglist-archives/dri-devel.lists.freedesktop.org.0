@@ -2,112 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36450CBE7DD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696E4CBE81F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A23610E341;
-	Mon, 15 Dec 2025 15:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5FD210E542;
+	Mon, 15 Dec 2025 15:08:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=alyssa.is header.i=@alyssa.is header.b="aY6xktXF";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="FIysPx8J";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aNuYnT9I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 366 seconds by postgrey-1.36 at gabe;
- Mon, 15 Dec 2025 15:06:08 UTC
-Received: from fhigh-b8-smtp.messagingengine.com
- (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 616D510E4F8;
- Mon, 15 Dec 2025 15:06:08 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 5DF2A7A0170;
- Mon, 15 Dec 2025 10:00:01 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-03.internal (MEProxy); Mon, 15 Dec 2025 10:00:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1765810801; x=1765897201; bh=1Phmm/5vZY
- YPW8bDSlyTMfT6TjIj47RIYXoblz6jhQk=; b=aY6xktXFhNyDSgy8j5Yacay8rJ
- yM/gNZQe5C5z5E3Fqf9PVA0+EA7QG4gFf+4gfYfR5BWRlMSRhZbbZ3KHfYgeojGU
- Ei54ZZtsNGFnE8VamoJkylE1oUS07rEBfJkN2SGRMZxEFeTN3YPGpeWiC/GiP/QY
- uw+9YRMNbhx3ezdvj66xep1+3RQ+rLJiOYI2eTgxJVnpj2/AkjftN6Td1IPSl4Q6
- BkfyXBNRWfvVRr4fiA1mqpd8aImdyWH89ADHyO2vA8GYLUKbWEmgTC/outcE7sDB
- VDmAr8d31gnu+KrWjOF+jq+bB5l7kjzHSs2kU+bQBnNgdVHCYUgb0UE487Qw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1765810801; x=1765897201; bh=1Phmm/5vZYYPW8bDSlyTMfT6TjIj47RIYXo
- blz6jhQk=; b=FIysPx8JmGdwuHD2PhaCmk5Ou9HOf2nisEwjIgTn+lRYdz6bN7m
- KzjB0Shr6EhEmVLJAL0qHswainsG938XvNrJzJlhGl+NT6UWe6xSs+Oup+WD6Rwn
- MlHlAE3bkZG3WIxC6pQbwDku6HdWMLImq5n4GOIDwfry5G4DqTPoQT3F32oBNoEX
- OSVVa5BsXfDnel0M5Ct2zBD66uAmUEzcd1H1kNKHTVJ2M+YVHPrgvu/2mmfxwZF7
- Kh/3JuyBCdu6vc7eSutA3v7svCSyHrkYZucc3ZwMdhxvenDfiBOXy5/wSDcP8chx
- vrnCfgKvXLtPdZrxM9xNdRgju2Q2F4h0FHA==
-X-ME-Sender: <xms:cCJAafbzOwJSmWWOrKlZmcGtNCvo60oDqy0tXIbvD5AweoXy9L07KA>
- <xme:cCJAafLs8Ez_jZ_UJth-lo1FDKYopbidXLvk7w4W6zwVMAr4UQS41ggpNAfJ8fyvQ
- c6ViYUj0tjgjYrwlaB_C-NqecMzq4x6rReoa5xyvmfP2xaIa8vl>
-X-ME-Received: <xmr:cCJAaa1-U7ApbaocfsaQF24sgIAFwPk71Mc1ZsyhKS6CMb7Th2KV_x2d5wqVYEfC>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefjeduvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeetlhihshhsrgcu
- tfhoshhsuceohhhisegrlhihshhsrgdrihhsqeenucggtffrrghtthgvrhhnpedugfeiue
- fhheefffehudejffejkeejvdehhfettdegffeggfdthfeuheetueevudenucffohhmrghi
- nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhspdhnsggprhgtphhtthhopeeftddp
- mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrd
- horhhgrdhukhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhr
- tghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehgrghrhiesgh
- grrhihghhuohdrnhgvthdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
- pdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtth
- hopegsohhquhhnrdhfvghnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhjihht
- rgdrthhomhhonhhorhhisehgmhgrihhlrdgtohhmpdhrtghpthhtohephhhkrghllhifvg
- hithdusehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:cCJAadjzdipBnelqIWMcfi7o7qNCmbZu6EXg5-TFuwjedr4Sq69OiQ>
- <xmx:cCJAaZwlrOkjVCQODfAhojW2YuCKwL97b7burAoUC6g_hlowHnEibA>
- <xmx:cCJAaSGb-XJARpcLZOVPRLwqqqcmTXShPPb7O5G9SxeSltsQpvKibw>
- <xmx:cCJAaaRt59fcrOcc0kjBerSfnJDzvV7U4uetT901LSbYxCpIrQQf5w>
- <xmx:cSJAaZdZPt5PWbPehk7srgOqxORrWjgouhKLICboq3Rh3VrGbUnMx1om>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Dec 2025 09:59:59 -0500 (EST)
-Received: by mbp.qyliss.net (Postfix, from userid 1000)
- id DE2E26D9BBB2; Mon, 15 Dec 2025 15:59:48 +0100 (CET)
-Date: Mon, 15 Dec 2025 15:59:48 +0100
-From: Alyssa Ross <hi@alyssa.is>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
- Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, 	Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] gpu: nova-core: select RUST_FW_LOADER_ABSTRACTIONS
-Message-ID: <c3e35e5hgnx6vozhoyefhvaznr64wm5qlrqwyzuhwn3v7cnuos@ueh6wqayvirf>
-References: <20251106-b4-select-rust-fw-v3-0-771172257755@nvidia.com>
- <20251106-b4-select-rust-fw-v3-2-771172257755@nvidia.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E86DB10E536;
+ Mon, 15 Dec 2025 15:08:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=iRDs+7mtgqFpm+POt/RtVYCbc/8BQoCcKazpfKaO584=; b=aNuYnT9IV7Md10HYt1mw7c1+nZ
+ 3R0pFt6ezMt2BEBV6rDDvrYZv40Nvw2yik0AGCIr5ONVjHiG19XmEZfEiBabvgvqEQaPC8BLYGL4c
+ /3gQv4QwSqKWvUAUPIjbuQCaV0tBjjqWrfGIAz17jc3EPti/jObiaPjyYR6acjkbXfurZlWLa+rgv
+ SRPzIi12qgRpvluzp+7qcFCrHBXqK2znxJ0zeu2z3smTIKNXtHPzVlZvpceMuRypA/ImmW7g8CAPd
+ rJExtKpZkM87xXxZ2kaXuKf1hBY2bv8E6QJyewI19aWXyvXkJ9IFeN1XRevjp68r4Tyw3MTtH1rQf
+ b74zeYqg==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with utf8esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vVABR-00Cz7z-IJ; Mon, 15 Dec 2025 16:08:21 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
+ kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Leo Liu <Leo.Liu@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Subject: [PATCH v4 00/28] Fair(er) DRM scheduler
+Date: Mon, 15 Dec 2025 15:07:39 +0000
+Message-ID: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rbwj3d62asxihgzx"
-Content-Disposition: inline
-In-Reply-To: <20251106-b4-select-rust-fw-v3-2-771172257755@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,73 +65,322 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[disclaimer]
+Please note that as this series includes patches which touch a good number of
+drivers, I did not copy everyone on everything. Assumption is people are
+subscribed to dri-devel and for context can look at the whole series there.
+[/disclaimer]
 
---rbwj3d62asxihgzx
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v3 2/3] gpu: nova-core: select RUST_FW_LOADER_ABSTRACTIONS
-MIME-Version: 1.0
+As a summary, the new scheduling algorithm is insipired by the original Linux
+CFS and so far no scheduling regressions have been found relative to FIFO.
+There are improvements in fairness and scheduling of interactive clients when
+running in parallel with a heavy GPU load (for example Pierre-Eric has one
+viewperf medical test which shows a nice improvement with amdgpu).
 
-On Thu, Nov 06, 2025 at 11:40:55AM +0900, Alexandre Courbot wrote:
-> RUST_FW_LOADER_ABSTRACTIONS was depended on by NOVA_CORE, but NOVA_CORE
-> is selected by DRM_NOVA. This creates a situation where, if DRM_NOVA is
-> selected, NOVA_CORE gets enabled but not RUST_FW_LOADER_ABSTRACTIONS,
-> which results in a build error.
->
-> Since the firmware loader is an implementation detail of the driver, it
-> should be enabled along with it, so change the "depends on" to a
-> "select".
->
-> Fixes: 54e6baf123fd ("gpu: nova-core: add initial driver stub")
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
+On the high level main advantages of the series are:
 
-I just encountered this testing 6.19-rc1, and was pleased to discover
-this patch had already been submitted.
+ 1. Scheduling quality - schedules better than FIFO, solves priority starvation.
+ 2. Code simplification - no more multiple run queues and multiple algorithms.
+ 3. Virtual GPU time based scheduling enables relatively simple addition
+    of a scheduling cgroup controller in the future.
 
-Tested-by: Alyssa Ross <hi@alyssa.is>
+There is a little bit more detailed write up on the motivation and results in
+the form of a blog post which may be easier to read:
+https://blogs.igalia.com/tursulin/fair-er-drm-gpu-scheduler/
 
-And it probably also makes sense to add this now that the kernel test
-robot has also found it:
+First patches add some unit tests which allow for easy evaluation of scheduling
+behaviour against different client submission patterns. From there onwards it is
+hopefully a natural progression of cleanups, enablers, adding the fair policy,
+and finally removing FIFO and RR and simplifying the code base due no more need
+for multiple run queues.
 
-Closes: https://lore.kernel.org/oe-kbuild-all/202512061721.rxKGnt5q-lkp@intel.com/
+Series is structured in a way where we could apply the first 12 patches (up to
+and including "drm/sched: Switch default policy to fair") in one kernel release
+and then follow up with the rest of the cleanups after a release or two if
+things will be looking fine. Until the remainder of the series would be merged
+it would be easy to flip the default algorithm back.
 
-(I suppose it doesn't make sense to add the Reported-by suggested there
-since your patch predates that report.)
+Onto the performance evaluation. As a headline result I have tested three
+simultaneous clients on the Steam Deck:
 
-I see that the first patch from this series has already been picked up
-by Greg, but this and patch 3 are still waiting.  Is that correct?
+One instance of a deferredmultisampling Vulkan demo running with low priority,
+one normal priority instance of the same demo, and the Unigine Heaven benchmark.
 
->  drivers/gpu/nova-core/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfig
-> index 20d3e6d0d796..527920f9c4d3 100644
-> --- a/drivers/gpu/nova-core/Kconfig
-> +++ b/drivers/gpu/nova-core/Kconfig
-> @@ -3,7 +3,7 @@ config NOVA_CORE
->  	depends on 64BIT
->  	depends on PCI
->  	depends on RUST
-> -	depends on RUST_FW_LOADER_ABSTRACTIONS
-> +	select RUST_FW_LOADER_ABSTRACTIONS
->  	select AUXILIARY_BUS
->  	default n
->  	help
->
-> --
-> 2.51.2
->
+With the FIFO scheduler we can see that the low priority client is completely
+starved and the GPU time distribution between the other two clients is uneven:
 
---rbwj3d62asxihgzx
-Content-Type: application/pgp-signature; name="signature.asc"
+https://people.igalia.com/tursulin/drm-sched-fair/fifo-starvation.png
 
------BEGIN PGP SIGNATURE-----
+Switching to the fair scheduler, GPU time distribution is almost equal and the
+low priority client does get a small share of the GPU:
 
-iHUEABYKAB0WIQRV/neXydHjZma5XLJbRZGEIw/wogUCaUAiYwAKCRBbRZGEIw/w
-osIcAP9fvByVdz44dZc5ybBMSW5gZSx7h6ZkUGgNq6HIshurJAD/cVjmaI97Xoh9
-tcNHiZ9bbAXKGCnzlJLuN8Vld9VuXwA=
-=UYKh
------END PGP SIGNATURE-----
+https://people.igalia.com/tursulin/drm-sched-fair/fair-no-starvation.png
 
---rbwj3d62asxihgzx--
+Moving onto the synthetic submission patterns, they are about two simultaneous
+clients which broadly cover the following categories:
+
+ * Deep queue clients
+ * Hogs versus interactive
+ * Priority handling
+
+Lets look at the results:
+
+1. Two normal priority deep queue clients.
+
+These ones submit one second worth of 8ms jobs. As fast as they can, no
+dependencies etc. There is no difference in runtime between FIFO and fair but
+the latter allows both clients to progress with work more evenly:
+
+https://people.igalia.com/tursulin/drm-sched-fair/normal-normal.png
+
+(X axis is time, Y is submitted queue-depth, hence lowering of qd corresponds
+  with work progress for both clients, tested with both schedulers separately.)
+
+Round-robin is the same as fair here.
+
+2. Same two clients but one is now low priority.
+
+https://people.igalia.com/tursulin/drm-sched-fair/normal-low.png
+
+Normal priority client is a solid line, low priority dotted. We can see how FIFO
+completely starves the low priority client until the normal priority is fully
+done. Only then the low priority client gets any GPU time.
+
+In constrast, fair scheduler allows some GPU time to the low priority client.
+
+Here round-robin flavours are the same as FIFO (same starvation issue).
+
+3. Same clients but now high versus normal priority.
+
+Similar behaviour as in the previous one with normal a bit less de-prioritised
+relative to high, than low was against normal.
+
+https://people.igalia.com/tursulin/drm-sched-fair/high-normal.png
+
+And again round-robin flavours are the same as FIFO.
+
+4. Heavy load vs interactive client.
+
+Heavy client emits a 75% GPU load in the format of 3x 2.5ms jobs followed by a
+2.5ms wait. Interactive client emits a 10% GPU load in the format of 1x 1ms job
+followed by a 9ms wait.
+
+This simulates an interactive graphical client used on top of a relatively heavy
+background load but no GPU oversubscription.
+
+Graphs show the interactive client only and from now on, instead of looking at
+the client's queue depth, we look at its "fps".
+
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-heavy-vs-interactive.png
+
+Here round-robin and round-robin rewritten on top of FIFO are best, with the
+fair algorithm being very close. FIFO is clearly the worst.
+
+5. An even heavier load vs interactive client.
+
+This one is oversubscribing the GPU by submitting 4x 50ms jobs and waiting for
+only one microsecond before repeating the cycle. Interactive client is the same
+10% as above.
+
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-very-heavy-vs-interactive.png
+
+Here FIFO is even worse and fair is again almost as good as the two round-robin
+flavours.
+
+6. Low priority GPU hog versus heavy-interactive.
+
+Low priority client: 3x 2.5ms jobs client followed by a 0.5ms wait.
+Interactive client: 1x 0.5ms job followed by a 10ms wait.
+
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-low-hog-vs-interactive.png
+
+All schedulers appear to handle this almost equally well but FIFO could still be
+the last while fair has a slight lead.
+
+As before, I am looking for feedback, ideas for what other kinds of submission
+scenarios to test, testing on different GPUs and of course reviews.
+
+v2:
+ * Fixed many rebase errors.
+ * Added some new patches.
+ * Dropped single shot dependecy handling.
+
+v3:
+ * Added scheduling quality unit tests.
+ * Refined a tiny bit by adding some fairness.
+ * Dropped a few patches for now.
+
+v4:
+ * Replaced deadline with fair!
+ * Refined scheduling quality unit tests.
+ * Pulled one cleanup patch earlier.
+ * Fixed "drm/sched: Avoid double re-lock on the job free path".
+
+v5:
+ * Rebase on top of latest upstream DRM scheduler changes.
+ * Kerneldoc fixup.
+ * Improve commit message justification for one patch. (Philipp)
+ * Add comment in drm_sched_alloc_wq. (Christian)
+
+v6:
+ * Rebase for "drm/sched: De-clutter drm_sched_init" getting merged.
+ * Avoid NULL rq dereference from a bad rebase. (Maira)
+ * Added some kerneldoc throughout. (Maira)
+ * Removed some lockdep annotations not belonging to one patch. (Maira)
+ * Use dma_fence_is_signaled in "drm/sched: Avoid double re-lock on the job free path". (Maira, Philipp)
+
+v7:
+ * Rebase for some prep patches getting merged.
+ * Dropped submit all ready jobs patch.
+ * Fixed 64-bit division in unit tests.
+ * Fixed some more rebase and patch re-ordering mistakes.
+ * Preserve entity RR order when re-entering the queue.
+ * Fine tuned the queue re-enter logic for better behaviour with interactive
+   clients.
+ * Removed some static inlines.
+ * Added more kerneldoc.
+ * Done some benchmarks in the round-robin scheduling modes.
+
+v8:
+ * Rebased for upstream changes.
+ * Added assert for reverse numerical order of DRM_SCHED_PRIORITY enums.
+ * Fixed head of rq priority updates.
+
+*** RFC -> PATCH change log version reset. ***
+
+v9 / v1:
+ * RFC -> PATCH for the series as agreed during the XDC.
+ * Updated interactive benchmark graphs.
+ * Improved handling of interactive clients by replacing the random noise on tie
+   approach with the average job duration statistics.
+ * Document in code why we track entity GPU stats in a reference counted structures.
+ * Document the new structure fields added by the fair policy.
+ * Undo some tab vs spaces damage.
+ * More accurate wording in the fair policy commit message.
+ * Default to fair policy in a separate patch.
+ * Renamed drm_sched_rq_select_entity to drm_sched_select_entity and make it only take sched.
+ * Fixed kerneldoc after removing scheduling policies and renaming the rq.
+ * Reversed arguments of drm_sched_rq_init and cleanup callers. (New patch)
+ * Removed unused num_rqs from struct drm_sched_args. (New patches)
+ * Unit tests:
+   * Added wait duration comments.
+   * Data structure comments.
+   * Better name for a local variable.
+   * Added comment to the short job duration assert.
+   * Added comment for cond_resched().
+   * Tweaked some comments
+   * Added client_done() helper and documented the READ_ONCE.
+   * Clarified cycles per second calculation.
+
+v2:
+ * Dropped the sched_rq_init() argument re-order patch.
+ * Pulled run queue management consolidation patches to start of the series.
+ * Drm_sched_rq_get_rr_ts() renamed to drm_sched_rq_next_rr_ts().
+ * Added DRM_SCHED_PRIORITY_INVALID local define.
+ * Added locking around the ktime_t vruntime read.
+ * Expanded comment relating to the unlocked entity->priority read.
+ * Expanded comment relating to the unlocked scheduler average job duration read.
+ * Various kerneldoc tweaks.
+ * Undo some tab vs spaces damage harder.
+ * Undo one empty line rebase damage.
+ * Reworded commit message for the FIFO and RR removal patch.
+ * Various commit message spelling, grammar and typo fixes.
+ * Unit tests:
+   * Various style changes.
+   * More descriptive test names.
+   * Print legend for measured metrics.
+   * Check for memory allocation failures.
+
+v3:
+ * Marked fair policy as default in the correct patch.
+ * Further improved comment in drm_sched_rq_update_prio().
+ * Moved DRM_SCHED_PRIORITY_INVALID to gpu_scheduler.h.
+ * Added description of the GPU time to vruntime scaling factors.
+ * Recorded more collected acks.
+
+v4:
+ * Rebased, collect ackes and r-b-s receives so far.
+ * New patch in the series for handling the new ethosu accel driver.
+ * Bump lower priorities lower down in the run queue when they re-join, in order
+   to penalize them a bit more than simply making them second in the line to
+   run as it was in v3.
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+CC: Leo Liu <Leo.Liu@amd.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+
+Tvrtko Ursulin (28):
+  drm/sched: Consolidate entity run queue management
+  drm/sched: Move run queue related code into a separate file
+  drm/sched: Add some scheduling quality unit tests
+  drm/sched: Add some more scheduling quality unit tests
+  drm/sched: Implement RR via FIFO
+  drm/sched: Free all finished jobs at once
+  drm/sched: Account entity GPU time
+  drm/sched: Remove idle entity from tree
+  drm/sched: Add fair scheduling policy
+  drm/sched: Favour interactive clients slightly
+  drm/sched: Switch default policy to fair
+  drm/sched: Remove FIFO and RR and simplify to a single run queue
+  drm/sched: Embed run queue singleton into the scheduler
+  accel/amdxdna: Remove drm_sched_init_args->num_rqs usage
+  accel/rocket: Remove drm_sched_init_args->num_rqs usage
+  accel/ethosu: Remove drm_sched_init_args->num_rqs usage
+  drm/amdgpu: Remove drm_sched_init_args->num_rqs usage
+  drm/etnaviv: Remove drm_sched_init_args->num_rqs usage
+  drm/imagination: Remove drm_sched_init_args->num_rqs usage
+  drm/lima: Remove drm_sched_init_args->num_rqs usage
+  drm/msm: Remove drm_sched_init_args->num_rqs usage
+  drm/nouveau: Remove drm_sched_init_args->num_rqs usage
+  drm/panfrost: Remove drm_sched_init_args->num_rqs usage
+  drm/panthor: Remove drm_sched_init_args->num_rqs usage
+  drm/sched: Remove drm_sched_init_args->num_rqs usage
+  drm/v3d: Remove drm_sched_init_args->num_rqs usage
+  drm/xe: Remove drm_sched_init_args->num_rqs usage
+  drm/sched: Remove drm_sched_init_args->num_rqs
+
+ drivers/accel/amdxdna/aie2_ctx.c              |   1 -
+ drivers/accel/ethosu/ethosu_job.c             |   1 -
+ drivers/accel/rocket/rocket_job.c             |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  27 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |   8 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c       |   1 -
+ drivers/gpu/drm/imagination/pvr_queue.c       |   1 -
+ drivers/gpu/drm/lima/lima_sched.c             |   1 -
+ drivers/gpu/drm/msm/msm_gem_vma.c             |   1 -
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |   1 -
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   1 -
+ drivers/gpu/drm/panfrost/panfrost_job.c       |   1 -
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   1 -
+ drivers/gpu/drm/panthor/panthor_sched.c       |   1 -
+ drivers/gpu/drm/scheduler/Makefile            |   2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c      | 131 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |  95 +-
+ drivers/gpu/drm/scheduler/sched_main.c        | 412 ++------
+ drivers/gpu/drm/scheduler/sched_rq.c          | 384 ++++++++
+ drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |   1 -
+ .../gpu/drm/scheduler/tests/tests_scheduler.c | 884 ++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_sched.c               |   1 -
+ drivers/gpu/drm/xe/xe_dep_scheduler.c         |   1 -
+ drivers/gpu/drm/xe/xe_execlist.c              |   1 -
+ drivers/gpu/drm/xe/xe_gpu_scheduler.c         |   1 -
+ include/drm/gpu_scheduler.h                   |  44 +-
+ 33 files changed, 1531 insertions(+), 506 deletions(-)
+ create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+
+-- 
+2.51.1
+
