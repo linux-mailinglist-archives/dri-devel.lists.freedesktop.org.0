@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8EACBE345
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 15:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF53CBE34E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 15:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0BE10E4FC;
-	Mon, 15 Dec 2025 14:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B582810E4FE;
+	Mon, 15 Dec 2025 14:11:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NTcacj74";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TTqeECkr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F26510E506
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 14:11:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765807847; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED9C10E519
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 14:11:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765807863; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=UczrbwgmUdNO9UuEYS5N5C8J3Uco3gEo6nc1RMnMRq6aD2mKX8/gm1vFiB0oerIvw3XoYGKldrhi2ktz+0Mtq+o8PSoAOUJu3sTyUivpxY7w3PhR+HVxim6Z7zie9DkzUkE3ozjrGG9AycHz0beuogILP9Jq+cpjyAV36gi1MPo=
+ b=io7FQifRbKmJQQH0DFt9jSrJo7us5yIlLwEUJ0yxcWwmpokwUf/DdMZqqfOa+UGgD2hLvwq+L2fESw0aBzNQABkG95azgPm2zKSbQV59Cf535Dqf+IW5OOc5t9fpzYVcLIBTc3NPocDqsU4SmMaCioeq1OaxnqNcQ7HEEY7F6tg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765807847;
+ s=zohoarc; t=1765807863;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=uqZt7TdA/v61Mkt3xHXvqa8xhHfjq2/EVqevRSGE6OY=; 
- b=deqX/C+NZ8mIs1n5eDJQbM0qTJ7g3OVxBJoVmK1paQCws5lHhsGFnRx5AP2PPocLF6QyGVwDPGbIlAT1nBD8SHqXBW80iedqBFahe2P5H9i/eBQpXZyar61YySn7w3UCD0kWy+OHeHuLB6sOyDsrMWyfEMo+/X0wh9fQemVxlMA=
+ bh=7n42KK6gudYMqBGWZXjr2PpxZcrxS+YRaFD+RvftefE=; 
+ b=i10xTk8pXue1IwEELQfQ3zVI6eolZWGQik6flq0mJi5IGgWH8yP9+dLEuwEiKzZdEd/5nPJIUJEZjd/6Nfmh4EARMbTR0/BzpDVmqB6eXoJZWhArhvyxcSr1OQMLUANURMO2WBI2nvrX9JGe0acOHWmRthrPCQVLJx8mqiI2d94=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765807847; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765807863; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=uqZt7TdA/v61Mkt3xHXvqa8xhHfjq2/EVqevRSGE6OY=;
- b=NTcacj749npKhwlgnsWrx8YBBvnh7FdjoIp8pVrEc0/9CD9OrvwUh7l46JC0CygW
- tEo/W/d9BkmRYZDGFvKSQLh0AowMSuOGx1LJ9UlD8sfnhA2/5rZ9r+BxApcSTQAzlX5
- NZnBz42OX+UoCx94F3+Rb0aOZpwohCU0VzO2++9I=
-Received: by mx.zohomail.com with SMTPS id 1765807842799306.71265837415365;
- Mon, 15 Dec 2025 06:10:42 -0800 (PST)
+ bh=7n42KK6gudYMqBGWZXjr2PpxZcrxS+YRaFD+RvftefE=;
+ b=TTqeECkryqVhcTU7cEUW168Ju1P39T8lq6PtWqS5k6n9N6X/SpKSicOHq8A/brX0
+ wQymF81dRYOm8IUgHvu4nsmMFe1xUYNHr8dGTgrX7Dg+4Tip4tnkg9zrEqyRNfPI7Ep
+ nZWZ6JlQIGo+cLaCtuRCqsVzsXWaV3hXHCAy9o+M=
+Received: by mx.zohomail.com with SMTPS id 1765807859406709.1268892387307;
+ Mon, 15 Dec 2025 06:10:59 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 15 Dec 2025 15:09:19 +0100
-Subject: [PATCH v5 3/8] drm/rockchip: vop2: Fix Esmart test condition
+Date: Mon, 15 Dec 2025 15:09:20 +0100
+Subject: [PATCH v5 4/8] drm/rockchip: vop2: Enforce scaling workaround in
+ plane_check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-vop2-atomic-fixups-v5-3-83463c075a8d@collabora.com>
+Message-Id: <20251215-vop2-atomic-fixups-v5-4-83463c075a8d@collabora.com>
 References: <20251215-vop2-atomic-fixups-v5-0-83463c075a8d@collabora.com>
 In-Reply-To: <20251215-vop2-atomic-fixups-v5-0-83463c075a8d@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -76,38 +77,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Stone <daniels@collabora.com>
 
-If we want to find out if a window is Esmart or not, test for not being
-a cluster window, rather than AFBDC presence.
-
-No functional effect as only cluster windows support AFBC decode.
+It seems only cluster windows are capable of applying downscaling when
+the source region has an odd width. Instead of applying a workaround
+inside atomic_update, fail the plane check if this is requested.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 1cad5a8ece61..fbcc655cb583 100644
+index fbcc655cb583..ded8b9952c6d 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1229,12 +1229,10 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 	 * This is workaround solution for IC design:
- 	 * esmart can't support scale down when src_w % 16 == 1.
- 	 */
--	if (!(win->data->feature & WIN_FEATURE_AFBDC)) {
--		if (src_w > dsp_w && (src_w & 0xf) == 1) {
--			drm_dbg_kms(vop2->drm, "vp%d %s act_w[%d] MODE 16 == 1\n",
--				    vp->id, win->data->name, src_w);
--			src_w -= 1;
--		}
-+	if (!vop2_cluster_window(win) && src_w > dsp_w && (src_w & 1)) {
-+		drm_dbg_kms(vop2->drm, "vp%d %s act_w[%d] MODE 16 == 1\n",
-+			    vp->id, win->data->name, src_w);
-+		src_w -= 1;
+@@ -998,6 +998,7 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+ 	struct drm_crtc *crtc = pstate->crtc;
+ 	struct drm_crtc_state *cstate;
+ 	struct vop2_video_port *vp;
++	struct vop2_win *win = to_vop2_win(plane);
+ 	struct vop2 *vop2;
+ 	const struct vop2_data *vop2_data;
+ 	struct drm_rect *dest = &pstate->dst;
+@@ -1065,6 +1066,16 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
  	}
  
++	/*
++	 * This is workaround solution for IC design:
++	 * esmart can't support scale down when src_w % 16 == 1.
++	 */
++	if (!vop2_cluster_window(win) && src_w > dest_w && (src_w & 1)) {
++		drm_dbg_kms(vop2->drm,
++			    "Esmart windows cannot downscale odd-width source regions\n");
++		return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1225,16 +1236,6 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 	    WARN_ON(src_w < 4) || WARN_ON(src_h < 4))
+ 		return;
+ 
+-	/*
+-	 * This is workaround solution for IC design:
+-	 * esmart can't support scale down when src_w % 16 == 1.
+-	 */
+-	if (!vop2_cluster_window(win) && src_w > dsp_w && (src_w & 1)) {
+-		drm_dbg_kms(vop2->drm, "vp%d %s act_w[%d] MODE 16 == 1\n",
+-			    vp->id, win->data->name, src_w);
+-		src_w -= 1;
+-	}
+-
  	if (afbc_en && src_w % 4) {
+ 		drm_dbg_kms(vop2->drm, "vp%d %s src_w[%d] not 4 pixel aligned\n",
+ 			    vp->id, win->data->name, src_w);
 
 -- 
 2.52.0
