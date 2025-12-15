@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB67CCBFB6D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 21:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983EBCBFB73
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 21:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F05E810E4BD;
-	Mon, 15 Dec 2025 20:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2CCB10E501;
+	Mon, 15 Dec 2025 20:18:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B3zGqBzF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O8D+kUS8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD1E10E272;
- Mon, 15 Dec 2025 20:18:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBE110E4FF;
+ Mon, 15 Dec 2025 20:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765829914; x=1797365914;
+ t=1765829916; x=1797365916;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=75sX6hA9sbXqveHOcok3izLFKNkFvjJix2TGY96a5QU=;
- b=B3zGqBzF1Ark+dGOgNn3E2O35jdpKF+wypVf5VC4pq/CUw546/hUaVjb
- DWU1hhlt5Eg/R8rD42b/t7wWVBQXaTRLBk2VpG+GxTpdfBWNvXgwFUyY9
- TbybLax4jt1kCLgwTKUG1Z4zgl3eEBAfKKtGUc5XtmPiq7l3ascspAH/L
- R3pIWJ2lkZ55jPk0LmF91C4uQXtuz0xA25PSz61g8oNz+ax5EfLwpzzI5
- oO1lPJCo4W/EQCg5fLaWINfjfog8R5hUYjMmb+NEHOqkhj4zTdU/o+CAk
- b1qKqL7FZSLKBxnVSjkwAKlMBIwxqs95KceLn+C76y53Q6U7YKBg2xOKl Q==;
-X-CSE-ConnectionGUID: 52CBhemKQd+5Ft5nHbMDPw==
-X-CSE-MsgGUID: BASuNyLtRQqBKz7dURyQzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85154307"
-X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; d="scan'208";a="85154307"
+ bh=NherwMcBZP+SwzTvSFFas8mYhMKRUg2ZGfsa1aXDD00=;
+ b=O8D+kUS8sFwccSQ6TDY7/lgsYetbUFqJv7kZvKst/GnF4TXkfPYrbkrD
+ 28cpFoQvoH3xkgkdo7uvG8Du3fM5VBrC/F40TPMxJ4GXksgRQ7vAh4TWf
+ Uxu1THnuHUZLp/1YRRD49+RO31jgVzL9byC6YbQPa4OJc6a94OwqCwGHn
+ QZPzePITgVv9v2Q9bdjjvT7zqFQ3bChElO+PzE7FMcg4FBcc0lQbwaQXB
+ dlzDubWjRRhhufVfE8z+hb54G61MEq1+QbH/XWRExiowpr7SPfRslOJ6E
+ jHy8pp6HxsjufLoznUgdkkBNLI0K4cgUX3oe6oWPv4p8tmzYQH/jy6LfX g==;
+X-CSE-ConnectionGUID: UFYjz/YtQ2Odv1YDHAMmpg==
+X-CSE-MsgGUID: +cZzsoFeT0yfQSodGw0d9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85154310"
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; d="scan'208";a="85154310"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2025 12:18:34 -0800
-X-CSE-ConnectionGUID: XFZ2RMBOTS6mVQyTdT0dyw==
-X-CSE-MsgGUID: dXH59kC2R7uizEIm3r8n8Q==
+ 15 Dec 2025 12:18:35 -0800
+X-CSE-ConnectionGUID: rIhnjSf5T9CJ+X4qkjMiwA==
+X-CSE-MsgGUID: sO1P9X28S5K27amvo8l41w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; d="scan'208";a="228895883"
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; d="scan'208";a="228895889"
 Received: from mrbroom-desk1.ger.corp.intel.com (HELO
  mwajdecz-hp.clients.intel.com) ([10.246.20.17])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2025 12:18:32 -0800
+ 15 Dec 2025 12:18:34 -0800
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Subject: [CI 2/4] drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST helper
-Date: Mon, 15 Dec 2025 21:18:02 +0100
-Message-ID: <20251215201806.196514-3-michal.wajdeczko@intel.com>
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: [CI 3/4] drm/xe/pf: Prepare for new threshold KLVs
+Date: Mon, 15 Dec 2025 21:18:03 +0100
+Message-ID: <20251215201806.196514-4-michal.wajdeczko@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251215201806.196514-1-michal.wajdeczko@intel.com>
 References: <20251215201806.196514-1-michal.wajdeczko@intel.com>
@@ -71,92 +70,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are already few places in the code where we need to check GuC
-firmware version. Wrap existing raw conditions into a named helper
-macro to make it clear and avoid explicit call of the MAKE_GUC_VER.
+We want to extend our macro-based KLV list definitions with new
+information about the version from which given KLV is supported.
+Prepare our code generators to emit dedicated version check if
+a KLV was defined with the version information.
 
-Suggested-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c |  2 +-
- drivers/gpu/drm/xe/xe_guc.h                   | 21 +++++++++++++++++++
- drivers/gpu/drm/xe/xe_guc_ads.c               |  4 ++--
- 3 files changed, 24 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c    | 19 ++++++++++++-------
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c   |  9 ++++++---
+ .../drm/xe/xe_guc_klv_thresholds_set_types.h  |  5 +++++
+ 3 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-index 3174a8dee779..7410e7b93256 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-@@ -1026,7 +1026,7 @@ static void action_ring_cleanup(void *arg)
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+index 59c5c6b4d994..6e8507c24986 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+@@ -269,7 +269,8 @@ static u32 encode_config_ggtt(u32 *cfg, const struct xe_gt_sriov_config *config,
+ }
  
- static void pf_gt_migration_check_support(struct xe_gt *gt)
+ /* Return: number of configuration dwords written */
+-static u32 encode_config(u32 *cfg, const struct xe_gt_sriov_config *config, bool details)
++static u32 encode_config(struct xe_gt *gt, u32 *cfg, const struct xe_gt_sriov_config *config,
++			 bool details)
  {
--	if (GUC_FIRMWARE_VER(&gt->uc.guc) < MAKE_GUC_VER(70, 54, 0))
-+	if (!GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 54))
- 		xe_sriov_pf_migration_disable(gt_to_xe(gt), "requires GuC version >= 70.54.0");
- }
+ 	u32 n = 0;
  
-diff --git a/drivers/gpu/drm/xe/xe_guc.h b/drivers/gpu/drm/xe/xe_guc.h
-index fdb08658d05a..a169f231cbd8 100644
---- a/drivers/gpu/drm/xe/xe_guc.h
-+++ b/drivers/gpu/drm/xe/xe_guc.h
-@@ -18,10 +18,16 @@
+@@ -303,9 +304,11 @@ static u32 encode_config(u32 *cfg, const struct xe_gt_sriov_config *config, bool
+ 	cfg[n++] = PREP_GUC_KLV_TAG(VF_CFG_PREEMPT_TIMEOUT);
+ 	cfg[n++] = config->preempt_timeout;
+ 
+-#define encode_threshold_config(TAG, ...) ({					\
+-	cfg[n++] = PREP_GUC_KLV_TAG(VF_CFG_THRESHOLD_##TAG);			\
+-	cfg[n++] = config->thresholds[MAKE_XE_GUC_KLV_THRESHOLD_INDEX(TAG)];	\
++#define encode_threshold_config(TAG, NAME, VER...) ({					\
++	if (IF_ARGS(GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, VER), true, VER)) {		\
++		cfg[n++] = PREP_GUC_KLV_TAG(VF_CFG_THRESHOLD_##TAG);			\
++		cfg[n++] = config->thresholds[MAKE_XE_GUC_KLV_THRESHOLD_INDEX(TAG)];	\
++	}										\
+ });
+ 
+ 	MAKE_XE_GUC_KLV_THRESHOLDS_SET(encode_threshold_config);
+@@ -328,7 +331,7 @@ static int pf_push_full_vf_config(struct xe_gt *gt, unsigned int vfid)
+ 		return -ENOBUFS;
+ 
+ 	cfg = xe_guc_buf_cpu_ptr(buf);
+-	num_dwords = encode_config(cfg, config, true);
++	num_dwords = encode_config(gt, cfg, config, true);
+ 	xe_gt_assert(gt, num_dwords <= max_cfg_dwords);
+ 
+ 	if (xe_gt_is_media_type(gt)) {
+@@ -2518,7 +2521,7 @@ ssize_t xe_gt_sriov_pf_config_save(struct xe_gt *gt, unsigned int vfid, void *bu
+ 			ret = -ENOBUFS;
+ 		} else {
+ 			config = pf_pick_vf_config(gt, vfid);
+-			ret = encode_config(buf, config, false) * sizeof(u32);
++			ret = encode_config(gt, buf, config, false) * sizeof(u32);
+ 		}
+ 	}
+ 	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
+@@ -2551,11 +2554,13 @@ static int pf_restore_vf_config_klv(struct xe_gt *gt, unsigned int vfid,
+ 		return pf_provision_preempt_timeout(gt, vfid, value[0]);
+ 
+ 	/* auto-generate case statements */
+-#define define_threshold_key_to_provision_case(TAG, ...)				\
++#define define_threshold_key_to_provision_case(TAG, NAME, VER...)			\
+ 	case MAKE_GUC_KLV_VF_CFG_THRESHOLD_KEY(TAG):					\
+ 		BUILD_BUG_ON(MAKE_GUC_KLV_VF_CFG_THRESHOLD_LEN(TAG) != 1u);		\
+ 		if (len != MAKE_GUC_KLV_VF_CFG_THRESHOLD_LEN(TAG))			\
+ 			return -EBADMSG;						\
++		if (IF_ARGS(!GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, VER), false, VER))	\
++			return -EKEYREJECTED;						\
+ 		return pf_provision_threshold(gt, vfid,					\
+ 					      MAKE_XE_GUC_KLV_THRESHOLD_INDEX(TAG),	\
+ 					      value[0]);
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
+index 0fd863609848..ece9eed5d7c5 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
+@@ -21,6 +21,7 @@
+ #include "xe_gt_sriov_pf_monitor.h"
+ #include "xe_gt_sriov_pf_policy.h"
+ #include "xe_gt_sriov_pf_service.h"
++#include "xe_guc.h"
+ #include "xe_pm.h"
+ #include "xe_sriov_pf.h"
+ #include "xe_sriov_pf_provision.h"
+@@ -301,9 +302,11 @@ static void pf_add_config_attrs(struct xe_gt *gt, struct dentry *parent, unsigne
+ 				   &sched_priority_fops);
+ 
+ 	/* register all threshold attributes */
+-#define register_threshold_attribute(TAG, NAME, ...) \
+-	debugfs_create_file_unsafe("threshold_" #NAME, 0644, parent, parent, \
+-				   &NAME##_fops);
++#define register_threshold_attribute(TAG, NAME, VER...) ({				\
++	if (IF_ARGS(GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, VER), true, VER))		\
++		debugfs_create_file_unsafe("threshold_" #NAME, 0644, parent, parent,	\
++					   &NAME##_fops);				\
++});
+ 	MAKE_XE_GUC_KLV_THRESHOLDS_SET(register_threshold_attribute)
+ #undef register_threshold_attribute
+ }
+diff --git a/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h b/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
+index 0a028c94756d..5f84da3d10d3 100644
+--- a/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
++++ b/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
+@@ -24,6 +24,11 @@
+  * ABI and the associated &NAME, that may be used in code or debugfs/sysfs::
+  *
+  *	define(TAG, NAME)
++ *
++ * If required, KLVs can be labeled with GuC firmware version that added them::
++ *
++ *	define(TAG, NAME, MAJOR, MINOR)
++ *	define(TAG, NAME, MAJOR, MINOR, PATCH)
   */
- #define MAKE_GUC_VER(maj, min, pat)	(((maj) << 16) | ((min) << 8) | (pat))
- #define MAKE_GUC_VER_STRUCT(ver)	MAKE_GUC_VER((ver).major, (ver).minor, (ver).patch)
-+#define MAKE_GUC_VER_ARGS(ver...) \
-+	(BUILD_BUG_ON_ZERO(COUNT_ARGS(ver) < 2 || COUNT_ARGS(ver) > 3) + \
-+	 MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
-+
- #define GUC_SUBMIT_VER(guc) \
- 	MAKE_GUC_VER_STRUCT((guc)->fw.versions.found[XE_UC_FW_VER_COMPATIBILITY])
- #define GUC_FIRMWARE_VER(guc) \
- 	MAKE_GUC_VER_STRUCT((guc)->fw.versions.found[XE_UC_FW_VER_RELEASE])
-+#define GUC_FIRMWARE_VER_AT_LEAST(guc, ver...) \
-+	xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
- 
- struct drm_printer;
- 
-@@ -96,4 +102,19 @@ static inline struct drm_device *guc_to_drm(struct xe_guc *guc)
- 	return &guc_to_xe(guc)->drm;
- }
- 
-+/**
-+ * xe_guc_fw_version_at_least() - Check if GuC is at least of given version.
-+ * @guc: the &xe_guc
-+ * @ver: the version to check
-+ *
-+ * The @ver should be prepared using MAKE_GUC_VER(major, minor, patch).
-+ *
-+ * Return: true if loaded GuC firmware is at least of given version,
-+ *         false otherwise.
-+ */
-+static inline bool xe_guc_fw_version_at_least(const struct xe_guc *guc, u32 ver)
-+{
-+	return GUC_FIRMWARE_VER(guc) >= ver;
-+}
-+
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_guc_ads.c b/drivers/gpu/drm/xe/xe_guc_ads.c
-index e06c6aa335bf..5feeb91426ee 100644
---- a/drivers/gpu/drm/xe/xe_guc_ads.c
-+++ b/drivers/gpu/drm/xe/xe_guc_ads.c
-@@ -347,10 +347,10 @@ static void guc_waklv_init(struct xe_guc_ads *ads)
- 		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
- 				 GUC_WORKAROUND_KLV_ID_BACK_TO_BACK_RCS_ENGINE_RESET);
- 
--	if (GUC_FIRMWARE_VER(&gt->uc.guc) >= MAKE_GUC_VER(70, 44, 0) && XE_GT_WA(gt, 16026508708))
-+	if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 44) && XE_GT_WA(gt, 16026508708))
- 		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
- 				 GUC_WA_KLV_RESET_BB_STACK_PTR_ON_VF_SWITCH);
--	if (GUC_FIRMWARE_VER(&gt->uc.guc) >= MAKE_GUC_VER(70, 47, 0) && XE_GT_WA(gt, 16026007364)) {
-+	if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 47) && XE_GT_WA(gt, 16026007364)) {
- 		u32 data[] = {
- 			0x0,
- 			0xF,
+ #define MAKE_XE_GUC_KLV_THRESHOLDS_SET(define)		\
+ 	define(CAT_ERR, cat_error_count)		\
 -- 
 2.47.1
 
