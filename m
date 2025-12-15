@@ -2,88 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCA1CBD163
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20D3CBD1C3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F70110E2B7;
-	Mon, 15 Dec 2025 09:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D70F610E230;
+	Mon, 15 Dec 2025 09:14:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dIX7rCj5";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="dd9G6/l9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24EDC10E2B7
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765789359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E/ch7cqSj/IiLkf/Hft/aylN6OFN53FmeYjrSH6kZBU=;
- b=dIX7rCj5uBeSV5ePq2sOtU8h5gGQCY/A6bglQZYzH6Nz/wAG5VheIlZXIWqxhDyUCAkr8n
- na9msvtsuBdLm0Qca0UumbrZu5E5YVKjI/2tKcYHXVUKi61g688AaybK07Y99EAyvgm2Id
- W/SqWs/9nJHszNIqL7jsiO7TJ/tY7dM=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-19-RIRQ3gbyPASpreHwa8blkA-1; Mon, 15 Dec 2025 04:02:37 -0500
-X-MC-Unique: RIRQ3gbyPASpreHwa8blkA-1
-X-Mimecast-MFC-AGG-ID: RIRQ3gbyPASpreHwa8blkA_1765789357
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2a09845b7faso24254885ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 01:02:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765789356; x=1766394156;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=E/ch7cqSj/IiLkf/Hft/aylN6OFN53FmeYjrSH6kZBU=;
- b=nLrsCr4Bz09F0X0xf2ExwjcTUkwcWesd8BDq6gpM+DbkBBUnDPTEuhn/nFu7T2zUcg
- 1jZah3p7sgzUmvp45x6tI7hzHSgRebmqH/SU3zr5f6VLuA5fi7NY4ttA6MBWedg5CgE2
- wEjY4/upbSGm/9Nb52mf9XpDN+siaDGZwE87cdZdL84QXiPl3tdtAzgIbCr6Iuqo/Q4c
- SJF9f1RmJIpML7ru5vqnpuEpsBNVUeO4Gy+FUzqSe4bo9h8kewGTkRvTTRygLCy4iBGM
- g51GDJOdYii1vSR8Tbi6dsTmGTJJa9n/xisE7Hv2DeqtvV52NOc6cXwFlngYA3QnKubV
- bNmg==
-X-Gm-Message-State: AOJu0Yyi/MmUmlI78NuD0t5pdzdKSfw3hyVKgYcgNv6XRxm9Ky8TsuRh
- Y09qx/nJMhYa6JbqFJyL7S+3P5FXMHNb3b9JUKi4QIqegcyeBVYo7whDQMdudu0kej76WVfWXMp
- xGbDxvJA2LQEK6WtBqoRTFnXLdliQ6oyECucL60KXkoFvyvtaf19Ngz3vW7rrQoAOB0C0Aw==
-X-Gm-Gg: AY/fxX75fthi6sA9q5as4NPSmgWObFPSqLD0i5in5UrV4H4U0VDP+mI+sde3IywcaL5
- cqx6V7quQMbNxq6QR9aEj7zdEcJVM3CpKBqnsd1d3lUA9lV2pc5RSpE9i174jBEFWn/j3679u87
- tDqLptnqdscPHKyILUX6+iqXm6Zy9VqvVuXPGAhsMSeg9FPtdnwxgv3bRVuiF354F+Ov+D66qxr
- x2AEddjM3SLgFUmx+K3O+JFuf367bHBcLZ9kHIYU30XZhj2uXUsrpv3iBnkuCYB9DaH4zvUhUNt
- t/4Fq21t8kdIiu2IY1VpSDU6tVOKwVvqFD9hv/gX9eUqOGmaVL77ZsTc8y2xZZCKtt6lZ8cRRF+
- 52rX2XGR7osXv+xmn9y8Pc0j6C6Q25JU8FNh4gmhi
-X-Received: by 2002:a17:903:2f0d:b0:295:6d30:e268 with SMTP id
- d9443c01a7336-29f23d3841fmr99084595ad.59.1765789356559; 
- Mon, 15 Dec 2025 01:02:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IER3cmnaHZkYefZDZPHqHsxm2N4VlThsyCs8G8BXS/I9YQysvxiYy//d7kviFgCQXZptNgBcw==
-X-Received: by 2002:a17:903:2f0d:b0:295:6d30:e268 with SMTP id
- d9443c01a7336-29f23d3841fmr99084235ad.59.1765789356191; 
- Mon, 15 Dec 2025 01:02:36 -0800 (PST)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a0ced60ff4sm37450405ad.76.2025.12.15.01.02.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 01:02:35 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Marcus
- Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH RESEND v2 4/6] drm/sitronix/st7571-i2c: make probe
- independent of hw interface
-In-Reply-To: <20251202-st7571-split-v2-4-1e537a09e92f@gmail.com>
-References: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
- <20251202-st7571-split-v2-4-1e537a09e92f@gmail.com>
-Date: Mon, 15 Dec 2025 10:02:30 +0100
-Message-ID: <875xa8kti1.fsf@ocarina.mail-host-address-is-not-set>
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Mon, 15 Dec 2025 09:14:43 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0B010E230
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1765790083; x=1797326083;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uJLQFJraqizUE67dqXdm91xUJsTZgel7BQijceu5F8A=;
+ b=dd9G6/l9WNyoUM2yBNRmxh0VHtwTfhFF3vpqbNoWty18D+1vsovqHZfA
+ f4hep8+GJEXDlcEPhZdd/PoLeHDdrPcq4L4P/ANmZvrxct5ntoIPt5crh
+ ou9vRqKmCyQzUBNCjrfw/q07YjJtQ5SqIrC8v9ZDyPqiE4dtO+uheFwvf
+ A6DYE8EYu14TdnVvkaRj1wJbGrNcPu6moZ/ALJISSoNa7aGf7HIX9v5C4
+ jR7apzx/hgYLYBKtkylN10ZyaLv0hJyPMC0SC+gaKaBu2HPTGldxpoQf/
+ avw8Ij7Ta84jRl4Ktm1zi+QaRRBLZMUn63kDfEAp2inDOSJ+5g0gASbtM g==;
+X-CSE-ConnectionGUID: PcTJoc4CSZSXBJPpFg6KMg==
+X-CSE-MsgGUID: MAb+FIXPRJKeJQCgXrPXHw==
+X-IronPort-AV: E=Sophos;i="6.21,150,1763449200"; d="scan'208";a="217865848"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 15 Dec 2025 02:07:36 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Mon, 15 Dec 2025 02:07:06 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.58 via Frontend Transport; Mon, 15 Dec 2025 02:06:59 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <lee@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>,
+ <manikandan.m@microchip.com>, <dharma.b@microchip.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/2] dt-bindings: mfd: atmel,
+ hlcdc: Add sama7d65 compatible string
+Date: Mon, 15 Dec 2025 14:36:38 +0530
+Message-ID: <20251215090639.346288-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g9lp3juhJajXw9_LJk8OG0vVbQjXLtXZxdVJ5BrKzCY_1765789357
-X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,23 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+Add LCD compatible string for sama7d65.
 
-> Create a interface independent layer for the probe function. This to
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+---
+ Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-"an interface" and "This is to"
+diff --git a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+index 4aa36903e755..dfee8707bac2 100644
+--- a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
++++ b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+@@ -25,6 +25,7 @@ properties:
+       - atmel,sama5d4-hlcdc
+       - microchip,sam9x60-hlcdc
+       - microchip,sam9x75-xlcdc
++      - microchip,sama7d65-xlcdc
+ 
+   reg:
+     maxItems: 1
 
-> make it possible to add support for other interfaces.
->
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+base-commit: 7f790dd21a931c61167f7bdc327aecf2cebad327
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.25.1
 
