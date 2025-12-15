@@ -2,152 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686D0CBFCB7
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 21:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801A2CBFD1D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 21:48:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB1E610E4B3;
-	Mon, 15 Dec 2025 20:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7B6D10E51F;
+	Mon, 15 Dec 2025 20:48:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EPh/oprn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mVIB/ia/";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BaI0O6HF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8F910E4B3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 20:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765831321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vIugujDFg05cEDjSFPsNuy7/nXwlnSCGQEq9oeQZt8U=;
- b=EPh/oprnsVUrz2G+idS1ZC2AM/rwA1+1CYkP4vO+y+Y9/Ks+UhZD8GQD8uiF7UNWRmm+Q8
- lYIJDilFvfrR2WTE+Al8Yo+CZTbbsG+JMUiIqor8rbyfp6JC2rk0SbDtLjgj40Qo1Qhd62
- 7HXSH1GHpkG+G8IPBcGjz75EAvWohL4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-128-BMaDb4RxNWa7GGNcrT26UQ-1; Mon, 15 Dec 2025 15:41:59 -0500
-X-MC-Unique: BMaDb4RxNWa7GGNcrT26UQ-1
-X-Mimecast-MFC-AGG-ID: BMaDb4RxNWa7GGNcrT26UQ_1765831318
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-47910af0c8bso29564055e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:41:59 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B8D10E4FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 20:48:37 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BFGj6IV1824278
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 20:48:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=5pki75WPCYaCGC32sVPKpS6f
+ I/bdegMiprelgAi5BB8=; b=mVIB/ia/kCldiJCOFdtrqEX8ET1h29tPZY/1LXy8
+ 4JpU7W5CxK7bpSMjdxiN853d5HA3oj13c+QnU8zcg0clU8Rr+chRIVKYRdB3Ny7b
+ ceNarShcH4Jtdh5deNfnN5SFH54ErI7yrdWZaud8JRipqx0cgxBdCB4BljSQbPQb
+ M0nH0N/ccvFiCRhwBEE1823BnTfTIAr/9576ZN9IyK+M8Nbw6+HfxSIethdj92SP
+ hq++FHIoHvc10yIAxAonWwkGYfT5NCBsEbeHJq5a+DK09UmC5u1WV7ARgk/OSa23
+ djsE629VE5UT3ekub+jP0+XdnOAUbvpK5evOKtY1L9KmNQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b2p4f0kp4-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 20:48:36 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-88a2cc5b548so41915806d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765831715; x=1766436515;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5pki75WPCYaCGC32sVPKpS6fI/bdegMiprelgAi5BB8=;
+ b=BaI0O6HF7LzVZ/6G3j1IzoN1z8L/vK8fvZNmF95521Ydrh0z+yZwIcpANuflW4KZjP
+ FGxkj0qSH6yHVMIhfINxLwK93JFGNLoFmdCrcV9R8WPdh2IBXvo2zeEJvnTS8XzCThfu
+ QA37bHrAnGarHX7KaTya95LVVN/0dYyB+wZoJq02IkuY911+6JYCqtizj8sg6OGp2jNY
+ brQDmWPScbsK1OIbz8Z+4eDlhLAUv3X+q+um3aAocUsfFT7bQUwH9X4meloyjUQbMy0Z
+ iK/loZQHYBef5zYnrsYQDXH6kBha+/yk8XJ0udNRYdqfWlgbRiRLcOSYXzQHu/NpGu81
+ F8vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765831318; x=1766436118;
+ d=1e100.net; s=20230601; t=1765831715; x=1766436515;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vIugujDFg05cEDjSFPsNuy7/nXwlnSCGQEq9oeQZt8U=;
- b=m6xfO77iAOeNl8pBaah9ulFevpvs08edr/xrheRXEHl3aKAwozTzFQV3P3ZLPL3yfi
- +r6gx1m7gtx3BACq//QrcvebhD+2Q42H4wfWjFJFM0kGoQSKwAjfjjX2/d30OchCz1ZY
- ndkr6SIe/LU4rchxUJ7cqDDvSIYInMP1nZeqV6VyZv6RnfDWG7plIUC0YTzBf7o+wBgK
- kQk1D942FY7jzEv30O9Gq4iRFvZrZ4YZ3yTncR0k1byMFrB2+fwYxkg588CEj5w29uWw
- c+BzeCxrBABW1Z2m1Jh5fD7KstF10gG81jMPPujF9UaTgJ/uMR2vzDihFdGITIyCyDm8
- 4Ctw==
+ bh=5pki75WPCYaCGC32sVPKpS6fI/bdegMiprelgAi5BB8=;
+ b=bDBsRUiOCFfXVBKeF2eGX79X32oWD0XlKISH978PsIhniCWrp9yIaBVtx7zWWqtQhM
+ vtZvl3J6PfYd78cjyZmBQvS8q7ATCRFHsSeFKoJJzLIn/QM1z7qdG/1JllFn8paG86hQ
+ vk4e9L/lqgYC/ZGvEbuv5vw5fFjL/65924kLec0H82iSJ5kp048jHzOLy/IdkKauPGpT
+ omOKzYXzUgz1eAinMdTT5nHRwzrue5DHyG3yF9XlOZG05Z0hn8Qdd8RPP2mS1ZvfZkRM
+ Gxsy5Cy986g4dmLgGTR/nU/qOWrlQKat7ISfpA+lexcGg+reJcLkplrsQgWwP8kfrW6Y
+ l9mg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQpBq0Ef2r4gN7B9u4lXwf4/jHklaDaAzDBIAV0+CrM0V/O0awIVw5+xGx6T839D9IXwfnFZMXU9E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzI3vbZjSfa3TOiW51fEq7SWP8nuyw6i41MVLk4Mhpe4PXeIakH
- nsD/1/W9OJmFrRuQ8JSrTfE+hQtwxfqvOKcrZJ428yH8aiJJquTxKumXDGXKUZU5B1hupvezZ97
- jyF8by2f7OWIZFHPIWDtfzUnVnt8Z7LA8Cq3tSwmIyfFVzPFfduyp5KT4kKuErFL2HtvlPQ==
-X-Gm-Gg: AY/fxX4Q5n2Z3AJJCTQV4EJiQyCNsjIa4AQgV01zVYSZbOAjj63bm9shOVPcQFqGc+L
- WoKi8s4JH8recmTtIll/vtNzBLq28MjHCpGecBQlcqZcKHoczi2+fnig0n8gpwbS5W24SNLyTHx
- WnHwtBdR1VqFP0M4Q24rBUaclTWxLRhtnMlu7HgrKONdEN44e4kHnDTcbFEbqtN4I5VTZH/xbjR
- 4VVzQZHQAYOytL6IxTn/c2HwCPXhp2V0am0Vo6IlZen4LJNTB+LWryuzNxoSj9eIGqvdFoHfa3+
- Qibg2ps/Kn8PqKx+hRKFzzw55NDD8bA/prRedM43JgqAf7Wny72itvZnFx0w3nogoKyIHNEz/Ky
- f5BgYUx6FbRM5j7Bjbsq9LXNYOrTfUHWf5Q==
-X-Received: by 2002:a05:600c:6290:b0:477:76bf:e1fb with SMTP id
- 5b1f17b1804b1-47a8f8cdfd1mr164694455e9.16.1765831318211; 
- Mon, 15 Dec 2025 12:41:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFpvKxyv9KrTZN+I+gLKkWZxXPblkRG4VaB9KOKEG2SIjVVbTsH1HJ4pcy9Q9bDzIs00zZydQ==
-X-Received: by 2002:a05:600c:6290:b0:477:76bf:e1fb with SMTP id
- 5b1f17b1804b1-47a8f8cdfd1mr164694005e9.16.1765831317597; 
- Mon, 15 Dec 2025 12:41:57 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
+ AJvYcCWlwMWNb2Dfv6PvLEYKms7yKiZCh7JuOoJuMO1m2NsnEzITkbCqzuQSiobaM/4GdvNQGLkLzvj9GFU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxI33x1Wd98tR+WQ1lE0aAqBWSLV9PHaY6l3CN51TijLN2XW7iZ
+ yL24hoSOmS2eM0gHxZ1W0dFUSVqTdmbZ/Wk7/RMil+TYyiAeEr8iEuqSWzir8JBbK/IoZtLZux4
+ Iq6BqjOyVE5wmKbWbzopcV85CewButXP4upEV6rXrWCDVvYKKFsmEPPdk9syt6947NqJ4MQ7gZg
+ Zcwzs=
+X-Gm-Gg: AY/fxX4zOgiqVODfdufDxgM1wGL5TQMDI7gpH5MqKI1ltNVV0DP/kg1yZguwmOgZTxn
+ PQw+ek4PAgb47SNI8U5tceAM/XzwqRtGTSlIdCLzV2xrUqiO9xlATDpM0uUNf7rFpjaDnKCWTWx
+ mi4BUgFR/P/pShBoOGs6YSS73xboNKhP7RpIYIujh/cMkj3dswWhujtub8/xHEXv2n4Ew8CBMYb
+ TBDyLMjxaBljE5jH7Q/ozmE9LeORyA4dER/4TPcc5241V3MT8CuTTv9h3knuUafOrl3ihRzQBl5
+ q46jXUL7kg2gPoo9BsOI1RS+n2Gcmv4XaRcgkaAuAy8dN9pHG7rZW0ONWcuuZh6jm+c2OKvBOXd
+ /jqMALfE0lCnPXCCFCcaLL6AnEwENuxL1x8DHHfdFeg7WxmbiUGHmu0Qloie1vtqzVYFM1Zgmzp
+ MnAD8q3IrRYTRqU2UatWLin84=
+X-Received: by 2002:a05:622a:2c3:b0:4ef:bed6:5347 with SMTP id
+ d75a77b69052e-4f1bfc527c9mr243417661cf.30.1765831715573; 
+ Mon, 15 Dec 2025 12:48:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHmN/KDpj3W3F4CvCXgAdna9To5O6vhU/HOdmJWgcrxO14nwGW/q0vweBv6qM8C0DSy566hBA==
+X-Received: by 2002:a05:622a:2c3:b0:4ef:bed6:5347 with SMTP id
+ d75a77b69052e-4f1bfc527c9mr243416891cf.30.1765831714718; 
+ Mon, 15 Dec 2025 12:48:34 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a8f6f26ebsm211656485e9.14.2025.12.15.12.41.50
+ 2adb3069b0e04-5990da5dc5asm131302e87.77.2025.12.15.12.48.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 12:41:56 -0800 (PST)
-Date: Mon, 15 Dec 2025 15:41:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
- Linux Media <linux-media@vger.kernel.org>,
- linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
- Linux Virtualization <virtualization@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Network Bridge <bridge@lists.linux.dev>,
- Linux Networking <netdev@vger.kernel.org>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mon, 15 Dec 2025 12:48:32 -0800 (PST)
+Date: Mon, 15 Dec 2025 22:48:30 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>,
- Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Dillon Varone <Dillon.Varone@amd.com>,
- George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Cruise Hung <Cruise.Hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>,
- Dominik Kaszewski <dominik.kaszewski@amd.com>,
- David Hildenbrand <david@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Max Kellermann <max.kellermann@ionos.com>,
- "Nysal Jan K.A." <nysal@linux.ibm.com>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Alexey Skidanov <alexey.skidanov@intel.com>,
- Vlastimil Babka <vbabka@suse.cz>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Vitaly Wool <vitaly.wool@konsulko.se>,
- Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
- NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
- Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Lyude Paul <lyude@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>,
- Shaomin Deng <dengshaomin@cdjrlc.com>,
- Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
- George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 06/14] virtio: Describe @map and @vmap members in
- virtio_device struct
-Message-ID: <20251215154141-mutt-send-email-mst@kernel.org>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-7-bagasdotme@gmail.com>
+ "open list:DRM DRIVER for Qualcomm display hardware"
+ <linux-arm-msm@vger.kernel.org>, 
+ "open list:DRM DRIVER for Qualcomm display hardware"
+ <dri-devel@lists.freedesktop.org>, 
+ "open list:DRM DRIVER for Qualcomm display hardware"
+ <freedreno@lists.freedesktop.org>, 
+ open list <linux-kernel@vger.kernel.org>, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+Subject: Re: [PATCH] drm/msm: Replace custom dumb_map_offset with generic
+ helper
+Message-ID: <cv4we57zxltpys6qf43nxldwwogjwxyglp2hj3ld6talvlteqp@dsen5g3v24t7>
+References: <20251215022850.12358-1-swarajgaikwad1925@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20251215113903.46555-7-bagasdotme@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RFVtW2eSav8d0KqDlLEHbl0HsvtWxx6MnXl6eZE6rvI_1765831318
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215022850.12358-1-swarajgaikwad1925@gmail.com>
+X-Proofpoint-GUID: CJVHAD1Im5mlJJObXht-xPoHtAWTly2o
+X-Authority-Analysis: v=2.4 cv=OK8qHCaB c=1 sm=1 tr=0 ts=69407424 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=26i9lwY6jznW_AXw1HAA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-ORIG-GUID: CJVHAD1Im5mlJJObXht-xPoHtAWTly2o
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDE3OSBTYWx0ZWRfX4OVCPvsuzG0h
+ SWb65uY+eB4wTApR2mTuNC4wZTdUe+nmnM5o0XTk5v1DGvf3lz6R0wgJwRGhTsRF7J3nMwHnBE8
+ DabxUfy9d/IR+LV4YSEKUEEzbFUGXfyQt8ShtJZNwbJ80bmmpSoJy20pBkF+aoENA30B+lbms2v
+ E4nmaN1cfxrajDVcDRI73drda4fyr3/Z+lNClDlQwGHn9sHbuHupI0oGqDB/0nOSCZFSVwVdtRS
+ OYVnOVLh2/fK6LfkMG0Hgs+G/3Z0M6tHTkbyLrd2rn5QsC2h4eymsgnIL6R4xkylBD/8A5UFgHV
+ 6Vbs+egNnd5BWU+AuAk1DJaEfPmj7HMMiKTMEOsRIA/XpLILQSEX4BvuEn/xvmYi6BeKbXiBtXG
+ D0X5VIWJoJvUk+55t0E2PMk5teZadw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-15_05,2025-12-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512150179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,41 +152,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 15, 2025 at 06:38:54PM +0700, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warnings:
-> 
-> WARNING: ./include/linux/virtio.h:181 struct member 'map' not described in 'virtio_device'
-> WARNING: ./include/linux/virtio.h:181 struct member 'vmap' not described in 'virtio_device'
-> 
-> Describe these members.
-> 
-> Fixes: bee8c7c24b7373 ("virtio: introduce map ops in virtio core")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On Mon, Dec 15, 2025 at 02:28:50AM +0000, Swaraj Gaikwad wrote:
+> The msm driver implements a custom dumb_map_offset callback. This
+> implementation acquires the msm_gem_lock, but the underlying
+> drm_gem_create_mmap_offset() function is already thread-safe regarding
+> the VMA offset manager (it acquires the mgr->vm_lock internally).
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Other pieces are using msm_gem_lock() / msm_gem_unlock(), which
+translates to dma_resv_lock() / dma_resv_unlock(), so you need to
+describe, why it's still safe wrt. that code.
 
+> 
+> Switching to the generic drm_gem_dumb_map_offset() helper provides
+> several benefits:
+> 1. Removes the unnecessary locking overhead (locking leftovers).
+> 2. Adds a missing check to reject mapping of imported objects, which is
+>    invalid for dumb buffers.
+> 3. Allows for the removal of the msm_gem_dumb_map_offset() wrapper and
+>    the msm_gem_mmap_offset() helper function.
+> 
+> The logic from msm_gem_mmap_offset() has been inlined into
+> msm_ioctl_gem_info() to maintain functionality without the separate
+> helper.
+> 
+> This addresses the TODO:
+> "Documentation/gpu/todo.rst: Remove custom dumb_map_offset implementations"
+> 
+> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
 > ---
->  include/linux/virtio.h | 2 ++
->  1 file changed, 2 insertions(+)
 > 
-> diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-> index 132a474e59140a..68ead8fda9c921 100644
-> --- a/include/linux/virtio.h
-> +++ b/include/linux/virtio.h
-> @@ -150,11 +150,13 @@ struct virtio_admin_cmd {
->   * @id: the device type identification (used to match it with a driver).
->   * @config: the configuration ops for this device.
->   * @vringh_config: configuration ops for host vrings.
-> + * @map: configuration ops for device's mapping buffer
->   * @vqs: the list of virtqueues for this device.
->   * @features: the 64 lower features supported by both driver and device.
->   * @features_array: the full features space supported by both driver and
->   *		    device.
->   * @priv: private pointer for the driver's use.
-> + * @vmap: device virtual map
->   * @debugfs_dir: debugfs directory entry.
->   * @debugfs_filter_features: features to be filtered set by debugfs.
->   */
-> -- 
-> An old man doll... just what I always wanted! - Clara
+>  Compile-tested only.
+> 
 
+-- 
+With best wishes
+Dmitry
