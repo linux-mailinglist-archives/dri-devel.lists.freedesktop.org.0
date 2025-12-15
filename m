@@ -2,214 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A494CBF38B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279FCCBF3DD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 18:32:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B6810E61B;
-	Mon, 15 Dec 2025 17:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5AE10E664;
+	Mon, 15 Dec 2025 17:32:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="jyUJy1hS";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jyUJy1hS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MzrFJdAi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013022.outbound.protection.outlook.com [40.107.159.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F396510E61B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:23:01 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=i0c2KrqsFnp0t1eaCUq3MOtUx1f1GVAvefHV+N4b7r8PDJOS45+dV7mLYexmM2bCKUUvFEz1tengYWn+kfVzQWakbKTuOHn5DqD3EXs6oaQAD63Ty3ChuXBRahguSpcG1hjMwi6PdxrBxBOgU9wxMgIPA56zXrgwAyIXHH7YDLydHMjRaEh/nvsJpc201ghynRVahCDBj5MWGmCBf1S2Yj6+s/DBOYpIfU60ScNNdUpkBMEHEaGAMBoysoT+4dx0yPU5r4mDEeMHqySlaKAn0alBpsGbMjy0VG3a7szyWF8PwnxTWaIJbuWz9w0Yq2+PZta23jBeBEBsNUXyPzwuSQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
- b=V8IpHE1EsssJQPcphAnaTw6DENy8NSYNzoP7JjGq5gQWtJNvnF4sQdRQe7R9NuAeK/5xRJx9dtYiBFGlpi1KEbNWLUzToXw+oTcpTvhIEyD/5w1voy1qNSSHxTqTwom5wGfvxQrTkYaGNHh6IB3+qhzKg8XLlnqNhxmPKugUoweWv+VdUc1G7GJ3S1eEYmm5yUA3yAzfV/8+n2dn1u/Fn+UCu5vCtfmJaZ3jf65rfE/1FkGo0bp2NFddQbJBeqbY/bRN0p5ONXmRetdqgKyfOaR0LxpPLOzvhhsTdW6gQTJS+KhBUpnW8h+jm+NFEL7QiULdlV3ASAaZA9zfuuvYfQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
- b=jyUJy1hSbv1jFaOeeP0F4avnQlWmOfjMQlIc5d+0b/9SVbDVQUqhL9vXQ9mymvzNWEFylKUwDqYAB/KbXRDEEOU3ktLwA/oK8mOPim3TOiBgC8JpJns6b7X9J699SWBZfvkOF7aTggsgzKng7wj0uwddNCSZt7oTrkZWAldSE6Y=
-Received: from AS8PR07CA0034.eurprd07.prod.outlook.com (2603:10a6:20b:459::19)
- by AM8PR08MB5859.eurprd08.prod.outlook.com (2603:10a6:20b:1c6::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 17:22:56 +0000
-Received: from AMS0EPF00000194.eurprd05.prod.outlook.com
- (2603:10a6:20b:459:cafe::32) by AS8PR07CA0034.outlook.office365.com
- (2603:10a6:20b:459::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Mon,
- 15 Dec 2025 17:22:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000194.mail.protection.outlook.com (10.167.16.214) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
- via Frontend Transport; Mon, 15 Dec 2025 17:22:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IuPJHuRlIKrzXmgQMnIYJLr2iziT33z7S2LKbLjL2mpprmwmbdPcCT6rcizwWEKMigY4Mlp/fhG++EOJKoOgo+DtZXTwW5JC95rTLlpHN5lSScbCI6vTrHgW4wOK7mMhKy+4uJVJOZW7shp2qC9IAqPXHlwWwrVIDIuAcxUoIMDu2K/SVqNeeS2pn6hYE/+VhR7IqnvORCGnAhT7gnS6rwMruPMeOkYGyp9dcyRDVhQY2XNJYjDEgPunGcO91qVTKMosSAdYkVGhyAuk2Km3CE4fDRtsXbmlJjKxnJ0Yqt0P+0c7rjvqwj5Mo2fb0Iu1VUVfCrxBoB6jdON7AUq8ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
- b=tbki1gk2Lhq9DHSNhQC6cMMGSdRF7HSrfKNIT4tRxQPJpzzHVaDY8SxEdHXWNwbok2dvBCSjukQy2DEuB7mY38TNOI64ZzIqwouzsTz3PtvKKu1GsrDmXdta9AcRDBBIjecbOHxzQ2bw39+SGVSeByjM0u10jw5/EWxdyVu5kzAJTDBUZFOStadqHtvgKGdQMkBIm5Bh5qqiGN4cZQF7zODhl8HpCscgqZLZ5brV7ScEnMcJxCNOcEZTUXsjdHpWZ1j1igAkT8LVoSKXNRbPJ1rHcYI7Vr2leYdMYy3Jx1eEJZVIINfCI/ifEwGlBAZxYaW9puuEgh8UEni5ounNGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OsK0TwrW9kW68+UG9/Hk6dxMVEc/MOaig7g7+pnPSoI=;
- b=jyUJy1hSbv1jFaOeeP0F4avnQlWmOfjMQlIc5d+0b/9SVbDVQUqhL9vXQ9mymvzNWEFylKUwDqYAB/KbXRDEEOU3ktLwA/oK8mOPim3TOiBgC8JpJns6b7X9J699SWBZfvkOF7aTggsgzKng7wj0uwddNCSZt7oTrkZWAldSE6Y=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AM9PR08MB6820.eurprd08.prod.outlook.com (2603:10a6:20b:30f::8)
- by PA4PR08MB6077.eurprd08.prod.outlook.com (2603:10a6:102:e7::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 17:21:53 +0000
-Received: from AM9PR08MB6820.eurprd08.prod.outlook.com
- ([fe80::a89a:b887:8053:a1fb]) by AM9PR08MB6820.eurprd08.prod.outlook.com
- ([fe80::a89a:b887:8053:a1fb%6]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 17:21:53 +0000
-Message-ID: <df93c238-c9d0-4f32-a371-b0bf4bcaaa0d@arm.com>
-Date: Mon, 15 Dec 2025 17:21:52 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] drm/panthor: Add tracepoint for hardware
- utilisation changes
-Content-Language: en-GB
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com>
- <20251211-panthor-tracepoints-v3-2-924c9d356a5c@collabora.com>
-From: Lukas Zapolskas <lukas.zapolskas@arm.com>
-In-Reply-To: <20251211-panthor-tracepoints-v3-2-924c9d356a5c@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0311.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:391::16) To AM9PR08MB6820.eurprd08.prod.outlook.com
- (2603:10a6:20b:30f::8)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9919910E642
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 17:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1765819923;
+ bh=za1z6HlcucCRe3OBYJjxgDsXryoFmt5DmApCMpavDNk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MzrFJdAiZcEmtPLXatX2Iol0hw1wKc+0k/4sqG5Yzwx9ueH6bg2B/1wouHvp04Ew5
+ jJVmUg55t2e1s+fHajm2YvWub5PsDOkWzMqLM/w8G1LVGJbqeB2GWto8t46H/ojhkA
+ VAa7Z0OX02V3KetAl/vwPgXyPC859cdcy52IIjkY8lYB9DtOqt8EWCAAM8ogCOSRuG
+ XqP7S0ynhDf/Qff3mDWjA+Ak3VACtnWTFtxLja4ilxo4GYDg5hHQG1fG8p/vbPGnf4
+ amJpmgFD1xzy7YSSfqLcEPAqJNMj27b4pkHHyHyTbgIbo8pTxc5Vivf1ZeQVYVOuKw
+ KEKjRUaWalVAg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 81B8917E12A2;
+ Mon, 15 Dec 2025 18:32:02 +0100 (CET)
+Date: Mon, 15 Dec 2025 18:31:59 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, nd@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Ketil
+ Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide
+ group and queue errors
+Message-ID: <20251215183159.52fc824c@fedora>
+In-Reply-To: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
+References: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
+ <20251215115457.2137485-6-lukas.zapolskas@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|PA4PR08MB6077:EE_|AMS0EPF00000194:EE_|AM8PR08MB5859:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f9feec6-5294-48dd-e447-08de3bfe9610
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?N1VEdElraXlrNytjSlF4em5NY015ekRxa3VqVDhONFplN0RuVXNyeGp2bXFI?=
- =?utf-8?B?dXo5WUJMMXpyUDZveURxSE5ObmdxSEN3WXB3WTl3dTVsSkE4NlhwNVFXenNu?=
- =?utf-8?B?TUM2SjByd0IrRWlRWVpRT1RqUHlKL29ZZkhYMWFqOHZ1TjJoS3IwUDgrOUN6?=
- =?utf-8?B?SFhHZVJrNEhYWTVwaGFwdHBTRDBKVmtwd25xellqVkJEeFhtUTIvM0ZVMVJm?=
- =?utf-8?B?RmVJamgxMU9xaXR5N3JxNVEzdEpOclpnb1hQWE9BR2Z5T3pHcVh0TEZwTXlx?=
- =?utf-8?B?ZTUvK3FWVjhZVDhnR2x4VmtYNUZ0TTBzQnB2dG41MnBzL0ZBeTE4S0IxOTZX?=
- =?utf-8?B?ZU5tTzd3T212QlVhQzEzWTBQSlFkaTR5WnNES05kczFjWklGVVhGWDFPYXJn?=
- =?utf-8?B?NE5QVVFPbldCdWFPNklZZ3loNW45bk1JOG1qVTEyTGlLcTc4OGowUzExdTl5?=
- =?utf-8?B?a0xORGJXSWQrNnFIUFBXdGNWa1d3UXNPaUN2K2tHeGdOU0lPK2hDVGttYW9i?=
- =?utf-8?B?aHRxRjRVdjJGS1ZldnoxM0pOMGJQUXRSVERCVkFINkc0NCthT1BWVXpwbG9S?=
- =?utf-8?B?cml0U0xycXJvZ3MzSlpNSDlNSHZzZk1yTXo4YUgySTNQdjlyVjFIM0RnR0lT?=
- =?utf-8?B?Sm9CT1cwaUVIZkROcG1ZVEk1MEo2YkVNdHdDZU1uVkpZdG5rdHBpVGp0VjR6?=
- =?utf-8?B?dkt3NWJXTVgyWmFCcGdrd25WS3JaUDFqY25QRHBYeEhMU0xSYU5ZNmVqZ1Rz?=
- =?utf-8?B?Mzk3Z0xNOVFNem9UYVcxemMxY3FpRk0yNzdZVytDMXdWZmw5a2JSYnRzWmZX?=
- =?utf-8?B?eWJId0I2SjZNM3IzNlVUMDBmVkY1NyszU0tuRHhHaHB1MTBUQjJ4RTJhSTh4?=
- =?utf-8?B?SGJYVFFKZXREbU4yWUJuVlowMmh3eXdrN1ZneXVYcjlkRmRBMkpWRTF2aFpt?=
- =?utf-8?B?K0ZQdGlEdHdLTHpwVCtYRHBQaUlrb3dHZ3VsU0k2ZGFHRXRJRFJmVGRqdG5r?=
- =?utf-8?B?UC90SmVrQXdHSFZ1ZlVjTURnWDQxRVpHdjZrZnRPOXRZcDkvTEIzOFc5MW5y?=
- =?utf-8?B?UkJYa0cwYVM5L0ZUK29nTW9wSDZUNWZ1VnlSY015QXVYNEJJaXFLb0t5blFt?=
- =?utf-8?B?ZTZQWTg2cXRTcDdYNXVxYXZxVGk5d1FqUkIybUYvMVRqUkY2T2NzdjgrRXdq?=
- =?utf-8?B?VWc2VklQbGFvSVRqVlByQjQydGtCeUpDY3lWcXJlOVlEa3JoZFduWXdsQXFt?=
- =?utf-8?B?M0tSNTdRZUlpRjlJQyt4TE9BUFY4ZnRKWVJaSmhhSW5WMnZGb2hkRTZBeVps?=
- =?utf-8?B?dmJrS1oyVnNBVGlOcEM0djVBeGorMytvRUYybnBaakdlR2lOYzFXQzVzcVlM?=
- =?utf-8?B?N29jc3VzSXdXSVpBNFV3NnlBaStISnVOdXMweVh6WnE3WnQ1NE5xNjVrUkNq?=
- =?utf-8?B?VEdhWTE3M1BhbUFBNUx4TkpVSU1jYTBFVkFQMWlCbzRJSm9adVpzSFJvRFl4?=
- =?utf-8?B?V0dQamdiZDFZbk02RDdpeUZwcDFzZExMMnIzMHQzejNYWWsycnVyV2pTaFJ6?=
- =?utf-8?B?Q3krZjcxRTlIMXl2YU1WZ2hmdjBEZDZ3dVllS2s1Uy9IQlZOcmtnZWtIKytq?=
- =?utf-8?B?KzZDVjhTUEJvM0szN2huc1VrbXpESTFFRGtnRUVrWVpHUjB3d2N6Sk9MQ2My?=
- =?utf-8?B?NFNUSEFleVJ0Yk9nSXFxT1o0TTNqbkZQNE1ad3ZVY0RpTWIyai84YUd4YWdh?=
- =?utf-8?B?c2xwbm9ZcU9mcENqWHYyQ2graElOM1lCZ2wvT2VnRGovSERJRlNZNmlpU1dk?=
- =?utf-8?B?aE5qeUhvcjRIaE1DR2Rpanh4QlRRRzhYNWxhL1hPRC9DOW4rMWk3Tmp4eVgz?=
- =?utf-8?B?VjdRVHMwa0NEeGlRcTN4dlNhZERqRWNrZ2c3Uk9nNjd6MEl0MXlVdENzVVFH?=
- =?utf-8?B?TXNFK3FQQlZad2hxY2Zma0swWDNmMGR2SUovWERXdXZDMFhuZWhManprUUJm?=
- =?utf-8?Q?cOEWNoug+6pSdXww8GDtBWGj39I0YA=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6820.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6077
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF00000194.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e164ad25-b2d3-40dc-9df3-08de3bfe70a6
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|35042699022|82310400026|14060799003|36860700013|921020|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U1JYdzVuNkhpMEZYcjB6K2pLKzlLTnVWOVZhcDFxYXR5MnJGZVZFZUJoODNP?=
- =?utf-8?B?bU8wOGRmby9ZNXF2R05hR0dXc3RnUStiMlA3aldOQlFUUnVKeFhPa010WEFu?=
- =?utf-8?B?eEc4OU9vcmFqZzIwazRDOFhaOVpTNkhFZUZQVXlIVjdqd0tDVW5nTUg1YlJE?=
- =?utf-8?B?dHJPQlBlUEpUUDcrTnRxWFMrN21hVVVqdUMyak9hTncwNzYvZzRudG5mUHly?=
- =?utf-8?B?djZnMzdkc0VwVVJRQktCVTgvM0U4YmorQ0xoOUVrSXBQSW44c2NwN0w1VXZa?=
- =?utf-8?B?M2VLeGI5QU16RFU5TTJYc3c1dEZrSWlQcGwyc1hsSnNsUWJPeHlob2gyNGpk?=
- =?utf-8?B?Q1RDU3dCeHY4RXdJS3dHNmZNeWtVZzNtcFJyTGRDSmpNS0pZUVYxenovREVh?=
- =?utf-8?B?WktKMkhZc1JjUURFYW5CT1NSMzY3Rlg4QjdPZm1tWk9QdVNGL3k4WXRLNjBQ?=
- =?utf-8?B?TlltK2N4cVRDeWh1dzNGNGRFSDBhZEFkRzVSNVhmNWdzQnd3Ky9aRXl1dEZy?=
- =?utf-8?B?K2ZQTVRVVFhGcTdZdmlwRzNOZG5vODdjSW8wTEJucXRyRWFXaXZTSUZQVnNh?=
- =?utf-8?B?R3paaXZadW45bitkYUE1aHFBK0h2SDVmZzl5bEdwTEtneTJDV1dtL2x1djBV?=
- =?utf-8?B?MUpnUHRITmpWY0FUNDVuWFJKUkNnbFM2cklubFJvb3dsMWVDalNoSGR6Si90?=
- =?utf-8?B?SUhpRlZnZUNDWE1qcm9wSVBSREMvbXBBVk9lVy9oWUo2L0tNaU05VFl1UERP?=
- =?utf-8?B?OE50M3N6bTVWblRHTE94WlhSaUNPOEMzVzlzTTBEbVp5VElLN0NEd2Nrek1I?=
- =?utf-8?B?SjFxOGVvNUlWOVgvTUpxc2tUSWxJeVU1alJxaFVwNmxUWm9qYTlkQ2FjRDFL?=
- =?utf-8?B?KzA1Q2U4SU4vVG5mUkg5OFIrUWl5ZUdDd1d3S3F4ZUVPUzMyK1RxbE83TkZT?=
- =?utf-8?B?MS9rVGFHdTc5U2JpNFFVaCtQOU53cUY1eGFyS1Y5Qm5udHhKbXV5MG54K3R5?=
- =?utf-8?B?eTBzeXhEUjk4S0I4VkxwUEEzMXRvUWZ2UHIrRlU3S3k0QXorTWNoWVh1TlNX?=
- =?utf-8?B?SjRKWUM1dVU1NVNIZ1pIaUIzSWxJeFhycStES2xCRkZoNUVCUC82c2pDdndz?=
- =?utf-8?B?dmp6K1BZTmpmYkgwVzYyMERWQlY4bGhYKysvQlY0eFcrQ3YrSzh4dTR2SlJz?=
- =?utf-8?B?ZXVJaHI2bll5T3B4NGJUNGcrV0x2a3dOOEFWTTYxdENnZytseEQ1V2NIN3FE?=
- =?utf-8?B?NHkwS2hyUEgxWk9FMkZFSkxEWVBjaWt2SzlNMEU0OXRTbHlvZGZsM1FUT3Bl?=
- =?utf-8?B?bVJsRERWWldtRm5QYmliaCtucG15TVZmK05hbW41NDFxNVBTZDY3T2xidlpN?=
- =?utf-8?B?Y1d6MWIrcDVnZmhyMGg5V2FISWtFVzcraXJyd1FVU2FubEZDMkhBdEY4eWFo?=
- =?utf-8?B?a1BnMDJNMlNudE5XVDdDZU9Ddzhvekt0ci9PbW9qcDUxVitRUlhLSDNrZW0w?=
- =?utf-8?B?dmNoOUpLd1JzbmRxMVcxMnp4SXZ1aC9YUEU3ZzAzeFhlVDMrSW1XWTVNUExW?=
- =?utf-8?B?RDZnVGZNNG9mMnVDUkd2cHRjekthZGlHQkJjQ1FkTU9uN0NUeHlYdE5QU3lq?=
- =?utf-8?B?a1hENTZ4M1VyVTVHVjNwS0FVd2hTSTlBNTdreDFFSjEvY1FXbjNJbUZDaW5x?=
- =?utf-8?B?RllNcGd2d01RN3VIR05VY3N1NmpvRGxCNFBpeDEySHh6U1hRcHVGQWo4Y3Vt?=
- =?utf-8?B?bHgwK0NRQnNSRWpocmNnNVNXSUhjZC9YRERYajdVTVpyd09oYmpxQTdxYnoz?=
- =?utf-8?B?YTRka01iekREVUZEVVNlbGUybGNHOU0vZGtZbEhMK0NPelAyNXU0NFpaSSt3?=
- =?utf-8?B?TkU1ZzBmTE50UG9JNGZZNVhGcGhmR2xwOEgvUlZSMUsvOUVTQnZQOVRybUF0?=
- =?utf-8?B?ODNNTTVMZDRrRjhwbm43U1U1emlPa3hrY0hBWVZodGp3NE5JcGhWN0psR2U2?=
- =?utf-8?B?VEdQb0Q0ZWs1ZnN2dTN4VTRZUmtUNjg1ZDJjc0hMeTQ2Y0RwRkZPbWszQzZt?=
- =?utf-8?B?TU5PTDUyWWQyTjREZXU5aXFLZ1hiOVVEQkdYWGlCcDkvYnVGV1E1SkZxenVP?=
- =?utf-8?Q?H/oeq708sR+g7p63U4HxGTKx8?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(35042699022)(82310400026)(14060799003)(36860700013)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 17:22:55.7634 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f9feec6-5294-48dd-e447-08de3bfe9610
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF00000194.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5859
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -225,344 +68,363 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Nicolas,
+On Mon, 15 Dec 2025 11:54:57 +0000
+Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
 
-
-On 11/12/2025 16:15, Nicolas Frattaroli wrote:
-> Mali GPUs have three registers that indicate which parts of the hardware
-> are powered at any moment. These take the form of bitmaps. In the case
-> of SHADER_READY for example, a high bit indicates that the shader core
-> corresponding to that bit index is powered on. These bitmaps aren't
-> solely contiguous bits, as it's common to have holes in the sequence of
-> shader core indices, and the actual set of which cores are present is
-> defined by the "shader present" register.
+> GROUP_GET_STATE now can be called two times: the first time to
+> enumerate the faults that occurred on the associated queues, and
+> the second time to copy out any fault information. The
+> necessary infrastructure to copy out drm_panthor_obj_array's
+> is pulled in from
+> https://lore.kernel.org/dri-devel/20240828172605.19176-7-mihail.atanassov@arm.com/
 > 
-> When the GPU finishes a power state transition, it fires a
-> GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
-> received, the _READY registers will contain new interesting data. During
-> power transitions, the GPU_IRQ_POWER_CHANGED interrupt will fire, and
-> the registers will likewise contain potentially changed data.
-> 
-> This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
-> which is something related to Mali v14+'s power control logic. The
-> _READY registers and corresponding interrupts are already available in
-> v9 and onwards.
-> 
-> Expose the data as a tracepoint to userspace. This allows users to debug
-> various scenarios and gather interesting information, such as: knowing
-> how much hardware is lit up at any given time, correlating graphics
-> corruption with a specific powered shader core, measuring when hardware
-> is allowed to go to a powered off state again, and so on.
-> 
-> The registration/unregistration functions for the tracepoint go through
-> a wrapper in panthor_hw.c, so that v14+ can implement the same
-> tracepoint by adding its hardware specific IRQ on/off callbacks to the
-> panthor_hw.ops member.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+> Co-developed-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_gpu.c   | 38 ++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_gpu.h   |  2 ++
->  drivers/gpu/drm/panthor/panthor_hw.c    | 62 +++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_hw.h    |  8 +++++
->  drivers/gpu/drm/panthor/panthor_trace.h | 59 +++++++++++++++++++++++++++++++
->  5 files changed, 167 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 85 ++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_sched.c | 92 +++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_sched.h |  4 +-
+>  include/uapi/drm/panthor_drm.h          | 24 +++++++
+>  4 files changed, 195 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 057e167468d0..67572b607b55 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -22,6 +22,9 @@
->  #include "panthor_hw.h"
->  #include "panthor_regs.h"
->  
-> +#define CREATE_TRACE_POINTS
-> +#include "panthor_trace.h"
-> +
->  /**
->   * struct panthor_gpu - GPU block management data.
->   */
-> @@ -29,6 +32,9 @@ struct panthor_gpu {
->  	/** @irq: GPU irq. */
->  	struct panthor_irq irq;
->  
-> +	/** @irq_mask: GPU irq mask. */
-> +	u32 irq_mask;
-> +
->  	/** @reqs_lock: Lock protecting access to pending_reqs. */
->  	spinlock_t reqs_lock;
->  
-> @@ -48,6 +54,9 @@ struct panthor_gpu {
->  	 GPU_IRQ_RESET_COMPLETED | \
->  	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
->  
-> +#define GPU_POWER_INTERRUPTS_MASK	\
-> +	(GPU_IRQ_POWER_CHANGED | GPU_IRQ_POWER_CHANGED_ALL)
-> +
->  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  {
->  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> @@ -80,6 +89,12 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	gpu_write(ptdev, GPU_INT_CLEAR, status);
->  
-> +	if (tracepoint_enabled(gpu_power_status) && (status & GPU_POWER_INTERRUPTS_MASK))
-> +		trace_gpu_power_status(ptdev->base.dev,
-> +				       gpu_read64(ptdev, SHADER_READY),
-> +				       gpu_read64(ptdev, TILER_READY),
-> +				       gpu_read64(ptdev, L2_READY));
-> +
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
->  		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR);
-> @@ -139,6 +154,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
->  	init_waitqueue_head(&gpu->reqs_acked);
->  	mutex_init(&gpu->cache_flush_lock);
->  	ptdev->gpu = gpu;
-> +	gpu->irq_mask = GPU_INTERRUPTS_MASK;
->  
->  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
->  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-> @@ -150,13 +166,31 @@ int panthor_gpu_init(struct panthor_device *ptdev)
->  	if (irq < 0)
->  		return irq;
->  
-> -	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, GPU_INTERRUPTS_MASK);
-> +	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, gpu->irq_mask);
->  	if (ret)
->  		return ret;
->  
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 98d4e8d867ed..bdcaf85b98cd 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -75,6 +75,55 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
 >  	return 0;
 >  }
 >  
-> +int panthor_gpu_power_changed_on(struct panthor_device *ptdev)
+> +/**
+> + * panthor_set_uobj_array() - Copy a kernel object array into a user object array.
+> + * @out: The object array to copy to.
+> + * @min_stride: Minimum array stride.
+> + * @obj_size: Kernel object size.
+> + * @in: Kernel object array to copy from.
+> + *
+> + * Helper automating kernel -> user object copies.
+> + *
+> + * Don't use this function directly, use PANTHOR_UOBJ_SET_ARRAY() instead.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +static int
+> +panthor_set_uobj_array(const struct drm_panthor_obj_array *out, u32 min_stride, u32 obj_size,
+> +		       const void *in)
 > +{
-> +	guard(pm_runtime_active)(ptdev->base.dev);
+> +	if (out->stride < min_stride)
+> +		return -EINVAL;
 > +
-> +	ptdev->gpu->irq_mask |= GPU_POWER_INTERRUPTS_MASK;
-> +	panthor_gpu_irq_mask_set(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
-> +
-> +	return 0;
-> +}
-> +
-> +void panthor_gpu_power_changed_off(struct panthor_device *ptdev)
-> +{
-> +	guard(pm_runtime_active)(ptdev->base.dev);
-> +
-> +	ptdev->gpu->irq_mask &= ~GPU_POWER_INTERRUPTS_MASK;
-> +	panthor_gpu_irq_mask_set(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
-> +}
-> +
->  /**
->   * panthor_gpu_block_power_off() - Power-off a specific block of the GPU
->   * @ptdev: Device.
-> @@ -395,7 +429,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
->   */
->  void panthor_gpu_resume(struct panthor_device *ptdev)
->  {
-> -	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
-> +	panthor_gpu_irq_resume(&ptdev->gpu->irq, ptdev->gpu->irq_mask);
->  	panthor_hw_l2_power_on(ptdev);
->  }
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
-> index 12e66f48ced1..12c263a39928 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
-> @@ -51,5 +51,7 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
->  int panthor_gpu_flush_caches(struct panthor_device *ptdev,
->  			     u32 l2, u32 lsc, u32 other);
->  int panthor_gpu_soft_reset(struct panthor_device *ptdev);
-> +void panthor_gpu_power_changed_off(struct panthor_device *ptdev);
-> +int panthor_gpu_power_changed_on(struct panthor_device *ptdev);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> index 87ebb7ae42c4..ae3320d0e251 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -1,6 +1,8 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  /* Copyright 2025 ARM Limited. All rights reserved. */
->  
-> +#include <linux/platform_device.h>
-> +
->  #include <drm/drm_print.h>
->  
->  #include "panthor_device.h"
-> @@ -29,6 +31,8 @@ static struct panthor_hw panthor_hw_arch_v10 = {
->  		.soft_reset = panthor_gpu_soft_reset,
->  		.l2_power_off = panthor_gpu_l2_power_off,
->  		.l2_power_on = panthor_gpu_l2_power_on,
-> +		.power_changed_off = panthor_gpu_power_changed_off,
-> +		.power_changed_on = panthor_gpu_power_changed_on,
->  	},
->  };
->  
-> @@ -53,6 +57,64 @@ static struct panthor_hw_entry panthor_hw_match[] = {
->  	},
->  };
->  
-> +static int panthor_hw_set_power_tracing(struct device *dev, void *data)
-> +{
-> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> +
-> +	if (!ptdev)
-> +		return -ENODEV;
-> +
-> +	if (!ptdev->hw)
+> +	if (!out->count)
 > +		return 0;
 > +
-> +	if (data) {
-> +		if (ptdev->hw->ops.power_changed_on)
-> +			return ptdev->hw->ops.power_changed_on(ptdev);
+> +	if (obj_size == out->stride) {
+> +		if (copy_to_user(u64_to_user_ptr(out->array), in,
+> +				 (unsigned long)obj_size * out->count))
+> +			return -EFAULT;
 > +	} else {
-> +		if (ptdev->hw->ops.power_changed_off)
-> +			ptdev->hw->ops.power_changed_off(ptdev);
+> +		u32 cpy_elem_size = min_t(u32, out->stride, obj_size);
+> +		void __user *out_ptr = u64_to_user_ptr(out->array);
+> +		const void *in_ptr = in;
+> +
+> +		for (u32 i = 0; i < out->count; i++) {
+> +			if (copy_to_user(out_ptr, in_ptr, cpy_elem_size))
+> +				return -EFAULT;
+> +
+> +			if (out->stride > obj_size &&
+> +			    clear_user(out_ptr + cpy_elem_size, out->stride - obj_size)) {
+> +				return -EFAULT;
+> +			}
+> +
+> +			out_ptr += out->stride;
+> +			in_ptr += obj_size;
+> +		}
 > +	}
 > +
 > +	return 0;
 > +}
 > +
-> +int panthor_hw_power_status_register(void)
-> +{
-> +	struct device_driver *drv;
+>  /**
+>   * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
+>   * @in: The object array to copy.
+> @@ -178,7 +227,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_event, exception_data))
+>  
+>  /**
+>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+> @@ -193,6 +243,20 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
+>  			 sizeof(_src_obj), &(_src_obj))
+>  
+> +/**
+> + * PANTHOR_UOBJ_SET_ARRAY() - Copies from _src_array to @_dest_drm_panthor_obj_array.array.
+> + * @_dest_drm_panthor_obj_array: The &struct drm_panthor_obj_array containing a __u64 raw
+> + * pointer to the destination C array in user space and the size of each array
+> + * element in user space (the 'stride').
+> + * @_src_array: The source C array object in kernel space.
+> + *
+> + * Return: Error code. See panthor_set_uobj_array().
+> + */
+> +#define PANTHOR_UOBJ_SET_ARRAY(_dest_drm_panthor_obj_array, _src_array) \
+> +	panthor_set_uobj_array(_dest_drm_panthor_obj_array, \
+> +			       PANTHOR_UOBJ_MIN_SIZE((_src_array)[0]), \
+> +			       sizeof((_src_array)[0]), _src_array)
+> +
+>  /**
+>   * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
+>   * object array.
+> @@ -1128,9 +1192,23 @@ static int panthor_ioctl_group_get_state(struct drm_device *ddev, void *data,
+>  					 struct drm_file *file)
+>  {
+>  	struct panthor_file *pfile = file->driver_priv;
+> +	struct drm_panthor_queue_event *__free(kvfree) events = NULL;
+>  	struct drm_panthor_group_get_state *args = data;
 > +	int ret;
+>  
+> -	return panthor_group_get_state(pfile, args);
+> +	/* First call enumerates the faults. */
+> +	if (!args->faults.count && !args->faults.array)
+> +		return panthor_group_get_state(pfile, args, NULL, 0);
 > +
-> +	drv = driver_find("panthor", &platform_bus_type);
-> +	if (!drv)
-> +		return -ENODEV;
+> +	ret = PANTHOR_UOBJ_GET_ARRAY(events, &args->faults);
+> +	if (ret)
+> +		return ret;
 > +
-> +	ret = driver_for_each_device(drv, NULL, (void *)true,
-> +				     panthor_hw_set_power_tracing);
+> +	ret = panthor_group_get_state(pfile, args, events, args->faults.count);
+> +	if (!ret)
+> +		ret = PANTHOR_UOBJ_SET_ARRAY(&args->faults, events);
 > +
 > +	return ret;
-> +}
-> +
-> +void panthor_hw_power_status_unregister(void)
-> +{
-> +	struct device_driver *drv;
-> +	int ret;
-> +
-> +	drv = driver_find("panthor", &platform_bus_type);
-> +	if (!drv)
-> +		return;
-> +
-> +	ret = driver_for_each_device(drv, NULL, NULL, panthor_hw_set_power_tracing);
-> +
-> +	/*
-> +	 * Ideally, it'd be possible to ask driver_for_each_device to hand us
-> +	 * another "start" to keep going after the failing device, but it
-> +	 * doesn't do that. Minor inconvenience in what is probably a bad day
-> +	 * on the computer already though.
-> +	 */
-> +	if (ret)
-> +		pr_warn("Couldn't mask power IRQ for at least one device: %pe\n",
-> +			ERR_PTR(ret));
-> +}
-> +
->  static char *get_gpu_model_name(struct panthor_device *ptdev)
->  {
->  	const u32 gpu_id = ptdev->gpu_info.gpu_id;
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
-> index 56c68c1e9c26..2c28aea82841 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
-> @@ -19,6 +19,12 @@ struct panthor_hw_ops {
+>  }
 >  
->  	/** @l2_power_on: L2 power on function pointer */
->  	int (*l2_power_on)(struct panthor_device *ptdev);
+>  static int panthor_ioctl_tiler_heap_create(struct drm_device *ddev, void *data,
+> @@ -1678,6 +1756,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
+>   *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
+>   *       - adds drm_panthor_gpu_info::selected_coherency
+> + * - 1.8 - extends GROUP_GET_STATE to propagate fault and fatal event metadata
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1691,7 +1770,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 7,
+> +	.minor = 8,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 9ea0d2b27114..f58d9a21dec4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3872,21 +3872,86 @@ static struct panthor_group *group_from_handle(struct panthor_group_pool *pool,
+>  	return group;
+>  }
+>  
+> +static int panthor_group_count_faults(struct panthor_scheduler *sched, struct panthor_group *group)
+> +{
+> +	int count = 0;
+> +	unsigned long queue_events = group->fault_queues | group->fatal_queues;
 > +
-> +	/** @power_changed_on: Start listening to power change IRQs */
-> +	int (*power_changed_on)(struct panthor_device *ptdev);
+> +	lockdep_assert(&sched->lock);
 > +
-> +	/** @power_changed_off: Stop listening to power change IRQs */
-> +	void (*power_changed_off)(struct panthor_device *ptdev);
+> +	for (size_t i = 0; i < group->queue_count; i++) {
+> +		struct panthor_queue *queue;
+> +		struct panthor_queue_event *evnt;
+> +
+> +		if (!test_bit(i, &queue_events))
+> +			continue;
+> +
+> +		queue = group->queues[i];
+> +		if (!queue)
+> +			continue;
+> +
+> +		list_for_each_entry(evnt, &queue->events, link)
+> +			count++;
+> +	}
+> +
+> +	return count;
+> +}
+> +
+> +static void panthor_group_get_faults(struct panthor_scheduler *sched, struct panthor_group *group,
+> +				     struct drm_panthor_queue_event *events, u32 count)
+> +{
+> +	int nr_events = 0;
+> +	unsigned long queue_events = group->fault_queues | group->fatal_queues;
+> +
+> +	lockdep_assert(&sched->lock);
+> +
+> +	for (u32 i = 0; i < group->queue_count; i++) {
+> +		struct panthor_queue *queue;
+> +		struct panthor_queue_event *evnt, *tmp;
+> +
+> +		if (!test_bit(i, &queue_events))
+> +			continue;
+> +
+> +		queue = group->queues[i];
+> +
+> +		if (!queue)
+> +			continue;
+> +
+> +		list_for_each_entry_safe(evnt, tmp, &queue->events, link) {
+> +			if (nr_events >= count)
+> +				return;
+> +
+> +			events[nr_events++] = evnt->event;
+> +			list_del(&evnt->link);
+> +			kfree(evnt);
+> +		}
+> +
+> +		/* In case of additional faults being generated between invocations
+> +		 * of group_get state, there may not be enough space to drain
+> +		 * events to the user provided buffer. In those cases, the queue
+> +		 * should remain listed as faulted.
+> +		 */
+> +		if ((group->fault_queues & BIT(i)) && list_empty(&queue->events))
+> +			group->fault_queues &= ~BIT(i);
+> +	}
+> +}
+> +
+>  int panthor_group_get_state(struct panthor_file *pfile,
+> -			    struct drm_panthor_group_get_state *get_state)
+> +			    struct drm_panthor_group_get_state *get_state,
+> +			    struct drm_panthor_queue_event *events, u32 count)
+>  {
+>  	struct panthor_group_pool *gpool = pfile->groups;
+>  	struct panthor_device *ptdev = pfile->ptdev;
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
+> -	struct panthor_group *group;
+> +	struct panthor_group *group = NULL;
+> +	u32 fault_count;
+>  
+>  	group = group_from_handle(gpool, get_state->group_handle);
+>  	if (!group)
+>  		return -EINVAL;
+>  
+> -	memset(get_state, 0, sizeof(*get_state));
+> +	guard(mutex)(&sched->lock);
+
+If we go for a guard, can we do a scoped_guard() so the unlock happens
+just before the put() on the group.
+
+>  
+> -	mutex_lock(&sched->lock);
+>  	if (group->timedout)
+>  		get_state->state |= DRM_PANTHOR_GROUP_STATE_TIMEDOUT;
+>  	if (group->fatal_queues) {
+> @@ -3898,10 +3963,25 @@ int panthor_group_get_state(struct panthor_file *pfile,
+>  	if (group->fault_queues) {
+>  		get_state->state |= DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT;
+>  		get_state->fault_queues = group->fault_queues;
+> -		group->fault_queues = 0;
+>  	}
+> -	mutex_unlock(&sched->lock);
+>  
+> +	get_state->exception_type = group->fault.exception_type;
+> +	get_state->access_type = group->fault.access_type;
+> +	get_state->source_id = group->fault.source_id;
+> +	get_state->valid_address = group->fault.valid_address;
+> +	get_state->address = group->fault.address;
+> +
+> +	fault_count = panthor_group_count_faults(sched, group);
+> +
+> +	if (!count && !events) {
+> +		get_state->faults.count = fault_count;
+> +		get_state->faults.stride = sizeof(struct drm_panthor_queue_event);
+
+Is there any point reporting the kernel stride here? I'd expect the
+kernel driver to adapt to the user stride when count != 0, and since
+the stride is dictated by the kernel uAPI version, there's not much to
+be gained by having userspace allocation an array with a stride that
+doesn't match the object size the UMD knows about.
+
+> +		goto exit;
+> +	}
+> +
+> +	panthor_group_get_faults(sched, group, events, min(get_state->faults.count, count));
+
+As I was mentioning early, we really need to reflect when the some
+events were lost. Right now you're assuming infinite event list, but
+capping it and reporting overflows is more future-proof, I think.
+
+> +
+> +exit:
+>  	group_put(group);
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> index f4a475aa34c0..d75870a6d836 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> @@ -14,6 +14,7 @@ struct drm_panthor_group_create;
+>  struct drm_panthor_queue_create;
+>  struct drm_panthor_group_get_state;
+>  struct drm_panthor_queue_submit;
+> +struct drm_panthor_queue_event;
+>  struct panthor_device;
+>  struct panthor_file;
+>  struct panthor_group_pool;
+> @@ -25,7 +26,8 @@ int panthor_group_create(struct panthor_file *pfile,
+>  			 u64 drm_client_id);
+>  int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
+>  int panthor_group_get_state(struct panthor_file *pfile,
+> -			    struct drm_panthor_group_get_state *get_state);
+> +			    struct drm_panthor_group_get_state *get_state,
+> +			    struct drm_panthor_queue_event *events, u32 count);
+>  
+>  struct drm_sched_job *
+>  panthor_job_create(struct panthor_file *pfile,
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 083a02418d28..931c8371b1b6 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -1012,6 +1012,30 @@ struct drm_panthor_group_get_state {
+>  
+>  	/** @fatal_queues: Bitmask of queues that faced fatal faults. */
+>  	__u32 fault_queues;
+> +
+> +	/** @exception_type: The type of exception that caused the fault. */
+> +	__u32 exception_type;
+> +
+> +	/** @access_type: The direction of the data transfer that caused the fault., if known. */
+> +	__u32 access_type;
+> +
+> +	/** @source_id: ID supplying further data about the source of the fault. */
+> +	__u32 source_id;
+> +
+> +	/**
+> +	 * @valid_address: Whether the address is valid or not. Some faults may not come with
+> +	 * a valid GPU VA.
+> +	 */
+> +	__u8 valid_address;
+
+Could we actually have a drm_panthor_vm_fault object defined in the
+uAPI header and re-used in the panthor_mmu.c code, so we don't have to
+do this manual per-field copy dance and we can simply replace it with:
+
+	get_state->vm_fault = group->vm_fault;
+
+> +
+> +	/** @pad0: MBZ. */
+> +	__u8 pad0[3];
+> +
+> +	/** @address: GPU VA of the faulting access, if present. */
+> +	__u64 address;
+> +
+> +	/** @faults: Array of faults passed back to the user. */
+> +	struct drm_panthor_obj_array faults;
+
+Can we name that one queue_faults?
+
 >  };
 >  
 >  /**
-> @@ -32,6 +38,8 @@ struct panthor_hw {
->  };
->  
->  int panthor_hw_init(struct panthor_device *ptdev);
-> +int panthor_hw_power_status_register(void);
-> +void panthor_hw_power_status_unregister(void);
->  
->  static inline int panthor_hw_soft_reset(struct panthor_device *ptdev)
->  {
-> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-> new file mode 100644
-> index 000000000000..2b59d7f156b6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
-> @@ -0,0 +1,59 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2025 Collabora ltd. */
-> +
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM panthor
-> +
-> +#if !defined(__PANTHOR_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
-> +#define __PANTHOR_TRACE_H__
-> +
-> +#include <linux/tracepoint.h>
-> +#include <linux/types.h>
-> +
-> +int panthor_hw_power_status_register(void);
-> +void panthor_hw_power_status_unregister(void);
-> +
-> +/**
-> + * gpu_power_status - called whenever parts of GPU hardware are turned on or off
-> + * @dev: pointer to the &struct device, for printing the device name
-> + * @shader_bitmap: bitmap where a high bit indicates the shader core at a given
-> + *                 bit index is on, and a low bit indicates a shader core is
-> + *                 either powered off or absent
-> + * @tiler_bitmap: bitmap where a high bit indicates the tiler unit at a given
-> + *                bit index is on, and a low bit indicates a tiler unit is
-> + *                either powered off or absent
-> + * @l2_bitmap: bitmap where a high bit indicates the L2 cache at a given bit
-> + *             index is on, and a low bit indicates the L2 cache is either
-> + *             powered off or absent
-> + */
-> +TRACE_EVENT_FN(gpu_power_status,
-> +	TP_PROTO(const struct device *dev, u64 shader_bitmap, u64 tiler_bitmap,
-> +		 u64 l2_bitmap),
-> +	TP_ARGS(dev, shader_bitmap, tiler_bitmap, l2_bitmap),
-> +	TP_STRUCT__entry(
-> +		__string(dev_name, dev_name(dev))
-> +		__field(u64, shader_bitmap)
-> +		__field(u64, tiler_bitmap)
-> +		__field(u64, l2_bitmap)
-> +	),
-> +	TP_fast_assign(
-> +		__assign_str(dev_name);
-> +		__entry->shader_bitmap	= shader_bitmap;
-> +		__entry->tiler_bitmap	= tiler_bitmap;
-> +		__entry->l2_bitmap	= l2_bitmap;
-> +	),
-> +	TP_printk("%s: shader_bitmap=0x%llx tiler_bitmap=0x%llx l2_bitmap=0x%llx",
-> +		  __get_str(dev_name), __entry->shader_bitmap, __entry->tiler_bitmap,
-> +		  __entry->l2_bitmap
-> +	),
-> +	panthor_hw_power_status_register, panthor_hw_power_status_unregister
-> +);
-
-What is the expectation of stability for this tracepoint? Because I worry about future architectures 
-that add different hardware blocks: we would have to either extend this tracepoint, or deprecate it
-and make another one that is very similar. Do you have any sort of userspace tooling that is consuming
-this or is this more for local debugging? 
-
-> +
-> +#endif /* __PANTHOR_TRACE_H__ */
-> +
-> +#undef TRACE_INCLUDE_PATH
-> +#define TRACE_INCLUDE_PATH .
-> +#undef TRACE_INCLUDE_FILE
-> +#define TRACE_INCLUDE_FILE panthor_trace
-> +
-> +#include <trace/define_trace.h>
-> 
-
-Kind regards,
-Lukas
 
