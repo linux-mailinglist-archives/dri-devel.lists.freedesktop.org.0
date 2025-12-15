@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEFBCBE25E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 14:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E971FCBE26D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 14:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED4D10E498;
-	Mon, 15 Dec 2025 13:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F69E10E4C1;
+	Mon, 15 Dec 2025 13:57:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dsrgwEID";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="BbC6Z7lJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 993 seconds by postgrey-1.36 at gabe;
- Mon, 15 Dec 2025 13:55:33 UTC
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B5B10E498
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 13:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding; s=k1; bh=7JazWsIS/CHK3V
- 4xzXhVpv09y6AAYC/e+eQsL6395/k=; b=dsrgwEIDLBPHpP7tJxwg3HRBc3S+J3
- EYQrWfPJrWIOqDSOSr3aLRxEG1UBYPzQpN6lrtMfYW5EdHzWMpN+O5R5YG3/QDc2
- a6LxvqTLye8ql83wDBy52MaP+BLOCOiEYpa+YlTwpY6ft1l0pJ2kqcIdfkZa44Pp
- 38j/NlyR6hK7ZR8Ah2QOgyZxGA8RlLFwZCOnBuK37hm68Qr4mwNI2ubbLm1t6i42
- 7ChpO63zAojZNtly6mdxQDtIFdOmaRR+jfan/SCUwdTBM8fTmRJHavImzJHI1hb7
- 2xgRUqv8PBzPjdEVK5bSnMtHnRYa8Ro1LOnhc2EGTQ008Z3u1Xmnq0lg==
-Received: (qmail 1003689 invoked from network); 15 Dec 2025 14:38:55 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 15 Dec 2025 14:38:55 +0100
-X-UD-Smtp-Session: l3s3148p1@E5cVu/1FhdXN3IHv
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: gpu: img,powervr-rogue: Add Renesas R-Car V3U
-Date: Mon, 15 Dec 2025 22:36:35 +0900
-Message-ID: <20251215133839.15133-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB5910E264
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 13:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=WkV3ZYGagO+HflHRU/1YPFeSRHTuGtO52SiUwSKKXFA=; b=BbC6Z7lJ2XItOn0bfXcTYh28bz
+ IZKwRg+T0kQqhWqbpfkDUH4ezLHE4P2yoE5FKsxECBBEduda6kKAAQhIPfWAE/Gw85DALaqPsRvFf
+ tpkvPaDdhbO/z1juZdJXdJcr0F7mbwl3mVUJXiwt7V2lFIwDQCHequvzBl827mrXOC9DcRChIgk0h
+ fqmhDs64qOjKSwxGlr0kVIJy1+GtNNrDsS0DjiP+wk5bxp/2LuWSRge53zvP2bG/32edtNdyFTcc6
+ rbj45SkE4OtHtTJ6wloVS5QJLuB7akl9QDTaKHnuFtPzPEiG+fvAKz5vx0mMqiCJGzPznuwkNG5ec
+ /94ExG+w==;
+Received: from [192.76.154.229] (helo=phil.dip.tu-dresden.de)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1vV94f-0001YU-Sa; Mon, 15 Dec 2025 14:57:17 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quentin.schulz@cherry.de, andy.yan@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, cn.liweihao@gmail.com
+Subject: Re: (subset) [PATCH v2 0/9] General RK3368 HDMI support and 2 outputs
+ for RK3368-Lion
+Date: Mon, 15 Dec 2025 14:57:15 +0100
+Message-ID: <176580702585.1452104.11896620179705853130.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20251021074254.87065-1-heiko@sntech.de>
+References: <20251021074254.87065-1-heiko@sntech.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,36 +63,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R-Car V3U has the same unit as M3N and its GPU was already added to the
-DT. Add the binding description now, too.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Fixes:
+On Tue, 21 Oct 2025 09:42:45 +0200, Heiko Stuebner wrote:
+> This series adds the necessary bits for HDMI output on RK3368 and enables
+> this on RK3368-Lion. At the same time, use the recently added DSI support
+> to enable the generic Video-Demo-adapter as an overlay on Lion as well.
+> 
+> 
+> The reason I'm shaving this Yak is that the recently added DSI support
+> created DTC warnings about a single endpoint with an address.
+> 
+> [...]
 
-arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: gpu@fd000000 (renesas,r8a779a0-gpu): compatible: 'oneOf' conditional failed, one must be fixed:
-        ['renesas,r8a779a0-gpu', 'img,img-ge7800', 'img,img-rogue'] is too short
-        ['renesas,r8a779a0-gpu', 'img,img-ge7800', 'img,img-rogue'] is too long
-...
+Applied, thanks!
 
- Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+[1/9] dt-bindings: display: rockchip: dw-hdmi: Add compatible for RK3368 HDMI
+      commit: 0edbd43e0c149152b917c0cde61e4bd34a5bd118
+[2/9] drm/rockchip: hdmi: add RK3368 controller variant
+      commit: e7a943f0824b584e42847ad9642d7fb751022cf6
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 225a6e1b7fcd..86ef68985317 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -20,7 +20,9 @@ properties:
-           - const: img,img-gx6250
-           - const: img,img-rogue
-       - items:
--          - const: renesas,r8a77965-gpu
-+          - enum:
-+              - renesas,r8a77965-gpu
-+              - renesas,r8a779a0-gpu
-           - const: img,img-ge7800
-           - const: img,img-rogue
-       - items:
+Best regards,
 -- 
-2.47.3
-
+Heiko Stuebner <heiko@sntech.de>
