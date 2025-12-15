@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004F5CBD972
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DF9CBD98C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577D710E439;
-	Mon, 15 Dec 2025 11:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A83610E45A;
+	Mon, 15 Dec 2025 11:48:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MnLW/707";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mIlg6dAh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF8310E439
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:48:40 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2a07f8dd9cdso19640605ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 03:48:40 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A0710E454
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:48:45 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-34c3259da34so1895474a91.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 03:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765799320; x=1766404120; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765799325; x=1766404125; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JUAs+7T6aM5YvKJFQXSXqoVkTtSxZtzq470O+YaXF94=;
- b=MnLW/707+pZfq8yGM7E6UIgOsYea4pt5eUxEHm2c52T475VZJToDn2qM23PXLn8aHV
- MOdVkdeJkrBu+RBX43SOo9bcRqZ0P/4C8E8VwnQWZ/h7OPc7O/a3p8QcGrPCmNDNGTgu
- slaRUSV6569uXe2Vn5s8qIo7kpTKt5i/54rY+lZBzDgjNGEhiyNSLFNHSiR2S45wuu8Z
- ulw/94eCUoZuk/7NhM4RDywbahuwlXMfesujEB6RfZiraibDKzCVOUX8RDv5nWNbqXAB
- EX2t54vwrqzT312veBzW5RgxO6+4ByVifyPNCj/whUvMhqJKeYdLM0bFryKphUjNRZae
- XbBA==
+ bh=HPi/WFWmImBnVQgsxNvJvJyvieXM1xBFzKoWis67Gg4=;
+ b=mIlg6dAhLRVJSGCsVnpS9D+nxrxFyREjEa1dTq0MI8sLxZmvzHhb2wzE58QF8ZOYGP
+ E+xudVA7w6Z/TwRu3CfzALPDzIWAEpcZyeZPT24b/29smmE+1+BSt2c5oLPGZ/lm1c3W
+ wUez/PVF0xxwrQG4qZDfL3W1FXCHCFnaMvePLK84g4Qpj9q7L8K/VXIFxD5ul2ZkmQgt
+ I/rgDHRjzinJBPvq3CmKFUnqn8gSvOVR0QE8fSc5udxq7NibyeBgHHvaHK+hHSKzLfxy
+ rPe8MtziXTV12Np8bZ8gL9YYJD+04+iyP3p9+U3gas9nojMIyBeMPJxgKdWHvGALw04l
+ Tm1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765799320; x=1766404120;
+ d=1e100.net; s=20230601; t=1765799325; x=1766404125;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=JUAs+7T6aM5YvKJFQXSXqoVkTtSxZtzq470O+YaXF94=;
- b=tJMEpayyTg5ga6At4CdWmdKy+TkxYX4uzQP3JTLbAgKP/19SUB1T76ZECrnLyK+/45
- y8JaNijH1Ru0gVd7sbxOnYPo4MVtkxx2JIluoJiSQWZT2r5dEivfnPC+5MfcyvqOWOzP
- vdI8O1GKV9Hna2rc0dhqkEsFdgb4y0p0IUKGU0aI9hkszDNViwt+hUTnu6e7BgMA6iVy
- bQREYl6ee7awPkV+wYJMoUuATGK4M6Aak+SOE02a/zn3h8LUGNpwZiD8ZRX5w2wVvWAS
- UPmO3gYFIQEC49Z7xKUN4enKJqGjd3H6qYv6sSHYRszy21cKIGOd2rkRjG1nx7F9Bcyu
- WumA==
+ bh=HPi/WFWmImBnVQgsxNvJvJyvieXM1xBFzKoWis67Gg4=;
+ b=JRURL9P5eM9RdcWB20DlDAWK5jxwBkiuKDO/FSoSm14cVaZBaA3rOX/IpfEtOIc5ED
+ V+pCWNaK106W/hnSz500mVtNF6PzXYPpc7WvQdj/4YIRoHF9NCN5N8z7yfeW171Q0LrC
+ uBq6IjzWqBUce3kG/29QE4yKD0TQ+DeKkzQVi6jMyk6XWL4ThnIcNWDx4z8g5ZFScIfh
+ 3mX29zZu/eKmhWGAusoCRYnRVbMp9NXQU4ckvwDPzudEmoEyKFNpJqMKZ7eE35Bk0DeA
+ aHuYld2jAxDjS8sr3ANu84AzwkwCKD9Frgd+MnsAOxRWQEQ+D8jURY41CSSDOCgnqGfx
+ NR0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVriWxtxjxxgC64cF7GkG5kLzkvDuu5EsvRwqJlxs/GC0Q82/0tyIxPZkEbgMidbz+qzk3GrFU8UY8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywc6zD3GwizRKvFuijJ1+2DqGfKFKm8uARryCIV4EIs41+VU6pA
- AjxRjbyg1QZOGOCLp249ywAqOwgSHPKsbKp41WKmV8KXyas2r7Y2Er6d
-X-Gm-Gg: AY/fxX6wodD1KwR+79SE7e+TEFSOXnRlVshJkEDuvuTkBnDscyiIUkiF7qw1guDLLEW
- GVgFj95z6pyj83R61qAmgFqHf2g1jc28+Mwr9amQKKmysLMonexSb79M8c3ApxUgVbH2lPv22Ra
- araCIXvd+3tYaWdw7W040JV0TuMSWFK1KwC9CtgJKGWPibjW6HD3p/RHguNG93xHKomMhCmo8wL
- sEjzKQFcrRGr/8rO/54j15L10IMS0wQlTzuoaba6Rq41cO4lEv1Af4uPf+CKnFnKjVE8BE0aTl5
- m4ztVu27KKSc7VvZvhYuKYM0RQBmNf3HKUqUZ2hjZ0tU5SBJqfoEZAtxxgqalqtafK43SjaTvmo
- JrndvnbS7GiuS++CjyQuchYJaWndp4PN39GDSvCEVVtY40s5UrZ2h75cOuyoRr8IOiZTJ7rdUX8
- We3IQ9Uwg0f1I=
-X-Google-Smtp-Source: AGHT+IEA4ldqjntSU1IZe10aX19mQKLjoCVDqCMnCNeqo44SOanRLtLHyqhQX8MxC8RVHbAWKM2xrg==
-X-Received: by 2002:a17:903:1a2e:b0:2a0:b02b:2105 with SMTP id
- d9443c01a7336-2a0b02b228amr63659225ad.56.1765799319837; 
- Mon, 15 Dec 2025 03:48:39 -0800 (PST)
+ AJvYcCWO2M2Am9IiBYFtonK8WQTw8JknwGd6NC8clMVQo585ybnN477qgEprtk8fSWoYats5LbwwScKSjwk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0l6KR1v1Xv80EYP/IPfxrN3ntX/60orc4dEQTJRJoWja9Fn/s
+ gALMrO6VodX/CuOmw7TCmycNWpG7ZyZvZURB8abbczR/clP4mEMzuWZw
+X-Gm-Gg: AY/fxX4TeqxV+1tlu9htcmqzBJlhUgyzgZy1PacXcKf6/0jN29rsQlHTHhU8A1ebEZh
+ +qc3GCFbRgcc6ZmG4OHJMWtC1gyaj73AqP91+uxUWPCtGmXPK8n1gChFn8ODrMVEmIlwkSUQqmK
+ PYFxtjzUwVnvhbk6F8KjsGQAORL5f55GzQ8/FpFdos404BsIcjUy4OTr8jHX7mMSKAQqOmER1D3
+ VdZYQ03aLpX0MqmUNCGe7z8XuGYe13L3dmc7NpmdlYtCME4KNy1cPfQ6lF1Iq/DKKhx0pTVtg8T
+ NMxM0PHMlnCv1rGRPwntgJ5bPLNCs3WymnBQuG1aeJHlKmKOiQei5HXqQOUilulAppiB1DOn1hB
+ go1jt4z37ImMdzllZjR5NZ3Q5rk89l95COVpmndMcSLu7jhQc4DN2DCPeUnthiRdHq26OFeBpAs
+ wBVCa/xddc3p1GismlW5WfMQ==
+X-Google-Smtp-Source: AGHT+IHySr1buuGxwyvRmyNwB1yX2aGVZnCno4j9FG3NSChYg8gy/QOhSf79+qyZQv+BzWWdtgvcAQ==
+X-Received: by 2002:a17:90b:388a:b0:340:be40:fe0c with SMTP id
+ 98e67ed59e1d1-34abe4a6b3amr9032481a91.36.1765799324639; 
+ Mon, 15 Dec 2025 03:48:44 -0800 (PST)
 Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a0867ebe9dsm77190525ad.40.2025.12.15.03.48.39
+ 98e67ed59e1d1-34abe3ba59bsm9003471a91.7.2025.12.15.03.48.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 03:48:39 -0800 (PST)
+ Mon, 15 Dec 2025 03:48:42 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
- id 46E2D447330A; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
+ id 60C6F447330B; Mon, 15 Dec 2025 18:39:07 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -127,19 +127,20 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
  Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
  George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 12/14] drm/scheduler: Describe @result in drm_sched_job_done()
-Date: Mon, 15 Dec 2025 18:39:00 +0700
-Message-ID: <20251215113903.46555-13-bagasdotme@gmail.com>
+Subject: [PATCH 13/14] drm/gpusvm: Fix drm_gpusvm_pages_valid_unlocked()
+ kernel-doc comment
+Date: Mon, 15 Dec 2025 18:39:01 +0700
+Message-ID: <20251215113903.46555-14-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=982; i=bagasdotme@gmail.com;
- h=from:subject; bh=kdwYayfiPuGdbX+6/rKZkI1jkonQkDY24KG3T7ZKuZA=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4Pfzvv2aMJ6/2fiW3RmVPTpTFSM/fBW4Nu0ikdP3
- J/+EMyq6ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBENP8y/FN2WnBW9dYhDc+y
- QzUe+4R7v/wRO/L/c0NDkJC4klf71CqG3yyrLnq/ur5px+nadXME75rW9sxVOp7eMOmL58xwZZ6
- TlnwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1611; i=bagasdotme@gmail.com;
+ h=from:subject; bh=j4BXJJMKUhATWUahdKX0lx9i399WYlQDn9Ep3/iweMY=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n0OumS5gNW5/3GqYe0vV4BnvxdVlFyqnrRPWP9PpP
+ u3FMcecjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEykPJ/hF9Pft9/+BqzKa/W8
+ rdg9vSMz5a6N4PnTByKYzgTJnWZ/P5Hhn+aKvLS4vrtB9w7NNb77cZZgzZ2+T776O+w93L/xls2
+ 5xAgA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -158,30 +159,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sphinx reports kernel-doc warning:
+Commit 6364afd532bcab ("drm/gpusvm: refactor core API to use pages struct")
+renames drm_gpusvm_range_pages_valid_unlocked() to
+drm_gpusvm_pages_valid_unlocked(), but its kernel-doc comment gets
+stale, hence kernel-doc complains:
 
-WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 function parameter 'svm_pages' not described in 'drm_gpusvm_pages_valid_unlocked'
+WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 expecting prototype for drm_gpusvm_range_pages_valid_unlocked(). Prototype was for drm_gpusvm_pages_valid_unlocked() instead
 
-Describe @result parameter to fix it.
+Fix them up.
 
-Fixes: 539f9ee4b52a8b ("drm/scheduler: properly forward fence errors")
+Fixes: 6364afd532bcab ("drm/gpusvm: refactor core API to use pages struct")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_gpusvm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 1d4f1b822e7b76..4f844087fd48eb 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -361,6 +361,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index 73e550c8ff8c98..fcfbe8c062bf6d 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1216,9 +1216,9 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
+ 
  /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-+ * @result: job result
+- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
++ * drm_gpusvm_pages_valid_unlocked() - GPU SVM range pages valid unlocked
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages
   *
-  * Finish the job's fence and resubmit the work items.
-  */
+  * This function determines if a GPU SVM range pages are valid. Expected be
+  * called without holding gpusvm->notifier_lock.
 -- 
 An old man doll... just what I always wanted! - Clara
 
