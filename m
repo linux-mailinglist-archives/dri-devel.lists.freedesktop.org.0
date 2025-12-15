@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA67CBD251
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0926CBD299
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:27:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B15B10E3BF;
-	Mon, 15 Dec 2025 09:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B3310E2DE;
+	Mon, 15 Dec 2025 09:27:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="sPNKOoZ/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NYYW6RXn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBEB10E3BE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:20:50 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-42fb0fc5aa4so2221351f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 01:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1765790449; x=1766395249; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1o4Ukwhz+1DIRK/ie31cNZ2qDgxL/4NJIT90teDlHCk=;
- b=sPNKOoZ/4m+PtpcQXQZvp8+FCbIXFyn8DfINUVxz7tLJj7IgXYV/eYCaNc5gsHpIBk
- +c63s+bSP7HJcysIqBLQPYj/d3/lukYPHGgAIu01DQlHqg/7C28tILHKnqflwyPgym77
- Ub8lKW9D9ly8xdeic/uqTP9xSBI+4M6oNFg9D77mqgWkMx2MwWVELOO2+JdqsU+1fWPD
- I6+LYLYCc61JjBBUYV81ug/DB1R3SV8yY1V3SIPmO4FLdWGrxIgv7zSAgUma2F9L3E6r
- wAmovmgXh7YyoveiRHAm1DkhxIKuzPcLsa5Xdg2QH+u1TwEdeFhndMWjwabWHEozyoZo
- kk6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765790449; x=1766395249;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1o4Ukwhz+1DIRK/ie31cNZ2qDgxL/4NJIT90teDlHCk=;
- b=VYHZCpr8jD8dGSBLhXPPOvm9lhIi0+kos7tVEMD7zzM5krN4COhc+FwIFuaHteuluU
- j0D8CZ7XbP3A8LcTeS8VgVl6zbp+maUG+7NqUzfnjImoQ7SG+gRkYWLuCaFeQ3Uuod1e
- cgSqMSBDkRXC6KfA6Wo2fIgFomkfjlb6jpeVWO5tWSo6ZNVm0stKRCZOV29voGDPGGCn
- spLtw8qJusCSwKSUvLF6dgmxkUg5MYX/i/0QyODrenMuDEx0nkDOl33mhdXDH9V5V9Ho
- WoMTM3NLfKL+zy9dGuxLJWftpDUZ/Nozz7uE/mnshpro3GRGy4cy7iAE2AqphS5P8yQB
- IWiw==
-X-Gm-Message-State: AOJu0YxM7zohmNULRC2iVrr78qSOlj3N5fX45ACjox8B/bpQ78YQjT9d
- XEYfwzkTPNk0v34W+KSK5HLUBHugA3chxxKtLbd0X/SGC+1g1TtqzgyPXljf6WF2YoM=
-X-Gm-Gg: AY/fxX7pOZMWVgRLp9aOrxdIONaOuuELAZzr2FWmRyBP5+4eb8q7HGxSsN3cyXRVORq
- 4PKwpBLCdzbQ9sUdSeeyh2AxDQtcOtVhJmKDzPk3iSb9Srw/3G7ZmbzXAJ+o+JtdKvHwPVHMKeS
- 18bGprHsDHSjQ0dX3qLyrYiffo6C1Er2KWIAorPSiiUZFNOpjzk+janr/qkNHgRRGcPaChqlV/O
- Q8JPb2+IZ5MRUEoFv3An55Hfp+4T17lRXnSypwfPWgtttLXChvh/WpOeImnmUILnGRrsCU59T2a
- JS/e8bjIOuqAMAC2wHAFGKEtZ5Ln7ilUOFoH7Q2jpfe3cWD4u47mnSE0cwzZjllkhcMaXJnuuQa
- vkntn4s14kETSpz8XWuWthgsDEST+uiteXrPMl76yhHYhj3Ok/beS6WJn3Z/DM0sRsFycBmMwmz
- 1NhO6DsA8OAsBPOdV8VXumpbhKuZjQUdIa
-X-Google-Smtp-Source: AGHT+IFyXJ1T0HfnJe8lQuVzeAApVxSMprz7p6XFpEhr7U3JrRdPOjmtPXyV/Dptr1jZ0Rjmv9eRAA==
-X-Received: by 2002:a05:6000:2909:b0:3e8:9e32:38f8 with SMTP id
- ffacd0b85a97d-42fb44ba107mr8549329f8f.14.1765790448487; 
- Mon, 15 Dec 2025 01:20:48 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42fbc6e3392sm16388637f8f.13.2025.12.15.01.20.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Dec 2025 01:20:47 -0800 (PST)
-Message-ID: <e19284e2-ff38-415d-a44d-0ab610032d24@ursulin.net>
-Date: Mon, 15 Dec 2025 09:20:47 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F2F10E2DE;
+ Mon, 15 Dec 2025 09:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765790833; x=1797326833;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=K7rGYcDgup0mYT0xXApu3yTzo0YPXf5/isB1jezk7tA=;
+ b=NYYW6RXnL6B4afEfw9kcJa6+bTCcxzKyJmpEifrSS9Lh/I/9UWIN6WrY
+ 5EKm6GWzz6agJq3z1pcqeWoyKmQUanbO0MfY8jKLMJTIK2TqCTf+azhK9
+ x0REzI4ofynvTRDEmdC8A5mvd3jTg52xKwPipdUB9tAzyAeg0cK3Y6gHu
+ JyAqQQsHbRMSY8V4nLYOKaV2FDlxCgfJpOeK5H7xPqHVdLALAOEW7XXxy
+ Z+uWZ4QBoeIP2L9EDPX1Vtg7dBLBbEPB990iQNBycNnvBHSu6jZXo0q0A
+ weqERJZPeDyfswVRZU2x0iumYHS/V2Lur3xNJ7zrm2se8vBNGO/kIONhJ g==;
+X-CSE-ConnectionGUID: GdaY9kpkQ7GOQD3UtMx9UA==
+X-CSE-MsgGUID: H5GsoHLXQmGH5PHNrNvGXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="66675509"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="66675509"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2025 01:27:12 -0800
+X-CSE-ConnectionGUID: QasBYOo9QTec2jI2QSvYNw==
+X-CSE-MsgGUID: eP1uxJvhRfuSCVs/JI1dMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="197568896"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.106])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2025 01:27:11 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, jani.nikula@intel.com,
+ Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH] drm/gem: fix build for mm_get_unmapped_area() call after
+ backmerge
+Date: Mon, 15 Dec 2025 11:27:06 +0200
+Message-ID: <20251215092706.3218018-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/19] drm/sched: use inline locks for the drm-sched-fence
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-10-christian.koenig@amd.com>
- <9ef8686f-820f-41e9-985e-40411b4b9bd3@ursulin.net>
- <587fb06e-cfac-4603-b074-a9b382ecea31@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <587fb06e-cfac-4603-b074-a9b382ecea31@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,116 +70,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit 9ac09bb9feac ("mm: consistently use current->mm in
+mm_get_unmapped_area()") upstream dropped a parameter from
+mm_get_unmapped_area() while commit 99bda20d6d4c ("drm/gem: Introduce
+drm_gem_get_unmapped_area() fop") in drm-misc-next added a new user.
 
-On 12/12/2025 15:50, Christian König wrote:
-> On 12/11/25 16:13, Tvrtko Ursulin wrote:
->>
->> On 11/12/2025 13:16, Christian König wrote:
->>> Using the inline lock is now the recommended way for dma_fence implementations.
->>>
->>> So use this approach for the scheduler fences as well just in case if
->>> anybody uses this as blueprint for its own implementation.
->>>
->>> Also saves about 4 bytes for the external spinlock.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_fence.c | 7 +++----
->>>    include/drm/gpu_scheduler.h             | 4 ----
->>>    2 files changed, 3 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 08ccbde8b2f5..47471b9e43f9 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -161,7 +161,7 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>        /* If we already have an earlier deadline, keep it: */
->>>        if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->>>            ktime_before(fence->deadline, deadline)) {
->>> -        spin_unlock_irqrestore(&fence->lock, flags);
->>> +        dma_fence_unlock_irqrestore(f, flags);
->>
->> Rebase error I guess. Pull into the locking helpers patch.
-> 
-> No that is actually completely intentional here.
-> 
-> Previously we had a separate lock which protected both the DMA-fences as well as the deadline state.
-> 
-> Now we turn that upside down by dropping the separate lock and protecting the deadline state with the dma_fence lock instead.
+Drop the extra parameter from the call.
 
-I don't follow. The code is currently like this:
+Fixes: 7f790dd21a93 ("Merge drm/drm-next into drm-misc-next")
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_gem.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
-						  ktime_t deadline)
-{
-	struct drm_sched_fence *fence = to_drm_sched_fence(f);
-	struct dma_fence *parent;
-	unsigned long flags;
-
-	spin_lock_irqsave(&fence->lock, flags);
-
-	/* If we already have an earlier deadline, keep it: */
-	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
-	    ktime_before(fence->deadline, deadline)) {
-		spin_unlock_irqrestore(&fence->lock, flags);
-		return;
-	}
-
-	fence->deadline = deadline;
-	set_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
-
-	spin_unlock_irqrestore(&fence->lock, flags);...
-
-The diff changes one out of the three lock/unlock operations. Other two 
-are changed in 3/19. All three should surely be changed in the same patch.
-
-Regards,
-
-Tvrtko
-
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>            return;
->>>        }
->>>    @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>>          fence->owner = owner;
->>>        fence->drm_client_id = drm_client_id;
->>> -    spin_lock_init(&fence->lock);
->>>          return fence;
->>>    }
->>> @@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>        fence->sched = entity->rq->sched;
->>>        seq = atomic_inc_return(&entity->fence_seq);
->>>        dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->>> -               &fence->lock, entity->fence_context, seq);
->>> +               NULL, entity->fence_context, seq);
->>>        dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->>> -               &fence->lock, entity->fence_context + 1, seq);
->>> +               NULL, entity->fence_context + 1, seq);
->>>    }
->>>      module_init(drm_sched_fence_slab_init);
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index fb88301b3c45..b77f24a783e3 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -297,10 +297,6 @@ struct drm_sched_fence {
->>>             * belongs to.
->>>             */
->>>        struct drm_gpu_scheduler    *sched;
->>> -        /**
->>> -         * @lock: the lock used by the scheduled and the finished fences.
->>> -         */
->>> -    spinlock_t            lock;
->>>            /**
->>>             * @owner: job owner for debugging
->>>             */
->>
-> 
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index bcc08a6aebf8..28d6792112be 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1303,8 +1303,7 @@ unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+ 
+ 	obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
+ 	if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+-		return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+-					    flags);
++		return mm_get_unmapped_area(filp, uaddr, len, 0, flags);
+ 
+ 	ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+ 						 flags);
+-- 
+2.47.3
 
