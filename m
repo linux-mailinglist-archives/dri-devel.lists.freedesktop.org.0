@@ -2,90 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A73ECBCFAA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 09:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B465CBCFB5
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 09:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69DA910E3A1;
-	Mon, 15 Dec 2025 08:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1E7B10E39D;
+	Mon, 15 Dec 2025 08:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="e39neXgb";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e/7a0BPb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="goziGgG0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CmbRc4ZB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D1210E3A1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:13 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B10E510E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:22 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BF0P8Ds3003528
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:13 GMT
+ 5BF8N4wY2744360
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=OqlJLDbVw4T
- n78JJhjxStsJzAZqGZdEBuegjg/h0GSI=; b=e39neXgbZS2rDcxHUr4/HLOsedp
- sIzFQ/+TleNw6ZWsGQjK0ZVvJhE+3G3cDIUQx2U+5Onx1lWTp7eSpzjLHa+pRyW6
- Qv7jlWcmV3unqe5f7NS/+GJG4tsTHLfBmm6cOAMnNLRtdBoGlhiKhe3pi2uiL+f6
- sB7G6q50FVntmVe0x7K1fZbHH+hA07q2eNtPEhthhkoC3dZUc3Ervh0NXMVoCmi6
- TEBgpuHhzjU0C00i7wI1PgfRGzGm8+K5FcsMdoZJ1/iNRujpRJb1mMXD5UhITFNR
- 9VoAvune1NlQKT9UZ/xXt1fMJRNYAO3IE+99Pii274o9q8m6xmy2W8CZDDw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b119t3sum-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=ejOLCXs2H6V
+ eH6zAgJDf6kqCLHfca0LQJWts7i4UWpM=; b=goziGgG0IItSySQrlKxP+XsOHrT
+ rlBOewv2PZTaQm0KiIlo3bo5kOdGTpybHsFpJrrm8A0l15YJBxbSS1YOsDz1fePc
+ i4g0IfQAopF2jze9fIXBu8sL2ZinRDBVgCnYzhgezX1vbcpsfCY4k0Oxu8sGA8tC
+ Hd6ndep0mXWt9vKRDIzqDGG6+LHw2jVYcgiSKLGXvHr4thW2d0rSRQWeIO0JPP2M
+ 56o1Nop0mJCcnZ9SkoSB0Qv8/InuPn+1xLjXW6F2xJJQmRlMkfMMgwLCAX9vJI29
+ U/FIQmEkzNT/g6+LGu1VE83z4LfX2f4QPAUnFEEiBRZ8/BfIfIKaalNQ3Og==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b119u3thj-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:12 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b286006ffaso861896885a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 00:40:12 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:40:21 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-88a316ddbacso24155026d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 00:40:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1765788012; x=1766392812;
+ d=oss.qualcomm.com; s=google; t=1765788020; x=1766392820;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OqlJLDbVw4Tn78JJhjxStsJzAZqGZdEBuegjg/h0GSI=;
- b=e/7a0BPbr44xUKVYXndgxAokdl6KC9Nn9uJ4apYon8b4NHDEoOzyuovGFq9N+N70t5
- BoQIX+9PofvATsQHaS5fanUaS/37QGW6cDVOAzdd81emc8BDKRstGQ7A04rptTDFkLPc
- ElE5/Bf8uMSGHYJJTiG+KCzBeuzPq3rx6PlP8mMBLV37OYyoEPozX389Zm41lKK4AUDA
- SzFWCkqOclPo7c2kPBywZtkMV072MOddKOaomwWVkO1Vt3F4UGppTUcD0br4p9aAXmX0
- Z4AyXozpErC48ZxD0ThxHy+bpWyPMcZiV10VkcrrGNTEZAW7xeRWeQCbzZ2bw0aAB7wj
- X9WQ==
+ bh=ejOLCXs2H6VeH6zAgJDf6kqCLHfca0LQJWts7i4UWpM=;
+ b=CmbRc4ZB1jxlWPGVAaH/TsyMYcwUBF4kGOP/6/lHCYm+qHFS8cUKI95QmQQkfgyf4b
+ 2J9jB9XFLyC4/6HODI2ILeW1nnELuYwdZ5ZjIWTm2BlWMGJNopfNK0gK8luCxrF2azI0
+ eeBKOvRvIT5l5tD0NDMVRPCuQPx7FL0nZUX+ZIbyQIXQa2jduoHbp0mtFPqrqoZNSzjn
+ XAtCk7ITo5cHzpjxl63O5SyxOEO4c938gZC9MMeZVXduukJ+hMWrU8Y4ZI2YTHMwvP9F
+ BAyNNdl62kBJWHvfbxWZ4fiEmPnc5+46tKst2OAJEG0U9EuczkPbSRh+YFRsvEGUYkCs
+ Cl+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765788012; x=1766392812;
+ d=1e100.net; s=20230601; t=1765788020; x=1766392820;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=OqlJLDbVw4Tn78JJhjxStsJzAZqGZdEBuegjg/h0GSI=;
- b=PEe9gQ7pxIV50FGakRltKuqn7BETsoNX7d7AdunVTgyciHJJ0Brh2lL3XsxoUGBinx
- cAPPpPAWpaFPcDMXa1T1evqlgHG9BRuSw+8Cjy9O+GOQ8p76pqqUn2NGfJBa5j2NgwiW
- vPlrK0hmjVgg/nutqsbj1HQkdO1EIEpW18QtUqLUmad97I+a0g8TqpKjxmOCTTUfBY52
- Y/vfXUzH97ofV+e48AVRj/5K3mwdrbz49rNA0sjNFh6QmL+vR2XlazZyp4t45njjBBmg
- r8mPXD6sAWk7EKg3TNPUQYDJ/ddOr1XRUE1B1JrCAdllBYgvU2AqIdk2n/0liBNq1oxZ
- ORCw==
+ bh=ejOLCXs2H6VeH6zAgJDf6kqCLHfca0LQJWts7i4UWpM=;
+ b=Ze9p0a5ciRwZsIDioBEsovWEY47N3jGnlMQYVSHvwgElclTExCdVI8izFqZ2HY70fF
+ /5oKA+L8JjdYaKg4eAn0oWX+OaDgAcEntY0GvL8Vuu5EgSH1Kt9gKTL+/4sejH17njs2
+ F/bmnSsgKlhWZdsZsyC4OcjEFQXaJ1tq1SdLmTlH3qqDgHMbFLoHmrEj9BjzOyOLPkXH
+ II8nhzDyXjHkBBc+GAwiKCiqBtJ0RAcoayA4SQmSr02FrcRqkCYzED4LVgaNvWOI4RUv
+ +R8IGwiHPnye52OkdB2ecwolUUAS/ea/vOH8HUGUX1b2vVo/7HsfgKOzXiwGsrcSOLcp
+ 4bUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3woBQicdIVFeHiYirKqYHDeUypvjH1T04vN2ZvQtSfJY6pXX2TVD8mFi00s00JIY/2bDTrDimsrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywi4qjljuWhIzpvZDLf4FA24etZQwiJQFPXPFuW0ZYm/0CbGG9F
- E7P3LOHV2P5jFc9gW/CGQHNGH2oYo1SqUQxY1ZAJ7XzuiyxHUPF53b4IXrpUTo8CXxNDnYhIh7Q
- wJJ422EBunAVBp3B/Xrhk6lARg3+PDyWK+Kng/8on6+8las2fD00vOwBxjKaqjdrGEPkvixg=
-X-Gm-Gg: AY/fxX412DZa5kKfWz8vJ/SYPxwEaDgOC2YqLL5fU2bAX+No/dBMBH/3xt+E5Fxzyou
- CLHhSeysd0fYjpm9mKaHWoC5xxG8t5yE3Wzf0jvJhzRUyQJlW56LcSYNJn6/8K2GL09vkTL0X/3
- nE9dfWWR3SYZMNq6YJsRtwWrrB6/Hfr6uhFrCM6cL3Bfs3W9zIqtmycvlRmPHx+LkPFxxV0FmTh
- I2NQ7qUHEpmp3xk9mGzUqNX/lKEBqdNJ6FM/T9kXe6k6xdL1jpCCkNztmI22xf8G0NeK0DEfdBg
- wjBpoGaObrH6cCT+hu6afo/rovKSo+jAx5+1qJBXMS8nwzIBF+zSpvNj1XiTz96eYdN0SY3z6tr
- V0+fRPw3Z7DEVJSLcAccVi4Lr1QRw3Mysn+KajYfjz++4mEjOv2EGF4hlSw4P+gw/7to=
-X-Received: by 2002:ac8:6a0c:0:b0:4f1:df6f:6399 with SMTP id
- d75a77b69052e-4f1df6f6fa6mr64921281cf.14.1765788011997; 
- Mon, 15 Dec 2025 00:40:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEjq6cUNKx8n0oIPZ+dTibjwjdoBvKbVns0jWdiwucSy+EN2FmAkVrey2CIl/19EhkHEWqZXA==
-X-Received: by 2002:ac8:6a0c:0:b0:4f1:df6f:6399 with SMTP id
- d75a77b69052e-4f1df6f6fa6mr64921031cf.14.1765788011576; 
- Mon, 15 Dec 2025 00:40:11 -0800 (PST)
+ AJvYcCV0y7i/SOX7geOqjHczjeBvhDcyB4Omr+AQwmHNehjlKehScVhWeuT/+kcgzogPv7KtWV3/GDzqlMQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiqJjNvxYysbhvCm9JrzxtB3Do2i0xNMYO+4LdykaZyjgUHIS5
+ Ed6OZcvzuoST2CB9SC5JvFGz2C5ZsNZDsSjVgHfEXbnEflNgrQAJzx3A51NKU8ihjswBjAF99te
+ ILdh2a9uv7mCoNsHdWAscN2o6M2pAYc8sG2Ni74CtLkqunpt+/bu2W8tMAyl9qxY12EPdbZw=
+X-Gm-Gg: AY/fxX6iVd5XSl6lH0cJxEXLZOQJl0WybUr1fgc9/r3QMoSwl2RUq90qkWzb0WGw5Wf
+ S0yOwDHUpzEDSRhDD1CgyljnVhO4hoYKWtdv9YTjpD87bxcLzz15v3be/j+Qpn924pyM0nxkQct
+ 9ZIUqCrXiRUC2PaA9sC0nGHhHGitBVvDpHghw/VhyxOkle7bWtlyZ9TQdLDFfNaY8qVy6bpmYQd
+ nXSybPsNXbDipP4QzZ4o3iDIFFM42FI97bI/mduR3xM815Pug1umYIWKQzkCgtNyExI0YqE9FLK
+ zy/pyzBPKpov3F5KP4x9uMg19VG+vwU06oSqj+leXg9yChWA6kjQBRVIZgo/+jALkk+LIEbbrm+
+ aThqAm/pm+C6LIhxoMJwW7xx/goFN9J7pOyywpAErJIYByQLt+43IC1sIPBxcjA6Lyb4=
+X-Received: by 2002:a05:622a:14:b0:4ee:739:149 with SMTP id
+ d75a77b69052e-4f1d059e3a1mr136581811cf.46.1765788020599; 
+ Mon, 15 Dec 2025 00:40:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEmxFdMKPIKbwVSnYQ41ff/1mZalKEXYhAjGYgahZJ4WpTfUfg/F8/VvJ6t7RoZzhLyp5YFjg==
+X-Received: by 2002:a05:622a:14:b0:4ee:739:149 with SMTP id
+ d75a77b69052e-4f1d059e3a1mr136581431cf.46.1765788020149; 
+ Mon, 15 Dec 2025 00:40:20 -0800 (PST)
 Received: from yuanjiey.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
  [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4f1bd6b50afsm90557971cf.21.2025.12.15.00.40.04
+ d75a77b69052e-4f1bd6b50afsm90557971cf.21.2025.12.15.00.40.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 00:40:11 -0800 (PST)
+ Mon, 15 Dec 2025 00:40:19 -0800 (PST)
 From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
 To: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
  jesszhan0024@gmail.com, sean@poorly.run, marijn.suijten@somainline.org,
@@ -97,37 +97,37 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
  aiqun.yu@oss.qualcomm.com
-Subject: [PATCH v3 03/11] dt-bindings: display/msm: dsi-controller-main: Add
- Kaanapali
-Date: Mon, 15 Dec 2025 16:38:46 +0800
-Message-Id: <20251215083854.577-4-yuanjie.yang@oss.qualcomm.com>
+Subject: [PATCH v3 04/11] dt-bindings: display/msm: qcom,
+ kaanapali-mdss: Add Kaanapali
+Date: Mon, 15 Dec 2025 16:38:47 +0800
+Message-Id: <20251215083854.577-5-yuanjie.yang@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251215083854.577-1-yuanjie.yang@oss.qualcomm.com>
 References: <20251215083854.577-1-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDA3MSBTYWx0ZWRfX/e31OEIC4W/F
- w4ywYsAXNriK9YavMZYVRO2913D6luDMOUCNG8rSQifoOx0KPjGjDcHA2rt+PvFdEBFwKfugraN
- CyVuwRUlqyOskGaPy9zvVhXo0nHdO4hkB3pqwgyJbEXqnel+2QjVevIe0GMdzIFygnNpD6KGwW2
- d/+kEjEQ1wlRjywJM3k8HIhBu7y52hGB9G48I3DuVIkLanXGyYGefyTHkCBNH+Hne1YRirx+pJl
- Fn2OpTCff1DkTlDuc7xE+Pgo4QwlSU0LGi0rLhw0dctbmyb2IAGaYiYStebfPo0EN9N9un1hIZ3
- A4I9eWudq21zOB1OxX9y8QbcBS9Oj4/zTdK+WmH19sm6qF1b4bxr+IaayWfVc4gwVpw5+7q2Um0
- IdvVTn22AcUStnJ1fiB/vDrN4Jm6WA==
-X-Proofpoint-GUID: NV-reJbgTazAYZVeRAasXdys3rFuZWSZ
-X-Authority-Analysis: v=2.4 cv=E6nAZKdl c=1 sm=1 tr=0 ts=693fc96d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+X-Proofpoint-GUID: DJkxfDZ3ccY9Tt2uQ0XSoDcZR_9N4dzA
+X-Proofpoint-ORIG-GUID: DJkxfDZ3ccY9Tt2uQ0XSoDcZR_9N4dzA
+X-Authority-Analysis: v=2.4 cv=Ddsaa/tW c=1 sm=1 tr=0 ts=693fc976 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=NRHHWUy0EX9jfUzwrTwA:9 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: NV-reJbgTazAYZVeRAasXdys3rFuZWSZ
+ a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=ttgK4pBlxCW4zpXUERAA:9
+ a=iYH6xdkBrDN1Jqds4HTS:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDA3MiBTYWx0ZWRfX+HY2rAOQ8TkX
+ R1te1LMi72AGRbTfNgIbiuwJoYAcWPPbkOwPQEDi/lgNf2+SQ5/iaiRg9BStqlEBRe9chEhY4DJ
+ ZsrD6BnpLzkkQ/ArIfuZKWaRcFLXpj0Yxm8DwXVN/WrW1zyUt0dXbVtrF0A9MdCQKJ/+afK9Z8o
+ jQpKxs/EUKmen/UlQROkDdPGXkwSFjGByQsgKz3mZcRIwetwmVMk9Q6gXq6G1gYcnnTCt4fhwZ6
+ jb/wpx3sjAqVCqbYjdFfzVJefBFh1FYuHQx3EQU8TEaDqpoeHCt6iP2MObZt9nYoJmd9NixzM9+
+ NmIINvBEdVi/1AlY5tHvjVSkYvZGvb+REtV3K/g3QTAp9sHHOmnF/3qhjUk658pUj9yW3C/rJh+
+ U9UuiSlaTAvKh5BtPIJ96yfSlBUwDA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-15_01,2025-12-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 adultscore=0 clxscore=1015 spamscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512150071
+ bulkscore=0 clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512150072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,34 +145,321 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-The DSI registers on the Kaanapali platform differ from those on SM8750.
-So add DSI for Kaanapali to compatible these changes.
+Kaanapali introduces DPU 13.0.0 and DSI 2.10. Compared to SM8750,
+Kaanapali has significant register changes, making it incompatible
+with SM8750. So add MDSS/MDP display subsystem for Qualcomm Kaanapali.
 
+Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 ---
- .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/msm/qcom,kaanapali-mdss.yaml      | 297 ++++++++++++++++++
+ 1 file changed, 297 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 4400d4cce072..536ebf331828 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -15,6 +15,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,apq8064-dsi-ctrl
-+              - qcom,kaanapali-dsi-ctrl
-               - qcom,msm8226-dsi-ctrl
-               - qcom,msm8916-dsi-ctrl
-               - qcom,msm8953-dsi-ctrl
-@@ -369,6 +370,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,kaanapali-dsi-ctrl
-               - qcom,sm8750-dsi-ctrl
-     then:
-       properties:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+new file mode 100644
+index 000000000000..92293e2b4d94
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+@@ -0,0 +1,297 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,kaanapali-mdss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Kaanapali Display MDSS
++
++maintainers:
++  - Yongxing Mou <yongxing.mou@oss.qualcomm.com>
++  - Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
++
++description:
++  Kaanapali MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks
++  like DPU display controller, DSI and DP interfaces etc.
++
++$ref: /schemas/display/msm/mdss-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,kaanapali-mdss
++
++  clocks:
++    items:
++      - description: Display AHB
++      - description: Display hf AXI
++      - description: Display core
++      - description: Display AHB SWI
++
++  iommus:
++    maxItems: 1
++
++  interconnects:
++    items:
++      - description: Interconnect path from mdp0 port to the data bus
++      - description: Interconnect path from CPU to the reg bus
++
++  interconnect-names:
++    items:
++      - const: mdp0-mem
++      - const: cpu-cfg
++
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,kaanapali-dpu
++
++  "^dsi@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        contains:
++          const: qcom,kaanapali-dsi-ctrl
++
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,kaanapali-dsi-phy-3nm
++
++required:
++  - compatible
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,rpmh.h>
++    #include <dt-bindings/interconnect/qcom,icc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/phy/phy-qcom-qmp.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
++
++    display-subsystem@9800000 {
++        compatible = "qcom,kaanapali-mdss";
++        reg = <0x09800000 0x1000>;
++        reg-names = "mdss";
++
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++
++        clocks = <&disp_cc_mdss_ahb_clk>,
++                 <&gcc_disp_hf_axi_clk>,
++                 <&disp_cc_mdss_mdp_clk>,
++                 <&disp_cc_mdss_ahb_swi_clk>;
++        resets = <&disp_cc_mdss_core_bcr>;
++
++        power-domains = <&mdss_gdsc>;
++
++        iommus = <&apps_smmu 0x800 0x2>;
++
++        interrupt-controller;
++        #interrupt-cells = <1>;
++
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        display-controller@9801000 {
++            compatible = "qcom,kaanapali-dpu";
++            reg = <0x09801000 0x1c8000>,
++                  <0x09b16000 0x3000>;
++            reg-names = "mdp",
++                        "vbif";
++
++            interrupts-extended = <&mdss 0>;
++
++            clocks = <&gcc_disp_hf_axi_clk>,
++                     <&disp_cc_mdss_ahb_clk>,
++                     <&disp_cc_mdss_mdp_lut_clk>,
++                     <&disp_cc_mdss_mdp_clk>,
++                     <&disp_cc_mdss_vsync_clk>;
++            clock-names = "nrt_bus",
++                          "iface",
++                          "lut",
++                          "core",
++                          "vsync";
++
++            assigned-clocks = <&disp_cc_mdss_vsync_clk>;
++            assigned-clock-rates = <19200000>;
++
++            operating-points-v2 = <&mdp_opp_table>;
++
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    dpu_intf1_out: endpoint {
++                        remote-endpoint = <&mdss_dsi0_in>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    dpu_intf2_out: endpoint {
++                        remote-endpoint = <&mdss_dsi1_in>;
++                    };
++                };
++            };
++
++            mdp_opp_table: opp-table {
++                compatible = "operating-points-v2";
++
++                opp-156000000 {
++                    opp-hz = /bits/ 64 <156000000>;
++                    required-opps = <&rpmhpd_opp_low_svs_d1>;
++                };
++
++                opp-207000000 {
++                    opp-hz = /bits/ 64 <207000000>;
++                    required-opps = <&rpmhpd_opp_low_svs>;
++                };
++
++                opp-337000000 {
++                    opp-hz = /bits/ 64 <337000000>;
++                    required-opps = <&rpmhpd_opp_svs>;
++                };
++
++                opp-417000000 {
++                    opp-hz = /bits/ 64 <417000000>;
++                    required-opps = <&rpmhpd_opp_svs_l1>;
++                };
++
++                opp-532000000 {
++                    opp-hz = /bits/ 64 <532000000>;
++                    required-opps = <&rpmhpd_opp_nom>;
++                };
++
++                opp-600000000 {
++                    opp-hz = /bits/ 64 <600000000>;
++                    required-opps = <&rpmhpd_opp_nom_l1>;
++                };
++
++                opp-650000000 {
++                    opp-hz = /bits/ 64 <650000000>;
++                    required-opps = <&rpmhpd_opp_turbo>;
++                };
++            };
++        };
++
++        dsi@9ac0000 {
++            compatible = "qcom,kaanapali-dsi-ctrl", "qcom,mdss-dsi-ctrl";
++            reg = <0x09ac0000 0x1000>;
++            reg-names = "dsi_ctrl";
++
++            interrupts-extended = <&mdss 4>;
++
++            clocks = <&disp_cc_mdss_byte0_clk>,
++                     <&disp_cc_mdss_byte0_intf_clk>,
++                     <&disp_cc_mdss_pclk0_clk>,
++                     <&disp_cc_mdss_esc0_clk>,
++                     <&disp_cc_mdss_ahb_clk>,
++                     <&gcc_disp_hf_axi_clk>,
++                     <&mdss_dsi0_phy 1>,
++                     <&mdss_dsi0_phy 0>,
++                     <&disp_cc_esync0_clk>,
++                     <&disp_cc_osc_clk>,
++                     <&disp_cc_mdss_byte0_clk_src>,
++                     <&disp_cc_mdss_pclk0_clk_src>;
++            clock-names = "byte",
++                          "byte_intf",
++                          "pixel",
++                          "core",
++                          "iface",
++                          "bus",
++                          "dsi_pll_pixel",
++                          "dsi_pll_byte",
++                          "esync",
++                          "osc",
++                          "byte_src",
++                          "pixel_src";
++
++            operating-points-v2 = <&mdss_dsi_opp_table>;
++
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++            phys = <&mdss_dsi0_phy>;
++            phy-names = "dsi";
++
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    mdss_dsi0_in: endpoint {
++                        remote-endpoint = <&dpu_intf1_out>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    mdss_dsi0_out: endpoint {
++                        remote-endpoint = <&panel0_in>;
++                        data-lanes = <0 1 2 3>;
++                    };
++                };
++            };
++
++            mdss_dsi_opp_table: opp-table {
++                compatible = "operating-points-v2";
++
++                opp-187500000 {
++                    opp-hz = /bits/ 64 <187500000>;
++                    required-opps = <&rpmhpd_opp_low_svs_d1>;
++                };
++
++                opp-250000000 {
++                    opp-hz = /bits/ 64 <250000000>;
++                    required-opps = <&rpmhpd_opp_low_svs>;
++                };
++
++                opp-312500000 {
++                    opp-hz = /bits/ 64 <312500000>;
++                    required-opps = <&rpmhpd_opp_svs>;
++                };
++
++                opp-358000000 {
++                    opp-hz = /bits/ 64 <358000000>;
++                    required-opps = <&rpmhpd_opp_svs_l1>;
++                };
++            };
++        };
++
++        mdss_dsi0_phy: phy@9ac1000 {
++            compatible = "qcom,kaanapali-dsi-phy-3nm";
++            reg = <0x0 0x09ac1000 0x0 0x1cc>,
++                  <0x0 0x09ac1200 0x0 0x80>,
++                  <0x0 0x09ac1500 0x0 0x400>;
++            reg-names = "dsi_phy",
++                        "dsi_phy_lane",
++                        "dsi_pll";
++
++            clocks = <&disp_cc_mdss_ahb_clk>,
++                     <&rpmhcc RPMH_CXO_CLK>;
++            clock-names = "iface",
++                          "ref";
++
++            #clock-cells = <1>;
++            #phy-cells = <0>;
++        };
++    };
 -- 
 2.34.1
 
