@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BA9CBD872
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68130CBD88A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:39:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21DA10E43E;
-	Mon, 15 Dec 2025 11:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B27F410E448;
+	Mon, 15 Dec 2025 11:39:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mRQnHtWE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H9qfFZSD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBC510E443
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:39:13 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7acd9a03ba9so3571829b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 03:39:13 -0800 (PST)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C51510E44A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:39:16 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-34c9edf63a7so660109a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 03:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765798753; x=1766403553; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765798756; x=1766403556; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lORwJoeOdmqWvp6Gaq9g1tKkad6KEP5mAC3mejLEu6E=;
- b=mRQnHtWERWa09Zwm1It4HGCsXveHvodDRId+B9eeF7rw/PNaYCPkFldgH2s3F/NMOM
- rbMHNtR3DLbvPCwcn2V+eifN1G6YXt/g2RYOvDr2/P3djZ1CbhmRfOcEpWOKknzlJ+iI
- sf3CFst8ImmAN3R1n/YIkAxG/fquTe5B7E5JJyVLuZk8F7435Qpgr1LVHWYfRYOZHFj2
- t7MTgK+vF0hbamXWLAVJu583slJUGSRCActZ1jYnxYYt2+Ize4IWt7/dxtAOACHqnuG4
- piiWZqIbhErrw8yvRJBx4PSU3jse9Z+sfUfXoSNkgDijZdkIxjaBhc6WOK6Lfyuki59S
- gYNA==
+ bh=9thXFyBI9wECeAoZwvjVxFD8Ol9j6G4X/I1qZGpsX1M=;
+ b=H9qfFZSDUDsNEnTYjTVwV4CE22h3iJRx5R7fjcM28CcNz18oiUt/0GuG4WfKKGlwoH
+ 4NKy7F7Blw25hSLbFGJkY84oPkPDtuaTjXFoM1SiuUipa5aLACeoCpqxcn5igcrKbP/G
+ Bd+UNQ6JC92f5DyNmFn1KS/fhc2B7g1u526isFDE04X9XkE4Os3NrWTu+ZFzsrE2OPgc
+ /t5iZWeOp6JoOEQoJ8fjnNI6oHxLdK+0e38Zlxrw0mG/Od+P5Id3AaC2/kAjCOjoUwHq
+ gselUjuLfMV0B+LPuphuAKwpj3YnbQGTrCE2wn8aqbDDpFZhEmWv7ZTrd6YIxWmn3Eu8
+ c5uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765798753; x=1766403553;
+ d=1e100.net; s=20230601; t=1765798756; x=1766403556;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=lORwJoeOdmqWvp6Gaq9g1tKkad6KEP5mAC3mejLEu6E=;
- b=uT0urtd7q3yOrgXH/gLPIbhHtJjB3QTBsd+8f5pHQl9Cv6O7dH86/5fRl1gMrjCSGf
- 3pIg/yd9siSLQ/zW3bB4WC13s+3IVNonoIa8+QHy/WbQWRyBXuaLJcQHz/t8lzj8RF7d
- IwCqVJ+/ChUx2yX9ROqiKlRWFEC6oi+ix2J/NBVbU/+a1iSuPaXncsG7/Kt37r92wu7r
- HOy9+QTG6wTL3lxaiFtuJ5MxSMHQqQlT0Hwd4MqyKP8B9fTlrec3qVHE+JaWRxTDqn8o
- 8Yk5rDjILnHzXtMa3fHNDDPEjCvg5hlXV6CaMQQ1b2CnjQuTlCo0hYT4stSv+S5d+5Uh
- kS7g==
+ bh=9thXFyBI9wECeAoZwvjVxFD8Ol9j6G4X/I1qZGpsX1M=;
+ b=sMv7znFURc5rbFP7ltX2cIGzXim405GPcLj1l2dcFWx633GKwfoRemd9gqS0hF34Wa
+ q7hJuFoqpaV2VtP/rsOTEEx/fRqJUfXrKocGR/ohFve7SZr4YV/7CXeMtSYzRmBqK6OO
+ 76bXOM4ToEglQXXzOzsNhG+vPTGA1fz8VsIKtLCkgYDnX4umq5PcyP9HTHlwN3LiDbNU
+ nXD225bDASvmCpdLYVXZQTQn7waLzm+3bwCS6ehS2KbXXcG/dcDop4EhiKvdFLOuRLA/
+ RKkqBZicFnvVkEpwhebByFRQB+bpBaGaJa6EiX0KkxolSapPj+/ftZ9+5RIiCkba5A2m
+ 0LxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcRkrfgYVXJq8au7CuymY6CwgknIVm9HxX61+9aGvd3+fSq3F2L6VQsDjKw14pxfB6eW2Ijh1QDnU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwlw37VEOpsA+okbgy3r1I3UKo+kHZubeLZf+2CGK44UstRjO9
- qsvR9UIJDgMecY6OWvy46BxI6b2ZTY6yDAKVRUm7cL96KXmzXqVXRwiR
-X-Gm-Gg: AY/fxX5Zk2H4LxxPUeoxHMX+G901BW4KLq38F7UiYif0gFNhHuVFtCt4XXWjWLTCB5R
- uHFhSR/kLAmvjo2vtBBvEYO5S6veMvNZip0R/hcqO4yyVg/gjcJ80LQ1lcTA7Uu5hEtVv/DMID9
- 2XTyXxhtcI0i0zoST9yGir04/4VrvO057efy/VkbVYQRa70I9JH2ajhXpgS4nJXfLPlOlYW1vGN
- p1ma49WS8+uABTUXtd2BBpoTz9DNRdiS21upx3m5zw1eFTj7xLVmv0VBpRLVioGbw7xJWioF9sP
- q7XgRlaMYEYG7pjVj7ecjk8xM4URqSfAx3Z5uTwY5setk2Ie8Giua0/8awYDGsBJuGJdZAPXr93
- cbfBzj9M7nDEsOBQ2kBGVkUaixmEllnATQq91uhaP/SGKv1Dt6DZNye6W4IgW9LJZ3RmsSAHYwI
- oxQ4fgE1d8VSI=
-X-Google-Smtp-Source: AGHT+IH43ZxDlO+sXZpKsRY9ws0CLb4ZSMlMGi8iin8W4Uc9EL2/AE6hhR6bEKC++ztievLapVcsEA==
-X-Received: by 2002:a05:6a20:6a28:b0:364:387:8f4e with SMTP id
- adf61e73a8af0-369ae490337mr10620715637.34.1765798752795; 
- Mon, 15 Dec 2025 03:39:12 -0800 (PST)
+ AJvYcCUrGXhNzz+fMZ9SEkSjjZGnUv/g6bW+N/F78ddDz5GMrGgTPwhB9SDD2N9MPu+tuabq1PKre6KDbzM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaV3HyInX2GgC4kUTXtNLTCKpVq6xvN9H9UlgiiMhmTWljXagq
+ mBeVk38vwCczLdn1CLbQcpcEdpXbnMBGGBEFbX8zUFGRAyY8wjOl+KgZ
+X-Gm-Gg: AY/fxX6kI+MtAG0/vjji37nxvhTtFurR6Mlg2ynQrLWwAzROCISWvTrU0XqvhVba0U5
+ hcmQkuhgZDZkx688eMGaX/vXJ7KmxNllT/5yaaFcOgz4RL1heJ96Bms1/ckwqmEIkrFLFFe2dxM
+ 73NYjmdkW4XJHbQ2aWO8YPusMrUwzOeODYNIb1EMmiq4IVl09RtxVkEsB4rNQ8k73RlKdRBzymU
+ DxJ4mguKHOctXqPpSZzfEGXzXFO4+GeshTkoRv4EOtWgtJ01ccN0VsGEcHCUHITA70ttL5c3r7l
+ X1zGbGqB0KiXLVqB7nhPfKllgg6MB7IlFwov5nQHT4lcYmStLENfgD2BKCsGuZ2ZjC04zveLu/W
+ 04zRXfkc9/KX+N1DJaf5jqj24ZxoAoSIe6Lfzlgo+hVcyPWZEDrF47bNhBeyFrtnlzgqGKMV3BQ
+ q/2rju7NN4dbE=
+X-Google-Smtp-Source: AGHT+IE3LQMlInYBtZW6kVYJLJE4CFzfJfm+/f5olU3OmDWyxxykzQlHP1rsXKl8Sxl863J3gFT+2A==
+X-Received: by 2002:a17:90b:4b47:b0:33b:8ac4:1ac4 with SMTP id
+ 98e67ed59e1d1-34abd78051dmr11974090a91.35.1765798755860; 
+ Mon, 15 Dec 2025 03:39:15 -0800 (PST)
 Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c0c2ae4e3casm12755809a12.21.2025.12.15.03.39.11
+ 98e67ed59e1d1-34abe294892sm8918293a91.10.2025.12.15.03.39.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 Dec 2025 03:39:12 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
- id 811FA444B394; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
+ id 9EFFF444B395; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -127,20 +127,20 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
  Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
  George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 05/14] mm,
- kfence: Describe @slab parameter in __kfence_obj_info()
-Date: Mon, 15 Dec 2025 18:38:53 +0700
-Message-ID: <20251215113903.46555-6-bagasdotme@gmail.com>
+Subject: [PATCH 06/14] virtio: Describe @map and @vmap members in
+ virtio_device struct
+Date: Mon, 15 Dec 2025 18:38:54 +0700
+Message-ID: <20251215113903.46555-7-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=849; i=bagasdotme@gmail.com;
- h=from:subject; bh=mcnZ1soLgF/JTT1YuxC/XOQhVy9SZYDoshinxHejwDU=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4P0Tdf6vI2dt8iwUrrPLU6ToytxCmtRXso3wY/50
- fGG9Ws6SlkYxLgYZMUUWSYl8jWd3mUkcqF9rSPMHFYmkCEMXJwCMBHZKwz/nVbIB4ee2zunpOHQ
- vBz35Ga7xwYL3V6/ES+tt/jmsMTsOCPDXNsiGd24sMjVrB9Z5rD2NZvPm8/+bp/rS8/i2IdH8rc
- yAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1385; i=bagasdotme@gmail.com;
+ h=from:subject; bh=bVwk3E00Ao0/BsL4XlONNDCfpFF0qzpzGvJu4GqJ/kY=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4N3qByLSAtcbrWEYbHxfzPeVTVyK4Naco81fnbf9
+ sGw4M+ujlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEwk4Ckjw37unJpIS7sDggaL
+ LUJm/L7quGjlN51XE6JFNZoPynqvOsvIsMhqy5y4fbtebC8768S8lM/yytfC9QdFWExtD//Srpa
+ 6yQYA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -159,30 +159,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sphinx reports kernel-doc warning:
+Sphinx reports kernel-doc warnings:
 
-WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
+WARNING: ./include/linux/virtio.h:181 struct member 'map' not described in 'virtio_device'
+WARNING: ./include/linux/virtio.h:181 struct member 'vmap' not described in 'virtio_device'
 
-Fix it by describing @slab parameter.
+Describe these members.
 
-Fixes: 2dfe63e61cc31e ("mm, kfence: support kmem_dump_obj() for KFENCE objects")
+Fixes: bee8c7c24b7373 ("virtio: introduce map ops in virtio core")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- include/linux/kfence.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/virtio.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 0ad1ddbb8b996a..e5822f6e7f2794 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -211,6 +211,7 @@ struct kmem_obj_info;
-  * __kfence_obj_info() - fill kmem_obj_info struct
-  * @kpp: kmem_obj_info to be filled
-  * @object: the object
-+ * @slab: the slab
-  *
-  * Return:
-  * * false - not a KFENCE object
+diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+index 132a474e59140a..68ead8fda9c921 100644
+--- a/include/linux/virtio.h
++++ b/include/linux/virtio.h
+@@ -150,11 +150,13 @@ struct virtio_admin_cmd {
+  * @id: the device type identification (used to match it with a driver).
+  * @config: the configuration ops for this device.
+  * @vringh_config: configuration ops for host vrings.
++ * @map: configuration ops for device's mapping buffer
+  * @vqs: the list of virtqueues for this device.
+  * @features: the 64 lower features supported by both driver and device.
+  * @features_array: the full features space supported by both driver and
+  *		    device.
+  * @priv: private pointer for the driver's use.
++ * @vmap: device virtual map
+  * @debugfs_dir: debugfs directory entry.
+  * @debugfs_filter_features: features to be filtered set by debugfs.
+  */
 -- 
 An old man doll... just what I always wanted! - Clara
 
