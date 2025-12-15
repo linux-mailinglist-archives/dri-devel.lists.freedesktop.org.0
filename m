@@ -2,91 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40663CBDE9A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 13:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD92CBDEA3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 13:57:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8ED910E492;
-	Mon, 15 Dec 2025 12:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377A110E372;
+	Mon, 15 Dec 2025 12:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Rz5QyBm+";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="pwB5aJIj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uhL6Wzq1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wbudG5tR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/lEzb7cY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E04910E492
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765803452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B3010E372
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:57:56 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C790F5BDC1;
+ Mon, 15 Dec 2025 12:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1765803475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DJPuhd80iTSF+OO5gKXbsXNzHvhZFugxRejPAvwRung=;
- b=Rz5QyBm+K+0+l3L1xuDFCVO92hj/on9ncRDU998YPlK/iMuzNYvKWUpYLq4hoXchfHkgCz
- q5BnK0cmSA+K6nRi7+98ypIJ6l3ZGPtMcxMq0fvlUBd4H26VAUi89Uv4xsi3Y6xA1+QzyR
- oW0ba/wgsr+ZaZBNVtWJJT2tVVsVDAI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-385--2DqiC2COlGSDQQ-8sqalQ-1; Mon, 15 Dec 2025 07:57:30 -0500
-X-MC-Unique: -2DqiC2COlGSDQQ-8sqalQ-1
-X-Mimecast-MFC-AGG-ID: -2DqiC2COlGSDQQ-8sqalQ_1765803449
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-430fdaba167so468431f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 04:57:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765803449; x=1766408249;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DJPuhd80iTSF+OO5gKXbsXNzHvhZFugxRejPAvwRung=;
- b=Kh2eRqyoigfAxh1eTNhMhG3+idwFoCZjBOKi1lYsiGeK55KOtTCwqbXkba1BvPE5AQ
- 5wF86wRirspDZTdAv1T+jycsYo2mmW48zEAYIjPa1ut9RrmYVIlxzMatPngcwnilENw9
- +TXKBkk0M4KjAk9Jua/vulr/jOS/ucLQeQJxPXopu9KZiCo1K7qo6X2wsXb+km4Q6tGF
- 2KuSKJWycfKx4ORyPwSzAy1XTK9ynWCYH48wpas95m6BRanAzzbCPwQUzj+3owKT+jsw
- R/mIttuE073LRZ48izA1otU/HSUg5WHve4MMIJa4d4tLIIz5huGh9koT47MypnHc1Ezj
- 1JDg==
-X-Gm-Message-State: AOJu0YwO8Qo06EL4VEVdZmJz9xSAAFiJ8+FgIWnaEsmDRZcbokO9m/yr
- zl/caZ8XrxlX7IjLOTksWwWMHLzohBdcJFiRiWS8xfe2qqIgz0td6reE/cP773CLYwL7aL/kBnh
- uyFUJzaCEwKQv7Zn8rIOxUHv6isO0Ci9siIXRMGOSYTIvRs+k7dhYPMlY5EcPP6K8vBD2zQ==
-X-Gm-Gg: AY/fxX510aRGZj2AoNauxH4hUuz/TM558+UYfeQ0MMj9GK3+0pbzwKkTAW1ozfhVvgS
- J/R8n/AZ7IsVHGRx4p+lCod+TLdfAc7S2U/J2INFc/O5fVqhF5OKFj72kC/5LLJu9YPxQWJQYl/
- SwvYP2QqzuDzwqWyTZ69RI+8qdUSiNZpwv1GeA6wNm6P80JqSEXWN0glHt+mRzsXUD98XNfHxQU
- uEATUjw3BnLxslbKjqPPDPHduGQbwEpEEZz3x+JwHANkbSDw2hA5BISW0YOtlfY2DjFFww7OC1m
- OVEnoUuq5GUorhCcTphx0Dkj2F8sV5QD+ZlgeMjHIYiIKL7R6a7yZEbHJ2SpJteaZDyXK6Eu4xn
- iLd7qJho+RiZPMVct1aYZ0zf0CDJSvD/gX+JEChYEHKwt4ytYn7b/FXF0VFZEfMEp/PfGNU2w61
- Vp+s8=
-X-Received: by 2002:a05:6000:2f81:b0:42b:3062:c647 with SMTP id
- ffacd0b85a97d-42fb44b7718mr9423847f8f.21.1765803449371; 
- Mon, 15 Dec 2025 04:57:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH5Zv0vhReJo51vrrwa+7wzPN1PGO8Bh6Thhn0xc2h920KOWnaqhooUP4kpjy6aaSzbAIad0Q==
-X-Received: by 2002:a05:6000:2f81:b0:42b:3062:c647 with SMTP id
- ffacd0b85a97d-42fb44b7718mr9423809f8f.21.1765803448948; 
- Mon, 15 Dec 2025 04:57:28 -0800 (PST)
-Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net.
- [159.63.51.90]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42ff626b591sm16734579f8f.15.2025.12.15.04.57.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 04:57:28 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH v3 0/7] drm/sitronix/st7571: split up driver to support
- both I2C and SPI
-In-Reply-To: <20251215-st7571-split-v3-0-d5f3205c3138@gmail.com>
-References: <20251215-st7571-split-v3-0-d5f3205c3138@gmail.com>
-Date: Mon, 15 Dec 2025 13:57:27 +0100
-Message-ID: <87tsxrkimg.fsf@ocarina.mail-host-address-is-not-set>
+ bh=+MMpU8iu26hMrIy/s70C2uUD4P60923K9CkgBqEJuQM=;
+ b=pwB5aJIjn8phLTPx90dciLVvvsfvcKP4gkJ66yBeotWcB8KfB5XiqvoFO7jy2uTkyC7Yb0
+ JZLMWnyBnFSISomtilFsdBk9B36BOYrswpfuNRST6oxzuo68CfSRARwKaa2cXsYIM2sUeE
+ 4lDFqwFwDELbInSqS57Nt+ZBmoPWBs0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1765803475;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+MMpU8iu26hMrIy/s70C2uUD4P60923K9CkgBqEJuQM=;
+ b=uhL6Wzq1R+PNBj6rfCcqGNMgxtVxaRnHoZyyToVvx4kGFick0Y9bgj6VQ/quRzQ0+xnmCi
+ 0lYA7snQbCFB6cBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=wbudG5tR;
+ dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/lEzb7cY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1765803474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+MMpU8iu26hMrIy/s70C2uUD4P60923K9CkgBqEJuQM=;
+ b=wbudG5tRrT5mSpJlFzatkqSwIBsOCTdfoHnUgi2Sq9omNJkKuKsXswef7UpkpzalsaCUOA
+ Dll6hqGranEacsANrMAceL1D8/syjts30TI7weAKtY3ETHR/fxxKgSWzqbzQyiEzCS6Ldm
+ vwP4EuI/mR5KXUTIq6jvDZNHMvAhH44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1765803474;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+MMpU8iu26hMrIy/s70C2uUD4P60923K9CkgBqEJuQM=;
+ b=/lEzb7cYQcLGYieeI0FGHc2j6U844YUTFaZ0ICjqymlBjCArBNNka7sLpYwDMBbyBbL1c4
+ SAALQB2mHJPlRmCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B77483EA65;
+ Mon, 15 Dec 2025 12:57:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 3lEkLNIFQGkhTQAAD6G6ig
+ (envelope-from <jack@suse.cz>); Mon, 15 Dec 2025 12:57:54 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+ id 6303FA0951; Mon, 15 Dec 2025 13:57:39 +0100 (CET)
+Date: Mon, 15 Dec 2025 13:57:39 +0100
+From: Jan Kara <jack@suse.cz>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
+ Linux Media <linux-media@vger.kernel.org>, 
+ linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com, 
+ Linux Virtualization <virtualization@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>, 
+ Linux Network Bridge <bridge@lists.linux.dev>,
+ Linux Networking <netdev@vger.kernel.org>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+ Dmitry Vyukov <dvyukov@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Alex Hung <alex.hung@amd.com>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Dillon Varone <Dillon.Varone@amd.com>, 
+ George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+ Cruise Hung <Cruise.Hung@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, 
+ Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ David Hildenbrand <david@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Max Kellermann <max.kellermann@ionos.com>,
+ "Nysal Jan K.A." <nysal@linux.ibm.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Alexey Skidanov <alexey.skidanov@intel.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Kent Overstreet <kent.overstreet@linux.dev>, 
+ Vitaly Wool <vitaly.wool@konsulko.se>, Harry Yoo <harry.yoo@oracle.com>, 
+ Mateusz Guzik <mjguzik@gmail.com>, NeilBrown <neil@brown.name>,
+ Amir Goldstein <amir73il@gmail.com>, 
+ Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, 
+ YiPeng Chai <YiPeng.Chai@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
+ Lyude Paul <lyude@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+ Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>, 
+ Shaomin Deng <dengshaomin@cdjrlc.com>, Charles Han <hanchunchao@inspur.com>, 
+ Jilin Yuan <yuanjilin@cdjrlc.com>, Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ George Anthony Vernon <contact@gvernon.com>
+Subject: Re: [PATCH 07/14] fs: Describe @isnew parameter in ilookup5_nowait()
+Message-ID: <qxbixswc7daxb3y7o7ebmy34dpa3uv6i5vc2fnj2p6f3sckulk@vcbuzldig7al>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
+ <20251215113903.46555-8-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hm8xPEYo9lj0yUhqGL_nOutcMKJ65wXz9xs_Pin9V98_1765803449
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215113903.46555-8-bagasdotme@gmail.com>
+X-Spamd-Result: default: False [-4.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_RHS_NOT_FQDN(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[gmail.com]; ARC_NA(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_LAST(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,googlegroups.com,lists.linux.dev,kvack.org,amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,zeniv.linux.org.uk,suse.cz,linaro.org,google.com,redhat.com,linux.alibaba.com,linux-foundation.org,blackwall.org,nvidia.com,davemloft.net,infradead.org,oracle.com,ionos.com,linux.ibm.com,arm.com,linux.dev,konsulko.se,brown.name,collabora.com,cumulusnetworks.com,208suo.com,cdjrlc.com,inspur.com,gvernon.com];
+ RCPT_COUNT_GT_50(0.00)[86]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_RATELIMIT(0.00)[to_ip_from(RLp36nysqjba7qgmtychm5q4em)];
+ MISSING_XM_UA(0.00)[]; DKIM_TRACE(0.00)[suse.cz:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.com:email, suse.cz:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C790F5BDC1
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,45 +181,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+On Mon 15-12-25 18:38:55, Bagas Sanjaya wrote:
+> Sphinx reports kernel-doc warning:
+> 
+> WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
+> 
+> Describe the parameter.
+> 
+> Fixes: a27628f4363435 ("fs: rework I_NEW handling to operate without fences")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Hello Marcus,
+...
 
-> This series splits up the driver and finally implements
-> support for ST7571/ST7561 connected to a SPI bus.
->
-> I've not tested the SPI interface myself as I lack HW, but the
-> implementation should be okay from what I've read in the datasheet.
->
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
-> Changes in v3:
-> - Add SPI example to the bindings doc (Thanks Javier)
-> - Select REGMAP rather than REGMAP_I2C (Thanks Javier)
-> - Fix gramatical errors in patch description (Thanks Javier)
-> - Link to v2: https://lore.kernel.org/r/20251027-st7571-split-v2-0-8352fb278d21@gmail.com
->
-> Changes in v2:
-> - Add MODULE_IMPORT_NS to st7571-i2c.c st7571-spi.c (Kernel test robot)
-> - Link to v1: https://lore.kernel.org/r/20251024-st7571-split-v1-0-d3092b98130f@gmail.com
->
-> ---
-> Marcus Folkesson (7):
->       drm/sitronix/st7571-i2c: rename 'struct drm_device' in st7571_device
->       drm/sitronix/st7571-i2c: add 'struct device' to st7571_device
->       drm/sitronix/st7571-i2c: move common structures to st7571.h
->       drm/sitronix/st7571-i2c: make probe independent of hw interface
->       drm/sitronix/st7571: split up the driver into a common and an i2c part
->       drm/sitronix/st7571-spi: add support for SPI interface
->       dt-bindings: display: sitronix,st7571: add example for SPI
->
+> @@ -1593,6 +1593,7 @@ EXPORT_SYMBOL(igrab);
+>   * @hashval:	hash value (usually inode number) to search for
+>   * @test:	callback used for comparisons between inodes
+>   * @data:	opaque data pointer to pass to @test
+> + * @isnew:	whether the inode is new or not
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+I'm sorry but this is true but misleading at the same time. I'd write there
+something like:
 
+ * @isnew:    return argument telling whether I_NEW was set when the inode
+              was found in hash (the caller needs to wait for I_NEW to clear).
+
+
+								Honza
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
