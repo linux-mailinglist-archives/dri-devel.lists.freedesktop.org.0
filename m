@@ -2,105 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675E4CBD69B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 11:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BEECBD6A1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 11:52:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF05A10E2A8;
-	Mon, 15 Dec 2025 10:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B64D10E3C8;
+	Mon, 15 Dec 2025 10:52:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N8GktVvJ";
-	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dElC3in0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hhDAxfWt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FBD10E2A8
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 10:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765795906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WkCUCfLiLGct9+NKSop/UGDcclTFONtKAWihXF5F0gs=;
- b=N8GktVvJD0dyutpOHypH/NS0GP+u2GTnGqpRva7vThRdkMczNk6PbAXQ9z5S+ghrgG1Eb+
- Yl5d21i3Q9sZPPmGtZj9ClrYLUw1Jm7BI7y2us+lV19G5YKVm9O8asGxOsngUkNCMZ5riC
- w6V34aVCIUIlA2jqMwbKeIOQbGH+wU4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-aczZJqDSO4eeJ1sINczeCQ-1; Mon, 15 Dec 2025 05:51:43 -0500
-X-MC-Unique: aczZJqDSO4eeJ1sINczeCQ-1
-X-Mimecast-MFC-AGG-ID: aczZJqDSO4eeJ1sINczeCQ_1765795902
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-47799717212so27313915e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 02:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; s=google; t=1765795902; x=1766400702; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WkCUCfLiLGct9+NKSop/UGDcclTFONtKAWihXF5F0gs=;
- b=dElC3in0GoWw+i+OTfC3hOkfZ/Dt7Lv/AXWot+tpVEA3uKQJv+lEuYGf65PzAFUtJ0
- XEPvYl9SdGupnyEjsB9JhpeU3HxmeCYQB0m7nG6mZZ/zFkrj0KeRXuc9zLHhBemSyq4f
- Zl8/Z0LBHgs9BFGSbjgmM5LIeaUFEOzmA24jAkN6vM9xO9IsJ188ksdNU0T7vBxZyylL
- KTGnQx54B5LHJACL+AynUtTZf7l6ul69MRr/8JOyn2z15wClUe+Vk07SRPnO9Y5SG8TN
- GdOFUv0cABBvdrjwN857/yXKMDqzmoiaYJPb3hMWsCPmk/Chx8cThzsS0M6if5Ul0XjW
- 7IDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765795902; x=1766400702;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WkCUCfLiLGct9+NKSop/UGDcclTFONtKAWihXF5F0gs=;
- b=EUxwrMDfh4dz0XOjPR3lzyHuq6x65Aqle+zqdE3ikazj3IILkyGScBwQ8LOMq0Y8Oq
- urzXoSCQk0GW4hrloxYfZXIocBmtl2NTHMFmNRz2VOylGj3zIkVUbxPlRFZp4CXf4gGW
- 9C+VpcHMQqq4LbMMqHpDnqNSrzVu+PMmhCosPcfFv3xwclVHi7o4GBC3mIBkCO0wxKv+
- NyJ7N4n5p1QqUREjZBawGVjen1jc/ihCi2EZQKg7Owh7tC4vd328CqJibAT/HVIYlwRF
- mA5RhuspCzrx5P3SJyX4EcdCNdrT21d5rap8gvkmEm+I4pRkDiBHrlubQ16ui1cpA97H
- 6L1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqiQPog83F7YH/iCX/LCle6Brs/rA6B/6l8FoeStgPZuXi35dQ75qTqxHIFvA7cKJrZjaPhzLiF/Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxuUxv12u5A38QX4k0UUJmxZ5FOP6KdYoirktQ1s0JZYZIHj7vS
- RHNU8tFFiG4ToGieS5WfDg44W0ecq40D83t/bDx0CkKveRmAg3pkyJVw1UGMGOpPKKdt0v5pWLJ
- 4EzUdfETpFF9pBgUAAvo1N5tfOvkXgC9R9qtR5vnAyQwrdc3+0UlkrNqsgGHB1tVnrd14+g==
-X-Gm-Gg: AY/fxX69o4MDzQb/G4wccUu+lmCNicT9I/7c1PCmwNHTBIloLhDf9pVUpnGLax3W56p
- plSi3RB3xGHjH3wsG37KGpSro/v1uTxPTl13rIBblRmcxT988XLpbsFx3VhwZBDMHK7Lc/RIaei
- YIqu/nrQZRp58nt57HDvRCxQuHj2h6mfpGKvTEnOJxuha7/U/mKVhQ82QZU6hqQ3G+6tHv/W2T7
- aXeHWbGYkwWIhwl5ic5i3TdpqRC7tBK81xhnyX7zsyKkcWtGkWOtn/z7q37eNtWW33hIw4IvA/b
- 4LVQFCYGTxoRL0vBWB3TkMhbmbGO47YfwoFI4AaaIYMCIgzNu+0fdYosav84wsVtuQUPMv9FZv7
- wwTxB
-X-Received: by 2002:a05:600c:3151:b0:45d:dc85:c009 with SMTP id
- 5b1f17b1804b1-47a8f8c0a52mr119367045e9.10.1765795901751; 
- Mon, 15 Dec 2025 02:51:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHsLOxvt6hxpjORw35OnVP+adHLtMmhH7jm5yhL+wJY2rwByI4ScjvlRVSyfAXmLS6E1u9MfQ==
-X-Received: by 2002:a05:600c:3151:b0:45d:dc85:c009 with SMTP id
- 5b1f17b1804b1-47a8f8c0a52mr119366655e9.10.1765795901232; 
- Mon, 15 Dec 2025 02:51:41 -0800 (PST)
-Received: from localhost ([82.66.159.240]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a8f6f3e78sm69652615e9.3.2025.12.15.02.51.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 02:51:40 -0800 (PST)
-Date: Mon, 15 Dec 2025 11:51:38 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Eric Chanudet <echanude@redhat.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- Christian Koenig <christian.koenig@amd.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
-Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
- in memcg
-Message-ID: <20251215-sepia-husky-of-eternity-ecf0ce@penduick>
-References: <20251211193106.755485-2-echanude@redhat.com>
- <CABdmKX2MPhw121ZG8V+f-XoOReUsCdmcug-cWDg=3WZcJ=NHHA@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2289710E3C8;
+ Mon, 15 Dec 2025 10:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765795941; x=1797331941;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sAh/IoC49Ep8jqBkEgvt94+RqZIMqrNQTizbIqhSuaY=;
+ b=hhDAxfWtWYH+9EMzMQj+U1wDeXCeKDXvpdpirVoCoj5BVV6HxKKW+RnI
+ n+KUDfqlcebjlZoTWQSNwqPD6rdfZHbLYq5Wkfm5IwwyEWSdaZ90OxMgf
+ UWjkgg8P8gYTtO4RmpVaSeQN4Pq2PMetqHRfhVrgEnIasygNARAMNVKN8
+ g4PnoE+g24S5cREuIZwJqwhGglO2nFl3bgOeHDojuBCCtB4HfuSCjKDUO
+ l+95O1EXNyXENC/Ckjq9tXMmaTYMu7VCtu8YBINKmzt/tdSP04RsqgRuL
+ fEntxw1xRBR95E96tbAJTeFHV82b9HwYil3Ug+Lc7nLuDmL6boL6Eo9WF A==;
+X-CSE-ConnectionGUID: bEk11sBTTS62TVY3ifHC8w==
+X-CSE-MsgGUID: WV5fc6kITrKHOWgJGm3K0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="85104122"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="85104122"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2025 02:52:20 -0800
+X-CSE-ConnectionGUID: STW6FIsjQKy+jfCHiLTKkw==
+X-CSE-MsgGUID: Dnc6IaJIRTSoX5USVIR7tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="201879272"
+Received: from black.igk.intel.com ([10.91.253.5])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2025 02:52:18 -0800
+Date: Mon, 15 Dec 2025 11:52:14 +0100
+From: Raag Jadav <raag.jadav@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ lukas@wunner.de, simona.vetter@ffwll.ch, airlied@gmail.com,
+ pratik.bari@intel.com, joshua.santosh.ranjan@intel.com,
+ ashwin.kumar.kulkarni@intel.com, shubham.kumar@intel.com,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Subject: Re: [PATCH v3 4/4] drm/xe/xe_hw_error: Add support for PVC SOC errors
+Message-ID: <aT_oXo97R3GyWgNk@black.igk.intel.com>
+References: <20251205083934.3602030-6-riana.tauro@intel.com>
+ <20251205083934.3602030-10-riana.tauro@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="u7gkqqtkk3esv3ha"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABdmKX2MPhw121ZG8V+f-XoOReUsCdmcug-cWDg=3WZcJ=NHHA@mail.gmail.com>
+In-Reply-To: <20251205083934.3602030-10-riana.tauro@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,60 +74,333 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 05, 2025 at 02:09:36PM +0530, Riana Tauro wrote:
+> Report the SOC nonfatal/fatal hardware error and update the counters.
 
---u7gkqqtkk3esv3ha
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
- in memcg
-MIME-Version: 1.0
+...
 
-Hi TJ,
+> +#define SOC_PVC_BASE				0x282000
 
-On Fri, Dec 12, 2025 at 08:25:19AM +0900, T.J. Mercier wrote:
-> On Fri, Dec 12, 2025 at 4:31=E2=80=AFAM Eric Chanudet <echanude@redhat.co=
-m> wrote:
-> >
-> > The system dma-buf heap lets userspace allocate buffers from the page
-> > allocator. However, these allocations are not accounted for in memcg,
-> > allowing processes to escape limits that may be configured.
-> >
-> > Pass the __GFP_ACCOUNT for our allocations to account them into memcg.
->=20
-> We had a discussion just last night in the MM track at LPC about how
-> shared memory accounted in memcg is pretty broken. Without a way to
-> identify (and possibly transfer) ownership of a shared buffer, this
-> makes the accounting of shared memory, and zombie memcg problems
-> worse. :\
+Curious, should we use 'master' naming for consistency with the code?
 
-Are there notes or a report from that discussion anywhere?
+> +#define SOC_PVC_SLAVE_BASE			0x283000
+> +
+> +#define SOC_GCOERRSTS				0x200
+> +#define SOC_GNFERRSTS				0x210
+> +#define SOC_GLOBAL_ERR_STAT_REG(base, x)	XE_REG(_PICK_EVEN((x), \
+> +								  (base) + SOC_GCOERRSTS, \
+> +								  (base) + SOC_GNFERRSTS))
+> +#define   SOC_SLAVE_IEH				BIT(1)
+> +#define   SOC_IEH0_LOCAL_ERR_STATUS		BIT(0)
+> +#define   SOC_IEH1_LOCAL_ERR_STATUS		BIT(0)
 
-The way I see it, the dma-buf heaps *trivial* case is non-existent at
-the moment and that's definitely broken. Any application can bypass its
-cgroups limits trivially, and that's a pretty big hole in the system.
+What's the secret spacing convention in this file? Really, I couldn't
+figure out ;)
 
-The shared ownership is indeed broken, but it's not more or less broken
-than, say, memfd + udmabuf, and I'm sure plenty of others.
+> +#define SOC_GSYSEVTCTL				0x264
+> +#define SOC_GSYSEVTCTL_REG(base, slave_base, x)	XE_REG(_PICK_EVEN((x), \
+> +								  (base) + SOC_GSYSEVTCTL, \
+> +								  slave_base + SOC_GSYSEVTCTL))
 
-So we really improve the common case, but only make the "advanced"
-slightly more broken than it already is.
+Brace around slave_base for consistency.
 
-Would you disagree?
+> +#define SOC_LERRUNCSTS				0x280
+> +#define SOC_LERRCORSTS				0x294
+> +#define SOC_LOCAL_ERR_STAT_REG(base, x)		XE_REG(x == DRM_XE_RAS_ERROR_CORRECTABLE ? \
 
-Maxime
+In previous patch this was 'hw_err', so whichever one you use please make
+it consistent.
 
---u7gkqqtkk3esv3ha
-Content-Type: application/pgp-signature; name="signature.asc"
+> +						      (base) + SOC_LERRCORSTS : \
+> +						      (base) + SOC_LERRUNCSTS)
+> +
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+> index 77c90f1b06fd..1b7c782dbd98 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+> @@ -18,6 +18,7 @@
+>  
+>  #define  HEC_UNCORR_FW_ERR_BITS 4
+>  #define XE_RAS_REG_SIZE 32
+> +#define XE_SOC_NUM_IEH 2
 
------BEGIN PGP SIGNATURE-----
+Alignment please! (including the values)
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaT/oOgAKCRAnX84Zoj2+
-dkxfAX4ve8AMEp5rGVxqWdx7mP32EEUlTe7oGqgQsZGk3gdf9G5zzO3162M7qdiD
-3jlaGbUBfRHozRNiBmCNTKcExXO6w9Ygjiy0DBe+Vt/PkW0DZjejxbuLLNtgH70W
-djcO8jaBRA==
-=lq40
------END PGP SIGNATURE-----
+>  extern struct fault_attr inject_csc_hw_error;
+>  static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
+> @@ -34,6 +35,7 @@ static const char * const hec_uncorrected_fw_errors[] = {
+>  
+>  static const unsigned long xe_hw_error_map[] = {
+>  	ERR_INDEX(XE_GT_ERROR, DRM_XE_RAS_ERROR_CORE_COMPUTE),
+> +	ERR_INDEX(XE_SOC_ERROR, DRM_XE_RAS_ERROR_SOC_INTERNAL),
+>  };
+>  
+>  enum gt_vector_regs {
+> @@ -48,6 +50,92 @@ enum gt_vector_regs {
+>  	ERR_STAT_GT_VECTOR_MAX,
+>  };
+>  
+> +static const char * const pvc_slave_local_fatal_err_reg[] = {
+> +	[0]		= "Local IEH internal: Malformed PCIe AER",
+> +	[1]		= "Local IEH internal: Malformed PCIe ERR",
+> +	[2]		= "Local IEH internal: UR conditions in IEH",
+> +	[3]		= "Local IEH internal: From SERR Sources",
 
---u7gkqqtkk3esv3ha--
+Unless there's anything like 'IEH external', let's try to simplify a bit.
 
+> +	[4 ... 19]	= "Undefined",
+> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
+> +	[21 ... 31]	= "Undefined",
+
+Nit: I'd align '=' in all the arrays here but ofcourse it's a personal
+preference.
+
+> +};
+> +
+> +static const char * const pvc_slave_global_err_reg[] = {
+> +	[0]         = "Undefined",
+> +	[1]         = "HBM SS2: Channel0",
+> +	[2]         = "HBM SS2: Channel1",
+> +	[3]         = "HBM SS2: Channel2",
+> +	[4]         = "HBM SS2: Channel3",
+> +	[5]         = "HBM SS2: Channel4",
+> +	[6]         = "HBM SS2: Channel5",
+> +	[7]         = "HBM SS2: Channel6",
+> +	[8]         = "HBM SS2: Channel7",
+> +	[9]         = "HBM SS3: Channel0",
+> +	[10]        = "HBM SS3: Channel1",
+> +	[11]        = "HBM SS3: Channel2",
+> +	[12]        = "HBM SS3: Channel3",
+> +	[13]        = "HBM SS3: Channel4",
+> +	[14]        = "HBM SS3: Channel5",
+> +	[15]        = "HBM SS3: Channel6",
+> +	[16]        = "HBM SS3: Channel7",
+> +	[17]        = "Undefined",
+> +	[18]        = "ANR MDFI",
+> +	[19 ... 31] = "Undefined",
+> +};
+> +
+> +static const char * const pvc_master_global_err_reg[] = {
+> +	[0 ... 1]   = "Undefined",
+> +	[2]         =  "HBM SS0: Channel0",
+> +	[3]         =  "HBM SS0: Channel1",
+> +	[4]         =  "HBM SS0: Channel2",
+> +	[5]         =  "HBM SS0: Channel3",
+> +	[6]         =  "HBM SS0: Channel4",
+> +	[7]         =  "HBM SS0: Channel5",
+> +	[8]         =  "HBM SS0: Channel6",
+> +	[9]         =  "HBM SS0: Channel7",
+> +	[10]        =  "HBM SS1: Channel0",
+> +	[11]        =  "HBM SS1: Channel1",
+> +	[12]        =  "HBM SS1: Channel2",
+> +	[13]        =  "HBM SS1: Channel3",
+> +	[14]        =  "HBM SS1: Channel4",
+> +	[15]        =  "HBM SS1: Channel5",
+> +	[16]        =  "HBM SS1: Channel6",
+> +	[17]        =  "HBM SS1: Channel7",
+> +	[18 ... 31] = "Undefined",
+> +};
+
+I'd move this array above as per SS<N> ordering. Also, group together
+global and local ones.
+
+> +static const char * const pvc_master_local_fatal_err_reg[] = {
+> +	[0]         = "Local IEH internal: Malformed IOSF PCIe AER",
+> +	[1]         = "Local IEH internal: Malformed IOSF PCIe ERR",
+> +	[2]         = "Local IEH internal: IEH UR RESPONSE",
+> +	[3]         = "Local IEH internal: From SERR SPI controller",
+> +	[4]         = "Base Die MDFI T2T",
+> +	[5]         = "Undefined",
+> +	[6]         = "Base Die MDFI T2C",
+> +	[7]         = "Undefined",
+> +	[8]         = "Invalid CSC PSF Command Parity",
+> +	[9]         = "Invalid CSC PSF Unexpected Completion",
+> +	[10]        = "Invalid CSC PSF Unsupported Request",
+> +	[11]        = "Invalid PCIe PSF Command Parity",
+> +	[12]        = "PCIe PSF Unexpected Completion",
+> +	[13]        = "PCIe PSF Unsupported Request",
+> +	[14 ... 19] = "Undefined",
+> +	[20]        = "Malformed MCA error packet (HBM/Punit)",
+> +	[21 ... 31] = "Undefined",
+> +};
+> +
+> +static const char * const pvc_master_local_nonfatal_err_reg[] = {
+> +	[0 ... 3]   = "Undefined",
+> +	[4]         = "Base Die MDFI T2T",
+> +	[5]         = "Undefined",
+> +	[6]         = "Base Die MDFI T2C",
+> +	[7]         = "Undefined",
+> +	[8]         = "Invalid CSC PSF Command Parity",
+> +	[9]         = "Invalid CSC PSF Unexpected Completion",
+> +	[10]        = "Invalid PCIe PSF Command Parity",
+> +	[11 ... 31] = "Undefined",
+> +};
+> +
+>  static bool fault_inject_csc_hw_error(void)
+>  {
+>  	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
+> @@ -197,6 +285,117 @@ static void gt_handle_errors(struct xe_tile *tile,
+>  	}
+>  }
+>  
+> +static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
+> +			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
+> +{
+> +	const char *severity_str = error_severity[severity];
+> +	struct xe_device *xe = tile_to_xe(tile);
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	struct xe_drm_ras_counter *info = ras->info[severity];
+> +	const char *name;
+> +
+> +	name = reg_info[err_bit];
+> +
+> +	if (strcmp(name, "Undefined") != 0) {
+
+Do we need '!= 0'?
+
+> +		if (severity == DRM_XE_RAS_ERROR_FATAL)
+> +			drm_err_ratelimited(&xe->drm, "%s SOC %s error detected",
+
+Again, duplicate 'error'.
+
+> +					    name, severity_str);
+> +		else
+> +			drm_warn(&xe->drm, "%s SOC %s error detected", name, severity_str);
+
+Ditto.
+
+> +		atomic64_inc(&info[index].counter);
+> +	}
+> +}
+> +
+> +static void soc_hw_error_handler(struct xe_tile *tile,
+> +				 const enum drm_xe_ras_error_severity severity, u32 error_id)
+> +{
+> +	struct xe_device *xe = tile_to_xe(tile);
+> +	struct xe_mmio *mmio = &tile->mmio;
+> +	unsigned long master_global_errstat, slave_global_errstat;
+> +	unsigned long master_local_errstat, slave_local_errstat;
+> +	u32 base, slave_base, regbit;
+> +	int i;
+> +
+> +	if (xe->info.platform != XE_PVC)
+> +		return;
+> +
+> +	base = SOC_PVC_BASE;
+> +	slave_base = SOC_PVC_SLAVE_BASE;
+> +
+> +	/*
+> +	 * Mask error type in GSYSEVTCTL so that no new errors of the type will be reported
+> +	 */
+
+Can be one line.
+
+> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
+> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(base, slave_base, i), ~REG_BIT(severity));
+> +
+> +	if (severity == DRM_XE_RAS_ERROR_CORRECTABLE) {
+> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity), REG_GENMASK(31, 0));
+> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity), REG_GENMASK(31, 0));
+> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, severity),
+> +				REG_GENMASK(31, 0));
+> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, severity),
+> +				REG_GENMASK(31, 0));
+> +		goto unmask_gsysevtctl;
+> +	}
+> +
+> +	/*
+> +	 * Read the master global IEH error register if
+> +	 * BIT 1 is set then process the slave IEH first. If BIT 0 in
+> +	 * global error register is set then process the corresponding
+> +	 * Local error registers
+> +	 */
+
+This can definitely be less lines.
+
+> +	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity));
+> +	if (master_global_errstat & SOC_SLAVE_IEH) {
+> +		slave_global_errstat = xe_mmio_read32(mmio,
+> +						      SOC_GLOBAL_ERR_STAT_REG(slave_base, severity));
+> +		if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
+> +			slave_local_errstat = xe_mmio_read32(mmio,
+> +							     SOC_LOCAL_ERR_STAT_REG(slave_base,
+> +										    severity));
+> +
+> +			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE) {
+> +				if (severity == DRM_XE_RAS_ERROR_FATAL)
+
+Shouldn't this condition be outside the loop? Also, should we not log it
+after we clear the bits?
+
+> +					log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
+> +						      regbit, error_id);
+> +			}
+> +
+> +			xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, severity),
+> +					slave_local_errstat);
+> +		}
+> +
+> +		for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
+> +			log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
+
+Ditto.
+
+> +
+> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, severity),
+> +				slave_global_errstat);
+> +	}
+> +
+> +	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
+> +		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity));
+> +
+> +		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE) {
+> +			if (severity == DRM_XE_RAS_ERROR_FATAL)
+> +				log_soc_error(tile, pvc_master_local_fatal_err_reg, severity,
+> +					      regbit, error_id);
+> +			if (severity == DRM_XE_RAS_ERROR_NONFATAL)
+> +				log_soc_error(tile, pvc_master_local_nonfatal_err_reg, severity,
+> +					      regbit, error_id);
+
+These can be consolidated using temp variable. Also, log after clear.
+
+> +		}
+> +
+> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity), master_local_errstat);
+> +	}
+> +
+> +	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
+> +		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
+
+Ditto.
+
+> +
+> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity), master_global_errstat);
+> +
+> +unmask_gsysevtctl:
+> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
+> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(base, slave_base, i),
+> +				(DRM_XE_RAS_ERROR_SEVERITY_MAX << 1) + 1);
+> +}
+> +
+>  static void gt_hw_error_handler(struct xe_tile *tile,
+>  				const enum drm_xe_ras_error_severity severity, u32 error_id)
+>  {
+> @@ -269,6 +468,9 @@ static void hw_error_source_handler(struct xe_tile *tile, enum drm_xe_ras_error_
+>  		}
+>  		if (BIT(err_bit) & XE_GT_ERROR)
+>  			gt_hw_error_handler(tile, severity, error_id);
+> +
+> +		if (BIT(err_bit) == XE_SOC_ERROR)
+
+Make this consistent with above.
+
+Raag
+
+> +			soc_hw_error_handler(tile, severity, error_id);
+>  	}
+>  
+>  clear_reg:
+> -- 
+> 2.47.1
+> 
