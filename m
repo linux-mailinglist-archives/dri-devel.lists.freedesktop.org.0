@@ -2,87 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56574CBCC39
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 08:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EDACBCC57
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 08:30:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D316310E00B;
-	Mon, 15 Dec 2025 07:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0903410E083;
+	Mon, 15 Dec 2025 07:30:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VONlHtkv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DEjKcEZ2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sh1Lvv8u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="igmoPzcv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cwOYFbXf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VeGLTgeW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="llz08bjd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zT6ULmHy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A9210E00B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:27:59 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 230FB10E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:30:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4A8E05BD11;
- Mon, 15 Dec 2025 07:27:57 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7B84D5BD11;
+ Mon, 15 Dec 2025 07:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765783678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765783808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
- b=VONlHtkvWXhzNaEnSk3cHktYE9VDEqD8BLn+y/Eyw8bd2CqBOftCWB+o09i4kCkPPbdHdp
- UnPdxQu0zjsiIwZroZyZASTSKq3yqRMduq2h1uHsQSToa52bpXK6YatO/hk4YKwT6seaV0
- N2jiOvOItwILfe9IcsaeUdb9ifcuVuY=
+ bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
+ b=cwOYFbXfHvS3yAONk7/EStU4Ha3mhX3kn4nRIEzBZe7haOtsIneIfdZK2CIyC5fANQdAef
+ h++GKUMid2A2yrikycD3fHNdZPU4wI1mwA6TeccaWPNXd12nLzqbtxoiaN3sXQ372ZRE5B
+ OJ8YnuCoayllzrKEYT/9DS9OQRKVPRI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765783678;
+ s=susede2_ed25519; t=1765783808;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
- b=DEjKcEZ2Q2HKrDx9Qkm0ACG0fFjfvmdgh0tc3nU6T63IeVh3ungEJX7X5TMpN6GNawa2Sy
- 0Gn7s0JjeORBqABg==
+ bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
+ b=VeGLTgeW1+rFQKBo0h6itqq4GmVt259Y5zbbmbMRiAJtcnAExZ8wDGqSOYxXkZfPYysNHP
+ gaWkA6nfs/gR5jBg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=llz08bjd;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zT6ULmHy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765783677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765783807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
- b=sh1Lvv8uif7//Tve7BzlKa5YHbTeV9/0lHbYUbOH7Zmhf3m/+7RktNNcM/0RlSibyCf++D
- 0FDwMZuS+VAOMl/F0gILyrdnMzNVjPOobN9A8Q13dZ4myacCYXGPx2nPcxczNeordJsVIZ
- matNN8lvHaCZrOQc+BAqfnmAAL4AZo0=
+ bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
+ b=llz08bjdBhWe/uzHLdiKt71cSh9QhHmw3cPOcOsEnsJNJNGOWyzrM+1gBbxd3BnsnLPWyY
+ 1KRoVX/C1HiMujWxYAv0dOYq9SnC9fvp/OZZDB4+oEvPXBBst9P7Lk+dkPJxiP7812V6QZ
+ UJHdy2vPr8tOepXm0Q++Xx/3ebviFZ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765783677;
+ s=susede2_ed25519; t=1765783807;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
- b=igmoPzcvvg/hjURvUZEovz7Tb33jPmPUH2Uf7zSrmwlFgVEWuFdCi6dSHp+ECPGqXAQUz3
- 5VNQkCj0bL3cifAQ==
+ bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
+ b=zT6ULmHyXL5SNndw5atctQ+dcVVv8Ei6Stf8ZCJtPr3xOMYScTTyivcX3IKGx79PsOyF4m
+ 2Ax/U7vflURD54CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 173773EA63;
- Mon, 15 Dec 2025 07:27:57 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A03C3EA63;
+ Mon, 15 Dec 2025 07:30:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4zkzBH24P2nOIQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 15 Dec 2025 07:27:57 +0000
-Message-ID: <48b1bcea-05ff-469c-95d8-de094e68b4fc@suse.de>
-Date: Mon, 15 Dec 2025 08:27:56 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CsXIFP+4P2lUIwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Dec 2025 07:30:07 +0000
+Message-ID: <007be221-b28d-49c0-a7c7-0a4ea74d5d75@suse.de>
+Date: Mon, 15 Dec 2025 08:30:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Fix big-endian support
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>
-Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, airlied@redhat.com
-References: <20251211.134330.2200695829709887915.rene@exactco.de>
- <3e46c10b-79db-4c11-9047-cd33e94ff5e0@suse.de>
- <20251211.153101.411672428832661296.rene@exactco.de>
- <20251212.211558.488710050851597114.rene@exactco.de>
+Subject: Re: [PATCH V4] drm/ast: Swap framebuffer writes on big-endian machines
+To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>
+References: <20251212.210504.1355099120650239629.rene@exactco.de>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -109,24 +108,28 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251212.211558.488710050851597114.rene@exactco.de>
+In-Reply-To: <20251212.210504.1355099120650239629.rene@exactco.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.19)[-0.952]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo]
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 7B84D5BD11
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,68 +145,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 12.12.25 um 21:15 schrieb René Rebe:
-> Hi,
->
-> On Thu, 11 Dec 2025 15:31:01 +0100 (CET), René Rebe <rene@exactco.de> wrote:
->
->>>   	/* write checksum + signature */
->>> +	writel(swab32(csum), dst);
->>> +	writel(swab32(width), dst + AST_HWC_SIGNATURE_SizeX);
->>> +	writel(swab32(height), dst + AST_HWC_SIGNATURE_SizeY);
->>> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTX);
->>> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTY);
->>> +#else
->>> +	memcpy_toio(dst, src, AST_HWC_SIZE);
->>>   	dst += AST_HWC_SIZE;
->>> +
->>> +	/* write checksum + signature */
->>>   	writel(csum, dst);
->>>   	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
->>>   	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
->>>   	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
->>>   	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
->>> +#endif
->> I'm pretty sure this will break the cursor, as the position was
->> working correctly and I only had to swap the cursor image data. The
->> csum will also not be identical anyway, as the checksum function
->> computes it in native byte order. Theoretically that would have to be
->> changed. However, I do not see where it is really used, maybe only
->> some special remote desktop vendor protocol that I'm not using. Maybe
->> the exact checksum does not even matter and is only used as
->> optimization to not resend an unchanged cursor image.
->>
->> I'll send a final version after validating it w/ HW later.
-> I just sent a more minimally tested V4 removing the superflous unused
-> fmt_cnv_state to ast_set_cursor_image you somehow had added.
 
-That is a leftover form earlier drm_fb_swab() code.
-
+Am 12.12.25 um 21:05 schrieb René Rebe:
+> Swap the pixel data when writing to framebuffer memory on big-endian
+> machines. Fixes incorrect output. Aspeed graphics does not appear to
+> support big-endian framebuffers after AST2400, although the feature
+> has been documented.
 >
-> As the additional writen cursor RDP service writes are untested, I
-> left them out.
+> There's a lengthy discussion at [1].
 >
-> There is still something suspect or buggy: the 2-bit X11 cursor is
-> filled with transparency, while the ARGB RGB channel work now. Modern
-> ARGB Xcursor theme also look strange. Not sure if that is just due to
-> loosing 4-bit precision and thus half of the dynamic range with all
-> the shadows. To me at least the 2-bit transparent X cursor looks like
-> a fmt conversion bug in some layer that we would need to continue
-> debugging another day. At least the framebuffer / installer text would
-> be more readble upstream now, too ;-)
+> Signed-off-by: René Rebe <rene@exactco.de>
+> Link: https://lore.kernel.org/dri-devel/20251202.170626.2134482663677806825.rene@exactco.de/ # [1]
 
-The kernel's ast driver doesn't support 2-bit cursors. It's likely a 
-problem somewhere in Xorg or the rendering libraries.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Best regards
-Thomas
+Thanks for the updated patch.
 
+> ---
+> The ARGB4444 cursor not yet 100% correct, but that might be another layer/helper bug.
+> Tested on sparc64 T4-1 running T2/Linux.
+> ---
+>   drivers/gpu/drm/ast/ast_cursor.c | 11 ++++++++---
+>   drivers/gpu/drm/ast/ast_mode.c   | 11 +++++++++--
+>   2 files changed, 17 insertions(+), 5 deletions(-)
 >
-> Thanks,
-> 	René
->
+> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+> index 2d3ad7610c2e..d4620171d845 100644
+> --- a/drivers/gpu/drm/ast/ast_cursor.c
+> +++ b/drivers/gpu/drm/ast/ast_cursor.c
+> @@ -92,12 +92,17 @@ static void ast_set_cursor_image(struct ast_device *ast, const u8 *src,
+>   				 unsigned int width, unsigned int height)
+>   {
+>   	u8 __iomem *dst = ast_plane_vaddr(&ast->cursor_plane.base);
+> -	u32 csum;
+> -
+> -	csum = ast_cursor_calculate_checksum(src, width, height);
+> +	u32 csum = ast_cursor_calculate_checksum(src, width, height);
+>   
+>   	/* write pixel data */
+> +#if defined(__BIG_ENDIAN)
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < AST_HWC_SIZE; i += 2)
+> +		writew(swab16(*(const __be16 *)&src[i]), &dst[i]);
+> +#else
+>   	memcpy_toio(dst, src, AST_HWC_SIZE);
+> +#endif
+>   
+>   	/* write checksum + signature */
+>   	dst += AST_HWC_SIZE;
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index cd08990a10f9..57c6fbc3232b 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -526,12 +526,18 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>   
+>   static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
+>   			      struct drm_framebuffer *fb,
+> -			      const struct drm_rect *clip)
+> +			      const struct drm_rect *clip,
+> +			      struct drm_format_conv_state *fmtcnv_state)
+>   {
+>   	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
+>   
+>   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+> +
+> +#if defined(__BIG_ENDIAN)
+> +	drm_fb_swab(&dst, fb->pitches, src, fb, clip, !src[0].is_iomem, fmtcnv_state);
+> +#else
+>   	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+> +#endif
+>   }
+>   
+>   static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+> @@ -561,7 +567,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
+>   		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+>   		drm_atomic_for_each_plane_damage(&iter, &damage) {
+> -			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage,
+> +					  &shadow_plane_state->fmtcnv_state);
+>   		}
+>   
+>   		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
 
 -- 
 --
