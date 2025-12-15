@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE970CBDA58
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1C3CBDA55
 	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 12:56:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A557B10E46C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3201510E467;
 	Mon, 15 Dec 2025 11:56:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="gZCyxec9";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gZCyxec9";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="WC4K7kGJ";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WC4K7kGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com
- (mail-swedencentralazon11013012.outbound.protection.outlook.com
- [52.101.83.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B0410E460
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:56:24 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011008.outbound.protection.outlook.com [52.101.70.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD3B010E467
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 11:56:22 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=rFycZpwDYU6scOoa9jdy7nOQLPsZLSnMRiEfmslDf027wHYvxclmNeSNEyx0OzkgJKzXMy+CCKdbNWtgJDVXoc7NwCX07IJLtWz7pt1hFOfI/lMrcfni8Zw6ubifO3RJTx/VymU1VFHnK2KowpvE23TVvi2yZ4+HpMwmdmNs0gtvNbz4SrN4QgpS7iCw9moU046DaTRkg2u5olSUUEt4uan+5EFPOVlpTN04De1c6bHhtsrIuRHYmjPt4g9fpJG82HZ08amnLSWqw9LQep98W3q0f2va6W1rLrssyMYBnlrDC/O/sPqXa+k4joOVNfEUGeISKD+CcgqZ/ChXe/Nq8Q==
+ b=qH4bm9XiLmdKUxq7RPR77wxVU/pQqHjT+vcOufpNn6DgEJbp/ZNwD19LVMRXjsRi9HRWlO24wbWxfr4OPkC6VKaBS6v4mG7rP9mFOxjw8OVmBKKJqJuNA6GjBw+YUi5rfHdaTZU2/7VmDyzFS0ANWc7uMGzS1ko5IaNXcePJaRCruQEPbeleskW2hp1XLZi4dlNGqL0LArPMg9wsh4rRr03YqPWrzHjlkt+XxS5uKJ636fNpDgQX1jGDge387uP7tWxQtVgWio/y3B87nwPk1SFqx4mZBQUWorWZ8R4S44tGr3Is6EGE2D1gB6JeOVX6jTRVoIeOgelX92vO3H6WjQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fEM1iGO/gxI/xpEwv5ln7wY0dlVv1Wk35zeKZT3reQQ=;
- b=ota4ExfsYZiczsD7J09yoqz3V+Y4Tr79bEExXbrwzxQWAhB+aSHr6EopPb+UckDhi9TdL1kXNJwuTU/7X0rzeu+qAblqsT/JdGiIfkeI/yZzfq68PLLUJvLC8CHfkTvbeMzsJXKsPs+JZGm4rwV3AY0u06IQVbJ553fmH8BPqaVfqxqjW9rjQG+BIQkhetW2v8+YIzO9sSRdSz1RQGum1ofHw3e1ny3TQSrcZac1DcG68xsejRrZs8nLCOjW/3Bx9YRAOXSFfBYijLHOZLNEDrtJonKJst8+Lx0gspZbB/d/2xxdZgJMyNEqSqMRz4zo4mv4KPyxNuEcinKnmx5Azg==
+ bh=af1xWpuXnn624A9sFc9UvQ397D7r1iZ7jPBbzqntxwI=;
+ b=dRITMR94SaJJrgYTZsDaLRi5WX0H5nn4P4OhaWoSfAkLo+fvEgHbtGYhM72xCiI8dPjKe4bF62UiotJ/DcnGxZmOKxL3XkAmityhWvqOig8lRVCJe7mKrZofKH39mDz8Ef8XWyZASGOn4xoeNx1OTzp36+rjyKXvynqiPlW5A03uZIjPOwykjRuoME8mGv9mwJg2tKko0AegLRIBWxk3SoWi7BRxvC7LFXHZQxB9nR4yEHmlxleIPztDLc4tQiO4nKaKvpusdegyoPY/TUtkp5A4xO0l+wk3w4+sh9APQl8A1fmp1inDaJM562sebPS8eIgw6M8ZAgyiHB8E6lhK+Q==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -33,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fEM1iGO/gxI/xpEwv5ln7wY0dlVv1Wk35zeKZT3reQQ=;
- b=gZCyxec9S/9wGoi5x1nVGcb3mvC/UVhY2zZRgQApTBkQr+TueFrq4JGSxis/NQzAeAO6CbPQlNaPNZ9cqs6esyYDE/vGQNheqr/Nk6f3LNamo41JGAjfiRm70Z1y5hkC7dhXSEqJZmoypuHW8dE4JtY69Budyboc3VVLxQ04TmI=
-Received: from DB3PR08CA0012.eurprd08.prod.outlook.com (2603:10a6:8::25) by
- GV2PR08MB11468.eurprd08.prod.outlook.com (2603:10a6:150:2b1::8) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=af1xWpuXnn624A9sFc9UvQ397D7r1iZ7jPBbzqntxwI=;
+ b=WC4K7kGJujkE6bCmjxCGX/MggINTSSFssFmhewCjO/n7CRPC49G4Zh030mGaF/wAEP/5ppBddIgd5O1ozdfnrK0l629xOThWiIW+nkX6KqjPmWs7NGx2OzWjf2fzHziXlJEBAAuTuOudsWlcTB0fsdrM91FUfJVMDMwR+fmyYiM=
+Received: from AS9PR06CA0355.eurprd06.prod.outlook.com (2603:10a6:20b:466::22)
+ by AM9PR08MB6691.eurprd08.prod.outlook.com (2603:10a6:20b:303::18)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 11:56:16 +0000
-Received: from DB1PEPF000509E7.eurprd03.prod.outlook.com
- (2603:10a6:8:0:cafe::ef) by DB3PR08CA0012.outlook.office365.com
- (2603:10a6:8::25) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 11:56:15 +0000
+Received: from AM3PEPF0000A78F.eurprd04.prod.outlook.com
+ (2603:10a6:20b:466:cafe::29) by AS9PR06CA0355.outlook.office365.com
+ (2603:10a6:20b:466::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Mon,
- 15 Dec 2025 11:56:21 +0000
+ 15 Dec 2025 11:56:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -52,34 +51,34 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF000509E7.mail.protection.outlook.com (10.167.242.57) with Microsoft
+ AM3PEPF0000A78F.mail.protection.outlook.com (10.167.16.118) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
- via Frontend Transport; Mon, 15 Dec 2025 11:56:14 +0000
+ via Frontend Transport; Mon, 15 Dec 2025 11:56:15 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XmsHnNTskyYW71ES4kybGkAPakZCWfAq3QP5TFisUD1ib2UWGEK2sv0fLbltvV6x/CbEPyp6I8eC/3kF1d5bFOi1ZEj3VmO7Wb1b/4ikZBf5KKu0JkxxzOGoirBgO/I4nO5SKCOm7WyfsZJ6+OOyhHmmWrgps8MHtZre4DlYXpm+dNts08wXDdDJ+tjWKyEa1kB7Yqal8MmtkRqOiVz+dHNgYXCOrLfeF624Hh+M773+n87BU5WBtV+Qt3oiwQK1EMvIAoCq79ru8fgAumO8Aku3ZHf1873/T1kEooDXCkTqZxE0J52Qcdz/yX4l7AWZGNee+WKHDbUbQP3I9p02ag==
+ b=ynAUoS3km6HADCtWPAcHtNV/1gRsNaoc+XtguvWz8/UzU90lKyNEJep3U0SK8cH5ajsU25KJfuzZUK4EwqjphpMXzAXTM4IlqvYaUPsoGRGbCjhfMgR5DAINU8JfwTZSmOdOIvLdagnYoiXWMBUucCeETga3g901+F58PzW8MikTRweOYz1JBDtbF2jkFTuSP9ZjR0KaD/Vx/TAT5G1p+ulLEuv30EgAjlWlRSz2BRk5xX2JvTAeTv2ZT3cvNcRFWJvEiPVANASY+jurQPriJOgNvRanWvqM+8kbq32kaR3TGePbnxoXV2PjJvnYapsRtD71V3RX5atZbDmd4RZ6iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fEM1iGO/gxI/xpEwv5ln7wY0dlVv1Wk35zeKZT3reQQ=;
- b=GfGlhYumKqYIWM3fp9fiJDB/g6k7kZj9p56TjQg9U8oztb9tSIAIoWTs/GrJTPri6EsOdnCRQmAl1pf58Pc4gs6LZ4OHamfJOOsU8kmkz8fJr4almkEhLSc9lzpWshVMZHXvn9896kDX5afspM5CcK5oWWHCF1iYUGnUXx6k97fHZC3MIHff8U7msQ7K+m5AHPFJYZxQDounT7u60Bu9LGFpOmwDsQPp8/E5oJwQtPyr3AzlZyfXq+tblJ0LNJHeUaxihNHosYOCglNj0aHccwvtfl4TRVwtc5pnaPM0PjZjlfYOs7YbA/GztNziVsLYFoB0H0PNn3LOOPMbs83eyw==
+ bh=af1xWpuXnn624A9sFc9UvQ397D7r1iZ7jPBbzqntxwI=;
+ b=u673uXWgDxoSAoiSLXcCLJMZ4+O6RhGwlVnZ6P/Vr9ZGwUZBW6ncMlpPwtcFVQL6jnILUJxrEL0g1fq3HjMQqz9fAbE4ibYrbu9+2sFQx3xuL7OnhN49boJ0z9HBnfRwnvGs3rKMh/wyL4EPiEn3JkNpiwMrnlBx55PE7/BW69SVIK41vXtskkgBzn8Y4dP1YT3o4DZ9/8zq3e/1n5f7uPbOhbc10AgCYxGMABxrlxGQDwfiqwxngNjBXj1eup08YtZh8ZWLEwGJG/TmdR1vwoGyF/CetxZ780gG4BnA6eaaHzlYh+2R2AsKFlTg2ORTVIHXrbFEzgCRhMIn7801dw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fEM1iGO/gxI/xpEwv5ln7wY0dlVv1Wk35zeKZT3reQQ=;
- b=gZCyxec9S/9wGoi5x1nVGcb3mvC/UVhY2zZRgQApTBkQr+TueFrq4JGSxis/NQzAeAO6CbPQlNaPNZ9cqs6esyYDE/vGQNheqr/Nk6f3LNamo41JGAjfiRm70Z1y5hkC7dhXSEqJZmoypuHW8dE4JtY69Budyboc3VVLxQ04TmI=
+ bh=af1xWpuXnn624A9sFc9UvQ397D7r1iZ7jPBbzqntxwI=;
+ b=WC4K7kGJujkE6bCmjxCGX/MggINTSSFssFmhewCjO/n7CRPC49G4Zh030mGaF/wAEP/5ppBddIgd5O1ozdfnrK0l629xOThWiIW+nkX6KqjPmWs7NGx2OzWjf2fzHziXlJEBAAuTuOudsWlcTB0fsdrM91FUfJVMDMwR+fmyYiM=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from AM9PR08MB6820.eurprd08.prod.outlook.com (2603:10a6:20b:30f::8)
  by VI1PR08MB5312.eurprd08.prod.outlook.com (2603:10a6:803:139::24)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 11:55:10 +0000
+ 2025 11:55:13 +0000
 Received: from AM9PR08MB6820.eurprd08.prod.outlook.com
  ([fe80::a89a:b887:8053:a1fb]) by AM9PR08MB6820.eurprd08.prod.outlook.com
  ([fe80::a89a:b887:8053:a1fb%6]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 11:55:10 +0000
+ 11:55:12 +0000
 From: Lukas Zapolskas <lukas.zapolskas@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
@@ -89,103 +88,103 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: nd@arm.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lukas Zapolskas <lukas.zapolskas@arm.com>
-Subject: [PATCH v1 2/5] drm/panthor: Store queue fault and fatal information
-Date: Mon, 15 Dec 2025 11:54:54 +0000
-Message-Id: <20251215115457.2137485-3-lukas.zapolskas@arm.com>
+Subject: [PATCH v1 3/5] drm/panthor: Track VM faults
+Date: Mon, 15 Dec 2025 11:54:55 +0000
+Message-Id: <20251215115457.2137485-4-lukas.zapolskas@arm.com>
 X-Mailer: git-send-email 2.33.0.dirty
 In-Reply-To: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
 References: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0564.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:33b::17) To AM9PR08MB6820.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0696.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:37b::10) To AM9PR08MB6820.eurprd08.prod.outlook.com
  (2603:10a6:20b:30f::8)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|VI1PR08MB5312:EE_|DB1PEPF000509E7:EE_|GV2PR08MB11468:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fbc6961-82dd-45f9-44a5-08de3bd0f313
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|VI1PR08MB5312:EE_|AM3PEPF0000A78F:EE_|AM9PR08MB6691:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6985c7d4-10dd-4c71-311e-08de3bd0f370
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?xhZ7zIqNQ68gMJCR4WAHBZh77S3p2a7MgUltR7llFduNox+6T3j2ZlXYXlhs?=
- =?us-ascii?Q?ePvGA2S2oYv300DYUjd/A7lHU2VqXfA/luCtyiLqWgzNXXpMWGtqu24supUm?=
- =?us-ascii?Q?imU4irX6Zt5TdLZ+z+l807kgCkuu1GsM3YU2TXsMzln8cDP3DZw90sueapyd?=
- =?us-ascii?Q?EidEIsh8JXec81b0fKG9torHKJVIhHn3ShRz5pi0wMauUrLplyVU4zctdH/g?=
- =?us-ascii?Q?e6ajCUriYNKyiuuARhnlEHZEGcPbtCYXPblCV+1XX2l2gdWgPsidl3PazFid?=
- =?us-ascii?Q?etXE7acElOvWIBm5SjihlJxaWxWTct2O7tBnYLIBbErIIp6uoWlTb05zFEft?=
- =?us-ascii?Q?SPUT6kf+b9ka2O2z8xOYVkBcSczuLrGBb+7zpV+DmT/lbEM8B3PhWfrU37eh?=
- =?us-ascii?Q?IxxRwkE5lqe4AYci+b2/rG3IW/8sBw+tEEsAikMEo74vtLkoWu7viUcZR4gN?=
- =?us-ascii?Q?TU3p3vpl0nRXkkp3vDQWpbczumFRntqG/mgmPDzbW2Jkbgs60uhNWX8+XmiI?=
- =?us-ascii?Q?0w5kHi9Hl1nM/l96WxCa5az3+NmqhyjWey4am5pe2yccJCTMns34WiGcXAEK?=
- =?us-ascii?Q?lsu397LvRWUaxRiqptLu8xJif9kteSilEZilqcINqkJzhFwiOwTmTQiCw9ub?=
- =?us-ascii?Q?kDjnk7JXJc1qrjOF3FMyFzla6f+yVqU0SJHI0spCyyXauNfQURk+oeJ67qOn?=
- =?us-ascii?Q?Mn+0ViGQRbJM1AjbqnOHLJ+yqfqVZkSTRiqdG9/o3dpbLDc7V9c75WJyT752?=
- =?us-ascii?Q?xtBzGItl77/qpvW8yD5M1TBdnqTuHzD/NZqbxDkUEp1LHaAQPtssfcj1v2Ts?=
- =?us-ascii?Q?uE6k4EE/fUH803sRrQVWbpr7UKNdCPjlSxhgWNQ520IEH2fj2OO1zHB5kgzR?=
- =?us-ascii?Q?A6qgQLIFXSvJny5tw29P4V6Suvg9OJQd1V5BRIguk76fk3mhXoYlvj0NqYNc?=
- =?us-ascii?Q?osmVp6c0YcuDY7DabwCy4T6HrSL2E0FmZl2nyRHcn2XeIRyuLQuwEsj1CTzF?=
- =?us-ascii?Q?ppxlOQUofkc8rm/rUchzMU5bQuXMhQX80eJDzjT0R7+5FMLj6kes3y0EWc5C?=
- =?us-ascii?Q?/nGNIncwbuc0O/nTYjTrtvTNLxGKT2c4S2dsn0MhhL48XbAyhiF+4qEM4+w/?=
- =?us-ascii?Q?HOBcGBPQ9Fi/DpUpl9u/Z5usWHXODF9JJKUCKCfOK0Nx+3o7KyLPQyQvgM5P?=
- =?us-ascii?Q?dAsznYJT7KbHdVLF6sWO80NmxDY2F7RdLjHPp4KRyyTx01kZSr4INkJmIykd?=
- =?us-ascii?Q?/Pc9BDeoQ+XOfdG6kayDjPvrabezaBqN0/029N8qgI7TUU/5iRIMIH+rQShS?=
- =?us-ascii?Q?lxb0igoz/kuZDQIqlutXY2NOD2fFZvdU8mAjEIJNIlwD2ILYsTEd1ZyUAd0n?=
- =?us-ascii?Q?qGCu8PlwvVKnVMOF4h7i3u31lwVdVjihzZ77LuhJhKshzUjzil1Dv5rmwFTN?=
- =?us-ascii?Q?xAeu2fClqSO7zrzqb8YfUXNMXavHHQ+S?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?M6ZcvkAzT+IkEP24LDrPvpKu0fnGWuZSRsdiE7m7vQf1K85jklxy+ciKQY5R?=
+ =?us-ascii?Q?3kNyKTR3rR+HZ6VLmQY1kVtUrKNPRwoYyDnVTD0jNt/3NPph1E1/b/YGUlLr?=
+ =?us-ascii?Q?ij8ScOlJFuesjD/eWe37IGhP3O/V6vRkoEt+qLKCNC+lgfWXc+fAXX1VvsvA?=
+ =?us-ascii?Q?o3cj5rKeav4yAt1zD6eTToSriP+Gcoe81cHSXWssLUhoC8/SQceKv7Jj9H7C?=
+ =?us-ascii?Q?SFOnHaDB3dkM9tosKFoNvFYOSbCIUEr8ZtUpWvFfM5Yjs7VsuGIgQHnFR9eP?=
+ =?us-ascii?Q?xwNJwRd1S200hG+vrcWfrLOmEFgHpkRePBpyQ3CsGBhcVqWjpdF3EIfTenPW?=
+ =?us-ascii?Q?rMzlAP2LBYJxcVpUxD4SL2z2FmuNQPo2sZgSvPnjcXkySeqEA+bGTzAd5R7B?=
+ =?us-ascii?Q?pbU/D/NUNWSIhG4690ObONAKCUfs37juOMPIe+bGzmh9hfw8DRqgRtMn/O8s?=
+ =?us-ascii?Q?VUxBQHv+XE9WIs0KBTrbBT5e2Z3dfqZOwrAzV1GDhyLP36AY2c8r9aBdoqif?=
+ =?us-ascii?Q?qpCDuf5/MeUUumYvgT8RgYR8XEHyDgopK6ScEcMqim13ukzxPCDzEV+u56al?=
+ =?us-ascii?Q?x9/18kw6EessBeZlaN0zFuvn/AIpnGhvnnESP4yC4tCBAxXX0mXt3hgNrpqu?=
+ =?us-ascii?Q?Io9P+58VGxiBXC6yv6eKI4+0hakmKKt90mmErRhV8FTrRp+r8T8PTxBnTLpz?=
+ =?us-ascii?Q?At30ABWoEOiNj4FPVHN6hBvhympKcSMiNnresN7prIFUTgsWw8hb0ActlAtZ?=
+ =?us-ascii?Q?5ISmjI/7slzhKIHoHPvxcGyU3zyzbf7bAwas6E1dqrEnsSQOYHJPLea/RSyZ?=
+ =?us-ascii?Q?HOiLVQvJCiSooUcHdm7osYebYcHYCDo9NZewMGRJLjQ2r+PMGLlCjh1lqPAg?=
+ =?us-ascii?Q?4yrbSWhOIn5DxmTEQdnXek1u4bwb0oHIkMxdKRPTFiFFTORTNdZ2r5IKkc26?=
+ =?us-ascii?Q?6j0i8q9XLpXItcv5a7/rX/apk9OYgxlZdDx/HLmYLVOsvu1C773iTnoBweXn?=
+ =?us-ascii?Q?SvrLxWENFuUOqU2mOwJsa7PW1fBkXl4nVXLZDNfTdddKztHJXjHpc1sNk8fI?=
+ =?us-ascii?Q?9g7Q2fiuCGX+i1rLpO9Btbu5CdZyZA5kcISeIgOCaGbdH6Wa1FXv+J3VJds8?=
+ =?us-ascii?Q?KTrSa298DyYOnM/o2M+iljA/VzmbLJDuJzOnMZBOM7kvU5Ci89T/Hux/2bKH?=
+ =?us-ascii?Q?o7Y6CHAOKCIIDl1T1SBoMIvZ6Cd5v144MYaHCgXbNzTV3sZc8+xtGecQQrjc?=
+ =?us-ascii?Q?xE+n/yYf+NJebUq7CB4QcEKCoi9TiCw3p5PZHO2g706WIVrBMnpOsQExZdxZ?=
+ =?us-ascii?Q?BpoJrE1zCLUsvT7Ok0rwpUH3ECoifIERto52mm5oMTrxeFHcPB7UpuR5ixbB?=
+ =?us-ascii?Q?NSiD5Tq+1sAt+1FVvCkDqAfuL8kPZkrc6vit2De1WnGtSr+cuRcPyeI95rfM?=
+ =?us-ascii?Q?mXLDfhzkX47H9aTXfkUdl/UiSReMT2Tr?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6820.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5312
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF000509E7.eurprd03.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM3PEPF0000A78F.eurprd04.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 69fef06e-a159-4c0b-c62f-08de3bd0cc53
+X-MS-Office365-Filtering-Correlation-Id-Prvs: bbf2ec8b-ac9a-4bd2-51e3-08de3bd0cdbe
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|14060799003|1800799024|82310400026|376014|36860700013|35042699022;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cXcgokVq2rn7YRqJDfpAo8yWd2QabEWF2nxsCd3vqDs8pZQaMRUFjRvJLyUd?=
- =?us-ascii?Q?gfgoZ7DgQGAJ6vcN2xZvuHhdnVfbN6YifBNOSA2aEFzP4+0n2VoqXMhzXEFf?=
- =?us-ascii?Q?dlxEZVLMM1lqPSGKLgZNBLKA4f8jv0oqa43jDS2cU3nEs3xFcJjPWEbUjxOT?=
- =?us-ascii?Q?8ymY+SNr4b0BODFWRr+TA9vNKvsMLBUCSAUrgBCaiETus+vocmduypIL9frl?=
- =?us-ascii?Q?PmP/g4YKkHVd3sNzQfKBbDzSOBtxrXemKEoTpsGtgZq86b+omkoA8G962gIx?=
- =?us-ascii?Q?Q7cu6mTfgmGjg5A3uc3x8jqbFPQ8NCR/J3Sq8DM8H3tJqcacBaG0xs+4/wuM?=
- =?us-ascii?Q?U12PGA6jAM9UwqxubTDI+mmzPRtu26VvzdiJ+SKHWsefe2OsMqj7d44cu16F?=
- =?us-ascii?Q?VwgDVM6MkWpJ2Yu5MEWTMeWgcBEb5T0REjheDqfKaApXKTbHSCXE5vOYQwpG?=
- =?us-ascii?Q?tbMr6rco82IVyfTJR09cJsWCDRC1VsTNAO4CR/cq+jpv7xJNm9/enRFuXmpN?=
- =?us-ascii?Q?rHyyp9zVGBCIMCImzL/1z8FLlyfQP7ahKBp7dzW1pTALvHU8a26nUcYKJ3XN?=
- =?us-ascii?Q?mtMPxcfEcMfPQFJkjfssBiWU6ddU3X5X3xMLrFaRtUD5GSODqEqqV9gpNjVT?=
- =?us-ascii?Q?2DDIZkYsHrNnurrZujyXjsPxuEIW8peHHUF1TBBNCuggeg9XCdf/F9Dw7rTv?=
- =?us-ascii?Q?2E3r3ehrlr417TEV4mhyWrffLxf4XzX/C9f6IiHYk86O/tkfirMg/CjrGMaG?=
- =?us-ascii?Q?2waYR5iwYXkcyvPot5+HAyKCMjMCJsTYfOap1caAYQ/9VPPGQQ0BlBvq2Ncs?=
- =?us-ascii?Q?eLCGqF/7VKJjVb/YyVzmN8leZi+maDQ1dRsZ3WltX2amXM9eagfQ7SzkTt6l?=
- =?us-ascii?Q?hQM8kYmJzpBVQhnxhC8f6arbqra9Ne1NWshFFrcy4k/J/Yg3WM5TaCtET9Vz?=
- =?us-ascii?Q?zRD87y1B1z/LrUoV8Dg2WV164mXE2XWac6+e6HKa7eHW42igd91oCGS7Ckni?=
- =?us-ascii?Q?9Ek/pnS+G/Tfx7POf6HI+2efVco1Lp9uCwRK/EUWJp7EmxA4mA1s4BSkPFUo?=
- =?us-ascii?Q?0BuK/befSzrOd9n9LlNi+Nyhk1ZjzCAEj3VfEdQXJXu9G5tQgZxnfVCnbNq6?=
- =?us-ascii?Q?+PF/YIKVTPHIxclk8ZQguiu8J62pbAvntscF8+Bf7L0dafeC1gVTRRh93diq?=
- =?us-ascii?Q?g1q9s/Z6OM8QyzYr91MfCb5QOkVmTwztLoJZub21ICMKfVmxV8QJb4l9Dw+5?=
- =?us-ascii?Q?hBbDq8fMFiUG4jZ20ezDfmhtgsXpd3OfhmeubEXXK8Q50EZX5LfGtT35KMh7?=
- =?us-ascii?Q?Iasy7txhShrEjngsSKRyFZ2N1pXyGjcJ0HGDUNGQx/p4EyrOVbESF4UR8Jtd?=
- =?us-ascii?Q?j38n82pds6mM1pDce/XmnRzqrrdcnX8L0bvHvevChl1cfgW672iL3RnHpcSZ?=
- =?us-ascii?Q?DDsfNf7iwKL/SykDvAyhncfuj8eMkthaMVuoxw3ghivWQIrVn45ovcvL8s8m?=
- =?us-ascii?Q?4P7luIgwKfjAmWdUKHUIasQ39SfkwW2nqt/pzVv/MFfePdpYuUtDlPrezYnz?=
- =?us-ascii?Q?zoznZ/eCq7ee7Qsu//s=3D?=
+ ARA:13230040|376014|35042699022|36860700013|82310400026|1800799024|14060799003;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Sbhvj7H0wXZkGoNeNC73LqcQTUtPsAxyYcuQf41NutyXWJYWDy+75ui7FGtS?=
+ =?us-ascii?Q?sX6fyynryoRC5pyyDKCt0wNv9KSmEzTmOA/zTaMCicJtndTTNLSIaE8hV8q8?=
+ =?us-ascii?Q?Eqk2Hwq86F5xsveJUiAOzWqiSsZab7uL5+4D27I2DqACYJbCKuZmAX3ZkN3t?=
+ =?us-ascii?Q?nA1hSc4rGfPyBoP2QD3Jsj/WNfpb16XvoWmMUyYH8l8upYHky9G90V8U/wZn?=
+ =?us-ascii?Q?BwsvdsNTXsRYqMADTTkV26+xB7ohu5VwWBDro2uW1BzvIEafnX+tEw1K8l7f?=
+ =?us-ascii?Q?+F9hfjOLxVDcqB4p1kkgEhLt3U46X6aTr9ny8NTDunNxu4ddtJC7YzfS7JN0?=
+ =?us-ascii?Q?hOWn9A99ulLEswKa7Pn62Y0/bDvRgAeSQrCVw6Mu6Ddcw1rlPpH+/XNby2ss?=
+ =?us-ascii?Q?rTjt9TLIV6Sd4X1YkkBcuplXVbYd//J/f0mzTHEy9THomWeRQEP8qXClBeSf?=
+ =?us-ascii?Q?cE6MoAAqsHx4vpVWEANdlOy72Zg/amZWwnmmJYD4/LhYPys3pL88GksJULKU?=
+ =?us-ascii?Q?2sMJFq1Jl9w4Ub2Uzy9ePqzp+DhbbY5XVSXU1rEklsRfwfRPXFB/1UcTMLus?=
+ =?us-ascii?Q?ZlEJM8IRdWppTgqRPhH4EMnDTgKxn7Ht1fw+MYK7ylVps4FG+1CHM56Ihedp?=
+ =?us-ascii?Q?u5Icv8t/e+y+gt8i1xDEbgubqmi0n3euRGoSRxsMqz6YRaKdR+y+g7lZaeY4?=
+ =?us-ascii?Q?wqZqeznCW1pZxKBjJTr+dUA116QfEu7a4nynWum4zvUxwbvN0n2szUvCDe5O?=
+ =?us-ascii?Q?nj1z+utepkFNU6F+iJNbMfHK7e+h79y8BAxjeJ6J6yfWZ3FmXKXlFeDG+QPo?=
+ =?us-ascii?Q?VftKShXQ8DCB5J5P0H7Zc4/oS7dNRCshB8C5/habT003eGdWAOgfG5YLCfrF?=
+ =?us-ascii?Q?IR4eKO8XAvdRQvmUX7DifCoqzTY3CbY2f1aY+q8TI0uVx9fIkOkQVXQm73Fc?=
+ =?us-ascii?Q?Im99tQMuuUMgcx6L6rsWiZUlhvKTsZYLAI1Zf9HWXReVQAFdyGAJauOT5thd?=
+ =?us-ascii?Q?PbdcupG/AFXOMeo0Jq6l6ULgxyh0KNDYCLfs6pW8siXTJgxakAO1QtCa85tm?=
+ =?us-ascii?Q?ukormuzhCWtSyPx3WVd/SOw+2J6ozqNnd+/NFyj8hg1Iqeik3cFHZgt2nGHM?=
+ =?us-ascii?Q?I6zez9vUWxdmLiBU3soSgE2yWG3C3Bn1XHdiOZfbo58mbt+Ag5wAALZZW2i5?=
+ =?us-ascii?Q?9WrwXojvfeFftcubxS86DObtLt0JTG6BaiGH2/Z6akZxTXk+b1RV8D+6/4zH?=
+ =?us-ascii?Q?MQPE+dX80lIO9qzgPPoVhdsEjqN/0kF/5EttXMLn8OfDP7xdOfeLb7IczI4Y?=
+ =?us-ascii?Q?yuLLerTOjlvErFt/GqWq5mBVb2f6CsEbYfaccRTY4G7dTji+ajD+nSlO9OdS?=
+ =?us-ascii?Q?oc/HorDBQ4/gKrYlrooz5AHnCxDG5AXBx/e2bJEpQkUscdoW84iIvaFXW08G?=
+ =?us-ascii?Q?ITPVmRuxG5dMl6j1QQgJ6qWQS8piA6Hx261epDZO8awzERRgAmaxXg19mxm7?=
+ =?us-ascii?Q?7ZFWUMsUgfPV3KACu9GC4h4wHyW6FNw99Mysg11ECx+5n1KoXsvHHwnCwGpS?=
+ =?us-ascii?Q?2jTEoL6ISvopgvsGPKU=3D?=
 X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
  PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(14060799003)(1800799024)(82310400026)(376014)(36860700013)(35042699022);
+ SFS:(13230040)(376014)(35042699022)(36860700013)(82310400026)(1800799024)(14060799003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 11:56:14.9465 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fbc6961-82dd-45f9-44a5-08de3bd0f313
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 11:56:15.5773 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6985c7d4-10dd-4c71-311e-08de3bd0f370
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
  Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509E7.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF0000A78F.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB11468
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6691
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -201,237 +200,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A queue may encounter either one fatal fault or any number of
-recoverable faults during execution. The CSF FW provides the
-FAULT/FATAL registers, indicating the fault type, and another
-set of registers providing more metadata about why the fault
-was generated. Storing the information allows it to be
-reported to the user using the GROUP_GET_STATE ioctl.
+Faults reported via the MMU_CONTROL register block will result in fatal
+faults for running groups on that AS, which will also be useful to know
+for the user.
 
 Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 116 +++++++++++++++++-------
- include/uapi/drm/panthor_drm.h          |  17 ++++
- 2 files changed, 100 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c  | 16 ++++++++++++++--
+ drivers/gpu/drm/panthor/panthor_mmu.h  | 20 ++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_regs.h |  3 +++
+ 3 files changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index eb8841beba39..a77399e95620 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -342,6 +342,14 @@ struct panthor_syncobj_64b {
- 	u32 pad;
- };
- 
-+struct panthor_queue_event {
-+	/** @link: Link to a list of Panthor event errors. */
-+	struct list_head link;
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 473a8bebd61e..10a7418eecda 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -384,6 +384,9 @@ struct panthor_vm {
+ 		/** @locked_region.size: Size of the locked region. */
+ 		u64 size;
+ 	} locked_region;
 +
-+	/** @event: The event containing all of the fault/fatal metadata. */
-+	struct drm_panthor_queue_event event;
-+};
-+
- /**
-  * struct panthor_queue - Execution queue
-  */
-@@ -485,6 +493,9 @@ struct panthor_queue {
- 		/** @seqno: Index of the next available profiling information slot. */
- 		u32 seqno;
- 	} profiling;
-+
-+	/** @events: List of fault or fatal events reported on this queue. */
-+	struct list_head events;
++	/** @fault: Fault information (if any) for this VM. */
++	struct panthor_vm_fault fault;
  };
  
  /**
-@@ -918,6 +929,8 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
+@@ -741,6 +744,7 @@ int panthor_vm_active(struct panthor_vm *vm)
  
- static void group_free_queue(struct panthor_group *group, struct panthor_queue *queue)
- {
-+	struct panthor_queue_event *evt, *tmp;
+ 	/* If the VM is re-activated, we clear the fault. */
+ 	vm->unhandled_fault = false;
++	vm->fault = (struct panthor_vm_fault){ 0 };
+ 
+ 	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+ 	 * before enabling the AS.
+@@ -1744,8 +1748,16 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 		 */
+ 		ptdev->mmu->irq.mask = new_int_mask;
+ 
+-		if (ptdev->mmu->as.slots[as].vm)
+-			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
++		if (ptdev->mmu->as.slots[as].vm) {
++			struct panthor_vm *vm = ptdev->mmu->as.slots[as].vm;
 +
- 	if (IS_ERR_OR_NULL(queue))
- 		return;
++			vm->unhandled_fault = true;
++			vm->fault.exception_type = AS_FAULTSTATUS_EXCEPTION_TYPE(status);
++			vm->fault.access_type = AS_FAULTSTATUS_ACCESS_TYPE(status);
++			vm->fault.source_id = AS_FAULTSTATUS_SOURCE_ID(status);
++			vm->fault.valid_address = true;
++			vm->fault.address = addr;
++		}
  
-@@ -934,6 +947,11 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 
- 	panthor_queue_put_syncwait_obj(queue);
- 
-+	list_for_each_entry_safe(evt, tmp, &queue->events, link) {
-+		list_del(&evt->link);
-+		kfree(evt);
-+	}
-+
- 	panthor_kernel_bo_destroy(queue->ringbuf);
- 	panthor_kernel_bo_destroy(queue->iface.mem);
- 	panthor_kernel_bo_destroy(queue->profiling.slots);
-@@ -1476,6 +1494,69 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
- 	return 0;
- }
- 
-+static struct panthor_queue_event *
-+panthor_queue_create_event(unsigned long event_type, u32 cs_id, u32 exception)
-+{
-+	struct panthor_queue_event *event;
-+
-+	event = kzalloc(sizeof(*event), GFP_KERNEL);
-+	if (!event)
-+		return ERR_PTR(-ENOMEM);
-+
-+	event->event = (struct drm_panthor_queue_event){
-+		.queue_id = cs_id,
-+		.event_type = event_type,
-+		.exception_type = CS_EXCEPTION_TYPE(exception),
-+		.exception_data = CS_EXCEPTION_DATA(exception),
-+	};
-+	INIT_LIST_HEAD(&event->link);
-+
-+	return event;
-+}
-+
-+#define PANTHOR_DEFINE_EVENT_INFO(__type, __msg, __event) \
-+static u32 panthor_queue_set_ ## __type ## _info(struct panthor_device *ptdev,			\
-+						 struct panthor_group *group,			\
-+						 u32 csg_id, u32 cs_id)				\
-+{												\
-+	struct panthor_scheduler *sched = ptdev->scheduler;					\
-+	struct panthor_fw_cs_iface *iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);	\
-+	struct panthor_queue *queue = group && cs_id < group->queue_count ?			\
-+				      group->queues[cs_id] : NULL;				\
-+	struct panthor_queue_event *event;							\
-+												\
-+	lockdep_assert_held(&sched->lock);							\
-+												\
-+	if (!iface || !queue)									\
-+		return 0;									\
-+												\
-+	const u32 exception = iface->output->__type;						\
-+	const u64 info = iface->output->__type ## _info;					\
-+												\
-+	event = panthor_queue_create_event((__event), cs_id, exception);			\
-+												\
-+	if (!IS_ERR(event))									\
-+		list_add_tail(&event->link, &queue->events);					\
-+	else											\
-+		drm_err(&ptdev->base, "Could not store fault notification, err = %ld",		\
-+			PTR_ERR(event));							\
-+												\
-+	drm_warn(&ptdev->base,									\
-+		 "CSG slot %d CS slot: %d\n"							\
-+		 "CS_" __msg  ".EXCEPTION_TYPE: 0x%x (%s)\n"					\
-+		 "CS_" __msg  ".EXCEPTION_DATA: 0x%x\n"						\
-+		 "CS_" __msg  "_INFO.EXCEPTION_DATA: 0x%llx\n",					\
-+		 csg_id, cs_id,									\
-+		 (unsigned int)CS_EXCEPTION_TYPE(exception),					\
-+		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(exception)),			\
-+		 (unsigned int)CS_EXCEPTION_DATA(exception), info);				\
-+												\
-+	return exception;									\
-+}
-+
-+PANTHOR_DEFINE_EVENT_INFO(fatal, "FATAL", DRM_PANTHOR_GROUP_STATE_FATAL_FAULT);
-+PANTHOR_DEFINE_EVENT_INFO(fault, "FAULT", DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT);
-+
- static void
- cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
- 				   u32 csg_id, u32 cs_id)
-@@ -1483,15 +1564,11 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 	struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
- 	struct panthor_group *group = csg_slot->group;
--	struct panthor_fw_cs_iface *cs_iface;
- 	u32 fatal;
--	u64 info;
- 
- 	lockdep_assert_held(&sched->lock);
- 
--	cs_iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
--	fatal = cs_iface->output->fatal;
--	info = cs_iface->output->fatal_info;
-+	fatal = panthor_queue_set_fatal_info(ptdev, group, csg_id, cs_id);
- 
- 	if (group) {
- 		drm_warn(&ptdev->base, "CS_FATAL: pid=%d, comm=%s\n",
-@@ -1509,17 +1586,6 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
- 	} else {
- 		sched_queue_delayed_work(sched, tick, 0);
- 	}
--
--	drm_warn(&ptdev->base,
--		 "CSG slot %d CS slot: %d\n"
--		 "CS_FATAL.EXCEPTION_TYPE: 0x%x (%s)\n"
--		 "CS_FATAL.EXCEPTION_DATA: 0x%x\n"
--		 "CS_FATAL_INFO.EXCEPTION_DATA: 0x%llx\n",
--		 csg_id, cs_id,
--		 (unsigned int)CS_EXCEPTION_TYPE(fatal),
--		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fatal)),
--		 (unsigned int)CS_EXCEPTION_DATA(fatal),
--		 info);
- }
- 
- static void
-@@ -1531,15 +1597,10 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
- 	struct panthor_group *group = csg_slot->group;
- 	struct panthor_queue *queue = group && cs_id < group->queue_count ?
- 				      group->queues[cs_id] : NULL;
--	struct panthor_fw_cs_iface *cs_iface;
--	u32 fault;
--	u64 info;
- 
- 	lockdep_assert_held(&sched->lock);
- 
--	cs_iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
--	fault = cs_iface->output->fault;
--	info = cs_iface->output->fault_info;
-+	panthor_queue_set_fault_info(ptdev, group, csg_id, cs_id);
- 
- 	if (queue) {
- 		u64 cs_extract = queue->iface.output->extract;
-@@ -1564,17 +1625,6 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
- 
- 		group->fault_queues |= BIT(cs_id);
- 	}
--
--	drm_warn(&ptdev->base,
--		 "CSG slot %d CS slot: %d\n"
--		 "CS_FAULT.EXCEPTION_TYPE: 0x%x (%s)\n"
--		 "CS_FAULT.EXCEPTION_DATA: 0x%x\n"
--		 "CS_FAULT_INFO.EXCEPTION_DATA: 0x%llx\n",
--		 csg_id, cs_id,
--		 (unsigned int)CS_EXCEPTION_TYPE(fault),
--		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fault)),
--		 (unsigned int)CS_EXCEPTION_DATA(fault),
--		 info);
- }
- 
- static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 77262d2b9672..083a02418d28 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -974,6 +974,23 @@ enum drm_panthor_group_state_flags {
- 	DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT = 1 << 3,
- };
+ 		/* Disable the MMU to kill jobs on this AS. */
+ 		panthor_mmu_as_disable(ptdev, as, false);
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+index 0e268fdfdb2f..023fdc79c231 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.h
++++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+@@ -16,6 +16,26 @@ struct panthor_vm;
+ struct panthor_vma;
+ struct panthor_mmu;
  
 +/**
-+ * struct drm_panthor_queue_event - Fault or fatal event occurring on a single queue.
++ * struct panthor_vm_fault - Tracking information for VM-level faults.
 + */
-+struct drm_panthor_queue_event {
-+	/** @queue_id: The ID of the queue that faulted. */
-+	__u32 queue_id;
-+
-+	/** @event_type: What kind of event is being propagated. */
-+	__u32 event_type;
++struct panthor_vm_fault {
++	/** @address: Virtual address of the faulting access. */
++	u64 address;
 +
 +	/** @exception_type: The type of exception that caused the fault. */
-+	__u32 exception_type;
++	u32 exception_type;
 +
-+	/** @exception_data: Exception-specific data. */
-+	__u32 exception_data;
++	/** @access_type: The direction of data transfer that caused the fault. */
++	u32 access_type;
++
++	/** @source_id: ID supplying further data about the source of the fault. */
++	u32 source_id;
++
++	/** @valid_address: Whether the virtual address is valid. */
++	bool valid_address;
 +};
 +
- /**
-  * struct drm_panthor_group_get_state - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_GET_STATE
-  *
+ int panthor_mmu_init(struct panthor_device *ptdev);
+ void panthor_mmu_unplug(struct panthor_device *ptdev);
+ void panthor_mmu_pre_reset(struct panthor_device *ptdev);
+diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+index 08bf06c452d6..5aa5e37d29c9 100644
+--- a/drivers/gpu/drm/panthor/panthor_regs.h
++++ b/drivers/gpu/drm/panthor/panthor_regs.h
+@@ -178,10 +178,13 @@
+ #define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
+ #define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
++#define  AS_FAULTSTATUS_ACCESS_TYPE(x)			(((x) >> 8) & GENMASK(2, 0))
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
++#define  AS_FAULTSTATUS_EXCEPTION_TYPE(x)		((x) & GENMASK(7, 0))
++#define  AS_FAULTSTATUS_SOURCE_ID(x)			(((x) >> 16) & GENMASK(16, 0))
+ #define AS_FAULTADDRESS(as)				(MMU_AS(as) + 0x20)
+ #define AS_STATUS(as)					(MMU_AS(as) + 0x28)
+ #define   AS_STATUS_AS_ACTIVE				BIT(0)
 -- 
 2.33.0.dirty
 
