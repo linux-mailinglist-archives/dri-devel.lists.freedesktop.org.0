@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11509CBE885
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98C4CBE882
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:09:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F0710E5D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222B010E5CE;
 	Mon, 15 Dec 2025 15:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b0sMhABV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ix2p5rBu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CADE10E5C9;
- Mon, 15 Dec 2025 15:08:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3189410E5D6;
+ Mon, 15 Dec 2025 15:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,25 +22,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=emNYFCO37MglBdXJO4EguFl6xyOJFv68aFxpKabTpgM=; b=b0sMhABV9gXVHaPfoEzdh5ujq2
- VtqJYBSBi4WuPukkwxbmJDpn1lIef7PcmfI3SE3a26uEpI0I1cwo/K5O4sT9NQZnP3S6aAZ7S1W7f
- BGEhZrFG0UzLEOIKx/on8rYIwFwHQgDoZBcZwo+LoOaIXCPq5ejMYexvHq3X9Te0RtG5lPRThM616
- 33ZDoJtEOEkGv2iyfjtR6YqGfdbujIjGa+PslH0M3hG4AJMIeAsw1U3cIVPHWlod1yOMVspjw1VfR
- HwqnxtNeZB8a569MbK6M6FJjQP5xjJnQvyxo7Egskmr8FLGQTpTTXCKb8NT1hynEMUqP5ipXRYwMR
- q+5/Codw==;
+ bh=H00dNxEuJeOUA58nkRdz6QTnzapiBPGTsREgNBBjhPM=; b=Ix2p5rBub3L7EdhR3foXTM0mqk
+ wVJaqeVT2FCYLfasL6+ZgoFz7ywQk+Cxyxwrt8yNbCq5C7nVsoykvsZVAQlAO2J+uaBNIdSBC9jwU
+ T1+hBJbJWiZdo3VbEaGZimGnM/R7N4xSE32Jv6DnSujyOn1LV2c+Ip6Za+n2x9jaz/JRLf0YKoBvo
+ rVDEE7TlVWomvGfvlMdO4S7f3/KHHvQ9INpgr/0COqGCR9K3ZDUKWvx0UVwqXj4k8ykUZTrvEqBjS
+ 5KgaFjg8dn7sr/yVgarmGDDuaNXXaEtLeg9UIRrYMIPjABLJsJyo9mMpcykHcYdki5JMIu9P7YcfS
+ byXhMDzA==;
 Received: from [90.240.106.137] (helo=localhost)
  by fanzine2.igalia.com with utf8esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vVABo-00CzDo-9S; Mon, 15 Dec 2025 16:08:44 +0100
+ id 1vVABp-00CzE5-6R; Mon, 15 Dec 2025 16:08:45 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
  kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v4 26/28] drm/v3d: Remove drm_sched_init_args->num_rqs usage
-Date: Mon, 15 Dec 2025 15:08:05 +0000
-Message-ID: <20251215150807.58819-27-tvrtko.ursulin@igalia.com>
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: [PATCH v4 27/28] drm/xe: Remove drm_sched_init_args->num_rqs usage
+Date: Mon, 15 Dec 2025 15:08:06 +0000
+Message-ID: <20251215150807.58819-28-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
 References: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
@@ -65,26 +67,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: "Maíra Canal" <mcanal@igalia.com>
-Cc: dri-devel@lists.freedesktop.org
-Acked-by: Melissa Wen <mwen@igalia.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/v3d/v3d_sched.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/xe/xe_dep_scheduler.c | 1 -
+ drivers/gpu/drm/xe/xe_execlist.c      | 1 -
+ drivers/gpu/drm/xe/xe_gpu_scheduler.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 0867250db7a6..533eac47f265 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -869,7 +869,6 @@ v3d_queue_sched_init(struct v3d_dev *v3d, const struct drm_sched_backend_ops *op
- 		     enum v3d_queue queue, const char *name)
- {
- 	struct drm_sched_init_args args = {
--		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = 1,
- 		.timeout = msecs_to_jiffies(500),
- 		.dev = v3d->drm.dev,
+diff --git a/drivers/gpu/drm/xe/xe_dep_scheduler.c b/drivers/gpu/drm/xe/xe_dep_scheduler.c
+index 9bd3bfd2e526..2c7f43e61069 100644
+--- a/drivers/gpu/drm/xe/xe_dep_scheduler.c
++++ b/drivers/gpu/drm/xe/xe_dep_scheduler.c
+@@ -78,7 +78,6 @@ xe_dep_scheduler_create(struct xe_device *xe,
+ 	const struct drm_sched_init_args args = {
+ 		.ops = &sched_ops,
+ 		.submit_wq = submit_wq,
+-		.num_rqs = 1,
+ 		.credit_limit = job_limit,
+ 		.timeout = MAX_SCHEDULE_TIMEOUT,
+ 		.name = name,
+diff --git a/drivers/gpu/drm/xe/xe_execlist.c b/drivers/gpu/drm/xe/xe_execlist.c
+index 46c17a18a3f4..57461f337796 100644
+--- a/drivers/gpu/drm/xe/xe_execlist.c
++++ b/drivers/gpu/drm/xe/xe_execlist.c
+@@ -338,7 +338,6 @@ static int execlist_exec_queue_init(struct xe_exec_queue *q)
+ 	struct drm_gpu_scheduler *sched;
+ 	const struct drm_sched_init_args args = {
+ 		.ops = &drm_sched_ops,
+-		.num_rqs = 1,
+ 		.credit_limit = xe_lrc_ring_size() / MAX_JOB_SIZE_BYTES,
+ 		.hang_limit = XE_SCHED_HANG_LIMIT,
+ 		.timeout = XE_SCHED_JOB_TIMEOUT,
+diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.c b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+index f91e06d03511..cdd70e32cdb3 100644
+--- a/drivers/gpu/drm/xe/xe_gpu_scheduler.c
++++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+@@ -66,7 +66,6 @@ int xe_sched_init(struct xe_gpu_scheduler *sched,
+ 	const struct drm_sched_init_args args = {
+ 		.ops = ops,
+ 		.submit_wq = submit_wq,
+-		.num_rqs = 1,
+ 		.credit_limit = hw_submission,
+ 		.hang_limit = hang_limit,
+ 		.timeout = timeout,
 -- 
 2.51.1
 
