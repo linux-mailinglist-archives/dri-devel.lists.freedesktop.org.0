@@ -2,64 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0172BCBEDC2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 17:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEE1CBEDDA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 17:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D349310E494;
-	Mon, 15 Dec 2025 16:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 636C289A4E;
+	Mon, 15 Dec 2025 16:20:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="FFx8jtlc";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 819DB10E494
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 16:17:35 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vVBG0-0000Xh-53; Mon, 15 Dec 2025 17:17:08 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vVBFz-005oIV-0T;
- Mon, 15 Dec 2025 17:17:07 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vVBFy-008z7u-30;
- Mon, 15 Dec 2025 17:17:06 +0100
-Date: Mon, 15 Dec 2025 17:17:06 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Liu Ying <victor.liu@nxp.com>, krzk+dt@kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
- subnode to schema and example
-Message-ID: <20251215161706.2ea3wtu3xlwcxxar@pengutronix.de>
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
- <20251202-v6-18-topic-imx93-parallel-display-v7-1-2cce31d64608@pengutronix.de>
- <705773fc-5aba-4bff-b05e-272e1cd0262c@nxp.com>
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F70E89A4E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 16:20:17 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-b75c7cb722aso718394066b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1765815613; x=1766420413;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o3Zj2/WKCy5dKa//nCHikFh09+ySjzJtGTKmPrUX2BY=;
+ b=FFx8jtlcVOq8vvNT4p8hQDKvKrl1kf7df9GMCWBqH7FECdaaonuEKzGrf9h9D51M/m
+ 86Q6KNYi4gDn1iqvUQ3jHmwB1OuJjav+eSFAMCWBBZXvWuwTWfxFo7dDkozeqvkLDP+x
+ 3EWzMixPljNjy2gOxbgWQzgkZcTQ5gsuXQfGY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765815613; x=1766420413;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=o3Zj2/WKCy5dKa//nCHikFh09+ySjzJtGTKmPrUX2BY=;
+ b=Fb0NT4COSfM2mzMevsckg9DOsdL1E12e0G/G1aig0fzrAHbJgmIdGiddsHxGljm29h
+ tIukPW//APSBsJXR0e/Rp4zs8nCKwWSxOPKCM81G5DgWDoOfSNMNZymx/4iI0gXozUTM
+ CJezenjpkCXkGEruvXR07qwjRcujoQXtJrAewZBjdwfKhuJpWA207+00hjilscQB0vjY
+ iOhGEEKFwXR9loxjVV6nDI1u2c/N0qvKXoaCfTT1Gv7FpI1zB+xRO/1uG9NZd2vI9016
+ yWmJ06MiSoijau7gknZPi63mL3wbHe5kGt0SxYc7G6YTe+N2Tb0GWxdRot4p5bJxZGYF
+ E5dw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbBUIoUEvzrrmjk7LjcOjSU2HMiyX+Tk0k+8C/BbjYOrnXTfh2q1n2/MUI7vQIuG5N60G7JCmFkzk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyiZ4iT40CBkOFToA0d0KfD7rqODHrPAGmq1f4neLD3Gt5yWYXV
+ Ug+KxzIjXlLHOSoyjjH9XNCDXqXPkqzMe64oAtyZ1u1ITxwhY2tSX4SWZ3xhRPOg0MFUUi61moW
+ Nv5UHBQ==
+X-Gm-Gg: AY/fxX4hHacYv2EQgYaFZhqPXG39xsePK7/XFlWymR19WOxhEtql4eaLNWbXWdHaYI5
+ fa5WXF9IzieNUnMxUfJTqOqLR+9d+4Jut41J2V4iDQOYjnVX4acLXyQdwVhicRBtgeruUa3uPF3
+ 4pZpNL+c4aBtKuY0q2HtpkzV6GyFnK/O7F5Tcg8WU4F4kUW1amhhR31gBQPrT/MQ47D2Ot2f1X9
+ kOKSpi4gXhUhKfDo5T+Ny8CsYBZTQbe4eZlldjVGaudKWYsPGwGGwADSlkPpuZYwlQQ8vot0XBC
+ Sm9+fRFniX8Il44u8Uurb99pymwHHjoj0bbWmcu8BgR22weEotFn/r4vmy7NyXSTFVcofSTsGa/
+ MhHqgDRPv7QqWJ/SnpzGzbfgovgNn0eb5Bescl+4KND+2oqAhsJnOyk+1VbQhSu3Gz5j8MCEGTq
+ ZMaqf8xyoHdohcnXFsl3rPG3ssoGn+H1XHI6LLFfw8QdJsKe1qEQ==
+X-Google-Smtp-Source: AGHT+IFOoBMqlGtE79IjIBYa+rj55FiuQWxSyFgiWYNG3vKN4rcEy46ICrbbJrg9kORf6bRGaDwUlg==
+X-Received: by 2002:a17:907:728d:b0:b73:42df:29a with SMTP id
+ a640c23a62f3a-b7d23a752cfmr1140259866b.59.1765815613335; 
+ Mon, 15 Dec 2025 08:20:13 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
+ [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b7cf9f38778sm1444630066b.0.2025.12.15.08.20.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Dec 2025 08:20:13 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-42fb6ce71c7so2744706f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:20:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVG611H/G+Vzv7hwFci02gfrkwPKBRhJCXH6vorJARt14Lz8sj+TaSR4ye0Kp1BuBQMIElBRDm0l1g=@lists.freedesktop.org
+X-Received: by 2002:a05:6000:2909:b0:42f:a025:92b3 with SMTP id
+ ffacd0b85a97d-42fb44d4395mr10374894f8f.2.1765815611883; Mon, 15 Dec 2025
+ 08:20:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <705773fc-5aba-4bff-b05e-272e1cd0262c@nxp.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20251130-sony-akari-fix-panel-v1-1-1d27c60a55f5@somainline.org>
+In-Reply-To: <20251130-sony-akari-fix-panel-v1-1-1d27c60a55f5@somainline.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 15 Dec 2025 08:20:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Wq=hcxsKoDVZ-S85Z6Y+ea8rc_qiR-iBq1dwu1jpbvKA@mail.gmail.com>
+X-Gm-Features: AQt7F2rjeI17_rnXICCk1mYtC5AH_62rLxVMbrFcyD3F9uvOT-gxE9nL0P_o9UY
+Message-ID: <CAD=FV=Wq=hcxsKoDVZ-S85Z6Y+ea8rc_qiR-iBq1dwu1jpbvKA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: sony-td4353-jdi: Enable prepare_prev_first
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Martin Botka <martin.botka@somainline.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jami Kettunen <jami.kettunen@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,214 +111,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+Hi,
 
-On 25-12-08, Liu Ying wrote:
-> Hi Marco,
-> 
-> On 12/02/2025, Marco Felsch wrote:
-> > From: Liu Ying <victor.liu@nxp.com>
-> > 
-> > i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
-> > configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> > field. Document the Parallel Display Format Configuration(PDFC) subnode
-> > and add the subnode to example.
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > [m.felsch@pengutronix.de: port to v6.18-rc1]
-> > [m.felsch@pengutronix.de: add bus-width]
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++++++++++++++++
-> >  1 file changed, 92 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108b492bcbabc8a560d8e707cd 100644
-> > --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > @@ -26,6 +26,12 @@ properties:
-> >    reg:
-> >      maxItems: 1
-> >  
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 1
-> > +
-> >    '#power-domain-cells':
-> >      const: 1
-> >  
-> > @@ -40,6 +46,60 @@ properties:
-> >      minItems: 8
-> >      maxItems: 10
-> >  
-> > +  bridge@60:
-> 
-> The dependency patch series mentioned in cover letter has two links in it's
-> cover letter.  Reading the patch sets pointed by the two links, we may find
-> Krzysztof's comments - the child nodes of the blk-ctrl should be completely
-> documented.
+On Sun, Nov 30, 2025 at 2:40=E2=80=AFPM Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> The DSI host must be enabled before our prepare function can run, which
+> has to send its init sequence over DSI.  Without enabling the host first
+> the panel will not probe.
+>
+> Fixes: 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI h=
+osts at modeset")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Thanks for pointing this out.
+Pushed to drm-misc-fixes:
 
-@Krzysztof
-Requesting to add everything seems not feasible if everything added
-should be tested too.
-I don't see why everything should be added in one step, since the base
-.dtsi isn't added in one step too.
-The different devices (parallel-out bridge, DSI bridge, LVDS bridge,
-CSI) logically don't belong together, ableit all device use the same
-syscon as parent.
-
-Regards,
-  Marco
-
-> > +    type: object
-> > +    additionalProperties: false
-> > +
-> > +    properties:
-> > +      compatible:
-> > +        const: nxp,imx93-pdfc
-> > +
-> > +      reg:
-> > +        maxItems: 1
-> > +
-> > +      ports:
-> > +        $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +        properties:
-> > +          port@0:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description: Input port node to receive pixel data.
-> > +
-> > +          port@1:
-> > +            $ref: /schemas/graph.yaml#/$defs/port-base
-> > +            unevaluatedProperties: false
-> > +            description: Output port node to downstream pixel data receivers.
-> > +
-> > +            properties:
-> > +              endpoint:
-> > +                $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > +                unevaluatedProperties: false
-> > +
-> > +                properties:
-> > +                  bus-width:
-> 
-> In v1-v5, I thought the output bus format can be determined by the sink
-> device(a panel or a bridge) hence properties like bus-width were not needed.
-> But, if this property is really needed, then reference video-interfaces.yaml
-> since bus-width is documented there.  Should we reference bus-type defined
-> in video-interfaces.yaml too?
-> 
-> > +                    enum: [ 16, 18, 24 ]
-> 
-> The PARALLEL_DISP_FORMAT field of DISPLAY_MUX register says this IP supports
-> below formats.  It seems that the enum here may tell RGB888, RGB666 and RGB565.
-> How can we tell RGB555, YCbCr 24 bits and YUV444 then?
-> 
-> 000b RGB888 -> RGB888
-> 001b RGB888 -> RGB666
-> 010b RGB565 -> RGB565
-> 011b RGB555 -> RGB555
-> 100b YUV -> YCbCr 24 bits
-> 101b YUV -> YUV444
-> 
-> > +                    description:
-> > +                      Specify the physical parallel bus width.
-> > +
-> > +                      This property is optional if the display bus-width
-> > +                      matches the SoC bus-width, e.g. a 18-bit RGB666 (display)
-> > +                      is connected and all 18-bit data lanes are muxed to the
-> 
-> Per video-interfaces.yaml, s/data lanes/data lines/.  "data lanes" is a
-> value for MIPI DSI/CSI, afaik.
-> 
-> > +                      parallel-output pads.
-> 
-> How about just saying that this property is optional and by default it's 24?
-> 
-> > +
-> > +                      This property must be set to 18 to cut only the LSBs
-> > +                      instead of the MSBs in case a 24-bit RGB888 display is
-> > +                      connected and only the lower 18-bit data lanes are muxed
-> > +                      to the parallel-output pads.
-> 
-> The __lower__ 18-bit?  Isn't it the __MSB__ 6bit in each color component?
-> 
-> > +
-> > +        required:
-> > +          - port@0
-> > +          - port@1
-> > +
-> > +    required:
-> > +      - compatible
-> > +      - reg
-> > +      - ports
-> > +
-> >  allOf:
-> >    - if:
-> >        properties:
-> > @@ -81,9 +141,12 @@ allOf:
-> >              - const: isi
-> >              - const: csi
-> >              - const: dsi
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > +  - '#address-cells'
-> > +  - '#size-cells'
-> >    - power-domains
-> >    - clocks
-> >    - clock-names
-> > @@ -112,4 +175,33 @@ examples:
-> >                 clock-names = "apb", "axi", "nic", "disp", "cam",
-> >                               "pxp", "lcdif", "isi", "csi", "dsi";
-> >        #power-domain-cells = <1>;
-> > +      #address-cells = <1>;
-> > +      #size-cells = <1>;
-> > +
-> > +      bridge@60 {
-> > +        compatible = "nxp,imx93-pdfc";
-> > +        reg = <0x60 0x4>;
-> > +
-> > +        ports {
-> > +          #address-cells = <1>;
-> > +          #size-cells = <0>;
-> > +
-> > +          port@0 {
-> > +            reg = <0>;
-> > +
-> > +            pdfc_from_lcdif: endpoint {
-> > +              remote-endpoint = <&lcdif_to_pdfc>;
-> > +            };
-> > +          };
-> > +
-> > +          port@1 {
-> > +            reg = <1>;
-> > +
-> > +            pdfc_to_panel: endpoint {
-> > +              remote-endpoint = <&panel_from_pdfc>;
-> > +              bus-width = <18>;
-> > +            };
-> > +          };
-> > +        };
-> > +      };
-> >      };
-> > 
-> 
-> 
-> -- 
-> Regards,
-> Liu Ying
-> 
-
--- 
-#gernperDu 
-#CallMeByMyFirstName
-
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+[1/1] drm/panel: sony-td4353-jdi: Enable prepare_prev_first
+      commit: 2b973ca48ff3ef1952091c8f988d7796781836c8
