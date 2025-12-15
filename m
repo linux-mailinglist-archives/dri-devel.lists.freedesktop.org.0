@@ -2,57 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465B3CBCB90
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 08:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56574CBCC39
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 08:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3BC810E09C;
-	Mon, 15 Dec 2025 07:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D316310E00B;
+	Mon, 15 Dec 2025 07:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mnExPRtF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VONlHtkv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DEjKcEZ2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sh1Lvv8u";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="igmoPzcv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE66210E09C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765782581; x=1797318581;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=e5Nre/C/VwopCszZpklu8XA7OdSVRnExF8evZzQvXME=;
- b=mnExPRtFSwe6mJLmIWERxnx1WmR8PF6Jj0BphcT2geQPAc/6ZaNKb+HH
- tUtmfYeoQF1kdnlNE/2ZfnAGY0UX1rzpkDySYl6kCECmnOq7vv9MHmPRR
- vlYOQ0b2P6smjXH6NTjXGZVeUvnd+60OgzPxN4x024lrBYmJrcq/t7WGt
- OIR+36Eg3ajIMOkk38uqBYBUWNNNjh42CIZPeR4edRDK+axrPcg8kGZEu
- Y4tGnZnVVV5ihmdy4vwOls0la0ja3UtKQdVxrc+BVZJ/IO4OiI1VdX6T8
- wPqLo2ykLKraqKzSv/KDJtpTd0nroyjUc6mpKdyB9RBBIqGXQTk6kznsL A==;
-X-CSE-ConnectionGUID: j3q1DUmoQRaVXh4WCNgLCA==
-X-CSE-MsgGUID: J77e+S1LRhKmZLNGTSaDJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="55242212"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="55242212"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2025 23:09:40 -0800
-X-CSE-ConnectionGUID: Wix7aeFMTwi/rhvwo2B4lQ==
-X-CSE-MsgGUID: cJFv2WTTS8yaaEcgIDuUow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; d="scan'208";a="196914935"
-Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2025 23:09:38 -0800
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- andrzej.kacprowski@linux.intel.com,
- Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Validate scatter-gather size against buffer size
-Date: Mon, 15 Dec 2025 08:09:33 +0100
-Message-ID: <20251215070933.520377-1-karol.wachowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A9210E00B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:27:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4A8E05BD11;
+ Mon, 15 Dec 2025 07:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765783678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
+ b=VONlHtkvWXhzNaEnSk3cHktYE9VDEqD8BLn+y/Eyw8bd2CqBOftCWB+o09i4kCkPPbdHdp
+ UnPdxQu0zjsiIwZroZyZASTSKq3yqRMduq2h1uHsQSToa52bpXK6YatO/hk4YKwT6seaV0
+ N2jiOvOItwILfe9IcsaeUdb9ifcuVuY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765783678;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
+ b=DEjKcEZ2Q2HKrDx9Qkm0ACG0fFjfvmdgh0tc3nU6T63IeVh3ungEJX7X5TMpN6GNawa2Sy
+ 0Gn7s0JjeORBqABg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765783677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
+ b=sh1Lvv8uif7//Tve7BzlKa5YHbTeV9/0lHbYUbOH7Zmhf3m/+7RktNNcM/0RlSibyCf++D
+ 0FDwMZuS+VAOMl/F0gILyrdnMzNVjPOobN9A8Q13dZ4myacCYXGPx2nPcxczNeordJsVIZ
+ matNN8lvHaCZrOQc+BAqfnmAAL4AZo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765783677;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPu4szCct8bgcSRYhjFAjg5xZB54rJ6Uqj3ltKnL/hw=;
+ b=igmoPzcvvg/hjURvUZEovz7Tb33jPmPUH2Uf7zSrmwlFgVEWuFdCi6dSHp+ECPGqXAQUz3
+ 5VNQkCj0bL3cifAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 173773EA63;
+ Mon, 15 Dec 2025 07:27:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4zkzBH24P2nOIQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Dec 2025 07:27:57 +0000
+Message-ID: <48b1bcea-05ff-469c-95d8-de094e68b4fc@suse.de>
+Date: Mon, 15 Dec 2025 08:27:56 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: Fix big-endian support
+To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>
+Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, airlied@redhat.com
+References: <20251211.134330.2200695829709887915.rene@exactco.de>
+ <3e46c10b-79db-4c11-9047-cd33e94ff5e0@suse.de>
+ <20251211.153101.411672428832661296.rene@exactco.de>
+ <20251212.211558.488710050851597114.rene@exactco.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251212.211558.488710050851597114.rene@exactco.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.19)[-0.952]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,106 +142,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Validate scatter-gather table size matches buffer object size before
-mapping. Break mapping early if the table exceeds buffer size to
-prevent overwriting existing mappings. Also validate the table is
-not smaller than buffer size to avoid unmapped regions that trigger
-MMU translation faults.
+Hi
 
-Log error and fail mapping operation on size mismatch to prevent
-data corruption from mismatched host memory locations and NPU
-addresses. Unmap any partially mapped buffer on failure.
+Am 12.12.25 um 21:15 schrieb René Rebe:
+> Hi,
+>
+> On Thu, 11 Dec 2025 15:31:01 +0100 (CET), René Rebe <rene@exactco.de> wrote:
+>
+>>>   	/* write checksum + signature */
+>>> +	writel(swab32(csum), dst);
+>>> +	writel(swab32(width), dst + AST_HWC_SIGNATURE_SizeX);
+>>> +	writel(swab32(height), dst + AST_HWC_SIGNATURE_SizeY);
+>>> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTX);
+>>> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTY);
+>>> +#else
+>>> +	memcpy_toio(dst, src, AST_HWC_SIZE);
+>>>   	dst += AST_HWC_SIZE;
+>>> +
+>>> +	/* write checksum + signature */
+>>>   	writel(csum, dst);
+>>>   	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
+>>>   	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
+>>>   	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
+>>>   	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
+>>> +#endif
+>> I'm pretty sure this will break the cursor, as the position was
+>> working correctly and I only had to swap the cursor image data. The
+>> csum will also not be identical anyway, as the checksum function
+>> computes it in native byte order. Theoretically that would have to be
+>> changed. However, I do not see where it is really used, maybe only
+>> some special remote desktop vendor protocol that I'm not using. Maybe
+>> the exact checksum does not even matter and is only used as
+>> optimization to not resend an unchanged cursor image.
+>>
+>> I'll send a final version after validating it w/ HW later.
+> I just sent a more minimally tested V4 removing the superflous unused
+> fmt_cnv_state to ast_set_cursor_image you somehow had added.
 
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_gem.c         |  2 +-
- drivers/accel/ivpu/ivpu_mmu_context.c | 20 +++++++++++++++++---
- drivers/accel/ivpu/ivpu_mmu_context.h |  5 +++--
- 3 files changed, 21 insertions(+), 6 deletions(-)
+That is a leftover form earlier drm_fb_swab() code.
 
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index ece68f570b7e..98b9ce26962b 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -95,7 +95,7 @@ int __must_check ivpu_bo_bind(struct ivpu_bo *bo)
- 
- 	if (!bo->mmu_mapped) {
- 		drm_WARN_ON(&vdev->drm, !bo->ctx);
--		ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt,
-+		ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt, ivpu_bo_size(bo),
- 					       ivpu_bo_is_snooped(bo), ivpu_bo_is_read_only(bo));
- 		if (ret) {
- 			ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
-index 87ad593ef47d..c4014c83e727 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.c
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.c
-@@ -429,11 +429,12 @@ static void ivpu_mmu_context_unmap_pages(struct ivpu_mmu_context *ctx, u64 vpu_a
- }
- 
- int
--ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
--			 u64 vpu_addr, struct sg_table *sgt, bool llc_coherent, bool read_only)
-+ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u64 vpu_addr,
-+			 struct sg_table *sgt, size_t bo_size, bool llc_coherent, bool read_only)
- {
- 	size_t start_vpu_addr = vpu_addr;
- 	struct scatterlist *sg;
-+	size_t sgt_size = 0;
- 	int ret;
- 	u64 prot;
- 	u64 i;
-@@ -462,12 +463,25 @@ ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
- 		ivpu_dbg(vdev, MMU_MAP, "Map ctx: %u dma_addr: 0x%llx vpu_addr: 0x%llx size: %lu\n",
- 			 ctx->id, dma_addr, vpu_addr, size);
- 
-+		if (sgt_size + size > bo_size) {
-+			ivpu_err(vdev, "Scatter-gather table size exceeds buffer object size\n");
-+			ret = -EINVAL;
-+			goto err_unmap_pages;
-+		}
-+
- 		ret = ivpu_mmu_context_map_pages(vdev, ctx, vpu_addr, dma_addr, size, prot);
- 		if (ret) {
- 			ivpu_err(vdev, "Failed to map context pages\n");
- 			goto err_unmap_pages;
- 		}
- 		vpu_addr += size;
-+		sgt_size += size;
-+	}
-+
-+	if (sgt_size < bo_size) {
-+		ivpu_err(vdev, "Scatter-gather table size too small to cover buffer object size\n");
-+		ret = -EINVAL;
-+		goto err_unmap_pages;
- 	}
- 
- 	if (!ctx->is_cd_valid) {
-@@ -493,7 +507,7 @@ ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
- 	return 0;
- 
- err_unmap_pages:
--	ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, vpu_addr - start_vpu_addr);
-+	ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, sgt_size);
- 	mutex_unlock(&ctx->lock);
- 	return ret;
- }
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/ivpu/ivpu_mmu_context.h
-index 663a11a9db11..cc02e7bab04e 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.h
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.h
-@@ -41,8 +41,9 @@ int ivpu_mmu_context_insert_node(struct ivpu_mmu_context *ctx, const struct ivpu
- 				 u64 size, struct drm_mm_node *node);
- void ivpu_mmu_context_remove_node(struct ivpu_mmu_context *ctx, struct drm_mm_node *node);
- 
--int ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
--			     u64 vpu_addr, struct sg_table *sgt, bool llc_coherent, bool read_only);
-+int
-+ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u64 vpu_addr,
-+			 struct sg_table *sgt, size_t bo_size, bool llc_coherent, bool read_only);
- void ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
- 				u64 vpu_addr, struct sg_table *sgt);
- int ivpu_mmu_context_set_pages_ro(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
+>
+> As the additional writen cursor RDP service writes are untested, I
+> left them out.
+>
+> There is still something suspect or buggy: the 2-bit X11 cursor is
+> filled with transparency, while the ARGB RGB channel work now. Modern
+> ARGB Xcursor theme also look strange. Not sure if that is just due to
+> loosing 4-bit precision and thus half of the dynamic range with all
+> the shadows. To me at least the 2-bit transparent X cursor looks like
+> a fmt conversion bug in some layer that we would need to continue
+> debugging another day. At least the framebuffer / installer text would
+> be more readble upstream now, too ;-)
+
+The kernel's ast driver doesn't support 2-bit cursors. It's likely a 
+problem somewhere in Xorg or the rendering libraries.
+
+Best regards
+Thomas
+
+>
+> Thanks,
+> 	René
+>
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
