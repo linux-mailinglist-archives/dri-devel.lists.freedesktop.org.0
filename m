@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43870CBDD35
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 13:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9E4CBDD5F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 13:37:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E41010E38A;
-	Mon, 15 Dec 2025 12:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFF710E488;
+	Mon, 15 Dec 2025 12:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="cHoCyfpV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CyxnuF5W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E583F10E38A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:34:39 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-6419b7b4b80so5187830a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 04:34:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1765802077; x=1766406877; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8/i1qNju9K5zECwfur3W8keJQC0TrioWbvreUe4OlCI=;
- b=cHoCyfpV6WLYJ31IGXaPF5TLV2/iatk/A8MTSsEylSlz5O3QYQA423KQt44dfvqF4p
- GbXiTjYHXLkSuK/jZfAQtiEI6cZTPs0ncJ/QoSe2hq7ABwU56xDtaG1DF7bLlx+gI0JG
- QJHghuW/tp07mvtdh9TaJGi8w5o6sR9ah7hPi4N1gi5FEKaGKYAyTWZSplT1cgLKdZy3
- +G7wDlrPQ9ZGVhdkIc/QG6hVKQ8NIxFxj9GhzMWhLvHFtQGUS6Z/gQl2DhZZlscNToHk
- 0ArRuWY8SwSF5S6fnNteTd4TD3JJxMyoq68fVydyqGSmjVZQvpbGk4Amqmkcr+8MJ03f
- O3AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765802077; x=1766406877;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8/i1qNju9K5zECwfur3W8keJQC0TrioWbvreUe4OlCI=;
- b=uATQ5KpekNFqBmtvkssznvgD3UpO4x9ClC/KcoqHiEFljlXoUD3rAkFV49NAlpUSAw
- fOLfruz8+IyjYu2WSKYWd5m6V7TCyCnKL6fqdFiRBzEWOZQUoVLNPFFv/C8zHGjTYLdd
- xPO2kSQp6BSwGEdP+lTuvTtNaK85OSvI59++m2z5MBdZ04BSEPrp+lSYPA7qXFfh3WU0
- vf+iW6Q0w0PuQtV4nFVSKOb6s4DXua2OHxSFhMH0WxqC0eLuZa3YUuhJTmge+suDTHQZ
- MBz1g5pBZwHayxVnknPD+BxvJGUIhPbHF1PXOloF/FRD8/WHvwmZDYUfLlYLfIdnSd4b
- w1LQ==
-X-Gm-Message-State: AOJu0Yx7rwXqhEpiQjAsQOPm17gfbqmUpGrEGjc9KHWjIeyBwpshjC6i
- gfeU0mQh4DQCAdWk3uV4XZXUqehri2hMMpJjHvxPtPXlK/qV3EOU50wtrTmKlgmHBg8=
-X-Gm-Gg: AY/fxX6EfOqtIOAgsT/6dduJOtm6oT4lk67YwJ1lQezo4U7zerjX7AxX7yM9BHTO2yz
- e46hD3n8UDgz/vsKOdHxo/fYQ6O6/SRzYjuhsPLCJG7arUKPpMAIqpsr/4cL/WtcJrWA/xhTRir
- 4xFIMEaBiA7MlSemig5gy8f2WTnYwjBfGVjPgBjvximCi3QM73zEKwkpExJ4oEB9+7nu29Rpe5h
- kd2hU9BXQP/AdZPPVA8be7lMr3b3Q0HV9YU4ZyFcdwAwzM8oVbbmDGl5fu3yBB5f6zcZKkzTVMv
- 73rJGJkWYwMaJcti4eSROAYUsLbJB8viXsc93yWCvIsMNJr1kbaugyxPP4WuWxmYH7bN6215z1Y
- Wmipbjeg6U1sDlmJefevdjO++v9gO6AwjMNuUUNJsp9e+9zFiVscOCc59VIdwya1thCYQ4j1ONu
- tCtMM5zBBzG1pfIeLNA+vY2/Udt1vCR6f9
-X-Google-Smtp-Source: AGHT+IE5xmcBboZt1XorfOfkMbv6sG/vGdtTLmoF7pzL8nIird81E0XIr0M/HvhY2Nwn69Q1ww7TKA==
-X-Received: by 2002:a05:6402:4407:b0:645:d34b:8166 with SMTP id
- 4fb4d7f45d1cf-6499b3009abmr10238924a12.26.1765802076128; 
- Mon, 15 Dec 2025 04:34:36 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64982040e2bsm13307367a12.6.2025.12.15.04.34.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Dec 2025 04:34:35 -0800 (PST)
-Message-ID: <1ecc48a6-b653-4e75-86c8-d9517e03d13f@ursulin.net>
-Date: Mon, 15 Dec 2025 12:34:35 +0000
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A710E488
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 12:37:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1765802227;
+ bh=vev719SQ9DXNTgNQoTR7IGZ4y0dW5rc0WNYszuHaFCo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=CyxnuF5WBXm7oaCFupy2BD2TQj7oWl3qZQOMCwSvChbC009nmFMS4psHOM22nXnw0
+ WV/PSAbkU0vVl13k0nIHiCMmhi7FG0nfG6IiZOuua5ItydU9IInvqQc3TduKYEOmo7
+ ZaHiCBbhpJZCvaHPFfA5H/1dKrzD2QXqcGD4PqUfaY3ggl2gjHY67wU1DQHEmbeych
+ opOquLOxR8l9SBimk+v15grF0tT2od8qBIEH5X2zds3wQLaHeGOW0K/21s9uvBYRfU
+ 9BoTfPJ1CMlEx2gwLZioKyTRZ78oZka+AB2bbGFbBYP8qrMJdGrfgrQ4T4uxZxmNe6
+ pdc5rjRfK/F2Q==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4ED2017E1146;
+ Mon, 15 Dec 2025 13:37:07 +0100 (CET)
+Date: Mon, 15 Dec 2025 13:37:03 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, nd@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/5] drm/panthor: Track VM faults
+Message-ID: <20251215133703.3f1bf4d2@fedora>
+In-Reply-To: <20251215115457.2137485-4-lukas.zapolskas@arm.com>
+References: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
+ <20251215115457.2137485-4-lukas.zapolskas@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/19] drm/amdgpu: independence for the amdgpu_userq_fence!
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-16-christian.koenig@amd.com>
- <3276bb85-3bcc-4f55-95b1-4c05fe198d31@ursulin.net>
- <82a1a8d9-633e-4da4-aefc-1aa9266298ee@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <82a1a8d9-633e-4da4-aefc-1aa9266298ee@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,204 +66,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 15 Dec 2025 11:54:55 +0000
+Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
 
-On 12/12/2025 15:46, Christian König wrote:
-> On 12/11/25 17:12, Tvrtko Ursulin wrote:
->>
->> On 11/12/2025 13:16, Christian König wrote:
->>> This allows amdgpu_userq_fences to outlive the amdgpu module.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 13 +----
->>>    .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   | 54 ++++---------------
->>>    .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.h   |  8 ---
->>>    3 files changed, 11 insertions(+), 64 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> index 2dfbddcef9ab..f206297aae8b 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> @@ -3155,11 +3155,7 @@ static int __init amdgpu_init(void)
->>>          r = amdgpu_sync_init();
->>>        if (r)
->>> -        goto error_sync;
->>> -
->>> -    r = amdgpu_userq_fence_slab_init();
->>> -    if (r)
->>> -        goto error_fence;
->>> +        return r;
->>>          DRM_INFO("amdgpu kernel modesetting enabled.\n");
->>>        amdgpu_register_atpx_handler();
->>> @@ -3176,12 +3172,6 @@ static int __init amdgpu_init(void)
->>>          /* let modprobe override vga console setting */
->>>        return pci_register_driver(&amdgpu_kms_pci_driver);
->>> -
->>> -error_fence:
->>> -    amdgpu_sync_fini();
->>> -
->>> -error_sync:
->>> -    return r;
->>>    }
->>>      static void __exit amdgpu_exit(void)
->>> @@ -3191,7 +3181,6 @@ static void __exit amdgpu_exit(void)
->>>        amdgpu_unregister_atpx_handler();
->>>        amdgpu_acpi_release();
->>>        amdgpu_sync_fini();
->>> -    amdgpu_userq_fence_slab_fini();
->>>        mmu_notifier_synchronize();
->>>        amdgpu_xcp_drv_release();
->>>    }
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>> index eba9fb359047..bb19f72770b0 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>> @@ -33,26 +33,6 @@
->>>    #include "amdgpu_userq_fence.h"
->>>      static const struct dma_fence_ops amdgpu_userq_fence_ops;
->>> -static struct kmem_cache *amdgpu_userq_fence_slab;
->>> -
->>> -int amdgpu_userq_fence_slab_init(void)
->>> -{
->>> -    amdgpu_userq_fence_slab = kmem_cache_create("amdgpu_userq_fence",
->>> -                            sizeof(struct amdgpu_userq_fence),
->>> -                            0,
->>> -                            SLAB_HWCACHE_ALIGN,
->>> -                            NULL);
->>> -    if (!amdgpu_userq_fence_slab)
->>> -        return -ENOMEM;
->>> -
->>> -    return 0;
->>> -}
->>> -
->>> -void amdgpu_userq_fence_slab_fini(void)
->>> -{
->>> -    rcu_barrier();
->>
->> What was this rcu_barrier() for? Cargo culted or more to it?
+> Faults reported via the MMU_CONTROL register block will result in fatal
+> faults for running groups on that AS, which will also be useful to know
+> for the user.
 > 
-> All dma_fences are RCU protected. When they are backed by a kmem_cache you need to make sure to wait for an RCU grace period to pass before destroying the kmem_cache.
-
-You are right, on a deeper look the built-in protection inside 
-kmem_cache_destroy() only handles the simple kfree_rcu() case and not 
-arbitrary call_rcu() destructors.
-
+> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c  | 16 ++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_mmu.h  | 20 ++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_regs.h |  3 +++
+>  3 files changed, 37 insertions(+), 2 deletions(-)
 > 
-> Since the dma_fence framework now uses kfree_rcu that shouldn't be problematic any more.
-> 
-> 
->>> -    kmem_cache_destroy(amdgpu_userq_fence_slab);
->>> -}
->>>      static inline struct amdgpu_userq_fence *to_amdgpu_userq_fence(struct dma_fence *f)
->>>    {
->>> @@ -227,7 +207,7 @@ void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv)
->>>      static int amdgpu_userq_fence_alloc(struct amdgpu_userq_fence **userq_fence)
->>>    {
->>> -    *userq_fence = kmem_cache_alloc(amdgpu_userq_fence_slab, GFP_ATOMIC);
->>> +    *userq_fence = kmalloc(sizeof(**userq_fence), GFP_ATOMIC);
->> This GFP_ATOMIC is suboptimal for sure being on the ioctl path. It is outside of the scope for this patch, but once my userq cleanup patches get reviewed next on my list was to try and understand this.
->>>        return *userq_fence ? 0 : -ENOMEM;
->>>    }
->>>    @@ -243,12 +223,11 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->>>        if (!fence_drv)
->>>            return -EINVAL;
->>>    -    spin_lock_init(&userq_fence->lock);
->>>        INIT_LIST_HEAD(&userq_fence->link);
->>>        fence = &userq_fence->base;
->>>        userq_fence->fence_drv = fence_drv;
->>>    -    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, NULL,
->>>                 fence_drv->context, seq);
->>>          amdgpu_userq_fence_driver_get(fence_drv);
->>> @@ -318,35 +297,22 @@ static bool amdgpu_userq_fence_signaled(struct dma_fence *f)
->>>        rptr = amdgpu_userq_fence_read(fence_drv);
->>>        wptr = fence->base.seqno;
->>>    -    if (rptr >= wptr)
->>> +    if (rptr >= wptr) {
->>> +        amdgpu_userq_fence_driver_put(fence->fence_drv);
->>
->> fence_drv is in a local already.
->>
->>> +        fence->fence_drv = NULL;
->>
->> amdgpu_userq_fence_get_timeline_name could now oops somehow?
->>
->>> +
->>> +        kvfree(fence->fence_drv_array);
->>> +        fence->fence_drv_array = NULL;
->>
->> Not sure if this is safe either. amdgpu_userq_fence_driver_process() drops its reference before it unlinks the fence from the list. Can someone external trigger the fence_is_signaled check, before the interrupt processing kicks in, which will clear fence_drv_array, and so amdgpu_userq_fence_driver_process() would oops?
-> 
-> Oh, good question. I need to double check that.
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 473a8bebd61e..10a7418eecda 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -384,6 +384,9 @@ struct panthor_vm {
+>  		/** @locked_region.size: Size of the locked region. */
+>  		u64 size;
+>  	} locked_region;
+> +
+> +	/** @fault: Fault information (if any) for this VM. */
+> +	struct panthor_vm_fault fault;
+>  };
+>  
+>  /**
+> @@ -741,6 +744,7 @@ int panthor_vm_active(struct panthor_vm *vm)
+>  
+>  	/* If the VM is re-activated, we clear the fault. */
+>  	vm->unhandled_fault = false;
+> +	vm->fault = (struct panthor_vm_fault){ 0 };
 
-Okay thanks, I will await the next re-spin.
+I'd rather go for a memset() here, to follow the kernel coding style.
 
-Regards,
+	memset(&vm->fault, 0, sizeof(vm->fault));
 
-Tvrtko
+>  
+>  	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+>  	 * before enabling the AS.
+> @@ -1744,8 +1748,16 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  		 */
+>  		ptdev->mmu->irq.mask = new_int_mask;
+>  
+> -		if (ptdev->mmu->as.slots[as].vm)
+> -			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
+> +		if (ptdev->mmu->as.slots[as].vm) {
+> +			struct panthor_vm *vm = ptdev->mmu->as.slots[as].vm;
+> +
+> +			vm->unhandled_fault = true;
+> +			vm->fault.exception_type = AS_FAULTSTATUS_EXCEPTION_TYPE(status);
+> +			vm->fault.access_type = AS_FAULTSTATUS_ACCESS_TYPE(status);
+> +			vm->fault.source_id = AS_FAULTSTATUS_SOURCE_ID(status);
 
->>
->>>            return true;
->>> +    }
->>>          return false;
->>>    }
->>>    -static void amdgpu_userq_fence_free(struct rcu_head *rcu)
->>> -{
->>> -    struct dma_fence *fence = container_of(rcu, struct dma_fence, rcu);
->>> -    struct amdgpu_userq_fence *userq_fence = to_amdgpu_userq_fence(fence);
->>> -    struct amdgpu_userq_fence_driver *fence_drv = userq_fence->fence_drv;
->>> -
->>> -    /* Release the fence driver reference */
->>> -    amdgpu_userq_fence_driver_put(fence_drv);
->>> -
->>> -    kvfree(userq_fence->fence_drv_array);
->>> -    kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
->>> -}
->>> -
->>> -static void amdgpu_userq_fence_release(struct dma_fence *f)
->>> -{
->>> -    call_rcu(&f->rcu, amdgpu_userq_fence_free);
->>> -}
->>> -
->>>    static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->>>        .get_driver_name = amdgpu_userq_fence_get_driver_name,
->>>        .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->>>        .signaled = amdgpu_userq_fence_signaled,
->>> -    .release = amdgpu_userq_fence_release,
->>>    };
->>>      /**
->>> @@ -560,7 +526,7 @@ int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
->>>        r = amdgpu_userq_fence_create(queue, userq_fence, wptr, &fence);
->>>        if (r) {
->>>            mutex_unlock(&userq_mgr->userq_mutex);
->>> -        kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
->>> +        kfree(userq_fence);
->>>            goto put_gobj_write;
->>>        }
->>>    diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
->>> index d76add2afc77..6f04782f3ea9 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
->>> @@ -31,11 +31,6 @@
->>>      struct amdgpu_userq_fence {
->>>        struct dma_fence base;
->>> -    /*
->>> -     * This lock is necessary to synchronize the
->>> -     * userqueue dma fence operations.
->>> -     */
->>> -    spinlock_t lock;
->>>        struct list_head link;
->>>        unsigned long fence_drv_array_count;
->>>        struct amdgpu_userq_fence_driver *fence_drv;
->>> @@ -58,9 +53,6 @@ struct amdgpu_userq_fence_driver {
->>>        char timeline_name[TASK_COMM_LEN];
->>>    };
->>>    -int amdgpu_userq_fence_slab_init(void);
->>> -void amdgpu_userq_fence_slab_fini(void);
->>> -
->>>    void amdgpu_userq_fence_driver_get(struct amdgpu_userq_fence_driver *fence_drv);
->>>    void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv);
->>>    int amdgpu_userq_fence_driver_alloc(struct amdgpu_device *adev,
->>
-> 
+I'd be tempted to return the raw value to userspace instead of parsing
+it here. This way if the meaning/layout changes, it's the UMD
+responsibility to adjust the parsing (we do that with various other
+things already, based on the GPU_ID).
+
+> +			vm->fault.valid_address = true;
+
+Do we really need an extra field to report address validity? Can't we
+just the UMD check the status and take a decision based on that?
+
+> +			vm->fault.address = addr;
+> +		}
+>  
+>  		/* Disable the MMU to kill jobs on this AS. */
+>  		panthor_mmu_as_disable(ptdev, as, false);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index 0e268fdfdb2f..023fdc79c231 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -16,6 +16,26 @@ struct panthor_vm;
+>  struct panthor_vma;
+>  struct panthor_mmu;
+>  
+> +/**
+> + * struct panthor_vm_fault - Tracking information for VM-level faults.
+> + */
+> +struct panthor_vm_fault {
+> +	/** @address: Virtual address of the faulting access. */
+> +	u64 address;
+> +
+> +	/** @exception_type: The type of exception that caused the fault. */
+> +	u32 exception_type;
+> +
+> +	/** @access_type: The direction of data transfer that caused the fault. */
+> +	u32 access_type;
+> +
+> +	/** @source_id: ID supplying further data about the source of the fault. */
+> +	u32 source_id;
+> +
+> +	/** @valid_address: Whether the virtual address is valid. */
+> +	bool valid_address;
+> +};
+> +
+>  int panthor_mmu_init(struct panthor_device *ptdev);
+>  void panthor_mmu_unplug(struct panthor_device *ptdev);
+>  void panthor_mmu_pre_reset(struct panthor_device *ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index 08bf06c452d6..5aa5e37d29c9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -178,10 +178,13 @@
+>  #define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
+>  #define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE(x)			(((x) >> 8) & GENMASK(2, 0))
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
+> +#define  AS_FAULTSTATUS_EXCEPTION_TYPE(x)		((x) & GENMASK(7, 0))
+> +#define  AS_FAULTSTATUS_SOURCE_ID(x)			(((x) >> 16) & GENMASK(16, 0))
+>  #define AS_FAULTADDRESS(as)				(MMU_AS(as) + 0x20)
+>  #define AS_STATUS(as)					(MMU_AS(as) + 0x28)
+>  #define   AS_STATUS_AS_ACTIVE				BIT(0)
 
