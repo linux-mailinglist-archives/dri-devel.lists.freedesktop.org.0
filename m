@@ -2,85 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A3FCBECD0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B134DCBED30
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 17:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DFB510E70C;
-	Mon, 15 Dec 2025 15:58:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SAlrjXFH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA8A10E992;
+	Mon, 15 Dec 2025 16:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9525D10E6F9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:58:18 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-477563e28a3so27713045e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:58:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765814297; x=1766419097; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=j5xnr554TtYoRpbiQVpIVqZ94ylKVMynqnLIjhVFhbc=;
- b=SAlrjXFHJNIuS4RKmFqstZgZCyagDMdGkRU/ExwTCalnyyLmAk/O2x/j/Fl+kogXIs
- zmY/Sf9Vjrgdyu9uLyi+XdqFnCJcAD00LZqlBoCKGyIEscJ3n3Yz4VTjIo28/2/PnP2u
- BdueRQLwxHlpsuzN+e3/hcLP9kAflJbYYaK8HHk0f9V8tzCSHCt6Tdst0dvPaT/p3fvF
- EYtyRTvaG1zAwii67mfdMIaa1K9ixgGuQRHhPs/1PR+3w3BhtslCZy0qnPGhJGuvHC68
- 9FEZzt67Y2v1nuNxHp1bUeB6q/iZ2LZvJ0h6gu7QDfHn1KbhgPEnTIOY/BEs8GzTFmSI
- hUUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765814297; x=1766419097;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=j5xnr554TtYoRpbiQVpIVqZ94ylKVMynqnLIjhVFhbc=;
- b=d7CxytK/xikvX+4Uq1F/40ejOXMt1Jk5DvQA2BvhxzeUXIWZ/v59i0L/P4dJHyYtKj
- fpDEhuIIw7ya1Ahxasz2fhil6xTWbj9HE/Uw9ejXAvxfIAg74ccqI8ANPHAS5i2SlRoh
- Yj3cQDSj7V9JSUEYjzLQ07IAcpeDBC8tng8IYcv8EawKGFOrAJ79uzoX+06gO6vOi/K5
- Qlj5FPOwQl/cYPMfGgtOb1TeieTaqb1wD7KS9CiYTCNZHkgYrdR+mYWv/Y3XrI0DE/O+
- B7kfL06Mu1CZM1tshoKH876PqkVdCljulILiYwgVvmR8Uer7ZqOmKLCe4Ymsi9sU43wt
- rA+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7hPHCpDodiYsiem4m2VvbeYf2mznuMJHZSOvWnF2qhlKzAijZwJwrCp9UpVAupv1AGS0dZEQf1vU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxacS98K4tkbYr1qdetLqfFNL10hy4QbJR7SKYhAX6SX99gfnT/
- WvfjrZ0XxNfowIuY/NvPYWRR1pUnYN6hhblPQr5DEF5TkJl3/h8db9df
-X-Gm-Gg: AY/fxX4DH4OlP68jT9BnKd2LHywOZ5aF58pnvODQ+hFMkScng6mD9rvThbqhgDKc/1U
- bbTf6jsUVlSJJuZ97Gjo63L1ZXkMys3OQS1EH6JX7/5PkqpyZLisSlKcFrpvgvhTKbP9o3DQgel
- WOVQSP52oiE0HSiN1cd1y8UWsjZqgJT2DVcc+vZhgfqrVKuc6Yd7DCG0oimG4mvfBvLb+MxU2yU
- PgJEVvy+nHuMqEQrm0pH3PHF6spaP3DciP4WuFznuX+KgbARV4ow62Nr1xsGUYx9CngWaedKkFO
- 8km0kezWMHABimnRJCl1sKO7G2fGL0KkKXzgqd4ALSm+uXgtlxRrKoeRmJpfqI9LFjIG4wCRRz1
- onwEwcxEY47eIjFyEwGzB8WTSsTkzXHU1Myk8SzBpEJErCGVJXUV4upTfzZ+h/TRoTMwXT/TJQE
- mvY76whdSRCSz+4WLo8wI2NYuiu66P0H9w9FpI6sDrkXh877bE4zBXAg==
-X-Google-Smtp-Source: AGHT+IHg35WoITkMiGDualxHoa4S7x3nYKLJdG+oJFRoF7ngTCh3uk/xv1zFZFYVRyvKfVEk7l8FKQ==
-X-Received: by 2002:a05:600c:529b:b0:475:d9de:952e with SMTP id
- 5b1f17b1804b1-47a8f09428fmr129477115e9.1.1765814297020; 
- Mon, 15 Dec 2025 07:58:17 -0800 (PST)
-Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([67.218.238.173])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a8f3a1be5sm70209665e9.1.2025.12.15.07.58.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 07:58:16 -0800 (PST)
-From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Mon, 15 Dec 2025 16:57:56 +0100
-Subject: [PATCH v7 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F2F10E97E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 16:05:48 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1vVB4T-0007R2-2Z; Mon, 15 Dec 2025 17:05:13 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <mfe@pengutronix.de>) id 1vVB4R-005o3s-06;
+ Mon, 15 Dec 2025 17:05:11 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <mfe@pengutronix.de>) id 1vVB4Q-008ytb-2m;
+ Mon, 15 Dec 2025 17:05:10 +0100
+Date: Mon, 15 Dec 2025 17:05:10 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
+ subnode to schema and example
+Message-ID: <20251215160510.msuinr2dierrifit@pengutronix.de>
+References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
+ <20251202-v6-18-topic-imx93-parallel-display-v7-1-2cce31d64608@pengutronix.de>
+ <20251208012826.GA340359-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-st7920-v7-3-36771009ec01@gmail.com>
-References: <20251215-st7920-v7-0-36771009ec01@gmail.com>
-In-Reply-To: <20251215-st7920-v7-0-36771009ec01@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Iker Pedrosa <ikerpedrosam@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251208012826.GA340359-robh@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,33 +75,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Iker as ST7920 driver maintainer.
+On 25-12-07, Rob Herring wrote:
+> On Tue, Dec 02, 2025 at 02:32:58PM +0100, Marco Felsch wrote:
+> > From: Liu Ying <victor.liu@nxp.com>
+> > 
+> > i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
+> > configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+> > field. Document the Parallel Display Format Configuration(PDFC) subnode
+> > and add the subnode to example.
+> > 
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > [m.felsch@pengutronix.de: port to v6.18-rc1]
+> > [m.felsch@pengutronix.de: add bus-width]
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++++++++++++++++
+> >  1 file changed, 92 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> > index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108b492bcbabc8a560d8e707cd 100644
+> > --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> > +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> > @@ -26,6 +26,12 @@ properties:
+> >    reg:
+> >      maxItems: 1
+> >  
+> > +  '#address-cells':
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 1
+> > +
+> 
+> And 'ranges' needed.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+I dropped this due to the response from Krzysztof:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ddf37f0acc960039422ef988cadfa7176972fc5..79b8a277e38b55ebcff05450d6c565c0d87c6b51 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7861,6 +7861,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
- F:	drivers/gpu/drm/sitronix/st7735r.c
- 
-+DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
-+M:	Iker Pedrosa <ikerpedrosam@gmail.com>
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/sitronix,st7920.yaml
-+F:	drivers/gpu/drm/sitronix/st7920.c
-+
- DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
- M:	Javier Martinez Canillas <javierm@redhat.com>
- S:	Maintained
+https://lore.kernel.org/linux-arm-kernel/c7129d8e-87de-444c-be52-b2eedf03585f@kernel.org/
+
+Regards,
+  Marco
+
+> >    '#power-domain-cells':
+> >      const: 1
+> >  
+> > @@ -40,6 +46,60 @@ properties:
+> >      minItems: 8
+> >      maxItems: 10
+> >  
+> > +  bridge@60:
+> > +    type: object
+> > +    additionalProperties: false
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: nxp,imx93-pdfc
+> > +
+> > +      reg:
+> > +        maxItems: 1
+> > +
+> > +      ports:
+> > +        $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +        properties:
+> > +          port@0:
+> > +            $ref: /schemas/graph.yaml#/properties/port
+> > +            description: Input port node to receive pixel data.
+> > +
+> > +          port@1:
+> > +            $ref: /schemas/graph.yaml#/$defs/port-base
+> > +            unevaluatedProperties: false
+> > +            description: Output port node to downstream pixel data receivers.
+> > +
+> > +            properties:
+> > +              endpoint:
+> > +                $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +                unevaluatedProperties: false
+> > +
+> > +                properties:
+> > +                  bus-width:
+> > +                    enum: [ 16, 18, 24 ]
+> > +                    description:
+> > +                      Specify the physical parallel bus width.
+> > +
+> > +                      This property is optional if the display bus-width
+> > +                      matches the SoC bus-width, e.g. a 18-bit RGB666 (display)
+> > +                      is connected and all 18-bit data lanes are muxed to the
+> > +                      parallel-output pads.
+> > +
+> > +                      This property must be set to 18 to cut only the LSBs
+> > +                      instead of the MSBs in case a 24-bit RGB888 display is
+> > +                      connected and only the lower 18-bit data lanes are muxed
+> > +                      to the parallel-output pads.
+> > +
+> > +        required:
+> > +          - port@0
+> > +          - port@1
+> > +
+> > +    required:
+> > +      - compatible
+> > +      - reg
+> > +      - ports
+> > +
+> >  allOf:
+> >    - if:
+> >        properties:
+> > @@ -81,9 +141,12 @@ allOf:
+> >              - const: isi
+> >              - const: csi
+> >              - const: dsi
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > +  - '#address-cells'
+> > +  - '#size-cells'
+> >    - power-domains
+> >    - clocks
+> >    - clock-names
+> > @@ -112,4 +175,33 @@ examples:
+> >                 clock-names = "apb", "axi", "nic", "disp", "cam",
+> >                               "pxp", "lcdif", "isi", "csi", "dsi";
+> >        #power-domain-cells = <1>;
+> > +      #address-cells = <1>;
+> > +      #size-cells = <1>;
+> > +
+> > +      bridge@60 {
+> > +        compatible = "nxp,imx93-pdfc";
+> > +        reg = <0x60 0x4>;
+> > +
+> > +        ports {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          port@0 {
+> > +            reg = <0>;
+> > +
+> > +            pdfc_from_lcdif: endpoint {
+> > +              remote-endpoint = <&lcdif_to_pdfc>;
+> > +            };
+> > +          };
+> > +
+> > +          port@1 {
+> > +            reg = <1>;
+> > +
+> > +            pdfc_to_panel: endpoint {
+> > +              remote-endpoint = <&panel_from_pdfc>;
+> > +              bus-width = <18>;
+> > +            };
+> > +          };
+> > +        };
+> > +      };
+> >      };
+> > 
+> > -- 
+> > 2.47.3
+> > 
+> 
 
 -- 
-2.52.0
+#gernperDu 
+#CallMeByMyFirstName
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
