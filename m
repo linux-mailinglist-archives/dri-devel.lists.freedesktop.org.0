@@ -2,134 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EDACBCC57
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 08:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C005CC0207
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 23:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0903410E083;
-	Mon, 15 Dec 2025 07:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD1010E545;
+	Mon, 15 Dec 2025 22:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cwOYFbXf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VeGLTgeW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="llz08bjd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zT6ULmHy";
+	dkim=pass (2048-bit key; unprotected) header.d=peff.net header.i=@peff.net header.b="AFcZc7h4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230FB10E083
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 07:30:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7B84D5BD11;
- Mon, 15 Dec 2025 07:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765783808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
- b=cwOYFbXfHvS3yAONk7/EStU4Ha3mhX3kn4nRIEzBZe7haOtsIneIfdZK2CIyC5fANQdAef
- h++GKUMid2A2yrikycD3fHNdZPU4wI1mwA6TeccaWPNXd12nLzqbtxoiaN3sXQ372ZRE5B
- OJ8YnuCoayllzrKEYT/9DS9OQRKVPRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765783808;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
- b=VeGLTgeW1+rFQKBo0h6itqq4GmVt259Y5zbbmbMRiAJtcnAExZ8wDGqSOYxXkZfPYysNHP
- gaWkA6nfs/gR5jBg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=llz08bjd;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zT6ULmHy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765783807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
- b=llz08bjdBhWe/uzHLdiKt71cSh9QhHmw3cPOcOsEnsJNJNGOWyzrM+1gBbxd3BnsnLPWyY
- 1KRoVX/C1HiMujWxYAv0dOYq9SnC9fvp/OZZDB4+oEvPXBBst9P7Lk+dkPJxiP7812V6QZ
- UJHdy2vPr8tOepXm0Q++Xx/3ebviFZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765783807;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ONVY2TB3LRTJoBsj4Kt4j7CcvMyjru5naB13/1b9MJk=;
- b=zT6ULmHyXL5SNndw5atctQ+dcVVv8Ei6Stf8ZCJtPr3xOMYScTTyivcX3IKGx79PsOyF4m
- 2Ax/U7vflURD54CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A03C3EA63;
- Mon, 15 Dec 2025 07:30:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CsXIFP+4P2lUIwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 15 Dec 2025 07:30:07 +0000
-Message-ID: <007be221-b28d-49c0-a7c7-0a4ea74d5d75@suse.de>
-Date: Mon, 15 Dec 2025 08:30:06 +0100
+Received: from cloud.peff.net (cloud.peff.net [104.130.231.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DA210E0DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 08:07:42 +0000 (UTC)
+Received: (qmail 361298 invoked by uid 109); 15 Dec 2025 08:07:40 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=peff.net;
+ h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to;
+ s=20240930; bh=/7iCO1nHsKQgNImTtROFeznyez/3epIT3pc33cnj/NE=;
+ b=AFcZc7h4JY1dSQtIkoBMaDFfMv0lD5reE9I+6z4x1qofgC3cJIs+Do/mgEP7ERjBzDE+luEmSKTYfFzgXHdMWNL92HTiZTA6jbKzrKgRn8gcDSKMbOy/EsWAc6d46/KvbbRhvDnhUS42eAb2zG0p+iIu09JfkZyWcYwe0RxyYtzG6SmGNcxtU+Pg56LUpyJCvXbueKYaALXEkhSJ0gp4yWMNNFinag+SkbdrGrQjdmqFvThzQAkKerNXYajB5S9gZqu7OOCngdGB4zBbwsaTK/P2xo68y5Xur39Z9Ul0mlpXXA/3OxeOUMX6wial7aLPiKg9VlxkRsuLEuAG+LvLYA==
+Received: from Unknown (HELO peff.net) (10.0.1.2)
+ by cloud.peff.net (qpsmtpd/0.94) with ESMTP; Mon, 15 Dec 2025 08:07:40 +0000
+Authentication-Results: cloud.peff.net; auth=none
+Received: (qmail 480535 invoked by uid 111); 15 Dec 2025 08:07:41 -0000
+Received: from coredump.intra.peff.net (HELO coredump.intra.peff.net)
+ (10.0.0.2)
+ by peff.net (qpsmtpd/0.94) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPS;
+ Mon, 15 Dec 2025 03:07:41 -0500
+Authentication-Results: peff.net; auth=none
+Date: Mon, 15 Dec 2025 03:07:36 -0500
+From: Jeff King <peff@peff.net>
+To: jim.cromie@gmail.com
+Cc: Jason Baron <jbaron@akamai.com>, git@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
+Subject: Re: [PATCH v6 00/31] drm/dyndbg: Fix dynamic debug classmap regression
+Message-ID: <20251215080736.GA809641@coredump.intra.peff.net>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <76038c97-39ca-4672-adc0-4e8fe0e39fc8@akamai.com>
+ <CAJfuBxxFWD0rEjm-va+Bjmf-m2nfOD_+ZEqKy22WX6QdugQCUw@mail.gmail.com>
+ <5b3d492c-7037-45a5-a001-0064f14d5f81@akamai.com>
+ <CAJfuBxzW6TMmdS74ZPfPSe1w6S=oO17WYZc-Jgn_et=-Muw05A@mail.gmail.com>
+ <20251214195420.GA791422@coredump.intra.peff.net>
+ <CAJfuBxx-_Z_hCoqdj2Lma7oP6LhCM6Pz=afe2P=wKO41T7R3mA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4] drm/ast: Swap framebuffer writes on big-endian machines
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Dave Airlie <airlied@redhat.com>
-References: <20251212.210504.1355099120650239629.rene@exactco.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251212.210504.1355099120650239629.rene@exactco.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 7B84D5BD11
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJfuBxx-_Z_hCoqdj2Lma7oP6LhCM6Pz=afe2P=wKO41T7R3mA@mail.gmail.com>
+X-Mailman-Approved-At: Mon, 15 Dec 2025 22:38:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,97 +64,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 15, 2025 at 11:52:38AM +1300, jim.cromie@gmail.com wrote:
+
+> using the mbox.gz from your link, I get a different failure, this time
+> on patch 11
+> [...]
+> jimc@frodo:~/projects/lx/linux.git$ gunzip
+> ~/Downloads/PATCH-v6-00-31-drm-dyndbg-Fix-dynamic-debug-classmap-regression.mbox.gz
+> gzip: /home/jimc/Downloads/PATCH-v6-00-31-drm-dyndbg-Fix-dynamic-debug-classmap-regression.mbox
+> already exists; do you wish to overwrite (y or n)? y
+> jimc@frodo:~/projects/lx/linux.git$ git am --empty=drop
+
+Ah, that is the difference: you are applying directly from the
+downloaded mbox file, whereas I picked out the messages using mutt.
+
+The mbox provided by lore is generally in the order the messages were
+received, which does not necessarily correspond to the order they were
+sent, or the rfc822 dates, or the subject lines. But "git am" does not
+do any sorting; it applies the messages in the order it finds them in
+the input mbox. So you get out-of-order patch application.
+
+There's another possible gotcha, as well. The mbox for the thread will
+contain other non-patch messages like the cover letter and any review
+responses. Adding --empty=drop as you did will generally skip past
+those, but not always. If somebody responds and says "Maybe do it like
+this" with an inline patch, then "git am" will pick up that patch, too!
 
 
-Am 12.12.25 um 21:05 schrieb René Rebe:
-> Swap the pixel data when writing to framebuffer memory on big-endian
-> machines. Fixes incorrect output. Aspeed graphics does not appear to
-> support big-endian framebuffers after AST2400, although the feature
-> has been documented.
->
-> There's a lengthy discussion at [1].
->
-> Signed-off-by: René Rebe <rene@exactco.de>
-> Link: https://lore.kernel.org/dri-devel/20251202.170626.2134482663677806825.rene@exactco.de/ # [1]
+It worked for me because when I picked the patches out of the thread in
+mutt, it showed them sorted by rfc822 date header and used that same
+ordering to dump them to the new, filtered mbox. And of course I
+manually decided on which messages were part of the patch series and
+excluded the rest (based on subject lines).
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+It would probably be possible to teach "git am" to sort by date header,
+but that's not always right, either (you could have a local series with
+out-of-order author dates due to rebasing). You could use the subject
+lines as heuristics, if you know that the sender didn't use any exotic
+format-patch options. So there are probably some heuristics at play.
 
-Thanks for the updated patch.
+And none of those ideas helps with the selection problem, which is
+another heuristics ball of wax.
 
-> ---
-> The ARGB4444 cursor not yet 100% correct, but that might be another layer/helper bug.
-> Tested on sparc64 T4-1 running T2/Linux.
-> ---
->   drivers/gpu/drm/ast/ast_cursor.c | 11 ++++++++---
->   drivers/gpu/drm/ast/ast_mode.c   | 11 +++++++++--
->   2 files changed, 17 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-> index 2d3ad7610c2e..d4620171d845 100644
-> --- a/drivers/gpu/drm/ast/ast_cursor.c
-> +++ b/drivers/gpu/drm/ast/ast_cursor.c
-> @@ -92,12 +92,17 @@ static void ast_set_cursor_image(struct ast_device *ast, const u8 *src,
->   				 unsigned int width, unsigned int height)
->   {
->   	u8 __iomem *dst = ast_plane_vaddr(&ast->cursor_plane.base);
-> -	u32 csum;
-> -
-> -	csum = ast_cursor_calculate_checksum(src, width, height);
-> +	u32 csum = ast_cursor_calculate_checksum(src, width, height);
->   
->   	/* write pixel data */
-> +#if defined(__BIG_ENDIAN)
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < AST_HWC_SIZE; i += 2)
-> +		writew(swab16(*(const __be16 *)&src[i]), &dst[i]);
-> +#else
->   	memcpy_toio(dst, src, AST_HWC_SIZE);
-> +#endif
->   
->   	/* write checksum + signature */
->   	dst += AST_HWC_SIZE;
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index cd08990a10f9..57c6fbc3232b 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -526,12 +526,18 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
->   
->   static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
->   			      struct drm_framebuffer *fb,
-> -			      const struct drm_rect *clip)
-> +			      const struct drm_rect *clip,
-> +			      struct drm_format_conv_state *fmtcnv_state)
->   {
->   	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
->   
->   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
-> +
-> +#if defined(__BIG_ENDIAN)
-> +	drm_fb_swab(&dst, fb->pitches, src, fb, clip, !src[0].is_iomem, fmtcnv_state);
-> +#else
->   	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-> +#endif
->   }
->   
->   static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
-> @@ -561,7 +567,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->   	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
->   		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
->   		drm_atomic_for_each_plane_damage(&iter, &damage) {
-> -			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-> +			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage,
-> +					  &shadow_plane_state->fmtcnv_state);
->   		}
->   
->   		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+Fortunately, I think b4 has melted that wax for us already (OK, maybe
+I'm losing the metaphor). If you do:
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+  b4 mbox https://lore.kernel.org/lkml/20251118201842.1447666-1-jim.cromie@gmail.com/
 
+you'll get that unordered mbox again. But if you use the "am" command:
 
+  b4 am https://lore.kernel.org/lkml/20251118201842.1447666-1-jim.cromie@gmail.com/
+
+it figures everything out and gives you the clean series in an mbox. It
+also knows how to pick the latest version of the series (your v6 is in
+its own thread here, but if it were in a thread with v1..v5, you again
+get into another message-selection problem).
+
+-Peff
