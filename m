@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED300CBD1A8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDA7CBD24E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 10:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A3310E154;
-	Mon, 15 Dec 2025 09:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4EE10E3BC;
+	Mon, 15 Dec 2025 09:20:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="T29YDd1v";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="R98w6RW2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 253A810E154
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:11:56 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D912610E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 09:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765789915;
+ s=mimecast20190719; t=1765790434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=v/7znRiRQKUpHNgkUgSE9cqfHQAsAHKZeX7554LAbmo=;
- b=T29YDd1v/Q1C7Kz7YWl0b+QK6UwdGofnAtEGfVrRsyb532zcywrkx9td00mFdDG5gYojD3
- 9yyJllaHaESqkVgR6PVP5awiVrpjy0jG9nOA2ydstjTp9hwZzvqrewqoAl371AHuCF4Uuh
- ArV9QNiKPQcajo0H8paWz9t5gE/6vNs=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WyS2wtMm86K2QmM92fEgEjH1DhzS3jqIgmhFp0Oh+og=;
+ b=R98w6RW2Q8D9PCDZPkVI2hJ5Pe9Tp7HJrtcRUZMyOQ/4hcl1LrMiYG5qJsladm24VMRf9f
+ v8Sq9im2y7R3CzjZVSBVtRxJ7yYtEH4MifWrEYWXYtAPs93Zm4gte9NYb+tP/MA0u7dasE
+ qbnNKjI4n4cY69mYtFWmMBEL7iKczlo=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-BztGK6AGMA--YmDAsCJsiA-1; Mon, 15 Dec 2025 04:11:54 -0500
-X-MC-Unique: BztGK6AGMA--YmDAsCJsiA-1
-X-Mimecast-MFC-AGG-ID: BztGK6AGMA--YmDAsCJsiA_1765789913
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-34c704d5d15so2549837a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 01:11:53 -0800 (PST)
+ us-mta-261-ZNvsLzwONM2LU-QQkzf3DQ-1; Mon, 15 Dec 2025 04:20:33 -0500
+X-MC-Unique: ZNvsLzwONM2LU-QQkzf3DQ-1
+X-Mimecast-MFC-AGG-ID: ZNvsLzwONM2LU-QQkzf3DQ_1765790432
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-29f8e6a5de4so25852385ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 01:20:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765789913; x=1766394713;
+ d=1e100.net; s=20230601; t=1765790432; x=1766395232;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=v/7znRiRQKUpHNgkUgSE9cqfHQAsAHKZeX7554LAbmo=;
- b=YZ8a9UAorQchvvvnld1kLtyS+WeQBPoncKLHXVoUtBhfHOmAO3v1ChKXGs17curfD3
- liFH4lfVEbvGtiazB9Q6yI3e0y7WwJ4zAZ3gkOkeOo1AAvRjuQ2ZOvIssWQRgq8SYDDw
- kp1K37awPRhU+pmId+nF2TCQ4vBpnXMRCeJaKpKl1hnosSOKtyG0+xuakXESKiyTloh0
- zs5+4PhApESq0PSQV9hVpIIrovqtE5ewkifNHI2XcUIDKXRYQ8sRLvDectNlPDnYx6zj
- axOA+7Y/G12gCWtYbqcZThnNAlZk5FRChRLh3DGfkVL9akgvxmHR8NDinlzzi82KKdy5
- aOkw==
-X-Gm-Message-State: AOJu0Yx9Yjtttru79b2LSGMnRnJImbwKcZ+XLPXhJvlKQ1mNhS+wY05J
- KsyRkAI9O/eXNuO+vjvRhwWuFi48AKV8gVJVln1Oz32td/ASQ4YUztY6LB1xdb0151E+tEfnwGw
- hP4USquVLaAX95hXIOH+g/EPp42Dj73k17IijtyJKOYAouAlMGLSC4AuhsWyNfYbjiuc6k9Q/LS
- veqVnX
-X-Gm-Gg: AY/fxX49CMpRVl2MY8PTyGV7ORzapkTi+Sy0tjIazw+wT51QZNSFz5k8v1bpIKm7FyX
- J79eXMfQa9kc0J2xMV56GWUPJZzydbJZ99HNOFhsz+e+D73hIe971sxhYwZmxYoIh49kW6YwZPa
- KNgrQWg5vj8iVFm0/PjLw2q4fbydELbUDiG6qmShkABfSK5vtw8zQAYt6MABwnXBeOGTSWbhwSn
- gwkIbcZ2ZxTsAEyCd6EdEDxy3l/99P+S72wWAxZlGsHXzgC5bj7eAMgQbR4TC7jr3+Ff/7AOu1O
- QBCgY9KULHPwLoWu/vEVmCGrwQXAZoiwWhYFo5EDL1jWy3e+sadD4tUae0VfWGYKwql0bp2g6BJ
- mlakuhByuo18gNZdIjW1HftMUT4qMwnh8XUxK7Zcu
-X-Received: by 2002:a17:90b:1dc6:b0:32d:db5b:7636 with SMTP id
- 98e67ed59e1d1-34abd7853bcmr9023045a91.27.1765789912732; 
- Mon, 15 Dec 2025 01:11:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFTECPIXEJSfWfEWpun6/ZYANX1Y2IRo/oSMn2EZXan6O3C+WypQqhHZCXqJs4j1s+ZhDba4g==
-X-Received: by 2002:a17:90b:1dc6:b0:32d:db5b:7636 with SMTP id
- 98e67ed59e1d1-34abd7853bcmr9023027a91.27.1765789912362; 
- Mon, 15 Dec 2025 01:11:52 -0800 (PST)
+ bh=WyS2wtMm86K2QmM92fEgEjH1DhzS3jqIgmhFp0Oh+og=;
+ b=qQKAg5kZyCQ3guGunnVPhWs/C8EMstr6ZTly8iTw5NBk1rEmY9v8q2tjTyT5e/mGvk
+ AOlrcXF0xtVbhW1HFi1D/fE1qg7vpRX++ZvDFNQi/MLBYKkCsLGs5lAMaSLjHkxBAOSd
+ 5UdLMhOaOShqgw4UyoNODqaMluQUgdTC41e32cZ6x4RbE2jAXoZP4Fu6n4NWinqSFMae
+ 88UBhbcx7CTV8fEb5WReJ81RWCHUBU9dijZEZuYkm0jSSEY9EHlsDqvBaBe+N6fu5nu4
+ U+YeI3Z7URBaLJ02Ew1SrOmFzcdl7cV9wwXOWSJCQkpMPC20ALfGqJc9KahTFdKyHFxq
+ VKGA==
+X-Gm-Message-State: AOJu0YzrvjyKBG/G1RYQ+z97JoSlHMadnufL0DBjRr1pxtJRyXenSa8E
+ RkKLBcUWdORX+xt4UDdkFPEVHh1p4qf1pmQjuoeybuiVkK/EV6XNKFXAcO4cDCsOnW8iWIsaeIM
+ OpYgmtJB1N/nktfWKREgdc7YujSYxXowxXCuOLhYTaiwIu9t7XL4ValC7tF8orFhGyNx33A==
+X-Gm-Gg: AY/fxX5fjwmu6EFYXEDZwut+JKUAf1+sDbkdXkov/UzJfBc+vhEr++Hh9fIsKZ5OqMs
+ zJy4N3Nj2x3BOtij2hB6qefE3PYxDrLEJ+r9Xo4M6EQ5UAWPRTDvR4y6lhEevRFHFR1SENNy14Q
+ 2VMLU8FRY8tos5NOjAszSNQRNpHavngnqNt9x1cy7vlHjjKwZnpEDufL4Q3vMyb4TYWxgHx4cwx
+ stSyHqnEebMySHkcVT4a99lvQfxqLafne2Mn/w2JmU77ulL0gkIg8xxIvwJFZsF9Szh2D72ML68
+ Qq4SdOVUJ0uIsSR//p2SSMstnCFrICjkz9qWazE3WjaPMpAcRyW9bfgJe5jJAl3tuCe5QymRORQ
+ dHajJM/aF7e7PmG82juLQlERkunVYeYbZD4t8EQ36
+X-Received: by 2002:a17:902:d50a:b0:2a0:9b4f:5ebd with SMTP id
+ d9443c01a7336-2a09b4f609cmr65070875ad.15.1765790432163; 
+ Mon, 15 Dec 2025 01:20:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHz6WqTcHxWwZfEy6jGh9LowPObaXr3jjMT5WrYNHrYFoQFvixv0eBMBCvIB2riTd977VScRQ==
+X-Received: by 2002:a17:902:d50a:b0:2a0:9b4f:5ebd with SMTP id
+ d9443c01a7336-2a09b4f609cmr65070525ad.15.1765790431766; 
+ Mon, 15 Dec 2025 01:20:31 -0800 (PST)
 Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-34abe216c54sm8349068a91.7.2025.12.15.01.11.50
+ d9443c01a7336-2a110f6374asm11533545ad.63.2025.12.15.01.20.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 01:11:52 -0800 (PST)
+ Mon, 15 Dec 2025 01:20:31 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -74,16 +73,16 @@ To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Marcus
  Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH RESEND v2 5/6] drm/sitronix/st7571: split up the driver
- into a common and an i2c part
-In-Reply-To: <20251202-st7571-split-v2-5-1e537a09e92f@gmail.com>
+Subject: Re: [PATCH RESEND v2 6/6] drm/sitronix/st7571-spi: add support for
+ SPI interface
+In-Reply-To: <20251202-st7571-split-v2-6-1e537a09e92f@gmail.com>
 References: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
- <20251202-st7571-split-v2-5-1e537a09e92f@gmail.com>
-Date: Mon, 15 Dec 2025 10:11:44 +0100
-Message-ID: <87345ckt2n.fsf@ocarina.mail-host-address-is-not-set>
+ <20251202-st7571-split-v2-6-1e537a09e92f@gmail.com>
+Date: Mon, 15 Dec 2025 10:20:26 +0100
+Message-ID: <87zf7kje3p.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: V9DA44rqZJbrmMqt-5n0jR6nVO61cILmLfL84LlYQAw_1765789913
+X-Mimecast-MFC-PROC-ID: PC8zrf7wA1qCz9x6vGvjGeKKY5ACceAvoagqzXHkbtI_1765790432
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,22 +102,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-> Split up the driver to make it possible to add support for hw interfaces
-> other than I2C.
+> Add support for ST7561/ST7571 connected to SPI bus.
 >
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 > ---
+>  MAINTAINERS                           |  1 +
+>  drivers/gpu/drm/sitronix/Kconfig      | 12 ++++++
+>  drivers/gpu/drm/sitronix/Makefile     |  1 +
+>  drivers/gpu/drm/sitronix/st7571-spi.c | 76 +++++++++++++++++++++++++++++++++++
+>  4 files changed, 90 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 66e9ffb757c8..c89e521cafa1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8083,6 +8083,7 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/display/sitronix,st7567.yaml
+>  F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
 
-[...]
-
-> +config DRM_ST7571_I2C
-> +	tristate "DRM support for Sitronix ST7567/ST7571 display panels (I2C)"
-> +	depends on DRM_ST7571 && I2C
-> +	select REGMAP_I2C
-
-I think this should only be "select REGMAP", since you are not using the
-REGMAP I2C support but instead have your own regmap write callback (due
-the need to I2C_M_IGNORE_NAK).
+I would add SPI examples to the DT binding docs.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
