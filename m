@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252DACBE88B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE92FCBE91E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B804D10E5D6;
-	Mon, 15 Dec 2025 15:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C008010E5C9;
+	Mon, 15 Dec 2025 15:15:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="frwZu57L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t/uK+6r1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53D4210E5D7;
- Mon, 15 Dec 2025 15:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=DmIavyg+w5gOcOTQoYZF8B6qZbr6Bm4CbU4wI1qxJSU=; b=frwZu57LY6/6Jkoi6OlWDNDMyi
- IJdqlMc1mHRU5TsxYn/MONxWiARS8P0FS9qJXLD/y0faKIe5Y614XNCSgMwQYmIgw9yiTq4fQR3d5
- limPD6zxAboP64pErAPwEUR7kO5tdLNErWbVwMXJUAdm7k/ynIz51Ml+yzxyFCDQ4PanSzo+e5pzR
- PFkZlTt2guE07kpE2qnnzFJF3PVXn61JnD2EYzjkNyEiFNao/XS8nFtURlMO5duqgv+zrcAjWIP5J
- PLKLkGWAFfJrAZLhxkNpWdr32DDG1+uXNlS6vIYDz/pSBxL3ZEjlpFfFC3W/FWkb9BN8v8AdVFbQ1
- UruzO88Q==;
-Received: from [90.240.106.137] (helo=localhost)
- by fanzine2.igalia.com with utf8esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vVABq-00CzEQ-3m; Mon, 15 Dec 2025 16:08:46 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
- kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v4 28/28] drm/sched: Remove drm_sched_init_args->num_rqs
-Date: Mon, 15 Dec 2025 15:08:07 +0000
-Message-ID: <20251215150807.58819-29-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
-References: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C49210E5AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 15:15:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5CE5660157;
+ Mon, 15 Dec 2025 15:15:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21162C4CEF5;
+ Mon, 15 Dec 2025 15:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765811722;
+ bh=/hSiNj09HL1MEnGjr6tcPCIROWmHXWDplJK1S8UVBGo=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=t/uK+6r19aNRWoDv0W3wj4cnikrdzmYo8vbM43tJe4nlhKkFY+WXueNKSPhkjFzXg
+ XD7ZGMtik2+zO2e1VASyMyaPm1gYYJuVKYNuImPfqw73mEr6o2BuOR3xEWyZZvYBz8
+ vBUV+wiZLQoTQB1Qd+VGxJ9+3z4xSOi0rIbOWlgGMhLwRo7Z8/zBSASlirM/bqmCY5
+ GS5Uxb4viOfBJFgYyqoLm4YMfMdbOPWL+Ope25DEHa89iPjt029geZHH1mSW+7xax5
+ pM9RZfGgyIVUcn5ZiDiaQgGKKucqiirjJR7CqUQAciZ1OUkkHWVYa/AprakOrsCQ3B
+ NXPFkSnXFqfdw==
+Message-ID: <7d6c96ad2922a8cc6008f27609fc055a@kernel.org>
+Date: Mon, 15 Dec 2025 15:15:19 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v2 03/26] drm/todo: add entry about converting to
+ of_drm_get_bridge()
+In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-3-88f8a107eca2@bootlin.com>
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-3-88f8a107eca2@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, "Adrien
+ Grassein" <adrien.grassein@gmail.com>, "Alexey Brodkin" <abrodkin@synopsys.com>,
+ "Alim
+ Akhtar" <alim.akhtar@samsung.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Anitha Chrisanthus" <anitha.chrisanthus@intel.com>, "Chun-Kuang
+ Hu" <chunkuang.hu@kernel.org>, "David Airlie" <airlied@gmail.com>, "Fabio
+ Estevam" <festevam@gmail.com>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Hui
+ Pu" <Hui.Pu@gehealthcare.com>, "Inki Dae" <inki.dae@samsung.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Jonas
+ Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Kevin
+ Hilman" <khilman@baylibre.com>,
+ "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Liu
+ Ying" <victor.liu@nxp.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Magnus Damm" <magnus.damm@gmail.com>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Phong LE" <ple@baylibre.com>, "Robert Foss" <rfoss@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Seung-Woo
+ Kim" <sw0312.kim@samsung.com>, "Shawn Guo" <shawnguo@kernel.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Tomi Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +90,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove member no longer used by the scheduler core and the drivers.
+On Fri, 28 Nov 2025 17:50:13 +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() is deprecated, but converting some users is very
+> complex and should be reasonably doable only after the DRM panel bridge
+> lifetime rework. Add a TODO to track this.
+> 
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> 
+> [ ... ]
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 3 ---
- 1 file changed, 3 deletions(-)
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index cea2ee956422..53417baebd49 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -608,8 +608,6 @@ struct drm_gpu_scheduler {
-  * @ops: backend operations provided by the driver
-  * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-  *	       allocated and used.
-- * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
-- *	     as there's usually one run-queue per priority, but may be less.
-  * @credit_limit: the number of credits this scheduler can hold from all jobs
-  * @hang_limit: number of times to allow a job to hang before dropping it.
-  *		This mechanism is DEPRECATED. Set it to 0.
-@@ -623,7 +621,6 @@ struct drm_sched_init_args {
- 	const struct drm_sched_backend_ops *ops;
- 	struct workqueue_struct *submit_wq;
- 	struct workqueue_struct *timeout_wq;
--	u32 num_rqs;
- 	u32 credit_limit;
- 	unsigned int hang_limit;
- 	long timeout;
--- 
-2.51.1
-
+Thanks!
+Maxime
