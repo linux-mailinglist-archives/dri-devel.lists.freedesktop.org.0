@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC26CCBE85E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E20CBE867
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Dec 2025 16:08:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB8910E5A5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E69010E531;
 	Mon, 15 Dec 2025 15:08:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="P1is15dP";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LK9/4FQV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBEC10E55B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5046D10E59E;
  Mon, 15 Dec 2025 15:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,25 +22,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=NrO2Fz3L2Zlf0j9T0nlt7KvzCpTILAjf/TbtNL2OCgo=; b=P1is15dP96AnM0rY2E34g2HlgH
- TqZ/GNcXZnybVqVQ+pFoZm6E4cELw5Q0lH/sLOGWsAQ61Uqrhpawt4FVD+lbh+CuoRdhlgpTtbwCF
- KSqw1TgSyCzgF1CTq5FqXwxaxtTSd5y8KccNpLymOx8ETgBocGlIGKc4AdNU5vg/atYMJEV2WELee
- 6a3pqgFJ9MYWNxMIZeM1XiSankYstGELxWMsM0fEsnqN2ahhl9ynONJLP0Z92Z4RVidoL8q1gh6F4
- Bb3lYps7C2aWjnbEuNLfKGhCmQueU+ILF7TztNLmnHGWLho1MVMhpGVBBnpxD7wAE/gZQT6xHRuii
- pIDJyOuw==;
+ bh=PiYp2VkqZdl4p96P3MfT8urjcEQePxoCkUAvt5ciNmo=; b=LK9/4FQVv/S4kYzeLyxjTFwwAy
+ Le8mxL8shiMSQWrC64VW6v3Fr1U6kRtaJ9wH1A1fP/PRM8oyhoU6i5KoOU6WwJujSVKaJ1mgJ+mUV
+ NW7+EASwbD5KdArh5EAsdIt9FnCx+aYBBx/VenYvkDqbaRHo1kidVDTVEANTpT2g8/MUMGPeFo9DA
+ sWiJaria3xU6WbfTndBVduz/6joXUaLT49CIOEb5XXwEnp0XAsnbRVFw63Mi97wK57bi3mx2mNxDm
+ uobxAHGo/7itIIyZ8gW07kw2KT9B0fiyXcPAcR2/mCaKAQr0dsn1l9CNVs008wBvpT9m7iywbouHa
+ 1rSDTUJg==;
 Received: from [90.240.106.137] (helo=localhost)
  by fanzine2.igalia.com with utf8esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vVABi-00CzBU-3y; Mon, 15 Dec 2025 16:08:38 +0100
+ id 1vVABj-00CzBk-1R; Mon, 15 Dec 2025 16:08:39 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
  kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
-Subject: [PATCH v4 19/28] drm/imagination: Remove drm_sched_init_args->num_rqs
- usage
-Date: Mon, 15 Dec 2025 15:07:58 +0000
-Message-ID: <20251215150807.58819-20-tvrtko.ursulin@igalia.com>
+ Qiang Yu <yuq825@gmail.com>, lima@lists.freedesktop.org
+Subject: [PATCH v4 20/28] drm/lima: Remove drm_sched_init_args->num_rqs usage
+Date: Mon, 15 Dec 2025 15:07:59 +0000
+Message-ID: <20251215150807.58819-21-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
 References: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
@@ -64,26 +63,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Frank Binns <frank.binns@imgtec.com>
-Cc: Matt Coster <matt.coster@imgtec.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Matt Coster <matt.coster@imgtec.com>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: lima@lists.freedesktop.org
 ---
- drivers/gpu/drm/imagination/pvr_queue.c | 1 -
+ drivers/gpu/drm/lima/lima_sched.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
-index fc415dd0d7a7..3509bea293bd 100644
---- a/drivers/gpu/drm/imagination/pvr_queue.c
-+++ b/drivers/gpu/drm/imagination/pvr_queue.c
-@@ -1228,7 +1228,6 @@ struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
- 	const struct drm_sched_init_args sched_args = {
- 		.ops = &pvr_queue_sched_ops,
- 		.submit_wq = pvr_dev->sched_wq,
--		.num_rqs = 1,
- 		.credit_limit = 64 * 1024,
- 		.hang_limit = 1,
- 		.timeout = msecs_to_jiffies(500),
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index 9a1e6b9ecbe5..0a01213c4878 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -521,7 +521,6 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+ 			       lima_sched_timeout_ms : 10000;
+ 	const struct drm_sched_init_args args = {
+ 		.ops = &lima_sched_ops,
+-		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = 1,
+ 		.hang_limit = lima_job_hang_limit,
+ 		.timeout = msecs_to_jiffies(timeout),
 -- 
 2.51.1
 
