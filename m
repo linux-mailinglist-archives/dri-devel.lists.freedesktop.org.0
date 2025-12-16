@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC984CC4C99
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 19:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36988CC4CF3
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 19:10:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4A010E85F;
-	Tue, 16 Dec 2025 18:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7510E86D;
+	Tue, 16 Dec 2025 18:10:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="zc8GPsNZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kffuiUvV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B39EC10E85F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 18:01:13 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id D3132C1A585;
- Tue, 16 Dec 2025 18:00:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 42AD86071C;
- Tue, 16 Dec 2025 18:01:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5EF25119A980E; Tue, 16 Dec 2025 19:01:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765908070; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=rV1fjGxz59GFvzUULQooHruBRdYG3t1TVlD4LjvuTEk=;
- b=zc8GPsNZdo6fKnJmjXGh1kNhxRSx4Z9fSvDhy+xCe3z3BXENrcn4y7td35arslthDWCXzY
- LgUURCo19Vb5J6lm6/FmixeL049Xcq19LBDq7eZPcEMQLhfT+fpHAnufcaTi7qdhm6d++0
- Q7krYwH7UFrbW5eEYD2KD1Lg2dmpdk+B0jQWAA0rhP8p+cZuOJIZ1IBEu7/BaNjAYXtvs3
- SGkFaF4SGuoNS1EYB027PBS/Gb6JdCXqglf2DGqZOIi2F9X3jJQQtO4KzrDihitiW23N+I
- dgS6dmi5eoGzJOIXJQYu4EeFMmVz6yEbqbztBXKHe+tFdTpEKMNx/AmTdbfhrg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Dec 2025 18:58:55 +0100
-Subject: [PATCH v3 22/22] drm/bridge: imx8qxp-pixel-link: get/put the next
- bridge
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374EA10E86D;
+ Tue, 16 Dec 2025 18:10:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765908600; x=1797444600;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=n/zCGn8MSpbsfzlqfdAPcwcnS+dhp1/iQD+17iYwvlQ=;
+ b=kffuiUvVhld6djEtobEyWszGTsXqBf7DxHeAWNMrb3lbuJAA6IYaMGKo
+ MizefhbbntMaU6uQKkd/FiXskdB35PTDscc8ybJ4yYIiBnZ+vNDCmxnSV
+ WPONAY7JAYPWSSseJjGq3gWK7jQssAJQkIscMJUceDiQLMOcNO3doXck/
+ GqWCGUK9Yq6ioszuDOoG217fR9UzePGTVRGH4IB10jW47F6KfG9xItIMQ
+ q6/ckjw6HN4t84ZOQcWLvTvSm9OA/N41wV16uD3RO6M4pUJcGaqPr4Z6t
+ H2OCIyIqd9uWFlck9ChN9ui8/f3bbyfjuiIu9l2ZgUrr3eJsbE7Q6h8KO w==;
+X-CSE-ConnectionGUID: IIK5Fj/6T5ypwGbbF8YDAg==
+X-CSE-MsgGUID: hvrCa7PuS8mgzISdxVp+ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="79204039"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; d="scan'208";a="79204039"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2025 10:09:59 -0800
+X-CSE-ConnectionGUID: qIzyxcT8QjONRAaX08Cfrg==
+X-CSE-MsgGUID: HIzCeAVZTFmE1iQJrJFhWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; d="scan'208";a="203198583"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.161])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2025 10:09:55 -0800
+From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: stable@vger.kernel.org,
+ =?UTF-8?q?=EA=B9=80=EA=B0=95=EB=AF=BC?= <km.kim1503@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Subject: [PATCH v5] drm/i915/gem: Zero-initialize the eb.vma array in
+ i915_gem_do_execbuffer
+Date: Tue, 16 Dec 2025 19:09:01 +0100
+Message-ID: <20251216180900.54294-2-krzysztof.niemiec@intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-22-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,87 +77,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver obtains a bridge pointer from of_drm_find_bridge() in the probe
-function and stores it until driver removal. of_drm_find_bridge() is
-deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
-refcounted and use bridge->next_bridge to put the reference on
-deallocation.
+Initialize the eb.vma array with values of 0 when the eb structure is
+first set up. In particular, this sets the eb->vma[i].vma pointers to
+NULL, simplifying cleanup and getting rid of the bug described below.
 
-This needs to be handled in various steps:
+During the execution of eb_lookup_vmas(), the eb->vma array is
+successively filled up with struct eb_vma objects. This process includes
+calling eb_add_vma(), which might fail; however, even in the event of
+failure, eb->vma[i].vma is set for the currently processed buffer.
 
- * the bridge returned of_drm_get_bridge() is stored in the local temporary
-   variable next_bridge whose scope is the for loop, so a cleanup action is
-   enough
- * the value of next_bridge is copied into selected_bridge, potentially
-   more than once, so a cleanup action at function scope plus a
-   drm_bridge_put() in case of reassignment are enough
- * on successful return selected_bridge is stored in bridge->next_bridge,
-   which ensures it is put when the bridge is deallocated
+If eb_add_vma() fails, eb_lookup_vmas() returns with an error, which
+prompts a call to eb_release_vmas() to clean up the mess. Since
+eb_lookup_vmas() might fail during processing any (possibly not first)
+buffer, eb_release_vmas() checks whether a buffer's vma is NULL to know
+at what point did the lookup function fail.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+In eb_lookup_vmas(), eb->vma[i].vma is set to NULL if either the helper
+function eb_lookup_vma() or eb_validate_vma() fails. eb->vma[i+1].vma is
+set to NULL in case i915_gem_object_userptr_submit_init() fails; the
+current one needs to be cleaned up by eb_release_vmas() at this point,
+so the next one is set. If eb_add_vma() fails, neither the current nor
+the next vma is set to NULL, which is a source of a NULL deref bug
+described in the issue linked in the Closes tag.
+
+When entering eb_lookup_vmas(), the vma pointers are set to the slab
+poison value, instead of NULL. This doesn't matter for the actual
+lookup, since it gets overwritten anyway, however the eb_release_vmas()
+function only recognizes NULL as the stopping value, hence the pointers
+are being set to NULL as they go in case of intermediate failure. This
+patch changes the approach to filling them all with NULL at the start
+instead, rather than handling that manually during failure.
+
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
+Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
+Reported-by: Gangmin Kim <km.kim1503@gmail.com>
+Cc: <stable@vger.kernel.org> # 5.16.x
+Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Reviewed-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+I messed up the continuity in previous revisions; the original patch
+was sent as [1], and the first revision (which I didn't mark as v2 due
+to the title change) was sent as [2].
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 91e4f4d55469..b3050310a7f0 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -23,7 +23,6 @@
- 
- struct imx8qxp_pixel_link {
- 	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
- 	struct device *dev;
- 	struct imx_sc_ipc *ipc_handle;
- 	u8 stream_id;
-@@ -140,7 +139,7 @@ static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
- 	}
- 
- 	return drm_bridge_attach(encoder,
--				 pl->next_bridge, bridge,
-+				 pl->bridge.next_bridge, bridge,
- 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- }
- 
-@@ -260,7 +259,7 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- {
- 	struct device_node *np = pl->dev->of_node;
- 	struct device_node *port;
--	struct drm_bridge *selected_bridge = NULL;
-+	struct drm_bridge *selected_bridge __free(drm_bridge_put) = NULL;
- 	u32 port_id;
- 	bool found_port = false;
- 	int reg;
-@@ -297,7 +296,8 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 			continue;
+This is the full current changelog:
+
+v5:
+   - improve style and fix nits in commit log (Andi)
+   - fix typos and style in the code and comments (Andi)
+   - set args->buffer_count + 1 values to 0 instead of just
+     args->buffer_count (Andi)
+v4:
+   - delete an empty line (Janusz), reword the comment a bit (Krzysztof,
+     Janusz)
+v3:
+   - use memset() to fill the entire eb.vma array with zeros instead of
+   looping through the elements (Janusz)
+   - add a comment clarifying the mechanism of the initial allocation (Janusz)
+   - change the commit log again, including title
+   - rearrange the tags to keep checkpatch happy
+v2:
+   - set the eb->vma[i].vma pointers to NULL during setup instead of
+     ad-hoc at failure (Janusz)
+   - romanize the reporter's name (Andi, offline)
+   - change the commit log, including title
+
+[1] https://patchwork.freedesktop.org/series/156832/
+[2] https://patchwork.freedesktop.org/series/158036/
+
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 37 +++++++++----------
+ 1 file changed, 17 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index b057c2fa03a4..d49e96f9be51 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -951,13 +951,13 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
+ 		vma = eb_lookup_vma(eb, eb->exec[i].handle);
+ 		if (IS_ERR(vma)) {
+ 			err = PTR_ERR(vma);
+-			goto err;
++			return err;
  		}
  
--		struct drm_bridge *next_bridge = of_drm_find_bridge(remote);
-+		struct drm_bridge *next_bridge __free(drm_bridge_put) =
-+			of_drm_find_and_get_bridge(remote);
- 		if (!next_bridge)
- 			return -EPROBE_DEFER;
+ 		err = eb_validate_vma(eb, &eb->exec[i], vma);
+ 		if (unlikely(err)) {
+ 			i915_vma_put(vma);
+-			goto err;
++			return err;
+ 		}
  
-@@ -305,12 +305,14 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 		 * Select the next bridge with companion PXL2DPI if
- 		 * present, otherwise default to the first bridge
- 		 */
--		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi"))
--			selected_bridge = next_bridge;
-+		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi")) {
-+			drm_bridge_put(selected_bridge);
-+			selected_bridge = drm_bridge_get(next_bridge);
-+		}
+ 		err = eb_add_vma(eb, &current_batch, i, vma);
+@@ -966,19 +966,8 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
+ 
+ 		if (i915_gem_object_is_userptr(vma->obj)) {
+ 			err = i915_gem_object_userptr_submit_init(vma->obj);
+-			if (err) {
+-				if (i + 1 < eb->buffer_count) {
+-					/*
+-					 * Execbuffer code expects last vma entry to be NULL,
+-					 * since we already initialized this entry,
+-					 * set the next value to NULL or we mess up
+-					 * cleanup handling.
+-					 */
+-					eb->vma[i + 1].vma = NULL;
+-				}
+-
++			if (err)
+ 				return err;
+-			}
+ 
+ 			eb->vma[i].flags |= __EXEC_OBJECT_USERPTR_INIT;
+ 			eb->args->flags |= __EXEC_USERPTR_USED;
+@@ -986,10 +975,6 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
  	}
  
- 	pl->mst_addr = port_id - 1;
--	pl->next_bridge = selected_bridge;
-+	pl->bridge.next_bridge = drm_bridge_get(selected_bridge);
- 
  	return 0;
+-
+-err:
+-	eb->vma[i].vma = NULL;
+-	return err;
  }
-
+ 
+ static int eb_lock_vmas(struct i915_execbuffer *eb)
+@@ -3375,7 +3360,8 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+ 
+ 	eb.exec = exec;
+ 	eb.vma = (struct eb_vma *)(exec + args->buffer_count + 1);
+-	eb.vma[0].vma = NULL;
++	memset(eb.vma, 0, (args->buffer_count + 1) * sizeof(struct eb_vma));
++
+ 	eb.batch_pool = NULL;
+ 
+ 	eb.invalid_flags = __EXEC_OBJECT_UNKNOWN_FLAGS;
+@@ -3584,7 +3570,18 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 	if (err)
+ 		return err;
+ 
+-	/* Allocate extra slots for use by the command parser */
++	/*
++	 * Allocate extra slots for use by the command parser.
++	 *
++	 * Note that this allocation handles two different arrays (the
++	 * exec2_list array, and the eventual eb.vma array introduced in
++	 * i915_gem_do_execbuffer()), that reside in virtually contiguous
++	 * memory. Also note that the allocation intentionally doesn't fill the
++	 * area with zeros, because the exec2_list part doesn't need to be, as
++	 * it's immediately overwritten by user data a few lines below.
++	 * However, the eb.vma part is explicitly zeroed later in
++	 * i915_gem_do_execbuffer().
++	 */
+ 	exec2_list = kvmalloc_array(count + 2, eb_element_size(),
+ 				    __GFP_NOWARN | GFP_KERNEL);
+ 	if (exec2_list == NULL) {
 -- 
-2.52.0
+2.45.2
 
