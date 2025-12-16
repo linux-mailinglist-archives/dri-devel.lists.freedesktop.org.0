@@ -2,63 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04208CC189A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E84CC197E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FB310E775;
-	Tue, 16 Dec 2025 08:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020EB10E77F;
+	Tue, 16 Dec 2025 08:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rjlhj0Yg";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IgB3E25D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A801E10E775
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765873575; x=1797409575;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=utPHrdiZMdzrkt0JCdgo4dfNohyiWlT7nLSe4KynIhM=;
- b=Rjlhj0YgmvSxqIV2V7MfktUYsj74ZwYmKkJRq1F68ctix8u8KlV3urfT
- 8cY5lCSI/5Ij4oRYUXERzthywzCMcwiDwP/8zrfjqRs0KzH1hVTxkSOWY
- UTYmEWvAbAbFdMu1DM4xVkoohxcfKugHim81r3WON0R7RRVi1DARHLrOZ
- oOj9JDrbCTixuvKi0HPIWb00s0C6eneS4HjPvgAp/4kYPf793rj95L06h
- NZVfTgQLPRZD+4pT7cQSCW6XbFChx/zc+0RcujuLBXz5csWCJrouQBJ2Q
- XwZtG+v3OWxHMgfHT5ZHvJc6WoTjdGZP86Lpjtp/LYjv2jy54+LHMspKn g==;
-X-CSE-ConnectionGUID: r/f7MEDHRPyfN2USWvtm2g==
-X-CSE-MsgGUID: yUL3l5XGRFuRjJhOnZusHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66976335"
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="66976335"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2025 00:26:14 -0800
-X-CSE-ConnectionGUID: 5DL4Vw01TECsrLguZG+XfQ==
-X-CSE-MsgGUID: 5nQWB5H5SmCQ0ojlDK3+aA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="228632798"
-Received: from unknown (HELO [10.102.88.36]) ([10.102.88.36])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2025 00:26:13 -0800
-Message-ID: <9004547b-0050-490e-8081-5caf3cc0cc62@linux.intel.com>
-Date: Tue, 16 Dec 2025 09:26:10 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BFC10E77F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1765874133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j3yLrcNoJepHFXDHm8iCXLSfgqPyKjEs/VGVHTvzMsM=;
+ b=IgB3E25D6LVuxxpPneLh+FnNwVWBhGwPxmWkjJ+FpmsfAaUfKjuK7QjdBVzsBNqUxYxRBB
+ +PJviOVVPoMxQfced7pt/oGIvduYvvoiN/RljuphxijP6CjtVY+zsNciLWNoo9hoLEcClW
+ 78Gh2eT2yiZaPH4MN9sMb0xE7JAUUqE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-i0uZvel1NB6m37kWSw8Eew-1; Tue, 16 Dec 2025 03:35:31 -0500
+X-MC-Unique: i0uZvel1NB6m37kWSw8Eew-1
+X-Mimecast-MFC-AGG-ID: i0uZvel1NB6m37kWSw8Eew_1765874131
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4792bd2c290so50037685e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 00:35:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765874130; x=1766478930;
+ h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=j3yLrcNoJepHFXDHm8iCXLSfgqPyKjEs/VGVHTvzMsM=;
+ b=GWz8CjxtI/2hdtNKK5Vp0COCIhXA9XVkBZLRS2sk2aqPYLF+5iEDT34CVEnqkrUBHN
+ WEsZrAWXzRMDs4DTVhdfG3O7AnwDF131wOqeMvw/qe8rPtbwnfoGJ3MgGSW+rpkc0293
+ VkhCXJCMYFXvfFdRW+kg7+Fh9NJgltKkNIaYWhwrqTh4C7wVtQFmZm3XkjgFXy2TTf0Z
+ 7lOfc8CYwMd/WA2zc49cbfZB+cJpai8KDK4q5AAvY2Ya/vERb6QZBZcnqHWR+W1UPG5a
+ 9iZvBU/kHQUFuu/UIWMUWXxOHl7qGdeNSL3N+VUlm+W+svRLqmhntmPiW6HeGa7joTxG
+ Srpg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWaNEEdroTc+n4o5TAnYGH56yyRJMCmMAZh5T3nz0mvNssE3BjdojWymY52en0ApvzNLJ3kcttGqvQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzfc4qFMFwymFo1ETUqLEgoTeRySFrpkt4ryz78BASkKABCJl4X
+ Ld4pn/cJRJaQe2Pg7qKIO7HmMjV06kmW5Tgb4iP9Xjd48iJ/ftHs+BU/NjufmNeJgfYCTBimoum
+ MmZCd3fgLPCkJlhRDK4fvKyiVIIRHdhq9QyX/RD+ULuYXM0jHcFnS/OlM3RisKviQmnv1oA==
+X-Gm-Gg: AY/fxX70OTZh3FqkqDvF9DPv/KXxmarIOI4coCeRdnzxzVBRFOYLL9nVThUcuR1wtkG
+ dlu3Pd4tzRqgzln/jEiW+VQxdcff8zyBMFjYZp2fCpHY4SxH0nUengv53OnD0YkmmhGsUc0oGxI
+ miLqb45+sjn9YeSQSGE77XoM/Kq2cKI8QM8eZV56y/6GT+K+nKSabgbqjNPOum7k9trVMhsZUNd
+ dGEdde4wgqvjPid7YyuWeWTfe8MNO/O63tsO3RFCw0jDEMShI5q4BJTYExDTzHTpDK8T2c4+bGf
+ fmrOfW3T6t3DI+vGk2NVG72n/r+sesvjCPRzjD0LhWbpDSZsVOEHVm2qHWmMyuyFig3494BsiqQ
+ WKQ72AsJthPFC7KfgspIFVzw+l9FQEb5n2238exeWYqZYf3tpr8kUmxMG15jbo4iF3Tvq
+X-Received: by 2002:a05:600c:524a:b0:477:7bca:8b2b with SMTP id
+ 5b1f17b1804b1-47a8f8cdd7amr154055995e9.15.1765874130595; 
+ Tue, 16 Dec 2025 00:35:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGg4DsBBMTjdBs4v5Z9pExfTw83j2yc3D8FN4HEo9n85JrV8+S0/gvUDfs834nqTFADOFUU/Q==
+X-Received: by 2002:a05:600c:524a:b0:477:7bca:8b2b with SMTP id
+ 5b1f17b1804b1-47a8f8cdd7amr154055775e9.15.1765874130232; 
+ Tue, 16 Dec 2025 00:35:30 -0800 (PST)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47a8f8d9a06sm226130025e9.10.2025.12.16.00.35.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Dec 2025 00:35:29 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 1/2] drm/panic: Rename draw_panic_static_* to
+ draw_panic_screen_*
+In-Reply-To: <20251216082524.115980-2-jfalempe@redhat.com>
+References: <20251216082524.115980-1-jfalempe@redhat.com>
+ <20251216082524.115980-2-jfalempe@redhat.com>
+Date: Tue, 16 Dec 2025 09:35:28 +0100
+Message-ID: <87fr9alt7z.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Validate scatter-gather size against buffer
- size
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com, andrzej.kacprowski@linux.intel.com
-References: <20251215070933.520377-1-karol.wachowski@linux.intel.com>
- <f80b20ec-d3bb-a45a-2113-2b549cabb059@amd.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <f80b20ec-d3bb-a45a-2113-2b549cabb059@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 4h-QbeBz5BMfn9ucyeOIPKY3iNKIR3ELI7weZ9kL2xI_1765874131
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,129 +102,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/2025 6:49 PM, Lizhi Hou wrote:
-> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
-Thank you. Applied to drm-misc-next.
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-Karol>
-> On 12/14/25 23:09, Karol Wachowski wrote:
->> Validate scatter-gather table size matches buffer object size before
->> mapping. Break mapping early if the table exceeds buffer size to
->> prevent overwriting existing mappings. Also validate the table is
->> not smaller than buffer size to avoid unmapped regions that trigger
->> MMU translation faults.
->>
->> Log error and fail mapping operation on size mismatch to prevent
->> data corruption from mismatched host memory locations and NPU
->> addresses. Unmap any partially mapped buffer on failure.
->>
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->> ---
->>   drivers/accel/ivpu/ivpu_gem.c         |  2 +-
->>   drivers/accel/ivpu/ivpu_mmu_context.c | 20 +++++++++++++++++---
->>   drivers/accel/ivpu/ivpu_mmu_context.h |  5 +++--
->>   3 files changed, 21 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/
->> ivpu_gem.c
->> index ece68f570b7e..98b9ce26962b 100644
->> --- a/drivers/accel/ivpu/ivpu_gem.c
->> +++ b/drivers/accel/ivpu/ivpu_gem.c
->> @@ -95,7 +95,7 @@ int __must_check ivpu_bo_bind(struct ivpu_bo *bo)
->>         if (!bo->mmu_mapped) {
->>           drm_WARN_ON(&vdev->drm, !bo->ctx);
->> -        ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt,
->> +        ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr,
->> sgt, ivpu_bo_size(bo),
->>                              ivpu_bo_is_snooped(bo),
->> ivpu_bo_is_read_only(bo));
->>           if (ret) {
->>               ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
->> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/
->> ivpu/ivpu_mmu_context.c
->> index 87ad593ef47d..c4014c83e727 100644
->> --- a/drivers/accel/ivpu/ivpu_mmu_context.c
->> +++ b/drivers/accel/ivpu/ivpu_mmu_context.c
->> @@ -429,11 +429,12 @@ static void ivpu_mmu_context_unmap_pages(struct
->> ivpu_mmu_context *ctx, u64 vpu_a
->>   }
->>     int
->> -ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx,
->> -             u64 vpu_addr, struct sg_table *sgt, bool llc_coherent,
->> bool read_only)
->> +ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx, u64 vpu_addr,
->> +             struct sg_table *sgt, size_t bo_size, bool llc_coherent,
->> bool read_only)
->>   {
->>       size_t start_vpu_addr = vpu_addr;
->>       struct scatterlist *sg;
->> +    size_t sgt_size = 0;
->>       int ret;
->>       u64 prot;
->>       u64 i;
->> @@ -462,12 +463,25 @@ ivpu_mmu_context_map_sgt(struct ivpu_device
->> *vdev, struct ivpu_mmu_context *ctx,
->>           ivpu_dbg(vdev, MMU_MAP, "Map ctx: %u dma_addr: 0x%llx
->> vpu_addr: 0x%llx size: %lu\n",
->>                ctx->id, dma_addr, vpu_addr, size);
->>   +        if (sgt_size + size > bo_size) {
->> +            ivpu_err(vdev, "Scatter-gather table size exceeds buffer
->> object size\n");
->> +            ret = -EINVAL;
->> +            goto err_unmap_pages;
->> +        }
->> +
->>           ret = ivpu_mmu_context_map_pages(vdev, ctx, vpu_addr,
->> dma_addr, size, prot);
->>           if (ret) {
->>               ivpu_err(vdev, "Failed to map context pages\n");
->>               goto err_unmap_pages;
->>           }
->>           vpu_addr += size;
->> +        sgt_size += size;
->> +    }
->> +
->> +    if (sgt_size < bo_size) {
->> +        ivpu_err(vdev, "Scatter-gather table size too small to cover
->> buffer object size\n");
->> +        ret = -EINVAL;
->> +        goto err_unmap_pages;
->>       }
->>         if (!ctx->is_cd_valid) {
->> @@ -493,7 +507,7 @@ ivpu_mmu_context_map_sgt(struct ivpu_device *vdev,
->> struct ivpu_mmu_context *ctx,
->>       return 0;
->>     err_unmap_pages:
->> -    ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, vpu_addr -
->> start_vpu_addr);
->> +    ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, sgt_size);
->>       mutex_unlock(&ctx->lock);
->>       return ret;
->>   }
->> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/
->> ivpu/ivpu_mmu_context.h
->> index 663a11a9db11..cc02e7bab04e 100644
->> --- a/drivers/accel/ivpu/ivpu_mmu_context.h
->> +++ b/drivers/accel/ivpu/ivpu_mmu_context.h
->> @@ -41,8 +41,9 @@ int ivpu_mmu_context_insert_node(struct
->> ivpu_mmu_context *ctx, const struct ivpu
->>                    u64 size, struct drm_mm_node *node);
->>   void ivpu_mmu_context_remove_node(struct ivpu_mmu_context *ctx,
->> struct drm_mm_node *node);
->>   -int ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx,
->> -                 u64 vpu_addr, struct sg_table *sgt, bool
->> llc_coherent, bool read_only);
->> +int
->> +ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx, u64 vpu_addr,
->> +             struct sg_table *sgt, size_t bo_size, bool llc_coherent,
->> bool read_only);
->>   void ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx,
->>                   u64 vpu_addr, struct sg_table *sgt);
->>   int ivpu_mmu_context_set_pages_ro(struct ivpu_device *vdev, struct
->> ivpu_mmu_context *ctx,
+Hello Jocelyn,
+
+> I called them "static" because the panic screen is drawn only once,
+> but this can be confused with the static meaning in C.
+> Also remove some unnecessary braces in draw_panic_dispatch().
+> No functionnal change.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+
+Makes sense.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
