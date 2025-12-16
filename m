@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67C5CC1069
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 06:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22E2CC10B7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 07:01:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE9010E65C;
-	Tue, 16 Dec 2025 05:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E14882B5;
+	Tue, 16 Dec 2025 06:01:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m41uwFIr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YITzAch0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF0210E65C
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 05:46:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765863967; x=1797399967;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1XjP0mKFkNYKFLhPRTL97PmYp8Uie7/TKKOaVYmxSU0=;
- b=m41uwFIrXhEEIwyZFHWRlTlvZyFpDhK3PCNhZIaox4cikFFgrNLCw8sj
- iSf/BHYeyWwXc/7e9ibLtTUvzetN7siDJ9S5QBF9T1s9HnUG6uLk8E1s1
- 8eJnXjolFbUT0l7cppigQQmWoqrfRXT+51rnOOuTegj6jNGU94NymQvwX
- x23V1Ip8muh2x1LK41d0Xmi8+c4pzVzSUniJvFpRU6vVUJMcG26UHKrah
- fett7QWdbN91IE/J3+589WbieqBrRXIyVbKgicFXgF5m9bUb1Zqf+fqMm
- Eg61ADW275pPFOlZxzwB/jdKlVitXmSS3NnAYsXKi46S8XaNp68aofWCA Q==;
-X-CSE-ConnectionGUID: WzKAdwwaS1CiiigcIrnUvw==
-X-CSE-MsgGUID: cdoNGonQSiCIe0qmzuKIhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85187795"
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="85187795"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2025 21:46:06 -0800
-X-CSE-ConnectionGUID: j31l8sBpSmKaE5BQamH7ig==
-X-CSE-MsgGUID: f3jvVeySTViGwe+AHKnECA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="235326976"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
- by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 21:46:02 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vVNsl-000000001Cr-2Ym4;
- Tue, 16 Dec 2025 05:45:59 +0000
-Date: Tue, 16 Dec 2025 13:45:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nd@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Lukas Zapolskas <lukas.zapolskas@arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group
- and queue errors
-Message-ID: <202512161359.YBFqhXuf-lkp@intel.com>
-References: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2963B10E6BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 06:01:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D5B324391D;
+ Tue, 16 Dec 2025 06:01:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D71C4CEF1;
+ Tue, 16 Dec 2025 06:01:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765864911;
+ bh=I95cDlcRjf1+/2faDF4bEDUMeInHLZs8Kq3NLwEe++A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YITzAch0mk5AlPQuPIPKdKc372t6AdmNCQ7JhwR1AzVoruoh4VvWmrgNNYMPwHYvN
+ B8trJ37+YZNC09WuHa3aK2dIOKZsu5m+MAAjxw3vXrtosM5PXcbh77W+Y+/KOnrSHS
+ YUyN9FnLNYC8z9HvFVqPxYQ0Spb9LIBXU7yF0XcYMiqymkGxAnqzYMP/bD3G+dmapt
+ chzyxvZbFb6tGPRA2DdfFm/CwBdVWqyJdO77Z4bCWIjAheZBaF6QnUuMY8KMiNg7Bg
+ yEz2QtlrBlyeMLzapXkH6xKysyJLiy1KjWfzJvx64DaX4PAqNiZ/QmEZiuyLNvFngk
+ d1ZXWB+U8k7fw==
+Date: Tue, 16 Dec 2025 07:01:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Russell King <linux@armlinux.org.uk>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Tony Lindgren <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Markus Schneider-Pargmann <msp@baylibre.com>, 
+ Bajjuri Praneeth <praneeth@ti.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miguel Gazquez <miguel.gazquez@bootlin.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH v2 01/20] dt-bindings: display: tilcdc: Convert to DT
+ schema
+Message-ID: <20251216-capable-eccentric-nightingale-b09037@quoll>
+References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
+ <20251211-feature_tilcdc-v2-1-f48bac3cd33e@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
+In-Reply-To: <20251211-feature_tilcdc-v2-1-f48bac3cd33e@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,104 +78,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lukas,
+On Thu, Dec 11, 2025 at 05:38:45PM +0100, Kory Maincent (TI.com) wrote:
+> diff --git a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.yaml b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.yaml
+> new file mode 100644
+> index 0000000000000..34ac1fd04d5c6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.yaml
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20251216]
-[cannot apply to linus/master v6.19-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Implement-CS_FAULT-propagation-to-userspace/20251215-195920
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20251215115457.2137485-6-lukas.zapolskas%40arm.com
-patch subject: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group and queue errors
-config: x86_64-buildonly-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161359.YBFqhXuf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161359.YBFqhXuf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161359.YBFqhXuf-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/panthor/panthor_sched.c:3968:37: error: no member named 'fault' in 'struct panthor_group'
-    3968 |         get_state->exception_type = group->fault.exception_type;
-         |                                     ~~~~~  ^
-   drivers/gpu/drm/panthor/panthor_sched.c:3969:34: error: no member named 'fault' in 'struct panthor_group'
-    3969 |         get_state->access_type = group->fault.access_type;
-         |                                  ~~~~~  ^
-   drivers/gpu/drm/panthor/panthor_sched.c:3970:32: error: no member named 'fault' in 'struct panthor_group'
-    3970 |         get_state->source_id = group->fault.source_id;
-         |                                ~~~~~  ^
-   drivers/gpu/drm/panthor/panthor_sched.c:3971:36: error: no member named 'fault' in 'struct panthor_group'
-    3971 |         get_state->valid_address = group->fault.valid_address;
-         |                                    ~~~~~  ^
-   drivers/gpu/drm/panthor/panthor_sched.c:3972:30: error: no member named 'fault' in 'struct panthor_group'
-    3972 |         get_state->address = group->fault.address;
-         |                              ~~~~~  ^
-   5 errors generated.
+Filename based on compatible, so for example ti,am33xx-tilcdc.yaml or
+worse case ti,tilcdc.yaml (see writing bindings and writing schema docs)
 
 
-vim +3968 drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/tilcdc/tilcdc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LCD Controller, found on AM335x, DA850, AM18x and OMAP-L138
+> +
+> +maintainers:
+> +  - Kory Maincent <kory.maincent@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,am33xx-tilcdc
+> +      - ti,da850-tilcdc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +
+> +  ti,hwmods:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description:
+> +      Name of the hwmod associated to the LCDC
+> +
+> +  max-bandwidth:
 
-  3938	
-  3939	int panthor_group_get_state(struct panthor_file *pfile,
-  3940				    struct drm_panthor_group_get_state *get_state,
-  3941				    struct drm_panthor_queue_event *events, u32 count)
-  3942	{
-  3943		struct panthor_group_pool *gpool = pfile->groups;
-  3944		struct panthor_device *ptdev = pfile->ptdev;
-  3945		struct panthor_scheduler *sched = ptdev->scheduler;
-  3946		struct panthor_group *group = NULL;
-  3947		u32 fault_count;
-  3948	
-  3949		group = group_from_handle(gpool, get_state->group_handle);
-  3950		if (!group)
-  3951			return -EINVAL;
-  3952	
-  3953		guard(mutex)(&sched->lock);
-  3954	
-  3955		if (group->timedout)
-  3956			get_state->state |= DRM_PANTHOR_GROUP_STATE_TIMEDOUT;
-  3957		if (group->fatal_queues) {
-  3958			get_state->state |= DRM_PANTHOR_GROUP_STATE_FATAL_FAULT;
-  3959			get_state->fatal_queues = group->fatal_queues;
-  3960		}
-  3961		if (group->innocent)
-  3962			get_state->state |= DRM_PANTHOR_GROUP_STATE_INNOCENT;
-  3963		if (group->fault_queues) {
-  3964			get_state->state |= DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT;
-  3965			get_state->fault_queues = group->fault_queues;
-  3966		}
-  3967	
-> 3968		get_state->exception_type = group->fault.exception_type;
-  3969		get_state->access_type = group->fault.access_type;
-  3970		get_state->source_id = group->fault.source_id;
-  3971		get_state->valid_address = group->fault.valid_address;
-  3972		get_state->address = group->fault.address;
-  3973	
-  3974		fault_count = panthor_group_count_faults(sched, group);
-  3975	
-  3976		if (!count && !events) {
-  3977			get_state->faults.count = fault_count;
-  3978			get_state->faults.stride = sizeof(struct drm_panthor_queue_event);
-  3979			goto exit;
-  3980		}
-  3981	
-  3982		panthor_group_get_faults(sched, group, events, min(get_state->faults.count, count));
-  3983	
-  3984	exit:
-  3985		group_put(group);
-  3986		return 0;
-  3987	}
-  3988	
+constraints? Is '1' valid? Is INT_MAX valid as well?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The maximum pixels per second that the memory interface / lcd
+> +      controller combination can sustain
+> +
+> +  max-width:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+constraints?
+
+> +    description:
+> +      The maximum horizontal pixel width supported by the lcd controller.
+> +
+> +  max-pixelclock:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The maximum pixel clock that can be supported by the lcd controller
+> +      in KHz.
+> +
+> +  blue-and-red-wiring:
+> +    enum: [straight, crossed]
+> +    description:
+> +      This property deals with the LCDC revision 2 (found on AM335x)
+> +      color errata [1].
+> +       - "straight" indicates normal wiring that supports RGB565,
+> +         BGR888, and XBGR8888 color formats.
+> +       - "crossed" indicates wiring that has blue and red wires
+> +         crossed. This setup supports BGR565, RGB888 and XRGB8888
+> +         formats.
+> +       - If the property is not present or its value is not recognized
+> +         the legacy mode is assumed. This configuration supports RGB565,
+> +         RGB888 and XRGB8888 formats. However, depending on wiring, the red
+> +         and blue colors are swapped in either 16 or 24-bit color modes.
+> +
+> +       [1] There is an errata about AM335x color wiring. For 16-bit color
+> +       mode the wires work as they should (LCD_DATA[0:4] is for Blue[3:7]),
+> +       but for 24 bit color modes the wiring of blue and red components is
+> +       crossed and LCD_DATA[0:4] is for Red[3:7] and LCD_DATA[11:15] is
+> +       for Blue[3-7]. For more details see section 3.1.1 in AM335x
+> +       Silicon Errata
+> +       https://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=sprz360
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +  - reg
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    tilcdc: tilcdc@4830e000 {
+
+Drop unused label. Generic node name, e.g. "display-controller" or
+"lcd-controller".
+
+
+Best regards,
+Krzysztof
+
