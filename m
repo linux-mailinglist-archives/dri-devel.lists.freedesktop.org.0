@@ -2,61 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75217CC5430
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 22:49:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBB0CC54D5
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 23:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C5B10E9A7;
-	Tue, 16 Dec 2025 21:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 959DE10E793;
+	Tue, 16 Dec 2025 22:09:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gVyhw4n0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oqiadpWD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C5310E06C;
- Tue, 16 Dec 2025 21:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765921766; x=1797457766;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=t1B4nwXkd8lkBz/YWX1T0zkbHgh5BukCJx4y164mOmI=;
- b=gVyhw4n0PGNtX7uBbj+WVlPb8kwv9mbaRPTY8SnTFwsjccB2JyJZkA+o
- HZ/ZE0HMx++sg1Qq5Tpvn8MULmtP9QEl/gUUwHVWAW1rgnrTn6DI7ljWW
- wAz/vrlbJKPkacHHp8tYpc9lBoc3g+3DfL7q+T4KenrLmmnRS47+vZvRO
- nx7P4p4P/YI4l8lCDLMSVAqatLv4eUd0s3yadCUZTjm6dZqe6CWsTMkuN
- dQUUyaLa8cxmTv5BQvxcPmWfurTOdJJCTCOyHFlSKP55uK3Y50sJutxUc
- 50C3gDZ7DuBtCh0eQNdJXFVf1x8ItQl8V7fBvEFTOS8EyTQfgoiaX/+Cy g==;
-X-CSE-ConnectionGUID: vXU6tnPxQ0ebEOU5jLxqZQ==
-X-CSE-MsgGUID: 2lPM9VufQ46KFb6gMai3cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67045825"
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; d="scan'208";a="67045825"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2025 13:49:26 -0800
-X-CSE-ConnectionGUID: locRs7EfSn6whCoOrHSaGA==
-X-CSE-MsgGUID: QlZShiNYSQC/myHhlpPYTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; d="scan'208";a="198615365"
-Received: from mrbroom-desk1.ger.corp.intel.com (HELO
- mwajdecz-hp.clients.intel.com) ([10.246.20.17])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2025 13:49:24 -0800
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Subject: [PATCH v3 4/4] drm/xe/pf: Add handling for MLRC adverse event
- threshold
-Date: Tue, 16 Dec 2025 22:48:59 +0100
-Message-ID: <20251216214902.1429-5-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251216214902.1429-1-michal.wajdeczko@intel.com>
-References: <20251216214902.1429-1-michal.wajdeczko@intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4635510E302;
+ Tue, 16 Dec 2025 22:09:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B934240661;
+ Tue, 16 Dec 2025 22:09:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4509EC4CEF1;
+ Tue, 16 Dec 2025 22:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765922941;
+ bh=B0kVLZK7YMAGW4+NymplABFlILpQoztpjaegZ/yGPWg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=oqiadpWDrn1VtQBdfyFy7VbAAFT/N+0QKxoy/la9xGx5fG3NMm5680qrqPz22qZtD
+ 730Nc00631mF5M860GXrud+DirVS8MK0VRJURSahC1gOVM6BuWECPyT/JBCL+vTTHR
+ ANySaFterNV+lUXLbgI+r8YXLCTsj+4BuyJNK3LGYSvphQs/L5oShSzo5DruIKbDsw
+ M2Ec01YwtnmYPJ7y2JWbxiXJ1J5ndwfCfLR9yd6hMhGqoKzsqZ/GRP5mtCOsLCzOlN
+ J4KQTLdsHQL34okSpaVlrE+jMhJ41hJeBTw53maElT/xvlUJlwMFrwPOAejsH/MToP
+ PLc1BPivYW6UA==
+Date: Tue, 16 Dec 2025 14:08:57 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux AMDGPU
+ <amd-gfx@lists.freedesktop.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Linux Filesystems Development
+ <linux-fsdevel@vger.kernel.org>, Linux Media <linux-media@vger.kernel.org>,
+ linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com, Linux
+ Virtualization <virtualization@lists.linux.dev>, Linux Memory Management
+ List <linux-mm@kvack.org>, Linux Network Bridge <bridge@lists.linux.dev>,
+ Linux Networking <netdev@vger.kernel.org>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Nikolay Aleksandrov
+ <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Taimur Hassan
+ <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, Alex Hung
+ <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>, Dillon
+ Varone <Dillon.Varone@amd.com>, George Shen <george.shen@amd.com>, Aric Cyr
+ <aric.cyr@amd.com>, Cruise Hung <Cruise.Hung@amd.com>, Mario Limonciello
+ <mario.limonciello@amd.com>, Sunil Khatri <sunil.khatri@amd.com>, Dominik
+ Kaszewski <dominik.kaszewski@amd.com>, David Hildenbrand
+ <david@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Max Kellermann <max.kellermann@ionos.com>,
+ "Nysal Jan K.A." <nysal@linux.ibm.com>, Ryan Roberts
+ <ryan.roberts@arm.com>, Alexey Skidanov <alexey.skidanov@intel.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Kent Overstreet
+ <kent.overstreet@linux.dev>, Vitaly Wool <vitaly.wool@konsulko.se>, Harry
+ Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, NeilBrown
+ <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>, Jeff Layton
+ <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>, Tao Zhou
+ <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>, Hawking Zhang
+ <Hawking.Zhang@amd.com>, Lyude Paul <lyude@redhat.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, Roopa Prabhu
+ <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>, Shaomin Deng
+ <dengshaomin@cdjrlc.com>, Charles Han <hanchunchao@inspur.com>, Jilin Yuan
+ <yuanjilin@cdjrlc.com>, Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ George Anthony Vernon <contact@gvernon.com>
+Subject: Re: [PATCH 00/14] Assorted kernel-doc fixes
+Message-ID: <20251216140857.77cf0fb3@kernel.org>
+In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,63 +104,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+On Mon, 15 Dec 2025 18:38:48 +0700 Bagas Sanjaya wrote:
+> Here are assorted kernel-doc fixes for 6.19 cycle. As the name
+> implies, for the merging strategy, the patches can be taken by
+> respective maintainers to appropriate fixes branches (targetting
+> 6.19 of course) (e.g. for mm it will be mm-hotfixes).
 
-Since it is illegal to register a MLRC context when scheduler groups are
-enabled, the GuC consider the VF doing so as an adverse event. Like for
-other adverse event, there is a threshold for how many times the event
-can happen before the GuC throws an error, which we need to add support
-for.
-
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Acked-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/abi/guc_klvs_abi.h                | 9 +++++++++
- drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h | 1 +
- 2 files changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/abi/guc_klvs_abi.h b/drivers/gpu/drm/xe/abi/guc_klvs_abi.h
-index 265a135e7061..89a4f8c504e6 100644
---- a/drivers/gpu/drm/xe/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/xe/abi/guc_klvs_abi.h
-@@ -352,6 +352,12 @@ enum  {
-  *      :1: NORMAL = schedule VF always, irrespective of whether it has work or not
-  *      :2: HIGH = schedule VF in the next time-slice after current active
-  *          time-slice completes if it has active work
-+ *
-+ * _`GUC_KLV_VF_CFG_THRESHOLD_MULTI_LRC_COUNT` : 0x8A0D
-+ *      Given that multi-LRC contexts are incompatible with SRIOV scheduler
-+ *      groups and cause the latter to be turned off when registered with the
-+ *      GuC, this config allows the PF to set a threshold for multi-LRC context
-+ *      registrations by VFs to monitor their behavior.
-  */
- 
- #define GUC_KLV_VF_CFG_GGTT_START_KEY		0x0001
-@@ -410,6 +416,9 @@ enum  {
- #define   GUC_SCHED_PRIORITY_NORMAL		1u
- #define   GUC_SCHED_PRIORITY_HIGH		2u
- 
-+#define GUC_KLV_VF_CFG_THRESHOLD_MULTI_LRC_COUNT_KEY	0x8a0d
-+#define GUC_KLV_VF_CFG_THRESHOLD_MULTI_LRC_COUNT_LEN	1u
-+
- /*
-  * Workaround keys:
-  */
-diff --git a/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h b/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
-index 5f84da3d10d3..45ab5a3b5218 100644
---- a/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_klv_thresholds_set_types.h
-@@ -37,6 +37,7 @@
- 	define(H2G_STORM, guc_time_us)			\
- 	define(IRQ_STORM, irq_time_us)			\
- 	define(DOORBELL_STORM, doorbell_time_us)	\
-+	define(MULTI_LRC_COUNT, multi_lrc_count, 70, 53)\
- 	/* end */
- 
- /**
--- 
-2.47.1
-
+Please submit just the relevant changes directly to respective
+subsystems. Maintainers don't have time to sort patches for you.
+You should know better.
