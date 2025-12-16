@@ -2,81 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5884ECC1F3B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B92CC1F82
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA26C10E7C9;
-	Tue, 16 Dec 2025 10:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43C510E2B0;
+	Tue, 16 Dec 2025 10:31:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rz64HFcf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="K9Dsh+OP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FBB10E7C9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:23:14 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id
- ffacd0b85a97d-42fb5810d39so2026190f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 02:23:14 -0800 (PST)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1D5610E2B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:31:43 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id
+ 5b1f17b1804b1-477632b0621so31372065e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 02:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1765880593; x=1766485393; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1765881102; x=1766485902; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EpXPiR/cT9JwYvaX/P3J5/iulyPU1wfTgyjQstS2rS0=;
- b=rz64HFcfgC0y1xgKrSciRtAzPo2vdKi0IAaHCNsJNVNepO5kVTBxlROlhQGO0IcjBT
- OmJNFrEcXcmxhrUE4m4ToWbSY2HEZPlReh272WttBP4uIGqGu6+BCqxmx43tERE8zBrs
- vdBZ29ZsQZFQXknwq1p9wtCwViWsPJuKpLv44E9YwEdlafGJZ6QjgT6sHUf5ww6XL1LY
- Lfr7c//p8qpiG5/YOoXqgwzSVm9qfYO+EAOSvLNUhqYnYUPk+LaDoJNwjZ9fyMaomGRp
- s6erbZkBm7qza5gL0yml/oYyW3lercSf7TXG7NxiXGMUDtlmqVHWgT5OYEW9NQOmBtbF
- yJJQ==
+ bh=5F3GAGvtojXzfrnNDqZPNvA9zvELXurzGXYNSS1JeNU=;
+ b=K9Dsh+OPPwlPz5HnE8dhFO45hbOx3CEqCR6tCzDOhtMvTLAyJVzbEhaH/VquGrqVqn
+ rpOwpeZ8zBQGqUsumSzJ7ldZcXNhMA1x+UOoZ9jekSbvjOiuTEFrjz48PK5duhWDZr7+
+ E3c0HbFcnO4pJz4dENDdQllP0HmzBXB/yuJmNRvKLzZvzW7QZqlN6KbIJksVdGFibd68
+ dweQDeIEm0JJXmeNd5QjwQ4Zl51l6VyfuRckmifbvafZKOTvIpjhT7tfbR1zO8gBZn8L
+ 6ZsyK3VSYziZIzcjLeIQ1KTpuFRprZpKIIVKDFYIfat2893VFJSyWm3hPRaEGAMTYWnX
+ u/SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765880593; x=1766485393;
+ d=1e100.net; s=20230601; t=1765881102; x=1766485902;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=EpXPiR/cT9JwYvaX/P3J5/iulyPU1wfTgyjQstS2rS0=;
- b=fSULbfT0L6vpIrQtny8u5gbGPrdf8E01Oal+EcNP9j1WJuSFKZXSACbF9CQ1b7Uz66
- N8cl9ODkVE5xpKN8h5i/EPr5CNtNB/BVsTIvHfl/WRIudCZ8z/wnVQZsO18dI3SBAELq
- Dwgnbrxr8bgbEn8i2D8HCVn6G+glcq+r/bpwLO/J+vkQ98CVJ3IrlP2Q/iTxjEAMywZ5
- 60PDJ3IoRZVjXZ5RFZejcFviQcLDTQ43VZkm4REXoyS1K+PyJzYDMk4o0AGH2WpEeRxl
- JyTrAF5u1aOnwMsq4C0WXmL6x/bOAgArjYjuAJLsUjrdbKgsomo3mtRfE+Pxkr4Jp1CK
- zE7Q==
-X-Gm-Message-State: AOJu0YyCwFYpBJsE1g3tUD+BmuUioMpXWpho74vQ8qSrS0tRZEDWJvKL
- vMVK1TEIZdmEp5kgmSDKXzoAqfKrrxWkLR122R3bfGYeCxqgdAUJPxLQul5jYy0MQGQ=
-X-Gm-Gg: AY/fxX5XFAZ8dEB3mDKKj0jfSwrxXjy9/vhobzUvS8U1JQpxHgnMRj60H9lePXiqBBA
- dRY9qxw5Ji6UGSKnnXpaGBPHPEWBLUZLj20bbfGyQy1pcDIxxTQhHGNfCZTUVtdZikhSkEnua+v
- JvdvQwyCKiUmieXwPm3VOs4tnD+AgbcWcufc0z7xLVVpBkH1U27Eo8/AtYlpfPbRT4s8AyR16an
- /NJa4aAE1IYBiPNeN/IWB53Xck5hGP8ZOtcrUBTX9LdkyJpZkK54ZR7pLnrI+9/nqXNvCCGJ7g+
- WODO025x69nDVtGQVDQRnw6JJFEYWjvuwZj6zSQoPyRqjtUYW4J/V3n35mfmR46jtYKh9BEx8cl
- 2PAVh0l95Oa/6gVZ90iz1Cc6LfpeW8zPTCIbXydOagIIdIhlIINaxYE6iUcuif/xFbraT+DqO4q
- OemajTrR9GXQg9x+PGVmBxaPHgUkXV2Co=
-X-Google-Smtp-Source: AGHT+IFNtxCCzId5N6zSSfwtr6e8kqsKdHKvcRUCjL09+ZvBCJ+phjYnW39+B/ZC6bXSVKwhvaSNzg==
-X-Received: by 2002:a05:6000:1acc:b0:430:f704:4f3 with SMTP id
- ffacd0b85a97d-430f704073bmr9260630f8f.62.1765880592450; 
- Tue, 16 Dec 2025 02:23:12 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+ bh=5F3GAGvtojXzfrnNDqZPNvA9zvELXurzGXYNSS1JeNU=;
+ b=ljIjwyMgRB/6fNy+8+YtgZXNiG1ev1B2ANk3TAr62N4QnkjgZlS6X8rCU60kLTgB3k
+ 3ErcgHuSXKhUP6Ps64xIQRc6vkhDFdP5jExwWBkwfe8/0z1KEtCZsy3/zFYsF0wUkuXd
+ ki8ZmUFP7jxiS3qkd+aDlay0H1Mv981F1jK3+QDM2gEBbSOOctG6AvtFL64ygVbjrV/l
+ cNS97nDLp1mgldoZZlcHcz86oReR0Mm343yWeDRv9l42cvnRkdtbZOdgSpXxi4xi8+Xs
+ XrST4ZKTQGXpEsesuWCcvtphlj8iZKeCa0yiFGb0Bs0+Pf9pPkTzmiGBmofHzM54P6J0
+ ARlw==
+X-Gm-Message-State: AOJu0Ywn0iT5Mnf7WpA3cqnw5WpETffkoLvsofuj+sT2O3EXuyDmaLk9
+ Uynqogh1ZLHU+AlanfvzsgA8xbJ3XnWE1KixQ2TbO5y+y3TiZruI7jPdxh9VkpADx0ITDaOEoG5
+ cBzW+aQU=
+X-Gm-Gg: AY/fxX6AQ8H/qRshUn2P7Pktl8gwDLnQjOjaUlB427ZoV80jaalmUFBc16B26/Pipsm
+ TLnuamYiYB+16moeV9sdPLTalUAcVBRzyfjJeiI0WSiDtfpW1+AM2ILpYCIdaxa3Kbr76hmDnya
+ fO2rhaXs3NpeEV5RWiD72MwlR1s5KC2rFKrPKsBgLGh4pD8ITxvBjwIWGKJpgvY5q3io5A4KFbG
+ dSDchGg3yeUxp4CbCntop3pS6wO76LGLcdZ3XvteJUt9oN1O6T/Et3LmFRRym3+e3PHp2BZSxBH
+ aXyUGPMEzr8IxmhgfNtm9cq7f2Y6c7NQsqH4A+/ztlPxnC6uLmG9R8c4vsBSbqBNP/uwkdexhOY
+ 1FzG40gQOWYKuSf6XqqoQnbr6ixkH/W2bV5qNwyALxFCYcrn+hQeZercaIjvQ1OW2w9g02weZIT
+ 8oXx/hrxsC+eprFQWxz1zt0dhkZ+Rfc4U=
+X-Google-Smtp-Source: AGHT+IG84hC2FrP21rLuYsftv8LEMIN2jKOtlRqZbs0BvKeHh9lWYYcuPTMdqRe8uDNf4GyhBem4Mg==
+X-Received: by 2002:a05:600c:64c6:b0:477:639d:bca2 with SMTP id
+ 5b1f17b1804b1-47a8f89bc56mr152345205e9.4.1765881102116; 
+ Tue, 16 Dec 2025 02:31:42 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-430f984a268sm14996292f8f.1.2025.12.16.02.23.11
+ 5b1f17b1804b1-47bd95e0161sm7256525e9.2.2025.12.16.02.31.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Dec 2025 02:23:11 -0800 (PST)
+ Tue, 16 Dec 2025 02:31:41 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: jessica.zhang@oss.qualcomm.com, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- thierry.reding@gmail.com, sam@ravnborg.org, 
- Renjun Wang <renjunw0@foxmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
-References: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
-Subject: Re: [PATCH RESEND 0/2] Add HannStar HSD156JUW2 panel support
-Message-Id: <176588059148.2230787.4539469304596880105.b4-ty@linaro.org>
-Date: Tue, 16 Dec 2025 11:23:11 +0100
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ phone-devel <phone-devel@vger.kernel.org>, 
+ Gustavo Padovan <gus@collabora.com>, "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <20251017-visionox-rm69299-bl-v2-1-9dfa06606754@sigxcpu.org>
+References: <20251017-visionox-rm69299-bl-v2-1-9dfa06606754@sigxcpu.org>
+Subject: Re: [PATCH v2] drm/panel: visionox-rm69299: Depend on
+ BACKLIGHT_CLASS_DEVICE
+Message-Id: <176588110109.2282705.4050268532333619476.b4-ty@linaro.org>
+Date: Tue, 16 Dec 2025 11:31:41 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,22 +99,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 01 Dec 2025 22:19:17 +0800, Renjun Wang wrote:
-> The HannStar HSD156JUW2 panel is a 15.6" FHD (1920x1080) LCD-TFT LVDS
-> panel. Add a binding and a panel entry under panel-simple.c.
+On Fri, 17 Oct 2025 10:27:59 +0200, Guido Günther wrote:
+> We handle backlight so need that dependency.
 > 
-> Renjun Wang (2):
->   dt-bindings: display: simple: Add HannStar HSD156JUW2
->   drm/panel: simple: Add HannStar HSD156JUW2
 > 
-> [...]
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/2] dt-bindings: display: simple: Add HannStar HSD156JUW2
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b23cd64bda037ad83e18960c8802f3276b7b368e
-[2/2] drm/panel: simple: Add HannStar HSD156JUW2
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/af586cc6df0bd56d4a3d05d5e6db0b193233fc51
+[1/1] drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2bfca4fe1f36eb6618e5712a8b5b41433bb6f10b
 
 -- 
 Neil
