@@ -1,135 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C644CC4BAB
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 18:38:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92485CC4C2D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 18:59:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4848110E228;
-	Tue, 16 Dec 2025 17:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770EB10E865;
+	Tue, 16 Dec 2025 17:59:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="OeFCShZN";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pgUXcONW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C8910E228
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 17:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1765906340; x=1766511140; i=markus.elfring@web.de;
- bh=uF74Wvfnts/GIwd00ySDCJ4VjQhdlmsrQYR+m7UjrHg=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
- Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=OeFCShZNXHaT1pywFUIdA4almWlgJ3dwO5uoHsJ3wkKQ+yYtM1BNGQmqNDrlXA02
- bkk5fzjUw+2tGT8menuy/pNL3oT8ZMoVG1Lw30xGuPeT+aFOFg8n1csJkhUHy4lNZ
- DbpFzKkvrKSAkT3syhkqdxrVErj25fj2on4uXi9GhRtSh5BJdWP1Hbe9+u5exDwbP
- bIV982najwW0hnHLk0K5NtE5lK08fNmhyuIm3wYywqmCUNX2Ezplkox4TsWrXb59I
- 6GIaGbY0+Gu1ssi0Fv6lawHXsJFBtQ+hqF1KfcRNKjkGUtsdg1DCjI/FxnwCDLJp6
- yOAx5ZNc3X+WMqDOjw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.206]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N1u6d-1vxrG13Nm5-014mHH; Tue, 16
- Dec 2025 18:32:20 +0100
-Message-ID: <ef60303c-bdb8-4084-bc70-a762027cd528@web.de>
-Date: Tue, 16 Dec 2025 18:32:07 +0100
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F45710E84C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 17:59:20 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 141764E41C34;
+ Tue, 16 Dec 2025 17:59:19 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id C2E7C6071C;
+ Tue, 16 Dec 2025 17:59:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 4C05D119A97D5; Tue, 16 Dec 2025 18:59:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1765907953; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=s7w+5SWbQVcRFbUEI9luJAUTgulTAYAv1ba1KENKvHk=;
+ b=pgUXcONWZp7w8xihJUPrVDo+CI940yhxtiQ5kP43628fm85Aw3HiYD3x+Jue9I+tt5+1J2
+ p9sXppHnT8HkLTqlCjPqVItv46ltrLHJ29z6cpztNA810+ikcHbaTllz5it2d5Cqfzg01E
+ ShOvjQK1UFngVwNKutdSpvISJ7e8YLEYH6293QDjCxaWf9iVUut5q9RUjNSV5bfiRETh3i
+ 6PbkWCJG2JgC5LwmcIt0Tytfbzkbo9aiTzTvI0WwMpzReOGoNYUY24WIpiVABhKI7pUbNZ
+ bapMJ1HPvEywoxkgvKmWBfBwWuF3eqQvhfuIwCLR7Yz0Zz6qcZzfjhhrzp2dBA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 00/22] drm/bridge: add of_drm_find_and_get_bridge() and
+ a managed *next_bridge, deprecate of_drm_find_bridge()
+Date: Tue, 16 Dec 2025 18:58:33 +0100
+Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH] drm/panthor: Fix NULL pointer dereference on
- panthor_fw_unplug
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Aishwarya TCV
- <aishwarya.tcv@arm.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- David Airlie <airlied@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, nd@arm.com
-References: <20251215203312.1084182-1-karunika.choo@arm.com>
-Content-Language: en-GB, de-DE
-In-Reply-To: <20251215203312.1084182-1-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tHDZ07OeqFdwESXWJTT8KZ9p8PWoH8qor0kNFwff+WGjxu4cl14
- Vn+2mTNmkyFRGw7gdwFWxtXEGRrkrVIMSCX1ftBRpL/Uy64oC3RKbwHUlj8Cd/EurwQ48sy
- LVPGGzvosO5Z3sgRx/jaTYXSJ9whVwlj7B1f/kx8eL2m01grN1EjnOlY/EkXrAqIqAEkhpO
- 9KSEvmxD82ruFEN2QruZg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:x3ipKcr4F1I=;cN/EqB186aEi+X9RuDrBGzJaa8R
- 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
- hcIJD1rQ3kvcbAatYP43oXfp1JUr1MRuoSndEp
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMmdQWkC/5WN0Q6CIBhGX8VxHQ2QArvqPVpzKKD/puKQWM357
+ qGrrS69PN+3nTOjyXgwE7pkM/ImwgRuSJAfMlS3amgMBp0YMcJOlFKBte9x5UGnR3Wdq3Fjwvg
+ I6146W1oYdPn5BS9Inp8F51KjJBy9sfDcYrd74ham4Pxra0e6rt9MsScTKSaY6KqQSljDBb9Wz
+ oUOhmPterSGIvuRM7lLzpJcSisVJcLUiv3Ll2V5A8LcJjtDAQAA
+X-Change-ID: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,11 +81,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> This patch removes the =E2=80=A6
+This series deprecates of_drm_find_bridge(), adds a replacement which
+handles bridge refcounting, and converts some of the direct users.
 
-See also once more:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.19-rc1#n94
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
 
-Regards,
-Markus
+Here's the work breakdown (➜ marks the current series):
+
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. … protect encoder bridge chain with a mutex
+       7. ➜ of_drm_find_bridge()
+          a. ➜ add of_drm_find_and_get_bridge(), convert some direct users
+	  b. convert other direct users
+	  c. convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. ✔ Add drm_dev_enter/exit() to protect device resources (v6.20?)
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Almost all the functions returning a struct drm_bridge pointer have been
+modified to drm_bridge_get() the returned bridge, and their users updated
+to drm_bridge_put() it. See items 1.E.{1-6} above.
+
+of_drm_find_bridge() could be modified easily in the same way, but it has a
+lot of (direct + indirect) callers, and most notably
+drm_of_find_panel_or_bridge() which is very hard to adapt without reworking
+the panel_bridge lifetime.
+
+This has been discussed in [1] and Maxime proposed an incremental approach:
+
+> So maybe we can just create drm_of_find_bridge() that takes a reference,
+> make of_drm_find_bridge() deprecated in favour of drm_of_find_bridge(),
+> add a TODO, and call it a day. People will gradually switch to the new
+> API over time.
+
+That proposal is implemented by this series with the various changes
+discussed after the initial proposal. Some of the direct callers are also
+converted: a few of the simple ones plus two complex cases. One of the
+complex cases also shows how to use the .destroy func when the next_bridge
+is not enough.
+
+Follow-up series will:
+- convert remaining direct callers of of_drm_find_bridge()
+- convert simple cases of drm_of_find_panel_or_bridge()
+
+[1] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v3:
+- Completely rewrote using the __drm_bridge_free() idea to prevent
+  use-after-free of the next_bridge for the common cases
+- Added needed cleanups to the imx8qxp-pixel-link and imx8qxp-pxl2dpi
+  drivers
+- Removed various patches converting simple cases, to reduce the number of
+  e-mails sent; will be moved to the follow-up series
+- Link to v2: https://lore.kernel.org/r/20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com
+
+Changes in v2:
+- All patches: renamed drm_of_find_bridge() -> of_drm_get_bridge()
+- Various fixes and improvements to patches 1-6, see individual patches
+  changelog
+- Removed bouncing recipient: Edmund Dea <edmund.j.dea@intel.com>
+- Link to v1: https://lore.kernel.org/r/20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com
+
+---
+Luca Ceresoli (22):
+      drm/bridge: add of_drm_find_and_get_bridge()
+      drm/bridge: deprecate of_drm_find_bridge()
+      drm/todo: add entry about converting to of_drm_find_and_get_bridge()
+      drm/bridge: make of_drm_find_bridge() a wrapper of of_drm_find_and_get_bridge()
+      drm/arcpgu: convert to of_drm_find_and_get_bridge()
+      drm/bridge: add next_bridge pointer to struct drm_bridge
+      drm/bridge: ite-it66121: get/put the next bridge
+      drm/bridge: imx8qxp-pixel-combiner: get/put the next bridge
+      drm/bridge: simple-bridge: get/put the next bridge
+      drm/meson: encoder_cvbs: get/put the next bridge
+      drm/meson: encoder_dsi: get/put the next bridge
+      drm/meson: encoder_hdmi: get/put the next bridge
+      drm/bridge: imx8qxp-pxl2dpi: simplify put of device_node pointers
+      drm/bridge: imx8qxp-pxl2dpi: remove excess error message
+      drm/bridge: imx8qxp-pxl2dpi: imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
+      drm/bridge: imx8qxp-pxl2dpi: get/put the next bridge
+      drm/bridge: imx8qxp-pxl2dpi: get/put the companion bridge
+      drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
+      drm/bridge: imx8qxp-pixel-link: remove excess error message
+      drm/bridge: imx8qxp-pixel-link: imx8qxp_pixel_link_find_next_bridge: return int, not ERR_PTR
+      drm/bridge: imx8qxp-pixel-link: get/put the next bridge
+
+ Documentation/gpu/todo.rst                         | 16 +++++
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |  9 ++-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    | 56 ++++++++----------
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       | 63 ++++++++------------
+ drivers/gpu/drm/bridge/ite-it66121.c               |  7 +--
+ drivers/gpu/drm/bridge/simple-bridge.c             | 15 +++--
+ drivers/gpu/drm/drm_bridge.c                       | 69 +++++++++++++++++-----
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |  7 +--
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |  7 +--
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  9 ++-
+ drivers/gpu/drm/tiny/arcpgu.c                      |  5 +-
+ include/drm/drm_bridge.h                           | 16 +++++
+ 12 files changed, 162 insertions(+), 117 deletions(-)
+---
+base-commit: 441223656cd43291f4f8277ab98fd3e9e61eeb33
+change-id: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
