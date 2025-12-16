@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0558BCC3F30
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 16:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6FCCC3F4C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 16:32:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCE010E972;
-	Tue, 16 Dec 2025 15:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1217C10E04C;
+	Tue, 16 Dec 2025 15:32:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BxpBT/t/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CjsFCNJb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE8A510E6CB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 15:31:45 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2a110548f10so4237835ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:31:45 -0800 (PST)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F5A10E2CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 15:32:48 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-7bb2fa942daso439820b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765899105; x=1766503905; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765899168; x=1766503968; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=svUIaOG21t8pBd8rzyD543GDtySRa+E41ytkXqBTkY0=;
- b=BxpBT/t/qdQYSJpwpBTVGe2sZH9VHTmz5Pjq5TOmUq3fP5J5dMgJ8LgMR5btLit6Ig
- H6lLaVoFnisdbyRfcICafdhprbJtWuuiVvQXqHE0ZgCOnfrcsqd05j4kS16AbARjQdJe
- +ha6KcTWudAalCXZazNORMksxuYPE37HT5hV6+I2QRyK8AouUIQX6tjeoTwNA2oci0yQ
- YYmZfKnZEHCkszH+EjPJaZSiZIgOdl7kWUV40j7PIDpBQuD767m9uUbHNUcAGtdShPCr
- 9qO/VgFUmaBVKzP8R3RONvYXqMVuytoFg6Id/ciN3duAJKWjhIMz6mpNZbhz+mvUmRTj
- +xUg==
+ bh=KkhPh91ZY2hMYr441a2z2DOrRPSoQAqhkmD0EJY8UKw=;
+ b=CjsFCNJb/V4ehfHpjJ/jz4jRlgL9xOBeCgaa11hfOYqDYCnXk10VOoArhq3MyhK3P5
+ dfa2UycMaeR4Q9baWcnAbN0AdjUFNKdVQxa6H88Sr0aIkqFwaky1uy9ELf1T6JJzQxa3
+ 4OL4Gpng/sjRpmxhTS3AYKkAOG8Rh6O7ITbHWR1ZBBFQMDpuL47XqjrLXoqRlFBurB0q
+ FHcL9GANEVe9AHMbNMDS43c//qCxrK3YguOAu44Tu2dj4Sj0DwOiRKZAdZ/RPRvWjA5H
+ x6jNQqvL/t8u7/6uzL9Quad6zdo6Mjoa3v6KjZSUobiifK5bVHgthT6H9R5D/TUC6ffI
+ lpXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765899105; x=1766503905;
+ d=1e100.net; s=20230601; t=1765899168; x=1766503968;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=svUIaOG21t8pBd8rzyD543GDtySRa+E41ytkXqBTkY0=;
- b=CLUyXiWcr8zJ/Aa9Ah+TuAb2UCoA3upH28yT9z+BDG4YdRmZjcIqcUUALm3EPcIoXZ
- m5ZJrwucbh3Eo1AScXDJQhXdRQGir+TvW8wY8eYU+7wDRKQ33JZ35JRULdlFnw9kerp8
- 3c+peZVTOEG7aa27a0tEPQAsLggtAS5iSAQuMbFvolvezEy0m2M6bAal65Zai/joVvHI
- LW57MG5p9RYirC8zi6LAcztN/iEjnEOmu4V/Y0JCgMJcECKU8BENe5j6G6o82GJ6M3S4
- HyDsFTdIrOV88f3/7uF82nzuvun2E9RtCIbnkfPuu3yieB+U71CDjSnzzK+zsUKuKr8c
- BV1g==
+ bh=KkhPh91ZY2hMYr441a2z2DOrRPSoQAqhkmD0EJY8UKw=;
+ b=h2WdSpbSBZck0Q0XCtl/20WUCnceOjbqmtjamroF2upq1ymnvkmAVbY1P23eJhZD03
+ rs5TX3G+nuNz85E1/UdO2kg3sg5HCUCKVSD3nSEdvjrVulCWtafwF2EO930gy6lJjx7N
+ 1DpcA1pobaWRUI9kwF691qMIXONrI8JgnoyE0Nzt2ilBQi0vkl9Nks6nq4hjy58/t5nb
+ lOo09CHLiNK/RpcA5xa+lctFph+G1hT7FONqqujiiHIujyLyxcB579m/ug2uLocqg84S
+ 6LhZ29t/ZriZDvj4jLlOnJFeGncKfvWRpunRLAPIgwMRRNO+UjlTrGZVFsY/SzEPIwiP
+ vPHw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXPWYM5AnFWlEikIGZh+m8Z3U9+HSjBX0s1jHIOMm2rJVOSrvwc6VFAG+9XkByh/qR1ob73q/4+e6Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTGcb1oAEyhETrp6gnLSvhibotLY5aX2lJIzJ5a+E9dP3OZccL
- f+lxf6PhGKdxZbkYj+QP6aZFzPWr2SBBWlsYQyz6wW/LtbLlyhuUKFqnF0snwHHf2i3q/3tE1sQ
- XPCiyk3Yh6M+0QKLKtRS9FqCCrpukePY=
-X-Gm-Gg: AY/fxX6oBN2+Ezc0CbLR43jgjXa7Z1ikYcwOdjyoQCZFg32zkP5ARehcU3MLYovqZxF
- YpoQgM1hpz7q12Mfd36JDQGEpivdncCQQjW4XtvEW5JIhxGSOIcGV/2Izq0+RxgHGPuX9k+oiTI
- yx2E/pyfwidR3bStHN1L9loXoy7ZDpYQIG+wow4tGJX3oCNWpLXN1krYQNay3svTk7mD2RN/n5m
- IpWllNsVP+9Wd84sCHbH/uShKzl9o5enUYKKyVzeNDll3olT9J6nLkhb4sR9EUQTtuYPZoKP59G
- cUFnHBg=
-X-Google-Smtp-Source: AGHT+IH8mTIHhr4wUuLgIVmA9tJRsYUZz+0HDP02iGV+xt5Xpe5m3m/9I/9gCYBMxlAAAJZl3KvNVhPW3jYkL9EuyVc=
-X-Received: by 2002:a05:7022:fa2:b0:11b:862d:8031 with SMTP id
- a92af1059eb24-11f34874285mr6166112c88.0.1765899104995; Tue, 16 Dec 2025
- 07:31:44 -0800 (PST)
+ AJvYcCW0Vl4mvVK+WDUfwLEE4mTRvwjjPl+ftbzVftcUjvK+ILSY6tLcX52KrvM06Xo2Icm+Qo0m8F6ObsM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4NCuAY60gGQnRrnjJJ1AaMmNYm4i+aAeMPuUuv1tYMWLSa05v
+ MYnY1n5BMXZufPhofHe85rW6h1P0n4BsI0cgXXG+Q3CrgRglXx+UuRhaRLTeTv+wi/1Hr5Elqaj
+ g4yiQ+miQaNJsXhHV6KuisE8f2aJXFFU=
+X-Gm-Gg: AY/fxX5+8VcUc1E0FlrXqwiAB3TnKzkUEaLWjY7hWzKJF4niWBNP9YYNMfzj94SSz3U
+ aAPc+VNXfr1vtkQikEL0NXsKLibaA3Mw38+9nroSk4WKS8jzuzVfCbQqnyT/6djUrX1hZwjfCJZ
+ n/k61ucQ0zqp3v/OgFyG57MODXWRFvnzorFTBN7pq+1mMffQ6h9st7Aetiy/DE1rBOPXjcWVAZW
+ sCZrihucUxiNAOAEhCjht9CtZrSIkQSEwZjxWKTZdORPBgIYP/S/zfCqPvGiMboHCKmNSJJ
+X-Google-Smtp-Source: AGHT+IHhUgn023eZckLDJr66UWTv1KcKOxMhsR5XJTU744G0O42iJEjgUhlnEldsrY+9G87YNdyLX6VDcYBP8Tkw1wM=
+X-Received: by 2002:a05:701b:2908:b0:11e:3e9:3e9b with SMTP id
+ a92af1059eb24-11f34c1d3f5mr3414985c88.6.1765899167730; Tue, 16 Dec 2025
+ 07:32:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20251216064224.537759-1-mukeshogare871@gmail.com>
- <e5e0547b-4ba7-4862-a0f1-a63ad5e5425f@amd.com>
-In-Reply-To: <e5e0547b-4ba7-4862-a0f1-a63ad5e5425f@amd.com>
+References: <20251216103238.625468-1-abhiraj21put@gmail.com>
+In-Reply-To: <20251216103238.625468-1-abhiraj21put@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 16 Dec 2025 10:31:33 -0500
-X-Gm-Features: AQt7F2qO-jOd3It1Yb7zsX58vhlKcPMz-wyw8zgLrD3pjm3g-iTFJkreLmQeG4k
-Message-ID: <CADnq5_N7kZeHaDXSdHsutgo8n8DjtWCWT1=KitEOycXCBWtyZQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Convert logging in radeon_display.c to drm_*
- helpers
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mukesh Ogare <mukeshogare871@gmail.com>, alexander.deucher@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+Date: Tue, 16 Dec 2025 10:32:35 -0500
+X-Gm-Features: AQt7F2ryiv1nPzitbcsupElTVxoT7HZ5mdi1PuYorzpZ3hssoGLTENzWeFukyhQ
+Message-ID: <CADnq5_PuzCBWTD50ABObmq5tk+nQ=juKizFZwVXt3bmkEjmUNA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Convert legacy DRM logging in evergreen.c to
+ drm_* helpers
+To: Abhishek Rajput <abhiraj21put@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,269 +90,582 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Dec 16, 2025 at 3:37=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Tue, Dec 16, 2025 at 5:33=E2=80=AFAM Abhishek Rajput <abhiraj21put@gmail=
+.com> wrote:
 >
-> On 12/16/25 07:42, Mukesh Ogare wrote:
-> > Replace DRM_ERROR() and DRM_INFO() calls in
-> > drivers/gpu/drm/radeon/radeon_display.c with the corresponding
-> > drm_err() and drm_info() helpers.
-> >
-> > The drm_*() logging functions take a struct drm_device * argument,
-> > allowing the DRM core to prefix log messages with the correct device
-> > name and instance. This is required to correctly distinguish log
-> > messages on systems with multiple GPUs.
-> >
-> > This change aligns radeon with the DRM TODO item:
-> > "Convert logging to drm_* functions with drm_device parameter".
-> >
-> > Signed-off-by: Mukesh Ogare <mukeshogare871@gmail.com>
+> Replace DRM_DEBUG(), DRM_ERROR(), and DRM_INFO() calls with the
+> corresponding drm_dbg(), drm_err(), and drm_info() helpers in the
+> radeon driver.
 >
-> Of hand looks reasonable to me, but I don't have the time to check everyt=
-hing for typos. So only:
+> The drm_*() logging helpers take a struct drm_device * argument,
+> allowing the DRM core to prefix log messages with the correct device
+> name and instance. This is required to correctly distinguish log
+> messages on systems with multiple GPUs.
 >
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> This change aligns radeon with the DRM TODO item:
+> "Convert logging to drm_* functions with drm_device parameter".
 >
-> Alex will probably pick this up when he has time.
+> Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
 >
-> Thanks,
-> Christian.
+> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/=
+evergreen.c
+> index bc4ab71613a5..3cbc6eedbf66 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.c
+> +++ b/drivers/gpu/drm/radeon/evergreen.c
+> @@ -1630,6 +1630,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
+>         int req_cm_idx =3D rdev->pm.requested_clock_mode_index;
+>         struct radeon_power_state *ps =3D &rdev->pm.power_state[req_ps_id=
+x];
+>         struct radeon_voltage *voltage =3D &ps->clock_info[req_cm_idx].vo=
+ltage;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
 >
-> >
-> > diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/=
-radeon/radeon_display.c
-> > index 35fb99bcd9a7..bc28117e01b4 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_display.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> > @@ -41,6 +41,7 @@
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_vblank.h>
-> >  #include <drm/radeon_drm.h>
-> > +#include <drm/drm_print.h>
-> >
-> >  #include "atom.h"
-> >  #include "radeon.h"
-> > @@ -273,7 +274,7 @@ static void radeon_unpin_work_func(struct work_stru=
-ct *__work)
-> >               radeon_bo_unpin(work->old_rbo);
-> >               radeon_bo_unreserve(work->old_rbo);
-> >       } else
-> > -             DRM_ERROR("failed to reserve buffer after flip\n");
-> > +             drm_err(&work->rdev->ddev, "failed to reserve buffer afte=
-r flip\n");
-> >
-> >       drm_gem_object_put(&work->old_rbo->tbo.base);
-> >       kfree(work);
-> > @@ -434,7 +435,7 @@ static void radeon_flip_work_func(struct work_struc=
-t *__work)
-> >                       r =3D dma_fence_wait(work->fence, false);
-> >
-> >               if (r)
-> > -                     DRM_ERROR("failed to wait on page flip fence (%d)=
-!\n", r);
-> > +                     drm_err(dev, "failed to wait on page flip fence (=
-%d)!\n", r);
-> >
-> >               /* We continue with the page flip even if we failed to wa=
-it on
-> >                * the fence, otherwise the DRM core and userspace will b=
-e
-> > @@ -521,7 +522,7 @@ static int radeon_crtc_page_flip_target(struct drm_=
-crtc *crtc,
-> >
-> >       r =3D radeon_bo_reserve(new_rbo, false);
-> >       if (unlikely(r !=3D 0)) {
-> > -             DRM_ERROR("failed to reserve new rbo buffer before flip\n=
-");
-> > +             drm_err(dev, "failed to reserve new rbo buffer before fli=
-p\n");
-> >               goto cleanup;
-> >       }
-> >       /* Only 27 bit offset for legacy CRTC */
-> > @@ -530,14 +531,14 @@ static int radeon_crtc_page_flip_target(struct dr=
-m_crtc *crtc,
-> >       if (unlikely(r !=3D 0)) {
-> >               radeon_bo_unreserve(new_rbo);
-> >               r =3D -EINVAL;
-> > -             DRM_ERROR("failed to pin new rbo buffer before flip\n");
-> > +             drm_err(dev, "failed to pin new rbo buffer before flip\n"=
+>         if (voltage->type =3D=3D VOLTAGE_SW) {
+>                 /* 0xff0x are flags rather then an actual voltage */
+> @@ -1638,7 +1639,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
+>                 if (voltage->voltage && (voltage->voltage !=3D rdev->pm.c=
+urrent_vddc)) {
+>                         radeon_atom_set_voltage(rdev, voltage->voltage, S=
+ET_VOLTAGE_TYPE_ASIC_VDDC);
+>                         rdev->pm.current_vddc =3D voltage->voltage;
+> -                       DRM_DEBUG("Setting: vddc: %d\n", voltage->voltage=
 );
-> >               goto cleanup;
-> >       }
-> >       r =3D dma_resv_get_singleton(new_rbo->tbo.base.resv, DMA_RESV_USA=
-GE_WRITE,
-> >                                  &work->fence);
-> >       if (r) {
-> >               radeon_bo_unreserve(new_rbo);
-> > -             DRM_ERROR("failed to get new rbo buffer fences\n");
-> > +             drm_err(dev, "failed to get new rbo buffer fences\n");
-> >               goto cleanup;
-> >       }
-> >       radeon_bo_get_tiling_flags(new_rbo, &tiling_flags, NULL);
-> > @@ -604,7 +605,7 @@ static int radeon_crtc_page_flip_target(struct drm_=
-crtc *crtc,
-> >
-> >  pflip_cleanup:
-> >       if (unlikely(radeon_bo_reserve(new_rbo, false) !=3D 0)) {
-> > -             DRM_ERROR("failed to reserve new rbo in error path\n");
-> > +             drm_err(dev, "failed to reserve new rbo in error path\n")=
+> +                       drm_dbg(ddev, "Setting: vddc: %d\n", voltage->vol=
+tage);
+>                 }
+>
+>                 /* starting with BTC, there is one state that is used for=
+ both
+> @@ -1659,7 +1660,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
+>                 if (voltage->vddci && (voltage->vddci !=3D rdev->pm.curre=
+nt_vddci)) {
+>                         radeon_atom_set_voltage(rdev, voltage->vddci, SET=
+_VOLTAGE_TYPE_ASIC_VDDCI);
+>                         rdev->pm.current_vddci =3D voltage->vddci;
+> -                       DRM_DEBUG("Setting: vddci: %d\n", voltage->vddci)=
 ;
-> >               goto cleanup;
-> >       }
-> >       radeon_bo_unpin(new_rbo);
-> > @@ -772,15 +773,15 @@ static void radeon_print_display_setup(struct drm=
-_device *dev)
-> >       uint32_t devices;
-> >       int i =3D 0;
-> >
-> > -     DRM_INFO("Radeon Display Connectors\n");
-> > +     drm_info(dev, "Radeon Display Connectors\n");
-> >       list_for_each_entry(connector, &dev->mode_config.connector_list, =
-head) {
-> >               radeon_connector =3D to_radeon_connector(connector);
-> > -             DRM_INFO("Connector %d:\n", i);
-> > -             DRM_INFO("  %s\n", connector->name);
-> > +             drm_info(dev, "Connector %d:\n", i);
-> > +             drm_info(dev, "  %s\n", connector->name);
-> >               if (radeon_connector->hpd.hpd !=3D RADEON_HPD_NONE)
-> > -                     DRM_INFO("  %s\n", hpd_names[radeon_connector->hp=
-d.hpd]);
-> > +                     drm_info(dev, "  %s\n", hpd_names[radeon_connecto=
-r->hpd.hpd]);
-> >               if (radeon_connector->ddc_bus) {
-> > -                     DRM_INFO("  DDC: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x=
-%x 0x%x\n",
-> > +                     drm_info(dev, "  DDC: 0x%x 0x%x 0x%x 0x%x 0x%x 0x=
-%x 0x%x 0x%x\n",
-> >                                radeon_connector->ddc_bus->rec.mask_clk_=
-reg,
-> >                                radeon_connector->ddc_bus->rec.mask_data=
-_reg,
-> >                                radeon_connector->ddc_bus->rec.a_clk_reg=
+> +                       drm_dbg(ddev, "Setting: vddci: %d\n", voltage->vd=
+dci);
+>                 }
+>         }
+>  }
+> @@ -2168,6 +2169,7 @@ static void evergreen_program_watermarks(struct rad=
+eon_device *rdev,
+>         u32 pipe_offset =3D radeon_crtc->crtc_id * 16;
+>         u32 tmp, arb_control3;
+>         fixed20_12 a, b, c;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (radeon_crtc->base.enabled && num_heads && mode) {
+>                 active_time =3D (u32) div_u64((u64)mode->crtc_hdisplay * =
+1000000,
+> @@ -2244,14 +2246,14 @@ static void evergreen_program_watermarks(struct r=
+adeon_device *rdev,
+>                     !evergreen_average_bandwidth_vs_available_bandwidth(&=
+wm_high) ||
+>                     !evergreen_check_latency_hiding(&wm_high) ||
+>                     (rdev->disp_priority =3D=3D 2)) {
+> -                       DRM_DEBUG_KMS("force priority a to high\n");
+> +                       drm_dbg_kms(ddev, "force priority a to high\n");
+>                         priority_a_cnt |=3D PRIORITY_ALWAYS_ON;
+>                 }
+>                 if (!evergreen_average_bandwidth_vs_dram_bandwidth_for_di=
+splay(&wm_low) ||
+>                     !evergreen_average_bandwidth_vs_available_bandwidth(&=
+wm_low) ||
+>                     !evergreen_check_latency_hiding(&wm_low) ||
+>                     (rdev->disp_priority =3D=3D 2)) {
+> -                       DRM_DEBUG_KMS("force priority b to high\n");
+> +                       drm_dbg_kms(ddev, "force priority b to high\n");
+>                         priority_b_cnt |=3D PRIORITY_ALWAYS_ON;
+>                 }
+>
+> @@ -2401,6 +2403,7 @@ static int evergreen_pcie_gart_enable(struct radeon=
+_device *rdev)
+>  {
+>         u32 tmp;
+>         int r;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (rdev->gart.robj =3D=3D NULL) {
+>                 dev_err(rdev->dev, "No VRAM object for PCIE GART.\n");
+> @@ -2448,7 +2451,7 @@ static int evergreen_pcie_gart_enable(struct radeon=
+_device *rdev)
+>         WREG32(VM_CONTEXT1_CNTL, 0);
+>
+>         evergreen_pcie_gart_tlb_flush(rdev);
+> -       DRM_INFO("PCIE GART of %uM enabled (table at 0x%016llX).\n",
+> +       drm_info(ddev, "PCIE GART of %uM enabled (table at 0x%016llX).\n"=
 ,
-> > @@ -790,11 +791,11 @@ static void radeon_print_display_setup(struct drm=
-_device *dev)
-> >                                radeon_connector->ddc_bus->rec.y_clk_reg=
-,
-> >                                radeon_connector->ddc_bus->rec.y_data_re=
-g);
-> >                       if (radeon_connector->router.ddc_valid)
-> > -                             DRM_INFO("  DDC Router 0x%x/0x%x\n",
-> > +                             drm_info(dev, "  DDC Router 0x%x/0x%x\n",
-> >                                        radeon_connector->router.ddc_mux=
-_control_pin,
-> >                                        radeon_connector->router.ddc_mux=
-_state);
-> >                       if (radeon_connector->router.cd_valid)
-> > -                             DRM_INFO("  Clock/Data Router 0x%x/0x%x\n=
-",
-> > +                             drm_info(dev, "  Clock/Data Router 0x%x/0=
-x%x\n",
-> >                                        radeon_connector->router.cd_mux_=
-control_pin,
-> >                                        radeon_connector->router.cd_mux_=
-state);
-> >               } else {
-> > @@ -804,35 +805,46 @@ static void radeon_print_display_setup(struct drm=
-_device *dev)
-> >                           connector->connector_type =3D=3D DRM_MODE_CON=
-NECTOR_DVIA ||
-> >                           connector->connector_type =3D=3D DRM_MODE_CON=
-NECTOR_HDMIA ||
-> >                           connector->connector_type =3D=3D DRM_MODE_CON=
-NECTOR_HDMIB)
-> > -                             DRM_INFO("  DDC: no ddc bus - possible BI=
-OS bug - please report to xorg-driver-ati@lists.x.org\n");
-> > +                             drm_info(dev, "  DDC: no ddc bus - possib=
-le BIOS bug - please report to xorg-driver-ati@lists.x.org\n");
-> >               }
-> > -             DRM_INFO("  Encoders:\n");
-> > +             drm_info(dev, "  Encoders:\n");
-> >               list_for_each_entry(encoder, &dev->mode_config.encoder_li=
-st, head) {
-> >                       radeon_encoder =3D to_radeon_encoder(encoder);
-> >                       devices =3D radeon_encoder->devices & radeon_conn=
-ector->devices;
-> >                       if (devices) {
-> >                               if (devices & ATOM_DEVICE_CRT1_SUPPORT)
-> > -                                     DRM_INFO("    CRT1: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    CRT1: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_CRT2_SUPPORT)
-> > -                                     DRM_INFO("    CRT2: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    CRT2: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_LCD1_SUPPORT)
-> > -                                     DRM_INFO("    LCD1: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    LCD1: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP1_SUPPORT)
-> > -                                     DRM_INFO("    DFP1: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP1: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP2_SUPPORT)
-> > -                                     DRM_INFO("    DFP2: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP2: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP3_SUPPORT)
-> > -                                     DRM_INFO("    DFP3: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP3: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP4_SUPPORT)
-> > -                                     DRM_INFO("    DFP4: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP4: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP5_SUPPORT)
-> > -                                     DRM_INFO("    DFP5: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP5: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_DFP6_SUPPORT)
-> > -                                     DRM_INFO("    DFP6: %s\n", encode=
-r_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    DFP6: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_TV1_SUPPORT)
-> > -                                     DRM_INFO("    TV1: %s\n", encoder=
-_names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    TV1: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                               if (devices & ATOM_DEVICE_CV_SUPPORT)
-> > -                                     DRM_INFO("    CV: %s\n", encoder_=
-names[radeon_encoder->encoder_id]);
-> > +                                     drm_info(dev, "    CV: %s\n",
-> > +                                             encoder_names[radeon_enco=
-der->encoder_id]);
-> >                       }
-> >               }
-> >               i++;
-> > @@ -1747,7 +1759,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_cr=
-tc *crtc,
-> >                                * (ie all encoder can work with the same
-> >                                *  scaling).
-> >                                */
-> > -                             DRM_ERROR("Scaling not consistent across =
-encoder.\n");
-> > +                             drm_err(dev, "Scaling not consistent acro=
-ss encoder.\n");
-> >                               return false;
-> >                       }
-> >               }
+>                  (unsigned)(rdev->mc.gtt_size >> 20),
+>                  (unsigned long long)rdev->gart.table_addr);
+>         rdev->gart.ready =3D true;
+> @@ -2626,16 +2629,17 @@ static void evergreen_blank_dp_output(struct rade=
+on_device *rdev,
+>         unsigned stream_ctrl;
+>         unsigned fifo_ctrl;
+>         unsigned counter =3D 0;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (dig_fe >=3D ARRAY_SIZE(evergreen_dp_offsets)) {
+> -               DRM_ERROR("invalid dig_fe %d\n", dig_fe);
+> +               drm_err(ddev, "invalid dig_fe %d\n", dig_fe);
+>                 return;
+>         }
+>
+>         stream_ctrl =3D RREG32(EVERGREEN_DP_VID_STREAM_CNTL +
+>                              evergreen_dp_offsets[dig_fe]);
+>         if (!(stream_ctrl & EVERGREEN_DP_VID_STREAM_CNTL_ENABLE)) {
+> -               DRM_ERROR("dig %d , should be enable\n", dig_fe);
+> +               drm_err(ddev, "dig %d , should be enable\n", dig_fe);
+>                 return;
+>         }
+>
+> @@ -2652,7 +2656,7 @@ static void evergreen_blank_dp_output(struct radeon=
+_device *rdev,
+>                                      evergreen_dp_offsets[dig_fe]);
+>         }
+>         if (counter >=3D 32)
+> -               DRM_ERROR("counter exceeds %d\n", counter);
+> +               drm_err(ddev, "counter exceeds %d\n", counter);
+>
+>         fifo_ctrl =3D RREG32(EVERGREEN_DP_STEER_FIFO + evergreen_dp_offse=
+ts[dig_fe]);
+>         fifo_ctrl |=3D EVERGREEN_DP_STEER_FIFO_RESET;
+> @@ -2998,10 +3002,11 @@ static int evergreen_cp_start(struct radeon_devic=
+e *rdev)
+>         struct radeon_ring *ring =3D &rdev->ring[RADEON_RING_TYPE_GFX_IND=
+EX];
+>         int r, i;
+>         uint32_t cp_me;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         r =3D radeon_ring_lock(rdev, ring, 7);
+>         if (r) {
+> -               DRM_ERROR("radeon: cp failed to lock ring (%d).\n", r);
+> +               drm_err(ddev, "radeon: cp failed to lock ring (%d).\n", r=
+);
+>                 return r;
+>         }
+>         radeon_ring_write(ring, PACKET3(PACKET3_ME_INITIALIZE, 5));
+> @@ -3018,7 +3023,7 @@ static int evergreen_cp_start(struct radeon_device =
+*rdev)
+>
+>         r =3D radeon_ring_lock(rdev, ring, evergreen_default_size + 19);
+>         if (r) {
+> -               DRM_ERROR("radeon: cp failed to lock ring (%d).\n", r);
+> +               drm_err(ddev, "radeon: cp failed to lock ring (%d).\n", r=
+);
+>                 return r;
+>         }
+>
+> @@ -3826,6 +3831,7 @@ u32 evergreen_gpu_check_soft_reset(struct radeon_de=
+vice *rdev)
+>  {
+>         u32 reset_mask =3D 0;
+>         u32 tmp;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         /* GRBM_STATUS */
+>         tmp =3D RREG32(GRBM_STATUS);
+> @@ -3884,7 +3890,7 @@ u32 evergreen_gpu_check_soft_reset(struct radeon_de=
+vice *rdev)
+>
+>         /* Skip MC reset as it's mostly likely not hung, just busy */
+>         if (reset_mask & RADEON_RESET_MC) {
+> -               DRM_DEBUG("MC busy: 0x%08X, clearing.\n", reset_mask);
+> +               drm_dbg(ddev, "MC busy: 0x%08X, clearing.\n", reset_mask)=
+;
+>                 reset_mask &=3D ~RADEON_RESET_MC;
+>         }
+>
+> @@ -4495,6 +4501,7 @@ int evergreen_irq_set(struct radeon_device *rdev)
+>         u32 grbm_int_cntl =3D 0;
+>         u32 dma_cntl, dma_cntl1 =3D 0;
+>         u32 thermal_int =3D 0;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (!rdev->irq.installed) {
+>                 WARN(1, "Can't enable IRQ/MSI because no handler is insta=
+lled\n");
+> @@ -4520,40 +4527,40 @@ int evergreen_irq_set(struct radeon_device *rdev)
+>         if (rdev->family >=3D CHIP_CAYMAN) {
+>                 /* enable CP interrupts on all rings */
+>                 if (atomic_read(&rdev->irq.ring_int[RADEON_RING_TYPE_GFX_=
+INDEX])) {
+> -                       DRM_DEBUG("evergreen_irq_set: sw int gfx\n");
+> +                       drm_dbg(ddev, "%s : sw int gfx\n", __func__);
+>                         cp_int_cntl |=3D TIME_STAMP_INT_ENABLE;
+>                 }
+>                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_CP1_=
+INDEX])) {
+> -                       DRM_DEBUG("evergreen_irq_set: sw int cp1\n");
+> +                       drm_dbg(ddev, "%s : sw int cp1\n", __func__);
+>                         cp_int_cntl1 |=3D TIME_STAMP_INT_ENABLE;
+>                 }
+>                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_CP2_=
+INDEX])) {
+> -                       DRM_DEBUG("evergreen_irq_set: sw int cp2\n");
+> +                       drm_dbg(ddev, "%s : sw int cp2\n", __func__);
+>                         cp_int_cntl2 |=3D TIME_STAMP_INT_ENABLE;
+>                 }
+>         } else {
+>                 if (atomic_read(&rdev->irq.ring_int[RADEON_RING_TYPE_GFX_=
+INDEX])) {
+> -                       DRM_DEBUG("evergreen_irq_set: sw int gfx\n");
+> +                       drm_dbg(ddev, "%s : sw int gfx\n", __func__);
+>                         cp_int_cntl |=3D RB_INT_ENABLE;
+>                         cp_int_cntl |=3D TIME_STAMP_INT_ENABLE;
+>                 }
+>         }
+>
+>         if (atomic_read(&rdev->irq.ring_int[R600_RING_TYPE_DMA_INDEX])) {
+> -               DRM_DEBUG("r600_irq_set: sw int dma\n");
+> +               drm_dbg(ddev, "r600_irq_set: sw int dma\n");
+>                 dma_cntl |=3D TRAP_ENABLE;
+>         }
+>
+>         if (rdev->family >=3D CHIP_CAYMAN) {
+>                 dma_cntl1 =3D RREG32(CAYMAN_DMA1_CNTL) & ~TRAP_ENABLE;
+>                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_DMA1=
+_INDEX])) {
+> -                       DRM_DEBUG("r600_irq_set: sw int dma1\n");
+> +                       drm_dbg(ddev, "r600_irq_set: sw int dma1\n");
+>                         dma_cntl1 |=3D TRAP_ENABLE;
+>                 }
+>         }
+>
+>         if (rdev->irq.dpm_thermal) {
+> -               DRM_DEBUG("dpm thermal\n");
+> +               drm_dbg(ddev, "dpm thermal\n");
+>                 thermal_int |=3D THERM_INT_MASK_HIGH | THERM_INT_MASK_LOW=
+;
+>         }
+>
+> @@ -4713,6 +4720,7 @@ int evergreen_irq_process(struct radeon_device *rde=
+v)
+>         bool queue_thermal =3D false;
+>         u32 status, addr;
+>         const char *event_name;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (!rdev->ih.enabled || rdev->shutdown)
+>                 return IRQ_NONE;
+> @@ -4725,7 +4733,7 @@ int evergreen_irq_process(struct radeon_device *rde=
+v)
+>                 return IRQ_NONE;
+>
+>         rptr =3D rdev->ih.rptr;
+> -       DRM_DEBUG("evergreen_irq_process start: rptr %d, wptr %d\n", rptr=
+, wptr);
+> +       drm_dbg(ddev, "%s start: rptr %d, wptr %d\n", __func__, rptr, wpt=
+r);
+>
+>         /* Order reading of wptr vs. reading of IH ring data */
+>         rmb();
+> @@ -4766,18 +4774,18 @@ int evergreen_irq_process(struct radeon_device *r=
+dev)
+>                                 mask =3D LB_D1_VLINE_INTERRUPT;
+>                                 event_name =3D "vline";
+>                         } else {
+> -                               DRM_DEBUG("Unhandled interrupt: %d %d\n",
+> +                               drm_dbg(ddev, "Unhandled interrupt: %d %d=
+\n",
+>                                           src_id, src_data);
+>                                 break;
+>                         }
+>
+>                         if (!(disp_int[crtc_idx] & mask)) {
+> -                               DRM_DEBUG("IH: D%d %s - IH event w/o asse=
+rted irq bit?\n",
+> +                               drm_dbg(ddev, "IH: D%d %s - IH event w/o =
+asserted irq bit?\n",
+>                                           crtc_idx + 1, event_name);
+>                         }
+>
+>                         disp_int[crtc_idx] &=3D ~mask;
+> -                       DRM_DEBUG("IH: D%d %s\n", crtc_idx + 1, event_nam=
+e);
+> +                       drm_dbg(ddev, "IH: D%d %s\n", crtc_idx + 1, event=
+_name);
+>
+>                         break;
+>                 case 8: /* D1 page flip */
+> @@ -4786,7 +4794,7 @@ int evergreen_irq_process(struct radeon_device *rde=
+v)
+>                 case 14: /* D4 page flip */
+>                 case 16: /* D5 page flip */
+>                 case 18: /* D6 page flip */
+> -                       DRM_DEBUG("IH: D%d flip\n", ((src_id - 8) >> 1) +=
+ 1);
+> +                       drm_dbg(ddev, "IH: D%d flip\n", ((src_id - 8) >> =
+1) + 1);
+>                         if (radeon_use_pflipirq > 0)
+>                                 radeon_crtc_handle_flip(rdev, (src_id - 8=
+) >> 1);
+>                         break;
+> @@ -4804,39 +4812,39 @@ int evergreen_irq_process(struct radeon_device *r=
+dev)
+>                                 event_name =3D "HPD_RX";
+>
+>                         } else {
+> -                               DRM_DEBUG("Unhandled interrupt: %d %d\n",
+> +                               drm_dbg(ddev, "Unhandled interrupt: %d %d=
+\n",
+>                                           src_id, src_data);
+>                                 break;
+>                         }
+>
+>                         if (!(disp_int[hpd_idx] & mask))
+> -                               DRM_DEBUG("IH: IH event w/o asserted irq =
+bit?\n");
+> +                               drm_dbg(ddev, "IH: IH event w/o asserted =
+irq bit?\n");
+>
+>                         disp_int[hpd_idx] &=3D ~mask;
+> -                       DRM_DEBUG("IH: %s%d\n", event_name, hpd_idx + 1);
+> +                       drm_dbg(ddev, "IH: %s%d\n", event_name, hpd_idx +=
+ 1);
+>
+>                         break;
+>                 case 44: /* hdmi */
+>                         afmt_idx =3D src_data;
+>                         if (afmt_idx > 5) {
+> -                               DRM_ERROR("Unhandled interrupt: %d %d\n",
+> +                               drm_err(ddev, "Unhandled interrupt: %d %d=
+\n",
+>                                           src_id, src_data);
+>                                 break;
+>                         }
+>
+>                         if (!(afmt_status[afmt_idx] & AFMT_AZ_FORMAT_WTRI=
+G))
+> -                               DRM_DEBUG("IH: IH event w/o asserted irq =
+bit?\n");
+> +                               drm_dbg(ddev, "IH: IH event w/o asserted =
+irq bit?\n");
+>
+>                         afmt_status[afmt_idx] &=3D ~AFMT_AZ_FORMAT_WTRIG;
+>                         queue_hdmi =3D true;
+> -                       DRM_DEBUG("IH: HDMI%d\n", afmt_idx + 1);
+> +                       drm_dbg(ddev, "IH: HDMI%d\n", afmt_idx + 1);
+>                         break;
+>                 case 96:
+> -                       DRM_ERROR("SRBM_READ_ERROR: 0x%x\n", RREG32(SRBM_=
+READ_ERROR));
+> +                       drm_err(ddev, "SRBM_READ_ERROR: 0x%x\n", RREG32(S=
+RBM_READ_ERROR));
+>                         WREG32(SRBM_INT_ACK, 0x1);
+>                         break;
+>                 case 124: /* UVD */
+> -                       DRM_DEBUG("IH: UVD int: 0x%08x\n", src_data);
+> +                       drm_dbg(ddev, "IH: UVD int: 0x%08x\n", src_data);
+>                         radeon_fence_process(rdev, R600_RING_TYPE_UVD_IND=
+EX);
+>                         break;
+>                 case 146:
+> @@ -4857,11 +4865,11 @@ int evergreen_irq_process(struct radeon_device *r=
+dev)
+>                 case 176: /* CP_INT in ring buffer */
+>                 case 177: /* CP_INT in IB1 */
+>                 case 178: /* CP_INT in IB2 */
+> -                       DRM_DEBUG("IH: CP int: 0x%08x\n", src_data);
+> +                       drm_dbg(ddev, "IH: CP int: 0x%08x\n", src_data);
+>                         radeon_fence_process(rdev, RADEON_RING_TYPE_GFX_I=
+NDEX);
+>                         break;
+>                 case 181: /* CP EOP event */
+> -                       DRM_DEBUG("IH: CP EOP\n");
+> +                       drm_dbg(ddev, "IH: CP EOP\n");
+>                         if (rdev->family >=3D CHIP_CAYMAN) {
+>                                 switch (src_data) {
+>                                 case 0:
+> @@ -4878,30 +4886,30 @@ int evergreen_irq_process(struct radeon_device *r=
+dev)
+>                                 radeon_fence_process(rdev, RADEON_RING_TY=
+PE_GFX_INDEX);
+>                         break;
+>                 case 224: /* DMA trap event */
+> -                       DRM_DEBUG("IH: DMA trap\n");
+> +                       drm_dbg(ddev, "IH: DMA trap\n");
+>                         radeon_fence_process(rdev, R600_RING_TYPE_DMA_IND=
+EX);
+>                         break;
+>                 case 230: /* thermal low to high */
+> -                       DRM_DEBUG("IH: thermal low to high\n");
+> +                       drm_dbg(ddev, "IH: thermal low to high\n");
+>                         rdev->pm.dpm.thermal.high_to_low =3D false;
+>                         queue_thermal =3D true;
+>                         break;
+>                 case 231: /* thermal high to low */
+> -                       DRM_DEBUG("IH: thermal high to low\n");
+> +                       drm_dbg(ddev, "IH: thermal high to low\n");
+>                         rdev->pm.dpm.thermal.high_to_low =3D true;
+>                         queue_thermal =3D true;
+>                         break;
+>                 case 233: /* GUI IDLE */
+> -                       DRM_DEBUG("IH: GUI idle\n");
+> +                       drm_dbg(ddev, "IH: GUI idle\n");
+>                         break;
+>                 case 244: /* DMA trap event */
+>                         if (rdev->family >=3D CHIP_CAYMAN) {
+> -                               DRM_DEBUG("IH: DMA1 trap\n");
+> +                               drm_dbg(ddev, "IH: DMA1 trap\n");
+>                                 radeon_fence_process(rdev, CAYMAN_RING_TY=
+PE_DMA1_INDEX);
+>                         }
+>                         break;
+>                 default:
+> -                       DRM_DEBUG("Unhandled interrupt: %d %d\n", src_id,=
+ src_data);
+> +                       drm_dbg(ddev, "Unhandled interrupt: %d %d\n", src=
+_id, src_data);
+>                         break;
+>                 }
+>
+> @@ -5000,6 +5008,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>  {
+>         struct radeon_ring *ring;
+>         int r;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         /* enable pcie gen2 link */
+>         evergreen_pcie_gen2_enable(rdev);
+> @@ -5016,7 +5025,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>         if (ASIC_IS_DCE5(rdev) && !rdev->pm.dpm_enabled) {
+>                 r =3D ni_mc_load_microcode(rdev);
+>                 if (r) {
+> -                       DRM_ERROR("Failed to load MC firmware!\n");
+> +                       drm_err(ddev, "Failed to load MC firmware!\n");
+>                         return r;
+>                 }
+>         }
+> @@ -5038,7 +5047,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>                 rdev->rlc.cs_data =3D evergreen_cs_data;
+>                 r =3D sumo_rlc_init(rdev);
+>                 if (r) {
+> -                       DRM_ERROR("Failed to init rlc BOs!\n");
+> +                       drm_err(ddev, "Failed to init rlc BOs!\n");
+>                         return r;
+>                 }
+>         }
+> @@ -5071,7 +5080,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>
+>         r =3D r600_irq_init(rdev);
+>         if (r) {
+> -               DRM_ERROR("radeon: IH init failed (%d).\n", r);
+> +               drm_err(ddev, "radeon: IH init failed (%d).\n", r);
+>                 radeon_irq_kms_fini(rdev);
+>                 return r;
+>         }
+> @@ -5109,7 +5118,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>
+>         r =3D radeon_audio_init(rdev);
+>         if (r) {
+> -               DRM_ERROR("radeon: audio init failed\n");
+> +               drm_err(ddev, "radeon: audio init failed\n");
+>                 return r;
+>         }
+>
+> @@ -5119,6 +5128,7 @@ static int evergreen_startup(struct radeon_device *=
+rdev)
+>  int evergreen_resume(struct radeon_device *rdev)
+>  {
+>         int r;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         /* reset the asic, the gfx blocks are often in a bad state
+>          * after the driver is unloaded or after a resume
+> @@ -5141,7 +5151,7 @@ int evergreen_resume(struct radeon_device *rdev)
+>         rdev->accel_working =3D true;
+>         r =3D evergreen_startup(rdev);
+>         if (r) {
+> -               DRM_ERROR("evergreen startup failed on resume\n");
+> +               drm_err(ddev, "evergreen startup failed on resume\n");
+>                 rdev->accel_working =3D false;
+>                 return r;
+>         }
+> @@ -5176,6 +5186,7 @@ int evergreen_suspend(struct radeon_device *rdev)
+>  int evergreen_init(struct radeon_device *rdev)
+>  {
+>         int r;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         /* Read BIOS */
+>         if (!radeon_get_bios(rdev)) {
+> @@ -5201,7 +5212,7 @@ int evergreen_init(struct radeon_device *rdev)
+>                         dev_err(rdev->dev, "Card not posted and no BIOS -=
+ ignoring\n");
+>                         return -EINVAL;
+>                 }
+> -               DRM_INFO("GPU not posted. posting now...\n");
+> +               drm_info(ddev, "GPU not posted. posting now...\n");
+>                 atom_asic_init(rdev->mode_info.atom_context);
+>         }
+>         /* init golden registers */
+> @@ -5233,7 +5244,7 @@ int evergreen_init(struct radeon_device *rdev)
+>                 if (!rdev->me_fw || !rdev->pfp_fw || !rdev->rlc_fw || !rd=
+ev->mc_fw) {
+>                         r =3D ni_init_microcode(rdev);
+>                         if (r) {
+> -                               DRM_ERROR("Failed to load firmware!\n");
+> +                               drm_err(ddev, "Failed to load firmware!\n=
+");
+>                                 return r;
+>                         }
+>                 }
+> @@ -5241,7 +5252,7 @@ int evergreen_init(struct radeon_device *rdev)
+>                 if (!rdev->me_fw || !rdev->pfp_fw || !rdev->rlc_fw) {
+>                         r =3D r600_init_microcode(rdev);
+>                         if (r) {
+> -                               DRM_ERROR("Failed to load firmware!\n");
+> +                               drm_err(ddev, "Failed to load firmware!\n=
+");
+>                                 return r;
+>                         }
+>                 }
+> @@ -5287,7 +5298,7 @@ int evergreen_init(struct radeon_device *rdev)
+>          */
+>         if (ASIC_IS_DCE5(rdev)) {
+>                 if (!rdev->mc_fw && !(rdev->flags & RADEON_IS_IGP)) {
+> -                       DRM_ERROR("radeon: MC ucode required for NI+.\n")=
+;
+> +                       drm_err(ddev, "radeon: MC ucode required for NI+.=
+\n");
+>                         return -EINVAL;
+>                 }
+>         }
+> @@ -5323,6 +5334,7 @@ void evergreen_fini(struct radeon_device *rdev)
+>  void evergreen_pcie_gen2_enable(struct radeon_device *rdev)
+>  {
+>         u32 link_width_cntl, speed_cntl;
+> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
+>
+>         if (radeon_pcie_gen2 =3D=3D 0)
+>                 return;
+> @@ -5343,11 +5355,11 @@ void evergreen_pcie_gen2_enable(struct radeon_dev=
+ice *rdev)
+>
+>         speed_cntl =3D RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
+>         if (speed_cntl & LC_CURRENT_DATA_RATE) {
+> -               DRM_INFO("PCIE gen 2 link speeds already enabled\n");
+> +               drm_info(ddev, "PCIE gen 2 link speeds already enabled\n"=
+);
+>                 return;
+>         }
+>
+> -       DRM_INFO("enabling PCIE gen 2 link speeds, disable with radeon.pc=
+ie_gen2=3D0\n");
+> +       drm_info(ddev, "enabling PCIE gen 2 link speeds, disable with rad=
+eon.pcie_gen2=3D0\n");
+>
+>         if ((speed_cntl & LC_OTHER_SIDE_EVER_SENT_GEN2) ||
+>             (speed_cntl & LC_OTHER_SIDE_SUPPORTS_GEN2)) {
+> --
+> 2.43.0
 >
