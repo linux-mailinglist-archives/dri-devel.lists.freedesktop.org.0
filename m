@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C50CC1890
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715B6CC1893
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:26:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF0610E774;
-	Tue, 16 Dec 2025 08:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4C110E773;
+	Tue, 16 Dec 2025 08:25:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LpQIScbP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RUbQysqE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A6A10E773
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:25:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3472E10E773
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765873554;
+ s=mimecast20190719; t=1765873555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LxZuDficpsxht2y5/1g+Ss0ZtX3L7w3OqfgkU4mgrZA=;
- b=LpQIScbPZTc6eYIhEr9CMRiNO0EKCOUFVC174fL4Qb9Ichtju5wot6kA6Z8zBTB0/AuOrz
- 4X7lw/OMvS/OnTL2Q6QlkwrN71QpTHCgbFE4kwiDrzsa6PMgzYN0rfPc17jhIWbljMONN8
- fXq/g214EClVgKKFLlzJq4+s4Ae2dSM=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=HWyGjiGLersikM+SckqXVY6Qk0oB/U7fJk4t5b5xt7k=;
+ b=RUbQysqEEnOy2sIFiRDR7JqmfpqC7CkLpxk4DoVmr2Q9AtMOwMp2ej1VHMOaguHL1tDl8H
+ TuT8W+r72kLNrWUIBrca3eBt18jeV9oNFLCe0H6A2Q0m1A3mSIYaxFZNTVGnsIE8eZZnXj
+ TCZY6HBaANjIcTa+yARFJg1+aNo6EVg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-2U7Lqs-IP_eBPMFE3pjlSQ-1; Tue,
- 16 Dec 2025 03:25:48 -0500
-X-MC-Unique: 2U7Lqs-IP_eBPMFE3pjlSQ-1
-X-Mimecast-MFC-AGG-ID: 2U7Lqs-IP_eBPMFE3pjlSQ_1765873547
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-2-G1gJjw8fNzutoyybk-3hkQ-1; Tue,
+ 16 Dec 2025 03:25:51 -0500
+X-MC-Unique: G1gJjw8fNzutoyybk-3hkQ-1
+X-Mimecast-MFC-AGG-ID: G1gJjw8fNzutoyybk-3hkQ_1765873550
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id C9F6F195608E; Tue, 16 Dec 2025 08:25:46 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 2AC0B195605F; Tue, 16 Dec 2025 08:25:50 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.45.224.146])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 590AB18004D8; Tue, 16 Dec 2025 08:25:43 +0000 (UTC)
+ id 59DB218004D8; Tue, 16 Dec 2025 08:25:47 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -50,10 +50,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 1/2] drm/panic: Rename draw_panic_static_* to
- draw_panic_screen_*
-Date: Tue, 16 Dec 2025 09:20:38 +0100
-Message-ID: <20251216082524.115980-2-jfalempe@redhat.com>
+Subject: [PATCH v4 2/2] drm/panic: Add kunit tests for drm_panic
+Date: Tue, 16 Dec 2025 09:20:39 +0100
+Message-ID: <20251216082524.115980-3-jfalempe@redhat.com>
 In-Reply-To: <20251216082524.115980-1-jfalempe@redhat.com>
 References: <20251216082524.115980-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -74,83 +73,276 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I called them "static" because the panic screen is drawn only once,
-but this can be confused with the static meaning in C.
-Also remove some unnecessary braces in draw_panic_dispatch().
-No functionnal change.
+Add kunit tests for drm_panic.
+They check that drawing the panic screen doesn't crash, but they
+don't check the correctness of the resulting image.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/drm_panic.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
 
+v3:
+ * Check the framebuffer content in drm_test_panic_screen_user_page().
+ * Fix memory leaks, when the test fails (Maxime Ripard).
+
+v4:
+ * Run QR code test only if QR code panic screen is built.
+
+ MAINTAINERS                            |   1 +
+ drivers/gpu/drm/drm_panic.c            |   4 +
+ drivers/gpu/drm/tests/drm_panic_test.c | 220 +++++++++++++++++++++++++
+ 3 files changed, 225 insertions(+)
+ create mode 100644 drivers/gpu/drm/tests/drm_panic_test.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f980623f1479..74eb8c7da2ab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8749,6 +8749,7 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/drm_draw.c
+ F:	drivers/gpu/drm/drm_draw_internal.h
+ F:	drivers/gpu/drm/drm_panic*.c
++F:	drivers/gpu/drm/tests/drm_panic_test.c
+ F:	include/drm/drm_panic*
+ 
+ DRM PANIC QR CODE
 diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index f42be7f1d8c2..30c615768efe 100644
+index 30c615768efe..a9f54c51a522 100644
 --- a/drivers/gpu/drm/drm_panic.c
 +++ b/drivers/gpu/drm/drm_panic.c
-@@ -476,7 +476,7 @@ static void drm_panic_logo_draw(struct drm_scanout_buffer *sb, struct drm_rect *
- 				   fg_color);
+@@ -1084,3 +1084,7 @@ void drm_panic_exit(void)
+ {
+ 	drm_panic_qr_exit();
  }
- 
--static void draw_panic_static_user(struct drm_scanout_buffer *sb)
-+static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
- {
- 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
- 						    sb->format->format);
-@@ -545,7 +545,7 @@ static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_
-  * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
-  * and going up until reaching the top of the screen.
-  */
--static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
-+static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
- {
- 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
- 						    sb->format->format);
-@@ -733,7 +733,7 @@ static int drm_panic_get_qr_code(u8 **qr_image)
- /*
-  * Draw the panic message at the center of the screen, with a QR Code
-  */
--static int _draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
-+static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
- {
- 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
- 						    sb->format->format);
-@@ -801,10 +801,10 @@ static int _draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
- 	return 0;
- }
- 
--static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
-+static void draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
- {
--	if (_draw_panic_static_qr_code(sb))
--		draw_panic_static_user(sb);
-+	if (_draw_panic_screen_qr_code(sb))
-+		draw_panic_screen_user(sb);
- }
- #else
- static void drm_panic_qr_init(void) {};
-@@ -879,18 +879,18 @@ static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
- {
- 	switch (drm_panic_type) {
- 	case DRM_PANIC_TYPE_KMSG:
--		draw_panic_static_kmsg(sb);
-+		draw_panic_screen_kmsg(sb);
- 		break;
- 
- #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
- 	case DRM_PANIC_TYPE_QR:
--		draw_panic_static_qr_code(sb);
-+		draw_panic_screen_qr_code(sb);
- 		break;
- #endif
- 
- 	case DRM_PANIC_TYPE_USER:
- 	default:
--		draw_panic_static_user(sb);
-+		draw_panic_screen_user(sb);
- 	}
- }
- 
++
++#ifdef CONFIG_DRM_KUNIT_TEST
++#include "tests/drm_panic_test.c"
++#endif
+diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
+new file mode 100644
+index 000000000000..dfd79b12ae9b
+--- /dev/null
++++ b/drivers/gpu/drm/tests/drm_panic_test.c
+@@ -0,0 +1,220 @@
++// SPDX-License-Identifier: GPL-2.0 or MIT
++/*
++ * Copyright (c) 2025 Red Hat.
++ * Author: Jocelyn Falempe <jfalempe@redhat.com>
++ *
++ * KUNIT tests for drm panic
++ */
++
++#include <drm/drm_fourcc.h>
++#include <drm/drm_panic.h>
++
++#include <kunit/test.h>
++
++#include <linux/units.h>
++#include <linux/vmalloc.h>
++
++/* Check the framebuffer color only if the panic colors are the default */
++#if (CONFIG_DRM_PANIC_BACKGROUND_COLOR == 0 && \
++	CONFIG_DRM_PANIC_FOREGROUND_COLOR == 0xffffff)
++
++static void drm_panic_check_color_byte(struct kunit *test, u8 b)
++{
++	KUNIT_EXPECT_TRUE(test, (b == 0 || b == 0xff));
++}
++#else
++static void drm_panic_check_color_byte(struct kunit *test, u8 b) {}
++#endif
++
++struct drm_test_mode {
++	const int width;
++	const int height;
++	const u32 format;
++	void (*draw_screen)(struct drm_scanout_buffer *sb);
++	const char *fname;
++};
++
++/*
++ * Run all tests for the 3 panic screens: user, kmsg and qr_code
++ */
++#define DRM_TEST_MODE_LIST(func) \
++	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_XRGB8888, func) \
++	DRM_PANIC_TEST_MODE(300, 200, DRM_FORMAT_XRGB8888, func) \
++	DRM_PANIC_TEST_MODE(1920, 1080, DRM_FORMAT_XRGB8888, func) \
++	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB565, func) \
++	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB888, func) \
++
++#define DRM_PANIC_TEST_MODE(w, h, f, name) { \
++	.width = w, \
++	.height = h, \
++	.format = f, \
++	.draw_screen = draw_panic_screen_##name, \
++	.fname = #name, \
++	}, \
++
++static const struct drm_test_mode drm_test_modes_cases[] = {
++	DRM_TEST_MODE_LIST(user)
++	DRM_TEST_MODE_LIST(kmsg)
++#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
++	DRM_TEST_MODE_LIST(qr_code)
++#endif
++};
++#undef DRM_PANIC_TEST_MODE
++
++static int drm_test_panic_init(struct kunit *test)
++{
++	struct drm_scanout_buffer *priv;
++
++	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, priv);
++
++	test->priv = priv;
++
++	drm_panic_set_description("Kunit testing");
++
++	return 0;
++}
++
++/*
++ * Test drawing the panic screen, using a memory mapped framebuffer
++ * Set the whole buffer to 0xa5, and then check that all pixels have been
++ * written.
++ */
++static void drm_test_panic_screen_user_map(struct kunit *test)
++{
++	struct drm_scanout_buffer *sb = test->priv;
++	const struct drm_test_mode *params = test->param_value;
++	char *fb;
++	int fb_size;
++	int i;
++
++	sb->format = drm_format_info(params->format);
++	fb_size = params->width * params->height * sb->format->cpp[0];
++
++	fb = vmalloc(fb_size);
++	KUNIT_ASSERT_NOT_NULL(test, fb);
++
++	memset(fb, 0xa5, fb_size);
++
++	iosys_map_set_vaddr(&sb->map[0], fb);
++	sb->width = params->width;
++	sb->height = params->height;
++	sb->pitch[0] = params->width * sb->format->cpp[0];
++
++	params->draw_screen(sb);
++
++	for (i = 0; i < fb_size; i++)
++		drm_panic_check_color_byte(test, fb[i]);
++
++	vfree(fb);
++}
++
++/*
++ * Test drawing the panic screen, using a list of pages framebuffer
++ * Set the whole buffer to 0xa5, and then check that all pixels have been
++ * written.
++ */
++static void drm_test_panic_screen_user_page(struct kunit *test)
++{
++	struct drm_scanout_buffer *sb = test->priv;
++	const struct drm_test_mode *params = test->param_value;
++	int fb_size, p, i, npages;
++	struct page **pages;
++	u8 *vaddr;
++
++	sb->format = drm_format_info(params->format);
++	fb_size = params->width * params->height * sb->format->cpp[0];
++	npages = DIV_ROUND_UP(fb_size, PAGE_SIZE);
++
++	pages = kmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, pages);
++
++	for (p = 0; p < npages; p++) {
++		pages[p] = alloc_page(GFP_KERNEL);
++		if (!pages[p]) {
++			npages = p - 1;
++			KUNIT_FAIL(test, "Can't allocate page\n");
++			goto free_pages;
++		}
++		vaddr = kmap_local_page(pages[p]);
++		memset(vaddr, 0xa5, PAGE_SIZE);
++		kunmap_local(vaddr);
++	}
++	sb->pages = pages;
++	sb->width = params->width;
++	sb->height = params->height;
++	sb->pitch[0] = params->width * sb->format->cpp[0];
++
++	params->draw_screen(sb);
++
++	for (p = 0; p < npages; p++) {
++		int bytes_in_page = (p == npages - 1) ? fb_size - p * PAGE_SIZE : PAGE_SIZE;
++
++		vaddr = kmap_local_page(pages[p]);
++		for (i = 0; i < bytes_in_page; i++)
++			drm_panic_check_color_byte(test, vaddr[i]);
++
++		kunmap_local(vaddr);
++	}
++
++free_pages:
++	for (p = 0; p < npages; p++)
++		__free_page(pages[p]);
++	kfree(pages);
++}
++
++static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
++				     unsigned int x,
++				     unsigned int y,
++				     u32 color)
++{
++	struct kunit *test = (struct kunit *) sb->private;
++
++	KUNIT_ASSERT_TRUE(test, x < sb->width && y < sb->height);
++}
++
++/*
++ * Test drawing the panic screen, using the set_pixel callback
++ * Check that all calls to set_pixel() are within the framebuffer
++ */
++static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
++{
++	struct drm_scanout_buffer *sb = test->priv;
++	const struct drm_test_mode *params = test->param_value;
++
++	sb->format = drm_format_info(params->format);
++	sb->set_pixel = drm_test_panic_set_pixel;
++	sb->width = params->width;
++	sb->height = params->height;
++	sb->private = test;
++
++	params->draw_screen(sb);
++}
++
++static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
++{
++	sprintf(desc, "Panic screen %s, mode: %d x %d \t%p4cc",
++		t->fname, t->width, t->height, &t->format);
++}
++
++KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_map, drm_test_modes_cases, drm_test_panic_desc);
++KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_page, drm_test_modes_cases, drm_test_panic_desc);
++KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_set_pixel, drm_test_modes_cases, drm_test_panic_desc);
++
++static struct kunit_case drm_panic_screen_user_test[] = {
++	KUNIT_CASE_PARAM(drm_test_panic_screen_user_map,
++			 drm_test_panic_screen_user_map_gen_params),
++	KUNIT_CASE_PARAM(drm_test_panic_screen_user_page,
++			 drm_test_panic_screen_user_page_gen_params),
++	KUNIT_CASE_PARAM(drm_test_panic_screen_user_set_pixel,
++			 drm_test_panic_screen_user_set_pixel_gen_params),
++	{ }
++};
++
++static struct kunit_suite drm_panic_suite = {
++	.name = "drm_panic",
++	.init = drm_test_panic_init,
++	.test_cases = drm_panic_screen_user_test,
++};
++
++kunit_test_suite(drm_panic_suite);
 -- 
 2.52.0
 
