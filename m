@@ -2,77 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6FCCC3F4C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 16:32:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C383CC3F6F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 16:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1217C10E04C;
-	Tue, 16 Dec 2025 15:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5F10E967;
+	Tue, 16 Dec 2025 15:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CjsFCNJb";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="onV7Rr5R";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="onV7Rr5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F5A10E2CE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 15:32:48 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7bb2fa942daso439820b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:32:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765899168; x=1766503968; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KkhPh91ZY2hMYr441a2z2DOrRPSoQAqhkmD0EJY8UKw=;
- b=CjsFCNJb/V4ehfHpjJ/jz4jRlgL9xOBeCgaa11hfOYqDYCnXk10VOoArhq3MyhK3P5
- dfa2UycMaeR4Q9baWcnAbN0AdjUFNKdVQxa6H88Sr0aIkqFwaky1uy9ELf1T6JJzQxa3
- 4OL4Gpng/sjRpmxhTS3AYKkAOG8Rh6O7ITbHWR1ZBBFQMDpuL47XqjrLXoqRlFBurB0q
- FHcL9GANEVe9AHMbNMDS43c//qCxrK3YguOAu44Tu2dj4Sj0DwOiRKZAdZ/RPRvWjA5H
- x6jNQqvL/t8u7/6uzL9Quad6zdo6Mjoa3v6KjZSUobiifK5bVHgthT6H9R5D/TUC6ffI
- lpXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765899168; x=1766503968;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=KkhPh91ZY2hMYr441a2z2DOrRPSoQAqhkmD0EJY8UKw=;
- b=h2WdSpbSBZck0Q0XCtl/20WUCnceOjbqmtjamroF2upq1ymnvkmAVbY1P23eJhZD03
- rs5TX3G+nuNz85E1/UdO2kg3sg5HCUCKVSD3nSEdvjrVulCWtafwF2EO930gy6lJjx7N
- 1DpcA1pobaWRUI9kwF691qMIXONrI8JgnoyE0Nzt2ilBQi0vkl9Nks6nq4hjy58/t5nb
- lOo09CHLiNK/RpcA5xa+lctFph+G1hT7FONqqujiiHIujyLyxcB579m/ug2uLocqg84S
- 6LhZ29t/ZriZDvj4jLlOnJFeGncKfvWRpunRLAPIgwMRRNO+UjlTrGZVFsY/SzEPIwiP
- vPHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0Vl4mvVK+WDUfwLEE4mTRvwjjPl+ftbzVftcUjvK+ILSY6tLcX52KrvM06Xo2Icm+Qo0m8F6ObsM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4NCuAY60gGQnRrnjJJ1AaMmNYm4i+aAeMPuUuv1tYMWLSa05v
- MYnY1n5BMXZufPhofHe85rW6h1P0n4BsI0cgXXG+Q3CrgRglXx+UuRhaRLTeTv+wi/1Hr5Elqaj
- g4yiQ+miQaNJsXhHV6KuisE8f2aJXFFU=
-X-Gm-Gg: AY/fxX5+8VcUc1E0FlrXqwiAB3TnKzkUEaLWjY7hWzKJF4niWBNP9YYNMfzj94SSz3U
- aAPc+VNXfr1vtkQikEL0NXsKLibaA3Mw38+9nroSk4WKS8jzuzVfCbQqnyT/6djUrX1hZwjfCJZ
- n/k61ucQ0zqp3v/OgFyG57MODXWRFvnzorFTBN7pq+1mMffQ6h9st7Aetiy/DE1rBOPXjcWVAZW
- sCZrihucUxiNAOAEhCjht9CtZrSIkQSEwZjxWKTZdORPBgIYP/S/zfCqPvGiMboHCKmNSJJ
-X-Google-Smtp-Source: AGHT+IHhUgn023eZckLDJr66UWTv1KcKOxMhsR5XJTU744G0O42iJEjgUhlnEldsrY+9G87YNdyLX6VDcYBP8Tkw1wM=
-X-Received: by 2002:a05:701b:2908:b0:11e:3e9:3e9b with SMTP id
- a92af1059eb24-11f34c1d3f5mr3414985c88.6.1765899167730; Tue, 16 Dec 2025
- 07:32:47 -0800 (PST)
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011048.outbound.protection.outlook.com [52.101.70.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1A410E967
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 15:34:02 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=qPXkRBoBAHepZXIQH9TjQH33bcuItlbnAV30yY/UogMN+gEYsVrVydrqqxI4mtgF2VVFMJtuEww1vbF0mezKHwN+76U16UlVlgB4VtTH+Yu3rR1TMeyUA7HdaIUS5/xZo31snMsJ2oYRRO4LG3QaYVS9V+BPY2GwLcz8r0SmPYiTQOk28bc9MvgFj7Y1leOYXhMPWxJ92eSBHjVICkd4sdBFzm0THWOgZqutUuSZmjCmDT9XimJmGYSXlJuUoDojAY8Z+v8nr90jcp6+yvXda21V+d09L3mSBY6hKmYcF2UUzCbEqLxTWekW4glw07ruwa1TiS1Wh2EfftRBdZ9dtQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GvXZ4LA7kdreOH37nFpfiyMobwH6NIn+1nvD+soKmOI=;
+ b=aU4pXRYyI6K1n5WYnQraTxTn7/bXkeGUljMo6mkXP3t7nzSrzXkd1BjQ5K6J5u8iXrY3anf1IijXTW3/zADp+SbJ73KAhdbel5W6UnvS+or4r68p7EbGg5qcckF1Q8EEOCsHd39BmSNdJ1PtC2NKjNgV86cIlVhhED+M/+DynQqyo2U/AZoXe/J+f087ZYORN/XK38eW5Z4F0wV59Xaxhmw2SabJ61ZiXmmPFub+9ZjH463VGK7vEVplDTdvFpQLdSE3aiLG6CkssswwU4mVOsPLe4rdrHEq0EXG1aqC32lJst9ypHDfATh9Mf5y8+9PK70cTsJdLWifS2b2HCk60Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GvXZ4LA7kdreOH37nFpfiyMobwH6NIn+1nvD+soKmOI=;
+ b=onV7Rr5RnwO9a254GkFICkF7ImHmYFfBOE1T9rbF0oMdTM6I0OXyrRF7axAGdzU7SjgRd3GccF+5sviQHLl26AqfAsuYV6qhTJj48J7aU874i6n/H03E582x/lFXySVaM9j7ZDKJV/fzKmhrsmqIK4rYznThRgixln0KFIGVb8E=
+Received: from AS4P192CA0050.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:658::12)
+ by AS8PR08MB10313.eurprd08.prod.outlook.com (2603:10a6:20b:5c1::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
+ 2025 15:33:53 +0000
+Received: from AM3PEPF00009B9C.eurprd04.prod.outlook.com
+ (2603:10a6:20b:658:cafe::ab) by AS4P192CA0050.outlook.office365.com
+ (2603:10a6:20b:658::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Tue,
+ 16 Dec 2025 15:33:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM3PEPF00009B9C.mail.protection.outlook.com (10.167.16.21) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
+ via Frontend Transport; Tue, 16 Dec 2025 15:33:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cTaaZV2m3L2sh0+HstrlZ9qRFVYKTT2MOXlQnxhM9zHcdGExovV5vOWUsbgHS36QOzfVuLJjbMSEuxYRyDwkbvGzUTxiOjPsydL/mQcCDwyIsbvebGxgL0xmTd2aUY7WWD8Wotg7kOhdwOEdOVLdJDFr9h9t3ZCkqWZa4ZALcZ2aQW+J/rwUJHzu1Yd0KMAT22nZLe6g1t1HGborImnoGYClT49hb/X+dX4m/mb1i0P4Ylg/QjaYd/p/tZoX6ZrG2gU7YU7NXUtyuw2bLeSQAhAXTu+wKYPFb5SYbJgizyVHhgKu4W7haGv4Gi3sDK+9hG5HpoRz1Ia7K78FzA/+bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GvXZ4LA7kdreOH37nFpfiyMobwH6NIn+1nvD+soKmOI=;
+ b=sb5Rs9Ud/6rv30X9aFDOR3Vstx12UwOyrhgG01ZOS6jWaTdWUbpVSyW4q0GPzB/HmTzq3E+5FndhvYBufsXb0hXUxh41oF2cwBlgHy++YK1gUlfEGe7L2y2DsGR0kFAg/Czg0C/Nex0osoIdkbiFcyNX+TcfIQPIBKMjsP0KBZFWW/M3CaJyA79WynZXTS7kqHbrObsO4ZCPTsvQvljaPsfUyLfTlebMx3d6sk1xaidFC9IW6GeO9zOZtp+6nZcPmDxbcS0Btq+3RXwD5hKjKS5Dz7etXv3PPPgVMdQnjvsZ5uGGfTk1rceBCU/dKIX8heVvBcnFpcEIdVqJC1m8KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GvXZ4LA7kdreOH37nFpfiyMobwH6NIn+1nvD+soKmOI=;
+ b=onV7Rr5RnwO9a254GkFICkF7ImHmYFfBOE1T9rbF0oMdTM6I0OXyrRF7axAGdzU7SjgRd3GccF+5sviQHLl26AqfAsuYV6qhTJj48J7aU874i6n/H03E582x/lFXySVaM9j7ZDKJV/fzKmhrsmqIK4rYznThRgixln0KFIGVb8E=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com (2603:10a6:20b:415::16)
+ by AS8PR08MB9792.eurprd08.prod.outlook.com (2603:10a6:20b:613::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 15:32:45 +0000
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499]) by AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499%4]) with mapi id 15.20.9434.001; Tue, 16 Dec 2025
+ 15:32:45 +0000
+From: Akash Goel <akash.goel@arm.com>
+To: boris.brezillon@collabora.com, liviu.dudau@arm.com, steven.price@arm.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com,
+ Akash Goel <akash.goel@arm.com>
+Subject: [PATCH] drm/panthor: Avoid showing imported BO as exported in DebugFS
+ output
+Date: Tue, 16 Dec 2025 15:32:42 +0000
+Message-Id: <20251216153242.1042613-1-akash.goel@arm.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0534.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::19) To AM9PR08MB6982.eurprd08.prod.outlook.com
+ (2603:10a6:20b:415::16)
 MIME-Version: 1.0
-References: <20251216103238.625468-1-abhiraj21put@gmail.com>
-In-Reply-To: <20251216103238.625468-1-abhiraj21put@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 16 Dec 2025 10:32:35 -0500
-X-Gm-Features: AQt7F2ryiv1nPzitbcsupElTVxoT7HZ5mdi1PuYorzpZ3hssoGLTENzWeFukyhQ
-Message-ID: <CADnq5_PuzCBWTD50ABObmq5tk+nQ=juKizFZwVXt3bmkEjmUNA@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Convert legacy DRM logging in evergreen.c to
- drm_* helpers
-To: Abhishek Rajput <abhiraj21put@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|AS8PR08MB9792:EE_|AM3PEPF00009B9C:EE_|AS8PR08MB10313:EE_
+X-MS-Office365-Filtering-Correlation-Id: b470f8c2-ab1a-4e0b-9ca2-08de3cb88408
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?0N5E8XLRiXnwz0YgNDhmXL8VkRgPbzlYx2+mWdr8mDqEVZAoSg5yTm10/V78?=
+ =?us-ascii?Q?i2mwxQz6GHPmBQfbCMXZohuhI4d4VzB9Brj3fiNHIdQvOzHHiKB2PQPau12F?=
+ =?us-ascii?Q?Uh59Ybht5fPhsgeE39S04tYHrDAdFTKNqlKQTHUkJ1KK83GGLwCeh0CG5uA1?=
+ =?us-ascii?Q?HceP/uNSFSK73DAjvGkmnNfLuVCVgXYjOahj8SM6LCRb5uhLf4KYiIv1lx4E?=
+ =?us-ascii?Q?GE0r5jFCXx2B2PtBN/7EujQmiwFvXs1Eo8W/B9uZXnO7G6vej1Zsgme7AZR+?=
+ =?us-ascii?Q?XP0YYBeLz9Mv6JmGIbtMyui42HjkM57KUuMOm2Lz2cC0z+06DhoQkyyrAZoH?=
+ =?us-ascii?Q?FCogYR6RPXST35kOOd0mzeItORit9Sx05/eaesWUOIupzSZRD/mvyZvFGqbb?=
+ =?us-ascii?Q?aqn83nDY/7djW03SP2zDLyB6XPNuzJhiI4im+dSDC5sGAyQlQ7Xx63XZS8T/?=
+ =?us-ascii?Q?tCJZ2MT1fx7wGHlSjB5CVmp5gwQV0QgIpCIYs3JY4DiC6DVIdfKi8C9c5BSc?=
+ =?us-ascii?Q?Q1rUNhG7lwDHUWLxB11rbUgZTs/NFDlzpdYNK/EpqokFDyZIsjYAUCXkJe9N?=
+ =?us-ascii?Q?i70whSPI1+VJtJ27u5VTElnHCyb8FcH69KXaGki2WG4gxXwGfbWO6pCU0jdU?=
+ =?us-ascii?Q?gYIxdwnUpPwpLGriRcAgBtW/JfGJV6eBS7R5gqKyyUys/Hhu7qky3mW2mgoO?=
+ =?us-ascii?Q?l/Eb7NpnlgeJEdHqqZNvPaLQiBbj2Gx8JGNgCsP3lXoOXKrWUj+vl6NFef5G?=
+ =?us-ascii?Q?4sUPoZgihFMCc4at9yd53QdOxC2Jyv/PoDRd4pXZpS/t7S5G3PvDHaBTNgFM?=
+ =?us-ascii?Q?MURxSvYQ4eCXsIypB1HorGwRD9fze1cFfJcQD+rpxlCgkZNXL37JxTQ7U+a1?=
+ =?us-ascii?Q?4H+8c635IaQtszPnCdiNdPT2ePukDX2Gg9F99tZxjtte3eCnfAyeiEKvbFLk?=
+ =?us-ascii?Q?8Gx11BL8XoEjZZZLbFKVRy4S83wxpfRerCrQQuNRJEOWeQSdj1SW7pHjozHA?=
+ =?us-ascii?Q?ufdpMysvKAARGVchLiXzqBbecafHnFNxt+iq6ZQrcPSH81e8vRQBGAMHB6gQ?=
+ =?us-ascii?Q?Gm3qFp3TX3xPIEdIgr6mzAIRWi7fOUxtOA9XtPZxRaJcAMb1FcV/rrL0qbwZ?=
+ =?us-ascii?Q?lU/DIj9x3yDKjHqQo89OwJfexNgtKBIkO4d0ocxn5p8TxntuoLsR/c8XpnHJ?=
+ =?us-ascii?Q?AfZLXk7YcmGirCrJs/Xqw/xK1lSZxYH7FUEPRrSvxUUPQNWLFyPbtu1egrSy?=
+ =?us-ascii?Q?iwgEFyxPpWaOmFUOaXTTFqrrXQAlOj7ukPDb2nxYHUNzzfIASZUjHEOF1uZM?=
+ =?us-ascii?Q?8xNEYtSTeYIIbhwbcTN1/2joujdCUcmZB1GdfZKX5IE0a134L40+HwPcQx6e?=
+ =?us-ascii?Q?fHQUqDKIjlxvpOfogcFSoyglZiNT2Jvi1Ftb8xmQ5v/AlM6nK6T8yHgi50tH?=
+ =?us-ascii?Q?59ecBDLPgLVxthSWdteLkXQMThp2BcCa?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6982.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9792
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM3PEPF00009B9C.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: f41576f4-a629-4080-6a8c-08de3cb85c4b
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|35042699022|82310400026|14060799003|376014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gtIvt6w/08UMWcwcfG11qChoQcBpwFboPtuAWGGqHed4JG7bMBH4gKtP9V24?=
+ =?us-ascii?Q?nmOdJiFRwO8VJcIMAIB1Qyj56Fa0kcRS2ZZgHYXOGlJTeyzuKX3+8d3rjJSp?=
+ =?us-ascii?Q?Pyqu6PFdKvDYRSzP8Y3uCNrqKt8XUOROMbgQPnlfjoIf13Y/MU+aUPPhE9IF?=
+ =?us-ascii?Q?+X/gCnn2q4U3DRXgncemL/2lzxBxWZP+1RPw26dy7/yBHT52S1wZitvkzwI6?=
+ =?us-ascii?Q?w4KaPhHSLk65iSX+v1ypy1fghpxvd/PyK3akIBsgkOX17TilUeA1Pk7zUqGn?=
+ =?us-ascii?Q?dTD2YvRNR6FcDTN+5NW9CfJWR2xmdMTWPN/jDcZSuWBTPeEuGAgAiPbfgWCz?=
+ =?us-ascii?Q?BvBBTeR3A5zJMCggqXgKjk6jH/3ped69e3RdsHSU/h7t3c6PpfW2EnbPvh9h?=
+ =?us-ascii?Q?UYqRYwX6WsTBgbxr2Dwg9xBgJvi5wVdy4/l5QYL3ZppWaBqr9zSad6zVGCZA?=
+ =?us-ascii?Q?3IDnppHdAGaJn9kFhOEeWSf2i6tXx3t3btj34iySn6raiL07Rw3jM4iHwXrF?=
+ =?us-ascii?Q?+si4SYDFnDAdjvpNCzHBuepMAVhyvbKlKLCenJssm9ycGDHHWGOrSHUyKH9G?=
+ =?us-ascii?Q?+UO1hezx5zOgGs6taO5hCL2snSmDvDvSHmuID7z15FixnU2m3RiyrBSX+qC8?=
+ =?us-ascii?Q?XFlbXJxSWOGX2tT8SqEUUHFaTybDYxB13R0EbGqyYZJcSLzlIlUeVDSVId7m?=
+ =?us-ascii?Q?GO0mYcAAROVtJh//f4VAjEJJur9ivMSLirHRBsI5GAhSzD9BPVWDHjY8qNZu?=
+ =?us-ascii?Q?JNYictPIoy+JFe2n8fp5qDTDMJucfUvlS83vfGTJSKBWxj7fGFaYHaPt9w44?=
+ =?us-ascii?Q?b8W2XdaTgBbxvKGaMpbNY1WgFESMapA24nI5ogi6IgM0zXXgPuSmzt71ov9N?=
+ =?us-ascii?Q?OSmSFsg1Ze680M0Ds1UPCGjMsFQeygyrNMgFgHK71oTro2vf6LFj0TrrCHPw?=
+ =?us-ascii?Q?hQktorEmeODpwEf9mqYjxFfExAmJK2Cv49/ekb3MLC0bj5pyq/dmMBsuuB/G?=
+ =?us-ascii?Q?Ue12dcFgmdpGwy1FzL7oHR1lnDb34mh7Urvr5eepM2UC2Z96Y8WD2/QkA/qP?=
+ =?us-ascii?Q?oQcjMt+9RKBrb12Hrxyh6313ilmlcLUE8SgMur/5Zfy3TVjD9dddPXx+JSdd?=
+ =?us-ascii?Q?kOoQJksCu5yGqosPyoVenzvd+9BlOHpwlNR+dFckUwOkQxB6o7UoR0yx6wdC?=
+ =?us-ascii?Q?AAH3EQisQYE5NKzEKbNrb/2b8E8oDCP58TuzZCmkBp4bZvoai3PmUpNNLiur?=
+ =?us-ascii?Q?DwIOs673O3GH9eTr6bpXcZ9XLkEaeV0Wj6akTtqkVtGKUlOVM6ClNJF/OxoO?=
+ =?us-ascii?Q?jjgEBN1c/5VXpoPfG+4QUCUb1YUdWQ84DtagN2Lhow4f5MUhoh4oPuu74+78?=
+ =?us-ascii?Q?1kQRa5Yh2CNv+8ssQJ6fpLKG4ksNN4/7EM8gvkcGbRYWqCfdzJIWLgBLo0p/?=
+ =?us-ascii?Q?6ecYNc2Lak2QPiXrUdj4iZuP3IukwRW+sRVPlGD67ppXiDlI0sDQdSQpDMBd?=
+ =?us-ascii?Q?MbEB5kOeSUOXir1bYOOiL4y0zLNf5RwKTrUBZ9XDo7PPUAtIV4bskjtTKaxy?=
+ =?us-ascii?Q?+e772tIk46mGmvFVlac=3D?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(35042699022)(82310400026)(14060799003)(376014)(36860700013)(1800799024);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 15:33:51.9052 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b470f8c2-ab1a-4e0b-9ca2-08de3cb88408
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF00009B9C.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10313
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,584 +196,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+The "gems" DebugFS file shows the device-wide list of DRM GEM objects.
+It displays various information about an object, including if it is
+PRIME imported, PRIME exported.
+This commit fixes the debugfs_bo_print() function to prevent an imported
+BO from also being shown as exported in the DebugFS file output.
+Both 'import_attach' and 'dma_buf' fields will not be NULL for an
+imported BO.
 
-On Tue, Dec 16, 2025 at 5:33=E2=80=AFAM Abhishek Rajput <abhiraj21put@gmail=
-.com> wrote:
->
-> Replace DRM_DEBUG(), DRM_ERROR(), and DRM_INFO() calls with the
-> corresponding drm_dbg(), drm_err(), and drm_info() helpers in the
-> radeon driver.
->
-> The drm_*() logging helpers take a struct drm_device * argument,
-> allowing the DRM core to prefix log messages with the correct device
-> name and instance. This is required to correctly distinguish log
-> messages on systems with multiple GPUs.
->
-> This change aligns radeon with the DRM TODO item:
-> "Convert logging to drm_* functions with drm_device parameter".
->
-> Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
->
-> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/=
-evergreen.c
-> index bc4ab71613a5..3cbc6eedbf66 100644
-> --- a/drivers/gpu/drm/radeon/evergreen.c
-> +++ b/drivers/gpu/drm/radeon/evergreen.c
-> @@ -1630,6 +1630,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
->         int req_cm_idx =3D rdev->pm.requested_clock_mode_index;
->         struct radeon_power_state *ps =3D &rdev->pm.power_state[req_ps_id=
-x];
->         struct radeon_voltage *voltage =3D &ps->clock_info[req_cm_idx].vo=
-ltage;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (voltage->type =3D=3D VOLTAGE_SW) {
->                 /* 0xff0x are flags rather then an actual voltage */
-> @@ -1638,7 +1639,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
->                 if (voltage->voltage && (voltage->voltage !=3D rdev->pm.c=
-urrent_vddc)) {
->                         radeon_atom_set_voltage(rdev, voltage->voltage, S=
-ET_VOLTAGE_TYPE_ASIC_VDDC);
->                         rdev->pm.current_vddc =3D voltage->voltage;
-> -                       DRM_DEBUG("Setting: vddc: %d\n", voltage->voltage=
-);
-> +                       drm_dbg(ddev, "Setting: vddc: %d\n", voltage->vol=
-tage);
->                 }
->
->                 /* starting with BTC, there is one state that is used for=
- both
-> @@ -1659,7 +1660,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
->                 if (voltage->vddci && (voltage->vddci !=3D rdev->pm.curre=
-nt_vddci)) {
->                         radeon_atom_set_voltage(rdev, voltage->vddci, SET=
-_VOLTAGE_TYPE_ASIC_VDDCI);
->                         rdev->pm.current_vddci =3D voltage->vddci;
-> -                       DRM_DEBUG("Setting: vddci: %d\n", voltage->vddci)=
-;
-> +                       drm_dbg(ddev, "Setting: vddci: %d\n", voltage->vd=
-dci);
->                 }
->         }
->  }
-> @@ -2168,6 +2169,7 @@ static void evergreen_program_watermarks(struct rad=
-eon_device *rdev,
->         u32 pipe_offset =3D radeon_crtc->crtc_id * 16;
->         u32 tmp, arb_control3;
->         fixed20_12 a, b, c;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (radeon_crtc->base.enabled && num_heads && mode) {
->                 active_time =3D (u32) div_u64((u64)mode->crtc_hdisplay * =
-1000000,
-> @@ -2244,14 +2246,14 @@ static void evergreen_program_watermarks(struct r=
-adeon_device *rdev,
->                     !evergreen_average_bandwidth_vs_available_bandwidth(&=
-wm_high) ||
->                     !evergreen_check_latency_hiding(&wm_high) ||
->                     (rdev->disp_priority =3D=3D 2)) {
-> -                       DRM_DEBUG_KMS("force priority a to high\n");
-> +                       drm_dbg_kms(ddev, "force priority a to high\n");
->                         priority_a_cnt |=3D PRIORITY_ALWAYS_ON;
->                 }
->                 if (!evergreen_average_bandwidth_vs_dram_bandwidth_for_di=
-splay(&wm_low) ||
->                     !evergreen_average_bandwidth_vs_available_bandwidth(&=
-wm_low) ||
->                     !evergreen_check_latency_hiding(&wm_low) ||
->                     (rdev->disp_priority =3D=3D 2)) {
-> -                       DRM_DEBUG_KMS("force priority b to high\n");
-> +                       drm_dbg_kms(ddev, "force priority b to high\n");
->                         priority_b_cnt |=3D PRIORITY_ALWAYS_ON;
->                 }
->
-> @@ -2401,6 +2403,7 @@ static int evergreen_pcie_gart_enable(struct radeon=
-_device *rdev)
->  {
->         u32 tmp;
->         int r;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (rdev->gart.robj =3D=3D NULL) {
->                 dev_err(rdev->dev, "No VRAM object for PCIE GART.\n");
-> @@ -2448,7 +2451,7 @@ static int evergreen_pcie_gart_enable(struct radeon=
-_device *rdev)
->         WREG32(VM_CONTEXT1_CNTL, 0);
->
->         evergreen_pcie_gart_tlb_flush(rdev);
-> -       DRM_INFO("PCIE GART of %uM enabled (table at 0x%016llX).\n",
-> +       drm_info(ddev, "PCIE GART of %uM enabled (table at 0x%016llX).\n"=
-,
->                  (unsigned)(rdev->mc.gtt_size >> 20),
->                  (unsigned long long)rdev->gart.table_addr);
->         rdev->gart.ready =3D true;
-> @@ -2626,16 +2629,17 @@ static void evergreen_blank_dp_output(struct rade=
-on_device *rdev,
->         unsigned stream_ctrl;
->         unsigned fifo_ctrl;
->         unsigned counter =3D 0;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (dig_fe >=3D ARRAY_SIZE(evergreen_dp_offsets)) {
-> -               DRM_ERROR("invalid dig_fe %d\n", dig_fe);
-> +               drm_err(ddev, "invalid dig_fe %d\n", dig_fe);
->                 return;
->         }
->
->         stream_ctrl =3D RREG32(EVERGREEN_DP_VID_STREAM_CNTL +
->                              evergreen_dp_offsets[dig_fe]);
->         if (!(stream_ctrl & EVERGREEN_DP_VID_STREAM_CNTL_ENABLE)) {
-> -               DRM_ERROR("dig %d , should be enable\n", dig_fe);
-> +               drm_err(ddev, "dig %d , should be enable\n", dig_fe);
->                 return;
->         }
->
-> @@ -2652,7 +2656,7 @@ static void evergreen_blank_dp_output(struct radeon=
-_device *rdev,
->                                      evergreen_dp_offsets[dig_fe]);
->         }
->         if (counter >=3D 32)
-> -               DRM_ERROR("counter exceeds %d\n", counter);
-> +               drm_err(ddev, "counter exceeds %d\n", counter);
->
->         fifo_ctrl =3D RREG32(EVERGREEN_DP_STEER_FIFO + evergreen_dp_offse=
-ts[dig_fe]);
->         fifo_ctrl |=3D EVERGREEN_DP_STEER_FIFO_RESET;
-> @@ -2998,10 +3002,11 @@ static int evergreen_cp_start(struct radeon_devic=
-e *rdev)
->         struct radeon_ring *ring =3D &rdev->ring[RADEON_RING_TYPE_GFX_IND=
-EX];
->         int r, i;
->         uint32_t cp_me;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         r =3D radeon_ring_lock(rdev, ring, 7);
->         if (r) {
-> -               DRM_ERROR("radeon: cp failed to lock ring (%d).\n", r);
-> +               drm_err(ddev, "radeon: cp failed to lock ring (%d).\n", r=
-);
->                 return r;
->         }
->         radeon_ring_write(ring, PACKET3(PACKET3_ME_INITIALIZE, 5));
-> @@ -3018,7 +3023,7 @@ static int evergreen_cp_start(struct radeon_device =
-*rdev)
->
->         r =3D radeon_ring_lock(rdev, ring, evergreen_default_size + 19);
->         if (r) {
-> -               DRM_ERROR("radeon: cp failed to lock ring (%d).\n", r);
-> +               drm_err(ddev, "radeon: cp failed to lock ring (%d).\n", r=
-);
->                 return r;
->         }
->
-> @@ -3826,6 +3831,7 @@ u32 evergreen_gpu_check_soft_reset(struct radeon_de=
-vice *rdev)
->  {
->         u32 reset_mask =3D 0;
->         u32 tmp;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         /* GRBM_STATUS */
->         tmp =3D RREG32(GRBM_STATUS);
-> @@ -3884,7 +3890,7 @@ u32 evergreen_gpu_check_soft_reset(struct radeon_de=
-vice *rdev)
->
->         /* Skip MC reset as it's mostly likely not hung, just busy */
->         if (reset_mask & RADEON_RESET_MC) {
-> -               DRM_DEBUG("MC busy: 0x%08X, clearing.\n", reset_mask);
-> +               drm_dbg(ddev, "MC busy: 0x%08X, clearing.\n", reset_mask)=
-;
->                 reset_mask &=3D ~RADEON_RESET_MC;
->         }
->
-> @@ -4495,6 +4501,7 @@ int evergreen_irq_set(struct radeon_device *rdev)
->         u32 grbm_int_cntl =3D 0;
->         u32 dma_cntl, dma_cntl1 =3D 0;
->         u32 thermal_int =3D 0;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (!rdev->irq.installed) {
->                 WARN(1, "Can't enable IRQ/MSI because no handler is insta=
-lled\n");
-> @@ -4520,40 +4527,40 @@ int evergreen_irq_set(struct radeon_device *rdev)
->         if (rdev->family >=3D CHIP_CAYMAN) {
->                 /* enable CP interrupts on all rings */
->                 if (atomic_read(&rdev->irq.ring_int[RADEON_RING_TYPE_GFX_=
-INDEX])) {
-> -                       DRM_DEBUG("evergreen_irq_set: sw int gfx\n");
-> +                       drm_dbg(ddev, "%s : sw int gfx\n", __func__);
->                         cp_int_cntl |=3D TIME_STAMP_INT_ENABLE;
->                 }
->                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_CP1_=
-INDEX])) {
-> -                       DRM_DEBUG("evergreen_irq_set: sw int cp1\n");
-> +                       drm_dbg(ddev, "%s : sw int cp1\n", __func__);
->                         cp_int_cntl1 |=3D TIME_STAMP_INT_ENABLE;
->                 }
->                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_CP2_=
-INDEX])) {
-> -                       DRM_DEBUG("evergreen_irq_set: sw int cp2\n");
-> +                       drm_dbg(ddev, "%s : sw int cp2\n", __func__);
->                         cp_int_cntl2 |=3D TIME_STAMP_INT_ENABLE;
->                 }
->         } else {
->                 if (atomic_read(&rdev->irq.ring_int[RADEON_RING_TYPE_GFX_=
-INDEX])) {
-> -                       DRM_DEBUG("evergreen_irq_set: sw int gfx\n");
-> +                       drm_dbg(ddev, "%s : sw int gfx\n", __func__);
->                         cp_int_cntl |=3D RB_INT_ENABLE;
->                         cp_int_cntl |=3D TIME_STAMP_INT_ENABLE;
->                 }
->         }
->
->         if (atomic_read(&rdev->irq.ring_int[R600_RING_TYPE_DMA_INDEX])) {
-> -               DRM_DEBUG("r600_irq_set: sw int dma\n");
-> +               drm_dbg(ddev, "r600_irq_set: sw int dma\n");
->                 dma_cntl |=3D TRAP_ENABLE;
->         }
->
->         if (rdev->family >=3D CHIP_CAYMAN) {
->                 dma_cntl1 =3D RREG32(CAYMAN_DMA1_CNTL) & ~TRAP_ENABLE;
->                 if (atomic_read(&rdev->irq.ring_int[CAYMAN_RING_TYPE_DMA1=
-_INDEX])) {
-> -                       DRM_DEBUG("r600_irq_set: sw int dma1\n");
-> +                       drm_dbg(ddev, "r600_irq_set: sw int dma1\n");
->                         dma_cntl1 |=3D TRAP_ENABLE;
->                 }
->         }
->
->         if (rdev->irq.dpm_thermal) {
-> -               DRM_DEBUG("dpm thermal\n");
-> +               drm_dbg(ddev, "dpm thermal\n");
->                 thermal_int |=3D THERM_INT_MASK_HIGH | THERM_INT_MASK_LOW=
-;
->         }
->
-> @@ -4713,6 +4720,7 @@ int evergreen_irq_process(struct radeon_device *rde=
-v)
->         bool queue_thermal =3D false;
->         u32 status, addr;
->         const char *event_name;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (!rdev->ih.enabled || rdev->shutdown)
->                 return IRQ_NONE;
-> @@ -4725,7 +4733,7 @@ int evergreen_irq_process(struct radeon_device *rde=
-v)
->                 return IRQ_NONE;
->
->         rptr =3D rdev->ih.rptr;
-> -       DRM_DEBUG("evergreen_irq_process start: rptr %d, wptr %d\n", rptr=
-, wptr);
-> +       drm_dbg(ddev, "%s start: rptr %d, wptr %d\n", __func__, rptr, wpt=
-r);
->
->         /* Order reading of wptr vs. reading of IH ring data */
->         rmb();
-> @@ -4766,18 +4774,18 @@ int evergreen_irq_process(struct radeon_device *r=
-dev)
->                                 mask =3D LB_D1_VLINE_INTERRUPT;
->                                 event_name =3D "vline";
->                         } else {
-> -                               DRM_DEBUG("Unhandled interrupt: %d %d\n",
-> +                               drm_dbg(ddev, "Unhandled interrupt: %d %d=
-\n",
->                                           src_id, src_data);
->                                 break;
->                         }
->
->                         if (!(disp_int[crtc_idx] & mask)) {
-> -                               DRM_DEBUG("IH: D%d %s - IH event w/o asse=
-rted irq bit?\n",
-> +                               drm_dbg(ddev, "IH: D%d %s - IH event w/o =
-asserted irq bit?\n",
->                                           crtc_idx + 1, event_name);
->                         }
->
->                         disp_int[crtc_idx] &=3D ~mask;
-> -                       DRM_DEBUG("IH: D%d %s\n", crtc_idx + 1, event_nam=
-e);
-> +                       drm_dbg(ddev, "IH: D%d %s\n", crtc_idx + 1, event=
-_name);
->
->                         break;
->                 case 8: /* D1 page flip */
-> @@ -4786,7 +4794,7 @@ int evergreen_irq_process(struct radeon_device *rde=
-v)
->                 case 14: /* D4 page flip */
->                 case 16: /* D5 page flip */
->                 case 18: /* D6 page flip */
-> -                       DRM_DEBUG("IH: D%d flip\n", ((src_id - 8) >> 1) +=
- 1);
-> +                       drm_dbg(ddev, "IH: D%d flip\n", ((src_id - 8) >> =
-1) + 1);
->                         if (radeon_use_pflipirq > 0)
->                                 radeon_crtc_handle_flip(rdev, (src_id - 8=
-) >> 1);
->                         break;
-> @@ -4804,39 +4812,39 @@ int evergreen_irq_process(struct radeon_device *r=
-dev)
->                                 event_name =3D "HPD_RX";
->
->                         } else {
-> -                               DRM_DEBUG("Unhandled interrupt: %d %d\n",
-> +                               drm_dbg(ddev, "Unhandled interrupt: %d %d=
-\n",
->                                           src_id, src_data);
->                                 break;
->                         }
->
->                         if (!(disp_int[hpd_idx] & mask))
-> -                               DRM_DEBUG("IH: IH event w/o asserted irq =
-bit?\n");
-> +                               drm_dbg(ddev, "IH: IH event w/o asserted =
-irq bit?\n");
->
->                         disp_int[hpd_idx] &=3D ~mask;
-> -                       DRM_DEBUG("IH: %s%d\n", event_name, hpd_idx + 1);
-> +                       drm_dbg(ddev, "IH: %s%d\n", event_name, hpd_idx +=
- 1);
->
->                         break;
->                 case 44: /* hdmi */
->                         afmt_idx =3D src_data;
->                         if (afmt_idx > 5) {
-> -                               DRM_ERROR("Unhandled interrupt: %d %d\n",
-> +                               drm_err(ddev, "Unhandled interrupt: %d %d=
-\n",
->                                           src_id, src_data);
->                                 break;
->                         }
->
->                         if (!(afmt_status[afmt_idx] & AFMT_AZ_FORMAT_WTRI=
-G))
-> -                               DRM_DEBUG("IH: IH event w/o asserted irq =
-bit?\n");
-> +                               drm_dbg(ddev, "IH: IH event w/o asserted =
-irq bit?\n");
->
->                         afmt_status[afmt_idx] &=3D ~AFMT_AZ_FORMAT_WTRIG;
->                         queue_hdmi =3D true;
-> -                       DRM_DEBUG("IH: HDMI%d\n", afmt_idx + 1);
-> +                       drm_dbg(ddev, "IH: HDMI%d\n", afmt_idx + 1);
->                         break;
->                 case 96:
-> -                       DRM_ERROR("SRBM_READ_ERROR: 0x%x\n", RREG32(SRBM_=
-READ_ERROR));
-> +                       drm_err(ddev, "SRBM_READ_ERROR: 0x%x\n", RREG32(S=
-RBM_READ_ERROR));
->                         WREG32(SRBM_INT_ACK, 0x1);
->                         break;
->                 case 124: /* UVD */
-> -                       DRM_DEBUG("IH: UVD int: 0x%08x\n", src_data);
-> +                       drm_dbg(ddev, "IH: UVD int: 0x%08x\n", src_data);
->                         radeon_fence_process(rdev, R600_RING_TYPE_UVD_IND=
-EX);
->                         break;
->                 case 146:
-> @@ -4857,11 +4865,11 @@ int evergreen_irq_process(struct radeon_device *r=
-dev)
->                 case 176: /* CP_INT in ring buffer */
->                 case 177: /* CP_INT in IB1 */
->                 case 178: /* CP_INT in IB2 */
-> -                       DRM_DEBUG("IH: CP int: 0x%08x\n", src_data);
-> +                       drm_dbg(ddev, "IH: CP int: 0x%08x\n", src_data);
->                         radeon_fence_process(rdev, RADEON_RING_TYPE_GFX_I=
-NDEX);
->                         break;
->                 case 181: /* CP EOP event */
-> -                       DRM_DEBUG("IH: CP EOP\n");
-> +                       drm_dbg(ddev, "IH: CP EOP\n");
->                         if (rdev->family >=3D CHIP_CAYMAN) {
->                                 switch (src_data) {
->                                 case 0:
-> @@ -4878,30 +4886,30 @@ int evergreen_irq_process(struct radeon_device *r=
-dev)
->                                 radeon_fence_process(rdev, RADEON_RING_TY=
-PE_GFX_INDEX);
->                         break;
->                 case 224: /* DMA trap event */
-> -                       DRM_DEBUG("IH: DMA trap\n");
-> +                       drm_dbg(ddev, "IH: DMA trap\n");
->                         radeon_fence_process(rdev, R600_RING_TYPE_DMA_IND=
-EX);
->                         break;
->                 case 230: /* thermal low to high */
-> -                       DRM_DEBUG("IH: thermal low to high\n");
-> +                       drm_dbg(ddev, "IH: thermal low to high\n");
->                         rdev->pm.dpm.thermal.high_to_low =3D false;
->                         queue_thermal =3D true;
->                         break;
->                 case 231: /* thermal high to low */
-> -                       DRM_DEBUG("IH: thermal high to low\n");
-> +                       drm_dbg(ddev, "IH: thermal high to low\n");
->                         rdev->pm.dpm.thermal.high_to_low =3D true;
->                         queue_thermal =3D true;
->                         break;
->                 case 233: /* GUI IDLE */
-> -                       DRM_DEBUG("IH: GUI idle\n");
-> +                       drm_dbg(ddev, "IH: GUI idle\n");
->                         break;
->                 case 244: /* DMA trap event */
->                         if (rdev->family >=3D CHIP_CAYMAN) {
-> -                               DRM_DEBUG("IH: DMA1 trap\n");
-> +                               drm_dbg(ddev, "IH: DMA1 trap\n");
->                                 radeon_fence_process(rdev, CAYMAN_RING_TY=
-PE_DMA1_INDEX);
->                         }
->                         break;
->                 default:
-> -                       DRM_DEBUG("Unhandled interrupt: %d %d\n", src_id,=
- src_data);
-> +                       drm_dbg(ddev, "Unhandled interrupt: %d %d\n", src=
-_id, src_data);
->                         break;
->                 }
->
-> @@ -5000,6 +5008,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->  {
->         struct radeon_ring *ring;
->         int r;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         /* enable pcie gen2 link */
->         evergreen_pcie_gen2_enable(rdev);
-> @@ -5016,7 +5025,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->         if (ASIC_IS_DCE5(rdev) && !rdev->pm.dpm_enabled) {
->                 r =3D ni_mc_load_microcode(rdev);
->                 if (r) {
-> -                       DRM_ERROR("Failed to load MC firmware!\n");
-> +                       drm_err(ddev, "Failed to load MC firmware!\n");
->                         return r;
->                 }
->         }
-> @@ -5038,7 +5047,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->                 rdev->rlc.cs_data =3D evergreen_cs_data;
->                 r =3D sumo_rlc_init(rdev);
->                 if (r) {
-> -                       DRM_ERROR("Failed to init rlc BOs!\n");
-> +                       drm_err(ddev, "Failed to init rlc BOs!\n");
->                         return r;
->                 }
->         }
-> @@ -5071,7 +5080,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->
->         r =3D r600_irq_init(rdev);
->         if (r) {
-> -               DRM_ERROR("radeon: IH init failed (%d).\n", r);
-> +               drm_err(ddev, "radeon: IH init failed (%d).\n", r);
->                 radeon_irq_kms_fini(rdev);
->                 return r;
->         }
-> @@ -5109,7 +5118,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->
->         r =3D radeon_audio_init(rdev);
->         if (r) {
-> -               DRM_ERROR("radeon: audio init failed\n");
-> +               drm_err(ddev, "radeon: audio init failed\n");
->                 return r;
->         }
->
-> @@ -5119,6 +5128,7 @@ static int evergreen_startup(struct radeon_device *=
-rdev)
->  int evergreen_resume(struct radeon_device *rdev)
->  {
->         int r;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         /* reset the asic, the gfx blocks are often in a bad state
->          * after the driver is unloaded or after a resume
-> @@ -5141,7 +5151,7 @@ int evergreen_resume(struct radeon_device *rdev)
->         rdev->accel_working =3D true;
->         r =3D evergreen_startup(rdev);
->         if (r) {
-> -               DRM_ERROR("evergreen startup failed on resume\n");
-> +               drm_err(ddev, "evergreen startup failed on resume\n");
->                 rdev->accel_working =3D false;
->                 return r;
->         }
-> @@ -5176,6 +5186,7 @@ int evergreen_suspend(struct radeon_device *rdev)
->  int evergreen_init(struct radeon_device *rdev)
->  {
->         int r;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         /* Read BIOS */
->         if (!radeon_get_bios(rdev)) {
-> @@ -5201,7 +5212,7 @@ int evergreen_init(struct radeon_device *rdev)
->                         dev_err(rdev->dev, "Card not posted and no BIOS -=
- ignoring\n");
->                         return -EINVAL;
->                 }
-> -               DRM_INFO("GPU not posted. posting now...\n");
-> +               drm_info(ddev, "GPU not posted. posting now...\n");
->                 atom_asic_init(rdev->mode_info.atom_context);
->         }
->         /* init golden registers */
-> @@ -5233,7 +5244,7 @@ int evergreen_init(struct radeon_device *rdev)
->                 if (!rdev->me_fw || !rdev->pfp_fw || !rdev->rlc_fw || !rd=
-ev->mc_fw) {
->                         r =3D ni_init_microcode(rdev);
->                         if (r) {
-> -                               DRM_ERROR("Failed to load firmware!\n");
-> +                               drm_err(ddev, "Failed to load firmware!\n=
-");
->                                 return r;
->                         }
->                 }
-> @@ -5241,7 +5252,7 @@ int evergreen_init(struct radeon_device *rdev)
->                 if (!rdev->me_fw || !rdev->pfp_fw || !rdev->rlc_fw) {
->                         r =3D r600_init_microcode(rdev);
->                         if (r) {
-> -                               DRM_ERROR("Failed to load firmware!\n");
-> +                               drm_err(ddev, "Failed to load firmware!\n=
-");
->                                 return r;
->                         }
->                 }
-> @@ -5287,7 +5298,7 @@ int evergreen_init(struct radeon_device *rdev)
->          */
->         if (ASIC_IS_DCE5(rdev)) {
->                 if (!rdev->mc_fw && !(rdev->flags & RADEON_IS_IGP)) {
-> -                       DRM_ERROR("radeon: MC ucode required for NI+.\n")=
-;
-> +                       drm_err(ddev, "radeon: MC ucode required for NI+.=
-\n");
->                         return -EINVAL;
->                 }
->         }
-> @@ -5323,6 +5334,7 @@ void evergreen_fini(struct radeon_device *rdev)
->  void evergreen_pcie_gen2_enable(struct radeon_device *rdev)
->  {
->         u32 link_width_cntl, speed_cntl;
-> +       struct drm_device *ddev =3D rdev_to_drm(rdev);
->
->         if (radeon_pcie_gen2 =3D=3D 0)
->                 return;
-> @@ -5343,11 +5355,11 @@ void evergreen_pcie_gen2_enable(struct radeon_dev=
-ice *rdev)
->
->         speed_cntl =3D RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
->         if (speed_cntl & LC_CURRENT_DATA_RATE) {
-> -               DRM_INFO("PCIE gen 2 link speeds already enabled\n");
-> +               drm_info(ddev, "PCIE gen 2 link speeds already enabled\n"=
-);
->                 return;
->         }
->
-> -       DRM_INFO("enabling PCIE gen 2 link speeds, disable with radeon.pc=
-ie_gen2=3D0\n");
-> +       drm_info(ddev, "enabling PCIE gen 2 link speeds, disable with rad=
-eon.pcie_gen2=3D0\n");
->
->         if ((speed_cntl & LC_OTHER_SIDE_EVER_SENT_GEN2) ||
->             (speed_cntl & LC_OTHER_SIDE_SUPPORTS_GEN2)) {
-> --
-> 2.43.0
->
+Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+Signed-off-by: Akash Goel <akash.goel@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index b61908fd508a..5dd92cdcf316 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -668,7 +668,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+ 
+ 	if (bo->base.base.import_attach)
+ 		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+-	if (bo->base.base.dma_buf)
++	else if (bo->base.base.dma_buf)
+ 		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+ 
+ 	seq_printf(m, "0x%-8x 0x%-10x", gem_state_flags, gem_usage_flags);
+-- 
+2.25.1
+
