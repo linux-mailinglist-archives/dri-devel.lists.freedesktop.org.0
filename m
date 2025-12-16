@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715B6CC1893
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04208CC189A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 09:26:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4C110E773;
-	Tue, 16 Dec 2025 08:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8FB310E775;
+	Tue, 16 Dec 2025 08:26:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RUbQysqE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rjlhj0Yg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3472E10E773
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765873555;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWyGjiGLersikM+SckqXVY6Qk0oB/U7fJk4t5b5xt7k=;
- b=RUbQysqEEnOy2sIFiRDR7JqmfpqC7CkLpxk4DoVmr2Q9AtMOwMp2ej1VHMOaguHL1tDl8H
- TuT8W+r72kLNrWUIBrca3eBt18jeV9oNFLCe0H6A2Q0m1A3mSIYaxFZNTVGnsIE8eZZnXj
- TCZY6HBaANjIcTa+yARFJg1+aNo6EVg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-2-G1gJjw8fNzutoyybk-3hkQ-1; Tue,
- 16 Dec 2025 03:25:51 -0500
-X-MC-Unique: G1gJjw8fNzutoyybk-3hkQ-1
-X-Mimecast-MFC-AGG-ID: G1gJjw8fNzutoyybk-3hkQ_1765873550
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 2AC0B195605F; Tue, 16 Dec 2025 08:25:50 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.224.146])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 59DB218004D8; Tue, 16 Dec 2025 08:25:47 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/2] drm/panic: Add kunit tests for drm_panic
-Date: Tue, 16 Dec 2025 09:20:39 +0100
-Message-ID: <20251216082524.115980-3-jfalempe@redhat.com>
-In-Reply-To: <20251216082524.115980-1-jfalempe@redhat.com>
-References: <20251216082524.115980-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A801E10E775
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 08:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765873575; x=1797409575;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=utPHrdiZMdzrkt0JCdgo4dfNohyiWlT7nLSe4KynIhM=;
+ b=Rjlhj0YgmvSxqIV2V7MfktUYsj74ZwYmKkJRq1F68ctix8u8KlV3urfT
+ 8cY5lCSI/5Ij4oRYUXERzthywzCMcwiDwP/8zrfjqRs0KzH1hVTxkSOWY
+ UTYmEWvAbAbFdMu1DM4xVkoohxcfKugHim81r3WON0R7RRVi1DARHLrOZ
+ oOj9JDrbCTixuvKi0HPIWb00s0C6eneS4HjPvgAp/4kYPf793rj95L06h
+ NZVfTgQLPRZD+4pT7cQSCW6XbFChx/zc+0RcujuLBXz5csWCJrouQBJ2Q
+ XwZtG+v3OWxHMgfHT5ZHvJc6WoTjdGZP86Lpjtp/LYjv2jy54+LHMspKn g==;
+X-CSE-ConnectionGUID: r/f7MEDHRPyfN2USWvtm2g==
+X-CSE-MsgGUID: yUL3l5XGRFuRjJhOnZusHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66976335"
+X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="66976335"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2025 00:26:14 -0800
+X-CSE-ConnectionGUID: 5DL4Vw01TECsrLguZG+XfQ==
+X-CSE-MsgGUID: 5nQWB5H5SmCQ0ojlDK3+aA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; d="scan'208";a="228632798"
+Received: from unknown (HELO [10.102.88.36]) ([10.102.88.36])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2025 00:26:13 -0800
+Message-ID: <9004547b-0050-490e-8081-5caf3cc0cc62@linux.intel.com>
+Date: Tue, 16 Dec 2025 09:26:10 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Validate scatter-gather size against buffer
+ size
+To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, andrzej.kacprowski@linux.intel.com
+References: <20251215070933.520377-1-karol.wachowski@linux.intel.com>
+ <f80b20ec-d3bb-a45a-2113-2b549cabb059@amd.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <f80b20ec-d3bb-a45a-2113-2b549cabb059@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,276 +74,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add kunit tests for drm_panic.
-They check that drawing the panic screen doesn't crash, but they
-don't check the correctness of the resulting image.
+On 12/15/2025 6:49 PM, Lizhi Hou wrote:
+> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+Thank you. Applied to drm-misc-next.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
-
-v3:
- * Check the framebuffer content in drm_test_panic_screen_user_page().
- * Fix memory leaks, when the test fails (Maxime Ripard).
-
-v4:
- * Run QR code test only if QR code panic screen is built.
-
- MAINTAINERS                            |   1 +
- drivers/gpu/drm/drm_panic.c            |   4 +
- drivers/gpu/drm/tests/drm_panic_test.c | 220 +++++++++++++++++++++++++
- 3 files changed, 225 insertions(+)
- create mode 100644 drivers/gpu/drm/tests/drm_panic_test.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f980623f1479..74eb8c7da2ab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8749,6 +8749,7 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/drm_draw.c
- F:	drivers/gpu/drm/drm_draw_internal.h
- F:	drivers/gpu/drm/drm_panic*.c
-+F:	drivers/gpu/drm/tests/drm_panic_test.c
- F:	include/drm/drm_panic*
- 
- DRM PANIC QR CODE
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 30c615768efe..a9f54c51a522 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -1084,3 +1084,7 @@ void drm_panic_exit(void)
- {
- 	drm_panic_qr_exit();
- }
-+
-+#ifdef CONFIG_DRM_KUNIT_TEST
-+#include "tests/drm_panic_test.c"
-+#endif
-diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
-new file mode 100644
-index 000000000000..dfd79b12ae9b
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_panic_test.c
-@@ -0,0 +1,220 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/*
-+ * Copyright (c) 2025 Red Hat.
-+ * Author: Jocelyn Falempe <jfalempe@redhat.com>
-+ *
-+ * KUNIT tests for drm panic
-+ */
-+
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_panic.h>
-+
-+#include <kunit/test.h>
-+
-+#include <linux/units.h>
-+#include <linux/vmalloc.h>
-+
-+/* Check the framebuffer color only if the panic colors are the default */
-+#if (CONFIG_DRM_PANIC_BACKGROUND_COLOR == 0 && \
-+	CONFIG_DRM_PANIC_FOREGROUND_COLOR == 0xffffff)
-+
-+static void drm_panic_check_color_byte(struct kunit *test, u8 b)
-+{
-+	KUNIT_EXPECT_TRUE(test, (b == 0 || b == 0xff));
-+}
-+#else
-+static void drm_panic_check_color_byte(struct kunit *test, u8 b) {}
-+#endif
-+
-+struct drm_test_mode {
-+	const int width;
-+	const int height;
-+	const u32 format;
-+	void (*draw_screen)(struct drm_scanout_buffer *sb);
-+	const char *fname;
-+};
-+
-+/*
-+ * Run all tests for the 3 panic screens: user, kmsg and qr_code
-+ */
-+#define DRM_TEST_MODE_LIST(func) \
-+	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_XRGB8888, func) \
-+	DRM_PANIC_TEST_MODE(300, 200, DRM_FORMAT_XRGB8888, func) \
-+	DRM_PANIC_TEST_MODE(1920, 1080, DRM_FORMAT_XRGB8888, func) \
-+	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB565, func) \
-+	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB888, func) \
-+
-+#define DRM_PANIC_TEST_MODE(w, h, f, name) { \
-+	.width = w, \
-+	.height = h, \
-+	.format = f, \
-+	.draw_screen = draw_panic_screen_##name, \
-+	.fname = #name, \
-+	}, \
-+
-+static const struct drm_test_mode drm_test_modes_cases[] = {
-+	DRM_TEST_MODE_LIST(user)
-+	DRM_TEST_MODE_LIST(kmsg)
-+#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-+	DRM_TEST_MODE_LIST(qr_code)
-+#endif
-+};
-+#undef DRM_PANIC_TEST_MODE
-+
-+static int drm_test_panic_init(struct kunit *test)
-+{
-+	struct drm_scanout_buffer *priv;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	test->priv = priv;
-+
-+	drm_panic_set_description("Kunit testing");
-+
-+	return 0;
-+}
-+
-+/*
-+ * Test drawing the panic screen, using a memory mapped framebuffer
-+ * Set the whole buffer to 0xa5, and then check that all pixels have been
-+ * written.
-+ */
-+static void drm_test_panic_screen_user_map(struct kunit *test)
-+{
-+	struct drm_scanout_buffer *sb = test->priv;
-+	const struct drm_test_mode *params = test->param_value;
-+	char *fb;
-+	int fb_size;
-+	int i;
-+
-+	sb->format = drm_format_info(params->format);
-+	fb_size = params->width * params->height * sb->format->cpp[0];
-+
-+	fb = vmalloc(fb_size);
-+	KUNIT_ASSERT_NOT_NULL(test, fb);
-+
-+	memset(fb, 0xa5, fb_size);
-+
-+	iosys_map_set_vaddr(&sb->map[0], fb);
-+	sb->width = params->width;
-+	sb->height = params->height;
-+	sb->pitch[0] = params->width * sb->format->cpp[0];
-+
-+	params->draw_screen(sb);
-+
-+	for (i = 0; i < fb_size; i++)
-+		drm_panic_check_color_byte(test, fb[i]);
-+
-+	vfree(fb);
-+}
-+
-+/*
-+ * Test drawing the panic screen, using a list of pages framebuffer
-+ * Set the whole buffer to 0xa5, and then check that all pixels have been
-+ * written.
-+ */
-+static void drm_test_panic_screen_user_page(struct kunit *test)
-+{
-+	struct drm_scanout_buffer *sb = test->priv;
-+	const struct drm_test_mode *params = test->param_value;
-+	int fb_size, p, i, npages;
-+	struct page **pages;
-+	u8 *vaddr;
-+
-+	sb->format = drm_format_info(params->format);
-+	fb_size = params->width * params->height * sb->format->cpp[0];
-+	npages = DIV_ROUND_UP(fb_size, PAGE_SIZE);
-+
-+	pages = kmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pages);
-+
-+	for (p = 0; p < npages; p++) {
-+		pages[p] = alloc_page(GFP_KERNEL);
-+		if (!pages[p]) {
-+			npages = p - 1;
-+			KUNIT_FAIL(test, "Can't allocate page\n");
-+			goto free_pages;
-+		}
-+		vaddr = kmap_local_page(pages[p]);
-+		memset(vaddr, 0xa5, PAGE_SIZE);
-+		kunmap_local(vaddr);
-+	}
-+	sb->pages = pages;
-+	sb->width = params->width;
-+	sb->height = params->height;
-+	sb->pitch[0] = params->width * sb->format->cpp[0];
-+
-+	params->draw_screen(sb);
-+
-+	for (p = 0; p < npages; p++) {
-+		int bytes_in_page = (p == npages - 1) ? fb_size - p * PAGE_SIZE : PAGE_SIZE;
-+
-+		vaddr = kmap_local_page(pages[p]);
-+		for (i = 0; i < bytes_in_page; i++)
-+			drm_panic_check_color_byte(test, vaddr[i]);
-+
-+		kunmap_local(vaddr);
-+	}
-+
-+free_pages:
-+	for (p = 0; p < npages; p++)
-+		__free_page(pages[p]);
-+	kfree(pages);
-+}
-+
-+static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
-+				     unsigned int x,
-+				     unsigned int y,
-+				     u32 color)
-+{
-+	struct kunit *test = (struct kunit *) sb->private;
-+
-+	KUNIT_ASSERT_TRUE(test, x < sb->width && y < sb->height);
-+}
-+
-+/*
-+ * Test drawing the panic screen, using the set_pixel callback
-+ * Check that all calls to set_pixel() are within the framebuffer
-+ */
-+static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
-+{
-+	struct drm_scanout_buffer *sb = test->priv;
-+	const struct drm_test_mode *params = test->param_value;
-+
-+	sb->format = drm_format_info(params->format);
-+	sb->set_pixel = drm_test_panic_set_pixel;
-+	sb->width = params->width;
-+	sb->height = params->height;
-+	sb->private = test;
-+
-+	params->draw_screen(sb);
-+}
-+
-+static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
-+{
-+	sprintf(desc, "Panic screen %s, mode: %d x %d \t%p4cc",
-+		t->fname, t->width, t->height, &t->format);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_map, drm_test_modes_cases, drm_test_panic_desc);
-+KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_page, drm_test_modes_cases, drm_test_panic_desc);
-+KUNIT_ARRAY_PARAM(drm_test_panic_screen_user_set_pixel, drm_test_modes_cases, drm_test_panic_desc);
-+
-+static struct kunit_case drm_panic_screen_user_test[] = {
-+	KUNIT_CASE_PARAM(drm_test_panic_screen_user_map,
-+			 drm_test_panic_screen_user_map_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_panic_screen_user_page,
-+			 drm_test_panic_screen_user_page_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_panic_screen_user_set_pixel,
-+			 drm_test_panic_screen_user_set_pixel_gen_params),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_panic_suite = {
-+	.name = "drm_panic",
-+	.init = drm_test_panic_init,
-+	.test_cases = drm_panic_screen_user_test,
-+};
-+
-+kunit_test_suite(drm_panic_suite);
--- 
-2.52.0
+Karol>
+> On 12/14/25 23:09, Karol Wachowski wrote:
+>> Validate scatter-gather table size matches buffer object size before
+>> mapping. Break mapping early if the table exceeds buffer size to
+>> prevent overwriting existing mappings. Also validate the table is
+>> not smaller than buffer size to avoid unmapped regions that trigger
+>> MMU translation faults.
+>>
+>> Log error and fail mapping operation on size mismatch to prevent
+>> data corruption from mismatched host memory locations and NPU
+>> addresses. Unmap any partially mapped buffer on failure.
+>>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>> ---
+>>   drivers/accel/ivpu/ivpu_gem.c         |  2 +-
+>>   drivers/accel/ivpu/ivpu_mmu_context.c | 20 +++++++++++++++++---
+>>   drivers/accel/ivpu/ivpu_mmu_context.h |  5 +++--
+>>   3 files changed, 21 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/
+>> ivpu_gem.c
+>> index ece68f570b7e..98b9ce26962b 100644
+>> --- a/drivers/accel/ivpu/ivpu_gem.c
+>> +++ b/drivers/accel/ivpu/ivpu_gem.c
+>> @@ -95,7 +95,7 @@ int __must_check ivpu_bo_bind(struct ivpu_bo *bo)
+>>         if (!bo->mmu_mapped) {
+>>           drm_WARN_ON(&vdev->drm, !bo->ctx);
+>> -        ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt,
+>> +        ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr,
+>> sgt, ivpu_bo_size(bo),
+>>                              ivpu_bo_is_snooped(bo),
+>> ivpu_bo_is_read_only(bo));
+>>           if (ret) {
+>>               ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
+>> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/
+>> ivpu/ivpu_mmu_context.c
+>> index 87ad593ef47d..c4014c83e727 100644
+>> --- a/drivers/accel/ivpu/ivpu_mmu_context.c
+>> +++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+>> @@ -429,11 +429,12 @@ static void ivpu_mmu_context_unmap_pages(struct
+>> ivpu_mmu_context *ctx, u64 vpu_a
+>>   }
+>>     int
+>> -ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx,
+>> -             u64 vpu_addr, struct sg_table *sgt, bool llc_coherent,
+>> bool read_only)
+>> +ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx, u64 vpu_addr,
+>> +             struct sg_table *sgt, size_t bo_size, bool llc_coherent,
+>> bool read_only)
+>>   {
+>>       size_t start_vpu_addr = vpu_addr;
+>>       struct scatterlist *sg;
+>> +    size_t sgt_size = 0;
+>>       int ret;
+>>       u64 prot;
+>>       u64 i;
+>> @@ -462,12 +463,25 @@ ivpu_mmu_context_map_sgt(struct ivpu_device
+>> *vdev, struct ivpu_mmu_context *ctx,
+>>           ivpu_dbg(vdev, MMU_MAP, "Map ctx: %u dma_addr: 0x%llx
+>> vpu_addr: 0x%llx size: %lu\n",
+>>                ctx->id, dma_addr, vpu_addr, size);
+>>   +        if (sgt_size + size > bo_size) {
+>> +            ivpu_err(vdev, "Scatter-gather table size exceeds buffer
+>> object size\n");
+>> +            ret = -EINVAL;
+>> +            goto err_unmap_pages;
+>> +        }
+>> +
+>>           ret = ivpu_mmu_context_map_pages(vdev, ctx, vpu_addr,
+>> dma_addr, size, prot);
+>>           if (ret) {
+>>               ivpu_err(vdev, "Failed to map context pages\n");
+>>               goto err_unmap_pages;
+>>           }
+>>           vpu_addr += size;
+>> +        sgt_size += size;
+>> +    }
+>> +
+>> +    if (sgt_size < bo_size) {
+>> +        ivpu_err(vdev, "Scatter-gather table size too small to cover
+>> buffer object size\n");
+>> +        ret = -EINVAL;
+>> +        goto err_unmap_pages;
+>>       }
+>>         if (!ctx->is_cd_valid) {
+>> @@ -493,7 +507,7 @@ ivpu_mmu_context_map_sgt(struct ivpu_device *vdev,
+>> struct ivpu_mmu_context *ctx,
+>>       return 0;
+>>     err_unmap_pages:
+>> -    ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, vpu_addr -
+>> start_vpu_addr);
+>> +    ivpu_mmu_context_unmap_pages(ctx, start_vpu_addr, sgt_size);
+>>       mutex_unlock(&ctx->lock);
+>>       return ret;
+>>   }
+>> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/
+>> ivpu/ivpu_mmu_context.h
+>> index 663a11a9db11..cc02e7bab04e 100644
+>> --- a/drivers/accel/ivpu/ivpu_mmu_context.h
+>> +++ b/drivers/accel/ivpu/ivpu_mmu_context.h
+>> @@ -41,8 +41,9 @@ int ivpu_mmu_context_insert_node(struct
+>> ivpu_mmu_context *ctx, const struct ivpu
+>>                    u64 size, struct drm_mm_node *node);
+>>   void ivpu_mmu_context_remove_node(struct ivpu_mmu_context *ctx,
+>> struct drm_mm_node *node);
+>>   -int ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx,
+>> -                 u64 vpu_addr, struct sg_table *sgt, bool
+>> llc_coherent, bool read_only);
+>> +int
+>> +ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx, u64 vpu_addr,
+>> +             struct sg_table *sgt, size_t bo_size, bool llc_coherent,
+>> bool read_only);
+>>   void ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx,
+>>                   u64 vpu_addr, struct sg_table *sgt);
+>>   int ivpu_mmu_context_set_pages_ro(struct ivpu_device *vdev, struct
+>> ivpu_mmu_context *ctx,
 
