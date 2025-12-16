@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9844CC4C72
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 19:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5593CC4C76
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 19:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35EDE10E852;
-	Tue, 16 Dec 2025 18:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48FCA10E853;
+	Tue, 16 Dec 2025 18:00:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PHTJXyol";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="D2bkKi7N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46CB410E852
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 18:00:39 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92AEF10E854
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 18:00:42 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 876A4C1A582;
- Tue, 16 Dec 2025 18:00:13 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 853811A2256;
+ Tue, 16 Dec 2025 18:00:41 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 042AD6071C;
- Tue, 16 Dec 2025 18:00:38 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 5B1616071C;
+ Tue, 16 Dec 2025 18:00:41 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 54C0A119A97F1; Tue, 16 Dec 2025 19:00:32 +0100 (CET)
+ with ESMTPSA id B6613119A97D5; Tue, 16 Dec 2025 19:00:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765908036; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1765908040; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=lUbaxiw2BnN1ox+Yu5GNCuxcygx9alGi1fjrWLi1OF4=;
- b=PHTJXyolQZp12tBjpY2uxdapMynKVx6jw+EgyCgB+lF9hYbgZ3ivqEIb+OLNqItIAE/so6
- 36gecuUQJlMv3XaZnQPVCMVvIg0ZHTLrYDdE+m66ZifLMcHjxj9Pm0GfDKUlONqzHmC1yL
- 07FLEzDja2dhvcFnCgFl7GD/vS96r0GB/EAvYbn/XNgPnUrZvo9P+knEVR5uftjClXB6q8
- xRhf/gee+/IMuA55jShwQtbF76AT1or4OKzn6Usqbc3VnzlZM1JClQtfL9M5HHH6vDLvI1
- P7XXzww2Fgj6pu2A6eczb/uGtCmHNxrpraxGWZczhmrB2GcqB1WQmvadAJfksA==
+ bh=NYJEE2opxHghuVaIu6hgRW6HhV8SDpecPQJMZReKags=;
+ b=D2bkKi7NoHC8TwpLYNq5yMx4usGX0uvHXODIrL/9+8JmdwSPajQgn/E7vPF5RS/thnq03V
+ qj2HkSYZb/93l2sCultbAcfT58vfNWKl0owNvXpZyKVhfcz4ayDQsq4G5DLU8+DuMUGuOa
+ KwsqVHY4bHAggDoNUIg/QjeSBDmIcNWtXBY8CieJUK827NCquljQkRuCW7rQ8NeC1/yVeq
+ +E8RJVZfrfrm53JS8LVCjR+25aw2ks463N64RZJ9/NMsGeH9dPCllo86xtIL8WpLMCw4AB
+ ilMgq6YwXcipvxchhqY5VGYZqI8O41TDlaNyR3VOndvt5Aa+8d/SIftUOY8VnQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Dec 2025 18:58:48 +0100
-Subject: [PATCH v3 15/22] drm/bridge: imx8qxp-pxl2dpi:
- imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
+Date: Tue, 16 Dec 2025 18:58:49 +0100
+Subject: [PATCH v3 16/22] drm/bridge: imx8qxp-pxl2dpi: get/put the next bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-15-b5165fab8058@bootlin.com>
+Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-16-b5165fab8058@bootlin.com>
 References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
 In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -79,80 +78,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for using bridge->next_bridge, we need to ensure that it
-will never contain anything but NULL or a valid bridge pointer. Current
-code stores an ERR_PTR when imx8qxp_pxl2dpi_find_next_bridge() errors
-out. Instead of fixing that after the facts in the caller, change the
-function to internally set the next_pointer and just return an int error
-value.
-
-No functional changes.
+This driver obtains a bridge pointer from of_drm_find_bridge() in the probe
+function and stores it until driver removal. of_drm_find_bridge() is
+deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+refcounted and use bridge->next_bridge to put the reference on
+deallocation.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c | 30 +++++++++++-----------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-index e03a411cb9db..2e66b003386e 100644
+index 2e66b003386e..556aec3b3734 100644
 --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
 +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-@@ -255,33 +255,27 @@ imx8qxp_pxl2dpi_get_available_ep_from_port(struct imx8qxp_pxl2dpi *p2d,
- 	return ep;
- }
- 
--static struct drm_bridge *
--imx8qxp_pxl2dpi_find_next_bridge(struct imx8qxp_pxl2dpi *p2d)
-+static int imx8qxp_pxl2dpi_find_next_bridge(struct imx8qxp_pxl2dpi *p2d)
- {
+@@ -35,7 +35,6 @@
+ struct imx8qxp_pxl2dpi {
+ 	struct regmap *regmap;
+ 	struct drm_bridge bridge;
 -	struct drm_bridge *next_bridge;
--	int ret;
--
- 	struct device_node *ep __free(device_node) =
- 		imx8qxp_pxl2dpi_get_available_ep_from_port(p2d, 1);
--	if (IS_ERR(ep)) {
--		ret = PTR_ERR(ep);
--		return ERR_PTR(ret);
--	}
-+	if (IS_ERR(ep))
-+		return PTR_ERR(ep);
- 
- 	struct device_node *remote __free(device_node) = of_graph_get_remote_port_parent(ep);
- 	if (!remote || !of_device_is_available(remote)) {
- 		DRM_DEV_ERROR(p2d->dev, "no available remote\n");
--		return ERR_PTR(-ENODEV);
-+		return -ENODEV;
- 	} else if (!of_device_is_available(remote->parent)) {
- 		DRM_DEV_ERROR(p2d->dev, "remote parent is not available\n");
--		return ERR_PTR(-ENODEV);
-+		return -ENODEV;
+ 	struct drm_bridge *companion;
+ 	struct device *dev;
+ 	struct imx_sc_ipc *ipc_handle;
+@@ -60,7 +59,7 @@ static int imx8qxp_pxl2dpi_bridge_attach(struct drm_bridge *bridge,
  	}
  
--	next_bridge = of_drm_find_bridge(remote);
--	if (!next_bridge)
--		return ERR_PTR(-EPROBE_DEFER);
-+	p2d->next_bridge = of_drm_find_bridge(remote);
-+	if (!p2d->next_bridge)
-+		return -EPROBE_DEFER;
- 
--	return next_bridge;
-+	return 0;
+ 	return drm_bridge_attach(encoder,
+-				 p2d->next_bridge, bridge,
++				 p2d->bridge.next_bridge, bridge,
+ 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
  }
  
- static int imx8qxp_pxl2dpi_set_pixel_link_sel(struct imx8qxp_pxl2dpi *p2d)
-@@ -414,9 +408,9 @@ static int imx8qxp_pxl2dpi_bridge_probe(struct platform_device *pdev)
- 		return ret;
+@@ -271,8 +270,8 @@ static int imx8qxp_pxl2dpi_find_next_bridge(struct imx8qxp_pxl2dpi *p2d)
+ 		return -ENODEV;
  	}
  
--	p2d->next_bridge = imx8qxp_pxl2dpi_find_next_bridge(p2d);
--	if (IS_ERR(p2d->next_bridge))
--		return PTR_ERR(p2d->next_bridge);
-+	ret = imx8qxp_pxl2dpi_find_next_bridge(p2d);
-+	if (ret)
-+		return ret;
+-	p2d->next_bridge = of_drm_find_bridge(remote);
+-	if (!p2d->next_bridge)
++	p2d->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
++	if (!p2d->bridge.next_bridge)
+ 		return -EPROBE_DEFER;
  
- 	ret = imx8qxp_pxl2dpi_set_pixel_link_sel(p2d);
- 	if (ret)
+ 	return 0;
+@@ -351,8 +350,8 @@ static int imx8qxp_pxl2dpi_parse_dt_companion(struct imx8qxp_pxl2dpi *p2d)
+ 	 * the next bridges are connected to.  If they are marked as expecting
+ 	 * even pixels and odd pixels than we need to use the companion PXL2DPI.
+ 	 */
+-	port1 = of_graph_get_port_by_id(p2d->next_bridge->of_node, 1);
+-	port2 = of_graph_get_port_by_id(companion_p2d->next_bridge->of_node, 1);
++	port1 = of_graph_get_port_by_id(p2d->bridge.next_bridge->of_node, 1);
++	port2 = of_graph_get_port_by_id(companion_p2d->bridge.next_bridge->of_node, 1);
+ 	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
+ 	of_node_put(port1);
+ 	of_node_put(port2);
 
 -- 
 2.52.0
