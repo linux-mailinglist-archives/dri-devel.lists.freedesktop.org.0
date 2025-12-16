@@ -2,138 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA2DCC142C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 08:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB55BCC1512
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 08:36:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9AE10E0DE;
-	Tue, 16 Dec 2025 07:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0230C10E702;
+	Tue, 16 Dec 2025 07:36:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ohs9IdXq";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Do+NqdJM";
+	dkim=pass (2048-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="E8CbwhHu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8077510E101
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:14:51 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BG6nMRq2810462
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:14:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Am0uuG/SMaWGn5BG7PqsVygZOCHB1Fc3JGgHjjK0254=; b=ohs9IdXqsQ7uFp7R
- 5cgS6Qs3b2tYXCPCmtLqZ62d2MTEeeX/hjz0Af420poHabXs9qRnAcMJqHJzSpwm
- F7/B57jfmAevd6ChvNCjGMSbJwS7vse6eSO4q2PPuT/KWF+fQaIko6Fxau5rY3EW
- dz9tlnJm/eTzZMzQhjRJU2pG4x8z4N6akHPqJaaFDDy4gHH/j9d3xQArUTTq9EP9
- G+kBwZKhpMTIuegC+WN9Uv4OHgrcx4n/pWfMprzW2yZdkC+gHUSQVYNGNI/HpKsx
- myZsRD4bJ5uWbfOx+6QIihlDhmwgmwVevJNoprVG2NG5hiunxbX4VVwKMsK56yhh
- oW2KZw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b32gar332-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:14:50 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-88a344b86f7so63217226d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 23:14:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1765869290; x=1766474090;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Am0uuG/SMaWGn5BG7PqsVygZOCHB1Fc3JGgHjjK0254=;
- b=Do+NqdJM9MdVFpaGK3u8vFNqYru4CgoDnp92/H0YU55O24OpieLz0JX5EtSDK1CUVG
- Kt+3R9wdAXwmYs/Hlj+I/H2bLDLdcBOytvM8Ch62bpzUrl7tdrIjrSkrbRH6/H2quoMQ
- 8ZsUUlTXpXgn4jLNL83e2sAvbldOoXnJleWXsj9WYfOGLSQp6lJMFPD+daaRLBF3FC/M
- pBBbi2QdLa5IXq5hzk2PhODIBFRX4OTQZ+FuRVgQGLeLqF6j5phfnsNbJxi5rwP6OHoA
- DolqUAt8x7YbMeMbhEN0/UjTy0oDwWCX6rTk+IHrEnDrGm5ApQ1fVilw64nkLVuFIVdW
- P9yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765869290; x=1766474090;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Am0uuG/SMaWGn5BG7PqsVygZOCHB1Fc3JGgHjjK0254=;
- b=sWJ3H6KMRcCQjAsLTb0GCqopQLjMzEEa+LPFz2YKG7hQdrWc9KZmVmSMgC2F8jElmM
- c+yqFCa++7h9LysRJiiiVGhe3sO0elxW3h3g9d61g4ZiPYoE09SpvI0FTVeMT++fZTEt
- VYtig0Nav7z53hNvb/hfQr39K+WQqwuBpS+D2+U28MGeh5hP2jQ54wnVsmY+jTOXiFVP
- jlUbtUnsOd3dtF3wM0N1ZgT92kvzIsBb6mQbTAi+muc1MEfrCIv87aiQDEh7PKwkPBlL
- QJgJLazX1g9aMH5TH+UMd9RkBQovunN/h0RtIpSxlqTEa8tHxfCBhvMppMOd4uXlyzyD
- QfQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVJpNOr2ZYpXkoH60ubCymjI1ykmjl0o+nxHhiQbIohCJZxfYzU2b4A5meKCJnQfu2WBWV//WLN04=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxGK4JLWV0RQFBo+pgfeeWZNs/grIiv5bROrrUl3E1EmHS0thp
- EqjTrgSRvfic3Q3j8qN/bse21GNpGWtpqOLQjh2TX8TvyiTrz4FjnGj6iiKhk7AXHk19fYqwmPD
- +pwGXzBRBjPM4ZegRiwAXRJHrv4CnQcye8Z1Et5qpPhPSHpAyeXUw+1OCu/5LlGe3y+hL7uo=
-X-Gm-Gg: AY/fxX5VYRERebEOaaGFx1DaAo8wteN/0TvJ7LDC83g2kmS8vj5P2S6X9jGfEqfOwEe
- k0hn2Zr2NCTNUne0ICUnCH+eArm2EWz1h1pUofE3HI2uASQUdMNIoMSEU1bKArRHVPxY2VVAdhZ
- uTYK3cBR/6zp9ZnMd5lE+EoFYC66W0FTOcloMIpaT+uQSejITsItilLj9Sb4jQpnGCuJjCSvDGE
- QZaXGIxGwqjz0306ZVYu7W7+fknHYolrQ/ABaljVR6mwV0A7nMTFHJAJPry4IiLs5SV/zvYP8Oj
- nD5mrCB50H5WRjTkgZO77F3r9gL/LfuSX3Cd6u96ng+iYxQ/m2B1NYuhDtZbQ5ST/uAgqyK8hsU
- u5lSKoYiWvMDh5qJrEqCp3QKBVKmuhApHHAY5Q2/mql++Pzxvcu5OvC013yj3nl6BC9ja6NA=
-X-Received: by 2002:a05:6214:2e45:b0:882:7571:c012 with SMTP id
- 6a1803df08f44-888801cba45mr175118106d6.55.1765869289741; 
- Mon, 15 Dec 2025 23:14:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE2lJX1RHdL61KthpwkRgPaivxdvAcRF1rHNtkwmJXCWmk9l44q+8qM2lkJENhb3atu86mA7Q==
-X-Received: by 2002:a05:6214:2e45:b0:882:7571:c012 with SMTP id
- 6a1803df08f44-888801cba45mr175117936d6.55.1765869289243; 
- Mon, 15 Dec 2025 23:14:49 -0800 (PST)
-Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
- [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-889a860ce52sm67808286d6.50.2025.12.15.23.14.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Dec 2025 23:14:48 -0800 (PST)
-Date: Tue, 16 Dec 2025 15:14:37 +0800
-From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: yongxing.mou@oss.qualcomm.com, robin.clark@oss.qualcomm.com,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org,
- konrad.dybcio@oss.qualcomm.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org,
- neil.armstrong@linaro.org, jesszhan0024@gmail.com, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, linux-arm-msm@vger.kernel.org,
- lumag@kernel.org, simona@ffwll.ch, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, abhinav.kumar@linux.dev, mripard@kernel.org
-Subject: Re: [PATCH v3 04/11] dt-bindings: display/msm: qcom,kaanapali-mdss:
- Add Kaanapali
-Message-ID: <aUEG3TL34CM2V5Z+@yuanjiey.ap.qualcomm.com>
-References: <20251215083854.577-1-yuanjie.yang@oss.qualcomm.com>
- <20251215083854.577-5-yuanjie.yang@oss.qualcomm.com>
- <176579137354.1486530.823295322686100207.robh@kernel.org>
+X-Greylist: delayed 323 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Dec 2025 07:36:03 UTC
+Received: from mx-relay100-hz2.antispameurope.com
+ (mx-relay100-hz2.antispameurope.com [94.100.136.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5632C10E702
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:36:03 +0000 (UTC)
+ARC-Authentication-Results: i=1; mx-gate100-hz2.hornetsecurity.com 1;
+ spf=pass reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
+ smtp.mailfrom=ew.tq-group.com
+ smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
+ header.from=ew.tq-group.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=2pyJv45tDjDKywJWeYp3I9ulqUEPqCbg6pglbJWo3s8=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
+ t=1765870184;
+ b=Yz2cdWz2QG1CC6KFf79dRfJXaQs8pZJgeTWy+n8mODNdWZPkmGHyUAgq03o+PHqL3Dnx8kkk
+ 4EmPfb+BTdVSF29CRYAn7u51nEqqubccAmXU1pABOqUiWI89xHkGpIkBNcfmCmrkJ4x21zp+pRp
+ czqfbUFbwSO+6kOUD0/t2QYwtDMuqf0WxA1i+H7sy8jwKbN+Ra4qinKFCLdo34/GVF9/Rw8PLe/
+ iWSIseNyRC/k4kiud9F4UCDaHGtrS3lq4P4lsxRM3s67CMtwrJqe8941vkGCKM+K3ZXxU7V9FeM
+ eUjsgtLd7fp+S645ZBfufRPtKkpahhG162pNmce3KCkeA==
+ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
+ t=1765870184;
+ b=Yeeh74I5EnjerclCcR7g6LpCU4RG8iK7tO519QKlz3RNQJNHGbFj3Il50Ua8CM+gy3fRuHm9
+ g5+xGQX/KfxJjsGb5QiierTw2SZoNMDwYBi+LUvFFqA+Fy5+RMCevcG7J/ZPFmfIgsNxY8hViaQ
+ QWIPVqVHpTeHtpSdv/THv8N/FiRml8PNJ0f1IEGgK8YrcERkl+vrBeMhJ+3dSp2w/WPXw9MZhyE
+ W782Eor+xM/IWPB94uhobsD8bpkUHXQkSnbgXSH5ARwvCywu2XSMsyBB5qsou6kW3tvVG4lZF9G
+ lybuD6SHhbH9XQHQkkJz0aRy53gC+AtzIQmf2NKHPgZzA==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by
+ mx-relay100-hz2.antispameurope.com; Tue, 16 Dec 2025 08:29:44 +0100
+Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net
+ [82.135.125.110])
+ (Authenticated sender: alexander.stein@ew.tq-group.com)
+ by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id
+ 61240CC0DC8; Tue, 16 Dec 2025 08:29:32 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
+ subnode to schema and example
+Date: Tue, 16 Dec 2025 08:29:31 +0100
+Message-ID: <3210190.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20251215175436.wwlgzxionq55zu27@pengutronix.de>
+References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
+ <705773fc-5aba-4bff-b05e-272e1cd0262c@nxp.com>
+ <20251215175436.wwlgzxionq55zu27@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <176579137354.1486530.823295322686100207.robh@kernel.org>
-X-Authority-Analysis: v=2.4 cv=Vcb6/Vp9 c=1 sm=1 tr=0 ts=694106ea cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=0awkmHLjsCMGZ7zvgVIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: jJKbhgTYVHGHHwnnTrpXt_YWnZAILoc_
-X-Proofpoint-ORIG-GUID: jJKbhgTYVHGHHwnnTrpXt_YWnZAILoc_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDA1OCBTYWx0ZWRfX0rpkrRgGHJmk
- onU4nJfDhq1i/J3bGYY0pzRohlRHOGJ2su00cqKpPcHJHfmqv3Y8F/fGeT0GlxqoHILeiF30CMB
- SY5S6LQNUCXvweBXEpzHpYe9S3JaPNKC3lRDqaA6HJqLSwCWCk9MrpFY7gbmmfz9nIqUgmmgc0Y
- o1hrM5ygaCJbKW15jtIBcDnSK/NP5hE3l3i8Dj6VT4DzURXaUupZKFB0tympqD+vMA91XQzSuBJ
- 1sWIKMs/LqTEFq+WykMzHVCxtd/AFtyTJqxFi8BpV5xagmoPL2OE7Jdn7E0Nhf+tjNzsbST4W3M
- xtF1vdfLrNSmqqVn6oeS9N5Ibq6wLpqHDuaKO5AD3pCOr9PKDJWTFj5DqYn9BuZc80I98wWTxix
- dvzxWryAsu5IHrmiST9DC/bUdH1jLQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-16_01,2025-12-15_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512160058
+Content-Type: multipart/signed; boundary="nextPart13198926.O9o76ZdvQC";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-cloud-security-sender: alexander.stein@ew.tq-group.com
+X-cloud-security-recipient: dri-devel@lists.freedesktop.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for:
+ alexander.stein@ew.tq-group.com
+X-cloud-security-Mailarchivtype: outbound
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+ mx-relay100-hz2.antispameurope.com with 4dVpTn4rt4z3PJZL
+X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1,
+ IP=94.100.132.6
+X-cloud-security-Digest: 7843bfe7f806661645c9883349bcb132
+X-cloud-security: scantime:2.036
+DKIM-Signature: a=rsa-sha256;
+ bh=2pyJv45tDjDKywJWeYp3I9ulqUEPqCbg6pglbJWo3s8=; c=relaxed/relaxed;
+ d=ew.tq-group.com;
+ h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
+ t=1765870184; v=1;
+ b=E8CbwhHudwcO+Bqvz3PfCTeXgUe+/rdpJiP1HGH1MoyczsWaLva815Z5iXodL59uhtjy/FMt
+ JBlifFCJwFqQcUt83jbjQffJUpq/mShw3mwNRxHD/WLXmRd+U6tAf78p4SDY9hqoDh+/dy9cZfM
+ stRYCokk6HcKRMmbtzW1o6Ppq2Tv7NGxykj300Et5sM02n1mCf4oOXxoxQhlC9EWTK0P2JXt/mX
+ suK10UW++binTdZQM3vQICwAcC09256ctwFvba2iJ2hHul47KQ60xHB+n5yfsO0zT1yjwCd1L8l
+ wflHHeqLpzPbOk7pgiEWbNphEi3YgvCeJXlXkNkWPEKKw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,60 +113,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 15, 2025 at 03:36:13AM -0600, Rob Herring (Arm) wrote:
-> 
-> On Mon, 15 Dec 2025 16:38:47 +0800, yuanjie yang wrote:
-> > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > 
-> > Kaanapali introduces DPU 13.0.0 and DSI 2.10. Compared to SM8750,
-> > Kaanapali has significant register changes, making it incompatible
-> > with SM8750. So add MDSS/MDP display subsystem for Qualcomm Kaanapali.
-> > 
-> > Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > ---
-> >  .../display/msm/qcom,kaanapali-mdss.yaml      | 297 ++++++++++++++++++
-> >  1 file changed, 297 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
-> > 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.example.dtb: phy@9ac1000 (qcom,kaanapali-dsi-phy-3nm): reg: [[0, 162271232], [0, 460], [0, 162271744], [0, 128], [0, 162272512], [0, 1024]] is too long
-> 	from schema $id: http://devicetree.org/schemas/display/msm/dsi-phy-7nm.yaml
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.kernel.org/project/devicetree/patch/20251215083854.577-5-yuanjie.yang@oss.qualcomm.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
+--nextPart13198926.O9o76ZdvQC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Date: Tue, 16 Dec 2025 08:29:31 +0100
+Message-ID: <3210190.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20251215175436.wwlgzxionq55zu27@pengutronix.de>
+MIME-Version: 1.0
 
-pip3 install dtschema --upgrade
+Hi,
 
-After update package, 
-and use：  make dt_binding_check   I see the same issue.
+Am Montag, 15. Dezember 2025, 18:54:36 CET schrieb Marco Felsch:
+> Hi Liu,
+>=20
+> sorry I didn't fully answer you please see below.
+>=20
+> On 25-12-08, Liu Ying wrote:
+> > Hi Marco,
+> >=20
+> > On 12/02/2025, Marco Felsch wrote:
+> > > From: Liu Ying <victor.liu@nxp.com>
+> > >=20
+> > > i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
+> > > configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+> > > field. Document the Parallel Display Format Configuration(PDFC) subno=
+de
+> > > and add the subnode to example.
+> > >=20
+> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > > [m.felsch@pengutronix.de: port to v6.18-rc1]
+> > > [m.felsch@pengutronix.de: add bus-width]
+> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > ---
+> > >  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++++++=
+++++++++++
+> > >  1 file changed, 92 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-medi=
+a-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media=
+=2Dblk-ctrl.yaml
+> > > index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108b492=
+bcbabc8a560d8e707cd 100644
+> > > --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-c=
+trl.yaml
+> > > +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-c=
+trl.yaml
+> > > @@ -26,6 +26,12 @@ properties:
+> > >    reg:
+> > >      maxItems: 1
+>=20
+> ...
+>=20
+> > > +            properties:
+> > > +              endpoint:
+> > > +                $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > > +                unevaluatedProperties: false
+> > > +
+> > > +                properties:
+> > > +                  bus-width:
+> >=20
+> > In v1-v5, I thought the output bus format can be determined by the sink
+> > device(a panel or a bridge) hence properties like bus-width were not ne=
+eded.
+> > But, if this property is really needed, then reference video-interfaces=
+=2Eyaml
+> > since bus-width is documented there.  Should we reference bus-type defi=
+ned
+> > in video-interfaces.yaml too?
+>=20
+> You're right, the bus-width should be determined by the connected panel.
+> But there are cases where a 24-bit panel is connected but only the lower
+> 18-bits are muxed. I added the bus-width property to handle this case.
+> In the end most users don't have to specify this since the correct
+> bus-width is coming from the panel bus-fmt.
+>=20
+> > > +                    enum: [ 16, 18, 24 ]
+> >=20
+> > The PARALLEL_DISP_FORMAT field of DISPLAY_MUX register says this IP sup=
+ports
+> > below formats.  It seems that the enum here may tell RGB888, RGB666 and=
+ RGB565.
+> > How can we tell RGB555, YCbCr 24 bits and YUV444 then?
+> >=20
+> > 000b RGB888 -> RGB888
+> > 001b RGB888 -> RGB666
+> > 010b RGB565 -> RGB565
+> > 011b RGB555 -> RGB555
+> > 100b YUV -> YCbCr 24 bits
+> > 101b YUV -> YUV444
+>=20
+> This enum is about the physical bus width. RGB565 =3D=3D 16-bit, YUV =3D=
+=3D
+> 24-bit.
+>=20
+> That said, I don't think that you need to specify the bus-fmt since this
+> is coming from the panel. As said above, my itension with the bus-width
+> property is to provide integrators (dts-writers) a possibility to limit
+> the physical available bus width.
 
-but use single check:
-make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
-I don't see any error/warning.
+Mh, isn't [1] exactly about this? Not sure about the outcome at that time.
 
-will fix it in next patch.
+Best regards,
+Alexander
 
-Thanks,
-Yuanjie
+[1] https://lore.kernel.org/all/20250304101530.969920-1-victor.liu@nxp.com/
 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-> 
+> [snip]
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+--nextPart13198926.O9o76ZdvQC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmlBClsACgkQaS+g2M0Z
+/iVQ0Qf8CUXPNQgjvninNpUlo9wHMSxcj70F/nwY4xnJ9mAHPkIcrl+Ye0RpxJvm
+HUghMQJsn8g5oW1mw3ihaOEFFyjI2Nmpn839jZzyuWZFCzy+6ZArWMnhjAmU3EK8
+axvxjC6n5kJ2/Dx3wih+X2Ub6IbwNIB01Xq368832yntOGHje3ucsFLNNV8RXaNH
+PRwXcgrJ0fSDoEZPC1Eh59z+2sRZbA8rdLxHP+tqq71jwpBaTJUCZDSUfO1ZgFy7
+LeiQPAchQ1p/gqgo9xvkM5pISy7hj0p/f1jRTroTT1VfHKsp4LDxb71VE/S+IKQU
+dYOr28lQ8IOXSDJuSIAYKAynFx8akw==
+=c8lD
+-----END PGP SIGNATURE-----
+
+--nextPart13198926.O9o76ZdvQC--
+
+
+
