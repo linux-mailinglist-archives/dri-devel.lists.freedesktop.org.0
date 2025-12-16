@@ -2,95 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84C8CC1F43
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5884ECC1F3B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:23:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8105010E7D1;
-	Tue, 16 Dec 2025 10:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA26C10E7C9;
+	Tue, 16 Dec 2025 10:23:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C7dFy/Bm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rz64HFcf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C87110E7C9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:23:13 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id
- ffacd0b85a97d-42f9ece6387so1761460f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 02:23:12 -0800 (PST)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FBB10E7C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:23:14 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id
+ ffacd0b85a97d-42fb5810d39so2026190f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 02:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1765880591; x=1766485391; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1765880593; x=1766485393; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4IZdqT3f5FjLJw92pQmwl5xRGES7bj8LR/OQmW30pQg=;
- b=C7dFy/BmavqtxOZum8ACsCgZTMVNwJW3bBguPOt/o6w9M/x795SDq97dtwby9jZR4i
- 59Yev96TeriiR/Tnr1bwUIUIJvJMlmuLlxif3WA709hjkohzxqOeaA223G2JIuIrM+6z
- tm+0JFuCnC5sJCjomSks5wkDa/0Zw3esucZ3n69e8U/18kDljH1e/1Ns3D/Q7LBn6xCe
- RQF46MvtG3EcTVG6zs/b4l0FnETc8xeIO+6y9vdfENkeHJ/LhshtBLWUrPedA0D8SpiE
- Z9UWSP1kTryTYPs1WIcrS26eiOJ67rIvESxTHbqSDYLBES86OQjTKxG4oh1LeCI+Xgl9
- 7yuQ==
+ bh=EpXPiR/cT9JwYvaX/P3J5/iulyPU1wfTgyjQstS2rS0=;
+ b=rz64HFcfgC0y1xgKrSciRtAzPo2vdKi0IAaHCNsJNVNepO5kVTBxlROlhQGO0IcjBT
+ OmJNFrEcXcmxhrUE4m4ToWbSY2HEZPlReh272WttBP4uIGqGu6+BCqxmx43tERE8zBrs
+ vdBZ29ZsQZFQXknwq1p9wtCwViWsPJuKpLv44E9YwEdlafGJZ6QjgT6sHUf5ww6XL1LY
+ Lfr7c//p8qpiG5/YOoXqgwzSVm9qfYO+EAOSvLNUhqYnYUPk+LaDoJNwjZ9fyMaomGRp
+ s6erbZkBm7qza5gL0yml/oYyW3lercSf7TXG7NxiXGMUDtlmqVHWgT5OYEW9NQOmBtbF
+ yJJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765880591; x=1766485391;
+ d=1e100.net; s=20230601; t=1765880593; x=1766485393;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=4IZdqT3f5FjLJw92pQmwl5xRGES7bj8LR/OQmW30pQg=;
- b=K1UTy7JwGHP1VIA7DEQ4t3OdwZVyd5HjFP0YEPbMRQdmQzJa6jsS1L9wEJO4AmohTn
- 4GwKvMLYwLDs0G1dWr/quZ5tonBxecegD2m6WIkUjyDAvu9Sd4toUTktfOL0hszC0mOg
- HVso+ZwpSgKnF0ZoFMjTGCRJbCkNLGomYk+1r0s/lpvcY/L6OSOeoN5xDnsbKjO0Rvwk
- OWDANHqfbxYk7JWg/F7KXJE2HKYnOfyCq+1T/oxd47M77ebH/Ldw49pMFsEUk0x4S5GA
- Phq2Oip5HzIYVxmdIzWSiAVWFSbuHtkr0ksAqOU4NRQod3VM1j5UeINbiMbA3EHauLlB
- vksg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnnGYxmDLdEa8rhqtxsfEGMCdYpYbebVchbJ8NAhEOUBOPY2hsxRU5XchnydfPgn8S/L+XtDzqJD4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/GapGfSuRM0hGtemjNbgF1N3dLMqU+N/jSUr+z6GLHva9NAB4
- J2IV/sEyFqRV2V38ts1OBnSDYGKfCRh0a3/cJTwOK1OS2CdTaRzcnl6lJjxUGrcdVpM=
-X-Gm-Gg: AY/fxX4+wl5VG+cQfw0bxgMxMK9CBm32oUgVY79245etusy7Y1V78WJm9PrF5cHa9D2
- yrOuaOTakx5wlK7XAxdTRjCxF52Gcx92eJ01ehQo2UMml6AaaMw42sBOTbWKREJVF+hYYYdk4FD
- Uc9RVe93EHAdvA96p2GCUeumc99m2OH6SoHATGpzjv/6OpNzog0wdp8H3EgDDJiONJQ1ASDz0jd
- 1k5iDhLq03a1dy+VAmUTxu7MfaBISOrPQ49fE6ASL31d8tTxxavhJBVt8P1NxLdAYgdQ7hEyiJZ
- ziRe6NO09cTfiUvsIyvtNHQE3mwbB6GBro+qHA9vGUvwDbFWR3aZpgfCkkOtd3fQoN0fWxcYPx7
- 7cCXW0vStgZmFtwPj5SRTezvn0KVY7YNNVQgas6XRZTFwklDzXihNMDDfyJf53MOmc9MttESoAk
- JTfhopKQW7OOKFDs6qqa0C7dXGylifTe0=
-X-Google-Smtp-Source: AGHT+IHdYoe0Jxs5on7xWo5sC0mu4jrv63ZGB+gV2yfNBNXsZdkj2vvC6F2crM2qJ3WTRAF/bSMiFw==
-X-Received: by 2002:a05:6000:2909:b0:42b:3131:5437 with SMTP id
- ffacd0b85a97d-42fb46e1b5fmr12776263f8f.34.1765880591356; 
- Tue, 16 Dec 2025 02:23:11 -0800 (PST)
+ bh=EpXPiR/cT9JwYvaX/P3J5/iulyPU1wfTgyjQstS2rS0=;
+ b=fSULbfT0L6vpIrQtny8u5gbGPrdf8E01Oal+EcNP9j1WJuSFKZXSACbF9CQ1b7Uz66
+ N8cl9ODkVE5xpKN8h5i/EPr5CNtNB/BVsTIvHfl/WRIudCZ8z/wnVQZsO18dI3SBAELq
+ Dwgnbrxr8bgbEn8i2D8HCVn6G+glcq+r/bpwLO/J+vkQ98CVJ3IrlP2Q/iTxjEAMywZ5
+ 60PDJ3IoRZVjXZ5RFZejcFviQcLDTQ43VZkm4REXoyS1K+PyJzYDMk4o0AGH2WpEeRxl
+ JyTrAF5u1aOnwMsq4C0WXmL6x/bOAgArjYjuAJLsUjrdbKgsomo3mtRfE+Pxkr4Jp1CK
+ zE7Q==
+X-Gm-Message-State: AOJu0YyCwFYpBJsE1g3tUD+BmuUioMpXWpho74vQ8qSrS0tRZEDWJvKL
+ vMVK1TEIZdmEp5kgmSDKXzoAqfKrrxWkLR122R3bfGYeCxqgdAUJPxLQul5jYy0MQGQ=
+X-Gm-Gg: AY/fxX5XFAZ8dEB3mDKKj0jfSwrxXjy9/vhobzUvS8U1JQpxHgnMRj60H9lePXiqBBA
+ dRY9qxw5Ji6UGSKnnXpaGBPHPEWBLUZLj20bbfGyQy1pcDIxxTQhHGNfCZTUVtdZikhSkEnua+v
+ JvdvQwyCKiUmieXwPm3VOs4tnD+AgbcWcufc0z7xLVVpBkH1U27Eo8/AtYlpfPbRT4s8AyR16an
+ /NJa4aAE1IYBiPNeN/IWB53Xck5hGP8ZOtcrUBTX9LdkyJpZkK54ZR7pLnrI+9/nqXNvCCGJ7g+
+ WODO025x69nDVtGQVDQRnw6JJFEYWjvuwZj6zSQoPyRqjtUYW4J/V3n35mfmR46jtYKh9BEx8cl
+ 2PAVh0l95Oa/6gVZ90iz1Cc6LfpeW8zPTCIbXydOagIIdIhlIINaxYE6iUcuif/xFbraT+DqO4q
+ OemajTrR9GXQg9x+PGVmBxaPHgUkXV2Co=
+X-Google-Smtp-Source: AGHT+IFNtxCCzId5N6zSSfwtr6e8kqsKdHKvcRUCjL09+ZvBCJ+phjYnW39+B/ZC6bXSVKwhvaSNzg==
+X-Received: by 2002:a05:6000:1acc:b0:430:f704:4f3 with SMTP id
+ ffacd0b85a97d-430f704073bmr9260630f8f.62.1765880592450; 
+ Tue, 16 Dec 2025 02:23:12 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-430f984a268sm14996292f8f.1.2025.12.16.02.23.10
+ ffacd0b85a97d-430f984a268sm14996292f8f.1.2025.12.16.02.23.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Dec 2025 02:23:10 -0800 (PST)
+ Tue, 16 Dec 2025 02:23:11 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Petr Hodina <phodina@protonmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- David Heidelberg <david@ixit.cz>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- Amit Pundir <amit.pundir@linaro.org>, Casey Connolly <casey@connolly.tech>, 
- Joel Selvaraj <foss@joelselvaraj.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Bjorn Andersson <andersson@kernel.org>
-In-Reply-To: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
-References: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
-Subject: Re: (subset) [PATCH v7 0/8] Add support for Pixel 3 and Pixel 3 XL
-Message-Id: <176588059015.2230787.12554234444654203091.b4-ty@linaro.org>
-Date: Tue, 16 Dec 2025 11:23:10 +0100
+To: jessica.zhang@oss.qualcomm.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ thierry.reding@gmail.com, sam@ravnborg.org, 
+ Renjun Wang <renjunw0@foxmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
+References: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
+Subject: Re: [PATCH RESEND 0/2] Add HannStar HSD156JUW2 panel support
+Message-Id: <176588059148.2230787.4539469304596880105.b4-ty@linaro.org>
+Date: Tue, 16 Dec 2025 11:23:11 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -112,31 +95,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Sun, 14 Dec 2025 15:51:16 +0100, David Heidelberg wrote:
-> This adds initial device tree support for the following phones:
+On Mon, 01 Dec 2025 22:19:17 +0800, Renjun Wang wrote:
+> The HannStar HSD156JUW2 panel is a 15.6" FHD (1920x1080) LCD-TFT LVDS
+> panel. Add a binding and a panel entry under panel-simple.c.
 > 
->  - Google Pixel 3 (blueline)
->  - Google Pixel 3 XL (crosshatch)
-> 
-> Both phone boards use the same identifiers and differ only slightly
-> in their connected peripherals.
+> Renjun Wang (2):
+>   dt-bindings: display: simple: Add HannStar HSD156JUW2
+>   drm/panel: simple: Add HannStar HSD156JUW2
 > 
 > [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[2/8] dt-bindings: panel: sw43408: adjust to reflect the DDIC and panel used
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/dbb5d6010c1ecf01560af405c5b503f4cf2b1149
-[3/8] drm/panel: sw43408: Introduce LH546WF1-ED01 panel compatible
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/be85d4124dbe6ed597c7a6a16e53d8b98684fab6
-[4/8] drm/panel: sw43408: Separate reset sequence into own function
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/5f0cc92fa0dab7cbb999dedc653f5857a62b2022
-[5/8] drm/panel: sw43408: Remove manual invocation of unprepare at remove
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/cbc1e99a9e0a6c8b22ddcbb40ca37457066f9493
-[6/8] drm/panel: sw43408: Switch to devm_regulator_bulk_get_const
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ed2b818a24760d7adc92d2e9b0e135f2c33edd8c
-[7/8] drm/panel: sw43408: Improve wording when reset-gpios aren't available
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/29e208a08a8ebb0f214e815eee0a7beff778864f
+[1/2] dt-bindings: display: simple: Add HannStar HSD156JUW2
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b23cd64bda037ad83e18960c8802f3276b7b368e
+[2/2] drm/panel: simple: Add HannStar HSD156JUW2
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/af586cc6df0bd56d4a3d05d5e6db0b193233fc51
 
 -- 
 Neil
