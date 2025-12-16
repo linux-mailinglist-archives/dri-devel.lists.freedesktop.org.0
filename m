@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B984CCC35FD
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 14:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17363CC36DB
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 15:08:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB1710E2DC;
-	Tue, 16 Dec 2025 13:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE7510E79D;
+	Tue, 16 Dec 2025 14:08:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uy60xRSU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TmvLpz8m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF8510E2DC
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 13:56:39 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79DB410E78E;
+ Tue, 16 Dec 2025 14:08:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 25BD16001D;
- Tue, 16 Dec 2025 13:56:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7CBC4CEF1;
- Tue, 16 Dec 2025 13:56:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3B9AB43703;
+ Tue, 16 Dec 2025 14:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18384C16AAE;
+ Tue, 16 Dec 2025 14:08:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765893398;
- bh=cCyl1GPMdqGVBfdBvKiuIVvMj6Pu2aFTMCmNf78d8Rw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uy60xRSUaZAMcyYPFge1ofcg3ah+qbdYctzuVNMjbDHEInAxucDSDtJjawpAkfI/r
- vCFTyzbE93hjThDVWbcLlujf4U3QhKZUODTl7Fiv3I7xp5J7kHphdb1ioF5BtkRfG9
- MYpaMB0Gn+eDVqmfi9sQG3LD07DMwtM4iDdp/WXHa4NqrEdUpFpfK3LCch9fBT5wrF
- /M3ReZtKfBMNNhM5+jQgemqWD2T7+9qa+oK47afs0acSw0vLcYZqwU8M3aM0dU5awS
- ugW5R+Ka9kO7G+t50zjuBHAbgKJe68O4hf6n6oEeqj+KNRxo/8oZhSDDWU+DUnKw+x
- 57/urMQC/IqoA==
-Date: Tue, 16 Dec 2025 07:56:36 -0600
-From: Rob Herring <robh@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
+ s=k20201202; t=1765894089;
+ bh=OALa6ci07NlkXH47K1k/t/JyFtPuL55pxoqRCtxE394=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TmvLpz8mTCdE/bd9tQgUhEPDI/lGiOnPsfZyRA6SzbND8ZxiK1TbyUy82DxzcrZJb
+ ysCSMb+DqnUSPcjVnhsXqUDTokiQTy0eeTmyKHv9zmREwQdSU8idIKQYlAjcumn/Ml
+ rlvsOK1nVpSbHol9VZnEe07Q0ouU0HNr7SzAOogTWxkkcYugBUK50cTYavckj7cLi2
+ WUsGcD1Qv53yYH/m9GUUakyd8ztllM4FWyY188E4c0VJiFm+40WSTRyM+NAV4UF4Fn
+ AoXwsvXv2i3WcHjPkScJfAFtllBMKPR7MKZeDk2xyUm28Id3h/NXWymTumsib1diGv
+ oYa3HqmHguqKA==
+Message-ID: <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
+Date: Tue, 16 Dec 2025 08:08:07 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
+To: "Lazar, Lijo" <lijo.lazar@amd.com>,
+ "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: gpu: img,powervr-rogue: Add Renesas R-Car V3U
-Message-ID: <20251216135636.GA2080685-robh@kernel.org>
-References: <20251215133839.15133-2-wsa+renesas@sang-engineering.com>
- <20251215142253.GA1324977@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ "Tsao, Anson" <anson.tsao@amd.com>
+References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
+ <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
+ <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251215142253.GA1324977@ragnatech.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,18 +69,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 15, 2025 at 03:22:53PM +0100, Niklas S�derlund wrote:
-> Hi Wolfram,
+On 12/16/25 3:43 AM, Lazar, Lijo wrote:
 > 
-> This is posted already here [1], not sure why it have not been merged 
-> yet :-)
+> 
+> On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
+>> Add a uma/ directory containing two sysfs files as interfaces to
+>> inspect or change UMA carveout size. These files are:
+>>
+>> - uma/carveout_options: a read-only file listing all the available
+>>    UMA allocation options and their index.
+>>
+>> - uma/carveout: a file that is both readable and writable. On read,
+>>    it shows the index of the current setting. Writing a valid index
+>>    into this file allows users to change the UMA carveout size to that
+>>    option on the next boot.
+>>
+>> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 +++++++++++++++++++ 
+>> ++++++++++
+>>   1 file changed, 143 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
+>> drm/amd/amdgpu/amdgpu_device.c
+>> index 903c4706040d..e78e6982312c 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -36,6 +36,7 @@
+>>   #include <linux/pci.h>
+>>   #include <linux/pci-p2pdma.h>
+>>   #include <linux/apple-gmux.h>
+>> +#include <linux/nospec.h>
+>>   #include <drm/drm_atomic_helper.h>
+>>   #include <drm/drm_client_event.h>
+>> @@ -417,6 +418,146 @@ static const struct attribute_group 
+>> amdgpu_board_attrs_group = {
+>>       .is_visible = amdgpu_board_attrs_is_visible
+>>   };
+>> +static ssize_t carveout_options_show(struct device *dev,
+>> +                     struct device_attribute *attr,
+>> +                     char *buf)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +    uint32_t memory_carved;
+>> +    ssize_t size = 0;
+>> +
+>> +    if (!uma_info || !uma_info->num_entries)
+>> +        return -ENODEV;
+>> +
+>> +    for (int i = 0; i < uma_info->num_entries; i++) {
+>> +        memory_carved = uma_info->entries[i].memory_carved_mb;
+>> +        if (memory_carved >= SZ_1G/SZ_1M) {
+>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
+>> +                          i,
+>> +                          uma_info->entries[i].name,
+>> +                          memory_carved >> 10);
+>> +        } else {
+>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
+>> +                          i,
+>> +                          uma_info->entries[i].name,
+>> +                          memory_carved);
+>> +        }
+>> +    }
+>> +
+>> +    return size;
+>> +}
+>> +static DEVICE_ATTR_RO(carveout_options);
+>> +
+>> +static ssize_t carveout_show(struct device *dev,
+>> +                 struct device_attribute *attr,
+>> +                 char *buf)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +
+>> +    return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
+> 
+> It would be better to show the size along with the index.
 
-Because the powervr maintainers don't know they are supposed to pick it 
-up? Or if it is only a binding change, it can go with the .dts changes.
- 
-Anyways, I'll go apply it now.
+This idea complicates userspace parsing because rather than a atoi() 
+parser you now need to do sscanf().
 
-Rob
+IE - I like it the way it is in the series at the moment.
 
 > 
-> 1.  https://lore.kernel.org/linux-renesas-soc/20251106212342.2771579-2-niklas.soderlund%2Brenesas@ragnatech.se/
+> Regardless, series is -
+> 
+>      Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+> 
+> Thanks,
+> Lijo
+> 
+>> +}
+>> +
+>> +static ssize_t carveout_store(struct device *dev,
+>> +                  struct device_attribute *attr,
+>> +                  const char *buf, size_t count)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +    struct amdgpu_uma_carveout_option *opt;
+>> +    unsigned long val;
+>> +    uint8_t flags;
+>> +    int r;
+>> +
+>> +    r = kstrtoul(buf, 10, &val);
+>> +    if (r)
+>> +        return r;
+>> +
+>> +    if (val >= uma_info->num_entries)
+>> +        return -EINVAL;
+>> +
+>> +    val = array_index_nospec(val, uma_info->num_entries);
+>> +    opt = &uma_info->entries[val];
+>> +
+>> +    if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
+>> +        !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
+>> +        drm_err_once(ddev, "Option %lu not supported due to lack of 
+>> Custom/Auto flag", val);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    flags = opt->flags;
+>> +    flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
+>> +
+>> +    guard(mutex)(&uma_info->update_lock);
+>> +
+>> +    r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
+>> +    if (r)
+>> +        return r;
+>> +
+>> +    uma_info->uma_option_index = val;
+>> +
+>> +    return count;
+>> +}
+>> +static DEVICE_ATTR_RW(carveout);
+>> +
+>> +static struct attribute *amdgpu_uma_attrs[] = {
+>> +    &dev_attr_carveout.attr,
+>> +    &dev_attr_carveout_options.attr,
+>> +    NULL
+>> +};
+>> +
+>> +const struct attribute_group amdgpu_uma_attr_group = {
+>> +    .name = "uma",
+>> +    .attrs = amdgpu_uma_attrs
+>> +};
+>> +
+>> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
+>> +{
+>> +    int rc;
+>> +
+>> +    if (!(adev->flags & AMD_IS_APU))
+>> +        return;
+>> +
+>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>> +        return;
+>> +
+>> +    rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev- 
+>> >uma_info);
+>> +    if (rc) {
+>> +        drm_dbg(adev_to_drm(adev),
+>> +            "Failed to parse UMA carveout info from VBIOS: %d\n", rc);
+>> +        goto out_info;
+>> +    }
+>> +
+>> +    mutex_init(&adev->uma_info.update_lock);
+>> +
+>> +    rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
+>> +    if (rc) {
+>> +        drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs 
+>> interfaces %d\n", rc);
+>> +        goto out_attr;
+>> +    }
+>> +
+>> +    return;
+>> +
+>> +out_attr:
+>> +    mutex_destroy(&adev->uma_info.update_lock);
+>> +out_info:
+>> +    return;
+>> +}
+>> +
+>> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
+>> +{
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +
+>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>> +        return;
+>> +
+>> +    mutex_destroy(&uma_info->update_lock);
+>> +    uma_info->num_entries = 0;
+>> +}
+>> +
+>>   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
+>>   /**
+>> @@ -4492,6 +4633,7 @@ static int 
+>> amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
+>>       amdgpu_fru_sysfs_init(adev);
+>>       amdgpu_reg_state_sysfs_init(adev);
+>>       amdgpu_xcp_sysfs_init(adev);
+>> +    amdgpu_uma_sysfs_init(adev);
+>>       return r;
+>>   }
+>> @@ -4507,6 +4649,7 @@ static void 
+>> amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
+>>       amdgpu_reg_state_sysfs_fini(adev);
+>>       amdgpu_xcp_sysfs_fini(adev);
+>> +    amdgpu_uma_sysfs_fini(adev);
+>>   }
+>>   /**
+>>
+> 
+
