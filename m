@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86447CC349E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 14:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E46CC3561
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 14:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCE010E393;
-	Tue, 16 Dec 2025 13:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BA310E7E9;
+	Tue, 16 Dec 2025 13:49:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NeZdgjmo";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="1cVIG/eg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8216110E393
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 13:40:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4B81144399
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 13:40:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314EDC19423
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 13:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765892454;
- bh=bpE6mSMhtsJNcViEHUKqxdpK/zXIk25nSDmiikJg7Jo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NeZdgjmofb5XyxZ/9WvmQDRKMMTSL7UvRP7wXhCM0Sn1k0OBFCu7ph/Ju5GY0XNL7
- aqoPVZqK6Uf82+24gaphNn/PeUkv1uFk6jNXl84kPZwk63Ov+FFGyxxW3JfHP6gQ7K
- hiEX4jmVRRQ4gXRa8TTiN7k2GFggH0g4IrXrHv/svzQ67VjOTSouguE4IL4rEqYkRu
- 1fCwDjUzmIhKIHieXY7Djjg+l3hHsd53Fuu1izTymS6+7mURvOZSjrfDGXv1E1njvR
- VE6jFsByaR6RC69K1SiOW4Utea7uiGZbxTDnZaJaogGFKZ85nLoQzcQrm6ab4btr3s
- ikpOL4/rzbaVQ==
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2a0d6f647e2so36678005ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 05:40:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUh8eg8C9aaU7m09aLHs1a5nXkDj/VPh6MTgD2mvUjnNqEqpQDR+fPrx9ahm+byhP7G3dUF6Et9rBc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwD42oVH7MyEOswZFgHulVcMzVLrs/jqR0Srztqd7w0WqZ4DLNh
- Id+heYgu+ZvMy+71oFnhw5gGpZyc8SnOLd9esFp0IwoLe8+jKQiPHmSHOyepx7vRtHZF9NVMI03
- /F3OdEiEBsrvRVR8Ad6OP1ImWMrlj8zA=
-X-Google-Smtp-Source: AGHT+IHcmZJ38d94bL4vjoP1Iao4l30Ahx8lP9aMcBlBTOZ7Gso5/FdhsFfK6P+oxGrsyN3M1S7cHEzzA6Roze4LOiE=
-X-Received: by 2002:a17:902:cf0d:b0:2a0:d59e:9848 with SMTP id
- d9443c01a7336-2a0d59e9a43mr99280585ad.53.1765892453645; Tue, 16 Dec 2025
- 05:40:53 -0800 (PST)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D32E10E7E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 13:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=sFLsYOIToyI1CYsLfOe9PNPAZa7SMcZGDRLeye3TkV4=; b=1cVIG/eg7I6sS8hSAue2feSosa
+ fs9JYZLPNZbpWOz+5uum2rewSRjwJieZr8xzpUV4bVReoRWYTT+mHCMkrJwoHhPQSGGR4sPYkzGME
+ RDsFsScNiP6CEnjPay7NzFuwIgrFnlWdjIBcjNaVq8fDUXuIaKOW1yPFJct87k4LnqJiex01iAtJC
+ +Fz+7SV96+v9afwrM24tqAFdJ6qSg/CFjF9ANZ2MwSKnE6OQY6GWDS9sX+mM66a1RGHlrF4XCy4eq
+ tmRZp4LuDiR8emPv9NnninxunaM3+fUtsB+aMFPl4oLO0sv1kYMOkT8HpqoosgGfpuXJ0fkaxQjwv
+ m+v2sXhw==;
+Received: from [141.76.253.243] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1vVVPc-0004Lk-DA; Tue, 16 Dec 2025 14:48:24 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ jingoohan1@gmail.com, p.zabel@pengutronix.de, hjc@rock-chips.com,
+ andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
+ dianders@chromium.org, m.szyprowski@samsung.com, jani.nikula@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v7 01/18] drm/display: bridge_connector: Ensure last bridge
+ determines EDID/modes detection capabilities
+Date: Tue, 16 Dec 2025 14:48:23 +0100
+Message-ID: <3351986.usQuhbGJ8B@phil>
+In-Reply-To: <ff65f453-68a9-41fc-b9e3-02733bba96e3@rock-chips.com>
+References: <20251021023130.1523707-1-damon.ding@rock-chips.com>
+ <DDNXIYL494D2.2N8L1J7XTBT4S@bootlin.com>
+ <ff65f453-68a9-41fc-b9e3-02733bba96e3@rock-chips.com>
 MIME-Version: 1.0
-References: <20251126160854.553077-1-tzimmermann@suse.de>
- <20251126160854.553077-8-tzimmermann@suse.de>
-In-Reply-To: <20251126160854.553077-8-tzimmermann@suse.de>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 16 Dec 2025 14:40:42 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXG6cFsKwZk3a+xRrOYNz73efxjo=6Jnnr8HCKRO0X-zCQ@mail.gmail.com>
-X-Gm-Features: AQt7F2qIXhwz3lKtiowhJ6LkUm-qxxF02G3Bdlrhhj6FcFVAi1NXBSE5o0PIhTQ
-Message-ID: <CAMj1kXG6cFsKwZk3a+xRrOYNz73efxjo=6Jnnr8HCKRO0X-zCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] efi: Refactor init_primary_display() helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, arnd@arndb.de, richard.lyu@suse.com, 
- helgaas@kernel.org, x86@kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,99 +72,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025 at 17:09, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Rework the kernel's init_primary_display() helpers to allow for later
-> support of additional config-table entries and EDID information. No
-> functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  arch/loongarch/kernel/efi.c     | 22 +++++++++++-----------
->  drivers/firmware/efi/efi-init.c | 19 ++++++++++---------
->  2 files changed, 21 insertions(+), 20 deletions(-)
->
+Am Mittwoch, 22. Oktober 2025, 03:15:52 Mitteleurop=C3=A4ische Normalzeit s=
+chrieb Damon Ding:
+> Hi Luca,
+>=20
+> On 10/21/2025 6:31 PM, Luca Ceresoli wrote:
+> > Hello Damon,
+> >=20
+> > On Tue Oct 21, 2025 at 4:31 AM CEST, Damon Ding wrote:
 
-This patch seems unnecessary now that we've replace one table with another.
+> >=20
+> > This does not apply on current drm-misc-next, due to the patch I mentio=
+ned
+> > in a previous iteration, now applied as commit 2be300f9a0b6 ("drm/displ=
+ay:
+> > bridge_connector: get/put the stored bridges").
+> >=20
+> > However I'm sorry I have to mention that patch turned out being buggy, =
+so
+> > I've sent a series to apply a corrected version [0]. I suggest watching=
+ the
+> > disucssion about the fix series, and if that gets approved rebase on to=
+p of
+> > that and adapt your changes.
+> >=20
+> > Sorry about the mess. :(
+> >=20
+> > [0] https://lore.kernel.org/r/20251017-drm-bridge-alloc-getput-bridge-c=
+onnector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com
+> >=20
+> >=20
+>=20
+> I saw your fix patches before sending this series. I think your patches=20
+> will likely be merged relatively quickly, so I plan to wait until the=20
+> other patches in my patch series are confirmed to be fine, then submit=20
+> v8 version based on the latest bridge_connector driver. :-)
 
-I've dropped it for now - let me know if you really want to keep it.
+I think with 6.19-rc1 out, now is a great time for v8? :-)
+
+Heiko
 
 
-> diff --git a/arch/loongarch/kernel/efi.c b/arch/loongarch/kernel/efi.c
-> index 638a392d2cd2..1ef38036e8ae 100644
-> --- a/arch/loongarch/kernel/efi.c
-> +++ b/arch/loongarch/kernel/efi.c
-> @@ -81,19 +81,19 @@ EXPORT_SYMBOL_GPL(sysfb_primary_display);
->
->  static void __init init_primary_display(void)
->  {
-> -       struct screen_info *si;
-> -
-> -       if (screen_info_table == EFI_INVALID_TABLE_ADDR)
-> -               return;
-> -
-> -       si = early_memremap(screen_info_table, sizeof(*si));
-> -       if (!si) {
-> -               pr_err("Could not map screen_info config table\n");
-> +       if (screen_info_table == EFI_INVALID_TABLE_ADDR) {
-> +               struct screen_info *si = early_memremap(screen_info_table, sizeof(*si));
-> +
-> +               if (!si) {
-> +                       pr_err("Could not map screen_info config table\n");
-> +                       return;
-> +               }
-> +               sysfb_primary_display.screen = *si;
-> +               memset(si, 0, sizeof(*si));
-> +               early_memunmap(si, sizeof(*si));
-> +       } else {
->                 return;
->         }
-> -       sysfb_primary_display.screen = *si;
-> -       memset(si, 0, sizeof(*si));
-> -       early_memunmap(si, sizeof(*si));
->
->         memblock_reserve(__screen_info_lfb_base(&sysfb_primary_display.screen),
->                          sysfb_primary_display.screen.lfb_size);
-> diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
-> index d1d418a34407..ca697d485116 100644
-> --- a/drivers/firmware/efi/efi-init.c
-> +++ b/drivers/firmware/efi/efi-init.c
-> @@ -67,10 +67,9 @@ EXPORT_SYMBOL_GPL(sysfb_primary_display);
->
->  static void __init init_primary_display(void)
->  {
-> -       struct screen_info *si;
-> -
->         if (screen_info_table != EFI_INVALID_TABLE_ADDR) {
-> -               si = early_memremap(screen_info_table, sizeof(*si));
-> +               struct screen_info *si = early_memremap(screen_info_table, sizeof(*si));
-> +
->                 if (!si) {
->                         pr_err("Could not map screen_info config table\n");
->                         return;
-> @@ -78,14 +77,16 @@ static void __init init_primary_display(void)
->                 sysfb_primary_display.screen = *si;
->                 memset(si, 0, sizeof(*si));
->                 early_memunmap(si, sizeof(*si));
-> +       } else {
-> +               return;
-> +       }
->
-> -               if (memblock_is_map_memory(sysfb_primary_display.screen.lfb_base))
-> -                       memblock_mark_nomap(sysfb_primary_display.screen.lfb_base,
-> -                                           sysfb_primary_display.screen.lfb_size);
-> +       if (memblock_is_map_memory(sysfb_primary_display.screen.lfb_base))
-> +               memblock_mark_nomap(sysfb_primary_display.screen.lfb_base,
-> +                                   sysfb_primary_display.screen.lfb_size);
->
-> -               if (IS_ENABLED(CONFIG_EFI_EARLYCON))
-> -                       efi_earlycon_reprobe();
-> -       }
-> +       if (IS_ENABLED(CONFIG_EFI_EARLYCON))
-> +               efi_earlycon_reprobe();
->  }
->
->  static int __init uefi_init(u64 efi_system_table)
-> --
-> 2.51.1
->
