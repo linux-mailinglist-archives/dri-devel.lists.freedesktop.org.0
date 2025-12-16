@@ -2,191 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BC8CC15F4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 08:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42038CC163A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 08:55:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93DBF10E717;
-	Tue, 16 Dec 2025 07:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1E610E71F;
+	Tue, 16 Dec 2025 07:55:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="jg2Qtpg/";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jg2Qtpg/";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="iRvnlAR3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11010050.outbound.protection.outlook.com [52.101.84.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C2010E717
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:53:56 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=QNf661UbTUS6Dquszs6wQoyLFHp7I7+CGcKK4FWnlBjwHLvVtwbzOtm9hD/w7QwH0o686SsObeWWMbtNFEIyz3hERmeDh9m2hVJ5g0jBi4/p5iShv+n+7GTS/PMYNsLytuX37DwAHYHhOqLjyjN/LloPndSAZ5m9AykB86VJ5hQrPNcbRCwdwIRawh1Kfue7HmiwNWFNYn+YW/HC4h0TA5D6We0LuyKs+Fq6zDmmxFj0TIt9n9rS4pobk3+S7jn+pSAqimmMn4NKCLPP/1uTGkwUpDUIR4sZdK8uLfHkJUimlZSmfeNwcOOBxTAmiwPJ2hvwUdHcVCXoe/zxPiYqvg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mb/6uabVKg4Mavr8kqDsmnv1bxRfUWqb6VFUWEisJ+c=;
- b=SBYYa0H5rQoGXPraIe5U0GK+iEhomnZBgrZSe6UXvswAKg4sSO8EAC4lp8wgNmkyRu0G5ocg//HmmFM8LgOOPZFdtyzzlGWRSl6GQ2Q8n6ynBq1M+EL00mo3rLKS48H6ThBQu4JV99kVnEvbse6OXhVD6HMkpdiRvoFDp+dHF3cndM9usKOpr69Jhrd28e95kCSr0BP5XBjj83jM8YCxxPt83ThsZj0K4OTVOMT2Bphjd+D8xt9aM1A5QRdmXJuJ8o9IgSSY/LecTbAgvG9cM3vQT/OgZiCV1nA8LpcNfOB51D/HokitSXzqkh4qtyQamluXItx+v3ccIwkTvIUqAA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mb/6uabVKg4Mavr8kqDsmnv1bxRfUWqb6VFUWEisJ+c=;
- b=jg2Qtpg/8L6HAZfxDe7pHJ7vD/ja7yXdLMn6c9vrVhJnvdAv4OaJUsDkBhsVQa7LlPUoQpndfM9YYLaROvlsUIg+8/lInug4WDZ9W1AAs0wred2Ydkcf6Ra+MYbuGkF1JdBq7q/5G9ipP6ZsNkKqyucDBql5bowGq55G9WJH/co=
-Received: from CWLP265CA0389.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1d6::11)
- by PAWPR08MB10258.eurprd08.prod.outlook.com (2603:10a6:102:358::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 07:53:51 +0000
-Received: from AMS0EPF000001A4.eurprd05.prod.outlook.com
- (2603:10a6:400:1d6:cafe::d4) by CWLP265CA0389.outlook.office365.com
- (2603:10a6:400:1d6::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
- 16 Dec 2025 07:53:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF000001A4.mail.protection.outlook.com (10.167.16.229) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
- via Frontend Transport; Tue, 16 Dec 2025 07:53:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Sg5/I0/197J4nP7MjKXDklrZ8CSuaJlLsVL0aWFmufOHhVXtnbRD9XD1Y3byOg9LHgFwci3bVBc73jZJJrck8LOtm5BEPrmieGDZmOR1kHYfU74IUbC4FmtlVHH5wdMPxKCy1gKmU5Q74JmQGgsjZV1GNFNDAYqgVti7OOY4qirGXS+uYiaUmsHhL27YHs1NtB7cPuDLnYT3ed+ZW68K5Q88KAXINIEibEB8324N144LWmtoaMJSHD45ebRESDPczMJxp99s9wc53L+rnDt+87YNEApSUPL3DqttkfrIGjKFcwU0SbjdP0dtr5IFM+ww66BNR5PGv4WIYqfUk6PsIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mb/6uabVKg4Mavr8kqDsmnv1bxRfUWqb6VFUWEisJ+c=;
- b=Q0sugFZE4jJPItkffk3opbCyBGFyHMZUznJSSQWb/XTHukOFBOyqgKdtgRlZSSt6sXfI5+Ukq050viIms/vhmc72YuuL4FpE5GYfsyU9YiXnf/JMWWO1ally+qAhB4j28LJhMmr/QRcmZSM/+X0vtaOuDQv/iR5v9khuR5LDKsec+lw7M4M2/CbmXbqW47NCMxXRZ85vedMiVddKoeqribBLp9jJRPipoKHm+er0XLPBNiW4nV8saZ77/TRgMVhpH1JhP8vVUCEAphvcalLWCPq6e/v4K4dZYK7xle1IFsSdWNFjJFudMmYeOeDHrUgVLgd8wGCD3K+XSiqDSn5VSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mb/6uabVKg4Mavr8kqDsmnv1bxRfUWqb6VFUWEisJ+c=;
- b=jg2Qtpg/8L6HAZfxDe7pHJ7vD/ja7yXdLMn6c9vrVhJnvdAv4OaJUsDkBhsVQa7LlPUoQpndfM9YYLaROvlsUIg+8/lInug4WDZ9W1AAs0wred2Ydkcf6Ra+MYbuGkF1JdBq7q/5G9ipP6ZsNkKqyucDBql5bowGq55G9WJH/co=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB6440.eurprd08.prod.outlook.com (2603:10a6:20b:33f::9)
- by AS8PR08MB5957.eurprd08.prod.outlook.com (2603:10a6:20b:290::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
- 2025 07:52:47 +0000
-Received: from AS8PR08MB6440.eurprd08.prod.outlook.com
- ([fe80::c5b9:7014:641d:50]) by AS8PR08MB6440.eurprd08.prod.outlook.com
- ([fe80::c5b9:7014:641d:50%3]) with mapi id 15.20.9434.001; Tue, 16 Dec 2025
- 07:52:47 +0000
-Date: Tue, 16 Dec 2025 08:52:43 +0100
-From: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- nd@arm.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group
- and queue errors
-Message-ID: <aUEPyyT2KLr3wd8W@e129842.arm.com>
-References: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
- <20251215115457.2137485-6-lukas.zapolskas@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
-X-ClientProxiedBy: LO4P265CA0104.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c3::8) To AS8PR08MB6440.eurprd08.prod.outlook.com
- (2603:10a6:20b:33f::9)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E6910E71F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 07:55:41 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-29f30233d8aso42080635ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 23:55:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1765871741; x=1766476541; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Aiu6UYObNyFRnGMMXknuXL/ChxL/XTeOYAU4v8VOrrE=;
+ b=iRvnlAR3ZD/7QXw0p0GU7qZRcDUrHXr/d8iEf1j0/U112skMRImWXn6DCp7S3XSXd8
+ CD1phREoEMZNhUFeFJRmrvmbdnCRIz/lt9CIljzcKFGfEAwzN9ITzukGGGnhB+GNgVe3
+ vjxf49mkfawLDaR9+OGIfM9W4Fk9fxAmd49qQsAM0lOX7TeaBKLgBCGlCmKWgsxxM1nH
+ +VNpKJNq+ziiloUtLFukILohyFtI2zfu0DzAMJGrsTXOOsKTmrCLkapkzzwRwtdjabJv
+ cMy9asjZilhVwTXnb4sqOG/wGHwSvhG3Wb/iyODhiBPRToFgmoVWHi/QH00M2Ohbv3BD
+ IfVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765871741; x=1766476541;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Aiu6UYObNyFRnGMMXknuXL/ChxL/XTeOYAU4v8VOrrE=;
+ b=oqJuJlT0u1kub3IP2sdTw4bfVuH6VwDPAT60XWy7oNEiLuA0stAMC/9WZhUuWMpvkU
+ fNJd1wo6EA4qhBxkbTJKMKgA7ZlPfF9piQADXDXnCTKgvvYoPUKYTFEXnj6rJbaPZO2t
+ wSXPGEXkBsRldMSoKmfanmgMCqtsheLSdqWv2A3t4VQ6MIwiIFwE6lyW/rbY+YP9ugWD
+ 1Vv86scp69Vjgw9B1oO6YDA/AEGvfHuNtwujyOx5FQeePfS+G6+hYL56kq3ieEHi3hhT
+ VhVXms3nSwCpbFr+SngL+c4MWDKUzkUyDxCMvkHbqCUb7EWByGTNcvTjfZlfcTNhYqcC
+ Um2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrcFpvGiZW54fhlwfscXyjvgXv+GWfIRejxNkN7kImWeLDFRJSFAT70GFAl9FBEyKmwvS4+xizk1M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHGGOYNi6ct+cBzOrKKWTpnP0d+pA3XluP53Zn/Efhv+4MCPsc
+ WuZoDTrlDtrca97MlCR4vz3P1vgz3ikgfn1CFKi0Ol6ftIj5n8EKts9rsNA+BWqzLgg=
+X-Gm-Gg: AY/fxX7z0MBzoIF18UIAYCzlECYk5d9YCBw+9RmP2/fkMop/Wtkj3ZCmhNcBc8HBUXQ
+ ISbr5NM0jTHhFvhEwGz8cuydnxUDOXwjJ8xTSrUM66Kpm4s6uyE0p8NEaDbGGDb976TjfmBmuLz
+ PO1OR0lgZfqsIUCqWmz3zrkcAEhQBOUE7wEOWGHCaqiRl8flX8SKLQ1DgopJ713rbvkgS3klj5X
+ InVe4KrZRC++HZgCDHEVFBdAst1wAUMW7jtIjnb21vVh0LgY3+0Lzp846Aq3QiOG+zOtSTHce1Y
+ 9KWGeq+pa42Aco2RcxS2OK+zIT6n6qm9kFpmapvlqH9gJ0F3xNF1IBP+MNADjayh3tCsyXgj8OV
+ A6Wfpfr0JCSi+ed10H+quDww6UzF/OuCYihUY9GZnfwgx15H7Zk0n9ZeCbBzlky6XaGM4NMIKtK
+ pM/2nZaHnfrypqGgWV+ljlZcjBOlJbzIE4ioLd5DpgSvA6DwTAG7zu2TYwpA==
+X-Google-Smtp-Source: AGHT+IH7ewtz5pezGDzdpT3/f5YC2NEt8+MxJfMJrEFI9UaQmewqy113Y+xs2i6SpFg9RkqDs7RsZA==
+X-Received: by 2002:a17:903:3510:b0:2a0:909a:1535 with SMTP id
+ d9443c01a7336-2a0909a184emr87674635ad.11.1765871741434; 
+ Mon, 15 Dec 2025 23:55:41 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29eea06b651sm157392935ad.94.2025.12.15.23.55.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Dec 2025 23:55:41 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, jesszhan0024@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH RESEND] drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07
+ to DSC 120Hz mode
+Date: Tue, 16 Dec 2025 15:55:30 +0800
+Message-Id: <20251216075530.1966327-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6440:EE_|AS8PR08MB5957:EE_|AMS0EPF000001A4:EE_|PAWPR08MB10258:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef18c140-c1d6-4a0f-6124-08de3c784072
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?19UqSJUio7Je9IKDDwHHTYatzAWIZwIAyC7zwVqaBAKtNcrYIfRQ5OHQq+8a?=
- =?us-ascii?Q?iyUJX607Q46V2vPNL+IuBttlrgRc+wqP0oIQWi+PdSZZ5vIYSxTUUyt2EHUi?=
- =?us-ascii?Q?qW1exymhqarpjDQBFQo/30iTddhl7fYPLn2LqcQC9X6IlHhbA4n9r1RIOmVs?=
- =?us-ascii?Q?gfMsyQdb9D6D1uRjwnXAB/Prq3p+4lN2Ymlv8uMTDAvZ+wctIXJPi8LFSbcW?=
- =?us-ascii?Q?seASOMZ5fUO9im9js4YJvoZIZI6AVa2csmpKbOC79Ephme3oDhGCkk6elEGb?=
- =?us-ascii?Q?VRhBXv5zmT+pwtQbEOo6Ga9SDW5dHrPTfX8ZnCYOgI10b1QNI4qyFqQ05r+f?=
- =?us-ascii?Q?Z3x1WfTMsz0RChzg4YS4kPInuU4LW0tOp+DLHEIuv4/A0mj7amZHn3PUvvys?=
- =?us-ascii?Q?V+5TRljJkyut7GuLPk1wquTC4HrCh8cZoneBLwmOGtdqOQXtUj+nsHfT+5F1?=
- =?us-ascii?Q?wFlSsToFJV4pd9g995bcHZ8OrOsJPWNWPFPT7s1IanyCs2E7EOD1RZandLeD?=
- =?us-ascii?Q?thWnKa70StD+ASLj4l4B0RdgqXAFKMtmbCp1QkFwCmuGama4cR3xPOZJbHrf?=
- =?us-ascii?Q?UiBWjxlFJ2UsWA/9LtTStJAWGG1E1LLJZ3HWS2CqwAXI/NWg2zAWkjo8XfAK?=
- =?us-ascii?Q?rcr7USTHATdXsZWbF3Ez14QKe8vIJMnz2Uq1CDZLyrRnjBS3s9Yhjb8CnLNt?=
- =?us-ascii?Q?0EB33VN66CfJRB2E33mV9KpdqEJd4Cc15hVGfXiLi69rj7R5++gFVwvVcyx9?=
- =?us-ascii?Q?mvGdgxmvmkYDb4983U0SCPJO/NOoi4+tdXUYeOUtpz9kkJ74EwNJbTmPk+jK?=
- =?us-ascii?Q?+ZPQwJXTaveh39r+CF4UAHezBkRIr/agn990Rl7+nGV3zKiCagiOQ9hMAIEj?=
- =?us-ascii?Q?tUT1QHFR6KlzOlzN+niYQJgqfMbakzqswC0hQxSLdFRJ+ujKFdzg8O9P7J2c?=
- =?us-ascii?Q?nowugrXmS3pkFvHZSbeyeBZExX4w9CUdgh0l/V+7DyH+6gEMtyuaxuclu7Vg?=
- =?us-ascii?Q?2sZLO0sIamY3LOEwIeK7kPhf1ULQDl8UgyOgAKI+N3MbGWzMsgiw8dgFgnyN?=
- =?us-ascii?Q?fI8KgGfCaElvgTN17ON7sUabTO/pwb34zicgaETjdyvwDMHkZGLG4XJsoD3o?=
- =?us-ascii?Q?KzffC6eM5aS5254XwA5EgrsAOOR1P6urFxfCctrWz2X0yzlQ3SwOb+iExA3K?=
- =?us-ascii?Q?V46+FQUSdYN+TBUr9DDAp5jup3EgWi4PUR1gqwXZE6DPHX7hPCidobqyPO+r?=
- =?us-ascii?Q?sshghgvRxH5p1NXtltUQwQOykWRClHqhWRkNhy0in2tmRHebepTtgQ71ryxN?=
- =?us-ascii?Q?dLaWy6eiWef9Vdrk7lGB2e/g2gze33TTh0b2D/0hgcwktdgtVf+SLLLGxsAB?=
- =?us-ascii?Q?bmzkWcvBSXGZjFHa98zSI8PQbF+KW3KRc+3UXVTHNLzv8bOWreGgNiNGmAYB?=
- =?us-ascii?Q?tL/SZSZYa1urNvLxoQwXnHhJzRIsUtxH?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AS8PR08MB6440.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5957
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF000001A4.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 5989f17e-3c59-4250-e098-08de3c781a5d
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|14060799003|1800799024|82310400026|376014|36860700013|35042699022;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qB0EpxCKMp03iT+iDJXcwHLzr54SFRvFxaNHstxojqvVKkUayb02NwMbu5Ax?=
- =?us-ascii?Q?LC2KKVYLOvPIRep71MRkBOtR8sl4Pl6GZDJu+PjXLBdmDu7V/va+rRPIX4mc?=
- =?us-ascii?Q?vrzGOBhNLExFEIFH9oxLKFAvZ+zKR/vdjbzvB5on0W7MH3r76i5n6SgeSkXN?=
- =?us-ascii?Q?ZQaPdm/WHfKhiOzC4k+RlSSn4okfRjwU1qF0zu/vzp7IX2VeLIDG71/+EG+Z?=
- =?us-ascii?Q?htees7CEdm+IZQVUpDWgnY34i/BlWWQbBgsiaD65OVxjO9wNtdfr8ODUo/cL?=
- =?us-ascii?Q?mEWtzPkApJC26oaqkrjDD7VebV1GzSVog+uMXi4L6gulwIt65dN4QMk0cSdC?=
- =?us-ascii?Q?sD6CPe/mZRW6dKMxhWNhWnvTaNX1yefXi7DEJkA8+5R4ECazbmiOJU6q7zJZ?=
- =?us-ascii?Q?ylr2IX3SAs+7Qbut/9wZRGt4v3XLFRnxZK+TpFmUVZqYijOrfCWC76Wron8F?=
- =?us-ascii?Q?pQqU9Z5GupgWVRDM1Dppfp+EYqUSnhfvVg3qeLOnDkkErDyuy10tN5gEYNh5?=
- =?us-ascii?Q?T+9f15hvTwHUfAts/2rXh0u8pHMtg6PPNnc1oSkzq2Ucy58UR+2pLBCUs7Jl?=
- =?us-ascii?Q?d/PlItTI/aaP0m3jyNdJxxx3flkhIqfkN9rKGflSh+pBQ2sJm+ieEP7+LQT3?=
- =?us-ascii?Q?qq5gLHOiX6AkJ9FLXnWardRr2Ropq4YhOjIVLsxwU12g9fA83TAZdwatlPmT?=
- =?us-ascii?Q?S99gIykwgyf2ZLPli4bMxv5HsNRIW3L3eau9kJiziZYOSiO3zK2HvNqAA9Dx?=
- =?us-ascii?Q?XXM5kJkeclnf/71VNog1Op7bWGPso8EyV+r0o556aVsKTMxTyKkjF3gxiW1s?=
- =?us-ascii?Q?2vDm12vM8TasKM7HXHEamU6jSwrowtPz9XqOsSuM4yZGFkm9dNdoJ1qmPevZ?=
- =?us-ascii?Q?FVydbdm/MxZXEl6NcEz7hDEr519l+pOB3EhUg6hn7luiVjnvB1CNRDLs3tZE?=
- =?us-ascii?Q?64cy2zXCcZnwbLwPoOPdttVDgmF6muaNiErDe6UIl0GIYlkx+arGJbtnP55D?=
- =?us-ascii?Q?ya2i7MvQBxK7GHMEbMUEzDdynEUIFcZSrg+nujtxQxbPsKFQoxUNDQu/v8Xw?=
- =?us-ascii?Q?f6gT8JxvfRSFiTIoYdaWOo0y4vp8CaZtuCyze59LkcF6TV3aUteCAPeJTEIj?=
- =?us-ascii?Q?Sl2KRxb5jW16S3FztFF55SfMExHcbwjiAeluXqrv4DqVKncLr2BR4pZhO0/U?=
- =?us-ascii?Q?nKDgo1PpGGtHaDBGypcRCk0tfz9u0dwwQhYHF8RZWoj9zTAIPnXj2FNzdmVj?=
- =?us-ascii?Q?KOQ0TRv2wPp/4yavnScZxcdN22bCXbSOdKOq38bmFt5/Mk2F0IPW2gwelwDz?=
- =?us-ascii?Q?Krm81nuPX/TdOMAZX2ovE7vSrfteH0fJzj3IAR06tOwn/2O3m7gdoLM62XSj?=
- =?us-ascii?Q?LlIRxCvoUAwkfWumO925hIc61MaslXJkj8Hs8c4+pG+cn88JSMi6y4wbAKRQ?=
- =?us-ascii?Q?qEwtemXY5Mn60E1XgvlqXfZ9JwYco81VL2nnCulrOJmIZT9AS2Is2HO/5tm7?=
- =?us-ascii?Q?Rj/1figoNHiicFEwth9KoaW8uo+uAUxkIG3+kd3HArNvwjvU48p6dpuoUg?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(14060799003)(1800799024)(82310400026)(376014)(36860700013)(35042699022);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:53:50.7090 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef18c140-c1d6-4a0f-6124-08de3c784072
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001A4.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB10258
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,23 +92,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 15, 2025 at 11:54:57AM +0000, Lukas Zapolskas wrote:
->  int panthor_group_get_state(struct panthor_file *pfile,
-> -			    struct drm_panthor_group_get_state *get_state)
-> +			    struct drm_panthor_group_get_state *get_state,
-> +			    struct drm_panthor_queue_event *events, u32 count)
->  {
->  	struct panthor_group_pool *gpool = pfile->groups;
->  	struct panthor_device *ptdev = pfile->ptdev;
->  	struct panthor_scheduler *sched = ptdev->scheduler;
-> -	struct panthor_group *group;
-> +	struct panthor_group *group = NULL;
+Migrate the TL121BVMS07 panel from non-DSC 60 Hz to DSC-enabled 120 Hz,
+including updated init sequence, DSC configuration, and display timings.
 
-Initialization is not needed. group is set as the very first thing.
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 147 ++++++++++++++++--
+ 1 file changed, 136 insertions(+), 11 deletions(-)
 
-> +	u32 fault_count;
->  
->  	group = group_from_handle(gpool, get_state->group_handle);
->  	if (!group)
->  		return -EINVAL;
->  
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index c52f20863fc7..370424ddfc80 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -8,6 +8,8 @@
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <drm/display/drm_dsc.h>
++#include <drm/display/drm_dsc_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_mipi_dsi.h>
+@@ -15,6 +17,8 @@
+ 
+ #include <video/mipi_display.h>
+ 
++#define DSC_BPG_OFFSET(x)	((u8)((x) & DSC_RANGE_BPG_OFFSET_MASK))
++
+ struct ili9882t;
+ 
+ /*
+@@ -23,6 +27,7 @@ struct ili9882t;
+  */
+ struct panel_desc {
+ 	const struct drm_display_mode *modes;
++	const struct drm_dsc_config *dsc;
+ 	unsigned int bpc;
+ 
+ 	/**
+@@ -52,6 +57,8 @@ struct ili9882t {
+ 	struct regulator *avee;
+ 	struct regulator *avdd;
+ 	struct gpio_desc *enable_gpio;
++
++	struct drm_dsc_config dsc;
+ };
+ 
+ /* ILI9882-specific commands, add new commands as you decode them */
+@@ -68,6 +75,67 @@ struct ili9882t {
+ 	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
+ 				     0x5a, 0xa5, (page))
+ 
++static const struct drm_dsc_config tianma_il79900a_dsc = {
++	.dsc_version_major = 1,
++	.dsc_version_minor = 2,
++	.slice_height = 8,
++	.slice_width = 800,
++	.slice_count = 2,
++	.bits_per_component = 8,
++	.bits_per_pixel = 8 << 4,
++	.block_pred_enable = true,
++	.native_420 = false,
++	.native_422 = false,
++	.simple_422 = false,
++	.vbr_enable = false,
++	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
++	.pic_width = 1600,
++	.pic_height = 2560,
++	.convert_rgb = 0,
++	.vbr_enable = 0,
++	.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
++	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
++	.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
++	.rc_tgt_offset_high = DSC_RC_TGT_OFFSET_HI_CONST,
++	.rc_tgt_offset_low = DSC_RC_TGT_OFFSET_LO_CONST,
++	.mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC,
++	.line_buf_depth = 9,
++	.first_line_bpg_offset = 12,
++	.initial_xmit_delay = 512,
++	.initial_offset = 6144,
++	.rc_quant_incr_limit0 = 11,
++	.rc_quant_incr_limit1 = 11,
++	.nfl_bpg_offset = 1402,
++	.rc_range_params = {
++		{ 0,  4, DSC_BPG_OFFSET(2)},
++		{ 0,  4, DSC_BPG_OFFSET(0)},
++		{ 1,  5, DSC_BPG_OFFSET(0)},
++		{ 1,  6, DSC_BPG_OFFSET(-2)},
++		{ 3,  7, DSC_BPG_OFFSET(-4)},
++		{ 3,  7, DSC_BPG_OFFSET(-6)},
++		{ 3,  7, DSC_BPG_OFFSET(-8)},
++		{ 3,  8, DSC_BPG_OFFSET(-8)},
++		{ 3,  9, DSC_BPG_OFFSET(-8)},
++		{ 3, 10, DSC_BPG_OFFSET(-10)},
++		{ 5, 10, DSC_BPG_OFFSET(-10)},
++		{ 5, 11, DSC_BPG_OFFSET(-12)},
++		{ 5, 11, DSC_BPG_OFFSET(-12)},
++		{ 9, 12, DSC_BPG_OFFSET(-12)},
++		{12, 13, DSC_BPG_OFFSET(-12)},
++	},
++	.initial_scale_value = 32,
++	.slice_chunk_size = 800,
++	.initial_dec_delay = 657,
++	.final_offset = 4320,
++	.scale_increment_interval = 222,
++	.scale_decrement_interval = 11,
++	.initial_scale_value = 32,
++	.nfl_bpg_offset = 3511,
++	.slice_bpg_offset = 2179,
++	.flatness_max_qp = 12,
++	.flatness_min_qp = 3,
++};
++
+ static int starry_ili9882t_init(struct ili9882t *ili)
+ {
+ 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
+@@ -423,22 +491,72 @@ static int starry_ili9882t_init(struct ili9882t *ili)
+ static int tianma_il79900a_init(struct ili9882t *ili)
+ {
+ 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
++	struct drm_dsc_picture_parameter_set pps;
+ 
+ 	mipi_dsi_usleep_range(&ctx, 5000, 5100);
+ 
+ 	il79900a_switch_page(&ctx, 0x06);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
+ 
++	il79900a_switch_page(&ctx, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00);
++
+ 	il79900a_switch_page(&ctx, 0x02);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
+ 
++	il79900a_switch_page(&ctx, 0x05);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0X9e, 0xe9);
++
+ 	il79900a_switch_page(&ctx, 0x07);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x01);
++
++	il79900a_switch_page(&ctx, 0x17);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00,
++				     0x00, 0x89, 0x30, 0x80, 0x0a, 0x00, 0x06, 0x40, 0x00,
++				     0x08, 0x03, 0x20, 0x03, 0x20, 0x02, 0x00, 0x02, 0x91,
++				     0x00, 0x20, 0x00, 0xde, 0x00, 0x0b, 0x00, 0x0c, 0x0d,
++				     0xb7, 0x08, 0x83, 0x18, 0x00, 0x10, 0xe0, 0x03, 0x0c,
++				     0x20, 0x00, 0x06, 0x0b, 0x0b, 0x33, 0x0e, 0x1c, 0x2a,
++				     0x38, 0x46, 0x54, 0x62, 0x69, 0x70, 0x77, 0x79, 0x7b,
++				     0x7d, 0x7e, 0x01, 0x02, 0x01, 0x00, 0x09, 0x40, 0x09,
++				     0xbe, 0x19, 0xfc, 0x19, 0xfa, 0x19, 0xf8, 0x1a, 0x38,
++				     0x1a, 0x78, 0x1a, 0xb6, 0x2a, 0xb6, 0x2a, 0xf4, 0x2a,
++				     0xf4, 0x4b, 0x34, 0x63, 0x74);
+ 
+ 	il79900a_switch_page(&ctx, 0x06);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x91, 0x45);
++
++	il79900a_switch_page(&ctx, 0x16);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x03, 0x4b);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x04, 0x73);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x05, 0xdf);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x00, 0x01);
++
++	il79900a_switch_page(&ctx, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x12, 0x8c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x14, 0x3c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x15, 0x3d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1d, 0xfc);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x25, 0x9d);
++
++	il79900a_switch_page(&ctx, 0x0e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc0, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0x0e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x38, 0xcd);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x80, 0x53);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x81, 0x0e);
++
++	il79900a_switch_page(&ctx, 0x1e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x61, 0x5c);
++
++	drm_dsc_pps_payload_pack(&pps, &tianma_il79900a_dsc);
++
++	mipi_dsi_picture_parameter_set_multi(&ctx, &pps);
++
++	mipi_dsi_compression_mode_ext_multi(&ctx, true,
++					    MIPI_DSI_COMPRESSION_DSC, 1);
+ 
+ 	il79900a_switch_page(&ctx, 0x00);
+ 	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
+@@ -447,9 +565,9 @@ static int tianma_il79900a_init(struct ili9882t *ili)
+ 
+ 	mipi_dsi_dcs_set_display_on_multi(&ctx);
+ 
+-	mipi_dsi_msleep(&ctx, 80);
++	mipi_dsi_msleep(&ctx, 20);
+ 
+-	return 0;
++	return ctx.accum_err;
+ };
+ 
+ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+@@ -569,15 +687,15 @@ static const struct drm_display_mode starry_ili9882t_default_mode = {
+ };
+ 
+ static const struct drm_display_mode tianma_il79900a_default_mode = {
+-	.clock = 264355,
++	.clock = 543850,
+ 	.hdisplay = 1600,
+ 	.hsync_start = 1600 + 20,
+-	.hsync_end = 1600 + 20 + 4,
+-	.htotal = 1600 + 20 + 4 + 20,
++	.hsync_end = 1600 + 20 + 2,
++	.htotal = 1600 + 20 + 2 + 20,
+ 	.vdisplay = 2560,
+-	.vsync_start = 2560 + 82,
+-	.vsync_end = 2560 + 82 + 2,
+-	.vtotal = 2560 + 82 + 2 + 36,
++	.vsync_start = 2560 + 62,
++	.vsync_end = 2560 + 62 + 2,
++	.vtotal = 2560 + 62 + 2 + 136,
+ 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+ };
+ 
+@@ -597,6 +715,7 @@ static const struct panel_desc starry_ili9882t_desc = {
+ 
+ static const struct panel_desc tianma_tl121bvms07_desc = {
+ 	.modes = &tianma_il79900a_default_mode,
++	.dsc = &tianma_il79900a_dsc,
+ 	.bpc = 8,
+ 	.size = {
+ 		.width_mm = 163,
+@@ -716,6 +835,12 @@ static int ili9882t_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = desc->mode_flags;
+ 	ili->desc = desc;
+ 	ili->dsi = dsi;
++
++	if (desc->dsc) {
++		ili->dsc = *desc->dsc;
++		dsi->dsc = &ili->dsc;
++	}
++
+ 	ret = ili9882t_add(ili);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.34.1
+
