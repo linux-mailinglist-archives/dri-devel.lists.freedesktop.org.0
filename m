@@ -2,39 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23A8CC04B8
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 01:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766D8CC0555
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 01:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39B1110E5E7;
-	Tue, 16 Dec 2025 00:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF6710E5D3;
+	Tue, 16 Dec 2025 00:19:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Olj0+mxi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 274F510E5E7
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 00:04:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 768D7FEC;
- Mon, 15 Dec 2025 16:04:17 -0800 (PST)
-Received: from usa.arm.com (unknown [10.57.7.174])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AB5C23F762;
- Mon, 15 Dec 2025 16:04:22 -0800 (PST)
-From: Aishwarya <aishwarya.tcv@arm.com>
-To: boris.brezillon@collabora.com
-Cc: airlied@gmail.com, aishwarya.tcv@arm.com, broonie@kernel.org,
- dri-devel@lists.freedesktop.org, karunika.choo@arm.com,
- linux-kernel@vger.kernel.org, liviu.dudau@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, nd@arm.com,
- simona@ffwll.ch, steven.price@arm.com, tzimmermann@suse.de
-Subject: Re: [PATCH v5 6/8] drm/panthor: Support GLB_REQ.STATE field for
- Mali-G1 GPUs
-Date: Tue, 16 Dec 2025 00:04:21 +0000
-Message-ID: <20251216000421.19137-1-aishwarya.tcv@arm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251215201459.77b1d7e7@fedora>
-References: <20251215201459.77b1d7e7@fedora>
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4728910E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 00:19:23 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-c0224fd2a92so3792545a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Dec 2025 16:19:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765844363; x=1766449163; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
+ b=Olj0+mxiG6PCVrya2B0U7Sr1HlkDRfEwPwtspvFM9cfQBMJTv6939vLA+gMs/GYanG
+ /1psIUkyBTwC5MnJ5lXfntaDQXJFXCzYLZHGmvd/Wi3jZ7uRN5RlWEfEI1ySo+Cr7BSz
+ SORpxGMvnO/DMAwKwGABXWQvaX2m7QGI4tX7fMyuTk8h/x1MUmUut/e8t+Z91Fx8hOBg
+ pmUuRbJqLicEEeMqFaLr7wakXMLFGJu6rtaFdkW0KQFNK1Oqqci88HAOk93cvDStNamE
+ mnUx3tgokrjuawYnbrO6Q/Ea0ngGZHOd9iztwrg1mCNyKXUbY7FycsAQVfuzA1pl/lTp
+ tEEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765844363; x=1766449163;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
+ b=XK63GyYUYKCWl+F/xyD6VMwN6YWrHKAb+DdWrRTCHKjHrHE7KhHhwRHav0zcF7OwZv
+ czQjVcVJMwzjXCK35ckP9TK/fe6QnzJyNtfDlSuBdXBM4CI4zyH1uYuj+c25hvH3yTAY
+ KyXrX4stQ97gaqUqsfVL3TyFmQQoPlqod0Yd2UTmWczxJIyQZFnR0cts8LrhcZgsBVak
+ 2ESatdG5JIP3shKCjq+EeJgsaDmk2b/E61BNyZpjanlWFzmvbbQrGdEHN2yuc5fx4kML
+ AzErDDNBlMGnqmjH9uEAspz1YoEhmR4TfijS8fPAo+MuoUSSYYC4wPHhlvc+A9UB0I9f
+ YeJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTdklcFgazrwrJNCeDJZmgQGiPCVLsA+xDBWP+E5Z8zedvdvhfkxuDv/VUs2910dWj9+qqhx8LXNg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQ9wA18E2aRAAGCskKKdTemidUd4Q2kBCJy3z3ExfeVlWBVsj9
+ ygUeh/0EnyrVXeebcQmOKHNkc4XNOsntj2555ZBhhUEbqWC25j9k6FGh
+X-Gm-Gg: AY/fxX6qmKl+Oky6eYbT0JkfkiCofby6Adt8CJZmyenpXCAM6eIGsp8aatueaC7GiHI
+ 9v+FPk/i6l0S/WkDxTm89Tihx0vXH/r3hvSv77G4pjQ1lwnqjtD/p0zO3T/tTumQ6PaX7/OpBn8
+ C5EJ3v1E5lATeDP/WpYu1cFSE7+IFPFS4Ruljd+Y1h8HiLcXs/2JRqusXLHpV1e5bCB89kZ+wNG
+ S2JtCNcq2SGP+ufsgiUHLobDEHtBlw4AtvihwdyKfLFpl47sFhJ7jRs9IaRC0hAxripizSDzjyp
+ 5Ikl4BYx0DtWJzC1btG4POKHaJ+x9C+a2iLiaVb1PrXhzK655MArzPgWRsu0XsngH6ZF9BEjbwP
+ DWEF3oMEhjhrKe21yWfqSEaBDXP2m8xmp3GIFeIzROHK2aPlUT41CDj3aG5t9t5v3zXhMcSsAGq
+ Xbnu5Cr0KDYmG6TAWFHfnbb5RrgjMMBzRmDlj/DX11N9I=
+X-Google-Smtp-Source: AGHT+IHmrytMydYNAgs0qRZg7qEjrXkSVHGK3fUWY6ADeu6KzKqLiLcf4Z3v4UGHQ57LoQ8XnYjK1w==
+X-Received: by 2002:a05:7301:f84:b0:2a4:3593:6466 with SMTP id
+ 5a478bee46e88-2ac300f729dmr7381219eec.22.1765844362545; 
+ Mon, 15 Dec 2025 16:19:22 -0800 (PST)
+Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
+ by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-11f2e30491dsm51066947c88.16.2025.12.15.16.19.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Dec 2025 16:19:21 -0800 (PST)
+Date: Mon, 15 Dec 2025 16:19:16 -0800
+From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
+ Linux Media <linux-media@vger.kernel.org>,
+ linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
+ Linux Virtualization <virtualization@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Network Bridge <bridge@lists.linux.dev>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>,
+ Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Dillon Varone <Dillon.Varone@amd.com>,
+ George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+ Cruise Hung <Cruise.Hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>,
+ Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ David Hildenbrand <david@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Max Kellermann <max.kellermann@ionos.com>,
+ "Nysal Jan K.A." <nysal@linux.ibm.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Alexey Skidanov <alexey.skidanov@intel.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Vitaly Wool <vitaly.wool@konsulko.se>,
+ Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
+ Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lyude Paul <lyude@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>,
+ Shaomin Deng <dengshaomin@cdjrlc.com>,
+ Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
+ Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ George Anthony Vernon <contact@gvernon.com>
+Subject: Re: [PATCH 04/14] mm: vmalloc: Fix up vrealloc_node_align()
+ kernel-doc macro name
+Message-ID: <aUClhBdwQb83vN0o@fedora>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
+ <20251215113903.46555-5-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215113903.46555-5-bagasdotme@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,93 +154,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris, Karunika,
+On Mon, Dec 15, 2025 at 06:38:52PM +0700, Bagas Sanjaya wrote:
+> Sphinx reports kernel-doc warning:
+> 
+> WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+> 
+> Fix the macro name in vrealloc_node_align_noprof() kernel-doc comment.
+> 
+> Fixes: 4c5d3365882dbb ("mm/vmalloc: allow to set node and align in vrealloc")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
 
-I tested the diff on rk3588-rock-5b with and without
-mali_csffw.bin installed.
-
-With the firmware blob installed at
-/lib/firmware/arm/mali/arch10.8/mali_csffw.bin, Panthor
-initialises and probes successfully:
-
-<6>[   16.920109] panthor fb000000.gpu: [drm] clock rate = 198000000
-<6>[   16.923794] panthor fb000000.gpu: EM: created perf domain
-<6>[   16.926724] panthor fb000000.gpu: [drm] Mali-G610 id 0xa867 major 0x0 minor 0x0 status 0x5
-<6>[   16.927481] panthor fb000000.gpu: [drm] Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-<6>[   16.929417] panthor fb000000.gpu: [drm] shader_present=0x50005 l2_present=0x1 tiler_present=0x1
-<6>[   16.931633] videodev: Linux video capture interface: v2.00
-<6>[   16.937816] hantro-vpu fdb50000.video-codec: registered rockchip,rk3568-vpu-dec as /dev/video0
-         Starting [0;1;39msystemd-user-sess…vice[0m - Permit User Sessions...
-<4>[   16.953212] panthor fb000000.gpu: [drm] Firmware protected mode entry not be supported, ignoring
-<6>[   16.954047] panthor fb000000.gpu: [drm] Firmware git sha: 95a25d71030715381f33105394285e1dcc860a65 
-<6>[   16.954985] panthor fb000000.gpu: [drm] CSF FW using interface v1.5.0, Features 0x0 Instrumentation features 0x71
-[[0;32m  OK  [0m] Finished [0;1;39msystemd-user-sess…ervice[0m - Permit User Sessions.
-<6>[   16.988220] hantro-vpu fdba0000.video-codec: registered rockchip,rk3588-vepu121-enc as /dev/video1
-<6>[   17.012257] [drm] Initialized panthor 1.5.0 for fb000000.gpu on minor 0
-<6>[   17.019183] rockchip-rga fdb80000.rga: HW Version: 0x03.02
-<6>[   17.019850] rockchip-rga fdb80000.rga: Registered rockchip-rga as /dev/video2
-<6>[   17.027260] hantro-vpu fdba4000.video-codec: missing multi-core support, ignoring this instance
-<6>[   17.032242] hantro-vpu fdba8000.video-codec: missing multi-core support, ignoring this instance
-[[0;32m  OK  [0m] Started [0;1;39mgetty@tty1.service[0m - Getty on tty1.
-<6>[   17.040973] hantro-vpu fdbac000.video-codec: missing multi-core support, ignoring this instance
-[[0;32m  OK  [0m] Started [0;1;39mserial-getty@ttyS2…rvice<6>[   17.042138] hantro-vpu fdc70000.video-codec: registered rockchip,rk3588-av1-vpu-dec as /dev/video3
-[0m - Serial Getty on ttyS2.
-[[0;32m  OK  [0m] Reached target [0;1;39mgetty.target[0m - Login Prompts.
-[[0;32m  OK  [0m] Reached target [0;1;39mmulti-user.target[0m - Multi-User System.
-<6>[   17.061041] snps_hdmirx fdee0000.hdmi_receiver: assigned reserved memory node hdmi-receiver-cma
-[[0;32m  OK  [0m] Reached target [0;1;39mgraphical.target[0m - Graphical Interface.
-         Starting [0;1;39msystemd-update-ut… Record Runlevel Change in UTMP...
-<6>[   17.097767] input: rk805 pwrkey as /devices/platform/feb20000.spi/spi_master/spi2/spi2.0/rk805-pwrkey.3.auto/input/input0
-<6>[   17.105210] xhci-hcd xhci-hcd.4.auto: xHCI Host Controller
-<6>[   17.105721] xhci-hcd xhci-hcd.4.auto: new USB bus registered, assigned bus number 5
-<6>[   17.106474] xhci-hcd xhci-hcd.4.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000808002000010
-<6>[   17.107320] xhci-hcd xhci-hcd.4.auto: irq 106, io mem 0xfcd00000
-<6>[   17.107908] xhci-hcd xhci-hcd.4.auto: xHCI Host Controller
-<6>[   17.108451] xhci-hcd xhci-hcd.4.auto: new USB bus registered, assigned bus number 6
-<6>[   17.109140] xhci-hcd xhci-hcd.4.auto: Host supports USB 3.0 SuperSpeed
-<4>[   17.116126] rtc-hym8563 6-0051: no valid clock/calendar values available
-[[0;32m  OK  [0m] Finished [0;1;39msystemd-update-ut… - Record Runlevel Change in UTMP.
-<6>[   17.136757] hub 5-0:1.0: USB hub found
-<6>[   17.137158] hub 5-0:1.0: 1 port detected
-<6>[   17.138787] rtc-hym8563 6-0051: registered as rtc0
-<4>[   17.140243] rtc-hym8563 6-0051: no valid clock/calendar values available
-<3>[   17.141064] rtc-hym8563 6-0051: hctosys: unable to read the hardware clock
-Debian GNU/Linux 12 debian-bookworm-arm64 ttyS2
-debian-bookworm-arm64 login: root (automatic login)
-
-Without the firmware blob, the driver now fails probe with
-but does not oops:
-
-<6>[   16.967454] panthor fb000000.gpu: [drm] clock rate = 198000000
-<6>[   16.969049] panthor fb000000.gpu: [drm] Mali-G610 id 0xa867 major 0x0 minor 0x0 status 0x5
-<6>[   16.969790] panthor fb000000.gpu: [drm] Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-<6>[   16.970627] panthor fb000000.gpu: [drm] shader_present=0x50005 l2_present=0x1 tiler_present=0x1
-<6>[   16.970642] rockchip-rga fdb80000.rga: Registered rockchip-rga as /dev/video3
-<4>[   16.999584] panthor fb000000.gpu: Direct firmware load for arm/mali/arch10.8/mali_csffw.bin failed with error -2
-<3>[   17.000646] panthor fb000000.gpu: [drm] *ERROR* Failed to load firmware image 'mali_csffw.bin'
-<3>[   17.001784] panthor fb000000.gpu: probe with driver panthor failed with error -2
-<6>[   17.010673] rockchip-drm display-subsystem: bound fdd90000.vop (ops vop2_component_ops [rockchipdrm])
-<6>[   17.017837] input: rk805 pwrkey as /devices/platform/feb20000.spi/spi_master/spi2/spi2.0/rk805-pwrkey.3.auto/input/input0
-<6>[   17.018094] dwhdmiqp-rockchip fdea0000.hdmi: registered DesignWare HDMI QP I2C bus driver
-<6>[   17.021381] rockchip-drm display-subsystem: bound fdea0000.hdmi (ops dw_hdmi_qp_rockchip_ops [rockchipdrm])
-         Starting [0;1;39msystemd-update-ut… Record Runlevel Change in UTMP...
-[[0;32m  OK  [0m] Finished [0;1;39msystemd-update-ut… - Record Runlevel Change in UTMP.
-<6>[   17.053595] xhci-hcd xhci-hcd.5.auto: xHCI Host Controller
-<6>[   17.054241] xhci-hcd xhci-hcd.5.auto: new USB bus registered, assigned bus number 5
-<4>[   17.054386] rtc-hym8563 6-0051: no valid clock/calendar values available
-<6>[   17.055144] xhci-hcd xhci-hcd.5.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000808002000010
-<6>[   17.056434] xhci-hcd xhci-hcd.5.auto: irq 109, io mem 0xfcd00000
-<6>[   17.057099] xhci-hcd xhci-hcd.5.auto: xHCI Host Controller
-<6>[   17.057336] dwhdmiqp-rockchip fdea0000.hdmi: registered DesignWare HDMI QP I2C bus driver
-<6>[   17.057607] xhci-hcd xhci-hcd.5.auto: new USB bus registered, assigned bus number 6
-<6>[   17.059024] xhci-hcd xhci-hcd.5.auto: Host supports USB 3.0 SuperSpeed
-<6>[   17.061667] rtc-hym8563 6-0051: registered as rtc0
-<6>[   17.062808] rockchip-drm display-subsystem: bound fdea0000.hdmi (ops dw_hdmi_qp_rockchip_ops [rockchipdrm])
-<4>[   17.063381] rtc-hym8563 6-0051: no valid clock/calendar values available
-<3>[   17.064342] rtc-hym8563 6-0051: hctosys: unable to read the hardware clock
-<6>[   17.072001] rfkill_gpio rfkill-bt: rfkill-m2-bt device registered.
-Debian GNU/Linux 12 debian-bookworm-arm64 ttyS2
-debian-bookworm-arm64 login: root (automatic login)
-
-Thanks,
-Aishwarya
+LGTM.
+Reviewed-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
