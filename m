@@ -2,82 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C936CC1E19
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 10:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75328CC1ECA
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F96D10E0FE;
-	Tue, 16 Dec 2025 09:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A217E10E8F4;
+	Tue, 16 Dec 2025 10:15:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FkJKGGrP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x1n3sntI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B50010E0FE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 09:57:06 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4779a637712so29348075e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 01:57:06 -0800 (PST)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E637710E91B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:15:34 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-42fb5810d39so2021145f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 02:15:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1765879025; x=1766483825; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1765880133; x=1766484933; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :content-language:references:cc:to:from:subject:reply-to:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=NFYaFpKlCe3rxlgalcml8hPx/Y+kjDAMwf63+7Oo6zY=;
- b=FkJKGGrPB+dO9CyjKW0BBUw5kJMIIVCslqh+A87sveD9x0p1f0NPqNd0D+mHt3/A8T
- YHPQBmTDcd9WPu6ntIxzLHjBj93Nt3Csu2xnbiDb9kL+MO+/Kl4QqhQNYKOBhhhMttRq
- jYmZFgnlydMGhcXuZabMWtZ3JEfWTZwundAL8zINAhhDRXvhwjS4FZ1nKh4IAKVdtUL9
- VNQ+gpsAAtexAaMjOter2PBsMyrWMOZupIXodheTDX+6Y3N6+UtG0nUhJb6HsivYM00y
- DhhCZpE9BXl4lPdSYQeyiZHPsKv7LomC4oG1nZlVd+U+16nz25qgJzsDqLs65JcNFlE7
- cnQw==
+ :reply-to; bh=TC7nDl1wifuEDkf59f4yFIQZTBJ14bBd1H1iofC4YrY=;
+ b=x1n3sntI3OIJbCr7lqjf323YAy+34buAYu6u40dj2rSIhfKXw01deawy2Aqh2lK24u
+ 8OYOe4J9Jlo3qK0g66dmp813yGa8Rvhh4qYII1FGTEAx1K2XBD5JI7RThRxkf+h5NjBj
+ GEDKDKW6uidFbs9qlzzxzXiWlPTdLpHA7qZITmeZKbaDiXTsTzrJBFMbPcFctCQci/ao
+ 9MKKRa+HZwsZW3nC8zXXfi/fRZ/OElfzBfchddmlzBYogziJ1ky3y4FMdqZbPO59CLiJ
+ v0QowXAIp22jbNQ+/AgDVorRoB0uGCo57erN2ENO+1n6NaefHFUSywob9KGOawlJLcQr
+ do7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765879025; x=1766483825;
+ d=1e100.net; s=20230601; t=1765880133; x=1766484933;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :content-language:references:cc:to:from:subject:reply-to:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NFYaFpKlCe3rxlgalcml8hPx/Y+kjDAMwf63+7Oo6zY=;
- b=kgLS3S07n5mkb3Aeaipd819CmjZlhGLN00a9YBjMgrplz0FM772hfsr/UQ7Ihu6aVB
- kZN+6h34U3wLBQ+y+OVD1ocTXJ397vRoZH4AzgkAw1vd96WmRQf+eQJrxnYzt+C/Ch0K
- m8YF/4EhzvGVO543zXTG5xZAdsxUzMeDqm5TOEEEZwuWPuNUdZhohsaD90UNyrWJMDiS
- VaCiAcDC1A5QvJMbO7QTVh3hY0SVflCr8mLfwc/ZZWnZ3xuH9x7lTft4rGfkPA2Jl0n5
- /9VJ9zH/USEU5KxlUXLqQKK4RbzgR6WJyVrVVCQgDJWmNF4yjzy5hfu7Sjco69Y3eH2m
- r0Hw==
-X-Gm-Message-State: AOJu0YwTiHNZMCCzyguq8MjxWt/nhI8yBwLXK71FR2th03KczGMBXlRT
- tXJlNJo/RARg0yHPFwn8imTxVuRwvHk6EqcM3+PhjnyS9IG1ihK7temxugq9if+de44=
-X-Gm-Gg: AY/fxX5aF72yqgysWd9U2jpCTwqIsEQ6wCjZshpuhtsEJC3CEcwyVuEnrE+6n4cjzKU
- ci94yKePKL8FgwkyWq4x70x/hoA4RQt718dX2fUvNCcsQhTxI6Rbu4mlWKtV4lyHw+A5EEnUuoy
- 3koovo4U7tS7XnY1GIwWbaLizR7DJr58XGKw6wXcbWp8vYQuxK8qS1uI1ELz9bSlexpZ+7pcqjV
- x9ipghZC7cip17x9MBoEsK29gzTLGECDxvTPFf1zzt8/9Q90uD4ek3IquUx0sXVHyZbqRpjsuFp
- /R8ofnv4EbIgn7B0PWDc+UVt/1xrP3tvuhdlx5k8SaQtrpMDknqP+fzNR+5t+yowJ+YLUhFbcMW
- 4xIhP9VESyCDUjI6klXjNB2ve8lVIgoh2emP5vKgz3yRDnjPmRSQf2hNSLBKUihXSnrb9ufen3s
- V7BcXvSkGDasyDkm6Q3/1F+yFx+TlIF0v2aBGflVuI4x8vZQsrgkVALic7rlqQ9yw=
-X-Google-Smtp-Source: AGHT+IHp/4B919bF0goX8Ptb8Fx0rtJVasiby8l518/I3xdaS9lsIP+maX/ZU6zxMKZ0IGUTBQUjIw==
-X-Received: by 2002:a05:600c:3104:b0:477:af07:dd17 with SMTP id
- 5b1f17b1804b1-47a8f90634fmr135837985e9.24.1765879024755; 
- Tue, 16 Dec 2025 01:57:04 -0800 (PST)
+ bh=TC7nDl1wifuEDkf59f4yFIQZTBJ14bBd1H1iofC4YrY=;
+ b=K6tCs4LcAkz+/MVJuhnWmGH5VoWnZhiXYsHXkf4g7WGwo+toGKxVUvOWr+WyT9g01j
+ 0NeDW2HV+Z4ji0GX1EZ+1xt+PS7JohP01fZTho5WVaPpl7snlGRa/3QZi0POgZSgsRFJ
+ ymV6JqSsLb0yjrbzi8+lovIlA0n3IPmdrVXoVfYiMPo8LJ70j2xb0GIpX5sFyDrntjkX
+ bInG+yoNTJ3mG/XvKJu/ZgVL5TzWU26Q3pRbSfCTSErfyZJddnXcCCAext+XUf1etPto
+ 7JteMSek+NspsBTOFIJypOufrIbQZYNJ55g2MANNoYhwh6wFxcauHU7P6s9wWoGQ0BoL
+ hTmA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXCDIoR1pInVT3uLtYHKFL8Ujztgyk9faG6062+7mTNXzVKs4/vVi+RhkcXNkiqIoOQ/of5Pkax/fI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyoLDH9Bg78tCz+H7CQ9+FR+bW6GdxWTnfqD3ssXq8CY7c533f8
+ ZbTQeO4g7cxWvcEH9zVGih6iP9sM2pNoGmxMJ5AVZNiVQLD3/YdBEHz3je5o1Unf6EE=
+X-Gm-Gg: AY/fxX4o8Va2ONOmxA+JhLreNxW08eHTMSzPf9arlnXFPAUmW9kFLgcr+nRGEHRCNkD
+ e2aEwCpHUNmvdS+xnjN+MgqiylXdO2evD6BCzc5pFSs923IWFN379ngazbW/hCNfjOh4F+16s9p
+ 8XouaVmvW/2AmCffhB4dblysjPD+8oDKUc5rZlHVt9rLBrl+W3kmtrVowniZtDorZNXKFxBCsVx
+ 9JTtWGJvnlpPB8gzbZo6io5/DBnuj8SXpmTcAjYvUso6sVoPgBg7Sja/dbyKMyMcOQKdIR4ASwi
+ 1GnrXwLLB9i4qigOy3WrjQTBhcKNv/as3BC6LBJcCkAGC+44zzINehxhkg/cQCVEdbZNc2AkBt1
+ MpYVvX5iA2/fLoTncefLjoV2nOCbZLbSrmdQ9o0zqgIUDuPDKl5BnUqyWzpUoorLK5BG+YNI8Tv
+ gLb8VKpskrmIHyWqjx2afC5CeLZvOi8TrFcz5lTjj4GTn8p+8b3G52v/Lc48tDCnw=
+X-Google-Smtp-Source: AGHT+IFNmWmeVfREbnlawrLbiJWYchJrdkbwmJ5e2QA/GyR67dJoN5aj8rejIsQe3Lih0MgLxHiC9A==
+X-Received: by 2002:a05:6000:4010:b0:430:f2ee:b219 with SMTP id
+ ffacd0b85a97d-430f2eeb65emr10561462f8f.25.1765880133260; 
+ Tue, 16 Dec 2025 02:15:33 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:2913:9c11:b7b9:c6d2?
  ([2a01:e0a:3d9:2080:2913:9c11:b7b9:c6d2])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-430f9339d86sm15060676f8f.29.2025.12.16.01.57.03
+ ffacd0b85a97d-430f4126477sm18772676f8f.10.2025.12.16.02.15.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Dec 2025 01:57:03 -0800 (PST)
-Message-ID: <68b5d663-de9e-4232-9dfb-6773ad552c36@linaro.org>
-Date: Tue, 16 Dec 2025 10:57:02 +0100
+ Tue, 16 Dec 2025 02:15:32 -0800 (PST)
+Message-ID: <8ef57d2e-9a43-434f-89d6-e99c0892abef@linaro.org>
+Date: Tue, 16 Dec 2025 11:15:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH RESEND 2/2] drm/panel: simple: Add HannStar HSD156JUW2
-To: Renjun Wang <renjunw0@foxmail.com>, jessica.zhang@oss.qualcomm.com,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, thierry.reding@gmail.com,
- sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
- <tencent_FE5819B397B5ECC989623C67A7D68D246907@qq.com>
+Subject: Re: [PATCH] drm/panel: osd-osd101t2587-53ts: migrate to
+ mipi_dsi_turn_on_peripheral_multi
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Matt Smith <matthew.j.smith2@outlook.com>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <PH3PPFAB08B9FD3DE70CD833C0C470243EE99D4A@PH3PPFAB08B9FD3.namprd19.prod.outlook.com>
+ <e80fd81e-fba2-4385-9fed-9d82b2e5b2cf@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -104,9 +106,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <tencent_FE5819B397B5ECC989623C67A7D68D246907@qq.com>
+In-Reply-To: <e80fd81e-fba2-4385-9fed-9d82b2e5b2cf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,59 +125,50 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/1/25 15:22, Renjun Wang wrote:
-> Add Hannstar HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel support.
+On 11/20/25 08:52, Neil Armstrong wrote:
+> On 11/20/25 03:25, Matt Smith wrote:
+>> Documentation/gpu/todo.rst lists to transition away from using
+>> deprecated methods in drm_mipi_dsi.c, so migrating from
+>> mipi_dsi_turn_on_peripheral to mipi_dsi_turn_on_peripheral_multi.
+>>
+>> Used commit e139c0eb22ce ("drm/panel: mantix-mlaf057we51: transition
+>> to mipi_dsi wrapped functions") as a reference.
+>>
+>> Signed-off-by: Matt Smith <matthew.j.smith2@outlook.com>
+>> ---
+>>   drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c | 11 ++++++-----
+>>   1 file changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
+>> index 2334b77f348c..45baf2c238d2 100644
+>> --- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
+>> +++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
+>> @@ -58,13 +58,14 @@ static int osd101t2587_panel_prepare(struct drm_panel *panel)
+>>   static int osd101t2587_panel_enable(struct drm_panel *panel)
+>>   {
+>>          struct osd101t2587_panel *osd101t2587 = ti_osd_panel(panel);
+>> -       int ret;
+>>
+>> -       ret = mipi_dsi_turn_on_peripheral(osd101t2587->dsi);
+>> -       if (ret)
+>> -               return ret;
+>> +       struct mipi_dsi_multi_context dsi_ctx = {
+>> +               .dsi = osd101t2587->dsi
+>> +       };
+>>
+>> -       return ret;
+>> +       mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
+>> +
+>> +       return dsi_ctx.accum_err;
+>>   }
+>>
+>>   static const struct drm_display_mode default_mode_osd101t2587 = {
+>> -- 
+>> 2.49.0
+>>
 > 
-> Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 0019de93be1b..057ae6735806 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2509,6 +2509,31 @@ static const struct panel_desc hannstar_hsd101pww2 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->   };
->   
-> +static const struct display_timing hannstar_hsd156juw2_timing = {
-> +	.pixelclock = { 66000000, 72800000, 80500000 },
-> +	.hactive = { 1920, 1920, 1920 },
-> +	.hfront_porch = { 20, 30, 30 },
-> +	.hback_porch = { 20, 30, 30 },
-> +	.hsync_len = { 50, 60, 90 },
-> +	.vactive = { 1080, 1080, 1080 },
-> +	.vfront_porch = { 1, 2, 4 },
-> +	.vback_porch = { 1, 2, 4 },
-> +	.vsync_len = { 3, 40, 80 },
-> +	.flags = DISPLAY_FLAGS_DE_HIGH,
-> +};
-> +
-> +static const struct panel_desc hannstar_hsd156juw2 = {
-> +	.timings = &hannstar_hsd156juw2_timing,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 344,
-> +		.height = 194,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct drm_display_mode hitachi_tx23d38vm0caa_mode = {
->   	.clock = 33333,
->   	.hdisplay = 800,
-> @@ -5166,6 +5191,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "hannstar,hsd101pww2",
->   		.data = &hannstar_hsd101pww2,
-> +	}, {
-> +		.compatible = "hannstar,hsd156juw2",
-> +		.data = &hannstar_hsd156juw2,
->   	}, {
->   		.compatible = "hit,tx23d38vm0caa",
->   		.data = &hitachi_tx23d38vm0caa
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+This doesn't apply anymore, please rebase.
+
+Neil
