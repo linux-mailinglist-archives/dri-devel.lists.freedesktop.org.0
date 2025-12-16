@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7EDCC20B0
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 11:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42C8CC2454
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Dec 2025 12:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34AA10E231;
-	Tue, 16 Dec 2025 10:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE22510E704;
+	Tue, 16 Dec 2025 11:32:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D75xMK5u";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TTNrrAo+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F53810E231
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Dec 2025 10:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1765882750;
- bh=81mSqGBXdRim7M1hfkjhMzNiNPOkG7y+lUATlQcbHTs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=D75xMK5uje/F5YOgyp3hxy+T6ifGweEbKWjlmsTYVBecHrsXQAwBMtRF6GiZxKJw3
- RjEbKcwxgN+iZgf7KxwLUWvIM7AyhlNrg1uriO8yhFbBSJTQsohaXFzXuLLu+vNcdd
- a3VWiDeATrrewwMt2MowENobBV0KpfNOaaHdNgGXSiCNxFVTsIsqaR9mRXF6+Va69z
- fsvZOhWJoyKU3pmSnsnRIoU4f5BXH9ZxWWFcxB805tlRxfH08aDF09ZLgXwr5J/2dt
- QM1Xt27B7Sur7FXRC3/of/vVhXlx3acixyWs7Rv8kJOKPnsGMg8W28rYpa+/m0ytOK
- in9Zj3n1PG+dQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 607BD17E1149;
- Tue, 16 Dec 2025 11:59:10 +0100 (CET)
-Date: Tue, 16 Dec 2025 11:59:06 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, nd@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Mihail
- Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v6 1/7] drm/panthor: Add performance counter uAPI
-Message-ID: <20251216115906.50fe104d@fedora>
-In-Reply-To: <20251215171453.2506348-2-lukas.zapolskas@arm.com>
-References: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
- <20251215171453.2506348-2-lukas.zapolskas@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD99210E704;
+ Tue, 16 Dec 2025 11:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765884771; x=1797420771;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AJ7AIQ/Y67ADOdmVR2elpS/em6+5xguyK7AuzVoIWdI=;
+ b=TTNrrAo+UGb8gVzb6OF4RIp5NHVtfeV7mqrbjWfRzjwZNTwVEryOwyJU
+ bGiao+810sonNe4qBjwKXJQqLLdB273mN//O0D2M3m+a2tZOTUOJbrto3
+ j1lMKIey4EKQMrjKfwcGra1CZAwxlg+leB9S6Vpf3BPGmVorMoFUT8fyi
+ 6INf67pvK6FCi/wvRayICyhiafTjulGaNLxAqVpVq9y9XZt05A107IEAo
+ KPGbCXS5ZqUrsWcPsplOPeFJdu0m2S5f6abvDInvNDgFYcdaEGBSvI6am
+ 6X4mnr7ssxty3EL5RsCXEu4UhIwr2BfkepK1O41M2oXn3f9I28j4ip8Rp g==;
+X-CSE-ConnectionGUID: fI/5doeDR92zQCZikgRAmQ==
+X-CSE-MsgGUID: Myu7A89PRrak2mvkuL7U1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="79255411"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; d="scan'208";a="79255411"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2025 03:32:51 -0800
+X-CSE-ConnectionGUID: P4ldY8DMSyKa8Efejof1eQ==
+X-CSE-MsgGUID: msEJXspjQ5KJVo77OYPbHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; d="scan'208";a="228675151"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+ by orviesa002.jf.intel.com with ESMTP; 16 Dec 2025 03:32:50 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vVTIN-000000001ke-20Zm;
+ Tue, 16 Dec 2025 11:32:47 +0000
+Date: Tue, 16 Dec 2025 19:32:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [CI 2/4] drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST helper
+Message-ID: <202512161949.FGqB4Iim-lkp@intel.com>
+References: <20251215201806.196514-3-michal.wajdeczko@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215201806.196514-3-michal.wajdeczko@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,164 +73,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Dec 2025 17:14:47 +0000
-Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
+Hi Michal,
 
-> This patch extends the DEV_QUERY ioctl to return information about the
-> performance counter setup for userspace, and introduces the new
-> ioctl DRM_PANTHOR_PERF_CONTROL in order to allow for the sampling of
-> performance counters.
->=20
-> The new design is inspired by the perf aux ringbuffer [0], with the
-> insert and extract indices being mapped to userspace, allowing
-> multiple samples to be exposed at any given time. To avoid pointer
-> chasing, the sample metadata and block metadata are inline with
-> the elements they describe.
->=20
-> Userspace is responsible for passing in resources for samples to be
-> exposed, including the event file descriptor for notification of new
-> sample availability, the ringbuffer BO to store samples, and the
-> control BO along with the offset for mapping the insert and extract
-> indices. Though these indices are only a total of 8 bytes, userspace
-> can then reuse the same physical page for tracking the state of
-> multiple buffers by giving different offsets from the BO start to
-> map them.
->=20
-> [0]: https://docs.kernel.org/userspace-api/perf_ring_buffer.html
->=20
-> Co-developed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-> Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> Reviewed-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+kernel test robot noticed the following build errors:
 
-A couple things pointed out by Adrian have not been fixed, I think (see
-below).
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.19-rc1 next-20251216]
+[cannot apply to daeinki-drm-exynos/exynos-drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
->  include/uapi/drm/panthor_drm.h | 565 +++++++++++++++++++++++++++++++++
->  1 file changed, 565 insertions(+)
->=20
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_dr=
-m.h
-> index e238c6264fa1..d1a92172e878 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/drm-xe-Introduce-IF_ARGS-macro-utility/20251216-042142
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251215201806.196514-3-michal.wajdeczko%40intel.com
+patch subject: [CI 2/4] drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST helper
+config: sparc-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161949.FGqB4Iim-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161949.FGqB4Iim-lkp@intel.com/reproduce)
 
-[...]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161949.FGqB4Iim-lkp@intel.com/
 
-> +/**
-> + * struct drm_panthor_perf_info - Performance counter interface informat=
-ion
-> + *
-> + * Structure grouping all queryable information relating to the performa=
-nce counter
-> + * interfaces.
-> + */
-> +struct drm_panthor_perf_info {
-> +	/**
-> +	 * @counters_per_block: The number of 8-byte counters available in a bl=
-ock.
-> +	 */
-> +	__u32 counters_per_block;
-> +
-> +	/**
-> +	 * @sample_header_size: The size of the header struct available at the =
-beginning
-> +	 * of every sample.
-> +	 */
-> +	__u32 sample_header_size;
-> +
-> +	/**
-> +	 * @block_header_size: The size of the header struct inline with the co=
-unters for a
-> +	 * single block.
-> +	 */
-> +	__u32 block_header_size;
-> +
-> +	/**
-> +	 * @sample_size: The size of a fully annotated sample, starting with a =
-sample header
-> +	 *               of size @sample_header_size bytes, and all available b=
-locks for the current
-> +	 *               configuration, each comprised of @counters_per_block 6=
-4-bit counters and
-> +	 *               a block header of @block_header_size bytes.
-> +	 *
-> +	 *               The user must use this field to allocate size for the =
-ring buffer. In
-> +	 *               the case of new blocks being added, an old userspace c=
-an always use
-> +	 *               this field and ignore any blocks it does not know abou=
-t.
-> +	 */
-> +	__u32 sample_size;
-> +
-> +	/** @flags: Combination of drm_panthor_perf_feat_flags flags. */
-> +	__u32 flags;
-> +
-> +	/**
-> +	 * @supported_clocks: Bitmask of the clocks supported by the GPU.
-> +	 *
-> +	 * Each bit represents a variant of the enum drm_panthor_perf_clock.
-> +	 *
-> +	 * For the same GPU, different implementers may have different clocks f=
-or the same hardware
-> +	 * block. At the moment, up to three clocks are supported, and any cloc=
-ks that are present
-> +	 * will be reported here.
-> +	 */
-> +	__u32 supported_clocks;
-> +
-> +	/** @fw_blocks: Number of FW blocks available. */
-> +	__u32 fw_blocks;
-> +
-> +	/** @cshw_blocks: Number of CSHW blocks available. */
-> +	__u32 cshw_blocks;
-> +
-> +	/** @tiler_blocks: Number of tiler blocks available. */
-> +	__u32 tiler_blocks;
-> +
-> +	/** @memsys_blocks: Number of memsys blocks available. */
-> +	__u32 memsys_blocks;
-> +
-> +	/** @shader_blocks: Number of shader core blocks available. */
-> +	__u32 shader_blocks;
+All errors (new ones prefixed by >>):
 
-You need an extra
+   In file included from drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c:20:
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c: In function 'pf_gt_migration_check_support':
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c:1029:7: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (!GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 54))
+          ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/xe/xe_guc_ads.c:23:
+   drivers/gpu/drm/xe/xe_guc_ads.c: In function 'guc_waklv_init':
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_ads.c:350:6: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 44) && XE_GT_WA(gt, 16026508708))
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_ads.c:353:6: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 47) && XE_GT_WA(gt, 16026007364)) {
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-	__u32 pad;
 
-to have things aligned on 8 bytes.
+vim +19 drivers/gpu/drm/xe/xe_guc.h
 
-> +};
-> +
+dd08ebf6c3525a7 Matthew Brost    2023-03-30  13  
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  14  /*
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  15   * GuC version number components are defined to be only 8-bit size,
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  16   * so converting to a 32bit 8.8.8 integer allows simple (and safe)
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  17   * numerical comparisons.
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  18   */
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02 @19  #define MAKE_GUC_VER(maj, min, pat)	(((maj) << 16) | ((min) << 8) | (pat))
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  20  #define MAKE_GUC_VER_STRUCT(ver)	MAKE_GUC_VER((ver).major, (ver).minor, (ver).patch)
+9100abdb735432b Michal Wajdeczko 2025-12-15  21  #define MAKE_GUC_VER_ARGS(ver...) \
+9100abdb735432b Michal Wajdeczko 2025-12-15  22  	(BUILD_BUG_ON_ZERO(COUNT_ARGS(ver) < 2 || COUNT_ARGS(ver) > 3) + \
+9100abdb735432b Michal Wajdeczko 2025-12-15  23  	 MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+9100abdb735432b Michal Wajdeczko 2025-12-15  24  
 
-[...]
-
-> +
-> +/**
-> + * struct drm_panthor_perf_ringbuf_control - Struct used to map in the r=
-ing buffer control indices
-> + *                                           into memory shared between =
-user and kernel.
-> + *
-> + */
-> +struct drm_panthor_perf_ringbuf_control {
-> +	/**
-> +	 * @extract_idx: The index of the latest sample that was processed by u=
-serspace. Only
-> +	 *               modifiable by userspace.
-> +	 */
-> +	__u64 extract_idx;
-> +
-> +	/**
-> +	 * @insert_idx: The index of the latest sample emitted by the kernel. O=
-nly modifiable by
-> +	 *               modifiable by the kernel.
-
-"modifiable by" repeated twice.
-
-> +	 */
-> +	__u64 insert_idx;
-> +};
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
