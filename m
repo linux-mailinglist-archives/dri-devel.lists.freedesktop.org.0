@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E706CC709D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEEECC70A0
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:18:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CECB810E9AD;
-	Wed, 17 Dec 2025 10:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F94910EC08;
+	Wed, 17 Dec 2025 10:18:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o9TOZ5xb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f3kcH5UW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A906910E9AD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:18:23 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2492A10EC08
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:18:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2954760557;
- Wed, 17 Dec 2025 10:18:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52486C4CEF5;
- Wed, 17 Dec 2025 10:18:22 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id DED4D40171;
+ Wed, 17 Dec 2025 10:18:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C015C4CEF5;
+ Wed, 17 Dec 2025 10:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966702;
- bh=gGGu/6JNVBgNvuM6ZsKdOI4ON53xGWkWHM73FXbvNis=;
+ s=k20201202; t=1765966730;
+ bh=b3fa3ZW7Btz5urPS10XReNhAoJDTbHbKM52vabWMgfI=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=o9TOZ5xbmIgqxSOK8HVTeLQOxHTGpU67pqx7lt/Gy9iAK1IOrXCBrOKaYEXM9Fw5Q
- NKRDYHrBWhLUhZOyNFDQuXbWwI2vArQELO850hGsATfwRpbngWW+8heC3qvmO+LLpp
- Ix0HZprfSAhrDLQTsG2u6mxCrkAPxADMVKtZSw4TiBPNf3R1GBbgH+Mb4rVsuVvQOA
- 8DV+e6ydAj+0yqMkx8/kdd1kijBRC7KtfmJEBd7cUwlxjLrsRAEyo+bF19y4eV3+I1
- 6fnobX50SZqrHlKYt7dWV2uYZ9vZMEI3DnZgzzN+mEL8EKDcI1b7E+D6XlptFXJlDz
- b7Y3QhgdQ+o9w==
-Message-ID: <7e16dd4d1eb87f96ab70ded4f16a04ef@kernel.org>
-Date: Wed, 17 Dec 2025 10:18:20 +0000
+ b=f3kcH5UWPQk5umEClpVniEspgHBzoJL8PmCMlcHQWbehjUOrxiYt8L5rHadEJkd2x
+ ImU7pskBgAfdRoxBw3hX9YLbjiu3j+YClj+XyH1sOi34ekmWp/xY3NdNbkyWR5GaaV
+ e62mQUecv476zqqxajER7Qyw6tIBsBjG5sD+3+XVPhyeTq/BM3s+HDU/qSYMsUE4cv
+ hqixaDHD01uyhVXLm0SC0F76xFqjyRNQ7jf3jNTQAAkZzEJz+UUkVbkjxpZIY5t5SA
+ ZDEoBMG+Gz65hkUePrn67AOjou0kecYxqrTrM59XAv+0uo2IqmPPt78UacMsM7rgHT
+ Ak20kSNG1/nfg==
+Message-ID: <36c9a024a4c96830f13bc1e7c005f231@kernel.org>
+Date: Wed, 17 Dec 2025 10:18:48 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 12/22] drm/meson: encoder_hdmi: get/put the next bridge
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-12-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-12-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 13/22] drm/bridge: imx8qxp-pxl2dpi: simplify put of
+ device_node pointers
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-13-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-13-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -75,13 +76,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:45 +0100, Luca Ceresoli wrote:
-> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
-be
-> function and stores it until driver removal. of_drm_find_bridge() is
-> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
-> refcounted and use bridge->next_bridge to put the reference on
-> deallocation.
+On Tue, 16 Dec 2025 18:58:46 +0100, Luca Ceresoli wrote:
+> Simplify the error-management code in
+> imx8qxp_pxl2dpi_get_available_ep_from_port() by using a release action for
+> the struct device_node pointers.
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >=20
 > [ ... ]
 
