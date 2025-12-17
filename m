@@ -2,61 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E659FCC94AC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 19:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB73CCC950C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 19:44:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A8310E5E6;
-	Wed, 17 Dec 2025 18:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4642510E12B;
+	Wed, 17 Dec 2025 18:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="FxX7NqjU";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="gfLkdtGE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B942210E5E6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 18:28:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765996080; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cfzrKRSn+SJ9Cy8gSJ0ML1TToMldAL3WNtG/5vbehUaasZnHViyYRvmhsvHD8xHWpnAIRHcbm8huXibmGRA0KKnWS+agX9fq3J6e9k15JrcgicFxmyKBcWGlS1TBNA4/okt7LJuf7SbzLPJLQathoN4liocrP9835myu9h2pHOs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765996080;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=nZahHpWnmgVYjp2zcFUWE5ZSp/2cms4ZlTg3nK8d8hM=; 
- b=mVEg9ZmYBSNFAY3/1Ed7sCXenNFeM4aKBFU0lrAN0sGzmSoQcmJCH62kMPPREp7D6kP8uBrwu8U27QAZqolYzYmIRtKmtbN+2zMtonEFEZHpcQ8VGbd8cuhEIR142eWKv66MYX8XoDYX0IigWgujCBrXn1RgykxwvdK1QQrNF5w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765996080; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=nZahHpWnmgVYjp2zcFUWE5ZSp/2cms4ZlTg3nK8d8hM=;
- b=FxX7NqjUh78EXGlWvphrnqOjpO1ZmbKiLoO77b5imQwyHj2teko5Hq9/fqAWjKyr
- nzBnGSJ/JbV/XBLVTRfc94ovwvGsVlOGlMsa8gSXYnPBvFB1h4dHc+4Q6CNQ6OXjQtM
- viHNPGfjXj8/qAVQYosQIwMCHTtTioI++dwlzJko=
-Received: by mx.zohomail.com with SMTPS id 1765996078717246.23602182304217;
- Wed, 17 Dec 2025 10:27:58 -0800 (PST)
-Date: Wed, 17 Dec 2025 18:27:54 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v4 1/1] drm/panthor: Support partial unmaps of huge pages
-Message-ID: <tjwdmbdwwubqivdin7mygxadb7catmvebod2plmizuairdjm6s@zdnm66zfb242>
-References: <20251214202426.3186811-1-adrian.larumbe@collabora.com>
- <20251214202426.3186811-2-adrian.larumbe@collabora.com>
- <496443c7-b9f6-4ebb-b409-785236c03780@arm.com>
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011014.outbound.protection.outlook.com [52.101.62.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3778410E12B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 18:44:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gauvw2+oU/LHXPQR2cU0wfPKJAXpWLNpYTfZdPHNJEUJGRmsku+OZoIoJS0H9JerZsPGXaDMdHkk6tdb7TtuNSNolI9Jw1YMpuOGQxMNIhjBTVd4MNXJLTkYFqacG5R1+s5j1zfd+LM96r9HiiII6DgBtrztdSL0zE7shwA7g3uLCj6HOJbg9h7BfrgS/ezjTJJGd0wknfLjKyYjnUM3nAmcNJ1UX2YrLYEcdCKEs21lsHI52GjiWE1NR8q69eT4FE5D+sDZetcDs5lnkD73B15+P7GUoMTnL3SMZ3sb8sFAWmuh4LvHG269775fdjeTfjFBog7XgwwmYx4POIvIcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RB/rzw1qFhlH+pOk7gVOCIgqag044dAgEYsLjxKZ0B8=;
+ b=hRQnaE60aSFSnXZTFJMn9pYY5cg5PgMDS/VlGbsu0FywkTlH9irIE3m1en1mbysnKUKypwlMH7YXwRnvFrLBvWQaNatLWiiScoJCdFk5IdyVz8dCoKPlmrmily4wud9tzLTea0+fsVBZPkyEVx9S45Ubs8aC/al5Qdxqd6CD1NbfzEM7AhIFUdfYpn0uPS7Oa4QPBaTnYAKM0Gp/m6VW9+r17OMMW2DGnaorc/Ic9UmgRXH+W34qIkdFoY9bIOvj3o/bXwW8Gbs4l1T8vRijsvgiOpoyUasncnRtABJFAj+jiuzssBz5/oSVmdZkm99CXGUoHTvRubwg09CR/7yRgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RB/rzw1qFhlH+pOk7gVOCIgqag044dAgEYsLjxKZ0B8=;
+ b=gfLkdtGEH9q7ZoyLAyVNencQPJbniBVw7wZkEblUDppck+PRXUODgsGAckdQyLkm1UF3VOH9gwkc4O3L3PjEZrdGT6MsuiKAauo3NxVlYzHWenYnhce/wgquECx2hQAuNoTI1vROpQhqI8cVQDQ/poktnA7TSEspiRGrhzIlpj0=
+Received: from SA0PR11CA0115.namprd11.prod.outlook.com (2603:10b6:806:d1::30)
+ by SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 18:44:42 +0000
+Received: from SN1PEPF000397B5.namprd05.prod.outlook.com
+ (2603:10b6:806:d1:cafe::d2) by SA0PR11CA0115.outlook.office365.com
+ (2603:10b6:806:d1::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Wed,
+ 17 Dec 2025 18:44:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF000397B5.mail.protection.outlook.com (10.167.248.59) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.6 via Frontend Transport; Wed, 17 Dec 2025 18:44:41 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 17 Dec
+ 2025 12:44:41 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 17 Dec 2025 12:44:40 -0600
+Message-ID: <82d2d957-650f-9523-9090-cb1c5a3ae5f7@amd.com>
+Date: Wed, 17 Dec 2025 10:44:40 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Enable hardware context priority
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251217171719.2139025-1-lizhi.hou@amd.com>
+ <ef6e71e2-ee6f-49d8-981b-97ba2fe13e92@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <ef6e71e2-ee6f-49d8-981b-97ba2fe13e92@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <496443c7-b9f6-4ebb-b409-785236c03780@arm.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B5:EE_|SJ2PR12MB9161:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f23f49e-4fe8-476f-c40b-08de3d9c56fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|36860700013|376014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WTZUcC9CWmpLRFRMMWtNV3BTdEhmdW9FVzBuS0JRbUxROWNnRWxYM3BqYlJo?=
+ =?utf-8?B?TUtLUEF4eGZPMnJwUS9JWHJyOW5nNm5pUDRQZmxtS0wzdUtSRExlWHpHRThr?=
+ =?utf-8?B?bHlCRlFUV2p6NEs5YzNpOTFjMnZQNEF4MlFlU2NMclIzdW83cTdPK0tZb2ZB?=
+ =?utf-8?B?TkZoRGhaWld2aWZDbVhJcGUrbEhVakpJb1U3MWY1MDJDYnhTWlY5c00wZzls?=
+ =?utf-8?B?aUpZVGhnV0doM1hJYXppKzRmcUtqRnA2aWFoelRhMFltek9neEw4ZzlIZjdv?=
+ =?utf-8?B?SnZCclB1KytsUWhSTzh6VUZLekZ1YW0reXNGZkladG9VSEtzNFd3WTBMVGs3?=
+ =?utf-8?B?MUFmaWVJMThlRWVBWHdHUnd2a3NabVA5dVM1a2xNc2F4TzVKUlJDd1pkZXhk?=
+ =?utf-8?B?ODdwOEpGUnRzQ1N4Q0V3dmxUQ3BpbjJ6ZU5qclEvQS9rNEQ4UHBTOG1ZTkt1?=
+ =?utf-8?B?VUNLTWE2UjR6anM1VDhyOE9lZHMyMmRNZjVhdndMY0NsSU5wRGdEVHg1TUlx?=
+ =?utf-8?B?d0dQdjdYb1dXMHJuWkJWeVZVTmFpWHIzZzVSU3VNbjRSY2lzVDFuM29KUTRQ?=
+ =?utf-8?B?d3NyS2kzZTh0bDBuZy9UYUtqTUd6SExtTDVHR0cxMmNUMmdMTE9pcnlOU2RK?=
+ =?utf-8?B?S1JmSzk3NzlrQnoyUXhaLzl2WXF1aTc4ZmMySVJRN2RxL1E4Z0liNWJWOHdl?=
+ =?utf-8?B?cVAyUjh2SXMrTkQ2SlJNSDBWMTZ3QlpnYlQwek1ONGlpMk5pd1IwaVg1OEhI?=
+ =?utf-8?B?NlFXVytUY0hPZytDekdtZGx2YldWRTJqMXNTVjdBRDZkdWVoOHJDQ0FVckVT?=
+ =?utf-8?B?dFlVWWVCSTFmRjRoeXJLNUVjbzcrTmZrMTBBdGNmQnVsTXhIYmx5UzNxNEdX?=
+ =?utf-8?B?NUszOEpQek9vcHhXVkY1ODBiYU9oTGwreEpVYVZTMVJCazdzdlE2OVlFOWkw?=
+ =?utf-8?B?Q09ESldGSzhmM01aTVlDMFFpN0VsL1J6VzFjRVNxNTQ3dmNxRExacDg5Y29F?=
+ =?utf-8?B?SUZucWpMNnRUMjJIOTV0bVBNeEFPSGd6MWV6MUl1V2d3Z3EyVHd1eDNsdmEr?=
+ =?utf-8?B?dHdscUpIUjl4OVRCNUtPVUVvVjNWaHo4UjFINC9tNitaTkdnQ0NEckhBYkh6?=
+ =?utf-8?B?TXdDVEtjM2FYc3EwdXA4Y3dxU2Q0NVkxTW80MkdLUkNyVVlhTXZXQ2t5YU0r?=
+ =?utf-8?B?L1pkNktXQis1dDVpYXZFUUtKeWxHOTJHNnh0MXB0S2NPaTVRbnptUU5CWlhZ?=
+ =?utf-8?B?djlQM2VwQjkvYTR2b3RNS3U4ZE80WmJPR0VsREV5a1dRYVFScjVoT1BidmVq?=
+ =?utf-8?B?MzArbGpmUHlrUGF4RXVXTHFVZWlwdXIvV0lYRC9lUDFWMmlzTFJGS3hsVlor?=
+ =?utf-8?B?ZEFyRW5VK1pnOUk1VzROZGU4a2MxYXpxaUFneitoZ2FQYlVTVEY1bUtvSkxk?=
+ =?utf-8?B?cDNLYVptV2JlTlM2R21RdGdFUFFvTUJESEVDdUpLMDI4MmJvdHhVcDZaTnI3?=
+ =?utf-8?B?eW01MHp4YTc0bnZUeTlOd0VadGdtZ20vRDRHRnRjK0w0SkhMRmx4V1pxSHNr?=
+ =?utf-8?B?dWpRNGVBSVNXWCtaQ25WVzg0aDJVWGZKVHk1WjVGbE9yUEE5akd0ZElwSVhw?=
+ =?utf-8?B?Nk4wclM5MHRub3RSbGRyU2tYOXBFS1JScjhSa0w1WW0wM21HUC9jNFdKMUg0?=
+ =?utf-8?B?bkhkRFVUTUJNZDJwYTFCSEtaQnhlTjJBWDRsZ2VEK2hGNUdvTU5weklyWnhu?=
+ =?utf-8?B?MVEzMTQwbzg1RVFlem41Z0ZHUG1SVjd3UVI5cmpTOGVkbDRLbXFwTW91U3Zr?=
+ =?utf-8?B?b2h2Y2o3M2luR1pHbXBQQldwcUN4NXA4SFltNnAra0wvT3RjdGwzQjRGazlL?=
+ =?utf-8?B?WVJVb2Q1YmZBRHdUR2gvdTM4ZXI2bFVVNlJ0UGJNNk1Da3Q5cmpnbkNXdGNY?=
+ =?utf-8?B?VXF6dENPQTl6NFZsWG53dmgvTEI5Q0FBdmcyNVRRb0FBcXpOTG9sYU9IUUdG?=
+ =?utf-8?B?UmVQQnFoSkovSmFDK2lzQkNZblE1NlFlWnZMM3ZoelZnUFBmR3hxQjJBQnEr?=
+ =?utf-8?B?WE40MUlsWDlSRUcxYVRJVHpDV0pRMVNlRHBNa0JEYTBmZXlibDRVeVVjdFpB?=
+ =?utf-8?Q?D9MY=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 18:44:41.6169 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f23f49e-4fe8-476f-c40b-08de3d9c56fc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397B5.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,206 +148,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
 
-On 17.12.2025 14:23, Steven Price wrote:
-> On 14/12/2025 20:24, Adrián Larumbe wrote:
-> > Commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
-> > behavior") did away with the treatment of partial unmaps of huge IOPTEs.
-> >
-> > In the case of Panthor, that means an attempt to run a VM_BIND unmap
-> > operation on a memory region whose start address and size aren't 2MiB
-> > aligned, in the event it intersects with a huge page, would lead to ARM
-> > IOMMU management code to fail and a warning being raised.
-> >
-> > Presently, and for lack of a better alternative, it's best to have
-> > Panthor handle partial unmaps at the driver level, by unmapping entire
-> > huge pages and remapping the difference between them and the requested
-> > unmap region.
-> >
-> > This could change in the future when the VM_BIND uAPI is expanded to
-> > enforce huge page alignment and map/unmap operational constraints that
-> > render this code unnecessary.
-> >
-> > When a partial unmap for a huge PTE is attempted, we also need to expand
-> > the locked region to encompass whole huge pages.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 99 ++++++++++++++++++++++++---
-> >  1 file changed, 91 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > index a3e5e77fc9ed..cabee92e9580 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > @@ -547,12 +547,12 @@ static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd
-> >  	return status;
-> >  }
-> >
-> > -static u64 pack_region_range(struct panthor_device *ptdev, u64 region_start, u64 size)
-> > +static u64 pack_region_range(struct panthor_device *ptdev, u64 *region_start, u64 *size)
-> >  {
-> >  	u8 region_width;
-> > -	u64 region_end = region_start + size;
-> > +	u64 region_end = *region_start + *size;
-> >
-> > -	if (drm_WARN_ON_ONCE(&ptdev->base, !size))
-> > +	if (drm_WARN_ON_ONCE(&ptdev->base, !*size))
-> >  		return 0;
-> >
-> >  	/*
-> > @@ -563,16 +563,17 @@ static u64 pack_region_range(struct panthor_device *ptdev, u64 region_start, u64
-> >  	 * change, the desired region starts with this bit (and subsequent bits)
-> >  	 * zeroed and ends with the bit (and subsequent bits) set to one.
-> >  	 */
-> > -	region_width = max(fls64(region_start ^ (region_end - 1)),
-> > +	region_width = max(fls64(*region_start ^ (region_end - 1)),
-> >  			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
-> >
-> >  	/*
-> >  	 * Mask off the low bits of region_start (which would be ignored by
-> >  	 * the hardware anyway)
-> >  	 */
-> > -	region_start &= GENMASK_ULL(63, region_width);
-> > +	*region_start &= GENMASK_ULL(63, region_width);
-> > +	*size = 1ull << (region_width + 1);
-> >
-> > -	return region_width | region_start;
-> > +	return region_width | *region_start;
-> >  }
-> >
-> >  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
-> > @@ -1691,12 +1692,19 @@ static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
-> >  	struct panthor_device *ptdev = vm->ptdev;
-> >  	int ret = 0;
-> >
-> > +	/* sm_step_remap() can call panthor_vm_lock_region() to account for
-> > +	 * the wider unmap needed when doing a partial huge page unamp. We
-> > +	 * need to ignore the lock if it's already part of the locked region.
-> > +	 */
-> > +	if (start >= vm->locked_region.start &&
-> > +	    start + size <= vm->locked_region.start + vm->locked_region.size)
-> > +		return 0;
-> > +
-> >  	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > -	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
-> >  	if (vm->as.id >= 0 && size) {
-> >  		/* Lock the region that needs to be updated */
-> >  		gpu_write64(ptdev, AS_LOCKADDR(vm->as.id),
-> > -			    pack_region_range(ptdev, start, size));
-> > +			    pack_region_range(ptdev, &start, &size));
-> >
-> >  		/* If the lock succeeded, update the locked_region info. */
-> >  		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_LOCK);
-> > @@ -2169,6 +2177,48 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
-> >  	return 0;
-> >  }
-> >
-> > +static bool
-> > +iova_mapped_as_huge_page(struct drm_gpuva_op_map *op, u64 addr)
-> > +{
-> > +	const struct page *pg;
-> > +	pgoff_t bo_offset;
-> > +
-> > +	bo_offset = addr - op->va.addr + op->gem.offset;
-> > +	pg = to_panthor_bo(op->gem.obj)->base.pages[bo_offset >> PAGE_SHIFT];
-> > +
-> > +	return folio_size(page_folio(pg)) >= SZ_2M;
-> > +}
-> > +
-> > +static void
-> > +unmap_hugepage_align(const struct drm_gpuva_op_remap *op,
-> > +		     u64 *unmap_start, u64 *unmap_range)
-> > +{
-> > +	u64 aligned_unmap_start, aligned_unmap_end, unmap_end;
-> > +
-> > +	unmap_end = *unmap_start + *unmap_range;
-> > +	aligned_unmap_start = ALIGN_DOWN(*unmap_start, SZ_2M);
-> > +	aligned_unmap_end = ALIGN(unmap_end, SZ_2M);
-> > +
-> > +	/* If we're dealing with a huge page, make sure the unmap region is
-> > +	 * aligned on the start of the page.
-> > +	 */
-> > +	if (op->prev && aligned_unmap_start < *unmap_start &&
-> > +	    op->prev->va.addr <= aligned_unmap_start &&
-> > +	    iova_mapped_as_huge_page(op->prev, *unmap_start)) {
-> > +		*unmap_range += *unmap_start - aligned_unmap_start;
-> > +		*unmap_start = aligned_unmap_start;
-> > +	}
-> > +
-> > +	/* If we're dealing with a huge page, make sure the unmap region is
-> > +	 * aligned on the end of the page.
-> > +	 */
-> > +	if (op->next && aligned_unmap_end > unmap_end &&
-> > +	    op->next->va.addr + op->next->va.range >= aligned_unmap_end &&
-> > +	    iova_mapped_as_huge_page(op->next, unmap_end - 1)) {
-> > +		*unmap_range += aligned_unmap_end - unmap_end;
-> > +	}
-> > +}
-> > +
-> >  static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
-> >  				       void *priv)
-> >  {
-> > @@ -2177,16 +2227,49 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
-> >  	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
-> >  	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
-> >  	u64 unmap_start, unmap_range;
-> > +	int ret;
-> >
-> >  	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
-> > +	/*
-> > +	 * ARM IOMMU page table management code disallows partial unmaps of huge pages,
-> > +	 * so when a partial unmap is requested, we must first unmap the entire huge
-> > +	 * page and then remap the difference between the huge page minus the requested
-> > +	 * unmap region. Calculating the right start address and range for the expanded
-> > +	 * unmap operation is the responsibility of the following function.
-> > +	 */
-> > +	unmap_hugepage_align(&op->remap, &unmap_start, &unmap_range);
-> > +
-> > +	/* If the range changed, we might have to lock a wider region to guarantee
-> > +	 * atomicity. panthor_vm_lock_region() bails out early if the new region
-> > +	 * is already part of the locked region, so no need to do this check here.
-> > +	 */
-> > +	panthor_vm_lock_region(vm, unmap_start, unmap_start + unmap_range);
+On 12/17/25 09:59, Mario Limonciello wrote:
+> On 12/17/25 11:17 AM, Lizhi Hou wrote:
+>> Newer firmware supports hardware context priority. Set the priority 
+>> based
+>> on application input.
+>>
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 >
-> panthor_vm_lock_region() takes the start and *size*, but here you are
-> passing the start and end addresses. So this is going to lock more than
-> you intend.
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 >
-> Thanks,
-> Steve
+> This change itself is fine, but while reviewing it I did have a 
+> question to ask.
+>
+> I notice that NPU2, NPU4, NPU5 and NPU6 all use npu4_fw_feature_table. 
+> Is this feature really present in F/W for NPU2 devices too?  Or it's 
+> really only NPU4 and later feature?
+>
+> IE I just wonder if it's a non-obvious problem that npu2 device should 
+> have it's own fw feature table rather than re-use NPU4's. NPU1 has 
+> it's own feature table.
 
-Good catch, thanks a lot.
+Thanks for checking this. Actually, NPU2 hardware is obsoleted. I will 
+create a patch to remove NPU2 completely.
 
-I'll be sending v5 with a fix for this and then a minor nit pointed by Boris before the end of the day.
 
-> >  	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> >
-> >  	if (op->remap.prev) {
-> > +		struct panthor_gem_object *bo = to_panthor_bo(op->remap.prev->gem.obj);
-> > +		u64 offset = op->remap.prev->gem.offset + unmap_start - op->remap.prev->va.addr;
-> > +		u64 size = op->remap.prev->va.addr + op->remap.prev->va.range - unmap_start;
-> > +
-> > +		ret = panthor_vm_map_pages(vm, unmap_start, flags_to_prot(unmap_vma->flags),
-> > +					   bo->base.sgt, offset, size);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> >  		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
-> >  		panthor_vma_init(prev_vma, unmap_vma->flags);
-> >  	}
-> >
-> >  	if (op->remap.next) {
-> > +		struct panthor_gem_object *bo = to_panthor_bo(op->remap.next->gem.obj);
-> > +		u64 addr = op->remap.next->va.addr;
-> > +		u64 size = unmap_start + unmap_range - op->remap.next->va.addr;
-> > +
-> > +		ret = panthor_vm_map_pages(vm, addr, flags_to_prot(unmap_vma->flags),
-> > +					   bo->base.sgt, op->remap.next->gem.offset, size);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> >  		next_vma = panthor_vm_op_ctx_get_vma(op_ctx);
-> >  		panthor_vma_init(next_vma, unmap_vma->flags);
-> >  	}
+Lizhi
+
+>
+>> ---
+>>   drivers/accel/amdxdna/aie2_message.c  | 23 ++++++++++++++++++++++-
+>>   drivers/accel/amdxdna/aie2_msg_priv.h |  5 +++++
+>>   include/uapi/drm/amdxdna_accel.h      |  8 ++++++++
+>>   3 files changed, 35 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/aie2_message.c 
+>> b/drivers/accel/amdxdna/aie2_message.c
+>> index e77a353cadc5..051f4ceaabae 100644
+>> --- a/drivers/accel/amdxdna/aie2_message.c
+>> +++ b/drivers/accel/amdxdna/aie2_message.c
+>> @@ -205,6 +205,27 @@ static int aie2_destroy_context_req(struct 
+>> amdxdna_dev_hdl *ndev, u32 id)
+>>         return ret;
+>>   }
+>> +
+>> +static u32 aie2_get_context_priority(struct amdxdna_dev_hdl *ndev,
+>> +                     struct amdxdna_hwctx *hwctx)
+>> +{
+>> +    if (!AIE2_FEATURE_ON(ndev, AIE2_PREEMPT))
+>> +        return PRIORITY_HIGH;
+>> +
+>> +    switch (hwctx->qos.priority) {
+>> +    case AMDXDNA_QOS_REALTIME_PRIORITY:
+>> +        return PRIORITY_REALTIME;
+>> +    case AMDXDNA_QOS_HIGH_PRIORITY:
+>> +        return PRIORITY_HIGH;
+>> +    case AMDXDNA_QOS_NORMAL_PRIORITY:
+>> +        return PRIORITY_NORMAL;
+>> +    case AMDXDNA_QOS_LOW_PRIORITY:
+>> +        return PRIORITY_LOW;
+>> +    default:
+>> +        return PRIORITY_HIGH;
+>> +    }
+>> +}
+>> +
+>>   int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct 
+>> amdxdna_hwctx *hwctx)
+>>   {
+>>       DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
+>> @@ -221,7 +242,7 @@ int aie2_create_context(struct amdxdna_dev_hdl 
+>> *ndev, struct amdxdna_hwctx *hwct
+>>       req.num_unused_col = hwctx->num_unused_col;
+>>       req.num_cq_pairs_requested = 1;
+>>       req.pasid = hwctx->client->pasid;
+>> -    req.context_priority = 2;
+>> +    req.context_priority = aie2_get_context_priority(ndev, hwctx);
+>>         ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+>>       if (ret)
+>> diff --git a/drivers/accel/amdxdna/aie2_msg_priv.h 
+>> b/drivers/accel/amdxdna/aie2_msg_priv.h
+>> index cc912b7899ce..728ef56f7f0a 100644
+>> --- a/drivers/accel/amdxdna/aie2_msg_priv.h
+>> +++ b/drivers/accel/amdxdna/aie2_msg_priv.h
+>> @@ -108,6 +108,11 @@ struct cq_pair {
+>>       struct cq_info i2x_q;
+>>   };
+>>   +#define PRIORITY_REALTIME    1
+>> +#define PRIORITY_HIGH        2
+>> +#define PRIORITY_NORMAL        3
+>> +#define PRIORITY_LOW        4
+>> +
+>>   struct create_ctx_req {
+>>       __u32    aie_type;
+>>       __u8    start_col;
+>> diff --git a/include/uapi/drm/amdxdna_accel.h 
+>> b/include/uapi/drm/amdxdna_accel.h
+>> index 62c917fd4f7b..9c44db2b3dcd 100644
+>> --- a/include/uapi/drm/amdxdna_accel.h
+>> +++ b/include/uapi/drm/amdxdna_accel.h
+>> @@ -19,6 +19,14 @@ extern "C" {
+>>   #define AMDXDNA_INVALID_BO_HANDLE    0
+>>   #define AMDXDNA_INVALID_FENCE_HANDLE    0
+>>   +/*
+>> + * Define hardware context priority
+>> + */
+>> +#define AMDXDNA_QOS_REALTIME_PRIORITY    0x100
+>> +#define AMDXDNA_QOS_HIGH_PRIORITY    0x180
+>> +#define AMDXDNA_QOS_NORMAL_PRIORITY    0x200
+>> +#define AMDXDNA_QOS_LOW_PRIORITY    0x280
+>> +
+>>   enum amdxdna_device_type {
+>>       AMDXDNA_DEV_TYPE_UNKNOWN = -1,
+>>       AMDXDNA_DEV_TYPE_KMQ,
+>
