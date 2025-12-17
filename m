@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F61CC70CD
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B5CC7136
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58AB810EC0F;
-	Wed, 17 Dec 2025 10:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D30F110EC46;
+	Wed, 17 Dec 2025 10:28:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fWTsxN7h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M2GjA5DL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6203D10EC0F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:20:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40DE910EC35
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:28:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C59AE60555;
- Wed, 17 Dec 2025 10:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F227FC116B1;
- Wed, 17 Dec 2025 10:20:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D46A260556;
+ Wed, 17 Dec 2025 10:20:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E467C4CEF5;
+ Wed, 17 Dec 2025 10:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966816;
- bh=uJcpfVPMB5gnCFhr0GcBKgfEw4ZGLD1pSQ+VPptDnGA=;
+ s=k20201202; t=1765966827;
+ bh=aZrYYj31P00rmoPAjldcIV31JBxU059fWZEZlTBVTW4=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=fWTsxN7hsVbEvFoHdM6FW8j9okypSLWVz4W+Thu9wMM85IQfe2/WjcxyGZdvVTO8E
- p/okodvwcbtKo+t9xQw4ARUx93vm5VZCuXD5CucY9HkDBc22WjJFHVTepCCs79M8MK
- lac76+FdHwSrHTregOjA7q4jZjIzZCJl7OcB+38XgVVjAHePMdeLej+Ppksd1NqQjq
- PiBLkLZ3qgP1x/4u0Loq8WswRoO+SIVHu+8XLWZ4ecn3Fw70JwMH8+q/rex5V5pKQK
- iIQZTA4QTqoqeBnO2pNWrd28eBBgfZLtjoZWfWnQ0WDquBqA3ald1dm9uphm3D0HlJ
- woHzxM1OGr8IQ==
-Message-ID: <8c0e9399c1f8bb388eb3f0ee2cf37089@kernel.org>
-Date: Wed, 17 Dec 2025 10:20:14 +0000
+ b=M2GjA5DLvMKbOZ5lP2HBfYjWXJmD8orW95ptixcb2IldkPJy0U+hI6gwuWyXyXqOa
+ k20bv4+04PcoRppS0ExrXbPsSyNufkWloKdHvSvEUm/17xgXag+AWZUeBGfoIZqXPW
+ EqTcRLDJ6D2wejo/qST1VsJdTnNHGPKz06LOuLSgH/e0SW9gBlFnVlWUWKECk2nOgj
+ RS+y4M/nx711KhOzb7Jh1bWF4EfraEy2tSdu4ThyLM1fnIF7Ou5HsJ9OzqzAgH/YbB
+ TOsVGMbdNPJ5M8YTql9ikqi7BkQdu23WeZWt0pDOTvU3sPw9HVROTj7IKAicMtQn2J
+ sqPabP1NpvGww==
+Message-ID: <55901cff3f0021167c6a3abecadfd3d6@kernel.org>
+Date: Wed, 17 Dec 2025 10:20:24 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 15/22] drm/bridge: imx8qxp-pxl2dpi:
- imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-15-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-15-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 16/22] drm/bridge: imx8qxp-pxl2dpi: get/put the next
+ bridge
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-16-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-16-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -60,7 +60,7 @@ Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
  "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,13 +76,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:48 +0100, Luca Ceresoli wrote:
-> In preparation for using bridge->next_bridge, we need to ensure that it
-> will never contain anything but NULL or a valid bridge pointer. Current
-> code stores an ERR_PTR when imx8qxp_pxl2dpi_find_next_bridge() errors
-> out. Instead of fixing that after the facts in the caller, change the
-> function to internally set the next_pointer and just return an int error
-> 
+On Tue, 16 Dec 2025 18:58:49 +0100, Luca Ceresoli wrote:
+> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
+be
+> function and stores it until driver removal. of_drm_find_bridge() is
+> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+> refcounted and use bridge->next_bridge to put the reference on
+> deallocation.
+>=20
 > [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
