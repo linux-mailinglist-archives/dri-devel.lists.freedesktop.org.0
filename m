@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838B8CC8318
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8E2CC831E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:31:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4DF010E84F;
-	Wed, 17 Dec 2025 14:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D01FC10ECF7;
+	Wed, 17 Dec 2025 14:31:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ausi6xOG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xrG4jKk1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356A310E84F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:30:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765981806; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SvIojbs6st5znMXViTnei+JH6K3tYfroXR0/3/ZBE+ahbs4W+UFCMRCum+HDONZ3spw39xZvu51NIfvwDEhPXW6fAUvtuNkqIiNgts+ibYMGna5iBIZkQrcW1FDYgTV0L/2z4iiRmdGjCmSAA0UKMihZkn5502nsSHkkg0MeAbw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765981806;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=loq07D1mkSWL4qXJm2L3GeV4pBmAabcjQO2c0yX94eI=; 
- b=VIajU1P9MukFdENyig3nxHbllr+0ihqXecQT/el57lneufP3ropJINBOmoxN0ZFH0sCXMKBfjECpQkcNgHE/o0hibmPA4UoNk0m6YMz5buJN7cmAOW6oAZpqtvn5+PQS23f3hl+OdJHrlM4I/gGNK/60onpnuJFas22ciGXzpuc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765981806; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=loq07D1mkSWL4qXJm2L3GeV4pBmAabcjQO2c0yX94eI=;
- b=ausi6xOGWp40+/PnLlpD7Ib2yRJ9uKjgnvmUvKaF1h7dMGUjENNTBEgS7XjByrMH
- b0sR6XC7ED0HrVRODr+erFuwV+7UkKWmk931kGkyWstrseyssASZ/cBZR1YT8o8zY/j
- nGSih7Z1AAmFbXYlP+K78G+o/rRuh2kzPVCAdzoA=
-Received: by mx.zohomail.com with SMTPS id 1765981805279190.28543644885497;
- Wed, 17 Dec 2025 06:30:05 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 17 Dec 2025 15:29:40 +0100
-Subject: [PATCH v4 3/3] drm/panthor: Add gpu_job_irq tracepoint
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-panthor-tracepoints-v4-3-916186cb8d03@collabora.com>
-References: <20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com>
-In-Reply-To: <20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9149E10ECF7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:31:12 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 1797C4E41C61;
+ Wed, 17 Dec 2025 14:31:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id D3C3E6072F;
+ Wed, 17 Dec 2025 14:31:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 08228102F0ADF; Wed, 17 Dec 2025 15:31:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1765981869; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=yAjEzU0lnm6w9HbHvxnWCw8lQ0bKDnGFd7xXe5yjJo0=;
+ b=xrG4jKk1868Dv7dPhgpQxbWfGUHPcegpZHAbpsi68LNt1qCvLavT7qg6pk0LyAOpy6g8vf
+ uCI/c6WhBKRbvJfH/9PevUAINIRZeoOldyX4fOqO+SKCVogGMwcD+YyeCa1fh6K0TiTtqw
+ i7q5sRSu4GJyjVf7mR9Y3/Qri1jAxFNDNws2wV4hE/ssLWNgu61nMSLCC09UXg1/i5guEu
+ 143vac/E0zy0QYBvBIJMD6V50VaSq7IRSfaV3EGMI8yx/9ZEj9u8cmOSJceVeRYhrjLvTr
+ yt97q0vB58aPCsDXYu3m2nq3B4klQ0rtZb1eI7qcWYQlJfN12/1sBA27uTxx/w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Dec 2025 15:31:01 +0100
+Message-Id: <DF0KBN5Y22XW.2RE8HKDFY87XK@bootlin.com>
+Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
+Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-amlogic@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Alexey Brodkin" <abrodkin@synopsys.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "David Airlie"
+ <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>, "Hui Pu"
+ <Hui.Pu@gehealthcare.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jerome Brunet" <jbrunet@baylibre.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Kevin Hilman" <khilman@baylibre.com>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Martin Blumenstingl"
+ <martin.blumenstingl@googlemail.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Phong LE" <ple@baylibre.com>, "Robert Foss"
+ <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>
+To: "Maxime Ripard" <mripard@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
+ <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
+In-Reply-To: <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,111 +79,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali's CSF firmware triggers the job IRQ whenever there's new firmware
-events for processing. While this can be a global event (BIT(31) of the
-status register), it's usually an event relating to a command stream
-group (the other bit indices).
+Hi Maxime,
 
-Panthor throws these events onto a workqueue for processing outside the
-IRQ handler. It's therefore useful to have an instrumented tracepoint
-that goes beyond the generic IRQ tracepoint for this specific case, as
-it can be augmented with additional data, namely the events bit mask.
+On Wed Dec 17, 2025 at 11:15 AM CET, Maxime Ripard wrote:
+> On Tue, 16 Dec 2025 18:58:34 +0100, Luca Ceresoli wrote:
+>> of_drm_find_bridge() does not increment the refcount for the returned
+>> bridge, but that is required now. However converting it and all its user=
+s
+>> is not realistically doable at once given the large amount of (direct an=
+d
+>> indirect) callers and the complexity of some.
+>>
+>>
+>> [ ... ]
+>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-This can then be used to debug problems relating to GPU jobs events not
-being processed quickly enough. The duration_ns field can be used to
-work backwards from when the tracepoint fires (at the end of the IRQ
-handler) to figure out when the interrupt itself landed, providing not
-just information on how long the work queueing took, but also when the
-actual interrupt itself arrived.
+Thank you for the prompt review!
 
-With this information in hand, the IRQ handler itself being slow can be
-excluded as a possible source of problems, and attention can be directed
-to the workqueue processing instead.
+All patches are reviewed now except patch 18 which has no reply. I'm just
+pointing out in case it's something you missed.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
- drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+Luca
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index a64ec8756bed..513ed42f7b41 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -26,6 +26,7 @@
- #include "panthor_mmu.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
-+#include "panthor_trace.h"
- 
- #define CSF_FW_NAME "mali_csffw.bin"
- 
-@@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 
- static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- {
-+	u32 duration;
-+	u64 start;
-+
-+	if (tracepoint_enabled(gpu_job_irq))
-+		start = ktime_get_ns();
-+
- 	gpu_write(ptdev, JOB_INT_CLEAR, status);
- 
- 	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-@@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- 		return;
- 
- 	panthor_sched_report_fw_events(ptdev, status);
-+
-+	if (tracepoint_enabled(gpu_job_irq)) {
-+		if (check_sub_overflow(ktime_get_ns(), start, &duration))
-+			duration = U32_MAX;
-+		trace_gpu_job_irq(ptdev->base.dev, status, duration);
-+	}
- }
- PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-index 5bd420894745..6ffeb4fe6599 100644
---- a/drivers/gpu/drm/panthor/panthor_trace.h
-+++ b/drivers/gpu/drm/panthor/panthor_trace.h
-@@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
- 	panthor_hw_power_status_register, panthor_hw_power_status_unregister
- );
- 
-+/**
-+ * gpu_job_irq - called after a job interrupt from firmware completes
-+ * @dev: pointer to the &struct device, for printing the device name
-+ * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
-+ * @duration_ns: Nanoseconds between job IRQ handler entry and exit
-+ *
-+ * The panthor_job_irq_handler() function instrumented by this tracepoint exits
-+ * once it has queued the firmware interrupts for processing, not when the
-+ * firmware interrupts are fully processed. This tracepoint allows for debugging
-+ * issues with delays in the workqueue's processing of events.
-+ */
-+TRACE_EVENT(gpu_job_irq,
-+	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
-+	TP_ARGS(dev, events, duration_ns),
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__field(u32, events)
-+		__field(u32, duration_ns)
-+	),
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__entry->events		= events;
-+		__entry->duration_ns	= duration_ns;
-+	),
-+	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
-+		  __entry->events, __entry->duration_ns)
-+);
-+
- #endif /* __PANTHOR_TRACE_H__ */
- 
- #undef TRACE_INCLUDE_PATH
-
--- 
-2.52.0
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
