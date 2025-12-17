@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD300CC9611
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 20:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EC7CC9635
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 20:15:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB7810E0AA;
-	Wed, 17 Dec 2025 19:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 459D010E101;
+	Wed, 17 Dec 2025 19:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dNNaf72O";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ieoDb6rN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4146F10E0AA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 19:13:45 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E17910E101
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 19:15:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DCEE140194;
- Wed, 17 Dec 2025 19:13:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A77C4CEFB;
- Wed, 17 Dec 2025 19:13:44 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 114DD6000A;
+ Wed, 17 Dec 2025 19:15:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E91C4CEF5;
+ Wed, 17 Dec 2025 19:14:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765998824;
- bh=AiIZIHrCloGLNa9epfLmdngMw4CLbeYjlGIevkCDBpo=;
+ s=k20201202; t=1765998899;
+ bh=IOOW73vIRtOOerAODsJ10s0vtDMqHArjumg7UhUu+P0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dNNaf72OWYhpajmCWli4jVfG8IvQoyTYHpTB3mHW677IXMUZX1VrjraeCjxkFrPSt
- aQVOBk+CbZaKxoGA1HF4ZF3tUK+UrLJDOc1q1Kc1EvnBpRHh9MnC93fdX+Ry6EFP4c
- sJXQwG7GwcoLNfuNd9RegRP6hz8AFClWxO48xBX8WTOW1OyqjEalB2LrjOOSDkJ+mN
- 1OB7nkEpXB88OGex8hF92dnDaJaWeD84+147No0qHrG64PtoVmAuY2EQXua5OX4Www
- 6JQNCJoRWRozMerRYBrJ1ptPZlfQlXGM1ZX+L9yIohvqOfEgBQcaymMXB71wuG4Lgu
- 3Pq7UyRn8BhEg==
-Message-ID: <3d802b50-697b-45fa-88c3-8a0cf9b7bb52@kernel.org>
-Date: Wed, 17 Dec 2025 13:13:43 -0600
+ b=ieoDb6rNZqMxty8KgDxULEh7sAfMt5AsnCy834e8pz2zJVPNfQePyrgKAjp29qsUE
+ wbzuHJXUkg1wG4ADewOFmlqi6IyaJF6KLlKT0pxtTGYzu27qKuXiUURbp0/Gtb3uKM
+ GqpyMaNielJRw0v8mIdRHXKw5sqLquDUwgCcEBJ19CaB8W4ZHRgL7I7Hsg8ij7yvVR
+ xzoiHWl6LmF4i6NQTKYh+GG7jNjrD0cobAt+umu67MfsCQ0b1fhA22kPiLxUekjZwb
+ fhA9yHIRvfYpeDpRXchgpAMAyLIR35nlumcCl6qnL9kSZ0zuER1m36Mm6PZ1BLci7J
+ kwYOcnqOyti6g==
+Message-ID: <2f35a073-2184-4534-896a-b0d62871e12c@kernel.org>
+Date: Wed, 17 Dec 2025 13:14:58 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Remove NPU2 support
+Subject: Re: [PATCH V2] accel/amdxdna: Enable temporal sharing only mode
 To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
  quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
  maciej.falkowski@linux.intel.com
 Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20251217190818.2145781-1-lizhi.hou@amd.com>
+References: <20251217191150.2145937-1-lizhi.hou@amd.com>
 Content-Language: en-US
 From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20251217190818.2145781-1-lizhi.hou@amd.com>
+In-Reply-To: <20251217191150.2145937-1-lizhi.hou@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,176 +60,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/25 1:08 PM, Lizhi Hou wrote:
-> NPU2 hardware was never publicly released and is now obsolete.
-> Remove all remaining NPU2 support from the driver.
+On 12/17/25 1:11 PM, Lizhi Hou wrote:
+> Newer firmware versions prefer temporal sharing only mode. In this mode,
+> the driver no longer needs to manage AIE array column allocation. Instead,
+> a new field, num_unused_col, is added to the hardware context creation
+> request to specify how many columns will not be used by this hardware
+> context.
 > 
 > Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>> ---
->   drivers/accel/amdxdna/Makefile          |   1 -
->   drivers/accel/amdxdna/amdxdna_pci_drv.c |   1 -
->   drivers/accel/amdxdna/amdxdna_pci_drv.h |   1 -
->   drivers/accel/amdxdna/npu2_regs.c       | 117 ------------------------
->   4 files changed, 120 deletions(-)
->   delete mode 100644 drivers/accel/amdxdna/npu2_regs.c
+
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+
+One minor whitespace comment below (just fix it while committing if no 
+other feedback).
+
+> ---
+>   drivers/accel/amdxdna/aie2_ctx.c      | 18 +++++++++++++++---
+>   drivers/accel/amdxdna/aie2_message.c  |  1 +
+>   drivers/accel/amdxdna/aie2_msg_priv.h |  3 ++-
+>   drivers/accel/amdxdna/aie2_pci.h      |  1 +
+>   drivers/accel/amdxdna/amdxdna_ctx.h   |  1 +
+>   drivers/accel/amdxdna/npu4_regs.c     |  1 +
+>   6 files changed, 21 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/accel/amdxdna/Makefile b/drivers/accel/amdxdna/Makefile
-> index 6344aaf523fa..3fa0e74fd8f5 100644
-> --- a/drivers/accel/amdxdna/Makefile
-> +++ b/drivers/accel/amdxdna/Makefile
-> @@ -18,7 +18,6 @@ amdxdna-y := \
->   	amdxdna_sysfs.o \
->   	amdxdna_ubuf.o \
->   	npu1_regs.o \
-> -	npu2_regs.o \
->   	npu4_regs.o \
->   	npu5_regs.o \
->   	npu6_regs.o
-> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> index fcf7e7869007..7d59764d7869 100644
-> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> @@ -51,7 +51,6 @@ MODULE_DEVICE_TABLE(pci, pci_ids);
+> diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+> index 42d876a427c5..f99233041397 100644
+> --- a/drivers/accel/amdxdna/aie2_ctx.c
+> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+> @@ -468,6 +468,12 @@ static int aie2_alloc_resource(struct amdxdna_hwctx *hwctx)
+>   	struct alloc_requests *xrs_req;
+>   	int ret;
 >   
->   static const struct amdxdna_device_id amdxdna_ids[] = {
->   	{ 0x1502, 0x0,  &dev_npu1_info },
-> -	{ 0x17f0, 0x0,  &dev_npu2_info },
->   	{ 0x17f0, 0x10, &dev_npu4_info },
->   	{ 0x17f0, 0x11, &dev_npu5_info },
->   	{ 0x17f0, 0x20, &dev_npu6_info },
-> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-> index 0d50c4c8b353..6580cb5ec7e2 100644
-> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
-> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-> @@ -137,7 +137,6 @@ struct amdxdna_client {
+> +	if (AIE2_FEATURE_ON(xdna->dev_handle, AIE2_TEMPORAL_ONLY)) {
+> +		hwctx->num_unused_col = xdna->dev_handle->total_col - hwctx->num_col;
+> +		hwctx->num_col = xdna->dev_handle->total_col;
+> +		return aie2_create_context(xdna->dev_handle, hwctx);
+> +	}
+> +
+>   	xrs_req = kzalloc(sizeof(*xrs_req), GFP_KERNEL);
+>   	if (!xrs_req)
+>   		return -ENOMEM;
+> @@ -499,9 +505,15 @@ static void aie2_release_resource(struct amdxdna_hwctx *hwctx)
+>   	struct amdxdna_dev *xdna = hwctx->client->xdna;
+>   	int ret;
 >   
->   /* Add device info below */
->   extern const struct amdxdna_dev_info dev_npu1_info;
-> -extern const struct amdxdna_dev_info dev_npu2_info;
->   extern const struct amdxdna_dev_info dev_npu4_info;
->   extern const struct amdxdna_dev_info dev_npu5_info;
->   extern const struct amdxdna_dev_info dev_npu6_info;
-> diff --git a/drivers/accel/amdxdna/npu2_regs.c b/drivers/accel/amdxdna/npu2_regs.c
-> deleted file mode 100644
-> index ad0743fb06d5..000000000000
-> --- a/drivers/accel/amdxdna/npu2_regs.c
-> +++ /dev/null
-> @@ -1,117 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-> - */
-> -
-> -#include <drm/amdxdna_accel.h>
-> -#include <drm/drm_device.h>
-> -#include <drm/gpu_scheduler.h>
-> -#include <linux/sizes.h>
-> -
-> -#include "aie2_pci.h"
-> -#include "amdxdna_mailbox.h"
-> -#include "amdxdna_pci_drv.h"
-> -
-> -/* NPU Public Registers on MpNPUAxiXbar (refer to Diag npu_registers.h) */
-> -#define MPNPU_PWAITMODE                0x301003C
-> -#define MPNPU_PUB_SEC_INTR             0x3010060
-> -#define MPNPU_PUB_PWRMGMT_INTR         0x3010064
-> -#define MPNPU_PUB_SCRATCH0             0x301006C
-> -#define MPNPU_PUB_SCRATCH1             0x3010070
-> -#define MPNPU_PUB_SCRATCH2             0x3010074
-> -#define MPNPU_PUB_SCRATCH3             0x3010078
-> -#define MPNPU_PUB_SCRATCH4             0x301007C
-> -#define MPNPU_PUB_SCRATCH5             0x3010080
-> -#define MPNPU_PUB_SCRATCH6             0x3010084
-> -#define MPNPU_PUB_SCRATCH7             0x3010088
-> -#define MPNPU_PUB_SCRATCH8             0x301008C
-> -#define MPNPU_PUB_SCRATCH9             0x3010090
-> -#define MPNPU_PUB_SCRATCH10            0x3010094
-> -#define MPNPU_PUB_SCRATCH11            0x3010098
-> -#define MPNPU_PUB_SCRATCH12            0x301009C
-> -#define MPNPU_PUB_SCRATCH13            0x30100A0
-> -#define MPNPU_PUB_SCRATCH14            0x30100A4
-> -#define MPNPU_PUB_SCRATCH15            0x30100A8
-> -#define MP0_C2PMSG_73                  0x3810A24
-> -#define MP0_C2PMSG_123                 0x3810AEC
-> -
-> -#define MP1_C2PMSG_0                   0x3B10900
-> -#define MP1_C2PMSG_60                  0x3B109F0
-> -#define MP1_C2PMSG_61                  0x3B109F4
-> -
-> -#define MPNPU_SRAM_X2I_MAILBOX_0       0x3600000
-> -#define MPNPU_SRAM_X2I_MAILBOX_15      0x361E000
-> -#define MPNPU_SRAM_X2I_MAILBOX_31      0x363E000
-> -#define MPNPU_SRAM_I2X_MAILBOX_31      0x363F000
-> -
-> -#define MMNPU_APERTURE0_BASE           0x3000000
-> -#define MMNPU_APERTURE1_BASE           0x3600000
-> -#define MMNPU_APERTURE3_BASE           0x3810000
-> -#define MMNPU_APERTURE4_BASE           0x3B10000
-> -
-> -/* PCIe BAR Index for NPU2 */
-> -#define NPU2_REG_BAR_INDEX	0
-> -#define NPU2_MBOX_BAR_INDEX	0
-> -#define NPU2_PSP_BAR_INDEX	4
-> -#define NPU2_SMU_BAR_INDEX	5
-> -#define NPU2_SRAM_BAR_INDEX	2
-> -/* Associated BARs and Apertures */
-> -#define NPU2_REG_BAR_BASE	MMNPU_APERTURE0_BASE
-> -#define NPU2_MBOX_BAR_BASE	MMNPU_APERTURE0_BASE
-> -#define NPU2_PSP_BAR_BASE	MMNPU_APERTURE3_BASE
-> -#define NPU2_SMU_BAR_BASE	MMNPU_APERTURE4_BASE
-> -#define NPU2_SRAM_BAR_BASE	MMNPU_APERTURE1_BASE
-> -
-> -static const struct amdxdna_dev_priv npu2_dev_priv = {
-> -	.fw_path        = "amdnpu/17f0_00/npu.sbin",
-> -	.protocol_major = 0x6,
-> -	.protocol_minor = 0x6,
-> -	.rt_config	= npu4_default_rt_cfg,
-> -	.dpm_clk_tbl	= npu4_dpm_clk_table,
-> -	.fw_feature_tbl = npu4_fw_feature_table,
-> -	.col_align	= COL_ALIGN_NATURE,
-> -	.mbox_dev_addr  = NPU2_MBOX_BAR_BASE,
-> -	.mbox_size      = 0, /* Use BAR size */
-> -	.sram_dev_addr  = NPU2_SRAM_BAR_BASE,
-> -	.hwctx_limit    = 16,
-> -	.sram_offs      = {
-> -		DEFINE_BAR_OFFSET(MBOX_CHANN_OFF, NPU2_SRAM, MPNPU_SRAM_X2I_MAILBOX_0),
-> -		DEFINE_BAR_OFFSET(FW_ALIVE_OFF,   NPU2_SRAM, MPNPU_SRAM_X2I_MAILBOX_15),
-> -	},
-> -	.psp_regs_off   = {
-> -		DEFINE_BAR_OFFSET(PSP_CMD_REG,    NPU2_PSP, MP0_C2PMSG_123),
-> -		DEFINE_BAR_OFFSET(PSP_ARG0_REG,   NPU2_REG, MPNPU_PUB_SCRATCH3),
-> -		DEFINE_BAR_OFFSET(PSP_ARG1_REG,   NPU2_REG, MPNPU_PUB_SCRATCH4),
-> -		DEFINE_BAR_OFFSET(PSP_ARG2_REG,   NPU2_REG, MPNPU_PUB_SCRATCH9),
-> -		DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU2_PSP, MP0_C2PMSG_73),
-> -		DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU2_PSP, MP0_C2PMSG_123),
-> -		DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU2_REG, MPNPU_PUB_SCRATCH3),
-> -		DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU2_REG, MPNPU_PWAITMODE),
-> -	},
-> -	.smu_regs_off   = {
-> -		DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU2_SMU, MP1_C2PMSG_0),
-> -		DEFINE_BAR_OFFSET(SMU_ARG_REG,  NPU2_SMU, MP1_C2PMSG_60),
-> -		DEFINE_BAR_OFFSET(SMU_INTR_REG, NPU2_SMU, MMNPU_APERTURE4_BASE),
-> -		DEFINE_BAR_OFFSET(SMU_RESP_REG, NPU2_SMU, MP1_C2PMSG_61),
-> -		DEFINE_BAR_OFFSET(SMU_OUT_REG,  NPU2_SMU, MP1_C2PMSG_60),
-> -	},
-> -	.hw_ops	=	 {
-> -		.set_dpm = npu4_set_dpm,
-> -	},
-> -};
-> -
-> -const struct amdxdna_dev_info dev_npu2_info = {
-> -	.reg_bar           = NPU2_REG_BAR_INDEX,
-> -	.mbox_bar          = NPU2_MBOX_BAR_INDEX,
-> -	.sram_bar          = NPU2_SRAM_BAR_INDEX,
-> -	.psp_bar           = NPU2_PSP_BAR_INDEX,
-> -	.smu_bar           = NPU2_SMU_BAR_INDEX,
-> -	.first_col         = 0,
-> -	.dev_mem_buf_shift = 15, /* 32 KiB aligned */
-> -	.dev_mem_base      = AIE2_DEVM_BASE,
-> -	.dev_mem_size      = AIE2_DEVM_SIZE,
-> -	.vbnv              = "RyzenAI-npu2",
-> -	.device_type       = AMDXDNA_DEV_TYPE_KMQ,
-> -	.dev_priv          = &npu2_dev_priv,
-> -	.ops               = &aie2_ops, /* NPU2 can share NPU1's callback */
-> -};
+> -	ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
+> -	if (ret)
+> -		XDNA_ERR(xdna, "Release AIE resource failed, ret %d", ret);
+> +	if (AIE2_FEATURE_ON(xdna->dev_handle, AIE2_TEMPORAL_ONLY)) {
+> +		ret = aie2_destroy_context(xdna->dev_handle, hwctx);
+> +		if (ret)
+> +			XDNA_ERR(xdna, "Destroy  temporal only context failed, ret %d", ret);
+
+too much whitespace inbetween destroy and temporal.
+
+> +	} else {
+> +		ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
+> +		if (ret)
+> +			XDNA_ERR(xdna, "Release AIE resource failed, ret %d", ret);
+> +	}
+>   }
+>   
+>   static int aie2_ctx_syncobj_create(struct amdxdna_hwctx *hwctx)
+> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+> index 9ec973028221..e77a353cadc5 100644
+> --- a/drivers/accel/amdxdna/aie2_message.c
+> +++ b/drivers/accel/amdxdna/aie2_message.c
+> @@ -218,6 +218,7 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
+>   	req.aie_type = 1;
+>   	req.start_col = hwctx->start_col;
+>   	req.num_col = hwctx->num_col;
+> +	req.num_unused_col = hwctx->num_unused_col;
+>   	req.num_cq_pairs_requested = 1;
+>   	req.pasid = hwctx->client->pasid;
+>   	req.context_priority = 2;
+> diff --git a/drivers/accel/amdxdna/aie2_msg_priv.h b/drivers/accel/amdxdna/aie2_msg_priv.h
+> index 1c957a6298d3..cc912b7899ce 100644
+> --- a/drivers/accel/amdxdna/aie2_msg_priv.h
+> +++ b/drivers/accel/amdxdna/aie2_msg_priv.h
+> @@ -112,7 +112,8 @@ struct create_ctx_req {
+>   	__u32	aie_type;
+>   	__u8	start_col;
+>   	__u8	num_col;
+> -	__u16	reserved;
+> +	__u8    num_unused_col;
+> +	__u8	reserved;
+>   	__u8	num_cq_pairs_requested;
+>   	__u8	reserved1;
+>   	__u16	pasid;
+> diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
+> index c6b5cf4ae5c4..a929fa98a121 100644
+> --- a/drivers/accel/amdxdna/aie2_pci.h
+> +++ b/drivers/accel/amdxdna/aie2_pci.h
+> @@ -232,6 +232,7 @@ struct aie2_hw_ops {
+>   enum aie2_fw_feature {
+>   	AIE2_NPU_COMMAND,
+>   	AIE2_PREEMPT,
+> +	AIE2_TEMPORAL_ONLY,
+>   	AIE2_FEATURE_MAX
+>   };
+>   
+> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
+> index b6151244d64f..b29449a92f60 100644
+> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
+> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+> @@ -98,6 +98,7 @@ struct amdxdna_hwctx {
+>   	u32				*col_list;
+>   	u32				start_col;
+>   	u32				num_col;
+> +	u32				num_unused_col;
+>   #define HWCTX_STAT_INIT  0
+>   #define HWCTX_STAT_READY 1
+>   #define HWCTX_STAT_STOP  2
+> diff --git a/drivers/accel/amdxdna/npu4_regs.c b/drivers/accel/amdxdna/npu4_regs.c
+> index 4ca21db70478..a62234fd266d 100644
+> --- a/drivers/accel/amdxdna/npu4_regs.c
+> +++ b/drivers/accel/amdxdna/npu4_regs.c
+> @@ -90,6 +90,7 @@ const struct dpm_clk_freq npu4_dpm_clk_table[] = {
+>   const struct aie2_fw_feature_tbl npu4_fw_feature_table[] = {
+>   	{ .feature = AIE2_NPU_COMMAND, .min_minor = 15 },
+>   	{ .feature = AIE2_PREEMPT, .min_minor = 12 },
+> +	{ .feature = AIE2_TEMPORAL_ONLY, .min_minor = 12 },
+>   	{ 0 }
+>   };
+>   
 
