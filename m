@@ -2,48 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA62CC8959
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 16:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65F4CC89CB
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 16:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86E2710E8CA;
-	Wed, 17 Dec 2025 15:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35B1A10ED1E;
+	Wed, 17 Dec 2025 15:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com
- [216.40.44.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA8710E8CA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 15:51:09 +0000 (UTC)
-Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay02.hostedemail.com (Postfix) with ESMTP id 5A53413C06C;
- Wed, 17 Dec 2025 15:51:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf17.hostedemail.com (Postfix) with ESMTPA id 5FE4C17; 
- Wed, 17 Dec 2025 15:51:04 +0000 (UTC)
-Date: Wed, 17 Dec 2025 10:52:39 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Xiang Gao <gxxa03070307@gmail.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
- <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v7] dma-buf: add some tracepoints to debug.
-Message-ID: <20251217105239.713bab41@gandalf.local.home>
-In-Reply-To: <20251217105132.643300-1-gxxa03070307@gmail.com>
-References: <20251217105132.643300-1-gxxa03070307@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E18B110ED21
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 15:55:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 730F2FEC;
+ Wed, 17 Dec 2025 07:55:41 -0800 (PST)
+Received: from [10.57.45.201] (unknown [10.57.45.201])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6AF0B3F5CA;
+ Wed, 17 Dec 2025 07:55:44 -0800 (PST)
+Message-ID: <42a3d2dc-1e1a-49ef-b3e7-c2fe604ca09a@arm.com>
+Date: Wed, 17 Dec 2025 15:55:42 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 5FE4C17
-X-Stat-Signature: tcf4i4fk7xkn5yz87oudjo19k7x567yp
-X-Spam-Status: No, score=-0.10
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18v1MGMQqn5A+v+lnOyDc37S/bYYW5O1X4=
-X-HE-Tag: 1765986664-498566
-X-HE-Meta: U2FsdGVkX19l2sopADPfAmEBaW7hxuXdjWeW2Fum2wUj2NUV4lBXE+PFynuKUJ5oKDrF75CHCEYvp6h+4A1oSfzHuG3LrpV5q04LvkSHvZ7mYjzEhzT/19hmCsMlpUF/lKbJlatQHe7e5QiOKqg8Er6a3UU00d0JADxKpYBp/UzEPi/YnQPHvOPMZZExuzSnWUZNiGIPEDLriCOqtODyt5byUctZHVEwhLE13Uc3zTKFyRhg/hI7lbe4AZgcqHZaaahqxk7mcLmkCdW4lVHWMDi2cOS6aifGtOC78TZQH+naUZUQ2aySlgSw3eMiEDtqu0QaK9z26kITG8kJzn+BB/v9+GL7dTTz9yHBLs4/nRk8MKxOtH7WGlZ9I8qq2+tTVPlCoUYCfUhrk6n7Vf8jQMrdpG5/FlmzolipjIIjXmk=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panthor: fix for dma-fence safe access rules
+To: Chia-I Wu <olvaffe@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tvrtko.ursulin@igalia.com
+References: <20251204174545.399059-1-olvaffe@gmail.com>
+ <20251205134307.6a06f9e1@fedora>
+ <CAPaKu7RNOXSza-YP5cqnasPgs2E8HQ4yUzm4N2F649HgNxb18g@mail.gmail.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <CAPaKu7RNOXSza-YP5cqnasPgs2E8HQ4yUzm4N2F649HgNxb18g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,118 +55,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Dec 2025 18:51:32 +0800
-Xiang Gao <gxxa03070307@gmail.com> wrote:
-
-> From: gaoxiang17 <gaoxiang17@xiaomi.com>
+On 05/12/2025 18:45, Chia-I Wu wrote:
+> On Fri, Dec 5, 2025 at 4:43 AM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+>>
+>> On Thu,  4 Dec 2025 09:45:45 -0800
+>> Chia-I Wu <olvaffe@gmail.com> wrote:
+>>
+>>> Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
+>>> the rules") details the dma-fence safe access rules. The most common
+>>> culprit is that drm_sched_fence_get_timeline_name may race with
+>>> group_free_queue.
+>>>
+>>> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>>> Reviewed-by: Steven Price <steven.price@arm.com>
+>>>
+>>> ---
+>>> v2: collect R-bs and drop misleading Fixes: tag
+>>
+>> Should we at least
+>>
+>> Cc: stable@vger.kernel.org
+>>
+>> so this gets considered for backporting?
+> This can be considered a follow-up to commit 506aa8b02a8d6. I think
 > 
-> Since we can only inspect dmabuf by iterating over process FDs or the
-> dmabuf_list, we need to add our own tracepoints to track its status in
-> real time in production.
+>   Cc: stable@vger.kernel.org # v6.17+
 > 
-> For example:
->    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
->    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
->    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
->      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
->     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
->     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
->     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+> is appropriate. (Not sure if I should send v3 or leave it to
+> maintainers, because I was once told to never add the line and always
+> leave it to maintainers).
 > 
-> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
-> ---
->  drivers/dma-buf/dma-buf.c      |  42 ++++++++-
->  include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
->  2 files changed, 198 insertions(+), 1 deletion(-)
->  create mode 100644 include/trace/events/dma_buf.h
+> To help make the decision, commit 506aa8b02a8d6 itself narrowed the
+> race window greatly. This follow-up closes the remaining case where
+> panthor signals the fence and destroys the group while the consumer
+> holds the rcu read lock.
 > 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 2bcf9ceca997..ce39bc19e13f 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -35,6 +35,25 @@
->  
->  #include "dma-buf-sysfs-stats.h"
->  
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/dma_buf.h>
-> +
-> +/*
-> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
-> + * we need to take the lock around the tracepoint call itself where
-> + * it is called in the code.
-> + *
-> + * Note: FUNC##_enabled() is a static branch that will only
-> + *       be set when the trace event is enabled.
-> + */
 
-Much better.
+I've pushed this to drm-misc-next with the Cc tag.
 
-> +#define DMA_BUF_TRACE(FUNC, ...)					\
-> +	do {											\
-> +		if (FUNC##_enabled()) {						\
-> +			guard(spinlock)(&dmabuf->name_lock);	\
-> +			FUNC(__VA_ARGS__);						\
-> +		}											\
+Thanks,
+Steve
 
-Hmm, I wonder if we should also add:
+>>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> index 33b9ef537e359..a8b1347e4da71 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> @@ -23,6 +23,7 @@
+>>>  #include <linux/module.h>
+>>>  #include <linux/platform_device.h>
+>>>  #include <linux/pm_runtime.h>
+>>> +#include <linux/rcupdate.h>
+>>>
+>>>  #include "panthor_devfreq.h"
+>>>  #include "panthor_device.h"
+>>> @@ -923,6 +924,9 @@ static void group_release_work(struct work_struct *work)
+>>>                                                  release_work);
+>>>       u32 i;
+>>>
+>>> +     /* dma-fences may still be accessing group->queues under rcu lock. */
+>>> +     synchronize_rcu();
+>>> +
+>>>       for (i = 0; i < group->queue_count; i++)
+>>>               group_free_queue(group, group->queues[i]);
+>>>
+>>
 
-		} else if (IS_ENABLED(CONFIG_LOCKDEP)) { \
-			/* Expose this lock when lockdep is enabled */ \
-			guard(spinlock)(&dmabuf->name_lock);	\
-		}
-
-This way, if there is any issue taking the lock, lockdep will flag it
-without having to enable the tracepoint.
-
-When LOCKDEP is not configured, the compiler should remove that block.
-
-> +	} while (0)
-> +
->  static inline int is_dma_buf_file(struct file *);
->  
->
-
-
-> --- /dev/null
-> +++ b/include/trace/events/dma_buf.h
-> @@ -0,0 +1,157 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM dma_buf
-> +
-> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DMA_BUF_H
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/tracepoint.h>
-> +
-> +DECLARE_EVENT_CLASS(dma_buf,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-
-For the rest of the patch, from a tracing point of view:
-
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- Steve
