@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEEECC70A0
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B72CC70C1
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F94910EC08;
-	Wed, 17 Dec 2025 10:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C42310EC04;
+	Wed, 17 Dec 2025 10:19:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f3kcH5UW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aQeoRHM+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2492A10EC08
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:18:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB7D10EC04
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:19:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DED4D40171;
- Wed, 17 Dec 2025 10:18:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C015C4CEF5;
- Wed, 17 Dec 2025 10:18:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 685A84432A;
+ Wed, 17 Dec 2025 10:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBFFC19421;
+ Wed, 17 Dec 2025 10:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966730;
- bh=b3fa3ZW7Btz5urPS10XReNhAoJDTbHbKM52vabWMgfI=;
+ s=k20201202; t=1765966785;
+ bh=fJfYyQsSeLQOss48wj6CAg5BxlIApsVGcX6BEMY+KK8=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=f3kcH5UWPQk5umEClpVniEspgHBzoJL8PmCMlcHQWbehjUOrxiYt8L5rHadEJkd2x
- ImU7pskBgAfdRoxBw3hX9YLbjiu3j+YClj+XyH1sOi34ekmWp/xY3NdNbkyWR5GaaV
- e62mQUecv476zqqxajER7Qyw6tIBsBjG5sD+3+XVPhyeTq/BM3s+HDU/qSYMsUE4cv
- hqixaDHD01uyhVXLm0SC0F76xFqjyRNQ7jf3jNTQAAkZzEJz+UUkVbkjxpZIY5t5SA
- ZDEoBMG+Gz65hkUePrn67AOjou0kecYxqrTrM59XAv+0uo2IqmPPt78UacMsM7rgHT
- Ak20kSNG1/nfg==
-Message-ID: <36c9a024a4c96830f13bc1e7c005f231@kernel.org>
-Date: Wed, 17 Dec 2025 10:18:48 +0000
+ b=aQeoRHM+TibsLmXwFNHe2NxMIf97IfBwI3Pg30hMh9GSe9zJkjaTYVqnVFvUzK1eO
+ hqEQHweDaAiEYuLlPpORiJkPZIkXeo6wCE9zochTalRWSUuAlc5hFIsrO83aOjMHQc
+ dRDBXCaydtBWbBPLhu4uiRNN5MNGkCxbiijFFTpwoKsMjBiyz7fSzN05w0kR1HecYr
+ 2BzJ+YfrqyRk3+VKVNamL+je8lR7xEqaXbUUbdtOq2oWqaScH4kTOjKtiYYWZwhkAP
+ PrQCawA95SgM7kkFgsvUlGK8wVa42zlA4iNvg64opzMHA23KfnBNWF7wPh3QPeq1fZ
+ N57d79xsvAOMQ==
+Message-ID: <aff5a75a33e6e111347a7a79ebc26ddc@kernel.org>
+Date: Wed, 17 Dec 2025 10:19:42 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 13/22] drm/bridge: imx8qxp-pxl2dpi: simplify put of
- device_node pointers
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-13-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-13-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 14/22] drm/bridge: imx8qxp-pxl2dpi: remove excess
+ error message
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-14-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-14-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -76,12 +76,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:46 +0100, Luca Ceresoli wrote:
-> Simplify the error-management code in
-> imx8qxp_pxl2dpi_get_available_ep_from_port() by using a release action for
-> the struct device_node pointers.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On Tue, 16 Dec 2025 18:58:47 +0100, Luca Ceresoli wrote:
+> imx8qxp_pxl2dpi_find_next_bridge() already emits a DRM_DEV_ERROR() for
+> every error except -EPROBE_DEFER. The caller emits another one, which is
+> redundant. Remove the message in the caller and keep the two in
+> imx8qxp_pxl2dpi_find_next_bridge() as they are more informative about the
+> error cause.
 >=20
 > [ ... ]
 
