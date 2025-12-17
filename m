@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9833FCC9547
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 19:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E0FCC95D5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 20:08:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0437B10E26A;
-	Wed, 17 Dec 2025 18:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0003910E913;
+	Wed, 17 Dec 2025 19:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Gwc/ak+U";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RnLmpPjG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010040.outbound.protection.outlook.com [52.101.61.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E376C10E26A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 18:49:06 +0000 (UTC)
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010043.outbound.protection.outlook.com [52.101.85.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F05F10E2C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 19:08:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZaqUuE4j1xXayt1hKTJPLfz5Awk+NrKY4qSOUoIQYJePBRpt4Jm+8kLF/7KAETyfjoxWlOrYaJcB8FZsDa3LI6M97K1zNxsbUiRiFw6NaNwk0E3bPh/Lzy8OSUE+aA/mQD7qfm00L1Vr5yaVpTxDqg32H20d5CLITWgrgwcc9oowWiq7Q04zDdVtLlG9H1tyYf58pututpbElATxx74giJzr021XcxGylMLITEatO68t/mlQ3ig34djAwrPFizMnVPcN+9X1H/JmFjCq0iCLPRUaPwVwZ2ef7suzVHVhMGFb4DDGjgdhrABuz/koRI+YbQMqWgi4GmGqr1YlpSFB8w==
+ b=CUG4haiqoEhEU5KibS3qbAtJTHfJVki4VJNGFNXB8cdYUk2YbhIFsD4jNtYizhLQ7V0dB6Y9gbjtvsQnZJg6/T/eNwJlNS3pMCiJmrTF66TYcjX0mYgis2Jvo9kGxs/U3JvyfMjNt9AAbp88i4COxPaZwxPChzSUvL4IRC3wLdHAHsU35rEzFn7RC30JZB1TKuipKa8O0cbHpGZAFb4rIOrEDdcbGXAyM/xOmOg/dwRZGMh2Ha0oZk2QRh3jIE/vZ9MfV6MzJZ3ON1mhjihFoG6Kk/AWoetuxWFck8lZa/Iq1jdKhietU7YIU7zsGzDU3lAiwqXLIHtRpA8CQVLyWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yURN8AEScCvstxEB9+HCnJkCjrgu+M+durfWGWhJYs8=;
- b=Z9bgnj1/kMWsMTUWGAFctzmOd7RDCocU7rdJwf7npUvfULeOl3VMUu8rw14b6JyAprMv/UvYHL79wdYYTrB4+MLYzGafv2WcdFr/Pm50ue86+Cj7SlV8KReXb2R0KKRkFbcCFWtx/3DAt/hqf5Xm5jPbJQXL6lhMwTnNtG6OuiRFR9ShSR9D9PKpwd+twfEmcYxz4vTkShvT3YaPV0OkKEN1gz3aN8IvNNKbZZ8v5bvdV4BFOb784dJXSAMpDXs2G0HqnDMwts7OzQj2pJ2m4dFQXyd+N5V6uzMGg+ZyYnys9qD9/v7hlB/7ayI/1VlGXcTe4Kb1PccJvq12jF/gfQ==
+ bh=6nUUe0eg2qk+IRLLjLZ9X6hxaARVHnOTePzrVphkX+M=;
+ b=pJQlYjO052L7Vzyxd3hFyWZkVIj9g+Y4Kg+U4w8lNf3+gmbpow8fiesd3ryOXcBduaKBJWhc76pwbbeTF8jqswPFFbbpHBUW13+xx/45u8YS4Z2rhloFBeXisgXIWrEyqFjbkEB+G7to08At0jpeQnMOKcq0b0xO5mNHvlTHc5TS2trRAkUpLFOf4myBimVxnJ4FgXwFEY/sn76Gr8oKTTOON4LNLi1RcBcFdSX/2icaIk8SWTod9TMAM8W9KmRbvuSylebYxyAMR8ORVAPVp6HtecsHFgVFAwcnOzScBxhw3tOZw3dJyLzZO1Plm9wtF10PrJQH85CKVeYLlfVeMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yURN8AEScCvstxEB9+HCnJkCjrgu+M+durfWGWhJYs8=;
- b=Gwc/ak+UPiBj6kFHgrfBgnp4QAUWw38T2kDj9QE1Obb6cxQxNLRQmzCJ5ieXzJtrg/fg7QRJ2/8tnpcF6FDFOAz5LAqk+CM7NDGnlB5IMtccj2dpffz+EgQijhWKO2H1lcezccnkaRErnQb+0QwD8NmmtjFcoW+EV/Mu0RaurtQ=
-Received: from BY1P220CA0003.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:59d::10)
- by CY5PR12MB6600.namprd12.prod.outlook.com (2603:10b6:930:40::13)
+ bh=6nUUe0eg2qk+IRLLjLZ9X6hxaARVHnOTePzrVphkX+M=;
+ b=RnLmpPjGXlJSBnqNLGrpCvPfxglANn4dUbgQ7n5aQPVWA8EqiXQRTIGDbKla4/DYBBHUw93wASSyZDC0BFYgTh5Rig48FgluCbFe99ZhiP7SjSBLUT/uXMSSQoV+1PF3wBr+HR3EaPAUEx3/IWUNYqSicg31k4fwR69PFobTPpU=
+Received: from CH0PR04CA0087.namprd04.prod.outlook.com (2603:10b6:610:74::32)
+ by IA0PR12MB9010.namprd12.prod.outlook.com (2603:10b6:208:48e::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 18:49:03 +0000
-Received: from MWH0EPF000989E8.namprd02.prod.outlook.com
- (2603:10b6:a03:59d:cafe::8b) by BY1P220CA0003.outlook.office365.com
- (2603:10b6:a03:59d::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.7 via Frontend Transport; Wed,
- 17 Dec 2025 18:49:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.12; Wed, 17 Dec
+ 2025 19:08:26 +0000
+Received: from CH1PEPF0000A34A.namprd04.prod.outlook.com
+ (2603:10b6:610:74:cafe::9d) by CH0PR04CA0087.outlook.office365.com
+ (2603:10b6:610:74::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Wed,
+ 17 Dec 2025 19:08:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,97 +48,81 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
 Received: from satlexmb08.amd.com (165.204.84.17) by
- MWH0EPF000989E8.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ CH1PEPF0000A34A.mail.protection.outlook.com (10.167.244.5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Wed, 17 Dec 2025 18:49:01 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
+ 15.20.9434.6 via Frontend Transport; Wed, 17 Dec 2025 19:08:26 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 17 Dec
- 2025 12:49:00 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 17 Dec
- 2025 12:49:00 -0600
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 17 Dec
+ 2025 13:08:26 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 17 Dec
+ 2025 13:08:26 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Wed, 17 Dec 2025 10:48:59 -0800
-Message-ID: <3edbfc14-eb16-7bd8-89d5-20f46ad7569b@amd.com>
-Date: Wed, 17 Dec 2025 10:48:59 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1] accel/amdxdna: Enable temporal sharing only mode
-Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
- <maciej.falkowski@linux.intel.com>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
-References: <20251217171701.2138980-1-lizhi.hou@amd.com>
- <142f0f8e-d992-4e9a-ba98-ac4b5436fe7d@amd.com>
+ Transport; Wed, 17 Dec 2025 11:08:25 -0800
 From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <142f0f8e-d992-4e9a-ba98-ac4b5436fe7d@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Remove NPU2 support
+Date: Wed, 17 Dec 2025 11:08:18 -0800
+Message-ID: <20251217190818.2145781-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E8:EE_|CY5PR12MB6600:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8a5ba1c-1379-440f-a08e-08de3d9cf1c8
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34A:EE_|IA0PR12MB9010:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7b6987e-9e16-4f2d-f4e9-08de3d9fa884
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VWFlU2h5eFUvQVNtbjNlY1FDaXVPTTJUYWt0b3VmREVGM1ZDVjhWMlI3bC9a?=
- =?utf-8?B?MUdSQ2xwbmFMOUJxK1ZxeWRJS004cW13UitFYlp2aXRDVG4wcnhFY3lrdG9I?=
- =?utf-8?B?NFdlL1JrVk1SYWVzNi9GRFU4S1Y1MTVhc0wvSHFzT3RUZFlTZXh0bDRFMTBx?=
- =?utf-8?B?TW5CSS9sRUdNRWswb0dsYTljNnNITzBuOHNSVURNSU9sMkFkclNqR2l0TUFl?=
- =?utf-8?B?YUpWUTE4M0w5WC9ldDJtMHdLekpSblFZZ1duT25LOVhOL3lWUk53eXhuZEV2?=
- =?utf-8?B?TkxqQ01CWTR4a1JnS3pnZ2ZudUxlMTRhRkhMSXFOcHZsOWh3OWlqMjNuZ0Zj?=
- =?utf-8?B?YWJLWkZ5NmVOQWRLYkVMV3RkbU1najhLV2lySllCeDB5THYrY1ZzZ0s0L3JB?=
- =?utf-8?B?dUdtcFo0OVNqM0VCN0drZjc3bXk5SjB2RWdRZzR4TDVBdU9EaVdLOWI1OEZl?=
- =?utf-8?B?cm56eVBSOGRHRlVGY2J0dTU0MnhHRFNPQjcxeDUvYzFzQi9DWk8vTC9FeVNF?=
- =?utf-8?B?cXk4bW5OQUhUcnlkKzkvRElKUStDOWU0VUNPWWVaSmtTVWU0V3RyYlpQNFN4?=
- =?utf-8?B?OEhPK0tJNUMyTytSSHpQMytMblhJaU04TTE2NDRXa1FtbVE4K1ZuRG5ncmcz?=
- =?utf-8?B?aVltSk1aRDNieXY5NXM0bG1ZVlUxc1NHZjUrdUZiekhKeFF5S1ZodW9GTzdl?=
- =?utf-8?B?Z1NxUEhFbFVoNDROcEZjWURJWWdOKytIZVVjL29CaGdMS3lzZ0s2aWVUeUFY?=
- =?utf-8?B?cEhkdGxFUUsraFlwWnVlWGtUam96NmNzSlZ2dEJTd0hVcFYrNmE4SkVrUzlC?=
- =?utf-8?B?UTI2WU5DQnhKMEkrRlVLcWhoRFFKUGhCMk9VWFo0cHhFY2VTWSs1N2hCeEhx?=
- =?utf-8?B?VzdwdXRpK0ZDRHpYRmlXeW51dzJMd2VTdWlRQXc3c0diTHQ2S1RuY0xmNm11?=
- =?utf-8?B?ZVhCcU5XaURka1ZQMUhvRzJjMTh5QmVLRUdQcFZ2Qjh0YUpoK0tlbEthUmVO?=
- =?utf-8?B?cisrWC94Y1BZNTBHS2xNTm01QUtnb0Y0dmRZd3I4VE9GZFQ2SCswZGgyazJa?=
- =?utf-8?B?STJLY3B5NnMzQjg3ZFdMTHhzNjhQMlZOd1VieVBRcWFRa0lKYm0xL1E3V2ln?=
- =?utf-8?B?T0hvRVpxOWNXK1R5akxCUDRhVlh3aTZSRm1KQVR1NWJKU0gyR2diQkVRdVlX?=
- =?utf-8?B?ZmtMZ2VwUitlVThCVElDQTlkL1NnRWF5NHl3WGNiYTFiaFNwemhRTmZNYmlE?=
- =?utf-8?B?UVVlTW5nRlZ6allyM0lUK3kxbGtyNUYyU1ZTUEg4bzFpd3pueEpvQXk4bmRt?=
- =?utf-8?B?U1BUZ1dIbjBmSTlGT0w3R2RSck1rYzhwRFlneTNJdU1UTVhyOGJwanQzeEV4?=
- =?utf-8?B?RkVlb3NSQWhpQmtaSDB1Y21MSjViUjVLdXRBZ29RM0JWbGV2UlJ6Q3RrMU04?=
- =?utf-8?B?UDJ1STlaUWUzb21PMmdJZm5zSnZBem9JNERraXJQODRKNVlrdFpZMUh4YnBj?=
- =?utf-8?B?cXpTY2YraHpwR0hCQ29tQ1loLzkzeFhRaWV4VzFUcy80WFg1SWdLbHdtQXJn?=
- =?utf-8?B?c1hWclBWU0RhL2FJcnhpem5RQ21tcms0aXp6TW9pNm8zdUZFc2MzYU1WbTNn?=
- =?utf-8?B?bU1HS3RtbjZ3MHhxZmprQTZnNHIvUmRGNmJWZlNFWEpjeVNJbkcwSFlwZjZw?=
- =?utf-8?B?S0ZzckhhcTREN2J3VUtOaXRpMklKcmN4QXZiS3NKRkQxYmJxTm9Ra0ptcmF3?=
- =?utf-8?B?NnpveG9EM3ZDa2QvL1htVXVuWVEwWWhHN01NWVNoZVdndSsvaGdJOVljV1Ix?=
- =?utf-8?B?a1dwZ1BFQUxZeldINGlYa2NJRjROQjhzTnFzUS9Oa252aVJSSHdMdXVjN1Jt?=
- =?utf-8?B?Qy9XMktOWUFia0R6c0J6T2Vaejhyc2ZWT2xqd2Q4allIUnhMZkplTHhWUzNK?=
- =?utf-8?B?ZXlUKzhPSlpsd2dNSXJXeXJOOGNwc09wdUc2bENWMEVzclp3UTN5NFppVmlC?=
- =?utf-8?B?Q0pIcTZvN2dNYkRsQ1prL25GNkVwTzUrazZPUnp1YmFWa2ZzT1pFNVdtV1BG?=
- =?utf-8?B?R3VkR1I5MUMrTXcvWStJRHBlRGZHVFhpQjYvRW9jQXQ3T2k5bjZUaG1qeDg5?=
- =?utf-8?Q?XuYM=3D?=
+ ARA:13230040|82310400026|36860700013|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oO66KZ3UQDmEyvGqSi/hY/mTtuldtMHV+Ev6kbF79NVydWQVx22a3gsEyEqt?=
+ =?us-ascii?Q?Ip9kBfoUi6/8FBtbHbtJG+Wg9O963n7RkgFjqeS71c/6EjPIELFHdH741d00?=
+ =?us-ascii?Q?lSbeAHALPX9EPCzcACsChz/cBxpZSHCJR3UB5UQ+FV5nyxzrDgR2He5ilkGD?=
+ =?us-ascii?Q?nano1EPw1H8vA0kHCm3h/n1xIn7TUcbVFdt3EQPjaWkM5dqXNaO8nfePWdUj?=
+ =?us-ascii?Q?Teo/BV4ZGY/LYdiIiNYrV/AlMxJCqYPaKxBul5loNV7RbXO6pK/3OjAy9bse?=
+ =?us-ascii?Q?ctTvPaS0xsEeKHB3/6sUl59W131uhuXo4nScTMaqXgvC+2Mb/+nAJP5KlaaS?=
+ =?us-ascii?Q?9G4NsQJD8y6/iWo2XYx9Ksw/2gjIOHeZAcDBA0kvaGSygVQb3YnLqju+9/Af?=
+ =?us-ascii?Q?txrL/PSeMK8WH1R/CLZJ4/ltSC6/N50a41TE4WHg0i3GnAxr+JI8gpU3gIbj?=
+ =?us-ascii?Q?XfOYRg24mwijOWzDCRfN9vROvK5Vcb+1pujdXdVznDiewo/8MO4G5PGeruR8?=
+ =?us-ascii?Q?wJnkJ+eHbgNxMDted0K6s0X6XseldP2oHehJlu2chj2oem0JKbyxC/g4jaIc?=
+ =?us-ascii?Q?Xi8i6yNgsBB5WRQauDZIibJ8Z6x6f69tMSZ1KVSKsjE2GrLMys0Niu6P+JkY?=
+ =?us-ascii?Q?tE6gqpS9gY2/S+t2u6PjFEnLw7DHGoAKPszLe0xdlqs+Lj6MPdXhQXE/NBCm?=
+ =?us-ascii?Q?td84cr7ApX/ZfzurZ4GxKwpQ3htByqQYFwhAppkkvNdT6yBKFjXo8zGbAb5q?=
+ =?us-ascii?Q?4ze5bx/R4gb6ItomoqzVeBy/1FoF7ao0maLiCdmMsw/ZKxDucA4OMh49qcke?=
+ =?us-ascii?Q?jznh7h7JcgygoY5aMg948IJzmmgRFjPxJGFErRdN//zJ6l46cmH4iHsK4Xj7?=
+ =?us-ascii?Q?9DRxRplcvh0i5QLo0WScwWv2kpbxIGaAULbGH0JWH66BKclmOFeaYkZnvQUf?=
+ =?us-ascii?Q?/nWSKzysjb9joE15Gh8+hm0BkJE5DEY15Bet8VsX6Fd5o+DMbK0+WUe0+ssJ?=
+ =?us-ascii?Q?K+x9fX+SKNCPCM5Nct7XTgvNZ01Ot6JH+YGDAYjRk1CpLrHPVCMOAJbbLvsA?=
+ =?us-ascii?Q?2rVJF87N5dF7p3zNPxslq9Ktk5Yjc+Znik3Qi4hw5J+SvRHpEnvhkubo787S?=
+ =?us-ascii?Q?1xkRegYFzFSmanqdazXfPNbveoqKSn52r9BPTMBvsjhOQPeRRtrKuQ0ajyPQ?=
+ =?us-ascii?Q?iKwl1osewPDjTj1j5utqaARnlzoq35sCEatJQ+QgfWvN7f9Eu3K/hhoLoyTR?=
+ =?us-ascii?Q?NN+50gsZWZFSIKRlck+mg+hO0suD02nmhIMDptfXjNyAt/L5BSLfiGLMlT7T?=
+ =?us-ascii?Q?wMpxqcwvI2Ugks63DWdIvmdK+YSgEfthPBy0TIAyFZrAaK2PeIw0q4UOrNNu?=
+ =?us-ascii?Q?dYLpFo9aZbo1AFhjjNqbsCyuPTaExY3p0xeJPVmS5bABWEWyOvef8PCoD6bI?=
+ =?us-ascii?Q?Oc7lkhSSDu7fG5jRMRwpBSUSOH6+EI9gcWAuofAlvLx+r7b6IZN79Q8H6dw8?=
+ =?us-ascii?Q?2hnWyoYzjYG8Ghj73x/l8Z21aAlp1Uk938SF+uitqb1MRvUE/7TYaMTZp0VJ?=
+ =?us-ascii?Q?eI0VdAkQsaZSa4gM/So=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 18:49:01.2510 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8a5ba1c-1379-440f-a08e-08de3d9cf1c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 19:08:26.9253 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7b6987e-9e16-4f2d-f4e9-08de3d9fa884
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989E8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000A34A.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6600
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9010
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,139 +138,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+NPU2 hardware was never publicly released and is now obsolete.
+Remove all remaining NPU2 support from the driver.
 
-On 12/17/25 10:20, Mario Limonciello wrote:
-> On 12/17/25 11:17 AM, Lizhi Hou wrote:
->> Newer firmware versions prefer temporal sharing only mode. In this mode,
->> the driver no longer needs to manage AIE array column allocation. 
->> Instead,
->> a new field, num_unused_col, is added to the hardware context creation
->> request to specify how many columns will not be used by this hardware
->> context.
->>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->> ---
->>   drivers/accel/amdxdna/aie2_ctx.c      | 11 ++++++++++-
->>   drivers/accel/amdxdna/aie2_message.c  |  1 +
->>   drivers/accel/amdxdna/aie2_msg_priv.h |  3 ++-
->>   drivers/accel/amdxdna/aie2_pci.h      |  1 +
->>   drivers/accel/amdxdna/amdxdna_ctx.h   |  1 +
->>   drivers/accel/amdxdna/npu4_regs.c     |  1 +
->>   6 files changed, 16 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
->> b/drivers/accel/amdxdna/aie2_ctx.c
->> index 42d876a427c5..2ed087803628 100644
->> --- a/drivers/accel/amdxdna/aie2_ctx.c
->> +++ b/drivers/accel/amdxdna/aie2_ctx.c
->> @@ -468,6 +468,12 @@ static int aie2_alloc_resource(struct 
->> amdxdna_hwctx *hwctx)
->>       struct alloc_requests *xrs_req;
->>       int ret;
->>   +    if (AIE2_FEATURE_ON(xdna->dev_handle, AIE2_TEMPORAL_ONLY)) {
->> +        hwctx->num_unused_col = xdna->dev_handle->total_col - 
->> hwctx->num_col;
->> +        hwctx->num_col = xdna->dev_handle->total_col;
->> +        return aie2_create_context(xdna->dev_handle, hwctx);
->> +    }
->> +
->>       xrs_req = kzalloc(sizeof(*xrs_req), GFP_KERNEL);
->>       if (!xrs_req)
->>           return -ENOMEM;
->> @@ -499,7 +505,10 @@ static void aie2_release_resource(struct 
->> amdxdna_hwctx *hwctx)
->>       struct amdxdna_dev *xdna = hwctx->client->xdna;
->>       int ret;
->>   -    ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
->> +    if (AIE2_FEATURE_ON(xdna->dev_handle, AIE2_TEMPORAL_ONLY))
->> +        ret = aie2_destroy_context(xdna->dev_handle, hwctx);
->> +    else
->> +        ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
->>       if (ret)
->>           XDNA_ERR(xdna, "Release AIE resource failed, ret %d", ret);
->
-> To avoid confusion, I think you want to pull the error string into the 
-> if/else branch and have a unique error string for context destroy 
-> failure or release failure.
-Sure.
->
->>   }
->> diff --git a/drivers/accel/amdxdna/aie2_message.c 
->> b/drivers/accel/amdxdna/aie2_message.c
->> index 9ec973028221..e77a353cadc5 100644
->> --- a/drivers/accel/amdxdna/aie2_message.c
->> +++ b/drivers/accel/amdxdna/aie2_message.c
->> @@ -218,6 +218,7 @@ int aie2_create_context(struct amdxdna_dev_hdl 
->> *ndev, struct amdxdna_hwctx *hwct
->>       req.aie_type = 1;
->>       req.start_col = hwctx->start_col;
->>       req.num_col = hwctx->num_col;
->> +    req.num_unused_col = hwctx->num_unused_col;
->>       req.num_cq_pairs_requested = 1;
->>       req.pasid = hwctx->client->pasid;
->>       req.context_priority = 2;
->> diff --git a/drivers/accel/amdxdna/aie2_msg_priv.h 
->> b/drivers/accel/amdxdna/aie2_msg_priv.h
->> index 1c957a6298d3..cc912b7899ce 100644
->> --- a/drivers/accel/amdxdna/aie2_msg_priv.h
->> +++ b/drivers/accel/amdxdna/aie2_msg_priv.h
->> @@ -112,7 +112,8 @@ struct create_ctx_req {
->>       __u32    aie_type;
->>       __u8    start_col;
->>       __u8    num_col;
->> -    __u16    reserved;
->> +    __u8    num_unused_col;
->> +    __u8    reserved;
->>       __u8    num_cq_pairs_requested;
->>       __u8    reserved1;
->>       __u16    pasid;
->> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
->> b/drivers/accel/amdxdna/aie2_pci.h
->> index c6b5cf4ae5c4..a929fa98a121 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.h
->> +++ b/drivers/accel/amdxdna/aie2_pci.h
->> @@ -232,6 +232,7 @@ struct aie2_hw_ops {
->>   enum aie2_fw_feature {
->>       AIE2_NPU_COMMAND,
->>       AIE2_PREEMPT,
->> +    AIE2_TEMPORAL_ONLY,
->>       AIE2_FEATURE_MAX
->>   };
->>   diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h 
->> b/drivers/accel/amdxdna/amdxdna_ctx.h
->> index b6151244d64f..b29449a92f60 100644
->> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
->> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
->> @@ -98,6 +98,7 @@ struct amdxdna_hwctx {
->>       u32                *col_list;
->>       u32                start_col;
->>       u32                num_col;
->> +    u32                num_unused_col;
->>   #define HWCTX_STAT_INIT  0
->>   #define HWCTX_STAT_READY 1
->>   #define HWCTX_STAT_STOP  2
->> diff --git a/drivers/accel/amdxdna/npu4_regs.c 
->> b/drivers/accel/amdxdna/npu4_regs.c
->> index 4ca21db70478..a62234fd266d 100644
->> --- a/drivers/accel/amdxdna/npu4_regs.c
->> +++ b/drivers/accel/amdxdna/npu4_regs.c
->> @@ -90,6 +90,7 @@ const struct dpm_clk_freq npu4_dpm_clk_table[] = {
->>   const struct aie2_fw_feature_tbl npu4_fw_feature_table[] = {
->>       { .feature = AIE2_NPU_COMMAND, .min_minor = 15 },
->>       { .feature = AIE2_PREEMPT, .min_minor = 12 },
->> +    { .feature = AIE2_TEMPORAL_ONLY, .min_minor = 12 },
->
-> Similar to my comment on other thread, is this really NPU2,4,5,6 
-> feature?  Or it's 4+?
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/Makefile          |   1 -
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |   1 -
+ drivers/accel/amdxdna/amdxdna_pci_drv.h |   1 -
+ drivers/accel/amdxdna/npu2_regs.c       | 117 ------------------------
+ 4 files changed, 120 deletions(-)
+ delete mode 100644 drivers/accel/amdxdna/npu2_regs.c
 
-NPU2 is obsoleted. I will remove NPU2 later.
+diff --git a/drivers/accel/amdxdna/Makefile b/drivers/accel/amdxdna/Makefile
+index 6344aaf523fa..3fa0e74fd8f5 100644
+--- a/drivers/accel/amdxdna/Makefile
++++ b/drivers/accel/amdxdna/Makefile
+@@ -18,7 +18,6 @@ amdxdna-y := \
+ 	amdxdna_sysfs.o \
+ 	amdxdna_ubuf.o \
+ 	npu1_regs.o \
+-	npu2_regs.o \
+ 	npu4_regs.o \
+ 	npu5_regs.o \
+ 	npu6_regs.o
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index fcf7e7869007..7d59764d7869 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -51,7 +51,6 @@ MODULE_DEVICE_TABLE(pci, pci_ids);
+ 
+ static const struct amdxdna_device_id amdxdna_ids[] = {
+ 	{ 0x1502, 0x0,  &dev_npu1_info },
+-	{ 0x17f0, 0x0,  &dev_npu2_info },
+ 	{ 0x17f0, 0x10, &dev_npu4_info },
+ 	{ 0x17f0, 0x11, &dev_npu5_info },
+ 	{ 0x17f0, 0x20, &dev_npu6_info },
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+index 0d50c4c8b353..6580cb5ec7e2 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+@@ -137,7 +137,6 @@ struct amdxdna_client {
+ 
+ /* Add device info below */
+ extern const struct amdxdna_dev_info dev_npu1_info;
+-extern const struct amdxdna_dev_info dev_npu2_info;
+ extern const struct amdxdna_dev_info dev_npu4_info;
+ extern const struct amdxdna_dev_info dev_npu5_info;
+ extern const struct amdxdna_dev_info dev_npu6_info;
+diff --git a/drivers/accel/amdxdna/npu2_regs.c b/drivers/accel/amdxdna/npu2_regs.c
+deleted file mode 100644
+index ad0743fb06d5..000000000000
+--- a/drivers/accel/amdxdna/npu2_regs.c
++++ /dev/null
+@@ -1,117 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
+- */
+-
+-#include <drm/amdxdna_accel.h>
+-#include <drm/drm_device.h>
+-#include <drm/gpu_scheduler.h>
+-#include <linux/sizes.h>
+-
+-#include "aie2_pci.h"
+-#include "amdxdna_mailbox.h"
+-#include "amdxdna_pci_drv.h"
+-
+-/* NPU Public Registers on MpNPUAxiXbar (refer to Diag npu_registers.h) */
+-#define MPNPU_PWAITMODE                0x301003C
+-#define MPNPU_PUB_SEC_INTR             0x3010060
+-#define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+-#define MPNPU_PUB_SCRATCH0             0x301006C
+-#define MPNPU_PUB_SCRATCH1             0x3010070
+-#define MPNPU_PUB_SCRATCH2             0x3010074
+-#define MPNPU_PUB_SCRATCH3             0x3010078
+-#define MPNPU_PUB_SCRATCH4             0x301007C
+-#define MPNPU_PUB_SCRATCH5             0x3010080
+-#define MPNPU_PUB_SCRATCH6             0x3010084
+-#define MPNPU_PUB_SCRATCH7             0x3010088
+-#define MPNPU_PUB_SCRATCH8             0x301008C
+-#define MPNPU_PUB_SCRATCH9             0x3010090
+-#define MPNPU_PUB_SCRATCH10            0x3010094
+-#define MPNPU_PUB_SCRATCH11            0x3010098
+-#define MPNPU_PUB_SCRATCH12            0x301009C
+-#define MPNPU_PUB_SCRATCH13            0x30100A0
+-#define MPNPU_PUB_SCRATCH14            0x30100A4
+-#define MPNPU_PUB_SCRATCH15            0x30100A8
+-#define MP0_C2PMSG_73                  0x3810A24
+-#define MP0_C2PMSG_123                 0x3810AEC
+-
+-#define MP1_C2PMSG_0                   0x3B10900
+-#define MP1_C2PMSG_60                  0x3B109F0
+-#define MP1_C2PMSG_61                  0x3B109F4
+-
+-#define MPNPU_SRAM_X2I_MAILBOX_0       0x3600000
+-#define MPNPU_SRAM_X2I_MAILBOX_15      0x361E000
+-#define MPNPU_SRAM_X2I_MAILBOX_31      0x363E000
+-#define MPNPU_SRAM_I2X_MAILBOX_31      0x363F000
+-
+-#define MMNPU_APERTURE0_BASE           0x3000000
+-#define MMNPU_APERTURE1_BASE           0x3600000
+-#define MMNPU_APERTURE3_BASE           0x3810000
+-#define MMNPU_APERTURE4_BASE           0x3B10000
+-
+-/* PCIe BAR Index for NPU2 */
+-#define NPU2_REG_BAR_INDEX	0
+-#define NPU2_MBOX_BAR_INDEX	0
+-#define NPU2_PSP_BAR_INDEX	4
+-#define NPU2_SMU_BAR_INDEX	5
+-#define NPU2_SRAM_BAR_INDEX	2
+-/* Associated BARs and Apertures */
+-#define NPU2_REG_BAR_BASE	MMNPU_APERTURE0_BASE
+-#define NPU2_MBOX_BAR_BASE	MMNPU_APERTURE0_BASE
+-#define NPU2_PSP_BAR_BASE	MMNPU_APERTURE3_BASE
+-#define NPU2_SMU_BAR_BASE	MMNPU_APERTURE4_BASE
+-#define NPU2_SRAM_BAR_BASE	MMNPU_APERTURE1_BASE
+-
+-static const struct amdxdna_dev_priv npu2_dev_priv = {
+-	.fw_path        = "amdnpu/17f0_00/npu.sbin",
+-	.protocol_major = 0x6,
+-	.protocol_minor = 0x6,
+-	.rt_config	= npu4_default_rt_cfg,
+-	.dpm_clk_tbl	= npu4_dpm_clk_table,
+-	.fw_feature_tbl = npu4_fw_feature_table,
+-	.col_align	= COL_ALIGN_NATURE,
+-	.mbox_dev_addr  = NPU2_MBOX_BAR_BASE,
+-	.mbox_size      = 0, /* Use BAR size */
+-	.sram_dev_addr  = NPU2_SRAM_BAR_BASE,
+-	.hwctx_limit    = 16,
+-	.sram_offs      = {
+-		DEFINE_BAR_OFFSET(MBOX_CHANN_OFF, NPU2_SRAM, MPNPU_SRAM_X2I_MAILBOX_0),
+-		DEFINE_BAR_OFFSET(FW_ALIVE_OFF,   NPU2_SRAM, MPNPU_SRAM_X2I_MAILBOX_15),
+-	},
+-	.psp_regs_off   = {
+-		DEFINE_BAR_OFFSET(PSP_CMD_REG,    NPU2_PSP, MP0_C2PMSG_123),
+-		DEFINE_BAR_OFFSET(PSP_ARG0_REG,   NPU2_REG, MPNPU_PUB_SCRATCH3),
+-		DEFINE_BAR_OFFSET(PSP_ARG1_REG,   NPU2_REG, MPNPU_PUB_SCRATCH4),
+-		DEFINE_BAR_OFFSET(PSP_ARG2_REG,   NPU2_REG, MPNPU_PUB_SCRATCH9),
+-		DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU2_PSP, MP0_C2PMSG_73),
+-		DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU2_PSP, MP0_C2PMSG_123),
+-		DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU2_REG, MPNPU_PUB_SCRATCH3),
+-		DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU2_REG, MPNPU_PWAITMODE),
+-	},
+-	.smu_regs_off   = {
+-		DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU2_SMU, MP1_C2PMSG_0),
+-		DEFINE_BAR_OFFSET(SMU_ARG_REG,  NPU2_SMU, MP1_C2PMSG_60),
+-		DEFINE_BAR_OFFSET(SMU_INTR_REG, NPU2_SMU, MMNPU_APERTURE4_BASE),
+-		DEFINE_BAR_OFFSET(SMU_RESP_REG, NPU2_SMU, MP1_C2PMSG_61),
+-		DEFINE_BAR_OFFSET(SMU_OUT_REG,  NPU2_SMU, MP1_C2PMSG_60),
+-	},
+-	.hw_ops	=	 {
+-		.set_dpm = npu4_set_dpm,
+-	},
+-};
+-
+-const struct amdxdna_dev_info dev_npu2_info = {
+-	.reg_bar           = NPU2_REG_BAR_INDEX,
+-	.mbox_bar          = NPU2_MBOX_BAR_INDEX,
+-	.sram_bar          = NPU2_SRAM_BAR_INDEX,
+-	.psp_bar           = NPU2_PSP_BAR_INDEX,
+-	.smu_bar           = NPU2_SMU_BAR_INDEX,
+-	.first_col         = 0,
+-	.dev_mem_buf_shift = 15, /* 32 KiB aligned */
+-	.dev_mem_base      = AIE2_DEVM_BASE,
+-	.dev_mem_size      = AIE2_DEVM_SIZE,
+-	.vbnv              = "RyzenAI-npu2",
+-	.device_type       = AMDXDNA_DEV_TYPE_KMQ,
+-	.dev_priv          = &npu2_dev_priv,
+-	.ops               = &aie2_ops, /* NPU2 can share NPU1's callback */
+-};
+-- 
+2.34.1
 
-
-Thanks,
-
-Lizhi
-
->
->>       { 0 }
->>   };
->
