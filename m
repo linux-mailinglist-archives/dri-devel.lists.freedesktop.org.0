@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23134CC82BB
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D208CC82C1
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7936A10ECEE;
-	Wed, 17 Dec 2025 14:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B204C10ECF5;
+	Wed, 17 Dec 2025 14:25:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JXMif9lS";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YLwG9uu4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F297410ECEE
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:25:43 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461F410ED0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:25:50 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id E59221A2281;
- Wed, 17 Dec 2025 14:25:42 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 2FC654E41C61;
+ Wed, 17 Dec 2025 14:25:49 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id BABAD6072F;
- Wed, 17 Dec 2025 14:25:42 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 030396072F;
+ Wed, 17 Dec 2025 14:25:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0ED14102F0ADF; Wed, 17 Dec 2025 15:25:33 +0100 (CET)
+ with ESMTPSA id 92D3D102F0AD6; Wed, 17 Dec 2025 15:25:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765981537; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1765981543; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=L3SdKe0+mpvWx/w9cqykw3mICMMKsX8oYQHThmIAD9I=;
- b=JXMif9lSO/HF/s09Z1Fv0hHZ4pTNi4CKZu/x2lz6qckEmlQMvd3e74clghSiVAy/VJlD2z
- 89mRCz3WjXhcAu8cn4R1Bl5KZ5Wgw98CDF+5NQlJ4ZJRWlmq8biMo2JQoqDMnVy5gUckfy
- qpcjJBPDRf6fbXQYyySrTUBtosGl5woV7rcygMESq0eVZe+G+XYhbmfgmr857SUHbsg2fM
- pIz3N7O9MSgy7XSKHr0Bhd+6Npl1CxyS30Ny37oLhDxyAfaK+m2abu34ckkUYcsL+lSQxU
- MhWAWn11TVv6JIYOORcW4M1Gvys3HYYLGXgoO6D82JsfBQbzGay+qGWCVOER7A==
+ bh=zHGq9IXZnBW7eRUrSpb4u2mpy3tMbvnCqqPzrqz3jkY=;
+ b=YLwG9uu4miJcCiS4PauUoFGBmSt4Mu4Of8VQF1/watYpRV/stxgihcWzmBzdtEOqrKg9Ly
+ 8/oPQA2xCa+x6ofTLP1MFsLEq3Jmq7BU1EQZk/cxjnvqqEYw/JbAN2KBL8cb0USXNPnYCY
+ PdFUm+IY3U+L5PZpe2g7/lv4rwmcCF8rWEgIbDglIdKzooK5tEC1D6FSwxw7ybGKQRRB8d
+ SE6cn645lDh2cDY7Q0mGW18ZQfeqQkEckS5q30CEGHA996HMzSN1copF7e1hBLEPYStFCY
+ 1S+mdIgzNdfjxEdTd8RzpiwkgH/uoNYmdLVcz96dyNvfZDEvQB4EkzwI2nhQQQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Dec 2025 15:25:33 +0100
-Message-Id: <DF0K7GL30M9O.2Y1P92MSM6CEY@bootlin.com>
-Subject: Re: [PATCH v2 12/20] drm/tilcdc: Rename tilcdc_external to
- tilcdc_encoder
+Date: Wed, 17 Dec 2025 15:25:40 +0100
+Message-Id: <DF0K7JPSOKLU.3V1FT4LAZSPGB@bootlin.com>
+Subject: Re: [PATCH v2 13/20] drm/tilcdc: Remove the useless module list
+ support
 Cc: "Markus Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
  <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
@@ -61,8 +61,8 @@ To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, "Jyri Sarha"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
- <20251211-feature_tilcdc-v2-12-f48bac3cd33e@bootlin.com>
-In-Reply-To: <20251211-feature_tilcdc-v2-12-f48bac3cd33e@bootlin.com>
+ <20251211-feature_tilcdc-v2-13-f48bac3cd33e@bootlin.com>
+In-Reply-To: <20251211-feature_tilcdc-v2-13-f48bac3cd33e@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,15 +80,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu Dec 11, 2025 at 5:38 PM CET, Kory Maincent (TI.com) wrote:
-> The tilcdc_external module describes the encoder part of the tilcdc
-> driver. Rename it to tilcdc_encoder for better clarity and to make
-> the naming more consistent with DRM subsystem conventions, where
-> encoder-related files typically use "encoder" in their names.
+> The tilcdc driver previously supported a sub-module system where
+> external display drivers (panels, encoders) could register themselves
+> through tilcdc_module_init() and be automatically initialized through
+> a module list. This infrastructure became unused after the component
+> framework support and panel driver was removed.
 >
 > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 
-Makes sense!
+[...]
 
+> @@ -562,24 +533,7 @@ static struct platform_driver tilcdc_platform_driver=
+ =3D {
+>  		.of_match_table =3D tilcdc_of_match,
+>  	},
+>  };
+> -
+> -static int __init tilcdc_drm_init(void)
+> -{
+> -	if (drm_firmware_drivers_only())
+> -		return -ENODEV;
+> -
+> -	DBG("init");
+> -	return platform_driver_register(&tilcdc_platform_driver);
+> -}
+> -
+> -static void __exit tilcdc_drm_fini(void)
+> -{
+> -	DBG("fini");
+> -	platform_driver_unregister(&tilcdc_platform_driver);
+> -}
+> -
+> -module_init(tilcdc_drm_init);
+> -module_exit(tilcdc_drm_fini);
+> +module_platform_driver(tilcdc_platform_driver);
+
+Is this hunk related to the removal of the module list? Looks like it
+should be a separate patch.
+
+With that hunk removed (or kept if I'm wrong and it should stay):
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 --
