@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA7BCC82B5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:25:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23134CC82BB
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 15:25:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6079D10ECEA;
-	Wed, 17 Dec 2025 14:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7936A10ECEE;
+	Wed, 17 Dec 2025 14:25:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="tLykfCc8";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JXMif9lS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787B410ECEA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:25:33 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F297410ECEE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 14:25:43 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 3717C4E41C61;
- Wed, 17 Dec 2025 14:25:32 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id E59221A2281;
+ Wed, 17 Dec 2025 14:25:42 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0B0F86072F;
- Wed, 17 Dec 2025 14:25:32 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BABAD6072F;
+ Wed, 17 Dec 2025 14:25:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 43D28102F0AD5; Wed, 17 Dec 2025 15:25:22 +0100 (CET)
+ with ESMTPSA id 0ED14102F0ADF; Wed, 17 Dec 2025 15:25:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765981526; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1765981537; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=pkkntko0/l/7BPDpuF0pf6izzdbRjFWASUNfjk/Qw38=;
- b=tLykfCc8D14QMzo5lHXkB55+u0S5BekWKurrrTQ12TaKTXYK8xZuAYGpbBVu7BKd7zpYHW
- tXQLY+2YvW43cq//zGcStslA6/n71lkD7YpA0n95OD0wogCaI3biW9gRcx7pLcIrrHoELh
- 9LFFGYw2ChnQ5bLoWJ7Wloc1qjihJ8Z9d1Giyn5ZbuaPI3y2C4JeA+6xqMxXeQQq9tumtY
- HM5AMvd0UY0nevNYM4RQKMqUen6y5okHEsX33EBuk341kiXn1Glb2cErAZE4wvcSTNztFY
- 7Jtp3iBrD5XcHc6nFWZVZPvKLpJa93SnHfuoHAxry4c3uNuRmowK9ASxCFAvCA==
+ bh=L3SdKe0+mpvWx/w9cqykw3mICMMKsX8oYQHThmIAD9I=;
+ b=JXMif9lSO/HF/s09Z1Fv0hHZ4pTNi4CKZu/x2lz6qckEmlQMvd3e74clghSiVAy/VJlD2z
+ 89mRCz3WjXhcAu8cn4R1Bl5KZ5Wgw98CDF+5NQlJ4ZJRWlmq8biMo2JQoqDMnVy5gUckfy
+ qpcjJBPDRf6fbXQYyySrTUBtosGl5woV7rcygMESq0eVZe+G+XYhbmfgmr857SUHbsg2fM
+ pIz3N7O9MSgy7XSKHr0Bhd+6Npl1CxyS30Ny37oLhDxyAfaK+m2abu34ckkUYcsL+lSQxU
+ MhWAWn11TVv6JIYOORcW4M1Gvys3HYYLGXgoO6D82JsfBQbzGay+qGWCVOER7A==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Dec 2025 15:25:21 +0100
-Message-Id: <DF0K7B1PN30B.272AQ4V3PA162@bootlin.com>
-Subject: Re: [PATCH v2 11/20] drm/tilcdc: Rename external_encoder and
- external_connector to encoder and connector
+Date: Wed, 17 Dec 2025 15:25:33 +0100
+Message-Id: <DF0K7GL30M9O.2Y1P92MSM6CEY@bootlin.com>
+Subject: Re: [PATCH v2 12/20] drm/tilcdc: Rename tilcdc_external to
+ tilcdc_encoder
 Cc: "Markus Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
  <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
@@ -61,8 +61,8 @@ To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, "Jyri Sarha"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
- <20251211-feature_tilcdc-v2-11-f48bac3cd33e@bootlin.com>
-In-Reply-To: <20251211-feature_tilcdc-v2-11-f48bac3cd33e@bootlin.com>
+ <20251211-feature_tilcdc-v2-12-f48bac3cd33e@bootlin.com>
+In-Reply-To: <20251211-feature_tilcdc-v2-12-f48bac3cd33e@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,33 +80,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu Dec 11, 2025 at 5:38 PM CET, Kory Maincent (TI.com) wrote:
-> Remove the "external_" prefix from encoder and connector members in the
-> tilcdc driver. These are internal driver structures and the "external"
-> naming is misleading. The simpler names better reflect that these are
-> the primary encoder and connector managed by this driver.
->
-> Also rename tilcdc_attach_external_device() to tilcdc_encoder_create()
-> for consistency and to better describe the function's purpose.
+> The tilcdc_external module describes the encoder part of the tilcdc
+> driver. Rename it to tilcdc_encoder for better clarity and to make
+> the naming more consistent with DRM subsystem conventions, where
+> encoder-related files typically use "encoder" in their names.
 >
 > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 
-[...]
-
-> @@ -65,13 +65,13 @@ int tilcdc_attach_external_device(struct drm_device *=
-ddev)
->  	else if (ret)
->  		return ret;
->
-> -	priv->external_encoder =3D devm_kzalloc(ddev->dev,
-> -					      sizeof(*priv->external_encoder),
-> -					      GFP_KERNEL);
-> -	if (!priv->external_encoder)
-> +	priv->encoder =3D devm_kzalloc(ddev->dev,
-> +				     sizeof(*priv->encoder),
-> +				     GFP_KERNEL);
-
-It would be nice to rewrap this and other lines that would now probably fit
-in 100 chars. But not that important, so with or without that:
+Makes sense!
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
