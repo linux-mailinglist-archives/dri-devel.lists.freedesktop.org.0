@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B72CC70C1
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F61CC70CD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C42310EC04;
-	Wed, 17 Dec 2025 10:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AB810EC0F;
+	Wed, 17 Dec 2025 10:20:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aQeoRHM+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fWTsxN7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB7D10EC04
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:19:45 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6203D10EC0F
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:20:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 685A84432A;
- Wed, 17 Dec 2025 10:19:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBFFC19421;
- Wed, 17 Dec 2025 10:19:44 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C59AE60555;
+ Wed, 17 Dec 2025 10:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F227FC116B1;
+ Wed, 17 Dec 2025 10:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966785;
- bh=fJfYyQsSeLQOss48wj6CAg5BxlIApsVGcX6BEMY+KK8=;
+ s=k20201202; t=1765966816;
+ bh=uJcpfVPMB5gnCFhr0GcBKgfEw4ZGLD1pSQ+VPptDnGA=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=aQeoRHM+TibsLmXwFNHe2NxMIf97IfBwI3Pg30hMh9GSe9zJkjaTYVqnVFvUzK1eO
- hqEQHweDaAiEYuLlPpORiJkPZIkXeo6wCE9zochTalRWSUuAlc5hFIsrO83aOjMHQc
- dRDBXCaydtBWbBPLhu4uiRNN5MNGkCxbiijFFTpwoKsMjBiyz7fSzN05w0kR1HecYr
- 2BzJ+YfrqyRk3+VKVNamL+je8lR7xEqaXbUUbdtOq2oWqaScH4kTOjKtiYYWZwhkAP
- PrQCawA95SgM7kkFgsvUlGK8wVa42zlA4iNvg64opzMHA23KfnBNWF7wPh3QPeq1fZ
- N57d79xsvAOMQ==
-Message-ID: <aff5a75a33e6e111347a7a79ebc26ddc@kernel.org>
-Date: Wed, 17 Dec 2025 10:19:42 +0000
+ b=fWTsxN7hsVbEvFoHdM6FW8j9okypSLWVz4W+Thu9wMM85IQfe2/WjcxyGZdvVTO8E
+ p/okodvwcbtKo+t9xQw4ARUx93vm5VZCuXD5CucY9HkDBc22WjJFHVTepCCs79M8MK
+ lac76+FdHwSrHTregOjA7q4jZjIzZCJl7OcB+38XgVVjAHePMdeLej+Ppksd1NqQjq
+ PiBLkLZ3qgP1x/4u0Loq8WswRoO+SIVHu+8XLWZ4ecn3Fw70JwMH8+q/rex5V5pKQK
+ iIQZTA4QTqoqeBnO2pNWrd28eBBgfZLtjoZWfWnQ0WDquBqA3ald1dm9uphm3D0HlJ
+ woHzxM1OGr8IQ==
+Message-ID: <8c0e9399c1f8bb388eb3f0ee2cf37089@kernel.org>
+Date: Wed, 17 Dec 2025 10:20:14 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 14/22] drm/bridge: imx8qxp-pxl2dpi: remove excess
- error message
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-14-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-14-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 15/22] drm/bridge: imx8qxp-pxl2dpi:
+ imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-15-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-15-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -60,7 +60,7 @@ Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
  "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,13 +76,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:47 +0100, Luca Ceresoli wrote:
-> imx8qxp_pxl2dpi_find_next_bridge() already emits a DRM_DEV_ERROR() for
-> every error except -EPROBE_DEFER. The caller emits another one, which is
-> redundant. Remove the message in the caller and keep the two in
-> imx8qxp_pxl2dpi_find_next_bridge() as they are more informative about the
-> error cause.
->=20
+On Tue, 16 Dec 2025 18:58:48 +0100, Luca Ceresoli wrote:
+> In preparation for using bridge->next_bridge, we need to ensure that it
+> will never contain anything but NULL or a valid bridge pointer. Current
+> code stores an ERR_PTR when imx8qxp_pxl2dpi_find_next_bridge() errors
+> out. Instead of fixing that after the facts in the caller, change the
+> function to internally set the next_pointer and just return an int error
+> 
 > [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
