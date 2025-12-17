@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2FFCC6D5F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 10:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FFDCC6D62
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 10:39:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CD010E583;
-	Wed, 17 Dec 2025 09:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61A7F10E5B0;
+	Wed, 17 Dec 2025 09:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="BDJp85HE";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="MobRGV91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49247.qiye.163.com (mail-m49247.qiye.163.com
- [45.254.49.247])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4E210E5B0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 09:38:56 +0000 (UTC)
+Received: from mail-m3274.qiye.163.com (mail-m3274.qiye.163.com
+ [220.197.32.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA31A10EBCD
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 09:38:58 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2d931e522;
- Wed, 17 Dec 2025 17:33:50 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2d931e535;
+ Wed, 17 Dec 2025 17:33:53 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: andrzej.hajda@intel.com,
 	neil.armstrong@linaro.org,
@@ -37,25 +37,25 @@ Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
  Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v8 06/18] drm/exynos: exynos_dp: Remove
- &exynos_dp_device.ptn_bridge
-Date: Wed, 17 Dec 2025 17:33:09 +0800
-Message-Id: <20251217093321.3108939-7-damon.ding@rock-chips.com>
+Subject: [PATCH v8 07/18] drm/exynos: exynos_dp: Remove unused
+ &exynos_dp_device.connector
+Date: Wed, 17 Dec 2025 17:33:10 +0800
+Message-Id: <20251217093321.3108939-8-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251217093321.3108939-1-damon.ding@rock-chips.com>
 References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9b2ba8a23203a3kunma9c945a29ee4f
+X-HM-Tid: 0a9b2ba8ac1003a3kunma9c945a29ee70
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGRlDGlZJHU0fGUpDHkJLSxhWFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkxCGlZJTUtPQ0tJGk1IQxhWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
  1VSktLVUpCWQY+
 DKIM-Signature: a=rsa-sha256;
- b=BDJp85HEhMaDOpeHGrEOzSzNTA0RR6hb6Syyh5pWs8GxrXyOBKvl0gMkIOjSO2zrxID0krnfsbiBBFHru4SR+i2s1wAwjSm0AUcMQxr4MrlDnSqJQ8Bu29sXTkKFZ6KbzOfbN2fXW8kXVYSjti/hQfen2X79tUQiZADN2De1Z8o=;
+ b=MobRGV913OHfd1e3iHyPttOR5Zv2K6hCkDboCGBRxqD7rWi2DP/+CwIZWxi/5NPey9a4zI5gjRhzw2WsCgx5JmuspawyUMRxNuyLtF6oqMbvUQ/q3ra42/bn4T9WSUnUg2AAwyD9Pkzo9KtLAjwNNrbYLcCCKYH81oOLFDrmZKs=;
  s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=k+hsBTo1cF7B1n6771fI4pZV7uwBzh/cvLCWbFf2xZQ=;
+ bh=W7hscjxrhMolqP2gEq4HitXov1btGjuXKeTkNPaU3R8=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,74 +72,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use &analogix_dp_plat_data.bridge instead of &exynos_dp_device.ptn_bridge
-directly.
+The &exynos_dp_device.connector is assigned in exynos_dp_bridge_attach()
+but never used. It should make sense to remove it.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-------
-
-Changes in v3:
-- Fix the typographical error for &dp->plat_data.bridge.
-
-Changes in v4:
-- Rename the &analogix_dp_plat_data.bridge to
-  &analogix_dp_plat_data.next_bridge.
 ---
- drivers/gpu/drm/exynos/exynos_dp.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+
+Changes in v5:
+- Fix the 'drm/bridge' to 'drm/exynos' in commit message.
+---
+ drivers/gpu/drm/exynos/exynos_dp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 5bcf41e0bd04..f469ac5b3c2a 100644
+index f469ac5b3c2a..e20513164032 100644
 --- a/drivers/gpu/drm/exynos/exynos_dp.c
 +++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -36,7 +36,6 @@
+@@ -35,7 +35,6 @@
+ 
  struct exynos_dp_device {
  	struct drm_encoder         encoder;
- 	struct drm_connector       *connector;
--	struct drm_bridge          *ptn_bridge;
+-	struct drm_connector       *connector;
  	struct drm_device          *drm_dev;
  	struct device              *dev;
  
-@@ -106,8 +105,8 @@ static int exynos_dp_bridge_attach(struct analogix_dp_plat_data *plat_data,
- 	dp->connector = connector;
+@@ -102,8 +101,6 @@ static int exynos_dp_bridge_attach(struct analogix_dp_plat_data *plat_data,
+ 	struct exynos_dp_device *dp = to_dp(plat_data);
+ 	int ret;
  
- 	/* Pre-empt DP connector creation if there's a bridge */
--	if (dp->ptn_bridge) {
--		ret = drm_bridge_attach(&dp->encoder, dp->ptn_bridge, bridge,
-+	if (plat_data->next_bridge) {
-+		ret = drm_bridge_attach(&dp->encoder, plat_data->next_bridge, bridge,
- 					0);
- 		if (ret)
- 			return ret;
-@@ -155,7 +154,7 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
- 
- 	dp->drm_dev = drm_dev;
- 
--	if (!dp->plat_data.panel && !dp->ptn_bridge) {
-+	if (!dp->plat_data.panel && !dp->plat_data.next_bridge) {
- 		ret = exynos_dp_dt_parse_panel(dp);
- 		if (ret)
- 			return ret;
-@@ -232,6 +231,7 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 
- 	/* The remote port can be either a panel or a bridge */
- 	dp->plat_data.panel = panel;
-+	dp->plat_data.next_bridge = bridge;
- 	dp->plat_data.dev_type = EXYNOS_DP;
- 	dp->plat_data.power_on = exynos_dp_poweron;
- 	dp->plat_data.power_off = exynos_dp_poweroff;
-@@ -239,8 +239,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	dp->plat_data.get_modes = exynos_dp_get_modes;
- 	dp->plat_data.skip_connector = !!bridge;
- 
--	dp->ptn_bridge = bridge;
+-	dp->connector = connector;
 -
- out:
- 	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
- 	if (IS_ERR(dp->adp))
+ 	/* Pre-empt DP connector creation if there's a bridge */
+ 	if (plat_data->next_bridge) {
+ 		ret = drm_bridge_attach(&dp->encoder, plat_data->next_bridge, bridge,
 -- 
 2.34.1
 
