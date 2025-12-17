@@ -2,42 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47369CC75C8
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 12:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E713CC79EC
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 13:31:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDDCF10E325;
-	Wed, 17 Dec 2025 11:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45A110ECB3;
+	Wed, 17 Dec 2025 12:31:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="H1A/aMKO";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ArXsGFPk";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC51110E325
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 11:38:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02A1514BF;
- Wed, 17 Dec 2025 03:37:58 -0800 (PST)
-Received: from [10.57.45.201] (unknown [10.57.45.201])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 363863F73B;
- Wed, 17 Dec 2025 03:38:02 -0800 (PST)
-Message-ID: <36909139-3ba1-4f29-afa9-08a98ffc018c@arm.com>
-Date: Wed, 17 Dec 2025 11:37:59 +0000
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF7010E2EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 12:31:28 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BHCKrtb3203916
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 12:31:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ nxVppHwCu+8rzGZFO+lxpcmtmdfr8y4QCMH3zpU7R4s=; b=H1A/aMKOhk/+gM5V
+ mdApKa3vGivdomtYsqENHApdIbqjY7Tuy/zC6Vl9TqwQNDkpmrdRW/HgVnaMNqRJ
+ 5vB5KXP2X3D/HtzMTavuPd9BWDda9qAfH4VbJzv3zqKomr0XwOqReMQK43TSJvdp
+ gMtHjyv/LmFlN8ua1ASvfTXDgsACSV04uCauTgSV+nPLkXPnBmABMkVh97mzCaL+
+ bCHi65VwY2PYWBzUsa0oGwR5KYP5SFW9fREAZqEkddqspy9f7hu+9npIV+stBNed
+ AuiQUadRg1SfGv+6E1jlFobUacL4uUOkOBumYa7GkuYR91e6L1AtkK4SUywddCzO
+ f7HgFg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3j39j09r-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 12:31:27 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8b5ff26d6a9so82124485a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 04:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765974687; x=1766579487;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nxVppHwCu+8rzGZFO+lxpcmtmdfr8y4QCMH3zpU7R4s=;
+ b=ArXsGFPkOysAIC0JZoDedG+xCSjfD61FUqg9EX2BkRcbSag+7PHiTjkX0uHO0OVMxV
+ 2+QWZn1oI4S+LwvcIs2xdyOFs1EfZWOmozjOXwgm87XwzsQjfd6GdxEqdbRTwsWmJIqp
+ LPAF8HxKefcGRtn2N36IFCf8HTdA8gQDUlYda8otpycPi5z+Fn0DfJVjf6WkxHuKiHno
+ bj7P3dSrGpGqzmI9YzmAvIq/slDu35Kf0VK3dpBg/DF7jMqYj2SEwTqip4H/YuDGYgxP
+ VxbFL9eYrvKhW7k/OJ1PizVssL8enSiyr/dON9h79dHKXCIYdtuZahY42HMddIc/V9d2
+ zvvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765974687; x=1766579487;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nxVppHwCu+8rzGZFO+lxpcmtmdfr8y4QCMH3zpU7R4s=;
+ b=buy7591wJV/KgSB8sdGGSFNcAgwuwba3ryw51c27nmNKGI4rqqZ4ZfjtSPL9+AbOo3
+ 30mRwoSo8OLAZ7i1lNbzSaljhnuOwWjlZXr/az/esyhn11valkOxMK1x7OmMsFNwc05a
+ goeWKOFiFBZWAF6obqLhegy3u05zsTchNDg01pBhUnfDnjkUg3nnMeNTGFq2zTn0kW4F
+ EyDJxzFeR3Q1aUeeaxFcq74eMhIcxsba+LCO+FpZyhd0/8YWE7Vwi61GfvXcRWhiZLqo
+ 5ud0KX1WGfnlMpli5CuU0ESMRz1AUI0vx5WW6tbUwQTfxPLkdSoYPe5e5v2JWWF0qTxg
+ WCuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX1j/+aRoTs5xQ69UdQe9ep6ruo9pZGd9DF5ELWrEg8tl+y3wcDPLyecKbcbsWtuonAE99eQjxi4TI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXitU/ewglkwdmtDiysb5WDXRNeuE7VS9o4E6Jolej+aQhkO2J
+ wCk7sGNmQrpxY+GF77+Iv6Z5RIKsGVDN2SQfW6SQPN3Ya6D+bz+JlfQpjygDqlr3pFBYtcVg0IB
+ IoZhf8y84sz7U+NvHvAJzUEcG685kThVC/+EmLZo2HZtMduqEGoq9Dhb5WNhpRmgCkoy4Qcc=
+X-Gm-Gg: AY/fxX6XKCFYFp6DhPgNP110K+npxQdjWdATgYXT8nY3FARJ6bHsDxfWdN+Hg4p+gGg
+ WpfQNgBQSg+RrL9MkS1hGGepBpNMifZPWimKD6ZOO9rGmniD+e18YZVhKBh98zaZ/2Ng2QqMBdP
+ iJ3uwM4s/e2zqnmmO9lYhOl0MMxmiB0U/GvuJJJkQ221QX+zMdBUT5XLhIwEPKZ95CdcfchWJZQ
+ kgrfUrUJcB4TdXmM9V4PhEEzSWfb/GqLOF9kj+cvr3MoR49FQY3HCb2GFr7jEVC95rTzXG1whZo
+ vJlDYUkOVjuKwnAXbeURiGcAH1yMFyCJKN7wVPdyUQQRZ9uKMJl87LGr8SBjqX0QkC/HHhrbdDy
+ 3Yw6uCHPO7Rz88A5Z/hiFtpqcqegupPYUBc1k70TkCUXaB95JAjLc4QlXOklW5t9sQA==
+X-Received: by 2002:ac8:584a:0:b0:4d0:3985:e425 with SMTP id
+ d75a77b69052e-4f1d05c4201mr187452771cf.7.1765974686659; 
+ Wed, 17 Dec 2025 04:31:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHnU9DbqrhK2XEvuuPlNpfpmPEgKFxchCz9pi8QCpDey3PqjG8IsmXy18lP1a+VjNcjkHkDyw==
+X-Received: by 2002:ac8:584a:0:b0:4d0:3985:e425 with SMTP id
+ d75a77b69052e-4f1d05c4201mr187452261cf.7.1765974686190; 
+ Wed, 17 Dec 2025 04:31:26 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b80013c7ea0sm321246666b.65.2025.12.17.04.31.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Dec 2025 04:31:25 -0800 (PST)
+Message-ID: <7e1b7b46-f4d6-4028-8518-80e954dbb7cf@oss.qualcomm.com>
+Date: Wed, 17 Dec 2025 13:31:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/5] drm/panthor: Store queue fault and fatal
- information
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: nd@arm.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251215115457.2137485-1-lukas.zapolskas@arm.com>
- <20251215115457.2137485-3-lukas.zapolskas@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251215115457.2137485-3-lukas.zapolskas@arm.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+ <9141e67d-2837-4e73-bd3a-9a9c5b8f72f9@oss.qualcomm.com>
+ <d087dfbc-fcd9-4f01-8cc4-b206c2e87f28@oss.qualcomm.com>
+ <6dc39f3e-0a2f-42ca-a088-4b62a8153001@oss.qualcomm.com>
+ <ed4b1e3c-bb30-42fd-a171-12121db2dbec@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <ed4b1e3c-bb30-42fd-a171-12121db2dbec@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA5NyBTYWx0ZWRfX3v48uaOSrPbI
+ P5sCF0vtDS27vsVtt1AdcO21fNwHUJmcB9pIVAtf1n5bhOhH0mwy07garWyuP1zVk81vxLqwbPl
+ N0SVVYlb4VF089QUOEliXZ7bTuo57tL5LxAlwQ3mR5gwLTU0Cyyz3GGOsSV8ayye/hbtoZCd2Ig
+ Rq1hSVw47VJC4q3oTSD5oPl2696+t3r7uRQI4uFrXVGHJcQp/65gVkV4CTTE5+5l4syuvWZHX15
+ mxFRxeUSf/IAr+6fjILlQgZXqWLhcRHqK8izv/Ic2DBpumll2Ttwjf0c+/806F3Fks2DRRtPK/d
+ fneigsQcxp1+7J4CETZDWrhH4zJI8xh5Zmr4surPyvMXeeqdXnQuUAb3Jg0DdQ9AUMCBQWUL+Vy
+ Pwogwhr9dlBdYKpOmVIWyGvnewGFfg==
+X-Proofpoint-ORIG-GUID: SYvqijVMdC91GVLPRgyHaO286eBWb8Ao
+X-Proofpoint-GUID: SYvqijVMdC91GVLPRgyHaO286eBWb8Ao
+X-Authority-Analysis: v=2.4 cv=ToXrRTXh c=1 sm=1 tr=0 ts=6942a29f cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=trE_h3K6eqWXygPE4hIA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ spamscore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,328 +163,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/12/2025 11:54, Lukas Zapolskas wrote:
-> A queue may encounter either one fatal fault or any number of
-> recoverable faults during execution. The CSF FW provides the
-> FAULT/FATAL registers, indicating the fault type, and another
-> set of registers providing more metadata about why the fault
-> was generated. Storing the information allows it to be
-> reported to the user using the GROUP_GET_STATE ioctl.
+On 12/5/25 3:05 PM, Akhil P Oommen wrote:
+> On 12/5/2025 7:22 PM, Konrad Dybcio wrote:
+>> On 12/5/25 2:41 PM, Akhil P Oommen wrote:
+>>> On 12/4/2025 7:01 PM, Konrad Dybcio wrote:
+>>>> On 12/4/25 11:13 AM, Akhil P Oommen wrote:
+>>>>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+>>>>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+>>>>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+>>>>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>>
+>>>>>>>> Add gpu and rgmu nodes for qcs615 chipset.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>>>>>>> ---
+>>>>>>>
+>>>>>>> [...]
+>>>>>>>
+>>>>>>>> +			gpu_opp_table: opp-table {
+>>>>>>>> +				compatible = "operating-points-v2";
+>>>>>>>> +
+>>>>>>>> +				opp-845000000 {
+>>>>>>>> +					opp-hz = /bits/ 64 <845000000>;
+>>>>>>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>>>>>>> +					opp-peak-kBps = <7050000>;
+>>>>>>>> +				};
+>>>>>>>
+>>>>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+>>>>>>> or mobile parts specifically?
+>>>>>>
+>>>>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+>>>>>> here.
+>>>>>
+>>>>> The IoT/Auto variants have a different frequency plan compared to the
+>>>>> mobile variant. I reviewed the downstream code and this aligns with that
+>>>>> except the 290Mhz corner. We can remove that one.
+>>>>>
+>>>>> Here we are describing the IoT variant of Talos. So we can ignore the
+>>>>> speedbins from the mobile variant until that is supported.
+>>>>
+>>>> Writing this reply took probably only slightly less time than fixing
+>>>> the issue.. I really see no point in kicking the can down the road
+>>>
+>>> We don't know the speedbin fuse register and the values applicable for
+>>> this IoT chipset. Currently, there is only a single variant and no SKUs
+>>> for this chipset. We can add them when those decisions are taken by the
+>>> relevant folks from Product team.
+>>
+>> If there's only a single variant right now, could you simply read back
+>> the value and report it where necessary to make sure the internal teams
+>> are aware?
+>>
+>> There's surely *some* value fused into the cell..
 > 
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 116 +++++++++++++++++-------
->  include/uapi/drm/panthor_drm.h          |  17 ++++
->  2 files changed, 100 insertions(+), 33 deletions(-)
+> We don't know which register to read at the moment. It could be the hard
+> fuse register or some soft fuse register at an arbitrary location.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index eb8841beba39..a77399e95620 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -342,6 +342,14 @@ struct panthor_syncobj_64b {
->  	u32 pad;
->  };
->  
-> +struct panthor_queue_event {
-> +	/** @link: Link to a list of Panthor event errors. */
-> +	struct list_head link;
-> +
-> +	/** @event: The event containing all of the fault/fatal metadata. */
-> +	struct drm_panthor_queue_event event;
-> +};
-> +
->  /**
->   * struct panthor_queue - Execution queue
->   */
-> @@ -485,6 +493,9 @@ struct panthor_queue {
->  		/** @seqno: Index of the next available profiling information slot. */
->  		u32 seqno;
->  	} profiling;
-> +
-> +	/** @events: List of fault or fatal events reported on this queue. */
-> +	struct list_head events;
->  };
->  
->  /**
-> @@ -918,6 +929,8 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
->  
->  static void group_free_queue(struct panthor_group *group, struct panthor_queue *queue)
->  {
-> +	struct panthor_queue_event *evt, *tmp;
-> +
->  	if (IS_ERR_OR_NULL(queue))
->  		return;
->  
-> @@ -934,6 +947,11 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
->  
->  	panthor_queue_put_syncwait_obj(queue);
->  
-> +	list_for_each_entry_safe(evt, tmp, &queue->events, link) {
-> +		list_del(&evt->link);
-> +		kfree(evt);
-> +	}
-> +
->  	panthor_kernel_bo_destroy(queue->ringbuf);
->  	panthor_kernel_bo_destroy(queue->iface.mem);
->  	panthor_kernel_bo_destroy(queue->profiling.slots);
-> @@ -1476,6 +1494,69 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
->  	return 0;
->  }
->  
-> +static struct panthor_queue_event *
-> +panthor_queue_create_event(unsigned long event_type, u32 cs_id, u32 exception)
-> +{
-> +	struct panthor_queue_event *event;
-> +
-> +	event = kzalloc(sizeof(*event), GFP_KERNEL);
-> +	if (!event)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	event->event = (struct drm_panthor_queue_event){
-> +		.queue_id = cs_id,
-> +		.event_type = event_type,
-> +		.exception_type = CS_EXCEPTION_TYPE(exception),
-> +		.exception_data = CS_EXCEPTION_DATA(exception),
-> +	};
-> +	INIT_LIST_HEAD(&event->link);
-> +
-> +	return event;
-> +}
-> +
-> +#define PANTHOR_DEFINE_EVENT_INFO(__type, __msg, __event) \
-> +static u32 panthor_queue_set_ ## __type ## _info(struct panthor_device *ptdev,			\
-> +						 struct panthor_group *group,			\
-> +						 u32 csg_id, u32 cs_id)				\
-> +{												\
-> +	struct panthor_scheduler *sched = ptdev->scheduler;					\
-> +	struct panthor_fw_cs_iface *iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);	\
-> +	struct panthor_queue *queue = group && cs_id < group->queue_count ?			\
-> +				      group->queues[cs_id] : NULL;				\
-> +	struct panthor_queue_event *event;							\
-> +												\
-> +	lockdep_assert_held(&sched->lock);							\
-> +												\
-> +	if (!iface || !queue)									\
-> +		return 0;									\
-> +												\
-> +	const u32 exception = iface->output->__type;						\
-> +	const u64 info = iface->output->__type ## _info;					\
-> +												\
-> +	event = panthor_queue_create_event((__event), cs_id, exception);			\
-> +												\
-> +	if (!IS_ERR(event))									\
-> +		list_add_tail(&event->link, &queue->events);					\
-> +	else											\
-> +		drm_err(&ptdev->base, "Could not store fault notification, err = %ld",		\
-> +			PTR_ERR(event));							\
-> +												\
-> +	drm_warn(&ptdev->base,									\
-> +		 "CSG slot %d CS slot: %d\n"							\
-> +		 "CS_" __msg  ".EXCEPTION_TYPE: 0x%x (%s)\n"					\
-> +		 "CS_" __msg  ".EXCEPTION_DATA: 0x%x\n"						\
-> +		 "CS_" __msg  "_INFO.EXCEPTION_DATA: 0x%llx\n",					\
-> +		 csg_id, cs_id,									\
-> +		 (unsigned int)CS_EXCEPTION_TYPE(exception),					\
-> +		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(exception)),			\
-> +		 (unsigned int)CS_EXCEPTION_DATA(exception), info);				\
-> +												\
-> +	return exception;									\
-> +}
-> +
-> +PANTHOR_DEFINE_EVENT_INFO(fatal, "FATAL", DRM_PANTHOR_GROUP_STATE_FATAL_FAULT);
-> +PANTHOR_DEFINE_EVENT_INFO(fault, "FAULT", DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT);
+> It is better to leave it as it is for now. Who knows, maybe there won't
+> any SKUs at all.
 
-I can't say I'm particularly keen on a massive macro defining functions 
-like this - it makes the code harder to read and breaks tools like 
-ctags. In this case it's not much more code to just make a generic 
-version (untested):
+Please don't take it the wrong way, but who else would know that? :/
 
----8<---
-static u32 panthor_queue_set_info(struct panthor_device *ptdev,
-				  struct panthor_group *group,
-				  u32 csg_id, u32 cs_id,
-				  int event)
-{
-	struct panthor_scheduler *sched = ptdev->scheduler;
-	struct panthor_fw_cs_iface *iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
-	struct panthor_queue *queue = group && cs_id < group->queue_count ?
-				      group->queues[cs_id] : NULL;
-	struct panthor_queue_event *event;
-	u32 exception, info;
-	const char *type;
-
-	lockdep_assert_held(&sched->lock);
-
-	if (!iface || !queue)
-		return 0;
-
-	switch (event) {
-	case DRM_PANTHOR_GROUP_STATE_FATAL_FAULT:
-		exception = iface->output->fatal;
-		info = iface->output->fatal_info;
-		type = "FATAL";
-		break;
-	case DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT:
-		exception = iface->output->fault;
-		info = iface->output->fault_info;
-		type = "FAULT";
-		break;
-	default:
-		WARN_ON(1);
-		return 0;
-	}
-
-	event = panthor_queue_create_event(event, cs_id, exception);
-
-	if (!IS_ERR(event))
-		list_add_tail(&event->link, &queue->events);
-	else
-		drm_err(&ptdev->base, "Could not store fault notification, err = %ld",
-			PTR_ERR(event));
-
-	drm_warn(&ptdev->base,
-		 "CSG slot %d CS slot: %d\n"
-		 "CS_%s.EXCEPTION_TYPE: 0x%x (%s)\n"
-		 "CS_%s.EXCEPTION_DATA: 0x%x\n"
-		 "CS_%s_INFO.EXCEPTION_DATA: 0x%llx\n",
-		 csg_id, cs_id,
-		 type, (unsigned int)CS_EXCEPTION_TYPE(exception),
-		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(exception)),
-		 type, (unsigned int)CS_EXCEPTION_DATA(exception),
-		 type, info);
-
-	return exception;
-}
-
-static u32 panthor_queue_set_fatal_info(struct panthor_device *ptdev,
-					struct panthor_group *group,
-					u32 csg_id, u32 cs_id)
-{
-	return panthor_queue_set_info(ptdev, group, csg_id, cs_id,
-				      DRM_PANTHOR_GROUP_STATE_FATAL_FAULT);
-}
-
-static u32 panthor_queue_set_fault_info(struct panthor_device *ptdev,
-					struct panthor_group *group,
-					u32 csg_id, u32 cs_id)
-{
-	return panthor_queue_set_info(ptdev, group, csg_id, cs_id,
-				      DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT);
-}
----8<---
-
-I'm also wondering if "set_fault_info" is the right wording. Both are 
-'faults' (FATAL_FAULT vs QUEUE_FAULT). I also suspect that the helper
-wrappers are unneeded considering we only have the single call site
-for each.
-
-The drm_warn() message could also be simplified - we don't actually
-need the 'official' register names output, so we could just have a
-"is fatal" flag.
-
-Thanks,
-Steve
-
-> +
->  static void
->  cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
->  				   u32 csg_id, u32 cs_id)
-> @@ -1483,15 +1564,11 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  	struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
->  	struct panthor_group *group = csg_slot->group;
-> -	struct panthor_fw_cs_iface *cs_iface;
->  	u32 fatal;
-> -	u64 info;
->  
->  	lockdep_assert_held(&sched->lock);
->  
-> -	cs_iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
-> -	fatal = cs_iface->output->fatal;
-> -	info = cs_iface->output->fatal_info;
-> +	fatal = panthor_queue_set_fatal_info(ptdev, group, csg_id, cs_id);
->  
->  	if (group) {
->  		drm_warn(&ptdev->base, "CS_FATAL: pid=%d, comm=%s\n",
-> @@ -1509,17 +1586,6 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
->  	} else {
->  		sched_queue_delayed_work(sched, tick, 0);
->  	}
-> -
-> -	drm_warn(&ptdev->base,
-> -		 "CSG slot %d CS slot: %d\n"
-> -		 "CS_FATAL.EXCEPTION_TYPE: 0x%x (%s)\n"
-> -		 "CS_FATAL.EXCEPTION_DATA: 0x%x\n"
-> -		 "CS_FATAL_INFO.EXCEPTION_DATA: 0x%llx\n",
-> -		 csg_id, cs_id,
-> -		 (unsigned int)CS_EXCEPTION_TYPE(fatal),
-> -		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fatal)),
-> -		 (unsigned int)CS_EXCEPTION_DATA(fatal),
-> -		 info);
->  }
->  
->  static void
-> @@ -1531,15 +1597,10 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
->  	struct panthor_group *group = csg_slot->group;
->  	struct panthor_queue *queue = group && cs_id < group->queue_count ?
->  				      group->queues[cs_id] : NULL;
-> -	struct panthor_fw_cs_iface *cs_iface;
-> -	u32 fault;
-> -	u64 info;
->  
->  	lockdep_assert_held(&sched->lock);
->  
-> -	cs_iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
-> -	fault = cs_iface->output->fault;
-> -	info = cs_iface->output->fault_info;
-> +	panthor_queue_set_fault_info(ptdev, group, csg_id, cs_id);
->  
->  	if (queue) {
->  		u64 cs_extract = queue->iface.output->extract;
-> @@ -1564,17 +1625,6 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
->  
->  		group->fault_queues |= BIT(cs_id);
->  	}
-> -
-> -	drm_warn(&ptdev->base,
-> -		 "CSG slot %d CS slot: %d\n"
-> -		 "CS_FAULT.EXCEPTION_TYPE: 0x%x (%s)\n"
-> -		 "CS_FAULT.EXCEPTION_DATA: 0x%x\n"
-> -		 "CS_FAULT_INFO.EXCEPTION_DATA: 0x%llx\n",
-> -		 csg_id, cs_id,
-> -		 (unsigned int)CS_EXCEPTION_TYPE(fault),
-> -		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fault)),
-> -		 (unsigned int)CS_EXCEPTION_DATA(fault),
-> -		 info);
->  }
->  
->  static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 77262d2b9672..083a02418d28 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -974,6 +974,23 @@ enum drm_panthor_group_state_flags {
->  	DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT = 1 << 3,
->  };
->  
-> +/**
-> + * struct drm_panthor_queue_event - Fault or fatal event occurring on a single queue.
-> + */
-> +struct drm_panthor_queue_event {
-> +	/** @queue_id: The ID of the queue that faulted. */
-> +	__u32 queue_id;
-> +
-> +	/** @event_type: What kind of event is being propagated. */
-> +	__u32 event_type;
-> +
-> +	/** @exception_type: The type of exception that caused the fault. */
-> +	__u32 exception_type;
-> +
-> +	/** @exception_data: Exception-specific data. */
-> +	__u32 exception_data;
-> +};
-> +
->  /**
->   * struct drm_panthor_group_get_state - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_GET_STATE
->   *
-
+Konrad
