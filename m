@@ -2,56 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFC9CC85C5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 16:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38891CC8565
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 16:05:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F50910E7E1;
-	Wed, 17 Dec 2025 15:12:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="Pb+qA2WW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D06010E17D;
+	Wed, 17 Dec 2025 15:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
- Wed, 17 Dec 2025 15:12:47 UTC
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
- [91.218.175.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E143910E7FB
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 15:12:47 +0000 (UTC)
-Message-ID: <8e1d33ff-d902-4ae9-9162-e00d17a5e6d1@postmarketos.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
- s=key1; t=1765983941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BU61uOE5rQFMg5G4aoZO7QP4QinbxTTLs0nJykuT8sQ=;
- b=Pb+qA2WWptWdsEksD+2nkZcRJvnq0032Qdw/x8F8Yh/Ryo31ap3ucPFTAXwfwceB3yQcR0
- H+FUbJ8YO+GXJj83trUH7u8d2IaeBJyLBaSz+Ji295q83uCKcJVQtzPZUbMc5wiAOrPWWP
- 9mZdS3ecncoc7ujqlP8rHzTEH8xF6bfij661GCT4gcW+6Pc8qefkXHfHQKnimrPZtxdyJo
- XP6g9kyDP2xo5C5slSaVJQ8dcqxn1C4Oo86R14hLKria24kjsMRtWGKg5SPpVUfhh3tqO1
- gCCAwB97pxiFjxqPYk/EPFiJQeEiWg4D75Vzqw/wLhHqpKCy97kSqX1AtXFjww==
-Date: Wed, 17 Dec 2025 18:05:31 +0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B3E0B10E17D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 15:05:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32340FEC;
+ Wed, 17 Dec 2025 07:05:47 -0800 (PST)
+Received: from [10.57.45.201] (unknown [10.57.45.201])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49D633F73F;
+ Wed, 17 Dec 2025 07:05:51 -0800 (PST)
+Message-ID: <fb1c0b87-2aba-4bfa-90f1-a7a1c2dc100c@arm.com>
+Date: Wed, 17 Dec 2025 15:05:49 +0000
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Alexey Minnekhanov <alexeymin@postmarketos.org>
-Subject: Re: [PATCH] drm/msm/mdp5: drop support for MSM8998, SDM630 and SDM660
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Sajna <sajattack@postmarketos.org>, barnabas.czeman@mainlining.org
-References: <20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Avoid showing imported BO as exported in
+ DebugFS output
+To: Akash Goel <akash.goel@arm.com>, boris.brezillon@collabora.com,
+ liviu.dudau@arm.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+References: <20251216153242.1042613-1-akash.goel@arm.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20251216153242.1042613-1-akash.goel@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +50,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.12.2025 04:25, Dmitry Baryshkov wrote:
-> Currently MDP5 3.x (MSM8998, SDM630 and SDM660) platforms are support
-> by both DPU and MDP5 drivers. Support for them in the DPU driver is
-> mature enough, so it's no longer sensible to keep them enabled in the
-> MDP5 driver. Not to mention that MSM8998 never used an MDP5 compatible
-> string. Drop support for the MDP5 3.x genration inside the MDP5
-> driver and migrate those to the DPU driver only.
+On 16/12/2025 15:32, Akash Goel wrote:
+> The "gems" DebugFS file shows the device-wide list of DRM GEM objects.
+> It displays various information about an object, including if it is
+> PRIME imported, PRIME exported.
+> This commit fixes the debugfs_bo_print() function to prevent an imported
+> BO from also being shown as exported in the DebugFS file output.
+> Both 'import_attach' and 'dma_buf' fields will not be NULL for an
+> imported BO.
 > 
-> Note: this will break if one uses the DT generated before v6.3 as they
-> had only the generic, "qcom,mdp5" compatible string for SDM630 and
-> SDM660. However granted that we had two LTS releases inbetween I don't
-> think it is an issue.
+> Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+> Signed-off-by: Akash Goel <akash.goel@arm.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index b61908fd508a..5dd92cdcf316 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -668,7 +668,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>  
+>  	if (bo->base.base.import_attach)
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> -	if (bo->base.base.dma_buf)
+> +	else if (bo->base.base.dma_buf)
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+>  
+>  	seq_printf(m, "0x%-8x 0x%-10x", gem_state_flags, gem_usage_flags);
 
-I've retested DPU driver on our downstream release based on 6.18 (by
-using msm.prefer_mdp5=false kernel cmdline parameter) on all devices
-at my disposal, and I can confirm DPU driver working fine an all SDM660, 
-SDM636 ones, but not on SDM630. Some logs from sdm630-sony-nile-pioneer
-(Sony Xperia XA2):
-
-[    2.356546] msm_dpu c901000.display-controller: bound c994000.dsi 
-(ops dsi_ops [msm])
-[    2.357328] adreno 5000000.gpu: GPU speedbin fuse 146 (0x92), mapped 
-to opp-supp-hw 0x4
-[    2.364802] msm_dpu c901000.display-controller: bound 5000000.gpu 
-(ops a3xx_ops [msm])
-[    2.444649] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x30030000
-[    2.449793] [drm] Initialized msm 1.13.0 for 
-c901000.display-controller on minor 1
-...
-[    2.911900] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu 
-error]enc33 intf1 ctl start interrupt wait failed
-[    2.911916] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait 
-for commit done returned -22
-...
-[    3.176171] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu 
-error]enc33 intf1 ctl start interrupt wait failed
-[    3.176367] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait 
-for commit done returned -22
-
-Which results in horrendous ~3-5 fps in shell.
-
-The block "enc33 intf1 ctl start interrupt wait failed" + "wait for
-commit done returned -22" is repeated few times per second whenever
-the display is turned on, and stops when it's turned off.
-
-Meanwhile it is working fine using MDP5 driver (msm.prefer_mdp5=true).
-Well, as fine as possible considering [1], using several FD_MESA_DEBUG
-tricks to work around GPU issues.
-
-P.S. I have not yet tested MSM8998, but I can try if required
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/issues/8442
-
---
-Regards,
-Alexey Minnekhanov
