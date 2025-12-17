@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAB7CC929E
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 18:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A9ACC9346
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 19:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FCC10E00E;
-	Wed, 17 Dec 2025 17:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7668810E33B;
+	Wed, 17 Dec 2025 18:09:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bvN5sCeX";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="2j96BQod";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A42610E00E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 17:59:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A7B0A44289;
- Wed, 17 Dec 2025 17:59:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB368C4CEFB;
- Wed, 17 Dec 2025 17:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765994371;
- bh=wALtr2tcbQhqQcGVuTwW3Z/U09IJXVcKgjs3CxqF6kU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bvN5sCeXaxUsMGuNik4UF4MNEtmnyc320c0QHwm9OZWqi/+9H35Sl/BF0wxb7kP36
- kSiSSWR2xMqbAWifgNZ1dXn4F0UQPRUqZVijkAOWOvdh5vEBBzB90wEtQ8i7uPqNy/
- YWxCveQf8qu3kq6PFkG+YijhBDlkA+xUwrBxYIp8pgzPE4DsZuu7ovvStJgY4upPzj
- HV4ne2SW4lvKXv1Fina4oLWFvvhfO3rvBLmtgCb25DdEC5c2nRmJE/uMugizdG2qfb
- WS+w+WiS82KQzKgJVvmjcRZuIfnMBPZcMiQtyDeGEWXd2JgzTuykP34yw6IEvtULlZ
- zfK5pfH6x22ww==
-Message-ID: <ef6e71e2-ee6f-49d8-981b-97ba2fe13e92@kernel.org>
-Date: Wed, 17 Dec 2025 11:59:29 -0600
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5811110E33B;
+ Wed, 17 Dec 2025 18:09:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=pJ995Z+yFdhxVC5mXYbnSOTU8w1AXddwEeOENWW3ugU=; b=2j96BQod15lY0JqikEVSiVJkwU
+ m5U3EB+jmBed2XTIMLRsNlNzS871TZ4w2JV/lXFTn/k+/MxU4FrPLYWmOkIqmbNBUpDSBl059HKgP
+ KaEtHQwcbQQ9PjuuNSt5FRjG1FULz/f2TwYucqhOxNUvG03NGYZHRN+KFUjZ8TjAukuhdlzHIkVBb
+ yH0LcgVsZm2ALF41I18PcQ3wQOIsldLg+38nTycNRW271RXWuHRfg+8d0ldBfn6AiRTClQNa2pe+U
+ cZrxpbyrQRyjNs/eJ0o5XWEiWf0mxKfnwLgNWk81Uc0VqJZZNTy9PdTWcm4w/ahyMeAx6YA710oF4
+ NNOs0+dw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vVvxe-00000007FIq-0zPb; Wed, 17 Dec 2025 18:09:18 +0000
+Message-ID: <5773feac-a80e-4a59-a0f2-dc787faa9f61@infradead.org>
+Date: Wed, 17 Dec 2025 10:09:16 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Enable hardware context priority
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- maciej.falkowski@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20251217171719.2139025-1-lizhi.hou@amd.com>
+Subject: Re: [PATCH] drm/gem: Fix kerneldoc warnings
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Devel Mailing List <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Mailing List <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Collabora Kernel Mailing List <kernel@collabora.com>
+References: <20251217172404.31216-1-loic.molinari@collabora.com>
 Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20251217171719.2139025-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251217172404.31216-1-loic.molinari@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,105 +66,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/25 11:17 AM, Lizhi Hou wrote:
-> Newer firmware supports hardware context priority. Set the priority based
-> on application input.
+
+
+On 12/17/25 9:24 AM, Loïc Molinari wrote:
+> Fix incorrect parameters in drm_gem_shmem_init() and missing " *" on
+> empty lines in drm_gem_get_huge_mnt().
 > 
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-This change itself is fine, but while reviewing it I did have a question 
-to ask.
-
-I notice that NPU2, NPU4, NPU5 and NPU6 all use npu4_fw_feature_table. 
-Is this feature really present in F/W for NPU2 devices too?  Or it's 
-really only NPU4 and later feature?
-
-IE I just wonder if it's a non-obvious problem that npu2 device should 
-have it's own fw feature table rather than re-use NPU4's.  NPU1 has it's 
-own feature table.
+Thanks.
 
 > ---
->   drivers/accel/amdxdna/aie2_message.c  | 23 ++++++++++++++++++++++-
->   drivers/accel/amdxdna/aie2_msg_priv.h |  5 +++++
->   include/uapi/drm/amdxdna_accel.h      |  8 ++++++++
->   3 files changed, 35 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 7 +++++--
+>  include/drm/drm_gem.h                  | 4 ++--
+>  2 files changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-> index e77a353cadc5..051f4ceaabae 100644
-> --- a/drivers/accel/amdxdna/aie2_message.c
-> +++ b/drivers/accel/amdxdna/aie2_message.c
-> @@ -205,6 +205,27 @@ static int aie2_destroy_context_req(struct amdxdna_dev_hdl *ndev, u32 id)
->   
->   	return ret;
->   }
-> +
-> +static u32 aie2_get_context_priority(struct amdxdna_dev_hdl *ndev,
-> +				     struct amdxdna_hwctx *hwctx)
-> +{
-> +	if (!AIE2_FEATURE_ON(ndev, AIE2_PREEMPT))
-> +		return PRIORITY_HIGH;
-> +
-> +	switch (hwctx->qos.priority) {
-> +	case AMDXDNA_QOS_REALTIME_PRIORITY:
-> +		return PRIORITY_REALTIME;
-> +	case AMDXDNA_QOS_HIGH_PRIORITY:
-> +		return PRIORITY_HIGH;
-> +	case AMDXDNA_QOS_NORMAL_PRIORITY:
-> +		return PRIORITY_NORMAL;
-> +	case AMDXDNA_QOS_LOW_PRIORITY:
-> +		return PRIORITY_LOW;
-> +	default:
-> +		return PRIORITY_HIGH;
-> +	}
-> +}
-> +
->   int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
->   {
->   	DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
-> @@ -221,7 +242,7 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
->   	req.num_unused_col = hwctx->num_unused_col;
->   	req.num_cq_pairs_requested = 1;
->   	req.pasid = hwctx->client->pasid;
-> -	req.context_priority = 2;
-> +	req.context_priority = aie2_get_context_priority(ndev, hwctx);
->   
->   	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
->   	if (ret)
-> diff --git a/drivers/accel/amdxdna/aie2_msg_priv.h b/drivers/accel/amdxdna/aie2_msg_priv.h
-> index cc912b7899ce..728ef56f7f0a 100644
-> --- a/drivers/accel/amdxdna/aie2_msg_priv.h
-> +++ b/drivers/accel/amdxdna/aie2_msg_priv.h
-> @@ -108,6 +108,11 @@ struct cq_pair {
->   	struct cq_info i2x_q;
->   };
->   
-> +#define PRIORITY_REALTIME	1
-> +#define PRIORITY_HIGH		2
-> +#define PRIORITY_NORMAL		3
-> +#define PRIORITY_LOW		4
-> +
->   struct create_ctx_req {
->   	__u32	aie_type;
->   	__u8	start_col;
-> diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxdna_accel.h
-> index 62c917fd4f7b..9c44db2b3dcd 100644
-> --- a/include/uapi/drm/amdxdna_accel.h
-> +++ b/include/uapi/drm/amdxdna_accel.h
-> @@ -19,6 +19,14 @@ extern "C" {
->   #define AMDXDNA_INVALID_BO_HANDLE	0
->   #define AMDXDNA_INVALID_FENCE_HANDLE	0
->   
-> +/*
-> + * Define hardware context priority
-> + */
-> +#define AMDXDNA_QOS_REALTIME_PRIORITY	0x100
-> +#define AMDXDNA_QOS_HIGH_PRIORITY	0x180
-> +#define AMDXDNA_QOS_NORMAL_PRIORITY	0x200
-> +#define AMDXDNA_QOS_LOW_PRIORITY	0x280
-> +
->   enum amdxdna_device_type {
->   	AMDXDNA_DEV_TYPE_UNKNOWN = -1,
->   	AMDXDNA_DEV_TYPE_KMQ,
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 29174ab58ff3..fbd1164174b0 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -94,9 +94,12 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
+>  }
+>  
+>  /**
+> - * drm_gem_shmem_init - Initialize an allocated object.
+> + * drm_gem_shmem_init - Initialize an allocated object of the given size
+>   * @dev: DRM device
+> - * @obj: The allocated shmem GEM object.
+> + * @shmem: shmem GEM object to initialize
+> + * @size: Size of the object to initialize
+> + *
+> + * This function initializes an allocated shmem GEM object.
+>   *
+>   * Returns:
+>   * 0 on success, or a negative error code on failure.
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index f4da8ed0d630..86f5846154f7 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -508,11 +508,11 @@ static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
+>  /**
+>   * drm_gem_get_huge_mnt - Get the huge tmpfs mountpoint used by a DRM device
+>   * @dev: DRM device
+> -
+> + *
+>   * This function gets the huge tmpfs mountpoint used by DRM device @dev. A huge
+>   * tmpfs mountpoint is used instead of `shm_mnt` after a successful call to
+>   * drm_gem_huge_mnt_create() when CONFIG_TRANSPARENT_HUGEPAGE is enabled.
+> -
+> + *
+>   * Returns:
+>   * The huge tmpfs mountpoint in use, NULL otherwise.
+>   */
 
+-- 
+~Randy
