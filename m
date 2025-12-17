@@ -2,134 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CB7CC8CCC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 17:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7111CC8CEA
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 17:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDC8710E08E;
-	Wed, 17 Dec 2025 16:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C624810E760;
+	Wed, 17 Dec 2025 16:36:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CYDtl8HT";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AdwdlKKe";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ME/fatkc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3494F10E5BA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 16:34:45 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BHCL8Pc2043009
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 16:34:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=EoS2/SEtxcfOVm1nycVOUKsk
- ylsoggbceMpNDql009E=; b=CYDtl8HTW6hJG3zMzleDv/pNLNdGlHA82rjbwhvZ
- SEwQIiBvdo83E5GzBE4lzRK+sAyqJvnXznZTa70si/4Fj10YAL4bC+1ewfakpj8t
- eVoSLkiFKMgam4IXhjRXKAqXjHh4SMOwosdesGpLET0hZRLqTzUVgipgUAeSCS21
- xNC+n2gVtljXXpe60jJ61BcEdeqF40Sm0lEoF4hqZF4xzVTJ8ilewVEpDFKCIGEC
- 2oJ/5M9xz74h5JZHLM+uvCPtjrchhflUp1/Or0TKLUm1kV62D+2KSG6kp8so9aql
- yG3CrqXo7vtSLtMNwT6d4xCYym1XQxpKdyLWS7jRqKdF1w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3fj1u7yf-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 16:34:44 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4ee27e24711so105881921cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 08:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1765989283; x=1766594083;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EoS2/SEtxcfOVm1nycVOUKskylsoggbceMpNDql009E=;
- b=AdwdlKKeDuiM8K7gPPha/uJj5d/ML1LngdyPuGMAsC6IHWSxA/zFQBHFdyO47sEAVN
- 0RkTbS8uyR1wFmbry/8oRkG8Cfe4oetyiUzay0IZVN1se2O/8Vjd7viIGlCgRPpcSlZa
- EAQg0yU7+BedhECgUfIlOTAVjyFYbLXQSJcdDCOHtCQoOJOWZ8W1sumPmR+0KmwLBut/
- kt/6/43A+IMCnHy8Tpji/hn7yoysbhIjLjgIHYUQr6Hn5TE5Xu2b53NP0RrH1cXZOkBf
- ESRRZzaUzwEVbI1K3IQEbnMULyvBTQuBol3IXccj50ueVmFek/p1ANDM029VoSyLclPu
- F1zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765989283; x=1766594083;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EoS2/SEtxcfOVm1nycVOUKskylsoggbceMpNDql009E=;
- b=SoRQpsyk2yfuAIuo0i3g9HTwf58b5aGCGZPlxNsD4IoDFELMSEcfX6KPuW9XXSuETR
- o1c9J3M4MOzZBETd2a2fKW3uz29BtX4EsgMdLZYsr9GNnRQm5/WnGUp855gjNCJRzi1m
- Rx++ATzQi5igDJJOTnDdWP5gAue4ZBzWVQ9muzReAxrecUjHnrbIWv1h+APEk0M+D25m
- vjnYal7loMkLNkcX47IBoLvMoAuA+EoGA6OeDU7jX6H1GelUTX+6zrn3aHrOP+L72YgD
- KKY/GKuESuMgrfK4xCS40uWzqtB7muN9uSsYGPVaKFKTS3wHwaF5SYIx1r2ZpB6U6LFY
- 1xyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVLwoOn6F9uGLOl/0qhofCVNt0k6FMGYm8laHI+SNj+oPA9+koSfv66aeEBdbds3h/bQ4B5IVumkM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6m7OQUD6iv0CABb+eghsu/mEivBiospJYHzqKyRScxzyPL/Vl
- lkFBB9lPiDiUc53fB+L1jhf+ugcxCNoGkGx4T6sokGGDqfMsb/mAkdmW0f2EZZx0fETwuDhxpnP
- /VLAaKJe1m1AEb1VI6YBwnsaMF6s5Cubv7ajng+68uDvyl8E4YsHEiIPlaekXhxc9wL9/nzc=
-X-Gm-Gg: AY/fxX4rf+6bhw7quh7cWKkSnQ4GKdleGn3cEARimneE2MlPgqukQ8NBo392t9vTso/
- acmHIxqhtGHDmoCm8WCetG+51II2DkVZs9zG/ZqbGEmjvsZJIq5KotTdqSkC7eimwiT8uqmW6G/
- jvT9FZtYS05UkAqDZyCBHFw4cR42quXt7zeSTRQJT8VCQQxNIl4UIO3pDZHadlHHUr3q7gPMMJZ
- DAp2VrJkyzKv1DrYqCgIIqgmqitoPgBrV1oGMcKHZCxfiHawxOLDMjtfKCLcPPMehe9XEagP2Tj
- Ea2NU2dMFwICjk3hk7BABlZZJx4N91YXYSZEvF62/dvMFgPTtFyQWICNgJ2uWodorSzAsmqbof7
- 0hhWOEwR/shUNtSlMemMDoNLbU5jvHJPZezCYNvchYBRk70C+ltezRCPh7k0Z/chmgQZ2Iiu07u
- ZI2P+P80fz9MVqFnQxS2NnK58=
-X-Received: by 2002:a05:622a:a18:b0:4f1:c72b:284a with SMTP id
- d75a77b69052e-4f1d049ff8cmr220756261cf.15.1765989283322; 
- Wed, 17 Dec 2025 08:34:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEsAAJHwqxmftk+OQ1zGcEv9EePgWku3/QTaYBqJtm4eCKo2EQ/iMJ21n1xekg/vIL0bnve2g==
-X-Received: by 2002:a05:622a:a18:b0:4f1:c72b:284a with SMTP id
- d75a77b69052e-4f1d049ff8cmr220755741cf.15.1765989282670; 
- Wed, 17 Dec 2025 08:34:42 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5990da5dcd1sm2503254e87.81.2025.12.17.08.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Dec 2025 08:34:41 -0800 (PST)
-Date: Wed, 17 Dec 2025 18:34:40 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Alexey Minnekhanov <alexeymin@postmarketos.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Sajna <sajattack@postmarketos.org>, barnabas.czeman@mainlining.org
-Subject: Re: [PATCH] drm/msm/mdp5: drop support for MSM8998, SDM630 and SDM660
-Message-ID: <dcapydafye2v6owrkehngivqlucjcx6aa3sszszflh3ocm7dpq@qsajm2qkc52d>
-References: <20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com>
- <8e1d33ff-d902-4ae9-9162-e00d17a5e6d1@postmarketos.org>
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012008.outbound.protection.outlook.com [52.101.48.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 620B110E760
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 16:36:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M41bfTIbpOp7BxZ7BXhFgOKTo0W8E3SO3dmJF3Cv79UiqfSLp/Ijjkn8EsfKVR/H8rBCu1hrUtae3xU8DfansLhbcmz2d/50uqmXBvIbCrTcUFNalRaLh9H12mRbCw8QFSsHCkdvlr61MlaRUx8CkNwx5x0GkR7xMlsTa5HjnPZOZL0qQ9I8TOYhKndawSerG7rD0hCQGTValPzLFVNIuPlCyUTz/M27DplCN3QmY5cdH6F2xMFtYEWtrI3FNm+LCIUS/uamR1vzqVm1yvx5F3bdCnmEW6wKdTdJVmVFQyXky6asUYCI+4DFmBiN/g1e146qGVB79hul9C76E8ublg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e3YbxYFNFs9L9jRmyyMaMrSNhenLhUl1JpXAjOQyPtw=;
+ b=aEp1HcxFwbWeB58elwIHaH1s+WmJeckgVV0aKwiltn45QUViOO//cNshiTRLvkubJSQNht3hHDCMwrMRoa1/lTxLwturkGOsw2NM1Al2guGNvGJBrmjTj+0L+XaTW+7/Dfpcu1HftRFIolZwiOcG1gwI9ZMqDfIF9DmF18wepxRNwJZtf7JtHwS8y6xcnk7sHjgq+8e4AOtiS4dRNwGwxKckbJAt5C9XPKJeC12c/J4Y86vW67B0/OOMmFxe1CGBOpmKkO9yyBQOah/XY+UAhJoX5drFr8s/DTfL/Hk1meKb2e+w119KsXTyfHBI7jKieSsBy2shXX+zBIACX1z9rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e3YbxYFNFs9L9jRmyyMaMrSNhenLhUl1JpXAjOQyPtw=;
+ b=ME/fatkcPN4Zuu2V5I7nlZKo+z5A2boLNihl5DtkX39Tn3Z3RelosEUeJLVq70yg/fQnpflR5mfZjHLsjSRULsUhdA+e8As9cX7pz1W5YOMZFtsNEJLTYSr2raM7KEcEVPPzr75Z5XNOkeOBanZq+KkvTkjif6pZTtHI4ZmGUlE=
+Received: from MW4PR03CA0142.namprd03.prod.outlook.com (2603:10b6:303:8c::27)
+ by LV9PR12MB9759.namprd12.prod.outlook.com (2603:10b6:408:2ea::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 16:36:05 +0000
+Received: from SJ1PEPF00001CDC.namprd05.prod.outlook.com
+ (2603:10b6:303:8c:cafe::14) by MW4PR03CA0142.outlook.office365.com
+ (2603:10b6:303:8c::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Wed,
+ 17 Dec 2025 16:36:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ1PEPF00001CDC.mail.protection.outlook.com (10.167.242.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.6 via Frontend Transport; Wed, 17 Dec 2025 16:36:04 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 17 Dec
+ 2025 10:36:03 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 17 Dec
+ 2025 10:36:03 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 17 Dec 2025 08:36:02 -0800
+Message-ID: <233e4166-07f5-0397-653f-a21fe9bc9ac7@amd.com>
+Date: Wed, 17 Dec 2025 08:35:57 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e1d33ff-d902-4ae9-9162-e00d17a5e6d1@postmarketos.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEzMSBTYWx0ZWRfX2vwykSxfozAZ
- sfuC4TbKEfKKZh0io/4JCFHTX1g9deeArz+XLXgY+4BPi0uz/PQX30wgHPhydjQGDJMq292BqFD
- Cs6BMtEHJZOroO8TbcqceqAd2Ey5R+IrE50WsESTvC0ezO8N2+sYPkcNHTdHmA0KoHuLpgdPFEW
- 80GukWeZ54K8wESGZY87z4okamq9tB2nXZFjCu9nWE+ZF9gI8y3WMgBpWyMSounpVYsohQSWOVQ
- NFBkgrqbDjSYjzeg20HcFNiBP+XSj0zfJOmwxTiSQLSQ0kQ16fdLvl44CTUKZRSmGjTGfvUl+81
- currJ5MW1CjlPtR5ZgngYfhSajF4XmDLyt6TPfXk0J+qHeVnyPa6k8mjn7iPvZB+MCnX425HhDF
- Ine8wJmxmRIKN6HZ0VH86y5PAOGOQA==
-X-Proofpoint-ORIG-GUID: UEsgMg2OY3HpU13a7Odu9ulcNgXMXXDS
-X-Proofpoint-GUID: UEsgMg2OY3HpU13a7Odu9ulcNgXMXXDS
-X-Authority-Analysis: v=2.4 cv=edgwvrEH c=1 sm=1 tr=0 ts=6942dba4 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=e5mUnYsNAAAA:8 a=jsZ3alcmfn4h52Hz5qMA:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-17_03,2025-12-16_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- adultscore=0 priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170131
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Remove amdxdna_flush()
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251216031311.2033399-1-lizhi.hou@amd.com>
+ <7371981b-2220-4441-b349-57038a6320b7@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <7371981b-2220-4441-b349-57038a6320b7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDC:EE_|LV9PR12MB9759:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3eea25f-0835-4fd1-842a-08de3d8a5f41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|82310400026|36860700013|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MHZMcmxIc3VoYlFBUCt1dVIweE00Smc1akJXdVMxNHRaNUF2cFpteTkxeTRE?=
+ =?utf-8?B?QzZqbUVqaUJMb09rcWRvWlQ1dXBkM0hxeWQ5RjZGSHFJRUNaNG1OSUJVUGhI?=
+ =?utf-8?B?K3FDZ1B2dEZMU3B3U1pxWWtUaitBL21LZGJReG9vOHRFTHFZc3RWMnBRWVZY?=
+ =?utf-8?B?S1hpZTFZcjFDeGVldE4rckJzT0h3eTFMOHFPd05ta2IvcHpMRHZ2c3dXU2sz?=
+ =?utf-8?B?OE9CRlo5NzlwZ1k4Qmx2bjhmeFB2ZWpIRjFKZmxrSHBML1ZnNGlxVGRaL1BN?=
+ =?utf-8?B?WmJ2dGlQaUp6eitTR0M0M1JhWGxmckRhYnY0NzcxTUJ0L1B3bnpmeE1ucFhR?=
+ =?utf-8?B?c29HQ3AxblIyanlvZ2MxdFZLM2N6TjAxU2wyV3h6YXJJaTJ0cEo5dFJRbnRp?=
+ =?utf-8?B?b1BGaUIyT1RWNkYxR2x1c0lGallKL1NwSzdBZG9jZThsTzVyS05TS3QwUDM3?=
+ =?utf-8?B?Y2NiRktKUzlCYW1OaUhxWldOb29hYXM3VndNOVVxTlZvTXRZTDdHRVRJTUpF?=
+ =?utf-8?B?VmlUV1hhTVRreUNFSnJsMHF4V3RmSm5aZlE0a1dmYW1xMFFsUnZ0WXpnaXpV?=
+ =?utf-8?B?Y0JOKzJQWHFKazZXTk1zamVnSXVzUXh3aldtZVZjRmdIZzlXc05oR29Vekp3?=
+ =?utf-8?B?a0VxKzRkd1NGUkNRY0VPK1lGeGpNNjVZUHk2cW1UUHRxd2tRaDMrUGtyMFFm?=
+ =?utf-8?B?KzAxVWFEM3FqU1Zud0lieGtGWm9meGZNeDJrNXRvMHdxRDVycXZoZkFZM2lR?=
+ =?utf-8?B?Z2dLaUNYYm5NUW9SNlJ4bXFnTDd2djJ4TjRCTWdla1V4WU5SOVZrRkNXY1N6?=
+ =?utf-8?B?dldvU2tqd0tKOEdwZ3pkNThyRzdWemtjTjA4c09TbGcyMDFpTGxLWDJ0OVc2?=
+ =?utf-8?B?NXNqWngxVnRxdUJvbmk2a0E2SXpkUXI1bjQrdmxDMmE0OGMvZTc2bUMvaDYy?=
+ =?utf-8?B?dXpqSFJXV3hIc1ZrSkd4NVdNQUZZdlBRamZ6ZkFxQXZaZjBvdmpDeTRWU2xZ?=
+ =?utf-8?B?dHZ6WkgvYXQ0ekR5bEVMSHpHM2h4QkU1YXpVZjUzTUlIMXdaRTlRME9nL2Jr?=
+ =?utf-8?B?ZkZVRDQ0STNNeDFRd2xVaXhjOEpjSStuSlAvb20xUUZmMVR1aENWWDZlV2dK?=
+ =?utf-8?B?ZUR4OElHNng1aUFJTCsyZnhpc1lBckxnbnd6dXdwM2lWS3RDZXY1dnJsTExE?=
+ =?utf-8?B?NHlvNVlXejdvYlA2QkJlbk5FUjdWdWtVeFhiUlNtUUJvTXFaK1E1VEd5MVQz?=
+ =?utf-8?B?UmJDV2EvelJza0xJamk4OUIzRWFKSmlIdUE4R3lST051TXg5TlBEd2JFQVBU?=
+ =?utf-8?B?dGh3dStOSzNSR1k5M0Jxa2FobWRKRkEvNmRiNjlpWnhETnVlSUZWbm9JMmZm?=
+ =?utf-8?B?R1R6eDFrSTNuNTlTdW1BcllzU3A3MmRualVXZHRoTmlVNHA0SjlrWENJN1Fs?=
+ =?utf-8?B?MFUvZkZIVG9nSE9VZEl0NlM4T2Z2YnU0THViczYrdHRISnB3RHNNYXVueFB4?=
+ =?utf-8?B?K0JOSENhVHhGY2ZHRG13cXI5Y0lVWTEvTXBqd2VjNU9DZTZFQjh2Z1Y4Z2JB?=
+ =?utf-8?B?eHdBT3R4K1hHamZqZ1ppVXh6eVQyY1JzeGM1Y09HdXNLSHhBNXlXU25iQkw5?=
+ =?utf-8?B?dmNPSVJwKzRoTS9IV1F3ak1jV2l2SUkycXZjY0diRFJzZENNZ0UrWHdwK0xE?=
+ =?utf-8?B?c2dRSWpqNEYzWUNIVUpEVjlUdG03aElRaW9Qdk5HaW8yaFk2eE9IZjA3Qis5?=
+ =?utf-8?B?M2VoeUlJUlRWMTFuRStEOFdtZ1FhdFMvVWQ4OXlCNk02b2djZW95Qi9Ld2dr?=
+ =?utf-8?B?ZVpXWXZheDdiVEthVHpFWmJRczR1TXZTc2Y0Lys3dmdtZ0QvK05RWjB2MmdQ?=
+ =?utf-8?B?ZFBZMVFZT0ZXV0QxU3QrQXJnZnFqbjBzd3g0ZDdHekQyazc4bDBUVEc5anp0?=
+ =?utf-8?B?THZROE1Pd2NQZ3NoaFg1cFNJSWxxOS9RMWxPS01aS3ZnMFIrUHluSWlwM1Ax?=
+ =?utf-8?B?MDZEWmU2YkJNQ045M1Boam5qUFc1R0N4N1g4MHltdzcxbElPSkFPazkxaU5a?=
+ =?utf-8?B?eW55cFBOQ2xDbFZ0VVhWUmZzbnN4YlkyZFpQMmd2OU5zWER6SzV1ODRhN0VY?=
+ =?utf-8?Q?qdCs=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 16:36:04.4747 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3eea25f-0835-4fd1-842a-08de3d8a5f41
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CDC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV9PR12MB9759
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,86 +154,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 17, 2025 at 06:05:31PM +0300, Alexey Minnekhanov wrote:
-> On 11.12.2025 04:25, Dmitry Baryshkov wrote:
-> > Currently MDP5 3.x (MSM8998, SDM630 and SDM660) platforms are support
-> > by both DPU and MDP5 drivers. Support for them in the DPU driver is
-> > mature enough, so it's no longer sensible to keep them enabled in the
-> > MDP5 driver. Not to mention that MSM8998 never used an MDP5 compatible
-> > string. Drop support for the MDP5 3.x genration inside the MDP5
-> > driver and migrate those to the DPU driver only.
-> > 
-> > Note: this will break if one uses the DT generated before v6.3 as they
-> > had only the generic, "qcom,mdp5" compatible string for SDM630 and
-> > SDM660. However granted that we had two LTS releases inbetween I don't
-> > think it is an issue.
-> > 
-> 
-> I've retested DPU driver on our downstream release based on 6.18 (by
-> using msm.prefer_mdp5=false kernel cmdline parameter) on all devices
-> at my disposal, and I can confirm DPU driver working fine an all SDM660,
-> SDM636 ones, but not on SDM630. Some logs from sdm630-sony-nile-pioneer
-> (Sony Xperia XA2):
+Applied to drm-misc-next.
 
-Unfortunately I only have SDM660 and video DSI usecase here. BTW: is
-your SDM636 / SDM660 using CMD or video panel?
-
-> 
-> [    2.356546] msm_dpu c901000.display-controller: bound c994000.dsi (ops
-> dsi_ops [msm])
-> [    2.357328] adreno 5000000.gpu: GPU speedbin fuse 146 (0x92), mapped to
-> opp-supp-hw 0x4
-> [    2.364802] msm_dpu c901000.display-controller: bound 5000000.gpu (ops
-> a3xx_ops [msm])
-> [    2.444649] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x30030000
-> [    2.449793] [drm] Initialized msm 1.13.0 for c901000.display-controller
-> on minor 1
-> ...
-> [    2.911900] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
-> error]enc33 intf1 ctl start interrupt wait failed
-> [    2.911916] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
-> commit done returned -22
-> ...
-> [    3.176171] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
-> error]enc33 intf1 ctl start interrupt wait failed
-> [    3.176367] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
-> commit done returned -22
-> 
-> Which results in horrendous ~3-5 fps in shell.
-> 
-> The block "enc33 intf1 ctl start interrupt wait failed" + "wait for
-> commit done returned -22" is repeated few times per second whenever
-> the display is turned on, and stops when it's turned off.
-> 
-> Meanwhile it is working fine using MDP5 driver (msm.prefer_mdp5=true).
-
-It's interesting. Would you please capture the devcoredump for the
-platform? There will be a lot of blocks, I'm interested in INTF_1, CTL
-and top_0.
-
-Also, as a debugging check, would you mind patching
-dpu_encoder_phys_cmd_wait_for_commit_done() so that it always calls
-dpu_encoder_phys_cmd_wait_for_tx_complete()? I will check if there are
-any differences for CTL_START and similar registers, but it will take
-some time.
-
-> Well, as fine as possible considering [1], using several FD_MESA_DEBUG
-> tricks to work around GPU issues.
-> 
-> P.S. I have not yet tested MSM8998, but I can try if required
-
-As far as I remember, MDP5 on MSM8998 has never been wired (as in never
-committed to the DTSI). Angelo has enabled and Freebox people have
-tested DPU on MSM8998, but I think it was limited to video / HDMI
-usecases.
-
-> 
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/issues/8442
-> 
-> --
-> Regards,
-> Alexey Minnekhanov
-
--- 
-With best wishes
-Dmitry
+On 12/16/25 07:16, Mario Limonciello wrote:
+> On 12/15/25 9:13 PM, Lizhi Hou wrote:
+>> amdxdna_flush() was introduced to ensure that the device does not access
+>> a process address space after it has been freed. However, this is no
+>> longer necessary because the driver now increments the mm reference 
+>> count
+>> when a command is submitted and decrements it only after the command has
+>> completed. This guarantees that the process address space remains valid
+>> for the entire duration of command execution. Remove amdxdna_flush to
+>> simplify the teardown path.
+>>
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>> ---
+>>   drivers/accel/amdxdna/amdxdna_pci_drv.c | 29 ++++++++++---------------
+>>   1 file changed, 11 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c 
+>> b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> index 1973ab67721b..fcf7e7869007 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> @@ -105,43 +105,38 @@ static int amdxdna_drm_open(struct drm_device 
+>> *ddev, struct drm_file *filp)
+>>       return ret;
+>>   }
+>>   -static void amdxdna_drm_close(struct drm_device *ddev, struct 
+>> drm_file *filp)
+>> +static void amdxdna_client_cleanup(struct amdxdna_client *client)
+>>   {
+>> -    struct amdxdna_client *client = filp->driver_priv;
+>> -    struct amdxdna_dev *xdna = to_xdna_dev(ddev);
+>> -
+>> -    XDNA_DBG(xdna, "closing pid %d", client->pid);
+>> -
+>> +    list_del(&client->node);
+>> +    amdxdna_hwctx_remove_all(client);
+>>       xa_destroy(&client->hwctx_xa);
+>>       cleanup_srcu_struct(&client->hwctx_srcu);
+>>       mutex_destroy(&client->mm_lock);
+>> +
+>>       if (client->dev_heap)
+>>           drm_gem_object_put(to_gobj(client->dev_heap));
+>>         iommu_sva_unbind_device(client->sva);
+>>   -    XDNA_DBG(xdna, "pid %d closed", client->pid);
+>>       kfree(client);
+>>   }
+>>   -static int amdxdna_flush(struct file *f, fl_owner_t id)
+>> +static void amdxdna_drm_close(struct drm_device *ddev, struct 
+>> drm_file *filp)
+>>   {
+>> -    struct drm_file *filp = f->private_data;
+>>       struct amdxdna_client *client = filp->driver_priv;
+>> -    struct amdxdna_dev *xdna = client->xdna;
+>> +    struct amdxdna_dev *xdna = to_xdna_dev(ddev);
+>>       int idx;
+>>   -    XDNA_DBG(xdna, "PID %d flushing...", client->pid);
+>> +    XDNA_DBG(xdna, "closing pid %d", client->pid);
+>> +
+>>       if (!drm_dev_enter(&xdna->ddev, &idx))
+>> -        return 0;
+>> +        return;
+>>         mutex_lock(&xdna->dev_lock);
+>> -    list_del_init(&client->node);
+>> -    amdxdna_hwctx_remove_all(client);
+>> +    amdxdna_client_cleanup(client);
+>>       mutex_unlock(&xdna->dev_lock);
+>>         drm_dev_exit(idx);
+>> -    return 0;
+>>   }
+>>     static int amdxdna_drm_get_info_ioctl(struct drm_device *dev, 
+>> void *data, struct drm_file *filp)
+>> @@ -217,7 +212,6 @@ static const struct file_operations amdxdna_fops = {
+>>       .owner        = THIS_MODULE,
+>>       .open        = accel_open,
+>>       .release    = drm_release,
+>> -    .flush        = amdxdna_flush,
+>>       .unlocked_ioctl    = drm_ioctl,
+>>       .compat_ioctl    = drm_compat_ioctl,
+>>       .poll        = drm_poll,
+>> @@ -333,8 +327,7 @@ static void amdxdna_remove(struct pci_dev *pdev)
+>>       client = list_first_entry_or_null(&xdna->client_list,
+>>                         struct amdxdna_client, node);
+>>       while (client) {
+>> -        list_del_init(&client->node);
+>> -        amdxdna_hwctx_remove_all(client);
+>> +        amdxdna_client_cleanup(client);
+>>             client = list_first_entry_or_null(&xdna->client_list,
+>>                             struct amdxdna_client, node);
+>
