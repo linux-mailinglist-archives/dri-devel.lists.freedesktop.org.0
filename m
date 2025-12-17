@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D073CC704F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD13ACC705B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:17:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AEE210E16A;
-	Wed, 17 Dec 2025 10:17:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA1C10E5C7;
+	Wed, 17 Dec 2025 10:17:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VyZAKLyF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mpFFuDbF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8122D10E16A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:17:06 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE65410E5C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:17:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 66464423DD;
- Wed, 17 Dec 2025 10:17:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAFD5C4CEF5;
- Wed, 17 Dec 2025 10:17:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EB29A6055D;
+ Wed, 17 Dec 2025 10:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B3CC4CEF5;
+ Wed, 17 Dec 2025 10:17:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966626;
- bh=mZgmTPAeMOlNUGInXD4jCnDjAKu2QFFNlX+3u+2jIAc=;
+ s=k20201202; t=1765966649;
+ bh=5kPgttVA85WUBiDZ3+tveQVCEKPW/E4F6Uu67NSYlO8=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=VyZAKLyFoi3kNFjG5dOkan+Qis7IQcXAKUc7okV15sa3Du0PSNJfnus2iX/r1acOQ
- 26zGZkm7o5M+xp1aBKtVPRBSYi7SgUPYKH5wZQeVv4qy5KEPuvQLyMVPOoeDxPuwPy
- WTU36fOOpVOxpXa73nbFDyWwksA0xJBLCzX3cC3neAzgWhEyvgGkGfgEiDkNzNnaXj
- skrcOyBoe+Sh5yLymrrlgsdXfj67lvuljIFJXiZ7y0q1YmFDrA4FV2EvLFSrPeev52
- 49ufHVFENgYAROMzIktwy4ImrH0phkgwUQRt/qrNh9mWTn2uBAq0Av6X7PcxRghwIQ
- fsL/NCIkBT4CA==
-Message-ID: <58a8aea8735f1ec8db23a95da8b7e0a8@kernel.org>
-Date: Wed, 17 Dec 2025 10:17:03 +0000
+ b=mpFFuDbFB2N995Z8rmUjbLTvUb+82/eMCoGzZKWMd8vBNeDxd8f3wGAoiRXkbMg4O
+ hCICfS8phbqqZ1sH2Pvr7I6HR9evkmyGbzSxYGZfEy+N0t8sCOW/EOmWn55xn3G/7E
+ xpEDOVG3QU5q6YGh6KTXk/ji/d50rdRM0A5MCp4djCpMX0f0mfzT7onVAjPfteGjiT
+ CojpYGIrSCcPsnZDVkEjTa8jwC4PgVgrSRwxI93g7nCD39c2aYuLpfTU8euPhVhiKC
+ zbqBImjqXr3h6cc9CvBghtSrf0h1FjIcLyVuhos2ifT/nuuXcZHVf52SDC2BW/UIE4
+ 03I9XM+c/T6bQ==
+Message-ID: <5797d5b801c1c43b31ddf70d385c8ef1@kernel.org>
+Date: Wed, 17 Dec 2025 10:17:27 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 06/22] drm/bridge: add next_bridge pointer to struct
- drm_bridge
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-6-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-6-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 07/22] drm/bridge: ite-it66121: get/put the next bridge
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-7-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-7-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -76,12 +75,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:39 +0100, Luca Ceresoli wrote:
-> Many bridge drivers store a next_bridge pointer in their private data and
-> use it for attach and sometimes other purposes. This is going to be risky
-> when bridge hot-unplug is used.
->=20
-> Considering this example scenario:
+On Tue, 16 Dec 2025 18:58:40 +0100, Luca Ceresoli wrote:
+> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
+be
+> function and stores it until driver removal. of_drm_find_bridge() is
+> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+> refcounted and use bridge->next_bridge to put the reference on
+> deallocation.
 >=20
 > [ ... ]
 
