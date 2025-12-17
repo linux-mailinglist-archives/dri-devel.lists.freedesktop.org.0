@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E28CC7061
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6DBCC7070
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:18:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7094410E650;
-	Wed, 17 Dec 2025 10:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0C410E64E;
+	Wed, 17 Dec 2025 10:18:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O8QQZoCT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H15BsT0e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE1F10E650
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:17:42 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8634E10E64E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:18:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7114A601A7;
- Wed, 17 Dec 2025 10:17:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3F0C4CEF5;
- Wed, 17 Dec 2025 10:17:41 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4863F44549;
+ Wed, 17 Dec 2025 10:18:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE9CC116B1;
+ Wed, 17 Dec 2025 10:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966662;
- bh=8fiVn2ZgRAMxuWDCmDkwSx5n9MWlyH2AXOpyMgeTHX8=;
+ s=k20201202; t=1765966681;
+ bh=63wq7cQ07cPk2UFbCtAzGzxdoxkYBSOxCsTLdH1kFZ0=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=O8QQZoCT+lo88BxSzfhcgkUq6VKTur72pRBybceuQse7jqMKd6FlDzGYkUt7i1AeZ
- 7LcOhYiaUxuWdL4eSBq9rk/9Y+kqfExxZ9L3YVx9hxYE3S1MFB2LyZ0JaPAntmfxiM
- Ce/XNRdPiukqzVKcznZESth9KZuoinj5JdAmcjDWb3pgeU4a147CDYNyJ0YXsFXJLJ
- 8c0ujjOLNMSfMWpGkWW1BIUXIq01OSt/7OD/TYx2gcuaGFk/u7QMt/ravwFpV16pqD
- a2g21PzDbi/Os82PBlGocEX5OMiKj/PA0UPZUyhaFZSWwBtFnAyiOeO9RSt1yC6Nkn
- g2oL1QZWYwKTw==
-Message-ID: <c88ececc4692f3b9d8d5284bb398470a@kernel.org>
-Date: Wed, 17 Dec 2025 10:17:39 +0000
+ b=H15BsT0eaQ1D/ebqcBYDmXAEMdfwMhRHNg5Ft0Pb9y4mAQbfuzLUa8KjmKUqQMhqF
+ +XRVFdfgcosWyhZrYK9yGr/D+xAWGEMkyEJc81MQ6SxQyKSmCK8p4H9aiuXMbAlw/a
+ mpulpwF5Ar7SptGzBiNgyNtKQgQADBrhVFd+LpPAydtJjvpKNTfeQT34bEApChZnZ5
+ 6AY2Mgbs7XQCh0iiVgKoRwpEsouVmfyQ6p2Un1/F7sNiMgyMVN6ddcxHHOmnLgJzrB
+ D0Nwqfm9qu3uqpe+nCJwVRpZNRTB9P12Noc0YhpWh0TGsU24IKggSzaVftcX6h6vGY
+ XaXZoPwwd3n0A==
+Message-ID: <0330f880f446091e7bb31872f69f6de5@kernel.org>
+Date: Wed, 17 Dec 2025 10:17:58 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 08/22] drm/bridge: imx8qxp-pixel-combiner: get/put
- the next bridge
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-8-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-8-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 10/22] drm/meson: encoder_cvbs: get/put the next bridge
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -76,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:41 +0100, Luca Ceresoli wrote:
+On Tue, 16 Dec 2025 18:58:43 +0100, Luca Ceresoli wrote:
 > This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
 be
 > function and stores it until driver removal. of_drm_find_bridge() is
