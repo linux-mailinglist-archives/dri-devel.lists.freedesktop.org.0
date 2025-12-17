@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F9DCC58DF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 01:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065CDCC58EE
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 01:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B1610E8B8;
-	Wed, 17 Dec 2025 00:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4C110E98C;
+	Wed, 17 Dec 2025 00:10:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aNI6UMU2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZirnAmXZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0A3D10E8B8;
- Wed, 17 Dec 2025 00:09:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B00BB10E8BE;
+ Wed, 17 Dec 2025 00:10:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DA02C60151;
- Wed, 17 Dec 2025 00:09:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CCD5C4CEF1;
- Wed, 17 Dec 2025 00:09:23 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 2A7AC60137;
+ Wed, 17 Dec 2025 00:10:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E25A3C4CEF1;
+ Wed, 17 Dec 2025 00:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765930180;
- bh=aZR9wSyi+zJsIHvJriUMfLQABKctzyX5fXgs8GO8n4U=;
+ s=k20201202; t=1765930213;
+ bh=IYStEoceGdUEi75BLoyEocdK6CZd2MmP8jcIyjKww1A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aNI6UMU2+C9auZatxSgLKTA4RJ8Tc8yGSyXopvdXSVgldtvnHa6Ken0sARx4y/+7E
- vTZ50xFdj1tMQ//XOkLKgN4vvA0M8q5a90sGtX+/o49rR0WOpEAoagq+nWaDWWFzC2
- A+ckdLIbUqlzEVk/gc+gkcqWB01O7qoty08Du5crzhaVhPQGYiiWrUEyDGfCxakcBV
- 7/Vhq9JR056MU/kxoCZ6IQJrLttskLj7lv7AonqdrTHCXfFEdheN1OlszL9XqoU/8Y
- GI4TxOTez3ZYyi/BtyoTEdpc9tG9UwXITx9UVU576wwFjXer281n4kx9KhSKtCsvy+
- odgHmbJMW4r/A==
-Message-ID: <e76e25ef-f112-4689-9753-34709613b9c2@kernel.org>
-Date: Wed, 17 Dec 2025 01:09:18 +0100
+ b=ZirnAmXZntKqQ0k4HUVwGi1YqYVeSoRhusTvAg73iV3t9VVhPLhTsXP1tLDbaSb3X
+ apvbKAHL3nFZTB2DUvWUBOX+UygqSJYs36Bd1f/rfWT+X9JMBmkS+Z4Wsm60tfypPv
+ GS7Tpivbn3/VRYA1dgSeETWVHA1rgJBpOT1XBDXFvwhAlgRHtrUpCfUpnd2vhbxQ9J
+ GuBCrHKguP92bD8aEvceF0rTOXp/QF/r7HHua7AwcZZXwfttaEectmb6IpwvlGO7ty
+ at+2FhZS6ng5dxpbwMuR7D3MansmP2/DRx7Hi/COKlO2DR5FQE+MxflxWjz660r+Gi
+ JlpZXjBBbQaqw==
+Message-ID: <56acbfc1-51d7-4245-91ea-45bd9e4b2e29@kernel.org>
+Date: Wed, 17 Dec 2025 01:09:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] mm: Describe @flags parameter in
- memalloc_flags_save()
+Subject: Re: [PATCH 05/14] mm, kfence: Describe @slab parameter in
+ __kfence_obj_info()
 To: Bagas Sanjaya <bagasdotme@gmail.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -95,10 +95,10 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
  George Anthony Vernon <contact@gvernon.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-3-bagasdotme@gmail.com>
+ <20251215113903.46555-6-bagasdotme@gmail.com>
 From: "David Hildenbrand (Red Hat)" <david@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20251215113903.46555-3-bagasdotme@gmail.com>
+In-Reply-To: <20251215113903.46555-6-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,28 +119,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 12/15/25 12:38, Bagas Sanjaya wrote:
 > Sphinx reports kernel-doc warning:
 > 
-> WARNING: ./include/linux/sched/mm.h:332 function parameter 'flags' not described in 'memalloc_flags_save'
+> WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
 > 
-> Describe @flags to fix it.
+> Fix it by describing @slab parameter.
 > 
-> Fixes: 3f6d5e6a468d02 ("mm: introduce memalloc_flags_{save,restore}")
+> Fixes: 2dfe63e61cc31e ("mm, kfence: support kmem_dump_obj() for KFENCE objects")
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->   include/linux/sched/mm.h | 1 +
+>   include/linux/kfence.h | 1 +
 >   1 file changed, 1 insertion(+)
 > 
-> diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
-> index 0e1d73955fa511..95d0040df58413 100644
-> --- a/include/linux/sched/mm.h
-> +++ b/include/linux/sched/mm.h
-> @@ -325,6 +325,7 @@ static inline void might_alloc(gfp_t gfp_mask)
->   
->   /**
->    * memalloc_flags_save - Add a PF_* flag to current->flags, save old value
-> + * @flags: Flags to add.
+> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> index 0ad1ddbb8b996a..e5822f6e7f2794 100644
+> --- a/include/linux/kfence.h
+> +++ b/include/linux/kfence.h
+> @@ -211,6 +211,7 @@ struct kmem_obj_info;
+>    * __kfence_obj_info() - fill kmem_obj_info struct
+>    * @kpp: kmem_obj_info to be filled
+>    * @object: the object
+> + * @slab: the slab
 >    *
->    * This allows PF_* flags to be conveniently added, irrespective of current
->    * value, and then the old version restored with memalloc_flags_restore().
+>    * Return:
+>    * * false - not a KFENCE object
 
 Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
 
