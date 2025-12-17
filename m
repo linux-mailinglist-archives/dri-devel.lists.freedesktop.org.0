@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95D6CC8F37
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 18:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8459CC8F3A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 18:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2BE10E82D;
-	Wed, 17 Dec 2025 17:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079A610E80D;
+	Wed, 17 Dec 2025 17:04:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TYF0e3zq";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IQeMxV8h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0507510E80D
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 17:04:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765991046; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18DCD10E80D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 17:04:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765991050; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=RdZEoObAi69A7BXQH+VVF3hMq4oOW5uPwfCNNqxQkVqeekoWEPWPh/G8o/j18RjeYm2ATJ/8n8QqzPOUhVlrg0hiypKPSBxMXemRLNNPwP0aXjCVVKUYZmbqKfqY3hGrjENjrNWssv5219GNgnNjygnbkwm1ZAN5mxdiLrxijd8=
+ b=lOk1vzhLuFgKqwCTkR2S4/2F6Bs/sk85N4qtlMfWm8I9uqLM69ONUKP6YMuLG5kWlNi+AycnblwNp7vdbfLYmfA9d8oPxTXnK2SKn9KubMwOanRqjnkqswG+0UwsAXbsi5Qat8/eTTp+fhe7nSxtp+Abst/MAf0IspLCNz+DRcA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765991046;
+ s=zohoarc; t=1765991050;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=J0hm26JZwx6v0Ry2T0SEUpthc+tXhioEHL+8VAV//SU=; 
- b=msX9GsQspDMB1LSW9AKbYEUdb5PR35fIDUO23uHN7p6vUQRG0r+RpaxgpjsUjf7nUPClpM5cFi5wp3zN1GApfMvYXwDQDBtUlYerTzSmOEKKBukBgEpKJG6Dj9JaFuwTKqIkdTcdS/zajgWrYsD2e4JRWyI6/LWBWq+FhNpxTDA=
+ bh=JodwRFPnp+dt+M6T84oVkJbSU75BprVJj2BrcZXZH5o=; 
+ b=cLbWjpTBG5rGXnss8GtDsa8xjrN+Om2wLnLtx45CuSiEISUTlqfuR1Tsw18OcRELDMa/TWXOi+WaZ4iYJkD33Fam+DGG8bh1H07MbJJ8l9uUYUnTAlvtqeNio5o31zn78PACGybcaCTUr3Uk1LUamQfS3DiIkrPys8+nM4On4PY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765991046; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765991050; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=J0hm26JZwx6v0Ry2T0SEUpthc+tXhioEHL+8VAV//SU=;
- b=TYF0e3zqs2OyQJdTA5j8qvuLHjvvlb07BeVcVQWey27yJ4sB2r3uAXdujYuAeZJF
- pOFIeXuXOQvDDZ4kAJu2E40hTK++vSvcqqaMJyw8Ac8nLL0CbehQSCnovc7ud/SNAuM
- 5gPhibIl37GtM9bp+JwNupALEiY6YzI/n7Ft5dzQ=
-Received: by mx.zohomail.com with SMTPS id 1765991044199539.6895741631515;
- Wed, 17 Dec 2025 09:04:04 -0800 (PST)
+ bh=JodwRFPnp+dt+M6T84oVkJbSU75BprVJj2BrcZXZH5o=;
+ b=IQeMxV8hvs1t6c5qOamOfl4ECpLR61LZsbFJ9IT56qVR8fMFFZ4KscAYZ+SV2dzZ
+ exFqlfYbjBZhI2qKdYIqAJtpHJHGvFCngXvq90viMIyDVzyRBz+ONGJyJB8IHko7AVF
+ 0VwEoNxCcIsnAkChWLECntTvBRYnft7siBvVGcgU=
+Received: by mx.zohomail.com with SMTPS id 1765991049795282.56409550973785;
+ Wed, 17 Dec 2025 09:04:09 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 17 Dec 2025 18:03:27 +0100
-Subject: [PATCH 1/4] dt-bindings: gpu: mali-valhall-csf: Add shader-present
- nvmem cell
+Date: Wed, 17 Dec 2025 18:03:28 +0100
+Subject: [PATCH 2/4] dt-bindings: power: mt8196-gpufreq: Describe nvmem
+ provider ability
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-mt8196-shader-present-v1-1-f6f8f3aa1e93@collabora.com>
+Message-Id: <20251217-mt8196-shader-present-v1-2-f6f8f3aa1e93@collabora.com>
 References: <20251217-mt8196-shader-present-v1-0-f6f8f3aa1e93@collabora.com>
 In-Reply-To: <20251217-mt8196-shader-present-v1-0-f6f8f3aa1e93@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, 
@@ -79,64 +79,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the MediaTek MT8196 SoC, the bitmask for which shader cores are
-present and functional is not the one in the Mali GPU's registers, but
-in an external efuse.
+On the MediaTek MT8196 SoC, the Mali GPU's "shader_present" hardware
+register may also include a non-functional shader core, along with the
+present shader cores. An efuse elsewhere in the SoC provides the
+shader_present mask with the fused off core omitted.
 
-Add the nvmem cell properties to describe such a setup, and make them
-required on MT8196.
+However, the efuse address is not publicly disclosed. What is known
+though is that the GPUEB MCU reads this efuse, and exposes its contents
+in the memory it shares with the application processor.
+
+We can therefore describe the mediatek,mt8196-gpufreq device as being an
+nvmem provider for this purpose, as it does provide nvmem access in an
+indirect way.
+
+The shader-present child node is left out of the list of required
+properties as we may one day be able to describe the actual efuse region
+this value comes from, so the gpufreq device isn't necessarily the only
+device that can provide this cell, and implementations shouldn't need to
+implement this functionality once this is the case.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- .../devicetree/bindings/gpu/arm,mali-valhall-csf.yaml      | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml  | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-index bee9faf1d3f8..8eccd4338a2b 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-@@ -51,6 +51,14 @@ properties:
-           - stacks
-       - const: stacks
+diff --git a/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml b/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml
+index b9e43abaf8a4..66fc59b3c8b4 100644
+--- a/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml
++++ b/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml
+@@ -74,9 +74,18 @@ properties:
+   "#clock-cells":
+     const: 1
  
-+  nvmem-cells:
-+    items:
-+      - description: bitmask of functional shader cores
++  "#nvmem-cell-cells":
++    const: 0
 +
-+  nvmem-cell-names:
-+    items:
-+      - const: shader-present
+   "#power-domain-cells":
+     const: 0
+ 
++  shader-present:
++    type: object
 +
-   mali-supply: true
- 
-   operating-points-v2: true
-@@ -108,6 +116,8 @@ allOf:
-       properties:
-         clocks:
-           minItems: 3
-+        nvmem-cells: false
-+        nvmem-cell-names: false
-         power-domains:
-           maxItems: 1
-         power-domain-names: false
-@@ -133,6 +143,8 @@ allOf:
-             - const: core
-             - const: stacks
-       required:
-+        - nvmem-cells
-+        - nvmem-cell-names
-         - power-domains
- 
- examples:
-@@ -179,6 +191,8 @@ examples:
-                      <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH 0>,
-                      <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH 0>;
-         interrupt-names = "job", "mmu", "gpu";
-+        nvmem-cells = <&shader_present>;
-+        nvmem-cell-names = "shader-present";
-         power-domains = <&gpufreq>;
++dependencies:
++  shader-present: [ "#nvmem-cell-cells" ]
++
+ required:
+   - compatible
+   - reg
+@@ -113,5 +122,9 @@ examples:
+                      "ccf", "fast-dvfs";
+         memory-region = <&gpueb_shared_memory>;
+         #clock-cells = <1>;
++        #nvmem-cell-cells = <0>;
+         #power-domain-cells = <0>;
++
++        shader-present {
++        };
      };
- 
 
 -- 
 2.52.0
