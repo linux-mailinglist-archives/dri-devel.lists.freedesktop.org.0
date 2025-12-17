@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3D6CC70F7
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:25:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DCDCC70FD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:25:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F2910E089;
-	Wed, 17 Dec 2025 10:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36FAA10E2DA;
+	Wed, 17 Dec 2025 10:25:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EOPQSEDw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rm2NHFhS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D2210E089
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:25:06 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E7E10E2DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:25:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 89CFD40DA9;
- Wed, 17 Dec 2025 10:25:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0376C4CEF5;
- Wed, 17 Dec 2025 10:25:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4036C6018E;
+ Wed, 17 Dec 2025 10:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 699B6C4CEF5;
+ Wed, 17 Dec 2025 10:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765967106;
- bh=piGOz6XLwLmQStZCMaEswKGAlrxEZpMArYG0KMxzGk8=;
+ s=k20201202; t=1765967121;
+ bh=j6fWBAYEXtE3Kd4XTM6pOK9YC5GmGveHQTJogZwLkDQ=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=EOPQSEDwOiu0mSJu6Z6W+EyM/uxhXk+FScR/RinD0cNHcpBI7I3cj1OQmLCTWQ+X2
- tqE+aofbQTtv1f7Y/wexf/hv5B4V3pvLPXt8fkCwQYrjnefOnxy5tqhkzCYKgUzU+D
- gpyaKz6NlQOg2xzefPeeJoSRPl1iSCpxUav59vCf40pIoO1zhV+IheALsivwNbK0ZC
- E6Sb81XYWfo/ztTcLp7GrWzS8WrCq3FDnsYSAWYK5aBjpkHJ3X8KcB4miZYD234f/l
- +3kadcdvNwrABQdoB+9eQVC4ffG9NDALtOjVpJVz4vAY4IgzJc68mlLgvyottomNHx
- ecIFb7Vc+6xDQ==
-Message-ID: <aabaa59f3204da6203c62c5ba01dccd0@kernel.org>
-Date: Wed, 17 Dec 2025 10:25:04 +0000
+ b=Rm2NHFhSLip7bSLXiPGfLGtjzkUVxs6dUDd8ey0B8wNTOtLmMaxmzMTTKRHEFzBWs
+ sdBBztUA8NDkaASfgt12Wb2zY3TIJdMJ9ZynH+qEpRy1GR9do4WKZMQIlJZeauI5Se
+ tXkstKJunbralmVZCVBcCXkWZeXUKvqZ56Vh/PLOObvKo05r8ZuWzAxbamZnSPdBx2
+ a+BViYe4R8LELixb5GNRs1I9i6d2zY/2ebsdiYDAyDpACOnCQfUmE8H8Wps81ikznb
+ +SPzb+Awo+LWePjP+k2iqoC3iBH8GNM7xvAoIYZTu9TJjr3BpObrFmqZ0kEyRbUgYI
+ /512xnZHl1/RA==
+Message-ID: <b95966ec5cffced78db429efa87dcf95@kernel.org>
+Date: Wed, 17 Dec 2025 10:25:19 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 21/22] drm/bridge: imx8qxp-pixel-link:
- imx8qxp_pixel_link_find_next_bridge: return int, not ERR_PTR
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-21-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-21-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 19/22] drm/bridge: imx8qxp-pixel-link: simplify
+ freeing of the remote device_node
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-19-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-19-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -60,7 +60,7 @@ Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
  "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,13 +76,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:54 +0100, Luca Ceresoli wrote:
-> In preparation for using bridge->next_bridge, we need to ensure that it
-> will never contain anything but NULL or a valid bridge pointer. Current
-> code stores an ERR_PTR when imx8qxp_pixel_link_find_next_bridge() errors
-> out. Instead of fixing that after the facts in the caller, change the
-> function to internally set pl->next_bridge and just return an int error
-> 
+On Tue, 16 Dec 2025 18:58:52 +0100, Luca Ceresoli wrote:
+> The main loop in imx8qxp_pixel_link_find_next_bridge() requires calling
+> of_node_put() in multiple places, complicating code flow. Simplify it by
+> using a cleanup action and making the 'remote' variable scope local to the
+> loop.
+>=20
+>=20
 > [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
