@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7089CC702D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DAACC703F
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Dec 2025 11:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F2D10EC0A;
-	Wed, 17 Dec 2025 10:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2D5310E58F;
+	Wed, 17 Dec 2025 10:16:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Nz6p3DZz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aO4cKOOV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7701410EC08
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:15:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2E110E658
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 10:16:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 97DF26055A;
- Wed, 17 Dec 2025 10:15:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07F6C4CEF5;
- Wed, 17 Dec 2025 10:15:30 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1BF966055B;
+ Wed, 17 Dec 2025 10:16:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DA0C4CEF5;
+ Wed, 17 Dec 2025 10:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765966531;
- bh=skfOYgfAuvLlvVFtYXO0nED04VoALMEVUW5taGZIDUg=;
+ s=k20201202; t=1765966582;
+ bh=14N7+pYy72kfKgLZ+eBjOCn+SrYbkirrM1jMUhs1cHQ=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=Nz6p3DZzkqG8H4Nvbd2AHyWRx3TWgtrkGHCbG7nJP/yZ7YpQbUQ4sScJ0axpFSM76
- N3I04sjA4YLG+NMnOi+SoQIqDF1B4dY/9PK8lKk7/0Ac6Kknuhe3HgXPUfh1dMkWaL
- gGtES1r559SgmtcLu2EFp2cMk2ewcqkb19tBrfbdgplxNfF+Y9Pf1SbaPVem2zSlaP
- rRBieyJeZ4v6dRrrqHwDQZDFBOJQdzqi9c/tID5E3JhRqWUOg026uwBdbq6QPX5GKc
- p8HKcRIw2JDAKvrK23Ukl+qpfo+Ew8yzKm60eggM9XvyoV4GM2kJUpBxmyM6Rv6pA2
- udWFcrUaXyBwg==
-Message-ID: <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
-Date: Wed, 17 Dec 2025 10:15:28 +0000
+ b=aO4cKOOVeefvLNc7CIcIB6uIcGA3BuF9GQzoKy8YZd8b2Y4g5nJG7VGIYtYX1RgJl
+ JtCo8irlnMdjj//V1tJESEEtgcwreO/bhOOE84u8Ntu9XqZw92P5hPXukEJKxtiLAv
+ oqyivM4O3SUfDmtimYCyNzvkYi/LxQrGOK/Wt4Vl+DOtQGKylSV3oiCYtzz4GU7V1B
+ aHi4qtO8bodJ7FZa7y1cSasyLx7CbX2x6gEmyA0QSXJzandD7d1JdaL5z0LQb+ReSx
+ 6iMnJVp+NV9mw+hyfHBdymKVubU/pQ8ljPbc8lS/nTiWokbnOqar3D3bq0e+DMzan4
+ sZwiYbbCTfCCQ==
+Message-ID: <bf2654046433c0f580bac440c3e72299@kernel.org>
+Date: Wed, 17 Dec 2025 10:16:20 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 04/22] drm/bridge: make of_drm_find_bridge() a
+ wrapper of of_drm_find_and_get_bridge()
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-4-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-4-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
@@ -75,12 +76,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Dec 2025 18:58:34 +0100, Luca Ceresoli wrote:
-> of_drm_find_bridge() does not increment the refcount for the returned
-> bridge, but that is required now. However converting it and all its users
-> is not realistically doable at once given the large amount of (direct and
-> indirect) callers and the complexity of some.
+On Tue, 16 Dec 2025 18:58:37 +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() is identical to of_drm_find_and_get_bridge() except =
+it
+> does not increment the refcount. Rewrite it as a wrapper and put the brid=
+ge
+> being returned so the behaviour is still the same.
 >=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >=20
 > [ ... ]
 
