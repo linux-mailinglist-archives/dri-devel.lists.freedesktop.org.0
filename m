@@ -2,52 +2,255 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E4DCCA51D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 06:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B981CCAE84
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 09:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690FC10E5AF;
-	Thu, 18 Dec 2025 05:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1470A10E405;
+	Thu, 18 Dec 2025 08:35:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="V9zORFD2";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Crr/fe4M";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com
- [207.226.244.123])
- by gabe.freedesktop.org (Postfix) with ESMTP id D737210E5AF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:26:03 +0000 (UTC)
-X-CSE-ConnectionGUID: 6LycU3voR5CU5rUGg3y+YQ==
-X-CSE-MsgGUID: 3ByA0UtlRB6kR5dvIHQyzA==
-X-IronPort-AV: E=Sophos;i="6.21,156,1763395200"; 
- d="scan'208,217";a="161694889"
-From: =?gb2312?B?uN/P6A==?= <gaoxiang17@xiaomi.com>
-To: Steven Rostedt <rostedt@goodmis.org>, Xiang Gao <gxxa03070307@gmail.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "mhiramat@kernel.org"
- <mhiramat@kernel.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "mathieu.desnoyers@efficios.com"
- <mathieu.desnoyers@efficios.com>, "dhowells@redhat.com"
- <dhowells@redhat.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "brauner@kernel.org" <brauner@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "linux-trace-kernel@vger.kernel.org"
- <linux-trace-kernel@vger.kernel.org>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2N10gZG1hLWJ1Zjog?=
- =?gb2312?Q?add_some_tracepoints_to_debug.?=
-Thread-Topic: [External Mail]Re: [PATCH v7] dma-buf: add some tracepoints to
- debug.
-Thread-Index: AQHcb2z9cDaOU3OkoU6L6VWWiGOnOLUm3kym
-Date: Thu, 18 Dec 2025 05:24:36 +0000
-Message-ID: <f48da27cfb3f4052958c97d2eb7244b3@xiaomi.com>
-References: <20251217105132.643300-1-gxxa03070307@gmail.com>,
- <20251217105239.713bab41@gandalf.local.home>
-In-Reply-To: <20251217105239.713bab41@gandalf.local.home>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.88.13]
-Content-Type: multipart/alternative;
- boundary="_000_f48da27cfb3f4052958c97d2eb7244b3xiaomicom_"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB6410E5C3;
+ Thu, 18 Dec 2025 05:28:16 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BI1gpfV412467; Thu, 18 Dec 2025 05:26:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=cMlhR45QeBoQbuO/vA
+ 15+h0KMVa2pxs0X4cI7g93v+g=; b=V9zORFD2BWLNPLQHV7td1ZcrThyDaFBUGV
+ 4PqQ8BQORz30s2DYPrtM425yrZwA/i9VsYTo0sTLowfEx0LSCtAGD2lOYaJO+epy
+ Xisvw9fRvQcaimSO3gPsaugU2h/wC5JsSFJuCw6qhbd9XhGxu0mw/7JdpRtZ7A6y
+ +UxDb8lXmhXIn4cdgnJOY+uRWKI0ilA4daLjIzc34fvlJtTe/FS7u5P0rKxpTMAU
+ pEAcyLzyNON7nKqjhkFrlcvsUiJiUPTnmLKYYl+0VVS04UOCJSztIupSaF6QN0Ga
+ pvxrOJA9gcVDaW8Rg+Y83OACxFsdNnpdK5qmJ6bBjB72JQFrp2zA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b1015y7bj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Dec 2025 05:26:43 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 5BI3hPVI022456; Thu, 18 Dec 2025 05:26:42 GMT
+Received: from ch1pr05cu001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010020.outbound.protection.outlook.com
+ [52.101.193.20])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4b0xknfjet-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Dec 2025 05:26:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uvZXCPCu9vsJnJHkwZtY9RO9LoQ97plw6IMTQyryL2YfrZ7PYD/wAzKZRhqmhJTCUeBY9lHCOnWGc2XcjfMJR+gaWo/bk+SyuT7F2lg0kFU6nITSNeAFx+cAzzbh2fLqAQZfwRDJZgtJlknbGSCZ2adOX233N/IWoknVwJ9jnJKXB9f6dHZiGbB3gexaqCdVh6iwuXhulxT3wx2g5hpJcpairxVGXGurSo5kTz3s/J/HTtLL5uNXbUIRC9GWBp6sYumj3ViARgVbrB1zgG957XPOvxTAojcQgQetyq1Z6Hl60zXN14wtjlDrdZqofHVu3axfJTo9P1cG/A07BcJTdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cMlhR45QeBoQbuO/vA15+h0KMVa2pxs0X4cI7g93v+g=;
+ b=JMC937Y/auE8z0ETrdgRE2uOebjANwRStsjssuCeeDedNEKHciY4Mj3bLKAHBVHS2i525grjw8OPWdx4I4S8jxJ/vwWMHl5jMdlfrccfn1me7oSIlD7hR/1gXkawtxghpL7laCgE7H6kPKRErhMOrghR5C/Icgb7MllVl/Nb8rVipogGLtL+DsHcHLfDMm8KBlteJ/MZ9AfZJXt50rZJgh5wMQjMCG3mxF43kw7LCMbRHrPvCPrdbzv8LtBkF1jWuuF1+jwW1XwP6eF39VTIj1zE4avbACh1wWf8fWYF+heTM7cJTfTgUmaTB0+MciptQHszrCDE8luzLpMh6/xF5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cMlhR45QeBoQbuO/vA15+h0KMVa2pxs0X4cI7g93v+g=;
+ b=Crr/fe4MJLj320jtGxHHJrBvIc5ShWiTIrQBhzFhqjRphmWsd6iVxlyFXhfZy7Hj824FcZ2f+9yDEOc2MOBYtHBXDK7OaFN6gtLAalXp6EfHXCtXe59nwYE7UwqmvNtP0nTaetE78GGhEKP3LRjs6PsGxH/VAszUSuZYSWRNvVQ=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by CY8PR10MB6468.namprd10.prod.outlook.com (2603:10b6:930:60::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
+ 2025 05:26:37 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 05:26:37 +0000
+Date: Thu, 18 Dec 2025 14:26:18 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
+ Linux Media <linux-media@vger.kernel.org>,
+ linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
+ Linux Virtualization <virtualization@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Network Bridge <bridge@lists.linux.dev>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Dillon Varone <Dillon.Varone@amd.com>,
+ George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+ Cruise Hung <Cruise.Hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>,
+ Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ David Hildenbrand <david@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Max Kellermann <max.kellermann@ionos.com>,
+ "Nysal Jan K.A." <nysal@linux.ibm.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Alexey Skidanov <alexey.skidanov@intel.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Vitaly Wool <vitaly.wool@konsulko.se>,
+ Mateusz Guzik <mjguzik@gmail.com>, NeilBrown <neil@brown.name>,
+ Amir Goldstein <amir73il@gmail.com>, Jeff Layton <jlayton@kernel.org>,
+ Ivan Lipski <ivan.lipski@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lyude Paul <lyude@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Roopa Prabhu <roopa@cumulusnetworks.com>,
+ Mao Zhu <zhumao001@208suo.com>, Shaomin Deng <dengshaomin@cdjrlc.com>,
+ Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
+ Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ George Anthony Vernon <contact@gvernon.com>
+Subject: Re: [PATCH 02/14] mm: Describe @flags parameter in
+ memalloc_flags_save()
+Message-ID: <aUOQehpfZsgGrb36@hyeyoo>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
+ <20251215113903.46555-3-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215113903.46555-3-bagasdotme@gmail.com>
+X-ClientProxiedBy: SL2P216CA0119.KORP216.PROD.OUTLOOK.COM (2603:1096:101::16)
+ To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|CY8PR10MB6468:EE_
+X-MS-Office365-Filtering-Correlation-Id: 977d5c1c-3cb8-441a-71df-08de3df60433
+X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mtwrq6WwqPy4zabYRSQ3a25VDb7Cn6p80yheWxo05/7HNCHfsm179rJR/JBx?=
+ =?us-ascii?Q?5arnCEYIGJRxIMmvKCAmWUpHP4NI7qkNx0ug+WIwLEIS1K5fKCoI1rQIFL64?=
+ =?us-ascii?Q?3plBUA5Cgd0i6XNZfvP0CvVXjVX0NQetFcXq+Ego2lWOXtux0u1N4DroMbyN?=
+ =?us-ascii?Q?oA3UoOMtW9CghlndOydcYjLVhn6nFgUtC3mHX3HzmWkYtjIltuHeAdUuMjFH?=
+ =?us-ascii?Q?1EURgj0wPWQAKJzjhxdCizXAyKBqQVjjyEbNrQ7cMiucSQV3F2zIwClp6gty?=
+ =?us-ascii?Q?UOujJRXEPNlau13De/MFQW9Xa/rYvEt2DAZAN1dDkCE39uTKnmaG0stDlUh/?=
+ =?us-ascii?Q?D1f6neE8dYjQ7lNUWQGeyWcaGk0e+NrYHGViUK7ZbhxFw84/gWcNE7vMBAnH?=
+ =?us-ascii?Q?Nb579HosuovsB94hlNm52eVqjJYr2HrmmlcqsKeblW/XyAwEcCV7cIX73teN?=
+ =?us-ascii?Q?d7S7/NaQlncsmt7RcAZ1AkZefCKc7puJqroQj9hC/BcqD3QQAJQ2F5yj/2HV?=
+ =?us-ascii?Q?PMhtS8vfWQgnUHMC3U+PWhsEjZANc/oFy40mNIaUDqC9AGpRuzycA44EQSKZ?=
+ =?us-ascii?Q?0i7wXbpYkWu8dxuO9ilWCOB/anWtqcEQ6GW3E1Ofq1uu/5tEgePAIk3sFfj2?=
+ =?us-ascii?Q?8vnoqywPUmo2GUbv96NLTKqlRqcVjRIzvT6bOkZ2l9rbezjPfPUOI+rPwWV+?=
+ =?us-ascii?Q?f2IbPCYtVUIgHpF/KZ0lqUyHQp6AVQ7ZtAOpu7MBUuj0jrcnYyoUJJlcmdNK?=
+ =?us-ascii?Q?TuyKR2T0VA6TIiSo0xzwlGBNzExRv+tLUVHnpdBpgPxJpbM/wIGOOTqeLEqh?=
+ =?us-ascii?Q?a0GgN+2rE1Ggj2OA+hB6YjGPYO3W2K53WRumLyAMr2C09btRwae1m/soFQt7?=
+ =?us-ascii?Q?uRQslTabqKK/STOOcJ3ZB0f8F279jRPuI4pGdSOO+2P5ACCqYfu4UTQmfRfG?=
+ =?us-ascii?Q?f73mu4jQ/0PPN1iOSp0WXSIQcEPotWI0aO43opa87ITm83CE6MxjH73tmRkl?=
+ =?us-ascii?Q?Kp2CxX/u2Gp1P3pYdk1IMjivPETdYo4Xz3GJpa74EW+bZQAXkc13HvHN7z0C?=
+ =?us-ascii?Q?qBVjiZv66/kB256W8/HaaT02LFr/4PNYM5/N7QNjx2CXZdcg5fMIw1P2vb+b?=
+ =?us-ascii?Q?boYU5ijgMj5f5JCi+nU7qN1hnfDLHyitVhLrnfpJjE5H5Amm34ybnZyxPL1m?=
+ =?us-ascii?Q?c+X96FjPeXJlQCzNQIKs3ULwrPyJa+q70+zaJ+LO6YDM4EUFCO+BT7qrU5Wb?=
+ =?us-ascii?Q?KRPFQ+zNO2v5UH/95lZb0RF/mnDJnMfyvYHPBMC2plSbNFr7y1ZIZsJ9FfTM?=
+ =?us-ascii?Q?ULwUjvx8in76g038AIrey2VMpfHD+1lsO8K7h+2pF5foNtdOii3ENPjKmnxW?=
+ =?us-ascii?Q?e/5RtN/GBlN2mBmLQn8GIda1XnYHXcm3FuhxuAj5dgZYYvNEWHfwatZvnGDe?=
+ =?us-ascii?Q?Y9RAeHBZXeNeoc0UISujjGZ5ay3uEph+?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR10MB7329.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ANhtgV9ZS8R6UE3Np9rAs+NOrA8zYaFw8Eo5JKhPRLn3GdqCpXCzAQG19ORM?=
+ =?us-ascii?Q?3XHo4HiYeuDRjurjZqqPk5MjOarwqxS5tvCpmZaHtYs+hX7mgE1b4t88N6D/?=
+ =?us-ascii?Q?jj3m70BNCLpjClohKdDWnLV+STaGYxp/obxLy0g+mC7zaQZrdrfI1Zm7Esfg?=
+ =?us-ascii?Q?gsSc+lGgRx/oHlxDECEmprfamK8h9ddN0qy67poyYevN7+5uhORcf/D2QJdk?=
+ =?us-ascii?Q?6lmzX/BjBIQet1+pXRB9Km1HsaNwNIbtJD5lOUnlgMdYqm5k2Y+F+bg+USzo?=
+ =?us-ascii?Q?UV0jhJHDuwGO4tesFUrvvjP8uRy6XOL6U9Blw5Y8vpsqTi0FAu9vAv9W5hKi?=
+ =?us-ascii?Q?42KKn7xbJbp/URxLkKtxkdaVxP4DOeWSJ606snEnWTEX1FIZax9ELucDiBcY?=
+ =?us-ascii?Q?KADN9zrJyDoYCG48UGhtGHn/23kgPD9jUiNbFcT9L5DsOFuAlVkzieZDDZeN?=
+ =?us-ascii?Q?xHZ7N+O5wZMQjdEJF/662NIq4bYXucmkTKAQ4tiLXUVKHy1J+lTNOhD+/8Sz?=
+ =?us-ascii?Q?B8tmvwWLC6K+TPAZmdnGXVXAH+UKQoy3LiCOwnUWd7NBsbfOu8HdTxZJclZd?=
+ =?us-ascii?Q?NcV/1FEa0oYTDzr5XwM2dNku1g2w2Ss/BSgVSiSAUPxkjBycBT29Ed1HnQjC?=
+ =?us-ascii?Q?j7JUgVoxmYZrsHjUWbsFBIC9nmJCpn72hYuqrHhpTQ+4GZIxSRVP8iDUjZLC?=
+ =?us-ascii?Q?KwZ2jZOZAhQKXh15cN4eLci/Ha1JHxP5Kv0LCzxcXlXnZvi/ebtB9PzpWBZp?=
+ =?us-ascii?Q?OZvz3D+BVMYyWKIaiCPMkaZ+v8+VwzmfqOiDe+lMU4Ho8z7AYz7WCFYqq6/i?=
+ =?us-ascii?Q?ezqoiTVTQWwhD9YdwJB3pEww6T8WA+81gkwbLDHsiR0zd7XJQfdyUPbxeKzC?=
+ =?us-ascii?Q?AJ8qeCLJ5NIEhZHECuRByU+O/kWFDnhsiI6YhmnlJpr6knu7waeo0ZxHnznd?=
+ =?us-ascii?Q?IfpEp0ROjQPNjEPVazlubMs2SJp4dGyocS0VljABnCrdU5AocuKgQ0BEYctm?=
+ =?us-ascii?Q?ZaOMQngQuHKAxktGqcNgAV5Umq0L+JgxgHQdtLQm54gJlz5GnXYF1bcwKUkg?=
+ =?us-ascii?Q?H+1yQ2hawCphWsdR7NJW6FMMnmhy8ueVQh1R/RZ/D3mFOUPW9fYjVDUpPzbH?=
+ =?us-ascii?Q?fFnr1hW6whjOcLPJXeil72NWrmxNxbx/DioWQoexs70r4ugiDr7WjLz4Lgj1?=
+ =?us-ascii?Q?loP20BGVojfTmAkcius/9FjxH4JpsrUKDhOVh+YTtaEqn3K+66vWrJ5ECQ6Y?=
+ =?us-ascii?Q?7qrRwcfA7bl0DvcC927nujtxJEqoiMa2Fkb9bbSFD6ppWDhPxL/VEPqtmQq3?=
+ =?us-ascii?Q?tScb/AK3eQbKm5rfPT9TygWWy8A/fYYcz9M3L8UvbqrRwrfyMrKQaC8mOIBc?=
+ =?us-ascii?Q?YPaMlFECr5azApmdEaEyuVEZ/u70SaLtu4fWNocdPg5NsRJLUdMBys9BDwYu?=
+ =?us-ascii?Q?SMyxgX/2vpKp7/IXtjVrwo9V12K4QhmtkRv4ZYke4tOMZ3WE8hpyNlKhlHpu?=
+ =?us-ascii?Q?0phtAzQHIQNVFLw8ZRBXmHpDkJ0EpRt5/ZLM5+YcHoqHN71EWROjWOiVzgbU?=
+ =?us-ascii?Q?McJX9xXlbAqWzYBgi+DG7HcrlrW+JhXPhZnMR5Y5?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: xkh5YRXzxBuiiqAMbJlqNQVfRPyNKZx03QP1ukKdSZX7aiF39+sRgEE9crLwcinFu/BrkW2ShMUBCAorcpJrq+ds36CrpMYLCCOKfbgklEQlsGl2+oNC0rrlsO/PbLp4DZy89Ou9Vmia6IMDn6GJQo3/9wn7Ckntx2SMbo3SHLAb8BZ1Uj+Wo2/1mBqX4gZdyM5g0mCfFFbTqvUxtXQRrdB+uC3y/dGxCO7mU57BmWeCRLAO03F6FKYosrY3Y/a3MMQykAMU6oqiOSQw0r8N65gT/gThUBTvmBZeVXpuf7YfyUhwhStTc5cVGGH5mLsES3UYs04F2PpNKS+Ekn4hEtyHCd2IyaQwvUpoxePYnJCeQsZPKIYwk0/U+6rFhg0Fyn2olU/q8EPxTeTIBzbyzr0hSSUwFPNB91WxnOi760+IvGJjChc1pOx0t1En6TEleRDxdvw34Yp47jdH3xh6aK/Fburb4WSJXYD1KMXAAx92ZqfL160pq0Sp1EgyRDd/SjKNxxUz9s5g4pl2YyoUbMYJB0NhxLPakprN+MWXJXGL9pPWoVp8KjKy9cgvipiz7wLuGjbWpPvjiJzO6MVbZz4IxhWVfmPvi9vfl26Op0o=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 977d5c1c-3cb8-441a-71df-08de3df60433
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 05:26:37.6560 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3rzdVCYi6u7LDxqLMEnt2Nqex6N3+UcaXUlhRJTUKh/6GfCm/zYz29/aA7/5ifhIEjkTk4ONNkcm+9xjOpKhIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6468
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0 adultscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2512180042
+X-Proofpoint-GUID: BsTvM-f7QqL7auGcK7EFSmM8iqDzKyGz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDA0MiBTYWx0ZWRfXxCNFXNXUPXWt
+ Xory2CPVxZ6QUYTd9K7aFXVRW/frcaWXw8XaWC5E1rvYM2K7tlKLOBcFJCRHsZt5H1KXjplfVPf
+ XB9shodHj/DByCh6VNo/JGeFulc3F+EH20zHP2wtwnE976cnz/y/yCLApPyqCvEW5o4reD+gHjY
+ I1VUR8szKghn/3AFIJend4ltmMLoFl2ZekOhEpiXaQ3tISMS1TfOb2UCw1VFwL+QDfe3ZFMDOMA
+ twqoH5hNIBJTweWxl2VTbQB73otdcWvV9+y3nuS01EjtE/u8DhTDdtpELZ+Vvxc5T/DT9McSwXu
+ ENo1GFYBgdGzK5AgC4HupxHcxEWGGBZ9v9hK10s1EHYxOHMWxiFIRTOmYogvfgdYtrR523eT4MD
+ v0p/6YKtGF6h7c2eRxfYyI1FBm9Vc+Mw4IPtr4lY2vO9TgWLYTM=
+X-Authority-Analysis: v=2.4 cv=GbUaXAXL c=1 sm=1 tr=0 ts=69439093 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117
+ a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=yPCof4ZbAAAA:8 a=Z-cONpKXGyXygPhPFqMA:9 a=CjuIK1q_8ugA:10
+ cc=ntf awl=host:13654
+X-Proofpoint-ORIG-GUID: BsTvM-f7QqL7auGcK7EFSmM8iqDzKyGz
+X-Mailman-Approved-At: Thu, 18 Dec 2025 08:35:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,338 +266,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_f48da27cfb3f4052958c97d2eb7244b3xiaomicom_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On Mon, Dec 15, 2025 at 06:38:50PM +0700, Bagas Sanjaya wrote:
+> Sphinx reports kernel-doc warning:
+> 
+> WARNING: ./include/linux/sched/mm.h:332 function parameter 'flags' not described in 'memalloc_flags_save'
+> 
+> Describe @flags to fix it.
+> 
+> Fixes: 3f6d5e6a468d02 ("mm: introduce memalloc_flags_{save,restore}")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
 
-b2ssIHRoYW5rcy4NCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzog
-U3RldmVuIFJvc3RlZHQgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQq3osvNyrG85DogMjAyNcTqMTLU
-wjE3yNUgMjM6NTI6MzkNCsrVvP7IyzogWGlhbmcgR2FvDQqzrcvNOiBzdW1pdC5zZW13YWxAbGlu
-YXJvLm9yZzsgY2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tOyBtaGlyYW1hdEBrZXJuZWwub3JnOyBs
-aW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IG1hdGhpZXUuZGVzbm95ZXJzQGVmZmlj
-aW9zLmNvbTsgZGhvd2VsbHNAcmVkaGF0LmNvbTsga3ViYUBrZXJuZWwub3JnOyBicmF1bmVyQGtl
-cm5lbC5vcmc7IGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc7IGxpbnV4LXRyYWNlLWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmc7ILjfz+gNCtb3zOI6IFtFeHRlcm5hbCBNYWlsXVJlOiBbUEFUQ0ggdjdd
-IGRtYS1idWY6IGFkZCBzb21lIHRyYWNlcG9pbnRzIHRvIGRlYnVnLg0KDQpbzeKyv9PKvP5dILTL
-08q8/sC01LTT2tChw9e5q8u+zeKyv6Osx+u998n3tKbA7aGjyPS21NPKvP6wssir0NS05tLJo6zH
-672r08q8/teqt6K4+G1pc2VjQHhpYW9taS5jb229+NDQt7TAoQ0KDQpPbiBXZWQsIDE3IERlYyAy
-MDI1IDE4OjUxOjMyICswODAwDQpYaWFuZyBHYW8gPGd4eGEwMzA3MDMwN0BnbWFpbC5jb20+IHdy
-b3RlOg0KDQo+IEZyb206IGdhb3hpYW5nMTcgPGdhb3hpYW5nMTdAeGlhb21pLmNvbT4NCj4NCj4g
-U2luY2Ugd2UgY2FuIG9ubHkgaW5zcGVjdCBkbWFidWYgYnkgaXRlcmF0aW5nIG92ZXIgcHJvY2Vz
-cyBGRHMgb3IgdGhlDQo+IGRtYWJ1Zl9saXN0LCB3ZSBuZWVkIHRvIGFkZCBvdXIgb3duIHRyYWNl
-cG9pbnRzIHRvIHRyYWNrIGl0cyBzdGF0dXMgaW4NCj4gcmVhbCB0aW1lIGluIHByb2R1Y3Rpb24u
-DQo+DQo+IEZvciBleGFtcGxlOg0KPiAgICBiaW5kZXI6MzAxNl8xLTMxMDIgICAgWzAwNl0gLi4u
-MS4gICAyNTUuMTI2NTIxOiBkbWFfYnVmX2V4cG9ydDogZXhwX25hbWU9cWNvbSxzeXN0ZW0gc2l6
-ZT0xMjY4NTMxMiBpbm89MjczOA0KPiAgICBiaW5kZXI6MzAxNl8xLTMxMDIgICAgWzAwNl0gLi4u
-MS4gICAyNTUuMTI2NTI4OiBkbWFfYnVmX2ZkOiBleHBfbmFtZT1xY29tLHN5c3RlbSBzaXplPTEy
-Njg1MzEyIGlubz0yNzM4IGZkPTgNCj4gICAgYmluZGVyOjMwMTZfMS0zMTAyICAgIFswMDZdIC4u
-LjEuICAgMjU1LjEyNjY0MjogZG1hX2J1Zl9tbWFwX2ludGVybmFsOiBleHBfbmFtZT1xY29tLHN5
-c3RlbSBzaXplPTI4NjcyIGlubz0yNzM5DQo+ICAgICAga3dvcmtlci82OjEtODYgICAgICBbMDA2
-XSAuLi4xLiAgIDI1NS4xMjcxOTQ6IGRtYV9idWZfcHV0OiBleHBfbmFtZT1xY29tLHN5c3RlbSBz
-aXplPTEyNjg1MzEyIGlubz0yNzM4DQo+ICAgICBSZW5kZXJUaHJlYWQtOTI5MyAgICBbMDA2XSAu
-Li4xLiAgIDMxNi42MTgxNzk6IGRtYV9idWZfZ2V0OiBleHBfbmFtZT1xY29tLHN5c3RlbSBzaXpl
-PTEyNzcxMzI4IGlubz0yNzYyIGZkPTE3Ng0KPiAgICAgUmVuZGVyVGhyZWFkLTkyOTMgICAgWzAw
-Nl0gLi4uMS4gICAzMTYuNjE4MTk1OiBkbWFfYnVmX2R5bmFtaWNfYXR0YWNoOiBleHBfbmFtZT1x
-Y29tLHN5c3RlbSBzaXplPTEyNzcxMzI4IGlubz0yNzYyIGF0dGFjaG1lbnQ6ZmZmZmZmODgwYTE4
-ZGQwMCBpc19keW5hbWljPTAgZGV2X25hbWU9a2dzbC0zZDANCj4gICAgIFJlbmRlclRocmVhZC05
-MjkzICAgIFswMDZdIC4uLjEuICAgMzE4Ljg3ODIyMDogZG1hX2J1Zl9kZXRhY2g6IGV4cF9uYW1l
-PXFjb20sc3lzdGVtIHNpemU9MTI3NzEzMjggaW5vPTI3NjIgYXR0YWNobWVudDpmZmZmZmY4ODBh
-MThkZDAwIGlzX2R5bmFtaWM9MCBkZXZfbmFtZT1rZ3NsLTNkMA0KPg0KPiBTaWduZWQtb2ZmLWJ5
-OiBYaWFuZyBHYW8gPGdhb3hpYW5nMTdAeGlhb21pLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2Rt
-YS1idWYvZG1hLWJ1Zi5jICAgICAgfCAgNDIgKysrKysrKystDQo+ICBpbmNsdWRlL3RyYWNlL2V2
-ZW50cy9kbWFfYnVmLmggfCAxNTcgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+
-ICAyIGZpbGVzIGNoYW5nZWQsIDE5OCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBj
-cmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS90cmFjZS9ldmVudHMvZG1hX2J1Zi5oDQo+DQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2Rt
-YS1idWYuYw0KPiBpbmRleCAyYmNmOWNlY2E5OTcuLmNlMzliYzE5ZTEzZiAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1h
-LWJ1Zi5jDQo+IEBAIC0zNSw2ICszNSwyNSBAQA0KPg0KPiAgI2luY2x1ZGUgImRtYS1idWYtc3lz
-ZnMtc3RhdHMuaCINCj4NCj4gKyNkZWZpbmUgQ1JFQVRFX1RSQUNFX1BPSU5UUw0KPiArI2luY2x1
-ZGUgPHRyYWNlL2V2ZW50cy9kbWFfYnVmLmg+DQo+ICsNCj4gKy8qDQo+ICsgKiBkbWFidWYtPm5h
-bWUgbXVzdCBiZSBhY2Nlc3NlZCB3aXRoIGhvbGRpbmcgZG1hYnVmLT5uYW1lX2xvY2suDQo+ICsg
-KiB3ZSBuZWVkIHRvIHRha2UgdGhlIGxvY2sgYXJvdW5kIHRoZSB0cmFjZXBvaW50IGNhbGwgaXRz
-ZWxmIHdoZXJlDQo+ICsgKiBpdCBpcyBjYWxsZWQgaW4gdGhlIGNvZGUuDQo+ICsgKg0KPiArICog
-Tm90ZTogRlVOQyMjX2VuYWJsZWQoKSBpcyBhIHN0YXRpYyBicmFuY2ggdGhhdCB3aWxsIG9ubHkN
-Cj4gKyAqICAgICAgIGJlIHNldCB3aGVuIHRoZSB0cmFjZSBldmVudCBpcyBlbmFibGVkLg0KPiAr
-ICovDQoNCk11Y2ggYmV0dGVyLg0KDQo+ICsjZGVmaW5lIERNQV9CVUZfVFJBQ0UoRlVOQywgLi4u
-KSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQo+ICsgICAgIGRvIHsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBcDQo+ICsgICAgICAgICAgICAgaWYgKEZVTkMjI19lbmFi
-bGVkKCkpIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gKyAg
-ICAgICAgICAgICAgICAgICAgIGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAg
-ICBcDQo+ICsgICAgICAgICAgICAgICAgICAgICBGVU5DKF9fVkFfQVJHU19fKTsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KPiArICAgICAgICAgICAgIH0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQoNCkhtbSwgSSB3b25kZXIgaWYgd2Ugc2hv
-dWxkIGFsc28gYWRkOg0KDQogICAgICAgICAgICAgICAgfSBlbHNlIGlmIChJU19FTkFCTEVEKENP
-TkZJR19MT0NLREVQKSkgeyBcDQogICAgICAgICAgICAgICAgICAgICAgICAvKiBFeHBvc2UgdGhp
-cyBsb2NrIHdoZW4gbG9ja2RlcCBpcyBlbmFibGVkICovIFwNCiAgICAgICAgICAgICAgICAgICAg
-ICAgIGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAgICBcDQogICAgICAgICAg
-ICAgICAgfQ0KDQpUaGlzIHdheSwgaWYgdGhlcmUgaXMgYW55IGlzc3VlIHRha2luZyB0aGUgbG9j
-aywgbG9ja2RlcCB3aWxsIGZsYWcgaXQNCndpdGhvdXQgaGF2aW5nIHRvIGVuYWJsZSB0aGUgdHJh
-Y2Vwb2ludC4NCg0KV2hlbiBMT0NLREVQIGlzIG5vdCBjb25maWd1cmVkLCB0aGUgY29tcGlsZXIg
-c2hvdWxkIHJlbW92ZSB0aGF0IGJsb2NrLg0KDQo+ICsgICAgIH0gd2hpbGUgKDApDQo+ICsNCj4g
-IHN0YXRpYyBpbmxpbmUgaW50IGlzX2RtYV9idWZfZmlsZShzdHJ1Y3QgZmlsZSAqKTsNCj4NCj4N
-Cg0KDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvaW5jbHVkZS90cmFjZS9ldmVudHMvZG1hX2J1
-Zi5oDQo+IEBAIC0wLDAgKzEsMTU3IEBADQo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMCAqLw0KPiArI3VuZGVmIFRSQUNFX1NZU1RFTQ0KPiArI2RlZmluZSBUUkFDRV9TWVNU
-RU0gZG1hX2J1Zg0KPiArDQo+ICsjaWYgIWRlZmluZWQoX1RSQUNFX0RNQV9CVUZfSCkgfHwgZGVm
-aW5lZChUUkFDRV9IRUFERVJfTVVMVElfUkVBRCkNCj4gKyNkZWZpbmUgX1RSQUNFX0RNQV9CVUZf
-SA0KPiArDQo+ICsjaW5jbHVkZSA8bGludXgvZG1hLWJ1Zi5oPg0KPiArI2luY2x1ZGUgPGxpbnV4
-L3RyYWNlcG9pbnQuaD4NCj4gKw0KPiArREVDTEFSRV9FVkVOVF9DTEFTUyhkbWFfYnVmLA0KPiAr
-DQo+ICsgICAgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpLA0KPiArDQo+ICsgICAg
-IFRQX0FSR1MoZG1hYnVmKSwNCj4gKw0KPiArICAgICBUUF9TVFJVQ1RfX2VudHJ5KA0KPiArICAg
-ICAgICAgICAgIF9fc3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPiArICAgICAg
-ICAgICAgIF9fZmllbGQoc2l6ZV90LCBzaXplKQ0KPiArICAgICAgICAgICAgIF9fZmllbGQoaW5v
-X3QsIGlubykNCj4gKyAgICAgKSwNCj4gKw0KPiArICAgICBUUF9mYXN0X2Fzc2lnbigNCj4gKyAg
-ICAgICAgICAgICBfX2Fzc2lnbl9zdHIoZXhwX25hbWUpOw0KPiArICAgICAgICAgICAgIF9fZW50
-cnktPnNpemUgPSBkbWFidWYtPnNpemU7DQo+ICsgICAgICAgICAgICAgX19lbnRyeS0+aW5vID0g
-ZG1hYnVmLT5maWxlLT5mX2lub2RlLT5pX2lubzsNCj4gKyAgICAgKSwNCj4gKw0KPiArICAgICBU
-UF9wcmludGsoImV4cF9uYW1lPSVzIHNpemU9JXp1IGlubz0lbHUiLA0KPiArICAgICAgICAgICAg
-ICAgX19nZXRfc3RyKGV4cF9uYW1lKSwNCj4gKyAgICAgICAgICAgICAgIF9fZW50cnktPnNpemUs
-DQo+ICsgICAgICAgICAgICAgICBfX2VudHJ5LT5pbm8pDQo+ICspOw0KDQpGb3IgdGhlIHJlc3Qg
-b2YgdGhlIHBhdGNoLCBmcm9tIGEgdHJhY2luZyBwb2ludCBvZiB2aWV3Og0KDQpSZXZpZXdlZC1i
-eTogU3RldmVuIFJvc3RlZHQgKEdvb2dsZSkgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQoNCi0tIFN0
-ZXZlDQo=
+Acked-by: Harry Yoo <harry.yoo@oracle.com>
 
---_000_f48da27cfb3f4052958c97d2eb7244b3xiaomicom_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
-ding-left: 4pt; border-left: #800000 2px solid; } --></style>
-</head>
-<body>
-<meta content=3D"text/html; charset=3DUTF-8">
-<style type=3D"text/css" style=3D"">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
-or:#000000; font-family:Calibri,Helvetica,sans-serif">
-<p>ok, thanks.</p>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Steve=
-n Rostedt &lt;rostedt@goodmis.org&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2025=C4=EA12=D4=C217=C8=D5 23:52:39<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> Xiang Gao<br>
-<b>=B3=AD=CB=CD:</b> sumit.semwal@linaro.org; christian.koenig@amd.com; mhi=
-ramat@kernel.org; linux-media@vger.kernel.org; dri-devel@lists.freedesktop.=
-org; linux-kernel@vger.kernel.org; mathieu.desnoyers@efficios.com; dhowells=
-@redhat.com; kuba@kernel.org; brauner@kernel.org;
- akpm@linux-foundation.org; linux-trace-kernel@vger.kernel.org; =B8=DF=CF=
-=E8<br>
-<b>=D6=F7=CC=E2:</b> [External Mail]Re: [PATCH v7] dma-buf: add some tracep=
-oints to debug.</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt;">
-<div class=3D"PlainText">[=CD=E2=B2=BF=D3=CA=BC=FE] =B4=CB=D3=CA=BC=FE=C0=
-=B4=D4=B4=D3=DA=D0=A1=C3=D7=B9=AB=CB=BE=CD=E2=B2=BF=A3=AC=C7=EB=BD=F7=C9=F7=
-=B4=A6=C0=ED=A1=A3=C8=F4=B6=D4=D3=CA=BC=FE=B0=B2=C8=AB=D0=D4=B4=E6=D2=C9=A3=
-=AC=C7=EB=BD=AB=D3=CA=BC=FE=D7=AA=B7=A2=B8=F8misec@xiaomi.com=BD=F8=D0=D0=
-=B7=B4=C0=A1<br>
-<br>
-On Wed, 17 Dec 2025 18:51:32 &#43;0800<br>
-Xiang Gao &lt;gxxa03070307@gmail.com&gt; wrote:<br>
-<br>
-&gt; From: gaoxiang17 &lt;gaoxiang17@xiaomi.com&gt;<br>
-&gt;<br>
-&gt; Since we can only inspect dmabuf by iterating over process FDs or the<=
-br>
-&gt; dmabuf_list, we need to add our own tracepoints to track its status in=
-<br>
-&gt; real time in production.<br>
-&gt;<br>
-&gt; For example:<br>
-&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
-p;&nbsp; 255.126521: dma_buf_export: exp_name=3Dqcom,system size=3D12685312=
- ino=3D2738<br>
-&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
-p;&nbsp; 255.126528: dma_buf_fd: exp_name=3Dqcom,system size=3D12685312 ino=
-=3D2738 fd=3D8<br>
-&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
-p;&nbsp; 255.126642: dma_buf_mmap_internal: exp_name=3Dqcom,system size=3D2=
-8672 ino=3D2739<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kworker/6:1-86&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp; [006] ...1.&nbsp;&nbsp; 255.127194: dma_buf_put: exp_name=3Dqcom,syste=
-m size=3D12685312 ino=3D2738<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
-.&nbsp;&nbsp; 316.618179: dma_buf_get: exp_name=3Dqcom,system size=3D127713=
-28 ino=3D2762 fd=3D176<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
-.&nbsp;&nbsp; 316.618195: dma_buf_dynamic_attach: exp_name=3Dqcom,system si=
-ze=3D12771328 ino=3D2762 attachment:ffffff880a18dd00 is_dynamic=3D0 dev_nam=
-e=3Dkgsl-3d0<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
-.&nbsp;&nbsp; 318.878220: dma_buf_detach: exp_name=3Dqcom,system size=3D127=
-71328 ino=3D2762 attachment:ffffff880a18dd00 is_dynamic=3D0 dev_name=3Dkgsl=
--3d0<br>
-&gt;<br>
-&gt; Signed-off-by: Xiang Gao &lt;gaoxiang17@xiaomi.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; drivers/dma-buf/dma-buf.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; =
-42 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;-<br>
-&gt;&nbsp; include/trace/events/dma_buf.h | 157 &#43;&#43;&#43;&#43;&#43;&#=
-43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#=
-43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
-&gt;&nbsp; 2 files changed, 198 insertions(&#43;), 1 deletion(-)<br>
-&gt;&nbsp; create mode 100644 include/trace/events/dma_buf.h<br>
-&gt;<br>
-&gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c<br>
-&gt; index 2bcf9ceca997..ce39bc19e13f 100644<br>
-&gt; --- a/drivers/dma-buf/dma-buf.c<br>
-&gt; &#43;&#43;&#43; b/drivers/dma-buf/dma-buf.c<br>
-&gt; @@ -35,6 &#43;35,25 @@<br>
-&gt;<br>
-&gt;&nbsp; #include &quot;dma-buf-sysfs-stats.h&quot;<br>
-&gt;<br>
-&gt; &#43;#define CREATE_TRACE_POINTS<br>
-&gt; &#43;#include &lt;trace/events/dma_buf.h&gt;<br>
-&gt; &#43;<br>
-&gt; &#43;/*<br>
-&gt; &#43; * dmabuf-&gt;name must be accessed with holding dmabuf-&gt;name_=
-lock.<br>
-&gt; &#43; * we need to take the lock around the tracepoint call itself whe=
-re<br>
-&gt; &#43; * it is called in the code.<br>
-&gt; &#43; *<br>
-&gt; &#43; * Note: FUNC##_enabled() is a static branch that will only<br>
-&gt; &#43; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; be set when the trace even=
-t is enabled.<br>
-&gt; &#43; */<br>
-<br>
-Much better.<br>
-<br>
-&gt; &#43;#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; if (FUNC##_enabled()) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
-p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_ARGS__);&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- \<br>
-<br>
-Hmm, I wonder if we should also add:<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; } else if (IS_ENABLED(CONFIG_LOCKDEP)) { \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Expose t=
-his lock when lockdep is enabled */ \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinl=
-ock)(&amp;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; }<br>
-<br>
-This way, if there is any issue taking the lock, lockdep will flag it<br>
-without having to enable the tracepoint.<br>
-<br>
-When LOCKDEP is not configured, the compiler should remove that block.<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
-&gt; &#43;<br>
-&gt;&nbsp; static inline int is_dma_buf_file(struct file *);<br>
-&gt;<br>
-&gt;<br>
-<br>
-<br>
-&gt; --- /dev/null<br>
-&gt; &#43;&#43;&#43; b/include/trace/events/dma_buf.h<br>
-&gt; @@ -0,0 &#43;1,157 @@<br>
-&gt; &#43;/* SPDX-License-Identifier: GPL-2.0 */<br>
-&gt; &#43;#undef TRACE_SYSTEM<br>
-&gt; &#43;#define TRACE_SYSTEM dma_buf<br>
-&gt; &#43;<br>
-&gt; &#43;#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ=
-)<br>
-&gt; &#43;#define _TRACE_DMA_BUF_H<br>
-&gt; &#43;<br>
-&gt; &#43;#include &lt;linux/dma-buf.h&gt;<br>
-&gt; &#43;#include &lt;linux/tracepoint.h&gt;<br>
-&gt; &#43;<br>
-&gt; &#43;DECLARE_EVENT_CLASS(dma_buf,<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_PROTO(struct dma_buf *dmabuf),<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_ARGS(dmabuf),<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_STRUCT__entry(<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __string(exp_name, dmabuf-&gt;exp_name)<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __field(size_t, size)<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __field(ino_t, ino)<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; ),<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_fast_assign(<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __assign_str(exp_name);<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __entry-&gt;size =3D dmabuf-&gt;size;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; __entry-&gt;ino =3D dmabuf-&gt;file-&gt;f_inode-&gt;i_ino;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; ),<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_printk(&quot;exp_name=3D%s size=3D%zu=
- ino=3D%lu&quot;,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; __get_str(exp_name),<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; __entry-&gt;size,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; __entry-&gt;ino)<br>
-&gt; &#43;);<br>
-<br>
-For the rest of the patch, from a tracing point of view:<br>
-<br>
-Reviewed-by: Steven Rostedt (Google) &lt;rostedt@goodmis.org&gt;<br>
-<br>
--- Steve<br>
-</div>
-</span></font>
-</body>
-</html>
-
---_000_f48da27cfb3f4052958c97d2eb7244b3xiaomicom_--
+-- 
+Cheers,
+Harry / Hyeonggon
