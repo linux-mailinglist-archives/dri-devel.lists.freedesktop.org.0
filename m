@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DB1CCB657
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE0DCCB65A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:34:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40DB310EC91;
-	Thu, 18 Dec 2025 10:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E5810EDB9;
+	Thu, 18 Dec 2025 10:34:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jOSuI8tu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qeing0UR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB49A10EC91
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 10:33:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766054002;
- bh=FwMGEoXaMRsLXZqxdn4ZHS5PZCjf6JvULuu/d4rKs04=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=jOSuI8tuJtU6EjDR6vYhMNO+JQWwpByBY7Hu+j4hrZSVKTu34TN4bO6CtvPrJ0cCm
- stWTfJoro5EhWdU0FLEHn6PBqd6S18aqltMjo2VxY1vkiTruyXFFFV9SMigzj0FVMr
- 9XqPiczmrVzs9poh8xvZETKP9FQmVk+CtGi4wTsul2Z5VrPR2yAQc/OG4y+k54F1I8
- 6YuvB/CPtdvI/Nhv8JNJoqgftBy+7K9VG5FtGZFPdctRdgIQJOWwtktKA+eAw0wZ+0
- /PknMDYjDvBcZzdxfkzQ0eR9o3ivfmgQ3CLa0vMKZjV9t82vqpMR6ddJ3tJ9BG0aN4
- Ow7aEM3W8pFGg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0043B17E0C2E;
- Thu, 18 Dec 2025 11:33:21 +0100 (CET)
-Date: Thu, 18 Dec 2025 11:33:18 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, nd@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Mihail
- Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v6 3/7] drm/panthor: Add panthor perf initialization and
- termination
-Message-ID: <20251218113318.774e18c6@fedora>
-In-Reply-To: <20251215171453.2506348-4-lukas.zapolskas@arm.com>
-References: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
- <20251215171453.2506348-4-lukas.zapolskas@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D823210EDB9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 10:33:59 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-34c93e0269cso872822a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 02:33:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766054039; x=1766658839; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PuK9WwWvBqgInm1BIzIhXwkI3depHkjpZcUB/hLhtwY=;
+ b=Qeing0URiVC4785YBI4h9x/rFUgVkidmKK/aur8JaU7SxGnF/4homnHgF/rZnuQ0fe
+ 3re7rABhLnw5VJPwCOuzs12ueaYE6TDPEbo4nOGihT0V4rkiK7kPV1lrr88S4BwlpfFL
+ EpRmsw5kObneSIChyWY1cJ8redUiPqvbGti3oknREMnrVAf41YhwpmwwQSvcZ6pvhI+0
+ AWqG4nYtRKL58r81T87fgSexmtCcHaliCgFmBqFMs07rZtV4/UMZbbWuL65hc3CPn9l1
+ BB5jGjo4gJXmhspK9eOzhIzOw5Y7yw1xObyjJxM0gjorsimtYFD0o50DcAzB9mHf7t5d
+ ogug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766054039; x=1766658839;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=PuK9WwWvBqgInm1BIzIhXwkI3depHkjpZcUB/hLhtwY=;
+ b=jal6dNDjXntSR93hR7Zc1I0pCy3FdGj2bsNdVbs0h6kUswKbLjWOjgEb/5rasIdpM5
+ u0ncxKunFKxDdRu+zmCzBhA4oYK72xL+Kw23uGv0XHTXgef4i0KIv89NBnUddv69PjJE
+ Zg0X0BC2ytHv84gDu7EoV4OOPZtH/lm4HA6P6aa4hkJ7dzlIV8R/xmh5cZpI5rFMeSP1
+ +IiL1jbAucCryzALsH5nTFri4a5IogNYZKWcD43jAIdXT24dI/99XBd48sy3DXbHNbzC
+ bEukH0UnfGY4hbELv2tobpq+JJNiu0aA5cmUPM3JBjCbjdRBvpnYdX6RNR14e3SgT8G1
+ a1ew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU93jrZsl8JlBpYMlCA4lSHaBDaST3u44r/LYUxArnV9JOV2Sg2G7fYQh7pbLa3TSCdYbXTIEYGIqc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYd7YM4iuuyxj962hcC9HSrLZ9eLzOrxWsGAY417uB5l1IOLtz
+ UxiQb00VoMPCzYXfYmgo6/TZPmszaTz6u3No0tQWUqON0tmZ1mslxBNRoJUTFEP3vd9A8alllma
+ Em+ZoOZyQTNkRCkwFGL7MpVN2F3IkHME=
+X-Gm-Gg: AY/fxX481p5uge2dx3ZkLvJ1WFsIYSnTHkAi+RnMjeJyf2jrDzovNN20HTthJs7eb5E
+ C9wFjqbqQmU5pW8OhhEXkmSxs2MSboRhMz80K+fjTGhV04srJ+qtsRF4MeS6cht46K3J/9eM1Sc
+ TNGApT33nPHutBbWkYD78IWxo48dkGZbDA/eikkg8KiP9pSbzLSjhAosEABsRvLdU/5xHXtRdPW
+ xcFAqKatM1DA2Oaf6l5++YEP31Uz5D5QpwmFrjPI6NfoYbA1IpWR2I9qJVFTh8dV6bNxvKK
+X-Google-Smtp-Source: AGHT+IEM7YjAFoRUbtqDUuyhIshesOes+5EPz1w0oXJV4R4bDCVtwKzj2iHfvGmbDL/MSeIMtVL5zrTipFvP5HtZm98=
+X-Received: by 2002:a17:90b:1348:b0:34c:ab9b:837c with SMTP id
+ 98e67ed59e1d1-34e7151d99bmr2324293a91.0.1766054039265; Thu, 18 Dec 2025
+ 02:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20251218063512.4572-1-suryasaimadhu369@gmail.com>
+ <2ef1292d-22e8-4ec0-8316-00ae482b54a8@amd.com>
+In-Reply-To: <2ef1292d-22e8-4ec0-8316-00ae482b54a8@amd.com>
+From: Sai Madhu <suryasaimadhu369@gmail.com>
+Date: Thu, 18 Dec 2025 16:03:48 +0530
+X-Gm-Features: AQt7F2p8z17w0Wc9RfyHY_6TYGwVEB_wSFo20On1Zp9IBq4X0hEXAfQvl5BvpNA
+Message-ID: <CAB0uMAfwMURUEtN2qJQKCDxDFPnHz3DwAKUGDwKSr_nhLPDhPg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/dm: Convert IRQ logging to drm_* helpers
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ siqueira@igalia.com, mario.limonciello@amd.com, wayne.lin@amd.com, 
+ roman.li@amd.com, timur.kristof@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,201 +88,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Dec 2025 17:14:49 +0000
-Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
+Hi Christian,
 
-> Added the panthor_perf system initialization and unplug code to allow
-> for the handling of userspace sessions to be added in follow-up
-> patches.
->=20
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> Reviewed-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |  2 +
->  drivers/gpu/drm/panthor/panthor_device.h |  5 +-
->  drivers/gpu/drm/panthor/panthor_perf.c   | 63 +++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_perf.h   |  1 +
->  4 files changed, 69 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
-anthor/panthor_device.c
-> index dc237da92340..3063ffbead45 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -120,6 +120,7 @@ void panthor_device_unplug(struct panthor_device *ptd=
-ev)
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
->  	 */
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
-> @@ -323,6 +324,7 @@ int panthor_device_init(struct panthor_device *ptdev)
-> =20
->  err_disable_autosuspend:
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> +	panthor_perf_unplug(ptdev);
-> =20
->  err_unplug_sched:
->  	panthor_sched_unplug(ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index 64b0048de6ac..e1a6250cecc8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -28,8 +28,8 @@ struct panthor_hw;
->  struct panthor_job;
->  struct panthor_mmu;
->  struct panthor_fw;
-> -struct panthor_perfcnt;
->  struct panthor_pwr;
-> +struct panthor_perf;
->  struct panthor_vm;
->  struct panthor_vm_pool;
-> =20
-> @@ -160,6 +160,9 @@ struct panthor_device {
->  	/** @devfreq: Device frequency scaling management data. */
->  	struct panthor_devfreq *devfreq;
-> =20
-> +	/** @perf: Performance counter management data. */
-> +	struct panthor_perf *perf;
-> +
->  	/** @unplug: Device unplug related fields. */
->  	struct {
->  		/** @lock: Lock used to serialize unplug operations. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/pan=
-thor/panthor_perf.c
-> index 842d62826ac3..3a65d6d326e8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.c
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
-> @@ -4,6 +4,7 @@
-> =20
->  #include <linux/bitops.h>
->  #include <drm/panthor_drm.h>
-> +#include <drm/drm_print.h>
-> =20
->  #include "panthor_device.h"
->  #include "panthor_fw.h"
-> @@ -22,6 +23,19 @@
->   */
->  #define PANTHOR_HW_COUNTER_SIZE (sizeof(u32))
-> =20
-> +struct panthor_perf {
-> +	/** @next_session: The ID of the next session. */
-> +	u32 next_session;
-> +
-> +	/** @session_range: The number of sessions supported at a time. */
-> +	struct xa_limit session_range;
-> +
-> +	/**
-> +	 * @sessions: Global map of sessions, accessed by their ID.
-> +	 */
-> +	struct xarray sessions;
 
-Unless there's a need to have global session ID (sessions can be shared
-and accessed from different processes), I'd move the xarray to some
-panthor_file_perf object and make this session ID per-FD. Actually, I'm
-not even sure I see a use case for having more than one session
-per-file, so it could even be just a panthor_perf_session pointer and a
-lock in panthor_file:
 
-struct panthor_file {
-	...
-	struct {
-		struct mutex lock;
-		struct panthor_perf_session *session;
-	} perf;
-};
+Thanks for the review.
 
-If we want to restrict the total number of sessions, we can have an
-atomic_t in panthor_perf, but I think what really matters is the
-maximum number of active sessions, and I believe we already have a
-counter for that (panthor_perf_sampler::enabled_clients).
 
-> +};
-> +
->  struct panthor_perf_counter_block {
->  	struct drm_panthor_perf_block_header header;
->  	u64 counters[];
-> @@ -76,14 +90,61 @@ static void panthor_perf_info_init(struct panthor_dev=
-ice *const ptdev)
->   * panthor_perf_init - Initialize the performance counter subsystem.
->   * @ptdev: Panthor device
->   *
-> + * The performance counters require the FW interface to be available to =
-setup the
-> + * sampling ringbuffers, so this must be called only after FW is initial=
-ized.
-> + *
->   * Return: 0 on success, negative error code on failure.
->   */
->  int panthor_perf_init(struct panthor_device *ptdev)
->  {
-> +	struct panthor_perf *perf __free(kfree) =3D NULL;
-> +	int ret =3D 0;
-> +
->  	if (!ptdev)
->  		return -EINVAL;
-> =20
->  	panthor_perf_info_init(ptdev);
-> =20
-> -	return 0;
-> +	perf =3D kzalloc(sizeof(*perf), GFP_KERNEL);
-> +	if (ZERO_OR_NULL_PTR(perf))
-> +		return -ENOMEM;
-> +
-> +	xa_init_flags(&perf->sessions, XA_FLAGS_ALLOC);
-> +
-> +	perf->session_range =3D (struct xa_limit) {
-> +		.min =3D 0,
-> +		.max =3D 1,
-> +	};
-> +
-> +	drm_info(&ptdev->base, "Performance counter subsystem initialized");
-> +
-> +	ptdev->perf =3D no_free_ptr(perf);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * panthor_perf_unplug - Terminate the performance counter subsystem.
-> + * @ptdev: Panthor device.
-> + *
-> + * This function will terminate the performance counter control structur=
-es and any remaining
-> + * sessions, after waiting for any pending interrupts.
-> + */
-> +void panthor_perf_unplug(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_perf *perf =3D ptdev->perf;
-> +
-> +	if (!perf)
-> +		return;
-> +
-> +	if (!xa_empty(&perf->sessions)) {
-> +		drm_err(&ptdev->base,
-> +			"Performance counter sessions active when unplugging the driver!");
-> +	}
-> +
-> +	xa_destroy(&perf->sessions);
-> +
-> +	kfree(ptdev->perf);
-> +
-> +	ptdev->perf =3D NULL;
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/pan=
-thor/panthor_perf.h
-> index 3c32c24c164c..e4805727b9e7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.h
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
-> @@ -10,6 +10,7 @@
->  struct panthor_device;
-> =20
->  int panthor_perf_init(struct panthor_device *ptdev);
-> +void panthor_perf_unplug(struct panthor_device *ptdev);
-> =20
->  #endif /* __PANTHOR_PERF_H__ */
-> =20
 
+You're right =E2=80=94 that change is unrelated to the logging conversion.
+I'll drop it and resend the patch as v4.
+
+
+On Thu, 18 Dec 2025 at 15:49, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+>
+>
+> On 12/18/25 07:35, suryasaimadhu wrote:
+> > Replace DRM_ERROR(), DRM_WARN(), and DRM_INFO() usage in
+> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c with the
+> > corresponding drm_err(), drm_warn(), and drm_info() helpers.
+> >
+> > The drm_* logging helpers take a struct drm_device * as their first
+> > argument, allowing the DRM core to prefix log messages with the
+> > specific device name and instance. This is required to correctly
+> > differentiate log messages when multiple AMD GPUs are present.
+> >
+> > This aligns amdgpu_dm with the DRM TODO item to convert legacy DRM
+> > logging macros to the device-scoped drm_* helpers while keeping
+> > debug logging unchanged.
+> >
+> > v2:
+> > - Keep validation helpers DRM-agnostic
+> > - Move drm_* logging to AMDGPU DM callers
+> > - Use adev_to_drm() for drm_* logging
+> >
+> > Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 2f545ec1690f..e404e4767944 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1,8 +1,8 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  VERSION =3D 6
+> > -PATCHLEVEL =3D 18
+> > +PATCHLEVEL =3D 19
+> >  SUBLEVEL =3D 0
+> > -EXTRAVERSION =3D
+> > +EXTRAVERSION =3D -rc1
+> >  NAME =3D Baby Opossum Posse
+> >
+> >  # *DOCUMENTATION*
+>
+> That here clearly doesn't belong into the patch.
+>
+> Apart from that looks ok to me.
+>
+> Regards,
+> Christian.
+>
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > index 0a2a3f233a0e..60bf1b8d886a 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > @@ -242,35 +242,29 @@ validate_irq_registration_params(struct dc_interr=
+upt_params *int_params,
+> >                                void (*ih)(void *))
+> >  {
+> >       if (NULL =3D=3D int_params || NULL =3D=3D ih) {
+> > -             DRM_ERROR("DM_IRQ: invalid input!\n");
+> >               return false;
+> >       }
+> >
+> >       if (int_params->int_context >=3D INTERRUPT_CONTEXT_NUMBER) {
+> > -             DRM_ERROR("DM_IRQ: invalid context: %d!\n",
+> > -                             int_params->int_context);
+> >               return false;
+> >       }
+> >
+> >       if (!DAL_VALID_IRQ_SRC_NUM(int_params->irq_source)) {
+> > -             DRM_ERROR("DM_IRQ: invalid irq_source: %d!\n",
+> > -                             int_params->irq_source);
+> >               return false;
+> >       }
+> >
+> >       return true;
+> >  }
+> >
+> > -static bool validate_irq_unregistration_params(enum dc_irq_source irq_=
+source,
+> > -                                            irq_handler_idx handler_id=
+x)
+> > +static bool validate_irq_unregistration_params(
+> > +     enum dc_irq_source irq_source,
+> > +     irq_handler_idx handler_idx)
+> >  {
+> >       if (handler_idx =3D=3D DAL_INVALID_IRQ_HANDLER_IDX) {
+> > -             DRM_ERROR("DM_IRQ: invalid handler_idx=3D=3DNULL!\n");
+> >               return false;
+> >       }
+> >
+> >       if (!DAL_VALID_IRQ_SRC_NUM(irq_source)) {
+> > -             DRM_ERROR("DM_IRQ: invalid irq_source:%d!\n", irq_source)=
+;
+> >               return false;
+> >       }
+> >
+> > @@ -305,17 +299,19 @@ void *amdgpu_dm_irq_register_interrupt(struct amd=
+gpu_device *adev,
+> >                                      void (*ih)(void *),
+> >                                      void *handler_args)
+> >  {
+> > +     struct drm_device *dev =3D adev_to_drm(adev);
+> >       struct list_head *hnd_list;
+> >       struct amdgpu_dm_irq_handler_data *handler_data;
+> >       unsigned long irq_table_flags;
+> >       enum dc_irq_source irq_source;
+> >
+> >       if (false =3D=3D validate_irq_registration_params(int_params, ih)=
+)
+> > +             drm_err(dev, "DM_IRQ: invalid registration parameters\n")=
+;
+> >               return DAL_INVALID_IRQ_HANDLER_IDX;
+> >
+> >       handler_data =3D kzalloc(sizeof(*handler_data), GFP_KERNEL);
+> >       if (!handler_data) {
+> > -             DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
+> > +             drm_err(dev, "DM_IRQ: failed to allocate irq handler!\n")=
+;
+> >               return DAL_INVALID_IRQ_HANDLER_IDX;
+> >       }
+> >
+> > @@ -371,11 +367,13 @@ void amdgpu_dm_irq_unregister_interrupt(struct am=
+dgpu_device *adev,
+> >                                       enum dc_irq_source irq_source,
+> >                                       void *ih)
+> >  {
+> > +     struct drm_device *dev =3D adev_to_drm(adev);
+> >       struct list_head *handler_list;
+> >       struct dc_interrupt_params int_params;
+> >       int i;
+> >
+> >       if (false =3D=3D validate_irq_unregistration_params(irq_source, i=
+h))
+> > +             drm_err(dev, "DM_IRQ: invalid unregistration parameters\n=
+");
+> >               return;
+> >
+> >       memset(&int_params, 0, sizeof(int_params));
+> > @@ -396,7 +394,7 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdg=
+pu_device *adev,
+> >               /* If we got here, it means we searched all irq contexts
+> >                * for this irq source, but the handler was not found.
+> >                */
+> > -             DRM_ERROR(
+> > +             drm_err(dev,
+> >               "DM_IRQ: failed to find irq handler:%p for irq_source:%d!=
+\n",
+> >                       ih, irq_source);
+> >       }
+> > @@ -596,7 +594,7 @@ static void amdgpu_dm_irq_schedule_work(struct amdg=
+pu_device *adev,
+> >               /*allocate a new amdgpu_dm_irq_handler_data*/
+> >               handler_data_add =3D kzalloc(sizeof(*handler_data), GFP_A=
+TOMIC);
+> >               if (!handler_data_add) {
+> > -                     DRM_ERROR("DM_IRQ: failed to allocate irq handler=
+!\n");
+> > +                     drm_err(adev_to_drm(adev), "DM_IRQ: failed to all=
+ocate irq handler!\n");
+> >                       return;
+> >               }
+> >
+> > @@ -611,11 +609,11 @@ static void amdgpu_dm_irq_schedule_work(struct am=
+dgpu_device *adev,
+> >               INIT_WORK(&handler_data_add->work, dm_irq_work_func);
+> >
+> >               if (queue_work(system_highpri_wq, &handler_data_add->work=
+))
+> > -                     DRM_DEBUG("Queued work for handling interrupt fro=
+m "
+> > +                     drm_dbg(adev_to_drm(adev), "Queued work for handl=
+ing interrupt from "
+> >                                 "display for IRQ source %d\n",
+> >                                 irq_source);
+> >               else
+> > -                     DRM_ERROR("Failed to queue work for handling inte=
+rrupt "
+> > +                     drm_err(adev_to_drm(adev), "Failed to queue work =
+for handling interrupt "
+> >                                 "from display for IRQ source %d\n",
+> >                                 irq_source);
+> >       }
+> > @@ -720,7 +718,7 @@ static inline int dm_irq_state(struct amdgpu_device=
+ *adev,
+> >       struct amdgpu_crtc *acrtc =3D adev->mode_info.crtcs[crtc_id];
+> >
+> >       if (!acrtc) {
+> > -             DRM_ERROR(
+> > +             drm_err(adev_to_drm(adev),
+> >                       "%s: crtc is NULL at id :%d\n",
+> >                       func,
+> >                       crtc_id);
+>
