@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78E0CCD5B9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 20:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B381CCD3A6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 19:45:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990DC10EB1F;
-	Thu, 18 Dec 2025 19:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FFE10EA60;
+	Thu, 18 Dec 2025 18:45:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="TuWSvt+O";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="I3euPhxH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8892C10EB1F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 19:15:40 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6D810EA52
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 18:45:14 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BIIZYiF2966301; Thu, 18 Dec 2025 19:45:02 +0100
-Received: from gvxpr05cu001.outbound.protection.outlook.com
- (mail-swedencentralazon11013013.outbound.protection.outlook.com
- [52.101.83.13])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4b4780bqny-1
+ 5BIIQWOA2504132; Thu, 18 Dec 2025 19:45:02 +0100
+Received: from am0pr83cu005.outbound.protection.outlook.com
+ (mail-westeuropeazon11010050.outbound.protection.outlook.com [52.101.69.50])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4b4esu269n-1
  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
  Thu, 18 Dec 2025 19:45:02 +0100 (CET)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xLYvl8NaR5R2AAoJ+nBpNCXchrLYBK2ldd6TC/v8W+SgezKxY8qVASk+7PZHRDaBFRiQTg/YnlH2o8WYHwOOB59D95JDH2ZVOaRJA9hDj0uzx/jQ5VWLN/l/hBH3iYut6IUPNkbuNKWec1Rr3wNfGxuDj406bfS7M9QfFXeqiwha1IjCJUEdxFoau8jDixU9wlow8wDtPONhQb2jFXfVaF9KV8F4cwMKXJlS1b+78Ddr6DpqCP9C76EDFsLgjkjkwKm0eAIDyuoN3iO0jF8JYREUUWz0Im+NZHx1YmofY4DAEh9M8B749NYJqr5yMCBfim4ebENaUS8yMSosd1vtAg==
+ b=Ke86cgQsgPU2G/KlBmstcWgI0bm9PVRRoFr5ERVWStbr5VIpS137VEnauCy7D7eMb94y/iFu+w2a5d1TIiCye2s3YLa3uzwCO0nwSLog9vSa2Jz9EMzyeFUx/ScDI/yXyd2bhlM0GrYROHbFXMvjyoJj26Nl/Q9SIRkHZX4okmSFCUIJjqMAvuzFYXNsg7NEF9ieDSzdD/aFgVZySBN0zkncivZgFUESrEcjtSz8elbz24vLNcEf0b+iLvAZyNfNfLjhoQIp9B+f7i4DbSTjlDFf5CEVA8UckcpWf+UbKntLcQ0kLnlkQxcoIQL+MvMDM2UaDnn5bSJ96DAH2dTlVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XVVfvHiyipGb60bweJV5cOqnRrvPkbErYIN1XE1Ae4w=;
- b=GgDLs07KNCfivUCgyMecvsTtpd1JnsYffachX6wkhpy51zwk4+aaxilfLyyClEdOnxh1fPkY6w5mAZzr9w89lWKvV0X0aQWscVVgd8ldZffdSIHtToZfyBQ1CQ2lC79HbWz9x53W2Pv5L4rX2KSlNLAasjySxQsRUCL3ywAPzmOHsJCSeJfJ563vwPc0qh/zFYZUV5K9H21f3ZtZSdh89HAy3FZsIXaGwb+5xL2CLK1Lip8ZJinB21DipOiDzxXsMU7JmpAYgmDf8+HY3Jkhpwes9GmQIMlIUxR314wE8tq/cjUO2ZoXuIzN67/oBBP7JOblpZkJpb68CIIek70SDA==
+ bh=muSHh3KI6m9hVwhxmNS6rfIJgipi0u253tGfIeU5H+Y=;
+ b=oRBEvCINIXaNBTde3wJZj3n24jrT/Y0mEanW9Yeuxot5qRz4MirIgE8KtdftSTNB65LNM457VfKvdcYmjyI047E46Fm+cro3KQvqeOEr3WW36z2QJ2taTmdR5bZDjwra/FubX9M9ZBPr5032ssB7wQrkM75QIAuyDE7nT26HsyvrvTB5pQejPaUHPdTRoI5rfis32qzTf7EmoFM+yaR54/fVIjWl8//7Jjj5eYjX/jMeFN3dNGvseblotQAbsnJkozDb37py8lpgLxgWX634NLta3mM/fkKAEKIJm3VnpdfZP97nLDrOpD5cnNTPs2cTuCUEhJjPRdDHE9LU45O9mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.59) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
@@ -39,18 +38,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XVVfvHiyipGb60bweJV5cOqnRrvPkbErYIN1XE1Ae4w=;
- b=TuWSvt+OT7V6djDzQ4jzAOeTjSr5O+poTXjcsbEhcjvZPvALaEbl+qfSRKaWaD+0HEkiSQ6yT7ALfgAZfdZHmrVGJBeKfpyLAeQvJa/IaRNVwSfQ1M0nJOQWfouQ2OwSAa86BjFYc72XH/jFd3fLhi4BzZL5hnjGMTmI5nnUAkPJpJ1LGa6QYdapokRtXYdxYcSELYSAUMS0HxH46KvUrbrL8wKFapFIIEO2XzT1fFgWHtyg+66CcFALiQIkOpXVcyWrEzsdCR1mJfu5MSmiRRP4AXXQH4M1dmYfPXbbEmOtGqbDc+OjPyj8FMsmOU9ItMOC4QDNLX+PsYvVYI/6Yw==
-Received: from DUZPR01CA0072.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c2::10) by VI1PR10MB3725.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:800:138::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
- 2025 18:44:57 +0000
+ bh=muSHh3KI6m9hVwhxmNS6rfIJgipi0u253tGfIeU5H+Y=;
+ b=I3euPhxH0/SWlY/6MukXFsKxcgUs3/2bqqB8LRZqsci2lxbdSgdEvQBdER7lwF5stTZLdYZadBx0yeAHFJKilihDozE5CXCZ5rSCOXzogwYIQDV6jD6Jjf5tmmNpGl8BX81z2qMw/O7SGiOwB4cIkN8Ux3Aah9SNYpv957g1N9A/7xszZ1QLyEwszqAn+piU9HdI4AJCVqZgRaK88BxFTm0YZ4gq++ZYe6JOsMXVFIM81S9VYPI0F8pVuPCBk3H9EIAqwKf0wbZheskTDmpFukWNaDxtuwbg74cSTPszn0vgdInXesFCI1+SfChvrvsKsToFpeA+QyehfaLbODrL4g==
+Received: from DUZPR01CA0062.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c2::15) by DB9PR10MB7995.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:39e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Thu, 18 Dec
+ 2025 18:44:59 +0000
 Received: from DB5PEPF00014B8E.eurprd02.prod.outlook.com
- (2603:10a6:10:3c2:cafe::f6) by DUZPR01CA0072.outlook.office365.com
- (2603:10a6:10:3c2::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.7 via Frontend Transport; Thu,
- 18 Dec 2025 18:45:09 +0000
+ (2603:10a6:10:3c2:cafe::46) by DUZPR01CA0062.outlook.office365.com
+ (2603:10a6:10:3c2::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.8 via Frontend Transport; Thu,
+ 18 Dec 2025 18:45:23 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -60,23 +59,23 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
 Received: from smtpO365.st.com (164.130.1.59) by
  DB5PEPF00014B8E.mail.protection.outlook.com (10.167.8.202) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 18:44:56 +0000
+ 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 18:44:59 +0000
 Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
  (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 18 Dec
- 2025 19:45:45 +0100
+ 2025 19:45:46 +0100
 Received: from localhost (10.252.25.7) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 18 Dec
- 2025 19:44:56 +0100
+ 2025 19:44:57 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
-Date: Thu, 18 Dec 2025 19:44:46 +0100
-Subject: [PATCH 06/12] media: stm32: dcmi: perform all dma handling within
- irq_thread
+Date: Thu, 18 Dec 2025 19:44:47 +0100
+Subject: [PATCH 07/12] media: stm32: dcmi: use dmaengine_terminate_async in
+ irq context
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251218-stm32-dcmi-dma-chaining-v1-6-39948ca6cbf6@foss.st.com>
+Message-ID: <20251218-stm32-dcmi-dma-chaining-v1-7-39948ca6cbf6@foss.st.com>
 References: <20251218-stm32-dcmi-dma-chaining-v1-0-39948ca6cbf6@foss.st.com>
 In-Reply-To: <20251218-stm32-dcmi-dma-chaining-v1-0-39948ca6cbf6@foss.st.com>
 To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab
@@ -95,83 +94,83 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8E:EE_|VI1PR10MB3725:EE_
-X-MS-Office365-Filtering-Correlation-Id: 441c9188-30b9-48ca-36d4-08de3e658a7c
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8E:EE_|DB9PR10MB7995:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5dd85864-a521-4581-7801-08de3e658bd6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|30052699003|376014|7416014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QS9jdzArU3FWNUR3T2U0NzBXd2NBczNCazR3akZFRUdqNTRtditJWkhrNU5o?=
- =?utf-8?B?dk9UOTdDSUMzZjNZSTZDU3RaNDlSVUdweWhibUxFK0krRzJrcXF5K1J5ZjhV?=
- =?utf-8?B?eTBPdWQ3elRQUTJCTW84MXo4Qjl0TC80MXZ6SHRKdWorRkl0ZWp0eDV3aEF1?=
- =?utf-8?B?WFV4aGFzanFuZ203bjl0RFZRYjI0VzV4SDl4djRvekU2N2k5L01MS05GOFdt?=
- =?utf-8?B?UkNYU3U3WHFUeGRXdEZ0V3pHNU10THdjMEh0MFNJSkgyendBVkwzYk1YZ1ZS?=
- =?utf-8?B?U2R3S1JOVkpHQ2V6NCs3TG1xN3o4ZHJTUmtMQW9rVzNmQ3VlS0M2dDJZbmxU?=
- =?utf-8?B?NGdLY0FFZTVYNUpCZVNjS0xQQ0Voa0NpOUNWVHRtbmZwbHl4b0d6S0ZTSk14?=
- =?utf-8?B?V3h5OVVYZHJaS1ZOY0JpMkNlcU9WQldwSWdTRm5FZmlXaFArYVBNR3h2Zk1I?=
- =?utf-8?B?S3dyaCtzMDFCb1lkbW1OMkkwZVcveWR6ZFJDR1lNOGh1RGFNaW5BT3NYU0Rs?=
- =?utf-8?B?Wnp4ZjVlZmsyUTZpWGdvRndVRG5WWlpEWUxXZ29GV0pVK0F3K1ZpQ1dueTdO?=
- =?utf-8?B?dXJrcGFUTWRhSWZoYy9GY210QUh3VjkyTnRMY0NLamJUblFLTGxKNHhLRXRv?=
- =?utf-8?B?b0pjZW5LZkVKN3l6UzdoTjN3VUx5b1ZIYWdnYks5RnVhQml3a040MTQvUThy?=
- =?utf-8?B?RVpjYTkwVzg1TW1YbVZjc2xVbVEwKzBrS0hHYkE5Wks2WmFibWFvWVBMYnFz?=
- =?utf-8?B?bldJRlduZmZWREdMMVZ2VzQ0M1c4OEwxeEd0VGF3NGZydklWcjAzc2hONjkx?=
- =?utf-8?B?dTk0QWVBSTYwUmNLN2ppSXB3TktZSlJZbE5ydWpveVFveUxoelZPOERWNkpX?=
- =?utf-8?B?NnMxN3Z3YzhIbW1PY1lUOGM2OVRLR2E1Y0ltUGxBWFpOcStpZjZHNzNNYnFO?=
- =?utf-8?B?UjlsbEFqRytFZ2g0R1RaUVlLYW5pYW8wTFJ0dVg2WWw0dW1zeVNFeXhzVGZy?=
- =?utf-8?B?V0V3Vks2dUdkYUozc0JrMHRsWnFZbDIzdm81a3ByNWd4akZRM3E4MlpTWEZi?=
- =?utf-8?B?QTVacXQvZXoxcGF6MHIrYkZMNDBNMmcvcUhxV3VXTjlVaS80MVhKalhIaW5p?=
- =?utf-8?B?TzJwdm9qSXppamNkanN3cHIwU3hCQWtudU94Mmg0UDZteGYxSytRNlB4TUlx?=
- =?utf-8?B?VS9iU08wa3kwak5FcWhBYW1DSUR6ZkF1N2VHZEVqOFhaTEVWVmZsblVpdXQ3?=
- =?utf-8?B?UGhDVGpmdE5QcERqbDJoUXFBYkNZMHpJQmMvWDFDR3pvUXBGVHlUMXdvZW1V?=
- =?utf-8?B?NkZPaXJsRnBiWU1RcXVWRVBHMlYwWnhlR09nUXgyejcvOWtlV2V4M2pXYmdU?=
- =?utf-8?B?WWIzRkYxNHVuVndJNU9FaVZBNVM2QmNSc3RJYmFhK2dWTDUyajMvbmhCVWRY?=
- =?utf-8?B?VDFoVFJkemZQZ1NqUTNKa1JpdUVBd09TeW9VMHdlVG9GWXJlRTJDS0c2VUdQ?=
- =?utf-8?B?akVrcFNRc3JCQnVOS0pFZjVvZWhieG9RY0VtUzFqZG9QYmFORzhIVkhjMjYr?=
- =?utf-8?B?ZXp1U0lFOFRJQkNFUndpc0VWdEhUVldQamErZXBXUi9YcU9mdWxJeVVYamhp?=
- =?utf-8?B?cituZ0pneUtleGg4Um1BTmZpR2pjZ1JRTEh5Z3BRaHNCeWtlTmxxd1BnSzd3?=
- =?utf-8?B?Rkppc21TTUIzYWlNeWljWENzN3FGbTZZbjgrOXNCNVNYckNhbjZuVVNFTHgy?=
- =?utf-8?B?c1BYK1g3QXJNRlhqVkVHNElCajBjRGVoOHN3eGNVc2l2VmhHbE9iQi96U2JY?=
- =?utf-8?B?VDc2NFNIUW9aclZGbWtaRGp4Q2xPU1VoS0lNRXhQY3pRMzlOT1lGa2dEOVl0?=
- =?utf-8?B?TVFzWng1aVRJOThBdWF0d244bUErVkRDbzFMd2RBZVVYNkg5Y2p6VUZvdzJn?=
- =?utf-8?B?YWU0RWJ2ZEptcHBHNkZyd3d5ZGRsdEcrVFVYd3cwZVY1NHcwZDJEQ08vT0l0?=
- =?utf-8?B?Q1VXWG9ZWlI4eFlIV0RYR04rMWN0aFN5ZXpSQm56OUNXT0luQmhuMU4xbFY0?=
- =?utf-8?B?V2dkdkdPc2RrV0U3N1kxZTJoTHFEck9uZW1tY2dLUnZRVTF2Q21mZS9XZW1y?=
- =?utf-8?Q?2vhE=3D?=
+ ARA:13230040|376014|7416014|82310400026|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TFczbkYxV2hYWm5ib2FJWFQ3ODVySHRObHM1RHZkQ056dlJkU0pjd1BvL2tD?=
+ =?utf-8?B?ZUM2UG1uN3Z6RW1SM0hxdHFRd2l4N1RXYk5jM1lvVDZqNjVGYmtmOFZJcC9K?=
+ =?utf-8?B?TFBFSTRzNHg5aDlwUVFhdFBDeEh5UzB2QVBNRzg5anB6Z2psbldoYS91RC9q?=
+ =?utf-8?B?cStYVVQ1bC9Tb3VVT3lCVFhibTBJbkt0cFo4bVZQdCthaGJCeGc5UnZMazEv?=
+ =?utf-8?B?M1JxbGJoajJGcm9yZ2o1SzlHcm1WeDBRbS9RcjlwdmcxZVp2U2t0MENGamRS?=
+ =?utf-8?B?eGh3R0hsbDkyMUZseDBkd3A3c2hkZWhidHlLaEFEUHRJSFZHWW5EdEVqVDE2?=
+ =?utf-8?B?WEVKWmlRbVJ4WFhGYjdTNWVsYXkwTXRkZUZpVUFJREFkd0JhSFNnc1B3MWdn?=
+ =?utf-8?B?ZHQ4Um5JK2QzZG1Zc0pnUzlFVlF4dzNyeCtXWGhndm9lTTQvU3ptalhtcThz?=
+ =?utf-8?B?NWJIeGlxbXkzTFpNZW1UeTdZcS9XbEhrdXAwQzEyaWpFa25hQWlQTG5nUjh1?=
+ =?utf-8?B?R1FWcC9wN3lUV0lHSHlRZE1KZDJFVys5UEVibVBYMGxQWkVSeHBuQzRMaWg4?=
+ =?utf-8?B?TlNTVkNjSjI2QncwUjVkZzgzcmlBaVFSSDVjMzN2SzN3NEVpLzhCTHZxdUJE?=
+ =?utf-8?B?ZU1UZUdROVI1dGYyTkQvMXZCQUU2Wk43RDRVWG41NThkNVQ0ZUE0UmpNQzVv?=
+ =?utf-8?B?YWFDY250RFhBN1BBalBCdFlncUZLS1kzc3p6KzZIM1ZhNVR3cWNZZmtraUl5?=
+ =?utf-8?B?WGpTelFiYzJmWHhBU1pKK0JUajFHY1lEdG41N1VMUkN5bG01WFU1SzZlSnQv?=
+ =?utf-8?B?OS8ySjJIcE11bCtiTTVEOVpybFZyMFBVSGRiNEFZcUE4dmcwTHN0OWdxSDU0?=
+ =?utf-8?B?NDJzUVh1UWlzeEhSQmVDYnhGWUQ3Ri9kSlJaUUVTRGFXYUZRWHNXclkyUkdm?=
+ =?utf-8?B?WFBQRUV3ZnBNZ0lacGcwbUdpQ05CcnY4a0VTcDdIQ1N6SVN0RUZyaVF5bFNV?=
+ =?utf-8?B?cDNyZER3YTlJcVlMcUpFV0JTVFg4UjNPSE5xaWVzMWF0d092N3lpODQ4ZlJB?=
+ =?utf-8?B?bDJ2citBMjB3a04xa3l1VEdra2JqMWNYNEFtbEh0TjRUQkhDY0xyVFN0Uzhn?=
+ =?utf-8?B?ZWUzemZzRXRhYzk3NURrbXRFTGUrcXVrUGh0SmJaRDkwOWxyMTNoUUovdkZi?=
+ =?utf-8?B?NWRhT0tIc1pEMkE2cUo2aFc3ak9EVS9hbURpeC9TY2hiMjBkanJZOW5Wbm5l?=
+ =?utf-8?B?R1pWeVRGZTIwOTczWVVLd0toS292ZlRtZzZCM0FmcjdhaVhiYWNFRXF5TVZm?=
+ =?utf-8?B?Sm0rdTd0ZEhOMXRuNkdjK3c5Rnhla1JZSU5xUEVRUmNMT0k0NEhBNlJpZnFq?=
+ =?utf-8?B?REZRWjdVK1lKTHNjS3J5WG0xSGZ0dkVQSUJSeTVrNno2UzU2YjlkSklsSXNp?=
+ =?utf-8?B?NWhPSXRPZjdEaithRDdyT3NqL1lieEIxM3BwMmswRkw2WXpCSkVRaG9xWVRl?=
+ =?utf-8?B?bFpUU2hvcWxwd0J6NGFmdUZLaUZXL3UwNUg1Q1NrM3dkNVJaQTFQVktsMUZo?=
+ =?utf-8?B?L096b0xhQWV3V2FCcHBXU0xteTBFaHNDMk9RSUNIa0t5TXZlSjhjMXdzeVgv?=
+ =?utf-8?B?dzYwcnFmV2tSSzd3am1zcmQ3azNGQW9lQTQxSXc0Z2U5OVBwanBQeHlucFVw?=
+ =?utf-8?B?VW9HaXBqS1M0MWwwT2JsZ1o2cm5EZ0xuOGJ4b25Jc0pCM2kwNEZweTVpY2hT?=
+ =?utf-8?B?MitjVm5rUDNVZFVwb25kN0pkSkxUbzNXZlR5Qy9jbEZmUFRYQmg0dTVxcGdR?=
+ =?utf-8?B?TXBsS1BTcWt2Mmowa0laZFdFYXR6RjRRZjJJNEd1bFpCOHlTaWN2TlBMcTR2?=
+ =?utf-8?B?Q2tYdDJtSXMvSFRQK3VZSDR3N3l3b2MveGhHQmVUUEZXVTRwQmVYUk5LNExa?=
+ =?utf-8?B?SlR3eitsMW5aQ0JlMTdWVmhHNFhaOXFlOHU4ZnpXTVgwMzRaRUdXTEJCaGpX?=
+ =?utf-8?B?Mi9NRkdkcDJkMnljcVR5U3BiUFZNeGJZQ241QjFYa2hIUVFobW03MnZLeFU2?=
+ =?utf-8?B?TFI2L2dFcVF1dldCblB6ZWdDbEZVOFEyK1ZWTzdiU0lPTzE2SDFVbFlaQytq?=
+ =?utf-8?Q?I00k=3D?=
 X-Forefront-Antispam-Report: CIP:164.130.1.59; CTRY:IT; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:smtpO365.st.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(30052699003)(376014)(7416014)(82310400026)(1800799024)(36860700013);
- DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 18:44:56.7984 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 441c9188-30b9-48ca-36d4-08de3e658a7c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 18:44:59.0799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dd85864-a521-4581-7801-08de3e658bd6
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f; Ip=[164.130.1.59];
  Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource: DB5PEPF00014B8E.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3725
-X-Proofpoint-ORIG-GUID: uEXg-rwSVvEGPjhrvY4a_qUClvJ0VCel
-X-Authority-Analysis: v=2.4 cv=PuqergM3 c=1 sm=1 tr=0 ts=69444bae cx=c_pps
- a=o6HjI5Hdp4yHrPjNunzkWg==:117 a=d6reE3nDawwanmLcZTMRXA==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB7995
+X-Proofpoint-ORIG-GUID: QHK4hNAkEVgc34QA2Qm1aLNkmtixluSK
+X-Authority-Analysis: v=2.4 cv=EeLFgfmC c=1 sm=1 tr=0 ts=69444bae cx=c_pps
+ a=gXrl5TodGbHmua8ggoz7cw==:117 a=d6reE3nDawwanmLcZTMRXA==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=HjypFGx7bZcA:10 a=IkcTkHD0fZMA:10
  a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=8b9GpE9nAAAA:8 a=nsOEii-EWWlXnWlBJ3sA:9
+ a=VkNPw1HP01LnGYTKEx00:22 a=8b9GpE9nAAAA:8 a=gAtnOOuIUh8xv9oTcPAA:9
  a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
-X-Proofpoint-GUID: uEXg-rwSVvEGPjhrvY4a_qUClvJ0VCel
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE1NSBTYWx0ZWRfX9Y6Imzid99ir
- 6xyy0fJ40vIhrzuwLeQ7UQ+AK2jVOm43AZT0KZPdGuG1WgQyixCmoROWNihLULHf2g6mfBERzb4
- A+oF0QTOLg0bzin2Gs7QWmMc4kxpEP829k7iK8A87lXtLmN7l+jPjVQcg2vrL107ftidCeBdXWi
- gUKlJpgcQMwLJ0crfh3B835EtGI+QdWsctWFL3SFUvL9zdGLC2HLHAtC4UQJoY/zQX4h+T2xeZX
- clLBc5fH6A0uwy5yF2D7HGl085wtg/GW1IQbI4QQc57aX1Wlk0T/G/sO2DZB6aMI+uMKHXYPahU
- vyEeTBuowFHiQPSf/1wEvi/8u2orKBZj34sz9WhRPiwGX+fGSy3Txfl2TqkB4hkFCeW1WiHwCMf
- uApOkYfQhpSGZVEIak6Orguaq8N7Dw==
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE1NSBTYWx0ZWRfX3YEtdtVDFjOf
+ LzLk6WkcHGsX/VmXHV4x2VhGHZfIKzqjcwOLWberk2Iw9ET8UNpcOVFXda9aM8LOAmnNmJeouLP
+ H+qWwcWOoz+VSPecp77R4gXLcCSXNj+1b8NfHgItR2vTUT88dlQXSyUgcZJwa3A7Y37SUa1DvVE
+ avxiE8SMnlo15reGE8HIbOjRL2pNeDrSOoHL4SH1+10anYeJo6iaZljX50MrHF3l5fbF7Dx7Q9g
+ bA8RUzFku3nF9SZg1wZ+rLDZjt0Bj5TGCUNOlDZJKmCPwVQu1sQfwUeAZv/CVRGGKjamskV3GEq
+ F8kc54I+BSZ/xKDPCchhT1C0v/qxRKuOnlxkOwm5iVhe86RP435Q3b1agynSsICuRNP50pSePfQ
+ YGEEjwx4LaM7sVKR5isv/dI5Bfx0Jw==
+X-Proofpoint-GUID: QHK4hNAkEVgc34QA2Qm1aLNkmtixluSK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-18_02,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 adultscore=0 malwarescore=0 clxscore=1015 phishscore=0
- spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180155
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -189,192 +188,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move all the type of frame handling within the dcmi_irq_thread
-handler and do not rely on dma_callback as previously.
-
-This simplifies the code by having only a single path for both
-compressed and uncompressed data while also making the system
-more reactive since irq_handler have more chances to be called
-faster than the dma completion callback.  Indeed, in case of the
-dma completion callback, this run as a tasklet created by the
-dma framework upon getting an interrupt from the dma and run
-at a lower priority level than other irq handlers.
+Whenever receiving an OVERRUN event or an end of frame, the driver stops
+currently ongoing DMA transfer since the DCMI stops sending data to dma.
+Not doing this would lead to having DMA & DCMI no more synchronized in term
+of expected data to be copied.
+Since this is done in irq handler context, it is not possible to make any
+call that would lead to scheduling hence dmaengine_terminate_sync are not
+possible.
+Since the dcmi driver is NOT using dma callbacks, it is possible thus to
+call instead dmaengine_terminate_async (aka without synchronize) and call
+again right after a new dmaengine_submit to setup again a new transfer.
+And since this is now a dmaengine_submit_async, there is no need to release
+the spinlock around calls to the dmaengine_submit_async.
 
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 ---
- drivers/media/platform/st/stm32/stm32-dcmi.c | 97 ++++++----------------------
- 1 file changed, 18 insertions(+), 79 deletions(-)
+ drivers/media/platform/st/stm32/stm32-dcmi.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-index 1015f2d88f54..06b66095844b 100644
+index 06b66095844b..25e95ba2ca84 100644
 --- a/drivers/media/platform/st/stm32/stm32-dcmi.c
 +++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-@@ -227,8 +227,9 @@ static int dcmi_restart_capture(struct stm32_dcmi *dcmi)
- {
- 	struct dcmi_buf *buf;
- 
-+	/* Nothing to do if we are not running */
- 	if (dcmi->state != RUNNING)
--		return -EINVAL;
-+		return 0;
- 
- 	/* Restart a new DMA transfer with next buffer */
- 	if (list_empty(&dcmi->buffers)) {
-@@ -242,52 +243,6 @@ static int dcmi_restart_capture(struct stm32_dcmi *dcmi)
- 	return dcmi_start_capture(dcmi, buf);
- }
- 
--static void dcmi_dma_callback(void *param)
--{
--	struct stm32_dcmi *dcmi = (struct stm32_dcmi *)param;
--	struct dma_tx_state state;
--	enum dma_status status;
--	struct dcmi_buf *buf = dcmi->active;
--
--	spin_lock_irq(&dcmi->irqlock);
--
--	/* Check DMA status */
--	status = dmaengine_tx_status(dcmi->dma_chan, dcmi->dma_cookie, &state);
--
--	switch (status) {
--	case DMA_IN_PROGRESS:
--		dev_dbg(dcmi->dev, "%s: Received DMA_IN_PROGRESS\n", __func__);
--		break;
--	case DMA_PAUSED:
--		dev_err(dcmi->dev, "%s: Received DMA_PAUSED\n", __func__);
--		break;
--	case DMA_ERROR:
--		dev_err(dcmi->dev, "%s: Received DMA_ERROR\n", __func__);
--
--		/* Return buffer to V4L2 in error state */
--		dcmi_buffer_done(dcmi, buf, 0, -EIO);
--		break;
--	case DMA_COMPLETE:
--		dev_dbg(dcmi->dev, "%s: Received DMA_COMPLETE\n", __func__);
--
--		/* Return buffer to V4L2 */
--		dcmi_buffer_done(dcmi, buf, buf->size, 0);
--
--		spin_unlock_irq(&dcmi->irqlock);
--
--		/* Restart capture */
--		if (dcmi_restart_capture(dcmi))
--			dev_err(dcmi->dev, "%s: Cannot restart capture on DMA complete\n",
--				__func__);
--		return;
--	default:
--		dev_err(dcmi->dev, "%s: Received unknown status\n", __func__);
--		break;
--	}
--
--	spin_unlock_irq(&dcmi->irqlock);
--}
--
- static int dcmi_start_dma(struct stm32_dcmi *dcmi,
- 			  struct dcmi_buf *buf)
- {
-@@ -344,7 +299,7 @@ static void dcmi_set_crop(struct stm32_dcmi *dcmi)
- 	reg_set(dcmi->regs, DCMI_CR, CR_CROP);
- }
- 
--static void dcmi_process_jpeg(struct stm32_dcmi *dcmi)
-+static void dcmi_process_frame(struct stm32_dcmi *dcmi)
- {
- 	struct dma_tx_state state;
- 	enum dma_status status;
-@@ -354,13 +309,11 @@ static void dcmi_process_jpeg(struct stm32_dcmi *dcmi)
- 		return;
- 
- 	/*
--	 * Because of variable JPEG buffer size sent by sensor,
--	 * DMA transfer never completes due to transfer size never reached.
--	 * In order to ensure that all the JPEG data are transferred
--	 * in active buffer memory, DMA is drained.
--	 * Then DMA tx status gives the amount of data transferred
--	 * to memory, which is then returned to V4L2 through the active
--	 * buffer payload.
-+	 * At the time FRAME interrupt is received, all dma req have been sent to the DMA,
-+	 * however DMA might still be transferring data hence first synchronize prior to
-+	 * getting the status of the DMA transfer.
-+	 * Then DMA tx status gives the amount of data transferred to memory, which is then
-+	 * returned to V4L2 through the active buffer payload.
- 	 */
- 
- 	spin_unlock_irq(&dcmi->irqlock);
-@@ -368,16 +321,16 @@ static void dcmi_process_jpeg(struct stm32_dcmi *dcmi)
- 	dmaengine_synchronize(dcmi->dma_chan);
- 	spin_lock_irq(&dcmi->irqlock);
- 
--	/* Get DMA residue to get JPEG size */
-+	/* Get DMA status and residue size */
- 	status = dmaengine_tx_status(dcmi->dma_chan, dcmi->dma_cookie, &state);
- 	if (status != DMA_ERROR && state.residue < buf->size) {
--		/* Return JPEG buffer to V4L2 with received JPEG buffer size */
-+		/* Return buffer to V4L2 with received data size */
- 		dcmi_buffer_done(dcmi, buf, buf->size - state.residue, 0);
- 	} else {
- 		dcmi->errors_count++;
--		dev_err(dcmi->dev, "%s: Cannot get JPEG size from DMA\n",
--			__func__);
--		/* Return JPEG buffer to V4L2 in ERROR state */
-+		dev_err(dcmi->dev, "%s: DMA error. status: 0x%x, residue: %d\n",
-+			__func__, status, state.residue);
-+		/* Return buffer to V4L2 in ERROR state */
+@@ -334,10 +334,8 @@ static void dcmi_process_frame(struct stm32_dcmi *dcmi)
  		dcmi_buffer_done(dcmi, buf, 0, -EIO);
  	}
  
-@@ -385,11 +338,6 @@ static void dcmi_process_jpeg(struct stm32_dcmi *dcmi)
+-	spin_unlock_irq(&dcmi->irqlock);
  	/* Abort DMA operation */
- 	dmaengine_terminate_sync(dcmi->dma_chan);
- 	spin_lock_irq(&dcmi->irqlock);
--
--	/* Restart capture */
--	if (dcmi_restart_capture(dcmi))
--		dev_err(dcmi->dev, "%s: Cannot restart capture on JPEG received\n",
--			__func__);
+-	dmaengine_terminate_sync(dcmi->dma_chan);
+-	spin_lock_irq(&dcmi->irqlock);
++	dmaengine_terminate_async(dcmi->dma_chan);
  }
  
  static irqreturn_t dcmi_irq_thread(int irq, void *arg)
-@@ -420,12 +368,10 @@ static irqreturn_t dcmi_irq_thread(int irq, void *arg)
- 	if (dcmi->misr & IT_ERR)
- 		dcmi->errors_count++;
+@@ -355,10 +353,8 @@ static irqreturn_t dcmi_irq_thread(int irq, void *arg)
+ 		if (dcmi->overrun_count > OVERRUN_ERROR_THRESHOLD)
+ 			dcmi->errors_count++;
  
--	if (dcmi->sd_format->fourcc == V4L2_PIX_FMT_JPEG &&
--	    dcmi->misr & IT_FRAME) {
--		/* JPEG received */
--		dcmi_process_jpeg(dcmi);
 -		spin_unlock_irq(&dcmi->irqlock);
--		return IRQ_HANDLED;
-+	if (dcmi->misr & IT_FRAME) {
-+		dcmi_process_frame(dcmi);
-+		if (dcmi_restart_capture(dcmi))
-+			dev_err(dcmi->dev, "%s: Cannot restart capture\n", __func__);
- 	}
+-		dmaengine_terminate_sync(dcmi->dma_chan);
++		dmaengine_terminate_async(dcmi->dma_chan);
  
- 	spin_unlock_irq(&dcmi->irqlock);
-@@ -542,10 +488,6 @@ static int dcmi_buf_prepare(struct vb2_buffer *vb)
- 			return -EIO;
- 		}
- 
--		/* Set completion callback routine for notification */
--		buf->dma_desc->callback = dcmi_dma_callback;
--		buf->dma_desc->callback_param = dcmi;
--
- 		/* Mark the descriptor as reusable to avoid having to prepare it */
- 		ret = dmaengine_desc_set_reuse(buf->dma_desc);
- 		if (ret) {
-@@ -818,10 +760,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	}
- 
- 	/* Enable interruptions */
--	if (dcmi->sd_format->fourcc == V4L2_PIX_FMT_JPEG)
--		reg_set(dcmi->regs, DCMI_IER, IT_FRAME | IT_OVR | IT_ERR);
--	else
--		reg_set(dcmi->regs, DCMI_IER, IT_OVR | IT_ERR);
-+	reg_set(dcmi->regs, DCMI_IER, IT_FRAME | IT_OVR | IT_ERR);
- 
- 	spin_unlock_irq(&dcmi->irqlock);
- 
+-		spin_lock_irq(&dcmi->irqlock);
+ 		if (dcmi_restart_capture(dcmi))
+ 			dev_err(dcmi->dev, "%s: Cannot restart capture\n", __func__);
+ 		spin_unlock_irq(&dcmi->irqlock);
 
 -- 
 2.34.1
