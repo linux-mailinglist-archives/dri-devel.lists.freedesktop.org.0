@@ -2,177 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F58CCD352
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 19:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE33CCD35E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 19:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8CC10E6B7;
-	Thu, 18 Dec 2025 18:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D8010E7FF;
+	Thu, 18 Dec 2025 18:42:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K6/qj/gs";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BrBte5Uy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72A4B10E6B7;
- Thu, 18 Dec 2025 18:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766083259; x=1797619259;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=UYgJCcIBlUkXlVePy4Tno/RLsjA9pCUdNZLirmruSSY=;
- b=K6/qj/gsw7DVi/CgsT6zdyLqCEsmQtYIgB/C35f0WLKTtynny7OXxBJ7
- 3SxMjnRS26hnITQv+2SpIH8UgX2sutqTlqK1ZtuoyaP9cjvM/tHt2mWiC
- 4ngqCiJqwUmC11qMohfpSOxlgFmDmQxYb26XdSeR5fD7FS4FKkioF9y+W
- XiEoNlv6fWTM1NNflpMuZcOu5WLaCltckQL7o+0xWO91hPB6dAiUStiqO
- Wt/0RBPXAGjuuxVkhU0Ccr8nZcNnnUW03D7nTSmGPwH0RKYAzcS1haoJQ
- yat4ILN9eos8tDplIpI/MhNxrebEy6axv1izSTFnP6gDm8oNUnlu+4YtK w==;
-X-CSE-ConnectionGUID: 0k+ukCMYR0y4Rmg0Rn+UFA==
-X-CSE-MsgGUID: Kjly3GRSQLqpMTsF6h8zEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68199945"
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="68199945"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 10:40:58 -0800
-X-CSE-ConnectionGUID: F9dVtLQsStylPyMXcmbPRQ==
-X-CSE-MsgGUID: wx6w1P22Ta6201k75eYkvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="198421408"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 10:40:58 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 18 Dec 2025 10:40:57 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Thu, 18 Dec 2025 10:40:57 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.29) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 18 Dec 2025 10:40:57 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011032.outbound.protection.outlook.com [52.101.52.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A36C10E7FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 18:42:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jKszeWM9kbFR99xFNvJP1vd0h3w9Ie4Zkqqk7xHwva5RaZHBHHZmZ0iQ/dvlQnnwG0dI0Fvga8WpgGB4nafEq90cznDvPaEuCjLv2F+Upl5j2AvcwivrwYjAJMkdittr532/kjv6LijXBcV3plKDMG/fWWcdTlJAEODw7MivRuygqU9LWNBjCd0GzY+XI10fYXirciqbCcbMlxXsyd3sHMUE52ufak8iYFurfr7SXEir+oLJ8Q3Wh8LJfekPQmhQwDuSN73gJ0nopyS46Q+Vq1+ZubuO4e1Bsdxk/LtIDX5P5Dm7BqVWwnk2uUI7kslROTHhfpo5GU1YMNjyvi9dvQ==
+ b=KsfM58YDpOQplbAgO1nuBA9EMIwO9WCuz7yc6dwgmHUPrajU0qijFt0896FQ0n/R+95reCAYGTCcM915qBvZzMztZmbffUgz0kTYqVL63TgK22O4LlPc7wNjRbAu4xA/UhZLnZ2zT2P0xuJrDuVOcZhllVJlwwcwxcITk8yOP1qlVEa+p0loXOTl5ZHpLucd87lshqPHXCBDVf8q1iWMWXeATgEWMui8T0jZq18R/1vBobOyYB3/T6S+VkFTMBaN5I/+WUcL12kjghcn1/rKMUN0wPwxaZ7xq4ujnNZmD/0FYpxGD9/DhEWRwzZX+WJU7v3qz2n2/87HfjAvl2rW2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PkhuUae+jXHAt6Bu+3p4bu1t0VfXoCkRWgEBSUU6pM4=;
- b=Rr683hJCR2SXhfgpjvqjoPIRwX6sAEnXFlmOBfRSlZ32XqkE3sjW9yxtmQd7sRGZDV+miDu5vMMQQtEfWe5tUEverr8HoDBZUmX91wM3g38iKpWPTTS58bZWj8E9AL5kCA0rQaRTxEtnGJZsUPXfaPUWfo1FNzmbkTNa4eB3W6nk/rNawjxhiXqX9PINHw9sEF6GR7Op+x85SCccJOt6xl6buLjvZg1RFAk2b9F1lLEjThOe2z5N1Sqgv8qXOGlJAJvTMXRbOYOmJEknusa8KNdIJQzAZ4S/CjIb0bMFddZw8hG5Bc+XmFqoxXXTzfoUEUpsDSQ0LoRgL9ochopAyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA3PR11MB9303.namprd11.prod.outlook.com (2603:10b6:208:574::7)
+ bh=ZLKeJbOcBoUCbFhNAKou5gM9YeMgn68zek3Pt4oEyw4=;
+ b=r/YZ9e/kAeync/rN9stRvIiUOWsvOqCtfxaMuHLuQy9CEaZkDaAw2Gnik/a4L2QLv84bcgjOGBImTo3JnLmNa4PadYUvppSUTxswTrReJ4bHabc2QGdoOFhbGk9hhYON5JUtVsOeih4i9uPYFsm/ftAR2F4MGTOtxfkcOcJ9YTgbTdLC7q08KRSHrgiApehQIYXgxqWShA6lw76MTbktjAyBtftBBKkRXELjnz9NKiSURtf3yD25zhm4MPSipRTz6klkygy6MazKAz/OhpInNpd+vK2oWj3kuMzc4QYiwQ68ljOFJ1nF3a7D0mpF55dChxytOhyjZUXSfiFcdZAYDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZLKeJbOcBoUCbFhNAKou5gM9YeMgn68zek3Pt4oEyw4=;
+ b=BrBte5UyQqQY0FvLIWdJ/QiHhzllNaN12Opi3g6XuQFq6QBLCtRVV1pb4YwhDBzS4B7PV1XQkmxcKRjmEBrYD7n9/OVFyBfWohHQbeBN2A4GQ+NwoW5xfrG5voImsukLaNePBrK4RuDWa3tdWaDfHxyszLYKxYxP71hxaH6mbD0=
+Received: from CH2PR14CA0058.namprd14.prod.outlook.com (2603:10b6:610:56::38)
+ by CY1PR12MB9650.namprd12.prod.outlook.com (2603:10b6:930:105::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
- 2025 18:40:53 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
- 18:40:53 +0000
-Date: Thu, 18 Dec 2025 10:40:50 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>, <airlied@gmail.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
- "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH v5 22/24] drm/pagemap, drm/xe: Support destination
- migration over interconnect
-Message-ID: <aURKsk18sFly548x@lstrano-desk.jf.intel.com>
-References: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
- <20251218162101.605379-23-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251218162101.605379-23-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0211.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::6) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
+ 2025 18:42:25 +0000
+Received: from CH2PEPF00000147.namprd02.prod.outlook.com
+ (2603:10b6:610:56:cafe::8) by CH2PR14CA0058.outlook.office365.com
+ (2603:10b6:610:56::38) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.7 via Frontend Transport; Thu,
+ 18 Dec 2025 18:42:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH2PEPF00000147.mail.protection.outlook.com (10.167.244.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 18:42:25 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 18 Dec
+ 2025 12:42:24 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 18 Dec 2025 12:42:23 -0600
+Message-ID: <80809872-fb67-6568-7362-d92dcdc9f76b@amd.com>
+Date: Thu, 18 Dec 2025 10:42:23 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Remove NPU2 support
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251217190818.2145781-1-lizhi.hou@amd.com>
+ <3d802b50-697b-45fa-88c3-8a0cf9b7bb52@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <3d802b50-697b-45fa-88c3-8a0cf9b7bb52@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA3PR11MB9303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 310f0af4-4383-4249-96f8-08de3e64f933
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000147:EE_|CY1PR12MB9650:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5a08e02-047f-4b59-3df9-08de3e65300e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?7wGzsijHpQ3c08FOwckpbkYLZKfKpO70dQCziDfgVvFBc+jFXdFr2+GZ9v?=
- =?iso-8859-1?Q?uaIXtx4NkTuUoEnFroNmn/t6LgQ0y0aC3yUGnc4s2abZbsc527WXkj52w2?=
- =?iso-8859-1?Q?WUg8CEOU0L0YknJatIk6tAHB4AkTf9VPvdU5r5YyW/cZYGoVVoctmtBIfG?=
- =?iso-8859-1?Q?R5pegm5CIsy5/bwXFZ5sm5zyNUx1li/g2672/VGuwCSPxbp7aG+hg3/JU4?=
- =?iso-8859-1?Q?WjFKi3OUskRjZIubfX4w30vqtgR9HZjL1HQq9VH116d27UelgIAismM2Mg?=
- =?iso-8859-1?Q?02DtKL4MXDgnK/CiesHzGk8fJnT3kuET+IIUyUswLdElhXCGzf6/CE90j8?=
- =?iso-8859-1?Q?kcmZ1p9q+BG95h2wi9uOr0qkDvDCHW63A6PtPaBNWqYcowg9lNuaxEiCAO?=
- =?iso-8859-1?Q?W1KQ9zqW3lVdTbbPUYElK7M7eaXsPqjrGekz5Zd4jUtowKzc13DVyDuqeI?=
- =?iso-8859-1?Q?yItiTKB1JnpNiNf/LePJzVrgPGP8nx/hKptes+PL+Lk76v+GvaPDOcSeiE?=
- =?iso-8859-1?Q?24rmrTC+HjXtgBn298mcvrRx2oS/DrbQ9XEPSNsXQTUYcY5p7WmbEVP2ub?=
- =?iso-8859-1?Q?go98uZHdP0DDOcTsYwdSs/aLcDfVMla2FvYxLIuznttNG41NvrjxAtLMAq?=
- =?iso-8859-1?Q?jPikxwfkJe/f7WPRanUcZ4bnMG1b2esr7JgAJuoZwpMG7mBXoUnnkQHIz5?=
- =?iso-8859-1?Q?xbS9wmIU7GGqdqzeH07JQwu2T+A/tCBMFCmHtbDnM9Tim41Z+C7HGi8070?=
- =?iso-8859-1?Q?pkKNPgyaIkMFpJfckna2XhMcx4e4Mf/yP9b1KS1n/LNCfws6loh1JURNYG?=
- =?iso-8859-1?Q?RjDQAMpRuiSz8ResFUiRcKbWu26HaXbNsZhuE7sboRX4PgNuXYterTfonj?=
- =?iso-8859-1?Q?NmvNt9KNUMK7moHyTjh+t3lRIOBtyr6UeY9NX153POzbkKBaRNP+9Luzf4?=
- =?iso-8859-1?Q?MXrZYCtDUNUtJS0UnfzmPgkwF9Ope1+LCifhL3mZiQlksC3R9dTjTzWYS5?=
- =?iso-8859-1?Q?MtCl/cZ0iA7GHMFzZh0xW9C71OM/WzaSxoU134XexPDm4Bt0Zs2cmNCmz6?=
- =?iso-8859-1?Q?x1pPDl9Dn8Nuf3xK7JRhgEHx0/l5tkKxfT2C5lddcIZyHdZYSuYWYyzjUf?=
- =?iso-8859-1?Q?w/Wa3GFeJW/WcQadah1XucX+an69NZDLzG4WOVp7lFfXDFTsQFwnZfSNPn?=
- =?iso-8859-1?Q?9CshThi6ykgjqAs+QQVWPYG4TXaGcOJ1ekHOH8FSfDlW5JFKy7UZdP5xTO?=
- =?iso-8859-1?Q?a5wo1CaXfrfmgZujlPp0/pVymrgMc7l0eDtpjIo3BVj47JiXnTH73tGs3s?=
- =?iso-8859-1?Q?DBLQcyhN+n/JodpN1qHXgNMuQbO4MQ5HyqlXLOWfR6wx1xvHAf3PhPSeN/?=
- =?iso-8859-1?Q?ysnKYqQ2jqQL8VCF/B0ykC3uBD1i4EN0fhjO4qFBj22ybgTQul+972lMpD?=
- =?iso-8859-1?Q?9kj7dmkrbu0eYLs5GIMfl5x1XssEz60nHKlbcdGks9MNhtRNWBUoTGzZG6?=
- =?iso-8859-1?Q?5ggVoremyWNo1cBe1VMFdK?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?G2210GtcRI5Cn6gV2YYHlvQL6gHCszOqE/x21BjiYDuz4pMOe5/M/oh6B8?=
- =?iso-8859-1?Q?TFq0+TAbtwUts7MLG+k1p+8hPo+Nesz+ywwiSEMqqDBUWThC21StXZ5O/8?=
- =?iso-8859-1?Q?/K5yq517JbudtdXllPLGz4TQR4sBGEv+grwTqHZyfceD3uKgCUpEaHOwRb?=
- =?iso-8859-1?Q?9w8FR5MDYuCuXTsBOfoUmxv1IIGg3bGEFXkon0Ar6mINGtyOYFh5vutzcb?=
- =?iso-8859-1?Q?V3a+uESvZ/wGJq6pY6OJMSHsqUL1i7nrbf5J/0yTt5plCW1CTIKIgwyau+?=
- =?iso-8859-1?Q?EO8RaRGcaqYl1Ijz1Ya3/qFhuJQzM/X3MBBREC2+VLGFHkxAGnx8XYjc9P?=
- =?iso-8859-1?Q?cjIVkaFmWI0jN8CwgcfBYYCMTfI0DlLQtJZIm9UJrJ8uVvxrLtj7YUJzkb?=
- =?iso-8859-1?Q?4aWFO3UovrT1NzdT623Q6XWkSNQopF/EskFoStgo670IpKVxaI1NdxYE7o?=
- =?iso-8859-1?Q?B679MNSd+6rqF0tiWh7WbiSfqncqTfS9CfWVgpEBSIwFj8RxTqiJu5btnz?=
- =?iso-8859-1?Q?ITxtcyDX7kLWY/qS+WfUw3QJVpcf6++vjhYQt+7jXR2nmsiEqFKO1r0VWB?=
- =?iso-8859-1?Q?ky/sZeiNgCbB+p3m2stUXu8dP1rLkCQFxwQq8WMVYyKF9kYdLEgXkwGwzr?=
- =?iso-8859-1?Q?lMz05poLurEcbwyF4Trrqm61AmM2/Ek3b69qlcU0uAyWO+k56pef3y9I2G?=
- =?iso-8859-1?Q?47lGv2Y1C6B3g2q7pjPhiIHml5QWQ54bhy/ZHk37ynwNaLnuVwhbjIpHAF?=
- =?iso-8859-1?Q?7fj8x4lESDjUfFfrH1XUYDCOs9Dp5r+UvbJwQy2WzBVy+lVsX4mYwAqIEV?=
- =?iso-8859-1?Q?NuAWFldGaDFaVpqvQ/8l9qLODQhaomRVqfJjdYd3YulsmW12YLyFBm+PxY?=
- =?iso-8859-1?Q?W8H/Q6OK9XEUIB0kZtx0DtUBjj4oAdMv5pVrWU8TQrIGDEg20L7q63cbat?=
- =?iso-8859-1?Q?CFjryRbnlwuOTqDV0ZUyBAdzbsMPzgjyPsjM8yoEp1qLbbUQlfIZb6oLIa?=
- =?iso-8859-1?Q?ny/klh+u9xlQv+4jiutJucpBQc/sMYmMu6hmxSjx5zPg5Yuu+aC9EFJ6pt?=
- =?iso-8859-1?Q?NrIj71boxFG+gzDy9PUl8Wgyi7vbkTEblmDQ42xrTM7KWM30rgeoN1+nqA?=
- =?iso-8859-1?Q?EN0s3qASOkK6hvoIwRt99xj8fJ8Z08kFnCgWYWS1ccnsJ3fUV3Y7cW1Adj?=
- =?iso-8859-1?Q?mO13KPXlzpdohhGorjvGRpLHNIh5uvWlbOp1G+DLyKddqEPymirV6pFmSR?=
- =?iso-8859-1?Q?z+CEdf5xGCOty8N+g5332eaREIy+bY7udkpIenZXvR/ij3tOjlrBa9qVoS?=
- =?iso-8859-1?Q?Bee+N8/i0o2Vh4HAp0WVlAW0mIwoJ3VztD4eDgtZWTCEjyPjaSMvsBv8/+?=
- =?iso-8859-1?Q?BXqj5eWwgTRqkuVDpr3wEfXWOqg6fuF9BjIXkX/VQ6qoOF2ok9VBqhphPd?=
- =?iso-8859-1?Q?C7RDRrK8E6MssEiSVFKrvj9bDFcXB30VKPC32vxZma5ZMNj+FNXCdW27Od?=
- =?iso-8859-1?Q?BdfQ2clPCv96eVG5PL9Pn/+QPt0nogeCS5jp4pVbtzA7mxLEE4A5OL4PgL?=
- =?iso-8859-1?Q?fkgRwVGdxRo8SNjNgaGaOj0EvL0FxqDjgFoF6wC9uLQjEW9qbSpLdJQ5Vm?=
- =?iso-8859-1?Q?aQn40+YJijbPlhosGeQzsvFqWBrZ0NcW8kAoOSyiBHr0NtLl1XlF2Zmg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 310f0af4-4383-4249-96f8-08de3e64f933
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 18:40:53.3382 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uz/LQzm+yqkml287cexjK35/t0SI01FKPeCfCypjEROP3k5pILZfszqDoLwJuBKYZEad+ScnAbrYwveVCrRQdw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9303
-X-OriginatorOrg: intel.com
+ ARA:13230040|376014|36860700013|1800799024|82310400026|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UUpIZ0FvK1BES2tSMjMzbkV3YTB0cmJlTVhTS2xZZ0R4dnBlVnpRNC93ZnBr?=
+ =?utf-8?B?dDh2N3JMd0hQWmd2NjFRUjh1a3dqQWx1VXdPMnBScXYwMkxjN3k2OGZhZ2kr?=
+ =?utf-8?B?VmVoTVBkQVYxeUpRR0lxSkI0M1l5MDJOdUxjdEJKQ2JhQWNPQlA3OEVnWVV2?=
+ =?utf-8?B?T2xWb0NLaXVjMnFOdFZ2b0tNMElLTmU1R2I3Z1NBSFc5NlpWcC96OGFWU3hh?=
+ =?utf-8?B?VFV5Tlpoc2VWRVRhK0ZDUVJzNXQ0QVBPNEsxZjFIaVlhcWhCcU1mVXp2MW04?=
+ =?utf-8?B?S09WSzlKOUJscHF0WG00MFk1RnduSThCaDRHZTUyWmdmRXVEVkNXdTYzRDQz?=
+ =?utf-8?B?cWxnNEhDWDBaeWNKSTkvSWFaa3VQc282V2gxV3hMb0l5bmUzZ3NtQnZHN0d5?=
+ =?utf-8?B?dkNBZ0FFTEtxZGZienZBQmRNNnh4M3ExOXMxbXE4RCtPUUY4NXBmTG93c3Vx?=
+ =?utf-8?B?dlhLVzV2YXBLS3Q2ZWViYjFIQmcyeVlwMTBwalpkZmxMWHplaThKc04vVGp2?=
+ =?utf-8?B?eHprVjRyVEc3SUFTNXVGcTNvRFJTOStrQUNhTVdhRkVvb1RwN2VlYkx5WTVG?=
+ =?utf-8?B?MGRxVXdYYm1XOHRDMXNOeGhaOGpWWENJcjFKSkNYVnhwQ3A4WCs3M3I4ZzFX?=
+ =?utf-8?B?aEZXT1Q0ekhKcnFEQ3ZoMXlyMGJ1NWpxYkI0UkVaYmJEMkRmMjNiYXVUcEtY?=
+ =?utf-8?B?aUJ0aU8xSERnUUd5RkNwSVY5Z2Q3bFlvd04rc3B2Z3cydjNnS1JPMTlTa0tL?=
+ =?utf-8?B?NWlMVlJSVFY4MzRZMDQ4WkZYM28zVWZUMGtpMWlMZnhIaVNpb2dlbHB0YmZy?=
+ =?utf-8?B?M29ITFgzTXNaanpTMm15OEIvVlhZNytVVnpQYXNFRmszOW5xNGRVMy8xbDR5?=
+ =?utf-8?B?REdQd2ZWSlkxVnFQNzFSWk52YnZmQ0FJQ2tGT0txcHVVcHJSWnBRU0l2aDFx?=
+ =?utf-8?B?VmxWdmp5UU1tWEdHWVU1elkzSzh4d0Fmb2tiaG9RMUIybndqQTQxQytiQ0pv?=
+ =?utf-8?B?OHRmUWlPM2ZmRlJNYlZOM0NHM3JCSUdiNUhsd29YZk0xMzBXUHJMNWZ1SWhh?=
+ =?utf-8?B?V2lIUkpEczVHc0RyOWZOWXpYdk9seDBsOVJKSFBIUmFpTHdUTDRRZFdQdmxH?=
+ =?utf-8?B?UkNNM3h6VU5hZHlhbnR6L04wTkJGYmVad1owOUFLamNtb2Y2QnVVMXJJWHJ4?=
+ =?utf-8?B?SWFJV0RPSzYyRDFPL08yTVUxN0pNcjJzMzJidWZKYzNKNTgyUEZmTkc2OTA0?=
+ =?utf-8?B?OE1qSXA5bWg0eGViK3dQK2J5ckkweHRvdU9ETllyKzlCb2dJUkZ1T2xzU1Q0?=
+ =?utf-8?B?aUo3K1ZkOUNCYnkyMVR0WHBnOWRyL1lxekd6eXd5RHJwdW0rMm5xb1V3ODJp?=
+ =?utf-8?B?Y1JyN3ZqYU53TktLYmw5QmtjSDgxQXBWdUUwYUZ6WDdGOGxzd0E2b2VkWmdw?=
+ =?utf-8?B?VG1hOEg0M2dTQ0pwN2orUDNRWnBUK1RhOGRUQzluL0RLempFN25XdmhaK2pX?=
+ =?utf-8?B?ZHplU1dROC9jdS9mS3VJeG1XeEsybndwb0RJQjlMUEdvKzlDNnhVMnpsYlhx?=
+ =?utf-8?B?T0hwMnlqNDlJdVNMK01SYzZuNHd6dUNvYlk3dVNOdkkzbjdRRDkwUVVob3VG?=
+ =?utf-8?B?Wm5TRHhDUjNhMFlwd0dxQlZ3SHBDOVl5L0dkRythWjJTdmZvRTM1L1QyL3RF?=
+ =?utf-8?B?N0REYnNxUzl5SE1Ld0VJMjhqOVVsUlc1ZFM1eXFQeTFHckI3QlpnYzJ5VUky?=
+ =?utf-8?B?UGhQOElpVDdOcWlBcDhqY3FXSTJCL3dXdzlvNnZhUUYzRCs0OWNOem5uSW1Y?=
+ =?utf-8?B?elV2RWYzclNTOFQrR0RNQzNWVVdDdWNBeGRsNUhFMzlGRGtnY3k3YWNiYjNi?=
+ =?utf-8?B?aWNoZDJDcHlUdE9jNGxyaHVnc252MDhkQTR4UWg4em1vaVQwS0ROSlNFaWhs?=
+ =?utf-8?B?c3VTdVNVcVNYV29ZZVMwUGFYcSs3emJuMTMrZXI4RFZuT25PV1lvbEtTVFhh?=
+ =?utf-8?B?TTE1M2wzdVZydnNjeGMvK3JCeWNnNmJ4Y2tCVFU2VUVoK1FIOUZoRzRaelhl?=
+ =?utf-8?B?a3cyZG9nSFU1MnFvOWlXT08rcXROd0l6N0lWM1VGMkNoQVhBYzZmMmJSYk5X?=
+ =?utf-8?Q?egXs=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 18:42:25.1772 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5a08e02-047f-4b59-3df9-08de3e65300e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000147.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9650
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,546 +148,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 18, 2025 at 05:20:59PM +0100, Thomas Hellstr�m wrote:
-> Support destination migration over interconnect when migrating from
-> device-private pages with the same dev_pagemap owner.
-> 
-> Since we now also collect device-private pages to migrate,
-> also abort migration if the range to migrate is already
-> fully populated with pages from the desired pagemap.
-> 
-> Finally return -EBUSY from drm_pagemap_populate_mm()
-> if the migration can't be completed without first migrating all
-> pages in the range to system. It is expected that the caller
-> will perform that before retrying the call to
-> drm_pagemap_populate_mm().
-> 
-> v3:
-> - Fix a bug where the p2p dma-address was never used.
-> - Postpone enabling destination interconnect migration,
->   since xe devices require source interconnect migration to
->   ensure the source L2 cache is flushed at migration time.
-> - Update the drm_pagemap_migrate_to_devmem() interface to
->   pass migration details.
-> v4:
-> - Define XE_INTERCONNECT_P2P unconditionally (CI)
-> - Include a missing header (CI)
-> v5:
-> - Use page order increments where possible (Matt Brost).
-> - Fix a negated value of can_migrate_same_pagemap.
-> - Move removal of some dead code to a separate patch (Matt Brost).
-> - Remove an unnecessary zdd get() and put() (Matt Brost).
-> 
+Applied to drm-misc-next
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-> Signed-off-by: Thomas Hellstr�m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_pagemap.c   | 184 +++++++++++++++++++++++++-------
->  drivers/gpu/drm/xe/xe_migrate.c |   4 +-
->  drivers/gpu/drm/xe/xe_svm.c     |  26 +++--
->  drivers/gpu/drm/xe/xe_svm.h     |   1 +
->  include/drm/drm_pagemap.h       |  19 +++-
->  5 files changed, 187 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> index d44372a80a90..09356d50b8d1 100644
-> --- a/drivers/gpu/drm/drm_pagemap.c
-> +++ b/drivers/gpu/drm/drm_pagemap.c
-> @@ -207,10 +207,12 @@ static void drm_pagemap_get_devmem_page(struct page *page,
->  /**
->   * drm_pagemap_migrate_map_pages() - Map migration pages for GPU SVM migration
->   * @dev: The device for which the pages are being mapped
-> + * @local_dpagemap: The drm_pagemap pointer of the local drm_pagemap.
->   * @pagemap_addr: Array to store DMA information corresponding to mapped pages
->   * @migrate_pfn: Array of migrate page frame numbers to map
->   * @npages: Number of pages to map
->   * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> + * @mdetails: Details governing the migration behaviour.
->   *
->   * This function maps pages of memory for migration usage in GPU SVM. It
->   * iterates over each page frame number provided in @migrate_pfn, maps the
-> @@ -220,12 +222,15 @@ static void drm_pagemap_get_devmem_page(struct page *page,
->   * Returns: 0 on success, -EFAULT if an error occurs during mapping.
->   */
->  static int drm_pagemap_migrate_map_pages(struct device *dev,
-> +					 struct drm_pagemap *local_dpagemap,
->  					 struct drm_pagemap_addr *pagemap_addr,
->  					 unsigned long *migrate_pfn,
->  					 unsigned long npages,
-> -					 enum dma_data_direction dir)
-> +					 enum dma_data_direction dir,
-> +					 const struct drm_pagemap_migrate_details *mdetails)
->  {
->  	unsigned long i;
-> +	unsigned long num_peer_pages = 0;
->  
->  	for (i = 0; i < npages;) {
->  		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
-> @@ -236,31 +241,50 @@ static int drm_pagemap_migrate_map_pages(struct device *dev,
->  		if (!page)
->  			goto next;
->  
-> -		if (WARN_ON_ONCE(is_zone_device_page(page)))
-> -			return -EFAULT;
-> -
->  		folio = page_folio(page);
->  		order = folio_order(folio);
->  
-> -		dma_addr = dma_map_page(dev, page, 0, page_size(page), dir);
-> -		if (dma_mapping_error(dev, dma_addr))
-> -			return -EFAULT;
-> +		if (is_device_private_page(page)) {
-> +			struct drm_pagemap_zdd *zdd = page->zone_device_data;
-> +			struct drm_pagemap *dpagemap = zdd->dpagemap;
-> +			struct drm_pagemap_addr addr;
-> +
-> +			if (dpagemap == local_dpagemap && !mdetails->can_migrate_same_pagemap)
-> +				goto next;
->  
-> -		pagemap_addr[i] =
-> -			drm_pagemap_addr_encode(dma_addr,
-> -						DRM_INTERCONNECT_SYSTEM,
-> -						order, dir);
-> +			num_peer_pages += NR_PAGES(order);
-> +			addr = dpagemap->ops->device_map(dpagemap, dev, page, order, dir);
-> +			if (dma_mapping_error(dev, addr.addr))
-> +				return -EFAULT;
-> +
-> +			pagemap_addr[i] = addr;
-> +		} else {
-> +			dma_addr = dma_map_page(dev, page, 0, page_size(page), dir);
-> +			if (dma_mapping_error(dev, dma_addr))
-> +				return -EFAULT;
-> +
-> +			pagemap_addr[i] =
-> +				drm_pagemap_addr_encode(dma_addr,
-> +							DRM_INTERCONNECT_SYSTEM,
-> +							order, dir);
-> +		}
->  
->  next:
->  		i += NR_PAGES(order);
->  	}
->  
-> +	if (num_peer_pages)
-> +		drm_dbg(local_dpagemap->drm, "Migrating %lu peer pages over interconnect.\n",
-> +			num_peer_pages);
-> +
->  	return 0;
->  }
->  
->  /**
->   * drm_pagemap_migrate_unmap_pages() - Unmap pages previously mapped for GPU SVM migration
->   * @dev: The device for which the pages were mapped
-> + * @migrate_pfn: Array of migrate pfns set up for the mapped pages. Used to
-> + * determine the drm_pagemap of a peer device private page.
->   * @pagemap_addr: Array of DMA information corresponding to mapped pages
->   * @npages: Number of pages to unmap
->   * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> @@ -271,16 +295,27 @@ static int drm_pagemap_migrate_map_pages(struct device *dev,
->   */
->  static void drm_pagemap_migrate_unmap_pages(struct device *dev,
->  					    struct drm_pagemap_addr *pagemap_addr,
-> +					    unsigned long *migrate_pfn,
->  					    unsigned long npages,
->  					    enum dma_data_direction dir)
->  {
->  	unsigned long i;
->  
->  	for (i = 0; i < npages;) {
-> -		if (!pagemap_addr[i].addr || dma_mapping_error(dev, pagemap_addr[i].addr))
-> +		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
-> +
-> +		if (!page || !pagemap_addr[i].addr || dma_mapping_error(dev, pagemap_addr[i].addr))
->  			goto next;
->  
-> -		dma_unmap_page(dev, pagemap_addr[i].addr, PAGE_SIZE << pagemap_addr[i].order, dir);
-> +		if (is_zone_device_page(page)) {
-> +			struct drm_pagemap_zdd *zdd = page->zone_device_data;
-> +			struct drm_pagemap *dpagemap = zdd->dpagemap;
-> +
-> +			dpagemap->ops->device_unmap(dpagemap, dev, pagemap_addr[i]);
-> +		} else {
-> +			dma_unmap_page(dev, pagemap_addr[i].addr,
-> +				       PAGE_SIZE << pagemap_addr[i].order, dir);
-> +		}
->  
->  next:
->  		i += NR_PAGES(pagemap_addr[i].order);
-> @@ -297,13 +332,12 @@ npages_in_range(unsigned long start, unsigned long end)
->   * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
->   * @devmem_allocation: The device memory allocation to migrate to.
->   * The caller should hold a reference to the device memory allocation,
-> - * and the reference is consumed by this function unless it returns with
-> + * and the reference is consumed by this function even if it returns with
->   * an error.
->   * @mm: Pointer to the struct mm_struct.
->   * @start: Start of the virtual address range to migrate.
->   * @end: End of the virtual address range to migrate.
-> - * @timeslice_ms: The time requested for the migrated pagemap pages to
-> - * be present in @mm before being allowed to be migrated back.
-> + * @mdetails: Details to govern the migration.
->   *
->   * This function migrates the specified virtual address range to device memory.
->   * It performs the necessary setup and invokes the driver-specific operations for
-> @@ -321,7 +355,7 @@ npages_in_range(unsigned long start, unsigned long end)
->  int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  				  struct mm_struct *mm,
->  				  unsigned long start, unsigned long end,
-> -				  unsigned long timeslice_ms)
-> +				  const struct drm_pagemap_migrate_details *mdetails)
->  {
->  	const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
->  	struct drm_pagemap *dpagemap = devmem_allocation->dpagemap;
-> @@ -330,9 +364,11 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  		.start		= start,
->  		.end		= end,
->  		.pgmap_owner	= pagemap->owner,
-> -		.flags		= MIGRATE_VMA_SELECT_SYSTEM,
-> +		.flags		= MIGRATE_VMA_SELECT_SYSTEM | MIGRATE_VMA_SELECT_DEVICE_COHERENT |
-> +		(mdetails->source_peer_migrates ? 0 : MIGRATE_VMA_SELECT_DEVICE_PRIVATE),
->  	};
->  	unsigned long i, npages = npages_in_range(start, end);
-> +	unsigned long own_pages = 0, migrated_pages = 0;
->  	struct vm_area_struct *vas;
->  	struct drm_pagemap_zdd *zdd = NULL;
->  	struct page **pages;
-> @@ -374,8 +410,10 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  	zdd = drm_pagemap_zdd_alloc(dpagemap);
->  	if (!zdd) {
->  		err = -ENOMEM;
-> -		goto err_free;
-> +		kvfree(buf);
-> +		goto err_out;
->  	}
-> +	zdd->devmem_allocation = devmem_allocation;	/* Owns ref */
->  
->  	migrate.vma = vas;
->  	migrate.src = buf;
-> @@ -386,35 +424,84 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  		goto err_free;
->  
->  	if (!migrate.cpages) {
-> -		err = -EFAULT;
-> +		/* No pages to migrate. Raced or unknown device pages. */
-> +		err = -EBUSY;
->  		goto err_free;
->  	}
->  
->  	if (migrate.cpages != npages) {
-> +		/*
-> +		 * Some pages to migrate. But we want to migrate all or
-> +		 * nothing. Raced or unknown device pages.
-> +		 */
->  		err = -EBUSY;
-> -		goto err_finalize;
-> +		goto err_aborted_migration;
-> +	}
-> +
-> +	/* Count device-private pages to migrate */
-> +	for (i = 0; i < npages;) {
-> +		struct page *src_page = migrate_pfn_to_page(migrate.src[i]);
-> +		unsigned long nr_pages = src_page ? NR_PAGES(folio_order(page_folio(src_page))) : 1;
-> +
-> +		if (src_page && is_zone_device_page(src_page)) {
-> +			if (page_pgmap(src_page) == pagemap)
-> +				own_pages += nr_pages;
-> +		}
-> +
-> +		i += nr_pages;
-> +	}
-> +
-> +	drm_dbg(dpagemap->drm, "Total pages %lu; Own pages: %lu.\n",
-> +		npages, own_pages);
-> +	if (own_pages == npages) {
-> +		err = 0;
-> +		drm_dbg(dpagemap->drm, "Migration wasn't necessary.\n");
-> +		goto err_aborted_migration;
-> +	} else if (own_pages && !mdetails->can_migrate_same_pagemap) {
-> +		err = -EBUSY;
-> +		drm_dbg(dpagemap->drm, "Migration aborted due to fragmentation.\n");
-> +		goto err_aborted_migration;
->  	}
->  
->  	err = ops->populate_devmem_pfn(devmem_allocation, npages, migrate.dst);
->  	if (err)
->  		goto err_finalize;
->  
-> -	err = drm_pagemap_migrate_map_pages(devmem_allocation->dev, pagemap_addr,
-> -					    migrate.src, npages, DMA_TO_DEVICE);
-> +	err = drm_pagemap_migrate_map_pages(devmem_allocation->dev,
-> +					    devmem_allocation->dpagemap, pagemap_addr,
-> +					    migrate.src, npages, DMA_TO_DEVICE,
-> +					    mdetails);
-> +
-> +	if (err) {
-> +		drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr,
-> +						migrate.src, npages, DMA_TO_DEVICE);
->  
-> -	if (err)
->  		goto err_finalize;
-> +	}
->  
-> +	own_pages = 0;
->  	for (i = 0; i < npages; ++i) {
->  		struct page *page = pfn_to_page(migrate.dst[i]);
-> -
-> +		struct page *src_page = migrate_pfn_to_page(migrate.src[i]);
-> +
-> +		if (unlikely(src_page && is_zone_device_page(src_page) &&
-> +			     page_pgmap(src_page) == pagemap &&
-> +			     !mdetails->can_migrate_same_pagemap)) {
-> +			migrate.dst[i] = 0;
-> +			pages[i] = NULL;
-> +			own_pages++;
-> +			continue;
-> +		}
->  		pages[i] = page;
->  		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
->  		drm_pagemap_get_devmem_page(page, zdd);
->  	}
-> +	drm_WARN_ON(dpagemap->drm, !!own_pages);
->  
->  	err = ops->copy_to_devmem(pages, pagemap_addr, npages,
->  				  devmem_allocation->pre_migrate_fence);
-> +	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr,
-> +					migrate.src, npages, DMA_TO_DEVICE);
->  	if (err)
->  		goto err_finalize;
->  
-> @@ -423,21 +510,37 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  
->  	/* Upon success bind devmem allocation to range and zdd */
->  	devmem_allocation->timeslice_expiration = get_jiffies_64() +
-> -		msecs_to_jiffies(timeslice_ms);
-> -	zdd->devmem_allocation = devmem_allocation;	/* Owns ref */
-> +		msecs_to_jiffies(mdetails->timeslice_ms);
->  
->  err_finalize:
->  	if (err)
->  		drm_pagemap_migration_unlock_put_pages(npages, migrate.dst);
-> +err_aborted_migration:
->  	migrate_vma_pages(&migrate);
-> +
-> +	for (i = 0; i < npages;) {
-> +		struct page *page = migrate_pfn_to_page(migrate.src[i]);
-> +		unsigned long nr_pages = page ? NR_PAGES(folio_order(page_folio(page))) : 1;
-> +
-> +		if (migrate.src[i] & MIGRATE_PFN_MIGRATE)
-> +			migrated_pages += nr_pages;
-> +
-> +		i += nr_pages;
-> +	}
-> +
-> +	if (!err && migrated_pages < npages - own_pages) {
-> +		drm_dbg(dpagemap->drm, "Raced while finalizing migration.\n");
-> +		err = -EBUSY;
-> +	}
-> +
->  	migrate_vma_finalize(&migrate);
-> -	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr, npages,
-> -					DMA_TO_DEVICE);
->  err_free:
-> -	if (zdd)
-> -		drm_pagemap_zdd_put(zdd);
-> +	drm_pagemap_zdd_put(zdd);
->  	kvfree(buf);
-> +	return err;
-> +
->  err_out:
-> +	devmem_allocation->ops->devmem_release(devmem_allocation);
->  	return err;
->  }
->  EXPORT_SYMBOL_GPL(drm_pagemap_migrate_to_devmem);
-> @@ -710,6 +813,7 @@ EXPORT_SYMBOL(drm_pagemap_put);
->  int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
->  {
->  	const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
-> +	struct drm_pagemap_migrate_details mdetails = {};
->  	unsigned long npages, mpages = 0;
->  	struct page **pages;
->  	unsigned long *src, *dst;
-> @@ -748,8 +852,10 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
->  	if (err || !mpages)
->  		goto err_finalize;
->  
-> -	err = drm_pagemap_migrate_map_pages(devmem_allocation->dev, pagemap_addr,
-> -					    dst, npages, DMA_FROM_DEVICE);
-> +	err = drm_pagemap_migrate_map_pages(devmem_allocation->dev,
-> +					    devmem_allocation->dpagemap, pagemap_addr,
-> +					    dst, npages, DMA_FROM_DEVICE,
-> +					    &mdetails);
->  	if (err)
->  		goto err_finalize;
->  
-> @@ -765,8 +871,9 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
->  		drm_pagemap_migration_unlock_put_pages(npages, dst);
->  	migrate_device_pages(src, dst, npages);
->  	migrate_device_finalize(src, dst, npages);
-> -	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr, npages,
-> +	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr, dst, npages,
->  					DMA_FROM_DEVICE);
-> +
->  err_free:
->  	kvfree(buf);
->  err_out:
-> @@ -809,6 +916,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
->  		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
->  		.fault_page	= page,
->  	};
-> +	struct drm_pagemap_migrate_details mdetails = {};
->  	struct drm_pagemap_zdd *zdd;
->  	const struct drm_pagemap_devmem_ops *ops;
->  	struct device *dev = NULL;
-> @@ -866,8 +974,8 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
->  	if (err)
->  		goto err_finalize;
->  
-> -	err = drm_pagemap_migrate_map_pages(dev, pagemap_addr, migrate.dst, npages,
-> -					    DMA_FROM_DEVICE);
-> +	err = drm_pagemap_migrate_map_pages(dev, zdd->dpagemap, pagemap_addr, migrate.dst, npages,
-> +					    DMA_FROM_DEVICE, &mdetails);
->  	if (err)
->  		goto err_finalize;
->  
-> @@ -884,8 +992,8 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
->  	migrate_vma_pages(&migrate);
->  	migrate_vma_finalize(&migrate);
->  	if (dev)
-> -		drm_pagemap_migrate_unmap_pages(dev, pagemap_addr, npages,
-> -						DMA_FROM_DEVICE);
-> +		drm_pagemap_migrate_unmap_pages(dev, pagemap_addr, migrate.dst,
-> +						npages, DMA_FROM_DEVICE);
->  err_free:
->  	kvfree(buf);
->  err_out:
-> diff --git a/drivers/gpu/drm/xe/xe_migrate.c b/drivers/gpu/drm/xe/xe_migrate.c
-> index f3b66b55acfb..4edb41548000 100644
-> --- a/drivers/gpu/drm/xe/xe_migrate.c
-> +++ b/drivers/gpu/drm/xe/xe_migrate.c
-> @@ -35,6 +35,7 @@
->  #include "xe_sa.h"
->  #include "xe_sched_job.h"
->  #include "xe_sriov_vf_ccs.h"
-> +#include "xe_svm.h"
->  #include "xe_sync.h"
->  #include "xe_trace_bo.h"
->  #include "xe_validation.h"
-> @@ -2048,7 +2049,8 @@ static void build_pt_update_batch_sram(struct xe_migrate *m,
->  			u64 pte;
->  
->  			xe_tile_assert(m->tile, sram_addr[i].proto ==
-> -				       DRM_INTERCONNECT_SYSTEM);
-> +				       DRM_INTERCONNECT_SYSTEM ||
-> +				       sram_addr[i].proto == XE_INTERCONNECT_P2P);
->  			xe_tile_assert(m->tile, addr);
->  			xe_tile_assert(m->tile, PAGE_ALIGNED(addr));
->  
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index c83ba32f1175..40401aa70dbc 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -1045,6 +1045,10 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->  				      unsigned long timeslice_ms)
->  {
->  	struct xe_pagemap *xpagemap = container_of(dpagemap, typeof(*xpagemap), dpagemap);
-> +	struct drm_pagemap_migrate_details mdetails = {
-> +		.timeslice_ms = timeslice_ms,
-> +		.source_peer_migrates = 1,
-> +	};
->  	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
->  	struct dma_fence *pre_migrate_fence = NULL;
->  	struct xe_device *xe = vr->xe;
-> @@ -1096,10 +1100,9 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->  
->  		/* Ensure the device has a pm ref while there are device pages active. */
->  		xe_pm_runtime_get_noresume(xe);
-> +		/* Consumes the devmem allocation ref. */
->  		err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
-> -						    start, end, timeslice_ms);
-> -		if (err)
-> -			xe_svm_devmem_release(&bo->devmem_allocation);
-> +						    start, end, &mdetails);
->  		xe_bo_unlock(bo);
->  		xe_bo_put(bo);
->  	}
-> @@ -1615,6 +1618,7 @@ int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *c
->  	struct xe_vm *vm = range_to_vm(&range->base);
->  	enum drm_gpusvm_scan_result migration_state;
->  	struct xe_device *xe = vm->xe;
-> +	int err, retries = 1;
->  
->  	xe_assert(range_to_vm(&range->base)->xe, range->base.pages.flags.migrate_devmem);
->  	range_debug(range, "ALLOCATE VRAM");
-> @@ -1633,10 +1637,18 @@ int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *c
->  		drm_dbg(&xe->drm, "Request migration to device memory on \"%s\".\n",
->  			dpagemap->drm->unique);
->  
-> -	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
-> -				       xe_svm_range_end(range),
-> -				       range->base.gpusvm->mm,
-> -				       ctx->timeslice_ms);
-> +	do {
-> +		err = drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
-> +					      xe_svm_range_end(range),
-> +					      range->base.gpusvm->mm,
-> +					      ctx->timeslice_ms);
-> +
-> +		if (err == -EBUSY && retries)
-> +			drm_gpusvm_range_evict(range->base.gpusvm, &range->base);
-> +
-> +	} while (err == -EBUSY && retries--);
-> +
-> +	return err;
->  }
->  
->  static struct drm_pagemap_addr
-> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-> index 50e80bc892b6..b7b8eeacf196 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.h
-> +++ b/drivers/gpu/drm/xe/xe_svm.h
-> @@ -205,6 +205,7 @@ struct xe_tile;
->  struct xe_vram_region;
->  
->  #define XE_INTERCONNECT_VRAM 1
-> +#define XE_INTERCONNECT_P2P (XE_INTERCONNECT_VRAM + 1)
->  
->  struct xe_svm_range {
->  	struct {
-> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-> index f73afece42ba..46e9c58f09e0 100644
-> --- a/include/drm/drm_pagemap.h
-> +++ b/include/drm/drm_pagemap.h
-> @@ -317,10 +317,27 @@ struct drm_pagemap_devmem {
->  	struct dma_fence *pre_migrate_fence;
->  };
->  
-> +/**
-> + * struct drm_pagemap_migrate_details - Details to govern migration.
-> + * @timeslice_ms: The time requested for the migrated pagemap pages to
-> + * be present in @mm before being allowed to be migrated back.
-> + * @can_migrate_same_pagemap: Whether the copy function as indicated by
-> + * the @source_peer_migrates flag, can migrate device pages within a
-> + * single drm_pagemap.
-> + * @source_peer_migrates: Whether on p2p migration, The source drm_pagemap
-> + * should use the copy_to_ram() callback rather than the destination
-> + * drm_pagemap should use the copy_to_devmem() callback.
-> + */
-> +struct drm_pagemap_migrate_details {
-> +	unsigned long timeslice_ms;
-> +	u32 can_migrate_same_pagemap : 1;
-> +	u32 source_peer_migrates : 1;
-> +};
-> +
->  int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  				  struct mm_struct *mm,
->  				  unsigned long start, unsigned long end,
-> -				  unsigned long timeslice_ms);
-> +				  const struct drm_pagemap_migrate_details *mdetails);
->  
->  int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation);
->  
-> -- 
-> 2.51.1
-> 
+On 12/17/25 11:13, Mario Limonciello wrote:
+> On 12/17/25 1:08 PM, Lizhi Hou wrote:
+>> NPU2 hardware was never publicly released and is now obsolete.
+>> Remove all remaining NPU2 support from the driver.
+>>
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>> ---
+>>   drivers/accel/amdxdna/Makefile |   1 -
+>>   drivers/accel/amdxdna/amdxdna_pci_drv.c |   1 -
+>>   drivers/accel/amdxdna/amdxdna_pci_drv.h |   1 -
+>>   drivers/accel/amdxdna/npu2_regs.c       | 117 ------------------------
+>>   4 files changed, 120 deletions(-)
+>>   delete mode 100644 drivers/accel/amdxdna/npu2_regs.c
+>>
+>> diff --git a/drivers/accel/amdxdna/Makefile 
+>> b/drivers/accel/amdxdna/Makefile
+>> index 6344aaf523fa..3fa0e74fd8f5 100644
+>> --- a/drivers/accel/amdxdna/Makefile
+>> +++ b/drivers/accel/amdxdna/Makefile
+>> @@ -18,7 +18,6 @@ amdxdna-y := \
+>>       amdxdna_sysfs.o \
+>>       amdxdna_ubuf.o \
+>>       npu1_regs.o \
+>> -    npu2_regs.o \
+>>       npu4_regs.o \
+>>       npu5_regs.o \
+>>       npu6_regs.o
+>> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c 
+>> b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> index fcf7e7869007..7d59764d7869 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+>> @@ -51,7 +51,6 @@ MODULE_DEVICE_TABLE(pci, pci_ids);
+>>     static const struct amdxdna_device_id amdxdna_ids[] = {
+>>       { 0x1502, 0x0,  &dev_npu1_info },
+>> -    { 0x17f0, 0x0,  &dev_npu2_info },
+>>       { 0x17f0, 0x10, &dev_npu4_info },
+>>       { 0x17f0, 0x11, &dev_npu5_info },
+>>       { 0x17f0, 0x20, &dev_npu6_info },
+>> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h 
+>> b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+>> index 0d50c4c8b353..6580cb5ec7e2 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
+>> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+>> @@ -137,7 +137,6 @@ struct amdxdna_client {
+>>     /* Add device info below */
+>>   extern const struct amdxdna_dev_info dev_npu1_info;
+>> -extern const struct amdxdna_dev_info dev_npu2_info;
+>>   extern const struct amdxdna_dev_info dev_npu4_info;
+>>   extern const struct amdxdna_dev_info dev_npu5_info;
+>>   extern const struct amdxdna_dev_info dev_npu6_info;
+>> diff --git a/drivers/accel/amdxdna/npu2_regs.c 
+>> b/drivers/accel/amdxdna/npu2_regs.c
+>> deleted file mode 100644
+>> index ad0743fb06d5..000000000000
+>> --- a/drivers/accel/amdxdna/npu2_regs.c
+>> +++ /dev/null
+>> @@ -1,117 +0,0 @@
+>> -// SPDX-License-Identifier: GPL-2.0
+>> -/*
+>> - * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
+>> - */
+>> -
+>> -#include <drm/amdxdna_accel.h>
+>> -#include <drm/drm_device.h>
+>> -#include <drm/gpu_scheduler.h>
+>> -#include <linux/sizes.h>
+>> -
+>> -#include "aie2_pci.h"
+>> -#include "amdxdna_mailbox.h"
+>> -#include "amdxdna_pci_drv.h"
+>> -
+>> -/* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
+>> npu_registers.h) */
+>> -#define MPNPU_PWAITMODE                0x301003C
+>> -#define MPNPU_PUB_SEC_INTR             0x3010060
+>> -#define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+>> -#define MPNPU_PUB_SCRATCH0             0x301006C
+>> -#define MPNPU_PUB_SCRATCH1             0x3010070
+>> -#define MPNPU_PUB_SCRATCH2             0x3010074
+>> -#define MPNPU_PUB_SCRATCH3             0x3010078
+>> -#define MPNPU_PUB_SCRATCH4             0x301007C
+>> -#define MPNPU_PUB_SCRATCH5             0x3010080
+>> -#define MPNPU_PUB_SCRATCH6             0x3010084
+>> -#define MPNPU_PUB_SCRATCH7             0x3010088
+>> -#define MPNPU_PUB_SCRATCH8             0x301008C
+>> -#define MPNPU_PUB_SCRATCH9             0x3010090
+>> -#define MPNPU_PUB_SCRATCH10            0x3010094
+>> -#define MPNPU_PUB_SCRATCH11            0x3010098
+>> -#define MPNPU_PUB_SCRATCH12            0x301009C
+>> -#define MPNPU_PUB_SCRATCH13            0x30100A0
+>> -#define MPNPU_PUB_SCRATCH14            0x30100A4
+>> -#define MPNPU_PUB_SCRATCH15            0x30100A8
+>> -#define MP0_C2PMSG_73                  0x3810A24
+>> -#define MP0_C2PMSG_123                 0x3810AEC
+>> -
+>> -#define MP1_C2PMSG_0                   0x3B10900
+>> -#define MP1_C2PMSG_60                  0x3B109F0
+>> -#define MP1_C2PMSG_61                  0x3B109F4
+>> -
+>> -#define MPNPU_SRAM_X2I_MAILBOX_0       0x3600000
+>> -#define MPNPU_SRAM_X2I_MAILBOX_15      0x361E000
+>> -#define MPNPU_SRAM_X2I_MAILBOX_31      0x363E000
+>> -#define MPNPU_SRAM_I2X_MAILBOX_31      0x363F000
+>> -
+>> -#define MMNPU_APERTURE0_BASE           0x3000000
+>> -#define MMNPU_APERTURE1_BASE           0x3600000
+>> -#define MMNPU_APERTURE3_BASE           0x3810000
+>> -#define MMNPU_APERTURE4_BASE           0x3B10000
+>> -
+>> -/* PCIe BAR Index for NPU2 */
+>> -#define NPU2_REG_BAR_INDEX    0
+>> -#define NPU2_MBOX_BAR_INDEX    0
+>> -#define NPU2_PSP_BAR_INDEX    4
+>> -#define NPU2_SMU_BAR_INDEX    5
+>> -#define NPU2_SRAM_BAR_INDEX    2
+>> -/* Associated BARs and Apertures */
+>> -#define NPU2_REG_BAR_BASE    MMNPU_APERTURE0_BASE
+>> -#define NPU2_MBOX_BAR_BASE    MMNPU_APERTURE0_BASE
+>> -#define NPU2_PSP_BAR_BASE    MMNPU_APERTURE3_BASE
+>> -#define NPU2_SMU_BAR_BASE    MMNPU_APERTURE4_BASE
+>> -#define NPU2_SRAM_BAR_BASE    MMNPU_APERTURE1_BASE
+>> -
+>> -static const struct amdxdna_dev_priv npu2_dev_priv = {
+>> -    .fw_path        = "amdnpu/17f0_00/npu.sbin",
+>> -    .protocol_major = 0x6,
+>> -    .protocol_minor = 0x6,
+>> -    .rt_config    = npu4_default_rt_cfg,
+>> -    .dpm_clk_tbl    = npu4_dpm_clk_table,
+>> -    .fw_feature_tbl = npu4_fw_feature_table,
+>> -    .col_align    = COL_ALIGN_NATURE,
+>> -    .mbox_dev_addr  = NPU2_MBOX_BAR_BASE,
+>> -    .mbox_size      = 0, /* Use BAR size */
+>> -    .sram_dev_addr  = NPU2_SRAM_BAR_BASE,
+>> -    .hwctx_limit    = 16,
+>> -    .sram_offs      = {
+>> -        DEFINE_BAR_OFFSET(MBOX_CHANN_OFF, NPU2_SRAM, 
+>> MPNPU_SRAM_X2I_MAILBOX_0),
+>> -        DEFINE_BAR_OFFSET(FW_ALIVE_OFF,   NPU2_SRAM, 
+>> MPNPU_SRAM_X2I_MAILBOX_15),
+>> -    },
+>> -    .psp_regs_off   = {
+>> -        DEFINE_BAR_OFFSET(PSP_CMD_REG,    NPU2_PSP, MP0_C2PMSG_123),
+>> -        DEFINE_BAR_OFFSET(PSP_ARG0_REG,   NPU2_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> -        DEFINE_BAR_OFFSET(PSP_ARG1_REG,   NPU2_REG, 
+>> MPNPU_PUB_SCRATCH4),
+>> -        DEFINE_BAR_OFFSET(PSP_ARG2_REG,   NPU2_REG, 
+>> MPNPU_PUB_SCRATCH9),
+>> -        DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU2_PSP, MP0_C2PMSG_73),
+>> -        DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU2_PSP, MP0_C2PMSG_123),
+>> -        DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU2_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> -        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU2_REG, 
+>> MPNPU_PWAITMODE),
+>> -    },
+>> -    .smu_regs_off   = {
+>> -        DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU2_SMU, MP1_C2PMSG_0),
+>> -        DEFINE_BAR_OFFSET(SMU_ARG_REG,  NPU2_SMU, MP1_C2PMSG_60),
+>> -        DEFINE_BAR_OFFSET(SMU_INTR_REG, NPU2_SMU, 
+>> MMNPU_APERTURE4_BASE),
+>> -        DEFINE_BAR_OFFSET(SMU_RESP_REG, NPU2_SMU, MP1_C2PMSG_61),
+>> -        DEFINE_BAR_OFFSET(SMU_OUT_REG,  NPU2_SMU, MP1_C2PMSG_60),
+>> -    },
+>> -    .hw_ops    =     {
+>> -        .set_dpm = npu4_set_dpm,
+>> -    },
+>> -};
+>> -
+>> -const struct amdxdna_dev_info dev_npu2_info = {
+>> -    .reg_bar           = NPU2_REG_BAR_INDEX,
+>> -    .mbox_bar          = NPU2_MBOX_BAR_INDEX,
+>> -    .sram_bar          = NPU2_SRAM_BAR_INDEX,
+>> -    .psp_bar           = NPU2_PSP_BAR_INDEX,
+>> -    .smu_bar           = NPU2_SMU_BAR_INDEX,
+>> -    .first_col         = 0,
+>> -    .dev_mem_buf_shift = 15, /* 32 KiB aligned */
+>> -    .dev_mem_base      = AIE2_DEVM_BASE,
+>> -    .dev_mem_size      = AIE2_DEVM_SIZE,
+>> -    .vbnv              = "RyzenAI-npu2",
+>> -    .device_type       = AMDXDNA_DEV_TYPE_KMQ,
+>> -    .dev_priv          = &npu2_dev_priv,
+>> -    .ops               = &aie2_ops, /* NPU2 can share NPU1's 
+>> callback */
+>> -};
+>
