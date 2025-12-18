@@ -2,64 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2638DCCDDB0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 23:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DD9CCDDB6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 23:44:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44FBE10EBEA;
-	Thu, 18 Dec 2025 22:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CED10EBED;
+	Thu, 18 Dec 2025 22:44:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ri248ZUE";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ft93n1yL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC3110EBC0;
- Thu, 18 Dec 2025 22:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766097878; x=1797633878;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+Fj++VPMSm50auGOBT0rf1fpUCmlhjyC6Bw45LJ6WQA=;
- b=Ri248ZUE8pXTS9CVkz/om+udX+AcJP4pC8piKDSx0cUbIrqH29gXWhAu
- jxya7P6zbWYOb4cQxuUjgXaHWOWM1IKhKPEpxPDnuzDsJ/1ziWiWJQvNU
- Nep5KP34gD/5kzgnYgsFjyEd8fvY30RjUFby79oVbhocu8APxG54wLDfa
- TGX6R1i7CK5eNUrTlIzzL6gQUMaIMyA5T3TZA6uEwchhnRqJgFgw/35Wo
- MDT2CWunLaCtfk0o1kaiasiyLWKHlEfzQkrv7W8xHU3k6YoKgxekjWz6c
- Opma0hrO+mE0/hlrqKXXwNXFOoIhT8mep/7wa2K0nad9QHS9AiMdaOMQf A==;
-X-CSE-ConnectionGUID: x2CcpDg6Q3qdByAFT1XQTQ==
-X-CSE-MsgGUID: y7INRPNISuaqKZEcbfjOMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85482537"
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="85482537"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 14:44:37 -0800
-X-CSE-ConnectionGUID: i5LJNgXzR2yjTgKh0ZymuQ==
-X-CSE-MsgGUID: SrsPxeJDRdaOtKIs2FOvmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="203788317"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO fedora)
- ([10.245.244.93])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 14:44:32 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6] drm/pagemap,
- drm/xe: Ensure that the devmem allocation is idle before use
-Date: Thu, 18 Dec 2025 23:44:00 +0100
-Message-ID: <20251218224400.30246-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.51.1
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010015.outbound.protection.outlook.com [52.101.56.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F4510EBE9;
+ Thu, 18 Dec 2025 22:44:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gy3Pq2t0Xm+3tWD4/ZuaXGcPqQhR1iK38Rk2AfETRqQ4n93xD05Na4lKlxeHgXijtRaV9AFdjaCjmLHoV0oqkOGGzm0QA+fzshe+PXWBRV4ae1VYHvYNhmc9Go5tVeTvxSEzbgsOnMbJROh/HiaHXShxW88HOXiSByDQCSpJuJ4nkbUc5T1vt+bd9r+oSWEkCQAMxieGh7ZsMyys3rlRHSBO7zZidtOrII4zTY8q/7cAum1eVdukByGfb1zkGDPKS2VP68DIXLtTQFMis0VyGTpBTZ2/A4N2sOF8Y0VjU9LT9thGC54qEpYtJOip6tSjkPnLBuSOg1hK8WJIledKxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UpZwd5+D6bOGj36+kYaX/u6kmGYT3FIIAgG+3kCE0Qg=;
+ b=NgmYNPaftkLun4pLqiykInzr3sMx5J9KNG28H8ODiiSHbStC/KTIXXMtVPd1YhtA5K8mF51ANeS3yK2sv8gHgvb5Xmf34yXUJEQnUUrfILVBqKl5VCifnVSBP+nCZrakCCPTLr97s7+a7FIhIzHRGZRyRz7xylrS7fuocYoh18DXZTMW1pgVv4Ndcm5p+ZF+yuk0FgQEkN/MNjeCk/3PSGaderndRSIUM4DnrbyyLJuHyTkin9c2BHDPnIBBtRWWTUhvXzRXunuUMhi1SuoG2jR6uYpx6w3pkeQn7/4oMqDtqbUL7dW6F/j0/W1TWnPAvqgR7j3bY9q9A/qmqrfOzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UpZwd5+D6bOGj36+kYaX/u6kmGYT3FIIAgG+3kCE0Qg=;
+ b=ft93n1yLE8gsljtYmvgf5vOTohWsldWQkqmVbzzjBPuYlqQumuCvU1dDoIT1G00uJJqNi8/Lm1Eb+j/ZjI9lAVCGT2e3WAFHO7FxX2thSBjz5sj7/84uRhlpm4tCtSJ3Q/rKa9xAln8bLpBGntDjMWLPsovlaCCmaeXcqgYK4Ool4h4S+fZfRWLDciu6p0t5/s6+l+FApuNlwylbBqlaMo54zfG0tFKv5eyD6S/RS7bF2yHxJ1XzGM76DBtfWCAt6xidmPh7RlRaDJ7+bOCHfa8Jql/Owz0xqWtEhZZEVKI9AXgW9+cI70kTkaPbMNsqNjD4Hb2OTItbdyh4pLyfUw==
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by SN7PR12MB6887.namprd12.prod.outlook.com (2603:10b6:806:261::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
+ 2025 22:44:40 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 22:44:40 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Timur Tabi <ttabi@nvidia.com>
+CC: Alexandre Courbot <acourbot@nvidia.com>, "dakr@kernel.org"
+ <dakr@kernel.org>, "lossin@kernel.org" <lossin@kernel.org>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>, "boqun.feng@gmail.com"
+ <boqun.feng@gmail.com>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "tmgross@umich.edu" <tmgross@umich.edu>, 
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, Eliot Courtney
+ <ecourtney@nvidia.com>, "aliceryhl@google.com" <aliceryhl@google.com>,
+ "kwilczynski@kernel.org" <kwilczynski@kernel.org>, "bhelgaas@google.com"
+ <bhelgaas@google.com>, "gary@garyguo.net" <gary@garyguo.net>, Alistair Popple
+ <apopple@nvidia.com>
+Subject: Re: [PATCH 6/7] gpu: nova-core: send UNLOADING_GUEST_DRIVER GSP
+ command GSP upon unloading
+Thread-Topic: [PATCH 6/7] gpu: nova-core: send UNLOADING_GUEST_DRIVER GSP
+ command GSP upon unloading
+Thread-Index: AQHcbkrHLZgrNHAX9U+MOO9nREKCZ7UkZ8A6gAL/6ICAAJiHAIAAAwT8
+Date: Thu, 18 Dec 2025 22:44:39 +0000
+Message-ID: <F72EBB64-BB07-4FFA-85C9-3EDE9AEE3C48@nvidia.com>
+References: <20251216-nova-unload-v1-0-6a5d823be19d@nvidia.com>
+ <20251216-nova-unload-v1-6-6a5d823be19d@nvidia.com>
+ <C890CCBB-76C0-4E70-A7B8-846E34DABECE@nvidia.com>
+ <DF1DLWE9OOR6.2P43ATQYNAU3A@nvidia.com>
+ <1369611d0014a4e5b630462d66790939b0f564c0.camel@nvidia.com>
+In-Reply-To: <1369611d0014a4e5b630462d66790939b0f564c0.camel@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR12MB8059:EE_|SN7PR12MB6887:EE_
+x-ms-office365-filtering-correlation-id: 3ce4c765-ed20-4034-5166-08de3e87077c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?V3dINGhuK1BST1M1aEF2OHA1YVJuQjAwMXNSRE1tNzF4UHFvZmw4TmxNTTFq?=
+ =?utf-8?B?T2tXWHA5ZTRPWVErVHlIRjcvRGRTUVlEQ2Z5TjV1ZFJPVVFSNlpoVWd2VnN1?=
+ =?utf-8?B?N0xHa2ZEK1czd1FnOHhZNGdXMm9xUi9yQ1h0VytjcDBpNzJNMStjUyttM3M5?=
+ =?utf-8?B?aCt6c1BQSlpQWVNNSDF5VVNEYmFFaHBqdHcwUHpjTnJyYUpBK202Y0FUMWtn?=
+ =?utf-8?B?bW1oWGwzZG9VTlVDeTFzVHA2QTR1K2c4aHlpMDA0amtLRlR5SUI4a1hLUFpZ?=
+ =?utf-8?B?UlhidkJCRlUvNi9XbWFIaTNoTVQ2aXdHdTQ5ZkVnWEtrcVJVcHVOakVrM2Rm?=
+ =?utf-8?B?VnVKV0ZIMTVtWDEyY3BMaUZnZWxyamt1N1hTSjJ6cSs3dU5Hc3ZhM1hhaExZ?=
+ =?utf-8?B?K2JRdzlpYmpQN3NEUGxmOXBjTjA4SEJSeEVsdVIrVGhGQ0lyazcxcGNvVWJr?=
+ =?utf-8?B?TEZybEJnNGhSckRrcG9iZ0Q0cGI0TldPbldCaVpEU2IvUU9vMHhPemZlSWU1?=
+ =?utf-8?B?dDlDSHVlbUZvWGZBWjFKdG96LzBuc2JadDluZFNscDVLYmhrN3dtZzNBUGF5?=
+ =?utf-8?B?cjRiSGsyQ295bVpGR0p2TmlCR3JPU3dORGhlZDhDeXduSmlncU1ZaDJKc1BI?=
+ =?utf-8?B?ejRid1F5TFNGM2NvQ2VtU2l3TW1LL0Z2cFhSU0lTSkFVZWxKSTBYOHc0RkpF?=
+ =?utf-8?B?TEx2MGR1ZnVOLytaRmZnK25YaS9vbWc3T3h1RnhvY2htMDhiUmlOVDBMaEUz?=
+ =?utf-8?B?RENyck1pVU1CUVlraHFIdHlkU0FweVpBK3UxdHdPV3U4WkN2ekh5ZzkwWSs3?=
+ =?utf-8?B?WFRodWtkSEJRUEtjMXBSRmRQOFplWThVR25vSTcwL3ZyVG1pMXhOUDcwcDlz?=
+ =?utf-8?B?UkEvT3R0c0dVelFzVWtCT2FPU1UxWHE3dFQ3M3BuZklVbjgrTVNLSWh0T0VV?=
+ =?utf-8?B?VTZWcFBHMFRJNCtOYWxXTlNjaG9DZkxDNGtXUmFibDNjU3BJMDcwbkpHbjVI?=
+ =?utf-8?B?YU1vSFhIVGgxMXMyazFndzIzUnJwVHBnUi9VSmo1TkJ3dm4yNi9NdW9xdE43?=
+ =?utf-8?B?UUlvUlJKeEtsWjJTS0doWWlmV1R0M3FrNGZ6Y05kSXg0N3k3ZVJFRzlweWl6?=
+ =?utf-8?B?Z1BncG16QUxnRVJzNmZyUnJWdU8xSk1yV1ViYm5EWThDV2JLTk12ZnJnZEF6?=
+ =?utf-8?B?QkgxNDVPVENaVHhISFhkL3lNaExvRlJ3blJzZHhIbWdCeW1GUE9OQzZGTFQ0?=
+ =?utf-8?B?bVVPY2JIQk5ESjA0aTdFNHpwNTVRbGdsbk9SMTJDTjJkbTBOcWp1WFgyR3Vs?=
+ =?utf-8?B?NkZDSGExZ0pDYm1ZSHVyRkhMak9Zdmk1N1Nnc2ZiOWc4SUUxeU0vVi8rcE1j?=
+ =?utf-8?B?TjFWRW5jNVp2aEgxeHlaQm45Y0ttcjhpTG5LNmE1em1NcUg0OVV1eWdJeUhl?=
+ =?utf-8?B?cC8wTGx3UDNwYys3c2YyM0xBRjRhZElhdHozSlNlYi9RSGZsVU9sempVaW1m?=
+ =?utf-8?B?WXM1c2xUcHVoY0dHalNnb2pKSEp5QXVXT3BrYTlGWWRJaFFpTkU5NzZueXFh?=
+ =?utf-8?B?aXJ3bHlXbnRRNDBvaUxNazlKTS9IMlhrcm9PWUVzMkxkLzhPM0FoZjdwN3Rm?=
+ =?utf-8?B?ejVaSlpnRldkbXptTWtjYzVGVU56MW1kVWZNWkF4SXZuRi9NWlUzcmQrUnpL?=
+ =?utf-8?B?N0hQQVpIRVJJaTJqNDY2UFNKYkloSllHZnIrMld3ZnAwNXFjUXdBMjB5bTQw?=
+ =?utf-8?B?VVIzOUUva0VQTWxXSGk2bWVnMU9XWGxQOVBRTDhETUdRMVBWdTRuRmExNEQx?=
+ =?utf-8?B?RldFeWRHSHJrRVVYeHA4cEc0eitxd054SHNFdFlGYzA0VmxHRVhPalVnZXpM?=
+ =?utf-8?B?bnpXMklqSWhWOU1tellyWUs3WkM3SmVCNTdHZUx6eFY3bEloaHlqYlNCZzFa?=
+ =?utf-8?B?RDVFbVVjQ3h2djc1ZkxHQ3hwek1jTHN6RmgrUEZobmt2N29YVVBzU1l1WkNx?=
+ =?utf-8?B?ejZBMXM3cXdsL2FQZVVYMGtUZUM2NVUxWVN5SzVLRE8xSHRXTmN1RDZCSmhT?=
+ =?utf-8?Q?sTlMaK?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SzBMOUFLTlJETkk1QTRaanQvREVteXpRbGhybU9rNGFGbmhCd2pLbnd6dU9S?=
+ =?utf-8?B?a3RYRkd5em1xMGJ4ZTNJckJEM3UxaVZ5djQ1OUpzZGVWa2FSYTNiZDlwSzhO?=
+ =?utf-8?B?ZFNSL1VhSGw1N1dqc3lveXRhRlFSTG13N1hZRUk3SGhhVzFPcGVpMkhtUTU5?=
+ =?utf-8?B?WFVSSGNBV0pET0VtRHArL09kNzYzZHJKOE1jak5pSUxaL01HTEdPMjBEYS8x?=
+ =?utf-8?B?Y2pnYzA0QzBWTnlxSFUrSDVrZ1FvUGRzckdpM3FpSGd6ZGlvUnFHNy9NandV?=
+ =?utf-8?B?SHBKNFpFZmQ0bW55d1U1VWw4VWc4S01zYytyMWpSUWZ3WU94SGszOWU2ZVFs?=
+ =?utf-8?B?b0Vqakh3Y2RJZ0g0NDVoSkZUK1JIQTlEN3dkNkNnV2dJUUI1QVFMUzd0TlZS?=
+ =?utf-8?B?YlpzNllsZnovVitGdkZDVDdXc05DTkxNQ2ordFkvTFFMS1dMVk5VdE51Mi82?=
+ =?utf-8?B?eXpJalg0VEc1UUhleGdydXJ5ZGVYVFhqNk1qVE5JQ0xMOTJab1pPY0tlUmw2?=
+ =?utf-8?B?Ulg1RUVzdEpLK3BVTXVOcGNaL1FIU2ZFekRzZFhiblgwbk1BU0pGQzdEa0hH?=
+ =?utf-8?B?bTdhTk5KNWNVdWV0ekVvOU9xQUMzTHJRM3NNRVVxdmQwQjcwMy9aaU5sVmZj?=
+ =?utf-8?B?L0RINlBCNHRSemkwcFRPQVovOFJnZEpIWXBUNnhiZHdoeHlhU0xMNC9oZVl0?=
+ =?utf-8?B?aTNhK094alFiSlkvWVR6dmNPNEd5bkNyc0tIT2ZzK2l2OVFHdnV2RXpuVkp6?=
+ =?utf-8?B?L0R3VW9vTjhqTW1yVEsyY2NNS1c4RE9KM0tUbWRHeVJycjE4WkVldytKdE9p?=
+ =?utf-8?B?VURrTjFvSWlmL29RN1BndjFqRUdNRDR4cG1XTDlxWDlsT3FOYm5VelRrSjhj?=
+ =?utf-8?B?OTVtWklsdXNOK1NXRThtU2lKN213RUxDU3VQKzhuUzYzWWFSb1J6ZUJFbzRU?=
+ =?utf-8?B?cG9yQlo5UmI0S0lXUjVncFIvcmxVcDFORy9LWUJsQXl0Z1Q2YjJBL042dUJG?=
+ =?utf-8?B?d1VObGxjMTYrNFhEeHFWR05zanQyWFZtQUJLT3VoeFhrNEk5UXU4MHZRMHBy?=
+ =?utf-8?B?YU91RFNQYTUvOTVndVZyb2lOQ1hWTDFaT3Fua09FWk45akdrVzFrMHpMUUhz?=
+ =?utf-8?B?Y21jTEM2T3FsZWpIcmVTVlFlaTFxZTlWQ0tFVzRhUkRxSzlwcDJhUTZxQ2pn?=
+ =?utf-8?B?REl3QThna0U0b2pFcmVkN1MrNGo3WEFjb1YwUlU5QTNVT040OWVwNXRqSjVG?=
+ =?utf-8?B?S1AwMEFvOGg5MFlVMjU2SlhwY3ZwbHNORXVROWtNaDB6WFc0ZnpoSWVZajl6?=
+ =?utf-8?B?Tm5ReGd3dlBFcUM5b3hMSjB1L3ZGYmVSdnFwTTYzZUt1aU50ZEpYQzR1aEgz?=
+ =?utf-8?B?OXh5L3JaN1Y0eFBJSy95OTFybDNJWGdIMUVhZGRUOTVJNUZVL2FSRXYyVnZI?=
+ =?utf-8?B?VkwrUVp3b2dIVVdoSm1IK3FmNW1CT0FoVTBpdjVuUW41THhTZkxoYmtrUXhn?=
+ =?utf-8?B?Z2RSc2FYZkFSK3VSODNPVjRxL2dWMjVOU2d3ZlN3dkRSa054MlhrQS93MkVR?=
+ =?utf-8?B?YTY3aURvcmMvMTU2V1ZsQ2lyZkxCVnZVMEhvZlFzVGkvZjRmYkxjd25ZU2tT?=
+ =?utf-8?B?V0tnTzFWTEdOempXeWJCUkJPYS91NnVWcWZ0d0RCYWtLR21YTVY2Mkk2RGk1?=
+ =?utf-8?B?MFZmSVRFS296SHdiajRvakVBc2JydWJMVHZoN0o4WjNUVkZmaHFWMlQxOEsz?=
+ =?utf-8?B?TkhhS3hwM2lSWll0WkU0SmpiSTBIcmg1c3VqMjFtMlB1K1BwNFZHZGx4ZFNF?=
+ =?utf-8?B?ZitXTFZJQmxhd2ljZkMwaFowTlRWbzExeFBWSmN5d2ViVGtISll4WW5CeEt2?=
+ =?utf-8?B?VEFVWmZiZjI3bUV3aElVS0Y4b2tROHgweWdqTkZid3BiNExVRkFJSW50enBK?=
+ =?utf-8?B?U0hINlUrd2dOT2hRd2hDUko0VXlTbUQzWFNjVjRrU2FzaU9Uc1dTaklQMkVx?=
+ =?utf-8?B?Tmp6YVNyMS9lNDB5ZGFxQ20wYzFYMFJEMXdMdGVTYnRtTS9sS3p3eWNpbGVF?=
+ =?utf-8?B?c1oxUHFvT1pBaEtJSkZPWWFuKzdUZkZ1UzQreVViVVVVZE5ERkRMeWZYQkVx?=
+ =?utf-8?Q?BwvZDa/8yzXAX4+fgppvCVZbt?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ce4c765-ed20-4034-5166-08de3e87077c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2025 22:44:39.9605 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PphX4qOPUsHa9JgIVr2HH08o8uMJOgbU/+MxocSD1LKkSC37HxY9CnkwVLmr507FJ2h8l+UTAdIz7n9qYxEPFQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6887
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,431 +187,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In situations where no system memory is migrated to devmem, and in
-upcoming patches where another GPU is performing the migration to
-the newly allocated devmem buffer, there is nothing to ensure any
-ongoing clear to the devmem allocation or async eviction from the
-devmem allocation is complete.
-
-Address that by passing a struct dma_fence down to the copy
-functions, and ensure it is waited for before migration is marked
-complete.
-
-v3:
-- New patch.
-v4:
-- Update the logic used for determining when to wait for the
-  pre_migrate_fence.
-- Update the logic used for determining when to warn for the
-  pre_migrate_fence since the scheduler fences apparently
-  can signal out-of-order.
-v5:
-- Fix a UAF (CI)
-- Remove references to source P2P migration (Himal)
-- Put the pre_migrate_fence after migration.
-v6:
-- Pipeline the pre_migrate_fence dependency (Matt Brost)
-
-Fixes: c5b3eb5a906c ("drm/xe: Add GPUSVM device memory copy vfunc functions")
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: <stable@vger.kernel.org> # v6.15+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/drm_pagemap.c   | 17 +++++++++---
- drivers/gpu/drm/xe/xe_migrate.c | 25 +++++++++++++----
- drivers/gpu/drm/xe/xe_migrate.h |  6 ++--
- drivers/gpu/drm/xe/xe_svm.c     | 49 +++++++++++++++++++++++++--------
- include/drm/drm_pagemap.h       | 17 ++++++++++--
- 5 files changed, 88 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 37d7cfbbb3e8..06c1bd8fc4d1 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2024-2025 Intel Corporation
-  */
- 
-+#include <linux/dma-fence.h>
- #include <linux/dma-mapping.h>
- #include <linux/migrate.h>
- #include <linux/pagemap.h>
-@@ -408,10 +409,14 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 		drm_pagemap_get_devmem_page(page, zdd);
- 	}
- 
--	err = ops->copy_to_devmem(pages, pagemap_addr, npages);
-+	err = ops->copy_to_devmem(pages, pagemap_addr, npages,
-+				  devmem_allocation->pre_migrate_fence);
- 	if (err)
- 		goto err_finalize;
- 
-+	dma_fence_put(devmem_allocation->pre_migrate_fence);
-+	devmem_allocation->pre_migrate_fence = NULL;
-+
- 	/* Upon success bind devmem allocation to range and zdd */
- 	devmem_allocation->timeslice_expiration = get_jiffies_64() +
- 		msecs_to_jiffies(timeslice_ms);
-@@ -596,7 +601,7 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
- 	for (i = 0; i < npages; ++i)
- 		pages[i] = migrate_pfn_to_page(src[i]);
- 
--	err = ops->copy_to_ram(pages, pagemap_addr, npages);
-+	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
- 	if (err)
- 		goto err_finalize;
- 
-@@ -732,7 +737,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 	for (i = 0; i < npages; ++i)
- 		pages[i] = migrate_pfn_to_page(migrate.src[i]);
- 
--	err = ops->copy_to_ram(pages, pagemap_addr, npages);
-+	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
- 	if (err)
- 		goto err_finalize;
- 
-@@ -813,11 +818,14 @@ EXPORT_SYMBOL_GPL(drm_pagemap_pagemap_ops_get);
-  * @ops: Pointer to the operations structure for GPU SVM device memory
-  * @dpagemap: The struct drm_pagemap we're allocating from.
-  * @size: Size of device memory allocation
-+ * @pre_migrate_fence: Fence to wait for or pipeline behind before migration starts.
-+ * (May be NULL).
-  */
- void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
- 			     struct device *dev, struct mm_struct *mm,
- 			     const struct drm_pagemap_devmem_ops *ops,
--			     struct drm_pagemap *dpagemap, size_t size)
-+			     struct drm_pagemap *dpagemap, size_t size,
-+			     struct dma_fence *pre_migrate_fence)
- {
- 	init_completion(&devmem_allocation->detached);
- 	devmem_allocation->dev = dev;
-@@ -825,6 +833,7 @@ void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
- 	devmem_allocation->ops = ops;
- 	devmem_allocation->dpagemap = dpagemap;
- 	devmem_allocation->size = size;
-+	devmem_allocation->pre_migrate_fence = pre_migrate_fence;
- }
- EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
- 
-diff --git a/drivers/gpu/drm/xe/xe_migrate.c b/drivers/gpu/drm/xe/xe_migrate.c
-index f3b66b55acfb..284b575346ee 100644
---- a/drivers/gpu/drm/xe/xe_migrate.c
-+++ b/drivers/gpu/drm/xe/xe_migrate.c
-@@ -2113,6 +2113,7 @@ static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
- 					 unsigned long sram_offset,
- 					 struct drm_pagemap_addr *sram_addr,
- 					 u64 vram_addr,
-+					 struct dma_fence *deps,
- 					 const enum xe_migrate_copy_dir dir)
- {
- 	struct xe_gt *gt = m->tile->primary_gt;
-@@ -2201,6 +2202,14 @@ static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
- 
- 	xe_sched_job_add_migrate_flush(job, MI_INVALIDATE_TLB);
- 
-+	if (deps && !dma_fence_is_signaled(deps)) {
-+		dma_fence_get(deps);
-+		err = drm_sched_job_add_dependency(&job->drm, deps);
-+		if (err)
-+			dma_fence_wait(deps, false);
-+		err = 0;
-+	}
-+
- 	mutex_lock(&m->job_mutex);
- 	xe_sched_job_arm(job);
- 	fence = dma_fence_get(&job->drm.s_fence->finished);
-@@ -2226,6 +2235,8 @@ static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
-  * @npages: Number of pages to migrate.
-  * @src_addr: Array of DMA information (source of migrate)
-  * @dst_addr: Device physical address of VRAM (destination of migrate)
-+ * @deps: struct dma_fence representing the dependencies that need
-+ * to be signaled before migration.
-  *
-  * Copy from an array dma addresses to a VRAM device physical address
-  *
-@@ -2235,10 +2246,11 @@ static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
- struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
- 				     unsigned long npages,
- 				     struct drm_pagemap_addr *src_addr,
--				     u64 dst_addr)
-+				     u64 dst_addr,
-+				     struct dma_fence *deps)
- {
- 	return xe_migrate_vram(m, npages * PAGE_SIZE, 0, src_addr, dst_addr,
--			       XE_MIGRATE_COPY_TO_VRAM);
-+			       deps, XE_MIGRATE_COPY_TO_VRAM);
- }
- 
- /**
-@@ -2247,6 +2259,8 @@ struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
-  * @npages: Number of pages to migrate.
-  * @src_addr: Device physical address of VRAM (source of migrate)
-  * @dst_addr: Array of DMA information (destination of migrate)
-+ * @deps: struct dma_fence representing the dependencies that need
-+ * to be signaled before migration.
-  *
-  * Copy from a VRAM device physical address to an array dma addresses
-  *
-@@ -2256,10 +2270,11 @@ struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
- struct dma_fence *xe_migrate_from_vram(struct xe_migrate *m,
- 				       unsigned long npages,
- 				       u64 src_addr,
--				       struct drm_pagemap_addr *dst_addr)
-+				       struct drm_pagemap_addr *dst_addr,
-+				       struct dma_fence *deps)
- {
- 	return xe_migrate_vram(m, npages * PAGE_SIZE, 0, dst_addr, src_addr,
--			       XE_MIGRATE_COPY_TO_SRAM);
-+			       deps, XE_MIGRATE_COPY_TO_SRAM);
- }
- 
- static void xe_migrate_dma_unmap(struct xe_device *xe,
-@@ -2435,7 +2450,7 @@ int xe_migrate_access_memory(struct xe_migrate *m, struct xe_bo *bo,
- 		__fence = xe_migrate_vram(m, current_bytes,
- 					  (unsigned long)buf & ~PAGE_MASK,
- 					  &pagemap_addr[current_page],
--					  vram_addr, write ?
-+					  vram_addr, NULL, write ?
- 					  XE_MIGRATE_COPY_TO_VRAM :
- 					  XE_MIGRATE_COPY_TO_SRAM);
- 		if (IS_ERR(__fence)) {
-diff --git a/drivers/gpu/drm/xe/xe_migrate.h b/drivers/gpu/drm/xe/xe_migrate.h
-index 464c05dde1ba..1522afb37dcf 100644
---- a/drivers/gpu/drm/xe/xe_migrate.h
-+++ b/drivers/gpu/drm/xe/xe_migrate.h
-@@ -116,12 +116,14 @@ int xe_migrate_init(struct xe_migrate *m);
- struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
- 				     unsigned long npages,
- 				     struct drm_pagemap_addr *src_addr,
--				     u64 dst_addr);
-+				     u64 dst_addr,
-+				     struct dma_fence *deps);
- 
- struct dma_fence *xe_migrate_from_vram(struct xe_migrate *m,
- 				       unsigned long npages,
- 				       u64 src_addr,
--				       struct drm_pagemap_addr *dst_addr);
-+				       struct drm_pagemap_addr *dst_addr,
-+				       struct dma_fence *deps);
- 
- struct dma_fence *xe_migrate_copy(struct xe_migrate *m,
- 				  struct xe_bo *src_bo,
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 93550c7c84ac..a985148b6820 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -472,7 +472,8 @@ static void xe_svm_copy_us_stats_incr(struct xe_gt *gt,
- 
- static int xe_svm_copy(struct page **pages,
- 		       struct drm_pagemap_addr *pagemap_addr,
--		       unsigned long npages, const enum xe_svm_copy_dir dir)
-+		       unsigned long npages, const enum xe_svm_copy_dir dir,
-+		       struct dma_fence *pre_migrate_fence)
- {
- 	struct xe_vram_region *vr = NULL;
- 	struct xe_gt *gt = NULL;
-@@ -561,7 +562,8 @@ static int xe_svm_copy(struct page **pages,
- 					__fence = xe_migrate_from_vram(vr->migrate,
- 								       i - pos + incr,
- 								       vram_addr,
--								       &pagemap_addr[pos]);
-+								       &pagemap_addr[pos],
-+								       pre_migrate_fence);
- 				} else {
- 					vm_dbg(&xe->drm,
- 					       "COPY TO VRAM - 0x%016llx -> 0x%016llx, NPAGES=%ld",
-@@ -570,13 +572,14 @@ static int xe_svm_copy(struct page **pages,
- 					__fence = xe_migrate_to_vram(vr->migrate,
- 								     i - pos + incr,
- 								     &pagemap_addr[pos],
--								     vram_addr);
-+								     vram_addr,
-+								     pre_migrate_fence);
- 				}
- 				if (IS_ERR(__fence)) {
- 					err = PTR_ERR(__fence);
- 					goto err_out;
- 				}
--
-+				pre_migrate_fence = NULL;
- 				dma_fence_put(fence);
- 				fence = __fence;
- 			}
-@@ -599,20 +602,22 @@ static int xe_svm_copy(struct page **pages,
- 					       vram_addr, (u64)pagemap_addr[pos].addr, 1);
- 					__fence = xe_migrate_from_vram(vr->migrate, 1,
- 								       vram_addr,
--								       &pagemap_addr[pos]);
-+								       &pagemap_addr[pos],
-+								       pre_migrate_fence);
- 				} else {
- 					vm_dbg(&xe->drm,
- 					       "COPY TO VRAM - 0x%016llx -> 0x%016llx, NPAGES=%d",
- 					       (u64)pagemap_addr[pos].addr, vram_addr, 1);
- 					__fence = xe_migrate_to_vram(vr->migrate, 1,
- 								     &pagemap_addr[pos],
--								     vram_addr);
-+								     vram_addr,
-+								     pre_migrate_fence);
- 				}
- 				if (IS_ERR(__fence)) {
- 					err = PTR_ERR(__fence);
- 					goto err_out;
- 				}
--
-+				pre_migrate_fence = NULL;
- 				dma_fence_put(fence);
- 				fence = __fence;
- 			}
-@@ -625,6 +630,8 @@ static int xe_svm_copy(struct page **pages,
- 		dma_fence_wait(fence, false);
- 		dma_fence_put(fence);
- 	}
-+	if (pre_migrate_fence)
-+		dma_fence_wait(pre_migrate_fence, false);
- 
- 	/*
- 	 * XXX: We can't derive the GT here (or anywhere in this functions, but
-@@ -641,16 +648,20 @@ static int xe_svm_copy(struct page **pages,
- 
- static int xe_svm_copy_to_devmem(struct page **pages,
- 				 struct drm_pagemap_addr *pagemap_addr,
--				 unsigned long npages)
-+				 unsigned long npages,
-+				 struct dma_fence *pre_migrate_fence)
- {
--	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_VRAM);
-+	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_VRAM,
-+			   pre_migrate_fence);
- }
- 
- static int xe_svm_copy_to_ram(struct page **pages,
- 			      struct drm_pagemap_addr *pagemap_addr,
--			      unsigned long npages)
-+			      unsigned long npages,
-+			      struct dma_fence *pre_migrate_fence)
- {
--	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_SRAM);
-+	return xe_svm_copy(pages, pagemap_addr, npages, XE_SVM_COPY_TO_SRAM,
-+			   pre_migrate_fence);
- }
- 
- static struct xe_bo *to_xe_bo(struct drm_pagemap_devmem *devmem_allocation)
-@@ -663,6 +674,7 @@ static void xe_svm_devmem_release(struct drm_pagemap_devmem *devmem_allocation)
- 	struct xe_bo *bo = to_xe_bo(devmem_allocation);
- 	struct xe_device *xe = xe_bo_device(bo);
- 
-+	dma_fence_put(devmem_allocation->pre_migrate_fence);
- 	xe_bo_put_async(bo);
- 	xe_pm_runtime_put(xe);
- }
-@@ -857,6 +869,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 				      unsigned long timeslice_ms)
- {
- 	struct xe_vram_region *vr = container_of(dpagemap, typeof(*vr), dpagemap);
-+	struct dma_fence *pre_migrate_fence = NULL;
- 	struct xe_device *xe = vr->xe;
- 	struct device *dev = xe->drm.dev;
- 	struct drm_buddy_block *block;
-@@ -883,8 +896,20 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 			break;
- 		}
- 
-+		/* Ensure that any clearing or async eviction will complete before migration. */
-+		if (!dma_resv_test_signaled(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL)) {
-+			err = dma_resv_get_singleton(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL,
-+						     &pre_migrate_fence);
-+			if (err)
-+				dma_resv_wait_timeout(bo->ttm.base.resv, DMA_RESV_USAGE_KERNEL,
-+						      false, MAX_SCHEDULE_TIMEOUT);
-+			else if (pre_migrate_fence)
-+				dma_fence_enable_sw_signaling(pre_migrate_fence);
-+		}
-+
- 		drm_pagemap_devmem_init(&bo->devmem_allocation, dev, mm,
--					&dpagemap_devmem_ops, dpagemap, end - start);
-+					&dpagemap_devmem_ops, dpagemap, end - start,
-+					pre_migrate_fence);
- 
- 		blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
- 		list_for_each_entry(block, blocks, link)
-diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-index f6e7e234c089..70a7991f784f 100644
---- a/include/drm/drm_pagemap.h
-+++ b/include/drm/drm_pagemap.h
-@@ -8,6 +8,7 @@
- 
- #define NR_PAGES(order) (1U << (order))
- 
-+struct dma_fence;
- struct drm_pagemap;
- struct drm_pagemap_zdd;
- struct device;
-@@ -174,6 +175,8 @@ struct drm_pagemap_devmem_ops {
- 	 * @pages: Pointer to array of device memory pages (destination)
- 	 * @pagemap_addr: Pointer to array of DMA information (source)
- 	 * @npages: Number of pages to copy
-+	 * @pre_migrate_fence: dma-fence to wait for before migration start.
-+	 * May be NULL.
- 	 *
- 	 * Copy pages to device memory. If the order of a @pagemap_addr entry
- 	 * is greater than 0, the entry is populated but subsequent entries
-@@ -183,13 +186,16 @@ struct drm_pagemap_devmem_ops {
- 	 */
- 	int (*copy_to_devmem)(struct page **pages,
- 			      struct drm_pagemap_addr *pagemap_addr,
--			      unsigned long npages);
-+			      unsigned long npages,
-+			      struct dma_fence *pre_migrate_fence);
- 
- 	/**
- 	 * @copy_to_ram: Copy to system RAM (required for migration)
- 	 * @pages: Pointer to array of device memory pages (source)
- 	 * @pagemap_addr: Pointer to array of DMA information (destination)
- 	 * @npages: Number of pages to copy
-+	 * @pre_migrate_fence: dma-fence to wait for before migration start.
-+	 * May be NULL.
- 	 *
- 	 * Copy pages to system RAM. If the order of a @pagemap_addr entry
- 	 * is greater than 0, the entry is populated but subsequent entries
-@@ -199,7 +205,8 @@ struct drm_pagemap_devmem_ops {
- 	 */
- 	int (*copy_to_ram)(struct page **pages,
- 			   struct drm_pagemap_addr *pagemap_addr,
--			   unsigned long npages);
-+			   unsigned long npages,
-+			   struct dma_fence *pre_migrate_fence);
- };
- 
- /**
-@@ -212,6 +219,8 @@ struct drm_pagemap_devmem_ops {
-  * @dpagemap: The struct drm_pagemap of the pages this allocation belongs to.
-  * @size: Size of device memory allocation
-  * @timeslice_expiration: Timeslice expiration in jiffies
-+ * @pre_migrate_fence: Fence to wait for or pipeline behind before migration starts.
-+ * (May be NULL).
-  */
- struct drm_pagemap_devmem {
- 	struct device *dev;
-@@ -221,6 +230,7 @@ struct drm_pagemap_devmem {
- 	struct drm_pagemap *dpagemap;
- 	size_t size;
- 	u64 timeslice_expiration;
-+	struct dma_fence *pre_migrate_fence;
- };
- 
- int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
-@@ -238,7 +248,8 @@ struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
- void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
- 			     struct device *dev, struct mm_struct *mm,
- 			     const struct drm_pagemap_devmem_ops *ops,
--			     struct drm_pagemap *dpagemap, size_t size);
-+			     struct drm_pagemap *dpagemap, size_t size,
-+			     struct dma_fence *pre_migrate_fence);
- 
- int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 			    unsigned long start, unsigned long end,
--- 
-2.51.1
-
+DQoNCj4gT24gRGVjIDE4LCAyMDI1LCBhdCA1OjMz4oCvUE0sIFRpbXVyIFRhYmkgPHR0YWJpQG52
+aWRpYS5jb20+IHdyb3RlOg0KPiANCj4g77u/T24gVGh1LCAyMDI1LTEyLTE4IGF0IDIyOjI3ICsw
+OTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90ZToNCj4+Pj4gKyAgICBsb29wIHsNCj4+Pj4gKyAg
+ICAgICAgbWF0Y2ggY21kcS5yZWNlaXZlX21zZzo6PFVubG9hZGluZ0d1ZXN0RHJpdmVyUmVwbHk+
+KERlbHRhOjpmcm9tX3NlY3MoNSkpIHsNCj4+Pj4gKyAgICAgICAgICAgIE9rKHJlc3ApID0+IHJl
+dHVybiBPayhyZXNwKSwNCj4+Pj4gKyAgICAgICAgICAgIEVycihFUkFOR0UpID0+IGNvbnRpbnVl
+LA0KPj4+PiArICAgICAgICAgICAgRXJyKGUpID0+IHJldHVybiBFcnIoZSksDQo+Pj4+ICsgICAg
+ICAgIH0NCj4+PiANCj4+PiBUaGlzIG91dGVyIGxvb3AgY2FuIGdvIG9uIGluZmluaXRlbHksIGxl
+dHMgYm91bmQgaXQ/DQo+Pj4gDQo+Pj4gRWl0aGVyIG91dGVyIHRpbWVvdXQgb3IgYm91bmRlZCBu
+dW1iZXIgb2YgdHJpZXMuIEJvdW5kZWQgdHJpZXMgYmV0dGVyIHNpbmNlIGl0IGhhcyBpbm5lcg0K
+Pj4+IHRpbWVvdXQuDQo+PiANCj4+IFllcy4gQW5kIHdoYXQgd2UgcmVhbGx5IHdhbnQgaXMgYSBt
+b3JlIGdlbmVyaWMgd2F5IHRvIGRvIHRoaXMsIGJlY2F1c2UNCj4+IHRoaXMgcGF0dGVybiBvY2N1
+cnMgd2l0aCBzZXZlcmFsIGNvbW1hbmRzIHNvIGZhciAoYW5kIG1vcmUgdG8gY29tZSkuDQo+IA0K
+PiBJc24ndCB0aGUgcmVhbCBwcm9ibGVtIHRoYXQgd2UgYXJlIHBvbGxpbmcgZm9yIGEgc3BlY2lm
+aWMgbWVzc2FnZSwgd2hlbiBhbGwgbWVzc2FnZSBzaG91bGQgYmUNCj4gaGFuZGxlZCBhc3luY2hy
+b25vdXNseSBhcyBldmVudHMsIGxpa2UgTm91dmVhdSBkb2VzPw0KPiANCj4gICAgICAgICAgRXJy
+KEVSQU5HRSkgPT4gY29udGludWUsDQo+IA0KPiBUaGlzIGVmZmVjdGl2ZWx5IHRocm93cyBvdXQg
+YWxsIG90aGVyIG1lc3NhZ2VzLCBpbmNsdWRpbmcgZXJyb3JzIGFuZCBhbnl0aGluZyBlbHNlIGlt
+cG9ydGFudC4NCj4gDQoNCkluZGVlZCwgZm9yIHRoYXQgd2UgbmVlZCBJbnRlcnJ1cHRzLiBGb3Ig
+dGhlIHJlc3Qgb2YgdGhlIHBhdHRlcm5zIHdoZXJlIHdlIG5lZWQgdGhlIG1lc3NhZ2Ugc3luY2hy
+b25vdXNseSwgd2Ugc2hvdWxkIGJvdW5kIHRoaXMuIEhhbmdpbmcgaW4gdGhlIGRyaXZlciBpcyB1
+bmFjY2VwdGFibGUuDQoNCkludGVycnVwdHMgYXJlIGFsbW9zdCBoZXJlIG5vdywgY29uc2lkZXJp
+bmcgd2Uvb3RoZXJzIGhhdmUgdXBzdHJlYW1lZCBhbGwgdGhlIHJlcXVpcmVkIHBhdGNoZXMgZm9y
+IFJ1c3QgaW50ZXJydXB0IHN1cHBvcnQu
