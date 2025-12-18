@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4749CCCD0E2
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4E0CCD0E8
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6F610E962;
-	Thu, 18 Dec 2025 17:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5441810E977;
+	Thu, 18 Dec 2025 17:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UAAv7y6C";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NfZtgUNc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D60610E962
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 17:59:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A634E10E977
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 17:59:08 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 57C6F4E41C8F;
- Thu, 18 Dec 2025 17:59:05 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 926244E41C90;
+ Thu, 18 Dec 2025 17:59:07 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 2A47360715;
- Thu, 18 Dec 2025 17:59:05 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 5BF6660715;
+ Thu, 18 Dec 2025 17:59:07 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 89406102F0B6E; Thu, 18 Dec 2025 18:58:58 +0100 (CET)
+ with ESMTPSA id 6C798102F0B31; Thu, 18 Dec 2025 18:59:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766080740; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766080746; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=xpb4lkuIGhl07jwiwj285L/G3z+UIycSMQgXC2NnDSE=;
- b=UAAv7y6CEY45ULdGbBf9q/wmx+2WYV+IZfeNCSF5MrmON9IhcQHAFsfVD5Uj1Dz5Pdl5pK
- aldj4Gpp6sYvT56UKYfybCTjXiPh05FCYmEvgk2GimOmxwTTuww1ynYtbTmEEIuJ0sxjcS
- 7cCGud/8oP7Bw1gIAqliBAF+JZnmiroZSE66swVPVv9lLxxGuWFkFaTjaX/tpJl9AjvAFd
- 0yAHmCx+81AGgEPol8XT7ET0CYHDJId777p99/OMlq8rX+Ggh6W92BWGU59h2pGC96CHkZ
- 1gNTc7pPJp315bs9gANwe0CuCwLp+rmT2BmtAqVgNcoL1WmlUmpRy/q9sbhiig==
+ bh=kCTFPsY/xxbdCRxmb9fo4DM+SX7mJw4MvG+WaswH3ZY=;
+ b=NfZtgUNcuugHOIQWg/L7ERsgPgTT2iwLpVU5Q388Fq+iTJQrkEdoVDgDunGjLMgjeVxJH+
+ n2u0RcqDIXFEb9K0j3J2iwrIIGnKAa1YVcU5CN/H6NTP04cy3+3aZGvJgVxMjDOmLGRSZt
+ f1eHdmjA8VMMSfhX3b6kfYwafJ/JZYTvcy3BoM8I9OKLlAp873/aJ8LMYTFb0HPKxd3oya
+ aw0YR6c2H1J7Q4OKxr21kNPLCtO1wycy2mPndTIflZsO0qT3vgI5ww7snbHe/gCqA0aAQ9
+ Hgpu/OSbunRbjfhoVS8ctq01rof+FNhuyeIAxW4QxG07ev9M/uPEDXqtmcg/dA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 18 Dec 2025 18:58:58 +0100
-Message-Id: <DF1JDEMLHD1K.1W88T6LEHMI40@bootlin.com>
-Subject: Re: [PATCH RESEND v2 07/32] drm/blend: Get a rotation name from
- it's bitfield
+Date: Thu, 18 Dec 2025 18:59:04 +0100
+Message-Id: <DF1JDHC3NKQ3.1QOR81AYHTNQ@bootlin.com>
+Subject: Re: [PATCH RESEND v2 08/32] drm/vkms: Introduce config for plane
+ rotation
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
@@ -52,8 +52,8 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-7-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-7-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-8-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-8-a49a2d4cba26@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,9 +71,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> Having the rotation/reflection name from its value can be useful for
-> debugging purpose. Extract the rotation property table and implement
-> drm_get_rotation_name.
+> VKMS driver supports all the rotation on planes, but for testing it can b=
+e
+> useful to only advertise few of them. This new configuration interface
+> will allow configuring the rotation per planes.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
