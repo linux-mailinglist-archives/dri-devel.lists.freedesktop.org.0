@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E7ECCCBDA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 17:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2924CCCBEC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 17:24:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE4E10EA68;
-	Thu, 18 Dec 2025 16:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1BC10EA56;
+	Thu, 18 Dec 2025 16:24:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iHyNF/RJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CpB9Qjfx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5017710EA60;
- Thu, 18 Dec 2025 16:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766074984; x=1797610984;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kuHqJThr+TSk49GCheNT6RQqiUrQRfk5hJ3Uo0k1R34=;
- b=iHyNF/RJmZeNfXOkH25R0SPDamoaeO/5npJMevzJw+N1Mb+c8S5yLTpP
- eKJ0FkWfJ6R1yIYqBe/euIC9tnyOtT4oZHEg+NgPGTGBxz3S8TwWIUkKI
- khOc0Hd39GqPBBocyaM1yqQMBGNKjRqF3D7iDrvyjV43AIGJoYgQZz1tR
- gLRsWQvBGJJ+RENse5YLd3L/iyJ+MQovRFVbqBdoItIbw8Gnde9+f3WWM
- E8ga2XHWNcgwuW13bTm0hVqcugHNYGw50DL/jGA4nuibSuUvjmaFpC5/O
- Sc4Wi8XZbxr1aL2ezsSOQIh4nS2mBJXMEVfdZbSTCVzXb/ee/AN7I4o4T Q==;
-X-CSE-ConnectionGUID: NdfzO0ojRoWVqCWR1KHRow==
-X-CSE-MsgGUID: w+XjZZ1bQ9iCLydskU2ffg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="70607769"
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="70607769"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 08:23:03 -0800
-X-CSE-ConnectionGUID: Eq175l3DTRa169ljSTaoQA==
-X-CSE-MsgGUID: 5xnDXFM1TV6BaznpETND0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="203705891"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO fedora)
- ([10.245.244.93])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 08:23:00 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v5 24/24] drm/xe/svm: Serialize migration to device if racing
-Date: Thu, 18 Dec 2025 17:21:01 +0100
-Message-ID: <20251218162101.605379-25-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
-References: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD4310EA56
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 16:24:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7109460008;
+ Thu, 18 Dec 2025 16:24:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742D1C4CEFB;
+ Thu, 18 Dec 2025 16:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766075057;
+ bh=X5gSMMJxTpeVSLwt9c3VGpJBP7cA+dKBFUTwA1R/8Mk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CpB9QjfxUGu7QHeL+Ttl3LbAbI0T6PGcte3cn+vIPi7DalYPSikxLc4VNjs+cpLMU
+ wAHm/NDnq3/9kUW0LDoX3+13AOelp2GqKXTYjoe50BFg7vDy3SO6luvKjh1dbx8+uX
+ esRJC+w0UZsPyGsE4IuZLrx1NXnDPaAPK7noFXUR3Sfa757BmSMq29w2iuXqHYK48p
+ MZaE4rqXx9iMTl7GFQzcqkHRmumgpFlPwZofAGeWpTNAx1AKVTt+Di4Upt2U7lFyTc
+ 1X3wPqiVCqHD+JYpbvtv5JKyX0UGO6Mxcto4/3HoJJkrHjbEJkKYjYI8YoSW//pXSP
+ XLtDOMNb4Xjqg==
+Date: Thu, 18 Dec 2025 21:54:07 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: manivannan.sadhasivam@oss.qualcomm.com, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maxim Kochetkov <fido_max@inbox.ru>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ mhi@lists.linux.dev, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org, netdev@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] net: qrtr: Drop the MHI auto_queue feature for IPCR
+ DL channels
+Message-ID: <pm5amorzm2bvjrvswd4phwiic7wsmitxtzwdvtwqflepxkukjf@esikj32tds7o>
+References: <20251217-qrtr-fix-v1-0-f6142a3ec9d8@oss.qualcomm.com>
+ <20251217-qrtr-fix-v1-1-f6142a3ec9d8@oss.qualcomm.com>
+ <CAFEp6-0iuJNDM9hdU3rWns=Vst6Ev1iyNim1ngRH3Z44CHwTAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEp6-0iuJNDM9hdU3rWns=Vst6Ev1iyNim1ngRH3Z44CHwTAg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,73 +75,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce an rw-semaphore to serialize migration to device if
-it's likely that migration races with another device migration
-of the same CPU address space range.
-This is a temporary fix to attempt to mitigate a livelock that
-might happen if many devices try to migrate a range at the same
-time, and it affects only devices using the xe driver.
-A longer term fix is probably improvements in the core mm
-migration layer.
+On Wed, Dec 17, 2025 at 09:55:01PM +0100, Loic Poulain wrote:
+> Hi Mani,
+> 
+> On Wed, Dec 17, 2025 at 6:17 PM Manivannan Sadhasivam via B4 Relay
+> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
+> >
+> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> >
+> > MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
+> > auto queue the buffers for the RX path (DL channel). Though this feature
+> > simplifies the client driver design, it introduces race between the client
+> > drivers and the MHI stack. For instance, with auto_queue, the 'dl_callback'
+> > for the DL channel may get called before the client driver is fully probed.
+> > This means, by the time the dl_callback gets called, the client driver's
+> > structures might not be initialized, leading to NULL ptr dereference.
+> >
+> > Currently, the drivers have to workaround this issue by initializing the
+> > internal structures before calling mhi_prepare_for_transfer_autoqueue().
+> > But even so, there is a chance that the client driver's internal code path
+> > may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() is
+> > called, leading to similar NULL ptr dereference. This issue has been
+> > reported on the Qcom X1E80100 CRD machines affecting boot.
+> >
+> > So to properly fix all these races, drop the MHI 'auto_queue' feature
+> > altogether and let the client driver (QRTR) manage the RX buffers manually.
+> > In the QRTR driver, queue the RX buffers based on the ring length during
+> > probe and recycle the buffers in 'dl_callback' once they are consumed. This
+> > also warrants removing the setting of 'auto_queue' flag from controller
+> > drivers.
+> >
+> > Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
+> > So only the QRTR client driver requires the modification.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffers for DL channel")
+> > Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation")
+> > Reported-by: Johan Hovold <johan@kernel.org>
+> > Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldconsulting.com
+> > Suggested-by: Chris Lew <quic_clew@quicinc.com>
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  drivers/accel/qaic/mhi_controller.c   | 44 -----------------------
+> >  drivers/bus/mhi/host/pci_generic.c    | 20 ++---------
+> >  drivers/net/wireless/ath/ath11k/mhi.c |  4 ---
+> >  drivers/net/wireless/ath/ath12k/mhi.c |  4 ---
+> >  net/qrtr/mhi.c                        | 67 +++++++++++++++++++++++++++++------
+> >  5 files changed, 58 insertions(+), 81 deletions(-)
+> [...]
+> > diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
+> > index 69f53625a049..0b4d181ea747 100644
+> > --- a/net/qrtr/mhi.c
+> > +++ b/net/qrtr/mhi.c
+> > @@ -24,13 +24,25 @@ static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+> >         struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+> >         int rc;
+> >
+> > -       if (!qdev || mhi_res->transaction_status)
+> > +       if (!qdev || (mhi_res->transaction_status && mhi_res->transaction_status != -ENOTCONN))
+> >                 return;
+> >
+> > +       /* Channel got reset. So just free the buffer */
+> > +       if (mhi_res->transaction_status == -ENOTCONN) {
+> > +               devm_kfree(&mhi_dev->dev, mhi_res->buf_addr);
+> > +               return;
+> > +       }
+> > +
+> >         rc = qrtr_endpoint_post(&qdev->ep, mhi_res->buf_addr,
+> >                                 mhi_res->bytes_xferd);
+> >         if (rc == -EINVAL)
+> >                 dev_err(qdev->dev, "invalid ipcrouter packet\n");
+> > +
+> > +       /* Done with the buffer, now recycle it for future use */
+> > +       rc = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, mhi_res->buf_addr,
+> > +                          mhi_dev->mhi_cntrl->buffer_len, MHI_EOT);
+> > +       if (rc)
+> > +               dev_err(&mhi_dev->dev, "Failed to recycle the buffer: %d\n", rc);
+> >  }
+> >
+> >  /* From QRTR to MHI */
+> > @@ -72,6 +84,27 @@ static int qcom_mhi_qrtr_send(struct qrtr_endpoint *ep, struct sk_buff *skb)
+> >         return rc;
+> >  }
+> >
+> > +static int qcom_mhi_qrtr_queue_dl_buffers(struct mhi_device *mhi_dev)
+> > +{
+> > +       void *buf;
+> > +       int ret;
+> > +
+> > +       while (!mhi_queue_is_full(mhi_dev, DMA_FROM_DEVICE)) {
+> 
+> This approach might be a bit racy, since a buffer could complete
+> before the alloc+queue loop finishes. That could e.g lead to recycle
+> error in a concurrent DL callback.
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_svm.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+I don't think the race is possible as we just queue the buffers during probe and
+resume. But I get your point, using mhi_get_free_desc_count() is more
+straightforward.
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 7be4d129247d..dce7879b3133 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -1616,10 +1616,12 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
- int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *ctx,
- 		      struct drm_pagemap *dpagemap)
- {
-+	static DECLARE_RWSEM(driver_migrate_lock);
- 	struct xe_vm *vm = range_to_vm(&range->base);
- 	enum drm_gpusvm_scan_result migration_state;
- 	struct xe_device *xe = vm->xe;
- 	int err, retries = 1;
-+	bool write_locked = false;
- 
- 	xe_assert(range_to_vm(&range->base)->xe, range->base.pages.flags.migrate_devmem);
- 	range_debug(range, "ALLOCATE VRAM");
-@@ -1638,16 +1640,32 @@ int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *c
- 		drm_dbg(&xe->drm, "Request migration to device memory on \"%s\".\n",
- 			dpagemap->drm->unique);
- 
-+	err = down_read_interruptible(&driver_migrate_lock);
-+	if (err)
-+		return err;
- 	do {
- 		err = drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
- 					      xe_svm_range_end(range),
- 					      range->base.gpusvm->mm,
- 					      ctx->timeslice_ms);
- 
--		if (err == -EBUSY && retries)
--			drm_gpusvm_range_evict(range->base.gpusvm, &range->base);
-+		if (err == -EBUSY && retries) {
-+			if (!write_locked) {
-+				int lock_err;
- 
-+				up_read(&driver_migrate_lock);
-+				lock_err = down_write_killable(&driver_migrate_lock);
-+				if (lock_err)
-+					return lock_err;
-+				write_locked = true;
-+			}
-+			drm_gpusvm_range_evict(range->base.gpusvm, &range->base);
-+		}
- 	} while (err == -EBUSY && retries--);
-+	if (write_locked)
-+		up_write(&driver_migrate_lock);
-+	else
-+		up_read(&driver_migrate_lock);
- 
- 	return err;
- }
+- Mani
+
+> It might be simpler to just queue
+> the number of descriptors returned by mhi_get_free_desc_count().
+> 
+> > +               buf = devm_kmalloc(&mhi_dev->dev, mhi_dev->mhi_cntrl->buffer_len, GFP_KERNEL);
+> > +               if (!buf)
+> > +                       return -ENOMEM;
+> > +
+> > +               ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, buf, mhi_dev->mhi_cntrl->buffer_len,
+> > +                                   MHI_EOT);
+> > +               if (ret) {
+> > +                       dev_err(&mhi_dev->dev, "Failed to queue buffer: %d\n", ret);
+> > +                       return ret;
+> > +               }
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
+> >                                const struct mhi_device_id *id)
+> >  {
+> > @@ -87,20 +120,30 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
+> >         qdev->ep.xmit = qcom_mhi_qrtr_send;
+> >
+> >         dev_set_drvdata(&mhi_dev->dev, qdev);
+> > -       rc = qrtr_endpoint_register(&qdev->ep, QRTR_EP_NID_AUTO);
+> > -       if (rc)
+> > -               return rc;
+> >
+> >         /* start channels */
+> > -       rc = mhi_prepare_for_transfer_autoqueue(mhi_dev);
+> > -       if (rc) {
+> > -               qrtr_endpoint_unregister(&qdev->ep);
+> > +       rc = mhi_prepare_for_transfer(mhi_dev);
+> > +       if (rc)
+> >                 return rc;
+> > -       }
+> > +
+> > +       rc = qrtr_endpoint_register(&qdev->ep, QRTR_EP_NID_AUTO);
+> > +       if (rc)
+> > +               goto err_unprepare;
+> > +
+> > +       rc = qcom_mhi_qrtr_queue_dl_buffers(mhi_dev);
+> > +       if (rc)
+> > +               goto err_unregister;
+> >
+> >         dev_dbg(qdev->dev, "Qualcomm MHI QRTR driver probed\n");
+> >
+> >         return 0;
+> > +
+> > +err_unregister:
+> > +       qrtr_endpoint_unregister(&qdev->ep);
+> > +err_unprepare:
+> > +       mhi_unprepare_from_transfer(mhi_dev);
+> > +
+> > +       return rc;
+> >  }
+> 
+> Regards,
+> Loic
+
 -- 
-2.51.1
-
+மணிவண்ணன் சதாசிவம்
