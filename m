@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97AFCCBFD8
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687ABCCBFE4
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:27:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C1710E8D7;
-	Thu, 18 Dec 2025 13:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F41D10E837;
+	Thu, 18 Dec 2025 13:27:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="0La/3OTh";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="LtHtJ79l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E0D10E108
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:26:58 +0000 (UTC)
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B3310E837
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1766064417; x=1797600417;
+ t=1766064443; x=1797600443;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=aemOi5IutzwP6lzpzpNVxlpvX5r89JXmAras5OUfufs=;
- b=0La/3OThKbpIkzxBfJ3Btx7AMlvcZ3VkAP1Suxg8v2WEntbQbXyMSTcC
- GMwurAk55UYuaOfYmfHFf+TRU6udq6HIMZ5SNvzwnOoVhOtZ7Ck/OtziN
- R0jGzdwHN7cJ5l51PE8iEAKYupAaGyw0ZpBjKYeBMY5WRbmEYCtN7+6ra
- UOU3JYjUFEIRPFFtUHFRlUhlydkpP9U79WtHCWHcFFz13OSmLfqP8DUxW
- T0aTMNGwnqu56mUGmb+n6Gf2an1YugQqzIlTWB2Jzke1nZ7z9KtA2US1g
- /2++AyV7RXa9KH1VkgiImv72ESLEAnevw46drisCSKJPsLD6P4Q9UptvP A==;
-X-CSE-ConnectionGUID: Lg3y3LbkSzGyFPXGFP98mg==
-X-CSE-MsgGUID: z7LVbWcKRm2KQ7t1eMjcjw==
-X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; d="scan'208";a="50046772"
+ bh=//80TLvazu3o6H3NRSjGjho+1pdoyVKmxiXPeB2mjFI=;
+ b=LtHtJ79llHYAwkL0UXf93+BUIvn9vjSQdS72QsSBG/YzfnKoc3LrbI9T
+ cVJhOvwxsfE0tarMTY3lfreSs4PL7OU1Ztd4BQA1+6V68onUw6GCry2ca
+ YdVUNhqleOJCIaXRzeaQpBz2i7vXddjLE/KLbKOoReglPasd5Za+lvx0r
+ i0IFZLPy/N/osDd+PXORQ9ssmKFZHaeoe4FTSu0yuToDVKZa9Q+Nj9EV8
+ MwmCXCIEIf5oKee6BnNbq6KBMXFyjJPyCsxPZNrhBlpadiAfSplcFh4Kx
+ s+a3s/4kBzCAHMiLIX44LErbCns1NLL0pr4hKsxOpVc3zyXFzlklTkxOk g==;
+X-CSE-ConnectionGUID: ZrngCm+8QkagMlXA0BcJtA==
+X-CSE-MsgGUID: NfJ73+JFTSCS7Ii8TwWKFQ==
+X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; d="scan'208";a="57519366"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2025 06:26:56 -0700
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Dec 2025 06:27:22 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
  chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 18 Dec 2025 06:26:17 -0700
+ 15.1.2507.58; Thu, 18 Dec 2025 06:26:21 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Thu, 18 Dec 2025 06:26:13 -0700
+ Transport; Thu, 18 Dec 2025 06:26:17 -0700
 From: Ludovic Desroches <ludovic.desroches@microchip.com>
-Date: Thu, 18 Dec 2025 14:25:59 +0100
-Subject: [PATCH v2 1/8] drm/atmel-hlcdc: use managed device resources for
- the display controller
+Date: Thu, 18 Dec 2025 14:26:00 +0100
+Subject: [PATCH v2 2/8] drm/atmel-hlcdc: add support for the nomodeset
+ kernel parameter
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251218-lcd_cleanup_mainline-v2-1-df837aba878f@microchip.com>
+Message-ID: <20251218-lcd_cleanup_mainline-v2-2-df837aba878f@microchip.com>
 References: <20251218-lcd_cleanup_mainline-v2-0-df837aba878f@microchip.com>
 In-Reply-To: <20251218-lcd_cleanup_mainline-v2-0-df837aba878f@microchip.com>
 To: Manikandan Muralidharan <manikandan.m@microchip.com>, "Dharma
@@ -63,21 +63,21 @@ CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>, Ludovic Desroches
  <ludovic.desroches@microchip.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3275;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1062;
  i=ludovic.desroches@microchip.com; h=from:subject:message-id;
- bh=aemOi5IutzwP6lzpzpNVxlpvX5r89JXmAras5OUfufs=;
- b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpRADxD2mOmOLcjoZAScPDgMH8yZoRCwCc2wQIF
- FtOI+W/6tCJAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaUQA8QAKCRA+OeYT93tk
- LZrpEADFqpD68JK3n2UfJP7k1dEld/VBlI+1Bn7f+42+131qcXhnOWUS+4Y1up634zqkGi3x+Wf
- LfUyx88Nv4DCo83OzztNsUFJf2oUAiY2UHKCf/OqreAKwHM2VbIuWeZL2YeUVirQmGRshkKSTUW
- Vw2gmP4HhCrr9w+gcqD4HmSz9FrqwKZFj+H1CSCaYIksbOiVccKVIBowv2nic8HpaZ16VGMU02Q
- WBIyGzK3iNNmBnW+eNEkHgmeq/RCEyPHcQuI9GnRjpaIzT7J2nYylI/puSLECaUhq6cqS1zoGi2
- Ikx4LqvxvJ1GsBG9HSil/hiZWGXbPeiFWxV+ec2em7MSpAl/X5JTtSSk1izNglqIKPv7tDQn7ok
- yCs/hCRMf1lgzrAkqEpSYfnAON0fcyG533u2+CRzjnPM56+5O+lmgqXI24y4Y0STWVfMm11XB/b
- lxoPmVsaC3giqPyFkl/rs2ZYV/bULyZwpl5y8iW4tikEcKepG/cOjHoMcOgVyhSzMapYxHnLu73
- krr/pBcAy6fLoEtbjF/Su3IKTWPje+rI728Uhe3edxXCdya9TpQRMjJhi5lZ5EUPS207eXUr5J7
- PADkseHx+SeN6YC1p+1lAwOgy4ey9vCOzmiVOBsB0pwDH4EamuzXoPnDOT1raP3vEBxFHyybcok
- S+kisep92P2Y1AQ==
+ bh=//80TLvazu3o6H3NRSjGjho+1pdoyVKmxiXPeB2mjFI=;
+ b=kA0DAAoBPjnmE/d7ZC0ByyZiAGlEAPGgGn6eB10WHDtRUFszqHw8/L0r3xDXailGOZkWprGei
+ YkCMwQAAQoAHRYhBAAwS8mJaaxbjW01TT455hP3e2QtBQJpRADxAAoJED455hP3e2QtTuEQAJYE
+ WKxffO38DFMiYrdrgl7i7+s2unwYb3nx0CppcWNmGqFVtAAqWDr4845SSZxF+cxWGJLYhtyLQq9
+ stvbbzJpxU8JFbmEwzvKGUtjsIa0ZsST0/tbYtTDakbg6Sxo4AZeydzWFGDeXw8uLSQI0OmTsRe
+ ykahy6/Q0jhRxmJE6U0d2XF6NapTjVyVUGXMKxWv04jmJ1ArT8O7wLmPG3JmlhbLgPNKajCEugb
+ wAwi6wVX33IjNIxoKOm/drsgTBgQZmi1DPv/92ZMn7SC/Xqe9spgSNKi25Fo/7OZwWejYLKmMxQ
+ mh0BZWFDzSWhJOexfpoHtc9I7ne7QeKhLS0cOFxfavCkyCRWMyBDdkenFXVTw31IfMcvL0zEuCa
+ 5Z1aUMXk1kveJtXlIfZANsEETLYpYyhMqvU+bz4f+nYGW89Hjzk9XIrHndoI9+42tv3Mt7foqTz
+ WJmTs1ViDMP/Ca/MmUM/AU6Jc4cZXZ63e1WhPZ166Dz4MO36bxOXM9bXnMhtQ6UJptrCOSFSPrG
+ zjTwnOZ0OtG/wAqAjVY19QZCQoZcthWOmI9BYqmvN89TOGtX2Ehr3Vi2pVIuNOaJGGaM/uW2lJi
+ MiVlX21RQOI/LK0OW6cgHi94BqUQ5hEJ+Tr50hRp6IXRegsPFbD4ODXP/S2pWIWSM5zulrWuxph
+ PBR5Z
 X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
  fpr=665BAA7297BE089A28B77696E332995F09DCC11A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,102 +95,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Take benefit of managed device resources to reduce the risk of memory
-leak and to simplify error paths.
+According to Documentation/admin-guide/kernel-parameters.txt, this
+parameter can be used to disable kernel modesetting.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+Reviewed-by: Dharma Balasubiramani <dharma.b@microchip.com>
 Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 25 ++++++++++++-------------
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h |  1 +
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index dd70894c8f38e7303e06167594ac289cb345b510..8ed029381c555db10d596efc8d52753c47767633 100644
+index 8ed029381c555db10d596efc8d52753c47767633..8ff582a394794aacf84f9e23fd59f123445926a3 100644
 --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
 +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -751,11 +751,16 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
- 	return 0;
- }
- 
-+static struct atmel_hlcdc_dc *atmel_hlcdc_dc_of_dev(struct drm_device *dev)
-+{
-+	return container_of(dev, struct atmel_hlcdc_dc, dev);
-+}
-+
- static int atmel_hlcdc_dc_load(struct drm_device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev->dev);
- 	const struct of_device_id *match;
--	struct atmel_hlcdc_dc *dc;
-+	struct atmel_hlcdc_dc *dc = atmel_hlcdc_dc_of_dev(dev);
- 	int ret;
- 
- 	match = of_match_node(atmel_hlcdc_of_match, dev->dev->parent->of_node);
-@@ -769,10 +774,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
- 		return -EINVAL;
- 	}
- 
--	dc = devm_kzalloc(dev->dev, sizeof(*dc), GFP_KERNEL);
--	if (!dc)
--		return -ENOMEM;
--
- 	dc->desc = match->data;
- 	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
- 	dev->dev_private = dc;
-@@ -853,16 +854,18 @@ static const struct drm_driver atmel_hlcdc_dc_driver = {
- 
- static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
- {
-+	struct atmel_hlcdc_dc *dc;
+@@ -858,6 +858,9 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
  	struct drm_device *ddev;
  	int ret;
  
--	ddev = drm_dev_alloc(&atmel_hlcdc_dc_driver, &pdev->dev);
--	if (IS_ERR(ddev))
--		return PTR_ERR(ddev);
-+	dc = devm_drm_dev_alloc(&pdev->dev, &atmel_hlcdc_dc_driver, struct atmel_hlcdc_dc, dev);
-+	if (IS_ERR(dc))
-+		return PTR_ERR(dc);
-+	ddev = &dc->dev;
- 
- 	ret = atmel_hlcdc_dc_load(ddev);
- 	if (ret)
--		goto err_put;
-+		return ret;
- 
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret)
-@@ -875,9 +878,6 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
- err_unload:
- 	atmel_hlcdc_dc_unload(ddev);
- 
--err_put:
--	drm_dev_put(ddev);
--
- 	return ret;
- }
- 
-@@ -887,7 +887,6 @@ static void atmel_hlcdc_dc_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(ddev);
- 	atmel_hlcdc_dc_unload(ddev);
--	drm_dev_put(ddev);
- }
- 
- static void atmel_hlcdc_dc_drm_shutdown(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-index 53d47f01db0bd4d906b73f9f2a46f2ef7326d8c6..26b26185cf34ac1678f385982caabd2dbbc22630 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-@@ -350,6 +350,7 @@ struct atmel_hlcdc_dc {
- 	struct dma_pool *dscrpool;
- 	struct atmel_hlcdc *hlcdc;
- 	struct drm_crtc *crtc;
-+	struct drm_device dev;
- 	struct atmel_hlcdc_layer *layers[ATMEL_HLCDC_MAX_LAYERS];
- 	struct {
- 		u32 imr;
++	if (drm_firmware_drivers_only())
++		return -ENODEV;
++
+ 	dc = devm_drm_dev_alloc(&pdev->dev, &atmel_hlcdc_dc_driver, struct atmel_hlcdc_dc, dev);
+ 	if (IS_ERR(dc))
+ 		return PTR_ERR(dc);
 
 -- 
 2.51.0
