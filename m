@@ -2,53 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046FBCCBE63
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B16ACCBFC6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0357B10E3F5;
-	Thu, 18 Dec 2025 13:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3300210E434;
+	Thu, 18 Dec 2025 13:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DbQ31GKB";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="jOwFJR7V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5700410E3F5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:02:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 805E060128;
- Thu, 18 Dec 2025 13:02:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EF0FC4CEFB;
- Thu, 18 Dec 2025 13:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766062922;
- bh=5DO6RDJonvikBIJmz3ENuqZ6dln+OBwoslWDMriPCxQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DbQ31GKBFd/oztUBucHbc47Na0LxGXTFx7Pw4Xxwv9sS8M3jt2HPGOLVZmnDoFXAg
- 1lPYxdNXc+mmQETjuJltJAr1vJF0j6466kUMAy5JlN/ZRkJuuZTJxDosJqMv5o4x/C
- eAJP5rOyEf3PcneZlw0xvV4NbTNPYx7udhFIC8ULB7ljmJrtcZRllxeWEmmiPI0d2y
- +UagdKor2Ki0nJNKW8wuhmcBpqor2QAHEsRtwemp4FqRFPvBvqLNpC9wbtCxqDW7jr
- 9eSKdG7Xx2CrWyI0COT932fUrYy+93xJaTzkw9EndpEjK9NhLzeOqQulfJ3HHxAsYT
- Y8VRgutX7DOfw==
-Message-ID: <e7c8478b-1ce4-4a15-a185-de9d9121438c@kernel.org>
-Date: Thu, 18 Dec 2025 14:01:56 +0100
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C2510E432
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1766064407; x=1797600407;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=ZfhUQ/Qln635AZ6ZIhDB/wMpfxr83fRZuqUcc7Y7628=;
+ b=jOwFJR7VpiyK1L/Cp01J15mnmu3u1IhC5RFhe9VVKkL3q6beptFU4h/w
+ 6P6NXRbfcGqUNxIsWVmnqDNOpqSXSLdqLxGlgF9MT8r1bThnUl3hiEqFQ
+ 5vu8huwyWzQBcM31Fh+U5ROZJdYOFpdYvtWRuscMnEp9CTcJP8TiH3LQE
+ mg0O7MWc/6XCFi6zyMbpnI3r7D1QfYN+Y7Ahei6N7rwrbjDq7GlaK5dsa
+ UL96YO5O+qJR4xk5+/km/P1t7Z4WhrZ7/NBD+tabdroKFIlNEGam0gvaT
+ eCB2loVTr5/xPl8APkfKx8Vw7UnmzMhDqxKwfrvM+i4LpewdwlLobzsJ7 g==;
+X-CSE-ConnectionGUID: 2/lmXmCJRTiQR6o8m97H0g==
+X-CSE-MsgGUID: L9oAnKaAQa2PAQ7/IieSPg==
+X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; d="scan'208";a="218051098"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 06:26:46 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Thu, 18 Dec 2025 06:26:13 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Thu, 18 Dec 2025 06:26:10 -0700
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
+Subject: [PATCH v2 0/8] drm/atmel-hlcdc: make more use of helpers
+Date: Thu, 18 Dec 2025 14:25:58 +0100
+Message-ID: <20251218-lcd_cleanup_mainline-v2-0-df837aba878f@microchip.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
- whenever possible
-To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: dri-devel@lists.freedesktop.org, jstultz@google.com,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
- Uladzislau Rezki <urezki@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Tangquan Zheng <zhengtangquan@oppo.com>
-References: <20251215053050.11599-1-21cnbao@gmail.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251215053050.11599-1-21cnbao@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOcARGkC/4WNQQ6CMBBFr0JmbQ1tLKgr7mEIKcMgk0CLLRAN4
+ e5WXLh0+V7y318hkGcKcE1W8LRwYGcjqEMC2Bl7J8FNZFCp0lIqKXpsKuzJ2HmsBsO2Z0uizgx
+ irmtt0gvE6eip5eeevZVf9vSYY336yY7D5Pxrv17kx/55WaRIhdLnnLKWTk2WFwOjd9jxeEQ3Q
+ Llt2xtIml1p0QAAAA==
+X-Change-ID: 20251121-lcd_cleanup_mainline-b6acc75b5a09
+To: Manikandan Muralidharan <manikandan.m@microchip.com>, "Dharma
+ Balasubiramani" <dharma.b@microchip.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, Ludovic Desroches
+ <ludovic.desroches@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1647;
+ i=ludovic.desroches@microchip.com; h=from:subject:message-id;
+ bh=ZfhUQ/Qln635AZ6ZIhDB/wMpfxr83fRZuqUcc7Y7628=;
+ b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpRADxV9uOLZwSsnjqone9aQET3NQfrYDsaqhOh
+ HbqDNPxLR6JAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaUQA8QAKCRA+OeYT93tk
+ LVMuD/wOQGRO1YpOEPrvkpJ8dcPSKsfy0YpV0kLqgI8f0oNExLcgc5RFE4MtPkUBnELll/NzkD1
+ PxaJwWEiXJFgNqfesvmi3CzDZ7mn7aPkpj98t31Ga7SSYV6VLB7knYEqxSsSG0GP1xuJhWmDJl9
+ tECV/sGxITN+wGw3SIlfWvLqrASwMuLiSdOazAVGdc7axjBe8gWDtoGTdpudJ22dwzhoJhjWoa3
+ 8tsE73n6yjs2qlWHH+BwJvXJHjaDMYwvs+gKHT12GtQ2WpwHaaOZpaFh9WwUD2pGmV1eZ3z3qVg
+ LPN3yj3omXKYakfyiAiNi/unk0++eU4pA3IX8dELAEiKLrVeRr0/aBOr0t9Kp7rvI1xoDDZBQl/
+ gsYj1dbU7gK6Nu9ad3y1AMvo1hc7Fv45rfbVxtI+yGBPlubBAbkZX2WxrFn19X1o1ylOEeyqqXT
+ wWrKBmobLwe27M3QD6U7/3wK2j32jH2SNibsyfADY5YJREkXgl1+NlLYBHEsjo18TtqhNZMdvIq
+ hfGcOuUljLlcNIuE69J97Wk3MjBVP+hr1MniwhTtp8jSPT8zZtn6MuGQ1IHeiOShhxgPXDLMZSD
+ 6s6Pm3gjjPfcmCVBSsp/27QNHOgjcLzfoCS4HUXykhQw5SxGPEOlq2iL9G01M1nZkOkg4QJxBMP
+ sfs+IZJDw7hlkEg==
+X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
+ fpr=665BAA7297BE089A28B77696E332995F09DCC11A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,111 +97,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/25 06:30, Barry Song wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
-> 
-> In many cases, the pages passed to vmap() may include high-order
-> pages allocated with __GFP_COMP flags. For example, the systemheap
-> often allocates pages in descending order: order 8, then 4, then 0.
-> Currently, vmap() iterates over every page individually—even pages
-> inside a high-order block are handled one by one.
-> 
-> This patch detects high-order pages and maps them as a single
-> contiguous block whenever possible.
-> 
-> An alternative would be to implement a new API, vmap_sg(), but that
-> change seems to be large in scope.
-> 
-> When vmapping a 128MB dma-buf using the systemheap, this patch
-> makes system_heap_do_vmap() roughly 17× faster.
-> 
-> W/ patch:
-> [   10.404769] system_heap_do_vmap took 2494000 ns
-> [   12.525921] system_heap_do_vmap took 2467008 ns
-> [   14.517348] system_heap_do_vmap took 2471008 ns
-> [   16.593406] system_heap_do_vmap took 2444000 ns
-> [   19.501341] system_heap_do_vmap took 2489008 ns
-> 
-> W/o patch:
-> [    7.413756] system_heap_do_vmap took 42626000 ns
-> [    9.425610] system_heap_do_vmap took 42500992 ns
-> [   11.810898] system_heap_do_vmap took 42215008 ns
-> [   14.336790] system_heap_do_vmap took 42134992 ns
-> [   16.373890] system_heap_do_vmap took 42750000 ns
-> 
+Hi,
 
-That's quite a speedup.
+This set of patches is mostly about using available helpers when
+possible to simplify the code and ease the maintenance.
 
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Uladzislau Rezki <urezki@gmail.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> ---
->   * diff with rfc:
->   Many code refinements based on David's suggestions, thanks!
->   Refine comment and changelog according to Uladzislau, thanks!
->   rfc link:
->   https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
-> 
->   mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
->   1 file changed, 39 insertions(+), 6 deletions(-)
-> 
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 41dd01e8430c..8d577767a9e5 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
->   	return err;
->   }
->   
-> +static inline int get_vmap_batch_order(struct page **pages,
-> +		unsigned int stride, unsigned int max_steps, unsigned int idx)
-> +{
-> +	int nr_pages = 1;
+There is a dependency on "drm/panel: simple: restore connector_type
+fallback", otherwise the atmel-hlcdc driver may fail during the probe.
 
-unsigned int, maybe
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+---
+Changes in v2:
+- Fix patch 5 warning about uninitialized use of ret.
+- Link to v1: https://lore.kernel.org/r/20251121-lcd_cleanup_mainline-v1-0-2587e6fe4d67@microchip.com
 
-Why are you initializing nr_pages when you overwrite it below?
+---
+Ludovic Desroches (8):
+      drm/atmel-hlcdc: use managed device resources for the display controller
+      drm/atmel-hlcdc: add support for the nomodeset kernel parameter
+      drm/atmel-hlcdc: use drmm_simple_encoder_alloc()
+      drm/atmel-hlcdc: use drm_crtc_mask()
+      drm/atmel-hlcdc: use devm_drm_of_get_bridge()
+      drm/atmel-hlcdc: use drmm_crtc_alloc_with_planes()
+      drm/atmel-hlcdc: use drmm_universal_plane_alloc()
+      drm/atmel-hlcdc: destroy properly the plane state in the reset callback
 
-> +
-> +	/*
-> +	 * Currently, batching is only supported in vmap_pages_range
-> +	 * when page_shift == PAGE_SHIFT.
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 32 ++---------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 40 +++++++------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h     |  1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 50 +++++-----------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c  | 73 +++++++++++-------------
+ 5 files changed, 75 insertions(+), 121 deletions(-)
+---
+base-commit: 88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
+change-id: 20251121-lcd_cleanup_mainline-b6acc75b5a09
 
-I don't know the code so realizing how we go from page_shift to stride 
-too me a second. Maybe only talk about stride here?
-
-OTOH, is "stride" really the right terminology?
-
-we calculate it as
-
-	stride = 1U << (page_shift - PAGE_SHIFT);
-
-page_shift - PAGE_SHIFT should give us an "order". So is this a 
-"granularity" in nr_pages?
-
-Again, I don't know this code, so sorry for the question.
-
-> +	 */
-> +	if (stride != 1)
-> +		return 0;
-> +
-> +	nr_pages = compound_nr(pages[idx]);
-> +	if (nr_pages == 1)
-> +		return 0;
-> +	if (max_steps < nr_pages)
-> +		return 0;
-
-Might combine these simple checks
-
-if (nr_pages == 1 || max_steps < nr_pages)
-	return 0;
-
-
+Best regards,
 -- 
-Cheers
+Ludovic Desroches <ludovic.desroches@microchip.com>
 
-David
