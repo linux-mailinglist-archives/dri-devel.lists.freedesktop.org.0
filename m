@@ -2,144 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB53FCCA722
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 07:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F28ECCA773
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 07:29:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB5910E609;
-	Thu, 18 Dec 2025 06:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2707110E5EF;
+	Thu, 18 Dec 2025 06:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oZcWCyM0";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VjOkdyah";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BuV1Q+pk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1343010E588
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:24:42 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BI1ZOdi4191699
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:24:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- P/Uonx2pxi5wJyCworWRtzZG7D+KfVCQrD8PS8WCsDk=; b=oZcWCyM048CQ/z9A
- 3vt4VClizucwWRiySZD/r3z6R/RNQeOO0SJq8BNP3DbRuVQxHfaWA7+UoCAworu5
- RFwK7686GZcgiYpbEkMUPHYaATI+tbj11LRaCTbw25HAvgjgC70gFaetsasPQMZ5
- KCeZXtZuBhAB/cBbS56/dWDg61cnYY2Pyseq4Rr+Rwdsemx7eLcDPIQjYfDlYneL
- yV6c3ZgCjQXESRCg34ZR4EuoP10Z3MgK3ycvGm4kAUqZnLZ4ptxTgx0FDTY9RrDW
- ZzXDhPD6gMFs4khLiueAvgEjMuiEavuhlThODMxXMAeb/Pgx5VCU8nrpv4wK3fJ+
- Jz0wqw==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b47pkgrj9-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:24:41 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-7c240728e2aso672791b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 22:24:41 -0800 (PST)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABE610E5EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:29:03 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2a12ebe4b74so4326625ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 22:29:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766039081; x=1766643881;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=P/Uonx2pxi5wJyCworWRtzZG7D+KfVCQrD8PS8WCsDk=;
- b=VjOkdyahRy8QeM9HE3d7D4o+FJpOqCzUab89IFZg8by2eaAxDDaOXOUllpv8a+ZApq
- XNAjl4FcvIb8PcUSqj+y1eXkNP1NTM3cmRbxL7VTqVywMzn4MB5IvL6HWmAugIlafj7p
- NFUTu1zmektE3HiSprmZQNoIc/lPFC2ORnU+wUOecSFz2LQoDrnwTRZZ2Dse90WvMIct
- kkYbPd13zZxxxm2wAg8WRd4wWe7Ry9zvg2+lBU1Y/3oQpu7nhdxidCMAgIHvcf8HdWMf
- eG/B1JiE9qWPR47XczLjhpDbG2BkCchW6C7mm1mprVv2gfknu62jCPmdpa3MNvPJ2BwW
- JYsQ==
+ d=gmail.com; s=20230601; t=1766039343; x=1766644143; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hjVQD1IMxRH0umBlmaZVMLvoLBONPloeFCT82Lq3Wpk=;
+ b=BuV1Q+pkuJVr1NDchnnoh5IyzFH3RnirZZzwbo1rw0j3kv5w5NdPPpnX5sWlLlRYom
+ VR9d4JyXoO4krSyrmGCeDPZHGZc93BCJ7GwaE2kBcsQD/Tqwex/IvuXdhjBetzFNPguC
+ e51L6kio7+OayTvbw319grLviykmWhaEFwayUYkNklB71ZqizStyKlIl+qctkF6WxVp7
+ 2M8xXIL7o9OCcq62lxVYDhZ9ecgBYbtoAcUCdrt0zNNg0zY630c8AJAJAflN7uv10gHj
+ y5VEbwOpnd40FGicwgHQMNpeRmNY5CstxYmixTVQqOcrpDzzPZM+HDQZiKCtSK+L5xBV
+ zOQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766039081; x=1766643881;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=P/Uonx2pxi5wJyCworWRtzZG7D+KfVCQrD8PS8WCsDk=;
- b=PtP8mnUj4ZAbJ+vmLbyIDkh6Pep5coTHbssrDdJuAbmHEg2IHRJrmetKSXTzK90Uot
- wiKPbraVLfdcW+cUigOL/z6ja0Kj+z53kKlGn69nmZyOKl7hyNSgGCdbWi9eMzpQMn8l
- GqJetGmbCbOPWWvEZ4HSZAtXeQyXFRRl9o9IsewG6j+k4DdAufy0O89urIWBOp9fSFJY
- eMRblgryAmEIdYCNYwQ/L8IS+Lr2GoeCLBx63K+KrqtNW5FklNvCWqRINfdZ/UTA88bx
- UyXkPoiKpRDGJGKrsVq81CCQGbNmu+t9GFHSclkXgD/0OkZg+LdMUxvVsc3RgDiGJNk/
- szBw==
-X-Gm-Message-State: AOJu0YwtieJ1HaezhdqIqDNnimHZnnb319GeBN2LrCC0DM9+qwnWdTN8
- RYcUjZvKIs7+S89cq7JhqWWebyJuawh/mmv57SFDmzqTCCi0AMNuK1sKGJU1ZPcmPRp5bSyjZBr
- bIHL5baeb1krLVQlL+Eb3+uS/Z2mvNkkMvu8auw8qBeO6nTCzUh08hrm6hapg/sgqJ2JG15cRa6
- VzQ2w=
-X-Gm-Gg: AY/fxX4WGpOBqXNQl3ewyhBy/SiGqpocW4/Tj8us08rd2WJ6nq5CtbjhWQ2rFr9U+ty
- f3FnH71s+UxowhkRbc6/84JQmmAZo5/+s0remppm7UKUt3NqahdvKdCYTwUNXavuMbxgyeGezS2
- 7OOxg0bhqqn8QcFxgg2MXW3oAWryKf+jSt5Os/4W19kU/tDCLTDiCU81Dk81FxCgoazeGm0x5/u
- DsvBspLLHG5PJ6u0LyQRqj/MDKY/QJ8bkt54Sf/eGEsJTCoWvHgbFBt8mYIOqKVOf7O60L0HZMy
- nAHagu2YknYZAAChbl7DTdD0rhJ7w43p5JVwP4To9w1B2kX0EA1duZb599MqhWQofJA37erWMxV
- 593Hb6cz4wJaEcoN3qeIs0YJOTlscPBK3yQCeA1/S/fv6DBHYZQ==
-X-Received: by 2002:a05:6a00:4191:b0:7a2:7458:7fc8 with SMTP id
- d2e1a72fcca58-7f6674468bbmr20232279b3a.13.1766039080079; 
- Wed, 17 Dec 2025 22:24:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFn8MKeP5Uegbkxo8MVJCnzjcaGk1boHA2EMMGlEzekEy/W5F94HanPjTjt72YdMzvNOpZCzQ==
-X-Received: by 2002:a05:6a00:4191:b0:7a2:7458:7fc8 with SMTP id
- d2e1a72fcca58-7f6674468bbmr20232243b3a.13.1766039079418; 
- Wed, 17 Dec 2025 22:24:39 -0800 (PST)
-Received: from hu-botlagun-hyd.qualcomm.com ([202.46.23.25])
+ d=1e100.net; s=20230601; t=1766039343; x=1766644143;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hjVQD1IMxRH0umBlmaZVMLvoLBONPloeFCT82Lq3Wpk=;
+ b=FtauLzdq+sQ9PCKiJo87OwdwSXCIkQlHzWsWikGZZpjSjuQNXx1YUBPEf4rU3kqUB1
+ 1IuEDCKGFafA7PHjDYqjmc9oUqcPftw8neOJLfnqTvL6rNG5g+iWSA7eWpE0zy1JZSEA
+ sx8WLoWWfxm2VRaVyzW2TynG87UlWBbvXKFRuC0dVikfxU+GPDmQ3os5FZcO24n3e+oh
+ IXLc7c+J4ngdky65fXAhwSEAvVUWmNW7A8XJ92JiNRrFBLyFNMGH9qpJY6l4PhS5FECa
+ OmMbUKJA62czIimHgvDJIa6DYHd9ticQ4vUSMcPaU3KUiV19d2KK4UAeuOOiGvWaVZeH
+ /6Kg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGHyqodZlQaLeMcxfU9u8VClV40kMRq+3DAJCRUBsSQqUY01Z/QOrihT6AbTaYR2Fz+Ynjj4SaY0I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPAYbDDCXFONvI0kuk9/21R+vntHrJNLq43RUZxa0FDNDlqEYN
+ OulnbhT8XPknGbrppSo6kHZJ8A8VnBh+PG3/kXSiHcwnlA8TEGw8krdv
+X-Gm-Gg: AY/fxX5MVZ0u4LPB4uLNHfagPCtxc8FoRNSMNCfYq7e2pjY6FHt4KJRC/Nadfq/DoR6
+ M0prZ2ny8WuHsIMEZir22Bx6IOVdq0ahD5AvFH029wmLiDkzMkzn5tMIEBDIiYAJCPGNXGIP9ea
+ oYjGLzkhIOzD4zdwhfwQr6xCR/0HJuAX/OyraV27iXlGsPOG/xMS/hWwyYt2LmJ5RrHOC1uzI7W
+ fYE+h3+8de4rMOhO+NsXGoV3/9bsD2tzQQflM5qAV+B/0W8wOJK4hgoEmhcbk7gYypldtM6Yvu4
+ 1QTqc6iOsL9CENS8U+PoTWzctV25zHpQicNpXIHkONz2dpL/mrk+Wh1/01EfKZlawTv9tToWIoT
+ qVJrR4ZE2VHDIDMvpq/9YLHtaEkqAI+LMKivCd35aXMYZ14wApJbR2/0C+DOtzqMciFwTuUkLnT
+ 8HhfOOuVnlK0p9Kd8adLe4
+X-Google-Smtp-Source: AGHT+IEkJR6e67q6TXoTlLRSLxdUZKbPYbKKJ8tztKLYDaWuDH6Gch/XODP95EpB/ke25E6NUlAMzw==
+X-Received: by 2002:a17:903:1a87:b0:297:e59c:63cc with SMTP id
+ d9443c01a7336-29f23c73363mr222873065ad.35.1766039342643; 
+ Wed, 17 Dec 2025 22:29:02 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7fe0eb24d7dsm1433161b3a.0.2025.12.17.22.24.33
+ d9443c01a7336-2a2d087c64esm13308265ad.17.2025.12.17.22.28.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Dec 2025 22:24:39 -0800 (PST)
-From: Venkata Gopi Nagaraju Botlagunta <venkata.botlagunta@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 11:54:08 +0530
-Subject: [PATCH v3 2/2] drm/bridge: add support for lontium lt9211c bridge
+ Wed, 17 Dec 2025 22:29:00 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org,
+ mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org,
+ gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: [PATCH v8] dma-buf: add some tracepoints to debug.
+Date: Thu, 18 Dec 2025 14:28:53 +0800
+Message-Id: <20251218062853.819744-1-gxxa03070307@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-add-lt9211c-bridge-v3-2-1ee0670a0db2@oss.qualcomm.com>
-References: <20251218-add-lt9211c-bridge-v3-0-1ee0670a0db2@oss.qualcomm.com>
-In-Reply-To: <20251218-add-lt9211c-bridge-v3-0-1ee0670a0db2@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>,
- Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
- venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
- Yi Zhang <zhanyi@qti.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766039060; l=28270;
- i=venkata.botlagunta@oss.qualcomm.com; s=20251110; h=from:subject:message-id; 
- bh=V2PQZz2IED13zxKTCdXA25xqbnt3RL/i+9UttWurYjQ=;
- b=Bs9xlhOHvt5aYb9jZWoqPsjWN7AcQ/Pz4udPt6/pZoFFyNGQXoeXq39ftSKlAbJEjIj+QVHU+
- Vl60iGUeJKMBunyqkZ+wQGs7FwpudArv+mjaiBewS9X7XM1ymIRDt0r
-X-Developer-Key: i=venkata.botlagunta@oss.qualcomm.com; a=ed25519;
- pk=/SnYBwlkTzDCLnHFgEY0qFwPgKIV+aQWRbc3naiLzrk=
-X-Proofpoint-ORIG-GUID: xSECgCHScWrIXTbYgkBD8fIQXD4aSKfC
-X-Authority-Analysis: v=2.4 cv=Md9hep/f c=1 sm=1 tr=0 ts=69439e29 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=997wjNfAVR2wvfQCef8A:9
- a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDA1MCBTYWx0ZWRfXy7d/cARL/Xck
- RUcVSOxPtxz6MdXefK/hIDP46BjGW0SNjWV9RqFWGeBrZngGdxGjO4Kr7uL9pJbhx4uD8ogVS0d
- /74/kO3zrlB4HtnSkE/L6Fy+vxwrPNa0Gbm3+hkteTzqvpE6xfG7iOCha+qKhpass7w1vic75/P
- urmW8J0SOjcSHQSXuCpo+nxcz3h2RtAmWtsN5+Koz0Oa+jEBOcocCT6GoFWF5PhY70OtPG0i5Lo
- tYlgmWhvCOh7INxcZp8iX3f9eKJYODP12BjrbZ23rX2EdP8gRgopeDcuJS/wObB/EcRyPwqSUju
- mbnpxkM5Ns8xAYyfx/PPczPfyGsPYs4BUq8ubthBrraZWiTWkh5kviseAf/gB6K/Vmu3+D3jAIX
- BeXDlWtk58wuBF8EAyHkJ81BptpZ7g==
-X-Proofpoint-GUID: xSECgCHScWrIXTbYgkBD8fIQXD4aSKfC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 adultscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180050
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,1010 +91,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yi Zhang <zhanyi@qti.qualcomm.com>
+From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-LT9211c is a Single/Dual-Link DSI/LVDS or Single DPI input to
-Single-link/Dual-Link DSI/LVDS or Single DPI output bridge chip.
-Extend the existing lontium-lt9211 driver to support DSI-to-LVDS
-bridge configuration.
+Since we can only inspect dmabuf by iterating over process FDs or the
+dmabuf_list, we need to add our own tracepoints to track its status in
+real time in production.
 
-Signed-off-by: Yi Zhang <zhanyi@qti.qualcomm.com>
-Signed-off-by: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-Signed-off-by: Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
+For example:
+   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9211.c | 829 +++++++++++++++++++++++++++++---
- 1 file changed, 768 insertions(+), 61 deletions(-)
+ drivers/dma-buf/dma-buf.c      |  51 ++++++++++-
+ include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
+ 2 files changed, 206 insertions(+), 2 deletions(-)
+ create mode 100644 include/trace/events/dma_buf.h
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
-index 399fa7eebd49..c8318bf81392 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9211.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
-@@ -19,6 +19,7 @@
- #include <linux/of_graph.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/workqueue.h>
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index edaa9e4ee4ae..59a5261cb26b 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,28 @@
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -36,20 +37,37 @@
- #define REG_CHIPID2				0x8102
- #define REG_CHIPID2_VALUE			0xe3
+ #include "dma-buf-sysfs-stats.h"
  
-+/* LT9211C chip ID values */
-+#define REG_CHIPID0_LT9211C_VALUE	0x21
-+#define REG_CHIPID1_LT9211C_VALUE	0x03
-+#define REG_CHIPID2_LT9211C_VALUE	0xe1
++#define CREATE_TRACE_POINTS
++#include <trace/events/dma_buf.h>
 +
- #define REG_DSI_LANE				0xd000
- /* DSI lane count - 0 means 4 lanes ; 1, 2, 3 means 1, 2, 3 lanes. */
- #define REG_DSI_LANE_COUNT(n)			((n) & 3)
++/*
++ * dmabuf->name must be accessed with holding dmabuf->name_lock.
++ * we need to take the lock around the tracepoint call itself where
++ * it is called in the code.
++ *
++ * Note: FUNC##_enabled() is a static branch that will only
++ *       be set when the trace event is enabled.
++ */
++#define DMA_BUF_TRACE(FUNC, ...)					\
++	do {											\
++		if (FUNC##_enabled()) {						\
++			guard(spinlock)(&dmabuf->name_lock);	\
++			FUNC(__VA_ARGS__);						\
++		} else if (IS_ENABLED(CONFIG_LOCKDEP)) {	\
++			/* Expose this lock when lockdep is enabled */	\
++			guard(spinlock)(&dmabuf->name_lock);	\
++		}											\
++	} while (0)
++
+ static inline int is_dma_buf_file(struct file *);
  
-+enum lt9211_chip_type {
-+	LT9211,
-+	LT9211C,
-+};
-+
- struct lt9211 {
- 	struct drm_bridge		bridge;
- 	struct device			*dev;
- 	struct regmap			*regmap;
--	struct mipi_dsi_device		*dsi;
-+	struct mipi_dsi_device	*dsi;
- 	struct drm_bridge		*panel_bridge;
- 	struct gpio_desc		*reset_gpio;
- 	struct regulator		*vccio;
--	bool				lvds_dual_link;
--	bool				lvds_dual_link_even_odd_swap;
-+	bool					lvds_dual_link;
-+	bool					lvds_dual_link_even_odd_swap;
-+	enum lt9211_chip_type	chip_type;
-+	struct workqueue_struct	*wq;
-+	struct delayed_work		lt9211_dw;
-+	struct drm_display_mode	mode;
-+	bool					bpp24;
-+	bool					jeida;
-+	bool					de;
- };
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -220,6 +242,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
  
- static const struct regmap_range lt9211_rw_ranges[] = {
-@@ -70,6 +88,14 @@ static const struct regmap_access_table lt9211_rw_table = {
- 	.n_yes_ranges = ARRAY_SIZE(lt9211_rw_ranges),
- };
- 
-+static const struct mipi_dsi_device_info lt9211_info = {
-+	"lt9211", 0, NULL
-+};
++	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
 +
-+static const struct mipi_dsi_device_info lt9211c_info = {
-+	"lt9211c", 0, NULL
-+};
-+
- static const struct regmap_range_cfg lt9211_range = {
- 	.name = "lt9211",
- 	.range_min = 0x0000,
-@@ -93,6 +119,49 @@ static const struct regmap_config lt9211_regmap_config = {
- 	.max_register = 0xda00,
- };
- 
-+static const struct regmap_range lt9211c_rw_ranges[] = {
-+	regmap_reg_range(0xff, 0xff),
-+	regmap_reg_range(0x8100, 0x8182),
-+	regmap_reg_range(0x8200, 0x82aa),
-+	regmap_reg_range(0x8500, 0x85ff),
-+	regmap_reg_range(0x8600, 0x86a0),
-+	regmap_reg_range(0x8700, 0x8746),
-+	regmap_reg_range(0xd000, 0xd0a7),
-+	regmap_reg_range(0xd400, 0xd42c),
-+	regmap_reg_range(0xd800, 0xd838),
-+	regmap_reg_range(0xd9c0, 0xd9d5),
-+};
-+
-+static const struct regmap_access_table lt9211c_rw_table = {
-+	.yes_ranges = lt9211c_rw_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(lt9211c_rw_ranges),
-+};
-+
-+static const struct regmap_range_cfg lt9211c_range = {
-+	.name = "lt9211c",
-+	.range_min = 0x0000,
-+	.range_max = 0xda00,
-+	.selector_reg = REG_PAGE_CONTROL,
-+	.selector_mask = 0xff,
-+	.selector_shift = 0,
-+	.window_start = 0,
-+	.window_len = 0x100,
-+};
-+
-+static const struct regmap_config lt9211c_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.rd_table = &lt9211c_rw_table,
-+	.wr_table = &lt9211c_rw_table,
-+	.volatile_table = &lt9211c_rw_table,
-+	.ranges = &lt9211c_range,
-+	.num_ranges = 1,
-+	.cache_type = REGCACHE_RBTREE,
-+	.max_register = 0xda00,
-+};
-+
-+static void lt9211_delayed_work_func(struct work_struct *work);
-+
- static struct lt9211 *bridge_to_lt9211(struct drm_bridge *bridge)
- {
- 	return container_of(bridge, struct lt9211, bridge);
-@@ -120,15 +189,24 @@ static int lt9211_read_chipid(struct lt9211 *ctx)
- 		return ret;
- 	}
- 
--	/* Test for known Chip ID. */
--	if (chipid[0] != REG_CHIPID0_VALUE || chipid[1] != REG_CHIPID1_VALUE ||
--	    chipid[2] != REG_CHIPID2_VALUE) {
--		dev_err(ctx->dev, "Unknown Chip ID: 0x%02x 0x%02x 0x%02x\n",
--			chipid[0], chipid[1], chipid[2]);
--		return -EINVAL;
-+	/* Test for LT9211 Chip ID. */
-+	if (chipid[0] == REG_CHIPID0_VALUE && chipid[1] == REG_CHIPID1_VALUE &&
-+	    chipid[2] == REG_CHIPID2_VALUE) {
-+		dev_dbg(ctx->dev, "Detected LT9211 chip\n");
-+		return 0;
- 	}
- 
--	return 0;
-+	/* Test for LT9211C Chip ID. */
-+	if (chipid[0] == REG_CHIPID0_LT9211C_VALUE &&
-+	    chipid[1] == REG_CHIPID1_LT9211C_VALUE &&
-+	    chipid[2] == REG_CHIPID2_LT9211C_VALUE) {
-+		dev_dbg(ctx->dev, "Detected LT9211C chip\n");
-+		return 0;
-+	}
-+
-+	dev_err(ctx->dev, "Unknown Chip ID: 0x%02x 0x%02x 0x%02x\n", chipid[0],
-+		chipid[1], chipid[2]);
-+	return -EINVAL;
+ 	return dmabuf->ops->mmap(dmabuf, vma);
  }
  
- static int lt9211_system_init(struct lt9211 *ctx)
-@@ -366,8 +444,8 @@ static int lt9211_configure_plls(struct lt9211 *ctx,
- 	return ret;
- }
+@@ -745,6 +769,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
  
--static int lt9211_configure_tx(struct lt9211 *ctx, bool jeida,
--			       bool bpp24, bool de)
-+static int lt9211_configure_tx(struct lt9211 *ctx, bool jeida, bool bpp24,
-+			       bool de)
+ 	__dma_buf_list_add(dmabuf);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
++
+ 	return dmabuf;
+ 
+ err_dmabuf:
+@@ -768,10 +794,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
+  */
+ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
  {
- 	const struct reg_sequence system_lt9211_tx_phy_seq[] = {
- 		/* DPI output disable */
-@@ -394,8 +472,8 @@ static int lt9211_configure_tx(struct lt9211 *ctx, bool jeida,
- 	};
++	int fd;
++
+ 	if (!dmabuf || !dmabuf->file)
+ 		return -EINVAL;
  
- 	const struct reg_sequence system_lt9211_tx_dig_seq[] = {
--		{ 0x8559, 0x40 | (jeida ? BIT(7) : 0) |
--			  (de ? BIT(5) : 0) | (bpp24 ? BIT(4) : 0) },
-+		{ 0x8559, 0x40 | (jeida ? BIT(7) : 0) | (de ? BIT(5) : 0) |
-+				  (bpp24 ? BIT(4) : 0) },
- 		{ 0x855a, 0xaa },
- 		{ 0x855b, 0xaa },
- 		{ 0x855c, ctx->lvds_dual_link ? BIT(0) : 0 },
-@@ -464,8 +542,6 @@ static void lt9211_atomic_enable(struct drm_bridge *bridge,
- 	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
- 	struct drm_crtc *crtc;
--	bool lvds_format_24bpp;
--	bool lvds_format_jeida;
- 	u32 bus_flags;
- 	int ret;
+-	return FD_ADD(flags, dmabuf->file);
++	fd = FD_ADD(flags, dmabuf->file);
++	if (fd >= 0)
++		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
++
++	return fd;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
  
-@@ -483,18 +559,19 @@ static void lt9211_atomic_enable(struct drm_bridge *bridge,
- 	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
- 	bus_flags = bridge_state->output_bus_cfg.flags;
+@@ -786,6 +818,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
  
-+	ctx->de = !!(bus_flags & DRM_BUS_FLAG_DE_HIGH);
- 	switch (bridge_state->output_bus_cfg.format) {
- 	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
--		lvds_format_24bpp = false;
--		lvds_format_jeida = true;
-+		ctx->bpp24 = false;
-+		ctx->jeida = true;
- 		break;
- 	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
--		lvds_format_24bpp = true;
--		lvds_format_jeida = true;
-+		ctx->bpp24 = true;
-+		ctx->jeida = true;
- 		break;
- 	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
--		lvds_format_24bpp = true;
--		lvds_format_jeida = false;
-+		ctx->bpp24 = true;
-+		ctx->jeida = false;
- 		break;
- 	default:
- 		/*
-@@ -502,8 +579,8 @@ static void lt9211_atomic_enable(struct drm_bridge *bridge,
- 		 * LVDS bus pixel format, use SPWG24 default
- 		 * format until those are fixed.
- 		 */
--		lvds_format_24bpp = true;
--		lvds_format_jeida = false;
-+		ctx->bpp24 = true;
-+		ctx->jeida = false;
- 		dev_warn(ctx->dev,
- 			 "Unsupported LVDS bus format 0x%04x, please check output bridge driver. Falling back to SPWG24.\n",
- 			 bridge_state->output_bus_cfg.format);
-@@ -519,35 +596,42 @@ static void lt9211_atomic_enable(struct drm_bridge *bridge,
- 	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	mode = &crtc_state->adjusted_mode;
--
- 	ret = lt9211_read_chipid(ctx);
- 	if (ret)
+ 	file = fget(fd);
+ 
+@@ -797,7 +830,11 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
++
++	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
++
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 
+@@ -817,6 +854,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
  		return;
  
--	ret = lt9211_system_init(ctx);
--	if (ret)
--		return;
--
--	ret = lt9211_configure_rx(ctx);
--	if (ret)
--		return;
--
--	ret = lt9211_autodetect_rx(ctx, mode);
--	if (ret)
--		return;
--
--	ret = lt9211_configure_timing(ctx, mode);
--	if (ret)
--		return;
--
--	ret = lt9211_configure_plls(ctx, mode);
--	if (ret)
--		return;
--
--	ret = lt9211_configure_tx(ctx, lvds_format_jeida, lvds_format_24bpp,
--				  bus_flags & DRM_BUS_FLAG_DE_HIGH);
--	if (ret)
--		return;
-+	if (ctx->chip_type == LT9211C && ctx->wq) {
-+		drm_mode_copy(&ctx->mode, mode);
-+		/* LT9211C must enable after mipi clock enable */
-+		queue_delayed_work(ctx->wq, &ctx->lt9211_dw,
-+				   msecs_to_jiffies(100));
-+	} else if (ctx->chip_type == LT9211) {
-+		ret = lt9211_system_init(ctx);
-+		if (ret)
-+			return;
+ 	fput(dmabuf->file);
 +
-+		ret = lt9211_configure_rx(ctx);
-+		if (ret)
-+			return;
-+
-+		ret = lt9211_autodetect_rx(ctx, mode);
-+		if (ret)
-+			return;
-+
-+		ret = lt9211_configure_timing(ctx, mode);
-+		if (ret)
-+			return;
-+
-+		ret = lt9211_configure_plls(ctx, mode);
-+		if (ret)
-+			return;
-+
-+		ret = lt9211_configure_tx(ctx, ctx->jeida,
-+					  ctx->bpp24,
-+					  ctx->de);
-+		if (ret)
-+			return;
-+	}
- 
- 	dev_dbg(ctx->dev, "LT9211 enabled.\n");
++	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
  }
-@@ -672,11 +756,6 @@ static int lt9211_parse_dt(struct lt9211 *ctx)
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
  
- static int lt9211_host_attach(struct lt9211 *ctx)
- {
--	const struct mipi_dsi_device_info info = {
--		.type = "lt9211",
--		.channel = 0,
--		.node = NULL,
--	};
- 	struct device *dev = ctx->dev;
- 	struct device_node *host_node;
- 	struct device_node *endpoint;
-@@ -698,7 +777,11 @@ static int lt9211_host_attach(struct lt9211 *ctx)
- 	if (dsi_lanes < 0)
- 		return dsi_lanes;
+@@ -971,6 +1010,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	list_add(&attach->node, &dmabuf->attachments);
+ 	dma_resv_unlock(dmabuf->resv);
  
--	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-+	if (ctx->chip_type == LT9211C)
-+		dsi = devm_mipi_dsi_device_register_full(dev, host, &lt9211c_info);
-+	else
-+		dsi = devm_mipi_dsi_device_register_full(dev, host, &lt9211_info);
++	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), dev);
 +
- 	if (IS_ERR(dsi))
- 		return dev_err_probe(dev, PTR_ERR(dsi),
- 				     "failed to create dsi device\n");
-@@ -707,11 +790,17 @@ static int lt9211_host_attach(struct lt9211 *ctx)
+ 	return attach;
  
- 	dsi->lanes = dsi_lanes;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
--			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
--			  MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
--			  MIPI_DSI_MODE_NO_EOT_PACKET;
+ err_attach:
+@@ -1015,6 +1057,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
  
-+	if (ctx->chip_type == LT9211C) {
-+		dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM;
-+	} else {
-+		dsi->mode_flags =
-+			MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+			MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
-+			MIPI_DSI_MODE_VIDEO_NO_HFP |
-+			MIPI_DSI_MODE_VIDEO_NO_HBP |
-+			MIPI_DSI_MODE_NO_EOT_PACKET;
-+	}
- 	ret = devm_mipi_dsi_attach(dev, dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
-@@ -732,6 +821,7 @@ static int lt9211_probe(struct i2c_client *client)
- 		return PTR_ERR(ctx);
- 
- 	ctx->dev = dev;
-+	ctx->chip_type = LT9211;
- 
- 	/*
- 	 * Put the chip in reset, pull nRST line low,
-@@ -748,10 +838,24 @@ static int lt9211_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
--	ctx->regmap = devm_regmap_init_i2c(client, &lt9211_regmap_config);
-+	if (of_device_is_compatible(dev->of_node, "lontium,lt9211c")) {
-+		ctx->chip_type = LT9211C;
-+		ctx->regmap =
-+			devm_regmap_init_i2c(client, &lt9211c_regmap_config);
-+	} else {
-+		ctx->chip_type = LT9211;
-+		ctx->regmap =
-+			devm_regmap_init_i2c(client, &lt9211_regmap_config);
-+	}
- 	if (IS_ERR(ctx->regmap))
- 		return PTR_ERR(ctx->regmap);
- 
-+	/* Initialize LT9211C-specific fields */
-+	ctx->wq = create_workqueue("lt9211_work");
-+	if (!ctx->wq)
-+		return -ENOMEM;
-+	INIT_DELAYED_WORK(&ctx->lt9211_dw, lt9211_delayed_work_func);
++	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), attach->dev);
 +
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
- 
-@@ -769,17 +873,620 @@ static void lt9211_remove(struct i2c_client *client)
- {
- 	struct lt9211 *ctx = i2c_get_clientdata(client);
- 
-+	if (ctx->wq)
-+		destroy_workqueue(ctx->wq);
-+
- 	drm_bridge_remove(&ctx->bridge);
+ 	kfree(attach);
  }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+@@ -1480,6 +1525,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
  
--static const struct i2c_device_id lt9211_id[] = {
-+static int lt9211c_configure_rx(struct lt9211 *ctx)
-+{
-+	unsigned int pval;
-+
-+	const struct reg_sequence lt9211c_rx_phy_seq[] = {
-+		{ REG_DSI_LANE, REG_DSI_LANE_COUNT(ctx->dsi->lanes) },
-+		{ 0x8201, 0x11 },
-+		{ 0x8218, 0x48 },
-+		{ 0x8201, 0x91 },
-+		{ 0x8202, 0x00 },
-+		{ 0x8203, 0xee },
-+		{ 0x8209, 0x21 },
-+		{ 0x8204, 0x44 },
-+		{ 0x8205, 0xc4 },
-+		{ 0x8206, 0x44 },
-+		{ 0x8213, 0x0c },
-+
-+		{ 0xd001, 0x00 },
-+		{ 0xd002, 0x0e },
-+		{ 0xd005, 0x00 },
-+		{ 0xd00a, 0x59 },
-+		{ 0xd00b, 0x20 },
-+	};
-+
-+	const struct reg_sequence lt9211c_rx_phy_reset_seq[] = {
-+		{ 0x8109, 0xde },
-+		{ 0x8109, 0xdf },
-+	};
-+
-+	const struct reg_sequence lt9211c_rx_clk_sel_seq[] = {
-+		{ 0x85e9, 0x88 },
-+		{ 0x8180, 0x51 },
-+		{ 0x8181, 0x10 },
-+		{ 0x8632, 0x03 },
-+	};
-+
-+	const struct reg_sequence lt9211c_rx_input_sel_seq[] = {
-+		{ 0xd004, 0x00 },
-+		{ 0xd021, 0x46 },
-+	};
-+
-+	const struct reg_sequence lt9211c_rx_dig_seq[] = {
-+		{ 0x853f, 0x08 }, { 0x8540, 0x04 }, { 0x8541, 0x03 },
-+		{ 0x8542, 0x02 }, { 0x8543, 0x01 }, { 0x8545, 0x04 },
-+		{ 0x8546, 0x03 }, { 0x8547, 0x02 }, { 0x8548, 0x01 },
-+		{ 0x8544, 0x00 }, { 0x8549, 0x00 },
-+	};
-+
-+	int ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_rx_phy_seq,
-+				     ARRAY_SIZE(lt9211c_rx_phy_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_rx_phy_reset_seq,
-+				     ARRAY_SIZE(lt9211c_rx_phy_reset_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_rx_clk_sel_seq,
-+				     ARRAY_SIZE(lt9211c_rx_clk_sel_seq));
-+	if (ret)
-+		return ret;
-+	ret = regmap_read(ctx->regmap, 0x8180, &pval);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x8180, ((pval & 0xfc) | 0x03));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(ctx->regmap, 0x8680, &pval);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x863f, (pval & 0xf8));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x863f, 0x05);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(ctx->regmap, 0x8530, &pval);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x8530, ((pval & 0xf8) | 0x11));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_rx_input_sel_seq,
-+				     ARRAY_SIZE(lt9211c_rx_input_sel_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_rx_dig_seq,
-+				     ARRAY_SIZE(lt9211c_rx_dig_seq));
-+	if (ret)
-+		return ret;
-+
-+	/* Give the chip time to lock onto RX stream. */
-+	msleep(100);
-+
-+	return 0;
-+}
-+
-+static int lt9211c_autodetect_rx(struct lt9211 *ctx,
-+				 const struct drm_display_mode *mode)
-+{
-+	u16 width, height;
-+	u8 buf[5];
-+	u8 format;
-+	u8 sot[8];
-+	int ret;
-+
-+	/* Read the SOT from the chip. */
-+	ret = regmap_bulk_read(ctx->regmap, 0xd088, sot, sizeof(sot));
-+	if (ret)
-+		return ret;
-+
-+	dev_dbg(ctx->dev, "Sot Num = 0x%02x, 0x%02x, 0x%02x, 0x%02x\n", sot[0],
-+		sot[2], sot[4], sot[6]);
-+
-+	dev_dbg(ctx->dev, "Sot Data = 0x%02x, 0x%02x, 0x%02x, 0x%02x\n", sot[1],
-+		sot[3], sot[5], sot[7]);
-+	/* HS Settle Set */
-+	if ((sot[0] > 0x10) && (sot[0] < 0x50))
-+		regmap_write(ctx->regmap, 0xd002, sot[0] - 5);
-+	else
-+		regmap_write(ctx->regmap, 0xd002, 0x08);
-+
-+	/* Width/Height/Format Auto-detection */
-+	ret = regmap_bulk_read(ctx->regmap, 0xd082, buf, sizeof(buf));
-+	if (ret)
-+		return ret;
-+	width = (buf[0] << 8) | buf[1];
-+	height = (buf[3] << 8) | buf[4];
-+	format = buf[2] & 0xf;
-+
-+	if (format == 0x3) { /* YUV422 16bit */
-+		width /= 2;
-+	} else if (format == 0xa) { /* RGB888 24bit */
-+		width /= 3;
-+	} else {
-+		dev_err(ctx->dev, "Unsupported DSI format 0x%01x\n", format);
-+		return -EINVAL;
-+	}
-+
-+	if (width != mode->hdisplay) {
-+		dev_err(ctx->dev,
-+			"RX: Detected DSI width (%d) does not match mode hdisplay (%d)\n",
-+			width, mode->hdisplay);
-+		return -EINVAL;
-+	}
-+
-+	if (height != mode->vdisplay) {
-+		dev_err(ctx->dev,
-+			"RX: Detected DSI height (%d) does not match mode vdisplay (%d)\n",
-+			height, mode->vdisplay);
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(ctx->dev, "RX: %dx%d format=0x%01x\n", width, height, format);
-+	return 0;
-+}
-+
-+static int lt9211c_configure_timing(struct lt9211 *ctx,
-+				    const struct drm_display_mode *mode)
-+{
-+	const struct reg_sequence lt9211c_timing[] = {
-+		{ 0xd00d, (mode->vtotal >> 8) & 0xff },
-+		{ 0xd00e, mode->vtotal & 0xff },
-+		{ 0xd00f, (mode->vdisplay >> 8) & 0xff },
-+		{ 0xd010, mode->vdisplay & 0xff },
-+		{ 0xd011, (mode->htotal >> 8) & 0xff },
-+		{ 0xd012, mode->htotal & 0xff },
-+		{ 0xd013, (mode->hdisplay >> 8) & 0xff },
-+		{ 0xd014, mode->hdisplay & 0xff },
-+		{ 0xd015, (mode->vsync_end - mode->vsync_start) & 0xff },
-+		{ 0xd04c, ((mode->hsync_end - mode->hsync_start) >> 8) & 0xff },
-+		{ 0xd016, (mode->hsync_end - mode->hsync_start) & 0xff },
-+		{ 0xd017, ((mode->vsync_start - mode->vdisplay) >> 8) & 0xff },
-+		{ 0xd018, (mode->vsync_start - mode->vdisplay) & 0xff },
-+		{ 0xd019, ((mode->hsync_start - mode->hdisplay) >> 8) & 0xff },
-+		{ 0xd01a, (mode->hsync_start - mode->hdisplay) & 0xff },
-+	};
-+
-+	return regmap_multi_reg_write(ctx->regmap, lt9211c_timing,
-+				      ARRAY_SIZE(lt9211c_timing));
-+}
-+
-+static int lt9211c_configure_plls(struct lt9211 *ctx,
-+				  const struct drm_display_mode *mode)
-+{
-+	const struct reg_sequence lt9211c_dessc_pll_reset[] = {
-+		{ 0x8103, 0xfe, 2000 },
-+		{ 0x8103, 0xff, 0 },
-+	};
-+
-+	const struct reg_sequence lt9211c_pcr_cali_seq[] = {
-+		{ 0xd00a, 0x5f }, { 0xd01e, 0x51 }, { 0xd023, 0x80 },
-+		{ 0xd024, 0x70 }, { 0xd025, 0x80 }, { 0xd02a, 0x10 },
-+		{ 0xd021, 0x4f }, { 0xd022, 0xf0 }, { 0xd038, 0x04 },
-+		{ 0xd039, 0x08 }, { 0xd03a, 0x10 }, { 0xd03b, 0x20 },
-+		{ 0xd03f, 0x04 }, { 0xd040, 0x08 }, { 0xd041, 0x10 },
-+		{ 0xd042, 0x20 }, { 0xd02b, 0xA0 },
-+	};
-+
-+	const struct reg_sequence lt9211c_pcr_reset_seq[] = {
-+		{ 0xd009, 0xdb },
-+		{ 0xd009, 0xdf },
-+		{ 0xd008, 0x80 },
-+		{ 0xd008, 0x00 },
-+	};
-+
-+	unsigned int pval;
-+	int ret;
-+	u8 div;
-+	u32 pcr_m;
-+	u32 pcr_k;
-+	u32 pcr_up;
-+	u32 pcr_down;
-+
-+	/* DeSSC PLL reference clock is 25 MHz XTal. */
-+	ret = regmap_write(ctx->regmap, 0x8226, 0x20);
-+	if (ret)
-+		return ret;
-+
-+	/* Prediv = 0 */
-+	ret = regmap_write(ctx->regmap, 0x8227, 0x40);
-+	if (ret)
-+		return ret;
-+
-+	if (mode->clock < 22000) {
-+		ret = regmap_write(ctx->regmap, 0x822f, 0x07);
-+		ret |= regmap_write(ctx->regmap, 0x822c, 0x01);
-+		div = 16;
-+	} else if (mode->clock < 44000) {
-+		ret = regmap_write(ctx->regmap, 0x822f, 0x07);
-+		div = 16;
-+	} else if (mode->clock < 88000) {
-+		ret = regmap_write(ctx->regmap, 0x822f, 0x06);
-+		div = 8;
-+	} else if (mode->clock < 176000) {
-+		ret = regmap_write(ctx->regmap, 0x822f, 0x05);
-+		div = 4;
-+	} else {
-+		ret = regmap_write(ctx->regmap, 0x822f, 0x04);
-+		div = 2;
-+	}
-+
-+	if (ret)
-+		return ret;
-+
-+	pcr_m = (mode->clock * div) / 25;
-+	pcr_k = pcr_m % 1000;
-+	pcr_m /= 1000;
-+
-+	pcr_up = pcr_m + 1;
-+	pcr_down = pcr_m - 1;
-+
-+	pcr_k <<= 14;
-+
-+	ret = regmap_write(ctx->regmap, 0xd008, 0x00);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0xd026: pcr_m */
-+	ret = regmap_write(ctx->regmap, 0xd026, (0x80 | (u8)pcr_m) & 0x7f);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0xd027 0xd028 0xd029: pcr_k */
-+	ret = regmap_write(ctx->regmap, 0xd027, (pcr_k >> 16) & 0xff);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0xd028, (pcr_k >> 8) & 0xff);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0xd029, pcr_k & 0xff);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0xd02d: pcr_m overflow limit setting */
-+	ret = regmap_write(ctx->regmap, 0xd02d, pcr_up);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0xd031: pcr_m underflow limit setting */
-+	ret = regmap_write(ctx->regmap, 0xd031, pcr_down);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_dessc_pll_reset,
-+				     ARRAY_SIZE(lt9211c_dessc_pll_reset));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_pcr_cali_seq,
-+				     ARRAY_SIZE(lt9211c_pcr_cali_seq));
-+	if (ret)
-+		return ret;
-+
-+	if (mode->clock < 44000) {
-+		ret = regmap_write(ctx->regmap, 0xd00c, 0x60);
-+		ret |= regmap_write(ctx->regmap, 0xd01b, 0x00);
-+		ret |= regmap_write(ctx->regmap, 0xd01c, 0x60);
-+	} else {
-+		ret = regmap_write(ctx->regmap, 0xd00c, 0x40);
-+		ret |= regmap_write(ctx->regmap, 0xd01b, 0x00);
-+		ret |= regmap_write(ctx->regmap, 0xd01c, 0x40);
-+	}
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_pcr_reset_seq,
-+				     ARRAY_SIZE(lt9211c_pcr_reset_seq));
-+	if (ret)
-+		return ret;
-+
-+	/* PCR stability test takes seconds. */
-+	ret = regmap_read_poll_timeout(ctx->regmap, 0xd087, pval,
-+				       ((pval & 0x18) == 0x18), 20000, 3000000);
-+	if (ret)
-+		dev_err(ctx->dev, "PCR unstable, ret=%i\n", ret);
-+
-+	ret = regmap_write(ctx->regmap, 0x8180, 0x51);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x863f, 0x00);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x863f, 0x01);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read_poll_timeout(ctx->regmap, 0x8640, pval,
-+				       ((pval & 0x01) == 0x01), 50000, 250000);
-+	if (ret)
-+		dev_err(ctx->dev, "Video check not stable, ret=%i\n", ret);
-+
-+	return ret;
-+}
-+
-+static int lt9211c_configure_tx(struct lt9211 *ctx,
-+				const struct drm_display_mode *mode)
-+{
-+	const struct reg_sequence lt9211c_tx_phy_off_seq[] = {
-+		{ 0x8236, 0x00 },
-+		{ 0x8237, 0x00 },
-+		{ 0x8108, 0x6f },
-+		{ 0x8103, 0xbf },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_phy_seq[] = {
-+		{ 0x8236, 0x03 }, { 0x8237, 0x44 }, { 0x8238, 0x14 },
-+		{ 0x8239, 0x31 }, { 0x823a, 0xc8 }, { 0x823b, 0x00 },
-+		{ 0x823c, 0x0f }, { 0x8246, 0x40 }, { 0x8247, 0x40 },
-+		{ 0x8248, 0x40 }, { 0x8249, 0x40 }, { 0x824a, 0x40 },
-+		{ 0x824b, 0x40 }, { 0x824c, 0x40 }, { 0x824d, 0x40 },
-+		{ 0x824e, 0x40 }, { 0x824f, 0x40 }, { 0x8250, 0x40 },
-+		{ 0x8251, 0x40 },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_mltx_reset[] = {
-+		{ 0x8103, 0xbf },
-+		{ 0x8103, 0xff },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_dig_seq[] = {
-+		{ 0x854a, 0x01 },
-+		{ 0x854b, 0x00 },
-+		{ 0x854c, 0x10 },
-+		{ 0x854d, 0x20 },
-+		{ 0x854e, 0x50 },
-+		{ 0x854f, 0x30 },
-+		{ 0x8550, 0x46 },
-+		{ 0x8551, 0x10 },
-+		{ 0x8552, 0x20 },
-+		{ 0x8553, 0x50 },
-+		{ 0x8554, 0x30 },
-+		{ 0x8555, 0x00 },
-+		{ 0x8556, 0x20 },
-+
-+		{ 0x8568, 0x00 },
-+		{ 0x856e, 0x10 | (ctx->de ? BIT(6) : 0) },
-+		{ 0x856f, 0x81 | (ctx->jeida ? BIT(6) : 0) |
-+				  (ctx->lvds_dual_link ? BIT(4) : 0) |
-+				  (ctx->bpp24 ? BIT(2) : 0) },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_ssc_seq[] = {
-+		{ 0x8234, 0x00 }, { 0x856e, 0x10 }, { 0x8181, 0x15 },
-+		{ 0x871e, 0x00 }, { 0x8717, 0x02 }, { 0x8718, 0x04 },
-+		{ 0x8719, 0xd4 }, { 0x871A, 0x00 }, { 0x871B, 0x12 },
-+		{ 0x871C, 0x00 }, { 0x871D, 0x24 }, { 0x871F, 0x1c },
-+		{ 0x8720, 0x00 }, { 0x8721, 0x00 }, { 0x871e, 0x02 },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_pll_reset_seq[] = {
-+		{ 0x810c, 0xfe, 2000 },
-+		{ 0x810c, 0xff, 0 },
-+	};
-+
-+	const struct reg_sequence lt9211c_tx_sw_reset_seq[] = {
-+		{ 0x8108, 0x6f, 2000 },
-+		{ 0x8108, 0x7f, 0 },
-+	};
-+
-+	unsigned int pval;
-+	int ret;
-+	u32 phy_clk;
-+	u8 pixclk_div;
-+	u8 pre_div;
-+	u8 div_set;
-+	u8 sericlk_div;
-+	u8 val;
-+
-+	dev_info(ctx->dev,
-+		 "dual_link=%d,even_odd_swap=%d,bpp24=%d,jeida=%d,de=%d\n",
-+		 ctx->lvds_dual_link, ctx->lvds_dual_link_even_odd_swap,
-+		 ctx->bpp24, ctx->jeida, ctx->de);
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_phy_off_seq,
-+				     ARRAY_SIZE(lt9211c_tx_phy_off_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(ctx->regmap, 0x8530, &pval);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x8530, ((pval & 0x3f) | 0x40));
-+	if (ret)
-+		return ret;
-+
-+	/* [7]0:txpll normal work; txpll ref clk sel pix clk */
-+	ret = regmap_write(ctx->regmap, 0x8230, 0x00);
-+	if (ret)
-+		return ret;
-+
-+	if (ctx->lvds_dual_link)
-+		phy_clk = (u32)(mode->clock * 7 / 2);
-+	else
-+		phy_clk = (u32)(mode->clock * 7);
-+
-+	/* 0x8231: prediv sel */
-+	if (mode->clock < 20000) {
-+		val = 0x28;
-+		pre_div = 1;
-+	} else if (mode->clock < 40000) {
-+		val = 0x28;
-+		pre_div = 1;
-+	} else if (mode->clock < 80000) {
-+		val = 0x29;
-+		pre_div = 2;
-+	} else if (mode->clock < 160000) {
-+		val = 0x2a;
-+		pre_div = 4;
-+	} else if (mode->clock < 320000) {
-+		val = 0x2b;
-+		pre_div = 8;
-+	} else {
-+		val = 0x2f;
-+		pre_div = 16;
-+	}
-+	ret = regmap_write(ctx->regmap, 0x8231, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0x8232: serickdiv sel */
-+	if (phy_clk < 80000) {
-+		val = 0x32;
-+		sericlk_div = 16;
-+	} else if (phy_clk < 160000) {
-+		val = 0x22;
-+		sericlk_div = 8;
-+	} else if (phy_clk < 320000) {
-+		val = 0x12;
-+		sericlk_div = 4;
-+	} else if (phy_clk < 640000) {
-+		val = 0x02;
-+		sericlk_div = 2;
-+	} else {
-+		val = 0x42;
-+		sericlk_div = 1;
-+	}
-+	ret = regmap_write(ctx->regmap, 0x8232, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0x8233: pix_mux sel & pix_div sel
-+	 * To avoid floating point operations, The pixclk_div is enlarged by 10 times
-+	 */
-+	if (mode->clock > 150000) {
-+		val = 0x04;
-+		pixclk_div = 35;
-+	} else {
-+		pixclk_div =
-+			(u8)((phy_clk * sericlk_div * 10) / (mode->clock * 7));
-+		if (pixclk_div <= 10)
-+			val = 0x00;
-+		else if (pixclk_div <= 20)
-+			val = 0x01;
-+		else if (pixclk_div <= 40)
-+			val = 0x02;
-+		else
-+			val = 0x03;
-+	}
-+	ret = regmap_write(ctx->regmap, 0x8233, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(ctx->regmap, 0x8234, 0x01);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* 0x8235: div set */
-+	div_set = (u8)(phy_clk * sericlk_div / mode->clock / pre_div);
-+	ret = regmap_write(ctx->regmap, 0x8235, div_set);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_ssc_seq,
-+				     ARRAY_SIZE(lt9211c_tx_ssc_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_pll_reset_seq,
-+				     ARRAY_SIZE(lt9211c_tx_pll_reset_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read_poll_timeout(ctx->regmap, 0x8739, pval, pval & 0x04,
-+				       10000, 1000000);
-+	if (ret) {
-+		dev_err(ctx->dev, "TX PLL unstable, ret=%i\n", ret);
-+		return ret;
-+	}
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_phy_seq,
-+				     ARRAY_SIZE(lt9211c_tx_phy_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_mltx_reset,
-+				     ARRAY_SIZE(lt9211c_tx_mltx_reset));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_dig_seq,
-+				     ARRAY_SIZE(lt9211c_tx_dig_seq));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_multi_reg_write(ctx->regmap, lt9211c_tx_sw_reset_seq,
-+				     ARRAY_SIZE(lt9211c_tx_sw_reset_seq));
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void lt9211_delayed_work_func(struct work_struct *work)
-+{
-+	struct delayed_work *dw = to_delayed_work(work);
-+	struct lt9211 *ctx = container_of(dw, struct lt9211, lt9211_dw);
-+	int ret;
-+	const struct drm_display_mode *mode = &ctx->mode;
-+
-+	/* For LT9211C */
-+	if (ctx->chip_type == LT9211C) {
-+		ret = lt9211c_configure_rx(ctx);
-+		if (ret)
-+			return;
-+		ret = lt9211c_autodetect_rx(ctx, mode);
-+		if (ret)
-+			return;
-+		ret = lt9211c_configure_timing(ctx, mode);
-+		if (ret)
-+			return;
-+		ret = lt9211c_configure_plls(ctx, mode);
-+		if (ret)
-+			return;
-+		ret = lt9211c_configure_tx(ctx, mode);
-+		if (ret)
-+			return;
-+	} else {
-+		dev_err(ctx->dev, "LT9211: Delayed work called for non-LT9211C chip\n");
-+	}
-+}
-+
-+static struct i2c_device_id lt9211_id[] = {
- 	{ "lontium,lt9211" },
-+	{ "lontium,lt9211c" },
- 	{},
- };
- MODULE_DEVICE_TABLE(i2c, lt9211_id);
- 
- static const struct of_device_id lt9211_match_table[] = {
- 	{ .compatible = "lontium,lt9211" },
-+	{ .compatible = "lontium,lt9211c" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, lt9211_match_table);
-
++	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+new file mode 100644
+index 000000000000..35f8140095f4
+--- /dev/null
++++ b/include/trace/events/dma_buf.h
+@@ -0,0 +1,157 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM dma_buf
++
++#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DMA_BUF_H
++
++#include <linux/dma-buf.h>
++#include <linux/tracepoint.h>
++
++DECLARE_EVENT_CLASS(dma_buf,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino)
++);
++
++DECLARE_EVENT_CLASS(dma_buf_attach_dev,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev),
++
++	TP_STRUCT__entry(
++		__string(dev_name, dev_name(dev))
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(struct dma_buf_attachment *, attach)
++		__field(bool, is_dynamic)
++	),
++
++	TP_fast_assign(
++		__assign_str(dev_name);
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->is_dynamic = is_dynamic;
++		__entry->attach = attach;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->attach,
++		  __entry->is_dynamic,
++		  __get_str(dev_name))
++);
++
++DECLARE_EVENT_CLASS(dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(int, fd)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->fd = fd;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->fd)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_export,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_put,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_get,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++#endif /* _TRACE_DMA_BUF_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
 2.34.1
 
