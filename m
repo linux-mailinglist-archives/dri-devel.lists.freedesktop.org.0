@@ -2,37 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF492CCA3DE
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 05:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F65CCA3E1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 05:13:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2583F10E1B7;
-	Thu, 18 Dec 2025 04:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5054410E1C0;
+	Thu, 18 Dec 2025 04:13:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="FP0DIXR4";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="MHKqYEp3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
- Thu, 18 Dec 2025 04:13:33 UTC
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F047810E1B7
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 04:13:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2355310E1C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 04:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1766031214; x=1797567214;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nRePnQVf3FH7P7GpbLTar6MURmKFpPUdjJe2cr+xuSQ=;
- b=FP0DIXR4YZn8MeEx28N1JF6vtnuADUxxnunqiR2rkblMd0CcY8GsCvGz
- YOpIZFNHzq62X/lcDlHB8mf/sbFwcM9hGTSs23Kjtkn5NM9o2KLER9uc9
- afhbYOY9poWR/mav46tYnE2F/MaHzKBQaZnTT7257rg1LUwka/wk18C2N
- aaWsoInqiX15hAsPqCQ0jgRKS0l7Lksxo+FGd0nGZKdIYj0x2a7phhtia
- +bqYvZFuyWjQr7NUqx/QDxvLVe+1Ha8AkEwHqsjX8PqtBi7fMBARLg61N
- 8+n6c/HsVujNW6UKBNCoIR0TzGq4aEWpkY3EvVw/f32zf9rQOKO/JdBoP g==;
+ bh=fHqzKejP7qJiygVDY63xTyki7o9eNbsND63wxWO5RGg=;
+ b=MHKqYEp3KotlPwnf1AfO//1Tc9YwZ3KjuwlThKmIfjErzPAIGlug4Qj0
+ gLIt+g+xNftOMccrpoOObd5FYtY+3YIa9Nh0BqWebAp8m2QRv+iJb5fy0
+ dY4ovxe6jY9DoWD/Vgi66EVgPJpLTcxmrTY03UaPQ4iQvzMNi3OZHlwBR
+ qdPOkMnfaYYWwnK8oyAl4u9L14uBpgBftYMpHSR4gooa4Pfh2TSIoOMcG
+ d+oix8cCM8fhWtx6NPyqJjFDPTiofibCBntbZIdFZX5nIeJ9cKkKs3l6S
+ ZVPNjNJOMftXGOEyq7h+rJND36nF2ijZqEdpdUSmYCfZU7F/DZW/jhafm Q==;
 X-CSE-ConnectionGUID: 8d83aKyqR/m/457MXLOS1w==
-X-CSE-MsgGUID: jnoObdg+SLKDcH+b/+aY7g==
-X-IronPort-AV: E=Sophos;i="6.21,156,1763449200"; d="scan'208";a="282081579"
+X-CSE-MsgGUID: d4FCTZLRQgCwLnJkci0sgQ==
+X-IronPort-AV: E=Sophos;i="6.21,156,1763449200"; d="scan'208";a="282081582"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
@@ -40,10 +38,10 @@ Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 17 Dec 2025 21:05:43 -0700
+ 15.1.2507.58; Wed, 17 Dec 2025 21:05:54 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 17 Dec 2025 21:05:36 -0700
+ 15.1.2507.58 via Frontend Transport; Wed, 17 Dec 2025 21:05:47 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <lee@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
  <conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
@@ -54,10 +52,10 @@ To: <lee@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
 CC: Ryan Wanner <Ryan.Wanner@microchip.com>
-Subject: [PATCH v2 2/3] mfd: atmel-hlcdc: Add compatible for sama7d65 XLCD
- controller
-Date: Thu, 18 Dec 2025 09:35:20 +0530
-Message-ID: <20251218040521.463937-2-manikandan.m@microchip.com>
+Subject: [PATCH v2 3/3] drm: atmel-hlcdc: add LCD controller layer definition
+ for sama7d65
+Date: Thu, 18 Dec 2025 09:35:21 +0530
+Message-ID: <20251218040521.463937-3-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251218040521.463937-1-manikandan.m@microchip.com>
 References: <20251218040521.463937-1-manikandan.m@microchip.com>
@@ -81,29 +79,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ryan Wanner <Ryan.Wanner@microchip.com>
 
-Add compatible for sama7d65 XLCD controller.
+Add the LCD controller layer definition and atmel_hlcdc_of_match
+entry for sama7d65.
 
 Signed-off-by: Ryan Wanner <Ryan.Wanner@microchip.com>
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
-changes in v2:
-- isolate this change into a dedicated patch
----
- drivers/mfd/atmel-hlcdc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 81 ++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
 
-diff --git a/drivers/mfd/atmel-hlcdc.c b/drivers/mfd/atmel-hlcdc.c
-index 4c4e35d404f3..c3f3d39bf584 100644
---- a/drivers/mfd/atmel-hlcdc.c
-+++ b/drivers/mfd/atmel-hlcdc.c
-@@ -140,6 +140,7 @@ static const struct of_device_id atmel_hlcdc_match[] = {
- 	{ .compatible = "atmel,sama5d4-hlcdc" },
- 	{ .compatible = "microchip,sam9x60-hlcdc" },
- 	{ .compatible = "microchip,sam9x75-xlcdc" },
-+	{ .compatible = "microchip,sama7d65-xlcdc" },
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index dd70894c8f38..3d57a7182c98 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -566,6 +566,83 @@ static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x75 = {
+ 	.ops = &atmel_xlcdc_ops,
+ };
+ 
++static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sama7d65_layers[] = {
++	{
++		.name = "base",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x60,
++		.id = 0,
++		.type = ATMEL_HLCDC_BASE_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.xstride = { 2 },
++			.default_color = 3,
++			.general_config = 4,
++			.disc_pos = 5,
++			.disc_size = 6,
++		},
++		.clut_offset = 0x700,
++	},
++	{
++		.name = "overlay1",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x160,
++		.id = 1,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++		.clut_offset = 0xb00,
++	},
++	{
++		.name = "high-end-overlay",
++		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
++		.regs_offset = 0x360,
++		.id = 2,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x30,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.memsize = 4,
++			.xstride = { 5, 7 },
++			.pstride = { 6, 8 },
++			.default_color = 9,
++			.chroma_key = 10,
++			.chroma_key_mask = 11,
++			.general_config = 12,
++			.csc = 16,
++			.scaler_config = 23,
++			.vxs_config = 30,
++			.hxs_config = 31,
++		},
++		.clut_offset = 0x1300,
++	},
++};
++
++static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sama7d65 = {
++	.min_width = 0,
++	.min_height = 0,
++	.max_width = 2048,
++	.max_height = 2048,
++	.max_spw = 0x3ff,
++	.max_vpw = 0x3ff,
++	.max_hpw = 0x3ff,
++	.fixed_clksrc = true,
++	.is_xlcdc = true,
++	.nlayers = ARRAY_SIZE(atmel_xlcdc_sama7d65_layers),
++	.layers = atmel_xlcdc_sama7d65_layers,
++	.ops = &atmel_xlcdc_ops,
++};
++
+ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 	{
+ 		.compatible = "atmel,at91sam9n12-hlcdc",
+@@ -595,6 +672,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 		.compatible = "microchip,sam9x75-xlcdc",
+ 		.data = &atmel_xlcdc_dc_sam9x75,
+ 	},
++	{
++		.compatible = "microchip,sama7d65-xlcdc",
++		.data = &atmel_xlcdc_dc_sama7d65,
++	},
  	{ /* sentinel */ },
  };
- MODULE_DEVICE_TABLE(of, atmel_hlcdc_match);
+ MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
 -- 
 2.25.1
 
