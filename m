@@ -2,63 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BD8CCCBFE
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 17:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89DBCCC924
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 16:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A6D10EA5B;
-	Thu, 18 Dec 2025 16:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD5010E404;
+	Thu, 18 Dec 2025 15:52:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.b="mboMVR0c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bt6sEqd1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2216 seconds by postgrey-1.36 at gabe;
- Thu, 18 Dec 2025 16:25:56 UTC
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E2810EA5B
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 16:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=p6SJYnp842vCkHQu4i1e9JURGgkIZOc40Ucg7D58Umw=; b=mboMVR0clmVwmOkik7DJ/d1LVk
- GKJTXr137XbyxnXLQy/exMN+xbuxmyL0eErPsCBvcU1/yNaZm8yuJXMN2TnBUjXU692kIrag3X5HN
- dOoxnwA2JdeDW3ZYbUD7ln7d0b764ixHN+w11j8NrtY+sfOEZsVS8DOgcLuu6iyF81By+Nwk3oSMW
- jXOHvbHZHtu66FqVsDPCKCQbQ4g5dEI0K+1rASggpmwLd4u+qWD7BYWQrPsYiS52kUkv1TFv6FgAC
- QRhkKNcK1sUAAb7oO7PoXDCDU+KJiCVRGvIHO3foOFZmvUQZ/aIS2nTvPbmJ29hqkVyquVhreRqSI
- xlLsk5mw==;
-Date: Thu, 18 Dec 2025 16:46:20 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Cc: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, "Jyri Sarha"
- <jyri.sarha@iki.fi>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Russell King"
- <linux@armlinux.org.uk>, "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony
- Lindgren" <tony@atomide.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Markus Schneider-Pargmann" <msp@baylibre.com>,
- "Bajjuri Praneeth" <praneeth@ti.com>, "Louis Chauvet"
- <louis.chauvet@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH v2 03/20] drm/tilcdc: Remove simulate_vesa_sync flag
-Message-ID: <20251218164620.40c0599d@kemnade.info>
-In-Reply-To: <DF0K3BRQKOSI.10X5SMXI1YM60@bootlin.com>
-References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
- <20251211-feature_tilcdc-v2-3-f48bac3cd33e@bootlin.com>
- <DF0K3BRQKOSI.10X5SMXI1YM60@bootlin.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F303110E404;
+ Thu, 18 Dec 2025 15:52:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id ABF3B4043C;
+ Thu, 18 Dec 2025 15:52:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB74C4CEFB;
+ Thu, 18 Dec 2025 15:52:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766073170;
+ bh=sq+km+wvT4DGrv7PkS4uONGlYNLQhbs1OTtEFeLOWqw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Bt6sEqd1SrETZEoMhV+xw1Xf5/RORJDOUqXrGJrEaroGiWDeqK7Uo0S4NTJF9XC2j
+ nA5ogDNI6Ja7u6HckBN6eAKGLZ3MT3aQHvOeXUoLaMYqi4oCdSUDSLkzgolei3ix36
+ YY19napuyMc7QbJpHbA3YB8UFDDPEoxg7+BQLCwkqzNqulWwCDArZPUOAyAmZa2jen
+ pTub+YYddgTTrKzntbRiDyrh/suPBilg0NaGMVp7HHAmAIxVhSeDGMJmXNfQfe+GVe
+ +XCJ5TNhb40nVPRf6ZM3m90Iql/SNNiC10/qTiVI+CZZsRcKEubku+xEpJyNsOCmD6
+ jXmp+SHsa+gCA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: acourbot@nvidia.com, jhubbard@nvidia.com, apopple@nvidia.com,
+ joelagnelf@nvidia.com, aliceryhl@google.com, lossin@kernel.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/4] nova-core Improve pin initializer code
+Date: Thu, 18 Dec 2025 16:50:47 +0100
+Message-ID: <20251218155239.25243-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +57,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Dec 2025 15:20:09 +0100
-"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
+This is a minor series to improve some of the pin initializer code to:
 
-[...]
-> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>  
-> 
-> Code looks good. Based on your testing, which covered both boards currently
-> setting simulate_vesa_sync and boards not setting it:
-> 
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> Still it would be good to have this series, and especially this patch,
-> tested by someone having access to other TI boards.
-> 
-Just that I do not mix up anything:
+1. Reduce redundancy caused by Result<impl PinInit<T, Error>> return
+values with pin_init_scope().
 
-grep tilcdc only gives:
+2. Relocate code that technically fits in the pin initializer into the
+initializer itself.
 
-am335x-base0033.dts:		compatible = "ti,tilcdc,slave";
-am335x-guardian.dts:		compatible = "ti,tilcdc,panel";
-am335x-pdu001.dts:		compatible = "ti,tilcdc,panel";
-am335x-pepper.dts:		compatible = "ti,tilcdc,panel";
-am335x-sbc-t335.dts:		compatible = "ti,tilcdc,panel";
-am335x-sl50.dts:		compatible = "ti,tilcdc,panel";
-am33xx-l4.dtsi:				compatible = "ti,am33xx-tilcdc";
+While, thanks to pin_init_scope(), it is also possible to keep it as is,
+moving appropriate code into the initializer has the advantage that it
+structures the dependencies of fields naturally.
 
-so only am33xx affected? And no omap3/4/5. So apparently nothing
-I can test.
-@Roger: I suspect you have more of these boards than me.
+For instance, intermediate data that is only needed for a single field goes
+into the initializer block of this field, making it obvious that it is not
+needed by anything else.
 
-Regards,
-Andreas
+On the other hand, intermediate data that is needed for multiple fields to
+initialize remains above the initializer, naturally indicating that it is
+needed my multiple fields.
+
+Danilo Krummrich (4):
+  gpu: nova-core: fw: get rid of redundant Result in GspFirmware::new()
+  gpu: nova-core: fw: move appropriate code into pin initializer
+  gpu: nova-core: gsp: get rid of redundant Result in Gsp::new()
+  gpu: nova-core: gsp: move appropriate code into pin initializer
+
+ drivers/gpu/nova-core/firmware/gsp.rs | 134 +++++++++++++-------------
+ drivers/gpu/nova-core/gpu.rs          |   2 +-
+ drivers/gpu/nova-core/gsp.rs          |  73 +++++++-------
+ drivers/gpu/nova-core/gsp/boot.rs     |   5 +-
+ 4 files changed, 106 insertions(+), 108 deletions(-)
+
+
+base-commit: 97cf6bc0abd381fd84e5d8e978322a62a58fb00e
+-- 
+2.52.0
+
