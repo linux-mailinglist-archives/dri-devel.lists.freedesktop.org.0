@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581C5CCA45D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 05:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025ABCCA479
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 06:05:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE6D10E11C;
-	Thu, 18 Dec 2025 04:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0462810E247;
+	Thu, 18 Dec 2025 05:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fOOFsQHB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b3snvwyB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78EA110E247
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 04:54:47 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-34c3cb504efso247133a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 20:54:47 -0800 (PST)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588A810E247
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:05:43 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-34c718c5481so215375a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 21:05:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766033687; x=1766638487; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766034343; x=1766639143; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xHK5p4w9rmxh6ZO12h+SIxOnT7iqZAOHqKFn9os5r5k=;
- b=fOOFsQHBBZG7LiNfvUunyHHSHBP4QdbtJVELCz2LeQsZxAKZ1MwAi24iREaANNJW15
- YE1mVG+Mo6VSalQuFMXWRZ9hPCsXh9acyKtm/DparptAEkLbmX9DK3lqvOBCdPO9krO6
- IeqAyQdg0oK6wM0wnrl52HlI5lN3IkyAW8+V335PT17IBhgKUpISuorViwD6EHQDdgK8
- JgMxXWkIGEzrnhqpot+ZNQfLbPrcDGpOFTWwxKQd/8Z2G05ollGn0SwSF84xGfCMMOPD
- c8e1q2ebnABMkfvutWDouaDoBa2w3ciKxmDQSrW8CastjWhNBEh6boYFC4Da4lw6X6rq
- Kx8Q==
+ bh=LWSTadTXjuXDRHn9BTgPohF2WaIldyC82otQYNGXA34=;
+ b=b3snvwyB77TGknocT7EPg1apiPdll1VSBqeI5Dg8Ul/sDTpqbqFPThXGNWk0gCwda9
+ cjKnfX7755iD5Mdr372nwpuGXGSWmYs15GqAuJVq5/+6F7vKNvD9p15SHnXRh/JNeXYj
+ qG8U27z9CxGCsWo0qro8bJr22AZAtzL5oi4n07YaQZqff+ERQFeTiBaUtMnp8E1P1aRi
+ vDfpe6cq9XAO1l+60SZ540WNFruhNyiLT9CTH9l9+oz9LUrcq5VzgecCZaBnRjWff9Gl
+ Rp0TcNC7O8wSC7spYEqZI8yPKmfBtVVnHq3rLwYjlJxRISm8X+NPfLsuVB+bpkFtaXNu
+ jKZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766033687; x=1766638487;
+ d=1e100.net; s=20230601; t=1766034343; x=1766639143;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xHK5p4w9rmxh6ZO12h+SIxOnT7iqZAOHqKFn9os5r5k=;
- b=hAFf5mgc1NI/jvp09lyQOu6xb43TQCYSS4DGAzBn/AlYDyPIP7DAIuHMXOgVcarfbQ
- XPrSJk/hMkAGyj/90AO0H2XeWwJ09LbbCsX1YZ1wNgZhqXSyd3ZCqQS/4e4p4B6eCA6T
- 1ffSiMzThJy93rVKRmnUnTzstubP2hU90U9VeWVYpu5PnVydancQ85RpPMfKQ/oNEFL/
- JajAcTXIriKJIw2jeBQqb1IXVSEcLhe0EhjoDxWrozl9gAGUR5JZLcKdg/4rnQnpU1cS
- McE8a/m7K3NmEXrAY9D+NzgKdVh7sZpaIs7lUL+hppWBf4iMsJOzdHaSbc9sFTKNQKEG
- B2rw==
+ bh=LWSTadTXjuXDRHn9BTgPohF2WaIldyC82otQYNGXA34=;
+ b=EGPqR6CfsXMaQDmaudP/fdOuYjDBVqmrJSMHVHiUjVbPPVoIPTDjOsLweyehqmcULz
+ L8hH1K0hSWZa24dRU4UWTQKtoqZw6HvrT8wgMpwBXQz4mGueo0VtlZYnYjCtnQb966kH
+ 2fjNkJrv2ALugM+S7F4KpPpGO94Nn+PwsJkxP3xpzOxrfATfxZwAt+cdkpDQfed8Solv
+ MqvFB53udqwToXJB5jJwN1tcmoHcWcV0Nt7cXazY1tWlrFfLM18InfjgK4rda9p6KYXD
+ Ek+bIZAIO4ltC9BBPJTxabjCMLMcF8wATfsjitJGL/uNOv/RLPWS0QZIP7QMhq2caOuv
+ YK1g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYVmZTRcPVKl3NDsxxCrsB7OF0Zyk02CkuoT0o5wYeMEN5FskGp5lQ5nyNa6jy5lCQ1EnHwiQwaCc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+Af2860YdLjLb1Jq9PtrR2XvMXhKjFrm+tT3955iOSDYQejHd
- 2BHKBNXB4XV2Ga23QRv7Ce27nv2b0dH/421bWTLzklvNzlyQPCVA9ipnfuCqi5dWac5ZrZPgyDd
- NZzAcrF/HewYFYBCFIUDeu0H/OEUCLwU=
-X-Gm-Gg: AY/fxX4Esr3F7TpTkpXufRyJwElPjYKPFXlDa+pXb8nbzcabF81i5A+0fEoUxSMDBrh
- w7MH+IwLVy+sKLl3tyueE7sGGFQqHGrt+89/k7Q73uV5Ltga2ipJ3TfE5YWAGgutYhLIyJrkpt1
- m/bhoSQgF83VZrd+KbKP+Zs5HvYKjPLWqWAVQd6B8CK4ddJgCf6OFcrYRbaWaZVt6RxaDVf/UoL
- ev+UkGrydyQXc6+wwYcCEDve4UU8yqLmid9WU8ZR8k9+ePTSylJgqxYEdxjAKAAsGPT/AJl
-X-Google-Smtp-Source: AGHT+IElbeQkzfdNEQ5+r6UPz8XGGX7VhsetvoLCCLSe6asTsrNuMkdbl1Fwwc84EQEVUxDQFxQiUggny9oEvVfFlY0=
-X-Received: by 2002:a17:90a:dfc5:b0:34a:8c77:d386 with SMTP id
- 98e67ed59e1d1-34abd6c7e37mr17728333a91.9.1766033686928; Wed, 17 Dec 2025
- 20:54:46 -0800 (PST)
+ AJvYcCUOGyrhHf2RBFAxfOiQ342GxqJxLBAccbRdMGFxK1XnvWsCuLFK9UVx47a3ziCAVTRVxaIYlMoxwlY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysPsAK5JpU0kbB/PX6qnQ0lWR44pQdfJYA9NNv8dqs4vCPF+m3
+ dPbhwfprYCtMhYgsKGYlXtNPOj117hhIudAQQurzpCjApZu5N0mVT/EvPM8ApHBse0foxHd3zMk
+ slXUcAMXw342qzKQZdGRNCXQYOe2UZwc=
+X-Gm-Gg: AY/fxX4M0CVuVmKL875qXqt17KRTwsPv2QQXv2VlJ68f6aEh1azeCOYqyJGRqrEbN2S
+ 2Bd/X4aJ6PB2jWX9kBmyuUnCehrwb7JJTCAITxp/L1/ZrBdUaLeQ1f5fV2cHHgI1aEYZLmElp+F
+ 1GpugMmaZ7Y4LxSUfDfaEOS6jOlWHNQrgPRKGLt6Wx792DZfjxyzGC9vlOzZ3n8d5gaISxGTBHi
+ m7k1YBaxk+tiBL/t56vebSGzisMbNatErciWqUhEeEjGO+2GYBOpN3wjqWoeIN7dGZRfLh1/SDl
+ oRWzQwY=
+X-Google-Smtp-Source: AGHT+IH1HfWodTUbfEKDFPCeuL1jfgQtfgCWi35lLJZLw/w+t5C2YfigyF+yeqWF3pi6GEKiQecNKxycviPqpGoBjq4=
+X-Received: by 2002:a17:90b:5292:b0:330:6d2f:1b5d with SMTP id
+ 98e67ed59e1d1-34abd77ecd1mr17612128a91.26.1766034342693; Wed, 17 Dec 2025
+ 21:05:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20251217170104.2767939-1-suryasaimadhu369@gmail.com>
  <4f872e73-5961-4cc1-a826-850445235a36@amd.com>
 In-Reply-To: <4f872e73-5961-4cc1-a826-850445235a36@amd.com>
 From: Sai Madhu <suryasaimadhu369@gmail.com>
-Date: Thu, 18 Dec 2025 10:24:33 +0530
-X-Gm-Features: AQt7F2prT7h53eiaLhtGXjbkPDZ31EmY-hSqD3PEyE7Rr_h8917m-JE37SZaFn8
-Message-ID: <CAB0uMAd6e=hd5eqNMyvHULgUxVvrMoJYvA4_wNAFCnwah4hpCg@mail.gmail.com>
+Date: Thu, 18 Dec 2025 10:35:31 +0530
+X-Gm-Features: AQt7F2oFSgLUttEcbNa9YUVxXJJHUalyh16Uomh_P8nokI-kBZlirQhyedRdO9I
+Message-ID: <CAB0uMAekWNGMihw+3=wDbfGrDsH69MgQ88f--jfwCx2yiWm9bQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/amdgpu/dm: Convert IRQ logging to drm_* helpers
 To: Mario Limonciello <mario.limonciello@amd.com>
 Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
@@ -70,7 +71,7 @@ Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  amd-gfx@lists.freedesktop.org, siqueira@igalia.com, wayne.lin@amd.com, 
  roman.li@amd.com, timur.kristof@gmail.com, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="0000000000009221a1064632c2ed"
+Content-Type: multipart/alternative; boundary="000000000000a84e2a064632e9fc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,7 +87,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009221a1064632c2ed
+--000000000000a84e2a064632e9fc
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -296,7 +297,7 @@ m
 >
 >
 
---0000000000009221a1064632c2ed
+--000000000000a84e2a064632e9fc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -551,4 +552,4 @@ info.crtcs[crtc_id];<br>
 <br>
 </blockquote></div>
 
---0000000000009221a1064632c2ed--
+--000000000000a84e2a064632e9fc--
