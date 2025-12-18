@@ -2,78 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F28ECCA773
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 07:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A1DCCA7D1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 07:35:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2707110E5EF;
-	Thu, 18 Dec 2025 06:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B96410E0A5;
+	Thu, 18 Dec 2025 06:35:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BuV1Q+pk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JfK9p9/M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABE610E5EF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:29:03 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2a12ebe4b74so4326625ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 22:29:03 -0800 (PST)
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F098E10E0A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:35:54 +0000 (UTC)
+Received: by mail-dl1-f49.google.com with SMTP id
+ a92af1059eb24-11b6bc976d6so2089045c88.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 22:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766039343; x=1766644143; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766039754; x=1766644554; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hjVQD1IMxRH0umBlmaZVMLvoLBONPloeFCT82Lq3Wpk=;
- b=BuV1Q+pkuJVr1NDchnnoh5IyzFH3RnirZZzwbo1rw0j3kv5w5NdPPpnX5sWlLlRYom
- VR9d4JyXoO4krSyrmGCeDPZHGZc93BCJ7GwaE2kBcsQD/Tqwex/IvuXdhjBetzFNPguC
- e51L6kio7+OayTvbw319grLviykmWhaEFwayUYkNklB71ZqizStyKlIl+qctkF6WxVp7
- 2M8xXIL7o9OCcq62lxVYDhZ9ecgBYbtoAcUCdrt0zNNg0zY630c8AJAJAflN7uv10gHj
- y5VEbwOpnd40FGicwgHQMNpeRmNY5CstxYmixTVQqOcrpDzzPZM+HDQZiKCtSK+L5xBV
- zOQQ==
+ bh=Thn9rn7gE9antg1NpSTp2xr5SDEVaOuwKGs07QhbG4A=;
+ b=JfK9p9/MdaIvbniD81HArnSTGKF3Ja+pE+KBRwYQdCuPvnygNrCiv/6ZPw/VN8BsWx
+ ibVTqmKMCTVTYc66Gug1V37wsiwfJAPKp0nhNWJFiUsnVOAgsiX9+qiZ3z3HqCe1/jsK
+ fS7yHx8blDDwFqfUmUXcwLbF+lcY9mTQc2mMJrYZIoiuzyxsZ36hR/iQzkIlccazXQON
+ MhJClEKj5BOyEFGIo3KnfHptOn9dI2+1s1HCFhPc3QJlIeVX+Adrc/h9nhe0Uccfl9Sl
+ 6BBaWqOGOI4Fmci3leJWvO7cXaofPjbTb802c7hiNMxb7Km9kwBtlxhFga+5/2ruMryQ
+ DPFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766039343; x=1766644143;
+ d=1e100.net; s=20230601; t=1766039754; x=1766644554;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hjVQD1IMxRH0umBlmaZVMLvoLBONPloeFCT82Lq3Wpk=;
- b=FtauLzdq+sQ9PCKiJo87OwdwSXCIkQlHzWsWikGZZpjSjuQNXx1YUBPEf4rU3kqUB1
- 1IuEDCKGFafA7PHjDYqjmc9oUqcPftw8neOJLfnqTvL6rNG5g+iWSA7eWpE0zy1JZSEA
- sx8WLoWWfxm2VRaVyzW2TynG87UlWBbvXKFRuC0dVikfxU+GPDmQ3os5FZcO24n3e+oh
- IXLc7c+J4ngdky65fXAhwSEAvVUWmNW7A8XJ92JiNRrFBLyFNMGH9qpJY6l4PhS5FECa
- OmMbUKJA62czIimHgvDJIa6DYHd9ticQ4vUSMcPaU3KUiV19d2KK4UAeuOOiGvWaVZeH
- /6Kg==
+ bh=Thn9rn7gE9antg1NpSTp2xr5SDEVaOuwKGs07QhbG4A=;
+ b=G38r9dIk4cElYF/UnrQiQutWhDJuta+N6Qx9xZHgIOIjy9XugLtT/aXqZ2zNkNye4/
+ cjYUkgtKIEsAZrqUuKdc+ijrHo3UszgxPBZ2T+QjLAS08HqvJfZrGT7L1y314ReJuELf
+ nKmMgYeLt5PScKh4RbeiyB1hK75jAPSK6/Y9W1E7bbt3giqmXjod53adfMmsQ2meubJW
+ D4ndv8G62PxgqpYACmk1WDS27hUcgmBRb08H0/esMkODCTQy4DA5YU/NUcSTDbS7Wf7K
+ agv6zQ8VwHn+0bcvfavxinOqjftbIlt8IWpjZkaQTslWo2vulEaHTUW+XGh97FsQBsQU
+ g6TQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGHyqodZlQaLeMcxfU9u8VClV40kMRq+3DAJCRUBsSQqUY01Z/QOrihT6AbTaYR2Fz+Ynjj4SaY0I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPAYbDDCXFONvI0kuk9/21R+vntHrJNLq43RUZxa0FDNDlqEYN
- OulnbhT8XPknGbrppSo6kHZJ8A8VnBh+PG3/kXSiHcwnlA8TEGw8krdv
-X-Gm-Gg: AY/fxX5MVZ0u4LPB4uLNHfagPCtxc8FoRNSMNCfYq7e2pjY6FHt4KJRC/Nadfq/DoR6
- M0prZ2ny8WuHsIMEZir22Bx6IOVdq0ahD5AvFH029wmLiDkzMkzn5tMIEBDIiYAJCPGNXGIP9ea
- oYjGLzkhIOzD4zdwhfwQr6xCR/0HJuAX/OyraV27iXlGsPOG/xMS/hWwyYt2LmJ5RrHOC1uzI7W
- fYE+h3+8de4rMOhO+NsXGoV3/9bsD2tzQQflM5qAV+B/0W8wOJK4hgoEmhcbk7gYypldtM6Yvu4
- 1QTqc6iOsL9CENS8U+PoTWzctV25zHpQicNpXIHkONz2dpL/mrk+Wh1/01EfKZlawTv9tToWIoT
- qVJrR4ZE2VHDIDMvpq/9YLHtaEkqAI+LMKivCd35aXMYZ14wApJbR2/0C+DOtzqMciFwTuUkLnT
- 8HhfOOuVnlK0p9Kd8adLe4
-X-Google-Smtp-Source: AGHT+IEkJR6e67q6TXoTlLRSLxdUZKbPYbKKJ8tztKLYDaWuDH6Gch/XODP95EpB/ke25E6NUlAMzw==
-X-Received: by 2002:a17:903:1a87:b0:297:e59c:63cc with SMTP id
- d9443c01a7336-29f23c73363mr222873065ad.35.1766039342643; 
- Wed, 17 Dec 2025 22:29:02 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
+ AJvYcCWkQiUxw/t3MQQvlzES2WGa3N6ffbQmWiKalknGYNe8HizK1N/cuWguk0pxneAAS4bXe3cr/JxioKo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzy+MEETHWpnMZtMOmgxQHKX93ZGqlPcsS5XcDgf5rsHXi85+4v
+ PJa8IIAf6DrseCfXEDxuMy/RUbfOdgg9BM27Bn57durWhheDjiq+Chad
+X-Gm-Gg: AY/fxX54mR8Zw8VrbYphQiYZOBiBxZ2x9pTVAw73wrI28rCXbL5iD2q/9yad6xnmofN
+ SwG4rFmRH8zINVUy7byFbtGP26Pnorha1qmAZibjlkuItsz7rthNSQO9NnHk5E05/0IXxvDJFB5
+ DeC2OzTdtYtDU6qZ1EuNaSUvtb3l95QDbFm6wt2fO0VXSS6uKntq8mG6dnwS5ZHTLpIF92zmrpC
+ O6/HgQhdeuSU57JmSX6Q/qPDHJbhNWSB4Ljn4ZOTuWcx2yVywWcEMFDNwVNG96K/fUaIf6nMkVb
+ QlbM5opTcBgCoKcUhgo3gVjFScyMpne5wq+DSm7Kr0KBjFDp+o8o9uhAS38ueR9Fj5mFkGPW+vR
+ TmoP1kemgNlWykXw8MfSDAHla5rfxQNjvzwtul8UmOeF6AtoFvTlghdBXmpnGrkXaCLcs8wLUFg
+ 5Hi8Fpo1XkJWv0EGaOrgSrtolKY0BGy6zO
+X-Google-Smtp-Source: AGHT+IHqT32jTbFGZMBVzT/uAPnbJ5NJrx5Wxvi4Ox8yJljxGA5EZFJPy5+Fl4TkIutq/eej3fKBPQ==
+X-Received: by 2002:a05:7022:7e08:b0:11e:3e9:3e8f with SMTP id
+ a92af1059eb24-12061965882mr1586882c88.24.1766039753964; 
+ Wed, 17 Dec 2025 22:35:53 -0800 (PST)
+Received: from titanite-d300.amd.com ([165.204.154.57])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2d087c64esm13308265ad.17.2025.12.17.22.28.57
+ a92af1059eb24-12061fcef8esm5062055c88.14.2025.12.17.22.35.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Dec 2025 22:29:00 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org,
- mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org,
- gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v8] dma-buf: add some tracepoints to debug.
-Date: Thu, 18 Dec 2025 14:28:53 +0800
-Message-Id: <20251218062853.819744-1-gxxa03070307@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Wed, 17 Dec 2025 22:35:53 -0800 (PST)
+From: suryasaimadhu <suryasaimadhu369@gmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ amd-gfx@lists.freedesktop.org
+Cc: siqueira@igalia.com, mario.limonciello@amd.com, wayne.lin@amd.com,
+ roman.li@amd.com, timur.kristof@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, suryasaimadhu <suryasaimadhu369@gmail.com>
+Subject: [PATCH] drm/amdgpu/dm: Convert IRQ logging to drm_* helpers
+Date: Thu, 18 Dec 2025 14:35:12 +0800
+Message-ID: <20251218063512.4572-1-suryasaimadhu369@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,319 +89,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+Replace DRM_ERROR(), DRM_WARN(), and DRM_INFO() usage in
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c with the
+corresponding drm_err(), drm_warn(), and drm_info() helpers.
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
+The drm_* logging helpers take a struct drm_device * as their first
+argument, allowing the DRM core to prefix log messages with the
+specific device name and instance. This is required to correctly
+differentiate log messages when multiple AMD GPUs are present.
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+This aligns amdgpu_dm with the DRM TODO item to convert legacy DRM
+logging macros to the device-scoped drm_* helpers while keeping
+debug logging unchanged.
 
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
----
- drivers/dma-buf/dma-buf.c      |  51 ++++++++++-
- include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
- 2 files changed, 206 insertions(+), 2 deletions(-)
- create mode 100644 include/trace/events/dma_buf.h
+v2:
+- Keep validation helpers DRM-agnostic
+- Move drm_* logging to AMDGPU DM callers
+- Use adev_to_drm() for drm_* logging
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..59a5261cb26b 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,28 @@
+Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
+
+diff --git a/Makefile b/Makefile
+index 2f545ec1690f..e404e4767944 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ VERSION = 6
+-PATCHLEVEL = 18
++PATCHLEVEL = 19
+ SUBLEVEL = 0
+-EXTRAVERSION =
++EXTRAVERSION = -rc1
+ NAME = Baby Opossum Posse
  
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+/*
-+ * dmabuf->name must be accessed with holding dmabuf->name_lock.
-+ * we need to take the lock around the tracepoint call itself where
-+ * it is called in the code.
-+ *
-+ * Note: FUNC##_enabled() is a static branch that will only
-+ *       be set when the trace event is enabled.
-+ */
-+#define DMA_BUF_TRACE(FUNC, ...)					\
-+	do {											\
-+		if (FUNC##_enabled()) {						\
-+			guard(spinlock)(&dmabuf->name_lock);	\
-+			FUNC(__VA_ARGS__);						\
-+		} else if (IS_ENABLED(CONFIG_LOCKDEP)) {	\
-+			/* Expose this lock when lockdep is enabled */	\
-+			guard(spinlock)(&dmabuf->name_lock);	\
-+		}											\
-+	} while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +242,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +769,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -768,10 +794,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
-  */
- int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ # *DOCUMENTATION*
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+index 0a2a3f233a0e..60bf1b8d886a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+@@ -242,35 +242,29 @@ validate_irq_registration_params(struct dc_interrupt_params *int_params,
+ 				 void (*ih)(void *))
  {
-+	int fd;
-+
- 	if (!dmabuf || !dmabuf->file)
- 		return -EINVAL;
- 
--	return FD_ADD(flags, dmabuf->file);
-+	fd = FD_ADD(flags, dmabuf->file);
-+	if (fd >= 0)
-+		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
-+	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- 
-@@ -786,6 +818,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -797,7 +830,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
+ 	if (NULL == int_params || NULL == ih) {
+-		DRM_ERROR("DM_IRQ: invalid input!\n");
+ 		return false;
  	}
  
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 	if (int_params->int_context >= INTERRUPT_CONTEXT_NUMBER) {
+-		DRM_ERROR("DM_IRQ: invalid context: %d!\n",
+-				int_params->int_context);
+ 		return false;
+ 	}
  
-@@ -817,6 +854,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 	if (!DAL_VALID_IRQ_SRC_NUM(int_params->irq_source)) {
+-		DRM_ERROR("DM_IRQ: invalid irq_source: %d!\n",
+-				int_params->irq_source);
+ 		return false;
+ 	}
+ 
+ 	return true;
+ }
+ 
+-static bool validate_irq_unregistration_params(enum dc_irq_source irq_source,
+-					       irq_handler_idx handler_idx)
++static bool validate_irq_unregistration_params(
++	enum dc_irq_source irq_source,
++	irq_handler_idx handler_idx)
+ {
+ 	if (handler_idx == DAL_INVALID_IRQ_HANDLER_IDX) {
+-		DRM_ERROR("DM_IRQ: invalid handler_idx==NULL!\n");
+ 		return false;
+ 	}
+ 
+ 	if (!DAL_VALID_IRQ_SRC_NUM(irq_source)) {
+-		DRM_ERROR("DM_IRQ: invalid irq_source:%d!\n", irq_source);
+ 		return false;
+ 	}
+ 
+@@ -305,17 +299,19 @@ void *amdgpu_dm_irq_register_interrupt(struct amdgpu_device *adev,
+ 				       void (*ih)(void *),
+ 				       void *handler_args)
+ {
++	struct drm_device *dev = adev_to_drm(adev);
+ 	struct list_head *hnd_list;
+ 	struct amdgpu_dm_irq_handler_data *handler_data;
+ 	unsigned long irq_table_flags;
+ 	enum dc_irq_source irq_source;
+ 
+ 	if (false == validate_irq_registration_params(int_params, ih))
++		drm_err(dev, "DM_IRQ: invalid registration parameters\n");
+ 		return DAL_INVALID_IRQ_HANDLER_IDX;
+ 
+ 	handler_data = kzalloc(sizeof(*handler_data), GFP_KERNEL);
+ 	if (!handler_data) {
+-		DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
++		drm_err(dev, "DM_IRQ: failed to allocate irq handler!\n");
+ 		return DAL_INVALID_IRQ_HANDLER_IDX;
+ 	}
+ 
+@@ -371,11 +367,13 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdgpu_device *adev,
+ 					enum dc_irq_source irq_source,
+ 					void *ih)
+ {
++	struct drm_device *dev = adev_to_drm(adev);
+ 	struct list_head *handler_list;
+ 	struct dc_interrupt_params int_params;
+ 	int i;
+ 
+ 	if (false == validate_irq_unregistration_params(irq_source, ih))
++		drm_err(dev, "DM_IRQ: invalid unregistration parameters\n");
  		return;
  
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 	memset(&int_params, 0, sizeof(int_params));
+@@ -396,7 +394,7 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdgpu_device *adev,
+ 		/* If we got here, it means we searched all irq contexts
+ 		 * for this irq source, but the handler was not found.
+ 		 */
+-		DRM_ERROR(
++		drm_err(dev,
+ 		"DM_IRQ: failed to find irq handler:%p for irq_source:%d!\n",
+ 			ih, irq_source);
+ 	}
+@@ -596,7 +594,7 @@ static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
+ 		/*allocate a new amdgpu_dm_irq_handler_data*/
+ 		handler_data_add = kzalloc(sizeof(*handler_data), GFP_ATOMIC);
+ 		if (!handler_data_add) {
+-			DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
++			drm_err(adev_to_drm(adev), "DM_IRQ: failed to allocate irq handler!\n");
+ 			return;
+ 		}
  
-@@ -971,6 +1010,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
+@@ -611,11 +609,11 @@ static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
+ 		INIT_WORK(&handler_data_add->work, dm_irq_work_func);
  
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
+ 		if (queue_work(system_highpri_wq, &handler_data_add->work))
+-			DRM_DEBUG("Queued work for handling interrupt from "
++			drm_dbg(adev_to_drm(adev), "Queued work for handling interrupt from "
+ 				  "display for IRQ source %d\n",
+ 				  irq_source);
+ 		else
+-			DRM_ERROR("Failed to queue work for handling interrupt "
++			drm_err(adev_to_drm(adev), "Failed to queue work for handling interrupt "
+ 				  "from display for IRQ source %d\n",
+ 				  irq_source);
+ 	}
+@@ -720,7 +718,7 @@ static inline int dm_irq_state(struct amdgpu_device *adev,
+ 	struct amdgpu_crtc *acrtc = adev->mode_info.crtcs[crtc_id];
  
- err_attach:
-@@ -1015,6 +1057,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1480,6 +1525,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..35f8140095f4
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,157 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(struct dma_buf_attachment *, attach)
-+		__field(bool, is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic = is_dynamic;
-+		__entry->attach = attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(int, fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->fd = fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+ 	if (!acrtc) {
+-		DRM_ERROR(
++		drm_err(adev_to_drm(adev),
+ 			"%s: crtc is NULL at id :%d\n",
+ 			func,
+ 			crtc_id);
 -- 
-2.34.1
+2.43.0
 
