@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46276CCB877
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 12:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87AE2CCB889
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 12:06:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B338C10ED92;
-	Thu, 18 Dec 2025 11:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F08710EE60;
+	Thu, 18 Dec 2025 11:06:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="2+R/q6I8";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="kGC6N5Nj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B7010EDC1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 11:05:43 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-42fbc305552so368234f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 03:05:43 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971A210EE63
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 11:06:30 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4775ae5684fso2012025e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 03:06:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1766055942; x=1766660742;
+ d=google.com; s=20230601; t=1766055989; x=1766660789;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h3ZC/RuhXgR3ZPLee6QKXin6sxuebHRmcV4+nyImDTA=;
- b=2+R/q6I87/sO2+nMfxtXaY1tHPPrP9mRRrg72PtEmuXDzQC3TND9K/iYANsDMcE2+c
- ppOoya8ruIHtWjUkGxpQMB9fVOOe7zfJwwJNAbBJMQ9XHCT7hF9WB4AeP6Uz3pNgBvMc
- HxttmXpfX3NbpY1dtt08kFR1rd1KZtVxMNPDqmWiPmj2LO8RUDbH0qgAr7OxFFSYsm2c
- dkokGVGMe5at4OKMID/whAlRfF8xWb5c1uI0kLvZe9BTD5ixqQncd6p9tAwL1WtvB2X/
- 5pmzQ0MYEhBUrYzj9Jw5f85xn1SEWYeI1ujsqw8HGfLgovOK9sXxVGqg6TzazlKLmugR
- +9jg==
+ bh=YdmSp98VOpb4w/1T9TrcnGT6vsEQNrGtK2z/qAxMy0I=;
+ b=kGC6N5NjuC79ag+Se67nwyJPwl9hM426ltjpUow7XFJysle1ql8fIZ6U3aNUoLw6Bt
+ db1PkYnxPEwwhBBVjawt/Mt2kbDGyy43cez3VhFb4H9CMQoGIiTamH0I4W8HB6qg2Wox
+ 8PMS0VOu77kB0r2Vplr/UAJPU/LiLrbJLCHPoZe4j5D62JZjhh/xPWQ7j+On2AhahV6O
+ RqchS5FwfpVjFaAs7/OlM6r5f/ED06L0L2LUB5D8KWXcSZ/zXwkBHARXrw3U5tWhAmu9
+ hGDZBDQoPX9kEn7mArWeXOJeUCswXLOMDGJgntdneMcsvUcBY34DPq35QIxO0KKRZKi0
+ nAlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766055942; x=1766660742;
+ d=1e100.net; s=20230601; t=1766055989; x=1766660789;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=h3ZC/RuhXgR3ZPLee6QKXin6sxuebHRmcV4+nyImDTA=;
- b=WyfhsacfujGFrsx+wDJKZxi8K+KUTX8tyebQ8Cu0Ph8x2gvQ6RAHSLFxN9weC4RsJm
- xjDTO0XxKMbLCyeXipFUnCrKQGJljQWB5vHTJGuSoq47JTQNJl1TmdH10Ibn1o0a24Xn
- /yVjiB1SRdlygH5NzGrYhQX9F98X2dBqunl689zGMd5vRwTwuE1ZrfVzoQC6TyFb7ELO
- 8wpK7fGZbJU7IMf/QZdB/KBjtLVOr7kAjCJTAADRwCBCr+vfNkpOaMtdp/IxU35PyZFq
- rdFiEGQg0U23WjzLpBfOyXKQIYI3PyJMUaLm678ELHOYEuiFDzH+2KKuYcFf2pLU96Ry
- RYaQ==
+ bh=YdmSp98VOpb4w/1T9TrcnGT6vsEQNrGtK2z/qAxMy0I=;
+ b=rEt5eR3NVILMq4qRnWuzf8PjF8vilyV4l3aBN+bmxIUy633H/MhLshkwIPiyTNLzFT
+ 4Y+DidJDUpzTiu5jHDb8dNlFIxXwRE/ilTJbxjrEX/va2e8q8IqPKtFb5GdXvrPZLgij
+ tRR673LVDXlLrQYzKYFpPI0u20hS2dlVo8BIHnj+GP9OKgHozvs/grSZVwBEn9hRmvFX
+ LOIw0fdhyFeM2V6ONs/QlEXxcpDZh7QLnOpmGP9rPRw67B+iHNd/j08QP8v7N+vzErMg
+ VXcMZp25AU3ZeJLeqvsSHzzHjGWY5rPa02Y+WMQDj37G8DinL8af5mYNoxB8rtcDENul
+ h3VA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd8jZ63XxtJcLueyDiCJ4K+DgQd8UjwVnyldq+mUfNZeWtXUkz24HUFhXdFGX0XI+jkUIHNud5b2I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxpp9Q61oUw0fpWkEDc7ust4djvIcb0TD55mpzRmo/LF9trNYud
- +1g1YihrM40nD4sVcssHpSp7dgPcsuuY1kpMEujTH9XdajdXmhR9oH3LR0DQgGuMIr7+qKxxPE+
- QI3zTDc/u+5lL5OTnpBBLpLgg4ZdCHVVjMG+dhVRS
-X-Gm-Gg: AY/fxX6W6ISUzpL64jMgKWBtOycPRZdbGc486TdbkvCDJTnOj6qZT+BDRIc+FqUAvt6
- vWyRaRGObry7+3oFXUl5uCcajVdMsVMEWwQoNgV0ccjUlAXtugirn67Jlaa1ZAZAfY3g5NI8mkT
- 3aI7y3MHpJWFmPl/nq7gI7jwoShHaU/l7rcr1tcAYzQaNfdvtFKe2m0BvPJ6ObNCUJwPhgzLeKB
- ZzIqOGLOm23jM3KIdSZk34cicVtTDafGkNp8mmhkufG1sH/7ElBPeQ3qH89U0OfhQZuiotTl46V
- cQ/cywEyCGUq+R495VMJ+oPttQ==
-X-Google-Smtp-Source: AGHT+IGXVDKrZjp+NvvA5/qC7WPXryh3eP96No0VLbAfD0dfrQ2PK6CbEoMBAf1PoLDqcVLWFCtzxrT0EkYfUfCTixI=
-X-Received: by 2002:a05:6000:4009:b0:430:f5dc:d34d with SMTP id
- ffacd0b85a97d-430f5dcd49dmr17076013f8f.52.1766055941437; Thu, 18 Dec 2025
- 03:05:41 -0800 (PST)
+ AJvYcCWxZaLLvi6h/T2zl9hg/HxUD0+ADdpJ+cl/PuosvDsFsWMZYYa4MNujLFQaogs8nT6KRGTtAkqR6j0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZpsS46bjGZx9xd1YjSGMjSlZUx323GNy2U0FmXjGVqtqwOk0t
+ eTx+S2wKYP3LJmzE/B8ZNvyIwmKxH948RaXpE0RG6lsl8VLztQTVLYGQrtxi6GxOEqpXv7h14oD
+ JNbwLzNzHIvQNngN0F0TszcFEvV+cfNulgx0BphCy
+X-Gm-Gg: AY/fxX6BQRoWRfdWS+ZyxSYajqIxqfNbUj5vf53483i2/biA4oid2uRNtwcS4JddJ+w
+ aMlqWwha7w03Q6KwP2h59jihy3qaX8EP2e8BtDngoL7gORzdIdLE/v/q4GF4CHQB/CZVLh1f00k
+ 6xCooSe9/lyFuRHi6JjvEtELEK2yqpp1i6znb2EUjNYmNicwpS8NUEDJ2pxmXmLLneDLNR+UIwp
+ Myx6MjvDga5/Zgiilj54f9KSzb6M60ySv+Zv2swLdkPXQG4dx5YtLNmLyw5zsZxNmIvqRyxO8QZ
+ gLUxrOxdF+B+ARuKqgjmQa401Q==
+X-Google-Smtp-Source: AGHT+IHUVbI/1P7zakDM7Wi5UCm2XC9PsUzzgUmoBdz1wcDrZw0JyEjKaERyGFb8Dk6P9ewUvmrPIJy5bf6RJ2inAko=
+X-Received: by 2002:a05:6000:2311:b0:431:266:d150 with SMTP id
+ ffacd0b85a97d-4310266d59dmr10262959f8f.44.1766055988640; Thu, 18 Dec 2025
+ 03:06:28 -0800 (PST)
 MIME-Version: 1.0
-References: <aTV1KYdcDGvjXHos@redhat.com> <aTV1dc-I5vAw6i0n@redhat.com>
-In-Reply-To: <aTV1dc-I5vAw6i0n@redhat.com>
+References: <aTV1KYdcDGvjXHos@redhat.com> <aTV1aJVZ8B8_n2LE@redhat.com>
+In-Reply-To: <aTV1aJVZ8B8_n2LE@redhat.com>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 18 Dec 2025 12:05:29 +0100
-X-Gm-Features: AQt7F2onwZDT6I3RNp-8EABXxVlAZANhhJ-GMV1t61Vpqe-l1BJnOF3T8fFh0Lw
-Message-ID: <CAH5fLgjWQ2+eG=DV-m-1ybfs_Mu1UM2Zj0z8LvU4BbE0m9NXvA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] android/binder: use same_thread_group(proc->tsk,
- current) in binder_mmap()
+Date: Thu, 18 Dec 2025 12:06:16 +0100
+X-Gm-Features: AQt7F2oOZgjISObSjjmOs0kcLH0arkernyhqWoUniY0Q3NRwv2tC-Isq-vwEzQQ
+Message-ID: <CAH5fLgiYyfrwvmPyVGYD=sbsyY_2G5Z3mbfNRDa4uC2PS6iQTQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7] android/binder: don't abuse current->group_leader
 To: Oleg Nesterov <oleg@redhat.com>
 Cc: Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
  Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
@@ -105,12 +104,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 7, 2025 at 1:40=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wrot=
+On Sun, Dec 7, 2025 at 1:39=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wrot=
 e:
 >
-> With or without this change the checked condition can be falsely true
-> if proc->tsk execs, but this is fine: binder_alloc_mmap_handler() checks
-> vma->vm_mm =3D=3D alloc->mm.
+> Cleanup and preparation to simplify the next changes.
+>
+> - Use current->tgid instead of current->group_leader->pid
+>
+> - Use the value returned by get_task_struct() to initialize proc->tsk
 >
 > Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 
