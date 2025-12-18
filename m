@@ -2,139 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E7ECCB97B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 12:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D22FCCBB48
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 13:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36BD10E3CB;
-	Thu, 18 Dec 2025 11:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3272710EEB4;
+	Thu, 18 Dec 2025 12:01:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KeSRamcO";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CR845y4w";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gweqmroe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F8E10E3CB
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 11:23:55 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BIB5S891334982
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 11:23:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- XM3PjRRkgJDLVtvgBlf1yGGi/oXyJmhRngXHmv4Ni6M=; b=KeSRamcO8HYzb+Jd
- 8DbYNGEtSh2mqQ2eIkctswsma5t61Lp7RqIvxNZPNCWCa9GWlyyIbx6LvXVB26RV
- x2GH4wxtBM+eu5MtYUy1N2FLrsQ5pYIM0sf0ZeRXFfAKE4N8CB+a07QIuMLY/JpW
- eWnOdXkjw0qubFHlLebkG73GKf7K5gfpAshYyGU5+9Ow2fE2DpnL9CZXgTejdPLI
- hw5i3MMvNGKL2ySdGFAlwk0l9+dDehUH9ToIyBZMiOYmivS2hapgNRp/XBGeGCWx
- qd4sVpFR+8lqBeqWvyhcLn9Q1S4fX3j6ngfIV12Udv445I+UJ6z5x0kwiVSEBme9
- iWXp+w==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4gec01r4-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 11:23:54 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-88057e35c5bso1382846d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 03:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766057034; x=1766661834;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XM3PjRRkgJDLVtvgBlf1yGGi/oXyJmhRngXHmv4Ni6M=;
- b=CR845y4wXsmo2iyJou+pyxl9Jpik9oLSxv5Ad41B5WsxcTcJhpSXdlTRi5uEGZ0Qlb
- Z56Sof1Piqgn4SvLpm5spoyYZ1zQtbFXvRRVBCBqlo4GvW2ymrc0l/E26G2IHlab3SVO
- 9iySzHwy9NvSobCWHgy/dS2d0u6jSN+tz3NssrtmoARECjsWVBli6QiUEorwvgmBGSRS
- BmsNvw3sxQHn24nlEvI8Kqi1XvKOPuAXu+0XW28WhellEoNEGTL6RSxJQGgWQFjXOU4T
- 8XLJuXmkPINpisJLfCc7mWb+sO1F7IgziGECqYPmKI8RMBdVg2qnVnBbwZN+uLHuLNvh
- igfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766057034; x=1766661834;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XM3PjRRkgJDLVtvgBlf1yGGi/oXyJmhRngXHmv4Ni6M=;
- b=W/1vYr2KgV9R3N5Ckgmdntge1UfC2XJs0FaIXELkbyCyUim+ZxB20Ek7f8xtc9ZHwo
- 72beDyjTSFILAqsJU11g/X4bt7Hc4l6aWtW5Jq7Tc6xa1bu19XtNEXK6dwK1ekbRAvA+
- c72XcCft/kyQJ8BJALUUoDJ0MbSfOIMcm5y+vbexianre0AopNiAzDpkKtMWnXj+eQpO
- lrmj7Z2Z8AqY0geEjeVQIJqpMT5QtufvlkjKkXSQxNbS4VyEfgEZ+CODQC0cWw5O4cY6
- o26fceJSetkKjYKHKCw90EovGKI7CuYYo3JWD79dj3kbL69bJwqoXwwvjf+d8bZ2PWAd
- v2Zw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPYAWI+m8Bcz7Q4HJR0iTVeM7cJlFMklurQGmR66IdOv6reIbUT4oMMCNj8LJxEc7cjv/gZNVCHaw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YygjwN1VpVxOHms6QoXL1VfAQ0b0YyygDDi85xRZY2mh6VQk6yA
- z3YoEvK+BSR3YmfoGp5LSkWFbujoQEF9TjpK6spySPmagumcUz7PTd0+zVC4AxO2FgQw8GX7zud
- WwGsl0yTpKuDwjYmO+JPgtJ21NoYYSwelX+9gaEtW9J3ePgVedBhKa+R7Shn5vIKkVREteSo=
-X-Gm-Gg: AY/fxX4y3xRWiDAE3vQKo5PotjJIHpq2WiTTVyCyI9SjmFL+trOVl41HROr5Az7cTGz
- 9NjP8grXXGC3YXG8NGXGzCBNQbvxEtk/sPpJ3Xu//lvmy50XyFXWwqReuCMHMOddAszGO4H7lJI
- Clqtl2BIT88jVXYMaRzcl4u7eKIbuPA1lt91temgzc1az0P8TvKMD3cN7jF31SA7s8QLzECgkFq
- ShCziQv37jdMQ/5UJ3O+060LQcmAa9GSaMzWKxZwsY6QY5s1tO+FtuxXgptidbT6ioKCB6MvEPg
- pJrMfqGdgHjqG2NEfo4q5tOMOfJtSvmIl+3cOuglm6REbzuvn6DcbhKo7cRH9oVtW+GuMbIa5Qw
- VOalm+eSQ7n1UE/mZPqP/Xp3M0lxj5RPN8i9qLrOIRK9YiN2iiMaB/CXLDTOzmKJbZg==
-X-Received: by 2002:a05:6214:2023:b0:882:63cf:3970 with SMTP id
- 6a1803df08f44-88c9770bd12mr18182336d6.1.1766057033617; 
- Thu, 18 Dec 2025 03:23:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE/tvDYCoy3mFqOPD7fGTgiVRBpPOULT1Lah31cAzxTWH9nDj15BUCPMDBDM0NtBT/HmoVqzg==
-X-Received: by 2002:a05:6214:2023:b0:882:63cf:3970 with SMTP id
- 6a1803df08f44-88c9770bd12mr18182046d6.1.1766057033159; 
- Thu, 18 Dec 2025 03:23:53 -0800 (PST)
-Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64b585d1d61sm2335297a12.9.2025.12.18.03.23.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Dec 2025 03:23:52 -0800 (PST)
-Message-ID: <24f29ff0-99d0-4175-a6c9-f402ce99f645@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 12:23:49 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B5610EEB4;
+ Thu, 18 Dec 2025 12:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766059266; x=1797595266;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=uOmICw8FV3ANBcPhNzLl/0T6OerzPRwsFJM4ApbloVA=;
+ b=gweqmroeQ6hx2P7scZotmO/wbSzRXD883Vub/CuE1Wm2P3LzFX02Ei8W
+ 4t9/lgwPqt3dvLsaO57gwEujW4dAETlvomifYmuCltVDbCnY60QUzNUo1
+ Lh4mNlwM9LyQvT77xVZy2o7UBROTWiAGVFd6uR8lHMz3Cmj4fOoGxdx03
+ 1lNM+wmBrFHPgAYBF/7X6e2kytG/RWvLCUJ7tuw/EfbM1ss35vbf3QU7l
+ mFEwUw/dpTqzmXeCG6SzEuYSJ9mqzP0zwLmLlJYABvNOKJUGlYNHaccs3
+ pND79D7XK+r3dLGUjPoquQEEYJXs7naUYR91FSxZv2YGM1AyFX6fFfkx3 Q==;
+X-CSE-ConnectionGUID: vXdr2gIaRWmkpsfEyx2boA==
+X-CSE-MsgGUID: awMro1ftS2q8wbHdpIC6qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79133969"
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="79133969"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 04:01:05 -0800
+X-CSE-ConnectionGUID: SLN+duhyQVC49bIVgvCclw==
+X-CSE-MsgGUID: cOa/j4ERRZ6ZXy3SoA8zOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="197828109"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 04:01:06 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 18 Dec 2025 04:01:04 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Thu, 18 Dec 2025 04:01:04 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.31) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 18 Dec 2025 04:01:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W1ZEgykwRsuwQEbGFnPDXizGI0wRfvWUnNtqF4DACKDI8W8LVJWhgNy30hs4PiPgWvzWaYqVQwhOKIIJcT49R7Ky/54lQdjB0Wt947Htw5QKNu5/oD8FcdAV0OX/5eaHWCJtYJdzTdFWTa/6RZhooimlokAKOr8Foz/37HljnhC3zEn7L++NQjTG/MpsGAaJQNvMIcfaOgXS8hTLgYK5kCbs3YpvxWYqoIqKJPXFIbIePM5qC3ZoBJf6+dD81SOX/YZeN1elYG0YLneVq8lrEY1HrhlmVVQGsqw78bpzmQONd7yL++QqYSvMrgEdgShsFY0i3EsxXbIqFQFxbL5QIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E2tA1/uRr5IdpKp7St2qCtaIcAz2vxMJXonS8VrINj0=;
+ b=PveKDLLGKlhc/+/O1w+RIBnlqGIBVAyX/KJzPj1AAtq9ov2XFDKs1mD0E+d4kbUz1tTfHaKoU+mt2LxrBpJITSmapt7f7nFBw3UuCs+0uxI1JYe5L7EtWtovoKredcAUPpbaMB3bEX/9yUkvorKxb/5H+WCkvRRiv0r7X4p50c+L70pwntSOOGViPHZECTToB6tqKeoOcN9vWWJNbpsHyc0dx7rh0LVLcoOyIJOEJVQbPlup8Dr7JYuSiWjNVWt4pbK9cgyT9XwoVVx+8p4yIqpiMfikZ92CTBvTZTTyQYf/GibOnbNXYAD9R6CsFYhBxHKazjD3v9QIuIGEBwdDxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by CY5PR11MB6365.namprd11.prod.outlook.com (2603:10b6:930:3b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Thu, 18 Dec
+ 2025 12:01:00 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 12:01:00 +0000
+Date: Thu, 18 Dec 2025 14:00:39 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ "Jani Nikula" <jani.nikula@intel.com>
+CC: Ankit K Nautiyal <ankit.k.nautiyal@intel.com>, Luciano Coelho
+ <luciano.coelho@intel.com>, Jouni Hogander <jouni.hogander@intel.com>, "Vinod
+ Govindapillai" <vinod.govindapillai@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH 00/16] drm/i915/dp: Clean up link BW/DSC slice config
+ computation (fixes)
+Message-ID: <aUPs5_Qc9k-7Jesu@ideak-desk>
+References: <20251215192357.172201-1-imre.deak@intel.com>
+ <aUGW6XAOyXlhfy4H@ideak-desk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aUGW6XAOyXlhfy4H@ideak-desk>
+X-ClientProxiedBy: LO4P123CA0111.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::8) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/mdp5: drop support for MSM8998, SDM630 and SDM660
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Alexey Minnekhanov <alexeymin@postmarketos.org>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Sajna <sajattack@postmarketos.org>, barnabas.czeman@mainlining.org
-References: <20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com>
- <8e1d33ff-d902-4ae9-9162-e00d17a5e6d1@postmarketos.org>
- <dcapydafye2v6owrkehngivqlucjcx6aa3sszszflh3ocm7dpq@qsajm2qkc52d>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <dcapydafye2v6owrkehngivqlucjcx6aa3sszszflh3ocm7dpq@qsajm2qkc52d>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: CvHBGZbid2d7pN_rexZG2mDAoP64DMpQ
-X-Authority-Analysis: v=2.4 cv=V51wEOni c=1 sm=1 tr=0 ts=6943e44a cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=cLwkmEU5_4-cEt2YZAUA:9
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDA5MyBTYWx0ZWRfXxCJz9t6QnUsG
- 3krGE3oekqd3MdDAVvcjEbCAuTwnOD/nSzC1S/k8zsdyJ2lLDWHIQzz9rqcddRkzkgoXcKqsPaS
- ZK3hr/g9pEQ2H6yEG6tbeGndfQfG2qLVefdSkcncjWuCoDJxfKjVKSw7ZspjdVTDYgRhKGtHy/H
- nWnFRQCEoCqHu34gCEqB52ehzZLQJcMW4R5RPImRmD15wP31UaGcZ0BoupikAb6Ta/3ii/+z2Je
- d6WLEvh310vIYNf5H5bvr75CdjLWhQaHsfhHSg1muE5qB42nkDSjlQxF2KFsNb1E/ASokXtKGzB
- geuxQtUCRnjM/fBtzw/vCC4x6WRJw5VtlWsW2H+1NwS1HTKc8FXAoqtzLgHCyCSvblWJJ2e8R2i
- HU3B67lnqq7Rnc7aqLdYooVAbTADFQ==
-X-Proofpoint-GUID: CvHBGZbid2d7pN_rexZG2mDAoP64DMpQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180093
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CY5PR11MB6365:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4932f8a-30f5-470b-5c97-08de3e2d1c46
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|10070799003|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?9LYik9LJiSoCSMDROrRgwVV/GSre73POes5g6VMG1a2qbuD8bKjkmviYkK?=
+ =?iso-8859-1?Q?qLuztKlB97a0Awvi8T0d7bHXu4NJ6HvKWHym3YbP/cqDOtEz3iFo6P4358?=
+ =?iso-8859-1?Q?3gYqBwRIkmy5n3ljsCdEvol0qdO42ORI639XeXvKgIfeaAG9D7lVgtjm6p?=
+ =?iso-8859-1?Q?t0kGJaLK1nfQvxbeKvZ9UtZnJ/U9wI++uJbPGNQB7dCIjxSN4937wVKmBv?=
+ =?iso-8859-1?Q?+dfoJP0801eQo7Rk8ghYLb91DqeZkUFYwZwhQUB/FUhch3Y+Fb1v2Wt60T?=
+ =?iso-8859-1?Q?L2zVCl4sS6PqPStD2tEffSdy9v1munN+4nsadTM1T1NrobRLQWgUyg68eo?=
+ =?iso-8859-1?Q?+RxXp49vUTpg9WzKMlzzOpaBiVg2CwdADNY265vHv0ZuKjN9SNMnEEH75p?=
+ =?iso-8859-1?Q?dk+AVgto+mUrcEgzkvnRnBQ/ljaHRDSnjHIcNNcHV8SNmHiBlQbhPcL0Hp?=
+ =?iso-8859-1?Q?Zy9l7DyYBArfUgQqSJlOhd1dWTzQAjSAYnpaQd/hnnJVXqvCQc3D285wl5?=
+ =?iso-8859-1?Q?/AGEqsCd3nqkzK4fUUpix53gecDCl0Y7n44/Cev1F9edG+E3dC4J+iCjr4?=
+ =?iso-8859-1?Q?v6tTXR8RO3LNrGDLR2tuDB35at2Vty3BgGLwHbnoZI4Ie8XH+HzCEr3F2m?=
+ =?iso-8859-1?Q?ZSZa3szKsr/AUAQSrOM/GmMA7HMK3l9ofq7QnEEEMV9N/zwyIG0qTYw+/H?=
+ =?iso-8859-1?Q?KQIYyvwsSQp1kkIdvONGIr54mWj/DZKhLeVlLhkneGbF+LpvUapH+gfCj1?=
+ =?iso-8859-1?Q?eGm6g96C+ITukPojOpOODRAM4UK72maWmVVfn8C1ubvy2G6nBImMt0epV/?=
+ =?iso-8859-1?Q?Vtc0ZxOyItkBE/xrZWtgJhsfNjN3KwKI33kmDFtBlPbJ0XbkT4gCB4O8OY?=
+ =?iso-8859-1?Q?ZXEzbm8KP302Vck7JZRt428CjMWkdyRnUdFfWcYRQw+elrOoeCRtJP/9xN?=
+ =?iso-8859-1?Q?BaPD0fz18RL5N27UBV7t87rUVJT3SiDmgFKua+uboeUS+/Ge8Bn+hkaIU5?=
+ =?iso-8859-1?Q?ljICWr+lT7HV6LjqYqK0o1u3XGZ10TSRzv7KHLofG8zaL93SlCcS73IcY0?=
+ =?iso-8859-1?Q?PBGn1apWYFZzW6u+qGZlUr0DIqO6w3BHKTGlNQhtkLXBm9oYGJ2ksc1aD6?=
+ =?iso-8859-1?Q?XK0ZgF1g5q7IQnJYYmnwKtSbwD7clivKOp2sC0ZKdh0tuWq9jo42tv2AlN?=
+ =?iso-8859-1?Q?lnfFI2M4zRdUjMUKnlaH4E9QinHo+qcK3dQeZu1iisAwknGKFdsad5OVsE?=
+ =?iso-8859-1?Q?E7XSXfIGiyjXzIZOiUWJQR/PRXUG1H/rdBd4GbYy+079B3EJSgsKDKfegC?=
+ =?iso-8859-1?Q?8oVHdaImpYLm4Fs8n2xpdKqgtOOgDsq1DobGyCTXmrK9lm/kVC0/zpXAG5?=
+ =?iso-8859-1?Q?HxVzfJoDouH5JhXcVZvsyIF4v3nYD2bYKlB3BIDmuL93WkNIq0kEsZyrkE?=
+ =?iso-8859-1?Q?Ua7NpKaS7oFN8Wvl3XGWnKxtZki9XVpcxf8Pe0WSP7Jt3YurEUTa+hEsVv?=
+ =?iso-8859-1?Q?9PCYoqA3Oe1jvnEm9Qy5ONlNL0nqdqHNG2hJHgEjlo5A=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(10070799003)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?+Gss5+PZLQO4yn1U4Mt946gSKDFkGljTu8IW/k7TzSev780YFipwagzdwl?=
+ =?iso-8859-1?Q?2ngH+rChxE/5QKgUbYtfM4bqXQyBwjXqezB+YsIo7/1dKfJ9b46M9g1SJh?=
+ =?iso-8859-1?Q?xNHDzgsg3LL1fwmWDhJF5f5E2BQJMgickWzlp16R9YTrlhM9S/kCoaOITg?=
+ =?iso-8859-1?Q?h2nDGOV6sqnH3jwvXPdkinqY1btGBY+ZES53Qkia5RGv8spLV+FrMrzi4t?=
+ =?iso-8859-1?Q?NCI97/iLcD4+K3xf7lG1JrJBi2NOvTx+s1TIXImTxpcIulNkrrZ2zQOxKY?=
+ =?iso-8859-1?Q?fEcPLkDHaZMWY5R+IBi4NjB2Pp+UqQRFa5VOgxM2A62tLH8sSb561cMBTA?=
+ =?iso-8859-1?Q?TO+nbPOh1ikmAgwpQZxBpIlkwcMmc7SIC9AgVO4jY0EvtykejwQ3/jSoSC?=
+ =?iso-8859-1?Q?hCVgV9d8V0nDqdI2tHhFHZZgzl++Z5q1a0CPLIiEwR50Epl8ahk+fkLPX4?=
+ =?iso-8859-1?Q?HiL5KNuRIi/sOjAvm6oGNOg78XPX9wtcwdRc0eKfFu4Bc5QuEajdWdKmS/?=
+ =?iso-8859-1?Q?Iy3Bzq/E+fa/z2/COPqQyoBukfYZgDX6f3IHc0txiEJ7cQqkLBjkyxsX9w?=
+ =?iso-8859-1?Q?N1aa8wCwd7wwJKGh/4ghRp2lR8JhRHamPa8oXb9KguUkfk5dYTJo+c2/8l?=
+ =?iso-8859-1?Q?JsZGqEV27zYWYeyYED688PioVxSlSaALtcB7OOYalUt3gSUDN2ATJMqoBT?=
+ =?iso-8859-1?Q?XPt3WmLF/f1OsofdbWoyemFQXY9OFe6zvpsIr8izy4r0SLTk9SITSDNPwK?=
+ =?iso-8859-1?Q?+YOFZMx7Iz3Y4UKa9ihcbAANza6lIedfElCdyAqzpXajaJCZ8bAHtTMvkL?=
+ =?iso-8859-1?Q?iU7bIi1WttmTlV6AUXnlMTrzT/BqrEfT/uqrRqzD/Twah9iQSYImfZcNiT?=
+ =?iso-8859-1?Q?S9SZII+vn+6CISkH1vQOLYzqOdg5YBas/irfPy/3GPfimY0CnJKExP9as4?=
+ =?iso-8859-1?Q?p5F7TSy8WJyrqFp2oYBvlvA9aEAvgakDvwHgTeT2TmTLatDylqBwxhF7MZ?=
+ =?iso-8859-1?Q?LtdGMpAHIWmUA+9hxsroOFVP81uffHbpikJQsj66I3nU9fEYFI8sbsgyaa?=
+ =?iso-8859-1?Q?gOJ5kBjbI6bCYtLenbSxM19rGN5fMZjMLTA1ntGB35vd3OnXp8MskuCPGM?=
+ =?iso-8859-1?Q?MhJRTs3qNML0Dm8+g2M4XZAsiaJmrxrRqzoZ6BshfVVuY4wko6q5BgFFe8?=
+ =?iso-8859-1?Q?6LVOCfgp/NU7Zm7po6Z6nxOhRIbG6q9mn8SkWKIXH6hYNRpVS2DiUvSKgn?=
+ =?iso-8859-1?Q?n9KT3+jZNBv3gzGCrYcHPs5/AtjE3UnAWRNEyCdDB0/cm8NvOd8f8oL7in?=
+ =?iso-8859-1?Q?26oTw30q84/COIoZNsUGfRZo/lLeS6iHmmpqo/R7nTVS27QYIR3k8UK3lg?=
+ =?iso-8859-1?Q?AMS39Mci8LeFFoKvZIhRomCUsxzPX/eS7+RsBhI3pxRwIJV37bUOcIlZ+1?=
+ =?iso-8859-1?Q?sFQeuSqGxMKcfmkeHZvGflTkF1DZNHo/9XINOK583qNThuGYENZ5eQCsxN?=
+ =?iso-8859-1?Q?OJHTIGaZxMcYw4x2K/b4eqPC0I8wmDWA2m0xK1JqK6v5/ACq92FQjG3FNr?=
+ =?iso-8859-1?Q?0AR8foPjl9iSNgc+F2uwbVx4K3/1CUx6FRDsG2WwnpAalZsPW0cuUNEy98?=
+ =?iso-8859-1?Q?A98Gpy0PR5aJVz/j1zevI/MF8gJY4P4glQmBEv3i7k/AS7EdMddQIwxbH9?=
+ =?iso-8859-1?Q?mJ2VcdFgASwED/SiBs+eXAbQkn8GNIJLeE4gzws2?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4932f8a-30f5-470b-5c97-08de3e2d1c46
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 12:01:00.6330 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MRyyub7KW5qdxYnafN7yZwyzOxOjOT91VU27beOaj7ekE3rZ1u8VmYD102caaD96eu6vdr8a3br8TtiZi9VZUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6365
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,93 +184,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/25 5:34 PM, Dmitry Baryshkov wrote:
-> On Wed, Dec 17, 2025 at 06:05:31PM +0300, Alexey Minnekhanov wrote:
->> On 11.12.2025 04:25, Dmitry Baryshkov wrote:
->>> Currently MDP5 3.x (MSM8998, SDM630 and SDM660) platforms are support
->>> by both DPU and MDP5 drivers. Support for them in the DPU driver is
->>> mature enough, so it's no longer sensible to keep them enabled in the
->>> MDP5 driver. Not to mention that MSM8998 never used an MDP5 compatible
->>> string. Drop support for the MDP5 3.x genration inside the MDP5
->>> driver and migrate those to the DPU driver only.
->>>
->>> Note: this will break if one uses the DT generated before v6.3 as they
->>> had only the generic, "qcom,mdp5" compatible string for SDM630 and
->>> SDM660. However granted that we had two LTS releases inbetween I don't
->>> think it is an issue.
->>>
->>
->> I've retested DPU driver on our downstream release based on 6.18 (by
->> using msm.prefer_mdp5=false kernel cmdline parameter) on all devices
->> at my disposal, and I can confirm DPU driver working fine an all SDM660,
->> SDM636 ones, but not on SDM630. Some logs from sdm630-sony-nile-pioneer
->> (Sony Xperia XA2):
-> 
-> Unfortunately I only have SDM660 and video DSI usecase here. BTW: is
-> your SDM636 / SDM660 using CMD or video panel?
-> 
->>
->> [    2.356546] msm_dpu c901000.display-controller: bound c994000.dsi (ops
->> dsi_ops [msm])
->> [    2.357328] adreno 5000000.gpu: GPU speedbin fuse 146 (0x92), mapped to
->> opp-supp-hw 0x4
->> [    2.364802] msm_dpu c901000.display-controller: bound 5000000.gpu (ops
->> a3xx_ops [msm])
->> [    2.444649] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x30030000
->> [    2.449793] [drm] Initialized msm 1.13.0 for c901000.display-controller
->> on minor 1
->> ...
->> [    2.911900] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
->> error]enc33 intf1 ctl start interrupt wait failed
->> [    2.911916] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
->> commit done returned -22
->> ...
->> [    3.176171] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
->> error]enc33 intf1 ctl start interrupt wait failed
->> [    3.176367] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
->> commit done returned -22
->>
->> Which results in horrendous ~3-5 fps in shell.
->>
->> The block "enc33 intf1 ctl start interrupt wait failed" + "wait for
->> commit done returned -22" is repeated few times per second whenever
->> the display is turned on, and stops when it's turned off.
->>
->> Meanwhile it is working fine using MDP5 driver (msm.prefer_mdp5=true).
-> 
-> It's interesting. Would you please capture the devcoredump for the
-> platform? There will be a lot of blocks, I'm interested in INTF_1, CTL
-> and top_0.
-> 
-> Also, as a debugging check, would you mind patching
-> dpu_encoder_phys_cmd_wait_for_commit_done() so that it always calls
-> dpu_encoder_phys_cmd_wait_for_tx_complete()? I will check if there are
-> any differences for CTL_START and similar registers, but it will take
-> some time.
-> 
->> Well, as fine as possible considering [1], using several FD_MESA_DEBUG
->> tricks to work around GPU issues.
->>
->> P.S. I have not yet tested MSM8998, but I can try if required
-> 
-> As far as I remember, MDP5 on MSM8998 has never been wired (as in never
-> committed to the DTSI). Angelo has enabled and Freebox people have
-> tested DPU on MSM8998, but I think it was limited to video / HDMI
-> usecases.
+Hi all,
 
-I think we poked at both, back in the day (tm) and DPU worked on msm8998-
-sony-maple (sharp,ls055d1sx04 cmd mode panel) with the funny CMD mode hack
-(due to a register field not existing on <845?)
+On Tue, Dec 16, 2025 at 07:30:40PM +0200, Imre Deak wrote:
+> Hi Thomas, Maarten, Maxime,
+> 
+> could you ack merging patch 1 and 2 in this patchset containing changes
+> in drm_dp_helper.c via the Intel trees?
 
-https://github.com/SoMainline/linux/commit/14e0517e2fd5eee116a32db624b09856c60fa022
+any objections to merge patch 1 and 2 via drm-intel? If not, could
+someone ack it?
 
-FYI panel wiring:
+Thanks,
+Imre
 
-https://github.com/SoMainline/linux/commit/88f276e81cea0f7496d3f92cd731f27615cfa703
-
-+Marijn may know more
-
-Konrad
+> They fix an issue in the i915/xe drivers' DP DSC slice-count handling
+> and do not affect other drivers.
+> 
+> Thanks,
+> Imre
+> 
+> On Mon, Dec 15, 2025 at 09:23:40PM +0200, Imre Deak wrote:
+> > This is the first part of patchset [1] containing only the fixes for the
+> > link BW and DSC slice computation. The remaining patches in [1] refactor
+> > the link BW and DSC slice computation simplifying these, to be sent as a
+> > follow-up to this patchset.
+> > 
+> > I moved patches 13-15 in [1] later in the patchset to be sent as part of
+> > the follow-up, as these patches are not a dependency for the fixes in
+> > this patchset.
+> > 
+> > [1] https://lore.kernel.org/all/20251127175023.1522538-1-imre.deak@intel.com
+> > 
+> > Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > Cc: Luca Coelho <luciano.coelho@intel.com>
+> > Cc: Jouni Högander <jouni.hogander@intel.com>
+> > Cc: Vinod Govindapillai <vinod.govindapillai@intel.com>
+> > 
+> > Imre Deak (16):
+> >   drm/dp: Parse all DSC slice count caps for eDP 1.5
+> >   drm/dp: Add drm_dp_dsc_sink_slice_count_mask()
+> >   drm/i915/dp: Fix DSC sink's slice count capability check
+> >   drm/i915/dp: Return a fixed point BPP value from intel_dp_output_bpp()
+> >   drm/i915/dp: Use a mode's crtc_clock vs. clock during state
+> >     computation
+> >   drm/i915/dp: Factor out intel_dp_link_bw_overhead()
+> >   drm/i915/dp: Fix BW check in is_bw_sufficient_for_dsc_config()
+> >   drm/i915/dp: Use the effective data rate for DP BW calculation
+> >   drm/i915/dp: Use the effective data rate for DP compressed BW
+> >     calculation
+> >   drm/i915/dp: Account with MST, SSC BW overhead for uncompressed DP-MST
+> >     stream BW
+> >   drm/i915/dp: Account with DSC BW overhead for compressed DP-SST stream
+> >     BW
+> >   drm/i915/dp: Account with pipe joiner max compressed BPP limit for
+> >     DP-MST and eDP
+> >   drm/i915/dp: Fail state computation for invalid min/max link BPP
+> >     values
+> >   drm/i915/dp: Fail state computation for invalid max throughput BPP
+> >     value
+> >   drm/i915/dp: Fail state computation for invalid max sink compressed
+> >     BPP value
+> >   drm/i915/dp: Fail state computation for invalid DSC source input BPP
+> >     values
+> > 
+> >  drivers/gpu/drm/display/drm_dp_helper.c       | 103 ++++++---
+> >  drivers/gpu/drm/i915/display/intel_dp.c       | 211 ++++++++++++------
+> >  drivers/gpu/drm/i915/display/intel_dp.h       |   9 +-
+> >  .../drm/i915/display/intel_dp_link_training.c |   4 +-
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  33 ++-
+> >  include/drm/display/drm_dp_helper.h           |   3 +
+> >  6 files changed, 234 insertions(+), 129 deletions(-)
+> > 
+> > -- 
+> > 2.49.1
+> > 
