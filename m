@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0356FCCCFFF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AC9CCD079
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6631E10E427;
-	Thu, 18 Dec 2025 17:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659D410E11D;
+	Thu, 18 Dec 2025 17:53:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HUMdFU1A";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com
- [216.40.44.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407BA10E427;
- Thu, 18 Dec 2025 17:41:56 +0000 (UTC)
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay06.hostedemail.com (Postfix) with ESMTP id 034CC1358D7;
- Thu, 18 Dec 2025 17:41:52 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf20.hostedemail.com (Postfix) with ESMTPA id 023D820027; 
- Thu, 18 Dec 2025 17:41:47 +0000 (UTC)
-Date: Thu, 18 Dec 2025 12:43:26 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Andrew Morton
- <akpm@linux-foundation.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Christophe Leroy <chleroy@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, David Laight
- <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>, Andi Shyti
- <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko
- Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h
- to a dedicated header
-Message-ID: <20251218124326.22334325@gandalf.local.home>
-In-Reply-To: <20251218123349.35339242@gandalf.local.home>
-References: <20251205175237.242022-1-yury.norov@gmail.com>
- <20251205175237.242022-5-yury.norov@gmail.com>
- <20251216161316.45b3f19ff0ad482018137189@linux-foundation.org>
- <55ceb7bf-0fe9-4edc-81c2-d51366847eec@infradead.org>
- <aUN8Hm377C5A0ILX@yury>
- <20251218123349.35339242@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B3510E11D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 17:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1766080429;
+ bh=JoHs6jwaZuFi+Aly77pjvr8pEkS7cjWmwfJ4hIN9FNA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=HUMdFU1AixAAO9e0o3gMEsnDJFJmdPE1W1ywopyHYDk7CZytnZyt/E1BdWpXY69Mf
+ lIRm+8rrD+06h3egqaLjfiJll08b3V/EWnY1kjsYBgACt6Oc+qkBNjXuKoQSWmOA5G
+ oGEDZXhB1GnUy1Xj0FJPcDVlceSnKYPQb8UpsmZRMyWOY2AsRDux6a1o/XlX0dnajJ
+ WJE0rWq3qBZeOAChAVixmtCpVGW8PE5hVC4Xpl3oMrfLCvLKxMmX8trIWgvOf4ESjk
+ h6UJzxilNLI+MYTorE7Pbgm810Ru3fK8/xVlbuTLhjVsf4ns2cn7InbRm4nUHqfuoQ
+ 072DhimeE7e2w==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8F3D217E0D64;
+ Thu, 18 Dec 2025 18:53:48 +0100 (CET)
+Date: Thu, 18 Dec 2025 18:53:43 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Grant Likely
+ <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: Evict groups before VM termination
+Message-ID: <20251218185343.6fcd9923@fedora>
+In-Reply-To: <20251218162644.828495-1-ketil.johnsen@arm.com>
+References: <20251218162644.828495-1-ketil.johnsen@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 023D820027
-X-Stat-Signature: o45fb7y4yczxrp6ryyc4bjh177djf3bh
-X-Spam-Status: No, score=1.40
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+gcUhXo6im9KxxnMPkzbEPK1jjIb73cJg=
-X-HE-Tag: 1766079707-102559
-X-HE-Meta: U2FsdGVkX1+FLaJcIEU86Yt8MEehfwVAisIxolYkzum3jsTsXtF/7d/COMCPvGimbkdCJDem8K4HreWeMJLYHvtpjFnvf3EsAgzop9i+1Qo75r6aRfau/Ye5CoT9oXH1h3WmzTn3Si1MuoMi+JVjVnvoaGdxDzYO/QwzORGyITGf+Xm/6rLqeb+FioS46ubI74HEXEowehIuZFosZJp+80qxOPGSXFaTarSa/MK47R0qIkOXeTnw9MGLdhS+zu6yQE80iPETG2eTIFNXnVWQWLq0jX/LndYRrn5J1xlOesaiULBiDx8MMtxGYXJWQ38xh4H0k3U+2AO+kFVcbDtrC1aErQ30++hwTAGk9FPoZMNtKSgcmEERjL1asAgBob4jxvppT+cS8Ff6SW8amtswUw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,91 +66,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Dec 2025 12:33:49 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Thu, 18 Dec 2025 17:26:42 +0100
+Ketil Johnsen <ketil.johnsen@arm.com> wrote:
 
-> On Wed, 17 Dec 2025 22:59:33 -0500
-> Yury Norov <yury.norov@gmail.com> wrote:
+> Ensure all related groups are evicted and suspended before VM
+> destruction takes place.
 > 
-> > I deem to drop trace_printk.h from kernel.h - it is more aligned with
-> > the idea of unloading the header. The original motivation to keep
-> > trace_printk.h in kernel.h was just because a similar printk.h is living
-> > there. But after all, this is a purely debugging header, so no need for
-> > almost every C file to bear debugging stuff.  
+> This fixes an issue where panthor_vm_destroy() destroys and unmaps the
+> heap context while there are still on slot groups using this.
+> The FW will do a write out to the heap context when a CSG (group) is
+> suspended, so a premature unmap of the heap context will cause a
+> GPU page fault.
+> This page fault is quite harmless, and do not affect the continued
+> operation of the GPU.
 > 
-> It is a big deal for debugging stuff. A lot of developers debug their code
-> with trace_printk(), and do the "shotgun approach", where they cut and
-> paste trace_printk()s all over their code in several files. Having to now add:
+> Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c   |  4 ++++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 16 ++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_sched.h |  1 +
+>  3 files changed, 21 insertions(+)
 > 
->   #include <linux/trace_printk.h>
-> 
-> whenever a trace_printk() is added is going to be a big PITA and slow down
-> all debugging efforts.
->
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 74230f7199121..0e4b301a9c70e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1537,6 +1537,10 @@ static void panthor_vm_destroy(struct panthor_vm *vm)
+>  
+>  	vm->destroyed = true;
+>  
+> +	/* Tell scheduler to stop all GPU work related to this VM */
+> +	if (refcount_read(&vm->as.active_cnt) > 0)
+> +		panthor_sched_prepare_for_vm_destruction(vm->ptdev);
+> +
+>  	mutex_lock(&vm->heaps.lock);
+>  	panthor_heap_pool_destroy(vm->heaps.pool);
+>  	vm->heaps.pool = NULL;
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index f680edcd40aad..fbbaab9b25efb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2930,6 +2930,22 @@ void panthor_sched_report_mmu_fault(struct panthor_device *ptdev)
+>  		sched_queue_delayed_work(ptdev->scheduler, tick, 0);
+>  }
+>  
+> +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev)
+> +{
+> +	/* FW can write out internal state, like the heap context, during CSG
+> +	 * suspend. It is therefore important that the scheduler has fully
+> +	 * evicted any pending and related groups before VM destruction can
+> +	 * safely continue. Failure to do so can lead to GPU page faults.
+> +	 * A controlled termination of a Panthor instance involves destroying
+> +	 * the group(s) before the VM. This means any relevant group eviction
+> +	 * has already been initiated by this point, and we just need to
+> +	 * ensure that any pending tick_work() has been completed.
+> +	 */
+> +	if (ptdev->scheduler) {
+> +		flush_work(&ptdev->scheduler->tick_work.work);
+> +	}
 
-I don't actually remember why I had __trace_puts() pass in the size. I
-could change it to:
+nit: you can drop the curly braces on single line conditionals. No
+need to send a v2, I can fix this up when applying.
 
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 5b46924fdff5..d5a939b8c391 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -331,10 +331,10 @@ int __trace_printk(unsigned long ip, const char *fmt, ...);
- 	if (__builtin_constant_p(str))					\
- 		__trace_bputs(_THIS_IP_, trace_printk_fmt);		\
- 	else								\
--		__trace_puts(_THIS_IP_, str, strlen(str));		\
-+		__trace_puts(_THIS_IP_, str);				\
- })
- extern int __trace_bputs(unsigned long ip, const char *str);
--extern int __trace_puts(unsigned long ip, const char *str, int size);
-+extern int __trace_puts(unsigned long ip, const char *str);
- 
- extern void trace_dump_stack(int skip);
- 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index e575956ef9b5..686741edb803 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -1178,11 +1178,10 @@ EXPORT_SYMBOL_GPL(__trace_array_puts);
-  * __trace_puts - write a constant string into the trace buffer.
-  * @ip:	   The address of the caller
-  * @str:   The constant string to write
-- * @size:  The size of the string.
-  */
--int __trace_puts(unsigned long ip, const char *str, int size)
-+int __trace_puts(unsigned long ip, const char *str)
- {
--	return __trace_array_puts(printk_trace, ip, str, size);
-+	return __trace_array_puts(printk_trace, ip, str, strlen(str));
- }
- EXPORT_SYMBOL_GPL(__trace_puts);
- 
-@@ -1201,7 +1200,7 @@ int __trace_bputs(unsigned long ip, const char *str)
- 	int size = sizeof(struct bputs_entry);
- 
- 	if (!printk_binsafe(tr))
--		return __trace_puts(ip, str, strlen(str));
-+		return __trace_puts(ip, str);
- 
- 	if (!(tr->trace_flags & TRACE_ITER(PRINTK)))
- 		return 0;
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index b6d42fe06115..de4e6713b84e 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -2116,7 +2116,7 @@ extern void tracing_log_err(struct trace_array *tr,
-  * about performance). The internal_trace_puts() is for such
-  * a purpose.
-  */
--#define internal_trace_puts(str) __trace_puts(_THIS_IP_, str, strlen(str))
-+#define internal_trace_puts(str) __trace_puts(_THIS_IP_, str)
- 
- #undef FTRACE_ENTRY
- #define FTRACE_ENTRY(call, struct_name, id, tstruct, print)	\
+> +}
+> +
+>  void panthor_sched_resume(struct panthor_device *ptdev)
+>  {
+>  	/* Force a tick to re-evaluate after a resume. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> index f4a475aa34c0a..9a8692de8aded 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> @@ -50,6 +50,7 @@ void panthor_sched_suspend(struct panthor_device *ptdev);
+>  void panthor_sched_resume(struct panthor_device *ptdev);
+>  
+>  void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
+> +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev);
+>  void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
+>  
+>  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile);
 
-
-
-Which removes the strlen() altogether.
-
--- Steve
