@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887C5CCB4DF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB08CCB4CD
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:05:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B05510E351;
-	Thu, 18 Dec 2025 10:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDCA10EC51;
+	Thu, 18 Dec 2025 10:05:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EyLDPB9I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TM/OI0fP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E42D010E351
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 10:07:15 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-2a07fac8aa1so4676575ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 02:07:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766052435; x=1766657235; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kpRXf+CybyafgKkHmN7F6FAf7wCDCV9P2YSBozxEg1w=;
- b=EyLDPB9IW8HiDWfFUIjmwfTqQrxP/6kR8zt8BDqDhAKkirfdt8YulfcfFkHrG2y+c+
- AI2xkZi9PVpFmeac+nBX1ZSUhilCrRbnWL+js/whqCuq4YLuwjVQLba5sfwW0FvtmNkl
- GIO9fdeZ7aPq76G1i1t0wJlr+kqNAyQtI4dleSJ5ux0GHSg9hjX4ojiu9PJEWB2BVr7g
- gJiiWR3KQStN/UCl7oaFYe6ymcu7z9dcQvQLgv85usaGlrR4x2yhu5wlRNpskBfw6CYd
- dpQzaIXbVtG3aKEYLpFmfsTUs6Q4hgDsLnQL7m5K/7zAdQX88NqBF9QVfFdzhYByk0Tw
- jdZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766052435; x=1766657235;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kpRXf+CybyafgKkHmN7F6FAf7wCDCV9P2YSBozxEg1w=;
- b=pOKoCbp2eRN3gEw9x6+39EIqrAN+E93mtkQ2VImSyEOr5gXJYAI+1Xc2WLf0fiGNzA
- otNzC9z3ZyixsmiPUt5drM0GUyD8NBasIV/RhbuQVVeaxNKO8DVqPK7wPuZfQkUiXezd
- +dWZLoDWWUBz8Qh3yQ6nMBFwzow5QqurXkfK/MgJJqClT14OqzjXe4FBpsSvN45QnkJj
- aJptSv/Fm4B0S00kaJMZAAttSpVBGJ9NjxG3ApUb7cuVJwUHL5jtTlv34/TsY28vtHB2
- bJVRu86CbAkn4TojrScy6EFwAdGHdsc4yWIb14mA20xmrI5gtLKzFv9Xa79eQGaBjosj
- vtKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVD6KiwumFgItTquNunWFxglqNpzWa7dH6cS9aB8riShdNAvYn2uPETI3GmAJlCWho0rxnFREiYqLo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzhclc0QYRNxWHBIZZnn9LQHZTDYmHEsZfprweM+/Vgk8qWhR4J
- JWJDwRettZfJRYOkzzFK1mFw1xBzHQR/wxUX/rxQEmWkLKCKgLtStpGw
-X-Gm-Gg: AY/fxX5JJHoFdhUEOkt21bdYaaBJjQ+SnY+01X6LuZMpSayx5HTphHh4s+EiNSv5GWq
- W1V7TutH13RSVVFaa7wjUa8DbCYsTfhWzhX7ULxG4qad68Qe646fgpCeshB1nM0KyhhFUHNgglR
- VJzSWStx6Zy7ZJL5DDTGW+20RwLurkVs+yAQjcw2fZlaU4FCUBJ2SbSrjpIfwlCKnzDU5FaQO0I
- BG2vY6/DoSAYhRwW0YQ4vEvgCr5+f7mZ7IzyGr/dHr7G7uVNAQG0DLC6wwOzy3HFv5+7jOXK3oz
- hIVQPA8Pj0azWCY7ReF9M/sDZwnlIQKMQJs9crCUa2uhPk8lAnMXMEyKh+p5RRE01qMWZIHvq7G
- LuIs0HLR9p1eQHmOqP83fUwyHbZGr44FQOJNtckOAMCSKbjR689SD5YfIcWkbT4pbmxk/CbxTqN
- 4B40E76rQ6cFY/t5E0U/cNOsXhfGzveHO++2gNello+Lk=
-X-Google-Smtp-Source: AGHT+IFz4Ugh0GME20ZYSCAsS5FdVOlyjab3uGMpWvUWX/4LmvR2z1wq9wJZY1s7sCcmSZ17Xl5o/w==
-X-Received: by 2002:a05:7022:458d:b0:11c:ec20:ea1f with SMTP id
- a92af1059eb24-11f34c57b69mr16886528c88.33.1766052435108; 
- Thu, 18 Dec 2025 02:07:15 -0800 (PST)
-Received: from titanite-d300.amd.com ([165.204.154.57])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-12061fceec2sm5973650c88.13.2025.12.18.02.07.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Dec 2025 02:07:14 -0800 (PST)
-From: suryasaimadhu <suryasaimadhu369@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org
-Cc: siqueira@igalia.com, mario.limonciello@amd.com, wayne.lin@amd.com,
- roman.li@amd.com, timur.kristof@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, suryasaimadhu <suryasaimadhu369@gmail.com>
-Subject: [PATCH] drm/amdgpu/dm: Convert IRQ logging to drm_* helpers
-Date: Thu, 18 Dec 2025 18:05:07 +0800
-Message-ID: <20251218100507.1529908-1-suryasaimadhu369@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2433410E881;
+ Thu, 18 Dec 2025 10:05:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766052339; x=1797588339;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=NJrmPBsg5z4/WIRINNnAlaz+67SqTSo/cC/xf9b1eRc=;
+ b=TM/OI0fPCQYzlULlJ04UE82vEZJ8RSyXMtMVH4UHODbF/ECfjF52Jzvl
+ VfcfJHw7j9LSbt6AKegfTj++iq64XSslpigVxoEic5vm4vt3X4z+pc8Nk
+ ZfgrgY6cQoXzFO+5VsoaSSCAy2e8S2bIKfMa6dhO2Rs1kfme0tTqRy+8r
+ QPZ3U5a/zIf28F4Hq//NPUHqqbnTN4B5+823UXYDuZqVZqvbX/dnz+TUw
+ /M/5tWQfnPu+VxjQxNoofah0xtPSirEP3yLfuntntNNXF+2DuJSlb1xhr
+ 6/UlZaQOlyewO1XbLx+UmdsDLm6cSjun5cFQfE7mFLLKU3KXneTUrOBOm Q==;
+X-CSE-ConnectionGUID: +WfBa8IUTOy2Il/xnxtI/g==
+X-CSE-MsgGUID: 7fIkDoHpTX2FdL/Uf6V31g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68074346"
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="68074346"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 02:05:39 -0800
+X-CSE-ConnectionGUID: k+hSyMbHQjKRzPqwN7dFhQ==
+X-CSE-MsgGUID: xu4xCMtjQFCjBn5iyTzLhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="198147952"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.76])
+ ([10.245.244.76])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 02:05:35 -0800
+Message-ID: <21861d1b-54bf-4853-9c35-97abe3c5deba@linux.intel.com>
+Date: Thu, 18 Dec 2025 11:05:33 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,157 +77,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace DRM_ERROR(), DRM_WARN(), and DRM_INFO() usage in
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c with the
-corresponding drm_err(), drm_warn(), and drm_info() helpers.
+Hi Dave, Simona,
 
-The drm_* logging helpers take a struct drm_device * as their first
-argument, allowing the DRM core to prefix log messages with the
-specific device name and instance. This is required to correctly
-differentiate log messages when multiple AMD GPUs are present.
+Here's all the accumulated fixes from drm-misc-fixes!
 
-This aligns amdgpu_dm with the DRM TODO item to convert legacy DRM
-logging macros to the device-scoped drm_* helpers while keeping
-debug logging unchanged.
+Kind regards,
+Maarten Lankhorst
 
-v2:
-- Keep validation helpers DRM-agnostic
-- Move drm_* logging to AMDGPU DM callers
-- Use adev_to_drm() for drm_* logging
+drm-misc-fixes-2025-12-18:
+drm-misc-fixes for v6.19-rc2:
+- Add -EDEADLK handling in drm unit tests.
+- Plug DRM_IOCTL_GEM_CHANGE_HANDLE leak.
+- Fix regression in sony-td4353-jdi.
+- Kconfig fix for visionox-rm69299.
+- Do not load amdxdna when running virtualized.
+The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 
-v3:
-- Pass struct amdgpu_device to helpers instead of struct drm_device
-- Compact drm_* logging statements
+  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
 
-Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
+are available in the Git repository at:
 
-diff --git a/Makefile b/Makefile
-index 2f545ec1690f..e404e4767944 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- VERSION = 6
--PATCHLEVEL = 18
-+PATCHLEVEL = 19
- SUBLEVEL = 0
--EXTRAVERSION =
-+EXTRAVERSION = -rc1
- NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-index 0a2a3f233a0e..82ea217e8195 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-@@ -242,35 +242,29 @@ validate_irq_registration_params(struct dc_interrupt_params *int_params,
- 				 void (*ih)(void *))
- {
- 	if (NULL == int_params || NULL == ih) {
--		DRM_ERROR("DM_IRQ: invalid input!\n");
- 		return false;
- 	}
- 
- 	if (int_params->int_context >= INTERRUPT_CONTEXT_NUMBER) {
--		DRM_ERROR("DM_IRQ: invalid context: %d!\n",
--				int_params->int_context);
- 		return false;
- 	}
- 
- 	if (!DAL_VALID_IRQ_SRC_NUM(int_params->irq_source)) {
--		DRM_ERROR("DM_IRQ: invalid irq_source: %d!\n",
--				int_params->irq_source);
- 		return false;
- 	}
- 
- 	return true;
- }
- 
--static bool validate_irq_unregistration_params(enum dc_irq_source irq_source,
--					       irq_handler_idx handler_idx)
-+static bool validate_irq_unregistration_params(
-+	enum dc_irq_source irq_source,
-+	irq_handler_idx handler_idx)
- {
- 	if (handler_idx == DAL_INVALID_IRQ_HANDLER_IDX) {
--		DRM_ERROR("DM_IRQ: invalid handler_idx==NULL!\n");
- 		return false;
- 	}
- 
- 	if (!DAL_VALID_IRQ_SRC_NUM(irq_source)) {
--		DRM_ERROR("DM_IRQ: invalid irq_source:%d!\n", irq_source);
- 		return false;
- 	}
- 
-@@ -311,11 +305,12 @@ void *amdgpu_dm_irq_register_interrupt(struct amdgpu_device *adev,
- 	enum dc_irq_source irq_source;
- 
- 	if (false == validate_irq_registration_params(int_params, ih))
-+		drm_err(adev_to_drm(adev), "DM_IRQ: invalid registration parameters\n");
- 		return DAL_INVALID_IRQ_HANDLER_IDX;
- 
- 	handler_data = kzalloc(sizeof(*handler_data), GFP_KERNEL);
- 	if (!handler_data) {
--		DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
-+		drm_err(adev_to_drm(adev), "DM_IRQ: failed to allocate irq handler!\n");
- 		return DAL_INVALID_IRQ_HANDLER_IDX;
- 	}
- 
-@@ -376,6 +371,7 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdgpu_device *adev,
- 	int i;
- 
- 	if (false == validate_irq_unregistration_params(irq_source, ih))
-+		drm_err(adev_to_drm(adev), "DM_IRQ: invalid unregistration parameters\n");
- 		return;
- 
- 	memset(&int_params, 0, sizeof(int_params));
-@@ -396,8 +392,8 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdgpu_device *adev,
- 		/* If we got here, it means we searched all irq contexts
- 		 * for this irq source, but the handler was not found.
- 		 */
--		DRM_ERROR(
--		"DM_IRQ: failed to find irq handler:%p for irq_source:%d!\n",
-+		drm_err(adev_to_drm(adev),
-+			"DM_IRQ: failed to find irq handler:%p for irq_source:%d\n",
- 			ih, irq_source);
- 	}
- }
-@@ -596,7 +592,7 @@ static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
- 		/*allocate a new amdgpu_dm_irq_handler_data*/
- 		handler_data_add = kzalloc(sizeof(*handler_data), GFP_ATOMIC);
- 		if (!handler_data_add) {
--			DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
-+			drm_err(adev_to_drm(adev), "DM_IRQ: failed to allocate irq handler!\n");
- 			return;
- 		}
- 
-@@ -611,11 +607,11 @@ static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
- 		INIT_WORK(&handler_data_add->work, dm_irq_work_func);
- 
- 		if (queue_work(system_highpri_wq, &handler_data_add->work))
--			DRM_DEBUG("Queued work for handling interrupt from "
-+			drm_dbg(adev_to_drm(adev), "Queued work for handling interrupt from "
- 				  "display for IRQ source %d\n",
- 				  irq_source);
- 		else
--			DRM_ERROR("Failed to queue work for handling interrupt "
-+			drm_err(adev_to_drm(adev), "Failed to queue work for handling interrupt "
- 				  "from display for IRQ source %d\n",
- 				  irq_source);
- 	}
-@@ -720,10 +716,9 @@ static inline int dm_irq_state(struct amdgpu_device *adev,
- 	struct amdgpu_crtc *acrtc = adev->mode_info.crtcs[crtc_id];
- 
- 	if (!acrtc) {
--		DRM_ERROR(
-+		drm_err(adev_to_drm(adev),
- 			"%s: crtc is NULL at id :%d\n",
--			func,
--			crtc_id);
-+			func, crtc_id);
- 		return 0;
- 	}
- 
--- 
-2.43.0
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-12-18
 
+for you to fetch changes up to 2bfca4fe1f36eb6618e5712a8b5b41433bb6f10b:
+
+  drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE (2025-12-16 11:28:52 +0100)
+
+----------------------------------------------------------------
+drm-misc-fixes for v6.19-rc2:
+- Add -EDEADLK handling in drm unit tests.
+- Plug DRM_IOCTL_GEM_CHANGE_HANDLE leak.
+- Fix regression in sony-td4353-jdi.
+- Kconfig fix for visionox-rm69299.
+- Do not load amdxdna when running virtualized.
+
+----------------------------------------------------------------
+Guido Günther (1):
+      drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE
+
+José Expósito (3):
+      drm/tests: hdmi: Handle drm_kunit_helper_enable_crtc_connector() returning EDEADLK
+      drm/tests: Handle EDEADLK in drm_test_check_valid_clones()
+      drm/tests: Handle EDEADLK in set_up_atomic_state()
+
+Karol Wachowski (1):
+      drm: Fix object leak in DRM_IOCTL_GEM_CHANGE_HANDLE
+
+Maarten Lankhorst (1):
+      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
+
+Marijn Suijten (1):
+      drm/panel: sony-td4353-jdi: Enable prepare_prev_first
+
+Mario Limonciello (AMD) (1):
+      accel/amdxdna: Block running under a hypervisor
+
+ drivers/accel/amdxdna/aie2_pci.c                   |   6 +
+ drivers/gpu/drm/drm_gem.c                          |   8 +-
+ drivers/gpu/drm/panel/Kconfig                      |   1 +
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |   2 +
+ drivers/gpu/drm/tests/drm_atomic_state_test.c      |  40 +++++-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 143 +++++++++++++++++++++
+ 6 files changed, 193 insertions(+), 7 deletions(-)
