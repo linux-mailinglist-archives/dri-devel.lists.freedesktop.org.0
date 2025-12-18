@@ -2,58 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0316DCCC020
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF54DCCC06B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:35:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDA310E9F1;
-	Thu, 18 Dec 2025 13:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B40510EA04;
+	Thu, 18 Dec 2025 13:35:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AhJwSAI2";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="LXNkzJUt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A3310E9F1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766064638;
- bh=cGs7OYTCvDVJhGlt5NR0DA66gCGL/4CaWEgAS3rU6gk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AhJwSAI28bCxuIt00IsZHVCbqflMrPPM/2Ti61NZIDt/0fODskAztnfpSTTKFg1wc
- jslPsVwEaLepBszvs/ELSgFMyjb3AjdRHpddEkhIs7kgmbA7e/yq9QZzYDg19fwxYY
- UcSUnqxb9jfTt16jz+7Ig5SntuE39oXjHewc1FT2ea+HgYJ8AUcgTAniHwX7YQkgvm
- wl6N1flVETjdTjtWgugvFwcXTilfI3QQdKS1c9v3k5JFgpey9O7lJEc29628D+UKgt
- 9EIq8i5D8ogU2KWU+Zf0YOVwwHfKVIIbjVfCG/jUdlOhDLls0c2z1t7TDWM7GpR+9O
- S6otU7U8e1OQw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 59D5417E0184;
- Thu, 18 Dec 2025 14:30:38 +0100 (CET)
-Date: Thu, 18 Dec 2025 14:30:35 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54CB410EA04
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1766064946; x=1797600946;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:to:cc;
+ bh=kt1CFgrJoGGcg4im5yw+G42zbIzjog2txWELjrIDc+c=;
+ b=LXNkzJUtjAtV5tmbFJydmugLikqxXCrK+rn2pmEENKHRquBOnByVCHmU
+ Otr1QhJZ2cA+Qo43HPvCyrwIQHybCM1Q4maz/XhjeXY/AA8L4c1Ac/4DF
+ tm3mfZNWEq9hXnCo1cW234ioCOg8LOtGVYcBwjfsWj04cFkH9ub17349v
+ L2/X1yTnVb9YyesWMqXrwr3uiHIzLVBHe3VVJDft24dlwJw2/k7UQwu5a
+ cyRoIsCn+XAOyVleB2wJoTBI4KDa+rOONjsg73wdARG9jfcfwS4zKRNHa
+ U3nvLuB+S/hcbFJrWJaI+b88KSUMB+nwqPqK4lpZHUYGQb1x6iGa5QiYi A==;
+X-CSE-ConnectionGUID: XkRRgBcvQem1Rm3CmAuLCw==
+X-CSE-MsgGUID: xL5deTY1QNCP3D+M0qYyQA==
+X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; d="scan'208";a="50047202"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 06:35:45 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Thu, 18 Dec 2025 06:35:15 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Thu, 18 Dec 2025 06:35:12 -0700
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
+Date: Thu, 18 Dec 2025 14:34:43 +0100
+Subject: [PATCH REGRESSION v3] drm/panel: simple: restore connector_type
+ fallback
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20251218-lcd_panel_connector_type_fix-v3-1-ddcea6d8d7ef@microchip.com>
+X-B4-Tracking: v=1; b=H4sIAPICRGkC/43NuwrCMBQG4FeRzEZ60ovi5CLiolBHkZCentiAJ
+ iWRYJG+u6GTuOj4n8v3v1ggbyiw9ezFPEUTjLMp5PMZw07ZK3HTpsxEJkoAAfyGreyVpZtEZy3
+ hw3n5GHqS2jy5zjJN+bKqVCFYInpPaTzxZ1Zvd/X2dNofD+ySdp0J6XeYmiNMF/+VRODAdds0p
+ PNCgSo2d4PeYWf6Bbr7hEfxCVY/QJFAhHKVly3oJTbf4DiOb0ybjr0pAQAA
+X-Change-ID: 20251121-lcd_panel_connector_type_fix-f00fe3766a42
+To: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <jesszhan0024@gmail.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, nd@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Mihail
- Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v6 3/7] drm/panthor: Add panthor perf initialization and
- termination
-Message-ID: <20251218143035.4b912051@fedora>
-In-Reply-To: <20251215171453.2506348-4-lukas.zapolskas@arm.com>
-References: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
- <20251215171453.2506348-4-lukas.zapolskas@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>, Anusha Srivatsa <asrivats@redhat.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>, Ludovic Desroches <ludovic.desroches@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5611;
+ i=ludovic.desroches@microchip.com; h=from:subject:message-id;
+ bh=kt1CFgrJoGGcg4im5yw+G42zbIzjog2txWELjrIDc+c=;
+ b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpRAMPJ4Y+1SD/eQcI5ztthiQSN1oN5XcndfVAb
+ ROaOj6gVZ+JAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaUQDDwAKCRA+OeYT93tk
+ LW3dD/9JdAtSTdSWzh1sKvN174Nx+2vMQMlwHBp+OoWOvllX3QS8Csre61VbxiwIBKR7XEDAWsS
+ hratGlsVorpnl8YmJc8u7I18yzk3UUQSWeipbKJUVSufG0uD0yjjeWTTa3u506tkvL60j/GKjKQ
+ z0TgczQr0YjpJbRcX1+yqnVf49jp7R1BM57/xBKyyJbrDNOGkygee9VGXoyfYgk1haA0ZqikvEy
+ 58oLrF630AW9EJfL/H3VUMQ48HmQptsUdGn2J1dMdE8DbxOaSvtnsrWOenk0799ltGGuYVl2apt
+ yqZhr8VhdyAuo5yzabm0ilNuEQzglb7LvY0gvt66wQwL4AkMBxg+Fs/FzXX7XJZsBAPRk5+3bKz
+ JHVouvFt1GKLfX0kgJCfbzuoQpzmh7/ETG2K1r1e/tHN4AJB5mEoa61fbVbIibst/wJP61v3N03
+ GnW48wGuAZmTTvpCO7VwBjggyOd4coZlycWYsznzXOYi5B0rJXCo28lV6trlY6U/Sg3rs1ec/oe
+ T31opBXEpWB+yskK2lYyAAv4eEPdAJVotfnakkv7zQ1II+K0VB9q4G5H/WgAqVn6nR9RvbeGl8y
+ McuLDWR5eEDci6LDBVxlOfaEz5ET3Pv6KuFpA7LMjjA+aNSBUrp6zIkQbJplLglAC4+Vd20Y5+Y
+ BqbIoJ3mxpbb3WA==
+X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
+ fpr=665BAA7297BE089A28B77696E332995F09DCC11A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,194 +97,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Dec 2025 17:14:49 +0000
-Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
+The switch from devm_kzalloc() + drm_panel_init() to
+devm_drm_panel_alloc() introduced a regression.
 
-> Added the panthor_perf system initialization and unplug code to allow
-> for the handling of userspace sessions to be added in follow-up
-> patches.
->=20
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> Reviewed-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |  2 +
->  drivers/gpu/drm/panthor/panthor_device.h |  5 +-
->  drivers/gpu/drm/panthor/panthor_perf.c   | 63 +++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_perf.h   |  1 +
->  4 files changed, 69 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
-anthor/panthor_device.c
-> index dc237da92340..3063ffbead45 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -120,6 +120,7 @@ void panthor_device_unplug(struct panthor_device *ptd=
-ev)
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
->  	 */
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
-> @@ -323,6 +324,7 @@ int panthor_device_init(struct panthor_device *ptdev)
-> =20
->  err_disable_autosuspend:
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> +	panthor_perf_unplug(ptdev);
-> =20
->  err_unplug_sched:
->  	panthor_sched_unplug(ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index 64b0048de6ac..e1a6250cecc8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -28,8 +28,8 @@ struct panthor_hw;
->  struct panthor_job;
->  struct panthor_mmu;
->  struct panthor_fw;
-> -struct panthor_perfcnt;
->  struct panthor_pwr;
-> +struct panthor_perf;
->  struct panthor_vm;
->  struct panthor_vm_pool;
-> =20
-> @@ -160,6 +160,9 @@ struct panthor_device {
->  	/** @devfreq: Device frequency scaling management data. */
->  	struct panthor_devfreq *devfreq;
-> =20
-> +	/** @perf: Performance counter management data. */
-> +	struct panthor_perf *perf;
-> +
->  	/** @unplug: Device unplug related fields. */
->  	struct {
->  		/** @lock: Lock used to serialize unplug operations. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/pan=
-thor/panthor_perf.c
-> index 842d62826ac3..3a65d6d326e8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.c
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
-> @@ -4,6 +4,7 @@
-> =20
->  #include <linux/bitops.h>
->  #include <drm/panthor_drm.h>
-> +#include <drm/drm_print.h>
-> =20
->  #include "panthor_device.h"
->  #include "panthor_fw.h"
-> @@ -22,6 +23,19 @@
->   */
->  #define PANTHOR_HW_COUNTER_SIZE (sizeof(u32))
-> =20
-> +struct panthor_perf {
-> +	/** @next_session: The ID of the next session. */
-> +	u32 next_session;
-> +
-> +	/** @session_range: The number of sessions supported at a time. */
-> +	struct xa_limit session_range;
-> +
-> +	/**
-> +	 * @sessions: Global map of sessions, accessed by their ID.
-> +	 */
-> +	struct xarray sessions;
-> +};
-> +
->  struct panthor_perf_counter_block {
->  	struct drm_panthor_perf_block_header header;
->  	u64 counters[];
-> @@ -76,14 +90,61 @@ static void panthor_perf_info_init(struct panthor_dev=
-ice *const ptdev)
->   * panthor_perf_init - Initialize the performance counter subsystem.
->   * @ptdev: Panthor device
->   *
-> + * The performance counters require the FW interface to be available to =
-setup the
-> + * sampling ringbuffers, so this must be called only after FW is initial=
-ized.
-> + *
->   * Return: 0 on success, negative error code on failure.
->   */
->  int panthor_perf_init(struct panthor_device *ptdev)
->  {
-> +	struct panthor_perf *perf __free(kfree) =3D NULL;
-> +	int ret =3D 0;
-> +
->  	if (!ptdev)
->  		return -EINVAL;
-> =20
->  	panthor_perf_info_init(ptdev);
-> =20
-> -	return 0;
-> +	perf =3D kzalloc(sizeof(*perf), GFP_KERNEL);
-> +	if (ZERO_OR_NULL_PTR(perf))
-> +		return -ENOMEM;
-> +
-> +	xa_init_flags(&perf->sessions, XA_FLAGS_ALLOC);
-> +
-> +	perf->session_range =3D (struct xa_limit) {
-> +		.min =3D 0,
-> +		.max =3D 1,
-> +	};
-> +
-> +	drm_info(&ptdev->base, "Performance counter subsystem initialized");
-> +
-> +	ptdev->perf =3D no_free_ptr(perf);
+Several panel descriptors do not set connector_type. For those panels,
+panel_simple_probe() used to compute a connector type (currently DPI as a
+fallback) and pass that value to drm_panel_init(). After the conversion
+to devm_drm_panel_alloc(), the call unconditionally used
+desc->connector_type instead, ignoring the computed fallback and
+potentially passing DRM_MODE_CONNECTOR_Unknown, which
+drm_panel_bridge_add() does not allow.
 
-side-note: it's a bit of a personal opinion but those __free(kfree)
-annotated vars that are then assigned to something or returned make me
-nervous. AFAICT, there's no compile-time warning/error when you forget
-to wrap the assigned/returned value with no_free_ptr()/return_ptr(),
-which basically turn unlikely leaks (because the error path is rarely
-taken) into almost certain UAF situations. I know it's something you
-have to get right only once most of the time, but still, I find it quite
-dangerous, especially when early bailouts with valid pointers are added
-to an existing function. All this to say that, unless there's a very
-good reason to use it, or if there exist tools to prove correctness at
-compile time, I'd prefer to stay away from this pattern and stick to
-manual kfree()s.
+Move the connector_type validation / fallback logic before the
+devm_drm_panel_alloc() call and pass the computed connector_type to
+devm_drm_panel_alloc(), so panels without an explicit connector_type
+once again get the DPI default.
 
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * panthor_perf_unplug - Terminate the performance counter subsystem.
-> + * @ptdev: Panthor device.
-> + *
-> + * This function will terminate the performance counter control structur=
-es and any remaining
-> + * sessions, after waiting for any pending interrupts.
-> + */
-> +void panthor_perf_unplug(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_perf *perf =3D ptdev->perf;
-> +
-> +	if (!perf)
-> +		return;
-> +
-> +	if (!xa_empty(&perf->sessions)) {
-> +		drm_err(&ptdev->base,
-> +			"Performance counter sessions active when unplugging the driver!");
-> +	}
-> +
-> +	xa_destroy(&perf->sessions);
-> +
-> +	kfree(ptdev->perf);
-> +
-> +	ptdev->perf =3D NULL;
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/pan=
-thor/panthor_perf.h
-> index 3c32c24c164c..e4805727b9e7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.h
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
-> @@ -10,6 +10,7 @@
->  struct panthor_device;
-> =20
->  int panthor_perf_init(struct panthor_device *ptdev);
-> +void panthor_perf_unplug(struct panthor_device *ptdev);
-> =20
->  #endif /* __PANTHOR_PERF_H__ */
-> =20
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+Cc: stable@vger.kernel.org
+---
+Changes in v3:
+- Add the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+- Link to v2: https://lore.kernel.org/r/20251126-lcd_panel_connector_type_fix-v2-1-c15835d1f7cb@microchip.com
+
+Changes in v2:
+- Fix a warning introduced by the code move. There is no need to jump to
+  free_ddc, we can directly return from the function.
+- Link to v1: https://lore.kernel.org/r/20251121-lcd_panel_connector_type_fix-v1-1-fdbbef34a1a4@microchip.com
+---
+ drivers/gpu/drm/panel/panel-simple.c | 89 ++++++++++++++++++------------------
+ 1 file changed, 44 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 0019de93be1b663f55b04160606363cd043ab38b..5fd75b3939c635ca3e5b293ea37a759f479fa3f8 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -623,49 +623,6 @@ static struct panel_simple *panel_simple_probe(struct device *dev)
+ 	if (IS_ERR(desc))
+ 		return ERR_CAST(desc);
+ 
+-	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
+-				     &panel_simple_funcs, desc->connector_type);
+-	if (IS_ERR(panel))
+-		return ERR_CAST(panel);
+-
+-	panel->desc = desc;
+-
+-	panel->supply = devm_regulator_get(dev, "power");
+-	if (IS_ERR(panel->supply))
+-		return ERR_CAST(panel->supply);
+-
+-	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
+-						     GPIOD_OUT_LOW);
+-	if (IS_ERR(panel->enable_gpio))
+-		return dev_err_cast_probe(dev, panel->enable_gpio,
+-					  "failed to request GPIO\n");
+-
+-	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
+-	if (err) {
+-		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
+-		return ERR_PTR(err);
+-	}
+-
+-	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
+-	if (ddc) {
+-		panel->ddc = of_find_i2c_adapter_by_node(ddc);
+-		of_node_put(ddc);
+-
+-		if (!panel->ddc)
+-			return ERR_PTR(-EPROBE_DEFER);
+-	}
+-
+-	if (!of_device_is_compatible(dev->of_node, "panel-dpi") &&
+-	    !of_get_display_timing(dev->of_node, "panel-timing", &dt))
+-		panel_simple_parse_panel_timing_node(dev, panel, &dt);
+-
+-	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
+-		/* Optional data-mapping property for overriding bus format */
+-		err = panel_simple_override_nondefault_lvds_datamapping(dev, panel);
+-		if (err)
+-			goto free_ddc;
+-	}
+-
+ 	connector_type = desc->connector_type;
+ 	/* Catch common mistakes for panels. */
+ 	switch (connector_type) {
+@@ -690,8 +647,7 @@ static struct panel_simple *panel_simple_probe(struct device *dev)
+ 		break;
+ 	case DRM_MODE_CONNECTOR_eDP:
+ 		dev_warn(dev, "eDP panels moved to panel-edp\n");
+-		err = -EINVAL;
+-		goto free_ddc;
++		return ERR_PTR(-EINVAL);
+ 	case DRM_MODE_CONNECTOR_DSI:
+ 		if (desc->bpc != 6 && desc->bpc != 8)
+ 			dev_warn(dev, "Expected bpc in {6,8} but got: %u\n", desc->bpc);
+@@ -720,6 +676,49 @@ static struct panel_simple *panel_simple_probe(struct device *dev)
+ 		break;
+ 	}
+ 
++	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
++				     &panel_simple_funcs, connector_type);
++	if (IS_ERR(panel))
++		return ERR_CAST(panel);
++
++	panel->desc = desc;
++
++	panel->supply = devm_regulator_get(dev, "power");
++	if (IS_ERR(panel->supply))
++		return ERR_CAST(panel->supply);
++
++	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
++						     GPIOD_OUT_LOW);
++	if (IS_ERR(panel->enable_gpio))
++		return dev_err_cast_probe(dev, panel->enable_gpio,
++					  "failed to request GPIO\n");
++
++	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
++	if (err) {
++		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
++		return ERR_PTR(err);
++	}
++
++	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
++	if (ddc) {
++		panel->ddc = of_find_i2c_adapter_by_node(ddc);
++		of_node_put(ddc);
++
++		if (!panel->ddc)
++			return ERR_PTR(-EPROBE_DEFER);
++	}
++
++	if (!of_device_is_compatible(dev->of_node, "panel-dpi") &&
++	    !of_get_display_timing(dev->of_node, "panel-timing", &dt))
++		panel_simple_parse_panel_timing_node(dev, panel, &dt);
++
++	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
++		/* Optional data-mapping property for overriding bus format */
++		err = panel_simple_override_nondefault_lvds_datamapping(dev, panel);
++		if (err)
++			goto free_ddc;
++	}
++
+ 	dev_set_drvdata(dev, panel);
+ 
+ 	/*
+
+---
+base-commit: ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
+change-id: 20251121-lcd_panel_connector_type_fix-f00fe3766a42
+
+Best regards,
+-- 
+Ludovic Desroches <ludovic.desroches@microchip.com>
 
