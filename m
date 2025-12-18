@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96827CCCBA7
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 17:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87F1CCCBAA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 17:22:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1318B10EA4C;
-	Thu, 18 Dec 2025 16:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11CC910EA43;
+	Thu, 18 Dec 2025 16:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AE3YORw5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D2yd/90e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8CCD10EA4C;
- Thu, 18 Dec 2025 16:22:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEBF10EA4E;
+ Thu, 18 Dec 2025 16:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766074943; x=1797610943;
+ t=1766074947; x=1797610947;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7qiZcDS+yVRKqMB38VwwolQ37GREgFU4inLzxzdwdK4=;
- b=AE3YORw5w4/EMXRL6tfpzFXbmDTRkPKdaw0hEUEoVHz6V5Ma7KeZIFBq
- hp7C0DNHPJuXWoFUTj1Um0WZAjER//MF+W1Od9XSRH4yNZmYhf+i/HSTZ
- WGIq8smK7I05fxISPNaPZ+R5WcBceR8EyGAmLYPhYz5tGlNGBPv0p9STl
- vfjS2wonwbW/vHuLSH5OPbJyqckML0Txou3fHxlJTj94538eMRhaRfaac
- LJ/xPlh0EoQg+HAeEhfLl/PxRdfV2BjfKOEFdDIFJfs2JkUjaUFdcI/CH
- UlaYJXzPw74Svz0Rrt4fyMA3/unJXjiiaQKb+6DJcR8Mrse0C2af55q4M Q==;
-X-CSE-ConnectionGUID: 89HW3GpDTS+zCxUz6lLz8w==
-X-CSE-MsgGUID: EMjl6G++TE6yAWcgTvq5Qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="70607652"
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="70607652"
+ bh=4UeDIb3/cddUEdQpuCET4maZibb4XfW6iIWqZ3yuXPo=;
+ b=D2yd/90e3qPL0R12k6e4kZtxt+bXQqQqhWz5HWyuGgzUehaApKsvEvvq
+ njyxdiayL7LzFuhg/pD0QEgx0AnS5lDpXzBeKz0VSsmORiXOknE78qo+b
+ 549xkPp+37xLIYc+NuD6yo1nC2jndOZlC/TjWXU8njKFTC/R7lw5o/vPO
+ RBj4R6qW3/aGfCUwjy6F0KqYfQX/qj1mDx+GZwudjOkO9B1GyebeWrHTH
+ zeZFy+41yqq/um4i2Q9iHaBOKBAh4XeceoTPvjwyeWV6/oI6Z1Zzk8qHb
+ VHjtXTVHw1hanw/mONoTGrXT1mHR+gynb++Or4iSafAPtuH0Rys6fpGNL A==;
+X-CSE-ConnectionGUID: MyBIwdsyR76uzVz6kLFn4w==
+X-CSE-MsgGUID: 3xuIw9H4RIqGV+C3fCvv8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="70607662"
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="70607662"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 08:22:23 -0800
-X-CSE-ConnectionGUID: genwz3qARSauCthsAzTW4A==
-X-CSE-MsgGUID: 43P4lwIsRT2eG3zyF+oTGA==
+ 18 Dec 2025 08:22:26 -0800
+X-CSE-ConnectionGUID: YN9Zo26MRB6S0I55C2wo+g==
+X-CSE-MsgGUID: B0uNPNyyQ7K2OWIrGl6erg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="203705711"
+X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="203705725"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO fedora)
  ([10.245.244.93])
  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 08:22:19 -0800
+ 18 Dec 2025 08:22:23 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- dri-devel@lists.freedesktop.org, apopple@nvidia.com, airlied@gmail.com,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v5 13/24] drm/xe: Use the vma attibute drm_pagemap to select
- where to migrate
-Date: Thu, 18 Dec 2025 17:20:50 +0100
-Message-ID: <20251218162101.605379-14-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 14/24] drm/xe: Simplify madvise_preferred_mem_loc()
+Date: Thu, 18 Dec 2025 17:20:51 +0100
+Message-ID: <20251218162101.605379-15-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
 References: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
@@ -77,376 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Honor the drm_pagemap vma attribute when migrating SVM pages.
-Ensure that when the desired placement is validated as device
-memory, that we also check that the requested drm_pagemap is
-consistent with the current.
-
-v2:
-- Initialize a struct drm_pagemap pointer to NULL that could
-  otherwise be dereferenced uninitialized. (CI)
-- Remove a redundant assignment (Matt Brost)
-- Slightly improved commit message (Matt Brost)
-- Extended drm_pagemap validation.
-
-v3:
-- Fix a compilation error if CONFIG_DRM_GPUSVM is not enabled.
-  (kernel test robot <lkp@intel.com>)
+Simplify madvise_preferred_mem_loc by removing repetitive patterns
+in favour of local variables.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c      | 86 ++++++++++++++++++++------------
- drivers/gpu/drm/xe/xe_svm.h      | 14 +++---
- drivers/gpu/drm/xe/xe_vm.c       | 24 ++++-----
- drivers/gpu/drm/xe/xe_vm_types.h |  6 +--
- 4 files changed, 72 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/xe/xe_vm_madvise.c | 21 +++++++++++----------
+ drivers/gpu/drm/xe/xe_vm_types.h   |  2 +-
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index fba40bf76586..efc25a93d3da 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -909,13 +909,34 @@ void xe_svm_fini(struct xe_vm *vm)
- 	drm_gpusvm_fini(&vm->svm.gpusvm);
- }
+diff --git a/drivers/gpu/drm/xe/xe_vm_madvise.c b/drivers/gpu/drm/xe/xe_vm_madvise.c
+index 9553008409d1..d6f47c8e146d 100644
+--- a/drivers/gpu/drm/xe/xe_vm_madvise.c
++++ b/drivers/gpu/drm/xe/xe_vm_madvise.c
+@@ -81,21 +81,22 @@ static void madvise_preferred_mem_loc(struct xe_device *xe, struct xe_vm *vm,
+ 	xe_assert(vm->xe, op->type == DRM_XE_MEM_RANGE_ATTR_PREFERRED_LOC);
  
-+static bool xe_svm_range_has_pagemap_locked(const struct xe_svm_range *range,
-+					    const struct drm_pagemap *dpagemap)
-+{
-+	return range->base.pages.dpagemap == dpagemap;
-+}
+ 	for (i = 0; i < num_vmas; i++) {
++		struct xe_vma *vma = vmas[i];
++		struct xe_vma_preferred_loc *loc = &vma->attr.preferred_loc;
 +
-+static bool xe_svm_range_has_pagemap(struct xe_svm_range *range,
-+				     const struct drm_pagemap *dpagemap)
-+{
-+	struct xe_vm *vm = range_to_vm(&range->base);
-+	bool ret;
-+
-+	xe_svm_notifier_lock(vm);
-+	ret = xe_svm_range_has_pagemap_locked(range, dpagemap);
-+	xe_svm_notifier_unlock(vm);
-+
-+	return ret;
-+}
-+
- static bool xe_svm_range_is_valid(struct xe_svm_range *range,
- 				  struct xe_tile *tile,
--				  bool devmem_only)
-+				  bool devmem_only,
-+				  const struct drm_pagemap *dpagemap)
-+
- {
- 	return (xe_vm_has_valid_gpu_mapping(tile, range->tile_present,
- 					    range->tile_invalidated) &&
--		(!devmem_only || xe_svm_range_in_vram(range)));
-+		(!devmem_only || xe_svm_range_has_pagemap(range, dpagemap)));
- }
- 
- /** xe_svm_range_migrate_to_smem() - Move range pages from VRAM to SMEM
-@@ -936,7 +957,8 @@ void xe_svm_range_migrate_to_smem(struct xe_vm *vm, struct xe_svm_range *range)
-  * @vm: xe_vm pointer
-  * @range: Pointer to the SVM range structure
-  * @tile_mask: Mask representing the tiles to be checked
-- * @devmem_preferred : if true range needs to be in devmem
-+ * @dpagemap: if !%NULL, the range is expected to be present
-+ * in device memory identified by this parameter.
-  *
-  * The xe_svm_range_validate() function checks if a range is
-  * valid and located in the desired memory region.
-@@ -945,14 +967,15 @@ void xe_svm_range_migrate_to_smem(struct xe_vm *vm, struct xe_svm_range *range)
-  */
- bool xe_svm_range_validate(struct xe_vm *vm,
- 			   struct xe_svm_range *range,
--			   u8 tile_mask, bool devmem_preferred)
-+			   u8 tile_mask, const struct drm_pagemap *dpagemap)
- {
- 	bool ret;
- 
- 	xe_svm_notifier_lock(vm);
- 
--	ret = (range->tile_present & ~range->tile_invalidated & tile_mask) == tile_mask &&
--	       (devmem_preferred == range->base.pages.flags.has_devmem_pages);
-+	ret = (range->tile_present & ~range->tile_invalidated & tile_mask) == tile_mask;
-+	if (dpagemap)
-+		ret = ret && xe_svm_range_has_pagemap_locked(range, dpagemap);
- 
- 	xe_svm_notifier_unlock(vm);
- 
-@@ -1066,22 +1089,22 @@ static bool supports_4K_migration(struct xe_device *xe)
-  * xe_svm_range_needs_migrate_to_vram() - SVM range needs migrate to VRAM or not
-  * @range: SVM range for which migration needs to be decided
-  * @vma: vma which has range
-- * @preferred_region_is_vram: preferred region for range is vram
-+ * @dpagemap: The preferred struct drm_pagemap to migrate to.
-  *
-  * Return: True for range needing migration and migration is supported else false
-  */
- bool xe_svm_range_needs_migrate_to_vram(struct xe_svm_range *range, struct xe_vma *vma,
--					bool preferred_region_is_vram)
-+					const struct drm_pagemap *dpagemap)
- {
- 	struct xe_vm *vm = range_to_vm(&range->base);
- 	u64 range_size = xe_svm_range_size(range);
- 
--	if (!range->base.pages.flags.migrate_devmem || !preferred_region_is_vram)
-+	if (!range->base.pages.flags.migrate_devmem || !dpagemap)
- 		return false;
- 
- 	xe_assert(vm->xe, IS_DGFX(vm->xe));
- 
--	if (xe_svm_range_in_vram(range)) {
-+	if (xe_svm_range_has_pagemap(range, dpagemap)) {
- 		drm_dbg(&vm->xe->drm, "Range is already in VRAM\n");
- 		return false;
+ 		/*TODO: Extend attributes to bo based vmas */
+-		if ((vmas[i]->attr.preferred_loc.devmem_fd == op->preferred_mem_loc.devmem_fd &&
+-		     vmas[i]->attr.preferred_loc.migration_policy ==
+-		     op->preferred_mem_loc.migration_policy) ||
+-		    !xe_vma_is_cpu_addr_mirror(vmas[i])) {
+-			vmas[i]->skip_invalidation = true;
++		if ((loc->devmem_fd == op->preferred_mem_loc.devmem_fd &&
++		     loc->migration_policy == op->preferred_mem_loc.migration_policy) ||
++		    !xe_vma_is_cpu_addr_mirror(vma)) {
++			vma->skip_invalidation = true;
+ 		} else {
+-			vmas[i]->skip_invalidation = false;
+-			vmas[i]->attr.preferred_loc.devmem_fd = op->preferred_mem_loc.devmem_fd;
++			vma->skip_invalidation = false;
++			loc->devmem_fd = op->preferred_mem_loc.devmem_fd;
+ 			/* Till multi-device support is not added migration_policy
+ 			 * is of no use and can be ignored.
+ 			 */
+-			vmas[i]->attr.preferred_loc.migration_policy =
+-						op->preferred_mem_loc.migration_policy;
+-			vmas[i]->attr.preferred_loc.dpagemap = NULL;
++			loc->migration_policy = op->preferred_mem_loc.migration_policy;
++			loc->dpagemap = NULL;
+ 		}
  	}
-@@ -1178,9 +1201,9 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	if (err)
- 		return err;
- 
--	dpagemap = xe_vma_resolve_pagemap(vma, tile);
--	ctx.device_private_page_owner =
--		xe_svm_private_page_owner(vm, !dpagemap && !ctx.devmem_only);
-+	dpagemap = ctx.devmem_only ? xe_tile_local_pagemap(tile) :
-+		xe_vma_resolve_pagemap(vma, tile);
-+	ctx.device_private_page_owner = xe_svm_private_page_owner(vm, !dpagemap);
- 	range = xe_svm_range_find_or_insert(vm, fault_addr, vma, &ctx);
- 
- 	if (IS_ERR(range))
-@@ -1193,7 +1216,7 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 		goto out;
- 	}
- 
--	if (xe_svm_range_is_valid(range, tile, ctx.devmem_only)) {
-+	if (xe_svm_range_is_valid(range, tile, ctx.devmem_only, dpagemap)) {
- 		xe_svm_range_valid_fault_count_stats_incr(gt, range);
- 		range_debug(range, "PAGE FAULT - VALID");
- 		goto out;
-@@ -1202,16 +1225,11 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	range_debug(range, "PAGE FAULT");
- 
- 	if (--migrate_try_count >= 0 &&
--	    xe_svm_range_needs_migrate_to_vram(range, vma, !!dpagemap || ctx.devmem_only)) {
-+	    xe_svm_range_needs_migrate_to_vram(range, vma, dpagemap)) {
- 		ktime_t migrate_start = xe_gt_stats_ktime_get();
- 
--		/* TODO : For multi-device dpagemap will be used to find the
--		 * remote tile and remote device. Will need to modify
--		 * xe_svm_alloc_vram to use dpagemap for future multi-device
--		 * support.
--		 */
- 		xe_svm_range_migrate_count_stats_incr(gt, range);
--		err = xe_svm_alloc_vram(tile, range, &ctx);
-+		err = xe_svm_alloc_vram(range, &ctx, dpagemap);
- 		xe_svm_range_migrate_us_stats_incr(gt, range, migrate_start);
- 		ctx.timeslice_ms <<= 1;	/* Double timeslice if we have to retry */
- 		if (err) {
-@@ -1528,7 +1546,13 @@ u8 xe_svm_ranges_zap_ptes_in_range(struct xe_vm *vm, u64 start, u64 end)
-  */
- struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *tile)
- {
--	s32 fd = (s32)vma->attr.preferred_loc.devmem_fd;
-+	struct drm_pagemap *dpagemap = vma->attr.preferred_loc.dpagemap;
-+	s32 fd;
-+
-+	if (dpagemap)
-+		return dpagemap;
-+
-+	fd = (s32)vma->attr.preferred_loc.devmem_fd;
- 
- 	if (fd == DRM_XE_PREFERRED_LOC_DEFAULT_SYSTEM)
- 		return NULL;
-@@ -1536,28 +1560,24 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
- 	if (fd == DRM_XE_PREFERRED_LOC_DEFAULT_DEVICE)
- 		return IS_DGFX(tile_to_xe(tile)) ? xe_tile_local_pagemap(tile) : NULL;
- 
--	/* TODO: Support multi-device with drm_pagemap_from_fd(fd) */
- 	return NULL;
  }
- 
- /**
-  * xe_svm_alloc_vram()- Allocate device memory pages for range,
-  * migrating existing data.
-- * @tile: tile to allocate vram from
-  * @range: SVM range
-  * @ctx: DRM GPU SVM context
-+ * @dpagemap: The struct drm_pagemap representing the memory to allocate.
-  *
-  * Return: 0 on success, error code on failure.
-  */
--int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *ctx,
-+		      struct drm_pagemap *dpagemap)
- {
--	struct drm_pagemap *dpagemap;
--
--	xe_assert(tile_to_xe(tile), range->base.pages.flags.migrate_devmem);
-+	xe_assert(range_to_vm(&range->base)->xe, range->base.pages.flags.migrate_devmem);
- 	range_debug(range, "ALLOCATE VRAM");
- 
--	dpagemap = xe_tile_local_pagemap(tile);
- 	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
- 				       xe_svm_range_end(range),
- 				       range->base.gpusvm->mm,
-@@ -1827,9 +1847,9 @@ int xe_pagemap_cache_create(struct xe_tile *tile)
- 	return 0;
- }
- 
--int xe_svm_alloc_vram(struct xe_tile *tile,
--		      struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+int xe_svm_alloc_vram(struct xe_svm_range *range,
-+		      const struct drm_gpusvm_ctx *ctx,
-+		      struct drm_pagemap *dpagemap)
- {
- 	return -EOPNOTSUPP;
- }
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 5adce108f7eb..a003f571c82a 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -94,8 +94,8 @@ int xe_svm_bo_evict(struct xe_bo *bo);
- 
- void xe_svm_range_debug(struct xe_svm_range *range, const char *operation);
- 
--int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx);
-+int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *ctx,
-+		      struct drm_pagemap *dpagemap);
- 
- struct xe_svm_range *xe_svm_range_find_or_insert(struct xe_vm *vm, u64 addr,
- 						 struct xe_vma *vma, struct drm_gpusvm_ctx *ctx);
-@@ -104,13 +104,13 @@ int xe_svm_range_get_pages(struct xe_vm *vm, struct xe_svm_range *range,
- 			   struct drm_gpusvm_ctx *ctx);
- 
- bool xe_svm_range_needs_migrate_to_vram(struct xe_svm_range *range, struct xe_vma *vma,
--					bool preferred_region_is_vram);
-+					const struct drm_pagemap *dpagemap);
- 
- void xe_svm_range_migrate_to_smem(struct xe_vm *vm, struct xe_svm_range *range);
- 
- bool xe_svm_range_validate(struct xe_vm *vm,
- 			   struct xe_svm_range *range,
--			   u8 tile_mask, bool devmem_preferred);
-+			   u8 tile_mask, const struct drm_pagemap *dpagemap);
- 
- u64 xe_svm_find_vma_start(struct xe_vm *vm, u64 addr, u64 end,  struct xe_vma *vma);
- 
-@@ -276,8 +276,8 @@ void xe_svm_range_debug(struct xe_svm_range *range, const char *operation)
- }
- 
- static inline int
--xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
--		  const struct drm_gpusvm_ctx *ctx)
-+xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *ctx,
-+		  struct drm_pagemap *dpagemap)
- {
- 	return -EOPNOTSUPP;
- }
-@@ -318,7 +318,7 @@ static inline unsigned long xe_svm_range_size(struct xe_svm_range *range)
- 
- static inline
- bool xe_svm_range_needs_migrate_to_vram(struct xe_svm_range *range, struct xe_vma *vma,
--					u32 region)
-+					const struct drm_pagemap *dpagemap)
- {
- 	return false;
- }
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 351046c9587b..808b44fb0569 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2342,7 +2342,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 			struct xe_tile *tile;
- 			struct xe_svm_range *svm_range;
- 			struct drm_gpusvm_ctx ctx = {};
--			struct drm_pagemap *dpagemap;
-+			struct drm_pagemap *dpagemap = NULL;
- 			u8 id, tile_mask = 0;
- 			u32 i;
- 
-@@ -2360,23 +2360,17 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 
- 			xa_init_flags(&op->prefetch_range.range, XA_FLAGS_ALLOC);
- 			op->prefetch_range.ranges_count = 0;
--			tile = NULL;
- 
- 			if (prefetch_region == DRM_XE_CONSULT_MEM_ADVISE_PREF_LOC) {
- 				dpagemap = xe_vma_resolve_pagemap(vma,
- 								  xe_device_get_root_tile(vm->xe));
--				/*
--				 * TODO: Once multigpu support is enabled will need
--				 * something to dereference tile from dpagemap.
--				 */
--				if (dpagemap)
--					tile = xe_device_get_root_tile(vm->xe);
- 			} else if (prefetch_region) {
- 				tile = &vm->xe->tiles[region_to_mem_type[prefetch_region] -
- 						      XE_PL_VRAM0];
-+				dpagemap = xe_tile_local_pagemap(tile);
- 			}
- 
--			op->prefetch_range.tile = tile;
-+			op->prefetch_range.dpagemap = dpagemap;
- alloc_next_range:
- 			svm_range = xe_svm_range_find_or_insert(vm, addr, vma, &ctx);
- 
-@@ -2395,7 +2389,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 				goto unwind_prefetch_ops;
- 			}
- 
--			if (xe_svm_range_validate(vm, svm_range, tile_mask, !!tile)) {
-+			if (xe_svm_range_validate(vm, svm_range, tile_mask, dpagemap)) {
- 				xe_svm_range_debug(svm_range, "PREFETCH - RANGE IS VALID");
- 				goto check_next_range;
- 			}
-@@ -2917,7 +2911,7 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
- {
- 	bool devmem_possible = IS_DGFX(vm->xe) && IS_ENABLED(CONFIG_DRM_XE_PAGEMAP);
- 	struct xe_vma *vma = gpuva_to_vma(op->base.prefetch.va);
--	struct xe_tile *tile = op->prefetch_range.tile;
-+	struct drm_pagemap *dpagemap = op->prefetch_range.dpagemap;
- 	int err = 0;
- 
- 	struct xe_svm_range *svm_range;
-@@ -2930,15 +2924,15 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
- 	ctx.read_only = xe_vma_read_only(vma);
- 	ctx.devmem_possible = devmem_possible;
- 	ctx.check_pages_threshold = devmem_possible ? SZ_64K : 0;
--	ctx.device_private_page_owner = xe_svm_private_page_owner(vm, !tile);
-+	ctx.device_private_page_owner = xe_svm_private_page_owner(vm, !dpagemap);
- 
- 	/* TODO: Threading the migration */
- 	xa_for_each(&op->prefetch_range.range, i, svm_range) {
--		if (!tile)
-+		if (!dpagemap)
- 			xe_svm_range_migrate_to_smem(vm, svm_range);
- 
--		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, !!tile)) {
--			err = xe_svm_alloc_vram(tile, svm_range, &ctx);
-+		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, dpagemap)) {
-+			err = xe_svm_alloc_vram(svm_range, &ctx, dpagemap);
- 			if (err) {
- 				drm_dbg(&vm->xe->drm, "VRAM allocation failed, retry from userspace, asid=%u, gpusvm=%p, errno=%pe\n",
- 					vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
 diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index 5876a966ed24..594555f1669a 100644
+index 594555f1669a..437f64202f3b 100644
 --- a/drivers/gpu/drm/xe/xe_vm_types.h
 +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -408,10 +408,10 @@ struct xe_vma_op_prefetch_range {
- 	/** @ranges_count: number of svm ranges to map */
- 	u32 ranges_count;
- 	/**
--	 * @tile: Pointer to the tile structure containing memory to prefetch.
--	 *        NULL if prefetch requested region is smem
-+	 * @dpagemap: Pointer to the dpagemap structure containing memory to prefetch.
-+	 * NULL if prefetch requested region is smem
- 	 */
--	struct xe_tile *tile;
-+	struct drm_pagemap *dpagemap;
- };
+@@ -56,7 +56,7 @@ struct xe_vm_pgtable_update_op;
+  */
+ struct xe_vma_mem_attr {
+ 	/** @preferred_loc: preferred memory_location */
+-	struct {
++	struct xe_vma_preferred_loc {
+ 		/** @preferred_loc.migration_policy: Pages migration policy */
+ 		u32 migration_policy;
  
- /** enum xe_vma_op_flags - flags for VMA operation */
 -- 
 2.51.1
 
