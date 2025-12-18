@@ -2,78 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7D4CCBBB8
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 13:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE117CCBCF1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 13:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3658910EEAF;
-	Thu, 18 Dec 2025 12:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 938BF10E04A;
+	Thu, 18 Dec 2025 12:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m+sxOXiO";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ETaaGTSL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F9610EEAF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 12:10:13 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2a099233e8dso5175145ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 04:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766059813; x=1766664613; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qOWaFXqpm74y7sdJY7lj3lPz4pEHcCsnHUa4ddlZBMY=;
- b=m+sxOXiOuoOqeCksrZaXOW+ll2fn9o6WhERLmCSB6SM4KqAiBn0TJVT/DP2Qx9MxB4
- Nu5HsNWUtslzuN8geMuMLUzfwwZKv4XiB0lxb6+uGBqBi3dbUD6+9uTnra4BGv/Cb+ey
- QJL3lwGnVrjp3iL7ma2DN6ThXRU8LJKZOd17v1xNvF2oZ33KEmSaCHBsZ8Op6dv9HUn7
- PIW2mnkFVYzaqK31xWRDYoMRLcU74ChR6ubMx/MhD4x5fPKUWSPa3aoYupTYgmZkgwso
- ZLJfKXIqQU/o7xua83BPLrOZWJafRTtun48u6eY9gx6f3sZ3ioIktdfIMZg8vYlxw3fV
- bGjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766059813; x=1766664613;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qOWaFXqpm74y7sdJY7lj3lPz4pEHcCsnHUa4ddlZBMY=;
- b=f4p8xAFN8srq+uozazLVB8YvKAIjI5wIEv4/VOrDYSyCB2vwjT0cApi9QM8zCvEBTv
- sP1E8sO5RyZ5Owr2YH+6R9tQa/He4+hDJ+ySWgzSDdzMjihpw/SQ2mmwVs9uyEr8b59x
- q2g2cmsLPrB7qnqnmXOrIlNH5/Yw9xdd92de7Z5VU6QY+mMQg4yRF+jBNn7hdhRe19b2
- k4MhiKxqgwLTJ+Ch4PC71g2jjSOwXorKoxLLcLdo95Tm7oXZtDl1YKuP7Oy3RxK3bQjo
- RF7hj/wkyPKprwUz1pTNSI2A9rtaIaq8az2I69WgB0r26anPf0mpW0iWx61hrnkQ1ShA
- Bo4Q==
-X-Gm-Message-State: AOJu0YxVdA5FvKi3WMNWLqqG7LSFn9Pa1PUTGIG//Zn63t6EIv6qILjH
- 3mvVfFNoJj/2oBSpg5JKen94B6u3PtAN8+WpwvHJ+V0Sluawmb2wq665
-X-Gm-Gg: AY/fxX6uZEuk8S1cKJV+TaabkeaSsu/4vuVPr0+K6ZZQSC+pPpZaT5g/G5WboMotQkr
- 5i9KIPHTBzxjfwQIumzle9ZnM+DPTRqAo54hGkQGjkzDki9+7ofVeT7addeMdSTsv09x2sMyTsD
- nO3VgPy7wPLJ2hMA4rhb3GpGDz/6fKu3RpGs+d7xC3pnEp0ef450K04zdCR+/ER3yr6n4WUoXr9
- JscsI/2fag8pkRT4ftrZvg2BT2Bv8p/ESNAq5GKwLtN4H5BWNmF9zgM5gjaB6LCHZYMr5cTBNAR
- r1pcca/8+r+//eDNNGIYveDJGQV4scmwOC55HMUxhqhtKNbJCv+GjKHzKD9i+M3CjL4R097i7YR
- +Ba4GAtTc0dCIEc6hBh7hSsGwxdXamvzjhDOVLIfrEZkmTTSDd1hXvpUQN/p2IbWPDdffU1BorS
- oXp2AbynCmJyVs7rcH+9CPb3GCqr6LZvvsvth6yVtrQwUuDJGUZfbxEoaOqvJ+AltqkjyO2v58r
- ZjgkcGDXq8NLw==
-X-Google-Smtp-Source: AGHT+IFwS6OIsDwZer+0tNaVZWDLxetbvduNSu7zZktJBqOYGOtNbaVUJPhCqOoTtBYrJt56YuRJyg==
-X-Received: by 2002:a17:902:e804:b0:295:96bc:868c with SMTP id
- d9443c01a7336-29f23dd535dmr215259295ad.5.1766059812744; 
- Thu, 18 Dec 2025 04:10:12 -0800 (PST)
-Received: from oslab.mshome.net (n058152119183.netvigator.com.
- [58.152.119.183]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2d0888fbdsm24480035ad.32.2025.12.18.04.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Dec 2025 04:10:12 -0800 (PST)
-From: Tuo Li <islituo@gmail.com>
-To: neil.armstrong@linaro.org, jesszhan0024@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tuo Li <islituo@gmail.com>
-Subject: [PATCH] drm/panel: Fix a possible null-pointer dereference in
- jdi_panel_dsi_remove()
-Date: Thu, 18 Dec 2025 20:09:55 +0800
-Message-ID: <20251218120955.11185-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8542A10E04A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 12:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1766061510;
+ bh=PbmbSGRTKNSlpkIMIcAeqY7irz7C8Mi8TAsByNoZXMM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ETaaGTSL6qR2F592lIRCNEvXi5wNXkJNBmV30CMka//yOkrC5lsKCu80cq0ZK2JRs
+ daoXV8L59oPoiZrYjNLGu+uH1BdtZFJjHTzCdnvm/n2D8tw1KcMqN+lVNMq3vS88im
+ 6zjlSfrX2WM57TZpofluyheazYdEGzLqt1MRQrvR09z0/3EIMelsg/TC9aao8NycZN
+ 5LSFbTOlpqBzPIPoY+zrqFmNZnbSwmoUpNaI0Z9w34UGO7houQ1iyXvsqlNmXxb/As
+ zO+H+QD2xwExMG4tkkbXUNIDr/uCfUDD28C9lZEuFrBhzGUD9uw+zCFtjqKNPttyw0
+ djk8iRjFf4CmA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9E57B17E0184;
+ Thu, 18 Dec 2025 13:38:29 +0100 (CET)
+Date: Thu, 18 Dec 2025 13:38:25 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
+ <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 1/3] drm/panthor: Add panthor_*_irq_mask_set helper
+Message-ID: <20251218133825.64177ebf@fedora>
+In-Reply-To: <20251217-panthor-tracepoints-v4-1-916186cb8d03@collabora.com>
+References: <20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com>
+ <20251217-panthor-tracepoints-v4-1-916186cb8d03@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,47 +68,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In jdi_panel_dsi_remove(), jdi is explicitly checked, indicating that it
-may be NULL:
+On Wed, 17 Dec 2025 15:29:38 +0100
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
 
-  if (!jdi)
-    mipi_dsi_detach(dsi);
+> Add a function to modify an IRQ's mask. If the IRQ is currently active,
+> it will write to the register, otherwise it will only set the struct
+> member.
+> 
+> There's no locking done to guarantee exclusion with the other two
+> functions that touch the IRQ mask, and it should only be called from a
+> context where the circumstances guarantee no concurrent access is
+> performed.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index f35e52b9546a..894d28b3eb02 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -470,6 +470,13 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+>  					 panthor_ ## __name ## _irq_threaded_handler,		\
+>  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+>  					 pirq);							\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_mask_set(struct panthor_irq *pirq, u32 mask)	\
+> +{												\
+> +	pirq->mask = mask;									\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);			\
 
-However, when jdi is NULL, the function does not return and continues by
-calling jdi_panel_disable():
+This is racy if called outside the (threaded) IRQ handler, which I
+believe is the case since its called when a trace point is enabled:
 
-  err = jdi_panel_disable(&jdi->base);
+1. _irq_raw_handler() sets INT_MASK to zero to avoid receiving
+interrupts from this IRQ line until the threaded handler has processed
+events
 
-Inside jdi_panel_disable(), jdi is dereferenced unconditionally, which can
-lead to a NULL-pointer dereference:
+2. _irq_mask_set() sets INT_MASK to something non-zero, meaning the
+interrupt will be re-enabled before events have been processed
 
-  struct jdi_panel *jdi = to_panel_jdi(panel);
-  backlight_disable(jdi->backlight);
+this leads to at least one spurious interrupt being received before we
+set INT_MASK to zero again. Probably not the end of the world, but if
+we can avoid it, that'd be better.
 
-To prevent such a potential NULL-pointer dereference, return early from
-jdi_panel_dsi_remove() when jdi is NULL.
+Also, I'd like to see if we could re-purpose panthor_irq::mask to be
+the mask of events the user wants to monitor instead of a pure proxy of
+INT_MASK. If we do that, and we make panthor_irq::mask an atomic_t, we
+can add panthor_xxx_irq_{enable,disable}_event() helpers that would do
+the atomic_{or,and} on panthor_irq::mask, and write the new value to
+_INT_MASK if:
+- we're processing events in the threaded handler (we would need
+  another field, or we'd need to turn suspended into a state that can
+  encode more than just "suspended or not")
+- the device is not suspended (that test you already have)
 
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-index 23462065d726..ea975170faff 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-@@ -434,8 +434,10 @@ static void jdi_panel_dsi_remove(struct mipi_dsi_device *dsi)
- 	int err;
- 
- 	/* only detach from host for the DSI-LINK2 interface */
--	if (!jdi)
-+	if (!jdi) {
- 		mipi_dsi_detach(dsi);
-+		return;
-+	}
- 
- 	err = jdi_panel_disable(&jdi->base);
- 	if (err < 0)
--- 
-2.43.0
+>  }
+>  
+>  extern struct workqueue_struct *panthor_cleanup_wq;
+> 
 
