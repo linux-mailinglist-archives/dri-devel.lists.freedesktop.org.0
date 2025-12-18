@@ -2,76 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72181CCD773
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 21:05:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5180DCCD845
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 21:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F9510E40F;
-	Thu, 18 Dec 2025 20:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A08510EB43;
+	Thu, 18 Dec 2025 20:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RsWpWBbJ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="R1dB4sf9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KLmC+XZw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m2AV1reB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pGDrHNC0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA9010E40F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 20:05:17 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id
- 6a1803df08f44-88860551e39so7934266d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 12:05:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766088316; x=1766693116; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K2w2+c+YKiYKr2r9Xowor6oYCm9+yfeKolfOeIUsbJQ=;
- b=RsWpWBbJYRgO+/XwEYNgwVsGFeWU1EceMr1g3apelaKB3t87+qj9qgyN0ooZuYbGp2
- VGfHPJkWJjJK/K7n6mTH/0MKAb47ffyL+1Lr9QezOQ4D/IhqG5fv6d7NWCbUld47Wc+r
- DfKE/Ymxsd8gpO2zfBjiQf4ZucJNeOrE8eptaIiYkgjg7/ycEyAJ20hh+uB92eLbU2Wr
- bhXx8gvEynEF/SrXcgtsEi+lfEYIvJeyI1ml0L7fNcyOJb7zfRh/rBfWRPo9HyvTiolV
- O8zDG2QxqJ7A2sBdULvwf4nc8Btmf5TR/tDcCbq2ZXQkZ7m19Jev1xpvwqMV/A6qgWli
- JX2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766088316; x=1766693116;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K2w2+c+YKiYKr2r9Xowor6oYCm9+yfeKolfOeIUsbJQ=;
- b=kt+lTO7nXVR57r07c5ZnrWOOQ+ZtGdDyybSU3i5ueIlnB6FtaJ5SX1qi9ki2h2lK+b
- 00HaOikPx2NKzLUA1tL7tk09Tp3t/4WhaqOTgAahsHtl5Jg/94VNNiB/ChQT2L/E4BpD
- 2Ds0GAsI3R+d/eaWlMw5dOwSaVQNk6EbYdOJCkwdaqjBRXOEQnqlTJqUZhBXL+pOsZ48
- MQ8m1TFpDkBh5+UgIBF4LjWvrQ/X1pTtJR891GDBoSdSTm/j4kZ0uoAEwuPJsTsZxr5x
- iJQtAodHbG73MWbB1xPsx9Khc5MZkIbrs2yIxzCUa+hiFB2tsBgOVfHGX44crWTLuEeR
- LQXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXl5ZYqy6xlwEGZWRtGGM80FcArce/lC1l4VseNddqGfaZtqhDYpIZj+biy0ozCVPT/dCJfl2viQ84=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweyPBLhb7CvHTZ/iJpPYFeWKlFeNncmIDUgYssp42fNP3HeUy/
- +1rOOtcZ2b+uebMo0P3YOsdne4zTS0keFhQOkBLvn8lhNLoaQJK0/SJ837UuviqxeWTmdYXu0yL
- /p4m+Ufe5PP4mmjRmgpMU1E2ffS+0n4k=
-X-Gm-Gg: AY/fxX7VnQfKqRbV0K2xK5r6Agh2dKEo8nq5GtTrKyCFbamZLkocVHXtgNC9NWf1sPt
- IxxKsuAQx1esd9q+rJU5TqAjSAu3oV2FL7WV5Y6E1fPsU41AjEdhOFWCGNs7YuQQh57zjQC1aqs
- UPvBhecZqJ536sAiHprdR+lDjJlypXMdg4dWztjAr+zOiyXUIfeMbAnzVaH0yBp3GnbyNjqsZC8
- 0kjl8xym1UroT535V5++X60BhdxUm+oZtvcUq1q0cajNe1shJLw48BzOzFC25nxszFJFQ==
-X-Google-Smtp-Source: AGHT+IGfIU5RGxtASwu3bgpX3b92cFmnR8DyddSN6GsrTR4BnDx7NubHp+pRDhWWPTmxwurkx7B44lRP57rfNIwWyMU=
-X-Received: by 2002:a05:6214:4e07:b0:882:4488:482 with SMTP id
- 6a1803df08f44-88d84434111mr12774246d6.62.1766088316168; Thu, 18 Dec 2025
- 12:05:16 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57C7010EB43
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 20:24:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EB6BC3369D;
+ Thu, 18 Dec 2025 20:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1766089457;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+ b=R1dB4sf9mfAcw1P82r/QTHuIgH19/quEpfUcEo5CoxRmcxmeOhMAL9sNxu+aLUQdtjk+Qr
+ xNP7apmpi/TcA7PnbOZufSTn2BH6wh9c2Aj67bZjcNdfjBNR/ZYdWS/jLBUk9YKCCRukEN
+ w6Q5d1P5LaGUmcHEkncpUf67VEOVm+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1766089457;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+ b=KLmC+XZwpbrArd/ao1ybzSdWTPPeBFBUDROsAdiz8sVViknkWMc8xHtzLHZfXfdodGQNic
+ 7jI/yHM0QK6VrcAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1766089456;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+ b=m2AV1reBAqK9FeMAHaWwTK9XebHo0jm9URZaUepPWYOZ8b9ZcikgTgeu5hdyDLGUAnnG0R
+ dM4zVexojF1Whwd/pTCtZN6yATuocMtRG+J4eyxv+lGP7kXT3mtsiqKXB8A3N6TzvqWrKb
+ dcrLW53N2ye4J6uzRvvJ94ZnOAxgXvw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1766089456;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+ b=pGDrHNC0P3Nmn3AtGB7C3W1HNHv65Jg6IkWKCOh4Lq/5vmzef6hwPzH5RyrrbfGrGgXdoi
+ vTpYiq187cf9rgAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6CB33EA63;
+ Thu, 18 Dec 2025 20:24:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id IvFKMPBiRGnUWQAAD6G6ig
+ (envelope-from <dsterba@suse.cz>); Thu, 18 Dec 2025 20:24:16 +0000
+Date: Thu, 18 Dec 2025 21:24:15 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: cleanup local -Wno-type-limits exceptions
+Message-ID: <20251218202415.GQ3195@twin.jikos.cz>
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218-remove_wtype-limits-v1-2-735417536787@kernel.org>
 MIME-Version: 1.0
-References: <20251215053050.11599-1-21cnbao@gmail.com> <aUQJEa643lQAGK6s@milan>
-In-Reply-To: <aUQJEa643lQAGK6s@milan>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 19 Dec 2025 04:05:05 +0800
-X-Gm-Features: AQt7F2raxnY_WBDzIdYwiT21G3LhQyvH-Z-k4m21oQXjYaLgAcLMtZPi1-shSsA
-Message-ID: <CAGsJ_4zwqbg889+CTtO8XLQZu+rFs-m6+kANKO78-TAf4zjjaA@mail.gmail.com>
-Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
- whenever possible
-To: Uladzislau Rezki <urezki@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, 
- dri-devel@lists.freedesktop.org, jstultz@google.com, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
- David Hildenbrand <david@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Maxime Ripard <mripard@kernel.org>, Tangquan Zheng <zhengtangquan@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218-remove_wtype-limits-v1-2-735417536787@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spamd-Result: default: False [-2.50 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ HAS_REPLYTO(0.30)[dsterba@suse.cz];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ TAGGED_RCPT(0.00)[lkml]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[20]; RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linux.intel.com,suse.de,ffwll.ch,fb.com,suse.com,linux-foundation.org,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; REPLYTO_ADDR_EQ_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:replyto];
+ RCVD_COUNT_TWO(0.00)[2]; REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.50
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,45 +123,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[...]
-> >
-> > +static inline int get_vmap_batch_order(struct page **pages,
-> > +             unsigned int stride, unsigned int max_steps, unsigned int idx)
-> > +{
-> > +     int nr_pages = 1;
-> > +
-> > +     /*
-> > +      * Currently, batching is only supported in vmap_pages_range
-> > +      * when page_shift == PAGE_SHIFT.
-> > +      */
-> > +     if (stride != 1)
-> > +             return 0;
-> > +
-> > +     nr_pages = compound_nr(pages[idx]);
-> > +     if (nr_pages == 1)
-> > +             return 0;
-> > +     if (max_steps < nr_pages)
-> > +             return 0;
-> > +
-> > +     if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
-> > +             return compound_order(pages[idx]);
-> > +     return 0;
-> > +}
-> > +
-> Can we instead look at this as: it can be that we have continues
-> set of pages let's find out. I mean if we do not stick just to
-> compound pages.
+On Thu, Dec 18, 2025 at 07:50:02PM +0100, Vincent Mailhol wrote:
+> Now that -Wno-type-limits is globally deactivated, there is no need
+> for local exceptions anymore.
+> 
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+> ---
 
-We use PageCompound(pages[0]) and compound_nr() as quick
-filters to skip checking the contiguous count, and this is
-now the intended use case. Always checking contiguity might
-cause a slight regression, I guess.
+>  fs/btrfs/Makefile        | 1 -
 
-BTW, do we have a strong use case where GFP_COMP or folio is
-not used, yet the pages are physically contiguous?
-
-Thanks
-Barry
+Acked-by: David Sterba <dsterba@suse.com>
