@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2603CCD0B5
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AC6CCD0B8
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 18:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC0110E1BE;
-	Thu, 18 Dec 2025 17:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C200710E42E;
+	Thu, 18 Dec 2025 17:57:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cMPNXlEL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iGr7Y3CC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4BF310E1BE
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 17:57:03 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6C510E42E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 17:57:06 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id CF6714E41C8D;
- Thu, 18 Dec 2025 17:57:02 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 4FD24C1A5B6;
+ Thu, 18 Dec 2025 17:56:40 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id A53B660715;
- Thu, 18 Dec 2025 17:57:02 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id E891060715;
+ Thu, 18 Dec 2025 17:57:04 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6125F102F0B31; Thu, 18 Dec 2025 18:56:58 +0100 (CET)
+ with ESMTPSA id 3A06F102F0B52; Thu, 18 Dec 2025 18:57:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766080621; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766080624; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7AascrHhgQubU7c+Z9KHGGMHm4Jv3MjnFVkENB8tXYA=;
- b=cMPNXlEL7HGtDJXm1vBvwo3tNErxTmGKA1T1nfmVkFVGaADLPE3Br3GgZblhmQW+iFwCvk
- mJkUppz5saY6TuQ1V3Bw0ROPAXUhIoLBaJkGksn/ZHyf8sH8SQjdpABeXyadiLVZtIWVO9
- 8JcYdZ9Tq35FOJP5Lf1hzvD7BZ4IF54hQ4cTNI5k6lmp2u1gbgBqHiqb6WgdZg9KsS3Pzd
- 0UzWTedb3WrT0rs0oPUpmY2qU8n2vH3NLc0qvZqVyV/qVvc5I2clrjfsdYxOtujt4YVJNt
- 7+ClbPHol3mKYja4oEB8SenSOMDRmZQwKFWjy+2pyoXZsXyLR7yxxiH+8k4KmA==
+ bh=hfjPTiTj6ZdkdYZGnVitsFcTdohCcb99bmn8EmWvop0=;
+ b=iGr7Y3CCTTFBm/bhBysKQve3LHUeC7y/VgDirxYytfGX4AXbl6i8cTDxhCKsF4wjwZ2TFS
+ JB1fSRt+HU3g37xej4RKT+P1nqpveMTFOVcmDGh3P6BWvkRtocUd6+cLWS4NJpS63GerVL
+ OG1PRISe5uDFSXpEP5qil4QBERSgXoIyVtxVdNr/Fwkw9CGzkfYrQEkekGgbmpdVpf1DTI
+ sb8WVSRvROtnL+EbSrKN5eXyZXTvxcrJ1WOeWJg6/A8wfqHyBt5RDo9rGS+4U7YP51t4WH
+ ORfKwhr5n6R4Cmrh7IkkfbYxmYUusDkce0/e2+bLtx+ft/TwxOgbQv21QJN2Ag==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 18 Dec 2025 18:56:57 +0100
-Message-Id: <DF1JBVE6HWIK.22WEJ4HP8P7H0@bootlin.com>
-Subject: Re: [PATCH RESEND v2 04/32] drm/vkms: Explicitly display connector
- status
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
+Date: Thu, 18 Dec 2025 18:57:00 +0100
+Message-Id: <DF1JBWO8RNUD.MJHWQYKGNU2P@bootlin.com>
+Subject: Re: [PATCH RESEND v2 03/32] drm/vkms: Use enabled/disabled instead
+ of 1/0 for debug
+Cc: "Haneen Mohammed" <hamohammed.sa@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Melissa Wen" <melissa.srw@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
+To: =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>, "Louis
+ Chauvet" <louis.chauvet@bootlin.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-4-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-4-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-3-a49a2d4cba26@bootlin.com>
+ <aRXmghF0m0ypbQMs@fedora>
+In-Reply-To: <aRXmghF0m0ypbQMs@fedora>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,11 +71,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> Debug information are mainly read by human, so use full name instead
-> of raw values for connector status.
+On Thu Nov 13, 2025 at 3:09 PM CET, Jos=C3=A9 Exp=C3=B3sito wrote:
+> On Wed, Oct 29, 2025 at 03:36:40PM +0100, Louis Chauvet wrote:
+>> Debug information are mainly read by human, so display human
+>> readable values.
 >
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Today I learned. I wasn't aware of those helpers, nice!
+
+Me too! :-)
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
