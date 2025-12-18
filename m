@@ -2,84 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0CDCCBFD5
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBAACCBFEA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5300310E108;
-	Thu, 18 Dec 2025 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45ED610E282;
+	Thu, 18 Dec 2025 13:27:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="kFUrUA5i";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ww0GXFII";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62AFA10E5B8
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1766064409; x=1797600409;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=Ha1BPyyylS6A6UQC8yFXbfo2wrOczjUDbfibr5RJHhA=;
- b=kFUrUA5iKdZMlBC3hAdxjTAQPiGMmW5ukweZqf99th2wQ6tTAaZHOuFI
- xLrQM1ndrSx5hn0GlY+DTxPcFLncKJockwB6T9uaZ84HW3js1vsFk8Jdc
- 8OMelZkhtkZL430+yfEtVYNMGnEeq6aeR3Bb8X2/6E2gav5vuWld1tCHY
- S17Gcp6G+2ViTOf/cA9yqleUUvl8aHLWD3QJC9pjdbUMul9s0LDPJ9XKy
- LEClokjROPeZ1T98On3Vs8ORfQgPCh2U8l7hJtTPgWj6fWhCBIDNPKhoD
- vUBMSeHN5McgnUgZWwUsYgPEaUrwLNZFpb8fZafAKrbHzgl25WJ9EB4tS w==;
-X-CSE-ConnectionGUID: 2/lmXmCJRTiQR6o8m97H0g==
-X-CSE-MsgGUID: Pj9SRKW8T/S19f0gjxewKw==
-X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; d="scan'208";a="218051105"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 06:26:49 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.29; Thu, 18 Dec 2025 06:26:43 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Thu, 18 Dec 2025 06:26:40 -0700
-From: Ludovic Desroches <ludovic.desroches@microchip.com>
-Date: Thu, 18 Dec 2025 14:26:06 +0100
-Subject: [PATCH v2 8/8] drm/atmel-hlcdc: destroy properly the plane state
- in the reset callback
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251218-lcd_cleanup_mainline-v2-8-df837aba878f@microchip.com>
-References: <20251218-lcd_cleanup_mainline-v2-0-df837aba878f@microchip.com>
-In-Reply-To: <20251218-lcd_cleanup_mainline-v2-0-df837aba878f@microchip.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, "Dharma
- Balasubiramani" <dharma.b@microchip.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, Ludovic Desroches
- <ludovic.desroches@microchip.com>
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com
+ [209.85.208.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 885CA10E282
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:27:49 +0000 (UTC)
+Received: by mail-ed1-f74.google.com with SMTP id
+ 4fb4d7f45d1cf-64b42cb60baso759219a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:27:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1766064468; x=1766669268;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Qi+diNh9H3fqHmnH6Hx1SnRjbjw/DBqYuPovI/jASd0=;
+ b=ww0GXFIIzHv1cCbn3QeN845cDqTHi1D6qmpmzdWrVrcmzYy7+Vm/T2p6Gxm4pNeudW
+ ovofxYNDC8XMr3QaWUEc7BRCYvAWHYFiv8n7Rz17e9L+ipehZca78zsDK7mq83aqXZZO
+ SxDSKNTYFIglCdRImIK/dgrFLzMsulgnFMmFTm5U7eQ6g4JuwrnTDyu9NdRheYVPriTA
+ auo7IWWzRRkeIr3jUfqHqeUEiDgBJkKUMI3Z9cvQ3CZfUzT36uZXbbBZg3+vVxGZUAil
+ EAsIo3Fnuq2qpfwUcrpeBD9QnpkxZbCHzx1jdZQfFYa2XyTLVyfXeTDDAWvcHipJTDbz
+ 4ZzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766064468; x=1766669268;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Qi+diNh9H3fqHmnH6Hx1SnRjbjw/DBqYuPovI/jASd0=;
+ b=FwPhI4MwQclkLLvPErtUf3K39tueJyPy6oLWPc2WPZrUGoKKCGAOoQkqzzB+NeQHvr
+ gY9Y1HyaIS2J0NLXqXCpB0KZQGzqZ5M6zngD9cQPYlrPMoN1B7p3LRCvqFwsA6nqBDCw
+ tVDm6DCkrZ/IbLzNPuQd1164s0LXyePLEjDqbB+HVu+BD7Ku71G1VKrrQ7DiJ3HoBiWy
+ k0ZS37v1JkGflGBqx9EJiKkyruftBVaP2np48eaBPrvjZuR4QQkI8ig5Hy4/OQXg2t6q
+ It3Egm70gBh/JQsSQoM0fVVvHdVP7oxXZynIG5aWgcDRndXCVT5F8vklBEIb5L62FSpX
+ prWw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTzPPkV2YjYuGpEp7gOf1bMG/3coF8IXgJWWIin5pd3yJi/iHa6BMwde+bSFL4/5FEDCvxqx8wi+w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxL+/07Oj+tTsVr+gWh1XhYz5eAnzLa1D9YvmKu6VgO0YXzjYIF
+ +g4cjK4BR0c6aH93Qq+4B2UdxhG5fRQpBConv++s1oLw7cIoRT3BlHbXgq7h39vhtPXKuwr+bpD
+ GtWdkND5eeT4ENSHl9w==
+X-Google-Smtp-Source: AGHT+IEJ9HLtb50XHuIEDIn2I5dEKRfpXNrH3igp0u5gga3J4+yG7DZI2Q0fi7gmDBfxIdYoUF2j/d9U4mcuUv4=
+X-Received: from edbin13-n2.prod.google.com
+ ([2002:a05:6402:208d:20b0:641:9bdd:d74f])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:557:b0:649:ab53:f11c with SMTP id
+ 4fb4d7f45d1cf-649ab53f181mr13887194a12.23.1766064467917; 
+ Thu, 18 Dec 2025 05:27:47 -0800 (PST)
+Date: Thu, 18 Dec 2025 13:27:39 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAEsBRGkC/3WMQQrCMBAAv1JydmWzSbF68h/iIU23bbA2kkiwl
+ P7dtAdBweMMzMwicnAcxamYReDkovNjBrUrhO3N2DG4JrMgpBKPqMEON4g8NhCn0YKyrTm0mqV
+ lErl5BG7da/tdrpl7F58+TNs+ydX+OyUJEnTVIClFyHV17rzvBt5bfxfrKtEnl0j4mxMgaG3qU
+ inDWOmvfFmWN6cYRdHqAAAA
+X-Change-Id: 20250904-clk-send-sync-3cfa7f4e1ce2
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1102; i=aliceryhl@google.com; 
+ h=from:subject:message-id;
+ bh=TNCoBCaC1De+GuiDPz38rW09O9saXkMK3Ckv9akyQNA=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpRAFNFVzmcQ2qN1p0BMkwj9qfGdczHhAq4h4h8
+ brc4EWRh+iJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaUQBTQAKCRAEWL7uWMY5
+ RsZdD/9D8QHTjLTOthce0e12XPB+tRv7yTYfTigi7v76k7nrub0lKoKFh5YWCFnp/HL8DRywxKb
+ oxs4TkZ46IOOOzwErax+03oga+ud4RA5ABn2ckO9+qT8fUPy3GhuUXscu70HfPiUymY65J5HtKS
+ x1v/qKELfXqmLSu+t4/CfIGxtLVN6znV8WnqApVX89X3sYG8OJFT1Lrqv3H83yFlfcW/aaKlxe/
+ UTOgL6htm/yH98HfawS0BAuPXG8f8J7T7geAiZ2LhiEJoivaWalj9qcuNxa05izSy+54u3NwoXQ
+ /cCACpUNeOZnAGatJra0dJW4pPehjlM0X3TtI1bgq/Z6TL08AoZa7wmJaxv3kYvoACDSg6uQnoz
+ 0pzCePqB0kse0Fz5H8nxVc7Z0VWBAkc9Ij4s5Fh+S3l0CDIIxk/cr9PNYBUxtcF2Qqb75cMiueP
+ mvNcZp5DsU99p93dsNst594/1XVkYTPcpurKSTtmOvxTImC2AL+0RCI+BY9CsuOpYiqnGVMTe7N
+ mGTNbC5b8FDZe9TtKb2nhVBwrMt9OrVGLqj7gT2yMGUiKesa6kTrkd1YllkFpEDiLJJW6fUsWJQ
+ zt1Psk8ettsFrj2CWt2WZdymF9Bz/KV8ycv/6A3TMtQuvymfQHZnQ83QUyLw3a/GekISTmoqW2B
+ Nc412T9BlsDc0+A==
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2586;
- i=ludovic.desroches@microchip.com; h=from:subject:message-id;
- bh=Ha1BPyyylS6A6UQC8yFXbfo2wrOczjUDbfibr5RJHhA=;
- b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpRADxs5WwSpLHexLLPdA+Ag7BoEpd0T98A1MYa
- C3r5qhF9MOJAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaUQA8QAKCRA+OeYT93tk
- LQpBEADDm8axtqGmQ6pBRiJfC22kJFO0nLsMZDsY2Qb/vSknc2TIe9gdqAvmBSG87AHRlV18GGm
- UoqB+IoBkyzlOq8WnFfSc9zArT9sxm7zPw1zk9farQEoIduOP39DB0xsb+TBbSM9tPLDhm7yJWE
- lusSRkzyoIAgASTSvIiEFAf4Xunz3hZXJCNuaNSygjGLz6P9EXlFkx896DyBxVK3S5okIcgRqKc
- JQnTZ+N4VTb2DckBKPwjKXfERPW3VaM5Z3cTx74+vzuccXO/0zbuHG+mnuz6yeymNoJfEG7Cbr8
- SHwz40iwe0L6WaMxJFbewpfI1wQhct8QfDx7NiZSoTYCu0LGpDgSYZjGjfyhs0mk/3ZRbinjG18
- U/Vqj6tL63YgvNDGxECl5JNO4iS59StGK0k/g9wetn2aB9TMyF/miLDKs6FfcIvE3yK2cV5Azhr
- AmHPw+WBV3Z7J0LAmkzzfJtX+BFGq0B9ZXeQGJGSPWg6uyUlrVGixBiKw1TxwW1GUl4v1umEa47
- 0h34Vqidj5VoIqge3GlsdxEr6XK96zolCmepHseh6cVhm5PSdYfGm7c+F/1vhihOKD/CNhU3+0a
- 8yziU3EO7ZJ/dPcgOIsgVjy56bPwyPAXCMA3IGRglebzCrBx1pVkUbrettg7JuaEu6c0PwaXVPx
- CNzohovPgq7jvMQ==
-X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
- fpr=665BAA7297BE089A28B77696E332995F09DCC11A
+Message-ID: <20251218-clk-send-sync-v3-0-e48b2e2f1eac@google.com>
+Subject: [PATCH v3 0/3] Implement Send and Sync for clk
+From: Alice Ryhl <aliceryhl@google.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ "=?utf-8?q?Uwe_Kleine-K=C3=B6nig?=" <ukleinek@kernel.org>,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org, 
+ Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,86 +117,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If there is a plane state to destroy when doing a plane reset, destroy
-it using the atmel_hlcdc_plane_destroy_state() function. So we call
-__drm_atomic_helper_plane_destroy_state() and avoid code duplication.
+The Clk type is thread-safe, so let's mark it as thread-safe in the type
+system. This lets us get rid of hacks in drivers.
 
-Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+For Stephen's clk tree.
+
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 52 ++++++++++++-------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+Changes in v3:
+- Rebase on v6.19-rc1.
+- Pick up tags.
+- Add fix for pwm driver as well.
+- Link to v2: https://lore.kernel.org/r/20251020-clk-send-sync-v2-0-44ab533ae084@google.com
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index c1f3aaae29fb9f6b947f81e2fb4e7a61e10ac5d9..81dc730362322a4bae9b48dca97b06baa1e331e7 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -1155,32 +1155,6 @@ static int atmel_hlcdc_plane_alloc_dscrs(struct drm_plane *p,
- 	return -ENOMEM;
- }
- 
--static void atmel_hlcdc_plane_reset(struct drm_plane *p)
--{
--	struct atmel_hlcdc_plane_state *state;
--
--	if (p->state) {
--		state = drm_plane_state_to_atmel_hlcdc_plane_state(p->state);
--
--		if (state->base.fb)
--			drm_framebuffer_put(state->base.fb);
--
--		kfree(state);
--		p->state = NULL;
--	}
--
--	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
--		if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
--			kfree(state);
--			drm_err(p->dev,
--				"Failed to allocate initial plane state\n");
--			return;
--		}
--		__drm_atomic_helper_plane_reset(p, &state->base);
--	}
--}
--
- static struct drm_plane_state *
- atmel_hlcdc_plane_atomic_duplicate_state(struct drm_plane *p)
- {
-@@ -1222,6 +1196,32 @@ static void atmel_hlcdc_plane_atomic_destroy_state(struct drm_plane *p,
- 	kfree(state);
- }
- 
-+static void atmel_hlcdc_plane_reset(struct drm_plane *p)
-+{
-+	struct atmel_hlcdc_plane_state *state;
-+	struct atmel_hlcdc_dc *dc = p->dev->dev_private;
-+	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
-+
-+	if (p->state) {
-+		atmel_hlcdc_plane_atomic_destroy_state(p, p->state);
-+		p->state = NULL;
-+	}
-+
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (state) {
-+		if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
-+			kfree(state);
-+			drm_err(p->dev,
-+				"Failed to allocate initial plane state\n");
-+			return;
-+		}
-+		__drm_atomic_helper_plane_reset(p, &state->base);
-+	}
-+
-+	if (plane->layer.desc->layout.csc)
-+		dc->desc->ops->lcdc_csc_init(plane, plane->layer.desc);
-+}
-+
- static const struct drm_plane_funcs layer_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
+Changes in v2:
+- Rebase on v6.18-rc1.
+- Add patch to tyr driver.
+- Link to v1: https://lore.kernel.org/r/20250904-clk-send-sync-v1-1-48d023320eb8@google.com
 
+---
+Alice Ryhl (3):
+      rust: clk: implement Send and Sync
+      tyr: remove impl Send/Sync for TyrData
+      pwm: th1520: remove impl Send/Sync for Th1520PwmDriverData
+
+ drivers/gpu/drm/tyr/driver.rs | 12 ------------
+ drivers/pwm/pwm_th1520.rs     | 15 ---------------
+ rust/kernel/clk.rs            |  7 +++++++
+ 3 files changed, 7 insertions(+), 27 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20250904-clk-send-sync-3cfa7f4e1ce2
+
+Best regards,
 -- 
-2.51.0
+Alice Ryhl <aliceryhl@google.com>
 
