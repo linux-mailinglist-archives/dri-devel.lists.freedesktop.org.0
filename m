@@ -2,58 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2086BCCC217
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA814CCC272
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 15:00:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B8B010E9A9;
-	Thu, 18 Dec 2025 13:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 540B010E9E6;
+	Thu, 18 Dec 2025 14:00:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="cvk3Tc9m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mlsvZNpO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174B910E9A9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766066186;
- bh=wmED3rxZuN471h6JemgpRfbA0AA5yEeLG70odFevCGg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=cvk3Tc9mHJqgoG99nE2RdHwiSjd5jrXVaTNK8zeB5VyDo6DUChWaWQrEUlmiDedTg
- PDS07X2GjR7GWXatVsqx+TODlogGjPhqCoY2Xv+CV069Mf0UN+Mvu8m9H/8aIStPE8
- ZmYj8rZbIxXAsZtu/K24ooaLBRVKVZf4vr6xwmYDULK6unfwdu18IqBQMvxIw68fHm
- 1kgm9D4iswxewAJxEmjcaLv+ohgVmzmJ1zleaYFOUhXVN7KhnlWvNBpkN5MLJvnj31
- 327zOj0CZ0qsVt3tEMSnYXKbA+M5uSLXa96zicEkp1aXx56XlxoPgN0C8H5AvOyHrg
- I5vWWNu3fye5A==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 20FD517E0451;
- Thu, 18 Dec 2025 14:56:26 +0100 (CET)
-Date: Thu, 18 Dec 2025 14:56:21 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
- <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/3] drm/panthor: Add panthor_*_irq_mask_set helper
-Message-ID: <20251218145621.50d371cc@fedora>
-In-Reply-To: <3267470.irdbgypaU6@workhorse>
-References: <20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com>
- <20251217-panthor-tracepoints-v4-1-916186cb8d03@collabora.com>
- <20251218133825.64177ebf@fedora> <3267470.irdbgypaU6@workhorse>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8DA10E9D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 14:00:53 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5959105629bso582318e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 06:00:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766066452; x=1766671252; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=gia3XsZVU5S68keMVbCpat85CsVkLa/AQdgBIvpcJZo=;
+ b=mlsvZNpOrfi/QjMoswdcnh7kxWQUJW+E1+GpLmKzvpxrzfXV0pk0fRpVenD4bLs1vt
+ SeXkZMxMQQEOV/P1gkfzVvqo+gJLGfxe78q1SDhtRNYmHVR1ZDxNCHK2Mxr09WODo8Kf
+ Bxvb+iwGbIbPhx1ekcbHNpujF3VTCqRdKa95QkdvMMQccyhywkqmTdW6Z4vlZiBqxUn5
+ AHTAsi7rNQd1AaGuoZ/sl4SGHmGu0LscFcGG93ZhPzcgTiawlvPOwrjJ8PiGNVGbDLqH
+ 88GId+G3BCV5W3fJuWcaxMfflUnbmsGdEYeRSZgj7yDsnAhL/AL0iRYsbkQbdKSUs13L
+ xEXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766066452; x=1766671252;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gia3XsZVU5S68keMVbCpat85CsVkLa/AQdgBIvpcJZo=;
+ b=JAqLTCXYt+vN4Bl90NJCXUSOKlO2gH95NrW+FQhwUSTMVRk4OAi1lzKGXXbg/0Zy74
+ Em9smfqmcTms5mnch5ASwgRYGMj9PUlmbBBxa5IjsbiBTFv3LIT7J2gPKCwrBMf0CP9t
+ qag936f+GtcPsfVPtdja/4QJIqjZz4RkGHLHfcQAcGnsO19dQHY+d7C9sLAjwxHJhqXH
+ BojtiJ9ELQIEWeEz0N6TtYMp+wdhrenQVhqUNZ/7MhOsnlxVLX7jmBFOngkx4m/YG3B0
+ siHl+OvqWIfVsfVTP4V+y4whtiFi0CzWk5n/89kCkycBPw8wyjw35q+Pf0+4DUMSyPlu
+ +6Kw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/Dh46++M+L7LmVzN419Ti6OZHhqMhzCefl7h/EFipr2KNg88Tdln6VarAZ5LCQ7wGIpFQB4WwXDE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzs6st0NsgawpLKglCMejRkEhF/EPmdFlLKRJ7tkBEhEjT3K/vw
+ aoP4pfXgsuxoepwQ61Xg9liKtizlryH1w3f13qjhXDWFoE/868h1e0dlcXP9wn+n
+X-Gm-Gg: AY/fxX5v23Wna0rln5FedkdsSZycA2NulHlaxfSxxI2diOVvS5d/iFHti1S4dWhOwl6
+ SO/7ty7t16xqUHJ4f1N1YAut9QPcCdgQg6T5hqWLKE8j2pnjm+kZAqJgd77FDp8nUWR0v2/heDj
+ b2OTaAscy/oBF8q/8TdJ8VX2RHFTvwPTVR3GY+b7eUkPYo+wlfNYhlLg9uiX+UdUbNlX1Ng7tNv
+ kSYSGyTP2qxNPkdqjEEBHNDr+mZXRAiCJXP6RLlIrHHe+fUOAuaWAowzubTP0ioRuQg/lRw6X6h
+ 9HNhUowZKrVOssPFCP09NJkN3aoeHnMUk8o44FrZh3DYddrweCUIywU3f3SeIxZvoU4mue3gJTi
+ op35s9MbPSKa63cR9nn9qgiuuvEdN2y8UuGr3fOvM/5IKMSTWxp9QxwHlcOMDn4Y=
+X-Google-Smtp-Source: AGHT+IEl4Wys7Q4SsRgNG2E+WQ1GNUkskpWJrAarDBASWdaJXnRcMQIARLijn7oPvUMXkjAijza9bw==
+X-Received: by 2002:a05:6512:3ba5:b0:597:d702:58e5 with SMTP id
+ 2adb3069b0e04-598faa8408amr8438081e87.39.1766066451811; 
+ Thu, 18 Dec 2025 06:00:51 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a132d4109sm1108082e87.41.2025.12.18.06.00.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Dec 2025 06:00:51 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Thu, 18 Dec 2025 15:00:49 +0100
+To: Barry Song <21cnbao@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, jstultz@google.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
+ David Hildenbrand <david@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Maxime Ripard <mripard@kernel.org>,
+ Tangquan Zheng <zhengtangquan@oppo.com>
+Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
+ whenever possible
+Message-ID: <aUQJEa643lQAGK6s@milan>
+References: <20251215053050.11599-1-21cnbao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251215053050.11599-1-21cnbao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,121 +97,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Dec 2025 14:42:42 +0100
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
-
-> On Thursday, 18 December 2025 13:38:25 Central European Standard Time Boris Brezillon wrote:
-> > On Wed, 17 Dec 2025 15:29:38 +0100
-> > Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
-> >   
-> > > Add a function to modify an IRQ's mask. If the IRQ is currently active,
-> > > it will write to the register, otherwise it will only set the struct
-> > > member.
-> > > 
-> > > There's no locking done to guarantee exclusion with the other two
-> > > functions that touch the IRQ mask, and it should only be called from a
-> > > context where the circumstances guarantee no concurrent access is
-> > > performed.
-> > > 
-> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/panthor/panthor_device.h | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > > index f35e52b9546a..894d28b3eb02 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_device.h
-> > > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > > @@ -470,6 +470,13 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
-> > >  					 panthor_ ## __name ## _irq_threaded_handler,		\
-> > >  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
-> > >  					 pirq);							\
-> > > +}												\
-> > > +												\
-> > > +static inline void panthor_ ## __name ## _irq_mask_set(struct panthor_irq *pirq, u32 mask)	\
-> > > +{												\
-> > > +	pirq->mask = mask;									\
-> > > +	if (!atomic_read(&pirq->suspended))							\
-> > > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);			\  
-> > 
-> > This is racy if called outside the (threaded) IRQ handler, which I
-> > believe is the case since its called when a trace point is enabled:
-> > 
-> > 1. _irq_raw_handler() sets INT_MASK to zero to avoid receiving
-> > interrupts from this IRQ line until the threaded handler has processed
-> > events
-> > 
-> > 2. _irq_mask_set() sets INT_MASK to something non-zero, meaning the
-> > interrupt will be re-enabled before events have been processed  
+On Mon, Dec 15, 2025 at 01:30:50PM +0800, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> Good catch, I only considered the case where the irq mask is modified
-> by a PM runtime suspend/resume, not by the actual handler functions
-> itself.
+> In many cases, the pages passed to vmap() may include high-order
+> pages allocated with __GFP_COMP flags. For example, the systemheap
+> often allocates pages in descending order: order 8, then 4, then 0.
+> Currently, vmap() iterates over every page individually—even pages
+> inside a high-order block are handled one by one.
 > 
-> > this leads to at least one spurious interrupt being received before we
-> > set INT_MASK to zero again. Probably not the end of the world, but if
-> > we can avoid it, that'd be better.
-> > 
-> > Also, I'd like to see if we could re-purpose panthor_irq::mask to be
-> > the mask of events the user wants to monitor instead of a pure proxy of
-> > INT_MASK. If we do that, and we make panthor_irq::mask an atomic_t,  
+> This patch detects high-order pages and maps them as a single
+> contiguous block whenever possible.
 > 
-> Yeah, I was wondering why panthor_irq::mask changed on IRQ suspend
-> and resume, since that information is already stored in the
-> "suspended" atomic.
-
-That's actually done on purpose, to avoid the threaded handler from
-re-enabling the interrupts if it's still running when irq_suspend() is
-called, since suspended it set to true only after the synchronize_irq()
-(there a reason for that, but I don't remember it :D).
-
-Now, if we re-purpose the suspended into a multi-state value, we can go:
-
-	SUSPENDED => IRQ is suspended/disabled
-	IDLE => active state, but no IRQ being processed
-	PROCESSING => active state, the threaded handler is on its way
-	SUSPENDING => about to be suspended (should be set to that at
-	the beginning of irq_suspend()
-
+> An alternative would be to implement a new API, vmap_sg(), but that
+> change seems to be large in scope.
 > 
-> > we can add panthor_xxx_irq_{enable,disable}_event() helpers that would
-> > do the atomic_{or,and} on panthor_irq::mask, and write the new value
-> > to _INT_MASK if:
-> > - we're processing events in the threaded handler (we would need
-> >   another field, or we'd need to turn suspended into a state that can
-> >   encode more than just "suspended or not")  
+> When vmapping a 128MB dma-buf using the systemheap, this patch
+> makes system_heap_do_vmap() roughly 17× faster.
 > 
-> Right, I assume synchronize_irq will not really fix the race,
-> since a single synchronization point does not a mutually exclusive
-> section make.
-
-Correct.
-
+> W/ patch:
+> [   10.404769] system_heap_do_vmap took 2494000 ns
+> [   12.525921] system_heap_do_vmap took 2467008 ns
+> [   14.517348] system_heap_do_vmap took 2471008 ns
+> [   16.593406] system_heap_do_vmap took 2444000 ns
+> [   19.501341] system_heap_do_vmap took 2489008 ns
 > 
-> I thought about suspending IRQs, synchronising, then changing the
-> mask, then re-enabling them, but that feels potentially disruptive.
-
-Yeah, that's a bit heavy, especially since most of the time we're going
-to hit the case where the update can go in directly without impacting
-the rest of the driver.
-
-> Though I may be misunderstanding the hardware here; if a bit is
-> disabled in the INT_MASK and the hardware would want to fire such
-> an interrupt, does it discard it? Because in that case, any solution
-> where we suspend IRQs -> wait for threaded handler to finish ->
-> modify mask -> resume IRQs could lead to us missing out on critical
-> knowledge, like that a GPU fault occurred.
-
-That too.
-
+> W/o patch:
+> [    7.413756] system_heap_do_vmap took 42626000 ns
+> [    9.425610] system_heap_do_vmap took 42500992 ns
+> [   11.810898] system_heap_do_vmap took 42215008 ns
+> [   14.336790] system_heap_do_vmap took 42134992 ns
+> [   16.373890] system_heap_do_vmap took 42750000 ns
 > 
-> In a perfect world, this hardware would use a register access
-> pattern that allows for race-free updates of non-overlapping bits,
-> like FIELD_PREP_WM16 implements. ;) But we do not live in such a
-> world.
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Uladzislau Rezki <urezki@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
+>  * diff with rfc:
+>  Many code refinements based on David's suggestions, thanks!
+>  Refine comment and changelog according to Uladzislau, thanks!
+>  rfc link:
+>  https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
+> 
+>  mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 39 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 41dd01e8430c..8d577767a9e5 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+>  	return err;
+>  }
+>  
+> +static inline int get_vmap_batch_order(struct page **pages,
+> +		unsigned int stride, unsigned int max_steps, unsigned int idx)
+> +{
+> +	int nr_pages = 1;
+> +
+> +	/*
+> +	 * Currently, batching is only supported in vmap_pages_range
+> +	 * when page_shift == PAGE_SHIFT.
+> +	 */
+> +	if (stride != 1)
+> +		return 0;
+> +
+> +	nr_pages = compound_nr(pages[idx]);
+> +	if (nr_pages == 1)
+> +		return 0;
+> +	if (max_steps < nr_pages)
+> +		return 0;
+> +
+> +	if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
+> +		return compound_order(pages[idx]);
+> +	return 0;
+> +}
+> +
+Can we instead look at this as: it can be that we have continues
+set of pages let's find out. I mean if we do not stick just to
+compound pages.
 
-Actually, it does support that for STATUS (there's a separate CLEAR
-register), but the MASK is not something you're supposed to modify
-concurrently at a high rate, so it's not surprising we don't have the
-same for INT_MASK. Also, atomic updates is something we can ensure at
-a higher level, and the write to INT_MASK itself is atomic.
+--
+Uladzislau Rezki
