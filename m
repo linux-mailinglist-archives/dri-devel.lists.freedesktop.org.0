@@ -2,143 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4718DCCA27E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 04:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4097CCA589
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 06:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA86C10E047;
-	Thu, 18 Dec 2025 03:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2425610E5C3;
+	Thu, 18 Dec 2025 05:35:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YFJG+Izt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bxGhXMpG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A22C610E047
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 03:14:56 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id
- 98e67ed59e1d1-34e730f5fefso196136a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 19:14:56 -0800 (PST)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2848210E5C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:35:21 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7f0da2dfeaeso318609b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 21:35:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766027696; x=1766632496; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766036121; x=1766640921; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=aMmDsg6PeqY3yDJKla0eomYe6OESw8tJFHAPUF0WDJQ=;
- b=YFJG+Izt9uC9/yrSy4DW5nqOBzX4C6QVJroqg6GNMXU0V7j4d+ENvApxZILTkyBI6p
- VhJIlSZZfd7P0sZtlVZoh0l509j+iC2eW9wdXu2gi/Q+oGjFcHsTaJ3xXwC72dTUKeQ3
- 8xkuiIXeRgX4fw6M5mMb47RtyFoike0bvE6V/R5FMYuCM96doMSm5jzrls0YlX2TtaG/
- SeWaDu7M/VZUoWM8NnyedUw8sdQY5hd2zvA2VlcTUEu7TRe3HhMiSX3fOkzbSTP7YTOJ
- YLTCYVKGgF6dDr3Awk3t48YgJ+rNF8CWw9dgaOjYDdH8CLAIcogFoydSj3RXZnq0o+jL
- UfGw==
+ bh=yaGJpOKqg8zQltJlD/AWg9VGkTrfZMf+YGQyTVj+MTg=;
+ b=bxGhXMpGYMbiHvs/UpKflzTqLGwf00UOLvlkR+wS97w2C5RFo1/fBOrnbKO0IgVrLI
+ 4ynnOLkZ4bA59VqpBwScGtETdFQS+/x2ODCwavZ0sI9akcXEb3VceaOldMm0LumVTAJ5
+ HyngPJ4KVFKZq9eTegQJNE1aNAwkUWlEaEif3MfOk9NnYGX2RZSW/VksBVh+duo1Rx+J
+ 5s644dLpw1dqDMt7R2B05H9RLKip5yKuNf2uJcJI+KFvnptviGUqAQz3NBGu2k+e8M4W
+ 0leT8eUpxSSFFNoG2pBCJjX+AsSMhWBfkzUu7+gwutpoQDukRqr3s3bp3XeKLGIj8hWR
+ sQUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766027696; x=1766632496;
+ d=1e100.net; s=20230601; t=1766036121; x=1766640921;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aMmDsg6PeqY3yDJKla0eomYe6OESw8tJFHAPUF0WDJQ=;
- b=FNQ7s4Zz5HNAWArqmTYBZ1WrzE36uwe0pLcVSYGuN0n3jmbV16U5mlrK3haJPEG8Lp
- gK/jxshlwVNIGZ9Zvv938EFf5NwdopBVGq3YzJEgYmy5acB3EL4jXNKskE8HmSoE9Nds
- mJ9CgRqf179RXnizvbD7F3keg4ghnOqsLElkwG2VnIQ6whhqnXowS7Xpl8UwvWi6M4X9
- xAN55uxUidE+hQgBiKW1Ji6tW+y+8OWs9VNjZFgJJ07PQwwKGMiB8D6kXkGunRfpcv89
- wZp3SWKmSF4A/S6wsSByaAJWhj1TyIXz1IAzrCU20TGF45ljVPeadSazySpl1zVs6BWZ
- N+tA==
+ bh=yaGJpOKqg8zQltJlD/AWg9VGkTrfZMf+YGQyTVj+MTg=;
+ b=dmAgnCdFXwNtn3tZcdNEcsVItCPkU4gwYY8lZhgnuFqqANOdF4tqRIHOsOWQYOdwMz
+ dNleZ8fpj8l//3UuzP/pJzOyBUU8BkYDbufPw20AKgCPWrxhR0RmenEbj8dUq9ufbFJM
+ 1EXXhmN0+szRzwxdzqWGNroSdiGftdzvzHFpV+GpHZZGwXRRZqOZY2RYFwAMQYZ7xcr8
+ E3S01cec+rNH4LG0H36bINe62luOS6J8Ti4KWACZBkv58pCMisgnwBi/p7tg/qT7/9MU
+ ltqx+VJpccUe4bK4FPLKsJmdh3ZYYqLVUN3u2g2zy2zfCbr4Em14ssaa+ullJkQK9waD
+ uEWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWKsm8H6aQZJ8UAGu5yyvh3OX3WLUmZJ0DzDCrS3EBAseBCcBRWmWhYYbCLzLkiKhmTy+1Ug+o5NI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQiSD2N55vHDTkNf7KL3KvGA1/NJru+4ydBS4YBUIU/2zGpEEo
- e/Fqa6BRQi9XMChT9MajGiqfq+tNPq9Mt/MzVqtXMWynL/NCTt0vniM5
-X-Gm-Gg: AY/fxX5WKZI39U3Z4DHY5+bC2rGditNRWaGm7yR9gp9Z6JNY8fkanIXll8mfCnBYAlm
- X/MotvEoWsJrEuxUmJd7YCZeRNWakYouqOcDj+r3tkhqs+5BzjlWwxgEtdzIO10Bat/PI1CE3WC
- mqDN83jrj+XdpZbUIwhuHegAkP0tCqxVPuAXK/vvqziaLRniFJ2Y8JcXsQiGnxXspELzsudvloo
- VEB7KWKAc3dBvr2o568cnsmTw8bVOeZxYrmC3Yhi/xbF2jex4AG9mY1rW6fBYKNmKel0PX78bp/
- 0vKioc2ov0ozd2S9TpwTqSWcu2e6HMS5Jdw+vQPgFLKwbN/Ew4Ezk799UKGS4T8x0jvvy92tGzX
- 97BpckK3aMsrV6d8WKwcQBbukEQLu+aQ8J6O3f3teUidymb6uBFX/gU62Lv1k8Em01MH7Pr9lMF
- lEhB1Su955EpM96sDqeQ6d2w==
-X-Google-Smtp-Source: AGHT+IHSjhEce/oXMOW5vM6ZF5lLLUz2/oBcTOMxDFFo21mOBhpjs2cfzbOckN+Zo7VcHVKH3Yx+8g==
-X-Received: by 2002:a17:90b:2ccf:b0:340:cb18:922 with SMTP id
- 98e67ed59e1d1-34abd71f7e6mr19045388a91.14.1766027695922; 
- Wed, 17 Dec 2025 19:14:55 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c1d2d9ae134sm730773a12.1.2025.12.17.19.14.54
+ AJvYcCUh1AHRwXRz5xPsq7WhL94Q1qiEZiDm/7XO7PNIVa8D9zFPyPBINpfDa32qcS7LJrgSFr3NsYgLXhg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPfnC+jU+Yj8F2rJEfFNBeUrCuhFdJQfQcGA6Lo9yG2laT1W3n
+ YUgRzhBDyFUJf2jgv0FD3+R3FcW/wPZn89FE+zJHo9Vf8pJkJoZiIj4Xu5nkEg==
+X-Gm-Gg: AY/fxX6H5vTiD8MrYB5I0AoEtt3NE2S0NfpoY2/d2zF6IGueahnoOZ+HAeYvCxBxNF8
+ yFAIloDA4+uKy329XVng4AmXqqo3FO60YODR2mtHZNN70YDesS0lvPgR+4R+rCI1/hpmypQWbxu
+ v/QQDGLR41BuMPYgAJecGFnENjaKelaQW77bfUnZ+ZrtRz8C44BGbdEzO8eSdiEuIi1VP56390P
+ z36dKXZEb7pH8fhZkgkN9rW6GOIqgZ9O6l7jW8VckHbulCztvBD25p3cwmAuPgGtk3mtbfLjbzL
+ W09aoqHtOiLoch0TmWv6TadY5t/PpcXLx5ewt6bCi3zF2MlVH2QFgVxk7qtGMAsSSgLhJaTNHIz
+ WHWfD2REz0NQoWqrNdSBeXjiwE/Xtr6cUJULmDsRk1zEtqtpE3UnfPf7bblY4MHEEVuNcgm9P3q
+ 1AT2zdcOo=
+X-Google-Smtp-Source: AGHT+IHIeJZ6pUO0IWI3BZr8YKRR4WYcObEmm4ye3CL4DoHkOxJXpQslAZeBIjOMe9+OleYRLYL1Lg==
+X-Received: by 2002:a53:a090:0:b0:63f:bd67:7c52 with SMTP id
+ 956f58d0204a3-645555e7c66mr12186194d50.29.1766030374328; 
+ Wed, 17 Dec 2025 19:59:34 -0800 (PST)
+Received: from localhost ([2601:346:0:79bd:52c0:aec0:bf15:a891])
+ by smtp.gmail.com with ESMTPSA id
+ 956f58d0204a3-646636e8a2csm581612d50.4.2025.12.17.19.59.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Dec 2025 19:14:55 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id 75FB1420A930; Thu, 18 Dec 2025 10:14:51 +0700 (WIB)
-Date: Thu, 18 Dec 2025 10:14:51 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
- Linux Media <linux-media@vger.kernel.org>,
- linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
- Linux Virtualization <virtualization@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Network Bridge <bridge@lists.linux.dev>,
- Linux Networking <netdev@vger.kernel.org>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>,
- Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Dillon Varone <Dillon.Varone@amd.com>,
- George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Cruise Hung <Cruise.Hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>,
- Dominik Kaszewski <dominik.kaszewski@amd.com>,
- David Hildenbrand <david@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Max Kellermann <max.kellermann@ionos.com>,
- "Nysal Jan K.A." <nysal@linux.ibm.com>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Alexey Skidanov <alexey.skidanov@intel.com>,
- Vlastimil Babka <vbabka@suse.cz>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Vitaly Wool <vitaly.wool@konsulko.se>,
- Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
- NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
- Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Lyude Paul <lyude@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>,
- Shaomin Deng <dengshaomin@cdjrlc.com>,
- Charles Han <hanchunchao@inspur.com>, Jilin Yuan <yuanjilin@cdjrlc.com>,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
- George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 00/14] Assorted kernel-doc fixes
-Message-ID: <aUNxq6Xk2bGzeBVO@archie.me>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251216140857.77cf0fb3@kernel.org>
+ Wed, 17 Dec 2025 19:59:33 -0800 (PST)
+Date: Wed, 17 Dec 2025 22:59:33 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christophe Leroy <chleroy@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h
+ to a dedicated header
+Message-ID: <aUN8Hm377C5A0ILX@yury>
+References: <20251205175237.242022-1-yury.norov@gmail.com>
+ <20251205175237.242022-5-yury.norov@gmail.com>
+ <20251216161316.45b3f19ff0ad482018137189@linux-foundation.org>
+ <55ceb7bf-0fe9-4edc-81c2-d51366847eec@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="V23DYTy9ofvlaB8B"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216140857.77cf0fb3@kernel.org>
+In-Reply-To: <55ceb7bf-0fe9-4edc-81c2-d51366847eec@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,37 +108,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Dec 16, 2025 at 09:24:55PM -0800, Randy Dunlap wrote:
+> [adding Kees]
+> 
+> On 12/16/25 4:13 PM, Andrew Morton wrote:
+> > On Fri,  5 Dec 2025 12:52:35 -0500 "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> > 
+> >> Tracing is a half of the kernel.h in terms of LOCs, although it's
+> >> a self-consistent part. It is intended for quick debugging purposes
+> >> and isn't used by the normal tracing utilities.
+> >>
+> >> Move it to a separate header. If someone needs to just throw a
+> >> trace_printk() in their driver, they will not have to pull all
+> >> the heavy tracing machinery.
+> >>
+> >> This is a pure move, except for removing a few 'extern's.
+> >>
+> 
+> Hm, for a pure move, this shouldn't be necessary. Anyway, not using
+> FORTIFY in purgatory.o fixes this build error.
+> Or maybe there's a better answer.
+> 
+> ---
+>  arch/x86/purgatory/Makefile |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/arch/x86/purgatory/Makefile
+> +++ b/arch/x86/purgatory/Makefile
+> @@ -62,7 +62,7 @@ PURGATORY_CFLAGS_REMOVE		+= $(CC_FLAGS_C
+>  endif
+>  
+>  CFLAGS_REMOVE_purgatory.o	+= $(PURGATORY_CFLAGS_REMOVE)
+> -CFLAGS_purgatory.o		+= $(PURGATORY_CFLAGS)
+> +CFLAGS_purgatory.o		+= $(PURGATORY_CFLAGS) -D__NO_FORTIFY
+>  
+>  CFLAGS_REMOVE_sha256.o		+= $(PURGATORY_CFLAGS_REMOVE)
+>  CFLAGS_sha256.o			+= $(PURGATORY_CFLAGS)
 
---V23DYTy9ofvlaB8B
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That happened because the new trace_printk.h includes string.h for
+strlen(), so all kernel.h users now indirectly include it, and it
+causes, seemingly, a circular dependency if FORTIFY is enabled.
 
-On Tue, Dec 16, 2025 at 02:08:57PM -0800, Jakub Kicinski wrote:
-> On Mon, 15 Dec 2025 18:38:48 +0700 Bagas Sanjaya wrote:
-> > Here are assorted kernel-doc fixes for 6.19 cycle. As the name
-> > implies, for the merging strategy, the patches can be taken by
-> > respective maintainers to appropriate fixes branches (targetting
-> > 6.19 of course) (e.g. for mm it will be mm-hotfixes).
->=20
-> Please submit just the relevant changes directly to respective
-> subsystems. Maintainers don't have time to sort patches for you.
-> You should know better.
+A fix would be dropping trace_printk.h from kernel.h, or switching the
+only user of string.h, trace_puts(), to __builtin_strlen().
 
-OK, thanks!
+Notice, Andy has concerned about this on the previous round, and also
+suggested __builtin_strlen():
 
---=20
-An old man doll... just what I always wanted! - Clara
+        https://lkml.org/lkml/2025/12/3/910
 
---V23DYTy9ofvlaB8B
-Content-Type: application/pgp-signature; name=signature.asc
+I deem to drop trace_printk.h from kernel.h - it is more aligned with
+the idea of unloading the header. The original motivation to keep
+trace_printk.h in kernel.h was just because a similar printk.h is living
+there. But after all, this is a purely debugging header, so no need for
+almost every C file to bear debugging stuff.
 
------BEGIN PGP SIGNATURE-----
+I can actually do both - switch to an intrinsic and drop the header.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaUNxpwAKCRD2uYlJVVFO
-o1nDAP9D8xQeBKhU5vgUY1uZdEmdnOr8lzFR748Q3fszwHYA2AD+Lmk5pycZlTp2
-pDdOJDlTqJohju9NNAPmvm1zT37zzwE=
-=Ar/g
------END PGP SIGNATURE-----
+Guys, please let me know what do you thing.
 
---V23DYTy9ofvlaB8B--
+Thanks,
+Yury
