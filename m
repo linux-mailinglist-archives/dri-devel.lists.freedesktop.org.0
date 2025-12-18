@@ -2,155 +2,180 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06475CCD665
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 20:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD6CCCD66B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 20:33:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D2610E340;
-	Thu, 18 Dec 2025 19:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D70910E6FB;
+	Thu, 18 Dec 2025 19:33:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qBT1QHS/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JQaO+5zp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010056.outbound.protection.outlook.com
- [40.93.198.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9255910E182;
- Thu, 18 Dec 2025 19:33:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93DD10EB36;
+ Thu, 18 Dec 2025 19:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766086393; x=1797622393;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=jwdaSpt3G1f4Qots5Ta9KFbMhIOq+EoQM9LE63TiHrw=;
+ b=JQaO+5zpKzDgL4vsRXSVHXUxh+JFQbo6WBD5qy9uCzHAmbeAgb48RVeA
+ GGeE+ILMIbWVswIxyCd84IUC4ZkKD0aNOPTJujfXlCXGp3GdVKSKxmHG9
+ /NUNZfX4hQvFG6QQ5MtjiIK4xLaNXkogxU1efJc5veslh0qZYqYVXDfH6
+ xrlofxtgqo1Th/2/umP0Q96BQU+0QvuReqtWFhLlHkfjYNcpFyy/ttIKm
+ kt8ewlF2bapkSZX8CREJwx2yGpSNtL4YJ6QngsiDPWLEfFc2Hok40Gws0
+ 0M4PCvKenm3Edho0DWRkQ08iRmRvZDprjFmKtj9WYevqQAy5W10u7q6v0 A==;
+X-CSE-ConnectionGUID: tWynT414RtiqXqWsuKWQwA==
+X-CSE-MsgGUID: ZBjz9yIDSpyaYqMjOLsqbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67047637"
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="67047637"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 11:33:12 -0800
+X-CSE-ConnectionGUID: 8O/KzKzMTVqCR2N/B/4DiA==
+X-CSE-MsgGUID: nr3GCCbZSqWbWeSgIfWvkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="197809741"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 11:33:12 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 18 Dec 2025 11:33:11 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Thu, 18 Dec 2025 11:33:11 -0800
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.35) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 18 Dec 2025 11:33:11 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ud/oJhMbPqh/RYl4+wOQUpAd0Zh87cqCEsGQQOXdfUucshjbHVINTgHCfDWMvU+3S6WFpgSJjkoIYAK7eyD6Hqs1/OywrOF4Cj6cqoh0tcfgmeiI5gpY3PTz5Gi13U4hOuZONSM92BBrK5UON0veCxR9bdqenrRlC/kgOxXOXqYSOj+hJj/FxjJqDAmKx3ZTGXQd1jXVu+dTbA0JfwVhBtsqTrNGfvICVUsSKBNVH4QCsNbrIez2XxjSQ982/S4kMeLGMyaDKTL2p9gk9V8ITlifz/f81lh9dS9Uy1wFA4+VszqgW6ScqY5ymIY9ZMFqtPweH+Au6j2CW0ApeHOjRQ==
+ b=jtYIJE7SIFQBg+E2CksadAktU54CNSDhfYN+V2c+SAgh4o05cH+fBr8nB7B0v7e7UcS3kJL7cKthJ86Dq8corRYDsJuAFJ1CSwhAEu8lupQ+cJbtrv4sknJWMuKdPKM9QNTp7sI7r+9dKe4NWbqcHoX1d/Lbk7eUq3lFSIZPAUZY0yRRz3KtK7R+HwNzWPYw1PSuvFiL2dQwLBwrZvhC+devESINomenQnVk9envL+5pfYcj4P/wAmA/VJmaphr1g7LZ0RLfWY1bA58h63A+bm5FZK2kejOo1hXp4FXFKxVhUUpDvPJrBM9ClV82EeC3weINffMjqXKHBiBr5mmiJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hk6mGHkFuQagJomc8oO+CwLp7Ylvox470NkPl1bFXPc=;
- b=DH13YhkeH3QAAu3pIzjd4CQy/oiuIsWM/xNOyJONJcbl1BjyNtGdD7C9oyLLhjfKztInXjUgZWDA98/1UiprF1IOe7hC6IDtPgXv9cedH6/q5xpf0NqSL32gGo99iT/Vyo8K8VxBOq7by5NmFDwNeVudjjcYDvKOnF2OJSGKPuA80yXt8tSdl8d02RnCMbK0rCrCrMq6onQ3qQVGRiQc/i0QkJoaGGhzmj8x7+RHg4uGsEepILQArtthx8rs/PlQ+2LoIK78E4S/2RGz6meCVAqcCsoC6myE7Z5H56pfXXlXuHmafQOPIvYkwcTuGJcEzY8hV7/pcX54u0D8sMXLOg==
+ bh=PO/l8h1l34mB52soVvQ9T1p1lNwLfLibUccTt9DA0PM=;
+ b=JhmEH9O47hqh0/AB3Lhj94bV4f8SRdPDc7cb4HBArJLoRNQWOzd1piLZDee5Ifw2LuV0oief3BB37QQD38AtQC3hdcb81DoKVY0okThgRCJKllhz7gHs6yUJ6kAtM1wUElsgwDLaq8cQJxTNF7bpB3iaEkAJ6xNsxH7/9SQn6PLCqCY/vDgZgw9EngUcoNw8dRl0x07tFNsKp/dhy2rjaaCmn8Wx4FojTY4V/Gx7NUc2/WWtpdpkJT4dFvFI+nUhWD1aYsZTFDABx6aXTXFYhcBuRBKgl7btlw7U/A69eZzYouA4RU/I10T/ogmChz6gzWqe7I7KuQz70JekPyLiqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hk6mGHkFuQagJomc8oO+CwLp7Ylvox470NkPl1bFXPc=;
- b=qBT1QHS/15LhE3aXuAf7JBBW2Sr/kHI6nSqgyAV9GSKipm3bAAjFgxPDTVwBRHJdjOAie2mVMRkCF8XYQLUQjvnBPV+7o/Y5WgfVob2IAYOmUeWUD79XqlgWSqe9I3ZD7zU41YZ8oztXGYdNuKNPs2XAnbYSuOzNeEGBj3a0UEY=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DM4PR12MB7528.namprd12.prod.outlook.com (2603:10b6:8:110::17) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB6861.namprd11.prod.outlook.com (2603:10b6:303:213::18)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
- 2025 19:33:05 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2d79:122f:c62b:1cd8]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2d79:122f:c62b:1cd8%6]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
- 19:33:05 +0000
-Message-ID: <befebef3-0870-4c2d-a847-1fe1cc2acd7b@amd.com>
-Date: Thu, 18 Dec 2025 12:33:03 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/atomic: convert
- drm_atomic_get_{old,new}_colorop_state() into proper functions
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>,
- Harry Wentland <harry.wentland@amd.com>, Daniel Stone
- <daniels@collabora.com>, Melissa Wen <mwen@igalia.com>,
- Sebastian Wick <sebastian.wick@redhat.com>
-References: <20251218141527.405328-1-jani.nikula@intel.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20251218141527.405328-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ 2025 19:33:09 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 19:33:08 +0000
+Date: Thu, 18 Dec 2025 11:33:06 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <stable@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <himal.prasad.ghimiray@intel.com>,
+ <apopple@nvidia.com>, <airlied@gmail.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
+ "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v5 03/24] drm/pagemap, drm/xe: Ensure that the devmem
+ allocation is idle before use
+Message-ID: <aURW8sAjF7fDlU0n@lstrano-desk.jf.intel.com>
+References: <20251218162101.605379-1-thomas.hellstrom@linux.intel.com>
+ <20251218162101.605379-4-thomas.hellstrom@linux.intel.com>
+ <aURI/tEMA6GInnCh@lstrano-desk.jf.intel.com>
+ <8ed95ebd4525bbedbf62aa2ca26bcaf8ae1e4526.camel@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0126.namprd03.prod.outlook.com
- (2603:10b6:303:8c::11) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+In-Reply-To: <8ed95ebd4525bbedbf62aa2ca26bcaf8ae1e4526.camel@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0085.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::30) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DM4PR12MB7528:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81d55996-a0fa-4370-5171-08de3e6c440c
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6861:EE_
+X-MS-Office365-Filtering-Correlation-Id: 947d4b8a-5874-451f-4215-08de3e6c4626
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?d0NRb3F6dUt3WHR5NSsrR0lodHpnaUdqNVd0TGk1MzQrOEQwL09sdUszTkxO?=
- =?utf-8?B?N1U0bWVOdFBjRDhhd1EyeDlCUnQrRnF4VkhDb2JsZjJzOWZQV1JDWjFMMEU2?=
- =?utf-8?B?c0ZLV09VcnJ5N3JyQnZrbWtJSHQvZ2JXbklCbU9LWGlkT1l4Wk5SWGdaS2Ro?=
- =?utf-8?B?d1RQY0o3SmVMQi9sYnlFVW1WVWxMbmo5a1NlLzVFeEd0OUVLNUgvaVo4OUxT?=
- =?utf-8?B?RkFCNDRBdFkyVUo5U2dJOGdOaW9oN0dBM0laUkR1ZXVMME1nTjA3QzJRUXhj?=
- =?utf-8?B?OGgyakJsM0RWejFDbWdzcEErNnhRa29UZlV6RWV3a0lUek1hV0VVQXpqbjRT?=
- =?utf-8?B?amNhR2NvVTdEUi90dkVmQ2haWGt0V25Ya3B2enhWSkR4MkZSRThheU9PMjNN?=
- =?utf-8?B?aVpsRHFMbm9TUTFUTDFjbWNBRStQM3VZZWpON1dJN3R2M2lQbTREUmhBcVg1?=
- =?utf-8?B?ZzVVQzdpUU5jaGNDQ0dSbTF2Z1dhNFpGZ2NlRkJ6ejJYNEJCUG5sc1lhWWdk?=
- =?utf-8?B?OW51UWExZDgwRm5mOG8yVHJVaUNIcTNUcVN2MWNwL0hpdWxoOG1BYXpjNmlk?=
- =?utf-8?B?U2FxUkVYbVptWGk4K1AvOGcybWhTQmtZZE8rVElyVDE3YllnMDNaNnI3RVoy?=
- =?utf-8?B?RTQrc2dYQklpd002SDdrUkNXVHFEZG94ZERxNGxQRE9paktpVXhESGgyTGla?=
- =?utf-8?B?L2NaUndTTUtqTUNha3M4WXprOE5VSmNpdzdhcUdLU2lBaFN1d1l5ZXl2d1Yw?=
- =?utf-8?B?UHNGUzF2Z3cvb3JzK1VyNm8vQllocmxHRUZkcXVTNFdZSTYrL2lZZkZaa0xL?=
- =?utf-8?B?bXBRY0VPN3dVWDZlR1cvSUdIZVZCbUsxRGVtcUdDcndJWU9sakRqN2VWNlRK?=
- =?utf-8?B?SVR0T0cvNittcmg1TVhyZmc1c1RrdmFtYmFnU3dDak56MkFvdWhtbzdzZ0Qw?=
- =?utf-8?B?K0M3YzlzNG1SS3pUL3ZpekZIOG5GOWs0dXZkdHFRZHhoSGlzTW5oZjNGaUEw?=
- =?utf-8?B?U0dvZWgvQUVIbS8wYm1LdUdsZk9jS2NDaEIrc2R0RzZxdmVRTVAzN2djWnlw?=
- =?utf-8?B?WE9aOTlXekZ1V2hIU0xHTVpDZ2YvRlBuZXlhRTh2S2lIOGRySEJ6SCtoK2Zp?=
- =?utf-8?B?V3VBSXJJOHZORmQ2eDdjdDBBcEVobi9MMHBBWVlzUUd1Smx6K0ZSR3h3anhH?=
- =?utf-8?B?WXhDT2JwcWgySElnV1FnNU1UWmJjVXpZYUQwSW1lREhYUUM0UndHeXRScnVu?=
- =?utf-8?B?UDdaSzh1NXlmVHo5cjlRM1puUjk4ejgrY0F6S0h1dy83OEhFdDUyN29KOHBB?=
- =?utf-8?B?WjlGV21zazlyalZUNE9XS01nT2tEOVgzYm01bm9PMElBVWxUb1NjcUhML1Rh?=
- =?utf-8?B?N3c0VkR4cHZPY2trc2hEeTVmdEJscjRwSU56dElCNVlueGFoQXNkYWYxeENn?=
- =?utf-8?B?VW03NXVkVE9FeGdwZWYvY2RUcUtJa0NiZG1qUVFsUnE0Zys1bWNwMG5oSGZn?=
- =?utf-8?B?UXNPYThBa0FJWHpXUU5tREdyeDdpSEdjbjFlRHphSkh4TU1pSEVkblZtd0pU?=
- =?utf-8?B?ZEV6MG8rN3FQREszc25QNCtPQzFZa3VDUVdvdkJpT1BtYWg2Tm44Q0VWYy9I?=
- =?utf-8?B?R2Y2LzZRQndxYjdhU2I4RVZPQ2xoVXRoeDAyT3ZNWmZzMkZMTlJ6NHBkcHI4?=
- =?utf-8?B?TVFBZXZTQXVVRHJYNStWK0pIY2lhVjA1cFo0cWJxZzZ0K1BjOVN6eHArMjhB?=
- =?utf-8?B?ek9taUd0SjhzWU95bHAvYzJHb3NhNHp2dzFtM3VteDlmU1hTQnVmZFJmb0sy?=
- =?utf-8?B?blN1OXRobVNRcENYMkdmZC9PWWZMR0FWOUc1K0ZaZ3lqaVFuQk5uaUdXdDEy?=
- =?utf-8?B?SGdneDYwTVVVbk85MjRFMUlSR2gvczJJNXp1OGxYN1BMQlVHMHJiYTl1dG1v?=
- =?utf-8?Q?pvMhHWDsKrNzl84CESlm0On30hGNhjB/?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?ZMT88HsAeGk2mIh4RDdW9GzxJK2PUXvO1gVGjru/DshHcjRvJ5QLYMNJWc?=
+ =?iso-8859-1?Q?UFhwR53mKhQd8uyquyziN2WMaUO+7/1kpUOkzke3w5E+DKgQCTxWTZ7NU3?=
+ =?iso-8859-1?Q?PktrdRMS7FUrcwwVdDYOyufA62Aam6OJZ94c0K3wrTVlNKj82ZTM2UwYG7?=
+ =?iso-8859-1?Q?3pE8BoPzsruKG/C5DyU8qQfk1/e5w/7tRrakoPDdY/biC+ND/7bed4m5u7?=
+ =?iso-8859-1?Q?Fd63v9Fjx96z6qiB7ZV7M8lZ6C/+f/mm3predo5bDapECV1haD1uvS/IzS?=
+ =?iso-8859-1?Q?+Rsk6ZasdP+uKqBC5d8+cdpa5iHupo0aYlxF83vHg4+ZUHUrYm6Hf4rPIt?=
+ =?iso-8859-1?Q?swpusvt2Tyc6UHF0pwwBWfW12EM40LyYtWR23XRs7rVbe19tr7EzW/wgeC?=
+ =?iso-8859-1?Q?DXmHHkunsKPXT6QoXf3QIendMiAAo86glOYqCaOzyTzcq1uI8HXLkXfu7t?=
+ =?iso-8859-1?Q?/slG5Ox0JlpiGsI/tEepp0zjqHZ43HZoYsanxKRfkbMGJNYwnXKMAKkHdk?=
+ =?iso-8859-1?Q?KcHMLdkjJABTHSnMJDKtx9VXjVKCegKhls5jKnMkx+X5NfFofkZgW3mxxo?=
+ =?iso-8859-1?Q?BmCvstEs1j2U2MiS7CJ6rswyrntRLom+TME3sSWAEX3HGZDgElNaMyVaxw?=
+ =?iso-8859-1?Q?XO1q4XU2VnZBA843cvlBKmAzn7uNX86Au1dVx8aSdKISSq0pSe93TILLW7?=
+ =?iso-8859-1?Q?ZYQEd6dU7gAHxjd/BvcJ2jfXdPeMj1GHE7jUhdlDQVpvR78MhqvIxqITZx?=
+ =?iso-8859-1?Q?OnsdQyY80ashvtrJxcly4yXw2QGpCqaUFyqXl+EDEBCIf1dNgg9ZPYdng6?=
+ =?iso-8859-1?Q?Aiwjvsi8x13j1ia0SwdhqusKUAnyV+UhYX0LHJSDi/4kKmHQ35gc/OkqAV?=
+ =?iso-8859-1?Q?8BQRw24mXb1CL9IXURbgnEnnYmpK2914s38+tbJF304MPI134mFW+uktCW?=
+ =?iso-8859-1?Q?T9rJohLdHDsozvJ+312jNYAMnSBEtbae60Z6yfwh0iJHMbfchUwZbpSB6U?=
+ =?iso-8859-1?Q?MiVK1/evwmjFCv9MXlvGMRyoD8piJLc4StbfvT184Vofs8g+8/tD8NGbB5?=
+ =?iso-8859-1?Q?rCxreacNd/9HoLvh4pxyzFBamZR8Ct+A07apRngsWJSoCmW1T3HzLVtfKe?=
+ =?iso-8859-1?Q?BNp7Rg003xF5RO+ScaC0WmVgFZbbMVqUJQiMHwhJF88/iovyFqTRNmF7AH?=
+ =?iso-8859-1?Q?Z2auDWGQxB3lapmQEtRvHnKQNUIj4iBVR8jKnuJK9NqYyhrQ4aRHo0PApC?=
+ =?iso-8859-1?Q?ZnHkpphADfKO/uoyOyksCY8XDfqboSzpCrT2HzhYy1zARXo6BDRWl0Ax3+?=
+ =?iso-8859-1?Q?lCEFYWrlwYpOSUM2yVub2YrMUb1x9K1aHhp+i51qt1tOqL9MIHtSZFn1LW?=
+ =?iso-8859-1?Q?JqxNihulLpHRxAURYIsd0cmwOO3YTiPA5fj2MmGl6Y8oohV/SAa3bFVNNE?=
+ =?iso-8859-1?Q?rdnHRsnYfhXfRNwpNR60pHsNo+ThRXWgpJhI+2vjCYkTEdhitN58L+Tk47?=
+ =?iso-8859-1?Q?oye4jxMZsBsKrQzeZrrsAY?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qk41ODg3MVpiYkVubkN6YU1WOHBNbXgzTFBzbEJmZWZWZmtGMzlKZ3ArQ215?=
- =?utf-8?B?cDZnNjBTTkd3TFViblEyd1NGbzhlSlJEV1BHTzh0TlVwZmR4Tk5kRTBDV2pu?=
- =?utf-8?B?QlJZWU5aVEJQWFBKNVIyMjZvN2ZRbVZOekNtazYyVVBIa0l1WWVCbGh5SzZ6?=
- =?utf-8?B?TVBqVUxNWWxFN1p5Z0tMUzBETEZpeFpqdWJFVTNNamI2VFo4aWY1QjhqRS9Y?=
- =?utf-8?B?OFBCM0gzc2ZYSFVGejlLcm1jYXBjL3QyY3gyQmRwN1FPWGZ3ZGRGWURmemVR?=
- =?utf-8?B?cUR6UGQwL0JtTC91ckkwSXl5MDhuQUUzVHpudWVPdytoVHg2djhtZ3VraWlD?=
- =?utf-8?B?aDMybUZzYkFnRzlKRXZDdnlPVnF6VXZUUzdVNWpqbkEvYmFpUXJ4aHZtUDlT?=
- =?utf-8?B?U1IzTWdWQlVEU1ZRV3N0K2lsVmJWS29ycFBPUXpzYkdOQjF6Qk5uNFFzZWp6?=
- =?utf-8?B?Zm05eTl3ZGVKWGdqcWVaaUt2bzZaK2tuWjA5THZvVzJvUVJqSkRPbmtnUmxv?=
- =?utf-8?B?K2lXSHFUb2NXVVdQamo3ZXp0THVIVTZXeEJjM043RXU3QjNVN1JMc043c3Vt?=
- =?utf-8?B?dGtiblNhZ0xwUFllcjYwUnBTd1FBNzl2b2hwMHJTYjdHb0FSRXE2cTJCZGVS?=
- =?utf-8?B?eEkwSHBFb1VkbkdTcEtxS2FUT1R1WDFaSXN2SEhMTGdSU2V2QUxzMmtpNUl2?=
- =?utf-8?B?eG8xTTdPWGMvWnUzaG1hTGIyWDZLSmFoZDZTRHZkUWdlbnVLaVJIa3h2WWRw?=
- =?utf-8?B?S20wWGNkRm5yUkQzYTI3OHFnTnlaNklTc1BPWFFhd3Y5QVF3RVIrVEF5QXBV?=
- =?utf-8?B?KzAzUjVxYVpCZ3Q3U0gwbklhU2pJblpMcnVZUnpXRjFYKzE5ZG5kb2xydUhk?=
- =?utf-8?B?cmxqUE1zazd4aVI1elVsY2p3MVY0ajdkSUgrcmZpRlptdDNrZUVoL1I2R0lE?=
- =?utf-8?B?eG83Z1dXVmZoblh0SHVaK21iWWRUOUlGY292U1dtU2V0QlFuaGZDdVVYUkF6?=
- =?utf-8?B?aHlPTHBjaldUeWtIVlZ5RXlFaTJpV0srcXpqZG9yWVpxcVdLTUd6ZjE3eFdE?=
- =?utf-8?B?bUlnWTBobTRTUlhvK0NnazhHTjFQdHREU092eEJURnNwZWl4WVdTajAyaG1B?=
- =?utf-8?B?ejZwVjhtK0ZwVXgxYVhuNGRTTDFmY1VGZ3hqT3ZoZzMxWFZzUnRKUGxpVlls?=
- =?utf-8?B?Q1ZNM3RMcERwT20yc3dTWmxUOWEvdkF2a20yKzVNSDlTbkIxWlFBTkQzcXJz?=
- =?utf-8?B?L2c2TmV1MjZTelplVWhsUDhBREdHVy9JWTNQaG1rMExWVnBJaE5waGR4NVBw?=
- =?utf-8?B?czdjQmM3RjhMdzZGNjd2NXdGeTJaQ0tKdUxFTFBNY1F5YVpBTGczNHVRQmcz?=
- =?utf-8?B?bktac1ZzMHp6dWpFTjRWdjZrWEpFQlJmR01GQ0JKRm1RWkNGSWtUdTY0RXNs?=
- =?utf-8?B?d3FnMDNJSGM0TktDS3NBamh4aUo0TTFSU2Z3aVQzWlo5MTdqUnkzL0VsTmRh?=
- =?utf-8?B?Y043bitQSVR6M0l2bVpZVW8wNWw1cGtqeThvVEZnZThqZitIYTRWU1hCZjgx?=
- =?utf-8?B?Y1Y5VDVxZGUzN0JiWXVTUW1FcUloQmxKN0pIUlhqWEVIRXNRSEFwOStlRDhL?=
- =?utf-8?B?d21CVUVCZDlFYlV6aFpCcEp3cHpwNnJKMCtURkdUaGlMNU90VlgzSmhPdm10?=
- =?utf-8?B?S3JzQUVzRzBqNGlOdU1NRS9MMVRHRjJyUlpUTlYzSitkN0Z4aWhJanJuTFZ1?=
- =?utf-8?B?c1VGQlFiNityUEtsTGl1cjlENDM1MEhNeFEvQk03cUt5T2hkYU9oQ0ZkMHVh?=
- =?utf-8?B?ckcvMW9aTjlXdGljSjMrcEp5akpLVjBxd29WUm8rdkJUNFRtd3B2K0FXL0sx?=
- =?utf-8?B?aE1jcGc4d2syQlBUK01OR3pKcmhUT1NJWk02a2V4VVF4azFtcy93VGRJQ0xZ?=
- =?utf-8?B?K0pyT2R6QWdzZU9FT2pDMnZnUzBneGpjWFc0MVkzVVpTMTNLSlNJc0hNUmUv?=
- =?utf-8?B?UlkrSGRpc1pKMSt4aVlOQXlsemt4cW9iTkRmV0QzZHhxS0EvUXp6YmJpNE1D?=
- =?utf-8?B?Nm9ldU45UWxTYUdBWHR1cHA0QTJhQ2RBNzhjTmRKWGN3U3RLYlcrbjQ5K1hG?=
- =?utf-8?Q?vcUK+Xhkxkn1+uy4BJ+V6OAra?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81d55996-a0fa-4370-5171-08de3e6c440c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?l3pbeD6XedoDXPBj2kyYVc0lZWNGedFirHpOcN8c7H68BdEjBws8LDYD8q?=
+ =?iso-8859-1?Q?lTI8FBGci/aZuUD0q2p2Xhfa9yuSPbVnektWVwohvnzSUJQAsmNbJ2rwYN?=
+ =?iso-8859-1?Q?j8B64R6QuYJJNaq8Bld7Q5J3QByaM/iH3Mae6pcGrn4I0uo6IHUsPfZ7r+?=
+ =?iso-8859-1?Q?U+8IpjRLqBkF3+TyQlP7sYPt1XhpOkrvwy6Io9vn8NKCciBgnCnXR7G3cB?=
+ =?iso-8859-1?Q?iFur4ihZDx985g159oyxN4T+1n4i15yPcPWcJiVnu74TI1EbTdGZysasS0?=
+ =?iso-8859-1?Q?2DhStRs9B+1336XcUnMYkEbXiaZz4Z2e0HaOUDobFf7HgpjJR2qYTFaqKH?=
+ =?iso-8859-1?Q?vdBNYedRqflLqnnBCeg8pLkqG55HYRtpzTa0fNP9d3itNvOoAwXOY2yM07?=
+ =?iso-8859-1?Q?mq+5Pdz8T0wPgw/AO6Hzk55ZSsA5rjAZapF5Yb5DEHWLMHU2T0o/bGcRCs?=
+ =?iso-8859-1?Q?X1hYhmDPEOSb/hNKW+6EBI+0LHgQEjB5aBkKbJ+xES/iOFAJCqO6gaKJx1?=
+ =?iso-8859-1?Q?azqLVqokwdRleFNxed0V8TS+Rvn/PPdJY1I28zQguPnZDLzBnUKVHFD/Pb?=
+ =?iso-8859-1?Q?LgbQFy942/5PyOrxdkDssBAOajDFR4I2DESm5GSVZm94K83mIJC7Cx1Gq6?=
+ =?iso-8859-1?Q?ZWaqmuGZf2M0vCuyApFgNcKDtlCD5sCc8EKZhFdWHckWc0PPKKdl57dBh9?=
+ =?iso-8859-1?Q?FGx8MHmbnJu8Cx8p6jsDsbUkH9Pamved1MkBWkzPFccmyHbiB/CqJhT42O?=
+ =?iso-8859-1?Q?k+kdFMFE52L0ILo3jdF2S4g7oINPZvcwojyL1k4HBWYOLg7bvXmeBoCexK?=
+ =?iso-8859-1?Q?jK3Al7un/E7jfgshn0cPwHvjtk50fs5VVJrxq8dK+5ySP9kWXXk6VPNvas?=
+ =?iso-8859-1?Q?PQk6CUZwqtpOEv3VwBcSx/02gPVAhdZN+XqyXM4HNdQCa6eu7eLNhZD9H0?=
+ =?iso-8859-1?Q?t+IpCEnG8pRZ7UD1aDDvrgonn2L1lf5SpSbnKmG5INrDVDpiEi63R+v4RS?=
+ =?iso-8859-1?Q?ks+FFC0Rkmc0R+kf4s6taWoodQQ0I1WbVeyl8WOspZhJFlsayBnAQ/8KmG?=
+ =?iso-8859-1?Q?WuOZkrHcsokxKa56iSqPwOJRNSfL4bH78cWJLc4rX4gu6bTXz+vMG9/xfB?=
+ =?iso-8859-1?Q?l7tHi3C6QVdJ5LC6QJog+yNX0uyx44/XvwFz6I0vBEbAgMf1l3OSVKmbu3?=
+ =?iso-8859-1?Q?NvbN7jUtgvyyLWbiTKjGQvWcsxTfv+9egkECieGB+rSGrrCu6uhx80xE/w?=
+ =?iso-8859-1?Q?rgXK9y6WDA4wwGOPuwEv0e2ScOEuge6XBSd6fNfBl27GuTocrhmXHamFy+?=
+ =?iso-8859-1?Q?mtaHjFRXLU4GG74eSz2v/dixKfBC9yMLDUF94zYwBLtE+f6baFq2HnyqEF?=
+ =?iso-8859-1?Q?BPqwfkRz02Y7d1U9CYS9luha5H54eiZxlGAAmacxFXV8E5WLnqP3QiZHgO?=
+ =?iso-8859-1?Q?jCMFS1IcmLQqI74+ZrPkMdE8fyjVTZr1TQvu5xgg9eeE2ZDmBfFdWAp7wA?=
+ =?iso-8859-1?Q?VzYKKr4G9G2adr+7lfVMNDj1fnmMKdpglsTtP/y9Bf415WorQR9ZvFnE73?=
+ =?iso-8859-1?Q?4upNHZD6ucI1Oc4onnpaebXSvDL/EkhAZcvgyuhNLfIyBwnTXqpy+WNvOH?=
+ =?iso-8859-1?Q?pl2/SdZP+IOJSUU9xQxeB2DGCPjmGuCUDplb827b91Z0ErxfdX+PK+cA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 947d4b8a-5874-451f-4215-08de3e6c4626
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 19:33:05.4106 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 19:33:08.8974 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cw2OluVxxLL//gchJRFHj/Zb08X9pFRej9FxVXZfSwOMnohFHSaIhOTWEY/bNqB8GYu227NfjF3tgNG0E5fetA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7528
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Fl429TRnq4x69F13VZgzPYomEAzTHOlR3iQDEATWXir3PYqSMQezJKO4WxTyQ+L+UHNCxpBIDXB02eGobbZBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6861
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,255 +191,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-Some compilation errors with this patch:
-
-drivers/gpu/drm/vkms/vkms_drv.c: In function â€˜vkms_destroyâ€™:
-drivers/gpu/drm/vkms/vkms_drv.c:261:9: error: implicit declaration of 
-function â€˜drm_colorop_pipeline_destroyâ€™ 
-[-Werror=implicit-function-declaration]
-   261 |         drm_colorop_pipeline_destroy(&config->dev->drm);
-       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[9]: *** [scripts/Makefile.build:287: 
-drivers/gpu/drm/vkms/vkms_drv.o] Error 1
-make[9]: *** Waiting for unfinished jobs....
-drivers/gpu/drm/vkms/vkms_composer.c: In function â€˜apply_coloropâ€™:
-drivers/gpu/drm/vkms/vkms_composer.c:164:58: error: invalid use of 
-undefined type â€˜struct drm_coloropâ€™
-   164 |         struct drm_colorop_state *colorop_state = colorop->state;
-       |                                                          ^~
-drivers/gpu/drm/vkms/vkms_composer.c:165:41: error: invalid use of 
-undefined type â€˜struct drm_coloropâ€™
-   165 |         struct drm_device *dev = colorop->dev;
-       |                                         ^~
-drivers/gpu/drm/vkms/vkms_composer.c:167:20: error: invalid use of 
-undefined type â€˜struct drm_coloropâ€™
-   167 |         if (colorop->type == DRM_COLOROP_1D_CURVE) {
-       |                    ^~
-drivers/gpu/drm/vkms/vkms_composer.c:168:38: error: invalid use of 
-undefined type â€˜struct drm_colorop_stateâ€™
-   168 |                 switch (colorop_state->curve_1d_type) {
-       |                                      ^~
-drivers/gpu/drm/vkms/vkms_composer.c:169:22: error: 
-â€˜DRM_COLOROP_1D_CURVE_SRGB_INV_EOTFâ€™ undeclared (first use in this function)
-   169 |                 case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
-       |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/vkms/vkms_composer.c:169:22: note: each undeclared 
-identifier is reported only once for each function it appears in
-drivers/gpu/drm/vkms/vkms_composer.c:174:22: error: 
-â€˜DRM_COLOROP_1D_CURVE_SRGB_EOTFâ€™ undeclared (first use in this 
-function); did you mean â€˜DRM_COLOROP_1D_CURVEâ€™?
-   174 |                 case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
-...
-
-
-Including the drm_colorop.h in vkms_composer.c and vkms_drv.c fixes them:
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c 
-b/drivers/gpu/drm/vkms/vkms_composer.c
-index 3cf3f26e0d8e..cd85de4ffd03 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -5,6 +5,7 @@
-  #include <drm/drm_atomic.h>
-  #include <drm/drm_atomic_helper.h>
-  #include <drm/drm_blend.h>
-+#include <drm/drm_colorop.h>
-  #include <drm/drm_fourcc.h>
-  #include <drm/drm_fixed.h>
-  #include <drm/drm_gem_framebuffer_helper.h>
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c 
-b/drivers/gpu/drm/vkms/vkms_drv.c
-index dd1402f43773..434c295f44ba 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -17,6 +17,7 @@
-  #include <drm/drm_gem.h>
-  #include <drm/drm_atomic.h>
-  #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_colorop.h>
-  #include <drm/drm_drv.h>
-  #include <drm/drm_fbdev_shmem.h>
-  #include <drm/drm_file.h>
-
-
-Alex
-
-On 12/18/25 07:15, Jani Nikula wrote:
-> There is no real reason to include drm_colorop.h from drm_atomic.h, as
-> drm_atomic_get_{old,new}_colorop_state() have no real reason to be
-> static inline.
+On Thu, Dec 18, 2025 at 08:18:24PM +0100, Thomas Hellström wrote:
+> On Thu, 2025-12-18 at 10:33 -0800, Matthew Brost wrote:
+> > On Thu, Dec 18, 2025 at 05:20:40PM +0100, Thomas Hellström wrote:
+> > > In situations where no system memory is migrated to devmem, and in
+> > > upcoming patches where another GPU is performing the migration to
+> > > the newly allocated devmem buffer, there is nothing to ensure any
+> > > ongoing clear to the devmem allocation or async eviction from the
+> > > devmem allocation is complete.
 > 
-> Convert the static inlines to proper functions, and drop the include to
-> reduce the include dependencies and improve data hiding.
 > 
-> Fixes: cfc27680ee20 ("drm/colorop: Introduce new drm_colorop mode object")
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Alex Hung <alex.hung@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Daniel Stone <daniels@collabora.com>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> > > 
+> > > Address that by passing a struct dma_fence down to the copy
+> > > functions, and ensure it is waited for before migration is marked
+> > > complete.
+> > > 
+> > > v3:
+> > > - New patch.
+> > > v4:
+> > > - Update the logic used for determining when to wait for the
+> > >   pre_migrate_fence.
+> > > - Update the logic used for determining when to warn for the
+> > >   pre_migrate_fence since the scheduler fences apparently
+> > >   can signal out-of-order.
+> > > v5:
+> > > - Fix a UAF (CI)
+> > > - Remove references to source P2P migration (Himal)
+> > > - Put the pre_migrate_fence after migration.
+> > > 
+> > > Fixes: c5b3eb5a906c ("drm/xe: Add GPUSVM device memory copy vfunc
+> > > functions")
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: <stable@vger.kernel.org> # v6.15+
+> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_pagemap.c | 17 ++++++---
+> > >  drivers/gpu/drm/xe/xe_svm.c   | 65 ++++++++++++++++++++++++++++++-
+> > > ----
+> > >  include/drm/drm_pagemap.h     | 17 +++++++--
+> > >  3 files changed, 83 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_pagemap.c
+> > > b/drivers/gpu/drm/drm_pagemap.c
+> > > index 4cf8f54e5a27..ac3832f85190 100644
+> > > --- a/drivers/gpu/drm/drm_pagemap.c
+> > > +++ b/drivers/gpu/drm/drm_pagemap.c
+> > > @@ -3,6 +3,7 @@
+> > >   * Copyright © 2024-2025 Intel Corporation
+> > >   */
+> > >  
+> > > +#include <linux/dma-fence.h>
+> > >  #include <linux/dma-mapping.h>
+> > >  #include <linux/migrate.h>
+> > >  #include <linux/pagemap.h>
+> > > @@ -408,10 +409,14 @@ int drm_pagemap_migrate_to_devmem(struct
+> > > drm_pagemap_devmem *devmem_allocation,
+> > >  		drm_pagemap_get_devmem_page(page, zdd);
+> > >  	}
+> > >  
+> > > -	err = ops->copy_to_devmem(pages, pagemap_addr, npages);
+> > > +	err = ops->copy_to_devmem(pages, pagemap_addr, npages,
+> > > +				  devmem_allocation-
+> > > >pre_migrate_fence);
+> > >  	if (err)
+> > >  		goto err_finalize;
+> > >  
+> > > +	dma_fence_put(devmem_allocation->pre_migrate_fence);
+> > > +	devmem_allocation->pre_migrate_fence = NULL;
+> > > +
+> > >  	/* Upon success bind devmem allocation to range and zdd */
+> > >  	devmem_allocation->timeslice_expiration = get_jiffies_64()
+> > > +
+> > >  		msecs_to_jiffies(timeslice_ms);
+> > > @@ -596,7 +601,7 @@ int drm_pagemap_evict_to_ram(struct
+> > > drm_pagemap_devmem *devmem_allocation)
+> > >  	for (i = 0; i < npages; ++i)
+> > >  		pages[i] = migrate_pfn_to_page(src[i]);
+> > >  
+> > > -	err = ops->copy_to_ram(pages, pagemap_addr, npages);
+> > > +	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
+> > >  	if (err)
+> > >  		goto err_finalize;
+> > >  
+> > > @@ -719,7 +724,7 @@ static int __drm_pagemap_migrate_to_ram(struct
+> > > vm_area_struct *vas,
+> > >  	for (i = 0; i < npages; ++i)
+> > >  		pages[i] = migrate_pfn_to_page(migrate.src[i]);
+> > >  
+> > > -	err = ops->copy_to_ram(pages, pagemap_addr, npages);
+> > > +	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
+> > >  	if (err)
+> > >  		goto err_finalize;
+> > >  
+> > > @@ -800,11 +805,14 @@
+> > > EXPORT_SYMBOL_GPL(drm_pagemap_pagemap_ops_get);
+> > >   * @ops: Pointer to the operations structure for GPU SVM device
+> > > memory
+> > >   * @dpagemap: The struct drm_pagemap we're allocating from.
+> > >   * @size: Size of device memory allocation
+> > > + * @pre_migrate_fence: Fence to wait for or pipeline behind before
+> > > migration starts.
+> > > + * (May be NULL).
+> > >   */
+> > >  void drm_pagemap_devmem_init(struct drm_pagemap_devmem
+> > > *devmem_allocation,
+> > >  			     struct device *dev, struct mm_struct
+> > > *mm,
+> > >  			     const struct drm_pagemap_devmem_ops
+> > > *ops,
+> > > -			     struct drm_pagemap *dpagemap, size_t
+> > > size)
+> > > +			     struct drm_pagemap *dpagemap, size_t
+> > > size,
+> > > +			     struct dma_fence *pre_migrate_fence)
+> > >  {
+> > >  	init_completion(&devmem_allocation->detached);
+> > >  	devmem_allocation->dev = dev;
+> > > @@ -812,6 +820,7 @@ void drm_pagemap_devmem_init(struct
+> > > drm_pagemap_devmem *devmem_allocation,
+> > >  	devmem_allocation->ops = ops;
+> > >  	devmem_allocation->dpagemap = dpagemap;
+> > >  	devmem_allocation->size = size;
+> > > +	devmem_allocation->pre_migrate_fence = pre_migrate_fence;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
+> > >  
+> > > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > > b/drivers/gpu/drm/xe/xe_svm.c
+> > > index bab8e6cbe53d..b806a1fce188 100644
+> > > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > > @@ -472,11 +472,12 @@ static void xe_svm_copy_us_stats_incr(struct
+> > > xe_gt *gt,
+> > >  
+> > >  static int xe_svm_copy(struct page **pages,
+> > >  		       struct drm_pagemap_addr *pagemap_addr,
+> > > -		       unsigned long npages, const enum
+> > > xe_svm_copy_dir dir)
+> > > +		       unsigned long npages, const enum
+> > > xe_svm_copy_dir dir,
+> > > +		       struct dma_fence *pre_migrate_fence)
+> > >  {
+> > >  	struct xe_vram_region *vr = NULL;
+> > >  	struct xe_gt *gt = NULL;
+> > > -	struct xe_device *xe;
+> > > +	struct xe_device *xe = NULL;
+> > >  	struct dma_fence *fence = NULL;
+> > >  	unsigned long i;
+> > >  #define XE_VRAM_ADDR_INVALID	~0x0ull
+> > > @@ -485,6 +486,16 @@ static int xe_svm_copy(struct page **pages,
+> > >  	bool sram = dir == XE_SVM_COPY_TO_SRAM;
+> > >  	ktime_t start = xe_gt_stats_ktime_get();
+> > >  
+> > > +	if (pre_migrate_fence &&
+> > > dma_fence_is_container(pre_migrate_fence)) {
+> > > +		/*
+> > > +		 * This would typically be a composite fence
+> > > operation on the destination memory.
+> > > +		 * Ensure that the other GPU operation on the
+> > > destination is complete.
+> > > +		 */
+> > > +		err = dma_fence_wait(pre_migrate_fence, true);
+> > > +		if (err)
+> > > +			return err;
+> > > +	}
+> > > +
+> > 
+> > I'm not fully convienced this code works. Consider the case where we
+> > allocate memory a device A and we copying from device B. In this case
+> > device A issues the clear but device B issues the copy. The
+> > pre_migrate_fence is not going be a container and I believe our
+> > ordering
+> > breaks.
 > 
-> ---
-> 
-> Including the massive Cc list because I don't want to keep doing this
-> afterwards. This stuff needs to be blocked and fixed during review. Just
-> stop including headers from headers. It's a PITA to clean up.
-> ---
->   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  3 ++
->   drivers/gpu/drm/drm_atomic.c                  | 32 +++++++++++++++
->   drivers/gpu/drm/drm_atomic_helper.c           |  1 +
->   .../drm/i915/display/intel_display_types.h    |  1 +
->   include/drm/drm_atomic.h                      | 39 ++++---------------
->   5 files changed, 45 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> index 1dcc79b35225..20a76d81d532 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> @@ -23,6 +23,9 @@
->    * Authors: AMD
->    *
->    */
-> +
-> +#include <drm/drm_colorop.h>
-> +
->   #include "amdgpu.h"
->   #include "amdgpu_mode.h"
->   #include "amdgpu_dm.h"
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 6d3ea8056b60..52738b80ddbe 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -641,6 +641,38 @@ drm_atomic_get_colorop_state(struct drm_atomic_state *state,
->   }
->   EXPORT_SYMBOL(drm_atomic_get_colorop_state);
->   
-> +/**
-> + * drm_atomic_get_old_colorop_state - get colorop state, if it exists
-> + * @state: global atomic state object
-> + * @colorop: colorop to grab
-> + *
-> + * This function returns the old colorop state for the given colorop, or
-> + * NULL if the colorop is not part of the global atomic state.
-> + */
-> +struct drm_colorop_state *
-> +drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
-> +				 struct drm_colorop *colorop)
-> +{
-> +	return state->colorops[drm_colorop_index(colorop)].old_state;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_get_old_colorop_state);
-> +
-> +/**
-> + * drm_atomic_get_new_colorop_state - get colorop state, if it exists
-> + * @state: global atomic state object
-> + * @colorop: colorop to grab
-> + *
-> + * This function returns the new colorop state for the given colorop, or
-> + * NULL if the colorop is not part of the global atomic state.
-> + */
-> +struct drm_colorop_state *
-> +drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
-> +				 struct drm_colorop *colorop)
-> +{
-> +	return state->colorops[drm_colorop_index(colorop)].new_state;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_get_new_colorop_state);
-> +
->   static bool
->   plane_switching_crtc(const struct drm_plane_state *old_plane_state,
->   		     const struct drm_plane_state *new_plane_state)
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 10adac9397cf..5840e9cc6f66 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -34,6 +34,7 @@
->   #include <drm/drm_atomic_uapi.h>
->   #include <drm/drm_blend.h>
->   #include <drm/drm_bridge.h>
-> +#include <drm/drm_colorop.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_device.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 6ff53cd58052..eb2e3f1e83c9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -34,6 +34,7 @@
->   #include <drm/display/drm_dp_tunnel.h>
->   #include <drm/display/drm_dsc.h>
->   #include <drm/drm_atomic.h>
-> +#include <drm/drm_colorop.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_encoder.h>
->   #include <drm/drm_framebuffer.h>
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 74ce26fa8838..178f8f62c80f 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -30,7 +30,6 @@
->   
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_util.h>
-> -#include <drm/drm_colorop.h>
->   
->   /**
->    * struct drm_crtc_commit - track modeset commits on a CRTC
-> @@ -712,6 +711,14 @@ drm_atomic_get_plane_state(struct drm_atomic_state *state,
->   struct drm_colorop_state *
->   drm_atomic_get_colorop_state(struct drm_atomic_state *state,
->   			     struct drm_colorop *colorop);
-> +
-> +struct drm_colorop_state *
-> +drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
-> +				 struct drm_colorop *colorop);
-> +struct drm_colorop_state *
-> +drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
-> +				 struct drm_colorop *colorop);
-> +
->   struct drm_connector_state * __must_check
->   drm_atomic_get_connector_state(struct drm_atomic_state *state,
->   			       struct drm_connector *connector);
-> @@ -808,36 +815,6 @@ drm_atomic_get_new_plane_state(const struct drm_atomic_state *state,
->   	return state->planes[drm_plane_index(plane)].new_state;
->   }
->   
-> -/**
-> - * drm_atomic_get_old_colorop_state - get colorop state, if it exists
-> - * @state: global atomic state object
-> - * @colorop: colorop to grab
-> - *
-> - * This function returns the old colorop state for the given colorop, or
-> - * NULL if the colorop is not part of the global atomic state.
-> - */
-> -static inline struct drm_colorop_state *
-> -drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
-> -				 struct drm_colorop *colorop)
-> -{
-> -	return state->colorops[drm_colorop_index(colorop)].old_state;
-> -}
-> -
-> -/**
-> - * drm_atomic_get_new_colorop_state - get colorop state, if it exists
-> - * @state: global atomic state object
-> - * @colorop: colorop to grab
-> - *
-> - * This function returns the new colorop state for the given colorop, or
-> - * NULL if the colorop is not part of the global atomic state.
-> - */
-> -static inline struct drm_colorop_state *
-> -drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
-> -				 struct drm_colorop *colorop)
-> -{
-> -	return state->colorops[drm_colorop_index(colorop)].new_state;
-> -}
-> -
->   /**
->    * drm_atomic_get_old_connector_state - get connector state, if it exists
->    * @state: global atomic state object
+> So the logic to handle that case was moved to the patch that enables
+> source migration, as per Himal's review comment. So consider this patch
+> only for destination migration where the devmem allocation is allocated
+> on the same gpu that migrates.
+>
 
+Ah, yes I see that logic in patch 23.
+ 
+> > 
+> > Would it be simplier to pass in the pre_migrate_fence fence a
+> > dependency
+> > to the first copy job issued, then set it to NULL. The drm scheduler
+> > is
+> > smart enough to squash the input fence into a NOP if a copy / clear
+> > are
+> > from the same devices queues.
+> 
+> I intended to do that as a follow-up if needed but since this is a fix
+> that fixes an existing problem I wanted it to be lightweight. But let
+> me take a quick look at that and probably resend only that patch.
+> 
+
+I'm fine with doing this in a follow up if that is the preference, I do
+think that would be cleaner.
+
+So if you prefer to leave this as is:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+> /Thomas
+> 
+> 
