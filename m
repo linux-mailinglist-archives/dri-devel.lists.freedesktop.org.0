@@ -2,139 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493D1CCC1E4
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D960ECCC1F9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 14:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4306F10E8E8;
-	Thu, 18 Dec 2025 13:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE1310E812;
+	Thu, 18 Dec 2025 13:55:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UYvXeSl4";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QmB0TTVL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QZeOSMqX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E76110E812
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:54:19 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BIB5QN21334905
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:54:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- W95ZWbyv7ZebtdgUzuyg7nH2Tc3tRPvsWhfTYozeQfw=; b=UYvXeSl453Yk6zLA
- jOQcGjMzy/fA2El17C1UCC6hhj+fRd1tGT/MWGnn+JN6Ynj24yZ/pGgeMLP4x5e8
- IqZ7P5nYS3WDizMrsxZQFzs8/ZxGsSGZ9+MQaCYkiBfFu9eg7vbZoomuk+nI+ZHT
- pOo6KzDXbo3zqcqH2uwtE0ejXfnm9Wnf9STe6kA4Oy9dMwL1bidJVU7zbwoQP3oW
- mlO0mHkZedxB33Q/BVnf3EV/3z74nnSns0SXNWVgqhyByMxGiz4hvJgOGIqQwDm/
- 75rWZju3j5z3L/3pjLO8AgwhuXLGWwp3GOXFFFTBWvk07o+61jsQJW1mayffC6Tg
- /Ugemg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4gec0g93-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:54:18 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4ee05927208so2183221cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:54:18 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D979310E812
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 13:55:02 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5942bac322dso784141e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 05:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766066058; x=1766670858;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=W95ZWbyv7ZebtdgUzuyg7nH2Tc3tRPvsWhfTYozeQfw=;
- b=QmB0TTVLPkvtdYhPaFgnVjBHZZ1SUb4NMKM1mW/557/ICRxD6Mxb3ka6I3W8c7D2QH
- mVJ8uhBAxQLGcTLF6lGcjZWZjQqPFniPxahBuDooDN83unpkvbKaILFbGWMkU+FDXndO
- tZ58d7CB+n4t6rR/9FoPeR02jia/LGqQ0e8wLRJQfb6CJrM674OkgmMvMw76+S3yKJs2
- xBK208imSdSWqluHeQOfkUrSRbX0cnVNCq5nbQW2I8nX/6iLPkHxLg+aLakdEa+mfHcA
- D1L3NMPyMRUQJ+hZ5GVSTutxg9qp9Zcx16h3WtMBgcVi4TGGk21941rwpNrcSP4qvMZD
- ah0g==
+ d=gmail.com; s=20230601; t=1766066101; x=1766670901; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=HDnXzSjtYaHM4x40x58+Blau4mKWsjcizNbfaizYC4s=;
+ b=QZeOSMqXhAdMjWM+F4k8d+Akap4Js5XKZo0j/Rg9GQxBlufPwcnwsxFtAaXmqoNpWj
+ xiDc7nP/Fwy+63hejmVSdKORn88TkXIM5RL+F6ZSGx+NqCRv5idPsU6wBmmOl0vLMubK
+ HyjyhWKYcUJop1n0309bDbYfEq43LbEoyofakevzKKWlfujrzMOSPuf/nMvQnwYQqBwS
+ wHjrmZIePRlDJQ9OmleSB4Fa7VJr4w5fYJxcThVEZZevoWsu2g/ApPYyHC4lzvpdoqtQ
+ NW60pkicA2nx2KwdsEiGLKz791bO8kaka1wUMwxbFNQ2KIhROPEDO497fWmjjJ5nD1yd
+ 6rjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766066058; x=1766670858;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W95ZWbyv7ZebtdgUzuyg7nH2Tc3tRPvsWhfTYozeQfw=;
- b=NzzD4yr81KfZZNIYF0xnDOKaAHIaGnY4LxdzPQ6rsZJRo93oaUYrJzmd4880N6gPLk
- q6sDUgTs3cdJfty6gUtBE6f4iW4WpUKrwYDrovoCjtwKu6Jrr411uUA9UqeXCK0s2lWM
- NHQ748OyD581ayZI2dzMFfcXiBQytlVIoUgGb6GrK6s3yXphyiyGlamr5Jya2Tarfg5a
- QIkE4H+z8Y2Uq1LyxBQy0gUvcsA6ScQxqSifUgLCfRLZG9i56alHrfW6fJ/8FbU4OEqX
- gYUpMoTyFVHXd0m3Y0csv1+CVzFb0+g8a/YNS/ZgatC36UXZJNM/YpSK9iL/ABP369w3
- W78g==
+ d=1e100.net; s=20230601; t=1766066101; x=1766670901;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HDnXzSjtYaHM4x40x58+Blau4mKWsjcizNbfaizYC4s=;
+ b=lu3g1yMT9UjMqnhIS57/e+DAc8Eac40/BR8Op5wfptQ5k57GRGOCfCLmoCBCRxr26I
+ 6jOOoquJEYdxBhm0AAqRT+CFv/reMofE3Fh2P2Z6BpbyDOHQzdZ+JHGyIFYRtG3bCFYa
+ /n6vcg/NdlCt6wOxTRLa4u5gjIhMa7Rg0mmPGonGSJWG6YQ+jQbfiMfeT4Y/QGhMU0QA
+ nQR7PNqcvzZLYHjuf0XaXimQq4+VJ9X29V4029CxcA2siQzXcaI4dfzfBQy4X/LTJc1S
+ qDiLqfFqTSkWCkIwrzywuH9qYEKIHT5qneAIVL9HEV/KGzi08mJT5QpLF76pIRbbI8yr
+ UKgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUPmCq4q0mXSEVt/bmp0U9qcfpIFL/GQLm6kDaSKL0IFTkDuMdDFvNdX9vhmHGQAlwaQW19TheLrro=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzy48g6ut4ffZnrn8LGK0sqKDT+lcY6HwIhS233gESFw3H/UE5l
- 633jB2O1sGkEHpb2B1UcvO3lLJ81n1rBwOXi80KCFNCUEd82pfM6YrQZZzb6zIZihXXpNUrvDDL
- l+t/ae3VnRLsOhrUNtKhaSRojbJs8ygZk2wW4yl7/TRXiss3j1T9sQIjh4EF3FyC5cuWkzM8=
-X-Gm-Gg: AY/fxX5Wmy5sD6UPv2ggZmexk7u+tpYebSPBKIUjwnYE0yfW7M/HibhhWCmc/v5Mtr+
- xle+S5RTSAbJSH0I5IGF7NJvvGLK5z4oxJSiuyOKLQKNrjaM6+Zva/jX0Rs71rFEzW3R01PJXdN
- /EC6qHYmfoe/S5EeoZr9OLX5Gj4/4DCIj+7IItNc5p2TPO92lDc2+wNtehhU+k7jpVag17ttf2N
- OJxV/0ul5zQVoBxVRkm1B/C263fLG8Q5LI5kBNfqCo6JQYecmKZNUfvrQ5pd1cGutsyQCIjOGSq
- CVOnwxeAxySsFMPRAXHiHcwJt8ZCSe2/9R2NrRkYci8yEhIKKT67E7vL2otBxGju4BTmkkMFp9w
- funUGbHpd5voUbavEC6VSFr38skTqltDk36gKp7Ksb5dXslLQqqabpcRsjpG9+tmYfg==
-X-Received: by 2002:a05:622a:341:b0:4ec:f9c2:c1ec with SMTP id
- d75a77b69052e-4f361152409mr20232951cf.9.1766066057854; 
- Thu, 18 Dec 2025 05:54:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHBlqC2m/dbjcpakq5xyRubRns6wW9qQ+MVm+nu5mEbtTBjt6LW/ckyVfsGNqX0AxDXLnM9sA==
-X-Received: by 2002:a05:622a:341:b0:4ec:f9c2:c1ec with SMTP id
- d75a77b69052e-4f361152409mr20232751cf.9.1766066057380; 
- Thu, 18 Dec 2025 05:54:17 -0800 (PST)
-Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8022f93e99sm237087366b.2.2025.12.18.05.54.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Dec 2025 05:54:16 -0800 (PST)
-Message-ID: <92f0e801-032f-4c8a-8bb4-ecb3af48af0a@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 14:54:15 +0100
+ AJvYcCVPQd2iyKAfg+kZ5uLftVZrGUiysN8lZx/k25SnYBYzhuUfa+pCmFwI+CknqJHbv5MqEqQF3g88CZY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySGeV90BNKq+D1CGe1AA5pqycZ/O1Aiw3ZlyB8bgHEtkO/GVFB
+ Eelr3kxO7ae/iJOytDrGr69ubpPNZMo5fDreI0m3Xv5qh0x4UKYMtopd
+X-Gm-Gg: AY/fxX5P3eDpwWa7jSsPNHgocxgKBBezk9YM1qYegWELXKrPbjp4YHpUIG9Cy57A2sY
+ sw+W4mwSdljkwZ4f9b5xk4BXNOJRdHRKcuI9tyYCt4XK6BnRAw+HTh7KVKwuqB9LgioHCRUFQpk
+ lx2HH6csWzsCD1zt5qwz0N0oePa/1/NvyKfCf0vcSJYzjxcsOqeIz0TZNa3GCZoNKivsKShSPk7
+ mZEQTq2TIH45l2fo+2Onxqkd3UM+EpfxjF13d3fUEGX1dfrt8F90+FeCdP5jrnoPnyg5JScmPq5
+ eijPPwm/EfY9HwTWLz0p3DPfQnXKu9v2mM6SB6OIS2cRdbGCPi6sJvDUmx/iRw3V1hQ++sDSN1Y
+ nAlpo/dXgq+gYiULgtcra9ZBaKKP98o6otY8MneqCFvEdPblEyHsr
+X-Google-Smtp-Source: AGHT+IFEs/IPmhycLdgTpBPBgGa1eUvj3QCPpB/NO2gh7wKbNs6ilucY3zYK/1hGd6Pg8xIq9YxpJw==
+X-Received: by 2002:a05:6512:6783:b0:596:51d0:9373 with SMTP id
+ 2adb3069b0e04-598faa4d58emr5189309e87.24.1766066100616; 
+ Thu, 18 Dec 2025 05:55:00 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a13506b2dsm1116848e87.95.2025.12.18.05.54.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Dec 2025 05:55:00 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Thu, 18 Dec 2025 14:54:58 +0100
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ Barry Song <21cnbao@gmail.com>
+Cc: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
+ jstultz@google.com, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Maxime Ripard <mripard@kernel.org>,
+ Tangquan Zheng <zhengtangquan@oppo.com>
+Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
+ whenever possible
+Message-ID: <aUQHss6K8b_esvpw@milan>
+References: <20251215053050.11599-1-21cnbao@gmail.com>
+ <e7c8478b-1ce4-4a15-a185-de9d9121438c@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/mdp5: drop support for MSM8998, SDM630 and SDM660
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Alexey Minnekhanov <alexeymin@postmarketos.org>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Sajna <sajattack@postmarketos.org>, barnabas.czeman@mainlining.org
-References: <20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com>
- <8e1d33ff-d902-4ae9-9162-e00d17a5e6d1@postmarketos.org>
- <dcapydafye2v6owrkehngivqlucjcx6aa3sszszflh3ocm7dpq@qsajm2qkc52d>
- <24f29ff0-99d0-4175-a6c9-f402ce99f645@oss.qualcomm.com>
- <7dcs7n4pbdhmm4ujgqnek4setujzqxhkdsf3tuf4ggymajj3rj@xzapix7ujzr6>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <7dcs7n4pbdhmm4ujgqnek4setujzqxhkdsf3tuf4ggymajj3rj@xzapix7ujzr6>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 1DNDrl3x6zmKAVbEuZ10K2NJu7Z91gYj
-X-Authority-Analysis: v=2.4 cv=V51wEOni c=1 sm=1 tr=0 ts=6944078a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=sMkN4vr61ZO4f_miHF8A:9
- a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDExNSBTYWx0ZWRfX+g4Y32Iu4pCj
- f8BIwvwVH9oC0Zrdy4Y6s6V0pziZ0C0Jd175EzF5AApncP0qvf09ucJQXTUTGRvOCuykQAG1Ln9
- oFee49Uc3sCiwuXlxqE49/+3JM1Mt2wPCn9GOHC0y7BFuvbUjZ1sMT3lHXijjCmrbC9flDnPYvv
- mMlNVUh529SY+Ryof6FsxfZbHtXTVoWMugtCglFMZ4ws+878Et7DG2NPIntaBulP7w9Tk5livaT
- 3QWABeYSPLVwOK86KoqGQsP29JP9/79c9rAcl78ROdmcQahkrz7LQvqhMbDHQMD8+KkekhqTCs4
- ZFE9wVO41kl2O6rIn11spIXu1fKTg8YeapxtlMCOlir4mwy+bgdEWH1kpZAnO4G4aiZanS9tcyN
- gpGDJtde+El1TFSFKgJzy/iEMSQUiA==
-X-Proofpoint-GUID: 1DNDrl3x6zmKAVbEuZ10K2NJu7Z91gYj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_02,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180115
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e7c8478b-1ce4-4a15-a185-de9d9121438c@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,94 +99,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/25 2:49 PM, Dmitry Baryshkov wrote:
-> On Thu, Dec 18, 2025 at 12:23:49PM +0100, Konrad Dybcio wrote:
->> On 12/17/25 5:34 PM, Dmitry Baryshkov wrote:
->>> On Wed, Dec 17, 2025 at 06:05:31PM +0300, Alexey Minnekhanov wrote:
->>>> On 11.12.2025 04:25, Dmitry Baryshkov wrote:
->>>>> Currently MDP5 3.x (MSM8998, SDM630 and SDM660) platforms are support
->>>>> by both DPU and MDP5 drivers. Support for them in the DPU driver is
->>>>> mature enough, so it's no longer sensible to keep them enabled in the
->>>>> MDP5 driver. Not to mention that MSM8998 never used an MDP5 compatible
->>>>> string. Drop support for the MDP5 3.x genration inside the MDP5
->>>>> driver and migrate those to the DPU driver only.
->>>>>
->>>>> Note: this will break if one uses the DT generated before v6.3 as they
->>>>> had only the generic, "qcom,mdp5" compatible string for SDM630 and
->>>>> SDM660. However granted that we had two LTS releases inbetween I don't
->>>>> think it is an issue.
->>>>>
->>>>
->>>> I've retested DPU driver on our downstream release based on 6.18 (by
->>>> using msm.prefer_mdp5=false kernel cmdline parameter) on all devices
->>>> at my disposal, and I can confirm DPU driver working fine an all SDM660,
->>>> SDM636 ones, but not on SDM630. Some logs from sdm630-sony-nile-pioneer
->>>> (Sony Xperia XA2):
->>>
->>> Unfortunately I only have SDM660 and video DSI usecase here. BTW: is
->>> your SDM636 / SDM660 using CMD or video panel?
->>>
->>>>
->>>> [    2.356546] msm_dpu c901000.display-controller: bound c994000.dsi (ops
->>>> dsi_ops [msm])
->>>> [    2.357328] adreno 5000000.gpu: GPU speedbin fuse 146 (0x92), mapped to
->>>> opp-supp-hw 0x4
->>>> [    2.364802] msm_dpu c901000.display-controller: bound 5000000.gpu (ops
->>>> a3xx_ops [msm])
->>>> [    2.444649] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x30030000
->>>> [    2.449793] [drm] Initialized msm 1.13.0 for c901000.display-controller
->>>> on minor 1
->>>> ...
->>>> [    2.911900] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
->>>> error]enc33 intf1 ctl start interrupt wait failed
->>>> [    2.911916] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
->>>> commit done returned -22
->>>> ...
->>>> [    3.176171] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:654] [dpu
->>>> error]enc33 intf1 ctl start interrupt wait failed
->>>> [    3.176367] [drm:dpu_kms_wait_for_commit_done:525] [dpu error]wait for
->>>> commit done returned -22
->>>>
->>>> Which results in horrendous ~3-5 fps in shell.
->>>>
->>>> The block "enc33 intf1 ctl start interrupt wait failed" + "wait for
->>>> commit done returned -22" is repeated few times per second whenever
->>>> the display is turned on, and stops when it's turned off.
->>>>
->>>> Meanwhile it is working fine using MDP5 driver (msm.prefer_mdp5=true).
->>>
->>> It's interesting. Would you please capture the devcoredump for the
->>> platform? There will be a lot of blocks, I'm interested in INTF_1, CTL
->>> and top_0.
->>>
->>> Also, as a debugging check, would you mind patching
->>> dpu_encoder_phys_cmd_wait_for_commit_done() so that it always calls
->>> dpu_encoder_phys_cmd_wait_for_tx_complete()? I will check if there are
->>> any differences for CTL_START and similar registers, but it will take
->>> some time.
->>>
->>>> Well, as fine as possible considering [1], using several FD_MESA_DEBUG
->>>> tricks to work around GPU issues.
->>>>
->>>> P.S. I have not yet tested MSM8998, but I can try if required
->>>
->>> As far as I remember, MDP5 on MSM8998 has never been wired (as in never
->>> committed to the DTSI). Angelo has enabled and Freebox people have
->>> tested DPU on MSM8998, but I think it was limited to video / HDMI
->>> usecases.
->>
->> I think we poked at both, back in the day (tm) and DPU worked on msm8998-
->> sony-maple (sharp,ls055d1sx04 cmd mode panel) with the funny CMD mode hack
->> (due to a register field not existing on <845?)
->>
->> https://github.com/SoMainline/linux/commit/14e0517e2fd5eee116a32db624b09856c60fa022
+On Thu, Dec 18, 2025 at 02:01:56PM +0100, David Hildenbrand (Red Hat) wrote:
+> On 12/15/25 06:30, Barry Song wrote:
+> > From: Barry Song <v-songbaohua@oppo.com>
+> > 
+> > In many cases, the pages passed to vmap() may include high-order
+> > pages allocated with __GFP_COMP flags. For example, the systemheap
+> > often allocates pages in descending order: order 8, then 4, then 0.
+> > Currently, vmap() iterates over every page individually—even pages
+> > inside a high-order block are handled one by one.
+> > 
+> > This patch detects high-order pages and maps them as a single
+> > contiguous block whenever possible.
+> > 
+> > An alternative would be to implement a new API, vmap_sg(), but that
+> > change seems to be large in scope.
+> > 
+> > When vmapping a 128MB dma-buf using the systemheap, this patch
+> > makes system_heap_do_vmap() roughly 17× faster.
+> > 
+> > W/ patch:
+> > [   10.404769] system_heap_do_vmap took 2494000 ns
+> > [   12.525921] system_heap_do_vmap took 2467008 ns
+> > [   14.517348] system_heap_do_vmap took 2471008 ns
+> > [   16.593406] system_heap_do_vmap took 2444000 ns
+> > [   19.501341] system_heap_do_vmap took 2489008 ns
+> > 
+> > W/o patch:
+> > [    7.413756] system_heap_do_vmap took 42626000 ns
+> > [    9.425610] system_heap_do_vmap took 42500992 ns
+> > [   11.810898] system_heap_do_vmap took 42215008 ns
+> > [   14.336790] system_heap_do_vmap took 42134992 ns
+> > [   16.373890] system_heap_do_vmap took 42750000 ns
+> > 
 > 
-> Ok, so my guess was correct and CTL_START is not present there. Checking
-> the regmaps, there is no intr_start too. Let me cook the patchset.
+> That's quite a speedup.
+> 
+> > Cc: David Hildenbrand <david@kernel.org>
+> > Cc: Uladzislau Rezki <urezki@gmail.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: John Stultz <jstultz@google.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
+> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> > ---
+> >   * diff with rfc:
+> >   Many code refinements based on David's suggestions, thanks!
+> >   Refine comment and changelog according to Uladzislau, thanks!
+> >   rfc link:
+> >   https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
+> > 
+> >   mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
+> >   1 file changed, 39 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> > index 41dd01e8430c..8d577767a9e5 100644
+> > --- a/mm/vmalloc.c
+> > +++ b/mm/vmalloc.c
+> > @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+> >   	return err;
+> >   }
+> > +static inline int get_vmap_batch_order(struct page **pages,
+> > +		unsigned int stride, unsigned int max_steps, unsigned int idx)
+> > +{
+> > +	int nr_pages = 1;
+> 
+> unsigned int, maybe
+> 
+> Why are you initializing nr_pages when you overwrite it below?
+> 
+> > +
+> > +	/*
+> > +	 * Currently, batching is only supported in vmap_pages_range
+> > +	 * when page_shift == PAGE_SHIFT.
+> 
+> I don't know the code so realizing how we go from page_shift to stride too
+> me a second. Maybe only talk about stride here?
+> 
+> OTOH, is "stride" really the right terminology?
+> 
+> we calculate it as
+> 
+> 	stride = 1U << (page_shift - PAGE_SHIFT);
+> 
+> page_shift - PAGE_SHIFT should give us an "order". So is this a
+> "granularity" in nr_pages?
+> 
+> Again, I don't know this code, so sorry for the question.
+> 
+To me "stride" also sounds unclear.
 
-FWIW it's not something I came up with.. But I can't fully recall the
-original finder. Maybe it was one of the MSM8996/MSM8998/SDM845-mainline
-contributors? It was difficult to find, so I'd like to credit the author
-but I'm afraid I can't find it..
-
-Konrad
+--
+Uladzislau Rezki
