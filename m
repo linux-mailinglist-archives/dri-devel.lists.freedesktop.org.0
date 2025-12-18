@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB08CCB4CD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40309CCB4F1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 11:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDCA10EC51;
-	Thu, 18 Dec 2025 10:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 009DA10E9C2;
+	Thu, 18 Dec 2025 10:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TM/OI0fP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nXG7GxuP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2433410E881;
- Thu, 18 Dec 2025 10:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766052339; x=1797588339;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=NJrmPBsg5z4/WIRINNnAlaz+67SqTSo/cC/xf9b1eRc=;
- b=TM/OI0fPCQYzlULlJ04UE82vEZJ8RSyXMtMVH4UHODbF/ECfjF52Jzvl
- VfcfJHw7j9LSbt6AKegfTj++iq64XSslpigVxoEic5vm4vt3X4z+pc8Nk
- ZfgrgY6cQoXzFO+5VsoaSSCAy2e8S2bIKfMa6dhO2Rs1kfme0tTqRy+8r
- QPZ3U5a/zIf28F4Hq//NPUHqqbnTN4B5+823UXYDuZqVZqvbX/dnz+TUw
- /M/5tWQfnPu+VxjQxNoofah0xtPSirEP3yLfuntntNNXF+2DuJSlb1xhr
- 6/UlZaQOlyewO1XbLx+UmdsDLm6cSjun5cFQfE7mFLLKU3KXneTUrOBOm Q==;
-X-CSE-ConnectionGUID: +WfBa8IUTOy2Il/xnxtI/g==
-X-CSE-MsgGUID: 7fIkDoHpTX2FdL/Uf6V31g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68074346"
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="68074346"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 02:05:39 -0800
-X-CSE-ConnectionGUID: k+hSyMbHQjKRzPqwN7dFhQ==
-X-CSE-MsgGUID: xu4xCMtjQFCjBn5iyTzLhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; d="scan'208";a="198147952"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.76])
- ([10.245.244.76])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 02:05:35 -0800
-Message-ID: <21861d1b-54bf-4853-9c35-97abe3c5deba@linux.intel.com>
-Date: Thu, 18 Dec 2025 11:05:33 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3CDC10E964;
+ Thu, 18 Dec 2025 10:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1766052581;
+ bh=o1fdrSWwO0xShmzqL2G5QlgwbWYvhXX+R7M9VNjTXJ4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nXG7GxuPC93tvgwak+SlwW3fsT70fORelI0ocCJLMZLZkDLgsIegaaElfdGba++31
+ HHSfySgD+qcrRBlfWsTz0agUC7Ve8BdtD49OphYgbcoiojIPNlO4MvKVVoa2k94NVA
+ 05kLTaQ2jB2ucldlsndgs8t40DdjmHsGw8ULTCRsAhpP9AUPVyBu6D4gD/EnDSMILr
+ H9x9vTwKo0kKEMtxcE+nnzToGJf+8K8DnW/Pi9+uq/9ZplVjH791BStOvMdHpjBV1w
+ s6WoLYFVpGUrZFCjtcNY/kWnmAiLUOnSpxFkxcYxK1JoF0Hl3sT+3wNYRMaR3qWlR2
+ qlqiT3u7dG1EQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6835D17E1146;
+ Thu, 18 Dec 2025 11:09:41 +0100 (CET)
+Date: Thu, 18 Dec 2025 11:09:37 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, DRI Devel Mailing List
+ <dri-devel@lists.freedesktop.org>, Intel Graphics Mailing List
+ <intel-gfx@lists.freedesktop.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Collabora Kernel Mailing List
+ <kernel@collabora.com>
+Subject: Re: [PATCH] drm/gem: Fix kerneldoc warnings
+Message-ID: <20251218110937.2d1a0c7d@fedora>
+In-Reply-To: <20251217172404.31216-1-loic.molinari@collabora.com>
+References: <20251217172404.31216-1-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,65 +69,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+On Wed, 17 Dec 2025 18:24:04 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-Here's all the accumulated fixes from drm-misc-fixes!
+> Fix incorrect parameters in drm_gem_shmem_init() and missing " *" on
+> empty lines in drm_gem_get_huge_mnt().
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
 
-Kind regards,
-Maarten Lankhorst
+Queued to drm-misc-next.
 
-drm-misc-fixes-2025-12-18:
-drm-misc-fixes for v6.19-rc2:
-- Add -EDEADLK handling in drm unit tests.
-- Plug DRM_IOCTL_GEM_CHANGE_HANDLE leak.
-- Fix regression in sony-td4353-jdi.
-- Kconfig fix for visionox-rm69299.
-- Do not load amdxdna when running virtualized.
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 7 +++++--
+>  include/drm/drm_gem.h                  | 4 ++--
+>  2 files changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
+_gem_shmem_helper.c
+> index 29174ab58ff3..fbd1164174b0 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -94,9 +94,12 @@ static int __drm_gem_shmem_init(struct drm_device *dev=
+, struct drm_gem_shmem_obj
+>  }
+> =20
+>  /**
+> - * drm_gem_shmem_init - Initialize an allocated object.
+> + * drm_gem_shmem_init - Initialize an allocated object of the given size
+>   * @dev: DRM device
+> - * @obj: The allocated shmem GEM object.
+> + * @shmem: shmem GEM object to initialize
+> + * @size: Size of the object to initialize
+> + *
+> + * This function initializes an allocated shmem GEM object.
+>   *
+>   * Returns:
+>   * 0 on success, or a negative error code on failure.
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index f4da8ed0d630..86f5846154f7 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -508,11 +508,11 @@ static inline int drm_gem_huge_mnt_create(struct dr=
+m_device *dev,
+>  /**
+>   * drm_gem_get_huge_mnt - Get the huge tmpfs mountpoint used by a DRM de=
+vice
+>   * @dev: DRM device
+> -
+> + *
+>   * This function gets the huge tmpfs mountpoint used by DRM device @dev.=
+ A huge
+>   * tmpfs mountpoint is used instead of `shm_mnt` after a successful call=
+ to
+>   * drm_gem_huge_mnt_create() when CONFIG_TRANSPARENT_HUGEPAGE is enabled.
+> -
+> + *
+>   * Returns:
+>   * The huge tmpfs mountpoint in use, NULL otherwise.
+>   */
 
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-12-18
-
-for you to fetch changes up to 2bfca4fe1f36eb6618e5712a8b5b41433bb6f10b:
-
-  drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE (2025-12-16 11:28:52 +0100)
-
-----------------------------------------------------------------
-drm-misc-fixes for v6.19-rc2:
-- Add -EDEADLK handling in drm unit tests.
-- Plug DRM_IOCTL_GEM_CHANGE_HANDLE leak.
-- Fix regression in sony-td4353-jdi.
-- Kconfig fix for visionox-rm69299.
-- Do not load amdxdna when running virtualized.
-
-----------------------------------------------------------------
-Guido Günther (1):
-      drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE
-
-José Expósito (3):
-      drm/tests: hdmi: Handle drm_kunit_helper_enable_crtc_connector() returning EDEADLK
-      drm/tests: Handle EDEADLK in drm_test_check_valid_clones()
-      drm/tests: Handle EDEADLK in set_up_atomic_state()
-
-Karol Wachowski (1):
-      drm: Fix object leak in DRM_IOCTL_GEM_CHANGE_HANDLE
-
-Maarten Lankhorst (1):
-      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-
-Marijn Suijten (1):
-      drm/panel: sony-td4353-jdi: Enable prepare_prev_first
-
-Mario Limonciello (AMD) (1):
-      accel/amdxdna: Block running under a hypervisor
-
- drivers/accel/amdxdna/aie2_pci.c                   |   6 +
- drivers/gpu/drm/drm_gem.c                          |   8 +-
- drivers/gpu/drm/panel/Kconfig                      |   1 +
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |   2 +
- drivers/gpu/drm/tests/drm_atomic_state_test.c      |  40 +++++-
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 143 +++++++++++++++++++++
- 6 files changed, 193 insertions(+), 7 deletions(-)
