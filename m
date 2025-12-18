@@ -2,91 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F9BCC9C84
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 00:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0413FCCAE93
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Dec 2025 09:35:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB9D10E2B4;
-	Wed, 17 Dec 2025 23:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F53110E3B9;
+	Thu, 18 Dec 2025 08:35:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gCweH3kT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lbz9+bjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E327010E2B4
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 23:18:18 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-6419aaced59so16411a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 15:18:18 -0800 (PST)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2679810E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 00:19:43 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id
+ 5b1f17b1804b1-4779cb0a33fso914535e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Dec 2025 16:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766013497; x=1766618297; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UN96YHFRB/4inIMgi3dbMvEusx9VWtrV50KsEfyV8ik=;
- b=gCweH3kTcLqMwkwDveZgf8YVcOBNsqw8oqa1moWvtxj3r8EFVsWXqZEhMj43Q/2nhu
- L0M27SZxFj1aT6dqUM8c17PLJPGM3B4E1oZZ0wFEF/Nfv89e8Ok/S7QuMeI71KLbiIXF
- By/vpB1h6CbYueFgof3LlWui5CPof/hqr/wyKytIAsb6MtlBZcGRYrSNrbMqG8bUqLqp
- NeFKu66UyZ6CWavsrJ73gb8KzXObj19uZdzNuZxhtFcpiqxi5fFWMAz7ub4ghkrWpXmj
- FJ4dGHrzC+ftGZuMEbRiQWhgxQvzY75yluE8kYgC8ebztQ0V8ZHU59QBUUR0vSMkxvkw
- 4pZg==
+ d=gmail.com; s=20230601; t=1766017181; x=1766621981; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3kUVQaLKncxiRp/vqoDgQl5p2NRR1lum8QhNB8KPTe8=;
+ b=lbz9+bjrv84iopo0ulJBVc0N5MOkkHnkViTZ7nG4alzGYLdbEs7Ds01ljo6rDdUqRT
+ 18FZz8EFgRF9kZm3DnW7MO86Wn2zEFoAxSGkSTQdgKU5D80rkbYKSUptHAzpyta5hEzm
+ EtNAinVsD5jNvVwtDadT8mEyvfIYweTy+zAJ+UJbJNMPIkEaUSr6BQzn9fZp+yxpqFG6
+ EwhD+oZDfJukcKYRbokJ9tkt0AIbn4aQpZ7A/VIcLYQhiRWRJSJYDc9KhowNiMmVV3YB
+ 58Z67zbFn+6+wdl2M2BbjDf13auTcgjKGd5XOQUWTbQgVv9IWR85i2KPa7mHzsEslm3N
+ B19w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766013497; x=1766618297;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UN96YHFRB/4inIMgi3dbMvEusx9VWtrV50KsEfyV8ik=;
- b=icT9RDTWAG99LwBVfur/LaVJUfoqVG/Rbj3fX8xx+VgrvwMlfcf2Ya7Ks6raPkqUZ6
- jAYQSaB8xzNjEWIp15DMfySalt9fkJXzNIIGNG4s7SpUADlt27wglB4qkHWfL+WAlYeE
- ZqZBKko3JZoKO1fRtRg2zOtANnQVP5pzMKHGLjYzveeI6GmmtcfVzfmDPgHbt9urh/5M
- l0zK+jYR23IKCXRflqpLIiJN4Wg3SpYDuPG7hahdjUJgNcmSxwNIIOCV75lFI/f0+oCx
- fQ6JvDj7LqPX4ua6guHTe/JFWP1ikcxvKAERTJFocq/lHisUuTRHBrUtf2EHztMmyfue
- iQBQ==
+ d=1e100.net; s=20230601; t=1766017181; x=1766621981;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3kUVQaLKncxiRp/vqoDgQl5p2NRR1lum8QhNB8KPTe8=;
+ b=JRpoDDuNaYJfDRbRNM+nmWOUzw4tOV2/d63/t3b/IdH2D8qZxeAMIzWfX2AY57H70K
+ YyXemGpIp20m6qixVna1nEiaLfLShBGZygfiorVyl11yip3Ev1Gjvx0bnh2BQGsSRtrt
+ tIb15uDgSQyGmVzlrfPHn0kUEJe1sqLkVniZO2YmKYid5QTpXjGoHYoJEZ1jfFHqYdSb
+ bMQyUvJ4yyNaKHlSnmqmpmN/9akg3QCyTJzuSVSYlkqVri/Tf7ECHDKRepfbQA4gnEDy
+ z0UJUtAvfiEQi/zVLtKq9mx/apE7ai1pTBcTZw8jCOlQ02XSuzGCFGFl3ajRXY0isDQf
+ CGJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFPNq/ltaaA3rzM4C1cSGMoRmAQ48wzDdWlu7Gb7+Ao58dPmJKaYxlvNUSs0tCEEFLYv/kt/ktdYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZ661o8CW/bcsPBFUtMLgVLfc9F7DRBI39b7X1FAKQOG6fS+5+
- yFg/8w/6/45V3weXA+eePn4MgOyiRI3GbfCLjYzeVnJUNfYdSjwv6bjI
-X-Gm-Gg: AY/fxX6PAcU32AcZ0T3MBqh78vRB64f3hP503kI06wcsbjdAu6wGTIxM/TaUHHI+5tW
- X5HkAwRWzRH/puEBeSlb02vM76RRhLbUT471pO2xfJzBsaD/eSYRNnM2l1WxyTwIYNWyPA6bTpp
- 2LsAcbVXsFI3rRh2P0dFB0eClR+CRIRtMD2lPRPrtWJE+kdE17Jm7OryAXSZ+wGw7b+EoI3y7JC
- lVIwJAs7ziOPuhB5VZG8At8XPTDqleDjH1K8xpPnWtSbzjG826K9r/2Fs8e/zeaT343GBSP2xb4
- d/IyW9rfGGqvm44s6ylWgHRSxMsZ7g+rE9dMdXeDzznNgKR1SGGOko3xKq3eJLlz3J8WOkvgRwp
- okQ1LvBTB0ObzA3aSvaCeDFXXBBdb/KIdT/+TDCU+eIIS8x1xYRB8h43Aez/WUhzYuJWXPGv5dl
- By3cQ30wiSpd6YMgNPfk7/9W7y3v9akrGfBXBEnrFRlyhWOzguu1tb
-X-Google-Smtp-Source: AGHT+IH72LAfNzyy+q1FdHHf4lMhn1wfNHRULTFndvPYWMDbTNlqP41izrh+Mgb7nu96smLmXrV0VQ==
-X-Received: by 2002:a05:6402:2681:b0:63c:4da1:9a10 with SMTP id
- 4fb4d7f45d1cf-6499b331141mr17431482a12.31.1766013497198; 
- Wed, 17 Dec 2025 15:18:17 -0800 (PST)
-Received: from [192.168.0.130] (84-148-177-143.ftth.glasoperator.nl.
- [143.177.148.84]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64b5886d434sm760731a12.21.2025.12.17.15.18.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Dec 2025 15:18:16 -0800 (PST)
-Message-ID: <6dc26bf0-6e28-4478-9ec4-20622cc8a19e@gmail.com>
-Date: Thu, 18 Dec 2025 00:18:18 +0100
+ AJvYcCUR8zxQXU86FRPoL/Ahkp+YrO5TY0ehNy75fhMgTGi8V4p4mZmMKHiBqvgSpfXU0xR7hF/5ohZFGxA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNB5hvpRGlokZZInOGu7QEPeNuwHl/t6eFJ0dKFkXBpdgPzE4d
+ 2EDVenYNO9jWGjdK9samhBQlpMWZj9o6gya6YJfUF7tu29dkikCB+/33
+X-Gm-Gg: AY/fxX7RZ3LW97GS3UPrc6fEcfMKn/DbPscwtF7oj8Lej2YyIfk5v7WcQ25yg3QNETV
+ GcTdhPS21KUmRAQwN6BxzZI/23nQEHqWNz10akvkhpWAvVuewRZ4IG8qtmTrkfeOr+DDlMqytr6
+ cH9f4GlohFE5YqXUX+dtaxOvHlMRNV40Gbe5oZPaEWm8QcyMUBYPtKZD3bbJlCbOuPc1jduST7Q
+ o3U5k3YHfxazUgYSzohFe3NFey5nhFqwTaZXOT+RNstMxNOTXrRHukzoCTrnJ32WsC/ow9GGk4q
+ hoqfEjBy4NHehawZnE7jWIGdJWk5hY58tiyWxm4/pQ/W2RSLg5eENHI/OEf5EvsFj5U+dA50oMU
+ INHcm3ZP5PR4Kcmq+ckKebc7Auu2NpW7xn1q4mIBTF42NO0g3ycBMLJKoWsPdQlCyqAT6HKJfgB
+ 7/nRQDFF4G7fj4a1CmY6E8jUj57gloy8je0fYYsSPxZGVFgbpyZOZyyBs7HdBycXF9MDljZg==
+X-Google-Smtp-Source: AGHT+IHpXOK6G9ypAXb1YFAcTnbHKHq1QrwSCQMOelXbJG6LwWV50H/93CE5g/zG6iKkk+5NqSaRVQ==
+X-Received: by 2002:a05:6000:144e:b0:431:66a:cbc3 with SMTP id
+ ffacd0b85a97d-431066acfc6mr6234585f8f.6.1766017181032; 
+ Wed, 17 Dec 2025 16:19:41 -0800 (PST)
+Received: from [192.168.1.5] (92.40.201.212.threembb.co.uk. [92.40.201.212])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4324498f8fcsm1736920f8f.24.2025.12.17.16.19.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Dec 2025 16:19:40 -0800 (PST)
+From: Dale Whinham <daleyo@gmail.com>
+Date: Thu, 18 Dec 2025 00:19:32 +0000
+Subject: [PATCH v2] drm/msm/dp: Enable support for eDP v1.4+ link rates table
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-To: Aaron Kling <webgeek1234@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
- <pedxgtvzfrfzihoshhfvntin3hwwi3znleilbz4abjad74nowb@un33lgiaa26z>
- <CALHNRZ9-XrMUkQE0cwjq-HUYsy5uerhOQ9sNpirp23kKoaPuYw@mail.gmail.com>
- <72llskwvuwyllvz24zoex4ad6v6t5skiehmwylj7exoh7bmzjo@xq3v7vja5w62>
- <CALHNRZ_k6e9ZRmpK6Pzpet=RzUQ0fRYmfnea6U+9E2oZc8=z7w@mail.gmail.com>
- <eac10a43-5164-4ecf-8b56-6099e69001bc@gmail.com>
- <CALHNRZ9b98Su9qAqXRSTCStoUPtC_u3+MG0cr4SQ-g3aVJD7LQ@mail.gmail.com>
-Content-Language: en-US
-From: Jasper Korten <jja2000@gmail.com>
-In-Reply-To: <CALHNRZ9b98Su9qAqXRSTCStoUPtC_u3+MG0cr4SQ-g3aVJD7LQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20251218-drm-msm-edp14-v2-1-2e56c2338ab1@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJNIQ2kC/3XMQQrCMBCF4auUWRtxYlKCK+8hXYTJtB0wbUkkK
+ CV3N3bv8nvw/h0yJ+EMt26HxEWyrEuDPnVAs18mVhKaQV+0RY1GhRRVzFFx2JrcaAL1NtDVeGi
+ fLfEo76P3GJpnya81fY58wd/6r1RQoTI2sCPsHTHdp+jleaY1wlBr/QIThsWHqgAAAA==
+X-Change-ID: 20251214-drm-msm-edp14-8f4dc65dc34a
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dale Whinham <daleyo@gmail.com>, 
+ =?utf-8?q?J=C3=A9r=C3=B4me_de_Bretagne?= <jerome.debretagne@gmail.com>, 
+ Steev Klimaszewski <threeway@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766017179; l=8706;
+ i=daleyo@gmail.com; s=20251214; h=from:subject:message-id;
+ bh=MWwdmCJQUimtCRSKhTPNjOdSH8ty9Q7hQ/j7WkOhuO0=;
+ b=f0edPEKpkgbHI5mZQN3mY3VQIh3N25NN+HNlwzJPp1EwfvqNNICpubZI6gIYXI0B4H6wcA3qU
+ PWh8iNH82egB+ECHp4FI7Ui56p7Cu9wvDUkHJlex/eoWq8ag3L9+Yye
+X-Developer-Key: i=daleyo@gmail.com; a=ed25519;
+ pk=M4mvgx1TB2TniKaedTDsO3PbLKgFosJuegXRXPbn2Ds=
+X-Mailman-Approved-At: Thu, 18 Dec 2025 08:35:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,95 +108,263 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/12/2025 05:23, Aaron Kling wrote:
+The MSM DRM driver currently does not support panels which report their
+supported link rates via the SUPPORTED_LINK_RATES table.
 
-> On Wed, Nov 5, 2025 at 3:28 PM Jasper Korten <jja2000@gmail.com> wrote:
->> Hi all,
->>
->> On 11/4/25 19:12, Aaron Kling wrote:
->>> On Tue, Nov 4, 2025 at 3:14 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->>>> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
->>>>> On Mon, Nov 3, 2025 at 5:54 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->>>>>> On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4 Relay wrote:
->>>>>>> From: Aaron Kling <webgeek1234@gmail.com>
->>>>>>>
->>>>>>> Without the cmu, nvdisplay will display colors that are notably darker
->>>>>>> than intended. The vendor bootloader and the downstream display driver
->>>>>>> enable the cmu and sets a sRGB table. Loading that table here results in
->>>>>>> the intended colors.
->>>>>>>
->>>>>>> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
->>>>>>> ---
->>>>>>>    drivers/gpu/drm/tegra/dc.h  |  13 +++
->>>>>>>    drivers/gpu/drm/tegra/sor.c | 206 ++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>    2 files changed, 219 insertions(+)
->>>>>> What does "darker than intended" mean? Who defines the intention? How do
->>>>>> we know what the intention is? What this patch ultimately seems to be
->>>>>> doing is define sRGB to be the default colorspace. Is that always the
->>>>>> right default choice? What if people want to specify a different
->>>>>> colorspace?
->>>>> I reported this issue almost a month ago. See kernel lore [0] and
->>>>> freedesktop issue [1]. The pictures in the latter show what nvdisplay
->>>>> looks like right now. It's nigh unusably dark. When booted into
->>>>> Android with a tv launcher that has a black background, as is default
->>>>> for LineageOS, it is really hard to read anything. Is it correct as a
->>>>> default? Well, cboot hardcodes this, so... presumably? It would be
->>>>> more ideal to expose this and csc to userspace, but I'm not sure if
->>>>> drm has a standardized interface for that or if tegra would have to
->>>>> make something vendor specific. I think that would be a separate
->>>>> change concept compared to setting this default, though.
->>>> The reason I'm asking is because I don't recall ever seeing "broken"
->>>> colors like you do. So I suspect that this may also be related to what
->>>> display is connected, or the mode that we're setting.
->> I have tried it on both a MacroSilicon HDMI capture card and an Arzopa
->> Z1FC 1080p portable monitor and run into the same darker colors. Both
->> have in common that they use HDMI which seems to line up with what Aaron
->> is reporting. I do not have an eDP display to test or another carrier
->> board with a different display out to test.
->>>> It could perhaps
->>>> also be related to what infoframes we're sending and how these are
->>>> supported/interpreted by the attached display.
->>>>
->>>> All of that is to say that maybe this looks broken on the particular
->>>> setup that you have but may works fine on other setups. Changing the
->>>> default may fix your setup and break others.
->>> Do you have a device set up so you can check? Or does the regression
->>> test bench have a display that can be forwarded?
->>>
->>> My current setup is a rack of units plugged via hdmi to a kvm which is
->>> then plugged to a pikvm. I also observed this issue before I had this
->>> setup, plugged directly to a 1080p monitor. I have not checked
->>> displayport. I can cycle through a couple other displays without this
->>> patch to see if I get any other result. I am fairly certain I have
->>> consistently seen this issue since I started trying to work with
->>> tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it work to
->>> allow for a bisect.
->>>
->>> I am in contact with one other person with a tx2 devkit, who
->>> replicated the issue when I asked. Who plans to reply to this thread
->>> with setup info later.
->> For reference, I am said person. I have a Jetson TX2 Devkit that uses
->> the P2771 Device Tree. I'm running a Fedora distrokernel with no
->> additional patches applied by myself. I have personally noticed the
->> issue to at least be present on 6.14.5 and 6.17.4.
->>
->>
->> I'm currently not at home to take screenshots with and without the
->> submitted patch, but will be able to do it tomorrownight or friday.
-> Any further thoughts from the maintainers on this patch? As far as I
-> know, this is an issue for all users, at the very least on hdmi.
->
-> Aaron
+For panels which do not offer the optional eDP v1.3 fallback via
+MAX_LINK_RATE, this will cause a panel probe failure (e.g. Samsung
+ATNA30DW01-1 as found in Microsoft Surface Pro 11).
 
-I've finally captured some footage of the colors of my TX2 within tty.
-I've also added a reference in the form of my X13s doing the same thing.[1]
+Detect eDP v1.4 panels and parse the SUPPORTED_LINK_RATES table when
+present.
 
-I will at a later date try the patch and update the MR comment,
-but at least this shows the difference while recording using the same setup.
+Additionally, set the rate using LINK_RATE_SET instead of LINK_BW_SET,
+but only if LINK_BW_SET hasn't already been written to.
 
-Kindest regards,
+Signed-off-by: Dale Whinham <daleyo@gmail.com>
+Tested-by: Jérôme de Bretagne <jerome.debretagne@gmail.com>
+Tested-by: Steev Klimaszewski <threeway@gmail.com>
+---
+Changes in v2:
+- Re-ordered writing of LANE_COUNT_SET/LINK_BW_SET registers to match i915 [Dmitry]
+- Fix detection of eDP by reading EDP_CONFIGURATION_CAP and EDP_REV (in v1 we were mistakenly checking DPCD_REV) [Dmitry]
+- Link to v1: https://lore.kernel.org/r/20251214-drm-msm-edp14-v1-1-45de8c168cec@gmail.com
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c  | 56 ++++++++++++++---------
+ drivers/gpu/drm/msm/dp/dp_link.h  |  3 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c | 93 ++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 120 insertions(+), 32 deletions(-)
 
-Jasper
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index cbcc7c2f0ffc..aa2303d0e148 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -175,20 +175,28 @@ static inline void msm_dp_write_link(struct msm_dp_ctrl_private *ctrl,
+ static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
+ 					struct msm_dp_link_info *link)
+ {
+-	u8 values[2];
++	u8 lane_count, bw_code;
+ 	int err;
+ 
+-	values[0] = drm_dp_link_rate_to_bw_code(link->rate);
+-	values[1] = link->num_lanes;
++	lane_count = link->num_lanes;
+ 
+ 	if (link->capabilities & DP_LINK_CAP_ENHANCED_FRAMING)
+-		values[1] |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
++		lane_count |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
+ 
+-	err = drm_dp_dpcd_write(aux, DP_LINK_BW_SET, values, sizeof(values));
++	err = drm_dp_dpcd_writeb(aux, DP_LANE_COUNT_SET, lane_count);
+ 	if (err < 0)
+ 		return err;
+ 
+-	return 0;
++	if (link->use_rate_set) {
++		DRM_DEBUG_DP("using LINK_RATE_SET: 0x%02x", link->rate_set);
++		err = drm_dp_dpcd_writeb(aux, DP_LINK_RATE_SET, link->rate_set);
++	} else {
++		bw_code = drm_dp_link_rate_to_bw_code(link->rate);
++		DRM_DEBUG_DP("using LINK_BW_SET: 0x%02x", bw_code);
++		err = drm_dp_dpcd_writeb(aux, DP_LINK_BW_SET, bw_code);
++	}
++
++	return err;
+ }
+ 
+ /*
+@@ -1474,26 +1482,32 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
+ static int msm_dp_ctrl_link_rate_down_shift(struct msm_dp_ctrl_private *ctrl)
+ {
+ 	int ret = 0;
++	struct msm_dp_link_info *link_params = &ctrl->link->link_params;
+ 
+-	switch (ctrl->link->link_params.rate) {
+-	case 810000:
+-		ctrl->link->link_params.rate = 540000;
+-		break;
+-	case 540000:
+-		ctrl->link->link_params.rate = 270000;
+-		break;
+-	case 270000:
+-		ctrl->link->link_params.rate = 162000;
+-		break;
+-	case 162000:
+-	default:
+-		ret = -EINVAL;
+-		break;
++	if (link_params->rate_set) {
++		--link_params->rate_set;
++		link_params->rate = link_params->supported_rates[link_params->rate_set];
++	} else {
++		switch (link_params->rate) {
++		case 810000:
++			link_params->rate = 540000;
++			break;
++		case 540000:
++			link_params->rate = 270000;
++			break;
++		case 270000:
++			link_params->rate = 162000;
++			break;
++		case 162000:
++		default:
++			ret = -EINVAL;
++			break;
++		}
+ 	}
+ 
+ 	if (!ret) {
+ 		drm_dbg_dp(ctrl->drm_dev, "new rate=0x%x\n",
+-				ctrl->link->link_params.rate);
++				link_params->rate);
+ 	}
+ 
+ 	return ret;
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
+index b1eb2de6d2a7..725e08f75574 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.h
++++ b/drivers/gpu/drm/msm/dp/dp_link.h
+@@ -17,6 +17,9 @@
+ struct msm_dp_link_info {
+ 	unsigned char revision;
+ 	unsigned int rate;
++	unsigned int supported_rates[DP_MAX_SUPPORTED_RATES];
++	unsigned int rate_set;
++	bool use_rate_set;
+ 	unsigned int num_lanes;
+ 	unsigned long capabilities;
+ };
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index ad5d55bf009d..891211b23202 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -13,6 +13,8 @@
+ #include <drm/drm_print.h>
+ 
+ #include <linux/io.h>
++#include <linux/types.h>
++#include <asm/byteorder.h>
+ 
+ #define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
+ 
+@@ -107,29 +109,98 @@ static int msm_dp_panel_read_dpcd(struct msm_dp_panel *msm_dp_panel)
+ 	drm_dbg_dp(panel->drm_dev, "max_lanes=%d max_link_rate=%d\n",
+ 		   link->max_dp_lanes, link->max_dp_link_rate);
+ 
+-	link_info->rate = drm_dp_max_link_rate(dpcd);
++	max_lttpr_lanes = drm_dp_lttpr_max_lane_count(link->lttpr_common_caps);
++	max_lttpr_rate = drm_dp_lttpr_max_link_rate(link->lttpr_common_caps);
++
++	/* eDP sink */
++	if (msm_dp_panel->dpcd[DP_EDP_CONFIGURATION_CAP]) {
++		u8 edp_rev;
++
++		rc = drm_dp_dpcd_read_byte(panel->aux, DP_EDP_DPCD_REV, &edp_rev);
++		if (rc)
++			return rc;
++
++		drm_dbg_dp(panel->drm_dev, "edp_rev=0x%x\n", edp_rev);
++
++		/* For eDP v1.4+, parse the SUPPORTED_LINK_RATES table */
++		if (edp_rev >= DP_EDP_14) {
++			__le16 rates[DP_MAX_SUPPORTED_RATES];
++			u8 bw_set;
++			int i;
++
++			rc = drm_dp_dpcd_read_data(panel->aux, DP_SUPPORTED_LINK_RATES,
++						   rates, sizeof(rates));
++			if (rc)
++				return rc;
++
++			rc = drm_dp_dpcd_read_byte(panel->aux, DP_LINK_BW_SET, &bw_set);
++			if (rc)
++				return rc;
++
++			/* Find index of max supported link rate that does not exceed dtsi limits */
++			for (i = 0; i < ARRAY_SIZE(rates); i++) {
++				/*
++				 * The value from the DPCD multiplied by 200 gives
++				 * the link rate in kHz. Divide by 10 to convert to
++				 * symbol rate, accounting for 8b/10b encoding.
++				 */
++				u32 rate = (le16_to_cpu(rates[i]) * 200) / 10;
++
++				if (!rate)
++					break;
++
++				drm_dbg_dp(panel->drm_dev,
++					   "SUPPORTED_LINK_RATES[%d]: %d\n", i, rate);
++
++				/*
++				 * Limit link rate from link-frequencies of endpoint
++				 * property of dtsi
++				 */
++				if (rate > link->max_dp_link_rate)
++					break;
++
++				/* Limit link rate from LTTPR capabilities, if any */
++				if (max_lttpr_rate && rate > max_lttpr_rate)
++					break;
++
++				link_info->rate = rate;
++				link_info->supported_rates[i] = rate;
++				link_info->rate_set = i;
++			}
++
++			/* Only use LINK_RATE_SET if LINK_BW_SET hasn't already been written to */
++			if (!bw_set && link_info->rate)
++				link_info->use_rate_set = true;
++		}
++	}
++
++	/* Fall back on MAX_LINK_RATE/LINK_BW_SET (DP, eDP <= v1.3) */
++	if (!link_info->rate) {
++		link_info->rate = drm_dp_max_link_rate(dpcd);
++
++		/* Limit link rate from link-frequencies of endpoint property of dtsi */
++		if (link_info->rate > link->max_dp_link_rate)
++			link_info->rate = link->max_dp_link_rate;
++
++		/* Limit link rate from LTTPR capabilities, if any */
++		if (max_lttpr_rate && max_lttpr_rate < link_info->rate)
++			link_info->rate = max_lttpr_rate;
++	}
++
+ 	link_info->num_lanes = drm_dp_max_lane_count(dpcd);
+ 
+ 	/* Limit data lanes from data-lanes of endpoint property of dtsi */
+ 	if (link_info->num_lanes > link->max_dp_lanes)
+ 		link_info->num_lanes = link->max_dp_lanes;
+ 
+-	/* Limit link rate from link-frequencies of endpoint property of dtsi */
+-	if (link_info->rate > link->max_dp_link_rate)
+-		link_info->rate = link->max_dp_link_rate;
+-
+ 	/* Limit data lanes from LTTPR capabilities, if any */
+-	max_lttpr_lanes = drm_dp_lttpr_max_lane_count(panel->link->lttpr_common_caps);
+ 	if (max_lttpr_lanes && max_lttpr_lanes < link_info->num_lanes)
+ 		link_info->num_lanes = max_lttpr_lanes;
+ 
+-	/* Limit link rate from LTTPR capabilities, if any */
+-	max_lttpr_rate = drm_dp_lttpr_max_link_rate(panel->link->lttpr_common_caps);
+-	if (max_lttpr_rate && max_lttpr_rate < link_info->rate)
+-		link_info->rate = max_lttpr_rate;
+-
+ 	drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
+ 	drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
++	drm_dbg_dp(panel->drm_dev, "link_rate_set=%d\n", link_info->rate_set);
++	drm_dbg_dp(panel->drm_dev, "use_rate_set=%d\n", link_info->use_rate_set);
+ 	drm_dbg_dp(panel->drm_dev, "lane_count=%d\n", link_info->num_lanes);
+ 
+ 	if (drm_dp_enhanced_frame_cap(dpcd))
 
-[1]: https://gitlab.freedesktop.org/drm/tegra/-/issues/8#note_3242611
+---
+base-commit: 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
+change-id: 20251214-drm-msm-edp14-8f4dc65dc34a
+
+Best regards,
+-- 
+Dale Whinham <daleyo@gmail.com>
 
