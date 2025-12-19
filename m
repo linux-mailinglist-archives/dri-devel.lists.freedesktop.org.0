@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A146CCCFF3D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 14:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62516CCFF46
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 14:04:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594FE10E161;
-	Fri, 19 Dec 2025 13:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBC710EF0F;
+	Fri, 19 Dec 2025 13:04:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MvJIItnU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eSbHkBTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F074710E161
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 13:04:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA9210EF0A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 13:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766149439;
- bh=Iml+BOzB8itHmy1wmzCJMarP4nhjL9hrlRJNdNtfPdI=;
+ s=mail; t=1766149482;
+ bh=vZ+m7oVBzU8XLN6KXkZhx2uzu8quEc2imx2YYGvcVNc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MvJIItnUqfLCkNBxP9g14nWqbwg/PDtQORAB1wus+Q15Od5tRJybB6k177PHEAqzL
- opgage7mSkCZiYoksrYmyKuRdEsqrfBTv1a3CL5WTftWoHB6F1eioTtk7XQT5QLrDS
- 4EBJYV9QU0UyCns3ypDLrbZnToawTKn+F33KoJbLDYE5TOxW333GmYZinyeeAohz90
- vyQozwrZC6GyY+YEge9Rf1QISwxQxg0HbfjzQKNsDsmQaUZs4NdpG5fhv82POZLL9E
- glu6dPsN4RwsOJjJT5AkAmOvDLzdvr6vC1W530amBsNwwGjerNWHZKUV+tQKcGnM0M
- w0GyspAWKH3/A==
+ b=eSbHkBTx8RbGqW9wr3dj4LHPp5Pk/BgWQpCxRV8Y+tq/kHgMCS6OmSfVQka4GPo7E
+ KlBhgPsi7ic+1wlHea3I9ajURPabf5QZjnfUWUpXjZZI1ZBn6kuBBAyyIe5T0+STce
+ /e/kASby6+gtQYd6svw3YCA0Msb9dg92PIHWT8h/VlId6n+DmKMazD/W7GWkux+Ye5
+ hS4lbxvAZZAZ2vAJU1TNgqMLdF/KkHTNwy3lmeCegAu8yPANXq5Amym7Kq31vCPFOy
+ AJ8NfxMv2/3blz9MKhwJx18KHXH6S/PA+JWPVcgjT5EQ6r9N+Qs0Eio/233nN593lG
+ kmxDjTuAHYxQQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1EBDF17E0465;
- Fri, 19 Dec 2025 14:03:59 +0100 (CET)
-Date: Fri, 19 Dec 2025 14:03:55 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 79EF017E0465;
+ Fri, 19 Dec 2025 14:04:42 +0100 (CET)
+Date: Fri, 19 Dec 2025 14:04:40 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dmitry.osipenko@collabora.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  dri-devel@lists.freedesktop.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm/tests: shmem: Swap names of export tests
-Message-ID: <20251219140355.27212b9b@fedora>
-In-Reply-To: <20251212160317.287409-2-tzimmermann@suse.de>
+Subject: Re: [PATCH 2/5] drm/tests: shmem: Add clean-up action to unpin pages
+Message-ID: <20251219140440.0b38aa5b@fedora>
+In-Reply-To: <20251212160317.287409-3-tzimmermann@suse.de>
 References: <20251212160317.287409-1-tzimmermann@suse.de>
- <20251212160317.287409-2-tzimmermann@suse.de>
+ <20251212160317.287409-3-tzimmermann@suse.de>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -64,53 +64,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Dec 2025 17:00:32 +0100
+On Fri, 12 Dec 2025 17:00:33 +0100
 Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-> GEM SHMEM has 2 helpers for exporting S/G tables. Swap the names of
-> the rsp. tests, so that each matches the helper it tests.
+> Automatically unpin pages on cleanup. The test currently fails with
+> the error
+> 
+> [   58.246263] drm-kunit-mock-device drm_gem_shmem_test_get_sg_table.drm-kunit-mock-device: [drm] drm_WARN_ON(refcount_read(&shmem->pages_pin_count))
+> 
+> while cleaning up the GEM object. The pin count has to be zero at this
+> point.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 93032ae634d4 ("drm/test: add a test suite for GEM objects backed by shmem")
+> Fixes: d586b535f144 ("drm/shmem-helper: Add and use pages_pin_count")
 > Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.8+
+> Cc: <stable@vger.kernel.org> # v6.16+
 
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> index 68f2c3162354..872881ec9c30 100644
+> index 872881ec9c30..1d50bab51ef3 100644
 > --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
 > +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> @@ -194,7 +194,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
->   * scatter/gather table large enough to accommodate the backing memory
->   * is successfully exported.
->   */
-> -static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-> +static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
->  {
->  	struct drm_device *drm_dev = test->priv;
->  	struct drm_gem_shmem_object *shmem;
-> @@ -236,7 +236,7 @@ static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
->   * backing pages are pinned and a scatter/gather table large enough to
->   * accommodate the backing memory is successfully exported.
->   */
-> -static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-> +static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
->  {
->  	struct drm_device *drm_dev = test->priv;
->  	struct drm_gem_shmem_object *shmem;
-> @@ -366,8 +366,8 @@ static struct kunit_case drm_gem_shmem_test_cases[] = {
->  	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
->  	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
->  	KUNIT_CASE(drm_gem_shmem_test_vmap),
-> -	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
->  	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-> +	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
->  	KUNIT_CASE(drm_gem_shmem_test_madvise),
->  	KUNIT_CASE(drm_gem_shmem_test_purge),
->  	{}
+> @@ -34,6 +34,9 @@ KUNIT_DEFINE_ACTION_WRAPPER(sg_free_table_wrapper, sg_free_table,
+>  KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_free_wrapper, drm_gem_shmem_free,
+>  			    struct drm_gem_shmem_object *);
+>  
+> +KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_unpin_wrapper, drm_gem_shmem_unpin,
+> +			    struct drm_gem_shmem_object *);
+> +
+>  /*
+>   * Test creating a shmem GEM object backed by shmem buffer. The test
+>   * case succeeds if the GEM object is successfully allocated with the
+> @@ -212,6 +215,9 @@ static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
+>  	ret = drm_gem_shmem_pin(shmem);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> +	ret = kunit_add_action_or_reset(test, drm_gem_shmem_unpin_wrapper, shmem);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>  	sgt = drm_gem_shmem_get_sg_table(shmem);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
+>  	KUNIT_EXPECT_NULL(test, shmem->sgt);
 
