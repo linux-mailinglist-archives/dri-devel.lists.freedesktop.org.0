@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D364CCF610
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F5BCCF62D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E75910EF14;
-	Fri, 19 Dec 2025 10:34:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="yf4CGYBo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D70C10EF17;
+	Fri, 19 Dec 2025 10:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F18DC10EF14
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:34:21 +0000 (UTC)
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 109171FA97;
- Fri, 19 Dec 2025 11:34:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1766140460;
- bh=v0rOq6SCml3Hhxi9nnTXl4OqGtNAqRV5qfHLK8f7/i4=; h=From:To:Subject;
- b=yf4CGYBoS1un3S0p7hyGm2pW878h36/4qVeFERlMY6h/GHrG6CSoGAoSgxHZVJApq
- 2bEAoRetiQCexrtvevCYJPSrCsYA++0hG3Ix/SNmRj0qc65KL/ODGU39xx4VG7dk3W
- c+z5ST+haPfNfe5DyRN75YH/9Ze2BfbRI3PrxtjlZkQgOt7QyK/9N6jWLXssLovk7J
- nlxwgaIi1IbrJmdBePHHgOnCMlMcSXtPSvgg2/zg/wnHNrKOKlDcj0SV54vNRtJnUz
- T39KJdVJCkPp3ZopDRPVlmWdjHBY/9PI1+hGYkqQpqA2TRZdY3FcA2o5AR4CgYUMrM
- HubpuvS21jVmg==
-Date: Fri, 19 Dec 2025 11:34:18 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Parth Pancholi <parth.pancholi@toradex.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH 4/7] drm/bridge: tc358768: Support non-continuous clock
-Message-ID: <20251219103418.GD39796@francesco-nb>
-References: <20251021-tc358768-v1-0-d590dc6a1a0c@ideasonboard.com>
- <20251021-tc358768-v1-4-d590dc6a1a0c@ideasonboard.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2720510EF17
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:35:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93D86FEC;
+ Fri, 19 Dec 2025 02:35:31 -0800 (PST)
+Received: from [10.1.30.18] (e122027.cambridge.arm.com [10.1.30.18])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4292D3F5CA;
+ Fri, 19 Dec 2025 02:35:36 -0800 (PST)
+Message-ID: <2297879b-94ec-429f-9775-f87340c98c90@arm.com>
+Date: Fri, 19 Dec 2025 10:35:34 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021-tc358768-v1-4-d590dc6a1a0c@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panthor: Evict groups before VM termination
+To: Ketil Johnsen <ketil.johnsen@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251219093546.1227697-1-ketil.johnsen@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251219093546.1227697-1-ketil.johnsen@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,20 +52,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 04:23:00PM +0300, Tomi Valkeinen wrote:
-> The driver prints a warning if MIPI_DSI_CLOCK_NON_CONTINUOUS is set, and
-> falls back to continuous clock mode. This was added in commit
-> fbc5a90e82c1 ("drm/bridge: tc358768: Disable non-continuous clock mode").
+On 19/12/2025 09:35, Ketil Johnsen wrote:
+> Ensure all related groups are evicted and suspended before VM
+> destruction takes place.
 > 
-> However, there have been multiple changes to the driver since then, and
-> at least in my setup, non-continuous clock mode works: I can see an
-> image on the panel, and I can see the clock lanes being non-continuous
-> with an oscilloscope.
+> This fixes an issue where panthor_vm_destroy() destroys and unmaps the
+> heap context while there are still on slot groups using this.
+> The FW will do a write out to the heap context when a CSG (group) is
+> suspended, so a premature unmap of the heap context will cause a
+> GPU page fault.
+> This page fault is quite harmless, and do not affect the continued
+> operation of the GPU.
 > 
-> So, let's enable MIPI_DSI_CLOCK_NON_CONTINUOUS support.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Cc: Dmitry Osipenko <digetx@gmail.com>
+> Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
 
-Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+> Changes in v2:
+> - Removed check for ptdev->scheduler
+> - R-b from Boris
+> - Link to v1: https://lore.kernel.org/all/20251218162644.828495-1-ketil.johnsen@arm.com/
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c   |  4 ++++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 14 ++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_sched.h |  1 +
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 74230f7199121..0e4b301a9c70e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1537,6 +1537,10 @@ static void panthor_vm_destroy(struct panthor_vm *vm)
+>  
+>  	vm->destroyed = true;
+>  
+> +	/* Tell scheduler to stop all GPU work related to this VM */
+> +	if (refcount_read(&vm->as.active_cnt) > 0)
+> +		panthor_sched_prepare_for_vm_destruction(vm->ptdev);
+> +
+>  	mutex_lock(&vm->heaps.lock);
+>  	panthor_heap_pool_destroy(vm->heaps.pool);
+>  	vm->heaps.pool = NULL;
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index f680edcd40aad..a40ac94e5e989 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2930,6 +2930,20 @@ void panthor_sched_report_mmu_fault(struct panthor_device *ptdev)
+>  		sched_queue_delayed_work(ptdev->scheduler, tick, 0);
+>  }
+>  
+> +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev)
+> +{
+> +	/* FW can write out internal state, like the heap context, during CSG
+> +	 * suspend. It is therefore important that the scheduler has fully
+> +	 * evicted any pending and related groups before VM destruction can
+> +	 * safely continue. Failure to do so can lead to GPU page faults.
+> +	 * A controlled termination of a Panthor instance involves destroying
+> +	 * the group(s) before the VM. This means any relevant group eviction
+> +	 * has already been initiated by this point, and we just need to
+> +	 * ensure that any pending tick_work() has been completed.
+> +	 */
+> +	flush_work(&ptdev->scheduler->tick_work.work);
+> +}
+> +
+>  void panthor_sched_resume(struct panthor_device *ptdev)
+>  {
+>  	/* Force a tick to re-evaluate after a resume. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> index f4a475aa34c0a..9a8692de8aded 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> @@ -50,6 +50,7 @@ void panthor_sched_suspend(struct panthor_device *ptdev);
+>  void panthor_sched_resume(struct panthor_device *ptdev);
+>  
+>  void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
+> +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev);
+>  void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
+>  
+>  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile);
 
