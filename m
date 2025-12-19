@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DC8CD0299
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 14:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4364FCD0669
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 15:55:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E875B10EFE9;
-	Fri, 19 Dec 2025 13:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B035810E49C;
+	Fri, 19 Dec 2025 14:55:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MAngr1jE";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="rSZSLSSj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9A510EFDD;
- Fri, 19 Dec 2025 13:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=DmIavyg+w5gOcOTQoYZF8B6qZbr6Bm4CbU4wI1qxJSU=; b=MAngr1jEoTDRR6uht4+HAlJvBe
- /dlDJGHCHWGXVGOjLU+8FCcCNtepXpxx03q7+nuTgGsUufEaYNsikmCuV6ky3kfSHD91PRrUVoswG
- wdP2H9LSfizph2auv0EFXqQOAa7xeo7EMjDQoAEWfO7HjPaoBN0/+fzY3surTHlE5RXNNqWysaVeR
- SScidA8Wu8aqEZJeyEP9NnAfYCgNc0btesPg99Vihbk144mEcfIELXmoZqFoJNide9zjFnxRdqwmb
- tkgjJxbZryV6oWkK/+v690xh/AggaT/orQUlYN6Ba+s8B2YL+Lkmo0Oug8yTsOpZGGsPbi1GPLsj0
- kf4jESlg==;
-Received: from [90.240.106.137] (helo=localhost)
- by fanzine2.igalia.com with utf8esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vWaw5-00Eell-AQ; Fri, 19 Dec 2025 14:54:25 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v5 28/28] drm/sched: Remove drm_sched_init_args->num_rqs
-Date: Fri, 19 Dec 2025 13:53:50 +0000
-Message-ID: <20251219135351.25880-29-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
-References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
-MIME-Version: 1.0
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9647910E49C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 14:55:16 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id DA13C4E41C87;
+ Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id AA7DD6071D;
+ Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 58568102F0B7F; Fri, 19 Dec 2025 15:55:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1766156110; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=GV9S+xc9D71Uwlbo2vNh/GdtKzweopawR08NIo0wto4=;
+ b=rSZSLSSj61Ppq8s5mGApSpZT2fEpy5KklEyIXMQ7Z9kXpAN8YnfHpsq3dVgctjiKk3AAFq
+ d/cQIW/kSKd89pVlQaxXtTt2ddv/67W29RJ+tjMWIwCjODjiN0Dlv/72H1V9Kl0aa9WINQ
+ t08JcxDeU/m2WnXkNz7AaW1OVCm9EQr5CVvfoAizlmOocRtc/H+yljTe6HB1+9DiHCBiVA
+ U6AUV55ome4WuGFMoSXBVMYFQrXWJ5SHTzHx38iG8Dn44QFbQBnsLBbk7tI7eFz/Bjm9rL
+ Z2m98of2PcG109M9rL7WOWK1Akukb7j+U9cNTSeYsuLF64/Qr3b6RvtGe5iOUA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 19 Dec 2025 15:55:03 +0100
+Message-Id: <DF2A35683YPN.2TH0WT8JJAJ70@bootlin.com>
+Subject: Re: [PATCH RESEND v2 16/32] drm/vkms: Introduce config for plane
+ format
+Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
+ <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
+ <melissa.srw@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
+ <corbet@lwn.net>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +70,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove member no longer used by the scheduler core and the drivers.
+Hi Louis,
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 3 ---
- 1 file changed, 3 deletions(-)
+On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
+> VKMS driver supports all the pixel formats for planes, but for testing it
+> can be useful to only advertise few of them. This new configuration
+> interface will allow configuring the pixel format per planes.
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index cea2ee956422..53417baebd49 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -608,8 +608,6 @@ struct drm_gpu_scheduler {
-  * @ops: backend operations provided by the driver
-  * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-  *	       allocated and used.
-- * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
-- *	     as there's usually one run-queue per priority, but may be less.
-  * @credit_limit: the number of credits this scheduler can hold from all jobs
-  * @hang_limit: number of times to allow a job to hang before dropping it.
-  *		This mechanism is DEPRECATED. Set it to 0.
-@@ -623,7 +621,6 @@ struct drm_sched_init_args {
- 	const struct drm_sched_backend_ops *ops;
- 	struct workqueue_struct *submit_wq;
- 	struct workqueue_struct *timeout_wq;
--	u32 num_rqs;
- 	u32 credit_limit;
- 	unsigned int hang_limit;
- 	long timeout;
--- 
-2.51.1
+[...]
 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *=
+plane_cfg, u32 drm_format)
+> +{
+> +	bool found =3D false;
+> +
+> +	for (int i =3D 0; i < ARRAY_SIZE(vkms_supported_plane_formats); i++) {
+> +		if (vkms_supported_plane_formats[i] =3D=3D drm_format) {
+> +			found =3D true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!found)
+> +		return -EINVAL;
+> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i++)=
+ {
+> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format)
+> +			return 0;
+> +	}
+> +	u32 *new_ptr =3D krealloc_array(plane_cfg->supported_formats,
+> +				      plane_cfg->supported_formats_count + 1,
+> +				      sizeof(*plane_cfg->supported_formats), GFP_KERNEL);
+> +	if (!new_ptr)
+> +		return -ENOMEM;
+> +
+> +	plane_cfg->supported_formats =3D new_ptr;
+> +	plane_cfg->supported_formats[plane_cfg->supported_formats_count] =3D dr=
+m_format;
+> +	plane_cfg->supported_formats_count++;
+> +
+> +	return 0;
+> +}
+
+This whole logic appears quite complex for what you need here. I suspect
+using the facilities in linux/bitmap.h would make your code simpler by
+allocating a (multi-)ulong array of
+ARRAY_SIZE(vkms_supported_plane_formats) bits. This would surely use less
+memory and avoid all reallocations, too.
+
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+
+> +/**
+> + * vkms_config_plane_remove_format - Remove a specific format from a pla=
+ne
+> + * @plane_cfg: Plane to remove the format to
+> + * @drm_format: Format to remove
+> + */
+> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg=
+, u32 drm_format);
+> +
+> +/**
+> + * vkms_config_plane_remove_all_formats - Remove all formast from a plan=
+e
+                                                        formats
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
