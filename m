@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C714CCE903
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 06:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A72CCE906
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 06:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B11010E9C6;
-	Fri, 19 Dec 2025 05:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C562A10EAF0;
+	Fri, 19 Dec 2025 05:43:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UAcuaTO6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NxX5wmJv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89ECD10E9C6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 05:43:39 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2a0d67f1877so17101095ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 21:43:39 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D7010EAF0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 05:43:42 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-29f2676bb21so17280805ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 21:43:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766123019; x=1766727819; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sEjpRHuoUQuSNfpUTp6o9J/plYbBOC8VgnoTelGo6Ag=;
- b=UAcuaTO6Y5qDaGMImXQqfPN18n0yB1DsNrPlazUUA73mxcCt9Kpu9j2AW8lUpFEExr
- fi8gVftHLzmwlI+rWxxa09UniugcR0HDM6czRJDV5osGXQKefK5fEVGflRfYi3GYa43l
- kBNGe2/CMbnPyjPlVa/6FUdekaFCoqTy+Wt1S/mUwTB628P9horoxZIz5KLQkMXN1v7O
- 2CedKHNW5a+Ym1WgpbWGzc61mMIsfE5zaa+ZowMeXQIVL5QLtchON9aw2lkt7D4jwJh/
- wuHD71WmjUSZJrIFCV4xKl+7gMvupjt53Ip4FMhfJZPygFKZoXBRDv7Yx7COnZweEWyZ
- gEJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766123019; x=1766727819;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1766123022; x=1766727822; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sEjpRHuoUQuSNfpUTp6o9J/plYbBOC8VgnoTelGo6Ag=;
- b=U1Mjh/8SYe8OkR+GViPhKOnt6kP1Bt6pUcn5yeh6FyBD89QO6B//8SeunQ5U7h6BRc
- SkMNgio5aAGc5jt9wi/+zuNGFFyGi6waha5Kh2qDUxYLhwWLQJELSxnNgPnqcPxBB5K5
- U8Tc+uEr1HBD6ZcWUK8RKfaqU7/x/i9YQpd9kBh2aeAQyrmghkhxgonguy9fhFo1uUnT
- VQ43V4daWJJvFNwlMVfGGGHE9Jw2YLekaYK1rbT4agoKD4opfrYCG7Go4WrvIeTjbrfm
- oRCWFjgOrRNgSeHwhgK2En/i3ByZKAskjUO6s78Z6ittWmv3x1iU4d2AB8UbVoC6QMrL
- zqBg==
+ bh=fKkdwzvSXz/T9pEqrvQ0VdQLUSbrQRl3ctUuH0zUyRA=;
+ b=NxX5wmJvM5tc54YTl01AKBBI+Du8Bbijl7W7rVXyzbtOlmvykNTwkFsooolWR2N6+i
+ 6FeJgbyQH5KuY/QNHmcykQYNkzMYMBIeFB+YxAwvxTYqHdpMy0WX1zYK8dLsx1CBrwtr
+ e+4Vejavkho0/gxtxWfZtQtgGQwQQ4UeX11BzNwnChcFl6R/8MPrw1+Z7TKMth2qcsGV
+ Ghwj6x5rO5rmNox3PsDVFdQei/CnBRdMCJiH9dNDghyflV3CHeBnbwuA4oWnPAVhsS+J
+ JEsk2hUOUMzZzj9X2L0HP27zxtWw4oSWO2DR5C2n9i3WRFDpGbF4qPbfM8tli8BA+icT
+ /a+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766123022; x=1766727822;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=fKkdwzvSXz/T9pEqrvQ0VdQLUSbrQRl3ctUuH0zUyRA=;
+ b=wINjq7oLhXlhS3NZ21L6yGS8lKXb+ijkCilfu15D0dsXjjR4y9aRkD3Xg7AENOEbLF
+ 67RNnqc11z3qA2luAc6Q+b5Fke5K9eDOqjUZ8or6mIkH4yhApdmEv4wt43c/bVKgZ4r7
+ DyToOS+eMnG56NCs4BAZjgymZuvc+48REi0R1/swl76ShPlDit8yTlJHLq3kFHb3uZZ/
+ KPklRwlT/sZNs+lJro1a0p612BfDr30jORo+54STeYKGG3328iNZ+DUeq+M2lHlyCKCa
+ ksbFajD9ag5zwH55WADLJha9Fq0qzWBVb9geuUpVnLjmk7onZFpe/alUcOSbTd16I1Ga
+ KggQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4Iivnxh3I2/fw59WlBE7Ed3lWTmmwrdDutz7NdLDLaNM6meEDXz1wTf4diZGSbQ5CHhdHIeSd83g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZ+wZ/VDUvdpo9xbXcF2jdKatjL3af2cuCw2mjxDP5PH4oorWX
- y9O3x1bsfhwHoXwQ28rMLWnauwciH3BoqimANA+L72udcJWR4HpNarCR
-X-Gm-Gg: AY/fxX7HQkJeMaDUhkHb1uJZTv1hL6mmWAjDL0A9f1EgaoHSjW2/6DNpAdiA76wBxo7
- RNAMKCN1EVpgGbHvYYnVdFuFFmjRNB2mq6K0OFeWI7RbPqU78ppuR7t0sfR3YMCvOi9nibIwRC9
- 53zGahCjxnki4nM1T0ZGlZFAM2eBqTmzVXoUqy82IjmEqcv0cPQ4b9oU+9KRguiBjxWYJCBK/lR
- CZnYflx+svPLIqOS2CGd4bhkLDuJ2DaEvN8lZRJyF0YumE0W8e/2XqTS5BPieyan8wg5wRKm/Eb
- wtQel4IJlsL9fW+aiQVb8YT0Uhm1y/tae6O4cIKFmsuOsYWV2p6cvVOIIVVTi88eAU2/4FP24oI
- A1SFJmSF8gf59Fj4dg2R7uGGu+yprXKt+uAIbkIzH8ctFdTDcKP8JeQQ42jfnZ2s5WZeFfbmV4c
- 1mTTQ3sUXduAfnOVN81EfDFt8zgx7/ilQPkVtPM/Gj9Mg=
-X-Google-Smtp-Source: AGHT+IHctISdxJ6hWwW5bBx0NwJSgL9qDkTNsgriPOBWh2QM/6lUZdbbSRVd/mE4FUYhXiJRoQ1jPw==
-X-Received: by 2002:a17:903:2301:b0:294:f6b4:9a42 with SMTP id
- d9443c01a7336-2a2f21fad06mr14413895ad.9.1766123018955; 
- Thu, 18 Dec 2025 21:43:38 -0800 (PST)
+ AJvYcCXwolIfYU1LjWtxgLrOhwk9H6rMSv5b61Mj071NoNe0UTFz048osyghCrD9RQXT1JZL2dqkaIozCQw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxfVRwo/2Pr9nblTokwtfpXT7kjIbySA4SN6E26oNz7bMFgZqBp
+ OVnxtbLTYPbTRkiSD5yyNjCM79RSzopyOXRGVX3JLQbOXRusUB6nXOAB
+X-Gm-Gg: AY/fxX5f7Wgkb3Y/5MgjBBL0z81GMHpO/tu9hQ5Ir74RLNa5IIgRGH7YnNwH1xKclmX
+ plmUoGLDoBghDTrS1LrN4DTtOenpbgAHG0pqcaTbpqZyvAvpaMRy7rDiPO3zUale5HyiipP+6Uy
+ 8A3IEfYMGQxAe5Hyemgq6etFQC4EHUVoVeqyHBbjGTEH67f3zEipx1aZw6wONkCkRz0O/twXUOn
+ vEoL6ZEwBcAOUujK2hZC12On/pR9QBgdUzMs4rf8JKcScafmoT4HRv8cmxQGtgZaGaDmPbOwQmw
+ QUUQ47CMWQ76qyb3ee82+zsF7Spl43/lQwznKTwsyLpwo1xUnxP+tIJFXHUfRdHzd/zpYvNyZLn
+ bAOYnXGx7P/pc00t/oJVJjFToJCYgvGXxmwyAQgfUTGf/ZoiIX51JdxSEgtSuT/fzUXn4boit1w
+ XXEIxsNJGPomYqvpBXhlsHrpihhG2gA6dMkbdTsyQ1X9s=
+X-Google-Smtp-Source: AGHT+IGRBz3LEiHHY3N36Lf2Jbdyl+OtCRRLAqx/kmUDLPH9d4n3KvJgE1piBAVSSdqL472NtK6Xtg==
+X-Received: by 2002:a17:902:f78d:b0:2a0:c35c:572e with SMTP id
+ d9443c01a7336-2a2f2836480mr16751125ad.30.1766123021882; 
+ Thu, 18 Dec 2025 21:43:41 -0800 (PST)
 Received: from cmpatel-home.hsd1.or.comcast.net
  ([2601:1c0:5780:9200:5160:2cad:cf88:afa5])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3da7dabsm9878955ad.25.2025.12.18.21.43.38
+ d9443c01a7336-2a2f3da7dabsm9878955ad.25.2025.12.18.21.43.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Dec 2025 21:43:38 -0800 (PST)
+ Thu, 18 Dec 2025 21:43:41 -0800 (PST)
 From: Chintan Patel <chintanlike@gmail.com>
 To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
  gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v2 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
-Date: Thu, 18 Dec 2025 21:43:15 -0800
-Message-ID: <20251219054320.447281-1-chintanlike@gmail.com>
+Subject: [PATCH v2 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs
+ support
+Date: Thu, 18 Dec 2025 21:43:16 -0800
+Message-ID: <20251219054320.447281-2-chintanlike@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251219054320.447281-1-chintanlike@gmail.com>
+References: <20251219054320.447281-1-chintanlike@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,34 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
-it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
-remove hard FB_DEVICE dependencies.
+Add dev_of_fbinfo() to return the framebuffer struct device when
+CONFIG_FB_DEVICE is enabled, or NULL otherwise.
 
-The series introduces a small helper, dev_of_fbinfo(), which returns
-NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
-via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
-full compile-time syntax checking.
+This allows fbdev drivers to use sysfs interfaces via runtime checks
+instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
+remaining fully buildable.
 
-Changes in v2:
-Add dev_of_fbinfo() helper (suggested by Geert Uytterhoeven)
-Replace #ifdef CONFIG_FB_DEVICE blocks with runtime NULL checks
-Switch to fb_dbg() / fb_info() logging (suggested by Thomas Zimmermann)
+Suggested-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+---
+ include/linux/fb.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Chintan Patel (4):
-  fb: Add dev_of_fbinfo() helper for optional sysfs support
-  staging: fbtft: Make FB_DEVICE dependency optional
-  fbdev: omapfb: Make FB_DEVICE dependency optional
-  fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency optional
-
- drivers/staging/fbtft/Kconfig                  |  5 ++++-
- drivers/staging/fbtft/fbtft-sysfs.c            | 18 ++++++++++++++----
- drivers/video/fbdev/omap2/omapfb/Kconfig       |  3 ++-
- .../video/fbdev/omap2/omapfb/omapfb-sysfs.c    | 16 ++++++++++++----
- drivers/video/fbdev/sh_mobile_lcdcfb.c         |  9 +++++++++
- include/linux/fb.h                             |  9 +++++++++
- 6 files changed, 50 insertions(+), 10 deletions(-)
-
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 05cc251035da..dad3fb61a06a 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -628,6 +628,15 @@ static inline void unlock_fb_info(struct fb_info *info)
+ 	mutex_unlock(&info->lock);
+ }
+ 
++static inline struct device *dev_of_fbinfo(const struct fb_info *info)
++{
++#ifdef CONFIG_FB_DEVICE
++	return info->dev;
++#else
++	return NULL;
++#endif
++}
++
+ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
+ 					   u8 *src, u32 s_pitch, u32 height)
+ {
 -- 
 2.43.0
 
