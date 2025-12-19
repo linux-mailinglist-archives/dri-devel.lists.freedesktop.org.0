@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B53CCF5C4
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D364CCF610
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3778C10EEBB;
-	Fri, 19 Dec 2025 10:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E75910EF14;
+	Fri, 19 Dec 2025 10:34:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="d4/pmGlf";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="yf4CGYBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3DD10EEBB
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:29:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F18DC10EF14
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:34:21 +0000 (UTC)
 Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 588FB1FA97;
- Fri, 19 Dec 2025 11:29:08 +0100 (CET)
+ by mail11.truemail.it (Postfix) with ESMTPA id 109171FA97;
+ Fri, 19 Dec 2025 11:34:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1766140148;
- bh=3M+i0ka5MgmLUh1TscMPlMfUsSIIggzwq8KcUgx5iY8=; h=From:To:Subject;
- b=d4/pmGlfMEWJB+KN+0gRHGEFj4qLfp3/pkUHcIkYcJwbYb0o/vqwvYU7IfjBSrG2h
- OneM4Y96S1KablTtJTj7xQfnuxLQ/73HfH+o2GszEg34kkNHHzxNc3ruNeKlO4Hwxy
- rSFkwoBXfxYEyVYFGMxoqmzLiiKcxVjeo/EPkjLO2FZjruQAYI1iPM++GgBH3V3x0B
- ONnd9+up6q4WBRvcRn5i7hWu+yCZI8Pc/+iH6VUv5kBIQQ1tzXqbZ+EDomxH4z7RTk
- JolV6MtuZBgpKrK/6Ng91yCuEo9eVpX/tEz3zKA9Mhml5UH+qHYpbI1QYvhqmEL+z+
- NQVZ2KaUJF7Ig==
-Date: Fri, 19 Dec 2025 11:29:07 +0100
+ s=default; t=1766140460;
+ bh=v0rOq6SCml3Hhxi9nnTXl4OqGtNAqRV5qfHLK8f7/i4=; h=From:To:Subject;
+ b=yf4CGYBoS1un3S0p7hyGm2pW878h36/4qVeFERlMY6h/GHrG6CSoGAoSgxHZVJApq
+ 2bEAoRetiQCexrtvevCYJPSrCsYA++0hG3Ix/SNmRj0qc65KL/ODGU39xx4VG7dk3W
+ c+z5ST+haPfNfe5DyRN75YH/9Ze2BfbRI3PrxtjlZkQgOt7QyK/9N6jWLXssLovk7J
+ nlxwgaIi1IbrJmdBePHHgOnCMlMcSXtPSvgg2/zg/wnHNrKOKlDcj0SV54vNRtJnUz
+ T39KJdVJCkPp3ZopDRPVlmWdjHBY/9PI1+hGYkqQpqA2TRZdY3FcA2o5AR4CgYUMrM
+ HubpuvS21jVmg==
+Date: Fri, 19 Dec 2025 11:34:18 +0100
 From: Francesco Dolcini <francesco@dolcini.it>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -40,16 +40,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Parth Pancholi <parth.pancholi@toradex.com>,
  Francesco Dolcini <francesco.dolcini@toradex.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] drm/bridge: tc358768: Separate indirect register
- writes
-Message-ID: <20251219102907.GC39796@francesco-nb>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 4/7] drm/bridge: tc358768: Support non-continuous clock
+Message-ID: <20251219103418.GD39796@francesco-nb>
 References: <20251021-tc358768-v1-0-d590dc6a1a0c@ideasonboard.com>
- <20251021-tc358768-v1-3-d590dc6a1a0c@ideasonboard.com>
+ <20251021-tc358768-v1-4-d590dc6a1a0c@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021-tc358768-v1-3-d590dc6a1a0c@ideasonboard.com>
+In-Reply-To: <20251021-tc358768-v1-4-d590dc6a1a0c@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,16 +65,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 04:22:59PM +0300, Tomi Valkeinen wrote:
-> Some registers can only be written indirectly, using DSI_CONFW register.
-> We don't have many uses for those registers (in fact, only DSI_CONTROL
-> is currently written), but the code to do those writes inline is a bit
-> confusing.
+On Tue, Oct 21, 2025 at 04:23:00PM +0300, Tomi Valkeinen wrote:
+> The driver prints a warning if MIPI_DSI_CLOCK_NON_CONTINUOUS is set, and
+> falls back to continuous clock mode. This was added in commit
+> fbc5a90e82c1 ("drm/bridge: tc358768: Disable non-continuous clock mode").
 > 
-> Add a new function, tc358768_confw_update_bits() which can be used to
-> write the bits indirectly. Only DSI_CONTROL is currently supported.
+> However, there have been multiple changes to the driver since then, and
+> at least in my setup, non-continuous clock mode works: I can see an
+> image on the panel, and I can see the clock lanes being non-continuous
+> with an oscilloscope.
+> 
+> So, let's enable MIPI_DSI_CLOCK_NON_CONTINUOUS support.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Cc: Dmitry Osipenko <digetx@gmail.com>
 
 Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 
