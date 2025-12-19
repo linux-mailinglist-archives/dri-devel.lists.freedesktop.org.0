@@ -2,69 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBA2CD1ABA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 20:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1B1CD1B14
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 20:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C417410F07E;
-	Fri, 19 Dec 2025 19:45:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QRLcGOeL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA4610F0A0;
+	Fri, 19 Dec 2025 19:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC7810F07E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 19:45:04 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-8b9d2e33e2dso311144285a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 11:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766173504; x=1766778304; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=AmtmIycBRnp7CarvXqxL0Pg3UuhtbW4hf103AWuPItM=;
- b=QRLcGOeLqkgvL9GrydRToxA1Kb6QEDaClz+Wkb5MFuJ0qyIG1v3dh8lFCRmiQBYqzz
- 4lwmK7ZtxD2ejyN5IJ6Exr6bMlXyi5gQPmh19BcHo2PcDiqP0bCj2ZfFTLuA6CRiJ3QQ
- pLQkkC3a2q/hEJD89wQEPt4P3s7Q0MnRnQ2urW0JqNlbzlf3PeNYRzGdeARy0XZ61zSA
- 4O/c2OYcPYMjKrDOdB5kXQDes6MCZfe7lxBE+DhKKKPinn9TRHXzm1l9UOAKS1h0lDt8
- L4z6Gd+ZEY7W6xxCPn6dMXOFodfJQglLGFhCLPXlBBjKu0TT87Cqs5mRbG4Jw3sRPHX8
- jAmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766173504; x=1766778304;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AmtmIycBRnp7CarvXqxL0Pg3UuhtbW4hf103AWuPItM=;
- b=Q8OSlrg4IBOQwYXPWcBw/fxpLYk+Ni0a+DgSdiOaB6Ea5ZoaFMShQhO81Zlq8PiBKN
- R8QMmtFCDQZD1uqXcfTBR+tAYy3YnAdsecEuPHI9R+9Hpc41JkK5Xa69Orq8U8abFp5Q
- D26NiGaEsvVcId737UnLiWaBoHgK9fe51AVk2S4DBfVdev4V7VAmmkkaOrCe6ke99eem
- GLv/Nj8tDG8LezKNdkQX73C+JjIY+w4OdAs+0MY5ZG3nJKA3xEuU8AASCQ740TATnrHo
- L9u/hyvLZV+QJhRAb+nQlktpxVib9LDKRzuPmvoWFgcL10wlBp/Tg4EVP3DlX7Rv0N9h
- qazg==
-X-Gm-Message-State: AOJu0YzVljHg9l2XVXIS1UfZu8p6RuuRUb17qP1kx0BnrTaQvj0a6P+M
- VidOk3rOvc1r+wPQzWHVC0s6ZDlVqe9kfvQW7xnZ2dYuTdDJsFHfipcEgkHG0SgeXTBjnZ25+xN
- IfhwlYoyz8KRa4AW6ZmlnvSLvgXyI/ZA=
-X-Gm-Gg: AY/fxX7CRR6MUda8vG4YyGd7rS+/BWFXD12WN+sGmt4H4TTyJf4yCF4pmrMMExdOn75
- PWt2iye1QVasQWK4wwvNtBiLRc7H9JoyAjUEKz4dB3oYbMQPK5Ao2m9/Oj1P5NeOXWHhU7z3bQb
- InYaOXYvOLv6XZayFB4xFEv4d44sPj2dp0LwpD3rzNc8EK29AdAB6IP8corLSmDscvons9WE+49
- ZSp1zGuFWIfsShwa9pa/Pmr/9G8blUvKUBVJdy74NQFxCa6tg9IeU/qzD65BgoWwlIzkg==
-X-Google-Smtp-Source: AGHT+IGNUdF03OMzNnLXm7z3IkCrevMsGSX6N9fpIL3IYr4jyXUk42SLuldD48005fsohjv5tZZrgWB+t7lsXaYXcPM=
-X-Received: by 2002:a05:620a:404d:b0:8b0:f04c:9f0f with SMTP id
- af79cd13be357-8c08fd03911mr729052985a.63.1766173503930; Fri, 19 Dec 2025
- 11:45:03 -0800 (PST)
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C8510F09E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 19:55:21 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 23E09208B3;
+ Fri, 19 Dec 2025 20:55:19 +0100 (CET)
+Date: Fri, 19 Dec 2025 20:55:17 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jun Nie <jun.nie@linaro.org>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Revert "drm/msm/dpu: support plane splitting in
+ quad-pipe case"
+Message-ID: <aUWqtbpldOG-dqIy@SoMainline.org>
+References: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-0-654b46505f84@oss.qualcomm.com>
+ <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-1-654b46505f84@oss.qualcomm.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 20 Dec 2025 05:44:52 +1000
-X-Gm-Features: AQt7F2r8sDwchbX8769MuAnFNPhrF3YjY-NOSI1cI0vRGslQzzIGHCVbehWcF4I
-Message-ID: <CAPM=9tx7MZKWMgP1RhtHASS7-Fxz3eTPg1WLEgiYShuXoQ53fw@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.19-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-1-654b46505f84@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,257 +54,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On 2025-12-19 12:39:01, Abel Vesa wrote:
+> This reverts commit 5978864e34b66bdae4d7613834c03dd5d0a0c891.
+> 
+> At least on Hamoa based devices, there are IOMMU faults:
+> 
+> arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0x00000000, fsynr=0x3d0023, cbfrsynra=0x1c00, cb=13
+> arm-smmu 15000000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x1c00
+> arm-smmu 15000000.iommu: FSYNR0 = 003d0023 [S1CBNDX=61 PNU PLVL=3]
 
-Hope the diving went well, rc2 fixes for the week, mostly xe, with
-amdgpu as usual. Then a smattering of small fixes across the
-core/tests/panel and amdxdna.
+I thought that this was normal, and that I was always seeing these on startup
+(something to do with framebuffer), but indeed by reverting this patch these
+are gone on at least the Xperia XZ2 (regular CMD-mode panel) and XZ3 (CMD-mode
+panel, 2:2:1 DSC-merge topology), both sdm845-based phones.
 
-I expect things will be quiet for rc3/4 as teams take a break, and I'm
-travelling but will keep an eye on things.
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Regards,
-Dave.
-
-drm-fixes-2025-12-20:
-drm fixes for 6.19-rc2
-
-core:
-- fix gem handle leak on DRM_IOCTL_GEM_CHANGE_HANDLE
-
-tests:
-- add EDEADLK handling
-
-amdgpu:
-- Fix no_console_suspend handling
-- DCN 3.5.x seamless boot fixes
-- DP audio fix
-- Fix race in GPU recovery
-- SMU 14 OD fix
-
-amdkfd:
-- Event fix
-
-xe:
-- Limit num_syncs to prevent oversized kernel allocations
-- Disallow 0 OA property values
-- Disallow 0 EU stall property values
-- Fix kobject leak
-- Workaround
-- Loop variable reference fix
-- Fix a CONFIG corner-case incorrect number of argument
-- Skip reason prefix while emitting array
-- VF migration fix
-- Fix context in mei interrupt top half
-- Don't include the CCS metadata in the dma-buf sg-table
-- VF queueing recovery work fix
-- Increase TDF timeout
-- GT reset registers vs scheduler ordering fix
-- Adjust long-running workload timeslices
-- Always set OA_OAGLBCTXCTRL_COUNTER_RESUME
-- Fix a return value
-- Drop preempt-fences when destroying imported dma-bufs
-- Use usleep_range for accurate long-running workload timeslicing
-
-amdxdna:
-- don't load virtualized
-
-panel:
-- fix visionox-rm69299 Kconfig dependency
-- sony-td4353-jdi probing fix
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8=
-:
-
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-12-20
-
-for you to fetch changes up to f66ac60dee28d092bc6a3af33a04147bfcb6ba30:
-
-  Merge tag 'drm-xe-fixes-2025-12-19' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2025-12-19 10:56:13 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.19-rc2
-
-core:
-- fix gem handle leak on DRM_IOCTL_GEM_CHANGE_HANDLE
-
-tests:
-- add EDEADLK handling
-
-amdgpu:
-- Fix no_console_suspend handling
-- DCN 3.5.x seamless boot fixes
-- DP audio fix
-- Fix race in GPU recovery
-- SMU 14 OD fix
-
-amdkfd:
-- Event fix
-
-xe:
-- Limit num_syncs to prevent oversized kernel allocations
-- Disallow 0 OA property values
-- Disallow 0 EU stall property values
-- Fix kobject leak
-- Workaround
-- Loop variable reference fix
-- Fix a CONFIG corner-case incorrect number of argument
-- Skip reason prefix while emitting array
-- VF migration fix
-- Fix context in mei interrupt top half
-- Don't include the CCS metadata in the dma-buf sg-table
-- VF queueing recovery work fix
-- Increase TDF timeout
-- GT reset registers vs scheduler ordering fix
-- Adjust long-running workload timeslices
-- Always set OA_OAGLBCTXCTRL_COUNTER_RESUME
-- Fix a return value
-- Drop preempt-fences when destroying imported dma-bufs
-- Use usleep_range for accurate long-running workload timeslicing
-
-amdxdna:
-- don't load virtualized
-
-panel:
-- fix visionox-rm69299 Kconfig dependency
-- sony-td4353-jdi probing fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: fix a job->pasid access race in gpu recovery
-
-Arnd Bergmann (1):
-      drm/xe: fix drm_gpusvm_init() arguments
-
-Ashutosh Dixit (3):
-      drm/xe/oa: Always set OAG_OAGLBCTXCTRL_COUNTER_RESUME
-      drm/xe/oa: Disallow 0 OA property values
-      drm/xe/eustall: Disallow 0 EU stall property values
-
-Brian Kocoloski (1):
-      drm/amdkfd: Fix improper NULL termination of queue restore SMI
-event string
-
-Charlene Liu (1):
-      drm/amd/display: Fix DP no audio issue
-
-Dan Carpenter (1):
-      drm/xe/xe_sriov_vfio: Fix return value in
-xe_sriov_vfio_migration_supported()
-
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-6.19-2025-12-17' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2025-12-18' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-12-19' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Guido G=C3=BCnther (1):
-      drm/panel: visionox-rm69299: Depend on BACKLIGHT_CLASS_DEVICE
-
-Jagmeet Randhawa (1):
-      drm/xe: Increase TDF timeout
-
-Jan Maslak (1):
-      drm/xe: Restore engine registers before restarting schedulers
-after GT reset
-
-Jos=C3=A9 Exp=C3=B3sito (3):
-      drm/tests: hdmi: Handle drm_kunit_helper_enable_crtc_connector()
-returning EDEADLK
-      drm/tests: Handle EDEADLK in drm_test_check_valid_clones()
-      drm/tests: Handle EDEADLK in set_up_atomic_state()
-
-Junxiao Chang (1):
-      drm/me/gsc: mei interrupt top half should be in irq disabled context
-
-Karol Wachowski (1):
-      drm: Fix object leak in DRM_IOCTL_GEM_CHANGE_HANDLE
-
-Maarten Lankhorst (1):
-      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-
-Marijn Suijten (1):
-      drm/panel: sony-td4353-jdi: Enable prepare_prev_first
-
-Mario Limonciello (AMD) (2):
-      accel/amdxdna: Block running under a hypervisor
-      drm/amd: Resume the device in thaw() callback when console
-suspend is disabled
-
-Matthew Brost (3):
-      drm/xe: Do not reference loop variable directly
-      drm/xe: Adjust long-running workload timeslices to reasonable values
-      drm/xe: Use usleep_range for accurate long-running workload timeslici=
-ng
-
-Raag Jadav (1):
-      drm/xe/throttle: Skip reason prefix while emitting array
-
-Ray Wu (2):
-      drm/amd/display: Fix scratch registers offsets for DCN35
-      drm/amd/display: Fix scratch registers offsets for DCN351
-
-Satyanarayana K V P (1):
-      drm/xe/vf: Fix queuing of recovery work
-
-Shuicheng Lin (3):
-      drm/xe: Fix freq kobject leak on sysfs_create_files failure
-      drm/xe: Limit num_syncs to prevent oversized allocations
-      drm/xe/oa: Limit num_syncs to prevent oversized allocations
-
-Thomas Hellstr=C3=B6m (2):
-      drm/xe/bo: Don't include the CCS metadata in the dma-buf sg-table
-      drm/xe: Drop preempt-fences when destroying imported dma-bufs.
-
-Tomasz Lis (1):
-      drm/xe/vf: Stop waiting for ring space on VF post migration recovery
-
-Vinay Belgaumkar (1):
-      drm/xe: Apply Wa_14020316580 in xe_gt_idle_enable_pg()
-
-mythilam (1):
-      drm/amd/pm: restore SCLK settings after S0ix resume
-
- drivers/accel/amdxdna/aie2_pci.c                   |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   5 +-
- drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c        |   2 +-
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   8 +-
- .../amd/display/dc/resource/dcn35/dcn35_resource.c |   8 +-
- .../display/dc/resource/dcn351/dcn351_resource.c   |   8 +-
- drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c     |   5 +
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   |  37 +++++-
- drivers/gpu/drm/drm_gem.c                          |   8 +-
- drivers/gpu/drm/panel/Kconfig                      |   1 +
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |   2 +
- drivers/gpu/drm/tests/drm_atomic_state_test.c      |  40 +++++-
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 143 +++++++++++++++++=
-++++
- drivers/gpu/drm/xe/xe_bo.c                         |  15 +--
- drivers/gpu/drm/xe/xe_device.c                     |   2 +-
- drivers/gpu/drm/xe/xe_dma_buf.c                    |   2 +-
- drivers/gpu/drm/xe/xe_eu_stall.c                   |   2 +-
- drivers/gpu/drm/xe/xe_exec.c                       |   3 +-
- drivers/gpu/drm/xe/xe_gt.c                         |   7 +-
- drivers/gpu/drm/xe/xe_gt_freq.c                    |   4 +-
- drivers/gpu/drm/xe/xe_gt_idle.c                    |   8 ++
- drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |   2 +-
- drivers/gpu/drm/xe/xe_gt_throttle.c                |   2 +-
- drivers/gpu/drm/xe/xe_guc_submit.c                 |  35 ++++-
- drivers/gpu/drm/xe/xe_heci_gsc.c                   |   4 +-
- drivers/gpu/drm/xe/xe_oa.c                         |  12 +-
- drivers/gpu/drm/xe/xe_sriov_vfio.c                 |   2 +-
- drivers/gpu/drm/xe/xe_svm.h                        |   2 +-
- drivers/gpu/drm/xe/xe_vm.c                         |   8 +-
- drivers/gpu/drm/xe/xe_vm_types.h                   |   2 +-
- drivers/gpu/drm/xe/xe_wa.c                         |   8 --
- drivers/gpu/drm/xe/xe_wa_oob.rules                 |   1 +
- include/uapi/drm/xe_drm.h                          |   1 +
- 34 files changed, 331 insertions(+), 74 deletions(-)
+> While on some of these devices, there are also all sorts of artifacts on eDP.
+> 
+> Reverting this fixes these issues.
+> 
+> Closes: https://lore.kernel.org/r/z75wnahrp7lrl5yhfdysr3np3qrs6xti2i4otkng4ex3blfgrx@xyiucge3xykb/
+> Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  11 ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |   2 -
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 137 +++++++++---------------------
+>  3 files changed, 40 insertions(+), 110 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index c39f1908ea65..011946bbf5a2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1620,17 +1620,6 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
+>  	return 0;
+>  }
+>  
+> -/**
+> - * dpu_crtc_get_num_lm - Get mixer number in this CRTC pipeline
+> - * @state: Pointer to drm crtc state object
+> - */
+> -unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state)
+> -{
+> -	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
+> -
+> -	return cstate->num_mixers;
+> -}
+> -
+>  #ifdef CONFIG_DEBUG_FS
+>  static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+>  {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> index 455073c7025b..2c83f1578fc3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> @@ -267,6 +267,4 @@ static inline enum dpu_crtc_client_type dpu_crtc_get_client_type(
+>  
+>  void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event);
+>  
+> -unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state);
+> -
+>  #endif /* _DPU_CRTC_H_ */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index d07a6ab6e7ee..9b7a8b46bfa9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -826,12 +826,8 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+>  	struct dpu_sw_pipe_cfg *pipe_cfg;
+>  	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> -	struct dpu_sw_pipe_cfg init_pipe_cfg;
+>  	struct drm_rect fb_rect = { 0 };
+> -	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>  	uint32_t max_linewidth;
+> -	u32 num_lm;
+> -	int stage_id, num_stages;
+>  
+>  	min_scale = FRAC_16_16(1, MAX_UPSCALE_RATIO);
+>  	max_scale = MAX_DOWNSCALE_RATIO << 16;
+> @@ -854,10 +850,13 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+>  		return -EINVAL;
+>  	}
+>  
+> -	num_lm = dpu_crtc_get_num_lm(crtc_state);
+> -
+> +	/* move the assignment here, to ease handling to another pairs later */
+> +	pipe_cfg = &pstate->pipe_cfg[0];
+> +	r_pipe_cfg = &pstate->pipe_cfg[1];
+>  	/* state->src is 16.16, src_rect is not */
+> -	drm_rect_fp_to_int(&init_pipe_cfg.src_rect, &new_plane_state->src);
+> +	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> +
+> +	pipe_cfg->dst_rect = new_plane_state->dst;
+>  
+>  	fb_rect.x2 = new_plane_state->fb->width;
+>  	fb_rect.y2 = new_plane_state->fb->height;
+> @@ -882,94 +881,35 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+>  
+>  	max_linewidth = pdpu->catalog->caps->max_linewidth;
+>  
+> -	drm_rect_rotate(&init_pipe_cfg.src_rect,
+> +	drm_rect_rotate(&pipe_cfg->src_rect,
+>  			new_plane_state->fb->width, new_plane_state->fb->height,
+>  			new_plane_state->rotation);
+>  
+> -	/*
+> -	 * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topology, 2 mixer pair
+> -	 * configs for left and right half screen in case of 4:4:2 topology.
+> -	 * But we may have 2 rect to split wide plane that exceeds limit with 1
+> -	 * config for 2:2:1. So need to handle both wide plane splitting, and
+> -	 * two halves of screen splitting for quad-pipe case. Check dest
+> -	 * rectangle left/right clipping first, then check wide rectangle
+> -	 * splitting in every half next.
+> -	 */
+> -	num_stages = (num_lm + 1) / 2;
+> -	/* iterate mixer configs for this plane, to separate left/right with the id */
+> -	for (stage_id = 0; stage_id < num_stages; stage_id++) {
+> -		struct drm_rect mixer_rect = {
+> -			.x1 = stage_id * mode->hdisplay / num_stages,
+> -			.y1 = 0,
+> -			.x2 = (stage_id + 1) * mode->hdisplay / num_stages,
+> -			.y2 = mode->vdisplay
+> -			};
+> -		int cfg_idx = stage_id * PIPES_PER_STAGE;
+> -
+> -		pipe_cfg = &pstate->pipe_cfg[cfg_idx];
+> -		r_pipe_cfg = &pstate->pipe_cfg[cfg_idx + 1];
+> -
+> -		drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> -		pipe_cfg->dst_rect = new_plane_state->dst;
+> -
+> -		DPU_DEBUG_PLANE(pdpu, "checking src " DRM_RECT_FMT
+> -				" vs clip window " DRM_RECT_FMT "\n",
+> -				DRM_RECT_ARG(&pipe_cfg->src_rect),
+> -				DRM_RECT_ARG(&mixer_rect));
+> -
+> -		/*
+> -		 * If this plane does not fall into mixer rect, check next
+> -		 * mixer rect.
+> -		 */
+> -		if (!drm_rect_clip_scaled(&pipe_cfg->src_rect,
+> -					  &pipe_cfg->dst_rect,
+> -					  &mixer_rect)) {
+> -			memset(pipe_cfg, 0, 2 * sizeof(struct dpu_sw_pipe_cfg));
+> -
+> -			continue;
+> +	if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
+> +	     _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) > max_mdp_clk_rate) {
+> +		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
+> +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> +			return -E2BIG;
+>  		}
+>  
+> -		pipe_cfg->dst_rect.x1 -= mixer_rect.x1;
+> -		pipe_cfg->dst_rect.x2 -= mixer_rect.x1;
+> -
+> -		DPU_DEBUG_PLANE(pdpu, "Got clip src:" DRM_RECT_FMT " dst: " DRM_RECT_FMT "\n",
+> -				DRM_RECT_ARG(&pipe_cfg->src_rect), DRM_RECT_ARG(&pipe_cfg->dst_rect));
+> -
+> -		/* Split wide rect into 2 rect */
+> -		if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
+> -		     _dpu_plane_calc_clk(mode, pipe_cfg) > max_mdp_clk_rate) {
+> -
+> -			if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
+> -				DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> -						DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> -				return -E2BIG;
+> -			}
+> -
+> -			memcpy(r_pipe_cfg, pipe_cfg, sizeof(struct dpu_sw_pipe_cfg));
+> -			pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
+> -			pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
+> -			r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
+> -			r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+> -			DPU_DEBUG_PLANE(pdpu, "Split wide plane into:"
+> -					DRM_RECT_FMT " and " DRM_RECT_FMT "\n",
+> -					DRM_RECT_ARG(&pipe_cfg->src_rect),
+> -					DRM_RECT_ARG(&r_pipe_cfg->src_rect));
+> -		} else {
+> -			memset(r_pipe_cfg, 0, sizeof(struct dpu_sw_pipe_cfg));
+> -		}
+> +		*r_pipe_cfg = *pipe_cfg;
+> +		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
+> +		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
+> +		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
+> +		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+> +	} else {
+> +		memset(r_pipe_cfg, 0, sizeof(*r_pipe_cfg));
+> +	}
+>  
+> -		drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> -				    new_plane_state->fb->width,
+> -				    new_plane_state->fb->height,
+> +	drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> +			    new_plane_state->fb->width, new_plane_state->fb->height,
+> +			    new_plane_state->rotation);
+> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0)
+> +		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> +				    new_plane_state->fb->width, new_plane_state->fb->height,
+>  				    new_plane_state->rotation);
+>  
+> -		if (drm_rect_width(&r_pipe_cfg->src_rect) != 0)
+> -			drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> -					    new_plane_state->fb->width,
+> -					    new_plane_state->fb->height,
+> -					    new_plane_state->rotation);
+> -	}
+> -
+>  	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
+>  
+>  	return 0;
+> @@ -1045,17 +985,20 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+>  		drm_atomic_get_new_plane_state(state, plane);
+>  	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+> -	struct dpu_sw_pipe *pipe;
+> -	struct dpu_sw_pipe_cfg *pipe_cfg;
+> -	int ret = 0, i;
+> +	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
+> +	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
+> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
+> +	int ret = 0;
+>  
+> -	for (i = 0; i < PIPES_PER_PLANE; i++) {
+> -		pipe = &pstate->pipe[i];
+> -		pipe_cfg = &pstate->pipe_cfg[i];
+> -		if (!drm_rect_width(&pipe_cfg->src_rect))
+> -			continue;
+> -		DPU_DEBUG_PLANE(pdpu, "pipe %d is in use, validate it\n", i);
+> -		ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
+> +	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
+> +					  &crtc_state->adjusted_mode,
+> +					  new_plane_state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
+> +		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg,
+>  						  &crtc_state->adjusted_mode,
+>  						  new_plane_state);
+>  		if (ret)
+> 
+> -- 
+> 2.48.1
+> 
