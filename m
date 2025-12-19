@@ -2,62 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602CECCEC34
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 08:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399B9CCEB83
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 08:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C1710EEC5;
-	Fri, 19 Dec 2025 07:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C75F10EE32;
+	Fri, 19 Dec 2025 07:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CFnIbkz6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iVmesgik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174C510EEC5;
- Fri, 19 Dec 2025 07:13:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766128436; x=1797664436;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KHMu71kyC0VM3N79TmVUz4uq1wPEJQQ/JaRcW4RKNNk=;
- b=CFnIbkz6YRmAnTRQG7l0k2qwkWFCLe+lXZ1wfL3B5bns1g8SYN2qnkif
- uECE6WR+m4m+bkW+po9zlKAHYk0BfxejoVcH5YEfNlQGWbtIUzXUIkp9b
- J7ed+vJ+utTRarFPiCNPy2ZKOZh9cLxMJFjFjJsaVyVxES6MmsCMp/wiq
- 20rx13C8hcysyUVybtMfWT4JIjimRaMjC0MDTW1Cr3/xdiUS4DUbWxtp0
- NfD8XrmGXstFVKyOihR4+Hs+zoIVf/z3M2hj/mR3p+SQ7T/rjYmZg1Ejr
- moO3/hAKq9Yi9GiEAN1YLr1VOmbrUK3g+SzEZZ7TXETOs4N101edAsvkG Q==;
-X-CSE-ConnectionGUID: lDmuK0F5ReOjCA7JeVysNQ==
-X-CSE-MsgGUID: 7RChxYVmQ8WLNWceZyAoMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="93562433"
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="93562433"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2025 23:13:55 -0800
-X-CSE-ConnectionGUID: W0Dgvq5nQhimftZHzf6Mrw==
-X-CSE-MsgGUID: 4ozuw8mXR426Lj8hQ6Xy6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="222209599"
-Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa002.fm.intel.com with ESMTP; 18 Dec 2025 23:13:51 -0800
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
- louis.chauvet@bootlin.com, mwen@igalia.com, contact@emersion.fr,
- alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
- suraj.kandpal@intel.com, nfraprado@collabora.com,
- ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: [PATCH 13/13] drm/i915/color: Add failure handling in plane color
- pipeline init
-Date: Fri, 19 Dec 2025 12:26:14 +0530
-Message-Id: <20251219065614.190834-14-chaitanya.kumar.borah@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251219065614.190834-1-chaitanya.kumar.borah@intel.com>
-References: <20251219065614.190834-1-chaitanya.kumar.borah@intel.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C05110EE2F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 07:08:21 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4775895d69cso5598315e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 23:08:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1766128099; x=1766732899; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NAJFCYxG6tBk/5BjvMlMhhFWKmM1Im0nbCMAsTTFzMc=;
+ b=iVmesgikdciw1HmWPbLuFfXhwvIdvonTltp0Mzv6Byf0zehc2qCodOgQNNJ8HPFejW
+ FF/rNoOvG/T/ERuDpmtBTfI/RXznmfEes0nIwAYS9y7pc0fEHyqAfBZ3WAi/8GMlUOe0
+ sj7VQMudo9KYmCZHyO0OqVNcGRw5rb7Wv2pw1jkZT+nAKTZzAt4dlYBcOUGWFhtmlIkW
+ cOJoPSmAXG69jAebBlieOvtbrkXPBIv3ZrBZhYjItM9fC1ySYorMssVkyrewCBxFT2TA
+ D4r86r8NM7FU5TLDSaIICnjI0gjjqlBLxj46e3ikoWFkYUlJ6tvUwXdIlRmWloyjwn4V
+ QRXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766128099; x=1766732899;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NAJFCYxG6tBk/5BjvMlMhhFWKmM1Im0nbCMAsTTFzMc=;
+ b=onWAvSiKg+dUZTu4W9LCJ0m/yVsGhHY8gMgPugsxy0BtfmeHJZ3Z0AvmZCegW1erRr
+ RMewwSHyFtdjdqOLnQqIiJ3UfKG6JB0ZWoQKuD+5tFkO9JOgXkqBykuNbPHciKZnIxn0
+ r45pEZw/T0QxqywF39OLT+xtU1YAFFjFQXVuly5VEd7WTfpF6hfiyWZDqQON/5K3Hgxh
+ loriodv5Lb2idB+N3mNTXdspZLXcpyMJjCZsT4E9ifqCnrbkizxagR4yiYbC+dlm1AMc
+ bD5EcvBYQZ41Sw5KjLauHKEV35aXx6s7N4IG4m4c0Lu2ToMvWXvBuO7tLR5uR5PatqM6
+ UiJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQhJUfehbiaB2me6pM/L7vp0UNz+/JmKeKAzdBCim959JrkvO1XLoI1PRFsgsUDe4HtzOIqJ55FFs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6y7oLTKC/3/fhegcB1GDpFAFqocIqc15FrzEoylGcFGdzuwG0
+ ywlrUr7W9RPAsyw3SoFWpYsVP3W17sXPNVZ31hiXgPXmUKGrgYv3xLdcUzrscsAJ/cw=
+X-Gm-Gg: AY/fxX51aGxeY+XcBi2qCKXbinIBFFOrripGcwLoH3yMogxnc2sZMVaPvnmkk0SiK+A
+ vuA9WMpag0IFaaAjWV8QYYj7jiLEY0g+akqIx4ofXhWkEsGx1r6VZJu4FUKluC+9xVianLGQJPI
+ ZEYotzRjvSGOFBoJLYVn13UL15+lShnycj6WI2b6Z3o4VCLs9VyEMWeTAR8bM+XupaFvBWALu8u
+ 7hhflgJRsG8S560Mr1qvBaYJafrvVZk3Zx3HRloDNAF1BXCLMWzEmBlRhIQNudTSyrmAGWjyyRo
+ kyfs2aICyF2aYntgcGTxMNK/WQIpjgpf6+XuYJ/+iL0hh+SFZt8NJJBeVIEuPOrBREcaqqxAAi5
+ fQiePseJyCsw3cYzG8Al6uUIoxcJraP4hSBeR0wtpsE60m3pE0yrPWKFHcvRQNzv6MSScOfatGq
+ rmEyGn+PvjgMEew0rQ
+X-Google-Smtp-Source: AGHT+IE7nLrq263HAsObO9ho2ijSSwzHrCJiIV0bJrGj7M+qZEd9hC4pZGfJYlq78GqHGGWD40y0tA==
+X-Received: by 2002:a05:600c:5251:b0:477:8a29:582c with SMTP id
+ 5b1f17b1804b1-47d195a425bmr13555325e9.34.1766128099504; 
+ Thu, 18 Dec 2025 23:08:19 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47be27b749esm81591275e9.14.2025.12.18.23.08.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Dec 2025 23:08:19 -0800 (PST)
+Date: Fri, 19 Dec 2025 10:08:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Vincent Mailhol <mailhol@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits
+Message-ID: <aUT54I0fD0aqBVyw@stanley.mountain>
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218202644.0bd24aa8@pumpkin>
+ <CAHk-=wjrNyuMfkU2RHs28TbFGSORk45mkjtzqeB7uhYJx33Vuw@mail.gmail.com>
+ <20251218220651.5cdde06f@pumpkin>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218220651.5cdde06f@pumpkin>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,209 +102,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The plane color pipeline initialization built up multiple colorop blocks
-inline, but did not reliably clean up partially constructed pipelines
-when an intermediate step failed. This could lead to leaked colorop
-objects and fragile error handling as the pipeline grows.
+On Thu, Dec 18, 2025 at 10:06:51PM +0000, David Laight wrote:
+> On Fri, 19 Dec 2025 08:34:05 +1200
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> 
+> > On Fri, 19 Dec 2025 at 08:26, David Laight <david.laight.linux@gmail.com> wrote:
+> > >
+> > > One possibility is to conditionally add _Pragma()  
+> > 
+> > No. That compiler warning is pure and utter garbage. I have pointed it
+> > out fopr *years*, and compiler people don't get it.
+> > 
+> > So that warning just needs to die. It's shit. It's wrong.
+> 
+> True - especially for code like:
+> 	if (x < 0 || x > limit)
+> 		return ...
+> where the code is correct even with 'accidental' conversion of a
+> negative signed value to a large unsigned one.
+> 
+> clang seems to have a dozen similar warnings, all of which are a PITA
+> for kernel code - like rejecting !(4 << 16).
 
-Refactor the pipeline construction to use a common helper for adding
-colorop blocks. This centralizes allocation, initialization, and
-teardown logic, allowing the caller to reliably unwind all previously
-created colorops on failure.
+In this example is 4 a literal or do we at least know that 4 is
+non-zero?
 
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
----
- .../drm/i915/display/intel_color_pipeline.c   | 142 ++++++++++++------
- 1 file changed, 100 insertions(+), 42 deletions(-)
+I really thought I had a check for that in Smatch but I guess I
+don't...
 
-diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-index 8fecc53540ba..035ec3f022cd 100644
---- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-+++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-@@ -2,6 +2,8 @@
- /*
-  * Copyright © 2025 Intel Corporation
-  */
-+#include <drm/drm_print.h>
-+
- #include "intel_color.h"
- #include "intel_colorop.h"
- #include "intel_color_pipeline.h"
-@@ -10,6 +12,7 @@
- #include "skl_universal_plane.h"
- 
- #define MAX_COLOR_PIPELINES 1
-+#define MAX_COLOROP 4
- #define PLANE_DEGAMMA_SIZE 128
- #define PLANE_GAMMA_SIZE 32
- 
-@@ -18,69 +21,124 @@ static const struct drm_colorop_funcs intel_colorop_funcs = {
- };
- 
- static
--int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list,
--				     enum pipe pipe)
-+struct intel_colorop *intel_color_pipeline_plane_add_colorop(struct drm_plane *plane,
-+							     struct intel_colorop *prev,
-+							     enum intel_color_block id)
- {
- 	struct drm_device *dev = plane->dev;
--	struct intel_display *display = to_intel_display(dev);
--	struct drm_colorop *prev_op;
- 	struct intel_colorop *colorop;
- 	int ret;
- 
--	colorop = intel_colorop_create(INTEL_PLANE_CB_PRE_CSC_LUT);
--
--	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, &intel_colorop_funcs,
--						  PLANE_DEGAMMA_SIZE,
--						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
--						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-+	colorop = intel_colorop_create(id);
-+
-+	if (IS_ERR(colorop))
-+		return colorop;
-+
-+	switch (id) {
-+	case INTEL_PLANE_CB_PRE_CSC_LUT:
-+		ret = drm_plane_colorop_curve_1d_lut_init(dev,
-+							  &colorop->base, plane,
-+							  &intel_colorop_funcs,
-+							  PLANE_DEGAMMA_SIZE,
-+							  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-+							  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-+		break;
-+	case INTEL_PLANE_CB_CSC:
-+		ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
-+						     &intel_colorop_funcs,
-+						     DRM_COLOROP_FLAG_ALLOW_BYPASS);
-+		break;
-+	case INTEL_PLANE_CB_3DLUT:
-+		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane,
-+						   &intel_colorop_funcs, 17,
-+						   DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
-+						   true);
-+		break;
-+	case INTEL_PLANE_CB_POST_CSC_LUT:
-+		ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
-+							  &intel_colorop_funcs,
-+							  PLANE_GAMMA_SIZE,
-+							  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-+							  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-+		break;
-+	default:
-+		drm_err(plane->dev, "Invalid colorop id [%d]", id);
-+		ret = -EINVAL;
-+	}
- 
- 	if (ret)
--		return ret;
-+		goto cleanup;
- 
--	list->type = colorop->base.base.id;
-+	if (prev)
-+		drm_colorop_set_next_property(&prev->base, &colorop->base);
- 
--	/* TODO: handle failures and clean up */
--	prev_op = &colorop->base;
-+	return colorop;
- 
--	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
--	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane, &intel_colorop_funcs,
--					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
--	if (ret)
--		return ret;
-+cleanup:
-+	intel_colorop_destroy(&colorop->base);
-+	return ERR_PTR(ret);
-+}
- 
--	drm_colorop_set_next_property(prev_op, &colorop->base);
--	prev_op = &colorop->base;
-+static
-+int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list,
-+				     enum pipe pipe)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct intel_display *display = to_intel_display(dev);
-+	struct intel_colorop *colorop[MAX_COLOROP];
-+	int ret = 0;
-+	int i = 0;
- 
--	if (DISPLAY_VER(display) >= 35 &&
--	    intel_color_crtc_has_3dlut(display, pipe) &&
--	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
--		colorop = intel_colorop_create(INTEL_PLANE_CB_3DLUT);
-+	colorop[i] = intel_color_pipeline_plane_add_colorop(plane, NULL,
-+							    INTEL_PLANE_CB_PRE_CSC_LUT);
-+
-+	if (IS_ERR(colorop[i])) {
-+		ret = PTR_ERR(colorop[i]);
-+		goto cleanup;
-+	}
-+	i++;
- 
--		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane,
--						   &intel_colorop_funcs, 17,
--						   DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
--						   true);
--		if (ret)
--			return ret;
- 
--		drm_colorop_set_next_property(prev_op, &colorop->base);
-+	colorop[i] = intel_color_pipeline_plane_add_colorop(plane, colorop[i - 1],
-+							    INTEL_PLANE_CB_CSC);
- 
--		prev_op = &colorop->base;
-+	if (IS_ERR(colorop[i])) {
-+		ret = PTR_ERR(colorop[i]);
-+		goto cleanup;
- 	}
- 
--	colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
--	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, &intel_colorop_funcs,
--						  PLANE_GAMMA_SIZE,
--						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
--						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
--	if (ret)
--		return ret;
-+	i++;
- 
--	drm_colorop_set_next_property(prev_op, &colorop->base);
-+	if (DISPLAY_VER(display) >= 35 &&
-+	    intel_color_crtc_has_3dlut(display, pipe) &&
-+	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
-+		colorop[i] = intel_color_pipeline_plane_add_colorop(plane, colorop[i - 1],
-+								    INTEL_PLANE_CB_3DLUT);
-+
-+		if (IS_ERR(colorop[i])) {
-+			ret = PTR_ERR(colorop[i]);
-+			goto cleanup;
-+		}
-+		i++;
-+	}
- 
--	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", list->type);
-+	colorop[i] = intel_color_pipeline_plane_add_colorop(plane, colorop[i - 1],
-+							    INTEL_PLANE_CB_POST_CSC_LUT);
-+	if (IS_ERR(colorop[i])) {
-+		ret = PTR_ERR(colorop[i]);
-+		goto cleanup;
-+	}
-+	i++;
-+
-+	list->type = colorop[0]->base.base.id;
-+	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop[0]->base.base.id);
- 
- 	return 0;
-+
-+cleanup:
-+	while (--i >= 0)
-+		intel_colorop_destroy(&colorop[i]->base);
-+	return ret;
- }
- 
- int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
--- 
-2.25.1
+regards,
+dan carpenter
 
