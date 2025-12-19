@@ -2,56 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F1CCCFCB7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF4ACCFD53
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F1E10E4D4;
-	Fri, 19 Dec 2025 12:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D0810EF5D;
+	Fri, 19 Dec 2025 12:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MVP3ty0B";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="oTTtx4gY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1D910E4D4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 12:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766147544;
- bh=lkmFbA8kdldHSrfiuFiadNVX/Jv8EWprdBJRNFFyNhI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MVP3ty0BXbsqcPaAhTPwmaY7OQD09PLH1QEH8RNgKCoSYJId+Q+jgp2tv4suXufJB
- wHmvJcVjdm1Jd31jLdZv4UWDAvpFYDuMSJj3lWvVNvawph/8VvJfQpN88wmmICkPMf
- PazSzNtmvpqurQD5z/UaxmrYqXHq/ntQAUHodF+d5kHDmcUMGlAwJi2ZuJNM8EbTuH
- SQkzVv5seS0R8x5RYVQxwwAsi76Z7MmTQJwuIvhQULxWbfAZNZxgno3RuF5N4aEG8g
- Zay5ZhnQ+CDtM9x9LsWWz0nboVK3KmGJB9KmD3a+aOMLWDdW6FhmGaf9yHlRvvWKKe
- wLEvynYaI06ng==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9ACEB17E0EF6;
- Fri, 19 Dec 2025 13:32:23 +0100 (CET)
-Date: Fri, 19 Dec 2025 13:32:19 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
- Price <steven.price@arm.com>, kernel@collabora.com, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v5 1/1] drm/panthor: Support partial unmaps of huge pages
-Message-ID: <20251219133219.5016a9eb@fedora>
-In-Reply-To: <20251217213252.677020-2-adrian.larumbe@collabora.com>
-References: <20251217213252.677020-1-adrian.larumbe@collabora.com>
- <20251217213252.677020-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA1F10EF5D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 12:41:13 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-47aa03d3326so10508505e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 04:41:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1766148072; x=1766752872; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zfLhYYskh7twKjEbDnWHnjCPUTtJy5rVU5ckCpBjzjQ=;
+ b=oTTtx4gYST68Xy6kd5ViiXBGWqkOd/bFfHu+YahWfeXmECMhOIzn1/iMXsP6WQ4k95
+ mIzxxbu38HLiiagmhlxtzyhh5t/swm8Bcgf/AByXNzSfXcnmYK9P2Argq4jw/nI4BAZ3
+ uPM/ZhRcBLTLHiOOu9mYhE0m4n9+NQ8R0un6LpsT/lXt7E4zGULr0+rtU/8nyuyIR7Qf
+ Z8Z0f+ejGZDjOjkBULhVUPD/WBKqmtDNctonWbowOAWgFg+1ePWAZXeOf5adgylOHM/B
+ kZjHUrg1vvRfKXAVDGpcRu5ona257HAE3KFTbBfLkFzHSCqKrmeB1bb7TcZe8kYD3ATK
+ Rvog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766148072; x=1766752872;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zfLhYYskh7twKjEbDnWHnjCPUTtJy5rVU5ckCpBjzjQ=;
+ b=meIVg5E9u/m0gPiVfYrL/WjySUbkWmDe7DDtZ51Xpvy4Z5htsuLYhnGP8PjTS/ZpD2
+ UPQ1RSFG4W5C6JMNai/iGhKP5LPm2p2cEfFs9i/bq7mf8tsZqF4SgXGj+Dmra62LrK4x
+ oMY/SQ57Njlyp1pttTITR5KeN6CrKIVK3Lcy9WSqEl1JaUJZ7ix4g/n6aJm5tz3Qyk5T
+ t+hInsPytNmgcJyenDKY6dBBQv4I/jBTqAOBJ7kcH0uuvtIUHKGWv5g+B7i/xC8xHD+a
+ gZ/ZvdTMOtz+x6Xf/BXB9DVTzh8DKmUuRl5CVwOMMbHHeE6nXy4+8nb3BgEDobshwHNI
+ 7Rgg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWfLRstBt5wG84qRZWfTgzb/Xj5etVuveCHTtbavaxl6WXeGAQKisfaUHCC5rL19GUtYD6n92GD+hY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxX0w93Dj/UQUkFlNekEaQsc4YZBEj0sKgwWxdXNLbV3k+TOsAc
+ nD8Hbv+61sGcrIQpxYxNlB1QGUsZ9/42TLozGLFez21tU73lNot4QQE4IixranMpPPA=
+X-Gm-Gg: AY/fxX7/z300JbnGHCtBh2gPDFqew38JAl2sEBlcdIoTtUKLmcDbsNRlrZ72gKLBIna
+ d2j1fJgDx+gpynqwOkf5vJC16BFvxkA0cIxvGut0y9gX+NxrVOttwsNvBtc/GokAy6/RWB52f5r
+ I7T8ujKM2HOxdh/4brJbbhk/x9grzHn4ojABr0oKZhVC/1DNZvryN8+VjEH3aC4DbPAJ1Wyq0A8
+ QISpBBsLe0Uyhz9mVJQdULtoONGcyhDHELWHrFZx90iZVvqqCyb6BpP5ggPx/ctCdRbR3H6dsOe
+ QKcm3KXNN79GDMb5rx6JuCjGoF3X9eZYsMOk45emtIMli8hl0CEtvrebchgdgp0ZOy/qNogvHvy
+ 5MiYp/WmrShBNWhR1P/u8M6bo5bc48dy6FfajoipksoDj39CBXqCS2BeLH3QEE+NvC1a2QFr94D
+ ogPppflJZCfHKVmscN9gDhznA1vnpTlhYz
+X-Google-Smtp-Source: AGHT+IEGZdliwt0MChc5NqjLJ+YAJgJgc2olYV76f27Cr00O4FLaFYAwsi3nD4R45ycagAKVl8pUEA==
+X-Received: by 2002:a05:600c:8208:b0:46e:33b2:c8da with SMTP id
+ 5b1f17b1804b1-47d1958d960mr21806545e9.32.1766148071409; 
+ Fri, 19 Dec 2025 04:41:11 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47be279c5f8sm90509065e9.9.2025.12.19.04.41.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Dec 2025 04:41:11 -0800 (PST)
+Message-ID: <83bf2281-e604-48fd-a8ff-533ae86bc52e@ursulin.net>
+Date: Fri, 19 Dec 2025 12:41:10 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V13 39/51] drm/amd/display: add 3x4 matrix colorop
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com, mcanal@igalia.com, nfraprado@collabora.com,
+ arthurgrillo@riseup.net, Daniel Stone <daniels@collabora.com>
+References: <20251115000237.3561250-1-alex.hung@amd.com>
+ <20251115000237.3561250-40-alex.hung@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251115000237.3561250-40-alex.hung@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,220 +104,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Dec 2025 21:32:33 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
-> behavior") did away with the treatment of partial unmaps of huge IOPTEs.
->=20
-> In the case of Panthor, that means an attempt to run a VM_BIND unmap
-> operation on a memory region whose start address and size aren't 2MiB
-> aligned, in the event it intersects with a huge page, would lead to ARM
-> IOMMU management code to fail and a warning being raised.
->=20
-> Presently, and for lack of a better alternative, it's best to have
-> Panthor handle partial unmaps at the driver level, by unmapping entire
-> huge pages and remapping the difference between them and the requested
-> unmap region.
->=20
-> This could change in the future when the VM_BIND uAPI is expanded to
-> enforce huge page alignment and map/unmap operational constraints that
-> render this code unnecessary.
->=20
-> When a partial unmap for a huge PTE is attempted, we also need to expand
-> the locked region to encompass whole huge pages.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Queued to drm-misc-next.
-
+On 15/11/2025 00:02, Alex Hung wrote:
+> This adds support for a 3x4 color transformation matrix.
+> 
+> With this change the following IGT tests pass:
+> kms_colorop --run plane-XR30-XR30-ctm_3x4_50_desat
+> kms_colorop --run plane-XR30-XR30-ctm_3x4_overdrive
+> kms_colorop --run plane-XR30-XR30-ctm_3x4_oversaturate
+> kms_colorop --run plane-XR30-XR30-ctm_3x4_bt709_enc
+> kms_colorop --run plane-XR30-XR30-ctm_3x4_bt709_dec
+> 
+> The color pipeline now consists of the following colorops:
+> 1. 1D curve colorop
+> 2. 3x4 CTM
+> 3. 1D curve colorop
+> 4. 1D LUT
+> 5. 1D curve colorop
+> 6. 1D LUT
+> 
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Daniel Stone <daniels@collabora.com>
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 100 +++++++++++++++++++++++---
->  1 file changed, 92 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index a3e5e77fc9ed..2148e3a0bd31 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -547,12 +547,12 @@ static int as_send_cmd_and_wait(struct panthor_devi=
-ce *ptdev, u32 as_nr, u32 cmd
->  	return status;
->  }
-> =20
-> -static u64 pack_region_range(struct panthor_device *ptdev, u64 region_st=
-art, u64 size)
-> +static u64 pack_region_range(struct panthor_device *ptdev, u64 *region_s=
-tart, u64 *size)
->  {
->  	u8 region_width;
-> -	u64 region_end =3D region_start + size;
-> +	u64 region_end =3D *region_start + *size;
-> =20
-> -	if (drm_WARN_ON_ONCE(&ptdev->base, !size))
-> +	if (drm_WARN_ON_ONCE(&ptdev->base, !*size))
->  		return 0;
-> =20
->  	/*
-> @@ -563,16 +563,17 @@ static u64 pack_region_range(struct panthor_device =
-*ptdev, u64 region_start, u64
->  	 * change, the desired region starts with this bit (and subsequent bits)
->  	 * zeroed and ends with the bit (and subsequent bits) set to one.
->  	 */
-> -	region_width =3D max(fls64(region_start ^ (region_end - 1)),
-> +	region_width =3D max(fls64(*region_start ^ (region_end - 1)),
->  			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
-> =20
->  	/*
->  	 * Mask off the low bits of region_start (which would be ignored by
->  	 * the hardware anyway)
->  	 */
-> -	region_start &=3D GENMASK_ULL(63, region_width);
-> +	*region_start &=3D GENMASK_ULL(63, region_width);
-> +	*size =3D 1ull << (region_width + 1);
-> =20
-> -	return region_width | region_start;
-> +	return region_width | *region_start;
->  }
-> =20
->  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
-> @@ -1691,12 +1692,19 @@ static int panthor_vm_lock_region(struct panthor_=
-vm *vm, u64 start, u64 size)
->  	struct panthor_device *ptdev =3D vm->ptdev;
->  	int ret =3D 0;
-> =20
-> +	/* sm_step_remap() can call panthor_vm_lock_region() to account for
-> +	 * the wider unmap needed when doing a partial huge page unamp. We
-> +	 * need to ignore the lock if it's already part of the locked region.
-> +	 */
-> +	if (start >=3D vm->locked_region.start &&
-> +	    start + size <=3D vm->locked_region.start + vm->locked_region.size)
-> +		return 0;
-> +
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
-> -	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.=
-size);
->  	if (vm->as.id >=3D 0 && size) {
->  		/* Lock the region that needs to be updated */
->  		gpu_write64(ptdev, AS_LOCKADDR(vm->as.id),
-> -			    pack_region_range(ptdev, start, size));
-> +			    pack_region_range(ptdev, &start, &size));
-> =20
->  		/* If the lock succeeded, update the locked_region info. */
->  		ret =3D as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_LOCK);
-> @@ -2169,6 +2177,48 @@ static int panthor_gpuva_sm_step_map(struct drm_gp=
-uva_op *op, void *priv)
->  	return 0;
->  }
-> =20
-> +static bool
-> +iova_mapped_as_huge_page(struct drm_gpuva_op_map *op, u64 addr)
+> v13:
+>   - Remove redundant ternary null check for drm_color_ctm_3x4 blob (Coverity Scan)
+> 
+> V10:
+>   - Change %lu to %zu for sizeof() in drm_warn (kernel test robot)
+>   - Remove redundant DRM_ERROR(...)
+> 
+> V9:
+>   - Update function names by _plane_ (Chaitanya Kumar Borah)
+> 
+> v8:
+>   - Return -EINVAL when drm_color_ctm_3x4's size mismatches (Leo Li)
+> 
+> v7:
+>   - Change %lu to %zu for sizeof() in drm_warn
+> 
+> v6:
+>   - fix warnings in dbg prints
+> 
+>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 52 +++++++++++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 15 ++++++
+>   2 files changed, 67 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index b958f9c0a0c2..298f337f0eb4 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -1378,6 +1378,47 @@ __set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+>   	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
+>   }
+>   
+> +static int
+> +__set_dm_plane_colorop_3x4_matrix(struct drm_plane_state *plane_state,
+> +				  struct dc_plane_state *dc_plane_state,
+> +				  struct drm_colorop *colorop)
 > +{
-> +	const struct page *pg;
-> +	pgoff_t bo_offset;
+> +	struct drm_colorop *old_colorop;
+> +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+> +	struct drm_atomic_state *state = plane_state->state;
+> +	const struct drm_device *dev = colorop->dev;
+> +	const struct drm_property_blob *blob;
+> +	struct drm_color_ctm_3x4 *ctm = NULL;
+> +	int i = 0;
 > +
-> +	bo_offset =3D addr - op->va.addr + op->gem.offset;
-> +	pg =3D to_panthor_bo(op->gem.obj)->base.pages[bo_offset >> PAGE_SHIFT];
-> +
-> +	return folio_size(page_folio(pg)) >=3D SZ_2M;
-> +}
-> +
-> +static void
-> +unmap_hugepage_align(const struct drm_gpuva_op_remap *op,
-> +		     u64 *unmap_start, u64 *unmap_range)
-> +{
-> +	u64 aligned_unmap_start, aligned_unmap_end, unmap_end;
-> +
-> +	unmap_end =3D *unmap_start + *unmap_range;
-> +	aligned_unmap_start =3D ALIGN_DOWN(*unmap_start, SZ_2M);
-> +	aligned_unmap_end =3D ALIGN(unmap_end, SZ_2M);
-> +
-> +	/* If we're dealing with a huge page, make sure the unmap region is
-> +	 * aligned on the start of the page.
-> +	 */
-> +	if (op->prev && aligned_unmap_start < *unmap_start &&
-> +	    op->prev->va.addr <=3D aligned_unmap_start &&
-> +	    iova_mapped_as_huge_page(op->prev, *unmap_start)) {
-> +		*unmap_range +=3D *unmap_start - aligned_unmap_start;
-> +		*unmap_start =3D aligned_unmap_start;
+> +	/* 3x4 matrix */
+> +	old_colorop = colorop;
+> +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> +		if (new_colorop_state->colorop == old_colorop &&
+> +		    new_colorop_state->colorop->type == DRM_COLOROP_CTM_3X4) {
+> +			colorop_state = new_colorop_state;
+> +			break;
+> +		}
 > +	}
 > +
-> +	/* If we're dealing with a huge page, make sure the unmap region is
-> +	 * aligned on the end of the page.
-> +	 */
-> +	if (op->next && aligned_unmap_end > unmap_end &&
-> +	    op->next->va.addr + op->next->va.range >=3D aligned_unmap_end &&
-> +	    iova_mapped_as_huge_page(op->next, unmap_end - 1)) {
-> +		*unmap_range +=3D aligned_unmap_end - unmap_end;
+> +	if (colorop_state && !colorop_state->bypass && colorop->type == DRM_COLOROP_CTM_3X4) {
+> +		drm_dbg(dev, "3x4 matrix colorop with ID: %d\n", colorop->base.id);
+> +		blob = colorop_state->data;
+> +		if (blob->length == sizeof(struct drm_color_ctm_3x4)) {
+> +			ctm = (struct drm_color_ctm_3x4 *) blob->data;
+> +			__drm_ctm_3x4_to_dc_matrix(ctm, dc_plane_state->gamut_remap_matrix.matrix);
+> +			dc_plane_state->gamut_remap_matrix.enable_remap = true;
+> +			dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
+> +		} else {
+> +			drm_warn(dev, "blob->length (%zu) isn't equal to drm_color_ctm_3x4 (%zu)\n",
+> +				 blob->length, sizeof(struct drm_color_ctm_3x4));
+> +			return -EINVAL;
+> +		}
 > +	}
+> +
+> +	return 0;
 > +}
 > +
->  static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->  				       void *priv)
->  {
-> @@ -2177,16 +2227,50 @@ static int panthor_gpuva_sm_step_remap(struct drm=
-_gpuva_op *op,
->  	struct panthor_vm_op_ctx *op_ctx =3D vm->op_ctx;
->  	struct panthor_vma *prev_vma =3D NULL, *next_vma =3D NULL;
->  	u64 unmap_start, unmap_range;
-> +	int ret;
-> =20
->  	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_rang=
-e);
+>   static int
+>   __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
+>   			      struct dc_plane_state *dc_plane_state,
+> @@ -1581,6 +1622,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+>   	if (ret)
+>   		return ret;
+>   
+> +	/* 3x4 matrix */
+> +	colorop = colorop->next;
+> +	if (!colorop) {
+> +		drm_dbg(dev, "no 3x4 matrix colorop found\n");
+> +		return -EINVAL;
+> +	}
 > +
-> +	/*
-> +	 * ARM IOMMU page table management code disallows partial unmaps of hug=
-e pages,
-> +	 * so when a partial unmap is requested, we must first unmap the entire=
- huge
-> +	 * page and then remap the difference between the huge page minus the r=
-equested
-> +	 * unmap region. Calculating the right start address and range for the =
-expanded
-> +	 * unmap operation is the responsibility of the following function.
-> +	 */
-> +	unmap_hugepage_align(&op->remap, &unmap_start, &unmap_range);
+> +	ret = __set_dm_plane_colorop_3x4_matrix(plane_state, dc_plane_state, colorop);
+> +	if (ret)
+> +		return ret;
 > +
-> +	/* If the range changed, we might have to lock a wider region to guaran=
-tee
-> +	 * atomicity. panthor_vm_lock_region() bails out early if the new region
-> +	 * is already part of the locked region, so no need to do this check he=
-re.
-> +	 */
-> +	panthor_vm_lock_region(vm, unmap_start, unmap_range);
->  	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> =20
->  	if (op->remap.prev) {
-> +		struct panthor_gem_object *bo =3D to_panthor_bo(op->remap.prev->gem.ob=
-j);
-> +		u64 offset =3D op->remap.prev->gem.offset + unmap_start - op->remap.pr=
-ev->va.addr;
-> +		u64 size =3D op->remap.prev->va.addr + op->remap.prev->va.range - unma=
-p_start;
+>   	/* 1D Curve & LUT - SHAPER TF & LUT */
+>   	colorop = colorop->next;
+>   	if (!colorop) {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> index 4845f26e4a8a..f2be75b9b073 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> @@ -74,6 +74,21 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+>   
+>   	i++;
+>   
+> +	/* 3x4 matrix */
+> +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!ops[i]) {
+> +		ret = -ENOMEM;
+> +		goto cleanup;
+
+Does this cleanup path leak the list->name allocated a few lines above, 
+outside the diff? Kmemleak appears to think it can leak from somewhere 
+at least:
+
+unreferenced object 0xffff8881143c1e00 (size 32):
+   comm "(udev-worker)", pid 588, jiffies 4294888494
+   hex dump (first 32 bytes):
+     43 6f 6c 6f 72 20 50 69 70 65 6c 69 6e 65 20 33  Color Pipeline 3
+     31 33 00 00 00 00 00 00 00 00 00 00 00 00 00 00  13..............
+   backtrace (crc a75af242):
+     __kmalloc_node_track_caller_noprof+0x525/0x890
+     kvasprintf+0xb6/0x130
+     kasprintf+0xb2/0xe0
+     amdgpu_dm_initialize_default_pipeline+0x1ce/0x840 [amdgpu]
+     dm_plane_init_colorops+0x19c/0x2e0 [amdgpu]
+     amdgpu_dm_plane_init+0x4c4/0xf10 [amdgpu]
+     initialize_plane+0xf1/0x280 [amdgpu]
+     amdgpu_dm_init+0x23d0/0x7450 [amdgpu]
+     dm_hw_init+0x3d/0x200 [amdgpu]
+     amdgpu_device_init+0x67cd/0x9b20 [amdgpu]
+     amdgpu_driver_load_kms+0x13/0xf0 [amdgpu]
+     amdgpu_pci_probe+0x437/0xf30 [amdgpu]
+     local_pci_probe+0xda/0x180
+     pci_device_probe+0x381/0x730
+     really_probe+0x1da/0x970
+     __driver_probe_device+0x18c/0x3e0
+
+Could it be a false positive, or leaking later after the success path, 
+or some other path I am not sure since I am not at home in this code.
+
+There is no error checking on list->name either, so I supppose the code 
+which can touch that can handle a NULL harmlessly?
+
+Regards,
+
+Tvrtko
+
+> +	}
 > +
-> +		ret =3D panthor_vm_map_pages(vm, unmap_start, flags_to_prot(unmap_vma-=
->flags),
-> +					   bo->base.sgt, offset, size);
-> +		if (ret)
-> +			return ret;
+> +	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
+> +	if (ret)
+> +		goto cleanup;
 > +
->  		prev_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(prev_vma, unmap_vma->flags);
->  	}
-> =20
->  	if (op->remap.next) {
-> +		struct panthor_gem_object *bo =3D to_panthor_bo(op->remap.next->gem.ob=
-j);
-> +		u64 addr =3D op->remap.next->va.addr;
-> +		u64 size =3D unmap_start + unmap_range - op->remap.next->va.addr;
+> +	drm_colorop_set_next_property(ops[i-1], ops[i]);
 > +
-> +		ret =3D panthor_vm_map_pages(vm, addr, flags_to_prot(unmap_vma->flags),
-> +					   bo->base.sgt, op->remap.next->gem.offset, size);
-> +		if (ret)
-> +			return ret;
+> +	i++;
 > +
->  		next_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(next_vma, unmap_vma->flags);
->  	}
+>   	/* 1D curve - SHAPER TF */
+>   	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+>   	if (!ops[i]) {
 
