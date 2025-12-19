@@ -2,107 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79BACCF72C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:47:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D95CCF759
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:49:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1717B10ED34;
-	Fri, 19 Dec 2025 10:47:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dC2TE71J";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7259710E46E;
+	Fri, 19 Dec 2025 10:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27BA10ED34
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1766141255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ohuBcRpV8beJcWGlYizxYN54dm2bkbetXdev9n84fy4=;
- b=dC2TE71J+YfHJewG58FwvcxeKkgfTh93hutbdh9GkWS3cPBgcoFmRCuDrbZk0Q7QNWVDNu
- 0hn5R/RNi1GJ0zfJQYFs9w5HxadAT5iCjAGYSjZ4ABN5ubVF77pMXLoBqjBDwXDTIP93qG
- EX4zAKm9pvl4/Icv8FpiDVEFCACKE9o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-312--Wey4SB3NzSDjJLKHkEMNQ-1; Fri, 19 Dec 2025 05:47:33 -0500
-X-MC-Unique: -Wey4SB3NzSDjJLKHkEMNQ-1
-X-Mimecast-MFC-AGG-ID: -Wey4SB3NzSDjJLKHkEMNQ_1766141252
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-477a1e2b372so12108245e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 02:47:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766141252; x=1766746052;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ohuBcRpV8beJcWGlYizxYN54dm2bkbetXdev9n84fy4=;
- b=prEmoINmFllorTn2aaH12NtnnE2Inmt9rS0Wdo49KhUjNNpL11w+ArgL6pEqhGKeZV
- pP4zvDUai5q7wrOv3eCJKVwCZpQBb8/uFCfdnI9OYeXB80ZcMTd8zCvSIOug+R/66THZ
- 0D/IYmKp7kNg6CvKKps0Ty7QSnPRQ8Ry69KnJmwESOvHj5v7YCQcuh6dOopnzT8HhTGT
- 5Ums6Mn0aHdsnXx0sqK7XaohtQyWlNSTF6w5bzthl2OUoF7ElF2zfrDrIlYrEH7N6nw6
- KlEC4oOJeKlyVsbY1etm6/hcQQUSq/VZd9+W0LXnX0vx4BLBB26xFBGhDj4o/dFBc2wV
- wVtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXuKl1U5HBK2n+mt6opoDyzDfIuuerLkDiDVYAV893vMrOpSciQkQyn/7IE6DuBXCQqedBi2IrcSTI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXdo1zpkK0jgJeTjULnGLHURtOj9QfuRCAfHLl3WgEF8wV/UjZ
- 33NVMsQ8NkOtPMoyqGqtTdzXkR6iykoVUYAqBnd0vbWLXjXpngIPKnlSeZnNPBuyUxYzmfoHfcE
- xZVjolyUe9yIhXxFosKLCrZZv78NWT9UqA9vJig4HkE8jRLycv8NQfvZNomxn317JKeFtXQ==
-X-Gm-Gg: AY/fxX4hrl9OwEqqQoheHS4OGjx0UtrDZLJR/c/oqqYvKRuqdvLWmfKteglulsQ/T4R
- ZhkL6r32s6cq/h/0ovWq+48eVsGpdfP73k/GuQlhx6KQ5ieSQ9Rsq5pRm+jpfHJ0q+QOA/ZbMYa
- q2/svY0PE5/RL+rr6dZsAzFmd4LsShYafxmgO/2RFAOsvfUkWe4ntTaNayZf7emLFlB4IBvU6hT
- ZL1qsU739IECMLgcEfVJTQE+q0Vh34H10E/YDZrEcKSj3mZT2f+TPrzR8UCiNXn1OZ/73LiTJtC
- ie8zTFB3bUcyKUFTVPJCdO6NLy7oX1YbAyh34gAKmaPyrvG9qvQJPSzFSU3pZ4htb6qgv68eV9+
- glBnFhl1vWGe9
-X-Received: by 2002:a05:600c:6812:b0:477:63b5:7148 with SMTP id
- 5b1f17b1804b1-47d1955b97cmr21387395e9.6.1766141252216; 
- Fri, 19 Dec 2025 02:47:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG0haeKdz6e1wVUfU68PetlUVJ262uD0U3xuzOT7CFHMjUWuxjHWC2bHGvwH3+5rKwg5RCnYg==
-X-Received: by 2002:a05:600c:6812:b0:477:63b5:7148 with SMTP id
- 5b1f17b1804b1-47d1955b97cmr21387045e9.6.1766141251798; 
- Fri, 19 Dec 2025 02:47:31 -0800 (PST)
-Received: from [192.168.88.32] ([216.128.11.227])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47be273f147sm92155575e9.7.2025.12.19.02.47.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Dec 2025 02:47:31 -0800 (PST)
-Message-ID: <b547252f-9893-4c23-8b17-9808c8bdd0c9@redhat.com>
-Date: Fri, 19 Dec 2025 11:47:28 +0100
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2407E10E46E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:49:51 +0000 (UTC)
+Received: from ehlo.thunderbird.net (161-51-78-170.static.ef-service.nl
+ [161.51.78.170])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id D3E9020386;
+ Fri, 19 Dec 2025 11:49:49 +0100 (CET)
+Date: Fri, 19 Dec 2025 11:49:51 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: Jun Nie <jun.nie@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_Revert_=22drm/msm/dpu=3A_Ena?=
+ =?US-ASCII?Q?ble_quad-pipe_for_DSC_and_dual-DSI_case=22?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-2-654b46505f84@oss.qualcomm.com>
+References: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-0-654b46505f84@oss.qualcomm.com>
+ <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-2-654b46505f84@oss.qualcomm.com>
+Message-ID: <A6CA2415-5FCE-4DE3-9E3B-2F68913F898B@somainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] net: qrtr: Drop the MHI auto_queue feature for
- IPCR DL channels
-To: manivannan.sadhasivam@oss.qualcomm.com,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Jeff Johnson <jjohnson@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Maxim Kochetkov <fido_max@inbox.ru>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- ath12k@lists.infradead.org, netdev@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Johan Hovold <johan@kernel.org>,
- Chris Lew <quic_clew@quicinc.com>, stable@vger.kernel.org
-References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
- <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Q2bFsYtHln8owL_d_9jjW7dMLEXSXyXzjrzqyt3-ntY_1766141252
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,48 +55,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/25 5:51 PM, Manivannan Sadhasivam via B4 Relay wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> 
-> MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
-> auto queue the buffers for the RX path (DL channel). Though this feature
-> simplifies the client driver design, it introduces race between the client
-> drivers and the MHI stack. For instance, with auto_queue, the 'dl_callback'
-> for the DL channel may get called before the client driver is fully probed.
-> This means, by the time the dl_callback gets called, the client driver's
-> structures might not be initialized, leading to NULL ptr dereference.
-> 
-> Currently, the drivers have to workaround this issue by initializing the
-> internal structures before calling mhi_prepare_for_transfer_autoqueue().
-> But even so, there is a chance that the client driver's internal code path
-> may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() is
-> called, leading to similar NULL ptr dereference. This issue has been
-> reported on the Qcom X1E80100 CRD machines affecting boot.
-> 
-> So to properly fix all these races, drop the MHI 'auto_queue' feature
-> altogether and let the client driver (QRTR) manage the RX buffers manually.
-> In the QRTR driver, queue the RX buffers based on the ring length during
-> probe and recycle the buffers in 'dl_callback' once they are consumed. This
-> also warrants removing the setting of 'auto_queue' flag from controller
-> drivers.
-> 
-> Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
-> So only the QRTR client driver requires the modification.
-> 
-> Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffers for DL channel")
-> Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation")
-> Reported-by: Johan Hovold <johan@kernel.org>
-> Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldconsulting.com
-> Suggested-by: Chris Lew <quic_clew@quicinc.com>
-> Acked-by: Jeff Johnson <jjohnson@kernel.org> # drivers/net/wireless/ath/...
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On 19 December 2025 11:39:02 CET, Abel Vesa <abel=2Evesa@oss=2Equalcomm=2Ec=
+om> wrote:
+>This reverts commit d7ec9366b15cd04508fa015cb94d546b1c01edfb=2E
+>
+>The dual-DSI dual-DSC scenario seems to be broken by this commit=2E
+>
+>Reported-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
+>Closes: https://lore=2Ekernel=2Eorg/r/aUR2b3FOSisTfDFj@SoMainline=2Eorg
+>Signed-off-by: Abel Vesa <abel=2Evesa@oss=2Equalcomm=2Ecom>
 
-For net/...
+Thanks! That kicks off one dependency for actually sending this 2:2:2 pane=
+l and DTS for the Sony Xperia 1 III and onwards=2E
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+Reviewed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
 
-even if I don't see anything network specific there.
-
-/P
+>---
+> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec         | 27 ++++++----------=
+------
+> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh         |  6 ++---
+> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec      | 29 ++++++++++++++++=
+--------
+> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh |  2 +-
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh   |  2 +-
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh      |  2 +-
+> 6 files changed, 33 insertions(+), 35 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc=2Ec
+>index 011946bbf5a2=2E=2E2d06c950e814 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec
+>@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
+> 		struct dpu_crtc_state *crtc_state)
+> {
+> 	struct dpu_crtc_mixer *m;
+>-	u32 crcs[CRTC_QUAD_MIXERS];
+>+	u32 crcs[CRTC_DUAL_MIXERS];
+>=20
+> 	int rc =3D 0;
+> 	int i;
+>@@ -1328,7 +1328,6 @@ static struct msm_display_topology dpu_crtc_get_top=
+ology(
+> 	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
+> 	struct msm_display_topology topology =3D {0};
+> 	struct drm_encoder *drm_enc;
+>-	u32 num_rt_intf;
+>=20
+> 	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask)
+> 		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
+>@@ -1342,14 +1341,11 @@ static struct msm_display_topology dpu_crtc_get_t=
+opology(
+> 	 * Dual display
+> 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
+> 	 *
+>-	 * If DSC is enabled, try to use 4:4:2 topology if there is enough
+>-	 * resource=2E Otherwise, use 2:2:2 topology=2E
+>-	 *
+> 	 * Single display
+> 	 * 1 LM, 1 INTF
+> 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
+> 	 *
+>-	 * If DSC is enabled, use 2:2:1 topology
+>+	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
+> 	 *
+> 	 * Add dspps to the reservation requirements if ctm is requested
+> 	 *
+>@@ -1361,23 +1357,14 @@ static struct msm_display_topology dpu_crtc_get_t=
+opology(
+> 	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check=2E
+> 	 */
+>=20
+>-	num_rt_intf =3D topology=2Enum_intf;
+>-	if (topology=2Ecwb_enabled)
+>-		num_rt_intf--;
+>-
+>-	if (topology=2Enum_dsc) {
+>-		if (dpu_kms->catalog->dsc_count >=3D num_rt_intf * 2)
+>-			topology=2Enum_dsc =3D num_rt_intf * 2;
+>-		else
+>-			topology=2Enum_dsc =3D num_rt_intf;
+>-		topology=2Enum_lm =3D topology=2Enum_dsc;
+>-	} else if (num_rt_intf =3D=3D 2) {
+>+	if (topology=2Enum_intf =3D=3D 2 && !topology=2Ecwb_enabled)
+>+		topology=2Enum_lm =3D 2;
+>+	else if (topology=2Enum_dsc =3D=3D 2)
+> 		topology=2Enum_lm =3D 2;
+>-	} else if (dpu_kms->catalog->caps->has_3d_merge) {
+>+	else if (dpu_kms->catalog->caps->has_3d_merge)
+> 		topology=2Enum_lm =3D (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
+>-	} else {
+>+	else
+> 		topology=2Enum_lm =3D 1;
+>-	}
+>=20
+> 	if (crtc_state->ctm)
+> 		topology=2Enum_dspp =3D topology=2Enum_lm;
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc=2Eh
+>index 2c83f1578fc3=2E=2E94392b9b9245 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh
+>@@ -210,7 +210,7 @@ struct dpu_crtc_state {
+>=20
+> 	bool bw_control;
+> 	bool bw_split_vote;
+>-	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
+>+	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
+>=20
+> 	uint64_t input_fence_timeout_ns;
+>=20
+>@@ -218,10 +218,10 @@ struct dpu_crtc_state {
+>=20
+> 	/* HW Resources reserved for the crtc */
+> 	u32 num_mixers;
+>-	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
+>+	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
+>=20
+> 	u32 num_ctls;
+>-	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
+>+	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
+>=20
+> 	enum dpu_crtc_crc_source crc_source;
+> 	int crc_frame_skip_count;
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_encoder=2Ec
+>index d1cfe81a3373=2E=2E9f3957f24c6a 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec
+>@@ -55,7 +55,7 @@
+> #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
+> 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
+>=20
+>-#define MAX_CHANNELS_PER_ENC 4
+>+#define MAX_CHANNELS_PER_ENC 2
+> #define MAX_CWB_PER_ENC 2
+>=20
+> #define IDLE_SHORT_TIMEOUT	1
+>@@ -661,6 +661,7 @@ void dpu_encoder_update_topology(struct drm_encoder *=
+drm_enc,
+> 	struct dpu_encoder_virt *dpu_enc =3D to_dpu_encoder_virt(drm_enc);
+> 	struct msm_drm_private *priv =3D dpu_enc->base=2Edev->dev_private;
+> 	struct msm_display_info *disp_info =3D &dpu_enc->disp_info;
+>+	struct dpu_kms *dpu_kms =3D to_dpu_kms(priv->kms);
+> 	struct drm_connector *connector;
+> 	struct drm_connector_state *conn_state;
+> 	struct drm_framebuffer *fb;
+>@@ -674,12 +675,22 @@ void dpu_encoder_update_topology(struct drm_encoder=
+ *drm_enc,
+>=20
+> 	dsc =3D dpu_encoder_get_dsc_config(drm_enc);
+>=20
+>-	/*
+>-	 * Set DSC number as 1 to mark the enabled status, will be adjusted
+>-	 * in dpu_crtc_get_topology()
+>-	 */
+>-	if (dsc)
+>-		topology->num_dsc =3D 1;
+>+	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
+>+	if (dsc) {
+>+		/*
+>+		 * Use 2 DSC encoders, 2 layer mixers and 1 or 2 interfaces
+>+		 * when Display Stream Compression (DSC) is enabled,
+>+		 * and when enough DSC blocks are available=2E
+>+		 * This is power-optimal and can drive up to (including) 4k
+>+		 * screens=2E
+>+		 */
+>+		WARN(topology->num_intf > 2,
+>+		     "DSC topology cannot support more than 2 interfaces\n");
+>+		if (topology->num_intf >=3D 2 || dpu_kms->catalog->dsc_count >=3D 2)
+>+			topology->num_dsc =3D 2;
+>+		else
+>+			topology->num_dsc =3D 1;
+>+	}
+>=20
+> 	connector =3D drm_atomic_get_new_connector_for_encoder(state, drm_enc);
+> 	if (!connector)
+>@@ -2169,8 +2180,8 @@ static void dpu_encoder_helper_reset_mixers(struct =
+dpu_encoder_phys *phys_enc)
+> {
+> 	int i, num_lm;
+> 	struct dpu_global_state *global_state;
+>-	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+>-	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
+>+	struct dpu_hw_blk *hw_lm[2];
+>+	struct dpu_hw_mixer *hw_mixer[2];
+> 	struct dpu_hw_ctl *ctl =3D phys_enc->hw_ctl;
+>=20
+> 	/* reset all mixers for this encoder */
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh b/drivers=
+/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
+>index 09395d7910ac=2E=2E61b22d949454 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
+>@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_help=
+er_get_3d_blend_mode(
+>=20
+> 	/* Use merge_3d unless DSC MERGE topology is used */
+> 	if (phys_enc->split_role =3D=3D ENC_ROLE_SOLO &&
+>-	    (dpu_cstate->num_mixers !=3D 1) &&
+>+	    dpu_cstate->num_mixers =3D=3D CRTC_DUAL_MIXERS &&
+> 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
+> 		return BLEND_3D_H_ROW_INT;
+>=20
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh b/drivers/g=
+pu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
+>index 336757103b5a=2E=2E4964e70610d1 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
+>@@ -24,7 +24,7 @@
+> #define DPU_MAX_IMG_WIDTH 0x3fff
+> #define DPU_MAX_IMG_HEIGHT 0x3fff
+>=20
+>-#define CRTC_QUAD_MIXERS	4
+>+#define CRTC_DUAL_MIXERS	2
+>=20
+> #define MAX_XIN_COUNT 16
+>=20
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
+>index 31451241f083=2E=2E046b683d4c66 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
+>@@ -34,7 +34,7 @@
+> #define DPU_MAX_PLANES			4
+> #endif
+>=20
+>-#define STAGES_PER_PLANE		2
+>+#define STAGES_PER_PLANE		1
+> #define PIPES_PER_STAGE			2
+> #define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
+> #ifndef DPU_MAX_DE_CURVES
+>
 
