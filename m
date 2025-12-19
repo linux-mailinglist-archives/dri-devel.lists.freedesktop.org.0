@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917ECCCF965
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EE1CCF962
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:34:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA75F10EF21;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D4410EF20;
 	Fri, 19 Dec 2025 11:34:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="krs70deu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ByJfEGly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE9210E47C;
- Fri, 19 Dec 2025 11:34:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C77210EF20;
+ Fri, 19 Dec 2025 11:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766144045; x=1797680045;
+ t=1766144048; x=1797680048;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4bv3Gk1Rp61YDnZYdNpxoF/HsUv0eSFoQ9vGbwmYIKg=;
- b=krs70deuW5wZ/2KX0+qr76TnwrHed+DuI8IwOawGtg5cDyuuQrhNkUKa
- vLkxIND4ryEL2cJMgIMAp+0mNmIi9GFmFyi2bYStwgiWvv4+BD2kc+Deq
- dQ6YTXOvK/BJ4sbZkqXE+JtoaQMUO/b8XZfCck5PbcM0AUcS3petGXsjU
- Kd7xKFBxBPoCvfFz1hRYmLs62YGKctTXuaYtNClsUomZPMdPMrG5akxgY
- ZjZLFk07YvECXkjRoFPmBLwq1sR1/6yyKfHBXuronLqTJRNemHVnI5uGX
- zQ2osKCiyBZVbrSy5DJF3eP6o11No3OVCvBEKafLGMgHaxoj760NLlt6W A==;
-X-CSE-ConnectionGUID: Ju5THu2mTbaRAAcGBP6gmg==
-X-CSE-MsgGUID: h3KZJDsCQ1625TW3CFZPcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224461"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224461"
+ bh=qXEK69drRSBtpGpjYQ9EakW+nzZjmLR8nYKgaQerjYc=;
+ b=ByJfEGlys8PTVQRHdhYhQZZcQV5AUmp9WRdDGmozgGCxtLAhz29DLX7Z
+ mRryAG/BClm5H2YfUi4Vwh7VxyzmJzb9M0s4dZPPtIOx4IHhRg21CYIly
+ 3FY8Zsyw1IguKqiX2HiV0N6BLu3yVBbVDtzlV17/Wcp51GtTaDJ9/zIyk
+ GYVxBQXqqHVlVR71tfB2QPF2XvH4phji3UTB+m7gLCwmqSPa7ME67LmzV
+ 9hqlx+MlHk1DW0U575Y6kd29hr45EQG8cv/ndpFsJFwpV5BdveuQhOva7
+ Jp+Kgnag+AWEctvU82+1ZmRRfCjbsnb//RTu1XikmI3XeBr61hH7NjgnA A==;
+X-CSE-ConnectionGUID: USSr6ecNRvK1wMRtLMVZ0g==
+X-CSE-MsgGUID: pClvYCfISCeliF3b+DrxKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224469"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224469"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:34:04 -0800
-X-CSE-ConnectionGUID: rZ0vhxzAR3SXyyqV3KRJrw==
-X-CSE-MsgGUID: I3dRx54VSmqFJNSDJ+7U7w==
+ 19 Dec 2025 03:34:08 -0800
+X-CSE-ConnectionGUID: DvoqQFCgSRWdPGB6NF14Dw==
+X-CSE-MsgGUID: DszuCLvTRsKo7SFtZxj7XQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005574"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005582"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.251])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:34:00 -0800
+ 19 Dec 2025 03:34:04 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- apopple@nvidia.com, airlied@gmail.com,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6 01/24] drm/xe/svm: Fix a debug printout
-Date: Fri, 19 Dec 2025 12:32:57 +0100
-Message-ID: <20251219113320.183860-2-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v6 02/24] drm/pagemap: Remove some dead code
+Date: Fri, 19 Dec 2025 12:32:58 +0100
+Message-ID: <20251219113320.183860-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 References: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
@@ -77,30 +75,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid spamming the log with drm_info(). Use drm_dbg() instead.
+The page pointer can't be NULL.
 
-Fixes: cc795e041034 ("drm/xe/svm: Make xe_svm_range_needs_migrate_to_vram() public")
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: <stable@vger.kernel.org> # v6.17+
+v5:
+- New patch. (Matt Brost)
+
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_pagemap.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 93550c7c84ac..bab8e6cbe53d 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -937,7 +937,7 @@ bool xe_svm_range_needs_migrate_to_vram(struct xe_svm_range *range, struct xe_vm
- 	xe_assert(vm->xe, IS_DGFX(vm->xe));
+diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+index 37d7cfbbb3e8..4cf8f54e5a27 100644
+--- a/drivers/gpu/drm/drm_pagemap.c
++++ b/drivers/gpu/drm/drm_pagemap.c
+@@ -702,19 +702,6 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+ 	if (!migrate.cpages)
+ 		goto err_free;
  
- 	if (xe_svm_range_in_vram(range)) {
--		drm_info(&vm->xe->drm, "Range is already in VRAM\n");
-+		drm_dbg(&vm->xe->drm, "Range is already in VRAM\n");
- 		return false;
- 	}
+-	if (!page) {
+-		for (i = 0; i < npages; ++i) {
+-			if (!(migrate.src[i] & MIGRATE_PFN_MIGRATE))
+-				continue;
+-
+-			page = migrate_pfn_to_page(migrate.src[i]);
+-			break;
+-		}
+-
+-		if (!page)
+-			goto err_finalize;
+-	}
+-	zdd = page->zone_device_data;
+ 	ops = zdd->devmem_allocation->ops;
+ 	dev = zdd->devmem_allocation->dev;
  
 -- 
 2.51.1
