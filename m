@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD0CCD17BE
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 19:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FBACD17D9
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 19:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAEC210F076;
-	Fri, 19 Dec 2025 18:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97EB710F05F;
+	Fri, 19 Dec 2025 18:57:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="tJmXhadt";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="snV9zI0c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB610F076
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 18:57:04 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E028110F05F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 18:57:46 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 133831A22FB;
- Fri, 19 Dec 2025 18:57:03 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id C6AA44E41CBB;
+ Fri, 19 Dec 2025 18:57:45 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id DAF676071D;
- Fri, 19 Dec 2025 18:57:02 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 9D6DC6071D;
+ Fri, 19 Dec 2025 18:57:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6F03810AA97F3; Fri, 19 Dec 2025 19:56:58 +0100 (CET)
+ with ESMTPSA id 372E9102F0CDA; Fri, 19 Dec 2025 19:57:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766170621; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766170661; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=RmCTYOkLyMFlEpQTZJwkNePqb1kEiFRaGXXCzKCVgVI=;
- b=tJmXhadtAXW2id6tPw99/G0Yz57W4q+RW+QWfu1InNlZ4uwINdN049i3oscEQyEq6ArX5m
- Gl0de0nT/R+O8jKgGRKll6Y4JujykcbjIXDSEqr60mv/MQvc7vqtd4fjft82f5B8DhQsCj
- 2Rcc+9awHC8DcBUBxfA46B4wPR/HbWbjXBhmphL+31SzkEtdmSVUEHWFF7bzzFDyE+4Sgk
- baFzjPT1vXyWk+Gnlm/SYIAYv+WlnsAGz/g6gczDJDnWq34lBQqEbHJ+xb+fITfyUg2tYg
- /HgLV5Kmn0f/SGJmLrUZy1bh25QmLEoA6uyuK8pQx8Cp0WcVbTsgvOp0UaJkRw==
+ bh=dIa+0Pm+rJC3c2yDGt7NMsO5ovUl2mVYboACIUpoTq4=;
+ b=snV9zI0c3jlzWG+O7rOGmD4AaNnAdT1vEdSper2xcvA+4k6VdqFk0n8rUWTd7fG7fdIo59
+ tAGa48MgpbtJQdvWWQiNGzEV0tqMauSFCytfEAo+jmEk0rTVU4lvMSZK9AT2yD8I6mCtAm
+ CTZOLP6Ss574SxDh/tuNBAqzHj4uS0Hmfsie3gOiQLn7GCu/jlfzdKgwakEh8ZOI/MKoJz
+ ukv2ib0H//2wiagIAVZ7lulOTOTQO0YejYWvefkyAbJ3/GsT7NvYo7aw5VpbsRa+N12qaN
+ u7VvV2cHkyhku+fF3brkZjCuc57gXDIxEfPiiX7gZoH9oq00AdHoMtWXBtUPcQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 19:56:58 +0100
-Message-Id: <DF2F8CUZLGAW.ZFYSFQURBISD@bootlin.com>
-Subject: Re: [PATCH RESEND v2 27/32] drm/vkms: Introduce configfs for
- connector EDID
+Date: Fri, 19 Dec 2025 19:57:37 +0100
+Message-Id: <DF2F8V3VP4U5.HKD4OK3V0OT8@bootlin.com>
+Subject: Re: [PATCH RESEND v2 28/32] drm/vkms: Store the enabled/disabled
+ status for connector
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
@@ -52,8 +52,8 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-27-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-27-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-28-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-28-a49a2d4cba26@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,22 +71,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed Oct 29, 2025 at 3:37 PM CET, Louis Chauvet wrote:
-> Introduce new attributes to configure EDID of a connector:
-> - edid_enable - chose if the connector will have an EDD or not
-                                                      EDID
-
-> - edid - raw edid content
+> In order to prepare for dynamic connector configuration, we need to store
+> if a connector is dynamic and if it is enabled.
 >
-> Due to limitation of ConfigFS, the max len of EDID is PAGE_SIZE (4kB on
-> x86), it should be sufficient for many tests. One possible evolution is
-> using a ConfigFS blob to allow bigger EDID.
+> The two new vkms_config_connector fields will helps for that.
 >
+> Co-developed-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -130,6 +130,8 @@ struct vkms_config_encoder {
+>   * @link: Link to the others connector in vkms_config
+>   * @type: Store the type of connector using DRM_MODE_CONNECTOR_* values
+>   * @config: The vkms_config this connector belongs to
+> + * @dynamic: Store if a connector should be created with drm_connector_d=
+ynamic_init
+> + * @enabled: If @dynamic, this means that the correct is currently regis=
+tered in drm
+                                                 ^^^^^^^
+						 "connector", I guess.
 
 With that fixed:
 
  Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 
 --
 Luca Ceresoli, Bootlin
