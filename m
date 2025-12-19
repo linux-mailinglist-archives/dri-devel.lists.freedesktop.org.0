@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DFBCCF989
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BFACCF98C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:34:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E68E10EF30;
-	Fri, 19 Dec 2025 11:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6764B10EF2C;
+	Fri, 19 Dec 2025 11:34:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iETT+zav";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IgKAn7sk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7656510EF30;
- Fri, 19 Dec 2025 11:34:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA8510EF32;
+ Fri, 19 Dec 2025 11:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766144076; x=1797680076;
+ t=1766144079; x=1797680079;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oZCRredA+mN0v6G+4rwwpIWo/pWKZ043bOyfQAYzxrM=;
- b=iETT+zavzNp+KnpuHRBLrP0INTf6mJ9jugA+7v5ph8Dyg0hzsMqxr/Gu
- Jjtmo9JOXLItD0QG0yDoEy1bYwsk1i/ztPISRkfWr5c7oEga6CEys6FNz
- n0joyLbMScSWLcwi6lzDhLnt7Rxp307daJjGMffgt8km6ZJOr8eabwgtK
- P9u7iMdqCfadx5LjIh9r+bWEMTzkIy6QlffLY7ikaeJzbmdbvhXCdbk+S
- xKQeRqYsL8LeUKmeRVSsnn/CzAE1yoVmZZ4HRyW6UzT0dUp+GZE8j5Imt
- yimzuir54igQ10Me1o+qi159z+DwHPke3HmEfUAhPnYkczGcJIe4Mxpsm w==;
-X-CSE-ConnectionGUID: k/yklLWyTFmAWZFjbfly4g==
-X-CSE-MsgGUID: yoUTnZYMRTKDP2b+N+q4sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224523"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224523"
+ bh=qe07nCwBj/lmpwNPkbMZCXBMa/UgxHFdTee+Ognc6R4=;
+ b=IgKAn7skk53iR0J609HmEzywYLwhhfMkR0SWXPkHPbk9Vlrrelbl+/Uj
+ N0CK1COwOGH03iWMNr8djvvkpnhJK5eLU5K6sJ2E/gyph4Vn5ALOciqfV
+ OjDeqnnhCIUO0wcSZVI8RftOqqUa88xVBhFz5t5BFw5CLcMVXuBkBxPmu
+ xd9DOftmlRKxHyNj4ZnYuQsVp2ovPo8T/kTKvyeFa7wrSGHA9xK6sWvbE
+ hQN4LshfXPHWqrfsHE1gJ/J/619oS5oy9hO4yMIhzsGgH91YAjG49IjEe
+ KWsmbVxkqaipYNHQ/RIs6NZ5tYKm3xqEMAV4ZnsiloUyRukw7exbQiOnQ Q==;
+X-CSE-ConnectionGUID: Ai2qRifFTDyZkETtMzLBvQ==
+X-CSE-MsgGUID: 8pCk2p01QnG1Amp5TRySWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224531"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224531"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:34:35 -0800
-X-CSE-ConnectionGUID: k2Q7gyDgQZmLq1fULyy9hg==
-X-CSE-MsgGUID: YS738+u2QR+YjIlPohLvFA==
+ 19 Dec 2025 03:34:39 -0800
+X-CSE-ConnectionGUID: yW9FvwPvRDWSYjr8F0AGAA==
+X-CSE-MsgGUID: xoWwFyuKRgCd59/tgFvO5Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005658"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005673"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.251])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:34:32 -0800
+ 19 Dec 2025 03:34:35 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -51,10 +51,10 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6 09/24] drm/pagemap: Remove the drm_pagemap_create()
- interface
-Date: Fri, 19 Dec 2025 12:33:05 +0100
-Message-ID: <20251219113320.183860-10-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v6 10/24] drm/pagemap_util: Add a utility to assign an owner
+ to a set of interconnected gpus
+Date: Fri, 19 Dec 2025 12:33:06 +0100
+Message-ID: <20251219113320.183860-11-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 References: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
@@ -76,59 +76,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the drm_pagemap_init() interface, drm_pagemap_create() is not
-used anymore.
+The hmm_range_fault() and the migration helpers currently need a common
+"owner" to identify pagemaps and clients with fast interconnect.
+Add a drm_pagemap utility to setup such owners by registering
+drm_pagemaps, in a registry, and for each new drm_pagemap,
+query which existing drm_pagemaps have fast interconnects with the new
+drm_pagemap.
+
+The "owner" scheme is limited in that it is static at drm_pagemap creation.
+Ideally one would want the owner to be adjusted at run-time, but that
+requires changes to hmm. If the proposed scheme becomes too limited,
+we need to revisit.
 
 v2:
-- Slightly more verbose commit message. (Matt Brost)
+- Improve documentation of DRM_PAGEMAP_OWNER_LIST_DEFINE(). (Matt Brost)
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/drm_pagemap.c | 30 ------------------------------
- 1 file changed, 30 deletions(-)
+ drivers/gpu/drm/drm_pagemap_util.c | 118 +++++++++++++++++++++++++++++
+ include/drm/drm_pagemap_util.h     |  50 ++++++++++++
+ 2 files changed, 168 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 9b3a061fc6e8..5dd9fd30dc7f 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -686,36 +686,6 @@ int drm_pagemap_init(struct drm_pagemap *dpagemap,
- }
- EXPORT_SYMBOL(drm_pagemap_init);
+diff --git a/drivers/gpu/drm/drm_pagemap_util.c b/drivers/gpu/drm/drm_pagemap_util.c
+index 84a7a4807bef..413183b2e871 100644
+--- a/drivers/gpu/drm/drm_pagemap_util.c
++++ b/drivers/gpu/drm/drm_pagemap_util.c
+@@ -3,6 +3,8 @@
+  * Copyright © 2025 Intel Corporation
+  */
  
--/**
-- * drm_pagemap_create() - Create a struct drm_pagemap.
-- * @drm: Pointer to a struct drm_device providing the device-private memory.
-- * @pagemap: Pointer to a pre-setup struct dev_pagemap providing the struct pages.
-- * @ops: Pointer to the struct drm_pagemap_ops.
-- *
-- * Allocate and initialize a struct drm_pagemap.
-- *
-- * Return: A refcounted pointer to a struct drm_pagemap on success.
-- * Error pointer on error.
-- */
--struct drm_pagemap *
--drm_pagemap_create(struct drm_device *drm,
--		   struct dev_pagemap *pagemap,
--		   const struct drm_pagemap_ops *ops)
--{
--	struct drm_pagemap *dpagemap = kzalloc(sizeof(*dpagemap), GFP_KERNEL);
--	int err;
--
--	if (!dpagemap)
--		return ERR_PTR(-ENOMEM);
--
--	err = drm_pagemap_init(dpagemap, pagemap, drm, ops);
--	if (err)
--		return ERR_PTR(err);
--
--	return dpagemap;
--}
--EXPORT_SYMBOL(drm_pagemap_create);
--
- /**
-  * drm_pagemap_put() - Put a struct drm_pagemap reference
-  * @dpagemap: Pointer to a struct drm_pagemap object.
++#include <linux/slab.h>
++
+ #include <drm/drm_drv.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_pagemap.h>
+@@ -448,3 +450,119 @@ struct drm_pagemap_shrinker *drm_pagemap_shrinker_create_devm(struct drm_device
+ 	return shrinker;
+ }
+ EXPORT_SYMBOL(drm_pagemap_shrinker_create_devm);
++
++/**
++ * struct drm_pagemap_owner - Device interconnect group
++ * @kref: Reference count.
++ *
++ * A struct drm_pagemap_owner identifies a device interconnect group.
++ */
++struct drm_pagemap_owner {
++	struct kref kref;
++};
++
++static void drm_pagemap_owner_release(struct kref *kref)
++{
++	kfree(container_of(kref, struct drm_pagemap_owner, kref));
++}
++
++/**
++ * drm_pagemap_release_owner() - Stop participating in an interconnect group
++ * @peer: Pointer to the struct drm_pagemap_peer used when joining the group
++ *
++ * Stop participating in an interconnect group. This function is typically
++ * called when a pagemap is removed to indicate that it doesn't need to
++ * be taken into account.
++ */
++void drm_pagemap_release_owner(struct drm_pagemap_peer *peer)
++{
++	struct drm_pagemap_owner_list *owner_list = peer->list;
++
++	if (!owner_list)
++		return;
++
++	mutex_lock(&owner_list->lock);
++	list_del(&peer->link);
++	kref_put(&peer->owner->kref, drm_pagemap_owner_release);
++	peer->owner = NULL;
++	mutex_unlock(&owner_list->lock);
++}
++EXPORT_SYMBOL(drm_pagemap_release_owner);
++
++/**
++ * typedef interconnect_fn - Callback function to identify fast interconnects
++ * @peer1: First endpoint.
++ * @peer2: Second endpont.
++ *
++ * The function returns %true iff @peer1 and @peer2 have a fast interconnect.
++ * Note that this is symmetrical. The function has no notion of client and provider,
++ * which may not be sufficient in some cases. However, since the callback is intended
++ * to guide in providing common pagemap owners, the notion of a common owner to
++ * indicate fast interconnects would then have to change as well.
++ *
++ * Return: %true iff @peer1 and @peer2 have a fast interconnect. Otherwise @false.
++ */
++typedef bool (*interconnect_fn)(struct drm_pagemap_peer *peer1, struct drm_pagemap_peer *peer2);
++
++/**
++ * drm_pagemap_acquire_owner() - Join an interconnect group
++ * @peer: A struct drm_pagemap_peer keeping track of the device interconnect
++ * @owner_list: Pointer to the owner_list, keeping track of all interconnects
++ * @has_interconnect: Callback function to determine whether two peers have a
++ * fast local interconnect.
++ *
++ * Repeatedly calls @has_interconnect for @peer and other peers on @owner_list to
++ * determine a set of peers for which @peer has a fast interconnect. That set will
++ * have common &struct drm_pagemap_owner, and upon successful return, @peer::owner
++ * will point to that struct, holding a reference, and @peer will be registered in
++ * @owner_list. If @peer doesn't have any fast interconnects to other @peers, a
++ * new unique &struct drm_pagemap_owner will be allocated for it, and that
++ * may be shared with other peers that, at a later point, are determined to have
++ * a fast interconnect with @peer.
++ *
++ * When @peer no longer participates in an interconnect group,
++ * drm_pagemap_release_owner() should be called to drop the reference on the
++ * struct drm_pagemap_owner.
++ *
++ * Return: %0 on success, negative error code on failure.
++ */
++int drm_pagemap_acquire_owner(struct drm_pagemap_peer *peer,
++			      struct drm_pagemap_owner_list *owner_list,
++			      interconnect_fn has_interconnect)
++{
++	struct drm_pagemap_peer *cur_peer;
++	struct drm_pagemap_owner *owner = NULL;
++	bool interconnect = false;
++
++	mutex_lock(&owner_list->lock);
++	might_alloc(GFP_KERNEL);
++	list_for_each_entry(cur_peer, &owner_list->peers, link) {
++		if (cur_peer->owner != owner) {
++			if (owner && interconnect)
++				break;
++			owner = cur_peer->owner;
++			interconnect = true;
++		}
++		if (interconnect && !has_interconnect(peer, cur_peer))
++			interconnect = false;
++	}
++
++	if (!interconnect) {
++		owner = kmalloc(sizeof(*owner), GFP_KERNEL);
++		if (!owner) {
++			mutex_unlock(&owner_list->lock);
++			return -ENOMEM;
++		}
++		kref_init(&owner->kref);
++		list_add_tail(&peer->link, &owner_list->peers);
++	} else {
++		kref_get(&owner->kref);
++		list_add_tail(&peer->link, &cur_peer->link);
++	}
++	peer->owner = owner;
++	peer->list = owner_list;
++	mutex_unlock(&owner_list->lock);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_pagemap_acquire_owner);
+diff --git a/include/drm/drm_pagemap_util.h b/include/drm/drm_pagemap_util.h
+index 924244d5b899..19169b42b891 100644
+--- a/include/drm/drm_pagemap_util.h
++++ b/include/drm/drm_pagemap_util.h
+@@ -6,11 +6,55 @@
+ #ifndef _DRM_PAGEMAP_UTIL_H_
+ #define _DRM_PAGEMAP_UTIL_H_
+ 
++#include <linux/list.h>
++#include <linux/mutex.h>
++
+ struct drm_device;
+ struct drm_pagemap;
+ struct drm_pagemap_cache;
++struct drm_pagemap_owner;
+ struct drm_pagemap_shrinker;
+ 
++/**
++ * struct drm_pagemap_peer - Structure representing a fast interconnect peer
++ * @list: Pointer to a &struct drm_pagemap_owner_list used to keep track of peers
++ * @link: List link for @list's list of peers.
++ * @owner: Pointer to a &struct drm_pagemap_owner, common for a set of peers having
++ * fast interconnects.
++ * @private: Pointer private to the struct embedding this struct.
++ */
++struct drm_pagemap_peer {
++	struct drm_pagemap_owner_list *list;
++	struct list_head link;
++	struct drm_pagemap_owner *owner;
++	void *private;
++};
++
++/**
++ * struct drm_pagemap_owner_list - Keeping track of peers and owners
++ * @peer: List of peers.
++ *
++ * The owner list defines the scope where we identify peers having fast interconnects
++ * and a common owner. Typically a driver has a single global owner list to
++ * keep track of common owners for the driver's pagemaps.
++ */
++struct drm_pagemap_owner_list {
++	/** @lock: Mutex protecting the @peers list. */
++	struct mutex lock;
++	/** @peers: List of peers. */
++	struct list_head peers;
++};
++
++/*
++ * Convenience macro to define an owner list.
++ * Typically the owner list statically declared
++ * driver-wide.
++ */
++#define DRM_PAGEMAP_OWNER_LIST_DEFINE(_name)	\
++	struct drm_pagemap_owner_list _name = {	\
++	  .lock = __MUTEX_INITIALIZER((_name).lock),	\
++	  .peers = LIST_HEAD_INIT((_name).peers) }
++
+ void drm_pagemap_shrinker_add(struct drm_pagemap *dpagemap);
+ 
+ int drm_pagemap_cache_lock_lookup(struct drm_pagemap_cache *cache);
+@@ -39,4 +83,10 @@ static inline void drm_pagemap_shrinker_might_lock(struct drm_pagemap *dpagemap)
+ 
+ #endif /* CONFIG_PROVE_LOCKING */
+ 
++void drm_pagemap_release_owner(struct drm_pagemap_peer *peer);
++
++int drm_pagemap_acquire_owner(struct drm_pagemap_peer *peer,
++			      struct drm_pagemap_owner_list *owner_list,
++			      bool (*has_interconnect)(struct drm_pagemap_peer *peer1,
++						       struct drm_pagemap_peer *peer2));
+ #endif
 -- 
 2.51.1
 
