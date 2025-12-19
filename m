@@ -2,93 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624A0CCF723
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79BACCF72C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4BF10EF1E;
-	Fri, 19 Dec 2025 10:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1717B10ED34;
+	Fri, 19 Dec 2025 10:47:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PR3uS0jA";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dC2TE71J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB0A10EF1E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:47:03 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-64b4b35c812so2084125a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 02:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766141222; x=1766746022; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rZuP9fxqbC47wIOaRN1HrOQmWsV0+mnLZdGYsf33OB0=;
- b=PR3uS0jAYFcyT7cKqj6AfU4lBzAis7TpndYWMzX2I+IfOCccjUgpzlEzYwL0rQB6K1
- m9TVix8PFPvPLgTz7obsolVAcJR24xhmvUMewh5rbINGSWxJMyHEcrAk3spEDlr9O7dy
- CcMNNVHxvBsfscF2HdUG7dcFXQWugTZC2szMqHI2vce6BeutmbikR+wHaREaGzaTKnfQ
- ARdC2FQaa+uu770k7JhQh5ClMXLA/U/ujms6/edFRKG7nL5Xr/SIEhn6DsmlGgk8vp7E
- 0/kyrQZeam3n29djDKA7gRVyYXe2uViiw9DOOjxCo1GMl7LtwzXWYX1cW90T76HrMzHs
- 9+rQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27BA10ED34
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1766141255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ohuBcRpV8beJcWGlYizxYN54dm2bkbetXdev9n84fy4=;
+ b=dC2TE71J+YfHJewG58FwvcxeKkgfTh93hutbdh9GkWS3cPBgcoFmRCuDrbZk0Q7QNWVDNu
+ 0hn5R/RNi1GJ0zfJQYFs9w5HxadAT5iCjAGYSjZ4ABN5ubVF77pMXLoBqjBDwXDTIP93qG
+ EX4zAKm9pvl4/Icv8FpiDVEFCACKE9o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-312--Wey4SB3NzSDjJLKHkEMNQ-1; Fri, 19 Dec 2025 05:47:33 -0500
+X-MC-Unique: -Wey4SB3NzSDjJLKHkEMNQ-1
+X-Mimecast-MFC-AGG-ID: -Wey4SB3NzSDjJLKHkEMNQ_1766141252
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-477a1e2b372so12108245e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 02:47:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766141222; x=1766746022;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rZuP9fxqbC47wIOaRN1HrOQmWsV0+mnLZdGYsf33OB0=;
- b=F2f2OT8nawJwYmPk+9h7jocFUdPlwoXpgKXOlicsvTNAan187TeSbVYi/fWAMR4chp
- cIN+h2kxH+TZj9r7yvIb9RfFYwGzOFE16cves3cv2bNYBtdoohBNFjMiDoZ/hvxJuLHa
- q7xwPR/YH9QWcsJDPRaHK71yAdpPg0GhacDEIJrjBzr+gYt9onOFanYHgGV355K8S5Fo
- HbdALdDvZhGoNWCNcIBn5Tf6JRXtIMX5oTyIzGiKwCm65UykE6Yq9m+EH+UF5Na0DUkF
- Bp9qln1uKgV5UvcCasMhcHS2b85oYF036/MXNYNdo7jm2vH6oe5BSQ+lFRRmXJgx4osM
- 9oOQ==
+ d=1e100.net; s=20230601; t=1766141252; x=1766746052;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ohuBcRpV8beJcWGlYizxYN54dm2bkbetXdev9n84fy4=;
+ b=prEmoINmFllorTn2aaH12NtnnE2Inmt9rS0Wdo49KhUjNNpL11w+ArgL6pEqhGKeZV
+ pP4zvDUai5q7wrOv3eCJKVwCZpQBb8/uFCfdnI9OYeXB80ZcMTd8zCvSIOug+R/66THZ
+ 0D/IYmKp7kNg6CvKKps0Ty7QSnPRQ8Ry69KnJmwESOvHj5v7YCQcuh6dOopnzT8HhTGT
+ 5Ums6Mn0aHdsnXx0sqK7XaohtQyWlNSTF6w5bzthl2OUoF7ElF2zfrDrIlYrEH7N6nw6
+ KlEC4oOJeKlyVsbY1etm6/hcQQUSq/VZd9+W0LXnX0vx4BLBB26xFBGhDj4o/dFBc2wV
+ wVtw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVWLUr7dy4QGFso+8FgrtputYrGPm9OVPuw0Mk75fAdSnJFwGapbCqJlU4U3gHlyA1PDh8ihB6mP8A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzr88/NqkmfbYcUK6yXa1VU4T7HzNX5i5r1miSa30KSRWDOvwnQ
- dwDZVLhtH8R80hyFQrThIZzUTYpU7h8P5pgkjKv1VrUnQuJRbFG936TC
-X-Gm-Gg: AY/fxX52eNOEVT9C2qsSLwO3fehOghYNyr3d6lQsGEjJHnST29taXSsvKv2Qmc4MqjB
- jwqcrhh1a1sLiDwIdVlIlxZUYXv/ZuCAkovRuQDwg35gLikMeCzlba9KZth1LC+RDs80KrPSKz7
- qW4TB248qP2LQx8KoMTm20sy5XC9WdUFyCoE/0ee9L6fYJzcIEDH3hY6kTORKbANUB3Z4uzPX2J
- CrgrlbAkUh31d/ecs0SszqI03XCBC+w9S2FNBPo9varR+3TGHxZWwsrcCuTmG1JVec2gE/iUQFD
- JBakQrzTUQTHeC9TxGv7XOOXH5rr/1JOtDLWStM47DA9Co5S4hqw903T8LZCYxzH82SKLyryN/D
- gk2149Quaf4APL+YFDFFjNaUQtmmCEBNR5NnVv5XMiqsWMk3/WSpfcZ7FAmXI5jpZli7Pfj7Nk9
- Q+RhkCbOTfRrcBurl9qVW7eRx4qE0X0qToF0IM2z4fRqDQ
-X-Google-Smtp-Source: AGHT+IHwuwvzqHzv3YMY8ZAQIYTi19GvZ1+m5b+3UDEb7/afa4beA//voJQ0rhzXT+DjKoSFreo3oQ==
-X-Received: by 2002:a05:6402:34c5:b0:649:230e:ec52 with SMTP id
- 4fb4d7f45d1cf-64b8e935a65mr1838951a12.1.1766141222122; 
- Fri, 19 Dec 2025 02:47:02 -0800 (PST)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:bb1:f7ee:1376:35e4])
+ AJvYcCXuKl1U5HBK2n+mt6opoDyzDfIuuerLkDiDVYAV893vMrOpSciQkQyn/7IE6DuBXCQqedBi2IrcSTI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXdo1zpkK0jgJeTjULnGLHURtOj9QfuRCAfHLl3WgEF8wV/UjZ
+ 33NVMsQ8NkOtPMoyqGqtTdzXkR6iykoVUYAqBnd0vbWLXjXpngIPKnlSeZnNPBuyUxYzmfoHfcE
+ xZVjolyUe9yIhXxFosKLCrZZv78NWT9UqA9vJig4HkE8jRLycv8NQfvZNomxn317JKeFtXQ==
+X-Gm-Gg: AY/fxX4hrl9OwEqqQoheHS4OGjx0UtrDZLJR/c/oqqYvKRuqdvLWmfKteglulsQ/T4R
+ ZhkL6r32s6cq/h/0ovWq+48eVsGpdfP73k/GuQlhx6KQ5ieSQ9Rsq5pRm+jpfHJ0q+QOA/ZbMYa
+ q2/svY0PE5/RL+rr6dZsAzFmd4LsShYafxmgO/2RFAOsvfUkWe4ntTaNayZf7emLFlB4IBvU6hT
+ ZL1qsU739IECMLgcEfVJTQE+q0Vh34H10E/YDZrEcKSj3mZT2f+TPrzR8UCiNXn1OZ/73LiTJtC
+ ie8zTFB3bUcyKUFTVPJCdO6NLy7oX1YbAyh34gAKmaPyrvG9qvQJPSzFSU3pZ4htb6qgv68eV9+
+ glBnFhl1vWGe9
+X-Received: by 2002:a05:600c:6812:b0:477:63b5:7148 with SMTP id
+ 5b1f17b1804b1-47d1955b97cmr21387395e9.6.1766141252216; 
+ Fri, 19 Dec 2025 02:47:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG0haeKdz6e1wVUfU68PetlUVJ262uD0U3xuzOT7CFHMjUWuxjHWC2bHGvwH3+5rKwg5RCnYg==
+X-Received: by 2002:a05:600c:6812:b0:477:63b5:7148 with SMTP id
+ 5b1f17b1804b1-47d1955b97cmr21387045e9.6.1766141251798; 
+ Fri, 19 Dec 2025 02:47:31 -0800 (PST)
+Received: from [192.168.88.32] ([216.128.11.227])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64b910601c7sm1900781a12.14.2025.12.19.02.47.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Dec 2025 02:47:01 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Douglas Anderson <dianders@chromium.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] drm/bridge: adv7511: Clear HPD IRQ before powering on device
- during resume()
-Date: Fri, 19 Dec 2025 10:46:53 +0000
-Message-ID: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+ 5b1f17b1804b1-47be273f147sm92155575e9.7.2025.12.19.02.47.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Dec 2025 02:47:31 -0800 (PST)
+Message-ID: <b547252f-9893-4c23-8b17-9808c8bdd0c9@redhat.com>
+Date: Fri, 19 Dec 2025 11:47:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] net: qrtr: Drop the MHI auto_queue feature for
+ IPCR DL channels
+To: manivannan.sadhasivam@oss.qualcomm.com,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Maxim Kochetkov <fido_max@inbox.ru>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org, netdev@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Chris Lew <quic_clew@quicinc.com>, stable@vger.kernel.org
+References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
+ <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Q2bFsYtHln8owL_d_9jjW7dMLEXSXyXzjrzqyt3-ntY_1766141252
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,99 +118,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On 12/18/25 5:51 PM, Manivannan Sadhasivam via B4 Relay wrote:
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> 
+> MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
+> auto queue the buffers for the RX path (DL channel). Though this feature
+> simplifies the client driver design, it introduces race between the client
+> drivers and the MHI stack. For instance, with auto_queue, the 'dl_callback'
+> for the DL channel may get called before the client driver is fully probed.
+> This means, by the time the dl_callback gets called, the client driver's
+> structures might not be initialized, leading to NULL ptr dereference.
+> 
+> Currently, the drivers have to workaround this issue by initializing the
+> internal structures before calling mhi_prepare_for_transfer_autoqueue().
+> But even so, there is a chance that the client driver's internal code path
+> may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() is
+> called, leading to similar NULL ptr dereference. This issue has been
+> reported on the Qcom X1E80100 CRD machines affecting boot.
+> 
+> So to properly fix all these races, drop the MHI 'auto_queue' feature
+> altogether and let the client driver (QRTR) manage the RX buffers manually.
+> In the QRTR driver, queue the RX buffers based on the ring length during
+> probe and recycle the buffers in 'dl_callback' once they are consumed. This
+> also warrants removing the setting of 'auto_queue' flag from controller
+> drivers.
+> 
+> Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
+> So only the QRTR client driver requires the modification.
+> 
+> Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffers for DL channel")
+> Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation")
+> Reported-by: Johan Hovold <johan@kernel.org>
+> Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldconsulting.com
+> Suggested-by: Chris Lew <quic_clew@quicinc.com>
+> Acked-by: Jeff Johnson <jjohnson@kernel.org> # drivers/net/wireless/ath/...
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-On RZ/G3E SMARC EVK using PSCI, s2ram powers down the SoC. Testing ADV7535
-IRQ configured as edge-triggered interrupt on RZ/G3E SMARC EVK shows that
-it is missing HPD IRQ during system resume, as the status change occurs
-before the IRQ/pincontrol resume. Once the status bit is set, there won't
-be any further IRQ unless the status bit is cleared.
+For net/...
 
-Clear any pending HPD IRQs before powering on the ADV7535 device to
-deliver HPD interrupts after resume().
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 32 ++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+even if I don't see anything network specific there.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 8be7266fd4f4..03aa23836ca4 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -393,6 +393,7 @@ struct adv7511 {
- 	bool cec_enabled_adap;
- 	struct clk *cec_clk;
- 	u32 cec_clk_freq;
-+	bool suspended;
- };
- 
- static inline struct adv7511 *bridge_to_adv7511(struct drm_bridge *bridge)
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index b9be86541307..8d9467187d7c 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -790,6 +790,25 @@ static void adv7511_bridge_atomic_enable(struct drm_bridge *bridge,
- 	struct drm_connector_state *conn_state;
- 	struct drm_crtc_state *crtc_state;
- 
-+	if (adv->i2c_main->irq && adv->suspended) {
-+		unsigned int irq;
-+
-+		/*
-+		 * If ADV7511 IRQ is configured as edge triggered interrupt, it
-+		 * will miss the IRQ during system resume as the status change
-+		 * occurs before IRQ/pincontrol resume. Once the status bit is
-+		 * set there won't be any further IRQ unless the status bit is
-+		 * cleared. So, clear the IRQ status bit for further delivery
-+		 * of HPD IRQ.
-+		 */
-+		regmap_read(adv->regmap, ADV7511_REG_INT(0), &irq);
-+		if (irq & ADV7511_INT0_HPD)
-+			regmap_write(adv->regmap, ADV7511_REG_INT(0),
-+				     ADV7511_INT0_HPD);
-+
-+		adv->suspended = false;
-+	}
-+
- 	adv7511_power_on(adv);
- 
- 	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-@@ -1407,6 +1426,16 @@ static void adv7511_remove(struct i2c_client *i2c)
- 	i2c_unregister_device(adv7511->i2c_edid);
- }
- 
-+static int adv7511_suspend(struct device *dev)
-+{
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
-+
-+	adv7511->suspended = true;
-+
-+	return 0;
-+}
-+
- static const struct adv7511_chip_info adv7511_chip_info = {
- 	.type = ADV7511,
- 	.name = "ADV7511",
-@@ -1439,6 +1468,8 @@ static const struct adv7511_chip_info adv7535_chip_info = {
- 	.hpd_override_enable = true,
- };
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(adv7511_pm_ops, adv7511_suspend, NULL);
-+
- static const struct i2c_device_id adv7511_i2c_ids[] = {
- 	{ "adv7511", (kernel_ulong_t)&adv7511_chip_info },
- 	{ "adv7511w", (kernel_ulong_t)&adv7511_chip_info },
-@@ -1467,6 +1498,7 @@ static struct i2c_driver adv7511_driver = {
- 	.driver = {
- 		.name = "adv7511",
- 		.of_match_table = adv7511_of_ids,
-+		.pm = pm_sleep_ptr(&adv7511_pm_ops),
- 	},
- 	.id_table = adv7511_i2c_ids,
- 	.probe = adv7511_probe,
--- 
-2.43.0
+/P
 
