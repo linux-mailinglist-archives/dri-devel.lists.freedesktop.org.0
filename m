@@ -2,170 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B85ACCF4D8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CA1CCF555
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:19:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EFD10E1C2;
-	Fri, 19 Dec 2025 10:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7848B10E45E;
+	Fri, 19 Dec 2025 10:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="gFxLJIIC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FpNhUZOU";
+	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="t5QPGRMq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010005.outbound.protection.outlook.com [52.101.228.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17C5210E1C2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:13:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UzQ91vFTsglSwvDa4ycoHKOOo7tEV1GxsPcl3YU7/Nvmwi3RCmN4sAOcbW4Tg/bPftaoCZAk3m76o5dNCQE9kvEEGM9tF4wMBAE06CdiGIVAKIqszjjq9D8tGfkzIJSEOFeitkLOIXQQApE5gm34pelQ4R4eqkMSC+Njbf7Z4HRpZ+c9IgrK/5jHWfO75GOoEUH2AyDphOnLquZ6t9S5L1NGAAnET9V4G6mAcZya2zzFp4P4e39iIZGvk+dBz78ULQfRXbcbDvJlCZO5U+sGl3LNWVcFdgGJzWLiht7xwr4BuDAi7cYJ6h8Tw8FXMy6ao8f5mBvexXwP1Ir7cxfVow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VH3nkZGcQMZK9dnZ8x2zWRylnysgep6OoNa2h3+oIfI=;
- b=ZuzE4VmfS2crcO4buq51HGbDmx2rUl7NaCjIvdSkG38l9tdrEkoEi1niCveCkIRL/ghc9EHkVQISpvril2glbD+7nYlDjo0dDzGpVwmXsMXtBa6Faa2L+Lw9oSP3AuMPOfy9DmGuN//+HB5eIJRDo4Rx+g0a4T8NSs54apYb/efyfxYcSVw8A6vtTFtbqL1n3gxaluQuNqf009+zHz0M0nYANfYL147mGfvLXYqf4VqxV/uHczi/HwSW2UJvrh4HGILAQbhR3jR/WF1nnF6sUV4xEJK7YiMuenXI5Lt7jE/7GBur8rOjgn6rdy5gU3ei3+6bpllRLlTFcPjS1H448g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VH3nkZGcQMZK9dnZ8x2zWRylnysgep6OoNa2h3+oIfI=;
- b=gFxLJIICh3jBzUOz6BTTVOTGw3SDhLw7EBSkFWp5PWGVKgFOV+DnhXfLfuJpLj/T7VzAB1fDlVG6uyNagR/bP42liiCni+CtzT5eMs3+gN7yvgYNjVQ6x7VgaxSSaYZOCIQOUxfW97lzk9zDhrbLkXkJYwAmcL9UP7FWdrDs6Go=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB15169.jpnprd01.prod.outlook.com (2603:1096:405:228::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Fri, 19 Dec
- 2025 10:13:54 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9434.009; Fri, 19 Dec 2025
- 10:13:45 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?utf-8?B?QWRyacOhbiBMYXJ1bWJl?= <adrian.larumbe@collabora.com>
-CC: biju.das.au <biju.das.au@gmail.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven Price
- <steven.price@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Geert Uytterhoeven
- <geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
-Thread-Topic: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
-Thread-Index: AQHcZFOA+GIugFCTB06Le7W8wzatY7Uo0NWQgAADboCAAAEqYA==
-Date: Fri, 19 Dec 2025 10:13:45 +0000
-Message-ID: <TY3PR01MB1134676D5905B0AC0127955DC86A9A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
- <TYCPR01MB11332FE6BEA86E8FBBD4707DC86A9A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <zdeak3e65wt2jw7n6rcskyeokmyt7cxhsrvwaeqodp2yjxw7kg@vbqza5hpnrym>
-In-Reply-To: <zdeak3e65wt2jw7n6rcskyeokmyt7cxhsrvwaeqodp2yjxw7kg@vbqza5hpnrym>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB15169:EE_
-x-ms-office365-filtering-correlation-id: d7e062cc-25f0-455e-92ee-08de3ee74b4a
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?OXBPcTc5Y01HZjd0RnQ2MWtEeXdpMXMrWW1PclBWNldRc0tGRXFTM1JMNmlY?=
- =?utf-8?B?UllvRGM5YTNjaHZwZHYyMHlkWW1RcVhSMHpvTk5WYnM0SkxTdjUxMGRHSTgw?=
- =?utf-8?B?bjZVZktmSWhSajR6QS90S0N5cG00UkpuQ1VOeXd6eVc4R1RhdE5Vc09FUlpT?=
- =?utf-8?B?T041VlBudVZ1Wlo0TFY5U2pGYXJUYVZLOG9wemo5Nys5RjNrMmNjbEh0cFJu?=
- =?utf-8?B?SWpXb1dabmpHTjVVdzcrUWlWdEg0UUtsK3BGOXdCTmpBUnZXWmNENmZRaGp3?=
- =?utf-8?B?VkRWQ21uUEhRd1d6REdKS1gwTGRCdEpiMDNUQWprdXNJV2xGUFZFSDE0VG5i?=
- =?utf-8?B?MkdlemJZQTh0b2NjeUlHSUZGQjlLbWpIRkxhR2VxRWQ2dVhBbkpObUVVaXJy?=
- =?utf-8?B?d0xSYmgwM0xCOW9LVTI1RTBLV1AxWFFiN0ZMbVpDM2tGWFBKeUM1blRtd2NP?=
- =?utf-8?B?c0NCemZ0d1NGb3FaeTVXM0VvM2xoeGhWcnFMKzF5UmhKN0YrRktZR0xZaSsy?=
- =?utf-8?B?VExOZER3YnV2VHhkNmNxR0hleWw3cWdPUFlNWHFHZzh6SmJyd0NDN2sreUlu?=
- =?utf-8?B?UlBIK0JPRWpkWHJxOC9VZ0JveW5jWmQrT25hbXZYQXpoQUxLMHFOUlc4b2w5?=
- =?utf-8?B?SXJDSFltc0NRNllNbU9pK1d0NnhWNEd5cDJDanQwWjl4YjV2SEE4WkRBWE5r?=
- =?utf-8?B?dzB2Y1JHU3hwczdMTkEvOVU4TGFQcnp4cDVLbHBIYzlrOVZyNHhsTkhDT0Ns?=
- =?utf-8?B?aTd0bFp3Y1ZNR2NkUC9rNXV3WXhEdXM0V09lWXZESHowR2MvbTFlQzM4REpq?=
- =?utf-8?B?cWlIbEh0WmtlbHJvZndPRHNRSEU2cXd0dEREcSs5YVFJY1FBM1dPeGdSL1VU?=
- =?utf-8?B?aUhmaHNoQ012Vi9jdmNDY2g1VzNJQkJZWjlYbU5Ud2YvTVFUV3RZWTFlRzNH?=
- =?utf-8?B?OWVUZVJVVWMwbVVqZThscm9DeCtsSldSNGFXbWxFM3gwV0tPdC91RVNjTUE1?=
- =?utf-8?B?cmo2ZHE2T3JzbXNXRWE4UFU5N0FVLzZVeVI5cG82TkpxZ2dIaHRCOFRzQ0FZ?=
- =?utf-8?B?cjdzS2tUNFlyb09rSnozN1JkenNsazVqZXp6ZTZjZG8yalZXS1VLRXV6Q3py?=
- =?utf-8?B?eXpSdlB5bmpHRTVmaURIdS8xbjVYajNjbDBNRTcyOVZxY21SbVBhcWk1bmRX?=
- =?utf-8?B?bDJhN2pwdDlHUWVtUTJKOTBPWUY5Kzl2OG9EZ1I5UW9kMVA1MG5PMURaUUN0?=
- =?utf-8?B?MmtucjVlVjlSWkxSVWxUTitzTDNuTUpwbmo1dVJxdTUvS1dZamgxZmxJeUxE?=
- =?utf-8?B?YzVmT3Y0cmJSNzFPSm4vVTMwbXBQeFNIeHZJc0dUMTdGQ1Bzazg0eGx2dGsz?=
- =?utf-8?B?VW5JL1Z0ZUxlMkp5VUVMbGdsb2dkK3V0dFJDTFNMNFdzd2t5OWJHR0hFU0xR?=
- =?utf-8?B?cTViZnpNRVpyWG1XeVoyWWVYQ0ZSMWtLL3ZSSStjb3BPZDBSSDdpcmZqVFR6?=
- =?utf-8?B?bmlHd1c5T25Kd2I4RnkvMFdFSXdSUDZ1VWZST3VzZmJJMjFLcHRhM01jaDhR?=
- =?utf-8?B?WkZIU21acFRGRW1tdW5rS1FBTEF1bkxSbWVHMWkxTVJWWksyN1pTTTdpSlZm?=
- =?utf-8?B?c21XdEdyOW5KdUlzRzI2WnFKNVp4UW1sdXIrOXYrSjU1WCtMc0k1VHl5TjRT?=
- =?utf-8?B?TG9TTmx0SnpWUHJyYWF6N3N5UzRMMUIvWmhxUCtNSVNPcTYxN25sSHpySUhz?=
- =?utf-8?B?RjlFbSswWVVDWjdJV05BWmRJMkdmMDBWaVQrS1ZaalBLZkRKQm9oRVF6bkpS?=
- =?utf-8?B?SzV0T3VSZHhpRk9Ua0xhRzIxblR5UnVJOE55VXp5ckRXc3Iva2N6TXUrNUdU?=
- =?utf-8?B?Y3BLWEk2WXYwZldsUUYwYlZhTVpWMi84MG9wNy9URE1FM1dCL09PV2FhYXBp?=
- =?utf-8?B?akVuUFAxN0tkSUtEMFlvT1FFV2p1MlNMTDcyYlBWd0FtR1VjUnp3OFVya1ZY?=
- =?utf-8?B?NlhFMkErV1UxcVdTRHdwUVJuQ0RQSm5nQzVIZ0pieFZRNnZtR3VELzQxWHZn?=
- =?utf-8?Q?9OSNx0?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QW9aaEo0L1VXRU1INmFpQ1RHZHBHT1BYTWJrRElOWlVvQ2tRKzJEU3BMdFVO?=
- =?utf-8?B?djgxN2RJTUhqcllPd2FDZWZGSW1vOHJXcnpyZXRiQ2Z1RjJnZ283cXVNb3Ax?=
- =?utf-8?B?dGtuU3l0QXpjcGhIQlRVbHNhdTBSVGdqeEpDRWFRME85LzNOWUQrd01JaW1P?=
- =?utf-8?B?aUkySnpJN0RHRFRBZkMzZnpFckJqYmsvMWVHOHdrcUJJWEg4bFRmUmpYY1V0?=
- =?utf-8?B?T3A5MS9jcDJoc0YzRklTblplK2dVS3JEVWtJQVMyN1I5OUtIL3BnNGZzZVdB?=
- =?utf-8?B?ZDFKNm94MnFUNzV3QXV4Z29oeDRkcWFUNHhlS1R4alFTanFLckR6d05VUjYz?=
- =?utf-8?B?RDYwSVlZdnVEUE1vUmlFMnZxa0xuT0ZzYmJMZHh1dEZDQWUyUDdEMUpOanU0?=
- =?utf-8?B?Q0dBRzZDWFlKQytuNGJNU2lVOGJDTVhuTmRmbXk5eWNROGpCS3pGaDlVTWV3?=
- =?utf-8?B?WURtbGJQTUp6Snc1dUVqMXFTSFF2bzJpZXZ6ZWxyNGYyQnZkZ2ZFVGwzY3h5?=
- =?utf-8?B?d0xmTXlwTUJkY0NuV3p4SysxRnpHeUJIYnVzdFluVWo1L3Ntbk1xTng1UGJ6?=
- =?utf-8?B?RHVQSTFHanJYT1oyYTIzbXloamxqeEI5cDgxOEY2alBMaTJNREVreGZ2Q0dt?=
- =?utf-8?B?WmZYUmFMV2FFUDMrYmcrV09xckNyc3NKQytjRGc1V0pueXhYSG9pallwTDk3?=
- =?utf-8?B?WWFkM2laYjJyMnNQWHZVdzgxcDIycmdxc1BBL2w5V2pXcjhuUVJqRHo0dFc5?=
- =?utf-8?B?L1RocDdaR0pxT3lNMFYyMUNYWVNuZk1iOXRvaURaUVV5ak1nZ0xGUHdNVkZl?=
- =?utf-8?B?VEV5Y0xaYTRwemZXY0paQ2RLTlNZdU9MRXhpRTkrWDZwc0czZ3RJeTFKeTkw?=
- =?utf-8?B?aGxOUzRHWTBqNnNTZXY0QmVHK0VhT3AvZ3g5VmxwYm8ybmYyaHN5SlZlN2FP?=
- =?utf-8?B?a1UrbDB4TzFpcDJEU1RnclJHWEJRQXh1Mmd2M2tjeDF6S0d1NzE0UU8yQVNQ?=
- =?utf-8?B?bUxyRjNtK1h1Ny9YWXl4cnN4TzNVM29mWWJPRk5RcGFTMSt2aFZub1dndWVo?=
- =?utf-8?B?YTdlamlEdWZKMWk2WldmV3dpelowNXJKSE9mRHJ3MHE0YTgzd1V6YU9lZFov?=
- =?utf-8?B?eFY5NWQ2K0N3a2MrMFBnWnZQeFAwVGNKYjcyOXlUaGtVWnluVzhVbmJROFNI?=
- =?utf-8?B?L1gyeExDMFlxMzNrL1lBcFN4cUQ0SEl5QkwyeE9laHJXNmVjQ3V6SW9uSlk4?=
- =?utf-8?B?QXpyaVUveno4QlpqUnhiRkJNUjFIVGJZTG12YUlxTnd1OHdQWUZ1citZR1E2?=
- =?utf-8?B?aWJVUTZiVHRZRkhYcTVFdmZuenQvMnRDUTMwRnFvUEhTbWdoaHJNRW8vV001?=
- =?utf-8?B?bXZBUmNoMWk3UGxkTEhoMUJsZEp0SHE2TFRlL2ZxanJXZUhtTmE4M0kxUlFO?=
- =?utf-8?B?Y3oxLzUzZnpvS0d1RmdZTXVPV0RhQnNJMkN3bmFZRnRlMEgrQlhyczhBZ1J3?=
- =?utf-8?B?SzNTWExUeE43Q0V6elJvOVprbDVWeERCNlJDL05FcmREUlhYRWhwVmE0WHQy?=
- =?utf-8?B?NU1vd2g4UWJoSER6VlhCT2pSMVpodUZsbHVYQm1NYXdLbUZ5SVFsK3ltVHVM?=
- =?utf-8?B?eFV2WU83ZWNSTW8xZ2hCVS9UQjRyU3lReVJtTnlIdm84V1M0VHcrb0xBdm1u?=
- =?utf-8?B?azJDZnFnMFQ0aEZ3QXE3ZSs0bTZwdWJHTXA1bU9POXRuSFVWOFR6UmpyRFRz?=
- =?utf-8?B?L016NGRQcHFRQ3h1VVluL3k1b21YdndlbUFPQ0hkMVNSNWJMTWFhKzVYYzl6?=
- =?utf-8?B?Zm9LUHk3S2QweHJNVmlGNHZMQ2xYd3hKUGN3eEVLOTRuc1B2aHYweVpSLy80?=
- =?utf-8?B?VloxOGdnbEUrTjBYMzhjcDM1bytDU3pIVk1jNituZ0JlWjdKMjZYV2ZkU0Fr?=
- =?utf-8?B?dVpjUmplN3BCc1p3ZmNQRDdQMDZxV1p4RzNrejN2RjlMWnZwbm96RXBKMUM2?=
- =?utf-8?B?aks4NVdJbWROaWtzbG1nZWRkaitjakQ2NGdqUjE0SlZ4SzB4RGJwZXQ5bVpl?=
- =?utf-8?B?L3JpZ1J6K1Frd1VQNHhXZ0JkKzBlOExocm01MzBoajU4aFNwSDRyRC8yTGV5?=
- =?utf-8?B?YjN4Yjl5TXIvdUszRGI4UjEvbFA0THllMXQ1K280RnZNM01XbWhpOWxpQmdW?=
- =?utf-8?B?Nmc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5617B10E45E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1766139560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n+Sjh7UuYFLIovf/XxlzAidLiUL3k2dY2RdNBAzDrDc=;
+ b=FpNhUZOUC81ql5ptF8dqy1pu+8kqqMuibACzm9NTcpudYVPO4s3KgGYyhcQIryOTHkUuwb
+ 7sRaaL5xzQRpSKu+7rbRJmBdRbscO2WzQqSezrRNFKQUrDHHiSOs+vJAqVN/iLciznZK1V
+ REQMkToL5Lfc0HELFpkfj3XilWP9lHw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-297-n-lbXGaYPQCoKQlu3pzbCQ-1; Fri, 19 Dec 2025 05:19:18 -0500
+X-MC-Unique: n-lbXGaYPQCoKQlu3pzbCQ-1
+X-Mimecast-MFC-AGG-ID: n-lbXGaYPQCoKQlu3pzbCQ_1766139557
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-430fdaba167so885733f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 02:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; s=google; t=1766139557; x=1766744357; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=n+Sjh7UuYFLIovf/XxlzAidLiUL3k2dY2RdNBAzDrDc=;
+ b=t5QPGRMqpXi0sTk5tadxvum6VcT9CvqU/cJoAfs33bW0sXr2kRW3tUReXJfSNgHWRB
+ XDg1N7DNWKZNW82vvAQwVGpU6xFrhVXt6o+hRqsEK94t1aD41qm4NnrC6cQ2AXq3Bnfn
+ 7SHOAnjvVCqBjF+V0608S8ySZqOvk+xjbTDFbsI2KgcehMQQ7zxwo9k2ZOjWCPYTA36F
+ TuqnB4InOVvV3r3o6dQ5zJGu63IEF57iFZ1TMFgfqdq9nKHwdwrUXchUmDA/t+jXZDb6
+ IXSkrFkMmKYvKZo2H5CrOQyNK+jpmIQ5Iubnt1EhRY/jNIeHZCrvvrAfugqZTLnn6ttO
+ 8Ebw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766139557; x=1766744357;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=n+Sjh7UuYFLIovf/XxlzAidLiUL3k2dY2RdNBAzDrDc=;
+ b=oAqa5lfpbrQatlQeG2Cg6qDge4eU3NhGLW6qv7lIRUM+JPH8HXQ8wMM6nuTHHotst8
+ VT5sOlw2M9EU/vR5CAGjZqkWvGbQ9G0e2m1trNCPmXTRXhA6YNsr/wh6fFUl4xdr8X0P
+ cLUNS9ezc82sks5PkeHY4Sd5Lzoxcqil7++ZyIdogIDBAWXUXxuYsx2DpoSJrhwwAf3l
+ MAfRDJOOfSaMnUjWtvta7BK1XEw0epPwVF3KU/Z9IC8XXjoBnZ17MQPgU62EHJf2sOE6
+ jgTdVZe74os4sBHhK3lArsV7oMeTSYxtml/l8PPaMA66F2B62ajFeUohLXgGwl6Azl0A
+ QjNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHpWouwyXkM51bZu4z9jbnCpdN5zEkSoPNA0sAGgVHU4bKrfay14C8Ja4CJLSspFgOr6CBpE6ozHE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/Zjxel6VumeNdpkByBtbhuubTwvpccvBXnXQtIwlDyCR2a+Kb
+ SS4V4dwd1tnOQtWGQLHMhhgm7UBI25YN7qNq5S11CWNl3fuaOn3zoihXdG6GxF0sfzfJ649uvqz
+ 5WvQ4D9lAMWzm2qqs8jtW4Uz2W5+TjvmsIMH4QEMqo+aK6VWtDtnE//cHmk//O3eG8xPbJA==
+X-Gm-Gg: AY/fxX5w1+PRZJ+aKVEPfV55xFlAbFeabEniq8GOTJWDOY9NK4mcfS26AQrM7HEwdbz
+ sVlM8CmJN5JyyZL65AMYF25vk1TRDeOCSmsGYR8YD3kyfcLZXMM7JOSMpwdivMUjQeO+lPP2+0z
+ WcZQ11E52KR7odAQoFVAmb8JdQHfmUYqLLH+TBITILfWnSY6kesM4n7QmLDC3/EZ4bGL1yrJQAO
+ 4s8rkrsY6KYEkh+IyO//WPhPO+gV2J5bA+qnslXVA9MqKXTSZXh0ixmjnXv9l+4dAjZl8cNGCJW
+ Oc7ECUGXaLSN4M1mJASTPPdioikl7Wc48dZlV/6PplwqwRemskyWXG3OTr1YUg==
+X-Received: by 2002:a05:6000:1868:b0:430:fc0f:8fb9 with SMTP id
+ ffacd0b85a97d-4324e4f9458mr2556880f8f.36.1766139556960; 
+ Fri, 19 Dec 2025 02:19:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHeh4Zbkr/D6P7HWKArF0jdwKfFL+l6ZrJJ1FavgfXi5moav7Q7vb1/nUNiIeSf8i+9DMCNLQ==
+X-Received: by 2002:a05:6000:1868:b0:430:fc0f:8fb9 with SMTP id
+ ffacd0b85a97d-4324e4f9458mr2556840f8f.36.1766139556391; 
+ Fri, 19 Dec 2025 02:19:16 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4324eaa0908sm4147867f8f.31.2025.12.19.02.19.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Dec 2025 02:19:15 -0800 (PST)
+Date: Fri, 19 Dec 2025 11:19:15 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Eric Chanudet <echanude@redhat.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ Christian Koenig <christian.koenig@amd.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
+ in memcg
+Message-ID: <20251219-precise-tody-of-fortitude-5a3839@houat>
+References: <20251211193106.755485-2-echanude@redhat.com>
+ <CABdmKX2MPhw121ZG8V+f-XoOReUsCdmcug-cWDg=3WZcJ=NHHA@mail.gmail.com>
+ <20251215-sepia-husky-of-eternity-ecf0ce@penduick>
+ <CABdmKX1HgSzUPS1Ot93tpctgunfHt_F_XNROB6zzpu_u0oH2=A@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7e062cc-25f0-455e-92ee-08de3ee74b4a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2025 10:13:45.4206 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gq0jbBDIj+NygO1L+tLhOLIkUvgS8dIe3J+F/QmkCXXm2SzZYjDpMC9C5uY0USHMMWuU79PtQBuik6FEgOkQOsmupciCkRiLn2hbR3g29WA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15169
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="4cy66ljvjeto773l"
+Content-Disposition: inline
+In-Reply-To: <CABdmKX1HgSzUPS1Ot93tpctgunfHt_F_XNROB6zzpu_u0oH2=A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,65 +118,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWRyacOhbiBMYXJ1bWJlLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IEFkcmnDoW4gTGFydW1iZSA8YWRyaWFuLmxhcnVtYmVAY29sbGFib3JhLmNvbT4NCj4gU2Vu
-dDogMTkgRGVjZW1iZXIgMjAyNSAxMDowMg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm0vcGFu
-ZnJvc3Q6IEFkZCBHUFVfUE1fUlQgc3VwcG9ydCBmb3IgUlovRzNFIFNvQw0KPiANCj4gSGkgQmlq
-dSwNCj4gDQo+IEknbGwgYmUgbWVyZ2luZyB5b3VyIHBhdGNoLiBJdCdsbCBiZSBteSBmaXJzdCB0
-aW1lIGFzIGEgUGFuZnJvc3QgbWFpbnRhaW5lciwgc28gYmVhciBtZSB3aXRoIG1lIHdoaWxlDQo+
-IEkgYmVjb21lIGZhbWlsaWFyIHdpdGggdGhlIHByb2Nlc3MuDQoNCk9LLiBUaGFua3MuDQoNCkZZ
-SSwgSSBqdXN0IHVzZSB0aGUgYmVsb3cgNCBjb21tYW5kcyBiYXNlZCBvbiB0aGUgZG9jdW1lbnRh
-dGlvbiB0byBtZXJnZSBhIHBhdGNoIGFmdGVyIHRoZSBpbml0aWFsIGRpbSBzZXR1cC4NCg0KPT4g
-Li9tYWludGFpbmVyLXRvb2xzL2RpbSB1cGRhdGUtYnJhbmNoZXMNCj0+IC4vbWFpbnRhaW5lci10
-b29scy9kaW0gY2hlY2tvdXQgZHJtLW1pc2MtbmV4dA0KPT4gY3VybCB4eHggfCAuL21haW50YWlu
-ZXItdG9vbHMvZGltIGFwcGx5LWJyYW5jaCBkcm0tbWlzYy1uZXh0DQo9PiAuL21haW50YWluZXIt
-dG9vbHMvZGltIHB1c2gtYnJhbmNoIGRybS1taXNjLW5leHQNCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+
-IA0KPiBLaW5kIFJlZ2FyZHMsDQo+IEFkcmlhbg0KPiANCj4gT24gMTkuMTIuMjAyNSAwOTo0OSwg
-QmlqdSBEYXMgd3JvdGU6DQo+ID4gSGkgQWxsLA0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogQmlqdSA8YmlqdS5kYXMuYXVAZ21haWwuY29tPg0KPiA+
-ID4gU2VudDogMDMgRGVjZW1iZXIgMjAyNSAxMjo1MQ0KPiA+ID4gU3ViamVjdDogW1BBVENIXSBk
-cm0vcGFuZnJvc3Q6IEFkZCBHUFVfUE1fUlQgc3VwcG9ydCBmb3IgUlovRzNFIFNvQw0KPiA+ID4N
-Cj4gPiA+IEZyb206IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiA+
-DQo+ID4gPiBSWi9HM0UgU29DIGlzIGVtYmVkZGVkIHdpdGggTWFsaS1HNTIgR1BVIHN5c3RlbS4g
-VGhlIHN5c3RlbSBoYW5ncw0KPiA+ID4gYWZ0ZXIgU1RSIGluIHRoZSBmb2xsb3dpbmcNCj4gPiA+
-IGNvbmRpdGlvbjoNCj4gPiA+DQo+ID4gPiBTVFIgLT4gV2FrZXVwIGZyb20gU1RSIC0+IFVubG9h
-ZCBwYW5mcm9zdCB1c2luZyAnbW9kcHJvYmUgLXIgcGFuZnJvc3QnLg0KPiA+ID4NCj4gPiA+IEZp
-eCB0aGlzIGlzc3VlIGJ5IGFzc2VydGluZy9kZWFzc2VydGluZyB0aGUgcmVzZXQgZHVyaW5nIHN1
-c3BlbmQvcmVzdW1lLg0KPiA+ID4gUmVuYW1lIHRoZSB2YXJpYWJsZSBhbGx3aW5uZXJfaDYxNl9k
-YXRhLT5kZWZhdWx0X3BtX3J0X2RhdGEgZm9yIGRhdGENCj4gPiA+IHJldXNlIGFuZCBtYWtlIGl0
-IGFzIGdlbmVyaWMgR1BVIFBNIHJ1bnRpbWUgZGF0YS4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2Zm
-LWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gPiAtLS0NCj4g
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCA1ICsrKy0tDQo+
-ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4g
-PiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0
-X2Rydi5jDQo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYw0K
-PiA+ID4gaW5kZXggN2Q4YzdjMzM3NjA2Li5lNTUzZjE4M2M3ODAgMTAwNjQ0DQo+ID4gPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMNCj4gPiA+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYw0KPiA+ID4gQEAgLTk3Niw3ICs5
-NzYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmZyb3N0X2NvbXBhdGlibGUgZGVmYXVsdF9k
-YXRhID0gew0KPiA+ID4gIAkucG1fZG9tYWluX25hbWVzID0gTlVMTCwNCj4gPiA+ICB9Ow0KPiA+
-ID4NCj4gPiA+IC1zdGF0aWMgY29uc3Qgc3RydWN0IHBhbmZyb3N0X2NvbXBhdGlibGUgYWxsd2lu
-bmVyX2g2MTZfZGF0YSA9IHsNCj4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmZyb3N0X2Nv
-bXBhdGlibGUgZGVmYXVsdF9wbV9ydF9kYXRhID0gew0KPiA+ID4gIAkubnVtX3N1cHBsaWVzID0g
-QVJSQVlfU0laRShkZWZhdWx0X3N1cHBsaWVzKSAtIDEsDQo+ID4gPiAgCS5zdXBwbHlfbmFtZXMg
-PSBkZWZhdWx0X3N1cHBsaWVzLA0KPiA+ID4gIAkubnVtX3BtX2RvbWFpbnMgPSAxLA0KPiA+ID4g
-QEAgLTEwNTYsNiArMTA1Niw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGR0
-X21hdGNoW10gPSB7DQo+ID4gPiAgCSAgLmRhdGEgPSAmYW1sb2dpY19kYXRhLCB9LA0KPiA+ID4g
-IAl7IC5jb21wYXRpYmxlID0gImFtbG9naWMsbWVzb24tZzEyYS1tYWxpIiwNCj4gPiA+ICAJICAu
-ZGF0YSA9ICZhbWxvZ2ljX2RhdGEsIH0sDQo+ID4gPiArCXsgLmNvbXBhdGlibGUgPSAicmVuZXNh
-cyxyOWEwOWcwNDctbWFsaSIsIC5kYXRhID0NCj4gPiA+ICsmZGVmYXVsdF9wbV9ydF9kYXRhIH0s
-DQo+ID4gPiAgCXsgLmNvbXBhdGlibGUgPSAiYXJtLG1hbGktdDYwNCIsIC5kYXRhID0gJmRlZmF1
-bHRfZGF0YSwgfSwNCj4gPiA+ICAJeyAuY29tcGF0aWJsZSA9ICJhcm0sbWFsaS10NjI0IiwgLmRh
-dGEgPSAmZGVmYXVsdF9kYXRhLCB9LA0KPiA+ID4gIAl7IC5jb21wYXRpYmxlID0gImFybSxtYWxp
-LXQ2MjgiLCAuZGF0YSA9ICZkZWZhdWx0X2RhdGEsIH0sIEBADQo+ID4gPiAtMTA3Myw3ICsxMDc0
-LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZHRfbWF0Y2hbXSA9IHsNCj4g
-PiA+ICAJeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODgtbWFsaSIsIC5kYXRhID0gJm1l
-ZGlhdGVrX210ODE4OF9kYXRhIH0sDQo+ID4gPiAgCXsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWss
-bXQ4MTkyLW1hbGkiLCAuZGF0YSA9ICZtZWRpYXRla19tdDgxOTJfZGF0YSB9LA0KPiA+ID4gIAl7
-IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODM3MC1tYWxpIiwgLmRhdGEgPSAmbWVkaWF0ZWtf
-bXQ4MzcwX2RhdGEgfSwNCj4gPiA+IC0JeyAuY29tcGF0aWJsZSA9ICJhbGx3aW5uZXIsc3VuNTBp
-LWg2MTYtbWFsaSIsIC5kYXRhID0gJmFsbHdpbm5lcl9oNjE2X2RhdGEgfSwNCj4gPiA+ICsJeyAu
-Y29tcGF0aWJsZSA9ICJhbGx3aW5uZXIsc3VuNTBpLWg2MTYtbWFsaSIsIC5kYXRhID0NCj4gPiA+
-ICsmZGVmYXVsdF9wbV9ydF9kYXRhIH0sDQo+ID4gPiAgCXt9DQo+ID4gPiAgfTsNCj4gPiA+ICBN
-T0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkdF9tYXRjaCk7DQo+ID4gPiAtLQ0KPiA+ID4gMi40My4w
-DQo+ID4NCj4gPiBHZW50bGUgcGluZy4NCj4gPg0KPiA+IENoZWVycywNCj4gPiBCaWp1DQo=
+
+--4cy66ljvjeto773l
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
+ in memcg
+MIME-Version: 1.0
+
+Hi,
+
+On Tue, Dec 16, 2025 at 11:06:59AM +0900, T.J. Mercier wrote:
+> On Mon, Dec 15, 2025 at 7:51=E2=80=AFPM Maxime Ripard <mripard@redhat.com=
+> wrote:
+> > On Fri, Dec 12, 2025 at 08:25:19AM +0900, T.J. Mercier wrote:
+> > > On Fri, Dec 12, 2025 at 4:31=E2=80=AFAM Eric Chanudet <echanude@redha=
+t.com> wrote:
+> > > >
+> > > > The system dma-buf heap lets userspace allocate buffers from the pa=
+ge
+> > > > allocator. However, these allocations are not accounted for in memc=
+g,
+> > > > allowing processes to escape limits that may be configured.
+> > > >
+> > > > Pass the __GFP_ACCOUNT for our allocations to account them into mem=
+cg.
+> > >
+> > > We had a discussion just last night in the MM track at LPC about how
+> > > shared memory accounted in memcg is pretty broken. Without a way to
+> > > identify (and possibly transfer) ownership of a shared buffer, this
+> > > makes the accounting of shared memory, and zombie memcg problems
+> > > worse. :\
+> >
+> > Are there notes or a report from that discussion anywhere?
+>=20
+> The LPC vids haven't been clipped yet, and actually I can't even find
+> the recorded full live stream from Hall A2 on the first day. So I
+> don't think there's anything to look at, but I bet there's probably
+> nothing there you don't already know.
+
+Ack, thanks for looking at it still :)
+
+> > The way I see it, the dma-buf heaps *trivial* case is non-existent at
+> > the moment and that's definitely broken. Any application can bypass its
+> > cgroups limits trivially, and that's a pretty big hole in the system.
+>=20
+> Agree, but if we only charge the first allocator then limits can still
+> easily be bypassed assuming an app can cause an allocation outside of
+> its cgroup tree.
+>=20
+> I'm not sure using static memcg limits where a significant portion of
+> the memory can be shared is really feasible. Even with just pagecache
+> being charged to memcgs, we're having trouble defining a static memcg
+> limit that is really useful since it has to be high enough to
+> accomodate occasional spikes due to shared memory that might or might
+> not be charged (since it can only be charged to one memcg - it may be
+> spread around or it may all get charged to one memcg). So excessive
+> anonymous use has to get really bad before it gets punished.
+>=20
+> What I've been hearing lately is that folks are polling memory.stat or
+> PSI or other metrics and using that to take actions (memory.reclaim /
+> killing / adjust memory.high) at runtime rather than relying on
+> memory.high/max behavior with a static limit.
+
+But that's only side effects of a buffer being shared, right? (which,
+for a buffer sharing mechanism is still pretty important, but still)
+
+> > The shared ownership is indeed broken, but it's not more or less broken
+> > than, say, memfd + udmabuf, and I'm sure plenty of others.
+>=20
+> One thing that's worse about system heap buffers is that unlike memfd
+> the memory isn't reclaimable. So without killing all users there's
+> currently no way to deal with the zombie issue. Harry's proposing
+> reparenting, but I don't think our current interfaces support that
+> because we'd have to mess with the page structs behind system heap
+> dmabufs to change the memcg during reparenting.
+>=20
+> Ah... but udmabuf pins the memfd pages, so you're right that memfd +
+> udmabuf isn't worse.
+>=20
+> > So we really improve the common case, but only make the "advanced"
+> > slightly more broken than it already is.
+> >
+> > Would you disagree?
+>=20
+> I think memcg limits in this case just wouldn't be usable because of
+> what I mentioned above. In our common case the allocator is in a
+> different cgroup tree than the real users of the buffer.
+
+So, my issue with this is that we want to fix not only dma-buf itself,
+but every device buffer allocation mechanism, so also v4l2, drm, etc.
+
+So we'll need a lot of infrastructure and rework outside of dma-buf to
+get there, and figuring out how to solve the shared buffer accounting is
+indeed one of them, but was so far considered kind the thing to do last
+last time we discussed.
+
+What I get from that discussion is that we now consider it a
+prerequisite, and given how that topic has been advancing so far, one
+that would take a couple of years at best to materialize into something
+useful and upstream.
+
+Thus, it blocks all the work around it for years.
+
+Would you be open to merging patches that work on it but only enabled
+through a kernel parameter for example (and possibly taint the kernel?)?
+That would allow to work towards that goal while not being blocked by
+the shared buffer accounting, and not affecting the general case either.
+
+Maxime
+
+--4cy66ljvjeto773l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUUmogAKCRAnX84Zoj2+
+docaAX97oRKC47EmRfraR77g2nPKkhNGbslMpV97iGWZDw9W7qVFZSWxAm3ZOecR
+fdkqIH0BgJFWYMfMj1oLwlijaHOD41ueRI3Yd6gM9FpeT9i1TBtqRQpdmR+3tIkc
+JQn/bUAXkA==
+=H3ZY
+-----END PGP SIGNATURE-----
+
+--4cy66ljvjeto773l--
+
