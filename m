@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C376CD16E0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 19:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69A8CD16F8
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 19:47:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7663610F084;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A088F10F08B;
 	Fri, 19 Dec 2025 18:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="U503OLJz";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="0Y3P9IuM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 972F910F07E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFCB610F07E;
  Fri, 19 Dec 2025 18:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=6AEjezfZKDs0XvSfUCxxqcxbpEjYQW04G0xxXaq7h6c=; b=U503OLJzMNRaA2srTN6gFf3kdw
- iaKM0h3pjftJicC7ZTyvMTeNoFpVAAPfYWhFVxr19U5hVL5k6nQAU4xBcw+rYVesEEgU8bi40GA5t
- I9Bf3gSwq4vv0xfh2AeOAA0ZxR7UwfzA4mbFxE4E/fYbyHHSaPI7hihcCml0pMbMX4TBDQs6BIKI5
- 4cxL7aDpOFR7YPg1MIiyaKNlh1zFYi3m5DDsTpFV0+Ili0vKmO48KDCnWLhBe/fnLES1+9MHM/HeG
- 06ypOF7D3iILKuAJWFSa78kRC5U15EoZ/fCaWAU5sqhJFnkkMpSJSmYxcjlpQEFSCvUq3cE/lAJIz
- cAdYCqxg==;
+ bh=UtLTwc+LiBLTScqzUXqYR3Ok73APBHKTYAuY0Z5/pns=; b=0Y3P9IuMTi3L/couh/zAofVFyy
+ E0XMDaUDT6h77QLXRljgI7dvOYGILqM1JLO3nyU8HBzHY3yTKEqJ0oLBCaD/Fxnx+q2H4u28x5BCc
+ 62paejRColy7RVVws7mt9UqyjF6GwYNKZiIu+VXGI6i8zTrc87zHSAnM2tmJhEMYjU9lBXb98xOh7
+ 7VCIhWW3sNSrJpR0VqtNsmFPwfdMcq92bkUeOMMnqpAl41ofZiGG5QLJ7dPppqaMdfbE5kHnZzxLY
+ blHQsUaIGkw1IegImx3PWSC4GOADyXqGqjwPxL6fBmekYCOFIemKCQoqkJSx5jCpc68TpdjRZsoPN
+ qAwZym9A==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vWfUy-0000000AqkV-1KB4; Fri, 19 Dec 2025 18:46:44 +0000
+ id 1vWfUy-0000000AqkV-2blN; Fri, 19 Dec 2025 18:46:44 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
@@ -37,9 +37,9 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
  freedreno@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 12/19] drm/msm/dpu: dpu_hw_sspp.h: fix all kernel-doc warnings
-Date: Fri, 19 Dec 2025 10:46:31 -0800
-Message-ID: <20251219184638.1813181-13-rdunlap@infradead.org>
+Subject: [PATCH 13/19] drm/msm/dpu: dpu_hw_top.h: fix all kernel-doc warnings
+Date: Fri, 19 Dec 2025 10:46:32 -0800
+Message-ID: <20251219184638.1813181-14-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251219184638.1813181-1-rdunlap@infradead.org>
 References: <20251219184638.1813181-1-rdunlap@infradead.org>
@@ -60,83 +60,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modify non-kernel-doc comments to begin with "/*" instead of "/**".
 Correct or add kernel-doc comments to eliminate all warnings:
 
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:17 missing initial
- short description on line: * Flags
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:19 expecting
- prototype for Flags(). Prototype was for DPU_SSPP_FLIP_LR() instead
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:26 This comment
- starts with '/**', but isn't a kernel-doc comment.
- * Component indices
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:47 cannot understand
- function prototype: 'enum dpu_sspp_multirect_index'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:152 struct member
- 'dst_rect' not described in 'dpu_sw_pipe_cfg'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:174 struct member
- 'multirect_index' not described in 'dpu_sw_pipe'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:174 struct member
- 'multirect_mode' not described in 'dpu_sw_pipe'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:183 Incorrect use of
- kernel-doc format: * setup_format - setup pixel format cropping
- rectangle, flip
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:192 Incorrect use of
- kernel-doc format: * setup_rects - setup pipe ROI rectangles
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:200 Incorrect use of
- kernel-doc format: * setup_pe - setup pipe pixel extension
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:208 Incorrect use of
- kernel-doc format: * setup_sourceaddress - setup pipe source addresses
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:216 Incorrect use of
- kernel-doc format: * setup_csc - setup color space coversion
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:223 Incorrect use of
- kernel-doc format: * setup_solidfill - enable/disable colorfill
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:231 Incorrect use of
- kernel-doc format: * setup_multirect - setup multirect configuration
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:238 Incorrect use of
- kernel-doc format: * setup_sharpening - setup sharpening
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:247 Incorrect use of
- kernel-doc format: * setup_qos_lut - setup QoS LUTs
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:255 Incorrect use of
- kernel-doc format: * setup_qos_ctrl - setup QoS control
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:263 Incorrect use of
- kernel-doc format: * setup_clk_force_ctrl - setup clock force control
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:271 Incorrect use of
- kernel-doc format: * setup_histogram - setup histograms
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:279 Incorrect use of
- kernel-doc format: * setup_scaler - setup scaler
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:288 Incorrect use of
- kernel-doc format: * setup_cdp - setup client driven prefetch
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_format' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_rects' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_pe' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_sourceaddress' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_csc' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_solidfill' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_multirect' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_sharpening' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_qos_lut' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_qos_ctrl' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_clk_force_ctrl' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_histogram' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_scaler' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:296 struct member
- 'setup_cdp' not described in 'dpu_hw_sspp_ops'
-Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h:320 struct member
- 'mdss_ver' not described in 'dpu_hw_sspp'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:93 Incorrect use of
+ kernel-doc format: * setup_traffic_shaper() : Setup traffic shaper control
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:101 Incorrect use of
+ kernel-doc format: * setup_clk_force_ctrl - set clock force control
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:111 Incorrect use of
+ kernel-doc format: * get_danger_status - get danger status
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:119 Incorrect use of
+ kernel-doc format: * setup_vsync_source - setup vsync source
+ configuration details
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:127 Incorrect use of
+ kernel-doc format: * get_safe_status - get safe status
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:135 Incorrect use of
+ kernel-doc format: * dp_phy_intf_sel - configure intf to phy mapping
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:142 Incorrect use of
+ kernel-doc format: * intf_audio_select - select the external interface
+ for audio
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'setup_clk_force_ctrl' not described in 'dpu_hw_mdp_ops'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'get_danger_status' not described in 'dpu_hw_mdp_ops'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'setup_vsync_source' not described in 'dpu_hw_mdp_ops'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'get_safe_status' not described in 'dpu_hw_mdp_ops'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'dp_phy_intf_sel' not described in 'dpu_hw_mdp_ops'
+Warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h:146 struct member
+ 'intf_audio_select' not described in 'dpu_hw_mdp_ops'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
@@ -148,193 +101,86 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |   47 +++++++++---------
- 1 file changed, 24 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h |   21 +++++++++----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
---- linux-next-20251119.orig/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ linux-next-20251119/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -14,7 +14,7 @@ struct dpu_hw_sspp;
- 
- #define DPU_SSPP_MAX_PITCH_SIZE		0xffff
- 
--/**
-+/*
-  * Flags
-  */
- #define DPU_SSPP_FLIP_LR		BIT(0)
-@@ -23,7 +23,7 @@ struct dpu_hw_sspp;
- #define DPU_SSPP_ROT_90			BIT(3)
- #define DPU_SSPP_SOLID_FILL		BIT(4)
- 
--/**
-+/*
-  * Component indices
-  */
- enum {
-@@ -36,9 +36,10 @@ enum {
- };
- 
+--- linux-next-20251119.orig/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
++++ linux-next-20251119/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+@@ -77,12 +77,11 @@ enum dpu_dp_phy_sel {
  /**
-- * DPU_SSPP_RECT_SOLO - multirect disabled
-- * DPU_SSPP_RECT_0 - rect0 of a multirect pipe
-- * DPU_SSPP_RECT_1 - rect1 of a multirect pipe
-+ * enum dpu_sspp_multirect_index - multirect mode
-+ * @DPU_SSPP_RECT_SOLO: multirect disabled
-+ * @DPU_SSPP_RECT_0: rect0 of a multirect pipe
-+ * @DPU_SSPP_RECT_1: rect1 of a multirect pipe
-  *
-  * Note: HW supports multirect with either RECT0 or
-  * RECT1. Considering no benefit of such configs over
-@@ -143,7 +144,7 @@ struct dpu_hw_pixel_ext {
-  * struct dpu_sw_pipe_cfg : software pipe configuration
-  * @src_rect:  src ROI, caller takes into account the different operations
-  *             such as decimation, flip etc to program this field
-- * @dest_rect: destination ROI.
-+ * @dst_rect: destination ROI.
-  * @rotation: simplified drm rotation hint
+  * struct dpu_hw_mdp_ops - interface to the MDP TOP Hw driver functions
+  * Assumption is these functions will be called after clocks are enabled.
+- * @setup_split_pipe : Programs the pipe control registers
+- * @setup_pp_split : Programs the pp split control registers
+- * @setup_traffic_shaper : programs traffic shaper control
   */
- struct dpu_sw_pipe_cfg {
-@@ -165,8 +166,8 @@ struct dpu_hw_pipe_ts_cfg {
- /**
-  * struct dpu_sw_pipe - software pipe description
-  * @sspp:      backing SSPP pipe
-- * @index:     index of the rectangle of SSPP
-- * @mode:      parallel or time multiplex multirect mode
-+ * @multirect_index:     index of the rectangle of SSPP
-+ * @multirect_mode:      parallel or time multiplex multirect mode
-  */
- struct dpu_sw_pipe {
- 	struct dpu_hw_sspp *sspp;
-@@ -181,7 +182,7 @@ struct dpu_sw_pipe {
-  */
- struct dpu_hw_sspp_ops {
- 	/**
--	 * setup_format - setup pixel format cropping rectangle, flip
-+	 * @setup_format: setup pixel format cropping rectangle, flip
- 	 * @pipe: Pointer to software pipe context
- 	 * @cfg: Pointer to pipe config structure
- 	 * @flags: Extra flags for format config
-@@ -190,7 +191,7 @@ struct dpu_hw_sspp_ops {
- 			     const struct msm_format *fmt, u32 flags);
+ struct dpu_hw_mdp_ops {
+-	/** setup_split_pipe() : Registers are not double buffered, thisk
++	/**
++	 * @setup_split_pipe : Programs the pipe control registers.
++	 * Registers are not double buffered, this
+ 	 * function should be called before timing control enable
+ 	 * @mdp  : mdp top context driver
+ 	 * @cfg  : upper and lower part of pipe configuration
+@@ -91,7 +90,7 @@ struct dpu_hw_mdp_ops {
+ 			struct split_pipe_cfg *p);
  
  	/**
--	 * setup_rects - setup pipe ROI rectangles
-+	 * @setup_rects: setup pipe ROI rectangles
- 	 * @pipe: Pointer to software pipe context
- 	 * @cfg: Pointer to pipe config structure
+-	 * setup_traffic_shaper() : Setup traffic shaper control
++	 * @setup_traffic_shaper : programs traffic shaper control.
+ 	 * @mdp  : mdp top context driver
+ 	 * @cfg  : traffic shaper configuration
  	 */
-@@ -198,7 +199,7 @@ struct dpu_hw_sspp_ops {
- 			    struct dpu_sw_pipe_cfg *cfg);
+@@ -99,7 +98,7 @@ struct dpu_hw_mdp_ops {
+ 			struct traffic_shaper_cfg *cfg);
  
  	/**
--	 * setup_pe - setup pipe pixel extension
-+	 * @setup_pe: setup pipe pixel extension
- 	 * @ctx: Pointer to pipe context
- 	 * @pe_ext: Pointer to pixel ext settings
+-	 * setup_clk_force_ctrl - set clock force control
++	 * @setup_clk_force_ctrl: set clock force control
+ 	 * @mdp: mdp top context driver
+ 	 * @clk_ctrl: clock to be controlled
+ 	 * @enable: force on enable
+@@ -109,7 +108,7 @@ struct dpu_hw_mdp_ops {
+ 			enum dpu_clk_ctrl_type clk_ctrl, bool enable);
+ 
+ 	/**
+-	 * get_danger_status - get danger status
++	 * @get_danger_status: get danger status
+ 	 * @mdp: mdp top context driver
+ 	 * @status: Pointer to danger safe status
  	 */
-@@ -206,7 +207,7 @@ struct dpu_hw_sspp_ops {
- 			struct dpu_hw_pixel_ext *pe_ext);
+@@ -117,7 +116,7 @@ struct dpu_hw_mdp_ops {
+ 			struct dpu_danger_safe_status *status);
  
  	/**
--	 * setup_sourceaddress - setup pipe source addresses
-+	 * @setup_sourceaddress: setup pipe source addresses
- 	 * @pipe: Pointer to software pipe context
- 	 * @layout: format layout information for programming buffer to hardware
+-	 * setup_vsync_source - setup vsync source configuration details
++	 * @setup_vsync_source: setup vsync source configuration details
+ 	 * @mdp: mdp top context driver
+ 	 * @cfg: vsync source selection configuration
  	 */
-@@ -214,14 +215,14 @@ struct dpu_hw_sspp_ops {
- 				    struct dpu_hw_fmt_layout *layout);
+@@ -125,7 +124,7 @@ struct dpu_hw_mdp_ops {
+ 				struct dpu_vsync_source_cfg *cfg);
  
  	/**
--	 * setup_csc - setup color space coversion
-+	 * @setup_csc: setup color space coversion
- 	 * @ctx: Pointer to pipe context
- 	 * @data: Pointer to config structure
+-	 * get_safe_status - get safe status
++	 * @get_safe_status: get safe status
+ 	 * @mdp: mdp top context driver
+ 	 * @status: Pointer to danger safe status
  	 */
- 	void (*setup_csc)(struct dpu_hw_sspp *ctx, const struct dpu_csc_cfg *data);
+@@ -133,14 +132,14 @@ struct dpu_hw_mdp_ops {
+ 			struct dpu_danger_safe_status *status);
  
  	/**
--	 * setup_solidfill - enable/disable colorfill
-+	 * @setup_solidfill: enable/disable colorfill
- 	 * @pipe: Pointer to software pipe context
- 	 * @const_color: Fill color value
- 	 * @flags: Pipe flags
-@@ -229,23 +230,22 @@ struct dpu_hw_sspp_ops {
- 	void (*setup_solidfill)(struct dpu_sw_pipe *pipe, u32 color);
- 
- 	/**
--	 * setup_multirect - setup multirect configuration
-+	 * @setup_multirect: setup multirect configuration
- 	 * @pipe: Pointer to software pipe context
+-	 * dp_phy_intf_sel - configure intf to phy mapping
++	 * @dp_phy_intf_sel: configure intf to phy mapping
+ 	 * @mdp: mdp top context driver
+ 	 * @phys: list of phys the DP interfaces should be connected to. 0 disables the INTF.
  	 */
- 
- 	void (*setup_multirect)(struct dpu_sw_pipe *pipe);
+ 	void (*dp_phy_intf_sel)(struct dpu_hw_mdp *mdp, enum dpu_dp_phy_sel phys[2]);
  
  	/**
--	 * setup_sharpening - setup sharpening
-+	 * @setup_sharpening: setup sharpening
- 	 * @ctx: Pointer to pipe context
- 	 * @cfg: Pointer to config structure
+-	 * intf_audio_select - select the external interface for audio
++	 * @intf_audio_select: select the external interface for audio
+ 	 * @mdp: mdp top context driver
  	 */
- 	void (*setup_sharpening)(struct dpu_hw_sspp *ctx,
- 			struct dpu_hw_sharp_cfg *cfg);
- 
--
- 	/**
--	 * setup_qos_lut - setup QoS LUTs
-+	 * @setup_qos_lut: setup QoS LUTs
- 	 * @ctx: Pointer to pipe context
- 	 * @cfg: LUT configuration
- 	 */
-@@ -253,7 +253,7 @@ struct dpu_hw_sspp_ops {
- 			struct dpu_hw_qos_cfg *cfg);
- 
- 	/**
--	 * setup_qos_ctrl - setup QoS control
-+	 * @setup_qos_ctrl: setup QoS control
- 	 * @ctx: Pointer to pipe context
- 	 * @danger_safe_en: flags controlling enabling of danger/safe QoS/LUT
- 	 */
-@@ -261,7 +261,7 @@ struct dpu_hw_sspp_ops {
- 			       bool danger_safe_en);
- 
- 	/**
--	 * setup_clk_force_ctrl - setup clock force control
-+	 * @setup_clk_force_ctrl: setup clock force control
- 	 * @ctx: Pointer to pipe context
- 	 * @enable: enable clock force if true
- 	 */
-@@ -269,7 +269,7 @@ struct dpu_hw_sspp_ops {
- 				     bool enable);
- 
- 	/**
--	 * setup_histogram - setup histograms
-+	 * @setup_histogram: setup histograms
- 	 * @ctx: Pointer to pipe context
- 	 * @cfg: Pointer to histogram configuration
- 	 */
-@@ -277,7 +277,7 @@ struct dpu_hw_sspp_ops {
- 			void *cfg);
- 
- 	/**
--	 * setup_scaler - setup scaler
-+	 * @setup_scaler: setup scaler
- 	 * @scaler3_cfg: Pointer to scaler configuration
- 	 * @format: pixel format parameters
- 	 */
-@@ -286,7 +286,7 @@ struct dpu_hw_sspp_ops {
- 		const struct msm_format *format);
- 
- 	/**
--	 * setup_cdp - setup client driven prefetch
-+	 * @setup_cdp: setup client driven prefetch
- 	 * @pipe: Pointer to software pipe context
- 	 * @fmt: format used by the sw pipe
- 	 * @enable: whether the CDP should be enabled for this pipe
-@@ -303,6 +303,7 @@ struct dpu_hw_sspp_ops {
-  * @ubwc: UBWC configuration data
-  * @idx: pipe index
-  * @cap: pointer to layer_cfg
-+ * @mdss_ver: MDSS version info to use for feature checks
-  * @ops: pointer to operations possible for this pipe
-  */
- struct dpu_hw_sspp {
+ 	void (*intf_audio_select)(struct dpu_hw_mdp *mdp);
