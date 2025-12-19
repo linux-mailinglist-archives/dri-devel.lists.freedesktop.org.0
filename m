@@ -2,90 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6035FCCEACC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 07:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC3ACCEBE3
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 08:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A1D10EE57;
-	Fri, 19 Dec 2025 06:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB8510EE66;
+	Fri, 19 Dec 2025 07:13:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GQN+oLG9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JWWtiCsT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A9D10EE4C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 06:56:10 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-47d182a8c6cso2837115e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Dec 2025 22:56:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1766127369; x=1766732169; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1uvUrNBTPpChg3H7Mj1KDqnB8rAwuiPMf9e+Kj7W0oA=;
- b=GQN+oLG9yTYC2ThrLSvtds+TSEtO/iCSIp2I/uOtNmcjRJESZ3eV9kLD0J/FvXeD8U
- Zti8vYXtpu9dXB+0GVAYNo5xfsDi88xQHfIfAf8tM3saQtv/LRbbTryeQvduAIkYwyQR
- 6qgC99uqxjE2WnWDMpCQiKVsd9lQeXQPvsomFkPytfZZ9H5r0NathvT25wi9huTEqDw/
- uix36w1pkUIJGj7bMx5VH+j8omubDaLL/5BxulLsdIsE3Rmy+uu/vn++DN3nAtXyWMSd
- 0fbrU64GwUGbkJYhnsD5ffO2ejbXR4qMVIVp1w2l7WOC12uNqQ5Bs19SA9yBi39Qax3O
- BiNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766127369; x=1766732169;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1uvUrNBTPpChg3H7Mj1KDqnB8rAwuiPMf9e+Kj7W0oA=;
- b=k5m3PBWK1vAE1v24DNlzKzhjI0WeAm3+xMGgYWXHVa2PaO4KMHXJrkzSs1jFNEUGBU
- BnRo2ICVAV4cFS2W8bXVmjBvuTSFr2qDI3xDXFm7wGk9Xh1KVIadKLmaZRBYvUtzij1e
- ZKLxJnx+MmqpywF8Hgl62poOZb1ZW3P8dZUex4N55FBv/hMjePr3vbGZcEKUT3dZCw/P
- 145CoB4QW+wIiVgLgdl+VEHUNuWIV7fgUAPk4Qyb8iRy2kDwC5gk4vRUUaaj+PfWqGaH
- AArFqTny7LtJ11+ujw8pB7y/TZRAlUgVzmO2X3jwYt1S1OpIZoOyvAi6c2rWHiCOYbhT
- aMbA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIaTmnaK8XbfGiGn9VneBhXG8so8CFWKzeiAfQWtSMC5+PUVWSZMZDrkCOWPYo0n9ViNajfaUKbjU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNqQ5X1LAqRAlFMJlL2Qc63S63lf4OZILiSPfcu7Xl0txkrCVC
- gPuWriWhQbf+AB8NckkMeZnvBhmSVIg9CgHZ6296z1+LdQ1axdP0xiKe3WA8fDbrGkM=
-X-Gm-Gg: AY/fxX5fHaBXPBEG2Vo4/HlQnnAV6A9E/XHlf8cakkO7aZFxLPZ3ind34StZsH4b68r
- m8gA6jeaP8ir47D4jEusAl9hT+iy8Tu6/wc7MJckfOgl7iJu0pgU7RzuGcUghVDtez4H0wwQFMa
- ChsyxD7yLYjWVq5eKr54/GZvoL1EKM1pL/O2C+LFHT08JaXP5G9kexdSEhKV0AgVxNFUsG8VEuK
- Xf1bHI7CGt1nw8jReimzAbEQ6aXBNbNpeH9ngJTeSTptbxWk+HLW6UBw+E+Su75c1Ahv8JPs4aK
- hI1el3i2aL+TCZ4F4hrdO5Scd3AmSUsXW0U7uNIyPAcP2RH3Uf3DpnNFkxa1a7+KzBijLGBFj8F
- yJTGtVfjU+fhoRdwJlxYYWSzegZq0d9rpggEtBPcy25iZu8/U3BEQln0mFeB1xnubegXhF6fFM4
- UrAKA+aVEA8zn8+aPu
-X-Google-Smtp-Source: AGHT+IETUnYjoqlX0nTA5YutvCCmQpud7Xc95qZZjrAyjw0urEK/i2B0DG8TW5LtsWwvJaxJadbpvQ==
-X-Received: by 2002:a05:600c:45cf:b0:47a:7fdd:2906 with SMTP id
- 5b1f17b1804b1-47d1954a550mr12510385e9.12.1766127368714; 
- Thu, 18 Dec 2025 22:56:08 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47be3a0fb5bsm30212905e9.1.2025.12.18.22.56.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Dec 2025 22:56:08 -0800 (PST)
-Date: Fri, 19 Dec 2025 09:56:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH 1/2] kbuild: remove gcc's -Wtype-limits
-Message-ID: <aUT3BYAT1bLCk1w9@stanley.mountain>
-References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
- <20251218-remove_wtype-limits-v1-1-735417536787@kernel.org>
- <aURXpAwm-ITVlHMl@stanley.mountain>
- <480c3c06-7b3c-4150-b347-21057678f619@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE81E10EE66;
+ Fri, 19 Dec 2025 07:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766128395; x=1797664395;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=RYFz56kPS/hCD+ggHjSCRm4bg+ZN2ZotuxqtpS+GFrA=;
+ b=JWWtiCsTO2/P+4VAlp5abS7uC6mQhzzP3JXG+W7OuDZGaJKMCAbUUi2Q
+ VkyqPQDUchitOu+as/9n6YHZTGroIw7hkjN4XHbCmeZyhD8gOn3UDlAnV
+ j2z5lprvR1xjsdAjC0fvtrBx8CHXCTI0vjNlk/4GSlD8P1mt+hAcXS/Tq
+ pXJFUDJZifGDT2wGWwpMysRSdwO01R3aGZXw7kxXqF3mp4o1+6a2gZVid
+ gN0ung5UMYDDbcGPDrBnqkJlihbXzFWKteTTZfr66E9UYI+vXvzI+P+Hw
+ PFKclNEmTfsjoSvyiXZPLpfDYqMqsrVH3CNGs/Qhi1fESv4paDJpGemqe A==;
+X-CSE-ConnectionGUID: NC84xhh+SiOstP9/vjN/Yg==
+X-CSE-MsgGUID: hHxggeqRSrWBwFmqMnQ3hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="93562304"
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="93562304"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2025 23:13:15 -0800
+X-CSE-ConnectionGUID: o10xvJB/Taaemcr/IrN6Gw==
+X-CSE-MsgGUID: exs9AN/8R0GwPAC7aibMYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; d="scan'208";a="222209454"
+Received: from dut-2a59.iind.intel.com ([10.190.239.113])
+ by fmviesa002.fm.intel.com with ESMTP; 18 Dec 2025 23:13:11 -0800
+From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
+ louis.chauvet@bootlin.com, mwen@igalia.com, contact@emersion.fr,
+ alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
+ suraj.kandpal@intel.com, nfraprado@collabora.com,
+ ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
+Subject: [PATCH 04/13] drm/i915/display: Fix color pipeline enum name leak
+Date: Fri, 19 Dec 2025 12:26:05 +0530
+Message-Id: <20251219065614.190834-5-chaitanya.kumar.borah@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251219065614.190834-1-chaitanya.kumar.borah@intel.com>
+References: <20251219065614.190834-1-chaitanya.kumar.borah@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <480c3c06-7b3c-4150-b347-21057678f619@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,42 +71,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 18, 2025 at 11:31:40PM +0100, Vincent Mailhol wrote:
-> Hi Dan,
-> 
-> On 18/12/2025 at 20:36, Dan Carpenter wrote:
-> > On Thu, Dec 18, 2025 at 07:50:01PM +0100, Vincent Mailhol wrote:
-> 
-> (...)
-> 
-> >> With this, remove gcc's -Wtype-limits. People who still want to catch
-> >> incorrect comparisons between unsigned integers and zero can now use
-> >> sparse instead.
-> >>
-> >> On a side note, clang also has a -Wtype-limits warning but:
-> >>
-> >>   * it is not enabled in the kernel at the moment because, contrary to
-> >>     gcc, clang did not include it under -Wextra.
-> >>
-> >>   * it does not warn if the code results from a macro expansion. So,
-> >>     if activated, it would not cause as much spam as gcc does.
-> >>
-> >>   * -Wtype-limits is split into four sub-warnings [3] meaning that if
-> >>     it were to be activated, we could select which one to keep.
-> >>
-> > 
-> > Sounds good.  I like your Sparse check.
-> 
-> Does it mean I have your Reviewed-by?
-> 
-> > Maybe we should enable the Sparse checking as well because it sounds
-> > like they are doing a lot of things right.
-> 
-> I am not sure to understand what do you mean by "enable the Sparse checking"?
+intel_color_pipeline_plane_init() allocates enum names for color
+pipelines, which are copied by drm_property_create_enum(). The temporary
+strings were not freed, resulting in a memory leak.
 
-I meant Clang...  Sorry.  Doh.
+Allocate enum names only after successful pipeline construction and free
+them on all exit paths.
 
-regards,
-dan carpenter
+Fixes: ef105316819d ("drm/i915/color: Create a transfer function color pipeline")
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+---
+ .../drm/i915/display/intel_color_pipeline.c    | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index 684641c8323b..04af552b3648 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -34,7 +34,6 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 		return ret;
+ 
+ 	list->type = colorop->base.base.id;
+-	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
+ 
+ 	/* TODO: handle failures and clean up */
+ 	prev_op = &colorop->base;
+@@ -74,6 +73,8 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 
+ 	drm_colorop_set_next_property(prev_op, &colorop->base);
+ 
++	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", list->type);
++
+ 	return 0;
+ }
+ 
+@@ -81,9 +82,10 @@ int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
+ {
+ 	struct drm_device *dev = plane->dev;
+ 	struct intel_display *display = to_intel_display(dev);
+-	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
++	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES] = {};
+ 	int len = 0;
+-	int ret;
++	int ret = 0;
++	int i;
+ 
+ 	/* Currently expose pipeline only for HDR planes */
+ 	if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
+@@ -92,8 +94,14 @@ int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
+ 	/* Add pipeline consisting of transfer functions */
+ 	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len], pipe);
+ 	if (ret)
+-		return ret;
++		goto out;
+ 	len++;
+ 
+-	return drm_plane_create_color_pipeline_property(plane, pipelines, len);
++	ret = drm_plane_create_color_pipeline_property(plane, pipelines, len);
++
++	for (i = 0; i < len; i++)
++		kfree(pipelines[i].name);
++
++out:
++	return ret;
+ }
+-- 
+2.25.1
 
