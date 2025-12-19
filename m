@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1FDCD21BD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 23:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C844ECD21CF
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 23:40:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B420210E18C;
-	Fri, 19 Dec 2025 22:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E6510EF38;
+	Fri, 19 Dec 2025 22:40:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ERAGfDY4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xo4lqaWB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E6810E18C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 22:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766183620;
- bh=uN79TwsyB1ceFNqJUBbveoccm4RTwCmmWpv3O+++8Wk=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=ERAGfDY4pYs05AodeYcdjGcrM4OZgkbvS3qJz7ylZZlYbRo8LGChLSqBzHP8MTwcX
- aysMO+qSSkX+Zeje+U8x8KTQTpZPqF5u+6JmHQBI65sRqluZ/8Skw1UGk9RUiId8BV
- GmIu+fOSx690Gn7Ckc+OEuQCIOLQUT4u8IkGA1lp0a9D9S1xVpvdhLorJOYsPRkmsL
- Hu2by6I+1/b7iKlCG1g/r7AER+8rGvkk4h2PNEm8Ga8Md/moa0F/WORv9L75/nmwoI
- Tr79fxeUGDyJuffx2nrr6dIb4LhCy4TgIm68poc/ww+DUzRZbjiPt3/wNF5MAtB5FC
- akwoom0WcgrTg==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 804FE17E10F8;
- Fri, 19 Dec 2025 23:33:39 +0100 (CET)
-Message-ID: <7fb25158-5053-43d9-99df-59cab371d746@collabora.com>
-Date: Sat, 20 Dec 2025 00:33:39 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D50EA10EF38
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 22:40:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9FE7B441B7;
+ Fri, 19 Dec 2025 22:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F42C4CEF1;
+ Fri, 19 Dec 2025 22:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766184018;
+ bh=4Re12oNt7Opk8DXSEZclIhGKvxuDxBrD78pnkLRJMgk=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Xo4lqaWBOwwhuluvZVJO0Gb6rL6gadU/QhpglW6tG4R5ToQAgnkeWImbPTVM1vnkW
+ EmuyRcsNhPs1N1KRlcRWM7dWfZ0hUYOY+QRMGxkKJa3HJWLd55Qzs2X/3iaA1aH3qm
+ 6l8gyQEylD4+7V8nAUnzVmh1ud+kKDkKmna7onusQMHSjoaPEPpy5UcGDpcyKOAdwc
+ GPGGlNFDZHXCiank9tDu6g5VNW81I1ZI1zQLwGjN2MyuklT6RdA7j5TzVPsbrU36M1
+ EJKmnOq63F0SOXlFsQxLmXk1YA9FumIFzmzVH4O+FEsQAsTMe0k8X/OEUukM8XBG+K
+ qXKpH7ljAZZGw==
+From: Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH v2 0/4] kbuild: remove gcc's -Wtype-limits
+Date: Fri, 19 Dec 2025 23:39:44 +0100
+Message-Id: <20251219-remove_wtype-limits-v2-0-2e92b3f566c5@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/rockchip: vop2: Support setting custom
- background color
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>
-Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com>
- <20251118-rk3588-bgcolor-v3-4-a2cc909428ea@collabora.com>
- <0ed71b8d-5a2e-4213-bd2f-7ba317d1e4cb@rock-chips.com>
- <4a6443b8-d440-4921-8a43-7c20e4e265e7@collabora.com>
-Content-Language: en-US
-In-Reply-To: <4a6443b8-d440-4921-8a43-7c20e4e265e7@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADHURWkC/22Oyw6CMBBFf4XM2hJaHgVW/ochBsoIjUJxilVC+
+ HcrbF2em/tawSJptFAGKxA6bbUZPYhTAKqvxw6Zbj2DiETKRZQywsE4vL7nZUL20IOeLVNSYpN
+ kbVQoAT45Ed70Z2+9VAcTPl++fD5EaGqLTJnBx8vAZSEvGCkOP3Ov7Wxo2R85vruPcZ7/HXecR
+ UzGacJlGmcyl+c70oiP0FAH1bZtX+EvN2zkAAAA
+X-Change-ID: 20251205-remove_wtype-limits-c77eb46d09c2
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, Vincent Mailhol <mailhol@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1980; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=4Re12oNt7Opk8DXSEZclIhGKvxuDxBrD78pnkLRJMgk=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJmuV6xntgqcULtlUvtJ/IuM4vJAT/F/Dzc89ZpzrFM1M
+ fv4DgvpjoksDGJcDJZiiizLyjm5FToKvcMO/bWEmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ DXWATAYuTgGYamEpRoaDny68fZ19vSNw1ufyWGGVA98SFsn4Z2WwuCetb226/zqTkeGJ3vydZsf
+ rC85U2u1KaRBLc74erhj6z6FdNSIyrENgFhsA
+X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/28/25 11:44 AM, Cristian Ciocaltea wrote:
-> Hi Chaoyi,
-> 
-> On 11/28/25 10:46 AM, Chaoyi Chen wrote:
->> Hello Cristian,
->>
->> On 11/18/2025 7:52 AM, Cristian Ciocaltea wrote:
->>> The Rockchip VOP2 display controller allows configuring the background
->>> color of each video output port.
->>>
->>> Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
->>> which defaults to solid black, make use of it when programming the
->>> hardware.
->>>
->>> Note the maximum precision allowed by the display controller is 10bpc,
->>> while the alpha component is not supported, hence ignored.
->>>
->>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>> ---
->>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 ++++++++++++-
->>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++++
->>>  2 files changed, 16 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>> index 498df0ce4680..87110beba366 100644
->>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>> @@ -1554,6 +1554,7 @@ static void vop2_post_config(struct drm_crtc *crtc)
->>>  	struct vop2_video_port *vp = to_vop2_video_port(crtc);
->>>  	struct vop2 *vop2 = vp->vop2;
->>>  	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->>> +	u64 bgcolor = crtc->state->background_color;
->>>  	u16 vtotal = mode->crtc_vtotal;
->>>  	u16 hdisplay = mode->crtc_hdisplay;
->>>  	u16 hact_st = mode->crtc_htotal - mode->crtc_hsync_start;
->>> @@ -1599,7 +1600,11 @@ static void vop2_post_config(struct drm_crtc *crtc)
->>>  		vop2_vp_write(vp, RK3568_VP_POST_DSP_VACT_INFO_F1, val);
->>>  	}
->>>  
->>> -	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
->>> +	/* Background color is programmed with 10 bits of precision */
->>> +	val = FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_GETR_BPC(bgcolor, 10));
->>> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GETG_BPC(bgcolor, 10));
->>> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE, DRM_ARGB64_GETB_BPC(bgcolor, 10));
->>
->> Division is expensive. If we convert a 16 bpc value to 10 bpc using
->> direct bit-shifts, that is "DRM_ARGB64_GETX(bgcolor) >> 6" will
->> keep the relative error within 1 compared to DIV_ROUND_CLOSEST().
->>
->> Should we be concerned about the precision problem here?
-> 
-> The precision was something I initially looked into for CRC verification, in the
-> context of the related IGT test.  But since I've added the VKMS support, I think
-> we should not worry about that anymore. 
-> 
-> Moreover, as already pointed out in [1], only RK3576 supports CRC generation at
-> display controller level, and that is not particularly useful because it doesn't
-> take the background color into account.  Therefore I had to capture the frame
-> CRCs at DisplayPort AUX channel level, by using the USB-C DP AltMode capable
-> port of my RK3588-based board.  However, that solution is not yet available
-> upstream, as it requires further work for cleanup and improving the overall
-> USB-C reliability. 
-> 
-> Hence I'll move on with your suggestion and switch to the simple bit-shifting
-> approach for the next revision.
+I often read on the mailing list people saying "who cares about W=2
+builds anyway?". At least I do. Not that I want to fix all of them,
+but on some occasions, such as new driver submissions, I have often
+found a couple valid diagnostics in the W=2 output.
 
-Done in v4:
-https://lore.kernel.org/all/20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com/
+That said, the annoying thing is that W=2 is heavily polluted by one
+warning: -Wtype-limits. Try a gcc W=2 build on any file and see the
+results for yourself. I suspect this to be the reason why so few
+people are using W=2.
+
+This series removes gcc's -Wtype-limits in an attempt to make W=2 more
+useful. Those who do not use W=2 can continue to not use it if they
+want. Those who, like me, use it for time to time will get an improved
+experience from the reduced spam.
+
+Patch #1 deactivates -Wtype-limits.  Extra details on statistics, past
+attempts and alternatives are given in the description.
+
+Patch #2 clean-ups the local kbuild -Wno-type-limits exceptions,
+patches #3 and #4 undo some of the local workarounds which silenced
+that warning by uglifying the code.
+
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+Changes in v2:
+
+  - Add two more patches to clean up some -Wtype-limits workarounds
+  - Collect the Reviewed-by tags.
+
+Link to v1: https://lore.kernel.org/r/20251218-remove_wtype-limits-v1-0-735417536787@kernel.org
+
+---
+Vincent Mailhol (4):
+      kbuild: remove gcc's -Wtype-limits
+      kbuild: cleanup local -Wno-type-limits exceptions
+      overflow: Remove is_non_negative() and is_negative()
+      minmax: remove useless cast in __is_nonneg()
+
+ drivers/gpu/drm/Makefile |  1 -
+ fs/btrfs/Makefile        |  1 -
+ include/linux/minmax.h   |  5 +----
+ include/linux/overflow.h | 10 ++--------
+ scripts/Makefile.warn    |  4 +++-
+ 5 files changed, 6 insertions(+), 15 deletions(-)
+---
+base-commit: 3e7f562e20ee87a25e104ef4fce557d39d62fa85
+change-id: 20251205-remove_wtype-limits-c77eb46d09c2
+
+Best regards,
+-- 
+Vincent Mailhol <mailhol@kernel.org>
 
