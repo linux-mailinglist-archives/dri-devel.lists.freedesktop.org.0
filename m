@@ -2,59 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4364FCD0669
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 15:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D30CD07AC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 16:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B035810E49C;
-	Fri, 19 Dec 2025 14:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D741E10E391;
+	Fri, 19 Dec 2025 15:20:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="rSZSLSSj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z1vh3To8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9647910E49C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 14:55:16 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id DA13C4E41C87;
- Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id AA7DD6071D;
- Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 58568102F0B7F; Fri, 19 Dec 2025 15:55:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766156110; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=GV9S+xc9D71Uwlbo2vNh/GdtKzweopawR08NIo0wto4=;
- b=rSZSLSSj61Ppq8s5mGApSpZT2fEpy5KklEyIXMQ7Z9kXpAN8YnfHpsq3dVgctjiKk3AAFq
- d/cQIW/kSKd89pVlQaxXtTt2ddv/67W29RJ+tjMWIwCjODjiN0Dlv/72H1V9Kl0aa9WINQ
- t08JcxDeU/m2WnXkNz7AaW1OVCm9EQr5CVvfoAizlmOocRtc/H+yljTe6HB1+9DiHCBiVA
- U6AUV55ome4WuGFMoSXBVMYFQrXWJ5SHTzHx38iG8Dn44QFbQBnsLBbk7tI7eFz/Bjm9rL
- Z2m98of2PcG109M9rL7WOWK1Akukb7j+U9cNTSeYsuLF64/Qr3b6RvtGe5iOUA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 15:55:03 +0100
-Message-Id: <DF2A35683YPN.2TH0WT8JJAJ70@bootlin.com>
-Subject: Re: [PATCH RESEND v2 16/32] drm/vkms: Introduce config for plane
- format
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B35210E391
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 15:20:49 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-7e1651ae0d5so1506595b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 07:20:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766157649; x=1766762449; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FRLyHIcaTYgGGdTbN+5lMzudMmbrt4aktasmpYS38uM=;
+ b=Z1vh3To8qEwaHjGQHLLtfmkJ0hH35wwXAsP7gyBVf4wKO/v0jyFVgz0enprQevwYHd
+ fozoDaHUXJK8oa0X4ghM4O7ROpVVqSugMzOuVvyzA5+cl/TJVM4ksvcCMeAEKnszKDFn
+ o0p1JlqAP05vumGSpqTc28j9WBdPGdYsf3CXIWEA6Wo8zC8GQYM8mhWELUOr0KBiyR+j
+ JwadzL3qspT/6DSyDo/Yzt30ft8XC2C1lBrm6aJcZpRbFvP0Idv7BRiAYt2e6FWI7er0
+ zF3sN4MdKP/rsGzDGpGIpZ8x6CJBUWCWxkrAU/lChRFjvTTuYEN1BgL1FNtfEGsGw9ot
+ a6Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766157649; x=1766762449;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FRLyHIcaTYgGGdTbN+5lMzudMmbrt4aktasmpYS38uM=;
+ b=YgAeL6vg0e2GMhTOBBB92l4b0/+TkSSI3oLjtrrcnOOZciz1uh2I5YQibrbXca9WUP
+ AgsdwlQyk+TDDS0cC2vu5/yg2kzeoePnSAy+gR2Ghhdy9KuDTTFPaOr6L8jQr6h4inT8
+ yAH79NRLPI2kepHdcFnJzy8+b6EdEotCeJi1Fz+go6NZN76eutAfXueluoPGNmpN/Jgc
+ 0tXi1bgTbou5DAGV28lhfnnGOAbROX64YS+YTF2nEDj8j1ZSK4f/DqBeEETuhTY0xG55
+ cGH3lLmQAqbJ3UBVUDRIi07QHZvQ1czlmiU7d/Nx4wBbI6xQLYlhfWOY6T7qULqzG2Sb
+ keSg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMSkMQAom3y+BXd1zPCuAgP5a2Ujx4rOGhL44qc4moIILvSjCaifU/wUD0Kuya3qI1qT6Vgax5/zI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUjvU70e3OtYbXjd1dgYmbnPHzt2UmsbgLE4iSBBaYP+IFsybK
+ 4DxjYdxChmeIuNkt/MkOTRuOYWE9KILN0Fgoy78gAQFXF5z4eQE1puKz
+X-Gm-Gg: AY/fxX7ZmUpky7k+KhqC5UOEcth6199K0EbY4SL1l74PQvWDkB02hm7HLzHcBEJfLR+
+ W2Ch3XW+1y2GXRdnGrQmof0jFX35ze6XVfL4kP2vScMr1Z2eUqK9U5XI5uq0XKSxeEk4OrcmtsK
+ +I2iDgO0yzOPrkWaitlSpm5nhXISKdNXf1FL+XaTtIb8gcvQUf4uUfKKgKB2R3xhPGIVUGQ9rmc
+ BEqhV00SjaO05rYSLEJi8iayuJAP13AfGy0xF56GbEP8dlVjAexo7nGLJV7W9ZhrvUiTZD+S1D9
+ v+NcZLG4q3Nc8duJG+6FyvY3d4lMjLi9JsLBZV9dHd56OyV5ghmRbKzWcf8OgNEcG315WqACaDk
+ w1I5UwGdB4fdI2C4Ejgf/08h1hKfJN5ApRSg0I7Yh0x2vwuQhbpxLxRtSjUic84SlMIRVB7gec2
+ Tw6KLC2pODmS08
+X-Google-Smtp-Source: AGHT+IHZF6dThhbGJCz/FfsvtZUXhVynNTqCbs4rVadVbBB844qGhg3Y+x98uNRKysilHK4dqgzXuw==
+X-Received: by 2002:a05:6a20:7d9f:b0:366:14b2:31a with SMTP id
+ adf61e73a8af0-376aa6eadcbmr3041159637.77.1766157648759; 
+ Fri, 19 Dec 2025 07:20:48 -0800 (PST)
+Received: from c45b92c47440.. ([202.120.234.58])
+ by smtp.googlemail.com with ESMTPSA id
+ 41be03b00d2f7-c1e7bd61b40sm2459612a12.23.2025.12.19.07.20.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Dec 2025 07:20:48 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/fsl-dcu: fix clock reference leak in fsl_tcon_init error
+ path
+Date: Fri, 19 Dec 2025 19:20:35 +0400
+Message-Id: <20251219152036.2958051-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +93,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+In fsl_tcon_init(), when of_clk_get_by_name() succeeds but
+clk_prepare_enable() fails, the function jumps to err_node_put label
+without releasing the clock reference obtained.
+This causes a clock reference leak.
 
-On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> VKMS driver supports all the pixel formats for planes, but for testing it
-> can be useful to only advertise few of them. This new configuration
-> interface will allow configuring the pixel format per planes.
+Fix by calling clk_put() that properly releases the clock
+reference.
 
-[...]
+Found via static analysis and code review.
 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *=
-plane_cfg, u32 drm_format)
-> +{
-> +	bool found =3D false;
-> +
-> +	for (int i =3D 0; i < ARRAY_SIZE(vkms_supported_plane_formats); i++) {
-> +		if (vkms_supported_plane_formats[i] =3D=3D drm_format) {
-> +			found =3D true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!found)
-> +		return -EINVAL;
-> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i++)=
- {
-> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format)
-> +			return 0;
-> +	}
-> +	u32 *new_ptr =3D krealloc_array(plane_cfg->supported_formats,
-> +				      plane_cfg->supported_formats_count + 1,
-> +				      sizeof(*plane_cfg->supported_formats), GFP_KERNEL);
-> +	if (!new_ptr)
-> +		return -ENOMEM;
-> +
-> +	plane_cfg->supported_formats =3D new_ptr;
-> +	plane_cfg->supported_formats[plane_cfg->supported_formats_count] =3D dr=
-m_format;
-> +	plane_cfg->supported_formats_count++;
-> +
-> +	return 0;
-> +}
+Fixes: fb127b7943c9 ("drm/fsl-dcu: add TCON driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/fsl-dcu/fsl_tcon.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This whole logic appears quite complex for what you need here. I suspect
-using the facilities in linux/bitmap.h would make your code simpler by
-allocating a (multi-)ulong array of
-ARRAY_SIZE(vkms_supported_plane_formats) bits. This would surely use less
-memory and avoid all reallocations, too.
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_tcon.c b/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
+index 49bbd00c77ae..b7ba90814b0e 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
+@@ -86,7 +86,7 @@ struct fsl_tcon *fsl_tcon_init(struct device *dev)
+ 	ret = clk_prepare_enable(tcon->ipg_clk);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't enable the TCON clock\n");
+-		goto err_node_put;
++		goto err_clk_put;
+ 	}
+ 
+ 	of_node_put(np);
+@@ -94,6 +94,8 @@ struct fsl_tcon *fsl_tcon_init(struct device *dev)
+ 
+ 	return tcon;
+ 
++err_clk_put:
++	clk_put(tcon->ipg_clk);
+ err_node_put:
+ 	of_node_put(np);
+ 	return NULL;
+-- 
+2.25.1
 
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-
-> +/**
-> + * vkms_config_plane_remove_format - Remove a specific format from a pla=
-ne
-> + * @plane_cfg: Plane to remove the format to
-> + * @drm_format: Format to remove
-> + */
-> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg=
-, u32 drm_format);
-> +
-> +/**
-> + * vkms_config_plane_remove_all_formats - Remove all formast from a plan=
-e
-                                                        formats
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
