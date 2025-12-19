@@ -2,103 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA9FCCED93
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 08:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1C4CCEE11
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 09:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0F010E8D6;
-	Fri, 19 Dec 2025 07:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9C910EAE5;
+	Fri, 19 Dec 2025 08:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="hpFto5Wf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HIOYsbTs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
- Fri, 19 Dec 2025 07:52:03 UTC
-Received: from mx-relay50-hz3.antispameurope.com
- (mx-relay50-hz3.antispameurope.com [94.100.134.239])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0237810E8D6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 07:52:02 +0000 (UTC)
-ARC-Authentication-Results: i=1; mx-gate50-hz3.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6,
- headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com
- smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
- header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=Q1abUH1CXgHaEMujIjDYzavepPIEdL4AH5/kt7YuC1c=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1766130371;
- b=JnpFrZp+Y1Msm60xdLj3EU5COm8L+Tn34fo4GRYwXrdk0+Ck3lGQK2rh1U/3o8y1WV5xWJZ1
- 68oz/0ZiEW1qS0pwdCW2DhIl6fR6mCfcTPIbn/ZZ+84Rtfp7rwYM47a4Ita5/umZVmJt4pQc/v3
- 2mDrc1AYMZ9Iw1aiQOFyAD0arMbduILa5+XrGfDCKtgOzN1lOFHsMn7tsu2KwjP56t5lXmHDyf3
- qoDYpKnjoJU+vxaJFq4gCG7Te+Ka4Biu46QOTylKTw21iXDwUtxPrRRZSKj5rVVsGlT43YRg8E0
- tEKG/7our46ES+Gm54bktV8k+TzcnOth10t1k2SDhBr5w==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1766130371;
- b=EpHkY8B/JQJRq2xzNTjRmi5yDNCcKwvchtLXoQQpvwctrprOEIE3fkl4ZKcDQWk7QqMWGeG3
- U/gpq6rPMv5bBxkk+g3ztqI8DO2kbvd789VEg8QR6Rz1zJId2ffLWcpJFiEfhiapbkxlJ7PD11t
- dhqbwAdAx+gYz4LGoqcyuTV7KJ6fk655easymA60DlxWavmdUv/LlgAgJ+y4KAC/5z/YvSr8sO7
- PQFVWv17EOBj+hGBwCy0zXzR+maJ4rLIiDvLlDdk0ZfifNPxMLilbGboi7bz5V3Zs9PtN9my3Rf
- Fo+L5dLXWKR5Hmyw6cECMnf8W2D8vzGfe/LxBC4/yi8GQ==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by
- mx-relay50-hz3.antispameurope.com; Fri, 19 Dec 2025 08:46:11 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net
- [82.135.125.110])
- (Authenticated sender: alexander.stein@ew.tq-group.com)
- by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id
- C0DFBCC0DAC; Fri, 19 Dec 2025 08:45:57 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D4210EAE5
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 08:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1766131518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hdOk7vDtGRSaLNKWE0lO0qkTVd58h7TvAR6pyplYZkc=;
+ b=HIOYsbTsCJsQ9IChHUQfvGfaw+GXNeOsSl+8/1uPUERcDe/k57UnUekClgFzqPxVhDkmi/
+ HupH6woZdSEBip8Cl/qIW+0+aWRbKjkuG/3QTDd2PHc8arZHFrJISEwNj6MU2nTpULiTLg
+ nNxCuP/R3T5Z4EGz/khXD4iZfGGVJzA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-434-55vjC7p2OEq-d2Ilhw58RQ-1; Fri, 19 Dec 2025 03:05:16 -0500
+X-MC-Unique: 55vjC7p2OEq-d2Ilhw58RQ-1
+X-Mimecast-MFC-AGG-ID: 55vjC7p2OEq-d2Ilhw58RQ_1766131516
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4788112ec09so13753095e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 00:05:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766131515; x=1766736315;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hdOk7vDtGRSaLNKWE0lO0qkTVd58h7TvAR6pyplYZkc=;
+ b=KuuIlbxV1r0ehXTGqkD6vcd4L+Uf9tMBDNl4MU2piF5W7GebCuBjIwK71udCktFLmx
+ JKWir5tjUQzbQB8qdkZUWU96hjId+jup7pu2hxH4lgDAZRWRljXH2208PGhfHlyD5Xlr
+ D56P87LDiA6LKM4zmD14Ihj5UYbuAHF1T3pSZ2rxTLFKkSJyQOsXAynhDIJp42BeFw/q
+ 5H8WjRAzVh0NnmUzXlUsj5Iy7dZ458AxkgY0pTDF/eUvxrh2rSMsFLwoTemklbU9Ur2j
+ TEuRM+IGqGiHOoQsiJraHirXhBIc2HSsEzivK3KzqXZaiJS67jJ7/VqKHNGdXdRYyab+
+ hWYQ==
+X-Gm-Message-State: AOJu0YywSN5e2Q4fV+Lix+4YZyU60GcbNCbNvaxyf7jecI6rcMX4kG6G
+ YcCNhJs0+jXsc+ROIHZl66a9VcBcIXFJLayutt+5XtO0tGhO+mTcnyMGpU31Utp7B841yQQwBcw
+ snsyMmO3pihzkM72CT9pLSoX9Ghb4LqK5vzRg88Gmn5f2iuyPcIR0fn3qRW5HNjbWqlukoQ==
+X-Gm-Gg: AY/fxX79Pfn3tJFz3zmzqWaT3FTO4/sDI4+Nqe4HcVpDT7K+bDDppqGmNb0b61YRv6o
+ il9wYuJY61MUWI3jxpn8MpJntH0YCsZZh7zrz8pA9JiK7JESMhiufKkCVw9JIykT73UH6wvURiO
+ kEaOk/h+H5JnsbfGfiSuoghIbdeEUntNGHM6OOAc2DGGbLm8Wf6oyhE/nuCPM1jE9cXsBmy5HeY
+ Kr6eq7homADjENlhWrLzPN3VvJOT25KgQ53fWM5ul148odaEtnmbhg63zCftstFtu4irb22JjIX
+ m4sHi1Ga4dva38wlcieiFtWXMG2EX9AhTAa4r3aEU47Q1P10N6w/1p9W3SjwCPbBlESLRX+VzaJ
+ J2vdR7fqmaBwAEHSSeI7FKHafLBj2j8YqsbYKW578Hy2PHO4b+g==
+X-Received: by 2002:a05:600c:348f:b0:477:7925:f7fb with SMTP id
+ 5b1f17b1804b1-47d1954a710mr18004915e9.10.1766131515637; 
+ Fri, 19 Dec 2025 00:05:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFSR49Ko4AL5QzboiX/5MOQe6phBCVtU3Qiucp/1hT0zKe/DU+ql3J1wDyHHLXfa9gvtCnrlA==
+X-Received: by 2002:a05:600c:348f:b0:477:7925:f7fb with SMTP id
+ 5b1f17b1804b1-47d1954a710mr18004525e9.10.1766131515256; 
+ Fri, 19 Dec 2025 00:05:15 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4324eab33f5sm3526617f8f.41.2025.12.19.00.05.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Dec 2025 00:05:14 -0800 (PST)
+Message-ID: <66d2643e-7549-4bb6-b435-f8f3cad3d749@redhat.com>
+Date: Fri, 19 Dec 2025 09:05:12 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] drm/draw: add check API to avoid spurious WARN
+To: Francesco Valla <francesco@valla.it>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
- subnode to schema and example
-Date: Fri, 19 Dec 2025 08:45:57 +0100
-Message-ID: <7637686.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20251218190841.pmn3kwghq6lxsfl4@pengutronix.de>
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
- <3210190.mvXUDI8C0e@steina-w>
- <20251218190841.pmn3kwghq6lxsfl4@pengutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-cloud-security-sender: alexander.stein@ew.tq-group.com
-X-cloud-security-recipient: dri-devel@lists.freedesktop.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for:
- alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
- mx-relay50-hz3.antispameurope.com with 4dXfjM6trLz2nJ7p
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1,
- IP=94.100.132.6
-X-cloud-security-Digest: f6d1fa41e90d3fcf88d8c9a603ba697f
-X-cloud-security: scantime:3.688
-DKIM-Signature: a=rsa-sha256;
- bh=Q1abUH1CXgHaEMujIjDYzavepPIEdL4AH5/kt7YuC1c=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1766130371; v=1;
- b=hpFto5Wfm64UQQ9jniOywqxkv0puB+hUWqJrAO8RiAtH6SBylI5TqujNnvxSR0H0WDLUFp8H
- NQvEGpgr+EQeWYJRwKXWjBMrwaEfEBZuPnWFmHQZsCZWyhvApfjGJG9fMvJdoPRUClFWf+powUk
- SMM0fbd//67MPS5D9D9pfFWTadZLXKOUo0qbM13VIXm3wahOqYrNj2M1xC6Qs65RAqvh4SJG4KB
- OTjxXUFnu7mTCO9y4hMpQ3KGcrZj/DjkwZ5ZNwUsfKDkNWUtHh6IYXx82meAoOrnxdtK0Xr8a12
- Aut7sSluZp+pQECNUpi4U6RXbwCQCCTYFJxdE4rChEx8Q==
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251217-drm_draw_conv_check-v3-0-15b6f8bc1cbc@valla.it>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20251217-drm_draw_conv_check-v3-0-15b6f8bc1cbc@valla.it>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HPo8FgfD5lTCnECiUzCeeBJSRaBT-DXBwhGvNa7qeh0_1766131516
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,241 +105,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marco,
+On 17/12/2025 09:06, Francesco Valla wrote:
+> When using the DRM draw support, the only way to check if a color can be
+> converted from XRGB8888 to a target format is currently to attempt an
+> actual conversion using drm_draw_color_from_xrgb8888(). This function
+> however will print a WARN the first time a conversion cannot be
+> performed, leading to two potential issues:
+> 
+>   - a WARN is emitted without a real reason if the caller is only
+>     attempting a conversion to check if a format can be supported (which
+>     is the case for two of the current user of this API);
+>   - a failing call following the first one is not emitting a WARN, but a
+>     "valid" color value (0x00000000) is returned nevertheless.
+> 
+> The first issue was observed while using drm_log on a Beagleplay, which
+> lists AR12 as the first format for its HDMI modesets.
+> 
+> The target of this patch set is to improve this situation; the first
+> patch introduces a new API devoted only to check if a conversion from
+> XRGB8888 to the specified format can be performed, while the other two
+> substitute drm_draw_color_from_xrgb8888() with this new API in the
+> current users (drm_panic and drm_log) where relevant.
 
-Am Donnerstag, 18. Dezember 2025, 20:08:41 CET schrieb Marco Felsch:
-> Hi Alexander,
->=20
-> On 25-12-16, Alexander Stein wrote:
-> > Hi,
-> >=20
-> > Am Montag, 15. Dezember 2025, 18:54:36 CET schrieb Marco Felsch:
-> > > Hi Liu,
-> > >=20
-> > > sorry I didn't fully answer you please see below.
-> > >=20
-> > > On 25-12-08, Liu Ying wrote:
-> > > > Hi Marco,
-> > > >=20
-> > > > On 12/02/2025, Marco Felsch wrote:
-> > > > > From: Liu Ying <victor.liu@nxp.com>
-> > > > >=20
-> > > > > i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register wh=
-ich
-> > > > > configures parallel display format by using the "PARALLEL_DISP_FO=
-RMAT"
-> > > > > field. Document the Parallel Display Format Configuration(PDFC) s=
-ubnode
-> > > > > and add the subnode to example.
-> > > > >=20
-> > > > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > > > [m.felsch@pengutronix.de: port to v6.18-rc1]
-> > > > > [m.felsch@pengutronix.de: add bus-width]
-> > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > ---
-> > > > >  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++=
-++++++++++++++
-> > > > >  1 file changed, 92 insertions(+)
-> > > > >=20
-> > > > > diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-=
-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-m=
-edia-blk-ctrl.yaml
-> > > > > index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108=
-b492bcbabc8a560d8e707cd 100644
-> > > > > --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-b=
-lk-ctrl.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-b=
-lk-ctrl.yaml
-> > > > > @@ -26,6 +26,12 @@ properties:
-> > > > >    reg:
-> > > > >      maxItems: 1
-> > >=20
-> > > ...
-> > >=20
-> > > > > +            properties:
-> > > > > +              endpoint:
-> > > > > +                $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > > > +                unevaluatedProperties: false
-> > > > > +
-> > > > > +                properties:
-> > > > > +                  bus-width:
-> > > >=20
-> > > > In v1-v5, I thought the output bus format can be determined by the =
-sink
-> > > > device(a panel or a bridge) hence properties like bus-width were no=
-t needed.
-> > > > But, if this property is really needed, then reference video-interf=
-aces.yaml
-> > > > since bus-width is documented there.  Should we reference bus-type =
-defined
-> > > > in video-interfaces.yaml too?
-> > >=20
-> > > You're right, the bus-width should be determined by the connected pan=
-el.
-> > > But there are cases where a 24-bit panel is connected but only the lo=
-wer
-> > > 18-bits are muxed. I added the bus-width property to handle this case.
-> > > In the end most users don't have to specify this since the correct
-> > > bus-width is coming from the panel bus-fmt.
-> > >=20
-> > > > > +                    enum: [ 16, 18, 24 ]
-> > > >=20
-> > > > The PARALLEL_DISP_FORMAT field of DISPLAY_MUX register says this IP=
- supports
-> > > > below formats.  It seems that the enum here may tell RGB888, RGB666=
- and RGB565.
-> > > > How can we tell RGB555, YCbCr 24 bits and YUV444 then?
-> > > >=20
-> > > > 000b RGB888 -> RGB888
-> > > > 001b RGB888 -> RGB666
-> > > > 010b RGB565 -> RGB565
-> > > > 011b RGB555 -> RGB555
-> > > > 100b YUV -> YCbCr 24 bits
-> > > > 101b YUV -> YUV444
-> > >=20
-> > > This enum is about the physical bus width. RGB565 =3D=3D 16-bit, YUV =
-=3D=3D
-> > > 24-bit.
-> > >=20
-> > > That said, I don't think that you need to specify the bus-fmt since t=
-his
-> > > is coming from the panel. As said above, my itension with the bus-wid=
-th
-> > > property is to provide integrators (dts-writers) a possibility to lim=
-it
-> > > the physical available bus width.
-> >=20
-> > Mh, isn't [1] exactly about this? Not sure about the outcome at that ti=
-me.
->=20
-> Thanks for the pointer, I wasn't aware of this discussion. I skimmed
-> through the dt-bindings thread and I agree with Rob and Maxime.
->=20
-> We do have the bus-width endpoint property already. This property is
-> alredy used by media and drm bridge drivers. Why not making use of for
-> this simple bridge driver too?
->=20
-> Furthermore I doubt, that a simple drm-bridge MEDIA_BUS_FMT_* convert
-> driver solves all the problem in a generic way for all platforms, all
-> connectors, all routing options.
+Hi Francesco,
 
-Nobody knows what new hardware comes up with =C2=AF\_ (=E3=83=84)_/=C2=AF
-Anyway we already have a similar problem on our MBa6ULx mainboard.
-Current downstream workaround is to clone the display timings but
-change the bus format. See [1]. Although I would like to get rid of it.
-This is just the display connector on the mainboard causing the shift.
+Thanks for this patch. If you can't push it to drm-misc-next, let me 
+know, and I will push it for you.
 
-Best regards
-Alexander
+Best regards,
 
-[1] https://github.com/tq-systems/linux-tqmaxx/commit/777c02480182d3054264a=
-aaf80e1dbc40a02cfc1
+-- 
 
-> If the i.MX93 NXP-EVKs in [1] would have connected the upper LCD_DAT*
-> pads instead of the lower ones, there would be no conversion needed by
-> the PDFC bridge driver, albeit the physical bus is cut to 18-bit width
-> due to the RPi ext. header limit, which is expanded to 24-bit again later=
- on
-> via the Adafruit board panel FPC connector.
->=20
-> In such scenario the output width of the PDFC has to be 24-bit else
-> you would lose not only the two LSBs but also the two MSBs for each
-> channel. I tried to visualize what I meant for the blue channel:
->=20
->                  24-bit PDFC bridge
-> 		 ------------------
->         +----+----+----+----+----+----+----+----+
->  LCDIF  | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->         +----+----+----+----+----+----+----+----+
->           |    |    |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  PDFC   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->         +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
-> SOC_PAD | xx | xx | D2 | D3 | D4 | D5 | D6 | D7 |
->         +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  ext.   | xx | xx | B2 | B3 | B4 | B5 | B6 | B7 |
->  HDR    +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->                     |    |    |    |    |    |
->                     |    |    |    |    |    |
->           +-----------------------------+    |
->           |    +-----------------------------+
->           |    |    |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  Ada.   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->  FPC    +----+----+----+----+----+----+----+----+
->=20
->                  18-bit PDFC bridge
-> 		 ------------------
->         +----+----+----+----+----+----+----+----+
->  LCDIF  | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->         +----+----+----+----+----+----+----+----+
->           |    |    |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  PDFC   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->         +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->           +---------+    |    |    |    |    |
->           |    +---------+    |    |    |    |
->           |    |    +---------+    |    |    |
->           |    |    |    +---------+    |    |
->           |    |    |    |    +---------+    |
->           |    |    |    |    |    +---------+
->           |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
-> SOC_PAD | xx | xx | D2 | D3 | D4 | D5 | D6 | D7 |
->         +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  ext.   | xx | xx | B2 | B3 | B4 | B5 | B6 | B7 |
->  HDR    +----+----+----+----+----+----+----+----+
->                     |    |    |    |    |    |
->                     |    |    |    |    |    |
->                     |    |    |    |    |    |
->           +-----------------------------+    |
->           |    +-----------------------------+
->           |    |    |    |    |    |    |    |
->         +----+----+----+----+----+----+----+----+
->  Ada.   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
->  FPC    +----+----+----+----+----+----+----+----+
->=20
->=20
-> The mapping can get quite difficult for a single SoC already, just by
-> using a slighlty different HW routing (the upper D[ata] pads).
->=20
-> Therefore I would keep it simple and device/ip specific (in this case
-> PDFC specific) by making use of the bus-width. Specifying the bus-width
-> property could be also wrong albeit it's the case physically, as you can
-> see in my above example.
->=20
-> Therefore the bus-width property must have a good description.
->=20
-> Regards,
->   Marco
->=20
-> > Best regards,
-> > Alexander
-> >=20
-> > [1] https://lore.kernel.org/all/20250304101530.969920-1-victor.liu@nxp.=
-com/
-> >=20
-> > > [snip]
->=20
->=20
->=20
->=20
+Jocelyn
 
-
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
-
+> 
+> Signed-off-by: Francesco Valla <francesco@valla.it>
+> ---
+> Changes in v3:
+> - Collected R-b tags from Jocelyn (thank you!)
+> - Link to v2: https://lore.kernel.org/r/20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it
+> 
+> Changes in v2:
+> - Moved to dedicated switch cases in separate functions instead of
+>    single one inside common function.
+> - Fix copy-paste error in commit message.
+> 
+> Link to v1: https://lore.kernel.org/r/20251005-drm_draw_conv_check-v1-0-9c814d9362f6@valla.it
+> 
+> ---
+> Francesco Valla (3):
+>        drm/draw: add drm_draw_can_convert_from_xrgb8888
+>        drm/log: avoid WARN when searching for usable format
+>        drm/panic: avoid WARN when checking format support
+> 
+>   drivers/gpu/drm/clients/drm_log.c   |  2 +-
+>   drivers/gpu/drm/drm_draw.c          | 29 +++++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_draw_internal.h |  2 ++
+>   drivers/gpu/drm/drm_panic.c         |  2 +-
+>   4 files changed, 33 insertions(+), 2 deletions(-)
+> ---
+> base-commit: ea1013c1539270e372fc99854bc6e4d94eaeff66
+> change-id: 20251003-drm_draw_conv_check-9cc3050ebd57
+> 
+> Best regards,
 
