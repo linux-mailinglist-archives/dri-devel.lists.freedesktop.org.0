@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2007CD1F7C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 22:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B907ACD208D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 22:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C047810F0C4;
-	Fri, 19 Dec 2025 21:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7679F10E5F1;
+	Fri, 19 Dec 2025 21:47:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="F/qsotH4";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RfH8QwzU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262BF10ED16;
- Fri, 19 Dec 2025 21:31:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC18510E5F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 21:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1766179883;
- bh=kAdbuGzTo4qVO4VAnrYdAE1DVQRXSzK5HOCSNqyMoeo=;
- h=From:Date:Subject:To:Cc:From;
- b=F/qsotH4kBRr+1clLWcZTFypr5v9DC4Bpuh+ic3P7fxgWvUp27c/gCcV+YPxdahlY
- JdGKOk2wScIUoo0VtF7QQT35HwT6Sktrh7CkJ/YuROlZkAxvwRGvurZmTtfWJ76YdH
- G86RbzgZS1HZ6eEPVwt1dqXdLPTv7ueZnCI6XcmIPvUei9F8uGQl9QeSutmW/1duxG
- 4MiIbsaHwQfB1Gy1JD21HzL8udaC9foZrR1DirH9Z0l0Z9Sssmgy5z9wne4hxxm3cF
- X3iOf0m6X/xAYs1q+tnEgphWa6oTTPimccG65Oyt/oqm6bqYtEfseVpC6zRGLUQ7zP
- D58wwGuFUE/7w==
+ s=mail; t=1766180848;
+ bh=9jnvnWRCR8qCylsjlhiY0Yl6+lCT4zuEar1odQM7d0E=;
+ h=From:Subject:Date:To:Cc:From;
+ b=RfH8QwzUMALN2NwO1SBYYZRouwb2zyXEJZpmUg2bWCf9GkjMhIJx3UHIfo5sqkieE
+ L0F2KPUlzzigtfgfeyp4wS5hM7iIeWg4pzwaJ1YScB5Vc3lUIyKf3vblN2eOVytIQH
+ YF2+aBmNK4c9tkty1sNKkNvYs1mwe7Bq57J1Jb/0gc7l9r6aSpXsZilGfzkOjKzAA9
+ iTHCfYze2/I/lKY+PFZyyCDk0truFNbga+d/LhWe1K3Xnd5qIS4Y7vU1S0pECxuGfR
+ 5WWficSbL0tg3o1h7eSK1QauqHSy0Tr1P3rMMQXn6H0sFiw7ijEjwS2Xj73bRG6iCj
+ 9VBliiYCINgKw==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8AE9E17E0181;
- Fri, 19 Dec 2025 22:31:23 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1522217E0EF6;
+ Fri, 19 Dec 2025 22:47:28 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 19 Dec 2025 23:27:58 +0200
-Subject: [PATCH i-g-t v3] tests: (Re)add kms_crtc_background_color test
+Subject: [PATCH v4 0/4] Introduce BACKGROUND_COLOR DRM CRTC property
+Date: Fri, 19 Dec 2025 23:46:57 +0200
+Message-Id: <20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251219-crtc-bgcolor-v3-1-31b589911588@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAF3DRWkC/23NQQ7CIBAF0KuYWTsGqMXiynsYF0CHlqQWAw3RN
- L27hJVpXP4/+W9WSBQ9JbgeVoiUffJhLqE5HsCOeh4IfV8yCCZazjlDGxeLZrBhChGdpF7ptiN
- mHJTJK5Lz78rdweOACzxKPfq0hPipTzKvx/9e5shRdFIqI5VQF3Yr/aRNiPpkw7NiWfwC3Q4QB
- egtnZlsXNdqtQe2bfsClogIE/QAAAA=
-X-Change-ID: 20251110-crtc-bgcolor-f6ed9a58e0bf
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANHHRWkC/23M0QqCMBTG8VeJXbfYOVPcuuo9oovtOHVkLmZII
+ b5706BAu/x/8P1G1rvoXc+Ou5FFN/jehy5Ftt8xakxXO+7L1AwF5kKh5vEqc6W4rSm0IXICU1h
+ tclFYYul0j67yzwU8X1I3vn+E+Fr8Aeb1Q2mBa2oALnhV6qKsNJRKV6e0t8aGaA4UbmzmBvwSI
+ EBuCEwE5kRSgbBG0T9C/ggAtSFkIgwSaaEzVM6siWma3r0JEe42AQAA
+X-Change-ID: 20250829-rk3588-bgcolor-c1a7b9a507bc
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>, 
  =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, 
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Kamil Konieczny <kamil.konieczny@linux.intel.com>, 
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, 
- Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>, 
- Karthik B S <karthik.b.s@intel.com>, Swati Sharma <swati2.sharma@intel.com>
-Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, kernel@collabora.com
+ Melissa Wen <melissa.srw@gmail.com>
+Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ Matt Roper <matthew.d.roper@intel.com>
 X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,101 +74,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide test to verify the behavior of BACKGROUND_COLOR DRM CRTC
-property.
+Some display controllers can be hardware-configured to present non-black
+colors for pixels which are not covered by any plane (or are exposed
+through transparent regions of higher planes).
 
-This is achieved by filling a full-screen primary plane with a given
-color and comparing the resulting CRC with the one obtained after
-turning off all planes while having the CRTC background set to the same
-color.
+The 1st patch of the series provides DIV_ROUND_CLOSEST() to uapi, as a
+prerequisite to the 2nd patch introducing the BACKGROUND_COLOR DRM
+property that can be attached to a CRTC via a dedicated helper function.
+A 64-bit ARGB color value format is also defined and can be manipulated
+with the help of a few utility macros.
 
-Also note this is a reworked version of the test that has been dropped
-over 5 years ago via commit 33f07391e5f6 ("tests: Remove
-kms_crtc_background_color test"), as the required kernel changes never
-landed because of missing support in userland.
+Note this is a reworked version of the patch [1] submitted (many) years
+ago by Matt Roper.  The main changes are:
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
-This has been tested on both VKMS and the Rockchip RK3588 SoC based
-Radxa ROCK 5B board.  It relies on the kernel series [1] introducing the
-BACKGROUND_COLOR CRTC property and a few additional patches from [2]
-enabling the required CRC functionality for the Rockchip platform.
+* Renamed DRM_ARGB_<COMP>() to DRM_ARGB64_GET<C>_BPC() while providing
+  convenience wrappers to extract all 16 bits of a specific color via
+  DRM_ARGB64_GET<C>()
+* Replaced drm_argb() function with DRM_ARGB64_PREP_BPC() macro, to
+  improve uAPI consistency and readability; additionally fixed a bug in
+  case of using bpc < 16: the unused least-significant bits of a given
+  component in the output value would contain the unused
+  most-significant bits of the following component in the input value,
+  instead of being set to 0
+* Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
+  drm_property_create_range() to create the BACKGROUND_COLOR property
+* Moved crtc_state->bgcolor initialization from
+  __drm_atomic_helper_crtc_reset() to
+  __drm_atomic_helper_crtc_state_reset()
+* Replaced '*bgcolor*' occurrences to '*background_color*' for
+  consistency with the actual property name in both storage field and
+  helper functions names
 
-It's worth noting CRC is only supported by the display controller (VOP2)
-present in the RK3576 SoC variant.  However, the computation is done by
-the hardware before applying the background color, hence it has limited
-usage in IGT testing.
+The subsequent patches add background color support to VKMS and the VOP2
+display controller used in the RK3568, RK3576, and RK3588 Rockchip SoC
+families.
 
-Luckily, the frame CRCs can be captured through DPCD, i.e. at
-DisplayPort AUX channel level, hence I used the USB-C DP AltMode capable
-port of the aforementioned board to perform the actual validation.
+The validation has been done using a dedicated IGT test [2] - see the
+reported results below.
 
-[1] https://lore.kernel.org/all/20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com/
-[2] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/cristicc/rk3588-vop2-crc
+On the userland side, a Weston merge request [3] is available, providing
+support for the BACKGROUND_COLOR CRTC property to the DRM backend.  It
+relies on the already existing background-color setting in weston.ini:
 
-* Test results on VKMS
+  [shell]
+  background-color=0xAARRGGBB
+
+[1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
+[2] https://lore.kernel.org/all/20251219-crtc-bgcolor-v3-1-31b589911588@collabora.com/
+[3] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1845
+
+IGT kms_crtc_background_color test results
+==========================================
+
+* VKMS
 
 virtme-ng$ IGT_FORCE_DRIVER=vkms build/tests/kms_crtc_background_color
 
-IGT-Version: 2.2-gf50583245 (x86_64) (Linux: 6.18.0-rc5-next-20251111+ x86_64)
-Using IGT_SRANDOM=1763159189 for randomisation
+IGT-Version: 2.3-g6b07138e8 (x86_64) (Linux: 6.19.0-rc1-virtme x86_64)
+Using IGT_SRANDOM=1766149634 for randomisation
 Opened device: /dev/dri/card0
 Starting subtest: background-color-red
 Starting dynamic subtest: pipe-A-Virtual-1
 Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.071s)
-Subtest background-color-red: SUCCESS (0.072s)
+Subtest background-color-red: SUCCESS (0.073s)
 Starting subtest: background-color-green
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
-Subtest background-color-green: SUCCESS (0.072s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-green: SUCCESS (0.074s)
 Starting subtest: background-color-blue
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
-Subtest background-color-blue: SUCCESS (0.072s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-blue: SUCCESS (0.074s)
 Starting subtest: background-color-yellow
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
 Subtest background-color-yellow: SUCCESS (0.073s)
 Starting subtest: background-color-purple
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
-Subtest background-color-purple: SUCCESS (0.073s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
+Subtest background-color-purple: SUCCESS (0.074s)
 Starting subtest: background-color-cyan
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
-Subtest background-color-cyan: SUCCESS (0.073s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-cyan: SUCCESS (0.074s)
 Starting subtest: background-color-black
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
-Subtest background-color-black: SUCCESS (0.073s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
+Subtest background-color-black: SUCCESS (0.072s)
 Starting subtest: background-color-white
 Starting dynamic subtest: pipe-A-Virtual-1
-Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
-Subtest background-color-white: SUCCESS (0.072s)
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
+Subtest background-color-white: SUCCESS (0.074s)
 
-* Test results on ROCK5B
-
-rock5b$ cat /sys/kernel/debug/dri/1/vop2/summary
-
-Video Port0: DISABLED
-Video Port1: DISABLED
-Video Port2: ACTIVE
-    Connector: DP-1
-	bus_format[1018]: RGB101010_1X30
-	output_mode[f] color_space[0]
-	background color (10bpc): r=0x0 g=0x0 b=0x0
-    Display mode: 3840x2160p60
-	clk[594000] real_clk[594000] type[48] flag[9]
-	H: 3840 4016 4104 4400
-	V: 2160 2164 2174 2250
-    Cluster2-win0: ACTIVE
-	win_id: 2
-	format: XR24 little-endian (0x34325258) glb_alpha[0xff]
-	rotate: xmirror: 0 ymirror: 0 rotate_90: 0 rotate_270: 0
-	zpos: 0
-	src: pos[0, 0] rect[3840 x 2160]
-	dst: pos[0, 0] rect[3840 x 2160]
-	buf[0]: addr: 0x0000000000000000 pitch: 15360 offset: 0
+* Radxa ROCK 5B (RK3588)
 
 rock5b$ build/tests/kms_crtc_background_color --device drm:/dev/dri/card1
 
@@ -215,245 +209,60 @@ Starting subtest: background-color-white
 Starting dynamic subtest: pipe-C-DP-1
 Dynamic subtest pipe-C-DP-1: SUCCESS (0.540s)
 Subtest background-color-white: SUCCESS (0.542s)
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
+Changes in v4:
+- Switched to simple bit-shifting approach when performing the bpc
+  conversion in the vop2 driver, to avoid the expensive division since
+  we shouldn't be concerned anymore about the precision (Chaoyi)
+- Rebased series onto latest drm-misc-next
+- Link to v3: https://lore.kernel.org/r/20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com
+
 Changes in v3:
-- Added TEST & SUBTEST comment blocks to enable Intel CI testing (Kamil)
-- Updated cover letter to reference a newer revision of the kernel
-  series [1] which includes VKMS support
-- Rebased onto latest upstream changes
-  * Made igt_fixture look like an iterator
-  * Made igt_main() look like normal function definition
-  * Dropped igt_pipe_has_prop()
-  * Replaced igt_output_set_pipe() with igt_output_set_crtc()
-- Link to v2: https://lore.kernel.org/r/20251118-crtc-bgcolor-v2-1-dce4063f85a9@collabora.com
+- Added new patches:
+  * uapi: Provide DIV_ROUND_CLOSEST()
+  * drm/vkms: Support setting custom background color
+- Improved DRM_ARGB64_{PREP|GET}*() helpers by using a conversion ratio
+  for better color approximation when dealing with less than 16 bits of
+  precision
+- Mentioned the IGT test in the cover letter while documenting the
+  validation results; also dropped references to the now useless
+  modetest wrapper script and its generated report
+- Rebased series onto latest drm-misc-next
+- Link to v2: https://lore.kernel.org/r/20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com
 
 Changes in v2:
-- Added VKMS test report
-- Set the value of the CRTC background color property with 16bpc instead
-  of 8bpc, to avoid CRC check failures because of framebuffer format
-  precision mismatch - display controller drivers shall convert it back
-  from 16bpc to their internal representation of the pixel color if
-  necessary, e.g. VKMS already uses 16bpc, hence no conversion is
-  required in that case
-- Replaced deprecated DRM_FORMAT_MOD_NONE with DRM_FORMAT_MOD_LINEAR
-- Updated copyright section
-- Link to v1: https://lore.kernel.org/r/20251110-crtc-bgcolor-v1-1-28669b692970@collabora.com
----
- lib/igt_kms.c                     |   1 +
- lib/igt_kms.h                     |   3 +-
- tests/kms_crtc_background_color.c | 163 ++++++++++++++++++++++++++++++++++++++
- tests/meson.build                 |   1 +
- 4 files changed, 167 insertions(+), 1 deletion(-)
-
-diff --git a/lib/igt_kms.c b/lib/igt_kms.c
-index e3e9bf9bce07..546bb3dc1047 100644
---- a/lib/igt_kms.c
-+++ b/lib/igt_kms.c
-@@ -718,6 +718,7 @@ const char * const igt_colorop_prop_names[IGT_NUM_COLOROP_PROPS] = {
- };
- 
- const char * const igt_crtc_prop_names[IGT_NUM_CRTC_PROPS] = {
-+	[IGT_CRTC_BACKGROUND] = "BACKGROUND_COLOR",
- 	[IGT_CRTC_CTM] = "CTM",
- 	[IGT_CRTC_GAMMA_LUT] = "GAMMA_LUT",
- 	[IGT_CRTC_GAMMA_LUT_SIZE] = "GAMMA_LUT_SIZE",
-diff --git a/lib/igt_kms.h b/lib/igt_kms.h
-index b00884640e16..8c1ac5a545a7 100644
---- a/lib/igt_kms.h
-+++ b/lib/igt_kms.h
-@@ -154,7 +154,8 @@ void kmstest_restore_vt_mode(void);
- void kmstest_set_vt_text_mode(void);
- 
- enum igt_atomic_crtc_properties {
--       IGT_CRTC_CTM = 0,
-+       IGT_CRTC_BACKGROUND = 0,
-+       IGT_CRTC_CTM,
-        IGT_CRTC_GAMMA_LUT,
-        IGT_CRTC_GAMMA_LUT_SIZE,
-        IGT_CRTC_DEGAMMA_LUT,
-diff --git a/tests/kms_crtc_background_color.c b/tests/kms_crtc_background_color.c
-new file mode 100644
-index 000000000000..b1859964291f
---- /dev/null
-+++ b/tests/kms_crtc_background_color.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2013,2014 Intel Corporation
-+ * Copyright © 2025 Amazon.com, Inc. or its affiliates.
-+ * Copyright © 2025 Collabora, Ltd.
-+ */
-+
-+/**
-+ * TEST: crtc background color
-+ * Category: Display
-+ * Description: Test background color feature with CRC at CRTC
-+ * Driver requirement: i915, xe
-+ * Mega feature: General Display Features
-+ */
-+
-+#include "igt.h"
-+
-+IGT_TEST_DESCRIPTION("Test crtc background color feature");
-+
-+typedef struct {
-+	int drm_fd;
-+	int debugfs;
-+	igt_display_t display;
-+} data_t;
-+
-+#define __DRM_ARGB64_PREP(c, shift)					\
-+	(((__u64)(c) & 0xffffU) << (shift))
-+
-+#define DRM_ARGB64_PREP(alpha, red, green, blue)			\
-+	(__DRM_ARGB64_PREP(alpha, 48) |					\
-+	 __DRM_ARGB64_PREP(red,   32) |					\
-+	 __DRM_ARGB64_PREP(green, 16) |					\
-+	 __DRM_ARGB64_PREP(blue,   0))
-+
-+static void test_background(data_t *data, enum pipe pipe, igt_output_t *output,
-+			    __u16 red, __u16 green, __u16 blue)
-+{
-+	igt_display_t *display = &data->display;
-+	igt_crc_t plane_crc, bg_crc;
-+	igt_pipe_crc_t *pipe_crc;
-+	igt_plane_t *plane;
-+	drmModeModeInfo *mode;
-+	struct igt_fb fb;
-+
-+	igt_display_reset(display);
-+
-+	igt_output_set_crtc(output, igt_crtc_for_pipe(output->display, pipe));
-+	mode = igt_output_get_mode(output);
-+
-+	plane = igt_output_get_plane_type(output, DRM_PLANE_TYPE_PRIMARY);
-+
-+	/* Fill the primary plane and set the background to the same color */
-+	igt_create_color_fb(data->drm_fd,
-+			    mode->hdisplay, mode->vdisplay,
-+			    DRM_FORMAT_XRGB8888,
-+			    DRM_FORMAT_MOD_LINEAR,
-+			    (double)red / 0xffff,
-+			    (double)green / 0xffff,
-+			    (double)blue / 0xffff,
-+			    &fb);
-+
-+	igt_plane_set_fb(plane, &fb);
-+	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-+				DRM_ARGB64_PREP(0xffff, red, green, blue));
-+	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-+
-+	pipe_crc = igt_pipe_crc_new(data->drm_fd, pipe, IGT_PIPE_CRC_SOURCE_AUTO);
-+	igt_pipe_crc_collect_crc(pipe_crc, &plane_crc);
-+
-+	/* Turn off the primary plane so that only the background is visible */
-+	igt_plane_set_fb(plane, NULL);
-+	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-+	igt_pipe_crc_collect_crc(pipe_crc, &bg_crc);
-+
-+	/*
-+	 * The test assumes hardware is able to generate valid CRCs when setting
-+	 * the background color. Some platforms, e.g. Intel, might require at
-+	 * least one plane to be visible before reading the pipe-level ("dmux")
-+	 * CRC. Other platforms, e.g. Rockchip, do not take background color
-+	 * into account when computing CRC at CRTC level.
-+	 * A possible workaround would be to use alternative CRC sources, e.g.
-+	 * where computation is performed at encoder or sink level.
-+	 */
-+	igt_assert_crc_equal(&plane_crc, &bg_crc);
-+
-+	/* Clean-up */
-+	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-+				DRM_ARGB64_PREP(0xffff, 0, 0, 0));
-+	igt_pipe_crc_free(pipe_crc);
-+	igt_output_set_crtc(output, NULL);
-+	igt_display_commit(display);
-+	igt_remove_fb(data->drm_fd, &fb);
-+}
-+
-+/**
-+ * SUBTEST: background-color-%s
-+ * Description: Tests %arg[1] in background color
-+ *
-+ * arg[1]:
-+ *
-+ * @red:      red
-+ * @green:    green
-+ * @blue:     blue
-+ * @yellow:   yellow
-+ * @purple:   purple
-+ * @cyan:     cyan
-+ * @black:    black
-+ * @white:    white
-+ */
-+
-+int igt_main()
-+{
-+	igt_output_t *output;
-+	data_t data = {};
-+	enum pipe pipe;
-+	int i;
-+
-+	struct {
-+		const char *color;
-+		__u16 red;
-+		__u16 green;
-+		__u16 blue;
-+	} tests[] = {
-+		{ "red",    0xffff, 0x0000, 0x0000, },
-+		{ "green",  0x0000, 0xffff, 0x0000, },
-+		{ "blue",   0x0000, 0x0000, 0xffff, },
-+		{ "yellow", 0xffff, 0xffff, 0x0000, },
-+		{ "purple", 0xffff, 0x0000, 0xffff, },
-+		{ "cyan",   0x0000, 0xffff, 0xffff, },
-+		{ "black",  0x0000, 0x0000, 0x0000, },
-+		{ "white",  0xffff, 0xffff, 0xffff, },
-+	};
-+
-+	igt_fixture() {
-+		data.drm_fd = drm_open_driver_master(DRIVER_ANY);
-+
-+		kmstest_set_vt_graphics_mode();
-+
-+		igt_display_require(&data.display, data.drm_fd);
-+		igt_display_require_output(&data.display);
-+		igt_require_pipe_crc(data.drm_fd);
-+
-+		data.debugfs = igt_debugfs_dir(data.drm_fd);
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-+		igt_describe_f("Test crtc background color %s", tests[i].color);
-+		igt_subtest_with_dynamic_f("background-color-%s", tests[i].color) {
-+			for_each_pipe_with_single_output(&data.display, pipe, output) {
-+				igt_require(data.display.pipes[pipe].props[IGT_CRTC_BACKGROUND]);
-+
-+				igt_dynamic_f("pipe-%s-%s", kmstest_pipe_name(pipe), output->name)
-+					test_background(&data, pipe, output, tests[i].red,
-+							tests[i].green, tests[i].blue);
-+			}
-+		}
-+	}
-+
-+	igt_fixture() {
-+		igt_display_fini(&data.display);
-+		drm_close_driver(data.drm_fd);
-+	}
-+}
-diff --git a/tests/meson.build b/tests/meson.build
-index 8847070252ce..045acb5973fd 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -28,6 +28,7 @@ test_progs = [
- 	'kms_concurrent',
- 	'kms_colorop',
- 	'kms_content_protection',
-+	'kms_crtc_background_color',
- 	'kms_cursor_crc',
- 	'kms_cursor_edge_walk',
- 	'kms_cursor_legacy',
+- Improved uAPI consistency and readability by introducing
+  DRM_ARGB64_PREP*() and DRM_ARGB64_GET*() helper macros
+- Updated several code comment sections
+- Referenced the counterpart Weston support in the cover letter
+- Rebased series onto v6.18-rc1
+- Link to v1: https://lore.kernel.org/r/20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com
 
 ---
-base-commit: f38f4d8e9c65aff45ac807e646d06e38bc3193a2
-change-id: 20251110-crtc-bgcolor-f6ed9a58e0bf
+Cristian Ciocaltea (4):
+      uapi: Provide DIV_ROUND_CLOSEST()
+      drm: Add CRTC background color property
+      drm/vkms: Support setting custom background color
+      drm/rockchip: vop2: Support setting custom background color
+
+ drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |  4 ++
+ drivers/gpu/drm/drm_blend.c                  | 39 ++++++++++++++--
+ drivers/gpu/drm/drm_mode_config.c            |  6 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++
+ drivers/gpu/drm/vkms/vkms_composer.c         | 10 ++++-
+ drivers/gpu/drm/vkms/vkms_crtc.c             |  3 ++
+ include/drm/drm_blend.h                      |  4 +-
+ include/drm/drm_crtc.h                       | 12 +++++
+ include/drm/drm_mode_config.h                |  5 +++
+ include/linux/math.h                         | 18 +-------
+ include/uapi/drm/drm_mode.h                  | 67 ++++++++++++++++++++++++++++
+ include/uapi/linux/const.h                   | 17 +++++++
+ 14 files changed, 178 insertions(+), 25 deletions(-)
+---
+base-commit: 8e7460eac786c72f48c4e04ce9be692b939428ce
+change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
 
