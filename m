@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931A0CD0875
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 16:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DBBCD0A04
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 16:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 009AD10F026;
-	Fri, 19 Dec 2025 15:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05E610E1DD;
+	Fri, 19 Dec 2025 15:49:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Uk/HX4Ft";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 829E910F026
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 15:36:29 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vWcW3-0005Ow-GQ; Fri, 19 Dec 2025 16:35:39 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vWcW2-006Tjk-0a;
- Fri, 19 Dec 2025 16:35:38 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vWcW2-00GVDa-02;
- Fri, 19 Dec 2025 16:35:38 +0100
-Date: Fri, 19 Dec 2025 16:35:37 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liu Ying <victor.liu@nxp.com>, krzk+dt@kernel.org,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
- subnode to schema and example
-Message-ID: <20251219153537.zgxcokyhcqerw4jp@pengutronix.de>
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
- <20251202-v6-18-topic-imx93-parallel-display-v7-1-2cce31d64608@pengutronix.de>
- <705773fc-5aba-4bff-b05e-272e1cd0262c@nxp.com>
- <20251215161706.2ea3wtu3xlwcxxar@pengutronix.de>
- <7127040f-55ab-4bfa-8795-1df76085470c@kernel.org>
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E78310E1DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 15:49:17 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 9A5DAC1B209;
+ Fri, 19 Dec 2025 15:48:50 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4D9526071D;
+ Fri, 19 Dec 2025 15:49:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id D079810AA94CD; Fri, 19 Dec 2025 16:49:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1766159354; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=URghJ64E0DTMxIoz0+TPwPZPwbCbXHJhyhUlhOosb5U=;
+ b=Uk/HX4FtAJKOyXxo+i89ig0y20+vnnEAlGnLb6mkvGJ86CNs+nTZH806AIi4HQoB7JX5Hj
+ 1coKH2VZ9mc+Tt2fTLsQdiDWyjflw2vS0eHe7NQgkil5vXqQFSLV3mRiIDUY//zB3AxmtQ
+ s9+d1yOm56fapKov51DBkC9tvyCxOzncRZQB4HCG+wRNHQ4Vs8mDa0kXOwRah0/5RPtPhP
+ MjDw2K+M7gxDjrLZ6zTtjmh66DPEpcKdHceFLrrbNV0yVmWWq7REG2S4fYsrIYJvKYydFF
+ qhrHaAPsIrQfMuKlpUXwNYE6Qo6cGQxMKSfSYPfhm5tVVeRl7LZiPLu8Zy/ZmQ==
+Message-ID: <a72e9fea-b19e-4bbf-ab72-e853a1e9d4e8@bootlin.com>
+Date: Fri, 19 Dec 2025 16:49:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7127040f-55ab-4bfa-8795-1df76085470c@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 06/32] drm/vkms: Introduce configfs for plane
+ name
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-6-a49a2d4cba26@bootlin.com>
+ <aRXpeE2fCRj4uyBY@fedora> <f2ee5ce4-418a-4170-9b0f-26bac570e72e@bootlin.com>
+ <DF1JD8XIPQ89.2GGSIHVBHB2ZP@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <DF1JD8XIPQ89.2GGSIHVBHB2ZP@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,122 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof, Rob,
 
-On 25-12-18, Krzysztof Kozlowski wrote:
-> On 15/12/2025 17:17, Marco Felsch wrote:
-> > Hi Liu,
-> > 
-> > On 25-12-08, Liu Ying wrote:
-> >> Hi Marco,
-> >>
-> >> On 12/02/2025, Marco Felsch wrote:
-> >>> From: Liu Ying <victor.liu@nxp.com>
-> >>>
-> >>> i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
-> >>> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> >>> field. Document the Parallel Display Format Configuration(PDFC) subnode
-> >>> and add the subnode to example.
-> >>>
-> >>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> >>> [m.felsch@pengutronix.de: port to v6.18-rc1]
-> >>> [m.felsch@pengutronix.de: add bus-width]
-> >>> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> >>> ---
-> >>>  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++++++++++++++++
-> >>>  1 file changed, 92 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> >>> index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108b492bcbabc8a560d8e707cd 100644
-> >>> --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> >>> +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> >>> @@ -26,6 +26,12 @@ properties:
-> >>>    reg:
-> >>>      maxItems: 1
-> >>>  
-> >>> +  '#address-cells':
-> >>> +    const: 1
-> >>> +
-> >>> +  '#size-cells':
-> >>> +    const: 1
-> >>> +
-> >>>    '#power-domain-cells':
-> >>>      const: 1
-> >>>  
-> >>> @@ -40,6 +46,60 @@ properties:
-> >>>      minItems: 8
-> >>>      maxItems: 10
-> >>>  
-> >>> +  bridge@60:
-> >>
-> >> The dependency patch series mentioned in cover letter has two links in it's
-> >> cover letter.  Reading the patch sets pointed by the two links, we may find
-> >> Krzysztof's comments - the child nodes of the blk-ctrl should be completely
-> >> documented.
-> > 
-> > Thanks for pointing this out.
-> > 
-> > @Krzysztof
-> > Requesting to add everything seems not feasible if everything added
-> > should be tested too.
-> > I don't see why everything should be added in one step, since the base
-> > .dtsi isn't added in one step too.
+
+On 12/18/25 18:58, Luca Ceresoli wrote:
+> On Mon Nov 17, 2025 at 10:56 AM CET, Louis Chauvet wrote:
+>>
+>>
+>> On 11/13/25 14:21, José Expósito wrote:
+>>> On Wed, Oct 29, 2025 at 03:36:43PM +0100, Louis Chauvet wrote:
+>>>> Planes can have name, create a plane attribute to configure it. Currently
+>>>> plane name is mainly used in logs.
+>>>>
+>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>>> ---
+>>>>    Documentation/gpu/vkms.rst           |  3 ++-
+>>>>    drivers/gpu/drm/vkms/vkms_configfs.c | 32 ++++++++++++++++++++++++++++++++
+>>>>    2 files changed, 34 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>>>> index 3574e01b928d..1fe6e420c963 100644
+>>>> --- a/Documentation/gpu/vkms.rst
+>>>> +++ b/Documentation/gpu/vkms.rst
+>>>> @@ -87,10 +87,11 @@ Start by creating one or more planes::
+>>>>
+>>>>      sudo mkdir /config/vkms/my-vkms/planes/plane0
+>>>>
+>>>> -Planes have 1 configurable attribute:
+>>>> +Planes have 2 configurable attributes:
+>>>>
+>>>>    - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>>>>      exposed by the "type" property of a plane)
+>>>> +- name: Name of the plane
+>>>
+>>> I'd like to mention again my comment on limiting the name to a set of
+>>> well-known characters [1].
+>>>
+>>> The reason is that, in libinput, we had a format string vulnerability
+>>> due to the kernel exposing devices with names containing strings like
+>>> "%s" in the name (CVE-2022-1215):
+>>> https://gitlab.freedesktop.org/libinput/libinput/-/issues/752
+>>>
+>>> In my opinion, we should avoid surprising user-space too much and allow
+>>> only a set of "safe" characters.
+>>>
+>>> Maybe I'm too cautious, as this is valid code, but I'd like to bring up
+>>> the discussion again to see if someone else agrees or disagrees.
+>>>
+>>> [1] https://lore.kernel.org/all/aPtgCUX5kixTh2ua@fedora/
+>>
+>> Sorry, I completely forgot to send my mail drafts for your comments...
+>> It was mainly "Will do for v2" except here:
+>>
+>>
+>> For me this should not be a kernel concern, when the userspace read a
+>> file/folder name, it can be anything, so the userspace should do the
+>> proper sanitization.
+>>
+>> For libinput it was "easy" to exploit because unauthenticated users can
+>> create any device name, but for VKMS, you must already be a
+>> "privilegied" user (can write to configfs). I don't see the added value
+>> for a kernel-side limitation, it will be more code for almost no
+>> security improvement.
+>>
+>> If you really think this is important, do you know if the kernel have a
+>> helper to do this kind of checks? I did not found anything in strings.h
+>> and I don't want to implement it in VKMS.
 > 
-> Because otherwise we do not see entire picture and people post incorrect
-> bindings, claiming they are complete picture, like messing nodes with
-> addressing and nodes without. So sure, if you do not want to post
-> complete picture, we cannot review that complete picture, therefore YOU
-> MUST POST CORRECT CODE.
+> I tend to agree with José here, being strict on accepted input is good.
 > 
-> I will not be taking excuses later "we did not know that such code is
-> not allowed". You must know all rules.
+> I guess you can stick to [A-Za-z0-9_-], then if there is a good reason to
+> relax the constraint it can be done later.
 
-We discussed the ranges/reg usage internally as well with the following
-outcome:
+I don't have very strong opinion, I will add this!
 
-- Situation
-
-  With i.MX8M SoCs NXP introduced MIX domains. Each domain has a so
-  called BLK-CTRL IP. There is no common register layout for the
-  BLK-CTRL IPs. In addition to this, the register fields within one
-  register may not related to the same IP. Please see my below example:
-  
-  The DISP_MUX register configures the DPI output routed to physical
-  SoC pads as well as the internal MIPI-DSI DPI behavior. This PDFC
-  bridge binding is only interested in the first part, not the 2nd.
-
-  In other words, the BLK-CTRL IP can be seen as a bunch of loose
-  register fields.
-
-- Our outcome
-
-  To be future compatible and extentible, we believe that the best
-  abstraction is the syscon, no mappings (no ranges/regs). A BLK-CTRL
-  sub-device has no address, just the node name. The driver needs to rely
-  on the syscon parent device. All register(-field) handling is done
-  within the sub-device driver.
-
-  This way new functionallity like MIPI-DSI PLL clock provider driver
-  can be added easily.
-
-I will adapt this patchset accordingly, if you agree to rely on the
-syscon (no regs/ranges).
-
-Regards,
-  Marco
-
-
+> Luca
 > 
-> 
-> Best regards,
-> Krzysztof
-> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
-
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
