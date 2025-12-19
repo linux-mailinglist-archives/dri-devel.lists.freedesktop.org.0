@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A54CD00F3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 14:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE29CD011A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 14:31:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D0410E7A0;
-	Fri, 19 Dec 2025 13:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 012B910EF9B;
+	Fri, 19 Dec 2025 13:31:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VorQn3x/";
+	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="MQA9y81M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5BEB10E1D1;
- Fri, 19 Dec 2025 13:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766150916; x=1797686916;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AS3oWRmAkfcyoDBeSPoWEtvVnhzA59048XKplit7xg8=;
- b=VorQn3x/EYkAyHWWRgJoaCnzqK2sXGZAQOS7cRWk12qQxCVB1/14jBR+
- /rRAi+Wwc/hQbo8GzH2Soe7wmtC3wQFGIdN6+wYZ4+4ELYnW+abrLbnZo
- M3754TOifWsIOx8vFefUo9pSOhpZVio4vbbMuLAecaBJAlcKoP1squhO4
- UOg7lU8CCpijiEvgp5dvemXDttGPHhj8pJsYToPeOnDWCzUMmlNLtaUQw
- H94dpTSbS7ySvM3ngWO8VDzWBSOBp8E+eWSZHLLLCET/gpmAFO5ZpHedC
- VFNdZyTUzkMdZy+vW9TdIkDjT1HGlLDSLZGO0Iv6+PgneD844Xg3U1yVS w==;
-X-CSE-ConnectionGUID: tnI/OxFoTuKB3IZB7megEA==
-X-CSE-MsgGUID: D19DEMHbSwCzU9Rh/OvNJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68185755"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="68185755"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 05:28:36 -0800
-X-CSE-ConnectionGUID: zuz2DXsHTo2WUkiGpokeSA==
-X-CSE-MsgGUID: VjL+924hS4eIXrabfR6JZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203767018"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.245.49])
- ([10.245.245.49])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 05:28:33 -0800
-Message-ID: <03c830d1-3495-4b7d-a333-f54925133c6e@linux.intel.com>
-Date: Fri, 19 Dec 2025 14:28:31 +0100
+Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCA2D10EF9A;
+ Fri, 19 Dec 2025 13:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+ s=default; t=1766151067;
+ bh=s5/3r47hmOMQ1SBGWZoI5Mg/yig5s+i4+6MsbuhmtTY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MQA9y81M6qVrBdkEKBwkoxFb+6VMcYF3MjQEiOyhJH3663CSUcuURbllZcPhsmghJ
+ Q+2+K9hhgl4e9+U7Iuk5hX/a+30zltbjOg/iMBgFhWR8sjQf6qFF641FGPqLUKTuJJ
+ 12DY8C7r2x14GlRFgzWd+QG5kgv5KtQ046dl5fkCGb1AidJvK8LrSOPjcIJLZPVraP
+ 3VdWWqjPDwGg1kfICmK6gH4IQNhlPM2O4zmRiBW9C2Bne5pn4zAObecigQUwyq9BbT
+ aoKgVo0CbdOZL9iaZJQmRSzT4hxyGnR0hyDegHpE0QLILO0pQrwUeJAX9yQiY1/b5A
+ KZm8/Tu3rD8hg==
+Message-ID: <b2594616-df29-4fca-bf2c-11a46de3a529@lankhorst.se>
+Date: Fri, 19 Dec 2025 14:31:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] drm/i915/dp: Clean up link BW/DSC slice config
- computation (fixes)
-To: imre.deak@intel.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-Cc: Ankit K Nautiyal <ankit.k.nautiyal@intel.com>,
- Luciano Coelho <luciano.coelho@intel.com>,
- Jouni Hogander <jouni.hogander@intel.com>,
- Vinod Govindapillai <vinod.govindapillai@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+Subject: Re: [PATCH v6 00/24] Dynamic drm_pagemaps and Initial multi-device SVM
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  intel-xe@lists.freedesktop.org
-References: <20251215192357.172201-1-imre.deak@intel.com>
- <aUGW6XAOyXlhfy4H@ideak-desk> <aUPs5_Qc9k-7Jesu@ideak-desk>
+Cc: dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ apopple@nvidia.com, airlied@gmail.com, Simona Vetter
+ <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <aUPs5_Qc9k-7Jesu@ideak-desk>
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,86 +60,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Got no objections.
+Hey,
 
-For patch 1+2:
+For merging the pagemap patches through drm-xe:
 
 Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Den 2025-12-18 kl. 13:00, skrev Imre Deak:
-> Hi all,
+Den 2025-12-19 kl. 12:32, skrev Thomas Hellström:
+> This series aims at providing an initial implementation of multi-device
+> SVM, where communitcation with peers (migration and direct execution out
+> of peer memory) uses some form of fast interconnect. In this series
+> we're using pcie p2p.
 > 
-> On Tue, Dec 16, 2025 at 07:30:40PM +0200, Imre Deak wrote:
->> Hi Thomas, Maarten, Maxime,
->>
->> could you ack merging patch 1 and 2 in this patchset containing changes
->> in drm_dp_helper.c via the Intel trees?
+> In a multi-device environment, the struct pages for device-private memory
+> (the dev_pagemap) may take up a significant amount of system memory. We
+> therefore want to provide a means of revoking / removing the dev_pagemaps
+> not in use. In particular when a device is offlined, we want to block
+> migrating *to* the device memory and migrate data already existing in the
+> devices memory to system. The dev_pagemap then becomes unused and can be
+> removed.
 > 
-> any objections to merge patch 1 and 2 via drm-intel? If not, could
-> someone ack it?
+> Removing and setting up a large dev_pagemap is also quite time-consuming,
+> so removal of unused dev_pagemaps only happens on system memory pressure
+> using a shrinker.
 > 
-> Thanks,
-> Imre
+> Patch 1 is a small debug printout fix.
+> Patch 2 removes some dead code.
+> Patch 3 fixes a condition where memory was used while being cleared.
+> Patches 4-9 deals with dynamic drm_pagemaps as described above.
+> Patches 10-14 adds infrastructure to handle remote drm_pagemaps with
+> fast interconnects.
+> Patch 15 extends the xe madvise() UAPI to handle remote drm_pagemaps.
+> Patch 16 adds a pcie-p2p dma SVM interconnect to the xe driver.
+> Patch 17 adds some SVM-related debug printouts for xe.
+> Patch 18 adds documentation on how the drm_pagemaps are reference counted.
+> Patch 19 Cleans up the usage of the dev_private owner.
+> Patch 20 Introduces a gpusvm function to scan the current CPU address space.
+> Patch 21 Uses the above function in Xe to avoid unnecessary migrations.
+> Patch 22 Adds drm_pagemap support for p2p destination migration.
+> Patch 23 Adds drm_pagemap support for p2p source migration.
+> Patch 24 Adds an rwsem to optionally serialize migration.
 > 
->> They fix an issue in the i915/xe drivers' DP DSC slice-count handling
->> and do not affect other drivers.
->>
->> Thanks,
->> Imre
->>
->> On Mon, Dec 15, 2025 at 09:23:40PM +0200, Imre Deak wrote:
->>> This is the first part of patchset [1] containing only the fixes for the
->>> link BW and DSC slice computation. The remaining patches in [1] refactor
->>> the link BW and DSC slice computation simplifying these, to be sent as a
->>> follow-up to this patchset.
->>>
->>> I moved patches 13-15 in [1] later in the patchset to be sent as part of
->>> the follow-up, as these patches are not a dependency for the fixes in
->>> this patchset.
->>>
->>> [1] https://lore.kernel.org/all/20251127175023.1522538-1-imre.deak@intel.com
->>>
->>> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->>> Cc: Luca Coelho <luciano.coelho@intel.com>
->>> Cc: Jouni Högander <jouni.hogander@intel.com>
->>> Cc: Vinod Govindapillai <vinod.govindapillai@intel.com>
->>>
->>> Imre Deak (16):
->>>   drm/dp: Parse all DSC slice count caps for eDP 1.5
->>>   drm/dp: Add drm_dp_dsc_sink_slice_count_mask()
->>>   drm/i915/dp: Fix DSC sink's slice count capability check
->>>   drm/i915/dp: Return a fixed point BPP value from intel_dp_output_bpp()
->>>   drm/i915/dp: Use a mode's crtc_clock vs. clock during state
->>>     computation
->>>   drm/i915/dp: Factor out intel_dp_link_bw_overhead()
->>>   drm/i915/dp: Fix BW check in is_bw_sufficient_for_dsc_config()
->>>   drm/i915/dp: Use the effective data rate for DP BW calculation
->>>   drm/i915/dp: Use the effective data rate for DP compressed BW
->>>     calculation
->>>   drm/i915/dp: Account with MST, SSC BW overhead for uncompressed DP-MST
->>>     stream BW
->>>   drm/i915/dp: Account with DSC BW overhead for compressed DP-SST stream
->>>     BW
->>>   drm/i915/dp: Account with pipe joiner max compressed BPP limit for
->>>     DP-MST and eDP
->>>   drm/i915/dp: Fail state computation for invalid min/max link BPP
->>>     values
->>>   drm/i915/dp: Fail state computation for invalid max throughput BPP
->>>     value
->>>   drm/i915/dp: Fail state computation for invalid max sink compressed
->>>     BPP value
->>>   drm/i915/dp: Fail state computation for invalid DSC source input BPP
->>>     values
->>>
->>>  drivers/gpu/drm/display/drm_dp_helper.c       | 103 ++++++---
->>>  drivers/gpu/drm/i915/display/intel_dp.c       | 211 ++++++++++++------
->>>  drivers/gpu/drm/i915/display/intel_dp.h       |   9 +-
->>>  .../drm/i915/display/intel_dp_link_training.c |   4 +-
->>>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  33 ++-
->>>  include/drm/display/drm_dp_helper.h           |   3 +
->>>  6 files changed, 234 insertions(+), 129 deletions(-)
->>>
->>> -- 
->>> 2.49.1
->>>
+> What's still missing is implementation of migration policies.
+> That will be implemented in follow-up series. 
+> 
+> v2:
+> - Address review comments from Matt Brost.
+> - Fix compilation issues reported by automated testing
+> - Add patch 1, 17.
+> - What's now patch 16 was extended to support p2p migration.
+> v3:
+> - Add patches 2, 18, 19, 10, 22. Main functionality is the address space
+>   scan to avoid unnecessary migration, and p2p source migration which
+>   is needed on Xe to decompress and to flush out the L2 cache.
+> - Rework what's now Patch 21 slightly.
+> - Minor fixes all over the place.
+> v4:
+> - Fix a build error (CI)
+> - Fix possibly incorrect waiting for the pre_migrate_fence.
+> v5:
+> - New patch: broken out from patch 22: drm/pagemap: Remove some dead code
+>   (Matt Brost)
+> - New patch:  drm/xe/svm: Serialize migration to device if racing
+>   (Matt Brost)
+> - Fix a UAF in what's now patch 3. (CI)
+> - Release the migrate fence early in patch 3.
+> - Address review comments to patch 3. See the patch for details.
+> - Address review comments to patch 22. See the patch for details.
+> - Rebase, update R-Bs.
+> v6:
+> - Fix in patch 3. (Matt Brost)
+> - Rebase patch 23 on fix in patch 3.
+> - Update R-Bs.
+> 
+> Test-with: 20251204085432.35023-1-nishit.sharma@intel.com
+> 
+> Thomas Hellström (24):
+>   drm/xe/svm: Fix a debug printout
+>   drm/pagemap: Remove some dead code
+>   drm/pagemap, drm/xe: Ensure that the devmem allocation is idle before
+>     use
+>   drm/pagemap, drm/xe: Add refcounting to struct drm_pagemap
+>   drm/pagemap: Add a refcounted drm_pagemap backpointer to struct
+>     drm_pagemap_zdd
+>   drm/pagemap, drm/xe: Manage drm_pagemap provider lifetimes
+>   drm/pagemap: Add a drm_pagemap cache and shrinker
+>   drm/xe: Use the drm_pagemap cache and shrinker
+>   drm/pagemap: Remove the drm_pagemap_create() interface
+>   drm/pagemap_util: Add a utility to assign an owner to a set of
+>     interconnected gpus
+>   drm/xe: Use the drm_pagemap_util helper to get a svm pagemap owner
+>   drm/xe: Pass a drm_pagemap pointer around with the memory advise
+>     attributes
+>   drm/xe: Use the vma attibute drm_pagemap to select where to migrate
+>   drm/xe: Simplify madvise_preferred_mem_loc()
+>   drm/xe/uapi: Extend the madvise functionality to support foreign
+>     pagemap placement for svm
+>   drm/xe: Support pcie p2p dma as a fast interconnect
+>   drm/xe/vm: Add a couple of VM debug printouts
+>   drm/xe/svm: Document how xe keeps drm_pagemap references
+>   drm/pagemap, drm/xe: Clean up the use of the device-private page owner
+>   drm/gpusvm: Introduce a function to scan the current migration state
+>   drm/xe: Use drm_gpusvm_scan_mm()
+>   drm/pagemap, drm/xe: Support destination migration over interconnect
+>   drm/pagemap: Support source migration over interconnect
+>   drm/xe/svm: Serialize migration to device if racing
+> 
+>  drivers/gpu/drm/Makefile             |   3 +-
+>  drivers/gpu/drm/drm_gpusvm.c         | 124 +++++
+>  drivers/gpu/drm/drm_pagemap.c        | 565 +++++++++++++++++----
+>  drivers/gpu/drm/drm_pagemap_util.c   | 568 +++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_device.c       |  20 +
+>  drivers/gpu/drm/xe/xe_device.h       |   2 +
+>  drivers/gpu/drm/xe/xe_device_types.h |   5 +
+>  drivers/gpu/drm/xe/xe_migrate.c      |  29 +-
+>  drivers/gpu/drm/xe/xe_migrate.h      |   6 +-
+>  drivers/gpu/drm/xe/xe_svm.c          | 721 ++++++++++++++++++++++-----
+>  drivers/gpu/drm/xe/xe_svm.h          |  85 +++-
+>  drivers/gpu/drm/xe/xe_tile.c         |  34 +-
+>  drivers/gpu/drm/xe/xe_tile.h         |  21 +
+>  drivers/gpu/drm/xe/xe_userptr.c      |   2 +-
+>  drivers/gpu/drm/xe/xe_vm.c           |  65 ++-
+>  drivers/gpu/drm/xe/xe_vm.h           |   1 +
+>  drivers/gpu/drm/xe/xe_vm_madvise.c   | 106 +++-
+>  drivers/gpu/drm/xe/xe_vm_types.h     |  21 +-
+>  drivers/gpu/drm/xe/xe_vram_types.h   |  15 +-
+>  include/drm/drm_gpusvm.h             |  29 ++
+>  include/drm/drm_pagemap.h            | 128 ++++-
+>  include/drm/drm_pagemap_util.h       |  92 ++++
+>  include/uapi/drm/xe_drm.h            |  18 +-
+>  23 files changed, 2359 insertions(+), 301 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_pagemap_util.c
+>  create mode 100644 include/drm/drm_pagemap_util.h
+> 
 
