@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D77DCCF9A4
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F5ECCF9A7
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD19D10EF3C;
-	Fri, 19 Dec 2025 11:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DD810EF40;
+	Fri, 19 Dec 2025 11:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="itx0bRH3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SnTURzHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CB310EF40;
- Fri, 19 Dec 2025 11:35:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D62510EF40;
+ Fri, 19 Dec 2025 11:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766144109; x=1797680109;
+ t=1766144113; x=1797680113;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VYywXm4UdkLrI+kyFm+UlWkaM12K80XJc7dlo+814pM=;
- b=itx0bRH3BYdSGIbfv6R3WHm0DDp4PGYekZaom8JL33/5B9e1YGAFFcYw
- HyzFHWqHWIDb7qAGo/T38ZyAfh5+zOuazzuVoxQSKtk2Pm6TIuF7aYvml
- qnm29Lx3EEn5e3ouZAZRRPZkAwEf6+V6NzHcTAYu+i9LUSKIJ88r2s7QD
- ULDlnaR8pS008zrDIgAHVjODsHTUCmOOw7fJ+zTT08pK1fIRRxn6Be9Hw
- gvFJFOKCrsZhxEgFdvJS0AJPjUztUv6pE+IlmA139B1+Drd/B0UJaAinV
- 9+Teq2K75yFQiGrEDhujYjY4JUwaNK+tqs60QVQLmI+lPKuPi1SKkqAs2 w==;
-X-CSE-ConnectionGUID: Ry67+gHrSFqnViFM6Rwopw==
-X-CSE-MsgGUID: GfS5yv6iTuKYVG867HnhLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224596"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224596"
+ bh=fLzL9XwuaUaWGQN9SEAPD8CXgKhnQSA95fusE7hgKFY=;
+ b=SnTURzHJuahSrVlVozO+4pCK1u4ojMA9dSkloztPAXcWTYZSuIN/9XCc
+ xniE+3uDmSFv1lBrP/lNFsz1+Vnp24dlW+RCweCy0MfyzT7fY1B/1s8xX
+ oNhr2G0iwHFjll34P6CkdHhSlze1yPPESpOrUD9EubNKIxQvjO5ySjRYJ
+ QO0lwtYSzvPmu2yg0TbZOW/9wTlyIRxtShOTWsDG70GWvlZr3UKP6ifvT
+ 3LM4x819mEZ2unsY8ynr7tNuDcQCIPATUYnNIKkceX2bsbg9degJq3lc6
+ jmo7zgvtRH7G10hJbl5hrJveqI39/h1NBboB38lUljAPx6er5dRuw0/2Z w==;
+X-CSE-ConnectionGUID: wxsSSlaVQ2yq4Xq9DQMsVA==
+X-CSE-MsgGUID: EKwGzcQ0TWG6IVsCg4iM9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224605"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224605"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:35:09 -0800
-X-CSE-ConnectionGUID: whhxm24rQU27M6E2xPlSRw==
-X-CSE-MsgGUID: PPD52RKkT6iBw7tb8JzYfA==
+ 19 Dec 2025 03:35:13 -0800
+X-CSE-ConnectionGUID: 1snhOJ2LTim3ARZ0A+h2RQ==
+X-CSE-MsgGUID: 4rSkgTU1Rb2iKbKl+aX8ZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005792"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005804"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.251])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:35:05 -0800
+ 19 Dec 2025 03:35:09 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ dri-devel@lists.freedesktop.org, apopple@nvidia.com, airlied@gmail.com,
  Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
+ Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6 18/24] drm/xe/svm: Document how xe keeps drm_pagemap
- references
-Date: Fri, 19 Dec 2025 12:33:14 +0100
-Message-ID: <20251219113320.183860-19-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v6 19/24] drm/pagemap,
+ drm/xe: Clean up the use of the device-private page owner
+Date: Fri, 19 Dec 2025 12:33:15 +0100
+Message-ID: <20251219113320.183860-20-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 References: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
@@ -76,52 +77,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As an aid to understanding the lifetime of the drm_pagemaps used
-by the xe driver, document how the xe driver keeps the
-drm_pagemap references.
+Use the dev_pagemap->owner field wherever possible, simplifying
+the code slightly.
 
-v3:
-- Fix formatting (Matt Brost)
+v3: New patch
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/drm_pagemap.c | 32 +++++++++++---------------------
+ drivers/gpu/drm/xe/xe_svm.c   |  3 +--
+ include/drm/drm_pagemap.h     |  3 +--
+ 3 files changed, 13 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+index 5dd9fd30dc7f..d44372a80a90 100644
+--- a/drivers/gpu/drm/drm_pagemap.c
++++ b/drivers/gpu/drm/drm_pagemap.c
+@@ -66,7 +66,6 @@
+  * @refcount: Reference count for the zdd
+  * @devmem_allocation: device memory allocation
+  * @dpagemap: Refcounted pointer to the underlying struct drm_pagemap.
+- * @device_private_page_owner: Device private pages owner
+  *
+  * This structure serves as a generic wrapper installed in
+  * page->zone_device_data. It provides infrastructure for looking up a device
+@@ -79,13 +78,11 @@ struct drm_pagemap_zdd {
+ 	struct kref refcount;
+ 	struct drm_pagemap_devmem *devmem_allocation;
+ 	struct drm_pagemap *dpagemap;
+-	void *device_private_page_owner;
+ };
+ 
+ /**
+  * drm_pagemap_zdd_alloc() - Allocate a zdd structure.
+  * @dpagemap: Pointer to the underlying struct drm_pagemap.
+- * @device_private_page_owner: Device private pages owner
+  *
+  * This function allocates and initializes a new zdd structure. It sets up the
+  * reference count and initializes the destroy work.
+@@ -93,7 +90,7 @@ struct drm_pagemap_zdd {
+  * Return: Pointer to the allocated zdd on success, ERR_PTR() on failure.
+  */
+ static struct drm_pagemap_zdd *
+-drm_pagemap_zdd_alloc(struct drm_pagemap *dpagemap, void *device_private_page_owner)
++drm_pagemap_zdd_alloc(struct drm_pagemap *dpagemap)
+ {
+ 	struct drm_pagemap_zdd *zdd;
+ 
+@@ -103,7 +100,6 @@ drm_pagemap_zdd_alloc(struct drm_pagemap *dpagemap, void *device_private_page_ow
+ 
+ 	kref_init(&zdd->refcount);
+ 	zdd->devmem_allocation = NULL;
+-	zdd->device_private_page_owner = device_private_page_owner;
+ 	zdd->dpagemap = drm_pagemap_get(dpagemap);
+ 
+ 	return zdd;
+@@ -308,7 +304,6 @@ npages_in_range(unsigned long start, unsigned long end)
+  * @end: End of the virtual address range to migrate.
+  * @timeslice_ms: The time requested for the migrated pagemap pages to
+  * be present in @mm before being allowed to be migrated back.
+- * @pgmap_owner: Not used currently, since only system memory is considered.
+  *
+  * This function migrates the specified virtual address range to device memory.
+  * It performs the necessary setup and invokes the driver-specific operations for
+@@ -326,14 +321,15 @@ npages_in_range(unsigned long start, unsigned long end)
+ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 				  struct mm_struct *mm,
+ 				  unsigned long start, unsigned long end,
+-				  unsigned long timeslice_ms,
+-				  void *pgmap_owner)
++				  unsigned long timeslice_ms)
+ {
+ 	const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
++	struct drm_pagemap *dpagemap = devmem_allocation->dpagemap;
++	struct dev_pagemap *pagemap = dpagemap->pagemap;
+ 	struct migrate_vma migrate = {
+ 		.start		= start,
+ 		.end		= end,
+-		.pgmap_owner	= pgmap_owner,
++		.pgmap_owner	= pagemap->owner,
+ 		.flags		= MIGRATE_VMA_SELECT_SYSTEM,
+ 	};
+ 	unsigned long i, npages = npages_in_range(start, end);
+@@ -375,7 +371,7 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 	pagemap_addr = buf + (2 * sizeof(*migrate.src) * npages);
+ 	pages = buf + (2 * sizeof(*migrate.src) + sizeof(*pagemap_addr)) * npages;
+ 
+-	zdd = drm_pagemap_zdd_alloc(devmem_allocation->dpagemap, pgmap_owner);
++	zdd = drm_pagemap_zdd_alloc(dpagemap);
+ 	if (!zdd) {
+ 		err = -ENOMEM;
+ 		goto err_free;
+@@ -791,8 +787,7 @@ EXPORT_SYMBOL_GPL(drm_pagemap_evict_to_ram);
+ /**
+  * __drm_pagemap_migrate_to_ram() - Migrate GPU SVM range to RAM (internal)
+  * @vas: Pointer to the VM area structure
+- * @device_private_page_owner: Device private pages owner
+- * @page: Pointer to the page for fault handling (can be NULL)
++ * @page: Pointer to the page for fault handling.
+  * @fault_addr: Fault address
+  * @size: Size of migration
+  *
+@@ -803,14 +798,13 @@ EXPORT_SYMBOL_GPL(drm_pagemap_evict_to_ram);
+  * Return: 0 on success, negative error code on failure.
+  */
+ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+-					void *device_private_page_owner,
+ 					struct page *page,
+ 					unsigned long fault_addr,
+ 					unsigned long size)
+ {
+ 	struct migrate_vma migrate = {
+ 		.vma		= vas,
+-		.pgmap_owner	= device_private_page_owner,
++		.pgmap_owner	= page_pgmap(page)->owner,
+ 		.flags		= MIGRATE_VMA_SELECT_DEVICE_PRIVATE |
+ 		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
+ 		.fault_page	= page,
+@@ -825,12 +819,9 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+ 	void *buf;
+ 	int i, err = 0;
+ 
+-	if (page) {
+-		zdd = page->zone_device_data;
+-		if (time_before64(get_jiffies_64(),
+-				  zdd->devmem_allocation->timeslice_expiration))
+-			return 0;
+-	}
++	zdd = page->zone_device_data;
++	if (time_before64(get_jiffies_64(), zdd->devmem_allocation->timeslice_expiration))
++		return 0;
+ 
+ 	start = ALIGN_DOWN(fault_addr, size);
+ 	end = ALIGN(fault_addr + 1, size);
+@@ -931,7 +922,6 @@ static vm_fault_t drm_pagemap_migrate_to_ram(struct vm_fault *vmf)
+ 	int err;
+ 
+ 	err = __drm_pagemap_migrate_to_ram(vmf->vma,
+-					   zdd->device_private_page_owner,
+ 					   vmf->page, vmf->address,
+ 					   zdd->devmem_allocation->size);
+ 
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 43af813276b8..68f30338abee 100644
+index 68f30338abee..3ec32f9805e3 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -28,6 +28,27 @@
- #define XE_PEER_PAGEMAP ((void *)0ul)
- #define XE_PEER_VM ((void *)1ul)
+@@ -1075,8 +1075,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+ 		/* Ensure the device has a pm ref while there are device pages active. */
+ 		xe_pm_runtime_get_noresume(xe);
+ 		err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
+-						    start, end, timeslice_ms,
+-						    xpagemap->pagemap.owner);
++						    start, end, timeslice_ms);
+ 		if (err)
+ 			xe_svm_devmem_release(&bo->devmem_allocation);
+ 		xe_bo_unlock(bo);
+diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+index 78cc9011829f..f73afece42ba 100644
+--- a/include/drm/drm_pagemap.h
++++ b/include/drm/drm_pagemap.h
+@@ -320,8 +320,7 @@ struct drm_pagemap_devmem {
+ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 				  struct mm_struct *mm,
+ 				  unsigned long start, unsigned long end,
+-				  unsigned long timeslice_ms,
+-				  void *pgmap_owner);
++				  unsigned long timeslice_ms);
  
-+/**
-+ * DOC: drm_pagemap reference-counting in xe:
-+ *
-+ * In addition to the drm_pagemap internal reference counting by its zone
-+ * device data, the xe driver holds the following long-time references:
-+ *
-+ * - struct xe_pagemap:
-+ *	The xe_pagemap struct derives from struct drm_pagemap and uses its
-+ *	reference count.
-+ * - SVM-enabled VMs:
-+ *	SVM-enabled VMs look up and keeps a reference to all xe_pagemaps on
-+ *	the same device.
-+ * - VMAs:
-+ *	vmas keep a reference on the drm_pagemap indicated by a gpu_madvise()
-+ *	call.
-+ *
-+ * In addition, all drm_pagemap or xe_pagemap pointers where lifetime cannot
-+ * be guaranteed by a vma reference under the vm lock should keep a reference.
-+ * That includes the range->pages.dpagemap pointer.
-+ */
-+
- static int xe_svm_get_pagemaps(struct xe_vm *vm);
+ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation);
  
- void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem)
 -- 
 2.51.1
 
