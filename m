@@ -2,71 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467B4CCFBB6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB98CCFC16
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7799410E3F7;
-	Fri, 19 Dec 2025 12:15:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GZI+KIIM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C12610E47D;
+	Fri, 19 Dec 2025 12:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C037E10E3F7;
- Fri, 19 Dec 2025 12:15:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 53C5940651;
- Fri, 19 Dec 2025 12:15:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36E2C4CEF1;
- Fri, 19 Dec 2025 12:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766146514;
- bh=zr3MOIdRIiLo5rQVA/Ls8ftqQmh9k+HKygN/fGUhHUM=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=GZI+KIIMKdrldmwo7anW9rvr4aLsQBZAC9pHRgRsTbVfoUDi8BU6ovBSAJYDNojJh
- 4AYAUZonScKOOogC43EkXDdgB04ocA8/I5WdYaWRnXC8I6s6hlfcjVZrZOmk0glcjQ
- iPgk0U6tK4L20VCTNJbufSlESIsU620vyTVv/beEcIAlqx1m/rD8o2RM228EyXbNiZ
- SDBQgev8wOx9x0nh0FR1geOg+/5LPLtX1dOYq7Sevx09h/yPEn8K5XoCwW9UwIVKHl
- fuKOEaTs33EyjO4TMdIoTR0BvTGHRMJrgHgQ1rHBQT/rIyqGZzr+qbMfvwOcuHZHyT
- GmcaQve3a1qGg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2537110E47D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 12:19:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96461FEC;
+ Fri, 19 Dec 2025 04:19:30 -0800 (PST)
+Received: from [10.1.30.18] (e122027.cambridge.arm.com [10.1.30.18])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 288EC3F5CA;
+ Fri, 19 Dec 2025 04:19:36 -0800 (PST)
+Message-ID: <7829cb8b-3ad4-44fa-8188-b976f21cfa67@arm.com>
+Date: Fri, 19 Dec 2025 12:19:34 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/1] drm/panthor: Support partial unmaps of huge pages
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20251217213252.677020-1-adrian.larumbe@collabora.com>
+ <20251217213252.677020-2-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251217213252.677020-2-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 13:15:04 +0100
-Message-Id: <DF26ONGZ03KH.31FVI22UBGJFX@kernel.org>
-Subject: Re: [PATCH 1/4] drm/gpuvm: take GEM lock inside
- drm_gpuvm_bo_obtain_prealloc()
-Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Matthew Brost"
- <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris Brezillon"
- <boris.brezillon@collabora.com>, "Steven Price" <steven.price@arm.com>,
- "Liviu Dudau" <liviu.dudau@arm.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Frank Binns" <frank.binns@imgtec.com>, "Matt
- Coster" <matt.coster@imgtec.com>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
- <jessica.zhang@oss.qualcomm.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Lyude Paul" <lyude@redhat.com>,
- "Lucas De Marchi" <lucas.demarchi@intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-1-ebf66bf234e0@google.com>
-In-Reply-To: <20251128-gpuvm-rust-v1-1-ebf66bf234e0@google.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,25 +53,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Nov 28, 2025 at 3:14 PM CET, Alice Ryhl wrote:
-> +static void
-> +drm_gpuvm_bo_destroy_not_in_lists(struct drm_gpuvm_bo *vm_bo)
-> +{
-> +	struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> +	const struct drm_gpuvm_ops *ops =3D gpuvm->ops;
-> +	struct drm_gem_object *obj =3D vm_bo->obj;
-> +
-> +	if (ops && ops->vm_bo_free)
-> +		ops->vm_bo_free(vm_bo);
-> +	else
-> +		kfree(vm_bo);
-> +
-> +	drm_gpuvm_put(gpuvm);
-> +	drm_gem_object_put(obj);
-> +}
+On 17/12/2025 21:32, Adrián Larumbe wrote:
+> Commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
+> behavior") did away with the treatment of partial unmaps of huge IOPTEs.
+> 
+> In the case of Panthor, that means an attempt to run a VM_BIND unmap
+> operation on a memory region whose start address and size aren't 2MiB
+> aligned, in the event it intersects with a huge page, would lead to ARM
+> IOMMU management code to fail and a warning being raised.
+> 
+> Presently, and for lack of a better alternative, it's best to have
+> Panthor handle partial unmaps at the driver level, by unmapping entire
+> huge pages and remapping the difference between them and the requested
+> unmap region.
+> 
+> This could change in the future when the VM_BIND uAPI is expanded to
+> enforce huge page alignment and map/unmap operational constraints that
+> render this code unnecessary.
+> 
+> When a partial unmap for a huge PTE is attempted, we also need to expand
+> the locked region to encompass whole huge pages.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-I think to us it seems obvious, but I think for new people it might not be.=
- Can
-you please add a comment that mentions that this is about the evict and ext=
-obj
-lists and explains how this is related to locking?
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+Steve
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 100 +++++++++++++++++++++++---
+>  1 file changed, 92 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index a3e5e77fc9ed..2148e3a0bd31 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -547,12 +547,12 @@ static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd
+>  	return status;
+>  }
+>  
+> -static u64 pack_region_range(struct panthor_device *ptdev, u64 region_start, u64 size)
+> +static u64 pack_region_range(struct panthor_device *ptdev, u64 *region_start, u64 *size)
+>  {
+>  	u8 region_width;
+> -	u64 region_end = region_start + size;
+> +	u64 region_end = *region_start + *size;
+>  
+> -	if (drm_WARN_ON_ONCE(&ptdev->base, !size))
+> +	if (drm_WARN_ON_ONCE(&ptdev->base, !*size))
+>  		return 0;
+>  
+>  	/*
+> @@ -563,16 +563,17 @@ static u64 pack_region_range(struct panthor_device *ptdev, u64 region_start, u64
+>  	 * change, the desired region starts with this bit (and subsequent bits)
+>  	 * zeroed and ends with the bit (and subsequent bits) set to one.
+>  	 */
+> -	region_width = max(fls64(region_start ^ (region_end - 1)),
+> +	region_width = max(fls64(*region_start ^ (region_end - 1)),
+>  			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
+>  
+>  	/*
+>  	 * Mask off the low bits of region_start (which would be ignored by
+>  	 * the hardware anyway)
+>  	 */
+> -	region_start &= GENMASK_ULL(63, region_width);
+> +	*region_start &= GENMASK_ULL(63, region_width);
+> +	*size = 1ull << (region_width + 1);
+>  
+> -	return region_width | region_start;
+> +	return region_width | *region_start;
+>  }
+>  
+>  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+> @@ -1691,12 +1692,19 @@ static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
+>  	struct panthor_device *ptdev = vm->ptdev;
+>  	int ret = 0;
+>  
+> +	/* sm_step_remap() can call panthor_vm_lock_region() to account for
+> +	 * the wider unmap needed when doing a partial huge page unamp. We
+> +	 * need to ignore the lock if it's already part of the locked region.
+> +	 */
+> +	if (start >= vm->locked_region.start &&
+> +	    start + size <= vm->locked_region.start + vm->locked_region.size)
+> +		return 0;
+> +
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+> -	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
+>  	if (vm->as.id >= 0 && size) {
+>  		/* Lock the region that needs to be updated */
+>  		gpu_write64(ptdev, AS_LOCKADDR(vm->as.id),
+> -			    pack_region_range(ptdev, start, size));
+> +			    pack_region_range(ptdev, &start, &size));
+>  
+>  		/* If the lock succeeded, update the locked_region info. */
+>  		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_LOCK);
+> @@ -2169,6 +2177,48 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
+>  	return 0;
+>  }
+>  
+> +static bool
+> +iova_mapped_as_huge_page(struct drm_gpuva_op_map *op, u64 addr)
+> +{
+> +	const struct page *pg;
+> +	pgoff_t bo_offset;
+> +
+> +	bo_offset = addr - op->va.addr + op->gem.offset;
+> +	pg = to_panthor_bo(op->gem.obj)->base.pages[bo_offset >> PAGE_SHIFT];
+> +
+> +	return folio_size(page_folio(pg)) >= SZ_2M;
+> +}
+> +
+> +static void
+> +unmap_hugepage_align(const struct drm_gpuva_op_remap *op,
+> +		     u64 *unmap_start, u64 *unmap_range)
+> +{
+> +	u64 aligned_unmap_start, aligned_unmap_end, unmap_end;
+> +
+> +	unmap_end = *unmap_start + *unmap_range;
+> +	aligned_unmap_start = ALIGN_DOWN(*unmap_start, SZ_2M);
+> +	aligned_unmap_end = ALIGN(unmap_end, SZ_2M);
+> +
+> +	/* If we're dealing with a huge page, make sure the unmap region is
+> +	 * aligned on the start of the page.
+> +	 */
+> +	if (op->prev && aligned_unmap_start < *unmap_start &&
+> +	    op->prev->va.addr <= aligned_unmap_start &&
+> +	    iova_mapped_as_huge_page(op->prev, *unmap_start)) {
+> +		*unmap_range += *unmap_start - aligned_unmap_start;
+> +		*unmap_start = aligned_unmap_start;
+> +	}
+> +
+> +	/* If we're dealing with a huge page, make sure the unmap region is
+> +	 * aligned on the end of the page.
+> +	 */
+> +	if (op->next && aligned_unmap_end > unmap_end &&
+> +	    op->next->va.addr + op->next->va.range >= aligned_unmap_end &&
+> +	    iova_mapped_as_huge_page(op->next, unmap_end - 1)) {
+> +		*unmap_range += aligned_unmap_end - unmap_end;
+> +	}
+> +}
+> +
+>  static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
+>  				       void *priv)
+>  {
+> @@ -2177,16 +2227,50 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
+>  	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
+>  	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
+>  	u64 unmap_start, unmap_range;
+> +	int ret;
+>  
+>  	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
+> +
+> +	/*
+> +	 * ARM IOMMU page table management code disallows partial unmaps of huge pages,
+> +	 * so when a partial unmap is requested, we must first unmap the entire huge
+> +	 * page and then remap the difference between the huge page minus the requested
+> +	 * unmap region. Calculating the right start address and range for the expanded
+> +	 * unmap operation is the responsibility of the following function.
+> +	 */
+> +	unmap_hugepage_align(&op->remap, &unmap_start, &unmap_range);
+> +
+> +	/* If the range changed, we might have to lock a wider region to guarantee
+> +	 * atomicity. panthor_vm_lock_region() bails out early if the new region
+> +	 * is already part of the locked region, so no need to do this check here.
+> +	 */
+> +	panthor_vm_lock_region(vm, unmap_start, unmap_range);
+>  	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
+>  
+>  	if (op->remap.prev) {
+> +		struct panthor_gem_object *bo = to_panthor_bo(op->remap.prev->gem.obj);
+> +		u64 offset = op->remap.prev->gem.offset + unmap_start - op->remap.prev->va.addr;
+> +		u64 size = op->remap.prev->va.addr + op->remap.prev->va.range - unmap_start;
+> +
+> +		ret = panthor_vm_map_pages(vm, unmap_start, flags_to_prot(unmap_vma->flags),
+> +					   bo->base.sgt, offset, size);
+> +		if (ret)
+> +			return ret;
+> +
+>  		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
+>  		panthor_vma_init(prev_vma, unmap_vma->flags);
+>  	}
+>  
+>  	if (op->remap.next) {
+> +		struct panthor_gem_object *bo = to_panthor_bo(op->remap.next->gem.obj);
+> +		u64 addr = op->remap.next->va.addr;
+> +		u64 size = unmap_start + unmap_range - op->remap.next->va.addr;
+> +
+> +		ret = panthor_vm_map_pages(vm, addr, flags_to_prot(unmap_vma->flags),
+> +					   bo->base.sgt, op->remap.next->gem.offset, size);
+> +		if (ret)
+> +			return ret;
+> +
+>  		next_vma = panthor_vm_op_ctx_get_vma(op_ctx);
+>  		panthor_vma_init(next_vma, unmap_vma->flags);
+>  	}
+
