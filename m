@@ -2,71 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F11CCFC66
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F02CCFC9F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 13:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25FB810E481;
-	Fri, 19 Dec 2025 12:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0C10EF94;
+	Fri, 19 Dec 2025 12:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kDXoTy4J";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pKqriBGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0EF10E481;
- Fri, 19 Dec 2025 12:25:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5651560018;
- Fri, 19 Dec 2025 12:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DEE8C4CEF1;
- Fri, 19 Dec 2025 12:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766147115;
- bh=IKABffyNvPjVM+RzIL5ZAgHEXRXD7t+eDtpJ1JycBW0=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=kDXoTy4JgoCQtYGg5/UHAbHNxZs3nuql9kLRBlRL08h4OgY6WohVAyq+6n5wjjjN4
- ZZ7BAsk+IxUf1OAJjfMLqsezJMiZTEDLMokOj+3p+oBqXBpbXSgX/PHtilfEzw0blp
- hI2uxR66pgVguorKq8YwmkyNG+YJG6ntsL7+PVOPC7iiav7mLXlrZCEYPzpNzwglj3
- LtPOVO5vSqBa06DClUFoH9b/rDV+mK9q3/3hxSbYNNEaKu+VQftOBZpinqYnnaPBwT
- 5O4vVWnTHYIEwcwdw47DpyJQ2jk04fUUqn/U+WPbVnna0WAAaaMD7NYx91omtEqNg+
- CM2oilI8Y6E0g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 13:25:05 +0100
-Message-Id: <DF26WBIDPMPU.3E6XTUPMZTHW1@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 2/4] drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and
- staged mode
-Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Matthew Brost"
- <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris Brezillon"
- <boris.brezillon@collabora.com>, "Steven Price" <steven.price@arm.com>,
- "Liviu Dudau" <liviu.dudau@arm.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Frank Binns" <frank.binns@imgtec.com>, "Matt
- Coster" <matt.coster@imgtec.com>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
- <jessica.zhang@oss.qualcomm.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Lyude Paul" <lyude@redhat.com>,
- "Lucas De Marchi" <lucas.demarchi@intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-2-ebf66bf234e0@google.com>
-In-Reply-To: <20251128-gpuvm-rust-v1-2-ebf66bf234e0@google.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C672B10EF9C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 12:30:15 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-597d57d8bb3so1386564e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 04:30:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1766147414; x=1766752214; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DPb4j3wVisA9JnR3oRWF7sfi9svvn8zl+0LCubY1oLY=;
+ b=pKqriBGJaC/hozzftTs1BkbUiPAzjGjFVu65z85tsLaPR0OTpkwl4GfEy7kIypKrAR
+ FABgw2uusrbwbcEWFlznC337YIu2i0Yuit3EZS5L6Bgnw7P6erc2XD5ycnZ3pYnslA0M
+ GmdezoXvWKdCmAxtiYbKdS7z0ITPApeOElHDRkYB1fh7CLaZj7pBzSkuc3oUPsuzCmHM
+ dVsBSDphmGgFmXxGpJwhx3anCJeE7Zd45a1jiIXRWwtI2Xa1E3rdZX0V4nVQiUTfPvkF
+ HbKEyvgd9vT2sxpVb4Qcn+EoA04CMDsuJQ1QzhoWQtwZOyWdMF4Ymfl+wR3vKKJOCnNR
+ f1Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766147414; x=1766752214;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DPb4j3wVisA9JnR3oRWF7sfi9svvn8zl+0LCubY1oLY=;
+ b=Mg650U1dyhXilmdfSWRGcgWyqBpgDMbYfYcNnPBhFpM7er5QceEpMV+XvA7tNkV4Ye
+ N3UNOOYjT6wELdKz7EO18n+/Qp6JWGb5seKi+EPU3SOkkhFUSzcJ0a5KX4M11qSHCa4z
+ FZlMYMSppyuNp+kLMegkOmwuvSJHMnl5rbktLFDCt4oeJD9GeakHbWOuIcbhsXQsMQ6g
+ X1MxCkMNJsspt85oRayV9ymjl78yr5iBMXGJsn0fzd2wyKLpQtaJGicouKx4mdndjD4N
+ 5OZix1xjSM9Qa4n1iPlumQtm8yn2kvzaJyFO/BwAXQDBeCdOBCvy5ScNQpLxUGPul7je
+ 1+zA==
+X-Gm-Message-State: AOJu0Yx8YS5/CSqTOxBFukuVGYIii9b/wH3Xii8U8x5SoKrpL+v4OORf
+ onRh5U3CKsfhuzEmz2l0KQ7SSPxFpodIyntcQn6krEyi9V94tvHIZ+nt4BY6N5g81xo=
+X-Gm-Gg: AY/fxX54EZIZbuToJ/eLsLrwr+4+9zyjI6jRGUbGeje2InRofnek6H4cP7x5n52qm9d
+ kKel41CRbsrr+IL9x6vS3xTRuuKu0zB3cajDXcDoEbxcf3ieXn7bMvNm2CbZ5aPtNSLqMrMElml
+ BU6x6L35C9f/Gy5ZIeBZEmvPOpRx7R/ha4GBlcKy/AAgiA5i1/wTqXR8FCP8XLv6VxOt+YgQGTz
+ hHqm9/ZDHbY9pkJxvDUjtMZb5Uduwsn44200ljz8efSps899AnSuUsh9eenYOezGvEAaWDou3gv
+ 1QJtSSRUhSy8l0SgjDOIAEbnatilMgfsLoiu5P1JV8tDKW9CsYKhos1gvMPf0wAGjcYjpzV9jrM
+ SqG3gNI1FfCMYpR2woB0GKwN2iLHnyhAjqSbVSBgDRy9+IOp2VTqqsYaJyPEFMlkQbQDxko3pfc
+ P3loCJmJzp6lY6yENVNe5An2FHYWsknR7Xuta0I3jeGuPJVkc+XsfxDkY=
+X-Google-Smtp-Source: AGHT+IGJG+5oeetxlteCBI8eC8fSDh53fINWZpZaKlCc+ybCfd0LgBWIHILYHH2d0ftxpNb+VTZkhg==
+X-Received: by 2002:a05:6512:2304:b0:595:7daf:9425 with SMTP id
+ 2adb3069b0e04-59a17d3ea12mr1114950e87.28.1766147413776; 
+ Fri, 19 Dec 2025 04:30:13 -0800 (PST)
+Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a185d5ee4sm681986e87.17.2025.12.19.04.30.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Dec 2025 04:30:13 -0800 (PST)
+Date: Fri, 19 Dec 2025 14:30:11 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, Bill Mills <bill.mills@linaro.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: Re: [PATCH 0/2] drm: xlnx: zynqmp_kms: 16 bpp fixes for Xorg startup
+ on AMD KV260
+Message-ID: <aUVFUx55XTjb_2nO@nuoska>
+References: <20251205123751.2257694-1-mikko.rapeli@linaro.org>
+ <533168f1-1655-4947-9032-b08463f502d7@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <533168f1-1655-4947-9032-b08463f502d7@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,28 +96,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Nov 28, 2025 at 3:14 PM CET, Alice Ryhl wrote:
-> In the previous commit we updated drm_gpuvm_bo_obtain_prealloc() to take
-> locks internally, which means that it's only usable in immediate mode.
-> In this commit, we notice that drm_gpuvm_bo_obtain() requires you to use
-> staged mode. This means that we now have one variant of obtain for each
-> mode you might use gpuvm in.
->
-> To reflect this information, we add a warning about using it in
-> immediate mode, and to make the distinction clearer we rename the method
-> with a _locked() suffix so that it's clear that it requires the caller
-> to take the locks.
->
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+Hi,
 
-Ultimately, the two different approaches of obtaining a VM_BO have always b=
-een
-desinged for the two different modes of operation -- great to see this refi=
-ned!
+On Fri, Dec 19, 2025 at 01:59:14PM +0200, Tomi Valkeinen wrote:
+> Hi Mikko,
+> 
+> On 05/12/2025 14:37, Mikko Rapeli wrote:
+> > Hi,
+> > 
+> > Currently on default yocto images Xorg fails to start on AMD KV260
+> > because 24/32 color depth gets detected but does not actually work.
+> > 
+> > These two patches fix the issue and now 16 bpp gets detected
+> > and Xorg starts and draws on external HDMI display using
+> > kernel.org based linux-yocto kernel.
+> > 
+> > Anatoliy Klymenko (1):
+> >   drm: xlnx: zynqmp_kms: Init fbdev with 16 bit color
+> > 
+> > Mikko Rapeli (1):
+> >   drm: xlnx: zynqmp_kms: set preferred_depth to 16 bpp
+> > 
+> >  drivers/gpu/drm/xlnx/zynqmp_kms.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> 
+> Did you notice the few already sent serieses on the list where the topic
+> has been discussed?
 
-Given that, I think it would be great to update the "Locking" section of th=
-e
-GPUVM's documentation and expand it with a new section "Modes of Operation"=
-.
+> [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
+> [PATCH 0/3] drm: zynqmp: Make the video plane primary
 
-Mind sending a follow-up patch / series for this?
+Oh I wasn't aware of these.
+
+> Or is there something else on KV260 that messes up the 24 bit color?
+
+These look very similar and likely fix the X11 startup. I will give them
+a try.
+
+Cheers,
+
+-Mikko
