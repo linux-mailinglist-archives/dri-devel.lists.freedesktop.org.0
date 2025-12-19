@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8872ACCF8CD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:17:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853ABCCF95F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9123310E064;
-	Fri, 19 Dec 2025 11:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B6110E475;
+	Fri, 19 Dec 2025 11:34:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="ydt4cOrE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="btoLgVYd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD69510E064
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 11:17:19 +0000 (UTC)
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id C957B21292;
- Fri, 19 Dec 2025 12:17:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1766143038;
- bh=TjeBoAfkVklfbQ/yXh10GPoy8tL4lDWsTndmfjMKrxs=; h=From:To:Subject;
- b=ydt4cOrErz4HuAMCIJV8UK0RR4PV+Xr5J7C23gSWjMI+084RBBwi1KRWS6ddWDt7W
- 09/8tLCvKRbFZL6oWtxckck7CgHoy8S118TIUGRMmP1M03nLnVvneAIWcSP4HTnA4O
- H62fJsNMy5TffwNa0ym20Mmo/mcMqJs3UghRPxFoy2hDz+a796TCOEzMfobKqBGiWm
- tTwd5W+kSOkQuThZqcFlPs8ZbN9vltFSv5PI6I/z6FBD+c4BM/dm4IZM0OWfyNonpC
- ofN7MKGCX3YLo3CohR7Ln4VRMc/OKrtfXbaklEUCgr6EL7j3I9b6Zw3/v127yq4vrQ
- 6XFF4aa9HXAaA==
-Date: Fri, 19 Dec 2025 12:17:16 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Parth Pancholi <parth.pancholi@toradex.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] drm/bridge: tc358768: Add support for long command
- tx via video buffer
-Message-ID: <20251219111716.GG39796@francesco-nb>
-References: <20251021-tc358768-v1-0-d590dc6a1a0c@ideasonboard.com>
- <20251021-tc358768-v1-7-d590dc6a1a0c@ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B657610E197;
+ Fri, 19 Dec 2025 11:34:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766144041; x=1797680041;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2wG4IbhV3tfXZzTiqbIJ8OFtN+uEPAaFtxVNOUU89Ec=;
+ b=btoLgVYdGx8i5/Jeusg3g2KEgd2t4c3rSMnjFjvLFlRklO1XPStkIPkm
+ IgZZj3VqoPGuDgvSmIrzk8sPP+YqOsJF+kEejr/xvNL/zADIbGY7N6LMl
+ XyyS+P2qxW+5O28D63mWaxa40tRforJUG04hWUDFWg1kRuLVgESmx3F2c
+ Uuy53vb5Q+GnC42j7ebwxtU6MoqXFzK815iT9TbhM8YnfSAbpyC9hFQcM
+ erw6G0QLsf/lXfBUqNSFnP7fVpkvOiQfyuC1o1waIh+kvW8vL43Lzt2I1
+ 22mSGfpx2B4OoZklZYc1sgsJdT3pbh1tSlFoQe3/VTnHQQNHhzrXURFSB A==;
+X-CSE-ConnectionGUID: gjTm6HILQRGhKttQYwgPTA==
+X-CSE-MsgGUID: KsOFxOZjQqKEb8LNp94Itw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224457"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224457"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2025 03:34:00 -0800
+X-CSE-ConnectionGUID: M1etUIxYRkCH9xY/RWyLtg==
+X-CSE-MsgGUID: jvjMkuA1Qei3vyF1RCK2Bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005570"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.251])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2025 03:33:56 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ apopple@nvidia.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: [PATCH v6 00/24] Dynamic drm_pagemaps and Initial multi-device SVM
+Date: Fri, 19 Dec 2025 12:32:56 +0100
+Message-ID: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021-tc358768-v1-7-d590dc6a1a0c@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,21 +74,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 04:23:03PM +0300, Tomi Valkeinen wrote:
-> TC358768 has two ways to send DSI commands: 1) buffer the payload data
-> into registers (DSICMD_WDx), which supports up to 8 bytes of payload, 2)
-> buffer the payload data into the video buffer, which supports up to 1024
-> bytes of payload.
-> 
-> The driver currently supports method 1).
-> 
-> Add support for transmitting long DSI commands (more than 8 bytes, up to
-> 1024 bytes) using the video buffer. This mode can only be used before
-> the actual video transmission is enabled, i.e. the initial configuration.
-> 
-> Original version from Parth Pancholi <parth.pancholi@toradex.com>
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+This series aims at providing an initial implementation of multi-device
+SVM, where communitcation with peers (migration and direct execution out
+of peer memory) uses some form of fast interconnect. In this series
+we're using pcie p2p.
 
-Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+In a multi-device environment, the struct pages for device-private memory
+(the dev_pagemap) may take up a significant amount of system memory. We
+therefore want to provide a means of revoking / removing the dev_pagemaps
+not in use. In particular when a device is offlined, we want to block
+migrating *to* the device memory and migrate data already existing in the
+devices memory to system. The dev_pagemap then becomes unused and can be
+removed.
+
+Removing and setting up a large dev_pagemap is also quite time-consuming,
+so removal of unused dev_pagemaps only happens on system memory pressure
+using a shrinker.
+
+Patch 1 is a small debug printout fix.
+Patch 2 removes some dead code.
+Patch 3 fixes a condition where memory was used while being cleared.
+Patches 4-9 deals with dynamic drm_pagemaps as described above.
+Patches 10-14 adds infrastructure to handle remote drm_pagemaps with
+fast interconnects.
+Patch 15 extends the xe madvise() UAPI to handle remote drm_pagemaps.
+Patch 16 adds a pcie-p2p dma SVM interconnect to the xe driver.
+Patch 17 adds some SVM-related debug printouts for xe.
+Patch 18 adds documentation on how the drm_pagemaps are reference counted.
+Patch 19 Cleans up the usage of the dev_private owner.
+Patch 20 Introduces a gpusvm function to scan the current CPU address space.
+Patch 21 Uses the above function in Xe to avoid unnecessary migrations.
+Patch 22 Adds drm_pagemap support for p2p destination migration.
+Patch 23 Adds drm_pagemap support for p2p source migration.
+Patch 24 Adds an rwsem to optionally serialize migration.
+
+What's still missing is implementation of migration policies.
+That will be implemented in follow-up series. 
+
+v2:
+- Address review comments from Matt Brost.
+- Fix compilation issues reported by automated testing
+- Add patch 1, 17.
+- What's now patch 16 was extended to support p2p migration.
+v3:
+- Add patches 2, 18, 19, 10, 22. Main functionality is the address space
+  scan to avoid unnecessary migration, and p2p source migration which
+  is needed on Xe to decompress and to flush out the L2 cache.
+- Rework what's now Patch 21 slightly.
+- Minor fixes all over the place.
+v4:
+- Fix a build error (CI)
+- Fix possibly incorrect waiting for the pre_migrate_fence.
+v5:
+- New patch: broken out from patch 22: drm/pagemap: Remove some dead code
+  (Matt Brost)
+- New patch:  drm/xe/svm: Serialize migration to device if racing
+  (Matt Brost)
+- Fix a UAF in what's now patch 3. (CI)
+- Release the migrate fence early in patch 3.
+- Address review comments to patch 3. See the patch for details.
+- Address review comments to patch 22. See the patch for details.
+- Rebase, update R-Bs.
+v6:
+- Fix in patch 3. (Matt Brost)
+- Rebase patch 23 on fix in patch 3.
+- Update R-Bs.
+
+Test-with: 20251204085432.35023-1-nishit.sharma@intel.com
+
+Thomas Hellström (24):
+  drm/xe/svm: Fix a debug printout
+  drm/pagemap: Remove some dead code
+  drm/pagemap, drm/xe: Ensure that the devmem allocation is idle before
+    use
+  drm/pagemap, drm/xe: Add refcounting to struct drm_pagemap
+  drm/pagemap: Add a refcounted drm_pagemap backpointer to struct
+    drm_pagemap_zdd
+  drm/pagemap, drm/xe: Manage drm_pagemap provider lifetimes
+  drm/pagemap: Add a drm_pagemap cache and shrinker
+  drm/xe: Use the drm_pagemap cache and shrinker
+  drm/pagemap: Remove the drm_pagemap_create() interface
+  drm/pagemap_util: Add a utility to assign an owner to a set of
+    interconnected gpus
+  drm/xe: Use the drm_pagemap_util helper to get a svm pagemap owner
+  drm/xe: Pass a drm_pagemap pointer around with the memory advise
+    attributes
+  drm/xe: Use the vma attibute drm_pagemap to select where to migrate
+  drm/xe: Simplify madvise_preferred_mem_loc()
+  drm/xe/uapi: Extend the madvise functionality to support foreign
+    pagemap placement for svm
+  drm/xe: Support pcie p2p dma as a fast interconnect
+  drm/xe/vm: Add a couple of VM debug printouts
+  drm/xe/svm: Document how xe keeps drm_pagemap references
+  drm/pagemap, drm/xe: Clean up the use of the device-private page owner
+  drm/gpusvm: Introduce a function to scan the current migration state
+  drm/xe: Use drm_gpusvm_scan_mm()
+  drm/pagemap, drm/xe: Support destination migration over interconnect
+  drm/pagemap: Support source migration over interconnect
+  drm/xe/svm: Serialize migration to device if racing
+
+ drivers/gpu/drm/Makefile             |   3 +-
+ drivers/gpu/drm/drm_gpusvm.c         | 124 +++++
+ drivers/gpu/drm/drm_pagemap.c        | 565 +++++++++++++++++----
+ drivers/gpu/drm/drm_pagemap_util.c   | 568 +++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_device.c       |  20 +
+ drivers/gpu/drm/xe/xe_device.h       |   2 +
+ drivers/gpu/drm/xe/xe_device_types.h |   5 +
+ drivers/gpu/drm/xe/xe_migrate.c      |  29 +-
+ drivers/gpu/drm/xe/xe_migrate.h      |   6 +-
+ drivers/gpu/drm/xe/xe_svm.c          | 721 ++++++++++++++++++++++-----
+ drivers/gpu/drm/xe/xe_svm.h          |  85 +++-
+ drivers/gpu/drm/xe/xe_tile.c         |  34 +-
+ drivers/gpu/drm/xe/xe_tile.h         |  21 +
+ drivers/gpu/drm/xe/xe_userptr.c      |   2 +-
+ drivers/gpu/drm/xe/xe_vm.c           |  65 ++-
+ drivers/gpu/drm/xe/xe_vm.h           |   1 +
+ drivers/gpu/drm/xe/xe_vm_madvise.c   | 106 +++-
+ drivers/gpu/drm/xe/xe_vm_types.h     |  21 +-
+ drivers/gpu/drm/xe/xe_vram_types.h   |  15 +-
+ include/drm/drm_gpusvm.h             |  29 ++
+ include/drm/drm_pagemap.h            | 128 ++++-
+ include/drm/drm_pagemap_util.h       |  92 ++++
+ include/uapi/drm/xe_drm.h            |  18 +-
+ 23 files changed, 2359 insertions(+), 301 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_pagemap_util.c
+ create mode 100644 include/drm/drm_pagemap_util.h
+
+-- 
+2.51.1
 
