@@ -2,66 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F17CCF33F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 10:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F77CCF3AA
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 10:55:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A83B010EBC5;
-	Fri, 19 Dec 2025 09:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B7D10EF08;
+	Fri, 19 Dec 2025 09:54:58 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="teXlBuee";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651A010EBC5
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 09:50:50 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vWX8K-0007Qo-Sj; Fri, 19 Dec 2025 10:50:48 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vWX8J-006R4f-0X;
- Fri, 19 Dec 2025 10:50:47 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vWX8J-00GS4G-02;
- Fri, 19 Dec 2025 10:50:47 +0100
-Date: Fri, 19 Dec 2025 10:50:46 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389F110E612;
+ Fri, 19 Dec 2025 09:54:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 40C4F60052;
+ Fri, 19 Dec 2025 09:54:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D23DC4CEF1;
+ Fri, 19 Dec 2025 09:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766138095;
+ bh=lLAToM4vXYl2Fk0i65uKXkKio3mzy30inkIA9FUKzC8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=teXlBuee2SGaO5gKVF903njhhJJyujvg1pKd00OAnL4abuUsJGZgjZ/0ok7vhvth2
+ bcU+XqvTdsUyWpkZpecWy100vQ079+cxQeWRi+28eSuxcQrmBsLYtlz8WUeWJfVcUq
+ +RSFqfo+R8zPY9wxRSVJOku2ErSx+BR2ZCiVm+A8ItqaKkKKlUy9gBMgtux8Nv7KL2
+ 36u+gOWyi0sgXtCiS2eR5uhq+yjpSWREwBllUfGexMuL23TknUzZrPf8XTKmynGAA8
+ 1YQnPj5YlHg8F3o877ew2QqD0hGZ++OqK+GF6FOX8VBhoy97Wb2Ohwj90JxEb6WA+M
+ rkKF3JhaRlT8A==
+Date: Fri, 19 Dec 2025 10:54:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Daniel Stone <daniel@fooishbar.org>, 
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
- subnode to schema and example
-Message-ID: <20251219095046.dgtaknhnvzjfw6ch@pengutronix.de>
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
- <3210190.mvXUDI8C0e@steina-w>
- <20251218190841.pmn3kwghq6lxsfl4@pengutronix.de>
- <7637686.lOV4Wx5bFT@steina-w>
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+Message-ID: <20251219-honest-slim-crab-02e932@houat>
+References: <20250929-gregarious-worm-of-memory-c5354d@houat>
+ <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
+ <20251003-uptight-echidna-of-stamina-815305@houat>
+ <zpygq4kapil3swsmhhqkdwny4ry2dznnzixsw5rkza5p2kqnvp@abvf2vxlbwif>
+ <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
+ <pibxhl5hlcpuk3zsgyienfdlda5cwuxrnofwlw356scuzzplqy@zw3ofelgvwik>
+ <bsoqyzxi45i67jpzhwr2d4illufa5ghqf25z6flbp67lsbvh22@rrlcihp2oxea>
+ <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
+ <20251201-enlightened-zebu-from-asgard-5a20be@houat>
+ <5dyhjur3hkhvtlwrl4h2m342byor7f3ssvkunj4cggnhbhlmnb@l2mfz7ypjj37>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="pxgyrzpu3xrfoz5s"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7637686.lOV4Wx5bFT@steina-w>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <5dyhjur3hkhvtlwrl4h2m342byor7f3ssvkunj4cggnhbhlmnb@l2mfz7ypjj37>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,235 +90,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-12-19, Alexander Stein wrote:
-> Hi Marco,
-> 
-> Am Donnerstag, 18. Dezember 2025, 20:08:41 CET schrieb Marco Felsch:
-> > Hi Alexander,
-> > 
-> > On 25-12-16, Alexander Stein wrote:
-> > > Hi,
-> > > 
-> > > Am Montag, 15. Dezember 2025, 18:54:36 CET schrieb Marco Felsch:
-> > > > Hi Liu,
-> > > > 
-> > > > sorry I didn't fully answer you please see below.
-> > > > 
-> > > > On 25-12-08, Liu Ying wrote:
-> > > > > Hi Marco,
-> > > > > 
-> > > > > On 12/02/2025, Marco Felsch wrote:
-> > > > > > From: Liu Ying <victor.liu@nxp.com>
-> > > > > > 
-> > > > > > i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
-> > > > > > configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> > > > > > field. Document the Parallel Display Format Configuration(PDFC) subnode
-> > > > > > and add the subnode to example.
-> > > > > > 
-> > > > > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > > > > [m.felsch@pengutronix.de: port to v6.18-rc1]
-> > > > > > [m.felsch@pengutronix.de: add bus-width]
-> > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > > ---
-> > > > > >  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 92 ++++++++++++++++++++++
-> > > > > >  1 file changed, 92 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > > > > > index 34aea58094e55365a2f9c86092f637e533f954ff..6e2d86d9341c75108b492bcbabc8a560d8e707cd 100644
-> > > > > > --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > > > > > +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
-> > > > > > @@ -26,6 +26,12 @@ properties:
-> > > > > >    reg:
-> > > > > >      maxItems: 1
-> > > > 
-> > > > ...
-> > > > 
-> > > > > > +            properties:
-> > > > > > +              endpoint:
-> > > > > > +                $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > > > > +                unevaluatedProperties: false
-> > > > > > +
-> > > > > > +                properties:
-> > > > > > +                  bus-width:
-> > > > > 
-> > > > > In v1-v5, I thought the output bus format can be determined by the sink
-> > > > > device(a panel or a bridge) hence properties like bus-width were not needed.
-> > > > > But, if this property is really needed, then reference video-interfaces.yaml
-> > > > > since bus-width is documented there.  Should we reference bus-type defined
-> > > > > in video-interfaces.yaml too?
-> > > > 
-> > > > You're right, the bus-width should be determined by the connected panel.
-> > > > But there are cases where a 24-bit panel is connected but only the lower
-> > > > 18-bits are muxed. I added the bus-width property to handle this case.
-> > > > In the end most users don't have to specify this since the correct
-> > > > bus-width is coming from the panel bus-fmt.
-> > > > 
-> > > > > > +                    enum: [ 16, 18, 24 ]
-> > > > > 
-> > > > > The PARALLEL_DISP_FORMAT field of DISPLAY_MUX register says this IP supports
-> > > > > below formats.  It seems that the enum here may tell RGB888, RGB666 and RGB565.
-> > > > > How can we tell RGB555, YCbCr 24 bits and YUV444 then?
-> > > > > 
-> > > > > 000b RGB888 -> RGB888
-> > > > > 001b RGB888 -> RGB666
-> > > > > 010b RGB565 -> RGB565
-> > > > > 011b RGB555 -> RGB555
-> > > > > 100b YUV -> YCbCr 24 bits
-> > > > > 101b YUV -> YUV444
-> > > > 
-> > > > This enum is about the physical bus width. RGB565 == 16-bit, YUV ==
-> > > > 24-bit.
-> > > > 
-> > > > That said, I don't think that you need to specify the bus-fmt since this
-> > > > is coming from the panel. As said above, my itension with the bus-width
-> > > > property is to provide integrators (dts-writers) a possibility to limit
-> > > > the physical available bus width.
-> > > 
-> > > Mh, isn't [1] exactly about this? Not sure about the outcome at that time.
-> > 
-> > Thanks for the pointer, I wasn't aware of this discussion. I skimmed
-> > through the dt-bindings thread and I agree with Rob and Maxime.
-> > 
-> > We do have the bus-width endpoint property already. This property is
-> > alredy used by media and drm bridge drivers. Why not making use of for
-> > this simple bridge driver too?
-> > 
-> > Furthermore I doubt, that a simple drm-bridge MEDIA_BUS_FMT_* convert
-> > driver solves all the problem in a generic way for all platforms, all
-> > connectors, all routing options.
-> 
-> Nobody knows what new hardware comes up with ¯\_ (ツ)_/¯
-> Anyway we already have a similar problem on our MBa6ULx mainboard.
-> Current downstream workaround is to clone the display timings but
-> change the bus format. See [1]. Although I would like to get rid of it.
-> This is just the display connector on the mainboard causing the shift.
 
-I had something similiar in mind as a quick and dirty hack. However, I
-think that the same abbroach used here for the PDFC bridge could be used
-for the panel endpoint node to enforce a specific bus width. Another
-solution could be to add the bus-fmt support to the panel of desciption,
-so you can describe your panel within the OF.
+--pxgyrzpu3xrfoz5s
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+MIME-Version: 1.0
 
-Regards,
-  Marco
+On Sat, Dec 06, 2025 at 01:28:14PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Dec 01, 2025 at 06:01:56PM +0100, Maxime Ripard wrote:
+> > On Fri, Nov 21, 2025 at 07:09:01PM +0200, Dmitry Baryshkov wrote:
+> > > > So it's not really impossible, you just need some hardware and a da=
+y's
+> > > > worth of work.
+> > > >=20
+> > > > There's no reason these should get a pass, it's breaking the spec f=
+or no
+> > > > reason.
+> > > >=20
+> > > > > > For SPD, It's really not clear to me why atomic_check should do=
+ that in
+> > > > > > the first place. Your initial concern was about exposing infofr=
+ames in
+> > > > > > debugfs that wouldn't be used by the driver.
+> > > > > >=20
+> > > > > > If the driver doesn't register a debugfs file for SPD, and igno=
+res
+> > > > > > whatever is in the atomic state, what's should we force drivers=
+ to do
+> > > > > > that?
+> > > > >=20
+> > > > > I really don't think that drivers should mess up with debugfs on =
+their
+> > > > > own. Making atomic_check() disable the unsupported InfoFrames mak=
+es the
+> > > > > picture perfect: the DRM no longer tries to program them to the
+> > > > > hardware, DebugFS files stay empty, so the whole state becomes
+> > > > > consistent.
+> > > >=20
+> > > > In the "bridge has no access to infoframes" case, there's really no
+> > > > infoframe. An empty file is "the infoframe can be there but isn't u=
+sed",
+> > > > not "we don't have access to it and can't report them". Only drivers
+> > > > have those infos.
+> > > >=20
+> > > > If we do split up write_infoframe into multiple functions though, I
+> > > > guess we could create the debugfs file only if the function pointer=
+ is
+> > > > set, which removes drivers' involvement if you don't like that.
+> > >=20
+> > > I'm fine with not using HDMI connector framework for lt9611uxc.
+> > > Likewise, I think, it's fine to have empty files for the infoframes
+> > > which are not being sent over the wire for any reason (hw not support=
+ing
+> > > it is one of the reasons).
+> >=20
+> > I can't think of any other example in the kernel where an empty file
+> > means that the driver doesn't support something.
+>=20
+> Okay. So we need to sort out implementing the split write_infoframes in
+> drm_bridge_connector. Any suggestions there? I'm asking, because I don't
+> want to end up exploding it.
 
+I guess it's only really a problem if we want to make it const, but we
+don't have to? We could just as well allocate the structure directly at
+probe with a drmm helper and fill it as we need to.
 
-> Best regards
-> Alexander
-> 
-> [1] https://github.com/tq-systems/linux-tqmaxx/commit/777c02480182d3054264aaaf80e1dbc40a02cfc1
-> 
-> > If the i.MX93 NXP-EVKs in [1] would have connected the upper LCD_DAT*
-> > pads instead of the lower ones, there would be no conversion needed by
-> > the PDFC bridge driver, albeit the physical bus is cut to 18-bit width
-> > due to the RPi ext. header limit, which is expanded to 24-bit again later on
-> > via the Adafruit board panel FPC connector.
-> > 
-> > In such scenario the output width of the PDFC has to be 24-bit else
-> > you would lose not only the two LSBs but also the two MSBs for each
-> > channel. I tried to visualize what I meant for the blue channel:
-> > 
-> >                  24-bit PDFC bridge
-> > 		 ------------------
-> >         +----+----+----+----+----+----+----+----+
-> >  LCDIF  | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >         +----+----+----+----+----+----+----+----+
-> >           |    |    |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  PDFC   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >         +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> > SOC_PAD | xx | xx | D2 | D3 | D4 | D5 | D6 | D7 |
-> >         +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  ext.   | xx | xx | B2 | B3 | B4 | B5 | B6 | B7 |
-> >  HDR    +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >                     |    |    |    |    |    |
-> >                     |    |    |    |    |    |
-> >           +-----------------------------+    |
-> >           |    +-----------------------------+
-> >           |    |    |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  Ada.   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >  FPC    +----+----+----+----+----+----+----+----+
-> > 
-> >                  18-bit PDFC bridge
-> > 		 ------------------
-> >         +----+----+----+----+----+----+----+----+
-> >  LCDIF  | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >         +----+----+----+----+----+----+----+----+
-> >           |    |    |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  PDFC   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >         +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >           +---------+    |    |    |    |    |
-> >           |    +---------+    |    |    |    |
-> >           |    |    +---------+    |    |    |
-> >           |    |    |    +---------+    |    |
-> >           |    |    |    |    +---------+    |
-> >           |    |    |    |    |    +---------+
-> >           |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> > SOC_PAD | xx | xx | D2 | D3 | D4 | D5 | D6 | D7 |
-> >         +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  ext.   | xx | xx | B2 | B3 | B4 | B5 | B6 | B7 |
-> >  HDR    +----+----+----+----+----+----+----+----+
-> >                     |    |    |    |    |    |
-> >                     |    |    |    |    |    |
-> >                     |    |    |    |    |    |
-> >           +-----------------------------+    |
-> >           |    +-----------------------------+
-> >           |    |    |    |    |    |    |    |
-> >         +----+----+----+----+----+----+----+----+
-> >  Ada.   | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 |
-> >  FPC    +----+----+----+----+----+----+----+----+
-> > 
-> > 
-> > The mapping can get quite difficult for a single SoC already, just by
-> > using a slighlty different HW routing (the upper D[ata] pads).
-> > 
-> > Therefore I would keep it simple and device/ip specific (in this case
-> > PDFC specific) by making use of the bus-width. Specifying the bus-width
-> > property could be also wrong albeit it's the case physically, as you can
-> > see in my above example.
-> > 
-> > Therefore the bus-width property must have a good description.
-> > 
-> > Regards,
-> >   Marco
-> > 
-> > > Best regards,
-> > > Alexander
-> > > 
-> > > [1] https://lore.kernel.org/all/20250304101530.969920-1-victor.liu@nxp.com/
-> > > 
-> > > > [snip]
-> > 
-> > 
-> > 
-> > 
-> 
-> 
-> -- 
-> TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht München, HRB 105018
-> Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-> http://www.tq-group.com/
-> 
-> 
-> 
+Maxime
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+--pxgyrzpu3xrfoz5s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUUg7AAKCRAnX84Zoj2+
+dvkCAYDaU48ga79KBvkIgWW7cnrj0Ae2GfJE5Y2GVVoq0UjRWC1zmLdmNFkjoQil
+PD3wip4BgKf036443KTFOFktbqXWVW+vD37BVUvEwYqWrRwP+AK/8QBWIjjg9BKx
+PWhjchksXg==
+=penr
+-----END PGP SIGNATURE-----
+
+--pxgyrzpu3xrfoz5s--
