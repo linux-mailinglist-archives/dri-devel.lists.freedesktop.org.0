@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C45CD21E8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 23:40:35 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC55CD2202
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 23:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E206310F0F5;
-	Fri, 19 Dec 2025 22:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0200010F0F9;
+	Fri, 19 Dec 2025 22:40:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UYyUrRMm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UNUQIvXG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B6110F0F5
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 22:40:32 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C710E10F0F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 22:40:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 75C5F60052;
+ by sea.source.kernel.org (Postfix) with ESMTP id ACCA944472;
+ Fri, 19 Dec 2025 22:40:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBBDC4CEF1;
  Fri, 19 Dec 2025 22:40:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4C0C4CEF1;
- Fri, 19 Dec 2025 22:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766184031;
- bh=CH51omHx3p6qsRzlcGdmz4sS4fZYMW+MUawnsQlkKh8=;
+ s=k20201202; t=1766184037;
+ bh=wtRlhF0E9lAMAS6RF9a/BuSBeDduKYxm9+amQIF8Ki8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=UYyUrRMmjNfCsp7IYNkf2GE3GqsLbe/e6MI4dGs0mkTAGMNlroOfNKjchxfRho3eN
- U0Z6I5DBdmyOcwXb6dHzgLkGBfLnjZlX1d4HSxAQmdoQWNJIEjj++enKKTvImVPJ7O
- 88EvzRC+HEgvdw4uMY7cg145wzDADRZ/KVU3T8Z4RMtunlavbu431/fY/vLLgJpfa2
- tWVwfxcTyTHbIzoXQxPqhGW/XEZu0NPqbLGXwIn6c8E/hrhGU0kZRPUbkPkNYPBhDv
- hPK/5kMT6R8yf+usvTRELgXJGyor+GfBx3ZR1dwy12RaGV54UK87jzghOaezPAx/M2
- zvno1rWPPLYKw==
+ b=UNUQIvXG+Z9FaVnBja8B5O12NGutk88wN3q4qUUXtsrEUtmP6zi3hGvyuDDs8eRl2
+ 97pimjmV1nv0W5Oq8CmJm8+QY/K47hZiVYq/BNN3POgNAtq7BjAnFrfNI68sajKKB5
+ s373akfhE5SIDMv/bn8qQJ2bgyNG5LSRWnpsoNGQqjNmL9QB8iztmEf5AKRGksPX8A
+ /etmXT/1TIGGB0xEErTTk4J6AlXlr1JyTismvhOfTqIz/+vkt96ZiA/H2cu8uimfxa
+ 0vJ9YG3Jq6PRxLHIobJEQQOuQED/ejXO+w8yUFEOxvdDJQ1bwSmP/F3EWXD376Rsym
+ z0yiB64BHBl7w==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Fri, 19 Dec 2025 23:39:46 +0100
-Subject: [PATCH v2 2/4] kbuild: cleanup local -Wno-type-limits exceptions
+Date: Fri, 19 Dec 2025 23:39:47 +0100
+Subject: [PATCH v2 3/4] overflow: Remove is_non_negative() and
+ is_negative()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251219-remove_wtype-limits-v2-2-2e92b3f566c5@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251219-remove_wtype-limits-v2-3-2e92b3f566c5@kernel.org>
 References: <20251219-remove_wtype-limits-v2-0-2e92b3f566c5@kernel.org>
 In-Reply-To: <20251219-remove_wtype-limits-v2-0-2e92b3f566c5@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -53,12 +54,12 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org, 
  linux-hardening@vger.kernel.org, Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1412; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=CH51omHx3p6qsRzlcGdmz4sS4fZYMW+MUawnsQlkKh8=;
- b=kA0DAAoW0WQ+QNd/fbMByyZiAGlF1EOjMOByv0n126NSjwuXg8j/IxssPc9TKnxzsAAq/pe6F
- 4iRBAAWCgA5FiEEpncJCyCIcUtWwv050WQ+QNd/fbMFAmlF1EMbFIAAAAAABAAObWFudTIsMi41
- KzEuMTEsMiwyAAoJENFkPkDXf32zwuQBALphDSFKpPBiTOKEVIuE94/+YEsRmjpYZiMQ7lDD4SW
- QAP9FGUN45c8n3tmPLKYM4wGNk16iKXQ0rB7Uoj4K7KqLCQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1738; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=wtRlhF0E9lAMAS6RF9a/BuSBeDduKYxm9+amQIF8Ki8=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJmuV9zsThw4ZfrOIPRQ++ItJrNPBldduf+xu7xAq26LV
+ 8H6w7ebOyayMIhxMViKKbIsK+fkVugo9A479NcSZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNQBMhm4OAVgqo+WMfwVl/scJuBe5eW1+2r48j0sV+Mle7Z4LFaRKLoUMUv+k8p+RobdQlsNlJ8
+ w6fUYRecZ/Qj9LsjFZ//g8Nak6rrsKXMO3+ACAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,44 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that -Wtype-limits is globally deactivated, there is no need for
-local exceptions anymore.
+The is_non_negative() and is_negative() function-like macros just
+exist as a workaround to silence the -Wtype-limits warning. Now that
+this warning is disabled, those two macros have lost their raison
+d'être. Remove them.
 
-Acked-by: David Sterba <dsterba@suse.com>
+This reverts commit dc7fe518b049 ("overflow: Fix -Wtype-limits
+compilation warnings").
+
+Suggested-by: Nicolas Schier <nsc@kernel.org>
+Link: https://lore.kernel.org/all/aUT_yWin_xslnOFh@derry.ads.avm.de
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
 Changelog:
 
-  v1 -> v2: small change in patch description
+  v1 -> v2: new patch
 ---
- drivers/gpu/drm/Makefile | 1 -
- fs/btrfs/Makefile        | 1 -
- 2 files changed, 2 deletions(-)
+ include/linux/overflow.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 0e1c668b46d2..b879a60ca79a 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -22,7 +22,6 @@ subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
- # The following turn off the warnings enabled by -Wextra
- ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
- subdir-ccflags-y += -Wno-missing-field-initializers
--subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-shift-negative-value
- endif
- ifeq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
-diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
-index 743d7677b175..40bc2f7e6f6b 100644
---- a/fs/btrfs/Makefile
-+++ b/fs/btrfs/Makefile
-@@ -17,7 +17,6 @@ subdir-ccflags-y += $(condflags)
- # The following turn off the warnings enabled by -Wextra
- subdir-ccflags-y += -Wno-missing-field-initializers
- subdir-ccflags-y += -Wno-sign-compare
--subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-shift-negative-value
+diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+index 736f633b2d5f..ab142d60c6b5 100644
+--- a/include/linux/overflow.h
++++ b/include/linux/overflow.h
+@@ -36,12 +36,6 @@
+ #define __type_min(T) ((T)((T)-type_max(T)-(T)1))
+ #define type_min(t)	__type_min(typeof(t))
  
- obj-$(CONFIG_BTRFS_FS) := btrfs.o
+-/*
+- * Avoids triggering -Wtype-limits compilation warning,
+- * while using unsigned data types to check a < 0.
+- */
+-#define is_non_negative(a) ((a) > 0 || (a) == 0)
+-#define is_negative(a) (!(is_non_negative(a)))
+ 
+ /*
+  * Allows for effectively applying __must_check to a macro so we can have
+@@ -201,9 +195,9 @@ static inline bool __must_check __must_check_overflow(bool overflow)
+ 	typeof(d) _d = d;						\
+ 	unsigned long long _a_full = _a;				\
+ 	unsigned int _to_shift =					\
+-		is_non_negative(_s) && _s < 8 * sizeof(*d) ? _s : 0;	\
++		_s >= 0 && _s < 8 * sizeof(*d) ? _s : 0;		\
+ 	*_d = (_a_full << _to_shift);					\
+-	(_to_shift != _s || is_negative(*_d) || is_negative(_a) ||	\
++	(_to_shift != _s || *_d < 0 || _a < 0 ||			\
+ 	(*_d >> _to_shift) != _a);					\
+ }))
+ 
 
 -- 
 2.51.2
