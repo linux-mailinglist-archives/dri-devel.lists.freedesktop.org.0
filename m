@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCA7CCF99D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D77DCCF9A4
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FAD10EF3F;
-	Fri, 19 Dec 2025 11:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD19D10EF3C;
+	Fri, 19 Dec 2025 11:35:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C1IdIe4D";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="itx0bRH3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7F810EF3C;
- Fri, 19 Dec 2025 11:35:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CB310EF40;
+ Fri, 19 Dec 2025 11:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766144106; x=1797680106;
+ t=1766144109; x=1797680109;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WZ4frZ2QuS+MI3YTmu2V4fjavHBCP1THqYDsNNn/Qbw=;
- b=C1IdIe4DD0ZH2rAbGQLbzXn30SjCXMMFjYvye5Cyaguczdd+Eye87stB
- tVQBjAUYUrA8z0PNEy3C3cgbdzn4qfQ7WddODra+Al+hoeIlW9JXx849I
- 7jPcICrP3J7NlAys70YqhmniD5SvY+XsgRGZrXxlnc/8+2Tu3hNehkP5S
- sw5MyU/Qc/RnrWFnSGt9BjE4VvuqPD2OuftX7czBuKV60PL7SCd1Q6dLI
- lO30xMAeEL2Hq9JvOSxHLmx64weWqgZpj3OtNmhhznlk8vUVNaCZLjNrB
- rE9x3pqEl1QH8MPEoivTjjFC/EWOytymgiW1gpCnF6oMCv8V/kLc2O5Uz Q==;
-X-CSE-ConnectionGUID: +ayq8jN1Qvqpv1xVMmwm4A==
-X-CSE-MsgGUID: QjVzZVvUTaKI2Ox2Npw43w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224589"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224589"
+ bh=VYywXm4UdkLrI+kyFm+UlWkaM12K80XJc7dlo+814pM=;
+ b=itx0bRH3BYdSGIbfv6R3WHm0DDp4PGYekZaom8JL33/5B9e1YGAFFcYw
+ HyzFHWqHWIDb7qAGo/T38ZyAfh5+zOuazzuVoxQSKtk2Pm6TIuF7aYvml
+ qnm29Lx3EEn5e3ouZAZRRPZkAwEf6+V6NzHcTAYu+i9LUSKIJ88r2s7QD
+ ULDlnaR8pS008zrDIgAHVjODsHTUCmOOw7fJ+zTT08pK1fIRRxn6Be9Hw
+ gvFJFOKCrsZhxEgFdvJS0AJPjUztUv6pE+IlmA139B1+Drd/B0UJaAinV
+ 9+Teq2K75yFQiGrEDhujYjY4JUwaNK+tqs60QVQLmI+lPKuPi1SKkqAs2 w==;
+X-CSE-ConnectionGUID: Ry67+gHrSFqnViFM6Rwopw==
+X-CSE-MsgGUID: GfS5yv6iTuKYVG867HnhLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79224596"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="79224596"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:35:05 -0800
-X-CSE-ConnectionGUID: fBJDSkd3T56l2vu8d46V4w==
-X-CSE-MsgGUID: 2cPofS+iSqar9kfx0NXiFw==
+ 19 Dec 2025 03:35:09 -0800
+X-CSE-ConnectionGUID: whhxm24rQU27M6E2xPlSRw==
+X-CSE-MsgGUID: PPD52RKkT6iBw7tb8JzYfA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005787"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; d="scan'208";a="203005792"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.251])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2025 03:35:02 -0800
+ 19 Dec 2025 03:35:05 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -51,9 +51,10 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6 17/24] drm/xe/vm: Add a couple of VM debug printouts
-Date: Fri, 19 Dec 2025 12:33:13 +0100
-Message-ID: <20251219113320.183860-18-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v6 18/24] drm/xe/svm: Document how xe keeps drm_pagemap
+ references
+Date: Fri, 19 Dec 2025 12:33:14 +0100
+Message-ID: <20251219113320.183860-19-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
 References: <20251219113320.183860-1-thomas.hellstrom@linux.intel.com>
@@ -75,69 +76,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add debug printouts that are valueable for pagemap prefetch,
-migration and page collection.
+As an aid to understanding the lifetime of the drm_pagemaps used
+by the xe driver, document how the xe driver keeps the
+drm_pagemap references.
 
-v2:
-- Add additional debug prinouts around migration and page collection.
-- Require CONFIG_DRM_XE_DEBUG_VM.
+v3:
+- Fix formatting (Matt Brost)
 
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> #v1
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 10 ++++++++++
- drivers/gpu/drm/xe/xe_vm.c  |  7 +++++++
- 2 files changed, 17 insertions(+)
+ drivers/gpu/drm/xe/xe_svm.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index c4997ab4e029..43af813276b8 100644
+index 43af813276b8..68f30338abee 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -1271,6 +1271,10 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	if (err) {
- 		range_debug(range, "PAGE FAULT - FAIL PAGE COLLECT");
- 		goto out;
-+	} else if (IS_ENABLED(CONFIG_DRM_XE_DEBUG_VM)) {
-+		drm_dbg(&vm->xe->drm, "After page collect data location is %sin \"%s\".\n",
-+			xe_svm_range_has_pagemap(range, dpagemap) ? "" : "NOT ",
-+			dpagemap ? dpagemap->drm->unique : "System.");
- 	}
+@@ -28,6 +28,27 @@
+ #define XE_PEER_PAGEMAP ((void *)0ul)
+ #define XE_PEER_VM ((void *)1ul)
  
- 	xe_svm_range_get_pages_us_stats_incr(gt, range, get_pages_start);
-@@ -1566,9 +1570,15 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
- int xe_svm_alloc_vram(struct xe_svm_range *range, const struct drm_gpusvm_ctx *ctx,
- 		      struct drm_pagemap *dpagemap)
- {
-+	struct xe_device *xe = range_to_vm(&range->base)->xe;
++/**
++ * DOC: drm_pagemap reference-counting in xe:
++ *
++ * In addition to the drm_pagemap internal reference counting by its zone
++ * device data, the xe driver holds the following long-time references:
++ *
++ * - struct xe_pagemap:
++ *	The xe_pagemap struct derives from struct drm_pagemap and uses its
++ *	reference count.
++ * - SVM-enabled VMs:
++ *	SVM-enabled VMs look up and keeps a reference to all xe_pagemaps on
++ *	the same device.
++ * - VMAs:
++ *	vmas keep a reference on the drm_pagemap indicated by a gpu_madvise()
++ *	call.
++ *
++ * In addition, all drm_pagemap or xe_pagemap pointers where lifetime cannot
++ * be guaranteed by a vma reference under the vm lock should keep a reference.
++ * That includes the range->pages.dpagemap pointer.
++ */
 +
- 	xe_assert(range_to_vm(&range->base)->xe, range->base.pages.flags.migrate_devmem);
- 	range_debug(range, "ALLOCATE VRAM");
+ static int xe_svm_get_pagemaps(struct xe_vm *vm);
  
-+	if (IS_ENABLED(CONFIG_DRM_XE_DEBUG_VM))
-+		drm_dbg(&xe->drm, "Request migration to device memory on \"%s\".\n",
-+			dpagemap->drm->unique);
-+
- 	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
- 				       xe_svm_range_end(range),
- 				       range->base.gpusvm->mm,
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 808b44fb0569..a07d8b53de66 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2931,6 +2931,13 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
- 		if (!dpagemap)
- 			xe_svm_range_migrate_to_smem(vm, svm_range);
- 
-+		if (IS_ENABLED(CONFIG_DRM_XE_DEBUG_VM)) {
-+			drm_dbg(&vm->xe->drm,
-+				"Prefetch pagemap is %s start 0x%016lx end 0x%016lx\n",
-+				dpagemap ? dpagemap->drm->unique : "system",
-+				xe_svm_range_start(svm_range), xe_svm_range_end(svm_range));
-+		}
-+
- 		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, dpagemap)) {
- 			err = xe_svm_alloc_vram(svm_range, &ctx, dpagemap);
- 			if (err) {
+ void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem)
 -- 
 2.51.1
 
