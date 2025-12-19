@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D95CCF759
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 11:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8C2CCF805
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Dec 2025 12:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7259710E46E;
-	Fri, 19 Dec 2025 10:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC3710EEE2;
+	Fri, 19 Dec 2025 11:00:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lfvFcMhK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2407E10E46E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 10:49:51 +0000 (UTC)
-Received: from ehlo.thunderbird.net (161-51-78-170.static.ef-service.nl
- [161.51.78.170])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id D3E9020386;
- Fri, 19 Dec 2025 11:49:49 +0100 (CET)
-Date: Fri, 19 Dec 2025 11:49:51 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Jun Nie <jun.nie@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A95210E064
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 11:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1766142001;
+ bh=VjIxrQi+mk8mttz09PhTFYXsaPfpi2KuaBc8eh+Ci6k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lfvFcMhKRh17L+Fn/ZuFAMY5pV4w1lcwd67SRnPf8odtLZbnOvEOpnMJh8JRtOYEU
+ htfxUwCxD2PbNi0sDZoWPo72GGk8O9csZ61zYFVq/bL1Vq1CTCyt3/UvLATsVexAgi
+ tpHSGVtxQQe+2LY7WAhL2juqmsgsDjgDGQ4pLCoAtMG6dFVslw3UMsIXjHtvbu3fD1
+ OuYFaug1ATfi5cR4tCNMFJmKNN7tKMXEdbPSqjUuWEfdDMbLaaS6chzVLA5OpG6TlZ
+ kmNoQXWvUmPsowGDX8XsaeQf7ygzP/9NM7x/YNFhoipFXA27CoJ6gaeqhM8xoYThIu
+ RH+uh8tvARerQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6716717E0184;
+ Fri, 19 Dec 2025 12:00:01 +0100 (CET)
+Date: Fri, 19 Dec 2025 11:59:57 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Grant Likely <grant.likely@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_Revert_=22drm/msm/dpu=3A_Ena?=
- =?US-ASCII?Q?ble_quad-pipe_for_DSC_and_dual-DSI_case=22?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-2-654b46505f84@oss.qualcomm.com>
-References: <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-0-654b46505f84@oss.qualcomm.com>
- <20251219-drm-msm-dpu-revert-quad-pipe-broken-v1-2-654b46505f84@oss.qualcomm.com>
-Message-ID: <A6CA2415-5FCE-4DE3-9E3B-2F68913F898B@somainline.org>
+Subject: Re: [PATCH v2] drm/panthor: Evict groups before VM termination
+Message-ID: <20251219115957.5ae3cc86@fedora>
+In-Reply-To: <e72e1056-1807-47aa-9c1a-5c41f589144f@arm.com>
+References: <20251219093546.1227697-1-ketil.johnsen@arm.com>
+ <e72e1056-1807-47aa-9c1a-5c41f589144f@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,236 +68,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 December 2025 11:39:02 CET, Abel Vesa <abel=2Evesa@oss=2Equalcomm=2Ec=
-om> wrote:
->This reverts commit d7ec9366b15cd04508fa015cb94d546b1c01edfb=2E
->
->The dual-DSI dual-DSC scenario seems to be broken by this commit=2E
->
->Reported-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
->Closes: https://lore=2Ekernel=2Eorg/r/aUR2b3FOSisTfDFj@SoMainline=2Eorg
->Signed-off-by: Abel Vesa <abel=2Evesa@oss=2Equalcomm=2Ecom>
+On Fri, 19 Dec 2025 10:45:48 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Thanks! That kicks off one dependency for actually sending this 2:2:2 pane=
-l and DTS for the Sony Xperia 1 III and onwards=2E
+> On 19/12/2025 09:35, Ketil Johnsen wrote:
+> > Ensure all related groups are evicted and suspended before VM
+> > destruction takes place.
+> > 
+> > This fixes an issue where panthor_vm_destroy() destroys and unmaps the
+> > heap context while there are still on slot groups using this.
+> > The FW will do a write out to the heap context when a CSG (group) is
+> > suspended, so a premature unmap of the heap context will cause a
+> > GPU page fault.
+> > This page fault is quite harmless, and do not affect the continued
+> > operation of the GPU.
+> > 
+> > Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>  
+> 
+> We're technically missing Boris's SoB here (Co-deleveloped-by requires a
+> SoB). Boris do you want to merge this (adding your SoB)?
 
-Reviewed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
+Done and queued to drm-misc-next, since I don't think the fix is super
+urgent, and I'd rather avoid conflicts between misc-next and
+misc-fixes when I can avoid them.
 
->---
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec         | 27 ++++++----------=
-------
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh         |  6 ++---
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec      | 29 ++++++++++++++++=
---------
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh |  2 +-
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh   |  2 +-
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh      |  2 +-
-> 6 files changed, 33 insertions(+), 35 deletions(-)
->
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc=2Ec
->index 011946bbf5a2=2E=2E2d06c950e814 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec
->@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
-> 		struct dpu_crtc_state *crtc_state)
-> {
-> 	struct dpu_crtc_mixer *m;
->-	u32 crcs[CRTC_QUAD_MIXERS];
->+	u32 crcs[CRTC_DUAL_MIXERS];
->=20
-> 	int rc =3D 0;
-> 	int i;
->@@ -1328,7 +1328,6 @@ static struct msm_display_topology dpu_crtc_get_top=
-ology(
-> 	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
-> 	struct msm_display_topology topology =3D {0};
-> 	struct drm_encoder *drm_enc;
->-	u32 num_rt_intf;
->=20
-> 	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask)
-> 		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
->@@ -1342,14 +1341,11 @@ static struct msm_display_topology dpu_crtc_get_t=
-opology(
-> 	 * Dual display
-> 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
-> 	 *
->-	 * If DSC is enabled, try to use 4:4:2 topology if there is enough
->-	 * resource=2E Otherwise, use 2:2:2 topology=2E
->-	 *
-> 	 * Single display
-> 	 * 1 LM, 1 INTF
-> 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
-> 	 *
->-	 * If DSC is enabled, use 2:2:1 topology
->+	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
-> 	 *
-> 	 * Add dspps to the reservation requirements if ctm is requested
-> 	 *
->@@ -1361,23 +1357,14 @@ static struct msm_display_topology dpu_crtc_get_t=
-opology(
-> 	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check=2E
-> 	 */
->=20
->-	num_rt_intf =3D topology=2Enum_intf;
->-	if (topology=2Ecwb_enabled)
->-		num_rt_intf--;
->-
->-	if (topology=2Enum_dsc) {
->-		if (dpu_kms->catalog->dsc_count >=3D num_rt_intf * 2)
->-			topology=2Enum_dsc =3D num_rt_intf * 2;
->-		else
->-			topology=2Enum_dsc =3D num_rt_intf;
->-		topology=2Enum_lm =3D topology=2Enum_dsc;
->-	} else if (num_rt_intf =3D=3D 2) {
->+	if (topology=2Enum_intf =3D=3D 2 && !topology=2Ecwb_enabled)
->+		topology=2Enum_lm =3D 2;
->+	else if (topology=2Enum_dsc =3D=3D 2)
-> 		topology=2Enum_lm =3D 2;
->-	} else if (dpu_kms->catalog->caps->has_3d_merge) {
->+	else if (dpu_kms->catalog->caps->has_3d_merge)
-> 		topology=2Enum_lm =3D (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->-	} else {
->+	else
-> 		topology=2Enum_lm =3D 1;
->-	}
->=20
-> 	if (crtc_state->ctm)
-> 		topology=2Enum_dspp =3D topology=2Enum_lm;
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc=2Eh
->index 2c83f1578fc3=2E=2E94392b9b9245 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Eh
->@@ -210,7 +210,7 @@ struct dpu_crtc_state {
->=20
-> 	bool bw_control;
-> 	bool bw_split_vote;
->-	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
->+	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
->=20
-> 	uint64_t input_fence_timeout_ns;
->=20
->@@ -218,10 +218,10 @@ struct dpu_crtc_state {
->=20
-> 	/* HW Resources reserved for the crtc */
-> 	u32 num_mixers;
->-	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
->+	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
->=20
-> 	u32 num_ctls;
->-	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
->+	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
->=20
-> 	enum dpu_crtc_crc_source crc_source;
-> 	int crc_frame_skip_count;
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_encoder=2Ec
->index d1cfe81a3373=2E=2E9f3957f24c6a 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder=2Ec
->@@ -55,7 +55,7 @@
-> #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
-> 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
->=20
->-#define MAX_CHANNELS_PER_ENC 4
->+#define MAX_CHANNELS_PER_ENC 2
-> #define MAX_CWB_PER_ENC 2
->=20
-> #define IDLE_SHORT_TIMEOUT	1
->@@ -661,6 +661,7 @@ void dpu_encoder_update_topology(struct drm_encoder *=
-drm_enc,
-> 	struct dpu_encoder_virt *dpu_enc =3D to_dpu_encoder_virt(drm_enc);
-> 	struct msm_drm_private *priv =3D dpu_enc->base=2Edev->dev_private;
-> 	struct msm_display_info *disp_info =3D &dpu_enc->disp_info;
->+	struct dpu_kms *dpu_kms =3D to_dpu_kms(priv->kms);
-> 	struct drm_connector *connector;
-> 	struct drm_connector_state *conn_state;
-> 	struct drm_framebuffer *fb;
->@@ -674,12 +675,22 @@ void dpu_encoder_update_topology(struct drm_encoder=
- *drm_enc,
->=20
-> 	dsc =3D dpu_encoder_get_dsc_config(drm_enc);
->=20
->-	/*
->-	 * Set DSC number as 1 to mark the enabled status, will be adjusted
->-	 * in dpu_crtc_get_topology()
->-	 */
->-	if (dsc)
->-		topology->num_dsc =3D 1;
->+	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
->+	if (dsc) {
->+		/*
->+		 * Use 2 DSC encoders, 2 layer mixers and 1 or 2 interfaces
->+		 * when Display Stream Compression (DSC) is enabled,
->+		 * and when enough DSC blocks are available=2E
->+		 * This is power-optimal and can drive up to (including) 4k
->+		 * screens=2E
->+		 */
->+		WARN(topology->num_intf > 2,
->+		     "DSC topology cannot support more than 2 interfaces\n");
->+		if (topology->num_intf >=3D 2 || dpu_kms->catalog->dsc_count >=3D 2)
->+			topology->num_dsc =3D 2;
->+		else
->+			topology->num_dsc =3D 1;
->+	}
->=20
-> 	connector =3D drm_atomic_get_new_connector_for_encoder(state, drm_enc);
-> 	if (!connector)
->@@ -2169,8 +2180,8 @@ static void dpu_encoder_helper_reset_mixers(struct =
-dpu_encoder_phys *phys_enc)
-> {
-> 	int i, num_lm;
-> 	struct dpu_global_state *global_state;
->-	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
->-	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
->+	struct dpu_hw_blk *hw_lm[2];
->+	struct dpu_hw_mixer *hw_mixer[2];
-> 	struct dpu_hw_ctl *ctl =3D phys_enc->hw_ctl;
->=20
-> 	/* reset all mixers for this encoder */
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh b/drivers=
-/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
->index 09395d7910ac=2E=2E61b22d949454 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys=2Eh
->@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_help=
-er_get_3d_blend_mode(
->=20
-> 	/* Use merge_3d unless DSC MERGE topology is used */
-> 	if (phys_enc->split_role =3D=3D ENC_ROLE_SOLO &&
->-	    (dpu_cstate->num_mixers !=3D 1) &&
->+	    dpu_cstate->num_mixers =3D=3D CRTC_DUAL_MIXERS &&
-> 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
-> 		return BLEND_3D_H_ROW_INT;
->=20
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh b/drivers/g=
-pu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
->index 336757103b5a=2E=2E4964e70610d1 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh
->@@ -24,7 +24,7 @@
-> #define DPU_MAX_IMG_WIDTH 0x3fff
-> #define DPU_MAX_IMG_HEIGHT 0x3fff
->=20
->-#define CRTC_QUAD_MIXERS	4
->+#define CRTC_DUAL_MIXERS	2
->=20
-> #define MAX_XIN_COUNT 16
->=20
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
->index 31451241f083=2E=2E046b683d4c66 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss=2Eh
->@@ -34,7 +34,7 @@
-> #define DPU_MAX_PLANES			4
-> #endif
->=20
->-#define STAGES_PER_PLANE		2
->+#define STAGES_PER_PLANE		1
-> #define PIPES_PER_STAGE			2
-> #define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
-> #ifndef DPU_MAX_DE_CURVES
->
+> 
+> Thanks,
+> Steve
+> 
+> > ---
+> > Changes in v2:
+> > - Removed check for ptdev->scheduler
+> > - R-b from Boris
+> > - Link to v1: https://lore.kernel.org/all/20251218162644.828495-1-ketil.johnsen@arm.com/
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_mmu.c   |  4 ++++
+> >  drivers/gpu/drm/panthor/panthor_sched.c | 14 ++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_sched.h |  1 +
+> >  3 files changed, 19 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 74230f7199121..0e4b301a9c70e 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1537,6 +1537,10 @@ static void panthor_vm_destroy(struct panthor_vm *vm)
+> >  
+> >  	vm->destroyed = true;
+> >  
+> > +	/* Tell scheduler to stop all GPU work related to this VM */
+> > +	if (refcount_read(&vm->as.active_cnt) > 0)
+> > +		panthor_sched_prepare_for_vm_destruction(vm->ptdev);
+> > +
+> >  	mutex_lock(&vm->heaps.lock);
+> >  	panthor_heap_pool_destroy(vm->heaps.pool);
+> >  	vm->heaps.pool = NULL;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index f680edcd40aad..a40ac94e5e989 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -2930,6 +2930,20 @@ void panthor_sched_report_mmu_fault(struct panthor_device *ptdev)
+> >  		sched_queue_delayed_work(ptdev->scheduler, tick, 0);
+> >  }
+> >  
+> > +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev)
+> > +{
+> > +	/* FW can write out internal state, like the heap context, during CSG
+> > +	 * suspend. It is therefore important that the scheduler has fully
+> > +	 * evicted any pending and related groups before VM destruction can
+> > +	 * safely continue. Failure to do so can lead to GPU page faults.
+> > +	 * A controlled termination of a Panthor instance involves destroying
+> > +	 * the group(s) before the VM. This means any relevant group eviction
+> > +	 * has already been initiated by this point, and we just need to
+> > +	 * ensure that any pending tick_work() has been completed.
+> > +	 */
+> > +	flush_work(&ptdev->scheduler->tick_work.work);
+> > +}
+> > +
+> >  void panthor_sched_resume(struct panthor_device *ptdev)
+> >  {
+> >  	/* Force a tick to re-evaluate after a resume. */
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> > index f4a475aa34c0a..9a8692de8aded 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> > @@ -50,6 +50,7 @@ void panthor_sched_suspend(struct panthor_device *ptdev);
+> >  void panthor_sched_resume(struct panthor_device *ptdev);
+> >  
+> >  void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
+> > +void panthor_sched_prepare_for_vm_destruction(struct panthor_device *ptdev);
+> >  void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
+> >  
+> >  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile);  
+> 
 
