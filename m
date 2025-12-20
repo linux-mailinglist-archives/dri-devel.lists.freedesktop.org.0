@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C4CCD2DA3
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 12:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1ACCD2DA9
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 12:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4857710E24D;
-	Sat, 20 Dec 2025 11:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638F410E253;
+	Sat, 20 Dec 2025 11:03:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eSp2z9oh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i3y9ecv7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84DF110E24D
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 11:03:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1BF710E253
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 11:03:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2DA8C40E06;
+ by sea.source.kernel.org (Postfix) with ESMTP id 881A144475;
+ Sat, 20 Dec 2025 11:03:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905DCC4AF09;
  Sat, 20 Dec 2025 11:03:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D249C116B1;
- Sat, 20 Dec 2025 11:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766228594;
- bh=ap8MRB6u43PIFW27qfddd/82fqc/71rc4wGTDPI7wLo=;
+ s=k20201202; t=1766228600;
+ bh=CH51omHx3p6qsRzlcGdmz4sS4fZYMW+MUawnsQlkKh8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=eSp2z9ohjB6vYInRQZAjAFrvEjUyT/DzO1gHOyAbUXyzXq1as2FowCXDAAplhRIFe
- i1vcvNC4VrKYrhCs77Nj/tm6WwIh5K7j8tQkObTiQEZLDX1JFIv5L8Zp6bO0cHc5Uf
- nhke2tbaUU1z3fYRMkQET3wW9XLiprqu7eIBJbOhsU4Ia+aM/cqdw2W5Vux/Ox9xrB
- Mqf05/UXcE2wUGDDse/9rIYUJhTvhWiw36T5XBOwff+aWxfLMeLZPSo8hG44WMfPXC
- 79M5/xgBIe1zTidgdDSEHpcj4ra2KZ/uF+C22MQnxnC5qG3igk2QrLrpjPgROdlTJm
- Q6bd5aMblMu2w==
+ b=i3y9ecv7bvRQk3YtF39GlefNaX3OsbHoy5nLsuWeL6PK/UBqH1hpdQIBkM7L1cpkR
+ 0MgQZKsRV8qlsdWBp88FtLtxyeZ/OAzTcnkkvsM/lceYvf36X8K1Sxq212pptnhY0c
+ 3jmBhS1DnfaMmRL/vpR1UDnKFWfKYMxaVF/C8gEMKJbsYWcJCxQCQVYwDLcXHozWmS
+ YS8tjzAwltomC7xfC16XuIYZAEjsXQtxtDcze9cz26Sh9RDO1RKemmsZAwNKZYd2cd
+ SlGT0920qYU5dWeF2MbvX5C1PY3mmvaAaRI2g6zUO8UxTv/1hg2N/YoEB4Bttv7aw1
+ +W+14yTrcjEbg==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Sat, 20 Dec 2025 12:02:19 +0100
-Subject: [PATCH v3 1/3] kbuild: remove gcc's -Wtype-limits
+Date: Sat, 20 Dec 2025 12:02:20 +0100
+Subject: [PATCH v3 2/3] kbuild: cleanup local -Wno-type-limits exceptions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251220-remove_wtype-limits-v3-1-24b170af700e@kernel.org>
+Message-Id: <20251220-remove_wtype-limits-v3-2-24b170af700e@kernel.org>
 References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
 In-Reply-To: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -53,12 +53,12 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org, 
  linux-hardening@vger.kernel.org, Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3600; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=ap8MRB6u43PIFW27qfddd/82fqc/71rc4wGTDPI7wLo=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJluTTH2PxvED5iem9T/9fZyodSYGb+mLK9ffoWxL+p+h
- FkPhzFjx0QWBjEuBksxRZZl5ZzcCh2F3mGH/lrCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- hjpAJgMXpwBM9fQYRobrzVs2h7V82sLAk8/wzdbv79rGOl+NXefexIX/WfH09bRmRoaXtQIOKhN
- vybgals7N2bjbdr6VcsRenz/nWOvPnCk0ruMBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1412; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=CH51omHx3p6qsRzlcGdmz4sS4fZYMW+MUawnsQlkKh8=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJluTfGt60/e33Q355CkRrPV9k+JlVOaP/FKlmXMDF/b2
+ mo7+caVjoksDGJcDJZiiizLyjm5FToKvcMO/bWEmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ DXWATAYuTgGY6n0RjAw776t6N/8vXK+pLbv8i8KtLY76jD2bZfnS0p5+XLJYrfMAw/+cjRsOWO5
+ RWDQ3KGPOqaUL1jnXqB00sUopmnZYJGfRQSl+AA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,102 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W=2 builds are heavily polluted by the -Wtype-limits warning.
+Now that -Wtype-limits is globally deactivated, there is no need for
+local exceptions anymore.
 
-Here are some W=12 statistics on Linux v6.19-rc1 for an x86_64
-defconfig (with just CONFIG_WERROR set to "n") using gcc 14.3.1:
-
-	 Warning name			count	percent
-	-------------------------------------------------
-	 -Wlogical-op			    2	  0.00 %
-	 -Wmaybe-uninitialized		  138	  0.20 %
-	 -Wunused-macros		  869	  1.24 %
-	 -Wmissing-field-initializers	 1418	  2.02 %
-	 -Wshadow			 2234	  3.19 %
-	 -Wtype-limits			65378	 93.35 %
-	-------------------------------------------------
-	 Total				70039	100.00 %
-
-As we can see, -Wtype-limits represents the vast majority of all
-warnings. The reason behind this is that these warnings appear in
-some common header files, meaning that some unique warnings are
-repeated tens of thousands of times (once per header inclusion).
-
-Add to this the fact that each warning is coupled with a dozen lines
-detailing some macro expansion. The end result is that the W=2 output
-is just too bloated and painful to use.
-
-Three years ago, I proposed in [1] modifying one such header to
-silence that noise. Because the code was not faulty, Linus rejected
-the idea and instead suggested simply removing that warning.
-
-At that time, I could not bring myself to send such a patch because,
-despite its problems, -Wtype-limits would still catch the below bug:
-
-	unsigned int ret;
-
-	ret = check();
-	if (ret < 0)
-		error();
-
-Meanwhile, based on another suggestion from Linus, I added a new check
-to sparse [2] that would catch the above bug without the useless spam.
-
-With this, remove gcc's -Wtype-limits. People who still want to catch
-incorrect comparisons between unsigned integers and zero can now use
-sparse instead.
-
-On a side note, clang also has a -Wtype-limits warning but:
-
-  * it is not enabled in the kernel at the moment because, contrary to
-    gcc, clang did not include it under -Wextra.
-
-  * it does not warn if the code results from a macro expansion. So,
-    if activated, it would not cause as much spam as gcc does.
-
-  * -Wtype-limits is split into four sub-warnings [3] meaning that if
-    it were to be activated, we could select which one to keep.
-
-So there is no present need to explicitly disable -Wtype-limits in
-clang.
-
-[1] linux/bits.h: GENMASK_INPUT_CHECK: reduce W=2 noise by 31% treewide
-Link: https://lore.kernel.org/all/20220308141201.2343757-1-mailhol.vincent@wanadoo.fr/
-
-[2] Warn about "unsigned value that used to be signed against zero"
-Link: https://lore.kernel.org/all/20250921061337.3047616-1-mailhol@kernel.org/
-
-[3] clang's -Wtype-limits
-Link: https://clang.llvm.org/docs/DiagnosticsReference.html#wtype-limits
-
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Acked-by: David Sterba <dsterba@suse.com>
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
- scripts/Makefile.warn | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Changelog:
 
-diff --git a/scripts/Makefile.warn b/scripts/Makefile.warn
-index 68e6fafcb80c..c593ab1257de 100644
---- a/scripts/Makefile.warn
-+++ b/scripts/Makefile.warn
-@@ -55,6 +55,9 @@ else
- KBUILD_CFLAGS += -Wno-main
- endif
- 
-+# Too noisy on range checks and in macros handling both signed and unsigned.
-+KBUILD_CFLAGS += -Wno-type-limits
-+
- # These result in bogus false positives
- KBUILD_CFLAGS += $(call cc-option, -Wno-dangling-pointer)
- 
-@@ -174,7 +177,6 @@ else
- 
+  v1 -> v2: small change in patch description
+---
+ drivers/gpu/drm/Makefile | 1 -
+ fs/btrfs/Makefile        | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 0e1c668b46d2..b879a60ca79a 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -22,7 +22,6 @@ subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
  # The following turn off the warnings enabled by -Wextra
- KBUILD_CFLAGS += -Wno-missing-field-initializers
--KBUILD_CFLAGS += -Wno-type-limits
- KBUILD_CFLAGS += -Wno-shift-negative-value
+ ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
+ subdir-ccflags-y += -Wno-missing-field-initializers
+-subdir-ccflags-y += -Wno-type-limits
+ subdir-ccflags-y += -Wno-shift-negative-value
+ endif
+ ifeq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
+diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
+index 743d7677b175..40bc2f7e6f6b 100644
+--- a/fs/btrfs/Makefile
++++ b/fs/btrfs/Makefile
+@@ -17,7 +17,6 @@ subdir-ccflags-y += $(condflags)
+ # The following turn off the warnings enabled by -Wextra
+ subdir-ccflags-y += -Wno-missing-field-initializers
+ subdir-ccflags-y += -Wno-sign-compare
+-subdir-ccflags-y += -Wno-type-limits
+ subdir-ccflags-y += -Wno-shift-negative-value
  
- ifdef CONFIG_CC_IS_CLANG
+ obj-$(CONFIG_BTRFS_FS) := btrfs.o
 
 -- 
 2.51.2
