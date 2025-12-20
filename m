@@ -2,91 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A240CD2CCE
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8D0CD2CED
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02CEA10E1AF;
-	Sat, 20 Dec 2025 10:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27DB710E22E;
+	Sat, 20 Dec 2025 10:05:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fr9EQrsO";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Fq214dmH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4F210E1AF
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:02:05 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4775895d69cso10418855e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 02:02:05 -0800 (PST)
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
+ [209.85.218.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7860710E22E
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:05:38 +0000 (UTC)
+Received: by mail-ej1-f73.google.com with SMTP id
+ a640c23a62f3a-b7a29e6f9a0so332284566b.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 02:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766224924; x=1766829724; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6b6TgfZ4l4yfYsx0rUlhXwOOOgK1ZGgIr0RlxGtU3To=;
- b=Fr9EQrsONjNhPeUJanm0dHa61REE92IQgA/Bp7cxKGhhE8Wx9Q78zDUcMX7v9/EMuS
- zcdiZrVqseVd0nw0OFqqpGPMfYmbJZW4A7cPcW99MOYZojkbpuXhLBdxL54B2D+DjJxB
- FB45IeNmomH24r0RInyv6Im7vGNZB3cKmG999aBw14spo/1QfEPyGEpNAVoO3IzNSWUv
- 5eNlhJ9awZfM4RgGY1kU0XXwXL4MW28o3kbpO4DGue/Cxtyp69HUaYrUZA5ZoBdPNETp
- p+CIqrAdwZK2i/7K/dcK8yFo+9i7nNkW1dbxtieTlK5jxrdJHtPDF+zJNGED73N3WEL4
- h0rA==
+ d=google.com; s=20230601; t=1766225137; x=1766829937;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+5We+jBO0+cCD3c++ROAWKy2uW8li7ctcnKyzh7ve8o=;
+ b=Fq214dmHve4crsGTs5FRs/zXb/FV56KVjA5g/kL+O6HjMcsYjVcDoXEvH9NUpSYPUe
+ pdPJwI14yEmYw+qrLpxPBTpYk3YctXWmwcrXVBrQmwtpeF4c44MxO+6fAlN4zKvA6kvz
+ 1kx5mF0FC4lFfRFQqfuCWZX9aPT/WqUU2svyuZzB7yyGNhRdlwSQOTx6wQI3tF9nRkmc
+ vxbAezIp0TY7TIgvMbB7LMPFfXWtqx2jyzoeWZRyG88nwiopyuSq5TmUbSxX87b9rBRj
+ uijT7s6Ciq1XEtU1JRBpzpWsC6Vw1jpLPRFoMtam0jN2iszZ15uVMUSBdT9sN7IDBUGp
+ R+Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766224924; x=1766829724;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=6b6TgfZ4l4yfYsx0rUlhXwOOOgK1ZGgIr0RlxGtU3To=;
- b=OB6jp3FearFDYNldE1BDz2RDCCEAHdwAldiE8VfDj6Cx6MTCJM+D4zmduU0WWKmjaC
- K4vCKdHbXDfwnqDHetwhtHzEdJ4Q0rxVvP5+QNYcj0x0wlBd+D2IbeRQxIv1qzt8m0Wx
- YYK/INgzNE84UD36/rHPAUSDomp98aoaVnf05dA1ft0gIodnVuz45GoR2rJDiems6nmN
- 6E39iFRG9UlnK7DyMA2CbEY9FEm5dORYDDpGwCCJLBCv41bcx3+F15w+xddkELkA2ePf
- U0vdcSF8EczCW7gvs/ds34qb2i9Hj7ESUErHtyX3SsZEcUG1hYk5ow3Lg+G7LaNrTdQi
- mwtQ==
+ d=1e100.net; s=20230601; t=1766225137; x=1766829937;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+5We+jBO0+cCD3c++ROAWKy2uW8li7ctcnKyzh7ve8o=;
+ b=SwBfv38aZ1bdYBEcsWBwZHmELccbA8oz58KETarg8rn8hYp0qYMM2XlayM1MDIrhem
+ DApcw7ZfL7IMdn2QYdnSelQVvOhIxYbNoZJu1MGPhxNizX/t4eAMsxBlBDYqXQ1EJo9H
+ eRSoStq6klK91jZxUgtibKU+hfEhYuHMrej5axQgmmHRIeDalsjjlZ+LMaxD2TI2Wk3s
+ FjiPV9NHgwGXrIwwlVIQbz8ejYyCoKHNznx+cqRjp2Ay4QPa6lrQO/xxwWzztRootvxp
+ 0dLBVfmbqheJDx7CyLv1pYL44IZ8Bw7r92rSwFGH/+X2IjaMmwkoRhCprW9cwbJ1KbCZ
+ tmdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUorcSlJYCPpSzeOa7DG7aRAxNcYcjWVcFNcX69F+GiX0DLMAApRx2OKsNYZtGuDyAqgzRHmz6CXv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+2egzpRDr+x6qOk8+TxlEhZgib1dPhmzyNp5alv2Ufq+7G1DF
- ynDOvZ5fXbWb80m6xUlBNVcqN8gkN6FNDKOg+lOqR1vhkC48aJgN7dG/
-X-Gm-Gg: AY/fxX6Gh0PHf6Y9isl9AMNMJ9N4U5k/IZMmkCpVz39tvWnFwh3uJYJ3Ox40mCWQiP4
- IOcTBcypn4JWwlu1hIKxmVMcz8AanVSA3lqLry+qSrlCoCBm2AT/3O95MqjIDOCoX71QEbR/K7A
- +7G8aWYhN/WtrA5v+4P3fVxNeAQqN6Ffa6fGaRPy4BgkuvdsWposMlouoYi8eIDmhPDrJLHaq/G
- GTO0NBX+WU8+riDJ/gGIV/MYyOIY9HvPXw+sdB/dUxIMA6wI22AXScuKgXhFqAd2e4Wy61viAqV
- pm73acTmADYBpzR/tIuiWAkjJ6woS0WMyF1gL7T/emtn2Z8vhhab6MlpFR2reGXTBQ5ihoLHodb
- dRq/pk8spYz6N3+wAWDTA4n2/5/NEvtrQII+NQ2WBhFRuFulsXqfNGEfZwR34ikPPX0rJZxLWBK
- lR2JCP1fimFIueffipKNYnQPqZPx3beTeXVqb9NWNP8cOKTeSuh43u
-X-Google-Smtp-Source: AGHT+IHQOJ0Ua+zWZlb0QPcZUUI/HtzVKK9z+yFIQMbNJiEgWc0RnGqXX7qQpeO5IWGkqcyJJpZw3A==
-X-Received: by 2002:a05:600c:1d1d:b0:471:d2f:7987 with SMTP id
- 5b1f17b1804b1-47d1958f9c5mr48722805e9.26.1766224923818; 
- Sat, 20 Dec 2025 02:02:03 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4324eab257asm9840402f8f.38.2025.12.20.02.02.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Dec 2025 02:02:03 -0800 (PST)
-Date: Sat, 20 Dec 2025 10:02:01 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Mason
- <clm@fb.com>, David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, linux-kbuild@vger.kernel.org,
- linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] minmax: remove useless cast in __is_nonneg()
-Message-ID: <20251220100201.26d9b0db@pumpkin>
-In-Reply-To: <20251219-remove_wtype-limits-v2-4-2e92b3f566c5@kernel.org>
-References: <20251219-remove_wtype-limits-v2-0-2e92b3f566c5@kernel.org>
- <20251219-remove_wtype-limits-v2-4-2e92b3f566c5@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ AJvYcCXK35uteNL6klx2E8hW2uUqH3R1u7k5XqEHDHJJ/MNSdG0x/9cE2uzVN1ZiwLB3wuCucSf0wgBssnk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqbwJnsWQOYuu9KTwmJmezDBgU2E+VJQpgngf7I7jLXeAA+SQv
+ YdMiD9a4UqUh22AIzvJn3AipkZXE6E807/lZIvVrV1tS88ohatU42LDF3hlX3Y9INSb0mclK7e+
+ PhsUoPv1WWrn+TSBfwQ==
+X-Google-Smtp-Source: AGHT+IH+qbCL3E4KlR/xCuII76jDF4Kk0p12le+sQrE5wjNjdmbXoR9Ff184WWDRAFxJ6twYy7w7Nft4HG28DGY=
+X-Received: from edtn6.prod.google.com ([2002:aa7:db46:0:b0:64b:a192:b5])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:7814:b0:b80:4141:a470 with SMTP id
+ a640c23a62f3a-b804141a5d5mr252551866b.6.1766225136958; 
+ Sat, 20 Dec 2025 02:05:36 -0800 (PST)
+Date: Sat, 20 Dec 2025 10:05:35 +0000
+In-Reply-To: <aUZw4fpWRUWFsb9r@google.com>
+Mime-Version: 1.0
+References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
+ <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
+ <DF2AXQ67412G.33JOX2CF0VFCK@kernel.org>
+ <aUZw4fpWRUWFsb9r@google.com>
+Message-ID: <aUZ07zYew7Mfwc_C@google.com>
+Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,90 +106,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Dec 2025 23:39:48 +0100
-Vincent Mailhol <mailhol@kernel.org> wrote:
-
-> The function like macro __is_nonneg() casts its argument to (long long)
-> in an attempt to silence -Wtype-limits warnings on unsigned values.
-
-nak.
-
-The cast is needed for pointer types, not for -Wtype-limits.
-which is why the '#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__'
-test is there.
-
-	David
-
+On Sat, Dec 20, 2025 at 09:48:17AM +0000, Alice Ryhl wrote:
+> On Fri, Dec 19, 2025 at 04:35:00PM +0100, Danilo Krummrich wrote:
+> > On Fri Nov 28, 2025 at 3:14 PM CET, Alice Ryhl wrote:
+> > > +    /// Returns a [`GpuVmBoObtain`] for the provided GEM object.
+> > > +    #[inline]
+> > > +    pub fn obtain(
+> > > +        &self,
+> > > +        obj: &T::Object,
+> > > +        data: impl PinInit<T::VmBoData>,
+> > > +    ) -> Result<GpuVmBoObtain<T>, AllocError> {
+> > > +        Ok(GpuVmBoAlloc::new(self, obj, data)?.obtain())
+> > > +    }
+> > 
+> > Does this method make sense? We usually preallocate a VM_BO, then enter the
+> > fence signalling critical path and then obtain the VM_BO.
 > 
-> But this workaround is incomplete as proven here:
+> Hmm, but there is something tricky here. When do we add it to the extobj
+> list, then? If we add it before starting the critical path, then we must
+> also call drm_gpuvm_bo_obtain_prealloc() before starting the critical
+> path because obtain must happen before drm_gpuvm_bo_extobj_add(). And
+> adding it to extobj after signalling the fence seems error prone.
 > 
->   $ cat foo.c
->   #include <linux/minmax.h>
+> And besides, adding it to the extobj list before the critical path
+> means that we can have drm_gpuvm_exec_lock() lock the new BO without
+> having to do anything special - it's simply in the extobj list by the
+> time we call drm_gpuvm_exec_lock().
 > 
->   int foo(unsigned int a)
->   {
->   	return __is_nonneg(a);
->   }
->   $ make CFLAGS_KERNEL="-Wtype-limits" foo.o
->     CALL    scripts/checksyscalls.sh
->     DESCEND objtool
->     INSTALL libsubcmd_headers
->     CC      foo.o
->   foo.c: In function 'foo':
->   ./include/linux/minmax.h:68:57: warning: comparison is always true due to limited range of data type [-Wtype-limits]
->      68 | #define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
->         |                                                         ^~
->   ./include/linux/compiler.h:350:50: note: in definition of macro 'statically_true'
->     350 | #define statically_true(x) (__builtin_constant_p(x) && (x))
->         |                                                  ^
->   foo.c:5:16: note: in expansion of macro '__is_nonneg'
->       5 |         return __is_nonneg(a);
->         |                ^~~~~~~~~~~
->   ./include/linux/minmax.h:68:57: warning: comparison is always true due to limited range of data type [-Wtype-limits]
->      68 | #define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
->         |                                                         ^~
->   ./include/linux/compiler.h:350:57: note: in definition of macro 'statically_true'
->     350 | #define statically_true(x) (__builtin_constant_p(x) && (x))
->         |                                                         ^
->   foo.c:5:16: note: in expansion of macro '__is_nonneg'
->       5 |         return __is_nonneg(a);
->         |                ^~~~~~~~~~~
+> > > +impl<T: DriverGpuVm> DerefMut for GpuVmCore<T> {
+> > > +    #[inline]
+> > > +    fn deref_mut(&mut self) -> &mut T {
+> > > +        // SAFETY: By the type invariants we may access `core`.
+> > > +        unsafe { &mut *self.0.core.get() }
+> > > +    }
+> > > +}
+> > 
+> > Hm..it seems more natural to me to deref to &GpuVm<T> and provide data() and
+> > data_mut().
 > 
-> And because -Wtype-limits is now globally disabled, such a workaround
-> now becomes useless. Remove the __is_nonneg()'s cast and its related
-> comment.
+> That's fair.
 > 
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
-> ---
-> Changelog:
+> > > +impl<T: DriverGpuVm> Drop for GpuVmBoAlloc<T> {
+> > > +    #[inline]
+> > > +    fn drop(&mut self) {
+> > > +        // SAFETY: It's safe to perform a deferred put in any context.
+> > > +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) };
+> > 
+> > This does not need to be deferred, no?
 > 
->   v1 -> v2: new patch
-> ---
->  include/linux/minmax.h | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+> I think what I *actually* want to call here is
 > 
-> diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-> index a0158db54a04..3e2e3e539ba1 100644
-> --- a/include/linux/minmax.h
-> +++ b/include/linux/minmax.h
-> @@ -52,9 +52,6 @@
->  /*
->   * Check whether a signed value is always non-negative.
->   *
-> - * A cast is needed to avoid any warnings from values that aren't signed
-> - * integer types (in which case the result doesn't matter).
-> - *
->   * On 64-bit any integer or pointer type can safely be cast to 'long long'.
->   * But on 32-bit we need to avoid warnings about casting pointers to integers
->   * of different sizes without truncating 64-bit values so 'long' or 'long long'
-> @@ -65,7 +62,7 @@
->   * but they are handled by the !is_signed_type() case).
->   */
->  #if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-> -#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
-> +#define __is_nonneg(ux) statically_true((ux) >= 0)
->  #else
->  #define __is_nonneg(ux) statically_true( \
->  	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
+> 	kref_put(&self->kref, drm_gpuvm_bo_destroy_not_in_lists_kref);
 > 
-
+> like what drm_gpuvm_bo_obtain_prealloc() does as of the first patch in
+> this series.
+> 
+> > > +    }
+> > > +}
+> > > +
+> > > +/// A [`GpuVmBo`] object in the GEM list.
+> > > +///
+> > > +/// # Invariants
+> > > +///
+> > > +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` and is present in the gem list.
+> > > +pub struct GpuVmBoObtain<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+> > 
+> > How is this different from GpuVmBo? The only object that is not in the GEM list
+> > should be GpuVmBoAlloc, i.e. the preallocated one.
+> 
+> The difference is whether there is pointer indirection or not.
+> 
+> This type is morally an ARef<GpuVm<T>>, except I don't expose any way
+> to increment the refcount.
+> 
+> Alice
