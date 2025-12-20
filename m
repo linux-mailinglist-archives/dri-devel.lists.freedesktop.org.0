@@ -2,76 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FADACD3977
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 02:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD41CD3560
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 19:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CC210E25C;
-	Sun, 21 Dec 2025 01:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 029F710E1E7;
+	Sat, 20 Dec 2025 18:50:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YE1d+uyP";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="Z/HN/Uek";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DC810E1E7
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 18:48:52 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7b80fed1505so3063341b3a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766256531; x=1766861331; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/oncLln8FbSPaRUU+p2VE2LXXFaw2yjD++vmbH5oIfY=;
- b=YE1d+uyPQ+QTSIoIrBZpx1jGNC0u26lpPfZknOMpBavtAqAHQNR0RnA/mT3tVVUrFl
- 5gvowCcsuMCQZ6NVVsjnj3eYdGPA7YxW8A+E/syTcKBubAgwVHE+GG2je1sPFTyJ7Ewv
- XmOH026Ud3MQn99F1cR2y6QdoHKCLBq98JfmYl+1faXm+yLwJZOo0Qw+SHg4IHz6TL4s
- ytZpxqsviiuNCXcdhDRWJWBHpP4aRa9gD7iSgptXIZyImIKAOa4xs/CjwoWc6ElQQ8Rt
- Ck9zJ1VIqsXY913xvXHrkOIdbdAd/nFElgjdH9qVagA0lMmC9OXfJlWm3l7kH0SR2Qsk
- 6BaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766256531; x=1766861331;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/oncLln8FbSPaRUU+p2VE2LXXFaw2yjD++vmbH5oIfY=;
- b=p9HBUy565D/LFQzUaY2soraDfQfor6qQqkWtnnRKI8lUBXFNyhrajqGHOtGjUmqpqp
- jtkjpCtu0NUOXQ+n/QAnjtrZYyGOVNHcciJ5UpFOWjK+SzS7wDefqWBqmMDQ1NnPXbwy
- T3U6a9FWsa1pvKbQaAYZjGbhI/0xm+uEeJwrgxSWiQNRcHVvIYu9nPt+VQ+irMdmCcLj
- LXvDPGred/9MPuY3CHIua90r9wu2l9GqEHb/sA+HhAJD0gS/R1cMTZ/+dUfpsaxydEDX
- U8sk9pIaqwvkBIIMv9W/vBqK+O7aLSjGTP69r3v0d6ZNEz0CZAxuizwyTt+uk5znFa+1
- +M7g==
-X-Gm-Message-State: AOJu0YwMVRA+khcH3bG1k4TEtKgpcD3DqeiSKJa49QoutF8ePFt1jB5m
- PN7rsK14IwHFd5/cJwyMoIuDh31aUXHn8dnt2u4i193BpYRcgR7WrT8j
-X-Gm-Gg: AY/fxX5f4+TwlDEs318wRLMXQCymoUg9eVHa5VEPDXRflKtnPcyFz7BA2lejZBSNXdD
- HntsAVasrzHy/1+uimVFPlbxw4STg4qGZwINr2sBw9M5I5OBD4Vhpe9zNQSOgKSx0wPFekEXgAq
- +5OECuUeykZsxdiPjpmRIsPl+vaOK1GMt3C4KrVGtEIaXJgEqJGjFABvPh+FpVK20AtwNRT1H/v
- OHX8MdqUWq57MGCgbouBwDHZBfMQAQpRL9XAhNOcHpQQiJw+Zv+HVwyrIPhPj2SDUF5ipCN+f0K
- 7QInmcJH2S27SbozUDqdfNFNctesgWrvjZXwVqqW0CFRhQebDdgxiADf26W0dXux21JyElY42xc
- Nc4efhQZc6L+aa225Nw0it7ecZBJoxSgRTmO6jv9Fe44SgBR90Ajm/Z4RDVJ6rf7hH2OkQG3CO+
- DRVXOyZhl1msicOVUfAbJ4CfBz4ajA4EBuCEoR9Yw6KuSq+1YOIRvh8a53aDZA/Q==
-X-Google-Smtp-Source: AGHT+IE/r1ZKcCOrAZwJE2R6ewFbpafDZ6VWGE4Pg71TQwfDZy+wfImVOERYUn/yZRaGiGCgTeRnUQ==
-X-Received: by 2002:a05:7022:b88b:b0:11b:b179:6e17 with SMTP id
- a92af1059eb24-121723092d6mr6262195c88.34.1766256531231; 
- Sat, 20 Dec 2025 10:48:51 -0800 (PST)
-Received: from titanite-d300.amd.com ([165.204.154.57])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-1217254d369sm23432761c88.16.2025.12.20.10.48.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Dec 2025 10:48:50 -0800 (PST)
-From: Mukesh Ogare <mukeshogare871@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mukesh Ogare <mukeshogare871@gmail.com>
-Subject: [PATCH] drm/radeon: convert UVD v1.0 logging to drm_* helpers
-Date: Sun, 21 Dec 2025 02:47:55 +0800
-Message-ID: <20251220184755.1803625-1-mukeshogare871@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEFB110E1E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 18:50:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766256623; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nc+bpHUqO3akszbIQOAVQ2c/UgKIF9WoiM0TygwVRmiF7sOdpWY29x+6qzu5f/eqUVNXmb0yKISnbFku9l4p6Iv/eiReb5NBVCpLhsWbNOU4WtFm8HZhB+3ozUw5S3x12XP3wBokkMeltCTduI37yVyS2eZinfd1PPC4a6cw/8U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1766256623;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=8ZSVY3KLNoEae4fCTRliOjZfdWRvSMnTf7vfGcKNjSI=; 
+ b=XTxnaUoeL4NU2j1FibI5tJAlERx/F05peZ3di8KRZp07pg5Pd1Kjy6OE14Ad04PVmoQg0ZkXXEZKxSpFDV/0lVAL0CM3WFa+qlXBjyDlr2O02aNhssZBqoiUTO4KUgzzFNQnGpn/bQxDGAew1hh2uSOeInXHlaV1fy5Xt0g4/0c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766256623; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=8ZSVY3KLNoEae4fCTRliOjZfdWRvSMnTf7vfGcKNjSI=;
+ b=Z/HN/UekzVsb0dBD5AKn00716tT6o8BCVCucj9qrnh7yOM7EConle4Xaygfq4lkD
+ tRszBJGUFpF9Yje3ysbfQp5rFZatnhMUVQiSxyxNcYG9/eeYu0K8hTZzE+/0id0B2p8
+ gxn9o0i7E2m+LFYApbzfLbwQTFEXFVvHLpGDU6qM=
+Received: by mx.zohomail.com with SMTPS id 1766256622429134.8394294983167;
+ Sat, 20 Dec 2025 10:50:22 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v2 0/4] Make MT8196 get its Mali GPU shader_present from nvmem
+Date: Sat, 20 Dec 2025 19:49:51 +0100
+Message-Id: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 21 Dec 2025 01:26:28 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM/vRmkC/4WOyw6CMBBFf4XM2lFalNfK/zAsSjuVJkCxrURD+
+ HcruHc1OTc5d+4CnpwhD3WygKPZeGPHCPyQgOzEeCc0KjLwlF8YZwUOoWRVjr4TihxOjjyNAYk
+ rmemq0LI4Q3Rjrs1r6701Ozt6PGN92ENohSeUdhhMqBPlBgxmOv0ufJXO+GDde1s2s835M2Jmm
+ KLOdakzIRhV2VXavhetdeIYP0GzrusH68ZF0fEAAAA=
+X-Change-ID: 20251217-mt8196-shader-present-e2dc3f97fc74
+To: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-pm@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,120 +81,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace legacy DRM_ERROR()/DRM_INFO() logging in the UVD v1.0 code
-with drm_err() and drm_info() helpers that take a struct drm_device.
+The MediaTek MT8196 SoC's Mali SHADER_PRESENT register does not list
+only functional shader cores, but also those that are fused off to
+improve yield.
 
-Using drm_* logging provides proper device context in dmesg, which is
-important for systems with multiple DRM devices, and aligns the radeon
-driver with current DRM logging practices.
+The SHADER_PRESENT bitmask with the one fused off core omitted is to be
+found in an efuse. However, the efuse address is considered
+confidential, and is not public knowledge.
 
-No functional change intended.
+The MT8196 GPUEB MCU, which does the power management for the Mali GPU
+on this SoC, knows and reads the efuse however, and exposes it in the
+shared memory intended to communicate state to the application
+processor. Reading the bitmask from this shared memory area is the
+vendor's intended solution.
 
-Signed-off-by: Mukesh Ogare <mukeshogare871@gmail.com>
+This series models this in the binding and implements it in the
+corresponding Linux drivers:
+- the mali-valhall-csf binding gets an nvmem-cells/nvmem-cell-names
+  property to declare that shader-present is in a different castle
+- the mt8196-gpufreq binding requires nodes to expose the shader-present
+  cell
+- panthor checks for the presence of the shader-present cell and uses it
+  as the shader-present value if it's found, instead of the Mali GPU
+  register contents
+- mtk-mfg-pmdomain becomes an nvmem provider and will happily serve
+  queries for the shader-present cell
 
-diff --git a/drivers/gpu/drm/radeon/uvd_v1_0.c b/drivers/gpu/drm/radeon/uvd_v1_0.c
-index 5684639d20a6..5e6607e16244 100644
---- a/drivers/gpu/drm/radeon/uvd_v1_0.c
-+++ b/drivers/gpu/drm/radeon/uvd_v1_0.c
-@@ -179,7 +179,7 @@ int uvd_v1_0_init(struct radeon_device *rdev)
- 
- 	r = radeon_ring_lock(rdev, ring, 10);
- 	if (r) {
--		DRM_ERROR("radeon: ring failed to lock UVD ring (%d).\n", r);
-+		drm_err(&rdev->ddev, "radeon: ring failed to lock UVD ring (%d).\n", r);
- 		goto done;
- 	}
- 
-@@ -232,7 +232,7 @@ int uvd_v1_0_init(struct radeon_device *rdev)
- 			break;
- 		}
- 
--		DRM_INFO("UVD initialized successfully.\n");
-+		drm_info(&rdev->ddev, "UVD initialized successfully.\n");
- 	}
- 
- 	return r;
-@@ -338,7 +338,7 @@ int uvd_v1_0_start(struct radeon_device *rdev)
- 		if (status & 2)
- 			break;
- 
--		DRM_ERROR("UVD not responding, trying to reset the VCPU!!!\n");
-+		drm_err(&rdev->ddev, "UVD not responding, trying to reset the VCPU!!!\n");
- 		WREG32_P(UVD_SOFT_RESET, VCPU_SOFT_RESET, ~VCPU_SOFT_RESET);
- 		mdelay(10);
- 		WREG32_P(UVD_SOFT_RESET, 0, ~VCPU_SOFT_RESET);
-@@ -347,7 +347,7 @@ int uvd_v1_0_start(struct radeon_device *rdev)
- 	}
- 
- 	if (r) {
--		DRM_ERROR("UVD not responding, giving up!!!\n");
-+		drm_err(&rdev->ddev, "UVD not responding, giving up!!!\n");
- 		return r;
- 	}
- 
-@@ -427,7 +427,7 @@ int uvd_v1_0_ring_test(struct radeon_device *rdev, struct radeon_ring *ring)
- 	WREG32(UVD_CONTEXT_ID, 0xCAFEDEAD);
- 	r = radeon_ring_lock(rdev, ring, 3);
- 	if (r) {
--		DRM_ERROR("radeon: cp failed to lock ring %d (%d).\n",
-+		drm_err(&rdev->ddev, "radeon: cp failed to lock ring %d (%d).\n",
- 			  ring->idx, r);
- 		return r;
- 	}
-@@ -442,10 +442,10 @@ int uvd_v1_0_ring_test(struct radeon_device *rdev, struct radeon_ring *ring)
- 	}
- 
- 	if (i < rdev->usec_timeout) {
--		DRM_INFO("ring test on %d succeeded in %d usecs\n",
-+		drm_info(&rdev->ddev, "ring test on %d succeeded in %d usecs\n",
- 			 ring->idx, i);
- 	} else {
--		DRM_ERROR("radeon: ring %d test failed (0x%08X)\n",
-+		drm_err(&rdev->ddev, "radeon: ring %d test failed (0x%08X)\n",
- 			  ring->idx, tmp);
- 		r = -EINVAL;
- 	}
-@@ -507,34 +507,34 @@ int uvd_v1_0_ib_test(struct radeon_device *rdev, struct radeon_ring *ring)
- 	else
- 		r = radeon_set_uvd_clocks(rdev, 53300, 40000);
- 	if (r) {
--		DRM_ERROR("radeon: failed to raise UVD clocks (%d).\n", r);
-+		drm_err(&rdev->ddev, "radeon: failed to raise UVD clocks (%d).\n", r);
- 		return r;
- 	}
- 
- 	r = radeon_uvd_get_create_msg(rdev, ring->idx, 1, NULL);
- 	if (r) {
--		DRM_ERROR("radeon: failed to get create msg (%d).\n", r);
-+		drm_err(&rdev->ddev, "radeon: failed to get create msg (%d).\n", r);
- 		goto error;
- 	}
- 
- 	r = radeon_uvd_get_destroy_msg(rdev, ring->idx, 1, &fence);
- 	if (r) {
--		DRM_ERROR("radeon: failed to get destroy ib (%d).\n", r);
-+		drm_err(&rdev->ddev, "radeon: failed to get destroy ib (%d).\n", r);
- 		goto error;
- 	}
- 
- 	r = radeon_fence_wait_timeout(fence, false, usecs_to_jiffies(
- 		RADEON_USEC_IB_TEST_TIMEOUT));
- 	if (r < 0) {
--		DRM_ERROR("radeon: fence wait failed (%d).\n", r);
-+		drm_err(&rdev->ddev, "radeon: fence wait failed (%d).\n", r);
- 		goto error;
- 	} else if (r == 0) {
--		DRM_ERROR("radeon: fence wait timed out.\n");
-+		drm_err(&rdev->ddev, "radeon: fence wait timed out.\n");
- 		r = -ETIMEDOUT;
- 		goto error;
- 	}
- 	r = 0;
--	DRM_INFO("ib test on ring %d succeeded\n",  ring->idx);
-+	drm_info(&rdev->ddev, "ib test on ring %d succeeded\n",  ring->idx);
- error:
- 	radeon_fence_unref(&fence);
- 	radeon_set_uvd_clocks(rdev, 0, 0);
+While it would be preferable if we could read the efuse directly, it's
+not possible as things stand, and insisting on it will just keep this
+hardware from working in mainline. Running a GPU workload with a
+SHADER_PRESENT bitmask that includes a faulty core results in corrupt
+GPU rendering output.
+
+Modelling the mt8196-gpufreq device as a nvmem-cell provider however is
+not lying about the hardware's capabilities, as it truly does provide
+access to the nvmem-cell, even if it acts as a proxy.
+
+From a bindings and panthor perspective, this is also generic enough to
+where hypothetical other vendors doing the same thing (even with direct
+efuse access) can rely on the same cell name and implementation.
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Changes in v2:
+- panthor: move to nvmem_cell_read_variable_le_u64
+- mtk-mfg-pmdomain: put of_node in error path
+- mtk-mfg-pmdomain: remove leftover stray of_node_put on NULL
+- Link to v1: https://lore.kernel.org/r/20251217-mt8196-shader-present-v1-0-f6f8f3aa1e93@collabora.com
+
+---
+Nicolas Frattaroli (4):
+      dt-bindings: gpu: mali-valhall-csf: Add shader-present nvmem cell
+      dt-bindings: power: mt8196-gpufreq: Describe nvmem provider ability
+      drm/panthor: Implement reading shader_present from nvmem
+      pmdomain: mediatek: mtk-mfg: Expose shader_present as nvmem cell
+
+ .../bindings/gpu/arm,mali-valhall-csf.yaml         | 14 +++++
+ .../bindings/power/mediatek,mt8196-gpufreq.yaml    | 13 +++++
+ drivers/gpu/drm/panthor/panthor_hw.c               | 36 ++++++++++---
+ drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c       | 59 ++++++++++++++++++++++
+ 4 files changed, 116 insertions(+), 6 deletions(-)
+---
+base-commit: 638148c6ffa31d2e4958d51708ff3675221e2da7
+change-id: 20251217-mt8196-shader-present-e2dc3f97fc74
+
+Best regards,
 -- 
-2.43.0
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
