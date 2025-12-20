@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADC0CD2E6F
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 12:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4A5CD2E60
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 12:39:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E83910E114;
-	Sat, 20 Dec 2025 11:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFED510E1B3;
+	Sat, 20 Dec 2025 11:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eRk54O4f";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NMYzZabD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF54010E0EE
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 11:39:01 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B1B010E0EE
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 11:39:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7C5C1600AC;
+ by sea.source.kernel.org (Postfix) with ESMTP id 352D744498;
  Sat, 20 Dec 2025 11:39:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C75DDC116D0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D87F0C116B1;
  Sat, 20 Dec 2025 11:38:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1766230739;
- bh=0YCodWS7gYOUfVr9eRw29uPuIBWgDGdktNPCx0GQND4=;
+ bh=ZSl7VX+ectuA35Cq5fGXmDSmyYMQaB4PhCpN06TKMms=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=eRk54O4fGktlHBK25PWNetlTQNiFLoPaXfBqhwKeV1CUMxRcpfE10FxrWWT77JpNv
- emIVgqZEwj5eqVE7sIDMVUKsVO7wAYCbNAASEqwnOtrV1TO62SOCql1hGfg5vZvJyx
- ypHoxVePRCvlm/TNZsnIa96XJTHm1K2gzuPXJn3auwUmq7ysAq6rat3jlMSCuOqSJw
- IvwRS/wzCYmMRrdz+e/G64+Qi+ZhRRgSS1cwkjsVopBnC1NLJo6leV6+pP349VPHVs
- i23TVzQciJHETIj+qn2YkQvj67WWZkRWoDgsTqJMxGWukA00NGCiaU0FrL4YJ4ILN4
- p1JDc5uaBrymw==
+ b=NMYzZabDqNGONLMVA0B+yMfC7c9nGK6dX//JGtdmmnzrKC3rdmkyXe86kdFG5A6fI
+ vYJw4C5+BlHLuPz4DkJXhPm67lnWqwFSj34EkB1DBia6T2BiRpW5ATcCsPdQaWWWBW
+ hWxRPhhBNcLhhjiYoaS8lqC9oJJcG89VkIa6ckyOUjSRc7DCd4WY/J7u2fN/7TmRed
+ EGCE5hD5lxVskg7L1xl6hsr6lcrigqcEorQGlB3e6mij4MCCUv0A/7CarjFDL3Fp0W
+ FIXbuePrqxF1ez21lMrTXkPEA44uVCZMEf5LsVN/5xf8wv2gMcfwDtwRNN6DSJ/p56
+ LYIkFPAdjB6FA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id B7E90E668AE;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id C8B0EE668B6;
  Sat, 20 Dec 2025 11:38:59 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sat, 20 Dec 2025 12:38:57 +0100
-Subject: [PATCH v3 1/3] arm64: dts: qcom: x1e80100-vivobook-s15: enable
- ps8830 retimers
+Date: Sat, 20 Dec 2025 12:38:58 +0100
+Subject: [PATCH v3 2/3] arm64: dts: qcom: x1e80100-vivobook-s15: add HDMI port
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251220-asus_usbc_dp-v3-1-5e244d420d0f@hotmail.com>
+Message-Id: <20251220-asus_usbc_dp-v3-2-5e244d420d0f@hotmail.com>
 References: <20251220-asus_usbc_dp-v3-0-5e244d420d0f@hotmail.com>
 In-Reply-To: <20251220-asus_usbc_dp-v3-0-5e244d420d0f@hotmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -60,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Maud Spierings <maud_spierings@hotmail.com>, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766230738; l=9057;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766230738; l=2768;
  i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=paRbq4TP07QRE/JaL7Ivl9Q/DcsvlI96XxdrQtVUhB8=;
- b=iSiVAXhjL5obBTlBuoDi7TzAOJVA9Kn1RbR3cy1On7e8gXHK4GDNpHYLnVdLD49KB2UNGKQSv
- BlmSvuw6SGsAHXiwLqDpKD1FX0ovI9A1i2dzXp0T4ZjQNP95FHbX4+n
+ bh=3ptAm6qGVSRolPX0jnit+PVZXSkTtdmEbsUYnzzvwRI=;
+ b=02Xx0TgiYaut0BWpHZFfKhRC6D7t6DoFlxGM2FNP9iJRhYFMwt8fKvcytq54+vqjHjcOzrjwx
+ uE+nIAd5qQmCWQLOH/ynMzRGi2w7ojMf7rpy4eXknpBPIQONFZAcn4g
 X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
  pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
 X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
@@ -88,190 +87,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maud Spierings <maud_spierings@hotmail.com>
 
-The Asus vivobook s15 has two usb type c ports on the left side, these
-use parade ps8830 retimers like the others, enable them to also enable
-dp altmode
+Enable the HDMI port on left side of the laptop.
+
+The display signal is routed through a simple Displayport to HDMI
+bridge.
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 ---
- .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 310 ++++++++++++++++++++-
- 1 file changed, 302 insertions(+), 8 deletions(-)
+ .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 81 ++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-index d4df21de0d95..ea8ad67e511f 100644
+index ea8ad67e511f..d5794189b98b 100644
 --- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-@@ -69,7 +69,15 @@ port@1 {
- 					reg = <1>;
- 
- 					pmic_glink_ss0_ss_in: endpoint {
--						remote-endpoint = <&usb_1_ss0_qmpphy_out>;
-+						remote-endpoint = <&retimer_ss0_ss_out>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					pmic_glink_ss0_con_sbu_in: endpoint {
-+						remote-endpoint = <&retimer_ss0_con_sbu_out>;
- 					};
- 				};
- 			};
-@@ -98,7 +106,15 @@ port@1 {
- 					reg = <1>;
- 
- 					pmic_glink_ss1_ss_in: endpoint {
--						remote-endpoint = <&usb_1_ss1_qmpphy_out>;
-+						remote-endpoint = <&retimer_ss1_ss_out>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					pmic_glink_ss1_con_sbu_in: endpoint {
-+						remote-endpoint = <&retimer_ss1_con_sbu_out>;
- 					};
- 				};
- 			};
-@@ -147,6 +163,102 @@ vreg_nvme: regulator-nvme {
- 		regulator-boot-on;
+@@ -37,6 +37,45 @@ switch-lid {
+ 		};
  	};
  
-+	vreg_rtmr0_1p15: regulator-rtmr0-1p15 {
-+		compatible = "regulator-fixed";
++	hdmi-bridge {
++		compatible = "parade,ps185hdm";
 +
-+		regulator-name = "VREG_RTMR0_1P15";
-+		regulator-min-microvolt = <1150000>;
-+		regulator-max-microvolt = <1150000>;
-+
-+		gpio = <&pmc8380_5_gpios 8 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb0_pwr_1p15_reg_en>;
++		pinctrl-0 = <&hdmi_hpd_default>;
 +		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
-+	vreg_rtmr0_1p8: regulator-rtmr0-1p8 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VREG_RTMR0_1P8";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+
-+		gpio = <&pm8550ve_9_gpios 8 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb0_1p8_reg_en>;
-+		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
-+	vreg_rtmr0_3p3: regulator-rtmr0-3p3 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VREG_RTMR0_3P3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&pm8550_gpios 11 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb0_3p3_reg_en>;
-+		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
-+	vreg_rtmr1_1p15: regulator-rtmr1-1p15 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VREG_RTMR1_1P15";
-+		regulator-min-microvolt = <1150000>;
-+		regulator-max-microvolt = <1150000>;
-+
-+		gpio = <&tlmm 188 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb1_pwr_1p15_reg_en>;
-+		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
-+	vreg_rtmr1_1p8: regulator-rtmr1-1p8 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VREG_RTMR1_1P8";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+
-+		gpio = <&tlmm 175 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb1_pwr_1p8_reg_en>;
-+		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
-+	vreg_rtmr1_3p3: regulator-rtmr1-3p3 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VREG_RTMR1_3P3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&tlmm 186 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&usb1_pwr_3p3_reg_en>;
-+		pinctrl-names = "default";
-+
-+		regulator-boot-on;
-+	};
-+
- 	vph_pwr: regulator-vph-pwr {
- 		compatible = "regulator-fixed";
- 
-@@ -506,15 +618,62 @@ touchpad@15 {
- &i2c1 {
- 	clock-frequency = <400000>;
- 	status = "okay";
--
--	/* PS8830 USB4 Retimer? @ 0x8 */
- };
- 
- &i2c3 {
- 	clock-frequency = <400000>;
- 	status = "okay";
- 
--	/* PS8830 USB4 Retimer? @ 0x8 */
-+	typec-mux@8 {
-+		compatible = "parade,ps8830";
-+		reg = <0x08>;
-+
-+		clocks = <&rpmhcc RPMH_RF_CLK3>;
-+
-+		vdd-supply = <&vreg_rtmr0_1p15>;
-+		vdd33-supply = <&vreg_rtmr0_3p3>;
-+		vdd33-cap-supply = <&vreg_rtmr0_3p3>;
-+		vddar-supply = <&vreg_rtmr0_1p15>;
-+		vddat-supply = <&vreg_rtmr0_1p15>;
-+		vddio-supply = <&vreg_rtmr0_1p8>;
-+
-+		reset-gpios = <&pm8550_gpios 10 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&rtmr0_default>;
-+		pinctrl-names = "default";
-+
-+		orientation-switch;
-+		retimer-switch;
 +
 +		ports {
 +			#address-cells = <1>;
@@ -280,226 +119,98 @@ index d4df21de0d95..ea8ad67e511f 100644
 +			port@0 {
 +				reg = <0>;
 +
-+				retimer_ss0_ss_out: endpoint {
-+					remote-endpoint = <&pmic_glink_ss0_ss_in>;
++				hdmi_bridge_dp_in: endpoint {
++					remote-endpoint = <&usb_1_ss2_qmpphy_out_dp>;
 +				};
 +			};
 +
 +			port@1 {
 +				reg = <1>;
 +
-+				retimer_ss0_ss_in: endpoint {
-+					remote-endpoint = <&usb_1_ss0_qmpphy_out>;
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+
-+				retimer_ss0_con_sbu_out: endpoint {
-+					remote-endpoint = <&pmic_glink_ss0_con_sbu_in>;
++				hdmi_bridge_tmds_out: endpoint {
++					remote-endpoint = <&hdmi_con>;
 +				};
 +			};
 +		};
 +	};
- };
- 
- &i2c5 {
-@@ -583,13 +742,78 @@ &i2c7 {
- 	clock-frequency = <400000>;
- 	status = "okay";
- 
--	/* PS8830 USB4 Retimer? @ 0x8 */
-+	typec-mux@8 {
-+		compatible = "parade,ps8830";
-+		reg = <0x8>;
 +
-+		clocks = <&rpmhcc RPMH_RF_CLK4>;
++	hdmi-connector {
++		compatible = "hdmi-connector";
++		type = "a";
 +
-+		vdd-supply = <&vreg_rtmr1_1p15>;
-+		vdd33-supply = <&vreg_rtmr1_3p3>;
-+		vdd33-cap-supply = <&vreg_rtmr1_3p3>;
-+		vddar-supply = <&vreg_rtmr1_1p15>;
-+		vddat-supply = <&vreg_rtmr1_1p15>;
-+		vddio-supply = <&vreg_rtmr1_1p8>;
-+
-+		reset-gpios = <&tlmm 176 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&rtmr1_default>;
-+		pinctrl-names = "default";
-+
-+		retimer-switch;
-+		orientation-switch;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				retimer_ss1_ss_out: endpoint {
-+					remote-endpoint = <&pmic_glink_ss1_ss_in>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				retimer_ss1_ss_in: endpoint {
-+					remote-endpoint = <&usb_1_ss1_qmpphy_out>;
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+
-+				retimer_ss1_con_sbu_out: endpoint {
-+					remote-endpoint = <&pmic_glink_ss1_con_sbu_in>;
-+				};
++		port {
++			hdmi_con: endpoint {
++				remote-endpoint = <&hdmi_bridge_tmds_out>;
 +			};
 +		};
 +	};
++
+ 	pmic-glink {
+ 		compatible = "qcom,x1e80100-pmic-glink",
+ 			     "qcom,sm8550-pmic-glink",
+@@ -814,6 +853,14 @@ &mdss_dp1_out {
+ 	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
  };
  
- &mdss {
- 	status = "okay";
- };
- 
-+&mdss_dp0 {
++&mdss_dp2 {
 +	status = "okay";
 +};
 +
-+&mdss_dp0_out {
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-+};
-+
-+&mdss_dp1 {
-+	status = "okay";
-+};
-+
-+&mdss_dp1_out {
++&mdss_dp2_out {
 +	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
 +};
 +
  &mdss_dp3 {
  	/delete-property/ #sound-dai-cells;
  
-@@ -683,6 +907,37 @@ &pcie6a_phy {
- 	status = "okay";
- };
- 
-+&pm8550_gpios {
-+	rtmr0_default: rtmr0-reset-n-active-state {
-+		pins = "gpio10";
-+		function = "normal";
-+		power-source = <1>; /* 1.8V */
-+		bias-disable;
-+		input-disable;
-+		output-enable;
-+	};
-+
-+	usb0_3p3_reg_en: usb0-3p3-reg-en-state {
-+		pins = "gpio11";
-+		function = "normal";
-+		power-source = <1>; /* 1.8V */
-+		bias-disable;
-+		input-disable;
-+		output-enable;
-+	};
-+};
-+
-+&pm8550ve_9_gpios {
-+	usb0_1p8_reg_en: usb0-1p8-reg-en-state {
-+		pins = "gpio8";
-+		function = "normal";
-+		power-source = <1>; /* 1.8V */
-+		bias-disable;
-+		input-disable;
-+		output-enable;
-+	};
-+};
-+
- &pmc8380_3_gpios {
- 	edp_bl_en: edp-bl-en-state {
- 		pins = "gpio4";
-@@ -695,6 +950,17 @@ edp_bl_en: edp-bl-en-state {
- 	};
- };
- 
-+&pmc8380_5_gpios {
-+	usb0_pwr_1p15_reg_en: usb0-pwr-1p15-reg-en-state {
-+		pins = "gpio8";
-+		function = "normal";
-+		power-source = <1>; /* 1.8V */
-+		bias-disable;
-+		input-disable;
-+		output-enable;
-+	};
-+};
-+
- &qupv3_0 {
- 	status = "okay";
- };
-@@ -840,12 +1106,40 @@ wake-n-pins {
- 		};
- 	};
- 
-+	rtmr1_default: rtmr1-reset-n-active-state {
-+		pins = "gpio176";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
- 	tpad_default: tpad-default-state {
- 		pins = "gpio3";
- 		function = "gpio";
+@@ -1047,6 +1094,12 @@ hall_int_n_default: hall-int-n-state {
  		bias-disable;
  	};
  
-+	usb1_pwr_1p15_reg_en: usb1-pwr-1p15-reg-en-state {
-+		pins = "gpio188";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
++	hdmi_hpd_default: hdmi-hpd-default-state {
++		pins = "gpio126";
++		function = "usb2_dp";
++		bias-disable;
 +	};
 +
-+	usb1_pwr_1p8_reg_en: usb1-pwr-1p8-reg-en-state {
-+		pins = "gpio175";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
-+	usb1_pwr_3p3_reg_en: usb1-pwr-3p3-reg-en-state {
-+		pins = "gpio186";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
- 	wcn_bt_en: wcn-bt-en-state {
- 		pins = "gpio116";
+ 	kybd_default: kybd-default-state {
+ 		pins = "gpio67";
  		function = "gpio";
-@@ -914,7 +1208,7 @@ &usb_1_ss0_dwc3_hs {
+@@ -1243,6 +1296,34 @@ &usb_1_ss1_qmpphy_out {
+ 	remote-endpoint = <&retimer_ss1_ss_in>;
  };
  
- &usb_1_ss0_qmpphy_out {
--	remote-endpoint = <&pmic_glink_ss0_ss_in>;
-+	remote-endpoint = <&retimer_ss0_ss_in>;
- };
- 
- &usb_1_ss1_hsphy {
-@@ -946,7 +1240,7 @@ &usb_1_ss1_dwc3_hs {
- };
- 
- &usb_1_ss1_qmpphy_out {
--	remote-endpoint = <&pmic_glink_ss1_ss_in>;
-+	remote-endpoint = <&retimer_ss1_ss_in>;
- };
- 
++&usb_1_ss2_qmpphy {
++	vdda-phy-supply = <&vreg_l2j_1p2>;
++	vdda-pll-supply = <&vreg_l2d_0p9>;
++
++	/delete-property/ mode-switch;
++	/delete-property/ orientation-switch;
++
++	status = "okay";
++
++	ports {
++		port@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			/delete-node/ endpoint;
++
++			usb_1_ss2_qmpphy_out_dp: endpoint@0 {
++				reg = <0>;
++
++				data-lanes = <3 2 1 0>;
++				remote-endpoint = <&hdmi_bridge_dp_in>;
++			};
++
++			/* No USB3 lanes connected */
++		};
++	};
++};
++
  &usb_2 {
+ 	status = "okay";
+ };
 
 -- 
 2.52.0
