@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8D0CD2CED
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:05:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72594CD2D45
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27DB710E22E;
-	Sat, 20 Dec 2025 10:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C767910E2C6;
+	Sat, 20 Dec 2025 10:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Fq214dmH";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="U7KRWRoK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
- [209.85.218.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7860710E22E
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:05:38 +0000 (UTC)
-Received: by mail-ej1-f73.google.com with SMTP id
- a640c23a62f3a-b7a29e6f9a0so332284566b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 02:05:38 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 085C310E27F
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:18:37 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-477cf25ceccso25866465e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 02:18:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1766225137; x=1766829937;
+ d=google.com; s=20230601; t=1766225915; x=1766830715;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=+5We+jBO0+cCD3c++ROAWKy2uW8li7ctcnKyzh7ve8o=;
- b=Fq214dmHve4crsGTs5FRs/zXb/FV56KVjA5g/kL+O6HjMcsYjVcDoXEvH9NUpSYPUe
- pdPJwI14yEmYw+qrLpxPBTpYk3YctXWmwcrXVBrQmwtpeF4c44MxO+6fAlN4zKvA6kvz
- 1kx5mF0FC4lFfRFQqfuCWZX9aPT/WqUU2svyuZzB7yyGNhRdlwSQOTx6wQI3tF9nRkmc
- vxbAezIp0TY7TIgvMbB7LMPFfXWtqx2jyzoeWZRyG88nwiopyuSq5TmUbSxX87b9rBRj
- uijT7s6Ciq1XEtU1JRBpzpWsC6Vw1jpLPRFoMtam0jN2iszZ15uVMUSBdT9sN7IDBUGp
- R+Ng==
+ bh=+oURe4aXMdk0LjKAZ44d1/hPSLfZHh6FrPzIxlIWzd8=;
+ b=U7KRWRoKEX8G1249GJssoQfEj86+AwYy34keNYoi18HPm/kArEqd0CRLZ300+pSzid
+ at+y7kXsm494dEaNwxOEXEqhmWW+J9rkj0ltkHZM8sDXKEEjazn38eTVhrskBS2wL6EY
+ X1D7xGbuhNUAR2dRQOvl7bSeXN9dxCj2eLy47AS1fd7XJ6NCawiTjVWUy7mqn7dK87O5
+ 0Xz6wUnz26vVj8EDvVYk6De45n/QVdJSFKs2LepD/Z1Kod5iCPDby37bbyBQnz5o1Wmp
+ YB65Bcw/L7MqC610K7Ncf05tilfycGutkqC6lUL2i9UPJXBAgIWjnUpV6PniFeznE/H/
+ 86rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766225137; x=1766829937;
+ d=1e100.net; s=20230601; t=1766225915; x=1766830715;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+5We+jBO0+cCD3c++ROAWKy2uW8li7ctcnKyzh7ve8o=;
- b=SwBfv38aZ1bdYBEcsWBwZHmELccbA8oz58KETarg8rn8hYp0qYMM2XlayM1MDIrhem
- DApcw7ZfL7IMdn2QYdnSelQVvOhIxYbNoZJu1MGPhxNizX/t4eAMsxBlBDYqXQ1EJo9H
- eRSoStq6klK91jZxUgtibKU+hfEhYuHMrej5axQgmmHRIeDalsjjlZ+LMaxD2TI2Wk3s
- FjiPV9NHgwGXrIwwlVIQbz8ejYyCoKHNznx+cqRjp2Ay4QPa6lrQO/xxwWzztRootvxp
- 0dLBVfmbqheJDx7CyLv1pYL44IZ8Bw7r92rSwFGH/+X2IjaMmwkoRhCprW9cwbJ1KbCZ
- tmdg==
+ bh=+oURe4aXMdk0LjKAZ44d1/hPSLfZHh6FrPzIxlIWzd8=;
+ b=NdUIdq2O4l+MrMS5N102j72bEP0F5Da90vn6BHF4+EekxRuxSal+iK4XEHmddOaWYI
+ wRF6dV36lUuGDMKLNUyBNwMfiYyn5jj6cBQfiUNzarKdQDerVaYC6zOiEVjVdy15u4AM
+ 5jxf6P4Xhipix9Q3+PGncHnMSoFTz1ZGi3HB563X8fTFRrHMJoT7Nd7nRIfnx61CbFcr
+ Weh+nETuHohfiLnmc31pvVpw1InLCDyXdzt3VCNWNpcclQkYxZVL7gs4t3qZrXDHU4Sj
+ GZarxhG3sQWVjYodH6I2WdAKMCkHf3Vntk7In6S0J4G14DJGDFQPsczbJRxEXi4b7cX6
+ qmyA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXK35uteNL6klx2E8hW2uUqH3R1u7k5XqEHDHJJ/MNSdG0x/9cE2uzVN1ZiwLB3wuCucSf0wgBssnk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqbwJnsWQOYuu9KTwmJmezDBgU2E+VJQpgngf7I7jLXeAA+SQv
- YdMiD9a4UqUh22AIzvJn3AipkZXE6E807/lZIvVrV1tS88ohatU42LDF3hlX3Y9INSb0mclK7e+
- PhsUoPv1WWrn+TSBfwQ==
-X-Google-Smtp-Source: AGHT+IH+qbCL3E4KlR/xCuII76jDF4Kk0p12le+sQrE5wjNjdmbXoR9Ff184WWDRAFxJ6twYy7w7Nft4HG28DGY=
-X-Received: from edtn6.prod.google.com ([2002:aa7:db46:0:b0:64b:a192:b5])
+ AJvYcCWYVZZ0dtd91tQqcjEcsFaojqYOMImQejpMqA/LTTOurnFU0FI/z4Sa7pnyqcAjC9y3UulyfwF1uBQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoifWFwcUAO1rmIHhmMYgNXYTWU7yuyPs1PGgznqhe/jjfpzcb
+ NapHoswfmgVg5jlsE/kNxTMRqrr5601VYSov+Srdzt8vIOrKSCSH5Hn25MNG/+Z3G1PdZ50EPUu
+ Pfq5FEaw93nJgg4ajpQ==
+X-Google-Smtp-Source: AGHT+IHezTbdkQabpgPR3pVcmu1YjPdSolIwP7RQSXNt0PalcelZIDHJL+QGmDx/ShI8sV3gW2XIBlw4p3buplU=
+X-Received: from wmxa7-n1.prod.google.com
+ ([2002:a05:600d:6447:10b0:477:5a0f:1860])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:7814:b0:b80:4141:a470 with SMTP id
- a640c23a62f3a-b804141a5d5mr252551866b.6.1766225136958; 
- Sat, 20 Dec 2025 02:05:36 -0800 (PST)
-Date: Sat, 20 Dec 2025 10:05:35 +0000
-In-Reply-To: <aUZw4fpWRUWFsb9r@google.com>
+ 2002:a05:600c:8b8b:b0:46e:6d5f:f68 with SMTP id
+ 5b1f17b1804b1-47d19566aa8mr51108125e9.12.1766225915629; 
+ Sat, 20 Dec 2025 02:18:35 -0800 (PST)
+Date: Sat, 20 Dec 2025 10:18:34 +0000
+In-Reply-To: <aUZ07zYew7Mfwc_C@google.com>
 Mime-Version: 1.0
 References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
  <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
  <DF2AXQ67412G.33JOX2CF0VFCK@kernel.org>
- <aUZw4fpWRUWFsb9r@google.com>
-Message-ID: <aUZ07zYew7Mfwc_C@google.com>
+ <aUZw4fpWRUWFsb9r@google.com> <aUZ07zYew7Mfwc_C@google.com>
+Message-ID: <aUZ3-iStCAWShvt8@google.com>
 Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
 From: Alice Ryhl <aliceryhl@google.com>
 To: Danilo Krummrich <dakr@kernel.org>
@@ -106,77 +107,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 20, 2025 at 09:48:17AM +0000, Alice Ryhl wrote:
-> On Fri, Dec 19, 2025 at 04:35:00PM +0100, Danilo Krummrich wrote:
-> > On Fri Nov 28, 2025 at 3:14 PM CET, Alice Ryhl wrote:
-> > > +    /// Returns a [`GpuVmBoObtain`] for the provided GEM object.
-> > > +    #[inline]
-> > > +    pub fn obtain(
-> > > +        &self,
-> > > +        obj: &T::Object,
-> > > +        data: impl PinInit<T::VmBoData>,
-> > > +    ) -> Result<GpuVmBoObtain<T>, AllocError> {
-> > > +        Ok(GpuVmBoAlloc::new(self, obj, data)?.obtain())
-> > > +    }
-> > 
-> > Does this method make sense? We usually preallocate a VM_BO, then enter the
-> > fence signalling critical path and then obtain the VM_BO.
-> 
-> Hmm, but there is something tricky here. When do we add it to the extobj
-> list, then? If we add it before starting the critical path, then we must
-> also call drm_gpuvm_bo_obtain_prealloc() before starting the critical
-> path because obtain must happen before drm_gpuvm_bo_extobj_add(). And
-> adding it to extobj after signalling the fence seems error prone.
-> 
-> And besides, adding it to the extobj list before the critical path
-> means that we can have drm_gpuvm_exec_lock() lock the new BO without
-> having to do anything special - it's simply in the extobj list by the
-> time we call drm_gpuvm_exec_lock().
-> 
-> > > +impl<T: DriverGpuVm> DerefMut for GpuVmCore<T> {
-> > > +    #[inline]
-> > > +    fn deref_mut(&mut self) -> &mut T {
-> > > +        // SAFETY: By the type invariants we may access `core`.
-> > > +        unsafe { &mut *self.0.core.get() }
-> > > +    }
-> > > +}
-> > 
-> > Hm..it seems more natural to me to deref to &GpuVm<T> and provide data() and
-> > data_mut().
-> 
-> That's fair.
-> 
-> > > +impl<T: DriverGpuVm> Drop for GpuVmBoAlloc<T> {
-> > > +    #[inline]
-> > > +    fn drop(&mut self) {
-> > > +        // SAFETY: It's safe to perform a deferred put in any context.
-> > > +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) };
-> > 
-> > This does not need to be deferred, no?
-> 
-> I think what I *actually* want to call here is
-> 
-> 	kref_put(&self->kref, drm_gpuvm_bo_destroy_not_in_lists_kref);
-> 
-> like what drm_gpuvm_bo_obtain_prealloc() does as of the first patch in
-> this series.
-> 
-> > > +    }
-> > > +}
-> > > +
-> > > +/// A [`GpuVmBo`] object in the GEM list.
-> > > +///
-> > > +/// # Invariants
-> > > +///
-> > > +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` and is present in the gem list.
-> > > +pub struct GpuVmBoObtain<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
-> > 
-> > How is this different from GpuVmBo? The only object that is not in the GEM list
-> > should be GpuVmBoAlloc, i.e. the preallocated one.
-> 
-> The difference is whether there is pointer indirection or not.
-> 
-> This type is morally an ARef<GpuVm<T>>, except I don't expose any way
-> to increment the refcount.
-> 
-> Alice
+On Sat, Dec 20, 2025 at 10:05:35AM +0000, Alice Ryhl wrote:
+
+Aha! This one didn't get duplicated on lore. It's the nouveau list that
+is broken.
+
+Alice
