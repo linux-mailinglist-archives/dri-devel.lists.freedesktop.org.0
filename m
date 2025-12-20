@@ -2,126 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090E3CD2466
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 01:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35780CD2478
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 01:45:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8857910F02B;
-	Sat, 20 Dec 2025 00:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507EF10F11C;
+	Sat, 20 Dec 2025 00:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JrCFVGtP";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eqsFm8BI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GuUzmWct";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3266B10F02B
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 00:42:47 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BJNO44r2704818
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 00:42:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=JOGt5/7g49gJezpOEHrF48C/QV2MS3EEhUzdFDmEb1Y=; b=Jr
- CFVGtPYigp2xekdP7NSsVHZw4ZM8O+6A+55929D2nwL9taxUVeadc98/08DQ6atw
- K0iFclY6I8x39qVt/1irZlJFKWef0alBG5nU9LeYq07HMVSHGQ/EAuk2FBTlk6z5
- ONT/Xk8buEtv4aRA/0E/n/3YwlDTvcX5AdxKKEDXy8Wls3jbmkNF5xTlQ5qsEgRJ
- 0+l/uc0EjO18aRxE3iWL6cIMLzufyFDBs69Z7pjHzUGurogB5D0cw5wS4g8A7pEE
- IYzjaiURIUep4lwPZMKi25mSedKmd1KuyBSB6I+hFjePHeR7lNXahrF+N6l4szEs
- ujPBJmaARXDXOZMOlbzQ==
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5frq86gv-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 00:42:45 +0000 (GMT)
-Received: by mail-oo1-f72.google.com with SMTP id
- 006d021491bc7-657486eb435so3145208eaf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 16:42:45 -0800 (PST)
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com
+ [74.125.224.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E52A110F11C
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 00:45:28 +0000 (UTC)
+Received: by mail-yx1-f54.google.com with SMTP id
+ 956f58d0204a3-6446c924f9eso2195303d50.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Dec 2025 16:45:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766191365; x=1766796165;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1766191528; x=1766796328; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=JOGt5/7g49gJezpOEHrF48C/QV2MS3EEhUzdFDmEb1Y=;
- b=eqsFm8BITOF7NCE4dOMXI73bMzkZUt77b+LGLhYSB4mdSK6w27VxkKaKwAJrlwNJwi
- qANSQ3hEmX9N85VUEKHXlZAsrrrgq8zuaEKj1jsPgeWqS3Me5+tgFq5CQfTPhNxSLUyY
- LmBOucjWlvRXeugi+7NSqd2VeQoARyR2qyAvu0dyk7R7Wq3IFtejFdmRAg/Vw57zsvsN
- G0xtAlgKP1ga0N3Mk5J7SOvzl9FSokgUe5gWndFXC/AJbOha0hgr/YgEDeXP+UI1v7+G
- Hj6c2ktQuFtxnqn2pBMf1Krnlb315NiTStUMlISrHxTKNk+H62OKLEfA+0G9NzqwX2mM
- rXsA==
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DLPI+6y1Cd274pWyRLM4LL7VX9uNyq+alqBEtAEYrvI=;
+ b=GuUzmWctwLCAEBIhRtZYk5P8etGdcTYINrn3d6SSHWrsGHn/K/Q5BXq3rFeHwO43Sf
+ BcdYO0uMW0Jy0MzTceZV01+3XFY/d++kEPdyLWX5k1jDfyrhA4+nc78s1VHnY+cvD1B7
+ MIZqDtBG159VuqxI1hy6KetPCS51d6YQQrGxJ1d35HeJ/jTnSRQ/aNi0O+xroQsHkte+
+ YB4i2+aJltvLtz4foAhksc0BsJUKLmQzD9ZyAKME0pfbgGbV6uyB+vuEJFFmXTvl/cQq
+ XAKHuVR0IJCsg/tHKEpfZEWFgY+e8M3Ns74S7mvCKnroD1ivx7jdwlFVWd4FPCmo45cs
+ quKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766191365; x=1766796165;
+ d=1e100.net; s=20230601; t=1766191528; x=1766796328;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JOGt5/7g49gJezpOEHrF48C/QV2MS3EEhUzdFDmEb1Y=;
- b=eYf7okGqTymUhcckbEqYO5zU1jXycsZ60rE6OUkdDRxCEEmj+IEJIAGzg6V6xAvtot
- cIM7kHp1MQZ1W+Cfde6DLLb6ORQvhATLqe4snAZ7C7xtzTHntvqAGzkBq7hgd5jyQwyx
- zK6LvrXktmRRIwUKjyfS1a1w5XrCuVOGGaKxpifHh4Cv11YmQuAE6S/+nel10KBK83pS
- YG0VNIkLvR+zW593vOTwxb1phxs3PsZyJgvGEOaBz+EtZbjTLIdMCux3EVOV+lb1VCyq
- dD12CxmKAXesIavisqmV+HQkKdadQDHGm0TGBdwpYOEcrzwUWFI/0rUc5ku6A2YIknkX
- ORlg==
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=DLPI+6y1Cd274pWyRLM4LL7VX9uNyq+alqBEtAEYrvI=;
+ b=UdSBc378iNx5wdiRwoi851rM3Sb07XfWhhbcVisdMgOxttBJ9pXWRScKlpCBrk9TxK
+ h8eMGwhGfjrJaX6X0OLzGo9oG46FMntobEd8fgGlyCcKAbU5QvNElA+rz8VaU35ndB6d
+ FHFFK3A+yMsogzZdIaRhLoG3OFQu5P3o2ywgviQToZ61XW8wY4HBYL1dTvY25QavLg2I
+ VqKOjt5Gr9l+yfDHEQRKXtO2yD8tbskGAGqZWSEGUh1W/Vf8M842gOFMudWHxK+KFpt0
+ 7BA/qqLpTMYgo9Tn6x4MYVrLDC0wvoSKLWz4v+RTQch8Hg38yCwQgnKvUUL0F0HXOhiV
+ hQFw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEkSvxU5xVptC5YfWZA3uuLrgbmpRlMYb+3TlD7dzkIkUil5O1atvHLYjFTr31G7ECWu1eP7jmZ/I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy3tBM2etxOlz5W+b+tsiu43DguD/REy6HchAMQQP2nt14pjMFo
- hj32YXiHwI86K6QAZTwvtHykouZx0MQyabsTJc9OcFP/neqt6k/H56mIGmIRTvivMFPobv2qOoz
- Jw1mSdJedXwg7DW0/1ftOE04fg4A4G2N1d98CeiDt8cVPkAXvNxUIosFBWW0HEktAxG286IT7bp
- BlDMvZTOFZ9X8TXUt6fs08OCTxfYbqSEsuW/19v5vcI/WMow==
-X-Gm-Gg: AY/fxX73VY7iuCMUNNBFcwLCHjXX5I+fbWTXydvVehk90IFlNu2NbkXz37OCWH3RSZj
- JkiTCiux1gPtM3X2Q23gDfiMuMHFAFsMxnU2YMEYwBd2gsbWj40EvY6FO/bSvMZqzhjU1DaNYND
- pUFiHxaosvbt4Nuq5QiIpITATwam5WmZad4vMZ2j2h4jI6ifuutifCoBhWapwjjtwqNQ==
-X-Received: by 2002:a05:6820:a93:b0:65d:4d4:e7c4 with SMTP id
- 006d021491bc7-65d0ea9d1a2mr1335952eaf.38.1766191365433; 
- Fri, 19 Dec 2025 16:42:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHfWlogR9xBl/XkUR0V/unvcetOQiM2J5qVYXxc3t+LBazokeb/IMmWiP8Yax26tVKm3/hUS8y1D/qy5l0k1bc=
-X-Received: by 2002:a05:6820:a93:b0:65d:4d4:e7c4 with SMTP id
- 006d021491bc7-65d0ea9d1a2mr1335938eaf.38.1766191365068; Fri, 19 Dec 2025
- 16:42:45 -0800 (PST)
+ AJvYcCUcwCBONAw5tiQhXo8cka6ElVZ2qwOr7O/BEzYZqWVIBFhGOkbLZUvRPYwlH0wssE57Pid2r6L+Rno=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjYRfB2EXieoqShbn129548ZRBf2s2pG5Z2mx5ir1A3rzeY3gu
+ fqpxyky3MbZ+OySnmog77yf5+eJR/xeclzd5qV3hiHByzWsF3p9xSV2JxVr1OWiOsqw9mG1764x
+ kCE6oErJ0Of+/n81FXp+4P78LyIDi+MQ=
+X-Gm-Gg: AY/fxX44crMG2pS253WeLx4NZPma5o6u1Wf8mu/+AEpwT6WktU3/h9bSudGTqvezw4i
+ 6VskwtuoxCKo2R1+NDVtkVcTeiNW9rUpZuNntVxA94C0V6z7nYOemtXigT+ywhEGk0lMoFdIC4G
+ 67lzxC0IZCaQ9sexFrY6m5jYHB4drDHCOhD6oFGXo6+w3Rv0dD9mP+h2nKexvhC5sGke0t6F2qz
+ q5GfaFTii0iOUYU/6VNUa/kWow8CB1tRwVinZfD1GK0Fm2ypoo3BHrBKTp5kNUYSpkR9FrDZWFz
+ tKVE0T797ZwTFW+sEbQjVN0vfZA2qco1EapA3s8=
+X-Google-Smtp-Source: AGHT+IGxV5Pk9FDKr/Lj9KKxcmNH7Vilqojhd5iNKpIgV73bbfC+PbBJ47gDiQQYvtv+vvVB4r13+qOWvY++J5PPenk=
+X-Received: by 2002:a53:6912:0:b0:645:5d62:dd8 with SMTP id
+ 956f58d0204a3-6466a8f31a3mr2853787d50.50.1766191527647; Fri, 19 Dec 2025
+ 16:45:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20251117132516.18834-1-alok.a.tiwari@oracle.com>
- <c97ee966-5864-4be5-9e6e-afc8a93dab5a@oss.qualcomm.com>
-In-Reply-To: <c97ee966-5864-4be5-9e6e-afc8a93dab5a@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Fri, 19 Dec 2025 16:42:33 -0800
-X-Gm-Features: AQt7F2o5phxtrNBceCPYAwCNEcUUmU_OixULB8ukBXOVsyDFaPSHw7bt6s4cKtU
-Message-ID: <CACSVV02h-51_YvtiU0yS5UEpaO7NsjBMOyfMbuF2hk6=8oMfig@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: check state before dereferencing in
- a6xx_show
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Alok Tiwari <alok.a.tiwari@oracle.com>, alok.a.tiwarilinux@gmail.com,
- jordan@cosmicpenguin.net, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- simona@ffwll.ch, airlied@gmail.com, marijn.suijten@somainline.org,
- sean@poorly.run, konradybcio@kernel.org, lumag@kernel.org,
- abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com
+References: <20251217-mt8196-shader-present-v1-0-f6f8f3aa1e93@collabora.com>
+ <20251217-mt8196-shader-present-v1-3-f6f8f3aa1e93@collabora.com>
+ <bdf5b4f9-d6f5-419d-9465-4f722bac06ef@arm.com>
+In-Reply-To: <bdf5b4f9-d6f5-419d-9465-4f722bac06ef@arm.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 19 Dec 2025 16:45:16 -0800
+X-Gm-Features: AQt7F2qLOWDeNcNuYDcamhHFDHG6i6Fg_mD7kZv-_AbDieajS4u9bPacZVvQHto
+Message-ID: <CAPaKu7So4BeEyUGSS3ZAHi+Z=Sh6Kpy_W8eEtX4UQs=__MpPEA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/panthor: Implement reading shader_present from
+ nvmem
+To: Steven Price <steven.price@arm.com>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>,
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: nYV_LmeWD_6maa-f2qpQ3SEmWBc77AcV
-X-Proofpoint-ORIG-GUID: nYV_LmeWD_6maa-f2qpQ3SEmWBc77AcV
-X-Authority-Analysis: v=2.4 cv=Mu9fKmae c=1 sm=1 tr=0 ts=6945f106 cx=c_pps
- a=wURt19dY5n+H4uQbQt9s7g==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=yPCof4ZbAAAA:8
- a=dNUZgOZt_aCjTAHcu2AA:9 a=QEXdDO2ut3YA:10 a=-UhsvdU3ccFDOXFxFb4l:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIwMDAwMyBTYWx0ZWRfX+ShzWLONtars
- 5MdD2LPKYiqsCDN1YHFugLnLZskBB3I4hEt1zukA0OHz34J0ouoBJaZ8NwV4YJapTNHpJ5qQXKH
- ZS6bi1zEcqqIBJcyQHn4A/TpBHdWw+EaLvCoaHz8j5qjMf8PLuQwTLvoYuhK5VhAldlUz8v7CHf
- EOdaG1SLkQDgJcrwcGqe0bUE80Av1kXGGkLBA3zUSVzKB6hDG+G4tQfypbtTVAjC7rFRHkRw7Re
- lu1y/70S47I9crsvd/XWbK7HrgDWVwz+udFZq58OF46qM8KYDiD9sVgEP/FtxIyAnx/QYOyBWn1
- pNJv1vKhJQEfJLZYesQ+Lp+Q97/QQo1eoJeMF7iCyU2NYE/T3WqlNB6aQq3/V4bL7iL39Fibw6T
- g0GeMMnR6VI++FfMfno4LlRhpjZ33tiyEArA9lDHkUHF/C3apW6QZu2WtjuYs1qoOqZqe4LVh62
- WHYP1DoMDpaaRQz4ipA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-19_08,2025-12-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0
- priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512200003
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,64 +99,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 18, 2025 at 5:57=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qualcom=
-m.com> wrote:
+On Fri, Dec 19, 2025 at 7:31=E2=80=AFAM Steven Price <steven.price@arm.com>=
+ wrote:
 >
-> On 11/17/2025 6:55 PM, Alok Tiwari wrote:
-> > Currently, a6xx_show() dereferences state before checking whether it is
-> > NULL or an error pointer.This can lead to invalid memory access if stat=
-e
-> > is invalid.
+> On 17/12/2025 17:03, Nicolas Frattaroli wrote:
+> > On some platforms, notably MediaTek MT8196, the shader_present bitmask
+> > in the Mali GPU register for it has cores enabled that may be faulty.
+> > The true shader_present bitmask is found in an efuse instead.
 > >
-> > Move the IS_ERR_OR_NULL(state) check to the top of the function before
-> > any use of state.
+> > Implement reading shader_present from an nvmem cell if one is present,
+> > falling back to the Mali register if it's absent. The error codes are
+> > trickled up through to the probe function so that probe deferral works.
 > >
-> > Fixes: 1707add81551 ("drm/msm/a6xx: Add a6xx gpu state")
-> > Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>
+> [Although I really hope other vendors don't do this - the hardware is
+> broken!]
+>
+> Although one NIT below if you respin for other reasons...
+>
 > > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >  drivers/gpu/drm/panthor/panthor_hw.c | 63 ++++++++++++++++++++++++++++=
+++++----
+> >  1 file changed, 57 insertions(+), 6 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/=
-drm/msm/adreno/a6xx_gpu_state.c
-> > index 4c7f3c642f6a..e408e1d84ade 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> > @@ -1976,14 +1976,14 @@ static void a6xx_show_debugbus(struct a6xx_gpu_=
-state *a6xx_state,
-> >  void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
-> >               struct drm_printer *p)
-> >  {
-> > +     if (IS_ERR_OR_NULL(state))
-> > +             return;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/pan=
+thor/panthor_hw.c
+> > index 87ebb7ae42c4..eb44c8b108aa 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> > @@ -1,6 +1,7 @@
+> >  // SPDX-License-Identifier: GPL-2.0 or MIT
+> >  /* Copyright 2025 ARM Limited. All rights reserved. */
+> >
+> > +#include <linux/nvmem-consumer.h>
+> >  #include <drm/drm_print.h>
+> >
+> >  #include "panthor_device.h"
+> > @@ -109,7 +110,52 @@ static char *get_gpu_model_name(struct panthor_dev=
+ice *ptdev)
+> >       return "(Unknown Mali GPU)";
+> >  }
+> >
+> > -static void panthor_gpu_info_init(struct panthor_device *ptdev)
+> > +static int overload_shader_present(struct panthor_device *ptdev)
+> > +{
+> > +     struct device *dev =3D ptdev->base.dev;
+> > +     struct nvmem_cell *cell =3D nvmem_cell_get(dev, "shader-present")=
+;
+> > +     ssize_t len;
+> > +     void *buf;
+> > +     int ret;
 > > +
-> >       struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> >       struct a6xx_gpu_state *a6xx_state =3D container_of(state,
-> >                       struct a6xx_gpu_state, base);
+> > +     if (IS_ERR(cell)) {
+> > +             /* On platforms without this cell, use the Mali register =
+*/
+> > +             if (PTR_ERR(cell) =3D=3D -ENOENT)
+> > +                     return 0;
+> > +
+> > +             return dev_err_probe(dev, PTR_ERR(cell),
+> > +                                  "Failed to get shader-present nvmem =
+cell\n");
+> > +     }
+> > +
+> > +     buf =3D nvmem_cell_read(cell, &len);
+> > +     if (IS_ERR(buf)) {
+> > +             ret =3D dev_err_probe(dev, PTR_ERR(buf),
+> > +                                 "Failed to read shader-present nvmem =
+cell\n");
+> > +             goto err_put_cell;
+> > +     }
+> > +
+> > +     if (!len || len > 8) {
+> > +             ret =3D dev_err_probe(dev, -EINVAL, "shader-present cell =
+can't be length %ld\n",
+> > +                                 len);
+> > +             goto err_free;
+> > +     }
+> > +
+> > +     memcpy(&ptdev->gpu_info.shader_present, buf, len);
+When len is 4, this is neither overriding nor masking. I might suggest
+switching to nvmem_cell_read_variable_le_u64 for simplicity.
+
+Either way, Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+
+
+> > +
+> > +     kfree(buf);
+> > +     nvmem_cell_put(cell);
+> > +
+> > +     return 0;
+> > +
+> > +err_free:
+> > +     kfree(buf);
+> > +err_put_cell:
+> > +     nvmem_cell_put(cell);
+> > +
+> > +     return ret;
+> > +}
 >
-> Are you saying that this container_of does a dereference?
-> I don't think so.
-
-it shouldn't..  but also there is no code path that reaches here with
-a IS_ERR_OR_NULL(state), AFAICT
-
-
-BR,
--R
-
-> -Akhil.
+> Rather than repeating the clean up, you can do something like:
 >
-> >       int i;
+> {
+>         void *buf =3D NULL;
+>         int ret =3D 0
+>
+>         if (IS_ERR(cell)) {
+>                 ret =3D dev_err_probe(...);
+>                 goto out;
+>         }
+>
+>         buf =3D nvmem_cell_read();
+>         if (IS_ERR(buf)) {
+>                 ret =3D dev_err_probe(...);
+>                 goto out;
+>         }
+>
+>         if (!len || len > 8) {
+>                 ret =3D dev_err_probe(...);
+>                 goto out;
+>         }
+>
+>         memcpy();
+>
+> out:
+>         if (!IS_ERR(buf))
+>                 kfree(buf);
+>         if (!IS_ERR(cell))
+>                 nvmem_cell_put(cell);
+>
+>         return ret;
+> }
+>
+> That avoids mistakes when adding a new operation into the sequence. Or
+> you can use the fancy new cleanup helpers, but that feels overkill here.
+> But equally I'm ok if you leave the code as is - it's simple enough and
+> the conversation can be done later if we need it.
+>
+> Thanks,
+> Steve
+>
+> > +
+> > +static int panthor_gpu_info_init(struct panthor_device *ptdev)
+> >  {
+> >       unsigned int i;
 > >
-> > -     if (IS_ERR_OR_NULL(state))
-> > -             return;
+> > @@ -143,13 +189,18 @@ static void panthor_gpu_info_init(struct panthor_=
+device *ptdev)
+> >               ptdev->gpu_info.tiler_present =3D gpu_read64(ptdev, GPU_T=
+ILER_PRESENT);
+> >               ptdev->gpu_info.l2_present =3D gpu_read64(ptdev, GPU_L2_P=
+RESENT);
+> >       }
+> > +
+> > +     return overload_shader_present(ptdev);
+> >  }
+> >
+> > -static void panthor_hw_info_init(struct panthor_device *ptdev)
+> > +static int panthor_hw_info_init(struct panthor_device *ptdev)
+> >  {
+> >       u32 major, minor, status;
+> > +     int ret;
+> >
+> > -     panthor_gpu_info_init(ptdev);
+> > +     ret =3D panthor_gpu_info_init(ptdev);
+> > +     if (ret)
+> > +             return ret;
+> >
+> >       major =3D GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> >       minor =3D GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> > @@ -172,6 +223,8 @@ static void panthor_hw_info_init(struct panthor_dev=
+ice *ptdev)
+> >                "shader_present=3D0x%0llx l2_present=3D0x%0llx tiler_pre=
+sent=3D0x%0llx",
+> >                ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_prese=
+nt,
+> >                ptdev->gpu_info.tiler_present);
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  static int panthor_hw_bind_device(struct panthor_device *ptdev)
+> > @@ -218,7 +271,5 @@ int panthor_hw_init(struct panthor_device *ptdev)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     panthor_hw_info_init(ptdev);
 > > -
-> >       drm_printf(p, "gpu-initialized: %d\n", a6xx_state->gpu_initialize=
-d);
+> > -     return 0;
+> > +     return panthor_hw_info_init(ptdev);
+> >  }
 > >
-> >       adreno_show(gpu, state, p);
 >
