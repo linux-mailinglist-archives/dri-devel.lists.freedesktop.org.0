@@ -2,61 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47341CD2FC8
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 14:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7718ECD2FD1
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 14:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D8810E14A;
-	Sat, 20 Dec 2025 13:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B7710E01F;
+	Sat, 20 Dec 2025 13:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nebk8W2Z";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="icc8dDOE";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kJ8ovLE4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24FA10E14A
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 13:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766237756; x=1797773756;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ezskSz0sv7K80z23n0Tip2Rc9GWmtbbYwI9uNkg5LOQ=;
- b=nebk8W2ZVyyeOsujCdiEfafF+e00cQMdKaJlM2JZNDDqbizKG26TlNgx
- Cb9vlD9Kvv56Y1k8mVPWk6ioFKGHCCEd63dk7arlV9MOHKL6f0cnRaYCC
- ejD3QBqt6zmZR4UANlIp25RtGgYxVA/cL3BOsDs2HSbjmNu0WQe8GbKkx
- sbZ/Gr57lW7o2nl2XZ2+scnqXbyXLclfl/Z+yQQvVGjDrSWD6q+p6EMmK
- fxVFXkLtcs548MCQplX71JEo5nCBKGFZBxd85rDWkR8P6ZBaXQ1QEj6Qc
- rFPPJvDELmkJfcEla5XwoXJoq7rZVuoRNrCfAAfjYMFBVWsVuk3FRBLOI g==;
-X-CSE-ConnectionGUID: VrlIfWpGQferousJM3H0UQ==
-X-CSE-MsgGUID: PSevk0pOQ7a3ZQCG0tmPRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67371184"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; d="scan'208";a="67371184"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2025 05:35:56 -0800
-X-CSE-ConnectionGUID: 03wkJFNkR/mGIr9S7WRaUQ==
-X-CSE-MsgGUID: ijjdsMViRjGA1kk4akL3Lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; d="scan'208";a="204039160"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 05:35:53 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vWx7f-000000004Yv-39vv;
- Sat, 20 Dec 2025 13:35:51 +0000
-Date: Sat, 20 Dec 2025 21:35:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arjun Changla <arjunchangla7@gmail.com>, andy@kernel.org,
- gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Arjun Changla <arjunchangla7@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: fix spacing before close parenthesis
-Message-ID: <202512202155.mVhDoKTO-lkp@intel.com>
-References: <20251218061406.8043-1-arjunchangla7@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A0410E01F
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 13:37:12 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BKBPoxK089284
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 13:37:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=onVr/ykTPBWcVxEDt3BDI+kt
+ /cs0vi1mzT38qepZ9rU=; b=icc8dDOEwl6cht5OL0a3XpXioLWuZT4mCuKAVS6k
+ 6PHSyDQOsD1g+vKvzTMahzUBvLg3HHZ6sDJ9c9mDnrwuezCbqH8PW6r9jLxPqFwM
+ Uy1H0JsJ/hH574xb1A9xiGg6Jb2K5Z+Wy2oDFUX61b41XSBpjI0872spNHCwc0O4
+ lkw6GvUo/KtdTVdyaE87bUQ2ON9OYe+l10jMUP+squBxcR+eBrTK22vbTvx2Dw7t
+ nrg1fbe2yfyXtK6nICOGyH8QcKt01yIZc9EvNbKdasipwve0GPNzwP5d9Bg6paDk
+ JXI9vY/9R8lZxQg+r/V7pcbx9O8nyKzs06AAdkSHGdpT3g==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mra8prq-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 13:37:11 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-8823f4666abso63318186d6.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 05:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1766237831; x=1766842631;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=onVr/ykTPBWcVxEDt3BDI+kt/cs0vi1mzT38qepZ9rU=;
+ b=kJ8ovLE4VIsFKWBH/HwrLtGlFEsDh/Drvt0JbPlVKO5U7MLppHTMiNBfvP5gKvQX1t
+ dYbKsaA9nGuVCRsrAm9uUbqJXQdSfnk5wzS3NBAh9+2o1Zw44rKXj00OXZO/WbdKRZgX
+ LdRdErId6giSWJedyQv9hH8buq8NVg9wvVdXcJz8eS4OJ8Hpcp2sIP1hgvT77IdCaoGL
+ PX6E8DqFeSckJ95JZw4Nzt97dZfYR45OoXltagckbUYzQ3C9SwyMa3ufU3OfY6kZWiBt
+ mGhDwRYQZp86Bljk+6H+pzOdv/QcG0MYtnW/tcTH/V3A3nkMhWqrFsxrO5H6DjEgwb3J
+ 2RmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766237831; x=1766842631;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=onVr/ykTPBWcVxEDt3BDI+kt/cs0vi1mzT38qepZ9rU=;
+ b=LzzNemG5SG3KYUf5//0Dg7c7zOxEFnzSOjjVJBIkg7s1EGe9/VZYrKQMnOQxmF7POa
+ YvhNGVjM13JIR9aUxH4FH4TtAa3EqCFt6E6UhAO0UTFo9iKYkN4TV3ZP94i6E1Oz6qs+
+ h9uL1wAc8AJuRZmII9syikpXlmogIPPE2oQNWuEUwaYC9kLWfsdj9wxDJdBDEgDSHNy8
+ yjnSYx8J5EKd73+Bq0D6rfRaeJIxv2sFxxyrzy9jO+P+C+MpMP3imlZrxXuwdDh7bryt
+ eolSEFad0ApuE6U5FEKYpa1xaxtwubCn+yLCfxRtaadN+Y0cfdSNERg5ko/OD8nShEAL
+ v42g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWLHSzDEbO4A/ciZs+mZEP5O0p/o8I5kJdYxR3yQDH3hsPSFDLvdKak8tkVeI7Yyieoqqz9r81NzUM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmFNzQ0Gf0VNG3tREDowReGrwt8XvsOPgKE/6LVv8pU7twgdaB
+ NmQi/17Wy1tpvS8v102iZwhRnBNwsNtXX/WfVj8PqBRZN6/WM5Ptwt6yaY0uImK/4JECMcyFrTg
+ A+NUbTrGFRmrhEl9fH75/fyukhfH4milBGl4+hRZ/5gBC7chHKv7pI12wU7k7bFL4XS8Bnuo=
+X-Gm-Gg: AY/fxX7YAdN7N/BwFYvLQKrl0mlDAZXeioHez0z3kEeGVwM3fzcRvgIxDlBvKd/OwdU
+ sVkw+ZSuLernW8tsNvUE5DOXfDo+hmnenpriKMc1ZCuB+I6JI4J421q/cm/miwDBtvHMF2U15nN
+ 7SdLunrdwZq8coNznSQauxhYkeijUL+BOSRr+QTi53f1tZutkS39MlOg6sQn9naJ885LyLeDttp
+ jtstv3ZI6h/dSfnXp5Nus8mAAEjhjpbLGxVFHfJtGQrZKsW0rs3zwBKP20w3n+tWtosc7/gUpK2
+ UmYhNGITm9XGbnQCkZuIPJKAGbW9fNJHrJXUaoQJBEeqLbpcdg9us3s8IdbJI1F7SiKClEhvSC1
+ NWIjyWLwcJOSIYWSYawktGukwxm4QjyFTK/uSEUhUjLy/Z6uwthkKiK9K/+DmERg7ZkIMiumu5t
+ PMoEpeKmwrNlwEEqhxdhM5YdA=
+X-Received: by 2002:ad4:54c3:0:b0:888:7bac:7a1a with SMTP id
+ 6a1803df08f44-88d8369ea81mr71771356d6.32.1766237831409; 
+ Sat, 20 Dec 2025 05:37:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHoJmhc0j1QSHWpqeB1INPb1LxQclfOysI5mjmJBEqKXoqG/hNFTCz3XTo6pOZ9BO/LtyeplA==
+X-Received: by 2002:ad4:54c3:0:b0:888:7bac:7a1a with SMTP id
+ 6a1803df08f44-88d8369ea81mr71770916d6.32.1766237830925; 
+ Sat, 20 Dec 2025 05:37:10 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a18618d64sm1485257e87.49.2025.12.20.05.37.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Dec 2025 05:37:10 -0800 (PST)
+Date: Sat, 20 Dec 2025 15:37:08 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: maud_spierings@hotmail.com
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v3 1/3] arm64: dts: qcom: x1e80100-vivobook-s15: enable
+ ps8830 retimers
+Message-ID: <ia3f22isuxflakbyphrpsbobvxgmbrr6rwysh7nasqmvwt4h2m@t2x3f3fmbghh>
+References: <20251220-asus_usbc_dp-v3-0-5e244d420d0f@hotmail.com>
+ <20251220-asus_usbc_dp-v3-1-5e244d420d0f@hotmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218061406.8043-1-arjunchangla7@gmail.com>
+In-Reply-To: <20251220-asus_usbc_dp-v3-1-5e244d420d0f@hotmail.com>
+X-Proofpoint-ORIG-GUID: Ube6aYnp7gWiLF3TLcJjz7PoFf7RjcUs
+X-Proofpoint-GUID: Ube6aYnp7gWiLF3TLcJjz7PoFf7RjcUs
+X-Authority-Analysis: v=2.4 cv=e9wLiKp/ c=1 sm=1 tr=0 ts=6946a688 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=69EAbJreAAAA:8 a=EUspDBNiAAAA:8 a=A7QAhaETn3pxQinkG5gA:9 a=CjuIK1q_8ugA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIwMDExNiBTYWx0ZWRfX4gQMjQ3alG2w
+ PXuJzteHErHaKxW33r3bVSn/OP0x4hMWXA4sezbSZENmmZlv96YUIAJbQiveGYx4uOtEDvJQJ24
+ Gm9I0s3q7e4GvA/c07dCOZT9MNMAywG9M1C/ZYiZMk98i0JyT3D4BDFT2awHwRwGR0tcZ1BNVVv
+ 5FS3DWQHkjCFLlZ8uFBBb+eG8X59pWlrsKbEjXCJ9ZCFRnFt7bvm9q2O+VOSwwF0x7J96tKsJhq
+ QTf3DLL5XphUIA98/iKjOxtgq/t4jvGwx2Mi5vUBSr+teBQOQWxZvOrazCPk/zE9tt7EYNXoH/r
+ mqKdNOPVbq6o0nvQjCJ4Wcopzc6YXWs58F/S5GYPY1cs6xk3kBhCgaj6oxIGi5+DqNfFtnzeMBQ
+ adqtbeAIxNVyo8/mTXSo46y7lro4cQjSBvXzzyebJqMEEm0xmWEI4IZosrEyrEMSLLtT9i4RXcj
+ TAnVcC3G0yoHS0Y0QHA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-20_03,2025-12-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 clxscore=1015 phishscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512200116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +152,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arjun,
+On Sat, Dec 20, 2025 at 12:38:57PM +0100, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maud_spierings@hotmail.com>
+> 
+> The Asus vivobook s15 has two usb type c ports on the left side, these
+> use parade ps8830 retimers like the others, enable them to also enable
+> dp altmode
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
+> ---
+>  .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 310 ++++++++++++++++++++-
+>  1 file changed, 302 insertions(+), 8 deletions(-)
+> 
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arjun-Changla/staging-fbtft-fix-spacing-before-close-parenthesis/20251218-141736
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20251218061406.8043-1-arjunchangla7%40gmail.com
-patch subject: [PATCH] staging: fbtft: fix spacing before close parenthesis
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202155.mVhDoKTO-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202155.mVhDoKTO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202155.mVhDoKTO-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro 'define_fbtft_write_reg' requires 4 arguments, but only 3 given
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                                                     ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                       ^
-         |                       ;
-
-
-vim +65 drivers/staging/fbtft/fbtft-bus.c
-
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-    68	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
