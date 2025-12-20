@@ -2,96 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72594CD2D45
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB81CD2D7E
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 11:53:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C767910E2C6;
-	Sat, 20 Dec 2025 10:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59EDE10E1DE;
+	Sat, 20 Dec 2025 10:53:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="U7KRWRoK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sUQqJ2DM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085C310E27F
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:18:37 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-477cf25ceccso25866465e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 02:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1766225915; x=1766830715;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=+oURe4aXMdk0LjKAZ44d1/hPSLfZHh6FrPzIxlIWzd8=;
- b=U7KRWRoKEX8G1249GJssoQfEj86+AwYy34keNYoi18HPm/kArEqd0CRLZ300+pSzid
- at+y7kXsm494dEaNwxOEXEqhmWW+J9rkj0ltkHZM8sDXKEEjazn38eTVhrskBS2wL6EY
- X1D7xGbuhNUAR2dRQOvl7bSeXN9dxCj2eLy47AS1fd7XJ6NCawiTjVWUy7mqn7dK87O5
- 0Xz6wUnz26vVj8EDvVYk6De45n/QVdJSFKs2LepD/Z1Kod5iCPDby37bbyBQnz5o1Wmp
- YB65Bcw/L7MqC610K7Ncf05tilfycGutkqC6lUL2i9UPJXBAgIWjnUpV6PniFeznE/H/
- 86rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766225915; x=1766830715;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+oURe4aXMdk0LjKAZ44d1/hPSLfZHh6FrPzIxlIWzd8=;
- b=NdUIdq2O4l+MrMS5N102j72bEP0F5Da90vn6BHF4+EekxRuxSal+iK4XEHmddOaWYI
- wRF6dV36lUuGDMKLNUyBNwMfiYyn5jj6cBQfiUNzarKdQDerVaYC6zOiEVjVdy15u4AM
- 5jxf6P4Xhipix9Q3+PGncHnMSoFTz1ZGi3HB563X8fTFRrHMJoT7Nd7nRIfnx61CbFcr
- Weh+nETuHohfiLnmc31pvVpw1InLCDyXdzt3VCNWNpcclQkYxZVL7gs4t3qZrXDHU4Sj
- GZarxhG3sQWVjYodH6I2WdAKMCkHf3Vntk7In6S0J4G14DJGDFQPsczbJRxEXi4b7cX6
- qmyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYVZZ0dtd91tQqcjEcsFaojqYOMImQejpMqA/LTTOurnFU0FI/z4Sa7pnyqcAjC9y3UulyfwF1uBQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoifWFwcUAO1rmIHhmMYgNXYTWU7yuyPs1PGgznqhe/jjfpzcb
- NapHoswfmgVg5jlsE/kNxTMRqrr5601VYSov+Srdzt8vIOrKSCSH5Hn25MNG/+Z3G1PdZ50EPUu
- Pfq5FEaw93nJgg4ajpQ==
-X-Google-Smtp-Source: AGHT+IHezTbdkQabpgPR3pVcmu1YjPdSolIwP7RQSXNt0PalcelZIDHJL+QGmDx/ShI8sV3gW2XIBlw4p3buplU=
-X-Received: from wmxa7-n1.prod.google.com
- ([2002:a05:600d:6447:10b0:477:5a0f:1860])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b8b:b0:46e:6d5f:f68 with SMTP id
- 5b1f17b1804b1-47d19566aa8mr51108125e9.12.1766225915629; 
- Sat, 20 Dec 2025 02:18:35 -0800 (PST)
-Date: Sat, 20 Dec 2025 10:18:34 +0000
-In-Reply-To: <aUZ07zYew7Mfwc_C@google.com>
-Mime-Version: 1.0
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
- <DF2AXQ67412G.33JOX2CF0VFCK@kernel.org>
- <aUZw4fpWRUWFsb9r@google.com> <aUZ07zYew7Mfwc_C@google.com>
-Message-ID: <aUZ3-iStCAWShvt8@google.com>
-Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- Matthew Brost <matthew.brost@intel.com>, 
- "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC16210E1DE
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 10:53:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id CA8A460008;
+ Sat, 20 Dec 2025 10:53:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E6F1C4CEF5;
+ Sat, 20 Dec 2025 10:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766228017;
+ bh=Ss+5mPbbvjNJrIiYt7RXl5Z1m8teePuyHXVfel8E4lg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=sUQqJ2DMXCQGvBYpTFsCz+lVwp89q5mD+kr5YtSb1BDT1mRNpq4yBLKP1kzXksGzE
+ y16Zw9x+sijodaJ85I+BU9EoTi/nklmVGfzgKq1to9vEAoHiyC+uE1ZP2wflv1E1vl
+ fut49dnupEBu4g+yYMDspGkjtzNcN0W0TYPNHN2e9sc4n90gqcG3asqLn33dHKmvYU
+ QMVQohYcWE6+iRMvIZn1XUdHXSJBUOjVlKneP94iAesOJ3rHdQcch/uc0zaRfSOue2
+ KxfvWdaaFbSvBDXALXq43h6Iw7UCE5dVEhzTq94zGCe5Q2wcBl7/6whFX2WyuPSWzy
+ rrMr5eYSmOyrA==
+Message-ID: <664613c5-eee7-4130-8b21-0e47e7024636@kernel.org>
+Date: Sat, 20 Dec 2025 11:53:29 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] minmax: remove useless cast in __is_nonneg()
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, Asahi Lina <lina+kernel@asahilina.net>
-Content-Type: text/plain; charset="utf-8"
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <20251219-remove_wtype-limits-v2-0-2e92b3f566c5@kernel.org>
+ <20251219-remove_wtype-limits-v2-4-2e92b3f566c5@kernel.org>
+ <20251220100201.26d9b0db@pumpkin>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol@kernel.org>
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <20251220100201.26d9b0db@pumpkin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,9 +81,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 20, 2025 at 10:05:35AM +0000, Alice Ryhl wrote:
+On 20/12/2025 at 11:02, David Laight wrote:
+> On Fri, 19 Dec 2025 23:39:48 +0100
+> Vincent Mailhol <mailhol@kernel.org> wrote:
+> 
+>> The function like macro __is_nonneg() casts its argument to (long long)
+>> in an attempt to silence -Wtype-limits warnings on unsigned values.
+> 
+> nak.
+> 
+> The cast is needed for pointer types, not for -Wtype-limits.
+> which is why the '#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__'
+> test is there.
 
-Aha! This one didn't get duplicated on lore. It's the nouveau list that
-is broken.
+OK. I will remove that fourth patch in v3.
 
-Alice
+
+Yours sincerely,
+Vincent Mailhol
+
