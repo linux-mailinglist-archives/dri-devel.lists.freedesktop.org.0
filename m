@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF2CCD356C
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 19:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A9BCD3572
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Dec 2025 19:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45DF110E2CF;
-	Sat, 20 Dec 2025 18:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD6010E31B;
+	Sat, 20 Dec 2025 18:51:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="MJepbfoS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="YxRCapuL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3B0C10E2CF
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 18:51:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1766256639; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADA110E317
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 18:51:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766256646; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=MsNirVtsBPgMUKM4LqhhRrIx3Ur9lC+OTQZL6dxKUkOHuy7b35NUfB2b7cqxe9PvBxP7l3ay09KENoO/mdpARgxTHZHbWNjfDnV2vMob/1yuPzI1NHDoYQj9D1WG/O+De7riAcPU2bqNFSyfzpGrKBHiA0rsko8FJvZenAs4pN4=
+ b=k+ps33RBoTWzNAlrymFBqhrJ55XvdVPAT3xq+aTba7zUdV7Z+/k3sFXbqkjStnwU3fKC4DLCfbfstyss83JbuvavywOY0EcDg3VIAPGHH3hBOKeMPjfB6xGPa73x19e+tvR3/xrJ+igMvn99fS524VdlG+VU1mvIh/aMxVQmBqA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1766256639;
+ s=zohoarc; t=1766256646;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=8rRlnY9LZnCWGx1zTU/aPAeZJrjVXsHfEKZP3E41uXI=; 
- b=XzZkCm2B7Gaihpm0ONGK0/VfiawLu4hI2foGyi5f8mnjmm7CDjoTaLwQvQKm7OPmWR0dH1ZrSuMjRjvweFQtXW66sP/clPFzq9qH97Y7LqN4x8TLKbr7RMBcu4Jo4zod6c9xCbNjmimj8ca1lkagYNxCEfSxgrNL2ee0ZANVLao=
+ bh=5j17v1GY5ZUui5Rtx97+9pI639Hi6bT0WnwCtzvrtAQ=; 
+ b=DXXW5zq0m7GofuoNuxOsUEqA1LuHa4dN/fLdZPkE1PXL79G/77pNl7LEZ5RoXzPQJ6ptLSf8TVX25ws6N8kMHKFepV2GWyZw0sMPwxApZhcmIXUVM2QWGhKoHoqgbAMoxlBJw+mQ0RebKzWb9RnkajGbAmGyL4unhOdY/vuyfHU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766256639; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766256646; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=8rRlnY9LZnCWGx1zTU/aPAeZJrjVXsHfEKZP3E41uXI=;
- b=MJepbfoSqB0kxqG/gC3DSa4eX2BPv0L6tb4Ksi3eTDBPWdgarkE4y5lgUiEOrw9o
- 02rsAe65LLLwrZw0tO8R9NnCgAg/uVes1yHeW/WpR0oZ6ihyoAdyxykoCkYQH9Bkn99
- /yuJbYxKLcX/ZVA0Fp+Io9anLVWWACLlojAsSm9E=
-Received: by mx.zohomail.com with SMTPS id 1766256639151549.0735477560279;
- Sat, 20 Dec 2025 10:50:39 -0800 (PST)
+ bh=5j17v1GY5ZUui5Rtx97+9pI639Hi6bT0WnwCtzvrtAQ=;
+ b=YxRCapuLlpcgveZ8ge+9Vt9yL4zoF7BeXltj21O4pBcGxMmo4PKr67dZOWJgacT9
+ 4LGATQCtFbN3QrbIoPAc5Wyk8dy9fLAHt1gHOZDn198/kWRImzStGT7ic1eIp2BDdU8
+ EIaJSJZXXNJaG07RIi1ArCYZ4JYC0mCUo1E3Vuf4=
+Received: by mx.zohomail.com with SMTPS id 1766256644626461.8229840632764;
+ Sat, 20 Dec 2025 10:50:44 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Sat, 20 Dec 2025 19:49:54 +0100
-Subject: [PATCH v2 3/4] drm/panthor: Implement reading shader_present from
- nvmem
+Date: Sat, 20 Dec 2025 19:49:55 +0100
+Subject: [PATCH v2 4/4] pmdomain: mediatek: mtk-mfg: Expose shader_present
+ as nvmem cell
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251220-mt8196-shader-present-v2-3-45b1ff1dfab0@collabora.com>
+Message-Id: <20251220-mt8196-shader-present-v2-4-45b1ff1dfab0@collabora.com>
 References: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
 In-Reply-To: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, 
@@ -79,97 +79,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some platforms, notably MediaTek MT8196, the shader_present bitmask
-in the Mali GPU register for it has cores enabled that may be faulty.
-The true shader_present bitmask is found in an efuse instead.
-
-Implement reading shader_present from an nvmem cell if one is present,
-falling back to the Mali register if it's absent. The error codes are
-trickled up through to the probe function so that probe deferral works.
+Implement nvmem-provider functionality in mtk-mfg-pmdomain, such that it
+can expose its GF_REG_SHADER_PRESENT value in the shared memory as an
+nvmem cell for panthor.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_hw.c | 36 ++++++++++++++++++++++++++++++------
- 1 file changed, 30 insertions(+), 6 deletions(-)
+ drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c | 59 ++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-index 87ebb7ae42c4..80c521784cd3 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.c
-+++ b/drivers/gpu/drm/panthor/panthor_hw.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2025 ARM Limited. All rights reserved. */
- 
-+#include <linux/nvmem-consumer.h>
- #include <drm/drm_print.h>
- 
- #include "panthor_device.h"
-@@ -109,7 +110,25 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
- 	return "(Unknown Mali GPU)";
+diff --git a/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+index 9bad577b3ae4..3ce6fb74dd53 100644
+--- a/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
++++ b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+@@ -10,6 +10,7 @@
+ #include <linux/clk-provider.h>
+ #include <linux/container_of.h>
+ #include <linux/iopoll.h>
++#include <linux/nvmem-provider.h>
+ #include <linux/mailbox_client.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -872,6 +873,60 @@ static int mtk_mfg_init_clk_provider(struct mtk_mfg *mfg)
+ 	return 0;
  }
  
--static void panthor_gpu_info_init(struct panthor_device *ptdev)
-+static int overload_shader_present(struct panthor_device *ptdev)
++static int mtk_mfg_read_nvmem(void *priv, unsigned int offset, void *val, size_t bytes)
 +{
-+	u64 contents;
-+	int ret;
++	struct mtk_mfg *mfg = priv;
++	u32 *buf = val;
 +
-+	ret = nvmem_cell_read_variable_le_u64(ptdev->base.dev, "shader-present",
-+					      &contents);
-+	if (!ret)
-+		ptdev->gpu_info.shader_present = contents;
-+	else if (ret == -ENOENT)
-+		return 0;
-+	else
-+		return dev_err_probe(ptdev->base.dev, ret,
-+				     "Failed to read shader-present nvmem cell\n");
++	if (bytes != 4)
++		return -EINVAL;
++
++	if (!mfg->shared_mem)
++		return -ENODEV;
++
++	if (offset + bytes >= mfg->shared_mem_size)
++		return -EINVAL;
++
++	*buf = readl(mfg->shared_mem + offset);
 +
 +	return 0;
 +}
 +
-+static int panthor_gpu_info_init(struct panthor_device *ptdev)
- {
- 	unsigned int i;
- 
-@@ -143,13 +162,18 @@ static void panthor_gpu_info_init(struct panthor_device *ptdev)
- 		ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
- 		ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
- 	}
-+
-+	return overload_shader_present(ptdev);
- }
- 
--static void panthor_hw_info_init(struct panthor_device *ptdev)
-+static int panthor_hw_info_init(struct panthor_device *ptdev)
- {
- 	u32 major, minor, status;
++static int mtk_mfg_init_nvmem_provider(struct mtk_mfg *mfg)
++{
++	struct device *dev = &mfg->pdev->dev;
++	struct nvmem_cell_info cell = {};
++	struct nvmem_config config = {};
++	struct nvmem_device *nvdev;
 +	int ret;
- 
--	panthor_gpu_info_init(ptdev);
-+	ret = panthor_gpu_info_init(ptdev);
-+	if (ret)
-+		return ret;
- 
- 	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
- 	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-@@ -172,6 +196,8 @@ static void panthor_hw_info_init(struct panthor_device *ptdev)
- 		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
- 		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
- 		 ptdev->gpu_info.tiler_present);
++
++	config.reg_read = mtk_mfg_read_nvmem;
++	config.dev = dev;
++	config.read_only = true;
++	config.priv = mfg;
++	config.size = 4;
++	config.word_size = 4;
++
++	nvdev = devm_nvmem_register(dev, &config);
++	if (IS_ERR(nvdev))
++		return dev_err_probe(dev, PTR_ERR(nvdev), "Couldn't register nvmem provider\n");
++
++	cell.name = "shader-present";
++	cell.offset = GF_REG_SHADER_PRESENT;
++	cell.bytes = 4;
++	cell.np = of_get_child_by_name(dev->of_node, cell.name);
++
++	ret = nvmem_add_one_cell(nvdev, &cell);
++	if (ret) {
++		of_node_put(cell.np);
++		return dev_err_probe(dev, ret, "Couldn't add cell %s\n", cell.name);
++	}
++
++	/* cell.np purposefully not put as nvmem_add_one_cell does not increase refcount */
 +
 +	return 0;
- }
- 
- static int panthor_hw_bind_device(struct panthor_device *ptdev)
-@@ -218,7 +244,5 @@ int panthor_hw_init(struct panthor_device *ptdev)
++}
++
+ static int mtk_mfg_probe(struct platform_device *pdev)
+ {
+ 	struct mtk_mfg *mfg;
+@@ -984,6 +1039,10 @@ static int mtk_mfg_probe(struct platform_device *pdev)
  	if (ret)
- 		return ret;
+ 		goto err_power_off;
  
--	panthor_hw_info_init(ptdev);
--
--	return 0;
-+	return panthor_hw_info_init(ptdev);
- }
++	ret = mtk_mfg_init_nvmem_provider(mfg);
++	if (ret)
++		goto err_power_off;
++
+ 	ret = of_genpd_add_provider_simple(dev->of_node, &mfg->pd);
+ 	if (ret) {
+ 		dev_err_probe(dev, ret, "Failed to add pmdomain provider\n");
 
 -- 
 2.52.0
