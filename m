@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED46CD3974
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 02:26:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F8BCD3989
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 02:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF4210E25B;
-	Sun, 21 Dec 2025 01:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4F910E31E;
+	Sun, 21 Dec 2025 01:26:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZZdBsZz3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bRACLZ8S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EEB10E229
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E094E10E229
  for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 11:46:55 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id
- a640c23a62f3a-b72e7205953so43886566b.0
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-b72e7205953so43887066b.0
  for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 03:46:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766231213; x=1766836013; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IGC/wXUYiYQsnh5yWNhZ1+GGzCbr65mZk3jPLwzdXjQ=;
- b=ZZdBsZz3yAYWxS0od0NW9TlIJaT65mXFer87O7lcmqQjTffyF7HqurvfXkWQhEGzvs
- jsfpdoxqx7YVVFTViZ27bWCB4vYutsFOlcrs/oJH7eKs5jV/MU2L7HuN6WmxjogwGKIs
- cnsLcRZiZNRGgrMkssu1ZLSvQVT2vDYx7O27AUAlcE/0laCWkdzirVPrXRcsj7jj2hxX
- 8RdQhrGZjtcVQCdluO3j0tmM/ew6Ym7sEw9r8BYbG2QOtxySp2IvVz68+hfHBWzhUyti
- U4MsV+Lpfk2zxwTJ9OLSlL4/ngpSB6Dx4pCeQuelr3UuUW2cwlUhaZwODaqz8GxFii9X
- HKSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766231213; x=1766836013;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1766231214; x=1766836014; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IGC/wXUYiYQsnh5yWNhZ1+GGzCbr65mZk3jPLwzdXjQ=;
- b=K3Qbcmx/+Bosf4ztDOtqPpURJAeuGBTxTLvMcnaId/Zxien5kavCPA+C4Q9j79Rnl2
- l+TFm4QkUBPr9vfcm44IYEzP7WDz46IXny4Pa+Rvt/jCTgP2V3z82CSPVIuAOlvIp+7V
- GPiOiwJBKb0ESMqmDOnX8J6l+NmUmLnFczL3KzNuBOHPmNk+jvRtrgxShXh9w2btrH4I
- PxQoEKyW1bHHp0HCpqiseus2rIZzIbOraRUOzF3tPuvfq0QwTNDCb2ivuDClN6UwJum5
- mnSknUlYGz+WP+IIAcEc+ikxPGM1/Ib0R/4qi6g2Kzbvif8j8FA7HuKgU+4dpzxIKPhC
- ShaA==
-X-Gm-Message-State: AOJu0YznFdAv1v3VDANMkiIZPmrUzoXDxrKkcpTGRpJr+Us8lc9YQr/w
- gOTXdj+uSgFlibfB2fE1aT3FsQY6wd/Y48ttoFA/lq3H1xFZIx4nZ4wr
-X-Gm-Gg: AY/fxX4m0XgoHTES2I9b+KBSKCvKm5UcboWMHuZYWXYe4D0kQxQPCQkEyyjJ/F01uCV
- dazcMGDU9/9YNykou/H1URHzMdHVUaamdE7xZ7Kc/ny4GkImIQ38yfHLSO4d6Qn+oLoJNv9+K68
- 6RpyJSQIWPtjiIV8J7zCHGXYokUMBB0dsl9k9ex3fMD0Dzc6Px3RjAc6SDdcLU2jvyn3JvEwU/3
- U/wY3bW/VNPcZXACAw0RUxnJitG+kMzuVlU7FWJtmzKn0vNbvYnSsuB52E8AgUK7hDu4GwD2gjr
- YtDoAfpyn9fCt7OZa3DNtXSn4vKZb/Wf8nTsTqqjONyGdki92L/exRHZQrD3QqNYYGeRcMwUCph
- akdettaDWFhonUejthfss+/yf9Ilc4VPx6zXyla0SMROwPtL93PhFsW+8xBJc/DqYC4KbCM2V06
- Ad6PPUhHlvY5ymtJVkZcDdd5O6oTGLpJvj4jjr6ku6X2r9oXbK25C8fpaiGOxR3rZa
-X-Google-Smtp-Source: AGHT+IGQ6x7ZnQVQeDaeNCXSqDdMpW3yy2ZBTCiOeV9sMFDd0x+AREowv3nhxI5iwK9TUZGpZQMLkQ==
-X-Received: by 2002:a17:906:dc91:b0:b76:3d45:51d9 with SMTP id
- a640c23a62f3a-b8036954bddmr355980566b.0.1766231213246; 
- Sat, 20 Dec 2025 03:46:53 -0800 (PST)
+ bh=hLaocZC4NvxtPqMjK5we9d8bEcoDqJs24P0yOjcLJPA=;
+ b=bRACLZ8Stn5CX5yaL/PAXlPE9RLrks8s/sWdbNM8Fh1Ddz/jA2PMuu/rXYuDl2FPGu
+ /RtVbB0NLkoQSjSzcwZSUt6oKvf1UuE44bCDDcp4751Hxy6EQYSC9EeCsM/EJqGsmWpX
+ 83DnHrCXhmM56DU7Rfq8zPQNSJxsYmTwgR5jrwNH9dqu9Vmc5qIRNRwIn+NEypUsLNYS
+ OsdxBq36sdIGNgAbE454A21Rv+s0CkzYhCIBtkFPc7JiE+leUc1ehEpqaiqbKSpCEkIO
+ mq28giJ56Nhp7/OGBea3eYGPW+DvxsLPBhl1B7zCWGU+LwM3CqjsGuOAE83J23G2jvF+
+ 80nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766231214; x=1766836014;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=hLaocZC4NvxtPqMjK5we9d8bEcoDqJs24P0yOjcLJPA=;
+ b=lEDbdZVSdT2Jt/KPWIkxzW1zmRmKxQR0OyltHQ8CL0AkhE8op5yAiSohnHptAX6E74
+ q+l4/tjZ+zNqiIoyJd4ayUY0b7dbYqHpAcKY4MNKPxyutCuF25FA/Nx7d56umySaKf+2
+ YGG84dRy3V9F/3DkX6ff6koqf8J5Ae+FUUk0mHw439BqU4UbJxR8uBzstxAMXiU9ItCV
+ BfGg++L3Q/6RQFSKKf/Ux7BxTe2miLL5sHM4NsP07izGEl9TfALXjsGRmudQseQ//mp4
+ /zdv0O6ScWeGRsZFt9Ajn3gyDan70oYnh9FI93L3vp6eE4sl+Yjh+sJZDfvhl6a6nPZx
+ /Pvg==
+X-Gm-Message-State: AOJu0YyspZpD0MOAptoWJSOhMXbWGq+e8Cfsgc+JYlEg8SeqC3/z+ILu
+ ESLLIpB8VZlp2T2F8UdgOS5t/+Rv2+UZxYDYqpE/L1WVqR6wLMAJzomP
+X-Gm-Gg: AY/fxX7O3YYZ8ElBv2IdAxVHzS6C70opXdHUvYAPUaU8C4r43ky2nk8Rb2UT11o2uZJ
+ 5XqJOsNaPEl2OLJTqJImXU+Ud7Uzs+nctKHJYxO8EW0o4hEpeiEFEg8b58xna9UKBB0EpPQ39Vc
+ s7FOGdMxe59KVBmXlQKgvAfqNt1j4AZdur2w4GlwwQZqTZzcJjHDhzJiITxAkckYDrjwERbZJyX
+ DBROxavW3StWashNrWNiZk781uu0unUs7r9b6IBR4UwCfUsi/+3dYwHNKDnl2XzBdS1hc8c/YfH
+ Nm7fQpjjeu36i/ZmEmbeRiuBNX41odr2JNN8BGmxgTYIG80DrO7B6svmFgfxTELABE9ZaSY8ahM
+ KsGI9tIIAh6gQcAhbQdwZqTFbur/WK78nUXf0bnZvOyOiqZNMUDU5SwCAa8L0hODWpM4k0c9oMq
+ jHEXZYcT2jm0so2xZX1T0O24HhOx6h1Vrz2ZuaXdsk46cABq/H86cbVY8Ilb44HJVn
+X-Google-Smtp-Source: AGHT+IGbYX0x/ELOzTU4jh/PMYfc1b2VbALIo6/OkfIB9jSswCMXM4Yr+hxtbcG4AVIMOuxe7PQpcA==
+X-Received: by 2002:a17:907:961e:b0:b7f:fa04:faea with SMTP id
+ a640c23a62f3a-b8037269daemr356204466b.4.1766231214269; 
+ Sat, 20 Dec 2025 03:46:54 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037a5bdb9sm495449066b.7.2025.12.20.03.46.52
+ a640c23a62f3a-b8037a5bdb9sm495449066b.7.2025.12.20.03.46.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Dec 2025 03:46:53 -0800 (PST)
+ Sat, 20 Dec 2025 03:46:54 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
@@ -67,10 +68,12 @@ To: alexander.deucher@amd.com, maarten.lankhorst@linux.intel.com,
  siqueira@igalia.com
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  bernhard.berger@gmail.com
-Subject: [PATCH 0/4] amdgpu: Enable Adaptive Sync over PCON with HDMI VRR
-Date: Sat, 20 Dec 2025 12:46:45 +0100
-Message-ID: <20251220114649.169147-1-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH 1/4] drm/edid: parse HDMI ALLM info
+Date: Sat, 20 Dec 2025 12:46:46 +0100
+Message-ID: <20251220114649.169147-2-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251220114649.169147-1-tomasz.pakula.oficjalny@gmail.com>
+References: <20251220114649.169147-1-tomasz.pakula.oficjalny@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -90,34 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adaptive Sync over PCON is only available as FreeSync over HDMI. TVs which do
-not support FreeSync, do not have working VRR with DP -> HDMI 2.1 adapters even
-though adapters will take care of HDMI VRR info packets.
+This allows us to understand if a TV supports ALLM and gpu drivers can
+use this to trigger ALLM when they so desire.
 
-First two patches add generic drm edid parsing for HDMI VRR and ALLM.
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Tested-by: Bernhard Berger <bernhard.berger@gmail.com>
+---
+ drivers/gpu/drm/drm_edid.c  | 5 +++++
+ include/drm/drm_connector.h | 3 +++
+ 2 files changed, 8 insertions(+)
 
-Since HDMI VRR relies on FRL modes, this will only be enabled for PCONs in the
-VRR whitelist. HDMI VRR for native HDMI connector will still not be
-possible/attempted.
-
-I myself validated these changes with my Samsung S95B + Bernhard validated on
-LG C4 + FreeSync-less Sony Bravia 8. I used Alienware AW3423DWF that only
-has HDMI 2.0 to check that FreeSync still triggers properly for "older" hardware
-
-Tomasz Pakuła (4):
-  drm/edid: parse HDMI ALLM info
-  drm/edid: parse HDMI VRR information
-  drm/amd/display: rename PCON adaptive sync types
-  drm/amd/display: enable HDMI VRR over PCON
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 24 +++++++++++++++----
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
- .../amd/display/modules/inc/mod_info_packet.h |  4 ++--
- .../display/modules/info_packet/info_packet.c |  4 ++--
- drivers/gpu/drm/drm_edid.c                    | 20 ++++++++++++++++
- include/drm/drm_connector.h                   | 23 ++++++++++++++++++
- 6 files changed, 67 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index e2e85345aa9a..bb6cee249749 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6274,6 +6274,8 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 	}
+ 
+ 	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
++	if (cea_db_payload_len(hf_scds) >= 8 && hf_scds[8])
++		hdmi->allm_supported = hf_scds[8] & DRM_EDID_ALLM;
+ 
+ 	if (cea_db_payload_len(hf_scds) >= 11 && hf_scds[11]) {
+ 		drm_parse_dsc_info(hdmi_dsc, hf_scds);
+@@ -6284,6 +6286,9 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 		    "[CONNECTOR:%d:%s] HF-VSDB: max TMDS clock: %d KHz, HDMI 2.1 support: %s, DSC 1.2 support: %s\n",
+ 		    connector->base.id, connector->name,
+ 		    max_tmds_clock, str_yes_no(max_frl_rate), str_yes_no(dsc_support));
++	drm_dbg_kms(connector->dev,
++		"[CONNECTOR:%d:%s] ALLM support: %s\n",
++		connector->base.id, connector->name, str_yes_no(hdmi->allm_supported));
+ }
+ 
+ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 8f34f4b8183d..ac84884a96a5 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -330,6 +330,9 @@ struct drm_hdmi_info {
+ 	/** @max_lanes: supported by sink */
+ 	u8 max_lanes;
+ 
++	/** @allm_supported: flag for auto low latency mode support by sink */
++	bool allm_supported;
++
+ 	/** @dsc_cap: DSC capabilities of the sink */
+ 	struct drm_hdmi_dsc_cap dsc_cap;
+ };
 -- 
 2.52.0
 
