@@ -2,87 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1425CCD3942
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 01:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F01CD3958
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 02:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F2210E059;
-	Sun, 21 Dec 2025 00:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D9F10E173;
+	Sun, 21 Dec 2025 01:07:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dg0hJyF1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Myhlk4n9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com
- [74.125.224.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46DD110E059
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 00:33:39 +0000 (UTC)
-Received: by mail-yx1-f48.google.com with SMTP id
- 956f58d0204a3-6467bed0d2fso262799d50.0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Dec 2025 16:33:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766277218; x=1766882018; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X8G9KmswsznvRwWx5QwQoiucqBCNKeB6cJ130wl/F5s=;
- b=Dg0hJyF1d5WOcmNr/YEX0JsLVMno5hXKfP/Fvnp2/ZGMESUnNsFRhimMFE9MDIEEBa
- g2gDNSWiBLrpjxvOh3/a0efhl6+mI4+wVnSAf+dWLfrBTEISPOJ6wY24KXbgm/WaEamY
- uEiRlhcNOob14RXUU6lF9PTt8+YkS6qb8ivf6w+O8eJ16NQ9IFX2eOZ9whyungFAbzqz
- B298H6im3a/JFRRLqmFtRFvhw9AiHjPNCXKaY36PhU1vmZQitGtD1yUSR0AEmD1JLJBY
- cddy+fzDOiJJxyreqhOmCrSHdfSii/LuDE4wqLi0wW8EoPpuhQLI1mkMrh3YZnSay31o
- esbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766277218; x=1766882018;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=X8G9KmswsznvRwWx5QwQoiucqBCNKeB6cJ130wl/F5s=;
- b=qX1Pm11cqbcy8abpbNuVlA2C/tDxxkqCg/poX2XamJ/gFYQuQEpYrXGJnZSbutMmL1
- nBuDtvsIkzLK0oxw5fjuvjJnGg688K+I0acXKd7OCLHZBrVRe16LHnDfaDEOs+HJ5Nd/
- R3fN6jLkvHSnFwAHaXaPDR8+dpV4fG8NWgEGk0OfoGesIkgr7ehf+HfVtvwDWqW7M91u
- 5LKUU32VmlJ/WLkf1TClPYSKADMal2RgUD03v8LktlRPy7CgeiyoLVWuSsqw5gaFTFut
- yAl+xoca0S1sdn+7ZEjWsHY4CwvQnFQFOrhdgo0kpFUtIh/3fAv0Js96RsfqHgg4C1Ri
- 2M5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX18l0ekLRB3TbHSCNoW/2D2BhJB3OXV3Tzp8e2eMg1D/zWTj6O+By5nHt4E6L38e+Vl071fQLzH24=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5A2xzf1G/QVpukZekqLu0uV2baDUqjRFMpvTlmq857rvFk6ta
- L4A7DwZ/SNQ2d+rkHdwj22hPeQIcxmDHBzUfyQNvF++hK/ypjtDVvYfVul295qrlc/erwoTWviz
- r9P5R9R235Wx9R7nCmXxYvSfoiksB87g=
-X-Gm-Gg: AY/fxX5p905L1b4fkv++EGVuH9vyNE8oKLwVSk3Wr1Z3erFX+M2DGcJh8PqHQnoFV5X
- zoTPJPLabsMt0yxOQNZwGcbz/V9HkCj1HXGNg/K3qsE9PKcrY4RHspVBd6Bux5QzQg3EB3FpKCg
- Lp7BS9yGNb72nrhdoCP525mxvS8lpg+HQX6TbgJdLqRC0safu9r9mPHCNh/Y6kyXLT1ICdwZpSA
- QCAMwUv2g+SjVtmmr6vvOJoj6kKKQMlXMGH829M+taB2X2yYb0W3bPCcYdKljsbNid6vJd9zCqN
- niCkN1e2e+z4WusjLNOOde/6mXK6
-X-Google-Smtp-Source: AGHT+IF+DcP7RBnj1eO65Ay4KAdaw9prgtbEqd38CqDRILia9eh90RWgdc07UopBt80TakLnfpkNrhhTAdF11Rmi1Ew=
-X-Received: by 2002:a53:b08c:0:b0:644:6422:cb2 with SMTP id
- 956f58d0204a3-6466a8c09ddmr4928743d50.47.1766277218122; Sat, 20 Dec 2025
- 16:33:38 -0800 (PST)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 110AC10E173
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 01:07:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766279245; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=QZnLQNGdVyoQJ+L4KY8WbAt+JSLVFQaT23vFJi1sHeUKPP1ijm14JysmRvbcobsgEdMECndtQrRWcl2YFLLQDjmF/EnIm8u1VPYEZ2Sy/XH7LPabYHgglkdwXqLtrvzi6J412QKrTqhEISeqFyptj2aPdWx7A0MlbGtlr1zEbXA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1766279245;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=A9fJqfpYI2qxigAQq59smi7UaMgRgfQCz1t0OlIcykg=; 
+ b=eNxh5LX9zEI6w+ntBA2h5y9IptzzsQxC4y3WdbvROVO3irWEdjZi0x1Q9jGfvy22PqBDswbPcH0LsQsz6iakoBFkGdAsaHi5t2BLoZWg6Mycd9oLurIQmXjRvS06kGP1acSdoTZKpiyehYRzJdWjaM2WNzsa4JDcP0m93AW49AM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766279245; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=A9fJqfpYI2qxigAQq59smi7UaMgRgfQCz1t0OlIcykg=;
+ b=Myhlk4n9tb7M3+vdSHvVonu6HpXdPnKR/g3uop218rf5Errs7GtBEp1utt7QFAcp
+ Yb6W73xiQ1m8x3H+QV8c8j3LUVDaSmK+OD39BbU8KOJeg83k99UoskfPh/bPz4gbtyA
+ ffH8gfP7fvnefGGKGh70aclD0TpBT34iA/6ijf2Y=
+Received: by mx.zohomail.com with SMTPS id 1766279244031661.7082314337193;
+ Sat, 20 Dec 2025 17:07:24 -0800 (PST)
+Date: Sun, 21 Dec 2025 01:07:19 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Biju <biju.das.au@gmail.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
+Message-ID: <kwtddnnpi3s3uvq5f7u2nevyiagr7fyqz5yohcbz6vs3uldccw@5gxjmkvwzyrj>
+References: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
-In-Reply-To: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Sat, 20 Dec 2025 16:33:26 -0800
-X-Gm-Features: AQt7F2pQeCDszCkhBlVBNoYZ8W1xv30ESuUDKy-HkDBic1PvCA7PvceQ4heu6Pg
-Message-ID: <CAPaKu7QST65NPQ7rZAGhqLsb4FN21D-rOvUf-UzgsBCrOv1skA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Make MT8196 get its Mali GPU shader_present from
- nvmem
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>,
- kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,77 +73,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 20, 2025 at 10:50=E2=80=AFAM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
+Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+On 03.12.2025 12:51, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> The MediaTek MT8196 SoC's Mali SHADER_PRESENT register does not list
-> only functional shader cores, but also those that are fused off to
-> improve yield.
+> RZ/G3E SoC is embedded with Mali-G52 GPU system. The system hangs after
+> STR in the following condition:
 >
-> The SHADER_PRESENT bitmask with the one fused off core omitted is to be
-> found in an efuse. However, the efuse address is considered
-> confidential, and is not public knowledge.
+> STR -> Wakeup from STR -> Unload panfrost using 'modprobe -r panfrost'.
 >
-> The MT8196 GPUEB MCU, which does the power management for the Mali GPU
-> on this SoC, knows and reads the efuse however, and exposes it in the
-> shared memory intended to communicate state to the application
-> processor. Reading the bitmask from this shared memory area is the
-> vendor's intended solution.
+> Fix this issue by asserting/deasserting the reset during suspend/resume.
+> Rename the variable allwinner_h616_data->default_pm_rt_data for data
+> reuse and make it as generic GPU PM runtime data.
 >
-> This series models this in the binding and implements it in the
-> corresponding Linux drivers:
-> - the mali-valhall-csf binding gets an nvmem-cells/nvmem-cell-names
->   property to declare that shader-present is in a different castle
-> - the mt8196-gpufreq binding requires nodes to expose the shader-present
->   cell
-> - panthor checks for the presence of the shader-present cell and uses it
->   as the shader-present value if it's found, instead of the Mali GPU
->   register contents
-> - mtk-mfg-pmdomain becomes an nvmem provider and will happily serve
->   queries for the shader-present cell
->
-> While it would be preferable if we could read the efuse directly, it's
-> not possible as things stand, and insisting on it will just keep this
-> hardware from working in mainline. Running a GPU workload with a
-> SHADER_PRESENT bitmask that includes a faulty core results in corrupt
-> GPU rendering output.
->
-> Modelling the mt8196-gpufreq device as a nvmem-cell provider however is
-> not lying about the hardware's capabilities, as it truly does provide
-> access to the nvmem-cell, even if it acts as a proxy.
->
-> From a bindings and panthor perspective, this is also generic enough to
-> where hypothetical other vendors doing the same thing (even with direct
-> efuse access) can rely on the same cell name and implementation.
->
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Series is Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> Changes in v2:
-> - panthor: move to nvmem_cell_read_variable_le_u64
-> - mtk-mfg-pmdomain: put of_node in error path
-> - mtk-mfg-pmdomain: remove leftover stray of_node_put on NULL
-> - Link to v1: https://lore.kernel.org/r/20251217-mt8196-shader-present-v1=
--0-f6f8f3aa1e93@collabora.com
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> ---
-> Nicolas Frattaroli (4):
->       dt-bindings: gpu: mali-valhall-csf: Add shader-present nvmem cell
->       dt-bindings: power: mt8196-gpufreq: Describe nvmem provider ability
->       drm/panthor: Implement reading shader_present from nvmem
->       pmdomain: mediatek: mtk-mfg: Expose shader_present as nvmem cell
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 7d8c7c337606..e553f183c780 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -976,7 +976,7 @@ static const struct panfrost_compatible default_data = {
+>  	.pm_domain_names = NULL,
+>  };
 >
->  .../bindings/gpu/arm,mali-valhall-csf.yaml         | 14 +++++
->  .../bindings/power/mediatek,mt8196-gpufreq.yaml    | 13 +++++
->  drivers/gpu/drm/panthor/panthor_hw.c               | 36 ++++++++++---
->  drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c       | 59 ++++++++++++++++=
-++++++
->  4 files changed, 116 insertions(+), 6 deletions(-)
-> ---
-> base-commit: 638148c6ffa31d2e4958d51708ff3675221e2da7
-> change-id: 20251217-mt8196-shader-present-e2dc3f97fc74
->
-> Best regards,
+> -static const struct panfrost_compatible allwinner_h616_data = {
+> +static const struct panfrost_compatible default_pm_rt_data = {
+>  	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
+>  	.supply_names = default_supplies,
+>  	.num_pm_domains = 1,
+> @@ -1056,6 +1056,7 @@ static const struct of_device_id dt_match[] = {
+>  	  .data = &amlogic_data, },
+>  	{ .compatible = "amlogic,meson-g12a-mali",
+>  	  .data = &amlogic_data, },
+> +	{ .compatible = "renesas,r9a09g047-mali", .data = &default_pm_rt_data },
+>  	{ .compatible = "arm,mali-t604", .data = &default_data, },
+>  	{ .compatible = "arm,mali-t624", .data = &default_data, },
+>  	{ .compatible = "arm,mali-t628", .data = &default_data, },
+> @@ -1073,7 +1074,7 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+>  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+>  	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
+> -	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
+> +	{ .compatible = "allwinner,sun50i-h616-mali", .data = &default_pm_rt_data },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dt_match);
 > --
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->
+> 2.43.0
+
+Adrian Larumbe
