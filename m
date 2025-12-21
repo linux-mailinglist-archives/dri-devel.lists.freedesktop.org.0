@@ -2,79 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B844DCD458E
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 21:27:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72885CD42C6
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 17:15:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 511F510E3EC;
-	Sun, 21 Dec 2025 20:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A90910E04C;
+	Sun, 21 Dec 2025 16:15:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L9+2Y8p2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MEjOsLYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6334310E1ED
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 15:33:03 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-64d30dc4ed7so1171353a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 07:33:03 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E978410E04C
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 16:15:19 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-b713c7096f9so529466366b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 08:15:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766331182; x=1766935982; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tfKTmo4nJELW1fqaLs3q/xm7GxRxsQ6W6reyaDZwX/4=;
- b=L9+2Y8p2V9I1Q8bBPU0sxPl+5TUyhql/Al/S/2jRrmR3mWF9Y8FWvtwRlLz7G6QLBu
- zMtQHk49SEAI3wWdYcyBZ6DruwH29s4Iiw04zyTNVDevJBYKx+5PbM5ET5UX35AIe7KI
- 0UabIFdkY6GF4E7KWOfLNznoOsz2sPLGqJKD16n4uRQghUZp0HcTtgwBivph5UniB/eZ
- M1vWELVnyXF/OEMUnadYkUtDgyiuvPgGLyFcNaPOQVjBp4ddQs5p7cw1YkgQphfSdNa1
- VoQnN4qJFKFBl9fjl8/wFijZyTch0pycEr3F+o4yeNsggKuWom1Rd0NSFEQHwY4pAivx
- a1BQ==
+ d=gmail.com; s=20230601; t=1766333718; x=1766938518; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=A/nQPRHVIECDNB9CfoD4rf6v1tTxliW0fJjghmJAo3I=;
+ b=MEjOsLYM3cBVxS1fnSv7HTeMI/R5B6p3m4QQzjJzp1Ux9GqtYSOzJNG3xd+fGCg6o3
+ eDFgCGjTkzFgsXthFHnRiSwd6PK4c0aA/el9FaehO914R17Xeo2usWpCnDCq4JfzxwKe
+ y/H6n0VyKIgTUbQi2V21gJt5yqOueCeYLBh7YQo3OE6RTZh0SmLJ4torpEzfHfHXPn+S
+ DSeecMmvR4hk/NorUqPMf0ewC9NK11sQPENM6OsRHJsyRG1VRhfpbHNtsxWQwXH2nf0q
+ qL37cQr9/mISmGQAjW+K4SS2b+q6IyV3878Nms9GDkF7WifpmW/TnZhNeYf01GnjUeHr
+ XvdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766331182; x=1766935982;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tfKTmo4nJELW1fqaLs3q/xm7GxRxsQ6W6reyaDZwX/4=;
- b=EHOjklcZBqwlZ3PkMN+Y+IBXnQyzPr4KBg7H4WvIA0WF17YoN6LBTfNDkQ6Hd6h6yq
- HdTHQ7sKlL4T7ScwyO0IoqJ1l+CC3JfuO1ZQEVpOPvA7oj0ouTM8ZceDXXFq/dluqlWA
- JrMZ0fm+6Up5cNSrntxkODFiwkRwyVxvVTKsM5IT+Q5ZRkrdGViPOclBLKmIE3n83Mwp
- YhGkvrdgEFfmcw3msyj5GIhwtRJZWedj7ym5LuBaB+2w7XylN7yUnYBBmPbKLsAal/zQ
- kmH1+4YnUB/OxgsqYmV9nJ3W028cWThtgSrcpF3mLHqg4zCN2XCBZiZH4skJEeVX1hHL
- Vp9A==
+ d=1e100.net; s=20230601; t=1766333718; x=1766938518;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=A/nQPRHVIECDNB9CfoD4rf6v1tTxliW0fJjghmJAo3I=;
+ b=DYgdguqQn4Q41uatLgXBAiDyugm76tCwIj7AYq2RsZ2WNhINUGVdlDaiZxFLC6gbJd
+ xvJiPgs/aDWjy/m/4itAuYWqwBbC2vBSfPU30oFt+hlIie5X1vqqLXl8RoAfQ95sR8K7
+ RYGwuUtw2ooTt5uG+/EaA/MhIkx6hsJijO8pyT2zq6dYgQ1HOapCBNu2txf2TE/ADZj2
+ SLBBtX4k7aLoVURk7y9AFNCG3+JoLgob/Rx5XAgyTwUsUYb4PAsAw0lIhSgpQxgBH1Qq
+ H0glo5BFZL0XpX9QYxHURcQPqmdOdQQ4e6MsAyghuPRglMvZSaZ6AbOMwcpDXgCw4mC7
+ tHpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW9/u4EmHdoIhUrhhGCZwbNgBh09+iXWgN2m4WT1Y5W0Uc/sjqAA8io7e7WPrAFIKttUz95hk1RmfE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwkIfUcDCUmuYlQdBOiG87oz67lvU7EgmQ5EBtupxRnHFE4S6lu
- MMmUqhbo5URkRGTTpOmEcV42gsUmazw8IrwCtPAhu7rJSuVJz7jXFJ0X
-X-Gm-Gg: AY/fxX722tLq3/38EdoKAXS9ABaL4dwQziTVuFKOqZhFZdSwZoYLMLUzN8nrqCjXYh/
- tFYnBo1UZ3yzxqam2eexzRq3l3mtsXYXSaIph13+Y88At1DcYDWmx3FHGDxM+zS2JxnWGTA+SG8
- Lv7O26LN5PWWWbeTG4juO2JUCPg3ySOqIItSQDB1ESXdt70Ow0bbn42z56XSrf1VIMz3k6l8GwQ
- ZMCFHYxEJR5BzfNrt6scfIFagG/SsoWZcbG05wT401K/6NkJVnXYsclcVFBCCL+TP/8G/qWFq9k
- TsERDDNz6eOQZHYPVQR7/kxrxH2x+jcdNb65l6PSK9+WMJkp2k1K7hXAlhiEmcQdfCG9ziISAm8
- YVz6NrFL45x6aHb0u1rixEWjOSEFfB49BEAamUejNxGa14dvoBzNQCL9VoskpXPuM10ugK48PO5
- g=
-X-Google-Smtp-Source: AGHT+IHCJZ9Sq/rnbPBZLh9tgt8wtX1m3fVtbRYW12r7euLP7G7Br1Ulnd8nM/hRB9h1cJ2bDI4bvQ==
-X-Received: by 2002:a05:6402:40cb:b0:64b:bb79:96bb with SMTP id
- 4fb4d7f45d1cf-64bbb799a91mr5639423a12.24.1766331181695; 
- Sun, 21 Dec 2025 07:33:01 -0800 (PST)
-Received: from prometheus ([85.11.110.37]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64b916adc61sm7629741a12.31.2025.12.21.07.33.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Dec 2025 07:33:01 -0800 (PST)
-From: Szymon Wilczek <swilczek.lx@gmail.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, Szymon Wilczek <swilczek.lx@gmail.com>,
- syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com
-Subject: [PATCH] dma-buf: fix WARNING in dma_buf_vmap
-Date: Sun, 21 Dec 2025 16:32:50 +0100
-Message-ID: <20251221153250.17591-1-swilczek.lx@gmail.com>
-X-Mailer: git-send-email 2.52.0
+ AJvYcCUYqvDVDhJYiMBEtCLt84NERgLXL/lg7bAry2VzkM0j4wksxB4rm9Ohj3KIIMNFCR3oeHjW9Kc6wg8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4N6euUEvUdI4FxZOcIw6kx2V+iyJvIfBySWZR4LSjqJWVd00t
+ Ob4HjI2ZFIlJ02rFzm2FfmZWWXAefDgezaGDe9XpFAacJV4w4B0nllyg
+X-Gm-Gg: AY/fxX4O9/iepzHXS8+CXPpmzNSwaSk92eoxpOaHDZlt5wo6i35QKaW6KrVyv6gKpc8
+ FN6zSiiXheApVMc4bDY+SX5l2j11QMyH3cHWsaBYKNg3LcyijfZeJjJN9eKPDQNtm/UUhhaVC6g
+ cRJnMXluhZT28j4yj2EiP89bHwDwMJcLCJQ77JJCR36wBmvPnoV19ZjgDonOHAEhCTsGDDMna79
+ /Qlg41nP+e3XnmytmZ7bLMoXRsk2i3EEu5VIZxXlp9m+YgszgUfnhChfatrdqX/u33N177yXNE+
+ /XTg3bY0OavkQxgY3euKb6mrxZIn+BCPHgpxBM+bz456HbCOib13cKq0kaM/KvwNOgDYsXUnyaW
+ bwWZ4mjyHNAItDZOELRFhljsHk5Pe9UpBptcHeSROMzhWNNFrZTMUGaAVcR+wwAhrGE+eWe+glj
+ 10c05jIadyCaVksAZegyLjrZT8IxLrLHkn6T0ssYgWlV5SffHxFSfa
+X-Google-Smtp-Source: AGHT+IGR/bKrqbNOuJCrCZdXmkppZh3icvhkg4SbNmzPwMKi8ICKg/Fg2E3rNR/bgU4MfDn2mTBIIQ==
+X-Received: by 2002:a17:907:97cf:b0:b7d:1cbb:5dfb with SMTP id
+ a640c23a62f3a-b8036ecbd11mr890447966b.7.1766333717979; 
+ Sun, 21 Dec 2025 08:15:17 -0800 (PST)
+Received: from [192.168.0.130] (84-148-177-143.ftth.glasoperator.nl.
+ [143.177.148.84]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-64b91599844sm7577559a12.25.2025.12.21.08.15.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Dec 2025 08:15:17 -0800 (PST)
+Message-ID: <d25eb292-e019-4293-b389-d328b7b83b60@gmail.com>
+Date: Sun, 21 Dec 2025 17:15:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+From: Jasper Korten <jja2000@gmail.com>
+To: Aaron Kling <webgeek1234@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+ <pedxgtvzfrfzihoshhfvntin3hwwi3znleilbz4abjad74nowb@un33lgiaa26z>
+ <CALHNRZ9-XrMUkQE0cwjq-HUYsy5uerhOQ9sNpirp23kKoaPuYw@mail.gmail.com>
+ <72llskwvuwyllvz24zoex4ad6v6t5skiehmwylj7exoh7bmzjo@xq3v7vja5w62>
+ <CALHNRZ_k6e9ZRmpK6Pzpet=RzUQ0fRYmfnea6U+9E2oZc8=z7w@mail.gmail.com>
+ <eac10a43-5164-4ecf-8b56-6099e69001bc@gmail.com>
+ <CALHNRZ9b98Su9qAqXRSTCStoUPtC_u3+MG0cr4SQ-g3aVJD7LQ@mail.gmail.com>
+ <6dc26bf0-6e28-4478-9ec4-20622cc8a19e@gmail.com>
+Content-Language: en-US
+In-Reply-To: <6dc26bf0-6e28-4478-9ec4-20622cc8a19e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 21 Dec 2025 20:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +102,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a driver's vmap callback returns an error (e.g. -ENOMEM), dma_buf_vmap()
-triggers a WARN_ON_ONCE(). This is incorrect as vmap operations can legitimately
-fail due to resource exhaustion or other transient conditions, as documented.
+On 18/12/2025 00:18, Jasper Korten wrote:
+> On 09/12/2025 05:23, Aaron Kling wrote:
+>
+>> On Wed, Nov 5, 2025 at 3:28 PM Jasper Korten <jja2000@gmail.com> wrote:
+>>> Hi all,
+>>>
+>>> On 11/4/25 19:12, Aaron Kling wrote:
+>>>> On Tue, Nov 4, 2025 at 3:14 AM Thierry Reding 
+>>>> <thierry.reding@gmail.com> wrote:
+>>>>> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
+>>>>>> On Mon, Nov 3, 2025 at 5:54 AM Thierry Reding 
+>>>>>> <thierry.reding@gmail.com> wrote:
+>>>>>>> On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4 
+>>>>>>> Relay wrote:
+>>>>>>>> From: Aaron Kling <webgeek1234@gmail.com>
+>>>>>>>>
+>>>>>>>> Without the cmu, nvdisplay will display colors that are notably 
+>>>>>>>> darker
+>>>>>>>> than intended. The vendor bootloader and the downstream display 
+>>>>>>>> driver
+>>>>>>>> enable the cmu and sets a sRGB table. Loading that table here 
+>>>>>>>> results in
+>>>>>>>> the intended colors.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+>>>>>>>> ---
+>>>>>>>>    drivers/gpu/drm/tegra/dc.h  |  13 +++
+>>>>>>>>    drivers/gpu/drm/tegra/sor.c | 206 
+>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>>    2 files changed, 219 insertions(+)
+>>>>>>> What does "darker than intended" mean? Who defines the 
+>>>>>>> intention? How do
+>>>>>>> we know what the intention is? What this patch ultimately seems 
+>>>>>>> to be
+>>>>>>> doing is define sRGB to be the default colorspace. Is that 
+>>>>>>> always the
+>>>>>>> right default choice? What if people want to specify a different
+>>>>>>> colorspace?
+>>>>>> I reported this issue almost a month ago. See kernel lore [0] and
+>>>>>> freedesktop issue [1]. The pictures in the latter show what 
+>>>>>> nvdisplay
+>>>>>> looks like right now. It's nigh unusably dark. When booted into
+>>>>>> Android with a tv launcher that has a black background, as is 
+>>>>>> default
+>>>>>> for LineageOS, it is really hard to read anything. Is it correct 
+>>>>>> as a
+>>>>>> default? Well, cboot hardcodes this, so... presumably? It would be
+>>>>>> more ideal to expose this and csc to userspace, but I'm not sure if
+>>>>>> drm has a standardized interface for that or if tegra would have to
+>>>>>> make something vendor specific. I think that would be a separate
+>>>>>> change concept compared to setting this default, though.
+>>>>> The reason I'm asking is because I don't recall ever seeing "broken"
+>>>>> colors like you do. So I suspect that this may also be related to 
+>>>>> what
+>>>>> display is connected, or the mode that we're setting.
+>>> I have tried it on both a MacroSilicon HDMI capture card and an Arzopa
+>>> Z1FC 1080p portable monitor and run into the same darker colors. Both
+>>> have in common that they use HDMI which seems to line up with what 
+>>> Aaron
+>>> is reporting. I do not have an eDP display to test or another carrier
+>>> board with a different display out to test.
+>>>>> It could perhaps
+>>>>> also be related to what infoframes we're sending and how these are
+>>>>> supported/interpreted by the attached display.
+>>>>>
+>>>>> All of that is to say that maybe this looks broken on the particular
+>>>>> setup that you have but may works fine on other setups. Changing the
+>>>>> default may fix your setup and break others.
+>>>> Do you have a device set up so you can check? Or does the regression
+>>>> test bench have a display that can be forwarded?
+>>>>
+>>>> My current setup is a rack of units plugged via hdmi to a kvm which is
+>>>> then plugged to a pikvm. I also observed this issue before I had this
+>>>> setup, plugged directly to a 1080p monitor. I have not checked
+>>>> displayport. I can cycle through a couple other displays without this
+>>>> patch to see if I get any other result. I am fairly certain I have
+>>>> consistently seen this issue since I started trying to work with
+>>>> tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it work to
+>>>> allow for a bisect.
+>>>>
+>>>> I am in contact with one other person with a tx2 devkit, who
+>>>> replicated the issue when I asked. Who plans to reply to this thread
+>>>> with setup info later.
+>>> For reference, I am said person. I have a Jetson TX2 Devkit that uses
+>>> the P2771 Device Tree. I'm running a Fedora distrokernel with no
+>>> additional patches applied by myself. I have personally noticed the
+>>> issue to at least be present on 6.14.5 and 6.17.4.
+>>>
+>>>
+>>> I'm currently not at home to take screenshots with and without the
+>>> submitted patch, but will be able to do it tomorrownight or friday.
+>> Any further thoughts from the maintainers on this patch? As far as I
+>> know, this is an issue for all users, at the very least on hdmi.
+>>
+>> Aaron
+>
+> I've finally captured some footage of the colors of my TX2 within tty.
+> I've also added a reference in the form of my X13s doing the same 
+> thing.[1]
+>
+> I will at a later date try the patch and update the MR comment,
+> but at least this shows the difference while recording using the same 
+> setup.
+>
+> Kindest regards,
+>
+> Jasper
+>
+> [1]: https://gitlab.freedesktop.org/drm/tegra/-/issues/8#note_3242611
+>
+As promised, I've added my test results to the Issue[1]. It seems to 
+improve colors a lot more, haven't ran into any other issues.
 
-Fix this by removing the WARN_ON_ONCE(). The error code is already correctly
-propagated to the caller.
 
-Reported-by: syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=4317d7108e14e5d56308
-Signed-off-by: Szymon Wilczek <swilczek.lx@gmail.com>
----
- drivers/dma-buf/dma-buf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The patch seems to work therefore:
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..14b55f67ee1c 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1525,7 +1525,7 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
- 
- 	ret = dmabuf->ops->vmap(dmabuf, &ptr);
--	if (WARN_ON_ONCE(ret))
-+	if (ret)
- 		return ret;
- 
- 	dmabuf->vmap_ptr = ptr;
--- 
-2.52.0
+Tested-by: Jasper Korten <jja2000@gmail.com>
+
+
+Kindest regards,
+
+Jasper Korten
+
+
+[1]: https://gitlab.freedesktop.org/drm/tegra/-/issues/8#note_3246713
 
