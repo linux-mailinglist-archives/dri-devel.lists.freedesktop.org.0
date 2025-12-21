@@ -2,127 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32948CD4317
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 17:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F36CD433F
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 18:10:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81EA810E030;
-	Sun, 21 Dec 2025 16:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D00F10E06B;
+	Sun, 21 Dec 2025 17:10:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nChQO6YV";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ctzvyT/b";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XOHAXq+H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10BEE10E030
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 16:57:44 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BLEJUVu2378453
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 16:57:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=bN7W8KuZTb2DirG3bJS9nOTczWMfVRtYjIE
- WaxsTlhQ=; b=nChQO6YVdWJ/36aFmgJFoyt2k0fZLABFDaX178In4m2hbQlkGut
- W0o35lFehl7X208DYvazaGVarSrStAgyhsDP+06pyJjp1dNJ50cBkjSMwmTAscS+
- On9ILbLrjf3FGOoWDPq1XDTZg/Auj1ePMjtL+k2gGqtTyBBMO+d5vCn3AfdjPmHw
- FYrVWl/Bf6qMdVd0vMKuMTGbofm0dIIIEM/JiG/TkBjaWac9yIeFy2mbmwIEq/+m
- UO8JuLcLwbB1WaD+GHz+Rg59nwB46d8Pbhgwl1PdXIYlpb3IWRFrpEUGPWSM9u3b
- uMJfc6dmDkdYegLwE0nG7xU1Z6nyp8bABRQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mtqjkf7-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 16:57:43 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4f4a5dba954so76041071cf.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 08:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766336263; x=1766941063;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bN7W8KuZTb2DirG3bJS9nOTczWMfVRtYjIEWaxsTlhQ=;
- b=ctzvyT/bgTtSSZjTbB1jPQapbB1TV04uU0uCVbawCSNjXEZ9It92Sdxy4CRVtKxijx
- zLg+i+MZ0C+OkGTn6D9XYXRwRRzOsWua5z3GxZIZKGgShOW4iRVI8ck+Tlt6ZYuHzGRV
- S10Gwbz1C2jagTLA1OJ/bIWM1L+AKsbX0ESptaZVpfFK9eB+IvltW+F+LRcEmNtA5GNt
- /3VsxQm0kqCIo2B4cwdmqX8zYzPa9ybGX29c+vCIhCp4FKOhZ2dcoufLQ/jic+RIXmwe
- 2akppm/EV/g5m3JMPMamU8tgoC33FiQ0QmCkqLzktXmTDXmUWFNcsXfMITzWuMoyq6Sv
- eDvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766336263; x=1766941063;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bN7W8KuZTb2DirG3bJS9nOTczWMfVRtYjIEWaxsTlhQ=;
- b=Rqg0RCrLODMa7eASn3di24BT1ShaqiFDtQ+a1dDnnDcEEzQ8NGmps68O8bYB3UH3Is
- TY83Wnh1le5M1Djp08a8xvFUe+w8oQn9+Bw+zZMlQJXtRNVEJh7+xbBitosP1TjhHnOt
- nL2PErljeth8YFWwO09wyUnHrkGddiBsoLph44RFaRVPs5SLAum2V2Wgpa6jCjcbWdLi
- o8g1q3RuQT7O1hFTO1a2XB4fq/dYXUWhTmId1t6raSumWcgxVwCpHa8JkBkoAPTGLutl
- BMhMivVlfsVqAlzYsxbrf6nDKlrgOywuTJgOG/T5iuEpSU5b4BSsda9VofBo/BCEkjZG
- fodw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLg7aa6MTuNNRYNUIl1lRg/D+8tUydXVmtopnuHSt4exEwrLX37TXIEjj4J0WYO5XVRqe3Rb1Ys9A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjlDkv6thFeNqaLmB3ErSrP+ysy7mhK1FVeuUCEr2NqABPLwCM
- h3ktpEp7YO+MS/eDBoTRz94AVzaIqNlLyKSk4IzRO9g9Ty8TqukNQhLmLx+D9cLZ78YKyjK/h10
- 4GxWI/L9rUx5Tj90zHZPdH144GB+mRLHm5CEzqt3Ec1cuIVLCDONG39f6CiqXuQpF6Pu559g=
-X-Gm-Gg: AY/fxX6e0NqgKQ9TVVpI2+YPyKtURTHjyrkZKdZTXJaFZbg552v2FLzrxit0RQEsEsQ
- rajKYGtGUmY2lCxRM+OHZEBtHpuYAvVgk52YsSUaV30iXumoIy8F+PMLzM2aEBL19i0vLMRjqR0
- r3uU68r7FA++OQPPS4REnbg1XuVCkzf1TIpdsNmWKC3EljbLWyk/2655WfcZlQ46yjajy65ejak
- jyTTfByKm/HDjqNK4GCfSgeOWrIPKNJfOnfavKaMiQMlG1CIfpzPaU85fhBPcO+qYh0gOTFnXAm
- TadLK6FKFRxBU0YAQ5cJdF27WDiy4+JErZoCiqRr9TbO9GWhfLBkfvXAVQAqXhmYl/BfnJj192Q
- XgHIOzC0MhfBNQ5XIb4cA/BNZjt/JjWbOKUbfrurtJ+9aWxROHI1lxpB3vhJgPnK3usA2ZLw6ZY
- Ydl3thABzudOMKy955otIFUbKW
-X-Received: by 2002:a05:622a:588e:b0:4f0:24e2:8de6 with SMTP id
- d75a77b69052e-4f4abd9765emr147790521cf.64.1766336263061; 
- Sun, 21 Dec 2025 08:57:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEDrLWQigAphc9gZx4ySp95tJ7pg8YC1s9DqWguNVNoGK8HW9bCnd0hfLpMD8fq2gEg1xMSCw==
-X-Received: by 2002:a05:622a:588e:b0:4f0:24e2:8de6 with SMTP id
- d75a77b69052e-4f4abd9765emr147790231cf.64.1766336262551; 
- Sun, 21 Dec 2025 08:57:42 -0800 (PST)
-Received: from shalem
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037f09149sm807070166b.47.2025.12.21.08.57.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Dec 2025 08:57:41 -0800 (PST)
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-To: Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- stable@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] fbdev: Use device_create_with_groups() to fix sysfs groups
- registration race
-Date: Sun, 21 Dec 2025 17:57:40 +0100
-Message-ID: <20251221165740.15821-1-johannes.goede@oss.qualcomm.com>
-X-Mailer: git-send-email 2.52.0
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1242310E06B
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 17:10:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766337029; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Tv7I+eS0noDQicKg00HaO4k9/1bIpZZNm8ttFaSROl6Xj37xr1EtXgsAfOYTGSBsGJy1PjqbcaBzGgCRyTrhd2NCRlgDoqF5PPBZkWhF9fQU/Is8V6SvIgF8gxoxYAZptjo2RhitEz829UGvgsgR71FdiNyE6MG6QcY5vBIBmys=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1766337029;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=/PZR7EMmQtFytPGqQvgQ7KN2ZT4KRYbjnJV6LeZnNbI=; 
+ b=gh90FTWvCTqM0FNNyUB0TXtudIbNmCfi1EbccftkZry9aTu90oW37izltsNHArZR0vj2OjAximG4LJ82yuvwmcctiuqHhddg67uKcSB+Dhuh3WZ1VvPHU1jE6bIDDTSDgZnEDIrXMz8LsMTLG2P4BBF8V4jdq6HAXbAVmn2UhDI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766337029; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=/PZR7EMmQtFytPGqQvgQ7KN2ZT4KRYbjnJV6LeZnNbI=;
+ b=XOHAXq+Hl6z5uvfbm+VO5hu5mogrPpp3fH5QlB4qfzEtH/BFRQTSdSJcfVTLwVxt
+ 19hnJNDdjQ2wM1SwBLONLXc603/dffxv6o4z8YZDqvmFbGOjNPC2HBtRb9Av1gprxgX
+ b5/GRhB0xQfZ3L7TQLJ9KQ277t0CFyTj2VHiZowQ=
+Received: by mx.zohomail.com with SMTPS id 1766337027954152.59101817341536;
+ Sun, 21 Dec 2025 09:10:27 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v5 0/3] Add a few tracepoints to panthor
+Date: Sun, 21 Dec 2025 18:10:13 +0100
+Message-Id: <20251221-panthor-tracepoints-v5-0-889ef78165d8@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: sgaUd8tpkWj7uFInLh8YB3rKh6_5ikIy
-X-Authority-Analysis: v=2.4 cv=dPWrWeZb c=1 sm=1 tr=0 ts=69482707 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=mFxE72mproX8ypq736UA:9 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: sgaUd8tpkWj7uFInLh8YB3rKh6_5ikIy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIxMDE1OSBTYWx0ZWRfX4MIZiXZPCGHO
- v0BSFAS6VuVHI+0c2opXt98PNRHe87oa69iYdsgtYiIXXo7L4T8EJcazMvParXVveGJO2YX0gPA
- G2HGYw5EUMnpeXgxro4SuvGodL6Q8Teoiv6ZsT4ds44szmHYVbUjSIGx8waoymUc9w3045P5AoM
- uDCn7f5izVQn3bJhZAqk8RIKuJJow/AYtGFL3abCm/aUKImWrpesSSeNYjBeWHOyI9tUpBExwnc
- EMCe0pQsR4Tc1ksX4sO0dL+l91z4PftdGbMPhAqPAT0eg/ozr1sUvzDGDMoM8fc+v8fS5QB2BEL
- Go4ZW6TCBJd5heklzLqKkm1VviiFiaUdRYl4FGwJxQz4ReYfK3PTBp1h4aYMcYXvuft/nD1CwfG
- F0VdUrF8sygDEAMMhjrSNFLMyYK6yyc9iYxdtGhP/EWSTmXbdhvPsjq5PLKk4fHaNK0DC6HEl3n
- awhctqCvh9dgjupvOsA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-21_04,2025-12-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512210159
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPUpSGkC/33OTW7DIBAF4KtYrEvKn23IKveIusAwrpFi4wCxU
+ kW+e4jThVWhrkZvpPfNPFCE4CCiY/VAARYXnZ9yqD8qZAY9fQN2NmfECKspIxzPekqDDzgFbWD
+ 2bkoRCyl1T5QVDbQoN+cAvbtv6vnrnQNcbxlP7yXqdARs/Di6dKxsGHFy8+fvRK/K4GLy4Wf7a
+ 6Fb598XFooJli01UtEWiBQn4y8X3fmgD/nOZi5s51BSdlh2cmTAVKct6UsO3zu07PDsKCaMsrx
+ udG1Kjtg7bdkRL4c2VDamk5bwv866rk9tTuDuxQEAAA==
+X-Change-ID: 20251203-panthor-tracepoints-488af09d46e7
+To: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,119 +75,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fbdev sysfs attributes are registered after sending the uevent for
-the device creation, leaving a race window where e.g. udev rules may
-not be able to access the sysfs attributes because the registration is
-not done yet.
+This series adds two tracepoints to panthor.
 
-Fix this by switching to device_create_with_groups(). This also results in
-a nice cleanup. After switching to device_create_with_groups() all that
-is left of fb_init_device() is setting the drvdata and that can be passed
-to device_create[_with_groups]() too. After which fb_init_device() can
-be completely removed.
+The first tracepoint allows for inspecting the power status of the
+hardware subdivisions, e.g. how many shader cores are powered on. This
+is done by reading three hardware registers when a certain IRQ fires.
 
-Dropping fb_init_device() + fb_cleanup_device() in turn allows removing
-fb_info.class_flag as they were the only user of this field.
+The second tracepoint instruments panthor's job IRQ handler. This is
+more useful than the generic interrupt tracing functionality, as the
+tracepoint has the events bit mask included, which indicates which
+command stream group interfaces triggered the interrupt.
 
-Fixes: 5fc830d6aca1 ("fbdev: Register sysfs groups through device_add_group")
-Cc: stable@vger.kernel.org
-Cc: Shixiong Ou <oushixiong@kylinos.cn>
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+To test the tracepoints, the following can be used:
+
+  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_power_status/enable
+  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_job_irq/enable
+  :~# echo 1 > /sys/kernel/tracing/tracing_on
+  :~# cat /sys/kernel/tracing/trace_pipe
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Note the fixes tag is technically wrong. This race has existed forever.
-The commit I picked for the fixes tag is a dependency of this change not
-the commit introducing the race. I don't believe that backporting this
-back any further is useful which is why I went with this commit.
----
- drivers/video/fbdev/core/fbsysfs.c | 36 +++---------------------------
- include/linux/fb.h                 |  1 -
- 2 files changed, 3 insertions(+), 34 deletions(-)
+Changes in v5:
+- Change the panthor IRQ helpers to guard the mask member and register
+  with a spinlock. The rationale behind using a spinlock, rather than
+  some constellation of atomics, is that we have to guarantee mutual
+  exclusion for state beyond just a single value, namely both the register
+  write, and writes to/reads from the mask member, including
+  reads-from-member-writes-to-register. Making the mask atomic does not do
+  anything to avoid concurrency issues in such a case.
+- Change the IRQ mask member to not get zeroed when suspended. It's
+  possible something outside of the IRQ helpers depends on this
+  behaviour, but I'd argue the code should not access the mask outside
+  of the IRQ helpers, as it'll do so with no lock taken.
+- Drop the mask_set function, but add mask_enable/mask_disable helpers
+  to enable/disable individual parts of the IRQ mask.
+- Add a resume_restore IRQ helper that does the same thing as resume,
+  but does not overwrite the mask member. This avoids me having to
+  refactor whatever panthor_mmu.c is doing with that poor mask member.
+- Link to v4: https://lore.kernel.org/r/20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com
 
-diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-index b8344c40073b..baa2bae0fb5b 100644
---- a/drivers/video/fbdev/core/fbsysfs.c
-+++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -12,8 +12,6 @@
- 
- #include "fb_internal.h"
- 
--#define FB_SYSFS_FLAG_ATTR 1
--
- static int activate(struct fb_info *fb_info, struct fb_var_screeninfo *var)
- {
- 	int err;
-@@ -451,33 +449,7 @@ static struct attribute *fb_device_attrs[] = {
- 	NULL,
- };
- 
--static const struct attribute_group fb_device_attr_group = {
--	.attrs          = fb_device_attrs,
--};
--
--static int fb_init_device(struct fb_info *fb_info)
--{
--	int ret;
--
--	dev_set_drvdata(fb_info->dev, fb_info);
--
--	fb_info->class_flag |= FB_SYSFS_FLAG_ATTR;
--
--	ret = device_add_group(fb_info->dev, &fb_device_attr_group);
--	if (ret)
--		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
--
--	return 0;
--}
--
--static void fb_cleanup_device(struct fb_info *fb_info)
--{
--	if (fb_info->class_flag & FB_SYSFS_FLAG_ATTR) {
--		device_remove_group(fb_info->dev, &fb_device_attr_group);
--
--		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
--	}
--}
-+ATTRIBUTE_GROUPS(fb_device);
- 
- int fb_device_create(struct fb_info *fb_info)
- {
-@@ -485,14 +457,13 @@ int fb_device_create(struct fb_info *fb_info)
- 	dev_t devt = MKDEV(FB_MAJOR, node);
- 	int ret;
- 
--	fb_info->dev = device_create(fb_class, fb_info->device, devt, NULL, "fb%d", node);
-+	fb_info->dev = device_create_with_groups(fb_class, fb_info->device, devt, fb_info,
-+						 fb_device_groups, "fb%d", node);
- 	if (IS_ERR(fb_info->dev)) {
- 		/* Not fatal */
- 		ret = PTR_ERR(fb_info->dev);
- 		pr_warn("Unable to create device for framebuffer %d; error %d\n", node, ret);
- 		fb_info->dev = NULL;
--	} else {
--		fb_init_device(fb_info);
- 	}
- 
- 	return 0;
-@@ -505,7 +476,6 @@ void fb_device_destroy(struct fb_info *fb_info)
- 	if (!fb_info->dev)
- 		return;
- 
--	fb_cleanup_device(fb_info);
- 	device_destroy(fb_class, devt);
- 	fb_info->dev = NULL;
- }
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 05cc251035da..c3302d513546 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -497,7 +497,6 @@ struct fb_info {
- #if defined(CONFIG_FB_DEVICE)
- 	struct device *dev;		/* This is this fb device */
- #endif
--	int class_flag;                    /* private sysfs flags */
- #ifdef CONFIG_FB_TILEBLITTING
- 	struct fb_tile_ops *tileops;    /* Tile Blitting */
- #endif
+Changes in v4:
+- Include "panthor_hw.h" in panthor_trace.h instead of duplicating the
+  reg/unreg function prototypes.
+- Link to v3: https://lore.kernel.org/r/20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com
+
+Changes in v3:
+- Drop PWRFEATURES patch, as this register is no longer needed by this
+  series.
+- Eliminate the rt_on field from the gpu_power_status register, as per
+  Steven Price's feedback.
+- Make gpu_power_status tracepoint reg/unreg functions generic across
+  hardware generations by wrapping a hw op in panthor_hw.c.
+- Reimplement the <= v13 IRQ mask modification functions as the new hw
+  ops functions. v14 can add its own ops in due time.
+- Link to v2: https://lore.kernel.org/r/20251210-panthor-tracepoints-v2-0-ace2e29bad0f@collabora.com
+
+Changes in v2:
+- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits when the
+  tracepoint is enabled. Necessitates the new irq helper patch.
+- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits if the hardware
+  architecture is <= v13, as v14 changes things.
+- Use _READY instead of _PWRACTIVE registers, and rename the tracepoint
+  accordingly.
+- Also read the status of the ray tracing unit's power. This is a global
+  flag for all shader cores, it seems. Necessitates the new register
+  definition patch.
+- Move the POWER_CHANGED_* check to earlier in the interrupt handler.
+- Also listen to POWER_CHANGED, not just POWER_CHANGED_ALL, as this
+  provides useful information with the _READY registers.
+- Print the device name in both tracepoints, to disambiguate things on
+  systems with multiple Mali GPUs.
+- Document the gpu_power_status tracepoint, so the meaning of the fields
+  is made clear.
+- Link to v1: https://lore.kernel.org/r/20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com
+
+---
+Nicolas Frattaroli (3):
+      drm/panthor: Extend IRQ helpers for mask modification/restoration
+      drm/panthor: Add tracepoint for hardware utilisation changes
+      drm/panthor: Add gpu_job_irq tracepoint
+
+ drivers/gpu/drm/panthor/panthor_device.h | 55 +++++++++++++++++---
+ drivers/gpu/drm/panthor/panthor_fw.c     | 13 +++++
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 30 ++++++++++-
+ drivers/gpu/drm/panthor/panthor_gpu.h    |  2 +
+ drivers/gpu/drm/panthor/panthor_hw.c     | 62 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_hw.h     |  8 +++
+ drivers/gpu/drm/panthor/panthor_trace.h  | 86 ++++++++++++++++++++++++++++++++
+ 7 files changed, 247 insertions(+), 9 deletions(-)
+---
+base-commit: 7af813455943b4e998394368b4076ad056e77183
+change-id: 20251203-panthor-tracepoints-488af09d46e7
+
+Best regards,
 -- 
-2.52.0
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
