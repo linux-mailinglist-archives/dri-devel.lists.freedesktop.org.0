@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E0FCD460B
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 22:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5CBCD4614
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 22:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20C4610E288;
-	Sun, 21 Dec 2025 21:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3207410E416;
+	Sun, 21 Dec 2025 21:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="SJt5z3Lm";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="hBzQcDun";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 422ED10E288
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 21:50:36 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-2a0d0788adaso29265055ad.3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 13:50:36 -0800 (PST)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0DFA10E416
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 21:50:50 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-2a0b4320665so51836285ad.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 13:50:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1766353836; x=1766958636;
+ d=googlemail.com; s=20230601; t=1766353850; x=1766958650;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
  bh=I8ESPuhbHJz02YptQK1tw7Lrl7Cucbn6A3EDj5euzbk=;
- b=SJt5z3Lmkwunx3LFUsyLK6+GiON5/8gJ+TnXvIP+CXWikokQ+/trgOkSLaILIY+EEo
- zEZNNN1iMAzDky4J+vRsIhZkRsK7YESjSxmpDQO1ufw2W4we+mrTPh2WNZP8Iq3xX1t4
- 3BcZfwRAdVNsudE7HhVEUzh6XuvkcOjbWQcxYhgW4VrfNRnEgA+DSelDwnkvy1hiHT0y
- WMJzu37Rz1AvBmE7T8k3k4iTO5ycTcxlc1B9f0mRO/FUrJRN3N/SZpbOL7ma5FcBhw7t
- ursQD1ytNm/t4LUUx66I/7gV0C7b4QFRlwrW3r6J12Q4CZN5G+UBb+uaRY59Z0S7Mvlq
- hIZQ==
+ b=hBzQcDun9/cT8oEB+LpBE5wL1PQhSCo1iYaPe5HzTaqBQ28EUTjvfEzUNZGb2jKb0J
+ IX3FEGOsKMyXdgySLgS7XnMpzBWWyxFpTlNWzpwnIOXV/+kQq5r3/lrX0Nst5SUXdnez
+ /qbsvssKBoZwpFNGttV+htSTfKO84+f9xozecIVD+tNMwhRSMrz7XD/WIz+lIhzNzy09
+ 0aPbL1tYD+zKgtaj9bkYFv90Ix3IEgsJrX9T40/z7YXdWtuwpC88UY0nuc+1EWZ+20C6
+ fF28UkpLmXkDbm7nVBIux9Bm4Ck10Bt/MWsRemU5d7B3fYbx309l1UM4t9qpiqSeKVt5
+ lI9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766353836; x=1766958636;
+ d=1e100.net; s=20230601; t=1766353850; x=1766958650;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
  bh=I8ESPuhbHJz02YptQK1tw7Lrl7Cucbn6A3EDj5euzbk=;
- b=eWNhWF3uE7UHUH0O9c9uxqC58cSOmjmJwj1NqIjz120v4bvaKIRslTs03I4XJhox8U
- WEkORVUlpXVEhaFd8VI/mzO4qfqcfYTW7YpEDywkyItnEWYxfFUUqwJkmtHp67FoIpmS
- NeoxVOD8lAHayxUrugNmJ4pSkUUq9FHk8FnCBUgoSxnfyC9v4EKICpvziVefGAy55wjH
- e6/8+Cq0uZ2dwqNEhxAkI2uHbW+jlwDbMCZEY3gLq8AJ+NPccrek6hYMdqwl2J7n7xCS
- aeQu6huMhvHpFmZt/08Ok8oe0AS2PaKP4rF2qUf9wmvstcCePZGmoe0N5xneQtpwJn+U
- kZCg==
+ b=uhY2BEAA4+LSyjLa/G827X1ZfyWF1ANhz7NOyIgqOHV40pe0DSxjsTT6HWTjqlRtbv
+ M04+vXd+KG7IVamCCXGKGC5N1DTETLXg/fjBSUFP6ZrLwEAM6Ju8OjYN2jYg1lJwGExD
+ Wh2BSRzHo0Xuds9cqnw4Cbi/mHGqCxuGMDuYlGJPBYKMQVktwWbg8UxV0ujDqsmsm206
+ 2MClm9XA8MZayF7AQaT6fjuaRvX4x50q+wVr5Ma2OPGyIjgR/HOqRNOH8sf/TfjBmMAe
+ VB0EwNKlGcXaILmSGMXQTi8ZEPErilGILMZU5C6aZhyJT8Q5fnctgUpquG6SFxUGZugD
+ pqNQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWp20vuHUOk9o7TfQLXFvq9VKKLZ1N9FPkXf+/QT16Su30ikvHSIPl83st+WhcKuFT5L7FHYpm7Vkw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx36tIs/A/HnHg8QiHTOTT/xkK8hZqqRq+/vW09KuFzAnfUZBNh
- 0V9INp6zb5Ddyf77/PlcJe772QInASXVqtesX3tNGdvkCcKHQDQs0x2fPHgKKJa5zLLNnOVO5Xn
- 56PAF+g7ryeMMt5eUIoWgw8GpuStrdsY=
-X-Gm-Gg: AY/fxX7GQXfPaZ+WNGBSlWj8aXrYvkMRQd6jhWeG9x1OTghErUe/Z2gJ6VXwmR5J5DW
- YqVvLhdzcsEK/yxANXYCvx1zOnKLnnOk3BbIv8jlp/E36RwybRsislbxDTFR+6o3955Fci+1q0H
- Z/Kj6dwRkX1YbhhTEWQnetwKmeJTqxrH+WW9JvKievSuOmOGtJlCU5xp8Zb4A4DFATHphiJ42iY
- QesvVachLzGAShwUOparilcbHsMGtzy8q2lZHKf46t4BmdrweBm8Fr/FJcwHD17L7HqHsEtSElP
- QLdsnEVBSY5PZhdnfKwyQ6T0wskb
-X-Google-Smtp-Source: AGHT+IGw0n+Vw3mSNWIuK6jiR5TwNM1Orq2NMptHhH0WFtIprggK0653bvytXvjKFmmgd9+xofkm/n3sIE9SOEugciA=
-X-Received: by 2002:a17:903:b83:b0:2a1:388d:8ef3 with SMTP id
- d9443c01a7336-2a2f222bc6amr92154845ad.18.1766353835637; Sun, 21 Dec 2025
- 13:50:35 -0800 (PST)
+ AJvYcCWOgEqwWF4zRJx1IUok3/2F7JHvYjgd1Al7qLizMh3gMnKojRVuQoQuS7kmpecS9oatO+N8jD799ko=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzoX8xP6A3QBkX9NHBgHFKK4Xtx1jzsdmemvUu/YIcHdr6i8MO
+ rU4imdDXXf8NF3/PRD7ka5iukgr7f8jGecQ7oehvpkZntjl4rD4rZtApuuoH4qx4TSMBe+86FMm
+ 4GidzdJ8Vmf7gh2rw9Wvt8caizYvt0rE=
+X-Gm-Gg: AY/fxX5IuPYgBf9QcwwYNiZtExAuCThPUbez4Vm4MwVNttYzIJR3Yqt2nE+3sPrgjHY
+ IOIOpGreETyH08+hJXu7K0baTUxtZWmaXmulm9/puWy/M0m53TY9q2HQAR7neoACTOFkhPdpYGF
+ WpKPJQ4kjUk/Wqvf2YyNXHEopjM8blcWGGMz0Mpci03NXNR1oStb1VBLWOO9PFM2zAGKv0hSanW
+ zQikNsLvGRXCs95iPpMgTRt8Rptpn7QgIOseIQee+Mw0nRyJtrG0s6SzCtGX7jZ8UoU+JALO0GH
+ 0Pn9gKxHx1Aib+4qysxgJEV9k3+D
+X-Google-Smtp-Source: AGHT+IFmGLO1ppe7sd+ZWkCXr5M/lVGVTY4CkYOHQyHuMOoqYtObXJlv15dAaXOXobOy5zBtPFDXPUKZsDC8LF455xI=
+X-Received: by 2002:a17:902:d2d2:b0:294:f310:5218 with SMTP id
+ d9443c01a7336-2a2f1f904a0mr102182675ad.0.1766353850211; Sun, 21 Dec 2025
+ 13:50:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
- <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
+ <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-11-b5165fab8058@bootlin.com>
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-11-b5165fab8058@bootlin.com>
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 21 Dec 2025 22:50:23 +0100
-X-Gm-Features: AQt7F2repQdtBoV8d-ez3LVKkRTtOC5SATWZ81V_d9C-sFP5czyoEjd7MirbIfc
-Message-ID: <CAFBinCDt=9H1ccXatr8JYA=atG+vDCBX9x0xor9kibUfo1NKpA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/22] drm/meson: encoder_cvbs: get/put the next bridge
+Date: Sun, 21 Dec 2025 22:50:39 +0100
+X-Gm-Features: AQt7F2oD-fq9YbJ8bBaEtNQvS-l_6JEvIhNv2LhoefMzto1ImTx3Z1Dec3fhOSc
+Message-ID: <CAFBinCArG=-pNRHZTdZX1CDDPrs02zpRJ29GSEUA6TcUckQvww@mail.gmail.com>
+Subject: Re: [PATCH v3 11/22] drm/meson: encoder_dsi: get/put the next bridge
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
