@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93EDCD4526
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 20:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44211CD458B
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 21:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 099FE10E046;
-	Sun, 21 Dec 2025 19:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB8210E3C4;
+	Sun, 21 Dec 2025 20:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=wbinvd.org header.i=@wbinvd.org header.b="FIhQbnix";
+	dkim=pass (2048-bit key; unprotected) header.d=dionne-riel-com.20230601.gappssmtp.com header.i=@dionne-riel-com.20230601.gappssmtp.com header.b="AXPaih6d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFAF710E0D4
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 19:53:05 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-2a099233e8dso28953375ad.3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 11:53:05 -0800 (PST)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DBA210E0D4
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 20:04:46 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-4ee05b2b1beso32964871cf.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 12:04:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wbinvd.org; s=wbinvd; t=1766346785; x=1766951585; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jEjmW7sBy/OhukW+TepC17drhf54qbJ+YmqntK5sJBo=;
- b=FIhQbnixyfzDFgVhl/qOXG4fWndLgwgHQ3k2LwTKmlTlNBMxeXnegDK8SLPRyiyTGc
- EEXdaFRo2JY+RuSJeOqGVAl/OSS9q2E2LsrbY4Q7xPDsX4wa4Qg4SUGhOiTugTUEwBXE
- 0UmvYYYaulzAXNhUtbyGn0srP7yBlym433oVusjp+H7BPOoZQP4DWUJOVZDVbz+oW0LR
- B8U9sWM38cJUlWFGenUidADYHuJp2AY9ePfPdZuX73jZalTkbOOtLW7HjsmQCeGmhifU
- adQ2Hqj3TBwXdYT8Kh1Hyocw7abbn268GUkKT08BBrYfWfpt2xlWGYGLxH6IRBsnU9ve
- Ldkg==
+ d=dionne-riel-com.20230601.gappssmtp.com; s=20230601; t=1766347485;
+ x=1766952285; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qcubWTT1Pz5+LyJxHMvMkV1HwdecC4T519WRIUvUPgQ=;
+ b=AXPaih6d2L/lzeOKWKNc6VihVB8JuS2VA4AXjiG3jhH+Sg8ilbViEegTYHtGxj5egV
+ x87yHrIcBO9lew5S8ghBcqcVFm50gWJoPzl1FNgbBpCDfRqjwCZ6ujs23oAKGKKhclBZ
+ iWR+4wamQIb1HqlmiffgNOuICfO5E7UE6QLiQJuFBgb2Pw8elwBeG847eufr5BDhSuNw
+ 7lt2KY2utd9zRUcU1fV7a/Ab3vszbe6zsg34neonbZ9snwMgl6u3p30BH37xfSeODnvP
+ 7ej5fKU+Am1DCMKcu18c6oU3wyhjGYUsGFDxWK5JZkKcTMj9GKah2fakDjsxbkNKLdKY
+ BcSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766346785; x=1766951585;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jEjmW7sBy/OhukW+TepC17drhf54qbJ+YmqntK5sJBo=;
- b=Z6BwhkFDIsI/4BoyruvDotWQCkqm62INnpKcirb+W9mat7/2GA4e0pgspWxu3GQFb+
- 9fcy8hV9xLiKaCS4NHxe4n6DZwYYS+f4drwCs25ozf0cbRVX8i3Ouz9dKdUknQ5pti6H
- cKptEQAQuEsd2kWfI7ugqdRkoTsZ6d4XAHWaD3ggOI/v5b047qjwULJ7OZGUAwSt2y40
- eF4dLFV9Wsl+GJOJcmgZ8eT+0XA7TqoxVRsXPQPuPb62hDEVl6bukC6BaYdA7ZFF+qwr
- zOpWFEqf7HbbvuBCDoqn6QcmEuNEsDB7DvJwAFfw7eKSpAV4Q3L8U+6KxG7jhipz6RHi
- UKgA==
+ d=1e100.net; s=20230601; t=1766347485; x=1766952285;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qcubWTT1Pz5+LyJxHMvMkV1HwdecC4T519WRIUvUPgQ=;
+ b=P2HnpsCd0wTbvGR8kxnxfMN1sc/UCeMmhTAG79vzgp/8E9l11TIEs3PukLO+nyDco/
+ nXLAy3s8/5IbfZU9/KweykMTcoxmpn+ZzmYeerFm0y8M1xVVk7aiHqWjuPCv/K6Yi0Zx
+ LlkjgPBQTVzpqoVtJOmGEnfyGb521sssQI80m7eFx2L8mJWr/ILvSD5U7AbJJUL3RJg5
+ IBJ8yUP+WnMlj9MDxP/7VhhevqoBAA5aixNQw6FLMZPxNQuKdMiWH8JAUSgPMO0bucns
+ clCQadFTk+Jp9swnJ84RiKZ6FxHQCWzliLXzrNlSeS5LvrbVFL1jEzencKc/fGbcWDjr
+ rn/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAFNJVCtmK5lHqXm8/w5B4oNQ975bSmd2A/G2xD5guU2tYkWHYx6QAllArUq8AhOFRWxCtgePGHXk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNaYJwQ1BaZKjN/o6a7pJm8iVgEbGjlP2eh0DY+PD11I9p/46I
- 1ZB5ourv3YKGt92woMk2q8zLN2nmahzRXXNepEbZoqPWeblEZIWBVsvKezQ0rocANRs=
-X-Gm-Gg: AY/fxX4ver1dw5V/VIm2wx4EU/TJquVZ0Rd8wMUeHbE/Iw2DV4UL3ys9JvSLZ5vXuMS
- 452WpxLX7xjMymU4TUeearlvtglHRMixveStAloT9BxQlA+94GkL8HC1WsZ4cwCh8sXkvui8bSi
- BDyfh4GetUcS0kIeJ/0MGs8L9Ep6PTKVe8/eWHmxPnJpKw3WV3exu/UQj7SgIv/OJKuqVN5CkC6
- WlkU5ypSiwXjmmyPeOPOSFZKpUwbPAsmtXjuujj3tdUmhmLPBwqArg3d9p8OGpGiMHNvdQkxJY6
- 6vtO4Izsmst1I2LSix0H/bzzW03KGTpFG02VdUwCrLCYCcQ6+AHFeAXaa0yjeEFtFz+f9AFQkWk
- 9WXkV1yE2TPhenQnTAHc6Gvo81ol51749eVNFFdTA/4fJM8VVkLsqcKL2w/ih9xlQ0KVSLJesfO
- llR4GkRO09qw2JjBctljluEZBM6p4xk1uPAkQILojzsM9bcIp7IKkTWKJ5Dl7X
-X-Google-Smtp-Source: AGHT+IG3LOjpIDH/sz7EDarLNDTzoIzs5U677C/74YpF2B/xSOI5PQdoQPisXzHRvY3GmbzjU8Wf5g==
-X-Received: by 2002:a05:701b:230a:b0:11b:9386:8254 with SMTP id
- a92af1059eb24-121722ec414mr10109138c88.41.1766346785115; 
- Sun, 21 Dec 2025 11:53:05 -0800 (PST)
-Received: from mozart.vkv.me (syn-076-081-111-208.biz.spectrum.com.
- [76.81.111.208]) by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-1217253bfe2sm26739123c88.10.2025.12.21.11.53.03
+ AJvYcCXZfdDT06riHgZjtzvbUOcBMNedc/qszrkdjxCyffAvga3VU4UiTgB+cQM26iUGGx/ZFlmSVwtXb7g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzP65/P5ZjAouDrdskajtD5kIHW1El7s8jvY0elEBeXgeHISASy
+ iqwqT2PPGA7p8uBYgS0Cg78qyrRACG6EQaCZPonfoy/z/myr3gF7YgkFt9W6lMTmMA==
+X-Gm-Gg: AY/fxX6sQEaxxrJluYlaMiWxCil9cVMlkITLJY7ni0vz82zq7aRMBPTHKhov37LZg9A
+ gFaF9vUIaWn/D/cZ7C33Q9ocZ/TYESpknjSGganLkgtQVNyv2s2dqvKo+2WqN9LRQiYLV8JMOjr
+ P+N1fkcpeilPkhnW7e9j4MQT0Vh4G5FEDIEeocTVYxX76oCJ9B7r8Fqz0Gv+GEOv9bsYIyC2GY4
+ T2FTrpe3w3DJNEVojTVraCwJNZ4mfOubq/cq4qGPxpjeu5hPDGpJsbt5kY3VScLp4wiYt7uvQmN
+ Bg4ySrQf4My7CEv/tcLjc+o56+E2DyO+7TD8UI2CkcdyexS4rI+uBmULynIi8jijdoKJ+mlAbWo
+ SLkvxHdW4DmnnbEANZjMRfwKDNm8whiIPAbsDGE3BT5eSwoz6XrifEcsSz87l29mSxlAoqyPjDR
+ 50acravo//yRCCPRWdJbaLrFJS3RBilvY9/zulcACsN3YC3EAwafDPObMbXrEjIp8YFQ==
+X-Google-Smtp-Source: AGHT+IHjMsneMdbMo6QX5DQyZgWSFlMlf1e85YnTnHkFeIucTQyjyuU9w8NrvIqxqGP47xXp9FUyAg==
+X-Received: by 2002:a05:622a:250c:b0:4ee:24b8:2275 with SMTP id
+ d75a77b69052e-4f4abcf6df2mr142149051cf.1.1766347485320; 
+ Sun, 21 Dec 2025 12:04:45 -0800 (PST)
+Received: from frankgrimes.elk-nominal.ts.net (135-23-195-66.cpe.pppoe.ca.
+ [135.23.195.66]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4f4ac62d53dsm63802501cf.19.2025.12.21.12.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Dec 2025 11:53:04 -0800 (PST)
-Date: Sun, 21 Dec 2025 11:53:01 -0800
-From: Calvin Owens <calvin@wbinvd.org>
-To: linux-kernel@vger.kernel.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- thomas.hellstrom@linux.intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/xe: Don't use absolute path in generated header
- comment
-Message-ID: <aUhQHcgL4U-HgSv6@mozart.vkv.me>
-References: <7fa5ef0acc89a9d94c328f6651c1d405bcd833a4.1761920974.git.calvin@wbinvd.org>
+ Sun, 21 Dec 2025 12:04:43 -0800 (PST)
+From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] drm: panel-backlight-quirks: Add kernel parameters for
+ quirks
+Date: Sun, 21 Dec 2025 15:04:34 -0500
+Message-ID: <20251221200434.2735218-2-samuel@dionne-riel.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7fa5ef0acc89a9d94c328f6651c1d405bcd833a4.1761920974.git.calvin@wbinvd.org>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 21 Dec 2025 20:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,52 +93,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday 10/31 at 07:48 -0700, Calvin Owens wrote:
-> Building the XE driver through Yocto throws this QA warning:
-> 
->     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue: File /usr/src/debug/linux-stable/6.17/drivers/gpu/drm/xe/generated/xe_device_wa_oob.h in package linux-stable-src contains reference to TMPDIR [buildpaths]
->     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue: File /usr/src/debug/linux-stable/6.17/drivers/gpu/drm/xe/generated/xe_wa_oob.h in package linux-stable-src contains reference to TMPDIR [buildpaths]
-> 
-> ...because the comment at the top of the generated header contains the
-> absolute path to the rules file at build time:
-> 
->     * This file was generated from rules: /home/calvinow/git/meta-house/build/tmp-house/work-shared/nuc14rvhu7/kernel-source/drivers/gpu/drm/xe/xe_device_wa_oob.rules
-> 
-> Fix this minor annoyance by putting the basename of the rules file in
-> the generated comment instead of the absolute path, so the generated
-> header contents no longer depend on the location of the kernel source.
+The goal is to enable end-users to try the different values quickly, so
+that they can document, for example, the better minimum backlight values
+for their systems.
 
-Hi all,
+All quirks should be implemented, since this is a change meant to
+empower end-users in providing quick and complete quirks data for later
+addition to the quirks data.
 
-This is about as trivial as it gets: it's been a couple months, can I
-get some eyes on this please?
+This is attempting to keep the largely unspecified behaviour as close as
+possible to the previous behaviour.
 
-This is the only place in the entire kernel source where the content of
-a generated header depends on the absolute path to the kernel tree. It
-makes kernel source packages non-reproducible.
+This is currently an amdgpu-specific driver, but it shouldn't stay
+specific to that driver. The current usage always copies the values to
+its own runtime data (caps, in amdgpu).
 
-Thanks
-Calvin
+Without knowing the contract between this module and other modules, it's
+impossible to know if the driver could instead keep the pointer to the
+returned quirk.
 
-> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
-> ---
->  drivers/gpu/drm/xe/xe_gen_wa_oob.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> index 247e41c1c48d..e7a50b1348b7 100644
-> --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> @@ -195,7 +195,8 @@ int main(int argc, const char *argv[])
->  		}
->  	}
->  
-> -	fprintf(args[ARGS_CHEADER].f, HEADER, args[ARGS_INPUT].fn, prefix, prefix);
-> +	fprintf(args[ARGS_CHEADER].f, HEADER, xbasename(args[ARGS_INPUT].fn),
-> +		prefix, prefix);
->  
->  	ret = parse(args[ARGS_INPUT].f, args[ARGS_CSOURCE].f,
->  		    args[ARGS_CHEADER].f, prefix);
-> -- 
-> 2.47.3
-> 
+This quirk also currently has no multi-panel uses, but theoretically
+could be used on a system with dual screens, and with multiple different
+EDID matched panels.
+
+As such, the change has been authored to harden against this situation,
+and ensure that when no parameter has been given, that this would
+continue returning the same values (i.e. pointing at the quirk data
+structure elements directly).
+
+It may be preferrable to instead document that the values returned by
+this function are only good until then next time the function is called.
+
+Or it may be that filling a caller-owned structure may be preferred, so
+that there never is any concurrency concerns.
+
+Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
+
+---
+
+This is sent as an RFC as I have basically no idea if this is correct,
+or desirable in its form.
+
+This was authored on top of the backlight curve changes, so this exact
+implementation depends on "Add quirk to disable custom brightness
+curve", but decoupling it is trivial, if for some reason that change
+gets held back for longer than this one.
+
+As stated in the patch, the rationale is that end-users should be able
+to quickly try values without having to mess with either a full kernel
+rebuild (easiest) or somehow messing with their systems so an updated
+quirks module is loaded before amdgpu gets loaded.
+
+I believe that the current semantics are *sufficient*, and that
+supporting more than one display on the kernel cmdline might not be
+worth the pain, when this would be a rare situation, and mainly as a
+means to gather the correct values for sending the appropriate changes.
+
+The implementation, though, I don't know how good or bad it is, and how
+palatable specifically for its maintainers. So please provide
+suggestions on how this should be done.
+
+Thanks!
+
+Link: https://lore.kernel.org/all/20251221192422.2726883-1-samuel@dionne-riel.com/
+Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
+---
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 79 +++++++++++++++++---
+ 1 file changed, 69 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+index 537dc6dd05343..1682409613d22 100644
+--- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -8,6 +8,21 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_utils.h>
+ 
++// The parameters use the type-specific max value as a flag for being unset.
++// The semantics of these quirk values are drivers and device-specific.
++
++u16 param_min_brightness = U16_MAX;
++MODULE_PARM_DESC(min_brightness, "minimum brightness override for all panel backlights. Value usage is driver-specific.");
++module_param_named(min_brightness, param_min_brightness, ushort, 0444);
++
++u32 param_brightness_mask = U32_MAX;
++MODULE_PARM_DESC(brightness_mask, "integer mask to bitwise OR with set brightness values for panel-specific fixes. Value usage is driver-specific.");
++module_param_named(brightness_mask, param_brightness_mask, uint, 0444);
++
++bool param_disable_custom_brightness_curve = false;
++MODULE_PARM_DESC(disable_custom_brightness_curve, "when true, custom brightness curve support is disabled in the driver. Value usage is driver-specific.");
++module_param_named(disable_custom_brightness_curve, param_disable_custom_brightness_curve, bool, 0444);
++
+ struct drm_panel_match {
+ 	enum dmi_field field;
+ 	const char * const value;
+@@ -98,6 +113,8 @@ static const struct drm_get_panel_backlight_quirk drm_panel_min_backlight_quirks
+ 	},
+ };
+ 
++static struct drm_panel_backlight_quirk quirk_from_param = { };
++
+ static bool drm_panel_min_backlight_quirk_matches(
+ 	const struct drm_get_panel_backlight_quirk *quirk,
+ 	const struct drm_edid *edid)
+@@ -132,23 +149,65 @@ static bool drm_panel_min_backlight_quirk_matches(
+ const struct drm_panel_backlight_quirk *
+ drm_get_panel_backlight_quirk(const struct drm_edid *edid)
+ {
+-	const struct drm_get_panel_backlight_quirk *quirk;
++	const struct drm_get_panel_backlight_quirk *quirk = NULL;
+ 	size_t i;
++	bool parameters_given = false;
+ 
+-	if (!IS_ENABLED(CONFIG_DMI))
+-		return ERR_PTR(-ENODATA);
++	if (param_min_brightness < U16_MAX)
++		parameters_given = true;
+ 
+-	if (!edid)
+-		return ERR_PTR(-EINVAL);
++	if (param_brightness_mask < U32_MAX)
++		parameters_given = true;
+ 
+-	for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
+-		quirk = &drm_panel_min_backlight_quirks[i];
++	if (param_disable_custom_brightness_curve)
++		parameters_given = true;
+ 
+-		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
+-			return &quirk->quirk;
++	if (IS_ENABLED(CONFIG_DMI) && edid) {
++		for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
++			quirk = &drm_panel_min_backlight_quirks[i];
++
++			if (drm_panel_min_backlight_quirk_matches(quirk, edid))
++				break;
++		}
+ 	}
+ 
+-	return ERR_PTR(-ENODATA);
++	if (i == ARRAY_SIZE(drm_panel_min_backlight_quirks)) {
++		// Found no quirk.
++		quirk = NULL;
++	}
++
++	if (!parameters_given && !quirk) {
++		if (!edid)
++			return ERR_PTR(-EINVAL);
++
++		return ERR_PTR(-ENODATA);
++	}
++
++	// We are returning from quirk_from_param only when parameters are given.
++	// This assumes that the return value's data can be kept by the driver,
++	// and that the driver supports more than one match at a time.
++	// (Think multiple-display devices.)
++	// When using a module parameter, only one set of values is supported.
++	if (parameters_given) {
++		// First copy the matched data, when found.
++		if (quirk)
++			memcpy(&quirk_from_param, &quirk->quirk, sizeof(quirk_from_param));
++
++		// Apply module parameters to the found quirk.
++		if (param_min_brightness < U16_MAX)
++			quirk_from_param.min_brightness = param_min_brightness;
++		if (param_brightness_mask < U32_MAX)
++			quirk_from_param.brightness_mask = param_brightness_mask;
++
++		// We force the disable_custom_brightness_curve value when any parameter is given.
++		// This ensures users can override the quirk-defined value.
++		// This comes at the cost of requiring any other value to be specified to work.
++		quirk_from_param.disable_custom_brightness_curve = param_disable_custom_brightness_curve;
++
++		return &quirk_from_param;
++	}
++
++	return &quirk->quirk;
+ }
+ EXPORT_SYMBOL(drm_get_panel_backlight_quirk);
+ 
+-- 
+2.51.0
+
