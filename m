@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B694CD4591
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 21:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93EDCD4526
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 20:53:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D626010E3ED;
-	Sun, 21 Dec 2025 20:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099FE10E046;
+	Sun, 21 Dec 2025 19:53:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=dionne-riel-com.20230601.gappssmtp.com header.i=@dionne-riel-com.20230601.gappssmtp.com header.b="tNubzC36";
+	dkim=pass (2048-bit key; secure) header.d=wbinvd.org header.i=@wbinvd.org header.b="FIhQbnix";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
- [209.85.219.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A7110E048
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 19:24:26 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id
- 6a1803df08f44-88a2e3bd3cdso43017146d6.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 11:24:26 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFAF710E0D4
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 19:53:05 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2a099233e8dso28953375ad.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 11:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dionne-riel-com.20230601.gappssmtp.com; s=20230601; t=1766345065;
- x=1766949865; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WNRXomm/9h0iGidBrRD9xr6yFpj6CojlLOaAVzHjsKs=;
- b=tNubzC36R+FN8+3qraNd+MfHoVWKaroczLB/iuR+AkT5kCv1c+S+RYE18Ua3phYUNd
- 4/bpYqdWWbR5uS7+KHz+tU3Hki/LSHwuHB8OJpVjDrdVkGBp/o8FPpRH6IGuIEAOu96Y
- f0IUBv6WahRTf+E5KgWoWsnyGR4QvgxyoNUagSis3Ho6Ml+z0xineuFPKM8Psr+CLhL9
- iC4+7taurunHu6hwKTTL/7LC6vAz1JWvQy0/vGJ7Pinlwh2xKJx+m0G6DR7Fcvrw+uUn
- faMNH6uPPRGp5wACFR3H4PIxp9N3alhfzzoGYrk4Mdbkq2716uh5HHkNBRu7UXCOcEGb
- VPAQ==
+ d=wbinvd.org; s=wbinvd; t=1766346785; x=1766951585; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=jEjmW7sBy/OhukW+TepC17drhf54qbJ+YmqntK5sJBo=;
+ b=FIhQbnixyfzDFgVhl/qOXG4fWndLgwgHQ3k2LwTKmlTlNBMxeXnegDK8SLPRyiyTGc
+ EEXdaFRo2JY+RuSJeOqGVAl/OSS9q2E2LsrbY4Q7xPDsX4wa4Qg4SUGhOiTugTUEwBXE
+ 0UmvYYYaulzAXNhUtbyGn0srP7yBlym433oVusjp+H7BPOoZQP4DWUJOVZDVbz+oW0LR
+ B8U9sWM38cJUlWFGenUidADYHuJp2AY9ePfPdZuX73jZalTkbOOtLW7HjsmQCeGmhifU
+ adQ2Hqj3TBwXdYT8Kh1Hyocw7abbn268GUkKT08BBrYfWfpt2xlWGYGLxH6IRBsnU9ve
+ Ldkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766345065; x=1766949865;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WNRXomm/9h0iGidBrRD9xr6yFpj6CojlLOaAVzHjsKs=;
- b=wg0HAItIl4ZvD4PznH+uM4kxNhW8vinGre20ROLK1OaRiqAv5z0nLMax23nyL0VK2K
- yuLofPypYk7/0nXXb3qTzf2c7kWLBatQc4c90vlVs4+f2qfi/tJGa0TS7sPe2qlsbkL+
- yraPb8fBrdDSY49JGcbLbukq2L91aC7U1ti/u5io0E7UatIXUT3NMS7Amt8K9ldxzLSD
- 9I3xjVIphUZ29f3w9X8fdvjfCMjN2BWm0bLC/StkZtgT2xmph8jY5+ctwxja9BLzNcm/
- j3mqTl1Lox3B6HSSNZey45m/UMlYRJ0IDCbrSHj9N03VjGOX0o1WXId91t4XC1TK8CI9
- Gnsg==
+ d=1e100.net; s=20230601; t=1766346785; x=1766951585;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jEjmW7sBy/OhukW+TepC17drhf54qbJ+YmqntK5sJBo=;
+ b=Z6BwhkFDIsI/4BoyruvDotWQCkqm62INnpKcirb+W9mat7/2GA4e0pgspWxu3GQFb+
+ 9fcy8hV9xLiKaCS4NHxe4n6DZwYYS+f4drwCs25ozf0cbRVX8i3Ouz9dKdUknQ5pti6H
+ cKptEQAQuEsd2kWfI7ugqdRkoTsZ6d4XAHWaD3ggOI/v5b047qjwULJ7OZGUAwSt2y40
+ eF4dLFV9Wsl+GJOJcmgZ8eT+0XA7TqoxVRsXPQPuPb62hDEVl6bukC6BaYdA7ZFF+qwr
+ zOpWFEqf7HbbvuBCDoqn6QcmEuNEsDB7DvJwAFfw7eKSpAV4Q3L8U+6KxG7jhipz6RHi
+ UKgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGWq/lQTkU3AAOYFdsa9tT53PIlUn3SKiMHpPWEhUzBxMD9fWR5Hq0igSDTn0WLhjAPpHEMNiNbF4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYQKWR5I8oxWqrIWzB99V33oP4CvhUEaMddVdmVl+wRKg78zxL
- HNRlSNQX9La6gAz7DwQffakd0Wxhb3UctHzUIcvIcju8Xnut7tuoIX9h0joHn/FsUg==
-X-Gm-Gg: AY/fxX76MZbjoqnAtedUq0iVuCFqpPPh3jcil5RNHXBapquZdwu1rnGW4FJny9ytkG0
- 9vteneunqv4CYo1yNnufFONUSnzNgr4ebsWciHLgRnSKW3NWCgxtoq7yGT0N92x3Ug0iPPX9w2w
- VWT/6qL/TKRYhLcgpcgULc8E4S/ar/Vuh+YGo+6pcseemhUbbfWvdM8VeEJ3Tl6pYJSaRM0YsGa
- 05LQFuY+/qcedyMV+nrUDnyy/pW2RyW2P1jkBJbme81+QRkJeQM+2fxFs+n91sSkA/DPjtWHutb
- CkE28rMtdDAQyo2znPkHhClykxTJPXseA7+5I39AC2HSoC3cpgYFYq4JYvnAv8q6JmlcIJQzJdb
- vN2XALQu7im0WNVvT8xaI+IkjXGThyJyqmE3fJdri1kp5cw/BhHsqYcr74jINQaa/ujmR/JzNwD
- 8u9lEMtr6UVHej1fhFS7VG/f46hJ+uQGGkDou+Y7p6sNdkD983YMmd17qMf6ma4JzsAA==
-X-Google-Smtp-Source: AGHT+IHgVYbByF5NCXxaki3N51wWAG7AvtLQAnsyAdqjgDj7hWSlDWpoheIh4kbzxiW2kzJablQFjQ==
-X-Received: by 2002:ad4:5be1:0:b0:88a:375b:ed7c with SMTP id
- 6a1803df08f44-88c533b360fmr188839156d6.35.1766345065382; 
- Sun, 21 Dec 2025 11:24:25 -0800 (PST)
-Received: from frankgrimes.elk-nominal.ts.net (135-23-195-66.cpe.pppoe.ca.
- [135.23.195.66]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-88d99d7e8d4sm68043356d6.41.2025.12.21.11.24.24
+ AJvYcCWAFNJVCtmK5lHqXm8/w5B4oNQ975bSmd2A/G2xD5guU2tYkWHYx6QAllArUq8AhOFRWxCtgePGHXk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNaYJwQ1BaZKjN/o6a7pJm8iVgEbGjlP2eh0DY+PD11I9p/46I
+ 1ZB5ourv3YKGt92woMk2q8zLN2nmahzRXXNepEbZoqPWeblEZIWBVsvKezQ0rocANRs=
+X-Gm-Gg: AY/fxX4ver1dw5V/VIm2wx4EU/TJquVZ0Rd8wMUeHbE/Iw2DV4UL3ys9JvSLZ5vXuMS
+ 452WpxLX7xjMymU4TUeearlvtglHRMixveStAloT9BxQlA+94GkL8HC1WsZ4cwCh8sXkvui8bSi
+ BDyfh4GetUcS0kIeJ/0MGs8L9Ep6PTKVe8/eWHmxPnJpKw3WV3exu/UQj7SgIv/OJKuqVN5CkC6
+ WlkU5ypSiwXjmmyPeOPOSFZKpUwbPAsmtXjuujj3tdUmhmLPBwqArg3d9p8OGpGiMHNvdQkxJY6
+ 6vtO4Izsmst1I2LSix0H/bzzW03KGTpFG02VdUwCrLCYCcQ6+AHFeAXaa0yjeEFtFz+f9AFQkWk
+ 9WXkV1yE2TPhenQnTAHc6Gvo81ol51749eVNFFdTA/4fJM8VVkLsqcKL2w/ih9xlQ0KVSLJesfO
+ llR4GkRO09qw2JjBctljluEZBM6p4xk1uPAkQILojzsM9bcIp7IKkTWKJ5Dl7X
+X-Google-Smtp-Source: AGHT+IG3LOjpIDH/sz7EDarLNDTzoIzs5U677C/74YpF2B/xSOI5PQdoQPisXzHRvY3GmbzjU8Wf5g==
+X-Received: by 2002:a05:701b:230a:b0:11b:9386:8254 with SMTP id
+ a92af1059eb24-121722ec414mr10109138c88.41.1766346785115; 
+ Sun, 21 Dec 2025 11:53:05 -0800 (PST)
+Received: from mozart.vkv.me (syn-076-081-111-208.biz.spectrum.com.
+ [76.81.111.208]) by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-1217253bfe2sm26739123c88.10.2025.12.21.11.53.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Dec 2025 11:24:24 -0800 (PST)
-From: Samuel Dionne-Riel <samuel@dionne-riel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Simona Vetter Thomas Zimmermann <"simona@ffwll.chtzimmermann"@suse.de>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] Add quirk to disable custom brightness curve
-Date: Sun, 21 Dec 2025 14:24:17 -0500
-Message-ID: <20251221192422.2726883-1-samuel@dionne-riel.com>
-X-Mailer: git-send-email 2.51.0
+ Sun, 21 Dec 2025 11:53:04 -0800 (PST)
+Date: Sun, 21 Dec 2025 11:53:01 -0800
+From: Calvin Owens <calvin@wbinvd.org>
+To: linux-kernel@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ thomas.hellstrom@linux.intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/xe: Don't use absolute path in generated header
+ comment
+Message-ID: <aUhQHcgL4U-HgSv6@mozart.vkv.me>
+References: <7fa5ef0acc89a9d94c328f6651c1d405bcd833a4.1761920974.git.calvin@wbinvd.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 21 Dec 2025 20:27:00 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7fa5ef0acc89a9d94c328f6651c1d405bcd833a4.1761920974.git.calvin@wbinvd.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,33 +92,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series add the necessary plumbing in the drm_panel_backlight_quirks
-module, and in the amdgpu module, to correctly support disabling any
-custom backlight curve a firmware may have provided.
+On Friday 10/31 at 07:48 -0700, Calvin Owens wrote:
+> Building the XE driver through Yocto throws this QA warning:
+> 
+>     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue: File /usr/src/debug/linux-stable/6.17/drivers/gpu/drm/xe/generated/xe_device_wa_oob.h in package linux-stable-src contains reference to TMPDIR [buildpaths]
+>     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue: File /usr/src/debug/linux-stable/6.17/drivers/gpu/drm/xe/generated/xe_wa_oob.h in package linux-stable-src contains reference to TMPDIR [buildpaths]
+> 
+> ...because the comment at the top of the generated header contains the
+> absolute path to the rules file at build time:
+> 
+>     * This file was generated from rules: /home/calvinow/git/meta-house/build/tmp-house/work-shared/nuc14rvhu7/kernel-source/drivers/gpu/drm/xe/xe_device_wa_oob.rules
+> 
+> Fix this minor annoyance by putting the basename of the rules file in
+> the generated comment instead of the absolute path, so the generated
+> header contents no longer depend on the location of the kernel source.
 
-Basically, this is the same situation as with the other quirks, some
-firmware data is sub-optimal. In this particular instance it makes the
-backlight control jerkier when using the firmware-provided curve.
+Hi all,
 
-The last patch is authored on top of a just-sent change, which adds an
-additional device to the list of known quirks. It was sent separately as
-it should be entirely uncontroversial. Otherwise the changes in this
-series were made on top of 8f0b4cce4481, the current drm-next.
+This is about as trivial as it gets: it's been a couple months, can I
+get some eyes on this please?
 
--> drm: panel-backlight-quirks: Add Minisforum V3 SE
-Link: https://lore.kernel.org/20251221185608.2718273-3-samuel@dionne-riel.com/
+This is the only place in the entire kernel source where the content of
+a generated header depends on the absolute path to the kernel tree. It
+makes kernel source packages non-reproducible.
 
-Samuel Dionne-Riel (3):
-  drm: panel-backlight-quirks: Add quirk to disable custom brightness
-    curve
-  drm/amd/display: Implement disable custom brightness curve quirk
-  drm: panel-backlight-quirks: Disable curve on V3 SE
+Thanks
+Calvin
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
- drivers/gpu/drm/drm_panel_backlight_quirks.c      | 2 +-
- include/drm/drm_utils.h                           | 1 +
- 3 files changed, 8 insertions(+), 1 deletion(-)
-
--- 
-2.51.0
-
+> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+> ---
+>  drivers/gpu/drm/xe/xe_gen_wa_oob.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> index 247e41c1c48d..e7a50b1348b7 100644
+> --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> @@ -195,7 +195,8 @@ int main(int argc, const char *argv[])
+>  		}
+>  	}
+>  
+> -	fprintf(args[ARGS_CHEADER].f, HEADER, args[ARGS_INPUT].fn, prefix, prefix);
+> +	fprintf(args[ARGS_CHEADER].f, HEADER, xbasename(args[ARGS_INPUT].fn),
+> +		prefix, prefix);
+>  
+>  	ret = parse(args[ARGS_INPUT].f, args[ARGS_CSOURCE].f,
+>  		    args[ARGS_CHEADER].f, prefix);
+> -- 
+> 2.47.3
+> 
