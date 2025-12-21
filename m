@@ -2,52 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E5BCD4215
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 16:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B844DCD458E
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Dec 2025 21:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC1C610E028;
-	Sun, 21 Dec 2025 15:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511F510E3EC;
+	Sun, 21 Dec 2025 20:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="ToXsPb/m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L9+2Y8p2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 515 seconds by postgrey-1.36 at gabe;
- Sun, 21 Dec 2025 15:22:31 UTC
-Received: from smtp.smtpout.orange.fr (smtp-72.smtpout.orange.fr
- [80.12.242.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3354810E028;
- Sun, 21 Dec 2025 15:22:31 +0000 (UTC)
-Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
- by smtp.orange.fr with ESMTPA
- id XL84vR0u8rrflXL84vSmXB; Sun, 21 Dec 2025 16:13:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1766330034;
- bh=SYW2hJtmsJu1fQ6navI6sVhjRiv7DvFk+6/et3N6fQ4=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=ToXsPb/mk/2g2FZNK0oCulTlZW53NRZrv5tiXodV8tFAbS3j8vTXm8a2RKMECt8aq
- UGR/P5oPhWyFl5C0MevAKgi+qfHmIv9j77dad6Q1MkcQqaMML5hKn3HffYaqrTlX2t
- 5gsyTYPn/A8POqFNejQv5t1gLT/oKa7zGVPOKufMKXytaE1CBjInCC8Bl91uFd0kS4
- Cs6axDDUjcuxbPk5HWq72L4F3ZvDMOCybkDmWVLPoDDu534zkIiVika5sz7tWfFgEN
- wdMpf5rA62tCd+cKUcfvwJIUhmjj53xdbGZRo9hnXZVNaJzW6WxalIccFzF+wi660l
- chuktzORaoO2w==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 21 Dec 2025 16:13:54 +0100
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu: Slightly simplify base_addr_show()
-Date: Sun, 21 Dec 2025 16:13:48 +0100
-Message-ID: <66adb62e93993ac0a70fdbe174908c36a560b98d.1766330018.git.christophe.jaillet@wanadoo.fr>
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6334310E1ED
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 15:33:03 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-64d30dc4ed7so1171353a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 07:33:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766331182; x=1766935982; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tfKTmo4nJELW1fqaLs3q/xm7GxRxsQ6W6reyaDZwX/4=;
+ b=L9+2Y8p2V9I1Q8bBPU0sxPl+5TUyhql/Al/S/2jRrmR3mWF9Y8FWvtwRlLz7G6QLBu
+ zMtQHk49SEAI3wWdYcyBZ6DruwH29s4Iiw04zyTNVDevJBYKx+5PbM5ET5UX35AIe7KI
+ 0UabIFdkY6GF4E7KWOfLNznoOsz2sPLGqJKD16n4uRQghUZp0HcTtgwBivph5UniB/eZ
+ M1vWELVnyXF/OEMUnadYkUtDgyiuvPgGLyFcNaPOQVjBp4ddQs5p7cw1YkgQphfSdNa1
+ VoQnN4qJFKFBl9fjl8/wFijZyTch0pycEr3F+o4yeNsggKuWom1Rd0NSFEQHwY4pAivx
+ a1BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766331182; x=1766935982;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tfKTmo4nJELW1fqaLs3q/xm7GxRxsQ6W6reyaDZwX/4=;
+ b=EHOjklcZBqwlZ3PkMN+Y+IBXnQyzPr4KBg7H4WvIA0WF17YoN6LBTfNDkQ6Hd6h6yq
+ HdTHQ7sKlL4T7ScwyO0IoqJ1l+CC3JfuO1ZQEVpOPvA7oj0ouTM8ZceDXXFq/dluqlWA
+ JrMZ0fm+6Up5cNSrntxkODFiwkRwyVxvVTKsM5IT+Q5ZRkrdGViPOclBLKmIE3n83Mwp
+ YhGkvrdgEFfmcw3msyj5GIhwtRJZWedj7ym5LuBaB+2w7XylN7yUnYBBmPbKLsAal/zQ
+ kmH1+4YnUB/OxgsqYmV9nJ3W028cWThtgSrcpF3mLHqg4zCN2XCBZiZH4skJEeVX1hHL
+ Vp9A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9/u4EmHdoIhUrhhGCZwbNgBh09+iXWgN2m4WT1Y5W0Uc/sjqAA8io7e7WPrAFIKttUz95hk1RmfE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkIfUcDCUmuYlQdBOiG87oz67lvU7EgmQ5EBtupxRnHFE4S6lu
+ MMmUqhbo5URkRGTTpOmEcV42gsUmazw8IrwCtPAhu7rJSuVJz7jXFJ0X
+X-Gm-Gg: AY/fxX722tLq3/38EdoKAXS9ABaL4dwQziTVuFKOqZhFZdSwZoYLMLUzN8nrqCjXYh/
+ tFYnBo1UZ3yzxqam2eexzRq3l3mtsXYXSaIph13+Y88At1DcYDWmx3FHGDxM+zS2JxnWGTA+SG8
+ Lv7O26LN5PWWWbeTG4juO2JUCPg3ySOqIItSQDB1ESXdt70Ow0bbn42z56XSrf1VIMz3k6l8GwQ
+ ZMCFHYxEJR5BzfNrt6scfIFagG/SsoWZcbG05wT401K/6NkJVnXYsclcVFBCCL+TP/8G/qWFq9k
+ TsERDDNz6eOQZHYPVQR7/kxrxH2x+jcdNb65l6PSK9+WMJkp2k1K7hXAlhiEmcQdfCG9ziISAm8
+ YVz6NrFL45x6aHb0u1rixEWjOSEFfB49BEAamUejNxGa14dvoBzNQCL9VoskpXPuM10ugK48PO5
+ g=
+X-Google-Smtp-Source: AGHT+IHCJZ9Sq/rnbPBZLh9tgt8wtX1m3fVtbRYW12r7euLP7G7Br1Ulnd8nM/hRB9h1cJ2bDI4bvQ==
+X-Received: by 2002:a05:6402:40cb:b0:64b:bb79:96bb with SMTP id
+ 4fb4d7f45d1cf-64bbb799a91mr5639423a12.24.1766331181695; 
+ Sun, 21 Dec 2025 07:33:01 -0800 (PST)
+Received: from prometheus ([85.11.110.37]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-64b916adc61sm7629741a12.31.2025.12.21.07.33.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Dec 2025 07:33:01 -0800 (PST)
+From: Szymon Wilczek <swilczek.lx@gmail.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Szymon Wilczek <swilczek.lx@gmail.com>,
+ syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com
+Subject: [PATCH] dma-buf: fix WARNING in dma_buf_vmap
+Date: Sun, 21 Dec 2025 16:32:50 +0100
+Message-ID: <20251221153250.17591-1-swilczek.lx@gmail.com>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 21 Dec 2025 20:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +90,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sysfs_emit_at() never returns a negative error code. It returns 0 or the
-number of characters written in the buffer.
+When a driver's vmap callback returns an error (e.g. -ENOMEM), dma_buf_vmap()
+triggers a WARN_ON_ONCE(). This is incorrect as vmap operations can legitimately
+fail due to resource exhaustion or other transient conditions, as documented.
 
-Remove the useless tests. This simplifies the logic and saves a few lines
-of code.
+Fix this by removing the WARN_ON_ONCE(). The error code is already correctly
+propagated to the caller.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reported-by: syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4317d7108e14e5d56308
+Signed-off-by: Szymon Wilczek <swilczek.lx@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/dma-buf/dma-buf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 20d05a3e4516..b44f0710b00e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -888,22 +888,19 @@ static ssize_t num_base_addresses_show(struct ip_hw_instance *ip_hw_instance, ch
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index edaa9e4ee4ae..14b55f67ee1c 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1525,7 +1525,7 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
  
- static ssize_t base_addr_show(struct ip_hw_instance *ip_hw_instance, char *buf)
- {
--	ssize_t res, at;
-+	ssize_t at;
- 	int ii;
+ 	ret = dmabuf->ops->vmap(dmabuf, &ptr);
+-	if (WARN_ON_ONCE(ret))
++	if (ret)
+ 		return ret;
  
--	for (res = at = ii = 0; ii < ip_hw_instance->num_base_addresses; ii++) {
-+	for (at = ii = 0; ii < ip_hw_instance->num_base_addresses; ii++) {
- 		/* Here we satisfy the condition that, at + size <= PAGE_SIZE.
- 		 */
- 		if (at + 12 > PAGE_SIZE)
- 			break;
--		res = sysfs_emit_at(buf, at, "0x%08X\n",
-+		at += sysfs_emit_at(buf, at, "0x%08X\n",
- 				    ip_hw_instance->base_addr[ii]);
--		if (res <= 0)
--			break;
--		at += res;
- 	}
- 
--	return res < 0 ? res : at;
-+	return at;
- }
- 
- static struct ip_hw_instance_attr ip_hw_attr[] = {
+ 	dmabuf->vmap_ptr = ptr;
 -- 
 2.52.0
 
