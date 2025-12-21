@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CAACD4690
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 00:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDABCD4699
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 00:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6104210E113;
-	Sun, 21 Dec 2025 23:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB8810E329;
+	Sun, 21 Dec 2025 23:32:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8AE10E2C1
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 23:32:16 +0000 (UTC)
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8663E10E2C1
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Dec 2025 23:32:17 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id AD6381F8B0;
- Mon, 22 Dec 2025 00:32:13 +0100 (CET)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E41A61F8B3;
+ Mon, 22 Dec 2025 00:32:14 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Mon, 22 Dec 2025 00:32:07 +0100
-Subject: [PATCH v2 01/11] drm/panel: Clean up SOFEF00 config dependencies
+Date: Mon, 22 Dec 2025 00:32:08 +0100
+Subject: [PATCH v2 02/11] dt-bindings: display: panel: Describe LGD
+ LH599QH3-EDB1 panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-drm-panels-sony-v2-1-82a87465d163@somainline.org>
+Message-Id: <20251222-drm-panels-sony-v2-2-82a87465d163@somainline.org>
 References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
 In-Reply-To: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -54,21 +55,21 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht,
  Marijn Suijten <marijn.suijten@somainline.org>, 
  Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1303;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3041;
  i=marijn.suijten@somainline.org; h=from:subject:message-id;
- bh=R7ygj3sXg+oAXbbRM/q5auC9FtLhrQvwvzv1PlldSxw=;
- b=owEBbQKS/ZANAwAKAfFi0jHH5IZ2AcsmYgBpSIN6UQDO54L6rIrmpqdVcX6dt/oPQRr3W8KuO
- 1Bpq8sSFIOJAjMEAAEKAB0WIQROiwG5pb6la1/WZxbxYtIxx+SGdgUCaUiDegAKCRDxYtIxx+SG
- dvqtD/95qRWMUrwqbS8tWHKGgR3x4KyNXRzJ1CKvCuOcNm8/ifds2qhXw7sQDmfBvih3FyMGjG/
- H40ivnqyVKKgiyaVoAjryOuzlN4IUiUqfKPSXgPC5Y/1JyHEqhEPOhIpLjG/UKhZPggf9xGEVxz
- YstJQ9UHrhfefOtC7GMhUmJdLLz+MVstefhalZPwUII4Hy9q9kHuPEzZzRwywjwM8CdFWXI4Mt3
- zGynjhskaEqckO+91REWq/jm8LXzdlisrrCiupHhJy32saLvHZh8WKuD/kFsJgKC24h7ESrfAll
- h+gPdRh4fIvdA7Qq5jk0CBBtgZD4YCrLXA/vDuTu82zu66Ogz73HwP+tW7Muv9iEivsjP1YCFY1
- fzmTZJdQRbygxrk4MMJ8eqermuRjsfPeniaSyM0AHueJd4egoPc3ZfFb3Gol0+Ks+mGncHIxaiU
- u1OI8Up1TxS5mRo6+lAjBsxqcIdpCtMRJyhNB0HY24/FI2OyfcOsZ0TYVF5+23QBReaaBqqQpEp
- Tr7XOqWUL+9GsA57i2T9F10k9JBmVllyjo1VzeobmYNXee00yGe3Xa6cAAspWgP3RN8YjJF3bHg
- 2bX73xOi2HUfd2A79JRQplT9pnXt22wtPc+gEHowZa3qH/22GFhQ6Wxb94sPJBBBDNQEm/3aTr0
- dPy1/XRuIbian4w==
+ bh=OK1k8FK0F6DLCPjBBSuTHt+z5WcOjkmIrAgnrfTzVRQ=;
+ b=owEBbQKS/ZANAwAKAfFi0jHH5IZ2AcsmYgBpSIN6tM8c5Y6IC95UptfyrwrfbIkEq5rrRAziY
+ bmBMuRHW0aJAjMEAAEKAB0WIQROiwG5pb6la1/WZxbxYtIxx+SGdgUCaUiDegAKCRDxYtIxx+SG
+ du0NEAC1IbOXq8fmVLdxsasmg9ueFVTuDKmvcw3GmzRqRfWE2ZDVJXxWOM6YZ85DsLJhVQsqmw0
+ ZZNMn7otoX8UZKuD2bcU4ct/uYoayQAAOHZa0SA7WqVX9Rb/iGmmYingLW5MnNmLIVkv2+kLlS7
+ CzXnrsckd9qkulEjRREHXrpHgP7pr+weKWmGL7b3mT1liq9oY/WqbXXN0DNrq9AdEfR7regiJRj
+ 8gA+FEyF5zM2fNygB9M/b0E7ylwI9TyTxyZ2vzjsVSma9P4Rh6YcxosZuDZaVSRdJcNp6WYqxfR
+ 2cnq7EzhcW4MVpVWVvb5cTUvqA+y71eXmlADcNw1kwxrs1i3wu2UqUvZ3gr4WXC2amxxpu1vdOm
+ jQNV63u1zxq6uu9eaTdwifNKbJNZWC4QxbPk3nFlI4FWr5h3lyuYkFAiSKZv+f/wupznM3H8IjR
+ LrBLL6QAtB1DNa8cqweIDVxd+ra6GuPDh1kEezATOJUU7DlJTbZY/hngKL+FohQ/R5K2DY1TqMz
+ 44VPPHWPHwJdT+jdGloOG0wasIjd6Vbxuq3ioDOgOcT/ZO6vGQm2anhZ3BgFzTnTuAKBxTcLIvJ
+ pVoIsb8jX7BniBRtroWrL6DtjPuaPHMTrbn3hepKjQ68Fa0UoFwenZGlEE/6I0LjCZIZDgjnSIO
+ 7AY8K8r3M2Rww7Q==
 X-Developer-Key: i=marijn.suijten@somainline.org; a=openpgp;
  fpr=4E8B01B9A5BEA56B5FD66716F162D231C7E48676
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,36 +87,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the config name this Display IC features a DSI command-mode
-interface (or the command to switch to video mode is not
-known/documented) and does not use any of the video-mode helper
-utilities, hence should not select VIDEOMODE_HELPERS.  In addition it
-uses devm_gpiod_get() and related functions from GPIOLIB.
+Document the LG-Display LH599QH3-EDB1 OLED DSI panel found on the Sony
+Xperia XZ3.
 
-Fixes: 5933baa36e26 ("drm/panel/samsung-sofef00: Add panel for OnePlus 6/T devices")
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Casey Connolly <casey.connolly@linaro.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/panel/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/display/panel/lgd,lh599qh3-edb1.yaml  | 76 ++++++++++++++++++++++
+ MAINTAINERS                                        |  5 ++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 307152ad7759..9242fb894511 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -908,10 +908,10 @@ config DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01
+diff --git a/Documentation/devicetree/bindings/display/panel/lgd,lh599qh3-edb1.yaml b/Documentation/devicetree/bindings/display/panel/lgd,lh599qh3-edb1.yaml
+new file mode 100644
+index 000000000000..245d14c0a1a2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/lgd,lh599qh3-edb1.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/lgd,lh599qh3-edb1.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LG Display LH599QH3-EDB1 1440x2880 6.0" OLED DSI command-mode panel
++
++maintainers:
++  - Marijn Suijten <marijn.suijten@somainline.org>
++
++description: |
++  LG Display LH599QH3-EDB1 6.0" 1440x2880 (9:18 aspect ratio) 60Hz panel, found
++  in the Sony Xperia XZ3 smartphone.  It is always programmed with Display
++  Stream Compression 1.1 enabled.
++
++  The assembly features an Atmel maXTouch digitizer, described separately as
++  atmel,maxtouch.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: lgd,lh599qh3-edb1-um1
++
++  port: true
++
++  reg:
++    maxItems: 1
++    description: DSI virtual channel
++
++  reset-gpios: true
++
++  avdd-supply:
++    description: Analog voltage supply (3.0V)
++
++  vddio-supply:
++    description: I/O voltage supply (1.8V)
++
++required:
++  - compatible
++  - port
++  - reg
++  - reset-gpios
++  - avdd-supply
++  - vddio-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel@0 {
++            compatible = "lgd,lh599qh3-edb1-um1";
++            reg = <0>;
++
++            avdd-supply = <&vreg_l28a_2p8>;
++            vddio-supply = <&vreg_l14a_1p8>;
++
++            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0dbf349fc1ed..6a358fee4cae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7931,6 +7931,11 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+ F:	drivers/gpu/drm/panel/panel-lg-sw43408.c
  
- config DRM_PANEL_SAMSUNG_SOFEF00
- 	tristate "Samsung SOFEF00 DSI panel controller"
-+	depends on GPIOLIB
- 	depends on OF
- 	depends on DRM_MIPI_DSI
- 	depends on BACKLIGHT_CLASS_DEVICE
--	select VIDEOMODE_HELPERS
- 	help
- 	  Say Y or M here if you want to enable support for the Samsung AMOLED
- 	  panel SOFEF00 DDIC and connected panel.
++DRM DRIVER FOR LGD LH599QH3-EDB1 PANELS
++M:	Marijn Suijten <marijn.suijten@somainline.org>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/lgd,lh599qh3-edb1.yaml
++
+ DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+ M:	Paul Kocialkowski <paulk@sys-base.io>
+ S:	Supported
 
 -- 
 2.52.0
