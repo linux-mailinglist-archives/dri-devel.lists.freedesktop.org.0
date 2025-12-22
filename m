@@ -2,145 +2,196 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1130CD546F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AE3CD5484
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3EF10E5E7;
-	Mon, 22 Dec 2025 09:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A148A10E58D;
+	Mon, 22 Dec 2025 09:16:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZeyGeEca";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VdamftDx";
+	dkim=pass (2048-bit key; unprotected) header.d=windriver.com header.i=@windriver.com header.b="d1NaNEOT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C814C10E58D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:15:40 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BM80HQ43585754
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:15:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=SAGqqkDxnQOETQ6A2lr8RQHn
- wvjGWEvaTjk/ukztY6I=; b=ZeyGeEca3205l4ORn51Fdf56tsdOKiynMdpnMLza
- KYFZu7TBpbWzGsaE539ZdIdKJ3V2D9Iv/ZRITmI3GZd1NdgdDjO8IjLFlUpZMtC9
- VYMLs5XMHLiC71FZfJbKqRB1Z1Fc22IvcO965CpukGx2ge499AXVKJmjnmgvW7CA
- iitPq3AYG5DftpgUGlVk+onbkDkL3pPSd1oMvKi2HIJhmUDQ4mW5v868fG8eatAE
- W3CHKYjKqdPEtc4baMysUY6Qn7l42jV+FAFYvQQ3ut3rmd4QfSo8JD6cPqkFhvEg
- DXd59m3Y0mmJIfc5LUmE3Dp30zxjWDnhooFukpBwBSgNmg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b69ahjqrc-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:15:40 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-34c387d3eb6so3593947a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 01:15:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766394940; x=1766999740;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SAGqqkDxnQOETQ6A2lr8RQHnwvjGWEvaTjk/ukztY6I=;
- b=VdamftDxrOPMG6faXdKfc2/lWAWU90P0dIBTlpxL6XoQSs3tQsvlY+KKTeN29Y+KWY
- 6d9XJrPiP2Oyhh/QkY9AMR0KPF9goJHwFCek1JcmBgu2EJ74xJVF9Yv540fqjEZqfqJc
- uUnpr9SUkICu8XflALV9JPMbqsQdPkTKzwUjD0DxfQyNqwQbZbVUiexRC3HxiwJ4QH2d
- jnatm9Wd5D9VjLdAZA8qOJ4jDDB5TCVFo2S+oFuiTorpXUrgwBlW3Q4FMZadjS4EZkiQ
- Knf9EhD83p95WbEdrNn/X/e1gf0cJRdLsmc/HuWct5iRhchYAdMGb1PMNlCeClSiSmH1
- BE5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766394940; x=1766999740;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SAGqqkDxnQOETQ6A2lr8RQHnwvjGWEvaTjk/ukztY6I=;
- b=OFrXIPEGyZLT0I3IS73RhqOJos7DMoQ7CVsHuBNa8QRYC+0p7/kp4HMDzh/eXwR878
- H6sHKL67bWY6msjjMCq96sScbOF9+/R885XMrQudIbeFFuHvT667REP6JVKOjM0SV9Tb
- bZEyJxdwiPhfbVPQYr0NxMlxFl7eOys25/uakfGiWO4RgvkCHT2kzy6970KhBmGBh6IB
- sGQKFnp+IRY3+WSWGjOUKLTuGxM5S8rKXvLt4M+/NRlAAMNtEvyBXpft19YwC43Z7PXE
- pZRbK6nT9RGvGpAVIOtsvkZjQhxSb+28IaoFzcjfn8U9lQedyNJRtXcpWrlv80OPZz19
- pmhA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBeVu2IStCDDIrVZS0SZTTHUwecdGdAwkTGMAgoeJLC3YCgxKB58LykWLIy6LbbZ8H5D6ibVWWrag=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywp0ei04/LgBd7AiccL5kREEVD+8lUMXfOF/XNL+BMqzgPUgZTX
- HgH695jjXkmiqmptkNIRbj2SthieV8m9BlA3eZKsn2dr4/+xD9HRFWlQlkV8frmlU+ujLhPRjmy
- +tb/eKTWx8CLDs8ueFmY7XVRZoJ4qFDoqZfgYJMIK40FwH9LOLABV6uwkp2XmKvENCiX5yogILr
- TqNvAlPGJbMjAKhBwdnVO7dkmoOz6e7T8SFBu2hGsWDRqEAw==
-X-Gm-Gg: AY/fxX7n9PX3Oy8+/fO9ChoT63QX+LTZULMIKMLrsW8aRoum0uWyZi77YEYDKksuQAO
- XJxezC1W4L1JPREEyhKhMu1+yoop3fiuyIhxd6cUUQGC1reepWa03pb7HaPoLBsqlnP8oAvIH6P
- rLmSOebhoyHruC3SWMQ7Qtp/GX+lK3AT7B6N+Z89df3P7Q0WZvbpuMMvgmkDrB3nbB4JMUhbELq
- oBKj/HT
-X-Received: by 2002:a17:90b:580e:b0:340:c179:365a with SMTP id
- 98e67ed59e1d1-34e91f6c085mr8540441a91.0.1766394939291; 
- Mon, 22 Dec 2025 01:15:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFdWjFmCJ3rN1M6axq/0TfkrinCUile+xnFomj+mcjrMdNMwpxIjIa8Op3EfgtrthHKSCqP4lzYpmqP/jYop/4=
-X-Received: by 2002:a17:90b:580e:b0:340:c179:365a with SMTP id
- 98e67ed59e1d1-34e91f6c085mr8540401a91.0.1766394938594; Mon, 22 Dec 2025
- 01:15:38 -0800 (PST)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796B910E58D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:16:52 +0000 (UTC)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BM5lQSA2122051; Mon, 22 Dec 2025 09:16:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=cc:content-transfer-encoding:content-type:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to; s=
+ PPS06212021; bh=VVb/uOfz6TSq6lDGQsmecPV+F9E3F/ie1/T6qHAJ+2U=; b=
+ d1NaNEOTrlN2JGFOoJfh1lyKnuMfVY/IFVVqxPTqUdjbQb9WU78RT4WURvKwKrm8
+ 5Of9HGPWNO71S+bzhKZRCdk2AY8dUAWVitzIUH5Q2vd2FQ+KKVJQjA12ErcPxGx0
+ UQnjXB51RPZKe6iAREBfLgOT8bKpwhV7W202KpQW0tZ4uWSwy1rdFm7sNLyo0hJ5
+ N9J+ilXuy70Uqda2rSg6RXloyaYl/KJ3zIsAfRNzwRIF++M+ubYEkKofXuF/BZbC
+ B4jnucf/rfvMul5kgBrA2FuwgfxGZwhZGRut/qqvcDpWWqik/25381Xq6PWzhvTv
+ 8/8AA8RmN33jZkb5KOoraA==
+Received: from byapr05cu005.outbound.protection.outlook.com
+ (mail-westusazon11010044.outbound.protection.outlook.com [52.101.85.44])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5js71k96-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Mon, 22 Dec 2025 09:16:41 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WVcWJpUZ33Gu/WzbupXpUauyeoPF4HIjdCZOhqRPaGxQ7vrP9/fS/vf6F5lUz4AtLmBEtiIwU/A/xMp6F9FaA6fbJp0URDx+5Tv01XV4ftHKKZBVTN37+JaYZoQBOYcCoioYDW82vQl5XKERjUdQH7x4q+vfttWbtaXAynAsepHSektyBsK/K2CiUskI92QD8J4BrWVmwZqoj0jRY5F1T8I2kcvrmu0Y3DOv8mD2vl4hEC7c4rGzw4cIMUYrov2GKKdGDiPZYzJY2Mrj44fGMO0yJ6HETx9IRV+tbOOOsqi7VZ5rk+NIIxUpfzk3jqM4Bb58LaCtev3x8bWP54T4Pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VVb/uOfz6TSq6lDGQsmecPV+F9E3F/ie1/T6qHAJ+2U=;
+ b=b/tmOeY114/L0Xn1pwR3TVG1Qu6tzAEX+4S8JKsUmUT39T2RaQwlp6LsC7nJsKp/996pJGXHnbP+F8BTVk/qPiDvHcAeH5ich2xuGKiyM0dRb6GDuUWtedHrNAg12cRmOWMmBUAzK+WxahHg2GNGJC2F4t18KozkEryDsXY0eYIWfB1vsgp6WuI9wL7K1jnIf85dbEQYeTpuzBHTglqhNBYWd4IPzKPbAYlRf9ySCTbgDzLGBnkttFfqDUV1YybEqTd4YWcKkrbjHY1fhNroAVBrpxDLjk4N84ARWwTfLUliPAgpXliUs5kqKXDKhi3U/0q0YZFW/SRd8Py4BOvvfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::53) by DS7PR11MB6127.namprd11.prod.outlook.com
+ (2603:10b6:8:9d::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Mon, 22 Dec
+ 2025 09:16:39 +0000
+Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ ([fe80::56cb:3868:6b6c:193d]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ ([fe80::56cb:3868:6b6c:193d%6]) with mapi id 15.20.9434.009; Mon, 22 Dec 2025
+ 09:16:39 +0000
+Message-ID: <ae174e98-1fbb-44f2-a3a7-5ef40c37a49e@windriver.com>
+Date: Mon, 22 Dec 2025 17:16:27 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/tests: modeset: Add drm connector
+ atomic_[duplicate/destroy]_state
+To: Alexandre Ghiti <alex@ghiti.fr>, dmitry.baryshkov@oss.qualcomm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250827084514.3364009-1-xiaolei.wang@windriver.com>
+ <93b9e1dc-f8d5-4b8d-a7d2-27ba8e09dd54@ghiti.fr>
+Content-Language: en-US
+From: Xiaolei Wang <xiaolei.wang@windriver.com>
+In-Reply-To: <93b9e1dc-f8d5-4b8d-a7d2-27ba8e09dd54@ghiti.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR02CA0031.apcprd02.prod.outlook.com
+ (2603:1096:4:195::16) To DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::53)
 MIME-Version: 1.0
-References: <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
- <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
- <90bc84e7-19ca-450d-b41f-fd96367e8cce@oss.qualcomm.com>
- <2e5sqv2gnxdfwnfsepzdkchxip5zdeamp6bzbamq6kbk77kr3p@u5i4rrnrywno>
- <9971bd9b-88db-4628-b36b-de50c1619396@oss.qualcomm.com>
- <raj276z7euq7skvhsw7prwzlgsdy6ay7bhm4wgb64mt63q4ot4@eyvhcou7qwgg>
- <57706b2e-becf-47ac-a874-79ce17d12b74@oss.qualcomm.com>
- <812cfa55-269d-4b19-8e18-4815608b6bbb@oss.qualcomm.com>
- <6agidc2r2d2jevtiizj77mtlytoo3raxaoe6b53rvk3obmmiha@x7pqjco4ulhg>
- <030a8eb3-c79e-4be0-8305-7c9bb2005785@oss.qualcomm.com>
- <wwrc637p5nkz6ptuef2hrhyjgqnyifcztlkjrqyw4764vg6jpf@wso4tp6onb5l>
- <1afebfb7-00aa-4f19-b6c7-dd6fadb83664@oss.qualcomm.com>
-In-Reply-To: <1afebfb7-00aa-4f19-b6c7-dd6fadb83664@oss.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 22 Dec 2025 11:15:27 +0200
-X-Gm-Features: AQt7F2rMW6zMGcmCg7JttLGOHszdUQSLeOUUZjlwigtbIlbhAjEFgTk9jEvqaCY
-Message-ID: <CAO9ioeXqP5i9hEa-DfrEvK3U-3py9KjdMmWnjzZ9kGd4BPqdYw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=JuH8bc4C c=1 sm=1 tr=0 ts=69490c3c cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=RMOT5V3lTFKcIcGDt-0A:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: GGjdp0EnQfx6XBCvzevyFTVeqGPuwtWk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4MyBTYWx0ZWRfXwrYQgVA0Fv62
- CRQ2xrxKHpXNKqNEWSo1TAs6xQf2p/TfR1TZTqG5NxH7O4ECRegsmNkS81D2rjarNHQOUD9+jrL
- 31ipdsPVXbqzvOcp4RGXj/MDDEp1HO6YQiA4ROmi82VALnVmRMExh0I2sGKhOPT8nnNZ44YJpn6
- N5+6s0y4+VFKLLjItqHHIWl7ZTnRwBEa7JcOwI+Olh9gvj/KC/zNc84p53eCcCogKMrMyHagfld
- nJPyZcDJcpsULGuAddLVGU/jpIYOvihWTHRhrvAijV1s9L6271TE6Dk/bIaSN4nTh6Gn3U8HTFX
- wKWOe5xo+mEGkIxo79ranE6Jx4eDMzZfY5OaopMG0W5sQlSz6apJaUDCPjkJhLfRm+E53fi+Bgu
- Vy0ipeGV1nFc7agYwUALAS2QIJj737UzrkmT6R6GRegIQgsDazV5e2ypoN59Wc1ERxGliBE0VtM
- dsDsVWAbTAGLeuG5Bhg==
-X-Proofpoint-GUID: GGjdp0EnQfx6XBCvzevyFTVeqGPuwtWk
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|DS7PR11MB6127:EE_
+X-MS-Office365-Filtering-Correlation-Id: 444fc7c0-f2c3-4798-1dd3-08de413acfef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WmYwajlrNFVuNmtOMnRiM2V0WDNhQm41Q3RGWmNxdGtXNWdYSll3T2FhQURF?=
+ =?utf-8?B?NUlEcnY4aEJYOVh2SDNLUkJLaEZUVTZpaUhOcVVyNVVGcTVJemZlRU91M0Z6?=
+ =?utf-8?B?K3NmeXZMUjNlK20zRWlMeURuQlF5K0JrNEQxRGhyZDlyRTJLVVFEYUVGWk1D?=
+ =?utf-8?B?THFieis5SURoeGJjRjFNb3p1MG5URXIzR0Q1TjBzaGFrRTd0ZVlnVTgyMUg4?=
+ =?utf-8?B?dndkcmZESjlydE0vOTQ2NmpvRGlWNzNUcDNRamNBM1BBVzE3bXNPVUJIankz?=
+ =?utf-8?B?dmZlUVR3TTE3T1lPZElvWU90RmtuVG1RYTdrQ1dxV1VIZ3Q5MHdpQkdQOVk4?=
+ =?utf-8?B?b05IWkFKc2oyVlR3QjVWZmJvYStpSndZd1ZRR1Zjc043c3RHczU3UFJQbHZZ?=
+ =?utf-8?B?dWp6NGV3aThjVyt5OU1xWEhmQTZ2ZFBBVlplNStiLzZqN0NCbGh0UFowbFJk?=
+ =?utf-8?B?eS9aOFBBV1dIMkUwdnhKUkdvUFc2VmZxWmFBbEN0RzdyVmNvUDVEc2JNZDN4?=
+ =?utf-8?B?SEJtRi92SjdqQ2xNYUJtREFwVGE0dCtES0FCdm9rUVNYSGc3dXNGclJSQmxO?=
+ =?utf-8?B?bktQN1kxNldwcnFtUWFvYmJnWjRyd1FBS2l4TFZQb25pR1MremVOSEZCNWRt?=
+ =?utf-8?B?NDF6QTZiTlVyZU1tbkczcXltemdZOTBUUUxPdDB5WlBtODVLdzI5MzVRZmQ3?=
+ =?utf-8?B?Z2xZZEtzSG9WYXpzTWQ5bkVIbE5aL1FBbk1YalN1dE9TeW9KM0VvbVo4Ym9k?=
+ =?utf-8?B?YTdKVXdiYSt2L1Y0TjZRMEVid3V1V1I4MzVGRjBDWm5wWlR1NklCRGNBWTF6?=
+ =?utf-8?B?Uk5yQjM3d1lnRGJpTzUvUzQ0MlBKbWdmYW1hajY4WmtMQ3FnRTFId2ZzWlI4?=
+ =?utf-8?B?QlZQZUh0Q1JiaGFaTlVYNTdWMmhVcFF2cVpNVzdMWDNWc3ovSzJBNzFCR05k?=
+ =?utf-8?B?TWNpQzByY254WWxtekY3UG55N2hGUjlnVEVFVzdZWFErdU5NZm9Yd1Z4ZVFq?=
+ =?utf-8?B?Wkg0ZWlHQnR6SDEzSUw4TUF1ZUhXN1d2VkZSTkVNbW9LUGM4bEduQmwvWTZJ?=
+ =?utf-8?B?NzBjVS94QzhhU3JOUldVMG9ZQ2pSdUFXOHFLeng2V0pRY2UrUnlvcElySGpX?=
+ =?utf-8?B?Y05SQ1NLbHZ6TnZ1TEdnZy9PbFl5SXZPb1E0NDdod3VkY21YUk5qTjRtQUgr?=
+ =?utf-8?B?WVdmL1FpRUczRzlnWnMvcWk3SDVSdVlPWDltT3ZqL3FDY3U5Z0FIMGVVZHJL?=
+ =?utf-8?B?Z1NLM25oRVVKY2hxWWxLeVBvSTk4Y0NxVmx6K1BEOExkMUJpdG9iSlBaWHFQ?=
+ =?utf-8?B?ZEM3V0c2WkR3c3lhVHI3TnNnQmJaNGlkRXgydFlrS2lFTXlOTUFFcGpQZUNN?=
+ =?utf-8?B?M0FTR1h1akdhTGc5NGZFa2l2bFVoNCtpN25rdTJ1S1pYV1VKNElsUUFPcDZt?=
+ =?utf-8?B?bHdkR3o5T09jNGxIdXNJUnpxSTRTZGxlV0JkK0hYNVltVTNZNjhyOFZFOUp2?=
+ =?utf-8?B?cU5rb3pCQ0dkSDExeEltdk5sN0ZRejl2MmNJK2dwK3hPWm1TdGc0VUxmUEx4?=
+ =?utf-8?B?djlybjZzM3I2NGpVWUJJaUhUZHUxOXFFMDM3R1BLZDRvODVIZkpjbk1rYTQx?=
+ =?utf-8?B?RytxdFMxVTB6cW5iSnBQTWZaUjhiR09UQ01sQ1BZMXVtSjVTelN0M2tTSFRL?=
+ =?utf-8?B?RjlUZFlHWUNTTmQrbS9qMm5aclV0V0Z1YXJZZlJJRmQ5VkQrWmk3TjRiV3lq?=
+ =?utf-8?B?ejJkVGxCalZFaVdhd0YwWEZvTEJVUjJhRG8yYlMzbFlnNVRJNFJYcE5GOWZl?=
+ =?utf-8?B?d1h1eDRZZEd3LzN6eXJ4a0JsRTB0QXpBYzlsTy9BQmRlOHB0UXNRa1RsT2JQ?=
+ =?utf-8?B?enhNa1M2N0s2b2lseElvZDl0blpTWmRCVGNLcnZWeDdSN1E9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS4PPFD667CEBB6.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0x5ZTdLMmo3ZEJleHlkVk5hVThaMkhNejJHWU9walBCazhROCtZbTh3WDdM?=
+ =?utf-8?B?ZHEydFROeTdoalZrcGx2UnZiK2J6Ui9WRWFEVUxpT0dvR0VGUVJ0RnRDR3Zt?=
+ =?utf-8?B?dVJzd2tPdTFCRDgwMzA0NVg1eVp4bzYvNkRaMHNSMWhQUlBqeWl3dUNmQ2xX?=
+ =?utf-8?B?SDZvUDBVSlZMemN6QnRjdmh6b1k5YnVLNFBoMjIrdDNCbFNucFF1NENNMlRz?=
+ =?utf-8?B?RkdxNzBrRUhhRXpacmVjZlZsMWxRSXZXSVppV1hvVE5qeFY5S1pJQStGQnRT?=
+ =?utf-8?B?RjE1ak1TZVNCNWNYa0hkZEE0cldJYVVGRHcrVjM1bHRSRHl6cU5vRnhFOXNU?=
+ =?utf-8?B?R3N4R2hGaG5YcmpRVUpmTS9BOTUweUpWc3g3OFR1Z0RFUFZHNUthbDhEWlFQ?=
+ =?utf-8?B?OXJhSCtBNXZpMmdsMWRGbUhtT0VxTW1LdzJJYmRwdEdPRy9iVGI1b1UyUGgv?=
+ =?utf-8?B?cVgyNHh0ZFJHREQ1ZGVOdUdzZnVXQ2FpbGF5TDZMTmM3NmZpT0dQUGlydmww?=
+ =?utf-8?B?M1JvVTNteWY0YWNpdW5ZcXFHZjNPbmdPUDg5aGllRmtiVDBQNW1zdi85WDk1?=
+ =?utf-8?B?anpCTGpNUmhPSWU0SkhKMkFldmZnc2hsbW5sK1NWaHRHSzFqQTBWYWQvZTRP?=
+ =?utf-8?B?U3h0QyszeE1tbStDQmNQcmpUK2tvWlF0eDduQ2Jlbjd4UG5MdWNzVHdFUUlP?=
+ =?utf-8?B?T1FaYUdvSldhWjBHWkxnejU1cUJtRitzZHVBeklvMXNGbUk0TFFOeEFuVzJS?=
+ =?utf-8?B?V2pQbGFITEI5dUg0ZzJyT1hyenlUa3paWURZSDlMd0JnUE1pRGhDd3VuYlFP?=
+ =?utf-8?B?NWhNa2lqdHZ0N0c5TkcvMDZHVDhVSnVyb2VjSzhoWUVkUDhueXMwaGRyS05j?=
+ =?utf-8?B?OVMxLzJmdEo0djRLL0YxRzJmUThIQ2FzSXdpYnVCY09pWVB6ejdPaHdSUHVC?=
+ =?utf-8?B?bUsrNWVxektDUzBSWGdMTFdFVXBxRWVjRm1pdkczM3ZhZVFWUFhWQ0lVMDhP?=
+ =?utf-8?B?eE1FNm15LzAyMnJvNWNZRjB2ekhObXNVMVRrUmZIM0VGL2QrdXFGay9VUHN3?=
+ =?utf-8?B?YmUzT0xBNVZORnNmamJuT0NVZENTOTFRUEhjQUJkTUFncWlSQ2pCMVBhaGl5?=
+ =?utf-8?B?Uld0QURFeXVtZWJyZlcyUTNJeFF0V053MmswMHVDR2JYSGNiSFNJMHkwRG9a?=
+ =?utf-8?B?dmhCNGwza3k0UkUrci9tdzZCN2ZtUEZxMTNmcU9YdFQ0c2xzamdPUWwvS08z?=
+ =?utf-8?B?OXpETmZ1VWx3bjlZTkRZOVY5Z2xWU0JsL3RLVmVXak5VaFN2NEwvT0o1TVYx?=
+ =?utf-8?B?bU1FTzNRYkxsTTF1OFRMdHhtSnUvN2cySksrZ3NHUDBwcE85UVpocjhVSDVo?=
+ =?utf-8?B?VFRDNmVwSFR2eENEdTJIdGlaK0h4dUNLZkt0NzhsaXpLVVpKdjZMUkJad0ZB?=
+ =?utf-8?B?MUhrMjcwS1lRQ1ZZYWhzalplOURZaU9Tbmd4N2RrNmNtVkVKc2h4T0ltd1Nq?=
+ =?utf-8?B?SllMaTRrQXJ6aGpEOWdlZVJBajJ5ek1WZ1A1dXhseVlSTGhhaXUydlR6MjBS?=
+ =?utf-8?B?U1cwN0x4K2oyOThwaFI2c2g2N2I1Q2pWcEFhckZmdndQZWNaMUk5UFJJYWpW?=
+ =?utf-8?B?V3ovOWViSTFLa09pRlowaC9rLzhmMDZGVXpIdElBbmM2VEhwU2hHNUdhaEs3?=
+ =?utf-8?B?SkNxTGkrbzJ1NzRIeFNGOEY3NHZYaHlKR3RPNnpIcVdqdmVoSGFmS3hsUXlz?=
+ =?utf-8?B?TWxqWlEyeVprMHVnSHI4ODNvMExQbmIrYlNLd3czTnk1ZURwS1dEdExPa1BT?=
+ =?utf-8?B?SW1aYVhnRm5PWVNhYnlneXBYa0Y1VjNDbVY0M3RvdWM5eVpTNkRqOEE2VklU?=
+ =?utf-8?B?VGFGcUdQbGdPWGtWVkJJNm1RTkhUOUNQaHR3eVg0dWpjVWsrZTY1OHBlcE9m?=
+ =?utf-8?B?MW80SnpLVlEvUDd5VXJDaTgzcE5qRGx0TTExZXFkUGUxTTRFT09MRy9TR2VZ?=
+ =?utf-8?B?Wm5SR0F5VkhVRGtFdHJ0RnpJR3Rnd2d0TktLOExUTUxjaWpPSkVDVy8xUFQw?=
+ =?utf-8?B?ancxRXR4TW9NdVNMcFBTWjJOV2ptMUdjT1VDeWJMSTNLTjQ3RmY5ZGpaRFJn?=
+ =?utf-8?B?NUppdVhtZlJKT3lidW9mV2NxT3lucHRMVldzeld1ODdhejR6ZWswUXF1Rllt?=
+ =?utf-8?B?V3hyWFlidGMweFlEOEtCVkhNN0lQeGNDN2FOM3JuYnRHSy81cXhxRG9EZTBj?=
+ =?utf-8?B?MDI0NXhpYzR5T3ViTnlvY3FIOEpyeDZPcEdhTFN1aDhTeWwzN3BtU29GT3k1?=
+ =?utf-8?B?SVB6SjNEaldxSFE2VGh1amlPdnlOdm5oM1hpK0hDcFgrM2MxOHh2ODZqbjJM?=
+ =?utf-8?Q?iDYYOK+mviZAo/SE=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 444fc7c0-f2c3-4798-1dd3-08de413acfef
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2025 09:16:38.9509 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WJSteqEocHrCRRujbtMcUWIGuW0ERaX3Oq9Fa3bvWyhc+RUh5gOn5EgziA/SaPZzjheNAYNJHg6Mfi1/OGxUsF/nWY6+3/TC3iOwpPuKdAM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6127
+X-Proofpoint-GUID: zOqJds6Cm3FWjTBGnj7jWQv7FYPPJqEU
+X-Authority-Analysis: v=2.4 cv=To7rRTXh c=1 sm=1 tr=0 ts=69490c79 cx=c_pps
+ a=iil3+hz40n0Eqb4YezF7BQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=GaQpPoNlAAAA:8 a=t7CeM3EgAAAA:8 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=h0uksLzaAAAA:8 a=v5HRY4-Fo_-zKAK5E5EA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=xF5q_uoM5gZT5J3czcBi:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=MSi_79tMYmZZG2gvAgS0:22
+X-Proofpoint-ORIG-GUID: zOqJds6Cm3FWjTBGnj7jWQv7FYPPJqEU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4NCBTYWx0ZWRfX+HSPLWEACInR
+ BRXj/0pIT4s8vN0vob/+E7el5aS0DNO0dOLysw8kHhmn+BNo0/jiWZABoc/E4w8TLE5ZB86FeE+
+ mNQ0479NWRzM5LDElnWWfYT+jLh8uNNy7P21o+zaPNnd9LI96x21ZZKVeX53oAxIh0RpLxfzshI
+ Uy2E0Xvnv60XX9V3SA1Nuii91xRrZNyzV9nAUIhTyiAlHhadHaWY9FugXtsDiTI2zfnwWJ1gPt0
+ VlzpIEYSuBRFe+xFDSU42DdNKcoleZVE6a2O1+O5pbrNFdytUETUrODVOnCjsrScDEINhbnjamI
+ ua5q8a6r8tJ0BbLNWbhTj5qJx4OSY0oB5zj6fFr93p7P0clNlSIWLmJldYVN/jeIuBCMRm9Y+W8
+ 35agJBKe5wE9VLZCugG6i9J4zp1Bt8ixzgqvC+fQUUS5RV7kXwWBKIi8hY6+e4BDPa62P4gsCfN
+ WvsrmuHZkxD4TpH3CeQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 adultscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512220083
+ clxscore=1011 priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220084
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,219 +207,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Dec 2025 at 09:19, Akhil P Oommen <akhilpo@oss.qualcomm.com> wrote:
->
-> On 12/13/2025 12:58 AM, Dmitry Baryshkov wrote:
-> > On Fri, Dec 12, 2025 at 01:01:44AM +0530, Akhil P Oommen wrote:
-> >> On 12/11/2025 6:56 PM, Dmitry Baryshkov wrote:
-> >>> On Thu, Dec 11, 2025 at 05:22:40PM +0530, Akhil P Oommen wrote:
-> >>>> On 12/11/2025 4:42 PM, Akhil P Oommen wrote:
-> >>>>> On 12/11/2025 6:06 AM, Dmitry Baryshkov wrote:
-> >>>>>> On Thu, Dec 11, 2025 at 02:40:52AM +0530, Akhil P Oommen wrote:
-> >>>>>>> On 12/6/2025 2:04 AM, Dmitry Baryshkov wrote:
-> >>>>>>>> On Fri, Dec 05, 2025 at 03:59:09PM +0530, Akhil P Oommen wrote:
-> >>>>>>>>> On 12/4/2025 7:49 PM, Dmitry Baryshkov wrote:
-> >>>>>>>>>> On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
-> >>>>>>>>>>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
-> >>>>>>>>>>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
-> >>>>>>>>>>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
-> >>>>>>>>>>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
-> >>>>>>>>>>>>>>
-> >>>>>>>>>>>>>> Add gpu and rgmu nodes for qcs615 chipset.
-> >>>>>>>>>>>>>>
-> >>>>>>>>>>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> >>>>>>>>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> >>>>>>>>>>>>>> ---
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> [...]
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>>> +                        gpu_opp_table: opp-table {
-> >>>>>>>>>>>>>> +                                compatible = "operating-points-v2";
-> >>>>>>>>>>>>>> +
-> >>>>>>>>>>>>>> +                                opp-845000000 {
-> >>>>>>>>>>>>>> +                                        opp-hz = /bits/ 64 <845000000>;
-> >>>>>>>>>>>>>> +                                        required-opps = <&rpmhpd_opp_turbo>;
-> >>>>>>>>>>>>>> +                                        opp-peak-kBps = <7050000>;
-> >>>>>>>>>>>>>> +                                };
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
-> >>>>>>>>>>>>> or mobile parts specifically?
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
-> >>>>>>>>>>>> here.
-> >>>>>>>>>>>
-> >>>>>>>>>>> The IoT/Auto variants have a different frequency plan compared to the
-> >>>>>>>>>>> mobile variant. I reviewed the downstream code and this aligns with that
-> >>>>>>>>>>> except the 290Mhz corner. We can remove that one.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Here we are describing the IoT variant of Talos. So we can ignore the
-> >>>>>>>>>>> speedbins from the mobile variant until that is supported.
-> >>>>>>>>>>
-> >>>>>>>>>> No, we are describing just Talos, which hopefully covers both mobile and
-> >>>>>>>>>> non-mobile platforms.
-> >>>>>>>>>
-> >>>>>>>>> We cannot assume that.
-> >>>>>>>>>
-> >>>>>>>>> Even if we assume that there is no variation in silicon, the firmware
-> >>>>>>>>> (AOP, TZ, HYP etc) is different between mobile and IoT version. So it is
-> >>>>>>>>> wise to use the configuration that is commercialized, especially when it
-> >>>>>>>>> is power related.
-> >>>>>>>>
-> >>>>>>>> How does it affect the speed bins? I'd really prefer if we:
-> >>>>>>>> - describe OPP tables and speed bins here
-> >>>>>>>> - remove speed bins cell for the Auto / IoT boards
-> >>>>>>>> - make sure that the driver uses the IoT bin if there is no speed bin
-> >>>>>>>>   declared in the GPU.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> The frequency plan is different between mobile and IoT. Are you
-> >>>>>>> proposing to describe a union of OPP table from both mobile and IoT?
-> >>>>>>
-> >>>>>> Okay, this prompted me to check the sa6155p.dtsi from msm-4.14... And it
-> >>>>>> has speed bins. How comes we don't have bins for the IoT variant?
-> >>>>>>
-> >>>>>> Mobile bins: 0, 177, 187, 156, 136, 105, 73
-> >>>>>> Auto bins:   0, 177,      156, 136, 105, 73
-> >>>>>>
-> >>>>>> Both Mobile and Auto chips used the same NVMEM cell (0x6004, 8 bits
-> >>>>>> starting from bit 21).
-> >>>>>>
-> >>>>>> Mobile freqs:
-> >>>>>> 0:         845M, 745M, 700M,       550M,       435M,       290M
-> >>>>>> 177:       845M, 745M, 700M,       550M,       435M,       290M
-> >>>>>> 187: 895M, 845M, 745M, 700M,       550M,       435M,       290M
-> >>>>>> 156:             745M, 700M,       550M,       435M,       290M
-> >>>>>> 136:                         650M, 550M,       435M,       290M
-> >>>>>> 105:                                     500M, 435M,       290M
-> >>>>>> 73:                                                  350M, 290M
-> >>>>>>
-> >>>>>> Auto freqs:
-> >>>>>> 0:         845M, 745M, 650M, 500M, 435M
-> >>>>>> 177:       845M, 745M, 650M, 500M, 435M
-> >>>>>> 156:             745M, 650M, 500M, 435M
-> >>>>>> 136:                   650M, 500M, 435M
-> >>>>>> 105:                         500M, 435M
-> >>>>>> 73:                                      350M
-> >>>>>>
-> >>>>>> 290M was a part of the freq table, but later it was removed as "not
-> >>>>>> required", so probably it can be brought back, but I'm not sure how to
-> >>>>>> handle 650 MHz vs 700 MHz and 500 MHz vs 550 MHz differences.
-> >>>>>>
-> >>>>>> I'm a bit persistent here because I really want to avoid the situation
-> >>>>>> where we define a bin-less OPP table and later we face binned QCS615
-> >>>>>> chips (which is possible since both SM and SA were binned).
-> >>>>>
-> >>>>> Why is that a problem as long as KMD can handle it without breaking
-> >>>>> backward compatibility?
-> >>>>
-> >>>> I replied too soon. I see your point. Can't we keep separate OPP tables
-> >>>> when that happen? That is neat-er than complicating the driver, isn't it?
-> >>>
-> >>> I have different story in mind. We ship DTB for IQ-615 listing 845 MHz
-> >>> as a max freq without speed bins. Later some of the chips shipped in
-> >>> IQ-615 are characterized as not belonging to bin 0 / not supporting 845
-> >>> MHz. The users end up overclocking those chips, because the DTB doesn't
-> >>> make any difference.
-> >>
-> >> That is unlikely, because the characterization and other similiar
-> >> activities are completed and finalized before ramp up at foundries.
-> >> Nobody likes to RMA tons of chipsets.
-> >>
-> >> Anyway, this hypothetical scenarios is a problem even when we use the
-> >> hard fuse.
-> >
-> > So, are you promising that while there were several characterization
-> > bins for SM6150 and SA6155P, there is only one bin for QCS615, going up
-> > to the max freq?
->
-> I have cross checked with our Product team. I can confirm that for both
-> internal and external SKUs of Talos IoT currently, there is only a
-> single bin for GPU with Fmax 845Mhz.
 
-Okay. Thanks for the confirmation.
+On 9/1/25 18:41, Alexandre Ghiti wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender 
+> and know the content is safe.
+>
+> Hi Xiaolei,
+>
+>
+> On 8/27/25 10:45, Xiaolei Wang wrote:
+>> Commit 66671944e176 ("drm/tests: helpers: Add atomic helpers")
+>> added the atomic state path, so adding the drm connector
+>> atomic_[duplicate/destroy]_state is also necessary.
+>>
+>> WARNING: CPU: 0 PID: 96 at drivers/gpu/drm/drm_connector.c:234 
+>> drm_connector_init_only+0x934/0xee0
+>>   Call trace:
+>>    drm_connector_init_only+0x934/0xee0 (P)
+>>    drmm_connector_init+0xe0/0x1b0
+>>    drm_client_modeset_test_init+0x290/0x534
+>>    kunit_try_run_case+0x110/0x3b4
+>>    kunit_generic_run_threadfn_adapter+0x80/0xec
+>>    kthread+0x3b8/0x6c0
+>>    ret_from_fork+0x10/0x20
+>>
+>> Fixes: 66671944e176 ("drm/tests: helpers: Add atomic helpers")
+>> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+>> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> ---
+>>
+>> v1: 
+>> https://patchew.org/linux/20250811063403.98739-1-xiaolei.wang@windriver.com/
+>>
+>> v2: compared with v1, add Fixes tag
+>>
+>>   drivers/gpu/drm/tests/drm_client_modeset_test.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c 
+>> b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+>> index 3f44fe5e92e4..e702a27c2368 100644
+>> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+>> @@ -12,6 +12,7 @@
+>>   #include <drm/drm_modes.h>
+>>   #include <drm/drm_modeset_helper_vtables.h>
+>>   #include <drm/drm_probe_helper.h>
+>> +#include <drm/drm_atomic_state_helper.h>
+>>
+>>   struct drm_client_modeset_test_priv {
+>>       struct drm_device *drm;
+>> @@ -48,6 +49,9 @@ static const struct drm_connector_helper_funcs 
+>> drm_client_modeset_connector_help
+>>   };
+>>
+>>   static const struct drm_connector_funcs 
+>> drm_client_modeset_connector_funcs = {
+>> +     .reset                  = drm_atomic_helper_connector_reset,
+>> +     .atomic_duplicate_state = 
+>> drm_atomic_helper_connector_duplicate_state,
+>> +     .atomic_destroy_state   = 
+>> drm_atomic_helper_connector_destroy_state,
+>>   };
+>>
+>>   static int drm_client_modeset_test_init(struct kunit *test)
+>
+Humble ping...
 
-What happens when somebody starts working on a phone using SM6150 SoC
-(e.g. Xiaomi Redmi Note 7 Pro)?
-Likewise, If I understand correctly, QCS615 RIDE aka ADP Air uses an
-auto SKU rather than the IoT one (please correct me if I'm wrong
-here).
+thanks
+
+xiaolei
 
 >
-> >
-> >>
-> >>>
-> >>>>
-> >>>>>
-> >>>>>>
-> >>>>>> Also I don't see separate QFPROM memory map definitions for Mobile, IoT
-> >>>>>> and Auto SKUs. If you have access to the QCS615 hardware, what is the
-> >>>>>> value written in that fuse area?
-> >>>>>>
-> >>>>>>> Another wrinkle we need to address is that, so far, we have never had a
-> >>>>>>> dt binding where opp-supp-hw property exist without the speedbin cells.
-> >>>>>>> And that adds a bit of complexity on the driver side because, today, the
-> >>>>>>> KMD relies on the presence of speed bin cells to decide whether to
-> >>>>>>> select bin via opp_supp_hw API or not. Also, we may have to reserve this
-> >>>>>>> combination (opp bins without speedbin cells) to help KMD detect that it
-> >>>>>>> should use socinfo APIs instead of speedbin cells on certain chipsets.\
-> >>>>
-> >>>>> If it is a soft fuse, it could fall into an unused region in qfprom. On
-> >>>>> other IoT chipsets like Lemans, Product teams preferred a soft fuse
-> >>>>> instead of the hard fuse. The downside of the hard fuse that it should
-> >>>>> be blown from factory and not flexible to update from software later in
-> >>>>> the program.
-> >>>>
-> >>>> This response is for your comment above. Adding to that, the value for
-> >>>> the hard fuse is mostly likely to be '0' (unfused), but all internal
-> >>>> parts are always unfused. Maybe it is 'practically' harmless to use the
-> >>>> freq-limiter hard fuse for now, because 845Mhz is the Fmax for '0' on
-> >>>> mobile, Auto and IoT. I am not sure.
-> >>>>
-> >>>> I am trying to play safe here as this is dt. We don't want to configure
-> >>>> the wrong thing now and later struggle to correct it. It is safe to
-> >>>> defer things which we don't know.
-> >>>
-> >>> What is "soft fuse"? Why do we need an extra entity in addition to the
-> >>> one that was defined for auto / mobile units?
-> >>
-> >> The hard fuse (freq limiter one) has to be blown at a very early stage
-> >> in the chip manufacturing. Instead of that, a soft fuse region which is
-> >> updated by the firmware during the cold boot is used to provide a hint
-> >> to KMD about the supported GPU fmax. I was told that this provides
-> >> better operational flexibility to the Product team.
-> >
-> > Do you have an upstream example by chance?
+> Tested-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 >
-> We use soft fuse for Lemans IoT.
+> Thanks,
 >
-> -Akhil.
+> Alex
 >
-> >
-> >>
-> >> -Akhil
-> >>
-> >>>
-> >>>>
-> >>>> -Akhil.
-> >>>>
-> >>>>>
-> >>>>> -Akhil.
-> >>>>>
-> >>>>>>
-> >>>>>> We already have "machine" as another axis in the GPU catalog. I'd
-> >>>>>> suggest defining separate speed bins for mobile and auto/IoT in the DT
-> >>>>>> (0x1 - 0x20 for mobile, 0x100 - 0x1000 for auto) and then in the driver
-> >>>>>> mapping those by the machine compat.
-> >>>>>>
-> >>>>>
-> >>>>
-> >>>
-> >>
-> >>
-> >
->
-
-
--- 
-With best wishes
-Dmitry
