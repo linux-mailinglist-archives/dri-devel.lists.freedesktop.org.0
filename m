@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5BDCD572E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C14FFCD579E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:11:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F26210E21F;
-	Mon, 22 Dec 2025 10:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B465F10E270;
+	Mon, 22 Dec 2025 10:11:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DX3xwYra";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fMOECZ/s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0C110E21F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766397876; x=1797933876;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
- b=DX3xwYraDdOg7VESPHMr33rlqhhNbppdLOtjw1WzT0k1mYAcMNnAhkVk
- rQStC4xW7BdQeIsHLb0DcXK8TwD/2kRhC/0MZhoHB7xenrd+KebeiO9Zo
- SxkqvOUhipJLJJTTiQRXOaf5NghgOmwjcz82j4M0aoNKZWbqgxA7ai11E
- 7RcRFMQMSaAGFOQ1TApGjXnrYD3NrhFSNULv7tCxGEZoZFBxEWCUEofjo
- Mmdnf4qbDMnDN7TX915Jo4igKHm4JD3rPreuamYEP0ZeJ9xGYBLU/aNAe
- a/8GHxoJ9zWCkhmaca4af9Pijy4tjoMFjhXsrO0gJ46Gts9kHwbCFkmJv g==;
-X-CSE-ConnectionGUID: qvyykBEeTbmDJdsm6WcltQ==
-X-CSE-MsgGUID: lRwElsgoSLqc+g14AdFhYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71883099"
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; d="scan'208";a="71883099"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2025 02:04:36 -0800
-X-CSE-ConnectionGUID: SENbKwQ2TGuu/Q2AuFUCmg==
-X-CSE-MsgGUID: nfxshazyT4av5RHtxHYyhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; d="scan'208";a="222977989"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
- by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 02:04:31 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vXcmC-000000000MH-2wzD;
- Mon, 22 Dec 2025 10:04:28 +0000
-Date: Mon, 22 Dec 2025 18:03:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vincent Mailhol <mailhol@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <chris.mason@fusionio.com>,
- David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
- linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
- Vincent Mailhol <mailhol@kernel.org>
-Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
- is_negative()
-Message-ID: <202512221735.mRV4BZqB-lkp@intel.com>
-References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2DA10E270
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:11:13 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 7352E1A236D;
+ Mon, 22 Dec 2025 10:11:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 3D091606C1;
+ Mon, 22 Dec 2025 10:11:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 1E99610AB0199; Mon, 22 Dec 2025 11:11:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1766398270; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=Jh3eRDw2XWfRehNAGfzcGYKG8Odq8fhw8NowBDA6wAw=;
+ b=fMOECZ/sbBnYIuPFApgH//qSP4WHiksb/lesOuY2hOu0zYzQpUiy6NesQhrg2PwKdOntP3
+ OI+VsQgQNU7UUkswqmeGVMJNfsV3KUXXrFEfd5nFqAOczwDACKujLxy0vnj2FZM1tNCm0D
+ xqQ1hLyuepgNpFDI+ByZzHH8VbGq0sXeDW71HszcbnGcO2dAhRHI5APGSyb6O0Rc7GXebt
+ n7YDbBHrQbiDdTmLxM196VtKxzxcUF149lZoEOwz5icpP8Fq2OVQGlhIEHGcJp4pqXbn61
+ /JHM1d2wfLevK1lOGRIgoAPIJNUsnZNIGQ7U1aWLaojq2MMuBnBUp6LNjpjfqw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v3 00/33] VKMS: Introduce multiple configFS attributes
+Date: Mon, 22 Dec 2025 11:11:02 +0100
+Message-Id: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADYZSWkC/2WO0Y7CIBBFf6Xh2XGBta31yf8wPkCZ6sQCu4DEj
+ em/i1UTN77NneSce68sYiCMbFNdWcBMkbwr4XtRsf6o3AGBTMlMclkLLlrIJxtBjSP03g10AG1
+ 4LxUX61UzsEL9BBzoMht3+0cO+Hsu4vR4Mq0iFtpaSpvKBAuWYv/1OsDhJbE7eaSYfPibp2Uxo
+ 88V648VWQAH1bYNb+vadNJstfdpJLcsRbMtyzeD7D4Nshg0Sq47PYhVg/8N0zTdANXyGRwsAQA
+ A
+X-Change-ID: 20251017-vkms-all-config-bd0c2a01846f
+To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
+ airlied@gmail.com, thomas.petazzoni@bootlin.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6712;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=XCHr5I3duMEU8g2MaGBn8/hL+yd1k5QgRHLjF7eeXyw=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRk/abtc9nSJuxfAtzBG7UKsgjDXME74+ZdDZ
+ UuZUL3dlgWJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZPxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOLbeBAAoCUPDr4BEQ07Dz+T9CIQLA+TZNs1ch7
+ AFf4ET2zlBatcq2Qdw+3dO7DhUWGjq3s1rxZ14aUfZBGa/o+HhbGpXP5BkXTMHJKryu8hbucsX/
+ iun7SdyZYa6t+lBp25D/PcOqlP46JGxUMfLxz5+dT/s7P2aHDtC7Ryd71Rz8CE6p5CI+qWfnFeW
+ JoB1ywfOgVaKZfy9L4yIOXtjO6JjizmCV/gR7JUu3k5zn6cV8NuwDxjiNhJpc+o2fV2ZZrJuAx6
+ zHEbADAQJ3KEq+jrZ0Oop0B5/Qj3ym9V3nFurXUPREryvfpkii2Jh1KOtCLgwngX7pYHNazTsCM
+ 7dQk20Dizyr0CjWFCOlwbSGr6bFLxS22BCekdCmHDkur7ksM/Slgmu/WwbcVv4JIdhIOuhTw9R9
+ wnFTSWY2RhT08DR/FRONpeU6Fc3rpA6h1c0gthuFmz/7NTVMomLj8WPh9+vz7gLiMfm1Eqyf+12
+ O1ZmpTcYvN6ODIqcN6Gk6/P7HFUdCnRKMQvSSE2W9cFmimuOpCXMTKpxhmcFhafgDlty9E9Ym2w
+ Z+ittGqCQTZqFrNH8ikMJInSjg4k6Oth6C3w4bHpARmRWOFK+Je4KwZ5Cbjr8LgdMMBntrUdqzb
+ 9/ROhqHTDi4lLQyYYoxTXE39ljZN/M8M1Q1ExR5igCmAS+jS3lRE=
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,67 +90,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vincent,
+VKMS have a wide range of options. The aim of this series is to introduce
+many configfs attribute so VKMS can be used to test a wide range of
+configurations.
 
-kernel test robot noticed the following build warnings:
+PATCH 1,7,10,13,23 are to expose human readable strings from drm core
+PATCH 2-4 are to expose human readable plane type in debugfs
+PATCH 5,6 plane attribute
+PATCH 8,9 plane rotation
+PATCH 11,12 plane color encoding
+PATCH 14,15 plane color range
+PATCH 16,17 plane format
+PATCH 18 properly use zpos
+PATCH 19,20 plane zpos
+PATCH 21,22 connector type
+PATCH 24,25 connector supported colorspace
+PATCH 26,27 connector EDID
+PATCH 28,29 preparatory work for dynamic connectors
+PATCH 30,31 dynamic connectors
 
-[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
+PS: Each pair of config/configfs patch are independant. I could
+technically create ≈10 different series, but there will be a lot of
+(trivial) conflicts between them. I will be happy to reordoer, split and
+partially apply this series to help the review process.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
-base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
-patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
-patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
-config: x86_64-randconfig-161-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221735.mRV4BZqB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+PS2: I will apply the patches 1..5 after my holidays, they are reviewed
+twice.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221735.mRV4BZqB-lkp@intel.com/
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v3:
+- Added Documentation/ABI (Thomas Petazzoni)
+- PATCH 2: Clarify return value
+- PATCH 6,7: Avoid passing null to printf
+- PATCH 7: Restrict plane name to A-Za-z0-9
+- PATCH 12: Fix missing s
+- PATCH 13: Add macro to avoid repetition, fix missing s, make code
+  consistent, remove wrong comment, properly check bit values
+- PATCH 15: Fix missing s
+- PATCH 16: Fix missing s, make code consistent, remove wrong comments,
+  properly check value and fix default_color_range value
+- PATCH 17: Create function to reduce code complexity, fix missing s
+- PATCH 18: Fix parsing, rename data, reject strings > 4 chars
+- PATCH 20: Remove duplicated lines, fix test comments simplify conditions,
+  remove useless documentation, 
+- PATCH 21: {Min,Max}imal -> {Min,Max}imum, simplify commit log
+- PATCH 25: Fix wrong comment
+- PATCH 26: Rename type to colorspaces
+- PATCH 27: Improve comment, avoid useless iterations
+- PATCH 28: Fix typo in commit log
+- PATCH 29: Fix typo in commit log
+- PATCH 30: Remove useless include and move it to proper commit
+- PATCH 32: Clarify documentation
+- PATCH 33: Simplify code and use better variable names
+- PATCH *: Fix EINVAL/EBUSY
+- Link to v2: https://lore.kernel.org/r/20251029-vkms-all-config-v2-0-be20b9bf146e@bootlin.com
 
-smatch warnings:
-fs/libfs.c:1628 generic_check_addressable() warn: unsigned '*_d' is never less than zero.
-fs/libfs.c:1628 generic_check_addressable() warn: unsigned '_a' is never less than zero.
-mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '*_d' is never less than zero.
-mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '_a' is never less than zero.
+Changes in v2:
+- PATCH 1: reorder includes (José)
+- PATCH 2: use name property instead of folder name (José)
+- PATCH 3: Fix default rotations (José)
+- PATCH 3,5,7,12: Add tests and extract validation for planes (José)
+- PATCH 3,5: Do not create color range/encoding properties if not set
+- PATCH 5,6,7,8: Set plural form for vkms_config_plane fields (José)
+- PATCH 4,6,8,13: Remove checking for default in supported (José)
+- PATCH 9: Add break in vkms_config_plane_add_format (José)
+- PATCH 12: fix zpos_enabled typo (José)
+- PATCH 13: fix documentation (José)
+- Add debug display (José)
+- PATCH 20: use drmm_kzalloc instead of kzalloc (José)
+- PATCH 22: simplify the code (José)
+- Link to v1: https://lore.kernel.org/r/20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com
 
-vim +1628 fs/libfs.c
+---
+Louis Chauvet (33):
+      Documentation: ABI: vkms: Add current VKMS ABI documentation
+      drm/drm_mode_config: Add helper to get plane type name
+      drm/vkms: Explicitly display plane type
+      drm/vkms: Use enabled/disabled instead of 1/0 for debug
+      drm/vkms: Explicitly display connector status
+      drm/vkms: Introduce config for plane name
+      drm/vkms: Introduce configfs for plane name
+      drm/blend: Get a rotation name from it's bitfield
+      drm/vkms: Introduce config for plane rotation
+      drm/vkms: Introduce configfs for plane rotation
+      drm/drm_color_mgmt: Expose drm_get_color_encoding_name
+      drm/vkms: Introduce config for plane color encoding
+      drm/vkms: Introduce configfs for plane color encoding
+      drm/drm_color_mgmt: Expose drm_get_color_range_name
+      drm/vkms: Introduce config for plane color range
+      drm/vkms: Introduce configfs for plane color range
+      drm/vkms: Introduce config for plane format
+      drm/vkms: Introduce configfs for plane format
+      drm/vkms: Properly render plane using their zpos
+      drm/vkms: Introduce config for plane zpos property
+      drm/vkms: Introduce configfs for plane zpos property
+      drm/vkms: Introduce config for connector type
+      drm/vkms: Introduce configfs for connector type
+      drm/connector: Export drm_get_colorspace_name
+      drm/vkms: Introduce config for connector supported colorspace
+      drm/vkms: Introduce configfs for connector supported colorspace
+      drm/vkms: Introduce config for connector EDID
+      drm/vkms: Introduce configfs for connector EDID
+      drm/vkms: Store the enabled/disabled status for connector
+      drm/vkms: Rename vkms_connector_init to vkms_connector_init_static
+      drm/vkms: Extract common code for connector initialization
+      drm/vkms: Allow to hot-add connectors
+      drm/vkms: Introduce configfs for dynamic connector creation
 
-1b061d9247f71c Christoph Hellwig   2010-05-26  1613  
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1614  /**
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1615   * generic_check_addressable - Check addressability of file system
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1616   * @blocksize_bits:	log of file system block size
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1617   * @num_blocks:		number of blocks in file system
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1618   *
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1619   * Determine whether a file system with @num_blocks blocks (and a
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1620   * block size of 2**@blocksize_bits) is addressable by the sector_t
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1621   * and page cache of the system.  Return 0 if so and -EFBIG otherwise.
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1622   */
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1623  int generic_check_addressable(unsigned blocksize_bits, u64 num_blocks)
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1624  {
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1625  	u64 last_fs_block = num_blocks - 1;
-25050181b61aa0 Pankaj Raghav       2025-06-30  1626  	u64 last_fs_page, max_bytes;
-25050181b61aa0 Pankaj Raghav       2025-06-30  1627  
-25050181b61aa0 Pankaj Raghav       2025-06-30 @1628  	if (check_shl_overflow(num_blocks, blocksize_bits, &max_bytes))
-25050181b61aa0 Pankaj Raghav       2025-06-30  1629  		return -EFBIG;
-25050181b61aa0 Pankaj Raghav       2025-06-30  1630  
-25050181b61aa0 Pankaj Raghav       2025-06-30  1631  	last_fs_page = (max_bytes >> PAGE_SHIFT) - 1;
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1632  
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1633  	if (unlikely(num_blocks == 0))
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1634  		return 0;
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1635  
-25050181b61aa0 Pankaj Raghav       2025-06-30  1636  	if (blocksize_bits < 9)
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1637  		return -EINVAL;
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1638  
-a33f13efe05192 Joel Becker         2010-08-16  1639  	if ((last_fs_block > (sector_t)(~0ULL) >> (blocksize_bits - 9)) ||
-a33f13efe05192 Joel Becker         2010-08-16  1640  	    (last_fs_page > (pgoff_t)(~0ULL))) {
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1641  		return -EFBIG;
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1642  	}
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1643  	return 0;
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1644  }
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1645  EXPORT_SYMBOL(generic_check_addressable);
-30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1646  
+ Documentation/ABI/testing/configfs-vkms         | 256 +++++++
+ Documentation/gpu/vkms.rst                      |  45 +-
+ drivers/gpu/drm/drm_blend.c                     |  35 +-
+ drivers/gpu/drm/drm_color_mgmt.c                |   4 +-
+ drivers/gpu/drm/drm_connector.c                 |   1 +
+ drivers/gpu/drm/drm_crtc_internal.h             |   6 -
+ drivers/gpu/drm/drm_mode_config.c               |  16 +
+ drivers/gpu/drm/vkms/tests/Makefile             |   3 +-
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c   | 244 ++++++
+ drivers/gpu/drm/vkms/tests/vkms_configfs_test.c | 102 +++
+ drivers/gpu/drm/vkms/vkms_config.c              | 340 ++++++++-
+ drivers/gpu/drm/vkms/vkms_config.h              | 573 ++++++++++++++
+ drivers/gpu/drm/vkms/vkms_configfs.c            | 953 +++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_configfs.h            |   6 +
+ drivers/gpu/drm/vkms/vkms_connector.c           | 170 ++++-
+ drivers/gpu/drm/vkms/vkms_connector.h           |  39 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c                |  11 +-
+ drivers/gpu/drm/vkms/vkms_output.c              |  13 +-
+ drivers/gpu/drm/vkms/vkms_plane.c               |  72 +-
+ include/drm/drm_blend.h                         |   2 +
+ include/drm/drm_color_mgmt.h                    |   3 +
+ include/drm/drm_mode_config.h                   |   3 +
+ 22 files changed, 2796 insertions(+), 101 deletions(-)
+---
+base-commit: 8e7460eac786c72f48c4e04ce9be692b939428ce
+change-id: 20251017-vkms-all-config-bd0c2a01846f
 
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Louis Chauvet <louis.chauvet@bootlin.com>
+
