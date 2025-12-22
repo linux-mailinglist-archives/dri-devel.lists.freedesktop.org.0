@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F72ACD60EA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 13:55:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A61CD610E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 13:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8BE610E36F;
-	Mon, 22 Dec 2025 12:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB5E10E664;
+	Mon, 22 Dec 2025 12:56:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XctsR/TA";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hfpadivl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 250EB10E36F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 12:54:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2696110E664
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 12:56:16 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D6C3593;
- Mon, 22 Dec 2025 13:54:46 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2A6C741;
+ Mon, 22 Dec 2025 13:56:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1766408087;
- bh=iInQE/PvGMSKD299Z/yWCSwIL0N6aB+Zi+vNWeWF79s=;
+ s=mail; t=1766408165;
+ bh=jhKXKO/JpmmR3WrOvRNXfjyZ+mNvzUBSl8mvmndj0iU=;
  h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=XctsR/TAGfSSAetRkXsqmM5oEi5NWFiCpMqhOtS75vLgcq4oZs+Lw4yaTqNUlN66A
- nPmTOFYJrYDoCE1c7n9DAf0p8ktqweTIS00GqkCOyRFknXsY1KflKa8iF/66/JC6au
- DaVg1Nnui8DdUletaCa3sfOXEVYFJr3sbl9Pf/Mk=
-Message-ID: <486581cb-6f67-4e7b-a58f-c0f96d2babd9@ideasonboard.com>
-Date: Mon, 22 Dec 2025 14:54:53 +0200
+ b=hfpadivlsfwi3Or3wU08In5dTa9V6WFa4uSswkxAutCJ6rArb8oF3WsQ9fVOigPgr
+ AgcIrzP88YQhO8PnfENNr/EOxECp2LBXOEpbPg1KGnKdDDyv5oIVt63q0OZCiMJT4r
+ Gsrjgtx+3S9wfkATkzZCPAiYgJNpsXFwxCygxAVo=
+Message-ID: <36009b8f-c759-4212-8070-ef15c8a2f0a4@ideasonboard.com>
+Date: Mon, 22 Dec 2025 14:56:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/6] drm/bridge: cadence: cdns-mhdp8546-core: Set the
- mhdp connector earlier in atomic_enable()
+Subject: Re: [PATCH v10 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
+ HDCP state in bridge atomic check
 To: Harikrishna Shenoy <h-shenoy@ti.com>
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
- <20251209120332.3559893-2-h-shenoy@ti.com>
+ <20251209120332.3559893-4-h-shenoy@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
@@ -90,7 +90,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251209120332.3559893-2-h-shenoy@ti.com>
+In-Reply-To: <20251209120332.3559893-4-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,27 +111,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 09/12/2025 14:03, Harikrishna Shenoy wrote:
-> From: Jayesh Choudhary <j-choudhary@ti.com>
+> Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
+> HDCP state change in bridge atomic check as well to enable correct
+> functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
+> !DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
 > 
-> In case if we get errors in cdns_mhdp_link_up() or cdns_mhdp_reg_read()
-> in atomic_enable, we will go to cdns_mhdp_modeset_retry_fn() and will hit
-> NULL pointer while trying to access the mutex. We need the connector to
-> be set before that. Unlike in legacy cases with flag
-> !DRM_BRIDGE_ATTACH_NO_CONNECTOR, we do not have connector initialised
-> in bridge_attach(), so add the mhdp->connector_ptr in device structure
-> to handle both cases with DRM_BRIDGE_ATTACH_NO_CONNECTOR and
-> !DRM_BRIDGE_ATTACH_NO_CONNECTOR, set it in atomic_enable() earlier to
-> avoid possible NULL pointer dereference in recovery paths like
-> modeset_retry_fn() with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag set.
+> Without this patch, when using DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, HDCP
+> state changes would not be properly handled during atomic commits,
+> potentially leading to HDCP authentication failures or incorrect
+> protection status for content requiring HDCP encryption.
 > 
-> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 > ---
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 29 ++++++++++---------
->  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  1 +
->  .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   | 18 +++++++++---
->  3 files changed, 30 insertions(+), 18 deletions(-)
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
