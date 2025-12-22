@@ -2,88 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20468CD7126
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 21:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6EACD7344
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 22:33:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BC910E05C;
-	Mon, 22 Dec 2025 20:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D964410E040;
+	Mon, 22 Dec 2025 21:33:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=wbinvd.org header.i=@wbinvd.org header.b="ApEwevB5";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="JrvtLO6W";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ABHtA8nt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1063910E05C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 20:26:17 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-2a0eaf55d58so31785365ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 12:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wbinvd.org; s=wbinvd; t=1766435177; x=1767039977; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+DxzbqKFHsT4b/4uUhTmGkgX6zZO5THXjLNxNVuEr44=;
- b=ApEwevB5q41iquHu53coO9vs70NWdAAP6ZoW6VgML1InicmQjxVGm8VAKt/B/hfbQN
- SlVGAEymjGVLzMUtwS6eagYSsrAxz+QUyhN9y1A+u3zBWsVl1u8TEOcidc2eqkaQOaaP
- UzcCDVqRFxJ9lHc6cWTh4LhygG6EhmjHwPREdAiZqicW4hBnQEMemHBSruY1MicHYJWu
- qk1xEiIlBpV3QZ+qxrqbQ7K9YlYinpJktNVB065f5bh3Y4PCtQe711IL6BL//fkjhzCv
- ZD/JRxXO2B/hBL53m6vT8+oG+NXulatGbMi9oeuWz5jNoT5g61jG+SruQ++qEsAJZHFt
- DWwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766435177; x=1767039977;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+DxzbqKFHsT4b/4uUhTmGkgX6zZO5THXjLNxNVuEr44=;
- b=v6d2aT8xOK814LxNlwFf+QLyhOJo7vpJXXhKe5N3c5KHHmWlc0noKAmL5NeE3mh3ZN
- tniGDT5TrPQPiq/CyLeSBaLnNWsNeqA2Th/pUlY8RqoKKWOVSACGOQq1io7XS1Pykbrx
- MkFwfjH458eBB4Dzz2+23YbRoGAjtKjGR60DPkKov62iZkhRNDvcnJUPogiugaYC6IYk
- Nm+e4YlwVqeIZQPiQbktCf/RsC02WmTd3cGMTh+zcW1hG6l4JQepdIOv/dmRmK/V/gwI
- p9alM0SB5bNiZU3lJBpje1WoI7iIuVxhlRK3Y1tqlVSejKqZ8aCHKtkNOI4A5L+BRIgW
- /fHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUstkI728eV0L0RE4nrtm6K9M24kXtKTKkTB2mkSZ9hJxYTVF8H8S6z5/JBObEU1jl/YJvc/6b9Fbw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxDrVewf39eRfupEOtF62s3WpM1ER8Uq4qnXsBTBz90yws7nYf
- j3LpeRjoSEKYospzWT30zOqfddGyGcUDEj3R7BJDqCAjPBKENnKOpksNs4Ud+cOalnY=
-X-Gm-Gg: AY/fxX5X7VTGpVvWZionj5YJom/tvv/+WDaRclNXg81Q+ogAVP58Xb2F2LGgxnMt1xB
- 7DW2+vUPzI4+YF750JJvqwdFoKPftgFX0kqGVNRF7fUdjY/aarfA0c0Evkh+Kc3KuRWELzLMJ6Z
- DpyEd7ErK6XyX2GTf/o3oDGGE04xeExdJ6bDS9wVwBKl18RPHR+05XNFXoliEjO5ndO/7QIayTU
- kbfUH499boEUFd4ImIyGt5azAseyyMY7LUYMjysDtvdQpLad3PUgRRboqoYPmZ6YvupWq9K0owv
- ECqt19vptRBl8JQ5GTwzIz2k7eBWQfjZEy7SiHbxsmqretm2gs02PWi+Zira4qJcbQegw8uOfrd
- gqUql0cnIUtMUUzZYMIkXbKjy197nNeZnQ7r55CoAm6fL3KxOd5nvTu7u1bsfdTj5xGRG9of6no
- qw5Uez7RqkCiLVgw==
-X-Google-Smtp-Source: AGHT+IEef3h4w4xy+0//cSAXBXPqJ6FpxI5XKGCOhkF8d53cw2jZ45moHevagz8DR3MnmSRpzd0mAw==
-X-Received: by 2002:a17:902:d48e:b0:29e:fc06:b8a5 with SMTP id
- d9443c01a7336-2a2cab16368mr168301475ad.18.1766435177388; 
- Mon, 22 Dec 2025 12:26:17 -0800 (PST)
-Received: from mozart.vkv.me ([2001:5a8:468b:d007:f7c3:5e3f:f742:635e])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3c666d5sm104099455ad.21.2025.12.22.12.26.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Dec 2025 12:26:17 -0800 (PST)
-Date: Mon, 22 Dec 2025 12:26:15 -0800
-From: Calvin Owens <calvin@wbinvd.org>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>,
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/xe: Don't use absolute path in generated header
- comment
-Message-ID: <aUmpZzD_5RauueUo@mozart.vkv.me>
-References: <7fa5ef0acc89a9d94c328f6651c1d405bcd833a4.1761920974.git.calvin@wbinvd.org>
- <aUhQHcgL4U-HgSv6@mozart.vkv.me>
- <40b24664850c231b1a2fd80a084d4a7f32b8148e.camel@intel.com>
+Received: from fout-a3-smtp.messagingengine.com
+ (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22F310E040
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 21:33:15 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+ by mailfout.phl.internal (Postfix) with ESMTP id 1FBCFEC0091;
+ Mon, 22 Dec 2025 16:33:15 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+ by phl-compute-04.internal (MEProxy); Mon, 22 Dec 2025 16:33:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm1; t=1766439195;
+ x=1766525595; bh=hlZZc2/NQjeFTAUATJePoi9eA1h+qvYR8jAewG6kWX8=; b=
+ JrvtLO6WskTrq/D0sE6sGwmT/moOJf6iq14x11Wd0a0tS0fFUFBHqkia6180F6f8
+ jhz8PS8f1fF++f4vYubAnJZKdBs0ef7zNfNKXF2fsfX2ZjcDMNsw1mTchFACYtx8
+ p6HJbPOcAklbm2tq5Xj6WB0zsw69r96AQxox9QZX2khLs2Vqf4ZCjCC+MIIbxoMZ
+ v3Ujyu7JeQhQjC4S/dygX0Uf10PJ75es8VTUXUj+jZZ4shyEZXedNxU5rGMvKYem
+ jgXml+BmrVeH3TZLVVJhG6pqhkj7lhshbz/QYW+pzXjoUWA2cXd4/5KmwmnyS+91
+ ylH/8BieBC3hkwDRGT4XEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766439195; x=
+ 1766525595; bh=hlZZc2/NQjeFTAUATJePoi9eA1h+qvYR8jAewG6kWX8=; b=A
+ BHtA8ntJBqqM3sAM5REb9PtwwpnIxlo4PRqNdE4Y6jQsgl84cj30NSbCHXLzJP0i
+ 7R6kvs+lBT6Sz9PsJq/BCaAX48nd6gbr/qwRfOO1hY/M/ybaSQiL7vOhJ72McOn5
+ Tiqqo93MDxWwfuDc2Ml5bQQP1OR4U4jnmaBEO5Hn2IW5FrV+PgaOZ5fjKP9ij+zJ
+ HnwvR+aMztvEkl3xWkLikqJrsFwM16ksdK+DxO87hsC4fykdqC9jlyNFPblUSaJa
+ H5vAhWFrBzckVo+b4P3NFO9OJJ+/bRl/JrsOgd3Gfm7BxXIurDAAGUPlgb5DuwYI
+ OB2D4E3ZVZB8VGYEpr5SA==
+X-ME-Sender: <xms:GrlJaZZVQkkMq0bq5cd6v85RUxt7pdEUUZ3K0aZxhNreF9PwzryKmg>
+ <xme:GrlJabMI-p-ppo3nYv4RDXHnaroIULMW7pzY5RSl5NZjav9j7Xpv2gYNPADle2mJK
+ 7N5mbtS4WY9neftJc3Yebrqn3IKogK9bnABqeBk_sFXYLVMqkonAbk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehkedtfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+ uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+ hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+ esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhht
+ pdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprh
+ gtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphht
+ thhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesgh
+ hmrghilhdrtghomhdprhgtphhtthhopehrrggsvghnuggrrdgtnhesghhmrghilhdrtgho
+ mhdprhgtphhtthhopehgrghohhgrnhesihhstggrshdrrggtrdgtnhdprhgtphhtthhope
+ grmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthht
+ ohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprh
+ gtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdho
+ rhhg
+X-ME-Proxy: <xmx:GrlJaVXeDs2nrSDsoj-Tz6Oh6na-7BIIABx1SMZIdq36_Lw7_7GUXg>
+ <xmx:GrlJab-G26k7C6p-BrtUnNJJ2iyZVmzQ43UDDl1uZorMS5FpwcfvgQ>
+ <xmx:GrlJadoajOR5Zn3PK2CFFTa-mulqN4utFkNhaZBwmzHHVfYm239e_A>
+ <xmx:GrlJaWLqLGIi4Av_0c0T1cafHn_pBvaButS_1neX2ANKEC3A86gPkg>
+ <xmx:G7lJaUlgNUJdPwFA64hEHnKPx7DDAukkRQwmtUaroj24FPLGQdYf9wd4>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 049C4700065; Mon, 22 Dec 2025 16:33:14 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <40b24664850c231b1a2fd80a084d4a7f32b8148e.camel@intel.com>
+X-ThreadId: A6eaVLahbyw3
+Date: Mon, 22 Dec 2025 22:32:43 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Han Gao" <gaohan@iscas.ac.cn>, "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: "Han Gao" <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
+ sophgo@lists.linux.dev
+Message-Id: <e86b823f-5e83-4105-8e4d-1db141d088a4@app.fastmail.com>
+In-Reply-To: <20251220163338.3852399-1-gaohan@iscas.ac.cn>
+References: <20251220163338.3852399-1-gaohan@iscas.ac.cn>
+Subject: Re: [PATCH] drm/radeon: bypass no_64bit_msi with new msi64 parameter
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,86 +107,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 12/22 at 16:56 +0000, Vivi, Rodrigo wrote:
-> On Sun, 2025-12-21 at 11:53 -0800, Calvin Owens wrote:
-> > On Friday 10/31 at 07:48 -0700, Calvin Owens wrote:
-> > > Building the XE driver through Yocto throws this QA warning:
-> > > 
-> > >     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue:
-> > > File /usr/src/debug/linux-
-> > > stable/6.17/drivers/gpu/drm/xe/generated/xe_device_wa_oob.h in
-> > > package linux-stable-src contains reference to TMPDIR [buildpaths]
-> > >     WARNING: mc:house:linux-stable-6.17-r0 do_package_qa: QA Issue:
-> > > File /usr/src/debug/linux-
-> > > stable/6.17/drivers/gpu/drm/xe/generated/xe_wa_oob.h in package
-> > > linux-stable-src contains reference to TMPDIR [buildpaths]
-> > > 
-> > > ...because the comment at the top of the generated header contains
-> > > the
-> > > absolute path to the rules file at build time:
-> > > 
-> > >     * This file was generated from rules: /home/calvinow/git/meta-
-> > > house/build/tmp-house/work-shared/nuc14rvhu7/kernel-
-> > > source/drivers/gpu/drm/xe/xe_device_wa_oob.rules
-> > > 
-> > > Fix this minor annoyance by putting the basename of the rules file
-> > > in
-> > > the generated comment instead of the absolute path, so the
-> > > generated
-> > > header contents no longer depend on the location of the kernel
-> > > source.
-> > 
-> > Hi all,
-> > 
-> > This is about as trivial as it gets: it's been a couple months, can I
-> > get some eyes on this please?
-> > 
-> > This is the only place in the entire kernel source where the content
-> > of
-> > a generated header depends on the absolute path to the kernel tree.
-> > It
-> > makes kernel source packages non-reproducible.
+On Sat, Dec 20, 2025, at 17:33, Han Gao wrote:
+> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c 
+> b/drivers/gpu/drm/radeon/radeon_drv.c
+> index 87fd6255c114..53af28494c03 100644
+> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+> @@ -249,6 +249,10 @@ int radeon_cik_support = -1;
+>  MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled, 0 = disabled, 
+> -1 = default)");
+>  module_param_named(cik_support, radeon_cik_support, int, 0444);
 > 
-> Sorry about that and for the delay.
-> 
-> I just resent the patch for CI:
-> https://lore.kernel.org/intel-xe/20251222165441.516102-2-rodrigo.vivi@intel.com/
-> 
-> We can push after passing it.
+> +int radeon_msi64;
+> +MODULE_PARM_DESC(msi64, "MSI64 support (1 = enabled, 0 = disabled)");
+> +module_param_named(msi64, radeon_msi64, int, 0444);
+> +
 
-No apology necessary, thanks for kicking it for me :)
+As with the hda-intel patch, this should not be a module argument,
+but we should have the kernel figure out what to do itself.
 
-Calvin
+> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c 
+> b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> index 9961251b44ba..62eb5a6968ff 100644
+> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> @@ -250,7 +250,7 @@ static bool radeon_msi_ok(struct radeon_device 
+> *rdev)
+>  	 * of address for "64-bit" MSIs which breaks on some platforms, 
+> notably
+>  	 * IBM POWER servers, so we limit them
+>  	 */
+> -	if (rdev->family < CHIP_BONAIRE) {
+> +	if (rdev->family < CHIP_BONAIRE && !radeon_msi64) {
+>  		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
+>  		rdev->pdev->no_64bit_msi = 1;
 
-> Thanks,
-> Rodrigo.
-> 
-> > 
-> > Thanks
-> > Calvin
-> > 
-> > > Signed-off-by: Calvin Owens <calvin@wbinvd.org>
-> > > ---
-> > >  drivers/gpu/drm/xe/xe_gen_wa_oob.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> > > b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> > > index 247e41c1c48d..e7a50b1348b7 100644
-> > > --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> > > +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-> > > @@ -195,7 +195,8 @@ int main(int argc, const char *argv[])
-> > >  		}
-> > >  	}
-> > >  
-> > > -	fprintf(args[ARGS_CHEADER].f, HEADER, args[ARGS_INPUT].fn,
-> > > prefix, prefix);
-> > > +	fprintf(args[ARGS_CHEADER].f, HEADER,
-> > > xbasename(args[ARGS_INPUT].fn),
-> > > +		prefix, prefix);
-> > >  
-> > >  	ret = parse(args[ARGS_INPUT].f, args[ARGS_CSOURCE].f,
-> > >  		    args[ARGS_CHEADER].f, prefix);
-> > > -- 
-> > > 2.47.3
-> > > 
+According to the comment above it, the device can apparently
+do 40-bit addressing but not use the entire 64-bit space.
+
+I assume the SG2042 chip has the irqchip somewhere above the
+32-bit line but below the 40-bit line, so it ends up working.
+
+I wonder if the msi_verify_entries() function should check
+against dev->coherent_dma_mask instead of checking the
+upper 32 bits for being nonzero, that probably gives you
+the desired behavior.
+
+     Arnd
