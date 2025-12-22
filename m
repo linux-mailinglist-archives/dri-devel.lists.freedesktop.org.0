@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D2ACD581A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B527DCD5813
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:12:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E28310E615;
-	Mon, 22 Dec 2025 10:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16E9410E614;
+	Mon, 22 Dec 2025 10:12:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UiZnQI3O";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H3/gjMiy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5133510E616
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:12:35 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0918310E614
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:12:37 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 24C064E41D35;
- Mon, 22 Dec 2025 10:12:34 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id D7EE31A2373;
+ Mon, 22 Dec 2025 10:12:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id EC88C606C1;
- Mon, 22 Dec 2025 10:12:33 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id AB2C1606C1;
+ Mon, 22 Dec 2025 10:12:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6AC5210AB019E; Mon, 22 Dec 2025 11:12:31 +0100 (CET)
+ with ESMTPSA id 688CC10AB019D; Mon, 22 Dec 2025 11:12:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766398353; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766398354; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=yTTRbpqypHIqE7M/6uF9YUabZ9LYuBJ9m2GDLJy6KX8=;
- b=UiZnQI3ORk2lEkFtOTr7Nm80+TZoFLFmPXtLBs1Qr2IOzxSLvI5K9kASBN583wwyLzfMTm
- +EYcqqj11iMJXXE2yDeuILusGEjgXKpwyecCEoseJXujsM+G25LSdQWNHQKXtKPohD+1rw
- oYRdDSTJar40A++kzNmnabr2k7a6s11xqdXghrxuoLf8d3usuKP8vWPSQ42yirFVPfYsDH
- OLdujj920oXwjnk2PANyv2W+xTH/GkiCJM6vpYI5kVrZloNfuTa2eRTdQKZvuwiHaR6MEz
- TURoN1MsJ6FyVOSgwLnCLXlIIpYk5SbsjXM1SHuLCBAakYkR7RrpTfaIG46WLw==
+ bh=3rDioDZW96sB584fik+FAOG3Tfu7GIllXvDUIad2QaU=;
+ b=H3/gjMiy1Ah/0o28KH6F8ewKmPS92fchHI6LlHR6bEjCsvnaybUE2vRe5oD7A6Fk1ztL8j
+ LSDWLJiU6CQZTS3Qsi992tS714usPg4k+dgs7nhyyeJC6EITK7fI/9dl78W8TlBOfGekWz
+ oBxsSfLArza5C70r1SYf1+FMbE6UCwVeAKBfxryZCHZ9cUYNjZRMkq19p9dqWOk8MAkAOU
+ WO17rFaoGYJlr1T+KyBsVt+PJMR6tnFUdOiNTlr+kvkcfXZWa0Jfn3nCtW7tDdPvimmiPX
+ 8qaGTuFE7IQTP9FU38+wUprGwx6fcr1fChcsbcKAfPQEAZH+pWlMLW+QN90FMA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 22 Dec 2025 11:11:27 +0100
-Subject: [PATCH v3 25/33] drm/vkms: Introduce config for connector
+Date: Mon, 22 Dec 2025 11:11:28 +0100
+Subject: [PATCH v3 26/33] drm/vkms: Introduce configfs for connector
  supported colorspace
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-vkms-all-config-v3-25-ba42dc3fb9ff@bootlin.com>
+Message-Id: <20251222-vkms-all-config-v3-26-ba42dc3fb9ff@bootlin.com>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -54,21 +54,21 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6094;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4154;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=Yhwzf6/7jZni4mNzAuhgG5kLyTe1klV7qjEZI8Tn6Zw=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlDBpM2tIi3K/VJMaBMK2Qe4Z1N9ZDziA4st
- sj93DQf2qyJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOKx8RAAzLmc9z/1KSW54y9zSfIxxsNN/mJUG7O
- iTLirycCQhSEjLMRoSd2xzotmRg5nqx3qyTipHBrNioMBOMhKa4wbjV0N6tuECzJINvod7J0Inw
- sHw8xJvDTrdhrEb97f46fp7UwNxPXhVCO4/JI6fVkcTCfhpJFQPjYaqN5jAsLwobgmemJ18W/gu
- iq725svhUJshtCkvz9vkYrn5wftaAcLG12SWzlt8MK8nb29zOjNbPsrk1GtRasgQ5TGfzI0zJ8d
- DSa4XaJeUhwEhVRYVT+gb9/4ix17PVnJrKVAM4mBZd5Ewd3wfm7XWWhlc0a/twtk7qZZsIN0YHF
- xf8vH2gGXCaDni3hgtEkSIQ9udLF9Nvu7QukovTmjzGQbvrQfQoFuLLH65QZoCuP0upZspJuZPJ
- u30U5kgF4Uc199nlwF9rmMH33mDPxuHPJkBj8sTslb2ZW1XnCJZKLd3pOceTVnalA+sqUIpqXXf
- 6SbQkCUWXu/ZF85tOtmxXpum7gcHwfSDrzOqzGV1wYUZrMUZXvKOqWzL9ivs+ZcmTi3VgXh0gr7
- Dx9rfMGGAkzodIRWdsNaWsBqZ6bERwk5z30mz85mVBnLCzEQbVyAtVw3NWbbZjPTWfzMo9ShacA
- Hic+I2erHUiN9nNGcQWFcUmOZsFNbvqbKvLlsNURzJ7kVAnVYTXQ=
+ bh=zNfRFxKJmGCWDW0RYX4Fz/88QHBhgC3Pcntft5M0I1E=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlDMqFdQIhDtPFad62IvTs5XqevUfd4TbXm2
+ ozE3UzmGp2JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOJRPxAArNKk6uHmRocRHNqJy5a+Iy7cMLJm6TW
+ OKehyBJ2bvrrbW+8i33Ef3ehLPyn71gbdqkN2qO3bNvUoSzDTdIP3+EV4ceaLsefNRt+uRLmALw
+ 02DRivgqFxLbbqkLEREtPXhbMF7ipDleODNk2C4tviZvKhnhz3R9Q6O15A8XJ4TitrDTP2TAhDM
+ yG9A9buLOxeiezxgKcBtH0Yza/+TARi1r1L2Y0UGVWW77/wQ14ZEcr714AD1E5m9KE2BeupoH0D
+ fHQOuF4mLZkWUSSZAfeTstaS+gOgOeNrHpxDMETXlnmM7U3OWSIsm3EAaLcwXeidwuRLeu5q8Na
+ lxuccMqYNTd6obEGFK0NUJTIVTSu8ic4u6fSApKfUk0kEIJ/0MXmZsRT2NKovWc+Qi9KNhCsncj
+ fRwVkdUP4jtP2CVvlW8VJyAtYFnnx8/i9eNCye8U51CV3SvFfYk3sL75OyPn5pr0oqLh4moevqb
+ JdrcIiVUnu2UNJcZ/FrtXCWez2pswo5rc4XAlendWMwcrogtZw+bL5Bk5BEYSyJh51gA+vQ2LaB
+ IEp7RzUL/66iGY1A5DaWlGtEAhJoMEjWe7mOmU4vEX0PPq6PH+geZHZt0pHgLCMMFWLQwJyhTnq
+ TFYP/8BOtMtZbTmWanfxpkstPhioR6AmNamqiD+m7QGirTlaWgOg=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
@@ -87,136 +87,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To emulate some HDR features of displays, it is required to expose some
-properties on HDMI, eDP and DP connectors.
+Add the attribute supported_colorspaces to configure the supported
+colorspace of a connector. It will allows emulating some HDR features of
+displays. This feature is only supported for HDMI, DP and eDP connectors.
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/tests/vkms_config_test.c |  3 +++
- drivers/gpu/drm/vkms/vkms_config.c            |  5 +++++
- drivers/gpu/drm/vkms/vkms_config.h            | 30 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_connector.c         | 15 ++++++++++++++
- 4 files changed, 53 insertions(+)
+ Documentation/ABI/testing/configfs-vkms |  8 +++++++
+ Documentation/gpu/vkms.rst              |  7 +++++-
+ drivers/gpu/drm/vkms/vkms_configfs.c    | 40 +++++++++++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-index 1900cc79db2b..a31fd230c1d4 100644
---- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-+++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-@@ -215,6 +215,9 @@ static void vkms_config_test_default_config(struct kunit *test)
- 	vkms_config_for_each_connector(config, connector_cfg) {
- 		KUNIT_EXPECT_EQ(test, vkms_config_connector_get_type(connector_cfg),
- 				DRM_MODE_CONNECTOR_VIRTUAL);
-+		KUNIT_EXPECT_EQ(test,
-+				vkms_config_connector_get_supported_colorspaces(connector_cfg),
-+				0);
- 	}
+diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
+index 5452140cc508..f750e616be54 100644
+--- a/Documentation/ABI/testing/configfs-vkms
++++ b/Documentation/ABI/testing/configfs-vkms
+@@ -40,6 +40,14 @@ Description:
+         Type of the connector. Possible values match those
+         exposed by the "type" field in drm_connector.
  
- 	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 59ce55efb167..de661c85c11f 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -591,6 +591,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 			   drm_get_connector_status_name(vkms_config_connector_get_status(connector_cfg)));
- 		seq_printf(m, "\ttype=%s\n",
- 			   drm_get_connector_type_name(vkms_config_connector_get_type(connector_cfg)));
-+		seq_puts(m, "\tsupported colorspaces=");
-+		show_bitfield(m, vkms_config_connector_get_supported_colorspaces(connector_cfg),
-+			      drm_get_colorspace_name);
-+		seq_puts(m, "\n");
- 	}
++What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/supported_colorspaces
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++        Supported colorspaces for HDMI, DP, and eDP connectors.
++        Value is a bitfield, where 0x1 = NO_DATA, 0x2 = SMPTE_170M_YCC,
++        etc. See enum drm_colorspace for full list.
++
+ What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/possible_encoders
+ Date:		Nov 2025
+ Contact:	dri-devel@lists.freedesktop.org
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 41c6f4733663..1c4a8023374c 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -138,11 +138,16 @@ Last but not least, create one or more connectors::
  
- 	return 0;
-@@ -908,6 +912,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
- 	connector_cfg->config = config;
- 	connector_cfg->status = connector_status_connected;
- 	vkms_config_connector_set_type(connector_cfg, DRM_MODE_CONNECTOR_VIRTUAL);
-+	vkms_config_connector_set_supported_colorspaces(connector_cfg, 0);
- 	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
+   sudo mkdir /config/vkms/my-vkms/connectors/connector0
  
- 	list_add_tail(&connector_cfg->link, &config->connectors);
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 4a4058b407e7..c9d777589cb6 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -132,6 +132,10 @@ struct vkms_config_encoder {
-  * @type: Store the type of connector using DRM_MODE_CONNECTOR_* values
-  * @config: The vkms_config this connector belongs to
-  * @status: Status (connected, disconnected...) of the connector
-+ * @supported_colorspaces: Bitmask of all the supported colorspaces. Values
-+ *                         are the sames as ones accepted by
-+ *                         drm_mode_create_hdmi_colorspace_property() and
-+ *                         drm_mode_create_dp_colorspace_property()
-  * @possible_encoders: Array of encoders that can be used with this connector
-  * @connector: Internal usage. This pointer should never be considered as valid.
-  *             It can be used to store a temporary reference to a VKMS connector
-@@ -144,6 +148,7 @@ struct vkms_config_connector {
+-Connectors have 2 configurable attribute:
++Connectors have 3 configurable attribute:
  
- 	int type;
- 	enum drm_connector_status status;
-+	u32 supported_colorspaces;
- 	struct xarray possible_encoders;
+ - status: Connection status: 1 connected, 2 disconnected, 3 unknown (same values
+   as those exposed by the "status" property of a connector)
+ - type: Type of connector. Same values as exposed by the "type" field in drm_connector.
++- supported_colorspaces: Supported colorspaces values for HDMI, DP and eDP connectors.
++  If supported_colorspaces is not 0, the HDR_OUTPUT_METADATA will also be created.
++  Value is a bitfield, 0x1 = NO_DATA, 0x2 = SMPTE_170M_YCC... see enum drm_colorspace
++  for full list.
++
  
- 	/* Internal usage */
-@@ -243,6 +248,31 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
-  */
- void vkms_config_destroy(struct vkms_config *config);
+ To finish the configuration, link the different pipeline items::
  
-+/**
-+ * vkms_config_connector_set_supported_colorspaces() - Set the supported colorspaces for a connector
-+ * @connector_cfg: Connector configuration to modify
-+ * @supported_colorspaces: Bitmask of supported colorspaces (DRM_MODE_COLORIMETRY_*)
-+ */
-+static inline void
-+vkms_config_connector_set_supported_colorspaces(struct vkms_config_connector *connector_cfg,
-+						u32 supported_colorspaces)
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+index d6a85d6c466f..90bf6e6995ae 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -1233,12 +1233,52 @@ static ssize_t connector_type_store(struct config_item *item,
+ 	return count;
+ }
+ 
++static ssize_t connector_supported_colorspaces_show(struct config_item *item, char *page)
 +{
-+	connector_cfg->supported_colorspaces = supported_colorspaces;
++	struct vkms_configfs_connector *connector;
++	int colorspaces;
++
++	connector = connector_item_to_vkms_configfs_connector(item);
++
++	scoped_guard(mutex, &connector->dev->lock)
++	colorspaces = vkms_config_connector_get_supported_colorspaces(connector->config);
++
++	return sprintf(page, "%u", colorspaces);
 +}
 +
-+/**
-+ * vkms_config_connector_get_supported_colorspaces() - Get the supported colorspaces for a connector
-+ * @connector_cfg: Connector configuration to query
-+ *
-+ * Returns:
-+ * Bitmask of supported colorspaces (DRM_MODE_COLORIMETRY_*)
-+ */
-+static inline u32
-+vkms_config_connector_get_supported_colorspaces(const struct vkms_config_connector *connector_cfg)
++static ssize_t connector_supported_colorspaces_store(struct config_item *item,
++						     const char *page, size_t count)
 +{
-+	return connector_cfg->supported_colorspaces;
-+}
++	struct vkms_configfs_connector *connector;
++	int val, ret;
 +
- /**
-  * vkms_config_get_device_name() - Return the name of the device
-  * @config: Configuration to get the device name from
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index 5a87dc2d4c63..cc59d13c2d22 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -84,6 +84,21 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	if (vkms_config_connector_get_supported_colorspaces(connector_cfg)) {
-+		if (connector_cfg->type == DRM_MODE_CONNECTOR_HDMIA) {
-+			drm_mode_create_hdmi_colorspace_property(&connector->base,
-+								 vkms_config_connector_get_supported_colorspaces(connector_cfg));
-+			drm_connector_attach_hdr_output_metadata_property(&connector->base);
-+			drm_connector_attach_colorspace_property(&connector->base);
-+		} else if (connector_cfg->type == DRM_MODE_CONNECTOR_DisplayPort ||
-+			   connector_cfg->type == DRM_MODE_CONNECTOR_eDP) {
-+			drm_mode_create_dp_colorspace_property(&connector->base,
-+							       vkms_config_connector_get_supported_colorspaces(connector_cfg));
-+			drm_connector_attach_hdr_output_metadata_property(&connector->base);
-+			drm_connector_attach_colorspace_property(&connector->base);
-+		}
++	connector = connector_item_to_vkms_configfs_connector(item);
++
++	ret = kstrtouint(page, 10, &val);
++	if (ret)
++		return ret;
++
++	if ((val & -BIT(DRM_MODE_COLORIMETRY_COUNT)) != 0)
++		return -EINVAL;
++
++	scoped_guard(mutex, &connector->dev->lock) {
++		if (connector->dev->enabled)
++			return -EBUSY;
++
++		vkms_config_connector_set_supported_colorspaces(connector->config, val);
 +	}
 +
- 	drm_connector_helper_add(&connector->base, &vkms_conn_helper_funcs);
++	return count;
++}
++
+ CONFIGFS_ATTR(connector_, status);
+ CONFIGFS_ATTR(connector_, type);
++CONFIGFS_ATTR(connector_, supported_colorspaces);
  
- 	return connector;
+ static struct configfs_attribute *connector_item_attrs[] = {
+ 	&connector_attr_status,
+ 	&connector_attr_type,
++	&connector_attr_supported_colorspaces,
+ 	NULL,
+ };
+ 
 
 -- 
 2.51.2
