@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B05CD612C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 13:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C991BCD6146
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 14:02:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D7610E662;
-	Mon, 22 Dec 2025 12:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645FF10E670;
+	Mon, 22 Dec 2025 13:02:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rXACZFW5";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iyns296/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFB5010E662
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 12:57:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F15210E68A
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 13:02:42 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B658966B;
- Mon, 22 Dec 2025 13:57:36 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BE8D741;
+ Mon, 22 Dec 2025 14:02:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1766408258;
- bh=2KjKa5j4fuSU/42wkrqN5HZfODeOznocmapUNoMK574=;
+ s=mail; t=1766408550;
+ bh=q8jMHS6bGkA2ToDihwYoHHXh/rnNp1TsyJ3Kbmski44=;
  h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=rXACZFW5HkZQPQIvVpPEu9wPIIECfnxOcRzNGzhYwlfc6dHDn4aWJkjRKfbA0FAXH
- MVL3GTz+Lu7VexsJVhtXfEoM3kB4OsTTsgJCXLcSPUzKwQaf+4eLcT3J2WIzzgRXcU
- DqyaS+AVnSTaY1d5OOxN9aMRdL6GIN+BQ5Yifgbg=
-Message-ID: <8d33812c-2ec0-4778-a692-fda7c1910b4e@ideasonboard.com>
-Date: Mon, 22 Dec 2025 14:57:44 +0200
+ b=iyns296/nH3XGu0hGKeIb4WUiikypDIxPQRrn81D8HXCSvUNSHim4BtjeAT8reXBF
+ YCUKRgclSM9lWe5LScK80E77huvp/Y+jeidALnSL4KUF0E89QX8t0zjVqOoE9cw4fD
+ dM6VVGsJedUBwf6S8kRCaCbXINxm+bWb40zCOOGY=
+Message-ID: <4b0388de-0290-43b5-8c9b-162d9083af08@ideasonboard.com>
+Date: Mon, 22 Dec 2025 15:02:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 4/6] drm/bridge: cadence: cdns-mhdp8546-core: Remove
- legacy support for connector initialisation in bridge
+Subject: Re: [PATCH v10 5/6] cadence: cdns-mhdp8546*: Change drm_connector
+ from structure to pointer
 To: Harikrishna Shenoy <h-shenoy@ti.com>
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
- <20251209120332.3559893-5-h-shenoy@ti.com>
+ <20251209120332.3559893-6-h-shenoy@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
@@ -90,7 +90,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251209120332.3559893-5-h-shenoy@ti.com>
+In-Reply-To: <20251209120332.3559893-6-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,18 +113,30 @@ Hi,
 On 09/12/2025 14:03, Harikrishna Shenoy wrote:
 > From: Jayesh Choudhary <j-choudhary@ti.com>
 > 
-> Now that this bridge supports DRM_BRIDGE_ATTACH_NO_CONNECTOR,
-> and only TI K3 platforms consume this driver and
-> tidss (their display controller) has DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> flag set,we can remove the legacy code for the
-> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
+> Now that we have dropped the legacy code which became redundant with
+> introduction of DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> usecase in driver,we can cleanly switch to drm_connector pointer
+> instead of structure.
+> 
+> Rename the connector_ptr member variable to connector for clarity and
+> consistency. The driver was using both connector and connector_ptr members,
+> but connector_ptr was the only one actually used throughout the code.
+> This change removes the unused connector struct member and renames
+> connector_ptr to connector for better readability.
+> 
+> This is purely a code cleanup change with no functional impact. All
+> references to connector_ptr are updated to use the renamed connector
+> variable throughout the driver.
 > 
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 > ---
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 187 +-----------------
->  1 file changed, 9 insertions(+), 178 deletions(-)
+>  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    | 14 +++++++-------
+>  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |  3 +--
+>  .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c    | 12 ++++++------
+>  3 files changed, 14 insertions(+), 15 deletions(-)
+
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
