@@ -2,86 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E00CD50D8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 09:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757EECD5111
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 09:33:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F54510E5D6;
-	Mon, 22 Dec 2025 08:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A62810E5E2;
+	Mon, 22 Dec 2025 08:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtYmD1gg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pNwgeSWn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2EA610E5D6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 08:29:29 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id
- d2e1a72fcca58-7f0da2dfeaeso3830443b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 00:29:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766392169; x=1766996969; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6JUGCGjJm2Xj6X5n/nhoMCGHMBetXjpQki6LB/h6PNI=;
- b=WtYmD1ggtgFrs0WficCbcGKzrFVMvz5IRpHD0liYFd8eLpEOTi3bfjAd9uKGW3fIkk
- bwYe/6/NdtmvvCrNjt3laILhDYWlmljx0gU9L0BkigRZ9Lb+JCecU75/VKCW7NteP3KF
- 0IomGj9nd1pzT2BHwWryXZCuYNYC3DFgy+JXcRI3Q7LJ/wIml9ssEh0wBRy/M47pDUwI
- O0dT0toX18vDq+6OGJy2V1IenOrAi7eCwhl/OwUTJ58lw1dg8UzrkcGjJg8ZW9RpVzO4
- 26+mOB26t0D5qdbvcI3tsBAAYC4XIZOPTHNAXurf7eBdyAtvt0dxrAbEvLyOt8zU/aYj
- ak0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766392169; x=1766996969;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=6JUGCGjJm2Xj6X5n/nhoMCGHMBetXjpQki6LB/h6PNI=;
- b=eXyD3i/ulsSkNK1Nv5hWmXe2g5+DGQu+jeaDe7NvYgPGZirpur4krSeu9yokWd5c70
- kxb2R7D7WoRIFB9sv8JKoa2ww8p6wBxffLkLZYvaQfdcTFXJ3GuYwlovLuIdB1lT/HaF
- JkpzU/B6qHZ1R+i7TuwURfv4CrlGyrePoFR6Fx/X6v+WVUEkch9dG7U7TArOVkFX98BG
- Hlin1lJB3ZUKl9Ou7AmQbFDGm+B9uMiCo+ZQyKuBX8Gn4Rll9ar1nAOsH1Gg0ypy4mMb
- fmRIwTPS60glA3r+v7ZeJrWt6mbnZT9C6J7DKZj49nM+czmylvnRAk59+joU2uUXX/L0
- WmTQ==
-X-Gm-Message-State: AOJu0Yzt9xgSdKMm1DcNJwGSHdKcEbDOh0rnXhrLH6gJ84r6nBFyugYA
- P3QaugIudihnII0QBkHPNELXgqjzQFqKzUPmb8cBiW4/jDoiTcpd8ffX
-X-Gm-Gg: AY/fxX6GfKnqrdN0wwr3TwG0gAq6GEATq9bJn7U6FmXKqO2gHU6gsbjCqlohroqTjcn
- hhap4Baui3sSuvXh5VnuB8PKi9TQWY+pzDvTVNLShPoHeVfv1D9rKaTkBXNae7DJOeaJZMdK4Kf
- VbmnBsElFh4Z5cdsIV8c9BUcNIbjL4ODYJksMVuM+jZxzktdrfyU8hf+8vlhmoeFlAWBdmrRRQK
- x8y2PNB0gDevqzz21djRU8748m0E8osOh6e76vH9WTetgoVoB8exzaR8DCpCSSeAx7xwF24PY5Y
- fp74edhgtXLgeBS9WqO36G8zYFhb7rVKLcRAmP7aA6R9ZwwuOhMYnDD3Z4o4sIX6169DV8KTN1q
- O2m/+kNfbwaCFFsL//iBF7qAm9ra9WUAcUTfry/T+Lfm2jKUn22AAaTMqElWW1iBvA5tn4uDcy/
- fAr+ACmi4H
-X-Google-Smtp-Source: AGHT+IEimmJ/Dttom6F34YWsdHH3XKVu5FJm4MVosU3HZTEdHiOovrYFxoO5oyh48i40FCdqR5InOQ==
-X-Received: by 2002:a05:6a00:aa82:b0:7a9:c21a:55b4 with SMTP id
- d2e1a72fcca58-7ff657a6a53mr9194464b3a.28.1766392169447; 
- Mon, 22 Dec 2025 00:29:29 -0800 (PST)
-Received: from frodo ([2404:4400:417e:3d00:8b90:7f55:1261:772f])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-7ff7af29dcfsm9640064b3a.17.2025.12.22.00.29.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Dec 2025 00:29:29 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
- gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com,
- seanpaul@chromium.org, robdclark@gmail.com, groeck@google.com,
- yanivt@google.com, bleung@google.com, quic_saipraka@quicinc.com,
- will@kernel.org, catalin.marinas@arm.com, quic_psodagud@quicinc.com,
- maz@kernel.org, arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, mingo@redhat.com, jim.cromie@gmail.com
-Subject: [PATCH v7 01/31] dyndbg: factor ddebug_match_desc out from
- ddebug_change
-Date: Mon, 22 Dec 2025 21:28:13 +1300
-Message-ID: <20251222082843.1816701-2-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251222082843.1816701-1-jim.cromie@gmail.com>
-References: <20251222082843.1816701-1-jim.cromie@gmail.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5E910E5E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 08:33:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id EEF6B4097D;
+ Mon, 22 Dec 2025 08:33:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0327DC4CEF1;
+ Mon, 22 Dec 2025 08:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766392388;
+ bh=kUUnbAuGEjrmM//2x59uFgORJkzw0Ymx44NkugoSY00=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pNwgeSWnIM0d8102Pvyue1PQt9cIyxD54ZGU2UPczl4MJj7oY8aZx6apAqwNmd2kE
+ rZhoKzVtafA3TRAOXTiZ0u9qGs9vF8Fp8yAKHiQe4N8qKssH4Rei2PuJhd3l08kJIo
+ ZVZ00GYykkjVLHmgfPvqB3ZldmbSBsdSYtkhHwsvJALaphwUlRTytwP0jfhaH3KjRa
+ 0z7miXIsVn+PWLyHnrQazf61OJJckWSJo68jpPnHohbdHH2edspqkvTq/K2SLiCJBR
+ WY4QORER8bSFjBQJMex5mNmhYGRIcN0UzsrZZVop7bkvDX4ZJyhFvNIALpGpPB6vUo
+ 5yJ9ouIQB3Gpg==
+Date: Mon, 22 Dec 2025 09:33:04 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Casey Connolly <casey.connolly@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v2 06/11] dt-bindings: display: panel: Describe Samsung
+ SOFEF03-M DDIC
+Message-ID: <20251222-godlike-mongoose-of-valor-3eeee0@quoll>
+References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,134 +81,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ddebug_change() is a big (~100 lines) function with a nested for loop.
+On Mon, Dec 22, 2025 at 12:32:12AM +0100, Marijn Suijten wrote:
+> Document the Samsung SOFEF03-M Display-Driver-IC and 1080x2520@120Hz DSI
+> command-mode panels found in the Sony Xperia 5 II and Sony Xperia 5 III.
+> It requires Display Stream Compression 1.1 which allows the panels to be
+> driven at 120Hz, even though a 60Hz mode is available too.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-The outer loop walks the per-module ddebug_tables list, and does
-module stuff: it filters on a query's "module FOO*" and "class BAR",
-failures here skip the entire inner loop.
+Your patchset has multiple white space warnings. Apply and see...
 
-The inner loop (60 lines) scans a module's descriptors.  It starts
-with a long block of filters on function, line, format, and the
-validated "BAR" class (or the legacy/_DPRINTK_CLASS_DFLT).
+> ---
+>  .../bindings/display/panel/samsung,sofef03-m.yaml  | 79 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 84 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,sofef03-m.yaml b/Documentation/devicetree/bindings/display/panel/samsung,sofef03-m.yaml
+> new file mode 100644
+> index 000000000000..5712eca2773d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,sofef03-m.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/samsung,sofef03-m.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung SOFEF03-M DDI for 1080x2520@120Hz 6.1" OLED DSI panels
+> +
+> +maintainers:
+> +  - Marijn Suijten <marijn.suijten@somainline.org>
+> +
+> +description: |
+> +  Samsung SOFEF03-M Display-Driver-IC found in the Sony Xperia 5 II (edo pdx206, amb609vp01
+> +  panel) and
+> +  Sony Xperia 5 III (sagami pdx214, amb609vp04
+> +  panel) smartphones.  It is always programmed with Display Stream Compression 1.1 enabled.
 
-These filters "continue" past pr_debugs that don't match the query
-criteria, before it falls through the code below that counts matches,
-then adjusts the flags and static-keys.  This is unnecessarily hard to
-think about.
+Please wrap according to Linux coding style.
 
-So move the per-descriptor filter-block into a boolean function:
-ddebug_match_desc(desc), and change each "continue" to "return false".
-This puts a clear interface in place, so any future changes are either
-inside, outside, or across this interface.
+> +
+> +  The assembly features a Samsung touchscreen compatible with
+> +  samsung,s6sy761.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,sofef03-m-amb609vp01
+> +      - samsung,sofef03-m-amb609vp04
+> +
+> +  port: true
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: DSI virtual channel
+> +
+> +  reset-gpios: true
+> +
+> +  vci-supply:
+> +    description: DriverIC Operation supply (3.0V)
+> +
+> +  vddio-supply:
+> +    description: I/O voltage supply (1.8V)
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +  - reg
+> +  - reset-gpios
+> +  - vci-supply
+> +  - vddio-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        panel@0 {
+> +            compatible = "samsung,sofef03-m-amb609vp01";
+> +            reg = <0>;
+> +
+> +            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
+> +
+> +            vci-supply = <&vreg_l11c_3p0>;
+> +            vddio-supply = <&vreg_l14a_1p8>;
+> +
+> +            port {
 
-also fix checkpatch complaints about spaces and braces.
+Not tested :/
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- lib/dynamic_debug.c | 83 +++++++++++++++++++++++++--------------------
- 1 file changed, 47 insertions(+), 36 deletions(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 5a007952f7f2..eb5146bcfaca 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -171,6 +171,52 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
-  * callsites, normally the same as number of changes.  If verbose,
-  * logs the changes.  Takes ddebug_lock.
-  */
-+static bool ddebug_match_desc(const struct ddebug_query *query,
-+			      struct _ddebug *dp,
-+			      int valid_class)
-+{
-+	/* match site against query-class */
-+	if (dp->class_id != valid_class)
-+		return false;
-+
-+	/* match against the source filename */
-+	if (query->filename &&
-+	    !match_wildcard(query->filename, dp->filename) &&
-+	    !match_wildcard(query->filename,
-+			    kbasename(dp->filename)) &&
-+	    !match_wildcard(query->filename,
-+			    trim_prefix(dp->filename)))
-+		return false;
-+
-+	/* match against the function */
-+	if (query->function &&
-+	    !match_wildcard(query->function, dp->function))
-+		return false;
-+
-+	/* match against the format */
-+	if (query->format) {
-+		if (*query->format == '^') {
-+			char *p;
-+			/* anchored search. match must be at beginning */
-+			p = strstr(dp->format, query->format + 1);
-+			if (p != dp->format)
-+				return false;
-+		} else if (!strstr(dp->format, query->format)) {
-+			return false;
-+		}
-+	}
-+
-+	/* match against the line number range */
-+	if (query->first_lineno &&
-+	    dp->lineno < query->first_lineno)
-+		return false;
-+	if (query->last_lineno &&
-+	    dp->lineno > query->last_lineno)
-+		return false;
-+
-+	return true;
-+}
-+
- static int ddebug_change(const struct ddebug_query *query,
- 			 struct flag_settings *modifiers)
- {
-@@ -203,42 +249,7 @@ static int ddebug_change(const struct ddebug_query *query,
- 		for (i = 0; i < dt->num_ddebugs; i++) {
- 			struct _ddebug *dp = &dt->ddebugs[i];
- 
--			/* match site against query-class */
--			if (dp->class_id != valid_class)
--				continue;
--
--			/* match against the source filename */
--			if (query->filename &&
--			    !match_wildcard(query->filename, dp->filename) &&
--			    !match_wildcard(query->filename,
--					   kbasename(dp->filename)) &&
--			    !match_wildcard(query->filename,
--					   trim_prefix(dp->filename)))
--				continue;
--
--			/* match against the function */
--			if (query->function &&
--			    !match_wildcard(query->function, dp->function))
--				continue;
--
--			/* match against the format */
--			if (query->format) {
--				if (*query->format == '^') {
--					char *p;
--					/* anchored search. match must be at beginning */
--					p = strstr(dp->format, query->format+1);
--					if (p != dp->format)
--						continue;
--				} else if (!strstr(dp->format, query->format))
--					continue;
--			}
--
--			/* match against the line number range */
--			if (query->first_lineno &&
--			    dp->lineno < query->first_lineno)
--				continue;
--			if (query->last_lineno &&
--			    dp->lineno > query->last_lineno)
-+			if (!ddebug_match_desc(query, dp, valid_class))
- 				continue;
- 
- 			nfound++;
--- 
-2.52.0
+Best regards,
+Krzysztof
 
