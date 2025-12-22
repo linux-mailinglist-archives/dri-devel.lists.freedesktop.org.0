@@ -2,95 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87328CD5622
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5BDCD572E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25EE10E585;
-	Mon, 22 Dec 2025 09:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F26210E21F;
+	Mon, 22 Dec 2025 10:04:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s70MMrdk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DX3xwYra";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98DBE10E310
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:48:19 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D50E3C8;
- Mon, 22 Dec 2025 10:48:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1766396887;
- bh=hhJY3tG7U8nQTwkzEqjqzaBvrbx7+qE8IllnJj9ex8I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=s70MMrdkP2YEI23UhIzHR1q1+eLK5OPno1yyDESbLIKgKa5R20835PWGGVWJeiW9x
- y8/RWrl5aIKKZkle46FIRWx+92IovJfI/Yl7Zvi1uqfgnh9vi+ZP/Kdye/g92+MDSB
- JFen5RBaDLVlQzVd6ZrhR21R6nTsfC4Mj3MV21hE=
-Message-ID: <a7aa91ad-3f16-48b7-88f6-ea03c466f76c@ideasonboard.com>
-Date: Mon, 22 Dec 2025 11:48:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm: zynqmp: Make the video plane primary
-To: Sean Anderson <sean.anderson@linux.dev>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, Mike Looijmans <mike.looijmans@topic.nl>,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0C110E21F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766397876; x=1797933876;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
+ b=DX3xwYraDdOg7VESPHMr33rlqhhNbppdLOtjw1WzT0k1mYAcMNnAhkVk
+ rQStC4xW7BdQeIsHLb0DcXK8TwD/2kRhC/0MZhoHB7xenrd+KebeiO9Zo
+ SxkqvOUhipJLJJTTiQRXOaf5NghgOmwjcz82j4M0aoNKZWbqgxA7ai11E
+ 7RcRFMQMSaAGFOQ1TApGjXnrYD3NrhFSNULv7tCxGEZoZFBxEWCUEofjo
+ Mmdnf4qbDMnDN7TX915Jo4igKHm4JD3rPreuamYEP0ZeJ9xGYBLU/aNAe
+ a/8GHxoJ9zWCkhmaca4af9Pijy4tjoMFjhXsrO0gJ46Gts9kHwbCFkmJv g==;
+X-CSE-ConnectionGUID: qvyykBEeTbmDJdsm6WcltQ==
+X-CSE-MsgGUID: lRwElsgoSLqc+g14AdFhYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71883099"
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; d="scan'208";a="71883099"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2025 02:04:36 -0800
+X-CSE-ConnectionGUID: SENbKwQ2TGuu/Q2AuFUCmg==
+X-CSE-MsgGUID: nfxshazyT4av5RHtxHYyhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; d="scan'208";a="222977989"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+ by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 02:04:31 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vXcmC-000000000MH-2wzD;
+ Mon, 22 Dec 2025 10:04:28 +0000
+Date: Mon, 22 Dec 2025 18:03:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vincent Mailhol <mailhol@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- Mikko Rapeli <mikko.rapeli@linaro.org>
-References: <20251113203715.2768107-1-sean.anderson@linux.dev>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251113203715.2768107-1-sean.anderson@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <chris.mason@fusionio.com>,
+ David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+ linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Vincent Mailhol <mailhol@kernel.org>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+Message-ID: <202512221735.mRV4BZqB-lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,48 +84,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Vincent,
 
-On 13/11/2025 22:37, Sean Anderson wrote:
-> The graphics plane does not support XRGB8888, which is the default mode
-> X uses for 24-bit color. Because of this, X must be set to use 16-bit
-> color, which has a measurable performance penalty. Make the video plane
-> the primary plane as it natively supports XRGB8888. An alternative
-> approach to add XRGB8888 to the graphics plane is discussed in [1], as
-> well as in patch 2.
-> 
-> [1] https://lore.kernel.org/dri-devel/20250627145058.6880-1-mike.looijmans@topic.nl/
-> 
-> 
-> Sean Anderson (3):
->   drm: zynqmp: Check property creation status
->   drm: zynqmp: Make the video plane primary
->   drm: zynqmp: Add blend mode property to graphics plane
-> 
->  drivers/gpu/drm/xlnx/zynqmp_kms.c | 42 +++++++++++++++++++++++++------
->  1 file changed, 34 insertions(+), 8 deletions(-)
-> 
+kernel test robot noticed the following build warnings:
 
-I made a test with pykms and tried this series with a few different
-things. Afaics with this series the driver behaves as I would expect the
-driver to behave. It makes sense to have the lower z-order plane as the
-primary plane, especially as it supports the standard XRGB8888.
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
 
-That said, I don't think there's anything that exactly would make the
-current way of having GFX as primary wrong... So I still don't see a
-single obvious solution to this whole issue.
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
+patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
+config: x86_64-randconfig-161-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221735.mRV4BZqB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-A few thoughts:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221735.mRV4BZqB-lkp@intel.com/
 
-If there is no regression here (i.e. this just has never worked well
-with X/Weston), might the actual fix be in X/Weston? Is there an actual
-bug in the xilinx driver?
+smatch warnings:
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '*_d' is never less than zero.
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '_a' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '*_d' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '_a' is never less than zero.
 
-On the other hand, I think it makes sense for drivers to (try to) expose
-the HW in a common way. XRGB8888 is the standard format, so it makes
-sense to expose XRGB8888 on primary plane. I think this is how the
-driver should have behaved from the start. But if changing that now
-would cause user space regressions, it's not good either.
+vim +1628 fs/libfs.c
 
- Tomi
+1b061d9247f71c Christoph Hellwig   2010-05-26  1613  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1614  /**
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1615   * generic_check_addressable - Check addressability of file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1616   * @blocksize_bits:	log of file system block size
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1617   * @num_blocks:		number of blocks in file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1618   *
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1619   * Determine whether a file system with @num_blocks blocks (and a
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1620   * block size of 2**@blocksize_bits) is addressable by the sector_t
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1621   * and page cache of the system.  Return 0 if so and -EFBIG otherwise.
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1622   */
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1623  int generic_check_addressable(unsigned blocksize_bits, u64 num_blocks)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1624  {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1625  	u64 last_fs_block = num_blocks - 1;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1626  	u64 last_fs_page, max_bytes;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1627  
+25050181b61aa0 Pankaj Raghav       2025-06-30 @1628  	if (check_shl_overflow(num_blocks, blocksize_bits, &max_bytes))
+25050181b61aa0 Pankaj Raghav       2025-06-30  1629  		return -EFBIG;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1630  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1631  	last_fs_page = (max_bytes >> PAGE_SHIFT) - 1;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1632  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1633  	if (unlikely(num_blocks == 0))
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1634  		return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1635  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1636  	if (blocksize_bits < 9)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1637  		return -EINVAL;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1638  
+a33f13efe05192 Joel Becker         2010-08-16  1639  	if ((last_fs_block > (sector_t)(~0ULL) >> (blocksize_bits - 9)) ||
+a33f13efe05192 Joel Becker         2010-08-16  1640  	    (last_fs_page > (pgoff_t)(~0ULL))) {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1641  		return -EFBIG;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1642  	}
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1643  	return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1644  }
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1645  EXPORT_SYMBOL(generic_check_addressable);
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1646  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
