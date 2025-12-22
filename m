@@ -2,84 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B62CD6185
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 14:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557F2CD61B2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 14:12:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45D9710E674;
-	Mon, 22 Dec 2025 13:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F5A10E16A;
+	Mon, 22 Dec 2025 13:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UwOgjuZM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Dbf25pie";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6A810E673
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 13:09:01 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-596ba07504dso3552839e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 05:09:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766408939; x=1767013739; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:date:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=TqkA3QTeqvfIHTaFJmrTviJUHc15iycYlD6ucgB4o6w=;
- b=UwOgjuZMyRVsCbOrJs9RlDwT6qCyqUuAqU/btLj8YRlnA0yfSpd7f85cpcY6vcHGcE
- Y6btryGGx8bRXDYMckUG8QWoOYjM0PcLe8KhHL/nop+Y84LNI4/UZb25dhIbgGCeK3oT
- zg9fQuWrY7ShwOf620H/XesC2Z+YO+Bcyb5mRBi1Hx0Q6jzStfEVMReQv2DnzTR/ytAq
- qVr8znnUS9dkxMET/hvPoUY0g8PR3ydyhex9Om6Z1w6UXI++I7/CzanfTFKjxEvb24/X
- s+sipnMlspbtRYMnt521LjRr3WlwIpJ8a8APGKx3tWzRLPYvtu+/rRHACwmsXZvARJ8R
- Pj4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766408939; x=1767013739;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TqkA3QTeqvfIHTaFJmrTviJUHc15iycYlD6ucgB4o6w=;
- b=wGo3Junj60aHFUwRS1ViJiQXobJH51TeSLvEBvoTE/C3ZfN8nbkg48ltIjJdikO9Ob
- Rkm8EX0APd+fzvWVw+4dpl8qSQvSOjG5RyijqGjJ4onKO3eGe2hddHv9+SOJQHIHksxa
- rPNvWgqYLsiNO08NOl0pFLa56buF12gRCUB6A3bd57nMItgCeWQez/eCxwZZqCoVZMKT
- cHszotWehJE/SInO+lDCQ/JrmmVOWuG+btXBRP15+2ZytoyXckslXRoJNzc9nIDfJAgB
- lKBH2xHo5eXYL5LxeI1F9wOGv+6+kcmfJoAByHFqtikDnEkIHHjlH/7G5iEwRJco+X5m
- 8Wdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVCe8/R1jJ/pSPwwGuYOifGSk7NGQUpCuPQNLF9lrm3v1jmDyZ8Eo3kgttGddUh2DoJAgyDiqlHxYU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOEFwlTTS5mj5X4bIT+oTJNhnaiuAo+sO101VKKk84+fjy6XZd
- 6ysHIvHMnZaGdq9nNA4jl41qgdQDLAlDpwm4a9/a9fsyoX9g5Hp5z/aa
-X-Gm-Gg: AY/fxX6tr1wpD8cUGU0w0zvGreCBYOMO9gnZ/FXrXtKqoco9/hY/cQAYLTnAP2xxq4Y
- WQaK/99I0o3ZKTz+9Srcv1NoTaBe7idQBd3Rx5r25f9z9aH5vCWV3tLzFs0kNwarl0dUP51fvFB
- oD9XqYK0ZxvtmBPeeH35+RgRg+3m8U+m7gMIRblitBowQOaMO5vHgZEXxQhueFeCORj56hUhOWl
- y63DbBevuE+Q/fqJNe5jz5g5u3B7YXLVPRgxXC6g7GIhHUQkqT4X0HhtqXoaVuOikJSaZ3TBFFI
- V06eB1ABXD2R/oo/GOghxMHeoGJvx7UYyHX2DLuT3aG1jZoATPFCAunoBmLcbxFZmw2TyTgjA66
- FOOhwigMx56372jYfcXwLFyuVDN1kg9p2dUuLsSZKYrhG+HT84C8G
-X-Google-Smtp-Source: AGHT+IEoHaD9txNltw8AYIh3bvKWbd6Ld21Uc2hEUyNiNte2MbtG2FdcMNsmNf298a2tH2qY7Uf5Kw==
-X-Received: by 2002:a05:6512:3f1a:b0:598:e39b:d628 with SMTP id
- 2adb3069b0e04-59a17d7271amr3858414e87.5.1766408939248; 
- Mon, 22 Dec 2025 05:08:59 -0800 (PST)
-Received: from milan ([2001:9b1:d5a0:a500::24b])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a1861f4e4sm3115532e87.83.2025.12.22.05.08.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Dec 2025 05:08:58 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@milan>
-Date: Mon, 22 Dec 2025 14:08:56 +0100
-To: Barry Song <21cnbao@gmail.com>
-Cc: urezki@gmail.com, akpm@linux-foundation.org, david@kernel.org,
- dri-devel@lists.freedesktop.org, jstultz@google.com,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org, mripard@kernel.org,
- sumit.semwal@linaro.org, v-songbaohua@oppo.com, zhengtangquan@oppo.com
-Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
- whenever possible
-Message-ID: <aUlC6N1jmDbMDPc5@milan>
-References: <aUQHss6K8b_esvpw@milan> <20251218212436.17142-1-21cnbao@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251218212436.17142-1-21cnbao@gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1623E10E16A;
+ Mon, 22 Dec 2025 13:12:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766409154; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FIeD0yoC0useamq64DFbpwGscnpFoFRO916jtMcGT87ucm9BM4lJ4r1lcukwra0bpbdFiKzoLoXO+NLey5J1dvjjRka78euAHRAPKcQ1P2lCzx7TfPHaFQUEhRrBKejWhQOWNA2VKf2I8Mj4KYc1a5zqsS58aTa2x0aBqKkGeQ8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1766409154;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=jg3clCCdy+UwXNh1uiaX076qZBrP9rx5pJBCUZVZw/0=; 
+ b=ZfhtZ3cFQ2x0ZOnu0/6k6L5fyNNoHXOCMGnhotzA5/AuvuAiIlemTGps21Dx15yhHyh0FJJYVdiB/ScKxW9XyALy+gx5TST+/Jd2Wo3Sham2XSofqfjuWraB3qJMeCavG0vfn4d8f7VU1zfEk5NJtDUNFBoVpRnOAQpGY+h8ho0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766409154; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=jg3clCCdy+UwXNh1uiaX076qZBrP9rx5pJBCUZVZw/0=;
+ b=Dbf25piewtZGCaBibPZLbFMKpFIf16/kSFcwb8G8Q6FNMTD4NWtZY4Z/b3rhsNIw
+ hrjombiOfnWCVQZv1qiM65Nu027Vi7c/xFNs5I8apgvWpGlxYZ6pN7QTBa3FVwJBQVZ
+ rDuanIkZB0FuZDoM1pTIcAwEfBdqhPUrBEZ98vSg=
+Received: by mx.zohomail.com with SMTPS id 17664091288402.246003345621716;
+ Mon, 22 Dec 2025 05:12:08 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH 2/2] rust/drm/gem: Use DeviceCtx with GEM objects
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251107193204.398657-3-lyude@redhat.com>
+Date: Mon, 22 Dec 2025 10:11:51 -0300
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ "open list:DRM DRIVER FOR NVIDIA GPUS [RUST]" <nouveau@lists.freedesktop.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F713E667-3414-4BBF-9820-FA21C7F1A4CE@collabora.com>
+References: <20251107193204.398657-1-lyude@redhat.com>
+ <20251107193204.398657-3-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,194 +80,434 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 19, 2025 at 05:24:36AM +0800, Barry Song wrote:
-> On Thu, Dec 18, 2025 at 9:55 PM Uladzislau Rezki <urezki@gmail.com> wrote:
-> >
-> > On Thu, Dec 18, 2025 at 02:01:56PM +0100, David Hildenbrand (Red Hat) wrote:
-> > > On 12/15/25 06:30, Barry Song wrote:
-> > > > From: Barry Song <v-songbaohua@oppo.com>
-> > > >
-> > > > In many cases, the pages passed to vmap() may include high-order
-> > > > pages allocated with __GFP_COMP flags. For example, the systemheap
-> > > > often allocates pages in descending order: order 8, then 4, then 0.
-> > > > Currently, vmap() iterates over every page individually—even pages
-> > > > inside a high-order block are handled one by one.
-> > > >
-> > > > This patch detects high-order pages and maps them as a single
-> > > > contiguous block whenever possible.
-> > > >
-> > > > An alternative would be to implement a new API, vmap_sg(), but that
-> > > > change seems to be large in scope.
-> > > >
-> > > > When vmapping a 128MB dma-buf using the systemheap, this patch
-> > > > makes system_heap_do_vmap() roughly 17× faster.
-> > > >
-> > > > W/ patch:
-> > > > [   10.404769] system_heap_do_vmap took 2494000 ns
-> > > > [   12.525921] system_heap_do_vmap took 2467008 ns
-> > > > [   14.517348] system_heap_do_vmap took 2471008 ns
-> > > > [   16.593406] system_heap_do_vmap took 2444000 ns
-> > > > [   19.501341] system_heap_do_vmap took 2489008 ns
-> > > >
-> > > > W/o patch:
-> > > > [    7.413756] system_heap_do_vmap took 42626000 ns
-> > > > [    9.425610] system_heap_do_vmap took 42500992 ns
-> > > > [   11.810898] system_heap_do_vmap took 42215008 ns
-> > > > [   14.336790] system_heap_do_vmap took 42134992 ns
-> > > > [   16.373890] system_heap_do_vmap took 42750000 ns
-> > > >
-> > >
-> > > That's quite a speedup.
-> > >
-> > > > Cc: David Hildenbrand <david@kernel.org>
-> > > > Cc: Uladzislau Rezki <urezki@gmail.com>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: John Stultz <jstultz@google.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
-> > > > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> > > > ---
-> > > >   * diff with rfc:
-> > > >   Many code refinements based on David's suggestions, thanks!
-> > > >   Refine comment and changelog according to Uladzislau, thanks!
-> > > >   rfc link:
-> > > >   https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
-> > > >
-> > > >   mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
-> > > >   1 file changed, 39 insertions(+), 6 deletions(-)
-> > > >
-> > > > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> > > > index 41dd01e8430c..8d577767a9e5 100644
-> > > > --- a/mm/vmalloc.c
-> > > > +++ b/mm/vmalloc.c
-> > > > @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
-> > > >     return err;
-> > > >   }
-> > > > +static inline int get_vmap_batch_order(struct page **pages,
-> > > > +           unsigned int stride, unsigned int max_steps, unsigned int idx)
-> > > > +{
-> > > > +   int nr_pages = 1;
-> > >
-> > > unsigned int, maybe
-> 
-> Right
-> 
-> > >
-> > > Why are you initializing nr_pages when you overwrite it below?
-> 
-> Right, initializing nr_pages can be dropped.
-> 
-> > >
-> > > > +
-> > > > +   /*
-> > > > +    * Currently, batching is only supported in vmap_pages_range
-> > > > +    * when page_shift == PAGE_SHIFT.
-> > >
-> > > I don't know the code so realizing how we go from page_shift to stride too
-> > > me a second. Maybe only talk about stride here?
-> > >
-> > > OTOH, is "stride" really the right terminology?
-> > >
-> > > we calculate it as
-> > >
-> > >       stride = 1U << (page_shift - PAGE_SHIFT);
-> > >
-> > > page_shift - PAGE_SHIFT should give us an "order". So is this a
-> > > "granularity" in nr_pages?
-> 
-> This is the case where vmalloc() may realize that it has
-> high-order pages and therefore calls
-> vmap_pages_range_noflush() with a page_shift larger than
-> PAGE_SHIFT. For vmap(), we take a pages array, so
-> page_shift is always PAGE_SHIFT.
-> 
-> > >
-> > > Again, I don't know this code, so sorry for the question.
-> > >
-> > To me "stride" also sounds unclear.
-> 
-> Thanks, David and Uladzislau. On second thought, this stride may be
-> redundant, and it should be possible to drop it entirely. This results
-> in the code below:
-> 
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 41dd01e8430c..3962bdcb43e5 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -642,6 +642,20 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
->  	return err;
->  }
->  
-> +static inline int get_vmap_batch_order(struct page **pages,
-> +		unsigned int max_steps, unsigned int idx)
-> +{
-> +	unsigned int nr_pages	 = compound_nr(pages[idx]);
+
+
+> On 7 Nov 2025, at 16:23, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> Now that we have the ability to represent the context in which a DRM =
+device
+> is in at compile-time, we can start carrying around this context with =
+GEM
+> object types in order to allow a driver to safely create GEM objects =
+before
+> a DRM device has registered with userspace.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+> drivers/gpu/drm/nova/driver.rs |  2 +-
+> drivers/gpu/drm/nova/gem.rs    | 11 +++---
+> drivers/gpu/drm/tyr/driver.rs  |  2 +-
+> drivers/gpu/drm/tyr/gem.rs     |  3 +-
+> rust/kernel/drm/device.rs      | 14 ++++----
+> rust/kernel/drm/driver.rs      |  2 +-
+> rust/kernel/drm/gem/mod.rs     | 66 ++++++++++++++++++++++------------
+> 7 files changed, 63 insertions(+), 37 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/nova/driver.rs =
+b/drivers/gpu/drm/nova/driver.rs
+> index c78d69d5f045a..54245ee439042 100644
+> --- a/drivers/gpu/drm/nova/driver.rs
+> +++ b/drivers/gpu/drm/nova/driver.rs
+> @@ -59,7 +59,7 @@ fn probe(adev: &auxiliary::Device<Core>, _info: =
+&Self::IdInfo) -> Result<Pin<KBo
+> impl drm::Driver for NovaDriver {
+>     type Data =3D NovaData;
+>     type File =3D File;
+> -    type Object =3D gem::Object<NovaObject>;
+> +    type Object<Ctx: drm::DeviceCtx> =3D gem::Object<NovaObject, =
+Ctx>;
+>=20
+>     const INFO: drm::DriverInfo =3D INFO;
+>=20
+> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
+> index 2760ba4f3450b..14d275dc74ce7 100644
+> --- a/drivers/gpu/drm/nova/gem.rs
+> +++ b/drivers/gpu/drm/nova/gem.rs
+> @@ -2,7 +2,7 @@
+>=20
+> use kernel::{
+>     drm,
+> -    drm::{gem, gem::BaseObject},
+> +    drm::{gem, gem::BaseObject, DeviceCtx},
+>     prelude::*,
+>     sync::aref::ARef,
+> };
+> @@ -19,21 +19,24 @@ pub(crate) struct NovaObject {}
+> impl gem::DriverObject for NovaObject {
+>     type Driver =3D NovaDriver;
+>=20
+> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, =
+Error> {
+> +    fn new<Ctx: DeviceCtx>(_dev: &NovaDevice<Ctx>, _size: usize) -> =
+impl PinInit<Self, Error> {
+>         try_pin_init!(NovaObject {})
+>     }
+> }
+>=20
+> impl NovaObject {
+>     /// Create a new DRM GEM object.
+> -    pub(crate) fn new(dev: &NovaDevice, size: usize) -> =
+Result<ARef<gem::Object<Self>>> {
+> +    pub(crate) fn new<Ctx: DeviceCtx>(
+> +        dev: &NovaDevice<Ctx>,
+> +        size: usize,
+> +    ) -> Result<ARef<gem::Object<Self, Ctx>>> {
+>         let aligned_size =3D size.next_multiple_of(1 << 12);
+>=20
+>         if size =3D=3D 0 || size > aligned_size {
+>             return Err(EINVAL);
+>         }
+>=20
+> -        gem::Object::new(dev, aligned_size)
+> +        gem::Object::<Self, Ctx>::new(dev, aligned_size)
+>     }
+>=20
+>     /// Look up a GEM object handle for a `File` and return an =
+`ObjectRef` for it.
+> diff --git a/drivers/gpu/drm/tyr/driver.rs =
+b/drivers/gpu/drm/tyr/driver.rs
+> index e3ea5ad85f49b..78fc08945e08e 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -187,7 +187,7 @@ fn drop(self: Pin<&mut Self>) {
+> impl drm::Driver for TyrDriver {
+>     type Data =3D TyrData;
+>     type File =3D File;
+> -    type Object =3D drm::gem::Object<TyrObject>;
+> +    type Object<R: drm::DeviceCtx> =3D drm::gem::Object<TyrObject, =
+R>;
+>=20
+>     const INFO: drm::DriverInfo =3D INFO;
+>=20
+> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+> index 1273bf89dbd5d..5e1403409f468 100644
+> --- a/drivers/gpu/drm/tyr/gem.rs
+> +++ b/drivers/gpu/drm/tyr/gem.rs
+> @@ -3,6 +3,7 @@
+> use crate::driver::TyrDevice;
+> use crate::driver::TyrDriver;
+> use kernel::drm::gem;
+> +use kernel::drm::DeviceCtx;
+> use kernel::prelude::*;
+>=20
+> /// GEM Object inner driver data
+> @@ -12,7 +13,7 @@ pub(crate) struct TyrObject {}
+> impl gem::DriverObject for TyrObject {
+>     type Driver =3D TyrDriver;
+>=20
+> -    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, =
+Error> {
+> +    fn new<Ctx: DeviceCtx>(_dev: &TyrDevice<Ctx>, _size: usize) -> =
+impl PinInit<Self, Error> {
+>         try_pin_init!(TyrObject {})
+>     }
+> }
+> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+> index 00072984930a3..227df6bf88c31 100644
+> --- a/rust/kernel/drm/device.rs
+> +++ b/rust/kernel/drm/device.rs
+> @@ -127,13 +127,13 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
+>         master_set: None,
+>         master_drop: None,
+>         debugfs_init: None,
+> -        gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
+> -        prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
+> -        prime_fd_to_handle: T::Object::ALLOC_OPS.prime_fd_to_handle,
+> -        gem_prime_import: T::Object::ALLOC_OPS.gem_prime_import,
+> -        gem_prime_import_sg_table: =
+T::Object::ALLOC_OPS.gem_prime_import_sg_table,
+> -        dumb_create: T::Object::ALLOC_OPS.dumb_create,
+> -        dumb_map_offset: T::Object::ALLOC_OPS.dumb_map_offset,
+> +        gem_create_object: =
+T::Object::<AnyCtx>::ALLOC_OPS.gem_create_object,
+> +        prime_handle_to_fd: =
+T::Object::<AnyCtx>::ALLOC_OPS.prime_handle_to_fd,
+> +        prime_fd_to_handle: =
+T::Object::<AnyCtx>::ALLOC_OPS.prime_fd_to_handle,
+> +        gem_prime_import: =
+T::Object::<AnyCtx>::ALLOC_OPS.gem_prime_import,
+> +        gem_prime_import_sg_table: =
+T::Object::<AnyCtx>::ALLOC_OPS.gem_prime_import_sg_table,
+> +        dumb_create: T::Object::<AnyCtx>::ALLOC_OPS.dumb_create,
+> +        dumb_map_offset: =
+T::Object::<AnyCtx>::ALLOC_OPS.dumb_map_offset,
+>         show_fdinfo: None,
+>         fbdev_probe: None,
+>=20
+> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+> index fde0447566bef..4e8735e9018c4 100644
+> --- a/rust/kernel/drm/driver.rs
+> +++ b/rust/kernel/drm/driver.rs
+> @@ -104,7 +104,7 @@ pub trait Driver {
+>     type Data: Sync + Send;
+>=20
+>     /// The type used to manage memory for this driver.
+> -    type Object: AllocImpl;
+> +    type Object<Ctx: drm::DeviceCtx>: AllocImpl;
+>=20
+>     /// The type used to represent a DRM File (client)
+>     type File: drm::file::DriverFile;
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index eb5f3feac8907..62ca11126e1c0 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -7,13 +7,16 @@
+> use crate::{
+>     alloc::flags::*,
+>     bindings, drm,
+> -    drm::driver::{AllocImpl, AllocOps},
+> +    drm::{
+> +        device::{DeviceCtx, Registered},
+> +        driver::{AllocImpl, AllocOps},
+> +    },
+>     error::{to_result, Result},
+>     prelude::*,
+>     sync::aref::{ARef, AlwaysRefCounted},
+>     types::Opaque,
+> };
+> -use core::{ops::Deref, ptr::NonNull};
+> +use core::{marker::PhantomData, ops::Deref, ptr::NonNull};
+>=20
+> /// A type alias for retrieving a [`Driver`]s [`DriverFile`] =
+implementation from its
+> /// [`DriverObject`] implementation.
+> @@ -22,21 +25,30 @@
+> /// [`DriverFile`]: drm::file::DriverFile
+> pub type DriverFile<T> =3D drm::File<<<T as DriverObject>::Driver as =
+drm::Driver>::File>;
+>=20
+> +/// A type alias for retrieving the current [`AllocImpl`] for a given =
+[`DriverObject`].
+> +///
+> +/// [`Driver`]: drm::Driver
+> +pub type DriverAllocImpl<T, Ctx =3D Registered> =3D
+> +    <<T as DriverObject>::Driver as drm::Driver>::Object<Ctx>;
 > +
-> +	if (nr_pages == 1 || max_steps < nr_pages)
-> +		return 0;
-> +
-> +	if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
-> +		return compound_order(pages[idx]);
-> +	return 0;
-> +}
-> +
->
+> /// GEM object functions, which must be implemented by drivers.
+> pub trait DriverObject: Sync + Send + Sized {
+>     /// Parent `Driver` for this object.
+>     type Driver: drm::Driver;
+>=20
+>     /// Create a new driver data object for a GEM object of a given =
+size.
+> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl =
+PinInit<Self, Error>;
+> +    fn new<Ctx: DeviceCtx>(
+> +        dev: &drm::Device<Self::Driver, Ctx>,
+> +        size: usize,
+> +    ) -> impl PinInit<Self, Error>;
+>=20
+>     /// Open a new handle to an existing object, associated with a =
+File.
+> -    fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: =
+&DriverFile<Self>) -> Result {
+> +    fn open(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) =
+-> Result {
+>         Ok(())
+>     }
+>=20
+>     /// Close a handle to an existing object, associated with a File.
+> -    fn close(_obj: &<Self::Driver as drm::Driver>::Object, _file: =
+&DriverFile<Self>) {}
+> +    fn close(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) =
+{}
+> }
+>=20
+> /// Trait that represents a GEM object subtype
+> @@ -62,9 +74,12 @@ extern "C" fn open_callback<T: DriverObject>(
+>     // SAFETY: `open_callback` is only ever called with a valid =
+pointer to a `struct drm_file`.
+>     let file =3D unsafe { DriverFile::<T>::from_raw(raw_file) };
+>=20
+> -    // SAFETY: `open_callback` is specified in the AllocOps structure =
+for `DriverObject<T>`,
+> -    // ensuring that `raw_obj` is contained within a =
+`DriverObject<T>`
+> -    let obj =3D unsafe { <<T::Driver as drm::Driver>::Object as =
+IntoGEMObject>::from_raw(raw_obj) };
+> +    // SAFETY:
+> +    // * `open_callback` is specified in the AllocOps structure for =
+`DriverObject`, ensuring that
+> +    //   `raw_obj` is contained within a `DriverAllocImpl<T>`
+> +    // * It is only possible for `open_callback` to be called after =
+device registration, ensuring
+> +    //   that the object's device is in the `Registered` state.
+> +    let obj: &DriverAllocImpl<T> =3D unsafe { =
+IntoGEMObject::from_raw(raw_obj) };
+>=20
+>     match T::open(obj, file) {
+>         Err(e) =3D> e.to_errno(),
+> @@ -81,12 +96,12 @@ extern "C" fn close_callback<T: DriverObject>(
+>=20
+>     // SAFETY: `close_callback` is specified in the AllocOps structure =
+for `Object<T>`, ensuring
+>     // that `raw_obj` is indeed contained within a `Object<T>`.
+> -    let obj =3D unsafe { <<T::Driver as drm::Driver>::Object as =
+IntoGEMObject>::from_raw(raw_obj) };
+> +    let obj: &DriverAllocImpl<T> =3D unsafe { =
+IntoGEMObject::from_raw(raw_obj) };
+>=20
+>     T::close(obj, file);
+> }
+>=20
+> -impl<T: DriverObject> IntoGEMObject for Object<T> {
+> +impl<T: DriverObject, Ctx: DeviceCtx> IntoGEMObject for Object<T, =
+Ctx> {
+>     fn as_raw(&self) -> *mut bindings::drm_gem_object {
+>         self.obj.get()
+>     }
+> @@ -94,7 +109,7 @@ fn as_raw(&self) -> *mut bindings::drm_gem_object {
+>     unsafe fn from_raw<'a>(self_ptr: *mut bindings::drm_gem_object) -> =
+&'a Self {
+>         // SAFETY: `obj` is guaranteed to be in an `Object<T>` via the =
+safety contract of this
+>         // function
+> -        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), =
+Object<T>, obj) }
+> +        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), =
+Object<T, Ctx>, obj) }
+>     }
+> }
+>=20
+> @@ -111,7 +126,7 @@ fn size(&self) -> usize {
+>     fn create_handle<D, F>(&self, file: &drm::File<F>) -> Result<u32>
+>     where
+>         Self: AllocImpl<Driver =3D D>,
+> -        D: drm::Driver<Object =3D Self, File =3D F>,
+> +        D: drm::Driver<Object<Registered> =3D Self, File =3D F>,
+>         F: drm::file::DriverFile<Driver =3D D>,
+>     {
+>         let mut handle: u32 =3D 0;
+> @@ -126,7 +141,7 @@ fn create_handle<D, F>(&self, file: &drm::File<F>) =
+-> Result<u32>
+>     fn lookup_handle<D, F>(file: &drm::File<F>, handle: u32) -> =
+Result<ARef<Self>>
+>     where
+>         Self: AllocImpl<Driver =3D D>,
+> -        D: drm::Driver<Object =3D Self, File =3D F>,
+> +        D: drm::Driver<Object<Registered> =3D Self, File =3D F>,
+>         F: drm::file::DriverFile<Driver =3D D>,
+>     {
+>         // SAFETY: The arguments are all valid per the type =
+invariants.
+> @@ -166,16 +181,18 @@ impl<T: IntoGEMObject> BaseObject for T {}
+> ///
+> /// Invariants
+> ///
+> -/// - `self.obj` is a valid instance of a `struct drm_gem_object`.
+> +/// * `self.obj` is a valid instance of a `struct drm_gem_object`.
+> +/// * Any type invariants of `Ctx` apply to the parent DRM device for =
+this GEM object.
+> #[repr(C)]
+> #[pin_data]
+> -pub struct Object<T: DriverObject + Send + Sync> {
+> +pub struct Object<T: DriverObject + Send + Sync, Ctx: DeviceCtx =3D =
+Registered> {
+>     obj: Opaque<bindings::drm_gem_object>,
+>     #[pin]
+>     data: T,
+> +    _ctx: PhantomData<Ctx>,
+> }
+>=20
+> -impl<T: DriverObject> Object<T> {
+> +impl<T: DriverObject, Ctx: DeviceCtx> Object<T, Ctx> {
+>     const OBJECT_FUNCS: bindings::drm_gem_object_funcs =3D =
+bindings::drm_gem_object_funcs {
+>         free: Some(Self::free_callback),
+>         open: Some(open_callback::<T>),
+> @@ -195,11 +212,12 @@ impl<T: DriverObject> Object<T> {
+>     };
+>=20
+>     /// Create a new GEM object.
+> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> =
+Result<ARef<Self>> {
+> +    pub fn new(dev: &drm::Device<T::Driver, Ctx>, size: usize) -> =
+Result<ARef<Self>> {
+>         let obj: Pin<KBox<Self>> =3D KBox::pin_init(
+>             try_pin_init!(Self {
+>                 obj: Opaque::new(bindings::drm_gem_object::default()),
+>                 data <- T::new(dev, size),
+> +                _ctx: PhantomData,
+>             }),
+>             GFP_KERNEL,
+>         )?;
+> @@ -208,6 +226,8 @@ pub fn new(dev: &drm::Device<T::Driver>, size: =
+usize) -> Result<ARef<Self>> {
+>         unsafe { (*obj.as_raw()).funcs =3D &Self::OBJECT_FUNCS };
+>=20
+>         // SAFETY: The arguments are all valid per the type =
+invariants.
+> +        // INVARIANT: We use `dev` for creating the GEM object, which =
+is known to be in state `Ctx` -
+> +        // ensuring that the GEM object's pointer to the DRM device =
+is always in the same state.
+>         to_result(unsafe { bindings::drm_gem_object_init(dev.as_raw(), =
+obj.obj.get(), size) })?;
+>=20
+>         // SAFETY: We never move out of `Self`.
+> @@ -221,13 +241,15 @@ pub fn new(dev: &drm::Device<T::Driver>, size: =
+usize) -> Result<ARef<Self>> {
+>     }
+>=20
+>     /// Returns the `Device` that owns this GEM object.
+> -    pub fn dev(&self) -> &drm::Device<T::Driver> {
+> +    pub fn dev(&self) -> &drm::Device<T::Driver, Ctx> {
+>         // SAFETY:
+>         // - `struct drm_gem_object.dev` is initialized and valid for =
+as long as the GEM
+>         //   object lives.
+>         // - The device we used for creating the gem object is passed =
+as &drm::Device<T::Driver> to
+>         //   Object::<T>::new(), so we know that `T::Driver` is the =
+right generic parameter to use
+>         //   here.
+> +        // - Any type invariants of `Ctx` are upheld by using the =
+same `Ctx` for the `Device` we
+> +        //   return.
+>         unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+>     }
+>=20
+> @@ -253,7 +275,7 @@ extern "C" fn free_callback(obj: *mut =
+bindings::drm_gem_object) {
+> }
+>=20
+> // SAFETY: Instances of `Object<T>` are always reference-counted.
+> -unsafe impl<T: DriverObject> crate::types::AlwaysRefCounted for =
+Object<T> {
+> +unsafe impl<T: DriverObject, Ctx: DeviceCtx> =
+crate::types::AlwaysRefCounted for Object<T, Ctx> {
+>     fn inc_ref(&self) {
+>         // SAFETY: The existence of a shared reference guarantees that =
+the refcount is non-zero.
+>         unsafe { bindings::drm_gem_object_get(self.as_raw()) };
+> @@ -268,9 +290,9 @@ unsafe fn dec_ref(obj: NonNull<Self>) {
+>     }
+> }
+>=20
+> -impl<T: DriverObject> super::private::Sealed for Object<T> {}
+> +impl<T: DriverObject, Ctx: DeviceCtx> super::private::Sealed for =
+Object<T, Ctx> {}
+>=20
+> -impl<T: DriverObject> Deref for Object<T> {
+> +impl<T: DriverObject, Ctx: DeviceCtx> Deref for Object<T, Ctx> {
+>     type Target =3D T;
+>=20
+>     fn deref(&self) -> &Self::Target {
+> @@ -278,7 +300,7 @@ fn deref(&self) -> &Self::Target {
+>     }
+> }
+>=20
+> -impl<T: DriverObject> AllocImpl for Object<T> {
+> +impl<T: DriverObject, Ctx: DeviceCtx> AllocImpl for Object<T, Ctx> {
+>     type Driver =3D T::Driver;
+>=20
+>     const ALLOC_OPS: AllocOps =3D AllocOps {
+> --=20
+> 2.51.1
+>=20
+>=20
 
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
+(See comments on patch 1 before applying this)=20
 
->  /*
->   * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
->   * flush caches.
-> @@ -658,20 +672,35 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
->  
->  	WARN_ON(page_shift < PAGE_SHIFT);
->  
-> +	/*
-> +	 * For vmap(), users may allocate pages from high orders down to
-> +	 * order 0, while always using PAGE_SHIFT as the page_shift.
-> +	 * We first check whether the initial page is a compound page. If so,
-> +	 * there may be an opportunity to batch multiple pages together.
-> +	 */
->  	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
-> -			page_shift == PAGE_SHIFT)
-> +			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
->  		return vmap_small_pages_range_noflush(addr, end, prot, pages);
-Hm.. If first few pages are order-0 and the rest are compound
-then we do nothing.
-
->  
-> -	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
-> +	for (i = 0; i < nr; ) {
-> +		unsigned int shift = page_shift;
->  		int err;
->  
-> -		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
-> +		/*
-> +		 * For vmap() cases, page_shift is always PAGE_SHIFT, even
-> +		 * if the pages are physically contiguous, they may still
-> +		 * be mapped in a batch.
-> +		 */
-> +		if (page_shift == PAGE_SHIFT)
-> +			shift += get_vmap_batch_order(pages, nr - i, i);
-> +		err = vmap_range_noflush(addr, addr + (1UL << shift),
->  					page_to_phys(pages[i]), prot,
-> -					page_shift);
-> +					shift);
->  		if (err)
->  			return err;
->  
-> -		addr += 1UL << page_shift;
-> +		addr += 1UL  << shift;
-> +		i += 1U << shift;
->  	}
->  
->  	return 0;
-> 
-> Does this look clearer?
-> 
-The concern is we mix it with a huge page mapping path. If we want to batch
-v-mapping for page_shift == PAGE_SHIFT case, where "pages" array may contain 
-compound pages(folio)(corner case to me), i think we should split it.
-
---
-Uladzislau Rezki
