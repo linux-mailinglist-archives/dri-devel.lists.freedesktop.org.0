@@ -2,86 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67FACD5372
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 09:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03554CD5388
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7F810E16F;
-	Mon, 22 Dec 2025 08:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2EC10E53E;
+	Mon, 22 Dec 2025 09:00:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y070gjNP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QhglG0sp";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UoC2OhXx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBC510E16F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 08:58:46 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-59583505988so5712134e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 00:58:46 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E019410E4F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:22 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BM83GVg240215
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=; b=QhglG0spVm0QGZ1Q
+ SZBd/YM34FpvT2X0InMZs1uuuAtN8Sb4WBPnDcJIcemDtm1jUWiLw+E/VKOpuPt3
+ 5xNPxP9BqYhEJ6N9HxQDlfm2zDM+jhXyGlg6wqjf+4p4LBzVUNjbc6uau2C1t5ox
+ aK2z8xu5nKl4jH6qy9eOK26SH1O+50Ax7VHAbzbLVxxsapAkTtY/koq0PZJwekzT
+ BiL1aAE5oYkDVOzdFav27lBIP4i/HNl0wmo70zSzunKQvPrcSMP1CE+ba4yIiW5P
+ +j7oV7ARwpQrMeekK/5tcMCsSKEP2ejGW3JI3uCkrXKFba3Hm55f6HdZO2fpOcZs
+ OkkfsQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mubmcea-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:21 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4f1e17aa706so20599381cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 01:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1766393925; x=1766998725; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jRoWj6fQIVZ5ec4l8AKBjpMeh7YDL/EPpVGkUu95T8Q=;
- b=Y070gjNPB9qsl+t9kOtEWdR04NWyQMfEM9IAEyC8eEfolwg2sgvipbCWHjQy83kdB8
- EMiticSn1JQrY/S9CZoDX9WOemC7XvZxNwP5jbU28aRy7hwkqnvl0iamwPBUXxNhC63P
- NZwmBC8E1G79nXc1EO6hh9/lIs/SPCVZytHsBvQTC3CkrPRn/+i/gTBni9n/gMH3hCXd
- CPnXm2oc8elR2cChGZmTLSxJc/qx3X1YV8QawdWuRNv02BFs+UAKTSb+oXVRZIM0bNSN
- oa+mE9T3PwasLCTupxUj6WCaCUWW/LaV10WvLAhIih0eluVY8OX70u4VduEtkAMhRjm5
- vNig==
+ d=oss.qualcomm.com; s=google; t=1766394021; x=1766998821;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=;
+ b=UoC2OhXxxTFY2j2eJ2U+6dGQ0Cgi4gPL8aA/sQU4rleRGH8HynemcxrveXzw44ETHa
+ B43jdYGn+LDSykYAPG+wBM7H5lyb/uB/kKYhl0CoSKeobTmdjIq8gT3hov5ACDLAX/Xr
+ gnUUYMq5WESDjb+gzlsaS2aDQo5Q79nZHxPYiNbOHKZ1hI/RnQf0TuDYSciMIiUcIDUm
+ hWiqQdl/sVa+LQrQ8702I+YymUoJwr/YTGsBAwNw8BbKKPAlmbZqdkLImwRfvP4S4zQ9
+ BtdsB8EjcfuSmEvalPbYyif0ee8f+pH+CorrYspZVK5+uG9EqTszBixodBD9bGMVAbr5
+ XQqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766393925; x=1766998725;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jRoWj6fQIVZ5ec4l8AKBjpMeh7YDL/EPpVGkUu95T8Q=;
- b=LmoiboEoT1vlDZBmL/GvzlEpN2s9iCGQHmQ1ae2JljY9Ywjfo4vImLfSkaE+VvJg+3
- 379ppyKUIcnzfw4fh0T2+c5EeoqWZMKZ11u2Lx2N1+m0Pie8lha9sCFs2pmZTGhsXtoP
- KXYDAYxR9erJFoj/g2ovVItKKHcxVCUyrosIxdot3ObkSYcD8kuNHdv5PofNhKmRrmPt
- Wv8EvLH8l2rOVhJ4HXHEO4s1SZQfftRj5RXOu2vNDyrIVxZ8qfVhlem50XayYLvuNtF7
- bf8p7+EjHEAo47/ixnYU+ZmEh4wWwEM/VjRI3iy+i9dIzFZOaaIU+Xl68WS6IxvoD4gx
- Ixdg==
-X-Gm-Message-State: AOJu0YzbY7uqLFVoNf7aUNTyg98vIRbM5d1tqNR8DuPCmpv7yhquXcqe
- QI9TTacXIQ3TlQvb+hA8lR20PF1+ghim/ejqIbOo9LnGd0omB6xEfruoCCVCKbGKROY=
-X-Gm-Gg: AY/fxX5rz5EZZ0mkM2CL9yTKoJifVQLFjVVsLP+WBQHSDYEpNJj6Ok7yT96R/t0m1oE
- q3AregPpVfTLrVRXZaN4jJVa16gV8sahC2+gHARabR92vhZPDTBh+7sNyjgulGBDoK2FHZB7BcW
- hBpwR+IvCljThiEQ0JW6I5OyfPgWDnO1BF7+LRLp0yyYhhO3HqCQTH8FRUZd6Mdhe8vJxOGFg8K
- CjQWp2gutglckvNs/UdceFfMcpUqgJhIc1xLqaLq4O0AwcJCb6hcN/hOE41cPpry5RMp1AY+hFq
- /Vvg+8WwupJ1wR/fzfccOYunqOVQVYZT81sPy9exx17MynlF3+kkaK4wIFLWQI8DqT8tdwW1WlV
- amBm1S7XH10iJRJksQcKDSpFGKJORk7f0BS4LuVjUS9QjdwjZhN7O8d5KLZcCarWH+TCMiZFQm8
- gMJLwuW9nalFSLcy09aQPvHkCPXeX19+S9nc+cxtX1dCH7
-X-Google-Smtp-Source: AGHT+IEjjr2NLFmDrfryDt5WBn7sCmpJeVOqGFgaS3Jyv/31cVGYeFCzkDxyXbjv1PH5pPRcEO8DrQ==
-X-Received: by 2002:a05:6512:3e1f:b0:599:daee:12af with SMTP id
- 2adb3069b0e04-59a126e50bfmr4705785e87.14.1766393924759; 
- Mon, 22 Dec 2025 00:58:44 -0800 (PST)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a186280b1sm2936036e87.89.2025.12.22.00.58.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Dec 2025 00:58:44 -0800 (PST)
-Date: Mon, 22 Dec 2025 10:58:42 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, Bill Mills <bill.mills@linaro.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: Re: [PATCH 0/2] drm: xlnx: zynqmp_kms: 16 bpp fixes for Xorg startup
- on AMD KV260
-Message-ID: <aUkIQjKpd3MhNHjk@nuoska>
-References: <20251205123751.2257694-1-mikko.rapeli@linaro.org>
- <533168f1-1655-4947-9032-b08463f502d7@ideasonboard.com>
- <aUVFUx55XTjb_2nO@nuoska>
+ d=1e100.net; s=20230601; t=1766394021; x=1766998821;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=;
+ b=cOR1CAxALUst7bF5KxbWYs9FWtpdqXH/AzrSe3zqXH6QnmVzISwzUih6WEG3UvZkia
+ I6G8NrzxajodgMeKvy4nHTauYrqTDgmtT0KSIDTeTjg+Cm6+HJ9ZReDnJllzXwlI3z5S
+ 00WsX5dQfkif9R0aMywhGtw2HitrHdPEVDTKEu75+kMBwtolDU4PbQY+8BT/n2Hpt/S/
+ ojK6gLn+UKltnCW+XhvaUZaVUJni72BQDrBtciEY1TswO4UqHJNvU5C4DDjkTAiUo175
+ C4DImQMfXFSo+YXoQ44oHYkNMrBE+huodK5SFd20yxMuMGJtBZgrJ7NzI16Y06j1AK7I
+ 1mQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhLWojaGDxjQvK4f+0yQhW2aqQvcK6dw1uYywYbfTGyLKWXk8G9bIJnM8G7lCNLhm82EmaSWUDC08=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzViKTamYIDgr2awyAkFWak46T77smJ8DIoRb8po686U79SSDTL
+ xJz6xQx9NuAGvQ0u+EIWNKTwaDlkOFkmFHf+oC1sFQp+cYq+0az8J0JKJvoQc/EwmomSE0SsQXw
+ Iz/EjvwcByF8RFstC/Tpw7HM3w7lPyB8GCh6f9wrpJZIse5UtNkbGp5wcpEM4QvBBqo2C3Lk=
+X-Gm-Gg: AY/fxX4nnn5dcELPa7ModRDnUJi16pUbcYGEmYmxHaJLBc51wUsjndxEmFOHbs4xiz4
+ gX5/cB6oLlu2g0xpEiIg9LJF3NXO1gK+gTlMeQOnDM1PfOH1gBwDtSIcNy1pgA3hCh4cvWlft1Y
+ 0DCGVUJNJTrMnGfexMD8qfIpZkdfT6GFS5EPA9hq2H90FBL6CENrg7wgdxaBdcpUbyYIw8R0SdS
+ tYAWn7J142qpep/2rGGz/KmvgEMmY4Rz16f2M4ecdQtukkRwuovHWLP+OZdVmRxJeW7J53LUW91
+ nhzpRbVR0Fe4E9Mr1UY810l5KeaA4/Eyk910SbTQKys4fhlGt/olkid8ouP7qVxIhpKmhZqLEEL
+ RWYPCVNWkGcOi3g2H1/AtrmpXf3AZx7wYjbX0/mgxd4DA5brmwjBy3ntyQcv9W+DltQ==
+X-Received: by 2002:a05:622a:290:b0:4ee:1588:6186 with SMTP id
+ d75a77b69052e-4f4abde8b40mr126852931cf.11.1766394020872; 
+ Mon, 22 Dec 2025 01:00:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEJ3sa2cwix8pdUL8luSbRZkdo1cW7juRVDsscaa4ncFyVB+MukCKD119lgajVKKUHQrCA2Sw==
+X-Received: by 2002:a05:622a:290:b0:4ee:1588:6186 with SMTP id
+ d75a77b69052e-4f4abde8b40mr126852221cf.11.1766394020083; 
+ Mon, 22 Dec 2025 01:00:20 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8037f0cc52sm1005945566b.52.2025.12.22.01.00.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Dec 2025 01:00:19 -0800 (PST)
+Message-ID: <0d442547-db12-4408-a0cb-b3d2bbc723d6@oss.qualcomm.com>
+Date: Mon, 22 Dec 2025 10:00:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUVFUx55XTjb_2nO@nuoska>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/6] soc: qcom: ubwc: Add config for Milos
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20251219-milos-mdss-v1-0-4537a916bdf9@fairphone.com>
+ <20251219-milos-mdss-v1-1-4537a916bdf9@fairphone.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251219-milos-mdss-v1-1-4537a916bdf9@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4MCBTYWx0ZWRfX9l21At6DO+2c
+ SYhr4+4Sewoo+XaqK9EA3TwVY7JR02oKC2nP6sPhYZ+b/OUn3QSfAcF/pPvNc7ReEzEQtSTaVXu
+ qMuVIxMpXzUU1TFpVpgTApMgJGxUl9PhD5cbK0eHRxxRNUp+IfTcfzyoVrEmvtk08Yvup9QKdLR
+ FseG5YISalgLoVo/fPXs4mCEkpd+7BO2v6Gg+8DgmQabZDltwLuC+zkhoErC9A4Rug3mNJiHdxB
+ f8TYA8i7iJ8zzLCOPw7dB6r8Dh8y3zar17XNSQ4HhSLxR3bVIbIwG9fm75DYRrj3cn56KT5s1XK
+ 38trkt6p7fmTDv2pj+oNA0bqMNHic2umpTK9/1bVnL7xvUz1ytJB8sqZcGpIoJgsCq8hse4g5oP
+ guJNzE+V9VVezZwm/Xvujkby81qkR6ks7Z7iggArkZ/ZRQjZXTIpMcaVX1dYUCal9+s40IhlBZi
+ MZOutogo+xZpfDfGFmA==
+X-Proofpoint-GUID: P_W3bHNNL6DA81GK9Hztes4v6EaZKEF7
+X-Proofpoint-ORIG-GUID: P_W3bHNNL6DA81GK9Hztes4v6EaZKEF7
+X-Authority-Analysis: v=2.4 cv=KYbfcAYD c=1 sm=1 tr=0 ts=694908a5 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=6H0WHjuAAAAA:8 a=EUspDBNiAAAA:8
+ a=KB0s8L93-oSB63ZrkccA:9 a=QEXdDO2ut3YA:10 a=AYr37p2UDEkA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=Soq9LBFxuPC4vsCAQt-j:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512220080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,58 +155,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Dec 19, 2025 at 02:30:11PM +0200, Mikko Rapeli wrote:
-> On Fri, Dec 19, 2025 at 01:59:14PM +0200, Tomi Valkeinen wrote:
-> > On 05/12/2025 14:37, Mikko Rapeli wrote:
-> > > Currently on default yocto images Xorg fails to start on AMD KV260
-> > > because 24/32 color depth gets detected but does not actually work.
-> > > 
-> > > These two patches fix the issue and now 16 bpp gets detected
-> > > and Xorg starts and draws on external HDMI display using
-> > > kernel.org based linux-yocto kernel.
-> > > 
-> > > Anatoliy Klymenko (1):
-> > >   drm: xlnx: zynqmp_kms: Init fbdev with 16 bit color
-> > > 
-> > > Mikko Rapeli (1):
-> > >   drm: xlnx: zynqmp_kms: set preferred_depth to 16 bpp
-> > > 
-> > >  drivers/gpu/drm/xlnx/zynqmp_kms.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > 
-> > Did you notice the few already sent serieses on the list where the topic
-> > has been discussed?
+On 12/19/25 5:41 PM, Luca Weiss wrote:
+> Describe the Universal Bandwidth Compression (UBWC) configuration
+> for the Milos SoC.
 > 
-> > [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
-> > [PATCH 0/3] drm: zynqmp: Make the video plane primary
-> 
-> Oh I wasn't aware of these.
-> 
-> > Or is there something else on KV260 that messes up the 24 bit color?
-> 
-> These look very similar and likely fix the X11 startup. I will give them
-> a try.
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
 
-Right, now I've tested:
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
- * these patches from Anatoliy and me to help X11 use 16bpp mode by default
-   and removes the need to manually setup Xorg for 16bpp
- * "drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888" which enables the X11 default
-   24bpp to work, no need to set Xorg config to 16bpp
- * "drm: zynqmp: Make the video plane primary" which also fixes the X11 default
-   24bpp to work, no need to set Xorg config to 16bpp
-
-All of these fix HDMI graphics output on AMD KV260 board with yocto genericarm64 machine
-and core-image-sato image which includes Xorg. The graphics rendering is still
-very slow but I think that is a different problem.
-
-I guess the last series from Sean Anderson is moving forward so I'll
-reply to that thread separately.
-
-Tested-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-
-Cheers,
--Mikko
+Konrad
