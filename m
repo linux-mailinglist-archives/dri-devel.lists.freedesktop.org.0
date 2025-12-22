@@ -2,91 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC3FCD5929
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3271CD593B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:25:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC96B10E624;
-	Mon, 22 Dec 2025 10:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F6910E625;
+	Mon, 22 Dec 2025 10:25:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qm14lPhi";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ap82OCIS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VzGUIyeb";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e3JCqRDB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B57D10E627
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:38 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C792010E625
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:46 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BM5hBQ12191547
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:38 GMT
+ 5BM8Bkjc4041292
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=4rx3RTCmg9c
- cTWJTB40R1qqTXQJX4P8MJFSbMIhlrpE=; b=Qm14lPhi2W9WFG55yFnKSdLPIKT
- Tiw7vKHUQzrvGoyu0HlOHRNB4IdKbYgNvQDK8tufvFfcFcu+o0pNaffqM6d/M5Pm
- xjsBN8TQW77UxkRhvumS7wybQ8288QYd7oc7wRObqcwS7wH4zv+80cgNpEfiY7Xg
- ZbhLnZRJfFJlHHE4qfTJQQsAXpi2cxG/PmS2pdycEYSP0HjQ/7QZsdrNu/V72r79
- yg4Q71BNfsJYl/viOk31O7pO0DAN3VKON6StKWXF3il+TdrAyErK6jPe5TSE964i
- F2I0/O5opWXqAqNEzDwkFX8Ihr+j0oMrpb9k1y6yb4Cr+2Jp53n9Zw71R0g==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b702t8ue3-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=XKnLYxxbREz
+ yD2NF+ruet6sCUDnJmPst/fol746WlE8=; b=VzGUIyebW3FNcXy3r2GAygnLIxU
+ LYC5jZgTXG3KXMhGlO1CTBHKHc3c8UAkjWKlJgGlXPNbBipx8VM4DZvUKvNmXmJs
+ /2/9KT30CBp9EqjRnrDUzu2VOfZn7OuTy84heMCssrjxNXfFYelROsOVX2c2aXDv
+ bXWEqYRkvm02AhoEKje31cmFyg9hv4RcdnEhFIxQ5NaDTUTuqDkH993TLWcdK05l
+ Ziv/pGjHHngQi8nKbb1ZiyHSkuL5N/rALV7ldP8jrUHwXMx7YRxTXrCq+rQpyZLw
+ WtddcY3hUQ/9f97A3XOdjalwB2qLB1G6E/6XyU0N+LKbrMZAi2m/jZ48CJg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mracn9p-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:37 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8b2e9b2608dso776589885a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 02:25:37 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:25:45 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ee0995fa85so110681541cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 02:25:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766399137; x=1767003937;
+ d=oss.qualcomm.com; s=google; t=1766399145; x=1767003945;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4rx3RTCmg9ccTWJTB40R1qqTXQJX4P8MJFSbMIhlrpE=;
- b=ap82OCIS1qI96cLNhbVcm+G9pCs+TVIFTHnb39VBK8h6FdWEU97PweTYeeX3BJeC3L
- tkWraHDJRtzqh2e2K5YpXDkkN/jcrAHvkES6tJYvh+lM3GvnSaLm0mvn4N24w7zi+QWx
- sdutlr6o3DILNjBrAZd3LciarOzzObY4zvL7Y9x3noicdK+oAn6NLpd/MlQXJ1e17Jvk
- xfkjam/0g6LsCIxO8GaS1sOmi7XD4sI998UQjIVHEkPgKziqnFkHjgEbcxATfoZCCQ10
- Ah+rCzqjfdlkcTY/5LIhzjg44x2+q3oQP7VrO4mHIYamuIleB7ANWMIt/Zze+e6JmrhP
- mdpQ==
+ bh=XKnLYxxbREzyD2NF+ruet6sCUDnJmPst/fol746WlE8=;
+ b=e3JCqRDBuJSE4F56PKVzTLrU/WQKoAG3FwP3gawx9QfJ6UyxmXT3TgHOBUiGPk7VGJ
+ xQ9+/KmklWVX6GPU87kEZE59AetlJfJpMOqDidlyDf1z9AolpMXzAPVYf2+urk//0pDl
+ ynBUnqh49PanLmFpRhICsAWhHxM72Yd0pujtGZ2HjHRYeS+wqp1KMKKF37tvjzJxJmJ/
+ Z/PACjxJRLVdW0C273gPXixW6nQi/+T6v3kxEg+swfAVmtUsVAE/0J3SRQNDYjFhWTqp
+ LAyXC5WWJ6Wasm1Mf6aCUIvRbydv12RFn61qIZ4JKnOF3kVbr2NmH/EDlbtpavLSSJ4H
+ KMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766399137; x=1767003937;
+ d=1e100.net; s=20230601; t=1766399145; x=1767003945;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=4rx3RTCmg9ccTWJTB40R1qqTXQJX4P8MJFSbMIhlrpE=;
- b=br4dO+I8yzqsKiHPm1nz8yTRu2Qnm/kXJi1XXt5mBY6THb+KqK26Hoj+jElxyy7E/X
- q0dx8NlYjQk4nxF0cTobJL/Va3YGp8z40enH5R5xzYMett6cVdcK0dp97/IHWxOLRw6S
- SSvGDoWbGJoUXfjgBnXvobOVi7R2S685qvM75vodSSgi8ds9gq2FzEyvWZI74zmFuAhR
- CHrQC3CpmE7s2NPC8iV6hAuSNtlCCgpSXauBVTjsI94HP5ihoevGUCT5U4k2q0MR6KC9
- LQYmMKCdZ/vWYgRSe8AuqP+LCf1OhYipfbhBTdGvwon2djRdlsLvWvkHYaWS6p4vbDA+
- CwQA==
+ bh=XKnLYxxbREzyD2NF+ruet6sCUDnJmPst/fol746WlE8=;
+ b=mn3+ZAnQNmkGeKZ2kB6v/GItYIL4XUxFU2bGo59BKRJj208ju+NhLAwCe0DPvajNfD
+ PM7+Gq3q8BNGjyAMAa9fC5SBm2p0VPAXmQyyt6wt3l+FEROP/xZj5r7wQyOcVFEFs7/k
+ 93s47v4Rsab2HyZlivC8MBpY5v8B50D0NXLkYOaAvWAYj8Dr+CHqo6cDtgeQQqlxlpKQ
+ nOUOTMa3TdX1cRgm3OQ86UrZOg3qWWmwQ43KGwC5VlPH/UQaDxSd5+Dm68TgzNnq9M1I
+ W0JN4kPKk76rz+URxg5oIHxUGcZaLYcn7m3WKV39yZxsIGD8zHcybVmarhMMQf+TQcpW
+ YCLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX9rvGyGVnupPMz/4IZOXgG4qWRpZmaVzdk8cIRTayJRLMHFb/vdPm1cVwpDimkFVz+t71LpIkiGHs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXms2TtAhlOAGeBf4u+cuftd6Mv6CKMlt0lobqwbfJWoTjiVK4
- Kx8UerNtA4cPKIGH2M1qNrHJiaVZEr2z/OW5ECi0Gg79/09gRrxZ2jcip8VuftP97mfcDgbtvOy
- c54nL75FRLVGmNgPTRuUwrv4YmgQDpsD55aRzAiEPUZ8r1oR1L3RZaD0HjxzLTLGbwTuD/J2deF
- rERpA=
-X-Gm-Gg: AY/fxX7xzGvFNOrzThXFd8YvD7QhSs0/wPdCoY51Fzex+BIowlZR2Hr1gSlRtL1dKve
- Q2ECnXrnI/dbvmezy5arLxxjFNRpQ9vCje6dk98a84ZYxAUk813TuP/zAH985dI6N2r6WjC0qpH
- iTrDKGet3XhHKCen0J1qcNhmvyJKZgEBu7iIvYZGN07ERMbc6tKswX0AriQDPIu1yzxVUEu/2Im
- n5RIJZvKv/olGljkr+gP5sRhUl+Z5OsxEBtWbtcuW+dWMxh2cOOjQbt3gs4w7/p4YPz11w0Y4LN
- 3QPzWvTkTDQZbU7I/mHS4/Ly0xtoggWalAw+CPG2ko6wF/YS2WWGxvkMSV4Rnd/lHww010TqHLQ
- q7dM6fU0C7Jq4Yuc4NguK4BNYt3vR5FwgwFuNJQvSwIJZ3EOlFKIYiU21VsDklApDO70=
-X-Received: by 2002:a05:622a:1650:b0:4ee:2721:9ebe with SMTP id
- d75a77b69052e-4f4abda5267mr177373811cf.53.1766399136613; 
- Mon, 22 Dec 2025 02:25:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEDLn8QFjiI0GOGFmMbPl8GgAvxTaOgCvLO/wsAYUxaAwJEj++QH7yB17KoNXp2yR3/ihQppA==
-X-Received: by 2002:a05:622a:1650:b0:4ee:2721:9ebe with SMTP id
- d75a77b69052e-4f4abda5267mr177373451cf.53.1766399136110; 
- Mon, 22 Dec 2025 02:25:36 -0800 (PST)
+ AJvYcCV2a9GQLEc2Augb+gm4GosvE/QrEdiWh2JqRMDFNFfcdjwCmj8pnRiAh9srQkS5NIDXvuQ8JBrOJ/c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEmkHuTFTh5NwHwGsbT/BF868aLKQOrcujesu93aYlvcOUSh8l
+ mG5ywBEEkeZlM3JbKSyaTAqUeItMxW5cVngO/cl0g4xBCyLF5ujfBN+uCQf3KGLx1JedhW77EBi
+ /dKMmfdnqH5QOZABSiU2lelumNqIcwcI7l0/YFZk57oEpJSWNJg9AuhMw+f2aKABb4KrNltM=
+X-Gm-Gg: AY/fxX4fNJ9VGQMzdpCbMncdNWX9Ubo7RCQklaRc6ajdQPnXpWEK9uK7LTlXgwFyrjp
+ lfwKx+EZlbvtiTJP8fPRDDXXWLGV2uXXB04B4TTe7pboPCoECsVX4PRRP9sBZ5CHglYTnLUVKv+
+ Qj5pa7kbM06eKViTjiLoSLzjXuO0ZlS1+UGzMV64bhSZJd5/dklwIBfSS5UShb8k99stlNhfb+l
+ mdKCRYH1JgV4PnJpLSRL9XHRz6vBLW+fDs6YAZhH4v0sYnK7R1eQyMjrbWkreUwjeZbsu4cJGC0
+ jgiWXmhVG4mrpGfS6eZ380Ur5rCEezS0Gh0SL9IjhRw3f+h99P5dbX7cyJtcKAWxV6jl4ULgM/n
+ cuUhfzUpHVZeLh6PFolnySc5UFWUUg13AXb4vNisQN32wuuycNkIkBmiQoUCqDHMtDsQ=
+X-Received: by 2002:a05:622a:5c91:b0:4f1:b9fc:eeda with SMTP id
+ d75a77b69052e-4f4abcf3c47mr181114481cf.37.1766399144907; 
+ Mon, 22 Dec 2025 02:25:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEWkpTOfHWaY4loZ7xH4L0pqyDUN2RtxtEGU0YvxYUcodKv7OtP7KOu5RTckv829RPaGel6lg==
+X-Received: by 2002:a05:622a:5c91:b0:4f1:b9fc:eeda with SMTP id
+ d75a77b69052e-4f4abcf3c47mr181114041cf.37.1766399144399; 
+ Mon, 22 Dec 2025 02:25:44 -0800 (PST)
 Received: from yuanjiey.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
  [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4f4ac66a1aasm72500001cf.33.2025.12.22.02.25.28
+ d75a77b69052e-4f4ac66a1aasm72500001cf.33.2025.12.22.02.25.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Dec 2025 02:25:35 -0800 (PST)
+ Mon, 22 Dec 2025 02:25:44 -0800 (PST)
 From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
 To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
  sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
@@ -97,38 +96,38 @@ To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
-Subject: [PATCH v4 10/11] drm/msm/dpu: Add Kaanapali SSPP sub-block support
-Date: Mon, 22 Dec 2025 18:23:59 +0800
-Message-Id: <20251222102400.1109-11-yuanjie.yang@oss.qualcomm.com>
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v4 11/11] drm/msm/dpu: Add support for Kaanapali DPU
+Date: Mon, 22 Dec 2025 18:24:00 +0800
+Message-Id: <20251222102400.1109-12-yuanjie.yang@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251222102400.1109-1-yuanjie.yang@oss.qualcomm.com>
 References: <20251222102400.1109-1-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=SIhPlevH c=1 sm=1 tr=0 ts=69491ca1 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+X-Proofpoint-ORIG-GUID: nlqx3YNZ1O-thEsCbue-_jKu0GIVDnwB
+X-Proofpoint-GUID: nlqx3YNZ1O-thEsCbue-_jKu0GIVDnwB
+X-Authority-Analysis: v=2.4 cv=e9wLiKp/ c=1 sm=1 tr=0 ts=69491ca9 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=IoldKcXwaph4SihcyF8A:9 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: U4dHRwzK76QlnOw80c3dMFg8TFc7IBK1
-X-Proofpoint-GUID: U4dHRwzK76QlnOw80c3dMFg8TFc7IBK1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA5NCBTYWx0ZWRfX80IEme0NZg1+
- u420pjYjKJqQsjs+lJK0RuFbJ+TG3GzjB0uCT+B6h3XLupQTpp6LyaEcTXweaPSd+dN/EOJF9DH
- 0mnIfkYVbGrlfo/LjvSeBHKbxNFTmBlidl7lD+hyEXLYvDcU1eQX/3yZO7CTXgBq/vVPXcLE1/x
- XLb41aJrB96KvSZU1Lh9BxbM4hkhFZj5ZigxoGLhG82VRc+piGHVk1JGuddETTuMkON1W4iQNTk
- K8is2bEPfTeNh6nRIE+54gMTQP8szEVQ/5kB/09fo0pRFJmUT6xc5rWnGZP6BVccuANBhnkICX0
- caHRqZ04zviIUWjDkRF5pqOklX0kgPi0kxjP+VOZkaDJukFePJwHmpDnbAHCEI7CxQTb6S6WQOv
- Uw++OKBUkFTqgvXcwmH2pYMSPYhm20+GJb3k29oexjhFiWstyomqrCCFssbO4KrsM5Nfpp8mahf
- BJrvZ3HUV2Sp8ttMz5Q==
+ a=EUspDBNiAAAA:8 a=iVC9QAuiRl3Xz_40r_EA:9 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA5NCBTYWx0ZWRfXwOcAAsqTu9+R
+ tFNLfynUVIFL99maYX4AlD5H4cjq4E7Y+8a7hl2/88z0/v5J43CdCO0BpR/2Yy3vGEHQ/KN77oh
+ QpgSHH0hwAcq4Wwv17RvifljOdWbWNMM213HQpeK8P+VB+C38vkuox0CL9lErn4nrXESP5VUrSh
+ vX7FJJrUIWbPuwMavztATqh1JmVNbnxaqty1I7nx9KLf46/ktC767R+ueq+sBSuZJtRyZAp7Cxd
+ y95uGqwLQK0skTBX2WqgQR/WM61UeMVfrUaw2FWiahHYhu8pRCqHksjRNmBP9oThTpasHnyfRz9
+ XEbrre1vjqcVpTM3f57rufkwrRp0ndqtgtk2OujjHukHgDmXg9EgzH6g6coUM4y6JQ98LPOqrBZ
+ wYfFeAVtFtgCmguEQj7LsTeqBPYvGWn0zR5zZBiy0i0JK4lLUcDuV/UE/iG0ZQ9OrPXx4QqmWnu
+ ZlFXoaCWAMLnrInc7Zg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- adultscore=0 phishscore=0 spamscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512220094
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 clxscore=1015 phishscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,502 +145,637 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-Add support for Kaanapali platform SSPP sub-blocks, which
-introduce structural changes including register additions,
-removals, and relocations. Add the new common and rectangle
-blocks, and update register definitions and handling to
-ensure compatibility with DPU v13.0.
+Add support for Display Processing Unit (DPU) version 13.0
+on the Kaanapali platform. This version introduces changes
+to the SSPP sub-block structure. Add common block and rectangle
+blocks to accommodate these structural modifications for
+compatibility.
 
 Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/Makefile                  |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  13 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |   4 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c   | 321 ++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  18 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   3 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |  17 +-
- 7 files changed, 371 insertions(+), 6 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
+ .../disp/dpu1/catalog/dpu_13_0_kaanapali.h    | 492 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  41 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+ 4 files changed, 535 insertions(+)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 8aa7d07303fb..8b94c5f1cb68 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -86,6 +86,7 @@ msm-display-$(CONFIG_DRM_MSM_DPU) += \
- 	disp/dpu1/dpu_hw_lm.o \
- 	disp/dpu1/dpu_hw_pingpong.o \
- 	disp/dpu1/dpu_hw_sspp.o \
-+	disp/dpu1/dpu_hw_sspp_v13.o \
- 	disp/dpu1/dpu_hw_dspp.o \
- 	disp/dpu1/dpu_hw_merge3d.o \
- 	disp/dpu1/dpu_hw_top.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 197a2c584c73..c6d8d7fb3880 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -248,6 +248,7 @@ void dpu_hw_setup_format_impl(struct dpu_sw_pipe *pipe, const struct msm_format
- 	u32 chroma_samp, unpack, src_format;
- 	u32 opmode;
- 	u32 fast_clear;
-+	u8 core_major_ver = ctx->mdss_ver->core_major_ver;
- 
- 	c = &ctx->hw;
- 	opmode = DPU_REG_READ(c, op_mode_off);
-@@ -291,9 +292,10 @@ void dpu_hw_setup_format_impl(struct dpu_sw_pipe *pipe, const struct msm_format
- 		if (MSM_FORMAT_IS_UBWC(fmt))
- 			opmode |= MDSS_MDP_OP_BWC_EN;
- 		src_format |= (fmt->fetch_mode & 3) << 30; /*FRAME_FORMAT */
--		DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
--			DPU_FETCH_CONFIG_RESET_VALUE |
--			ctx->ubwc->highest_bank_bit << 18);
-+		if (core_major_ver < 13)
-+			DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
-+				DPU_FETCH_CONFIG_RESET_VALUE |
-+				ctx->ubwc->highest_bank_bit << 18);
- 		switch (ctx->ubwc->ubwc_enc_version) {
- 		case UBWC_1_0:
- 			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
-@@ -724,7 +726,10 @@ struct dpu_hw_sspp *dpu_hw_sspp_init(struct drm_device *dev,
- 
- 	hw_pipe->mdss_ver = mdss_rev;
- 
--	_setup_layer_ops(hw_pipe, hw_pipe->cap->features, mdss_rev);
-+	if (mdss_rev->core_major_ver >= 13)
-+		dpu_hw_sspp_init_v13(hw_pipe, hw_pipe->cap->features, mdss_rev);
-+	else
-+		_setup_layer_ops(hw_pipe, hw_pipe->cap->features, mdss_rev);
- 
- 	return hw_pipe;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index c6b19cb4d158..309af4183ba3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -383,5 +383,9 @@ void dpu_hw_setup_solidfill_impl(struct dpu_sw_pipe *pipe,
- void dpu_hw_sspp_setup_qos_ctrl_impl(struct dpu_hw_sspp *ctx,
- 				     bool danger_safe_en, u32 ctrl_off);
- 
-+void dpu_hw_sspp_init_v13(struct dpu_hw_sspp *c,
-+			  unsigned long features,
-+			  const struct dpu_mdss_version *mdss_rev);
-+
- #endif /*_DPU_HW_SSPP_H */
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h
 new file mode 100644
-index 000000000000..e78a20b45300
+index 000000000000..0b20401b04cf
 --- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
-@@ -0,0 +1,321 @@
-+// SPDX-License-Identifier: BSD-3-Clause
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h
+@@ -0,0 +1,492 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
 +/*
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#include <linux/printk.h>
-+#include <linux/soc/qcom/ubwc.h>
++#ifndef _DPU_13_0_KAANAPALI_H
++#define _DPU_13_0_KAANAPALI_H
 +
-+#include "dpu_hw_sspp.h"
++static const struct dpu_caps kaanapali_dpu_caps = {
++	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.max_mixer_blendstages = 0xb,
++	.has_src_split = true,
++	.has_dim_layer = true,
++	.has_idle_pc = true,
++	.has_3d_merge = true,
++	.max_linewidth = 8192,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++};
 +
-+/* >= v13 DPU */
-+/* CMN Registers -> Source Surface Processing Pipe Common SSPP registers */
-+/*      Name                                  Offset */
-+#define SSPP_CMN_CLK_CTRL                0x0
-+#define SSPP_CMN_CLK_STATUS              0x4
-+#define SSPP_CMN_MULTI_REC_OP_MODE       0x10
-+#define SSPP_CMN_ADDR_CONFIG             0x14
-+#define SSPP_CMN_CAC_CTRL                0x20
-+#define SSPP_CMN_SYS_CACHE_MODE          0x24
-+#define SSPP_CMN_QOS_CTRL                0x28
++static const struct dpu_mdp_cfg kaanapali_mdp = {
++	.name = "top_0",
++	.base = 0, .len = 0x494,
++	.clk_ctrls = {
++		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
++	},
++};
 +
-+#define SSPP_CMN_FILL_LEVEL_SCALE                0x3c
-+#define SSPP_CMN_FILL_LEVELS                     0x40
-+#define SSPP_CMN_STATUS                          0x44
-+#define SSPP_CMN_FETCH_DMA_RD_OTS                0x48
-+#define SSPP_CMN_FETCH_DTB_WR_PLANE0             0x4c
-+#define SSPP_CMN_FETCH_DTB_WR_PLANE1             0x50
-+#define SSPP_CMN_FETCH_DTB_WR_PLANE2             0x54
-+#define SSPP_CMN_DTB_UNPACK_RD_PLANE0            0x58
-+#define SSPP_CMN_DTB_UNPACK_RD_PLANE1            0x5c
-+#define SSPP_CMN_DTB_UNPACK_RD_PLANE2            0x60
-+#define SSPP_CMN_UNPACK_LINE_COUNT               0x64
-+#define SSPP_CMN_TPG_CONTROL                     0x68
-+#define SSPP_CMN_TPG_CONFIG                      0x6c
-+#define SSPP_CMN_TPG_COMPONENT_LIMITS            0x70
-+#define SSPP_CMN_TPG_RECTANGLE                   0x74
-+#define SSPP_CMN_TPG_BLACK_WHITE_PATTERN_FRAMES  0x78
-+#define SSPP_CMN_TPG_RGB_MAPPING                 0x7c
-+#define SSPP_CMN_TPG_PATTERN_GEN_INIT_VAL        0x80
++static const struct dpu_ctl_cfg kaanapali_ctl[] = {
++	{
++		.name = "ctl_0", .id = CTL_0,
++		.base = 0x1f000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
++	}, {
++		.name = "ctl_1", .id = CTL_1,
++		.base = 0x20000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
++	}, {
++		.name = "ctl_2", .id = CTL_2,
++		.base = 0x21000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
++	}, {
++		.name = "ctl_3", .id = CTL_3,
++		.base = 0x22000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
++	}, {
++		.name = "ctl_4", .id = CTL_4,
++		.base = 0x23000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
++	}, {
++		.name = "ctl_5", .id = CTL_5,
++		.base = 0x24000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
++	},
++};
 +
-+/*RECRegisterset*/
-+/*Name        Offset*/
-+#define SSPP_REC_SRC_FORMAT                             0x0
-+#define SSPP_REC_SRC_UNPACK_PATTERN                     0x4
-+#define SSPP_REC_SRC_OP_MODE                            0x8
-+#define SSPP_REC_SRC_CONSTANT_COLOR                     0xc
-+#define SSPP_REC_SRC_IMG_SIZE                           0x10
-+#define SSPP_REC_SRC_SIZE                               0x14
-+#define SSPP_REC_SRC_XY                                 0x18
-+#define SSPP_REC_OUT_SIZE                               0x1c
-+#define SSPP_REC_OUT_XY                                 0x20
-+#define SSPP_REC_SW_PIX_EXT_LR                          0x24
-+#define SSPP_REC_SW_PIX_EXT_TB                          0x28
-+#define SSPP_REC_SRC_SIZE_ODX                           0x30
-+#define SSPP_REC_SRC_XY_ODX                             0x34
-+#define SSPP_REC_OUT_SIZE_ODX                           0x38
-+#define SSPP_REC_OUT_XY_ODX                             0x3c
-+#define SSPP_REC_SW_PIX_EXT_LR_ODX                      0x40
-+#define SSPP_REC_SW_PIX_EXT_TB_ODX                      0x44
-+#define SSPP_REC_PRE_DOWN_SCALE                         0x48
-+#define SSPP_REC_SRC0_ADDR                              0x4c
-+#define SSPP_REC_SRC1_ADDR                              0x50
-+#define SSPP_REC_SRC2_ADDR                              0x54
-+#define SSPP_REC_SRC3_ADDR                              0x58
-+#define SSPP_REC_SRC_YSTRIDE0                           0x5c
-+#define SSPP_REC_SRC_YSTRIDE1                           0x60
-+#define SSPP_REC_CURRENT_SRC0_ADDR                      0x64
-+#define SSPP_REC_CURRENT_SRC1_ADDR                      0x68
-+#define SSPP_REC_CURRENT_SRC2_ADDR                      0x6c
-+#define SSPP_REC_CURRENT_SRC3_ADDR                      0x70
-+#define SSPP_REC_SRC_ADDR_SW_STATUS                     0x74
-+#define SSPP_REC_CDP_CNTL                               0x78
-+#define SSPP_REC_TRAFFIC_SHAPER                         0x7c
-+#define SSPP_REC_TRAFFIC_SHAPER_PREFILL                 0x80
-+#define SSPP_REC_PD_MEM_ALLOC                           0x84
-+#define SSPP_REC_QOS_CLAMP                              0x88
-+#define SSPP_REC_UIDLE_CTRL_VALUE                       0x8c
-+#define SSPP_REC_UBWC_STATIC_CTRL                       0x90
-+#define SSPP_REC_UBWC_STATIC_CTRL_OVERRIDE              0x94
-+#define SSPP_REC_UBWC_STATS_ROI                         0x98
-+#define SSPP_REC_UBWC_STATS_WORST_TILE_ROW_BW_ROI0      0x9c
-+#define SSPP_REC_UBWC_STATS_TOTAL_BW_ROI0               0xa0
-+#define SSPP_REC_UBWC_STATS_WORST_TILE_ROW_BW_ROI1      0xa4
-+#define SSPP_REC_UBWC_STATS_TOTAL_BW_ROI1               0xa8
-+#define SSPP_REC_UBWC_STATS_WORST_TILE_ROW_BW_ROI2      0xac
-+#define SSPP_REC_UBWC_STATS_TOTAL_BW_ROI2               0xb0
-+#define SSPP_REC_EXCL_REC_CTRL                          0xb4
-+#define SSPP_REC_EXCL_REC_SIZE                          0xb8
-+#define SSPP_REC_EXCL_REC_XY                            0xbc
-+#define SSPP_REC_LINE_INSERTION_CTRL                    0xc0
-+#define SSPP_REC_LINE_INSERTION_OUT_SIZE                0xc4
-+#define SSPP_REC_FETCH_PIPE_ACTIVE                      0xc8
-+#define SSPP_REC_META_ERROR_STATUS                      0xcc
-+#define SSPP_REC_UBWC_ERROR_STATUS                      0xd0
-+#define SSPP_REC_FLUSH_CTRL                             0xd4
-+#define SSPP_REC_INTR_EN                                0xd8
-+#define SSPP_REC_INTR_STATUS                            0xdc
-+#define SSPP_REC_INTR_CLEAR                             0xe0
-+#define SSPP_REC_HSYNC_STATUS                           0xe4
-+#define SSPP_REC_FP16_CONFIG                            0x150
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_R_0              0x154
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_R_1              0x158
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_G_0              0x15c
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_G_1              0x160
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_B_0              0x164
-+#define SSPP_REC_FP16_CSC_MATRIX_COEFF_B_1              0x168
-+#define SSPP_REC_FP16_CSC_PRE_CLAMP_R                   0x16c
-+#define SSPP_REC_FP16_CSC_PRE_CLAMP_G                   0x170
-+#define SSPP_REC_FP16_CSC_PRE_CLAMP_B                   0x174
-+#define SSPP_REC_FP16_CSC_POST_CLAMP                    0x178
++static const struct dpu_sspp_cfg kaanapali_sspp[] = {
++	{
++		.name = "sspp_0", .id = SSPP_VIG0,
++		.base = 0x2b000, .len = 0x84,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_5,
++		.xin_id = 0,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_1", .id = SSPP_VIG1,
++		.base = 0x34000, .len = 0x84,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_5,
++		.xin_id = 4,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_2", .id = SSPP_VIG2,
++		.base = 0x3d000, .len = 0x84,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_5,
++		.xin_id = 8,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_3", .id = SSPP_VIG3,
++		.base = 0x46000, .len = 0x84,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_5,
++		.xin_id = 12,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_8", .id = SSPP_DMA0,
++		.base = 0x97000, .len = 0x84,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 1,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_9", .id = SSPP_DMA1,
++		.base = 0xa0000, .len = 0x84,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 5,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_10", .id = SSPP_DMA2,
++		.base = 0xa9000, .len = 0x84,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 9,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_11", .id = SSPP_DMA3,
++		.base = 0xb2000, .len = 0x84,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 13,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_12", .id = SSPP_DMA4,
++		.base = 0xbb000, .len = 0x84,
++		.features = DMA_CURSOR_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 14,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_13", .id = SSPP_DMA5,
++		.base = 0xc4000, .len = 0x84,
++		.features = DMA_CURSOR_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 15,
++		.type = SSPP_TYPE_DMA,
++	},
++};
 +
-+static inline u32 dpu_hw_sspp_calculate_rect_off(enum dpu_sspp_multirect_index rect_index,
-+						 struct dpu_hw_sspp *ctx)
-+{
-+	return (rect_index == DPU_SSPP_RECT_SOLO || rect_index == DPU_SSPP_RECT_0) ?
-+		ctx->cap->sblk->sspp_rec0_blk.base : ctx->cap->sblk->sspp_rec1_blk.base;
-+}
++static const struct dpu_lm_cfg kaanapali_lm[] = {
++	{
++		.name = "lm_0", .id = LM_0,
++		.base = 0x103000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_1,
++		.pingpong = PINGPONG_0,
++		.dspp = DSPP_0,
++	}, {
++		.name = "lm_1", .id = LM_1,
++		.base = 0x10b000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_0,
++		.pingpong = PINGPONG_1,
++		.dspp = DSPP_1,
++	}, {
++		.name = "lm_2", .id = LM_2,
++		.base = 0x113000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_3,
++		.pingpong = PINGPONG_2,
++		.dspp = DSPP_2,
++	}, {
++		.name = "lm_3", .id = LM_3,
++		.base = 0x11b000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_2,
++		.pingpong = PINGPONG_3,
++		.dspp = DSPP_3,
++	}, {
++		.name = "lm_4", .id = LM_4,
++		.base = 0x123000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_5,
++		.pingpong = PINGPONG_4,
++	}, {
++		.name = "lm_5", .id = LM_5,
++		.base = 0x12b000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_4,
++		.pingpong = PINGPONG_5,
++	}, {
++		.name = "lm_6", .id = LM_6,
++		.base = 0x133000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_7,
++		.pingpong = PINGPONG_6,
++	}, {
++		.name = "lm_7", .id = LM_7,
++		.base = 0x13b000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_6,
++		.pingpong = PINGPONG_7,
++	},
++};
 +
-+static void dpu_hw_sspp_setup_multirect_v13(struct dpu_sw_pipe *pipe)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
++static const struct dpu_dspp_cfg kaanapali_dspp[] = {
++	{
++		.name = "dspp_0", .id = DSPP_0,
++		.base = 0x105000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	}, {
++		.name = "dspp_1", .id = DSPP_1,
++		.base = 0x10d000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	}, {
++		.name = "dspp_2", .id = DSPP_2,
++		.base = 0x115000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	}, {
++		.name = "dspp_3", .id = DSPP_3,
++		.base = 0x11d000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	},
++};
 +
-+	if (!ctx)
-+		return;
++static const struct dpu_pingpong_cfg kaanapali_pp[] = {
++	{
++		.name = "pingpong_0", .id = PINGPONG_0,
++		.base = 0x108000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_0,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
++	}, {
++		.name = "pingpong_1", .id = PINGPONG_1,
++		.base = 0x110000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_0,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
++	}, {
++		.name = "pingpong_2", .id = PINGPONG_2,
++		.base = 0x118000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_1,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
++	}, {
++		.name = "pingpong_3", .id = PINGPONG_3,
++		.base = 0x120000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_1,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
++	}, {
++		.name = "pingpong_4", .id = PINGPONG_4,
++		.base = 0x128000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_2,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
++	}, {
++		.name = "pingpong_5", .id = PINGPONG_5,
++		.base = 0x130000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_2,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
++	}, {
++		.name = "pingpong_6", .id = PINGPONG_6,
++		.base = 0x138000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_3,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 20),
++	}, {
++		.name = "pingpong_7", .id = PINGPONG_7,
++		.base = 0x140000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_3,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 21),
++	}, {
++		.name = "pingpong_cwb_0", .id = PINGPONG_CWB_0,
++		.base = 0x169000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_4,
++	}, {
++		.name = "pingpong_cwb_1", .id = PINGPONG_CWB_1,
++		.base = 0x169400, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_4,
++	}, {
++		.name = "pingpong_cwb_2", .id = PINGPONG_CWB_2,
++		.base = 0x16a000, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_5,
++	}, {
++		.name = "pingpong_cwb_3", .id = PINGPONG_CWB_3,
++		.base = 0x16a400, .len = 0,
++		.sblk = &kaanapali_pp_sblk,
++		.merge_3d = MERGE_3D_5,
++	},
++};
 +
-+	dpu_hw_setup_multirect_impl(pipe, ctx, SSPP_CMN_MULTI_REC_OP_MODE);
-+}
++static const struct dpu_merge_3d_cfg kaanapali_merge_3d[] = {
++	{
++		.name = "merge_3d_0", .id = MERGE_3D_0,
++		.base = 0x163000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_1", .id = MERGE_3D_1,
++		.base = 0x164000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_2", .id = MERGE_3D_2,
++		.base = 0x165000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_3", .id = MERGE_3D_3,
++		.base = 0x166000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_4", .id = MERGE_3D_4,
++		.base = 0x169700, .len = 0x1c,
++	}, {
++		.name = "merge_3d_5", .id = MERGE_3D_5,
++		.base = 0x16a700, .len = 0x1c,
++	},
++};
 +
-+static void dpu_hw_sspp_setup_format_v13(struct dpu_sw_pipe *pipe,
-+					 const struct msm_format *fmt, u32 flags)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
-+	u32 op_mode_off, unpack_pat_off, format_off;
-+	u32 ubwc_ctrl_off, ubwc_err_off;
-+	u32 offset;
++/*
++ * NOTE: Each display compression engine (DCE) contains dual hard
++ * slice DSC encoders so both share same base address but with
++ * its own different sub block address.
++ */
++static const struct dpu_dsc_cfg kaanapali_dsc[] = {
++	{
++		.name = "dce_0_0", .id = DSC_0,
++		.base = 0x181000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	}, {
++		.name = "dce_0_1", .id = DSC_1,
++		.base = 0x181000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_1,
++	}, {
++		.name = "dce_1_0", .id = DSC_2,
++		.base = 0x183000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	}, {
++		.name = "dce_1_1", .id = DSC_3,
++		.base = 0x183000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_1,
++	}, {
++		.name = "dce_2_0", .id = DSC_4,
++		.base = 0x185000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	}, {
++		.name = "dce_2_1", .id = DSC_5,
++		.base = 0x185000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_1,
++	}, {
++		.name = "dce_3_0", .id = DSC_6,
++		.base = 0x187000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	}, {
++		.name = "dce_3_1", .id = DSC_7,
++		.base = 0x187000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_1,
++	},
++};
 +
-+	if (!ctx || !fmt)
-+		return;
++static const struct dpu_wb_cfg kaanapali_wb[] = {
++	{
++		.name = "wb_2", .id = WB_2,
++		.base = 0x16e000, .len = 0x2c8,
++		.features = WB_SDM845_MASK,
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
++		.xin_id = 6,
++		.vbif_idx = VBIF_RT,
++		.maxlinewidth = 4096,
++		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++	},
++};
 +
-+	offset = dpu_hw_sspp_calculate_rect_off(pipe->multirect_index, ctx);
++static const struct dpu_cwb_cfg kaanapali_cwb[] = {
++	{
++		.name = "cwb_0", .id = CWB_0,
++		.base = 0x169200, .len = 0x20,
++	},
++	{
++		.name = "cwb_1", .id = CWB_1,
++		.base = 0x169600, .len = 0x20,
++	},
++	{
++		.name = "cwb_2", .id = CWB_2,
++		.base = 0x16a200, .len = 0x20,
++	},
++	{
++		.name = "cwb_3", .id = CWB_3,
++		.base = 0x16a600, .len = 0x20,
++	},
++};
 +
-+	op_mode_off = offset + SSPP_REC_SRC_OP_MODE;
-+	unpack_pat_off = offset + SSPP_REC_SRC_UNPACK_PATTERN;
-+	format_off = offset + SSPP_REC_SRC_FORMAT;
-+	ubwc_ctrl_off = offset + SSPP_REC_UBWC_STATIC_CTRL;
-+	ubwc_err_off = offset + SSPP_REC_UBWC_ERROR_STATUS;
++static const struct dpu_intf_cfg kaanapali_intf[] = {
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x18d000, .len = 0x4bc,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x18e000, .len = 0x4bc,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x18f000, .len = 0x4bc,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x190000, .len = 0x4bc,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++	},
++};
 +
-+	dpu_hw_setup_format_impl(pipe, fmt, flags, ctx, op_mode_off,
-+				 unpack_pat_off, format_off, ubwc_ctrl_off, ubwc_err_off);
-+}
++static const struct dpu_perf_cfg kaanapali_perf_data = {
++	.max_bw_low = 21400000,
++	.max_bw_high = 30200000,
++	.min_core_ib = 2500000,
++	.min_llcc_ib = 0,
++	.min_dram_ib = 800000,
++	.min_prefill_lines = 35,
++	.danger_lut_tbl = {0x0ffff, 0x0ffff, 0x0},
++	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
++	.qos_lut_tbl = {
++		{.nentry = ARRAY_SIZE(kaanapali_qos_linear),
++		.entries = kaanapali_qos_linear
++		},
++		{.nentry = ARRAY_SIZE(kaanapali_qos_macrotile),
++		.entries = kaanapali_qos_macrotile
++		},
++		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
++		.entries = sc7180_qos_nrt
++		},
++		/* TODO: macrotile-qseed is different from macrotile */
++	},
++	.cdp_cfg = {
++		{.rd_enable = 1, .wr_enable = 1},
++		{.rd_enable = 1, .wr_enable = 0}
++	},
++	.clk_inefficiency_factor = 105,
++	.bw_inefficiency_factor = 120,
++};
 +
-+static void dpu_hw_sspp_setup_pe_config_v13(struct dpu_hw_sspp *ctx,
-+					    struct dpu_hw_pixel_ext *pe_ext)
-+{
-+	struct dpu_hw_blk_reg_map *c;
-+	u8 color;
-+	u32 lr_pe[4], tb_pe[4];
-+	const u32 bytemask = 0xff;
-+	u32 offset = ctx->cap->sblk->sspp_rec0_blk.base;
++static const struct dpu_mdss_version kaanapali_mdss_ver = {
++	.core_major_ver = 13,
++	.core_minor_ver = 0,
++};
 +
-+	if (!ctx || !pe_ext)
-+		return;
++const struct dpu_mdss_cfg dpu_kaanapali_cfg = {
++	.mdss_ver = &kaanapali_mdss_ver,
++	.caps = &kaanapali_dpu_caps,
++	.mdp = &kaanapali_mdp,
++	.cdm = &dpu_cdm_13_x,
++	.ctl_count = ARRAY_SIZE(kaanapali_ctl),
++	.ctl = kaanapali_ctl,
++	.sspp_count = ARRAY_SIZE(kaanapali_sspp),
++	.sspp = kaanapali_sspp,
++	.mixer_count = ARRAY_SIZE(kaanapali_lm),
++	.mixer = kaanapali_lm,
++	.dspp_count = ARRAY_SIZE(kaanapali_dspp),
++	.dspp = kaanapali_dspp,
++	.pingpong_count = ARRAY_SIZE(kaanapali_pp),
++	.pingpong = kaanapali_pp,
++	.dsc_count = ARRAY_SIZE(kaanapali_dsc),
++	.dsc = kaanapali_dsc,
++	.merge_3d_count = ARRAY_SIZE(kaanapali_merge_3d),
++	.merge_3d = kaanapali_merge_3d,
++	.wb_count = ARRAY_SIZE(kaanapali_wb),
++	.wb = kaanapali_wb,
++	.cwb_count = ARRAY_SIZE(kaanapali_cwb),
++	.cwb = sm8650_cwb,
++	.intf_count = ARRAY_SIZE(kaanapali_intf),
++	.intf = kaanapali_intf,
++	.vbif_count = ARRAY_SIZE(sm8650_vbif),
++	.vbif = sm8650_vbif,
++	.perf = &kaanapali_perf_data,
++};
 +
-+	c = &ctx->hw;
-+	/* program SW pixel extension override for all pipes*/
-+	for (color = 0; color < DPU_MAX_PLANES; color++) {
-+		/* color 2 has the same set of registers as color 1 */
-+		if (color == 2)
-+			continue;
-+
-+		lr_pe[color] = ((pe_ext->right_ftch[color] & bytemask) << 24) |
-+			       ((pe_ext->right_rpt[color] & bytemask) << 16) |
-+			       ((pe_ext->left_ftch[color] & bytemask) << 8) |
-+			       (pe_ext->left_rpt[color] & bytemask);
-+
-+		tb_pe[color] = ((pe_ext->btm_ftch[color] & bytemask) << 24) |
-+			       ((pe_ext->btm_rpt[color] & bytemask) << 16) |
-+			       ((pe_ext->top_ftch[color] & bytemask) << 8) |
-+			       (pe_ext->top_rpt[color] & bytemask);
++#endif
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 23bb39b471b7..be3492df8bde 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -241,6 +241,23 @@ static const u32 wb2_formats_rgb_yuv[] = {
+ 	.rotation_cfg = NULL, \
+ 	}
+ 
++/* kaanapali SSPP common configuration */
++#define _VIG_SBLK_REC0_REC1(scaler_ver) \
++	{ \
++	.sspp_rec0_blk = {.name = "sspp_rec0", \
++		.base = 0x1000, .len = 0x180,},	\
++	.csc_blk = {.name = "csc", \
++		.base = 0x1800, .len = 0x100,}, \
++	.scaler_blk = {.name = "scaler", \
++		.version = scaler_ver, \
++		.base = 0x2000, .len = 0xec,}, \
++	.sspp_rec1_blk = {.name = "sspp_rec1", \
++		.base = 0x3000, .len = 0x180,},	\
++	.format_list = plane_formats_yuv, \
++	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
++	.rotation_cfg = NULL, \
 +	}
 +
-+	/* color 0 */
-+	DPU_REG_WRITE(c, SSPP_REC_SW_PIX_EXT_LR + offset, lr_pe[0]);
-+	DPU_REG_WRITE(c, SSPP_REC_SW_PIX_EXT_TB + offset, tb_pe[0]);
-+
-+	/* color 1 and color 2 */
-+	DPU_REG_WRITE(c, SSPP_REC_SW_PIX_EXT_LR_ODX + offset, lr_pe[1]);
-+	DPU_REG_WRITE(c, SSPP_REC_SW_PIX_EXT_TB_ODX + offset, tb_pe[1]);
-+}
-+
-+static void dpu_hw_sspp_setup_rects_v13(struct dpu_sw_pipe *pipe,
-+					struct dpu_sw_pipe_cfg *cfg)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
-+	u32 src_size_off, src_xy_off, out_size_off, out_xy_off;
-+	u32 offset;
-+
-+	if (!ctx || !cfg)
-+		return;
-+
-+	offset = dpu_hw_sspp_calculate_rect_off(pipe->multirect_index, ctx);
-+
-+	src_size_off = offset + SSPP_REC_SRC_SIZE;
-+	src_xy_off = offset + SSPP_REC_SRC_XY;
-+	out_size_off = offset + SSPP_REC_OUT_SIZE;
-+	out_xy_off = offset + SSPP_REC_OUT_XY;
-+
-+	dpu_hw_setup_rects_impl(pipe, cfg, ctx, src_size_off,
-+				src_xy_off, out_size_off, out_xy_off);
-+}
-+
-+static void dpu_hw_sspp_setup_sourceaddress_v13(struct dpu_sw_pipe *pipe,
-+						struct dpu_hw_fmt_layout *layout)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
-+	int i;
-+	u32 offset, ystride0, ystride1;
-+
-+	if (!ctx)
-+		return;
-+
-+	offset = dpu_hw_sspp_calculate_rect_off(pipe->multirect_index, ctx);
-+
-+	for (i = 0; i < ARRAY_SIZE(layout->plane_addr); i++)
-+		DPU_REG_WRITE(&ctx->hw, offset + SSPP_REC_SRC0_ADDR + i * 0x4,
-+			      layout->plane_addr[i]);
-+
-+	ystride0 = (layout->plane_pitch[0]) | (layout->plane_pitch[2] << 16);
-+	ystride1 = (layout->plane_pitch[1]) | (layout->plane_pitch[3] << 16);
-+
-+	DPU_REG_WRITE(&ctx->hw, offset + SSPP_REC_SRC_YSTRIDE0, ystride0);
-+	DPU_REG_WRITE(&ctx->hw, offset + SSPP_REC_SRC_YSTRIDE1, ystride1);
-+}
-+
-+static void dpu_hw_sspp_setup_solidfill_v13(struct dpu_sw_pipe *pipe, u32 color)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
-+	u32 const_clr_off;
-+	u32 offset;
-+
-+	if (!ctx)
-+		return;
-+
-+	offset = dpu_hw_sspp_calculate_rect_off(pipe->multirect_index, ctx);
-+	const_clr_off = offset + SSPP_REC_SRC_CONSTANT_COLOR;
-+
-+	dpu_hw_setup_solidfill_impl(pipe, color, ctx, const_clr_off);
-+}
-+
-+static void dpu_hw_sspp_setup_qos_lut_v13(struct dpu_hw_sspp *ctx,
-+					  struct dpu_hw_qos_cfg *cfg)
-+{
-+	if (!ctx || !cfg)
-+		return;
-+
-+	_dpu_hw_setup_qos_lut_v13(&ctx->hw, cfg);
-+}
-+
-+static void dpu_hw_sspp_setup_qos_ctrl_v13(struct dpu_hw_sspp *ctx,
-+					   bool danger_safe_en)
-+{
-+	if (!ctx)
-+		return;
-+
-+	dpu_hw_sspp_setup_qos_ctrl_impl(ctx, danger_safe_en, SSPP_CMN_QOS_CTRL);
-+}
-+
-+static void dpu_hw_sspp_setup_cdp_v13(struct dpu_sw_pipe *pipe,
-+				      const struct msm_format *fmt,
-+				      bool enable)
-+{
-+	struct dpu_hw_sspp *ctx = pipe->sspp;
-+	u32 offset = 0;
-+
-+	if (!ctx)
-+		return;
-+
-+	offset = dpu_hw_sspp_calculate_rect_off(pipe->multirect_index, ctx);
-+	dpu_setup_cdp(&ctx->hw, offset + SSPP_REC_CDP_CNTL, fmt, enable);
-+}
-+
-+static bool dpu_hw_sspp_setup_clk_force_ctrl_v13(struct dpu_hw_sspp *ctx, bool enable)
-+{
-+	static const struct dpu_clk_ctrl_reg sspp_clk_ctrl = {
-+		.reg_off = SSPP_CMN_CLK_CTRL,
-+		.bit_off = 0
-+	};
-+
-+	return dpu_hw_clk_force_ctrl(&ctx->hw, &sspp_clk_ctrl, enable);
-+}
-+
-+void dpu_hw_sspp_init_v13(struct dpu_hw_sspp *c,
-+			  unsigned long features, const struct dpu_mdss_version *mdss_rev)
-+{
-+		c->ops.setup_format = dpu_hw_sspp_setup_format_v13;
-+		c->ops.setup_rects = dpu_hw_sspp_setup_rects_v13;
-+		c->ops.setup_sourceaddress = dpu_hw_sspp_setup_sourceaddress_v13;
-+		c->ops.setup_solidfill = dpu_hw_sspp_setup_solidfill_v13;
-+		c->ops.setup_pe = dpu_hw_sspp_setup_pe_config_v13;
-+
-+		if (test_bit(DPU_SSPP_QOS, &features)) {
-+			c->ops.setup_qos_lut = dpu_hw_sspp_setup_qos_lut_v13;
-+			c->ops.setup_qos_ctrl = dpu_hw_sspp_setup_qos_ctrl_v13;
-+		}
-+
-+		if (test_bit(DPU_SSPP_CSC, &features) ||
-+		    test_bit(DPU_SSPP_CSC_10BIT, &features))
-+			c->ops.setup_csc = dpu_hw_sspp_setup_csc;
-+
-+		if (test_bit(DPU_SSPP_SMART_DMA_V1, &c->cap->features) ||
-+		    test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
-+			c->ops.setup_multirect = dpu_hw_sspp_setup_multirect_v13;
-+
-+		if (test_bit(DPU_SSPP_SCALER_QSEED3_COMPATIBLE, &features))
-+			c->ops.setup_scaler = dpu_hw_sspp_setup_scaler3;
-+
-+		if (test_bit(DPU_SSPP_CDP, &features))
-+			c->ops.setup_cdp = dpu_hw_sspp_setup_cdp_v13;
-+
-+		c->ops.setup_clk_force_ctrl = dpu_hw_sspp_setup_clk_force_ctrl_v13;
-+}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-index 486be346d40d..3cf22ec62792 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-@@ -81,6 +81,13 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
- #define QOS_CREQ_LUT_0                    0x14
- #define QOS_CREQ_LUT_1                    0x18
+ #define _VIG_SBLK_ROT(scaler_ver, rot_cfg) \
+ 	{ \
+ 	.scaler_blk = {.name = "scaler", \
+@@ -329,6 +346,9 @@ static const struct dpu_sspp_sub_blks dpu_vig_sblk_qseed3_3_3 =
+ static const struct dpu_sspp_sub_blks dpu_vig_sblk_qseed3_3_4 =
+ 				_VIG_SBLK(SSPP_SCALER_VER(3, 4));
  
-+/* CMN_QOS_LUT */
-+#define SSPP_CMN_QOS_CTRL                      0x28
-+#define SSPP_CMN_DANGER_LUT                    0x2c
-+#define SSPP_CMN_SAFE_LUT                      0x30
-+#define SSPP_CMN_CREQ_LUT_0                    0x34
-+#define SSPP_CMN_CREQ_LUT_1                    0x38
++static const struct dpu_sspp_sub_blks dpu_vig_sblk_qseed3_3_5 =
++				_VIG_SBLK_REC0_REC1(SSPP_SCALER_VER(3, 5));
 +
- /* QOS_QOS_CTRL */
- #define QOS_QOS_CTRL_DANGER_SAFE_EN       BIT(0)
- #define QOS_QOS_CTRL_DANGER_VBLANK_MASK   GENMASK(5, 4)
-@@ -475,6 +482,17 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
- 		      cfg->danger_safe_en ? QOS_QOS_CTRL_DANGER_SAFE_EN : 0);
- }
+ static const struct dpu_sspp_sub_blks dpu_rgb_sblk = _RGB_SBLK();
  
-+void _dpu_hw_setup_qos_lut_v13(struct dpu_hw_blk_reg_map *c,
-+			       const struct dpu_hw_qos_cfg *cfg)
-+{
-+	DPU_REG_WRITE(c, SSPP_CMN_DANGER_LUT, cfg->danger_lut);
-+	DPU_REG_WRITE(c, SSPP_CMN_SAFE_LUT, cfg->safe_lut);
-+	DPU_REG_WRITE(c, SSPP_CMN_CREQ_LUT_0, cfg->creq_lut);
-+	DPU_REG_WRITE(c, SSPP_CMN_CREQ_LUT_1, cfg->creq_lut >> 32);
-+	DPU_REG_WRITE(c, SSPP_CMN_QOS_CTRL,
-+		      cfg->danger_safe_en ? QOS_QOS_CTRL_DANGER_SAFE_EN : 0);
-+}
+ static const struct dpu_sspp_sub_blks dpu_dma_sblk = _DMA_SBLK();
+@@ -412,6 +432,11 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+ 	.len = 0x20, .version = 0x20000},
+ };
+ 
++static const struct dpu_pingpong_sub_blks kaanapali_pp_sblk = {
++	.dither = {.name = "dither", .base = 0xc0,
++	.len = 0x40, .version = 0x30000},
++};
 +
- /*
-  * note: Aside from encoders, input_sel should be set to 0x0 by default
-  */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-index 67b08e99335d..1822ac699757 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-@@ -360,6 +360,9 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
- 			   bool qos_8lvl,
- 			   const struct dpu_hw_qos_cfg *cfg);
+ /*************************************************************
+  * DSC sub blocks config
+  *************************************************************/
+@@ -452,6 +477,13 @@ static const struct dpu_cdm_cfg dpu_cdm_5_x = {
+ 	.base = 0x79200,
+ };
  
-+void _dpu_hw_setup_qos_lut_v13(struct dpu_hw_blk_reg_map *c,
-+			       const struct dpu_hw_qos_cfg *cfg);
++static const struct dpu_cdm_cfg dpu_cdm_13_x = {
++	.name = "cdm_0",
++	.id = CDM_0,
++	.len = 0x240,
++	.base = 0x19e000,
++};
 +
- void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
- 		u32 misr_ctrl_offset, u8 input_sel);
+ /*************************************************************
+  * VBIF sub blocks config
+  *************************************************************/
+@@ -639,6 +671,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_linear[] = {
+ 	{.fl = 0, .lut = 0x0011222222335777},
+ };
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-index 478a091aeccf..006dcc4a0dcc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-@@ -148,6 +148,15 @@ static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
- 			      cfg);
- }
- 
-+static void dpu_hw_wb_setup_qos_lut_v13(struct dpu_hw_wb *ctx,
-+					struct dpu_hw_qos_cfg *cfg)
-+{
-+	if (!ctx || !cfg)
-+		return;
++static const struct dpu_qos_lut_entry kaanapali_qos_linear[] = {
++	{.fl = 0, .lut = 0x0011223344556666},
++};
 +
-+	_dpu_hw_setup_qos_lut_v13(&ctx->hw, cfg);
-+}
+ static const struct dpu_qos_lut_entry sm6350_qos_linear_macrotile[] = {
+ 	{.fl = 0, .lut = 0x0011223445566777 },
+ };
+@@ -668,6 +704,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_macrotile[] = {
+ 	{.fl = 0, .lut = 0x0011223344556677},
+ };
+ 
++static const struct dpu_qos_lut_entry kaanapali_qos_macrotile[] = {
++	{.fl = 0, .lut = 0x0011223344556666},
++};
 +
- static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
- 				const struct msm_format *fmt,
- 				bool enable)
-@@ -202,8 +211,12 @@ static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
- 	if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
- 		ops->setup_roi = dpu_hw_wb_roi;
+ static const struct dpu_qos_lut_entry sc8180x_qos_macrotile[] = {
+ 	{.fl = 10, .lut = 0x0000000344556677},
+ };
+@@ -727,3 +767,4 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+ #include "catalog/dpu_10_0_sm8650.h"
+ #include "catalog/dpu_12_0_sm8750.h"
+ #include "catalog/dpu_12_2_glymur.h"
++#include "catalog/dpu_13_0_kaanapali.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index b03fea1b9cbd..83870e84d789 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -764,6 +764,7 @@ struct dpu_mdss_cfg {
+ };
  
--	if (test_bit(DPU_WB_QOS, &features))
--		ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
-+	if (test_bit(DPU_WB_QOS, &features)) {
-+		if (mdss_rev->core_major_ver >= 13)
-+			ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut_v13;
-+		else
-+			ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
-+	}
+ extern const struct dpu_mdss_cfg dpu_glymur_cfg;
++extern const struct dpu_mdss_cfg dpu_kaanapali_cfg;
+ extern const struct dpu_mdss_cfg dpu_msm8917_cfg;
+ extern const struct dpu_mdss_cfg dpu_msm8937_cfg;
+ extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index f4c9767c418d..0623f1dbed97 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1506,6 +1506,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
  
- 	if (test_bit(DPU_WB_CDP, &features))
- 		ops->setup_cdp = dpu_hw_wb_setup_cdp;
+ static const struct of_device_id dpu_dt_match[] = {
+ 	{ .compatible = "qcom,glymur-dpu", .data = &dpu_glymur_cfg, },
++	{ .compatible = "qcom,kaanapali-dpu", .data = &dpu_kaanapali_cfg, },
+ 	{ .compatible = "qcom,msm8917-mdp5", .data = &dpu_msm8917_cfg, },
+ 	{ .compatible = "qcom,msm8937-mdp5", .data = &dpu_msm8937_cfg, },
+ 	{ .compatible = "qcom,msm8953-mdp5", .data = &dpu_msm8953_cfg, },
 -- 
 2.34.1
 
