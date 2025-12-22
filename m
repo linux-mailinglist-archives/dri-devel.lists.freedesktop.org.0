@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1D1CD57CE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF948CD57D7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 11:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E2E10E605;
-	Mon, 22 Dec 2025 10:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4916910E5FF;
+	Mon, 22 Dec 2025 10:11:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cATUu8ez";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fR9uB0X0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA7910E60B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:11:43 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C3410E603
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 10:11:50 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 3C5EC4E41D33;
- Mon, 22 Dec 2025 10:11:42 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id D45971A2373;
+ Mon, 22 Dec 2025 10:11:48 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0C1DF606C1;
- Mon, 22 Dec 2025 10:11:42 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id AB1BA606C1;
+ Mon, 22 Dec 2025 10:11:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A660010AB0199; Mon, 22 Dec 2025 11:11:35 +0100 (CET)
+ with ESMTPSA id A246910AB0194; Mon, 22 Dec 2025 11:11:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766398297; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766398303; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=mh17FwdIwDJQmgWmaf9u9me3jrBUTLLPhPQ/n8f+ag8=;
- b=cATUu8ez9NTSRBrCqOwNIbVLAnOTgHNm6VXEVsMb72VO1poGznZ36hamwlx6bFG+Hl/3u1
- 8vvO2F7+V3bv67WJ+/fINRfmN83Y6bOoYd1UqZS0+l+Ws9Twnc3lhEmVWse0qMk1d22T9H
- YG6HUpyw+DJ9umt6ywnaDtl4wH/h2IGIFE4RkXwCAD5CKYjabwFdV6nW670oMCTFGRCFYB
- 1ezDMx/FVbCnnL46vCk4RmhDAftEBNxkEMSulSD8iSuoLlvZeCtAO4a+zA+6aSf/XBVKUH
- hB5YOIDN7D2bMJaVHprYrNzcBnMBgJmYIBnwxB4VJ3he6s+962trE3dE7Oii7w==
+ bh=fQe086Z7/WxnmGwFVKgVFgBoU8PQB9Lf8nUfzyMi1WQ=;
+ b=fR9uB0X0D+txfJcIlRf2BQ6rg7Vre4QQFHd0C3PuEVAT3jvXBeEhSf46UONl2kKDr4ri10
+ YE/zPMckOMgiVWZUroXUGUrVLURjI7aV7Pn6dMQr8sM5MBE7c9xv+rtzG4YilOM9WNXod5
+ Qh8kJtYOryF6OnptUP9uYdm+iaiMMgCc4/KIeKptJ32/cLMFjbqrCb6+Zg3ySZWeUiew3K
+ /IRiO+vXcc5y2pGgIMUQfX+ZZMeiiECzcdR/2hJWNq92wI+3XvsegR7b2Dmr2ETaxrLi+J
+ ZanVeMjKO2yL71G6A15GvbhDCz/1cHLbkphZLlcXTBl9M4T5HfQRYAw2xVUoAQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 22 Dec 2025 11:11:12 +0100
-Subject: [PATCH v3 10/33] drm/vkms: Introduce configfs for plane rotation
+Date: Mon, 22 Dec 2025 11:11:13 +0100
+Subject: [PATCH v3 11/33] drm/drm_color_mgmt: Expose
+ drm_get_color_encoding_name
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251222-vkms-all-config-v3-10-ba42dc3fb9ff@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251222-vkms-all-config-v3-11-ba42dc3fb9ff@bootlin.com>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -50,23 +51,24 @@ To: Haneen Mohammed <hamohammed.sa@gmail.com>,
 Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
  airlied@gmail.com, thomas.petazzoni@bootlin.com, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6203;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2160;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=clPxtmEMbNIK+Z0tE5WO5KEo2WR06dFkUJbJl2Yf2Ww=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlAXUWxlvJWLQOT7OldLv1ZBk5r+7NDiPoQs
- vNv0kO/8MWJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQBsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOIUcA/+NVaZ/QIYC7NumR3ZiBdZ4MlufBjFcB0
- gOBbeAudDHdv1MboxXkAi1cPpzhy62Dm7NH/p5OWoKIT2fKgniEQWsyOdSvNiObtY8NOrVokxFn
- aRO2RAtcMFJcovamaH8sSxVG8LVa7u9E5BHuv/nN4cRuRzpfNiZx6WlUl4ZN30Z1CooFawfBPv8
- YciLEvj+brheH09Lq/0A0w1eMWTZB0te6LzNPViyGxqSQMFv11TQ3EsnPpbBR5ftesEt2Pq/+XN
- g82UUt+yWK3C1HlbvoU6Ek261aMSSi3imiiGVB48RLlUY+6ro070Mo+Pa3NNGt6Fgl221EROl2r
- piY/1xtCvS2PX2aCusKwWsMYzaYYCpqzGTSyPRtkzgLsdXgqZZqF5t5wpg8DZ9JOYhvQ9s8lCT5
- ee4dGsKD++8rB5pSCxM/LiEb2SusTpLipzXGydr9kzjq4nSD7yQ2prMYQGydFG9xrtbd670k4JE
- T/g69A+q+GsthxEuTFZmcpFfjbboSGOS68dsi1tCkYGzZkwpk/1L7KgZ4q1c+lPVnvrC8SibMUE
- vDbtKqdUt1xy4GYmyRQ4lV/C3UFROEyiYS1oSx0LXsiu6w9PkBbVHPKxmrKNA9v3VyN1JUDvNTf
- z+0u6DXkdweCfBI9cLQBt7wq3pPMgQu26IZtKx5GUsp1GICPxAu0=
+ bh=OugjWrUvcZogEswAfggVPyTpTTPf0Dkr6yW/zV275yc=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlBtQuL/9YhMx0gfTbscxESh+zBObPykBxmQ
+ hsvCswuVEiJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOIeuw//QsclYzU08o1tuQAPN9wIvVJAu0PCJPo
+ Nh1SR3pPxOk3vl/EWpcfdIY6bXJ5mWFR5aRjBhYh1QUJCcdcisF1n5AFb8vvv7MwGy4K1cpmG0L
+ UNIp6Ool45FXAv/anl5SvBiy1vnnqusiUTPr1R5PC/ECliLskE38lbH56pRF1EcYOHLMG/1Qdcr
+ rbzMMk1iJjrcawsuwiiCb2AwKRZcE46qtds6utxGhpW+9szOjTCLa/GIORL3bnh+U8A1HGsx+pJ
+ J2uK8uIOnPTQuP7UmlNeA5L9Ol5wl6XB+Lb3IEB6X2o851HoRPe5voVVJ+fD7/Y44RX95tSbg7L
+ jEmRIWCXZFTDaQsi8bVPZgkkBunj9c4cRheVPgaNC3yaYbx52zw9Wx6wm+RYwTqijRvy4Z/Bmjm
+ M03Lv70ybVsDpKPS/qi2ljTMBAP/zAzdqqFZKkghZCxSSX/bJTRPc7Y8u9alIwLrKam8v1X9238
+ o3jvXYoNJunAn0rBXwsr/ca9IQtgYb6drG9nOWFgB/s5upUAfhTqJ0k2hwmK1LJ1pzlGuXAChlN
+ UP1ZJaegkoJuq4y9Rii26bIAUXrOg6MG3A9x2WTbHe7jAlDn5mqYkR4zGflu/HXgpkLirjRbRme
+ IRBhBOW0JVwfvlXFShoN4apF3pH3uEbeWsoZhJ/cfs6w4ERZnsh8=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
@@ -85,186 +87,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allows the userspace to test many hardware configurations, introduce a
-new interface to configure the available rotation per planes. VKMS
-supports any rotation and reflection, so the userspace can choose any
-combination.
+drm_get_color_encoding_name can be useful to display debug information
+outside drm core. Export it so it could be used for VKMS
 
-The supported rotations are configured by writing a rotation bitmask to
-the file `supported_rotations` and the default rotation is chosen by
-writing a rotation bitmask to `default_rotation`.
-
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/ABI/testing/configfs-vkms | 15 ++++++
- Documentation/gpu/vkms.rst              |  7 ++-
- drivers/gpu/drm/vkms/vkms_configfs.c    | 93 ++++++++++++++++++++++++++++++---
- 3 files changed, 108 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_color_mgmt.c    | 2 +-
+ drivers/gpu/drm/drm_crtc_internal.h | 2 --
+ include/drm/drm_color_mgmt.h        | 2 ++
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-index 6fe375d1636f..9b74375bbf35 100644
---- a/Documentation/ABI/testing/configfs-vkms
-+++ b/Documentation/ABI/testing/configfs-vkms
-@@ -109,6 +109,21 @@ Contact:	dri-devel@lists.freedesktop.org
- Description:
-         Name of the plane.
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index c598b99673fc..56fd8e0620dd 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -496,7 +496,7 @@ const char *drm_get_color_encoding_name(enum drm_color_encoding encoding)
  
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_rotations
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Available rotations for the plane, as a bitmask:
-+        0x01 - no rotation, 0x02 - rotate 90°, 0x04 - rotate 180°,
-+        0x08 - rotate 270°, 0x10 - reflect x, 0x20 - reflect y.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/default_rotation
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Default rotation presented to userspace, same values as
-+        possible_rotations.
-+
- What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
- Date:		Nov 2025
- Contact:	dri-devel@lists.freedesktop.org
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 79f1185d8645..7fd746dd6ee2 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -87,11 +87,16 @@ Start by creating one or more planes::
- 
-   sudo mkdir /config/vkms/my-vkms/planes/plane0
- 
--Planes have 2 configurable attributes:
-+Planes have 4 configurable attributes:
- 
- - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
-   exposed by the "type" property of a plane)
- - name: Name of the plane. Allowed characters are [A-Za-z1-9_-]
-+- possible_rotations: Available rotation for a plane, as a bitmask: 0x01 no rotation,
-+  0x02 rotate 90°, 0x04 rotate 180°, 0x08 rotate 270°, 0x10 reflect x, 0x20 reflect y
-+  (same values as those exposed by the "rotation" property of a plane)
-+- default_rotation: Default rotation presented to the userspace, same values as
-+  possible_rotations.
- 
- Continue by creating one or more CRTCs::
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 989788042191..bcc3e222e6b3 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -365,24 +365,105 @@ static ssize_t plane_name_store(struct config_item *item, const char *page,
- 	return (ssize_t)count;
+ 	return color_encoding_name[encoding];
  }
+-EXPORT_SYMBOL_IF_KUNIT(drm_get_color_encoding_name);
++EXPORT_SYMBOL(drm_get_color_encoding_name);
  
-+static ssize_t plane_supported_rotations_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_plane *plane;
-+	unsigned int plane_supported_rotations;
-+
-+	plane = plane_item_to_vkms_configfs_plane(item);
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		plane_supported_rotations = vkms_config_plane_get_supported_rotations(plane->config);
-+	}
-+
-+	return sprintf(page, "%u", plane_supported_rotations);
-+}
-+
-+static ssize_t plane_supported_rotations_store(struct config_item *item,
-+					       const char *page, size_t count)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-+		return -EINVAL;
-+	/* Should at least provide one rotation */
-+	if (!(val & DRM_MODE_ROTATE_MASK))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		if (plane->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_plane_set_supported_rotations(plane->config, val);
-+	}
-+
-+	return count;
-+}
-+
-+static ssize_t plane_default_rotation_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	unsigned int plane_default_rotation;
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		plane_default_rotation = vkms_config_plane_get_default_rotation(plane->config);
-+	}
-+
-+	return sprintf(page, "%u", plane_default_rotation);
-+}
-+
-+static ssize_t plane_default_rotation_store(struct config_item *item,
-+					    const char *page, size_t count)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-+		return -EINVAL;
-+
-+	/* Should contain exactly one rotation */
-+	if (!is_power_of_2(val & DRM_MODE_ROTATE_MASK))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		if (plane->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_plane_set_default_rotation(plane->config, val);
-+	}
-+
-+	return count;
-+}
-+
- CONFIGFS_ATTR(plane_, type);
- CONFIGFS_ATTR(plane_, name);
-+CONFIGFS_ATTR(plane_, supported_rotations);
-+CONFIGFS_ATTR(plane_, default_rotation);
+ /**
+  * drm_get_color_range_name - return a string for color range
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index c09409229644..2f22b1a16dfa 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -38,7 +38,6 @@
+ #include <linux/err.h>
+ #include <linux/types.h>
  
- static struct configfs_attribute *plane_item_attrs[] = {
- 	&plane_attr_type,
- 	&plane_attr_name,
-+	&plane_attr_supported_rotations,
-+	&plane_attr_default_rotation,
- 	NULL,
+-enum drm_color_encoding;
+ enum drm_color_range;
+ enum drm_connector_force;
+ enum drm_mode_status;
+@@ -121,7 +120,6 @@ int drm_mode_destroy_dumb_ioctl(struct drm_device *dev,
+ 				void *data, struct drm_file *file_priv);
+ 
+ /* drm_color_mgmt.c */
+-const char *drm_get_color_encoding_name(enum drm_color_encoding encoding);
+ const char *drm_get_color_range_name(enum drm_color_range range);
+ 
+ /* IOCTLs */
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 5140691f476a..133ca77d91c7 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -113,6 +113,8 @@ enum drm_color_range {
+ 	DRM_COLOR_RANGE_MAX,
  };
  
- static void plane_release(struct config_item *item)
- {
--	struct vkms_configfs_plane *plane;
--	struct mutex *lock;
--
--	plane = plane_item_to_vkms_configfs_plane(item);
--	lock = &plane->dev->lock;
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
- 
--	scoped_guard(mutex, lock) {
-+	scoped_guard(mutex, &plane->dev->lock) {
- 		vkms_config_destroy_plane(plane->config);
- 		kfree(plane);
- 	}
++const char *drm_get_color_encoding_name(enum drm_color_encoding encoding);
++
+ int drm_plane_create_color_properties(struct drm_plane *plane,
+ 				      u32 supported_encodings,
+ 				      u32 supported_ranges,
 
 -- 
 2.51.2
