@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4D8CD6695
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 15:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9D8CD6831
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 16:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7207910E0F5;
-	Mon, 22 Dec 2025 14:44:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nEMG6Izc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE1710E17D;
+	Mon, 22 Dec 2025 15:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D38D10E05D;
- Mon, 22 Dec 2025 14:44:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766414696; x=1797950696;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=zdyK52t++zeXs0qCyraNq1sLq9xvMET/4UU9Mznu2OE=;
- b=nEMG6IzcbGXFhBdx25siUWlJ8om7iELmi7SVt4o3jf7HoGiresXXIVx2
- v2Cxk+Vljhf7VXllWb8QBnkaRDGFGexPUrwA03iELVB2SuG6zTvn43WgJ
- DgpTxa596DBFCgajl7AVb/2xMau670ZuUGe0AUaSYQYpKv++thXoptyf+
- uanvnqLKdbBWOOptRQpBcxS5OPcnSeW5/ArOOdBj0ho0uqotfiayjq1Gi
- Wn11S7QbN/wiVkI4wvrytOTa4BgO7Grcj8+zqPWInX/1txQprHRUByEdg
- 0GlcdgrcJjKkN4+eVw7cHb4gNAPGVciryZR3b8W9/pGSFu1OcWnRnfl18 g==;
-X-CSE-ConnectionGUID: FHO0RSQZQa2hzJTH0uZRxA==
-X-CSE-MsgGUID: 2qoStUK4Rn+MihDzNsWLxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="78588351"
-X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; d="scan'208";a="78588351"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2025 06:44:56 -0800
-X-CSE-ConnectionGUID: 2fTBnh1/SX+kWFJ/1UVDqA==
-X-CSE-MsgGUID: pggsNDjPSbKv8fSiK4ll1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; d="scan'208";a="199306877"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.79])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2025 06:44:53 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>, Harry
- Wentland <harry.wentland@amd.com>, Daniel Stone <daniels@collabora.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [PATCH v2] drm/atomic: convert
- drm_atomic_get_{old,new}_colorop_state() into proper functions
-In-Reply-To: <53746714-c989-4f9a-96a0-f2044705ffb9@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20251219114939.1069851-1-jani.nikula@intel.com>
- <53746714-c989-4f9a-96a0-f2044705ffb9@amd.com>
-Date: Mon, 22 Dec 2025 16:44:50 +0200
-Message-ID: <39b45d9eefcebc2afd47fd2aee6d5f40b6db03e1@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 17DB210E17D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 15:23:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DCED497;
+ Mon, 22 Dec 2025 07:23:32 -0800 (PST)
+Received: from [10.1.29.18] (e122027.cambridge.arm.com [10.1.29.18])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9F6B3F694;
+ Mon, 22 Dec 2025 07:23:36 -0800 (PST)
+Message-ID: <468eb6a1-2c9e-4835-b3fd-e8c497ddd049@arm.com>
+Date: Mon, 22 Dec 2025 15:23:35 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20251221-panthor-tracepoints-v5-0-889ef78165d8@collabora.com>
+ <20251221-panthor-tracepoints-v5-1-889ef78165d8@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251221-panthor-tracepoints-v5-1-889ef78165d8@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,220 +55,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Dec 2025, Alex Hung <alex.hung@amd.com> wrote:
-> Reviewed-by: Alex Hung <alex.hung@amd.com>
+On 21/12/2025 17:10, Nicolas Frattaroli wrote:
+> The current IRQ helpers do not guarantee mutual exclusion that covers
+> the entire transaction from accessing the mask member and modifying the
+> mask register.
+> 
+> This makes it hard, if not impossible, to implement mask modification
+> helpers that may change one of these outside the normal
+> suspend/resume/isr code paths.
+> 
+> Add a spinlock to struct panthor_irq that protects both the mask member
+> and register. Acquire it in all code paths that access these. Then, add
+> the aforementioned new helpers: mask_enable, mask_disable, and
+> resume_restore. The first two work by ORing and NANDing the mask bits,
+> and the latter relies on the new behaviour that panthor_irq::mask is not
+> set to 0 on suspend.
+> 
+> panthor_irq::suspended remains an atomic, as it's necessarily written to
+> outside the mask_lock in the suspend path.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h | 55 +++++++++++++++++++++++++++-----
+>  1 file changed, 47 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index f35e52b9546a..eb75c83e2db3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -73,11 +73,14 @@ struct panthor_irq {
+>  	/** @irq: IRQ number. */
+>  	int irq;
+>  
+> -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> +	/** @mask: Values to write to xxx_INT_MASK if active. */
+>  	u32 mask;
+>  
+>  	/** @suspended: Set to true when the IRQ is suspended. */
+>  	atomic_t suspended;
+> +
+> +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> +	spinlock_t mask_lock;
+>  };
+>  
+>  /**
+> @@ -410,6 +413,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+>  	struct panthor_irq *pirq = data;							\
+>  	struct panthor_device *ptdev = pirq->ptdev;						\
+>  												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+>  	if (atomic_read(&pirq->suspended))							\
+>  		return IRQ_NONE;								\
+>  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+> @@ -425,8 +430,10 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+>  	struct panthor_device *ptdev = pirq->ptdev;						\
+>  	irqreturn_t ret = IRQ_NONE;								\
+>  												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
 
-Thanks, pushed to drm-misc-next.
+Woah! You can't do that. That means there's a spinlock held while
+calling the __handler() function. So you'll get "sleeping while atomic"
+bug reports. Specifically I can see that panthor_mmu_irq_handler() takes
+a mutex.
 
-BR,
-Jani.c
+But the whole point of a threaded handler is so that it can sleep, so we
+definitely don't want a spinlock held.
 
->
-> On 12/19/25 04:49, Jani Nikula wrote:
->> There is no real reason to include drm_colorop.h from drm_atomic.h, as
->> drm_atomic_get_{old,new}_colorop_state() have no real reason to be
->> static inline.
->> 
->> Convert the static inlines to proper functions, and drop the include to
->> reduce the include dependencies and improve data hiding.
->> 
->> v2: Fix vkms build failures (Alex)
->> 
->> Fixes: cfc27680ee20 ("drm/colorop: Introduce new drm_colorop mode object")
->> Cc: Simon Ser <contact@emersion.fr>
->> Cc: Alex Hung <alex.hung@amd.com>
->> Cc: Harry Wentland <harry.wentland@amd.com>
->> Cc: Daniel Stone <daniels@collabora.com>
->> Cc: Melissa Wen <mwen@igalia.com>
->> Cc: Sebastian Wick <sebastian.wick@redhat.com>
->> Cc: Alex Hung <alex.hung@amd.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> ---
->> 
->> Including the massive Cc list because I don't want to keep doing this
->> afterwards. This stuff needs to be blocked and fixed during review. Just
->> stop including headers from headers. It's a PITA to clean up.
->> ---
->>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  3 ++
->>   drivers/gpu/drm/drm_atomic.c                  | 32 +++++++++++++++
->>   drivers/gpu/drm/drm_atomic_helper.c           |  1 +
->>   .../drm/i915/display/intel_display_types.h    |  1 +
->>   drivers/gpu/drm/vkms/vkms_composer.c          |  1 +
->>   drivers/gpu/drm/vkms/vkms_drv.c               |  1 +
->>   include/drm/drm_atomic.h                      | 39 ++++---------------
->>   7 files changed, 47 insertions(+), 31 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> index 1dcc79b35225..20a76d81d532 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> @@ -23,6 +23,9 @@
->>    * Authors: AMD
->>    *
->>    */
->> +
->> +#include <drm/drm_colorop.h>
->> +
->>   #include "amdgpu.h"
->>   #include "amdgpu_mode.h"
->>   #include "amdgpu_dm.h"
->> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->> index 6d3ea8056b60..52738b80ddbe 100644
->> --- a/drivers/gpu/drm/drm_atomic.c
->> +++ b/drivers/gpu/drm/drm_atomic.c
->> @@ -641,6 +641,38 @@ drm_atomic_get_colorop_state(struct drm_atomic_state *state,
->>   }
->>   EXPORT_SYMBOL(drm_atomic_get_colorop_state);
->>   
->> +/**
->> + * drm_atomic_get_old_colorop_state - get colorop state, if it exists
->> + * @state: global atomic state object
->> + * @colorop: colorop to grab
->> + *
->> + * This function returns the old colorop state for the given colorop, or
->> + * NULL if the colorop is not part of the global atomic state.
->> + */
->> +struct drm_colorop_state *
->> +drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
->> +				 struct drm_colorop *colorop)
->> +{
->> +	return state->colorops[drm_colorop_index(colorop)].old_state;
->> +}
->> +EXPORT_SYMBOL(drm_atomic_get_old_colorop_state);
->> +
->> +/**
->> + * drm_atomic_get_new_colorop_state - get colorop state, if it exists
->> + * @state: global atomic state object
->> + * @colorop: colorop to grab
->> + *
->> + * This function returns the new colorop state for the given colorop, or
->> + * NULL if the colorop is not part of the global atomic state.
->> + */
->> +struct drm_colorop_state *
->> +drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
->> +				 struct drm_colorop *colorop)
->> +{
->> +	return state->colorops[drm_colorop_index(colorop)].new_state;
->> +}
->> +EXPORT_SYMBOL(drm_atomic_get_new_colorop_state);
->> +
->>   static bool
->>   plane_switching_crtc(const struct drm_plane_state *old_plane_state,
->>   		     const struct drm_plane_state *new_plane_state)
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 10adac9397cf..5840e9cc6f66 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -34,6 +34,7 @@
->>   #include <drm/drm_atomic_uapi.h>
->>   #include <drm/drm_blend.h>
->>   #include <drm/drm_bridge.h>
->> +#include <drm/drm_colorop.h>
->>   #include <drm/drm_damage_helper.h>
->>   #include <drm/drm_device.h>
->>   #include <drm/drm_drv.h>
->> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
->> index 6ff53cd58052..eb2e3f1e83c9 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
->> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
->> @@ -34,6 +34,7 @@
->>   #include <drm/display/drm_dp_tunnel.h>
->>   #include <drm/display/drm_dsc.h>
->>   #include <drm/drm_atomic.h>
->> +#include <drm/drm_colorop.h>
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_encoder.h>
->>   #include <drm/drm_framebuffer.h>
->> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->> index 3cf3f26e0d8e..cd85de4ffd03 100644
->> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->> @@ -5,6 +5,7 @@
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_blend.h>
->> +#include <drm/drm_colorop.h>
->>   #include <drm/drm_fourcc.h>
->>   #include <drm/drm_fixed.h>
->>   #include <drm/drm_gem_framebuffer_helper.h>
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->> index dd1402f43773..434c295f44ba 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->> @@ -17,6 +17,7 @@
->>   #include <drm/drm_gem.h>
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_colorop.h>
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_fbdev_shmem.h>
->>   #include <drm/drm_file.h>
->> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
->> index 74ce26fa8838..178f8f62c80f 100644
->> --- a/include/drm/drm_atomic.h
->> +++ b/include/drm/drm_atomic.h
->> @@ -30,7 +30,6 @@
->>   
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_util.h>
->> -#include <drm/drm_colorop.h>
->>   
->>   /**
->>    * struct drm_crtc_commit - track modeset commits on a CRTC
->> @@ -712,6 +711,14 @@ drm_atomic_get_plane_state(struct drm_atomic_state *state,
->>   struct drm_colorop_state *
->>   drm_atomic_get_colorop_state(struct drm_atomic_state *state,
->>   			     struct drm_colorop *colorop);
->> +
->> +struct drm_colorop_state *
->> +drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
->> +				 struct drm_colorop *colorop);
->> +struct drm_colorop_state *
->> +drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
->> +				 struct drm_colorop *colorop);
->> +
->>   struct drm_connector_state * __must_check
->>   drm_atomic_get_connector_state(struct drm_atomic_state *state,
->>   			       struct drm_connector *connector);
->> @@ -808,36 +815,6 @@ drm_atomic_get_new_plane_state(const struct drm_atomic_state *state,
->>   	return state->planes[drm_plane_index(plane)].new_state;
->>   }
->>   
->> -/**
->> - * drm_atomic_get_old_colorop_state - get colorop state, if it exists
->> - * @state: global atomic state object
->> - * @colorop: colorop to grab
->> - *
->> - * This function returns the old colorop state for the given colorop, or
->> - * NULL if the colorop is not part of the global atomic state.
->> - */
->> -static inline struct drm_colorop_state *
->> -drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
->> -				 struct drm_colorop *colorop)
->> -{
->> -	return state->colorops[drm_colorop_index(colorop)].old_state;
->> -}
->> -
->> -/**
->> - * drm_atomic_get_new_colorop_state - get colorop state, if it exists
->> - * @state: global atomic state object
->> - * @colorop: colorop to grab
->> - *
->> - * This function returns the new colorop state for the given colorop, or
->> - * NULL if the colorop is not part of the global atomic state.
->> - */
->> -static inline struct drm_colorop_state *
->> -drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
->> -				 struct drm_colorop *colorop)
->> -{
->> -	return state->colorops[drm_colorop_index(colorop)].new_state;
->> -}
->> -
->>   /**
->>    * drm_atomic_get_old_connector_state - get connector state, if it exists
->>    * @state: global atomic state object
->
+Thanks,
+Steve
 
--- 
-Jani Nikula, Intel
+> +												\
+>  	while (true) {										\
+> -		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> +		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask);	\
+>  												\
+>  		if (!status)									\
+>  			break;									\
+> @@ -443,18 +450,30 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+>  												\
+>  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+>  {												\
+> -	pirq->mask = 0;										\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> +	}											\
+>  	synchronize_irq(pirq->irq);								\
+>  	atomic_set(&pirq->suspended, true);							\
+>  }												\
+>  												\
+>  static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+>  {												\
+> -	atomic_set(&pirq->suspended, false);							\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+>  	pirq->mask = mask;									\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
+> +	atomic_set(&pirq->suspended, false);							\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_resume_restore(struct panthor_irq *pirq)		\
+> +{												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+> +	atomic_set(&pirq->suspended, false);							\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+>  }												\
+>  												\
+>  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> @@ -463,13 +482,33 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+>  {												\
+>  	pirq->ptdev = ptdev;									\
+>  	pirq->irq = irq;									\
+> -	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+> +	pirq->mask = mask;									\
+> +	spin_lock_init(&pirq->mask_lock);							\
+> +	panthor_ ## __name ## _irq_resume_restore(pirq);					\
+>  												\
+>  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+>  					 panthor_ ## __name ## _irq_raw_handler,		\
+>  					 panthor_ ## __name ## _irq_threaded_handler,		\
+>  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+>  					 pirq);							\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_mask_enable(struct panthor_irq *pirq, u32 mask)	\
+> +{												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+> +	pirq->mask |= mask;									\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_mask_disable(struct panthor_irq *pirq, u32 mask)	\
+> +{												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+> +	pirq->mask &= ~mask;									\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+>  }
+>  
+>  extern struct workqueue_struct *panthor_cleanup_wq;
+> 
+
