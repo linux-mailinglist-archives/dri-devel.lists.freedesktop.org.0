@@ -2,144 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03554CD5388
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F1CCD53E7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 10:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2EC10E53E;
-	Mon, 22 Dec 2025 09:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00FD10E43D;
+	Mon, 22 Dec 2025 09:08:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QhglG0sp";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UoC2OhXx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="okPfP1sF";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="heb8v44E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E019410E4F7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:22 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFEA010E43D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:08:37 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BM83GVg240215
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:21 GMT
+ 5BM8QP9r3498980
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:08:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=; b=QhglG0spVm0QGZ1Q
- SZBd/YM34FpvT2X0InMZs1uuuAtN8Sb4WBPnDcJIcemDtm1jUWiLw+E/VKOpuPt3
- 5xNPxP9BqYhEJ6N9HxQDlfm2zDM+jhXyGlg6wqjf+4p4LBzVUNjbc6uau2C1t5ox
- aK2z8xu5nKl4jH6qy9eOK26SH1O+50Ax7VHAbzbLVxxsapAkTtY/koq0PZJwekzT
- BiL1aAE5oYkDVOzdFav27lBIP4i/HNl0wmo70zSzunKQvPrcSMP1CE+ba4yIiW5P
- +j7oV7ARwpQrMeekK/5tcMCsSKEP2ejGW3JI3uCkrXKFba3Hm55f6HdZO2fpOcZs
- OkkfsQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mubmcea-1
+ NMF7/7ba2tMpgWwab2kQ9bTMRzziaxOCdiu3Y60sfW8=; b=okPfP1sF0b4HyjRa
+ 3BH/WDOLCqJAVqhjsI5Z7mz65JSFkSfCf4qUjOSSY3FMs1oLCI/ULMV8EkQcdKMU
+ uKPgRUeFjA3a2KgQMNjfJJ86WbL+d4NYyBgEFgJ+1XtEDA67Z+QexqufdsCGkrXt
+ xhPpfmMxAzzpBnK/TF7giM/5DI5XT3koK7HvJ3ePUIyfqf9M3faHRhhn/O0UPEUl
+ FD/wYwyQ0jDDcjGBg4kctq1XW74lJhjSlW1QGzkA9fCYL6odpfrKtV2WMHaJ7rar
+ DKEwH3AlfccgCWbi/diOTE7IAnEEnXSgzVxvJYv3FDbGEADzLVCydo5URGVs20xh
+ MkQPKQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mtqmetu-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:00:21 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4f1e17aa706so20599381cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 01:00:21 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 09:08:36 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-29f2381ea85so82182225ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 01:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766394021; x=1766998821;
+ d=oss.qualcomm.com; s=google; t=1766394516; x=1766999316;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=;
- b=UoC2OhXxxTFY2j2eJ2U+6dGQ0Cgi4gPL8aA/sQU4rleRGH8HynemcxrveXzw44ETHa
- B43jdYGn+LDSykYAPG+wBM7H5lyb/uB/kKYhl0CoSKeobTmdjIq8gT3hov5ACDLAX/Xr
- gnUUYMq5WESDjb+gzlsaS2aDQo5Q79nZHxPYiNbOHKZ1hI/RnQf0TuDYSciMIiUcIDUm
- hWiqQdl/sVa+LQrQ8702I+YymUoJwr/YTGsBAwNw8BbKKPAlmbZqdkLImwRfvP4S4zQ9
- BtdsB8EjcfuSmEvalPbYyif0ee8f+pH+CorrYspZVK5+uG9EqTszBixodBD9bGMVAbr5
- XQqQ==
+ bh=NMF7/7ba2tMpgWwab2kQ9bTMRzziaxOCdiu3Y60sfW8=;
+ b=heb8v44EoBS4Dq02tMDOoY+KLlfmDf/HrQA3a+RzgwZmONpA5xKZ4yYJ+Yw200nWoy
+ eJ8K4h4GA7h7rNY4UP96iur2JEOU1M7REsIBbNGpOMA364+Rdf6VA+XFGd388HLC86Dz
+ vIfGaviYKEXS3SLZBuRDnKjmICB+ek4uYncd5NtzY9C6JyrUSFVaKzRkyYYpVuSJ0rYH
+ a+gsDtYWvu39V1eIy1C3EaTjcKVWZl+Fr6MgnElZD3IZxXwKhx8u3+9BIF4L7WFL2vVr
+ Y3D+K5qEmpdmZp0+sQ1ij3SllMZd+kQCqx+M/y9ZZXO9BQbNbFJ/vNkbxwMEd+W0V34B
+ /bSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766394021; x=1766998821;
+ d=1e100.net; s=20230601; t=1766394516; x=1766999316;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7dzW06QAIiAkc0UiQYlfxr0uMo7Khj7kqrWF0YPuD9k=;
- b=cOR1CAxALUst7bF5KxbWYs9FWtpdqXH/AzrSe3zqXH6QnmVzISwzUih6WEG3UvZkia
- I6G8NrzxajodgMeKvy4nHTauYrqTDgmtT0KSIDTeTjg+Cm6+HJ9ZReDnJllzXwlI3z5S
- 00WsX5dQfkif9R0aMywhGtw2HitrHdPEVDTKEu75+kMBwtolDU4PbQY+8BT/n2Hpt/S/
- ojK6gLn+UKltnCW+XhvaUZaVUJni72BQDrBtciEY1TswO4UqHJNvU5C4DDjkTAiUo175
- C4DImQMfXFSo+YXoQ44oHYkNMrBE+huodK5SFd20yxMuMGJtBZgrJ7NzI16Y06j1AK7I
- 1mQQ==
+ bh=NMF7/7ba2tMpgWwab2kQ9bTMRzziaxOCdiu3Y60sfW8=;
+ b=QCakU0BvtK6Og9ehzq2kkMrpFKshXk89VeHeQhX13QdEvvK5Jf6KWFGsaCzSNHGNu1
+ ANHj2CdRsZAoecVrFW3HRjwWsp320TOj0f9iuw1q9HQBeyI2dp3K3fpCPcQPNg5mhM1K
+ b+cekjx9QhQXY1NCrqslRI55B/yILJ/trHseB3k41RQEQh8lXP0y+06FK7VU+VP9HsrN
+ 7LCDNevTLmroim2pp/K4CAB2EkswbfPnMldezmVIOzZ7ov4sWVWZVJydCsncVcyE4HtV
+ ac1ddymnpGoQ8Cgy5G8FpxzOD/XZJz0ukRf3zWZjSc6fktY76zGLLDdtUKkJbtRiD80I
+ BRxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhLWojaGDxjQvK4f+0yQhW2aqQvcK6dw1uYywYbfTGyLKWXk8G9bIJnM8G7lCNLhm82EmaSWUDC08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzViKTamYIDgr2awyAkFWak46T77smJ8DIoRb8po686U79SSDTL
- xJz6xQx9NuAGvQ0u+EIWNKTwaDlkOFkmFHf+oC1sFQp+cYq+0az8J0JKJvoQc/EwmomSE0SsQXw
- Iz/EjvwcByF8RFstC/Tpw7HM3w7lPyB8GCh6f9wrpJZIse5UtNkbGp5wcpEM4QvBBqo2C3Lk=
-X-Gm-Gg: AY/fxX4nnn5dcELPa7ModRDnUJi16pUbcYGEmYmxHaJLBc51wUsjndxEmFOHbs4xiz4
- gX5/cB6oLlu2g0xpEiIg9LJF3NXO1gK+gTlMeQOnDM1PfOH1gBwDtSIcNy1pgA3hCh4cvWlft1Y
- 0DCGVUJNJTrMnGfexMD8qfIpZkdfT6GFS5EPA9hq2H90FBL6CENrg7wgdxaBdcpUbyYIw8R0SdS
- tYAWn7J142qpep/2rGGz/KmvgEMmY4Rz16f2M4ecdQtukkRwuovHWLP+OZdVmRxJeW7J53LUW91
- nhzpRbVR0Fe4E9Mr1UY810l5KeaA4/Eyk910SbTQKys4fhlGt/olkid8ouP7qVxIhpKmhZqLEEL
- RWYPCVNWkGcOi3g2H1/AtrmpXf3AZx7wYjbX0/mgxd4DA5brmwjBy3ntyQcv9W+DltQ==
-X-Received: by 2002:a05:622a:290:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4f4abde8b40mr126852931cf.11.1766394020872; 
- Mon, 22 Dec 2025 01:00:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEJ3sa2cwix8pdUL8luSbRZkdo1cW7juRVDsscaa4ncFyVB+MukCKD119lgajVKKUHQrCA2Sw==
-X-Received: by 2002:a05:622a:290:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4f4abde8b40mr126852221cf.11.1766394020083; 
- Mon, 22 Dec 2025 01:00:20 -0800 (PST)
-Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037f0cc52sm1005945566b.52.2025.12.22.01.00.17
+ AJvYcCWFnCsY5n9K5+esqkN3R0syzbPuWCcrQyuyLmLhio3y2QM37cwTdubbx8DhKx2YCTMTFmwMrlcvEFo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkrkUX7KwU9GjlA4U+9tlYN8WPAHWjvs2aw7OMvc/wPE0cYmQM
+ GiXZo6jcrAfyH5qYdipTIMWmuQWWuSOGxshJJlMmH3Z0nF9oq1iId/arBhsTtyDBaeaDSEms/wm
+ zbeaxQBQ3hp3vpMfChmmmcPmQImwT6A0P1WeUiwN/4DYo4pbVHY76LB1dxkn3xAppl4ur9y0=
+X-Gm-Gg: AY/fxX6RK+uatMIiwA0rdsKdnUayEg11X9Nvg6nvfTr2KwI/0T4mzvlXCgEW6SQ+cmv
+ cZS4MWFq1QxXSiN9IgvGOLJw428mUzQ5OnhGCoyNM6uEq9onOqBjXBs/my93uY6LpI07abGbL5+
+ KU3bW1+96MGwOlp3FGyVO6+35nws81G42K6QQdDxZIB0PshbFYkZoK7YwdVV9f5S3T4BwWcWBqa
+ MrHggO6ExobBdrnGgUNfbw03GEZlHFgZjNpzb9cdM1G8Aak8qvs5zJZEue5JRLD5x1TlK+xl/Vm
+ 3tCu0gZqjjK/YfEDVpNJYrgHDa9y85oHyAssRqdq+0r3L5mj4ejQBOtoLGly/+YAzinD7fvOIK2
+ m9lmMICNpAz88T3gTM0+N+6clgcSDlErwn8paDFChew==
+X-Received: by 2002:a05:6a20:e290:b0:364:13c3:3dd0 with SMTP id
+ adf61e73a8af0-376a8eb6c35mr10547154637.36.1766394515788; 
+ Mon, 22 Dec 2025 01:08:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHl6B6o/j2hlUuO96VKa8xLDI3u56QgD3CAMpPMvZyXFrZI8ZfnFJrUAexsmLszQmxJCGIrWg==
+X-Received: by 2002:a05:6a20:e290:b0:364:13c3:3dd0 with SMTP id
+ adf61e73a8af0-376a8eb6c35mr10547120637.36.1766394515234; 
+ Mon, 22 Dec 2025 01:08:35 -0800 (PST)
+Received: from [10.204.86.173] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c1e7cbfa619sm8650695a12.36.2025.12.22.01.08.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Dec 2025 01:00:19 -0800 (PST)
-Message-ID: <0d442547-db12-4408-a0cb-b3d2bbc723d6@oss.qualcomm.com>
-Date: Mon, 22 Dec 2025 10:00:16 +0100
+ Mon, 22 Dec 2025 01:08:34 -0800 (PST)
+Message-ID: <b3d2c54d-f2ea-420a-b7f3-b9e60a96a841@oss.qualcomm.com>
+Date: Mon, 22 Dec 2025 14:38:28 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/6] soc: qcom: ubwc: Add config for Milos
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20251219-milos-mdss-v1-0-4537a916bdf9@fairphone.com>
- <20251219-milos-mdss-v1-1-4537a916bdf9@fairphone.com>
+Subject: Re: [PATCH v6 1/4] dt-bindings: misc: qcom,fastrpc: Add compatible
+ for Kaanapali
+To: Rob Herring <robh@kernel.org>
+Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_bkumar@quicinc.com,
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ ktadakam@qti.qualcomm.com
+References: <20251211100933.1285093-1-kumari.pallavi@oss.qualcomm.com>
+ <20251211100933.1285093-2-kumari.pallavi@oss.qualcomm.com>
+ <20251211154139.GA1424272-robh@kernel.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251219-milos-mdss-v1-1-4537a916bdf9@fairphone.com>
-Content-Type: text/plain; charset=UTF-8
+From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+In-Reply-To: <20251211154139.GA1424272-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4MCBTYWx0ZWRfX9l21At6DO+2c
- SYhr4+4Sewoo+XaqK9EA3TwVY7JR02oKC2nP6sPhYZ+b/OUn3QSfAcF/pPvNc7ReEzEQtSTaVXu
- qMuVIxMpXzUU1TFpVpgTApMgJGxUl9PhD5cbK0eHRxxRNUp+IfTcfzyoVrEmvtk08Yvup9QKdLR
- FseG5YISalgLoVo/fPXs4mCEkpd+7BO2v6Gg+8DgmQabZDltwLuC+zkhoErC9A4Rug3mNJiHdxB
- f8TYA8i7iJ8zzLCOPw7dB6r8Dh8y3zar17XNSQ4HhSLxR3bVIbIwG9fm75DYRrj3cn56KT5s1XK
- 38trkt6p7fmTDv2pj+oNA0bqMNHic2umpTK9/1bVnL7xvUz1ytJB8sqZcGpIoJgsCq8hse4g5oP
- guJNzE+V9VVezZwm/Xvujkby81qkR6ks7Z7iggArkZ/ZRQjZXTIpMcaVX1dYUCal9+s40IhlBZi
- MZOutogo+xZpfDfGFmA==
-X-Proofpoint-GUID: P_W3bHNNL6DA81GK9Hztes4v6EaZKEF7
-X-Proofpoint-ORIG-GUID: P_W3bHNNL6DA81GK9Hztes4v6EaZKEF7
-X-Authority-Analysis: v=2.4 cv=KYbfcAYD c=1 sm=1 tr=0 ts=694908a5 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-GUID: Tw-UBfDKtQV3uGlKZDNQpwUh-fpM_hAH
+X-Authority-Analysis: v=2.4 cv=dPWrWeZb c=1 sm=1 tr=0 ts=69490a94 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=6H0WHjuAAAAA:8 a=EUspDBNiAAAA:8
- a=KB0s8L93-oSB63ZrkccA:9 a=QEXdDO2ut3YA:10 a=AYr37p2UDEkA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=Soq9LBFxuPC4vsCAQt-j:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=Gr6j673y5SSln3Ut_ogA:9
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-ORIG-GUID: Tw-UBfDKtQV3uGlKZDNQpwUh-fpM_hAH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4MiBTYWx0ZWRfX9jPUCRXN4vsj
+ 0IQNOiqpsFRDLMwJrboi6khtdctGR03dg165vPeUpFgBOYJCAN/2AqCEheI50KYBbqvLZ0H+y0g
+ pGLnQsjQm+Un/QBdUW5V7ZEAAjkeeB0b4/gOHGnaAAFUSDnO8NDkr38s5Trcgw0MJKQFpphqMSi
+ su8IE6vfN9jLB1Xg2yTeBb6TEhwJqlMWqJCmrYCOW94AlbrSO5wgvw0D/ohOeSE+m/MJ94erpHk
+ 05nUqYxcGpak9dAjmUZESAxQ9oxfjLSLO/oe3xiPi3Xp3Mf8NYHzmIlthzRHUYe7lHccCYi8FnU
+ u/RZMhPf/c3r8oS8K+9SVZxe2xLg+T28uBvgKyYL/5RgMoIkihWdP2CAwtNaauiqbOZ0sPKgtFl
+ EKTs1L2TgQfbtDWwZ5QG6b39KxbaECBiKJkVcd8YJs1T71O2/z6tHwd5RWD4qmA/ky1YpXzIlx5
+ YY/d4ddB2QBcFjwqX/A==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512220080
+ impostorscore=0 spamscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,13 +149,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/19/25 5:41 PM, Luca Weiss wrote:
-> Describe the Universal Bandwidth Compression (UBWC) configuration
-> for the Milos SoC.
+
+
+On 12/11/2025 9:11 PM, Rob Herring wrote:
+> On Thu, Dec 11, 2025 at 03:39:30PM +0530, Kumari Pallavi wrote:
+>> Kaanapali introduces changes in DSP IOVA layout and CDSP DMA addressing
+>> that differ from previous SoCs. The SID field moves within the physical
+>> address, and CDSP now supports a wider DMA range, requiring updated
+>> sid_pos and DMA mask handling in the driver.
+>>
+>> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+>> ---
+>>   Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> index 3f6199fc9ae6..142309e2c656 100644
+>> --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> @@ -18,7 +18,12 @@ description: |
+>>   
+>>   properties:
+>>     compatible:
+>> -    const: qcom,fastrpc
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,kaanapali-fastrpc
+>> +          - const: qcom,fastrpc
 > 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
+> Does the driver work at all on this platform without the changes in this
+> series? If not, then it is not compatible with "qcom,fastrpc" as you
+> say here.
+> 
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Thanks for the clarification
+No, it doesn't work on kaanapali without this patch series
+I have updated the bindings accordingly to allow
+either "qcom,kaanapali-fastrpc" for Kaanapali or "qcom,fastrpc"
+for older platforms
 
-Konrad
+properties:
+   compatible:
+     enum:
+       - qcom,kaanapali-fastrpc
+       - qcom,fastrpc
+
+Regards,
+Pallavi
+
+> Rob
+
