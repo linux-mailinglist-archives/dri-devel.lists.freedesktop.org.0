@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35E8CD6BFA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 18:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177F2CD6BFD
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 18:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC0810E07B;
-	Mon, 22 Dec 2025 17:03:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F6xmozyS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4C610E6F1;
+	Mon, 22 Dec 2025 17:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF59010E07B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 17:03:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F2C4C6014C;
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com
+ [216.40.44.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51C3C10E07B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 17:03:17 +0000 (UTC)
+Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay02.hostedemail.com (Postfix) with ESMTP id B497713A662;
  Mon, 22 Dec 2025 17:03:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0373DC4CEF1;
- Mon, 22 Dec 2025 17:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766422994;
- bh=tH4Nnl/oDlWWOeWn9ajIyRHG8aXXOcTM2+Wkimr9lTk=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=F6xmozySx2DQMXHYJx7FgT0KkMkOcfp7m8x6HYQsNEKVXIlhelEMiaLDLqDZfOmD2
- agDpQb9nx8OZ8oeaIYc08tgHD8LJfMtRPJNmXKsrffhQ7ZxLnBK++FLNeQ+YgZ38WM
- al+uDED8Y3JvWzjaf2Q3ZNKr7z/SPfpfPA6pdFR7beB+CE4qSO0jV5gxJoubi94CEa
- ZSG4GOZhiMa0vr6IAs4RE+8s/FoJZ0zOqd2dOfmYyHkbAJBuFYy0+JX5qbPyXPIIUp
- i7X0HaftE3gno/kaJyj3PcOzc02df6BI5dNuUKXNtKdKMyaLp2W1IbopfHZAAH+E1X
- dg+k0rdp9RvJg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
+ omf01.hostedemail.com (Postfix) with ESMTPA id C220C6000C; 
+ Mon, 22 Dec 2025 17:03:11 +0000 (UTC)
+Date: Mon, 22 Dec 2025 12:04:59 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: =?UTF-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Xiang Gao
+ <gxxa03070307@gmail.com>, "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>, "mhiramat@kernel.org" <mhiramat@kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+ "dhowells@redhat.com" <dhowells@redhat.com>, "kuba@kernel.org"
+ <kuba@kernel.org>, "brauner@kernel.org" <brauner@kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [External Mail]Re: [PATCH v8] dma-buf: add some tracepoints to
+ debug.
+Message-ID: <20251222120459.644e50ee@gandalf.local.home>
+In-Reply-To: <e9046d36a74d4eefbe85936fd2ff7cba@xiaomi.com>
+References: <20251218062853.819744-1-gxxa03070307@gmail.com>
+ <eb2e048b-ac39-4379-98b8-6dae2145be7e@amd.com>
+ <c8dab5d09fa24bc58309062910347e7a@xiaomi.com>
+ <e9046d36a74d4eefbe85936fd2ff7cba@xiaomi.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Dec 2025 18:03:08 +0100
-Message-Id: <DF4WOUGU3RJC.1XHFZM27Y3C1R@kernel.org>
-Subject: Re: [PATCH] rust: drm: replace `kernel::c_str!` with C-Strings
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, "Tamir Duberstein" <tamird@gmail.com>
-To: "Tamir Duberstein" <tamird@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251222-cstr-tyr-v1-1-d88ff1a54ae9@gmail.com>
-In-Reply-To: <20251222-cstr-tyr-v1-1-d88ff1a54ae9@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Stat-Signature: wwj8d98jrga53of55yjujmnjjh1jyq54
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: C220C6000C
+X-Spam-Status: No, score=-0.09
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+OzYT3+DzkfjjO5N9xkiQl2sy06YlbtSw=
+X-HE-Tag: 1766422991-614254
+X-HE-Meta: U2FsdGVkX18S7MPFx/Edj80NuArl9Lelu7WD2IEzK5TKzvAaNnk+gxl0qUZlDfx91zxz27wSjt5d/RYbZcCK1AZSUHI4qt19bkAUYeek/NeuJytXJHnZBfqv92CPrIycJmFb9mens+pD5MgVsb7CZn1b7Qu5qGVF1He+fS57QtA2lHdtQOY9MjFmnFNPpLlWsI0JLq5rZkvlUF5cXYmda38409XBom1LzMAB8Rct4O2vsdg+2sF/e9zVHv7v6HcBoXYuo6BmO03Uyp8j8NV3To1GL2Bs+v82dCVbEBoU3KU0eoTPjhDNJO7plG4zffQff5GQefzfd9f9LVYV2j9Lc331fGwwER/F
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,14 +68,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Dec 22, 2025 at 1:27 PM CET, Tamir Duberstein wrote:
-> From: Tamir Duberstein <tamird@gmail.com>
->
-> C-String literals were added in Rust 1.77. Replace instances of
-> `kernel::c_str!` with C-String literals where possible.
->
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+On Mon, 22 Dec 2025 01:41:28 +0000
+=E9=AB=98=E7=BF=94 <gaoxiang17@xiaomi.com> wrote:
 
-Applied to drm-rust-next, thanks!
+> > there was some whitespace issues with the macro. =20
+>=20
+> I check the patch with checkpatch.pl, couldn't find whitespace issues.
+>=20
 
-    [ Change commit subject prefix to 'drm: tyr:'. - Danilo ]
+
+> > +DECLARE_EVENT_CLASS(dma_buf,
+> > +
+> > +     TP_PROTO(struct dma_buf *dmabuf),
+> > +
+> > +     TP_ARGS(dmabuf),
+> > +
+> > +     TP_STRUCT__entry(
+> > +             __string(exp_name, dmabuf->exp_name)
+> > +             __field(size_t, size)
+> > +             __field(ino_t, ino)
+> > +     ),
+
+These don't follow checkpatch recommendations for whitespace, because they
+are "special". Please update these to look more like a structure:
+
+     TP_STRUCT__entry(
+             __string(	exp_name,		dmabuf->exp_name)
+             __field(	size_t,			size)
+             __field(	ino_t,			ino)
+     ),
+
+
+> > +
+> > +     TP_fast_assign(
+> > +             __assign_str(exp_name);
+> > +             __entry->size =3D dmabuf->size;
+> > +             __entry->ino =3D dmabuf->file->f_inode->i_ino;
+> > +     ),
+> > +
+> > +     TP_printk("exp_name=3D%s size=3D%zu ino=3D%lu",
+> > +               __get_str(exp_name),
+> > +               __entry->size,
+> > +               __entry->ino)
+> > +);
+> > +
+> > +DECLARE_EVENT_CLASS(dma_buf_attach_dev,
+> > +
+> > +     TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attac=
+h,
+> > +             bool is_dynamic, struct device *dev),
+> > +
+> > +     TP_ARGS(dmabuf, attach, is_dynamic, dev),
+> > +
+> > +     TP_STRUCT__entry(
+> > +             __string(dev_name, dev_name(dev))
+> > +             __string(exp_name, dmabuf->exp_name)
+> > +             __field(size_t, size)
+> > +             __field(ino_t, ino)
+> > +             __field(struct dma_buf_attachment *, attach)
+> > +             __field(bool, is_dynamic)
+> > +     ),
+
+Same here too:
+
+     TP_STRUCT__entry(
+             __string(	dev_name,			dev_name(dev))
+             __string(	exp_name,			dmabuf->exp_name)
+             __field(	size_t,				size)
+             __field(	ino_t,				ino)
+             __field(	struct dma_buf_attachment *,	attach)
+             __field(	bool,				is_dynamic)
+     ),
+
+
+> > +
+> > +     TP_fast_assign(
+> > +             __assign_str(dev_name);
+> > +             __assign_str(exp_name);
+> > +             __entry->size =3D dmabuf->size;
+> > +             __entry->ino =3D dmabuf->file->f_inode->i_ino;
+> > +             __entry->is_dynamic =3D is_dynamic;
+> > +             __entry->attach =3D attach;
+> > +     ),
+> > +
+> > +     TP_printk("exp_name=3D%s size=3D%zu ino=3D%lu attachment:%p is_dy=
+namic=3D%d dev_name=3D%s",
+> > +               __get_str(exp_name),
+> > +               __entry->size,
+> > +               __entry->ino,
+> > +               __entry->attach,
+> > +               __entry->is_dynamic,
+> > +               __get_str(dev_name))
+> > +);
+> > +
+> > +DECLARE_EVENT_CLASS(dma_buf_fd,
+> > +
+> > +     TP_PROTO(struct dma_buf *dmabuf, int fd),
+> > +
+> > +     TP_ARGS(dmabuf, fd),
+> > +
+> > +     TP_STRUCT__entry(
+> > +             __string(exp_name, dmabuf->exp_name)
+> > +             __field(size_t, size)
+> > +             __field(ino_t, ino)
+> > +             __field(int, fd)
+> > +     ),
+
+And the above.
+
+-- Steve
+
+> > +
+> > +     TP_fast_assign(
+> > +             __assign_str(exp_name);
+> > +             __entry->size =3D dmabuf->size;
+> > +             __entry->ino =3D dmabuf->file->f_inode->i_ino;
+> > +             __entry->fd =3D fd;
+> > +     ),
+> > +
+> > +     TP_printk("exp_name=3D%s size=3D%zu ino=3D%lu fd=3D%d",
+> > +               __get_str(exp_name),
+> > +               __entry->size,
+> > +               __entry->ino,
+> > +               __entry->fd)
+> > +);
+> > +
