@@ -2,79 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2628BCD49A3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 04:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61315CD4A85
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 04:51:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7BF10E4D8;
-	Mon, 22 Dec 2025 03:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6922210E4EF;
+	Mon, 22 Dec 2025 03:51:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="Y86luv1q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YhAXZAHn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw
- [219.87.157.213])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C1610E4DB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 03:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=TyIsVcwkcIFBSuyGAEWQRlk2lyFi7KjeX0BLprRa5Bc=;
- b=Y86luv1qR2OhrXeWcrKyY1dB1jM0/BXzafXOFOhDKKcKc2+7JWHdzRcq
- osPOXiAceygUVvArOu1hTFmQQ/ga3OHsRYFVd4zDyPXOhNTbf267oo+Wr
- YLN7LtRbY/JhUMRMuRQ3oSO85Q9L+FECsyp6h8yqQjTifvwgEaPT/wznx
- EQecCU7eT8+0o/hSO9xYRU5GqHk6cZy0XVFHbDGS2LvEwIWaWYqodGSw9
- Vvcz58xS8pJCz3mC8ax4lrrDKErTS1sllipTYZdRkXyfl0oMAeaNQyzEv
- vsYWs056vK7ztFI13MUo0s4VRd6KVxygFd1olJf7OEB+B702fU+We1dvG w==;
-X-CSE-ConnectionGUID: mCZ4LObkT8OMx98FuvrQ9g==
-X-CSE-MsgGUID: MvSZ4tiwSCu9JdD3hYskgg==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 22 Dec 2025 11:10:32 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 5BM3AZ8G076415;
- Mon, 22 Dec 2025 11:10:35 +0800 (+08)
- (envelope-from Pet.Weng@ite.com.tw)
-Received: from [127.0.1.1] (192.168.72.40) by CSBMAIL1.internal.ite.com.tw
- (192.168.65.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Mon, 22 Dec
- 2025 11:10:34 +0800
-From: Pet Weng <pet.weng@ite.com.tw>
-Date: Mon, 22 Dec 2025 11:10:14 +0800
-Subject: [PATCH v5 3/3] MAINTAINERS: Add entry for ITE IT61620 MIPI to HDMI
- bridge driver
-MIME-Version: 1.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F60B10E4EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 03:51:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 013AA43C7F;
+ Mon, 22 Dec 2025 03:51:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF00DC4CEF1;
+ Mon, 22 Dec 2025 03:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766375468;
+ bh=MEeM6tsBj/3OM0kMlSaegn17vrVHhDO+vGFmkDp5jfI=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=YhAXZAHn59YGF3vYDo9h4YGMPJPZb4FhTZtscifBLXf8G+eQUcp/djn3ybWpHEI8x
+ bN0LrzOM8HMviDlrA31rg8cgWZiCysgmXWgGUkPmuyZfksEnqoJhWqjn1MsjG5of6a
+ BcQo90YfbTnqDvE5SdwLiL0o6yc4iFd4rY6L+EQ7OCVR0fFI8StYaSMYqvWtg2XQ4Y
+ 8TLJncqEwGZTJADQxeXpLd8fb4U3M8QJK90Wr3puK1hcTcarvYiRh8T0qM0aYc+7/V
+ mXpSrQfNWX073cpXsKPAf+oayxf1Rz3tEbfOuiJpvbmC7XTGTgdAGP3nORPG9Rk5xL
+ 6nxUQQ6E20/cA==
+Date: Sun, 21 Dec 2025 21:51:07 -0600
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251222-it61620-0714-v5-3-afb6479ad3ca@ite.com.tw>
-References: <20251222-it61620-0714-v5-0-afb6479ad3ca@ite.com.tw>
-In-Reply-To: <20251222-it61620-0714-v5-0-afb6479ad3ca@ite.com.tw>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Hermes Wu <hermes.Wu@ite.com.tw>, Kenneth
- Hung <kenneth.Hung@ite.com.tw>, Pet Weng <pet.weng@ite.com.tw>, Pin-yen Lin
- <treapking@google.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766373040; l=1028;
- i=pet.weng@ite.com.tw; s=20250702; h=from:subject:message-id;
- bh=6CBzwqaiiwA5jdq21rdA2+OaEod9uILSwQU1/16ghgg=;
- b=TH4yzXIrZM6h4g4UG+P2fse7mfY26D0Vs1RFjnZTj/CpU1EmuQrUWBCdvhyDBqcbvZu3bQo6V
- u2GFMXy3YtRAI1mc4NR0sQx7y0Qt49UMVmpBOocaR3uf9Wg2cPNp0lq
-X-Developer-Key: i=pet.weng@ite.com.tw; a=ed25519;
- pk=wd08uBtTLb93x2ixbKVNsxiZPdMh1Ov4z5klodh2bqo=
-X-Originating-IP: [192.168.72.40]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: B0E9D362ABEA6BDD521AC2DF1A4226DDA6A91D8DC3973FBAD1FC7B719CB19C2C2002:8
-X-MAIL: mse.ite.com.tw 5BM3AZ8G076415
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Casey Connolly <casey.connolly@linaro.org>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ David Airlie <airlied@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Andy Gross <agross@kernel.org>, 
+ devicetree@vger.kernel.org, Jessica Zhang <jesszhan0024@gmail.com>, 
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ dri-devel@lists.freedesktop.org, Martin Botka <martin.botka@somainline.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+In-Reply-To: <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
+References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
+Message-Id: <176637546557.2070819.6982338294442639019.robh@kernel.org>
+Subject: Re: [PATCH v2 06/11] dt-bindings: display: panel: Describe Samsung
+ SOFEF03-M DDIC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +79,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new entry for the ITE IT61620 MIPI to HDMI bridge driver to the
-MAINTAINERS file, include the responsible maintainer, mailing list, and
-file patterns.
 
-Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Mon, 22 Dec 2025 00:32:12 +0100, Marijn Suijten wrote:
+> Document the Samsung SOFEF03-M Display-Driver-IC and 1080x2520@120Hz DSI
+> command-mode panels found in the Sony Xperia 5 II and Sony Xperia 5 III.
+> It requires Display Stream Compression 1.1 which allows the panels to be
+> driven at 120Hz, even though a 60Hz mode is available too.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  .../bindings/display/panel/samsung,sofef03-m.yaml  | 79 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 84 insertions(+)
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f980623f1479bb36d2c923597dc17e0ef8df32e0..1ca89de60c96110f270e635a68f2f42b985a0d2e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13484,6 +13484,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
- F:	drivers/gpu/drm/bridge/ite-it6263.c
- 
-+ITE IT61620 MIPI DSI TO HDMI BRIDGE DRIVER
-+M:	Pet Weng <pet.weng@ite.com.tw>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/bridge/ite,it61620.yaml
-+F:	drivers/gpu/drm/bridge/ite-it61620.c
-+
- ITE IT66121 HDMI BRIDGE DRIVER
- M:	Phong LE <ple@baylibre.com>
- M:	Neil Armstrong <neil.armstrong@linaro.org>
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-2.34.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/samsung,sofef01-m.example.dtb: panel@0 (samsung,sofef01-m-amb609tc01): 'vci-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/display/panel/samsung,sofef01-m.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
