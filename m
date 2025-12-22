@@ -2,53 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66756CD7183
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 21:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3950FCD707F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Dec 2025 21:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8EF10E12B;
-	Mon, 22 Dec 2025 20:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42F410E07C;
+	Mon, 22 Dec 2025 20:04:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AN0i/Hpm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ks4sEbD4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF5910E12B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 20:38:09 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D5010E07C;
+ Mon, 22 Dec 2025 20:04:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6B4166014C;
- Mon, 22 Dec 2025 20:38:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD83C116D0;
- Mon, 22 Dec 2025 20:38:06 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2B9BE40DB7;
+ Mon, 22 Dec 2025 20:04:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FB36C4CEF1;
+ Mon, 22 Dec 2025 20:04:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766435888;
- bh=13hBlmRovUFLHkB/2BS2es/VlKAxV4dLlwSJdmWTynA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AN0i/HpmuD/Jf7sepT/EB1J0aEbxYzfFOgvxDBCXcyCMonBcZsnE66RXGR6nXs8FT
- TTkhMNX+x6GlnAHRjEHxC1yq6MygZiTr33FMHiD1yb2SsvLeJ4GNkNfloilYIfaQz5
- yqx7VQ7JZZ7UubHoN0dHP9AQ60Fehi0FYMHjDBoZgHT1dtn+nWnPdZirc0iDxjJUDm
- Mbnw+dPODufyIvyq13T1BhE4IXGKvL2cIfswoklFSYHvF8QHQg6bXUBn0VeYh7NtNW
- XrBSCIlJd5kNYt77MssH6x70P4zb2ZOxYqqW6CaUKlBrN3OS9XQ/kphyN0wWwVfvM2
- BymnM7/lfZAgA==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Linux PM <linux-pm@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Brian Norris <briannorris@chromium.org>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 04/23] drm/imagination: Discard pm_runtime_put() return
- value
-Date: Mon, 22 Dec 2025 20:59:58 +0100
-Message-ID: <8642685.T7Z3S40VBb@rafael.j.wysocki>
-Organization: Linux Kernel Development
-In-Reply-To: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
-References: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
+ s=k20201202; t=1766433861;
+ bh=zwpPZI3aCzU701r+bt49CUPkrH2uvexax+yCoGFo4dk=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=Ks4sEbD4BmEIL+iZbfylQlhQIi6pN3LrZ83VQb9hSJU3r7XUizrxcsW6e/FeWfUvd
+ gUHvKlGB9e7kpSWLMwSsxLIajsEJesvz+egvwY9KfQKhXq5lWNSDo7ad5p76ERuwYn
+ nx733ghtCo2Vv0USO877gmZtEIAvFFkMMf4O5yXdUVX8g1KzsKgmEYf13snZfFswn2
+ UzB43OXM0N2SIksoQEeMUYVUD9pc+B9Qd24TzWGVxk7U11h1w87whOpqfCRkCfjgCG
+ trJawH2puCyAErsYIAFuNf7WoKp1zQJIft2VjIy4xRgaq9BOtNkaBPi2FfphiVKZ71
+ 5RKGWht8ECTkQ==
+From: Mark Brown <broonie@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Breno Leitao <leitao@debian.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Jens Axboe <axboe@kernel.dk>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rae Moar <raemoar63@gmail.com>, 
+ Tamir Duberstein <tamird@gmail.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
+In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
+References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
+Subject: Re: (subset) [PATCH v2 00/19] rust: replace `kernel::c_str!` with
+ C-Strings
+Message-Id: <176643385114.959021.16173066477128119135.b4-ty@kernel.org>
+Date: Mon, 22 Dec 2025 20:04:11 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +92,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Thu, 25 Sep 2025 09:53:48 -0400, Tamir Duberstein wrote:
+> This series depends on step 3[0].
+> 
+> Subsystem maintainers: I would appreciate your `Acked-by`s so that this
+> can be taken through Miguel's tree (where the previous series must go).
+> 
+> Link: https://lore.kernel.org/all/20250925-cstr-core-v16-0-5cdcb3470ec2@gmail.com/ [0]
+> 
+> [...]
 
-The Imagination DRM driver defines pvr_power_put() to pass the return
-value of pm_runtime_put() to the caller, but then it never uses the
-return value of pvr_power_put().
+Applied to
 
-Modify pvr_power_put() to discard the pm_runtime_put() return value and
-change its return type to void.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-No intentional functional impact.
+Thanks!
 
-This will facilitate a planned change of the pm_runtime_put() return
-type to void in the future.
+[19/19] rust: regulator: replace `kernel::c_str!` with C-Strings
+        commit: b0655377aa5a410df02d89170c20141a1a5bbc28
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-This patch is part of a series, but it doesn't depend on anything else
-in that series.  The last patch in the series depends on it.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-It can be applied by itself and if you decide to do so, please let me
-know.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Otherwise, an ACK or equivalent will be appreciated, but also the lack
-of specific criticism will be eventually regarded as consent.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
----
- drivers/gpu/drm/imagination/pvr_power.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/drivers/gpu/drm/imagination/pvr_power.h
-+++ b/drivers/gpu/drm/imagination/pvr_power.h
-@@ -30,12 +30,12 @@ pvr_power_get(struct pvr_device *pvr_dev
- 	return pm_runtime_resume_and_get(drm_dev->dev);
- }
- 
--static __always_inline int
-+static __always_inline void
- pvr_power_put(struct pvr_device *pvr_dev)
- {
- 	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
- 
--	return pm_runtime_put(drm_dev->dev);
-+	pm_runtime_put(drm_dev->dev);
- }
- 
- int pvr_power_domains_init(struct pvr_device *pvr_dev);
-
-
+Thanks,
+Mark
 
