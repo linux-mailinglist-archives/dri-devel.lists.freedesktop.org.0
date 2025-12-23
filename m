@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92923CD958B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 13:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD00DCD958F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 13:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0506A10E0CF;
-	Tue, 23 Dec 2025 12:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F8A10E215;
+	Tue, 23 Dec 2025 12:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u/xMO7Nw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gXGBmVIJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0F9B10E0CF
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 12:47:47 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75CF410E1FC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 12:47:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 346BD60139;
+ by sea.source.kernel.org (Postfix) with ESMTP id 2B141443AD;
+ Tue, 23 Dec 2025 12:47:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5616FC113D0;
  Tue, 23 Dec 2025 12:47:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2EDC116C6;
- Tue, 23 Dec 2025 12:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766494066;
- bh=2MjDtfXLypEJRTDTl8IzvcRwXY4LSxBOkoiWuhZLK/c=;
+ s=k20201202; t=1766494072;
+ bh=jGxjXld3AbH/E5UJYH7bhKAG0w3LuU6IFlo/+lXXbyE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u/xMO7Nw3t3IKgf7oRNo8bj7RH9qndcM/dAQAGbmZiPkooJ0K4tsMdl+JnfF1FmoU
- px3VoHsX5JNFtyIcOvePmF15TGIUSD90DN9EQ0sdmmq345AS69CX+KI7FEz6FEpG3q
- zNIDJKg9jWU7X/ArBmIuFsB1wZs6wNeA7R5p1p7ykjTaKei7TLSNn/b4iR8wb3W/wj
- fqc6ImWdPssVqoUjrok/PQ88iquzXfa/AERl89HenBCD7OVvAWG44AUOQIOel+BsEW
- AmV5Hspqhp3BgCCdpmE/mQikQwBQALq2sq4FSS5ccQ0uZt64MsBiJyWJZjcwWoyT2j
- D8g5SnmSMLvJA==
+ b=gXGBmVIJqJRkCum5iYNnqsEG2H0Wc1XPk6ECg093ArxZO7wPZ97xbuhNMuS1/finB
+ RqaIel3Wh4AuUufa1fMGExYCHqqzuAqMjJq9eYEESh1IBMg9MQOFf08lj6BBFOHjqY
+ EUWEL97hcYYLqpK/+q6gLOhGaNJjeRrOMUYqB8Kc4C7IPHuOaXqLijRFPRZB9Mp39g
+ OeBoHAHsRMF//BwLTgi1YaqmwHdUhbZus0eV919cV/vYFuxWFmhGrpExeJu49Qoycb
+ GsDPSX6Xl+eisCuUhTQUL3HUPYfaDmIJ8POccdzV+dYZOnPEz2BNWfW5rouqJsF5fc
+ f4pNInq4ecxIg==
 From: Michael Walle <mwalle@kernel.org>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -45,12 +45,10 @@ To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
  Randolph Sapp <rs@ti.com>
 Cc: linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael Walle <mwalle@kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 1/4] dt-bindings: gpu: img: Add AM62P SoC specific
- compatible
-Date: Tue, 23 Dec 2025 13:47:13 +0100
-Message-ID: <20251223124729.2482877-2-mwalle@kernel.org>
+ linux-arm-kernel@lists.infradead.org, Michael Walle <mwalle@kernel.org>
+Subject: [PATCH v2 2/4] clk: keystone: don't cache clock rate
+Date: Tue, 23 Dec 2025 13:47:14 +0100
+Message-ID: <20251223124729.2482877-3-mwalle@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251223124729.2482877-1-mwalle@kernel.org>
 References: <20251223124729.2482877-1-mwalle@kernel.org>
@@ -71,35 +69,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AM62P and the J722S features the same BXS-4 GPU as the J721S2. Add a
-new SoC specific compatible.
+The TISCI firmware will return 0 if the clock or consumer is not
+enabled although there is a stored value in the firmware. IOW a call to
+set rate will work but at get rate will always return 0 if the clock is
+disabled.
+The clk framework will try to cache the clock rate when it's requested
+by a consumer. If the clock or consumer is not enabled at that point,
+the cached value is 0, which is wrong. Thus, disable the cache
+altogether.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Kevin Hilman <khilman@baylibre.com>
+Reviewed-by: Randolph Sapp <rs@ti.com>
 ---
- Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clk/keystone/sci-clk.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 86ef68985317..a1f54dbae3f3 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -40,6 +40,7 @@ properties:
-           - const: img,img-rogue
-       - items:
-           - enum:
-+              - ti,am62p-gpu
-               - ti,j721s2-gpu
-           - const: img,img-bxs-4-64
-           - const: img,img-rogue
-@@ -100,6 +101,7 @@ allOf:
-           contains:
-             enum:
-               - ti,am62-gpu
-+              - ti,am62p-gpu
-               - ti,j721s2-gpu
-     then:
-       properties:
+diff --git a/drivers/clk/keystone/sci-clk.c b/drivers/clk/keystone/sci-clk.c
+index 9d5071223f4c..0a1565fdbb3b 100644
+--- a/drivers/clk/keystone/sci-clk.c
++++ b/drivers/clk/keystone/sci-clk.c
+@@ -333,6 +333,14 @@ static int _sci_clk_build(struct sci_clk_provider *provider,
+ 
+ 	init.ops = &sci_clk_ops;
+ 	init.num_parents = sci_clk->num_parents;
++
++	/*
++	 * A clock rate query to the SCI firmware will return 0 if either the
++	 * clock itself is disabled or the attached device/consumer is disabled.
++	 * This makes it inherently unsuitable for the caching of the clk
++	 * framework.
++	 */
++	init.flags = CLK_GET_RATE_NOCACHE;
+ 	sci_clk->hw.init = &init;
+ 
+ 	ret = devm_clk_hw_register(provider->dev, &sci_clk->hw);
 -- 
 2.47.3
 
