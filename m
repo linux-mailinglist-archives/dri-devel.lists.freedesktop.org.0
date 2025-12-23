@@ -2,78 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E031CCD8A8C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 10:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB34CD8B5E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 11:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDFF010E0C2;
-	Tue, 23 Dec 2025 09:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D56910E130;
+	Tue, 23 Dec 2025 10:05:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f0f8pNMr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u9vNJBwB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC9310E0C2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 09:55:05 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7f89d0b37f0so2920078b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 01:55:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766483705; x=1767088505; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IPXyR+DtSHvjmSw63vey96VhbW0eHbWu1L3mVM+HHkU=;
- b=f0f8pNMr7nI7rQpf8r5Zj/nhYWvp9bVhxByYMIu5gcrcXzSw3x2u+xRb4i+9plqtif
- MA31SvOqs25pxtz9MpdhxE/8TuZdPTmZITHf6cVlD8OGe0s/QLwEZOqG9+zleyKLCLcB
- YJGkNPjvxSTWBSQokBv6JBg2ezbxA1w4JNA3Uj4AphKjdOQtiGyMCgyYOMn1lwuD8bOz
- d40R/1bViAUrDD5awkF44xTqqH6R0zmsc6L70TbPLcRuXg7pMoSYkQhfHBruuWMKxwlL
- 8C00SfX0OgzYzLCyN+vDfR67GEWs5P/GxOuUMGGeeQdgqY+fNFR3Vj/OuEeC3atgh6z6
- o1hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766483705; x=1767088505;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IPXyR+DtSHvjmSw63vey96VhbW0eHbWu1L3mVM+HHkU=;
- b=EcyLpjKGz4rrVp1JyM8521j+a4OIxbP7Nw6yWmPY0XriYBPD6wkiyBbimG+5myrDiH
- kgoOpinGxI1ng8dDwXTwaW7DFyzUFO6hOyncvloyeV4emy/1wvCLpFVmqfQi+zeLE0y9
- wOS8azNPJmV7R+4iRGymmU8SaKJAOKub3LGkwzmzHVAZC9CAaOSDNd5JPxCl5ki5yTrL
- VpQvkSLoxlc4RbQXy8RyH3YtArruDIix8zIzg/vw+NPYpExozzrQcqxi/X5rEdJZgZi1
- LOBIWJLH4HnPZ125B5y7F/l44YHMmcQ8oxyY6cAAD3VypSllFh6TYE4WWQG3azdw9g8v
- Km9A==
-X-Gm-Message-State: AOJu0Ywp/hv3exy3NTwbhHwwg1y4VoADN6Z4YfBGl3jqZlpESttAAjVv
- j+9KMUiGNKKgiFukWjuAyEJcYA1vsxohFqnhCYq79xP+vOixR0I84hMN
-X-Gm-Gg: AY/fxX7P8tdXJ+UZmJLbqwXmg75DsI6Lhvmb7/UUmtSXFJXL3NdSVk5kGSkWpC2AZ+0
- Dg2kFu+n38j1fTtLGTpE2+mcaqUiFylSTiHjJjslb48X87BsmAz8JnsDx5ckeqEED7y00kKKZAg
- r/VIernO8HhDg7wD+NuXf8cpeUOKarzCK3oyfe6icEz+rO6qwAO+lReLJ1MA+A7QKV9iD+TF/Tp
- WiDZxQJxzA5lWzq3sODG7WBK2wuwx28aE68Er0MRvke17N0saeDV6g5hnakCKc6UNbxOMPCpyHd
- v+ch278lQt2P2rapjVP/Rm9EY4YDSZf0nQp5sW22yLhD8aeDARikUSdBdGDq4RoWbngi1KldO1U
- B33fj4kOOK3NSBqIn9CPEJNjbvbLn192pNpytHHZZ03Jjb8UrTXT8w7o0iKcwHbLrJtaGCF+cy6
- P1FQXEYbRPaddMBQwbWzTTCXU89M3x
-X-Google-Smtp-Source: AGHT+IEdzNfnqNUJyDypKzn3dPYc29vkogAq63TVtVQNeWPmClzH/fQB7OhCe8Q/j5leeIRr37dB1w==
-X-Received: by 2002:a05:6a20:6a07:b0:371:7666:648c with SMTP id
- adf61e73a8af0-3769f3351f4mr13306712637.24.1766483704666; 
- Tue, 23 Dec 2025 01:55:04 -0800 (PST)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3d776ebsm124413885ad.99.2025.12.23.01.55.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Dec 2025 01:55:04 -0800 (PST)
-From: Abhishek Rajput <abhiraj21put@gmail.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- lkp@intel.com, abhiraj21put@gmail.com
-Subject: [PATCH v2] drm/mediatek: Convert legacy DRM logging to drm_* helpers
- in mtk_crtc.c
-Date: Tue, 23 Dec 2025 15:24:34 +0530
-Message-ID: <20251223095434.492041-1-abhiraj21put@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73110E130
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 10:05:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AF5E76013A;
+ Tue, 23 Dec 2025 10:05:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4701C113D0;
+ Tue, 23 Dec 2025 10:05:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766484331;
+ bh=2bElGj6oTaVx916jVSsTwC8Pc7YB1+/6sP52v4v8qrk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=u9vNJBwBzKlcs1iotQo3Aud3FwV5HGfV0d8l9NULIJwKEoT9uv4jcqrsuI0nvAfhc
+ r9QwSemUJNubJhWdtT+COwO4ahleqdeXym5IAhephj+vWAZGwnMcbUNeJYjNc5qSGX
+ ZdG/cIueWN6Stnsm/tUFB2d+//9SD1m3h6jTeRjZkDk/L+RaR32ruNve2RM+yIMyMp
+ Ot7sbhrezOQ3l97MJyurlVbjRSB8X+PrtEnQo39bBjaX/DOoZK8qlBJl86D5Ig4lxe
+ 0pogJzbZfKB0VcKQSLIRpcWiNTiY/uTYPQG+dtif6Jhxuvt0OVq6kyH91YW0YshWAD
+ 1Xy4uT+wAgYkw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Lizhi Hou <lizhi.hou@amd.com>, Sasha Levin <sashal@kernel.org>,
+ mamin506@gmail.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.18] accel/amdxdna: Block running under a hypervisor
+Date: Tue, 23 Dec 2025 05:05:13 -0500
+Message-ID: <20251223100518.2383364-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251223100518.2383364-1-sashal@kernel.org>
+References: <20251223100518.2383364-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.2
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,130 +63,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace DRM_ERROR() and DRM_DEBUG_DRIVER() calls in
-drivers/gpu/drm/mediatek/mtk_crtc.c with the corresponding drm__err()
-and drm_dbg_driver() helpers.
+From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 
-The drm_*() logging helpers take a struct drm_device * argument,
-allowing the DRM core to prefix log messages with the correct device
-name and instance. This is required to correctly distinguish log
-messages on systems with multiple GPUs.
+[ Upstream commit 7bbf6d15e935abbb3d604c1fa157350e84a26f98 ]
 
-This change aligns the Mediatek DRM driver with the DRM TODO item:
-"Convert logging to drm_* functions with drm_device parameter".
+SVA support is required, which isn't configured by hypervisor
+solutions.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes:
-https://lore.kernel.org/oe-kbuild-all/202512220515.z3QybJ8I-lkp@intel.com/
-Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
+Closes: https://github.com/QubesOS/qubes-issues/issues/10275
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4656
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+Link: https://patch.msgid.link/20251213054513.87925-1-superm1@kernel.org
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-v2:
-- Fix unused variable warning when CONFIG_MTK_CMDQ is disabled
-- Added Reported-by and Closes tags
-Link to v1:
-https://lore.kernel.org/all/20251217070303.689913-1-abhiraj21put@gmail.com/
- drivers/gpu/drm/mediatek/mtk_crtc.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 991cdb3d7d5f..bca2e40bca54 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -227,11 +227,12 @@ static int mtk_crtc_ddp_clk_enable(struct mtk_crtc *mtk_crtc)
- {
- 	int ret;
- 	int i;
-+	struct drm_device *dev = mtk_crtc->base.dev;
+LLM Generated explanations, may be completely bogus:
+
+## Commit Analysis: accel/amdxdna: Block running under a hypervisor
+
+### 1. COMMIT MESSAGE ANALYSIS
+
+The commit message indicates this fix prevents the amdxdna driver from
+running under hypervisors because SVA (Shared Virtual Addressing)
+support is required but not configured in hypervisor solutions. Two bug
+tracker links are provided:
+- QubesOS issue #10275
+- freedesktop.org AMD issue #4656
+
+This shows real users are hitting this problem.
+
+### 2. CODE CHANGE ANALYSIS
+
+The change is minimal:
+
+```c
++#include <asm/hypervisor.h>
+...
++       if (!hypervisor_is_type(X86_HYPER_NATIVE)) {
++               XDNA_ERR(xdna, "Running under hypervisor not
+supported");
++               return -EINVAL;
++       }
+```
+
+The fix adds an early check in `aie2_init()` that:
+1. Uses the well-established x86 hypervisor detection infrastructure
+2. If not running on bare metal (native), prints an error and returns
+   -EINVAL
+3. This happens before any resource allocation, making it a clean early-
+   exit
+
+**The bug mechanism:** Without this check, when users run this driver in
+virtualized environments (QubesOS, etc.), the driver attempts to
+initialize but fails due to missing SVA support. This leads to confusing
+errors, potential crashes, or undefined behavior. The fix makes the
+driver fail gracefully with a clear message.
+
+### 3. CLASSIFICATION
+
+This is a **bug fix** - specifically a "graceful failure" fix that
+prevents the driver from attempting an unsupported configuration. It
+does not add features; it blocks an unsupported environment with a clear
+error.
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed:** 5 lines (1 include + 4 lines of logic)
+- **Files touched:** 1 file
+- **Complexity:** Very low - trivial conditional check
+- **Risk:** Very low - early return before any resource allocation
+- **Dependencies:** Uses `hypervisor_is_type()` and `X86_HYPER_NATIVE`
+  which have been in the kernel for years (x86 hypervisor detection is
+  mature infrastructure)
+
+### 5. USER IMPACT
+
+- **Affected users:** Those running VMs (QubesOS, etc.) with AMD XDNA
+  hardware
+- **Severity without fix:** Confusing failures, crashes, or undefined
+  behavior when attempting to use the driver
+- **Severity with fix:** Clean error message explaining the limitation
+
+The linked issues show this is a real problem users are encountering.
+
+### 6. STABILITY INDICATORS
+
+- Has `Reviewed-by:` from AMD engineer (Lizhi Hou)
+- Has real bug reports from multiple sources
+- Simple, obvious fix
+
+### 7. DEPENDENCY CHECK
+
+The amdxdna driver is relatively new (added around kernel 6.11-6.12). It
+exists in:
+- Recent mainline releases
+- Potentially only very recent stable trees (6.12.x if supported)
+
+The hypervisor detection APIs used (`hypervisor_is_type`,
+`X86_HYPER_NATIVE`) are stable and have existed for years.
+
+### 8. STABLE CRITERIA ASSESSMENT
+
+| Criterion | Assessment |
+|-----------|------------|
+| Obviously correct | ✅ Yes - trivial check |
+| Fixes real bug | ✅ Yes - prevents crashes in VMs |
+| Important issue | ✅ Yes - affects VM users |
+| Small/contained | ✅ Yes - 5 lines |
+| No new features | ✅ Yes - disables unsupported config |
+| Low risk | ✅ Yes - clean early return |
+
+### CONCLUSION
+
+This commit is appropriate for stable backporting. It's a small, low-
+risk fix that prevents the driver from running in unsupported
+virtualized environments where it would otherwise fail with confusing
+behavior or crashes. The fix is surgically precise - adding an early
+check with a clean error return.
+
+The stable maintainers will only apply this to kernel versions that
+contain the amdxdna driver (likely only very recent stable trees like
+6.12.x). The patch itself meets all stable criteria: obviously correct,
+fixes a real bug that users are hitting, small scope, and no new
+features.
+
+**YES**
+
+ drivers/accel/amdxdna/aie2_pci.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index 43f725e1a2d7..6e07793bbeac 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -17,6 +17,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/pci.h>
+ #include <linux/xarray.h>
++#include <asm/hypervisor.h>
  
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
- 		ret = mtk_ddp_comp_clk_enable(mtk_crtc->ddp_comp[i]);
- 		if (ret) {
--			DRM_ERROR("Failed to enable clock %d: %d\n", i, ret);
-+			drm_err(dev, "Failed to enable clock %d: %d\n", i, ret);
- 			goto err;
- 		}
- 	}
-@@ -343,6 +344,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_crtc *mtk_crtc)
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_connector_list_iter conn_iter;
-+	struct drm_device *dev = mtk_crtc->base.dev;
- 	unsigned int width, height, vrefresh, bpc = MTK_MAX_BPC;
- 	int ret;
- 	int i;
-@@ -371,19 +373,19 @@ static int mtk_crtc_ddp_hw_init(struct mtk_crtc *mtk_crtc)
+ #include "aie2_msg_priv.h"
+ #include "aie2_pci.h"
+@@ -486,6 +487,11 @@ static int aie2_init(struct amdxdna_dev *xdna)
+ 	unsigned long bars = 0;
+ 	int i, nvec, ret;
  
- 	ret = pm_runtime_resume_and_get(crtc->dev->dev);
- 	if (ret < 0) {
--		DRM_ERROR("Failed to enable power domain: %d\n", ret);
-+		drm_err(dev, "Failed to enable power domain: %d\n", ret);
- 		return ret;
- 	}
- 
- 	ret = mtk_mutex_prepare(mtk_crtc->mutex);
- 	if (ret < 0) {
--		DRM_ERROR("Failed to enable mutex clock: %d\n", ret);
-+		drm_err(dev, "Failed to enable mutex clock: %d\n", ret);
- 		goto err_pm_runtime_put;
- 	}
- 
- 	ret = mtk_crtc_ddp_clk_enable(mtk_crtc);
- 	if (ret < 0) {
--		DRM_ERROR("Failed to enable component clocks: %d\n", ret);
-+		drm_err(dev, "Failed to enable component clocks: %d\n", ret);
- 		goto err_mutex_unprepare;
- 	}
- 
-@@ -648,10 +650,11 @@ static void mtk_crtc_ddp_irq(void *data)
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	struct drm_device *dev = mtk_crtc->base.dev;
- 	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
- 		mtk_crtc_ddp_config(crtc, NULL);
- 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
--		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
-+		drm_err(dev, "mtk_crtc %d CMDQ execute command timeout!\n",
- 			  drm_crtc_index(&mtk_crtc->base));
- #else
- 	if (!priv->data->shadow_register)
-@@ -776,9 +779,10 @@ static void mtk_crtc_atomic_enable(struct drm_crtc *crtc,
- {
- 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[0];
-+	struct drm_device *dev = mtk_crtc->base.dev;
- 	int ret;
- 
--	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
-+	drm_dbg_driver(dev, "%s %d\n", __func__, crtc->base.id);
- 
- 	ret = mtk_ddp_comp_power_on(comp);
- 	if (ret < 0) {
-@@ -803,9 +807,10 @@ static void mtk_crtc_atomic_disable(struct drm_crtc *crtc,
- {
- 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[0];
-+	struct drm_device *dev = mtk_crtc->base.dev;
- 	int i;
- 
--	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
-+	drm_dbg_driver(dev, "%s %d\n", __func__, crtc->base.id);
- 	if (!mtk_crtc->enabled)
- 		return;
- 
-@@ -845,10 +850,11 @@ static void mtk_crtc_atomic_begin(struct drm_crtc *crtc,
- 									  crtc);
- 	struct mtk_crtc_state *mtk_crtc_state = to_mtk_crtc_state(crtc_state);
- 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
-+	struct drm_device *dev = mtk_crtc->base.dev;
- 	unsigned long flags;
- 
- 	if (mtk_crtc->event && mtk_crtc_state->base.event)
--		DRM_ERROR("new event while there is still a pending event\n");
-+		drm_err(dev, "new event while there is still a pending event\n");
- 
- 	if (mtk_crtc_state->base.event) {
- 		mtk_crtc_state->base.event->pipe = drm_crtc_index(crtc);
++	if (!hypervisor_is_type(X86_HYPER_NATIVE)) {
++		XDNA_ERR(xdna, "Running under hypervisor not supported");
++		return -EINVAL;
++	}
++
+ 	ndev = drmm_kzalloc(&xdna->ddev, sizeof(*ndev), GFP_KERNEL);
+ 	if (!ndev)
+ 		return -ENOMEM;
 -- 
-2.34.1
+2.51.0
 
