@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F46CD9F0D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 17:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8554ACD9F13
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 17:25:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09AE10E24B;
-	Tue, 23 Dec 2025 16:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E953C10E24E;
+	Tue, 23 Dec 2025 16:25:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="fQsIIZcY";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IDcQsHXl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB9910E24B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 16:25:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1766507119; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B8D10E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 16:25:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766507123; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=PkpmWEYWSGMZ4ZtaHPlVb7ZfrfCNSbbKqdac/I5Ybw5m/JjTU+84kcSZbxF7d9g9VeKwckAtld1lzgqIookmnvfQAE63VMQVTotnx0KvPJBasJsTk9ENId/V/5pSHU8Z/f2QFWy+WgPErLoGs2ZxuXTV3XrRkerlqD8N3w+kR7o=
+ b=HVbbGvLHekgPr5641NqwAIAJGJgFjDFNk8+N8ND81da7NqzCjLg3693x1hKAiEzzJsHW7jvvKYpfXTPXjAg8RYG5RBraS9/I0WdDALvBiFKq44+g2WdXleqaTw7jpZRVQWSVTTaVq+m3EpTdMtjyDv5ElyS55gcpjLIOCKrdXQ4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1766507119;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cmsLyhrEPrdE5GXirU8ExFCmel8L1WH1gneVT3Gbhlk=; 
- b=a1tRZR4MDvE2tnx3srHs04nNQfwmIXwFK7lRH0PDv3ENn9ko05oAD+hxeIVP1Na2sAuqj6AKjo1Ib8CgtN37CCAseJPT3pHBLlYpVbEV0mh2f7QqcOhzG9Vof1ZX21TecUOd2s6a/HPd4Ur0DLWvazXFK8M8eCAJX+UsOOad7Ms=
+ s=zohoarc; t=1766507123;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=k8u4+nzu8W/Uq0lgz2yIwAyjxKovyCJGOYbFD9VAkc0=; 
+ b=F5gFX0aXS2kHvseFkQYdN/D2RoeChVAtHugZjrkSOHS/1U/kcajEA0kOwAaymCTEAHdSQaocp0jc05FzcFnmQW3z19stLY5i7kneo3tDg7sVMKOZ9odYuS9M+e4WqL+9w53eetzTdwmcS2lkOW1AShw5sOr5fSLA9/1S1y/NFKo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766507119; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766507123; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=cmsLyhrEPrdE5GXirU8ExFCmel8L1WH1gneVT3Gbhlk=;
- b=fQsIIZcYu4RLykNlSc4zpjmI0C0uwG9Q7V5x0+G1+eyMpS3JNqoWQPhmKht6aN4q
- MXBWJ45PdBNzpO87EY7VR3bO75IyH5YqrC1b3MICMv5UUiGaHqyAX+nL+d9UtG1DAp/
- iQOQFxUWczv4RJniI9bcKUy4199kB6CXi0y+tUsM=
-Received: by mx.zohomail.com with SMTPS id 1766507118105104.8362441587376;
- Tue, 23 Dec 2025 08:25:18 -0800 (PST)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+ bh=k8u4+nzu8W/Uq0lgz2yIwAyjxKovyCJGOYbFD9VAkc0=;
+ b=IDcQsHXlzfv42pxjn7BATIj7Jud0bxATqDLxHlAJhn6SXtFMsV22iIkzFyrTyZ6j
+ pJxzLmwgVoRuMdL9cE8k3xb1+CQhcWv2Z7LKQdGJ2owoLNXb0G1WVRdv7ouVXX1AVAu
+ AuDpEl3I0YQGTtUthLhWMUU3vyn3zmlmKGGnO63s=
+Received: by mx.zohomail.com with SMTPS id 1766507121698471.45413460247414;
+ Tue, 23 Dec 2025 08:25:21 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: [PATCH v6 0/3] Add a few tracepoints to panthor
-Date: Tue, 23 Dec 2025 17:24:57 +0100
-Message-Id: <20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com>
+Date: Tue, 23 Dec 2025 17:24:58 +0100
+Subject: [PATCH v6 1/3] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFnCSmkC/33QQU7EIBgF4Ks0rEWBAoVZeQ/jgsJfSzItFbDRT
- Hp3acdFY9AVeSTv44UbShA9JHRpbijC6pMPcwnyoUF2NPMbYO9KRowwQRlp8WLmPIaIczQWluD
- nnDBXygxEOy6hQ6W5RBj856G+vN5zhPePguf7JepNAmzDNPl8aVyccPbL08+J9sroUw7x69i10
- qPz74SVYoJVR63StAOi+LMN16vpQzSP5Z3DXNnJoaTusOKUyIDp3jgy1Jz27NC60xZHM261a4U
- 0wtYcfna6usN3h0qqpO2VI23NESeH/bFH7P+jNAydolI49dvZtu0btVjOgw0CAAA=
-X-Change-ID: 20251203-panthor-tracepoints-488af09d46e7
+Message-Id: <20251223-panthor-tracepoints-v6-1-d3c998ee9efc@collabora.com>
+References: <20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com>
+In-Reply-To: <20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, 
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,110 +72,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds two tracepoints to panthor.
+The current IRQ helpers do not guarantee mutual exclusion that covers
+the entire transaction from accessing the mask member and modifying the
+mask register.
 
-The first tracepoint allows for inspecting the power status of the
-hardware subdivisions, e.g. how many shader cores are powered on. This
-is done by reading three hardware registers when a certain IRQ fires.
+This makes it hard, if not impossible, to implement mask modification
+helpers that may change one of these outside the normal
+suspend/resume/isr code paths.
 
-The second tracepoint instruments panthor's job IRQ handler. This is
-more useful than the generic interrupt tracing functionality, as the
-tracepoint has the events bit mask included, which indicates which
-command stream group interfaces triggered the interrupt.
+Add a spinlock to struct panthor_irq that protects both the mask member
+and register. Acquire it in all code paths that access these, but drop
+it before processing the threaded handler function. Then, add the
+aforementioned new helpers: mask_enable, mask_disable, and
+resume_restore. The first two work by ORing and NANDing the mask bits,
+and the latter relies on the new behaviour that panthor_irq::mask is not
+set to 0 on suspend.
 
-To test the tracepoints, the following can be used:
-
-  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_power_status/enable
-  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_job_irq/enable
-  :~# echo 1 > /sys/kernel/tracing/tracing_on
-  :~# cat /sys/kernel/tracing/trace_pipe
+panthor_irq::suspended remains an atomic, as it's necessarily written to
+outside the mask_lock in the suspend path.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Changes in v6:
-- Read the mask member into a local while holding the lock in
-  irq_threaded_handler.
-- Drop the lock before entering the while loop, letting the threaded
-  handler function run without holding a spinlock
-- Re-acquire the spinlock at the end of irq_threaded_handler, OR'ing the
-  mask register's contents with the mask local ANDed by the member. This
-  avoids stomping over any other modified bits, or restoring ones that
-  have been disabled in the meantime.
-- Link to v5: https://lore.kernel.org/r/20251221-panthor-tracepoints-v5-0-889ef78165d8@collabora.com
+ drivers/gpu/drm/panthor/panthor_device.h | 68 +++++++++++++++++++++++++++-----
+ 1 file changed, 58 insertions(+), 10 deletions(-)
 
-Changes in v5:
-- Change the panthor IRQ helpers to guard the mask member and register
-  with a spinlock. The rationale behind using a spinlock, rather than
-  some constellation of atomics, is that we have to guarantee mutual
-  exclusion for state beyond just a single value, namely both the register
-  write, and writes to/reads from the mask member, including
-  reads-from-member-writes-to-register. Making the mask atomic does not do
-  anything to avoid concurrency issues in such a case.
-- Change the IRQ mask member to not get zeroed when suspended. It's
-  possible something outside of the IRQ helpers depends on this
-  behaviour, but I'd argue the code should not access the mask outside
-  of the IRQ helpers, as it'll do so with no lock taken.
-- Drop the mask_set function, but add mask_enable/mask_disable helpers
-  to enable/disable individual parts of the IRQ mask.
-- Add a resume_restore IRQ helper that does the same thing as resume,
-  but does not overwrite the mask member. This avoids me having to
-  refactor whatever panthor_mmu.c is doing with that poor mask member.
-- Link to v4: https://lore.kernel.org/r/20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index f35e52b9546a..bf554cf376fb 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -73,11 +73,14 @@ struct panthor_irq {
+ 	/** @irq: IRQ number. */
+ 	int irq;
+ 
+-	/** @mask: Current mask being applied to xxx_INT_MASK. */
++	/** @mask: Values to write to xxx_INT_MASK if active. */
+ 	u32 mask;
+ 
+ 	/** @suspended: Set to true when the IRQ is suspended. */
+ 	atomic_t suspended;
++
++	/** @mask_lock: protects modifications to _INT_MASK and @mask */
++	spinlock_t mask_lock;
+ };
+ 
+ /**
+@@ -410,6 +413,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+ 	struct panthor_irq *pirq = data;							\
+ 	struct panthor_device *ptdev = pirq->ptdev;						\
+ 												\
++	guard(spinlock_irqsave)(&pirq->mask_lock);						\
++												\
+ 	if (atomic_read(&pirq->suspended))							\
+ 		return IRQ_NONE;								\
+ 	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+@@ -424,9 +429,14 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+ 	struct panthor_irq *pirq = data;							\
+ 	struct panthor_device *ptdev = pirq->ptdev;						\
+ 	irqreturn_t ret = IRQ_NONE;								\
++	u32 mask;										\
++												\
++	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
++		mask = pirq->mask;								\
++	}											\
+ 												\
+ 	while (true) {										\
+-		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
++		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & mask);		\
+ 												\
+ 		if (!status)									\
+ 			break;									\
+@@ -435,26 +445,44 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+ 		ret = IRQ_HANDLED;								\
+ 	}											\
+ 												\
+-	if (!atomic_read(&pirq->suspended))							\
+-		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
++	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
++		if (!atomic_read(&pirq->suspended)) {						\
++			/* Only restore the bits that were used and are still enabled */	\
++			gpu_write(ptdev, __reg_prefix ## _INT_MASK,				\
++				  gpu_read(ptdev, __reg_prefix ## _INT_MASK) |			\
++				  (mask & pirq->mask));						\
++		}										\
++	}											\
+ 												\
+ 	return ret;										\
+ }												\
+ 												\
+ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+ {												\
+-	pirq->mask = 0;										\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
++	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
++		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
++	}											\
+ 	synchronize_irq(pirq->irq);								\
+ 	atomic_set(&pirq->suspended, true);							\
+ }												\
+ 												\
+ static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+ {												\
+-	atomic_set(&pirq->suspended, false);							\
++	guard(spinlock_irqsave)(&pirq->mask_lock);						\
++												\
+ 	pirq->mask = mask;									\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
++	atomic_set(&pirq->suspended, false);							\
++	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
++	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
++}												\
++												\
++static inline void panthor_ ## __name ## _irq_resume_restore(struct panthor_irq *pirq)		\
++{												\
++	guard(spinlock_irqsave)(&pirq->mask_lock);						\
++												\
++	atomic_set(&pirq->suspended, false);							\
++	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
++	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+ }												\
+ 												\
+ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+@@ -463,13 +491,33 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+ {												\
+ 	pirq->ptdev = ptdev;									\
+ 	pirq->irq = irq;									\
+-	panthor_ ## __name ## _irq_resume(pirq, mask);						\
++	pirq->mask = mask;									\
++	spin_lock_init(&pirq->mask_lock);							\
++	panthor_ ## __name ## _irq_resume_restore(pirq);					\
+ 												\
+ 	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+ 					 panthor_ ## __name ## _irq_raw_handler,		\
+ 					 panthor_ ## __name ## _irq_threaded_handler,		\
+ 					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+ 					 pirq);							\
++}												\
++												\
++static inline void panthor_ ## __name ## _irq_mask_enable(struct panthor_irq *pirq, u32 mask)	\
++{												\
++	guard(spinlock_irqsave)(&pirq->mask_lock);						\
++												\
++	pirq->mask |= mask;									\
++	if (!atomic_read(&pirq->suspended))							\
++		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
++}												\
++												\
++static inline void panthor_ ## __name ## _irq_mask_disable(struct panthor_irq *pirq, u32 mask)	\
++{												\
++	guard(spinlock_irqsave)(&pirq->mask_lock);						\
++												\
++	pirq->mask &= ~mask;									\
++	if (!atomic_read(&pirq->suspended))							\
++		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+ }
+ 
+ extern struct workqueue_struct *panthor_cleanup_wq;
 
-Changes in v4:
-- Include "panthor_hw.h" in panthor_trace.h instead of duplicating the
-  reg/unreg function prototypes.
-- Link to v3: https://lore.kernel.org/r/20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com
-
-Changes in v3:
-- Drop PWRFEATURES patch, as this register is no longer needed by this
-  series.
-- Eliminate the rt_on field from the gpu_power_status register, as per
-  Steven Price's feedback.
-- Make gpu_power_status tracepoint reg/unreg functions generic across
-  hardware generations by wrapping a hw op in panthor_hw.c.
-- Reimplement the <= v13 IRQ mask modification functions as the new hw
-  ops functions. v14 can add its own ops in due time.
-- Link to v2: https://lore.kernel.org/r/20251210-panthor-tracepoints-v2-0-ace2e29bad0f@collabora.com
-
-Changes in v2:
-- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits when the
-  tracepoint is enabled. Necessitates the new irq helper patch.
-- Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits if the hardware
-  architecture is <= v13, as v14 changes things.
-- Use _READY instead of _PWRACTIVE registers, and rename the tracepoint
-  accordingly.
-- Also read the status of the ray tracing unit's power. This is a global
-  flag for all shader cores, it seems. Necessitates the new register
-  definition patch.
-- Move the POWER_CHANGED_* check to earlier in the interrupt handler.
-- Also listen to POWER_CHANGED, not just POWER_CHANGED_ALL, as this
-  provides useful information with the _READY registers.
-- Print the device name in both tracepoints, to disambiguate things on
-  systems with multiple Mali GPUs.
-- Document the gpu_power_status tracepoint, so the meaning of the fields
-  is made clear.
-- Link to v1: https://lore.kernel.org/r/20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com
-
----
-Nicolas Frattaroli (3):
-      drm/panthor: Extend IRQ helpers for mask modification/restoration
-      drm/panthor: Add tracepoint for hardware utilisation changes
-      drm/panthor: Add gpu_job_irq tracepoint
-
- drivers/gpu/drm/panthor/panthor_device.h | 68 +++++++++++++++++++++----
- drivers/gpu/drm/panthor/panthor_fw.c     | 13 +++++
- drivers/gpu/drm/panthor/panthor_gpu.c    | 30 ++++++++++-
- drivers/gpu/drm/panthor/panthor_gpu.h    |  2 +
- drivers/gpu/drm/panthor/panthor_hw.c     | 62 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_hw.h     |  8 +++
- drivers/gpu/drm/panthor/panthor_trace.h  | 86 ++++++++++++++++++++++++++++++++
- 7 files changed, 258 insertions(+), 11 deletions(-)
----
-base-commit: 98fdf8a438c3a1d9de8d5804cdcda94e097d53a0
-change-id: 20251203-panthor-tracepoints-488af09d46e7
-
-Best regards,
 -- 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+2.52.0
 
