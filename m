@@ -2,82 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE7CCD772B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 00:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F23CD79A9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 02:01:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C8310E126;
-	Mon, 22 Dec 2025 23:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA22810E105;
+	Tue, 23 Dec 2025 01:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IHKlr+6G";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ATS/pRg2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 195BF10E126
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 23:18:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A130E444B4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 23:18:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86FC4C16AAE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 23:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766445533;
- bh=1PTRj5IbPheHyKPLUeQn09lt7a0KA8xUVM3vs4ytqHE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=IHKlr+6Gl+QA6DaryNduIe7WNRMfP/E6B1HbR+itsvFugogI1qMmYADh8rnIcXmNK
- PKRGX1Eb/Hn/078PsXt6gwtRFo7Gg1sFUlfWavz7rQFCxG5psWmo49HEAKbqti2/fz
- A2il37qqTBEs6Cw1bCzYM6zJeOUKjulJ1zJo8luVkqsRxNWYfeB+D6XxKrCu8UW3At
- JNrDfJJ1XxNdiY86a6wVSUUf0yCo42r0DBj931tkjFHjJfmryQmXqOEIDoAdcEjBbH
- s9nXS7azO2fxm1zST5j1Ek8F2UutDiI6uNawqwZzIkim17PjDCkfsgtx5Qql5JmZlY
- r7c7KNDBSTy+A==
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-78fcb465733so19061627b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 15:18:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVP2QIOrg8CG6KVrLfy1A/1JrsGY2jhoYfsuJsJ/c7MQI9PSYGdBWzs5ejttDj6krggufusdrVkZho=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxePBt3WxvI08rzus1vNgtoR9qd82LaFUzuoBGx8kfglZx9H6oQ
- c8JTvSXo3MEnyDQdRDgxY4N0GgM4Qxzf1ecfxkFmzdk7i1ZE+RWLzNNFw1P9AnldNW1vDraUegE
- k0O0SwA+rIr4gVpY7QqpE8xEuEYPSytk=
-X-Google-Smtp-Source: AGHT+IFLuNG5vfFv+hvdMwlVrLtVEINXP+UqBdcB4yXJij0JrDbJSKnUkVy8zi/D+KeXicJLx2KQRsl8vzD85DfIxMQ=
-X-Received: by 2002:a05:690c:6c84:b0:786:827f:6fe8 with SMTP id
- 00721157ae682-78fb41ac9e0mr105561577b3.58.1766445532634; Mon, 22 Dec 2025
- 15:18:52 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7636710E105
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 01:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766451693; x=1797987693;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XjIDb9uNLq1iGyrVNKgCjIHdLfX2vLHgSLa+wD2UtSw=;
+ b=ATS/pRg26nIHTeu5y3e4/Mn7sTT469ygUh15S2ukFrC9B7Oemk5RL59I
+ XWWrABlK/5jFVZybR2+q5r619KF5/hSQwdWSVBwUEWXTiahNiwc81Efib
+ Ua4AAw84DTydi5TaP0wLeSvMsJllsbzbGztL2VLnLY2VG2HkCIVTcT10n
+ KngrNqSuTU08jTrj/d15RoeCGZWALbJryWEWozHYKkLcL9FxahUmvas3W
+ N3Z8jZcPWyJp0Z4ouB2LyGAGLXV71kjofdHHZD8v50+r9R1FMepa4Ej3t
+ J7bLHn1R4M/0hdkl0dy1XeWQSxQDyYK4Q1AnMB/r05cKQohy2a/T3wgot Q==;
+X-CSE-ConnectionGUID: sr+Z4y6MQHWuMBseoMg29Q==
+X-CSE-MsgGUID: jOct8xo4Qum/e9pqtcg64A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68350721"
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; d="scan'208";a="68350721"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2025 17:01:32 -0800
+X-CSE-ConnectionGUID: 3NSC3j0xRIOcn/ncFk6Iww==
+X-CSE-MsgGUID: kEnM13XhQp2T5kS78DVayw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; d="scan'208";a="230664464"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a)
+ ([10.211.93.152])
+ by fmviesa001.fm.intel.com with ESMTP; 22 Dec 2025 17:01:28 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vXqmE-000000005gW-1GX2;
+ Tue, 23 Dec 2025 01:01:26 +0000
+Date: Tue, 23 Dec 2025 02:00:41 +0100
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, victoria@system76.com,
+ sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <202512230158.yEDymogC-lkp@intel.com>
+References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 MIME-Version: 1.0
-References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
- <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
- <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
- <817b2358-0920-4b7a-abb1-133103d0f9fe@ideasonboard.com>
-In-Reply-To: <817b2358-0920-4b7a-abb1-133103d0f9fe@ideasonboard.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 23 Dec 2025 00:18:39 +0100
-X-Gmail-Original-Message-ID: <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
-X-Gm-Features: AQt7F2qVusB26rJf3VFnv1cbbMcmw7gQTV_3PZwZEvdew2fS2i_2TmDT15TKrTs
-Message-ID: <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Vicente Bergas <vicencb@gmail.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,18 +80,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 14, 2025 at 1:42=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
+Hi Louis,
 
-> >> Should we merge this series as a fix for 6.18 rcs?
-> >
-> > Too late now, so let's merge it as a fix for v6.19 rcs!
->
-> Ah, right. Indeed, I meant v6.19 rcs.
+kernel test robot noticed the following build warnings:
 
-Are you applying it or should I?
-Not sure if you want some special timing, like outside of
-holidays.
+[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
 
-Yours,
-Linus Walleij
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
+base:   8e7460eac786c72f48c4e04ce9be692b939428ce
+patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
+patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251223/202512230158.yEDymogC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230158.yEDymogC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230158.yEDymogC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/vkms/vkms_configfs.c:676 expecting prototype for parse_next_format(). Prototype was for vkms_configfs_parse_next_format() instead
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
