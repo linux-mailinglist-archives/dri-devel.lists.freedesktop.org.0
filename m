@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86907CD9D8D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 16:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F67ECD9E21
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 16:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB2010E041;
-	Tue, 23 Dec 2025 15:49:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gvZGSaAm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2610E14C;
+	Tue, 23 Dec 2025 15:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC1810E041
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 15:49:10 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 3AB574E41D50;
- Tue, 23 Dec 2025 15:49:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0387960716;
- Tue, 23 Dec 2025 15:49:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5A6B610AB0B8A; Tue, 23 Dec 2025 16:49:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766504947; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=qwNYdPNwkNQfvtXRvdd/5N/fyJbUhxz9upsm5xT0pTc=;
- b=gvZGSaAmi8tCoDwVPHBrY+XGFfKGE/Mqyq2gyeowWwxUqSfq91TdWiGhf/0nSN+bdWA4K9
- eIpZu+NkXMBcJXMUPMnvJqhPwehcBXnsPVHIAjs41OsUmxlo54RraaP0m4AUAUGmBSfSqj
- O5EHOwy02DvWvbNI9h7QgNGxcMXyg+dsU+c9+gC0f525LBjDP1GyQJdSEsOOHvvTZTj/3u
- JytOyUCwRb3c+4QxTfiHq91vvXbQLkrqXxpKm9fAzhtdCKmZ0C/nIneDwoL/PzRQLmCguT
- GONpVwbnlZkU0XGt/BM5S3AMqYZEqY9y2SfCvPYj3ah/IrTaXELtYmDEy2otQg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 23 Dec 2025 16:48:49 +0100
-Subject: [PATCH] drm/bridge: rename drm_for_each_bridge_in_chain_scoped()
- to drm_for_each_bridge_in_chain()
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2FA0C10E14C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 15:59:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A54FB1424
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 07:59:23 -0800 (PST)
+Received: from e142607.local (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ 7979C3F73F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 07:59:30 -0800 (PST)
+Date: Tue, 23 Dec 2025 15:57:20 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Brian Norris <briannorris@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 03/23] drm: Discard pm_runtime_put() return value
+Message-ID: <aUq74DUXcoh-AzZe@e142607>
+References: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
+ <3045480.e9J7NaK4W3@rafael.j.wysocki>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251223-drm-bridge-alloc-getput-for_each_bridge-2-v1-1-0362434ae0eb@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAOC5SmkC/y2N0QqDMAwAf0XyvMCasjH3K2NIbKMGnJVUx0D89
- xXx8Ti42yCLqWR4VhuYfDVrmgq4SwVh4KkX1FgY6Eo3R+Qx2gdb01gMj2MK2Msyrwt2yRrhMDS
- nJCTvHsy1b++1QOnNJp3+jtfrve9/RYpr0nsAAAA=
-X-Change-ID: 20251223-drm-bridge-alloc-getput-for_each_bridge-2-2318aa93b69e
-To: Miguel Ojeda <ojeda@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- llvm@lists.linux.dev, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3045480.e9J7NaK4W3@rafael.j.wysocki>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,118 +62,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_for_each_bridge_in_chain_scoped() was added in commit e46efc6a7d28
-("drm/bridge: add drm_for_each_bridge_in_chain_scoped()") to provide a
-safer alternative to drm_for_each_bridge_in_chain().
+On Mon, Dec 22, 2025 at 08:57:35PM +0100, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> Multiple DRM drivers use the pm_runtime_put() return value for printing
+> debug or even error messages and all of those messages are at least
+> somewhat misleading.
+> 
+> Returning an error code from pm_runtime_put() merely means that it has
+> not queued up a work item to check whether or not the device can be
+> suspended and there are many perfectly valid situations in which that
+> can happen, like after writing "on" to the devices' runtime PM "control"
+> attribute in sysfs for one example.  It also happens when the kernel
+> has been configured with CONFIG_PM unset.
+> 
+> For this reason, modify all of those drivers to simply discard the
+> pm_runtime_put() return value which is what they should be doing.
+> 
+> This will facilitate a planned change of the pm_runtime_put() return
+> type to void in the future.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> This patch is part of a series, but it doesn't depend on anything else
+> in that series.  The last patch in the series depends on it.
+> 
+> It can be applied by itself and if you decide to do so, please let me
+> know.
+> 
+> Otherwise, an ACK or equivalent will be appreciated, but also the lack
+> of specific criticism will be eventually regarded as consent.
+> 
+> ---
+>  drivers/gpu/drm/arm/malidp_crtc.c                   |    6 +-----
 
-Following commits converted all users to the _scoped variant.
+For the malidp_crtc.c:
 
-Finally commit 2f08387a444c ("drm/bridge: remove
-drm_for_each_bridge_in_chain()") removed the old
-drm_for_each_bridge_in_chain() macro.
-
-It's time to rename drm_for_each_bridge_in_chain_scoped() back to the
-original name.
-
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- .clang-format                                  | 2 +-
- drivers/gpu/drm/display/drm_bridge_connector.c | 4 ++--
- drivers/gpu/drm/drm_atomic.c                   | 2 +-
- drivers/gpu/drm/drm_bridge.c                   | 2 +-
- include/drm/drm_bridge.h                       | 5 ++---
- 5 files changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/.clang-format b/.clang-format
-index 2ceca764122f..f2b46d275d30 100644
---- a/.clang-format
-+++ b/.clang-format
-@@ -167,7 +167,7 @@ ForEachMacros:
-   - 'drm_connector_for_each_possible_encoder'
-   - 'drm_exec_for_each_locked_object'
-   - 'drm_exec_for_each_locked_object_reverse'
--  - 'drm_for_each_bridge_in_chain_scoped'
-+  - 'drm_for_each_bridge_in_chain'
-   - 'drm_for_each_connector_iter'
-   - 'drm_for_each_crtc'
-   - 'drm_for_each_crtc_reverse'
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index a2d30cf9e06d..925aca7ae84a 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -139,7 +139,7 @@ static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
- 		to_drm_bridge_connector(connector);
- 
- 	/* Notify all bridges in the pipeline of hotplug events. */
--	drm_for_each_bridge_in_chain_scoped(bridge_connector->encoder, bridge) {
-+	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge) {
- 		if (bridge->funcs->hpd_notify)
- 			bridge->funcs->hpd_notify(bridge, status);
- 	}
-@@ -684,7 +684,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	 * detection are available, we don't support hotplug detection at all.
- 	 */
- 	connector_type = DRM_MODE_CONNECTOR_Unknown;
--	drm_for_each_bridge_in_chain_scoped(encoder, bridge) {
-+	drm_for_each_bridge_in_chain(encoder, bridge) {
- 		if (!bridge->interlace_allowed)
- 			connector->interlace_allowed = false;
- 		if (!bridge->ycbcr_420_allowed)
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 52738b80ddbe..5b017d36f293 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1468,7 +1468,7 @@ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
- 		       "Adding all bridges for [encoder:%d:%s] to %p\n",
- 		       encoder->base.id, encoder->name, state);
- 
--	drm_for_each_bridge_in_chain_scoped(encoder, bridge) {
-+	drm_for_each_bridge_in_chain(encoder, bridge) {
- 		/* Skip bridges that don't implement the atomic state hooks. */
- 		if (!bridge->funcs->atomic_duplicate_state)
- 			continue;
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index db40c26d1cb3..bf39f19bd379 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1582,7 +1582,7 @@ static int encoder_bridges_show(struct seq_file *m, void *data)
- 	struct drm_printer p = drm_seq_file_printer(m);
- 	unsigned int idx = 0;
- 
--	drm_for_each_bridge_in_chain_scoped(encoder, bridge)
-+	drm_for_each_bridge_in_chain(encoder, bridge)
- 		drm_bridge_debugfs_show_bridge(&p, bridge, idx++, false);
- 
- 	return 0;
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index d2683846cc61..cdd631582fe7 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1473,8 +1473,7 @@ drm_bridge_get_next_bridge_and_put(struct drm_bridge *bridge)
- }
- 
- /**
-- * drm_for_each_bridge_in_chain_scoped - iterate over all bridges attached
-- *                                       to an encoder
-+ * drm_for_each_bridge_in_chain - iterate over all bridges attached to an encoder
-  * @encoder: the encoder to iterate bridges on
-  * @bridge: a bridge pointer updated to point to the current bridge at each
-  *	    iteration
-@@ -1484,7 +1483,7 @@ drm_bridge_get_next_bridge_and_put(struct drm_bridge *bridge)
-  * Automatically gets/puts the bridge reference while iterating, and puts
-  * the reference even if returning or breaking in the middle of the loop.
-  */
--#define drm_for_each_bridge_in_chain_scoped(encoder, bridge)		\
-+#define drm_for_each_bridge_in_chain(encoder, bridge)			\
- 	for (struct drm_bridge *bridge __free(drm_bridge_put) =		\
- 	     drm_bridge_chain_get_first_bridge(encoder);		\
- 	     bridge;							\
-
----
-base-commit: e05b08d7d0162cf77fff119367fb1a2d5ab3e669
-change-id: 20251223-drm-bridge-alloc-getput-for_each_bridge-2-2318aa93b69e
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+Liviu
 
+>  drivers/gpu/drm/bridge/imx/imx8qm-ldb.c             |    4 +---
+>  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c            |    4 +---
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c |    5 +----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        |    5 +----
+>  drivers/gpu/drm/imx/dc/dc-crtc.c                    |   12 +++---------
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                      |    5 +----
+>  drivers/gpu/drm/vc4/vc4_vec.c                       |   12 ++----------
+>  8 files changed, 11 insertions(+), 42 deletions(-)
+> 
+> --- a/drivers/gpu/drm/arm/malidp_crtc.c
+> +++ b/drivers/gpu/drm/arm/malidp_crtc.c
+> @@ -77,7 +77,6 @@ static void malidp_crtc_atomic_disable(s
+>  									 crtc);
+>  	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+>  	struct malidp_hw_device *hwdev = malidp->dev;
+> -	int err;
+>  
+>  	/* always disable planes on the CRTC that is being turned off */
+>  	drm_atomic_helper_disable_planes_on_crtc(old_state, false);
+> @@ -87,10 +86,7 @@ static void malidp_crtc_atomic_disable(s
+>  
+>  	clk_disable_unprepare(hwdev->pxlclk);
+>  
+> -	err = pm_runtime_put(crtc->dev->dev);
+> -	if (err < 0) {
+> -		DRM_DEBUG_DRIVER("Failed to disable runtime power management: %d\n", err);
+> -	}
+> +	pm_runtime_put(crtc->dev->dev);
+>  }
+>  
+>  static const struct gamma_curve_segment {
+> --- a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
+> @@ -280,9 +280,7 @@ static void imx8qm_ldb_bridge_atomic_dis
+>  	clk_disable_unprepare(imx8qm_ldb->clk_bypass);
+>  	clk_disable_unprepare(imx8qm_ldb->clk_pixel);
+>  
+> -	ret = pm_runtime_put(dev);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(dev, "failed to put runtime PM: %d\n", ret);
+> +	pm_runtime_put(dev);
+>  }
+>  
+>  static const u32 imx8qm_ldb_bus_output_fmts[] = {
+> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+> @@ -282,9 +282,7 @@ static void imx8qxp_ldb_bridge_atomic_di
+>  	if (is_split && companion)
+>  		companion->funcs->atomic_disable(companion, state);
+>  
+> -	ret = pm_runtime_put(dev);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(dev, "failed to put runtime PM: %d\n", ret);
+> +	pm_runtime_put(dev);
+>  }
+>  
+>  static const u32 imx8qxp_ldb_bus_output_fmts[] = {
+> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> @@ -181,11 +181,8 @@ static void imx8qxp_pc_bridge_atomic_dis
+>  {
+>  	struct imx8qxp_pc_channel *ch = bridge->driver_private;
+>  	struct imx8qxp_pc *pc = ch->pc;
+> -	int ret;
+>  
+> -	ret = pm_runtime_put(pc->dev);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(pc->dev, "failed to put runtime PM: %d\n", ret);
+> +	pm_runtime_put(pc->dev);
+>  }
+>  
+>  static const u32 imx8qxp_pc_bus_output_fmts[] = {
+> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+> @@ -127,11 +127,8 @@ static void imx8qxp_pxl2dpi_bridge_atomi
+>  						  struct drm_atomic_state *state)
+>  {
+>  	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
+> -	int ret;
+>  
+> -	ret = pm_runtime_put(p2d->dev);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(p2d->dev, "failed to put runtime PM: %d\n", ret);
+> +	pm_runtime_put(p2d->dev);
+>  
+>  	if (p2d->companion)
+>  		p2d->companion->funcs->atomic_disable(p2d->companion, state);
+> --- a/drivers/gpu/drm/imx/dc/dc-crtc.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-crtc.c
+> @@ -300,7 +300,7 @@ dc_crtc_atomic_disable(struct drm_crtc *
+>  				drm_atomic_get_new_crtc_state(state, crtc);
+>  	struct dc_drm_device *dc_drm = to_dc_drm_device(crtc->dev);
+>  	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> -	int idx, ret;
+> +	int idx;
+>  
+>  	if (!drm_dev_enter(crtc->dev, &idx))
+>  		goto out;
+> @@ -313,16 +313,10 @@ dc_crtc_atomic_disable(struct drm_crtc *
+>  	dc_fg_disable_clock(dc_crtc->fg);
+>  
+>  	/* request pixel engine power-off as plane is off too */
+> -	ret = pm_runtime_put(dc_drm->pe->dev);
+> -	if (ret)
+> -		dc_crtc_err(crtc, "failed to put DC pixel engine RPM: %d\n",
+> -			    ret);
+> +	pm_runtime_put(dc_drm->pe->dev);
+>  
+>  	/* request display engine power-off when CRTC is disabled */
+> -	ret = pm_runtime_put(dc_crtc->de->dev);
+> -	if (ret < 0)
+> -		dc_crtc_err(crtc, "failed to put DC display engine RPM: %d\n",
+> -			    ret);
+> +	pm_runtime_put(dc_crtc->de->dev);
+>  
+>  	drm_dev_exit(idx);
+>  
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -848,7 +848,6 @@ static void vc4_hdmi_encoder_post_crtc_p
+>  	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+>  	struct drm_device *drm = vc4_hdmi->connector.dev;
+>  	unsigned long flags;
+> -	int ret;
+>  	int idx;
+>  
+>  	mutex_lock(&vc4_hdmi->mutex);
+> @@ -867,9 +866,7 @@ static void vc4_hdmi_encoder_post_crtc_p
+>  	clk_disable_unprepare(vc4_hdmi->pixel_bvb_clock);
+>  	clk_disable_unprepare(vc4_hdmi->pixel_clock);
+>  
+> -	ret = pm_runtime_put(&vc4_hdmi->pdev->dev);
+> -	if (ret < 0)
+> -		drm_err(drm, "Failed to release power domain: %d\n", ret);
+> +	pm_runtime_put(&vc4_hdmi->pdev->dev);
+>  
+>  	drm_dev_exit(idx);
+>  
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -542,7 +542,7 @@ static void vc4_vec_encoder_disable(stru
+>  {
+>  	struct drm_device *drm = encoder->dev;
+>  	struct vc4_vec *vec = encoder_to_vc4_vec(encoder);
+> -	int idx, ret;
+> +	int idx;
+>  
+>  	if (!drm_dev_enter(drm, &idx))
+>  		return;
+> @@ -556,17 +556,9 @@ static void vc4_vec_encoder_disable(stru
+>  
+>  	clk_disable_unprepare(vec->clock);
+>  
+> -	ret = pm_runtime_put(&vec->pdev->dev);
+> -	if (ret < 0) {
+> -		drm_err(drm, "Failed to release power domain: %d\n", ret);
+> -		goto err_dev_exit;
+> -	}
+> +	pm_runtime_put(&vec->pdev->dev);
+>  
+>  	drm_dev_exit(idx);
+> -	return;
+> -
+> -err_dev_exit:
+> -	drm_dev_exit(idx);
+>  }
+>  
+>  static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
+> 
+> 
+> 
