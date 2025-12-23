@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38428CD864F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 08:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959DECD8688
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 08:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C225610E13B;
-	Tue, 23 Dec 2025 07:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32DA10E0A5;
+	Tue, 23 Dec 2025 07:48:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A9OXOtEV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahPSnSLg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183D210E0A5;
- Tue, 23 Dec 2025 07:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766475340; x=1798011340;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version:content-id;
- bh=GoVVuQPx5MANIkgi6ok4qNZjCDp3WEAv094GdSH4f8U=;
- b=A9OXOtEVJhnYiYi7blykydLSZIKiE4RNRSIHTl3zCV6MDqCdQeJ8ElY7
- OYVU3+EV7Kznvpi9zSmaqmjZYYgMwcvW/5FBuJngU7eLCkEf6PMCg+wWU
- 2fqB+l+5ISFgdLQVefmDfxjW0ZNHqx37edRhXMsJpJeaNoDQideDHXmFx
- ZGQDEDrZ465xXOkeCFQm3Jk+lGcy1Wjr7/lv1mumcRoHfBZJ7IW7/zUzp
- h/4sLkEJ94vgdiQt7GMmy8zXUdl+ofTVrF30YH1dTfDzGIY4sCHkjxAo3
- Mymxg/2ytb1RTwOh7+8nwa9GwUw7wRaSZ6Kx39SpTF6bufEYF2KLnaYWu Q==;
-X-CSE-ConnectionGUID: q5J+zkn5QhyfiPnsKc0bUQ==
-X-CSE-MsgGUID: Na6li9w7QbCPA5iOG5KtHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85738629"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="85738629"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2025 23:35:38 -0800
-X-CSE-ConnectionGUID: WcCNC9Q3QpuVrw933z+fng==
-X-CSE-MsgGUID: JygOzk5QRY2J45H2i1trNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="200629228"
-Received: from administrator-system-product-name.igk.intel.com
- ([10.91.214.181])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2025 23:35:36 -0800
-Date: Tue, 23 Dec 2025 08:35:34 +0100 (CET)
-From: =?ISO-8859-2?Q?Micha=B3_Grzelak?= <michal.grzelak@intel.com>
-To: "Lin, Shuicheng" <shuicheng.lin@intel.com>
-cc: "Grzelak, Michal" <michal.grzelak@intel.com>, 
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "Brost, Matthew" <matthew.brost@intel.com>, 
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>, 
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, 
- "Auld, Matthew" <matthew.auld@intel.com>
-Subject: RE: [RESEND 1/1] drm/buddy: release free_trees array on buddy mm
- teardown
-In-Reply-To: <DM4PR11MB54560DF369537BCE07175297EAA9A@DM4PR11MB5456.namprd11.prod.outlook.com>
-Message-ID: <771e8879-4122-8bea-826f-97f9f75932d8@intel.com>
-References: <20251219193237.1454565-1-michal.grzelak@intel.com>
- <DM4PR11MB54560DF369537BCE07175297EAA9A@DM4PR11MB5456.namprd11.prod.outlook.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F43110E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 07:48:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BC8B344480
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 07:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91ED3C2BC9E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 07:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766476137;
+ bh=nNVjZYuCgUNvRIf5FpO9plp03v3td7UJLhhZt6cEf7A=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ahPSnSLgBqQfwWn4XDimrL9juNkiZVAy0x2OKarXgnUF2orjymCPMBXbE1zha5zey
+ zdQNR7IuaQqPIttCzzhfd0XDZW4SD9ZGu2dgY5AnT1i/Zd+uLATrXWaIrc4n6wJ0FT
+ y7eWFAoIpSCy0eJuzL6I+B6aTanZjXSPND9eJQu3MwCWdjBPrz0ueMsfub7Q4vu1tX
+ VeptZviHnl6oj/lGU0rC5pzFtiMFYrGCy+lXdrX33XxQrUhNabj6d/XXHVXL2BOe3t
+ 2ywlWjjEif5vh8PLdvbzL+qdxdbzHERD/I9zg88RPNU7YcP3v/rJP8GurqyWatLCOw
+ 5iQHMbFbZT4Yg==
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-37ba5af5951so42318711fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Dec 2025 23:48:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9Z6bYmK3halRQu7jPHCqfkkJedPNqUJOTPBOWMCtb3BmEmwWrGxdK0V4k10TJjYS/smylhuWpVSY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIzoB0m22hbHEkCqVkylN31aYiunE8l3vTNQNG8YrfHCdBqXPl
+ VwPzSw/rItQkuTl1zn69uO26dWlogvTsQIWf8qivdciTGJFy91rHm/gut4lIK4lKmQXXdwE820t
+ RXYxcU8jcxWpL6UeWTRIRkhQD5iE2ffA=
+X-Google-Smtp-Source: AGHT+IGmXhm2OTxMWzWOBhVvRmJ9kJ9vHSYPeyQXxrbndu6wjS69wPAEWwKEE3py18ZkaMYQ5RVWrna1+jAxOqMgMYs=
+X-Received: by 2002:a05:651c:549:b0:380:989:f602 with SMTP id
+ 38308e7fff4ca-38121568d0amr36693561fa.5.1766476136227; Mon, 22 Dec 2025
+ 23:48:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="8323329-2016406912-1766395563=:1476941"
-Content-ID: <143e0a7b-07e9-adf1-e70b-4eb4b739d550@intel.com>
+References: <20251222-cstr-tyr-v1-1-d88ff1a54ae9@gmail.com>
+ <8ED64170-53CC-4D03-BAC3-682ACF273ADF@collabora.com>
+In-Reply-To: <8ED64170-53CC-4D03-BAC3-682ACF273ADF@collabora.com>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Tue, 23 Dec 2025 08:48:20 +0100
+X-Gmail-Original-Message-ID: <CAJ-ks9mrZtnPUjp5tD03hW+TyS0M9i-KRF_ramNY-oh-0X+ayA@mail.gmail.com>
+X-Gm-Features: AQt7F2peq0jDPThnB7INsXhtdZ_Tc0tpwkzLeYZUrxxW7OXPZR38v2fFhD5Oc18
+Message-ID: <CAJ-ks9mrZtnPUjp5tD03hW+TyS0M9i-KRF_ramNY-oh-0X+ayA@mail.gmail.com>
+Subject: Re: [PATCH] rust: drm: replace `kernel::c_str!` with C-Strings
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +81,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-2016406912-1766395563=:1476941
-Content-Type: text/plain; CHARSET=ISO-8859-2; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <c1c28b95-9cba-320c-1597-14bec3f357d8@intel.com>
-
-On Fri, 19 Dec 2025, Lin, Shuicheng wrote:
-> On Fri, Dec 19, 2025 11:33 AM Micha³ Grzelak wrote:
->> During initialization of DRM buddy memory manager at drm_buddy_init,
->> mm->free_trees array is allocated for both clear and dirty RB trees.
->> During cleanup happening at drm_buddy_fini it is never freed, leading to
->> following memory leaks observed on xe module load & unload cycles:
->>
->>     kmemleak_alloc+0x4a/0x90
->>     __kmalloc_cache_noprof+0x488/0x800
->>     drm_buddy_init+0xc2/0x330 [drm_buddy]
->>     __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
->>     xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
->>     xe_device_probe+0x326/0x9e0 [xe]
->>     xe_pci_probe+0x39a/0x610 [xe]
->>     local_pci_probe+0x47/0xb0
->>     pci_device_probe+0xf3/0x260
->>     really_probe+0xf1/0x3c0
->>     __driver_probe_device+0x8c/0x180
->>     driver_probe_device+0x24/0xd0
->>     __driver_attach+0x10f/0x220
->>     bus_for_each_dev+0x7f/0xe0
->>     driver_attach+0x1e/0x30
->>     bus_add_driver+0x151/0x290
->>
->> Deallocate array for free trees when cleaning up buddy memory manager in
->> the same way as if going through out_free_tree label.
->>
->> Fixes: d4cd665c98c1 ("drm/buddy: Separate clear and dirty free block trees")
->> Signed-off-by: Micha³ Grzelak <michal.grzelak@intel.com>
->> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+On Mon, Dec 22, 2025 at 3:18=E2=80=AFPM Daniel Almeida
+<daniel.almeida@collabora.com> wrote:
 >
-> I also meet this issue. And the fix LGTM. It has the same logic as the failure path of drm_buddy_init().
-> Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
+> Hi Tamir,
+>
+> Please cc me for any Tyr changes.
 
-Thank you Shuicheng for the review and confirmation. Will update the
-commit message along your R-B in next round of resend.
-
-BTW, do you have any recommendation regarding the tree via which this
-change should be merged? Asking since I don't have the commit bit to any
-of drm-* trees.
-
-BR,
-Micha³
---8323329-2016406912-1766395563=:1476941--
+Hey Daniel, thanks for the reviews! Looks like `drivers/gpu/drm/tyr/`
+is listed in MAINTAINERS twice since commit 29e7c311b ("MAINTAINERS:
+add Tyr to DRM DRIVERS AND COMMON INFRASTRUCTURE [RUST]") with
+different sets of owners; it must be the case that last one wins in
+b4. @Danilo is the overlap between the entries intended?
