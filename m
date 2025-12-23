@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB96CD8CDF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 11:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4127CD8D39
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 11:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F139210E1AC;
-	Tue, 23 Dec 2025 10:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86BC710E1AD;
+	Tue, 23 Dec 2025 10:35:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H82h4AMt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jx1N2Dlz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB76D10E1AC
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 10:31:03 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 370624E41D50;
- Tue, 23 Dec 2025 10:31:01 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0961960716;
- Tue, 23 Dec 2025 10:31:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 8D8B710AB0177; Tue, 23 Dec 2025 11:30:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766485860; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=2g1qXDZ8qC3enLzm06mnRisnivOXR8McVYT5wHnULDs=;
- b=H82h4AMtc0zK44p1jGc1xgNRn5y90UO5mxI+/c87p5QzL/7GYKg84lCFGfjsvZAYVIzYJD
- N9MvxKpw3LRKsIdQSX09aDRiG+96oDTA43UIKnTZaIoSvmRRVGx2nIs27whksDUIU6+z4m
- MGl5pGBkIsqcLZOqisCIpLELjP1scG4WDvpbDQjGeDu53Obc42fx4wz7Vl9zM8B17Dbz6N
- YIRj+zepv1o+CIIF4D9Jvef5ivuWSA5CY9Fval1igrBz6ZEBs7O2edIgY17T1re3Yx7a+d
- DvnE9nucheG4IYP1FkvvblSA7a6AYNPyGm49xdVCVLz0PVrtiiAP2/fQf2bbgA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 11:30:54 +0100
-Message-Id: <DF5IZ2FTYT6J.1AEBT9D30GZYM@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 00/33] VKMS: Introduce multiple configFS attributes
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99EC10E1AD;
+ Tue, 23 Dec 2025 10:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766486138; x=1798022138;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=m0WskXWQpePLutk15uwE8f1MNTZ0bzp8OVq+Ooov+LM=;
+ b=Jx1N2DlzV17fNvru2KcSgweh7L5gx/c/nJQyNKzMTt1Dcqo8WaCV9rr/
+ aJ/ygtJLzoJ5f9ZzZKPMK6i1tl2Oq1YFMvU3YsH5SIc73WIp8KE0Q10Ma
+ +ZNCgREzhb3TlrSwk+p9u7+AF7HMNHIf7lqtoA4w8Mo9YsfIp5x96tvHG
+ nZxvRwLekY5hhdTN4xISGIFT/1TLe70TI4L0pyDzmwTsCgXyQlMHHNxxS
+ unt2UmH7AzcCWksIdRhc+otZPZ5K4znaEn6KB9FwHBRUE4EWbx230hIva
+ nkt6Y7QvsczHYNKQcHj/C6rG+EPTP5s+c3FzcJjoFcYQ5nPoLNAGcV5AS g==;
+X-CSE-ConnectionGUID: OSEkpoHMQh2uCT9+HBRjIA==
+X-CSE-MsgGUID: 6sLijX9ASEevAL1JPONK4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68376377"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="68376377"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2025 02:35:37 -0800
+X-CSE-ConnectionGUID: CTlnXJcIQji5gBmaore9EQ==
+X-CSE-MsgGUID: MMoKpnP4QVqdZKcGLnZD8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="200658795"
+Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.110])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2025 02:35:34 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, kernel test robot
+ <lkp@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper
+ <matthew.d.roper@intel.com>, Riana Tauro <riana.tauro@intel.com>
+Subject: Re: [PATCH 2/2] drm/xe/configfs: Fix 'undefined reference to
+ xe_configfs_...' errors
+In-Reply-To: <20251222175006.9706-3-michal.wajdeczko@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20251222175006.9706-1-michal.wajdeczko@intel.com>
+ <20251222175006.9706-3-michal.wajdeczko@intel.com>
+Date: Tue, 23 Dec 2025 12:35:31 +0200
+Message-ID: <e22a535a6405412aaeb0f2251733840b72c93b56@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +74,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> VKMS have a wide range of options. The aim of this series is to introduce
-> many configfs attribute so VKMS can be used to test a wide range of
-> configurations.
+On Mon, 22 Dec 2025, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+> On configs where Xe is built-in (DRM_XE=y) but configfs is defined
+> as a module (CONFIGFS=m), we were not enabling our configfs stubs,
+> which might lead to the following build errors:
 >
-> PATCH 1,7,10,13,23 are to expose human readable strings from drm core
-> PATCH 2-4 are to expose human readable plane type in debugfs
-> PATCH 5,6 plane attribute
-> PATCH 8,9 plane rotation
-> PATCH 11,12 plane color encoding
-> PATCH 14,15 plane color range
-> PATCH 16,17 plane format
-> PATCH 18 properly use zpos
-> PATCH 19,20 plane zpos
-> PATCH 21,22 connector type
-> PATCH 24,25 connector supported colorspace
-> PATCH 26,27 connector EDID
-> PATCH 28,29 preparatory work for dynamic connectors
-> PATCH 30,31 dynamic connectors
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
+>    xe_guc.c:(.text+0x2f08): undefined reference to `xe_configfs_get_psmi_enabled'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
+>    xe_hw_engine.c:(.text+0xedc): undefined reference to `xe_configfs_get_engines_allowed'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
+>    xe_lrc.c:(.text+0xb30): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_mid_ctx_restore_bb':
+>    xe_lrc.c:(.text+0xbc0): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `xe_lrc_init':
+>    xe_lrc.c:(.text+0x32fc): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x10): undefined reference to `xe_configfs_init'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x18): undefined reference to `xe_configfs_exit'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
+>    xe_pci.c:(.text+0x1514): undefined reference to `xe_configfs_check_device'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
+>    xe_psmi.c:(.text+0x508): undefined reference to `xe_configfs_get_psmi_enabled'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
+>    xe_psmi.c:(.text+0x5c4): undefined reference to `xe_configfs_get_psmi_enabled'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
+>    xe_rtp.c:(.text+0xba0): undefined reference to `xe_configfs_get_psmi_enabled'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+>    xe_survivability_mode.c:(.text+0x434): undefined reference to `xe_configfs_get_survivability_mode'
+>    powerpc64-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.o: in function `xe_sriov_pf_readiness':
+>    xe_sriov_pf.c:(.text+0x2a0): undefined reference to `xe_configfs_get_max_vfs'
 >
-> PS: Each pair of config/configfs patch are independant. I could
-> technically create =E2=89=8810 different series, but there will be a lot =
-of
-> (trivial) conflicts between them. I will be happy to reordoer, split and
-> partially apply this series to help the review process.
+> Fix that by using IS_REACHABLE check instead of IS_ENABLED when
+> deciding whether to stub variant or not.
+
+Please avoid IS_REACHABLE() like the plague. It allows build but is
+unlikely to result in a configuration or end result that anyone
+wants. It also results in bug reports that are tedious to figure
+out. The problem should be solved at kconfig time.
+
+Again, the solution is
+
+	depends on CONFIGFS_FS || !CONFIGFS_FS
+
+
+BR,
+Jani.
+
+
+> Fixes: 16280ded45fb ("drm/xe: Add configfs to enable survivability mode")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512190407.CcUFXX2F-lkp@intel.com/
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Riana Tauro <riana.tauro@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_configfs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> PS2: I will apply the patches 1..5 after my holidays, they are reviewed
-> twice.
+> diff --git a/drivers/gpu/drm/xe/xe_configfs.h b/drivers/gpu/drm/xe/xe_configfs.h
+> index 9998ec7c9956..ab75485b08b6 100644
+> --- a/drivers/gpu/drm/xe/xe_configfs.h
+> +++ b/drivers/gpu/drm/xe/xe_configfs.h
+> @@ -12,7 +12,7 @@
+>  
+>  struct pci_dev;
+>  
+> -#if IS_ENABLED(CONFIG_CONFIGFS_FS)
+> +#if IS_REACHABLE(CONFIG_CONFIGFS_FS)
+>  int xe_configfs_init(void);
+>  void xe_configfs_exit(void);
+>  void xe_configfs_check_device(struct pci_dev *pdev);
 
-Be careful: as of now, patch 1 is not reviewed (it's new in v3) and patch 2
-is reviewed once. I'm going to review this series however, so the count
-will hopefully change soon. :)
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+Jani Nikula, Intel
