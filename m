@@ -2,58 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AD4CD986E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 14:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1378ACD9B8A
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 15:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7FB10E104;
-	Tue, 23 Dec 2025 13:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B2910E13A;
+	Tue, 23 Dec 2025 14:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CyDaG83h";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rOeV5MyK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B9D10E1B2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 13:58:46 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 93A494E41D5F;
- Tue, 23 Dec 2025 13:58:45 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 67B4760716;
- Tue, 23 Dec 2025 13:58:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3FCC110AB0ADE; Tue, 23 Dec 2025 14:58:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766498324; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=fxtHoMruIF2wGIEKa2vJ+74d1NL4YgjMYBTBQqpRwVI=;
- b=CyDaG83h05mf0TipiaSS1rN0qmhUH2UPcnuzEJs+r1LP9R7MaMv9dZHXBmSmESRXckPXp2
- krXq1Mk7t9rpRXgCwpjrXCjPgIUN0mfjC7xQMbP+LBQkuftCgImirDbLgFR4+9cpNM+ftg
- UD9IyCBP8Rgirzta1oq6iN0afzdxK5uffia8WDX8UrkrSmHEKAziHm98zmCjzOmOJlggC9
- CSloz4GkeSv/UbGwooy2cVHp2RDML57OLGsGQF+NpT6jjXbYYWYpS3Ojpx06zWadM/i0Rh
- XY1HKVtssDm3Y2gcwjOoGiB78HFVp+mGP+r9Dcsboueftq7g5R5jOdRskcgfyQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012003.outbound.protection.outlook.com
+ [40.107.200.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C8210E108;
+ Tue, 23 Dec 2025 14:56:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hx5jT9V4hzLdXzBFRsu5cDy9WdFG0n8M9n7LB8FDdJLHFaSvS31tG2aR0+mVa5Ra9Oqje/TXhtONCZzZpxqTi3qb/k4Jh2EthjIj2xAMgH4onIsBJyqtbzHPx/0+Ftwm3C73enyqAU7RjybaZVPQUwODTx34MeJG7I9nBzbn7BoindTy2+kJcXgvmq3grdmYk3Z3uoOhVeIX8T6ROmzjy3YW6xN5f4NmHj20KhpvzTQ070w5P/fCBLqFQTOnFAygC24znIIPCGuG9fYArkpggS/eeGK8w0ly6kcOkk6ENc4R9WxQstP/LznMcYb7VXE+G/FTSmiMnJnWoB3/pncWaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gBRbSgTrnOl2VSe7lIEcRI5wbYulO2HOl9Q1ik4Wanc=;
+ b=WdDzoPJe0Q3xKdp2SxmU7o/+C7Nj+pF+7HCOrhumYyMWJKBGoavBtqSKZ4/ScyhmZxv07/l98lesPcLakS+cJwjE2LkOrlaijhr7mAQUhCKo5oVJqFMZTPQatVOIyAqEUE3yzTicLBgLDNh/lWgGwkDNSj1VPrKAnAToEO6G9zbHbXjXiPVNbs3z7/HHWm/PXEA2QUIWuF38E4VwNLGDpGQIi7dxHd5NpzigLZP4y99wxQbZeRYaKcmKq8uDMJrHbRF69z9rNsnGVm4bDJFf4G/tNlg7OGASLfYr5k+fDZdpFAwke8tJ9IalowxQgRhpxuZkmX3ZnPDPaZ21b7yYXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gBRbSgTrnOl2VSe7lIEcRI5wbYulO2HOl9Q1ik4Wanc=;
+ b=rOeV5MyKK5erNnBhBcZqlqNIqnlguNPI8xOqv9u0H/zGpvz2hTLk+asytEH5RPnjBTQCl0dfEjU0HyeyvfkVKxqp8EOxOQIDsa+E/Bgs51hwnKWtEsEIp5Q/2CosmqORD1L3iZX+KR6vggetLnuB49/OVSROeOLsQ/NQZbd1IE8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB6749.namprd12.prod.outlook.com (2603:10b6:806:255::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Tue, 23 Dec
+ 2025 14:56:01 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9456.008; Tue, 23 Dec 2025
+ 14:56:01 +0000
+Message-ID: <2ab9f73d-ef7b-40b3-b2bb-650f83ac236f@amd.com>
+Date: Tue, 23 Dec 2025 15:55:56 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/radeon: bypass no_64bit_msi with new msi64 parameter
+To: Arnd Bergmann <arnd@arndb.de>, Han Gao <gaohan@iscas.ac.cn>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
+ sophgo@lists.linux.dev
+References: <20251220163338.3852399-1-gaohan@iscas.ac.cn>
+ <e86b823f-5e83-4105-8e4d-1db141d088a4@app.fastmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e86b823f-5e83-4105-8e4d-1db141d088a4@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 14:58:41 +0100
-Message-Id: <DF5NE5WRSCYT.4NV0451K0SRU@bootlin.com>
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0042.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fe::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6749:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb5d373b-981a-4a0d-aeb2-08de4233635d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MmlidDVRRHZNbk4rbjRIcnNUOEFKd1huZlYvSlRBakw3blcwcmJDVnpGZUZn?=
+ =?utf-8?B?ZTZGSFUzc2pzQUtmMmgvazRqcmRHc216TUZTdk9TY2w4TERuU3B5Y1hsajB6?=
+ =?utf-8?B?TnNHUG11cVBTczN2L1VVZDVGQnNWY01zOVh5SU9sZXdRcFlIa2ZYRFc4UWpB?=
+ =?utf-8?B?MVU0azlibDFTa2F1bHhxdy9ncFpuak9yVTl6NUtySlVrNkhwWkFjcFhUSTRZ?=
+ =?utf-8?B?SWhxU1hxMVYrajdVR2FuaGdtbnRJZE9QSGNRYi9ySVAxa2dyVnpIOUpGcWxS?=
+ =?utf-8?B?dGVIeUVNZmFuVGhEU0ZTUVlsaSswT3ZnUkdlQmQwL2h5cW9mVUpPdWxaV2V0?=
+ =?utf-8?B?WXkyems4Q09CTWdQUHR1VFFhalZJWnhoWllxQ1VEbS9ORGk0RGZPcTljNEFy?=
+ =?utf-8?B?KzNIcFpjZ0czczdIZllNd2ppUjFpci90bXpMd2NwUmVkL3VTSk1MR2pNYzdV?=
+ =?utf-8?B?bHVSN0dMekxUZjNyamUvanhPS0ZOd2JwVlB5THhDdEMvbjFoWmYxK0lFeTda?=
+ =?utf-8?B?VnJjYmdjcnZRUzYvL0VVQWxNZDc1eDA3NEozb2dEUnppa1YxZEMyTVBPTjYy?=
+ =?utf-8?B?a0FuS2Nhb3RRNWNzcmFPREY3SzJ1SzMxYVlqV2pvSGdpT2NkVTh1R0djTVF3?=
+ =?utf-8?B?SVpmeW0wUUtWRFdBaEg5NmpqMjh2aFppNEtUa0hFN041b2tSOUt5TXlERk1l?=
+ =?utf-8?B?L0YxWnVkc1lldlcyT1ZRcS9VNlVHeEpXYkYvRUlhV2todVdKSkpOOFBiV2kx?=
+ =?utf-8?B?b1AvanVQUnJocTVrdElpdjhlUU1iK3gxb00rb3RBaS8zdDZzQU5QZjdDcDZr?=
+ =?utf-8?B?cDIxenpYczhqY0ZkRGpDUjNkWGU2ZEZFRlhhc3lPUkRiL2JodjBpT08xVG9P?=
+ =?utf-8?B?QXJiM0JTdmNrbHJocktSRVdHVHM0aXpIQkNEdnpMbHJpMGxveG9ZM3BQMmJP?=
+ =?utf-8?B?RGpnNGRqT0lVK2x4OFdaMlpsV2Z3UTlkMFZWdXlYblBrSEFCTTVYSmdWT0Fh?=
+ =?utf-8?B?TWRYZEZkemxFSzFIWTQxdnpDQ1B6SnlYUVpGVWxrTWRGbW9Hcml5ajNCQmxB?=
+ =?utf-8?B?b1hZSTBHdGlHcFhINk9KS2ZqQ1lwM0xVQXhncnV2cG1Yalk2TFVoaGlHQUVu?=
+ =?utf-8?B?SlhWdHNDMmtOQW5zVXYxSkliS3Q5OHY4K1o5S2I2b0lrUlZ0TnFRQ1NWT1Ey?=
+ =?utf-8?B?QkUyZnF3TjBrQytzN3VLRy9IdkcxWlBUb3UxSDh2M2p6bHVBcHk2czh4UVpS?=
+ =?utf-8?B?Z0QzWmJ0eWNoMXFQUEV5ZCs0ZVpQc1Znb3ExM1cyQStZWFpGRmd2Q3U2dkFz?=
+ =?utf-8?B?UW5BVDN4YTVEZGF6bk1HWCtPK25RVEt3NEdjdFdubWpmS2k5aFUrM1RjYzBj?=
+ =?utf-8?B?U2VjdFR3a0YvOHZWU1RxcVdjMlNGak4yaDYya2lOaHNoYnVkQlV0dzRCZ1Q3?=
+ =?utf-8?B?VlA1U0V2TS81aldESkJiUTVCamhLelZZYUJqQml1aHlvN1lDdFBzbzFEWFkx?=
+ =?utf-8?B?UWUxOXV3dTdLbElOMnRMWElSamMySkQyeUtaVW9aRnRWVWF4MGgyN21WTHhE?=
+ =?utf-8?B?cjd4YkJ5d0F2SVZtV0FFaXpUeGI1eW5uRlcveEtmNFB4MklzVE1mZzFCM0lT?=
+ =?utf-8?B?aXUyUndhNVNBampEZlZyYnhpVDRKSW9jV0VIN05LNmEyMWRJSmtzSkJMeXh5?=
+ =?utf-8?B?dFVDVFJNdU4zanBsZHp4SkJ2WjdHcTcvaVlEWll5L1RuVVo0TVJQMkhGSVpE?=
+ =?utf-8?B?UytsM3FyeEQ0S2dldnllVzBVeWJGdWF4ZGVYOHk0aG41WWd5Z1Z6TkxRSDcz?=
+ =?utf-8?B?ZENRNlNaZ0xMbE14ZFBVTGFVK24vQ2tHc1QrRkhaaGNYOHBCS2xRUWZyM1JG?=
+ =?utf-8?B?YXN6OERSajB2aVh0S0M3L0JkbVdsVklpeXlHSTlUNzJLc1FqK2dNc1RGWndY?=
+ =?utf-8?Q?zOXxiPaOwd0WgKcKrsWfLk2J2/BKMdtY?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWVyRGZ5dmk3U3JDZDVMSEFWZTJjcnJGcmZJelZDYmdidWhxVHMvb1JQVTZw?=
+ =?utf-8?B?emV2NythSFJUbHk5Y3pxQlloaFJ5UXE4UXBqanNSMTNaUU5yRHo0ZWY5V0Zo?=
+ =?utf-8?B?cS9Dd0NxdSt5TlhFUWJtT0tpVXdJRCs4WkcvVVhnSnRyb3VXeitNOENiOUFm?=
+ =?utf-8?B?aVU3WXJSc0w3SWdGT3FrWk1oMVFPVzFwWEtXRXdnamU0bXl3Q2tYdVZObEIz?=
+ =?utf-8?B?Rk5tcmVVeHJpbUJHa1RkOWNNVTdqZnpaYS94bUtRUi92OGdwcDRRRTZDaTVB?=
+ =?utf-8?B?dGJQd1RYNFpOdCtnVi9MMS9rSk5mWGswcW9LME1RM1NYYTZxUy9LazlRbERn?=
+ =?utf-8?B?NnFCL3A3V1FHSzRLMjc0ZkE5OERjQXhsSTNxYitmdWpqay9pS2ZIYnU4ejAv?=
+ =?utf-8?B?VFVML094NFBTM3dTWjE3bEZHYjFrQkpFNFRlTUtINWdVcU1haU1QOHlnQzQ3?=
+ =?utf-8?B?dElIajNBZUs0eUF5TXd1UjB3Vk4vcEZmMGplNkdYTSsvL1lQbytqcW51WmlN?=
+ =?utf-8?B?ejZTQmRPQ0d1bUpBT0FQckZHWVd2MGdiTXQ0eVdvd2lMbWJuMjdJYjYrTno1?=
+ =?utf-8?B?bHNtaDBldkhHMnVKc1o2ZDlPVEtoUk9LbVoybWJjTVdGRFV5bFdyYmlqUnJU?=
+ =?utf-8?B?UDdtcFpUeURyL3pwVW1FQ3ZDcDRJWXFHWGlyN0lza1B4Ri9xNFlkelhMWUJC?=
+ =?utf-8?B?Mk52T1IrbmVUa2VxQ3kzdHJmemo5MkxOU3htODdSUjVjZHlkbzZROG9VSzN4?=
+ =?utf-8?B?Z082amJTUWMvTkVubHhyWGJsbDRTTlJwYlBUdVlPWkMxKzdmdjZXOHZhb0xP?=
+ =?utf-8?B?eGNkcXBZakFGSEVWR3VqYnpKR1E0MjArTUZVeEk2RkREUmwrRHhiaU96c0FR?=
+ =?utf-8?B?QzVxTzVXZ3Q0S3FzdG50M3B4NlpvV3BzZFI1U0oxaVdDVWJKd245OVpqMWtk?=
+ =?utf-8?B?ejJ4eDBWaEpXWFk0eXh6WHFsdDh5L25aalR3V29sMGdQMThlTk95WkVFUWd4?=
+ =?utf-8?B?YVhrdXVSVDVZM3dOVi9aSi9oRVRXUWZRbmNHZkRmTUlEMEF0dHRGdFBaVFFw?=
+ =?utf-8?B?dGllZlkydVpuaUZMeXY5QUNjdXZKeGVhdGRGOWtaRzU4T1ZLT0t5end4Q25m?=
+ =?utf-8?B?dTlDMjBJbGx0QjJmbFUwZ3RtdWtzZ1FuMnBKbUhPamlaZnFxeEE0NHQ4Zm5h?=
+ =?utf-8?B?WStwSDV5Um5JemtzVFFWU0doZ1BFbDFBQnp3aFo4TnlxVU9rNjN0MkJBTjgw?=
+ =?utf-8?B?TDJUZ3dnUUJMNzYzcUVzK012TE9GY2NGTzJySUx3eklWekhzdUs0TWRYMFFu?=
+ =?utf-8?B?bEpXaW1iN1NSY3Bqek81YjVDVE5QWVZyUVRVRWtHV2tLeTZTNWZsZGsxWnc3?=
+ =?utf-8?B?SGNaNmJkSEtEaVUyODFaaDkyOFBrbEFWNTlzUEVtbEpKN1FTbmNqZnBFbW5l?=
+ =?utf-8?B?b0dxZ3JGNTNBajRRbWJhUVp1dW5zd0R0SnNWemVtTFVkNXJQWEhVWHo2Tlgw?=
+ =?utf-8?B?cVJBbGc5WEFSQWlvZ0dwbVlRaW4vdmw0dTZwczN3RkNkdkdaNGJlejNOMkx5?=
+ =?utf-8?B?K2VQYlI1RGI4THlxYlZuWVNsZjMzWSsrdTRRWjBORTdsZUlMQnVKdEtFNTdk?=
+ =?utf-8?B?TWxkOXdvSFNGRi9TMGlsMGFEbHJvMm96bEphL3NJaUVVQlE0Tkp2cUNhN3Rj?=
+ =?utf-8?B?SGRmRGtxT1NUQ1pDTC9ZM2VkZ2xyeVlSbW1VTG51aFhTM3VMeFFqcWE2N29v?=
+ =?utf-8?B?QkYzVXQ1ckdWUEFCaktBNjhsS3JaVkR5TERNbmRnbkFEUmdMalVacXZ4VU85?=
+ =?utf-8?B?S2xkT0MvRXZvZ2dqV3Q3QXRONjdjR25YRkFDNG5tTHU2d0wxdEE0aFhpU3R5?=
+ =?utf-8?B?TEYyZERKTWR0dzB0cEttS0YzeE0zYzVYeFhMZGVERlpKaWNwc0l3dE8xdWho?=
+ =?utf-8?B?SEtEQmUxYnZwTXZHN1piMEVocHErYzRvUGtxRHBvOXhFb05lSFlmdXZCallE?=
+ =?utf-8?B?ZTI0T3BaUnQ0emtpcWd2Zlg3a1N1by9JcnY1UytyZ0w2blJGNGpFeDI3K1l5?=
+ =?utf-8?B?MGpGSFpXcUtSczRIcTE2ZFZXd0ZYaFk0UDFFRU1UVGxJVHpodFNSZTNGUHhK?=
+ =?utf-8?B?bStidkxCMFJGUVFiZWRBeEl1QytSUkV0V282anJXakR1RXpIbnAwaCtMSGlJ?=
+ =?utf-8?B?emVJU2JDbE96eTA2MEkvSk1QVXdYSTZRS01GbmMrWTA3a2ZsbXlwWlVDRnNl?=
+ =?utf-8?B?RlVCdm9GYnJMRWFmTElXTURqQmtZWjNRSVVMR0VvcGVRLytxaStVcTZUMmxR?=
+ =?utf-8?Q?kg2ozxmZ8fwE5HNj45?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb5d373b-981a-4a0d-aeb2-08de4233635d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2025 14:56:01.3140 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ebPD9nb3n4cg/All/bS+RZJ8FXDAtTStSMv85IOorrkZGl4iYPk9FZARNa/wGL+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6749
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,276 +170,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> To allow the userspace to test many hardware configuration, introduce a
-> new interface to configure the available formats per planes. VKMS support=
-s
-> multiple formats, so the userspace can choose any combination.
->
-> The supported formats are configured by writing the fourcc code in
-> supported_formats:
->  # enable AR24 format
->   echo '+AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # disable AR24 format
->   echo '-AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # enable all format supported by VKMS
->   echo '+*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # disable all formats
->   echo '-*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+On 12/22/25 22:32, Arnd Bergmann wrote:
+> On Sat, Dec 20, 2025, at 17:33, Han Gao wrote:
+>> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c 
+>> b/drivers/gpu/drm/radeon/radeon_drv.c
+>> index 87fd6255c114..53af28494c03 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+>> @@ -249,6 +249,10 @@ int radeon_cik_support = -1;
+>>  MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled, 0 = disabled, 
+>> -1 = default)");
+>>  module_param_named(cik_support, radeon_cik_support, int, 0444);
+>>
+>> +int radeon_msi64;
+>> +MODULE_PARM_DESC(msi64, "MSI64 support (1 = enabled, 0 = disabled)");
+>> +module_param_named(msi64, radeon_msi64, int, 0444);
+>> +
+> 
+> As with the hda-intel patch, this should not be a module argument,
+> but we should have the kernel figure out what to do itself.
 
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -153,6 +153,15 @@ Description:
->          Default color range presented to userspace, same
->          values as supported_color_ranges.
->
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
-> +Date:		Nov 2025
+Yeah, completely agree. This is basically just a workaround (and a bit ugly one).
 
-Jan 2026.
+>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c 
+>> b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> index 9961251b44ba..62eb5a6968ff 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> @@ -250,7 +250,7 @@ static bool radeon_msi_ok(struct radeon_device 
+>> *rdev)
+>>  	 * of address for "64-bit" MSIs which breaks on some platforms, 
+>> notably
+>>  	 * IBM POWER servers, so we limit them
+>>  	 */
+>> -	if (rdev->family < CHIP_BONAIRE) {
+>> +	if (rdev->family < CHIP_BONAIRE && !radeon_msi64) {
+>>  		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
+>>  		rdev->pdev->no_64bit_msi = 1;
+> 
+> According to the comment above it, the device can apparently
+> do 40-bit addressing but not use the entire 64-bit space.
+> 
+> I assume the SG2042 chip has the irqchip somewhere above the
+> 32-bit line but below the 40-bit line, so it ends up working.
+> 
+> I wonder if the msi_verify_entries() function should check
+> against dev->coherent_dma_mask instead of checking the
+> upper 32 bits for being nonzero, that probably gives you
+> the desired behavior.
 
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -87,7 +87,7 @@ Start by creating one or more planes::
->
->    sudo mkdir /config/vkms/my-vkms/planes/plane0
->
-> -Planes have 8 configurable attributes:
-> +Planes have 9 configurable attributes:
->
->  - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->    exposed by the "type" property of a plane)
-> @@ -109,6 +109,11 @@ Planes have 8 configurable attributes:
->    must be set too.
->  - default_color_range: Default color range presented to the userspace, s=
-ame
->    values as supported_color_ranges
-> +- supported_formats: List of supported formats for this plane. To add a =
-new item in the
-> +  list, write it using a plus and fourcc code: +XR24
-> +  To remove a format, use a minus and its fourcc: -XR24
+Again completely agree, that sounds like a plan to me.
 
-From the docs examples it's not obvious that you can add/remove multiple
-formats in one write operation ("+XR24 -RG24"), but the implementation
-allows it. So either add a more complete example or forbid multiple
-operations in one write. I would consider the latter option seriously
-because it would simplify the string parsing code, which is very tricky to
-get right and robust.
+IIRC the modified code here is basically just a workaround because the MSI control dword on older radeon HW was not setup correctly.
 
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_configfs_test.c
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include "linux/printk.h"
-> +#include <kunit/test.h>
-> +
-> +#include "../vkms_configfs.h"
-> +
-> +MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-> +
-> +/**
-> + * struct vkms_configfs_parse_format_case - Store test case for format p=
-arsing
-> + * @str: Contains the string to parse
-> + * @str_len: str len
-> + * @expected_len: expected len of the matched format
-> + * @expected_offset: expected offset in the string for the parsed format
-> + */
-> +struct vkms_configfs_parse_format_case {
-> +	const char *str;
-> +	int str_len;
-> +	int expected_len;
-> +	int expected_offset;
-> +};
-> +
-> +struct vkms_configfs_parse_format_case vkms_configfs_parse_format_test_c=
-ases[] =3D {
-> +	{
-> +		.str =3D "+RG24",
-> +		.str_len =3D 6,
-> +		.expected_len =3D 5,
-> +		.expected_offset =3D 0,
+Regards,
+Christian.
 
-Thanks for having renamed 'data' to 'str'! However now I realize the
-'str_len' name becomes misleading: the string length does not include the
-training NUL character, while the value you need here does. I beg your
-pardon... I guess 'str_len' should be renamed too, maybe to 'str_size' if
-no better name comes to mind.
+> 
+>      Arnd
 
-> +	}, {
-
-Based on the question I asked after v3,resend and on your answer, I'd add a
-clarifying comment here about the following test:
-
-	   /* ensure the algorithm stops at data_len and not \0 */
-
-> +		.str =3D "-R1111",
-> +		.str_len =3D 3,
-> +		.expected_len =3D 3,
-> +		.expected_offset =3D 0
-> +	}
-
-Testing wrong and corner cases is more important than testing perfectly
-clean cases. So it would be nice to add tests for not-obviously-wrong and
-definitely-wrong cases, such as "+ RG24" (note the space), "fubar", "+**",
-"*+", "++", "-+", "-A*42" (see below), ":-)" (dash after non-blank char)
-and "(-o-)".
-
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -3,6 +3,8 @@
->  #include <linux/configfs.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> +#include <linux/string.h>
-> +#include <kunit/visibility.h>
->
->  #include "vkms_drv.h"
->  #include "vkms_config.h"
-> @@ -628,6 +630,120 @@ static ssize_t plane_default_color_encoding_store(s=
-truct config_item *item,
->  	return count;
->  }
->
-> +static ssize_t plane_supported_formats_show(struct config_item *item, ch=
-ar *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +
-> +	plane =3D plane_item_to_vkms_configfs_plane(item);
-> +
-> +	page[0] =3D '\0';
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		u32 *formats =3D vkms_config_plane_get_supported_formats(plane->config=
-);
-> +
-> +		for (int i =3D 0;
-> +		     i < vkms_config_plane_get_supported_formats_count(plane->config);
-> +		     i++) {
-> +			char tmp[6] =3D { 0 };
-> +			const ssize_t ret =3D snprintf(tmp, ARRAY_SIZE(tmp), "%.*s\n",
-> +					       (int)sizeof(*formats),
-> +					       (char *)&formats[i]);
-> +			if (ret < 0)
-> +				return ret;
-> +			/*
-> +			 * Limitation of ConfigFS attributes, an attribute can't be bigger
-> +			 * than PAGE_SIZE. This will crop the result if this plane support
-> +			 * more than =E2=89=881000 formats.
-
-Every format takes 5 chars, so about 800 formats, no?
-
-> +			 */
-> +			if (ret + strlen(page) > PAGE_SIZE - 1)
-> +				return -ENOMEM;
-> +			strncat(page, tmp, ARRAY_SIZE(tmp));
-> +		}
-> +	}
-> +
-> +	return strlen(page);
-> +}
-> +
-> +/**
-> + * parse_next_format() - Parse the next format in page, skipping all non=
- fourcc-related characters
-> + * @page: page to search into
-> + * @page_end: last character of the page
-> + * @out: Output pointer, will point inside page
-> + *
-> + * Returns: size of the matched format, @out will point to the + or -
-> + */
-> +VISIBLE_IF_KUNIT
-> +int vkms_configfs_parse_next_format(const char *page, const char *page_e=
-nd, char **out)
-> +{
-> +	int count =3D page - page_end;
-> +	char *tmp_plus =3D strnchr(page, count, '+');
-> +	char *tmp_minus =3D strnchr(page, count, '-');
-> +
-> +	if (!tmp_plus && !tmp_minus)
-> +		return 0;
-> +	if (!tmp_plus)
-> +		*out =3D tmp_minus;
-> +	else if (!tmp_minus)
-> +		*out =3D tmp_plus;
-> +	else
-> +		*out =3D min(tmp_plus, tmp_minus);
-> +
-> +	char *end =3D *out + 1;
-> +
-> +	while (end < page_end) {
-> +		if (!isalnum(*end) && *end !=3D '*')
-> +			break;
-> +		end++;
-> +	}
-
-I think this while loop will capture a string like "A*42", which is wrong.
-
-Maybe you could change this function to be both stricter and simpler by not
-trying to accept leading spaces, for example.
-
-> +static ssize_t plane_supported_formats_store(struct config_item *item,
-> +					     const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +
-> +	plane =3D plane_item_to_vkms_configfs_plane(item);
-> +	int ret =3D 0;
-> +	const char *end_page =3D page + count;
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		while (1) {
-> +			char *tmp;
-> +			char fmt[4] =3D {' ', ' ', ' ', ' '};
-> +			int len =3D vkms_configfs_parse_next_format(page, end_page, &tmp);
-> +
-> +			// No fourcc code found
-> +			if (len <=3D 1 || len > 5)
-> +				break;
-> +
-> +			page =3D tmp + len;
-> +			memcpy(fmt, &tmp[1], min(len - 1, 4));
-> +			if (tmp[0] =3D=3D '+') {
-> +				if (fmt[0] =3D=3D '*') {
-> +					ret =3D vkms_config_plane_add_all_formats(plane->config);
-> +					if (ret)
-> +						return ret;
-> +				} else {
-> +					ret =3D vkms_config_plane_add_format(plane->config,
-> +									   *(int *)fmt);
-> +					if (ret)
-> +						return ret;
-> +				}
-
-Minor code simplification:
-
-				if (fmt[0] =3D=3D '*')
-					ret =3D vkms_config_plane_add_all_formats(plane->config);
-				else
-					ret =3D vkms_config_plane_add_format(plane->config,
-									   *(int *)fmt);
-				if (ret)
-					return ret;
-
-Or, if you like the ternary operator:
-
-
-				ret =3D (fmt[0] =3D=3D '*') ?
-					vkms_config_plane_add_all_formats(plane->config):
-					vkms_config_plane_add_format(plane->config, *(int *)fmt);
-				if (ret)
-					return ret;
-
-I'm sorry some of these comments could have been written asof v2, but this
-patch is really intricate and they came to mind only while re-thinking
-about the code.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
