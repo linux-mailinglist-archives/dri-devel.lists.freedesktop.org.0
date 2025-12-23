@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DEDCD9600
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 13:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DC5CD9661
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 14:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E69E10E128;
-	Tue, 23 Dec 2025 12:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B98EC10E035;
+	Tue, 23 Dec 2025 13:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lObb7jai";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OkK1pPZN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E868510E128
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 12:56:17 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 6FCD81A23A4;
- Tue, 23 Dec 2025 12:56:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 3083260716;
- Tue, 23 Dec 2025 12:56:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 67B6E10AB047E; Tue, 23 Dec 2025 13:56:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766494575; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=v11StIVYhZW6pNTNvm2d00yDP+Y/pPkF0IvfYZUT+Hw=;
- b=lObb7jaiJpxfKsS5jJoLgOlK4NgWwBycnaEXq+JymdWbNgc+WIXZt6hp+/qRB+2+72A5O5
- gIuqWhh3YVKUSVqnPu0Hl3nUDoolNihHzsS4nuxLxBCTQw65IWpH5AsddvbwxoqMCgrSGT
- BOANIJSp3YgSGVAn3dPXHroctC7h+izv34dpc2+vlW/pjvvT0EXfElYX8V2tXcWbLNf3Du
- iwSX7WpK2RGjk6brF6c8kY5eRBBJuKI2JTQPXEG/07AnHgoD6INeEbCHXjg7VU4Txhu0k4
- YcNJQjlvjWvJwa9ox7/aZO8LTPfnII4XnhKNqJBq8EpDYqWrkt91I5iFsw2VDg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 13:56:09 +0100
-Message-Id: <DF5M2A4RT005.KU8DTLA3CGI0@bootlin.com>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 13/33] drm/vkms: Introduce configfs for plane color
- encoding
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-13-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-13-ba42dc3fb9ff@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9DBD10E035
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 13:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766495205; x=1798031205;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=VL07pAku+WMfh2Tgms4l8zBYIH0Nriu7UpIJArRTLIo=;
+ b=OkK1pPZNzLOUEBYGOKZANLeE5GrhBChVMxFlY4hO7i8CS052RI24pjfr
+ Z5QLO26yEYKFU3S7vG4iaH/QKWk+O97hkoDaH/W8N8T73gJKcBnvffsD+
+ VcGp0ITsJlHWQOa5oGgX9pZxJ7hNAZK10/JQ/XCdbxyW0Lh1DwyRpHySR
+ /KSxoSxSkThs0SeDAx1p+KTWpbhjCvbvUwqzjEMHtKPp9kMqHCD2NtD1V
+ u7fa3h7hfizbSoxon6fhl02+BtWx5B5v+DDGqO47QBvG1+iZhG2mQB6uY
+ tRDYHypv0KU/CXDzSjBX83RV9VOWzMFBG1CpU/qSokKhWP6MM15NthIJv g==;
+X-CSE-ConnectionGUID: qPq9eBdQRY2O+b/dE60N7w==
+X-CSE-MsgGUID: lYTj1e1ATiqDkgWtCYUMHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="85931722"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="85931722"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2025 05:06:44 -0800
+X-CSE-ConnectionGUID: QHI9sH8zSw+VzWNEjJHO3Q==
+X-CSE-MsgGUID: 3Fxvn/v1TimMHiVPVYHmpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; d="scan'208";a="200077636"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a)
+ ([10.211.93.152])
+ by fmviesa008.fm.intel.com with ESMTP; 23 Dec 2025 05:06:41 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vY262-000000005w8-2btX;
+ Tue, 23 Dec 2025 13:06:38 +0000
+Date: Tue, 23 Dec 2025 14:06:15 +0100
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, victoria@system76.com,
+ sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <202512231419.lVidy4qV-lkp@intel.com>
+References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +80,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> To allows the userspace to test many hardware configuration, introduce a
-> new interface to configure the available color encoding per planes. VKMS
-> supports multiple color encoding, so the userspace can choose any
-> combination.
->
-> The supported color encoding are configured by writing a color encoding
-> bitmask to the file `supported_color_encoding` and the default color
-> encoding is chosen by writing a color encoding bitmask to
-> `default_color_encoding`.
->
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Hi Louis,
 
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -124,6 +124,20 @@ Description:
->          Default rotation presented to userspace, same values as
->          possible_rotations.
->
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_color_e=
-ncoding
-                                                                           =
-             ^
-supported_color_encodings (final 's').
+kernel test robot noticed the following build warnings:
 
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
+[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
 
-> +static ssize_t plane_supported_color_encodings_store(struct config_item =
-*item,
-> +						     const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);
-> +	int ret, val =3D 0;
-> +
-> +	ret =3D kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Should be a supported value */
-> +	if (val & ~(VKMS_SUPPORTED_COLOR_ENCODINGS))
-> +		return -EINVAL;
-> +	/* Should at least provide one color range */
-                                             ^ encoding
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
+base:   8e7460eac786c72f48c4e04ce9be692b939428ce
+patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
+patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+reproduce: (https://download.01.org/0day-ci/archive/20251223/202512231419.lVidy4qV-lkp@intel.com/reproduce)
 
-> +static ssize_t plane_default_color_encoding_show(struct config_item *ite=
-m, char *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	unsigned int default_color_encoding;
-> +
-> +	plane =3D plane_item_to_vkms_configfs_plane(item);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512231419.lVidy4qV-lkp@intel.com/
 
-Set on declare, for consistency (and conciseness).
+All warnings (new ones prefixed by >>):
 
-> +static ssize_t plane_default_color_encoding_store(struct config_item *it=
-em,
-> +						  const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);
-> +	int ret, val =3D 0;
-> +
-> +	ret =3D kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Should be a supported value */
-> +	if (val & ~VKMS_SUPPORTED_COLOR_ENCODINGS)
-> +		return -EINVAL;
-> +	/* Should at least provide one color range */
-> +	if ((val & VKMS_SUPPORTED_COLOR_ENCODINGS) =3D=3D 0)
-> +		return -EINVAL;
+   Using alabaster theme
+   ERROR: Cannot find file ./include/linux/pci.h
+   WARNING: No kernel-doc for file ./include/linux/pci.h
+   ERROR: Cannot find file ./include/linux/mod_devicetable.h
+   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+>> Documentation/ABI/testing/configfs-vkms:156: WARNING: Inline emphasis start-string without end-string. [docutils]
+   ERROR: Cannot find file ./include/linux/bootconfig.h
+   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
 
-This if() is redundant, the is_power_of_2() implies it because you already
-ruled out any unsupported bit. Also, the comment is wrong. You can drop
-these 3 lines entirely.
 
-Luca
+vim +156 Documentation/ABI/testing/configfs-vkms
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+ > 156	What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
+   157	Date:		Nov 2025
+   158	Contact:	dri-devel@lists.freedesktop.org
+   159	Description:
+   160	        List of supported formats for this plane. To add a new
+   161	        item, write its fourcc code prefixed with '+'. To remove,
+   162	        use '-' prefix. Use '+*' to add all formats, '-*' to
+   163	        remove all.
+   164	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
