@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2E1CD9F1C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 17:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E8DCD9FE6
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 17:42:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D04110E285;
-	Tue, 23 Dec 2025 16:25:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IS7Qe4Ei";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4995E10E0C3;
+	Tue, 23 Dec 2025 16:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2670A10E282
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 16:25:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1766507129; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=V2clX0Kvg5oWkJLam0pH18JaY194skq5UEgEtQjKbT5sVo5v27QwuSqP62oc8xysnNscsIE+7zenLtXtVDmhmFGfaOeb+7XsAz83lAZXEe0YRraP7MmGgcHzbiJG61kKaIkX947m+hlObXVqdZ177Oxws3MrvYhtA0ysY6aXAKc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1766507129;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=loq07D1mkSWL4qXJm2L3GeV4pBmAabcjQO2c0yX94eI=; 
- b=aotGdYG3d/TAoL/XRLv6blb0NWA50qBGxOF56vDrZ2SC2LZcxQv/c3wLI5tAUbzY7B6Hc4/aSLiPMZos276HkJRKpeGpNtECIC+8Z6qyXkIQ9CL0YKhc1L5ilpgdI40/3bqnfyhVtjYXxX43RqUT13H6xzTTbGpwJsm9GrS0RhQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766507129; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=loq07D1mkSWL4qXJm2L3GeV4pBmAabcjQO2c0yX94eI=;
- b=IS7Qe4EiWJ0DHtXXXQApKbNdjHbhxsshaacffARVA+Fd9DGlaUdgbCgmEluWKdRf
- l8Lxkf4F9UHrs9A0kjNG/pnwAt8AlAct430hO2WAO4wrqbNwCH8v75TWzYucGAL72n2
- GU89T8Ioh9VnwwjeWBi01SLK5ieQOkMILqug8yXE=
-Received: by mx.zohomail.com with SMTPS id 1766507128694407.5909844696057;
- Tue, 23 Dec 2025 08:25:28 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 23 Dec 2025 17:25:00 +0100
-Subject: [PATCH v6 3/3] drm/panthor: Add gpu_job_irq tracepoint
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com
+ [216.40.44.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C095310E0C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 16:42:39 +0000 (UTC)
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay09.hostedemail.com (Postfix) with ESMTP id 53D3A8ADC1;
+ Tue, 23 Dec 2025 16:42:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
+ omf14.hostedemail.com (Postfix) with ESMTPA id 44A942D; 
+ Tue, 23 Dec 2025 16:42:34 +0000 (UTC)
+Date: Tue, 23 Dec 2025 11:44:24 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v9] dma-buf: add some tracepoints to debug.
+Message-ID: <20251223114424.1c539f7a@gandalf.local.home>
+In-Reply-To: <20251223032749.1371913-1-gxxa03070307@gmail.com>
+References: <20251223032749.1371913-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251223-panthor-tracepoints-v6-3-d3c998ee9efc@collabora.com>
-References: <20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com>
-In-Reply-To: <20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+X-Stat-Signature: grxkiozmi3msuufb6c4ww3d6b1ijzhoh
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 44A942D
+X-Spam-Status: No, score=-0.10
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+yIprTkm+nIvFVTiCDFSCukILDs9di80M=
+X-HE-Tag: 1766508154-450411
+X-HE-Meta: U2FsdGVkX1/RMwvb/I3i66TmfvJP/QYAChkQEo2YHhW8EcjemzG38cb5Wi0oW9rzAnkMwaEDpLPpnWxB+lFGcG97mdgnpnzmrWP679NlNX8FNGrdVhWTd65GLMBMoMUr+SjHIm1x2OKOW3x3Yv5CQqb+xZt2qB7wjbS1JbKgAmebXsOyZB7tdTKDStorhsE6A6YcLG7G2iDftxGHuAgcuZBnDFIVSxVQONazrjqzWjA/HgVOvmkCxGokE7ftA5fACYCUn8q6WO482an5qtVkv15JdqiiOObr0sXCp29/2DixiBpihMzyh/7Q8Y5Eio/BGGEmiOHfDVWrXM5VvhaHMuxVHi0VGfeK
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,111 +59,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali's CSF firmware triggers the job IRQ whenever there's new firmware
-events for processing. While this can be a global event (BIT(31) of the
-status register), it's usually an event relating to a command stream
-group (the other bit indices).
+On Tue, 23 Dec 2025 11:27:49 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
 
-Panthor throws these events onto a workqueue for processing outside the
-IRQ handler. It's therefore useful to have an instrumented tracepoint
-that goes beyond the generic IRQ tracepoint for this specific case, as
-it can be augmented with additional data, namely the events bit mask.
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+> +#define DMA_BUF_TRACE(FUNC, ...)					\
+> +	do {											\
+> +		if (FUNC##_enabled()) {						\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +			FUNC(__VA_ARGS__);						\
+> +		} else if (IS_ENABLED(CONFIG_LOCKDEP)) {	\
+> +			/* Expose this lock when lockdep is enabled */	\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +		}											\
+> +	} while (0)
+> +
 
-This can then be used to debug problems relating to GPU jobs events not
-being processed quickly enough. The duration_ns field can be used to
-work backwards from when the tracepoint fires (at the end of the IRQ
-handler) to figure out when the interrupt itself landed, providing not
-just information on how long the work queueing took, but also when the
-actual interrupt itself arrived.
+I hate to make another comment here, but I was just thinking that this can
+be made to look a little nicer. Basically, we want to make sure that when
+LOCKDEP is active, we always take the lock. But we also need to take the
+lock when tracing is enabled. The tracepoint itself is a static branch,
+which means it is a nop when not active, so there's no real problem with
+calling it. Thus, this could look better as:
 
-With this information in hand, the IRQ handler itself being slow can be
-excluded as a possible source of problems, and attention can be directed
-to the workqueue processing instead.
+#define DMA_BUF_TRACE(FUNC, ...)					\
+	do {								\
+		/* Always expose lock if lockdep is enabled */		\
+		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
+			guard(spinlock)(&dmabuf->name_lock);		\
+			FUNC(__VA_ARGS__);				\
+		}							\
+	} while (0)
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
- drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index a64ec8756bed..513ed42f7b41 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -26,6 +26,7 @@
- #include "panthor_mmu.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
-+#include "panthor_trace.h"
- 
- #define CSF_FW_NAME "mali_csffw.bin"
- 
-@@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 
- static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- {
-+	u32 duration;
-+	u64 start;
-+
-+	if (tracepoint_enabled(gpu_job_irq))
-+		start = ktime_get_ns();
-+
- 	gpu_write(ptdev, JOB_INT_CLEAR, status);
- 
- 	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-@@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- 		return;
- 
- 	panthor_sched_report_fw_events(ptdev, status);
-+
-+	if (tracepoint_enabled(gpu_job_irq)) {
-+		if (check_sub_overflow(ktime_get_ns(), start, &duration))
-+			duration = U32_MAX;
-+		trace_gpu_job_irq(ptdev->base.dev, status, duration);
-+	}
- }
- PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-index 5bd420894745..6ffeb4fe6599 100644
---- a/drivers/gpu/drm/panthor/panthor_trace.h
-+++ b/drivers/gpu/drm/panthor/panthor_trace.h
-@@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
- 	panthor_hw_power_status_register, panthor_hw_power_status_unregister
- );
- 
-+/**
-+ * gpu_job_irq - called after a job interrupt from firmware completes
-+ * @dev: pointer to the &struct device, for printing the device name
-+ * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
-+ * @duration_ns: Nanoseconds between job IRQ handler entry and exit
-+ *
-+ * The panthor_job_irq_handler() function instrumented by this tracepoint exits
-+ * once it has queued the firmware interrupts for processing, not when the
-+ * firmware interrupts are fully processed. This tracepoint allows for debugging
-+ * issues with delays in the workqueue's processing of events.
-+ */
-+TRACE_EVENT(gpu_job_irq,
-+	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
-+	TP_ARGS(dev, events, duration_ns),
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__field(u32, events)
-+		__field(u32, duration_ns)
-+	),
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__entry->events		= events;
-+		__entry->duration_ns	= duration_ns;
-+	),
-+	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
-+		  __entry->events, __entry->duration_ns)
-+);
-+
- #endif /* __PANTHOR_TRACE_H__ */
- 
- #undef TRACE_INCLUDE_PATH
-
--- 
-2.52.0
-
+-- Steve
