@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0066CCDBF79
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 11:22:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B1ACD9D39
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 16:44:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 122E610EA74;
-	Wed, 24 Dec 2025 10:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A42DD10E09A;
+	Tue, 23 Dec 2025 15:44:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TW+2TZEj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
- Tue, 23 Dec 2025 15:39:38 UTC
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3343A10E14C;
- Tue, 23 Dec 2025 15:39:38 +0000 (UTC)
-Received: from [192.168.0.114] (unknown [114.241.82.59])
- by APP-03 (Coremail) with SMTP id rQCowABnhdzstUppR2S4AQ--.711S2;
- Tue, 23 Dec 2025 23:31:57 +0800 (CST)
-Message-ID: <5ea0ff13-04b3-4b2a-80e2-4f87146d00d5@iscas.ac.cn>
-Date: Tue, 23 Dec 2025 23:31:56 +0800
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F350D10E09A
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 15:44:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1766504645; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=BWFSHRb/PHRYtD7nRHcxwUTxqw4+JozsIknda+t4c0rdi1bErTECxiacvt3BWQZdnjl2RS5rurgLbjwzB05JKU4PynCa9/IVLp1eryJ/CRA+a6TXxwgLOR3vXozsoo8SmD0P5Glhm4Ja3iHzD6+1gbZOi7Dxp3NXPGevztO+Mxc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1766504645;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=wQmxKhxYfmc9eLjcDP0SWsUcslwXfmH5eErJLMQzegM=; 
+ b=KG1bjvnc/P8HyQRvc54jnd/P3XavRuNJ/sdAYDR0r5J9qV+hHJge/Ra2FeNEVUIAB7b+kYsEgzBBHbFB8C7mer7kUg4yHAd8ITIGAvq/rlLJ+KxgeGU5hCbKtndxW+0XIR0W+OvPHr0bKnLHV9Me46Hz0ule0tNp6MykIKrcNKE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766504645; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=wQmxKhxYfmc9eLjcDP0SWsUcslwXfmH5eErJLMQzegM=;
+ b=TW+2TZEjKDRJZm6+iofVCKUzGQm6Pf3xbS/igaOnnbj1emnilnmMHm7+7yn/54BL
+ u4bfUE5JTuvEWFd1hwz8uUs5KQTi9froTw6JraccZxebvtWqu6Wy9BUxNVmWe4zolbM
+ +wVEnK3y6MEsOd9ursPUvOLptyC+k3GePdG75qoo=
+Received: by mx.zohomail.com with SMTPS id 1766504643784288.40644972736834;
+ Tue, 23 Dec 2025 07:44:03 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ Steven Price <steven.price@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 1/3] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+Date: Tue, 23 Dec 2025 16:43:57 +0100
+Message-ID: <2484885.ElGaqSPkdT@workhorse>
+In-Reply-To: <468eb6a1-2c9e-4835-b3fd-e8c497ddd049@arm.com>
+References: <20251221-panthor-tracepoints-v5-0-889ef78165d8@collabora.com>
+ <20251221-panthor-tracepoints-v5-1-889ef78165d8@collabora.com>
+ <468eb6a1-2c9e-4835-b3fd-e8c497ddd049@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/radeon: bypass no_64bit_msi with new msi64 parameter
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Han Gao <gaohan@iscas.ac.cn>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev
-References: <20251220163338.3852399-1-gaohan@iscas.ac.cn>
- <e86b823f-5e83-4105-8e4d-1db141d088a4@app.fastmail.com>
- <2ab9f73d-ef7b-40b3-b2bb-650f83ac236f@amd.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <2ab9f73d-ef7b-40b3-b2bb-650f83ac236f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABnhdzstUppR2S4AQ--.711S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF1ftFyUZF18KFWDCw1UAwb_yoW8urWkpa
- y5CFWagrn7tr47K39rZa1xXF1fZw4IgayrXFn0kryfC3y5Ar17KFW7Ar4ak3W8Xr1vkr4I
- v34Ig34xuFn0yFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvqb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY
- 1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
- C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
- wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
- v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
- jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
- ZFpf9x07betCcUUUUU=
-X-Originating-IP: [114.241.82.59]
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
-X-Mailman-Approved-At: Wed, 24 Dec 2025 10:21:59 +0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,53 +73,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Monday, 22 December 2025 16:23:35 Central European Standard Time Steven Price wrote:
+> On 21/12/2025 17:10, Nicolas Frattaroli wrote:
+> > The current IRQ helpers do not guarantee mutual exclusion that covers
+> > the entire transaction from accessing the mask member and modifying the
+> > mask register.
+> > 
+> > This makes it hard, if not impossible, to implement mask modification
+> > helpers that may change one of these outside the normal
+> > suspend/resume/isr code paths.
+> > 
+> > Add a spinlock to struct panthor_irq that protects both the mask member
+> > and register. Acquire it in all code paths that access these. Then, add
+> > the aforementioned new helpers: mask_enable, mask_disable, and
+> > resume_restore. The first two work by ORing and NANDing the mask bits,
+> > and the latter relies on the new behaviour that panthor_irq::mask is not
+> > set to 0 on suspend.
+> > 
+> > panthor_irq::suspended remains an atomic, as it's necessarily written to
+> > outside the mask_lock in the suspend path.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.h | 55 +++++++++++++++++++++++++++-----
+> >  1 file changed, 47 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index f35e52b9546a..eb75c83e2db3 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -73,11 +73,14 @@ struct panthor_irq {
+> >  	/** @irq: IRQ number. */
+> >  	int irq;
+> >  
+> > -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> > +	/** @mask: Values to write to xxx_INT_MASK if active. */
+> >  	u32 mask;
+> >  
+> >  	/** @suspended: Set to true when the IRQ is suspended. */
+> >  	atomic_t suspended;
+> > +
+> > +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> > +	spinlock_t mask_lock;
+> >  };
+> >  
+> >  /**
+> > @@ -410,6 +413,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+> >  	struct panthor_irq *pirq = data;							\
+> >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> >  												\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > +												\
+> >  	if (atomic_read(&pirq->suspended))							\
+> >  		return IRQ_NONE;								\
+> >  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+> > @@ -425,8 +430,10 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> >  	irqreturn_t ret = IRQ_NONE;								\
+> >  												\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> 
+> Woah! You can't do that. That means there's a spinlock held while
+> calling the __handler() function. So you'll get "sleeping while atomic"
+> bug reports. Specifically I can see that panthor_mmu_irq_handler() takes
+> a mutex.
+> 
+> But the whole point of a threaded handler is so that it can sleep, so we
+> definitely don't want a spinlock held.
 
-I have a question about this 40-bit restriction.
+Hmm, yeah, I was worried about that. The core issue is that I'm
+trying to make sure we don't restore the mask if we suspended
+in the meantime, and don't mess anything up if the mask got
+modified in the meantime as well.
 
-On 12/23/25 22:55, Christian König wrote:
-> On 12/22/25 22:32, Arnd Bergmann wrote:
->> On Sat, Dec 20, 2025, at 17:33, Han Gao wrote:
->> [...]
->>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c 
->>> b/drivers/gpu/drm/radeon/radeon_irq_kms.c
->>> index 9961251b44ba..62eb5a6968ff 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
->>> @@ -250,7 +250,7 @@ static bool radeon_msi_ok(struct radeon_device 
->>> *rdev)
->>>  	 * of address for "64-bit" MSIs which breaks on some platforms, 
->>> notably
->>>  	 * IBM POWER servers, so we limit them
->>>  	 */
->>> -	if (rdev->family < CHIP_BONAIRE) {
->>> +	if (rdev->family < CHIP_BONAIRE && !radeon_msi64) {
->>>  		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
->>>  		rdev->pdev->no_64bit_msi = 1;
->> According to the comment above it, the device can apparently
->> do 40-bit addressing but not use the entire 64-bit space.
->>
->> I assume the SG2042 chip has the irqchip somewhere above the
->> 32-bit line but below the 40-bit line, so it ends up working.
->>
->> I wonder if the msi_verify_entries() function should check
->> against dev->coherent_dma_mask instead of checking the
->> upper 32 bits for being nonzero, that probably gives you
->> the desired behavior.
-> Again completely agree, that sounds like a plan to me.
->
-> IIRC the modified code here is basically just a workaround because the MSI control dword on older radeon HW was not setup correctly.
+I guess I can get us there by reading the mask member into a
+local with the lock held for the &'ing, dropping it before
+we enter the while, and at the mask restoration point we
+take the lock and OR the mask register contents with the
+mask we squirrelled away into the local, unless we're
+suspended at this point.
 
-Does this mean that on Bonaire and onwards, MSI can reach full 64-bit
-space, while DMA still only does 40-bit?
-(drivers/gpu/drm/radeon/radeon_device.c sets DMA mask to at most 40 bits.)
+I'm not sure if the behaviour when the mask is modified while
+we're in the while and we're still using the old one is the
+one we want, but going off vibes it seems that in this case,
+it'd just conclude that all it has to process has been
+processed, and the handler will presumably run again with
+the new remaining interrupt status bits.
 
-If so, checking coherent_dma_mask would be wrong for those devices.
+Kind regards,
+Nicolas Frattaroli
 
-Do you think maybe it would be safer to introduce a msi_addr_mask for
-occasions like these? We can have msi_addr_mask = DMA_BIT_MASK(40) for
-pre-Bonaire, and then the ppc PCI stuff can check the mask and see if
-it's usable. Probably something similar for hda.
+> 
+> Thanks,
+> Steve
+> 
+> > +												\
+> >  	while (true) {										\
+> > -		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> > +		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask);	\
+> >  												\
+> >  		if (!status)									\
+> >  			break;									\
+> > @@ -443,18 +450,30 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  												\
+> >  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+> >  {												\
+> > -	pirq->mask = 0;										\
+> > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> > +	}											\
+> >  	synchronize_irq(pirq->irq);								\
+> >  	atomic_set(&pirq->suspended, true);							\
+> >  }												\
+> >  												\
+> > [...]
 
-Vivian "dramforever" Wang
+
 
