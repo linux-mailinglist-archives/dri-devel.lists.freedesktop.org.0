@@ -2,51 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4938CD9227
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 12:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACA4CD9260
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 12:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1C0210E1FF;
-	Tue, 23 Dec 2025 11:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C01510E013;
+	Tue, 23 Dec 2025 11:48:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="f+er6LpI";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uVliIrwm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBB010E204
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 11:40:02 +0000 (UTC)
-Received: from aerhardt-tuxedo.fritz.box (p57b9501c.dip0.t-ipconnect.de
- [87.185.80.28]) (Authenticated sender: a.erhardt@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 7A84F2FC021D;
- Tue, 23 Dec 2025 12:32:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1766489536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9zIefKkZMzxo7MD02YKy4yO08bQ/1V31nPzenPtLvac=;
- b=f+er6LpIMar7t7I9tXI5C4WsMcvoZRGlOtKOlLY8Sg2/t4vHn08ysVsrPNQvkyvjSiohsZ
- mefm+0hKH6aJbY1URMSxVpejHp55Vx7v/rW1imQpzLcTgMMZ6CHmtS3ggvcHkN8UCHWOJF
- dcJBRS2+ooH6EbGrgWMdkWKTDXvKHnI=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=a.erhardt@tuxedocomputers.com
- smtp.mailfrom=aer@tuxedocomputers.com
-From: Aaron Erhardt <aer@tuxedocomputers.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Aaron Erhardt <aer@tuxedocomputers.com>
-Subject: [RFC PATCH 1/1] drm: ensure that vblank diff is never negative
-Date: Tue, 23 Dec 2025 12:22:46 +0100
-Message-ID: <20251223112246.3026909-2-aer@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251223112246.3026909-1-aer@tuxedocomputers.com>
-References: <20251223112246.3026909-1-aer@tuxedocomputers.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A526B10E013
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 11:48:56 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50F69557;
+ Tue, 23 Dec 2025 12:48:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1766490524;
+ bh=uvoPM21Dc5HliRazPRZqeEC5jOHBy6erFn+UaQOlPO4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=uVliIrwmTfHltU4vyhIiYz6FkkOlLc4U6mKLs+IzsE3zgAQv5xnDX3StoG29bNVn5
+ /fHn4jK5GbsXiDslyrkTXrM10qv7MY22ERwcibxe8W9wSUpA8xiN/IFJ7KW50EWdMC
+ IQu1Ri4Q+I53qDFJsGSPsB/ejowcgjifWiF0l5B8=
+Message-ID: <6be8aaf6-b01d-4444-9850-967f8e316896@ideasonboard.com>
+Date: Tue, 23 Dec 2025 13:48:48 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+To: Linus Walleij <linusw@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Vicente Bergas
+ <vicencb@gmail.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ stable@vger.kernel.org
+References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+ <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
+ <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
+ <817b2358-0920-4b7a-abb1-133103d0f9fe@ideasonboard.com>
+ <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,39 +121,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handle cases, where drivers report incorrect timestamps and negative
-time differences are calculated. If the negative difference is large
-enough, negative missed vblanks are reported, but stored in an unsigned
-integer which can causes freezes. This patch prevents this case.
+Hi,
 
-This fix has been verified to fix problems with the i915 driver on
-modern Intel CPUs (e.g. Intel Core Ultra 7 155H).
+On 23/12/2025 01:18, Linus Walleij wrote:
+> On Sun, Dec 14, 2025 at 1:42 PM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+> 
+>>>> Should we merge this series as a fix for 6.18 rcs?
+>>>
+>>> Too late now, so let's merge it as a fix for v6.19 rcs!
+>>
+>> Ah, right. Indeed, I meant v6.19 rcs.
+> 
+> Are you applying it or should I?
+> Not sure if you want some special timing, like outside of
+> holidays.
+Oh. No, I'm not a DRM maintainer, so I was waiting for someone to merge
+this. From my point of view it's ready for merging.
 
-Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
----
- drivers/gpu/drm/drm_vblank.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 94e45ed6869d..1022b6d61e4e 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1563,7 +1563,14 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
- 	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
- 
- 	diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
--	if (framedur_ns)
-+
-+	/*
-+	 * Make sure no bogus diffs result from negative differences
-+	 * when incorrect timestamps are reported by a driver.
-+	 */
-+	if (drm_WARN_ON_ONCE(dev, t_vblank < vblank->time))
-+		diff = 0;
-+	else if (framedur_ns)
- 		diff = DIV_ROUND_CLOSEST_ULL(diff_ns, framedur_ns);
- 
- 
--- 
-2.43.0
+ Tomi
 
