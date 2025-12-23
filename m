@@ -2,183 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902BBCDA113
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 18:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF85ECDA183
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 18:24:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B1610E283;
-	Tue, 23 Dec 2025 17:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0019710E228;
+	Tue, 23 Dec 2025 17:24:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VrHi6D1H";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ND9GwadF";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FzbRbkxH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9484A10E263;
- Tue, 23 Dec 2025 17:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766510053; x=1798046053;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=VlBe5rXo0BI9ZDmJ7e4Zj2xRLrq1xOHD6Gv2R93wslI=;
- b=VrHi6D1H79ZphVlyieMufQRvDCiaQIMER+0tRvIHU0ZA6RXXvx9SuMRR
- T/Yay+66GfW339PDRrO+kfkJoQ15igTH3TloS6TTOUUahxMwuKa6ppL/e
- bc4e0xOVL3A0vt2I4DkgRqFbqqqzfcrW0U/56L8VrXX963hdMnVZuS2xm
- Z80rl2Hjo4Ngx9FbNszZVA/LJImHmSrE5fIO4Pk+1HvY/4RPHJCl/kk+3
- wmqwDsqKQnTn9C0GApQ9sumcoy+O6sUl3RP2ma7ERJ707A1ayxXxNE7wF
- +EDu9AEDuQA5/sw6QEvgSlA4jNxh+1Lo1q61vBcs468IgUWKonrhdCVK9 A==;
-X-CSE-ConnectionGUID: eeXg7pImRY2S+FK+yD9Zmg==
-X-CSE-MsgGUID: neYC5B9UQ5C9Q+/NQjyu0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79476373"
-X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; d="scan'208";a="79476373"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2025 09:14:12 -0800
-X-CSE-ConnectionGUID: HG0ClaUIRHiDssQeoN5eUw==
-X-CSE-MsgGUID: EqrYVhdpR0aY+li3Lf2zbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; d="scan'208";a="199485671"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2025 09:14:12 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 23 Dec 2025 09:14:11 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 23 Dec 2025 09:14:11 -0800
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.64) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 23 Dec 2025 09:14:11 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IyluYCzZRGOXkU0wUfekFCKteTE1NkJ40Kfp1MZBpTI/TDYHtpyw717RtyJmv+IZN7gM3JZKckxWCuB8iRZAgGwyThcD/DvvFkiA6xFNPTIUwuepHrV79KMhdiJPk7S4wnrYN22bg/dhY2xt5Z5USo0ee7d8/ifPknvoA26QRbZ7wuNLJeeIabXe/g8CkBaMxZcH/Qi1EdM585qM/tBncJB/IzCTEYUjY5NcX3ngWn5/+OBsMprXUEz2oRpFMJjuPNotX/8A/6KW2Wy5o9uEuEn1TyElc6neYIqS/I6+wkZPnMiDAaD7Nl72bMroXWF1Em5SmAf4HpKPl/fg7qQy3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o/fpF3AQ5Mz7cMITl8ZgFx/md9FN2ifpFHNamdcUfGE=;
- b=NE6Lmt5z0p/JgWCrJhNjFmK41Qbw15lgGapeHyIwnofH77wFvYche+YzaYeUF1bt7AQiS7Z4DXnnA7XBz1zsYJX4mH7RI3+3m57rnoz7OKxP23beXrO3fyqqHyQeDMkIbILebUcER3KScWdrTXOEDN+jbXyLZXsDT21BXxZhGZs0kc2iwMPpdN0D6xIxabt4UM+Q5O9gaXC77c2k0PiV+k4ajLJ+atVT2Fx1udRkuRpPbMNL8KpMxmmWrwKKzsqwXgeaYHyojT0QCHSbMMbYnyas2V1fFqwVwU0iZv5A0b6Jx9u4XbVnMUw1oSLmf/PHkDlmCw0kacFfGoZSgoqb6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5456.namprd11.prod.outlook.com (2603:10b6:5:39c::14)
- by SJ0PR11MB8270.namprd11.prod.outlook.com (2603:10b6:a03:479::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Tue, 23 Dec
- 2025 17:14:07 +0000
-Received: from DM4PR11MB5456.namprd11.prod.outlook.com
- ([fe80::b23b:735f:b015:26ad]) by DM4PR11MB5456.namprd11.prod.outlook.com
- ([fe80::b23b:735f:b015:26ad%5]) with mapi id 15.20.9434.009; Tue, 23 Dec 2025
- 17:14:07 +0000
-From: "Lin, Shuicheng" <shuicheng.lin@intel.com>
-To: "Grzelak, Michal" <michal.grzelak@intel.com>, "Brost, Matthew"
- <matthew.brost@intel.com>, Philipp Stanner <pstanner@redhat.com>,
- "simona.vetter@ffwll.ch" <simona.vetter@ffwll.ch>, "christian.koenig@amd.com"
- <christian.koenig@amd.com>
-CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>, "Vivi, 
- Rodrigo" <rodrigo.vivi@intel.com>, "Auld, Matthew" <matthew.auld@intel.com>
-Subject: RE: [RESEND 1/1] drm/buddy: release free_trees array on buddy mm
- teardown
-Thread-Topic: [RESEND 1/1] drm/buddy: release free_trees array on buddy mm
- teardown
-Thread-Index: AQHccR5Seq9sFNfVX0KHf/eqmloKobUpa9/QgAVvVgCAAJ+uUA==
-Date: Tue, 23 Dec 2025 17:14:07 +0000
-Message-ID: <DM4PR11MB54566AB6CC2BAF55B1CBB8D5EAB5A@DM4PR11MB5456.namprd11.prod.outlook.com>
-References: <20251219193237.1454565-1-michal.grzelak@intel.com>
- <DM4PR11MB54560DF369537BCE07175297EAA9A@DM4PR11MB5456.namprd11.prod.outlook.com>
- <771e8879-4122-8bea-826f-97f9f75932d8@intel.com>
-In-Reply-To: <771e8879-4122-8bea-826f-97f9f75932d8@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB5456:EE_|SJ0PR11MB8270:EE_
-x-ms-office365-filtering-correlation-id: b628f29e-3999-41b8-b2d4-08de4246ae67
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700021;
-x-microsoft-antispam-message-info: =?iso-8859-2?Q?ZIjO7kH49w0/ZKs5Vy0lQhTEurJb4Ir1weGmGKxSELI3SIR7a2Fh/ucwCn?=
- =?iso-8859-2?Q?I7B42hDPWryupi4jnRpjGrIKQUmSbDoSPC+YZo95gJBGaZcMnUYjE/bft7?=
- =?iso-8859-2?Q?y1/cpdhwV3KT7EWcd88PaVDu4KI5myyv9d0twSrSikFQt9Llp88OOx2wgt?=
- =?iso-8859-2?Q?fltyCSJz/8ywzAWI2nCr7uRn/IzDCh8iqr9+qFF1FbcdIs8ObW0xSJIcn3?=
- =?iso-8859-2?Q?d8VLKcN38qxGCulL5chIGnxqPC6bI7JLU/9z+8tStlDLTK6BL8+66ViDKD?=
- =?iso-8859-2?Q?cNrG6+cgjCR58cGm1L09aUjIQqM/Soz+x260+OSuTGgPYG+3csayrUQvI9?=
- =?iso-8859-2?Q?e7xyklsCUSic5VgPgS6q/Nn2P0YFgsciSeeyHhaOTjw3UXnnbO21HQdGZ/?=
- =?iso-8859-2?Q?jdxnlYIIJQc8wn2g4x6Kp2GOcDyuiR33Xcy9rIbe5dueho0Gvzq8yQV1QG?=
- =?iso-8859-2?Q?KfyT9Q5oZcCkEODs/1w7MpxLu9vmTv/bQwKujpFmvKxZyAg/GtjnOh/Yu9?=
- =?iso-8859-2?Q?lDhZ/LJ2+8rMZJY/fd27f3idAPR0W3FIzXK+6WZ2Nr9Jr3vdylCVPDeYvt?=
- =?iso-8859-2?Q?+ENiryHsKDTO3MyposBEhO/mwpQPR7Q932ciyIhCbr5A9lCYJIunKZtq7j?=
- =?iso-8859-2?Q?7mFct7RIPxac8zwHdezywDeIkq5ZzzzSi7quKD4K6nNi8+Rh7CNhh4eo8C?=
- =?iso-8859-2?Q?JqHKEdK1Yzg9xNmo7611S/Cm+GRLolJE4X3M7a0ab0lJCWb8XA2vp232rl?=
- =?iso-8859-2?Q?7vq6W6qeEi0zRAm4Ns1xyasz9IrRqFq6VSFTAbw+94YD9eSHKGSsx5uj/A?=
- =?iso-8859-2?Q?VZBYocRt3TnoNvirWgVYA1FwXa2Ze0xnfmhFmd6yuCZOP7J0WTFVD3jGwG?=
- =?iso-8859-2?Q?dWsAUT5TXslVW2m/P3aEr8iR3VofrXOqBQOgyXfrmt0lM6XEHDs6pvZzmp?=
- =?iso-8859-2?Q?QJbc5w4pzJP89XrnM/pcPiO7LvwZ8HbOT0M4a4mKkX8VHDIFi1EZuvVIn3?=
- =?iso-8859-2?Q?qR42WKdsp99ig5o0e6VEUvuRo9JXQOPkx+K56wWAi6gOu8iNk+bFc4t2Dn?=
- =?iso-8859-2?Q?lJOCBufAtFLkEMg+tc1LAaMKiSm8g7ezXazl8O05a5BzDBKw94PiHPOgi/?=
- =?iso-8859-2?Q?yGf4Sin0PqjE8BvUEV6poILcm+MkVE4UX/0Q9qWxP/ATgCDV1liqqOa6Kh?=
- =?iso-8859-2?Q?kH693WZmWvS8UltQ1UZJ9cZZUgCIoVmEK9ETyx4cqM7AokAHa2DX/8Qo3c?=
- =?iso-8859-2?Q?tIXiFz119uQgn5l97wKITQ9vkaV3673pS3cukSTz3KH4Lh/o6N+h4Dp24Y?=
- =?iso-8859-2?Q?g73vQdnwxrixeAzoDkIr0ojMfN2O1LkCWUbFoer6FsGZ42M+f6vJbbCTg0?=
- =?iso-8859-2?Q?Byk/LzCd3dJpPGgltwYF2bjLDwQtaFIXg3qhC0dAL3rjOUfq18EadPXAzu?=
- =?iso-8859-2?Q?o+n+CvuhUzBt+zz/Bz5yl1txQuGWDXjRUSICW0U3uBe+bOvx27TegB/lV2?=
- =?iso-8859-2?Q?3PJ13RKSutm718Zj/kqt7YPUCOVr56KhzsD1vMBIAoc4EtQeY6S67R/mbu?=
- =?iso-8859-2?Q?sA+J/Uc9MgjZWAW2PLKKjNzm5OG1?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5456.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(38070700021); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?X245SYKvcHyDZhFT8Fw3R2MGnn1SN5oGZKyt2D2gU8Dl3AFzHE5xDPfLom?=
- =?iso-8859-2?Q?IOTE+t92YhUTCNckVjThwfBPHfzaLzC7124t03ivZoj2GriG48RgV+VuAJ?=
- =?iso-8859-2?Q?wIjAV/OPaB/1sZUr0qnRXzad/RZCjvjHx0xZ5RI2PlR/W91glTQO8UuJPY?=
- =?iso-8859-2?Q?oHKPsvseEFdd3A1q4OE0kNHtwloz3a5PZthPiLgxIhWDSXnoHUMVzCPoXZ?=
- =?iso-8859-2?Q?a+syeFuucJ/3nTwUUndqju76pYU/54Q8glbnTX8fagiMaekwxsErX9yg7l?=
- =?iso-8859-2?Q?mB1xE514Mr+Nta2m5QQiJ1OHei1wxL0qFKelLlaVmshVAaBzBkOApDVT2F?=
- =?iso-8859-2?Q?SEdKfEs/K64U3zp/gP8GRD1sEixu1yTPpYnT6KIMmKtpcJkl/UfjPEbN7y?=
- =?iso-8859-2?Q?MJN7SpJeYwCrfP8DfELeBW+IC6GWZ8WV/Jw4pVmQGcjz2cISXDdDlVDqGA?=
- =?iso-8859-2?Q?VXTjirKwrXUtRqJMq/Y+ggQQS1N6sefBHc2t350qgj6AOnUcAp/W+SUcbP?=
- =?iso-8859-2?Q?MYRS+OP+W6ej0wtmGwQacOfCoPlgKS+pOTUO2AHq0JCW2mBi0NH4IunF+s?=
- =?iso-8859-2?Q?a5rVemc97q8h+WvssyzlNjylYik8iwQLDp/HFKrW7Ly3UDFEYuuY6m2C8Q?=
- =?iso-8859-2?Q?27Hon9+YQxbzU/Z03IJ5E0j3BO0Zp5Q2kJlEbv8ikEIhanRxHNm5lFLKuD?=
- =?iso-8859-2?Q?h7RnKMKvXlusGDr+SKYVFWXjC3mGJM58ly/+PuLSkC0ap1R5TPpi/HYjob?=
- =?iso-8859-2?Q?VSzAaZL3lLBlLcUJzc1Knni0suS1aVf1o8Iyd4yiOEMCKRW/lF93eZz9KR?=
- =?iso-8859-2?Q?adwJ3XsLLBa8VULRTIRASkFRDLRxrCMH0qtgSMYU5XaFFLZFXy4nTIUQzy?=
- =?iso-8859-2?Q?axP16Rq4p1Zfx6r/G/ChegKgPj451niSLIPBQFry+oMlHWT04dyuyb0Icv?=
- =?iso-8859-2?Q?vX+39qjzDvnO3l0AAnHoywsVRHrL7puNald8DdLcwnvn5/VIQM8x0v2gYI?=
- =?iso-8859-2?Q?lKX+iz988EMNyeLxN8IwWgmiepWsKeecQMlUTJZXc2FgNgpzQYqdyUTN+G?=
- =?iso-8859-2?Q?7hb99rASDmBtleclfUyvoqeT8evpNPJvws5jEnbVLEK/92fEjpMs2xKLb1?=
- =?iso-8859-2?Q?G4ziAIie9HLW0hrUEALDoorbn6o4l4MMZp02NH4im/Pxw1L+0woB1Nw31e?=
- =?iso-8859-2?Q?2L4827ewbabhMTee6APE6C7lqE8m1O5+hfuyyb+97KtGAFWMi0fQqlseTp?=
- =?iso-8859-2?Q?SdzB8tZNrW6PszuY482p+8di4yWYcvlmpPMBHqZhmiIRej9EBZL7NLPX4J?=
- =?iso-8859-2?Q?3XN3xt9k/9//p7BMXHIxhU8NZ/DOb4Rq+wKmB7wLrZiomds1pfQOoTX/9p?=
- =?iso-8859-2?Q?Jqvq8jVea+/CTPArf6rvvh/UVjK4YbD0sD8HqzVIcnI+xvvvZO2tuHRZ96?=
- =?iso-8859-2?Q?fQIN6wXd3ceKG2BRLBQjiQOfRmtuO3WVXHmaAc8Tcjn0GNEx6zfR8leWi6?=
- =?iso-8859-2?Q?99nFiDXK3bZxAQwPUweOa67SCqHy+b754AN6MwZCngt0gxLe1CHtfLQeUG?=
- =?iso-8859-2?Q?5RbNaARWVMVDunsSp0CyKPaGtcgO/VSvvz94JIsB+LNmHaqFaqhVlF+3qS?=
- =?iso-8859-2?Q?gl94eXr6/cicDGUWo8BWT1uapwKfOVx0QUgo5i1tt1RjzKeAatnjTJyDUt?=
- =?iso-8859-2?Q?wXNCuk+7W+rfkfXs4XWohdN1eXZg9m+HfzRVvFIndfCAovCaIOBHnC54fH?=
- =?iso-8859-2?Q?5oJKR4sVHP0usCN1D5Uv7qyrkv9L1TVzRiQ3wxugz/uzvwkSbk3zNe0zMW?=
- =?iso-8859-2?Q?JHLL4AwUOg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6613910E228
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 17:24:28 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BNErwvA461418
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 17:24:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=Wrz5ppR9wQNdpDwOtkeBXALexdBHnhIk6Tz
+ nsuzTKNE=; b=ND9GwadFpMksHEJVz2ZWv6XsZs2pRMoYVywO+zKNqHTZ5vr2V9A
+ sP+bkFdEMuwSAFwYc8hcGTI2KN9bO1ua4FZb8pu+xDBVCAtnY+SE9h9lnsJKCs40
+ yG+aF76piwcJOD37RMbI2lUJJ0jKKfq7Hwr0pwPd/boUYCPW542zUaNskH6/sw6h
+ NBm59o5fzAYTHHDUXae2KLt9/6v7soUV9Ni3UN7KSBrvF8nzmUQZlwRF5abHFoxm
+ YqdBm6t61Ye6qA0N1Cw539q8QxRjJWzrNaPq3J9aMOmdo42mxkcd14/bXRk1Rh47
+ mhUQ0369qpgz0wagjLvr0Qr0rANLbgOdeCw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7w8frg8c-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 17:24:27 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4ee0193a239so54381281cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 09:24:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1766510667; x=1767115467;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Wrz5ppR9wQNdpDwOtkeBXALexdBHnhIk6TznsuzTKNE=;
+ b=FzbRbkxHKnzcJwUIxOGY8fGegTwuK1IAMKIND1RnuJFr473YcxWZOAX0VsEw/bbEif
+ eqI9aEjxaZMd2VNSbbFsGULzQT6I+CGW1zexeCB2y+jdzq+3sSm/VxOMM4f25yhNQDmV
+ F+s9rdULOEm10IPd9HVVlQ9XSZFVazPTacvPYdRU9yiZf5ebsWWvuMfuxNN0PKUZhkX+
+ 3p0py2x8RHBUXPE9GEMR37BTycoW842NtZzsQPa9sx0kcX2VgFXjvfuURe2PWQ+rwMSF
+ a9oC7wYHIS92YiqNQPvo5McVm49/qfFnUkha/rDyoenAhmBcg64U6jaqcZv4JfyLo8sG
+ FzjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766510667; x=1767115467;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Wrz5ppR9wQNdpDwOtkeBXALexdBHnhIk6TznsuzTKNE=;
+ b=e9ULmCW8PXJ+PcAtYwZVPqE5z2+AtXiQbmYM0Eb6ktVS/iFunCfQT/t6zQcYMN7gwg
+ SDy1cbD1TdC1I5hgq/0Ygt1PpNrzymJnQVZGI7t+64wgb/BL4iCAA8/KlmuFUbpPNoaE
+ qKK6VQ3elyxaTHqKFzjjstw6CP4Vg5llJwtNlg1yY+HnE86c49cBfc1OncS1B48dZ5r/
+ HZRCgrU9pA6ih7lj/SvoeTjp3ogQgEJeTQ41xqaIkTSXw0p5mSBjniIu0iDycrR4bqMi
+ P07nS8/C2YbKodMtVs4p1RFA8WGNCcTBNj57EvM4UO4vpXY4E5cZOJmoeE6qWgDw7uu0
+ GnAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmMDIoamjCUYOD9r5JDxaFAdUo1solBrMJsMHLLyARiQFjn/pWk9JUJaITrPqAd2WTXSNpli079ug=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyGD+jDVGNsxREOlO2lc4RgUn5dC/3yz4/TBITo2CYtQ61XPwf
+ AGy9xZDTXKcwTKoDtqbyoXt+J1HToIkjR6pB9DzOQ8EWE+LfpIkdHgRhJ9jSrh9kkWcPmiZtDnq
+ cmADLTeWOf+XSlQTl/GRlym7gnrJU9MyZPgSir8M+xYlyP0nA/ZEy9DhiQCEyAbv0pesIneg=
+X-Gm-Gg: AY/fxX48RKgtmobSUnsCr9zdhS6LQmu4dSCbLsA5P3jiWX5ONsOJiqA3E6GS3h7OaP7
+ INFQgrbgOUyZQTmpIlDdkxFEYQZJoJ1mtjSfOGMvk5rOWqLxKJcj5l4kXKkTdL4G5s6lbVXBTJv
+ 0CiA2MW+bwRhBh6OMmAAKtPRKHiYWHvcJNChKIs1acZLSpjEY7LhnD6v3zp78n5yIU13QXd9hYV
+ KNlW+PocLLCTWXpOyLZdOEuRFKSskVc8q89ADEceBbSt3wViiispBsxd51PaDQFRTdxqrvUSFnK
+ cAX01i6RWTLbaOCwtG/D9q2EAnYI8gOqoskC2HnAoGYA7puLVZOzfC2/Pe/B3EEXiz+Uz6uRiek
+ L88wMmazHai4jNUSU1Q/DmYSOzY2Lag1qB1gbx86dH3G4Qm7bWA==
+X-Received: by 2002:a05:622a:588c:b0:4f1:cd0c:80f6 with SMTP id
+ d75a77b69052e-4f4abd6225emr259716721cf.49.1766510666683; 
+ Tue, 23 Dec 2025 09:24:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IESYr/AwoMzjuB3Nqy//uC8TSZdjQCi/iCS/jRegkiv6laMO6vTreal4sdu6FYx4jrMPNBU0A==
+X-Received: by 2002:a05:622a:588c:b0:4f1:cd0c:80f6 with SMTP id
+ d75a77b69052e-4f4abd6225emr259716051cf.49.1766510665991; 
+ Tue, 23 Dec 2025 09:24:25 -0800 (PST)
+Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8080e2177csm448974766b.68.2025.12.23.09.24.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Dec 2025 09:24:25 -0800 (PST)
+From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/qaic: Update copyright headers to yearless format
+Date: Tue, 23 Dec 2025 18:24:25 +0100
+Message-ID: <20251223172425.2283978-1-youssef.abdulrahman@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5456.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b628f29e-3999-41b8-b2d4-08de4246ae67
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2025 17:14:07.4307 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: s7Sk6FJUjDC5jWwICQ4lYJ8vsCaeRRzLXuTPCzkIXDy/Gx4APybdNf2xcUcnTCmxQOD8/aN8q5VrsC71ACRECA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8270
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: FVgMHJhRCuCSZqwYzeE2lFUKP4Qs75Z3
+X-Proofpoint-ORIG-GUID: FVgMHJhRCuCSZqwYzeE2lFUKP4Qs75Z3
+X-Authority-Analysis: v=2.4 cv=QutTHFyd c=1 sm=1 tr=0 ts=694ad04b cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=ZGpvmaf78dKCArbXv7wA:9 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDE0NCBTYWx0ZWRfX3mMoPCHENokV
+ KN7GRqLsqgsXaF+V0GIDtQCvbtnvTMps7SwTgmYvnQXwBvcckNtXWtuDQjWte0ugG/vBsBO1aIi
+ dcOWRloydPASOUPer7xlCBpuv4x7l4fJSa923S90NH9JvcYDvRwtjWNSlDwLzGBviAWEqF45onT
+ ns1QzNrMJzh+EMHrNnBtNmF5rpp9n0XSVWYXP02H7jq40abpi/N7DjRpSDspXsqbUEdyaKycTGZ
+ TQRDfmcYgh1gf25GkTC6N7sgtzYwN+VbNUl93nocwrj13a/yju9lODoR0vMc19QOsyCqQk4ldlo
+ UoymvQ2NWd3bE5gHbf0zlz+QdC+JgSTwrUJ/lEh6j/H7xaVbgAxIaEmPi9Dr8FL2GvkNPyqFNar
+ Ie/AbMYhGHiUrqn6afpVPkAMfr/jSEb95ePz3aSHjL4UvRA+uoha3Mc7L7QgDNqg1NL5SOFh7TL
+ 3BkBPhdYWmlzHS3mMKQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512230144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,70 +134,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
-This is a patch that should be merged to drm-misc.
-Could you please help review and merge it?
-Thanks in advance for the support.
+From: Zack McKevitt <zmckevit@qti.qualcomm.com>
 
-Best Regards
-Shuicheng
+Update copyright headers in accordance with Qualcomm's current
+legal policy.
 
-On Mon, Dec 22, 2025 11:36 PM Michal Grzelak wrote:
-> On Fri, 19 Dec 2025, Lin, Shuicheng wrote:
-> > On Fri, Dec 19, 2025 11:33 AM Micha=B3 Grzelak wrote:
-> >> During initialization of DRM buddy memory manager at drm_buddy_init,
-> >> mm->free_trees array is allocated for both clear and dirty RB trees.
-> >> During cleanup happening at drm_buddy_fini it is never freed, leading
-> >> to following memory leaks observed on xe module load & unload cycles:
-> >>
-> >>     kmemleak_alloc+0x4a/0x90
-> >>     __kmalloc_cache_noprof+0x488/0x800
-> >>     drm_buddy_init+0xc2/0x330 [drm_buddy]
-> >>     __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
-> >>     xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
-> >>     xe_device_probe+0x326/0x9e0 [xe]
-> >>     xe_pci_probe+0x39a/0x610 [xe]
-> >>     local_pci_probe+0x47/0xb0
-> >>     pci_device_probe+0xf3/0x260
-> >>     really_probe+0xf1/0x3c0
-> >>     __driver_probe_device+0x8c/0x180
-> >>     driver_probe_device+0x24/0xd0
-> >>     __driver_attach+0x10f/0x220
-> >>     bus_for_each_dev+0x7f/0xe0
-> >>     driver_attach+0x1e/0x30
-> >>     bus_add_driver+0x151/0x290
-> >>
-> >> Deallocate array for free trees when cleaning up buddy memory manager
-> >> in the same way as if going through out_free_tree label.
-> >>
-> >> Fixes: d4cd665c98c1 ("drm/buddy: Separate clear and dirty free block
-> >> trees")
-> >> Signed-off-by: Micha=B3 Grzelak <michal.grzelak@intel.com>
-> >> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> >> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> >
-> > I also meet this issue. And the fix LGTM. It has the same logic as the =
-failure
-> path of drm_buddy_init().
-> > Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
->=20
-> Thank you Shuicheng for the review and confirmation. Will update the comm=
-it
-> message along your R-B in next round of resend.
+Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
+Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+---
+ drivers/accel/qaic/mhi_controller.c | 2 +-
+ drivers/accel/qaic/mhi_controller.h | 9 ++++-----
+ drivers/accel/qaic/qaic.h           | 9 ++++-----
+ drivers/accel/qaic/qaic_control.c   | 2 +-
+ drivers/accel/qaic/qaic_data.c      | 2 +-
+ drivers/accel/qaic/qaic_debugfs.c   | 2 +-
+ drivers/accel/qaic/qaic_debugfs.h   | 2 +-
+ drivers/accel/qaic/qaic_drv.c       | 2 +-
+ drivers/accel/qaic/qaic_ras.c       | 1 -
+ drivers/accel/qaic/qaic_ras.h       | 1 +
+ drivers/accel/qaic/qaic_ssr.c       | 2 +-
+ drivers/accel/qaic/qaic_ssr.h       | 9 ++++-----
+ drivers/accel/qaic/qaic_timesync.c  | 3 ++-
+ drivers/accel/qaic/qaic_timesync.h  | 7 +++----
+ drivers/accel/qaic/sahara.c         | 2 +-
+ drivers/accel/qaic/sahara.h         | 2 +-
+ 16 files changed, 27 insertions(+), 30 deletions(-)
 
-Maintainer will pick the R-B when do merge, so no need to resend patch that=
- just to add the R-B.
+diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+index 13a14c6c6168..c23f1d7cdea7 100644
+--- a/drivers/accel/qaic/mhi_controller.c
++++ b/drivers/accel/qaic/mhi_controller.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/delay.h>
+ #include <linux/err.h>
+diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
+index 8939f6ae185e..c1940c839246 100644
+--- a/drivers/accel/qaic/mhi_controller.h
++++ b/drivers/accel/qaic/mhi_controller.h
+@@ -1,8 +1,7 @@
+-/* SPDX-License-Identifier: GPL-2.0-only
+- *
+- * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
+- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+- */
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++/* Copyright (c) 2019-2020, The Linux Foundation. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef MHICONTROLLERQAIC_H_
+ #define MHICONTROLLERQAIC_H_
+diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
+index fa7a8155658c..83948358ada1 100644
+--- a/drivers/accel/qaic/qaic.h
++++ b/drivers/accel/qaic/qaic.h
+@@ -1,8 +1,7 @@
+-/* SPDX-License-Identifier: GPL-2.0-only
+- *
+- * Copyright (c) 2019-2021, The Linux Foundation. All rights reserved.
+- * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+- */
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef _QAIC_H_
+ #define _QAIC_H_
+diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+index 428d8f65bff3..ac0d3b59900f 100644
+--- a/drivers/accel/qaic/qaic_control.c
++++ b/drivers/accel/qaic/qaic_control.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <asm/byteorder.h>
+ #include <linux/completion.h>
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index 60cb4d65d48e..5da5dceccc3f 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/bitfield.h>
+ #include <linux/bits.h>
+diff --git a/drivers/accel/qaic/qaic_debugfs.c b/drivers/accel/qaic/qaic_debugfs.c
+index 8dc4fe5bb560..5289d33744ba 100644
+--- a/drivers/accel/qaic/qaic_debugfs.c
++++ b/drivers/accel/qaic/qaic_debugfs.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+diff --git a/drivers/accel/qaic/qaic_debugfs.h b/drivers/accel/qaic/qaic_debugfs.h
+index 05e74f84cf9f..59a002bab07c 100644
+--- a/drivers/accel/qaic/qaic_debugfs.h
++++ b/drivers/accel/qaic/qaic_debugfs.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ 
+ /* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef __QAIC_DEBUGFS_H__
+ #define __QAIC_DEBUGFS_H__
+diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+index 4c70bd949d53..4c884e8aa346 100644
+--- a/drivers/accel/qaic/qaic_drv.c
++++ b/drivers/accel/qaic/qaic_drv.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/accel/qaic/qaic_ras.c b/drivers/accel/qaic/qaic_ras.c
+index f1d52a710136..de8fe90a6a2c 100644
+--- a/drivers/accel/qaic/qaic_ras.c
++++ b/drivers/accel/qaic/qaic_ras.c
+@@ -1,7 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2020-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
+ /* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <asm/byteorder.h>
+diff --git a/drivers/accel/qaic/qaic_ras.h b/drivers/accel/qaic/qaic_ras.h
+index d44a4eeeb060..7b3fe9585ed9 100644
+--- a/drivers/accel/qaic/qaic_ras.h
++++ b/drivers/accel/qaic/qaic_ras.h
+@@ -1,4 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
++
+ /* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
+ 
+ #ifndef __QAIC_RAS_H__
+diff --git a/drivers/accel/qaic/qaic_ssr.c b/drivers/accel/qaic/qaic_ssr.c
+index 9b662d690371..ac6249877e62 100644
+--- a/drivers/accel/qaic/qaic_ssr.c
++++ b/drivers/accel/qaic/qaic_ssr.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ /* Copyright (c) 2020-2021, The Linux Foundation. All rights reserved. */
+-/* Copyright (c) 2021-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <asm/byteorder.h>
+ #include <drm/drm_file.h>
+diff --git a/drivers/accel/qaic/qaic_ssr.h b/drivers/accel/qaic/qaic_ssr.h
+index 97ccff305750..af074edbf967 100644
+--- a/drivers/accel/qaic/qaic_ssr.h
++++ b/drivers/accel/qaic/qaic_ssr.h
+@@ -1,8 +1,7 @@
+-/* SPDX-License-Identifier: GPL-2.0-only
+- *
+- * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+- * Copyright (c) 2021, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+- */
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++/* Copyright (c) 2020, The Linux Foundation. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef __QAIC_SSR_H__
+ #define __QAIC_SSR_H__
+diff --git a/drivers/accel/qaic/qaic_timesync.c b/drivers/accel/qaic/qaic_timesync.c
+index 8af2475f4f36..956544df0c18 100644
+--- a/drivers/accel/qaic/qaic_timesync.c
++++ b/drivers/accel/qaic/qaic_timesync.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+diff --git a/drivers/accel/qaic/qaic_timesync.h b/drivers/accel/qaic/qaic_timesync.h
+index 77b9c2b55057..6aeda1d62a35 100644
+--- a/drivers/accel/qaic/qaic_timesync.h
++++ b/drivers/accel/qaic/qaic_timesync.h
+@@ -1,7 +1,6 @@
+-/* SPDX-License-Identifier: GPL-2.0-only
+- *
+- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+- */
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef __QAIC_TIMESYNC_H__
+ #define __QAIC_TIMESYNC_H__
+diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
+index fd3c3b2d1fd3..9fea294e1d7b 100644
+--- a/drivers/accel/qaic/sahara.c
++++ b/drivers/accel/qaic/sahara.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+-/* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #include <linux/devcoredump.h>
+ #include <linux/firmware.h>
+diff --git a/drivers/accel/qaic/sahara.h b/drivers/accel/qaic/sahara.h
+index 640208acc0d1..08037281c80e 100644
+--- a/drivers/accel/qaic/sahara.h
++++ b/drivers/accel/qaic/sahara.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ 
+-/* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved. */
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+ 
+ #ifndef __SAHARA_H__
+ #define __SAHARA_H__
+-- 
+2.43.0
 
->=20
-> BTW, do you have any recommendation regarding the tree via which this
-> change should be merged? Asking since I don't have the commit bit to any =
-of
-> drm-* trees.
-
-I think it should be merged to drm-misc.
-
-Shuicheng
-
->=20
-> BR,
-> Micha=B3
