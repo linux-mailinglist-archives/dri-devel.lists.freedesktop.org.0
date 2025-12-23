@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C73FCD90DF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 12:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA7CCD922A
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 12:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C722110E2B1;
-	Tue, 23 Dec 2025 11:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC9F10E204;
+	Tue, 23 Dec 2025 11:40:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CIblix8o";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="TMqBj+bV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9FD10E2B1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 11:14:17 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id A3D571A23A1;
- Tue, 23 Dec 2025 11:14:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 7A52960716;
- Tue, 23 Dec 2025 11:14:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 575C410AB09D9; Tue, 23 Dec 2025 12:14:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766488455; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=h3o+jYMgms8cRmesAzwy75E53VOTuMFwQGWtFoC/cuc=;
- b=CIblix8oQGNkFwa8tearxS9xKdlkic349PmeDnYyPm80lnKO1tsDzmUcEYjp0D7I/ZzokA
- l/CMR6b3ZKZO/8dsGBrElGdYOFUYXN50dVHdDMWjVytXobkueHKMy4fKQszX9qi+mzI1MO
- FJv0eOwM53drKtzyfRsMaGvY0p5dSfaWDn3GXclPGIupAHXZoT/uCEWq9F0lDN+XJi37RI
- gu97J8ss2UhhyN6aeXKY4P3a4NE4350q2CVFPAeYkUr1+8qcq0vwg7dFP/3t6B7nP2QxyM
- WOH6E0IgFrRBcRLNw/4QeMTouU42HoX+4wGzxfAs3SnT7J1u8xBSpBRl4UBIKg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 12:14:12 +0100
-Message-Id: <DF5JW87258M7.2BEL9XFX1RMTW@bootlin.com>
-Subject: Re: [PATCH v3 10/33] drm/vkms: Introduce configfs for plane rotation
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-10-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-10-ba42dc3fb9ff@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+X-Greylist: delayed 465 seconds by postgrey-1.36 at gabe;
+ Tue, 23 Dec 2025 11:40:03 UTC
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F4B310E1FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 11:40:02 +0000 (UTC)
+Received: from aerhardt-tuxedo.fritz.box (p57b9501c.dip0.t-ipconnect.de
+ [87.185.80.28]) (Authenticated sender: a.erhardt@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id BD23F2FC021C;
+ Tue, 23 Dec 2025 12:32:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1766489536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZihsY0WFIsRpcU6kcB+37Rqu87odHLfFZrPhoZyqV4I=;
+ b=TMqBj+bVL/NreD/P24WGR0uqLJjVy7fGqjUXY9he0Mn37hAhH2sLuuxhkefGEuYKT7fcbr
+ ChvjkgujW+OJuVEv8C6VxN19zV4T92t+BqsWIGBZCGVcuwz+mv0CRUPQwnJRVEYKh511R9
+ oF1TzZ1DbW/QrOQFGT/SPOO8F80+W10=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=a.erhardt@tuxedocomputers.com
+ smtp.mailfrom=aer@tuxedocomputers.com
+From: Aaron Erhardt <aer@tuxedocomputers.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] drm: ensure that vblank diff is never negative
+Date: Tue, 23 Dec 2025 12:22:45 +0100
+Message-ID: <20251223112246.3026909-1-aer@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +62,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> To allows the userspace to test many hardware configurations, introduce a
-> new interface to configure the available rotation per planes. VKMS
-> supports any rotation and reflection, so the userspace can choose any
-> combination.
->
-> The supported rotations are configured by writing a rotation bitmask to
-> the file `supported_rotations` and the default rotation is chosen by
-> writing a rotation bitmask to `default_rotation`.
->
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+I observed a rare freeze on a device and was able to track the cause down
+to incorrect reporting of timestamps in the vblank code. The
+drm_vlank_restore code expects that one timestamp is always larger than the
+other, but not all drivers fulfill this assumption. This allows the
+difference between the two timestamps to become negative. Most of the time,
+this is not fatal, because the value is rounded after dividing through the
+frame duration. Therefore, small negative values are converted into zeros.
+However, if the value is sufficiently negative, the calculation might end
+up reporting that -1 frames were missed. The negative result is stored in
+an unsigned integer, causing a wrap-around.
 
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -365,24 +365,105 @@ static ssize_t plane_name_store(struct config_item=
- *item, const char *page,
->  	return (ssize_t)count;
->  }
->
-> +static ssize_t plane_supported_rotations_show(struct config_item *item, =
-char *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	unsigned int plane_supported_rotations;
-> +
-> +	plane =3D plane_item_to_vkms_configfs_plane(item);
+So far, this behavior has been observed on some newer Intel devices (e.g.
+using the Intel Core Ultra 7 155H) with the i915 driver and the patch has
+been tested successfully as a fix. While the root cause is in the driver, I
+think that handling this case with drm_WARN_ON_ONCE is a good idea. Without
+the warning, driver issues can remain unnoticed for a long time because
+they only cause problems under very specific (seemingly random)
+cirucumstances.
 
-You seem to have missed "assign on declaration" here (but you did it in
-plane_default_rotation_show()).
+Normal (expected) log example:
+i915 0000:00:02.0: [drm:drm_vblank_restore] missed 1 vblanks in 4165983 ns, frame duration=4166666 ns, hw_diff=1
 
-The code added w.r.t. v2 looks OK as well, so with the above nit fixed:
+Abnormal (but non-fatal) log example:
+i915 0000:00:02.0: [drm:drm_vblank_restore] missed 0 vblanks in -1135 ns, frame duration=4166666 ns, hw_diff=0
 
- Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Abnormal and fatal log example:
+i915 0000:00:02.0: [drm:drm_vblank_restore] missed -891996132 vblanks in -4118209 ns, frame duration=4166666 ns, hw_diff=0
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Aaron Erhardt (1):
+  drm: ensure that vblank diff is never negative
+
+ drivers/gpu/drm/drm_vblank.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+-- 
+2.43.0
+
