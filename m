@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE53CD9862
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 14:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C27CD986B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Dec 2025 14:58:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECD110E00C;
-	Tue, 23 Dec 2025 13:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDB3710E0AC;
+	Tue, 23 Dec 2025 13:58:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="l1L6mxsa";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TFD0/RoM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8C510E00C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 13:58:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70B910E0AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 13:58:42 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 9C2881A22CA;
- Tue, 23 Dec 2025 13:58:32 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 9E8C31A22CA;
+ Tue, 23 Dec 2025 13:58:41 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6DEFF60716;
- Tue, 23 Dec 2025 13:58:32 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 726E360716;
+ Tue, 23 Dec 2025 13:58:41 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0373F10AB01FB; Tue, 23 Dec 2025 14:58:26 +0100 (CET)
+ with ESMTPSA id 02B5B10AB01FB; Tue, 23 Dec 2025 14:58:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1766498311; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1766498320; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=OKaoNE2kG2LGETGezyB3qQSBG77m7FSpf0Xy44rSniQ=;
- b=l1L6mxsaUAmLs1BWHOR13oL9JBBJGQ4TBKx51AoePG6cP6EDR3DEZ7pNVLFhKZrangavJe
- xpJeHHqklbUdGhARIbCHlAPufz05Ej/Naefr2EYeYCFihGX5Ar39Y6TEXXqVEtwqPFRt0u
- Z/kDOLhFmQIMUQD/hfNMMwm7nMr4QS7NMEArh0HGRQoMIpLccyczsGen2q9eM3lUPNlXti
- dLOHgpN3OgfYHs/sOIj6fku20FoTQBvjWN//WD7t3mLIUZCwwxAHUTM0moJuusM5WuSVCs
- i+PP7fO3FgzyUIsPXBxbxZEJb5rE/NyB+U6nbglmo0J8yASLl8lbqjKnfRIY8Q==
+ bh=HLkKJS2rHiIFhybIukApvYrnY+KhUJ/RYP4y50IAjSU=;
+ b=TFD0/RoM8iG9/gTuY94gAMIllq8p9Plp0ZG7dZMO6MWFb7UiP0AhG4piN6REqTGUn18Zsh
+ 3vnIuAm2rg+7DouE/KwslaJhYdXQZr1agZG3NUult0CNOTkJdqRfH886EaHnIjnvpEQpK/
+ XkymFCA0jKcJT3ibLBViK4+TbvH3MrORIWHu6i0LmaTRT0BupJgCsQMHWhu/4+6/+BU9vB
+ ILshiZsL8kCF1LZk33jV3eV5iovbtnIg8cHgXMx+lR80oQ5RH6UBjFLqA+1JA1AHPepTPB
+ w/I9aNTcj3YnQDUFFzSqlzlV8+3+yXqPqAvE4SNAdjIVeCCRzSFGktzCItz8QQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 14:58:26 +0100
-Message-Id: <DF5NDYOIZB26.1GQDHWE4ETZLL@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 16/33] drm/vkms: Introduce configfs for plane color
- range
+Date: Tue, 23 Dec 2025 14:58:37 +0100
+Message-Id: <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
+Subject: Re: [PATCH v3 17/33] drm/vkms: Introduce config for plane format
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
@@ -50,10 +48,11 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
  "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
  <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
  <corbet@lwn.net>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-16-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-16-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
+In-Reply-To: <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,81 +70,71 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> To allows the userspace to test many hardware configuration, introduce a
-> new interface to configure the available color ranges per planes. VKMS
-> supports multiple color ranges, so the userspace can choose any
-> combination.
->
-> The supported color ranges are configured by writing a color range bitmas=
-k
-> to the file `supported_color_ranges` and the default color range is
-> chosen by writing a color encoding bitmask to `default_color_range`.
+> VKMS driver supports all the pixel formats for planes, but for testing it
+> can be useful to only advertise few of them. This new configuration
+> interface will allow configuring the pixel format per planes.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -138,6 +138,21 @@ Description:
->          Default color encoding presented to userspace, same
->          values as supported_color_encoding.
->
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_color_r=
-anges
-> +Date:		Nov 2025
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
 
-This should be Jan 2026 I guess. Same for the previous patches in the
-series which I already reviewed, sorry I didn't notice before.
-
-BTW I wonder whether it is really important to have a date here. The time
-before a patch is applied can make it quite wrong, but mostly I don't see
-an obvious usefulness.
-
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-
-> +static ssize_t plane_default_color_range_show(struct config_item *item, =
-char *page)
+> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plan=
+e_cfg)
 > +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);;
+> +	plane_cfg->supported_formats_count =3D 0;
 
-Double semicolon.
+Why not kfree(plane_cfg->supported_formats) too? You will be (re)allocating
+anyway if adding one or all formats later on, so the buffer you're not
+freeing won't be reused anyway.
 
-> +static ssize_t plane_default_color_range_store(struct config_item *item,
-> +					       const char *page, size_t count)
+> +}
+> +
+> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg=
+, u32 drm_format)
 > +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);
-> +	int ret, val =3D 0;
-> +
-> +	ret =3D kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Should be a supported value */
-> +	if (val & ~VKMS_SUPPORTED_COLOR_RANGES)
-> +		return -EINVAL;
-> +	/* Should at least provide one color range */
-> +	if ((val & VKMS_SUPPORTED_COLOR_RANGES) =3D=3D 0)
-> +		return -EINVAL;
+> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i++)=
+ {
+> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format) {
+> +			plane_cfg->supported_formats[i] =3D plane_cfg->supported_formats[plan=
+e_cfg->supported_formats_count - 1];
 
-As for patch 13, these 3 lines are redundant, the is_power_of_2() below is
-enough.
+I doubt these are less than 100 chars. ;-)
 
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -49,6 +49,8 @@ struct vkms_config {
+>   * @supported_color_encodings: Color encodings that this plane will supp=
+ort
+>   * @default_color_range: Default color range that should be used by this=
+ plane
+>   * @supported_color_ranges: Color ranges that this plane will support
+> + * @supported_formats: List of supported formats
+> + * @supported_formats_count: Length of @supported_formats
+
+Nitpick: this description is not adding much. "Number of elements in
+@supported_formats" would be more useful, as it would clarify it's number
+of (4-bytes) elements and not size in bytes.
+
+> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *=
+plane_cfg, u32 drm_format);
 > +
-> +	if (!is_power_of_2(val))
-> +		return -EINVAL;
-> +
-> +	/* Convert bit position to the proper enum value */
-> +	val =3D __ffs(val) + DRM_COLOR_YCBCR_LIMITED_RANGE;
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +/**
+> + * vkms_config_plane_add_all_formats - Helper to quickly add all the sup=
+ported formats
+> + * @plane_cfg: Plane to add the formats to
+> + *
+> + * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if =
+the format is not supported
+> + * by VKMS
 
-I wonder whether this should just be '+ 1'. After all it's just the __ffs
-semantics counting from 1 as opposed to the BIT() semantics counting from
-0. Any pair of BIT() to read and __ffs() to write will need a '+ 1',
-regardless of the meaning of the bits.
+The "-EINVAL ... VKMS" part of the sentence does not apply here.
 
-Same in patch 13, but realized just now.
+> +/**
+> + * vkms_config_plane_remove_format - Remove a specific format from a pla=
+ne
+> + * @plane_cfg: Plane to remove the format to
+                                             ^^ from
 
 Luca
 
