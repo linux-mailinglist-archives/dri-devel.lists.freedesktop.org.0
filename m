@@ -2,128 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED83CDB7A3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 07:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3059CDB7F1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 07:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C3010E0CC;
-	Wed, 24 Dec 2025 06:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DF410E08D;
+	Wed, 24 Dec 2025 06:30:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CjBmBae5";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Rpo2WKy9";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XrDFoehr";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Jq6LR5vD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1553B10E08D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:25:37 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E11510E08D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:30:43 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BO17Sog1597720
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:25:37 GMT
+ 5BNNjtu11924369
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:30:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ghYWCMfG/KWuBI2qNzjPlg1Z
- H5W1IZNuiMXZFg9Qm+Q=; b=CjBmBae5lDlFOeW4pSL2jmo8awamypI097MJI59s
- MWsJTMdmqzxuLuX0WvQ4muNPZBXqaTk8sM8odkwHRYQiYWBrBVFuQ9ciYUBfePhv
- a66Y1at4nXJwG/N6YvhkRG0F6qxUEg2pKHvPlEBxJ97PFzNEjUYmtLT2V7Y+BlKg
- SptNI6XF4WIXTYp0E9kRgeP0UDdAH3L8/qRxHgWRTi7Ov3NLUzd2qtrkYk1T8v5I
- u9pu/yTO/2avcuBC9+OJPh5mWIjMNW/rzp9cZ1vq5Zxa2PoGnqg4Xg8M5Fr1PkPu
- mzAA81dKL/Qcunu8XXjudyT+dZ7cGhWOOZn/hemIsqu2Og==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b8683gpt2-1
+ :references:subject:to; s=qcppdkim1; bh=2YjurWD8jh8UqL9X0F1WKQTe
+ /Sb7eB2QeGBD5SBBMi4=; b=XrDFoehrzciAgNzkDzThZtCrvgFQ/QAl79gnSPO2
+ D5uKOt92DLBoGZ2Xt+Ttz1rUtFzEZYJy0xwTYSjvyXuw2LD4BNkj2w45mWzqVX6q
+ JbftIL3H2Cjw8VWn9g8jod0eLhc4luczrqjH355srPEhLeZ3Hpl4kRrUBgo/kxjp
+ EgBx6JD5BLO4MehVoRoBOGac9La2/273gDxnpDjP8n1ST7cVw36/0BZt4ERP87s1
+ ITE+0KSBk+ApXq8VJqXkSP3RBgWRBgfll+bi1IZCsxL6afaZaXTtDlBfUqTU6Bvs
+ VB975/nV2WuXfsDS4lpMBZPg40Np4ggN2pxm8KjizhS9tg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7xjsa0c1-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:25:37 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4f1d26abbd8so153952281cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 22:25:37 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:30:43 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4edb6a94873so110600001cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 22:30:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766557536; x=1767162336;
+ d=oss.qualcomm.com; s=google; t=1766557842; x=1767162642;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ghYWCMfG/KWuBI2qNzjPlg1ZH5W1IZNuiMXZFg9Qm+Q=;
- b=Rpo2WKy97smsj11zgfNxS0KskAAoPs4dpjqQG0MKrVZi7CRKaIlqOTts8Byx+DoUTS
- Cm67dA3EKRQ/DALYfDccogw9I0DX2AkiIR/fI2Ac80gs5g437nRq4Oh2lqSPJJyPp0Nk
- Td6fmEdCVqZcYMbG708bL/UXON23YeBwMcc3ULEJW7x5hqu3eC2xlwOZZMfB0du36ejU
- U0mRybpTpr6ixAwh3aVYevPDx8LqCKiWymBJzZKTS74m1LHDG1hZlnpPMFmm1AG6O7+B
- IsSrc653AfKQr2+q8qzS903uoylE/dTG+lCIYbfCcW0Auwapmp/5pAUNW00uEE078VB/
- 9AWw==
+ bh=2YjurWD8jh8UqL9X0F1WKQTe/Sb7eB2QeGBD5SBBMi4=;
+ b=Jq6LR5vDckGvxtuatZLUT511wsjzhpEg5IyFS9U23brKFO4ICfITiX5F3kZbV7PZpZ
+ GsCD9J3y4hXDivUbK8Hk4FaWYiJs/NyOnvLWUflcCzNS0RKBpc+LMxRpIL+zG5nCBGsj
+ rkBokFXFsPdm1+9KQjFqbNE7G+/6uBnTkiZzgmKbRQSc340KZwNIMzdB4+P975RQDC/k
+ S+70azzY8me9EYveBZ7Bj4t9oJL1x3ChgawCXH0N4wkH47TEmnZl/y+0N+HZrtxQPBrf
+ Z77UI20k999ds5JiTYn7d1mklOgM7Rl4fShz8JWXJ2N+tSj97ptdVKuneszNRTqXVyuL
+ 9VEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766557536; x=1767162336;
+ d=1e100.net; s=20230601; t=1766557842; x=1767162642;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ghYWCMfG/KWuBI2qNzjPlg1ZH5W1IZNuiMXZFg9Qm+Q=;
- b=dCQdAhrmZtUtxyUE+wEOhB+GOmjiW7y3f59XgJI1KGDjj6LbUhR2CxM6UOGpDoIWR2
- NGOfsm3Qp7D48ncDkczuU5D8ZR6PNDx2dHsKSuz4oRZAKddpr03/V7VEfoeAjR4NnZeV
- YPZ16f74X1svzwsg4Hj3vD3V8nN6rw9yGZ0JDzau7+F9JkIAesIeFoF0KVmM1Smxq8QU
- slBpt6YktWg/ucMFA/dELGxKanhcK4dDxeqvd+jkUNHxuNPdmFV4XtDPEYSe34gUnps5
- FxS/Yz6di+Doq5t7STKoB+IPyDJ2fp34fz3NZv9ZJdaHEdSmtIiWYn3Tmkm5GB6Yi9W+
- Og1Q==
-X-Gm-Message-State: AOJu0YwQ9Un1YoMVqzlpOCAVwOKqzDLpJJO9ufxdrkb9CE1+RgKqPV36
- nCSBO9xy8zSs5skwfEwIrtjEfk1VmFy70CH1sZ/K3asJoAeGbkP7fWVCo7qjfEoVdaH8MPyRe5X
- /QdJaq5J0DqWS4h7rG6+DKGhupZu5CCbGJpLGdDyrQygxtTS8EYxUof4m7e7p1JycPsTMics=
-X-Gm-Gg: AY/fxX5P41wz96FscR2jys6WNwROd7QQOKkOSGpZ1eEu/GFXxrbjRPsKUyfjvw8V80t
- IQ0McAGWRK0yc+PQES5DyE0ap53f84jJvWil+YElbnnm0iNg20CrRUCkewb78OWCxRPLjnoCrEr
- 8ejw7IyX5Uk7NNAa6J1MJDf66OSpm1TMJri47wkAuTaaWg+s6HnUbdO1j7STDHEH0JucxpknoLn
- ojcZoA+OzVR6ithL/es+lAwdwxu0iYMGf0wOg8e3rC6LP3bqL0Wd0KVPigzOQe6OL3GTcpjc4MJ
- DK2s3OIV6d39HALtq7ojhA3YNpfPwz/OwrasNUi3YUazvU2vkzSfwWNCyEhDsKDcEE3TU5F0CO/
- v6CjWvOeoJY4myNYTpIk+gUwvovxJZMWN+Ma+ot/icRLu8u6fXpM3Ymslcb/7rN5wegZEL9/0AO
- FzDJ8JVnMaaSpp2R+4iG24zjY=
-X-Received: by 2002:a05:622a:750b:b0:4f4:de1a:7a83 with SMTP id
- d75a77b69052e-4f4e8b40837mr5949011cf.1.1766557536358; 
- Tue, 23 Dec 2025 22:25:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJqPf9GXMiANMcZKwm3J3PuX8Z30M1wdRc5+g6FOwva+Dn9Ih43nX9+5ZNHvKmSLwW0/PPNg==
-X-Received: by 2002:a05:622a:750b:b0:4f4:de1a:7a83 with SMTP id
- d75a77b69052e-4f4e8b40837mr5948821cf.1.1766557535919; 
- Tue, 23 Dec 2025 22:25:35 -0800 (PST)
+ bh=2YjurWD8jh8UqL9X0F1WKQTe/Sb7eB2QeGBD5SBBMi4=;
+ b=ftOLsTeRK9z7A+0z72zC7XjpngZyd2MCFb7+KOWaIZTgckEcaOfPY9j5FvdqtH//vQ
+ ersQmW/Ll9LXmQiHGlXuA1VosNor/to9pUcxUm9+0eZZ3bSpRbVsaj+dJR8Kl2BHhXm3
+ fx2ik0FVSGCH5DBV66GpABdEf8hhQ12eJaEzacEgKVHJ+eIo5DiKeOz8KlJZWAgvEGMy
+ TnUllycQL91+x+B3S4U0I7SyQfk5mfh/D9uNailWEybWWbHUqZpk7Nllzg+Qv/bRDCO6
+ Nu1K1JOsipga04TJ0Rksrwvy4PnzFx0/NzbGsm5ajxN+oHYCwFSjV044FYqSRjrotSlZ
+ 2bIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJesQXFTwxPsLLeq6lSGsNCvrJOdgm8BTVTUM4GKEip/iSLdptpuLMRxFkiJV65/CjdxBo/kgHZ7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/i/797l7I5IKVLiS9UxIK5bUwL0thUr62Kc8FspzluUhjH6xn
+ oaiLuKDG3oKWza8KGStDTfc7u8XG/N3yAKd24V9DKWhNyteRXkAY/2ckNPAUoXF+A5jz3oxXv1e
+ b+MY0ZwDvkD134sT4e0g9JVQCYPcgSRpEf2+zY+P3lC2zKEbFEtFYYtlMKH5RK3XRPGM0KeA=
+X-Gm-Gg: AY/fxX5yZChvFap00tG2+axujcpnEhc+uL7JDRtrlEXCurGXxt6nDsj891buoN4lIIP
+ +uAWezXnXAU9vtbBQ9QkwCZ2H0lCfRdnnY0T2o5PzvlKyq3rc0YL97Hagi0UX9unGV21hpjYWQk
+ O8TfU4NIuUMdC8fRa4nln35FIoNpkVFBB+DYI1aMaOSpWvY/kqSrhvrJR9IvT/HY1PVZLBR2RJQ
+ hl1sM9KcMWtVX1/EJccBtDFjkU61NuhCafA30E6mOjo7WQrU5VAG1Grv10Veb4Dj01W2B8OXiHW
+ +tZ5IZp2bKaTwEJLbPyflRcozUNBkZv0h9dMv4zK865f7+n+uQry0SDW1xzQdXTt8kLcl2Fu2qj
+ 0docbchzv5Ee8O4mE6Jx6upSrHbuAoo2kwtdgXf+9dp5/g4b0rKfOGynTfeimNgPhIYKeM7z3KG
+ cS3WUaLVnsVsIkExIQ44baOzk=
+X-Received: by 2002:a05:622a:98f:b0:4f1:be95:5a4c with SMTP id
+ d75a77b69052e-4f4abdbe4c5mr271859971cf.63.1766557842496; 
+ Tue, 23 Dec 2025 22:30:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFs8OTLRrX7w+WgO9mKTBEV/5O6XcUqQZtImlGkrnAnKULcRdKtjdo/2z5FmNuRMxsq5DzMQg==
+X-Received: by 2002:a05:622a:98f:b0:4f1:be95:5a4c with SMTP id
+ d75a77b69052e-4f4abdbe4c5mr271859751cf.63.1766557842139; 
+ Tue, 23 Dec 2025 22:30:42 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a1861f2e6sm4717823e87.69.2025.12.23.22.25.33
+ 2adb3069b0e04-59a185dd7c8sm4580330e87.26.2025.12.23.22.30.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Dec 2025 22:25:33 -0800 (PST)
-Date: Wed, 24 Dec 2025 08:25:32 +0200
+ Tue, 23 Dec 2025 22:30:41 -0800 (PST)
+Date: Wed, 24 Dec 2025 08:30:39 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/19] drm/msm: correct/add a load of kernel-doc comments
-Message-ID: <vl22otxr5ks3lvqvmpfrsdfnv2wigzdguvf7qshjwgyimtlfxs@nbmrsqxpuiz6>
-References: <20251219184638.1813181-1-rdunlap@infradead.org>
+To: Nikolay Kuratov <kniv@yandex-team.ru>
+Cc: linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Add missing NULL pointer check for pingpong
+ interface
+Message-ID: <bphspkokcyfzd4v3sqdkq2xwyfahoi45zxcdhugewuxzaymgsl@wkpbbbdcm4x7>
+References: <20251211093630.171014-1-kniv@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219184638.1813181-1-rdunlap@infradead.org>
-X-Proofpoint-GUID: 8QiyYwYGQ12LIRy7HDYlZi78Of1seJgk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDA1MyBTYWx0ZWRfX8vi37U0BJ+4g
- 4TuFKuuda4DLde1mKAMQNBghqDSh01edwNs5/Vao74wJxMaJVXmkLprGvGfBC1ZjGilCkAzynZq
- fAmJBpHLzRs510M19Q1AqVOQrNPBkjC9rT9m5tAfqEw0EDlkBpXzYGz4yZzNNbB5i8OEwd0+F47
- VPvkA7ocqha2Gs8lYEFJhB2tYhrsNdpg7VgO5xZrZtW9Fsl32igjkaq8FNLZvJC6WWayIJMedLq
- VKrj6ig7ecoqABYYf2YWC0AyLPWyL+KNBTIF5E12t5KOt6yh5Iikg4UYz0RSoZgxlug9D6brEmW
- jYzbWQykHbcK3c3ZoKrjCoi9Eb+ylKzB2oZ2S/D9HVl6f2+gK8uEGyTkvhSNHAwoWIlmrGyLRHi
- kdktkliJy9Lf/pXqWce+KTKBjuFCJ6l62Vf22X47zZ+ldVxxfcWJPeEBxTosvZSDz//mjT0EtS1
- 3GvGLflT2Ol+O1Kbb1Q==
-X-Authority-Analysis: v=2.4 cv=HqV72kTS c=1 sm=1 tr=0 ts=694b8761 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20251211093630.171014-1-kniv@yandex-team.ru>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDA1MyBTYWx0ZWRfX8WOvb3o4xcNj
+ Q3iuTHl+K1Aoan6yfAkzu1+6SxZ7dz3jw2Yk4VLPng2oetyViLz/sbUpJHuVz06BIHVefKjAT4Q
+ KK4EL6GdHzAF4B7M9JM3Y26Ik+VkkEltCV8Xu6bhNDcf4WrS5j/kEYPcnIV+idysCrWF/iXdDMM
+ lRfG+bcq5wMmkKe7WlGxuSzb5rx3wv07qRlWnysBsJYVA/ks3l8W1LTSRRkVzJbbKR74OZmiCYo
+ J+uFN4fHO98sUt/LrJiVTpmwaVPcB/WwLSgzwxKPDsL/u5sjljvIPStOZdn5y2rACzpgLHYNHOV
+ S+UFur1xBhcZoLqer2AqKpuVUljMzrOM6iPxZbAzckv282Ux//aUlGhhW+RGbi/AWO27ig8VgEE
+ 83d3h+HDwM2bV/08729sXJiNYWdfUo20bDfH8lu76raWf4ZoZFCX8kL72iFSZz+AHo7NQCHmgnx
+ thy3WScp4hoLvYWzm8g==
+X-Proofpoint-ORIG-GUID: jF2DeorTJUKvsdLJi0gcr4tdyvLLTeHu
+X-Authority-Analysis: v=2.4 cv=YcqwJgRf c=1 sm=1 tr=0 ts=694b8893 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=8MGaVJJo3f9ymaU01ooA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: 8QiyYwYGQ12LIRy7HDYlZi78Of1seJgk
+ a=VwQbUJbxAAAA:8 a=6R7veym_AAAA:8 a=EUspDBNiAAAA:8 a=q4VHR2A0D8CO_ZJfzXEA:9
+ a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=ILCOIF4F_8SzUMnO7jNM:22
+X-Proofpoint-GUID: jF2DeorTJUKvsdLJi0gcr4tdyvLLTeHu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-24_02,2025-12-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240053
+ suspectscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512240053
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,33 +145,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 19, 2025 at 10:46:19AM -0800, Randy Dunlap wrote:
-> Correct a bunch of kernel-doc comments in drm/msm/.
+On Thu, Dec 11, 2025 at 12:36:30PM +0300, Nikolay Kuratov wrote:
+> It is checked almost always in dpu_encoder_phys_wb_setup_ctl(), but in a
+> single place the check is missing.
+> Also use convenient locals instead of phys_enc->* where available.
 > 
-> [PATCH 01/19] drm/msm/disp: mdp_format: fix all kernel-doc warnings
-> [PATCH 02/19] drm/msm/dp: fix all kernel-doc warnings
-> [PATCH 03/19] drm/msm/dpu: dpu_hw_cdm.h: fix all kernel-doc warnings
-> [PATCH 04/19] drm/msm/dpu: dpu_hw_ctl.h: fix all kernel-doc warnings
-> [PATCH 05/19] drm/msm/dpu: dpu_hw_cwb.h: fix all kernel-doc warnings
-> [PATCH 06/19] drm/msm/dpu: dpu_hw_dsc.h: fix all kernel-doc warnings
-> [PATCH 07/19] drm/msm/dpu: dpu_hw_dspp.h: fix all kernel-doc warnings
-> [PATCH 08/19] drm/msm/dpu: dpu_hw_intf.h: fix all kernel-doc warnings
-> [PATCH 09/19] drm/msm/dpu: dpu_hw_lm.h: fix all kernel-doc warnings
-> [PATCH 10/19] drm/msm/dpu: dpu_hw_merge3d.h: fix all kernel-doc warnings
-> [PATCH 11/19] drm/msm/dpu: dpu_hw_pingpong.h: fix all kernel-doc warnings
-> [PATCH 12/19] drm/msm/dpu: dpu_hw_sspp.h: fix all kernel-doc warnings
-> [PATCH 13/19] drm/msm/dpu: dpu_hw_top.h: fix all kernel-doc warnings
-> [PATCH 14/19] drm/msm/dpu: dpu_hw_vbif.h: fix all kernel-doc warnings
-> [PATCH 15/19] drm/msm/dpu: dpu_hw_wb.h: fix all kernel-doc warnings
-> [PATCH 16/19] drm/msm: msm_fence.h: fix all kernel-doc warnings
-> [PATCH 17/19] drm/msm: msm_gem_vma.c: fix all kernel-doc warnings
-> [PATCH 18/19] drm/msm: msm_gpu.h: fix all kernel-doc warnings
-> [PATCH 19/19] drm/msm: msm_iommu.c: fix all kernel-doc warnings
-> 
+> Cc: stable@vger.kernel.org
+> Fixes: d7d0e73f7de33 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Signed-off-by: Nikolay Kuratov <kniv@yandex-team.ru>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
 
-For the series:
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
 
 -- 
 With best wishes
