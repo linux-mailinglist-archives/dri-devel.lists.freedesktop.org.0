@@ -2,102 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475C1CDBC10
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 10:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E4BCDD157
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F098710E22F;
-	Wed, 24 Dec 2025 09:09:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="aaOLbJ8Q";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A668112C9A;
+	Wed, 24 Dec 2025 21:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1A910E1BB;
- Wed, 24 Dec 2025 09:09:13 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BO2e32d913644; Wed, 24 Dec 2025 09:09:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- c7pjphnT4e/Zd0agRQDQJ9JbAzfx9ojJZd+nQp5/Urw=; b=aaOLbJ8Q4EEjIRT8
- z32yS+fbeHxmHgVwWmnSZtC0zPp/iFx8uftyN6q+OibzhdUMQVLECWc1+hfyRky8
- 8wDlSVuYbuujoF4C/8Od67n35uLqqUeTzgb59BPAFVqakvv2LWZP6M4mpetIIU7J
- niEkogMu2jE4+4mfk4/iT1KllUgzUtEZBBdx7OnSbv3cLnc4XhidBKL/zCi3RVlB
- bsCZASlbRUqhb3f2g7W/4vEUaOYPsMlMEvWHC+8iNlt4X/OzJyN3Xyz+OK23EGu0
- Fp90718BaHSmLN/9qzrSFCwtuTS3Hin6lWkY/f57/PqKJCEiWNd4qRXU3qXkuIfp
- wwWHtA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7vt2jqub-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Dec 2025 09:09:00 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5BO98wo0012387
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Dec 2025 09:08:58 GMT
-Received: from [10.206.97.61] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 24 Dec
- 2025 01:08:51 -0800
-Message-ID: <9e449e77-5445-4aec-a89a-835d98242876@quicinc.com>
-Date: Wed, 24 Dec 2025 14:38:48 +0530
+X-Greylist: delayed 407 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Dec 2025 09:18:08 UTC
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7960E10E3EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 09:18:08 +0000 (UTC)
+Received: from localhost.localdomain (unknown [36.112.3.209])
+ by APP-03 (Coremail) with SMTP id rQCowAA3WeAqrktpKV_RAQ--.6200S2;
+ Wed, 24 Dec 2025 17:11:06 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, jakob@vmware.com, thellstrom@vmware.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, stable@vger.kernel.org
+Subject: [PATCH] drm/vmwgfx: Fix an error return check in
+ vmw_compat_shader_add()
+Date: Wed, 24 Dec 2025 17:11:05 +0800
+Message-Id: <20251224091105.1569464-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] dt-bindings: display: msm-dsi-phy-7nm: document
- the QCS8300 DSI PHY
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Krzysztof Kozlowski
- <krzk@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <marijn.suijten@somainline.org>,
- <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
- <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <conor+dt@kernel.org>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonathan@marek.ca>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>
-References: <20251125013302.3835909-1-quic_amakhija@quicinc.com>
- <20251125013302.3835909-2-quic_amakhija@quicinc.com>
- <20251125-mauve-tamarin-of-education-c94bfb@kuoka>
- <bfuds7xrlgril2r2y3hysmvrboobietm5garm5q6t4gy36jvuq@qyosxqib3nv3>
-Content-Language: en-US
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <bfuds7xrlgril2r2y3hysmvrboobietm5garm5q6t4gy36jvuq@qyosxqib3nv3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDA3OCBTYWx0ZWRfXzlFvJAn9ezeZ
- 7aolP5pg8MY+7taJQ1ungLK2VvXlMF+jIE9FUptzSxzcOJ+MYtK+bXkx44ldjbh8RzM/uziAk8E
- W15g9rpeuCJH+eLtyMESzGGS7XuQYjoHQCaIHlTsH6471xWks/n28cmLOkx83Bis67xEHCcq52W
- wC/JjrBIFT2dn6IKGLNBbfCs8aQQAOrk59EBjSghQr7NBx/vkzvTW7NC6UegKlV00CogR7XIJyP
- Ld53S8jQC2+DEk2jPyJt+6nstjlgmnuXbXLzEDV+lnCq5zV42MwCI39Ct2zUOz9rlOhgaDpoV4r
- WVhhbWnLvjejVZbT/cEk6pcnkyIoAM6nUXm/cJStAictOZbu/5+ZIO65ipsWPVsiSrX5lUJfWYA
- JftZgwPUCka47L4c+2kssGWMtipHxgGRnkV7xgDTvbaZD0GATb3euAKEKozQjgWgKqhTp3hPc44
- xQ3XAjVvGyb/xBqql8Q==
-X-Proofpoint-GUID: apC0m7P821iwOqht8RqiSZOpPjmSA4AN
-X-Proofpoint-ORIG-GUID: apC0m7P821iwOqht8RqiSZOpPjmSA4AN
-X-Authority-Analysis: v=2.4 cv=brtBxUai c=1 sm=1 tr=0 ts=694badac cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=YLxF30ALFz6TGyIxud8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-24_02,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240078
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowAA3WeAqrktpKV_RAQ--.6200S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFy5GryxJw47AF47Jw4UXFb_yoWkGrb_Gr
+ yjyrnrZrWUZasYv3ZFk3y3Zry0kw109Fs7uws8ta43CF9IyFWjq34UCr9xXr1fGFs5Gryk
+ Gw45Ga1fJr9rCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+ 1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-Originating-IP: [36.112.3.209]
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiBwsGE2lLmnBJlAAAsM
+X-Mailman-Approved-At: Wed, 24 Dec 2025 21:50:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,20 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/24/2025 12:06 PM, Dmitry Baryshkov wrote:
-> On Tue, Nov 25, 2025 at 10:31:42AM +0100, Krzysztof Kozlowski wrote:
->> On Tue, Nov 25, 2025 at 07:02:58AM +0530, Ayushi Makhija wrote:
->>> Document the DSI PHY on the QCS8300 Platform.
->>
->> Explain the hardware, so your diff would be justified. Instead of
->> stating obvious or copying the subject, say something useful. Why this
->> is compatible with different platforms?
-> 
-> Ayushi, any updates?
-> 
+In vmw_compat_shader_add(), the return value check of vmw_shader_alloc()
+is not proper. Modify the check for the return pointer 'res'.
 
-Hi Dmitry, new patches for the series are ready, will upload them in sometime.
+Found by code review and compiled on ubuntu 20.04.
 
-Thanks,
-Ayushi
+Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+index 69dfe69ce0f8..7ed938710342 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+@@ -923,8 +923,10 @@ int vmw_compat_shader_add(struct vmw_private *dev_priv,
+ 	ttm_bo_unreserve(&buf->tbo);
+ 
+ 	res = vmw_shader_alloc(dev_priv, buf, size, 0, shader_type);
+-	if (unlikely(ret != 0))
++	if (IS_ERR(res)) {
++		ret = PTR_ERR(res);
+ 		goto no_reserve;
++	}
+ 
+ 	ret = vmw_cmdbuf_res_add(man, vmw_cmdbuf_res_shader,
+ 				 vmw_shader_key(user_key, shader_type),
+-- 
+2.25.1
 
