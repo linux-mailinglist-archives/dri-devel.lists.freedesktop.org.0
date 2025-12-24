@@ -2,52 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489E0CDB0D0
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 02:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1116ECDB0D3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 02:12:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53AC10E2F2;
-	Wed, 24 Dec 2025 01:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAF010E2F4;
+	Wed, 24 Dec 2025 01:12:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SeY3+F9c";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Bmaj/Z2K";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com
- [118.143.206.90])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3A16F10E2F2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:11:38 +0000 (UTC)
-X-CSE-ConnectionGUID: H1pX4pXDTgKSu6gQX2U8bA==
-X-CSE-MsgGUID: qU21qwFcSiGZONs5d8diDQ==
-X-IronPort-AV: E=Sophos;i="6.21,172,1763395200"; 
- d="scan'208,217";a="136357648"
-From: =?gb2312?B?uN/P6A==?= <gaoxiang17@xiaomi.com>
-To: Steven Rostedt <rostedt@goodmis.org>, Xiang Gao <gxxa03070307@gmail.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "mhiramat@kernel.org"
- <mhiramat@kernel.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "mathieu.desnoyers@efficios.com"
- <mathieu.desnoyers@efficios.com>, "dhowells@redhat.com"
- <dhowells@redhat.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "brauner@kernel.org" <brauner@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "linux-trace-kernel@vger.kernel.org"
- <linux-trace-kernel@vger.kernel.org>
-Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2OV0gZG1hLWJ1Zjog?=
- =?gb2312?Q?add_some_tracepoints_to_debug.?=
-Thread-Topic: [External Mail]Re: [PATCH v9] dma-buf: add some tracepoints to
- debug.
-Thread-Index: AQHcdCsrcuiWuxu+nkKdQV9ZBkZWRLUv/CFf
-Date: Wed, 24 Dec 2025 01:11:35 +0000
-Message-ID: <49db0d7370224e14ad7788b280bd1602@xiaomi.com>
-References: <20251223032749.1371913-1-gxxa03070307@gmail.com>,
- <20251223114424.1c539f7a@gandalf.local.home>
-In-Reply-To: <20251223114424.1c539f7a@gandalf.local.home>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.149.36.96]
-Content-Type: multipart/alternative;
- boundary="_000_49db0d7370224e14ad7788b280bd1602xiaomicom_"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13A9C10E2F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:12:14 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BNFr9On4134186
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:12:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=YXuhZkCXgoOIEur3KF+80czd
+ tsFOs/7rJU6d1bOIu0o=; b=SeY3+F9cH+rD4m4rxdQTI9vpb5+PpRMC2wMxIhSo
+ 4CJJBlgox3EzksK393Jk4/6WHnCj8/8Hy4KnfbY5luu3kznnZ1YWeBFZWQk1anc0
+ 2D9IbrKm/3o1wH1unHepQK5DQxp54a75rhoYykaH35R3uFc+XYwxCzy9AY9zukS4
+ IEib33rN/H7YOmhNhBQfGbtJMB4ECCcX/d8d86jsnAYLfkbOrIMiObRr76YD5VpC
+ a4vWRJe5h0ys+SgnT8PfmZRHbPyi5ZwlD3IjVC4SAQgxKRcLgNMzKpCOrnjFWNcp
+ Pf+AwczAtpV/sTLvBFo/C1gSZ5eGCAT9yVrleChnHR20+w==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7x46sexb-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:12:13 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4ee0193a239so57346851cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 17:12:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1766538732; x=1767143532;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YXuhZkCXgoOIEur3KF+80czdtsFOs/7rJU6d1bOIu0o=;
+ b=Bmaj/Z2KXPab+tzZk9vDXTo2iwUxNMnEkKH538cZpBSt1Mv3n76LOu1h/oJzQEvYyf
+ 2E+KU6WKkTX+zkvPw9ls2Tbln/nMy5cRhvrZlqjx4yfnujG9FJ4h11UppSHoT0nJ9eE5
+ weFnnNLcv3lcnQUGD++QAol9TrIvvJe79cEshPmEfVAMlQjg0uYwyuXvyAFtc5hMe2BU
+ dVrcRCqZg05HR8vF3gmfkt8iIZi6ACswt3f1MhWFNF1pEhBZf1WM3N/1osX2YZ8LyF3a
+ EsDaLog+NO4MEZcAUWTpO4CrsH1UD5Pnvc+sDoaZsyQr85arCwCo5xH0Z3ZksVV8geNx
+ xRGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766538732; x=1767143532;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YXuhZkCXgoOIEur3KF+80czdtsFOs/7rJU6d1bOIu0o=;
+ b=JB8OyIicZ4NHCTGIJbog7CmmYFJDxoUqxHvzGixyI1d6k2WjQAe7VC6GRGAvgLF2Xa
+ bpLA4rHn2jjLHEao/9x4ph+aUGHgiBuDqMgw6hYtO262NxsSO1X3AsrlOGhq+I/aVqSf
+ 9GpEKX0vozAoz8FknScgyl+weJHTirBcuPtsa8xtqv2d2wBKyfyQwpvq3fK3i3oEW1Sg
+ M4jx3zacSrgx5UnLNLlG43aw2pJEhdYI6w2FocRPi7Wl/jzuwUSS2mZtwcEPsCz3FuYO
+ U1OWkrztommzmmjSJ6PDWVj7PlXylLxtZXMZa9NNZQu5gZ2wbUre8sTuuwwzREyCOZBA
+ xYAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWty+9RNQKZv5jQc9YljldpVj5p96V57QX/lidaXqeKjEqP2BtXCn8R22jdxjHjihCVwL1vTMRRSpQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvtrX5kObJOa+VJkgOBL3PeFyqad8u4r6F1sOmFQNMJ4SYCJLs
+ a2phlYhsEUeHpdGoxOBnz7bCn3/XQV1KH5GR0YkrzlsjAaLMqtHxxmLYoiAZOkH3X1rlTDnoGm4
+ tjBeuSi/vsblKSEb6Hy8BSEwgeC7DTHiDrOKvYCaI9eltmCiqKsdwwHExoG2Ahhhqmd8T0oA=
+X-Gm-Gg: AY/fxX6LvbrjUfSdNWVWQk+ovod6k4FLXmLCSE5Q2BFZ+9GTKLhzR3mi14OUAIbGgs9
+ 3Gz2t/7jfyrN1BMdqPwjexir0ngtgsHz3brT7VYHNQ5slNoXSs656N/4LPL1D4WeP8pgPW7LdwS
+ aChCL8xhae0gNxJ3NmqPRivjhbpu/JFrstO0J1O/cCmVnOdx8a5hz3G5g+ilE6CJZhUinlXNvkP
+ Gq62ITE/kqiPJK1g0mYx6Q6BBSP86dAm5x+1b+BaMt2DYSwaDpOHaCrElTBg9FEVVBtZnjSLIXD
+ GLRGTRFaFGF+lp9mt/2QBy/Gsdkm4fnT2KAPx0t2PmbJn5zyDkGNo4q1gI99rDKEiSGfoKBkBSi
+ FVRjtCdy7y28p6LynZU5beSpXSwyFUmc9dY+8ojiJrmUhywBh7qd+pTqLEjlRwBddjtzRvS+ZOY
+ kBcwjfE5+FSFVbIeUMbwK6B34=
+X-Received: by 2002:a05:622a:4108:b0:4eb:a3fb:2864 with SMTP id
+ d75a77b69052e-4f4abdb452emr236091681cf.69.1766538732556; 
+ Tue, 23 Dec 2025 17:12:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGiIEwoAJycDNPNnrRQ2r9Fdhu/zOetRe43PPfWrkAnUXdp8EiynL1H09rqeLnPzb9P/WXeoQ==
+X-Received: by 2002:a05:622a:4108:b0:4eb:a3fb:2864 with SMTP id
+ d75a77b69052e-4f4abdb452emr236091351cf.69.1766538732093; 
+ Tue, 23 Dec 2025 17:12:12 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a18620305sm4515497e87.79.2025.12.23.17.12.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Dec 2025 17:12:10 -0800 (PST)
+Date: Wed, 24 Dec 2025 03:12:07 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Casey Connolly <casey.connolly@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v2 03/11] drm/panel: Add LGD LH599QH3-EDB1 panel driver
+ for Sony Xperia XZ3
+Message-ID: <xqdy7sdfuptx7dyr6arhqna4pi5is6ivbuqhw7lun7j2g37xqo@iqdc2s2njjnr>
+References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-3-82a87465d163@somainline.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222-drm-panels-sony-v2-3-82a87465d163@somainline.org>
+X-Proofpoint-ORIG-GUID: h2ZxWD8U24Bt1otLrhfGMFZuMgmBCpmA
+X-Proofpoint-GUID: h2ZxWD8U24Bt1otLrhfGMFZuMgmBCpmA
+X-Authority-Analysis: v=2.4 cv=aOf9aL9m c=1 sm=1 tr=0 ts=694b3ded cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=tVI0ZWmoAAAA:8 a=EUspDBNiAAAA:8 a=QdKhUILdeOfo3pfzIQcA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=-BPWgnxRz2uhmvdm1NTO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAwOCBTYWx0ZWRfX6Hd5mmhCi0eL
+ lYpaXzVH/ay6gL42ysKa3GKG4xF42k6JXH5HGpta1kz6zaOHbyThQ5HkSQnCcZI7fqvD8L25NHd
+ aUFCALyDPP+Dv5Z+N8tS7OhxWxKGucBp9jT0xDC2RNNEPYSeZGqJJsL+25EcON7dIvvIpzHygeT
+ Oigk0md9XvT5JSJJP4rW/hr+DysYaw8NOU2ZvC7pZfndaMITtlofKWHGucnFxDVb0yt4SEbDt+6
+ /m+muY9X9nZLVv8yUIFy04iVhkpqGeK8xQUmPlRsUq9hPsU+BcYhbpKNUQJSJ7O3k8P8SP7M0F2
+ TQqqSPW+KYHm4df+G2q9u3O1+TI7Th7gV2YyJgZLucaRuq+f0QmRfLo6E2tAlVzAH29SzNJPl9f
+ pcn6J+WWCaog1AQT6BpdaRQVPfM93k3FuOlIzZVn5gY9riXW26+AkcAjc9b9H7osBYc273sgiQ9
+ 7WubcN6bo/VHsKEAFJA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_05,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512240008
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,225 +164,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_49db0d7370224e14ad7788b280bd1602xiaomicom_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On Mon, Dec 22, 2025 at 12:32:09AM +0100, Marijn Suijten wrote:
+> Sony provides an LGD LH599QH3-EDB1 panel + Atmel maXTouch assembly in
+> its Xperia XZ3 (tama akatsuki) phone, with custom DCS commands to match.
+> 
+> The panel is 1440x2880 pixels and runs at 60Hz.  It requires Display
+> Stream Compression 1.1 to be driven at that mode.
+> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  MAINTAINERS                                     |   1 +
+>  drivers/gpu/drm/panel/Kconfig                   |  16 ++
+>  drivers/gpu/drm/panel/Makefile                  |   1 +
+>  drivers/gpu/drm/panel/panel-lgd-lh599qh3-edb1.c | 340 ++++++++++++++++++++++++
+>  4 files changed, 358 insertions(+)
+> 
 
-b2ssIHRoYW5rcy4NCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzog
-U3RldmVuIFJvc3RlZHQgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQq3osvNyrG85DogMjAyNcTqMTLU
-wjI0yNUgMDo0NDoyNA0KytW8/sjLOiBYaWFuZyBHYW8NCrOty806IHN1bWl0LnNlbXdhbEBsaW5h
-cm8ub3JnOyBjaHJpc3RpYW4ua29lbmlnQGFtZC5jb207IG1oaXJhbWF0QGtlcm5lbC5vcmc7IGxp
-bnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbWF0aGlldS5kZXNub3llcnNAZWZmaWNp
-b3MuY29tOyBkaG93ZWxsc0ByZWRoYXQuY29tOyBrdWJhQGtlcm5lbC5vcmc7IGJyYXVuZXJAa2Vy
-bmVsLm9yZzsgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgbGludXgtdHJhY2Uta2VybmVsQHZn
-ZXIua2VybmVsLm9yZzsguN/P6A0K1vfM4jogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2OV0g
-ZG1hLWJ1ZjogYWRkIHNvbWUgdHJhY2Vwb2ludHMgdG8gZGVidWcuDQoNClvN4rK/08q8/l0gtMvT
-yrz+wLTUtNPa0KHD17mry77N4rK/o6zH6733yfe0psDtoaPI9LbU08q8/rCyyKvQ1LTm0smjrMfr
-vavTyrz+16q3orj4bWlzZWNAeGlhb21pLmNvbb340NC3tMChDQoNCk9uIFR1ZSwgMjMgRGVjIDIw
-MjUgMTE6Mjc6NDkgKzA4MDANClhpYW5nIEdhbyA8Z3h4YTAzMDcwMzA3QGdtYWlsLmNvbT4gd3Jv
-dGU6DQoNCj4NCj4gKyNkZWZpbmUgQ1JFQVRFX1RSQUNFX1BPSU5UUw0KPiArI2luY2x1ZGUgPHRy
-YWNlL2V2ZW50cy9kbWFfYnVmLmg+DQo+ICsNCj4gKy8qDQo+ICsgKiBkbWFidWYtPm5hbWUgbXVz
-dCBiZSBhY2Nlc3NlZCB3aXRoIGhvbGRpbmcgZG1hYnVmLT5uYW1lX2xvY2suDQo+ICsgKiB3ZSBu
-ZWVkIHRvIHRha2UgdGhlIGxvY2sgYXJvdW5kIHRoZSB0cmFjZXBvaW50IGNhbGwgaXRzZWxmIHdo
-ZXJlDQo+ICsgKiBpdCBpcyBjYWxsZWQgaW4gdGhlIGNvZGUuDQo+ICsgKg0KPiArICogTm90ZTog
-RlVOQyMjX2VuYWJsZWQoKSBpcyBhIHN0YXRpYyBicmFuY2ggdGhhdCB3aWxsIG9ubHkNCj4gKyAq
-ICAgICAgIGJlIHNldCB3aGVuIHRoZSB0cmFjZSBldmVudCBpcyBlbmFibGVkLg0KPiArICovDQo+
-ICsjZGVmaW5lIERNQV9CVUZfVFJBQ0UoRlVOQywgLi4uKSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBcDQo+ICsgICAgIGRvIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
-DQo+ICsgICAgICAgICAgICAgaWYgKEZVTkMjI19lbmFibGVkKCkpIHsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gKyAgICAgICAgICAgICAgICAgICAgIGd1YXJk
-KHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAgICBcDQo+ICsgICAgICAgICAgICAgICAg
-ICAgICBGVU5DKF9fVkFfQVJHU19fKTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXA0KPiArICAgICAgICAgICAgIH0gZWxzZSBpZiAoSVNfRU5BQkxFRChDT05G
-SUdfTE9DS0RFUCkpIHsgICAgICAgIFwNCj4gKyAgICAgICAgICAgICAgICAgICAgIC8qIEV4cG9z
-ZSB0aGlzIGxvY2sgd2hlbiBsb2NrZGVwIGlzIGVuYWJsZWQgKi8gIFwNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgIGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAgICBcDQo+ICsg
-ICAgICAgICAgICAgfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gKyAgICAgfSB3
-aGlsZSAoMCkNCj4gKw0KDQpJIGhhdGUgdG8gbWFrZSBhbm90aGVyIGNvbW1lbnQgaGVyZSwgYnV0
-IEkgd2FzIGp1c3QgdGhpbmtpbmcgdGhhdCB0aGlzIGNhbg0KYmUgbWFkZSB0byBsb29rIGEgbGl0
-dGxlIG5pY2VyLiBCYXNpY2FsbHksIHdlIHdhbnQgdG8gbWFrZSBzdXJlIHRoYXQgd2hlbg0KTE9D
-S0RFUCBpcyBhY3RpdmUsIHdlIGFsd2F5cyB0YWtlIHRoZSBsb2NrLiBCdXQgd2UgYWxzbyBuZWVk
-IHRvIHRha2UgdGhlDQpsb2NrIHdoZW4gdHJhY2luZyBpcyBlbmFibGVkLiBUaGUgdHJhY2Vwb2lu
-dCBpdHNlbGYgaXMgYSBzdGF0aWMgYnJhbmNoLA0Kd2hpY2ggbWVhbnMgaXQgaXMgYSBub3Agd2hl
-biBub3QgYWN0aXZlLCBzbyB0aGVyZSdzIG5vIHJlYWwgcHJvYmxlbSB3aXRoDQpjYWxsaW5nIGl0
-LiBUaHVzLCB0aGlzIGNvdWxkIGxvb2sgYmV0dGVyIGFzOg0KDQojZGVmaW5lIERNQV9CVUZfVFJB
-Q0UoRlVOQywgLi4uKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQog
-ICAgICAgIGRvIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgLyogQWx3YXlzIGV4cG9zZSBsb2NrIGlm
-IGxvY2tkZXAgaXMgZW5hYmxlZCAqLyAgICAgICAgICBcDQogICAgICAgICAgICAgICAgaWYgKElT
-X0VOQUJMRUQoQ09ORklHX0xPQ0tERVApIHx8IEZVTkMjI19lbmFibGVkKCkpIHsgICBcDQogICAg
-ICAgICAgICAgICAgICAgICAgICBndWFyZChzcGlubG9jaykoJmRtYWJ1Zi0+bmFtZV9sb2NrKTsg
-ICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgICAgICAgICBGVU5DKF9fVkFfQVJHU19fKTsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgfSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQogICAgICAg
-IH0gd2hpbGUgKDApDQoNCg0KLS0gU3RldmUNCg==
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
---_000_49db0d7370224e14ad7788b280bd1602xiaomicom_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
-ding-left: 4pt; border-left: #800000 2px solid; } --></style>
-</head>
-<body>
-<meta content=3D"text/html; charset=3DUTF-8">
-<style type=3D"text/css" style=3D"">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
-or:#000000; font-family:Calibri,Helvetica,sans-serif">
-<p>ok, thanks.</p>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Steve=
-n Rostedt &lt;rostedt@goodmis.org&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2025=C4=EA12=D4=C224=C8=D5 0:44:24<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> Xiang Gao<br>
-<b>=B3=AD=CB=CD:</b> sumit.semwal@linaro.org; christian.koenig@amd.com; mhi=
-ramat@kernel.org; linux-media@vger.kernel.org; dri-devel@lists.freedesktop.=
-org; linux-kernel@vger.kernel.org; mathieu.desnoyers@efficios.com; dhowells=
-@redhat.com; kuba@kernel.org; brauner@kernel.org;
- akpm@linux-foundation.org; linux-trace-kernel@vger.kernel.org; =B8=DF=CF=
-=E8<br>
-<b>=D6=F7=CC=E2:</b> [External Mail]Re: [PATCH v9] dma-buf: add some tracep=
-oints to debug.</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt;">
-<div class=3D"PlainText">[=CD=E2=B2=BF=D3=CA=BC=FE] =B4=CB=D3=CA=BC=FE=C0=
-=B4=D4=B4=D3=DA=D0=A1=C3=D7=B9=AB=CB=BE=CD=E2=B2=BF=A3=AC=C7=EB=BD=F7=C9=F7=
-=B4=A6=C0=ED=A1=A3=C8=F4=B6=D4=D3=CA=BC=FE=B0=B2=C8=AB=D0=D4=B4=E6=D2=C9=A3=
-=AC=C7=EB=BD=AB=D3=CA=BC=FE=D7=AA=B7=A2=B8=F8misec@xiaomi.com=BD=F8=D0=D0=
-=B7=B4=C0=A1<br>
-<br>
-On Tue, 23 Dec 2025 11:27:49 &#43;0800<br>
-Xiang Gao &lt;gxxa03070307@gmail.com&gt; wrote:<br>
-<br>
-&gt;<br>
-&gt; &#43;#define CREATE_TRACE_POINTS<br>
-&gt; &#43;#include &lt;trace/events/dma_buf.h&gt;<br>
-&gt; &#43;<br>
-&gt; &#43;/*<br>
-&gt; &#43; * dmabuf-&gt;name must be accessed with holding dmabuf-&gt;name_=
-lock.<br>
-&gt; &#43; * we need to take the lock around the tracepoint call itself whe=
-re<br>
-&gt; &#43; * it is called in the code.<br>
-&gt; &#43; *<br>
-&gt; &#43; * Note: FUNC##_enabled() is a static branch that will only<br>
-&gt; &#43; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; be set when the trace even=
-t is enabled.<br>
-&gt; &#43; */<br>
-&gt; &#43;#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; if (FUNC##_enabled()) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
-p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_ARGS__);&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; } else if (IS_ENABLED(CONFIG_LOCKDEP)) {&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Expose this lock=
- when lockdep is enabled */&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
-p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- \<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
-&gt; &#43;<br>
-<br>
-I hate to make another comment here, but I was just thinking that this can<=
-br>
-be made to look a little nicer. Basically, we want to make sure that when<b=
-r>
-LOCKDEP is active, we always take the lock. But we also need to take the<br=
->
-lock when tracing is enabled. The tracepoint itself is a static branch,<br>
-which means it is a nop when not active, so there's no real problem with<br=
->
-calling it. Thus, this could look better as:<br>
-<br>
-#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; /* Always expose lock if lockdep is enabled */&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {&nbsp;=
-&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinl=
-ock)(&amp;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_A=
-RGS__);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
-<br>
-<br>
--- Steve<br>
-</div>
-</span></font>
-</body>
-</html>
-
---_000_49db0d7370224e14ad7788b280bd1602xiaomicom_--
+-- 
+With best wishes
+Dmitry
