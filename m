@@ -2,62 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669FECDD11F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE626CDD168
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 664DD10F0B0;
-	Wed, 24 Dec 2025 21:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9488A112CA0;
+	Wed, 24 Dec 2025 21:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hG2EiDEi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d0b0GmyA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88BE710F0B0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:10:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8689F60134
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:10:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1C5C4AF0B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766610625;
- bh=O7eCH9tPEjjkiX50GxW0iQ29YK5JDvfbNAIYkyh5Icg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hG2EiDEiFOJCgMv4+ot2aCQCyWzAU+71d683nOQFe8JZMmWnl+FjO6z9iI9O/HB7g
- 3MGRSw3tl6n42Vn8z8iK0FmWv3Eqoly+4bfYFq/tT7k2kBs99GMivrqZFRsSbiW3i2
- MJnl6BREUV/06qIpjP9YYp3BEf/InCaFhcMRhsUL+0Az7W/XBnAwMk3kurjRpgJp7S
- ptTa/n6gAT+bXFbPA2EiQyYYa9EjgUarbh8tpv4eBIubkEOfAtFz9oxQ3+WJ0pTmiO
- 1HDWcYbOw3/80vYcyxryPPsGTK1UcKdfrL6sPwv4F84pET06q30X4ZHdnR9/iY0Iwr
- 839YCubD/Vs8g==
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-37b8aa5adf9so38555831fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 13:10:24 -0800 (PST)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9896010F0BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:21:21 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-64dfb22c7e4so815570a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 13:21:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766611280; x=1767216080; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fMPdGvIlNbNvNMSLf1GQSer9rjpaVmriiyM8Ev5jbvQ=;
+ b=d0b0GmyAPs+AvCxgPosFqF1oxyj1HBFB78sstYK65Ych4Q0wUgCe3empGMPc8QIezx
+ 6U1l5y9un8n+s49kc9H6WF5tI8Zd3Z1zMYhZFhYpPZylJXo1cscge+Hh/SmjkJVrwh/6
+ WzLVC2CK5TMZwsE0oBsSIFBCqekLdaW1lrdUju0bhLHCSIv1eFCcmAS56QrpOv6p/PEm
+ 5cOREoIqs7BcekZmFwtWpQcx8n5sjBOS3H3gqhBAiIirVJ5GnXFXU2vWCIIT5XkCztRZ
+ LALiSR4ktLg4TvNAZ+c6O+UxxQQvGKP7wawCSymcHy/lsF/E3yofirXmL+572YoRASvQ
+ nlTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766611280; x=1767216080;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fMPdGvIlNbNvNMSLf1GQSer9rjpaVmriiyM8Ev5jbvQ=;
+ b=ARrVZMpCJzHyiMwQbtAC3Osf4B7KDlxchTvcdEqE8ZeeubeuPDAmiNKkE2QsENcIUt
+ py/hdMDugUEj3l7qf9YkZlZwSvXceLoHe7JCazohSp2Hy4SLSQyagtFYQ0R2XwkqxfWj
+ b1q3e8SY6vJgF1cFWXdh9H9Xj4N47g0UaPDtCaA4CJLJCRGT+GNu/CommFGmPww4/I+b
+ 84oN6MsoOaVKWs0nz0Cln8iKfD3QSMvFyuaK+35X0Zhq0N0P459UZDodat16BLcHmJsJ
+ VkgLxWPje8SvQrfiBbJSIKnDVW64V8Z4TuaxxxrtZAt049UJatDc+GWBd3X4i5qFDQ8F
+ yyHw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5+k1Y30T41MWzOtz3TqPaIKss5Wg9UJxqlhzfMqPYcWKsBGWVH0g4G5x2Yn2YEdorXIp8x3inUVQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwO4k8uKYPde3yGfuNpYuzNEv18+EY2JBqj33oA2zESL1T6ru/5
- SdosJpcwolZbxW6e6P5pRS2lMv7VsButljSvCN431ITl81OhGSUSyxYfHhY24Ub1ZqlApaWHijL
- wI+iZjmyKTzUuT4Jb3w+9iraSUzKX3bc=
-X-Google-Smtp-Source: AGHT+IFIxgk+Gyj5ygMCEwdfG0MjJMXY9lrj6c9bWQ4tQlhYFfdfk0UKHDUO5Ra/PXCP7MKHIi/yzB36tFRBgfF15n8=
-X-Received: by 2002:a2e:be1b:0:b0:37a:2dfa:c76a with SMTP id
- 38308e7fff4ca-38121619c8dmr60585201fa.28.1766610623618; Wed, 24 Dec 2025
- 13:10:23 -0800 (PST)
+ AJvYcCX77rEnyDj9gkxFt7IhcL5lSrBX8Ob1XbYUGeAJtJWFa+2bXZuOXcUnYbXOfglUstOFTwDF3+4Elew=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdkF12iUWx/fWBDz5P4ohnPrwbn3dvZDWQAzC2G1s8GmDqXl8j
+ rjn7o9C0/Uw0VzfD5nF9nGqYY1ZjYig4IJ7VVwORabB/b7aGdPXmlLU7
+X-Gm-Gg: AY/fxX5yuePaTbpZ48VHSsI80aZmwffXekttJoS7NLyDxMPqCwa4a+d9W8vTY3BK7Ff
+ DhSObpXrVrhAp1ljGYTj2H2mHKfmw728TEdrgb02ZitAw6UPoTASLIJD4IB3L/yBFln+ZASdvBO
+ DL2caoAKm/DlqVBbwzzh95+Mh1VM75R8alK0zWq2vFP17al7x5LbJEMsK0hqK1EXak7503xkgmj
+ Ykr6375PBvidjKAhyQ2QvxDST7pmawVfoFUwUbgUGKMO1klU1f0nkUQDCxue+PSrHK492vDbxJ3
+ YiXnl17o2NoCUhEyHBGFJfciXYWlyKIQlt/m4f/J2F+JdjarGicW2u0wmtbeykrX5VlgHR0iZ1s
+ 3zICnnaNtx2bB6Qi3EljSr8JBcbyuW2VuF6I+SLFxgIPp+aJiH1FTug0BvgacxNVaKmLiksWzoN
+ 3XjqrV82M7m/OeO9M=
+X-Google-Smtp-Source: AGHT+IGfkWtEmmnyO9BFQz+C5HCNcReD1s5iNrq6BNCWUfVYA0gfccxmRylORViONZyVJ5yDav7xnA==
+X-Received: by 2002:a17:907:96a3:b0:b76:3472:52df with SMTP id
+ a640c23a62f3a-b803564175emr2292921066b.10.1766611279466; 
+ Wed, 24 Dec 2025 13:21:19 -0800 (PST)
+Received: from osama.. ([2a02:908:1b4:dac0:7e77:d48f:f25c:1b21])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8037a60500sm1851913766b.13.2025.12.24.13.21.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Dec 2025 13:21:18 -0800 (PST)
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
+Subject: [PATCH] drm/xe: Add missing newlines to drm_warn messages
+Date: Wed, 24 Dec 2025 22:21:16 +0100
+Message-ID: <20251224212116.59021-1-osama.abdelkader@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251223115949.32531-1-dakr@kernel.org>
-In-Reply-To: <20251223115949.32531-1-dakr@kernel.org>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Wed, 24 Dec 2025 22:09:47 +0100
-X-Gmail-Original-Message-ID: <CAJ-ks9nVz_YtkYQuNGy1CUC8M4JL=KC26TyYmU5bZ2U7vbeJ8g@mail.gmail.com>
-X-Gm-Features: AQt7F2oqUMCJJ8rcyTDJex4flA3uriK0niIKrJxszkb1JddNDDnlGrrgdqjTcyY
-Message-ID: <CAJ-ks9nVz_YtkYQuNGy1CUC8M4JL=KC26TyYmU5bZ2U7vbeJ8g@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: fix typo in TYR DRM driver entry
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com, 
- boris.brezillon@collabora.com, carsten.haitzler@foss.arm.com, 
- beata.michalska@arm.com, dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 24 Dec 2025 21:50:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +91,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 23, 2025 at 1:00=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> Fix a missing ':' in the ARM MALI TYR DRM DRIVER entry, which does
-> prevent script/get_maintainer.pl to properly work and pick up the
-> corresponding maintainers.
->
-> Fixes: cf4fd52e3236 ("rust: drm: Introduce the Tyr driver for Arm Mali GP=
-Us")
-> Reported-by: Tamir Duberstein <tamird@kernel.org>
-> Closes: https://lore.kernel.org/lkml/CAJ-ks9mrZtnPUjp5tD03hW+TyS0M9i-KRF_=
-ramNY-oh-0X+ayA@mail.gmail.com/
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5b11839cba9d..fe1e8da6c2bb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2158,7 +2158,7 @@ M:        Alice Ryhl <aliceryhl@google.com>
->  L:     dri-devel@lists.freedesktop.org
->  S:     Supported
->  W:     https://rust-for-linux.com/tyr-gpu-driver
-> -W      https://drm.pages.freedesktop.org/maintainer-tools/drm-rust.html
-> +W:     https://drm.pages.freedesktop.org/maintainer-tools/drm-rust.html
->  B:     https://gitlab.freedesktop.org/panfrost/linux/-/issues
->  T:     git https://gitlab.freedesktop.org/drm/rust/kernel.git
->  F:     Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> --
-> 2.52.0
+The drm_warn() calls in the default cases of various switch statements
+in xe_vm.c were missing trailing newlines, which can cause log messages
+to be concatenated with subsequent output. Add '\n' to all affected
+messages.
 
-Reviewed-by: Tamir Duberstein <tamird@kernel.org>
+Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+---
+ drivers/gpu/drm/xe/xe_vm.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 79ab6c512d3e..1349dbc6f0ab 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -2187,7 +2187,7 @@ static void print_op(struct xe_device *xe, struct drm_gpuva_op *op)
+ 		       (ULL)xe_vma_start(vma), (ULL)xe_vma_size(vma));
+ 		break;
+ 	default:
+-		drm_warn(&xe->drm, "NOT POSSIBLE");
++		drm_warn(&xe->drm, "NOT POSSIBLE\n");
+ 	}
+ }
+ #else
+@@ -2283,7 +2283,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
+ 		xe_bo_unlock(bo);
+ 		break;
+ 	default:
+-		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 		ops = ERR_PTR(-EINVAL);
+ 	}
+ 	if (IS_ERR(ops))
+@@ -2552,7 +2552,7 @@ static int xe_vma_op_commit(struct xe_vm *vm, struct xe_vma_op *op)
+ 		op->flags |= XE_VMA_OP_COMMITTED;
+ 		break;
+ 	default:
+-		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 	}
+ 
+ 	return err;
+@@ -2750,7 +2750,7 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct drm_gpuva_ops *ops,
+ 
+ 			break;
+ 		default:
+-			drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++			drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 		}
+ 
+ 		err = xe_vma_op_commit(vm, op);
+@@ -2812,7 +2812,7 @@ static void xe_vma_op_unwind(struct xe_vm *vm, struct xe_vma_op *op,
+ 		/* Nothing to do */
+ 		break;
+ 	default:
+-		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 	}
+ }
+ 
+@@ -2989,7 +2989,7 @@ static int op_lock_and_prep(struct drm_exec *exec, struct xe_vm *vm,
+ 		break;
+ 	}
+ 	default:
+-		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 	}
+ 
+ 	return err;
+@@ -3228,7 +3228,7 @@ static void op_add_ufence(struct xe_vm *vm, struct xe_vma_op *op,
+ 		vma_add_ufence(gpuva_to_vma(op->base.prefetch.va), ufence);
+ 		break;
+ 	default:
+-		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
++		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
+ 	}
+ }
+ 
+-- 
+2.43.0
+
