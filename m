@@ -2,136 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68493CDC5BB
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 14:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD90CDC859
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 15:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C993210F332;
-	Wed, 24 Dec 2025 13:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE2CB10F7B3;
+	Wed, 24 Dec 2025 14:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="KHOnq5Y+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dBX+zNDA";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Vqw51Kkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010050.outbound.protection.outlook.com [52.101.56.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66910F332
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 13:32:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SH9B6DfsN8Uj2W3kdYMC8nPhrlezUnzMi8q8wPIxxsHMrklM5pPDzjHHifFelHKqrjikHU7rnT8HsjoAOxOSqkeIK5YGljuLbpKDuJOpf+y/X98707DJVBPInbcKyKkuUQ469/6uP1oD0qs1l84dANHAl8YZUD8Tat/yFhFqduBJMt78nMo/ZEPDsNt0J8xkeNnvfZL3/c7VCoAvklEhaiP7q/4JLR5l9cYwQKkQRWuBLehiKkbrck5qdA4MCCoa6j+DfLlEU+Yzch0tt0xOgGFHWz5ckRqQ0MgINCj7o+hrxBQ7LrQ6JOfGJrEWJdQmQxbB0TTpbMoQFmuDnZ8uSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=otUxOZJBl2z8hk6NsStmq+YCaDcrjzt6igVsVR89yo0=;
- b=udodNp8oyL70RWFHcOKsqxLF+phCsJwLr5ouIKam7gN6GBep+MzOMZ3J01/1vtHtA/kzv8sIX0OKRZNWHSWFBFSaRCChsV181ukzyTsPasBgTY3hbIU07tWjPb5S6EMAd5aIUneuVyTRZ32VCSTRCPQsqu4638KiIgNjmMf7m4Oa5HUO2sKD1oc89VAgONLzOct21WrIuC/RE32DNXbQFx+3dTxmLsBMD8bNnhIDeDRPtqL2Ppx4NeIv1B74oF5jMfFfoIa0MIMo5ePgjDf9NJrdD00oeRFKy9V3WBw2JupYzf+SwGVKbG/5RHUeOpn6D1rYYOBM1zQYFgrKy0Y6ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=otUxOZJBl2z8hk6NsStmq+YCaDcrjzt6igVsVR89yo0=;
- b=KHOnq5Y+JL2/K6y0uC1o5O60VTdrKcnmw6vtgomG+GTkZjAFe+4UQU4+wVbnjgwDjdjUNBJrqf70SDtM+23hgsR8NPxlTjhpFVObCHdTp0okyrJOJLS6c0rvmMtOf56MmlNNtUc3rbvigDjIDjg3+kQ4YPvm6uQPDeOSv2frmPE=
-Received: from BYAPR03CA0009.namprd03.prod.outlook.com (2603:10b6:a02:a8::22)
- by CH3PR10MB7564.namprd10.prod.outlook.com (2603:10b6:610:17d::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
- 2025 13:32:05 +0000
-Received: from SJ5PEPF000001CC.namprd05.prod.outlook.com
- (2603:10b6:a02:a8:cafe::23) by BYAPR03CA0009.outlook.office365.com
- (2603:10b6:a02:a8::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9456.11 via Frontend Transport; Wed,
- 24 Dec 2025 13:32:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SJ5PEPF000001CC.mail.protection.outlook.com (10.167.242.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9456.9 via Frontend Transport; Wed, 24 Dec 2025 13:32:05 +0000
-Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
- 2025 07:31:56 -0600
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
- 2025 07:31:55 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 24 Dec 2025 07:31:55 -0600
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BODVomT614815;
- Wed, 24 Dec 2025 07:31:51 -0600
-From: Swamil Jain <s-jain1@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <devarsht@ti.com>,
- <praneeth@ti.com>, <bb@ti.com>, <vigneshr@ti.com>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <s-jain1@ti.com>
-Subject: [PATCH] dt-bindings: display: ti,am65x-dss: Add AM62L DSS support
-Date: Wed, 24 Dec 2025 19:01:50 +0530
-Message-ID: <20251224133150.2266524-1-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A10ED10F7B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:30:14 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BOBWMkq461339
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:30:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=uN953iS6eEmzv0omwG3U2PvRvqgZptxlJAA
+ pEKpbMJ0=; b=dBX+zNDAcbxfl150SJjWhSVXHGgisWl4Cdu5MukMPsTOQWD/qud
+ Vt48XdJZjw9L1HD+BpZPV2cxpz5rGlZWuADq4NFdxnpUb6y7lWY7VKsigAdg3c3q
+ tWnR8WctPBk43l6BjsqdX6Mac4w3gkX36nAh95HwlV6D5kTI3WQoPSrmleXFPwK6
+ NzQk/9r4zP/MT5X/wI+KwJUxTZUUZVnTppPeWOMYVpZZ8WBWn383ILJVrOTFHDkg
+ 87wFnpTwsKoWdYu23glHd+WFfNIh5x9/1fBcGS9/nWz9SJhGGIcGt6rEaI/gNQ2X
+ KvFdAand+LSHIZO2+XrxQP7WNWITc58wlIg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7w8fucru-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:30:13 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4f1d60f037bso137538521cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:30:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1766586613; x=1767191413;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uN953iS6eEmzv0omwG3U2PvRvqgZptxlJAApEKpbMJ0=;
+ b=Vqw51Kktk+XfeOsu+SljH6YfFaZS4oXaz/huAmsG+xcP7K1sOPVtZryzXvHdiAfqr5
+ XJ9HJu1CQ9Q21h12L6CVxpGDIZLSTuwrKyRxAfqfozjG5aHN3WRfBGsix5jSpmqjPB5P
+ H4COEpfcuY2UKiLl4iOc/aGnHKXCaerSlN5nwOoOeOaJwlgF3WKOaK5EegSPRrdfubYU
+ QD2dXRC7A56TyWdGMfGL56Cwy4VJ/Jr6PVe2wLzJPOMtKV0jXUyiSmr4+O8qDEZwtHn9
+ XXmnu+duV5w9KUghg65QZeYFMFBketKatgRe/Xt2OQW7jxJONFfsl4/EuI/1ZdDuG9yU
+ w2Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766586613; x=1767191413;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uN953iS6eEmzv0omwG3U2PvRvqgZptxlJAApEKpbMJ0=;
+ b=TJTcgOD4fiH7wBQnegplyXg2WMefPJvK8xm+kxbERp+20Icz+9KsmCAgvbVoZhCLBe
+ m1wGj0/7gOY4DxNcJXeIq2Mcm8RExwubss2R/5MDO521tDSUdCLpCzc7+2z8L2xQ4ZIl
+ AIuHLyM4fGme7GfuHaU+3T+3cA3KFfH5+XmEDqgMdTPKg6t0n+RF8qx/aboCeW8oU8BA
+ kyNAsH94m+IvrMdHgiiP0qW9c+3G/RYCXPcolLSy2QaZIPVN0T5HgEYNNOHAcAPabvkR
+ CfcLbL0uGSE79mnYpw3NLCWYoXRa4EuHYLSNDpjH2jdpYt5usPQgPq4kgT5OK49YJ9f3
+ dxYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnUXLm3jJnCC6l4x0FYOjcXxUwkye2ZnxFCKPJWMn6Gwp+EOBasJiIih2QSErJ1qSOB8Baurkau0A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypmaHl132V5B1ONsmv2gvrpVbHtp7+2g0pm63vNsSWo74z+Isi
+ Pbo66j3eNa9IbpHOB8hej3cOAPgNBQC6GwQYhVw+3UnDAvfumPHYzgrWAPsqBYBOjZOz6f+vrL4
+ uE7sabxYLw7+I0ZZwdTwpgo45wMtFEtvZBq1ZHW5VDByTipVjec+5yjFgi71L60n4uqinezM=
+X-Gm-Gg: AY/fxX664icNHYRTD1ypAkT2WTKlm3nzTTp5kkMcOh9DxUumvr8H0l5HYEfkiSWNLi3
+ WlMF7j7DaJcoKVSAdZX82sSN7sTiTKuu0vcJTw30IMXYU7jX0K/pQ5hQkjW//k15ORFRWaJLziu
+ VtmkgOqhw41Em4x5uWYl57vQj1FCfjHaQgOf9J4XnIkpwnm5rpwbK2lFcuMcQ9qp5wB68jWD6ei
+ G6Z/oqBDty92ox/nPoW3UixJVRyt3yl7NMmM/kbjhGek55gX5MQiyss+DHg5FyJzWGjxBjfnBjJ
+ SbhcaNkVaE6JRvSCdSnzi46asn5lRf57YfzZ3/Zy48m/CTQC4LUAYaMrPY4AgK4U6Wd3J7VCwiQ
+ nGoRaO/KzvajAXxPHCw49k7Mtav2RXqkjw5UIY2ih5IrA0Q70Wg==
+X-Received: by 2002:a05:622a:446:b0:4e8:9ca2:b9ea with SMTP id
+ d75a77b69052e-4f4abdb2ee3mr276576861cf.56.1766586612922; 
+ Wed, 24 Dec 2025 06:30:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEw9OC5D45n0ob5GBxamYvnr4jL4bzFeiezFrGRyPuTz6012F4z+LAd6Gn3ppgHBEYT1fr/wg==
+X-Received: by 2002:a05:622a:446:b0:4e8:9ca2:b9ea with SMTP id
+ d75a77b69052e-4f4abdb2ee3mr276576051cf.56.1766586612276; 
+ Wed, 24 Dec 2025 06:30:12 -0800 (PST)
+Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-64b916b5777sm18033649a12.33.2025.12.24.06.30.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Dec 2025 06:30:11 -0800 (PST)
+From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] accel/qaic: Handle DBC deactivation if the owner went away
+Date: Wed, 24 Dec 2025 15:30:09 +0100
+Message-ID: <20251224143009.2769836-1-youssef.abdulrahman@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CC:EE_|CH3PR10MB7564:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc161d93-a5a9-4411-56bd-08de42f0d43f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|82310400026|36860700013|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?npZefD/KMRiL+aLJwszYcJt2nPQvR5bzOcPdf2VwYmqKiemRDOjC440ZgRFz?=
- =?us-ascii?Q?XFLPQ6uuKgOJdTbJgrym6FGRfLHN+cEGRESe+fgbi/9nE0jryWv/XIX2HebF?=
- =?us-ascii?Q?qskQ5gQ0QcBKF7lpBy/iAK2r+Ua1xEA9x1NtAy+H7z/jtwP/eOJDfTTL6lzB?=
- =?us-ascii?Q?bt4KkCh5TOL7Z1mlXQnvYSsS3ffu5y2XNZkVbcBAw4Co/8p1HwB/ZAwMnyVf?=
- =?us-ascii?Q?/CM68oj9iqVxqfKztfk6Ltf9Za4nPHnzo/3stGvs82sDCVZ0YoCbakJJIMX4?=
- =?us-ascii?Q?QqqGJaYECidpKe0TLO5LRTM44VOaUU/nIrJY0g6ep6EoK+jj/wFpeH/67Ro1?=
- =?us-ascii?Q?q/BS7usWH77i/seHalAv5Gaoy+IUtxxmwqCz92s4C/lU53ZXvbiKdt/loVE5?=
- =?us-ascii?Q?bnQpUxoX3Hhm9YALFovdwBP7blOAXOiLO07qzgI9EXKew+N+ag6EKe5dM+dr?=
- =?us-ascii?Q?aANU3pkSn9OS72UGpZMsFt/ePx879dF5pI1d0FIKRXYk60qCjmBZyVVWkiYY?=
- =?us-ascii?Q?4/idv4TuzymWE8BlKUXhGwAUFRnjIW/z7nqqXXJutDGE7zGHodf5GX0F5gXf?=
- =?us-ascii?Q?tDHBAE8AHrVbANKE+vnoFDK4VKp/z3jmk/n4DpUKIU1yg5gb3axKTXyl2m0p?=
- =?us-ascii?Q?oYc4/T3bDwaPzvnoEU4V13V0cXXxAfmLVs6IuaBDQ/kSxB1toh8g1NhwS9vq?=
- =?us-ascii?Q?b01HojAa1T8WlH8QICojSvIXWm/NHNcdaIhANG54RzMcWhyA5kI7FpCRP0j9?=
- =?us-ascii?Q?CLfUg3GuYaw8TMipUVtR4fU5JFUeVMCCEC+p28qmoWSVgWma45V1nmVJ/3ab?=
- =?us-ascii?Q?W+WMig4ih9vbApzZ5Fy5RwQv3MEfqdOkBXjJQFXEMNDK+UvOwmWfjuK5ZIun?=
- =?us-ascii?Q?fKg7CfECjUWM515nRNP3gA2I4LVxw0tZDiJ5tocFBnSnMU7dRK9/Vr8rooj9?=
- =?us-ascii?Q?uPyOchp7CP7gnyow/tPUih7nE4501am18qRVx/NGBYzTqqZTOuT+CIazY4Ir?=
- =?us-ascii?Q?WCr6mqSGEcAsPuExL2u5LaTL8pLCzGyA3Ss+oND9DeasXJ9LLySOnpHNkwt+?=
- =?us-ascii?Q?+VByvOw4BzfDDdmKmO1f1LCMcWHzQrJRkjqHpraAJSItfjV8HNFQ7giYhHDU?=
- =?us-ascii?Q?cuM9JIVA0lBXM5RLCHbYOla3dtyeLCTeQJtCls8TQpqprqg/mEtmwi1HGGCt?=
- =?us-ascii?Q?hboi71iXvhuiHI9fBpfDvkC0r8uRsRACKRxLf9s0v+bBtRn3vHG8RbsFK/Vm?=
- =?us-ascii?Q?P5PA9H1ZCMvfQprabq2/4rBZ6xycWIFdI7R9Jn55DFnberr4bEEN7s49XIpL?=
- =?us-ascii?Q?s/gUKuik3uYYawcoKa3eX0g2XKBWnoytN09yj/TY40UKQWlPgYzTnD7fuLwi?=
- =?us-ascii?Q?PgLIB5zv9upGyWcdEO/H5dV3AVATPfNkrRC8k1mAzmvidZYXzHsjDiP+8hOG?=
- =?us-ascii?Q?KhFivrtC4mdJE4+8O69eyIsv4g9rKqbfrHmJh2ilc67bmDFv/Drih28Qh1YV?=
- =?us-ascii?Q?Guey2oJCah8VjjGjzA+uFwi5c7y8t3M4Toa3BZy6K3LHi3CApxRvv8qQyJiY?=
- =?us-ascii?Q?z/rsrKK2n/3QrNfnAphISWguttwunwTbXqSI8qjt?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 13:32:05.2688 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc161d93-a5a9-4411-56bd-08de42f0d43f
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001CC.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7564
+X-Proofpoint-GUID: elT-1St2js1l-tmb5GGzKfeyGyJ6JDBk
+X-Proofpoint-ORIG-GUID: elT-1St2js1l-tmb5GGzKfeyGyJ6JDBk
+X-Authority-Analysis: v=2.4 cv=QutTHFyd c=1 sm=1 tr=0 ts=694bf8f6 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=-VEhWQ6g2OJpjJ3o7oYA:9
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDEyNyBTYWx0ZWRfX7qTuEwZ9xfaG
+ 1MT4qPW5rcy8WJDxWuk0+ib0AojVVdlJxxf3DS+kS/uEGyLrSN8QtNyeMIjjhXJ+3TfvgH+9LBc
+ 2gPWeciP1dmKSeAg3ET2xxXSGrlHTj1VRYzub/ZVER04gtfeh7YB7CCCpQG66oJP/8M9CH2XBsN
+ a2v6cKu9+LCPjZLoS9Z7XiFTWT/TTrNRzAjSgRXheLsi6Mzp1QQz4m6ddDi/SE9xP2Wylx1z9h3
+ uaZON+QDiIIJQKGKv9/adHVaIhirq+I1oc0hJoT+V3z4AywcERHD3PeyW6BsHqbhgERpP1pSIov
+ awqkE4u1cPNwVTmi9NlDzLpKinD4GmgpGzGWl8yp2wy5HhXbMrvZI7bTX4wGJDS0vtsXRY3+W4W
+ 32xX8bDSPxm3zDr8M9vIcIoo0HHooZ2W+2Pbc8XwTnIPZg5xnUzjS5TxxhU7j3qV9ZMxXTPImmG
+ VShi/oTnX5LKTA6J5Aw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-24_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512240127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,141 +135,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the AM65x DSS bindings to support AM62L which has a single video
-port. Add conditional constraints for AM62L.
+When a DBC is released, the device sends a QAIC_TRANS_DEACTIVATE_FROM_DEV
+transaction to the host over the QAIC_CONTROL MHI channel. QAIC handles
+this by calling decode_deactivate() to release the resources allocated for
+that DBC. Since that handling is done in the qaic_manage_ioctl() context,
+if the user goes away before receiving and handling the deactivation, the
+host will be out-of-sync with the DBCs available for use, and the DBC
+resources will not be freed unless the device is removed. If another user
+loads and requests to activate a network, then the device assigns the same
+DBC to that network, QAIC will "indefinitely" wait for dbc->in_use = false,
+leading the user process to hang.
 
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
+As a solution to this, handle QAIC_TRANS_DEACTIVATE_FROM_DEV transactions
+that are received after the user has gone away.
+
+Fixes: 129776ac2e38 ("accel/qaic: Add control path")
+Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 ---
- .../bindings/display/ti/ti,am65x-dss.yaml     | 95 +++++++++++++++----
- 1 file changed, 76 insertions(+), 19 deletions(-)
+Changes in V2:
+- Add missing closing bracket in resp_worker()
+- Link to V1: https://lore.kernel.org/all/20251223153151.2232297-1-youssef.abdulrahman@oss.qualcomm.com
+---
+ drivers/accel/qaic/qaic_control.c | 47 +++++++++++++++++++++++++++++--
+ 1 file changed, 45 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index 38fcee91211e..ce39690df4e5 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -36,34 +36,50 @@ properties:
-   reg:
-     description:
-       Addresses to each DSS memory region described in the SoC's TRM.
--    items:
--      - description: common DSS register area
--      - description: VIDL1 light video plane
--      - description: VID video plane
--      - description: OVR1 overlay manager for vp1
--      - description: OVR2 overlay manager for vp2
--      - description: VP1 video port 1
--      - description: VP2 video port 2
--      - description: common1 DSS register area
-+    oneOf:
-+      - items:
-+          - description: common DSS register area
-+          - description: VIDL1 light video plane
-+          - description: VID video plane
-+          - description: OVR1 overlay manager for vp1
-+          - description: OVR2 overlay manager for vp2
-+          - description: VP1 video port 1
-+          - description: VP2 video port 2
-+          - description: common1 DSS register area
-+      - items:
-+          - description: common DSS register area
-+          - description: VIDL1 light video plane
-+          - description: OVR1 overlay manager for vp1
-+          - description: VP1 video port 1
-+          - description: common1 DSS register area
+diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+index 428d8f65bff3..53afb647ecc4 100644
+--- a/drivers/accel/qaic/qaic_control.c
++++ b/drivers/accel/qaic/qaic_control.c
+@@ -913,7 +913,7 @@ static int decode_deactivate(struct qaic_device *qdev, void *trans, u32 *msg_len
+ 		 */
+ 		return -ENODEV;
  
-   reg-names:
--    items:
--      - const: common
--      - const: vidl1
--      - const: vid
--      - const: ovr1
--      - const: ovr2
--      - const: vp1
--      - const: vp2
--      - const: common1
-+    oneOf:
-+      - items:
-+          - const: common
-+          - const: vidl1
-+          - const: vid
-+          - const: ovr1
-+          - const: ovr2
-+          - const: vp1
-+          - const: vp2
-+          - const: common1
-+      - items:
-+          - const: common
-+          - const: vidl1
-+          - const: ovr1
-+          - const: vp1
-+          - const: common1
+-	if (status) {
++	if (usr && status) {
+ 		/*
+ 		 * Releasing resources failed on the device side, which puts
+ 		 * us in a bind since they may still be in use, so enable the
+@@ -1108,6 +1108,9 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
+ 	mutex_lock(&qdev->cntl_mutex);
+ 	if (!list_empty(&elem.list))
+ 		list_del(&elem.list);
++	/* resp_worker() processed the response but the wait was interrupted */
++	else if (list_empty(&elem.list) && ret == -ERESTARTSYS)
++		ret = 0;
+ 	if (!ret && !elem.buf)
+ 		ret = -ETIMEDOUT;
+ 	else if (ret > 0 && !elem.buf)
+@@ -1418,9 +1421,49 @@ static void resp_worker(struct work_struct *work)
+ 	}
+ 	mutex_unlock(&qdev->cntl_mutex);
  
-   clocks:
-+    minItems: 2
-     items:
-       - description: fck DSS functional clock
-       - description: vp1 Video Port 1 pixel clock
-       - description: vp2 Video Port 2 pixel clock
- 
-   clock-names:
-+    minItems: 2
-     items:
-       - const: fck
-       - const: vp1
-@@ -84,7 +100,8 @@ properties:
-     maxItems: 1
-     description: phandle to the associated power domain
- 
--  dma-coherent: true
-+  dma-coherent:
-+    type: boolean
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-@@ -195,6 +212,46 @@ allOf:
-             port@0:
-               properties:
-                 endpoint@1: false
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,am62l-dss
-+    then:
-+      properties:
-+        clock-names:
-+          maxItems: 2
-+        clocks:
-+          maxItems: 2
-+        reg:
-+          maxItems: 5
+-	if (!found)
++	if (!found) {
++		/*
++		 * The user might have gone away at this point without waiting
++		 * for QAIC_TRANS_DEACTIVATE_FROM_DEV transaction coming from
++		 * the device. If this is not handled correctly, the host will
++		 * not know that the DBC[n] has been freed on the device.
++		 * Due to this failure in synchronization between the device and
++		 * the host, if another user requests to activate a network, and
++		 * the device assigns DBC[n] again, save_dbc_buf() will hang,
++		 * waiting for dbc[n]->in_use to be set to false, which will not
++		 * happen unless the qaic_dev_reset_clean_local_state() gets
++		 * called by resetting the device (or re-inserting the module).
++		 *
++		 * As a solution, we look for QAIC_TRANS_DEACTIVATE_FROM_DEV
++		 * transactions in the message before disposing of it, then
++		 * handle releasing the DBC resources.
++		 *
++		 * Since the user has gone away, if the device could not
++		 * deactivate the network (status != 0), there is no way to
++		 * enable and reassign the DBC to the user. We can put trust in
++		 * the device that it will release all the active DBCs in
++		 * response to the QAIC_TRANS_TERMINATE_TO_DEV transaction,
++		 * otherwise, the user can issue an soc_reset to the device.
++		 */
++		u32 msg_count = le32_to_cpu(msg->hdr.count);
++		u32 msg_len = le32_to_cpu(msg->hdr.len);
++		u32 len = 0;
++		int j;
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,am62l-dss
-+    then:
-+      properties:
-+        reg-names:
-+          items:
-+            - const: common
-+            - const: vidl1
-+            - const: ovr1
-+            - const: vp1
-+            - const: common1
-+    else:
-+      properties:
-+        reg-names:
-+          items:
-+            - const: common
-+            - const: vidl1
-+            - const: vid
-+            - const: ovr1
-+            - const: ovr2
-+            - const: vp1
-+            - const: vp2
-+            - const: common1
++		for (j = 0; j < msg_count && len < msg_len; ++j) {
++			struct wire_trans_hdr *trans_hdr;
++
++			trans_hdr = (struct wire_trans_hdr *)(msg->data + len);
++			if (le32_to_cpu(trans_hdr->type) == QAIC_TRANS_DEACTIVATE_FROM_DEV) {
++				if (decode_deactivate(qdev, trans_hdr, &len, NULL))
++					len += le32_to_cpu(trans_hdr->len);
++			} else {
++				len += le32_to_cpu(trans_hdr->len);
++			}
++		}
+ 		/* request must have timed out, drop packet */
+ 		kfree(msg);
++	}
  
- required:
-   - compatible
+ 	kfree(resp);
+ }
+-- 
+2.43.0
+
