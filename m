@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE626CDD168
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6851CDD132
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9488A112CA0;
-	Wed, 24 Dec 2025 21:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3067A10E3D5;
+	Wed, 24 Dec 2025 21:41:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d0b0GmyA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fi3VNGOZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9896010F0BB
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:21:21 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-64dfb22c7e4so815570a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 13:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766611280; x=1767216080; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fMPdGvIlNbNvNMSLf1GQSer9rjpaVmriiyM8Ev5jbvQ=;
- b=d0b0GmyAPs+AvCxgPosFqF1oxyj1HBFB78sstYK65Ych4Q0wUgCe3empGMPc8QIezx
- 6U1l5y9un8n+s49kc9H6WF5tI8Zd3Z1zMYhZFhYpPZylJXo1cscge+Hh/SmjkJVrwh/6
- WzLVC2CK5TMZwsE0oBsSIFBCqekLdaW1lrdUju0bhLHCSIv1eFCcmAS56QrpOv6p/PEm
- 5cOREoIqs7BcekZmFwtWpQcx8n5sjBOS3H3gqhBAiIirVJ5GnXFXU2vWCIIT5XkCztRZ
- LALiSR4ktLg4TvNAZ+c6O+UxxQQvGKP7wawCSymcHy/lsF/E3yofirXmL+572YoRASvQ
- nlTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766611280; x=1767216080;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fMPdGvIlNbNvNMSLf1GQSer9rjpaVmriiyM8Ev5jbvQ=;
- b=ARrVZMpCJzHyiMwQbtAC3Osf4B7KDlxchTvcdEqE8ZeeubeuPDAmiNKkE2QsENcIUt
- py/hdMDugUEj3l7qf9YkZlZwSvXceLoHe7JCazohSp2Hy4SLSQyagtFYQ0R2XwkqxfWj
- b1q3e8SY6vJgF1cFWXdh9H9Xj4N47g0UaPDtCaA4CJLJCRGT+GNu/CommFGmPww4/I+b
- 84oN6MsoOaVKWs0nz0Cln8iKfD3QSMvFyuaK+35X0Zhq0N0P459UZDodat16BLcHmJsJ
- VkgLxWPje8SvQrfiBbJSIKnDVW64V8Z4TuaxxxrtZAt049UJatDc+GWBd3X4i5qFDQ8F
- yyHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX77rEnyDj9gkxFt7IhcL5lSrBX8Ob1XbYUGeAJtJWFa+2bXZuOXcUnYbXOfglUstOFTwDF3+4Elew=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdkF12iUWx/fWBDz5P4ohnPrwbn3dvZDWQAzC2G1s8GmDqXl8j
- rjn7o9C0/Uw0VzfD5nF9nGqYY1ZjYig4IJ7VVwORabB/b7aGdPXmlLU7
-X-Gm-Gg: AY/fxX5yuePaTbpZ48VHSsI80aZmwffXekttJoS7NLyDxMPqCwa4a+d9W8vTY3BK7Ff
- DhSObpXrVrhAp1ljGYTj2H2mHKfmw728TEdrgb02ZitAw6UPoTASLIJD4IB3L/yBFln+ZASdvBO
- DL2caoAKm/DlqVBbwzzh95+Mh1VM75R8alK0zWq2vFP17al7x5LbJEMsK0hqK1EXak7503xkgmj
- Ykr6375PBvidjKAhyQ2QvxDST7pmawVfoFUwUbgUGKMO1klU1f0nkUQDCxue+PSrHK492vDbxJ3
- YiXnl17o2NoCUhEyHBGFJfciXYWlyKIQlt/m4f/J2F+JdjarGicW2u0wmtbeykrX5VlgHR0iZ1s
- 3zICnnaNtx2bB6Qi3EljSr8JBcbyuW2VuF6I+SLFxgIPp+aJiH1FTug0BvgacxNVaKmLiksWzoN
- 3XjqrV82M7m/OeO9M=
-X-Google-Smtp-Source: AGHT+IGfkWtEmmnyO9BFQz+C5HCNcReD1s5iNrq6BNCWUfVYA0gfccxmRylORViONZyVJ5yDav7xnA==
-X-Received: by 2002:a17:907:96a3:b0:b76:3472:52df with SMTP id
- a640c23a62f3a-b803564175emr2292921066b.10.1766611279466; 
- Wed, 24 Dec 2025 13:21:19 -0800 (PST)
-Received: from osama.. ([2a02:908:1b4:dac0:7e77:d48f:f25c:1b21])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037a60500sm1851913766b.13.2025.12.24.13.21.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Dec 2025 13:21:18 -0800 (PST)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
-Subject: [PATCH] drm/xe: Add missing newlines to drm_warn messages
-Date: Wed, 24 Dec 2025 22:21:16 +0100
-Message-ID: <20251224212116.59021-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B5110E3D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:41:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6724B60010
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:41:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CC6C4C116C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766612466;
+ bh=8H/o0PZszVlMuaY8DOT7jGxZt7c4fgbfqG2JBLwj190=;
+ h=From:To:Subject:Date:From;
+ b=fi3VNGOZ2BsMAJcQwIVbGQbLZKnxap0gL3Sb4L83m/CP2O6IW7dDABzKDmeWBQxV/
+ SdfCQHgz5dz2OTnSO+u03kJPNpuqaxlpl7iaT/STbkihFaofgxdb+kKkFOhhpKKPJC
+ cfwW0AhZn5WpQfocxfp3VYQnuKkVuVpqbxjzqjDVGPYVm7/q04m9luEPBWfn/m/gVH
+ ijPROwlb4j2FpFnpF/lWzokSED2Oa/5lU+VYMmzClNMxogkQOnz45zUiTNQTWi2THs
+ FxnkSoknxx2W+kf2x31FJgEmodAuTwBW+4F6QvFOJPARIdxuMt25jlGwaBp+9El4+M
+ pz5biGZ6W3XHg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id B2FB7C41614; Wed, 24 Dec 2025 21:41:06 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220906] New: Regression: 4K display output fails on ThinkPad
+ Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
+Date: Wed, 24 Dec 2025 21:41:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: danandrei@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-220906-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 24 Dec 2025 21:50:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,83 +75,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_warn() calls in the default cases of various switch statements
-in xe_vm.c were missing trailing newlines, which can cause log messages
-to be concatenated with subsequent output. Add '\n' to all affected
-messages.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
----
- drivers/gpu/drm/xe/xe_vm.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+            Bug ID: 220906
+           Summary: Regression: 4K display output fails on ThinkPad
+                    Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1,
+                    broken in 6.17.11)
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: danandrei@gmail.com
+        Regression: No
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 79ab6c512d3e..1349dbc6f0ab 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2187,7 +2187,7 @@ static void print_op(struct xe_device *xe, struct drm_gpuva_op *op)
- 		       (ULL)xe_vma_start(vma), (ULL)xe_vma_size(vma));
- 		break;
- 	default:
--		drm_warn(&xe->drm, "NOT POSSIBLE");
-+		drm_warn(&xe->drm, "NOT POSSIBLE\n");
- 	}
- }
- #else
-@@ -2283,7 +2283,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 		xe_bo_unlock(bo);
- 		break;
- 	default:
--		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 		ops = ERR_PTR(-EINVAL);
- 	}
- 	if (IS_ERR(ops))
-@@ -2552,7 +2552,7 @@ static int xe_vma_op_commit(struct xe_vm *vm, struct xe_vma_op *op)
- 		op->flags |= XE_VMA_OP_COMMITTED;
- 		break;
- 	default:
--		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 	}
- 
- 	return err;
-@@ -2750,7 +2750,7 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct drm_gpuva_ops *ops,
- 
- 			break;
- 		default:
--			drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+			drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 		}
- 
- 		err = xe_vma_op_commit(vm, op);
-@@ -2812,7 +2812,7 @@ static void xe_vma_op_unwind(struct xe_vm *vm, struct xe_vma_op *op,
- 		/* Nothing to do */
- 		break;
- 	default:
--		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 	}
- }
- 
-@@ -2989,7 +2989,7 @@ static int op_lock_and_prep(struct drm_exec *exec, struct xe_vm *vm,
- 		break;
- 	}
- 	default:
--		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 	}
- 
- 	return err;
-@@ -3228,7 +3228,7 @@ static void op_add_ufence(struct xe_vm *vm, struct xe_vma_op *op,
- 		vma_add_ufence(gpuva_to_vma(op->base.prefetch.va), ufence);
- 		break;
- 	default:
--		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-+		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
- 	}
- }
- 
--- 
-2.43.0
+Created attachment 309076
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309076&action=3Dedit
+dmesg boot output for 6.17.1 & 6.17.12
 
+A regression in recent kernels prevents 4K output over a ThinkPad Thunderbo=
+lt 4
+Dock when using amdgpu.
+
+After upgrading to kernel 6.17.11=E2=80=91300.fc43.x86_64 on a Lenovo T14s =
+Gen 6 (AMD),
+my 4K external monitor connected through a ThinkPad Thunderbolt 4 Dock no
+longer works at 4K resolution. The display only shows output at lower
+resolutions, and even those modes are effectively unusable.
+
+This is a regression: the same hardware setup works correctly on kernel
+6.17.1=E2=80=91300.fc43.x86_64, including the version shipped with
+Fedora=E2=80=91KDE=E2=80=91Desktop=E2=80=91Live=E2=80=9143=E2=80=911.6.x86_=
+64.iso. Booting back into 6.17.1 restores
+full 4K functionality.
+
+The issue is fully reproducible by using the affected kernel versions with =
+this
+hardware combination. No out=E2=80=91of=E2=80=91tree modules are installed;=
+ this is a fresh
+Fedora installation.
+
+I also tested the latest Rawhide kernel (6.18 branch), and the problem pers=
+ists
+there as well.
+
+When attempting to switch the display to 4K, the kernel logs repeatedly show
+the following amdgpu messages:
+
+```
+journalctl -f | grep -i 'amdgpu'
+
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:37 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:38 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:53 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+Dec 14 22:37:53 GOTO kernel: amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX=
+ IRQ
+callback: link_index=3D5
+```
+
+I noticed that Bug 219748 (Pluggable UD=E2=80=914VPD dock resetting on AMD =
+hardware)
+shows the same repeated [drm] DMUB HPD RX IRQ callback messages. The hardwa=
+re
+is similar and also involves a USB=E2=80=91C/Thunderbolt dock, so this may =
+be related.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
