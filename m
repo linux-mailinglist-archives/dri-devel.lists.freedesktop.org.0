@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D2DCDD135
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F124DCDD138
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 22:43:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A4F10F0BE;
-	Wed, 24 Dec 2025 21:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6701610F0C1;
+	Wed, 24 Dec 2025 21:43:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JzfoIoiY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m+lOx+PY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD3410F0BE
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB9710F0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5AE5D41E4A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2F3DBC116D0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:11 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5375B4037F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 349D3C116C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 21:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766612591;
- bh=75zPXjlQO20+ULCwOhxvmVYo4FvS/W41NWkgPg2BCUM=;
+ s=k20201202; t=1766612599;
+ bh=U7CwrF2Tk2qPRDhXvCLkUBVjmXNcwKZ+VUm2o0HCZ/g=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JzfoIoiY/qfLD+8hjP8OEFsXR4VN6oSEFtDhyMXwLB6CrlgPipmlgmew8HefbPUUD
- p6rtrLb0Dqt32LuhFti9cv32/ztL252xWvKzG6bflsQQsMd/6C0H057oz23T9rfmjt
- rzeeXpFyVIWrkI2lEQQ7F3gPk16Jzcb9Qx67DwagxrP1EFULBrRSiJub/fVnbe22xK
- qb0mskSKE/VafW4iatl/INVNXdqqzUfPPgN6ZCX0mddC7NHhs2LQUefAEj4ULBC97A
- Xtl7naiux/nMdjdaY0eaZYefvJb7bYX4Gupaccp3o7HJepIWE75HEX7Md5tR2cfrfk
- zFq2NK2HHlbxQ==
+ b=m+lOx+PYyjUFldUfu5T1HQEWDE34RyN6NNPkJ9+Zh/eIrleDSRcg2ApjlaOVYGFNY
+ dOAKAF6TkhI79IxEX2c2jOMzDjgDHLZKvxyRk+UtFvKfiA+jOvMDNApO6op9GwBX8h
+ 3Mo06lQh2PmSQlyZb5SyZWeAXqz6PtmJpCHqKiXppDU+sdKquozrnxDPSlNBdxFG9H
+ /erH3WK/l50Rn/KYHI0QxqPrpzMTigXZFAZcy8EiSrQMwitBotXzLydXR+3Porw/p6
+ zbnSo8od8Z21dqL0J8WWQwPrqX4/4FrTQCti8yNcNhSbkdaxs/uQ4L0hJRxNocrF3o
+ Nz/x+WZWJLwUg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 23157C53BBF; Wed, 24 Dec 2025 21:43:11 +0000 (UTC)
+ from userid 48) id 2A41AC41614; Wed, 24 Dec 2025 21:43:19 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
  Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Wed, 24 Dec 2025 21:43:10 +0000
+Date: Wed, 24 Dec 2025 21:43:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,8 +51,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-220906-2300-ZvGPWijHll@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-220906-2300-9CKJLzJdxU@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
 References: <bug-220906-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,7 +81,7 @@ Andrei (danandrei@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Regression|No                          |Yes
+     Kernel Version|                            |6.17.11
 
 --=20
 You may reply to this email to add a comment.
