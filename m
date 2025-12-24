@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB45CDC9BC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 15:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7108CDC9CF
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 16:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC2210FA96;
-	Wed, 24 Dec 2025 14:59:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1353A10FAD5;
+	Wed, 24 Dec 2025 15:00:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="J1EQHv9O";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="MPfKQr+2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D817210FA96
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:59:02 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-37fccf7035aso48864261fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:59:02 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E48010FAD5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 15:00:21 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-37bb8bef4cdso57159481fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 07:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1766588341; x=1767193141; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1766588420; x=1767193220; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tJSPxR8UhxFNBwyBL3D/8cFHFu7FlXsGZvFbeShmvQY=;
- b=J1EQHv9OjVT8zcgZgiZmIC6iQrt91Tsy6WX53UH+bY5n/JXd+nJB0tlVPbM8cuEZ3U
- ssFCWJ7dzjfL/crnEVX2ZfmF1c1j7A4oZ9WzaQ6yDKKyANCPPE4N2GUFmbiBo+FxVXTv
- U4jcDMBl6A2oqRXpWFZ5LjcBLraN7iKehJIUYi3POJziYquIz0hYDGZ4RZTPBsk/mr7O
- y3MAtOJXNc9tdzENY8ib3CtTdGIX9PvRrPZRMc7Rb6QByhqv/Enl0CXcS29G9pVt5Fky
- f6OXWtUYt5zxZf1aWxtmXWOQ5gWigI8r+nkHoeV9zvJL2rNlxSfzpOvkWUYgvP4lDz96
- 5XSw==
+ bh=+VotDjDGwrSy++mMVTEfhBltHueShcKJfP8HrsLcqqs=;
+ b=MPfKQr+2ynGfjWfvsOwbQMoeDLfR9bBZTaOETazerkGhX07cxHiz28ADP9+K+kW7NF
+ Ztmx4EE/lmuMRtNduZiPVsri4Prv/mZy0Hz/wSUgSY6hBjb9NPKoI/EJ5mVIhkEPafM1
+ MSaglGsXcAFrbjR8JYAOJlSNNcxtXMgzElmhJnfLy/LiF0Qe+UCPN5AUqLz0ogUZ4J0Y
+ 1exUfzMSSYc1ow8w4e9MPl3vAjKGhcfic1hA4+qRK6V+ftrDcNCJopvvMOwefLc1K9EU
+ wUuOxKSvOAM9uE4oCq8LM43PSjhWwDQIHkoxATDb1/FM01mvFceGio+Ut+H8RYKQXmKC
+ D2lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766588341; x=1767193141;
+ d=1e100.net; s=20230601; t=1766588420; x=1767193220;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=tJSPxR8UhxFNBwyBL3D/8cFHFu7FlXsGZvFbeShmvQY=;
- b=wi30MUiMdlA8sKbbmdvxNlFmrH5c1T3MMRQmJJmmHbFdh8I0v/f27avCBRxPU2AIXq
- bPnZ5pp/GsyuVUaJSxq/Bp8ZneCruRRALtifgKOs8tF6TDrx9WeRPG/kVR1GDZvvbITd
- iuVBsmmfsYltNHdPAqXHiVwJdNIAob4yDzXECbMZuvrzSEgq3/pEKzBlVtzJdpXqWWex
- XiPUI1i0vymR3o19JZkWYPXfTpo6BZqacvCn3q0rOawsuhyQoZN9t6huX3Z0ORrFDsVl
- qSKIjH8bQV2hK4NSbOXrHfVDU70OLXB6huAICYST6RSdgwYzIE1FRva2fL0TOwoqBUKd
- WpVw==
+ bh=+VotDjDGwrSy++mMVTEfhBltHueShcKJfP8HrsLcqqs=;
+ b=vrbaAonK2sHIk3uZzcClmESpD+ff7r+oEWtEJNBewKDZYMEP8eS5bfDlicrlGNVlB0
+ NFlMxXewDENFc9Qn4qsinQub6WR9Xw5Zj+YxXBezJoMdnkuINvRos3TMnaUWjlLZmFn6
+ sJZtgQ6B9j3Xz21H6ABTwK9FABBE2gPwEmV/TMUws59fOyXqdUH8UIOh1SCD9ZrQSYyJ
+ EruUcWdXyPqJy8b6R59vUtwGSCrLzyHWvvzRHrFUfaElNIBkNbqLCxzpU4+tVDyKY7oU
+ PXJkdO1rZFG8PVj9dTuVg5G5jU7hWXYl9bfBlL6VEnspSWtUdaWTe2nmQBdoAbv0rFSm
+ Qyhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWSLQQ4DSqdkTNGdPNp1AmPoE269/y1Ue84Jb8Sff7q1nZHYs22snHuG/WBR4B27wGgjO8BSSLOVU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEfPyVPEVhvibg3ByTgwyvt9picG5A8uBBYua2GelEzObtr3qt
- Rmx6d4tJ7iJ6lSGWMlZwzOK+TDW0QsbDiczjZ459CB+pYNGtXHk80tKhpKXNaJoSG4P4YRQADWz
- 9vR1yb+kJA5EWzHxqiarhmq3Wzth9pA3w4qXU2z6SgA==
-X-Gm-Gg: AY/fxX6ZthrBxZV4VNV7gLc8ms+VUVvsY0B1OwwwCoA8gR/hgfoIP2NTFVSj0XVeS37
- 0dh+h1BKe1Xxk1H6nTU7DESmTqV48wHxDTk5WRs/9sLRlZKVbS/3Bi29PdV5Lee3VT6u8DALS7f
- 04fFD3cRHN9dP06HuJSkXaXOgkV1iu5F3kgtRDX0KHVz2VtfHI8DQv7y95lNOKrHdJeKrzaTunr
- xond3f4oL4ogpPBt9O6mrVTTu9B1QBt5au6C9UUlWb2hioHfatdgXHdG2MxUfeU5DYxKu4bs6nv
- vJxKp/rWkLxckAIxAZvgKgGN2x2Z
-X-Google-Smtp-Source: AGHT+IGQhEfiAp7epeD7nUp4t4mtwvjc6bbHXqjNCVzBykh1lZIpLFou6Qiz3Q2qvRK+dFrpCnKKTDTvhHUcv8/kB7s=
-X-Received: by 2002:a05:651c:199e:b0:37b:af2d:13a3 with SMTP id
- 38308e7fff4ca-38121552c00mr62822271fa.7.1766588341183; Wed, 24 Dec 2025
- 06:59:01 -0800 (PST)
+ AJvYcCWkPasP6+x3W5Jyc8mSoQmX294OgGlubCTY8y70Ce96DxjPUoGUQQ+tT/5rOxDfvHBpo5dvjQFbPU0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0fszK4nYunuZxnI0yAccGEmCuV9IYYocabognMMgBMy5DYzen
+ y88IDteVC4El2GzyhTzub8wc1JaaiCDxTnWe3ItO8uvX0TgZp7uCk4SPn+KoV7TuS3NhqDOiG5i
+ Bq3a3oofPOZKaAUfpJsQGUpYfIm/RkKjDy5AwlsNmLw==
+X-Gm-Gg: AY/fxX4tu3lLG/wKL25GQnfAQNlerwvi4DYk8Zq33atgcDUNlNd2c8zCSkeTE1K09u/
+ 7OnC3/VZV7RorzF6V+eAnIrKr43+gMhe1oUMfg/8a6gXhkFNHwJmY2xlE4lx+zq4yyr+iioAKLS
+ IhOtS6EzS5t30+Li/7KQrFplEscq+T/+yfM2bq0zZSzBUVpF9Hrs2TVdBtcxsTVkWHn1zvUgkrF
+ 3APWj+QlaMbbpwd9h6EOAHZO2pz3hXoQVMvMqc2BBws9wXvdEexCj2bPVOj4oIgzrzFwc6R9jFp
+ pqEQMwdjg1Q2NWnOhRPA/ARE/jJ/
+X-Google-Smtp-Source: AGHT+IEY4terFFfT3m/yvNBOxpR07bNvu0VxNYVLrTFNZFhSTLAl6A2ZhWcpu+mDMsOePnj/FyvOQzhiynl01nwslsE=
+X-Received: by 2002:a05:651c:31d6:b0:37f:e22c:5ddb with SMTP id
+ 38308e7fff4ca-381216b9300mr59739561fa.38.1766588419743; Wed, 24 Dec 2025
+ 07:00:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20251104165731.315074-1-marco.crivellari@suse.com>
-In-Reply-To: <20251104165731.315074-1-marco.crivellari@suse.com>
+References: <20251105101134.82064-1-marco.crivellari@suse.com>
+In-Reply-To: <20251105101134.82064-1-marco.crivellari@suse.com>
 From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Wed, 24 Dec 2025 15:58:50 +0100
-X-Gm-Features: AQt7F2qU-bvs5vr-2qb_bO3KnERXTh-83dzfK1rp1UStTc6vL3BzlMtRZZoAF2g
-Message-ID: <CAAofZF5c6ar0EY4dt_gpWyb_HPRF+uG2DVdC=+AY=31WfTJNxQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/tilcdc: replace use of system_wq with system_percpu_wq
+Date: Wed, 24 Dec 2025 16:00:08 +0100
+X-Gm-Features: AQt7F2q8oqON58GYql7t0ISPihh3Qp9rUC350VEE9YRWde48dDlVG3qTTYoJsb4
+Message-ID: <CAAofZF7Nd6GJH5Au3qhwFv-i4h2QwnxBRuVkjATf_QM1tNquzA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vc4: hdmi: replace use of system_wq with
+ system_percpu_wq
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
  Frederic Weisbecker <frederic@kernel.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Michal Hocko <mhocko@suse.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
+ Michal Hocko <mhocko@suse.com>, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,17 +92,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 4, 2025 at 5:57=E2=80=AFPM Marco Crivellari
+On Wed, Nov 5, 2025 at 11:11=E2=80=AFAM Marco Crivellari
 <marco.crivellari@suse.com> wrote:
 > [...]
-> ---
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Gentle ping.
 
 Thanks!
-
 
 --=20
 
