@@ -2,176 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43024CDCFF0
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 19:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C39CCDD0E6
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 20:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0458F10E0E5;
-	Wed, 24 Dec 2025 18:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F07E210E09D;
+	Wed, 24 Dec 2025 19:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oIAG4+b5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ayyhxi39";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA0E310E0E5;
- Wed, 24 Dec 2025 18:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766600898; x=1798136898;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=doS7EfxIkpKYvGUDcTI+V/QVevE3owIqPsS8A2nFdrk=;
- b=oIAG4+b5hveVfvJkaxrs2FU+L8+RbfcEs5BL3/TqYL/2Snx2pSjL8avM
- BXSvK7TXE9cLi/VgqxG3I4gauR8XdGgQjyPfmevoBvy9b3v1enyUXm1KK
- b1jX67ea4NKNV2Aj58JbZxb8cozATkoXyn9MlfD1qRg4x44t6pFJzstZO
- i0+zAp19qZNtIZs8Y1+4w3eUtyzLL1MWnRRS04Bgwq3V3GzynaPs/IeS8
- SmK12LaWYWUEwnr4cPE/yceoROOt+CUtmtI324kV4o+eEojqpTHYhSR+H
- tgdwnSI+NIH2IBIXqffQHnffUnTc61GS0eGTvgYhVTmebRn6iSxe8d+kT w==;
-X-CSE-ConnectionGUID: 34Bne7AFQTaqabwKQInSgQ==
-X-CSE-MsgGUID: q4vL0X/aSDmgHf7SE3sg9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68317807"
-X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; d="scan'208";a="68317807"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Dec 2025 10:28:17 -0800
-X-CSE-ConnectionGUID: cowL/uvMRm22cJYR1xSjnQ==
-X-CSE-MsgGUID: 5lgPz/VmT+mjtccNUFMDIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; d="scan'208";a="223551136"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Dec 2025 10:28:17 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 24 Dec 2025 10:28:16 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 24 Dec 2025 10:28:16 -0800
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.3) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 24 Dec 2025 10:28:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bu+V8HnPuaclElFH7Cg2g8WMQHZ1ivriSYjvbxotUTWN0t9o6sh2cB+yiasXEhZEmk+EZVlYz7Px119/sKSl1fEgfD15QiSNOb5fwQUZ7SeDncyyoyjP0X01pN/MkYB3D/c65rVUihPD3wxP1cA8CZW0nNFPxyhWQeWljIz15DhBKh0vk4VV5h+7EjJRZ3aub4oLckc8G1M6xeL9JQvWP4vh9wweWnGiuZrbmm9O0ZobUgoS/GWz9HmTj3vzksLx2GgGtHpv83gkAea5JpzxgUJX6tuCJqBIKxDBfc0n2UVjgsGQrs8zSeQohGeic7rBVSNqUN7lZ7HtYzEWppoGFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=38vzcJM1pef65RZjKh83q63pVCk73o/P+Hds8PTlDVw=;
- b=sRvdhMBCoRZ0e+IBgGpy5vtB0PAk82Ri1Ao9ftK7yptfST7Bt9Mw9Iv/Gd8BGQleSJgxq5yfHzdEbduANQOwGTpdL3el9cHXkKqBOqyssK0tzjsa91a4psazA5WCUMA48WT8JGqqsR//mSfkhX9FEiMkSEv/+OWwagSROk9YXsRasIdpGn3Dj2kOK/Em89As0bivmG9U2l9oNyvrchBRIMLPOQl5hqLecLz8uBubEZszBsgo9s2fFS0zJFZ4vKE+ZzyYvgjP6LTfhAzAgBQhAyyu5rLE5SGh+/TqI5ZSocIJwphPNO/QWn8ye9DuMDSthOHQl2rg0UJRfZUMGRVyCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MW4PR11MB6957.namprd11.prod.outlook.com (2603:10b6:303:22a::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
- 2025 18:28:13 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.008; Wed, 24 Dec 2025
- 18:28:12 +0000
-Date: Wed, 24 Dec 2025 10:28:10 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Marco Crivellari <marco.crivellari@suse.com>
-CC: <linux-kernel@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>, Lai Jiangshan
- <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko
- <mhocko@suse.com>, Lucas De Marchi <lucas.demarchi@intel.com>, "Thomas
- Hellstrom" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/xe: Replace use of system_wq with system_percpu_wq
-Message-ID: <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
-References: <20251224160026.124106-1-marco.crivellari@suse.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251224160026.124106-1-marco.crivellari@suse.com>
-X-ClientProxiedBy: SJ0PR13CA0240.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::35) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAA0B10E029
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 19:59:14 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id
+ 6a1803df08f44-88a3d2f3299so72699786d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 11:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766606353; x=1767211153; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=suWHoCdjES5o4GWEkjKVrlTNOfdwujoGI0MclaECRlk=;
+ b=Ayyhxi39Jo3nJI4twlKdH2IjxLQO/1SDco9tvsTBR0/uFIbeL7H/jGq1jf6nau8lnh
+ Cg5C/6K+yhFUAorRJxBlXZ3x+iZMvZlIoAn0KVRsV4jmmbR2J0kHDKSwKh7cR0ULr3CA
+ uoMZ0ZzwmBpIkaPT8W5v4/UwNqRLb/HcxdHSWM1Sa/daRMI19cv+WlLOT8KTtIkvaok6
+ qEhrFfZ4esTLTmbBOTlSH6mjHBoUc3apBmIMWb5b9v6pMvtQ+TfEhgNmxGKI2XwGzJrP
+ nS/irkhAwZjSBlg7bNeJZKwCRhFG4+Z2wyD4TRp21ggUgPynig6ez/osUNKSr7ml6RkO
+ KZ2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766606353; x=1767211153;
+ h=to:subject:message-id:date:from:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=suWHoCdjES5o4GWEkjKVrlTNOfdwujoGI0MclaECRlk=;
+ b=sO/FULLp33XYoEw738MvxuQEMrLiK9jo2YcaqFpOffl5MxDXts93JjcIGOt5DkNfB7
+ e95DoQ7oKFSIiOEDg7mZTJrWOkwuRiTLuZEJdk56uecu+AaAYaoEJquT+PR0HBHv00yf
+ J3PrcqbQl+pz1rD2xTU4eEc47BemS63LcimQYH50m+8CyLFiOuTokOEW8tyICH6mesuh
+ EpS0BrblJsl2SNNnO0lywPMYqPG5TM7tQRQ9B8rRsiN0k6S2vYJfYJxg8nvSjKqaw3j+
+ E3dyB4zqI5LYLHdqPEMHzSGrxmkHopMWxCJMkFtZpozb2TRNo++4S+oDsqhsLTC8fHHm
+ K63A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWL63+dqLDh/O9bdHyefIBuQUhFtA+v52fEd45MOGN/YhCq3G9y9H696d8s+v7J8tVaU2Pv7J6pVaU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdRlWR8O3iOEyNHN3yAyktjpipUf/MpY0EVZB8/hcpVLAyNruR
+ kzJxTkdRylDZcEDhq5nG5fCFKNTOHBoL5bRuAt0R7izX2juDVo0YOJESZoD5Gc7qOHpesOVX5wd
+ HxhKH6zcMdYbHvylhgBs5vXceEesIU1E=
+X-Gm-Gg: AY/fxX7vN3wMAviJhODKHXs0G9SQRQ6gK0i8N3uxO7YCSzJXysGE7XvWWzKRPVN/SS5
+ 7qIaJouX+3hBaC+lIbRLBRC9QZ+UguKJRBlHrkheDx9s1HTY9zpTFjmdcDDcECFcfcdgmZfkydv
+ kN/2otpVdGsbGlwcZ1EdgeDVEDgiugDgNTm5RMySLETlMCb95cmeLNbFDzfyQrjk/dIGOSGLxGM
+ ECluzk0UpIyqV/7bTlAStH3hzHdtwRX7vZ9OhyTCu56ZZN8QatyRLqgy6X44VIjC0uDG2YUNe2a
+ I1XvV3RdOlwBCPU/J92KNCJ3NyaNIpoWVHbkCGjQBArAOz9t6aBXWN9xW4NM7T9F8rXwhorulWd
+ t5XkIIS53ba3owIuTWWvWo/TkWCoCQvH9C9rFkZZxF7A+X8Y2HHhKBm4zRrZo
+X-Google-Smtp-Source: AGHT+IHfCwHjKpq8B5d2cyOzWcyvnq2tt5eboEpwn9ZY7qdyGeLdVLLo3Jho0y1o836vVE9y+uFXlsJoearAj0wRCLM=
+X-Received: by 2002:ad4:5c68:0:b0:88f:caa1:ae21 with SMTP id
+ 6a1803df08f44-88fcaa1aecbmr184313216d6.32.1766606353470; Wed, 24 Dec 2025
+ 11:59:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6957:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5b977df-d8b2-46e6-133c-08de431a3279
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bZ9QP/Z0U1p/xhIcGdwIuqnYU2Cony6Uxcnu7o/7R1gvJc1EiS+xPgaef5YA?=
- =?us-ascii?Q?CelANx0k5LMIZlHZ8xYnOlkbeud5ExMjp7kczz2PLCG0K+xd1cxpDxPwjkSR?=
- =?us-ascii?Q?s+++UQzLWuWOneMtJTsDBDZd0Z+ibcu6Wn6JXxQgCYpmLgnFxSd7Q6YYJkR1?=
- =?us-ascii?Q?WLvP1OJJdRI4/JM8xS+XW3/4c7fmx+kzAG0r3cEExThVZ1m71+d2rbWOF13H?=
- =?us-ascii?Q?66AcrLFpnQ6DhuB6UcCdbQ7Ei7tkW3bvPTVbpUb7yUG6kHKcVIgzVNBKpws4?=
- =?us-ascii?Q?swIkIHBNj9igCBUU8lswDssleYxaEqpqMbYjRSU7VauLTNN3wt7Oc1Hv856R?=
- =?us-ascii?Q?GVtKfPib/U7Zu7ia+16arnrwjdmcJ60aZ5bB0e0yaHDY/lExMzPFXcqzEvG4?=
- =?us-ascii?Q?Jmx2ZTzr36+HCQHQKfKCQ4tBkrmIZbcdb5wMKJpICAgJHV8mZpbDGiYrf0JI?=
- =?us-ascii?Q?ZFjBx3jgeQMJUVCV9pHRQvKimarBkRkQ3cM5xgvUN+ToSC2eu/pXM3vHiaZV?=
- =?us-ascii?Q?hoCSnoYDmHHV114stHt+elgD4Tzb3T0uFBIA5Y4oJ33HTFY7kwnKvkvsgPNa?=
- =?us-ascii?Q?I/95buxneNpCTHwKAxkT5TBrB7ZQCy6NTC6QPnVqwsa0yXR5wKKV0z2U/2Qq?=
- =?us-ascii?Q?k12Rlyf7X2L+H2ww/eOY2VRh9HOij3VBS8CrrlH7FQPaq0V38bsPQ0GFn/Eo?=
- =?us-ascii?Q?Rx5uV1+ELAwDyYlBhtj0NhqPxPKjFe5a7yB1FOXL5gvbzXzfG4mbhYktChia?=
- =?us-ascii?Q?BK2fkP+NY/VEv4r2pe/YuvUQJU3AdzaVsYBMmpVHjRJo0t6La0fFmzg2mbpN?=
- =?us-ascii?Q?iWGDmD0p3UTlOFM6XQPgQXA0JxPyP8CcZ/4u5dfTo31ONN40PEfNFeCjYYbI?=
- =?us-ascii?Q?ZojyHjW/nuv9DELpCzapvW5ZJ9Z6H4wLMcIZFDjVDtGKs6g+ionp45xatHvn?=
- =?us-ascii?Q?MKY8pya/xN8PTPoPX/2kG2m0/ieAxAjdGYrp2p9ihjX21nZlHEMfPmO1NDQm?=
- =?us-ascii?Q?hb+173Nov0Qaltkki3Drj1iFbXNdIlhbpPXdxQSjC66TVJnP0jvBh2ceiAes?=
- =?us-ascii?Q?eoPkfrqbhRtkagMFZyzFZllubLe41EGQU+p5TwZkSRelgSuCBVn/a0szDKaw?=
- =?us-ascii?Q?JH2n48StJvG3Mg/isouzM0HiokLe6aNaElh126lylAobfaDWqJ9Cpsol+wCN?=
- =?us-ascii?Q?Qrg74B0X2QCc2rq6WZCUZYMuLERTRV+wfvUPCdpXIwX8nhr3sGplpdwH4doO?=
- =?us-ascii?Q?yQxeiFWI0a59RvA1h682tDI79+4+LP3xZC5V15kaBOgWAjcqmn1EkWILOmKo?=
- =?us-ascii?Q?tTHrRS5Y9kvaP6MXmhUcVA2s6kbHUYgDlEZGgkSxVcfpDbrhbksSO/nJbAbV?=
- =?us-ascii?Q?tlweR9qaIVuWdW65NZeBJRF3ME/DtuPNpOWMGuRL9kCw5nqUe1HV0a+gVvcr?=
- =?us-ascii?Q?ROiIVra/Sd6ba0pwWL0ZsyoAQmvjMAoa?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nGp+9kcyzW7h+CPVFRYOdQ06XF3rWD7SIx1jb7PSzAf9GL6UG7XF6bA6XYnU?=
- =?us-ascii?Q?KRPr9uWsano/nwSCreND1e3uRARsx2/hFnGvwlf3EXPUzlXcdiaa1BgKfTu5?=
- =?us-ascii?Q?sKCkXow1J/29ZsuwNBqViQnAQLZPxT1aD01yicECsbskLY5ZWF7Tgd9Xbxf3?=
- =?us-ascii?Q?ABFSY2PUrCcETS84Wssr89cFOqrVY0YZj5sxHZR9xo/iYYuiYlrgZ7/F6M5o?=
- =?us-ascii?Q?uMw0Z3Acw0rXIuXxLEtUuyVDb0qei0CRh+qh1HuzX6ZMCkj5Xu5YT1JS/QEt?=
- =?us-ascii?Q?B7chEWHX1t8I6e5zaP1PTxb/cQF0cnnPYZOFAJZMyW3uQ0N8dj+D1mk6bwWv?=
- =?us-ascii?Q?+Tziv5ukww2zp6Xf/l/mG3ie/XpYqSotahMCwQcFN74IjwIE2ju61YeTQw4t?=
- =?us-ascii?Q?dirbR5jWo3Aw1zzC+mH1bgLZizz3DHLnPFnwTpdXBEPEtK9J1mBivys6L9Om?=
- =?us-ascii?Q?DdCfU6e5zVQhMqG8OP2rRGItiOKCrbR/4jJ+u4L3XZxhH/+RCjHfj7Xd3C0J?=
- =?us-ascii?Q?bOY/W6VTMOcpjtIDVAhwh8QsIpr8A+eyeQz/N+aqUFGhwY7YKELySyQEcpzT?=
- =?us-ascii?Q?a1/V4xS6hPZ9WV5LTUW8X9XdGg6kCpDOD6afre7YUak8rKH11gPae12J/04V?=
- =?us-ascii?Q?Zrfn/WAdAD4r2SQzviwTYCF5wC9z4CyU3x1KzHx1CoPlUqfdI9UV6Gmr7eoK?=
- =?us-ascii?Q?flkLit5bGE9IPZTY62Bq/SjtJQK6KBo+GjeVO5FfdIQciY6Lom3Lx+hi/df4?=
- =?us-ascii?Q?OgcyGRl7SoBl42Oc3ZtWsPEtU2n6bjGHLdhFG7el1x8fJ79ya0GFzMFXeAAo?=
- =?us-ascii?Q?4v6jo9YDqKrTN4J4dwTvdvEjROXwyjG/yEKKj3kRJMr+uPGdEJwj3VUqLKwY?=
- =?us-ascii?Q?LxZ0HC/+16ycX5CM8tH1Y9H9j9ewV2PNEiCsPCw389atZk9A6g4KEO6tEfWK?=
- =?us-ascii?Q?EHRM1l8o0shktQjTXdGRsBdGyBEQdSO4O4Uj8ljDzBcFxPa0D0sO/5pUYFTq?=
- =?us-ascii?Q?hmibsWoivdVAxkiC91y7uOk5Oocejh5LrwU7NiuV8boCFZcsrfkoiKsvU63K?=
- =?us-ascii?Q?II4BFsgeW6XyuHHglwCw7QhNr9PpH/Jk8ADS1Y71qkoMGQwn6VGc3JJX0E/W?=
- =?us-ascii?Q?6H3NGZN6VKqof0GtR4CIANxTlGq+zw/URPHdkcNGj+HFJroQcl4gBzBrc66g?=
- =?us-ascii?Q?KJQGhs37RGtqbkrFHj4zvRoJ1Se6yKswSSq6uvmlbw/Hp7dYAPDrTiXxGkas?=
- =?us-ascii?Q?jQm4ElHwrERLEVRTS9i/QAm48X8fc+IBN0MA7sVIdOQ0v+tmia6XzW4RVsJ2?=
- =?us-ascii?Q?TJm9oTT02zrFeKu7Q2/BgSnyrYcGnVTdFPjE0xX5cpOVqF+uRJyKoqKoD3m6?=
- =?us-ascii?Q?2O8OzBjVYsN7nN1RYGn++wKWsk/Z0yHMZf5IyqK8kGK9nEqRlxe1DGhMVnuK?=
- =?us-ascii?Q?VGD2S6JhyG0/H4V7PxPn5/ebIqbCLRcUYgXc+bOu6PbkSjNf3me6o0976jAi?=
- =?us-ascii?Q?uyblSVwzmnZ+4JBmu7uWMdhyGHgtekMo2AzEv8lTTo57rwO7QI07C49cDhUg?=
- =?us-ascii?Q?iwnfhwKfUHydczyxPCge3yE/T2zPnylgEaNzxosBEsIBFBxFKOeapgOW5Nyx?=
- =?us-ascii?Q?QN1Wjj8NBchBdtqBmlk250nHIn1CGmqhVM8S2koynrFCKgfAyA3oaxULi9D3?=
- =?us-ascii?Q?sfT5uBRAezim66oV0JUDn+50f8B6h0CWHAS6taSoQnqlGgAfnuhCCcxEVS2m?=
- =?us-ascii?Q?DPYR07U4Og=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5b977df-d8b2-46e6-133c-08de431a3279
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 18:28:12.9478 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/gvDG7eNylqLyr/2KEHR6o2jgfSqGXdSUMzX2+Zc229D5zqVkFCRVPzEYxDgQV9Fg4vmnP9+KbZypBVA/ZiyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6957
-X-OriginatorOrg: intel.com
+From: Steve French <smfrench@gmail.com>
+Date: Wed, 24 Dec 2025 13:59:02 -0600
+X-Gm-Features: AQt7F2oXcnv96Cgf1Gx1spIHuWR7s-nnxt45R2cfxdKNyVZzWOMUqpbGH0ZF6sg
+Message-ID: <CAH2r5muA=vzdVeK=-6Du7NdbeWs5xyxZt7AYYKKLoaGNHPW6Ng@mail.gmail.com>
+Subject: Nouveau driver warn on most xfstests in current mainline (6.19-rc2)
+To: LKML <linux-kernel@vger.kernel.org>, robdclark@gmail.com, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, nouveau@lists.freedesktop.org, 
+ Lyude Paul <lyude@redhat.com>, "M: Danilo Krummrich" <dakr@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,71 +82,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 24, 2025 at 05:00:26PM +0100, Marco Crivellari wrote:
-> This patch continues the effort to refactor workqueue APIs, which has begun
-> with the changes introducing new workqueues and a new alloc_workqueue flag:
-> 
->    commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
->    commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
-> 
-> The point of the refactoring is to eventually alter the default behavior of
-> workqueues to become unbound by default so that their workload placement is
-> optimized by the scheduler.
-> 
-> Before that to happen after a careful review and conversion of each individual
-> case, workqueue users must be converted to the better named new workqueues with
-> no intended behaviour changes:
-> 
->    system_wq -> system_percpu_wq
->    system_unbound_wq -> system_dfl_wq
-> 
-> This way the old obsolete workqueues (system_wq, system_unbound_wq) can be
-> removed in the future.
-> 
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-> ---
->  drivers/gpu/drm/xe/xe_tlb_inval.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
-> index 918a59e686ea..b2cf6e17fbc5 100644
-> --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-> +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-> @@ -94,7 +94,7 @@ static void xe_tlb_inval_fence_timeout(struct work_struct *work)
->  		xe_tlb_inval_fence_signal(fence);
->  	}
->  	if (!list_empty(&tlb_inval->pending_fences))
-> -		queue_delayed_work(system_wq, &tlb_inval->fence_tdr,
-> +		queue_delayed_work(system_percpu_wq, &tlb_inval->fence_tdr,
+WARN_ON in drivers/gpu/drm/drm_atomic.c
 
-Actually system_wq or system_percpu_wq doesn't work here as this is the
-fence signaling path. We should use one Xe's ordered work queues which
-is properly setup to be reclaim same.
+struct drm_crtc_state *drm_atomic_get_crtc_state(struct drm_atomic_state *state,
+                          struct drm_crtc *crtc)
+{
+        int ret, index = drm_crtc_index(crtc);
+        struct drm_crtc_state *crtc_state;
 
-Matt
+        WARN_ON(!state->acquire_ctx);
+        drm_WARN_ON(state->dev, state->checked);
 
->  				   timeout_delay);
->  	spin_unlock_irq(&tlb_inval->pending_lock);
->  }
-> @@ -226,7 +226,7 @@ static void xe_tlb_inval_fence_prep(struct xe_tlb_inval_fence *fence)
->  	list_add_tail(&fence->link, &tlb_inval->pending_fences);
->  
->  	if (list_is_singular(&tlb_inval->pending_fences))
-> -		queue_delayed_work(system_wq, &tlb_inval->fence_tdr,
-> +		queue_delayed_work(system_percpu_wq, &tlb_inval->fence_tdr,
->  				   tlb_inval->ops->timeout_delay(tlb_inval));
->  	spin_unlock_irq(&tlb_inval->pending_lock);
->  
-> @@ -378,7 +378,7 @@ void xe_tlb_inval_done_handler(struct xe_tlb_inval *tlb_inval, int seqno)
->  	}
->  
->  	if (!list_empty(&tlb_inval->pending_fences))
-> -		mod_delayed_work(system_wq,
-> +		mod_delayed_work(system_percpu_wq,
->  				 &tlb_inval->fence_tdr,
->  				 tlb_inval->ops->timeout_delay(tlb_inval));
->  	else
-> -- 
-> 2.52.0
-> 
+
+I don't see this on my other laptop (presumably because it isn't using
+the Nouveau driver) but do see it repeatedly on my older laptop when
+running most xfstests, causing most xfstests to fail.
+
+[  303.098179] ------------[ cut here ]------------
+[  303.098183] nouveau 0000:01:00.0: [drm] drm_WARN_ON(state->checked)
+[  303.098188] WARNING: drivers/gpu/drm/drm_atomic.c:373 at
+drm_atomic_get_crtc_state+0x17b/0x1b0, CPU#5: KMS thread/2513
+[  303.098203] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
+snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device
+xt_conntrack nft_chain_nat xt_MASQUERADE nf_nat nf_conntrack
+nf_defrag_ipv6 nf_defrag_ipv4 bridge stp llc xfrm_user xfrm_algo
+xt_addrtype nft_compat nf_tables cifs nls_ucs2_utils rdma_cm iw_cm
+ib_cm ib_core cachefiles cifs_md4 netfs vxlan ip6_udp_tunnel
+udp_tunnel overlay qrtr algif_hash algif_skcipher af_alg bnep
+sch_fq_codel binfmt_misc intel_uncore_frequency
+intel_uncore_frequency_common snd_sof_pci_intel_cnl intel_tcc_cooling
+snd_sof_intel_hda_generic x86_pkg_temp_thermal soundwire_intel
+intel_powerclamp iwlmvm snd_sof_intel_hda_sdw_bpt
+snd_sof_intel_hda_common elan_i2c btusb cmdlinepart snd_soc_hdac_hda
+btmtk snd_sof_intel_hda_mlink spi_nor btrtl snd_sof_intel_hda
+soundwire_cadence btbcm snd_sof_pci snd_sof_xtensa_dsp btintel
+coretemp nls_iso8859_1 mei_hdcp mei_pxp ee1004 mtd intel_rapl_msr
+think_lmi mac80211 snd_sof snd_sof_utils snd_soc_acpi_intel_match
+nouveau
+[  303.098414]  snd_soc_acpi_intel_sdca_quirks
+soundwire_generic_allocation snd_soc_sdw_utils snd_soc_acpi
+soundwire_bus kvm_intel snd_ctl_led snd_soc_sdca snd_hda_codec_alc269
+snd_hda_scodec_component libarc4 crc8 snd_hda_codec_realtek_lib kvm
+snd_soc_avs snd_hda_codec_nvhdmi snd_hda_codec_generic iwlwifi
+snd_hda_codec_hdmi snd_soc_hda_codec snd_hda_intel snd_hda_ext_core
+uvcvideo snd_hda_codec snd_soc_core
+processor_thermal_device_pci_legacy snd_hda_core
+processor_thermal_device videobuf2_vmalloc irqbypass
+processor_thermal_wt_hint uvc platform_temperature_control
+snd_compress ghash_clmulni_intel videobuf2_memops snd_intel_dspcfg
+processor_thermal_soc_slider aesni_intel ac97_bus videobuf2_v4l2
+processor_thermal_rfim snd_intel_sdw_acpi rapl snd_hwdep
+snd_pcm_dmaengine videobuf2_common processor_thermal_rapl cfg80211
+intel_cstate bluetooth firmware_attributes_class wmi_bmof
+intel_wmi_thunderbolt videodev snd_pcm intel_rapl_common i2c_i801
+mei_me nvidiafb i2c_smbus processor_thermal_wt_req spi_intel_pci
+i2c_mux spi_intel
+[  303.098580]  mei mc processor_thermal_power_floor
+processor_thermal_mbox vgastate snd_timer fb_ddc intel_soc_dts_iosf
+intel_pch_thermal intel_pmc_core thinkpad_acpi int3403_thermal
+pmt_telemetry nvram int340x_thermal_zone pmt_discovery pmt_class
+intel_pmc_ssram_telemetry int3400_thermal acpi_pad acpi_thermal_rel
+intel_vsec joydev input_leds mac_hid serio_raw nfsd mxm_wmi drm_gpuvm
+gpu_sched drm_ttm_helper auth_rpcgss ttm nfs_acl drm_exec lockd
+drm_display_helper grace cec rc_core i2c_algo_bit sunrpc msr
+parport_pc ppdev lp parport nvme_fabrics efi_pstore nfnetlink
+dmi_sysfs ip_tables x_tables autofs4 xfs btrfs blake2b libblake2b
+raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor
+async_tx xor raid6_pq raid1 raid0 linear ucsi_acpi wacom typec_ucsi
+hid_microsoft ff_memless typec hid_generic rtsx_pci_sdmmc nvme 8250_dw
+e1000e thunderbolt nvme_core usbhid psmouse rtsx_pci hid snd
+nvme_keyring nvme_auth intel_lpss_pci hkdf intel_lpss idma64 soundcore
+platform_profile video sparse_keymap wmi pinctrl_cannonlake
+[  303.098833] CPU: 5 UID: 1000 PID: 2513 Comm: KMS thread Tainted: G
+      W           6.19.0-rc2+ #77 PREEMPT(voluntary)
+[  303.098845] Tainted: [W]=WARN
+[  303.098849] Hardware name: LENOVO 20MAS08500/20MAS08500, BIOS
+N2CET70W (1.53 ) 03/11/2024
+[  303.098854] RIP: 0010:drm_atomic_get_crtc_state+0x185/0x1b0
+[  303.098863] Code: 04 48 8b 7f 08 4c 8b 77 50 4d 85 f6 75 03 4c 8b
+37 e8 ff 3e 07 00 48 89 c6 48 8d 3d 15 24 5d 01 48 c7 c1 a8 7b b4 94
+4c 89 f2 <67> 48 0f b9 3a 41 8b 94 24 90 00 00 00 e9 a2 fe ff ff 48 c7
+c0 f4
+[  303.098870] RSP: 0018:ffffceb241ac7920 EFLAGS: 00010246
+[  303.098878] RAX: ffffffffc227c10e RBX: ffff88aecbba3900 RCX: ffffffff94b47ba8
+[  303.098884] RDX: ffff88a742985430 RSI: ffffffffc227c10e RDI: ffffffff952b6070
+[  303.098889] RBP: ffffceb241ac7948 R08: 0000000000000000 R09: 0000000000000000
+[  303.098894] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88aec75fd010
+[  303.098898] R13: 0000000000000000 R14: ffff88a742985430 R15: 0000000000000002
+[  303.098903] FS:  00007176c72066c0(0000) GS:ffff88af018e1000(0000)
+knlGS:0000000000000000
+[  303.098910] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  303.098916] CR2: 000009ec01590000 CR3: 000000088791e005 CR4: 00000000003726f0
+[  303.098922] Call Trace:
+[  303.098926]  <TASK>
+[  303.098933]  nv50_wndw_prepare_fb+0xd3/0x370 [nouveau]
+[  303.099332]  ? drm_atomic_helper_setup_commit+0x752/0x7c0
+[  303.099346]  drm_atomic_helper_prepare_planes+0x7c/0x230
+[  303.099357]  nv50_disp_atomic_commit+0xad/0x1d0 [nouveau]
+[  303.099748]  drm_atomic_commit+0xaf/0xf0
+[  303.099758]  ? __pfx___drm_printfn_info+0x10/0x10
+[  303.099773]  drm_atomic_helper_update_plane+0xfc/0x180
+[  303.099785]  __setplane_atomic+0xcb/0x140
+[  303.099798]  drm_mode_cursor_universal+0x13d/0x2a0
+[  303.099816]  drm_mode_cursor_common+0x10e/0x250
+[  303.099829]  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+[  303.099839]  drm_mode_cursor_ioctl+0x47/0x70
+[  303.099850]  drm_ioctl_kernel+0xb7/0x110
+[  303.099862]  drm_ioctl+0x2ec/0x5b0
+[  303.099870]  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+[  303.099890]  nouveau_drm_ioctl+0x5d/0xd0 [nouveau]
+[  303.100308]  __x64_sys_ioctl+0xa5/0x100
+[  303.100321]  x64_sys_call+0x1243/0x26b0
+[  303.100332]  do_syscall_64+0x81/0x500
+[  303.100340]  ? x64_sys_call+0x11b9/0x26b0
+[  303.100350]  ? do_syscall_64+0xbf/0x500
+[  303.100359]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  303.100366] RIP: 0033:0x7176ef924e1d
+[  303.100374] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10
+c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00
+00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00
+00 00
+[  303.100381] RSP: 002b:00007176c7204b20 EFLAGS: 00000246 ORIG_RAX:
+0000000000000010
+[  303.100390] RAX: ffffffffffffffda RBX: 00007176c002a100 RCX: 00007176ef924e1d
+[  303.100396] RDX: 00007176c7204bb0 RSI: 00000000c01c64a3 RDI: 000000000000000c
+[  303.100401] RBP: 00007176c7204b70 R08: 0000000000000100 R09: 0000000000000014
+[  303.100407] R10: 0000000000000110 R11: 0000000000000246 R12: 00007176c7204bb0
+[  303.100412] R13: 00000000c01c64a3 R14: 000000000000000c R15: 00007176c0029c00
+[  303.100426]  </TASK>
+[  303.100430] ---[ end trace 0000000000000000 ]---
+-- 
+Thanks,
+
+Steve
