@@ -2,48 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58708CDC84D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 15:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26486CDC8F9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 15:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A0610F7B2;
-	Wed, 24 Dec 2025 14:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF6610F915;
+	Wed, 24 Dec 2025 14:47:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="NcKKz6vi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com
- [216.40.44.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1CE10F7B1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:29:21 +0000 (UTC)
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay01.hostedemail.com (Postfix) with ESMTP id C29FD13117;
- Wed, 24 Dec 2025 14:29:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf20.hostedemail.com (Postfix) with ESMTPA id DB6C520025; 
- Wed, 24 Dec 2025 14:29:16 +0000 (UTC)
-Date: Wed, 24 Dec 2025 09:31:09 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Xiang Gao <gxxa03070307@gmail.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
- <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v10] dma-buf: add some tracepoints to debug.
-Message-ID: <20251224093109.2fbbe3eb@gandalf.local.home>
-In-Reply-To: <20251224013455.1649879-1-gxxa03070307@gmail.com>
-References: <20251224013455.1649879-1-gxxa03070307@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 556C310F90F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 14:47:16 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-42fbbc3df8fso3097105f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 06:47:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1766587635; x=1767192435; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4t1E/MiUGXvLFw/kkXL4Czha6KPayCy2brE6GCYi5/M=;
+ b=NcKKz6viv0EchhEPQbSbwmDNJlzdcruKgd27+0vUs3s8D30BfBnxTs4f4s30syYa+M
+ lvhshqfB+J75kokOL+3IGbeHtCBoCCDNSXhEw5H9aXPFWXGY6svjFM9gvDik4khpbhY9
+ g/5q119AypwU5zk23iwQcNYDj6xcBOVqhmGnw67qNXG6PL4b5w3O7j2mrJ+SJ3BvDT1r
+ 2IcelqenoK8/DWD0lXrGivIUIW25DOXfEVa6q/9O7HvZeT8ZBev1nZEnk75XUWjSjnAF
+ IlxKZZccj+qWbci5cFsLz5MOPKoM5XhaLmHwJLGwpWUutaljpJRsUCvN1SLvrHk1mdr2
+ b+eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766587635; x=1767192435;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4t1E/MiUGXvLFw/kkXL4Czha6KPayCy2brE6GCYi5/M=;
+ b=fXZaV6bqu76lAv0PAvGWdkV0RYyPZ0UXu8huHHrKtiUhEblw6fZ8wSCvtuDzm2TmYC
+ 9lDdRKfhYj6dk05JhSrNbUfsnZUZCjwh2g4tnV9GAW5R8d3DYnTpLhorDMU8iYBi/mRM
+ e2CX1y5CYnuDhIf8S6dsG0ruItBOVvC66a6LP7IrqlCKlQEPgb/NgjiPa08Q5dMxnb38
+ BCRgDsEjsyq/cVrS3FpcDDDKG7WsLUSFiLYLCELFW1VEcsbGWoppJWQx7vSdBG4DEYQ9
+ 5BnUiXfJeBE8eaPG7APTmrMiAe1CH4ClePn/916pbz8zTnp6apPxvmlg3JgKGPag99sW
+ Uovw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNr7rBbJs10Yd462n7fzPpIicFJmG6XNpxcOGIgbKh7nflQU9coQYsx18qczEzuormumc2tU4G2kk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsHnM5KpjL0L/EL44uawE/vmAN4W5R7/+v5NyxQAmnawnYF/1v
+ sFusC7/Lduc6oOYgNOC2+2JoI/G9vC6hGqwnvlpg5r8ygQSEbWB21nmstCGzQ6/veXA=
+X-Gm-Gg: AY/fxX7BKZvsM3z5Fdov6/3ZCSKeVCeU92mqdQFbDkCL61dsEopfYt9og6YI+0pWoEQ
+ /lpUr13LT/mAaW+Q2WWvU2bnzESZGxg4u0OGwyXhdOmqgrX2ikt18toYJBvjE1/qeaQ7KOT69eH
+ aAovLg7dj1siKe9bLZ9upPYXA6802kDjoQPjWyhrQDjrcQB9vGtnOr/9ViOG4Ir+u7zjTptxjbo
+ g2TWkyDGI7Ttz8xPSWBuz7A/zBW44naa63E2Mt1THRvRu1dWHCAeMz9dYUe8/W7r0kLxZpvX0wc
+ YgrLbu+fD0cDcf+eV8yFvEpVys3RXDTtXY3XxbKpqNjlJI+NiFXtGRccWg9BkSYF4r01QNl3/pT
+ xMQxQoLuLKVANgujoxAa1h73BNPse4wZFzgv7jOqJr/hKbXzjOSfJ/xNO1ZRztSn1a9vZ2yZF92
+ v5xlBrzZIV9y4Eld5qAYW5qGkbxbDLPT5v5S4=
+X-Google-Smtp-Source: AGHT+IEKJeulhrpJLgbK9dpob+8IyJ1NCy1xxCMBiGm/xAEDmeBwBfPB175oOr0phJbTC6PTpIqLpw==
+X-Received: by 2002:adf:fd4d:0:b0:432:586f:2a9d with SMTP id
+ ffacd0b85a97d-432586f2bbdmr11861326f8f.32.1766587634756; 
+ Wed, 24 Dec 2025 06:47:14 -0800 (PST)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-43277b82a58sm1041109f8f.6.2025.12.24.06.47.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Dec 2025 06:47:14 -0800 (PST)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Michal Hocko <mhocko@suse.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philip Yang <yangp@amd.com>
+Subject: [PATCH v3 0/4] Replace old wq name and add WQ_PERCPU and WQ_UNBOUND
+ to alloc_workqueue users
+Date: Wed, 24 Dec 2025 15:47:04 +0100
+Message-ID: <20251224144708.61167-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: a1f9h8mczhiypyrc9nax5roha5mehkw9
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: DB6C520025
-X-Spam-Status: No, score=-0.11
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/VWMdqsvQo2J9WjH900tycJ9+JWRBlC3o=
-X-HE-Tag: 1766586556-832599
-X-HE-Meta: U2FsdGVkX1+3lwMfPTagKWldqY17UsKg76fQJZVkCrs5vxCIsqnyTtR6v0W+Lw6QXlS3bWaKNvLlR5onG9V3A1BdBmj5oJKGQModxmMyUa5xSYsANVCkZHdzEKf4SSWEDXTl2uIsQfvpT0sSxqcR7IaSgG24DTtgHszdEN4g01AXKHA6grdg9I/4tki9pYnAcGiBMOpH78ZsHG3DSVT+iokWOpFtN7KQX9Bxfd5J3Bah0SDhdLzGTlJoRIgv8QeBg3M7Z2DTAxTV1DhXGOrPH8ysnR3Fp0HOEuI85xWukv4zuOEedU+HHDyyTSN75PY+3+8gUR1M0A5VwFdYekBcBaYkclvXAbQ6sgmA5Xial2mqMefxlLFf3gHKczBiWMeaGKV9fBvtNPU=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,264 +96,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Dec 2025 09:34:55 +0800
-Xiang Gao <gxxa03070307@gmail.com> wrote:
+Hi,
 
-> From: gaoxiang17 <gaoxiang17@xiaomi.com>
-> 
-> Since we can only inspect dmabuf by iterating over process FDs or the
-> dmabuf_list, we need to add our own tracepoints to track its status in
-> real time in production.
-> 
-> For example:
->    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
->    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
->    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
->      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
->     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
->     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
->     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-> 
-> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
-> ---
+=== Current situation: problems ===
 
-BTW, it's sometimes nice to have in new versions of a patch with a list of
-changes below the above "---" (here):
+Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
 
-Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gxxa03070307@gmail.com/
+This leads to different scenarios if a work item is scheduled on an
+isolated CPU where "delay" value is 0 or greater then 0:
+        schedule_delayed_work(, 0);
 
-- <list changes here>
+This will be handled by __queue_work() that will queue the work item on the
+current local (isolated) CPU, while:
 
-That way it keeps a nice history of all the versions of the patch.
-No need to resend. Just giving you some advice for future patches.
+        schedule_delayed_work(, 1);
 
->  drivers/dma-buf/dma-buf.c      |  49 +++++++++-
->  include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
->  2 files changed, 204 insertions(+), 2 deletions(-)
->  create mode 100644 include/trace/events/dma_buf.h
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index edaa9e4ee4ae..5e6f65cd0306 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -35,6 +35,26 @@
->  
->  #include "dma-buf-sysfs-stats.h"
->  
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/dma_buf.h>
-> +
-> +/*
-> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
-> + * we need to take the lock around the tracepoint call itself where
-> + * it is called in the code.
-> + *
-> + * Note: FUNC##_enabled() is a static branch that will only
-> + *       be set when the trace event is enabled.
-> + */
-> +#define DMA_BUF_TRACE(FUNC, ...)					\
-> +	do {											\
-> +		/* Always expose lock if lockdep is enabled */ 	\
-> +		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {						\
-> +			guard(spinlock)(&dmabuf->name_lock);	\
-> +			FUNC(__VA_ARGS__);						\
-> +		}											\
-> +	} while (0)
+Will move the timer on an housekeeping CPU, and schedule the work there.
 
-I'm curious. Are the above backslashes lined up nicely in the code?
+Currently if a user enqueue a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
 
-> +
->  static inline int is_dma_buf_file(struct file *);
->  
->  static DEFINE_MUTEX(dmabuf_list_mutex);
-> @@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
->  	    dmabuf->size >> PAGE_SHIFT)
->  		return -EINVAL;
->  
-> +	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-> +
->  	return dmabuf->ops->mmap(dmabuf, vma);
->  }
->  
-> @@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  
->  	__dma_buf_list_add(dmabuf);
->  
-> +	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-> +
->  	return dmabuf;
->  
->  err_dmabuf:
-> @@ -768,10 +792,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
->   */
->  int dma_buf_fd(struct dma_buf *dmabuf, int flags)
->  {
-> +	int fd;
-> +
->  	if (!dmabuf || !dmabuf->file)
->  		return -EINVAL;
->  
-> -	return FD_ADD(flags, dmabuf->file);
-> +	fd = FD_ADD(flags, dmabuf->file);
-> +	if (fd >= 0)
-> +		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
+This lack of consistency cannot be addressed without refactoring the API.
 
-Instead of adding the above if statement in the code, you can make the
-event conditional (See below). Then this could just be:
+=== Recent changes to the WQ API ===
 
--	return FD_ADD(flags, dmabuf->file);
-+	fd = FD_ADD(flags, dmabuf->file);
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
+The following, address the recent changes in the Workqueue API:
 
-And not have the condition hit when tracing isn't enabled.
+- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-> +
-> +	return fd;
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
->  
+The old workqueues will be removed in a future release cycle.
+
+=== Introduced Changes by this series ===
+
+1) [P 1-2]  Replace uses of system_wq and system_unbound_wq
+
+    system_wq is a per-CPU workqueue, but his name is not clear.
+    system_unbound_wq is to be used when locality is not required.
+
+    Because these specific workloads have no benefits from a per-cpu wq,
+    both have been replaced with system_dfl_wq.
+
+2) [P 3] WQ_UNBOUND added to alloc_workqueue (amdfk)
+    This change make sure alloc_workqueue in amd/amdfkd is unbound,
+    explicitly adding WQ_UNBOUND to the alloc_workqueue() user.
+
+3) [P 4] WQ_PERCPU added to alloc_workqueue()
+
+    This change adds a new WQ_PERCPU flag to explicitly request
+    alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
 
 
-[..]
+Thanks!
 
-> diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-> new file mode 100644
-> index 000000000000..2c9ba8533467
-> --- /dev/null
-> +++ b/include/trace/events/dma_buf.h
-> @@ -0,0 +1,157 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM dma_buf
-> +
-> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DMA_BUF_H
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/tracepoint.h>
-> +
-> +DECLARE_EVENT_CLASS(dma_buf,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(	exp_name,		dmabuf->exp_name)
-> +		__field(	size_t,			size)
-> +		__field(	ino_t,			ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__entry->size	= dmabuf->size;
-> +		__entry->ino	= dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-> +		bool is_dynamic, struct device *dev),
-> +
-> +	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(	dev_name,			dev_name(dev))
-> +		__string(	exp_name,			dmabuf->exp_name)
-> +		__field(	size_t,				size)
-> +		__field(	ino_t,				ino)
-> +		__field(	struct dma_buf_attachment *,	attach)
-> +		__field(	bool,				is_dynamic)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(dev_name);
-> +		__assign_str(exp_name);
-> +		__entry->size		= dmabuf->size;
-> +		__entry->ino		= dmabuf->file->f_inode->i_ino;
-> +		__entry->is_dynamic	= is_dynamic;
-> +		__entry->attach		= attach;
-> +	),
-> +
-> +	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-> +		  __get_str(exp_name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->attach,
-> +		  __entry->is_dynamic,
-> +		  __get_str(dev_name))
-> +);
-> +
-> +DECLARE_EVENT_CLASS(dma_buf_fd,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(	exp_name,		dmabuf->exp_name)
-> +		__field(	size_t,			size)
-> +		__field(	ino_t,			ino)
-> +		__field(	int,			fd)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__entry->size	= dmabuf->size;
-> +		__entry->ino	= dmabuf->file->f_inode->i_ino;
-> +		__entry->fd	= fd;
-> +	),
-> +
-> +	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-> +		  __get_str(exp_name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->fd)
-> +);
-> +
+---
+Changes in v3:
+- improved message commits
+- rebased on v6.19-rc2
 
-[..]
+Changes in v2:
+- system_wq replaced with system_dfl_wq instead of system_percpu_wq, because
+  a per-cpu workload is not strictly needed.
 
-> +DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd)
-> +);
+- use WQ_UNBOUND instead of WQ_PERCPU, because this workload will benefit
+  from unbound work.
 
-If fd needs to be greater or equal to zero, you can make the above:
+- commits log integrated with commits about recent Workqueue API changes.
 
-DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
+- work rebased on v6.18-rc4
 
-	TP_PROTO(struct dma_buf *dmabuf, int fd),
 
-	TP_ARGS(dmabuf, fd),
+Marco Crivellari (4):
+  drm/amdgpu: replace use of system_unbound_wq with system_dfl_wq
+  drm/amdgpu: replace use of system_wq with system_dfl_wq
+  amd/amdkfd: add WQ_UNBOUND to alloc_workqueue users
+  drm/radeon: add WQ_PERCPU to alloc_workqueue users
 
-	TP_CONDITION(fd >= 0)
-);
+ drivers/gpu/drm/amd/amdgpu/aldebaran.c     | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c   | 3 ++-
+ drivers/gpu/drm/radeon/radeon_display.c    | 3 ++-
+ 5 files changed, 9 insertions(+), 7 deletions(-)
 
-This places the "fd >= 0" into the code that is called when the tracepoint
-is enabled. If the condition isn't met, then the tracepoint doesn't get
-recorded.
-
--- Steve
-
-> +
-> +DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd)
-> +);
-> +
-> +#endif /* _TRACE_DMA_BUF_H */
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
+-- 
+2.52.0
 
