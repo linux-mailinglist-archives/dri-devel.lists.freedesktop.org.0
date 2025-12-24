@@ -2,166 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FE8CDB08C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 02:04:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489E0CDB0D0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 02:11:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568D010E307;
-	Wed, 24 Dec 2025 01:04:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jlqhWfoS";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gh2c7/bI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A53AC10E2F2;
+	Wed, 24 Dec 2025 01:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF09710E30E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:04:05 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BNGofMU2747198
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:04:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- CHgg9IL7FE026ch0/W9DThBQX+0QxyHh6wbnCQb/hR4=; b=jlqhWfoSus3AvDYQ
- rNg9bNMgYw3zocQdvrdxXy5zd9+nVPnYik3umQeq7Mmy5TnJxJsd+oTkcbSg02YL
- tJRoDy8grzJPGgruw6Maxu+YfHm6coLBuXuwydQGMU91gsjihn+disnYvNpaiYxJ
- ykGhPxjB8pKv76xpOyCwQX9Jwr5wSrHlYaXtQRIGxIyXo3f7NLyRqyhx4oI+pjR+
- k7YNcJdVZdT/hUIB2ZMPZ0Tj1SbWVvQ677CmJNXRRGCrosb8XlOFzSxJs4jjCygl
- uLcRnnKQV0wPWFIkJtQoSnI3IhTy89qHQ5TuDEMuzVZsBV+ghOHxSGDhxLmU5Uk2
- wzPqvQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7h5cv1jt-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:04:05 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-88fcbe2e351so63412876d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Dec 2025 17:04:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766538244; x=1767143044;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=CHgg9IL7FE026ch0/W9DThBQX+0QxyHh6wbnCQb/hR4=;
- b=gh2c7/bIR9bPaHOjE8NFdYFgf1qP/D22RzN8bbmmen9lZtSwj9YtwmH2q82PkZTKj3
- hD2FuYh4KLSbwpp3iQ1Nd5w1DxuTS6LLTZRa90qkVMvnkZckcAprDvNFsS2Op8uNHeNW
- iVALGk1JHGytHUXR3Sjyuh0x9CvuDxXMmOMrg5GoxjxV77ppC1lyjJ+TjNV+gOuFLO3b
- X3FLznbHEe0i0TpbTn35mBt3xGEAUf46i3TAgXKzNe0xKehw4xZaeSYslRfaCiryNhWj
- htwaGkpAsvq87xxAtB9iBUpZ3q+6Eopt/G0v5ocy/Bk6jji1rn4w5fthawBP7Eeah+WI
- 704A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766538244; x=1767143044;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=CHgg9IL7FE026ch0/W9DThBQX+0QxyHh6wbnCQb/hR4=;
- b=htjCNCUC9eeJNSSww7O4daJZR766nOf/uhydre2jnmkbK/QNK2PuRfLqf3sUs02xII
- t+5CLICFNLGIPp39to3SQy0L2naV0gY4u4tY/rBZhq8NsR1snn3qVRpXfJ8En07Mf+Md
- wkbp0EGjzaX3KehtjI8CZF2fy7xc4wiva/m+uN7/1njia3uJ/LhuVlxljHXGI1E2v5my
- WUqstfy3VZAHhbAUCxVuZIBKk50SF0MUA1LirkDrMXKZVQHVCPwvmLdEcGpAvJiXsv/j
- J+5lQWal1QNDn6XN+XGNOvX6mT2WlsM3qgIs/OLxkgwPWTHfDWZIqilA7TMDwIq7jxa8
- 5qEw==
-X-Gm-Message-State: AOJu0YxcjzVlQFVtiHK40peJi3R3g2yo0n8hop3llk/5OwrL+bbpEaJG
- JzdKAhW5qNHXC+Ev18KqeDGHcKaLVrmVAat8JVmrRz4eSDRCEBapyxxDxdSYcc83cMmE88U5ScS
- UgDt1CZsoJd5+cQtr35FnkeDPsGO9A6kKgITIUGHWUfF5D+xLizUbj6dxKpWrcv0pU/MjBdA=
-X-Gm-Gg: AY/fxX7qM6lQ+6QO8oSAL36kv++K6BGz9Ddz4tXX6wGCNWNhxpOB7gTG9tVpmV8fbOJ
- zz1pB1ztqdw4MQ9+aKOFaMPMJWTYst8kC+hoBi6RaPC8EfFJuWwWpV5PmxxNvlMQHMKCrEVdZgR
- oZd+8aT5QcPufPcW1/it7uKAMH3C/b0CwPIhAQ7CW/CWSTowx79CR2iydcxN1fDAWXYVU7XkSyY
- GDkroWmf88uGHKNgHFJAad7d51aYFr6SluHLpYAGxIVPXNd/4uY9kwp0QrFmnp9Cl09qi4i0mDm
- otuVWHcSpuR6ei7Lm5HLYX2HLJWKxUVWd3ICNXvi1chnUPQ5T/BuMkwmGNpmU4Ptf2uevscoiLO
- 5NU/NDYU1+u7XuXaWDud5wLuh8ClP5FVWE7IXWuE3wBMdeBpuizNL+LR5TvB2IfPWRmldEItRx+
- 26RXhbaw29Iism+dHmrvmkc0M=
-X-Received: by 2002:ad4:4e8f:0:b0:888:7d61:b218 with SMTP id
- 6a1803df08f44-88d81d47b5fmr175846806d6.11.1766538244312; 
- Tue, 23 Dec 2025 17:04:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFu7+HH145K//WnhennzRUAZ/qC4YMZkCHH5OOgkflOfdjzzhnjIk8vQXkFQam/FvXO84smjQ==
-X-Received: by 2002:ad4:4e8f:0:b0:888:7d61:b218 with SMTP id
- 6a1803df08f44-88d81d47b5fmr175846286d6.11.1766538243819; 
- Tue, 23 Dec 2025 17:04:03 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a18628284sm4545268e87.93.2025.12.23.17.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Dec 2025 17:04:03 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 24 Dec 2025 03:02:59 +0200
-Subject: [PATCH v3 10/10] drm/debug: don't register files for unsupported
- HDMI InfoFrames
+Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com
+ [118.143.206.90])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3A16F10E2F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 01:11:38 +0000 (UTC)
+X-CSE-ConnectionGUID: H1pX4pXDTgKSu6gQX2U8bA==
+X-CSE-MsgGUID: qU21qwFcSiGZONs5d8diDQ==
+X-IronPort-AV: E=Sophos;i="6.21,172,1763395200"; 
+ d="scan'208,217";a="136357648"
+From: =?gb2312?B?uN/P6A==?= <gaoxiang17@xiaomi.com>
+To: Steven Rostedt <rostedt@goodmis.org>, Xiang Gao <gxxa03070307@gmail.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "mhiramat@kernel.org"
+ <mhiramat@kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "mathieu.desnoyers@efficios.com"
+ <mathieu.desnoyers@efficios.com>, "dhowells@redhat.com"
+ <dhowells@redhat.com>, "kuba@kernel.org" <kuba@kernel.org>,
+ "brauner@kernel.org" <brauner@kernel.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "linux-trace-kernel@vger.kernel.org"
+ <linux-trace-kernel@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2OV0gZG1hLWJ1Zjog?=
+ =?gb2312?Q?add_some_tracepoints_to_debug.?=
+Thread-Topic: [External Mail]Re: [PATCH v9] dma-buf: add some tracepoints to
+ debug.
+Thread-Index: AQHcdCsrcuiWuxu+nkKdQV9ZBkZWRLUv/CFf
+Date: Wed, 24 Dec 2025 01:11:35 +0000
+Message-ID: <49db0d7370224e14ad7788b280bd1602@xiaomi.com>
+References: <20251223032749.1371913-1-gxxa03070307@gmail.com>,
+ <20251223114424.1c539f7a@gandalf.local.home>
+In-Reply-To: <20251223114424.1c539f7a@gandalf.local.home>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.149.36.96]
+Content-Type: multipart/alternative;
+ boundary="_000_49db0d7370224e14ad7788b280bd1602xiaomicom_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251224-limit-infoframes-2-v3-10-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-0-7fd3cacfefed@oss.qualcomm.com>
-In-Reply-To: <20251224-limit-infoframes-2-v3-0-7fd3cacfefed@oss.qualcomm.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sandy Huang <hjc@rock-chips.com>,
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1244;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=e83riHemz7jmVSC1s86WzW2uTf0LnBtD9CtSbMUNt3o=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpSzvaPmw40jATyUWTrYBTNEusZxIc+obHstv5S
- b4iElplUN6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaUs72gAKCRCLPIo+Aiko
- 1di3B/95raEOH5VDkaGoqgK45/yZh46TpjSkI0p4xAQ5QWmsMaaCn7Newqpeo25B8E3VpDS52aa
- up3rolkowr24CN+AOTFNP4qaLU+wQ5ufsLePmUId4/Sf7f/3uLCmTjU2bAAc7WkBJDBOUgESVoE
- VPOds3GCRBLX3X0qEONZ6Q6pJmz9433H5cMK5o5GZz3dTS0dZZqphPcLWyxJSLEmmZrEn2G8Wyx
- MZQXEWNaui7oT4aHMyYoZX0z2RTqrLwJAAmkkLQISa4jHnSF5bBJb4YQauizaBu+BJqV1TOmbVf
- WZtZHkfsakdCoN6Xjk8QGpdcOMYzMgS1IQv2DEwSOdtfE7Y8
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAwNyBTYWx0ZWRfX4Fk0Ujj3FJaT
- EsFzbnYJ6o6u4AAg0ts80pGUzEIZn4KFdPuGf2pIfRUPvUfz1/eARlGwwRKgGhzAXiZ886TsCw0
- mWAc7dOhpouaq8Tgh0Jy3BHD91oU4lMNgqEF+voJDHHrO4HA8t57keEENhPmsGpLw+RU2j75RH5
- E/PyNBHljH7gSbNkPLDSZF3IrzDcKTS7CemJeUjfg8PoNJGshl8qylQKclB6ah2A8K3rGzc8m+q
- 4PPmnYpt/U6QVPunPCG4kAdf3oqyfcjb4QUTDof5SegX55PwAySyHbgjvmQWdt3OJBpKB4+rp51
- uslZmtZ7EyGjPc+/QZezMCLD5jJIUHL6nJpLErTR6dUowt+CY9gEAcEG2qg2tMRD4FIB6tFSuhH
- Vd7IaQeFBFtkhWbfQNshkhwtAP27WPNLmGcpJR5inJXquQZkHOnFTgnFdq2LMbfqKZ1IAFN55H5
- 0Im+gIHBVqJT3c9zDzA==
-X-Proofpoint-ORIG-GUID: uuB864RJfNGfOIPZpatV-qqazfGNK4l3
-X-Authority-Analysis: v=2.4 cv=LeUxKzfi c=1 sm=1 tr=0 ts=694b3c05 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=tIAOKlZC_mo2NaXw_9IA:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-GUID: uuB864RJfNGfOIPZpatV-qqazfGNK4l3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_05,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,40 +63,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having debugfs files for the InfoFrames that are not supported by the
-driver is confusing, stop registering those in the debugfs.
+--_000_49db0d7370224e14ad7788b280bd1602xiaomicom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/drm_debugfs.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+b2ssIHRoYW5rcy4NCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzog
+U3RldmVuIFJvc3RlZHQgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQq3osvNyrG85DogMjAyNcTqMTLU
+wjI0yNUgMDo0NDoyNA0KytW8/sjLOiBYaWFuZyBHYW8NCrOty806IHN1bWl0LnNlbXdhbEBsaW5h
+cm8ub3JnOyBjaHJpc3RpYW4ua29lbmlnQGFtZC5jb207IG1oaXJhbWF0QGtlcm5lbC5vcmc7IGxp
+bnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbWF0aGlldS5kZXNub3llcnNAZWZmaWNp
+b3MuY29tOyBkaG93ZWxsc0ByZWRoYXQuY29tOyBrdWJhQGtlcm5lbC5vcmc7IGJyYXVuZXJAa2Vy
+bmVsLm9yZzsgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgbGludXgtdHJhY2Uta2VybmVsQHZn
+ZXIua2VybmVsLm9yZzsguN/P6A0K1vfM4jogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2OV0g
+ZG1hLWJ1ZjogYWRkIHNvbWUgdHJhY2Vwb2ludHMgdG8gZGVidWcuDQoNClvN4rK/08q8/l0gtMvT
+yrz+wLTUtNPa0KHD17mry77N4rK/o6zH6733yfe0psDtoaPI9LbU08q8/rCyyKvQ1LTm0smjrMfr
+vavTyrz+16q3orj4bWlzZWNAeGlhb21pLmNvbb340NC3tMChDQoNCk9uIFR1ZSwgMjMgRGVjIDIw
+MjUgMTE6Mjc6NDkgKzA4MDANClhpYW5nIEdhbyA8Z3h4YTAzMDcwMzA3QGdtYWlsLmNvbT4gd3Jv
+dGU6DQoNCj4NCj4gKyNkZWZpbmUgQ1JFQVRFX1RSQUNFX1BPSU5UUw0KPiArI2luY2x1ZGUgPHRy
+YWNlL2V2ZW50cy9kbWFfYnVmLmg+DQo+ICsNCj4gKy8qDQo+ICsgKiBkbWFidWYtPm5hbWUgbXVz
+dCBiZSBhY2Nlc3NlZCB3aXRoIGhvbGRpbmcgZG1hYnVmLT5uYW1lX2xvY2suDQo+ICsgKiB3ZSBu
+ZWVkIHRvIHRha2UgdGhlIGxvY2sgYXJvdW5kIHRoZSB0cmFjZXBvaW50IGNhbGwgaXRzZWxmIHdo
+ZXJlDQo+ICsgKiBpdCBpcyBjYWxsZWQgaW4gdGhlIGNvZGUuDQo+ICsgKg0KPiArICogTm90ZTog
+RlVOQyMjX2VuYWJsZWQoKSBpcyBhIHN0YXRpYyBicmFuY2ggdGhhdCB3aWxsIG9ubHkNCj4gKyAq
+ICAgICAgIGJlIHNldCB3aGVuIHRoZSB0cmFjZSBldmVudCBpcyBlbmFibGVkLg0KPiArICovDQo+
+ICsjZGVmaW5lIERNQV9CVUZfVFJBQ0UoRlVOQywgLi4uKSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBcDQo+ICsgICAgIGRvIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
+DQo+ICsgICAgICAgICAgICAgaWYgKEZVTkMjI19lbmFibGVkKCkpIHsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gKyAgICAgICAgICAgICAgICAgICAgIGd1YXJk
+KHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAgICBcDQo+ICsgICAgICAgICAgICAgICAg
+ICAgICBGVU5DKF9fVkFfQVJHU19fKTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXA0KPiArICAgICAgICAgICAgIH0gZWxzZSBpZiAoSVNfRU5BQkxFRChDT05G
+SUdfTE9DS0RFUCkpIHsgICAgICAgIFwNCj4gKyAgICAgICAgICAgICAgICAgICAgIC8qIEV4cG9z
+ZSB0aGlzIGxvY2sgd2hlbiBsb2NrZGVwIGlzIGVuYWJsZWQgKi8gIFwNCj4gKyAgICAgICAgICAg
+ICAgICAgICAgIGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOyAgICBcDQo+ICsg
+ICAgICAgICAgICAgfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gKyAgICAgfSB3
+aGlsZSAoMCkNCj4gKw0KDQpJIGhhdGUgdG8gbWFrZSBhbm90aGVyIGNvbW1lbnQgaGVyZSwgYnV0
+IEkgd2FzIGp1c3QgdGhpbmtpbmcgdGhhdCB0aGlzIGNhbg0KYmUgbWFkZSB0byBsb29rIGEgbGl0
+dGxlIG5pY2VyLiBCYXNpY2FsbHksIHdlIHdhbnQgdG8gbWFrZSBzdXJlIHRoYXQgd2hlbg0KTE9D
+S0RFUCBpcyBhY3RpdmUsIHdlIGFsd2F5cyB0YWtlIHRoZSBsb2NrLiBCdXQgd2UgYWxzbyBuZWVk
+IHRvIHRha2UgdGhlDQpsb2NrIHdoZW4gdHJhY2luZyBpcyBlbmFibGVkLiBUaGUgdHJhY2Vwb2lu
+dCBpdHNlbGYgaXMgYSBzdGF0aWMgYnJhbmNoLA0Kd2hpY2ggbWVhbnMgaXQgaXMgYSBub3Agd2hl
+biBub3QgYWN0aXZlLCBzbyB0aGVyZSdzIG5vIHJlYWwgcHJvYmxlbSB3aXRoDQpjYWxsaW5nIGl0
+LiBUaHVzLCB0aGlzIGNvdWxkIGxvb2sgYmV0dGVyIGFzOg0KDQojZGVmaW5lIERNQV9CVUZfVFJB
+Q0UoRlVOQywgLi4uKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQog
+ICAgICAgIGRvIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgLyogQWx3YXlzIGV4cG9zZSBsb2NrIGlm
+IGxvY2tkZXAgaXMgZW5hYmxlZCAqLyAgICAgICAgICBcDQogICAgICAgICAgICAgICAgaWYgKElT
+X0VOQUJMRUQoQ09ORklHX0xPQ0tERVApIHx8IEZVTkMjI19lbmFibGVkKCkpIHsgICBcDQogICAg
+ICAgICAgICAgICAgICAgICAgICBndWFyZChzcGlubG9jaykoJmRtYWJ1Zi0+bmFtZV9sb2NrKTsg
+ICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgICAgICAgICBGVU5DKF9fVkFfQVJHU19fKTsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQogICAgICAgICAgICAgICAgfSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQogICAgICAg
+IH0gd2hpbGUgKDApDQoNCg0KLS0gU3RldmUNCg==
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 365cf337529f..ae1c6126c2c5 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -672,6 +672,10 @@ static int create_hdmi_audio_infoframe_file(struct drm_connector *connector,
- {
- 	struct dentry *file;
- 
-+	if (!connector->hdmi.funcs ||
-+	    !connector->hdmi.funcs->audio.write_infoframe)
-+		return 0;
-+
- 	file = debugfs_create_file("audio", 0400, parent, connector, &audio_infoframe_fops);
- 	if (IS_ERR(file))
- 		return PTR_ERR(file);
-@@ -726,6 +730,9 @@ static int create_hdmi_## _f ## _infoframe_file(struct drm_connector *connector,
- { \
- 	struct dentry *file; \
- 	\
-+	if (!connector->hdmi.funcs || \
-+	    !connector->hdmi.funcs->_f.write_infoframe) \
-+		return 0; \
- 	file = debugfs_create_file(#_f, 0400, parent, connector, &_f ## _infoframe_fops); \
- 	if (IS_ERR(file)) \
- 		return PTR_ERR(file); \
+--_000_49db0d7370224e14ad7788b280bd1602xiaomicom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-2.47.3
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<meta content=3D"text/html; charset=3DUTF-8">
+<style type=3D"text/css" style=3D"">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
+or:#000000; font-family:Calibri,Helvetica,sans-serif">
+<p>ok, thanks.</p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Steve=
+n Rostedt &lt;rostedt@goodmis.org&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2025=C4=EA12=D4=C224=C8=D5 0:44:24<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Xiang Gao<br>
+<b>=B3=AD=CB=CD:</b> sumit.semwal@linaro.org; christian.koenig@amd.com; mhi=
+ramat@kernel.org; linux-media@vger.kernel.org; dri-devel@lists.freedesktop.=
+org; linux-kernel@vger.kernel.org; mathieu.desnoyers@efficios.com; dhowells=
+@redhat.com; kuba@kernel.org; brauner@kernel.org;
+ akpm@linux-foundation.org; linux-trace-kernel@vger.kernel.org; =B8=DF=CF=
+=E8<br>
+<b>=D6=F7=CC=E2:</b> [External Mail]Re: [PATCH v9] dma-buf: add some tracep=
+oints to debug.</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">[=CD=E2=B2=BF=D3=CA=BC=FE] =B4=CB=D3=CA=BC=FE=C0=
+=B4=D4=B4=D3=DA=D0=A1=C3=D7=B9=AB=CB=BE=CD=E2=B2=BF=A3=AC=C7=EB=BD=F7=C9=F7=
+=B4=A6=C0=ED=A1=A3=C8=F4=B6=D4=D3=CA=BC=FE=B0=B2=C8=AB=D0=D4=B4=E6=D2=C9=A3=
+=AC=C7=EB=BD=AB=D3=CA=BC=FE=D7=AA=B7=A2=B8=F8misec@xiaomi.com=BD=F8=D0=D0=
+=B7=B4=C0=A1<br>
+<br>
+On Tue, 23 Dec 2025 11:27:49 &#43;0800<br>
+Xiang Gao &lt;gxxa03070307@gmail.com&gt; wrote:<br>
+<br>
+&gt;<br>
+&gt; &#43;#define CREATE_TRACE_POINTS<br>
+&gt; &#43;#include &lt;trace/events/dma_buf.h&gt;<br>
+&gt; &#43;<br>
+&gt; &#43;/*<br>
+&gt; &#43; * dmabuf-&gt;name must be accessed with holding dmabuf-&gt;name_=
+lock.<br>
+&gt; &#43; * we need to take the lock around the tracepoint call itself whe=
+re<br>
+&gt; &#43; * it is called in the code.<br>
+&gt; &#43; *<br>
+&gt; &#43; * Note: FUNC##_enabled() is a static branch that will only<br>
+&gt; &#43; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; be set when the trace even=
+t is enabled.<br>
+&gt; &#43; */<br>
+&gt; &#43;#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; if (FUNC##_enabled()) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
+p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_ARGS__);&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; } else if (IS_ENABLED(CONFIG_LOCKDEP)) {&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Expose this lock=
+ when lockdep is enabled */&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
+p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
+&gt; &#43;<br>
+<br>
+I hate to make another comment here, but I was just thinking that this can<=
+br>
+be made to look a little nicer. Basically, we want to make sure that when<b=
+r>
+LOCKDEP is active, we always take the lock. But we also need to take the<br=
+>
+lock when tracing is enabled. The tracepoint itself is a static branch,<br>
+which means it is a nop when not active, so there's no real problem with<br=
+>
+calling it. Thus, this could look better as:<br>
+<br>
+#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; /* Always expose lock if lockdep is enabled */&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {&nbsp;=
+&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinl=
+ock)(&amp;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_A=
+RGS__);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
+<br>
+<br>
+-- Steve<br>
+</div>
+</span></font>
+</body>
+</html>
 
+--_000_49db0d7370224e14ad7788b280bd1602xiaomicom_--
