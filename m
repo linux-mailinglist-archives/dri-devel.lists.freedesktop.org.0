@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9239CDBD3D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 10:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC65CDBD68
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 10:43:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C0510EA50;
-	Wed, 24 Dec 2025 09:40:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ru1No65p";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD8910E7E0;
+	Wed, 24 Dec 2025 09:43:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA3B10EA50
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 09:40:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CD30660120;
- Wed, 24 Dec 2025 09:40:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2598C4CEFB;
- Wed, 24 Dec 2025 09:40:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766569238;
- bh=bCuEYCXZDvI9YsvoqCOxGkjEsZb9wkFmokDUCbthdAo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ru1No65pSRKiD7dPI/P6khalxTZf5XHQBdNh2k6H1u6qHKE9l6vvT3kxqEiuu7qay
- 8t/7aEH2/hnftxkqxNKXaNNmMNVHS1Ob0R5BrzUNZ+4z+AmtIAfXXCty2MRPlPQykp
- VLocVdMT/vcDAwAiaEF/hHiZKUNXq/2vmckBIo15lXnjiIF57R3pRWf/9NNYm4r5kE
- TNbwRrKEpNzNLxJ22DRTaI6IBc0LT8CWGAn5FSHxIwzm6upx0lUnDQB8WXRAtDov9A
- BV+zF4kaU8adDZUuEsKf22OAnm1PLegcriwBz7+JgOTICqmOFtFuK7LYp2Fcahyswi
- guT03ondQuKiQ==
-Date: Wed, 24 Dec 2025 10:40:34 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Venkata Gopi Nagaraju Botlagunta <venkata.botlagunta@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Marek Vasut <marex@denx.de>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74A8C10E7E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 09:43:46 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0537A1F6CD;
+ Wed, 24 Dec 2025 10:43:42 +0100 (CET)
+Date: Wed, 24 Dec 2025 10:43:41 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Casey Connolly <casey.connolly@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
- Nilesh Laad <nilesh.laad@oss.qualcomm.com>, venkata.valluru@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, Yi Zhang <zhanyi@qti.qualcomm.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: bridge: lt9211c: Add bindings
-Message-ID: <20251224-strong-fabulous-bee-cdd620@quoll>
-References: <20251224-add-lt9211c-bridge-v4-0-406e73ec28c5@oss.qualcomm.com>
- <20251224-add-lt9211c-bridge-v4-1-406e73ec28c5@oss.qualcomm.com>
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v2 07/11] drm/panel: Add panel driver for Samsung
+ SOFEF03-M DDIC
+Message-ID: <aUu1N2GTzCc3wOcH@SoMainline.org>
+References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-7-82a87465d163@somainline.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251224-add-lt9211c-bridge-v4-1-406e73ec28c5@oss.qualcomm.com>
+In-Reply-To: <20251222-drm-panels-sony-v2-7-82a87465d163@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,83 +69,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 24, 2025 at 12:41:40PM +0530, Venkata Gopi Nagaraju Botlagunta wrote:
-> From: Yi Zhang <zhanyi@qti.qualcomm.com>
-> 
-> Add bindings for lt9211c.
-> 
-> Signed-off-by: Yi Zhang <zhanyi@qti.qualcomm.com>
-> Signed-off-by: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-> Signed-off-by: Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
-> ---
->  .../bindings/display/bridge/lontium,lt9211.yaml    | 42 ++++++++++++++++++++--
->  1 file changed, 40 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> index 9a6e9b25d14a..98079df61cbb 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> @@ -4,19 +4,20 @@
->  $id: http://devicetree.org/schemas/display/bridge/lontium,lt9211.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Lontium LT9211 DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
-> +title: Lontium LT9211/LT9211C DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
->  
->  maintainers:
->    - Marek Vasut <marex@denx.de>
->  
->  description: |
-> -  The LT9211 are bridge devices which convert Single/Dual-Link DSI/LVDS
-> +  The LT9211 and LT9211C are bridge devices which convert Single/Dual-Link DSI/LVDS
->    or Single DPI to Single/Dual-Link DSI/LVDS or Single DPI.
->  
->  properties:
->    compatible:
->      enum:
->        - lontium,lt9211
-> +      - lontium,lt9211c
->  
->    reg:
->      maxItems: 1
-> @@ -91,6 +92,43 @@ examples:
->  
->          vccio-supply = <&lt9211_1v8>;
->  
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
+On 2025-12-22 00:32:13, Marijn Suijten wrote:
+...
+> +static int samsung_sofef03_m_probe(struct mipi_dsi_device *dsi)
+> +{
+...
+> +	ctx->vddio = devm_regulator_get(dev, "vddio");
+> +	if (IS_ERR(ctx->vddio))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->vddio),
+> +				     "Failed to get vddio regulator\n");
 > +
-> +          port@0 {
-> +            reg = <0>;
+> +	ctx->vci = devm_regulator_get(dev, "vci");
+> +	if (IS_ERR(ctx->vci))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->vci),
+> +				     "Failed to get vci regulator\n");
 > +
-> +            endpoint {
-> +              remote-endpoint = <&dsi0_out>;
-> +            };
-> +          };
-> +
-> +          port@2 {
-> +            reg = <2>;
-> +
-> +            endpoint {
-> +              remote-endpoint = <&panel_in_lvds>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      lvds-bridge@3b {
-> +        compatible = "lontium,lt9211c";
+ 
+In case someone wonders why this is inconsistently *NOT* using regulator_bulk
+while the other patches are; this was a last-minute clean-up whose fixup! commit
+I seem to have lost in a separate branch.  This will be incorporated in v3
+together with the whitespace fix in the comment.
 
-Don't add unnecessary examples.
-
-Best regards,
-Krzysztof
-
+- Marijn
