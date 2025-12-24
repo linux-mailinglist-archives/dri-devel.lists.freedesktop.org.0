@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6E6CDB304
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 03:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B53CDBF73
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Dec 2025 11:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F48F89C0A;
-	Wed, 24 Dec 2025 02:43:30 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bCeOTS1J";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C7210EA73;
+	Wed, 24 Dec 2025 10:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D9489C0A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 02:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766544209; x=1798080209;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Y2bq7x61XGgLUYHMHwuxvP/5xVVFLyG/rkK1IjvJy0g=;
- b=bCeOTS1JM2VMPagSxaN5KX9AEpndAJ+REPhSPhbvuI8/mGE1f06y6W2I
- gTfXyTLMsx2D2oA3YGoyD/Vwv8re7xidC7ROPHiUdOAsUBMP/KTtWA1/B
- Mvkkysb50RXqbzL4+B31fH4a4oeqER7ZICCKX8BLG/bAHk+UHy2wZ6yKb
- 0PiDA1KgFms8/mtl+ArBqVmRJXAYYCWISGXmeNL5CL3UQaSXdcRGfXdu5
- tnK7yM4zRuH1yl2lTikjHWFDCr6R4nbB9GsP9zEi/EK0r5glbd303i3e3
- VY/Ml9eosrZR8BSt63Quq+ZPh9VJAyDxZeOS2yvr4QY5ZmJfOMAk5NR6N A==;
-X-CSE-ConnectionGUID: VJdPRXUrQFesGNzhk+eGaQ==
-X-CSE-MsgGUID: NNfIg7btTeGQSObDviB9iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="78697389"
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; d="scan'208";a="78697389"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2025 18:43:28 -0800
-X-CSE-ConnectionGUID: ngE19O8TTK+r/PxHAm/uEA==
-X-CSE-MsgGUID: y7wdea61TFuce8q615emTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; d="scan'208";a="223402616"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
- by fmviesa002.fm.intel.com with ESMTP; 23 Dec 2025 18:43:24 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vYEpd-000000002b7-2TJe;
- Wed, 24 Dec 2025 02:42:48 +0000
-Date: Wed, 24 Dec 2025 10:42:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Donald Robson <donald.robson@imgtec.com>,
- Sarah Walker <sarah.walker@imgtec.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Subject: Re: [PATCH] drm/imagination: Align rogue_fwif_hwrtdata to 64 bytes
-Message-ID: <202512241051.keF0EcdF-lkp@intel.com>
-References: <20251222-fix_imagination-v1-1-0ac80a2ff317@samsung.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70DA110E32A;
+ Wed, 24 Dec 2025 03:11:29 +0000 (UTC)
+Received: from [127.0.0.2] (unknown [114.241.82.59])
+ by APP-05 (Coremail) with SMTP id zQCowADHXBDPWUtpQzS6AQ--.32153S2;
+ Wed, 24 Dec 2025 11:11:11 +0800 (CST)
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+Subject: [PATCH 0/5] PCI/MSI: Generalize no_64bit_msi into msi_addr_mask
+Date: Wed, 24 Dec 2025 11:10:48 +0800
+Message-Id: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222-fix_imagination-v1-1-0ac80a2ff317@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALhZS2kC/yXMWwqDMBCF4a2Eee4UE1HRrRQLMZm2Q4mXiZVCy
+ N4b6uN34PwJIglThEElEDo48jIX6IsC97Lzk5B9MZjKNNqYGlfHGCKj9V4w2PhG47u2sR1NdV9
+ B+a1CD/7+m7fxtND2Ken9HGGykdAtIfA+qKO96h7F6XvKMOb8A9YopX2TAAAA
+X-Change-ID: 20251223-pci-msi-addr-mask-2d765a7eb390
+To: Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Vivian Wang <wangruikang@iscas.ac.cn>
+X-Mailer: b4 0.14.3
+X-CM-TRANSID: zQCowADHXBDPWUtpQzS6AQ--.32153S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFy3ZFy7CrWxur4kCw15urg_yoW5Kw1DpF
+ W5GayagF40y34xWFZrAw4UZFWayFs5Ka47KrWDK3sa9an0qry8XrnxtF45X347Wr1xXr40
+ qrW7Kw1kWFWkuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0pRHUDLUUUUU=
+X-Originating-IP: [114.241.82.59]
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-Mailman-Approved-At: Wed, 24 Dec 2025 10:21:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +78,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michal,
+The Sophgo SG2042 is a cursed machine in more ways than one.
 
-kernel test robot noticed the following build warnings:
+The one way relevant to this patch series is that its PCIe controller
+has neither INTx nor a low-address MSI doorbell wired up. Instead, the
+only usable MSI doorbell is a SoC one at 0x7030010300, which is above
+32-bit space.
 
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+Currently, the no_64bit_msi flag on a PCI device declares that a device
+needs a 32-bit MSI address. Since no more precise indication is
+possible, devices supporting less than 64 bits of MSI addresses are all
+lumped into one "need 32-bit MSI address" bucket. This of course
+prevents these devices from working with MSI enabled on SG2042 because a
+32-bit MSI doorbell address is not possible. Combined with a lack of
+INTx, some of them have trouble working on SG2042 at all.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/drm-imagination-Align-rogue_fwif_hwrtdata-to-64-bytes/20251223-065827
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251222-fix_imagination-v1-1-0ac80a2ff317%40samsung.com
-patch subject: [PATCH] drm/imagination: Align rogue_fwif_hwrtdata to 64 bytes
-config: arm64-randconfig-r113-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241051.keF0EcdF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241051.keF0EcdF-lkp@intel.com/reproduce)
+There were previous dirtier attempts to allow overriding no_64bit_msi
+for radeon [1] and hda/intel [2].
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241051.keF0EcdF-lkp@intel.com/
+To fix this, generalize the single bit no_64bit_msi into a full address
+mask msi_addr_mask to more precisely describe the restriction. The
+existing DMA masks seems insufficient, as for e.g. radeon the
+msi_addr_mask and coherent_dma_mask seems to be different on more recent
+devices.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/imagination/pvr_power.c:62:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *power_sync @@
-   drivers/gpu/drm/imagination/pvr_power.c:62:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/imagination/pvr_power.c:62:16: sparse:     got unsigned int [usertype] *power_sync
+The patches are structured as follows:
 
-vim +62 drivers/gpu/drm/imagination/pvr_power.c
+- Patch 1 conservatively introduces msi_addr_mask, without introducing
+  any functional changes (hopefully, if I've done everything right), by
+  only using DMA_BIT_MASK(32) and DMA_BIT_MASK(64).
+- The rest of the series actually make use of intermediate values of
+  msi_addr_mask, and should be independently appliable. Patch 2 relaxes
+  msi_verify_entries() to allow intermediate values of msi_addr_mask.
+  Patch 3 onwards raises msi_addr_mask in individual device drivers.
 
-cc1aeedb98ad34 Sarah Walker 2023-11-22  46  
-727538a4bbff07 Sarah Walker 2023-11-22  47  static int
-727538a4bbff07 Sarah Walker 2023-11-22  48  pvr_power_send_command(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *pow_cmd)
-727538a4bbff07 Sarah Walker 2023-11-22  49  {
-cc1aeedb98ad34 Sarah Walker 2023-11-22  50  	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-cc1aeedb98ad34 Sarah Walker 2023-11-22  51  	u32 slot_nr;
-cc1aeedb98ad34 Sarah Walker 2023-11-22  52  	u32 value;
-cc1aeedb98ad34 Sarah Walker 2023-11-22  53  	int err;
-cc1aeedb98ad34 Sarah Walker 2023-11-22  54  
-cc1aeedb98ad34 Sarah Walker 2023-11-22  55  	WRITE_ONCE(*fw_dev->power_sync, 0);
-cc1aeedb98ad34 Sarah Walker 2023-11-22  56  
-cc1aeedb98ad34 Sarah Walker 2023-11-22  57  	err = pvr_kccb_send_cmd_powered(pvr_dev, pow_cmd, &slot_nr);
-cc1aeedb98ad34 Sarah Walker 2023-11-22  58  	if (err)
-cc1aeedb98ad34 Sarah Walker 2023-11-22  59  		return err;
-cc1aeedb98ad34 Sarah Walker 2023-11-22  60  
-cc1aeedb98ad34 Sarah Walker 2023-11-22  61  	/* Wait for FW to acknowledge. */
-cc1aeedb98ad34 Sarah Walker 2023-11-22 @62  	return readl_poll_timeout(pvr_dev->fw_dev.power_sync, value, value != 0, 100,
-cc1aeedb98ad34 Sarah Walker 2023-11-22  63  				  POWER_SYNC_TIMEOUT_US);
-727538a4bbff07 Sarah Walker 2023-11-22  64  }
-727538a4bbff07 Sarah Walker 2023-11-22  65  
+Tested on SG2042 with a Radeon R5 220 which makes use of radeon and
+hda/intel. PPC changes and pensanto/ionic changes are compile-tested
+only, since I do not have the hardware.
 
+I would appreciate if driver maintainers can take a look and see whether
+the masks I've set makes sense, although I believe they shouldn't cause
+problems on existing platforms. I'm also not familiar with PPC enough to
+touch the arch/powerpc firmware calls further - help would be
+appreciated.
+
+My intention is that the first two patches are taken up by PCI
+maintainers, and the rest go through the maintainers of individual
+drivers since they could use more device-specific testing and review. If
+this is not convenient I'll be happy to split it up or something.
+
+[1]: https://lore.kernel.org/all/20251220163338.3852399-1-gaohan@iscas.ac.cn/
+[2]: https://lore.kernel.org/all/20251220170501.3972438-1-gaohan@iscas.ac.cn/
+
+---
+Vivian Wang (5):
+      PCI/MSI: Conservatively generalize no_64bit_msi into msi_addr_mask
+      PCI/MSI: Check msi_addr_mask in msi_verify_entries()
+      drm/radeon: Raise msi_addr_mask to 40 bits for pre-Bonaire
+      ALSA: hda/intel: Raise msi_addr_mask to dma_bits
+      [RFC net-next] net: ionic: Set msi_addr_mask to IONIC_ADDR_LEN-bit everywhere
+
+ arch/powerpc/platforms/powernv/pci-ioda.c           |  2 +-
+ arch/powerpc/platforms/pseries/msi.c                |  4 ++--
+ drivers/gpu/drm/radeon/radeon_irq_kms.c             |  4 ++--
+ drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c |  4 +---
+ drivers/pci/msi/msi.c                               | 11 +++++++----
+ drivers/pci/msi/pcidev_msi.c                        |  2 +-
+ drivers/pci/probe.c                                 |  7 +++++++
+ include/linux/pci.h                                 |  8 +++++++-
+ sound/hda/controllers/intel.c                       | 10 +++++-----
+ 9 files changed, 33 insertions(+), 19 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251223-pci-msi-addr-mask-2d765a7eb390
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Vivian "dramforever" Wang
+
