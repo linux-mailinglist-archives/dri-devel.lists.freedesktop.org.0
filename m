@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52FCCDDF23
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 18:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A43CDDF3F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 18:09:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D72311A2EE;
-	Thu, 25 Dec 2025 17:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECE911B194;
+	Thu, 25 Dec 2025 17:09:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kIUg0DJi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VXCys8XV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18AC510E308
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 17:09:35 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-78fb5764382so47509407b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:09:35 -0800 (PST)
+Received: from mail-yx1-f65.google.com (mail-yx1-f65.google.com
+ [74.125.224.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB7411A4C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 17:09:36 +0000 (UTC)
+Received: by mail-yx1-f65.google.com with SMTP id
+ 956f58d0204a3-6467b7c3853so3220285d50.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:09:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766682574; x=1767287374; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766682575; x=1767287375; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qJnvW0A6SgbXQs1NHQABSopMa/fuZliTPpr4o45JmhI=;
- b=kIUg0DJiPQqkM6XYK4+QzQg2MxcUg9QgnTC79LieuTMnZIp0u3LCxoVC/JlYIsoGnH
- furs9XTJ/Ht3B0eMF8Sp07suXb/caAQS1kU+GVuRj75yxPkqZFVLsoEZdyIe+N+jYAUW
- 3syu/c/Mc33jHcHbz4SQDjoAQ6829C38gzZbN2FEXEunMvWEXAX0ypR2gt6P7A3U1dMV
- 4J41NSRfR0Bur/9cW74YH0rjAjcZpKWdXlj8UzBNannqjaqGNq0Tc9T9rHVhDYET1pHd
- 0QgvnMrA2RdhsOXLSeu68Kjdgaco7KGvTkLfLFUwqwxTfVTOCcgJIy9FU29xLyC5tT8I
- uohw==
+ bh=RyNbxONE5FjE3NQ/ds0QsvOq9j9R5HrwQHi/I2IB5ps=;
+ b=VXCys8XV+oeKOcsDQV1AHQjTgGWsqZkXUUvIV2tCMod/1UE6ah4bSreCCLA8yytngT
+ v+ump9Xo8mWaxDHvCq6Gt0tZXREFwWyn5yhpDbZUf7Aedg6/eGhU/9ep4BtbuEXtktgj
+ gp3Qktpqk3kSwG8Wv2L+5AyTJUkYvQVSInpJAw+LwdY5Y9DLeEPPMSqZjf/mPpL9tHzJ
+ R9VZbhYozIZMKxVS2B1RwyokeNilmhRxfeSAZxen9vT2u5BKzk5ppl+1VVyMgE65HXUi
+ ollA4qOdGTxFarm6sfjYiD8wUF8M/ZuJZF3/7HcOFxph5zmf6kIAATjltv3W4lM/US4A
+ TrFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766682574; x=1767287374;
+ d=1e100.net; s=20230601; t=1766682575; x=1767287375;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=qJnvW0A6SgbXQs1NHQABSopMa/fuZliTPpr4o45JmhI=;
- b=kicpFmYJH1toLBHP89IK2f3w0WcL9uo4JLmtQthqEcb/rdLFFqaTacUdUne9zbN2uT
- aNB5/4yBkx/XFKZOVx+r81ylKdNExsXEutbsNxLieyE80UAlHX1Eqoi1+NdIQ7nfIIEC
- TFRy6q0rIOuTkNqH4irpuYRgPYHefpPPGAZ/BpxOg720PE+DwYGALgQW4Bpk0qoIAlHw
- b7K0c9ZkdkHv/6qRjgBblRh9Vzgob+gjPmR4T51ELxLIakjCYOELSk1DFnzLZ0FunkrH
- 3+vREO7SogxrseS2z2qDYR7yKxTbgcvSxd+gIxyD20v+uEdad9OnYY5VJ/upurF/cWgA
- PvnA==
+ bh=RyNbxONE5FjE3NQ/ds0QsvOq9j9R5HrwQHi/I2IB5ps=;
+ b=v1xIot8gtYNNyl268VKTQ9TP5VReQdwtbS5aIgyuZCM5xceFQf2HleFx1lTu0nZDHw
+ HaNxU939+jozNkkwJrTQWNZjlZZLI9MNKTBK3E47rnCSHPvBfAHXmZ5TgfJKgaGqZzq8
+ W1ApJCW11F0leIUYYzKEVJ/5jtanUyFwYd6632aHpz9zyET/0vlyumyDVwU5e+lD2Wb4
+ 3jrN7gBYC12AegZWBr32MZb0s3x/X/GcvU4Og+pQvpwrSccgnz6D6YlZjvAWN+Y16TA9
+ G+leaentaezi1whofwrcnZdkUX9vGdmwNGzaOvtimrJFoRaX++03eGFR+/a4IN1w1ExX
+ cI3w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNAzmt9Sa4vPIINxFO0yRD2SfRcmajzZQyEhenh9lXgU6XQS0GnlXgQqURCxsLHX4nUzxDXEuSXA8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyR37S3Nx0m7/HnHzdcXK7gH9K1qRdKvsEK1IVkG3AgAhTDR6Ro
- rOR08U5gj4j69Br5jvmDlpCXHDjGdOB+nT54CpBuBYueL9ZUQ7NX+x9j
-X-Gm-Gg: AY/fxX4yuDUilkM8kabL0sNjvZDNmsW33JnHoxosQYk02swbpml0zSEZuR4Br7ZGlxc
- uuC79DOvWlNRQgJaSvRuktRzrXmUeG6IqAMR/s7lr3ciC+xBglma/xV+SszlAYdxj7VgBHfW7Cp
- 9WdUpuPE0W4EnvgkFcCu5awiICzdDuu/Ft9p/F0/sAd5a4a67QKAz42oA29V4k9JZT9WrJgBec+
- UosEvid9Pz4T5xRqL8FiY7JikgHDgj0eIdfYmbxjySO4ADBZ5EKTDqARiJ+GfJpxyaBWjaYb1m2
- mhLNuRHKFasqAQnj0g8z5dXkUiTEHZlvH0OpiE+NI49r5zMZsOBO1X0du6qh9vnXzKpqL/uYD55
- GewprVPNP8aGbjQzyD3rnMGDJUu27RnPmuH8L8n7H3kCv3AcTrc+d3//88Zmgi5gmu5j7w8FIXR
- //4EITNTo=
-X-Google-Smtp-Source: AGHT+IEOI5N8F1QPJkwKkoNFoaHrbTb32hBNxWVW0/bhknzb+bHcnaSpekV7BEM78upWGjfs7XzINw==
-X-Received: by 2002:a05:690c:670a:b0:78e:3dcf:7aaa with SMTP id
- 00721157ae682-78fb40294eemr168823547b3.39.1766682574047; 
- Thu, 25 Dec 2025 09:09:34 -0800 (PST)
+ AJvYcCUm18teLSbb9PYlaKlto48OUtzty5xUsDfW9OzzIbhkXOuJnKCKauLw8bQQsIJgtqzoug4RCNp7olI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzSTAzCjNGdIsRsxHHyXId3BPQhhHgTtG9vCDz+C2FBnPQDCJC
+ bNFuhvUtrk7D8uvoUwRse0y/3wgNbz8iZACSpxOd5d+W8UlW9G/wHXlX
+X-Gm-Gg: AY/fxX74F8wijHAL+vQoFn7Xi7MR8vyBfFld4lQMDs7CSIL2/RiVna1RlFTw4Grt1Xx
+ A/jEkhrpeXw9SbPJ7YZq1TUvyE/PErJ4r5Ncw3zMtRcJW8VSqR7TyQm8tJAUH+GI8J20y5bON1M
+ 2Y6fnyhBWu4ugT2nG3KyrGltVgDdQcBE6ZEsbA3KKa/ptg2zNDQ/s4HUduhw7iw2GHOVBj5HXGg
+ nOWTz5pjZmBfyGL2ndbwNoSM1mFRd16L8yOVw9Ra29hlZmjDhYukI41PIK/zj+MtlbSJY4JD1KB
+ rjG78ULB2vq6xovimihTL85zAZ9ivmCfKWHK3P/ctPmXSBR1eOxC1deVUxxhkUUxqvxzAfC7tjX
+ rl2W5NNlapjwo1ROgDW5MaM7KJalI588znCajQ4/27hJ+hpTt1qCFhchb9uO2pyvfyhIodfxTRB
+ 0BiCvucBdqq3HYxA2pqg==
+X-Google-Smtp-Source: AGHT+IFE8h6DvR/wQ+jE4yfmtCWCvhxSn9K0kIAiE1b9fgSbqcan4jtnrPelALLy8Mk/xvjxVHggUw==
+X-Received: by 2002:a53:c5ca:0:b0:645:5467:29e7 with SMTP id
+ 956f58d0204a3-6466a8b4e26mr13238687d50.24.1766682575137; 
+ Thu, 25 Dec 2025 09:09:35 -0800 (PST)
 Received: from localhost ([2601:346:0:79bd:5a70:118b:3656:4527])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-78fb452c441sm76158037b3.46.2025.12.25.09.09.33
+ 00721157ae682-78fb44f3f64sm75744107b3.27.2025.12.25.09.09.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Dec 2025 09:09:33 -0800 (PST)
+ Thu, 25 Dec 2025 09:09:34 -0800 (PST)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -81,17 +81,14 @@ To: Steven Rostedt <rostedt@goodmis.org>,
  Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v4 1/7] kernel.h: drop STACK_MAGIC macro
-Date: Thu, 25 Dec 2025 12:09:23 -0500
-Message-ID: <20251225170930.1151781-2-yury.norov@gmail.com>
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Subject: [PATCH v4 2/7] moduleparam: include required headers explicitly
+Date: Thu, 25 Dec 2025 12:09:24 -0500
+Message-ID: <20251225170930.1151781-3-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251225170930.1151781-1-yury.norov@gmail.com>
 References: <20251225170930.1151781-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,62 +105,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The macro was introduced in 1994, v1.0.4, for stacks protection. Since
-that, people found better ways to protect stacks, and now the macro is
-only used by i915 selftests. Move it to a local header and drop from
-the kernel.h.
+The following patch drops moduleparam.h dependency on kernel.h. In
+preparation to it, list all the required headers explicitly.
 
+Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 ---
- drivers/gpu/drm/i915/gt/selftest_ring_submission.c | 1 +
- drivers/gpu/drm/i915/i915_selftest.h               | 2 ++
- include/linux/kernel.h                             | 2 --
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ include/linux/moduleparam.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-index 87ceb0f374b6..600333ae6c8c 100644
---- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2020 Intel Corporation
-  */
- 
-+#include "i915_selftest.h"
- #include "intel_engine_pm.h"
- #include "selftests/igt_flush_test.h"
- 
-diff --git a/drivers/gpu/drm/i915/i915_selftest.h b/drivers/gpu/drm/i915/i915_selftest.h
-index bdf3e22c0a34..72922028f4ba 100644
---- a/drivers/gpu/drm/i915/i915_selftest.h
-+++ b/drivers/gpu/drm/i915/i915_selftest.h
-@@ -26,6 +26,8 @@
- 
- #include <linux/types.h>
- 
-+#define STACK_MAGIC	0xdeadbeef
+diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
+index 915f32f7d888..03a977168c52 100644
+--- a/include/linux/moduleparam.h
++++ b/include/linux/moduleparam.h
+@@ -2,9 +2,14 @@
+ #ifndef _LINUX_MODULE_PARAMS_H
+ #define _LINUX_MODULE_PARAMS_H
+ /* (C) Copyright 2001, 2002 Rusty Russell IBM Corporation */
 +
- struct pci_dev;
- struct drm_i915_private;
++#include <linux/array_size.h>
++#include <linux/build_bug.h>
++#include <linux/compiler.h>
+ #include <linux/init.h>
+ #include <linux/stringify.h>
+ #include <linux/kernel.h>
++#include <linux/types.h>
  
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 5b46924fdff5..61d63c57bc2d 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -40,8 +40,6 @@
- 
- #include <uapi/linux/kernel.h>
- 
--#define STACK_MAGIC	0xdeadbeef
--
- struct completion;
- struct user;
- 
+ /*
+  * The maximum module name length, including the NUL byte.
 -- 
 2.43.0
 
