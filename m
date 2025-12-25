@@ -2,52 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DC1CDD27F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 01:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B01CDD29B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 01:46:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04481113B58;
-	Thu, 25 Dec 2025 00:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA1C113CF1;
+	Thu, 25 Dec 2025 00:46:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Oeeaece2";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XorhJFvJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com
- [209.85.161.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B7A113B58
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 00:33:18 +0000 (UTC)
-Received: by mail-oo1-f79.google.com with SMTP id
- 006d021491bc7-65b37e173faso9864278eaf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 16:33:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766622797; x=1767227597;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37268113CF0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 00:46:17 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BOME1YT496967
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 00:46:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ JOjQHtR1y2v1403nVUZI/TN93ZvCJctn5qaK3e885+s=; b=Oeeaece2MZ3qzFTt
+ 7NKGkQzV0oPQKoo8SlhKKfk2ysifxGsgRQtqnSVYs+cp1yPIcRsXGNQPwAbmyS9c
+ Pt5N3vtFiFS4HHAb0052LrkdcgtLjRkj9CJuZi+mTn7hLpzToguYk+gZbnmRJ65S
+ CfcgecR5XN3CyLQg73ed21wwB4o3mbtyrT658sdxkhbZ+ICGY/g7Yn7CT0Gu2mqK
+ s3q1OoaJ81amfAn4QPIVIStO1klV8CksbY0AR+cM7/Q4pqxWyvVZjAqwZ3xSMFW1
+ FZTCmXDbwzW1SoaWSfVtoYYy2GJ+8G7Clbd7loGMuz1Wi64vJ3dzJhjWlM8U0aMI
+ QNEKUw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7xjsc1kt-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 00:46:16 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-34c64cd48a8so13877289a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 16:46:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1766623575; x=1767228375;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5uhpoHrh3BvVX/j1akM/WBbeEEdFzi5EXt/jkxmHEMY=;
- b=OKsaC0szucwQg6t3AaFw2H+qp83pe1K04Bmr8PP+NRp5SfgzUSZVoDhFI+PnjogKDg
- 1b8+ZkUzYfe89xUMJaz4plMFQ1L9fMctMcJ4qfoKyuDvaaCVmq+AbwFpFUBrXqf7huEa
- FKDAFKuLC3UhxJsL/6V7BJGqrhq7hbkYoZLcqP0nEPj25TcTJwpL9yD6Bo7JFP5i2tPN
- XVLhNydWmvFdZw3FuMCk1bOdMg1ZbcoKQtFbDGiyE6GrbkNNlRloPviRAZg8Vvz1Yqn6
- EYnfX67vvo07VhsSPgs2f9uiG3CW70sdXGPVX524m8pEjS9RMDUQfwstXMw8Q8qFFZsd
- jjtw==
+ bh=JOjQHtR1y2v1403nVUZI/TN93ZvCJctn5qaK3e885+s=;
+ b=XorhJFvJFh2w4oM0U+lN8aplDO3E93BAF17XSEMt4ICpPdGPrXJEFoGcJuQmIl/5nV
+ yZ9nWeY1SKNjBHZ/nwlUqhqnSK0OtMvuQ9rlVLG+SjnJUdy7tCGvQeTuth8hXg2C8wN8
+ ONUf/R8RqPKt03Ik4slnNjFrD7gJjdaEvGr2OpOWUAUleB9Fj35ltkyJhE78Wcozi3Qm
+ RZiW2yypx+cF66u8XNIYRLSWhQNsSb8+kDHGvzFi0SC+jST8pP3fU60JEScSIUOScnHH
+ 2SK2ZyknqLwAg8FPx8gnWKomFX2IDz223dIrLKsYAVibo+f4iGbDwJoip50Xl93swRIV
+ vGkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766623575; x=1767228375;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JOjQHtR1y2v1403nVUZI/TN93ZvCJctn5qaK3e885+s=;
+ b=xNDV3P3Xye05o8HdQGiH8F1RPSjN788QubcdpZfdmirIlJe8ndIdaPRJFA5ql1OCAe
+ nof9rCxhZ05bnIzO+zgD7fnewNjX3lPsaJ7zJzpUOZ+6XulX6knHlG9v0XgLR/J4QX10
+ ngVq1jb5InXfQjbo4k8VvnjEqzmpPj7A7wGREnQshqWANokJBwQgsPEU5NTyea9SiZZ3
+ p3buvj8nAOdWmMrUY6ELPPxJpz6lqIcTtjK+2DGPolB3/FzKFt/Q3iHi/oDho6RKUp23
+ MgnuauS23zP8WhCMvyIw9ixZq5wqrBQRF8qUXQy2DaokSwCRjTaa7iJhCRFJIsPBvp4+
+ OWRw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHBrNlfTxP2VPkh48jFosl2DmuPwJYU8VyAwLGug5RIlkoFzjw0GD7RvOvVGG9fGGw0Sn+yhhLhxw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwykJdArg0B4JperdEbxFNTD1IcEQml/Mofvn+z5LU9ZN9Q62Z4
- NS5xlg6HQFRv+dHivVpfUFpP1mIxuMOQ5bdGrSS0x3cKV4obGH0MwpfcSwdBHaXB1TryXXRQJbj
- L/1maKFSljD70oUk8v13KrtLp7qmKZxandT1lYSX9YxvtI66bAi/mKqO0Buw=
-X-Google-Smtp-Source: AGHT+IE01I9ALrE5GxkCHSIXALgowbGo/bH+8/wJbshQN1+JbqcbtV1bx61FDCP61N+25tW5emzRU/TOsWnn0k+YtYnxk59vIm1A
+ AJvYcCW9mjKimuKl8mt0Sg6hKGnH+yUHuyLYV+V2p3IUuMCNyyx38rBdxZU14QzUv9QTb5oTp2qWInCqNrg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwyOfVAt7VAYpM0NScOoEqJL+2vQHlVGF2tFK119KG5bk0/QLj8
+ 8leARhTe182Cdmp5EWVQD9hOJ5JmAkTvxEdYUBkyX9FpFlrE9nUaHLepWfYycj83x9JJ5/06LoT
+ jRDuHHixYMLtoKv6Qm4vNm6bxqbIl7J8deod114gd4gH8IWA7s5GyrAm8C6dYCrF3iy5CNsQ=
+X-Gm-Gg: AY/fxX6OhesMIKREScnHfZXwbjlQNnoLT/DfnCFK7VpnXZhhYcrQu80mUeGMyGN3SRv
+ 32MNzrtBMgN0O2uYc90uMDgajTUqHPOIF0vJQ/o3unKbOKX3uaAYsWEYPA5qXsB+q9WVMy47hqg
+ NB/I2xxmOBVKTmva/5apxEdVPsrF4SCIq6q0NZIE7D02dYj7CYqJBRL+t17KnwF6Olu7wC0Jyii
+ x0uSe3+fIgZcZMiaPnH5jO4d71JqkvOPq+knPajYpq3KrbWQgcrpy8Dd6SVM+Jv4VZSODMJ3FjU
+ msF9BTL8dvWV56gOrbmMfZ5eM8DuxIzGNZtz91WvkJEXkaaGg8Y6JHRI6nl86r5vUnfMwzmxw/4
+ Iftbp9Uc2XE9elP93jM97EdyCfZ4n+YYywvkR
+X-Received: by 2002:a17:90b:582f:b0:340:c4dc:4b8b with SMTP id
+ 98e67ed59e1d1-34e92142aa0mr14731707a91.10.1766623575162; 
+ Wed, 24 Dec 2025 16:46:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEXP9A6tpl8ucIRe8Ods2JAIDC87if9iUX4kBKrYAcnz4tFgm7QZa8EUdMVTSrI0HLbzd6muw==
+X-Received: by 2002:a17:90b:582f:b0:340:c4dc:4b8b with SMTP id
+ 98e67ed59e1d1-34e92142aa0mr14731687a91.10.1766623574691; 
+ Wed, 24 Dec 2025 16:46:14 -0800 (PST)
+Received: from [10.216.32.21] ([202.46.23.19])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-34e70ddf58dsm19645493a91.17.2025.12.24.16.46.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Dec 2025 16:46:14 -0800 (PST)
+Message-ID: <ab947157-37c6-4df0-9242-9d251defaced@oss.qualcomm.com>
+Date: Thu, 25 Dec 2025 06:13:09 +0530
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1c51:b0:65c:fdbc:666c with SMTP id
- 006d021491bc7-65d0ea9c59emr5685645eaf.42.1766622797552; Wed, 24 Dec 2025
- 16:33:17 -0800 (PST)
-Date: Wed, 24 Dec 2025 16:33:17 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <694c864d.050a0220.35954c.002e.GAE@google.com>
-Subject: [syzbot] [dri?] WARNING in drm_crtc_wait_one_vblank
-From: syzbot <syzbot+c9f3062e1f1e68af836a@syzkaller.appspotmail.com>
-To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, simona@ffwll.ch, syzkaller-bugs@googlegroups.com, 
- tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/disp/dpu: add merge3d support for sc7280
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251124-merge3d-sc7280-v1-1-798d94211626@oss.qualcomm.com>
+ <nw6oxqdeoeckcqk4lycxyujh2uk63vjdzdpaddddkjb257xldx@eh36fawnt2an>
+ <5ucbip23c23z5cpoevo5uxifl5de7mfipjfkhblyiw2vbxv3j5@h464opwvswrd>
+From: Mahadevan P <mahadevan.p@oss.qualcomm.com>
+In-Reply-To: <5ucbip23c23z5cpoevo5uxifl5de7mfipjfkhblyiw2vbxv3j5@h464opwvswrd>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI1MDAwNCBTYWx0ZWRfXxP60Qbq8sNAd
+ pF6zGwMAfwDSbKB1pqblC3kCdX5TD6VbGz7V96FJnsZMmVFRLM8BCbTf3nf1fhHkxZiqMI4++9k
+ lLk5AfVFHrXF+spmpHSRGmLyqDd/0rsa5lopjOw/MSdjqTxXbPFcrN3EKv1FoQDy26FZpUR0ZkJ
+ ID2SXksDsw10R2oSW7QiuA5iSKDwwJyRXFi2LGiZZlUnBglfoft5FhkglQFsZRniEQdmQD3w7EV
+ c7tgYr8qUssUzLjMb9IHrD2NB/cQEo4NCDw3Gcy02OGfuH/nQ5SheEaVHEN64UdMn2LxZnWIjJe
+ 03h/VeuawyCU1UoOcDRIo9KqdJ5nJcDYUvcKWEQPW+aNikereD+nJ6hoIOui7GDGwoKUUXa55XD
+ 6453UkfrAIoWuMM5XFck44wEVUspQiUEmVnn3meAWwmVhwbCbfeY9zbq2uxubIvyB+RuzL+L4Xb
+ nTM/Bf07tg3851va3Ag==
+X-Proofpoint-ORIG-GUID: 2Szx458p53jcRHiZgROesuxfbLpi14lm
+X-Authority-Analysis: v=2.4 cv=YcqwJgRf c=1 sm=1 tr=0 ts=694c8958 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=Pw9t7XW4HU1aVLqCAW8A:9
+ a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: 2Szx458p53jcRHiZgROesuxfbLpi14lm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-24_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512250004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,100 +150,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    cc3aa43b44bd Add linux-next specific files for 20251219
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=175fb77c580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f7a09bf3b9133d9d
-dashboard link: https://syzkaller.appspot.com/bug?extid=c9f3062e1f1e68af836a
-compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b1b23d9783ee/disk-cc3aa43b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/07451939cf74/vmlinux-cc3aa43b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e5ddf385746f/bzImage-cc3aa43b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c9f3062e1f1e68af836a@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-faux_driver vkms: [drm] vblank wait timed out on crtc 0
-WARNING: drivers/gpu/drm/drm_vblank.c:1320 at drm_crtc_wait_one_vblank+0x33a/0x4f0 drivers/gpu/drm/drm_vblank.c:1320, CPU#1: kworker/1:2/19751
-Modules linked in:
-CPU: 1 UID: 0 PID: 19751 Comm: kworker/1:2 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
-Workqueue: events drm_fb_helper_damage_work
-RIP: 0010:drm_crtc_wait_one_vblank+0x4a3/0x4f0 drivers/gpu/drm/drm_vblank.c:1320
-Code: 48 b9 00 00 00 00 00 fc ff df 80 3c 08 00 74 08 4c 89 ef e8 ff ee e1 fc 4d 8b 7d 00 4c 89 e7 48 8b 74 24 18 4c 89 fa 44 89 f1 <67> 48 0f b9 3a 48 8b 7c 24 28 44 89 f6 e8 8b f6 ff ff b8 92 ff ff
-RSP: 0018:ffffc9000bc1f840 EFLAGS: 00010246
-RAX: 1ffff11004a3da00 RBX: 1ffff92001783f10 RCX: 0000000000000000
-RDX: ffffffff8c08f7a0 RSI: ffffffff8c0aa5c0 RDI: ffffffff8fced610
-RBP: ffffc9000bc1f948 R08: ffffffff8fc3d077 R09: 1ffffffff1f87a0e
-R10: dffffc0000000000 R11: fffffbfff1f87a0f R12: ffffffff8fced610
-R13: ffff8880251ed000 R14: 0000000000000000 R15: ffffffff8c08f7a0
-FS:  0000000000000000(0000) GS:ffff888125adc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00005627ed0d9b20 CR3: 000000002e21a000 CR4: 00000000003526f0
-DR0: ffffffffffffffff DR1: 00000000000001f8 DR2: 0000000000000083
-DR3: ffffffffefffff15 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- drm_client_modeset_wait_for_vblank+0xc5/0xf0 drivers/gpu/drm/drm_client_modeset.c:1330
- drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:236 [inline]
- drm_fb_helper_damage_work+0xc9/0x710 drivers/gpu/drm/drm_fb_helper.c:271
- process_one_work+0x93a/0x15a0 kernel/workqueue.c:3279
- process_scheduled_works kernel/workqueue.c:3362 [inline]
- worker_thread+0x9b0/0xee0 kernel/workqueue.c:3443
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x599/0xb30 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
-   7:	fc ff df
-   a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1)
-   e:	74 08                	je     0x18
-  10:	4c 89 ef             	mov    %r13,%rdi
-  13:	e8 ff ee e1 fc       	call   0xfce1ef17
-  18:	4d 8b 7d 00          	mov    0x0(%r13),%r15
-  1c:	4c 89 e7             	mov    %r12,%rdi
-  1f:	48 8b 74 24 18       	mov    0x18(%rsp),%rsi
-  24:	4c 89 fa             	mov    %r15,%rdx
-  27:	44 89 f1             	mov    %r14d,%ecx
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 8b 7c 24 28       	mov    0x28(%rsp),%rdi
-  34:	44 89 f6             	mov    %r14d,%esi
-  37:	e8 8b f6 ff ff       	call   0xfffff6c7
-  3c:	b8                   	.byte 0xb8
-  3d:	92                   	xchg   %eax,%edx
-  3e:	ff                   	(bad)
-  3f:	ff                   	.byte 0xff
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+On 12/24/2025 12:05 PM, Dmitry Baryshkov wrote:
+> On Wed, Nov 26, 2025 at 02:32:41AM +0200, Dmitry Baryshkov wrote:
+>> On Mon, Nov 24, 2025 at 07:57:01PM +0530, Mahadevan P wrote:
+>>> Add support for the merge3d block on sc7280 which will allow
+>>> merge of streams coming from two layer mixers routed to single
+>>> non DSC interface. This change helps to support larger buffer
+>>> width which exceeds max_linewidth of 2400.
+>>
+>> Please see Documentation/process/submitting-patches.rst.
+>>
+>> First describe the issue that you observe, then describe steps required
+>> for solving it.
+>>
+>>> Fixes: 591e34a091d1 ("drm/msm/disp/dpu1: add support for display for SC7280 target")
+>>> Signed-off-by: Mahadevan P <mahadevan.p@oss.qualcomm.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 14 ++++++++++++--
+>>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>>
+>>
+>> The patch LGTM.
+> 
+> Mahadevan, you got review comments about a month ago. Any updates?
+I apologize for the delay. I will update the commit message as per your 
+suggestion and post the revised patch within a week.
+> 
