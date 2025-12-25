@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1CFCDD2A9
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 02:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1398ACDD597
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 07:04:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E21113E9D;
-	Thu, 25 Dec 2025 00:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3434810E0F2;
+	Thu, 25 Dec 2025 06:04:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MyMQ2uLO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dlRbJmyH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7659B113E9D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 00:59:56 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-29f2676bb21so84092695ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Dec 2025 16:59:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766624396; x=1767229196; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=34ZWGlKeYAoBKfcSWnnSht52B70l+ENf2ADFK5Dgfo0=;
- b=MyMQ2uLOro3dLG3nHZcUGYwuahe3qrvYyTnm0DPAIuSDssChnhMtJzk+oGK1RORHAK
- R6RhDzEeEMmii8gtcQZXPekFI0xzjV7fdgIBATvBa+KGlTIbEjTerF2ghFEcH+5x/YHV
- zkePFdlMBFLS8i3KKPcwxhwnEAO8x0SXO+FIVKet3DJFFbCyITwJu8oE6vcQJCfJIRFi
- ZJf/abJ0oGdkLm+LyUolpm5jf/ckT+j2I0eJkK3euHSP4XNHiUhKIePxXsItA1J/MFO5
- wUOvF/RYKj4LVOlT8ILTeYzl566DFd5LRO+MajugyHE1IX3o5Luff4ROMMHDSHTZbc8Q
- kAKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766624396; x=1767229196;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=34ZWGlKeYAoBKfcSWnnSht52B70l+ENf2ADFK5Dgfo0=;
- b=Bx3wZYSM1CuVIEq6KFp9XBELgSUMZ88AjRh3TYjlFrPwp3Ogec4ePxy3GL/ePL3ONc
- Iw4gsiFlxB2qrbydO1hpaNPm3fUyKsL65jjV0v4GIgYBhmZVVqTn4MrzGW96MNV8lI+X
- R23LDZgl0KDGTrJVDVcf4GmgXDy/jh/FOXQhgwaSk97BWiXmCQh/bBnskVXmMjypLoUX
- +841oZmGQBrco0x27SQmyk/5jNYxVtHCrQmPlhGEr9Gy+fVNSS/emNxQ3ki7ynn2jL0r
- MwXFAbsdKWvAlHnViAskg0QYn08tBVSI/Dh+SIH7uoJY/6GyD/9SrYZUtxcVBXZ8j4/U
- NNSg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWulXIpVu9kcJPVgyXqnNKcdgxi3DAaRCW5BrvrnVImR2Pb08DrwPF4lffzEgX4Xcl70emdhcpPir8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyzu0L/B17oQglwgpU1bQXmXBN9zM8qhYPAZEiBeqr1PGw6V1AR
- VenKyNHUDiD+oxdHs7z3RCvAiNI8Y0fEKbLulDXcFC8y27Sjg6fsz4m0
-X-Gm-Gg: AY/fxX5AbGfy/ap5Q6Sbot3VYLJP4lcEOI3Ij0UuM78wV6Yx+67t/BI7KD76q7Tylza
- ZAQewXNAVp84D9oK+AXau/7pq/2oPyJirAYf7ecqQ0CppuRKk3ygzXRUaDr2fZOD2yMe/+pPJ1N
- F3xUKVkICBwd62AjNvwgyGIpSTsDpzvkd9yUGMPFjF/Lfb6kg32g5aI5+2WvTla6Gah744T7uXr
- 7e4/kR1pqL07rKsAhukikHTY9xWdVE5zYOTqw5vCPZq/Vy77Zx9QKA3UTB+GoE3zr8y6Hh7zulz
- UPG1x+VzmTxkbPZIdvVk2Dfxcjc/xHehfrta6jt8mtCBKcIIvLPX3Lf0mO9F9pLUwm3hxTLznlR
- OH7hYcBSE+RjCFcky74VZt6U5SVRasploKDq1HcG49VHBnGsnnwaTdAuI5PVBpB6xXP0PAAeb96
- aNyY9vPs+K0gI=
-X-Google-Smtp-Source: AGHT+IEkf9bcd4whUdPLA/3V9jA2iSPhImg4fMLlgrzr1cD29215lcKLqIOKPcjSlC6FRmStwRjSuQ==
-X-Received: by 2002:a17:903:22c8:b0:295:425a:350e with SMTP id
- d9443c01a7336-2a2f220d13dmr169983355ad.8.1766624395785; 
- Wed, 24 Dec 2025 16:59:55 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3560ad15dsm26772225ad.86.2025.12.24.16.59.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Dec 2025 16:59:54 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id 6F72C420B572; Thu, 25 Dec 2025 07:59:52 +0700 (WIB)
-Date: Thu, 25 Dec 2025 07:59:52 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6307F10E0F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 06:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766642691; x=1798178691;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=VcKC9/CBFU8uwKDrnoVC8HUQENdMl7CZvAYW/cKoi9o=;
+ b=dlRbJmyH2W8ncRgJ80QS9ehukvPhZVNlYNCujHJiRp2/LLEXrvFUqQvi
+ lY7yp+g7J0Z8njnixwdIwNxTfw6NdNa/Qvp2mTXsziIh/Yxck2Bcrk2zk
+ OBbzleGr7OF1C+6X0DqfDAAiEI7f2YZrq6WdgCNh10eAitXYBvlJjDePK
+ 24UQwpBwLyruIXRCJ3Jek82w0ayHxvX8csk0v20o7eLMc5L4+vITzTO+n
+ 71kl2qf25LI0olUdTSnOlv7YMT2Gdg44aYlMWQ7fGvn1QIgGqFzluxiz8
+ C61f6+qIQJcM3pwgxB8tLiU94jiBFr14jjAX2sdBelgwb6WhqPyYVvLqD Q==;
+X-CSE-ConnectionGUID: 1/CiPs/uR968PNDYi1RKkQ==
+X-CSE-MsgGUID: xav+oSM6RMKtVrVndif2uA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68613589"
+X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; d="scan'208";a="68613589"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Dec 2025 22:04:50 -0800
+X-CSE-ConnectionGUID: YjemtR3sRSKp5bj/xnm3fA==
+X-CSE-MsgGUID: wALkkXzzQruU2rIXRw2m+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; d="scan'208";a="199305559"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 24 Dec 2025 22:04:45 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vYeSo-000000003nv-31Ir;
+ Thu, 25 Dec 2025 06:04:42 +0000
+Date: Thu, 25 Dec 2025 14:04:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vincent Mailhol <mailhol@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <aUyMiJvJX1KhffVb@archie.me>
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <chris.mason@fusionio.com>,
+ David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+ linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Vincent Mailhol <mailhol@kernel.org>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+Message-ID: <202512251340.UApIFw9R-lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jUhjHASxm1xFu7uC"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,60 +84,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Vincent,
 
---jUhjHASxm1xFu7uC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Mon, Dec 22, 2025 at 11:11:20AM +0100, Louis Chauvet wrote:
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
-> +Date:		Nov 2025
-> +Contact:	dri-devel@lists.freedesktop.org
-> +Description:
-> +        List of supported formats for this plane. To add a new
-> +        item, write its fourcc code prefixed with '+'. To remove,
-> +        use '-' prefix. Use '+*' to add all formats, '-*' to
-> +        remove all.
-> +
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
 
-Sphinx reports htmldocs warning:
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
+patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
+config: i386-randconfig-141-20251225 (https://download.01.org/0day-ci/archive/20251225/202512251340.UApIFw9R-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
-Documentation/ABI/testing/configfs-vkms:199: WARNING: Inline emphasis start=
--string without end-string. [docutils]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512251340.UApIFw9R-lkp@intel.com/
 
-I have to escape the wildcard:
+smatch warnings:
+drivers/md/dm-stripe.c:463 stripe_io_hints() warn: unsigned '*_d' is never less than zero.
+drivers/md/dm-stripe.c:463 stripe_io_hints() warn: unsigned '_a' is never less than zero.
 
----- >8 ----
-diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/te=
-sting/configfs-vkms
-index a7fce35fcf91d1..3839b6e3c9c935 100644
---- a/Documentation/ABI/testing/configfs-vkms
-+++ b/Documentation/ABI/testing/configfs-vkms
-@@ -202,7 +202,7 @@ Contact:	dri-devel@lists.freedesktop.org
- Description:
-         List of supported formats for this plane. To add a new
-         item, write its fourcc code prefixed with '+'. To remove,
--        use '-' prefix. Use '+*' to add all formats, '-*' to
-+        use '-' prefix. Use '+*' to add all formats, '-\*' to
-         remove all.
-=20
- What:		/sys/kernel/config/vkms/<device>/planes/<plane>/zpos_enabled
+vim +463 drivers/md/dm-stripe.c
 
-Thanks.
+af4874e03ed82f Mike Snitzer    2009-06-22  454  
+40bea431274c24 Mike Snitzer    2009-09-04  455  static void stripe_io_hints(struct dm_target *ti,
+40bea431274c24 Mike Snitzer    2009-09-04  456  			    struct queue_limits *limits)
+40bea431274c24 Mike Snitzer    2009-09-04  457  {
+40bea431274c24 Mike Snitzer    2009-09-04  458  	struct stripe_c *sc = ti->private;
+1071d560afb4c2 Mikulas Patocka 2025-08-11  459  	unsigned int io_min, io_opt;
+40bea431274c24 Mike Snitzer    2009-09-04  460  
+5fb9d4341b782a John Garry      2025-07-11  461  	limits->chunk_sectors = sc->chunk_size;
+1071d560afb4c2 Mikulas Patocka 2025-08-11  462  
+1071d560afb4c2 Mikulas Patocka 2025-08-11 @463  	if (!check_shl_overflow(sc->chunk_size, SECTOR_SHIFT, &io_min) &&
+1071d560afb4c2 Mikulas Patocka 2025-08-11  464  	    !check_mul_overflow(io_min, sc->stripes, &io_opt)) {
+1071d560afb4c2 Mikulas Patocka 2025-08-11  465  		limits->io_min = io_min;
+1071d560afb4c2 Mikulas Patocka 2025-08-11  466  		limits->io_opt = io_opt;
+1071d560afb4c2 Mikulas Patocka 2025-08-11  467  	}
+40bea431274c24 Mike Snitzer    2009-09-04  468  }
+40bea431274c24 Mike Snitzer    2009-09-04  469  
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---jUhjHASxm1xFu7uC
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaUyMfwAKCRD2uYlJVVFO
-ozZlAP9YzRS40bCbfXPH7OLewcsoN37fmZDIvxUWn17lwEDbdgEA+teKlutf5NRD
-Ys2mASkyMQn/jubNeBeoNtuOzTQmEAY=
-=bshF
------END PGP SIGNATURE-----
-
---jUhjHASxm1xFu7uC--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
