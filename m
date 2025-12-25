@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A43CDDF3F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 18:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE998CDDF35
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 18:09:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECE911B194;
-	Thu, 25 Dec 2025 17:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FB211AD3B;
+	Thu, 25 Dec 2025 17:09:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VXCys8XV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j9UwJ6w7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f65.google.com (mail-yx1-f65.google.com
- [74.125.224.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB7411A4C8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 17:09:36 +0000 (UTC)
-Received: by mail-yx1-f65.google.com with SMTP id
- 956f58d0204a3-6467b7c3853so3220285d50.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:09:36 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B08411A4C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 17:09:37 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-78fb5764382so47509537b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766682575; x=1767287375; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766682576; x=1767287376; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RyNbxONE5FjE3NQ/ds0QsvOq9j9R5HrwQHi/I2IB5ps=;
- b=VXCys8XV+oeKOcsDQV1AHQjTgGWsqZkXUUvIV2tCMod/1UE6ah4bSreCCLA8yytngT
- v+ump9Xo8mWaxDHvCq6Gt0tZXREFwWyn5yhpDbZUf7Aedg6/eGhU/9ep4BtbuEXtktgj
- gp3Qktpqk3kSwG8Wv2L+5AyTJUkYvQVSInpJAw+LwdY5Y9DLeEPPMSqZjf/mPpL9tHzJ
- R9VZbhYozIZMKxVS2B1RwyokeNilmhRxfeSAZxen9vT2u5BKzk5ppl+1VVyMgE65HXUi
- ollA4qOdGTxFarm6sfjYiD8wUF8M/ZuJZF3/7HcOFxph5zmf6kIAATjltv3W4lM/US4A
- TrFQ==
+ bh=NNd78aAqU5EbrtjfwRe6vlIJ1RKc0HFvUVEnBy0vIWA=;
+ b=j9UwJ6w7vtGYefOGBANqz1ibWyC0q0HnkxASosimUipK+ebkIgjvylgBnQBotXZFw3
+ p5+stGanzbtGW1ZzkwiWo0maxZhbycWL7nL/W5YWnqbDps4g9bU3J6RhlXcjx+WAjNtx
+ 7VueSRwn/FC/IXZq9joRG+VK4dxq+cPTQ38Jpu6aB5qy1EbmuPtQvMZnx2DxmBmG14ii
+ mkL69BmWb1+v/VLGYpLPLkCgtzampL7tCp6bdYWRHcpdQo0Xn2HRbCsaLs02kZTPVuc3
+ tz1Ft0s6tPf5UNtJbNP+9rtnL2qBrqMeokB3rVAeCW9xch6QNzIJsOnpxW4NmVu1Wuaa
+ udZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766682575; x=1767287375;
+ d=1e100.net; s=20230601; t=1766682576; x=1767287376;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=RyNbxONE5FjE3NQ/ds0QsvOq9j9R5HrwQHi/I2IB5ps=;
- b=v1xIot8gtYNNyl268VKTQ9TP5VReQdwtbS5aIgyuZCM5xceFQf2HleFx1lTu0nZDHw
- HaNxU939+jozNkkwJrTQWNZjlZZLI9MNKTBK3E47rnCSHPvBfAHXmZ5TgfJKgaGqZzq8
- W1ApJCW11F0leIUYYzKEVJ/5jtanUyFwYd6632aHpz9zyET/0vlyumyDVwU5e+lD2Wb4
- 3jrN7gBYC12AegZWBr32MZb0s3x/X/GcvU4Og+pQvpwrSccgnz6D6YlZjvAWN+Y16TA9
- G+leaentaezi1whofwrcnZdkUX9vGdmwNGzaOvtimrJFoRaX++03eGFR+/a4IN1w1ExX
- cI3w==
+ bh=NNd78aAqU5EbrtjfwRe6vlIJ1RKc0HFvUVEnBy0vIWA=;
+ b=M0vVlxV6t+ZxB4Rn8WsBcTmkIDAGD5bRH2YOnLV2kOkbXxHHWX3A/E9Q0Jn6F3Ja+j
+ iTLxd/oygS+7JtV7CAw2JykxSqFsKj111A2TX0ictQZqcvE4f47oJGIS+gbfzm66EOLi
+ 5g5Rz7BvtlFuoBOkoiif+QNUFBUU/21aEIN+HV/8jr0FvuzcBQ+Ni5NDk9Lbk+dvbwyo
+ QkLXHe8M4ar+Vz5Vy5iL0ldPxQGMe45nYoWtt/nU/dqlbNqqJgeIlO3EIpXUUNxZgyin
+ GYQW9crvOmuzvH+k6i2SsvDHyXTS2cvGmUmw57feJXz6uvgBEmAq1gJloh+LLPFoLkVy
+ q+MA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUm18teLSbb9PYlaKlto48OUtzty5xUsDfW9OzzIbhkXOuJnKCKauLw8bQQsIJgtqzoug4RCNp7olI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxzSTAzCjNGdIsRsxHHyXId3BPQhhHgTtG9vCDz+C2FBnPQDCJC
- bNFuhvUtrk7D8uvoUwRse0y/3wgNbz8iZACSpxOd5d+W8UlW9G/wHXlX
-X-Gm-Gg: AY/fxX74F8wijHAL+vQoFn7Xi7MR8vyBfFld4lQMDs7CSIL2/RiVna1RlFTw4Grt1Xx
- A/jEkhrpeXw9SbPJ7YZq1TUvyE/PErJ4r5Ncw3zMtRcJW8VSqR7TyQm8tJAUH+GI8J20y5bON1M
- 2Y6fnyhBWu4ugT2nG3KyrGltVgDdQcBE6ZEsbA3KKa/ptg2zNDQ/s4HUduhw7iw2GHOVBj5HXGg
- nOWTz5pjZmBfyGL2ndbwNoSM1mFRd16L8yOVw9Ra29hlZmjDhYukI41PIK/zj+MtlbSJY4JD1KB
- rjG78ULB2vq6xovimihTL85zAZ9ivmCfKWHK3P/ctPmXSBR1eOxC1deVUxxhkUUxqvxzAfC7tjX
- rl2W5NNlapjwo1ROgDW5MaM7KJalI588znCajQ4/27hJ+hpTt1qCFhchb9uO2pyvfyhIodfxTRB
- 0BiCvucBdqq3HYxA2pqg==
-X-Google-Smtp-Source: AGHT+IFE8h6DvR/wQ+jE4yfmtCWCvhxSn9K0kIAiE1b9fgSbqcan4jtnrPelALLy8Mk/xvjxVHggUw==
-X-Received: by 2002:a53:c5ca:0:b0:645:5467:29e7 with SMTP id
- 956f58d0204a3-6466a8b4e26mr13238687d50.24.1766682575137; 
- Thu, 25 Dec 2025 09:09:35 -0800 (PST)
+ AJvYcCV99KeQsnefdedQyJG91ijTJQ7eqCbRfKfejJ7cLgqQVOa9LTcSOdmaBKhIdCH7T39a9Cqqn84asEE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdAXvZvUaVRff+lGhmGdizSLuEYOkdE/EtUDEPf7Lpi7Yb8jh2
+ 54vrfYcAyDelw0fDhduPu1RCLxpPcjmEgj92vA0W2g82Asy3iGCwqiRR
+X-Gm-Gg: AY/fxX7BW+RG3Bg/Vkbtwpa+g11bhiAfqvoIn1NOYoOVzTsmizYvcq4TWBBy0et6/HM
+ bxryP5UDaSWTNmBbymFq4yU6AhOrEZBJNs6Je5ouU8+f/64QA7rtH1FALdMtCv+4U5lbuyxKAPs
+ 8QgQ9bm/nj67xkTOKgtlhvT6F5A46oQlq6qtjNDXbd9qyHDNjP3dY9d76srt3v+rS5zitKCXEZh
+ /tVh2MACqxNjsBKUQUm1OsYEZkqKVpas4em866QukKyezycMeIwGKgZA4KN+0zQ5957xDPKzhnh
+ 1T/Y4nnAo0GRrxV6MAp3UiHRb9ah93Nm7Mh9QoDTfzbtWr6GGgU4wTOle9l7nCgSh5kTK6Tn5+0
+ kuaY9PyXnSisgPCJljv0G8xL/OyqO5gajgIf1aVd7idBJzPG4ie1ihqOMAUI22bceSEO+u2UdxP
+ FJxUauhQo=
+X-Google-Smtp-Source: AGHT+IEiizqa7gXB/ACCt9JE7Q6rU9XXmV2EFcojqYXAdUzX6FLa2edp+vH8KkFhKHQ2zor39oLYCg==
+X-Received: by 2002:a05:690c:4989:b0:78c:2c09:4748 with SMTP id
+ 00721157ae682-78fb3f7e542mr153887627b3.30.1766682576087; 
+ Thu, 25 Dec 2025 09:09:36 -0800 (PST)
 Received: from localhost ([2601:346:0:79bd:5a70:118b:3656:4527])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-78fb44f3f64sm75744107b3.27.2025.12.25.09.09.34
+ 00721157ae682-78fb439b8acsm76287267b3.13.2025.12.25.09.09.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Dec 2025 09:09:34 -0800 (PST)
+ Thu, 25 Dec 2025 09:09:35 -0800 (PST)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -82,9 +82,9 @@ To: Steven Rostedt <rostedt@goodmis.org>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: [PATCH v4 2/7] moduleparam: include required headers explicitly
-Date: Thu, 25 Dec 2025 12:09:24 -0500
-Message-ID: <20251225170930.1151781-3-yury.norov@gmail.com>
+Subject: [PATCH v4 3/7] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to sysfs.h
+Date: Thu, 25 Dec 2025 12:09:25 -0500
+Message-ID: <20251225170930.1151781-4-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251225170930.1151781-1-yury.norov@gmail.com>
 References: <20251225170930.1151781-1-yury.norov@gmail.com>
@@ -105,36 +105,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following patch drops moduleparam.h dependency on kernel.h. In
-preparation to it, list all the required headers explicitly.
+The macro is related to sysfs, but is defined in kernel.h. Move it to
+the proper header, and unload the generic kernel.h.
 
-Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Now that the macro is removed from kernel.h, linux/moduleparam.h is
+decoupled, and kernel.h inclusion can be removed.
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 ---
- include/linux/moduleparam.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/filesystems/sysfs.rst |  2 +-
+ include/linux/kernel.h              | 12 ------------
+ include/linux/moduleparam.h         |  2 +-
+ include/linux/sysfs.h               | 13 +++++++++++++
+ 4 files changed, 15 insertions(+), 14 deletions(-)
 
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+index 2703c04af7d0..ffcef4d6bc8d 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -120,7 +120,7 @@ is equivalent to doing::
+ 	    .store = store_foo,
+     };
+ 
+-Note as stated in include/linux/kernel.h "OTHER_WRITABLE?  Generally
++Note as stated in include/linux/sysfs.h "OTHER_WRITABLE?  Generally
+ considered a bad idea." so trying to set a sysfs file writable for
+ everyone will fail reverting to RO mode for "Others".
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 61d63c57bc2d..5b879bfea948 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -389,16 +389,4 @@ static inline void ftrace_dump(enum ftrace_dump_mode oops_dump_mode) { }
+ # define REBUILD_DUE_TO_DYNAMIC_FTRACE
+ #endif
+ 
+-/* Permissions on a sysfs file: you didn't miss the 0 prefix did you? */
+-#define VERIFY_OCTAL_PERMISSIONS(perms)						\
+-	(BUILD_BUG_ON_ZERO((perms) < 0) +					\
+-	 BUILD_BUG_ON_ZERO((perms) > 0777) +					\
+-	 /* USER_READABLE >= GROUP_READABLE >= OTHER_READABLE */		\
+-	 BUILD_BUG_ON_ZERO((((perms) >> 6) & 4) < (((perms) >> 3) & 4)) +	\
+-	 BUILD_BUG_ON_ZERO((((perms) >> 3) & 4) < ((perms) & 4)) +		\
+-	 /* USER_WRITABLE >= GROUP_WRITABLE */					\
+-	 BUILD_BUG_ON_ZERO((((perms) >> 6) & 2) < (((perms) >> 3) & 2)) +	\
+-	 /* OTHER_WRITABLE?  Generally considered a bad idea. */		\
+-	 BUILD_BUG_ON_ZERO((perms) & 2) +					\
+-	 (perms))
+ #endif
 diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index 915f32f7d888..03a977168c52 100644
+index 03a977168c52..281a006dc284 100644
 --- a/include/linux/moduleparam.h
 +++ b/include/linux/moduleparam.h
-@@ -2,9 +2,14 @@
- #ifndef _LINUX_MODULE_PARAMS_H
- #define _LINUX_MODULE_PARAMS_H
- /* (C) Copyright 2001, 2002 Rusty Russell IBM Corporation */
-+
-+#include <linux/array_size.h>
-+#include <linux/build_bug.h>
-+#include <linux/compiler.h>
+@@ -8,7 +8,7 @@
+ #include <linux/compiler.h>
  #include <linux/init.h>
  #include <linux/stringify.h>
- #include <linux/kernel.h>
-+#include <linux/types.h>
+-#include <linux/kernel.h>
++#include <linux/sysfs.h>
+ #include <linux/types.h>
  
  /*
-  * The maximum module name length, including the NUL byte.
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index c33a96b7391a..99b775f3ff46 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -808,4 +808,17 @@ static inline void sysfs_put(struct kernfs_node *kn)
+ 	kernfs_put(kn);
+ }
+ 
++/* Permissions on a sysfs file: you didn't miss the 0 prefix did you? */
++#define VERIFY_OCTAL_PERMISSIONS(perms)						\
++	(BUILD_BUG_ON_ZERO((perms) < 0) +					\
++	 BUILD_BUG_ON_ZERO((perms) > 0777) +					\
++	 /* USER_READABLE >= GROUP_READABLE >= OTHER_READABLE */		\
++	 BUILD_BUG_ON_ZERO((((perms) >> 6) & 4) < (((perms) >> 3) & 4)) +	\
++	 BUILD_BUG_ON_ZERO((((perms) >> 3) & 4) < ((perms) & 4)) +		\
++	 /* USER_WRITABLE >= GROUP_WRITABLE */					\
++	 BUILD_BUG_ON_ZERO((((perms) >> 6) & 2) < (((perms) >> 3) & 2)) +	\
++	 /* OTHER_WRITABLE?  Generally considered a bad idea. */		\
++	 BUILD_BUG_ON_ZERO((perms) & 2) +					\
++	 (perms))
++
+ #endif /* _SYSFS_H_ */
 -- 
 2.43.0
 
