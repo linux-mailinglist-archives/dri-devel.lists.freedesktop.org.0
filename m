@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F38CDDF2F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 18:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02710CDE0D5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 20:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8365111A7CA;
-	Thu, 25 Dec 2025 17:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42F310E1E7;
+	Thu, 25 Dec 2025 19:08:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="De70Yv5V";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kBEE50GI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com
- [74.125.224.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0710411AC14
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 17:09:38 +0000 (UTC)
-Received: by mail-yx1-f52.google.com with SMTP id
- 956f58d0204a3-644795bf5feso5902657d50.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:09:37 -0800 (PST)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+ [209.85.160.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D9110E1E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 19:08:33 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-4edb6e678ddso99178241cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 11:08:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766682577; x=1767287377; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766689712; x=1767294512; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Dc5Me+mE1rk9t6TSSnoEi9o5UAq5H187I9GSo5hasb4=;
- b=De70Yv5VEHQ/dS9ZJ+vZwubElt9AgNXvZEC/jfRVRIHMgrx04aNs2Mi5mttVQQoBBn
- sojIk9465kr/4xUTi9zAZVHIq+oe+ySXedgn+sf9HR2aXktYh+FMiFYnIDDSPCxObUPx
- 4B81O7eBfNJ6rjCoYyLveoXul0WLPX6GXeu9Xb9hcJTUkvoZh6ciILyus0RRN2ck7k9e
- qCbvUMgq/xKy3yelgve+8YqH8ZIy95x8uwUCKbFwOiCqVs2I71izLVy2YkGLmbRs3TVd
- L9XMLCrbtzmcbKXiQTaJthIAWt5cmKjzJR3UTB3iecbQ31xcwx5zoCJFnX+XSC3iW+wx
- T7kQ==
+ bh=hauBx7stO8fgVv7cwKU+lRmpmOfl414DpJwGxBenCpM=;
+ b=kBEE50GISABGPoAMorcu1j8VeFhOQQ+tyBZbnECbBbcS4XKoLWxb9j3bXb8sNoF8zv
+ dukCkaXfXkF9WsZs+eLrw64xWXlA5Z6i5f6+moMI+qdEUvj1IeA7SxgVsRpTcwcxufNk
+ 26wS5RsAnYU/t3whsp0j49etGvbTLacpPaLFQqnCbYDuyk+t+sJwMMT5v7P8Ax4hIK7A
+ gBrV/wS8fR+lPhn2IB9l6Mju9Ca3zHPJ0heeSCC/xVtYh9hiXMYfptB8Je+QeTzBMDIb
+ jIoNGoeUQ7aoSzc9qwZQWBZSq5WbvPui0FMetiMEe/x4LhbQSk8QsGt49WwdpP0FIRG1
+ 06vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766682577; x=1767287377;
+ d=1e100.net; s=20230601; t=1766689712; x=1767294512;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Dc5Me+mE1rk9t6TSSnoEi9o5UAq5H187I9GSo5hasb4=;
- b=JfVIPStTaNq3J0Y7gUtbBtcrCBPcJ97BJ8ubN7lfK5HRf29U7hN3gaEAKpFmQunc7F
- z1n/f7Lyh5MUkMS5KoKGq26cingB/CKhaN5911vclD53+rDmdIxhgtY8WD0Lybw2Res6
- R8VrgNtLAkDOOQfRsEg2/nFFUrSj/Q3SZa1z9OXQeuclTlBuTOuYJwW9c0KdX1QyMPtz
- AQlm2Ns9+IE1Yc06DiLpPo2z9euPBenlHHyqqQGne3t1CFAz9BiWhRvG/02+yZdMY6GW
- qIom3nGMco1UyRCrgKP9GtX9jcdRQfvarj/L67ar/gGQbIxrDb2kCjQFrOY+lUkruf12
- 8YFA==
+ bh=hauBx7stO8fgVv7cwKU+lRmpmOfl414DpJwGxBenCpM=;
+ b=WS4eRIVywtVmkV9hXIlfiJsfbHbwhMQct8tfJ6uY9hp0XUAU7RMK6zuQVrOpU0IfH3
+ oc8ifEgFEooaHUghfyX6do+n2AUF78obigDvB1bVGageb0HeuiILxfIa4esb9JwzG0j7
+ ABffZfdv8Bb5BGFlMwbK4/NJrTo2UFp1QfZe5/mWmC2A0wG628v/oW79caCodQSrZQK+
+ Np4ZdW186x8jPt+azlEjzxj22wza6oA2g94qkznV0DpLyNy2aU64M9b+RjmK4p0qcYMp
+ MpUWvuuh9boIFSZG+3aCbnH4beOnX9vmQYGUFAQQEsSBK/ElumNxi1+Reb3PSKVZuMc5
+ Ervg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXYj2vRC9AEuNnTi0tZFLWt4oG4XSwwuzB0KDvkJ3TFjWoGAZgvF7b85vtMXMtaJO64a8Zs5217MU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkSxTUEIuZfrxFOK0oHllLiERkoGBpeNMr57FsTtNIlM/ufsrJ
- 3nb+Mt6NbTCzynoK10cp146s1zfsDs91nRr6jbw90cR8zqWb9JSS3V25
-X-Gm-Gg: AY/fxX4ij/IB8iH+TOzOFZPhy5r8oRTaCTMSw8IsTeAs1HkySFazjSNlz+Ym/DsYcT1
- anEuZ7ccrpJ7PUBRUpSVbJiSSlCY0qYbVk4RCk+UbFdXYdxxtazvIAEnHBxdqdc3pfbezLtvKea
- Yv7TrH/OGZi9PlplA0YzlRY+63mwcg6lPEB7l27q51DJ/Sg/SDbSKhBAFp+KnC6Sa9xu/5GYza/
- 5RskR2poH/bXWG4rEJ+INBuGlfz7zjixsvTE6eP8+uGPU5xiMGU9rxQEfPhXcY0hJiHiGlkGW/t
- 6kT8pzloNrD2VzzE9CfRh/nJXQA3MAzSRNFm5lbAhhF+gugy74pNEz7er+rcQFZVOKkybCxpKru
- IziKSiI5Jl/fGnzoBA9ejas4gVBOvpPYiqPRVpRAGLVpS7qSCBEBcuuoeTl+tWpb8mK9wvr/+7g
- gfZZ3iJZ4=
-X-Google-Smtp-Source: AGHT+IF3pn2lAHgaG+6TAPCfe6GjTjYcrsSqlU3VOVIzxXfAGamdgIbuGhSoSIuBjHiFa2I0R1eJBQ==
-X-Received: by 2002:a05:690e:1502:b0:644:60d9:866b with SMTP id
- 956f58d0204a3-6466a9265a2mr13857881d50.92.1766682577038; 
+ AJvYcCU11xkq64I0U5ZkPhGNUCVsDdCCaKXdG9t0I3sMQIrAhkAUNJdHU3DkRki1SyoSZ3kwjZyeL8YUTFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyU1ObRzop034UmID3u5LMwz1/9gnI5YaqsiPST7fyV/keGavWS
+ nsqUB+bLZxki882KPnWfTizGnMapTSIqJFm1Qedsi3kHo0umFsdsA12B
+X-Gm-Gg: AY/fxX7cWAYZs5M45/5maLaJhvKbhcY3+L6Qmj0oqdqMr697WztiYbmran06+Bk2v6p
+ xJ2DgK0TOZ8F4ApWXmZcW64QUCTUBgCpHrljpsyPUfy3D2RABWY4nAOOSBx2+55cQpmv16KMl1W
+ NAsvL0VQvM3SWU77m9vv8+htyEzTHvoTj5e7vUuLmMTbxaD7tXlWb5XNz/GVh1ZYHA/hSDz+mD+
+ t6Pa8QAAQkQHfSaiZZtLnEj7j9cebVUmE1RMY2+/IgLMvZxR4WnM4wu6F6D7PKICCbiEdxi//wy
+ pHc/QWrDFIjngiQ/WWMbdfnjrZYAys/OnEwiJeoSCmI9u9LvjOEKbYANOjyssbBldqG0CcLx0ge
+ gS2LvgCd2nTEMiIKAKStAU7z09JtlJsb58vbddNLBho6GrqWNngdZZOMSezGjqiKrrsWVBkJSzb
+ 3ug69GhZA+k7AEPzajYQ==
+X-Google-Smtp-Source: AGHT+IFOC5KnXE7Y/86OXEfn0VfROKTdlo6cIy7sSNHG4HuRQ93qgtI5LmuQjuxLc/KbIiLosqGOQg==
+X-Received: by 2002:a53:8592:0:b0:63f:ad6d:cbd5 with SMTP id
+ 956f58d0204a3-6466a900e02mr12636421d50.60.1766682577930; 
  Thu, 25 Dec 2025 09:09:37 -0800 (PST)
 Received: from localhost ([2601:346:0:79bd:5a70:118b:3656:4527])
  by smtp.gmail.com with ESMTPSA id
- 956f58d0204a3-6466a92186bsm9734975d50.12.2025.12.25.09.09.36
+ 956f58d0204a3-6466a8bd6ffsm9803141d50.9.2025.12.25.09.09.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Dec 2025 09:09:36 -0800 (PST)
+ Thu, 25 Dec 2025 09:09:37 -0800 (PST)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -82,10 +82,9 @@ To: Steven Rostedt <rostedt@goodmis.org>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: [PATCH v4 4/7] kernel.h: include linux/instruction_pointer.h
- explicitly
-Date: Thu, 25 Dec 2025 12:09:26 -0500
-Message-ID: <20251225170930.1151781-5-yury.norov@gmail.com>
+Subject: [PATCH v4 5/7] tracing: Remove size parameter in __trace_puts()
+Date: Thu, 25 Dec 2025 12:09:27 -0500
+Message-ID: <20251225170930.1151781-6-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251225170930.1151781-1-yury.norov@gmail.com>
 References: <20251225170930.1151781-1-yury.norov@gmail.com>
@@ -106,39 +105,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for decoupling linux/instruction_pointer.h and
-linux/kernel.h, include instruction_pointer.h explicitly where needed.
+From: Steven Rostedt <rostedt@goodmis.org>
 
+The __trace_puts() function takes a string pointer and the size of the
+string itself. All users currently simply pass in the strlen() of the
+string it is also passing in. There's no reason to pass in the size.
+Instead have the __trace_puts() function do the strlen() within the
+function itself.
+
+This fixes a header recursion issue where using strlen() in the macro
+calling __trace_puts() requires adding #include <linux/string.h> in order
+to use strlen(). Removing the use of strlen() from the header fixes the
+recursion issue.
+
+Link: https://lore.kernel.org/all/aUN8Hm377C5A0ILX@yury/
+
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 ---
- arch/s390/include/asm/processor.h | 1 +
- include/linux/ww_mutex.h          | 1 +
- 2 files changed, 2 insertions(+)
+ include/linux/kernel.h | 4 ++--
+ kernel/trace/trace.c   | 7 +++----
+ kernel/trace/trace.h   | 2 +-
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/arch/s390/include/asm/processor.h b/arch/s390/include/asm/processor.h
-index 3affba95845b..cc187afa07b3 100644
---- a/arch/s390/include/asm/processor.h
-+++ b/arch/s390/include/asm/processor.h
-@@ -31,6 +31,7 @@
- #include <linux/cpumask.h>
- #include <linux/linkage.h>
- #include <linux/irqflags.h>
-+#include <linux/instruction_pointer.h>
- #include <linux/bitops.h>
- #include <asm/fpu-types.h>
- #include <asm/cpu.h>
-diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
-index 45ff6f7a872b..9b30fa2ec508 100644
---- a/include/linux/ww_mutex.h
-+++ b/include/linux/ww_mutex.h
-@@ -17,6 +17,7 @@
- #ifndef __LINUX_WW_MUTEX_H
- #define __LINUX_WW_MUTEX_H
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 5b879bfea948..4ee48fb10dec 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -329,10 +329,10 @@ int __trace_printk(unsigned long ip, const char *fmt, ...);
+ 	if (__builtin_constant_p(str))					\
+ 		__trace_bputs(_THIS_IP_, trace_printk_fmt);		\
+ 	else								\
+-		__trace_puts(_THIS_IP_, str, strlen(str));		\
++		__trace_puts(_THIS_IP_, str);				\
+ })
+ extern int __trace_bputs(unsigned long ip, const char *str);
+-extern int __trace_puts(unsigned long ip, const char *str, int size);
++extern int __trace_puts(unsigned long ip, const char *str);
  
-+#include <linux/instruction_pointer.h>
- #include <linux/mutex.h>
- #include <linux/rtmutex.h>
+ extern void trace_dump_stack(int skip);
  
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 6f2148df14d9..57f24e2cd19c 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -1178,11 +1178,10 @@ EXPORT_SYMBOL_GPL(__trace_array_puts);
+  * __trace_puts - write a constant string into the trace buffer.
+  * @ip:	   The address of the caller
+  * @str:   The constant string to write
+- * @size:  The size of the string.
+  */
+-int __trace_puts(unsigned long ip, const char *str, int size)
++int __trace_puts(unsigned long ip, const char *str)
+ {
+-	return __trace_array_puts(printk_trace, ip, str, size);
++	return __trace_array_puts(printk_trace, ip, str, strlen(str));
+ }
+ EXPORT_SYMBOL_GPL(__trace_puts);
+ 
+@@ -1201,7 +1200,7 @@ int __trace_bputs(unsigned long ip, const char *str)
+ 	int size = sizeof(struct bputs_entry);
+ 
+ 	if (!printk_binsafe(tr))
+-		return __trace_puts(ip, str, strlen(str));
++		return __trace_puts(ip, str);
+ 
+ 	if (!(tr->trace_flags & TRACE_ITER(PRINTK)))
+ 		return 0;
+diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+index b6d42fe06115..de4e6713b84e 100644
+--- a/kernel/trace/trace.h
++++ b/kernel/trace/trace.h
+@@ -2116,7 +2116,7 @@ extern void tracing_log_err(struct trace_array *tr,
+  * about performance). The internal_trace_puts() is for such
+  * a purpose.
+  */
+-#define internal_trace_puts(str) __trace_puts(_THIS_IP_, str, strlen(str))
++#define internal_trace_puts(str) __trace_puts(_THIS_IP_, str)
+ 
+ #undef FTRACE_ENTRY
+ #define FTRACE_ENTRY(call, struct_name, id, tstruct, print)	\
 -- 
 2.43.0
 
