@@ -2,99 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0EECDD982
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 10:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF6BCDD98E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 10:37:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1990A11B10A;
-	Thu, 25 Dec 2025 09:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5CF11ADF7;
+	Thu, 25 Dec 2025 09:37:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ExHEXR7I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dhMTFmHZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7C511B108
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:36:55 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-34ccdcbe520so3592601a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 01:36:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766655414; x=1767260214; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tf7MFpvRhq3Hc2Xuc8reyS4xRtAPZGEYU5rUsyKGIP8=;
- b=ExHEXR7IphJpnWtI8zU8id20u1EN8KX8J+hRLmDRj0Iz7gR9PygkntmWqs+uljQjfg
- hOGt5IoElCzyzk57DClYQQfjsiHsFvm754ql0sUDv7kBLN+i4gFwwQLzUBVd5zyT3h5v
- WNMmpQbCalwCjw5b1WBaCSazOlMyPP26SpjF+nWYq7MI3MUAiPoxdDpcw3xsviNNqgSI
- Ahrt5zrOu/k7U5rkpzvCSzYwEeXbmBebbNmDRYSIJfypnaBx/EjFyh5HFB9JTgN6P5nF
- iMjLDX98HtaneV8hJNB8CVyJ5x41czxz3j2ItZHndHoMfRA745bvChLhBbl3fdo29YR+
- ZRvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766655414; x=1767260214;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tf7MFpvRhq3Hc2Xuc8reyS4xRtAPZGEYU5rUsyKGIP8=;
- b=hIjWbUK/nC1Ln9BBMVWHvvfLn3IFu0YBEVJDq2PODLVoGHgGVx33sRQdXs6F4ArsEk
- y2kn2oJIUHyV+jNLDFey6IL7lbkn8DNJ9O1xlV+4K4A8uTDKw/xWyj0aRox1HpLLOCsw
- jThmn+hVNuHjnmcM152/OIoul7xSeB2xTdMgT4uaAYId2IBxb1wPELi9G0VNha5VV92z
- FhPf76yAQjcDz0ToTx3iYJh7xJe8+x/t84a/M67uaW/WAfk/qpyEmi4ccVu3M28qKM+s
- MIy5nl2vBiovcCjV8ndZY5v/PV+CRA2u92YxwtN7JMlN5VYDuVuR21n15IQtqRDydweQ
- /DUw==
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09C11B10B
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:37:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4C0E160137
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:37:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0315CC19421
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766655446;
+ bh=sK1sNGUuaVZlsyA4mFkm3mJlJ/25GORIUE77JBYSTpI=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=dhMTFmHZTtNp1XTq2IthkPoEQMnL7OpL0HTs4JhUm2TZNziVN7QXwlveroF64yTVb
+ aPwVqpyrE2mKt3ZRlpt9s8ScHRfq2/esQxPQNSgXL42B052UUsO8i7gwHYlGfS0VR/
+ aj7PzIo03CR1/HU557YUDaXHKAgLJWkH/peadO6LhnxH2RCvKUuOSZyj0sz9YZ828E
+ z3TZYD34n12wczzz+0l1Pgoaqa3BczSu3asumlheeBrxUDtg07yX9O5wlP8N+K5fH7
+ ArdcWtvUAKmpDOq35pjmlNQJFIPb3UO6tcyWXHSiC9zoLK/S7cvmKWyxezcbAvHNng
+ PrKD0XxdReElw==
+Received: by mail-oa1-f50.google.com with SMTP id
+ 586e51a60fabf-3ed151e8fc3so4387293fac.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 01:37:25 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/ESl/EJKGMunOyfB8rDsOMXxLD23gaMeTbaXdXtUxxN/GOs8nJde3VohELCWypRDCvbKmuAkQ4Ec=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcwdWgJo5NPhFPmbA63ttzVA7DHv9BDydbIWkGAc0OQq8OabGN
- CV8I1lAXJ/MGJec69OrcCteejdvHlfgC1j4QOOb5b6TiprPuhXorCswZ
-X-Gm-Gg: AY/fxX7H/VhHgqdi/tmIMsaM9T1f34g/ca4RM51qQxmxj6XRi5urESrD+nkDDOaszqX
- Yl3Px1Ar511yHbyWfnKMY9lHiPdxDHOcbLrq1w5K2YLns/aJALvH8mxyOeZh0N/krAiPkZbOhFu
- CM55rTUIS2J1u4iDQhI7fEy2I4lP0cT6gYBZF/+tVP42KEGvuZWKmWnbqYG/+SA522x0BT1UQYe
- kKECFVK6BBnOJaUtLLQjF415d5wZi1nHIVJLd9sQiOcxYkysCiEFXZ73jzelVeXZS4wsExQWWwY
- xqIAO0YHlBndThbTBB6KXqWAikHNaCPjHYFPWO1Ez3cVnsihgkNfnLecEiaXq1rV5rgSx6XWd9E
- 7Z+vtjd1Ds0HDOnvgNHK67HXIKcxGuFS5zhiK80YbHD0mZtMrkoauxpJhHM2fH8aCg1SmJIUTi3
- Jjj1YaYN2S7WN9Douy2vgGWkKtDUG6eiE2+uJy05j1ZFwxxquDNwYjNYS2GPfbgxdRgFEcpmtjY
- SZd4w/n8CTiuHfIfg==
-X-Google-Smtp-Source: AGHT+IE9NTYk8VjIYW+VgXgqiWy1J3HfIzv/yP3SP4cKlc0TXhlrtzGzqxdhbVYaksUSeGs9Nr0pgA==
-X-Received: by 2002:a17:90b:2b46:b0:34a:be93:72ee with SMTP id
- 98e67ed59e1d1-34e90d6d322mr17687314a91.8.1766655413908; 
- Thu, 25 Dec 2025 01:36:53 -0800 (PST)
-Received: from smtpclient.apple (125x103x213x40.ap125.ftth.ucom.ne.jp.
- [125.103.213.40]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-34e76de1e41sm10145504a91.2.2025.12.25.01.36.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 25 Dec 2025 01:36:53 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v4 3/9] drm: verisilicon: add a driver for Verisilicon
- display controllers
-From: "Han Gao (Revy)" <rabenda.cn@gmail.com>
-In-Reply-To: <20251224161205.1132149-4-zhengxingda@iscas.ac.cn>
-Date: Thu, 25 Dec 2025 17:36:36 +0800
-Cc: "Han Gao (Revy)" <rabenda.cn@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- Icenowy Zheng <uwu@icenowy.me>
+ AJvYcCVQv3qYO6/nBfQ6Qi6TcWEEqqfSph2nrBWpRGoA0I/kMi4yjb5A2QbWZfj2eakjsxjS2hP9eSPEpyE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3CPaa1Tf6Fau/SMzoXdKm2ayPlpiuwsC++RHYO2HtuXwrWni6
+ hHixEjdvNqzjy//PKpAGekqTS282zofWId0YlVjL4QE5lFytVjP4ls/PCR3KU/6TzJ1ccEHmi7e
+ hFUMthxnbBOC5+96ZdtHr1bHBCZ0Eoxo=
+X-Google-Smtp-Source: AGHT+IFIDa7aBczNVoikTY+oCF3Is3mEEiepb8/c/Tocjg8H68oMELW+/WsDLZ+Dw5xNgmRh0RfQzCn7KBUJoVj+76o=
+X-Received: by 2002:a05:6820:1501:b0:65b:35a2:7a81 with SMTP id
+ 006d021491bc7-65d0ea9d074mr9434650eaf.53.1766655445026; Thu, 25 Dec 2025
+ 01:37:25 -0800 (PST)
+MIME-Version: 1.0
+References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
+ <20251115141347.13087-6-jernej.skrabec@gmail.com>
+ <CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com>
+In-Reply-To: <CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 25 Dec 2025 17:37:06 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65e2a_f+UEDu-Wk3bWvgHt24erjk+iLWgMAQwB-mzcnaA@mail.gmail.com>
+X-Gm-Features: AQt7F2r8yNX37j9VOgrBDh4ZNnkaSnN00GkQWIlj3gFqx8TPcDU1cMocMkHbCL8
+Message-ID: <CAGb2v65e2a_f+UEDu-Wk3bWvgHt24erjk+iLWgMAQwB-mzcnaA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] drm/sun4i: Add planes driver
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
+ sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <9F3AAFFB-39B8-4B2A-82E6-13774A5832A0@gmail.com>
-References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
- <20251224161205.1132149-4-zhengxingda@iscas.ac.cn>
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,2086 +74,361 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 25, 2025 at 5:29=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
+e:
+>
+> On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
+> <jernej.skrabec@gmail.com> wrote:
+> >
+> > This driver serves just as planes sharing manager, needed for Display
+> > Engine 3.3 and newer.
+> >
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/Kconfig         |   8 +
+> >  drivers/gpu/drm/sun4i/Makefile        |   1 +
+> >  drivers/gpu/drm/sun4i/sun50i_planes.c | 205 ++++++++++++++++++++++++++
+> >  drivers/gpu/drm/sun4i/sun50i_planes.h |  43 ++++++
+> >  4 files changed, 257 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.c
+> >  create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.h
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kcon=
+fig
+> > index b56ba00aabca..946dd7606094 100644
+> > --- a/drivers/gpu/drm/sun4i/Kconfig
+> > +++ b/drivers/gpu/drm/sun4i/Kconfig
+> > @@ -85,4 +85,12 @@ config DRM_SUN8I_TCON_TOP
+> >           TCON TOP is responsible for configuring display pipeline for
+> >           HDMI, TVE and LCD.
+> >
+> > +config DRM_SUN50I_PLANES
+> > +       tristate
+> > +       default DRM_SUN4I if DRM_SUN8I_MIXER!=3Dn
+> > +       help
+> > +         Chose this option if you have an Allwinner Soc with the
+> > +         Display Engine 3.3 or newer. Planes are shared resource
+> > +         between multiple mixers.
+> > +
+> >  endif
+> > diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Mak=
+efile
+> > index bad7497a0d11..03f002abef15 100644
+> > --- a/drivers/gpu/drm/sun4i/Makefile
+> > +++ b/drivers/gpu/drm/sun4i/Makefile
+> > @@ -38,3 +38,4 @@ obj-$(CONFIG_DRM_SUN6I_DSI)   +=3D sun6i_mipi_dsi.o
+> >  obj-$(CONFIG_DRM_SUN8I_DW_HDMI)        +=3D sun8i-drm-hdmi.o
+> >  obj-$(CONFIG_DRM_SUN8I_MIXER)  +=3D sun8i-mixer.o
+> >  obj-$(CONFIG_DRM_SUN8I_TCON_TOP) +=3D sun8i_tcon_top.o
+> > +obj-$(CONFIG_DRM_SUN50I_PLANES)        +=3D sun50i_planes.o
+>
+> I don't think you can have this as a separate module:
+>
+> a. You are using sun8i_vi_layer_init_one() and sun8i_ui_layer_init_one()
+>    from the sun8i-mixer module, and neither of them are exported symbols.
+>
+> b. You export sun50i_planes_setup() for sun8i-mixer to call, which ends
+>    up becoming a circular dependency.
+>
+> The easiest solution would be to just fold this into the sun8i-mixer modu=
+le.
+>
+>
+> > diff --git a/drivers/gpu/drm/sun4i/sun50i_planes.c b/drivers/gpu/drm/su=
+n4i/sun50i_planes.c
+> > new file mode 100644
+> > index 000000000000..a99c01122990
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sun4i/sun50i_planes.c
+> > @@ -0,0 +1,205 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/* Copyright (c) 2025 Jernej Skrabec <jernej.skrabec@gmail.com> */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/io.h>
+> > +#include <linux/mfd/syscon.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_graph.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#include "sun50i_planes.h"
+> > +#include "sun8i_ui_layer.h"
+> > +#include "sun8i_vi_layer.h"
+> > +
+> > +static bool sun50i_planes_node_is_planes(struct device_node *node)
+> > +{
+> > +       return !!of_match_node(sun50i_planes_of_table, node);
+> > +}
+> > +
+> > +struct drm_plane **
+> > +sun50i_planes_setup(struct device *dev, struct drm_device *drm,
+> > +                   unsigned int mixer)
+> > +{
+> > +       struct sun50i_planes *planes =3D dev_get_drvdata(dev);
+> > +       const struct sun50i_planes_quirks *quirks;
+> > +       struct drm_plane **drm_planes;
+> > +       const struct default_map *map;
+> > +       unsigned int i;
+> > +
+> > +       if (!sun50i_planes_node_is_planes(dev->of_node)) {
+> > +               dev_err(dev, "Device is not planes driver!\n");
+> > +               return NULL;
+> > +       }
+> > +
+> > +       if (!planes) {
+> > +               dev_err(dev, "Planes driver is not loaded yet!\n");
+> > +               return NULL;
+> > +       }
+> > +
+> > +       if (mixer > 1) {
+> > +               dev_err(dev, "Mixer index is too high!\n");
+> > +               return NULL;
+> > +       }
+> > +
+> > +       quirks =3D planes->quirks;
+> > +       map =3D &quirks->def_map[mixer];
+> > +
+> > +       drm_planes =3D devm_kcalloc(drm->dev, map->num_ch + 1,
+>
+> Just a note: it seems we are missing the sentinel in sun8i_layers_init().
+>
+> > +                                 sizeof(*drm_planes), GFP_KERNEL);
+> > +       if (!drm_planes)
+> > +               return ERR_PTR(-ENOMEM);
+> > +
+> > +       for (i =3D 0; i < map->num_ch; i++) {
+> > +               unsigned int phy_ch =3D map->map[i];
+> > +               struct sun8i_layer *layer;
+> > +               enum drm_plane_type type;
+> > +
+> > +               if ((i =3D=3D 0 && map->num_ch =3D=3D 1) || i =3D=3D 1)
+> > +                       type =3D DRM_PLANE_TYPE_PRIMARY;
+> > +               else
+> > +                       type =3D DRM_PLANE_TYPE_OVERLAY;
+> > +
+> > +               if (phy_ch < UI_PLANE_OFFSET)
+> > +                       layer =3D sun8i_vi_layer_init_one(drm, type, pl=
+anes->regs,
+> > +                                                       i, phy_ch, map-=
+>num_ch,
+> > +                                                       &quirks->cfg);
+> > +               else
+> > +                       layer =3D sun8i_ui_layer_init_one(drm, type, pl=
+anes->regs,
+> > +                                                       i, phy_ch, map-=
+>num_ch,
+> > +                                                       &quirks->cfg);
+> > +
+> > +               if (IS_ERR(layer)) {
+> > +                       dev_err(drm->dev,
+> > +                               "Couldn't initialize DRM plane\n");
+> > +                       return ERR_CAST(layer);
+> > +               }
+> > +
+> > +               drm_planes[i] =3D &layer->plane;
+> > +       }
+> > +
+> > +       return drm_planes;
+> > +}
+> > +EXPORT_SYMBOL(sun50i_planes_setup);
+> > +
+> > +static void sun50i_planes_init_mapping(struct sun50i_planes *planes)
+> > +{
+> > +       const struct sun50i_planes_quirks *quirks =3D planes->quirks;
+> > +       unsigned int i, j;
+> > +       u32 mapping;
+> > +
+> > +       mapping =3D 0;
+> > +       for (j =3D 0; j < MAX_DISP; j++)
+> > +               for (i =3D 0; i < quirks->def_map[j].num_ch; i++) {
+> > +                       unsigned int ch =3D quirks->def_map[j].map[i];
+> > +
+> > +                       if (ch < UI_PLANE_OFFSET)
+> > +                               mapping |=3D j << (ch * 2);
+> > +                       else
+> > +                               mapping |=3D j << ((ch - UI_PLANE_OFFSE=
+T) * 2 + 16);
+> > +               }
+> > +       regmap_write(planes->mapping, SUNXI_DE33_DE_CHN2CORE_MUX_REG, m=
+apping);
+> > +
+> > +       for (j =3D 0; j < MAX_DISP; j++) {
+> > +               mapping =3D 0;
+> > +               for (i =3D 0; i < quirks->def_map[j].num_ch; i++) {
+> > +                       unsigned int ch =3D quirks->def_map[j].map[i];
+> > +
+> > +                       if (ch >=3D UI_PLANE_OFFSET)
+> > +                               ch +=3D 2;
+> > +
+> > +                       mapping |=3D ch << (i * 4);
+> > +               }
+> > +               regmap_write(planes->mapping, SUNXI_DE33_DE_PORT02CHN_M=
+UX_REG + j * 4, mapping);
+> > +       }
+> > +}
+> > +
+> > +static const struct regmap_config sun50i_planes_regmap_config =3D {
+> > +       .name           =3D "planes",
+> > +       .reg_bits       =3D 32,
+> > +       .val_bits       =3D 32,
+> > +       .reg_stride     =3D 4,
+> > +       .max_register   =3D 0x17fffc,
+> > +};
+> > +
+> > +static int sun50i_planes_probe(struct platform_device *pdev)
+> > +{
+> > +       struct device *dev =3D &pdev->dev;
+> > +       struct sun50i_planes *planes;
+> > +       void __iomem *regs;
+> > +
+> > +       planes =3D devm_kzalloc(dev, sizeof(*planes), GFP_KERNEL);
+> > +       if (!planes)
+> > +               return -ENOMEM;
+> > +
+> > +       planes->quirks =3D of_device_get_match_data(&pdev->dev);
+> > +       if (!planes->quirks)
+> > +               return dev_err_probe(dev, -EINVAL, "Unable to get quirk=
+s\n");
+> > +
+> > +       planes->mapping =3D syscon_regmap_lookup_by_phandle(dev->of_nod=
+e,
+> > +                                                         "allwinner,pl=
+ane-mapping");
+> > +       if (IS_ERR(planes->mapping))
+> > +               return dev_err_probe(dev, PTR_ERR(planes->mapping),
+> > +                                    "Unable to get mapping\n");
+> > +
+> > +       regs =3D devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(regs))
+> > +               return PTR_ERR(regs);
+> > +
+> > +       planes->regs =3D devm_regmap_init_mmio(dev, regs, &sun50i_plane=
+s_regmap_config);
+> > +       if (IS_ERR(planes->regs))
+> > +               return PTR_ERR(planes->regs);
+> > +
+> > +       dev_set_drvdata(dev, planes);
+> > +
+> > +       sun50i_planes_init_mapping(planes);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static const struct sun50i_planes_quirks sun50i_h616_planes_quirks =3D=
+ {
+> > +       .def_map =3D {
+> > +               {
+> > +                       .map =3D {0, 6, 7},
+> > +                       .num_ch =3D 3,
+> > +               },
+> > +               {
+> > +                       .map =3D {1, 2, 8},
+> > +                       .num_ch =3D 3,
+> > +               },
+> > +       },
+> > +       .cfg =3D {
+> > +               .de_type        =3D SUN8I_MIXER_DE33,
+> > +               /*
+> > +                * TODO: All planes support scaling, but driver needs
+> > +                * improvements to properly support it.
+> > +                */
+> > +               .scaler_mask    =3D 0,
+> > +               .scanline_yuv   =3D 4096,
+> > +       },
+> > +};
+> > +
+> > +/* sun4i_drv uses this list to check if a device node is a plane */
 
+I didn't see any usage of this in patch 7. Is this part of another
+series?
 
-> On Dec 25, 2025, at 00:11, Icenowy Zheng <zhengxingda@iscas.ac.cn> =
-wrote:
->=20
-> From: Icenowy Zheng <uwu@icenowy.me>
->=20
-> This is a from-scratch driver targeting Verisilicon DC-series display
-> controllers, which feature self-identification functionality like =
-their
-> GC-series GPUs.
->=20
-> Only DC8200 is being supported now, and only the main framebuffer is =
-set
-> up (as the DRM primary plane). Support for more DC models and more
-> features is my further targets.
->=20
-> As the display controller is delivered to SoC vendors as a whole part,
-> this driver does not use component framework and extra bridges inside =
-a
-> SoC is expected to be implemented as dedicated bridges (this driver
-> properly supports bridge chaining).
->=20
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> ---
-> Changes in v4:
-> - Switch to drm_* logger when we're handling with struct drm_device.
->=20
-> Changes in v3:
-> - Get rid of drm_atomic_get_existing_crtc_state() which is marked
->  deprecated.
->=20
-> Changes in v2:
-> - Changed some Control flows according to previous reviews.
-> - Added missing of_node_put when checking of endpoints for output =
-type.
-> - Switched all userspace-visible modeset objects to be managed by drmm
->  instead of devm.
-> - Utilize devm_drm_bridge_alloc() in internal bridge.
-> - Prevented the usage of simple encoder helpers by passing a NULL =
-funcs pointer.
-> - Let devm enable clocks when getting them.
-> - Removed explicit `.cache_type =3D REGCACHE_NONE` in regmap config.
-> - Fixed a debug print using a variable before initialization.
-> - Fixed a wrong index when using bulk to handle resets.
-> - Added missing configuration for DPI format (currently fixed RGB888).
->=20
-> drivers/gpu/drm/Kconfig                       |   2 +
-> drivers/gpu/drm/Makefile                      |   1 +
-> drivers/gpu/drm/verisilicon/Kconfig           |  15 +
-> drivers/gpu/drm/verisilicon/Makefile          |   5 +
-> drivers/gpu/drm/verisilicon/vs_bridge.c       | 331 ++++++++++++++++++
-> drivers/gpu/drm/verisilicon/vs_bridge.h       |  40 +++
-> drivers/gpu/drm/verisilicon/vs_bridge_regs.h  |  54 +++
-> drivers/gpu/drm/verisilicon/vs_crtc.c         | 217 ++++++++++++
-> drivers/gpu/drm/verisilicon/vs_crtc.h         |  29 ++
-> drivers/gpu/drm/verisilicon/vs_crtc_regs.h    |  60 ++++
-> drivers/gpu/drm/verisilicon/vs_dc.c           | 205 +++++++++++
-> drivers/gpu/drm/verisilicon/vs_dc.h           |  39 +++
-> drivers/gpu/drm/verisilicon/vs_dc_top_regs.h  |  27 ++
-> drivers/gpu/drm/verisilicon/vs_drm.c          | 177 ++++++++++
-> drivers/gpu/drm/verisilicon/vs_drm.h          |  29 ++
-> drivers/gpu/drm/verisilicon/vs_hwdb.c         | 150 ++++++++
-> drivers/gpu/drm/verisilicon/vs_hwdb.h         |  29 ++
-> drivers/gpu/drm/verisilicon/vs_plane.c        | 102 ++++++
-> drivers/gpu/drm/verisilicon/vs_plane.h        |  68 ++++
-> .../gpu/drm/verisilicon/vs_primary_plane.c    | 157 +++++++++
-> .../drm/verisilicon/vs_primary_plane_regs.h   |  53 +++
-> 21 files changed, 1790 insertions(+)
-> create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
-> create mode 100644 drivers/gpu/drm/verisilicon/Makefile
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge_regs.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc_regs.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane.c
-> create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 7e6bc0b3a589c..41363da2cc59f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -398,6 +398,8 @@ source "drivers/gpu/drm/imagination/Kconfig"
->=20
-> source "drivers/gpu/drm/tyr/Kconfig"
->=20
-> +source "drivers/gpu/drm/verisilicon/Kconfig"
-> +
-> config DRM_HYPERV
-> tristate "DRM Support for Hyper-V synthetic video device"
-> depends on DRM && PCI && HYPERV_VMBUS
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 0e1c668b46d21..f2dfa0ad0ab78 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -235,6 +235,7 @@ obj-y +=3D solomon/
-> obj-$(CONFIG_DRM_SPRD) +=3D sprd/
-> obj-$(CONFIG_DRM_LOONGSON) +=3D loongson/
-> obj-$(CONFIG_DRM_POWERVR) +=3D imagination/
-> +obj-$(CONFIG_DRM_VERISILICON_DC) +=3D verisilicon/
->=20
-> # Ensure drm headers are self-contained and pass kernel-doc
-> hdrtest-files :=3D \
-> diff --git a/drivers/gpu/drm/verisilicon/Kconfig =
-b/drivers/gpu/drm/verisilicon/Kconfig
-> new file mode 100644
-> index 0000000000000..0235577c72824
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config DRM_VERISILICON_DC
-> + tristate "DRM Support for Verisilicon DC-series display controllers"
-> + depends on DRM && COMMON_CLK
-> + depends on RISCV || COMPILER_TEST
-> + select DRM_CLIENT_SELECTION
-> + select DRM_GEM_DMA_HELPER
-> + select DRM_KMS_HELPER
-> + select DRM_BRIDGE_CONNECTOR
-> + select REGMAP_MMIO
-> + select VIDEOMODE_HELPERS
-> + help
-> +  Choose this option if you have a SoC with Verisilicon DC-series
-> +  display controllers. If M is selected, the module will be called
-> +  verisilicon-dc.
-> diff --git a/drivers/gpu/drm/verisilicon/Makefile =
-b/drivers/gpu/drm/verisilicon/Makefile
-> new file mode 100644
-> index 0000000000000..fd8d805fbcde1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +verisilicon-dc-objs :=3D vs_bridge.o vs_crtc.o vs_dc.o vs_drm.o =
-vs_hwdb.o vs_plane.o vs_primary_plane.o
-> +
-> +obj-$(CONFIG_DRM_VERISILICON_DC) +=3D verisilicon-dc.o
-> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge.c =
-b/drivers/gpu/drm/verisilicon/vs_bridge.c
-> new file mode 100644
-> index 0000000000000..90e4aa8012fae
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_bridge.c
-> @@ -0,0 +1,331 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/of.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <uapi/linux/media-bus-format.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_encoder.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "vs_bridge.h"
-> +#include "vs_bridge_regs.h"
-> +#include "vs_crtc.h"
-> +#include "vs_dc.h"
-> +
-> +static int vs_bridge_attach(struct drm_bridge *bridge,
-> +    struct drm_encoder *encoder,
-> +    enum drm_bridge_attach_flags flags)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> +
-> + return drm_bridge_attach(encoder, vbridge->next,
-> + bridge, flags);
-> +}
-> +
-> +struct vsdc_dp_format {
-> + u32 linux_fmt;
-> + bool is_yuv;
-> + u32 vsdc_fmt;
-> +};
-> +
-> +static struct vsdc_dp_format vsdc_dp_supported_fmts[] =3D {
-> + /* default to RGB888 */
-> + { MEDIA_BUS_FMT_FIXED, false, VSDC_DISP_DP_CONFIG_FMT_RGB888 },
-> + { MEDIA_BUS_FMT_RGB888_1X24, false, VSDC_DISP_DP_CONFIG_FMT_RGB888 =
-},
-> + { MEDIA_BUS_FMT_RGB565_1X16, false, VSDC_DISP_DP_CONFIG_FMT_RGB565 =
-},
-> + { MEDIA_BUS_FMT_RGB666_1X18, false, VSDC_DISP_DP_CONFIG_FMT_RGB666 =
-},
-> + { MEDIA_BUS_FMT_RGB101010_1X30,
-> +  false, VSDC_DISP_DP_CONFIG_FMT_RGB101010 },
-> + { MEDIA_BUS_FMT_UYVY8_1X16, true, VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY8 =
-},
-> + { MEDIA_BUS_FMT_UYVY10_1X20, true, =
-VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY10 },
-> + { MEDIA_BUS_FMT_YUV8_1X24, true, VSDC_DISP_DP_CONFIG_YUV_FMT_YUV8 },
-> + { MEDIA_BUS_FMT_YUV10_1X30, true, VSDC_DISP_DP_CONFIG_YUV_FMT_YUV10 =
-},
-> + { MEDIA_BUS_FMT_UYYVYY8_0_5X24,
-> +  true, VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY8 },
-> + { MEDIA_BUS_FMT_UYYVYY10_0_5X30,
-> +  true, VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY10 },
-> +};
-> +
-> +static u32 *vs_bridge_atomic_get_output_bus_fmts(struct drm_bridge =
-*bridge,
-> + struct drm_bridge_state *bridge_state,
-> + struct drm_crtc_state *crtc_state,
-> + struct drm_connector_state *conn_state,
-> + unsigned int *num_output_fmts)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> + u32 *output_fmts;
-> + unsigned int i;
-> +
-> + if (vbridge->intf =3D=3D VSDC_OUTPUT_INTERFACE_DPI)
-> + *num_output_fmts =3D 2;
-> + else
-> + *num_output_fmts =3D ARRAY_SIZE(vsdc_dp_supported_fmts);
-> +
-> + output_fmts =3D kcalloc(*num_output_fmts, sizeof(*output_fmts),
-> +      GFP_KERNEL);
-> + if (!output_fmts)
-> + return NULL;
-> +
-> + if (vbridge->intf =3D=3D VSDC_OUTPUT_INTERFACE_DPI) {
-> + /* TODO: support more DPI output formats */
-> + output_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X24;
-> + output_fmts[1] =3D MEDIA_BUS_FMT_FIXED;
-> + } else {
-> + for (i =3D 0; i < *num_output_fmts; i++)
-> + output_fmts[i] =3D vsdc_dp_supported_fmts[i].linux_fmt;
-> + }
-> +
-> + return output_fmts;
-> +}
-> +
-> +static bool vs_bridge_out_dp_fmt_supported(u32 out_fmt)
-> +{
-> + unsigned int i;
-> +
-> + for (i =3D 0; i < ARRAY_SIZE(vsdc_dp_supported_fmts); i++)
-> + if (vsdc_dp_supported_fmts[i].linux_fmt =3D=3D out_fmt)
-> + return true;
-> +
-> + return false;
-> +}
-> +
-> +static u32 *vs_bridge_atomic_get_input_bus_fmts(struct drm_bridge =
-*bridge,
-> + struct drm_bridge_state *bridge_state,
-> + struct drm_crtc_state *crtc_state,
-> + struct drm_connector_state *conn_state,
-> + u32 output_fmt,
-> + unsigned int *num_input_fmts)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> +
-> + if (vbridge->intf =3D=3D VSDC_OUTPUT_INTERFACE_DP &&
-> +    !vs_bridge_out_dp_fmt_supported(output_fmt)) {
-> + *num_input_fmts =3D 0;
-> + return NULL;
-> + }
-> +
-> + return drm_atomic_helper_bridge_propagate_bus_fmt(bridge, =
-bridge_state,
-> +  crtc_state,
-> +  conn_state,
-> +  output_fmt,
-> +  num_input_fmts);
-> +}
-> +
-> +static int vs_bridge_atomic_check(struct drm_bridge *bridge,
-> +  struct drm_bridge_state *bridge_state,
-> +  struct drm_crtc_state *crtc_state,
-> +  struct drm_connector_state *conn_state)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> +
-> + if (vbridge->intf =3D=3D VSDC_OUTPUT_INTERFACE_DP &&
-> +    =
-!vs_bridge_out_dp_fmt_supported(bridge_state->output_bus_cfg.format))
-> + return -EINVAL;
-> +
-> + vbridge->output_bus_fmt =3D bridge_state->output_bus_cfg.format;
-> +
-> + return 0;
-> +}
-> +
-> +static void vs_bridge_atomic_enable(struct drm_bridge *bridge,
-> +    struct drm_atomic_state *state)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> + struct drm_bridge_state *br_state =3D =
-drm_atomic_get_bridge_state(state,
-> + bridge);
-> + struct vs_crtc *crtc =3D vbridge->crtc;
-> + struct vs_dc *dc =3D crtc->dc;
-> + unsigned int output =3D crtc->id;
-> + u32 dp_fmt;
-> + unsigned int i;
-> +
-> + DRM_DEBUG_DRIVER("Enabling output %u\n", output);
-> +
-> + switch (vbridge->intf) {
-> + case VSDC_OUTPUT_INTERFACE_DPI:
-> + regmap_clear_bits(dc->regs, VSDC_DISP_DP_CONFIG(output),
-> +  VSDC_DISP_DP_CONFIG_DP_EN);
-> + regmap_write(dc->regs, VSDC_DISP_DPI_CONFIG(output),
-> +     VSDC_DISP_DPI_CONFIG_FMT_RGB888);
-> + break;
-> + case VSDC_OUTPUT_INTERFACE_DP:
-> + for (i =3D 0; i < ARRAY_SIZE(vsdc_dp_supported_fmts); i++) {
-> + if (vsdc_dp_supported_fmts[i].linux_fmt =3D=3D
-> +    vbridge->output_bus_fmt)
-> + break;
-> + }
-> + if (WARN_ON_ONCE(i =3D=3D ARRAY_SIZE(vsdc_dp_supported_fmts)))
-> + return;
-> + dp_fmt =3D vsdc_dp_supported_fmts[i].vsdc_fmt;
-> + dp_fmt |=3D VSDC_DISP_DP_CONFIG_DP_EN;
-> + regmap_write(dc->regs, VSDC_DISP_DP_CONFIG(output), dp_fmt);
-> + regmap_assign_bits(dc->regs,
-> +   VSDC_DISP_PANEL_CONFIG(output),
-> +   VSDC_DISP_PANEL_CONFIG_YUV,
-> +   vsdc_dp_supported_fmts[i].is_yuv);
-> + break;
-> + }
-> +
-> + regmap_clear_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> +  VSDC_DISP_PANEL_CONFIG_DAT_POL);
-> + regmap_assign_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> +   VSDC_DISP_PANEL_CONFIG_DE_POL,
-> +   br_state->output_bus_cfg.flags &
-> +   DRM_BUS_FLAG_DE_LOW);
-> + regmap_assign_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> +   VSDC_DISP_PANEL_CONFIG_CLK_POL,
-> +   br_state->output_bus_cfg.flags &
-> +   DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE);
-> + regmap_set_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> + VSDC_DISP_PANEL_CONFIG_DE_EN |
-> + VSDC_DISP_PANEL_CONFIG_DAT_EN |
-> + VSDC_DISP_PANEL_CONFIG_CLK_EN);
-> + regmap_set_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> + VSDC_DISP_PANEL_CONFIG_RUNNING);
-> + regmap_clear_bits(dc->regs, VSDC_DISP_PANEL_START,
-> +  VSDC_DISP_PANEL_START_MULTI_DISP_SYNC);
-> + regmap_set_bits(dc->regs, VSDC_DISP_PANEL_START,
-> + VSDC_DISP_PANEL_START_RUNNING(output));
-> +
-> + regmap_set_bits(dc->regs, VSDC_DISP_PANEL_CONFIG_EX(crtc->id),
-> + VSDC_DISP_PANEL_CONFIG_EX_COMMIT);
-> +}
-> +
-> +static void vs_bridge_atomic_disable(struct drm_bridge *bridge,
-> +     struct drm_atomic_state *state)
-> +{
-> + struct vs_bridge *vbridge =3D drm_bridge_to_vs_bridge(bridge);
-> + struct vs_crtc *crtc =3D vbridge->crtc;
-> + struct vs_dc *dc =3D crtc->dc;
-> + unsigned int output =3D crtc->id;
-> +
-> + DRM_DEBUG_DRIVER("Disabling output %u\n", output);
-> +
-> + regmap_clear_bits(dc->regs, VSDC_DISP_PANEL_START,
-> +  VSDC_DISP_PANEL_START_MULTI_DISP_SYNC |
-> +  VSDC_DISP_PANEL_START_RUNNING(output));
-> + regmap_clear_bits(dc->regs, VSDC_DISP_PANEL_CONFIG(output),
-> +  VSDC_DISP_PANEL_CONFIG_RUNNING);
-> +
-> + regmap_set_bits(dc->regs, VSDC_DISP_PANEL_CONFIG_EX(crtc->id),
-> + VSDC_DISP_PANEL_CONFIG_EX_COMMIT);
-> +}
-> +
-> +static const struct drm_bridge_funcs vs_bridge_funcs =3D {
-> + .attach =3D vs_bridge_attach,
-> + .atomic_enable =3D vs_bridge_atomic_enable,
-> + .atomic_disable =3D vs_bridge_atomic_disable,
-> + .atomic_check =3D vs_bridge_atomic_check,
-> + .atomic_get_input_bus_fmts =3D vs_bridge_atomic_get_input_bus_fmts,
-> + .atomic_get_output_bus_fmts =3D =
-vs_bridge_atomic_get_output_bus_fmts,
-> + .atomic_duplicate_state =3D =
-drm_atomic_helper_bridge_duplicate_state,
-> + .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> + .atomic_reset =3D drm_atomic_helper_bridge_reset,
-> +};
-> +
-> +static int vs_bridge_detect_output_interface(struct device_node =
-*of_node,
-> +     unsigned int output)
-> +{
-> + int ret;
-> + struct device_node *remote;
-> +
-> + remote =3D of_graph_get_remote_node(of_node, output,
-> +  VSDC_OUTPUT_INTERFACE_DPI);
-> + if (remote) {
-> + ret =3D VSDC_OUTPUT_INTERFACE_DPI;
-> + } else {
-> + remote =3D of_graph_get_remote_node(of_node, output,
-> +  VSDC_OUTPUT_INTERFACE_DP);
-> + if (remote)
-> + ret =3D VSDC_OUTPUT_INTERFACE_DP;
-> + else
-> + ret =3D -ENODEV;
-> + }
-> +
-> + if (remote)
-> + of_node_put(remote);
-> +
-> + return ret;
-> +}
-> +
-> +struct vs_bridge *vs_bridge_init(struct drm_device *drm_dev,
-> + struct vs_crtc *crtc)
-> +{
-> + unsigned int output =3D crtc->id;
-> + struct vs_bridge *bridge;
-> + struct drm_bridge *next;
-> + enum vs_bridge_output_interface intf;
-> + int ret, enctype;
-> +
-> + intf =3D vs_bridge_detect_output_interface(drm_dev->dev->of_node,
-> + output);
-> + if (intf =3D=3D -ENODEV) {
-> + drm_info(drm_dev, "Skipping output %u\n", output);
-> + return NULL;
-> + }
-> +
-> + next =3D devm_drm_of_get_bridge(drm_dev->dev, drm_dev->dev->of_node,
-> +      output, intf);
-> + if (IS_ERR(next)) {
-> + ret =3D PTR_ERR(next);
-> + if (ret !=3D -EPROBE_DEFER)
-> + drm_err(drm_dev,
-> + "Cannot get downstream bridge of output %u\n",
-> + output);
-> + return ERR_PTR(ret);
-> + }
-> +
-> + bridge =3D devm_drm_bridge_alloc(drm_dev->dev, struct vs_bridge, =
-base,
-> +       &vs_bridge_funcs);
-> + if (!bridge)
-> + return ERR_PTR(-ENOMEM);
-> +
-> + bridge->crtc =3D crtc;
-> + bridge->intf =3D intf;
-> + bridge->next =3D next;
-> +
-> + if (intf =3D=3D VSDC_OUTPUT_INTERFACE_DPI)
-> + enctype =3D DRM_MODE_ENCODER_DPI;
-> + else
-> + enctype =3D DRM_MODE_ENCODER_NONE;
-> +
-> + bridge->enc =3D drmm_plain_encoder_alloc(drm_dev, NULL, enctype, =
-NULL);
-> + if (IS_ERR(bridge->enc)) {
-> + drm_err(drm_dev,
-> + "Cannot initialize encoder for output %u\n", output);
-> + ret =3D PTR_ERR(bridge->enc);
-> + return ERR_PTR(ret);
-> + }
-> +
-> + bridge->enc->possible_crtcs =3D drm_crtc_mask(&crtc->base);
-> +
-> + ret =3D drm_bridge_attach(bridge->enc, &bridge->base, NULL,
-> + DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> + if (ret) {
-> + drm_err(drm_dev,
-> + "Cannot attach bridge for output %u\n", output);
-> + return ERR_PTR(ret);
-> + }
-> +
-> + bridge->conn =3D drm_bridge_connector_init(drm_dev, bridge->enc);
-> + if (IS_ERR(bridge->conn)) {
-> + drm_err(drm_dev,
-> + "Cannot create connector for output %u\n", output);
-> + ret =3D PTR_ERR(bridge->conn);
-> + return ERR_PTR(ret);
-> + }
-> + drm_connector_attach_encoder(bridge->conn, bridge->enc);
-> +
-> + return bridge;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge.h =
-b/drivers/gpu/drm/verisilicon/vs_bridge.h
-> new file mode 100644
-> index 0000000000000..4120abafdaed6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_bridge.h
-> @@ -0,0 +1,40 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#ifndef _VS_BRIDGE_H_
-> +#define _VS_BRIDGE_H_
-> +
-> +#include <linux/types.h>
-> +
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_encoder.h>
-> +
-> +struct vs_crtc;
-> +
-> +enum vs_bridge_output_interface {
-> + VSDC_OUTPUT_INTERFACE_DPI =3D 0,
-> + VSDC_OUTPUT_INTERFACE_DP =3D 1
-> +};
-> +
-> +struct vs_bridge {
-> + struct drm_bridge base;
-> + struct drm_encoder *enc;
-> + struct drm_connector *conn;
-> +
-> + struct vs_crtc *crtc;
-> + struct drm_bridge *next;
-> + enum vs_bridge_output_interface intf;
-> + u32 output_bus_fmt;
-> +};
-> +
-> +static inline struct vs_bridge *drm_bridge_to_vs_bridge(struct =
-drm_bridge *bridge)
-> +{
-> + return container_of(bridge, struct vs_bridge, base);
-> +}
-> +
-> +struct vs_bridge *vs_bridge_init(struct drm_device *drm_dev,
-> + struct vs_crtc *crtc);
-> +#endif /* _VS_BRIDGE_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge_regs.h =
-b/drivers/gpu/drm/verisilicon/vs_bridge_regs.h
-> new file mode 100644
-> index 0000000000000..9eb30e4564beb
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_bridge_regs.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_BRIDGE_REGS_H_
-> +#define _VS_BRIDGE_REGS_H_
-> +
-> +#include <linux/bits.h>
-> +
-> +#define VSDC_DISP_PANEL_CONFIG(n) (0x1418 + 0x4 * (n))
-> +#define VSDC_DISP_PANEL_CONFIG_DE_EN BIT(0)
-> +#define VSDC_DISP_PANEL_CONFIG_DE_POL BIT(1)
-> +#define VSDC_DISP_PANEL_CONFIG_DAT_EN BIT(4)
-> +#define VSDC_DISP_PANEL_CONFIG_DAT_POL BIT(5)
-> +#define VSDC_DISP_PANEL_CONFIG_CLK_EN BIT(8)
-> +#define VSDC_DISP_PANEL_CONFIG_CLK_POL BIT(9)
-> +#define VSDC_DISP_PANEL_CONFIG_RUNNING BIT(12)
-> +#define VSDC_DISP_PANEL_CONFIG_GAMMA BIT(13)
-> +#define VSDC_DISP_PANEL_CONFIG_YUV BIT(16)
-> +
-> +#define VSDC_DISP_DPI_CONFIG(n) (0x14B8 + 0x4 * (n))
-> +#define VSDC_DISP_DPI_CONFIG_FMT_MASK GENMASK(2, 0)
-> +#define VSDC_DISP_DPI_CONFIG_FMT_RGB565 (0)
-> +#define VSDC_DISP_DPI_CONFIG_FMT_RGB666 (3)
-> +#define VSDC_DISP_DPI_CONFIG_FMT_RGB888 (5)
-> +#define VSDC_DISP_DPI_CONFIG_FMT_RGB101010 (6)
-> +
-> +#define VSDC_DISP_PANEL_START 0x1CCC
-> +#define VSDC_DISP_PANEL_START_RUNNING(n) BIT(n)
-> +#define VSDC_DISP_PANEL_START_MULTI_DISP_SYNC BIT(3)
-> +
-> +#define VSDC_DISP_DP_CONFIG(n) (0x1CD0 + 0x4 * (n))
-> +#define VSDC_DISP_DP_CONFIG_DP_EN BIT(3)
-> +#define VSDC_DISP_DP_CONFIG_FMT_MASK GENMASK(2, 0)
-> +#define VSDC_DISP_DP_CONFIG_FMT_RGB565 (0)
-> +#define VSDC_DISP_DP_CONFIG_FMT_RGB666 (1)
-> +#define VSDC_DISP_DP_CONFIG_FMT_RGB888 (2)
-> +#define VSDC_DISP_DP_CONFIG_FMT_RGB101010 (3)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_MASK GENMASK(7, 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY8 (2 << 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_YUV8 (4 << 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY10 (8 << 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_YUV10 (10 << 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY8 (12 << 4)
-> +#define VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY10 (13 << 4)
-> +
-> +#define VSDC_DISP_PANEL_CONFIG_EX(n) (0x2518 + 0x4 * (n))
-> +#define VSDC_DISP_PANEL_CONFIG_EX_COMMIT BIT(0)
-> +
-> +#endif /* _VS_BRIDGE_REGS_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c =
-b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> new file mode 100644
-> index 0000000000000..bd5304a25368a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> @@ -0,0 +1,217 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_managed.h>
-> +
-> +#include "vs_crtc_regs.h"
-> +#include "vs_crtc.h"
-> +#include "vs_dc.h"
-> +#include "vs_dc_top_regs.h"
-> +#include "vs_plane.h"
-> +
-> +static void vs_crtc_atomic_flush(struct drm_crtc *crtc,
-> + struct drm_atomic_state *state)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct drm_crtc_state *crtc_state =3D =
-drm_atomic_get_new_crtc_state(state,
-> +  crtc);
-> + struct drm_pending_vblank_event *event =3D crtc_state->event;
-> +
-> + DRM_DEBUG_DRIVER("Flushing CRTC %u vblank events\n", vcrtc->id);
-> +
-> + if (event) {
-> + crtc_state->event =3D NULL;
-> +
-> + spin_lock_irq(&crtc->dev->event_lock);
-> + if (drm_crtc_vblank_get(crtc) =3D=3D 0)
-> + drm_crtc_arm_vblank_event(crtc, event);
-> + else
-> + drm_crtc_send_vblank_event(crtc, event);
-> + spin_unlock_irq(&crtc->dev->event_lock);
-> + }
-> +}
-> +
-> +static void vs_crtc_atomic_disable(struct drm_crtc *crtc,
-> +   struct drm_atomic_state *state)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> + unsigned int output =3D vcrtc->id;
-> +
-> + DRM_DEBUG_DRIVER("Disabling CRTC %u\n", output);
-> +
-> + drm_crtc_vblank_off(crtc);
-> +
-> + clk_disable_unprepare(dc->pix_clk[output]);
-> +}
-> +
-> +static void vs_crtc_atomic_enable(struct drm_crtc *crtc,
-> +     struct drm_atomic_state *state)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> + unsigned int output =3D vcrtc->id;
-> +
-> + DRM_DEBUG_DRIVER("Enabling CRTC %u\n", output);
-> +
-> + WARN_ON(clk_prepare_enable(dc->pix_clk[output]));
-> +
-> + drm_crtc_vblank_on(crtc);
-> +}
-> +
-> +static void vs_crtc_mode_set_nofb(struct drm_crtc *crtc)
-> +{
-> + struct drm_display_mode *mode =3D &crtc->state->adjusted_mode;
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> + unsigned int output =3D vcrtc->id;
-> +
-> + DRM_DEBUG_DRIVER("Setting mode on CRTC %u\n", output);
-> +
-> + regmap_write(dc->regs, VSDC_DISP_HSIZE(output),
-> +     VSDC_DISP_HSIZE_DISP(mode->hdisplay) |
-> +     VSDC_DISP_HSIZE_TOTAL(mode->htotal));
-> + regmap_write(dc->regs, VSDC_DISP_VSIZE(output),
-> +     VSDC_DISP_VSIZE_DISP(mode->vdisplay) |
-> +     VSDC_DISP_VSIZE_TOTAL(mode->vtotal));
-> + regmap_write(dc->regs, VSDC_DISP_HSYNC(output),
-> +     VSDC_DISP_HSYNC_START(mode->hsync_start) |
-> +     VSDC_DISP_HSYNC_END(mode->hsync_end) |
-> +     VSDC_DISP_HSYNC_EN);
-> + if (!(mode->flags & DRM_MODE_FLAG_PHSYNC))
-> + regmap_set_bits(dc->regs, VSDC_DISP_HSYNC(output),
-> + VSDC_DISP_HSYNC_POL);
-> + regmap_write(dc->regs, VSDC_DISP_VSYNC(output),
-> +     VSDC_DISP_VSYNC_START(mode->vsync_start) |
-> +     VSDC_DISP_VSYNC_END(mode->vsync_end) |
-> +     VSDC_DISP_VSYNC_EN);
-> + if (!(mode->flags & DRM_MODE_FLAG_PVSYNC))
-> + regmap_set_bits(dc->regs, VSDC_DISP_VSYNC(output),
-> + VSDC_DISP_VSYNC_POL);
-> +
-> + WARN_ON(clk_set_rate(dc->pix_clk[output], mode->crtc_clock * 1000));
-> +}
-> +
-> +static enum drm_mode_status
-> +vs_crtc_mode_valid(struct drm_crtc *crtc, const struct =
-drm_display_mode *mode)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> + unsigned int output =3D vcrtc->id;
-> + long rate;
-> +
-> + if (mode->htotal > 0x7FFF)
-> + return MODE_BAD_HVALUE;
-> + if (mode->vtotal > 0x7FFF)
-> + return MODE_BAD_VVALUE;
-> +
-> + rate =3D clk_round_rate(dc->pix_clk[output], mode->clock * 1000);
-> + if (rate <=3D 0)
-> + return MODE_CLOCK_RANGE;
-> +
-> + return MODE_OK;
-> +}
-> +
-> +static bool vs_crtc_mode_fixup(struct drm_crtc *crtc,
-> +       const struct drm_display_mode *m,
-> +       struct drm_display_mode *adjusted_mode)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> + unsigned int output =3D vcrtc->id;
-> + long clk_rate;
-> +
-> + drm_mode_set_crtcinfo(adjusted_mode, 0);
-> +
-> + /* Feedback the pixel clock to crtc_clock */
-> + clk_rate =3D adjusted_mode->crtc_clock * 1000;
-> + clk_rate =3D clk_round_rate(dc->pix_clk[output], clk_rate);
-> + if (clk_rate <=3D 0)
-> + return false;
-> +
-> + adjusted_mode->crtc_clock =3D clk_rate / 1000;
-> +
-> + return true;
-> +}
-> +
-> +static const struct drm_crtc_helper_funcs vs_crtc_helper_funcs =3D {
-> + .atomic_flush =3D vs_crtc_atomic_flush,
-> + .atomic_enable =3D vs_crtc_atomic_enable,
-> + .atomic_disable =3D vs_crtc_atomic_disable,
-> + .mode_set_nofb =3D vs_crtc_mode_set_nofb,
-> + .mode_valid =3D vs_crtc_mode_valid,
-> + .mode_fixup =3D vs_crtc_mode_fixup,
-> +};
-> +
-> +static int vs_crtc_enable_vblank(struct drm_crtc *crtc)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> +
-> + DRM_DEBUG_DRIVER("Enabling VBLANK on CRTC %u\n", vcrtc->id);
-> + regmap_set_bits(dc->regs, VSDC_TOP_IRQ_EN, =
-VSDC_TOP_IRQ_VSYNC(vcrtc->id));
-> +
-> + return 0;
-> +}
-> +
-> +static void vs_crtc_disable_vblank(struct drm_crtc *crtc)
-> +{
-> + struct vs_crtc *vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + struct vs_dc *dc =3D vcrtc->dc;
-> +
-> + DRM_DEBUG_DRIVER("Disabling VBLANK on CRTC %u\n", vcrtc->id);
-> + regmap_clear_bits(dc->regs, VSDC_TOP_IRQ_EN, =
-VSDC_TOP_IRQ_VSYNC(vcrtc->id));
-> +}
-> +
-> +static const struct drm_crtc_funcs vs_crtc_funcs =3D {
-> + .atomic_destroy_state =3D drm_atomic_helper_crtc_destroy_state,
-> + .atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_state,
-> + .page_flip =3D drm_atomic_helper_page_flip,
-> + .reset =3D drm_atomic_helper_crtc_reset,
-> + .set_config =3D drm_atomic_helper_set_config,
-> + .enable_vblank =3D vs_crtc_enable_vblank,
-> + .disable_vblank =3D vs_crtc_disable_vblank,
-> +};
-> +
-> +struct vs_crtc *vs_crtc_init(struct drm_device *drm_dev, struct vs_dc =
-*dc,
-> +     unsigned int output)
-> +{
-> + struct vs_crtc *vcrtc;
-> + struct drm_plane *primary;
-> + int ret;
-> +
-> + vcrtc =3D drmm_kzalloc(drm_dev, sizeof(*vcrtc), GFP_KERNEL);
-> + if (!vcrtc)
-> + return ERR_PTR(-ENOMEM);
-> + vcrtc->dc =3D dc;
-> + vcrtc->id =3D output;
-> +
-> + /* Create our primary plane */
-> + primary =3D vs_primary_plane_init(drm_dev, dc);
-> + if (IS_ERR(primary)) {
-> + drm_err(drm_dev, "Couldn't create the primary plane\n");
-> + return ERR_PTR(PTR_ERR(primary));
-> + }
-> +
-> + ret =3D drmm_crtc_init_with_planes(drm_dev, &vcrtc->base,
-> + primary,
-> + NULL,
-> + &vs_crtc_funcs,
-> + NULL);
-> + if (ret) {
-> + drm_err(drm_dev, "Couldn't initialize CRTC\n");
-> + return ERR_PTR(ret);
-> + }
-> +
-> + drm_crtc_helper_add(&vcrtc->base, &vs_crtc_helper_funcs);
-> +
-> + return vcrtc;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.h =
-b/drivers/gpu/drm/verisilicon/vs_crtc.h
-> new file mode 100644
-> index 0000000000000..6f862d609b984
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_crtc.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#ifndef _VS_CRTC_H_
-> +#define _VS_CRTC_H_
-> +
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +struct vs_dc;
-> +
-> +struct vs_crtc {
-> + struct drm_crtc base;
-> +
-> + struct vs_dc *dc;
-> + unsigned int id;
-> +};
-> +
-> +static inline struct vs_crtc *drm_crtc_to_vs_crtc(struct drm_crtc =
-*crtc)
-> +{
-> + return container_of(crtc, struct vs_crtc, base);
-> +}
-> +
-> +struct vs_crtc *vs_crtc_init(struct drm_device *drm_dev, struct vs_dc =
-*dc,
-> +     unsigned int output);
-> +
-> +#endif /* _VS_CRTC_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc_regs.h =
-b/drivers/gpu/drm/verisilicon/vs_crtc_regs.h
-> new file mode 100644
-> index 0000000000000..c7930e817635c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_crtc_regs.h
-> @@ -0,0 +1,60 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_CRTC_REGS_H_
-> +#define _VS_CRTC_REGS_H_
-> +
-> +#include <linux/bits.h>
-> +
-> +#define VSDC_DISP_DITHER_CONFIG(n) (0x1410 + 0x4 * (n))
-> +
-> +#define VSDC_DISP_DITHER_TABLE_LOW(n) (0x1420 + 0x4 * (n))
-> +#define VSDC_DISP_DITHER_TABLE_LOW_DEFAULT 0x7B48F3C0
-> +
-> +#define VSDC_DISP_DITHER_TABLE_HIGH(n) (0x1428 + 0x4 * (n))
-> +#define VSDC_DISP_DITHER_TABLE_HIGH_DEFAULT 0x596AD1E2
-> +
-> +#define VSDC_DISP_HSIZE(n) (0x1430 + 0x4 * (n))
-> +#define VSDC_DISP_HSIZE_DISP_MASK GENMASK(14, 0)
-> +#define VSDC_DISP_HSIZE_DISP(v) ((v) << 0)
-> +#define VSDC_DISP_HSIZE_TOTAL_MASK GENMASK(30, 16)
-> +#define VSDC_DISP_HSIZE_TOTAL(v) ((v) << 16)
-> +
-> +#define VSDC_DISP_HSYNC(n) (0x1438 + 0x4 * (n))
-> +#define VSDC_DISP_HSYNC_START_MASK GENMASK(14, 0)
-> +#define VSDC_DISP_HSYNC_START(v) ((v) << 0)
-> +#define VSDC_DISP_HSYNC_END_MASK GENMASK(29, 15)
-> +#define VSDC_DISP_HSYNC_END(v) ((v) << 15)
-> +#define VSDC_DISP_HSYNC_EN BIT(30)
-> +#define VSDC_DISP_HSYNC_POL BIT(31)
-> +
-> +#define VSDC_DISP_VSIZE(n) (0x1440 + 0x4 * (n))
-> +#define VSDC_DISP_VSIZE_DISP_MASK GENMASK(14, 0)
-> +#define VSDC_DISP_VSIZE_DISP(v) ((v) << 0)
-> +#define VSDC_DISP_VSIZE_TOTAL_MASK GENMASK(30, 16)
-> +#define VSDC_DISP_VSIZE_TOTAL(v) ((v) << 16)
-> +
-> +#define VSDC_DISP_VSYNC(n) (0x1448 + 0x4 * (n))
-> +#define VSDC_DISP_VSYNC_START_MASK GENMASK(14, 0)
-> +#define VSDC_DISP_VSYNC_START(v) ((v) << 0)
-> +#define VSDC_DISP_VSYNC_END_MASK GENMASK(29, 15)
-> +#define VSDC_DISP_VSYNC_END(v) ((v) << 15)
-> +#define VSDC_DISP_VSYNC_EN BIT(30)
-> +#define VSDC_DISP_VSYNC_POL BIT(31)
-> +
-> +#define VSDC_DISP_CURRENT_LOCATION(n) (0x1450 + 0x4 * (n))
-> +
-> +#define VSDC_DISP_GAMMA_INDEX(n) (0x1458 + 0x4 * (n))
-> +
-> +#define VSDC_DISP_GAMMA_DATA(n) (0x1460 + 0x4 * (n))
-> +
-> +#define VSDC_DISP_IRQ_STA 0x147C
-> +
-> +#define VSDC_DISP_IRQ_EN 0x1480
-> +
-> +#endif /* _VS_CRTC_REGS_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_dc.c =
-b/drivers/gpu/drm/verisilicon/vs_dc.c
-> new file mode 100644
-> index 0000000000000..a413479c6cfff
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_dc.c
-> @@ -0,0 +1,205 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/dma-mapping.h>
-> +#include <linux/of.h>
-> +#include <linux/of_graph.h>
-> +
-> +#include "vs_crtc.h"
-> +#include "vs_dc.h"
-> +#include "vs_dc_top_regs.h"
-> +#include "vs_drm.h"
-> +#include "vs_hwdb.h"
-> +
-> +static const struct regmap_config vs_dc_regmap_cfg =3D {
-> + .reg_bits =3D 32,
-> + .val_bits =3D 32,
-> + .reg_stride =3D sizeof(u32),
-> + /* VSDC_OVL_CONFIG_EX(1) */
-> + .max_register =3D 0x2544,
-> +};
-> +
-> +static const struct of_device_id vs_dc_driver_dt_match[] =3D {
-> + { .compatible =3D "verisilicon,dc" },
-> + {},
-> +};
-> +MODULE_DEVICE_TABLE(of, vs_dc_driver_dt_match);
-> +
-> +static irqreturn_t vs_dc_irq_handler(int irq, void *private)
-> +{
-> + struct vs_dc *dc =3D private;
-> + u32 irqs;
-> +
-> + regmap_read(dc->regs, VSDC_TOP_IRQ_ACK, &irqs);
-> +
-> + return vs_drm_handle_irq(dc, irqs);
-> +}
-> +
-> +static int vs_dc_probe(struct platform_device *pdev)
-> +{
-> + struct device *dev =3D &pdev->dev;
-> + struct vs_dc *dc;
-> + void __iomem *regs;
-> + unsigned int outputs, i;
-> + /* pix0/pix1 */
-> + char pixclk_name[5];
-> + int irq, ret;
-> +
-> + if (!dev->of_node) {
-> + dev_err(dev, "can't find DC devices\n");
-> + return -ENODEV;
-> + }
-> +
-> + outputs =3D of_graph_get_port_count(dev->of_node);
-> + if (!outputs) {
-> + dev_err(dev, "can't find DC downstream ports\n");
-> + return -ENODEV;
-> + }
-> + if (outputs > VSDC_MAX_OUTPUTS) {
-> + dev_err(dev, "too many DC downstream ports than possible\n");
-> + return -EINVAL;
-> + }
-> +
-> + ret =3D dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> + if (ret) {
-> + dev_err(dev, "No suitable DMA available\n");
-> + return ret;
-> + }
-> +
-> + dc =3D devm_kzalloc(dev, sizeof(*dc), GFP_KERNEL);
-> + if (!dc)
-> + return -ENOMEM;
-> +
-> + dc->outputs =3D outputs;
-> +
-> + dc->rsts[0].id =3D "core";
-> + dc->rsts[1].id =3D "axi";
-> + dc->rsts[2].id =3D "ahb";
-> +
-> + ret =3D devm_reset_control_bulk_get_optional_shared(dev, =
-VSDC_RESET_COUNT,
-> +  dc->rsts);
-> + if (ret) {
-> + dev_err(dev, "can't get reset lines\n");
-> + return ret;
-> + }
-> +
-> + dc->core_clk =3D devm_clk_get_enabled(dev, "core");
-> + if (IS_ERR(dc->core_clk)) {
-> + dev_err(dev, "can't get core clock\n");
-> + return PTR_ERR(dc->core_clk);
-> + }
-> +
-> + dc->axi_clk =3D devm_clk_get_enabled(dev, "axi");
-> + if (IS_ERR(dc->axi_clk)) {
-> + dev_err(dev, "can't get axi clock\n");
-> + return PTR_ERR(dc->axi_clk);
-> + }
-> +
-> + dc->ahb_clk =3D devm_clk_get_enabled(dev, "ahb");
-> + if (IS_ERR(dc->ahb_clk)) {
-> + dev_err(dev, "can't get ahb clock\n");
-> + return PTR_ERR(dc->ahb_clk);
-> + }
-> +
-> + for (i =3D 0; i < outputs; i++) {
-> + snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
-> + dc->pix_clk[i] =3D devm_clk_get(dev, pixclk_name);
-> + if (IS_ERR(dc->pix_clk[i])) {
-> + dev_err(dev, "can't get pixel clk %u\n", i);
-> + return PTR_ERR(dc->pix_clk[i]);
-> + }
-> + }
-> +
-> + irq =3D platform_get_irq(pdev, 0);
-> + if (irq < 0) {
-> + dev_err(dev, "can't get irq\n");
-> + return irq;
-> + }
-> +
-> + ret =3D reset_control_bulk_deassert(VSDC_RESET_COUNT, dc->rsts);
-> + if (ret) {
-> + dev_err(dev, "can't deassert reset lines\n");
-> + return ret;
-> + }
-> +
-> + regs =3D devm_platform_ioremap_resource(pdev, 0);
-> + if (IS_ERR(regs)) {
-> + dev_err(dev, "can't map registers");
-> + ret =3D PTR_ERR(regs);
-> + goto err_rst_assert;
-> + }
-> +
-> + dc->regs =3D devm_regmap_init_mmio(dev, regs, &vs_dc_regmap_cfg);
-> + if (IS_ERR(dc->regs)) {
-> + ret =3D PTR_ERR(dc->regs);
-> + goto err_rst_assert;
-> + }
-> +
-> + ret =3D vs_fill_chip_identity(dc->regs, &dc->identity);
-> + if (ret)
-> + goto err_rst_assert;
-> +
-> + dev_info(dev, "DC%x rev %x customer %x\n", dc->identity.model,
-> + dc->identity.revision, dc->identity.customer_id);
-> +
-> + if (outputs > dc->identity.display_count) {
-> + dev_err(dev, "too many downstream ports than HW capability\n");
-> + ret =3D -EINVAL;
-> + goto err_rst_assert;
-> + }
-> +
-> + ret =3D devm_request_irq(dev, irq, vs_dc_irq_handler, 0,
-> +       dev_name(dev), dc);
-> + if (ret) {
-> + dev_err(dev, "can't request irq\n");
-> + goto err_rst_assert;
-> + }
-> +
-> + dev_set_drvdata(dev, dc);
-> +
-> + ret =3D vs_drm_initialize(dc, pdev);
-> + if (ret)
-> + goto err_rst_assert;
-> +
-> + return 0;
-> +
-> +err_rst_assert:
-> + reset_control_bulk_assert(VSDC_RESET_COUNT, dc->rsts);
-> + return ret;
-> +}
-> +
-> +static void vs_dc_remove(struct platform_device *pdev)
-> +{
-> + struct vs_dc *dc =3D dev_get_drvdata(&pdev->dev);
-> +
-> + vs_drm_finalize(dc);
-> +
-> + dev_set_drvdata(&pdev->dev, NULL);
-> +
-> + reset_control_bulk_assert(VSDC_RESET_COUNT, dc->rsts);
-> +}
-> +
-> +static void vs_dc_shutdown(struct platform_device *pdev)
-> +{
-> + struct vs_dc *dc =3D dev_get_drvdata(&pdev->dev);
-> +
-> + vs_drm_shutdown_handler(dc);
-> +}
-> +
-> +struct platform_driver vs_dc_platform_driver =3D {
-> + .probe =3D vs_dc_probe,
-> + .remove =3D vs_dc_remove,
-> + .shutdown =3D vs_dc_shutdown,
-> + .driver =3D {
-> + .name =3D "verisilicon-dc",
-> + .of_match_table =3D vs_dc_driver_dt_match,
-> + },
-> +};
-> +
-> +module_platform_driver(vs_dc_platform_driver);
-> +
-> +MODULE_AUTHOR("Icenowy Zheng <uwu@icenowy.me>");
-> +MODULE_DESCRIPTION("Verisilicon display controller driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/verisilicon/vs_dc.h =
-b/drivers/gpu/drm/verisilicon/vs_dc.h
-> new file mode 100644
-> index 0000000000000..5e071501b1c38
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_dc.h
-> @@ -0,0 +1,39 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_DC_H_
-> +#define _VS_DC_H_
-> +
-> +#include <linux/clk.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +
-> +#include <drm/drm_device.h>
-> +
-> +#include "vs_hwdb.h"
-> +
-> +#define VSDC_MAX_OUTPUTS 2
-> +#define VSDC_RESET_COUNT 3
-> +
-> +struct vs_drm_dev;
-> +struct vs_crtc;
-> +
-> +struct vs_dc {
-> + struct regmap *regs;
-> + struct clk *core_clk;
-> + struct clk *axi_clk;
-> + struct clk *ahb_clk;
-> + struct clk *pix_clk[VSDC_MAX_OUTPUTS];
-> + struct reset_control_bulk_data rsts[VSDC_RESET_COUNT];
-> +
-> + struct vs_drm_dev *drm_dev;
-> + struct vs_chip_identity identity;
-> + unsigned int outputs;
-> +};
-> +
-> +#endif /* _VS_DC_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_dc_top_regs.h =
-b/drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
-> new file mode 100644
-> index 0000000000000..50509bbbff08f
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_DC_TOP_H_
-> +#define _VS_DC_TOP_H_
-> +
-> +#include <linux/bits.h>
-> +
-> +#define VSDC_TOP_RST 0x0000
-> +
-> +#define VSDC_TOP_IRQ_ACK 0x0010
-> +#define VSDC_TOP_IRQ_VSYNC(n) BIT(n)
-> +
-> +#define VSDC_TOP_IRQ_EN 0x0014
-> +
-> +#define VSDC_TOP_CHIP_MODEL 0x0020
-> +
-> +#define VSDC_TOP_CHIP_REV 0x0024
-> +
-> +#define VSDC_TOP_CHIP_CUSTOMER_ID 0x0030
-> +
-> +#endif /* _VS_DC_TOP_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_drm.c =
-b/drivers/gpu/drm/verisilicon/vs_drm.c
-> new file mode 100644
-> index 0000000000000..f356d7832c449
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_drm.c
-> @@ -0,0 +1,177 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/aperture.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/console.h>
-> +
-> +#include <drm/clients/drm_client_setup.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fbdev_dma.h>
-> +#include <drm/drm_gem_dma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "vs_bridge.h"
-> +#include "vs_crtc.h"
-> +#include "vs_dc.h"
-> +#include "vs_dc_top_regs.h"
-> +#include "vs_drm.h"
-> +
-> +#define DRIVER_NAME "verisilicon"
-> +#define DRIVER_DESC "Verisilicon DC-series display controller driver"
-> +#define DRIVER_MAJOR 1
-> +#define DRIVER_MINOR 0
-> +
-> +static int vs_gem_dumb_create(struct drm_file *file_priv,
-> +      struct drm_device *drm,
-> +      struct drm_mode_create_dumb *args)
-> +{
-> + /* The hardware wants 128B-aligned pitches for linear buffers. */
-> + args->pitch =3D ALIGN(DIV_ROUND_UP(args->width * args->bpp, 8), =
-128);
-> +
-> + return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
-> +}
-> +
-> +DEFINE_DRM_GEM_FOPS(vs_drm_driver_fops);
-> +
-> +static const struct drm_driver vs_drm_driver =3D {
-> + .driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> + .fops =3D &vs_drm_driver_fops,
-> + .name =3D DRIVER_NAME,
-> + .desc =3D DRIVER_DESC,
-> + .major =3D DRIVER_MAJOR,
-> + .minor =3D DRIVER_MINOR,
-> +
-> + /* GEM Operations */
-> + DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vs_gem_dumb_create),
-> + DRM_FBDEV_DMA_DRIVER_OPS,
-> +};
-> +
-> +static const struct drm_mode_config_funcs vs_mode_config_funcs =3D {
-> + .fb_create =3D drm_gem_fb_create,
-> + .atomic_check =3D drm_atomic_helper_check,
-> + .atomic_commit =3D drm_atomic_helper_commit,
-> +};
-> +
-> +static struct drm_mode_config_helper_funcs =
-vs_mode_config_helper_funcs =3D {
-> + .atomic_commit_tail =3D drm_atomic_helper_commit_tail,
-> +};
-> +
-> +static void vs_mode_config_init(struct drm_device *drm)
-> +{
-> + drm_mode_config_reset(drm);
-> +
-> + drm->mode_config.min_width =3D 0;
-> + drm->mode_config.min_height =3D 0;
-> + drm->mode_config.max_width =3D 8192;
-> + drm->mode_config.max_height =3D 8192;
-> + drm->mode_config.funcs =3D &vs_mode_config_funcs;
-> + drm->mode_config.helper_private =3D &vs_mode_config_helper_funcs;
-> +}
-> +
-> +int vs_drm_initialize(struct vs_dc *dc, struct platform_device *pdev)
-> +{
-> + struct device *dev =3D &pdev->dev;
-> + struct vs_drm_dev *vdrm;
-> + struct drm_device *drm;
-> + struct vs_crtc *crtc;
-> + struct vs_bridge *bridge;
-> + unsigned int i;
-> + int ret;
-> +
-> + vdrm =3D devm_drm_dev_alloc(dev, &vs_drm_driver, struct vs_drm_dev, =
-base);
-> + if (IS_ERR(vdrm))
-> + return PTR_ERR(vdrm);
-> +
-> + drm =3D &vdrm->base;
-> + vdrm->dc =3D dc;
-> + dc->drm_dev =3D vdrm;
-> +
-> + ret =3D drmm_mode_config_init(drm);
-> + if (ret)
-> + return ret;
-> +
-> + for (i =3D 0; i < dc->outputs; i++) {
-> + crtc =3D vs_crtc_init(drm, dc, i);
-> + if (IS_ERR(crtc))
-> + return PTR_ERR(crtc);
-> +
-> + bridge =3D vs_bridge_init(drm, crtc);
-> + if (IS_ERR(bridge))
-> + return PTR_ERR(bridge);
-> +
-> + vdrm->crtcs[i] =3D crtc;
-> + }
-> +
-> + ret =3D drm_vblank_init(drm, dc->outputs);
-> + if (ret)
-> + return ret;
-> +
-> + /* Remove early framebuffers (ie. simplefb) */
-> + ret =3D aperture_remove_all_conflicting_devices(DRIVER_NAME);
-> + if (ret)
-> + return ret;
-> +
-> + vs_mode_config_init(drm);
-> +
-> + /* Enable connectors polling */
-> + drm_kms_helper_poll_init(drm);
-> +
-> + ret =3D drm_dev_register(drm, 0);
-> + if (ret)
-> + goto err_fini_poll;
-> +
-> + drm_client_setup(drm, NULL);
-> +
-> + return 0;
-> +
-> +err_fini_poll:
-> + drm_kms_helper_poll_fini(drm);
-> + return ret;
-> +}
-> +
-> +void vs_drm_finalize(struct vs_dc *dc)
-> +{
-> + struct vs_drm_dev *vdrm =3D dc->drm_dev;
-> + struct drm_device *drm =3D &vdrm->base;
-> +
-> + drm_dev_unregister(drm);
-> + drm_kms_helper_poll_fini(drm);
-> + drm_atomic_helper_shutdown(drm);
-> + dc->drm_dev =3D NULL;
-> +}
-> +
-> +void vs_drm_shutdown_handler(struct vs_dc *dc)
-> +{
-> + struct vs_drm_dev *vdrm =3D dc->drm_dev;
-> +
-> + drm_atomic_helper_shutdown(&vdrm->base);
-> +}
-> +
-> +irqreturn_t vs_drm_handle_irq(struct vs_dc *dc, u32 irqs)
-> +{
-> + unsigned int i;
-> +
-> + for (i =3D 0; i < dc->outputs; i++) {
-> + if (irqs & VSDC_TOP_IRQ_VSYNC(i)) {
-> + irqs &=3D ~VSDC_TOP_IRQ_VSYNC(i);
-> + if (dc->drm_dev->crtcs[i])
-> + drm_crtc_handle_vblank(&dc->drm_dev->crtcs[i]->base);
-> + }
-> + }
-> +
-> + if (irqs)
-> + pr_warn("Unknown Verisilicon DC interrupt 0x%x fired!\n", irqs);
-> +
-> + return IRQ_HANDLED;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_drm.h =
-b/drivers/gpu/drm/verisilicon/vs_drm.h
-> new file mode 100644
-> index 0000000000000..bbcd2e527deb6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_drm.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#ifndef _VS_DRM_H_
-> +#define _VS_DRM_H_
-> +
-> +#include <linux/irqreturn.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +
-> +#include <drm/drm_device.h>
-> +
-> +struct vs_dc;
-> +
-> +struct vs_drm_dev {
-> + struct drm_device base;
-> +
-> + struct vs_dc *dc;
-> + struct vs_crtc *crtcs[VSDC_MAX_OUTPUTS];
-> +};
-> +
-> +int vs_drm_initialize(struct vs_dc *dc, struct platform_device =
-*pdev);
-> +void vs_drm_finalize(struct vs_dc *dc);
-> +void vs_drm_shutdown_handler(struct vs_dc *dc);
-> +irqreturn_t vs_drm_handle_irq(struct vs_dc *dc, u32 irqs);
-> +
-> +#endif /* _VS_DRM_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_hwdb.c =
-b/drivers/gpu/drm/verisilicon/vs_hwdb.c
-> new file mode 100644
-> index 0000000000000..4a87e5d4701f3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_hwdb.c
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/errno.h>
-> +
-> +#include <drm/drm_fourcc.h>
-> +
-> +#include "vs_dc_top_regs.h"
-> +#include "vs_hwdb.h"
-> +
-> +static const u32 vs_formats_array_no_yuv444[] =3D {
-> + DRM_FORMAT_XRGB4444,
-> + DRM_FORMAT_XBGR4444,
-> + DRM_FORMAT_RGBX4444,
-> + DRM_FORMAT_BGRX4444,
-> + DRM_FORMAT_ARGB4444,
-> + DRM_FORMAT_ABGR4444,
-> + DRM_FORMAT_RGBA4444,
-> + DRM_FORMAT_BGRA4444,
-> + DRM_FORMAT_XRGB1555,
-> + DRM_FORMAT_XBGR1555,
-> + DRM_FORMAT_RGBX5551,
-> + DRM_FORMAT_BGRX5551,
-> + DRM_FORMAT_ARGB1555,
-> + DRM_FORMAT_ABGR1555,
-> + DRM_FORMAT_RGBA5551,
-> + DRM_FORMAT_BGRA5551,
-> + DRM_FORMAT_RGB565,
-> + DRM_FORMAT_BGR565,
-> + DRM_FORMAT_XRGB8888,
-> + DRM_FORMAT_XBGR8888,
-> + DRM_FORMAT_RGBX8888,
-> + DRM_FORMAT_BGRX8888,
-> + DRM_FORMAT_ARGB8888,
-> + DRM_FORMAT_ABGR8888,
-> + DRM_FORMAT_RGBA8888,
-> + DRM_FORMAT_BGRA8888,
-> + DRM_FORMAT_ARGB2101010,
-> + DRM_FORMAT_ABGR2101010,
-> + DRM_FORMAT_RGBA1010102,
-> + DRM_FORMAT_BGRA1010102,
-> + /* TODO: non-RGB formats */
-> +};
-> +
-> +static const u32 vs_formats_array_with_yuv444[] =3D {
-> + DRM_FORMAT_XRGB4444,
-> + DRM_FORMAT_XBGR4444,
-> + DRM_FORMAT_RGBX4444,
-> + DRM_FORMAT_BGRX4444,
-> + DRM_FORMAT_ARGB4444,
-> + DRM_FORMAT_ABGR4444,
-> + DRM_FORMAT_RGBA4444,
-> + DRM_FORMAT_BGRA4444,
-> + DRM_FORMAT_XRGB1555,
-> + DRM_FORMAT_XBGR1555,
-> + DRM_FORMAT_RGBX5551,
-> + DRM_FORMAT_BGRX5551,
-> + DRM_FORMAT_ARGB1555,
-> + DRM_FORMAT_ABGR1555,
-> + DRM_FORMAT_RGBA5551,
-> + DRM_FORMAT_BGRA5551,
-> + DRM_FORMAT_RGB565,
-> + DRM_FORMAT_BGR565,
-> + DRM_FORMAT_XRGB8888,
-> + DRM_FORMAT_XBGR8888,
-> + DRM_FORMAT_RGBX8888,
-> + DRM_FORMAT_BGRX8888,
-> + DRM_FORMAT_ARGB8888,
-> + DRM_FORMAT_ABGR8888,
-> + DRM_FORMAT_RGBA8888,
-> + DRM_FORMAT_BGRA8888,
-> + DRM_FORMAT_ARGB2101010,
-> + DRM_FORMAT_ABGR2101010,
-> + DRM_FORMAT_RGBA1010102,
-> + DRM_FORMAT_BGRA1010102,
-> + /* TODO: non-RGB formats */
-> +};
-> +
-> +static const struct vs_formats vs_formats_no_yuv444 =3D {
-> + .array =3D vs_formats_array_no_yuv444,
-> + .num =3D ARRAY_SIZE(vs_formats_array_no_yuv444)
-> +};
-> +
-> +static const struct vs_formats vs_formats_with_yuv444 =3D {
-> + .array =3D vs_formats_array_with_yuv444,
-> + .num =3D ARRAY_SIZE(vs_formats_array_with_yuv444)
-> +};
-> +
-> +static struct vs_chip_identity vs_chip_identities[] =3D {
-> + {
-> + .model =3D 0x8200,
-> + .revision =3D 0x5720,
-> + .customer_id =3D ~0U,
-> +
-> + .display_count =3D 2,
-> + .formats =3D &vs_formats_no_yuv444,
-> + },
-> + {
-> + .model =3D 0x8200,
-> + .revision =3D 0x5721,
-> + .customer_id =3D 0x30B,
-> +
-> + .display_count =3D 2,
-> + .formats =3D &vs_formats_no_yuv444,
-> + },
-> + {
-> + .model =3D 0x8200,
-> + .revision =3D 0x5720,
-> + .customer_id =3D 0x310,
-> +
-> + .display_count =3D 2,
-> + .formats =3D &vs_formats_with_yuv444,
-> + },
-> + {
-> + .model =3D 0x8200,
-> + .revision =3D 0x5720,
-> + .customer_id =3D 0x311,
-> +
-> + .display_count =3D 2,
-> + .formats =3D &vs_formats_no_yuv444,
-> + },
-> +};
-> +
-> +int vs_fill_chip_identity(struct regmap *regs,
-> +  struct vs_chip_identity *ident)
-> +{
-> + u32 model;
-> + u32 revision;
-> + u32 customer_id;
-> + int i;
-> +
-> + regmap_read(regs, VSDC_TOP_CHIP_MODEL, &model);
-> + regmap_read(regs, VSDC_TOP_CHIP_REV, &revision);
-> + regmap_read(regs, VSDC_TOP_CHIP_CUSTOMER_ID, &customer_id);
-> +
-> + for (i =3D 0; i < ARRAY_SIZE(vs_chip_identities); i++) {
-> + if (vs_chip_identities[i].model =3D=3D model &&
-> +    vs_chip_identities[i].revision =3D=3D revision &&
-> +    (vs_chip_identities[i].customer_id =3D=3D customer_id ||
-> + vs_chip_identities[i].customer_id =3D=3D ~0U)) {
-> + memcpy(ident, &vs_chip_identities[i], sizeof(*ident));
-> + ident->customer_id =3D customer_id;
-> + return 0;
-> + }
-> + }
-> +
-> + return -EINVAL;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_hwdb.h =
-b/drivers/gpu/drm/verisilicon/vs_hwdb.h
-> new file mode 100644
-> index 0000000000000..92192e4fa0862
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_hwdb.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#ifndef _VS_HWDB_H_
-> +#define _VS_HWDB_H_
-> +
-> +#include <linux/regmap.h>
-> +#include <linux/types.h>
-> +
-> +struct vs_formats {
-> + const u32 *array;
-> + unsigned int num;
-> +};
-> +
-> +struct vs_chip_identity {
-> + u32 model;
-> + u32 revision;
-> + u32 customer_id;
-> +
-> + u32 display_count;
-> + const struct vs_formats *formats;
-> +};
-> +
-> +int vs_fill_chip_identity(struct regmap *regs,
-> +  struct vs_chip_identity *ident);
-> +
-> +#endif /* _VS_HWDB_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_plane.c =
-b/drivers/gpu/drm/verisilicon/vs_plane.c
-> new file mode 100644
-> index 0000000000000..f3c9963b6a4ea
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_plane.c
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/errno.h>
-> +
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include "vs_plane.h"
-> +
-> +void drm_format_to_vs_format(u32 drm_format, struct vs_format =
-*vs_format)
-> +{
-> + switch (drm_format) {
-> + case DRM_FORMAT_XRGB4444:
-> + case DRM_FORMAT_RGBX4444:
-> + case DRM_FORMAT_XBGR4444:
-> + case DRM_FORMAT_BGRX4444:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_X4R4G4B4;
-> + break;
-> + case DRM_FORMAT_ARGB4444:
-> + case DRM_FORMAT_RGBA4444:
-> + case DRM_FORMAT_ABGR4444:
-> + case DRM_FORMAT_BGRA4444:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_A4R4G4B4;
-> + break;
-> + case DRM_FORMAT_XRGB1555:
-> + case DRM_FORMAT_RGBX5551:
-> + case DRM_FORMAT_XBGR1555:
-> + case DRM_FORMAT_BGRX5551:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_X1R5G5B5;
-> + break;
-> + case DRM_FORMAT_ARGB1555:
-> + case DRM_FORMAT_RGBA5551:
-> + case DRM_FORMAT_ABGR1555:
-> + case DRM_FORMAT_BGRA5551:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_A1R5G5B5;
-> + break;
-> + case DRM_FORMAT_RGB565:
-> + case DRM_FORMAT_BGR565:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_R5G6B5;
-> + break;
-> + case DRM_FORMAT_XRGB8888:
-> + case DRM_FORMAT_RGBX8888:
-> + case DRM_FORMAT_XBGR8888:
-> + case DRM_FORMAT_BGRX8888:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_X8R8G8B8;
-> + break;
-> + case DRM_FORMAT_ARGB8888:
-> + case DRM_FORMAT_RGBA8888:
-> + case DRM_FORMAT_ABGR8888:
-> + case DRM_FORMAT_BGRA8888:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_A8R8G8B8;
-> + break;
-> + case DRM_FORMAT_ARGB2101010:
-> + case DRM_FORMAT_RGBA1010102:
-> + case DRM_FORMAT_ABGR2101010:
-> + case DRM_FORMAT_BGRA1010102:
-> + vs_format->color =3D VSDC_COLOR_FORMAT_A2R10G10B10;
-> + break;
-> + default:
-> + DRM_WARN("Unexpected drm format!\n");
-> + }
-> +
-> + switch (drm_format) {
-> + case DRM_FORMAT_RGBX4444:
-> + case DRM_FORMAT_RGBA4444:
-> + case DRM_FORMAT_RGBX5551:
-> + case DRM_FORMAT_RGBA5551:
-> + case DRM_FORMAT_RGBX8888:
-> + case DRM_FORMAT_RGBA8888:
-> + case DRM_FORMAT_RGBA1010102:
-> + vs_format->swizzle =3D VSDC_SWIZZLE_RGBA;
-> + break;
-> + case DRM_FORMAT_XBGR4444:
-> + case DRM_FORMAT_ABGR4444:
-> + case DRM_FORMAT_XBGR1555:
-> + case DRM_FORMAT_ABGR1555:
-> + case DRM_FORMAT_BGR565:
-> + case DRM_FORMAT_XBGR8888:
-> + case DRM_FORMAT_ABGR8888:
-> + case DRM_FORMAT_ABGR2101010:
-> + vs_format->swizzle =3D VSDC_SWIZZLE_ABGR;
-> + break;
-> + case DRM_FORMAT_BGRX4444:
-> + case DRM_FORMAT_BGRA4444:
-> + case DRM_FORMAT_BGRX5551:
-> + case DRM_FORMAT_BGRA5551:
-> + case DRM_FORMAT_BGRX8888:
-> + case DRM_FORMAT_BGRA8888:
-> + case DRM_FORMAT_BGRA1010102:
-> + vs_format->swizzle =3D VSDC_SWIZZLE_BGRA;
-> + break;
-> + default:
-> + /* N/A for YUV formats */
-> + vs_format->swizzle =3D VSDC_SWIZZLE_ARGB;
-> + }
-> +
-> + /* N/A for non-YUV formats */
-> + vs_format->uv_swizzle =3D false;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h =
-b/drivers/gpu/drm/verisilicon/vs_plane.h
-> new file mode 100644
-> index 0000000000000..3595267c89b53
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_plane.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_PLANE_H_
-> +#define _VS_PLANE_H_
-> +
-> +#include <linux/types.h>
-> +
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_plane.h>
-> +
-> +#define VSDC_MAKE_PLANE_SIZE(w, h) (((w) & 0x7fff) | (((h) & 0x7fff) =
-<< 15))
-> +#define VSDC_MAKE_PLANE_POS(x, y) (((x) & 0x7fff) | (((y) & 0x7fff) =
-<< 15))
-> +
-> +struct vs_dc;
-> +
-> +enum vs_color_format {
-> + VSDC_COLOR_FORMAT_X4R4G4B4,
-> + VSDC_COLOR_FORMAT_A4R4G4B4,
-> + VSDC_COLOR_FORMAT_X1R5G5B5,
-> + VSDC_COLOR_FORMAT_A1R5G5B5,
-> + VSDC_COLOR_FORMAT_R5G6B5,
-> + VSDC_COLOR_FORMAT_X8R8G8B8,
-> + VSDC_COLOR_FORMAT_A8R8G8B8,
-> + VSDC_COLOR_FORMAT_YUY2,
-> + VSDC_COLOR_FORMAT_UYVY,
-> + VSDC_COLOR_FORMAT_INDEX8,
-> + VSDC_COLOR_FORMAT_MONOCHROME,
-> + VSDC_COLOR_FORMAT_YV12 =3D 0xf,
-> + VSDC_COLOR_FORMAT_A8,
-> + VSDC_COLOR_FORMAT_NV12,
-> + VSDC_COLOR_FORMAT_NV16,
-> + VSDC_COLOR_FORMAT_RG16,
-> + VSDC_COLOR_FORMAT_R8,
-> + VSDC_COLOR_FORMAT_NV12_10BIT,
-> + VSDC_COLOR_FORMAT_A2R10G10B10,
-> + VSDC_COLOR_FORMAT_NV16_10BIT,
-> + VSDC_COLOR_FORMAT_INDEX1,
-> + VSDC_COLOR_FORMAT_INDEX2,
-> + VSDC_COLOR_FORMAT_INDEX4,
-> + VSDC_COLOR_FORMAT_P010,
-> + VSDC_COLOR_FORMAT_YUV444,
-> + VSDC_COLOR_FORMAT_YUV444_10BIT
-> +};
-> +
-> +enum vs_swizzle {
-> + VSDC_SWIZZLE_ARGB,
-> + VSDC_SWIZZLE_RGBA,
-> + VSDC_SWIZZLE_ABGR,
-> + VSDC_SWIZZLE_BGRA,
-> +};
-> +
-> +struct vs_format {
-> + enum vs_color_format color;
-> + enum vs_swizzle swizzle;
-> + bool uv_swizzle;
-> +};
-> +
-> +void drm_format_to_vs_format(u32 drm_format, struct vs_format =
-*vs_format);
-> +
-> +struct drm_plane *vs_primary_plane_init(struct drm_device *dev, =
-struct vs_dc *dc);
-> +
-> +#endif /* _VS_PLANE_H_ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_primary_plane.c =
-b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-> new file mode 100644
-> index 0000000000000..5b03783d4f284
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-> @@ -0,0 +1,157 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_fb_dma_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_dma_helper.h>
-> +#include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include "vs_crtc.h"
-> +#include "vs_plane.h"
-> +#include "vs_dc.h"
-> +#include "vs_primary_plane_regs.h"
-> +
-> +static int vs_primary_plane_atomic_check(struct drm_plane *plane,
-> + struct drm_atomic_state *state)
-> +{
-> + struct drm_plane_state *new_plane_state =3D =
-drm_atomic_get_new_plane_state(state,
-> + plane);
-> + struct drm_crtc *crtc =3D new_plane_state->crtc;
-> + struct drm_crtc_state *crtc_state;
-> +
-> + if (!crtc)
-> + return 0;
-> +
-> + crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
-> + if (WARN_ON(!crtc_state))
-> + return -EINVAL;
-> +
-> + return drm_atomic_helper_check_plane_state(new_plane_state,
-> +   crtc_state,
-> +   DRM_PLANE_NO_SCALING,
-> +   DRM_PLANE_NO_SCALING,
-> +   false, true);
-> +}
-> +
-> +
-> +static void vs_primary_plane_atomic_update(struct drm_plane *plane,
-> +   struct drm_atomic_state *atomic_state)
-> +{
-> + struct drm_plane_state *state =3D =
-drm_atomic_get_new_plane_state(atomic_state,
-> +       plane);
-> + struct drm_framebuffer *fb =3D state->fb;
-> + struct drm_crtc *crtc =3D state->crtc;
-> + struct drm_gem_dma_object *gem;
-> + struct vs_dc *dc;
-> + struct vs_crtc *vcrtc;
-> + struct vs_format fmt;
-> + unsigned int output, bpp;
-> + dma_addr_t dma_addr;
-> +
-> + if (!crtc)
-> + return;
-> +
-> + vcrtc =3D drm_crtc_to_vs_crtc(crtc);
-> + output =3D vcrtc->id;
-> + dc =3D vcrtc->dc;
-> +
-> + DRM_DEBUG_DRIVER("Updating output %d primary plane\n", output);
-> +
-> + regmap_update_bits(dc->regs, VSDC_FB_CONFIG_EX(output),
-> +   VSDC_FB_CONFIG_EX_DISPLAY_ID_MASK,
-> +   VSDC_FB_CONFIG_EX_DISPLAY_ID(output));
-> +
-> + if (!state->visible || !fb) {
-> + regmap_write(dc->regs, VSDC_FB_CONFIG(output), 0);
-> + regmap_write(dc->regs, VSDC_FB_CONFIG_EX(output), 0);
-> + goto commit;
-> + } else {
-> + regmap_set_bits(dc->regs, VSDC_FB_CONFIG_EX(output),
-> + VSDC_FB_CONFIG_EX_FB_EN);
-> + }
-> +
-> + drm_format_to_vs_format(state->fb->format->format, &fmt);
-> +
-> + regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
-> +   VSDC_FB_CONFIG_FMT_MASK,
-> +   VSDC_FB_CONFIG_FMT(fmt.color));
-> + regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
-> +   VSDC_FB_CONFIG_SWIZZLE_MASK,
-> +   VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
-> + regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
-> +   VSDC_FB_CONFIG_UV_SWIZZLE_EN, fmt.uv_swizzle);
-> +
-> + /* Get the physical address of the buffer in memory */
-> + gem =3D drm_fb_dma_get_gem_obj(fb, 0);
-> +
-> + /* Compute the start of the displayed memory */
-> + bpp =3D fb->format->cpp[0];
-> + dma_addr =3D gem->dma_addr + fb->offsets[0];
-> +
-> + /* Fixup framebuffer address for src coordinates */
-> + dma_addr +=3D (state->src.x1 >> 16) * bpp;
-> + dma_addr +=3D (state->src.y1 >> 16) * fb->pitches[0];
-> +
-> + regmap_write(dc->regs, VSDC_FB_ADDRESS(output),
-> +     lower_32_bits(dma_addr));
-> + regmap_write(dc->regs, VSDC_FB_STRIDE(output),
-> +     fb->pitches[0]);
-> +
-> + regmap_write(dc->regs, VSDC_FB_TOP_LEFT(output),
-> +     VSDC_MAKE_PLANE_POS(state->crtc_x, state->crtc_y));
-> + regmap_write(dc->regs, VSDC_FB_BOTTOM_RIGHT(output),
-> +     VSDC_MAKE_PLANE_POS(state->crtc_x + state->crtc_w,
-> + state->crtc_y + state->crtc_h));
-> + regmap_write(dc->regs, VSDC_FB_SIZE(output),
-> +     VSDC_MAKE_PLANE_SIZE(state->crtc_w, state->crtc_h));
-> +
-> + regmap_write(dc->regs, VSDC_FB_BLEND_CONFIG(output),
-> +     VSDC_FB_BLEND_CONFIG_BLEND_DISABLE);
-> +commit:
-> + regmap_set_bits(dc->regs, VSDC_FB_CONFIG_EX(output),
-> + VSDC_FB_CONFIG_EX_COMMIT);
-> +}
-> +
-> +static const struct drm_plane_helper_funcs =
-vs_primary_plane_helper_funcs =3D {
-> + .atomic_check =3D vs_primary_plane_atomic_check,
-> + .atomic_update =3D vs_primary_plane_atomic_update,
-> +};
-> +
-> +static const struct drm_plane_funcs vs_primary_plane_funcs =3D {
-> + .atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
-> + .atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_state,
-> + .disable_plane =3D drm_atomic_helper_disable_plane,
-> + .reset =3D drm_atomic_helper_plane_reset,
-> + .update_plane =3D drm_atomic_helper_update_plane,
-> +};
-> +
-> +struct drm_plane *vs_primary_plane_init(struct drm_device *drm_dev, =
-struct vs_dc *dc)
-> +{
-> + struct drm_plane *plane;
-> +
-> + plane =3D drmm_universal_plane_alloc(drm_dev, struct drm_plane, dev, =
-0,
-> +   &vs_primary_plane_funcs,
-> +   dc->identity.formats->array,
-> +   dc->identity.formats->num,
-> +   NULL,
-> +   DRM_PLANE_TYPE_PRIMARY,
-> +   NULL);
-> +
-> + if (IS_ERR(plane))
-> + return plane;
-> +
-> + drm_plane_helper_add(plane, &vs_primary_plane_helper_funcs);
-> +
-> + return plane;
-> +}
-> diff --git a/drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h =
-b/drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
-> new file mode 100644
-> index 0000000000000..cbb125c46b390
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
-> @@ -0,0 +1,53 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on vs_dc_hw.h, which is:
-> + *   Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> + */
-> +
-> +#ifndef _VS_PRIMARY_PLANE_REGS_H_
-> +#define _VS_PRIMARY_PLANE_REGS_H_
-> +
-> +#include <linux/bits.h>
-> +
-> +#define VSDC_FB_ADDRESS(n) (0x1400 + 0x4 * (n))
-> +
-> +#define VSDC_FB_STRIDE(n) (0x1408 + 0x4 * (n))
-> +
-> +#define VSDC_FB_CONFIG(n) (0x1518 + 0x4 * (n))
-> +#define VSDC_FB_CONFIG_CLEAR_EN BIT(8)
-> +#define VSDC_FB_CONFIG_ROT_MASK GENMASK(13, 11)
-> +#define VSDC_FB_CONFIG_ROT(v) ((v) << 11)
-> +#define VSDC_FB_CONFIG_YUV_SPACE_MASK GENMASK(16, 14)
-> +#define VSDC_FB_CONFIG_YUV_SPACE(v) ((v) << 14)
-> +#define VSDC_FB_CONFIG_TILE_MODE_MASK GENMASK(21, 17)
-> +#define VSDC_FB_CONFIG_TILE_MODE(v) ((v) << 14)
-> +#define VSDC_FB_CONFIG_SCALE_EN BIT(22)
-> +#define VSDC_FB_CONFIG_SWIZZLE_MASK GENMASK(24, 23)
-> +#define VSDC_FB_CONFIG_SWIZZLE(v) ((v) << 23)
-> +#define VSDC_FB_CONFIG_UV_SWIZZLE_EN BIT(25)
-> +#define VSDC_FB_CONFIG_FMT_MASK GENMASK(31, 26)
-> +#define VSDC_FB_CONFIG_FMT(v) ((v) << 26)
-> +
-> +#define VSDC_FB_SIZE(n) (0x1810 + 0x4 * (n))
-> +/* Fill with value generated with VSDC_MAKE_PLANE_SIZE(w, h) */
-> +
-> +#define VSDC_FB_CONFIG_EX(n) (0x1CC0 + 0x4 * (n))
-> +#define VSDC_FB_CONFIG_EX_COMMIT BIT(12)
-> +#define VSDC_FB_CONFIG_EX_FB_EN BIT(13)
-> +#define VSDC_FB_CONFIG_EX_ZPOS_MASK GENMASK(18, 16)
-> +#define VSDC_FB_CONFIG_EX_ZPOS(v) ((v) << 16)
-> +#define VSDC_FB_CONFIG_EX_DISPLAY_ID_MASK GENMASK(19, 19)
-> +#define VSDC_FB_CONFIG_EX_DISPLAY_ID(v) ((v) << 19)
-> +
-> +#define VSDC_FB_TOP_LEFT(n) (0x24D8 + 0x4 * (n))
-> +/* Fill with value generated with VSDC_MAKE_PLANE_POS(x, y) */
-> +
-> +#define VSDC_FB_BOTTOM_RIGHT(n) (0x24E0 + 0x4 * (n))
-> +/* Fill with value generated with VSDC_MAKE_PLANE_POS(x, y) */
-> +
-> +#define VSDC_FB_BLEND_CONFIG(n) (0x2510 + 0x4 * (n))
-> +#define VSDC_FB_BLEND_CONFIG_BLEND_DISABLE BIT(1)
-> +
-> +#endif /* _VS_PRIMARY_PLANE_REGS_H_ */
-> --=20
-> 2.52.0
->=20
-Tested-by: Han Gao <gaohan@iscas.ac.cn <mailto:gaohan@iscas.ac.cn>>
+Maybe just export sun50i_planes_node_is_planes() instead?
 
+> > +const struct of_device_id sun50i_planes_of_table[] =3D {
+> > +       {
+> > +               .compatible =3D "allwinner,sun50i-h616-de33-planes",
+> > +               .data =3D &sun50i_h616_planes_quirks
+> > +       },
+> > +       { }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, sun50i_planes_of_table);
+> > +EXPORT_SYMBOL(sun50i_planes_of_table);
+> > +
+> > +static struct platform_driver sun50i_planes_platform_driver =3D {
+> > +       .probe          =3D sun50i_planes_probe,
+> > +       .driver         =3D {
+> > +               .name           =3D "sun50i-planes",
+> > +               .of_match_table =3D sun50i_planes_of_table,
+> > +       },
+> > +};
+> > +module_platform_driver(sun50i_planes_platform_driver);
+> > +
+> > +MODULE_AUTHOR("Jernej Skrabec <jernej.skrabec@gmail.com>");
+> > +MODULE_DESCRIPTION("Allwinner DE33 planes driver");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/gpu/drm/sun4i/sun50i_planes.h b/drivers/gpu/drm/su=
+n4i/sun50i_planes.h
+> > new file mode 100644
+> > index 000000000000..446feaeb03fc
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sun4i/sun50i_planes.h
+> > @@ -0,0 +1,43 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > +/* Copyright (c) 2025 Jernej Skrabec <jernej.skrabec@gmail.com> */
+> > +
+> > +#ifndef _SUN50I_PLANES_H_
+> > +#define _SUN50I_PLANES_H_
+> > +
+> > +#include <drm/drm_device.h>
+> > +#include <linux/regmap.h>
+>
+> I think you could move these two to the .c file, and just use forward
+> declarations here.
+>
+> The rest looks OK.
+>
+>
+> > +
+> > +#include "sun8i_mixer.h"
+> > +
+> > +/* mapping registers, located in clock register space */
+> > +#define SUNXI_DE33_DE_CHN2CORE_MUX_REG 0x24
+> > +#define SUNXI_DE33_DE_PORT02CHN_MUX_REG        0x28
+> > +#define SUNXI_DE33_DE_PORT12CHN_MUX_REG        0x2c
+> > +
+> > +#define MAX_DISP       2
+> > +#define MAX_CHANNELS   8
+> > +#define UI_PLANE_OFFSET        6
+> > +
+> > +struct default_map {
+> > +       unsigned int map[MAX_CHANNELS];
+> > +       unsigned int num_ch;
+> > +};
+> > +
+> > +struct sun50i_planes_quirks {
+> > +       struct default_map      def_map[MAX_DISP];
+> > +       struct sun8i_layer_cfg  cfg;
+> > +};
+> > +
+> > +struct sun50i_planes {
+> > +       struct regmap                           *regs;
+> > +       struct regmap                           *mapping;
+> > +       const struct sun50i_planes_quirks       *quirks;
+> > +};
+> > +
+> > +extern const struct of_device_id sun50i_planes_of_table[];
+> > +
+> > +struct drm_plane **
+> > +sun50i_planes_setup(struct device *dev, struct drm_device *drm,
+> > +                   unsigned int mixer);
+> > +
+> > +#endif /* _SUN50I_PLANES_H_ */
+> > --
+> > 2.51.2
+> >
+> >
