@@ -2,65 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195D0CDD953
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 10:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8147CDDB5B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 12:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E863011AEF3;
-	Thu, 25 Dec 2025 09:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 849EC11B63E;
+	Thu, 25 Dec 2025 11:17:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cCJ5GRt9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C+0lAvyJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C4E11AEF3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:29:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E873E60141
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:29:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A8BC19422
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 09:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766654978;
- bh=AGcpzs+HTt9Ra5Z/bNWYLueCqfWr/iHunf6tFzKkOU8=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=cCJ5GRt9rpw1nz8oiCHxgaX/pvO362Wr1CFS7kt3/IHFAV0X2FX/XSrTA9GWZvLBj
- MI52uvhiNtxDlS5r8HB3Esj1cIahJHdwCoL2bvzZEwpNAarOgbz9UVv5AMQmNdv4Jp
- QohR24tBN54kAHsZ4XWi3c5prW0DY76SBTlIYWDXLZa1WOwQresOydb+2YaZiePk2J
- QsWQqdb5wQa6RuLVjQ7YW80RcHaOA4ObMESO8x1hxcXg9IFgsLluM8QdycqWd8Lfev
- 2iligxyNoY9W9J/5aeEXiQ+0Hc72k9s1eCzsaTlYtHEleSEpHU0pOQm1KBv9mKtlKr
- Tr+OBJp/dtNeQ==
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-37a2dced861so72899281fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 01:29:38 -0800 (PST)
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B24711B63E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 11:17:19 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id
+ d9443c01a7336-2a137692691so75460655ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 03:17:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766661439; x=1767266239; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NR9ewMLjXFiPPdUADJ8UIVWJfNnUqlBWb4FQrwaT2qY=;
+ b=C+0lAvyJgfd4rYMDKwf6vyN4DP25qTZFbEZdeJhD7Pl34zYiZl0qxYOkCn8wVRtlpO
+ aPIBlh+HRTQFq6xVHTckpf6gplI+YuNhlJnLIMrt1p7KWeuekksY6ZLfIJt9EaEMXkTl
+ 3wOrLVJTU2YsovpLL+xLUpwSyAkRy6S/IUxLpX7N8Ft3tAGQmfiRZClstBwpJ+1bXmcZ
+ slVbojBTiTkId+xTwhRZr/Z8xsk1Ml1Cyd/d+TlKhzgQL5NAGuwutTaJhQPpn7SDasG1
+ tPGjXrYnnaJ2YXKMyU81TfJYdrSOu+SBsEJG5DrUJm97q05pZaR5YMfo7gB7vG38EHlv
+ tevQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766661439; x=1767266239;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NR9ewMLjXFiPPdUADJ8UIVWJfNnUqlBWb4FQrwaT2qY=;
+ b=Z9HUvU/pZWj23hxLoGVh3FSqKYaOY62VfgDb5tVX7sKpJDteQsrrw0qroIIDLpLlPj
+ vbvUg7bc5HC4Z7z6BaF6MHT/IiYPem+jZAdNonvJuOtyjx/yHtyfZ48kKKWiuuFOPVgq
+ VCGvfg46RrAeGgsPAVf2XpVClkgzLgC/3RIOBf1jjSI7aONfoKzEtsaiMFf5Wmrd/1sE
+ vmnXCyzuWHFz1mcThKxlqrY5aA2KRBepNb01sBt3l9rSMbZ8QeAmz39v/oBDA9wvWW5c
+ rEHOiW/QewednR0CMybPCQjYaFHi0OHWDq1G/Z++3+X6KmpodRkqiWrs60YIM3K39iZz
+ eLIw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVh8HH4EliZLjQYcl9/HKs1Q8+/sTmivV2xh8KV16WZQb456HPYu6Rb40zZTDNqvdawvFWtA2vWtAQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7cT1FuFn4shm88rktyz/rkc0ZbWH2tHz7t8VFmRpAv0eT871z
- v/+ZMroiXYaJf3Upk9kWRsY1oW1Mzxxsnm4o84uPYIcfqaYtYL46N/PU010SlVc4O/zjaighYmX
- ifPTZp/l4sLr7PpTdD7+eJAq675yPzq0=
-X-Google-Smtp-Source: AGHT+IHBsczarKmMlw/B6So6qXrO56qxsnYRrC7L8sOh2noM3vp5m0xEAALj3gvtphj6HiDRgtxOrF6+PAmx5Kst7nE=
-X-Received: by 2002:a2e:a906:0:b0:336:b891:18db with SMTP id
- 38308e7fff4ca-3812077655bmr68904291fa.2.1766654977024; Thu, 25 Dec 2025
- 01:29:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-6-jernej.skrabec@gmail.com>
-In-Reply-To: <20251115141347.13087-6-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 25 Dec 2025 17:29:24 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com>
-X-Gm-Features: AQt7F2ooFnslSppFNwlewNk42JTphKK_WN4uqL597J5ddj2bxQ9Wo4d8bp2f57g
-Message-ID: <CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] drm/sun4i: Add planes driver
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
- sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCV8IHEc/f6r5L5IG/IRZxVPBemi1PS1J6J0Co93bLKYareqWWLU7FkKxYDF8XrL/PRQOkIFyk6Nuck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzeLuCxZ4PR8twh+/oVsvqTmnMVqhTzzVTol4iCt4o99pQ/sckE
+ XT0uEEwse/05tvkng38uQcAVOfVTkEylakjNMoJGYPOaaZBwpiguURo7/2ksIiAZQ0AqD311
+X-Gm-Gg: AY/fxX7Tj7aKQ1Fut2WO6yNkWjdauH89R9ih4iYmK9sh7jRFPRwfq10d06Dwkje2orx
+ 0OoEkduwLcMfCDGO8b+2gph2Kxj4DMuXRhaWOwhDhcMFYaKzvxEWIKOVsgaIWZdJjfRyDBGdxvh
+ AfiGNwaLxQ/kpc+R4ZMcaT5ZQvXFLu+xqYhsr790dh9ORYPNhQYhcSyxepz/xhCKQK/9JHQ5QJ7
+ jzo080Sw1K9bgFogqwonpmtoC4upuzcQ0eo3MdkvT3KMKZk3iEJNniWWlu828mzSCu2LrHLsnYu
+ 0KEkKnwMkFWUhH85dbbnbMWk7OcvuN0A6EiM8thAAmemGce2MR4KdJK1858PozAXu2mu97aqxpP
+ UqCYpbiunoNEqvGYkNubTwi5FM/Ij5pXkBn0Fka5d9mupRqrd6Je0IgtB++wG23sREO+LuhwDLK
+ h4Kd06eqF6d986jxKidldJBtaw5kakOuDgd5U3X21qeBcIkXjGMe+s/2Nj1CON34aCloyhgYT74
+ 1Tg8oCXz1TZQQhVfQ==
+X-Google-Smtp-Source: AGHT+IG2M8a8qGctLFSHsXVBGxXFam1e3c0AO/WF6f8CTG9U4DPalhsEV923XI9BxX9JmKKZ65n0vg==
+X-Received: by 2002:a05:6a20:12cb:b0:34f:a16f:15ad with SMTP id
+ adf61e73a8af0-376aa7f0de4mr19263347637.53.1766655352891; 
+ Thu, 25 Dec 2025 01:35:52 -0800 (PST)
+Received: from smtpclient.apple (125x103x213x40.ap125.ftth.ucom.ne.jp.
+ [125.103.213.40]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-34e76de1e41sm10145504a91.2.2025.12.25.01.35.46
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Dec 2025 01:35:52 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH v4 2/9] dt-bindings: display: add verisilicon,dc
+From: "Han Gao (Revy)" <rabenda.cn@gmail.com>
+In-Reply-To: <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
+Date: Thu, 25 Dec 2025 17:35:34 +0800
+Cc: "Han Gao (Revy)" <rabenda.cn@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Icenowy Zheng <uwu@icenowy.me>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <FBE5FD78-D7E8-4961-BF13-9BDA0F840548@gmail.com>
+References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
+ <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,350 +106,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
->
-> This driver serves just as planes sharing manager, needed for Display
-> Engine 3.3 and newer.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+
+> On Dec 25, 2025, at 00:11, Icenowy Zheng <zhengxingda@iscas.ac.cn> =
+wrote:
+>=20
+> From: Icenowy Zheng <uwu@icenowy.me>
+>=20
+> Verisilicon has a series of display controllers prefixed with DC and
+> with self-identification facility like their GC series GPUs.
+>=20
+> Add a device tree binding for it.
+>=20
+> Depends on the specific DC model, it can have either one or two =
+display
+> outputs, and each display output could be set to DPI signal or "DP"
+> signal (which seems to be some plain parallel bus to HDMI =
+controllers).
+>=20
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 > ---
->  drivers/gpu/drm/sun4i/Kconfig         |   8 +
->  drivers/gpu/drm/sun4i/Makefile        |   1 +
->  drivers/gpu/drm/sun4i/sun50i_planes.c | 205 ++++++++++++++++++++++++++
->  drivers/gpu/drm/sun4i/sun50i_planes.h |  43 ++++++
->  4 files changed, 257 insertions(+)
->  create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.c
->  create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.h
->
-> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfi=
-g
-> index b56ba00aabca..946dd7606094 100644
-> --- a/drivers/gpu/drm/sun4i/Kconfig
-> +++ b/drivers/gpu/drm/sun4i/Kconfig
-> @@ -85,4 +85,12 @@ config DRM_SUN8I_TCON_TOP
->           TCON TOP is responsible for configuring display pipeline for
->           HDMI, TVE and LCD.
->
-> +config DRM_SUN50I_PLANES
-> +       tristate
-> +       default DRM_SUN4I if DRM_SUN8I_MIXER!=3Dn
-> +       help
-> +         Chose this option if you have an Allwinner Soc with the
-> +         Display Engine 3.3 or newer. Planes are shared resource
-> +         between multiple mixers.
-> +
->  endif
-> diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makef=
-ile
-> index bad7497a0d11..03f002abef15 100644
-> --- a/drivers/gpu/drm/sun4i/Makefile
-> +++ b/drivers/gpu/drm/sun4i/Makefile
-> @@ -38,3 +38,4 @@ obj-$(CONFIG_DRM_SUN6I_DSI)   +=3D sun6i_mipi_dsi.o
->  obj-$(CONFIG_DRM_SUN8I_DW_HDMI)        +=3D sun8i-drm-hdmi.o
->  obj-$(CONFIG_DRM_SUN8I_MIXER)  +=3D sun8i-mixer.o
->  obj-$(CONFIG_DRM_SUN8I_TCON_TOP) +=3D sun8i_tcon_top.o
-> +obj-$(CONFIG_DRM_SUN50I_PLANES)        +=3D sun50i_planes.o
-
-I don't think you can have this as a separate module:
-
-a. You are using sun8i_vi_layer_init_one() and sun8i_ui_layer_init_one()
-   from the sun8i-mixer module, and neither of them are exported symbols.
-
-b. You export sun50i_planes_setup() for sun8i-mixer to call, which ends
-   up becoming a circular dependency.
-
-The easiest solution would be to just fold this into the sun8i-mixer module=
-.
-
-
-> diff --git a/drivers/gpu/drm/sun4i/sun50i_planes.c b/drivers/gpu/drm/sun4=
-i/sun50i_planes.c
+> Changes in v4:
+> - Added a comment for "verisilicon,dc" that says the ID/revision is
+>  discoverable via registers.
+> - Removed clock minItems constraint w/o specific compatible strings.
+>=20
+> Changes in v3:
+> - Added SoC-specific compatible string, and arm the binding with clock =
+/
+>  port checking for the specific SoC (with a 2-output DC).
+>=20
+> Changes in v2:
+> - Fixed misspelt "versilicon" in title.
+> - Moved minItems in clock properties to be earlier than items.
+> - Re-aligned multi-line clocks and resets in example.
+>=20
+> .../bindings/display/verisilicon,dc.yaml      | 144 ++++++++++++++++++
+> 1 file changed, 144 insertions(+)
+> create mode 100644 =
+Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+>=20
+> diff --git =
+a/Documentation/devicetree/bindings/display/verisilicon,dc.yaml =
+b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
 > new file mode 100644
-> index 000000000000..a99c01122990
+> index 0000000000000..fe64cc1466690
 > --- /dev/null
-> +++ b/drivers/gpu/drm/sun4i/sun50i_planes.c
-> @@ -0,0 +1,205 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/* Copyright (c) 2025 Jernej Skrabec <jernej.skrabec@gmail.com> */
+> +++ b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> @@ -0,0 +1,144 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon,dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include <linux/device.h>
-> +#include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/platform_device.h>
+> +title: Verisilicon DC-series display controllers
 > +
-> +#include "sun50i_planes.h"
-> +#include "sun8i_ui_layer.h"
-> +#include "sun8i_vi_layer.h"
+> +maintainers:
+> +  - Icenowy Zheng <uwu@icenowy.me>
 > +
-> +static bool sun50i_planes_node_is_planes(struct device_node *node)
-> +{
-> +       return !!of_match_node(sun50i_planes_of_table, node);
-> +}
+> +properties:
+> +  $nodename:
+> +    pattern: "^display@[0-9a-f]+$"
 > +
-> +struct drm_plane **
-> +sun50i_planes_setup(struct device *dev, struct drm_device *drm,
-> +                   unsigned int mixer)
-> +{
-> +       struct sun50i_planes *planes =3D dev_get_drvdata(dev);
-> +       const struct sun50i_planes_quirks *quirks;
-> +       struct drm_plane **drm_planes;
-> +       const struct default_map *map;
-> +       unsigned int i;
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - thead,th1520-dc8200
+> +      - const: verisilicon,dc # DC IPs have discoverable ID/revision =
+registers
 > +
-> +       if (!sun50i_planes_node_is_planes(dev->of_node)) {
-> +               dev_err(dev, "Device is not planes driver!\n");
-> +               return NULL;
-> +       }
+> +  reg:
+> +    maxItems: 1
 > +
-> +       if (!planes) {
-> +               dev_err(dev, "Planes driver is not loaded yet!\n");
-> +               return NULL;
-> +       }
+> +  interrupts:
+> +    maxItems: 1
 > +
-> +       if (mixer > 1) {
-> +               dev_err(dev, "Mixer index is too high!\n");
-> +               return NULL;
-> +       }
+> +  clocks:
+> +    items:
+> +      - description: DC Core clock
+> +      - description: DMA AXI bus clock
+> +      - description: Configuration AHB bus clock
+> +      - description: Pixel clock of output 0
+> +      - description: Pixel clock of output 1
 > +
-> +       quirks =3D planes->quirks;
-> +       map =3D &quirks->def_map[mixer];
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: axi
+> +      - const: ahb
+> +      - const: pix0
+> +      - const: pix1
 > +
-> +       drm_planes =3D devm_kcalloc(drm->dev, map->num_ch + 1,
+> +  resets:
+> +    items:
+> +      - description: DC Core reset
+> +      - description: DMA AXI bus reset
+> +      - description: Configuration AHB bus reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: core
+> +      - const: axi
+> +      - const: ahb
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: The first output channel , endpoint 0 should be
+> +          used for DPI format output and endpoint 1 should be used
+> +          for DP format output.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: The second output channel if the DC variant
+> +          supports. Follow the same endpoint addressing rule with
+> +          the first port.
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: thead,th1520-dc8200
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +        ports:
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/thead,th1520-clk-ap.h>
+> +    #include <dt-bindings/reset/thead,th1520-reset.h>
+> +    soc {
+> +      #address-cells =3D <2>;
+> +      #size-cells =3D <2>;
+> +
+> +      display@ffef600000 {
+> +        compatible =3D "thead,th1520-dc8200", "verisilicon,dc";
+> +        reg =3D <0xff 0xef600000 0x0 0x100000>;
+> +        interrupts =3D <93 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks =3D <&clk_vo CLK_DPU_CCLK>,
+> +                 <&clk_vo CLK_DPU_ACLK>,
+> +                 <&clk_vo CLK_DPU_HCLK>,
+> +                 <&clk_vo CLK_DPU_PIXELCLK0>,
+> +                 <&clk_vo CLK_DPU_PIXELCLK1>;
+> +        clock-names =3D "core", "axi", "ahb", "pix0", "pix1";
+> +        resets =3D <&rst TH1520_RESET_ID_DPU_CORE>,
+> +                 <&rst TH1520_RESET_ID_DPU_AXI>,
+> +                 <&rst TH1520_RESET_ID_DPU_AHB>;
+> +        reset-names =3D "core", "axi", "ahb";
+> +
+> +        ports {
+> +          #address-cells =3D <1>;
+> +          #size-cells =3D <0>;
+> +
+> +          port@0 {
+> +            reg =3D <0>;
+> +          };
+> +
+> +          port@1 {
+> +            reg =3D <1>;
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            dpu_out_dp1: endpoint@1 {
+> +              reg =3D <1>;
+> +              remote-endpoint =3D <&hdmi_in>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> --=20
+> 2.52.0
+>=20
+Tested-by: Han Gao <gaohan@iscas.ac.cn <mailto:gaohan@iscas.ac.cn>>
 
-Just a note: it seems we are missing the sentinel in sun8i_layers_init().
-
-> +                                 sizeof(*drm_planes), GFP_KERNEL);
-> +       if (!drm_planes)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       for (i =3D 0; i < map->num_ch; i++) {
-> +               unsigned int phy_ch =3D map->map[i];
-> +               struct sun8i_layer *layer;
-> +               enum drm_plane_type type;
-> +
-> +               if ((i =3D=3D 0 && map->num_ch =3D=3D 1) || i =3D=3D 1)
-> +                       type =3D DRM_PLANE_TYPE_PRIMARY;
-> +               else
-> +                       type =3D DRM_PLANE_TYPE_OVERLAY;
-> +
-> +               if (phy_ch < UI_PLANE_OFFSET)
-> +                       layer =3D sun8i_vi_layer_init_one(drm, type, plan=
-es->regs,
-> +                                                       i, phy_ch, map->n=
-um_ch,
-> +                                                       &quirks->cfg);
-> +               else
-> +                       layer =3D sun8i_ui_layer_init_one(drm, type, plan=
-es->regs,
-> +                                                       i, phy_ch, map->n=
-um_ch,
-> +                                                       &quirks->cfg);
-> +
-> +               if (IS_ERR(layer)) {
-> +                       dev_err(drm->dev,
-> +                               "Couldn't initialize DRM plane\n");
-> +                       return ERR_CAST(layer);
-> +               }
-> +
-> +               drm_planes[i] =3D &layer->plane;
-> +       }
-> +
-> +       return drm_planes;
-> +}
-> +EXPORT_SYMBOL(sun50i_planes_setup);
-> +
-> +static void sun50i_planes_init_mapping(struct sun50i_planes *planes)
-> +{
-> +       const struct sun50i_planes_quirks *quirks =3D planes->quirks;
-> +       unsigned int i, j;
-> +       u32 mapping;
-> +
-> +       mapping =3D 0;
-> +       for (j =3D 0; j < MAX_DISP; j++)
-> +               for (i =3D 0; i < quirks->def_map[j].num_ch; i++) {
-> +                       unsigned int ch =3D quirks->def_map[j].map[i];
-> +
-> +                       if (ch < UI_PLANE_OFFSET)
-> +                               mapping |=3D j << (ch * 2);
-> +                       else
-> +                               mapping |=3D j << ((ch - UI_PLANE_OFFSET)=
- * 2 + 16);
-> +               }
-> +       regmap_write(planes->mapping, SUNXI_DE33_DE_CHN2CORE_MUX_REG, map=
-ping);
-> +
-> +       for (j =3D 0; j < MAX_DISP; j++) {
-> +               mapping =3D 0;
-> +               for (i =3D 0; i < quirks->def_map[j].num_ch; i++) {
-> +                       unsigned int ch =3D quirks->def_map[j].map[i];
-> +
-> +                       if (ch >=3D UI_PLANE_OFFSET)
-> +                               ch +=3D 2;
-> +
-> +                       mapping |=3D ch << (i * 4);
-> +               }
-> +               regmap_write(planes->mapping, SUNXI_DE33_DE_PORT02CHN_MUX=
-_REG + j * 4, mapping);
-> +       }
-> +}
-> +
-> +static const struct regmap_config sun50i_planes_regmap_config =3D {
-> +       .name           =3D "planes",
-> +       .reg_bits       =3D 32,
-> +       .val_bits       =3D 32,
-> +       .reg_stride     =3D 4,
-> +       .max_register   =3D 0x17fffc,
-> +};
-> +
-> +static int sun50i_planes_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev =3D &pdev->dev;
-> +       struct sun50i_planes *planes;
-> +       void __iomem *regs;
-> +
-> +       planes =3D devm_kzalloc(dev, sizeof(*planes), GFP_KERNEL);
-> +       if (!planes)
-> +               return -ENOMEM;
-> +
-> +       planes->quirks =3D of_device_get_match_data(&pdev->dev);
-> +       if (!planes->quirks)
-> +               return dev_err_probe(dev, -EINVAL, "Unable to get quirks\=
-n");
-> +
-> +       planes->mapping =3D syscon_regmap_lookup_by_phandle(dev->of_node,
-> +                                                         "allwinner,plan=
-e-mapping");
-> +       if (IS_ERR(planes->mapping))
-> +               return dev_err_probe(dev, PTR_ERR(planes->mapping),
-> +                                    "Unable to get mapping\n");
-> +
-> +       regs =3D devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(regs))
-> +               return PTR_ERR(regs);
-> +
-> +       planes->regs =3D devm_regmap_init_mmio(dev, regs, &sun50i_planes_=
-regmap_config);
-> +       if (IS_ERR(planes->regs))
-> +               return PTR_ERR(planes->regs);
-> +
-> +       dev_set_drvdata(dev, planes);
-> +
-> +       sun50i_planes_init_mapping(planes);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct sun50i_planes_quirks sun50i_h616_planes_quirks =3D {
-> +       .def_map =3D {
-> +               {
-> +                       .map =3D {0, 6, 7},
-> +                       .num_ch =3D 3,
-> +               },
-> +               {
-> +                       .map =3D {1, 2, 8},
-> +                       .num_ch =3D 3,
-> +               },
-> +       },
-> +       .cfg =3D {
-> +               .de_type        =3D SUN8I_MIXER_DE33,
-> +               /*
-> +                * TODO: All planes support scaling, but driver needs
-> +                * improvements to properly support it.
-> +                */
-> +               .scaler_mask    =3D 0,
-> +               .scanline_yuv   =3D 4096,
-> +       },
-> +};
-> +
-> +/* sun4i_drv uses this list to check if a device node is a plane */
-> +const struct of_device_id sun50i_planes_of_table[] =3D {
-> +       {
-> +               .compatible =3D "allwinner,sun50i-h616-de33-planes",
-> +               .data =3D &sun50i_h616_planes_quirks
-> +       },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(of, sun50i_planes_of_table);
-> +EXPORT_SYMBOL(sun50i_planes_of_table);
-> +
-> +static struct platform_driver sun50i_planes_platform_driver =3D {
-> +       .probe          =3D sun50i_planes_probe,
-> +       .driver         =3D {
-> +               .name           =3D "sun50i-planes",
-> +               .of_match_table =3D sun50i_planes_of_table,
-> +       },
-> +};
-> +module_platform_driver(sun50i_planes_platform_driver);
-> +
-> +MODULE_AUTHOR("Jernej Skrabec <jernej.skrabec@gmail.com>");
-> +MODULE_DESCRIPTION("Allwinner DE33 planes driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/sun4i/sun50i_planes.h b/drivers/gpu/drm/sun4=
-i/sun50i_planes.h
-> new file mode 100644
-> index 000000000000..446feaeb03fc
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sun4i/sun50i_planes.h
-> @@ -0,0 +1,43 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/* Copyright (c) 2025 Jernej Skrabec <jernej.skrabec@gmail.com> */
-> +
-> +#ifndef _SUN50I_PLANES_H_
-> +#define _SUN50I_PLANES_H_
-> +
-> +#include <drm/drm_device.h>
-> +#include <linux/regmap.h>
-
-I think you could move these two to the .c file, and just use forward
-declarations here.
-
-The rest looks OK.
-
-
-> +
-> +#include "sun8i_mixer.h"
-> +
-> +/* mapping registers, located in clock register space */
-> +#define SUNXI_DE33_DE_CHN2CORE_MUX_REG 0x24
-> +#define SUNXI_DE33_DE_PORT02CHN_MUX_REG        0x28
-> +#define SUNXI_DE33_DE_PORT12CHN_MUX_REG        0x2c
-> +
-> +#define MAX_DISP       2
-> +#define MAX_CHANNELS   8
-> +#define UI_PLANE_OFFSET        6
-> +
-> +struct default_map {
-> +       unsigned int map[MAX_CHANNELS];
-> +       unsigned int num_ch;
-> +};
-> +
-> +struct sun50i_planes_quirks {
-> +       struct default_map      def_map[MAX_DISP];
-> +       struct sun8i_layer_cfg  cfg;
-> +};
-> +
-> +struct sun50i_planes {
-> +       struct regmap                           *regs;
-> +       struct regmap                           *mapping;
-> +       const struct sun50i_planes_quirks       *quirks;
-> +};
-> +
-> +extern const struct of_device_id sun50i_planes_of_table[];
-> +
-> +struct drm_plane **
-> +sun50i_planes_setup(struct device *dev, struct drm_device *drm,
-> +                   unsigned int mixer);
-> +
-> +#endif /* _SUN50I_PLANES_H_ */
-> --
-> 2.51.2
->
->
