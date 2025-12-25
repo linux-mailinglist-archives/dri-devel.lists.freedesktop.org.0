@@ -2,80 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17880CDDBC6
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 13:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B94CDDE36
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Dec 2025 16:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7F911BC85;
-	Thu, 25 Dec 2025 12:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E1E12B901;
+	Thu, 25 Dec 2025 15:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EYP+0xH3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fcFhF0HZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B0D11BC85
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 12:11:28 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2a137692691so75699775ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 04:11:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766664687; x=1767269487; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=7/qVfC/AvRydB28Fs2EBUThXHyWI75iS6yLDDHLqZDk=;
- b=EYP+0xH3y1YUP85ND2OSruYkEHW7VBeSkw8rd2DzBqdHuEATrenGBf6AzjFwW0czfA
- kBhz9xf9EeW/e5a7UasFeRxZvOY+Z5vSnPKJxVWKZ5uPTIdMa7zVDq11l1vyLCyAphUx
- RSmxiyJ8roUYaba3Zkh0aMz2IbpqS11nC1pEkg5oLepA6YirL3bcH9r6Bg2T7F1u1oF8
- lpDdJlEHwTqjgLiACy2LTUxUjkL86he9gBznZ2msvMcUa7S41uzDy4z2XrN3bXHy39CA
- qISiu5ee7ODD82UXzi5YlZ3+fgXpE6LM1V/Jr2+XGTo6nWcnY077gAtoUB6/KWnuvx+6
- xBWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766664687; x=1767269487;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7/qVfC/AvRydB28Fs2EBUThXHyWI75iS6yLDDHLqZDk=;
- b=qRDLJLCTWLHKXiXOV0eYUza3hWMUFVsJZUjqFJot8w524AqBd9SrL81dMG6WPBO3Up
- qD8urLdhjoSyG1B17g9S3j7CXGvqYglIdPiyUXGFIBrS2SY06fYx/xB62qLA6BBSQePG
- 760navpKS1P0HYp95Os2dTMrb6Zwo74tDuiHnd+ZEKP4vvzlmuWynnlVuzXSvYl/elMc
- i3bkoT/FJIvDH2pIPa/3NRKkufXixMiYOKK7ZGcEAlXXgcHmY7+rIt6n5Q77ouNb/z1O
- ccMayuQkHccr3m5XaesmODcD9ELC7bQhKtqH7RKZxG8Fv+iNK8z90/+YqaqvGhjLt8sN
- tOPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBkc+jUmVpQXen6cCuMI8zcDVtP+3gx6ScsgwTLc9oJ+ZXa27wVPsSoRG8ox2vf7AJcg9vL4+pg4Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFLBlUk3zpyJFAVYm+3ltyCBg15PfTOvaJuwwkrro3IKMLjC+o
- FqK26HTK2Kpp1uLFAo57/6wrPkFjFy1wL5ibymT5K+IBqHeR/giuqd98
-X-Gm-Gg: AY/fxX6U7I80bAXDGDyq7zG3nCXx9iJ0LbIMC3vhW+Wp1TjS0vROBqE0xy21LHPOM6c
- 1MwGUADKB7hAzDV4dO5/EV20AbC29uciPhmwKWTO33a1F1xQZ2ZsCJb6VDbhNVrmiu2m4F+ayrU
- yp+3F5sWqEAIRy5Mj0FtvAVfda0vcBjuyH5iACaudB3bdyFJXdEka2Wcdue6MHUN1iCUbhTYZYm
- Gaqa6seiL5Ko8JlKycBNcBC/SQOKnnhP+xaSLYBaXbvAvw+bkqY98wU8x1jh88C0v8GsFKTkSN+
- lxv8Kv1DG5tPFuYNhUoc8UX3M63/9XmpF1k9WePRbp3foBVrKKsK5rHWetvuzce+4BdOjCG7m3/
- +IP6zSpmyeru6FA62Uzh2313BuznST4tiUYYYfnphxl2nkJR/asVYJ9tVEYfkW7mPDfw+OlVD7a
- Zs1IdwaPtBCIbhg115fnk9
-X-Google-Smtp-Source: AGHT+IGKSGLk+HAEoaCu8V384ucYE3DTSdv9SDdoysVjqmukISJp3LxTXqZw/EKDCi7QbOEAX6pb+g==
-X-Received: by 2002:a17:903:19ef:b0:2a0:daa7:8a3d with SMTP id
- d9443c01a7336-2a2f2329b79mr206038155ad.23.1766664687443; 
- Thu, 25 Dec 2025 04:11:27 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3d5d3e1sm177780205ad.76.2025.12.25.04.11.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Dec 2025 04:11:26 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org,
- mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org,
- gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v11] dma-buf: add some tracepoints to debug.
-Date: Thu, 25 Dec 2025 20:11:19 +0800
-Message-Id: <20251225121119.2194228-1-gxxa03070307@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5849110FF3A;
+ Thu, 25 Dec 2025 15:21:50 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BPESViY2110782; Thu, 25 Dec 2025 15:21:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=p7Q76h8F8rG+kI8SGtk3+9MdyPeZgWdBvaR
+ CZ81+WUE=; b=fcFhF0HZ+WhBwz4vIebuZpM1e94gtUmGwyFvCnRwxNR76FNGsjh
+ aaMqv9QOmRYu2l/NlEQePvJZ5GU77a4EaaRUw5UP0xjcb4c0Kio1A2+DS6lScoIN
+ o2Jt4Kq979vsuFoW4RdMiKKqvPT7+b3bsTaxvSpR828fz6H5Mo+eY1sS2tAsYY7L
+ tF7U+wLlYC5VV3eBVU4rBogrzWjpQ6Ww/ugH3hqSGQaeRowQHe5RimV0J7nLjlkF
+ Q18WvPFU/JrxVscy6g2d97AK2o0LQYwZdoWA1Noaxej/6PyCVcFRy5zIxWjkTPR7
+ hJT8kt4H5XWGWKYcYBJoGGoyXuGEGmOzNeA==
+Received: from apblrppmta01.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b827r4frf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Dec 2025 15:21:40 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BPFLbEw006279; 
+ Thu, 25 Dec 2025 15:21:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4b5mvn0fw3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Dec 2025 15:21:37 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BPFLaIZ006256;
+ Thu, 25 Dec 2025 15:21:36 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
+ [10.213.99.91])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5BPFLaGZ006250
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Dec 2025 15:21:36 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
+ id 81456592; Thu, 25 Dec 2025 20:51:35 +0530 (+0530)
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
+ dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonathan@marek.ca, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
+ quic_vproddut@quicinc.com
+Subject: [PATCH v4 0/5] Add DSI display support for QCS8300 target
+Date: Thu, 25 Dec 2025 20:51:29 +0530
+Message-Id: <20251225152134.2577701-1-quic_amakhija@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: oExvvK3gYQFy_6GVBB7Mqu5KXryzT9ZE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI1MDE0NyBTYWx0ZWRfX3uKHUt57TcI+
+ 80PEMIteeqW87k7FlTaCZrGdlD0wwqCkM5mqiZ404CB6NdsZ8YEKgMDl3UeQpT0K9vxVRSzOiLL
+ 97TjqdfB5hX3X4yDQAhyhTK5vZizG0VaCH6zHjZZj1BVyFPQ7qdBesWbekETaVSLczpuJjS0wez
+ GkPQugnRRbxLHm7NrnwVQ46TWyM5oTZAlZNkncVLZ09TZ/vUW4iSvqpeQI0Y4KdVmNrUnIrCDO8
+ /C7woNtfLTSgCr+pF+nuSeqpROYLAJy4/8F+Y1bF9OSokxN3ttjoJCeqYVF2RFRf6+3oaAc5Y/T
+ YvwaNO2lVc/E/Br8qRIDL29B6rdMTNZFmf2Nsf4YwjvqzF+LZtjzsJZnWttH30U1S0qke1FqZQe
+ jO7SOoDq5jYiUOmnMlPpsS6MWANwDQETVAlBuBVaWSwIditlI9FfDAdaaVmdUeIl8TJVAuGorI9
+ TecUWoZRAnixik1pRmw==
+X-Proofpoint-GUID: oExvvK3gYQFy_6GVBB7Mqu5KXryzT9ZE
+X-Authority-Analysis: v=2.4 cv=RbSdyltv c=1 sm=1 tr=0 ts=694d5684 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=3UhwaOG55YdarTGHrZ4A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-25_01,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512250147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,330 +113,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+This series enables the support for DSI to DP bridge port
+(labeled as DSI0) of the Qualcomm's QCS8300 Ride platform.
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
+QCS8300 SoC has DSI controller v2.5.1 and DSI PHY v4.2.
+The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 ---
+This patch depends on following series:
+https://lore.kernel.org/all/20251117-dts_qcs8300-v7-0-bf42d39e7828@oss.qualcomm.com/
+(Enable DPU and Display Port for Qualcomm QCS8300-ride platform)
 
-Changes since v10: https://lore.kernel.org/all/20251224013455.1649879-1-gxxa03070307@gmail.com/
-Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gxxa03070307@gmail.com/
-Changes since v8: https://lore.kernel.org/all/20251218062853.819744-1-gxxa03070307@gmail.com/
-Changes since v7: https://lore.kernel.org/all/20251217105132.643300-1-gxxa03070307@gmail.com/
-Changes since v6: https://lore.kernel.org/all/20251216063952.516364-1-gxxa03070307@gmail.com/
-Changes since v5: https://lore.kernel.org/all/20251201112148.843572-1-gxxa03070307@gmail.com/
-Changes since v4: https://lore.kernel.org/all/20251128085215.550100-1-gxxa03070307@gmail.com/
-Changes since v3: https://lore.kernel.org/all/20251127004352.376307-1-gxxa03070307@gmail.com/
-Changes since v2: https://lore.kernel.org/all/20251125162949.220488-1-gxxa03070307@gmail.com/
-Changes since v1: https://lore.kernel.org/all/20251124133648.72668-1-gxxa03070307@gmail.com/
+Changes in v4: Addressed review comments from konard and Krzysztof
+   - Patch 1: Update commit description to clarify PHY compatible string
+              details.[Krzysztof]
+   - Patch 2: Update commit description to clarify CTRL compatible string
+              details.
+   - Patch 4: Added new lines at few places. [konard]
+   - Patch 5: 
+            - Moved regulator always-on and boot-on properties at the end of
+              the node. [konard]
+            - Added new lines at few places. [konard]
+            - Made the tlmm gpios entries sorted based on gpio index
+              number. [Konard]
+            - Drop output-high property. [konard]
+   - Link to v3 :
+     https://lore.kernel.org/all/20251125013302.3835909-1-quic_amakhija@quicinc.com/
 
- drivers/dma-buf/dma-buf.c      |  48 +++++++++-
- include/trace/events/dma_buf.h | 159 +++++++++++++++++++++++++++++++++
- 2 files changed, 205 insertions(+), 2 deletions(-)
- create mode 100644 include/trace/events/dma_buf.h
+Changes in v3: Addressed review comments from konard and Dmitry
+   - Patch 2: Remove qcom,qcs8300-dsi-ctrl from clk details. [Dmitry]
+   - Remove PHY and CTRL driver support. The CTRL and PHY versions for
+     Monaco are the same as LeMans, and Monaco will use the same CTRL
+     and PHY based on the fallback compatible string [Dmitry/Konard]
+   - Patch 5: Rename the regulator used and arrange the compatible, reg,
+     address and size cell for i2cmux in proper order. [Dmitry]
+   - Link to v2:
+     https://lore.kernel.org/all/20251006013924.1114833-1-quic_amakhija@quicinc.com/
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..dee59d4c0b12 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,26 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+/*
-+ * dmabuf->name must be accessed with holding dmabuf->name_lock.
-+ * we need to take the lock around the tracepoint call itself where
-+ * it is called in the code.
-+ *
-+ * Note: FUNC##_enabled() is a static branch that will only
-+ *       be set when the trace event is enabled.
-+ */
-+#define DMA_BUF_TRACE(FUNC, ...)					\
-+	do {								\
-+		/* Always expose lock if lockdep is enabled */		\
-+		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
-+			guard(spinlock)(&dmabuf->name_lock);		\
-+			FUNC(__VA_ARGS__);				\
-+		}							\
-+	} while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -768,10 +792,15 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
-  */
- int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- {
-+	int fd;
-+
- 	if (!dmabuf || !dmabuf->file)
- 		return -EINVAL;
- 
--	return FD_ADD(flags, dmabuf->file);
-+	fd = FD_ADD(flags, dmabuf->file);
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
-+	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- 
-@@ -786,6 +815,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -797,7 +827,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
- 
-@@ -817,6 +851,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -971,6 +1007,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
- 
- err_attach:
-@@ -1015,6 +1054,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1480,6 +1522,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..3bb88d05bcc8
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,159 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(	dev_name,			dev_name(dev))
-+		__string(	exp_name,			dmabuf->exp_name)
-+		__field(	size_t,				size)
-+		__field(	ino_t,				ino)
-+		__field(	struct dma_buf_attachment *,	attach)
-+		__field(	bool,				is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size		= dmabuf->size;
-+		__entry->ino		= dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic	= is_dynamic;
-+		__entry->attach		= attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+		__field(	int,			fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+		__entry->fd	= fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_CONDITION(fd >= 0)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+Changes in v2: Addressed review comments from Konard and Dmitry
+   - Patch 1: Documented the qcom,qcs8300-dsi-phy-5nm compatible string.
+   - Patch 2: Documented the qcom,qcs8300-dsi-ctrl compatible string.
+   - Patch 3:
+           - Added qcom,qcs8300-dsi-ctrl and qcom,qcs8300-dsi-phy-5nm
+             compatible strings
+             to the Device Tree bindings. [Dmitry/Konard]
+           - Fixed indentation issue. [Dmitry]
+           - Drop the extra empty line. [Dmitry]
+   - Patch 4: Added PHY driver support for qcom,qcs8300-dsi-phy-5nm.
+   - Patch 5: Added CTRL driver support for qcom,qcs8300-dsi-ctrl.
+   - Patch 6: Included qcom,qcs8300-dsi-ctrl and
+     qcom,qcs8300-dsi-phy-5nm
+              compatible strings in the Device Tree. [Dmitry/Konard]
+   - Link to v1:
+     https://lore.kernel.org/all/20250925053602.4105329-1-quic_amakhija@quicinc.com/
+
+-- 
+
+Ayushi Makhija (5):
+  dt-bindings: display: msm-dsi-phy-7nm: document the QCS8300 DSI PHY
+  dt-bindings: msm: dsi-controller-main: document the QCS8300 DSI CTRL
+  dt-bindings: display: msm: document DSI controller and phy on QCS8300
+  arm64: dts: qcom: qcs8300: add Display Serial Interface device nodes
+  arm64: dts: qcom: qcs8300-ride: add anx7625 DSI to DP bridge node
+
+ .../display/msm/dsi-controller-main.yaml      |   5 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml     |  30 +--
+ .../display/msm/qcom,qcs8300-mdss.yaml        | 102 +++++++++-
+ arch/arm64/boot/dts/qcom/monaco.dtsi          | 102 +++++++++-
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts     | 177 ++++++++++++++++++
+ 5 files changed, 402 insertions(+), 14 deletions(-)
+
+base-commit: 563c8dd425b59e44470e28519107b1efc99f4c7b ("next-20251216")
 -- 
 2.34.1
 
