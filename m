@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B0ACDEB79
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 14:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD30CDEBB4
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 14:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA9111B67F;
-	Fri, 26 Dec 2025 13:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 890DE12B809;
+	Fri, 26 Dec 2025 13:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MB8rwNeA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gUCwRDLa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A180411B67F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:12:38 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB45912B809
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:21:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6BDE143E5F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:12:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C98C116D0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:12:38 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CB2BC60134
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:21:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E9EC2BCAF
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766754758;
- bh=IU9EFisuw/khuhiMGLReO/zEE6d8i4FZlx8JHbYAtUY=;
+ s=k20201202; t=1766755309;
+ bh=CrZiCh6Qx1PLXStQe7FVbV1LjrxgL24MOhR4EARJMMk=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MB8rwNeAfUaYTYTgU0HOxwHRxImZ20B+NkhgbZg8Uk1/RX/ozbN+K8bnocjdClv6R
- /nc87gGh+nlxEtP+N/LqlAStboGdMWqhevkA9LQ22CF17w/FtVm/O+EnzRCu+N2g3D
- uUBUiUEfSTztQvhbubrmvBChWGVQkLoCMWofcDqKEEhG+YGwbq/sCR/fN3TXVEC3bv
- IlkAmEoB4p/OC86RZyfn6Y3nvE/NNGQzKRv+3HsFbkh1M22lLd94nrmqB2hA0l9lax
- 4Kxc/DGK/Jgou8s1WB+/YtdyPhMRDxjhlP3OB5BQ7ZGM4fbeype4AKStwELmzhPNKX
- PRq15fBdPfCKA==
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-786d1658793so63102707b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 05:12:38 -0800 (PST)
+ b=gUCwRDLaLqeFk6ht+v4J5U5onXKzzDgkS9MKFoXeJmuOr5s3448+IGnUqyzZeEl96
+ vD4x/HtNlH+RmzFDeQsn5b4Vr3/gL8N6QeV7cJeOxJjYan1Ytmnp4uGvLaluMu53If
+ O67nzFIM6imfdkHKqNCdzkrTGMeozh+u2q3s98aG0U4N2SXfV8b2cV9lCFQjRBbRxd
+ QAR7opkuW3feoTbIUffZwnGYN6m3MFrDXys9OYh5xXbICJCJTchCBtMdZEQQ9HwzPs
+ zSxQ3mRaJePN4Lm5XCOi4Pv+zC6+LJH0TBKdev9jFf4h2sxjgh2AjLmO+gBTN6UIfy
+ 92r4xRUEQzcfg==
+Received: by mail-yx1-f53.google.com with SMTP id
+ 956f58d0204a3-644795bf5feso6268343d50.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 05:21:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQpxczo2wDeVCe1ZoRmP5n7XbcJFxSbkNhBQRPajZmIr/Q0DEAnNc375W4UytaJKyv+jFAOJznC1M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy38YjN/RAGWe2ryE5Ywvbco6qBfUtzfFa56xJ7srazS0QJBnIu
- Yc/BLdHJyUlh3JoLOk0troMOaIDVZL9xE/aLXACTuTjt3fsMSE+fH3meIyUHMJqOL2ZXnyyktxo
- xMiA/90sgWhdh8eMnQAdJUqS4Tz156ZM=
-X-Google-Smtp-Source: AGHT+IGmhlnJ0PToCvZmuGscbqXwcRqzYdAxN+NFwJU7gA7/JSlrLdG/1wm0C3KwDBBJAi3urx/GCXaraM6C2ePxBb8=
-X-Received: by 2002:a05:690c:4d41:b0:78c:5803:f698 with SMTP id
- 00721157ae682-78fb403b9aamr385026607b3.33.1766754757491; Fri, 26 Dec 2025
- 05:12:37 -0800 (PST)
+ AJvYcCVJkzCrObGo26/Z4lqYPqBlr6EC9r3wACQkXywT3eTCIndeb8uv/xaK+4YR34wCMPcdDGQzFqEB1Jw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjjNUXalM0WaGqi1MDghrWkS23TR717uJW/ElNoUxv7zLhr6t/
+ l1XhGcLSk68/XOL2h4qdc1/Hq9xx+u7IUsa4IEvOBXk9VjIrv9qji7G2OFCXIMeliTSVyj7GsJp
+ DtK2AW7ITkBxYSNgraFPfwHFNWvAxQLk=
+X-Google-Smtp-Source: AGHT+IGSXcBHAPTnf5WqADdIUTP+vrIM0+bE71FaF9fJ/6rhEbgVxfIl2zpD3lIjfwmb7HmIf3DdifF7ubn4H7pQx2M=
+X-Received: by 2002:a53:bc8f:0:b0:646:5019:f3ee with SMTP id
+ 956f58d0204a3-6466a8a55fbmr15145437d50.5.1766755308703; Fri, 26 Dec 2025
+ 05:21:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
- <20251222-drm-panels-sony-v2-3-82a87465d163@somainline.org>
-In-Reply-To: <20251222-drm-panels-sony-v2-3-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
+In-Reply-To: <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 26 Dec 2025 14:12:25 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=c0AVm+BD_G_AJjiXYVyWdM_HscqyoNQ-tBByJ1Dp1jQ@mail.gmail.com>
-X-Gm-Features: AQt7F2r_DQWqe8tD8blx02oq3sr8lk-4w7LLSBCfnV6-rbVvc0VYIwBG758Oukk
-Message-ID: <CAD++jL=c0AVm+BD_G_AJjiXYVyWdM_HscqyoNQ-tBByJ1Dp1jQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] drm/panel: Add LGD LH599QH3-EDB1 panel driver
- for Sony Xperia XZ3
+Date: Fri, 26 Dec 2025 14:21:37 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=X1hX6kmodcOC3+x-w6t+Vg6XTaCMab-Dn=vHAeD82Gw@mail.gmail.com>
+X-Gm-Features: AQt7F2oh_CqG-X0L5nsdSqPBi7IqUVPETUm-9P-fOEyHQMOak9rJaCdjfz9bFRU
+Message-ID: <CAD++jL=X1hX6kmodcOC3+x-w6t+Vg6XTaCMab-Dn=vHAeD82Gw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] drm/panel: Add panel driver for Samsung SOFEF01
+ DDIC
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
@@ -100,81 +100,118 @@ Hi Marijn,
 
 thanks for your patch!
 
-overall this looks very nice.
-
-When adding new panels it's nice if we can figure out which display control=
-ler
-it is actually using, because that makes it possible to share a driver betw=
-een
-multiple displays using a per-display-controller driver.
-
-But this one beats me, so keep it as-is... no idea what display controller
-(DDIC) this is.
-
 On Mon, Dec 22, 2025 at 12:32=E2=80=AFAM Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
+
+> This Samsung SOFEF01-M Display-Driver-IC is used to drive 1080x2520@60Hz
+> command-mode DSI panels found in many Sony phones:
+> - Sony Xperia 5 (kumano bahamut): amb609tc01
+> - Sony Xperia 10 II (seine pdx201): ams597ut01
+> - Sony Xperia 10 III (lena pdx213): ams597ut04
+> - Sony Xperia 10 IV (murray pdx225): ams597ut05
+> - Sony Xperia 10 V (zambezi pdx235): ams605dk01
+> - Sony Xperia 10 VI (columbia pdx246): ams605dk01
 >
-> Sony provides an LGD LH599QH3-EDB1 panel + Atmel maXTouch assembly in
-> its Xperia XZ3 (tama akatsuki) phone, with custom DCS commands to match.
+> The amb609tc01 and ams605dk01 come in slightly larger at 6.1" while the
+> others are 6.0".
 >
-> The panel is 1440x2880 pixels and runs at 60Hz.  It requires Display
-> Stream Compression 1.1 to be driven at that mode.
+> A "fake" porch calculation is included to artificially bump the clock
+> rate necessary to account for "transfer overhead" (DSI packet headers)
+> since this is missing from the MSM DSI host driver; porches aren't
+> otherwise used on command-mode panels.
 >
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-(...)
-> +config DRM_PANEL_LGD_LH599QH3_EDB1
-> +       tristate "LGD LH599QH3-EDB1 DSI cmd mode panel"
-> +       depends on GPIOLIB
-> +       depends on OF
-> +       depends on DRM_MIPI_DSI
-> +       depends on BACKLIGHT_CLASS_DEVICE
-> +       select DRM_DISPLAY_DSC_HELPER
-> +       select DRM_DISPLAY_HELPER
+Excellent work with abstracting all the sofef01-m panels!
 
-Nice use of helpers!
+Only nitpicks follow:
 
-> +static int lgd_lh599qh3_edb1_program(struct lgd_lh599qh3_edb1 *ctx)
-> +{
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi };
+> +       if (ctx->panel_type =3D=3D PANEL_TYPE_TC01 ||
+> +           ctx->panel_type =3D=3D PANEL_TYPE_UT01 ||
+> +           ctx->panel_type =3D=3D PANEL_TYPE_UT04) {
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+The sofef00 driver tell us exactly what this sequence is:
+
+#define sofef00_test_key_on_lvl2(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x5a, 0x5a)
+#define sofef00_test_key_off_lvl2(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0xa5, 0xa5)
+
+I would just rename these two to sofef01_test_key_on/off_lvl2()
+and use the same helpers in this driver to follow the sofef00 pattern.
+
+> +       if (ctx->panel_type =3D=3D PANEL_TYPE_UT04) {
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+Like here
+
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0x5a, 0x5a);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE1, 0x00, 0x00, =
+0x02, 0x00, 0x1C, 0x1C,
+> +                                            0x00, 0x00, 0x20, 0x00, 0x00=
+, 0x01, 0x19);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+
+And here.
+
+> +       if (ctx->panel_type =3D=3D PANEL_TYPE_UT05 || ctx->panel_type =3D=
+=3D PANEL_TYPE_DK01) {
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+And here.
+
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x27, 0xf2);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x80);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x07);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+
+And here.
+
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+And here.
+
+> +               /* Downstream: ERR_FG Enable */
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe5, 0x15);
+> +               if (ctx->panel_type =3D=3D PANEL_TYPE_DK01)
+> +                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xed, 0x0f=
+, 0x4c, 0x20);
+> +               else
+> +                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xed, 0x04=
+, 0x4c, 0x20);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+
+And here.
+
 > +
-> +       dsi_ctx.dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+And here.
+
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x02, 0x8f);
 > +
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x5a, 0x5a);
-
-Clearly an "unlock" sequence.
-
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x01);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x01);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DIS=
-PLAY,
-> +                                    WRITE_CONTROL_DISPLAY_BACKLIGHT);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x20, 0x80, 0xde, 0x=
-60, 0x00);
-> +       mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, 1440 - 1);
-> +       mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, 2880 - 1);
+> +               if (ctx->panel_type =3D=3D PANEL_TYPE_DK01)
+> +                       /* Downstream Xperia 10 V: FLM1,FLM2 On */
+> +                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8f, 0x27=
+, 0x25);
+> +               else if (0) /* TODO: Both use the DK01 panel */
+> +                       /* Downstream Xperia 10 VI: FLM1 On, FLM2 On */
+> +                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8f, 0x27=
+, 0x27);
+> +               else
+> +                       /* Downsteam: FLM1 on, FLM2 off */
+> +                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8f, 0x27=
+, 0x05);
 > +
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,=
- 0x00);
-> +
-> +       mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_V=
-BLANK);
-> +
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x5a, 0x5a);
+> +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 
-Cleary another copy of the "unlock" sequence.
+And here.
+(etc).
 
-Can you break it out to a subroutine?
-lgd_lh599qh3_edb1_unlock()?
-
-+/- this nitpick:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
++/- these changes:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
