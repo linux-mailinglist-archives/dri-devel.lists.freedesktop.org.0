@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352DACDED8E
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 18:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A846BCDEDAD
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 18:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4638410EC96;
-	Fri, 26 Dec 2025 17:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D69B10EDD6;
+	Fri, 26 Dec 2025 17:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZqnkZrNm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pc0PkBLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F107D10EC96
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:39:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E14C510EDD6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:43:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7BBC44446B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:39:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DBA9C16AAE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:39:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id ABC974452D
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:43:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EEA1C113D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 17:43:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766770749;
- bh=6YYD3NiqUlPmAWK3AUob9yBsMIUQ9l9NPJyzY09TdMU=;
+ s=k20201202; t=1766770995;
+ bh=DkbApBHXFizXs+l3CfaJtpwhufcP1rHmWcrInzAj42k=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZqnkZrNmLmHrfBVxCxN6OIroW+niaulJGCukAakLdpMQ+LeBvSHR54HOgGf1AJ73D
- 7QsqjieLgkpeeaC49eN2lFwYwmDjG9b9RpUHDNcKHpKzfK3da+hDjxOK8wLp4YA5c3
- M++83WkLTv3BaQAclqaAyeurvfyOLw1gSpnNGDkEcExyBNkz+j2UWy/p3/UgQDV98M
- sCtUH43yPamhc4MCYuRKcyUA5Uue0TaTAFOcneXce5fhUGHceEPCqDs91FDMXWkj0Y
- 142atF8N2wBsfBj133sNeu5Z3LEKQwfoBXXp42oDJA9SFTbruX1rJfzfdw+PejF7oI
- XZqA2iOLRtKcA==
-Received: by mail-yx1-f50.google.com with SMTP id
- 956f58d0204a3-6446fcddf2fso6393183d50.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 09:39:09 -0800 (PST)
+ b=Pc0PkBLH6rpyuoA/3eBSp3r5NdlV3QDE3VhCJslEV4654bdY37xk1FrN4SC+3hFTN
+ f4E0Y0DklUWkHOfsOMpjjYGcsMoGjnJgWNfcH9oUnXKUszlF/XBZSdOcMX8/+RH11l
+ 2GonYWsu76nxOmiPNzcy94uJYJnFxuzurMaPKeag9/KuAEHr0Xm6ndSFfNebYMNQ7Q
+ O2JucRB2Y6ZVyvadeuuT/FbYP4Hr+54OF13PwK7BAB3TJVmkCKVhKFQiUs+lm0TsfG
+ 4EHtJEh6OUAC4sVKCJnOli1J0QXEgPvxogdU6eX9IkmVZH2qRv4kXaDM8zE4/vFQgk
+ 6lTLvrV4vu+2Q==
+Received: by mail-yx1-f53.google.com with SMTP id
+ 956f58d0204a3-6420c0cf4abso6034124d50.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 09:43:15 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCX9HyoDzi0kVkKzwboQvOPUWUHFIX9TLQDCrLKO40oibDIziZzUdp+JuGFdbn/MGN+Z9lK2DjNAabc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyK8BD5/OORbjCI8fIJxgm9rrV+wpxH7/XnsZ/yS9MI0iBBckvt
- 5L1egviyhps4K2oOZ+4tA1GLoxWPz78VZHDNb0ABRUY38+NAjijTkeUL8Y3+0fDjgPwCh6hlg2m
- d42jWkZmBKca+kqZZtqM7bw1Pm5EkT/0=
-X-Google-Smtp-Source: AGHT+IHDy1SKmnvKbma1fh9m1+utF49KXr4QUbHRtfTU7NPemr+5A9AZffJNUNAn7nR6cxtsV0Un4UOsG/jMcVJ2CTY=
-X-Received: by 2002:a05:690e:1892:b0:646:5127:ad5d with SMTP id
- 956f58d0204a3-6466a7af275mr19716876d50.0.1766770748432; Fri, 26 Dec 2025
- 09:39:08 -0800 (PST)
+ AJvYcCVcqm6yiWWeCBjUsVVwIjTqoWs77YK4uW47Nd/a3SbXi/7XrJjNAP5B/o08KATbvtRFpOeRrwCvjrc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/oJerdFZVM4QGcPqNyVhw6X2CJJDRqcIwfGNBamiyx6YNA42X
+ frhxahpohINX/wONrp/JpkB6SCqW1NUm/cNXEW9+g1q8tE/UmQ+KNrG9Ju27e0k8pNnyAa0w9MI
+ 3UbxRJm7+dT2M6lSMuSjOiJqTeHNU77I=
+X-Google-Smtp-Source: AGHT+IEThu+SGeShmmu/tYX/llkmUdugrRx2dWhmCKMCWh5GaYfd3cvd12fU6652YXAX2Yh0+H0T9fwaFELFs993l0M=
+X-Received: by 2002:a05:690e:13c8:b0:645:53d0:2d20 with SMTP id
+ 956f58d0204a3-6466a8bfd42mr18381088d50.62.1766770994712; Fri, 26 Dec 2025
+ 09:43:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
- <20251222-drm-panels-sony-v2-4-82a87465d163@somainline.org>
- <CAD++jLmSev3=HJF1j_kTU5j-u2NhxH6TsdE0uUjnD7Vqkt_h-w@mail.gmail.com>
- <aU6QxjOphoq9E1pL@SoMainline.org>
-In-Reply-To: <aU6QxjOphoq9E1pL@SoMainline.org>
+ <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
+ <CAD++jL=X1hX6kmodcOC3+x-w6t+Vg6XTaCMab-Dn=vHAeD82Gw@mail.gmail.com>
+ <aU6XXi2HmgjZY8CY@SoMainline.org>
+In-Reply-To: <aU6XXi2HmgjZY8CY@SoMainline.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 26 Dec 2025 18:38:56 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=HDRAcwDVUeYUKFbamqVnOADqz5qpbSr1XVsr3M1iNoQ@mail.gmail.com>
-X-Gm-Features: AQt7F2pJa8cOfkNvqcC-Brl9cfuKQJqQl4-oX9Rm5tlmkSxZYnCVZqaJuwCkEe4
-Message-ID: <CAD++jL=HDRAcwDVUeYUKFbamqVnOADqz5qpbSr1XVsr3M1iNoQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] dt-bindings: display: panel: Describe Samsung
- SOFEF01-M DDIC
+Date: Fri, 26 Dec 2025 18:43:03 +0100
+X-Gmail-Original-Message-ID: <CAD++jLn0cFtDhg9WFU2LS6g+cLa7ZMzzcHAJ_W9REVHodFYpAw@mail.gmail.com>
+X-Gm-Features: AQt7F2oBipmE-JjCDy8dZSMq1b64ml7eenWiIcoP2slHVPS-wd747R2LD1C4CGc
+Message-ID: <CAD++jLn0cFtDhg9WFU2LS6g+cLa7ZMzzcHAJ_W9REVHodFYpAw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] drm/panel: Add panel driver for Samsung SOFEF01
+ DDIC
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
@@ -98,31 +98,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 26, 2025 at 2:48=E2=80=AFPM Marijn Suijten
+On Fri, Dec 26, 2025 at 3:16=E2=80=AFPM Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
-> On 2025-12-26 14:25:04, Linus Walleij wrote:
+> On 2025-12-26 14:21:37, Linus Walleij wrote:
 
-> > They are clearly using the S0FEF01-M display controller.
+> > The sofef00 driver tell us exactly what this sequence is:
+> >
+> > #define sofef00_test_key_on_lvl2(ctx) \
+> >         mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x5a, 0x5a)
+> > #define sofef00_test_key_off_lvl2(ctx) \
+> >         mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0xa5, 0xa5)
+> >
+> > I would just rename these two to sofef01_test_key_on/off_lvl2()
+> > and use the same helpers in this driver to follow the sofef00 pattern.
 >
-> So you're implying or certain that these panel names here are always bund=
-led
-> with exactly the same controller (making the SOFEF01 part "redundant" in =
-the
-> compatible)?
+> Right, yes.  I think I already brought this up in V1, that some existing
+> Samsung drivers call this (the 0xf0 part) the MCS PASSWORD, others call i=
+t the
+> LEVEL_2_KEY or USER_KEY or ACCESSPROT.
 
-Yes that's what I suspect.
+Actually all of the samsung s6e panels are suspected to be s0fef0/1
+display controller variants, which you see if you look inside
+panel-samsung-s6e*, for example panel-samsung-s6e3fc2x01.c has this:
 
-See my comment in the driver that all s6e* panels are suspected to be
-some s0fef00/1 variant.
+#define s6e3fc2x01_test_key_on_lvl1(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0x9f, 0xa5, 0xa5)
+#define s6e3fc2x01_test_key_off_lvl1(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0x9f, 0x5a, 0x5a)
+#define s6e3fc2x01_test_key_on_lvl2(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x5a, 0x5a)
+#define s6e3fc2x01_test_key_off_lvl2(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0xa5, 0xa5)
+#define s6e3fc2x01_test_key_on_lvl3(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0x5a, 0x5a)
+#define s6e3fc2x01_test_key_off_lvl3(ctx) \
+        mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0xa5, 0xa5)
 
-> Also, divergence of the driver commands got significant with the last two=
- panels
-> / three phones, though that might be down to vendor configuration/calibra=
-tion.
+So there is also the explanation of the 0xfc command.
 
-That's kind of normal. The defaults suffice for a while, then engineers
-want to start poking at different voltages to the display to improve
-and tweak things.
+> Then there are possibly a lot more constants we can glean from other driv=
+ers,
+> though again without confirmation that it's identical on this DDIC.
+
+I think the s0fef0/1 drivers and all the panel-samsung-s6e* drivers
+should probably be unified a bit maybe we can just create a
+local s0fef.h file with the above for all these drivers to use?
+
+(If someone has actual datasheets for s0fef0/1 that would be great.)
 
 Yours,
 Linus Walleij
