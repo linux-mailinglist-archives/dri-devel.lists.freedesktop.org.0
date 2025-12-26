@@ -2,102 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63ACCDE686
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 08:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0169FCDE6B9
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 08:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0753D11BF68;
-	Fri, 26 Dec 2025 07:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB36812B7A3;
+	Fri, 26 Dec 2025 07:20:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FR9YVqRx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eDEutrHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C145011BF68
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:05:53 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BPNugwt3634479; Fri, 26 Dec 2025 07:05:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=jvFS/69PzEc
- WHl3Hqe8ueX1yuMTuNSHSys3sPH2aIGg=; b=FR9YVqRx8ansJ5vNhh7YgRg5atL
- WyS26W4OLapvsteFw64r467+fyrQMZIFEdn3aDK5Zxfnpf/ZzmeDBzNPrZNUR5b1
- c1WSeik1tH0nifPq3dIKwdo39cVHgKsGWugqDmupWPiBX5R3VDtVJNxL6Y/ejzZr
- jsn8oCDJnvkWELYma8mdpLc+vMcU9u6dIPKrytrJrrkZVnaTSicVohu6dMaZFcU3
- 5C2JhG1A22efhUIYVX8R7OAQAlpcuEl1TBRY9cjgt2VOO5P6l1ToKeIIYwjFeCZh
- Se51BergoztyE64P9JRnXqIAGA1wtd35PFgmiiR4m0naZA/ah7jendr4ejA==
-Received: from apblrppmta01.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b8kywk6jp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Dec 2025 07:05:49 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BQ75kpT023406; 
- Fri, 26 Dec 2025 07:05:46 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4b5mvn69yp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Dec 2025 07:05:46 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BQ75jRS023400;
- Fri, 26 Dec 2025 07:05:45 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
- [10.147.243.7])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5BQ75jUv023399
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Dec 2025 07:05:45 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id 57E64576; Fri, 26 Dec 2025 12:35:44 +0530 (+0530)
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com, 
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- ktadakam@qti.qualcomm.com
-Subject: [PATCH v7 4/4] misc: fastrpc: Update dma_bits for CDSP support on
- Kaanapali SoC
-Date: Fri, 26 Dec 2025 12:35:34 +0530
-Message-Id: <20251226070534.602021-5-kumari.pallavi@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251226070534.602021-1-kumari.pallavi@oss.qualcomm.com>
-References: <20251226070534.602021-1-kumari.pallavi@oss.qualcomm.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+ [209.85.167.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD3CB12B7A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:20:21 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id
+ 2adb3069b0e04-5959d9a8eceso8003791e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 23:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766733620; x=1767338420; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yFhZ1Iob5g8D9+twOAxyKqI3iKjJAC/mwXdTyun7kXA=;
+ b=eDEutrHP0i7Oiz4U0INv7aJ3FkkP3o4dmiC8nID612ohqYisSn9zX3LfJnmDMzs0Rt
+ jTva2EhTwDa9QrDxnt+7NK9X++Pkvj1RVfUqnAjzsCMqhpQRyV0i3/bw0QYUNBZq9/aH
+ YU2oiu0DEDifrT/uOZc2BUK63nA1sYcJZEZ7WUGXtgBL5nid6rRgtv89T6FjjtVAo/vn
+ wc4C9+bgpSvdqK/rXU4YpS3Yyfaau7zcWZ7xeNF13wkx7Msv5T92V7bFaPzej84GegdX
+ j3HdH3xtDgi929yAkWsamiR3SoEF/5yDS0UKJH+rwcOJuouZjhJiKdyNRPRiKZvC3WPj
+ rkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766733620; x=1767338420;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yFhZ1Iob5g8D9+twOAxyKqI3iKjJAC/mwXdTyun7kXA=;
+ b=gPv9SZL2rpyej4y0gW6TVfqLWw7tLFDHGfk9bi2PHDr/t0AjKVUyV4Tojr5cKH8jbB
+ BPKyFMWBVaOKwwwgetHZIMVbjbCnpHZnNDjc3nFDXB3qsxwEOTh3HxlE5tJ8oimBNm0m
+ Giu5uqurVG0wN/HQ8qc8w60KdVv4FjyH5KutLjBt9beVhx5w7pxBRjpg4zqvei7CADnD
+ UYLPfBYBYsyxJwfLWdYqss+FXwdwEcdJKoNwl7QOkxhrNKzbotjN6yzTeh/IKVYGpyR+
+ CWLU9/qo5cVPFSBqGb0SG1297iJ7CDKDYbb0myD6CJWexfbq6SNQtzegY59OA0plc6Na
+ sfgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDn1QuXrjTDQdqgl1m9gtQ0S4Z5Dd5ykxouwaKvwVjzy5kOBuuz6upo84dmU/k7Pmsq7RuKvNJ4J8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx46TFulWzDh2wADq5TPDrhOUueDO0kkgrWTkGyeXn72OZdRtBi
+ C6IJIn4X/oiOT/3g7BnWItjET4ra6A6KQ+QHxtaz8ODk4sJhLg0NDcim
+X-Gm-Gg: AY/fxX4sPd7pu7zkkS0CIjatmXqu9YNQMrylqd/gu1rgLbGAQaL3qAnRrS91UUFER8O
+ c614YfZLUoFIg8ryOm/Z21wz4xArOLRY1dvuff89duh9tAAz3LMKdYAPWIsV/Z2Km6jLZNIO3WI
+ BpHlaygPH0zkrFBOrUasqi3YuILk9XvMpZIZfsh3dHwhYXndJg9ogSZxZBASzFzM4mAMU/3ZMiu
+ fM3uu9NLHMFfgI/cpubL1fGhW556jzlSGCTCEhE1Mm99J+JO18prdoTdzENZSRhus/guv718Zx7
+ kJMI9mS7HYOlAmVkDgnMd12+P2ssuu1iE+rhw9OhEBUI7m5pExYrsy68LkTDFyrCzMLP1KqSwmR
+ Ec0aYqFn0QyxxHHpOGUyA8jsZX4Lk/NMyvxgM5+kESp94XG1cXKHNho51ZvWFLeydayY2sD/5VO
+ 9Onkv03/sFkw4cqIaQP7uI844UIYTv6q4ZXTc0Ag==
+X-Google-Smtp-Source: AGHT+IHlCQMw1f05szzb0x+RXSFO0IxMOoazPQzDzIpEMXPOv+jyWa/qcp4LOJQgOzSPbOu2RVETTw==
+X-Received: by 2002:a05:6512:2388:b0:598:e8b7:665d with SMTP id
+ 2adb3069b0e04-59a17d7228amr8142851e87.3.1766733619414; 
+ Thu, 25 Dec 2025 23:20:19 -0800 (PST)
+Received: from localhost.localdomain ([176.33.65.121])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59a185dd229sm6320723e87.22.2025.12.25.23.20.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Dec 2025 23:20:17 -0800 (PST)
+From: Alper Ak <alperyasinak1@gmail.com>
+To: andy.yan@rock-chips.com
+Cc: Alper Ak <alperyasinak1@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: synopsys: dw-dp: Pass dp->irq instead of ret to
+ ERR_PTR() on IRQ failure
+Date: Fri, 26 Dec 2025 10:20:01 +0300
+Message-ID: <20251226072001.16623-1-alperyasinak1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI2MDA2NCBTYWx0ZWRfX5NeebwY+bsmc
- bC4zhJcTM2E7EfzHgMWvjDkhOkB9R+Q5QKVJDqgERRGf2PwlHPiOCcTUjHaGnS2P7YaLD3YKied
- Pkn1f0GYX+W408LFMXvTJH/d47X+GVn9pCMqJJSFWHt6EOhtypthsfCRe1Jh/DuwvneUvvcGTMh
- 4j4DMG+jHroOJSK3dCbj4e6iOrKK11z3XF2OrVO4vQT2JvZ6yFhWez6gyVbQ86udCzEgcTGD5WB
- xuypq2ySGcuvD+q1kToGFDIYxAGLLX10PlO92BQK9hBo+vd6qHz3dC2gFCWkvF6oxB1ieGTzWEe
- b0tinMurgx6YFFFKJVvKwh/T8Pe+vt5ETxcXrDuC7paV2ystgU6ept/0JwUEOdVCbOepfFo+MHt
- XMS/7Ht1NKWxw19RifH2S4Y2+iCf6moEIR6TONzRodsuzL6je0d4w4HN6XT8g/VO3ol3ASIHMxt
- 7GXwSRRFgucMQW5bcwg==
-X-Proofpoint-GUID: DeK9FdxI0cMHuKgQa3Usrs7UXJO-5wiO
-X-Authority-Analysis: v=2.4 cv=MKVtWcZl c=1 sm=1 tr=0 ts=694e33cd cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=pfE1wiWnY1F2L3mdSfMA:9
-X-Proofpoint-ORIG-GUID: DeK9FdxI0cMHuKgQa3Usrs7UXJO-5wiO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-26_02,2025-12-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0
- adultscore=0 clxscore=1015 suspectscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512260064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,84 +97,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-both Q6 and user DMA (uDMA) access. This is being upgraded to
-34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-Kaanapali SoC, which expands the DMA addressable range.
-Update DMA bits configuration in the driver to support CDSP on
-Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
-it to 34-bit based on CDSP and OF matching on the fastrpc node.
+The error handling after platform_get_irq() incorrectly passes ret to
+ERR_PTR(), but ret still holds the value 0 from the previous successful
+devm_add_action_or_reset() call. This causes ERR_PTR(0) which returns NULL
+instead of a proper error pointer.
 
-Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+Pass dp->irq to ERR_PTR() since platform_get_irq() returns the negative
+error code directly in dp->irq on failure.
+
+Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
 ---
- drivers/misc/fastrpc.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index fcc80206b7c4..4f5a79c50f58 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -259,6 +259,8 @@ struct fastrpc_session_ctx {
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+index 36382956bbe0..718397a29e80 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+@@ -2079,7 +2079,7 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
  
- struct fastrpc_soc_data {
- 	u32 sid_pos;
-+	u32 dma_addr_bits_cdsp;
-+	u32 dma_addr_bits_default;
- };
+ 	dp->irq = platform_get_irq(pdev, 0);
+ 	if (dp->irq < 0)
+-		return ERR_PTR(ret);
++		return ERR_PTR(dp->irq);
  
- struct fastrpc_channel_ctx {
-@@ -2197,6 +2199,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 	int i, sessions = 0;
- 	unsigned long flags;
- 	int rc;
-+	u32 dma_bits;
- 
- 	cctx = dev_get_drvdata(dev->parent);
- 	if (!cctx)
-@@ -2210,12 +2213,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		spin_unlock_irqrestore(&cctx->lock, flags);
- 		return -ENOSPC;
- 	}
-+	dma_bits = cctx->soc_data->dma_addr_bits_default;
- 	sess = &cctx->session[cctx->sesscount++];
- 	sess->used = false;
- 	sess->valid = true;
- 	sess->dev = dev;
- 	dev_set_drvdata(dev, sess);
- 
-+	if (cctx->domain_id == CDSP_DOMAIN_ID)
-+		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
-+
- 	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
- 		dev_info(dev, "FastRPC Session ID not specified in DT\n");
- 
-@@ -2230,9 +2237,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		}
- 	}
- 	spin_unlock_irqrestore(&cctx->lock, flags);
--	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-+	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
- 	if (rc) {
--		dev_err(dev, "32-bit DMA enable failed\n");
-+		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
- 		return rc;
- 	}
- 
-@@ -2319,10 +2326,14 @@ static int fastrpc_get_domain_id(const char *domain)
- 
- static const struct fastrpc_soc_data kaanapali_soc_data = {
- 	.sid_pos = 56,
-+	.dma_addr_bits_cdsp = 34,
-+	.dma_addr_bits_default = 32,
- };
- 
- static const struct fastrpc_soc_data default_soc_data = {
- 	.sid_pos = 32,
-+	.dma_addr_bits_cdsp = 32,
-+	.dma_addr_bits_default = 32,
- };
- 
- static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	ret = devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
+ 					IRQF_ONESHOT, dev_name(dev), dp);
 -- 
-2.34.1
+2.43.0
 
