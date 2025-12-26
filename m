@@ -2,86 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0169FCDE6B9
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 08:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED2FCDE6E7
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 08:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB36812B7A3;
-	Fri, 26 Dec 2025 07:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA6910E257;
+	Fri, 26 Dec 2025 07:39:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eDEutrHP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SDxnpHHp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
- [209.85.167.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD3CB12B7A3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:20:21 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id
- 2adb3069b0e04-5959d9a8eceso8003791e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Dec 2025 23:20:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766733620; x=1767338420; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yFhZ1Iob5g8D9+twOAxyKqI3iKjJAC/mwXdTyun7kXA=;
- b=eDEutrHP0i7Oiz4U0INv7aJ3FkkP3o4dmiC8nID612ohqYisSn9zX3LfJnmDMzs0Rt
- jTva2EhTwDa9QrDxnt+7NK9X++Pkvj1RVfUqnAjzsCMqhpQRyV0i3/bw0QYUNBZq9/aH
- YU2oiu0DEDifrT/uOZc2BUK63nA1sYcJZEZ7WUGXtgBL5nid6rRgtv89T6FjjtVAo/vn
- wc4C9+bgpSvdqK/rXU4YpS3Yyfaau7zcWZ7xeNF13wkx7Msv5T92V7bFaPzej84GegdX
- j3HdH3xtDgi929yAkWsamiR3SoEF/5yDS0UKJH+rwcOJuouZjhJiKdyNRPRiKZvC3WPj
- rkkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766733620; x=1767338420;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yFhZ1Iob5g8D9+twOAxyKqI3iKjJAC/mwXdTyun7kXA=;
- b=gPv9SZL2rpyej4y0gW6TVfqLWw7tLFDHGfk9bi2PHDr/t0AjKVUyV4Tojr5cKH8jbB
- BPKyFMWBVaOKwwwgetHZIMVbjbCnpHZnNDjc3nFDXB3qsxwEOTh3HxlE5tJ8oimBNm0m
- Giu5uqurVG0wN/HQ8qc8w60KdVv4FjyH5KutLjBt9beVhx5w7pxBRjpg4zqvei7CADnD
- UYLPfBYBYsyxJwfLWdYqss+FXwdwEcdJKoNwl7QOkxhrNKzbotjN6yzTeh/IKVYGpyR+
- CWLU9/qo5cVPFSBqGb0SG1297iJ7CDKDYbb0myD6CJWexfbq6SNQtzegY59OA0plc6Na
- sfgw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDn1QuXrjTDQdqgl1m9gtQ0S4Z5Dd5ykxouwaKvwVjzy5kOBuuz6upo84dmU/k7Pmsq7RuKvNJ4J8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx46TFulWzDh2wADq5TPDrhOUueDO0kkgrWTkGyeXn72OZdRtBi
- C6IJIn4X/oiOT/3g7BnWItjET4ra6A6KQ+QHxtaz8ODk4sJhLg0NDcim
-X-Gm-Gg: AY/fxX4sPd7pu7zkkS0CIjatmXqu9YNQMrylqd/gu1rgLbGAQaL3qAnRrS91UUFER8O
- c614YfZLUoFIg8ryOm/Z21wz4xArOLRY1dvuff89duh9tAAz3LMKdYAPWIsV/Z2Km6jLZNIO3WI
- BpHlaygPH0zkrFBOrUasqi3YuILk9XvMpZIZfsh3dHwhYXndJg9ogSZxZBASzFzM4mAMU/3ZMiu
- fM3uu9NLHMFfgI/cpubL1fGhW556jzlSGCTCEhE1Mm99J+JO18prdoTdzENZSRhus/guv718Zx7
- kJMI9mS7HYOlAmVkDgnMd12+P2ssuu1iE+rhw9OhEBUI7m5pExYrsy68LkTDFyrCzMLP1KqSwmR
- Ec0aYqFn0QyxxHHpOGUyA8jsZX4Lk/NMyvxgM5+kESp94XG1cXKHNho51ZvWFLeydayY2sD/5VO
- 9Onkv03/sFkw4cqIaQP7uI844UIYTv6q4ZXTc0Ag==
-X-Google-Smtp-Source: AGHT+IHlCQMw1f05szzb0x+RXSFO0IxMOoazPQzDzIpEMXPOv+jyWa/qcp4LOJQgOzSPbOu2RVETTw==
-X-Received: by 2002:a05:6512:2388:b0:598:e8b7:665d with SMTP id
- 2adb3069b0e04-59a17d7228amr8142851e87.3.1766733619414; 
- Thu, 25 Dec 2025 23:20:19 -0800 (PST)
-Received: from localhost.localdomain ([176.33.65.121])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a185dd229sm6320723e87.22.2025.12.25.23.20.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Dec 2025 23:20:17 -0800 (PST)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: andy.yan@rock-chips.com
-Cc: Alper Ak <alperyasinak1@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: synopsys: dw-dp: Pass dp->irq instead of ret to
- ERR_PTR() on IRQ failure
-Date: Fri, 26 Dec 2025 10:20:01 +0300
-Message-ID: <20251226072001.16623-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6076210E257
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 85DB4600AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 22317C4CEF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766734792;
+ bh=HWZav+PVnRnwiAMj6zZ5/1hXtnS9l+c9w07kwk/JKvA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=SDxnpHHpDIk7/grr1aRLpQQ7BF7npntHsTdXtHJ14tEhc6w59t3jW5HfspXosW1Ye
+ EktSksi7/VlzHXa2MvyMMXj9zMPUeiVJ4zZWJKW4R2yozPew0XzOA44BUaXPl3/lMK
+ 37Yrt+FVvAYFclf9O02Vhj0MNtv/9ceFyP4iC3x1lQqAEbg5892J3vCiVPG2/gFjpR
+ 6c6vgk7V3uwcfc1UgLrh27TH5TL61f9nbjkSLQHbFrltC8JTUEsvR6v8v4iD1rzF2F
+ kDYnRpyz8Qi8r+ApxlpHJXBaKFRP5n7aR+XUWb430O+UfWbgekYDGEd5PjNTW9ZjlZ
+ dco2xX7+gvcfw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 190DDC433E1; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
+ Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
+Date: Fri, 26 Dec 2025 07:39:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-220906-2300-Jv6MsnsmA5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
+References: <bug-220906-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,33 +75,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The error handling after platform_get_irq() incorrectly passes ret to
-ERR_PTR(), but ret still holds the value 0 from the previous successful
-devm_add_action_or_reset() call. This causes ERR_PTR(0) which returns NULL
-instead of a proper error pointer.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
 
-Pass dp->irq to ERR_PTR() since platform_get_irq() returns the negative
-error code directly in dp->irq on failure.
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-index 36382956bbe0..718397a29e80 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-@@ -2079,7 +2079,7 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
- 
- 	dp->irq = platform_get_irq(pdev, 0);
- 	if (dp->irq < 0)
--		return ERR_PTR(ret);
-+		return ERR_PTR(dp->irq);
- 
- 	ret = devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
- 					IRQF_ONESHOT, dev_name(dev), dp);
--- 
-2.43.0
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please repost here: https://gitlab.freedesktop.org/drm/amd/-/issues
 
+Bisection is advised or at the very least check kernel 6.18.2.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
