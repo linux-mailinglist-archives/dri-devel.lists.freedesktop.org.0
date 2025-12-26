@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED2FCDE6E7
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 08:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A976CDE7BB
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 09:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA6910E257;
-	Fri, 26 Dec 2025 07:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE7811B6C0;
+	Fri, 26 Dec 2025 08:14:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SDxnpHHp";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="GGkvU3Xr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6076210E257
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 85DB4600AD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 22317C4CEF7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766734792;
- bh=HWZav+PVnRnwiAMj6zZ5/1hXtnS9l+c9w07kwk/JKvA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=SDxnpHHpDIk7/grr1aRLpQQ7BF7npntHsTdXtHJ14tEhc6w59t3jW5HfspXosW1Ye
- EktSksi7/VlzHXa2MvyMMXj9zMPUeiVJ4zZWJKW4R2yozPew0XzOA44BUaXPl3/lMK
- 37Yrt+FVvAYFclf9O02Vhj0MNtv/9ceFyP4iC3x1lQqAEbg5892J3vCiVPG2/gFjpR
- 6c6vgk7V3uwcfc1UgLrh27TH5TL61f9nbjkSLQHbFrltC8JTUEsvR6v8v4iD1rzF2F
- kDYnRpyz8Qi8r+ApxlpHJXBaKFRP5n7aR+XUWb430O+UfWbgekYDGEd5PjNTW9ZjlZ
- dco2xX7+gvcfw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 190DDC433E1; Fri, 26 Dec 2025 07:39:52 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
- Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Fri, 26 Dec 2025 07:39:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-220906-2300-Jv6MsnsmA5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
-References: <bug-220906-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4934B11B6C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 08:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=CtM0pYlvm2BUbNG2fdamlrxB+7v58zb6GfLlhPs3JP4=; b=G
+ GkvU3XrW+7jDLOn2vibfn9hAtYu+kpDQ1mRieyfv/Di1Dqgs7CE/C5653E/jfFo+
+ ZX4t5pilcT0ggHcZa21xB9kDKyvXaM4+XztvTe+oO+lckJ4MC3GDixJg6p673HWh
+ PYltaQBfA8U5zF+VMy8ddvI6TxlN/Jybpw37xk5d48=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-121 (Coremail) ; Fri, 26 Dec 2025 16:13:58 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 26 Dec 2025 16:13:58 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Alper Ak" <alperyasinak1@gmail.com>
+Cc: andy.yan@rock-chips.com, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re:[PATCH] drm/bridge: synopsys: dw-dp: Pass dp->irq instead of ret
+ to ERR_PTR() on IRQ failure
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20251226072001.16623-1-alperyasinak1@gmail.com>
+References: <20251226072001.16623-1-alperyasinak1@gmail.com>
+X-CM-CTRLMSGS: +fF9K3BsdXM9MTc2NjczNjgzNzE3MF8zZjIxYTVkZjZjYTFkMmU4ODA4Y2MyM
+ GMzMGIwMWYxOQ==
+X-NTES-SC: AL_Qu2dBPuYuUAo7iGaZekfmUgWjuw/WsG1v/Ul1YBSP556jArp/iIyd1x8PV/I196CCBqolQmNVhpN489ZZqJ3f4YhFbKbd3B9uwOA07H5IuNilw==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
+Message-ID: <3d96a2f5.6efd.19b59b8bdf0.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: eSgvCgC3YF_GQ05pgQpLAA--.803W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7gbvTmlOQ8aM+gAA3d
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,22 +73,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
-
-Artem S. Tashkinov (aros@gmx.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
-
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please repost here: https://gitlab.freedesktop.org/drm/amd/-/issues
-
-Bisection is advised or at the very least check kernel 6.18.2.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+CkhlbGxvIEFscGVy77yMCgpBdCAyMDI1LTEyLTI2IDE1OjIwOjAxLCAiQWxwZXIgQWsiIDxhbHBl
+cnlhc2luYWsxQGdtYWlsLmNvbT4gd3JvdGU6Cj5UaGUgZXJyb3IgaGFuZGxpbmcgYWZ0ZXIgcGxh
+dGZvcm1fZ2V0X2lycSgpIGluY29ycmVjdGx5IHBhc3NlcyByZXQgdG8KPkVSUl9QVFIoKSwgYnV0
+IHJldCBzdGlsbCBob2xkcyB0aGUgdmFsdWUgMCBmcm9tIHRoZSBwcmV2aW91cyBzdWNjZXNzZnVs
+Cj5kZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoKSBjYWxsLiBUaGlzIGNhdXNlcyBFUlJfUFRSKDAp
+IHdoaWNoIHJldHVybnMgTlVMTAo+aW5zdGVhZCBvZiBhIHByb3BlciBlcnJvciBwb2ludGVyLgo+
+Cj5QYXNzIGRwLT5pcnEgdG8gRVJSX1BUUigpIHNpbmNlIHBsYXRmb3JtX2dldF9pcnEoKSByZXR1
+cm5zIHRoZSBuZWdhdGl2ZQo+ZXJyb3IgY29kZSBkaXJlY3RseSBpbiBkcC0+aXJxIG9uIGZhaWx1
+cmUuCj4KPkZpeGVzOiA4NmVlY2MzYTljMmUgKCJkcm0vYnJpZGdlOiBzeW5vcHN5czogQWRkIERX
+IERQVFggQ29udHJvbGxlciBzdXBwb3J0IGxpYnJhcnkiKQo+U2lnbmVkLW9mZi1ieTogQWxwZXIg
+QWsgPGFscGVyeWFzaW5hazFAZ21haWwuY29tPgoKUmV2aWV3ZWQtYnk6IEFuZHkgWWFuIDxhbmR5
+c2hya0AxNjMuY29tPgoKVGhhbmtzCgo+LS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5v
+cHN5cy9kdy1kcC5jIHwgMiArLQo+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5
+cy9kdy1kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1kcC5jCj5pbmRl
+eCAzNjM4Mjk1NmJiZTAuLjcxODM5N2EyOWU4MCAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9icmlkZ2Uvc3lub3BzeXMvZHctZHAuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
+eW5vcHN5cy9kdy1kcC5jCj5AQCAtMjA3OSw3ICsyMDc5LDcgQEAgc3RydWN0IGR3X2RwICpkd19k
+cF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+
+IAo+IAlkcC0+aXJxID0gcGxhdGZvcm1fZ2V0X2lycShwZGV2LCAwKTsKPiAJaWYgKGRwLT5pcnEg
+PCAwKQo+LQkJcmV0dXJuIEVSUl9QVFIocmV0KTsKPisJCXJldHVybiBFUlJfUFRSKGRwLT5pcnEp
+Owo+IAo+IAlyZXQgPSBkZXZtX3JlcXVlc3RfdGhyZWFkZWRfaXJxKGRldiwgZHAtPmlycSwgTlVM
+TCwgZHdfZHBfaXJxLAo+IAkJCQkJSVJRRl9PTkVTSE9ULCBkZXZfbmFtZShkZXYpLCBkcCk7Cj4t
+LSAKPjIuNDMuMAo=
