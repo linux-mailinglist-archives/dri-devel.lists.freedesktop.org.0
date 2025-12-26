@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF1DCDEBE2
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 14:48:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87184CDEC15
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 15:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5814E10F37D;
-	Fri, 26 Dec 2025 13:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DD1112124;
+	Fri, 26 Dec 2025 14:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1C5110F37D
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 13:48:26 +0000 (UTC)
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA20D112124
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 14:16:31 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
  server-digest SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id EC3543EA72;
- Fri, 26 Dec 2025 14:48:23 +0100 (CET)
-Date: Fri, 26 Dec 2025 14:48:22 +0100
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 579113EA9E;
+ Fri, 26 Dec 2025 15:16:29 +0100 (CET)
+Date: Fri, 26 Dec 2025 15:16:28 +0100
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Linus Walleij <linusw@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -46,17 +46,16 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v2 04/11] dt-bindings: display: panel: Describe Samsung
- SOFEF01-M DDIC
-Message-ID: <aU6QxjOphoq9E1pL@SoMainline.org>
+Subject: Re: [PATCH v2 05/11] drm/panel: Add panel driver for Samsung SOFEF01
+ DDIC
+Message-ID: <aU6XXi2HmgjZY8CY@SoMainline.org>
 References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
- <20251222-drm-panels-sony-v2-4-82a87465d163@somainline.org>
- <CAD++jLmSev3=HJF1j_kTU5j-u2NhxH6TsdE0uUjnD7Vqkt_h-w@mail.gmail.com>
+ <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
+ <CAD++jL=X1hX6kmodcOC3+x-w6t+Vg6XTaCMab-Dn=vHAeD82Gw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD++jLmSev3=HJF1j_kTU5j-u2NhxH6TsdE0uUjnD7Vqkt_h-w@mail.gmail.com>
+In-Reply-To: <CAD++jL=X1hX6kmodcOC3+x-w6t+Vg6XTaCMab-Dn=vHAeD82Gw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +71,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-12-26 14:25:04, Linus Walleij wrote:
-> Hi Marijn,
+On 2025-12-26 14:21:37, Linus Walleij wrote:
+...
+> Only nitpicks follow:
 > 
-> thanks for your patch!
+> > +       if (ctx->panel_type == PANEL_TYPE_TC01 ||
+> > +           ctx->panel_type == PANEL_TYPE_UT01 ||
+> > +           ctx->panel_type == PANEL_TYPE_UT04) {
+> > +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
 > 
-> On Mon, Dec 22, 2025 at 12:32 AM Marijn Suijten
-> <marijn.suijten@somainline.org> wrote:
+> The sofef00 driver tell us exactly what this sequence is:
 > 
-> > Document the Samsung SOFEF01-M Display-Driver-IC and 1080x2520@60Hz
-> > command-mode DSI panels found in many Sony phones:
-> > - Sony Xperia 5 (kumano bahamut): amb609tc01
-> > - Sony Xperia 10 II (seine pdx201): ams597ut01
-> > - Sony Xperia 10 III (lena pdx213): ams597ut04
-> > - Sony Xperia 10 IV (murray pdx225): ams597ut05
-> > - Sony Xperia 10 V (zambezi pdx235): ams605dk01
-> > - Sony Xperia 10 VI (columbia pdx246): ams605dk01
-> >
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> (...)
-> > +      - samsung,sofef01-m-amb609tc01 # 6.1"
-> > +      - samsung,sofef01-m-ams597ut01 # 6.0"
-> > +      - samsung,sofef01-m-ams597ut04 # 6.0"
-> > +      - samsung,sofef01-m-ams597ut05 # 6.0"
-> > +      - samsung,sofef01-m-ams605dk01 # 6.1"
+> #define sofef00_test_key_on_lvl2(ctx) \
+>         mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x5a, 0x5a)
+> #define sofef00_test_key_off_lvl2(ctx) \
+>         mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0xa5, 0xa5)
 > 
-> So is the assembled product really named like that?
-> 
-> Samsung S0FEF01-M AMS605DK01?
-> 
-> I would more expect the compatible strings to be excluding the DDIC
-> name, like:
-> 
-> samsung,ams605dk01
-> 
-> ...but it's not like the vendor is helping us here, so I'm practically
-> fine either way.
+> I would just rename these two to sofef01_test_key_on/off_lvl2()
+> and use the same helpers in this driver to follow the sofef00 pattern.
 
-Unfortunately I'm not that familiar with display manufacturers and panel
-assemblies.  Most of the what I presume to be panel names were gleaned from
-online screen replacement photos; those don't ever include the DDIC name.  Those
-mostly come from the DTS though isn't mentioned exactly for every phone (only
-the first two in the DTS name).
+Right, yes.  I think I already brought this up in V1, that some existing
+Samsung drivers call this (the 0xf0 part) the MCS PASSWORD, others call it the
+LEVEL_2_KEY or USER_KEY or ACCESSPROT.
 
-> They are clearly using the S0FEF01-M display controller.
+I'm curious (though should probably look up the patch history) where these names
+come from, which of these names match the sofef01/03/souxp00 DDICs provided
+here, and what they're supposed to mean (MCS: Magic Command Sequence?).
 
-So you're implying or certain that these panel names here are always bundled
-with exactly the same controller (making the SOFEF01 part "redundant" in the
-compatible)?
-
-Also, divergence of the driver commands got significant with the last two panels
-/ three phones, though that might be down to vendor configuration/calibration.
+Then there are possibly a lot more constants we can glean from other drivers,
+though again without confirmation that it's identical on this DDIC.
 
 - Marijn
-
-> Yours,
-> Linus Walleij
