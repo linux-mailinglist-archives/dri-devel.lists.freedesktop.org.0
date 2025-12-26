@@ -2,154 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575FECDEE7B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 19:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E33CDEFB3
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Dec 2025 21:31:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B54C910E138;
-	Fri, 26 Dec 2025 18:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFEB2113837;
+	Fri, 26 Dec 2025 20:31:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D8pc3kO8";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H49a8qC9";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jUomsBWz";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EAfEvuDu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E2410E138
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 18:30:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386C9113462
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 20:31:30 +0000 (UTC)
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BQ8bmnt755128
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 18:30:58 GMT
+ 5BQ8c7oK756033
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 20:31:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- l4XGWR0+KNvc3ed5ArMjwMlC+KzNK0mXGZ2jEfsyOiY=; b=D8pc3kO8GCjjvm8/
- Qfq9GTjdv2cFMFM98PAyKmDBNqElyY3uyRSyWFdy6T3X2nIwgRvPJVYlglFFkis+
- Der36k3jGegfD8cJ7OgI5J+j+DhCmoSYGK2V/oEGXTEN2nBuxV13xr/pRY2CerWv
- vosC+Vlrr4rYq6LLayf4LJJiZvqQbG45X0l6wb8S57ie8j06JC4iGuIfhseplquj
- AT4qJUK9qzAqLODlIqDvJOvXyA+4/vtUG5H0p7rzFQSSdtyQKlqHgZC7Tqm7cWEH
- AC+sfsrJSzqIxTb8lfnxxnEy66m6X1+OniKWoTNhg1MUo4g33pZAcEadPtFKWL+o
- FdBzzg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b8kbuvha8-1
+ cc:content-type:date:from:message-id:mime-version:reply-to
+ :subject:to; s=qcppdkim1; bh=4AWFGr6gKgFJOCoEJs5vWAtnJQDYSY770au
+ cV1GG3lI=; b=jUomsBWz1a7lun/xLvJmSeJJ4Rs8Zs247O9AxmDh4CN+2wNWwJP
+ Fq83H+9ZNZwYgN0tjuQzNY9Xv7EX/KUg4fRNAGeZPym2W4wWAZB+BWRDmeQufBBM
+ MQu8F8/e4kA4I/YStRMwWxCyDZji5o2BO63FGHt6TSHfHgjMEyOhDemVDRh3wmp+
+ RzxxIhGzkFwCvRpf398xNvuaOjPkmRFSF0s0h8jionEgYvR6TS/irYVZMsaMVH1N
+ EjcCovMxDq4QiGxb8V/c4F0lPrFK7ejmZNzCMyfeecg5dbbyBjQlIilBnzf0UdpK
+ auYFiFAE+X+YZek+JqfvGO1gZP3S2TgkCcA==
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b8kbuvpm1-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 18:30:58 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-34aa1d06456so16970471a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 10:30:58 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 20:31:29 +0000 (GMT)
+Received: by mail-oi1-f198.google.com with SMTP id
+ 5614622812f47-459a2584256so3140671b6e.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 12:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1766773858; x=1767378658;
+ d=oss.qualcomm.com; s=google; t=1766781089; x=1767385889;
  darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=l4XGWR0+KNvc3ed5ArMjwMlC+KzNK0mXGZ2jEfsyOiY=;
- b=H49a8qC9wC0GQ2QpAUAPUrqDVM70Ne579ii0MMbAo9Oux44N91uD+PFfRnBtyMGbS+
- xf8DcRjBVoU+whkoE+/vKrg2u6BDryqIHpqJ8i8wb6otyErOw4jzt/KhFE3Q1prnPrLo
- giT4EGIbsI5l8O1e4Z/BAu1Xk5Id4S+j+A9UtpdcIfbuUlPH+dOoqFmY6eFUmpa7jOWB
- LT8manNxaTDsQSNbGI1ywYzvGvZ0CnQLHOAblQm9WRt+E3pQw3rrloUo6v1KKbiQm34F
- BGUQ4/aZvi3oBaOavWDNI7oTIVPOc5j3Z2yRRJOw3h9sUaF6Cb93+vuYAbpNl5v9elOT
- feXw==
+ h=cc:to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4AWFGr6gKgFJOCoEJs5vWAtnJQDYSY770aucV1GG3lI=;
+ b=EAfEvuDufXtEIKJt1x3XJ9shaRpLqA9oyJhZknK9fq/vrijMsd2iF7ANVQYOGTgi/E
+ XyUG3E/BTI3NxRjGLi2sghZl1MtRycuL00lSOFyBMsV1o6R3YCcfJK5M6MKjZKxpiWbr
+ rtium/n1XvFW9XxwyPzSmrBLB5MTQx/1S/nHg1v6iYXrnJ0f+Sfhj61c1KF8Xb0I1vdq
+ iTRwAdTI1Qba+AB8cnPvflCpi0tP+nrX+MmEgPOXIWTABU9K9bqyxHHKOfe8tBpQ7qBm
+ xnaG5hSu0CZWxBgAkigl/CDZ/EfdYRP9F6BWJMa8X14MH9je3oRZoIvo3SHdUUVrFZVm
+ g10A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766773858; x=1767378658;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=l4XGWR0+KNvc3ed5ArMjwMlC+KzNK0mXGZ2jEfsyOiY=;
- b=n88Ta6O5YonQ8BzlmIlq0e6Xes7i/Yf9aNzr6r9j0jiayD1wuKb1ZN2seL9AVcmRm/
- x16LYBGtWqVs3K8Y1TRNCbfckAgy9oINm9xMlxZcDhyp3XVSoMbF71THGNoPSC3C1JvG
- ccuQIezyXJRPgAjEqlKNtMo4PIbalvuwws9ZB3s7Etyh1rG9CgZrShrjSjUZBbEvw11r
- qiwzw7JyjkKpvjZaGximjokMfP/5r02Db/MBk1yEI1somX8V3z36t3q3tLkx3ym5TyAj
- X8cCmnZygzCpg3URqc//IJNAwtWdFbsoBZpcFUn8jUZW/FszwPJWuypvLkRfp/eizO44
- cZDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTqf8tkPFycQimJa4N+BFRRTmM0e+OY2XRUzfu6X2/ixmdB1I0E0fqZFhMr/Do+/zlYE1Ko13Q0eQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRpq6aI/j2Hym9fbUnJuZ0Fm5NpGDcri+JETcoyCVKZSTMnKiI
- TC1CqZf9h29ItMVXvI+Fy13iSDSzzBpqU249ZKi9zrfXiBGkcbTpbhF8rLmZnLGbhdiadQ0khhY
- 8ObyhwKO8hmtlMtNHoKCJDetcHOkMejVwo7loC8KH31QGj38oRFiHWn3JrV3Mo8len8I5+ZA=
-X-Gm-Gg: AY/fxX7QjpKE7bS66eHtfYuSKc7mQC9/+FDdRd63xzJ/h0cDoRaBvYYQxFHgwIh8zkc
- e5slAvkbJic+51SOeyBV4eBJ62t0L61B6ixCa+skVZhhLw6zf5420wJj9GIAQ14ADDJyCFURghP
- udcETpeLt/gDCr0H9w+3gT0OCCeRXmvyrYs+oryxYXtLOHNlxBJ9Hb/rKxht8c+g3gbCCmex6zg
- iz7JqSR3rIn+AW85mFiGuyp2Qylpheyh5V117OXfUSH6dhVAHIaHQTtuEUn7jzz63q5EQ3wuQOn
- hd/htgpy9gMJgqIykUStlFcOEMNdf2JKIyEVoDwb/Q4GEyQtiB6OWUYYzniBlqMK1MsaRvzuITk
- b6QWViu83JThdA2YCs7fuKpUQV3OprnE8rw==
-X-Received: by 2002:a17:90b:134d:b0:34c:ab9b:76d6 with SMTP id
- 98e67ed59e1d1-34e921b9fb1mr19395504a91.25.1766773857551; 
- Fri, 26 Dec 2025 10:30:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH3cB0r3VF84oECQbOBHaUHDcFCfAqqe4vcXRfkQ8idCGmHLWTD3venrh6qLQpSG+LSK5JShQ==
-X-Received: by 2002:a17:90b:134d:b0:34c:ab9b:76d6 with SMTP id
- 98e67ed59e1d1-34e921b9fb1mr19395472a91.25.1766773856989; 
- Fri, 26 Dec 2025 10:30:56 -0800 (PST)
-Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-34e70d65653sm23808883a91.5.2025.12.26.10.30.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Dec 2025 10:30:56 -0800 (PST)
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Fri, 26 Dec 2025 23:59:41 +0530
-Subject: [PATCH v5 8/8] arm64: dts: qcom: qcs615-ride: Enable Adreno 612
- GPU
+ d=1e100.net; s=20230601; t=1766781089; x=1767385889;
+ h=cc:to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4AWFGr6gKgFJOCoEJs5vWAtnJQDYSY770aucV1GG3lI=;
+ b=mX+qOFLXsEyUTOlDhNi9XV9k18MMAMdQ0uamHKJ41VDYgpIMpEd4HD2NMV5nMbI/0x
+ FBQ0etgIh1F2ASQSITrYIv/AWTgS2IgT+iif4jwiM3exfJyKxZxoWOvZaj64VkIERTIp
+ KJE5QCqrNkVRaYWBdfbvq2vv8IsETpd5E6PEr6lUsm5ZZI/nNcyyZs9z5TbTiCjLubH6
+ 9ZEizl9i9ClDXP0ot4CDKiHF8DUEdoMDweW5RuDGNssr198id+AIRVd2aI+SXXlVggXf
+ qiLrr0wKThH/8vKgxs8tZ3lAsa3Mba5c1r9+2WgvnuQchH114CfACf75Pn3REgyNhDYd
+ +wHQ==
+X-Gm-Message-State: AOJu0Yx1+j/PU9Ah6yDdbJ+opaOD4feoibr7FZguMxzXKwEo6+LfIWwz
+ p4sdsDld1Nec30OmhE7S7z24nc9CxPD3DaPP1Wsfm3ESHEZBLcx/MAe33lpQ04W3XZlsrKDX45F
+ eXGFIWQ38QwuDO6chBSGXr0C7GHc4KEzGAYIrDvtjbas+j+S4ahDTGrVsdMH/YfVoWBdtDeGp44
+ Lv7+mqYpOOh7LDwSEfUkF7iP43GEsSYg6Lx+bSlJG3pH3ZMQ==
+X-Gm-Gg: AY/fxX6ZwAULSj4tfwG0q5mlw7O9N3YDPlzao7IGYe37aqmcFGuxGI7pz1Kt4ta4rQF
+ WRzmnYPNEnnCF2XLEo3FtuaJsruwli9wCxBUZezrGceB0o7nhaIx1pqCBpjlt0djJRSf5z2jzdT
+ XXFEzdlCrHqieAPBqX/fzYEZGJ7cDTI3cX8rYZh2y0bl1DzbOLW226HszaN+7GsiwF
+X-Received: by 2002:a05:6808:19a6:b0:453:587c:8362 with SMTP id
+ 5614622812f47-457b1e54e1cmr11529676b6e.11.1766781088857; 
+ Fri, 26 Dec 2025 12:31:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEt7xfrwX20cCFFg3FDxCd51j0HkcEkdYfmiFLcWeH07u/31Q+rg4EarGgy8D/a52+vYGqLVgLGTGZJ31p+XjE=
+X-Received: by 2002:a05:6808:19a6:b0:453:587c:8362 with SMTP id
+ 5614622812f47-457b1e54e1cmr11529661b6e.11.1766781088366; Fri, 26 Dec 2025
+ 12:31:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251226-qcs615-spin-2-v5-8-354d86460ccb@oss.qualcomm.com>
-References: <20251226-qcs615-spin-2-v5-0-354d86460ccb@oss.qualcomm.com>
-In-Reply-To: <20251226-qcs615-spin-2-v5-0-354d86460ccb@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <jie.zhang@oss.qualcomm.com>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Jie Zhang <quic_jiezh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766773796; l=1566;
- i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=0wHTfSWxkpfoiE0HDndY5tE5UXZgiygEg/pFzVW0/Yo=;
- b=7NYLN0NLICnqtnhMSXKEIZo1luiDJXgB6Id6mOqyxkwcLkGqEmCDvSzZ09RxWzPo91OdrMaLl
- eRg+kWNr+1CBK2CNmzfooccSkUtX3Uu6cA8v8tXeGTHNNi7yTPbMm8w
-X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI2MDE3MyBTYWx0ZWRfX0HgTJuNoFRwK
- NHJfprfmu0oC3Wyv005fp0kYJzi3zYcnu3lP7SDI5noUKkIk4y87cAWJYdJTjj/i2VP45x35mOF
- xwLKPxr6T9lnmU/X2NvsJxe31O3wvdP8PqQ/m5oPCfmm5LMpls2Ndc637SJyfD3l+18A1vVmafZ
- uUyzI0hdyGYzXOo0s5VAVc1nhn1QWIMYtzPGi1awMYAfYXFdaD3NcAQ81BhdQ5UP3TZznbH6bYM
- 11CRX593bZedNQHHy8LUSnF1Oc6rJt6pDjk6gy2EF0cJ7b1L5QpDnu/gv/TgbyL0AarmZGwyt6p
- d+CdicRIcPlOND3gU+2wB/Kp0iGUV11JPlc1wOc+9kqOWpfWKbC1ZYYw4ubTvp+9iUqmzn30axV
- d0VhVgBzJRfFTmF2lS8g/4VBMvJUbybl4+o6W0X4n6qKQ7SW+wJq08jLQUEM/uf4rb6J5Mx3RW2
- j6nkzm4OL/E7IfVeB8A==
-X-Authority-Analysis: v=2.4 cv=Vtguwu2n c=1 sm=1 tr=0 ts=694ed462 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=zVnKP5-pAmSyy1jt-DsA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: waFSJHMJc8Pu3I9D_71Z_EFW-mg3hmYl
-X-Proofpoint-GUID: waFSJHMJc8Pu3I9D_71Z_EFW-mg3hmYl
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Fri, 26 Dec 2025 12:31:17 -0800
+X-Gm-Features: AQt7F2rqIupn1E477TC3v5dx2uwAYIb5qZfLBCMyoyzxki1MVu_wt-kWfn9qFjA
+Message-ID: <CACSVV01jcLLChsFtmqc4VDNoQ2ic2q+d86n3wdoSUdmW6xaSdQ@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2025-12-26 for v6.19-rc3
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: "open list:DRM DRIVER for Qualcomm Adreno GPUs"
+ <dri-devel@lists.freedesktop.org>, 
+ "open list:DRM DRIVER for Qualcomm Adreno GPUs"
+ <freedreno@lists.freedesktop.org>, 
+ "open list:DRM DRIVER for Qualcomm Adreno GPUs"
+ <linux-arm-msm@vger.kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI2MDE5MyBTYWx0ZWRfXzklQ53TDV3GS
+ NKU9APgTbA1cU9oRihuEu4UQulsMy3D2OxaKngKgk6fVBJPhT30tbk50RCJ/VYRGOZC+cvDYdFj
+ pIw4B27D3JXU+VS+mi+N/gE6ueqIYkfdxM8Dnvzc6x/Cx8c/VDhjIY9n+t3kXSGE1uAct4VotSu
+ x5QRaJpQsCT+klsX1zS4sbxTv+I/GBmbAQFkG0E1yOFW7i8Sno81TkC5E5r5WjgFl/zOs2GFYin
+ X35SjKJa1kAlsT2dK9btq34NTK/vDDyVwoPMJxgMJZpUJFCRTcusUTGQB5iKywsInvfRittY9NG
+ fJnQngbKrCejHMtSH8kWLpJG3r3QtkkkK6RoaG6+snfKdpRpaXbRhF+v8PzyeZhslajwM2WU+Uv
+ Zz8VmOAXTvB7wXhyrNEPvtvu/yZ2thLQug051psnkeaM8txu1AkhG2RLBqCoXCzwMDmaniUxQc+
+ P0FlhiAv4YOhLqgFb5w==
+X-Authority-Analysis: v=2.4 cv=Vtguwu2n c=1 sm=1 tr=0 ts=694ef0a1 cx=c_pps
+ a=4ztaESFFfuz8Af0l9swBwA==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8
+ a=esN6lJarwAe2O1dyRFQA:9 a=QEXdDO2ut3YA:10 a=TPnrazJqx2CeVZ-ItzZ-:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: DFyCpPeh43EtLcggyzCnPBoWdHqEnVFC
+X-Proofpoint-GUID: DFyCpPeh43EtLcggyzCnPBoWdHqEnVFC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-26_05,2025-12-26_01,2025-10-01_01
+ definitions=2025-12-26_06,2025-12-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501 suspectscore=0 lowpriorityscore=0 impostorscore=0
  clxscore=1015 spamscore=0 bulkscore=0 phishscore=0 adultscore=0
  malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512260173
+ definitions=main-2512260193
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,56 +126,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+Hi Dave, Simona,
 
-Enable GPU for qcs615-ride platform and provide path for zap
-shader.
+Fixes for v6.19-rc3
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 8 ++++++++
- arch/arm64/boot/dts/qcom/talos.dtsi      | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+The following changes since commit 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530:
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index be67eb173046f9e4ac58157f282c3af41e53d374..33e33aa54691d38f96e5c76596719691e2596eb5 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -358,6 +358,14 @@ vreg_l17a: ldo17 {
- 	};
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/qcs615/a612_zap.mbn";
-+};
-+
- &i2c2 {
- 	clock-frequency = <400000>;
- 	status = "okay";
-diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
-index 7c2866122f9a13b8572fd9e6fa9d336176765000..606f5e234e4a02caaa03f1084336e137768dba1f 100644
---- a/arch/arm64/boot/dts/qcom/talos.dtsi
-+++ b/arch/arm64/boot/dts/qcom/talos.dtsi
-@@ -1902,7 +1902,7 @@ opp-435000000 {
- 
- 		gmu: gmu@506a000 {
- 			compatible = "qcom,adreno-rgmu-612.0", "qcom,adreno-rgmu";
--			reg = <0x0 0x0506a000 0x0 0x34000>;
-+			reg = <0x0 0x0506d000 0x0 0x2c000>;
- 
- 			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
- 				 <&gpucc GPU_CC_CXO_CLK>,
+  dt-bindings: display/msm/gmu: Add Adreno X2-85 GMU (2025-11-18 09:04:13 -0800)
 
--- 
-2.51.0
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2025-12-26
+
+for you to fetch changes up to 66691e272e40c91305f1704695e0cb340cd162ff:
+
+  drm/msm: Replace unsafe snprintf usage with scnprintf (2025-12-24
+17:55:29 +0200)
+
+----------------------------------------------------------------
+Fixes for v6.19:
+
+GPU:
+- Fix crash on a7xx GPUs not supporting IFPC
+- Fix perfcntr use with IFPC
+- Concurrent binning fix
+
+DPU:
+- Fixed DSC and SSPP fetching issues
+- Switched to scnprint instead of snprintf
+- Added missing NULL checks in pingpong code
+
+Also documentation fixes.
+
+----------------------------------------------------------------
+Abel Vesa (2):
+      Revert "drm/msm/dpu: support plane splitting in quad-pipe case"
+      Revert "drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case"
+
+Alok Tiwari (1):
+      drm/msm/a6xx: move preempt_prepare_postamble after error check
+
+Anna Maniscalco (2):
+      drm/msm: add PERFCTR_CNTL to ifpc_reglist
+      drm/msm: Fix a7xx per pipe register programming
+
+Evan Lambert (1):
+      drm/msm: Replace unsafe snprintf usage with scnprintf
+
+Neil Armstrong (1):
+      drm/msm: adreno: fix deferencing ifpc_reglist when not declared
+
+Nikolay Kuratov (1):
+      drm/msm/dpu: Add missing NULL pointer check for pingpong interface
+
+Randy Dunlap (19):
+      drm/msm/disp: mdp_format: fix all kernel-doc warnings
+      drm/msm/dp: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_cdm.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_ctl.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_cwb.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_dsc.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_dspp.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_intf.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_lm.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_merge3d.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_pingpong.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_sspp.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_top.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_vbif.h: fix all kernel-doc warnings
+      drm/msm/dpu: dpu_hw_wb.h: fix all kernel-doc warnings
+      drm/msm: msm_fence.h: fix all kernel-doc warnings
+      drm/msm: msm_gem_vma.c: fix all kernel-doc warnings
+      drm/msm: msm_gpu.h: fix all kernel-doc warnings
+      drm/msm: msm_iommu.c: fix all kernel-doc warnings
+
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  13 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  52 ++++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c          |   4 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  13 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  38 ++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  29 +++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h         |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  84 ++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h         |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h        |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  20 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  23 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h     |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  20 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |  47 +++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |  21 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h        |  16 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          | 137 ++++++---------------
+ drivers/gpu/drm/msm/disp/mdp_format.h              |   6 +-
+ drivers/gpu/drm/msm/dp/dp_debug.h                  |   2 +-
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |   1 +
+ drivers/gpu/drm/msm/dp/dp_link.h                   |   9 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   8 +-
+ drivers/gpu/drm/msm/msm_fence.h                    |  36 +++---
+ drivers/gpu/drm/msm/msm_gem_vma.c                  |   5 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |  68 +++-------
+ drivers/gpu/drm/msm/msm_iommu.c                    |   4 +-
+ drivers/gpu/drm/msm/msm_perf.c                     |  10 +-
+ 36 files changed, 347 insertions(+), 372 deletions(-)
