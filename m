@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADE9CDFD36
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 15:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0210CDFD45
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 15:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB1810E0D9;
-	Sat, 27 Dec 2025 14:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1CB010E232;
+	Sat, 27 Dec 2025 14:22:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jpDFIBXx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bX7TCQJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9691B10E0D9
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 14:20:03 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-b7277324054so1258903966b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 06:20:03 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2317410E232
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 14:22:29 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b7636c96b9aso1427005666b.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 06:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766845202; x=1767450002; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1766845348; x=1767450148; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e3rVAXM2uA2BUpYCLCItwXy4Hyvoocs+aIR9WcWlcsk=;
- b=jpDFIBXxrDKXg5+ErN02mLeb5syawqCpWcEb89w7K/EgeJ0N8iT5hPC82W4hjvBHrG
- VBbfTRYkiV+BDqfrjW3+88qWkiGxWrWf3U0lYZvsL0QP++zFV6z7sfNQB0BdEs+6VcaL
- eAAPN4OWCtXOYory0VfICYH2Bndv5HjOD4RZwc6ryLwrZVXmF0Wr4rWA+zEDks7SsJy9
- 3FfBib3DMO6Yhb71t4OQ6Lc3qLO26cp1lYE6uRa7w7yzPWKzsqoCEL91HhGbe8tfqOhZ
- EdxXgjGRKSrTh5M6+UsfiYA+auI0Pny0hv1/FDX2LHWylz7nXQWqdoshUtjS7IUSjR8x
- ciyQ==
+ bh=wsY2YPUX+wtykoq8K3+fTG9jA80ktVPXe78RbmtQw8Y=;
+ b=bX7TCQJeRBE1KfsdUDntGh2xIo2dQY9J6zIbf/TG3vAg+/VTwa04VQN0NsVa/G2RFS
+ uBk+Wa8Q6BH28IDp6ZmdKAxUwYYBIVc6EKMNLdx3Iv79hVsuclvcrDrZ74kbhoXv8Hd1
+ dZ+wYBbEX2BRI4sMoDfFrdv8uNdwqtfFqrDngF5XdUZnTiCa3OZffpnCq8q4iHubCClb
+ r4CvXaRqujdx5YDDbNjk4jkBm33beHTy61SxIIpOhBwV3CP9L62heETzt4B6arExyreh
+ BDZDqZz5VHliv3reIR446qEE6cH3wmfW0F7RphkRuwYDhoG7oYBrPq+4OZDJFpCfbegm
+ VwMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766845202; x=1767450002;
+ d=1e100.net; s=20230601; t=1766845348; x=1767450148;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=e3rVAXM2uA2BUpYCLCItwXy4Hyvoocs+aIR9WcWlcsk=;
- b=tCN634L6BX25/qocE7xYJPmxt8FUHftR1YN8spQ8FeHf71kXZnSpKrN7kY170baCpw
- OWLFpLvD8rNk/t4mQ3913Dm90II0icf6zkweWGcu9YEc7hHkVNApVa+03cTr/kyhGeZU
- /b4xWfY+bEt8TxveXZYokfK4FJa7KkCYsCMnVWaW+IRh5/LcmgNQhav0szpWvz9oMWnq
- TgLcha/UPbYFj2oUspjDtrJD/hN3KJcGtVkXEMSJ58TlG8Mkgh4zV7KFy4bm56gnP2TJ
- a31amEyM8eFaS4DuarsghyqU1OaGZAZZDFCPWg6uk8k75qCsaZ/kG2mgm3/L1wZ7xKTw
- y7/A==
+ bh=wsY2YPUX+wtykoq8K3+fTG9jA80ktVPXe78RbmtQw8Y=;
+ b=kOUoVHmQjLcpY9dvoE7ABPelul1y5eO+qD+ZDbB+quDSMNI8eapV3y9ERRbTkvh3rk
+ OXMBHccc9jsbAdnomzUvm4iz1DzRcPld8VY9G/rN6r+wk5e1X3fHd4oxf6d7tUgGhd1p
+ X3TCOk5EvKfSU9Fmxt2AK9Qzsux7kXcFFdyBOVFud5q8QszzRWOGiqDXVDI/LZCrw5/c
+ 1MXHSGyGoCf7cdzFY35iZVAZx03plD9KmpCR7yx4AMUQyEAV1/nVgfuds5E51yjP33Mu
+ TjZSp+gEslRuS3r24/NAP/3loy1M2ebSX0fmN71783PzcI7Xe4mW6UIGxTYU3dtoOPs7
+ C2QA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU54QVwje6S1rQz+1tMhMbk+Ef7Y6Wx7Q9t4Ye9c/8a9QWLx28yIbp+ELHRWhWR8NcoRCEaxGKBn40=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzNCM+3WJ1hcwwv606QOKjuJg0FCIdRTZigJ0e6hGksteFvk5i
- N1uKqjatXc7fRNBgZu8L29G2a62Wr30XWLHp9ww6kO90FyqNuC7N+IWgUfuFFdW9IF6PcMS1y6y
- 9I3tTfWmb4QcUnhakx8SsRG4gMbBBMBg=
-X-Gm-Gg: AY/fxX4BuYEOJNMpDJbvRTDWMq/YFqgQLZiZ77C2emTztNnENpRKq/2YcBmW1Lzzgq9
- bCAKLoTs88CmtVo5J2O6L/MnUq9C1+7Kz1Q0DFbnRQvbtqYmGic0W2vZswRMLV1YZ8qHuWV9iKX
- FWqeyxKL7rcZ25WzDRf/joRmEGMzZ4VJpMlVYevxUYJC+0TgB1Cn1jPD7jHf6TGMO9TIm7/kWio
- ppyF15DW5P4eBJUkBCOQSI9N6d2+L7EL13mXqqYZwyUZbuiBiwayg66ztF/xQqV2PW6z/gLZVwV
- 8Db4iP9RbJdWPwgIHiH1Yd0VwMnXamNkoHc7iKxDJgimEZBda5UXzPEhNBVpb3vErw6CAtw=
-X-Google-Smtp-Source: AGHT+IF8S2vZ7+R+gmMHpDxIPniiRhAY4GhOubuUewd59zPB/hHlKmS5S1gCB4cVMV+kZ1atbDLTB1f1Uuy9kvPPTQ4=
-X-Received: by 2002:a17:906:7315:b0:b73:398c:c5a7 with SMTP id
- a640c23a62f3a-b80371a7253mr2621691866b.41.1766845201824; Sat, 27 Dec 2025
- 06:20:01 -0800 (PST)
+ AJvYcCUFqjWzn2+i/p90cs5oANXyzlzeKS6/j+k+d7Y9ZI4n7VnOyfu4o7MYV6vQXtTjgVTx1eoVsnW1tgU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzrf4gSQaAI6bUNP/953gfH4iOy9ixebLpN5htajIRdnuarvLfj
+ TXJtJd5KnIhJGiTorGA/6me5PDjvMEG+NbDgvJ99ipEoG5tZv4UKmmPBmJp32sfBiYW6IHy7Ht+
+ v4m57EViU+jeef8owlX1N3+KKR867j0Q=
+X-Gm-Gg: AY/fxX4OqwPwJPW6OwC6L43O6J2GAJITUmsxwbIaR5PrAszQDOtrDLDJpYsQAkWJ6Lj
+ YCtBN60XqXTJhIbrIyjSqMJeu7tgIPqzQm5Jlm2fuSSqRVbdGSQnYIWzBaLvb0vIVX96gSkOo8j
+ oYQirxCYl2zQ7UPXUdICM8D0mkf9xpmn31zSoxbaFqo2ZsH/P/pDdI9MSggVx0BBzyUYy54mHIg
+ 0UUWZ/tmpeVr9uVxDgJ9SMK7T6LOno+8XDEyCyQ0VOr4gdIrj/54zmww4ca1gAf4XrC01W2wo2Z
+ UZKea6/0wD3ysnTiaIpsldpAoWUIelUR9dUtMX6STFlHSy/+5A4jlXAwDGLAHCw17fPY4M0=
+X-Google-Smtp-Source: AGHT+IFueBeZlh5SVe0yz+/yxQv364cBzdkglW+0ZdQCwGpAc3nvuAc182enll5nZikPEvfIE1pSBxl7zDgGxVvO12k=
+X-Received: by 2002:a17:907:2d0e:b0:b76:bcf5:a38a with SMTP id
+ a640c23a62f3a-b8036a924ffmr2886902566b.0.1766845347379; Sat, 27 Dec 2025
+ 06:22:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20251219054320.447281-1-chintanlike@gmail.com>
- <20251219054320.447281-3-chintanlike@gmail.com>
-In-Reply-To: <20251219054320.447281-3-chintanlike@gmail.com>
+ <20251219054320.447281-5-chintanlike@gmail.com>
+In-Reply-To: <20251219054320.447281-5-chintanlike@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 27 Dec 2025 16:19:25 +0200
-X-Gm-Features: AQt7F2qzW7hXhSkhTQqqZrlX5yqv6kNuSTsnbNk-OS8FE2UIntKjLzVunWTLcHw
-Message-ID: <CAHp75VeLF8nd-JiPFnxJ2H43ZS=oYgW4=BTZjR_GuUuj03gyRg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] staging: fbtft: Make FB_DEVICE dependency optional
+Date: Sat, 27 Dec 2025 16:21:51 +0200
+X-Gm-Features: AQt7F2pBB7tF8rd4vW2CaPeAEaMHCh3Al7Dq6z2gzKKZ-tCgBNcws0oMLkjEaOA
+Message-ID: <CAHp75VfTki7r-BMadsmOWudr2nc2f2VYgL9y6xR64usQB70ZAw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency
+ optional
 To: Chintan Patel <chintanlike@gmail.com>
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -91,61 +92,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, Dec 19, 2025 at 7:43=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
 m> wrote:
 >
-> fbtft provides sysfs interfaces for debugging and gamma configuration,
-> but these are not required for the core driver.
+> The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but th=
+e
+> core driver does not require CONFIG_FB_DEVICE.
 >
-> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
-> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
-> sysfs operations are skipped while the code remains buildable and
-> type-checked.
+> Make sysfs support optional by defining overlay_sysfs_groups as NULL when
+> FB_DEVICE is disabled. The driver always sets .dev_groups, and the kernel
+> naturally skips NULL attribute groups while the code remains buildable
+> and type-checked.
 
 > v2:
-> - Replace CONFIG_FB_DEVICE ifdefs with runtime checks
-> - Use dev_of_fbinfo() to guard sysfs creation and removal
+> - Replace CONFIG_FB_DEVICE ifdefs with NULL overlay_sysfs_groups
+> - Always populate .dev_groups
 
-The place for the change log is either a cover letter, or...
-
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Suggested-by: Helge Deller <deller@gmx.de>
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
-
-...a comment block here. It's not so important to be in the Git
-history since we have a lore.kernel.org archive.
-
->  drivers/staging/fbtft/Kconfig       |  5 ++++-
->  drivers/staging/fbtft/fbtft-sysfs.c | 18 ++++++++++++++----
+Same comment about the changelog in the commit messages.
 
 ...
 
->  void fbtft_sysfs_init(struct fbtft_par *par)
->  {
-> -       device_create_file(par->info->dev, &debug_device_attr);
-> +       struct device *dev =3D dev_of_fbinfo(par->info);
-> +
-> +       if (!dev)
-> +               return;
+> +#ifdef CONFIG_FB_DEVICE
+>  ATTRIBUTE_GROUPS(overlay_sysfs);
+> +#else
+> +/*
+> + * When CONFIG_FB_DEVICE is disabled, define overlay_sysfs_groups as NUL=
+L.
+> + * The compiler will optimize out the sysfs code paths when dev_groups i=
+s NULL.
+> + */
+> +static const struct attribute_group *overlay_sysfs_groups[] =3D { NULL }=
+;
+> +#endif
 
-
-The better way is to decouple the definition and the assignment in the
-cases when it's followed by a conditional (validation check). In this
-case any new code added in between doesn't affect readability and
-maintenance efforts.
-
-       struct device *dev;
-
-       dev =3D dev_of_fbinfo(par->info);
-       if (!dev)
-               return;
-
-> +       device_create_file(dev, &debug_device_attr);
->         if (par->gamma.curves && par->fbtftops.set_gamma)
-> -               device_create_file(par->info->dev, &gamma_device_attrs[0]=
-);
-> +               device_create_file(dev, &gamma_device_attrs[0]);
->  }
-
-Ditto for the rest.
+Hmm... I'm wondering if PTR_IF() can anyhow help here.
 
 --=20
 With Best Regards,
