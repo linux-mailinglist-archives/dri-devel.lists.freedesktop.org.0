@@ -2,67 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE11CDF4BE
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 07:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0983BCDF4D7
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 08:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF6D10E43B;
-	Sat, 27 Dec 2025 06:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A0711B960;
+	Sat, 27 Dec 2025 07:04:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bOR9uJyd";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="HvoSqATv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978B810E43B
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 06:31:58 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id
- 6a1803df08f44-8886fdf674bso98826476d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 22:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766817117; x=1767421917; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=VTwSoxhRamQQwpOT1VWnQ56Hbcor5wdGEmquOifNaVM=;
- b=bOR9uJydr5naFcjfRdRsnsaJaUmdW9XwbpkmfQowTk5iNX1SUMd78/GrG8569uDcrG
- vR7+IVdm4xI+FhTbuWp77dNLpO8XE5O2S2DoDiKDt3JIhh4EvUfyVXLXebTIR7GWxPoa
- uhkgVSrlttXXVOONQBpuIYbULd2Zgm34P4XjHvbyZFHbpaZwBZ2Yk9ae+b7QUxu1vSZS
- 4c9zhRsauzCFpCP1RB22eYM1T7/IF+0pSPBYVT5EhdhCFDAUMGJvG82vB4v/aXLcxVU4
- D2cTpBV7fDc/BVSU6pdlQxkPbt6rOgVfmocT4UBd7VI8G+/THsBe7BcFGNVE+Ory3GXP
- 2Nog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766817117; x=1767421917;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VTwSoxhRamQQwpOT1VWnQ56Hbcor5wdGEmquOifNaVM=;
- b=QUt6wXc3/UpF8jrkEptnauolp5wHRhl2ckhvT1kID5KGJqKe8IS9MfYVONQYaq6hDA
- bZ7uk/tTcJTMNfTBR/6VnpDgAyAMTZAXzwHcREIVOIYyaLW6BOem0554V6yQIf9faILa
- BwihW5mAafivjo9THReqPzjsqAOXZP7cpqPPQm5wzsfzmDJ2+Qk7drNc8o+0s3sOLSHU
- JhVBtbSJsjKtntkLkycZ40rHQyKcuqkhHWG1SGZGKI/XOi2+0Qx2XNwhM5Jfr4Pxbykq
- LP968s1eqL6Dsp60Zp//TShT+Kbcmp5gIJODGYZl48l05nOXIkmOqnp4M/iNbNdrFdgI
- dfsQ==
-X-Gm-Message-State: AOJu0Yw/BUHb9TfSZ68uGw9UVL/opNtB5WGr64X7PJKLagp7fJ1w432t
- pPpQ7tjW6ix8OAE5rVV9qnZJ0yukHA6fGt4WxI2rcfYBZrTLF5s4yMa3z/9IXCqvdeVg0QdVaXo
- SPmQ6I5jvp4LyOdT/iy9wRYn7SCGjM1o=
-X-Gm-Gg: AY/fxX5bDm4LvxNVVxm0GkHGuBw2Ze54ryLRjrGimXWzmnezLExeufvF3B9YKAHp9GH
- UQ2inuPvCa3JNLKLb4ZTTJZJGsrQxRf87Nx047Txv+w1AwCOqjvOmR6mg+nfPrwwg86aJQ1DmCo
- OmnNPl4Kd7W7YA1KMhGUPCOhKYb4zCx6vYoDE67G4ddTTwqqGHa/bAcV8psYtKYCBtlslmxQuKw
- wRpQQDiYFv6trNuAVeZhvkgv8srfleDkbPfFNNoWz/wxZROXkS+GKFBW99JtJsacKqngG5Y
-X-Google-Smtp-Source: AGHT+IGw2OiFT2nEvCkbb+rDjBS+yC5rhDkRmFLuijqjXK6HItR9bP6eYkBrEMoxq2R3AsRLgruB7IT8y29zDbzlNyU=
-X-Received: by 2002:a05:6214:488f:b0:88f:ca98:b00a with SMTP id
- 6a1803df08f44-88fca98b1bcmr280048256d6.49.1766817117452; Fri, 26 Dec 2025
- 22:31:57 -0800 (PST)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01D7611B960
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 07:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=qnJD/aW/+nSP0BXD12a4Ecqbki+tbWodC6E/ajq0Hpc=; b=H
+ voSqATvpFlk3TQ3Qdm2FIso3/IMNyru7tV/BlBXYkAFHUpRI0uDvw+q4pkKHP5ik
+ 8HVMWOtlQZv/IzViNIMhyH/leuWvlaO1QFfeXcCVAtIQIaZmxFhcK+16eSlEl7aN
+ Uc7NoCGi7CHfVHitWApfoHusRpsvq1KazeT38ruQV8=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-121 (Coremail) ; Sat, 27 Dec 2025 15:03:22 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Sat, 27 Dec 2025 15:03:22 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Icenowy Zheng" <zhengxingda@iscas.ac.cn>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Drew Fustini" <fustini@kernel.org>, "Guo Ren" <guoren@kernel.org>,
+ "Fu Wei" <wefu@redhat.com>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Heiko Stuebner" <heiko@sntech.de>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Michal Wilczynski" <m.wilczynski@samsung.com>,
+ devicetree@vger.kernel.org, "Yao Zi" <ziyao@disroot.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Han Gao" <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org
+Subject: Re:Re: [PATCH v4 5/9] drm/bridge: add a driver for T-Head TH1520
+ HDMI controller
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <0eba66980024d001d4ff6d0aed6f2f3e356abf3a.camel@iscas.ac.cn>
+References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
+ <20251224161205.1132149-6-zhengxingda@iscas.ac.cn>
+ <2183e580.8b98.19b5531263f.Coremail.andyshrk@163.com>
+ <0eba66980024d001d4ff6d0aed6f2f3e356abf3a.camel@iscas.ac.cn>
+X-CM-CTRLMSGS: 9+AdCXBsdXM9MTc2NjgxOTAwMTAyMV9jMjgyNzE1MzAxMzYxM2ZlNzQzMmEwN
+ mNmOTVkZjNmZQ==
+X-NTES-SC: AL_Qu2dBPSatkgr5CmebOkfmUgWjuw/WsG1v/Ul1YBSP556jArp/iIyd1x8PV/I196CCBqolQmNVhpN489ZZqJ3f4YhOtUcqUxlQaI9PqQGDBVA0w==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 27 Dec 2025 16:31:45 +1000
-X-Gm-Features: AQt7F2q_4_r4scwlozvO8W-qSkxPO79MlSJK9xNJFZD5Yr_0eAC-mETZvGWro0I
-Message-ID: <CAPM=9tyGDTYxiidazi2j26BbGpoFmw1R8FHs1BZ26qkGcAiTKw@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.19-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <5ce9d611.1868.19b5e9e7a61.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: eSgvCgAXV667hE9pbnNLAA--.482W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxRt922lPhLvKXgAA31
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,133 +84,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-Post overeating fixes, only msm for this week has anything, so quiet
-as expected.
-
-Regards,
-Dave.
-
-drm-fixes-2025-12-27:
-drm fixes for 6.19-rc3
-
-msm:
-- GPU:
-  - Fix crash on a7xx GPUs not supporting IFPC
-  - Fix perfcntr use with IFPC
-  - Concurrent binning fix
-- DPU:
-  - Fixed DSC and SSPP fetching issues
-  - Switched to scnprint instead of snprintf
-  - Added missing NULL checks in pingpong code
-The following changes since commit 9448598b22c50c8a5bb77a9103e2d49f134c9578:
-
-  Linux 6.19-rc2 (2025-12-21 15:52:04 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-12-27
-
-for you to fetch changes up to 479e25d88d1681e04cac708501180db606aecd1e:
-
-  Merge tag 'drm-msm-fixes-2025-12-26' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2025-12-27
-16:00:47 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.19-rc3
-
-msm:
-- GPU:
-  - Fix crash on a7xx GPUs not supporting IFPC
-  - Fix perfcntr use with IFPC
-  - Concurrent binning fix
-- DPU:
-  - Fixed DSC and SSPP fetching issues
-  - Switched to scnprint instead of snprintf
-  - Added missing NULL checks in pingpong code
-
-----------------------------------------------------------------
-Abel Vesa (2):
-      Revert "drm/msm/dpu: support plane splitting in quad-pipe case"
-      Revert "drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case"
-
-Alok Tiwari (1):
-      drm/msm/a6xx: move preempt_prepare_postamble after error check
-
-Anna Maniscalco (2):
-      drm/msm: add PERFCTR_CNTL to ifpc_reglist
-      drm/msm: Fix a7xx per pipe register programming
-
-Dave Airlie (1):
-      Merge tag 'drm-msm-fixes-2025-12-26' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-Evan Lambert (1):
-      drm/msm: Replace unsafe snprintf usage with scnprintf
-
-Neil Armstrong (1):
-      drm/msm: adreno: fix deferencing ifpc_reglist when not declared
-
-Nikolay Kuratov (1):
-      drm/msm/dpu: Add missing NULL pointer check for pingpong interface
-
-Randy Dunlap (19):
-      drm/msm/disp: mdp_format: fix all kernel-doc warnings
-      drm/msm/dp: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_cdm.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_ctl.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_cwb.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_dsc.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_dspp.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_intf.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_lm.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_merge3d.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_pingpong.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_sspp.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_top.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_vbif.h: fix all kernel-doc warnings
-      drm/msm/dpu: dpu_hw_wb.h: fix all kernel-doc warnings
-      drm/msm: msm_fence.h: fix all kernel-doc warnings
-      drm/msm: msm_gem_vma.c: fix all kernel-doc warnings
-      drm/msm: msm_gpu.h: fix all kernel-doc warnings
-      drm/msm: msm_iommu.c: fix all kernel-doc warnings
-
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  13 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  52 ++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c          |   4 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  13 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  38 ++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  29 +++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   2 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  10 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h         |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  84 ++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h         |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  10 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h        |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  20 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  23 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h     |   1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  20 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |  47 +++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |  21 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h        |  16 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          | 139 ++++++---------------
- drivers/gpu/drm/msm/disp/mdp_format.h              |   6 +-
- drivers/gpu/drm/msm/dp/dp_debug.h                  |   2 +-
- drivers/gpu/drm/msm/dp/dp_drm.c                    |   1 +
- drivers/gpu/drm/msm/dp/dp_link.h                   |   9 +-
- drivers/gpu/drm/msm/dp/dp_panel.h                  |   8 +-
- drivers/gpu/drm/msm/msm_fence.h                    |  36 +++---
- drivers/gpu/drm/msm/msm_gem_vma.c                  |   5 +-
- drivers/gpu/drm/msm/msm_gpu.h                      |  68 +++-------
- drivers/gpu/drm/msm/msm_iommu.c                    |   4 +-
- drivers/gpu/drm/msm/msm_perf.c                     |  10 +-
- 36 files changed, 348 insertions(+), 373 deletions(-)
+CgpIZWxsb++8jAoK5ZyoIDIwMjUtMTItMjYgMjE6Mjc6NTPvvIwiSWNlbm93eSBaaGVuZyIgPHpo
+ZW5neGluZ2RhQGlzY2FzLmFjLmNuPiDlhpnpgZPvvJoKPuWcqCAyMDI1LTEyLTI15pif5pyf5Zub
+55qEIDE5OjA3ICswODAw77yMQW5keSBZYW7lhpnpgZPvvJoKPj4gCj4+IAo+PiBIZWxsbyBJY2Vu
+b3d5Ogo+PiAKPj4gQXQgMjAyNS0xMi0yNSAwMDoxMjowMSwgIkljZW5vd3kgWmhlbmciIDx6aGVu
+Z3hpbmdkYUBpc2Nhcy5hYy5jbj4KPj4gd3JvdGU6Cj4+ID4gRnJvbTogSWNlbm93eSBaaGVuZyA8
+dXd1QGljZW5vd3kubWU+Cj4+ID4gCj4+ID4gVC1IZWFkIFRIMTUyMCBTb0MgY29udGFpbnMgYSBT
+eW5vcHN5cyBEZXNpZ25XYXJlIEhETUkgY29udHJvbGxlcgo+PiA+IChwYWlyZWQKPj4gPiB3aXRo
+IERlc2lnbldhcmUgSERNSSBUWCBQSFkgR2VuMikgdGhhdCB0YWtlcyB0aGUgIkRQIiBvdXRwdXQg
+ZnJvbQo+PiA+IHRoZQo+PiA+IGRpc3BsYXkgY29udHJvbGxlci4KPj4gPiAKPj4gPiBBZGQgYSBk
+cml2ZXIgZm9yIHRoaXMgY29udHJvbGxlciB1dGlsaXppbmcgdGhlIGNvbW1vbiBEZXNpZ25XYXJl
+Cj4+ID4gSERNSQo+PiA+IGNvZGUgaW4gdGhlIGtlcm5lbC4KPj4gPiAKPj4gPiBTaWduZWQtb2Zm
+LWJ5OiBJY2Vub3d5IFpoZW5nIDx1d3VAaWNlbm93eS5tZT4KPj4gPiBTaWduZWQtb2ZmLWJ5OiBJ
+Y2Vub3d5IFpoZW5nIDx6aGVuZ3hpbmdkYUBpc2Nhcy5hYy5jbj4KPj4gPiAtLS0KPj4gPiBObyBj
+aGFuZ2VzIGluIHYzLCB2NC4KPj4gPiAKPj4gPiBDaGFuZ2VzIGluIHYyOgo+PiA+IC0gQ3JlYXRl
+ZCBhIG5ldyBmdW5jdGlvbiB0byBzZXQgUEhZIHBhcmFtZXRlcnMgYW5kIHJlZmFjdG9yZWQgdGhl
+Cj4+ID4gwqBjb250cm9sIGZsb3cgb2YgdGhlIGNvbmZpZ3VyZV9waHkgY2FsbGJhY2suCj4+ID4g
+Cj4+ID4gTUFJTlRBSU5FUlPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsKPj4gPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tj
+b25maWfCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDEwICsrCj4+ID4gZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMSArCj4+ID4gZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS90aDE1MjAtZHctaGRtaS5jIHwgMTczCj4+ID4gKysrKysrKysrKysrKysrKysr
+KysrKysrCj4+ID4gNCBmaWxlcyBjaGFuZ2VkLCAxODUgaW5zZXJ0aW9ucygrKQo+PiA+IGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RoMTUyMC1kdy1oZG1pLmMKPj4g
+Cj4+IAo+PiBBcyB0aGlzIGlzIGEgU3lub3BzeXMgRGVzaWduV2FyZSBiYXNlZCBJUCwgbWF5YmUg
+aXQncyBiZXR0ZXIgdG8gcHV0Cj4+IGl0IHVuZGVywqDCoCAiZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9zeW5vcHN5cy8iCj4+IE9yIGp1c3QgY3JlYXRlIGEgZGlyIGZvciB0aGVhZCwgSSB0aGluayB0
+aGVyZSB3aWxsIGNvbWUgb3RoZXIgZGlzcGxheQo+PiByZWxhdGVkIGRyaXZlcnMgZm9yIHRoZWFk
+IGluIHRoZSBmdXR1cmUuCj4KPkl0J3Mgbm90IHByb3BlciB0byBwbGFjZSB2ZW5kb3IgZ2x1ZXMg
+dG8gc3lub3BzeXMvIC4KCgpUSSBoYXMgcHJlY2VkZW50cyBmb3IgZG9pbmcgdGhpcyB3aXRoIENh
+ZGVuY2UgSVDvvIwgc2VlIAoKZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNlL2NkbnMtZHNp
+LWo3MjFlLmMKZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNlL2NkbnMtbWhkcDg1NDYtajcy
+MWUuYyAKCgo+Cj5BcyBmb3IgVC1IZWFkLCB0aGV5IHN0b3BwZWQgdGhlaXIgZW1iZWRkZWQgU29D
+IGJ1c2luZXNzIChzb2xkIHRvCj5hbm90aGVyIGNvbXBhbnkpIGFuZCBub3cgdGhleSBvbmx5IG1h
+a2VzIGRhdGEtY2VudGVyIGNoaXBzLCB0aGVyZQo+c2hvdWxkIGJlIG5vIFQtSGVhZCBkaXNwbGF5
+IGRyaXZlcnMgaW4gdGhlIGZ1dHVyZS4KPgo+PiAKPj4gCj49PT09PT09PT09PSA4PCA9PT09PT09
+PT09PT0KPgo+Cj5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+bGludXgtcmlzY3YgbWFpbGluZyBsaXN0Cj5saW51eC1yaXNjdkBsaXN0cy5pbmZyYWRlYWQu
+b3JnCj5odHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXJp
+c2N2Cg==
