@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED75CE01B4
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 20:53:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3EECE01CF
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 21:14:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 524BA10E8C3;
-	Sat, 27 Dec 2025 19:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D33510E009;
+	Sat, 27 Dec 2025 20:14:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HC6IAnhn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yxu0vuq1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9394410E8C3
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:53:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4EA210E009
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:14:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4CE6C432E3
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:53:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1FAE2C4CEF1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:53:39 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 75AC24082A
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:14:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 56B6EC4CEF1
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:14:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766865219;
- bh=hfjbmegF1L9ljS9YLUjiF/vBO29hnGIcXt12D69+dUU=;
+ s=k20201202; t=1766866469;
+ bh=4Jx7oenjJbJqRO3c17F4kdDY58mb2Inj73MBmv+YaiY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HC6IAnhn43uGuCghAJ8+47JtrCWSG+vG23LWeYf452xQn9J58zpqit8jAleNkLKD4
- SiKSgNoA4BtQuIoRo10Sw75KynfYOtNjh5aPPaQxLDik/GkjEK0mdISZl48z/LChGk
- vZV8uNU2Wngh/7KLkhtsgxana6wjMOKPKpLkxZZzVnmLqGRqX9DrI8u15jkSnmystP
- dGr4Gtdk8pZ5HwC3/6zS/STFUBqDajCp5sG4dXlyuUt2QfPPiXJtSl3lJRJc4Xh/Zk
- fFY+JyN6GFQ4JEwZ3RVCldw51X0HWpIgonlnb7cbOSCdlnGG8CBUHE0cKrfnytNgvL
- bsVP8RzcNmXIQ==
+ b=Yxu0vuq1WsNlEZ9x9F75joO+nxA9gCeGitGcByvNJid4RuaFofXXZ/sRu3XENY8QZ
+ zjjBLYI12nVu1m7GXjELtrAztZjh0olFmkrgn6zSVTk2zM+UmjOvWh5upzbBSQ8378
+ QKBW16uOZkrpOI5S9wmpVlqJLX7d/ra4cLE5yB/Q1FtwRHmASH5bYXtHp3AcgB6y2V
+ EZUqHAahqo7H4azCaYFAw+iJrRz25s4w2H0c1yBjlURORtsCcQsdzqC2JxHzGbKPlx
+ fX8YtVI9D+lE5KvnXaTySWeNiGyChXlBk+uInWNKHy3sYmUQHxFIsCcDkbqBxh4Nyu
+ 5+J/AHHhvL4fg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 16C87C53BBF; Sat, 27 Dec 2025 19:53:39 +0000 (UTC)
+ from userid 48) id 51537C41612; Sat, 27 Dec 2025 20:14:29 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
  Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Sat, 27 Dec 2025 19:53:38 +0000
+Date: Sat, 27 Dec 2025 20:14:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,8 +51,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-220906-2300-OhG4YWzYet@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220906-2300-EErLOuylPj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
 References: <bug-220906-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,111 +77,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
 
-Andrei (danandrei@gmail.com) changed:
+--- Comment #7 from Andrei (danandrei@gmail.com) ---
+I initially thought this was just an AMD driver bug, but after digging thro=
+ugh
+the logs across a few more versions, I think I=E2=80=99ve found a better le=
+ad.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-         Resolution|ANSWERED                    |---
+In 6.17.6, where the regression started for the first time, I'm seeing these
+bridge resource failures pop up for the first time:
 
---- Comment #6 from Andrei (danandrei@gmail.com) ---
-I also checked 6.18.2, it still exhibits the issue. I went through minor
-versions between 6.17.1 and 6.17.11, and found the version where the issue =
-was
-first introduced.
+pci 0000:02:00.0: bridge window [io  size 0x1000]: can't assign; no space
+pci 0000:02:00.0: bridge window [io  size 0x1000]: failed to assign
 
-6.17.4 - works
-6.17.5 - works
-6.17.6 - does not work
+Bridge 02:00.0 is the gateway for the USB4/Thunderbolt 4 controller on this
+machine. In version 6.17.5, the kernel assigns it just fine and my 4K output
+works perfectly. Starting with 6.17.6, that assignment fails, which lines up
+exactly with when the display stops working.
 
-One extra note:
-
-I see the amdgpu line that I originally thought associated the problem, also
-appears in the dmesg output for working kernel versions.
-
-For example, 6.17.4 (working):
-
-[    6.602684] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.612716] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.634430] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.639137] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-
-6.17.5 (working):
-
-[    6.468886] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.473641] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.479753] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-[    6.492847] amdgpu 0000:c3:00.0: amdgpu: [drm] DMUB HPD RX IRQ callback:
-link_index=3D5
-
-The following may or may not be relevant, but here's something that appears
-only in problematic versions, and is missing from working versions:
-
-6.17.6:
-
-[   18.911013] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6935 (=
-idx
-101 out of bounds)
-[   18.986136] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 7015 (=
-idx
-101 out of bounds)
-[   19.061037] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 7095 (=
-idx
-101 out of bounds)
-[   20.562028] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6435 (=
-idx
-101 out of bounds)
-
-6.17.12:
-
-[   34.459370] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6455 (=
-idx
-101 out of bounds)
-[   34.534471] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6535 (=
-idx
-101 out of bounds)
-[   34.609497] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6615 (=
-idx
-101 out of bounds)
-[   34.684571] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 6695 (=
-idx
-101 out of bounds)
-
-6.18.2:
-
-[   14.236205] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 5180 (=
-idx
-101 out of bounds)
-[   14.391215] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 5200 (=
-idx
-101 out of bounds)
-[   14.546169] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 5220 (=
-idx
-101 out of bounds)
-[   14.700826] ath12k_pci 0000:c2:00.0: chan info: invalid frequency 5240 (=
-idx
-101 out of bounds)
-
-In working versions, ath12k_pci logging terminates with the following:
-
-6.17.1:
-
-[   38.914023] ath12k_pci 0000:c2:00.0: failed to enqueue rx buf: -28
-
-6.17.4:
-
-[   37.071153] ath12k_pci 0000:c2:00.0: failed to enqueue rx buf: -28
-
-6.17.5:
-
-[    6.586797] ath12k_pci 0000:c2:00.0: failed to enqueue rx buf: -28
+Interestingly, the ath12k driver also starts throwing an "invalid ACPI DSM =
+TAS
+config size" error in this same version. It feels like 6.17.6 changed somet=
+hing
+fundamental about how ACPI or PCI resource arbitration is handled, and now =
+it's
+just choking out the I/O space that the Thunderbolt subsystem needs to
+function.
 
 --=20
 You may reply to this email to add a comment.
