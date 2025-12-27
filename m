@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22FCCDF866
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 12:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6BCCDF86F
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 12:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A6610E61A;
-	Sat, 27 Dec 2025 11:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B627B10E270;
+	Sat, 27 Dec 2025 11:09:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lsie1DXZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6FF10E61A;
- Sat, 27 Dec 2025 11:06:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399A110E270
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 11:09:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3258343EB0;
- Sat, 27 Dec 2025 11:06:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C27CC4CEF1;
- Sat, 27 Dec 2025 11:06:36 +0000 (UTC)
-Date: Sat, 27 Dec 2025 12:06:34 +0100
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ by sea.source.kernel.org (Postfix) with ESMTP id D086944267;
+ Sat, 27 Dec 2025 11:09:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3CFC4CEF1;
+ Sat, 27 Dec 2025 11:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766833740;
+ bh=8hBszxXVdm/Dk0txNhipsHcV7UwFW+dyq7Nqm04kZkM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lsie1DXZczYyLYr2ib7sbI+8evcaDfKod6DUdAfTYEo53baGzb5dwqyeYhKQ/e6SP
+ Viv7v/REvqSD5610UuQTMr1HnFm+hqQD7IFQLPElDr74vyG4kez5zvcwEfL2GFXjQZ
+ Mil2UhTYN4cYNut5lTP+FagNRuFrDA3CM+04fZjNZS0bILAW+hXizBejj01C8Anhkp
+ ORQTIGD7gaq4V1Uujhv6rC4wqIeP22SinwMmbEXA8RxLumETLxrgAAEoRJWwz3KffX
+ CJFuZHQLo5fAtD41V67N0tAUmF6JR0psWh7R2FXcrrV1WVGjOA50tZbDLCpVXg9W88
+ 7GeBU+7qdJagQ==
+Date: Sat, 27 Dec 2025 12:08:58 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Han Gao (Revy)" <rabenda.cn@gmail.com>
+Cc: Icenowy Zheng <zhengxingda@iscas.ac.cn>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
- Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Jie Zhang <jie.zhang@oss.qualcomm.com>
-Subject: Re: [PATCH v5 2/8] dt-bindings: display/msm: gpu: Simplify
- conditional schema logic
-Message-ID: <20251227-invaluable-micro-snail-e5bf8c@quoll>
-References: <20251226-qcs615-spin-2-v5-0-354d86460ccb@oss.qualcomm.com>
- <20251226-qcs615-spin-2-v5-2-354d86460ccb@oss.qualcomm.com>
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH v4 2/9] dt-bindings: display: add verisilicon,dc
+Message-ID: <20251227-tacky-corgi-of-inspiration-afffe6@quoll>
+References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
+ <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
+ <FBE5FD78-D7E8-4961-BF13-9BDA0F840548@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251226-qcs615-spin-2-v5-2-354d86460ccb@oss.qualcomm.com>
+In-Reply-To: <FBE5FD78-D7E8-4961-BF13-9BDA0F840548@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,23 +75,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 26, 2025 at 11:59:35PM +0530, Akhil P Oommen wrote:
-> JSON Schema conditionals can become complex and error-prone when combined
-> with regex patterns. To improve readability and maintainability, replace
-> nested if-else blocks with a flattened structure using explicit enums.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/display/msm/gpu.yaml       | 56 ++++++++++++++--------
->  1 file changed, 36 insertions(+), 20 deletions(-)
+On Thu, Dec 25, 2025 at 05:35:34PM +0800, Han Gao (Revy) wrote:
+ > +
+> > +            dpu_out_dp1: endpoint@1 {
+> > +              reg = <1>;
+> > +              remote-endpoint = <&hdmi_in>;
+> > +            };
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> > -- 
+> > 2.52.0
+> > 
+> Tested-by: Han Gao <gaohan@iscas.ac.cn <mailto:gaohan@iscas.ac.cn>>
 
-BTW, this will conflict with my series sent now:
-20251227110504.36732-3-krzysztof.kozlowski@oss.qualcomm.com
+No, really, how?
 
-so if my patch gets in earlier, you need to rebase in
-non-blind/non-obvious way.
+Please explain me how can you test a binding (and build process is not
+testing, otherwise we all should keep getting tested-by, especially
+Rob!)
 
-Best regards,
-Krzysztof
+I don't agree on fake tags.
 
