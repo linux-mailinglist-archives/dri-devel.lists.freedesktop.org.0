@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED28CDFD8A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 15:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04BFCDFDE5
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 15:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7AC10E2D2;
-	Sat, 27 Dec 2025 14:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF59010E6A1;
+	Sat, 27 Dec 2025 14:45:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MLxcEBp4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JZdouA6y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBDD10E2D2
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 14:25:13 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-b713c7096f9so1236196966b.3
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 06:25:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766845512; x=1767450312; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J3Wwr64QQ2SpOhKfSDoML0fOFqI1wTu0FLnX32HL/bM=;
- b=MLxcEBp49Ff3xaOmvTXc7Oq02IaDwtsSrIcloPrduM+tsJrkSQDcxE3smpmgfVD7lp
- Jq08dbDs3DMN09H43DQBIaII4tYuh8aXzDP/DWH5mc7/c34kRp6A7TbRYquvFszoF6Ws
- twIv/qwLVz3nxLNhwZHHgK2VBw0eupcUVmtBN0WF6oOxuCce6FjIlgOU4c18V7DsQBLx
- jRL6iMnCwuXrwTKDyPWoB1dKMgnt6p2ofVGveuNX/6+Ri8+E3OKMbZQbHZWBdzaAJ3Fi
- XTOOn10Qc2AwXhgzxcgqeShHRDk6cts3NT+TyH6UA43U1V+BKaC3MDS9z3CmY5EF3gWm
- Rw5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766845512; x=1767450312;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=J3Wwr64QQ2SpOhKfSDoML0fOFqI1wTu0FLnX32HL/bM=;
- b=cDtqUhyNL5NgZz8LMLcXW3Pck6N2bAHy45Xtm37Gnw52F4KvTTsEq5LfPdLNBl+lcA
- 4onAb4QfU5ig2PFH2xAbYfX61Ekp1sTDro5mqsXAo6csUOSHskOZz//jbsnCYPPColYT
- JZfkZzOrLi0qwqS0KUkxkmXGwlAtVxAuYrR5oXQVsiIAyUN4aRur3JT6bUWmNYwFofBs
- se6t731q0Lv++B3+BtOxUxuklmKMpo+Yhc1s2jiuQgzgx1jya87F61HdA7hb1ie5iGJs
- sXnRwgD7mowJ+pqgwCLiGVppNAXkWRi44PFZME1B8HDwbCkjqlnBj4DkwYv4IOWQ94Bn
- Msng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxjZClws5huDlAir7YyFgvLoUwZ5OtK+qdUrab3/xA9pXLBGNd5G713mt5qFIJ32HjWz/wwuKvVO4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4C5oCEnRQZH52tox13tR4rt9vrvRcWeaxtP2RuTBwSbgJeIz3
- C9w1R4Fmyl3Gr92ifgtuUWQXdK41x8MGM9aP5hC6uDQBNQsVN6Z8ImxZMe/Zl6qnAzphYlYFdIJ
- fpYJ1/O7TqWz/1oYFk/1tzc+ReQDP/io=
-X-Gm-Gg: AY/fxX4mYYP2rkWuKmBzCSh6ipCDlFx19hay6xiMLXr/4PsNs4l/XeKvfFEO3uRdvVx
- F7thPGOghVogeWUhwqPvcBleUHn63UkuQHFfjk7XBuTfVBfocQroVdAzK2rWiep8/cqv2SX1QjG
- SHYYQochhigqcva0p3PD/B9Hf4zdtXyicg2UcJ0nYfBDMcBmQYYdO+yLrki50ZeHR4KGtwxBF14
- l55gziRI131G/VEWyZGjLr/W0fDcry+IGw9Ybb/Oq7mgnjcU8oSry4R7poOw24nm60nez9eV+pX
- p2Ecov78LDeVB7bhSdA+VpQSLfl5TJThHHuZVHtv7MZP11RqB9TMF0CaYbLep9w4rRa8Wvo=
-X-Google-Smtp-Source: AGHT+IFX0lsgc4AotttgNOJdIQxVyJ6emc4QU5YPq31MHVjjCSjesmYFWIps47Gzc9uXozCoxrNAzwJrn4uIVEmnK7o=
-X-Received: by 2002:a17:907:3faa:b0:b79:fcc9:b00d with SMTP id
- a640c23a62f3a-b80371f353bmr3038598866b.59.1766845511630; Sat, 27 Dec 2025
- 06:25:11 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D5C10E6A1;
+ Sat, 27 Dec 2025 14:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1766846755; x=1798382755;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ozcx0gKLWqYdPO0l3hd3hB0x6/DN+2pZQgLoQ7CvLVY=;
+ b=JZdouA6y8DxCv8WAuYgrBYMVcyXx8nA83JODT4FyCP3IZvlNBLekZ+UQ
+ iWMrV2DWWtznZEF89yNt3HMfuQCGGCTZ12IYn5rsNJRrzfnwsmXndZOPL
+ 9g6VVY6TAh4xpR1+/Dpu2jXSbwKMt8E9uiJUsAAjSmRy2l6y5GQXPhuPm
+ fjZDpbF7VEjI9+UsfEDPttjhW7Cnb4RFwOfCxJEAA/groM7iswdbY556u
+ Wdz6q3tapxxkcSdwwseQIpWemmaLGYzO6tvUKLgSlUAc8G3Hq31QMDoQ3
+ FRvaoUvfmCkMaDsaYZMycihtsYaeR1sLtnErJdCp7nvziFLhtKRplcaPB g==;
+X-CSE-ConnectionGUID: 1y29sNQoTUWnAmHk9VLYwQ==
+X-CSE-MsgGUID: 0rgA6eY8Q0WT9+Xfv165LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="71128654"
+X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; d="scan'208";a="71128654"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Dec 2025 06:45:55 -0800
+X-CSE-ConnectionGUID: FC2sVHjDQVaxTJuz2GjCZQ==
+X-CSE-MsgGUID: Og0tXdcbQZWsd846IPkl+w==
+X-ExtLoop1: 1
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.211])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Dec 2025 06:45:50 -0800
+Date: Sat, 27 Dec 2025 16:45:47 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+Message-ID: <aU_xG7pK9iauff65@smile.fi.intel.com>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
 MIME-Version: 1.0
-References: <20251219054320.447281-1-chintanlike@gmail.com>
-In-Reply-To: <20251219054320.447281-1-chintanlike@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 27 Dec 2025 16:24:35 +0200
-X-Gm-Features: AQt7F2qk4lZCeAfQafLC_2U29jnpMMyMdVKvtqDPeHxqHBPfiIH3Qwz7nSdnytw
-Message-ID: <CAHp75VeiD518W13KU+vn1yykfw1pXA8Z9Co7t5bXbB+KhCtqPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org, 
- deller@gmx.de, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251226115848.298465d4@gandalf.local.home>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,23 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 19, 2025 at 7:43=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
-m> wrote:
->
-> This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
-> it only for sysfs interfaces, addressing Thomas Zimmermann=E2=80=99s TODO=
- to
-> remove hard FB_DEVICE dependencies.
->
-> The series introduces a small helper, dev_of_fbinfo(), which returns
-> NULL when CONFIG_FB_DEVICE=3Dn. This allows sysfs code paths to be skippe=
-d
-> via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
-> full compile-time syntax checking.
+On Fri, Dec 26, 2025 at 11:58:48AM -0500, Steven Rostedt wrote:
+> On Thu, 25 Dec 2025 12:09:29 -0500
+> "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> 
+> > The trace_printk.h header is debugging-only by nature, but now it's
+> > included by almost every compilation unit via kernel.h.
+> > 
+> > Removing trace_printk.h saves 1.5-2% of compilation time on my
+> > Ubuntu-derived x86_64/localyesconfig.
+> > 
+> > There's ~30 files in the codebase, requiring trace_printk.h for
+> > non-debugging reasons: mostly to disable tracing on panic or under
+> > similar conditions. Include the header for those explicitly.
+> > 
+> > This implicitly decouples linux/kernel.h and linux/instruction_pointer.h
+> > as well, because it has been isolated to trace_printk.h early in the
+> > series.
+> > 
+> > Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+> 
+> I'm still against this patch. It means every time someone adds
+> trace_printk() they need to add the header for it.
+> 
+> trace_printk() should be as available to the kernel as printk() is. If
+> there's a place that one can add printk() without adding a header, then
+> they should be able to add trace_printk() to that same location without
+> adding any header. If that's not the case, then I'm adding an official
+> 
+>  Nacked-by: Steven Rostedt <rostedt@goodmis.org>
+> 
+> I'm fine for trying other ways to speed up the compilation, but removing
+> full access to trace_printk() isn't one of them.
 
-Please, address my comments and I give a tag for v3. I pretty much
-like the series, thanks!
+I interpreted this as if the header inclusion should be moved from kernel.h
+to printk.h as a compromise that satisfies all (?) stakeholders. Is it possible
+approach?
 
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
