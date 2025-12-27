@@ -2,77 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C3BCDF1FB
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 00:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE07CDF838
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 11:54:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4EF1126F3;
-	Fri, 26 Dec 2025 23:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4251B10E180;
+	Sat, 27 Dec 2025 10:54:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AUgVCKsb";
+	dkim=pass (2048-bit key; unprotected) header.d=pobox.com header.i=@pobox.com header.b="Zg0+jlGm";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q8StG5Kj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD421126D6
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 22:36:00 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id
- ffacd0b85a97d-42fbbc3df8fso3754374f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Dec 2025 14:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766788559; x=1767393359; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zLxrfZdyjDR6B5udEzsNrJMX0E0uwP4R+afqeEvo8J0=;
- b=AUgVCKsb5871+Y8vXda2fUQyjeLEG43FAveTOfH8QPp+0AyVfZRdPbV8+sU7+ko6dU
- StLE5Q8ZOHuPEOhgmQLzyZetsjLWdWIvzVxC+cpiHfEnMnb0yjwWG6HXNqD/hUKkpQdD
- nCgOEbPXRpMC6Vyegn7JzdmoK4GU2GD4LunaWu1BSP0j12ImEPjXKNjIb+jOPy0FcxTq
- zjnHiaIcY0cPTNyIrQi2KaPwHlxX7r6tHCHfM7XsfbjS0CFcyl9Lgo1/94nVffRcQlQ7
- P9w7ZIwDmPRiAKZJc2LhZLMyGWc8rQG/0W1PCItqWisGW4jNQmEX5JIW1dQ/A0iqaTG3
- N0WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766788559; x=1767393359;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zLxrfZdyjDR6B5udEzsNrJMX0E0uwP4R+afqeEvo8J0=;
- b=JOywzw+ZczFeY5CGQlxxHTbcIehMJ1eL7fftLf/SnkPLRF8zViIgvIZwJnxU+423lC
- 47zuxx8Z/oh6Xvp1MfCefoB+YN5kqQHl+RgWyoEb4uTlBZMbzxP9wT3LtVXelGwzoni/
- jo2tmBisl5pJmpcs5hJ/c9WvLaHqf1BHWflzE5jVOgHn/Xcs46qxMp8kzErgx0Cnmy/0
- lvXGSBb22mnSoiqZKT8hraZxOsFPiOwanpycDXP9eYnGi/TA1s+ZP/Xy8kkQ+1ljkrYz
- qvmn9oIqGh8C5lUxIadZdc6Fd7L+qrawei3jZsIY4ryILVrtPNLvVat8zPx6wTl1ML4g
- 2/wA==
-X-Gm-Message-State: AOJu0YzxgGatD1GWf4sEiINSv4D3cpyEH2cjlRcAvp6g7JYDS+FdEDO8
- uVeV9E+t3IOTc8N6ec9RRMC37k1qdrjVqh+7fbkcU74m9PlpXpt7tcZ1
-X-Gm-Gg: AY/fxX6ylRlFpVR7Z3Bh4oY9KDYIGzLEJzOb1JUrabaK80IgE7gAivQDf+oGhefo29W
- LcaEHgNHC0U/FIOgnAOt3cycvvw2jAm8H9SoCSUyj+fmes2zDFhASBODPhxj3eLkhlui4Q3tLuO
- NT1C9uQrCbBTgna4U/9z4MUKgdBeBHJh7/IjExTqGvqgyJFiLcAJd5yDUe8pi2SqCNuffcYoUnh
- sgjrOAw/FCiXshahO76hp9ZhT/q6mZ0TorX/bX50+BxfzmxVmY3IIYU1LGVyn0gyNhfVcPEzk7H
- Zlz9s4lsCs3B4fBzHf/nxFeb3VN1itLhMuygqIDpWfsqfNiwDFQxlxWGjVwnOfL4LTh7JG5vzzf
- mb6fLxA59xo+QvqjfwXmazEzeRe0vZF/vtiLOlcSaonETNKBEc97q43wat8qtcE48oMNi/0grWE
- sfI9Vs9EYlVzUWIbh7
-X-Google-Smtp-Source: AGHT+IGKTqkkqTV3cV67h5L0E8qKuzMoDvpHZFPuZf5QCka9zfA9RceZQ7Pqv7r6sJj1b6X+txm59g==
-X-Received: by 2002:a05:6000:26d0:b0:430:fd84:3175 with SMTP id
- ffacd0b85a97d-4324e503ec6mr29281045f8f.38.1766788559059; 
- Fri, 26 Dec 2025 14:35:59 -0800 (PST)
-Received: from Arch-Spectre.home ([92.19.101.73])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4324ea1b36fsm47400181f8f.5.2025.12.26.14.35.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Dec 2025 14:35:58 -0800 (PST)
-From: Yicong Hui <yiconghui@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Yicong Hui <yiconghui@gmail.com>
-Subject: [PATCH] drm/gpusvm: Fix documentation build errors by updating names
-Date: Fri, 26 Dec 2025 22:36:14 +0000
-Message-ID: <20251226223614.1263014-1-yiconghui@gmail.com>
-X-Mailer: git-send-email 2.52.0
+X-Greylist: delayed 415 seconds by postgrey-1.36 at gabe;
+ Sat, 27 Dec 2025 02:11:05 UTC
+Received: from fout-b8-smtp.messagingengine.com
+ (fout-b8-smtp.messagingengine.com [202.12.124.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 792E411ACF2
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 02:11:05 +0000 (UTC)
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+ by mailfout.stl.internal (Postfix) with ESMTP id AF7651D0008B;
+ Fri, 26 Dec 2025 21:04:08 -0500 (EST)
+Received: from phl-frontend-01 ([10.202.2.160])
+ by phl-compute-07.internal (MEProxy); Fri, 26 Dec 2025 21:04:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pobox.com; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1766801048;
+ x=1766887448; bh=tgzq7aqIelvxwGVA4/Ncej1leWSQ/WYlMocARO/cjnY=; b=
+ Zg0+jlGmb+IivWheP1XggnMrWvlMxgVYjmVwTJxjEYLxN1qHliHaZe4kYu8uXc6s
+ 7A800l+/hJ4Zl27mW3PjpPLlETrtl/tCUO7XCx2/W71Rxl6Sj1GyHvxfA6r9D5dR
+ LQtdiMBgb1haaa9eeQjnbZpH+IAYBeIyzyP1toyxDtnFS9+f/04aJ2o0hTRGf1q7
+ BIKZ9ju/OYntxAvkX+vWzNQmc0dDmGIJEUl4Lo4H7huAu1sN0ItYN5po+FhiMls/
+ bCv0K31EY7NCsUbTHJWgHX7NMm4WsrU+LV53MkNuI2KxzK+8d7aMXLY/rkRTLbKO
+ mYPpS7F0Ttlg8N9zi9ZEhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766801048; x=
+ 1766887448; bh=tgzq7aqIelvxwGVA4/Ncej1leWSQ/WYlMocARO/cjnY=; b=Q
+ 8StG5Kj3CgKGHEktXv9WnwH1O6E8T5r7pfhplXpQUL+dl6d0/BEqjfRnakExfZOs
+ J2aQpZKKO2pzGR3lJYEGeu/v0M+qU0bH1d22A7PIjERBrU0OcIC8mXhJW8JP9cYV
+ DNyWrur6PT5cvgc+T8g5Ask7r69LqkpS9SyndhZCia9Otgq6h7oloP6V8eC5Qwfq
+ 1xwYB5JO0ytv3Wz75m7KVxBlB2mw7W3CL9PkscOp2vehVVp3V8aDQZ+3Ghz/WnkD
+ dSBJ1vJBHoKhZ1xdwQoGXZCgPHXsHKT+wgEW9NOgHbpX+xqESeXMMKSOpnv8IWJI
+ vPsseHDnDpyl5iqzTMbcA==
+X-ME-Sender: <xms:lj5PaaTU0rNbH1iIaF3f9KWZV19w_Vutlu3aAbQFej_mBtmQtvuf5A>
+ <xme:lj5PaQtgOHdi4nIb6_GIXA0E-xmZy34xq9ym0jofFDOtV6HKCUJQYkksGYg1Qtuhg
+ yRFZTpSa_mlctqQ1x12TJPunbtgnfG7sH2qsubOl_9r0LHkaafyqKw>
+X-ME-Received: <xmr:lj5PaYLMG1w9LyDDjeNebN71_D76T-sx3KH9O5Y_u7zxwiG5KLy5VFQPx_Fbe3TCLivGMOaTwF7swYsvz4-DkKs-KgTsVpP3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdejtddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefkffggfgfhuffvvehfjggtgfesthejredttddvjeenucfhrhhomhepfdeurghrrhih
+ ucfmrdcupfgrthhhrghnfdcuoegsrghrrhihnhesphhosghogidrtghomheqnecuggftrf
+ grthhtvghrnhepjeehveeitdevteeujeekjeffudeifeffledttdejudetieejudefleei
+ uedtheejnecuffhomhgrihhnpehshiiikhgrlhhlvghrrdgrphhpshhpohhtrdgtohhmpd
+ hkvghrnhgvlhdrohhrghdpvdegjedrrghtnecuvehluhhsthgvrhfuihiivgeptdenucfr
+ rghrrghmpehmrghilhhfrhhomhepsggrrhhrhihnsehpohgsohigrdgtohhmpdhnsggprh
+ gtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhtsegrlhht
+ lhhinhhugidrohhrghdprhgtphhtthhopehjuhhnjhhivgdrtggrohesihhnthgvlhdrtg
+ homhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthht
+ ohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
+ ephigvphgvihhlihhnrdgtshesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgv
+ lhdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopehshihoshhhihgurgesrh
+ gvughhrghtrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgt
+ phhtthhopeguvghllhgvrhesghhmgidruggv
+X-ME-Proxy: <xmx:lj5PaUep7CLwjJ_LPx_zSW8J5idb52cIHVaXuaQahgqRh1ZNvzoPbQ>
+ <xmx:lj5PaaV_Q9hbxhSGyiFWk6mZMBI9FVVSAz1Urys5NQX5vv8BjAu9JQ>
+ <xmx:lj5PaShWzMS41iQaD1n8gir5HiMgkA5s5BVMoXoMIBqPaMVZ_v0WCA>
+ <xmx:lj5PaUg7KkBD5lwcmjP8Bh_21WER4eCSnNccdNFanbWxug4_6RTwyA>
+ <xmx:mD5PaYQbvyaLqNGZLULMgroHBRYQlHvYCd2nIONj2Vwr4eLnNV9N_O65>
+Feedback-ID: i6289494f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Dec 2025 21:04:05 -0500 (EST)
+Message-ID: <ccbbf777-cf4e-4c66-856e-282dd9d61970@pobox.com>
+Date: Fri, 26 Dec 2025 18:04:04 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 26 Dec 2025 23:46:51 +0000
+User-Agent: Mozilla Thunderbird
+From: "Barry K. Nathan" <barryn@pobox.com>
+Subject: Re: [PATCH v2] fbdev: bitblit: bound-check glyph index in bit_putcs*
+To: Vitaly Chikunov <vt@altlinux.org>, Junjie Cao <junjie.cao@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peilin Ye <yepeilin.cs@gmail.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Shigeru Yoshida <syoshida@redhat.com>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Zsolt Kajtar <soci@c64.rulez.org>,
+ Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ regressions@lists.linux.dev
+References: <20251020134701.84082-1-junjie.cao@intel.com>
+ <aU23brU4lZqIkw4Z@altlinux.org> <aU58SeZZPxScVPad@altlinux.org>
+Content-Language: en-US
+In-Reply-To: <aU58SeZZPxScVPad@altlinux.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sat, 27 Dec 2025 10:54:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,34 +116,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the two following documentation build errors which were introduced
-when drivers/gpu/drm/drm_gpusvm.c was refactored but when updating the
-corresponding documentation, the variable and function names were not
-also updated as well.
+On 12/26/25 4:21 AM, Vitaly Chikunov wrote:
+> Dear linux-fbdev, stable,
+> 
+> On Fri, Dec 26, 2025 at 01:29:13AM +0300, Vitaly Chikunov wrote:
+>>
+>> On Mon, Oct 20, 2025 at 09:47:01PM +0800, Junjie Cao wrote:
+>>> bit_putcs_aligned()/unaligned() derived the glyph pointer from the
+>>> character value masked by 0xff/0x1ff, which may exceed the actual font's
+>>> glyph count and read past the end of the built-in font array.
+>>> Clamp the index to the actual glyph count before computing the address.
+>>>
+>>> This fixes a global out-of-bounds read reported by syzbot.
+>>>
+>>> Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+>>> Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+>>> Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+>>> Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+>>
+>> This commit is applied to v5.10.247 and causes a regression: when
+>> switching VT with ctrl-alt-f2 the screen is blank or completely filled
+>> with angle characters, then new text is not appearing (or not visible).
+>>
+>> This commit is found with git bisect from v5.10.246 to v5.10.247:
+>>
+>>    0998a6cb232674408a03e8561dc15aa266b2f53b is the first bad commit
+>>    commit 0998a6cb232674408a03e8561dc15aa266b2f53b
+>>    Author:     Junjie Cao <junjie.cao@intel.com>
+>>    AuthorDate: 2025-10-20 21:47:01 +0800
+>>    Commit:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>    CommitDate: 2025-12-07 06:08:07 +0900
+>>
+>>        fbdev: bitblit: bound-check glyph index in bit_putcs*
+>>
+>>        commit 18c4ef4e765a798b47980555ed665d78b71aeadf upstream.
+>>
+>>        bit_putcs_aligned()/unaligned() derived the glyph pointer from the
+>>        character value masked by 0xff/0x1ff, which may exceed the actual font's
+>>        glyph count and read past the end of the built-in font array.
+>>        Clamp the index to the actual glyph count before computing the address.
+>>
+>>        This fixes a global out-of-bounds read reported by syzbot.
+>>
+>>        Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+>>        Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+>>        Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+>>        Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+>>        Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>        Signed-off-by: Helge Deller <deller@gmx.de>
+>>        Cc: stable@vger.kernel.org
+>>        Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>
+>>     drivers/video/fbdev/core/bitblit.c | 16 ++++++++++++----
+>>     1 file changed, 12 insertions(+), 4 deletions(-)
+>>
+>> The minimal reproducer in cli, after kernel is booted:
+>>
+>>    date >/dev/tty2; chvt 2
+>>
+>> and the date does not appear.
+>>
+>> Thanks,
+>>
+>> #regzbot introduced: 0998a6cb232674408a03e8561dc15aa266b2f53b
+>>
+>>> ---
+>>> v1: https://lore.kernel.org/linux-fbdev/5d237d1a-a528-4205-a4d8-71709134f1e1@suse.de/
+>>> v1 -> v2:
+>>>   - Fix indentation and add blank line after declarations with the .pl helper
+>>>   - No functional changes
+>>>
+>>>   drivers/video/fbdev/core/bitblit.c | 16 ++++++++++++----
+>>>   1 file changed, 12 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+>>> index 9d2e59796c3e..085ffb44c51a 100644
+>>> --- a/drivers/video/fbdev/core/bitblit.c
+>>> +++ b/drivers/video/fbdev/core/bitblit.c
+>>> @@ -79,12 +79,16 @@ static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
+>>>   				     struct fb_image *image, u8 *buf, u8 *dst)
+>>>   {
+>>>   	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
+>>> +	unsigned int charcnt = vc->vc_font.charcount;
+> 
+> Perhaps, vc->vc_font.charcount (which is relied upon in the following
+> comparison) is not always set correctly in v5.10.247. At least two
+> commits that set vc_font.charcount are missing from v5.10.247:
+> 
+>    a1ac250a82a5 ("fbcon: Avoid using FNTCHARCNT() and hard-coded built-in font charcount")
+>    a5a923038d70 ("fbdev: fbcon: Properly revert changes when vc_resize() failed")
+> 
+> Thanks,
 
-WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 function parameter 'svm_pages' not described in 'drm_gpusvm_pages_valid_unlocked'
-WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 expecting prototype for drm_gpusvm_range_pages_valid_unlocked(). Prototype was for drm_gpusvm_pages_valid_unlocked() instead
-Signed-off-by: Yicong Hui <yiconghui@gmail.com>
----
- drivers/gpu/drm/drm_gpusvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I was just about to report this.
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index 73e550c8ff8c..b099b4d0a2ec 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -1216,9 +1216,9 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
- EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
- 
- /**
-- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
-+ * drm_gpusvm_pages_valid_unlocked() - GPU SVM range pages valid unlocked
-  * @gpusvm: Pointer to the GPU SVM structure
-- * @range: Pointer to the GPU SVM range structure
-+ * @svm_pages: Pointer to the GPU SVM pages structure
-  *
-  * This function determines if a GPU SVM range pages are valid. Expected be
-  * called without holding gpusvm->notifier_lock.
+I found two ways to fix this bug. One is to revert this patch; the other 
+is to apply the following 3 patches, which are already present in 5.11 
+and later:
+
+7a089ec7d77fe7d50f6bb7b178fa25eec9fd822b
+     console: Delete unused con_font_copy() callback implementations
+
+4ee573086bd88ff3060dda07873bf755d332e9ba
+     Fonts: Add charcount field to font_desc
+
+a1ac250a82a5e97db71f14101ff7468291a6aaef
+     fbcon: Avoid using FNTCHARCNT() and hard-coded built-in font
+     charcount
+
+(Oh, by the way, this same regression also affects 5.4.302, and the same 
+3 patches fix the regression on 5.4 as well, once you manually fix merge 
+conflicts. Maybe it would be better to backport other additional commits 
+instead of fixing the merge conflicts manually, but since 5.4 is now EOL 
+I didn't dig that deep.)
+
+Once these 3 patches are applied, I wonder if a5a923038d70 now becomes 
+necessary for 5.10.y. For what it's worth, it applies fine and the 
+resulting kernel seems to run OK in brief testing.
+
 -- 
-2.52.0
-
+-Barry K. Nathan  <barryn@pobox.com>
