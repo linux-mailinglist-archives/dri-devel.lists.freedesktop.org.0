@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECD3CE0171
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 20:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64372CE0174
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 20:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD6F10ED85;
-	Sat, 27 Dec 2025 19:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C603F10EEDF;
+	Sat, 27 Dec 2025 19:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nIgXJL8M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b3+RVgHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D937810ED85
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:29:48 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 313E210EEDF
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:30:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0825960010
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:29:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B3F6EC4CEFB
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:29:47 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0C0FC40C1F
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:30:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E1DC4C4CEFB
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766863787;
- bh=cdNrsEfvVkbaRJTMHsjNJasoLlkmJ6UIL8bkiRvVX6s=;
+ s=k20201202; t=1766863816;
+ bh=c95/Hul1oJqAzDwkJA2T7Q4DaT4AxBGYSVtFjyEiSzI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nIgXJL8MjoocSYVIlBvLBcMd6rRy36zmRdkGWAazRP/3ybGnAFTysvAvfM8pRZLEE
- +eC+IgMbmw7mjNEc2dK3LFvwfk+OtFzBozRgGGOYk7ejXYfF7IkX1n6Y2iKKOnfkJb
- Rm4WmGtuXXTa6heW1ZR7s97bdhCyqJhMuKzY11yqWHdH9uxuKhRy3smD4CENOc+EhL
- BirL/qCXM6Lj2GMqmplZoH1tnMxJkiQREQlYhnH1T9dCefeMNkGaynY0m6CKKIFtf3
- ktyk8iJBsbtD+RyzVeQeAgSXEXmDnopF/L6Vv7G3SPGXwywp1ofsF/JaYa0JLL9f/7
- dRTsJzLvyYYRw==
+ b=b3+RVgHPIAMBODFcoM/SpjugSLzhd8uGRzCIbsl+gxafaJAPeaWLZjlY7OoTHiY1D
+ nz/Ayw3CjlPIz5hIgOtJYwOaxqgdyaF2Z0jHfGjTCoo+0osKlL8ushAAQaxOT1dZSx
+ Ll7iMxFNLYuO0luWatHxJ8RBeYMWnSFtxHlwKLrPsa3uQmKPKdahypVBez1rC9BWc5
+ tYa6R95sMd3cZNkw+1ax5Y2EE1Ucjzye8F1HOCQlP5fChyPjVaBZHO3NeAMRrtOXXi
+ Gy8bVPY6xAiQc9V6ivuPoa12nIfRHr2JvIdCERurRuAihzlimVKS9b7KJiWivFUUkm
+ ZpxOvbWJkPgwg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AE2D4C41614; Sat, 27 Dec 2025 19:29:47 +0000 (UTC)
+ from userid 48) id D6FD2C41614; Sat, 27 Dec 2025 19:30:16 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
  Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Sat, 27 Dec 2025 19:29:47 +0000
+Date: Sat, 27 Dec 2025 19:30:16 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +52,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-220906-2300-FsTlRcMSto@https.bugzilla.kernel.org/>
+Message-ID: <bug-220906-2300-mmHj5qKRkS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
 References: <bug-220906-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
 
---- Comment #4 from Andrei (danandrei@gmail.com) ---
-Created attachment 309089
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309089&action=3Dedit
-dmesg_6.17.5-300.fc43.x86_64
+--- Comment #5 from Andrei (danandrei@gmail.com) ---
+Created attachment 309090
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309090&action=3Dedit
+dmesg_6.17.6-300.fc43.x86_64
 
 --=20
 You may reply to this email to add a comment.
