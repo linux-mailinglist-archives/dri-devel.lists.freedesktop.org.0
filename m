@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF28CDF87A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 12:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156B7CDF89F
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 12:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4E210E30F;
-	Sat, 27 Dec 2025 11:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F62E10E5D7;
+	Sat, 27 Dec 2025 11:13:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g7TIhrpI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kgEROTIV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5937B10E30F
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 11:09:33 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E825B10E549;
+ Sat, 27 Dec 2025 11:13:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2192441986;
- Sat, 27 Dec 2025 11:09:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E2E0C4CEF1;
- Sat, 27 Dec 2025 11:09:32 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 2260A6000A;
+ Sat, 27 Dec 2025 11:13:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49BE4C4CEF1;
+ Sat, 27 Dec 2025 11:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766833773;
- bh=JbOZLdmbqKiIXGK3unBmKB2Pa3tI/97z6pwAtInxolY=;
+ s=k20201202; t=1766833996;
+ bh=/MjssVrvX9CHLhuDFc+A3P/Ke3FSefMxQfbPdX0ryF4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g7TIhrpI/J7VeLmIj6OuxDyfWwcsMU+tMtYqEfIU2d2WtnJ3uYsB9H+Ugl20FqGe8
- AyfZxubngGH/GhcPbT+momXUlfYPO+lbfmPJ4WOjJp0FxKngGWdiZNQ4TZAcybyzEM
- L87cI3C6mX6nAL0J63zka6I1ONBKTqsovMufIHXmnp5t225uXgtyAkpl0tWf6/n1gd
- qzxJcDJNTnQKhUzCtOdjGubLGwXg//yuO3ASOiyoEFl4NBta6fkoJOTiq9sudsU7Ce
- qjp5/3G8AwY8vd2VK/q4FEhCvNg4Vn1p3jfEAjEVaWEYFiDW/MuAGTaodaLP98TDNA
- SY7hDI8G1vvww==
-Date: Sat, 27 Dec 2025 12:09:30 +0100
+ b=kgEROTIV5EPkII/T4M0ZmNq/tGPPe9Sa77Ycy84xKYddUqBUzfC0zcW5HjEwePCet
+ rwyWq6du85hxrrlZiZdtLZyfADgN+mqveqS0XM4wutX0bKsfCKnIBLCHrmTo0jCIUM
+ sJXVnq9KJxDnpbQ0RpNWt5+m4CpCcUhN90g4kvlERpQmChFIMKSyInxTm6kUmTJN5g
+ l1JAcaKg0EiOdM2DTpc5NSYCvzyiJ5tH/EvU+OlD3l2KZNB1lVXM855soYDNNT2ZQB
+ 6WC8Yr2DJkFY9a7dvM58PIlYkmgOUYs5neFBpODCnvVH7Qk8MUJj445HKi8RyKlJ7+
+ sgUsIFP5WBqzA==
+Date: Sat, 27 Dec 2025 12:13:14 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Han Gao (Revy)" <rabenda.cn@gmail.com>
-Cc: Icenowy Zheng <zhengxingda@iscas.ac.cn>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v4 2/9] dt-bindings: display: add verisilicon,dc
-Message-ID: <20251227-gigantic-handsome-falcon-3c31bf@quoll>
-References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
- <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
- <D5A173F1-D439-49FB-A4A0-B632550BF35B@gmail.com>
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ robdclark@gmail.com, dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, 
+ krzk+dt@kernel.org, konradybcio@kernel.org, conor+dt@kernel.org, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonathan@marek.ca, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, 
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com
+Subject: Re: [PATCH v4 1/5] dt-bindings: display: msm-dsi-phy-7nm: document
+ the QCS8300 DSI PHY
+Message-ID: <20251227-doberman-of-radical-variation-d30aaf@quoll>
+References: <20251225152134.2577701-1-quic_amakhija@quicinc.com>
+ <20251225152134.2577701-2-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <D5A173F1-D439-49FB-A4A0-B632550BF35B@gmail.com>
+In-Reply-To: <20251225152134.2577701-2-quic_amakhija@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,21 +68,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 25, 2025 at 05:45:00PM +0800, Han Gao (Revy) wrote:
-> > +            dpu_out_dp1: endpoint@1 {
-> > +              reg = <1>;
-> > +              remote-endpoint = <&hdmi_in>;
-> > +            };
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > -- 
-> > 2.52.0
-> > 
-> 
-> Tested-by: Han Gao <gaohan@iscas.ac.cn>
+On Thu, Dec 25, 2025 at 08:51:30PM +0530, Ayushi Makhija wrote:
+> The QCS8300 MDSS DSI PHY is the same 5nm PHY IP as on SA8775P, with
+> identical register layout and programming model. Model this by using
+> a QCS8300 specific compatible with a qcom,sa8775p-dsi-phy-5nm fallback,
+> and update the schema to require this two entry form for QCS8300 while
+> keeping existing single compatible users valid.
 
-NAK, not true. Otherwise explain me how can you test the bindings.
+Last sentence is redundant. I asked to explain the hardware, not to tell
+us how Devicetree works. Write concise and informative commit msgs which
+tell non-obvious things. Not what you did. I alreaded asked this - do
+not state the obvious, do not copy the subject.
 
+The only useful part of your commit msg is first sentence - two lines,
+so 33%. Remaining four lines, so 66%, is obvious.
+
+Best regards,
+Krzysztof
 
