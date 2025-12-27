@@ -2,101 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF581CDF9EA
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 13:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAEECDFD1C
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 15:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E25210E64F;
-	Sat, 27 Dec 2025 12:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E42710E032;
+	Sat, 27 Dec 2025 14:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u3zxpwsw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gn8IJMPg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E83DC10E089;
- Sat, 27 Dec 2025 12:19:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6B85542A3C;
- Sat, 27 Dec 2025 12:19:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64DF9C116B1;
- Sat, 27 Dec 2025 12:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766837968;
- bh=cFp5v77nWXnFUq18TJY/JSkoj5JH4F4f27FK7XhWWrU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=u3zxpwswBl2rNGKB5YGCFZBLJ/w4YFbeFPrUakZlNb1mERpXQkwcuvnC+X3ZGfDq/
- K17WZBeEFBa+GB6vRvMI265iYuQLKXZbvezAD+rMWurUIe7XrTqqWdM949ZWKOYQW9
- GtvP3Ne4gyQehmXY/6Fu5BAMjohBxz1UvFK1vII6Aer9pwSxV6cguPiqPUguc2LU0q
- eF9GXxSHuWnENYZfv6ELWQ4/CY7qCwk5WOHaw2YEKl0jMDA+pRxPuU/FrzO/mLTfWA
- k5DAjMhRGV75nXTl2PNLMBJ+UaX1hVIbVSsglGnwr5O6Kj0056d1ceXSzGAAjdW8mG
- ujOBZyolQkUOg==
-Message-ID: <a05dd7a2-268f-428a-b8e3-966a8849f94f@kernel.org>
-Date: Sat, 27 Dec 2025 13:19:21 +0100
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C0F10E032
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 14:16:00 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-b7ce5d6627dso1354083866b.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 06:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766844959; x=1767449759; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Qeew5kbRgKn77uDh8eaOpRmb++U6/kEJVcuYh9HUj70=;
+ b=gn8IJMPg3WE46tXpVFjxogmC95uvXWM14MNENrMtIwOnnPCFvz3utJS6CZfxFJaN5D
+ MmKuknyzSJuE3KHqg2WZYZ35N4Rb3Hov/xq8fXMrQOp4GbSzoTsJMKRLUN3qDS6lZ1Uj
+ FP9dnqwU0Wims+cxRAf99vHyT72w11NnkuCmBkhVY9m1JAvV1lu0FC7fDctNm5MSxCkE
+ EVmzlw7ESnDtujnaoe/WxsJfhsB9Wijb/sRXCNO3KQ54AzBrZ71HpG23OuCU7HZnwAHb
+ GJjbrh+n3WXln4h5crsUeK3n7FGkNJy0hUunAu7LZJrOInIDiox/7J+1OzL3LUmcdPrr
+ Oyrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766844959; x=1767449759;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Qeew5kbRgKn77uDh8eaOpRmb++U6/kEJVcuYh9HUj70=;
+ b=euiUZOzaPzk6J4sVsxldBwER77RjumhMc3BfLPDy7nys1Ajgao+QwvlFnINgOVIV6c
+ 7uyRZXWX5olTMYqroSJKIIGaljikMFbD7J1muBK9fjVmm0ZO0VS/VBXqHDzm3WOR08Xp
+ 1pweQ8WTDX0dEezD37U1U+reLxfY6yOsZqyZPE1Tf5gta94rvW4VW+/ayov6cUCI4bzT
+ yczobvJMnGIhS2tHHS7UZ/urN2gzVVVMmcm+ubcAbsS+ZxFugcE5i74utpIFfezo03c4
+ 8W3g/bx6hEUKQfmhMT/qG1Cd31ucYR5js2xgtpJ1pE4TzH885Ttv5ZojjFGgBJjhjB7o
+ nUqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVENmHWM5IbhkYE9WIYkqkqgWAG+mkBty/mA7mlKJQU0qH23O5A+G6stTrjfAIZis6Gah2PKMoawrA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2+x6HOBiCRbV2gVVN2G04kFyp/fZqmtGVYZF9C9Z5Ey8Ov6RS
+ VsGlXf4ITNsGGHmCCSFfolcaCqFLHE8KCXQ9S0en+SqlOqWjU3vVU65zk8M/rBB6z+OKqpD0/Ob
+ mbCe+/VK5eAnqmA3HhrKXukcsCcjswF8=
+X-Gm-Gg: AY/fxX7Gcxz8Dt5oou0HegI3p4iwehBJdbXpoyttN8j+hQX6wVfE1ci576oA56LFRGU
+ DfaCwNdDonK+nqGzeLdqG8J/LaCAHHC2g/mt/ysnBwVyXH3bV0Ni63mAEhZ6nQJCeod8BS1oxH9
+ PbogWwQaa1gi6thH9//zC5RAbS0kYnAnQcbkJ9Y2bak7uIPclTvcpsgGahIqcoOrxD1EXqRAGLY
+ 0hOJt3MMsfbd9FfBmQXMLbteTNXm74u8XqsgDgFfmq5bW9uHN3nJHn7yRqlX+3AjKnOAGxBwOpn
+ L3rccPS+z0TQeyo20fBGqhOhMBUJKNxciUlhbVkw5/RBNtIfqvlE5gwkHxzH6e4+DJcCefc=
+X-Google-Smtp-Source: AGHT+IE5XjXyiX8e5+y2/EJWJkUx9mNmIJWTZRQHZ+11Rz7xT9i6UD39yeJWDYfoSFEzyyea9QAld86n3jERGsExmoA=
+X-Received: by 2002:a17:907:7f25:b0:b80:614:b72a with SMTP id
+ a640c23a62f3a-b80371756d1mr2980300466b.31.1766844958759; Sat, 27 Dec 2025
+ 06:15:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] dt-bindings: display: msm-dsi-phy-7nm: document
- the QCS8300 DSI PHY
-To: Ayushi Makhija <quic_amakhija@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: robdclark@gmail.com, dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonathan@marek.ca,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com
-References: <20251225152134.2577701-1-quic_amakhija@quicinc.com>
- <20251225152134.2577701-2-quic_amakhija@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251225152134.2577701-2-quic_amakhija@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251219054320.447281-1-chintanlike@gmail.com>
+ <20251219054320.447281-3-chintanlike@gmail.com>
+In-Reply-To: <20251219054320.447281-3-chintanlike@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 27 Dec 2025 16:15:22 +0200
+X-Gm-Features: AQt7F2r_BktXpE7AknVIdZhLL9UU8kDl403QzVGaeIdoMKWSeHXNJeJhHMAVJRQ
+Message-ID: <CAHp75VeroxzYs7GScKMv-gOFqJz_U=561b5FH6ifdo2WQNYNyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] staging: fbtft: Make FB_DEVICE dependency optional
+To: Chintan Patel <chintanlike@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org, 
+ deller@gmx.de, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,21 +88,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/12/2025 16:21, Ayushi Makhija wrote:
-> The QCS8300 MDSS DSI PHY is the same 5nm PHY IP as on SA8775P, with
-> identical register layout and programming model. Model this by using
-> a QCS8300 specific compatible with a qcom,sa8775p-dsi-phy-5nm fallback,
-> and update the schema to require this two entry form for QCS8300 while
-> keeping existing single compatible users valid.
-> 
-> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+On Fri, Dec 19, 2025 at 7:43=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
+m> wrote:
+>
+> fbtft provides sysfs interfaces for debugging and gamma configuration,
+> but these are not required for the core driver.
+>
+> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
+> sysfs operations are skipped while the code remains buildable and
+> type-checked.
+>
+> v2:
+> - Replace CONFIG_FB_DEVICE ifdefs with runtime checks
+> - Use dev_of_fbinfo() to guard sysfs creation and removal
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Helge Deller <deller@gmx.de>
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 > ---
->  .../bindings/display/msm/dsi-phy-7nm.yaml     | 30 +++++++++++--------
->  1 file changed, 18 insertions(+), 12 deletions(-)
-> 
+>  drivers/staging/fbtft/Kconfig       |  5 ++++-
+>  drivers/staging/fbtft/fbtft-sysfs.c | 18 ++++++++++++++----
+>  2 files changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfi=
+g
+> index c2655768209a..578412a2f379 100644
+> --- a/drivers/staging/fbtft/Kconfig
+> +++ b/drivers/staging/fbtft/Kconfig
+> @@ -2,11 +2,14 @@
+>  menuconfig FB_TFT
+>         tristate "Support for small TFT LCD display modules"
+>         depends on FB && SPI
+> -       depends on FB_DEVICE
+>         depends on BACKLIGHT_CLASS_DEVICE
+>         depends on GPIOLIB || COMPILE_TEST
+>         select FB_BACKLIGHT
+>         select FB_SYSMEM_HELPERS_DEFERRED
+> +       help
+> +         Support for small TFT LCD display modules over SPI bus. FB_DEVI=
+CE
+> +         is not required, but if enabled, provides sysfs interface for d=
+ebugging
+> +         and gamma curve configuration.
+>
+>  if FB_TFT
+>
+> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/=
+fbtft-sysfs.c
+> index e45c90a03a90..848702fc871a 100644
+> --- a/drivers/staging/fbtft/fbtft-sysfs.c
+> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
+> @@ -203,14 +203,24 @@ static struct device_attribute debug_device_attr =
+=3D
+>
+>  void fbtft_sysfs_init(struct fbtft_par *par)
+>  {
+> -       device_create_file(par->info->dev, &debug_device_attr);
+> +       struct device *dev =3D dev_of_fbinfo(par->info);
+> +
+> +       if (!dev)
+> +               return;
+> +
+> +       device_create_file(dev, &debug_device_attr);
+>         if (par->gamma.curves && par->fbtftops.set_gamma)
+> -               device_create_file(par->info->dev, &gamma_device_attrs[0]=
+);
+> +               device_create_file(dev, &gamma_device_attrs[0]);
+>  }
+>
+>  void fbtft_sysfs_exit(struct fbtft_par *par)
+>  {
+> -       device_remove_file(par->info->dev, &debug_device_attr);
+> +       struct device *dev =3D dev_of_fbinfo(par->info);
+> +
+> +       if (!dev)
+> +               return;
+> +
+> +       device_remove_file(dev, &debug_device_attr);
+>         if (par->gamma.curves && par->fbtftops.set_gamma)
+> -               device_remove_file(par->info->dev, &gamma_device_attrs[0]=
+);
+> +               device_remove_file(dev, &gamma_device_attrs[0]);
+>  }
+> --
+> 2.43.0
+>
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
+--=20
+With Best Regards,
+Andy Shevchenko
