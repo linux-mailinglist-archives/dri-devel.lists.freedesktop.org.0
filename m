@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD888CE01D8
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 21:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C37CE022C
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Dec 2025 22:27:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABAC10E671;
-	Sat, 27 Dec 2025 20:16:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NG7R4ZpL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B170610E249;
+	Sat, 27 Dec 2025 21:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B12A410E671
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:16:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DEC3960010
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:16:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 96B19C4CEFB
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 20:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766866560;
- bh=2uj9fNkYtngZkYfUBQBJTudQ2AWw6dcrUziEZDD57co=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NG7R4ZpL6/pzk37NXpTzy9yQmZeMAskhEL+EjoTj6bBJKaNU6eRXT9ECIFbGTLMob
- iOKkXW+rW2WUgy7izvinf7Q96q8yXSOZYo+QT9/ZJMBeHdbQGjLBQe4sDqtmId57ld
- yd/QD8XegtnpAy/kqNfpzd1dTre/gGoYjslCLLVrvWMtS5g5Le5PhqUUYJdSXlNMqQ
- W03kdmc9eNll373DYVrR6TVWcL10zRPzmOan2CrJ4PgSmEBsULhoTa2U3mVPFMKJua
- u7uI3+X2ZRNTqMXc5Fs68hqBLJXajshagd068GszR9o8QQjmaMOH7fz+fVaNMPll14
- sTBiiHbLkWkLA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8FA9BC4160E; Sat, 27 Dec 2025 20:16:00 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
- Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Sat, 27 Dec 2025 20:16:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: PCI
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: danandrei@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component cf_kernel_version
-Message-ID: <bug-220906-2300-PIvyfUtKtQ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
-References: <bug-220906-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com
+ [216.40.44.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9650D10E05C;
+ Sat, 27 Dec 2025 21:27:18 +0000 (UTC)
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay07.hostedemail.com (Postfix) with ESMTP id 5E0EE1621DD;
+ Sat, 27 Dec 2025 21:27:15 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
+ omf13.hostedemail.com (Postfix) with ESMTPA id B83D520010; 
+ Sat, 27 Dec 2025 21:27:10 +0000 (UTC)
+Date: Sat, 27 Dec 2025 16:27:11 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Christophe Leroy
+ <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar
+ <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, David Laight
+ <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko
+ Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+Message-ID: <20251227162711.742407c4@gandalf.local.home>
+In-Reply-To: <aVA1GGfWAHSFdACF@yury>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <aU_xG7pK9iauff65@smile.fi.intel.com>
+ <20251227105701.5cbeb47e@robin> <aVA1GGfWAHSFdACF@yury>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: gi8z15ty7ouma9md5dqh6t3sjcp567xe
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: B83D520010
+X-Spam-Status: No, score=1.36
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19v9AGAIEf/hdBH6xdcLpEmULqN48hw190=
+X-HE-Tag: 1766870830-369753
+X-HE-Meta: U2FsdGVkX1/aptVQM0wKzP5JNcSSDPMp2b/O6Nc9sS6AufkZCJuGKZ1brpieMN6WB7jRDkrXhymd/DQNa8I8YT1dqFG6kzrKvuD0YSux6syhCWgP5hQGJgkEyeDb0H1pv5deoTjQIrH6zfObxDDNFpP3aVwqpHlw80RjyXTjo/8hNMvLfw+SoiXLuESBrnqKReFuwZ900KP+EtpvEjZvDAi9z2Z+6b00PUsT9zPMfh9uYKFXR+MI8X2dXWa26HgxFyNVMUPuLBTbXxeDjuD1dIJHgENZOmDFOYOmYVbwPuEH6gB8hlfZy9UU3odK5WRQnJ6Wfgr3usozSqsp5bzVf0MKH6zcgImk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,17 +71,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
+On Sat, 27 Dec 2025 14:35:52 -0500
+Yury Norov <yury.norov@gmail.com> wrote:
 
-Andrei (danandrei@gmail.com) changed:
+> The difference is that printk() is not a debugging tool.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-          Component|Video(DRI - non Intel)      |PCI
-     Kernel Version|6.17.11                     |6.17.6
+Several developers will disagree with you. In fact, Linus has said he uses
+printk() as his preferred debugging tool!
 
---=20
-You may reply to this email to add a comment.
+The only reason to have printk.h in kernel.h is because it *is* used for
+debugging! If it wasn't used for debugging, then you could simply add
+printk.h for those places that needed to use printk(). But because it is
+one of the most common debugging tools, having it in kernel.h is useful, as
+you don't want to have to add #include <printk.h> every time you added a
+printk() for debugging purposes (same is true for trace_printk()).
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Yes, it is also used for information. But if that's all it was used for,
+then it wouldn't need to be in kernel.h. It could be a normal header file
+that anything that needed to print information would have to include.
+
+-- Steve
