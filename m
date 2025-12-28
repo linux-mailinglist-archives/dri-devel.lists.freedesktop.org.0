@@ -2,87 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEB0CE48A8
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 04:36:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F810CE48BD
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 04:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B339F11377A;
-	Sun, 28 Dec 2025 03:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F381810E0C8;
+	Sun, 28 Dec 2025 03:48:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DoGzvlII";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RBwh2Cl6";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Vu1S6eX3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0F6C11377A
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 03:36:04 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-7b8bbf16b71so8066933b3a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:36:04 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A2010E0C8
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 03:48:38 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BS10cf7688966
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 03:48:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=G5ZtyNhbwgn/S3NWbt1gNJl8
+ aOXPg2uVBnJuiZYIEQM=; b=RBwh2Cl6gv8S5hJuNG5hcQzUg1oqYqLxV91bNY2y
+ ihfJ4XNtZkVKBz0Z4efX6uXaYdB5YvhRCgm7VNu3Da0MiZMwE4fc4m1ukcDmB+YX
+ QuYSYrmU1E/KpdTman+FDwda60vaBj1iYpyMICpFH3s9DdJlFi9OTVPN6S4zfI7g
+ p2AcfYGCmg2bTnWnaxt21x/wOl5iokjaFr+GUmPP2xI/aaTs6R7ajtfUT4iqBnmc
+ DnHxkzI4PaV7FMBcA4vhzv1sbqRf7SJovfjoeqQi4h/uq4ki95n7OSg34GxHpw57
+ m5kVVGG+kgbYyGENlWIkLQBD+CXqK/Ag3gmMcC/iMkJxpw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba8r69hta-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 03:48:37 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4f1d26abbd8so240622571cf.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 19:48:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766892964; x=1767497764; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9GYMWvgynMfX2fSBNVCofj8NHTkRdY3lznnd4Y2OMfk=;
- b=DoGzvlIIeVXzlL5SavxoA18t5sZwsd1MGqOv+hVtAbt+ZTpKcn22p8yH6z9/JxTYJ6
- ijZoooxn1LaRyVoTZR/pRqfFXbjFmxk2pvVeVMHs2vFrefW2hl6Whmbkkbv7VM2k+7Ae
- TeWeNgBVkC0ipqG1mciMWKlYtL65jU86egucT4u74gTGEaVId4DGbCMdybwOWjFSuDi6
- M3ur1b645pRkEtY0/5o3THTn2P9Px0pq1BDYArd6SSFKQjz9eR9D01PQ3L15RJRYcGvJ
- WQiA5+K3p+w88m/a8AVxi6U/0smr8aVwh6V13jX264D7BtreCgDtURdD7X4MiZXJ61Cm
- OuuQ==
+ d=oss.qualcomm.com; s=google; t=1766893717; x=1767498517;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=G5ZtyNhbwgn/S3NWbt1gNJl8aOXPg2uVBnJuiZYIEQM=;
+ b=Vu1S6eX3t0FnaYJH3LA5hhoaZyLx4QNqdlB2CY+nBZ6+PIeWsfZzSAQUEDaRX0YuYt
+ PxyKduLcZ9Gq1SuZt3mdDWEyThP8m9TWQrjOKS0pD88SyIVuRz1MrkM3dIMtIO9irZR+
+ zSYWlnJy27NKcPyjsk9igw3u/jFVfiyE3Gq/zgs8Q3CUUmIDKyhgfBMmoAKULyFsS+rR
+ IbLuuz2TBJxJQ7G0e/jmyooePS0m1MTGU+7jaCUD+zRq1AwBR0QAz9TJivIJqtTYyoBS
+ TJiNfD+byUQ/lJOWJuvNnoEZou4WVsYbyHOhhCmug2caClg1gs1wJtY4MXWDtkCVF891
+ QDDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766892964; x=1767497764;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9GYMWvgynMfX2fSBNVCofj8NHTkRdY3lznnd4Y2OMfk=;
- b=hY2Cvn371CbNba3og2Z5mrT0hJJtn26K9v/8fKiy8ku0VbUUvJBMxXTQi4t7JzSiRc
- WTABPTKowVaJPoTYTev7xMTWPiZQH/cRhmQBBN39EhCHpLxdZKHHLETPf5PW5qELCtQk
- rOLCaL2zMfdq3L8+Z/Iup0BCL5GmuF2RUQfR3bmASvcJ1px08x4DOsAVtYYf5kYahbGU
- AptWCw48gitpmwkmMKhhkMKz+TmiKECiRAomhixbI1aMDicG3/pjAuvN76rIi5yFSC/W
- /Y6b1tb0fFMP0jgTdXeuIGbTacqWtzvrXyt80XOgR02ocvzi8bX+fbT6Q2JFkkrPo6NB
- zEzg==
+ d=1e100.net; s=20230601; t=1766893717; x=1767498517;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=G5ZtyNhbwgn/S3NWbt1gNJl8aOXPg2uVBnJuiZYIEQM=;
+ b=RyiQIpPRyMHId0azFc7oCM8ncw3gCUsOlRqz+igP3kHZSQC1VHeLN1Qyck+bWCtDnc
+ Ge8FTa3T08qzY0b6GpXQHGsbWgUKqfvSc0193D0lB1zeubLn960ttRRQpPbRk4JayveP
+ qERvt46JyOY9VPNO/TLKrFMjC1V2jbsBJG/BTR/K3hn6hB3bLxQWLQCWtcft96ZwelDi
+ +KY4Jxk/dsO/I5VnQEJcZd3BVrs0iY4joOntWLYo9i+YF/EoLAO5WQ8ilNK/ssUNTRfW
+ nw43UzVLaIOukei5QFWv1huc47DAhcbqhMPSqzIXyFKTt4XXQ9uFBCK7mjUSAC8ok6os
+ BY/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9C+sCewTrqiP/oO+KvHATQz4Wcxi2UpQVd0/HB7YMDq6Mw1b4m+u09JmrJ58my3FegbvsUNOmmik=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxs9g+/I/ZpijktFxcQBfWxT7NYwjuJ55XVIDRfBLPbyNC9kw0+
- FwiUUSlC5az1Su3oz36GGD6nKclPiK4tTqgQxRrZnNzgICzl8DUpVkY+
-X-Gm-Gg: AY/fxX7pp9YgU/aPMTJr27zIykAOMnomeJDT45RheAca3++sbahK5ImPNuPeTQkvI3+
- AOO+5VJLw2bNFGLSnvyjUFCVkdQhEdkIrhnn7szObV/E74Cd9IK1R11ZlsokUlNnYvEtwLOEW+S
- vlhCCpB/VGQtqwKhl/v+NpiYfuOIO0r5vIMwtwLu7uihzR0jWE3hnJtUMsabzCTdszeHp2sPfFF
- WivujioruNK6YUkZsZshyOU3cmYMUX6XmcqfhdgH5aCuf36J9OuMBsCsaOMeGRwl5cSF2DlINZ2
- T/dckIu7YkJKf3fH+OptOqiClQMJVQT3sdjocu8AOnh3LS0NPynqazmTukWRNp44gfTmYcoYW9I
- WPB3GPh+G70tMIyRtJWG9+haHYytJCb7nN8SL+FbQ7rUUmj/Ro2Cj/B8yBIiXImXj38o7sztJax
- AcPpgFc+Hj7od/vjROvatHPPL5eoY9bVCabYhKRq2GkobHZyPowfUjS44J5aFL5JGm6RVd2Y4=
-X-Google-Smtp-Source: AGHT+IHTWL3q8c+FeXaSOBHPaw/cADChxlI8DiI1o2Cg5IPCvZurA0tG1OaDi1zTnHTBCrTFoMuu6w==
-X-Received: by 2002:a05:6a00:6caa:b0:7e8:450c:61c2 with SMTP id
- d2e1a72fcca58-7ff66679603mr21673397b3a.50.1766892964131; 
- Sat, 27 Dec 2025 19:36:04 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:a91e:86e3:6d78:53d4?
- ([2601:1c0:5780:9200:a91e:86e3:6d78:53d4])
+ AJvYcCUQ0eOBwL7swFxKtdhb+WNutYGzynDLHGRL0WQAbQn62PpR8sm/AKCSlTxt0laN5wPljYQTcj2yRho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQhiUFDmLEGBNtfZT0xW4ure5TAbCbuxL4+T1ihTJvce2Dsdeq
+ BQ9h6WS7cJGAQEnjQdue0wGGBhNCJV9m5vgOrHWRKz/Kb4/IIu4hXdppPOKyPtJbBv74uOQ5OFu
+ lyo6P2AbCeSFzjxfrlHF747amUEaxWVm70cP3BgdZ7qg40ASEtrDWnu0iFy0sjZAJSypklt4=
+X-Gm-Gg: AY/fxX418zGiZLtyUz5giYOZZJxYyr8LzKmJkRMX5ivdEH8jM5mvKbV+3uCqho06NTH
+ WOkF8/CfFygmR8ELM+ADAMTrP8iFgG1lLhQQMdfbfu2Ag7zegFmVKdg99gXS24rehp3dw73vOcw
+ X1OfqEZ/83rjcAR1WV+QRf7X2Vr7oqx48C00BHvbYf3sC8DvUFlVjAner6Qg8dakVm+D7yfdVYQ
+ xQOAcAscL+2NztQWpDLSLRwnkn7fVwDW5jU8qKdqD2fqSTrvmLPsfPuRoRs7QaRJ50s4v43cNF/
+ VtlDaP9p+ATacGVYw7zwl3gPWTepCNmer9Vh0gI/RhBU3BQ0igJO6W3dR2tIYsu2OWsoMnHdiSY
+ zN1ZDpJ0sCO/HliuRFpdViyKdLzlzvC0EGRajXCJZa+FvvlnDPI5SSS0tklkjwf1yJP1qoB9FME
+ 4CgfRMKxGlCn8urRkkfMd5stw=
+X-Received: by 2002:ac8:5fc4:0:b0:4ee:ce1:ed8a with SMTP id
+ d75a77b69052e-4f4abccf0b4mr376484011cf.16.1766893716858; 
+ Sat, 27 Dec 2025 19:48:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGWl5R2B2w9eNeTAdexpt9iS61TBLyp3dSOAsh42BGWIL7uO3Pn0K3kDuZ4F2wO6bCoLEUjJw==
+X-Received: by 2002:ac8:5fc4:0:b0:4ee:ce1:ed8a with SMTP id
+ d75a77b69052e-4f4abccf0b4mr376483921cf.16.1766893716473; 
+ Sat, 27 Dec 2025 19:48:36 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7ff7e797aadsm25834180b3a.61.2025.12.27.19.36.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 27 Dec 2025 19:36:03 -0800 (PST)
-Message-ID: <ec86f093-8fe8-4fc8-b330-dc7ee8a01de9@gmail.com>
-Date: Sat, 27 Dec 2025 19:36:03 -0800
+ 38308e7fff4ca-38122680689sm65495831fa.44.2025.12.27.19.48.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 27 Dec 2025 19:48:35 -0800 (PST)
+Date: Sun, 28 Dec 2025 05:48:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Teguh Sobirin <teguh@sobir.in>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] drm/msm/dpu: Set vsync source irrespective of mdp
+ top support
+Message-ID: <dxtktuo2evbqibblvnxejkex2em62jkbhcvnwxn7iy46me7msb@5scbwuow6stj>
+References: <20251224-intf-fix-wd-v4-0-07a0926fafd2@oss.qualcomm.com>
+ <20251224-intf-fix-wd-v4-1-07a0926fafd2@oss.qualcomm.com>
+ <aUwhqUlM3WBqQwZb@SoMainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] staging: fbtft: Make FB_DEVICE dependency optional
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org,
- deller@gmx.de, gregkh@linuxfoundation.org
-References: <20251219054320.447281-1-chintanlike@gmail.com>
- <20251219054320.447281-3-chintanlike@gmail.com>
- <CAHp75VeLF8nd-JiPFnxJ2H43ZS=oYgW4=BTZjR_GuUuj03gyRg@mail.gmail.com>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <CAHp75VeLF8nd-JiPFnxJ2H43ZS=oYgW4=BTZjR_GuUuj03gyRg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aUwhqUlM3WBqQwZb@SoMainline.org>
+X-Authority-Analysis: v=2.4 cv=Raidyltv c=1 sm=1 tr=0 ts=6950a895 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=djJBbdDc_AO9gVaMYpQA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: aOD4yV0wNr2HpEknmPk2YSmmY2oSh5sq
+X-Proofpoint-GUID: aOD4yV0wNr2HpEknmPk2YSmmY2oSh5sq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI4MDAzMyBTYWx0ZWRfXyL0mHRkPgQcg
+ I+ojIzE/9fQLZtrSxRYoBiA259uVcQ90jSmWUbsH3dX6oFi7O9i1hShhANPHYiSRrdDQKbSyozg
+ 1RM0GOm47xcmEIvt5Z1czJL65pGyBnyHPe/+fCvoc1SXAiz2+EC0w6MpLjH9tF1oatMxDnrg026
+ 0GW9viI20xGF0O+F8Ah5g2q9C50kixc9QkAtH4LwFOlt8iYkm/TaaWLlu8nleMaIc+rh8OPAdnZ
+ aXOdttmKHgXtayDj1vT6qy4sEauPTfVhT9WwQussO8MueXrmHMAn+Lr7sDHNbLm1p8NuvvMU8g2
+ zJ08qpVXdAL6y2Fnw/IOHwzHIhh5KqRaO5WxzUS4xc+psFDMLGMuM1D6tE4TZFBqOsUNQKLNc+N
+ aZMe/BgqjPoDJIn7qkeljmc2xCpwriWlkqnYFaKk5iIBsIQ9A95+6s8sY0NWPQLuQOgNJya5QMp
+ gheIGSp34+hNUthEmzw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-28_01,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512280033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,68 +147,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+On Wed, Dec 24, 2025 at 06:26:59PM +0100, Marijn Suijten wrote:
+> On 2025-12-24 17:33:49, Dmitry Baryshkov wrote:
+> > From: Teguh Sobirin <teguh@sobir.in>
+> > 
+> > Since DPU 5.x the vsync source TE setup is split between MDP TOP and
+> > INTF blocks.  Currently all code to setup vsync_source is only exectued
+> 
+> exectued -> executed typo remains since v2.
+> 
+> > if MDP TOP implements the setup_vsync_source() callback. However on
+> Double space to match the above, on two occasions:        ^^
 
-On 12/27/25 06:19, Andy Shevchenko wrote:
-> On Fri, Dec 19, 2025 at 7:43 AM Chintan Patel <chintanlike@gmail.com> wrote:
->>
->> fbtft provides sysfs interfaces for debugging and gamma configuration,
->> but these are not required for the core driver.
->>
->> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
->> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
->> sysfs operations are skipped while the code remains buildable and
->> type-checked.
-> 
->> v2:
->> - Replace CONFIG_FB_DEVICE ifdefs with runtime checks
->> - Use dev_of_fbinfo() to guard sysfs creation and removal
-> 
-> The place for the change log is either a cover letter, or...
-> 
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Suggested-by: Helge Deller <deller@gmx.de>
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->> ---
-> 
-> ...a comment block here. It's not so important to be in the Git
-> history since we have a lore.kernel.org archive.
+I've changed all occurences to 1 space.
 
-Thank you for suggestion! Will move to coverletter.
+> 
+> > DPU >= 8.x this callback is not implemented, making DPU driver skip all
+> > vsync setup. Move the INTF part out of this condition, letting DPU
+>               ^^ double space too
+> 
+> > driver to setup TE vsync selection on all new DPU devices.
+> > 
+> > Signed-off-by: Teguh Sobirin <teguh@sobir.in>
+> > Fixes: 2f69e5458447 ("drm/msm/dpu: skip watchdog timer programming through TOP on >= SM8450")
+> > [DB: restored top->ops.setup_vsync_source call]
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 17 +++++++++--------
+> >  1 file changed, 9 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index d1cfe81a3373..0482b2bb5a9e 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -774,6 +774,9 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
+> >  		return;
+> >  	}
+> >  
+> > +	/* Set vsync source irrespective of mdp top support */
+> 
+> I still think this comment is redundant, as mentioned in v2.
 
->>   drivers/staging/fbtft/Kconfig       |  5 ++++-
->>   drivers/staging/fbtft/fbtft-sysfs.c | 18 ++++++++++++++----
-> 
-> ...
-> 
->>   void fbtft_sysfs_init(struct fbtft_par *par)
->>   {
->> -       device_create_file(par->info->dev, &debug_device_attr);
->> +       struct device *dev = dev_of_fbinfo(par->info);
->> +
->> +       if (!dev)
->> +               return;
-> 
-> 
-> The better way is to decouple the definition and the assignment in the
-> cases when it's followed by a conditional (validation check). In this
-> case any new code added in between doesn't affect readability and
-> maintenance efforts.
-> 
->         struct device *dev;
-> 
->         dev = dev_of_fbinfo(par->info);
->         if (!dev)
->                 return;
-> 
->> +       device_create_file(dev, &debug_device_attr);
->>          if (par->gamma.curves && par->fbtftops.set_gamma)
->> -               device_create_file(par->info->dev, &gamma_device_attrs[0]);
->> +               device_create_file(dev, &gamma_device_attrs[0]);
->>   }
-> 
-> Ditto for the rest.
-
-Will do v3 and re-send. Thanks for reviews!
+Dropped
 
 
+-- 
+With best wishes
+Dmitry
