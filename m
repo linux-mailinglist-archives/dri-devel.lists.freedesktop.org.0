@@ -2,96 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E67CE49FB
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 08:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C47CE4A0B
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 08:56:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8812410F687;
-	Sun, 28 Dec 2025 07:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62921123AE;
+	Sun, 28 Dec 2025 07:56:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d4AGTtaW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eD7zTpUT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
- [209.85.217.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5510F10F6F6
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 07:54:44 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id
- ada2fe7eead31-5dbdb139b5bso7331833137.2
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Dec 2025 23:54:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766908483; x=1767513283; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QCyx6Mqpzdar9VYEKGCLb4kdS1Mp74Ev7TEjgfeFuw0=;
- b=d4AGTtaWIA7tYSyUFy8v4M1QA0EIVloOzQy1sD8Azf3HmqSYQQJ7GOGSbk8IQCmAHC
- +49RbuAXTgHuav4iQQ3uoOsYCCjp+4sSzftFYDEzbcYhjl8UU1qviorVccoDi6tLipix
- DjeFdryHPzf5SkvLC+yaOzrJ46Kv69G9aycQwYUyyqtzrBVvXaK/t9xZeBR5jZA9BlAX
- q8MEX34lQT6eT1tJbaPN4KcJoqFZfUfd/Lf0eigrbTjSMbFOHQTP+WlDp+ACmPLI7SUU
- B4eYkrT4GymRCpwV5TnZznDu6HlNXQtrGF8aj4q757+n+dvIOEbjO00KIcXcUtse7kY6
- +FSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766908483; x=1767513283;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=QCyx6Mqpzdar9VYEKGCLb4kdS1Mp74Ev7TEjgfeFuw0=;
- b=qFDV0I0PiOCkiGyL4ulRgYurv9GjECGuvtvf5ajX/cIyyHYjZfVKw6j/9lBsqmXad7
- 9anP1qh35nJ5JPoo84sPDyEKXWNOmEaXoFomvknIZKnd55BXcL1ly+w0cP3WJJU97VRq
- ndaA7q9hLOLNSchh3LNPhCQlRoCQ1GJqqc+tUtQoi3p0Tlr1kEen19pQ8jkrpJ/vwwTV
- 12nEbXCkE7syh2i7p9O5QXJoXfEpNugEpsOK7HGlCjx4vWcLeSVLAp1V3E+gcwjr4QBU
- EsSE3nhiqfNhqYra55kEu2C/kBt5ex5S4rFjxesg0FnXTI4+2C1irx9RXyktWOpKkpdY
- ejcg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW19uWhNglZfGADh82RHUQtYrT8FK4fpcptYmTod4EbF6Lo8/yxQ5+vw3E6L0669xk5JNIlFLX/FeI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoshbDb9wbXMJ82r8fgfsYj2atX19s3eDe/d4GzRlW1EI2Nm0h
- JJunQ3t0hN/uvtfrjmS1jgk+N+BMMEo5gbni/I+9C/Qd4IUijAh/N9JZWliQa4TnlqCc5HMbEzd
- gExZmJCVjdCg8FvCk8chPR2NNlxHHGyM=
-X-Gm-Gg: AY/fxX68rDEObAn3Foc/hVDvdQ8vPHT5ARoO4+sSe1K8fZXIBzSr9WCV2ihos588UBs
- Wmm1QDYlxjPk32+/XeFus7OqFTGLbRqGJf5te6wwmBHACdwFMNrPQEkGm0PAj7cVS1QeBJ57vMI
- q8zgj2kxZHS4QCmGUigB9aTqwYJL2Fys8d6AeZCf/RVvbpVVTm6XpwFf45jXx6z/JXtIR1YS35K
- hfSkIJvgJ+k+mIfZs26dlSqnlUYu4kYhr6jvIf1YHZ6eXx+MtTaTqmr0Yr/mAP2GzfrMpWHu+nV
- 6t17GTevx1aoiVsEydMYwwyF3poIonqmq0bSJ6LfUKiAOyWDQRZfOMUGrDqD
-X-Google-Smtp-Source: AGHT+IGVFw4oN6vVpsJvVT3zYapZ4PgCC6CBlt/bXWp1hbVF3nJvyRYFG+o8Vhg82iSdQ8egqcYOxboHJROhnTHc1mg=
-X-Received: by 2002:a05:6102:9d9:b0:5df:b7f3:5875 with SMTP id
- ada2fe7eead31-5eb1a6259a2mr8916658137.3.1766908482707; Sat, 27 Dec 2025
- 23:54:42 -0800 (PST)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88A1010F6F6;
+ Sun, 28 Dec 2025 07:56:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 71B6060055;
+ Sun, 28 Dec 2025 07:56:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B644BC4CEFB;
+ Sun, 28 Dec 2025 07:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766908603;
+ bh=U26ZQ9xkBZ5caJUD6XRoGTbxc12eM5IgQ1xWnTDTYZc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eD7zTpUTpboR9x1/6ErGLfvNXY+/FYRKSfoazcb/f9OeivAtx6iBZ0hV1Zp0OvHL0
+ xeexC7t7ITsh525N+Os0cLOXdQ1pS2ikD/xaUCIkaXBfsR3fFTYpvmf99F74uCQoh+
+ 4jF4MWVNeXHNpm5gCwkgNRocVxjr0dKIjGmedZbODqNsoF6+Si406S/B7HvPPEzsT3
+ dilAiNOfgGHMAgBSHk9J4R0JixtVO1YzGRL7IMoavlvkLfXJOvrXPgRoPB4CHKHeHq
+ QADsw7+gBuM+xfc/lQDst2kM7LVJ/Ndwx6T0zI58tJgcB+KvaIBG6gOjufXxPW0F2W
+ RSKfaHcrIkQHA==
+Message-ID: <2a35d31a-1a3e-4cd4-ac3a-27104ff12801@kernel.org>
+Date: Sun, 28 Dec 2025 08:56:33 +0100
 MIME-Version: 1.0
-References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
- <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
- <D5A173F1-D439-49FB-A4A0-B632550BF35B@gmail.com>
- <20251227-gigantic-handsome-falcon-3c31bf@quoll>
- <CAAT7Ki9m+MD2_EntEt=-2ZPFxbMNt6LV_kZu-aAvGZ70e_SUhw@mail.gmail.com>
- <27c89053-ea11-4165-9a85-9dcfa093c56a@kernel.org>
-In-Reply-To: <27c89053-ea11-4165-9a85-9dcfa093c56a@kernel.org>
-From: Han Gao <rabenda.cn@gmail.com>
-Date: Sun, 28 Dec 2025 15:54:31 +0800
-X-Gm-Features: AQt7F2rJ5Jy8N41aXl0xe_8wJa_GDgLM1pD4NXthJd81_UcUbDbPnhm9CA4Evis
-Message-ID: <CAAT7Ki_BxdC8cS7Qs8qVhJJXPPf8ma9MROFLA22J1WOOSgj=dg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/9] dt-bindings: display: add verisilicon,dc
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Icenowy Zheng <zhengxingda@iscas.ac.cn>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display/msm/gpu: Narrow reg and
+ reg-names for Adreno 610.0 and alike
+To: rob.clark@oss.qualcomm.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Yao Zi <ziyao@disroot.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- Icenowy Zheng <uwu@icenowy.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251227110504.36732-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <CACSVV03H_oii=fuhaeBhUZSJk-2mr08jGqAs30Z_h9tzeDgdtw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CACSVV03H_oii=fuhaeBhUZSJk-2mr08jGqAs30Z_h9tzeDgdtw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,41 +115,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 28, 2025 at 3:49=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 27/12/2025 13:08, Han Gao wrote:
-> > On Sat, Dec 27, 2025 at 7:09=E2=80=AFPM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >>
-> >> On Thu, Dec 25, 2025 at 05:45:00PM +0800, Han Gao (Revy) wrote:
-> >>>> +            dpu_out_dp1: endpoint@1 {
-> >>>> +              reg =3D <1>;
-> >>>> +              remote-endpoint =3D <&hdmi_in>;
-> >>>> +            };
-> >>>> +          };
-> >>>> +        };
-> >>>> +      };
-> >>>> +    };
-> >>>> --
-> >>>> 2.52.0
-> >>>>
-> >>>
-> >>> Tested-by: Han Gao <gaohan@iscas.ac.cn>
-> >>
-> >> NAK, not true. Otherwise explain me how can you test the bindings.
-> >>
-> >>
-> > I cherry-picked the patches I gave to Tested-by on my test branch,
-> > compiled and ran them on Lichee Pi 4a.
->
-> You cannot "run a binding".
+On 27/12/2025 23:01, Rob Clark wrote:
+> On Sat, Dec 27, 2025 at 3:05 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@oss.qualcomm.com> wrote:
+>>
+>> DTS files for qcom,adreno-610.0 and qcom,adreno-07000200 contain only one
+>> "reg" entry, not two, and the binding defines the second entry in
+>> "reg-names" differently than top-level part, so just simplify it and
+>> narrow to only one entry.
+> 
+> I'll defer to Akhil about whether this is actually needed (vs just
+> incomplete gpu devcoredump support for certain GPUs).  In general
+> cx_dbgc is needed to capture state for gpu devcoredump state
+> snapshots, but not directly used in normal operations.  It seems
+> similar to the situation with mapping gpucc as part of gmu, ie. not
+> something the CPU normally deals with directly, but necessary to
+> capture crash state.
 
-I understand now. My understanding of dt-binding testing was incorrect.
-I will not repeat this mistake in Tested-By.
+I don't get why binding was added with cx_dbgc, but DTS not. Neither
+binding nor DTS depends on actual usage, so I assume someone
+intentionally did not want DTS to contain cx_dbgc and binding should
+follow. Otherwise we should make the DTS complete and make the binding
+strict (leading to warnings if DTS is not updated).
 
->
->
->
-> Best regards,
-> Krzysztof
+Best regards,
+Krzysztof
