@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB86CE578E
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 22:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8395CE57F4
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 23:31:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C408112621;
-	Sun, 28 Dec 2025 21:31:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="uJDfCTVf";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C572D11B025;
+	Sun, 28 Dec 2025 22:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A44112621;
- Sun, 28 Dec 2025 21:31:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B280B41789;
- Sun, 28 Dec 2025 21:31:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEDFEC4CEFB;
- Sun, 28 Dec 2025 21:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1766957511;
- bh=RmuKLZ3sZCzDzTXc4AqK859HnGlXw2AUurpubxSNsXU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=uJDfCTVftVwMa2XsyOr5TGBpTc8L5ZEB0rtH29CWCovofEiPBEIxYtV/YGToTkYgM
- /5OY5Kp1PwiaPQ6fHsd0tCWscNsnPAUY/S7G00WsSGg1y37ajSqI/E/v3NneOYHigM
- teZo8kMbZXPvSc/pRwzu1e9k3k4yJXE1KJAaJb4Q=
-Date: Sun, 28 Dec 2025 13:31:50 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Christophe Leroy
- <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar
- <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, David Laight
- <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>, Andi Shyti
- <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko
- Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
-Message-Id: <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
-In-Reply-To: <20251226115848.298465d4@gandalf.local.home>
-References: <20251225170930.1151781-1-yury.norov@gmail.com>
- <20251225170930.1151781-8-yury.norov@gmail.com>
- <20251226115848.298465d4@gandalf.local.home>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA7C011B025
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 22:31:09 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id A542A1FA79;
+ Sun, 28 Dec 2025 23:31:06 +0100 (CET)
+Date: Sun, 28 Dec 2025 23:31:05 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Casey Connolly <casey.connolly@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v2 06/11] dt-bindings: display: panel: Describe Samsung
+ SOFEF03-M DDIC
+Message-ID: <aVGufYAmikItGgYi@SoMainline.org>
+References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
+ <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
+ <20251222-godlike-mongoose-of-valor-3eeee0@quoll>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222-godlike-mongoose-of-valor-3eeee0@quoll>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +71,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Dec 2025 11:58:48 -0500 Steven Rostedt <rostedt@goodmis.org> wrote:
+On 2025-12-22 09:33:04, Krzysztof Kozlowski wrote:
+> On Mon, Dec 22, 2025 at 12:32:12AM +0100, Marijn Suijten wrote:
+> > Document the Samsung SOFEF03-M Display-Driver-IC and 1080x2520@120Hz DSI
+> > command-mode panels found in the Sony Xperia 5 II and Sony Xperia 5 III.
+> > It requires Display Stream Compression 1.1 which allows the panels to be
+> > driven at 120Hz, even though a 60Hz mode is available too.
+> > 
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+> Your patchset has multiple white space warnings. Apply and see...
 
-> On Thu, 25 Dec 2025 12:09:29 -0500
-> "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
-> 
-> > The trace_printk.h header is debugging-only by nature, but now it's
-> > included by almost every compilation unit via kernel.h.
-> > 
-> > Removing trace_printk.h saves 1.5-2% of compilation time on my
-> > Ubuntu-derived x86_64/localyesconfig.
-> > 
-> > There's ~30 files in the codebase, requiring trace_printk.h for
-> > non-debugging reasons: mostly to disable tracing on panic or under
-> > similar conditions. Include the header for those explicitly.
-> > 
-> > This implicitly decouples linux/kernel.h and linux/instruction_pointer.h
-> > as well, because it has been isolated to trace_printk.h early in the
-> > series.
-> > 
-> > Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
-> 
-> I'm still against this patch. It means every time someone adds
-> trace_printk() they need to add the header for it.
-> 
-> trace_printk() should be as available to the kernel as printk() is.
+I am sorry for missing this.  I've asked b4 upstream to include diff --check
+validation in their prep --check pass as I did not save + reapply my own series
+before sending with this workflow.
 
-um, why?  trace_printk is used 1% as often as is printk.  Seems
-reasonable to include a header file to access such a rarely-used(!) and
-specialized thing?
+- Marijn
