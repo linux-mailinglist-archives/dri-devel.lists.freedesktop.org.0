@@ -2,69 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6134CE4F7E
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 14:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848DBCE501A
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 14:09:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C57113285;
-	Sun, 28 Dec 2025 13:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D0510E1FC;
+	Sun, 28 Dec 2025 13:09:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="asCTYRY9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FRRXFBWB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B7B112C91;
- Sun, 28 Dec 2025 13:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1766927042; x=1798463042;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jWf0ut3gAMoXBzAN1n2GJhgWrWO9cVj+r4UhQg18Tk4=;
- b=asCTYRY9jsh391+gOwUJGhOM8g1S9TooGLo/mjoXAlmjtar8LCir6E7z
- BfpHbtrNSu9ZBgkvTC6zR31AXo521ho1d3opjxguV77A44iF5Pgz7QB2T
- QdhdN3zcmt++Rk2BROEabLEKkHdQBQucLCQeHlL/l2jEslHi5RgiAlsVv
- TyiijFYrYnbfdDkabg7/THOkftVbs6X0ejcNZDiNsS7FDz68FaN7YtPFD
- KWbnNmOEgSqUshTlebGa/gPJL7OMUjWDUfP2gBUv6LDhwXsDVn3DM9vSN
- rI3KImZDpqd4u5ExKPh9ZPcRtj4N7V5fABOLonOPabotd+D2q5Oi0pxvk Q==;
-X-CSE-ConnectionGUID: 1yk6lfCbSr+X10zrOMDBQw==
-X-CSE-MsgGUID: tw5YQ2lwSkazQA8uY02WPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79939376"
-X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; d="scan'208";a="79939376"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2025 05:04:01 -0800
-X-CSE-ConnectionGUID: 0onEPtczSPmMnFonx103Hw==
-X-CSE-MsgGUID: U3Fp+QloSLCTvbYtK7XXSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; d="scan'208";a="200619545"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
- by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2025 05:03:57 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vZqR8-000000006Tl-1Y9O;
- Sun, 28 Dec 2025 13:03:54 +0000
-Date: Sun, 28 Dec 2025 21:03:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/3] drm/atomic: verify that gamma/degamma LUTs are
- not too big
-Message-ID: <202512282045.vcM3bTwk-lkp@intel.com>
-References: <20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7@oss.qualcomm.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C30A10E1FC
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 13:09:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 882C443A30;
+ Sun, 28 Dec 2025 13:09:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41492C4CEFB;
+ Sun, 28 Dec 2025 13:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1766927364;
+ bh=nkcJp462X6PCzpMNE7nmEmCqQwtVqc5uvNzAnDUhJq4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FRRXFBWBvuldOMTBKNbLyiS4n0DfmNbcpJ2D4zEDDJXCLRnPa+Naz3Si76SzpSYVP
+ yxAtEhLxL/IqM34UABG52/2Jz5QRag58euoLONjBiaExLwXRIqP+g7w97GMMh5u6Pz
+ +OrPkxwSDQXu4E4dE1DBX+611FhtvCn3Eix0BcNjTR7m797i2As85kteP+bMZe/Xn0
+ 4ui8GBd1Q1j36L2GgksBV7Ef9DrynTZ4ENG6EbqabGZLxNRFChwz+bAcaArPByPtwN
+ omcnvkA/Np4/JLR99Wv1sDrpATdxKP5/jltOTITiG6dyBacuZWUsuMtbDseNPA8l/9
+ OmtJ69b4AUTbA==
+Message-ID: <2d7308c0-0b74-44c2-99fb-831b7a2de4e5@kernel.org>
+Date: Sun, 28 Dec 2025 14:09:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: bridge: lt8713sx: Add bindings
+To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Tony <syyang@lontium.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, prahlad.valluru@oss.qualcomm.com,
+ Prahlad Valluru <vvalluru@qti.qualcomm.com>
+References: <20251228-lt8713sx-bridge-driver-v3-0-9169fbef0e5b@oss.qualcomm.com>
+ <20251228-lt8713sx-bridge-driver-v3-1-9169fbef0e5b@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251228-lt8713sx-bridge-driver-v3-1-9169fbef0e5b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,130 +113,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 130343ee6bca9895c47d314467db7dd3dcc8bc35]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-mode_object-add-drm_object_immutable_property_get_value/20251228-112526
-base:   130343ee6bca9895c47d314467db7dd3dcc8bc35
-patch link:    https://lore.kernel.org/r/20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7%40oss.qualcomm.com
-patch subject: [PATCH v2 3/3] drm/atomic: verify that gamma/degamma LUTs are not too big
-config: x86_64-randconfig-076-20251228 (https://download.01.org/0day-ci/archive/20251228/202512282045.vcM3bTwk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282045.vcM3bTwk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512282045.vcM3bTwk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_atomic_uapi.c:416:9: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     416 |                 const elem_size = sizeof(struct drm_color_lut);
-         |                 ~~~~~ ^
-         |                 int
-   drivers/gpu/drm/drm_atomic_uapi.c:441:9: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     441 |                 const elem_size = sizeof(struct drm_color_lut);
-         |                 ~~~~~ ^
-         |                 int
-   2 errors generated.
+On 28/12/2025 12:40, Vishnu Saini wrote:
+> Add bindings for lt8713sx.
+> 
+> Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
+> Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
+> Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
+> ---
 
 
-vim +/int +416 drivers/gpu/drm/drm_atomic_uapi.c
 
-   395	
-   396	static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
-   397			struct drm_crtc_state *state, struct drm_property *property,
-   398			uint64_t val)
-   399	{
-   400		struct drm_device *dev = crtc->dev;
-   401		struct drm_mode_config *config = &dev->mode_config;
-   402		bool replaced = false;
-   403		int ret;
-   404	
-   405		if (property == config->prop_active)
-   406			state->active = val;
-   407		else if (property == config->prop_mode_id) {
-   408			struct drm_property_blob *mode =
-   409				drm_property_lookup_blob(dev, val);
-   410			ret = drm_atomic_set_mode_prop_for_crtc(state, mode);
-   411			drm_property_blob_put(mode);
-   412			return ret;
-   413		} else if (property == config->prop_vrr_enabled) {
-   414			state->vrr_enabled = val;
-   415		} else if (property == config->degamma_lut_property) {
- > 416			const elem_size = sizeof(struct drm_color_lut);
-   417			u64 lut_size;
-   418	
-   419			ret = drm_object_immutable_property_get_value(&crtc->base,
-   420								      config->degamma_lut_size_property,
-   421								      &lut_size);
-   422			if (ret)
-   423				return ret;
-   424	
-   425			ret = drm_property_replace_blob_from_id(dev,
-   426						&state->degamma_lut,
-   427						val,
-   428						elem_size * lut_size, -1, elem_size,
-   429						&replaced);
-   430			state->color_mgmt_changed |= replaced;
-   431			return ret;
-   432		} else if (property == config->ctm_property) {
-   433			ret = drm_property_replace_blob_from_id(dev,
-   434						&state->ctm,
-   435						val,
-   436						-1, sizeof(struct drm_color_ctm), -1,
-   437						&replaced);
-   438			state->color_mgmt_changed |= replaced;
-   439			return ret;
-   440		} else if (property == config->gamma_lut_property) {
-   441			const elem_size = sizeof(struct drm_color_lut);
-   442			u64 lut_size;
-   443	
-   444			ret = drm_object_immutable_property_get_value(&crtc->base,
-   445								      config->gamma_lut_size_property,
-   446								      &lut_size);
-   447			if (ret)
-   448				return ret;
-   449	
-   450			ret = drm_property_replace_blob_from_id(dev,
-   451						&state->gamma_lut,
-   452						val,
-   453						elem_size * lut_size, -1, elem_size,
-   454						&replaced);
-   455			state->color_mgmt_changed |= replaced;
-   456			return ret;
-   457		} else if (property == config->prop_out_fence_ptr) {
-   458			s32 __user *fence_ptr = u64_to_user_ptr(val);
-   459	
-   460			if (!fence_ptr)
-   461				return 0;
-   462	
-   463			if (put_user(-1, fence_ptr))
-   464				return -EFAULT;
-   465	
-   466			set_out_fence_for_crtc(state->state, crtc, fence_ptr);
-   467		} else if (property == crtc->scaling_filter_property) {
-   468			state->scaling_filter = val;
-   469		} else if (property == crtc->sharpness_strength_property) {
-   470			state->sharpness_strength = val;
-   471		} else if (crtc->funcs->atomic_set_property) {
-   472			return crtc->funcs->atomic_set_property(crtc, state, property, val);
-   473		} else {
-   474			drm_dbg_atomic(crtc->dev,
-   475				       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
-   476				       crtc->base.id, crtc->name,
-   477				       property->base.id, property->name);
-   478			return -EINVAL;
-   479		}
-   480	
-   481		return 0;
-   482	}
-   483	
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
