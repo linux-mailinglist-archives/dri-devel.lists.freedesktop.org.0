@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3834DCE54EA
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 18:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A125CE54FF
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 18:41:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8712A113C05;
-	Sun, 28 Dec 2025 17:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5034911A205;
+	Sun, 28 Dec 2025 17:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V/wDRMsQ";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="WHZlmT6Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D9E1129D0;
- Sun, 28 Dec 2025 17:37:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi
- [81.175.209.152])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9F8DB4BB;
- Sun, 28 Dec 2025 18:37:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1766943448;
- bh=BVyrGvuZxQ32vWuyuPyWhvaKJBjsen6sagC/3IcqpSs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V/wDRMsQYkz61hN+SmAYpeteMIET3dbzn84NCONg5GqGOSmCMYHVprroRZOofKUvp
- DRAuP2Wwl2hgYN0uyopjD1EL+FUTeQO+9puw4xsQJ8TneYfOeVS0YyqMSoQJZ/tDcm
- CJXJJ354O2ddLgV05A9JT32LE2IQcIyZmKoXDAzs=
-Date: Sun, 28 Dec 2025 19:37:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF1E11A205
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 17:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=ZUQu9H3WOitPzhsM/on3IIDEdJMpjoQS/NL13XajIJo=; b=WHZlmT6ZqPwvymsvsdX7U4GOme
+ 6fXTq9+nNj5l1mj8weFPe7Lv2qIJ7R+7rzeqKj0CIn/Ghm5Hk5I8SBt/RCNZTuN3EDKR7UDmwQjLD
+ p0DfueNyach9h/Shjh3mrILmgpjAPMJ4r4g0LDuK2eOCUb0cafS1Q6rQP4nltnzZYtx8tXmU6Im52
+ 11dH5ihSkg3VhfzjaB/1Lx2sUfn8W5VEVSjGnFJyeEPCLjxlVRsJayZtgRzH5/Iq98U5aOQjfaSaN
+ itxrDDQ2rTwfyfzUtf5KEmAFHow2/b/WKe3bYotuB14170LgNf0Gu2Vh7yGelJljXEHeNTgwFRr9i
+ XOoqR8nA==;
+Received: from i53875bca.versanet.de ([83.135.91.202] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1vZulP-000Ta3-Dc; Sun, 28 Dec 2025 18:41:08 +0100
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH v4 5/8] drm: renesas: rcar-du: use
- drmm_writeback_connector_init()
-Message-ID: <20251228173724.GR4094@pendragon.ideasonboard.com>
-References: <20251228-wb-drop-encoder-v4-0-58d28e668901@oss.qualcomm.com>
- <20251228-wb-drop-encoder-v4-5-58d28e668901@oss.qualcomm.com>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, devicetree@vger.kernel.org,
+ Yao Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Han Gao <rabenda.cn@gmail.com>,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 5/9] drm/bridge: add a driver for T-Head TH1520 HDMI
+ controller
+Date: Sun, 28 Dec 2025 18:41:06 +0100
+Message-ID: <2776792.KRxA6XjA2N@diego>
+In-Reply-To: <3b5fd30554f91bcd083b2dc450cdf7fe2fa395e2.camel@iscas.ac.cn>
+References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
+ <5ce9d611.1868.19b5e9e7a61.Coremail.andyshrk@163.com>
+ <3b5fd30554f91bcd083b2dc450cdf7fe2fa395e2.camel@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251228-wb-drop-encoder-v4-5-58d28e668901@oss.qualcomm.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,69 +73,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 28, 2025 at 07:21:37PM +0200, Dmitry Baryshkov wrote:
-> Use drmm_plain_encoder_alloc() to allocate simple encoder and
-> drmm_writeback_connector_init() in order to initialize writeback
-> connector instance.
+Am Samstag, 27. Dezember 2025, 08:22:05 Mitteleurop=C3=A4ische Normalzeit s=
+chrieb Icenowy Zheng:
+> =E5=9C=A8 2025-12-27=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 15:03 +0800=EF=
+=BC=8CAndy Yan=E5=86=99=E9=81=93=EF=BC=9A
+> >=20
+> >=20
+> > Hello=EF=BC=8C
+> >=20
+> > =E5=9C=A8 2025-12-26 21:27:53=EF=BC=8C"Icenowy Zheng" <zhengxingda@isca=
+s.ac.cn> =E5=86=99=E9=81=93=EF=BC=9A
+> > > =E5=9C=A8 2025-12-25=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 19:07 +0800=
+=EF=BC=8CAndy Yan=E5=86=99=E9=81=93=EF=BC=9A
+> > > >=20
+> > > >=20
+> > > > Hello Icenowy:
+> > > >=20
+> > > > At 2025-12-25 00:12:01, "Icenowy Zheng" <zhengxingda@iscas.ac.cn>
+> > > > wrote:
+> > > > > From: Icenowy Zheng <uwu@icenowy.me>
+> > > > >=20
+> > > > > T-Head TH1520 SoC contains a Synopsys DesignWare HDMI
+> > > > > controller
+> > > > > (paired
+> > > > > with DesignWare HDMI TX PHY Gen2) that takes the "DP" output
+> > > > > from
+> > > > > the
+> > > > > display controller.
+> > > > >=20
+> > > > > Add a driver for this controller utilizing the common
+> > > > > DesignWare
+> > > > > HDMI
+> > > > > code in the kernel.
+> > > > >=20
+> > > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > > ---
+> > > > > No changes in v3, v4.
+> > > > >=20
+> > > > > Changes in v2:
+> > > > > - Created a new function to set PHY parameters and refactored
+> > > > > the
+> > > > >  control flow of the configure_phy callback.
+> > > > >=20
+> > > > > MAINTAINERS                             |   1 +
+> > > > > drivers/gpu/drm/bridge/Kconfig          |  10 ++
+> > > > > drivers/gpu/drm/bridge/Makefile         |   1 +
+> > > > > drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 173
+> > > > > ++++++++++++++++++++++++
+> > > > > 4 files changed, 185 insertions(+)
+> > > > > create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > >=20
+> > > >=20
+> > > > As this is a Synopsys DesignWare based IP, maybe it's better to
+> > > > put
+> > > > it under   "drivers/gpu/drm/bridge/synopsys/"
+> > > > Or just create a dir for thead, I think there will come other
+> > > > display
+> > > > related drivers for thead in the future.
+> > >=20
+> > > It's not proper to place vendor glues to synopsys/ .
+> >=20
+> >=20
+> > TI has precedents for doing this with Cadence IP=EF=BC=8C see=20
+> >=20
+> > drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
+> > drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c=20
+>=20
+> Well for this kind of things, I prefer to hear from the maintainer of
+> DW HDMI bridges (although it seems that this has no dedicated
+> MAINTAINERS entry and get_maintainers just returns people for DRM
+> DRIVERS FOR BRIDGE CHIPS).
 
-The patch makes the driver more complex, so the commit message should
-explain why this is a good idea.
+I think the best way to resolve this question would be to actively ask
+on the dri-devel IRC channel (on the OFTC network), because people
+might not even realize this quite interesting question is in here, but
+I guess most of the relevant people are on there.
 
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++++++++++++-------
->  1 file changed, 16 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-> index 8cd37d7b8ae2..64cea20d00b3 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-> @@ -134,7 +134,6 @@ static void rcar_du_wb_conn_reset(struct drm_connector *connector)
->  static const struct drm_connector_funcs rcar_du_wb_conn_funcs = {
->  	.reset = rcar_du_wb_conn_reset,
->  	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->  	.atomic_duplicate_state = rcar_du_wb_conn_duplicate_state,
->  	.atomic_destroy_state = rcar_du_wb_conn_destroy_state,
->  };
-> @@ -202,15 +201,25 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
->  {
->  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
->  
+But probably wait after new years, so people can actually return from
+all the festivities happening right now.
 
-Extra blank line.
 
-> +	struct drm_encoder *encoder;
-> +
-> +	encoder = drmm_plain_encoder_alloc(&rcdu->ddev, NULL,
-> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	if (IS_ERR(encoder))
-> +		return PTR_ERR(encoder);
-> +
-> +	drm_encoder_helper_add(encoder, &rcar_du_wb_enc_helper_funcs);
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(&rcrtc->crtc);
-> +
->  	drm_connector_helper_add(&wb_conn->base,
->  				 &rcar_du_wb_conn_helper_funcs);
->  
-> -	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
-> -					    &rcar_du_wb_conn_funcs,
-> -					    &rcar_du_wb_enc_helper_funcs,
-> -					    writeback_formats,
-> -					    ARRAY_SIZE(writeback_formats),
-> -					    1 << drm_crtc_index(&rcrtc->crtc));
-> +	return drmm_writeback_connector_init(&rcdu->ddev, wb_conn,
-> +					     &rcar_du_wb_conn_funcs,
-> +					     encoder,
-> +					     writeback_formats,
-> +					     ARRAY_SIZE(writeback_formats));
->  }
->  
->  void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
--- 
-Regards,
+Heiko
 
-Laurent Pinchart
+
