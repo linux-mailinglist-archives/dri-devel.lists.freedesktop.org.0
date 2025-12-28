@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48E8CE5264
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 16:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850D6CE5469
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 18:25:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E587511AE46;
-	Sun, 28 Dec 2025 15:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBED610E825;
+	Sun, 28 Dec 2025 17:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=lhjonline.com header.i=@lhjonline.com header.b="cr6HQzHS";
+	dkim=pass (1024-bit key; secure) header.d=ik.me header.i=@ik.me header.b="ZCXXYdRB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 393 seconds by postgrey-1.36 at gabe;
- Sun, 28 Dec 2025 14:53:31 UTC
-Received: from zmailpro.com (zmailpro.com [174.129.240.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDFE10E111
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 14:53:31 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zmailpro.com (Postfix) with ESMTP id 310AF8A5832;
- Sun, 28 Dec 2025 09:46:57 -0500 (EST)
-Received: from zmailpro.com ([127.0.0.1])
- by localhost (zmailpro.com [127.0.0.1]) (amavis, port 10032) with ESMTP
- id X-5gcTZ1Re1c; Sun, 28 Dec 2025 09:46:56 -0500 (EST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zmailpro.com (Postfix) with ESMTP id 0A0DD8A582F;
- Sun, 28 Dec 2025 09:46:56 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmailpro.com 0A0DD8A582F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lhjonline.com;
- s=22187CEA-9A4A-11E6-98C3-D49722DE3479; t=1766933216;
- bh=cq8Ma3pDucG8tfbvKhgnyacaFk2lkPHg5gWE1oWTbzQ=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=cr6HQzHSDJwBjc6nZpTb61T/AS1be6i7iu1TpkyFRsCyhkC4v23PjzBHVfjf2vpoM
- GL6lqrBA493YVR5l86JN2AjVn5qWopNl92h2fXdADNlsnkkdI6ZMT82UfnEKZMey3J
- wO4OcJN+jEqEgh2fwb6rJDjfQ/ZJSsY3AFFYXWQjcJbybPFYWVj7anlwf2KDEqCWdS
- V+veevYcd3De/vH/29zQDLIINJIZANU6vFTcO1lL/B6L+OV9G6+rFdndZ/qhlVgDt2
- G1FyudyH2A6+OZWzz+yKv2bwU4Q36YUtZvdgI9JyTDI8qThoGnqdrE0PsawswNFH6m
- UOn7wL/CqI0Cw==
-X-Virus-Scanned: amavis at zmailpro.com
-Received: from zmailpro.com ([127.0.0.1])
- by localhost (zmailpro.com [127.0.0.1]) (amavis, port 10026) with ESMTP
- id RXPJNwWJfuef; Sun, 28 Dec 2025 09:46:55 -0500 (EST)
-Received: from zmailpro.com (zmailpro.com [174.129.240.60])
- by zmailpro.com (Postfix) with ESMTP id D617E8A582D;
- Sun, 28 Dec 2025 09:46:55 -0500 (EST)
-Date: Sun, 28 Dec 2025 09:46:55 -0500 (EST)
-From: Harris Landgarten <harris1@lhjonline.com>
-To: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <1387191893.132722.1766933215320.JavaMail.zimbra@lhjonline.com>
-Subject: [BUG] amdgpu gfx1150: gfxhub page fault (CPC) triggers
- unrecoverable reset on 6.19-rc2
+X-Greylist: delayed 559 seconds by postgrey-1.36 at gabe;
+ Sun, 28 Dec 2025 16:25:09 UTC
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch
+ [185.125.25.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6921310E15A
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 16:25:09 +0000 (UTC)
+Received: from smtp-4-0001.mail.infomaniak.ch (unknown
+ [IPv6:2001:1600:7:10::a6c])
+ by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4dfPbQ6qLkzHP;
+ Sun, 28 Dec 2025 17:15:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ik.me; s=20200325;
+ t=1766938546; bh=b/YT5QfITejOLu98359QsjUWwXuK2a2Y3ksGRd/9OBA=;
+ h=From:Date:Subject:To:Cc:From;
+ b=ZCXXYdRBjm+0+ibuqg7IeaH6O8Cam9uRe7lOPAIpFhCms3OGB8cUsvHOxZy6vibZt
+ 57wCH3DjmCKzzkXrNxJXpvJWmMaSSvZbfw29hcDN6+S0KVvlpsSXX2W1Ltb8kVx4Gm
+ 7xnJjyBBo7vRJQGks1awRK8vaGWpUyuTQiSh/wp8=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA
+ id 4dfPbP0sgpzCM6; Sun, 28 Dec 2025 17:15:45 +0100 (CET)
+From: Ewan Chorynski <ewan.chorynski@ik.me>
+Date: Sun, 28 Dec 2025 17:15:23 +0100
+Subject: [PATCH v2] rust: drm: Improve safety comment when using
+ `Pin::into_inner_unchecked`
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [174.129.240.60]
-X-Mailer: Zimbra 9.0.0_ZEXTRAS_20240927 (ZimbraWebClient - GC144
- (Linux)/9.0.0_ZEXTRAS_20240927)
-Thread-Index: y8Y2m+CmkGzSKnI5Dwh93N83atv+/A==
-Thread-Topic: amdgpu gfx1150: gfxhub page fault (CPC) triggers unrecoverable
- reset on 6.19-rc2
-X-Mailman-Approved-At: Sun, 28 Dec 2025 15:56:47 +0000
+Message-Id: <20251228-drm-gem-safety-comment-v2-1-99bb861c3371@ik.me>
+X-B4-Tracking: v=1; b=H4sIAJpXUWkC/4WNQQqDMBBFryKz7pROMLZ21XsUF6lOdChRSUKoS
+ O7e1AuUv3of/vs7BPbCAe7VDp6TBFnmAupUQT+ZeWSUoTCoi9KkVIODdziyw2Asxw37xTmeIxJ
+ pxbW+llgo49Wzlc8hfnaFJwlx8dvxk+jX/lUmQkJtWDfDjdr61T7kfXYMXc75C+sQuJG4AAAA
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ewan Chorynski <ewan.chorynski@ik.me>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766938545; l=1495;
+ i=ewan.chorynski@ik.me; s=20251226; h=from:subject:message-id;
+ bh=lHUeD5MRnJF79g8T5KfNq0B2eM2rTMYIWkpVfK9VRv4=;
+ b=CACRqhL3LbN6BYXZKRCNwHJ3X4JOSfmX70iL/CSagyz/MxiCA92XRHEkQzxi0xPAjDmGy/bCF
+ aFO3WUONh7+CNfbyCylDq6HsmmZo+haiqH8DU9q9R4D3iQgFQMhqMYI
+X-Developer-Key: i=ewan.chorynski@ik.me; a=ed25519;
+ pk=Qzaw5giL/U3IFVpYyrZjtONgXMAOpXYyUsXRpiS8hUQ=
+Feedback-ID: :31e4c416764678c:ham:e74197f626dda86
+X-Infomaniak-Routing: alpha
+X-Mailman-Approved-At: Sun, 28 Dec 2025 17:25:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +76,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello amd-gfx,
+The safety requirements for `Pin::into_inner_unchecked` state that the
+returned pointer must be treated as pinned until it is dropped. Such a
+guarantee is provided by the `ARef` type. This patch improves the safety
+comment to better reflect this.
 
-I am reporting a reproducible amdgpu failure on gfx1150 (Strix / Radeon 880M/890M) observed on Linux 6.19-rc2. The issue appears to be a real GPU VM / illegal access fault that reliably escalates into an unrecoverable reset.
+Signed-off-by: Ewan Chorynski <ewan.chorynski@ik.me>
+---
+Changes in v2:
+- Fix typos
+- Add Signed-off-by
+- Link to v1: https://lore.kernel.org/r/20251226-drm-gem-safety-comment-v1-1-5ae56d8194b9@ik.me
+---
+ rust/kernel/drm/gem/mod.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is not related to ROCm or user compute workloads.
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index a7f682e95c01..ed11d9c0f427 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -210,7 +210,7 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+         // SAFETY: The arguments are all valid per the type invariants.
+         to_result(unsafe { bindings::drm_gem_object_init(dev.as_raw(), obj.obj.get(), size) })?;
+ 
+-        // SAFETY: We never move out of `Self`.
++        // SAFETY: We will never move out of `Self` as `ARef<Self>` is always treated as pinned.
+         let ptr = KBox::into_raw(unsafe { Pin::into_inner_unchecked(obj) });
+ 
+         // SAFETY: `ptr` comes from `KBox::into_raw` and hence can't be NULL.
 
 ---
-
-Hardware:
-
-* APU: AMD Strix (gfx1150)
-* GPU: Radeon 880M / 890M (integrated)
-* SMU: smu_v14_0_0
-* Platform: x86_64 desktop
-* Firmware: standard linux-firmware (no custom blobs)
-
-Kernel:
-
-* Linux 6.19.0-rc2
-* amdgpu built as module
-* DRM AMD DC enabled
-* Default kernel configuration for modern AMD APU (no unusual options)
-
----
-
-Observed failure (6.19-rc2):
-
-During a long-running but otherwise normal graphics/compute workload, the kernel logs the following:
-
-```
-amdgpu 0000:c5:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:153 vmid:0 pasid:0)
-amdgpu 0000:c5:00.0: amdgpu:   in page starting at address 0x0000000000000000 from client 10
-amdgpu 0000:c5:00.0: amdgpu: GCVM_L2_PROTECTION_FAULT_STATUS:0x00000B32
-amdgpu 0000:c5:00.0: amdgpu:          Faulty UTCL2 client ID: CPC (0x5)
-amdgpu 0000:c5:00.0: amdgpu:          WALKER_ERROR: 0x1
-amdgpu 0000:c5:00.0: amdgpu:          PERMISSION_FAULTS: 0x3
-amdgpu 0000:c5:00.0: amdgpu:          MAPPING_ERROR: 0x1
-```
-
-Shortly after, MES stops responding:
-
-```
-amdgpu: MES failed to respond to msg=MISC (WAIT_REG_MEM)
-amdgpu: failed to reg_write_reg_wait
-```
-
-The driver then attempts recovery/reset.
-
-
-Reset / recovery behavior:
-
-On gfx1150, recovery is not survivable:
-
-* VPE queue reset fails
-* Driver falls back to MODE2 reset
-* SMU resumes successfully
-* MES fails to respond when re-adding queues
-* gfx_v11_0 resume fails with -110 (ETIMEDOUT)
-
-Example reset log excerpt (also reproducible on 6.17.x):
-
-```
-amdgpu: GPU reset begin!
-amdgpu: VPE queue reset failed
-amdgpu: MODE2 reset
-amdgpu: SMU is resumed successfully
-amdgpu: MES failed to respond to msg=ADD_QUEUE
-amdgpu: resume of IP block <gfx_v11_0> failed -110
-amdgpu: GPU reset end with ret = -110
-```
-
-In practice this leaves the system unusable and often requires a power cycle.
-
----
-
-Additional notes:
-
-* This is reproducible on an otherwise idle system using `amd-smi reset --gpureset`.
-* The same reset failure occurs on 6.17.10, so reset/recovery for gfx1150 appears incomplete independent of the 6.19 regression.
-* 6.19-rc2 increases the frequency of hitting recovery due to the CPC/gfxhub illegal access fault.
-* This report focuses on the *trigger* (illegal access / page fault), not the reset issue itself.
-
----
-
-Summary:
-
-* The gfxhub CPC page fault at VA 0x0 appears to be a real bug in 6.19-rc2.
-* Any recovery attempt on gfx1150 currently escalates into an unrecoverable state.
-* Avoiding recovery (e.g. by disabling CWSR) avoids crashes but masks the underlying fault.
-
-Please let me know if additional traces, bisect testing, or instrumentation would be helpful.
-
-Thank you for your time.
+base-commit: 6c8e404891e1059564d1a15a71d3d76070304dde
+change-id: 20251226-drm-gem-safety-comment-1152e457575f
 
 Best regards,
-Harris Landgarten
+-- 
+Ewan Chorynski <ewan.chorynski@ik.me>
 
-
-Harris Landgarten
-516 643-1286
