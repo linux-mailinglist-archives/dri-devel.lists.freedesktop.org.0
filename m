@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859A2CE5741
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 21:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD6ECE5781
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Dec 2025 22:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30A410E994;
-	Sun, 28 Dec 2025 20:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757C3113D09;
+	Sun, 28 Dec 2025 21:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TobQflCj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D/bwDrBr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0A110E994
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 20:41:54 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32077113D09;
+ Sun, 28 Dec 2025 21:08:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1E89342A64
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 20:41:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F0FB0C116D0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 20:41:53 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 3677160010;
+ Sun, 28 Dec 2025 21:08:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7414DC4CEFB;
+ Sun, 28 Dec 2025 21:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766954514;
- bh=Dtn3wP4LB2NLL3DPnAO/A4TZWqD5bxaVVWXuwwQvIrk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=TobQflCjvJm+cqkXogShigLfTaDYNg0mUfkqOsR7PBkoBL1603BjWzP6fEHtseTqC
- dTAW7yG8UAfcDcDJfg+9aB3Ial0Jjbq2agtS+P4byploF5VzKMeBw99i5xIljrMPOV
- PJO1kE4scL+v3un19ig3rMy+IR412iqK/zEYPaIBFw6R6Pry+V+SPva/M6kw9/T8bi
- CMp0nMxF2zpQMgx9/hvLkIlCG4gGvtTqV9FRN8dy9jyS+bm7GH9YQbyWPf5+yP8Y0p
- TLqOwU8Pw871vXuz5hyHNzzKi1RjfvATSwyd2DKiz+lNDVYH1OMCGxwC0nPSaVBgLa
- RDLDLwS4SK1Zw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E2760C53BBF; Sun, 28 Dec 2025 20:41:53 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220906] Regression: 4K display output fails on ThinkPad
- Thunderbolt 4 Dock with AMD GPU (Worked in 6.17.1, broken in 6.17.11)
-Date: Sun, 28 Dec 2025 20:41:53 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: PCI
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: danandrei@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220906-2300-xtaNmAZLfh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220906-2300@https.bugzilla.kernel.org/>
-References: <bug-220906-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1766956104;
+ bh=dLf/6gRGuEo/mfU4OiTF5teRzBnCSCVYi0WyxgJqHEM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D/bwDrBrZM0OB6QZ54KAMFIEXcvsB4IxvGE9xmMSC1lU2Nlgfkb/lpxb/yjpqFSVB
+ QzNGTElYPx229yLFx6/OWBIw5AkL3V9gjORap3jj+jjEFnpieP/QVQudk2OA+SC743
+ iNvE33KSK0fm+OGWRaqLHjldIuYCA37TbrgQ8f3OhGWX4ejuXFudtDLSDO4XyRjxlM
+ vLl6NtHYPlhtp2vtNLyFpzRBbMndOpPWLKY7QyKQc8fhtJ/xKT536hvTGLt0e5+Y/F
+ CJH9BJehdNsmALjU1GlMTdmxMixnC7H7SVv5cjCkFDOT/mkubkZrwilAgdS4tFTDfe
+ +hVE7UCwr7A5w==
+Date: Sun, 28 Dec 2025 22:08:17 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ stable@vger.kernel.org, =?utf-8?B?6rmA6rCV66+8?= <km.kim1503@gmail.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, 
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>, 
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Subject: Re: [PATCH v5] drm/i915/gem: Zero-initialize the eb.vma array in
+ i915_gem_do_execbuffer
+Message-ID: <5qxmnuycar2xi4vdsamffd7xanaow7c7tajdd4jndm4me4xdbw@nkjpl4zfoegv>
+References: <20251216180900.54294-2-krzysztof.niemiec@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251216180900.54294-2-krzysztof.niemiec@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,15 +65,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220906
+Hi Krzysztof,
 
---- Comment #9 from Andrei (danandrei@gmail.com) ---
-Thanks, I attempted a bisection, but it appears that the 6.17.6 I built from
-source doesn't exhibit the bug, whereas the build I got from Fedora's Koji
-does.
+On Tue, Dec 16, 2025 at 07:09:01PM +0100, Krzysztof Niemiec wrote:
+> Initialize the eb.vma array with values of 0 when the eb structure is
+> first set up. In particular, this sets the eb->vma[i].vma pointers to
+> NULL, simplifying cleanup and getting rid of the bug described below.
+> 
+> During the execution of eb_lookup_vmas(), the eb->vma array is
+> successively filled up with struct eb_vma objects. This process includes
+> calling eb_add_vma(), which might fail; however, even in the event of
+> failure, eb->vma[i].vma is set for the currently processed buffer.
+> 
+> If eb_add_vma() fails, eb_lookup_vmas() returns with an error, which
+> prompts a call to eb_release_vmas() to clean up the mess. Since
+> eb_lookup_vmas() might fail during processing any (possibly not first)
+> buffer, eb_release_vmas() checks whether a buffer's vma is NULL to know
+> at what point did the lookup function fail.
+> 
+> In eb_lookup_vmas(), eb->vma[i].vma is set to NULL if either the helper
+> function eb_lookup_vma() or eb_validate_vma() fails. eb->vma[i+1].vma is
+> set to NULL in case i915_gem_object_userptr_submit_init() fails; the
+> current one needs to be cleaned up by eb_release_vmas() at this point,
+> so the next one is set. If eb_add_vma() fails, neither the current nor
+> the next vma is set to NULL, which is a source of a NULL deref bug
+> described in the issue linked in the Closes tag.
+> 
+> When entering eb_lookup_vmas(), the vma pointers are set to the slab
+> poison value, instead of NULL. This doesn't matter for the actual
+> lookup, since it gets overwritten anyway, however the eb_release_vmas()
+> function only recognizes NULL as the stopping value, hence the pointers
+> are being set to NULL as they go in case of intermediate failure. This
+> patch changes the approach to filling them all with NULL at the start
+> instead, rather than handling that manually during failure.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
+> Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
+> Reported-by: Gangmin Kim <km.kim1503@gmail.com>
+> Cc: <stable@vger.kernel.org> # 5.16.x
+> Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+> Reviewed-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
---=20
-You may reply to this email to add a comment.
+merged to drm-intel-gt-next.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thankyou,
+Andi
