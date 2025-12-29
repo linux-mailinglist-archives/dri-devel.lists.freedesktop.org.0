@@ -2,78 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3F4CE6295
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 08:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE341CE6343
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 09:12:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2ADF10E349;
-	Mon, 29 Dec 2025 07:41:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WxJHG8n0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37F310E0DD;
+	Mon, 29 Dec 2025 08:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F059A10E349
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 07:41:38 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-b79f8f7ea43so1944784166b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 23:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1766994097; x=1767598897; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
- b=WxJHG8n0O7iPa2I7QoDZsKt8I6RB4ZMfLuh8wBzRTZu9kTrrBv/Rf09yc1OYMP5nHc
- autZOCmgdMaij+eIyZJbNAc2v4ICEgtqG+bo4U1X8loUdmNwTIrTSunrePixi7sLhgf7
- ywr6sKoWV5Wvnl12Z/nnElvg9YB6AVH/XS3ulD3I9u3i132z+v+i4TiGTvsoRyMaLyhZ
- S4D/cUQILha5mlKFh6bHPFz0fAeYBccU2l29f5yDAEja0ZLqIgwTwFvZhGrotWA78tbT
- AKiX5M0d2jAMyJXL0gq8RQ+rtbkcI9HJDO3FFzmUALfy+C57CuXlFP9njsdsNCnoCOiP
- PRXA==
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA9910E0DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 08:12:29 +0000 (UTC)
+Received: by mail-oo1-f69.google.com with SMTP id
+ 006d021491bc7-656b2edce07so15870157eaf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 00:12:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1766994097; x=1767598897;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
- b=ETiksPCLh14qJwhCmLzBBFmQhFoXDEX4PR2AlzgKRWD9HVl31aK/efvxycUUc0+01H
- ysPMvXawVuU5Up8fLAQo3Q7deg1kod8S6nSEqClABgIptKHcK5q8vHOLgXz+6AInJf7c
- JAFEs9CJ0Ng3KPSC3hqEEkXi0SvyvnyUJ/cHRHafMizKV5J6hS/3tywXjPD4cDtkbEBn
- sGkz1ZKUpjhuH9bRrLDOUye/3SG8SBxJlURdggQVL4GSxwxN7+IuF2mz730SQMd9lqiK
- z8uQHn40YA3C33AMQ2cDKhGNLq0p2CfCFTILqrtXGf7j11FO3vM4mW+ajLO94wTYkVUW
- Nuvw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKZj2riZpnlZnsX+Jro2G5F3tO44Y+wQEMTFy1UQ9znbsbXFJWMKLS9ls4KJ74Q7QkdeqeWLQJMuQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzv5aPj6HR3Y/Oktv+LxNMzoU8HXhgxsFp887T6X/A0l2OyqSF8
- eA2wVHDzLPj9XfANGxeOI9dv9TDN7/86VOedNRM4xHpd8Irk1/ysvsn6SFTzMeNZxCC6QqkyhgL
- i9A5hAmpi942CM4949Ii9+h47zV7hwMI=
-X-Gm-Gg: AY/fxX7Df8kg0UTd7XNGQt3y4SCYylCcO+Opz5mQLE5JokuT1o1Xe9rfQ0BRlktR8IO
- 8BFEtxbq/qrKftcvxQsf9Q7bSRovWAXTjo0gEbFapnBDhwBrNJf0uuWQve7wPv2g/2TpOMbmWhF
- +YdIWIYozMW/pk+0pef5wW4oalX6CG2lClXJzYdmYQWSYT46KCC0orKsX0JMGvSCnZlOc75oMIj
- /UO2YI9hIeutYfzgP9b7KJJw5Cj50AJBTL+5xyKnaqR8c0rcU3PXD+Z6PskJRyUKAiAgCRsq79h
- /sXavwnnbtBUqOEEF0B9nvxxUFmEOdbFgr4ri5OhNxeVX6JL7CVWFn0vnFPqXcU72fsZZvXymR1
- wzvNPmZU=
-X-Google-Smtp-Source: AGHT+IFsiw3jWtdQEDQH/mXP+tcbghOYcPeWqAbdVDVv7o7/abPtivB78goQWZ0idTFYi+CcJ/7gCrJl+TRRu/MiPwo=
-X-Received: by 2002:a17:907:9809:b0:b71:ea7c:e4ff with SMTP id
- a640c23a62f3a-b8036ec9e3emr2773470266b.6.1766994096979; Sun, 28 Dec 2025
- 23:41:36 -0800 (PST)
+ d=1e100.net; s=20230601; t=1766995949; x=1767600749;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SJM7/tKyMOvZ4hHwrJcSTzPwztCZaR/n8DpnIiOVibs=;
+ b=S670q31iO5kWBUhpAwrKPRAoREZLr9LmQ5JEZ8DuFfbVVZ+mQrQtae3TmtqWkoAo0K
+ eVMv7OmzITR9IMqa7YlzNLPiGIRqjSu4mAYuVRs+9xtwX6CqBhB7MV/pIaSG0cB4qdLd
+ lXUOXNNFOvIKf4hEAPQw3jcsaKr6oZLTakLQRjgnRldaxeX5b7Qoe6mYgo4QNI1h42Tm
+ iu75RHyzHpTDeB3lrg0nX+Q0oi9b3tKVTDMjPw4B5ax3pWkBan8CkQoKBHRu0N2pbLMH
+ EXm1ghmMngb/K3uHEdyC78gQ11wsdBlzEISJKJf55NY12VY3SGhIrQ00NQWbNfP4rsYR
+ cZxw==
+X-Gm-Message-State: AOJu0Ywvwl8xZAcFn0KM0DB8vTasBckdfMM/yMjps5Z7i7YL9hCBfjEy
+ AQiGSfgMUqRlEy+iIJjygduco1y/rvUus+rULseMCbl83JuqKfYpvrvfb6iZxArxXqPI1VKFS9Q
+ iQQDgeT498Ni34a4mM/LOnK5nhb8ApFrkZtRZ18E7DU9nR6B98lJnUcGwIXU=
+X-Google-Smtp-Source: AGHT+IGIoaYFMn+lfu8jbJaOL5mSx9p+jE69x5LfcBa5fJV4VPtMUmkQEzGOY9fNx/OlYs6Oq1089AjgHaBsQOCiWUMW4nHjUHyA
 MIME-Version: 1.0
-References: <20251229010814.94255-1-spxxky.dev@gmail.com>
-In-Reply-To: <20251229010814.94255-1-spxxky.dev@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 29 Dec 2025 09:41:00 +0200
-X-Gm-Features: AQt7F2r1dDWzOTpFWamMt3UW53SPeTfq7dsNRjTugzb_U_DAnDoUbownyn-BlB8
-Message-ID: <CAHp75Vc9fnuMb3s-KtX5r+nmOH5BztP=d+h9FXpn2i34sCv2-Q@mail.gmail.com>
-Subject: Re: [PATCH] Replace udelay() with usleep_range() in PLL
- initialization code. According to Documentation/timers/timers-howto.rst,
- usleep_range() is preferred for delays "10us - 20ms"
-To: Alexandru Costin <spxxky.dev@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Received: by 2002:a4a:b80f:0:b0:65d:aa2:2e30 with SMTP id
+ 006d021491bc7-65d0e9a10femr8531020eaf.28.1766995948807; Mon, 29 Dec 2025
+ 00:12:28 -0800 (PST)
+Date: Mon, 29 Dec 2025 00:12:28 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <695237ec.a70a0220.c527.0020.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Dec 2025)
+From: syzbot <syzbot+listf549c297f73730b1f03d@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,31 +59,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 29, 2025 at 3:09=E2=80=AFAM Alexandru Costin <spxxky.dev@gmail.=
-com> wrote:
->
-> Resolves checkpatch warnings:
->   WARNING: usleep_range is preferred over udelay
+Hello dri maintainers/developers,
 
-First of all, fix checkpatch to point to a newer API, i.e. fsleep().
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-...
+During the period, 4 new issues were detected and 0 were fixed.
+In total, 11 issues are still open and 34 have already been fixed.
 
-> @@ -210,7 +210,8 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
-t len, ...)
+Some of the still happening issues:
 
-> -       udelay(100);
-> +       usleep_range(100, 120);
+Ref Crashes Repro Title
+<1> 575     Yes   WARNING in drm_prime_destroy_file_private (2)
+                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
+<2> 67      Yes   WARNING in drm_atomic_helper_wait_for_vblanks (5)
+                  https://syzkaller.appspot.com/bug?extid=fcede535e7eb57cf5b43
+<3> 1       No    WARNING in drm_crtc_wait_one_vblank
+                  https://syzkaller.appspot.com/bug?extid=c9f3062e1f1e68af836a
+<4> 1       Yes   memory leak in drm_mode_atomic_ioctl
+                  https://syzkaller.appspot.com/bug?extid=3fc9eecaf97147282c87
 
-> @@ -231,7 +232,7 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
-t len, ...)
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-> -       udelay(100);
-> +       usleep_range(100, 120);
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-This is an IO function for the hardware in question. Have you tested
-it? How do you know that this is a non-atomic context?
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
---=20
-With Best Regards,
-Andy Shevchenko
+You may send multiple commands in a single email message.
