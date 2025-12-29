@@ -2,176 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54D6CE9198
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 09:56:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D5CCE9301
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 10:16:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE1C10E42C;
-	Tue, 30 Dec 2025 08:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910E410E87D;
+	Tue, 30 Dec 2025 09:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="oDAsOCDL";
+	dkim=pass (2048-bit key; unprotected) header.d=efficios.com header.i=@efficios.com header.b="sbV3LBaW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 916DA10E42C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 08:56:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1767084992; x=1767689792; i=deller@gmx.de;
- bh=cW5OmwtMJpIpRqc79c7nIfX/ogYjvSL2dWh+zvXxtqk=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=oDAsOCDLgpE2LzHPY7eXv4sLLOV5OMt6JkpFVzwP+F/5GZWGRHA++rK9sDSQV5iX
- KTqjwZtv/2/wdpBn2gWgGskn8FD8Xsc4s5AmMYXq/hjtwfx2f1J4PbwuUOy8L1rSS
- 1jX6T7J45ndiEC8+S86SAkNi6kDytP5upML7t2ogKArM1ZljniC9bzk4m0l5Tx9I/
- pjxcB67dOLlqIFn5fXjGxzEiT1jETzwkkz6T1lt0IJKki1o7GvPYNtBica2BgeBx+
- q98vYtV1N63ctrdB+n0vlwSKE7yAjrzEfRaNlPi58zvT2gljLKB7V64K4cVai/v9T
- de2Ezxlh3UtczPRYgw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.51.253]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MxDkw-1vppQe3Bma-00v1oD; Tue, 30
- Dec 2025 09:56:32 +0100
-Message-ID: <6443ccc9-d6cd-45d5-9d6d-ee4589a8aa0f@gmx.de>
-Date: Tue, 30 Dec 2025 09:56:20 +0100
-MIME-Version: 1.0
+Received: from YT3PR01CU008.outbound.protection.outlook.com
+ (mail-canadacentralazon11020139.outbound.protection.outlook.com
+ [52.101.189.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0687110E749;
+ Mon, 29 Dec 2025 22:25:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a/zuVgK2QxxGVwOKvLEFDJm81+NAAmOrxrfizm7cinPYnpiLARqhjFHSxV8Dgxtm0TBsyQ0GJoONggwMz6fQ2XpN3Ua4q+Wi+F0Uz1AEqAumO9RIF/Oe7MJRwcKPmm24COh4M+jEhraS0IuVEoUwLVymCkrZavIuBF9A+EV7FveYDc2OAKRjB3PiO58IxdE82wt9DQnZHkoy1zf2tGJfRLoYjJ58164l7EZwwWAnEBLQvt5SB9RdxXGzATo+I6zqjxHbZusYAeJYwY61QViOEu69DUj87frzdLehssMHm285UnJTwZaAIAe6zzYZbuSsaUE+JKqE57wRzMGcqDwD+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NdfzNniktmm84vSXAoAbLkf7UZlF2yvswvw/7jKLYkE=;
+ b=DsjIJmO4IVvc8oUiPoDiSRco4Vfd/SiiykEnFNmSWphdkLgwgDwZjCIH/dp2ue0HgNnj+4y36cUutJ6tdydDv11am/7M7PCUyBTTdmX9rWBCpwUBYfBrD709Kve3iV2iWHgwjYb2obOiLQQng6A7f48FuHSZ/LYe1hXZOJ8UiyHe/UyfByXBRfmXMr8yARcisPlTKk2Rh9JDBDzUUPWu115SUrB1Ncu5E5jgqvgr8G5Wet8wihGcr4hZNz516UeetyP7+liwt0i97lvca6tlg/13J21LNH3a+Nv6V0W76MMVHU3qEBU6UcyawGTkdEOFvL26flcbGISeXzequAO41A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NdfzNniktmm84vSXAoAbLkf7UZlF2yvswvw/7jKLYkE=;
+ b=sbV3LBaWquBKzKXKbQjS7OZK6G0hh1PggMs3L0LMSfBenI2FEeAnTqfzJtFL5pYgK1Y9nT72gtpMXuXGEcKtgQHmA8b7z3Fm7lD8pXkP2kSOSk7VPTtUUDC0ORE+/Ncysoo7PQWLhBMjCL3b9H0WzFtiOjBptQhqv43lPz/UQNi6RKff0J53LLnNTsjmTLCdXztFYFtb8wAIqWLwfFvW2ipt2nOJlEE5fMY5tbf2rBLF4SgRKjEx3VvrGoIcCRYI9GJjlehQv5LcUqDTquk1iNYoqDET9G7EzwMm3qYuPSUPU4uFvsVVAxgGUdXDQP5RGmPdAOvxXsxyFK7Zipjm3w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+ by YT3PR01MB10750.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:fa::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 29 Dec
+ 2025 22:25:12 +0000
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1%5]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
+ 22:25:12 +0000
+Message-ID: <9833cb61-1ec5-4cc1-ad9d-3e07f3deff80@efficios.com>
+Date: Mon, 29 Dec 2025 17:25:08 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Use device_create_with_groups() to fix sysfs
- groups registration race
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, stable@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20251221165740.15821-1-johannes.goede@oss.qualcomm.com>
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+To: Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
+ <20251229111748.3ba66311@gandalf.local.home>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20251221165740.15821-1-johannes.goede@oss.qualcomm.com>
+In-Reply-To: <20251229111748.3ba66311@gandalf.local.home>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:e366OPoVodHnQuobdahgDY+mJYR4y4Mfk3iBSZAQBFuAB4gKfVD
- Xq1qaIIeDk1vAMsCWYGI+31UucDhSegBMUrj2MlXVvwXs+3/IIOiyQ4oIwbTz0X++Jw8ZMu
- RqPePjOnhS3F5UUNT0J9v7fTMGaJuRYVX40KLyU6xRyjLvqSnJRgDQgtU1dl8ot3T7rtZry
- rO4nWnvCxgMMAAX6vo7vQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jRqcwu9OZiU=;9+DXFj+GRdopPdth6fmg9J8neAP
- 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
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0051.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::23) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:be::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YT3PR01MB10750:EE_
+X-MS-Office365-Filtering-Correlation-Id: a21f8d98-8aef-43c0-e3fe-08de472921b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b2prTHlFZkNLWGg4OWhyc2swK3dNU2N2QU91NjBPMUc0dWx0UnFFaU52MmJy?=
+ =?utf-8?B?TzY2WkRERmd5SFlxRU5pZHlHbGVOcmwvSmVxMStMbXVCQ08vemlSR0xKM3M2?=
+ =?utf-8?B?MmNaOVFNQ2c1cmEvSjhDRXlFOU96NHdzVlFhMEFiT01ydGUrSk5hN051REdr?=
+ =?utf-8?B?NitNSDRzTnpCVWtRajEzYVNPS0FNUHdMUG01elRJWUFTQnFWZVZpbUxycmUx?=
+ =?utf-8?B?VzNvMWtEeUlUZkFaN3ZJTGZNeExRRnhYQ3FFSzFhbm5yYzFTUVJ1ZkVIM2NN?=
+ =?utf-8?B?NWRVcnc1S0Q5ZERuNnJycHNITjR3SzRFdFVvL0JpN3RBT0NqL3JIMnRyYWpY?=
+ =?utf-8?B?TVpUemxYQmxsZnJtaXA4WEY4QzluRkRuS2t4SFlqTzdLMjV2UU1xbUNteVRL?=
+ =?utf-8?B?NnhTMGxLK016RmV5eGhXYXpRTGRERHI5RXBYVm5rU0JhcDIvcU9DZEs5L1VC?=
+ =?utf-8?B?MlI3WnpvbTZYZmU2NjNUNVhTcEJ1UUxNQWExMTYwNXczdjRoY3IwUFlCWGk5?=
+ =?utf-8?B?OTBxbWs4eDRFcWpESWtYTkdlYnYrcjlaY3Zic01WR0VvMUg2OUpXMGcyZEYv?=
+ =?utf-8?B?dW5McWMyd3RPQTg2TUZMdXJDVWJxOGwzVjRIclAvNk0za1NJRGFZcmRxT01C?=
+ =?utf-8?B?UXIxYUduSTY3ZFdraU5JSlh3b1J0UHVuUjdjWDladnNpTUN3ZVZNTVR5NTdJ?=
+ =?utf-8?B?T1RmSGN1anJsNVpRaFp3ckZXWE92Z280TVVneWFYMU5hMjZtbHd3R0Y3cERt?=
+ =?utf-8?B?U25oWFJQd09DV0JPa1pDWGlyNVVINlUveFhRQzA4ZzVCa041NkNFTnRoY25C?=
+ =?utf-8?B?Z29UMTAxbGtqYU1HMklwZWpTak05WFdBbmVQZ3Q0elBlcU1zQ1ZlV3c1eVp4?=
+ =?utf-8?B?TThrOVV2YjRWbkVqUHhNTE4wQkpPeGs2RCtaVmpVdEwvOFNPNGVmeGVWdkEw?=
+ =?utf-8?B?WDM3OWpTSDBzRFJSVDZJOEhuK0lTVkZMR1pPRFo3dFB6L2srRVNoUHVVTzli?=
+ =?utf-8?B?REZINzIvcW42ZDIrdFhhYWh6MHN6SzNNU2lsTFRXUDQ3VnpwUHViTHN4OVdr?=
+ =?utf-8?B?SFdWYXVKSHRGMGx2Q01vV2RjRm56SHJjc3A1MldMb0FDS2JZODJIcG1uenRu?=
+ =?utf-8?B?QjMvWWRIMi8zak5NSmxrb0RacmFvWHVMdVMzYW9aczBJVHlzYnZOVlpZZk9z?=
+ =?utf-8?B?c0Z5MW9yalh0YlhJQW84M1JpeHMxNldqS3JUZEE5YXVJWDhNcVpNWGN3Q0FE?=
+ =?utf-8?B?R3NlVzd4N29NcFYvWHE0MG0rUEQyV0tlOGI1aGljUDQvSXovL2RxRFZ0TDEy?=
+ =?utf-8?B?VnZkSkIwUitVeUZkOE90cjA5bld6UGJ3QmxUWUxOK3hNRVVaQWIxWm43TFc5?=
+ =?utf-8?B?TGZCUkwwQUZMbXRDK3VaUndTSmQxeWFCaDZzZTBaWThwUndoV0VYRFhiZGE3?=
+ =?utf-8?B?dGw2djU5eDltRzdwSGdOd0tUWlZNaUtMNmxmazB5cm5UUmROUC9OZGhtNEJZ?=
+ =?utf-8?B?TnpiSXR3VEZZMUVleFFvZ3JXeU9vdXZGU1I2UWJrZGwyOWVZYnFPaU5hSEpC?=
+ =?utf-8?B?ZlVXOFk4UGpBVkpOWXIvalE2NzRyM0dKdFFDeExKMHNXOVdMUG9RbklLVUhZ?=
+ =?utf-8?B?eEsxeUNxdTNrRkRFWDBEV2gyNHlaWDR6d2RzOUlQZXVIWHk1cEVTS0hQWjJw?=
+ =?utf-8?B?NW5NZVMyS0VnSGNWdkYrcy9vSno5NU5jRFNLY3QxYVlvTE9TOHJhUDFWYXI5?=
+ =?utf-8?B?ZjJNeUJleG14QmdYTEFEOHdXcHpoRG9tdG1HaHAvcVNFalUyZHgxUWU5eHV3?=
+ =?utf-8?B?NkhOU01QYzV3WHhiSndMRE9LRTZGMEN6NHpJeDRtZWtORlN4bHFFaEhUS1ZP?=
+ =?utf-8?B?N0pEbXFHR29TMmxnbGd0U0FTQmVZd3VMM3Q1RDRKdGZ1V2c9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEJmeDhPNENpa21RSExJcWlSb3FDdlJOckR2ZXlDRU1XOU5EZFBtVFR0TFZD?=
+ =?utf-8?B?eWp1dkRBUDdDMkNJMUk0aFdyQm1sTU01Rlh0cnhGNUVvK0ZXVkV0R0xqSTds?=
+ =?utf-8?B?Si9EeWlHeDdCTkpDalAyL3I3VFAvcDFVQlFLdlF6YnhXZVUzbXNvWFdSZmdn?=
+ =?utf-8?B?K1FaeWVveVZHWnlPUk03OXU1R2Z3cGNoVXVYWEhvU05YMUxBSW9kaUlWVW9X?=
+ =?utf-8?B?RE90ZVM5ZkFHTENoUXVmM3lJVS9pNGFoZDhVWnl2Z0RPQmpFOXdSNThCYVZU?=
+ =?utf-8?B?RTRoSmZRN1Rodlo4NVJDQWhPdUhMN3Y2VklNL3cxUm1HaU5LNzR1Sm8weWpJ?=
+ =?utf-8?B?b3BlN3Ria1U1TysxMkRqZ1lFaFIwc1VwNUUwRFlJTkNSdmFLeXVnRVNETWRF?=
+ =?utf-8?B?b1lhOGdQTTdBWWVQb0gycmt5TldHOWxiMUR1NnRza2hFRG81Ym5yMVNkOXRL?=
+ =?utf-8?B?c1o1ZDd1SUxsV2hSZ2NRbDhPM3ZVK0lZZTVtUVFFbFp4UVhPbWdWL1lMSGx2?=
+ =?utf-8?B?Rmx0Szh0TWtVNjgrM2VJTmhvZXFyampFaE02VDJwODd2R0F2RU5Ub2IxMEpT?=
+ =?utf-8?B?SDl4aVNLSXdsWGhWbUJJVDkxU2Q3b2w4YWZBVTA2djdwS2RXYmZsOHUrbG5t?=
+ =?utf-8?B?T0VxbzcyamFJRHh0RVpoUlNpYkdETWczMDB0VzFEWHpWbGRLMndrMVFhOXl5?=
+ =?utf-8?B?YUZDbzB3V0QxTDc4bFMydnZRbndMYWJQSXdLOXk5cHNERnJTRmVoZVlnUS9E?=
+ =?utf-8?B?RDNsOWdnOElJdXJpNFg0c2NLSjNqdk1oMlluZjFjS3RFU21nWVMySlAwSE1u?=
+ =?utf-8?B?M05pRlpkM3hVNjY3ZzVGMjhEdzdNTE92NFo1NE1ybHd5OWFXckM5MG9vTkVH?=
+ =?utf-8?B?QzdhU090cGFSVzc4RGh5YWFQQTZmcGF6WFdicjVwWldXckJTL1ViVHpjakdQ?=
+ =?utf-8?B?aVpjL004Y1FLWGJaaWR0dVpVZU5JMzAydm9Cc2M1ZU9xUkJDMkR1L20vZGtE?=
+ =?utf-8?B?TmxaMU56enZKdit3WTR6TEIxL1YzQTFOUUtaekluM0xJNlYvQkwyMGZ1cG0v?=
+ =?utf-8?B?QTZhSlpTWXFGZ01JZlVBVEl4aWlJeG1xU25yVkxXeWFyTENXNm90Q3FDSXpq?=
+ =?utf-8?B?dGRBZGtUZzB1OHM0dEp5TlFHRnpQakdDNWI5NytPQmsxS1dtbmY0ay9YeW5u?=
+ =?utf-8?B?em1WeEhxWWozRGVpLzNLeFNpQytid2ZNeHRTZU12MVFNUVNhZFZMVGNsTE00?=
+ =?utf-8?B?b2pxT0liNEV6YnBMa1BNdXdsWEpPK0Y1OFNzbldSakRVMFN2U3RsQ2kxcFlQ?=
+ =?utf-8?B?TndTNjVPQ2F5NjJYWGhQeXJsRkhpYjIzZmw5dERhQVhKRkJVQWh3NlJWOVVE?=
+ =?utf-8?B?T2l5UGVHc1FVY2VidmI0Q2s4dkJET0IvS3hIWW5qMU8rQi9rSXJqSjlZZnRk?=
+ =?utf-8?B?NmM4U1RlbXBwSnVpN1piTVV5VnZTQ1phMS9IaTVCbXhpSTVhakNuWE5SeUd1?=
+ =?utf-8?B?cndrYVgzbEhJenRVS2FOM3I1TVJvSHFPWm5mZno2TWUxeFczajdmVGN4ejNq?=
+ =?utf-8?B?aTBabWVsUllFOXpJQS9DMGZmMWFlbW1MZlNUdTNGTWhBeEF2dnpNQVRuZkRx?=
+ =?utf-8?B?MzcrbmMxVnNZNVdrZ0NUMWQreGtxejBhV1FLWDdhcUNuQ3BOL3FMY0dmUGNW?=
+ =?utf-8?B?WGQzcnlsKzFLRXltU1hVZTlUWGJPYVRVd0hMYmtMcm92U0gzWG04V3JTd0JO?=
+ =?utf-8?B?WWFiaUlXaFVBV1R5L0Jmd2x0TVg0amUyTXJURUpzaEFrU3RacWVueGxHL1No?=
+ =?utf-8?B?UnFLQ2dHZEp0Vm5LbmlrTUN4ZmxhdGxkenA4T0lpYXZlWWY5K284enhSeTBo?=
+ =?utf-8?B?SWp2ajFpcmV2d3dxbmF1ZUpGNzRKWHByc0gvUTk4WGZrcEdBa2Jnc0YzcWc1?=
+ =?utf-8?B?VmYyckFObTlLaFhHbDIrNndpcyt5b3RKRnloZWk1aCtaRjhFdG9NU3JUTEo4?=
+ =?utf-8?B?RU1xSUIwUEVCUFBOS1JZRGJWdlA0VlNuRHJpWGQrV1VsOVdZV2FMS1M4c3U3?=
+ =?utf-8?B?Z3JKOC80cEphdDZsdEdYOXJDNTlpdmJoMUxRMDUxOGgzOWp1ZDNrZmgyYzQ5?=
+ =?utf-8?B?Q052QXI2ajZxWndtNU5Fa2RCRW56SnFnTENlbE1vczVVOXh0TTBoRUM2b2l6?=
+ =?utf-8?B?YVRvTk8ySVhFaWo0cTJJQmZ0amRrVFBvZUdUZllYWllqcjN5aXpwaWtwSUUx?=
+ =?utf-8?B?cXlGSWxwSHk0eVRwa3l2aFhkdFNiK0xzUkt2SEU3TzZvUzQxYWN2eDltTGFZ?=
+ =?utf-8?B?ZTlVSWpWcVdkT1RNVStjOGhmK1FYZitjZE9iYTk3c0hyUW0wODM2a1I2d0lR?=
+ =?utf-8?Q?prXIs2Nuu7cNjw+k=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a21f8d98-8aef-43c0-e3fe-08de472921b1
+X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2025 22:25:11.8952 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HOidrK1PWjkSOjp14R3tx/6AQ1BfeJRX3yg4dFxxA06rhIdzodXiTITYRazZGHI3e7QnsZmYowpZTOFYATJL58GxdQ4Xgb0JOoBDiMUC/AA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB10750
+X-Mailman-Approved-At: Tue, 30 Dec 2025 09:16:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,133 +185,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/21/25 17:57, Hans de Goede wrote:
-> The fbdev sysfs attributes are registered after sending the uevent for
-> the device creation, leaving a race window where e.g. udev rules may
-> not be able to access the sysfs attributes because the registration is
-> not done yet.
->=20
-> Fix this by switching to device_create_with_groups(). This also results =
-in
-> a nice cleanup. After switching to device_create_with_groups() all that
-> is left of fb_init_device() is setting the drvdata and that can be passe=
-d
-> to device_create[_with_groups]() too. After which fb_init_device() can
-> be completely removed.
->=20
-> Dropping fb_init_device() + fb_cleanup_device() in turn allows removing
-> fb_info.class_flag as they were the only user of this field.
->=20
-> Fixes: 5fc830d6aca1 ("fbdev: Register sysfs groups through device_add_gr=
-oup")
-> Cc: stable@vger.kernel.org
-> Cc: Shixiong Ou <oushixiong@kylinos.cn>
-> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+On 2025-12-29 11:17, Steven Rostedt wrote:
+> On Sun, 28 Dec 2025 13:31:50 -0800
+> Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+>>> trace_printk() should be as available to the kernel as printk() is.
+>>
+>> um, why?  trace_printk is used 1% as often as is printk.  Seems
+>> reasonable to include a header file to access such a rarely-used(!) and
+>> specialized thing?
+[...]
+> Yes, it's not in your kernel, but it is in several other people's kernels
+> as they develop it. And adding a requirement that they need to include a
+> header file for every place they add it (and then have to remember to
+> remove that header file when they are done debugging) is going to waste
+> more precious time that kernel developers don't have much of.
 
-applied to fbdev git tree.
+I agree with Steven. trace_printk() needs to stay convenient to use for
+kernel developers. Part of this convenience comes from not having to
+include additional header files by hand. It has been around for
+16 years and documented as such in kernel documentation [1],
+LWN articles [2], and conference presentation material. Changing
+this would lead to confusion for people trying to use the feature.
 
-Thanks!
-Helge
+I personally use trace_printk() to sprinkle temporary debug-style
+trace events in frequently executed kernel code I need to follow
+carefully.
 
+One possible compromise would be to move it to its own header file,
+and introduce a CONFIG_TRACE_PRINTK Kconfig option (default Y) that
+would surround an include from linux/kernel.h with a preprocessor
+conditional. But please make sure the default stays as it is today:
+include the trace printk header by default.
 
-> ---
-> Note the fixes tag is technically wrong. This race has existed forever.
-> The commit I picked for the fixes tag is a dependency of this change not
-> the commit introducing the race. I don't believe that backporting this
-> back any further is useful which is why I went with this commit.
-> ---
->   drivers/video/fbdev/core/fbsysfs.c | 36 +++---------------------------
->   include/linux/fb.h                 |  1 -
->   2 files changed, 3 insertions(+), 34 deletions(-)
->=20
-> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/co=
-re/fbsysfs.c
-> index b8344c40073b..baa2bae0fb5b 100644
-> --- a/drivers/video/fbdev/core/fbsysfs.c
-> +++ b/drivers/video/fbdev/core/fbsysfs.c
-> @@ -12,8 +12,6 @@
->  =20
->   #include "fb_internal.h"
->  =20
-> -#define FB_SYSFS_FLAG_ATTR 1
-> -
->   static int activate(struct fb_info *fb_info, struct fb_var_screeninfo =
-*var)
->   {
->   	int err;
-> @@ -451,33 +449,7 @@ static struct attribute *fb_device_attrs[] =3D {
->   	NULL,
->   };
->  =20
-> -static const struct attribute_group fb_device_attr_group =3D {
-> -	.attrs          =3D fb_device_attrs,
-> -};
-> -
-> -static int fb_init_device(struct fb_info *fb_info)
-> -{
-> -	int ret;
-> -
-> -	dev_set_drvdata(fb_info->dev, fb_info);
-> -
-> -	fb_info->class_flag |=3D FB_SYSFS_FLAG_ATTR;
-> -
-> -	ret =3D device_add_group(fb_info->dev, &fb_device_attr_group);
-> -	if (ret)
-> -		fb_info->class_flag &=3D ~FB_SYSFS_FLAG_ATTR;
-> -
-> -	return 0;
-> -}
-> -
-> -static void fb_cleanup_device(struct fb_info *fb_info)
-> -{
-> -	if (fb_info->class_flag & FB_SYSFS_FLAG_ATTR) {
-> -		device_remove_group(fb_info->dev, &fb_device_attr_group);
-> -
-> -		fb_info->class_flag &=3D ~FB_SYSFS_FLAG_ATTR;
-> -	}
-> -}
-> +ATTRIBUTE_GROUPS(fb_device);
->  =20
->   int fb_device_create(struct fb_info *fb_info)
->   {
-> @@ -485,14 +457,13 @@ int fb_device_create(struct fb_info *fb_info)
->   	dev_t devt =3D MKDEV(FB_MAJOR, node);
->   	int ret;
->  =20
-> -	fb_info->dev =3D device_create(fb_class, fb_info->device, devt, NULL, =
-"fb%d", node);
-> +	fb_info->dev =3D device_create_with_groups(fb_class, fb_info->device, =
-devt, fb_info,
-> +						 fb_device_groups, "fb%d", node);
->   	if (IS_ERR(fb_info->dev)) {
->   		/* Not fatal */
->   		ret =3D PTR_ERR(fb_info->dev);
->   		pr_warn("Unable to create device for framebuffer %d; error %d\n", no=
-de, ret);
->   		fb_info->dev =3D NULL;
-> -	} else {
-> -		fb_init_device(fb_info);
->   	}
->  =20
->   	return 0;
-> @@ -505,7 +476,6 @@ void fb_device_destroy(struct fb_info *fb_info)
->   	if (!fb_info->dev)
->   		return;
->  =20
-> -	fb_cleanup_device(fb_info);
->   	device_destroy(fb_class, devt);
->   	fb_info->dev =3D NULL;
->   }
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 05cc251035da..c3302d513546 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -497,7 +497,6 @@ struct fb_info {
->   #if defined(CONFIG_FB_DEVICE)
->   	struct device *dev;		/* This is this fb device */
->   #endif
-> -	int class_flag;                    /* private sysfs flags */
->   #ifdef CONFIG_FB_TILEBLITTING
->   	struct fb_tile_ops *tileops;    /* Tile Blitting */
->   #endif
+Thanks,
 
+Mathieu
+
+[1] Debugging the kernel using Ftrace - part 1 https://lwn.net/Articles/365835/
+[2] Documentation/trace/ftrace.txt
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
