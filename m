@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0626CE6B38
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 13:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43022CE6B89
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 13:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1753C10E064;
-	Mon, 29 Dec 2025 12:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93AD210E446;
+	Mon, 29 Dec 2025 12:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AQ5Hvjtl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lRTMVPBZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB1710E064
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:33:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E0510E447
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:38:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 60F2844499
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:33:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F9EC2BCAF
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:33:57 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8CFBB44499
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:38:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52264C2BCB9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767011637;
- bh=xAUdXnwdw4MGc3Kxf0WtvX8dHtupKQMIxTUwesxjVCI=;
+ s=k20201202; t=1767011884;
+ bh=rox7wvPh07+CLjjqPOBWQGkUlh+Gyo2uugHFZB5z0+s=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=AQ5Hvjtl5ZI+vB91mXgf/7FaqmloUxzxxQOxMEUbZSj4iJsdeSbey4dSwIloBMgE0
- HLDWfKKqOcAtuthiaZ56D1nSIAj1fmO+VGnDlPcGmTHnYKU3JVMncjS0TnqB/hDpur
- p/K9RHQW2JBAiX2Tg7qYVFwJUGKBzCygW+NEnrgTgFfvxHjBePNDytBPlv34p3VKGh
- sjXxPKKX/FB2ZF7PQUzNdWo/pWZVAdlLQ7BnI2EHVAJGPt/KAGUflSCdqlD2y48YEw
- 0YYwYHoJzdYLPAP6bOUY9cOnm6zUyL9bF78KOn6Ssb8E+npcSFkYTFDv0/bHstGliN
- eiv5hU979WNnA==
-Received: by mail-yx1-f54.google.com with SMTP id
- 956f58d0204a3-640e065991dso7427494d50.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 04:33:57 -0800 (PST)
+ b=lRTMVPBZDgcRwddGpzXgSGPzbz9RrE5n1iRQoOMioKMSCPyzyYX+7+3flfBtxtXDK
+ dGvZoQ9kL4D68Vkb6jdaGrDuy5Z8dwHBxk4HHH1kVtuJrk6PFXuXssUvu36mETVGuK
+ DOIApZ2r37rOrOh/JOokPGNoA52q9swj7IrOoxDsC+ExurzmULUUyP9S0e8aPpQU0h
+ ZlMRIzgi/Qfg81ZCHrR1hUOC7mFdOmcb6FMI88S+DK6tmG/YIuW9Mfl2xdDNmxkRwj
+ mg8M3Sk6rDjSjImPFQsmP4PicvLD3Jph7YoKMb3I40Ba1EFHlRgLoWH3j3cfGx5X+S
+ AXgrM9Ri+6HwA==
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-78a712cfbc0so82248277b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 04:38:04 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXX+9uO8NOySi8hz51pTAylqovZq9T7xuZvyavVWXA3K5wWMAB8dicsy18LPCgTVeHBsf+QOjo511c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkNwbzh7pQzSvw9mwfM6fkU45Xm99rvGP5hiUcI/qmWnWSMA7X
- 4MRQ2KIDv/G0+a22t8BKvBuE68/HrZ9gdWcJoStfa2FC34fiaS99EoRXNHFrI3Dj62PTAI24CmE
- 7WwOwMcwDW/FA7uVOnbrd+QoqnDaEW34=
-X-Google-Smtp-Source: AGHT+IGW7fvps7wB/XnC6tWrYAZ5eBSHy0nlOLcWaaFTpZYeFIeLso81oPc9n2jerPEWAR2y7Lp0JA50tvD/yxStcwE=
-X-Received: by 2002:a53:c05a:0:10b0:63f:bab4:fdcd with SMTP id
- 956f58d0204a3-6466a8ac439mr18565681d50.48.1767011636089; Mon, 29 Dec 2025
- 04:33:56 -0800 (PST)
+ AJvYcCWNc09tkKScDhOeYyvGAc7HW9dfwuOrb7T+dwJV+4cBH02Lq9jTz00ynHBvbiqInO7dCykK2scxS+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0Z2V7qPpQkle/98ulDiMFyt2xn2uwcFcBmspspuv7vNHnvxtG
+ TuszOqAOykRjIJAqakAut9A6aRtlkLakPvEZoq2GUQ5ni09hHVBAIt5j4oneftAXIRwtk9TfDxs
+ JZ8PAflVOexfHO/uD4kFcZG88OOta5Ao=
+X-Google-Smtp-Source: AGHT+IFsGOCuav1GJIi4G3BawSBpJOo6IwnfMUXLRMGmh8VUt++5hT+HtT5U+iVEJ9F2VpETfK2+Gh1JdS0tq7MWKRo=
+X-Received: by 2002:a05:690e:3cd:b0:644:4f94:c530 with SMTP id
+ 956f58d0204a3-6466a84b02amr17388010d50.39.1767011883475; Mon, 29 Dec 2025
+ 04:38:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
- <20251222-drm-panels-sony-v2-3-82a87465d163@somainline.org>
- <CAD++jL=c0AVm+BD_G_AJjiXYVyWdM_HscqyoNQ-tBByJ1Dp1jQ@mail.gmail.com>
- <aVJh2xdCreGpi_f9@SoMainline.org>
-In-Reply-To: <aVJh2xdCreGpi_f9@SoMainline.org>
+ <20251222-drm-panels-sony-v2-4-82a87465d163@somainline.org>
+ <CAD++jLmSev3=HJF1j_kTU5j-u2NhxH6TsdE0uUjnD7Vqkt_h-w@mail.gmail.com>
+ <aU6QxjOphoq9E1pL@SoMainline.org>
+ <CAD++jL=HDRAcwDVUeYUKFbamqVnOADqz5qpbSr1XVsr3M1iNoQ@mail.gmail.com>
+ <aVJpbJEymWWQLK6O@SoMainline.org>
+In-Reply-To: <aVJpbJEymWWQLK6O@SoMainline.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 29 Dec 2025 13:33:44 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkb5=i=XZdB=hc49hX1t6eP9=5tfv6Hg-5m5F0ghC=5_g@mail.gmail.com>
-X-Gm-Features: AQt7F2oymfwij8Obp1J0ATiKmWENsUelo_uvAIVTj5-tWNR2T3NJY1yDSiPZ5vE
-Message-ID: <CAD++jLkb5=i=XZdB=hc49hX1t6eP9=5tfv6Hg-5m5F0ghC=5_g@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] drm/panel: Add LGD LH599QH3-EDB1 panel driver
- for Sony Xperia XZ3
+Date: Mon, 29 Dec 2025 13:37:51 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkb7my6Dt4CkqRjKZAMM6iT8YvzHZb67TRLt1jOEU0qdg@mail.gmail.com>
+X-Gm-Features: AQt7F2oGDXnIlk3K166SE_nBg82Dd1snbA2UqjpF4XmEvLq6o1P2w_E42qJ58c4
+Message-ID: <CAD++jLkb7my6Dt4CkqRjKZAMM6iT8YvzHZb67TRLt1jOEU0qdg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] dt-bindings: display: panel: Describe Samsung
+ SOFEF01-M DDIC
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
@@ -98,36 +100,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 29, 2025 at 12:21=E2=80=AFPM Marijn Suijten
+On Mon, Dec 29, 2025 at 12:53=E2=80=AFPM Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
 
-> > Can you break it out to a subroutine?
-> > lgd_lh599qh3_edb1_unlock()?
+> > Yes that's what I suspect.
 >
-> Sure, though unsure where the "lock" sequence resides (and why it needs t=
-o be
-> unlocked twice, unless this was autogenerated and is unnecessary, or impl=
-ies a
-> "flush" of sorts) or why it looks so familiar to the Samsung panels.
+> Do you still want me to drop it from the compatible, but definitely keep =
+it in
+> the driver filename unless we unify all of the drivers (hopefully in a la=
+ter
+> patch)?
+
+The compatible should be as precise as possible, so indicate the
+assembled display with display controller, typically
+samsung,ams605dk01 etc, then the Linux driver is basically
+a Linux intrinsic matter, but we would name that after the display
+controller so as to make the basis of code sharing obvious between
+the compatibles.
+
+> > > Also, divergence of the driver commands got significant with the last=
+ two panels
+> > > / three phones, though that might be down to vendor configuration/cal=
+ibration.
+> >
+> > That's kind of normal. The defaults suffice for a while, then engineers
+> > want to start poking at different voltages to the display to improve
+> > and tweak things.
 >
-> Will rename it to lgd_lh599qh3_edb1_unlock_multi() and pass it a
-> mipi_dsi_multi_context so that no extra return-code handling needs to be
-> implemented.
+> Makes one wonder if the changes are down to the panel used, or vendor tun=
+ing
+> when they started using these panels in their phones.  To note, I think I=
+ booted
+> all these phones on the "original" SOFEF01 driver without problems, befor=
+e
+> ultimately implementing all diverging commands because I don't know if th=
+ey're
+> defaults, related to color tuning, timings, thermals, manufacturer tolera=
+nces or
+> anything else.
 
-I think extracting the unlock macros from the s6e* drivers and put into
-a separate .h file is the best for starting to unify these drivers a bit,
-but no big deal, I can do it later.
+Yeah a datasheet would really help :/
 
-> > +/- this nitpick:
-> > Reviewed-by: Linus Walleij <linusw@kernel.org>
->
-> Just making sure, you reviewed the SOFEF01 driver with your Linaro addres=
-s,
-> which one do you prefer or should I keep this distinction?
-
-The Linaro address stops working at the end of this year,
-I'm sorry if my fingers sometimes type the wrong address...
-linusw@kernel.org is what I should be using henceforth.
+Samsung, if you're reading this, you know what to do: give us the
+datasheets, pretty please with sugar on top.
 
 Yours,
 Linus Walleij
