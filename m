@@ -2,158 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D769ECE5BC1
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 03:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D97CE5CE5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 04:15:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3A810E8C8;
-	Mon, 29 Dec 2025 02:25:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="c3Wdgv8i";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F097710EFDA;
+	Mon, 29 Dec 2025 03:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012005.outbound.protection.outlook.com [52.101.53.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2153B10E2F9;
- Mon, 29 Dec 2025 02:25:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u7rVKnwV6UL4g95VJ+fg6Z8b1iKNs+fMbD4si6gZcU1P7jIcm8QlTp5VQErg8PqYqSWT3L0IwikjmlfLy4UoNA2tYS7rhkF5hBR2mNryWeid96Uo7sjGbH6pIM4+sICqcBb260T2sSu01FgcEDSh4H0H8hBE0rD7Y2H0QZTmiOoMBm2+LnO9mNJJSICd4tyDJMvqIb9bvYnQH/LSvXmtqho2RsE5+Xzixuq0MdizznXRkDxIGQ58PFI1rA0naXI9NrTPdjYCbXK8t0vYbIYj/QJCIboquAbe5zhNFPZ4skHac0MTcpf4T6HsiRBtxOuV3g+i89NfpQybcqIHdgjNIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=McmHkWOhb44LLO/imeMp4TenhqDDVpQyLg10cr6LsVk=;
- b=MgTOo+kKzsMbgJgCF6xaocLP8cnnngS3tP/PcE7HtNjnXQ9ApHn8g0/HmPSn2OGC49qQc21hLzVWGOsXeo3q74jUBPwM9u9g67A6Bln/kNqffhypeiA9ViR9Z48Dua82GejvTUYXQhXJqJON6h/4pMU0wroku9M5zLiuxXvcvltUZs+iwHIn0o0beqV+uTR5xL5h/GdG6zZ+63btzTQIYoYizpd5DvMgmNrR8qbL/Qq25d/afXQJFCKw+wru4ZvqPhTryD5GvN7AhGY58F9VAeOnbwxomZ5ajG9ERLFgm2ck2KMbKzcMAIWHjCUXd3kV43RMqNNQIN0UD22tjM35Uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=McmHkWOhb44LLO/imeMp4TenhqDDVpQyLg10cr6LsVk=;
- b=c3Wdgv8iApGTwL7WuhvQc0PTWEnaa4mQwzKWPOsQMDw4ESnlOLEa9IYSGkKcdUxZ35LFVQsDrqujJdt4h0KE8+vksVCnNJcjyEK53lzoO++bmkalGCi5j9ilkPzye37HEgQ9m+Ce3A6CWxtQuD/BmLvOuNP/c3ir2roTJ0YSr5Y=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by IA0PR12MB8837.namprd12.prod.outlook.com (2603:10b6:208:491::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Mon, 29 Dec
- 2025 02:25:12 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::833a:459:cc0a:fd2f]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::833a:459:cc0a:fd2f%3]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
- 02:25:12 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Yaroslav Bolyukin <iam@lach.pw>, =?iso-8859-1?Q?Ville_Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>
-CC: "Wentland, Harry" <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)"
- <Sunpeng.Li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v7 7/7] drm/amd: use fixed dsc bits-per-pixel from edid
-Thread-Topic: [PATCH v7 7/7] drm/amd: use fixed dsc bits-per-pixel from edid
-Thread-Index: AQHcY3tEyFN5MTrPs02dSG6UH6lT/7U4DH6S
-Date: Mon, 29 Dec 2025 02:25:12 +0000
-Message-ID: <CO6PR12MB54891B24DC9AF32086009E6FFCBFA@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20251202110218.9212-1-iam@lach.pw>
- <20251202110218.9212-8-iam@lach.pw>
-In-Reply-To: <20251202110218.9212-8-iam@lach.pw>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
+Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com
+ [207.226.244.123])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 756F810EFDA
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 03:15:24 +0000 (UTC)
+X-CSE-ConnectionGUID: gL00neweRmGMHNuZpWUtJA==
+X-CSE-MsgGUID: sCW06OhsSCmG/p9PJhmsGw==
+X-IronPort-AV: E=Sophos;i="6.21,184,1763395200"; 
+ d="scan'208,217";a="162630051"
+From: =?gb2312?B?uN/P6A==?= <gaoxiang17@xiaomi.com>
+To: Steven Rostedt <rostedt@goodmis.org>, Xiang Gao <gxxa03070307@gmail.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "mhiramat@kernel.org"
+ <mhiramat@kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "mathieu.desnoyers@efficios.com"
+ <mathieu.desnoyers@efficios.com>, "dhowells@redhat.com"
+ <dhowells@redhat.com>, "kuba@kernel.org" <kuba@kernel.org>,
+ "brauner@kernel.org" <brauner@kernel.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "linux-trace-kernel@vger.kernel.org"
+ <linux-trace-kernel@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2MTFdIGRtYS1idWY6?=
+ =?gb2312?Q?_add_some_tracepoints_to_debug.?=
+Thread-Topic: [External Mail]Re: [PATCH v11] dma-buf: add some tracepoints to
+ debug.
+Thread-Index: AQHcdoadv7XiotU3gUS1tHSqz05co7U2wCPa
+Date: Mon, 29 Dec 2025 03:15:19 +0000
+Message-ID: <131e4734fe2b4b08bf9ee75cdc27b259@xiaomi.com>
+References: <20251225121119.2194228-1-gxxa03070307@gmail.com>,
+ <20251226114215.02be95a3@gandalf.local.home>
+In-Reply-To: <20251226114215.02be95a3@gandalf.local.home>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=True;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2025-12-29T02:25:19.991Z;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open
- Source; MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=1;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|IA0PR12MB8837:EE_
-x-ms-office365-filtering-correlation-id: 8bf98eba-64a3-4f23-559f-08de46817ee0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|38070700021; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?YT0kDHzxv83TUTX7R9cIObles9uTUdwdL0eyYXdCTI4wbLTEl9abCKDbzg?=
- =?iso-8859-1?Q?VMJ8VNUs7U+1fd8U3MrKr8QpQm7FQOwMRcAzO2L/uw2+VvFVPvk8+RZKv2?=
- =?iso-8859-1?Q?X3iZlEDEmziGsc0RJJBpl+a/BEwb5EY6BMMjZ0HvFsavEAF9AiS0BiBYOJ?=
- =?iso-8859-1?Q?NFFy6dz1wvRk0Bi+4UIgMcfIZYGE9acPaRyri/YVv3uvjFX0TwLchWCsyF?=
- =?iso-8859-1?Q?PfbdPrgd3km1cI52e8+961B0H4AowrLDMyhiqPCZzFsJL+npdEoOgi74jP?=
- =?iso-8859-1?Q?whASCbzrdeL14Het6vyAvGFcp5LmTRBovNecVgtTMYN5vvetKQencnz+3k?=
- =?iso-8859-1?Q?lw/6tkbAMpwPH+IC9PPvjS/z2Kdjlv/nfbkbHZlocMuvOrf3NoUajjKliZ?=
- =?iso-8859-1?Q?pIyErLRKj7Zi/+KjahKIfxnHm/5fJp/ghz5kPlpgD435xgfd+RBLHh3R8B?=
- =?iso-8859-1?Q?d5cNN3lPuBMmVsTF8yXW638slQ3nQt3p6ua+QMfNm/56ON0TmX6CFxIR9b?=
- =?iso-8859-1?Q?n5BWZbgDjkfM5+RaW2z3VNcYMx1DFyU3mqUQaS5yec8PFAzP0ui6JsfdQd?=
- =?iso-8859-1?Q?Csmjwpvz+IWvXE3L8B8ExMq2KqR0IE3gquE9IthA1tb3kDbCbnzXgo4WMG?=
- =?iso-8859-1?Q?I6idfX4Cb8AuK35u5jixaNzjBb06TEVPngItS4KBlhT8dtvrr56vWOoGsm?=
- =?iso-8859-1?Q?Or8OWf61UyxeaRiPxKwLpnEMt6R4jzPjSdDk7TPkaQjJ+7kAL3RCQTXYFl?=
- =?iso-8859-1?Q?1aGfnxVGqfOqZB0AH5CNkKP0PwEI54SxidGZJGwLsIghO8ZoZxZCEtmxNi?=
- =?iso-8859-1?Q?DLQ8yvk4Y2/uKVE7ZFQwzIMBNThrrJCz9evoRztiNcK/ZglV8JP2LBi3WF?=
- =?iso-8859-1?Q?dCSjBZoaXPRDYSUq05GVzqSEUuhj4yK5SoUTLMMNc+bY7IZEL9LemZzKoV?=
- =?iso-8859-1?Q?GyG47AT4daMjLC5qZRdDguAqY1ujE+Lt8Y/Ar9oycGn9DrWYs8I79p7fiv?=
- =?iso-8859-1?Q?lUe5yUpW2tCmJfbvXXi25HTjtjLdOP+9XSdAyxTqAGjDh1JuEYAvObGAgC?=
- =?iso-8859-1?Q?XfomIcaxJjDa4ibajafVQ566jFfnqEHFsV1deGkdvRad2BPQcQOx5vkm+M?=
- =?iso-8859-1?Q?u2yoXlEbFz+Bnp8W94KEYai9nhNIpDRvC4DWBZURVCqquJRFXzUNiNz5MW?=
- =?iso-8859-1?Q?bIjwLC9GynePycm60NWVC09sFp4j5HF7TVkzXNnwlbZLJwTupzto7rnI/I?=
- =?iso-8859-1?Q?AyPaRMV7+h4pcGmg/DBt8LJJNo3HN3znvZS1EY2ikkZBt//aaqhMtln8eI?=
- =?iso-8859-1?Q?du9KFgKJWk58qRj6JtYytl5zMt8OgbO+/lsZ8e2p05/gub8rxH/FHPvMNk?=
- =?iso-8859-1?Q?G1IymffwRwBgq2UdFFqeK60KKh72haa8Wq7ZmJ0S98LQPn9sFUdr16cFMe?=
- =?iso-8859-1?Q?yGp6pJ1w5wpE7yUhbxqP3pCkOsbx9H0+H7k0ThQRYfxm7shoT0othQFl4G?=
- =?iso-8859-1?Q?ub+YXf7af63RWjAK5G/TnsXsXvLWwZtjpnli53Np5eRFCuc3TWgjoVDYSk?=
- =?iso-8859-1?Q?gDNyZutQhPHr8Q/jgOlAhALFH6RR?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ZV3ZsT9vDQbYN9OVSYaElwnWHzPCsIxPr2qaA2CNAbpp7YTUM6whZcamyW?=
- =?iso-8859-1?Q?qyKxpoR57dlNZtwtvgj7LHytyinUqPKf4UDuxkto9zyNcwwZnwLiW/9HMC?=
- =?iso-8859-1?Q?71mbnp/I5U5DfVZLv9PbhOqiBKxmYoDwByrVy3eZqVlwbQ5zZvNZbCKQZZ?=
- =?iso-8859-1?Q?yU+VFGWE5f0GP1B5nG+v7zK1RqXiZCG0ZC/FRcaweDOnI8W8rIDN89+6EA?=
- =?iso-8859-1?Q?pbIeclGujSn10lRFn07rLMqIn77eI6dbJlREAKB3KoVH2YMyAldu1HGGVW?=
- =?iso-8859-1?Q?gqS57Q8btaJ1I5oxmw1gPslkWlGe0lzUtbIPj+wJ1mam1NY8Vx9IAsdAfY?=
- =?iso-8859-1?Q?5ZC1dJfcG/NlCEtSLOZsccX+eDzY7aiB/h+zjyJ9HuGTTR/qo7O8jdxtJJ?=
- =?iso-8859-1?Q?DzhNXTOs+dqf0SiDtefqsTcaH2FpoGF6RIftncpqaZ0CPgA7ItYCQaikdi?=
- =?iso-8859-1?Q?07JSQdXN0Eh1PJ3i6AQhHjmELWl1OKNA2SMxhyER9VPPZ2gOFUj51fQUp0?=
- =?iso-8859-1?Q?wnOhhU4t6KfisOCFemSmveK0pFQ4DIVUl/DTdDTrimN4/AdEYfNNFG4v6j?=
- =?iso-8859-1?Q?UrSqiYB4S9z7mM6Bpm05LLoCJVBXpJRlJURjqGKUsk12q+ZeDoWoyMJl7r?=
- =?iso-8859-1?Q?Bs+M1Z+FMcnuKCITBMQT12BaCPrY4hjTxo5HGlFGcmvnQeWwl0Zhz+6YDk?=
- =?iso-8859-1?Q?pc5n9aswW5pRajYFKQUvWcosOb70ITwa6RZOungEW56+GRAuZ8SXwz+Onn?=
- =?iso-8859-1?Q?gH5omHuA0EhVlCzYdVPnFof7cQUNwZGQFIfw91zDx1czKbrU8eKNdMWFj2?=
- =?iso-8859-1?Q?854VDyZQ4+mXBjaShBr/P11Qu7BNwo1JrINf5WAgEWfjkCotqF/w5ZYGKN?=
- =?iso-8859-1?Q?KJJkOwi8h5+5yvwDj9vRCuC/4R7+XhKVigiFaXzvWmk7O/hWPQVYeYoOJX?=
- =?iso-8859-1?Q?ua0mYLS/Y1n/bY0EwKVzrtNK3F0qfkIPd9m9YdHwoNEoMzh7NwCOGYn166?=
- =?iso-8859-1?Q?X2Yc1ARdYAgEvMbU/s81uomqg661Yc24/DlzMcx0kOxtDjU/UAZ1DGtUMo?=
- =?iso-8859-1?Q?VQVLdoT1qYzZF4qKcqAfvsnOXJn0eeuIQCeyw8wN81MGe5FRkEady/kL+H?=
- =?iso-8859-1?Q?zbtHt6lZ3qg0IyxDQuv3f/Egs43SZQbCH3sDtzupwkelHqk4HwQYmP0uYS?=
- =?iso-8859-1?Q?HCZHMFZcCnjH4V62oiA4WO2eNOjrDgyiciGztLKjJRGeUBZFBx65CRKvnG?=
- =?iso-8859-1?Q?+icAn/X27f3As50UJZVjX/Srckgwjxni8ByzSKdzzkfrplCPIc78okSUWu?=
- =?iso-8859-1?Q?tOJbVeeiY+jfrdJEn7U1/OA9OUlGNYQdDiDhjnBPl8YoWIiCnkOXVb7P+i?=
- =?iso-8859-1?Q?b8N9gqD+0iEp9rcuQNzS49VidNqKdZmGHMPu3B8KB8niBHx/GXKCfn9hxs?=
- =?iso-8859-1?Q?9Uv7XrmV9UIp1W0UZAk1yiLT8AliOiroY5Z9bg0bStJyzSIJKE4M2SrABj?=
- =?iso-8859-1?Q?MDt0KkIX7KeyE8P1Sx/yR0pQXFnWNUDOB8sVnP2CqNnyMvMV/nM2gcYfyp?=
- =?iso-8859-1?Q?QGPf9oJ4z0n0hljkzrw68TVxMcAc+7IqQ3EaTIbShpNidoq/xoI1y4uJQb?=
- =?iso-8859-1?Q?NBSv79AKwtYJmktnSnPesrsp+MPVvhGU/k0knr/hzJyR9cowds5M36F1Yv?=
- =?iso-8859-1?Q?bWqiKlaP67ImU2t7oP7G2LAlAR6V0EKaU/SHPlmrp50WLU/c6/p3HGOhQS?=
- =?iso-8859-1?Q?UU4OmM6JYTjrVtjKdm+wBE616cJMZLq2YfGygCGXSSsa8Q?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+x-originating-ip: [10.237.8.163]
+Content-Type: multipart/alternative;
+ boundary="_000_131e4734fe2b4b08bf9ee75cdc27b259xiaomicom_"
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bf98eba-64a3-4f23-559f-08de46817ee0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2025 02:25:12.6358 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ugQcF1VnQxytpW+bpAIN7a8KMKtPmKi4nwmwUiilxN8Ray+1Ax4He5e31z9ytzIDKfjitRo/VmnVO47TYUPLBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8837
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,99 +63,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yaroslav Bolyukin,=0A=
-=0A=
-Thanks for the patch.=0A=
-Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>=0A=
-=0A=
-Regards,=0A=
-Wayne Lin=0A=
-________________________________________=0A=
-From: Yaroslav Bolyukin <iam@lach.pw>=0A=
-Sent: Tuesday, December 02, 2025 19:02=0A=
-To: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>; Maarten Lankhorst <m=
-aarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thom=
-as Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simo=
-na Vetter <simona@ffwll.ch>; Jani Nikula <jani.nikula@linux.intel.com>=0A=
-Cc: Wentland, Harry <Harry.Wentland@amd.com>; Li, Sun peng (Leo) <Sunpeng.L=
-i@amd.com>; Rodrigo Siqueira <siqueira@igalia.com>; Deucher, Alexander <Ale=
-xander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Lin,=
- Wayne <Wayne.Lin@amd.com>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.fr=
-eedesktop.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>=
-; dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; Yarosl=
-av Bolyukin <iam@lach.pw>=0A=
-Subject: [PATCH v7 7/7] drm/amd: use fixed dsc bits-per-pixel from edid=0A=
-=0A=
-=0A=
-VESA vendor header from DisplayID spec may contain fixed bit per pixel=0A=
-rate, it should be used by drm driver for the modes that declare=0A=
-they are only supported with the declared fixed bits per pixel value.=0A=
-=0A=
-Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>=0A=
----=0A=
-=A0.../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=A0=A0=A0 | 16 ++++++++++++=
-++++=0A=
-=A01 file changed, 16 insertions(+)=0A=
-=0A=
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
-u/drm/amd/display/amdgpu_dm/amdgpu_dm.c=0A=
-index e6728fd12eeb..32370279283f 100644=0A=
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=0A=
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=0A=
-@@ -6613,6 +6613,11 @@ static void fill_stream_properties_from_drm_display_=
-mode(=0A=
-=A0=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 stream->output_color_space =3D get_output_color_sp=
-ace(timing_out, connector_state);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 stream->content_type =3D get_output_content_type(c=
-onnector_state);=0A=
-+=0A=
-+=A0=A0=A0=A0=A0=A0 /* DisplayID Type VII pass-through timings. */=0A=
-+=A0=A0=A0=A0=A0=A0 if (mode_in->dsc_passthrough_timings_support && info->d=
-p_dsc_bpp_x16 !=3D 0) {=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 stream->timing.dsc_fixed_bits_p=
-er_pixel_x16 =3D info->dp_dsc_bpp_x16;=0A=
-+=A0=A0=A0=A0=A0=A0 }=0A=
-=A0}=0A=
-=A0=0A=
-=A0static void fill_audio_info(struct audio_info *audio_info,=0A=
-@@ -7071,6 +7076,7 @@ create_stream_for_sink(struct drm_connector *connecto=
-r,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_display_mode mode;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_display_mode saved_mode;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_display_mode *freesync_mode =3D NULL;=
-=0A=
-+=A0=A0=A0=A0=A0=A0 struct drm_display_mode *dsc_passthru_mode =3D NULL;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 bool native_mode_found =3D false;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 bool recalculate_timing =3D false;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 bool scale =3D dm_state->scaling !=3D RMX_OFF;=0A=
-@@ -7162,6 +7168,16 @@ create_stream_for_sink(struct drm_connector *connect=
-or,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
-=A0=0A=
-+=A0=A0=A0=A0=A0=A0 list_for_each_entry(dsc_passthru_mode, &connector->mode=
-s, head) {=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (dsc_passthru_mode->hdisplay=
- =3D=3D mode.hdisplay &&=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dsc_passthru_mode->=
-vdisplay =3D=3D mode.vdisplay &&=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 drm_mode_vrefresh(d=
-sc_passthru_mode) =3D=3D mode_refresh) {=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 mode.ds=
-c_passthrough_timings_support =3D=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 dsc_passthru_mode->dsc_passthrough_timings_support;=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
-+=A0=A0=A0=A0=A0=A0 }=0A=
-+=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 if (recalculate_timing)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 drm_mode_set_crtcinfo(&sav=
-ed_mode, 0);=0A=
-=A0=0A=
--- =0A=
-2.51.2=0A=
-=0A=
-=0A=
+--_000_131e4734fe2b4b08bf9ee75cdc27b259xiaomicom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+DQpvaywgdGhhbmsgeW91IGZvciB5b3VyIGd1aWRhbmNlLg0KDQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXw0Kt6K8/sjLOiBTdGV2ZW4gUm9zdGVkdCA8cm9zdGVkdEBnb29kbWlzLm9y
+Zz4NCreiy83KsbzkOiAyMDI1xOoxMtTCMjfI1SAwOjQyOjE1DQrK1bz+yMs6IFhpYW5nIEdhbw0K
+s63LzTogc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7IGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbTsg
+bWhpcmFtYXRAa2VybmVsLm9yZzsgbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBt
+YXRoaWV1LmRlc25veWVyc0BlZmZpY2lvcy5jb207IGRob3dlbGxzQHJlZGhhdC5jb207IGt1YmFA
+a2VybmVsLm9yZzsgYnJhdW5lckBrZXJuZWwub3JnOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3Jn
+OyBsaW51eC10cmFjZS1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyC438/oDQrW98ziOiBbRXh0ZXJu
+YWwgTWFpbF1SZTogW1BBVENIIHYxMV0gZG1hLWJ1ZjogYWRkIHNvbWUgdHJhY2Vwb2ludHMgdG8g
+ZGVidWcuDQoNClvN4rK/08q8/l0gtMvTyrz+wLTUtNPa0KHD17mry77N4rK/o6zH6733yfe0psDt
+oaPI9LbU08q8/rCyyKvQ1LTm0smjrMfrvavTyrz+16q3orj4bWlzZWNAeGlhb21pLmNvbb340NC3
+tMChDQoNCk9uIFRodSwgMjUgRGVjIDIwMjUgMjA6MTE6MTkgKzA4MDANClhpYW5nIEdhbyA8Z3h4
+YTAzMDcwMzA3QGdtYWlsLmNvbT4gd3JvdGU6DQoNCj4gRnJvbTogZ2FveGlhbmcxNyA8Z2FveGlh
+bmcxN0B4aWFvbWkuY29tPg0KPg0KPiBTaW5jZSB3ZSBjYW4gb25seSBpbnNwZWN0IGRtYWJ1ZiBi
+eSBpdGVyYXRpbmcgb3ZlciBwcm9jZXNzIEZEcyBvciB0aGUNCj4gZG1hYnVmX2xpc3QsIHdlIG5l
+ZWQgdG8gYWRkIG91ciBvd24gdHJhY2Vwb2ludHMgdG8gdHJhY2sgaXRzIHN0YXR1cyBpbg0KPiBy
+ZWFsIHRpbWUgaW4gcHJvZHVjdGlvbi4NCj4NCj4gRm9yIGV4YW1wbGU6DQo+ICAgIGJpbmRlcjoz
+MDE2XzEtMzEwMiAgICBbMDA2XSAuLi4xLiAgIDI1NS4xMjY1MjE6IGRtYV9idWZfZXhwb3J0OiBl
+eHBfbmFtZT1xY29tLHN5c3RlbSBzaXplPTEyNjg1MzEyIGlubz0yNzM4DQo+ICAgIGJpbmRlcjoz
+MDE2XzEtMzEwMiAgICBbMDA2XSAuLi4xLiAgIDI1NS4xMjY1Mjg6IGRtYV9idWZfZmQ6IGV4cF9u
+YW1lPXFjb20sc3lzdGVtIHNpemU9MTI2ODUzMTIgaW5vPTI3MzggZmQ9OA0KPiAgICBiaW5kZXI6
+MzAxNl8xLTMxMDIgICAgWzAwNl0gLi4uMS4gICAyNTUuMTI2NjQyOiBkbWFfYnVmX21tYXBfaW50
+ZXJuYWw6IGV4cF9uYW1lPXFjb20sc3lzdGVtIHNpemU9Mjg2NzIgaW5vPTI3MzkNCj4gICAgICBr
+d29ya2VyLzY6MS04NiAgICAgIFswMDZdIC4uLjEuICAgMjU1LjEyNzE5NDogZG1hX2J1Zl9wdXQ6
+IGV4cF9uYW1lPXFjb20sc3lzdGVtIHNpemU9MTI2ODUzMTIgaW5vPTI3MzgNCj4gICAgIFJlbmRl
+clRocmVhZC05MjkzICAgIFswMDZdIC4uLjEuICAgMzE2LjYxODE3OTogZG1hX2J1Zl9nZXQ6IGV4
+cF9uYW1lPXFjb20sc3lzdGVtIHNpemU9MTI3NzEzMjggaW5vPTI3NjIgZmQ9MTc2DQo+ICAgICBS
+ZW5kZXJUaHJlYWQtOTI5MyAgICBbMDA2XSAuLi4xLiAgIDMxNi42MTgxOTU6IGRtYV9idWZfZHlu
+YW1pY19hdHRhY2g6IGV4cF9uYW1lPXFjb20sc3lzdGVtIHNpemU9MTI3NzEzMjggaW5vPTI3NjIg
+YXR0YWNobWVudDpmZmZmZmY4ODBhMThkZDAwIGlzX2R5bmFtaWM9MCBkZXZfbmFtZT1rZ3NsLTNk
+MA0KPiAgICAgUmVuZGVyVGhyZWFkLTkyOTMgICAgWzAwNl0gLi4uMS4gICAzMTguODc4MjIwOiBk
+bWFfYnVmX2RldGFjaDogZXhwX25hbWU9cWNvbSxzeXN0ZW0gc2l6ZT0xMjc3MTMyOCBpbm89Mjc2
+MiBhdHRhY2htZW50OmZmZmZmZjg4MGExOGRkMDAgaXNfZHluYW1pYz0wIGRldl9uYW1lPWtnc2wt
+M2QwDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFhpYW5nIEdhbyA8Z2FveGlhbmcxN0B4aWFvbWkuY29t
+Pg0KPiAtLS0NCj4NCj4gQ2hhbmdlcyBzaW5jZSB2MTA6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L2FsbC8yMDI1MTIyNDAxMzQ1NS4xNjQ5ODc5LTEtZ3h4YTAzMDcwMzA3QGdtYWlsLmNvbS8NCg0K
+WW91IG9ubHkgbmVlZCB0byBzaG93IHRoZSBsYXN0IHJldmlzaW9uIChidXQgc2luY2UgeW91IGhh
+dmVuJ3Qgc2hvd2VkIHRoZQ0Kb3RoZXJzLCBiZWZvcmUgaXQncyBnb29kIHRvIHNob3cgdGhlbSBu
+b3cpLiBCdXQgeW91IGFsc28gd2FudCB0byBzYXkgIndoYXQgY2hhbmdlZCINCg0KRm9yIGV4YW1w
+bGU6DQoNCi0gVXNlZCBERUZJTkVfRVZFTlRfQ09ORElUSU9OKCkgdG8gbW92ZSB0aGUgY29uZGl0
+aW9uIGJyYW5jaCBpbnRvIHRoZSB0cmFjZXBvaW50Lg0KDQoNCj4gQ2hhbmdlcyBzaW5jZSB2OTog
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUxMjIzMDMyNzQ5LjEzNzE5MTMtMS1neHhh
+MDMwNzAzMDdAZ21haWwuY29tLw0KPiBDaGFuZ2VzIHNpbmNlIHY4OiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9hbGwvMjAyNTEyMTgwNjI4NTMuODE5NzQ0LTEtZ3h4YTAzMDcwMzA3QGdtYWlsLmNv
+bS8NCj4gQ2hhbmdlcyBzaW5jZSB2NzogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUx
+MjE3MTA1MTMyLjY0MzMwMC0xLWd4eGEwMzA3MDMwN0BnbWFpbC5jb20vDQo+IENoYW5nZXMgc2lu
+Y2UgdjY6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI1MTIxNjA2Mzk1Mi41MTYzNjQt
+MS1neHhhMDMwNzAzMDdAZ21haWwuY29tLw0KPiBDaGFuZ2VzIHNpbmNlIHY1OiBodHRwczovL2xv
+cmUua2VybmVsLm9yZy9hbGwvMjAyNTEyMDExMTIxNDguODQzNTcyLTEtZ3h4YTAzMDcwMzA3QGdt
+YWlsLmNvbS8NCj4gQ2hhbmdlcyBzaW5jZSB2NDogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxs
+LzIwMjUxMTI4MDg1MjE1LjU1MDEwMC0xLWd4eGEwMzA3MDMwN0BnbWFpbC5jb20vDQo+IENoYW5n
+ZXMgc2luY2UgdjM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI1MTEyNzAwNDM1Mi4z
+NzYzMDctMS1neHhhMDMwNzAzMDdAZ21haWwuY29tLw0KPiBDaGFuZ2VzIHNpbmNlIHYyOiBodHRw
+czovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNTExMjUxNjI5NDkuMjIwNDg4LTEtZ3h4YTAzMDcw
+MzA3QGdtYWlsLmNvbS8NCj4gQ2hhbmdlcyBzaW5jZSB2MTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvYWxsLzIwMjUxMTI0MTMzNjQ4LjcyNjY4LTEtZ3h4YTAzMDcwMzA3QGdtYWlsLmNvbS8NCj4N
+Cj4gIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgICAgICB8ICA0OCArKysrKysrKystDQo+ICBp
+bmNsdWRlL3RyYWNlL2V2ZW50cy9kbWFfYnVmLmggfCAxNTkgKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIwNSBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvdHJhY2UvZXZlbnRzL2Rt
+YV9idWYuaA0KPg0KDQoNCj4gKy8qDQo+ICsgKiBkbWFidWYtPm5hbWUgbXVzdCBiZSBhY2Nlc3Nl
+ZCB3aXRoIGhvbGRpbmcgZG1hYnVmLT5uYW1lX2xvY2suDQo+ICsgKiB3ZSBuZWVkIHRvIHRha2Ug
+dGhlIGxvY2sgYXJvdW5kIHRoZSB0cmFjZXBvaW50IGNhbGwgaXRzZWxmIHdoZXJlDQo+ICsgKiBp
+dCBpcyBjYWxsZWQgaW4gdGhlIGNvZGUuDQo+ICsgKg0KPiArICogTm90ZTogRlVOQyMjX2VuYWJs
+ZWQoKSBpcyBhIHN0YXRpYyBicmFuY2ggdGhhdCB3aWxsIG9ubHkNCj4gKyAqICAgICAgIGJlIHNl
+dCB3aGVuIHRoZSB0cmFjZSBldmVudCBpcyBlbmFibGVkLg0KPiArICovDQo+ICsjZGVmaW5lIERN
+QV9CVUZfVFJBQ0UoRlVOQywgLi4uKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBcDQo+ICsgICAgIGRvIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBcDQo+ICsgICAgICAgICAgICAgLyogQWx3YXlzIGV4cG9zZSBs
+b2NrIGlmIGxvY2tkZXAgaXMgZW5hYmxlZCAqLyAgICAgICAgICBcDQo+ICsgICAgICAgICAgICAg
+aWYgKElTX0VOQUJMRUQoQ09ORklHX0xPQ0tERVApIHx8IEZVTkMjI19lbmFibGVkKCkpIHsgICBc
+DQo+ICsgICAgICAgICAgICAgICAgICAgICBndWFyZChzcGlubG9jaykoJmRtYWJ1Zi0+bmFtZV9s
+b2NrKTsgICAgICAgICAgICBcDQo+ICsgICAgICAgICAgICAgICAgICAgICBGVU5DKF9fVkFfQVJH
+U19fKTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQo+ICsgICAgICAgICAgICAgfSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQo+
+ICsgICAgIH0gd2hpbGUgKDApDQo+ICsNCj4gIHN0YXRpYyBpbmxpbmUgaW50IGlzX2RtYV9idWZf
+ZmlsZShzdHJ1Y3QgZmlsZSAqKTsNCj4NCg0KPiArDQo+ICtERUZJTkVfRVZFTlRfQ09ORElUSU9O
+KGRtYV9idWZfZmQsIGRtYV9idWZfZmQsDQo+ICsNCj4gKyAgICAgVFBfUFJPVE8oc3RydWN0IGRt
+YV9idWYgKmRtYWJ1ZiwgaW50IGZkKSwNCj4gKw0KPiArICAgICBUUF9BUkdTKGRtYWJ1ZiwgZmQp
+LA0KPiArDQo+ICsgICAgIFRQX0NPTkRJVElPTihmZCA+PSAwKQ0KPiArKTsNCj4gKw0KDQoNCkZy
+b20gYSB0cmFjaW5nIHBvaW50IG9mIHZpZXcgKEl0J3MgdXAgdG8gdGhlIGRtYSBtYWludGFpbmVy
+cyB0byBkZWNpZGUgdG8NCnRha2UgdGhpcyBwYXRjaCk6DQoNClJldmlld2VkLWJ5OiBTdGV2ZW4g
+Um9zdGVkdCAoR29vZ2xlKSA8cm9zdGVkdEBnb29kbWlzLm9yZz4NCg0KLS0gU3RldmUNCg==
+
+--_000_131e4734fe2b4b08bf9ee75cdc27b259xiaomicom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
+n-bottom:0;} --></style>
+</head>
+<body dir=3D"ltr">
+<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
+-family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
+<p><br>
+</p>
+<meta content=3D"text/html; charset=3DUTF-8">
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size: 12pt; co=
+lor: rgb(0, 0, 0); font-family: Calibri, Helvetica, sans-serif, EmojiFont, =
+&quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, =
+&quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols;">
+<p>ok, t<span>hank you for your guidance.</span></p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Steve=
+n Rostedt &lt;rostedt@goodmis.org&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2025=C4=EA12=D4=C227=C8=D5 0:42:15<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Xiang Gao<br>
+<b>=B3=AD=CB=CD:</b> sumit.semwal@linaro.org; christian.koenig@amd.com; mhi=
+ramat@kernel.org; linux-media@vger.kernel.org; dri-devel@lists.freedesktop.=
+org; linux-kernel@vger.kernel.org; mathieu.desnoyers@efficios.com; dhowells=
+@redhat.com; kuba@kernel.org; brauner@kernel.org;
+ akpm@linux-foundation.org; linux-trace-kernel@vger.kernel.org; =B8=DF=CF=
+=E8<br>
+<b>=D6=F7=CC=E2:</b> [External Mail]Re: [PATCH v11] dma-buf: add some trace=
+points to debug.</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt">
+<div class=3D"PlainText">[=CD=E2=B2=BF=D3=CA=BC=FE] =B4=CB=D3=CA=BC=FE=C0=
+=B4=D4=B4=D3=DA=D0=A1=C3=D7=B9=AB=CB=BE=CD=E2=B2=BF=A3=AC=C7=EB=BD=F7=C9=F7=
+=B4=A6=C0=ED=A1=A3=C8=F4=B6=D4=D3=CA=BC=FE=B0=B2=C8=AB=D0=D4=B4=E6=D2=C9=A3=
+=AC=C7=EB=BD=AB=D3=CA=BC=FE=D7=AA=B7=A2=B8=F8misec@xiaomi.com=BD=F8=D0=D0=
+=B7=B4=C0=A1<br>
+<br>
+On Thu, 25 Dec 2025 20:11:19 &#43;0800<br>
+Xiang Gao &lt;gxxa03070307@gmail.com&gt; wrote:<br>
+<br>
+&gt; From: gaoxiang17 &lt;gaoxiang17@xiaomi.com&gt;<br>
+&gt;<br>
+&gt; Since we can only inspect dmabuf by iterating over process FDs or the<=
+br>
+&gt; dmabuf_list, we need to add our own tracepoints to track its status in=
+<br>
+&gt; real time in production.<br>
+&gt;<br>
+&gt; For example:<br>
+&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
+p;&nbsp; 255.126521: dma_buf_export: exp_name=3Dqcom,system size=3D12685312=
+ ino=3D2738<br>
+&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
+p;&nbsp; 255.126528: dma_buf_fd: exp_name=3Dqcom,system size=3D12685312 ino=
+=3D2738 fd=3D8<br>
+&gt;&nbsp;&nbsp;&nbsp; binder:3016_1-3102&nbsp;&nbsp;&nbsp; [006] ...1.&nbs=
+p;&nbsp; 255.126642: dma_buf_mmap_internal: exp_name=3Dqcom,system size=3D2=
+8672 ino=3D2739<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kworker/6:1-86&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; [006] ...1.&nbsp;&nbsp; 255.127194: dma_buf_put: exp_name=3Dqcom,syste=
+m size=3D12685312 ino=3D2738<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
+.&nbsp;&nbsp; 316.618179: dma_buf_get: exp_name=3Dqcom,system size=3D127713=
+28 ino=3D2762 fd=3D176<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
+.&nbsp;&nbsp; 316.618195: dma_buf_dynamic_attach: exp_name=3Dqcom,system si=
+ze=3D12771328 ino=3D2762 attachment:ffffff880a18dd00 is_dynamic=3D0 dev_nam=
+e=3Dkgsl-3d0<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; RenderThread-9293&nbsp;&nbsp;&nbsp; [006] ...1=
+.&nbsp;&nbsp; 318.878220: dma_buf_detach: exp_name=3Dqcom,system size=3D127=
+71328 ino=3D2762 attachment:ffffff880a18dd00 is_dynamic=3D0 dev_name=3Dkgsl=
+-3d0<br>
+&gt;<br>
+&gt; Signed-off-by: Xiang Gao &lt;gaoxiang17@xiaomi.com&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; Changes since v10: <a href=3D"https://lore.kernel.org/all/202512240134=
+55.1649879-1-gxxa03070307@gmail.com/" id=3D"LPlnk126232">
+https://lore.kernel.org/all/20251224013455.1649879-1-gxxa03070307@gmail.com=
+/</a><br>
+<br>
+You only need to show the last revision (but since you haven't showed the<b=
+r>
+others, before it's good to show them now). But you also want to say &quot;=
+what changed&quot;<br>
+<br>
+For example:<br>
+<br>
+- Used DEFINE_EVENT_CONDITION() to move the condition branch into the trace=
+point.<br>
+<br>
+<br>
+&gt; Changes since v9: <a href=3D"https://lore.kernel.org/all/2025122303274=
+9.1371913-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251223032749.1371913-1-gxxa03070307@gmail.com=
+/</a><br>
+&gt; Changes since v8: <a href=3D"https://lore.kernel.org/all/2025121806285=
+3.819744-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251218062853.819744-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v7: <a href=3D"https://lore.kernel.org/all/2025121710513=
+2.643300-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251217105132.643300-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v6: <a href=3D"https://lore.kernel.org/all/2025121606395=
+2.516364-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251216063952.516364-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v5: <a href=3D"https://lore.kernel.org/all/2025120111214=
+8.843572-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251201112148.843572-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v4: <a href=3D"https://lore.kernel.org/all/2025112808521=
+5.550100-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251128085215.550100-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v3: <a href=3D"https://lore.kernel.org/all/2025112700435=
+2.376307-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251127004352.376307-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v2: <a href=3D"https://lore.kernel.org/all/2025112516294=
+9.220488-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251125162949.220488-1-gxxa03070307@gmail.com/=
+</a><br>
+&gt; Changes since v1: <a href=3D"https://lore.kernel.org/all/2025112413364=
+8.72668-1-gxxa03070307@gmail.com/">
+https://lore.kernel.org/all/20251124133648.72668-1-gxxa03070307@gmail.com/<=
+/a><br>
+&gt;<br>
+&gt;&nbsp; drivers/dma-buf/dma-buf.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; =
+48 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;-<br>
+&gt;&nbsp; include/trace/events/dma_buf.h | 159 &#43;&#43;&#43;&#43;&#43;&#=
+43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#=
+43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp; 2 files changed, 205 insertions(&#43;), 2 deletions(-)<br>
+&gt;&nbsp; create mode 100644 include/trace/events/dma_buf.h<br>
+&gt;<br>
+<br>
+<br>
+&gt; &#43;/*<br>
+&gt; &#43; * dmabuf-&gt;name must be accessed with holding dmabuf-&gt;name_=
+lock.<br>
+&gt; &#43; * we need to take the lock around the tracepoint call itself whe=
+re<br>
+&gt; &#43; * it is called in the code.<br>
+&gt; &#43; *<br>
+&gt; &#43; * Note: FUNC##_enabled() is a static branch that will only<br>
+&gt; &#43; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; be set when the trace even=
+t is enabled.<br>
+&gt; &#43; */<br>
+&gt; &#43;#define DMA_BUF_TRACE(FUNC, ...)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; do {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; /* Always expose lock if lockdep is enabled */&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {&nbsp;&nbsp; \=
+<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; guard(spinlock)(&am=
+p;dmabuf-&gt;name_lock);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FUNC(__VA_ARGS__);&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; } while (0)<br>
+&gt; &#43;<br>
+&gt;&nbsp; static inline int is_dma_buf_file(struct file *);<br>
+&gt;<br>
+<br>
+&gt; &#43;<br>
+&gt; &#43;DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,<br>
+&gt; &#43;<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_PROTO(struct dma_buf *dmabuf, int fd)=
+,<br>
+&gt; &#43;<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_ARGS(dmabuf, fd),<br>
+&gt; &#43;<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; TP_CONDITION(fd &gt;=3D 0)<br>
+&gt; &#43;);<br>
+&gt; &#43;<br>
+<br>
+<br>
+From a tracing point of view (It's up to the dma maintainers to decide to<b=
+r>
+take this patch):<br>
+<br>
+Reviewed-by: Steven Rostedt (Google) &lt;rostedt@goodmis.org&gt;<br>
+<br>
+-- Steve<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_131e4734fe2b4b08bf9ee75cdc27b259xiaomicom_--
