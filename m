@@ -2,106 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A154CE61D8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 08:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3F4CE6295
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 08:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7169113AB3;
-	Mon, 29 Dec 2025 07:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2ADF10E349;
+	Mon, 29 Dec 2025 07:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BiM82rFJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WxJHG8n0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241A010E855;
- Mon, 29 Dec 2025 07:24:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 81D3D42A79;
- Mon, 29 Dec 2025 07:24:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2503C4CEF7;
- Mon, 29 Dec 2025 07:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1766993045;
- bh=+tdCpRj8osX1FlMe16CEO5gvakw+XTaV+BWAlaWaJCw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BiM82rFJWh+d5G+g7fCxEzjTRz0rAd7so+8bFVS2luT51DEjM7qVwyV16Uzrr/VlD
- 0JJKDu4uLzoqytQ78qPkNfTWHAG77Ba3lC0KL/kWFWGQvUB3ppDnK0KXaMSxQuSSAY
- f7+2QM3AxsTRlTNLE+nQ0gm1njzp9I0CjQp0TNkpqEE6aNy2+YneU0kZK5gTlKch8O
- fKQQoXzKaI9nLAz2qrLSG3kiiBxV2nzsC7CyddvrgXP+SvY3K9B1kz7XlqIMTk0fTh
- VhuMMOinkbFUW9JlkW7DSZj5AWmk7LrY6eOKSOIbRdIadzgAe/M5KbxTHszlesJnuz
- +l3OR0+MQbbQw==
-Message-ID: <8288af85-13da-46e3-8d89-71995fbd17f8@kernel.org>
-Date: Mon, 29 Dec 2025 08:23:56 +0100
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F059A10E349
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 07:41:38 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-b79f8f7ea43so1944784166b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Dec 2025 23:41:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1766994097; x=1767598897; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
+ b=WxJHG8n0O7iPa2I7QoDZsKt8I6RB4ZMfLuh8wBzRTZu9kTrrBv/Rf09yc1OYMP5nHc
+ autZOCmgdMaij+eIyZJbNAc2v4ICEgtqG+bo4U1X8loUdmNwTIrTSunrePixi7sLhgf7
+ ywr6sKoWV5Wvnl12Z/nnElvg9YB6AVH/XS3ulD3I9u3i132z+v+i4TiGTvsoRyMaLyhZ
+ S4D/cUQILha5mlKFh6bHPFz0fAeYBccU2l29f5yDAEja0ZLqIgwTwFvZhGrotWA78tbT
+ AKiX5M0d2jAMyJXL0gq8RQ+rtbkcI9HJDO3FFzmUALfy+C57CuXlFP9njsdsNCnoCOiP
+ PRXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1766994097; x=1767598897;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
+ b=ETiksPCLh14qJwhCmLzBBFmQhFoXDEX4PR2AlzgKRWD9HVl31aK/efvxycUUc0+01H
+ ysPMvXawVuU5Up8fLAQo3Q7deg1kod8S6nSEqClABgIptKHcK5q8vHOLgXz+6AInJf7c
+ JAFEs9CJ0Ng3KPSC3hqEEkXi0SvyvnyUJ/cHRHafMizKV5J6hS/3tywXjPD4cDtkbEBn
+ sGkz1ZKUpjhuH9bRrLDOUye/3SG8SBxJlURdggQVL4GSxwxN7+IuF2mz730SQMd9lqiK
+ z8uQHn40YA3C33AMQ2cDKhGNLq0p2CfCFTILqrtXGf7j11FO3vM4mW+ajLO94wTYkVUW
+ Nuvw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKZj2riZpnlZnsX+Jro2G5F3tO44Y+wQEMTFy1UQ9znbsbXFJWMKLS9ls4KJ74Q7QkdeqeWLQJMuQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzv5aPj6HR3Y/Oktv+LxNMzoU8HXhgxsFp887T6X/A0l2OyqSF8
+ eA2wVHDzLPj9XfANGxeOI9dv9TDN7/86VOedNRM4xHpd8Irk1/ysvsn6SFTzMeNZxCC6QqkyhgL
+ i9A5hAmpi942CM4949Ii9+h47zV7hwMI=
+X-Gm-Gg: AY/fxX7Df8kg0UTd7XNGQt3y4SCYylCcO+Opz5mQLE5JokuT1o1Xe9rfQ0BRlktR8IO
+ 8BFEtxbq/qrKftcvxQsf9Q7bSRovWAXTjo0gEbFapnBDhwBrNJf0uuWQve7wPv2g/2TpOMbmWhF
+ +YdIWIYozMW/pk+0pef5wW4oalX6CG2lClXJzYdmYQWSYT46KCC0orKsX0JMGvSCnZlOc75oMIj
+ /UO2YI9hIeutYfzgP9b7KJJw5Cj50AJBTL+5xyKnaqR8c0rcU3PXD+Z6PskJRyUKAiAgCRsq79h
+ /sXavwnnbtBUqOEEF0B9nvxxUFmEOdbFgr4ri5OhNxeVX6JL7CVWFn0vnFPqXcU72fsZZvXymR1
+ wzvNPmZU=
+X-Google-Smtp-Source: AGHT+IFsiw3jWtdQEDQH/mXP+tcbghOYcPeWqAbdVDVv7o7/abPtivB78goQWZ0idTFYi+CcJ/7gCrJl+TRRu/MiPwo=
+X-Received: by 2002:a17:907:9809:b0:b71:ea7c:e4ff with SMTP id
+ a640c23a62f3a-b8036ec9e3emr2773470266b.6.1766994096979; Sun, 28 Dec 2025
+ 23:41:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm/gpu: Narrow reg and
- reg-names for Adreno 610.0 and alike
-To: rob.clark@oss.qualcomm.com
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251227110504.36732-3-krzysztof.kozlowski@oss.qualcomm.com>
- <CACSVV03H_oii=fuhaeBhUZSJk-2mr08jGqAs30Z_h9tzeDgdtw@mail.gmail.com>
- <2a35d31a-1a3e-4cd4-ac3a-27104ff12801@kernel.org>
- <CACSVV03FfvZVzuKGfaJrsXmE7VVxEF5zN4-R7h1PXA11jOO3gw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CACSVV03FfvZVzuKGfaJrsXmE7VVxEF5zN4-R7h1PXA11jOO3gw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251229010814.94255-1-spxxky.dev@gmail.com>
+In-Reply-To: <20251229010814.94255-1-spxxky.dev@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 29 Dec 2025 09:41:00 +0200
+X-Gm-Features: AQt7F2r1dDWzOTpFWamMt3UW53SPeTfq7dsNRjTugzb_U_DAnDoUbownyn-BlB8
+Message-ID: <CAHp75Vc9fnuMb3s-KtX5r+nmOH5BztP=d+h9FXpn2i34sCv2-Q@mail.gmail.com>
+Subject: Re: [PATCH] Replace udelay() with usleep_range() in PLL
+ initialization code. According to Documentation/timers/timers-howto.rst,
+ usleep_range() is preferred for delays "10us - 20ms"
+To: Alexandru Costin <spxxky.dev@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,44 +89,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/12/2025 15:59, Rob Clark wrote:
-> On Sat, Dec 27, 2025 at 11:56 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 27/12/2025 23:01, Rob Clark wrote:
->>> On Sat, Dec 27, 2025 at 3:05 AM Krzysztof Kozlowski
->>> <krzysztof.kozlowski@oss.qualcomm.com> wrote:
->>>>
->>>> DTS files for qcom,adreno-610.0 and qcom,adreno-07000200 contain only one
->>>> "reg" entry, not two, and the binding defines the second entry in
->>>> "reg-names" differently than top-level part, so just simplify it and
->>>> narrow to only one entry.
->>>
->>> I'll defer to Akhil about whether this is actually needed (vs just
->>> incomplete gpu devcoredump support for certain GPUs).  In general
->>> cx_dbgc is needed to capture state for gpu devcoredump state
->>> snapshots, but not directly used in normal operations.  It seems
->>> similar to the situation with mapping gpucc as part of gmu, ie. not
->>> something the CPU normally deals with directly, but necessary to
->>> capture crash state.
->>
->> I don't get why binding was added with cx_dbgc, but DTS not. Neither
->> binding nor DTS depends on actual usage, so I assume someone
->> intentionally did not want DTS to contain cx_dbgc and binding should
->> follow. Otherwise we should make the DTS complete and make the binding
->> strict (leading to warnings if DTS is not updated).
-> 
-> I'm not sure about the history.. but I can say that cx_dbgc is only
-> used for gpu state snapshot / devcoredump.  So it would be easy to not
-> notice if it were missing.
-> 
-> We have a similar slightly ugly thing where gpucc is included in the
-> gmu map.. only for devcoredump.  Maybe we need a different way to
-> handle these things that are only mapped for state capture?
+On Mon, Dec 29, 2025 at 3:09=E2=80=AFAM Alexandru Costin <spxxky.dev@gmail.=
+com> wrote:
+>
+> Resolves checkpatch warnings:
+>   WARNING: usleep_range is preferred over udelay
 
-No. Either hardware has it or not. If hardware has it, then both DTS and
-binding should have it. If people decided that DTS should not have it
-(for whatever reason), then apparently that's the desired hardware
-description and let's remove it from the binding to match the ABI.
+First of all, fix checkpatch to point to a newer API, i.e. fsleep().
 
-Best regards,
-Krzysztof
+...
+
+> @@ -210,7 +210,8 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
+t len, ...)
+
+> -       udelay(100);
+> +       usleep_range(100, 120);
+
+> @@ -231,7 +232,7 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
+t len, ...)
+
+> -       udelay(100);
+> +       usleep_range(100, 120);
+
+This is an IO function for the hardware in question. Have you tested
+it? How do you know that this is a non-atomic context?
+
+--=20
+With Best Regards,
+Andy Shevchenko
