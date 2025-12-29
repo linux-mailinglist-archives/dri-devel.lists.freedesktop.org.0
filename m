@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096E3CE7B99
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 18:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34743CE7BA5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 18:24:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E5010E5C7;
-	Mon, 29 Dec 2025 17:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F73810E5D9;
+	Mon, 29 Dec 2025 17:24:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g1WmrL1f";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D9oTVV8I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5051A10E5C7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 17:20:50 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-47a95efd2ceso84380895e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 09:20:50 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82EC10E5D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 17:24:14 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-4327778df7fso1586436f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 09:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767028849; x=1767633649; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1767029053; x=1767633853; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ujThKWml8uMLDf0KX6SXAAMWz7lsuk/sdoB2hkb6sc8=;
- b=g1WmrL1fXTgcKsCJ2bDqvYfj+4OnEFNJ9MCmrQ8GTJmhS5sKhipIk8zypAYVC3i4Rw
- FpHYg8musMNjDKWW4Wto7UCus2watffT/5XbJEwn2VsZSPZvJVzHmW9RmnVQPyJXvo+J
- ZQ/IQ7jlNfAY5VpFTY1Za7mfWUMja0V9XPJv43E8B3jtfEmuxMzAkT8fjlFKzUMCEQB9
- x/9kjsNt6iCrKz+clCQljlgBH9kmbV09/Cxn+xd9tGu1nujqMCoJF5HFK7e7e+rGR2ib
- PnIR8JP+PKPjcW/JgCyCba6gibAwL1Xw+umgx8pROol1Lg6orJIwMClzlkRoY/yc9AIg
- LpTA==
+ bh=Is+BjYELOU6FjihtrsgHdu+zn60dvtmelOgIKE/GkpE=;
+ b=D9oTVV8IObK8VadjOPkIuiMk3jHVSuDBy0G9QPW2unXvZbHsJTTrAvU8TP7kttpSSF
+ pI9fcJASTw+U5gCBTVXHRaEvX6RuxzLS6XXaBReZjj7rwq6rVjNGb9OBdQCq+OsXnUSn
+ UFxI57QPvjq6pBF96onAT0ID6fB4cgU6pWP7LZmwMlL2k09rA8Rz3o5Q+CwxE7SLcpIS
+ 8l/D0j1t4/fjauHVTW7FDwFI9UEos4kQwEd3LkEjVayWoAJ7vDMU4fBhDYVYmwDOOdrt
+ iISfhFITTmtidsTomYsr1UhIXBIgH8JqcTAw+OxBLwhF5VyVQ1573G/0WK3Vf+aUTRtw
+ TzAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767028849; x=1767633649;
+ d=1e100.net; s=20230601; t=1767029053; x=1767633853;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ujThKWml8uMLDf0KX6SXAAMWz7lsuk/sdoB2hkb6sc8=;
- b=JLUIMPNPbXpCYTzfYQ/+dFpx+f89G9hnlxWSnecea0+16x0bEVokQHsLMY3yvqfRGu
- ZPeYJ/IhqbxPF7yvrBGrWcv4tpxJfqbBNstlQFV715mrSo2PEqK29TEuN1TNsAEO5FRx
- t1B3EvO4z3FNdSQtFLX19dI/AbQLrAzA1teon4QE0IkwJcMg/xnwl0G8tB4mos32m5+I
- w16ltJug1qNsMLgAxm2uWhs3LIFu8lmoSzqzrLDh24WYHaZz1Vn78OmkQx6pZ+rwPOEH
- yIyBL4ZkzSzJCYJIcHYhj1xA/B+nV09fPEwK3dvQFiwdem0fxUoTtFVtpkplGr5nFIQc
- /ejQ==
+ bh=Is+BjYELOU6FjihtrsgHdu+zn60dvtmelOgIKE/GkpE=;
+ b=jV6eP2GAREMRKV1noTvhDJld8m2GcreiPEMVT7yy2vC3zsHJ/emUjNeZi49ZhmfT9W
+ 6ss3Bl0X0Xqzy6Rv48NrsAw7gFvqEYK/A47weaOSV5Q30wRjsxDVk0id+UHEb1/glmDV
+ 4NQQPrxRrjG3L1H0wsPgq4Mo14dLQ+oJaMnDc+00Lcv7ZaQ/kb1LVL1OxncFcZqVsmIz
+ RkrrFYYTaLU3mZr4HgxKF2/zyfR1falv+sP657FxZf44WRd2M5E73Jgo1qpgkI/Wrbmw
+ 8bSlRYsokBS1UZamfNFfbdBo6vHOFgoeTArDYWICSMce/swFO+DLRDKKUL9y83BIAeH5
+ S3jg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3Nr5g/QulSBDJ7LJcaUeERLhXeazJEHR6MlbJMVKXJAbs6PhlmoMT4sP0y/LSMW0N82VhQVDkkHI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyulIAzRaM76EzLszLc50Av0Yi2nwcnFQhs8TVUbsnvOXVj28D0
- ETa1LKEbOTOJEGxzhIvmuwa7g3/oFrF6c9achjTvGUoVUvht13YxN+Kn
-X-Gm-Gg: AY/fxX65LGRBckGFVzLEeI5XKVzU8UB71gaIgtPYrRA4o8JsIjKSEda/33hB0gQTgON
- 03Vhpka+2QNPLytDCnpx7lGHfCD3wqaM6jiRpnZSgi1U+x3XjNE8fGTH92WsbwtNoJAeezNXHjl
- aLTntXG2kuEZU50j97x4TTIB3R92wuNq/XdrUoJn7h7MHei8N+q4neyJKYF6vNs2bOW76gJGm5U
- PSEBoviHSZBa8J+JVGZTvKfHv0wS5B7jxeg48F0nrit3l0ie0b7hBXuIp/rjAQ6vKeKhthpiCUI
- pGQnClZ0rbZyk7k7L7u5V6eqHxDnbMI559/y+zdtarbsbNWmWR2+SWFCou1rpAzxoS38reNLGIP
- TxAOvGIacnxjRf7wnHJu9mXhf4l7h/ZYVxitvkeL0SHqsRn/2+ZGf3g7CILl2c6km7q3pg5jOmy
- FIgatfk7Iajg==
-X-Google-Smtp-Source: AGHT+IFrILSmVylZfJiTDXSk9lzVTNGdCw1i+yRhADg/0AM5KWye8SNJlE1bk/NR2SBP5KInjYBesA==
-X-Received: by 2002:a05:600c:8208:b0:47b:d949:9ba9 with SMTP id
- 5b1f17b1804b1-47d19566f0dmr361853255e9.13.1767028848573; 
- Mon, 29 Dec 2025 09:20:48 -0800 (PST)
+ AJvYcCVJ3MGDIFlqvAin8NbcsxsT8caa06UnwnRmIWRTxHugCLgpm+MCsN6v08/zGc9NItKuS2B9wdCQMlU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzgIDp7SI6tT5CXntMvulg5A0rhC71DnID0LmSStrbugawYEH2c
+ nu00GLyqmLa1Mst/5YAc+WVGHKYvjq/JOXbd+3bgEycYO1dPTJEuLZt3
+X-Gm-Gg: AY/fxX4UJ+llcxn3OTPGjak3rwxaTbr3dDwvDlEByOjMeCrDkNOy8qxbr6U8lvErf4g
+ oowE9pvjkoGG2Hx7QjODNVt7lF7Pb9Bka7ZLKFTJ+D8G3Fbk6lrVifRaOwnJn6xk1XnAKl4N8rf
+ eC3qJnwkROKdnnqEhmTrHgohZ6TyeFivZYU6Pim51HvbnWEaMKQjdSiBaoSbaEvhjarL3y8fozx
+ W2KWiDm7oBXKiEN3h5mvdmYOHamaqNeVA+VAxx3AVhdb4eCBfGPbxr6AN91JJs6dlxQwD30MIJ3
+ JZoPjObJRY2k5Z9FlQqaKp7u/CFcmNO+MxO+XldBWJrS7cGgzdZqmGPJjoD47dOt4mkkjdNcSnp
+ cU+VOlG/5HRP2sWAv+2WxDjgrP+GuRJD2LmZYCUUJbXhwc4ZUqpMhN3/uDgfND6T00N3OB3sW6N
+ qUXzPiNIIflg==
+X-Google-Smtp-Source: AGHT+IFUYYJiXk5vDyIxA7187o6+sbSBSV7PUMGC6bnELEkTRcsCNUIjDa8pXfmgXR1aZY/nCkjnhQ==
+X-Received: by 2002:a05:6000:2dc7:b0:430:f449:5f18 with SMTP id
+ ffacd0b85a97d-4324e50b88emr36388839f8f.46.1767029053151; 
+ Mon, 29 Dec 2025 09:24:13 -0800 (PST)
 Received: from fedora ([94.73.37.171]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47be3ac4c1esm235624195e9.14.2025.12.29.09.20.47
+ ffacd0b85a97d-4324ea1b36fsm62985046f8f.5.2025.12.29.09.24.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Dec 2025 09:20:48 -0800 (PST)
-Date: Mon, 29 Dec 2025 18:20:46 +0100
+ Mon, 29 Dec 2025 09:24:12 -0800 (PST)
+Date: Mon, 29 Dec 2025 18:24:11 +0100
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -75,7 +75,7 @@ Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  Luca Ceresoli <luca.ceresoli@bootlin.com>
 Subject: Re: [PATCH v3 28/33] drm/vkms: Introduce configfs for connector EDID
-Message-ID: <aVK4biJig9qKRDHw@fedora>
+Message-ID: <aVK5OyydXrQfIcc7@fedora>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
  <20251222-vkms-all-config-v3-28-ba42dc3fb9ff@bootlin.com>
 MIME-Version: 1.0
@@ -217,6 +217,10 @@ On Mon, Dec 22, 2025 at 11:11:30AM +0100, Louis Chauvet wrote:
 > +
 > +	scoped_guard(mutex, &connector->dev->lock)
 > +	{
+
+Sorry for the additional email. I forgot to mention that this brace should go
+in the same line.
+
 > +		unsigned int len = 0;
 > +		const u8 *edid = vkms_config_connector_get_edid(connector->config, &len);
 > +
@@ -225,9 +229,6 @@ On Mon, Dec 22, 2025 at 11:11:30AM +0100, Louis Chauvet wrote:
 > +	}
 > +
 > +	return -EINVAL;
-
-This return is unreachable, the guard block returns unconditionally.
-
 > +}
 > +
 > +static ssize_t connector_edid_store(struct config_item *item,
