@@ -2,142 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C71ECE6C02
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 13:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47360CE6C38
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 13:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8014310E44A;
-	Mon, 29 Dec 2025 12:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E20410E197;
+	Mon, 29 Dec 2025 12:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="t+oOXEZQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="i7HY5ZZc";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dTSq9Jhx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
- Mon, 29 Dec 2025 12:46:16 UTC
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBE410E44A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1767012370; x=1767617170; i=markus.elfring@web.de;
- bh=08ohrbmiz8m/6ojSTO13eB7/5w86v8RC2xeb2tvnc5k=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=t+oOXEZQo/S4U04k+Y+XkYuBDzm7JxAstaiQnuu2bAclBqWobXqIjWdLSw4WHZm1
- s/XvdMbWGO/+iF7Wzo2rHfx3WW65zDCLA7fkOy1hVOveya1r32/zJxXoldlcJRhG8
- qU/vM8v3Esr4Wp/2CPoz3Brpd8i4ihtabro//7seZMqlUg1hVlM+BqKBpQUgdkCw5
- yBaIe2lzNcwxIFQlagLu5J3d7X3rRVC0Bd6B1qjc0vw1UJZsFw4dKAehJdGChIYqB
- jUCgcZOYGJGWOvid1n7EO5vfZzedl1ZA9oXHVvlvSM2JnxgP38plRMRfZX/sPH+4l
- 9MMwCXhsmL60rbjbMA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.231]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3Xjb-1w0MEH02aZ-00xn58; Mon, 29
- Dec 2025 13:40:14 +0100
-Message-ID: <91290a53-8f59-4138-9899-4523d25e1cff@web.de>
-Date: Mon, 29 Dec 2025 13:40:10 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE4710E197
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:47:43 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BTAxp5Q003811
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ oTngEluiifgHJCxbZ4TtrQRAEGD6uxeXD9/zWx6/skk=; b=i7HY5ZZcTyXTIXKp
+ k5rwtPoup9j3d7prC3HZI1RxqebGuUlfHSWPE+DpIrAuEoRvvL9eZs8Azku25N10
+ kHIwt59ZYfSz3pldnjYZCgUAiwTMq5NIMQex2NZtqlKzI2n+sjl9VCZZcFy8J5u/
+ 4ifLZLnQb2hcUeN1zyFhzz9grMJm/BhSb9wYC3YhfJM2YDrGC3WoRndunEQBJIvD
+ t38O6ytQhOGyDHKr+JwEoEbqkc+M0CHOdu7DlIdRlyFPxoObTwb/+7M5smj21Gz0
+ zGfXjfltypW0kNPJxm87/q2WLA1L3+S9sMdoQd6oxD6Mp5nkeKtKiTb8ush05Zzx
+ DMe+Ww==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba7hscc19-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 12:47:42 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4ee07f794fcso36144611cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 04:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1767012462; x=1767617262;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oTngEluiifgHJCxbZ4TtrQRAEGD6uxeXD9/zWx6/skk=;
+ b=dTSq9JhxPtD0NzkjRXiW+2NUf+9tnAfMZPU/5wmFPrC5CQm78jp409dH7el3+O1ozn
+ 5ZFgj3hfaQzY0C8sZDG7/nniNB7h/OwP4EJMgXlDxycn69Dq8RhA8zzM/My6p7Vipk/N
+ Rz77GRO2zc2dLhUheq+3M5UUoezqw8tTSy2EFVT32R7I1JPoU7OxXs32BPu2SgSOx0cM
+ 5sDI14Wi7rtW3tDJZTLSobtufGdH1ntJsHMlgOC0df6IjmwfxOJzLQ2cw+727V6BKlyI
+ bVbBFySj96M0d6WqzVZlb2dvEZDG8GF8+WW7BaUSVgM90vcmcgmAhmHZ/QP274RjHnv/
+ TyYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767012462; x=1767617262;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oTngEluiifgHJCxbZ4TtrQRAEGD6uxeXD9/zWx6/skk=;
+ b=ei3rBn4NJffSrs6S7MvXIbjCt6axla2uJWEbLg8m4TCNw1vZyU/4nFSVBb0X93PSDN
+ bF7ZdZCyfgz221eplkKx6x98CknkWkZLETzrbMj5Yp0C8mIiENQX9aRO0LSUvhGMXDXg
+ W513KOOZq2LkztT+WsDOrKUkySHqH2k6GlS4iSMJe6b62eyEr6X0C4UL7JFhuH9QCbBn
+ 71p6XWd8jp6RVrQr+zPn7E+WkiZVbnEUW+hPgsVeTqlQhpXH6LzTinVBHceWrUIdVcMz
+ doclF3oBl+ArJNCmZfRXs0GrQsZU+4mmVC8t/NPaCbXK1LrcAH1s2ilz9Vww6LJfKst2
+ ySpw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW1H6kGsoPZ2qjwhWe//Z0qW4dp6gVx9QRu6q8wlT0ehhPpu6ew2MOBTE5Nv3E3zRtE2RdsxV+516Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqyuGwoBGt393el9RqNyAW9Md8zvsQsS1uLl7kdINE/HjH8nrB
+ /qZgbg9hjk60YNQPXQqd+6jJoG736TS/zRi2bnZQDLdcjLlRkjBGZnbW0CCWq+upTAjzM5YH7PC
+ kMfx7qSQq0s8lkXNDuAH2+iHDr/iSAtPCXFtAJvEQQKhxKaSNi0/I5UEaUFYzCqxtiWb2Nsg=
+X-Gm-Gg: AY/fxX5W/15VhjC6npYm4P/n/MFUd4KRL5djRQz6teSK95L4Kznm/g3jI54jxWExLhh
+ cMCIOAoy78/qDM5lyjx3vTQbQs5hZs/oHK0gpL2hz3b9tAtYJZH8hjtLdhby1WfqqPOn5ry4ROC
+ Om+NixSt3CvDwycmdWpBlyY0IG344D+THdY2cfPdC/4QKPINq6I8Eeb+0NRons7qeGz5ydx2Ddc
+ vbVexFkPvmJf6hBWCZqMwmzx3rxQJibn8mplrOUTnfu1r1tUXTazjr8IY8EbhPVhwpc4/HPRjWP
+ AXm/+pwH4p1EgvfF/IIoQVdfYZhev8qH9b35gT+DPjFAfAw0iG9ska+/ZzDqisLcG5j3vg9t6qp
+ 1IHFizNkrA9XRMXstqCV80zTajNzhyLDw+Vz1oGscJq6CZcjUd6V50j5x/CmICfdeJQ==
+X-Received: by 2002:a05:622a:1907:b0:4ee:4214:3226 with SMTP id
+ d75a77b69052e-4f4b43e96d2mr289064591cf.6.1767012461703; 
+ Mon, 29 Dec 2025 04:47:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE7fDCqvroWd8Ztt8XruIl7fotzA85y+lW2vZ/2NRrAM1IGqRpECNpULXx3B51GqsYodvmMpg==
+X-Received: by 2002:a05:622a:1907:b0:4ee:4214:3226 with SMTP id
+ d75a77b69052e-4f4b43e96d2mr289064191cf.6.1767012461223; 
+ Mon, 29 Dec 2025 04:47:41 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8037ad8577sm3309954166b.24.2025.12.29.04.47.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Dec 2025 04:47:40 -0800 (PST)
+Message-ID: <05f47e46-eee2-43e4-bc9b-4e3b3268dfb0@oss.qualcomm.com>
+Date: Mon, 29 Dec 2025 13:47:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Prahlad Valluru <vvalluru@qti.qualcomm.com>,
- Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Subject: Re: [PATCH v5 6/8] arm64: dts: qcom: talos: Add gpu and rgmu nodes
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- syyang@lontium.com, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Prahlad Valluru <prahlad.valluru@oss.qualcomm.com>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20251228-lt8713sx-bridge-driver-v3-2-9169fbef0e5b@oss.qualcomm.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: add support for lontium lt8713sx
- bridge driver
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20251228-lt8713sx-bridge-driver-v3-2-9169fbef0e5b@oss.qualcomm.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Jie Zhang <jie.zhang@oss.qualcomm.com>, Jie Zhang <quic_jiezh@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20251226-qcs615-spin-2-v5-0-354d86460ccb@oss.qualcomm.com>
+ <20251226-qcs615-spin-2-v5-6-354d86460ccb@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251226-qcs615-spin-2-v5-6-354d86460ccb@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QRnbIfcvK9jI5v49kIcSmcY1v74/KlhO1B5vBgotHSZptlL8JM9
- 4yR4j1ZYUL44+oRDO9PbXV+R7I4vsFnF1QB+RltJXtmUwj4HMoX04ZVXxK6nbFXKq9M9Ovh
- zq1WbDPgsc4cIL3SQKXeR8IxIQLTSoQMcmkztrs/tj0P+3l6m9RjuWd49s8lluFppDGxMs6
- rOVHhj3E98/9Y/BTYNCCA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Vh+CFhE3PAc=;liTUFcewX7OviGnapk6TO25ykBI
- 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
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: lNTvbdbs43qGZdxRlLj4CjVCT4JkUxmH
+X-Authority-Analysis: v=2.4 cv=O4o0fR9W c=1 sm=1 tr=0 ts=6952786e cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=JdhzuzQUjDh6MeSUppIA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: lNTvbdbs43qGZdxRlLj4CjVCT4JkUxmH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDExOSBTYWx0ZWRfX0me94w8BstHZ
+ 8Ifss7LiPzCISvFhJYnHFzSU0pv44i9YSPnm39toxYAAUBDjthGKffLE5cjHuTltTW446xi9yrS
+ q0y7JoJj0GKPyTiQJFipsv3weDe1sJiPdlnsoRL95anezOnysRJXt+5ZrDz9znH4uVxsRB+ivrL
+ ThIYNQNeuG8Pqb1EgOr7O9iKFF6qKmxXoEq1y0ASZWR/3Q8Z6etvmaxwIL2nm5mK7p6HnVyJhDd
+ PQ2wGCXnPkiuOH1x/BdwOrdkEop+wucP95S2kyHWaaNOHk3mYHGir/LGBUjxcYhJLVIfEf21J/m
+ 88Q1SZLsQ6u778GionB3lpn5+ikdeo7HuHDKfKqz/J0kxM/jSXyLap771TgDJh5xGkk7X1ogDOT
+ U8SX9Rox2HWtYddkv/rK0pBG2sUmme7nDgN5N+s6VY/c4DQJ/TUKpiJlaf/JiXk71YU+G1T+oAk
+ OyP/mvIpynXureFY2xg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-29_04,2025-12-29_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512290119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,27 +159,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8713sx.c
-> @@ -0,0 +1,682 @@
-=E2=80=A6
-> +static int lt8713sx_firmware_update(struct lt8713sx *lt8713sx)
-> +{
-> +	int ret =3D 0;
-> +
-> +	mutex_lock(&lt8713sx->ocm_lock);
-> +	lt8713sx_i2c_enable(lt8713sx);
-=E2=80=A6
-> +	mutex_unlock(&lt8713sx->ocm_lock);
-> +
-> +	return ret;
-> +}
-=E2=80=A6
+On 12/26/25 7:29 PM, Akhil P Oommen wrote:
+> From: Jie Zhang <quic_jiezh@quicinc.com>
+> 
+> Add gpu and rgmu nodes for Talos chipset.
+> 
+> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&lt8713sx->ocm_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.19-rc2/source/include/linux/mutex.h#L2=
-53
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Regards,
-Markus
+Konrad
