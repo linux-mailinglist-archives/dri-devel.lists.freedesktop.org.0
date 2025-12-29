@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1922CE7156
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 15:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBDFCE7359
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Dec 2025 16:29:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041CD10E4CF;
-	Mon, 29 Dec 2025 14:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED85810E508;
+	Mon, 29 Dec 2025 15:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hmJJffzS";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="wrxCxVUL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5225110E4CF
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 14:40:30 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C7710E508
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 15:29:16 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 4A8A91A2442;
- Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id D90DBC1D721;
+ Mon, 29 Dec 2025 15:28:47 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 09F0860725;
- Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 5590860725;
+ Mon, 29 Dec 2025 15:29:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6EE8A113B061F; Mon, 29 Dec 2025 15:40:07 +0100 (CET)
+ with ESMTPSA id 43905102F07F9; Mon, 29 Dec 2025 16:29:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767019212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767022152; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references;
- bh=KHiNO49s1LI0Asee/eQKQNGC6G1Km0lH02lOMMvuT0Q=;
- b=hmJJffzSghd8i6EFJlxW1J4CjGkBxhcfMj0/Gyj2yTxtNeMYsLSuGZ/Y93uBGEtY3xuLmw
- zIW786/cVknjj6MsV3hz9hA4XI7cMbZx3TSJjRuR/lyejFIjK2HnJFKo9obUtaidLyQg4O
- vtPoQR8KpOMcvtp/fE3GAKMfkPiss5LTPY2swc3kA1hMAgDnRIOAz618GSNnib3aJekA7W
- 8RHs11JJNOGZ/6coexRSwLVkwllX4DD8ox2ofIubWeGVN3mgrQeNzIsFMJo+imI1WVIj1f
- XO5VVhhik65XyrRrzO8r4SJN8T6Iw262mFMRcPBDpAaMFMj2nTVaqEW9yHTm3Q==
-Message-ID: <da5db513-1b0c-4ba9-8513-a616895405de@bootlin.com>
-Date: Mon, 29 Dec 2025 15:40:23 +0100
+ bh=Ns87cvfZC7osxMy+j8c/24Nq9nnBVV+dSciH/hT+Kcs=;
+ b=wrxCxVUL4cgFs6aeHugOjrjcTljG/wmIgkjUmJ3ULnnQbobY/5F+047JCuQ3Eaa4TTlAWD
+ X3bBgRczBfQQcms03Rbkse67gbGt5IUDjl1dX3EokmESnwxERpufHmdYn1bullEZJfdFBF
+ WBHZ7fkIcizhHSdcQP2r/hbi7PwxpJUQWXJH9Do31+/LVqS7slr+umW7Ob2Ak3VeTev8wJ
+ 3lEputd3DMlapF0c0E4OxpKR2IEvWIzlInQw9p5mn06mocapUGFafRknKXWGn0ntuMh+X9
+ rc9UBH4g3326QbyRZ8yqZ1BaX5JKpLbd5xSpqRHkqpMUwQMz2NpI1qNZV5ejNQ==
+Message-ID: <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
+Date: Mon, 29 Dec 2025 16:29:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/33] drm/vkms: Introduce configfs for plane name
+Subject: Re: [PATCH v3 17/33] drm/vkms: Introduce config for plane format
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -48,13 +48,13 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com,
  thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-7-ba42dc3fb9ff@bootlin.com>
- <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
+ <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
+ <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Content-Language: en-US
-In-Reply-To: <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
+In-Reply-To: <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,119 +73,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/23/25 12:14, Luca Ceresoli wrote:
+On 12/23/25 14:58, Luca Ceresoli wrote:
 > On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
->> Planes can have name, create a plane attribute to configure it. Currently
->> plane name is mainly used in logs.
+>> VKMS driver supports all the pixel formats for planes, but for testing it
+>> can be useful to only advertise few of them. This new configuration
+>> interface will allow configuring the pixel format per planes.
 >>
 >> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->> ---
->>   Documentation/ABI/testing/configfs-vkms |  6 +++++
->>   Documentation/gpu/vkms.rst              |  3 ++-
->>   drivers/gpu/drm/vkms/vkms_configfs.c    | 43 +++++++++++++++++++++++++++++++++
->>   3 files changed, 51 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
->> index 0beaa25f30ba..6fe375d1636f 100644
->> --- a/Documentation/ABI/testing/configfs-vkms
->> +++ b/Documentation/ABI/testing/configfs-vkms
->> @@ -103,6 +103,12 @@ Description:
->>           Plane type. Possible values: 0 - overlay, 1 - primary,
->>           2 - cursor.
->>
->> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/name
->> +Date:		Nov 2025
->> +Contact:	dri-devel@lists.freedesktop.org
->> +Description:
->> +        Name of the plane.
->> +
->>   What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
->>   Date:		Nov 2025
->>   Contact:	dri-devel@lists.freedesktop.org
->> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
->> index 1e79e62a6bc4..79f1185d8645 100644
->> --- a/Documentation/gpu/vkms.rst
->> +++ b/Documentation/gpu/vkms.rst
->> @@ -87,10 +87,11 @@ Start by creating one or more planes::
->>
->>     sudo mkdir /config/vkms/my-vkms/planes/plane0
->>
->> -Planes have 1 configurable attribute:
->> +Planes have 2 configurable attributes:
->>
->>   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->>     exposed by the "type" property of a plane)
->> +- name: Name of the plane. Allowed characters are [A-Za-z1-9_-]
->>
->>   Continue by creating one or more CRTCs::
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->> index 506666e21c91..989788042191 100644
->> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->> @@ -324,10 +324,53 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
->>   	return (ssize_t)count;
->>   }
->>
->> +static ssize_t plane_name_show(struct config_item *item, char *page)
+> 
+>> --- a/drivers/gpu/drm/vkms/vkms_config.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> 
+>> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg)
 >> +{
->> +	struct vkms_configfs_plane *plane;
->> +	const char *name;
->> +
->> +	plane = plane_item_to_vkms_configfs_plane(item);
->> +
->> +	scoped_guard(mutex, &plane->dev->lock)
->> +		name = vkms_config_plane_get_name(plane->config);
+>> +	plane_cfg->supported_formats_count = 0;
 > 
-> vkms_config_plane_get_name() returns a pointer to the name string, not a
-> copy. Unless I'm missing something, that string might be freed before the
-> next lines, where it is used:
-> 
->> +
->> +	if (name)
->> +		return sprintf(page, "%s\n", name);
->> +	return sprintf(page, "\n");
-> 
-> So for safety the above 3 lines whould go inside the scoped_guard().
+> Why not kfree(plane_cfg->supported_formats) too? You will be (re)allocating
+> anyway if adding one or all formats later on, so the buffer you're not
+> freeing won't be reused anyway.
 
-Good catch!
-
-This also raised some questions on the whole locking synchronization 
-between configfs / config / DRM core. I will work on this topic and 
-maybe move the mutex / add a refcount to vkms_config.
+IIRC realloc reuse the existing allocated buffer if it is big enough to fit the new
+size. But I think this is probably an oversight here and I will add the free to clarify the situation :-)
 
 >> +}
 >> +
->> +static ssize_t plane_name_store(struct config_item *item, const char *page,
->> +				size_t count)
+>> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
 >> +{
->> +	struct vkms_configfs_plane *plane;
->> +	size_t str_len;
->> +
->> +	plane = plane_item_to_vkms_configfs_plane(item);
->> +
->> +	// strspn is not lenght-protected, ensure that page is a null-terminated string.
->> +	str_len = strnlen(page, count);
->> +	if (str_len >= count)
->> +		return -EINVAL;
->> +
->> +	if (strspn(page, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") != count - 1)
->> +		return -EINVAL;
+>> +	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
+>> +		if (plane_cfg->supported_formats[i] == drm_format) {
+>> +			plane_cfg->supported_formats[i] = plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
 > 
-> I see you effor to make this as clean as possible, thanks. Still this is a
-> tad ugly, and should be moved to some common place at some point IMO. For
-> now it's fine, but if you need to add more user-passed strings, that could
-> be the moment to move this code.
+> I doubt these are less than 100 chars. ;-)
 
-There are multiple "user strings" in this file (notably group names), 
-but currently without limitation.
+yes, 127, but I don't know how to format it so it is readable.
 
-I can create a tiny helper and limit all user strings to a-zA-Z0-9_-
-It will technically break the ABI, but I don't think this is a big issue.
+I tried
 
-Do you or José think this is a good idea? If so I can extract the helper 
-for v4 and send a separate series to do the limitation on other strings.
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
 
+But the second line is 101 chars...
+
+Checkpatch don't complain if I do:
+
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[
+		plane_cfg->supported_formats_count - 1];
+
+or
+
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[plane_cfg->supported_formats_count-
+		1];
+
+But that very ugly and not readable...
+
+>> --- a/drivers/gpu/drm/vkms/vkms_config.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+>> @@ -49,6 +49,8 @@ struct vkms_config {
+>>    * @supported_color_encodings: Color encodings that this plane will support
+>>    * @default_color_range: Default color range that should be used by this plane
+>>    * @supported_color_ranges: Color ranges that this plane will support
+>> + * @supported_formats: List of supported formats
+>> + * @supported_formats_count: Length of @supported_formats
+> 
+> Nitpick: this description is not adding much. "Number of elements in
+> @supported_formats" would be more useful, as it would clarify it's number
+> of (4-bytes) elements and not size in bytes.
+> 
+>> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
+>> +
+>> +/**
+>> + * vkms_config_plane_add_all_formats - Helper to quickly add all the supported formats
+>> + * @plane_cfg: Plane to add the formats to
+>> + *
+>> + * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
+>> + * by VKMS
+> 
+> The "-EINVAL ... VKMS" part of the sentence does not apply here.
+
+True!
+
+>> +/**
+>> + * vkms_config_plane_remove_format - Remove a specific format from a plane
+>> + * @plane_cfg: Plane to remove the format to
+>                                               ^^ from
+> 
 > Luca
 > 
 > --
