@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCCDCE98AD
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 12:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCDACE98C2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 12:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900F210E154;
-	Tue, 30 Dec 2025 11:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBFC10E1DE;
+	Tue, 30 Dec 2025 11:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gzW4zhEj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i0feg1sb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F76110E154
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:34:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB2410E1DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767094443; x=1798630443;
+ t=1767094535; x=1798630535;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Cbe+8bPo4xtiKIpnJiQxtHfRAryAeLaAaMe/2CqZYlc=;
- b=gzW4zhEjpNwZjid790An151luhxGZnZqAuUYOsLqjCbzcIqNbamxfOBS
- 733NoH9PQ+HSAfLnJ/u/zoyF1LDjhxcLPZUxn8+C6LTPVlazbi+BN7ZiY
- HiWI4ENQZVZHkAaNiFUD5IlOXeHtEzh4MEQma03nKvAEHQq2niSvp8v+f
- 1SS12/CBlXEqDqr0IEDXcT1AfgnHiuj87wLEVjZ0P6Jt8gjgyLcL5p8fM
- snLM/NT1VNBTkg2SkWWWE8vyYa/lN5MeH+xa+s61j1PpHa8qj628qC6lJ
- 9MygK+FWvSFa4YN9xMQecTeAk1ov+D84AACmjWiublot1+ZoD0Sn/jS7i w==;
-X-CSE-ConnectionGUID: lPqnxNx8QHmcPu686XRFHg==
-X-CSE-MsgGUID: 0DbkdHAoQJ2S71urZeg3Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="80134435"
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="80134435"
+ mime-version:in-reply-to;
+ bh=ro1fQtcdyXioOXg7UpKgX7RPE/4YeZZwie7VLIsDjB0=;
+ b=i0feg1sb81qikSTxMxVg370p0bk2hvH3MM2vlGTfxIJwTPNZI3KneoW4
+ f7wWMMArr9CtmNWNztRc5pYkpmMmd/Cr4KCoe6GUOhFttGaA4OmmBH7g3
+ 2H12CyE3iqLrMFsoBjt4eMgHqGpRkxoDL42yk87prZmOWVMJMIeAYHJsY
+ TEdAMlpHo1FrVAqaZ9Cm9PJguhWTZSbFeZcA97ISeaVTD77MZpG0T0Imp
+ wfF32dt7n9OzfTMi9NJ6WGJXpz3s0eA9k6mhn7uh7CTbcHezmQWc6eENN
+ 26B3u7T0fWYvTq4aRP4vBcvqOPvGBrxNrlr7V6eVGStkX0tZLu25/QR+w A==;
+X-CSE-ConnectionGUID: HNxTa+m0QX29AR21mMigXg==
+X-CSE-MsgGUID: gP7R2HzmTJuyEeVMw3LtFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="91337870"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="91337870"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 03:34:03 -0800
-X-CSE-ConnectionGUID: ygyrfsbRQA+ybPTCbdlPSg==
-X-CSE-MsgGUID: GL0VmTBwQJexoBqoyHeidA==
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2025 03:35:35 -0800
+X-CSE-ConnectionGUID: 99wXwo5rQ0mtNgfeKD6cPQ==
+X-CSE-MsgGUID: jrRmfS8wT+G8GUxTs6KmoA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="205676780"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="205677033"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
  ([10.245.245.103])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 03:34:00 -0800
-Date: Tue, 30 Dec 2025 13:33:58 +0200
+ 30 Dec 2025 03:35:32 -0800
+Date: Tue, 30 Dec 2025 13:35:30 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Chintan Patel <chintanlike@gmail.com>
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
  andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v3 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
-Message-ID: <aVO4pslXIvnc00J3@smile.fi.intel.com>
+Subject: Re: [PATCH v3 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency
+ optional
+Message-ID: <aVO5ArzxFhS_nEWy@smile.fi.intel.com>
 References: <20251230052827.4676-1-chintanlike@gmail.com>
+ <20251230052827.4676-5-chintanlike@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251230052827.4676-1-chintanlike@gmail.com>
+In-Reply-To: <20251230052827.4676-5-chintanlike@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,24 +75,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 29, 2025 at 09:28:18PM -0800, Chintan Patel wrote:
-> This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
-> it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
-> remove hard FB_DEVICE dependencies.
+On Mon, Dec 29, 2025 at 09:28:22PM -0800, Chintan Patel wrote:
+> The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but the
+> core driver does not require CONFIG_FB_DEVICE.
 > 
-> The series introduces a small helper, dev_of_fbinfo(), which returns
-> NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
-> via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
-> full compile-time syntax checking.
+> Make sysfs support optional by defining overlay_sysfs_groups conditionally
+> using PTR_IF(). The driver always sets .dev_groups, and the kernel
+> naturally skips NULL attribute groups while the code remains buildable
+> and type-checked.
 
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
-> Changes in v3:
-> - Use PTR_IF() to conditionally include overlay_sysfs_group in 
->   overlay_sysfs_groups
-> - Decouple variable definition and assignment in fbtft_sysfs_init/exit
+...
 
-Any particular reasons you ignored my tag from v2?
+> +static const struct attribute_group *overlay_sysfs_groups[] = {
+> +	PTR_IF(IS_ENABLED(CONFIG_FB_DEVICE), &overlay_sysfs_group),
+> +	NULL,
+
+Please, drop comma at the end of the terminator entry.
+
+> +};
 
 -- 
 With Best Regards,
