@@ -2,87 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8956DCEA61A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 19:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208DBCEA695
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 19:07:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 767F710E930;
-	Tue, 30 Dec 2025 18:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF94810E280;
+	Tue, 30 Dec 2025 18:07:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XtMqxknf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZzcKXYS1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F9610E92E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 18:01:48 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-2a0fe77d141so110187155ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 10:01:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767117708; x=1767722508; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XVU3dXZRNTzLxPhtD/PYUGsaxMaUV+wBqLq4ZJcCdKY=;
- b=XtMqxknfmgpllDIS715b2GDTzRV39lNdFYGa2oLIFY+0RUXQcuZbevcPqv+QHa5ZC5
- L+QV33RwZDav2o6wpeAm5NkG0mdkzuLeKvtY4uwikMclNxZy/5qpsrTI3rm6y5ub4htO
- eq8ZdvItVfCQsvfETAzyAPb7QF4nV3VtYMXnVLxGKFo8eR2zSxcTb/vmdMew10S6mowl
- 4+F/ksa0LgE8fTxuaJNG2BUXTyaRwhN0PxwbJ7utPIW3n2c06CJ2M1XnSlSh/mH8RsBx
- tyheabyAPUGNgbjcI6MGmyfNRrQSWICItmB455LuMzq7o0aU0WIsXsc/V4/b0WQZ05Z1
- G4vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767117708; x=1767722508;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XVU3dXZRNTzLxPhtD/PYUGsaxMaUV+wBqLq4ZJcCdKY=;
- b=Y7P0tx8QsvRM5aJHoglgeymNzKvRNeolesbW3kNCtO8nYCSxj2Oh1TVmryzG6zYJC6
- f7W4sREPDaCKikDvSsNP/j1n6Iq7YP/RR7lE0hWqTv0YN1nqaxCBROzaMwvE89u6ObzS
- VKJz4Pijh3yTWDQ/zeas7HhYl1FmMVXPbsk1TMqDtNvApjYClJ2OxoDdbbjfGz5RReUX
- kOzA2q3Z0AzEq3BGgKdK+uJDhzrbNnb9FBuNTBXoybQ/HJlQ04CtLZ9iN/kjudGXs0jV
- wxPk/s9JRqXYcrO9nInDeUFkspFMtqsomwU02xoRIuE8Bl0rzb+WcdkPZ0FRcZi6xijf
- PU1A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXdU03x21pf/EB0hK9E88xdrjcNrFzJz3abpRB2hJxMX7cg/MJfSunWO9G5bNUtOIh8CRche4WQoJo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlFVRLe7aqYFwjGaAvba4DMRbUj8MzD8mzn7oaQ3rkuT6eF1wf
- RXB+LguOaVXAYTVtNisBSPU/X6RKIKs0ikkG7v8qfWU8RA2mvvF7wMkK
-X-Gm-Gg: AY/fxX5+Ov7CQDSabwejKR0ZKmBInp+a7V/CchLKKg5vgtlqVdxWw0Gaf2q/KtaRCB6
- IhoxnwDQ2pLnYC8sxfLdvWcsXKwkEs6fVhSfWpLKghLTrOdFGDmSklk+RWwvht2Vm9hlMEy3h8u
- dsvQM5qZoxLnjiqOKcE/wHw7rvRx6r+QMbc1hxN0IJnXdBDteESmXAgUDygVBf7OaZkfTaeY9+O
- gBRFo/rMdpr0Qab3vCU2mJdOHohhU26y+Q4fI7H0D9TofxqvI4/XWvbv5l/9IsunvapwDueAdJi
- kx7iD4mcFotm1FBycdSrQ0tY7zecvYSfCmrYW/1fwnHFlg3vBGY+R28wzPCLKS8nSDr/D334THY
- cFTrXe9V72xMcSkugBxP80bkPA49e8XKwlfeZwL2vVgc6XyKXDoBinKAqySzkFLqDNpiDN8uir0
- bD3DOVem0RrG+TVEzPDuqFOMNvu7+X4T0GFIwMtGK+e5yhw3M8nJ79p/ucgzU5
-X-Google-Smtp-Source: AGHT+IFCY5D2OrgQbO8T1ac5XgJ7Dh5PRosYfy4bjpWjfeV/DmYMVgVyyX6wvp70OFg3Iu7Fy2RfYQ==
-X-Received: by 2002:a17:903:38cd:b0:2a3:6b54:5d42 with SMTP id
- d9443c01a7336-2a36b545df5mr162573995ad.59.1767117707570; 
- Tue, 30 Dec 2025 10:01:47 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:d742:b62c:dcc9:47cd?
- ([2601:1c0:5780:9200:d742:b62c:dcc9:47cd])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3d4d2c6sm301374495ad.49.2025.12.30.10.01.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Dec 2025 10:01:47 -0800 (PST)
-Message-ID: <081b59e8-e74b-4af6-bd31-00ebb4e12e5c@gmail.com>
-Date: Tue, 30 Dec 2025 10:01:46 -0800
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194B910E26D;
+ Tue, 30 Dec 2025 18:07:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4519B60018;
+ Tue, 30 Dec 2025 18:07:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C30C4CEFB;
+ Tue, 30 Dec 2025 18:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767118046;
+ bh=NCDy490TpQXg1SrXADbkgQVLfIf/ieUySJmjn0ZF6lI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZzcKXYS10iC4Ff5p/up8rjk5DFhb9i3cwtFSMaa5w/be6KP3a6+KOBxEWBjjEzH1G
+ TkivbkkzgXGtTOTdGrwuS7aKOQu3dD4WRdHBtS/x8+zrwybFiPKSTS/O7yu15aabmD
+ lY7dZUZ05RaZnCX0qDX26k+JysVlZwZTQn5H7eK1/PIDIOlC1fPAYURYyM4CAicZFU
+ 6KJexlrruk4F/X/PtW7JZU+zEkiRb4J6dwyM8iPi1qgfj/KmUiMxf1n9t2qCdGKjZv
+ ueSpddCI8ySqvyHfEx+UO54eg85HSbTWYQRypyetjYNLJ4nly6Jn47EMqx44kAsFcQ
+ ICBfBSbVmsvGA==
+Date: Tue, 30 Dec 2025 12:07:25 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, freedreno@lists.freedesktop.org,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, devicetree@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH RFT 1/3] dt-bindings: display/msm/gpu: Straighten out
+ reg-names on A619L/610/702
+Message-ID: <176711804473.885549.6357046736592597919.robh@kernel.org>
+References: <20251229-topic-6115_2290_gpu_dbgc-v1-0-4a24d196389c@oss.qualcomm.com>
+ <20251229-topic-6115_2290_gpu_dbgc-v1-1-4a24d196389c@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org,
- deller@gmx.de, gregkh@linuxfoundation.org
-References: <20251230052827.4676-1-chintanlike@gmail.com>
- <20251230052827.4676-4-chintanlike@gmail.com>
- <aVO5X0NKSdkH6Ab5@smile.fi.intel.com>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <aVO5X0NKSdkH6Ab5@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251229-topic-6115_2290_gpu_dbgc-v1-1-4a24d196389c@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,39 +74,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On Mon, 29 Dec 2025 21:47:39 +0100, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> These GPUs have physically have the same regions as the base case
+> ("main" + "cx_mem" + "cx_dbgc"). Remove the specific override.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
 
-On 12/30/25 03:37, Andy Shevchenko wrote:
-> On Mon, Dec 29, 2025 at 09:28:21PM -0800, Chintan Patel wrote:
->> omapfb provides several sysfs interfaces for framebuffer configuration
->> and debugging, but these are not required for the core driver.
->>
->> Remove the hard dependency on CONFIG_FB_DEVICE and make sysfs support
->> optional by using dev_of_fbinfo() to obtain the backing device at runtime.
->> When FB_DEVICE is disabled, sysfs operations are skipped while the code
->> still builds and is type-checked.
-> 
-> ...
-> 
->> +		struct device *dev = dev_of_fbinfo(fbdev->fbs[i]);
-> 
-> Still the same issue I pointed out in v2 review.
-> 
->>   		int t;
->> +
->> +		if (!dev)
->> +			continue;
-> 
-> ...
-> 
->> +		struct device *dev = dev_of_fbinfo(fbdev->fbs[i]);
->> +
->> +		if (!dev)
->> +			continue;
-> 
-> Ditto.
-Sorry about that. I had actually made your suggested changes but somehow 
-I mistakenly send old patches instead of updated one. I will send 
-updated one. Should I send v4 or v3 is fine?
-
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
