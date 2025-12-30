@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8F7CE8AE8
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 05:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F997CE8B62
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 06:29:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C19510E67F;
-	Tue, 30 Dec 2025 04:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCFA10E805;
+	Tue, 30 Dec 2025 05:29:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SSa3dxvO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nEnefuyz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8E910E2E2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 04:37:51 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2a099233e8dso79702685ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 20:37:51 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61F1910E805
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 05:29:02 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-2a0ac29fca1so81618425ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 21:29:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767069471; x=1767674271; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
- b=SSa3dxvOqP5g2vVBoiQZqs/bTc+xOGk3jAvj+dtFReNfW+G/PwrJHbnrqyMMKux/6a
- j1iH0n62s7U+iQFMVrV/tRG2NsGZgRH0Ef0kvCq88f07ChwdU/Ag1D0xM/Saugw0QO/Y
- FvZ/EFIPeVQiVSSio+gmRD72Q+fhqRO+0PAciBE+XWDrZypIAVI0nOek/RIl+/TT5Liy
- Mh6MonAa2Dc4G8Xj+8gIveDAkOSIeyrcCXmTJPUKUvRWqgtYNd4gqVV1Q7SygoqYGGSS
- hn6I1pYpUCctEDs4MXIIGovCb8M0w/XwXsSxyfx/oGUK5sCIL5WsYBL5a/qG10CnwhoG
- yrrw==
+ d=gmail.com; s=20230601; t=1767072542; x=1767677342; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Dj6McVGjym7Yb0fc3OqJWPUYkxg//XdJSHr/RV+rzYI=;
+ b=nEnefuyzvQ2M26N5GBeNkN8IGn9F2QJifH4B0TSNlgpsYxrjkZTKEXjEY3fuPUTIOS
+ UHvLI+kvJUULuk/yLd1jIDR8bMwi7mgnzN+SW8GAAaHyATH7N2p/tTd5VOyxc6l/GWKr
+ ojmqvrB5O8KFZRp2FN1T03LYOjyqt+AVe2A3FgSeQB7qwjRDYdW++GJH6bCRQ6oVKqq+
+ hmASpk0F9hupunVEdYcIshRHf+VMnuw0SeBPbKyJFWtNnkmqZrPcawlvrcpFbc5Iboaw
+ PARfvdm1IQ/F8JOJTbckR6gT/IjxnmavisfsCcKm22LCZNwGqQGVlIaLgvG4B8EqdWX/
+ EhGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767069471; x=1767674271;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
- b=HfC2Jx/4mHuhRT0+CEKqU6Ot6vWYK4o2PeY0pG/UdLmCAPhwvuDqRVpKGGqAJyDreS
- NffkCuOEsK3XSYeX8fiEvT5F7OMq15Uq1+VLLMrMEkIlZPc0Lnq+bo9ZrErCeJxfIyNE
- qiPE/n2TLiEwRGzzFmkiqa8aUZcAastGrjOJdi16Of0wD7QcYc8HnuElNOjqohpIxX0c
- hE12LQSCicV7SOGQLSp/GejtvoMBzg6Dsep4EPt2stAvWtDNe/bPhIgPuh3TRXD4REb4
- 9La6KjxOwwFGzCnsvWFVvVucLOjbP57Av5VJQ7Ig2SHgf1xz9erFtyFcCNyfeLQmnyeA
- Exfw==
+ d=1e100.net; s=20230601; t=1767072542; x=1767677342;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Dj6McVGjym7Yb0fc3OqJWPUYkxg//XdJSHr/RV+rzYI=;
+ b=tEuoG9TOdE8izv5RddNAQe0Z5i/PG/XoWjWIM8H0mTrOzDLlQ+7wk2RRvT/LR3UuyE
+ DOmwxqzSX8YLnxlsvgPn+vkYox9pMub7XY7N/jKTvkG2OkL9mWu1f8Hd/jXqyi8YoNpG
+ KW/SMMaN05u/R9eoFxFY44TB3ms6Npt/LLI1ORRezELXmMSQxKSP6jbh7RGfl6837pHz
+ AqHXVab6KGSQppsbx8lJi5Myo1zS30NyO5hhRSod0QiNZrFwKn1t+VrAMoPbfN6HWbcY
+ 5dMBaPupCR69iSZuRdayoLvLoTqctqhSNwUHL8GpOSPldLTOzautd+v4AT3JXOFzz2/i
+ 9nVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUCunEXnyJS/d0G2eogAM7IjF/t9ucha5n484yhK4CYnVjuuj067Z0ycwMl6Bt685Erl4kyBPcJBHE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkX/sxcfvgL+vtbGaDWyAKjftgkL4Q21zhjOyH9TarkVLNGJ1N
- f7bsLnm0O6tNoWP4oVRcHuoQ75H2dj8Rz4FXlofVFXyIHppSGg6JlleS
-X-Gm-Gg: AY/fxX6gM3DZJhvtc/ydgF1UWD3FT6Jkt2AOs8q+xj7yHv3lN9HUu97Ql50HpgibLLe
- duSftHnhM83a9y1pSwbGQ1uNeEJ0eAgkcpg389zNwzSulM76e4UndP1p72dbS5V4hS70VgiDPWn
- h+SJ6n7LIFY+e1Z3RYXT86P9+onvrRo4SYdE/F7g6Oom4UNKTvikdv1FygnkC5yCE+/h0zBgQ7x
- PnO09j6IvwSt+CLO7sunWtzlP4YDyDz3xc8bS1cd8nVl52UK6sMb/bkSD+RCyLhbqsV3T4Wnbfp
- cshL5mSDras/k2tPZAkrMdPZV6Ya7HM4DDLpztyzYYTAqIE3Edax/MdkWcjDUrohZZqhsItgzib
- QMtVJuDaixO/YvYotNKoEYkLj1An+zXpnjmDFUeMvM1353LIFR67qc+HECCj1hv4H2iouL0YbcO
- R8zEDxjS/z0wg=
-X-Google-Smtp-Source: AGHT+IEKeUoWYu2GFVgDFphydhGZMiQ90h/N0eJheHWd5u/8DmEeLaYgUO7ghOlfSva0c6ncPwEjiQ==
-X-Received: by 2002:a17:902:cece:b0:295:6c26:933b with SMTP id
- d9443c01a7336-2a2f2205155mr305888615ad.1.1767069470488; 
- Mon, 29 Dec 2025 20:37:50 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3d7754asm285954025ad.100.2025.12.29.20.37.48
+ AJvYcCWi1KyzQS2svaEGZ3v3WEOGYCXYZZ5nGx4hk4i1J7cxJL3Ai7iQSv7TRuUyThWalW3ZCrumQ4K/dSU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKkCo+nJjROsUn5AonoJdkVU115CAEzsd/pe6jN4HQdmaGTUIB
+ QiTQof+adHVA6CSMU1eFcYKvwodEuHmLPuHnIZvRVO2ITHamidNNzuMd
+X-Gm-Gg: AY/fxX6cgBJonUHHnK5yc3ZENwWzwdYA4WhZsh3Ebq5FWFBIn7Kd6qal4Ah3wnk1cjN
+ BYv7teLgu1FpHmIxGhm2au2fu+txk+DBLp4sKikw2YMao23FOWTEBt6P+I7a0H2xXX9hUAhY0Ax
+ gSxCJCp6O+Aq1tBJGMhGC3qLB6YmgrZ3zWpOmEky2qqelQPLXUzV5zE0xtVsQT5K7/QxrxxXLkB
+ Y0kdvIZ+IT5mot/q+8P890cmKnX1dkRNcMVOKxVQ/0eQVPd/qE+Ix8d8sQgxqrYmGw1qY9axdpG
+ PIG0F/RH5ocjDVDMQR04+qAqEwoaGUWTVU7JbDLB87ti6Ih3ybgmSi4RcR2kIvPO2ojztHaKRG/
+ 1foMQ6L17VBkKcyDFqroULz8ucK0Wi1X1ip3JW+tdGuWGEZZE/ESKMHDSQhyW2omb2EeZ+BMwUj
+ IM2uGL2NdxPIrbGVgRqKFo62di7dTZF4ui1AI0MW/REg==
+X-Google-Smtp-Source: AGHT+IHwTfpQdWaiGQID80ROPYBWipLKNMwbumSR5a0iV81jvx/Y/dNBzJjvj9L9pMYVwYJAGCLB/w==
+X-Received: by 2002:a17:902:e785:b0:2a0:acf1:ad0f with SMTP id
+ d9443c01a7336-2a2f22024e0mr275687215ad.12.1767072541794; 
+ Mon, 29 Dec 2025 21:29:01 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net
+ ([2601:1c0:5780:9200:f7a0:c2f:d915:faf0])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a2f3c8286esm289290375ad.33.2025.12.29.21.29.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Dec 2025 20:37:49 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id EC9BF419B84C; Tue, 30 Dec 2025 11:37:46 +0700 (WIB)
-Date: Tue, 30 Dec 2025 11:37:46 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <aVNXGrqgNJsnyMsw@archie.me>
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
- <aUyMiJvJX1KhffVb@archie.me>
- <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
+ Mon, 29 Dec 2025 21:29:01 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
+ gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>
+Subject: [PATCH v3 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
+Date: Mon, 29 Dec 2025 21:28:18 -0800
+Message-ID: <20251230052827.4676-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="/cvQIoAKPEfuZFWr"
-Content-Disposition: inline
-In-Reply-To: <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,38 +91,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
+it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
+remove hard FB_DEVICE dependencies.
 
---/cvQIoAKPEfuZFWr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The series introduces a small helper, dev_of_fbinfo(), which returns
+NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
+via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
+full compile-time syntax checking.
 
-On Mon, Dec 29, 2025 at 04:33:47PM +0100, Louis Chauvet wrote:
-> > @@ -202,7 +202,7 @@ Contact:	dri-devel@lists.freedesktop.org
-> >   Description:
-> >           List of supported formats for this plane. To add a new
-> >           item, write its fourcc code prefixed with '+'. To remove,
-> > -        use '-' prefix. Use '+*' to add all formats, '-*' to
-> > +        use '-' prefix. Use '+*' to add all formats, '-\*' to
->=20
-> Hi, thanks for the fix!
->=20
-> I only have to escape the second wildcard? Not the `+*`?
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+---
+Changes in v3:
+- Use PTR_IF() to conditionally include overlay_sysfs_group in 
+  overlay_sysfs_groups
+- Decouple variable definition and assignment in fbtft_sysfs_init/exit
 
-Yup. Try make htmldocs without the patch and see.
+Changes in v2:
+- Add dev_of_fbinfo() helper (suggested by Geert Uytterhoeven)
+- Replace #ifdef CONFIG_FB_DEVICE blocks with runtime NULL checks
+- Switch to fb_dbg() / fb_info() logging (suggested by Thomas Zimmermann)
 
---=20
-An old man doll... just what I always wanted! - Clara
+---
 
---/cvQIoAKPEfuZFWr
-Content-Type: application/pgp-signature; name=signature.asc
+Chintan Patel (4):
+  fb: Add dev_of_fbinfo() helper for optional sysfs support
+  staging: fbtft: Make FB_DEVICE dependency optional
+  fbdev: omapfb: Make FB_DEVICE dependency optional
+  fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency optional
 
------BEGIN PGP SIGNATURE-----
+ drivers/staging/fbtft/Kconfig                 |  5 ++++-
+ drivers/staging/fbtft/fbtft-sysfs.c           | 20 +++++++++++++++----
+ drivers/video/fbdev/omap2/omapfb/Kconfig      |  3 ++-
+ .../video/fbdev/omap2/omapfb/omapfb-sysfs.c   | 16 +++++++++++----
+ drivers/video/fbdev/sh_mobile_lcdcfb.c        | 12 ++++++++++-
+ include/linux/fb.h                            |  9 +++++++++
+ 6 files changed, 54 insertions(+), 11 deletions(-)
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVNXFQAKCRD2uYlJVVFO
-o7xDAP4oC24X/814znpE6C9oS8vLeRm3x+JFWHtZczhWkK9uigD9GiLsaigPdyYr
-VIPUugXHtCVB3MOHE4qqkFF+7PCK6wc=
-=AfbL
------END PGP SIGNATURE-----
+-- 
+2.43.0
 
---/cvQIoAKPEfuZFWr--
