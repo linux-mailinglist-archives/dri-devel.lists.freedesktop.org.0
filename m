@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35657CEACB6
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 23:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBB9CEACD9
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 23:51:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A24510E624;
-	Tue, 30 Dec 2025 22:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D1310E17E;
+	Tue, 30 Dec 2025 22:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QPvU+yG+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BiIfpYXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C21410E624
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 22:43:17 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-64951939e1eso16686314a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 14:43:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767134596; x=1767739396; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9mEi6OrHM82M1e0Eu4BKfGlCSswhhgbyi6wTYu1Esdo=;
- b=QPvU+yG+yAaQQbSo9JKuZIV26B9igFPirqvQWjYrUB8m7vxOlLJ0i5f0/4UymqvZfR
- FRouXMdv3EY3myEVfSMrw4kf1B8GVhKwsBBCyj/IY2Pi3PUjxEZL40crMkuIY0z91vEe
- ogpgZQEnbl9qz3Mnc433BnzWZYtBrQFLaK8iAyzL1yAUGRC4CL4A5gF3+fiNjWRQd+Uk
- 1XjQjqJOrFnz21JkQucZm+RYjf+KoLj8KE63D87ECnL/4lr/ZQFW8vz4zsxOYns4Dw6f
- WmMGaTR2+9WvRsjU8rvgElVVXWiFgzxURPTtF7ugjgBqMSuLrkYgDFeE2y9lXOmLfbpR
- TaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767134596; x=1767739396;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=9mEi6OrHM82M1e0Eu4BKfGlCSswhhgbyi6wTYu1Esdo=;
- b=DuKE6Exaz9i5IqaDuc7X2eKJLVJ03MKrJGdmrtSyYF5Oq/R7OuzS1f+X3jL4klUp0p
- ecLe98bN/IIGDx+h9wWzGYO9rUsgtnhQJSG6nfIe3KAvDISOKItcoc0Frg1TlH+WNVjr
- J5xFEE0YRnDGZw3GfUC7OfRbyHojYu4e+sqpTp7iPQDB9FwkP+MVaJNdF0VRgHpmU3ad
- 3JH9hF/ci8F0YJzNSIdGZlFjR+lR14wPACirleeBVarXHHjfS4sUBjJYR/IikLrXKVSz
- YNAUzTAwd5DXE3r8z3LLEmpFg2Ll/6BX78flfiD2SBA0ln2zo3VTax+w5qJOW+K8DgR4
- P7BA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWksQwwXJAZ61y87L07SjV1qD28oKQtiTBsao+72URw8mdVNBBQPhqHenDkNRlV8dMYC8Cnz9juJ3g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKv6jiXE7JDfvFj0E3h9Zg8uGUVQABHjIgxVm9c4iYdOHbN8c0
- qLvpJGIrXJ0cwO0MwB0CIIeIpJtfG0W4eJr5aoXP5HuwlYBivrMtqvz9g5GkSrTQpFOSvbbaZlA
- 4IETnqDsJr3wPDXscRQ7fZeNYJYteETw=
-X-Gm-Gg: AY/fxX5R1sMEyt/mv4On+4TSZ8J059WX6Keh7TFrHHJ1GUIdAvCnvt9UbnZKJi+x+ny
- a9HumxNlzldWOKsxG5eo1j+LVG6k/Bi185myRpon93vOZFd6gYn1KFP1+uzQ5GHCbC7ypV8nYNK
- eeIBnUeufeWtSjDYD9jE5VQzwBAFO5OOcX3PwtCp/41AlomwxTeo6W/NU6bQdAzqzefcRDhVcnn
- FcEZN26UjH3OaV+EDyt+0g4ebacrGiZcxMIoyq09onmoiQemvJOtQgoGcZBqev2F0a7wLz5nwxf
- /noUUCw9qvzxctcL4k6bzHBOv9PnClZKta3yj6hXLFwaAgy5nDUrlhQgbqTwXYkuPdGCVPSZcIt
- 2oiNF7I8=
-X-Google-Smtp-Source: AGHT+IFQWfQKkPBeY8y1lW4UgnrOAAMI40g1X5cdWEdu84v+wi5zQgy4ZIJWy0xewaTSwh16p/etDzIVCFjsFTSA5bA=
-X-Received: by 2002:a17:907:9408:b0:b73:6998:7bce with SMTP id
- a640c23a62f3a-b8037152a19mr3578554666b.33.1767134595488; Tue, 30 Dec 2025
- 14:43:15 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BCB10E17E
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 22:51:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767135079; x=1798671079;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=iiIrdOFOFI+g5ldtCCr0SI9PsZxJwAVj2GLXKN3o2yc=;
+ b=BiIfpYXP9chOSdNo00DlgE3x5l6V7lZ0/2rfnwq0qkrznt6G+unF2If4
+ y3oSOGlHd+PSARkGPbCL+T/zRdiHT/QpGJiyI7uM6FNqzU+8ArQctDOUB
+ f+15q2kLuSbUmONarGrP86ywH7OHZ9GFGqnfH6Sd6SLVTjLNCkyyTayco
+ QL5q8CJve8X9v5qtY8vQ1I8p+qvC0aexurzjggkje1jpUnPUpm8R4tUit
+ 4z/0r8fSikMLDATvrV7bpTCtGNScT7seKOR+758zuvsd55lSsS16efdDO
+ qbI9yAU+4y+knUmLX3F5quloeeQLT7Xx+W9yyo2A28bS5gUhQQF66vaAA g==;
+X-CSE-ConnectionGUID: GrPoEbedSSyV29/zE8CWjQ==
+X-CSE-MsgGUID: i+EA81/NR+WzOy20xMlAGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="68472785"
+X-IronPort-AV: E=Sophos;i="6.21,190,1763452800"; d="scan'208";a="68472785"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2025 14:51:19 -0800
+X-CSE-ConnectionGUID: qnO7xPkvQMuvVXxVszJGXw==
+X-CSE-MsgGUID: C1zcGa4bS1GI4uvX2ooaAA==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a)
+ ([10.211.93.152])
+ by fmviesa003.fm.intel.com with ESMTP; 30 Dec 2025 14:51:18 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vaiYd-00000000820-1EEq;
+ Tue, 30 Dec 2025 22:51:15 +0000
+Date: Tue, 30 Dec 2025 23:50:49 +0100
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org
+Subject: [drm-misc:for-linux-next 2/18] htmldocs:
+ Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+ [docutils]
+Message-ID: <202512302319.1PGGt3CN-lkp@intel.com>
 MIME-Version: 1.0
-References: <20251230052827.4676-1-chintanlike@gmail.com>
- <20251230052827.4676-4-chintanlike@gmail.com>
- <aVO5X0NKSdkH6Ab5@smile.fi.intel.com>
- <081b59e8-e74b-4af6-bd31-00ebb4e12e5c@gmail.com>
-In-Reply-To: <081b59e8-e74b-4af6-bd31-00ebb4e12e5c@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 31 Dec 2025 00:42:39 +0200
-X-Gm-Features: AQt7F2qWtePPexAYMwq8dRDWvuDOrmxY5lQaE1jMdbfoOaWp8Hbs7ajPSCcSepQ
-Message-ID: <CAHp75Vf0n2wQAEt_kfvZKKyjS7VqU3_SvF0vYbYBGikP=7dQmg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- tzimmermann@suse.de, andy@kernel.org, deller@gmx.de, 
- gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,21 +70,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 30, 2025 at 8:01=E2=80=AFPM Chintan Patel <chintanlike@gmail.co=
-m> wrote:
-> On 12/30/25 03:37, Andy Shevchenko wrote:
-> > On Mon, Dec 29, 2025 at 09:28:21PM -0800, Chintan Patel wrote:
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git for-linux-next
+head:   40630210211a34f0714fe976530ccf1291e5ef78
+commit: 9da0e06abda87b1f97014113d5231fdeb4700749 [2/18] drm/bridge: deprecate of_drm_find_bridge()
+reproduce: (https://download.01.org/0day-ci/archive/20251230/202512302319.1PGGt3CN-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
 
-> > Still the same issue I pointed out in v2 review.
+All warnings (new ones prefixed by >>):
 
-> Sorry about that. I had actually made your suggested changes but somehow
-> I mistakenly send old patches instead of updated one. I will send
-> updated one. Should I send v4 or v3 is fine?
+   Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:397: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
+   Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1519: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   WARNING: No kernel-doc for file ./include/linux/hdmi.h
+   WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
 
-v4 needs to be sent.
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
