@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F96CEA4D9
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 18:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977C6CEA4E2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 18:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D72E10E54C;
-	Tue, 30 Dec 2025 17:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE9810E61B;
+	Tue, 30 Dec 2025 17:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 626BE10E54C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 17:20:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 682A410E61B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 17:20:57 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E45CA1515;
- Tue, 30 Dec 2025 09:20:47 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A44615A1;
+ Tue, 30 Dec 2025 09:20:50 -0800 (PST)
 Received: from 010265703453.localdomain (usa-sjc-mx-foss1.foss.arm.com
  [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B9BC53F63F;
- Tue, 30 Dec 2025 09:20:52 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 384443F63F;
+ Tue, 30 Dec 2025 09:20:55 -0800 (PST)
 From: Robin Murphy <robin.murphy@arm.com>
 To: heiko@sntech.de, neil.armstrong@linaro.org, dianders@chromium.org,
  thierry.reding@gmail.com, sam@ravnborg.org
 Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/4] drm/panel-edp: Move FriendlyELEC HD702E
-Date: Tue, 30 Dec 2025 17:20:32 +0000
-Message-Id: <027763b36fbad2005d09eeb289b7716c57f65e76.1767111809.git.robin.murphy@arm.com>
+Subject: [PATCH 3/4] arm64: dts: rockchip: Move RK3399 eDP pinctrl to boards
+Date: Tue, 30 Dec 2025 17:20:33 +0000
+Message-Id: <0b9488badb467ef83a0a464eeea921f59e32e6b0.1767111809.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1767111804.git.robin.murphy@arm.com>
 References: <cover.1767111804.git.robin.murphy@arm.com>
@@ -47,104 +47,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FriendlyELEC's HD702E module is an eDP panel (in as much as it's some
-LVDS LCD behind a Chrontel CH7511B eDP bridge), so move its data over
-to the eDP driver, also resolving the warning about the missing bpc
-value in the process.
+The EDP_HOTPLUG pin is optional, and muxed with other functions (notably
+HDMI CEC), so move its selection from the SoC DTSI to the boards which
+apparently want it, namely those which enable eDP without "force-hpd".
+By the same token we drop it from Pinebook Pro, which already uses
+"force-hpd", and according to the schematics does not have the pin wired
+at all.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c | 25 -------------------------
- 2 files changed, 26 insertions(+), 25 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi              | 2 --
+ arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi    | 2 ++
+ arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts       | 2 --
+ arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts | 2 ++
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 415b894890ad..dd53ccc209ce 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1256,6 +1256,29 @@ static const struct panel_desc boe_nv140fhmn49 = {
- 	},
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+index 4dcceb9136b7..19a312baa9f1 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+@@ -2145,8 +2145,6 @@ edp: dp@ff970000 {
+ 		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH 0>;
+ 		clocks = <&cru PCLK_EDP>, <&cru PCLK_EDP_CTRL>, <&cru PCLK_VIO_GRF>;
+ 		clock-names = "dp", "pclk", "grf";
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&edp_hpd>;
+ 		power-domains = <&power RK3399_PD_EDP>;
+ 		resets = <&cru SRST_P_EDP_CTRL>;
+ 		reset-names = "dp";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+index 9d07353df52c..3f3cb0eb5809 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+@@ -241,6 +241,8 @@ &dmc {
  };
  
-+static const struct drm_display_mode friendlyarm_hd702e_mode = {
-+	.clock		= 67185,
-+	.hdisplay	= 800,
-+	.hsync_start	= 800 + 20,
-+	.hsync_end	= 800 + 20 + 24,
-+	.htotal		= 800 + 20 + 24 + 20,
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 4,
-+	.vsync_end	= 1280 + 4 + 8,
-+	.vtotal		= 1280 + 4 + 8 + 4,
-+	.flags		= DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
-+static const struct panel_desc friendlyarm_hd702e = {
-+	.modes = &friendlyarm_hd702e_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width	= 94,
-+		.height	= 151,
-+	},
-+};
-+
- static const struct drm_display_mode innolux_n116bca_ea1_mode = {
- 	.clock = 76420,
- 	.hdisplay = 1366,
-@@ -1663,6 +1686,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "boe,nv140fhmn49",
- 		.data = &boe_nv140fhmn49,
-+	}, {
-+		.compatible = "friendlyarm,hd702e",
-+		.data = &friendlyarm_hd702e,
- 	}, {
- 		.compatible = "innolux,n116bca-ea1",
- 		.data = &innolux_n116bca_ea1,
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index b26b682826bc..3ea52667b858 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2359,28 +2359,6 @@ static const struct panel_desc frida_frd350h54004 = {
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ &edp {
++	pinctrl-names = "default";
++	pinctrl-0 = <&edp_hpd>;
+ 	status = "okay";
+ 
+ 	/*
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
+index eaaca08a7601..dcab04863d28 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
+@@ -401,8 +401,6 @@ &cpu_l3 {
+ 
+ &edp {
+ 	force-hpd;
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&edp_hpd>;
+ 	status = "okay";
  };
  
--static const struct drm_display_mode friendlyarm_hd702e_mode = {
--	.clock		= 67185,
--	.hdisplay	= 800,
--	.hsync_start	= 800 + 20,
--	.hsync_end	= 800 + 20 + 24,
--	.htotal		= 800 + 20 + 24 + 20,
--	.vdisplay	= 1280,
--	.vsync_start	= 1280 + 4,
--	.vsync_end	= 1280 + 4 + 8,
--	.vtotal		= 1280 + 4 + 8 + 4,
--	.flags		= DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
--};
--
--static const struct panel_desc friendlyarm_hd702e = {
--	.modes = &friendlyarm_hd702e_mode,
--	.num_modes = 1,
--	.size = {
--		.width	= 94,
--		.height	= 151,
--	},
--};
--
- static const struct drm_display_mode giantplus_gpg482739qs5_mode = {
- 	.clock = 9000,
- 	.hdisplay = 480,
-@@ -5235,9 +5213,6 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "frida,frd350h54004",
- 		.data = &frida_frd350h54004,
--	}, {
--		.compatible = "friendlyarm,hd702e",
--		.data = &friendlyarm_hd702e,
- 	}, {
- 		.compatible = "giantplus,gpg482739qs5",
- 		.data = &giantplus_gpg482739qs5
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
+index a4ceafe6dd7a..80d6ea0eda84 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
+@@ -141,6 +141,8 @@ sdio_pwrseq: sdio-pwrseq {
+ };
+ 
+ &edp {
++	pinctrl-names = "default";
++	pinctrl-0 = <&edp_hpd>;
+ 	status = "okay";
+ };
+ 
 -- 
 2.34.1
 
