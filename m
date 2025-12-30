@@ -2,81 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98F0CEA17C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E37CEA1AA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:50:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4007310E919;
-	Tue, 30 Dec 2025 15:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A0410E0F0;
+	Tue, 30 Dec 2025 15:50:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="NNXqtuFH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uud/8zHK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 147E310E522
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:43:04 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-595825c8eb3so10216676e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:43:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1767109382; x=1767714182; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UuyGl/AZyQjVQCbBt2jNVWaKpqTC2aRWnYus6/cTMyo=;
- b=NNXqtuFHhX/RciLxSOU8WO4NWw9X6Oiy1WcU9FuKWNI1GDSUKGW/r09fmf3vPADu2i
- qWEtnAVpnHcJSXR0wGd/ek7cwwx9HelwbSoIAzO0McW9dCVacFtf6LMKOvHSXQlSRM+s
- 39zX/VGqWlBRwBd5Hsjl6UVP1mte7aU3xNs5FLqBKmbfXK2waZAvJRszJwuvx5vdny1t
- IsoNaHneiwn6CTUDkp15jjO1U+J1omxxu2PHIkI0WkimQak2KM5t1yF4iMqZCp1lorMF
- LfZBsX5jIoYcIARzGPCp0AgXwQC3EboYxDNuDBB/cYR5UFtRooDT/5NTByClKJn/F9eA
- A0kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767109382; x=1767714182;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=UuyGl/AZyQjVQCbBt2jNVWaKpqTC2aRWnYus6/cTMyo=;
- b=CC+k1FCgFi/+ObaxI1MzMBR7JngEdKAQaqpq8AQQWG1ckI8xboLiataLEgqfh/A8SG
- kM+CdaHeZSwU0Ai7V2yk3yVS4fteXKYD+ptdm2SuiLOWrmR3kIfZUIH2HBdnRAPWxjs5
- kNGI7i929kUdN8InXInyaVT0dizisivlp0Bqp+2wZ0zNY2E70gJ2kdFrJQfApDNRqPKm
- oi073DEfd12mRYnZnFQqCfNpwnTh7uizq/zLzVwNAt2buiJ3K6gqK7V3E8CpTce87lkT
- DkZP40GO7kITRIP89i/iq16HF2cUZGCMBoak4NSBTqzpUOhshVT+uNf84vUfoM6kLtBA
- sPLA==
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A58810E0F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:50:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 098406000A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:50:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5589C116C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767109826;
+ bh=buNYBa+G8qfLlUvBCR4ZFcvapW46f5DYot+jLhw9HoQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=uud/8zHKAy9vAmWpvkX9rbSTgMdpfHBrh6WLiprE9pI8hXsuIlJvKVSvybs77Fn8Y
+ sUNNKqabH1O3AAdbTpPpjTZKBZ6V0IebRTaOqL2zluNQBKVnI/KyICHqazM4+tq8Al
+ e7KrJX5C2v4quZN/1/fXqONBGLQD9e5pGrZWWuL4E2yUMn9tgr24TnxY0pGE54iQk3
+ FNmaJE5Xh1NVQAEmCs/Ertn7U8sVHeyHuLWOeql2YdFDe2u0OwNx/yZ5U0KPz8j379
+ t4oJxM3x8CAObxRNyV5UERTf1i+gfTxIHvgPsa8R+JAxSfQDAsS9oaFzAQxP4vVDon
+ lgi7CNLA0cyfA==
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-7fbbb84f034so6781904b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:50:26 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUa6tBVG8AFq/UMvl7K9vS1PcmXT94l+fwbF9uFygb8Cg0y0ZZvx3neTzEg9VU8Gl5Db5i/jqHY81I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxenXKWudiPvJGXa3EPZjSGrdxX5eu05dZMgZx6OIQ1C2p42gAp
- b08Xmz759keJV4coorjQIuik+ZgJcA3ZVUyrvstdkwzvNhpxU4QcYztdoL2KHC2y4IGWYsO12WE
- TSul1QoXCd5O1hNaWLc+M43RNyYfJY89wluClTnuPHg==
-X-Gm-Gg: AY/fxX4OriOwH3mRCxxKDsUnvwoLCPdTdYoqoDUllBAuEkp7ywqmsu64sY2CmVsOrKL
- RNpDdyyjwCEM3fw+Ua22AMdkynuA7p6cxiHeKcopZK5fSdfzw8pqv/eTiBDnhMroiAvGQe0PK51
- SAkl4qsn5flrghjn7X9yiq8ZkbJqE28KiRPIfFXCfl/d0M4hkcSdQIMltKGGfEG8qMWRDF+/cPJ
- KdzfBr6oZSqrLkqakCHXW9GKZvuAWqNEU9LdGkwNDE8vTihKTH4QqP7YHmnZmG7D5GWpA4a2ljS
- TglUTOjH3r/nBNKJlPFsv3wFP3iZ
-X-Google-Smtp-Source: AGHT+IEiOszR/dmQ0W8nUyVU4uBq5XZYn2gxKvCzyxC/HCbTuL0COEdCVgq6omNZBz4cUy/uqnELRTwGsOtKMT1/IoE=
-X-Received: by 2002:a05:6512:1591:b0:595:8350:5812 with SMTP id
- 2adb3069b0e04-59a17d4c7b9mr9199283e87.36.1767109382190; Tue, 30 Dec 2025
- 07:43:02 -0800 (PST)
+ AJvYcCXnJ9Bh86P+MuxtRRweiIE3YQUTHjXIakvWSSEo0YwcGlHmVB3rrwgSZjXW80CALGYtc+xHQhQ8XD8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywr1SfIcjOgUD6/RsbI0PoSg+IHeiAl8YtEWgGBM2F2cMH2Noh0
+ 4wxXBkn8F1jPfjl1v2k0pU4sQ99GIlThwIEIkHPPueF2IAkqxlxEEmQ5f7QWOXa44N2g7M77N/4
+ 8rxPg8T4P/PPjSm1AguI6rgqLKa5zAA==
+X-Google-Smtp-Source: AGHT+IEZjuJ741PMreIHh9uiPP3hb59AwPjPkgs6EZmokmEJmwSPfCMKsbUmse1x0DIpIk+dUrk59qVP/n9gj5/yiuc=
+X-Received: by 2002:a05:7022:b906:b0:11b:d4a8:d244 with SMTP id
+ a92af1059eb24-121722ab1e3mr21838218c88.16.1767109826287; Tue, 30 Dec 2025
+ 07:50:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20251224160026.124106-1-marco.crivellari@suse.com>
- <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
-In-Reply-To: <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Tue, 30 Dec 2025 16:42:51 +0100
-X-Gm-Features: AQt7F2poId7AdIkEB8ZF9b6jvFxVwtgIxfRSZm5wlbmusfrccxCifnR4zP7eTFs
-Message-ID: <CAAofZF7H_sPKh=oG7C=fN-mtevZjZ038DjOL0rwDVuOib9p4Dw@mail.gmail.com>
-Subject: Re: [PATCH] drm/xe: Replace use of system_wq with system_percpu_wq
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20251125-drm-mediatek-hdmi-v2-wifpts-v1-1-a6c7582cf69a@kernel.org>
+In-Reply-To: <20251125-drm-mediatek-hdmi-v2-wifpts-v1-1-a6c7582cf69a@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 30 Dec 2025 15:50:13 +0000
+X-Gmail-Original-Message-ID: <CAAOTY_-hGe-yWK-iSXDefEPJN9bc8A_r=kNirBAyHgCPhqoAvw@mail.gmail.com>
+X-Gm-Features: AQt7F2ole3Zhplk3q7hyGThFScP9pdJnuSD325W6WxvbLpbbWXRXwbGOdauOQ4Q
+Message-ID: <CAAOTY_-hGe-yWK-iSXDefEPJN9bc8A_r=kNirBAyHgCPhqoAvw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: mtk_hdmi_v2: Fix return type of
+ mtk_hdmi_v2_tmds_char_rate_valid()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,64 +79,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 24, 2025 at 7:28=E2=80=AFPM Matthew Brost <matthew.brost@intel.=
-com> wrote:
-> [...]
-> >  drivers/gpu/drm/xe/xe_tlb_inval.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_=
-tlb_inval.c
-> > index 918a59e686ea..b2cf6e17fbc5 100644
-> > --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-> > +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-> > @@ -94,7 +94,7 @@ static void xe_tlb_inval_fence_timeout(struct work_st=
-ruct *work)
-> >               xe_tlb_inval_fence_signal(fence);
-> >       }
-> >       if (!list_empty(&tlb_inval->pending_fences))
-> > -             queue_delayed_work(system_wq, &tlb_inval->fence_tdr,
-> > +             queue_delayed_work(system_percpu_wq, &tlb_inval->fence_td=
-r,
+Hi, Nathan:
+
+Nathan Chancellor <nathan@kernel.org> =E6=96=BC 2025=E5=B9=B411=E6=9C=8825=
+=E6=97=A5=E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8810:14=E5=AF=AB=E9=81=93=EF=BC=
+=9A
 >
-> Actually system_wq or system_percpu_wq doesn't work here as this is the
-> fence signaling path. We should use one Xe's ordered work queues which
-> is properly setup to be reclaim same.
+> When building with -Wincompatible-function-pointer-types-strict, a
+> warning designed to catch kernel control flow integrity (kCFI) issues at
+> build time, there is an instance in the new HDMI v2 drm/mediatek code:
+>
+>   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:1331:31: error: incompatible fun=
+ction pointer types initializing 'enum drm_mode_status (*)(const struct drm=
+_bridge *, const struct drm_display_mode *, unsigned long long)' with an ex=
+pression of type 'int (const struct drm_bridge *, const struct drm_display_=
+mode *, unsigned long long)' [-Werror,-Wincompatible-function-pointer-types=
+-strict]
+>    1331 |         .hdmi_tmds_char_rate_valid =3D mtk_hdmi_v2_hdmi_tmds_ch=
+ar_rate_valid,
+>         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+>
+> While 'int' and 'enum drm_mode_status' are ABI compatible, hence no
+> regular warning from -Wincompatible-function-pointer-types, the mismatch
+> will trigger a kCFI violation when mtk_hdmi_v2_tmds_char_rate_valid() is
+> called indirectly.
+>
+> Update the return type of mtk_hdmi_v2_tmds_char_rate_valid() to be 'enum
+> drm_mode_status' to clear up the warning and kCFI violation.
 
-Hi,
+Applied to mediatek-drm-fixes [1], thanks.
 
-So only for this specific workqueue we should use for example this, instead=
-:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
 
-462     /** @ordered_wq: used to serialize compute mode resume */
-463     struct workqueue_struct *ordered_wq;
+Regards,
+Chun-Kuang.
 
-I noticed this has been allocated using:
-
- 490     xe->ordered_wq =3D alloc_ordered_workqueue("xe-ordered-wq", 0);
-
-Using alloc_ordered_workqueue() makes this workqueue to be unbound.
-
-569 #define alloc_ordered_workqueue(fmt, flags, args...)            \
-570     alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args=
-)
-
-So this patch should be split in 2:
-- 1 patch with Xe's ordered workqueue, changing the behavior to
-unbound "implicitly"
-- 1 patch changing system_wq with the new per-cpu wq (system_percpu_wq).
-
-To keep this workqueue per-cpu we can use xe->unordered_wq, that makes use =
-of
-alloc_workqueue() without specifying flags (eg. WQ_UNBOUND or the new
-WQ_PERCPU),
-making this workqueue per-cpu.
-
-Would this sound reasonable to you?
-
-Thanks!
---=20
-
-Marco Crivellari
-
-L3 Support Engineer
+>
+> Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT81=
+88")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/med=
+iatek/mtk_hdmi_v2.c
+> index c272e1e74b7d..454b8b93b834 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+> @@ -1120,9 +1120,10 @@ static void mtk_hdmi_v2_hpd_disable(struct drm_bri=
+dge *bridge)
+>         mtk_hdmi_v2_disable(hdmi);
+>  }
+>
+> -static int mtk_hdmi_v2_hdmi_tmds_char_rate_valid(const struct drm_bridge=
+ *bridge,
+> -                                                const struct drm_display=
+_mode *mode,
+> -                                                unsigned long long tmds_=
+rate)
+> +static enum drm_mode_status
+> +mtk_hdmi_v2_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
+> +                                     const struct drm_display_mode *mode=
+,
+> +                                     unsigned long long tmds_rate)
+>  {
+>         if (mode->clock < MTK_HDMI_V2_CLOCK_MIN)
+>                 return MODE_CLOCK_LOW;
+>
+> ---
+> base-commit: a846505a193d7492ad3531e33cacfca31e4bcdd1
+> change-id: 20251125-drm-mediatek-hdmi-v2-wifpts-d67b55175609
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
