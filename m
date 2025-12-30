@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017F8CEA8CB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 20:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8AFCEA926
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 21:00:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAEB589C05;
-	Tue, 30 Dec 2025 19:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5F810E23C;
+	Tue, 30 Dec 2025 20:00:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KnO5I5u1";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DvNlCD4Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE7789C05
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 19:47:00 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id
- a1e0cc1a2514c-93f5910b06cso6217116241.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:47:00 -0800 (PST)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824BC10E22E
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 20:00:43 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-4511f736011so6612032b6e.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 12:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767124019; x=1767728819; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1767124843; x=1767729643; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eY9DKWu7ggurjBP9bHM5tPTMCGUI+TAaWzZpacbdf+Y=;
- b=KnO5I5u1lVyqg79WzmxtjU7c+H4iaPLJHay+WH3EPEJAgX7BTjhdIG0uX+qUulWAVe
- igAdbPRSXN4vZmj+Z39r3IIBEKjMBMoUnrEZPEBohrr8fxVeSX6hplj59g3PDzHzpJIL
- kME+c6XyUOLBbyLQQjc00dwR2FET8X9BrO/i5BzRoCenQaXHvxM+CKTx/R67DSvoNuBK
- /0LFJ+bGOqIIDMsc/4OJN9g3IL3CDBolBcMhK5IEOoMumTnkgXYfYu7+0+VPqAO7Mp9e
- nf629lvzRWt4inMgfyd2PwH0IOwngpGqnC/ukQxeoqUC3vYHmVhyZc8H/MtOsMvlpa0h
- DixA==
+ bh=SQ2qeV8/CMzii4Cc7pVXwWXbCg7/CDjibpfP3lPkew8=;
+ b=DvNlCD4QyTbdMXMgOj6jeokxTbMI0PGSCC2eY/vJsNF/ndI4qcxfaLwUVMFT3BggQ/
+ G8bWGVq8u2wpKn8L5Pp9393M9Jw3p7FQdj5uF/F5AhjdQDUtHPnZiF/FpCvpeW9TkxmL
+ javgeY5lq18oyy+KMLkRibwRfMGtt2+BJC8aMR3sBJrfHImnlPMASYAL4FUJC+3MFppI
+ 7tnVqPjoAxib1qoBTlrbPBrh0ndz1U8iGvUrlXwLylq5lV5qcYPo/1Jrgvn27k6210oG
+ SPK/hDPJpjeZFTsCoeznWjBTCLmMGQ4/361F2i11l8N3YZOlsolbzVdtgiXef2X1zDme
+ 7yRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767124019; x=1767728819;
+ d=1e100.net; s=20230601; t=1767124843; x=1767729643;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=eY9DKWu7ggurjBP9bHM5tPTMCGUI+TAaWzZpacbdf+Y=;
- b=RkRHLxJCVBCsEqBWVXSErIc3/W/uLLFvPmbogzpXZLkTTjeOA0bJezTIGryWx9eJC+
- P7Sp0pIPXhkSifZzyzwAXPhZQnFrZr8yzwtNmjsyWAcShGGtB94Ng1nsiRuIjM4DPx2o
- kYDmoGM4nSq5Xj7h4k7MuBifA2SkKYi/0JlT8JDP7QFeE1lgRFntVHhybMk7tN3V5Pj9
- wQDBH09SF0VJQBsH2OEioXkHL9KaosANgC3UxkqKLrOh+B4Vh2gozx34z+ypEbs4YPF+
- 850pZeY7VezadHfncTBljY+ZIS5zOhK9yEjtzBRoZkdDVMkpMGyQoMHVG5VUvY3rQC+c
- /fcA==
+ bh=SQ2qeV8/CMzii4Cc7pVXwWXbCg7/CDjibpfP3lPkew8=;
+ b=bDI8Q8N6GfE8GY/yOtcH+xHnrsmYqt1KW8eTuiHu9v2qxD3AETbQwy7/6GslCvbq65
+ MbRaegZpqWUDI6XxWKsHutF2vX/BrlLoubk5TOQsx4srs9cg2RCy8zDwWNixrKpO/6XD
+ BTRzo9tWh4BpcgvZupXC7wP6g3pMm+oqzL5VMD1ZHA/JhhQofUrClekpEXdj50r4xuKU
+ NybdXnA3al65IKY8EZRYCl4wNVhB41/zDGI+fEwj2CM0j1OzNYac3PkYFunqENeBsG2T
+ 6zkBZvaRbZ7oBU4400bADVXO3jvyGb/OqezZWs4XHCmq9f4krBKQOzWCL6Jj6fB20s+9
+ vziw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkckfIbfq+z493oOmrnXTlKRlsXKhKYJ8g542eUE7YQ3v4GGygDkLodpSQvtPenP0RXkg9yUvaOII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7V6PRgc3IgrkssOjByS2wnjm3kXM5OkyT0Py4Pw/Cf8FN82vU
- ODkcwuZ99dP2jyPIhK4DwsBlFg4/63n2x/HDTjZ1t1EuBEJfrA6rKcRXH5SWCg==
-X-Gm-Gg: AY/fxX50bb01lzL8rScGftKa1E/cpXdDwRBgmTy3zQya6mqfROw5NrRImni6utJBhxh
- CFsnALUA0pAOTlaBvK3fbhEbPNuGU9tM2ZIBd2IU3KO+exZft3bljC8tax39Mr1Ehj7YPnaaiTc
- 7OmpD/nHYRiV58suwFlGm7a3Smt2W813TYZsRyAYyDMtmfYhbJF5N0nyAgAKfiY3Gb/NfeuGFxB
- BLV0blZhAYaClefqIWekK0gzzPgBfyU42UM5l9IO1n/zkD2ZzIX0s039aOOMRgP633gFItq2CaR
- gndf64WyqGb5VAvnw/qDScWw3+zbHwUsyfA9dbq8vYX7QaJxLiGLaE3zR2TJPYbOwx7FnvQzxwZ
- 0ZoW2lnRiQDMeZ3NkPQv7uVVVlFYwNuZ0UkuFdXfbdLbgKraWnNgVV583AKN7m+THuc4YKaRddr
- olvGlZ15dKKM+aRDdgB1f079/U/4maQZuhrw+54Gh/16xSVwvS6922tVG2C3KFeC8GX9WcmJPTC
- /3uzfttBxRg1OhGj0LNTahJqtLt5/ai
-X-Google-Smtp-Source: AGHT+IHNSjL6XO/9GG+VQ4LJ4CyetXEzcsFuGnG9Kdw0+OI361O47497s5aMUrTFKuua6BqPpBWyVQ==
-X-Received: by 2002:a05:6a20:549d:b0:35f:84c7:4012 with SMTP id
- adf61e73a8af0-3769f92fca1mr31561858637.29.1767118275492; 
- Tue, 30 Dec 2025 10:11:15 -0800 (PST)
+ AJvYcCWlv4XIO3eHCSPDgCyetD/6Gq8NXi4mF977Vh+LWrIPVtDrkVI2e7qWYsUsXZ2pKZr53wlTHMd0fuM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyq20+N8fRp7+lUPQ/JLjCRk+2I8iGd/MaYaw5LjBIqSq0wenE+
+ aRuupLoc3sK7HesRoNH7tzW3HDAkeMGXwOq9u3y8dhFYNzcDve19R0Ot7QCBcg==
+X-Gm-Gg: AY/fxX6YIECB11nVa+cladaQrltF6MM3iO4PNLzAP61inq6ncbH8fBifyGRjHXRaJ7C
+ N5TSC4p/czjsSj+/qIOwZ9GWU7/PWI/qw87inuYIsSHxtmqUjHjy6D0hMOjASqm17/y+uFvqePB
+ kKp7xHodQHqOyyYlIQSnVw/FvbLwxsS0zqY0VxzCyiwCB3XRKr66Rb+MHj724fNMB1wJZ6oVZq3
+ CJ18/U4eR1jCj6ydzC/wR+LeIfLOJkLfyHMzvdbA/tG1l3E9TLC5qDPSKetoYPVgRNQHyl2oIqG
+ OuL11WeKNcZjz6wBSPBgxD+YAgeOCkkixDIl+sksnNQSo793zJ2VS/NuxUgkEMcEBbH4OIzaudR
+ wMMNWAtCWXe3tQbtLYVTCLqnhptA8OfPrB21NnqxzqANkO3D8TzA+39rdk2T4eB6+mTeygTggaI
+ ScINPs8roMVzDfMsRdKgcKEuN2as4fEQj7qGjxd67mg0PK8FyBAUwO9+2fijTbVyMRFRmfdBCQg
+ UbLIFUaV4aCwP1KiffLzg==
+X-Google-Smtp-Source: AGHT+IESyaAQ5T3YAYk5oG3HpiGG3dgsPGYC0NsIxOY31vJ9VG1hZq4KkWvGFlOWl7CULDPAileC8w==
+X-Received: by 2002:a17:90b:3843:b0:32e:4716:d551 with SMTP id
+ 98e67ed59e1d1-34e90d6a42cmr29651001a91.6.1767118281443; 
+ Tue, 30 Dec 2025 10:11:21 -0800 (PST)
 Received: from visitorckw-work01.c.googlers.com.com
  (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c1e7bc69728sm29598278a12.19.2025.12.30.10.11.11
+ 41be03b00d2f7-c1e7bc69728sm29598278a12.19.2025.12.30.10.11.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Dec 2025 10:11:15 -0800 (PST)
+ Tue, 30 Dec 2025 10:11:21 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
@@ -76,10 +76,10 @@ Cc: jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com,
  linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-sound@vger.kernel.org, Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH 5/6] dt-bindings: sound: google,
- goldfish-audio: Convert to DT schema
-Date: Tue, 30 Dec 2025 18:10:30 +0000
-Message-ID: <20251230181031.3191565-6-visitorckw@gmail.com>
+Subject: [PATCH 6/6] dt-bindings: display: google,
+ goldfish-fb: Convert to DT schema
+Date: Tue, 30 Dec 2025 18:10:31 +0000
+Message-ID: <20251230181031.3191565-7-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.52.0.358.g0dd7633a29-goog
 In-Reply-To: <20251230181031.3191565-1-visitorckw@gmail.com>
 References: <20251230181031.3191565-1-visitorckw@gmail.com>
@@ -100,65 +100,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Android Goldfish Audio binding to DT schema format.
-Move the file to the sound directory to match the subsystem.
-Update the example node name to 'sound' to comply with generic node
+Convert the Android Goldfish Framebuffer binding to DT schema format.
+Update the example node name to 'display' to comply with generic node
 naming standards.
 
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- .../devicetree/bindings/goldfish/audio.txt    | 17 ---------
- .../bindings/sound/google,goldfish-audio.yaml | 38 +++++++++++++++++++
+ .../bindings/display/google,goldfish-fb.txt   | 17 ---------
+ .../bindings/display/google,goldfish-fb.yaml  | 38 +++++++++++++++++++
  2 files changed, 38 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/goldfish/audio.txt
- create mode 100644 Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.txt
+ create mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
 
-diff --git a/Documentation/devicetree/bindings/goldfish/audio.txt b/Documentation/devicetree/bindings/goldfish/audio.txt
+diff --git a/Documentation/devicetree/bindings/display/google,goldfish-fb.txt b/Documentation/devicetree/bindings/display/google,goldfish-fb.txt
 deleted file mode 100644
-index d043fda433ba..000000000000
---- a/Documentation/devicetree/bindings/goldfish/audio.txt
+index 751fa9f51e5d..000000000000
+--- a/Documentation/devicetree/bindings/display/google,goldfish-fb.txt
 +++ /dev/null
 @@ -1,17 +0,0 @@
--Android Goldfish Audio
+-Android Goldfish framebuffer
 -
--Android goldfish audio device generated by android emulator.
+-Android Goldfish framebuffer device used by Android emulator.
 -
 -Required properties:
 -
--- compatible : should contain "google,goldfish-audio" to match emulator
+-- compatible : should contain "google,goldfish-fb"
 -- reg        : <registers mapping>
 -- interrupts : <interrupt mapping>
 -
 -Example:
 -
--	goldfish_audio@9030000 {
--		compatible = "google,goldfish-audio";
--		reg = <0x9030000 0x100>;
--		interrupts = <0x4>;
+-	display-controller@1f008000 {
+-		compatible = "google,goldfish-fb";
+-		interrupts = <0x10>;
+-		reg = <0x1f008000 0x100>;
 -	};
-diff --git a/Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml b/Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
+diff --git a/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml b/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
 new file mode 100644
-index 000000000000..e0b26c1f7b8e
+index 000000000000..48b9c056d9ac
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
++++ b/Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
 @@ -0,0 +1,38 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/sound/google,goldfish-audio.yaml#
++$id: http://devicetree.org/schemas/display/google,goldfish-fb.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Android Goldfish Audio
++title: Android Goldfish Framebuffer
 +
 +maintainers:
 +  - Kuan-Wei Chiu <visitorckw@gmail.com>
 +
 +description:
-+  Android goldfish audio device generated by Android emulator.
++  Android Goldfish framebuffer device used by Android emulator.
 +
 +properties:
 +  compatible:
-+    const: google,goldfish-audio
++    const: google,goldfish-fb
 +
 +  reg:
 +    maxItems: 1
@@ -175,10 +174,10 @@ index 000000000000..e0b26c1f7b8e
 +
 +examples:
 +  - |
-+    sound@9030000 {
-+        compatible = "google,goldfish-audio";
-+        reg = <0x9030000 0x100>;
-+        interrupts = <0x4>;
++    display@1f008000 {
++        compatible = "google,goldfish-fb";
++        reg = <0x1f008000 0x100>;
++        interrupts = <0x10>;
 +    };
 -- 
 2.52.0.358.g0dd7633a29-goog
