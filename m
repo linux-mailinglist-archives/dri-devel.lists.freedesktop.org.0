@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC466CE8B67
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 06:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A9DCE8B6E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 06:29:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201BA10E806;
-	Tue, 30 Dec 2025 05:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2279110E807;
+	Tue, 30 Dec 2025 05:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OZ5uyMWt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iGDNCIXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B85AD10E806
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 05:29:05 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-2a07f8dd9cdso101123975ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 21:29:05 -0800 (PST)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 691CD10E807
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 05:29:07 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2a0c09bb78cso70209045ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 21:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767072545; x=1767677345; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1767072547; x=1767677347; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fKkdwzvSXz/T9pEqrvQ0VdQLUSbrQRl3ctUuH0zUyRA=;
- b=OZ5uyMWt8e9W9/FkeSY+sw5EEY69Vyj6RdHE8IvAH2BP8Boubd3XgxffYVFveeWc1J
- CvCnZRYB5Ll+AwN7SQ4C0t7W6F8Mx0Xrwti+OZ5k+isqiOjxg0f6NG0Sa7pCgwlv8B+T
- +Pg3ttZbBf0mLcJ5JNFmsLW9oqjZxhICPZT6f85IOnDBAwQcwM2r6DdCIfC5TvVlUvlG
- 3rsZoBsLunLcuhUZVhLOSb+/WEBLG94dlAP7WK0Nq7adrFpz+W6XkmPlIfCK1wTTXkLJ
- /Pp+ryj5VpdG6v/R003UvGlu1C8DohJKzZKqnyAvrdgmfAxa8h4Gg0H01sZsYWyz4ZkN
- BXJw==
+ bh=i2hI5Lo88RYKXzSxQDxQgMKWvWfPHcve4QtdDyVBhKg=;
+ b=iGDNCIXPPEo2q5VKxZczTCUh4WGv1qchly42vNlItgYYs/oFsBUgTULLU9tSjUkwUi
+ KBAINg8ZsTdOJaBco/SeVhN0iSr6pmkl9F3RpDzv2dRSkF3InBr8lOXM2ehA7RXxtx8e
+ Py2UJ9kKWuiI6516VsxICMseaqOie9OLuGHGiaHba9Rd4C5exFlWrTpYfcsjm6ewmHYw
+ d8LHvwmA7IMXq6jTh8H5aLVVG0nYqp560M5cFalX7ngzcR9ZNtaKT8s44kHiGr29OmZM
+ HB0C83Uv5Dg4Rkyyzt2ei7EKjpdr0BqVvdLaIyFOoDhnP0yZkGKNLiSeN9LyGStX6oim
+ qofg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767072545; x=1767677345;
+ d=1e100.net; s=20230601; t=1767072547; x=1767677347;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=fKkdwzvSXz/T9pEqrvQ0VdQLUSbrQRl3ctUuH0zUyRA=;
- b=gVKYEZd1rrBou4iDtTFLaMneGPT6LJVpnJ7NgTG4MjtzZ6W2RR8jI3n9yBcg/wxwjl
- EZWs83pLhFVRBmPQNr3Cj9X98oMVpGy1IFdxvE/K3EgbGZSAr07xdHOZfBlkrsO2O+uc
- LKIXmRdol94AR2VTkidr4o52n0W3D+azaqOkZbIR+8MtRqb813aMZTlgV+gRGtIKwg+c
- G0dHbBKD3VGrDVL5U0JZAAqoArdRAxqgCIDeSzwMdRggDuVP90NfWstYGEpWZ1y5h4oS
- T8uArerTIjZLwcNkducSb6rp6TCIIWUcihPEGoIjSqqEczLZxn9SkzxLymzxyuHfOuT9
- xkxA==
+ bh=i2hI5Lo88RYKXzSxQDxQgMKWvWfPHcve4QtdDyVBhKg=;
+ b=h3HzQ9uNCtN7Acw6h5TQ2cQyX5f+jCGmwSXWQWYCXN8Ksvp/2DMOcdJJo9uJFM+dkp
+ YrGWpI8iw/vz5ScFW+xXnBXSDZDgw2olHBYQFzltG6bSFXVu1ST5Fwwtxx9yWmo1gCtg
+ BW1sibpfO22eeVQ0Ajnw/7+DkK3VSGyobKNiD6eD4Nml3QHqw9F5cQJFerCiuVXs8v5d
+ WSoIFQU09X9cKCd4+rtya7tM2MqkBIfBPNoB5J5OXYZ3r0X4GqXM6TgrWUJC8uSdN5RI
+ wFYMoWt1bZ43+Q/Mw/afBdSMB0tT7YFvyJS0j44U1oBiF6mRxlQusLbb2Mtgo3xYzIW5
+ LZ+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV91uzfh7QkE0p9HROdTTot55dPBmRDhZMwmMEglj2C/nLfHoKe+dewd6KYJom9iEYjV7uKuGp4/lw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMW+KWanucaEZ/4qpXXO+fkgPrqDuBIr8p95raEz4qayVwFhuT
- YibRfZ0oIPbIWhGWMEazTyxBnZTuWnCG+ZzWsoqXT8+4ALHWSExb1gCE
-X-Gm-Gg: AY/fxX6iU8A3gSmeUxWhv3/9CH0nZhxU3Ze4qEl6Cyt2SnauI0lBgPQcumOwm5zMkKt
- fGMq24O4nwKHizJ0ODhclFFulnpMB7tYh0S5wjttLrmfU7PwwN5MRB1ss2LYxT/xEUw0RxtGB/w
- ovqPts0eeRsxtQpEDJY+Pr0h6a4dxS/uL0fs4YNFlaLqpO+qkUukL/QUMWBF9DxlpBi3FvtZZzR
- qrBxzIXbXryBiACmeZ9aWq0IRS2EKIWRxwuJ/x7u0kznx2hrOkqBRUKMKa5KQoUSXfmc2e1tbJv
- erUq5d6aUQHp5ra/lK4s9EL2wr3u/bjw3Q+vr5ewXK6VB8zS0/WWFv0l4494ramut5b1zMnbi6i
- lGsXx+Ihr+6f5F+9Nh+AF7GUcesLrIKhTdWB4ON6sCdmSarW6BSs1J39a/xdR4mvr6xzcHD1dPf
- rVsixw76zxFTCeJKkqEp5UJasw2vHGv7lXV5Y3i6N9q4Q74+hq2MW0
-X-Google-Smtp-Source: AGHT+IEF20IOQ3ACEEG5Q9roz15yiegJkgEV49gziCCB4yVsuyx2zyUl9Tnp5LPbFSW7p23DGv+NWQ==
-X-Received: by 2002:a17:902:d2c4:b0:2a0:d662:7285 with SMTP id
- d9443c01a7336-2a2f1f789ffmr344796915ad.0.1767072545159; 
- Mon, 29 Dec 2025 21:29:05 -0800 (PST)
+ AJvYcCXH8w/fA5OjmArzFBKqWg49xj5H3Y5P9KpvJBsRHt8kH3mD0Lb+2j08gxjc8oXhwDkapZDai5gXDBw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHVT6+wcplH3zPx3wrjikwslnSTQlzzKZgQhUAJU++9HYMhXQi
+ en/8SCOEIq+05xGLWGSgTJvdgazWDv8hdjEbOhAPMRsLkX+Dd4Tb9uNW
+X-Gm-Gg: AY/fxX7k9X+VW0GE3rVWDq7t94unBl0wGh4ihTu+lZkgOju455Wp9wf8Rzujh8kUSXT
+ xN4HEW6SQFYtHTUTO25OKn4jIXeOV5v7X7vHPPkneoK2MheeFa0j+bqEDRftKP1YQ8697Wx8gud
+ YWA9U00FCl2sP/u6M2ypsM8qjxPwHMpiLjwMQhH6rOtfwI+hE4RSuOYQ6Pfq19P9RY7Alh90VUR
+ gAYUjBFOjVaIFAUC307BG9NsvIMq9wKLVDv31BuHE4Gj695c+Y6/6DvI1/68VZRhlBi2A3uFq8H
+ zQH8c35vOM+5c6ISbsTbOC4dKolH6Zg5eoNIyCPqfRL1PGTAr4H8OhFPbQCLnukHhpcUbDTPbvj
+ yONcAKg+INTo4gAltTEsMHtWL6XnVjDwcX2quHbltXbymFwJaR4cdMHiMrrA7M25uKaNSQOGDQr
+ NDJ1FbBbRjMAg2irDG6pZi1Y1XYTRyPTPdDHyWs3Vvxg==
+X-Google-Smtp-Source: AGHT+IEzK1mfCzTYTBVF1B1JeAS/8wWfCanHdXYXITuiOcE0jrd5VC2Uc+2+6l74lzCrDnJw2EHo+g==
+X-Received: by 2002:a17:902:f68e:b0:295:55fc:67a0 with SMTP id
+ d9443c01a7336-2a2caa9be93mr359745255ad.2.1767072546800; 
+ Mon, 29 Dec 2025 21:29:06 -0800 (PST)
 Received: from cmpatel-home.hsd1.or.comcast.net
  ([2601:1c0:5780:9200:f7a0:c2f:d915:faf0])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3c8286esm289290375ad.33.2025.12.29.21.29.04
+ d9443c01a7336-2a2f3c8286esm289290375ad.33.2025.12.29.21.29.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Dec 2025 21:29:04 -0800 (PST)
+ Mon, 29 Dec 2025 21:29:06 -0800 (PST)
 From: Chintan Patel <chintanlike@gmail.com>
 To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
  gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v3 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs
- support
-Date: Mon, 29 Dec 2025 21:28:19 -0800
-Message-ID: <20251230052827.4676-2-chintanlike@gmail.com>
+Subject: [PATCH v3 2/4] staging: fbtft: Make FB_DEVICE dependency optional
+Date: Mon, 29 Dec 2025 21:28:20 -0800
+Message-ID: <20251230052827.4676-3-chintanlike@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251230052827.4676-1-chintanlike@gmail.com>
 References: <20251230052827.4676-1-chintanlike@gmail.com>
@@ -94,39 +93,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dev_of_fbinfo() to return the framebuffer struct device when
-CONFIG_FB_DEVICE is enabled, or NULL otherwise.
+fbtft provides sysfs interfaces for debugging and gamma configuration,
+but these are not required for the core driver.
 
-This allows fbdev drivers to use sysfs interfaces via runtime checks
-instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
-remaining fully buildable.
+Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
+sysfs operations are skipped while the code remains buildable and
+type-checked.
 
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Suggested-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 ---
- include/linux/fb.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/staging/fbtft/Kconfig       |  5 ++++-
+ drivers/staging/fbtft/fbtft-sysfs.c | 20 ++++++++++++++++----
+ 2 files changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 05cc251035da..dad3fb61a06a 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -628,6 +628,15 @@ static inline void unlock_fb_info(struct fb_info *info)
- 	mutex_unlock(&info->lock);
+diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfig
+index c2655768209a..578412a2f379 100644
+--- a/drivers/staging/fbtft/Kconfig
++++ b/drivers/staging/fbtft/Kconfig
+@@ -2,11 +2,14 @@
+ menuconfig FB_TFT
+ 	tristate "Support for small TFT LCD display modules"
+ 	depends on FB && SPI
+-	depends on FB_DEVICE
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on GPIOLIB || COMPILE_TEST
+ 	select FB_BACKLIGHT
+ 	select FB_SYSMEM_HELPERS_DEFERRED
++	help
++	  Support for small TFT LCD display modules over SPI bus. FB_DEVICE
++	  is not required, but if enabled, provides sysfs interface for debugging
++	  and gamma curve configuration.
+ 
+ if FB_TFT
+ 
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+index e45c90a03a90..d05599d80011 100644
+--- a/drivers/staging/fbtft/fbtft-sysfs.c
++++ b/drivers/staging/fbtft/fbtft-sysfs.c
+@@ -203,14 +203,26 @@ static struct device_attribute debug_device_attr =
+ 
+ void fbtft_sysfs_init(struct fbtft_par *par)
+ {
+-	device_create_file(par->info->dev, &debug_device_attr);
++	struct device *dev;
++
++	dev = dev_of_fbinfo(par->info);
++	if (!dev)
++		return;
++
++	device_create_file(dev, &debug_device_attr);
+ 	if (par->gamma.curves && par->fbtftops.set_gamma)
+-		device_create_file(par->info->dev, &gamma_device_attrs[0]);
++		device_create_file(dev, &gamma_device_attrs[0]);
  }
  
-+static inline struct device *dev_of_fbinfo(const struct fb_info *info)
-+{
-+#ifdef CONFIG_FB_DEVICE
-+	return info->dev;
-+#else
-+	return NULL;
-+#endif
-+}
-+
- static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
- 					   u8 *src, u32 s_pitch, u32 height)
+ void fbtft_sysfs_exit(struct fbtft_par *par)
  {
+-	device_remove_file(par->info->dev, &debug_device_attr);
++	struct device *dev;
++
++	dev = dev_of_fbinfo(par->info);
++	if (!dev)
++		return;
++
++	device_remove_file(dev, &debug_device_attr);
+ 	if (par->gamma.curves && par->fbtftops.set_gamma)
+-		device_remove_file(par->info->dev, &gamma_device_attrs[0]);
++		device_remove_file(dev, &gamma_device_attrs[0]);
+ }
 -- 
 2.43.0
 
