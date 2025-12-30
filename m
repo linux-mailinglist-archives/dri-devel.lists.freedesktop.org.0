@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8614CCE8B77
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 06:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE29ACE8BB9
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 06:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C35F10E80A;
-	Tue, 30 Dec 2025 05:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976D310E813;
+	Tue, 30 Dec 2025 05:48:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k+FF2fPT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ws/tLkyV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F2E10E807
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 05:29:09 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-29f2676bb21so129493055ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 21:29:09 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0BC10E813
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 05:48:36 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5dfc6be7df3so3531251137.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 21:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767072549; x=1767677349; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1767073715; x=1767678515; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LJqOs0RXEJY8E2s1bb5OeUsv+WqHfc5EFgK5KbB75l4=;
- b=k+FF2fPTyHrXgkYDOYY9IkFsPO9YVQs7XIDYSiwLhrqTOl59RfjwlnBiNHgZgmsqAK
- 1rTdhEipMy4wS8SIfgjAWrHwFUBH9WZ60pGYPqpnVA7gbQwlukBconaqEpWzLIM78bEx
- GDquA0VStNaWkbpTVSPsSHJ2+dhIqy3ueleKnreQ6ncLMh0Hy8tga6FSFs9aYA+Cgb2W
- XU4TwVzrvmyDMQRjGBazpIrI78GH0cQ5DXWd4ZtP5IUBxMOPkUQc88C9FBKf5hOiRFqr
- ad4rEnICr6KcNFglOtBFVEoOjo+6WE1a0EOkjbFIAADY9uAwnBD9XcEZJHazOJPh56Ts
- jClg==
+ bh=Io2ywk5egcCouRJ+jUh5kFNImLPSJfA7UhLYpX0iGxI=;
+ b=Ws/tLkyV4NX46QAn8rH2++z1dWxtd21Zjo2YTktpOQ/33BVjcHwC9c1glg/CjORlRi
+ lVax82zjWKoNlg1IZ12aKwn5MH16965gfZnMRYXAEN4IqEXP8QHb4GLekD03GPb5tFi0
+ XvGK+XnPKKmmQLoKyicR1i9xVUhONDOW/P6qe46LynBr3COTRgvOJ8RYI+T6r0CM9x7u
+ eCd1vHzjIUL+WKoeRCGAqve5m/JVjegf3mB3msoawi9zSyQ5Ts+z0CKgG9qi9qf7hsvh
+ 8vbC1wCgcj19LgDNqeHyBKyEoATpOC5eevWss7okc4puP8MV0JGV0IxBrrVPTK5aFZbM
+ huEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767072549; x=1767677349;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ d=1e100.net; s=20230601; t=1767073715; x=1767678515;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=LJqOs0RXEJY8E2s1bb5OeUsv+WqHfc5EFgK5KbB75l4=;
- b=DnL+gG1yp4/QK7WawE1T8YBEtKQ+KsM+NaZUKU1CiZpEDtUsh6IWwnZag1hN0nZCyB
- FASUI2eIaKhfsrkGcmdXApF6y8Ceiu7wBrqwii0w2lTXePfk80LVEtlYslORfcRLaDqZ
- mqpQJQSKecybUqBLDSZKJUN3U52wUmZOgpxVI7wsBS/Q87SVZIApyTqDOmBGGRcjS2rW
- f4igCVwFIcEfUHkExKU1BikI9N51JxtQsRvZEusBan6nCVgWj3OC/qwRExl5angUpete
- q5cRnY7RtQrrOn+ScuFmWdLci+r5D0uOZeYrPydca+bTpJI+wnxtgS3QzUMusaK0eLz5
- y2Mg==
+ bh=Io2ywk5egcCouRJ+jUh5kFNImLPSJfA7UhLYpX0iGxI=;
+ b=syeY3HSDA/n0ZUH/hyb/GVCALAJl56nh8wOVGDCVSH1U/rN/fxdhVO0d0jG41c6zDC
+ tDyjv58W/PXEGEoBteoTS1k/lmFHaJVTLVMMdta4RTtIRQwHuo8fKMAcVi6ZMyTi4PVk
+ xyzSISu3kV+1AXV7FOg/ex+65sS91wn+sOKQDehSYteRZynm4xzzjOzQKQDb39G/42ff
+ nGqp4OSNgD8HQQx5zXZK5QrdIOkbNNztlTvM8ESMm8G6CLmHi/3lr2bFKxiDRvATF3V9
+ Ml3EmxPI30yJ7A5apVvROCc8pUXL9jImS2FYQULExkXB+r7xOeDCxDzu5sAM0R6uc0th
+ a6yw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV1rzEt3KVXyYiwXo9Kc+43lmzxKY2B4rDgojDWaQKcOwovjevKDrRkJzqOrO18bHyNtdL6qd79cZY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBKgNvIQaJxxWtIrnP3q43T8Pl413f8rEOToFULBO4XosA/V+h
- 2t9SpdDYfzuq9BghCeSn7oUpFAk2hs0/8fkXphBfT31lqv51TnViGjrB
-X-Gm-Gg: AY/fxX73hgh6FN436iofVHYO+Sm/DvEKss4OI6BqSk+Gcrhb8CnTKV5Ow+TLsvBR9/G
- 3M8sTjf1d1yE46Lp83TuW/l02TqSp3SLyVBJ7wvICB2k5yW9xDHMKvohcPssdF1DDcHZkAavDuG
- DJdsKOvzsvRuMH0WcR6+iQha1Ncykmug5T2mjs3JEKsFxnHs1Y/P3dUD6ldv8pkokKeZxVuKR7H
- 1CgoQa83dvpB6rmNXU7/e4/EVGBjlxAQMAzzzze9YPILncNKoai7pJKe++gNC7iTejNbJiCM7kX
- Qndqx8a/QAxmqIpH2JdLZgM+KoWhPSUwTqEXURsDNPmUqCpYKfFF6ZBWvTiXoSkxl1XsCGxWgei
- vqlq7TpTfdt8HUf9JkjMwXohNE21HhpC5b31mgLwVY+pu6PriBNQQiRAgMHP7E9aF7U79QfFotL
- YOUqRxFbVJHeBoO3KIoAwB5aVtKZHVl1C2vvytD+nQpz9ygZMQwrLk
-X-Google-Smtp-Source: AGHT+IHpNTh/+mtzP6KtG3m//yZa/VBoJcww6MwkW4PNCEdqrAaxVfXefkHC54eoavSEs+b2060qpw==
-X-Received: by 2002:a17:902:cf08:b0:2a2:ecb6:55ac with SMTP id
- d9443c01a7336-2a2f220cbf6mr374425555ad.7.1767072549441; 
- Mon, 29 Dec 2025 21:29:09 -0800 (PST)
-Received: from cmpatel-home.hsd1.or.comcast.net
- ([2601:1c0:5780:9200:f7a0:c2f:d915:faf0])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3c8286esm289290375ad.33.2025.12.29.21.29.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Dec 2025 21:29:09 -0800 (PST)
-From: Chintan Patel <chintanlike@gmail.com>
-To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
- gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v3 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency
- optional
-Date: Mon, 29 Dec 2025 21:28:22 -0800
-Message-ID: <20251230052827.4676-5-chintanlike@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251230052827.4676-1-chintanlike@gmail.com>
-References: <20251230052827.4676-1-chintanlike@gmail.com>
+ AJvYcCX5DN4snw6l/nN2k+lMVe6+GeC2rcmDvAJt5wxk/6DEy/97r0zxCfoFWEvWi4OjYiLbbQySqE28jtc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyz0dOwKZeMCctXWffd65/JeiUvoUGg//6Ewyz6jmqaYvsC8SlQ
+ wncR/4LGiCEfihOzMCo33znaepEOzcfflVpfJFexTq8OL1GTRUSDk8ine/CEULPZFZ9B40ytey0
+ cWe7YmJUliwORNUf2/c2Du7diszd5xF8=
+X-Gm-Gg: AY/fxX7A8ITT0lImh7FwNzrh3KBqsVlvTfQxrUuLDh7RtAjnE19CHkBRFLSNedoJ7F2
+ dl9jJx/TfJupM3b64S08Yog/RfqARC8gia+Vq0AIawu+wgBNiP/UrhIMt76uWdSA0bydEo5hRoL
+ Rr2UD3sFtP3VhTnEwE8W3CQFi6v6/dITreNUHpnWs/TVFLLayqaMVltQ+1vijuH4b0tlTEuuKGt
+ 6PKgGVfO/bD515acIWVRgXn5cX2PwSVlcc3x+WsKF4a/hrCtys/VU53/eDjEf0SkDEK8Q==
+X-Google-Smtp-Source: AGHT+IGcn7ngK1Vl7ZEBA+uwHaBbyq/LtaGbWOTh1TF7kp4rDbVZJDT5LgJQCOziJh0geZNQCW6ZGjhSrLMHLeIwNHg=
+X-Received: by 2002:a05:6102:568d:b0:5d6:155c:33aa with SMTP id
+ ada2fe7eead31-5eb1a663165mr9947765137.16.1767073715290; Mon, 29 Dec 2025
+ 21:48:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251104112923.143408-1-marco.crivellari@suse.com>
+ <CAAofZF4OJi5eEfjhE12RWi6wDU+A9Rghsd2721SxZR4AC08sYg@mail.gmail.com>
+In-Reply-To: <CAAofZF4OJi5eEfjhE12RWi6wDU+A9Rghsd2721SxZR4AC08sYg@mail.gmail.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Tue, 30 Dec 2025 14:47:59 +0900
+X-Gm-Features: AQt7F2pUL_-MfhVXCOS419JhBeqjx_drkdULdJgcsbrWyUHU3_jdpuTD8pVkzYY
+Message-ID: <CAAQKjZPVi1KHuS4p6G2uAeKMAg=PEbECj7DHW7OYNYLG-S9hmQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: hdmi: replace use of system_wq with
+ system_percpu_wq
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,43 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but the
-core driver does not require CONFIG_FB_DEVICE.
+Hi,
 
-Make sysfs support optional by defining overlay_sysfs_groups conditionally
-using PTR_IF(). The driver always sets .dev_groups, and the kernel
-naturally skips NULL attribute groups while the code remains buildable
-and type-checked.
+Sorry for late reply. Merged.
 
-Suggested-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
----
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Thanks,
+Inki Dae
 
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index dd950e4ab5ce..cb7ed1ff9165 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -1350,7 +1350,17 @@ static struct attribute *overlay_sysfs_attrs[] = {
- 	&dev_attr_overlay_rop3.attr,
- 	NULL,
- };
--ATTRIBUTE_GROUPS(overlay_sysfs);
-+
-+#ifdef CONFIG_FB_DEVICE
-+static const struct attribute_group overlay_sysfs_group = {
-+	.attrs = overlay_sysfs_attrs,
-+};
-+#endif
-+
-+static const struct attribute_group *overlay_sysfs_groups[] = {
-+	PTR_IF(IS_ENABLED(CONFIG_FB_DEVICE), &overlay_sysfs_group),
-+	NULL,
-+};
- 
- static const struct fb_fix_screeninfo sh_mobile_lcdc_overlay_fix  = {
- 	.id =		"SH Mobile LCDC",
--- 
-2.43.0
-
+2025=EB=85=84 12=EC=9B=94 25=EC=9D=BC (=EB=AA=A9) AM 12:01, Marco Crivellar=
+i <marco.crivellari@suse.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Tue, Nov 4, 2025 at 12:29=E2=80=AFPM Marco Crivellari
+> <marco.crivellari@suse.com> wrote:
+> > [...]
+> > ---
+> >  drivers/gpu/drm/exynos/exynos_hdmi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Gentle ping.
+>
+> Thanks!
+>
+> --
+>
+> Marco Crivellari
+>
+> L3 Support Engineer
+>
