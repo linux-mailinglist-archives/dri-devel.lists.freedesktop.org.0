@@ -2,79 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E196CE9183
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 09:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E23CE918F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 09:56:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831CF10E17F;
-	Tue, 30 Dec 2025 08:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1A6310E86F;
+	Tue, 30 Dec 2025 08:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UQvhw2Cb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jiM3zenA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8076F10E171;
- Tue, 30 Dec 2025 08:55:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C47C10E2C8;
+ Tue, 30 Dec 2025 08:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767084916; x=1798620916;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DIUWg89A9uqjQJSa8uU7nqynCwHKpJnUH0bwlQIa0Eo=;
- b=UQvhw2Cbv2YT/2coDI+Mw0yCBBTUMIluEfYbATBi8KahLbtCUwb5jEYg
- uGg/UjPKibJoIg3HWzRmyViKY2EMYT9Egw7D8C8ECo/WtoElDVkqE09Wd
- /vPjhzROex7gMKJnZ9yWXuVSfD0jD14oxIf9codPJZjsFnGKsW1gbAfg7
- gpN1NonfjgKzeDZTfA9d1bm4O7Yjf4gUoY8/FOUWYMHwMxtX9mOwuw1xB
- bsQVL5SJLV9cTh++XYXzBI1G+r84cCxIxzRcErvN51AF8hxv+05HP0/t/
- QyD3K3ahflR79Ws8Lvbisvm49Zy4WkzSK8uB+LykfbuihtqCEaJVlQ9t0 Q==;
-X-CSE-ConnectionGUID: gl5lroi6SiSLoC3rnQLpBA==
-X-CSE-MsgGUID: gdWzpY22Qam/4Z1+NqexUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="56248180"
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="56248180"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 00:55:16 -0800
-X-CSE-ConnectionGUID: LM6UUyFmSBmENn61vwtC3A==
-X-CSE-MsgGUID: WjgB+I+XRlqqfcoeZHvIGA==
+ t=1767084980; x=1798620980;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=REgqA+WS1olS25MSuroWbUxdMb469b9qExU/SVCyjYk=;
+ b=jiM3zenAcBjddxjuJK70MeX/F7rL0OVBt5c6W/bfb8cZQ/8Dyydjeepo
+ y6Fb14UNdLSRHDxtDKRtjfOdFaIW6V4yuyMD7SDwlALpJWB9nDbSxrYvn
+ G4vQXh9GhGmpJzjx0Sb4SHOlN2z7neyoiihbuyrVkJyn50PPWa6us66rZ
+ 80xxxB1q0OFKJNUqSc9FLjOD07g4gTd+UioCMgeGaI0wCpI+X8cYJd7ui
+ iNq6bEK5/6J32MRhj0S9vDiEbtdHIgVsGwxtezhtAeLGvtu9weJgCPR/G
+ MCH5eekQiqr9f3/2hnsyTNgtKtArdHj+bOpMOBr9uJlRdJVQBNNSpXCvm Q==;
+X-CSE-ConnectionGUID: 7dleZpfsSDWshXq5M9e73g==
+X-CSE-MsgGUID: NfHbwGBLTluG8wVPPz4gIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68747668"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="68747668"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2025 00:56:20 -0800
+X-CSE-ConnectionGUID: +21/tMnWTkCPiJsXIHO53g==
+X-CSE-MsgGUID: TnCbNA7cTTicIfKgD5RyfQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="201161436"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.245.103])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 00:55:10 -0800
-Date: Tue, 30 Dec 2025 10:55:08 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; d="scan'208";a="238607509"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
+ ([10.245.245.106])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2025 00:56:16 -0800
+Date: Tue, 30 Dec 2025 09:56:07 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
-Message-ID: <aVOTbArAxmbT5LY9@smile.fi.intel.com>
-References: <20251225170930.1151781-1-yury.norov@gmail.com>
- <20251225170930.1151781-8-yury.norov@gmail.com>
- <20251226115848.298465d4@gandalf.local.home>
- <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
- <20251229111748.3ba66311@gandalf.local.home>
- <9833cb61-1ec5-4cc1-ad9d-3e07f3deff80@efficios.com>
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aVOTf6-whmkgrUuq@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9833cb61-1ec5-4cc1-ad9d-3e07f3deff80@efficios.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,26 +77,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 29, 2025 at 05:25:08PM -0500, Mathieu Desnoyers wrote:
+Hi Dave, Simona
 
-...
+The drm-xe-fixes PR towards -rc4. Two fixes for SVM and one adding
+compiler barriers.
 
-> One possible compromise would be to move it to its own header file,
-> and introduce a CONFIG_TRACE_PRINTK Kconfig option (default Y) that
-> would surround an include from linux/kernel.h with a preprocessor
-> conditional. But please make sure the default stays as it is today:
-> include the trace printk header by default.
+drm-xe-fixes-2025-12-30:
+Core Changes:
+- Ensure a SVM device memory allocation is idle before migration complete (Thomas)
 
-"by default" where exactly? The problem is that kernel.h is a total mess and
-it's included in a lot of mysterious ways (indirectly), and in C you _must_
-include a header anyway for a custom API, just define *which* one.
+Driver Changes:
+- Fix a SVM debug printout (Thomas)
+- Use READ_ONCE() / WRITE_ONCE() for g2h_fence (Jonathan)
 
-Based on the Steven's first replies I see a compromise in having it inside
-printk.h. If you want to debug something with printf() (in general) the same
-header should provide all species. Do you agree?
+The following changes since commit 80f9c601d9c4d26f00356c0a9c461650e7089273:
 
--- 
-With Best Regards,
-Andy Shevchenko
+  drm/xe: Use usleep_range for accurate long-running workload timeslicing (2025-12-18 18:25:42 +0100)
 
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-12-30
+
+for you to fetch changes up to bed2a6bd20681aacfb063015c1edfab6f58a333e:
+
+  drm/xe/guc: READ/WRITE_ONCE g2h_fence->done (2025-12-29 10:49:23 +0100)
+
+----------------------------------------------------------------
+Core Changes:
+- Ensure a SVM device memory allocation is idle before migration complete (Thomas)
+
+Driver Changes:
+- Fix a SVM debug printout (Thomas)
+- Use READ_ONCE() / WRITE_ONCE() for g2h_fence (Jonathan)
+
+----------------------------------------------------------------
+Jonathan Cavitt (1):
+      drm/xe/guc: READ/WRITE_ONCE g2h_fence->done
+
+Thomas Hellström (2):
+      drm/xe/svm: Fix a debug printout
+      drm/pagemap, drm/xe: Ensure that the devmem allocation is idle before use
+
+ drivers/gpu/drm/drm_pagemap.c   | 17 ++++++++++----
+ drivers/gpu/drm/xe/xe_guc_ct.c  | 14 +++++++----
+ drivers/gpu/drm/xe/xe_migrate.c | 25 ++++++++++++++++----
+ drivers/gpu/drm/xe/xe_migrate.h |  6 +++--
+ drivers/gpu/drm/xe/xe_svm.c     | 51 ++++++++++++++++++++++++++++++-----------
+ include/drm/drm_pagemap.h       | 17 +++++++++++---
+ 6 files changed, 99 insertions(+), 31 deletions(-)
