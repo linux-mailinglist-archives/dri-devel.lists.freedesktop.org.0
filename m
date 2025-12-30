@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B8BCE906F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 09:30:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B52CE90CF
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 09:38:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DEA710E868;
-	Tue, 30 Dec 2025 08:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9E010E46F;
+	Tue, 30 Dec 2025 08:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tQPFayW0";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Qk+kve1Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F148210E868
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 08:30:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E2710E46F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 08:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1767083418; x=1767688218; i=deller@gmx.de;
- bh=RH8Zb/j2bVEualBx3lZdQ4HQwetogp+P0EnsOL23lo0=;
+ s=s31663417; t=1767083905; x=1767688705; i=deller@gmx.de;
+ bh=+MEqqs1rrATIJIDZVtVkkjyL42TuGleZntwC6pjADcM=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=tQPFayW0ZmpOlkrHqbp2zew3a4rUcQDRhJBruiY7quCWUdT9vx67SswzZyldYdFl
- FSZL8zMDQM/bfsEAFtoWutIqD3SaL9zJQ74MtYFsh+4/ToKMeGLPF21l4iJMfH2sr
- zf7DMUiMHFg8FPftr8agXqg7KNv+VXMzBHEaBQT1cl+NSNrf5ewUA1+oIrlvobE7k
- SsaIa0a9LdgaKT44M1oKCgts+4220A807iMgI+Mk4KhOUpjJqG2UIz3tQzJCAjju4
- wKSf7ES4LQvW/OTyD6dezHdc5o7KqRPCIgMv97AcHc2DIlvUPfjhECzHF63GsiLHw
- HGkLgEXgKy0phU5Vvg==
+ b=Qk+kve1ZSzn/1C2ZzgDfBxNbx1jSd69K34eZmBJ9qfzDl60GWXggK5LZC42C60+a
+ a/F2SzTt5nI7aDH+1iPkovc4j35d+tqlmoKpEmGBPkYIL8IEo1Z6YnvW+rgUx8HrI
+ Q6IAvRkfHlJoxxuGIEiuuGZrUv7lel0nwPV8NfUU7ULh98tLi2Hexe5RHvbVkvbl/
+ 7P/DAnRz4b6BiiOlKhirCts497SaLzEfA1FZqf+Q6kZp9sXin37Qchmn6KCPwXFR0
+ Mwd7qaN1HKTxDVbM/NxFX3qv2pSfXBjS/ajdc7kZwwjQgumxNNqXvZqrhAEvu32cn
+ CWAAVKrtXGSvNPPAVg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.51.253]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPXd2-1vE2a812cU-00JDxP; Tue, 30
- Dec 2025 09:30:18 +0100
-Message-ID: <b8e34f09-ef49-4d84-9127-a38222387cfb@gmx.de>
-Date: Tue, 30 Dec 2025 09:30:16 +0100
+Received: from [192.168.20.55] ([109.250.51.253]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mlf4S-1wHqQF0m7m-00pYat; Tue, 30
+ Dec 2025 09:38:25 +0100
+Message-ID: <cf7dcdf8-6b81-4e80-b358-f20b2f0f576c@gmx.de>
+Date: Tue, 30 Dec 2025 09:38:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/19] video/vga: Add VGA_IS0_R
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251208182637.334-15-ville.syrjala@linux.intel.com>
- <20251209075549.14051-1-ville.syrjala@linux.intel.com>
- <7f70f53e34433e3056bf16195b009d14fb60b745@intel.com>
- <aUQyVvduElkoz-hU@intel.com>
+Subject: Re: [PATCH] fbdev: smscufx: properly copy ioctl memory to kernelspace
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Tianchu Chen <flynnnchen@tencent.com>,
+ stable <stable@kernel.org>, Steve Glendinning <steve.glendinning@shawell.net>
+References: <2025122802-radiance-vacancy-11da@gregkh>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -90,87 +88,87 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <aUQyVvduElkoz-hU@intel.com>
+In-Reply-To: <2025122802-radiance-vacancy-11da@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9uKqRtU3TDQbUTYxn3+kXiADLeRtOLzbFe4lBlOJo+bcpfS7XZJ
- ImiMe9/wfjhXHywDfH33JsQHJNZ9rf4UMQq3xTP3Db6YvNtEnpwUZO8isQ32O6tsAPjZIqR
- OvUXuoVZCWSQFHOhuaGrEbd4f2E4Jcqu6RTLFcUEIjRfOyRayqwQ+7rOyzWbyxffCY8Zgz6
- yPo8V5Rglq4rktu52w60Q==
+X-Provags-ID: V03:K1:Czac2Pff+AM7HEdabZ9kGtNkix704q5EMZIbPsHvM4mRnQ0A8NR
+ /Jf3t3ieJ+IFGOv5hEQSDm2KUOhc5FeJ4f8dC4jWtOldG8MkDUd+OJjcfBhKlg9fi4Dunx2
+ /qT0x3wYHYaXmbYoMaMC5ea0zlsq0H4kkznTdfZ3w/227RGhmP3Lb+cr4KjzSzllkqBNcc5
+ sA+VsNrghsD7oly8+LAGQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:QWsZMAbSHgA=;YkhFSxQge99hmZ0IC61h5SpQal4
- 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
+UI-OutboundReport: notjunk:1;M01:P0:sqRPtqZaPJY=;JRmYY3Rpw2kGNxIUSmS/Uhy9d2q
+ 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
+ tWVV/s1WYvWmjJj/k=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,54 +184,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/25 17:56, Ville Syrj=C3=83=C2=A4l=C3=83=C2=A4 wrote:
-> On Tue, Dec 09, 2025 at 12:55:49PM +0200, Jani Nikula wrote:
->> On Tue, 09 Dec 2025, Ville Syrjala <ville.syrjala@linux.intel.com> wrot=
-e:
->>> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>>
->>> Add a proper name for the "Input status register 0" IO address.
->>> Currently we have some code that does read addressed using the
->>> aliasing VGA_MSR_W define, making it unclear what register we're
->>> actually reading.
->>>
->>> v2: Remove stray '?'
->>>
->>> Cc: Helge Deller <deller@gmx.de>
+On 12/28/25 14:17, Greg Kroah-Hartman wrote:
+> The UFX_IOCTL_REPORT_DAMAGE ioctl does not properly copy data from
+> userspace to kernelspace, and instead directly references the memory,
+> which can cause problems if invalid data is passed from userspace.  Fix
+> this all up by correctly copying the memory before accessing it within
+> the kernel.
 >=20
-> Helge, can you toss me an ack to merge this via drm-intel please?
+> Reported-by: Tianchu Chen <flynnnchen@tencent.com>
+> Cc: stable <stable@kernel.org>
+> Cc: Steve Glendinning <steve.glendinning@shawell.net>
+> Cc: Helge Deller <deller@gmx.de>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>   drivers/video/fbdev/smscufx.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 
-of course!
+applied to fbdev git tree.
 
-Acked-by: Helge Deller <deller@gmx.de>
-
- =20
->>> Cc: linux-fbdev@vger.kernel.org
->>> Cc: dri-devel@lists.freedesktop.org
->>> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>
->> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->>
->>> ---
->>>   include/video/vga.h | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/include/video/vga.h b/include/video/vga.h
->>> index 468764d6727a..2f13c371800b 100644
->>> --- a/include/video/vga.h
->>> +++ b/include/video/vga.h
->>> @@ -46,6 +46,7 @@
->>>   #define VGA_MIS_R   	0x3CC	/* Misc Output Read Register */
->>>   #define VGA_MIS_W   	0x3C2	/* Misc Output Write Register */
->>>   #define VGA_FTC_R	0x3CA	/* Feature Control Read Register */
->>> +#define VGA_IS0_R	0x3C2	/* Input Status Register 0 */
->>>   #define VGA_IS1_RC  	0x3DA	/* Input Status Register 1 - color emulat=
-ion */
->>>   #define VGA_IS1_RM  	0x3BA	/* Input Status Register 1 - mono emulati=
-on */
->>>   #define VGA_PEL_D   	0x3C9	/* PEL Data Register */
->>
->> --=20
->> Jani Nikula, Intel
->=20
-
+Thanks!
+Helge
