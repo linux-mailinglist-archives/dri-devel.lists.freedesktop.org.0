@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E55FCEA0AF
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D95ACEA167
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3A210E90A;
-	Tue, 30 Dec 2025 15:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBE210E915;
+	Tue, 30 Dec 2025 15:41:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inria.fr header.i=@inria.fr header.b="bwWoh/yr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PhXvNZOC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Tue, 30 Dec 2025 15:16:50 UTC
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBF810E90A;
- Tue, 30 Dec 2025 15:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Ef1SDHmUCEC/Pv5MfSb2qdeOEOcEt+jS68zZe0W8jWE=;
- b=bwWoh/yrQvSakfPBQCeP0uv6a4heKTKBwjmU2TXT0fSklmf3vsoKWFY7
- QfOGciMWfRLleR0qiYnQ4guovlfoKIPugKwgxmIEAlabxq7Dl1j/2DVF2
- NsrV/ygO5r5+XJI5n+NUNcwDq7gKzNAbvt+KCp105OMrn93oyBZ5R9SqO I=;
-X-CSE-ConnectionGUID: 27CmEBIYS0WyemJy8Qbdmg==
-X-CSE-MsgGUID: EQuz92ICQ0KWfdSQ/aL7kg==
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.21,189,1763420400"; d="scan'208";a="134753301"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.102.196])
- by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 16:09:41 +0100
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: yunbolyu@smu.edu.sg, kexinsun@smail.nju.edu.cn, ratnadiraw@smu.edu.sg,
- xutong.ma@inria.fr,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: adjust variable and function name references
-Date: Tue, 30 Dec 2025 16:09:36 +0100
-Message-Id: <20251230150936.97173-1-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.39.5
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61F8D10E915
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 642BD60051
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E7FC2BCB0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767109277;
+ bh=gyHQKb3z1nk+UnpTmdOwQ9Nw5LQ39V8OUPvQxvyOONo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PhXvNZOCnwhyuQl/sJpP93msu9Bz2T1BSHWyMFhgu1rnkvjje2kXUP3mTYoyo/YBa
+ A8041AbNjQMhqHBamlugNvHPO+5bCDoZt6ZInP8Qm/SimipO6Ffjex3mCMUZvJW/Lp
+ DUWlRZz+BHD+9wVyWaQzpSKD2xsxHeDFY4cJsxhYqIKi7EaOepRspvDlrkwZEKti5Z
+ pwp6TTIYdcOV32pOtC/hmbSvML1tYP2xrzRE13sHlIRV7HAbuoyEPXWaVrNJ1DQDmL
+ aKZ100NRT/ZeY2YZv/xqjiWrG5OFE7UrscBpPhiwpx0hCtRfIzahaw6cedrNB5J2pg
+ fKFDeOSrmv1Gw==
+Received: by mail-dl1-f42.google.com with SMTP id
+ a92af1059eb24-11beb0a7bd6so14670020c88.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:41:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXvVAnFtnBWdr4IAfdt4kYl5iSpBhUuDHJ52zBcQ4SRLrGK0i/wWjqjh7RXusKEJ4gGBqiryhMJc1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzsJioOwMNDJfwMHPPDUWilD37VpmJ1PZEUop65jV8vRG6LVa3
+ yx4lBcoaFAXRFj064ta6M1n2oVdFkUI3LGTUj8EWnCofcgmIo7oMThSYxy1voNzt1ObbDP3U8YS
+ nT8DO5DRdDOQ4e8WYjWf+6d34H/RebA==
+X-Google-Smtp-Source: AGHT+IEh2n2zLpLnAWsSiBjd90/ps/z4xq2CFX5rKvlH82VgvcbIbEKrpQVoNU8JRj6mongRc2KFddek2E8g0FG2WcA=
+X-Received: by 2002:a05:7022:e88e:b0:119:e569:f851 with SMTP id
+ a92af1059eb24-1206193963cmr33079705c88.8.1767109276351; Tue, 30 Dec 2025
+ 07:41:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <aSW0p5sqnJVJsqDO@stanley.mountain>
+In-Reply-To: <aSW0p5sqnJVJsqDO@stanley.mountain>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 30 Dec 2025 15:41:04 +0000
+X-Gmail-Original-Message-ID: <CAAOTY__nif43taCWWdxfFqmtC=KibgJZ2AuUohiS1EdhXdDbow@mail.gmail.com>
+X-Gm-Features: AQt7F2o-8OY-770n-RCRfh2pqvzP9k8Fyvdsrmq_wWlXdIFfmVOWee9EjRaS2wo
+Message-ID: <CAAOTY__nif43taCWWdxfFqmtC=KibgJZ2AuUohiS1EdhXdDbow@mail.gmail.com>
+Subject: Re: [PATCH next] drm/mediatek: Fix platform_get_irq() error checking
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,29 +77,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-None of panic_bo, amdgpu_dm_plane_get_scanout_buffer, and
-amdgpu_dm_set_pixel exist.  Update them to the name of the
-variable and the two functions defined just below that do
-fit the description in the comment.
+Hi, Dan:
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Dan Carpenter <dan.carpenter@linaro.org> =E6=96=BC 2025=E5=B9=B411=E6=9C=88=
+25=E6=97=A5=E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=881:52=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> The platform_get_irq() function returns negative error codes on failure
+> and positive non-zero IRQ numbers on success.  It never returns NULL. Fix
+> the error checking to look for negatives, and change "hdmi->irq" from
+> unsigned int to just int.
 
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Applied to mediatek-drm-fixes [1], thanks.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index b5d34797d606..2d3a2ca846c5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1847,7 +1847,8 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--/* panic_bo is set in amdgpu_dm_plane_get_scanout_buffer() and only used in amdgpu_dm_set_pixel()
-+/* panic_abo is set in amdgpu_display_get_scanout_buffer() and only
-+ * used in amdgpu_display_set_pixel()
-  * they are called from the panic handler, and protected by the drm_panic spinlock.
-  */
- static struct amdgpu_bo *panic_abo;
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
 
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT81=
+88")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm=
+/mediatek/mtk_hdmi_common.c
+> index e78eb0876f16..bd7f8c56ec9c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+> @@ -303,7 +303,7 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *h=
+dmi, struct platform_device
+>                 return dev_err_probe(dev, ret, "Failed to get clocks\n");
+>
+>         hdmi->irq =3D platform_get_irq(pdev, 0);
+> -       if (!hdmi->irq)
+> +       if (hdmi->irq < 0)
+>                 return hdmi->irq;
+>
+>         hdmi->regs =3D device_node_to_regmap(dev->of_node);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h b/drivers/gpu/drm=
+/mediatek/mtk_hdmi_common.h
+> index de5e064585f8..7a644bbf5843 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+> @@ -168,7 +168,7 @@ struct mtk_hdmi {
+>         bool audio_enable;
+>         bool powered;
+>         bool enabled;
+> -       unsigned int irq;
+> +       int irq;
+>         enum hdmi_hpd_state hpd;
+>         hdmi_codec_plugged_cb plugged_cb;
+>         struct device *codec_dev;
+> --
+> 2.51.0
+>
