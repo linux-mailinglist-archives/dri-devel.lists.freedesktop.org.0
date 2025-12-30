@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7BECEAC40
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 23:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874BBCEAC43
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 23:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E352610E0E2;
-	Tue, 30 Dec 2025 22:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E352310E571;
+	Tue, 30 Dec 2025 22:20:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="heaprSRu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uAvcTXId";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA8CE10E0E2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 22:20:30 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44B210E571
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 22:20:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9166740D8D;
+ by tor.source.kernel.org (Postfix) with ESMTP id C552A60097;
+ Tue, 30 Dec 2025 22:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE644C4CEFB;
  Tue, 30 Dec 2025 22:20:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF47AC16AAE;
- Tue, 30 Dec 2025 22:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767133230;
- bh=6I1rEjCG98kdXTPmhTpC3Bn5VqMKhdxPrgp53PclCTE=;
+ s=k20201202; t=1767133233;
+ bh=oiaT6aLlR+Lw7QjGCokHCw+7kOpOxkIL1yAAgjdQAoU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=heaprSRuplV4FHuNIOHD+RI8xFWZsEThLI98xpea+vlBo2wemVEZMxnz7bP1c2fOa
- Lk+7iWx0WQcSc5/p1wiX7zd/bO6v7CVvaTH38pvnqtPIClg894tnjsxqxkymkmpw+K
- 430haaHolWTSgMlZIr/kY3xlLonijVWsyTpr84y6dGk4JfWtP4TYMnwYHdsBRASRdA
- giLkM6qBWWhxh52X2ApS3c7YPCCLZMcnLJIHJ4mcxJTFe0/y6259Znd61dzhT/sAiU
- h1zQaX56hqITSNUXNffPiLfn/OvQWDx7S0i03x53lgrYwbw2fV/4kIy/i7O3fdiuiI
- pOwatwMC3R4Jw==
+ b=uAvcTXId1+g5SoDSBHxwipcS05pcotNbHjxY0/gUbt85pfEuo+DqBzQso++znZBvy
+ RDbJ901DGoC74xAsh+we+FSPRnbdkMWa4bYvrI3yITFXQ2PQFZ7Pv7mnAJQ2iseZ8W
+ lAB/cVUsQmkskCgEyP7IKbVXDZbi7EsjkDMt0r7q48DxLfng8X8wBBbTcYY8hGqVky
+ G5hxHGcSbIjrazxelbyAQ4JsHzyMHdizIFsFOJTF99uZ2ill1rA5RfMC3kBEP7rP+9
+ AL+Zx6KjSzX7VGMODH/jU3h/xAKHoG1Wm9xSiFYGnf2vMe9vyQuZ2pAJEgmCyDwkNS
+ 0HZ0gsUYjX5cA==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Tue, 30 Dec 2025 23:20:00 +0100
-Subject: [PATCH 1/6] video/logo: remove orphan .pgm Makefile rule
+Date: Tue, 30 Dec 2025 23:20:01 +0100
+Subject: [PATCH 2/6] video/logo: add a type parameter to the logo makefile
+ function
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251230-custom-logo-v1-1-4736374569ee@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251230-custom-logo-v1-2-4736374569ee@kernel.org>
 References: <20251230-custom-logo-v1-0-4736374569ee@kernel.org>
 In-Reply-To: <20251230-custom-logo-v1-0-4736374569ee@kernel.org>
 To: Helge Deller <deller@gmx.de>, 
@@ -47,12 +48,12 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
  Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=943; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=6I1rEjCG98kdXTPmhTpC3Bn5VqMKhdxPrgp53PclCTE=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJkhAWLXFKf84vZ1fND7fqbuwww1ptBnJsKzdb3q47a89
- pgTyJzWMZGFQYyLwVJMkWVZOSe3Qkehd9ihv5Ywc1iZQIZIizQwAAELA19uYl6pkY6Rnqm2oZ6h
- oQ6QycDFKQBT7f2KkWHLEnbmKas+2xsu2OD1WCNvfZ6xfBB3+a/webfuLmd5nzmJ4Z8+D+Nuo6k
- F/3/ZZHz3rJATvHrqZdHb0w2/A4/3zp5d+ZgbAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1715; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=oiaT6aLlR+Lw7QjGCokHCw+7kOpOxkIL1yAAgjdQAoU=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJkhAZLRHmGmG87kxcWFZWvMZ/ycbma37f8Ji3dZKbbHu
+ vwflV/vmMjCIMbFYCmmyLKsnJNboaPQO+zQX0uYOaxMIEOkRRoYgICFgS83Ma/USMdIz1TbUM/Q
+ UAfIZODiFICpdp/MyHC5qZ99WXhttc6c14G70w6UfzS4s++PNJ/gu1lzz0ntqZ7GyNDiYTvh16x
+ rHzRfnlD8xxL9ZG2S1pnnjE5iBpNX+diUnOQEAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,31 +71,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel has no actual grey-scale logos. And looking at the git
-history, it seems that there never was one (or maybe there was in the
-pre-git history? I did not check that far…)
+When translating a portable pixmap file into a .c file, the pnmtologo
+tool expects to receive the image type (either mono, vga16 or clut224)
+as an argument under the -t option.
 
-Remove the Makefile rule for the .pgm grey scale images.
+Currently, this information is stored in the file name. Because we
+will allow for custom logo in an upcoming change, it is preferable to
+decouple the image name from its type.
+
+Add a new $2 parameter to the Makefile logo function which contains
+the image type.
+
+Update all the individual targets to provide this new argument. Note
+that this transitional: all those targets will be removed in an
+upcoming clean-up change.
 
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
- drivers/video/logo/Makefile | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/video/logo/Makefile | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/video/logo/Makefile b/drivers/video/logo/Makefile
-index 895c60b8402e..8b67c4941a4c 100644
+index 8b67c4941a4c..3f249e9dcf37 100644
 --- a/drivers/video/logo/Makefile
 +++ b/drivers/video/logo/Makefile
-@@ -30,8 +30,5 @@ $(obj)/%.c: $(src)/%.pbm $(obj)/pnmtologo FORCE
- $(obj)/%.c: $(src)/%.ppm $(obj)/pnmtologo FORCE
- 	$(call if_changed,logo)
+@@ -22,13 +22,16 @@ hostprogs := pnmtologo
  
--$(obj)/%.c: $(src)/%.pgm $(obj)/pnmtologo FORCE
+ # Create commands like "pnmtologo -t mono -n logo_mac_mono -o ..."
+ quiet_cmd_logo = LOGO    $@
+-      cmd_logo = $(obj)/pnmtologo -t $(lastword $(subst _, ,$*)) -n $* -o $@ $<
++      cmd_logo = $(obj)/pnmtologo -t $2 -n $* -o $@ $<
+ 
+ $(obj)/%.c: $(src)/%.pbm $(obj)/pnmtologo FORCE
 -	$(call if_changed,logo)
--
++	$(call if_changed,logo,mono)
+ 
+-$(obj)/%.c: $(src)/%.ppm $(obj)/pnmtologo FORCE
+-	$(call if_changed,logo)
++$(obj)/%_vga16.c: $(src)/%_vga16.ppm $(obj)/pnmtologo FORCE
++	$(call if_changed,logo,vga16)
++
++$(obj)/%_clut224.c: $(src)/%_clut224.ppm $(obj)/pnmtologo FORCE
++	$(call if_changed,logo,clut224)
+ 
  # generated C files
--targets += *_mono.c *_vga16.c *_clut224.c *_gray256.c
-+targets += *_mono.c *_vga16.c *_clut224.c
+ targets += *_mono.c *_vga16.c *_clut224.c
 
 -- 
 2.51.2
