@@ -2,50 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E2ECE88CA
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 03:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8F7CE8AE8
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 05:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBD610E779;
-	Tue, 30 Dec 2025 02:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C19510E67F;
+	Tue, 30 Dec 2025 04:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="orP6bLqM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SSa3dxvO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165EC10E779
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 02:27:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C2C7C401AC;
- Tue, 30 Dec 2025 02:27:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D511C19424;
- Tue, 30 Dec 2025 02:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767061662;
- bh=YZhKdnIWvyphz/ZPlkVHSeDMS3reT0HQs3XijtNSUbI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=orP6bLqMPVxgtgILLbmuDvRxHNqtBuhm/cUil4j745FS4ziqIrNSHH3lLOVJYGjyD
- T8lIybONj5MbF8QXpXvBSUrsK2Wc0dXvpH2vifhyv4c+9x/IMmF7q9YQd7tVLOqJxy
- GDw9iBV49nPyfSW6BHPYNiho89X6QA0JynU59ZQyit5RrpwJ+6snjpIL2I0RT9QXH0
- AKp1zXP+9w3KsRXgAu/6Bs7wYm7zdmfBdZSomulClvRBG9Rgw8/NeijECrYRV6YPUh
- oWyyJSNFlm5qEYVa4L2zZ9LqNAtQ5yV4AYVPIQfHOVMbsVxvKwuSN/Y9Pz9aQIe13L
- YWC96vCZo902w==
-Date: Mon, 29 Dec 2025 20:27:41 -0600
-From: Rob Herring <robh@kernel.org>
-To: Swamil Jain <s-jain1@ti.com>
-Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, krzk+dt@kernel.org,
- conor+dt@kernel.org, devarsht@ti.com, praneeth@ti.com, bb@ti.com,
- vigneshr@ti.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: display: ti, am65x-dss: Add AM62L DSS support
-Message-ID: <20251230022741.GA3217586-robh@kernel.org>
-References: <20251224133150.2266524-1-s-jain1@ti.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8E910E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 04:37:51 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2a099233e8dso79702685ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 20:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767069471; x=1767674271; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
+ b=SSa3dxvOqP5g2vVBoiQZqs/bTc+xOGk3jAvj+dtFReNfW+G/PwrJHbnrqyMMKux/6a
+ j1iH0n62s7U+iQFMVrV/tRG2NsGZgRH0Ef0kvCq88f07ChwdU/Ag1D0xM/Saugw0QO/Y
+ FvZ/EFIPeVQiVSSio+gmRD72Q+fhqRO+0PAciBE+XWDrZypIAVI0nOek/RIl+/TT5Liy
+ Mh6MonAa2Dc4G8Xj+8gIveDAkOSIeyrcCXmTJPUKUvRWqgtYNd4gqVV1Q7SygoqYGGSS
+ hn6I1pYpUCctEDs4MXIIGovCb8M0w/XwXsSxyfx/oGUK5sCIL5WsYBL5a/qG10CnwhoG
+ yrrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767069471; x=1767674271;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
+ b=HfC2Jx/4mHuhRT0+CEKqU6Ot6vWYK4o2PeY0pG/UdLmCAPhwvuDqRVpKGGqAJyDreS
+ NffkCuOEsK3XSYeX8fiEvT5F7OMq15Uq1+VLLMrMEkIlZPc0Lnq+bo9ZrErCeJxfIyNE
+ qiPE/n2TLiEwRGzzFmkiqa8aUZcAastGrjOJdi16Of0wD7QcYc8HnuElNOjqohpIxX0c
+ hE12LQSCicV7SOGQLSp/GejtvoMBzg6Dsep4EPt2stAvWtDNe/bPhIgPuh3TRXD4REb4
+ 9La6KjxOwwFGzCnsvWFVvVucLOjbP57Av5VJQ7Ig2SHgf1xz9erFtyFcCNyfeLQmnyeA
+ Exfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCunEXnyJS/d0G2eogAM7IjF/t9ucha5n484yhK4CYnVjuuj067Z0ycwMl6Bt685Erl4kyBPcJBHE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkX/sxcfvgL+vtbGaDWyAKjftgkL4Q21zhjOyH9TarkVLNGJ1N
+ f7bsLnm0O6tNoWP4oVRcHuoQ75H2dj8Rz4FXlofVFXyIHppSGg6JlleS
+X-Gm-Gg: AY/fxX6gM3DZJhvtc/ydgF1UWD3FT6Jkt2AOs8q+xj7yHv3lN9HUu97Ql50HpgibLLe
+ duSftHnhM83a9y1pSwbGQ1uNeEJ0eAgkcpg389zNwzSulM76e4UndP1p72dbS5V4hS70VgiDPWn
+ h+SJ6n7LIFY+e1Z3RYXT86P9+onvrRo4SYdE/F7g6Oom4UNKTvikdv1FygnkC5yCE+/h0zBgQ7x
+ PnO09j6IvwSt+CLO7sunWtzlP4YDyDz3xc8bS1cd8nVl52UK6sMb/bkSD+RCyLhbqsV3T4Wnbfp
+ cshL5mSDras/k2tPZAkrMdPZV6Ya7HM4DDLpztyzYYTAqIE3Edax/MdkWcjDUrohZZqhsItgzib
+ QMtVJuDaixO/YvYotNKoEYkLj1An+zXpnjmDFUeMvM1353LIFR67qc+HECCj1hv4H2iouL0YbcO
+ R8zEDxjS/z0wg=
+X-Google-Smtp-Source: AGHT+IEKeUoWYu2GFVgDFphydhGZMiQ90h/N0eJheHWd5u/8DmEeLaYgUO7ghOlfSva0c6ncPwEjiQ==
+X-Received: by 2002:a17:902:cece:b0:295:6c26:933b with SMTP id
+ d9443c01a7336-2a2f2205155mr305888615ad.1.1767069470488; 
+ Mon, 29 Dec 2025 20:37:50 -0800 (PST)
+Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a2f3d7754asm285954025ad.100.2025.12.29.20.37.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Dec 2025 20:37:49 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id EC9BF419B84C; Tue, 30 Dec 2025 11:37:46 +0700 (WIB)
+Date: Tue, 30 Dec 2025 11:37:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <aVNXGrqgNJsnyMsw@archie.me>
+References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+ <aUyMiJvJX1KhffVb@archie.me>
+ <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/cvQIoAKPEfuZFWr"
 Content-Disposition: inline
-In-Reply-To: <20251224133150.2266524-1-s-jain1@ti.com>
+In-Reply-To: <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,156 +102,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 24, 2025 at 07:01:50PM +0530, Swamil Jain wrote:
-> Update the AM65x DSS bindings to support AM62L which has a single video
-> port. Add conditional constraints for AM62L.
-> 
-> Signed-off-by: Swamil Jain <s-jain1@ti.com>
-> ---
->  .../bindings/display/ti/ti,am65x-dss.yaml     | 95 +++++++++++++++----
->  1 file changed, 76 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 38fcee91211e..ce39690df4e5 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -36,34 +36,50 @@ properties:
->    reg:
->      description:
->        Addresses to each DSS memory region described in the SoC's TRM.
-> -    items:
-> -      - description: common DSS register area
-> -      - description: VIDL1 light video plane
-> -      - description: VID video plane
-> -      - description: OVR1 overlay manager for vp1
-> -      - description: OVR2 overlay manager for vp2
-> -      - description: VP1 video port 1
-> -      - description: VP2 video port 2
-> -      - description: common1 DSS register area
-> +    oneOf:
-> +      - items:
-> +          - description: common DSS register area
-> +          - description: VIDL1 light video plane
-> +          - description: VID video plane
-> +          - description: OVR1 overlay manager for vp1
-> +          - description: OVR2 overlay manager for vp2
-> +          - description: VP1 video port 1
-> +          - description: VP2 video port 2
-> +          - description: common1 DSS register area
-> +      - items:
-> +          - description: common DSS register area
-> +          - description: VIDL1 light video plane
-> +          - description: OVR1 overlay manager for vp1
-> +          - description: VP1 video port 1
-> +          - description: common1 DSS register area
->  
->    reg-names:
-> -    items:
-> -      - const: common
-> -      - const: vidl1
-> -      - const: vid
-> -      - const: ovr1
-> -      - const: ovr2
-> -      - const: vp1
-> -      - const: vp2
-> -      - const: common1
-> +    oneOf:
-> +      - items:
-> +          - const: common
-> +          - const: vidl1
-> +          - const: vid
-> +          - const: ovr1
-> +          - const: ovr2
-> +          - const: vp1
-> +          - const: vp2
-> +          - const: common1
-> +      - items:
-> +          - const: common
-> +          - const: vidl1
-> +          - const: ovr1
-> +          - const: vp1
-> +          - const: common1
->  
->    clocks:
-> +    minItems: 2
->      items:
->        - description: fck DSS functional clock
->        - description: vp1 Video Port 1 pixel clock
->        - description: vp2 Video Port 2 pixel clock
->  
->    clock-names:
-> +    minItems: 2
->      items:
->        - const: fck
->        - const: vp1
-> @@ -84,7 +100,8 @@ properties:
->      maxItems: 1
->      description: phandle to the associated power domain
->  
-> -  dma-coherent: true
-> +  dma-coherent:
-> +    type: boolean
->  
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> @@ -195,6 +212,46 @@ allOf:
->              port@0:
->                properties:
->                  endpoint@1: false
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am62l-dss
-> +    then:
-> +      properties:
-> +        clock-names:
-> +          maxItems: 2
-> +        clocks:
-> +          maxItems: 2
-> +        reg:
-> +          maxItems: 5
 
-           reg-names:
-             minItems: 8
-       else:
-         properties:
-           reg:
-             minItems: 8
-           reg-names:
-             minItems: 8
+--/cvQIoAKPEfuZFWr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-clocks needs similar constraints...
+On Mon, Dec 29, 2025 at 04:33:47PM +0100, Louis Chauvet wrote:
+> > @@ -202,7 +202,7 @@ Contact:	dri-devel@lists.freedesktop.org
+> >   Description:
+> >           List of supported formats for this plane. To add a new
+> >           item, write its fourcc code prefixed with '+'. To remove,
+> > -        use '-' prefix. Use '+*' to add all formats, '-*' to
+> > +        use '-' prefix. Use '+*' to add all formats, '-\*' to
+>=20
+> Hi, thanks for the fix!
+>=20
+> I only have to escape the second wildcard? Not the `+*`?
 
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am62l-dss
-> +    then:
-> +      properties:
-> +        reg-names:
-> +          items:
-> +            - const: common
-> +            - const: vidl1
-> +            - const: ovr1
-> +            - const: vp1
-> +            - const: common1
-> +    else:
-> +      properties:
-> +        reg-names:
-> +          items:
-> +            - const: common
-> +            - const: vidl1
-> +            - const: vid
-> +            - const: ovr1
-> +            - const: ovr2
-> +            - const: vp1
-> +            - const: vp2
-> +            - const: common1
+Yup. Try make htmldocs without the patch and see.
 
-Why are you defining the names twice?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Rob
+--/cvQIoAKPEfuZFWr
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVNXFQAKCRD2uYlJVVFO
+o7xDAP4oC24X/814znpE6C9oS8vLeRm3x+JFWHtZczhWkK9uigD9GiLsaigPdyYr
+VIPUugXHtCVB3MOHE4qqkFF+7PCK6wc=
+=AfbL
+-----END PGP SIGNATURE-----
+
+--/cvQIoAKPEfuZFWr--
