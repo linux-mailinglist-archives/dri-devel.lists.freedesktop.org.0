@@ -2,123 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA52CE97D7
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 12:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D82CE97DA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 12:02:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912EE10E1F1;
-	Tue, 30 Dec 2025 11:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4B4510E218;
+	Tue, 30 Dec 2025 11:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IY+iyGdF";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DVoqOl+u";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nLzKyOg4";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OJUpzoTS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DEB10E1F1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:32 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 819C810E218
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:36 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BU545Of3539553
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:31 GMT
+ 5BU944Wn2551807
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=d/zHG+LMV2QI0NHjUU6ZVKAy87KQ4v4yG7X
- AbpP40kc=; b=IY+iyGdFEcaSYkCID87NKhFm1kRFQBAVgs8DiMfQ9jKB8Qjqh/x
- BnmAW+hNSo2P8iifFdH+LPYiL436ClwsH8JdWX2C9u5X4h4o6EYzttehZnLVyl+6
- vrDgnipGXKK8A3AAcDYIJIOUjiAMhl0Jx6y5Zw4lOygLhC+ady213T89g5gG7NBq
- 7puB69tpyANlLtC1LY7ur8KNaSZ2bMSGSIGuisdh/SWW/n4oTzkRGRwN+Qs2ETQG
- qs89P/6Ag96IEGqslHGiK6plJqm0Y1rC2zRy9CV+8/im5am72dmek/KXHZby3OQI
- W+xnFpWz2aINNUFiDrtHZ9LevsPKxF4f3oQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc88ygsqq-1
+ cc:content-transfer-encoding:date:from:in-reply-to:message-id
+ :mime-version:references:subject:to; s=qcppdkim1; bh=uXOb6/A5UVi
+ 94XYfCLNblq+Mqdl95+smoRAtSR12Qsc=; b=nLzKyOg4PiyG2B1JCNk3PVrbwLP
+ OsWjO2chMmmxsV4Hk/qNTO3EL1PW7WPYUAGr1SlIZRuBSAA02SCbqs7sxBot62g3
+ na/gZ/Un+7qSOBP/0LASmN7tTWShrV6g0UrjCCZDxFEK+ter41AlnyEt5gR/e8LZ
+ DC6/cMQA3HpHJgEjjbogb30bRrN+lMOh/vh7IXq34Srpn37AxBcgGH4M2cO+21kY
+ GvxK2EfkBYNkxkwWGEFjUBxZUztjHso3CvchhzSM5g4jPW3sxfdIud4Iuys/i5yN
+ el0Onvgj6SKVwxM/TygjBDwFoTiSeetjpINpfu1Z7tTzMNOwmm4/ylZc8oA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc0skhmnf-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:31 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-34eb6589ed2so8665825a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 03:02:31 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 11:02:35 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-7ba92341f38so10864621b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 03:02:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767092551; x=1767697351;
+ d=oss.qualcomm.com; s=google; t=1767092554; x=1767697354;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=d/zHG+LMV2QI0NHjUU6ZVKAy87KQ4v4yG7XAbpP40kc=;
- b=DVoqOl+u86RHQS0E2GvC8vA1ZiBAHqRjOu1oA1fJmT/Qz9M1WykF+wDXe+0jde08NQ
- T/TjgF3XJEgGYt2Lz4NZTnedovGhJQp9SMdkMhHlBgd5Bkl28FJBFjAXLl/wbMyJZL21
- fsMI4GjhxWsKNMqDAEuwmzW2UWfbzWLNvbVFyIA09F2SEEWIoFEJhXnCk3PUTnBzI8QV
- vDWnhmvbw4AilJZiFVvcPfaKSo6eYhA/YJSvq2+aklhey/ThgAOJhLi8fTG9eWQMLVyl
- pZd29OVjlHjxVi8LuCKcQ1WjvrkNu9rDCR8kza7Ui1CCF7TY/G0d07BGJau7XVQmX/9W
- 9eHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767092551; x=1767697351;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d/zHG+LMV2QI0NHjUU6ZVKAy87KQ4v4yG7XAbpP40kc=;
- b=XOQdO+hytsmp8rE6hmc26yvqdjcWAFmE0CiVte28s74rJNYbhVOIbiqYqx+/LFqpti
- gHRfRXCl/UvanJx/MtDhbO2l8/TXRBY+Ott+s02kudOJ9VvmWWjpuJX9VF2BeCQRb3y7
- 6ZA105lQF5tqNW3Rxw7u6J0DBi7/cMerEPaNRPhLCWJIhVU0lmfgjdfxkEr8vfZxn0aM
- wjlT0a0dNiU5OoEdT32tGlM4ZnNiq30PAGBgsDXLMv9f3WJEi6DzDbAzMQGDjX110xSz
- 8ZdEKZMQ06hJYDKpDsVN/e1U7YYW1rBVOm3NySe8Big9rSFt8ZoHWKyxWkHpqX8g/Jlk
- 82wA==
+ bh=uXOb6/A5UVi94XYfCLNblq+Mqdl95+smoRAtSR12Qsc=;
+ b=OJUpzoTSeeMN5/ZgVmPKtDuWOrrChyeJ516dpi35IDuiGQOJJ2z+hMi4hZRqhgrcfP
+ /KsAAkaYQJlaSYi30NFRZ7+uuGyMXa9CeJOsE71fV1Xd9dr9R85cMT7S44HGFO6z/yvG
+ 1Di9X8N+sJXZ9O1gN6/8s2vlistinO+/dX9S2Jbii13ODofm80VJu8SE19+HGp5zC9HH
+ mz/HsKBaAOWhSOtA/oUcPNHvJ1wPuDgpk6lxN01NgZVP1eDbu2Jzy/hPF+JBQtFoCHpg
+ 6XKL1YjO9bfvAZvuM1KkAWerpjGr/YaACdBP6Ss5AHXzDK7KySrnmX+tkAGjjqUa0nG1
+ umbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767092554; x=1767697354;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=uXOb6/A5UVi94XYfCLNblq+Mqdl95+smoRAtSR12Qsc=;
+ b=eWjx+KdksW3NjumutTkJsagrx56CGiRKa2fxoipudZbGsnbb5Y7QqLCOZNtN8HZSGs
+ 7CfrffPT5ecFPWNV7uPYOSTMDvhNPg3tYOaVuHXRqJk5RdWSQJYZHImuwh11qUpNQ94o
+ UEKobUI2JZNSYo4ggyWb7RcZCv1tfvkPCoAyRvtC7oD0BUZEi5hTAkQrO2UXO+ixy2tw
+ k+EyoSOZjYxtGL6Bt63NtGlChtg93LxowbtvosfvsuwXAanXoknbii9otao+nqfXL8HA
+ niYAWKc5oS+gOC4ZbLXrArXcMKbUy3Ku/81f5rebv4bfAeyPOnXwPmRgkOX6KHVeAdKw
+ TeFA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQkPr8+Ws2nutoNBMgsaYF39vDQmsETCF6ZmReCMadcnvfJ9cLEqukil1jJTzp0sKkQjsYgoHY5to=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBq3mc23DD8IJVBCDjjwYv6LAe1CYb7byLXhBr8vb/nQ+PDeLO
- biZ20o+XSqNYgmy71DBOwSwM5+Fod3TARKjg7vmKbuabph4mvwz9WQJu31OXvJkQnOvV2hZ5hNe
- T81yFESWMWLqblQMjMlp/MfDyUt1/1vGcMnY6Ti+W3F3NttAQaQ5AotvamtUxlQYWvrQDKxM=
-X-Gm-Gg: AY/fxX6P/47gmU7IcdRr4LJcfwAhKaXeQgG0VoTeWhDSv5X5z1J71Z1YOyZsM4k+HzC
- LkTW98z31unmX8G2NlZl8HbXTM7GTEqxUj0U2rvRRrcEWOxTDupm06QJ9gQjaxNgJqZEiDvRUv3
- cMqnSpwfsADLJ4ayzRGxSGJSjqzq0rXU2t9wzTOrkQGwONmCpTe9to9sA9f+sjMclBNbvzff6g+
- pMdzahmqd1n9VL7gZFSTWhfjYQRF2tlMROW7GzznbTWypjF9NHiuX7td8vhTWEhpqQVqrjfWHw2
- IM3UKxVrT1TY/QPNQ2J218ssjco/QrrL2dqr0CRjr3NtOjiK6OKljGNiOp6XOxF3KCpXFbiSqRZ
- YunUwreoSsGy9XQYv+bJoJ1XMRg8a1On46elysRhJ2A==
-X-Received: by 2002:a05:6a20:3ca5:b0:35d:b963:f877 with SMTP id
- adf61e73a8af0-376a7cf5060mr32989096637.25.1767092550841; 
- Tue, 30 Dec 2025 03:02:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFHd0dhFfGTm4/5cfDiP09pgR60Y6aT7n158xtH7J0xViIFk01koV9TQ6iyx4GS7/bXIeRQg==
-X-Received: by 2002:a05:6a20:3ca5:b0:35d:b963:f877 with SMTP id
- adf61e73a8af0-376a7cf5060mr32989065637.25.1767092550297; 
- Tue, 30 Dec 2025 03:02:30 -0800 (PST)
+ AJvYcCWg4Teb4sL3puX51zDNbemWba0SNLFZoUjqvsO6PWvChkOgjJUEJ1xhJXrsnxmviOm8PKfRBtknGZs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzEvBhw1IV1gbjuQMbdb2pdYMy1Mnpj8ZyFKTIzzlqgCJqE98Xw
+ GgNsW3fkNmihAJghEiwqZgPHG2FBs5vmz5BELIAex2lJmi8Yw+mPJ2dUu4fhGvDjWS+lpsh3Uq4
+ K5KfYTIcJQGMjKnntlxQbv6e2vqSW0gODP6GDFAFoTiK5gb3l9qWXg9LCRx4jDJP6Hh0NqOI=
+X-Gm-Gg: AY/fxX44kxNf9ErH8t5g1ONIkYi8ysEubajqDkbqaIEw+WxyFUbPYYxEd9YKgkZg0bd
+ OOF7Whs+620ij3BFqu+hJgIrZaOuiVRspRL+nZBeGVcq5WWwqkAtoCF5rdNJEzo+sAqyiptFQDH
+ U/5ps3EgRBFtff1NtAsA9/Gp7Sphn4o4dkUxLG/ZeLKx79ZXrO3DPd72Oja0f0GoQb8klT2xp+A
+ +o5mp/9/VghM8tiwH3iC+K3iB6blbyeEZYmBL5o0+FLZpugwBlUfEgSfUIYeu3ijgsrTFTgr1vJ
+ QBvtPj9NBoY9H0H2L6oGhMNLQ3dpmocAiiOomLO8Eye9siIqCZV23ZjUO9vaFwgLsLGZFt55hh4
+ 2YK9hHYSR5wRdUL72xlwtWHL+6d7LIsLxCv74iDdmxw==
+X-Received: by 2002:a05:6a21:6d9a:b0:35d:2172:5ffb with SMTP id
+ adf61e73a8af0-376a94b9f40mr33065462637.47.1767092554356; 
+ Tue, 30 Dec 2025 03:02:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFmzcXCgCAF/KfhFTejp806J8JhYinHBklMJhbJpOqY8ALnUh2jYcR9CnXOC5f6eAcCigeiOA==
+X-Received: by 2002:a05:6a21:6d9a:b0:35d:2172:5ffb with SMTP id
+ adf61e73a8af0-376a94b9f40mr33065431637.47.1767092553805; 
+ Tue, 30 Dec 2025 03:02:33 -0800 (PST)
 Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c3a4deb6f17sm2556908a12.22.2025.12.30.03.02.27
+ 41be03b00d2f7-c3a4deb6f17sm2556908a12.22.2025.12.30.03.02.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Dec 2025 03:02:29 -0800 (PST)
+ Tue, 30 Dec 2025 03:02:33 -0800 (PST)
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 To: srini@kernel.org, linux-arm-msm@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
  linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
  dri-devel@lists.freedesktop.org, arnd@arndb.de,
- dmitry.baryshkov@oss.qualcomm.com
-Subject: [PATCH v3 0/3] misc: fastrpc: Refactor and add userspace buffer
- support
-Date: Tue, 30 Dec 2025 16:32:22 +0530
-Message-Id: <20251230110225.3655707-1-ekansh.gupta@oss.qualcomm.com>
+ dmitry.baryshkov@oss.qualcomm.com, stable@kernel.org
+Subject: [PATCH v3 1/3] misc: fastrpc: Sanitize address logging and remove tabs
+Date: Tue, 30 Dec 2025 16:32:23 +0530
+Message-Id: <20251230110225.3655707-2-ekansh.gupta@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251230110225.3655707-1-ekansh.gupta@oss.qualcomm.com>
+References: <20251230110225.3655707-1-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=POcCOPqC c=1 sm=1 tr=0 ts=6953b147 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA5OSBTYWx0ZWRfXwqZuc0vS3sUx
+ 6ZUGMgXaQ9hdlouIgp6x52mt0MnVdiGp1H5aptSGfHdPsFIpXZAH85mS57s81Wn4ze7uVNMC4zp
+ UFrW8AdqJc58P3kmYOTZ3DLsYZpIbYtvE/X9gDZprDSf+TI/KH2QtdnQ9nidKsGViq+pyDFb/Ys
+ Utg7oFn7mPS1KLf88E/sBfAG8SY7wq2mG/0QeDGbaYu9GuSF1JYFfU/9Gs3UO1csi73u/VHTmnc
+ VJWc89E7Ihn6QI0340w4jL6EfWVDYQHuDv8ak0XxazeinLYjykKTFut+BSlz+XHl/wY+2FRKXJA
+ YQxkseMWt/24cmHlsXtAo+Obn66XynQryhJyNwl6sQHEgFLq5VV6jfkP/QHcLFceFaGevH1eHEE
+ feyWTwu/mKB9yvx9i2JOtob7YFJUgBh1v/t5WMozN15JodNMt0gSQv8fUD6dE6QOETGrHPMItia
+ kNaOkWGXXj3grNVKk9g==
+X-Proofpoint-ORIG-GUID: fFUMs6TMz5EGWpZgNPhtwyy6D_N-e2Ae
+X-Proofpoint-GUID: fFUMs6TMz5EGWpZgNPhtwyy6D_N-e2Ae
+X-Authority-Analysis: v=2.4 cv=FJ0WBuos c=1 sm=1 tr=0 ts=6953b14b cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=na3UML1GMWht-DHXVPAA:9
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: pvXCIROjyMZCrhAYylKjzBUBlTSxXnTL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA5OSBTYWx0ZWRfXzEXh94NoN+Ap
- 1cX0SMfFXnpvZ30siJXDxX/uIFAK37M+yzglNmOzEsdbwym24sy6rMmswkBo3yU16+hccaIjbqz
- ZhXSUCHpJNZO9nCINu1A6PSsBRQ3oJxdpabulSml/B6hGI8H55CiWi30gqkBvThj7mQ2m+NYTqi
- WLHmYkHfwuFS2y1FdH8PQLiBUKzcG9rz3p9AFedhFu+B2JriX7BkhDqnWs+TFU+g3gYOXDAu8Dj
- IWdRdL5nB1+gvYn+ZtI/mN0giosQFESWjFWva/6ZyA4prhQiyGXJdmNiy+PfSi+ZrHMfA1w7oqS
- iXJF8RrfqjY6VK1+Rh/xjH0qnii5ePax/BuSY4NiwuZNYQ8zqrdTRu3AHiMYjWPgtr8g6AnfkHO
- GPOqvVSiV08T3J/aKtyGfih7CfVO0/bigdRYnC6hBv+zFOjUqVffhGOGs2bRwpyeVhSUr5UNjSR
- jxndu10e2bVyXm+9a0A==
-X-Proofpoint-GUID: pvXCIROjyMZCrhAYylKjzBUBlTSxXnTL
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=TXGx01ld9870rz7a8QIA:9
+ a=zc0IvFSfCIW2DFIPzwfm:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-29_07,2025-12-30_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- bulkscore=0 phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300099
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,38 +138,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series improves the FastRPC driver by first refactoring mmap and
-munmap logic into helper functions, and then adding support for mapping
-userspace-allocated buffers to the DSP.
+Avoid printing raw addresses in driver logs by using %p for remote
+buffer addresses. This reduces the risk of information leaks and
+conforms to kernel logging guidelines. Remove tabs in dev_*
+messages.
 
-Patch 1 introduces helper functions for DSP-side operations, improving
-code readability and preparing for future enhancements. Patch 2 builds
-on this by enabling applications to share memory allocated in userspace
-(via rpcmem or DMABUF) with the DSP through SMMU, improving flexibility
-and performance.
+Fixes: 2419e55e532d ("misc: fastrpc: add mmap/unmap support")
+Cc: stable@kernel.org
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+---
+ drivers/misc/fastrpc.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-No functional changes are introduced in the first patch; the second
-patch adds the new feature.
-
-Patch [v2]: https://lore.kernel.org/all/20251128103428.1119696-1-ekansh.gupta@oss.qualcomm.com/
-
-Changes in v3:
-  - Added a fix to sanitize address logging.
-  - Fixed type-casting.
-
-Changes in v2:
-  - Split change into meaningful patches.
-  - Replaced uintptr_t with u64.
-  - Fixed commit message.
-
-Ekansh Gupta (3):
-  misc: fastrpc: Sanitize address logging and remove tabs
-  misc: fastrpc: Refactor mmap and munmap logic into helper functions
-  misc: fastrpc: Support mapping userspace-allocated buffers
-
- drivers/misc/fastrpc.c | 208 +++++++++++++++++++++++++++++++----------
- 1 file changed, 161 insertions(+), 47 deletions(-)
-
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index ee652ef01534..408fe47e9db7 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -1830,13 +1830,13 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+ 	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+ 				      &args[0]);
+ 	if (!err) {
+-		dev_dbg(dev, "unmmap\tpt 0x%09lx OK\n", buf->raddr);
++		dev_dbg(dev, "unmap OK: raddr=%p\n", (void *)(unsigned long)buf->raddr);
+ 		spin_lock(&fl->lock);
+ 		list_del(&buf->node);
+ 		spin_unlock(&fl->lock);
+ 		fastrpc_buf_free(buf);
+ 	} else {
+-		dev_err(dev, "unmmap\tpt 0x%09lx ERROR\n", buf->raddr);
++		dev_err(dev, "unmap error: raddr=%p\n", (void *)(unsigned long)buf->raddr);
+ 	}
+ 
+ 	return err;
+@@ -1861,8 +1861,8 @@ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
+ 	spin_unlock(&fl->lock);
+ 
+ 	if (!buf) {
+-		dev_err(dev, "mmap\t\tpt 0x%09llx [len 0x%08llx] not in list\n",
+-			req.vaddrout, req.size);
++		dev_err(dev, "buffer not found: addr=%p [len=0x%08llx]\n",
++			(void *)(unsigned long)req.vaddrout, req.size);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1959,8 +1959,8 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 		goto err_assign;
+ 	}
+ 
+-	dev_dbg(dev, "mmap\t\tpt 0x%09lx OK [len 0x%08llx]\n",
+-		buf->raddr, buf->size);
++	dev_dbg(dev, "mmap OK: raddr=%p [len=0x%08llx]\n",
++		(void *)(unsigned long)buf->raddr, buf->size);
+ 
+ 	return 0;
+ 
+@@ -2006,7 +2006,8 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
+ 	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+ 				      &args[0]);
+ 	if (err) {
+-		dev_err(dev, "unmmap\tpt fd = %d, 0x%09llx error\n",  map->fd, map->raddr);
++		dev_err(dev, "unmap error: fd=%d, raddr=%p\n",
++			map->fd, (void *)(unsigned long)map->raddr);
+ 		return err;
+ 	}
+ 	fastrpc_map_put(map);
+@@ -2074,8 +2075,8 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+ 	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MEM_MAP, 3, 1);
+ 	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc, &args[0]);
+ 	if (err) {
+-		dev_err(dev, "mem mmap error, fd %d, vaddr %llx, size %lld\n",
+-			req.fd, req.vaddrin, map->len);
++		dev_err(dev, "mem mmap error: fd=%d, vaddrin=%p, size=%lld\n",
++			req.fd, (void *)(unsigned long)req.vaddrin, map->len);
+ 		goto err_invoke;
+ 	}
+ 
 -- 
 2.34.1
 
