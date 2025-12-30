@@ -2,86 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E79ACEA602
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 18:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8956DCEA61A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 19:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A3B10E2B8;
-	Tue, 30 Dec 2025 17:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 767F710E930;
+	Tue, 30 Dec 2025 18:01:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YMr3ch/c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XtMqxknf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BE310E2B8
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 17:59:36 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2a0eaf55d58so64465505ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 09:59:36 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F9610E92E
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 18:01:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2a0fe77d141so110187155ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 10:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767117576; x=1767722376; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1767117708; x=1767722508; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/CHIgKSfibsVDyynvS5htdSQz4K+hlBg8dyDuvjuAZc=;
- b=YMr3ch/cN8wvKorlFyRHctNZzD8fWBMt0/MqRSz8Ee4Dqihh43LG5z4oVgQc65LGxa
- S19fVnwQ2NMMJr0dsDJiWHZSoGuCmDsr/ptlA8nINODX+6fFMRmkD57A8gJOa7mWAEP/
- WypIWE0GLcvdGVqBckfQT2iwdNNwqL+vDTwSMEmh1Vm2gdMIoKmOfqU5Qpfl00IZo4p+
- 65yAi1RJVVDVYxDaCWtrnUGRo3c+44L5GFQhd+lRIQ9Vy3NL93shUTzpXM/DzwAq8Z/z
- vX7qfqnmZrjGT32nxdZwazm5AKAlrS25zViqQiJ2rC59XyvNZ/XkjULzN0rfTeOQJ8+/
- oXSQ==
+ bh=XVU3dXZRNTzLxPhtD/PYUGsaxMaUV+wBqLq4ZJcCdKY=;
+ b=XtMqxknfmgpllDIS715b2GDTzRV39lNdFYGa2oLIFY+0RUXQcuZbevcPqv+QHa5ZC5
+ L+QV33RwZDav2o6wpeAm5NkG0mdkzuLeKvtY4uwikMclNxZy/5qpsrTI3rm6y5ub4htO
+ eq8ZdvItVfCQsvfETAzyAPb7QF4nV3VtYMXnVLxGKFo8eR2zSxcTb/vmdMew10S6mowl
+ 4+F/ksa0LgE8fTxuaJNG2BUXTyaRwhN0PxwbJ7utPIW3n2c06CJ2M1XnSlSh/mH8RsBx
+ tyheabyAPUGNgbjcI6MGmyfNRrQSWICItmB455LuMzq7o0aU0WIsXsc/V4/b0WQZ05Z1
+ G4vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767117576; x=1767722376;
+ d=1e100.net; s=20230601; t=1767117708; x=1767722508;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/CHIgKSfibsVDyynvS5htdSQz4K+hlBg8dyDuvjuAZc=;
- b=Cd+kqVmhrouwYeKyAVXGk7l635Ffr0drtaIuWqlkyLH5J0GUBDtKhMmGsdOMtK0+Qi
- 3WXuIPoOVVWuXrKT0j5Q29zpsW3zpJm9ANT0ufxyQCa0bXE80+iOHGnLWyjdt0lsG1Sp
- HAAMYYNj7EI6ULvt//n9Vq2pZq79sobp/z0gP6V2vVjCBQvnfGN8DqPRA5kVnRNu6l/i
- VvuLb8IReMYP3nSSdgNzlvjgGxNr61uhfZFTD+FF38dhOuGzRDrqcKhWYtuR3OCWxWAf
- 45DEKDdcZlMYO8VTg8WH9UCMXA5flmHTgeWXOoiSOmM7G7UjREnnjjFcDXsMM6cliYNc
- CUag==
+ bh=XVU3dXZRNTzLxPhtD/PYUGsaxMaUV+wBqLq4ZJcCdKY=;
+ b=Y7P0tx8QsvRM5aJHoglgeymNzKvRNeolesbW3kNCtO8nYCSxj2Oh1TVmryzG6zYJC6
+ f7W4sREPDaCKikDvSsNP/j1n6Iq7YP/RR7lE0hWqTv0YN1nqaxCBROzaMwvE89u6ObzS
+ VKJz4Pijh3yTWDQ/zeas7HhYl1FmMVXPbsk1TMqDtNvApjYClJ2OxoDdbbjfGz5RReUX
+ kOzA2q3Z0AzEq3BGgKdK+uJDhzrbNnb9FBuNTBXoybQ/HJlQ04CtLZ9iN/kjudGXs0jV
+ wxPk/s9JRqXYcrO9nInDeUFkspFMtqsomwU02xoRIuE8Bl0rzb+WcdkPZ0FRcZi6xijf
+ PU1A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXXM2V+TwqnY/5zaoZJjIM13epUSxqOOlhJz/JFpB71zGAntlhSez2hzB2LdtnwS1CMGfT3UqafjVA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3eLKm6saM3ltxDWP9wm6J2ePY+apHh/sglkXGjGfqq82/r5SG
- K//h+sMYViiESGcr+m+ju/9TXUmVu/Mwe5eLKZL55yBJ24bkBqL7lfHR
-X-Gm-Gg: AY/fxX6jad4B1GU60ztU3LEBa0eqJyNfhyTEOQzJPIMyZA9E9D88Xtv4+Br55iji35o
- RssF3lmbqgsdo2Rl4K8MpFJm7YuVOozIn2NccB/LiMDFEsl50Cp72m0fYc+iVMhV0xq86Rmx4K2
- YN9lnwNylq+uPNi1XK4b8gBt8vzKIiJ6tPrG5+v+Mi8JHURpXI1gJRZ45QJB1KQhbPaEjs6hXEO
- 5UBdPdwWsMZXISOiYB8gwGYZIs5s5BQMgW+Z7KLyK+OHkwv5TlwpaMsi1yf5b2JBb6Qx/ZTAHaY
- reFtR855RP9eXZQcwB8Kk9rIWkcRzIIX33oAzPTjN9v8epE0Pp8qHL5aJ9QviV5EOKMl1IGcWBG
- HlH9/tYyiJ7AF3H7C12M5Pfq6sEqfckLbdmW93wdZdrxa6gY1xjf4Lv3YFr+CyFKTbDZbRCZ1/V
- PF/neCXlE3l6I0XXS23N3C3vLT37avsidB/gANRQa12zIs8FxM9VYXJsC7Jdy0
-X-Google-Smtp-Source: AGHT+IHFngs68Viy0QIud4OyKUMML0W7Abh6BiK0CuBqkEfCHrIFWmwGVVieu+bTWVJ/P4u+tamC4Q==
-X-Received: by 2002:a17:903:4b30:b0:2a0:de67:9704 with SMTP id
- d9443c01a7336-2a2f0d2daa8mr301443375ad.19.1767117576143; 
- Tue, 30 Dec 2025 09:59:36 -0800 (PST)
+ AJvYcCXdU03x21pf/EB0hK9E88xdrjcNrFzJz3abpRB2hJxMX7cg/MJfSunWO9G5bNUtOIh8CRche4WQoJo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlFVRLe7aqYFwjGaAvba4DMRbUj8MzD8mzn7oaQ3rkuT6eF1wf
+ RXB+LguOaVXAYTVtNisBSPU/X6RKIKs0ikkG7v8qfWU8RA2mvvF7wMkK
+X-Gm-Gg: AY/fxX5+Ov7CQDSabwejKR0ZKmBInp+a7V/CchLKKg5vgtlqVdxWw0Gaf2q/KtaRCB6
+ IhoxnwDQ2pLnYC8sxfLdvWcsXKwkEs6fVhSfWpLKghLTrOdFGDmSklk+RWwvht2Vm9hlMEy3h8u
+ dsvQM5qZoxLnjiqOKcE/wHw7rvRx6r+QMbc1hxN0IJnXdBDteESmXAgUDygVBf7OaZkfTaeY9+O
+ gBRFo/rMdpr0Qab3vCU2mJdOHohhU26y+Q4fI7H0D9TofxqvI4/XWvbv5l/9IsunvapwDueAdJi
+ kx7iD4mcFotm1FBycdSrQ0tY7zecvYSfCmrYW/1fwnHFlg3vBGY+R28wzPCLKS8nSDr/D334THY
+ cFTrXe9V72xMcSkugBxP80bkPA49e8XKwlfeZwL2vVgc6XyKXDoBinKAqySzkFLqDNpiDN8uir0
+ bD3DOVem0RrG+TVEzPDuqFOMNvu7+X4T0GFIwMtGK+e5yhw3M8nJ79p/ucgzU5
+X-Google-Smtp-Source: AGHT+IFCY5D2OrgQbO8T1ac5XgJ7Dh5PRosYfy4bjpWjfeV/DmYMVgVyyX6wvp70OFg3Iu7Fy2RfYQ==
+X-Received: by 2002:a17:903:38cd:b0:2a3:6b54:5d42 with SMTP id
+ d9443c01a7336-2a36b545df5mr162573995ad.59.1767117707570; 
+ Tue, 30 Dec 2025 10:01:47 -0800 (PST)
 Received: from ?IPV6:2601:1c0:5780:9200:d742:b62c:dcc9:47cd?
  ([2601:1c0:5780:9200:d742:b62c:dcc9:47cd])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a2f3d4cb48sm308258165ad.64.2025.12.30.09.59.35
+ d9443c01a7336-2a2f3d4d2c6sm301374495ad.49.2025.12.30.10.01.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Dec 2025 09:59:35 -0800 (PST)
-Message-ID: <7ded1cc9-71bb-4ad3-8804-477b4317a6b3@gmail.com>
-Date: Tue, 30 Dec 2025 09:59:35 -0800
+ Tue, 30 Dec 2025 10:01:47 -0800 (PST)
+Message-ID: <081b59e8-e74b-4af6-bd31-00ebb4e12e5c@gmail.com>
+Date: Tue, 30 Dec 2025 10:01:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
+Subject: Re: [PATCH v3 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
 To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org,
  deller@gmx.de, gregkh@linuxfoundation.org
 References: <20251230052827.4676-1-chintanlike@gmail.com>
- <aVO4pslXIvnc00J3@smile.fi.intel.com>
+ <20251230052827.4676-4-chintanlike@gmail.com>
+ <aVO5X0NKSdkH6Ab5@smile.fi.intel.com>
 Content-Language: en-US
 From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <aVO4pslXIvnc00J3@smile.fi.intel.com>
+In-Reply-To: <aVO5X0NKSdkH6Ab5@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,26 +100,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/30/25 03:33, Andy Shevchenko wrote:
-> On Mon, Dec 29, 2025 at 09:28:18PM -0800, Chintan Patel wrote:
->> This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
->> it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
->> remove hard FB_DEVICE dependencies.
+On 12/30/25 03:37, Andy Shevchenko wrote:
+> On Mon, Dec 29, 2025 at 09:28:21PM -0800, Chintan Patel wrote:
+>> omapfb provides several sysfs interfaces for framebuffer configuration
+>> and debugging, but these are not required for the core driver.
 >>
->> The series introduces a small helper, dev_of_fbinfo(), which returns
->> NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
->> via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
->> full compile-time syntax checking.
+>> Remove the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+>> optional by using dev_of_fbinfo() to obtain the backing device at runtime.
+>> When FB_DEVICE is disabled, sysfs operations are skipped while the code
+>> still builds and is type-checked.
 > 
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->> ---
->> Changes in v3:
->> - Use PTR_IF() to conditionally include overlay_sysfs_group in
->>    overlay_sysfs_groups
->> - Decouple variable definition and assignment in fbtft_sysfs_init/exit
+> ...
 > 
-> Any particular reasons you ignored my tag from v2?
+>> +		struct device *dev = dev_of_fbinfo(fbdev->fbs[i]);
 > 
-Ah.. This is typo. I see what happened now. Looks like my script picked 
-wrong or old patches instead of new updated one. Should I send v4 or v4 
-is fine?
+> Still the same issue I pointed out in v2 review.
+> 
+>>   		int t;
+>> +
+>> +		if (!dev)
+>> +			continue;
+> 
+> ...
+> 
+>> +		struct device *dev = dev_of_fbinfo(fbdev->fbs[i]);
+>> +
+>> +		if (!dev)
+>> +			continue;
+> 
+> Ditto.
+Sorry about that. I had actually made your suggested changes but somehow 
+I mistakenly send old patches instead of updated one. I will send 
+updated one. Should I send v4 or v3 is fine?
+
+
+
