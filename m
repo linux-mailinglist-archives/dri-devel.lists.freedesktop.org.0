@@ -2,136 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E614CE8DCB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 08:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B74CE8DF9
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 08:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFEE10E83F;
-	Tue, 30 Dec 2025 07:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E5610E841;
+	Tue, 30 Dec 2025 07:18:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iIvOZoAE";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fL25M9h8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UwxeTQdE";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="T5iv7lmB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B25910E837
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:13:20 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1CB10E584
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:18:02 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5BTMiRhk3159040
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:13:19 GMT
+ 5BU3jsHu3556583
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:18:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=2t4zTTKKthp0P8Am8Kh6TS+m
- +XzSxbQAsLzx7iUdk8c=; b=iIvOZoAEe2tkOOyie62WCeiytuUyKvrJpQ9jZPRE
- thHcjkXdyS1WMqk9XDgGQb3i/RZdnNuOHbJwjezBQas1Y/jl2j2V0Kcvr0tZr/kg
- DMfOGUCT7XgPE9iivgzvn58JUfytFQjn+Tc8PxYjYJ1RndaExTHp8fdlzy2hT1i/
- T5tQkcR3JS+NLYKlEYsaIF1V0X+sRcSYrqv2lED8fArc2nXhbsKyXo3EIPwfj94X
- 7R0uh4+bA7Lt/XLxqYJGBVYj737IJgFc9CsiyCIEt7/+iP66XyYzf1yGtpi80GKh
- lsPgM1jz/fW3kO68Za1BkxuWBTCHWgToTpwDyxfVR7ARTQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bbc9v3pnf-1
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=RDfDov+21c9xI+NU/eqDWb
+ Fpcvc+X8yxuZnrRdrgcdw=; b=UwxeTQdE1mzKRJHJcJZqpdvN7C/9A3JKeSyaEP
+ qSnqQ0tnLXwamep9uGHftlLHqZoFCfgAcDzGAq3fV0DxoOFOQp/RTj+VcXwgBfd3
+ qz+Pqq4xiw95geYp5h1Fg3pHlo7jA4PJbdUdnkEWmjV/5ceR3oOQnEz5q1OHKHx1
+ 3iiHVbd7CIoHLn8fLQ8oWAKGsGFNKFj1PE4coQS91suCMU4rfzCAYlH5ojU0TLKf
+ 578YnIR2GWlbIwIAd/LB5wnGsJskXAnK2fw2d79EGtrZH+Hf1NdjF1c7mcS/y1LH
+ Upp/fwM9C+tA4uxEf0xNVkL+5ltIjR18IkROHq8vZJgGrgfQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc7460du9-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:13:19 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-88a47331c39so261607296d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 23:13:19 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:18:01 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ed6ceab125so260223461cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Dec 2025 23:18:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767078798; x=1767683598;
+ d=oss.qualcomm.com; s=google; t=1767079081; x=1767683881;
  darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2t4zTTKKthp0P8Am8Kh6TS+m+XzSxbQAsLzx7iUdk8c=;
- b=fL25M9h8ZCtmhe05uyZrykVLug+KRSlvpmK8dD6EmUktd2hC8Dca+L9PqthjUpdVFG
- ROMAXGjCTE19MLIIq8R8KX7PEOF7RB7aHnFqtHdhGX84ws86EJGIOzqmvcN+Kvs+6YFw
- F8n/AmnWMTroYt1kW4Xt82mJJkrsm3bQF8KZ22M4zS2qKx8B9TQpBetOP51K1NVyHQFE
- 7uQUgcduPbQeIaqi3hWxUaof8yWZAaJWXKZoBpMJ4St+/aUoc6rn3jfb7SC2dxUlRJzT
- v8/mkcWs1LwBHt/FnBZIabT+c0DlpavXYAPdC2YWaVOUaEvJoipOaxMBqBpxRuxLBvB4
- 4XOg==
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RDfDov+21c9xI+NU/eqDWbFpcvc+X8yxuZnrRdrgcdw=;
+ b=T5iv7lmB0zbj+qmC3tuQ6IOGhmE3AqQ1oASUBkhS0oVwS9S8XF52aURPBVoC8f3Yah
+ vYz5NrII13SEJwZB1YzdM3/XCczmA50nQ5ut9pi8iBsA8eqdWK1ed7H0CKfBbD9xng1Z
+ fEc50sebKq8XyFQFr0oYz19mb15K3SSOgvDDyd60dPHm7RtLTDon3KTVwHwdfwGrBzYt
+ S5IsU1ERrScb8+H8i+JmU+k6SZPrI4f1Kl4Aq9TIGDSbjDQws9VMO8s8AFZP15sd2VC9
+ FsrK7lO2vKrQDU/5RxCEKtTss8cBRB8sEJnKsXaP4wJLBKY5bfDgkN7tvrK5Y7fdKWxb
+ csQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767078798; x=1767683598;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2t4zTTKKthp0P8Am8Kh6TS+m+XzSxbQAsLzx7iUdk8c=;
- b=A/QHvMBR2qrQtCDOLJqEgHhkL0tbxuuD3yNZUVBKklT1puWWgT9+1u45+6XZlGLXVD
- tAHllA+pTCYVSwqT+0+UoHiy97oWkMahL/kcEq8S21Ad1YlM4OUHO7pFI3CaY+9BS7+w
- VlfYghjA/KIrgdrm8+gjoNrcsLXtll8Vn8QXHB45OYzoWe2XK6POwsHNtZ5uLhVHthBC
- F5Edzj4QuplBZJSjGglDepYbExQ5MqpqxxMaaIjipvGkQU+isoNZL9Zq6t0/zf2XZPOT
- 13yXvfcEOPm1sWP0gX7VToLPkd+VnBl9+LCz4JDUsD29busoS87HvjSGZd8RkfIcfxlR
- 5fxQ==
+ d=1e100.net; s=20230601; t=1767079081; x=1767683881;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RDfDov+21c9xI+NU/eqDWbFpcvc+X8yxuZnrRdrgcdw=;
+ b=lVCvPW9j3TZNR+mkIa50yeT8SWVqNoQRiOt1gai/OItr1quPJsUYEVyTrdkpvfhz4p
+ FtVJTZKgrnrbUJb1kfCA/4c79ce/VDwCBO4KNpl4+w9DS4rGQClwL9lHTzpryxfnxy+q
+ KSH5+xT9axkVBaRecwi5aDEpgkFy3Vr7NV2RFx5VAQ6QuqXxnrMV8X+7VbgnnZOqDEx2
+ HbjD97Pzq5BFiGSy3kCWSQ2zqtBZSBph4nUy/6VGmknuLH7v0PAfeV92oBuOcrUf5yd4
+ T3V0K66vNFjyL7BpYPvP3a5f8AENC13VnsoZVbTQmv4PAzFgvqbJHC2CRPgnBZr0tu5F
+ gwig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBj2w1tlT6tgJPnU4cQ0n811HdgGz/9brkGVWgjI3Ks09QE3Pp+VFhrteJ4fOGKCQ0yZEihwfrjcs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyF2ex3C41qATxQslV8CZeAeTuNwPpfFx5+zs7RIpJqqAFOFSec
- PoB2eH1mJW+RIHmI+tprzPbJiU245Yi1XbnFH1WbIe+gF8ZbgTDYkFGy90KwGhI0TNvMXcFY+Oz
- SGN5WPFQDCq4RtRWhg8l0qb5dPfb9l8OSvUN7qo9yzmGoClaCHEJWbxkTGqZHXGoTzOnl6A0=
-X-Gm-Gg: AY/fxX4EVLRkazrkTdS8qm7wqdJnHo8kpbLnGuNOYfSILG23wEdCdNPBzl/k2a+RvYW
- QK5vA8h9Okau/VORIXsYsEYxwbAE07cixTQ1XyHoH+3v3jzMjRZBS5GEWnU6goZlHsposGB9rq4
- wpWcCuerbQfiAFtZFgrtcUfpQuqc/fes5fO8FMA2u5+XB9f7NnsIIrHn5BIj3yl/ru4jPaD8qAn
- QDW8jjLjPTO2OSplKABzjAR7ooVRwb/QDQN1CVhU5BujJ18sw41vVvopg4kDael9lTRCccFsIvM
- Um9zv2HBIJtf2kljToKypbBqx6kJEevEWJQZwSnAhAbcIhS9G+XIOsql21h2nWggCEJxo5nO6W/
- CdRY+qEoxMpKQqzSOtE/BPqFCdgTpFj+dHlRpuDJ0VShEGDTJLuNuJsFZqqIMvrYdQaskvZD9ml
- wDEbppsDhgMIqMU7B1ieF0RY8=
-X-Received: by 2002:a05:6214:2d48:b0:882:3812:5f72 with SMTP id
- 6a1803df08f44-88d823300f6mr528311466d6.27.1767078798574; 
- Mon, 29 Dec 2025 23:13:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGXL9PeBhvMT8/4p2SJ7DsWu4DdAlh7lnhb5mktPynlGQSvdJ49OQrCr6XsR8efN+SSL8GXEg==
-X-Received: by 2002:a05:6214:2d48:b0:882:3812:5f72 with SMTP id
- 6a1803df08f44-88d823300f6mr528311286d6.27.1767078798093; 
- Mon, 29 Dec 2025 23:13:18 -0800 (PST)
+ AJvYcCVwouY2rr4q1Pc6pp/fJXeyiFQv0nL000cKibUHs7ZtoxvSNUsUVD0RWqS9ekBmYY0iy4ftx08UBs4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKmVUbTFWmPqmiVGcvT8D5V5XpbzNGGhiV93CKuXqHdSSu3pND
+ s/upE4Ue1eCyzd1n8SYU8Jw6t5hKTuLSUGU7O2IO5DwjgZBq9OYGrVRt9unriQenEapIPQtSrKO
+ QocjLk6dGGAQVZKXqF3GADxwOnv9i8d0oRHDY1ndU8vhYwrTIjV3127vTA/iB495j4GtBlq4=
+X-Gm-Gg: AY/fxX46c5wLX0KuznxnlnGzlgvpuV8AOUXL99UXN1Vzntt8AhmAqw8sKrv8OORcgR4
+ K9FsJl6bQQpzJmkIa0xW26NoBZMPJTGhm5+5G9bZRvLGuiDCM++UBeg2eMD61Z6vFUar0LWXufb
+ BNvA51HpztloujoKk+YbQw4hwiOQTcLF9dDcVUp4tzwN7RtFVpxcrdKjBKb9eLrfUB8UyewZPcw
+ xjp0aoZQ29mDUTY5vfO9irRwJqk8DWhEfH9/Ymkf0L5Ly/Oc4Rbyac/6Y3W8/oPYM9S1/Jg9kL/
+ lmiuplwerGdKy0Ek8v68zQ6CGuAZs1y+8gBF/aNuKlbChybH8pwhAU/SON4stZGMaQ0W9U3opIG
+ TG0yD0h73dEkNenXampdmxM9cVfDMVhTX8DzGRlBxKuKrUotIQrPfgeprfqeLLEueSX66nAgr0f
+ Vkfvkytfnw80fOBNdteHgqA/k=
+X-Received: by 2002:a05:622a:244a:b0:4ee:1962:dd46 with SMTP id
+ d75a77b69052e-4f4abdb6718mr540628101cf.79.1767079080908; 
+ Mon, 29 Dec 2025 23:18:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGOFJXh7VBC0CA1QEHfedT0Vh9YwUikHzXQJjpFbxXBPOzJd9y+5itmQlXgUcbEv9V2Tridsw==
+X-Received: by 2002:a05:622a:244a:b0:4ee:1962:dd46 with SMTP id
+ d75a77b69052e-4f4abdb6718mr540627961cf.79.1767079080388; 
+ Mon, 29 Dec 2025 23:18:00 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59a18628040sm9952668e87.88.2025.12.29.23.13.17
+ 2adb3069b0e04-59a185ea2d8sm9924615e87.45.2025.12.29.23.17.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Dec 2025 23:13:17 -0800 (PST)
-Date: Tue, 30 Dec 2025 09:13:15 +0200
+ Mon, 29 Dec 2025 23:17:59 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+Subject: [PATCH v6 0/2] drm/msm/dpu: fix vsync source programming on DPU >= 8.0
+Date: Tue, 30 Dec 2025 09:17:55 +0200
+Message-Id: <20251230-intf-fix-wd-v6-0-98203d150611@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKN8U2kC/63QQU/DIBgG4L+ycBbCaPkKnubW9WZijB6M8UAKW
+ LK1VOiqZul/l/aiS3b0+Aa+5+XjjKIJzkR0uzqjYEYXne9SgJsVqhvVvRvsdMqIUcbXjOXYdYP
+ F1n3hT40lF8DsGgqrC5Qm+mDSyaK9vqVsg2/x0ASjFuPp5fnhkcL9FqiUO57Jbcl2MisqARmtK
+ rEvy5LfbS6uEdXXfdAUSB+8Jv40HL0/kNq3c2Hj4uDD9/L6MZtr/7tkXmPMF/nqF4w5ppgWiko
+ GVlnNNj5G8nFSxzTd/hL8LyEuCZ4IC7Y2wIQBe42YpukHWDlk+6sBAAA=
+X-Change-ID: 20251224-intf-fix-wd-95862f167fd7
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Teguh Sobirin <teguh@sobir.in>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] drm/msm/dpu: fix WD timer handling on DPU 8.x
-Message-ID: <hl6gz2m5jcdvkobkwbzrnfulphdssrqqwnkt3jtap4eplr64ej@gmmeikz7z5n4>
-References: <20251228-intf-fix-wd-v5-0-f6fce628e6f2@oss.qualcomm.com>
- <20251228-intf-fix-wd-v5-2-f6fce628e6f2@oss.qualcomm.com>
- <aVJlvFWcq5QMVWYM@SoMainline.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aVJlvFWcq5QMVWYM@SoMainline.org>
-X-Proofpoint-GUID: oHv5qwvxZCXKILO3uclmcavGe4eeY0qN
-X-Authority-Analysis: v=2.4 cv=R/sO2NRX c=1 sm=1 tr=0 ts=69537b8f cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ Teguh Sobirin <teguh@sobir.in>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1827;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=rjcGmrYy9UrdPHnUVn7OH4gCfyt6FSy4sSqVbUoAeIk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpU3ymkVB3YAK4jAqFVE9gdL3SXXXvkLAOjZU8R
+ hU0zIAxVfKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaVN8pgAKCRCLPIo+Aiko
+ 1RLzB/9kdmTzpOnEuTSthFf6CdLwX9jvhDDNiPuAm1fsVzB9LeCYFkS1KtgR9qkDkQoWk/Uj6qU
+ 8SLT7RSNnTKNYfunPVMkvN6/FgNWouFy3TnXVttSJ6GoZ4iIkQlKVq3KkTIli+Po+OYZF6DloFx
+ A5jbo/NeQaCOzVwHJIp+MDCj0V9wvikrhEI9lxVQc+XfhVLNnKf3WU7siPcAyhaWDJMp9xNka/t
+ uTRkx4CXwbYj7PrQGbPSNg0QqfQGZyqheVfRRaIiqPY74WPby8YWZrVDUrYi1pCn1cbEg4rfx5t
+ XQZcyPN375v7LhFAEPZi5MXRk8BE/ksVx0e+nzfzbBmID0eX
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=Do9bOW/+ c=1 sm=1 tr=0 ts=69537ca9 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gKpLsENyAAAA:20 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=tVI0ZWmoAAAA:8
- a=zvAJQZrOlr4PNjufmXUA:9 a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22
- a=-BPWgnxRz2uhmvdm1NTO:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA2NCBTYWx0ZWRfX7Vr8wnbXYqpG
- l7KmnkJOLJ2iqGpLejYl6ZPKpnuV+znVfpvg3jz5KfOembvCrTnxCRctGzG1+yAayoD5PhCjB1h
- ZJvvXU0GXXlV+WaNhGStfsDpWPLzSEOxzK7yE+qzbX/uXpzp/UtukSTsInfqrnZCnE193QgYLAK
- TSR9qbiN1BXxTF5ZpSYj7inPTvjthARRwbT3q6m4N4f3PV3MPPpCu3AObycVCPhWxM13XLJthFS
- Fuuu32OgNqwVVuKiKkaNTJ4KfhdSlIWllDnhyznWfeh5bQNkPwQZasy1zNK4nR8Pcd0ZgNPSFPT
- UHNnVVtBHKwu/eRlC5wd93N4pMn3SCXS0BIKXjzg1+ssYjcURQBJ/G3NoJjbEcZZv+c7K6Gj7CG
- cnZIrLCt6zYJ3BuwgzQmH+n/wdCGlNjoC27aNHGFmaNyrgfcTgVn+Bv6o5gkF9bvKVrh8vqQsUE
- WWITgsUKaoJGG6ssRDw==
-X-Proofpoint-ORIG-GUID: oHv5qwvxZCXKILO3uclmcavGe4eeY0qN
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=UqCG9HQmAAAA:8 a=ytnKcm5597Xeg24-LCcA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: XkYWL_CLJ77HoHOwgIEntAjdumtmyT2y
+X-Proofpoint-ORIG-GUID: XkYWL_CLJ77HoHOwgIEntAjdumtmyT2y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA2NSBTYWx0ZWRfX+VAbuzTDdVs0
+ hSBZ60rqK0ZDKCqfEnsWDn/d0pEZX/Ex5tY4/VIO1BHIFb/nrifBrL7DZlN+gbX6zHy/xjfcfzL
+ oIMiIOTkiFhJqNa2+xqrBMwDEoYvjDOEIbiVrbBb6kgXvZsqhe+W9h41vxsu9r+WfWc72LghZtf
+ un0zHO2UXFdwzvsUdahwVqJJvjRMqI/KnGwN2YbtdHeY/8ekoe0L+77gtPAtxn3JmJQSDlz0Cym
+ /r5Cjgn3MEV6yQrtpftzSetmBXp69HspVCIEOCbK3NHTkXtmqsVEKiITovXgOrO9ZmziZZ4gBYe
+ bgq7qBv+qlbPbUkkwwey5ZHJjED0BtLLoHIUGEDRy5glDOyrFQjstlSFTNi0MIBIC3cM7anfTE8
+ FGsKRtk3qk8MrhSWj5SCcQ09wbffzxqcdhdWMkI1LmMja6sUsQ0W+lrho5bcBufC9IQoXTtSgxN
+ 6RbfavB36tSm1OOHIMw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-29_07,2025-12-29_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0 phishscore=0
- spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ priorityscore=1501 clxscore=1015 bulkscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 phishscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300064
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,71 +161,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 29, 2025 at 12:39:13PM +0100, Marijn Suijten wrote:
-> On 2025-12-28 05:57:12, Dmitry Baryshkov wrote:
-> > Since DPU 8.x Watchdog timer settings were moved from the TOP to the
-> > INTF block. Support programming the timer in the INTF block. Fixes tag
-> > points to the commit which removed register access to thos registers on
-> 
-> thos -> those
-> 
-> > DPU 8.x+ (and which also should have added proper support for WD timer
-> > on those devices).
-> 
-> Right, yes.  Commit 2f69e5458447 ("drm/msm/dpu: skip watchdog timer programming
-> through TOP on >= SM8450") was already a fixup of that (though marked as fixing
-> the followup commit 100d7ef ("drm/msm/dpu: add support for SM8450") for being
-> the first to use the new DPU_MDP_PERIPH_0_REMOVED flag).
-> 
-> > 
-> > Fixes: 43e3293fc614 ("drm/msm/dpu: add support for MDP_TOP blackhole")
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> ...
-> > @@ -791,7 +791,7 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
-> >  
-> >  		if (phys_enc->has_intf_te && phys_enc->hw_intf->ops.vsync_sel)
-> >  			phys_enc->hw_intf->ops.vsync_sel(phys_enc->hw_intf,
-> > -							 vsync_cfg.vsync_source);
-> > +							 &vsync_cfg);
-> 
-> In some way this makes me wonder if we simply need another struct, in favour
-> of not missing fields that are never / not-yet read, although resulting in more
-> clutter.
-> 
-> (Just a nit / question, not a request)
-> 
-> ...
-> > +	if (cfg->vsync_source == DPU_VSYNC_SOURCE_WD_TIMER_0) {
-> > +		u32 reg;
-> > +
-> > +		DPU_REG_WRITE(c, INTF_WD_TIMER_0_LOAD_VALUE,
-> > +			      CALCULATE_WD_LOAD_VALUE(cfg->frame_rate));
-> > +
-> > +		DPU_REG_WRITE(c, INTF_WD_TIMER_0_CTL, BIT(0)); /* clear timer */
-> > +		reg = DPU_REG_READ(c, INTF_WD_TIMER_0_CTL2);
-> > +		reg |= BIT(8);		/* enable heartbeat timer */
-> > +		reg |= BIT(0);		/* enable WD timer */
-> 
-> My downstream also sets BIT(1) for "select default 16 clock ticks":
-> 
-> https://github.com/sonyxperiadev/kernel-techpack-display-driver/blob/61a727e1ce1fda617a73793b2cbb76b5ca846ea2/msm/sde/sde_hw_intf.c#L511
-> 
-> Although it doesn't read back the current register value.  Do we need that; or
-> maybe you are inferring this "missing" BIT(1) via this readback?
-> 
-> After all downstream removed the readback exactly in favour of setting BIT(1)
-> though because of a "default value change" since MDSS 9.x.x:
+Currently VSYNC SEL programming is performed only if there is a
+corresponding callback at the top block. However, DPU >= 8.0 don't have
+that callback, making the driver skip all vsync programming. Make the
+driver always check both TOP and INTF callbacks.
 
-Ack, thanks for the note.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v6:
+- Spell out all necessary bits instead of reading INTF_WD_TIMER_0_CTL2
+  (Marijn)
+- Link to v5: https://lore.kernel.org/r/20251228-intf-fix-wd-v5-0-f6fce628e6f2@oss.qualcomm.com
 
-> 
-> https://github.com/sonyxperiadev/kernel-techpack-display-driver/commit/e55c68138b04770d51067c158f92de526e0c926e
-> 
-> - Marijn
+Changes in v5:
+- Fixed typo and white spaces in the commit message (Marijn)
+- Dropped superfluous comment (Marijn)
+- Moved vsync_cfg.frame_rate init (Marijn)
+- Adjusted the Fixes tag for the second patch (Marijn)
+- Link to v4: https://lore.kernel.org/r/20251224-intf-fix-wd-v4-0-07a0926fafd2@oss.qualcomm.com
 
+Changes in v3:
+- Picked up the series per agreement with Teguh
+- Fixed VSYNC SEL programming on DPU < 5.x (Marijn)
+- Implemented WD timer support on DPU 8.x
+- Link to v2: https://lore.kernel.org/r/TYUPR06MB6099C539BD2C937F8630FF8EDDD5A@TYUPR06MB6099.apcprd06.prod.outlook.com
+
+---
+Dmitry Baryshkov (1):
+      drm/msm/dpu: fix WD timer handling on DPU 8.x
+
+Teguh Sobirin (1):
+      drm/msm/dpu: Set vsync source irrespective of mdp top support
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 18 +++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 49 +++++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h |  3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c  |  7 -----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  7 +++++
+ 5 files changed, 64 insertions(+), 20 deletions(-)
+---
+base-commit: d2b6e710d2706c8915fe5e2f961c3365976d2ae1
+change-id: 20251224-intf-fix-wd-95862f167fd7
+
+Best regards,
 -- 
 With best wishes
 Dmitry
+
