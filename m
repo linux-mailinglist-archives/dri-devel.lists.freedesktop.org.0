@@ -2,64 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D95ACEA167
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98F0CEA17C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 16:43:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBE210E915;
-	Tue, 30 Dec 2025 15:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4007310E919;
+	Tue, 30 Dec 2025 15:43:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PhXvNZOC";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="NNXqtuFH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F8D10E915
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 642BD60051
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E7FC2BCB0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767109277;
- bh=gyHQKb3z1nk+UnpTmdOwQ9Nw5LQ39V8OUPvQxvyOONo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PhXvNZOCnwhyuQl/sJpP93msu9Bz2T1BSHWyMFhgu1rnkvjje2kXUP3mTYoyo/YBa
- A8041AbNjQMhqHBamlugNvHPO+5bCDoZt6ZInP8Qm/SimipO6Ffjex3mCMUZvJW/Lp
- DUWlRZz+BHD+9wVyWaQzpSKD2xsxHeDFY4cJsxhYqIKi7EaOepRspvDlrkwZEKti5Z
- pwp6TTIYdcOV32pOtC/hmbSvML1tYP2xrzRE13sHlIRV7HAbuoyEPXWaVrNJ1DQDmL
- aKZ100NRT/ZeY2YZv/xqjiWrG5OFE7UrscBpPhiwpx0hCtRfIzahaw6cedrNB5J2pg
- fKFDeOSrmv1Gw==
-Received: by mail-dl1-f42.google.com with SMTP id
- a92af1059eb24-11beb0a7bd6so14670020c88.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:41:17 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 147E310E522
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 15:43:04 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-595825c8eb3so10216676e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 07:43:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1767109382; x=1767714182; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UuyGl/AZyQjVQCbBt2jNVWaKpqTC2aRWnYus6/cTMyo=;
+ b=NNXqtuFHhX/RciLxSOU8WO4NWw9X6Oiy1WcU9FuKWNI1GDSUKGW/r09fmf3vPADu2i
+ qWEtnAVpnHcJSXR0wGd/ek7cwwx9HelwbSoIAzO0McW9dCVacFtf6LMKOvHSXQlSRM+s
+ 39zX/VGqWlBRwBd5Hsjl6UVP1mte7aU3xNs5FLqBKmbfXK2waZAvJRszJwuvx5vdny1t
+ IsoNaHneiwn6CTUDkp15jjO1U+J1omxxu2PHIkI0WkimQak2KM5t1yF4iMqZCp1lorMF
+ LfZBsX5jIoYcIARzGPCp0AgXwQC3EboYxDNuDBB/cYR5UFtRooDT/5NTByClKJn/F9eA
+ A0kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767109382; x=1767714182;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=UuyGl/AZyQjVQCbBt2jNVWaKpqTC2aRWnYus6/cTMyo=;
+ b=CC+k1FCgFi/+ObaxI1MzMBR7JngEdKAQaqpq8AQQWG1ckI8xboLiataLEgqfh/A8SG
+ kM+CdaHeZSwU0Ai7V2yk3yVS4fteXKYD+ptdm2SuiLOWrmR3kIfZUIH2HBdnRAPWxjs5
+ kNGI7i929kUdN8InXInyaVT0dizisivlp0Bqp+2wZ0zNY2E70gJ2kdFrJQfApDNRqPKm
+ oi073DEfd12mRYnZnFQqCfNpwnTh7uizq/zLzVwNAt2buiJ3K6gqK7V3E8CpTce87lkT
+ DkZP40GO7kITRIP89i/iq16HF2cUZGCMBoak4NSBTqzpUOhshVT+uNf84vUfoM6kLtBA
+ sPLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvVAnFtnBWdr4IAfdt4kYl5iSpBhUuDHJ52zBcQ4SRLrGK0i/wWjqjh7RXusKEJ4gGBqiryhMJc1o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzsJioOwMNDJfwMHPPDUWilD37VpmJ1PZEUop65jV8vRG6LVa3
- yx4lBcoaFAXRFj064ta6M1n2oVdFkUI3LGTUj8EWnCofcgmIo7oMThSYxy1voNzt1ObbDP3U8YS
- nT8DO5DRdDOQ4e8WYjWf+6d34H/RebA==
-X-Google-Smtp-Source: AGHT+IEh2n2zLpLnAWsSiBjd90/ps/z4xq2CFX5rKvlH82VgvcbIbEKrpQVoNU8JRj6mongRc2KFddek2E8g0FG2WcA=
-X-Received: by 2002:a05:7022:e88e:b0:119:e569:f851 with SMTP id
- a92af1059eb24-1206193963cmr33079705c88.8.1767109276351; Tue, 30 Dec 2025
- 07:41:16 -0800 (PST)
+ AJvYcCUa6tBVG8AFq/UMvl7K9vS1PcmXT94l+fwbF9uFygb8Cg0y0ZZvx3neTzEg9VU8Gl5Db5i/jqHY81I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxenXKWudiPvJGXa3EPZjSGrdxX5eu05dZMgZx6OIQ1C2p42gAp
+ b08Xmz759keJV4coorjQIuik+ZgJcA3ZVUyrvstdkwzvNhpxU4QcYztdoL2KHC2y4IGWYsO12WE
+ TSul1QoXCd5O1hNaWLc+M43RNyYfJY89wluClTnuPHg==
+X-Gm-Gg: AY/fxX4OriOwH3mRCxxKDsUnvwoLCPdTdYoqoDUllBAuEkp7ywqmsu64sY2CmVsOrKL
+ RNpDdyyjwCEM3fw+Ua22AMdkynuA7p6cxiHeKcopZK5fSdfzw8pqv/eTiBDnhMroiAvGQe0PK51
+ SAkl4qsn5flrghjn7X9yiq8ZkbJqE28KiRPIfFXCfl/d0M4hkcSdQIMltKGGfEG8qMWRDF+/cPJ
+ KdzfBr6oZSqrLkqakCHXW9GKZvuAWqNEU9LdGkwNDE8vTihKTH4QqP7YHmnZmG7D5GWpA4a2ljS
+ TglUTOjH3r/nBNKJlPFsv3wFP3iZ
+X-Google-Smtp-Source: AGHT+IEiOszR/dmQ0W8nUyVU4uBq5XZYn2gxKvCzyxC/HCbTuL0COEdCVgq6omNZBz4cUy/uqnELRTwGsOtKMT1/IoE=
+X-Received: by 2002:a05:6512:1591:b0:595:8350:5812 with SMTP id
+ 2adb3069b0e04-59a17d4c7b9mr9199283e87.36.1767109382190; Tue, 30 Dec 2025
+ 07:43:02 -0800 (PST)
 MIME-Version: 1.0
-References: <aSW0p5sqnJVJsqDO@stanley.mountain>
-In-Reply-To: <aSW0p5sqnJVJsqDO@stanley.mountain>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 30 Dec 2025 15:41:04 +0000
-X-Gmail-Original-Message-ID: <CAAOTY__nif43taCWWdxfFqmtC=KibgJZ2AuUohiS1EdhXdDbow@mail.gmail.com>
-X-Gm-Features: AQt7F2o-8OY-770n-RCRfh2pqvzP9k8Fyvdsrmq_wWlXdIFfmVOWee9EjRaS2wo
-Message-ID: <CAAOTY__nif43taCWWdxfFqmtC=KibgJZ2AuUohiS1EdhXdDbow@mail.gmail.com>
-Subject: Re: [PATCH next] drm/mediatek: Fix platform_get_irq() error checking
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org
+References: <20251224160026.124106-1-marco.crivellari@suse.com>
+ <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
+In-Reply-To: <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Tue, 30 Dec 2025 16:42:51 +0100
+X-Gm-Features: AQt7F2poId7AdIkEB8ZF9b6jvFxVwtgIxfRSZm5wlbmusfrccxCifnR4zP7eTFs
+Message-ID: <CAAofZF7H_sPKh=oG7C=fN-mtevZjZ038DjOL0rwDVuOib9p4Dw@mail.gmail.com>
+Subject: Re: [PATCH] drm/xe: Replace use of system_wq with system_percpu_wq
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Michal Hocko <mhocko@suse.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,63 +94,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dan:
+On Wed, Dec 24, 2025 at 7:28=E2=80=AFPM Matthew Brost <matthew.brost@intel.=
+com> wrote:
+> [...]
+> >  drivers/gpu/drm/xe/xe_tlb_inval.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_=
+tlb_inval.c
+> > index 918a59e686ea..b2cf6e17fbc5 100644
+> > --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > @@ -94,7 +94,7 @@ static void xe_tlb_inval_fence_timeout(struct work_st=
+ruct *work)
+> >               xe_tlb_inval_fence_signal(fence);
+> >       }
+> >       if (!list_empty(&tlb_inval->pending_fences))
+> > -             queue_delayed_work(system_wq, &tlb_inval->fence_tdr,
+> > +             queue_delayed_work(system_percpu_wq, &tlb_inval->fence_td=
+r,
+>
+> Actually system_wq or system_percpu_wq doesn't work here as this is the
+> fence signaling path. We should use one Xe's ordered work queues which
+> is properly setup to be reclaim same.
 
-Dan Carpenter <dan.carpenter@linaro.org> =E6=96=BC 2025=E5=B9=B411=E6=9C=88=
-25=E6=97=A5=E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=881:52=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> The platform_get_irq() function returns negative error codes on failure
-> and positive non-zero IRQ numbers on success.  It never returns NULL. Fix
-> the error checking to look for negatives, and change "hdmi->irq" from
-> unsigned int to just int.
+Hi,
 
-Applied to mediatek-drm-fixes [1], thanks.
+So only for this specific workqueue we should use for example this, instead=
+:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+462     /** @ordered_wq: used to serialize compute mode resume */
+463     struct workqueue_struct *ordered_wq;
 
-Regards,
-Chun-Kuang.
+I noticed this has been allocated using:
 
->
-> Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT81=
-88")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 2 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm=
-/mediatek/mtk_hdmi_common.c
-> index e78eb0876f16..bd7f8c56ec9c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> @@ -303,7 +303,7 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *h=
-dmi, struct platform_device
->                 return dev_err_probe(dev, ret, "Failed to get clocks\n");
->
->         hdmi->irq =3D platform_get_irq(pdev, 0);
-> -       if (!hdmi->irq)
-> +       if (hdmi->irq < 0)
->                 return hdmi->irq;
->
->         hdmi->regs =3D device_node_to_regmap(dev->of_node);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h b/drivers/gpu/drm=
-/mediatek/mtk_hdmi_common.h
-> index de5e064585f8..7a644bbf5843 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-> @@ -168,7 +168,7 @@ struct mtk_hdmi {
->         bool audio_enable;
->         bool powered;
->         bool enabled;
-> -       unsigned int irq;
-> +       int irq;
->         enum hdmi_hpd_state hpd;
->         hdmi_codec_plugged_cb plugged_cb;
->         struct device *codec_dev;
-> --
-> 2.51.0
->
+ 490     xe->ordered_wq =3D alloc_ordered_workqueue("xe-ordered-wq", 0);
+
+Using alloc_ordered_workqueue() makes this workqueue to be unbound.
+
+569 #define alloc_ordered_workqueue(fmt, flags, args...)            \
+570     alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args=
+)
+
+So this patch should be split in 2:
+- 1 patch with Xe's ordered workqueue, changing the behavior to
+unbound "implicitly"
+- 1 patch changing system_wq with the new per-cpu wq (system_percpu_wq).
+
+To keep this workqueue per-cpu we can use xe->unordered_wq, that makes use =
+of
+alloc_workqueue() without specifying flags (eg. WQ_UNBOUND or the new
+WQ_PERCPU),
+making this workqueue per-cpu.
+
+Would this sound reasonable to you?
+
+Thanks!
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
