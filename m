@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC423CE882D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 02:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E2ECE88CA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Dec 2025 03:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3382010E7B1;
-	Tue, 30 Dec 2025 01:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBD610E779;
+	Tue, 30 Dec 2025 02:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IVfzR89D";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="orP6bLqM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE6510E7B1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 01:54:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 165EC10E779
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Dec 2025 02:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0078A423C9;
- Tue, 30 Dec 2025 01:54:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 999E4C4CEF7;
- Tue, 30 Dec 2025 01:54:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id C2C7C401AC;
+ Tue, 30 Dec 2025 02:27:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D511C19424;
+ Tue, 30 Dec 2025 02:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767059640;
- bh=CKjr67pNdP9FP3s3q4y0uZntOZ/ZSmOWBaQJXLaNoPs=;
+ s=k20201202; t=1767061662;
+ bh=YZhKdnIWvyphz/ZPlkVHSeDMS3reT0HQs3XijtNSUbI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IVfzR89D1zKINnkmG/fYk2anvWdfmN2BA8pncIm/7gVXoeGfHuQo5qCS/MSkW0GaR
- 5eA+bAgfrW2lab/PLgH7O5ceCwBB3+5bqlz4F5tM5zjWxU3yjNpebjAcvhP0ZNkLU9
- /9sR6vwPJp7frxPmQVLI6b2i1Z91y3kfGTEcPFW+HoVhyKcgzZwttFNdh4Ilvl5ocQ
- U4T4e+2JO5VBdL111rBhVbxFbc83kGqcWbYVnQ/gGEFyvxdm6Xw4tK8Ib60vUtX43g
- ObBwHQhC+/44/5Gta63AJTjuck6ZM//GzU0KtBN5EBgRjLf9h0T4yylOwNzN+dYM4R
- ZKsT2cO2S6A3w==
-Date: Mon, 29 Dec 2025 19:53:59 -0600
+ b=orP6bLqMPVxgtgILLbmuDvRxHNqtBuhm/cUil4j745FS4ziqIrNSHH3lLOVJYGjyD
+ T8lIybONj5MbF8QXpXvBSUrsK2Wc0dXvpH2vifhyv4c+9x/IMmF7q9YQd7tVLOqJxy
+ GDw9iBV49nPyfSW6BHPYNiho89X6QA0JynU59ZQyit5RrpwJ+6snjpIL2I0RT9QXH0
+ AKp1zXP+9w3KsRXgAu/6Bs7wYm7zdmfBdZSomulClvRBG9Rgw8/NeijECrYRV6YPUh
+ oWyyJSNFlm5qEYVa4L2zZ9LqNAtQ5yV4AYVPIQfHOVMbsVxvKwuSN/Y9Pz9aQIe13L
+ YWC96vCZo902w==
+Date: Mon, 29 Dec 2025 20:27:41 -0600
 From: Rob Herring <robh@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Casey Connolly <casey.connolly@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v2 06/11] dt-bindings: display: panel: Describe Samsung
- SOFEF03-M DDIC
-Message-ID: <20251230015359.GB3066456-robh@kernel.org>
-References: <20251222-drm-panels-sony-v2-0-82a87465d163@somainline.org>
- <20251222-drm-panels-sony-v2-6-82a87465d163@somainline.org>
- <20251222-godlike-mongoose-of-valor-3eeee0@quoll>
- <f72fed1c-968e-4570-8cde-841bf109bf5d@kernel.org>
- <aVGvtJ0NekR1ch-k@SoMainline.org>
+To: Swamil Jain <s-jain1@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devarsht@ti.com, praneeth@ti.com, bb@ti.com,
+ vigneshr@ti.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: display: ti, am65x-dss: Add AM62L DSS support
+Message-ID: <20251230022741.GA3217586-robh@kernel.org>
+References: <20251224133150.2266524-1-s-jain1@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aVGvtJ0NekR1ch-k@SoMainline.org>
+In-Reply-To: <20251224133150.2266524-1-s-jain1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +61,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 28, 2025 at 11:49:13PM +0100, Marijn Suijten wrote:
-> On 2025-12-22 09:36:23, Krzysztof Kozlowski wrote:
-> > On 22/12/2025 09:33, Krzysztof Kozlowski wrote:
-> > >> +  - |
-> > >> +    #include <dt-bindings/gpio/gpio.h>
-> > >> +
-> > >> +    dsi {
-> > >> +        #address-cells = <1>;
-> > >> +        #size-cells = <0>;
-> > >> +        panel@0 {
-> > >> +            compatible = "samsung,sofef03-m-amb609vp01";
-> > >> +            reg = <0>;
-> > >> +
-> > >> +            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
-> > >> +
-> > >> +            vci-supply = <&vreg_l11c_3p0>;
-> > >> +            vddio-supply = <&vreg_l14a_1p8>;
-> > >> +
-> > >> +            port {
-> > > 
-> > > Not tested :/
-> > 
-> > Ah no, this one is correct. It's the other patch with similar compatible
-> > which was not tested.
+On Wed, Dec 24, 2025 at 07:01:50PM +0530, Swamil Jain wrote:
+> Update the AM65x DSS bindings to support AM62L which has a single video
+> port. Add conditional constraints for AM62L.
 > 
-> I think you mean:
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 95 +++++++++++++++----
+>  1 file changed, 76 insertions(+), 19 deletions(-)
 > 
-> 	.output/Documentation/devicetree/bindings/display/panel/samsung,ana6707.example.dtb: panel@0 (samsung,ana6707-amb650yl01): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 		from schema $id: http://devicetree.org/schemas/display/panel/samsung,ana6707.yaml
-> 	.output/Documentation/devicetree/bindings/display/panel/samsung,ana6707.example.dtb: panel@0 (samsung,ana6707-amb650yl01): 'port' is a required property
-> 		from schema $id: http://devicetree.org/schemas/display/panel/samsung,ana6707.yaml
-> 
-> Which looks to be fixed by including panel-common-dual.yaml and changing `port`
-> to `ports` in the properties and required table?  At least the errors are gone,
-> just asking if that is acceptable.
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 38fcee91211e..ce39690df4e5 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -36,34 +36,50 @@ properties:
+>    reg:
+>      description:
+>        Addresses to each DSS memory region described in the SoC's TRM.
+> -    items:
+> -      - description: common DSS register area
+> -      - description: VIDL1 light video plane
+> -      - description: VID video plane
+> -      - description: OVR1 overlay manager for vp1
+> -      - description: OVR2 overlay manager for vp2
+> -      - description: VP1 video port 1
+> -      - description: VP2 video port 2
+> -      - description: common1 DSS register area
+> +    oneOf:
+> +      - items:
+> +          - description: common DSS register area
+> +          - description: VIDL1 light video plane
+> +          - description: VID video plane
+> +          - description: OVR1 overlay manager for vp1
+> +          - description: OVR2 overlay manager for vp2
+> +          - description: VP1 video port 1
+> +          - description: VP2 video port 2
+> +          - description: common1 DSS register area
+> +      - items:
+> +          - description: common DSS register area
+> +          - description: VIDL1 light video plane
+> +          - description: OVR1 overlay manager for vp1
+> +          - description: VP1 video port 1
+> +          - description: common1 DSS register area
+>  
+>    reg-names:
+> -    items:
+> -      - const: common
+> -      - const: vidl1
+> -      - const: vid
+> -      - const: ovr1
+> -      - const: ovr2
+> -      - const: vp1
+> -      - const: vp2
+> -      - const: common1
+> +    oneOf:
+> +      - items:
+> +          - const: common
+> +          - const: vidl1
+> +          - const: vid
+> +          - const: ovr1
+> +          - const: ovr2
+> +          - const: vp1
+> +          - const: vp2
+> +          - const: common1
+> +      - items:
+> +          - const: common
+> +          - const: vidl1
+> +          - const: ovr1
+> +          - const: vp1
+> +          - const: common1
+>  
+>    clocks:
+> +    minItems: 2
+>      items:
+>        - description: fck DSS functional clock
+>        - description: vp1 Video Port 1 pixel clock
+>        - description: vp2 Video Port 2 pixel clock
+>  
+>    clock-names:
+> +    minItems: 2
+>      items:
+>        - const: fck
+>        - const: vp1
+> @@ -84,7 +100,8 @@ properties:
+>      maxItems: 1
+>      description: phandle to the associated power domain
+>  
+> -  dma-coherent: true
+> +  dma-coherent:
+> +    type: boolean
+>  
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> @@ -195,6 +212,46 @@ allOf:
+>              port@0:
+>                properties:
+>                  endpoint@1: false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62l-dss
+> +    then:
+> +      properties:
+> +        clock-names:
+> +          maxItems: 2
+> +        clocks:
+> +          maxItems: 2
+> +        reg:
+> +          maxItems: 5
 
-Considering it's a dual interface panel, yes, that's the right change.
+           reg-names:
+             minItems: 8
+       else:
+         properties:
+           reg:
+             minItems: 8
+           reg-names:
+             minItems: 8
+
+clocks needs similar constraints...
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62l-dss
+> +    then:
+> +      properties:
+> +        reg-names:
+> +          items:
+> +            - const: common
+> +            - const: vidl1
+> +            - const: ovr1
+> +            - const: vp1
+> +            - const: common1
+> +    else:
+> +      properties:
+> +        reg-names:
+> +          items:
+> +            - const: common
+> +            - const: vidl1
+> +            - const: vid
+> +            - const: ovr1
+> +            - const: ovr2
+> +            - const: vp1
+> +            - const: vp2
+> +            - const: common1
+
+Why are you defining the names twice?
 
 Rob
+
