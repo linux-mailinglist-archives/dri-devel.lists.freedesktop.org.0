@@ -2,85 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810B4CEC1B8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 15:41:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4187CEC1FE
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 15:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 278B710E9CD;
-	Wed, 31 Dec 2025 14:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1745A10E1A5;
+	Wed, 31 Dec 2025 14:57:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hnsQtsKS";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="T9hmkp2A";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ul1P8CKw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 072D010E9CD
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 14:41:49 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id
- a640c23a62f3a-b7636c96b9aso1976800566b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 06:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767192108; x=1767796908; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6n3OW5NUfOZx0lkTNPzw5JAKuD6biTxM7bek7HtmsL4=;
- b=hnsQtsKSE/AjOMD/nKv7c50v1a/DAKxc2giCaCOBKfF3WDkirGm/LYJfI43wxe1IV5
- VAueVvz8EwXu3gvnDazQXZ8U74JulQ+MZyFFNVw8RVoaHJ2X65yEkiP260KmBtY8W+Gv
- 0ZgHIVIdAAfK1DfQSrhz+vNS5goa45c6hkm/4tsZSRcjzbj6gflvLZTOy1QVWxJNIKcd
- +vYO5V1WB8X1VQOlDdeHn3FzH7zSjI83h7GJdhx3fmQlRcAMs0xr+FWr065AoBdnqNTI
- Ygu2LL7kRuBEyGDA/NLZaTpm+sh+6kFpwtH3UmzMoF2zFpR/8FKhdYOE+7/AFWtEjg/4
- wV9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767192108; x=1767796908;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6n3OW5NUfOZx0lkTNPzw5JAKuD6biTxM7bek7HtmsL4=;
- b=anISY2gX/U3WKHRjmXePF8Boler3OnaFiQzAEl6q5Y0962yzAzaMkIn5qC77YlEi3L
- 2fF7UN3tx5arJo+mDAlFVzWsCMiH+4fNysmfzzjEDE2LhnubaXdhJfo8IG1ooleEUpZm
- MVsYaeg0XfKRdvBCxmBcM4JBQOQbqRG1P25+hEW+3SVrLyR8Uq4q0kJmo5FxqDh6cEOc
- NUhI9y5s18UT/60mP++pBiFytjPXIZ8uPKy6PzxYLl7vXCwD1I5sMEDaVp8CC9QezCIY
- vMfOzE4jTgJjNKyNPZRMyBkUpJJYqLKxxyTav/+8qKovOtINkHR61P+c8v7UTUU5xk1O
- 4a1A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+W28AzCdOiyAMO6qVAmCkaRMsmIJcTToj/F9qUlizaFZDyvl77b2C4BKVOTAj9OeWqKlMUeNtPig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSWZvc0Ab7rpf28EtA38E3UwRBSDXoWOqLKpnsqJx8YBHM8mx2
- Jmt5bFj3dMKr8cSMsvU+YXIEWsOgp+FEt8fcSjhMyNju3+sUONgzM8bi
-X-Gm-Gg: AY/fxX7b9+UvJ3fa7su4x9J+yD5eTUGQ9b4fseJEy0W22dkcQLvzcS/iLbRX2oUXeba
- G5dtuf2ElzC3/CM+Pa0sdIA7b3+wl619+oHuClPmJSXBl8AxZr52P3ALWY8dHKTrCj8ius7nbdl
- /4hU/ySgMcY8EjMnANCP4ix/nJyImQayVPzcv4c6ATQ3dzDF4j6VhA6ODrf7QrslsbcQsKR0aFh
- GgHqPLipFuVqa+8rmUV7yY9u53HpN8epgD8MYQ7aSMX+H+n5gBIMpEKvPsFEkJkw1+VfAVhRGGg
- XhCqJS0juoUVEvd75WOQ5izgfS3qc0AHL+y6RdDonevoKmQbu80rcbs+F7FQ4vsaZRSGjD6W9Fy
- Ovo1ZUfRObR3oKbF8PVD7Ss1sTO0I4doZn95aWVGKkiIiuKFNQNPS7/2f7ItlrjJOo6gu3Q9vxJ
- 1ZNTV8INOkJV/BW54=
-X-Google-Smtp-Source: AGHT+IEUPzBdPCEuEHiEfsb+kEeP0YSRVpplBMnvJmaPjfjYKXuuxhE3L0J+JXeCfF8KIokhLTjB0w==
-X-Received: by 2002:a17:907:984:b0:b72:3765:eda9 with SMTP id
- a640c23a62f3a-b8037256c76mr3755521366b.60.1767192108066; 
- Wed, 31 Dec 2025 06:41:48 -0800 (PST)
-Received: from osama.. ([2a02:908:1b4:dac0:75b2:7ca6:1e15:d2e6])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037f0cc52sm3909242066b.52.2025.12.31.06.41.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Dec 2025 06:41:47 -0800 (PST)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Andy Yan <andy.yan@rock-chips.com>
-Cc: Osama Abdelkader <osama.abdelkader@gmail.com>, stable@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F09710E1A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 14:57:25 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dhCjb4cyvz9spZ;
+ Wed, 31 Dec 2025 15:57:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1767193043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zYJ8kzWutfRSPsdYu3drYc9ucfml/6sYeN0EXyrlcbc=;
+ b=T9hmkp2AFUcyzsIujtc+9+Fvo6bOx+5w+4AyLvCXdA5UjfyrJiwxelV3Ywt3ZI/P95ABMC
+ DdwJuRt3lUBQFKOI84oRLnYodms8dBOxNP2Pv9/BvRlg1oZp387oVyMERKWONtFxOeCrJc
+ B+qL+NGmidPTXf2Nt17PKRj86/mOFG1Pj60x6qyQGgcSrqBROB6C5T5YybHn9awgRaXL7+
+ 6RGUX1owJwbi2h4zIplbCx8A00KpFO6mg1clRYIVc0gEGmwqOuDsckjlZciaEx8KXi5Cs6
+ x16Ye/7UDltTgD1KMmlOla+3aPkswWxcFIQ43RTwhii2SWL69eH9x0DVPHMr9g==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1767193041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zYJ8kzWutfRSPsdYu3drYc9ucfml/6sYeN0EXyrlcbc=;
+ b=Ul1P8CKwyr9E2xVgFUKNJV0u1ftzJmfgnDr3EC/7o40hmwD1zS3YG9alTFU9XQNNG0lRat
+ hYCrOtCLwswZFdMDT5K22c/y/LhP075RnYgoviU10+TFAStshWiDIkLn75/9E0QqPCEhJQ
+ bPCznFiAbyPUb9IjdIXrmfKoXjCh5xRFGS0DDmnmyAxVCfZ15CFnTGjx+jCR5tcGEUvhJa
+ dR9UytzrF/0lF/ZysFK/Y7IjTsMvpgQp9LMBU7Q6avHJFGc1o98QPhEEVbhzeVHQ55lhmE
+ xvIlU87RYDRoth1s1Mom9/yxkVQVuAaXrJxLsbKmSFJ16qNioIL3LNWoTkT6LA==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ kernel test robot <lkp@intel.com>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/bridge: synopsys: dw-dp: return when attach bridge fail
-Date: Wed, 31 Dec 2025 15:41:14 +0100
-Message-ID: <20251231144115.65968-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] drm/rcar-du: dsi: Clean up VCLK divider calculation
+Date: Wed, 31 Dec 2025 15:56:10 +0100
+Message-ID: <20251231145712.60816-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: ff6989a8d355aa239b4
+X-MBO-RS-META: q9na4simyma7cqza8h9e8ik6hjyksppa
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,34 +78,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When drm_bridge_attach() fails, the function should return an error
-instead of continuing execution.
+Currently, in rcar_mipi_dsi_parameters_calc(), the VCLK divider is stored
+in setup_info structure as BIT(divider). The rcar_mipi_dsi_parameters_calc()
+is called at the early beginning of rcar_mipi_dsi_startup() function. Later,
+in the same rcar_mipi_dsi_startup() function, the stored BIT(divider) value
+is passed to __ffs() to calculate back the divider out of the value again.
 
-Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
-Cc: stable@vger.kernel.org
+Factor out VCLK divider calculation into rcar_mipi_dsi_vclk_divider()
+function and call the function from both rcar_mipi_dsi_parameters_calc()
+and rcar_mipi_dsi_startup() to avoid this back and forth BIT() and _ffs()
+and avoid unnecessarily storing the divider value in setup_info at all.
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+This rework has a slight side-effect, in that it should allow the compiler
+to better evaluate the code and avoid compiler warnings about variable
+value overflows, which can never happen.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202512222321.TeY4VbvK-lkp@intel.com/
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-v2:
-use concise error message
-add Fixes and Cc tags
+Cc: David Airlie <airlied@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 35 ++++++++++++++-----
+ 1 file changed, 26 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-index 82aaf74e1bc0..bc311a596dff 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-@@ -2063,7 +2063,7 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 4ef2e3c129ed7..875945bf8255b 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -84,7 +84,6 @@ struct dsi_setup_info {
+ 	unsigned long fout;
+ 	u16 m;
+ 	u16 n;
+-	u16 vclk_divider;
+ 	const struct dsi_clk_config *clkset;
+ };
  
- 	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
--		dev_err_probe(dev, ret, "Failed to attach bridge\n");
-+		return ERR_PTR(dev_err_probe(dev, ret, "Failed to attach bridge\n"));
+@@ -335,10 +334,24 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+  * Hardware Setup
+  */
  
- 	dw_dp_init_hw(dp);
++static unsigned int rcar_mipi_dsi_vclk_divider(struct rcar_mipi_dsi *dsi,
++					       struct dsi_setup_info *setup_info)
++{
++	switch (dsi->info->model) {
++	case RCAR_DSI_V3U:
++	default:
++		return (setup_info->clkset->vco_cntrl >> 4) & 0x3;
++
++	case RCAR_DSI_V4H:
++		return (setup_info->clkset->vco_cntrl >> 3) & 0x7;
++	}
++}
++
+ static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+ 				   unsigned long fin_rate,
+ 				   unsigned long fout_target,
+-				   struct dsi_setup_info *setup_info)
++				   struct dsi_setup_info *setup_info,
++				   u16 vclk_divider)
+ {
+ 	unsigned int best_err = -1;
+ 	const struct rcar_mipi_dsi_device_info *info = dsi->info;
+@@ -360,7 +373,7 @@ static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+ 			if (fout < info->fout_min || fout > info->fout_max)
+ 				continue;
+ 
+-			fout = div64_u64(fout, setup_info->vclk_divider);
++			fout = div64_u64(fout, vclk_divider);
+ 
+ 			if (fout < setup_info->clkset->min_freq ||
+ 			    fout > setup_info->clkset->max_freq)
+@@ -390,7 +403,9 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+ 	unsigned long fout_target;
+ 	unsigned long fin_rate;
+ 	unsigned int i;
++	unsigned int div;
+ 	unsigned int err;
++	u16 vclk_divider;
+ 
+ 	/*
+ 	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
+@@ -412,18 +427,20 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+ 
+ 	fin_rate = clk_get_rate(clk);
+ 
++	div = rcar_mipi_dsi_vclk_divider(dsi, setup_info);
++
+ 	switch (dsi->info->model) {
+ 	case RCAR_DSI_V3U:
+ 	default:
+-		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
++		vclk_divider = BIT_U32(div);
+ 		break;
+ 
+ 	case RCAR_DSI_V4H:
+-		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
++		vclk_divider = BIT_U32(div + 1);
+ 		break;
+ 	}
+ 
+-	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
++	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, vclk_divider);
+ 
+ 	/* Find hsfreqrange */
+ 	setup_info->hsfreq = setup_info->fout * 2;
+@@ -439,7 +456,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+ 	dev_dbg(dsi->dev,
+ 		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
+ 		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
+-		setup_info->vclk_divider, setup_info->fout, fout_target,
++		vclk_divider, setup_info->fout, fout_target,
+ 		err / 100, err % 100);
+ 
+ 	dev_dbg(dsi->dev,
+@@ -653,11 +670,11 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+ 	switch (dsi->info->model) {
+ 	case RCAR_DSI_V3U:
+ 	default:
+-		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
++		vclkset |= VCLKSET_DIV_V3U(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
+ 		break;
+ 
+ 	case RCAR_DSI_V4H:
+-		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
++		vclkset |= VCLKSET_DIV_V4H(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
+ 		break;
+ 	}
  
 -- 
-2.43.0
+2.51.0
 
