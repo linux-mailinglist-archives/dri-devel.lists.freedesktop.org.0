@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43330CEBCCD
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 11:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2450CEBD06
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 11:50:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8847610E021;
-	Wed, 31 Dec 2025 10:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92B0B10E079;
+	Wed, 31 Dec 2025 10:50:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HE++y46y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SsqIb5ow";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF7F10E021
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 10:37:50 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36EF10E079
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 10:50:30 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id E48221A255E;
- Wed, 31 Dec 2025 10:37:48 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id D2CD4C1AE22;
+ Wed, 31 Dec 2025 10:50:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id A4A1E60744;
- Wed, 31 Dec 2025 10:37:48 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4A06060744;
+ Wed, 31 Dec 2025 10:50:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D8C35113B075E; Wed, 31 Dec 2025 11:37:39 +0100 (CET)
+ with ESMTPSA id 52745113B0761; Wed, 31 Dec 2025 11:50:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767177467; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767178226; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=cNQCYm0Zq4ObhAl+PXGbaNzlrISK9/SlSnkIYEiHncY=;
- b=HE++y46yxPtD+wSkYwhGAWRKBbJtnG0VwWGeARrMbvyNCwHLZuK7QJ9Oa8mcDK0JSRqIby
- 4ykVFhP97sqjAVQiS5wXoHpDXKTpgrwHgW6Z1933dct4GOBcyUX843NBD4pE6wFJUEVPYm
- oUASl/loT+Vy16/AEunxvrcu8M1gJ7+NkLiRgt9xhLzl7FQEJBv3t6A93K5vNtDgHMKCmn
- amKn8l+C5r74Gpx7MRMgVDxQAbkLBR5iR6exV85fFGkP032KYp+uOyaZynsBWUVrjexAmY
- sb4mG2KC28LUwBLNe0r5FkFhhjxEmgUKQigQPw2XSCUOoypcYHCAJ3D/p3D8vg==
+ bh=o/Z1oWMJuqMZIoKFGfzInyQtaixm68ScowVMHojeTZ4=;
+ b=SsqIb5ow7v/6UFYF34MR3rDUSBx3YczuZw7xKUxdk+tgkyoQgTiXQNv11eRgnwbhpuarKw
+ UeIQgJ1dioQ7o1MXOWuHqmtVIrpWKfvK5sqXw8geFXGwRo1gINFkN+RfKVIvRjG+HRbFNT
+ 7RVR5xnIwrJ9zLALAGWwVBqa72bYwfYaH/9s8czYbZ8C97aQMKiEXHKI1WcGf1tsxNi6AW
+ h3tACyEXkQgbWLG61NjtwwWBjENblxG4eY2cmCq9ed9jeUVexoG931bT7Cx9Xt+UXBZdV1
+ d7+IE+kBV+JgFf93zyVPI/DpCiIdUX2tl4nMm0jVJT1oXZ700jLDDOVoRCqavw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 31 Dec 2025 11:37:38 +0100
-Message-Id: <DFCC4L42EGF0.3DRXWVXVWSF40@bootlin.com>
+Date: Wed, 31 Dec 2025 11:50:15 +0100
+Message-Id: <DFCCE8SW7MFX.ZOMBZPN1S2NX@bootlin.com>
+Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>, <inki.dae@samsung.com>,
+ <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>, <krzk@kernel.org>,
+ <alim.akhtar@samsung.com>, <jingoohan1@gmail.com>,
+ <p.zabel@pengutronix.de>, <hjc@rock-chips.com>, <heiko@sntech.de>,
+ <andy.yan@rock-chips.com>, <dmitry.baryshkov@oss.qualcomm.com>,
+ <dianders@chromium.org>, <m.szyprowski@samsung.com>,
+ <jani.nikula@intel.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
+To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v5 2/3] drm/bridge: Add ITE IT61620 MIPI DSI to HDMI
- bridge driver
-Cc: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Hermes Wu" <hermes.Wu@ite.com.tw>,
- "Kenneth Hung" <kenneth.Hung@ite.com.tw>, "Pin-yen Lin"
- <treapking@google.com>
-To: "Pet Weng" <pet.weng@ite.com.tw>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>
+Subject: Re: [PATCH v8 01/18] drm/display: bridge_connector: Ensure last
+ bridge determines EDID/modes detection capabilities
 X-Mailer: aerc 0.20.1
-References: <20251222-it61620-0714-v5-0-afb6479ad3ca@ite.com.tw>
- <20251222-it61620-0714-v5-2-afb6479ad3ca@ite.com.tw>
-In-Reply-To: <20251222-it61620-0714-v5-2-afb6479ad3ca@ite.com.tw>
+References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
+ <20251217093321.3108939-2-damon.ding@rock-chips.com>
+In-Reply-To: <20251217093321.3108939-2-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,102 +76,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Pet,
-
-On Mon Dec 22, 2025 at 4:10 AM CET, Pet Weng wrote:
-> This adds support for the ITE IT61620 bridge chip which converts
-> MIPI DSI input to HDMI output. The Driver implements the basic
-> bridge functions and integrates with the DRM bridge and connector
-> frameworks.
+On Wed Dec 17, 2025 at 10:33 AM CET, Damon Ding wrote:
+> When multiple bridges are present, EDID detection capability
+> (DRM_BRIDGE_OP_EDID) takes precedence over modes detection
+> (DRM_BRIDGE_OP_MODES). To ensure the above two capabilities are
+> determined by the last bridge in the chain, we handle three cases:
 >
-> Supported fetures include:
-            ^ features
-
-> MIPI DSI input handling
-> HDMI output setup
-> Basic mode configuration
-> I2C-based control and initialization
-> HDCP 1.4 handling
+> Case 1: The later bridge declares only DRM_BRIDGE_OP_MODES
+>  - If the previous bridge declares DRM_BRIDGE_OP_EDID, set
+>    &drm_bridge_connector.bridge_edid to NULL and set
+>    &drm_bridge_connector.bridge_modes to the later bridge.
+>  - Ensure modes detection capability of the later bridge will not
+>    be ignored.
 >
-> HPD handling clarification:
-> Although IT61620 has an HPD pin, hotplug detection is handled by the
-> system connector. The bridge only receives HPD notifications, and the
-> HPD pin is used solely for short pulses during HDCP authentication.
-> Therefore, this bridge does not implement OP_HPD or OP_DETECT, as it
-> does not originate or determine hotplug or connection status.
+> Case 2: The later bridge declares only DRM_BRIDGE_OP_EDID
+>  - If the previous bridge declares DRM_BRIDGE_OP_MODES, set
+>    &drm_bridge_connector.bridge_modes to NULL and set
+>    &drm_bridge_connector.bridge_edid to the later bridge.
+>  - Although EDID detection capability has higher priority, this
+>    operation is for balance and makes sense.
 >
-> This driver will be used on platforms embedding the IT61620 for
-> video output via HDMI from SoCs with MIPI DSI output.
+> Case 3: the later bridge declares both of them
+>  - Assign later bridge as &drm_bridge_connector.bridge_edid and
+>    and &drm_bridge_connector.bridge_modes to this bridge.
+>  - Just leave transfer of these two capabilities as before.
 >
-> Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[...]
-
-> +static int it61620_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev =3D &client->dev;
-> +	struct device_node *np =3D dev->of_node;
-> +	struct mipi_dsi_host *host;
-> +	struct it61620 *it61620;
-> +	int ret =3D 0;
-> +
-> +	it61620 =3D devm_drm_bridge_alloc(dev, struct it61620, bridge,
-> +					&it61620_bridge_funcs);
-> +	if (IS_ERR(it61620))
-> +		return PTR_ERR(it61620);
-> +
-> +	it61620->dev =3D dev;
-> +	it61620->chip_info =3D of_device_get_match_data(dev);
-> +
-> +	host =3D drm_of_get_dsi_bus(dev);
-> +	if (IS_ERR(host))
-> +		return dev_err_probe(dev, PTR_ERR(host),
-> +				     "failed to find dsi host\n");
-> +
-> +	ret =3D it61620_i2c_and_regmap_init(client, it61620);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	i2c_set_clientdata(client, it61620);
-> +
-> +	ret =3D it61620_init_power(it61620);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	it61620_config_default(it61620);
-> +
-> +	ret =3D it61620_parse_dt(it61620);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (!client->irq)
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Failed to get INTP IRQ\n");
-> +
-> +	ret =3D devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					it61620_int_threaded_handler,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT |
-> +					IRQF_NO_AUTOEN,
-> +					"it61620-intp", it61620);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to request INTP threaded IRQ\n");
-> +
-> +	INIT_DELAYED_WORK(&it61620->hdcp_work, it61620_hdcp_work);
-> +	init_waitqueue_head(&it61620->wq);
-> +
-> +	mutex_init(&it61620->ddc_lock);
-> +
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_set_autosuspend_delay(dev, 1000);
-> +	pm_runtime_use_autosuspend(dev);
-> +
-> +	it61620->bridge.funcs =3D &it61620_bridge_funcs;
-
-You don't have to set the funcs. They are already set by
-devm_drm_bridge_alloc() above.
-
-Luca
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 --
 Luca Ceresoli, Bootlin
