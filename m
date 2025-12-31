@@ -2,164 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A2ECEC500
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 18:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F13CEC5BB
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 18:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 560AE10E05B;
-	Wed, 31 Dec 2025 17:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B23110E12D;
+	Wed, 31 Dec 2025 17:19:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fo+Vhx8j";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MJMm3lvy";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SJqALZW9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011002.outbound.protection.outlook.com
- [40.93.194.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5EF10E05B;
- Wed, 31 Dec 2025 17:04:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kQtv3rfVJMW8QGoDHsHuf5f+Bf5FuAxexALyhVV1H/4PyPTfmktNhursZRfK72yaTJKWN1eVRSOy7YzyLRwe+2myLfBfaisN+2Q2Lom2HVV/39c5eORhiTR36CJgakeoVRvQVLaMyxq9aveKZ1GNL71lMuRugxd0NcXOZn0tCTaIxrMf9ITKqtR4KR/FpwFuwHkxHTarWXIALFuWJw5NFHWD4HnsYIMOA1hmoxSYLvtIjjPNN8uBFwMvmDvrd3Ns93LLPCa+bO8O+mmpNRNAvE4YVcoyE0mvg6EnNz0C9MRkZ3AgClfemyXEEsSYfpgbVklWh6wpiT1wPvoGKQEgNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iS8t6yKIjPtbhakV7RG7h6kXVh/HaGNDnuA9vrFFUAc=;
- b=CMYpzR8Xdo/OALg1PVHTK19T4+MPNUPUCaSRxKt6pMxtevBQmPUhFf6u6YWDBJsfebJcXHfQlXph10Aef2i0p7AsXsPtrYf9srqBZp6M2mMFAPxFCmWRlB9gqty6ZDhIntQsK0gJ5QyA6e4kFR4tbOoG30PrjMj4v+nS7TISU6uTSeyEkRIT7JAhDIR67FyV4TKFL2tgbqZvW0XpLZNQaqZNj9+fM3s90a6wS5LoCxZk31OFAW+8y953qxYSSJj8UObNXD9xoLWj7pdniA2YcUOVzfHggAZvUPr9Xr1i+VCqssXKJoHkgxTncrevtxvUE3Mqvtj1Zup7D2/hY2BIcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iS8t6yKIjPtbhakV7RG7h6kXVh/HaGNDnuA9vrFFUAc=;
- b=fo+Vhx8jzmwIc6QadjpYERhRbncc3QdHEv7xiN1rCimOBHa6KUokBV/kny8g9SbvSimd/Ws1RZoKXbS/CbWvtVDVSv+nqHwd4BU4uFWYR1DuToSEVppHSloqVsY9OhbUppCXPaIG6IpAbk+rmbkphtFFeAvQGj6OthEsut9Pbgs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SA3PR12MB8045.namprd12.prod.outlook.com (2603:10b6:806:31d::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Wed, 31 Dec
- 2025 17:03:41 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%7]) with mapi id 15.20.9478.004; Wed, 31 Dec 2025
- 17:03:40 +0000
-Message-ID: <d489ebb2-89c7-44e7-80eb-53b5fde8cd39@amd.com>
-Date: Wed, 31 Dec 2025 12:03:37 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/8] mm/migrate_device: Add migrate PFN flag to track
- device private pages
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
- linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca
-References: <20251231043154.42931-1-jniethe@nvidia.com>
- <20251231043154.42931-2-jniethe@nvidia.com>
-Content-Language: en-US
-From: "Kuehling, Felix" <felix.kuehling@amd.com>
-In-Reply-To: <20251231043154.42931-2-jniethe@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0061.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::31) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D36510E058
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 17:19:48 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BVGIUji3315362
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 17:19:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FsVwhGeSNZjfI/xypJprbyAZCILTaLME2r61MFMi/rc=; b=MJMm3lvy/Y3eQX81
+ p8lLCK0eriJYaeMJ6JuMn/cjt07FjYOWk7wUlpbgdrZVZ/0dNvoxqBbBTuN7l5hW
+ mtemvEHuwI/+iEq5whqBp4cOPxh735vyuvtI1YeOeccb5T3jDEM+cKxawQwcXSWj
+ vs78HRATyEEzqVdgUZsBHNLOcPT1H2y1o/1/28mnPRBBJQ+lzBEiB35DfUex70qb
+ SI38zYCmFz0wOU8y0EmUaNfE9KCmrsMChAM5QR4p3p1tqBRwphStt29mkAXtwI2O
+ 2Ol1TxcPwliGULd+EaWKVo3XSrQT/5JgYXydZAFfYBaasDNKq9CbkMuw2OGlJa97
+ q6cKQg==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bd77c82y4-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 17:19:47 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id
+ ada2fe7eead31-5dfae804e02so19804827137.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 09:19:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1767201586; x=1767806386;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FsVwhGeSNZjfI/xypJprbyAZCILTaLME2r61MFMi/rc=;
+ b=SJqALZW9USW0l2sR4/EBPaXj8EdGmA+N4D3Tbgq+uYvl6TitxAX32rIhYEhgTTF3uY
+ IX3POqzGxRKV4pdO7NmOmOhSQ4k3z9VRfrCL3z2uyaNNpudEFiFRhsiGu19hO7PyHDx2
+ uXYE6MLIkGVvTyNwbLLyyAmsb3BZxrfgXrNpL4dgibWpuM3uPPPGkgHlOISFIK0E8Ye4
+ SCckBg7Bnmubw6ehOvHYF7XrLTpT9AckICRmqmB4IrvlFfhxDbQq/n83OEIMmMbl+Qu1
+ v2idOY3166pKaHY3g5KU2EExZvecIVCJIVKARFn7gGwvETeagn9mmAFEESJNphCNCpZD
+ 6ocA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767201586; x=1767806386;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FsVwhGeSNZjfI/xypJprbyAZCILTaLME2r61MFMi/rc=;
+ b=P4H3sS32a9K8bWhX3cV05VpxbNCLf5briZjFWErFGZKDyoDhz1ogaE+OCEIUZoQzhj
+ y0DnMM0ww6EvI49sD2TLHRZtRQsHwfqDfugoqDhArn1K2Epcm9oA2I7+a3CT+RIOmI4p
+ bw5iVaSRycYBIgmKnHP09YW5eFtpZiBLA+o3KKVW+BXrU0mNpaX4cAsAvpdEckEScq76
+ vON04zV+mvhHUHKUUp71aAZgtq3U0QylB6Tr2zEwfk6lzr/6NyFq0m75/R1WEHZpzAYl
+ 6kFb6W23MonihPGyckLUK3zGSAomWpbcnMsgVxM/BHYHeDhNQq3BmZBduUdz6A6ZutWC
+ WXYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGwfiVf8f6qO8jjHNosQ9Vucy/4acQRe611tv8JVXqx3VM80slglSRWpw00Jaqr8q/cPkDpqVRF1A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPB2BsG84+QBxV+1vH4fWs/jPWmL8CkbPzzAKho+EOSoa77+2M
+ ZnoE0AK7J4cLDdqGnoIJXZpRST08L5Eb6my1SQCFu2Qi5HunUyj46FLJGTn5eYHwKjPlG7l6Fda
+ d4B1yj8gYwNlC8dQR4umwowcGNBN7CBhVVlQY1b/l4J24R6s/oJwFQFDTSVq2Cl/XM6KGnOc=
+X-Gm-Gg: AY/fxX7xLEqu/PWRgDyOS6JPqzqf2xrmQgAlifDwRuWs97cDkxO2ZGOCmuvshI32FQU
+ pQ1iGG1d4/SX1sZRHSoDjcDWO2nFxjsirm3E9zNksenXsDTYza0qIFHFZWKjv0yPZpbiSGjtPhb
+ GDfkZ79ZTtzvaSgbF68yUmHr4dc/NyERDyrMQW3aM0YHl4opXyYejHCeBnfU9SyKoYnj0FG5Xhg
+ u/8SKOtgvAQtediqMEDMAJRIDZMMPMCCmFALVKsB2OJdhccYQtEw1KQzF8GxKyjucNaahINpJ0D
+ +PMz6lrU4EKm3kLh7/fMQph4Y1gfRl8x88vrVGNaAEk3QTtAg8SL0zn48hxtBbJ10wtN/SZ7A2D
+ rI3KMxAIEWeQSRbqs6X08uATASrfbG1+5/uljVrpGqGGsMeIxaq06pvk9G3qyc19mQYev5S7n/o
+ OKf/+XKvd0kiL0TpMIOZ3AkxE=
+X-Received: by 2002:a05:6102:6441:b0:5dd:37a3:c389 with SMTP id
+ ada2fe7eead31-5eb0237d5c0mr15223315137.2.1767201586361; 
+ Wed, 31 Dec 2025 09:19:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGx3T6dkQkJD7EfRSRFNeeLsOEG0OrMkSaoi/pwalLJ0EQtX2UMRuBKbYrQVKniuFZcoxPG6A==
+X-Received: by 2002:a05:6102:6441:b0:5dd:37a3:c389 with SMTP id
+ ada2fe7eead31-5eb0237d5c0mr15223311137.2.1767201585958; 
+ Wed, 31 Dec 2025 09:19:45 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3812267b184sm98222551fa.43.2025.12.31.09.19.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Dec 2025 09:19:45 -0800 (PST)
+Date: Wed, 31 Dec 2025 19:19:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <jie.zhang@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v6 7/8] arm64: dts: qcom: talos: Add GPU cooling
+Message-ID: <gwrg55ytewfhlz7w23yl5ac2sjic5uise3cv7jnmuahnolompj@jl7ufr76wokb>
+References: <20251231-qcs615-spin-2-v6-0-da87debf6883@oss.qualcomm.com>
+ <20251231-qcs615-spin-2-v6-7-da87debf6883@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SA3PR12MB8045:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0dcd6cd1-136e-449d-cef9-08de488e8c22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sm11QWZWRTlDU2dKcmluQWMwNmplNmxZQXNGYWJrZkY3MXlHdmFnbXhpOW41?=
- =?utf-8?B?TzV5aWNxd2d4ZFhmalBPSGdiakhlWEE5d2NmcnVJSEJ3TGo4UlJZWUhtYW9G?=
- =?utf-8?B?RGZqVEJwQWtYSWkzbnFFNDduRzNHQlZZOVdUY0FpdlZXbTR4bmZHS1NWUmlH?=
- =?utf-8?B?cThuTGZsYWVUeEhJUHFDQkJLWHZ6eWtYdW05b0ZUOXRzVzRicnJxQ24xMVVQ?=
- =?utf-8?B?dUltL0dzb3dTZFUxbUtBdGZEd2lVOGNKQmlFN3YwWDFXVmJuYUhMRmtEZjNX?=
- =?utf-8?B?M2NLTFFENlQrbFcxVGVGaVdPaDVSd2VYcS96UTNDWHJWWjUzNGRVd1cra01O?=
- =?utf-8?B?TEhVUHNKRUtpazNuZmVZdXQ5SVRiemtOK0w0Z3VjMnpacUdEOFZEaUI2alMx?=
- =?utf-8?B?MVI4ck9sWVpqNDdMNXp5aDFOVnZIeG1zdmJTK244NDlEQmROblJUcTBUR1lM?=
- =?utf-8?B?OU5laU4ya1lTVHJPNll3dkdxQ2xZcm9hR2FzYzNhblRPM0hkVWhCQzF6aVpq?=
- =?utf-8?B?akVlV2w3dUZabnRENVVhZ0MrWlNRYjFUb0lRVFBKODZxelZjSE44eWEwdVpB?=
- =?utf-8?B?c05kbThRWVRJMGxJNVZqcFdjaFNNVGJrd0Mra2w4UUxML1A1Z2wwbTMwRzhk?=
- =?utf-8?B?TllPeWUwRCtFaGpFZlZtSUtndTdVUDY2OW1Wa3ozUDNNYnlvWVNqTVpVRmZB?=
- =?utf-8?B?UDF0RzV6dTlEODkrU0g2SkVxNmJXYUw0cUNQeHA1WmE3d3pWMUNrVXFrMEFZ?=
- =?utf-8?B?TVlGTUJBUEIzUG1UZDlRenBDNmdSd3lsSGdDcVV5TjJ6czNwYkRVZEFDaUtw?=
- =?utf-8?B?TlRrelk1VlVIa1AvUlhTQXA5Wi9XeUIva3VnaHh5NFpiR0lUMko5elFHcTls?=
- =?utf-8?B?NGhtMFJFU21xUTU1Znk4N29qY3dqK1hyc2JVbk5jUUJmY0QzTUozK2w5bnVM?=
- =?utf-8?B?QU1YVGFyUVNJUHBQa3JnYjhPUk1pbnRGUGRsMzNGcFgwWVl6TVo2VG8rUktF?=
- =?utf-8?B?djdqUUJtMkRxc3Fwb2JFRUZRTDFBc1NZRHdJRUh3ZEpUQlVkU0pRQmc4dEFQ?=
- =?utf-8?B?NmZjYU9YNFdsandlN20wZ0NjUkhGY0IvOUlFbnpjS0JSZmhLT09xNW5vcy9Y?=
- =?utf-8?B?WGE1V2hVdXRIcmg3eWlOOVlHRUs2VVljd3A4VVA4UVBUTDVST2xMYll2VCsy?=
- =?utf-8?B?MGhoNDhLRWNkOHZKbHkwZ3BZMjNKYlFHaSt3aTdqYXdNNGRKRE9IcFE4cWh2?=
- =?utf-8?B?d2h4SmJpaWZ4eW5IalNHT1BkYVd6VW9EQTA0R3NTMEcwc3VQZSs5ZEFpOVRa?=
- =?utf-8?B?QWJpbDRoWHAzTjBmSzdjWUk2aEdMRlh0d3VCSURnZTRXTEVGcDY4R3h6ZHln?=
- =?utf-8?B?MG0vdmtpSGhNdGE0Y0NNMmJUV3VQcnp1RGVkb0ZwMEhibnNGTzBPbkNJc0RX?=
- =?utf-8?B?K01FTkQ4R3dSTVB0ZWdBV0Y5Wjc5NXc3U1U4aXdUQTAvZWVhYUU2cG5LYS9M?=
- =?utf-8?B?dElMUEZCK1MydGJQNmJzQVl0UVk5MVp2TzQzeVJEVkRXOUJsT1pTWjAzQTh3?=
- =?utf-8?B?NWdNL2t2cWltb2F3ZFc1M1Z0UlhiM2ZjN0swakFCd284ZEY5U0c0NWtjQndu?=
- =?utf-8?B?bEdhTE5jd2NsZm81ZDZwdStGeDJQZGZPbWxxL2lpeW50TklpL0hLWHNXWHZn?=
- =?utf-8?B?eUx2MWl6WUQzY083bXhja2w3M1ViK1dsSGQxdldzNnRvOXpHeXpoSVdFb2RZ?=
- =?utf-8?B?cDBJem42QzNXQTBxMzMybjNzL2YwaGpUekJNN3VadDVLeFliUVJWMStsS2NM?=
- =?utf-8?B?blArenlzZlZraStvNzhBajl2ZmlIdEowbU4vS1MrQUFCeTZFek9NbUNGY01Y?=
- =?utf-8?B?TWxvMlpsWXp0NVpQYlNCaFFHRC9JNVduYlRWampMZ29nemlwZFpsS251aEVO?=
- =?utf-8?Q?x4KMwFowRX1C7iK7pCiTo5liOn3ae5XK?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3FWYU5GbXJBQ0ZZbll4UnpSS3JZSjI3SmpVNm14S3pzSkZPSDhIenRzQWwv?=
- =?utf-8?B?VWY4T2dPYW4yVVB0ckp1NFZuaTkvMHJGUml5bTFUOHFhYkpuRUhCV09FNEcr?=
- =?utf-8?B?eHpnN2s4ZnpFaEQwSHNhdE8yRkhSSnp0bStybU9tQitEUlpzUWFDSjdVdSsr?=
- =?utf-8?B?ZzRwdXpFL3M5c3g1aVpHam9acnIyd1NGcjR6OTdpd3ZkVFB0NGZQMytibG54?=
- =?utf-8?B?REVNcXp5ZTFNeEZ1amppWlJtZ2tua0lleThMNVczbk51Z3ZhSDgvaHErTmc4?=
- =?utf-8?B?NmxLajBxT2VFZjEyS1UzMDc1cy9haURBUHFVQnpYbHJLM1pRaGFXQ2FGb3ND?=
- =?utf-8?B?TUdGTWNjeWRmbHhnVS94RXNzd1ZnUmRxek9GNzZxRGNENW51YUZGVnFOY05I?=
- =?utf-8?B?VmNvREVjNDgyNWZZZU5VWk0xNUh1L3o1VWZ0OEE2bG5kRktmbUliRmxuZlZB?=
- =?utf-8?B?ZGhKWkFHVG5jS1IwNXVtK0JuQUl2cGpQTDFacmpNU3RaQkFhZHUvMjRqczVE?=
- =?utf-8?B?WTg4L0cwRDRTRUhFY1BPYkhzVmRsekFJQTlWa0hoVnZ3R0pVVkJYaHQwV0E0?=
- =?utf-8?B?M29aQXFTbHJNUTljVzRLTlo2QzJmTFFPbzIvZG5rZjA0b0FwejEzWlMvOCtU?=
- =?utf-8?B?eDkrT0FHM1ZiUm1zc0ZwVDZiR1BYRGhaNWRvakp1YXJnTUY4dTR5dm9ocWh2?=
- =?utf-8?B?UGxjVE8ySm4wSjJJcmpkWWpuYVFtVmF4a1N0eERCTStKZFFVNVc5WmJhSEdB?=
- =?utf-8?B?VHlEQlp2cjBiUStuTE1ya2d6dXRyR3lxT1NFTnFqUlFER0NTeUd1Q3FnZDFP?=
- =?utf-8?B?WmZKQ3FEVjV3OFUrQW5WQkJFYURYajJ2UWpOMFZpUC9DTDlWdHRKWDd4Ukpp?=
- =?utf-8?B?dWNrYjVsMGFmMFcwWmJEZG5rOUlNcHlVYTVlVk52c2hDNnE3VmQvWCt3YUZQ?=
- =?utf-8?B?a043b2dVb1BWajkyOUtjRGdOUkxBWFNYclFNUmhiN0k3V3M2c2JtMG5RaEpI?=
- =?utf-8?B?NDh2TnMzZzBKc0NpOTF2ZUZnMmZFSlpPT0VyRWpYOFZJTDd4UkpRc1V5QlFQ?=
- =?utf-8?B?UVhhRFd3T3Z1bmwzWjQ5eElULzV3SVJBVWxXZ1hXbHZ1L1dUdHJRZDJsZm1H?=
- =?utf-8?B?Mk5wOXR1T2ZucmVZUmRQbzd3Q0tvTnN3Q3dzTGlJN2JpdHo4eVBFYXF3cjl3?=
- =?utf-8?B?d1M0YXpvaU41RE12Tm5QVDBOVHhCOVFpODFnd0FjYWxXOU9Mcm9Gdm9VOWZp?=
- =?utf-8?B?ZVRDalFCUkV3YWY2dWE3OUlPMlVvY3JGUUJaR0E0Sk9hemZDV1NjZjFpNkhz?=
- =?utf-8?B?bjFBN1I4b2U1NDVaUXJNTmhLZjVDWE54NFZJdGhsYVBxWU1mYXBQT0c2Y1l2?=
- =?utf-8?B?QXRUS1VQRWhyZmxJZnpmOHR3Yy84clJBOFRQMm5EWFU0WExEVUc3bmZreDM0?=
- =?utf-8?B?YzlKRFZoVnBjTWdkdTFGVVFlSGpUaTJMajJQUkJ5Wml1WDV3eU9jVFZVUFYr?=
- =?utf-8?B?amNFYVZoSHVESno5QVg5MSs1SmNuNm1XWjY4djlpanYyeVltbVRmLzFSVmNo?=
- =?utf-8?B?YnVMWFh6NW81UUxiWUlaSWg0OVVnWUxSdjY2TzYzL05PK0dCZCs2S3AxTlVB?=
- =?utf-8?B?SUt0cUJieHE2Qk9kTWtvNVVLS04ydExFL1NudFB3RDhXekpZSDRQdDIvb0My?=
- =?utf-8?B?Y1pncnEweTlETjJONnVwcFlqWTZOdzQ4OGh6NjY0NXpzTFBqdmduUU5BV0Vl?=
- =?utf-8?B?Y0ZacHVkelZzQ0djbUwwQVlLOFdCMXhWOWpuOVloOGw3dURsOE5MeWRqWnd4?=
- =?utf-8?B?MmJaQmQraS9QSkxTNUdSb3ZzVDJJY0dud3N1ekt6aHlCc2xHdHY1c1F5aUkr?=
- =?utf-8?B?VDdYa3VJRldzVWVFZkh0Z2YwVmIyVFFmQ0Vub3dlMjFtTWZZak4yc2pQVWlu?=
- =?utf-8?B?bW42cjhXTS82dWZKZzhsZU5SRVhyQ2VIazl0R3h4NEd6N1pnMG5sanVKc2xM?=
- =?utf-8?B?K2k5QjdUd3NaWFRqS3F1dzVjRVgyRy9Ua2QzNkFmZ1RNYXNCbU52Vjg2L2N0?=
- =?utf-8?B?NnJLRTFMMFM4bkN1M3FvWWFCaUFUS0w2eEt0K09FMUZDNENncmVPNlo3TEhk?=
- =?utf-8?B?ZStRVXBuY1lsNlorOVVmdFA4VTFWdHdQZGZtREpLQUI4RjFmTkpsbmZBbnZH?=
- =?utf-8?B?SmRIakp1Q2JraGtONyt0NTdFclZYSXF5RXRwTU9ZWlpZd2dsejdCL3Y0YjlK?=
- =?utf-8?B?QWlrTjZHQ3ZFaFE5WFhnbWVRYWtjMlBGQ1dwK0lwbUlNVTY1N2FhZW41eFVQ?=
- =?utf-8?B?ZUljeFJOZ3E4K0g4U0VNQVdpZTdYQmh3cVVISkVTRHhkbGNBdG8ydz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dcd6cd1-136e-449d-cef9-08de488e8c22
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2025 17:03:40.8415 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YvCsX6rSjwOcBLxMpX4p7yLWhNZl87j91oe2HaRLZS0kX7d7NLaUHCyjhs9Vzm6/No6EK+VKLtpcJoRdlecCrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8045
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251231-qcs615-spin-2-v6-7-da87debf6883@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=D7pK6/Rj c=1 sm=1 tr=0 ts=69555b33 cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=UQAiW8fk4jwks4S4FoYA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-GUID: b40Q_lgtVoODCusfG0dyHdbJ6Eg0ZjsT
+X-Proofpoint-ORIG-GUID: b40Q_lgtVoODCusfG0dyHdbJ6Eg0ZjsT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDE1MSBTYWx0ZWRfX4vLNxq1SLilH
+ mZMv8hdilRemsBtjGkxYLgNeik1h2P7NOk41+O5xOvp4rYQF3JcsezOkcJW1S7fDCWbRtgpAkHK
+ 0NuPh02IrUyggHIU835YoTFfEEio3gA1NxsKVN6qrrxPS+aRA41xYtp4gWEQX/R2t+1GXBnSZ4a
+ ja/bECZoJERPsunc2gIcDoCwfikwr5GqjzWBpoyPSbk5m6XySJuGTgeeBGHSLUQ07PtJqkwkTK+
+ RBspPZTKGAWqcMiEgARtOcDk9KJsmQfpjrJZqvkYx07/0ylQfvMTFw+4xaVhaOj6Py4gd9OBUsq
+ EcqV0WHKXYX3bAzVolGSkK1iOXMJmE2RFCTxX6dcYuGm1EHQVk3ojaj66nUI2KS1R6v7zGfwypH
+ GvooJfYWZIJTemwrz5Cz2ygbHJynAt4YYR9CmnWan29zBf8BMvhKneTxzmwPciXPFT0WiPllxvA
+ 8IjYm+kPKkWdsyC8DsA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-31_05,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512310151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,196 +158,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-12-30 23:31, Jordan Niethe wrote:
-> A future change will remove device private pages from the physical
-> address space. This will mean that device private pages no longer have
-> normal PFN and must be handled separately.
->
-> Prepare for this by adding a MIGRATE_PFN_DEVICE flag to indicate
-> that a migrate pfn contains a PFN for a device private page.
-
-Thanks for doing this. Some comments inline regarding DEVICE_COHERENT 
-pages. I suspect this will have ripple effects on the rest of the patch 
-series, at least in patch 8, but I haven't looked at that in detail yet.
-
-
->
-> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->
+On Wed, Dec 31, 2025 at 02:15:28PM +0530, Akhil P Oommen wrote:
+> From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+> 
+> Unlike the CPU, the GPU does not throttle its speed automatically when it
+> reaches high temperatures.
+> 
+> Set up GPU cooling by throttling the GPU speed when it reaches 105°C.
+> 
+> Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
-> v1:
-> - Update for HMM huge page support
-> - Update existing drivers to use MIGRATE_PFN_DEVICE
-> ---
->   arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
->   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  3 ++-
->   drivers/gpu/drm/drm_pagemap.c            |  2 +-
->   drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
->   include/linux/migrate.h                  |  1 +
->   lib/test_hmm.c                           |  4 ++--
->   mm/migrate_device.c                      | 11 ++++++++---
->   7 files changed, 16 insertions(+), 9 deletions(-)
->
-> diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> index e5000bef90f2..dac5d6454920 100644
-> --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-> +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> @@ -784,7 +784,7 @@ static int kvmppc_svm_page_in(struct vm_area_struct *vma,
->   		}
->   	}
->   
-> -	*mig.dst = migrate_pfn(page_to_pfn(dpage));
-> +	*mig.dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE;
->   	migrate_vma_pages(&mig);
->   out_finalize:
->   	migrate_vma_finalize(&mig);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> index af53e796ea1b..0257c6e7f680 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> @@ -303,7 +303,8 @@ svm_migrate_copy_to_vram(struct kfd_node *node, struct svm_range *prange,
->   			dst[i] = cursor.start + (j << PAGE_SHIFT);
->   			migrate->dst[i] = svm_migrate_addr_to_pfn(adev, dst[i]);
->   			svm_migrate_get_vram_page(prange, migrate->dst[i]);
-> -			migrate->dst[i] = migrate_pfn(migrate->dst[i]);
-> +			migrate->dst[i] = migrate_pfn(migrate->dst[i]) |
-> +					  MIGRATE_PFN_DEVICE;
+>  arch/arm64/boot/dts/qcom/talos.dtsi | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
 
-On some of our GPUs we use DEVICE_COHERENT pages. These are pages that 
-are coherently accessible by the CPU and peer devices in the system 
-physical address space. Therefore, this needs to be conditional. Maybe 
-add something like adev->kfd.migrate_pfn_flag that gets initialized 
-conditionally in kgd2kfd_init_zone_device. Then add ... | 
-adev->kfd.migrate_pfn_flag here.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
->   			mpages++;
->   		}
->   		spage = migrate_pfn_to_page(migrate->src[i]);
-> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> index 37d7cfbbb3e8..0c756d73419f 100644
-> --- a/drivers/gpu/drm/drm_pagemap.c
-> +++ b/drivers/gpu/drm/drm_pagemap.c
-> @@ -404,7 +404,7 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->   		struct page *page = pfn_to_page(migrate.dst[i]);
->   
->   		pages[i] = page;
-> -		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
-> +		migrate.dst[i] = migrate_pfn(migrate.dst[i]) | MIGRATE_PFN_DEVICE;
->   		drm_pagemap_get_devmem_page(page, zdd);
->   	}
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 58071652679d..2bd80c6f5bcd 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -766,7 +766,7 @@ static unsigned long nouveau_dmem_migrate_copy_one(struct nouveau_drm *drm,
->   		((paddr >> PAGE_SHIFT) << NVIF_VMM_PFNMAP_V0_ADDR_SHIFT);
->   	if (src & MIGRATE_PFN_WRITE)
->   		*pfn |= NVIF_VMM_PFNMAP_V0_W;
-> -	mpfn = migrate_pfn(page_to_pfn(dpage));
-> +	mpfn = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE;
->   	if (folio_order(page_folio(dpage)))
->   		mpfn |= MIGRATE_PFN_COMPOUND;
->   	return mpfn;
-> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> index 26ca00c325d9..52f65cd5c932 100644
-> --- a/include/linux/migrate.h
-> +++ b/include/linux/migrate.h
-> @@ -126,6 +126,7 @@ static inline int migrate_misplaced_folio(struct folio *folio, int node)
->   #define MIGRATE_PFN_MIGRATE	(1UL << 1)
->   #define MIGRATE_PFN_WRITE	(1UL << 3)
->   #define MIGRATE_PFN_COMPOUND	(1UL << 4)
-> +#define MIGRATE_PFN_DEVICE	(1UL << 5)
->   #define MIGRATE_PFN_SHIFT	6
->   
->   static inline struct page *migrate_pfn_to_page(unsigned long mpfn)
-> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> index 8af169d3873a..19681904a666 100644
-> --- a/lib/test_hmm.c
-> +++ b/lib/test_hmm.c
-> @@ -727,7 +727,7 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
->   				rpage = BACKING_PAGE(dpage);
->   				rpage->zone_device_data = dmirror;
->   
-> -				*dst = migrate_pfn(page_to_pfn(dpage)) | write;
-> +				*dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE | write;
-
-This needs to be conditional on dmirror->mdevice->zone_device_type.
-
-
->   				src_page = pfn_to_page(spfn + i);
->   
->   				if (spage)
-> @@ -754,7 +754,7 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
->   		pr_debug("migrating from sys to dev pfn src: 0x%lx pfn dst: 0x%lx\n",
->   			 page_to_pfn(spage), page_to_pfn(dpage));
->   
-> -		*dst = migrate_pfn(page_to_pfn(dpage)) | write;
-> +		*dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE | write;
-
-Same here.
-
-
->   
->   		if (is_large) {
->   			int i;
-> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> index 23379663b1e1..5d108ddf1a97 100644
-> --- a/mm/migrate_device.c
-> +++ b/mm/migrate_device.c
-> @@ -199,6 +199,7 @@ static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
->   		(migrate->flags & MIGRATE_VMA_SELECT_COMPOUND) &&
->   		(IS_ALIGNED(start, HPAGE_PMD_SIZE) &&
->   		 IS_ALIGNED(end, HPAGE_PMD_SIZE))) {
-> +		unsigned long device_private = 0;
->   
->   		struct page_vma_mapped_walk pvmw = {
->   			.ptl = ptl,
-> @@ -208,10 +209,13 @@ static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
->   		};
->   
->   		unsigned long pfn = page_to_pfn(folio_page(folio, 0));
-> +		if (folio_is_device_private(folio))
-> +			device_private = MIGRATE_PFN_DEVICE;
->   
->   		migrate->src[migrate->npages] = migrate_pfn(pfn) | write
->   						| MIGRATE_PFN_MIGRATE
-> -						| MIGRATE_PFN_COMPOUND;
-> +						| MIGRATE_PFN_COMPOUND
-> +						| device_private;
->   		migrate->dst[migrate->npages++] = 0;
->   		migrate->cpages++;
->   		ret = set_pmd_migration_entry(&pvmw, folio_page(folio, 0));
-> @@ -329,7 +333,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
->   			}
->   
->   			mpfn = migrate_pfn(page_to_pfn(page)) |
-> -					MIGRATE_PFN_MIGRATE;
-> +					MIGRATE_PFN_MIGRATE |
-> +					MIGRATE_PFN_DEVICE;
-
-I think this also needs to be conditional to distinguish DEVICE_COHERENT 
-pages.
-
-
->   			if (softleaf_is_device_private_write(entry))
->   				mpfn |= MIGRATE_PFN_WRITE;
->   		} else {
-> @@ -1368,7 +1373,7 @@ static unsigned long migrate_device_pfn_lock(unsigned long pfn)
->   		return 0;
->   	}
->   
-> -	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-> +	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE | MIGRATE_PFN_DEVICE;
-
-Same here.
-
-Regards,
- Â  Felix
-
-
->   }
->   
->   /**
+-- 
+With best wishes
+Dmitry
