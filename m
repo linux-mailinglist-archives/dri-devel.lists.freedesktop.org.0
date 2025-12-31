@@ -2,91 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9731CCEB834
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 09:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95A6CEB84C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 09:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A04810E20B;
-	Wed, 31 Dec 2025 08:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C31910E990;
+	Wed, 31 Dec 2025 08:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kode54.net header.i=@kode54.net header.b="28SGkhZI";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="iIA3royF";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kgwuOlW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a7-smtp.messagingengine.com
- (fout-a7-smtp.messagingengine.com [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC2810E20B;
- Wed, 31 Dec 2025 08:17:38 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
- by mailfout.phl.internal (Postfix) with ESMTP id 4831BEC0199;
- Wed, 31 Dec 2025 03:17:37 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
- by phl-compute-06.internal (MEProxy); Wed, 31 Dec 2025 03:17:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm1; t=1767169057; x=1767255457; bh=vfxorXJXtr
- oycbRN6IUJ+dzctWvz+cPTc2VwPUJGtvM=; b=28SGkhZIJahUk5flwTZxZVs3mn
- Zzz/35ATuhrE6dgj+9UKjGtHEfR+GUv1nt/EI6Ad5SO3wyHeIy6Nm/RTVaFb64hF
- XpXPsvBU+p2XWx9gt+wpJoTnQTVP9wbU+I1Uu7fJjPiQX7wssdOW7wZiGbyHGf5I
- OkStmdWlK6xpvQboAzfcmoTWBCcjcSTrzpCXANG7swrjsbnsI3t/Vqbxu95NnGli
- tMpqfFo54JtRL0vzm2pJJR2N3Q8X/dRJwk1HZnOitL/WTQjDFgjWyrqrNPGP5Vdz
- wP6RAbNWpduhMD44AuTUhwnhFW2kxVZgfrXbCTzAeg7dXvDKstdv1m2z6NUQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1767169057; x=1767255457; bh=vfxorXJXtroycbRN6IUJ+dzctWvz+cPTc2V
- wPUJGtvM=; b=iIA3royFLYu7Hf4vbGqsM+ALVZcBD94ALeuiW0UP4RcXTc+pcpr
- 1JSrmW0pVfvLw5CZVfy8fqlg6kP1M2w5MrtiFvm8i4TH0ppOnK3BfE/pqgVx+DwX
- oFtCvkFuBb5G2OLuanqO0u9MulKJfTX6SmD9gqBDB7qlKiSZkjvbWHsWoMMjLb4H
- hCfmJRLXEKZyOIYShztwvZLuY+qbZqFePz12FE42uXo9sMCpmY7TyMKx0a4uljfD
- rsJZV4Q7nzRXWs8i3UlSiEuY4qo/ulS8TJBUodeLhmsLMIDlxmbh9Vq36ElAfC26
- 830rihbz2ll1ir2MQvX6eIzd8TtIHd65AQQ==
-X-ME-Sender: <xms:IdxUaXTqxCqgCz9of-Qko-BHbpLgnVUt3KbXjOzKqbxC3-hKhnE-Dg>
- <xme:IdxUaS1ruS0h9VIKPG-FxQRPnps1ULSfrsI3yGsNQLU_JgeGqTFyucO2tYD9uQsNv
- F1YmT0H5zRDTBLI51QYmzn-ideHFZEgTRkFCW1ztC7n-d4jQhnrlKo>
-X-ME-Received: <xmr:IdxUactrk1VnxVyWZFQjc5IMUyUNMPBN2XhwiEVJcsPpIvgOtvP7ELOPCZ0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdegtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpefhvfevuffkfgffjghfgggtsehgtderredtreejnecuhfhrohhmpeevhhhrihhsthho
- phhhvghrucfunhhofihhihhllhcuoegthhhrihhssehkohguvgehgedrnhgvtheqnecugg
- ftrfgrthhtvghrnhepvdeuffffvdekudeludeukeevudetiedvtefgffeivdeuieekkeel
- ueejteeuhfehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhrihhssehkohguvgehgedr
- nhgvthdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
- epmhgrthhthhgvfidrshgthhifrghrthiisehlihhnuhigrdguvghvpdhrtghpthhtohep
- lhihuhguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlh
- drohhrghdprhgtphhtthhopehtthgrsghisehnvhhiughirgdrtghomhdprhgtphhtthho
- pehrvghgrhgvshhsihhonhhssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
- epnhhouhhvvggruheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphht
- thhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
-X-ME-Proxy: <xmx:IdxUaYhCKtpDdHC8CyKtpt5LZf13xpYNFazda4PILxu5jbCievySLg>
- <xmx:IdxUad9BsbQQ_67XzYPTR5sAeRN1dMm_sJaSUOKMUDT1w0V3l8hZZA>
- <xmx:IdxUabuDJMGGJYh3hl4rRCGJSZPeC_DlFoqjiL9MnrUHYvcUMid9Dw>
- <xmx:IdxUaRqniM1AbSNqyfHxH0wTzZzW9wxTvnOWGkF3KPVPAToKxsnyhA>
- <xmx:IdxUaYVB1wU8cwFzMky4UkhYDZfJvl7t8G1xBRYMOV6XVlQ3_DbX4jY4>
-Feedback-ID: i9ec6488d:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 31 Dec 2025 03:17:36 -0500 (EST)
-From: Christopher Snowhill <chris@kode54.net>
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Lyude Paul <lyude@redhat.com>, dakr@kernel.org,
- Timur Tabi <ttabi@nvidia.com>, regressions@lists.linux.dev,
- nouveau@lists.freedesktop.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [REGRESSION][BISECTED] Freeze when nouveau loads GSP firmware
- during boot on Blackwell
-Message-ID: <176716905502.167194.1676368663909086723@copycat>
-User-Agent: Dodo
-Date: Wed, 31 Dec 2025 00:17:35 -0800
-In-Reply-To: <59736756-d81b-41bb-84ba-a1b51057cdd4@linux.dev>
-References: <59736756-d81b-41bb-84ba-a1b51057cdd4@linux.dev>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F13810E990
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 08:23:23 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 91CAD4E41EAB;
+ Wed, 31 Dec 2025 08:23:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 509DA60744;
+ Wed, 31 Dec 2025 08:23:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2C3C1113B0755; Wed, 31 Dec 2025 09:23:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1767169400; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=1dqztIL+mezY/FHub8je7fMGsqx1sFeebpYowobp0I8=;
+ b=kgwuOlW/Lzw4AbF0zcDjTOQQw5KAy7sBZrQ+amITfd6S7Fb660Gme7sgr9keXr0RBZYpi9
+ qMMb/o2iClQW5c1X0ULOBlYBhvJFiOrGYJoSbG5LKC8IH6atY2sLW8WigaOZVMK9ZgJGBP
+ Gl/MDr0M/nt2rE8ZxnRUyWrUkOifvCQrJV0kvwCfHsDBJz7oFzfqrwIGT9phCgIeOtU8lA
+ IXKf3KfiZDgFCrtgKs9YjHgUUOreEM5yiVbUKqYDuAbC/leluRl8IJYoQeA3Jf4E9zwNCK
+ FSU86ufezztAVh+vwNUAVy8n3YIFxuQN1NB8cplSKuzkicZAarGll8ezzNi5Ew==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Wed, 31 Dec 2025 09:22:47 +0100
+Subject: [PATCH] drm/bridge: fix kdoc syntax
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg="pgp-sha512"; boundary="===============5313257699487410381=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-v1-1-193a03f0609c@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAFfdVGkC/y2NUQrCMBAFr1L224UkGhCvIhLSZFMXa1KSVgqld
+ +8qfs4MvLdBo8rU4NZtUOnDjUsW0KcOwtPngZCjMBhlrDZnjbG+sa8cpfhxLAEHmqdl/npXkku
+ co/v3V5SceMXUKxWul2CN9SDLUyXRv9f7Y98PCm6AZoUAAAA=
+X-Change-ID: 20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-fb00c84c525a
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,69 +71,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============5313257699487410381==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Use the correct kdoc syntax for bullet list.
 
+Fixes kdoc error and warning:
 
+  Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1519: ERROR: Unexpected indentation. [docutils]
+  Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
-On Tue 30 Dec 2025 10:11:34 PM , Matthew Schwartz wrote:
-> Hello,
->=20
-> On the 6.19-rc kernel series with linux-firmware 20251125, I have been unab=
-le to boot into the kernel while using nouveau on my RTX 5090 rig.=20
->=20
-> It appears to freeze right after "nouveau 0000:01:00.0: gsp: RM version: 57=
-0.144" appears in my dmesg, and it locks up at this point. It works fine if I=
- blacklist nouveau or use nomodeset.
->=20
-> After bisecting, the first bad commit is da67179e5538 ("drm/nouveau/gsp: Al=
-locate fwsec-sb at boot"). As it's a Blackwell card, I cannot test with GSP d=
-isabled.
->=20
-> Still trying to figure out the best way to provide complete logs of the fre=
-eze, as it's too early to go into my journal and sysrq keys don't work when i=
-t freezes...=20
->=20
-> Thanks,
-> Matt
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
+Fixes: 9da0e06abda8 ("drm/bridge: deprecate of_drm_find_bridge()")
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/drm_bridge.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I encountered the same bug possibly, except in my case, it resulted in
-an OOPS, and the total failure of video output. However, I was able to
-log into LUKS and pull some kernel logs:
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 6dcf8f6d3ecf..3b165a0d1e77 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1518,11 +1518,14 @@ EXPORT_SYMBOL(of_drm_find_and_get_bridge);
+  * The bridge returned by this function is not refcounted. This is
+  * dangerous because the bridge might be deallocated even before the caller
+  * has a chance to use it. To use this function you have to do one of:
++ *
+  * - get a reference with drm_bridge_get() as soon as possible to
+  *   minimize the race window, and then drm_bridge_put() when no longer
+  *   using the pointer
++ *
+  * - not call drm_bridge_get() or drm_bridge_put() at all, which used to
+  *   be the correct practice before dynamic bridge lifetime was introduced
++ *
+  * - again, convert to of_drm_find_and_get_bridge(), which is the only safe
+  *   thing to do
+  *
 
-https://lore.kernel.org/all/176698808133.6372.2408917375327107249@copycat/
+---
+base-commit: 40630210211a34f0714fe976530ccf1291e5ef78
+change-id: 20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-fb00c84c525a
 
-The commonality here seems to be crashing dereferencing offset 0xCC in a
-structure from bit_entry(struct nvkm_bios *bios, u8 id, struct bit_entry *bit)
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Nearest I can guess without doing further proper examination is that
-it's dereferencing a NULL nvkm_bios pointer right at the top of the
-function. Maybe something isn't initializing the BIOS member before this
-ctor is called on Blackwell? Race conditions are really fun to deal
-with.
-
---===============5313257699487410381==
-Content-Type: application/pgp-signature
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="signature.asc"
-MIME-Version: 1.0
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEdiLr51NrDwQ29PFjjWyYR59K3nEFAmlU3B8ACgkQjWyYR59K
-3nG3hRAAoVDhI3L0HPj+JQ24NB4gR2CEHw/LCnWByyiNKBDfGGNl5MCm8rDQl630
-SiznK6Zk0VRbqIenPxODjl2v57n9uLOH8HGM/OPYmPTXvnemV4LpQpwHAsJYDJ2d
-K9/otPRSHQvi3NHrJnyorHLAgZ8yqDEukKTvxj9TsSiFSy7jbubAoCGDP76oisPP
-PrNVTb8xkdbAL7yrFkGJh4tRBsfZOFJAPTKnS4QwHF6VHCqRhSEY3Dv3xU9pm1FC
-w0kGk9ZfuJt+CQw1QiIQIAP6qiUx2lRyGd1IvK8qdEW3slZjkSZaSqmm0tTW9ZJz
-Dgd80n5wqKS/fJPm35dAhcm73JNFtcZQb0K8oD0twGUwyIGtfj9/WmDcobCs7tlf
-LYCsjf682YY/QqlLGdxY3slpwfy9eRoEriIRT4b6NxnP/Ze6ryVwXL/0Sql3xQp9
-cxJu9Ipv4lHt0m9zT2u1zRPYG9HMgCjWnL2do7iT3kYtvqDmGJymEolU3NBYU7V5
-v9Uq1+ZnMwVShTPF/qFRzz0636O8ckqWZqIlRLeMtouDKU8ave8HZvzF9j5EqIfC
-D+ikDB2c/UbJGKYg0VdY+qPIKF0ZIKKQ+UsrmlTLiR0NnlX6SXVb3CT7yHjL9GG5
-bG7tPGFXTGQhSW7VTFyZ5QO9koh0tmVj63hhhIV3TMyFpWwCbbI=
-=EZjI
------END PGP SIGNATURE-----
-
---===============5313257699487410381==--
