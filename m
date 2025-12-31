@@ -2,193 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86D7CEB0D0
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 03:25:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C36CEB39C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 05:32:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE68010E404;
-	Wed, 31 Dec 2025 02:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706EB10E0AC;
+	Wed, 31 Dec 2025 04:32:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G6i0Bphc";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="i7cmNFz6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3855410E0F7;
- Wed, 31 Dec 2025 02:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767147907; x=1798683907;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=GF/RT5mJLwmdxHGBsRQj8XSnvmKavgFAO7QjseVqs9o=;
- b=G6i0BphcYMUO42g22VkyhfSLCMtYe2J0NSPx+UWqEa+ts7r5SzeBljJp
- UERrUu127Ppe9I3AF/GKPTnvoIe0BF2iWxwGtnQMHQ3vH1LrYTw5D8LIj
- izVl/GxU/t/1mFjnA8I889pxlIj5lAwlJOTMwP+rJEsqwWyi9Wi3DJDnO
- 0J+rLsJq+X4O++H8EMIHRE5o9vOQatmwfRitHIug+9K1vST/0T9B+ZTMZ
- OQFavEMt2SOzNdMA1zzFXPLMIqMTKiEd9j5Y7pTa5U6EhBecXXdhjn+XB
- 8FHjCYej1buDYcMOsYVqZAvmOCSOZzK8JkwrfpzIhkNLYLh7H7ez+R/gy A==;
-X-CSE-ConnectionGUID: RS/m4yZGR96xvq1/JnnT0g==
-X-CSE-MsgGUID: Bo/xhg17SbeYU+OkEuFLLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="94193935"
-X-IronPort-AV: E=Sophos;i="6.21,190,1763452800"; d="scan'208";a="94193935"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 18:25:06 -0800
-X-CSE-ConnectionGUID: qrfPRtdISjeNj1e77rhX9w==
-X-CSE-MsgGUID: PzDO5FYsRsKVpsOm5Ir8tg==
-X-ExtLoop1: 1
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2025 18:25:06 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 30 Dec 2025 18:25:05 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 30 Dec 2025 18:25:05 -0800
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.62) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 30 Dec 2025 18:25:05 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011018.outbound.protection.outlook.com
+ [40.93.194.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E5010E0AC;
+ Wed, 31 Dec 2025 04:32:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kbeJtNDk2379IUVtdFKDyXA+vo0DUfk7oKrrvwWEEYDXrp4CfCFO2aJllLlrq8XMLEgXU/p3oeoAtdL4wBnVHj8d8ZL1eG+0qlOQDTeWxIZo8Lhjoznr4+Qj6EwzaDD+wBfe7AELER6FU7+HQE25M1FEfunN5NIsb3RPz+mGRGMQjmVy1mbG3MWTfOS9rz2EJmXpjChMCt9YB7iriwcUe0CPqqZXZiupnLFu1tGW3f0WYCLxULCItXGhzpQzWYqpUdRzU9hIAI+PCnFuFNVgdgMDVzhySFohRujuwVefciAIvLoanubmWnqDaRaT7IMf9y1+CmaZVK28fsK6DaImPg==
+ b=Ld3S0mbZAx+P/KhegAtFAS5Wd6cOKE7R0TOasNWF+QkWmgt0enL8Ffd9Yab4SkVbT//+eajMH+0PUobr6PA7vR+KcDkqVNl/xTmD61I5Bfg0jR16ieTqhtCpXZc6bu8psaPvF47iOvK2KPGTBZR/lKzTuk1jznCq+9CGvwzNNpDet9D6akCEFJRTotSX36OrCjEGGcg7F8Av6PIu4WKmsrkVx08IrfnfBxptm8Rgqqs6ajlYr16qq/ou/yEHKTdB42V1okk2TcoUE6d+wfr+1xi/wjhLfi/E6CiZv0ZZNfUDxN+A4P89KyVwj+nPngaSs8dTpoSJLMe3EZOlzq1YSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7tV+6xTD4CfiSXL++MXkYAOOkQGhFxQZ9AZ51F+qnw=;
- b=yYYyIPADXK60WlQXhEG1iwoCypfcvEgOAOvxS1U2UAngbve46XmHk25NJseCvbcC8OaNiX956w+7HznzksFZ0ujG30GUBLGF8fshuN74mU2I8vJbbHOg5xI21upqMhoHNBfvXxrkefMqbYOnRSuaSh6svk/65HxZhAFxy9ZojXSmYS9f1dRAFQ8212xBjoK/T87d4dJzHwDQ9CEDhddspNi7+LI4BKKZ7mQgPRmRHsOcbWyhrD/wskPptoyAWRnu2Jkw3vubwpmPDTvjBUGtYoMGeLviEZeMaOBzpXvNjHmUGOqivLwm9DwDcrpmvFrSye2vVgKEBwBog5P2SqRFVg==
+ bh=1lH5SS3FPf98eOj3RCW19JIBohzq9Muvg/PqFYkKtXs=;
+ b=hhTk+l8ClmXDeX3O7UBlFdHa5ykG3urnwWGL0oRKnuKYA0VuU1wSJKy07xZmZ/KtCz20lQak/dj4aGf08enCwwN3IcCR9qcTYL5xJbK8hrXD3G9U2FvUUViI/IK/AjAPQoVi7DNb4Pxa8189aFEApqf0tk0IkyIsArxgiNNvmiuurxNfsZ5XbpbR4lMDvq/5Cjnj/zmiaow8he0ZBohHC5DNDRDVnltsjgFs/Lhn8/R5f2rM8reNn0jgTF1oMFYmXEowCRSu5C0R+QrMGmUFbx82sEjxUQoAfxuct4x2n56on++iEPuJA1ZVEBN02/kM/z7jKnYBzxV160ZQ5TF02w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1lH5SS3FPf98eOj3RCW19JIBohzq9Muvg/PqFYkKtXs=;
+ b=i7cmNFz67D5+8LUUwFZJqlkceu51H7njFptSKujumkPFx2L9jbAL74xBMp2Gj1eXxNhDymWGUPyl31FRvqYmyCPB3UkT3nthuHoR1qEBrGLpvPpRNkGyqDuMaHhanzAK8gy0UlLF3t/Q3BPMRbDYKKFhwnEtVPYkDpz9Fs3D43ye7NYpkCjknulOtlAzR+cad+AyNeib+Tb9EIhTRpCOlGOzEqiU+O8dKQ5f4nye96lZbnXYHx94VKoJRN+BDApbMkfLAsAIlPjeOMbZLOTQ1nrb8AHqXWmmAXSgvdL1nkKr6VLB7WT2Lxtgnwdhm96hO8e490bUF7sQ2F9TbTq0Uw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH0PR11MB4903.namprd11.prod.outlook.com (2603:10b6:510:36::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Wed, 31 Dec
- 2025 02:25:03 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.013; Wed, 31 Dec 2025
- 02:25:03 +0000
-Date: Tue, 30 Dec 2025 18:25:00 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Marco Crivellari <marco.crivellari@suse.com>
-CC: <linux-kernel@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>, Lai Jiangshan
- <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko
- <mhocko@suse.com>, Lucas De Marchi <lucas.demarchi@intel.com>, "Thomas
- Hellstrom" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/xe: Replace use of system_wq with system_percpu_wq
-Message-ID: <aVSJfKkE0SiKrPDz@lstrano-desk.jf.intel.com>
-References: <20251224160026.124106-1-marco.crivellari@suse.com>
- <aUwwunqiFw3YdKUo@lstrano-desk.jf.intel.com>
- <CAAofZF7H_sPKh=oG7C=fN-mtevZjZ038DjOL0rwDVuOib9p4Dw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ DS7PR12MB6045.namprd12.prod.outlook.com (2603:10b6:8:86::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4; Wed, 31 Dec 2025 04:32:07 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9478.004; Wed, 31 Dec 2025
+ 04:32:07 +0000
+From: Jordan Niethe <jniethe@nvidia.com>
+To: linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org,
+ jgg@ziepe.ca, Felix.Kuehling@amd.com
+Subject: [PATCH v1 0/8] Remove device private pages from physical address space
+Date: Wed, 31 Dec 2025 15:31:46 +1100
+Message-Id: <20251231043154.42931-1-jniethe@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAofZF7H_sPKh=oG7C=fN-mtevZjZ038DjOL0rwDVuOib9p4Dw@mail.gmail.com>
-X-ClientProxiedBy: MW4PR04CA0219.namprd04.prod.outlook.com
- (2603:10b6:303:87::14) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Content-Type: text/plain
+X-ClientProxiedBy: SJ2PR07CA0011.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::20) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH0PR11MB4903:EE_
-X-MS-Office365-Filtering-Correlation-Id: 472cde22-7463-47f5-f99e-08de4813cdec
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|DS7PR12MB6045:EE_
+X-MS-Office365-Filtering-Correlation-Id: 195d558d-b1af-4b2b-ca7e-08de48258e26
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RXpCdkVqUW1qbjJMTThzazlUcUdHMUtZVk1NK2RaOUNhSk04bEpyK1dTczVo?=
- =?utf-8?B?TjZVR1AwaGg2eFRjZzUwaVZkOGphUnF1OGJLSERYSkh2bU5xSCtwdFVxcEwx?=
- =?utf-8?B?QTNxcERMWWFaT1BqREt3cmtudWxNYkdzSjFtMnQ5S1RUdjh5Rlp3dExWUSta?=
- =?utf-8?B?UmU0YW5sQ24rekRRY3RBZHFhUXorQ2ZWd3hwZ2grSHFGeUN4bjhJNGk0MXVS?=
- =?utf-8?B?OEFMQkpFVGtyc2E5eWRHMithSWZJUTVwWU1XNDVZTGxBQW9iWnRlTTNBWmps?=
- =?utf-8?B?UWlZRkFYeXd1YThyQ1BrS01qd0pnN1M3anN0K2g4Yi9HQnRVckllM21OMHVL?=
- =?utf-8?B?RzVSaXFPQ3QxcFRoY1lrbkVkK3FiemVaQmtnVnpSbmRxemdHZWVpTy9hc2Nu?=
- =?utf-8?B?VVVtd1ZUVFRwUm45Q3dMcGlkeXdJUUdNMGlIS2ZWU3BhSmpDbFQ2c2dnM1kv?=
- =?utf-8?B?UUdOYjE5N0l1WDdvdkhLUGxGUm9NQ0lDdEtPS2p1TktxSmFtZng1VFhOMWlZ?=
- =?utf-8?B?K0FGeGtZN3p0RitDS3NuNFhWTDVCUnlhOHlybWEyNWkzNkFJT0JpUWVTUFRs?=
- =?utf-8?B?QUFZTlJEeUxjVzRJa2J5OFprbTg5bjVwWS8wbE11eGpNNFpnSGxsbGJQeFUx?=
- =?utf-8?B?Rk9PbkJkQ1JHZ0VKVFYrV0JhcEF6RmtCTE0xVE1QSmJEa05IWG5nSzFNdVRC?=
- =?utf-8?B?TFFBZkhIVHRwaHVEZnlIQ1FGQm1yaHlRdGJvM0VVRGhaWTFBN3hMdnBHelRp?=
- =?utf-8?B?TEE1SzA2bTJJQXB4bzcwRVloUVFiYmtLLzlpdVY3Z2NVNnRBaVRabHN1SFZH?=
- =?utf-8?B?KzhQL2NuUzlHMmpOM08wSHBWdkFvOFRETmpCUEV2c3JudklQdjY0eWM3cjRa?=
- =?utf-8?B?Z1lxZldONEp4akVGWUlrRXM1Ui9PR0swd1RkeU5Hc0RaSFh1dTF5Qll4WFZl?=
- =?utf-8?B?Q0h6L3pqT3VEWFpBYlFkSkE3Q3V1cnh4V3l5WWlFWlZPVzl0dUNPZ3l5bEp2?=
- =?utf-8?B?N3RVRjZ0bjQzYW1rNStXT0R3bUJjVDlNUmVmRkVvRmxuWWpoNGd4RVJLemNR?=
- =?utf-8?B?RjczekVNYnZhYUd3WDFGdVVncGZvWDV2L3MreTFWNmFiWE5DYkZ5VDNtVWs2?=
- =?utf-8?B?TFI0bFg3WWt2dHVidWx4TmRCQkpuVTY5b0RFS1pEUVlZWVRLMC9DNTJqQ2w3?=
- =?utf-8?B?dE9HS2x6NHVOTzJBdkRIVGV2YWxSMFovaytmY3c1SEp6MWtDZnVITWtNb0F5?=
- =?utf-8?B?M05VY1lKcUFHWVJwSmpWLzJSanh3d3J4OTBRTGNPVXNmQU5KQnZWSm84dFEy?=
- =?utf-8?B?R2ZXZnJ3bjJJaGdyTzNTQldITERWcGpINGxvajFvRXgwS25YaC9RVW9yVzg5?=
- =?utf-8?B?ZlV4VExBcElFWWJNWHJhaDZjZWJvbEV1QjNHbDRwOUdIQXpsUWNIM0I0K1NU?=
- =?utf-8?B?di8yRE1jL0JwcUhuZ2Q2Sk44b0x0bXo2RmlDeUFna2pRVWVLZUJVYVRSL2tR?=
- =?utf-8?B?OCtZdGRQVWRGY0c5R0JMd3pOWUw2ajZSZGh1enJTT1lvekxrbC9ZbHVVNmU4?=
- =?utf-8?B?UmVUNm9rZU1yUVJwcC9aTDFZV0ZRZGhPNVRPZUtRMVcyT0xtc3FlV1JUUnJJ?=
- =?utf-8?B?MTYzUjd6M0JNNkhNNDdrR2pDNHZkUzJhR3NYbkt0YzRTbEtEVjdtZVdWSmMr?=
- =?utf-8?B?WmRQZGtJdG90VU1lTkhKa1JUd1lINGxZRkY1d0tJejI1VXhBbm5uMXBHbW5T?=
- =?utf-8?B?Zm9OYStGaVhPSnk0VitpTGhBRkxRMHNKM0VPUHh0dzZuUjBGR3JlNnBPZ0tO?=
- =?utf-8?B?U1N4azU5RXlpSm95YXRJdEFpeTZzK1VjZndhZXd3U2V1L2h2UXp6c1hnU2F6?=
- =?utf-8?B?Z0NWaUFnTEp5TnlGcnAwbjJFYUhicHpLdzJTeHJVZDE0RmoyZFhFaThkbFRF?=
- =?utf-8?Q?7V4f3kBjWyRQsmJitr/dSCKdkn7tcJy1?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?v7z+Epud0MLEh8Glr95i21wOlMvzPKqrReTVwdzWo9Z/HVJpU/boIibyNdSN?=
+ =?us-ascii?Q?hzO40HXYwTC3K+vMNuxzYr4PUz81EfxnM9RgJmy2MzD2OyRXWNvIHkL6b1MR?=
+ =?us-ascii?Q?yjd0koA+AvrctSh9ud8AmVJrlguuun/YDxA2ZkTcWWy7fzMimm1HtVUTpIJ6?=
+ =?us-ascii?Q?fIOdA09Ax8DlVQxuv+kGfRDa1zrWyOZaFGOAm640c3z0q9oPDtvKIOxs6nZr?=
+ =?us-ascii?Q?W2K80MOMktp52aoR00tLYFG/dGCcw/GxzZtagM3sUZDR47GUMary2tfm728v?=
+ =?us-ascii?Q?/1w53CISEO6V0qY0WCxq6/CZTwEyZ+jH3q+2s8e5ig6tNWITQGqsYi7vWI3U?=
+ =?us-ascii?Q?hS586RaeuYo5VzYDikJG3aQ7cplj4tmlUA7M+G+tQwIpAddkCtUtnNd2Hqkm?=
+ =?us-ascii?Q?dx/B6WH/anCCEj9V01cD4Etulg6CpCps0QWW1j21PwBZDq8sn89KtF+WD9Vh?=
+ =?us-ascii?Q?+BFg1aBteTX4z7Agw3FCAQEDieNEoK6pr31dsbD20TLVABcTHEFUFcmRS12b?=
+ =?us-ascii?Q?YFy5lxCOqWS/KJUlUQku/QZOXqjqJESlAhnG23JQk1RtmI8vZgbvMhlsnaQU?=
+ =?us-ascii?Q?rW0kQ3JBNfs6V/IdY4dwyMKZ9M8wrnogpZ0AxM52ZowPzuJtAY2FbMfrCKlp?=
+ =?us-ascii?Q?ks9/fA9Bu7SWP+6f80RrV3lrQkMXt2sNh+z4CJv+Q9QN+VaIt3Zgc2EEwvS5?=
+ =?us-ascii?Q?D1hbTeLDE5gqzY1nYKqi2cMEBA9uOoL/eyFCXUlLI3jC+8bvI1X8SkNzKj00?=
+ =?us-ascii?Q?VfkS3OD643d4xsOHnIC6mhaVH+fr66Rvt3S3r/qPwW5Tkm2hR48cxaSYcwdH?=
+ =?us-ascii?Q?zbAN3MrDUOcuLO/1qF07ilbm5oZuzMCjpzjUgeAs0GD7+PK6FFkwbTXTtMqG?=
+ =?us-ascii?Q?zJcaiRhndUd0CJk9mJn1bJhqU+M9qBgoqXWLm8YGbiGCtX3rZP/lZH5TBE8S?=
+ =?us-ascii?Q?66fjY3U/SsaPKuW9I8XhPhZSnKWXGY36O/tOVvPdJ4IPXRTZTTaXr2EiwkSk?=
+ =?us-ascii?Q?CtwPrq8Qit/0vTVyJ4zSD2lcNfQa4UfEfqu6sDMsshZYpkHorDK19tSczOCb?=
+ =?us-ascii?Q?EjIfhfm6/1githw8Te2cpkcn8nzoG/zl0xSSnaiaFy1H9ZfAf0ZHnFT5QJlD?=
+ =?us-ascii?Q?qO+MXrXnz71z3g/9Ds+jQbRUOshYHD+afzy4+h3g+mJkfSYthVaTKN5Z1Acy?=
+ =?us-ascii?Q?pD959lJOgOjVydpxcBjLuJ5ldj25mOWgcuaQ1GYohj2Z+TmRrW7kyQtfR79d?=
+ =?us-ascii?Q?GSnKSY/a2GJW8FVscqjhRKCwQIgD32G3jmgFwhAkT3PuioYb63Frpq+lOivw?=
+ =?us-ascii?Q?jIlR5TN8Cm0T79B6PchZ4oJO/ZLGHGHb5C9l2344zh9V+eyPOBYNyHwtcB8j?=
+ =?us-ascii?Q?H8c52jBDC6A0+ULytdC9LUcyHnzDjx3RW/e00VHoOvjntizTT8e+tAqhEmY8?=
+ =?us-ascii?Q?KQN0zMpDsQBRDaSodMt9EdCJYtvu6C5M5JGPAmBQMsMnIUj4xGCplQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MzRQdzRMeDg3U1FtOWVwSktaVW5tNS91QUtHaWN1YnlxUG1WYUlqSnlWcUVM?=
- =?utf-8?B?Z2Z6K2cxUTY4QlBCRkVId3hLVE1MRHJMVDl1VDZCdzhVOWVwL1NyTTc4c0Ji?=
- =?utf-8?B?WlFaZzZQNFZGaW5yRjJkdk5FRjBpajJQbkJjcnJON0RqM1dyTTdOTTl4Q2Nh?=
- =?utf-8?B?RUs1U3ZpM1hXUVNBUHBtYkJ4dkxxVzVacFRYUmVOOEtPdE9ta3NCRjhNMVpv?=
- =?utf-8?B?SHJQS0dRYmU4UzlxWkpXMnFDbEZpZjU2UVBjOHpnL3FWMFF5aUlJc2h6Umta?=
- =?utf-8?B?QWZxRVlrbVBSRWZGL2hndE95Qmp0WndOSEZ4QmtSSWMzVS9kK3BhRlBSUkpw?=
- =?utf-8?B?RUFMb0V2TEhrQ2p4Wk4veXo2c2pPSHNBRGJldll0dHdwMWFOV3JLZGJ0OHVw?=
- =?utf-8?B?blNKVTNHVE5WVnF0WTJ5bDk0SzU1MDhGcEgwN0pzQzA2VjlJTkppRlNiT3NH?=
- =?utf-8?B?YStWY1J2aU9GUTFhOXRkZDU4RWhFaEc4MEhqOTUzNFB2TWFCOHI5VFl4eDV5?=
- =?utf-8?B?T0xJN2tFYmxGNUtJbVlWbk81eFBUR0J0V2ltL0FBclF6MldyVG9DZHJJZ0xp?=
- =?utf-8?B?cnd1ZjRRdHhzbjBxYm1QSFRIVmNqWjZiMUwxSFU3UEJ6OXBBMFBoR2tzdHM5?=
- =?utf-8?B?UStzdkZiVS9Pdy8xN1hPekZxQzl2VHhyZHNXQTNWM1MreXM5aHVnUWFWSDZQ?=
- =?utf-8?B?UGtTZ1dMd1NITUVaeW9ZR1hIajdhcUd5ZldxOFgvd2M2V0xLWG9vekRZSXRU?=
- =?utf-8?B?MzVwWkQ3YUZPNXpZZ1JLN1JuVHhoSHBtZmo3MXdwMVhTWmNTRTMxWHVibHVV?=
- =?utf-8?B?L1RSU2JDc1RROVhWTGpnZjBtZFdBMFZBSGk2dDgxNS9RQjVHbmEzOWV4WlhR?=
- =?utf-8?B?d1o0bUpEMTAyQmcweVpDd3BOTUdoNjdCMExlbU5IbXYzV2piRjhvdUgrL3dl?=
- =?utf-8?B?UG43djVJZERVRHVJcEVpY1lxc2lZM2dlN1E5M0tMdEovRXBsaEtER0Z3Mml6?=
- =?utf-8?B?VTVtNXgyOVVkdEFtT3NlcUg0K1F1Nk1aNnNwdHlRNEdzNThkUGE2T3hySG9N?=
- =?utf-8?B?Y3hsRjB5WXJwRDYvVDl5azdFN3ZGMG80NXZqOWJQQ0krQWI1eFg2VzkxVUtm?=
- =?utf-8?B?RUxGR25hb1ZDUlREZERzSkN3cDJ1Si9aWGI4WW9pUTk4aDVUdlR3Q1dCTnhK?=
- =?utf-8?B?NVQ0d0Z0TWRPMWNPZy9DVWRLbEpuTFpjbWMxWWNHbG50blhJREtnc0NuaU44?=
- =?utf-8?B?R2NHNHY2UXIvSTF6eFhZTjhjUWFwSXNQcS9aOWhycldReFpuZEdEcDlYMGJj?=
- =?utf-8?B?a3M2NW1sRWFZNWlhNk5hM3ZKMnFmViswVWlYQWNKdnUzMG5OWFpWaFlRc3Uy?=
- =?utf-8?B?YlhBZGRQR1gweGRoYWZZNkV6aXRvbmZSVU12V2NVOE8xdW5rdldzUEZ2RHJP?=
- =?utf-8?B?Z2NZbmNwSWtyaGNjSlBFSy9OYzhkMS9vRlB4aW9sM0NhNnRrRHFMaWdzODd1?=
- =?utf-8?B?T3p5YVdsSWJmMEFnU2J5cjFoTXR6V2tHTFRJRjQyRlh0c1BJZlJGK0VtSEVX?=
- =?utf-8?B?SmRlOGsybUt3WGtaM2V2WVpqZ1NoTXllaERFaXpqOEY0RGI2cmxVTVZkMFNi?=
- =?utf-8?B?N0ZSVjAyMHFhQzR5Z1hSYktwTjBlTmJDSWVlbkdhNjhHbHllZ25qSkRJcy9p?=
- =?utf-8?B?ZmZkKzRFVnpuaGgxZ3NtWVFpM1NmVExNVHFUZ0hudXZ4TmlwcGs0encvQ29w?=
- =?utf-8?B?SWkraUs4QTFpcUN2dGFjSEZIV3ZNUElVT2FwNWlKVHlSa3N3VndWZmhIWmNB?=
- =?utf-8?B?OElrK2ZEQzl6ZCt3emt4M1ZFL0lHM0taeFVWRkdlMWYxV3d3WUFhWTNuNXdN?=
- =?utf-8?B?K1pKZURkM2VGYVU0NmlZOEFzU1M4V2RIWGF3a1VHbSt1ME5ZaE9tOGo4YTBO?=
- =?utf-8?B?SUM2WTVSeTFWbTdXcVVzVHdEdXdIYjhjMDdVZ2I2WWltZHRIaEw2UjFVcVFK?=
- =?utf-8?B?QTZ1T2ZJYTg2eDNOdldCVllBSUVqY1BpQVd1TmQyRWFxK0FOdERSbk9yWEVy?=
- =?utf-8?B?M2x2bVVkMEw4SDVHdmNManI1NWFZK3VoVE1LdzZlTEQ0QzExckpGRGljejdt?=
- =?utf-8?B?NThwOUJUUERoNlhYU1RHbnJYR2pvMHJvRktOR3NiMEFSblpsVUcrakhJV2hw?=
- =?utf-8?B?SHRweGRHRDV5RGh4R3dkeWJ3aHhXQ3liUTh2cjNDVDNTS2FMQU1acFgvTzAz?=
- =?utf-8?B?VzNvZmhUVkhVQkNkUzJ0d1NtYUtqUHVvQ3VjTkdUenZNOXU1YlBBalR2VjUx?=
- =?utf-8?B?NVYvaFBoM2ZKUW5XWm4zZmNMMGhRd0luQ1MxVU5qdjU1YkpUZUc4QT09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 472cde22-7463-47f5-f99e-08de4813cdec
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qgBKxDVTCVtxNOH280pI6tIPFbpDvqmWC3+2g6a4XsbGfOLSM6deTNutXRvm?=
+ =?us-ascii?Q?lpn//nb9wxR2H4jBIzLd2kIxdWDcaYzjdgNCWmyhis1O2kp7tgUlsTAnH3lW?=
+ =?us-ascii?Q?wLCfLT66KalnXTpmFZlVghk7MXHUNQau4scxtwXjYGPLrR9EMOv9t5y1juLs?=
+ =?us-ascii?Q?f3kONvqJn9Fm4RFZCaODwwyLSkKmH9OUzUM2MtSXw9SlRXUl47cwpIMJJLUO?=
+ =?us-ascii?Q?+k9KeMb5j5o5KaIGkOtLEe5eWSbbTJHL4ylkbO0CesZBJbCsm4XumHi67xu6?=
+ =?us-ascii?Q?JjUEzhRSynjigxAZF3xBRGy+U3MlBMp3q0yhV5RtgOm0OZFdp8EzxBWe/Ept?=
+ =?us-ascii?Q?nU0wAUCgnZ4tYuKSN3PQxt2XQA/xDry8Tur+fWhnTvNsQgEbPehfe0xM32df?=
+ =?us-ascii?Q?Q9bXaPkj8G4qihbqAAwqe9MkOZZgcCq6c/4TmRP6hbL1PVVL6SznZYDkFG+t?=
+ =?us-ascii?Q?cD72xQUFPptZNG7UlpXCVRMAWrvGu0rXfsc9N8zxbxsA80soBFOhiqatt1qg?=
+ =?us-ascii?Q?HDvUoJWeTDiwsd3Kb10JA4MkJVv7tSKyaZi/kzhWU+uB6iZTP/Ga/+aQObI6?=
+ =?us-ascii?Q?NDN7p69YJdxcs2VhZi50geUspCzZTizIXTvwk+fHPnxINdvf8vxpgBFSfzbt?=
+ =?us-ascii?Q?mP34GP+NNYKS4PP7PklzI1Z7/+zh7NAI13vf8bOzT78BLDMkQvfR//ppJbFP?=
+ =?us-ascii?Q?ZATg7etRBB9KHnqwB31GTiBfNKIxOdQEffFu8EI3N8ScmYMjDTBkrqGGCoUN?=
+ =?us-ascii?Q?7IRxmSevzLAW/K0t2y1HRb80gZU7PykpOR+AFp1iEGB8wJsZX2w+rrz/I/tJ?=
+ =?us-ascii?Q?4QxiR8HLRLoQfA+ju+89rCE70jmmwxncsA/xuAVYIa6bK5XGpwELCeLle1nC?=
+ =?us-ascii?Q?xoEpwIl6EuP2XDFFcd4M0VeazVBTDBzCmZG9q35MmpRgDdN/VYQncEmQ6bxz?=
+ =?us-ascii?Q?YNFFEPfodee/MsuNRKsF1qnwshxo+fwpX+iakpS+v1B9woyvWUAmExhQZBpr?=
+ =?us-ascii?Q?/kZeXMBoE3jEupQwvz1Cn4SIKtSh2bi7oVQgvT1lplO7m3Z+PrtrCBQZrLvq?=
+ =?us-ascii?Q?AxIDeHP4Q1wjpT5R39ozK1KcdkJmL03QzCFU0CdWz1jY1OJwrA5MgOtVuz2p?=
+ =?us-ascii?Q?doJJmDHmgpXgAW1SUJq1QyT6jeYS5NOlwCWuyR7aOm9qY4UttmRtcZ/3n33y?=
+ =?us-ascii?Q?sJ3a/Ieze3s1HrmjD7uQeRMqLHoivXQdkt9KOdEZLiqB0u7lSQtTSGRozmkH?=
+ =?us-ascii?Q?Pe4bBdjktTAh4EVVvpgkYaSeb7Msgn/KHUYr4+3cvz4yIFfuV624w7bFgmuj?=
+ =?us-ascii?Q?HJkRrZgsdyE4m8oiAbEBKhfLuOiaarKBrlhh/+nqfokAeP1j3u4auGeyX0Hc?=
+ =?us-ascii?Q?AhPEm/X/TpDnzL+S06fJaOdm/KV9FF+uua3RTpjwQOpH+nSmrJECGqbaMVsV?=
+ =?us-ascii?Q?yImEFBmv/Ld9QxplLjDuXnP/wCcxb8aYHuFsolQI27CQd+6IqOFiRS5scZWY?=
+ =?us-ascii?Q?AXvNbZaHXh5CMRFh/l6A8xECBirlPRAiUrtjgJV93Qhgk00wd1gMKJmeWJDs?=
+ =?us-ascii?Q?Pjl2leemTyD0C0LdqbOShMzBA1Iq3iDIS+WoBJ2Oz3Nb4FFGN4nyu770omMk?=
+ =?us-ascii?Q?PQeRs5SBhe9vqGLrq9/sY82/3qeo8KE+uf3wQrUGtqAPWuGggPWQaWQG4lb/?=
+ =?us-ascii?Q?biOwU3n+Z6/P9V2W5yicYdg7dIvsQR/9cy2aSjeljaKV2ReQSK1MV1Z6gVly?=
+ =?us-ascii?Q?deTrjfNFdQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 195d558d-b1af-4b2b-ca7e-08de48258e26
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2025 02:25:03.1687 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2025 04:32:07.3442 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k0Q1i/Q4ZXwmkuaL9qY9GLcBVkoyFtX2Eelbdabjsi3FfEWeXBuBSpcvKYe3lZuM0jpaaEq0hH+Qs1jbMoCiLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4903
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9adz8+UN241fopJFBADuBy0nKi0yy9ISndUHRFI7e2fx6rTnOxJsus7cYl+JbMtaS5N7OCOOdvkLhdBib7TujQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6045
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -204,71 +153,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 30, 2025 at 04:42:51PM +0100, Marco Crivellari wrote:
-> On Wed, Dec 24, 2025 at 7:28 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> > [...]
-> > >  drivers/gpu/drm/xe/xe_tlb_inval.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
-> > > index 918a59e686ea..b2cf6e17fbc5 100644
-> > > --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-> > > +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-> > > @@ -94,7 +94,7 @@ static void xe_tlb_inval_fence_timeout(struct work_struct *work)
-> > >               xe_tlb_inval_fence_signal(fence);
-> > >       }
-> > >       if (!list_empty(&tlb_inval->pending_fences))
-> > > -             queue_delayed_work(system_wq, &tlb_inval->fence_tdr,
-> > > +             queue_delayed_work(system_percpu_wq, &tlb_inval->fence_tdr,
-> >
-> > Actually system_wq or system_percpu_wq doesn't work here as this is the
-> > fence signaling path. We should use one Xe's ordered work queues which
-> > is properly setup to be reclaim same.
-> 
-> Hi,
-> 
-> So only for this specific workqueue we should use for example this, instead:
-> 
-> 462     /** @ordered_wq: used to serialize compute mode resume */
-> 463     struct workqueue_struct *ordered_wq;
-> 
-> I noticed this has been allocated using:
-> 
->  490     xe->ordered_wq = alloc_ordered_workqueue("xe-ordered-wq", 0);
-> 
-> Using alloc_ordered_workqueue() makes this workqueue to be unbound.
-> 
-> 569 #define alloc_ordered_workqueue(fmt, flags, args...)            \
-> 570     alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
-> 
-> So this patch should be split in 2:
-> - 1 patch with Xe's ordered workqueue, changing the behavior to
-> unbound "implicitly"
-> - 1 patch changing system_wq with the new per-cpu wq (system_percpu_wq).
-> 
-> To keep this workqueue per-cpu we can use xe->unordered_wq, that makes use of
-> alloc_workqueue() without specifying flags (eg. WQ_UNBOUND or the new
-> WQ_PERCPU),
-> making this workqueue per-cpu.
-> 
-> Would this sound reasonable to you?
-> 
+Today, when creating these device private struct pages, the first step
+is to use request_free_mem_region() to get a range of physical address
+space large enough to represent the devices memory. This allocated
+physical address range is then remapped as device private memory using
+memremap_pages.
 
-What I'd probably do here is store a WQ pointer in 'struct
-xe_tlb_inval' and update all calls in xe_tlb_inval to use that work
-queue.
+Needing allocation of physical address space has some problems:
 
-Since these are tied to a GT currently - see xe_gt_tlb_inval_init_early,
-I'd set the WQ pointer in 'struct xe_tlb_inval' to 'gt->ordered_wq'.
-'gt->ordered_wq' is the per-GT WQ for resets, jobs timeouts, VF
-migrations (all operations in reclaim path), so this seems to fit here
-as well.
+  1) There may be insufficient physical address space to represent the
+     device memory. KASLR reducing the physical address space and VM
+     configurations with limited physical address space increase the
+     likelihood of hitting this especially as device memory increases. This
+     has been observed to prevent device private from being initialized.  
 
-Matt
+  2) Attempting to add the device private pages to the linear map at
+     addresses beyond the actual physical memory causes issues on
+     architectures like aarch64  - meaning the feature does not work there [0].
 
-> Thanks!
-> -- 
-> 
-> Marco Crivellari
-> 
-> L3 Support Engineer
+This series changes device private memory so that it does not require
+allocation of physical address space and these problems are avoided.
+Instead of using the physical address space, we introduce a "device
+private address space" and allocate from there.
+
+A consequence of placing the device private pages outside of the
+physical address space is that they no longer have a PFN. However, it is
+still necessary to be able to look up a corresponding device private
+page from a device private PTE entry, which means that we still require
+some way to index into this device private address space. Instead of a
+PFN, device private pages use an offset into this device private address
+space to look up device private struct pages.
+
+The problem that then needs to be addressed is how to avoid confusing
+these device private offsets with PFNs. It is the inherent limited usage
+of the device private pages themselves which make this possible. A
+device private page is only used for userspace mappings, we do not need
+to be concerned with them being used within the mm more broadly. This
+means that the only way that the core kernel looks up these pages is via
+the page table, where their PTE already indicates if they refer to a
+device private page via their swap type, e.g.  SWP_DEVICE_WRITE. We can
+use this information to determine if the PTE contains a PFN which should
+be looked up in the page map, or a device private offset which should be
+looked up elsewhere.
+
+This applies when we are creating PTE entries for device private pages -
+because they have their own type there are already must be handled
+separately, so it is a small step to convert them to a device private
+PFN now too.
+
+The first part of the series updates callers where device private
+offsets might now be encountered to track this extra state.
+
+The last patch contains the bulk of the work where we change how we
+convert between device private pages to device private offsets and then
+use a new interface for allocating device private pages without the need
+for reserving physical address space.
+
+By removing the device private pages from the physical address space,
+this series also opens up the possibility to moving away from tracking
+device private memory using struct pages in the future. This is
+desirable as on systems with large amounts of memory these device
+private struct pages use a signifiant amount of memory and take a
+significant amount of time to initialize.
+
+Changes in v1:
+  - mm/migrate_device: Add migrate PFN flag to track device private pages
+    - Update for HMM huge page support
+    - Update existing drivers to use MIGRATE_PFN_DEVICE
+
+  - mm/page_vma_mapped: Add flags to page_vma_mapped_walk::pfn to track
+    device private pages
+    - Update for HMM huge page support 
+
+  - mm: Add helpers to create migration entries from struct pages
+    - New to series
+
+  - mm: Add a new swap type for migration entries of device private pages
+    - Update for softleaf infrastructure
+    - Handle make_readable_migration_entry_from_page() and friends
+
+  - mm: Add helpers to create device private entries from struct pages
+    - New to series
+
+  - mm/hmm: Add flag to track device private pages
+    - Update HMM_PFN_ORDER_SHIFT
+    - Handle hmm_vma_handle_absent_pmd()
+
+  - mm: Remove device private pages from the physical address space
+    - Include NUMA node paramater for memremap_device_private_pagemap()
+    - Add devm_memremap_device_private_pagemap() and friends
+    - Update existing users of memremap_pages():
+      - ppc ultravisor
+      - drm/amd/amdkfd
+      - gpu/drm/xe
+      - gpu/drm/nouveau
+    - Update for HMM huge page support
+
+Testing:
+- selftests/mm/hmm-tests on an amd64 VM
+
+* NOTE: I will need help in testing the driver changes *
+
+Revisions:
+- RFC: https://lore.kernel.org/all/20251128044146.80050-1-jniethe@nvidia.com/
+
+[0] https://lore.kernel.org/lkml/CAMj1kXFZ=4hLL1w6iCV5O5uVoVLHAJbc0rr40j24ObenAjXe9w@mail.gmail.com/
+
+Jordan Niethe (8):
+  mm/migrate_device: Add migrate PFN flag to track device private pages
+  mm/page_vma_mapped: Add flags to page_vma_mapped_walk::pfn to track
+    device private pages
+  mm: Add helpers to create migration entries from struct pages
+  mm: Add a new swap type for migration entries of device private pages
+  mm: Add helpers to create device private entries from struct pages
+  mm/util: Add flag to track device private pages in page snapshots
+  mm/hmm: Add flag to track device private pages
+  mm: Remove device private pages from the physical address space
+
+ Documentation/mm/hmm.rst                 |  11 +-
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |  43 ++---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  32 ++--
+ drivers/gpu/drm/drm_pagemap.c            |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |  37 ++---
+ drivers/gpu/drm/xe/xe_svm.c              |  28 +---
+ fs/proc/page.c                           |   6 +-
+ include/linux/hmm.h                      |   7 +-
+ include/linux/leafops.h                  |  86 ++++++++--
+ include/linux/memremap.h                 |  64 +++++++-
+ include/linux/migrate.h                  |   5 +
+ include/linux/mm.h                       |   9 +-
+ include/linux/rmap.h                     |  33 +++-
+ include/linux/swap.h                     |   8 +-
+ include/linux/swapops.h                  | 124 +++++++++++++++
+ lib/test_hmm.c                           |  73 +++++----
+ mm/debug.c                               |   9 +-
+ mm/hmm.c                                 |   5 +-
+ mm/huge_memory.c                         |  53 ++++---
+ mm/memory.c                              |  14 +-
+ mm/memremap.c                            | 193 ++++++++++++++++++-----
+ mm/migrate.c                             |   6 +-
+ mm/migrate_device.c                      |  45 +++---
+ mm/mm_init.c                             |   8 +-
+ mm/mprotect.c                            |  21 ++-
+ mm/page_vma_mapped.c                     |  32 +++-
+ mm/rmap.c                                |  59 ++++---
+ mm/util.c                                |   8 +-
+ mm/vmscan.c                              |   2 +-
+ 29 files changed, 737 insertions(+), 288 deletions(-)
+
+
+base-commit: f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
+-- 
+2.34.1
+
