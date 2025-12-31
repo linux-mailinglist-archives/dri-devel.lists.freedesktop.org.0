@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95A6CEB84C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 09:23:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671B2CEB8DA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Dec 2025 09:39:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C31910E990;
-	Wed, 31 Dec 2025 08:23:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kgwuOlW/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6BB10E085;
+	Wed, 31 Dec 2025 08:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F13810E990
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Dec 2025 08:23:23 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 91CAD4E41EAB;
- Wed, 31 Dec 2025 08:23:21 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 509DA60744;
- Wed, 31 Dec 2025 08:23:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2C3C1113B0755; Wed, 31 Dec 2025 09:23:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767169400; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=1dqztIL+mezY/FHub8je7fMGsqx1sFeebpYowobp0I8=;
- b=kgwuOlW/Lzw4AbF0zcDjTOQQw5KAy7sBZrQ+amITfd6S7Fb660Gme7sgr9keXr0RBZYpi9
- qMMb/o2iClQW5c1X0ULOBlYBhvJFiOrGYJoSbG5LKC8IH6atY2sLW8WigaOZVMK9ZgJGBP
- Gl/MDr0M/nt2rE8ZxnRUyWrUkOifvCQrJV0kvwCfHsDBJz7oFzfqrwIGT9phCgIeOtU8lA
- IXKf3KfiZDgFCrtgKs9YjHgUUOreEM5yiVbUKqYDuAbC/leluRl8IJYoQeA3Jf4E9zwNCK
- FSU86ufezztAVh+vwNUAVy8n3YIFxuQN1NB8cplSKuzkicZAarGll8ezzNi5Ew==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 31 Dec 2025 09:22:47 +0100
-Subject: [PATCH] drm/bridge: fix kdoc syntax
+X-Greylist: delayed 484 seconds by postgrey-1.36 at gabe;
+ Wed, 31 Dec 2025 08:39:26 UTC
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.64.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C68D10E085;
+ Wed, 31 Dec 2025 08:39:26 +0000 (UTC)
+X-QQ-mid: zesmtpip4t1767169836t8268e047
+X-QQ-Originating-IP: fMplGKqgXfykVLGKncaHisjFc0ZxUPSnlLhM2eZrTvU=
+Received: from [127.0.0.1] ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 31 Dec 2025 16:30:34 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 13277669007580881109
+Message-ID: <B215717DE5B3F973+806cb099-b491-464b-b9a8-fd12f2cd1e27@radxa.com>
+Date: Wed, 31 Dec 2025 16:30:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] drm/msm/dpu: Check mode against PINGPONG or DSC max
+ width
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250514-max-mixer-width-v1-0-c8ba0d9bb858@oss.qualcomm.com>
+ <20250514-max-mixer-width-v1-3-c8ba0d9bb858@oss.qualcomm.com>
+Content-Language: en-US
+From: Xilin Wu <sophon@radxa.com>
+In-Reply-To: <20250514-max-mixer-width-v1-3-c8ba0d9bb858@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-v1-1-193a03f0609c@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAFfdVGkC/y2NUQrCMBAFr1L224UkGhCvIhLSZFMXa1KSVgqld
- +8qfs4MvLdBo8rU4NZtUOnDjUsW0KcOwtPngZCjMBhlrDZnjbG+sa8cpfhxLAEHmqdl/npXkku
- co/v3V5SceMXUKxWul2CN9SDLUyXRv9f7Y98PCm6AZoUAAAA=
-X-Change-ID: 20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-fb00c84c525a
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: Mw5V7KuSxHjfVhROMvJjKAvbc5VRgJ/oG1pJSbNh2s0xx6PQixbDrV7t
+ QFvi/2ULkol93l5ZimGQd9EC0+08has+bI8uZ/h9qNAd5VSsqR9O00OlonNRcvL3p5ODA/L
+ phMXwQdUrRwXEYiV4AnlPjv45t6ev8qyMOy3CLi8c2asvvUUcNLRMC2mSOqISCUAHq1W7K1
+ AibDprWrdimSMKIxWoQ0peeeZahbNLNcoQtOk8ROxNYcvDIiqlL4HNz7ZUMRXiDTe+ypl42
+ Ws3hJMm3X2YE3Y9Sf65BlPqV6X6LJPxCCawQJ0a4smWmF9Cb6TfHrT9RFOEAuVXm4BnXG4j
+ LHiS43qfnySXg9PSdQfFNFWdRQdhOjRi1M8KXySLSgOkSDaF6kMbVNIaiAY86HRFBXUi46l
+ q/ZOhsg0MwevY9Tli/9Q5uIabRgmUWYlTlCb3MH1Wl8l4CBwLXGLRC9MwjsLwe+e9Lgrs58
+ rQQAzYC67NzlN+Lm5SMaeJpWrSZ6ALr76YuM4cWG3gdW91va0w9Xw6JxOQiF66dJch+4Wvm
+ dI8XzLOc8BXKn8CdwanVJcShbcl871TX9RfVPsAejVDA2XVJsfC3jJq+vHdByaJdwH73u4J
+ VBL8kTev8FMpzsG4V2LrZGLyaVGoBdmT8pcp+6A0Y2BJrdbifeVYJxRTOqpkzirmH3DQPaY
+ Gv/vNp+H7Pgt7EjxE/oQ2UM/9fHBDaKvMr+JKk2sdprdLBAviJzwfAjEyu3hgzREmrM6vTQ
+ DjCAbdNDaG6DMTsxCcNUqeJ2hC8P+jKSQn58ZuEEZKuwlQ+wvBKEVlt35bkFhpn4v/t9qeD
+ 2xVFEVN7qKd8A7Jd/Ko6zWUwW/QTxAm808yKbe4QgTd7TBcGAY6pwFtJrzITS5c9QMpx5aY
+ vx1y3DPvcPlaGB65PWBNbogGn6R15Q09G3tFjbuYGdoDNxPblOY+RUZoyzSiw5RSWqVn4AU
+ H10/0OedRjYhTYZrtkGW5pbAA0yZRBGPp86emy0a0XtayKVH4fpxD8a7L5xUeLxo60cBY1p
+ zVPF796H0zZ1W1AXIrTBiiYt8iWmYvLs2z0sUjXw==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +77,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the correct kdoc syntax for bullet list.
+On 5/15/2025 7:52 AM, Jessica Zhang wrote:
+> Validate requested mode and topology based on the PINGPONG or DSC encoder
+> max width. In addition, drop MAX_HDISPLAY_SPLIT and base LM reservation
+> off of PINGPONG or DSC encoder max width
+> 
+> As noted in the patch, while DPU 8.x+ supports a max linewidth of 8960
+> for PINGPONG_0, there is some additional logic that needs to be added to
+> the resource manager to specifically try and reserve PINGPONG_0 for
+> modes that are greater than 5k.
+> 
+> Since this is out of the scope of this series, add a helper that will
+> get the overall minimum PINGPONG max linewidth for a given chipset.
+> 
+> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 46 +++++++++++++++++++++++++++-----
+>   1 file changed, 39 insertions(+), 7 deletions(-)
+> 
+Thanks for the patches! With patch 2&3 applied on top of v6.18, I'm able 
+to get DSI panel and DP monitor working simultaneously on qcs6490.
 
-Fixes kdoc error and warning:
+Tested-by: Xilin Wu <sophon@radxa.com> # qcs6490-radxa-dragon-q6a
 
-  Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1519: ERROR: Unexpected indentation. [docutils]
-  Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
-Fixes: 9da0e06abda8 ("drm/bridge: deprecate of_drm_find_bridge()")
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/drm_bridge.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 6dcf8f6d3ecf..3b165a0d1e77 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1518,11 +1518,14 @@ EXPORT_SYMBOL(of_drm_find_and_get_bridge);
-  * The bridge returned by this function is not refcounted. This is
-  * dangerous because the bridge might be deallocated even before the caller
-  * has a chance to use it. To use this function you have to do one of:
-+ *
-  * - get a reference with drm_bridge_get() as soon as possible to
-  *   minimize the race window, and then drm_bridge_put() when no longer
-  *   using the pointer
-+ *
-  * - not call drm_bridge_get() or drm_bridge_put() at all, which used to
-  *   be the correct practice before dynamic bridge lifetime was introduced
-+ *
-  * - again, convert to of_drm_find_and_get_bridge(), which is the only safe
-  *   thing to do
-  *
-
----
-base-commit: 40630210211a34f0714fe976530ccf1291e5ef78
-change-id: 20251231-drm-bridge-alloc-getput-drm_of_find_bridge-kdoc-fix-fb00c84c525a
-
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
-
+Best regards,
+Xilin Wu <sophon@radxa.com>
