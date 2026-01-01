@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDA0CED1BE
-	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 16:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CECED1DF
+	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 16:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742CC10E598;
-	Thu,  1 Jan 2026 15:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3318A10E590;
+	Thu,  1 Jan 2026 15:25:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kGqcmwLV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QbSW8z3l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB56310E590
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:22:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E0410E590
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:25:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 745BD4181C;
- Thu,  1 Jan 2026 15:22:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB30C19421;
- Thu,  1 Jan 2026 15:22:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 18DCA43C46;
+ Thu,  1 Jan 2026 15:25:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8A5C4CEF7;
+ Thu,  1 Jan 2026 15:25:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767280931;
- bh=mIhQkcwbxHiDGbqkIpgQI8IR3rwmgawWbN+IVj32UUs=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kGqcmwLV7Ca8pob+S+kw7LGUFHbGytU1VCH0dL6/wWPfp0iy/bf+Px9uL8SKguBXN
- 3xA3qQMHp2XmmYnMEr16+BC38K5DNn/lSPBlhtLmGICsPIV+2ZClFydcg78x10VRci
- InQV9sb8stN0QoRv/lJ+sefAIVAbtia3CQSwW6t4yjZjftMMyuC9pjmqVAL9IW7Gzd
- tM1CPTVb6OIIR0ode4i6/ZgdHinRHmWnWDi1JO/PKI58t3/WIdTA7PftGELwGr20i3
- rVYdKeGoWjMgerYaoi444pDmhXGYXxSSOr0UW6QJqg4BYTjmOOkBQtMtrm1o0Hihtr
- 3qpNd61NbZ7cw==
+ s=k20201202; t=1767281149;
+ bh=NkRsGfvIL1/OvrkR6mZatfZNK7t07Oc97Uf1iGkvo2I=;
+ h=From:Subject:Date:To:Cc:From;
+ b=QbSW8z3lPEubz6E+cuS/nRuQwyJwKYodiekZR4X+hPA15ji05N41SAA0JmL/6ILm/
+ UHkoq7oiPYbzjG6zTNBAEpOKWF9jssGCoipdKXqnd4Y53k37y44Tz8C8uOD57ZeNmc
+ NDEB0PFqnDrQ2LdBOWp4gs1lx+iiWFy2mzGZvByiIC65o/UL7FdcM+WK6HYILVyFTc
+ VeUaK/Xd5Vb6hTYx3CGMzdrAmnIs+Cw96BOSo08HXGwuIFy2OSBv0OyKfI99rFukSX
+ dB6oHinQ9n7ynZzEOVXRINhaAA3KN0OhgORJMF6Roag88zfP1Pff2vFe0TRX6c3Urv
+ kIkOdlXNPiFmw==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Thu, 01 Jan 2026 16:21:40 +0100
-Subject: [PATCH v4 2/2] kbuild: cleanup local -Wno-type-limits exceptions
+Subject: [PATCH v2 0/6] video/logo: allow custom boot logo and simplify logic
+Date: Thu, 01 Jan 2026 16:25:14 +0100
+Message-Id: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260101-remove_wtype-limits-v4-2-225b75c29086@kernel.org>
-References: <20260101-remove_wtype-limits-v4-0-225b75c29086@kernel.org>
-In-Reply-To: <20260101-remove_wtype-limits-v4-0-225b75c29086@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org, 
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org, 
- linux-hardening@vger.kernel.org, Vincent Mailhol <mailhol@kernel.org>
+X-B4-Tracking: v=1; b=H4sIANqRVmkC/1XMQQ7CIBCF4as0sxYDQwupK+9humjolBIrGFCia
+ bi72Lhx+U/mfRskio4SnJoNImWXXPA18NCAWUZvibmpNiDHTiBqZp7pEW5sDTawXuI0S6FGjgb
+ q4h5pdq9duwy1F1d/43vHs/hef47kf04WjLNWSyV126me6Hyl6Gk9hmhhKKV8AAQhLDKnAAAA
+X-Change-ID: 20251227-custom-logo-932df316a02c
+To: Helge Deller <deller@gmx.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
+ Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1458; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=mIhQkcwbxHiDGbqkIpgQI8IR3rwmgawWbN+IVj32UUs=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhE3mrlDPMGDaIXHSKZGlJkn9skCQg7toTo82q/yzg7
- 4KDe/Q7JrIwiHExWIopsiwr5+RW6Cj0Djv01xJmDisTyBBpkQYGIGBh4MtNzCs10jHSM9U21DM0
- 1AEyGbg4BWCqnfUY/mecfnenflaxkYSDPVd8NMfZjSuW5708HvG/hOen+0K9H98Y/kcvy5iQ//p
- zdKGbczX72k6b2XfD69WqygV2xl7tq034zQQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2816; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=NkRsGfvIL1/OvrkR6mZatfZNK7t07Oc97Uf1iGkvo2I=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhEx9fcXPXcCtQu9Tl+yNGaWW2QFelZ//JFfHHGB89n
+ BS65XtTx0QWBjEuBksxRZZl5ZzcCh2F3mGH/lrCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ hjpAJgMXpwBM9Y1ORoa9UyYfjjk9535u5aMd+1uZH9v/DOfWyvg2SZDXoYDlgUYvwz+9Lfq7/rF
+ xnHqzvW72U+9WjcvG5twMQotjX16+ymvrf54fAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,46 +72,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that -Wtype-limits is globally deactivated, there is no need for
-local exceptions anymore.
+This series allows the user to replace the default kernel boot logo by
+a custom one directly in the kernel configuration. This makes it
+easier to customise the boot logo without the need to modify the
+sources and allows such customisation to remain persistent after
+applying the configuration to another version of the kernel.
 
-Acked-by: David Sterba <dsterba@suse.com>
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Patch #1 and #2 are clean-up and preparation while patch #3 is the
+main feature of this series: making the boot logo customisable.
+
+While working on this, I realised that managing the logo file directly
+in Kbuild allows us to simplify how we handle the different existing
+variants of the Tux logo. This series thus ends with a clean-up which
+moves all the logo selection logic to Kbuild except from one special
+case (details in the patch description), simplifying the Makefile and
+the C code.
+
+Patch #4 and #5 do a tree-wide clean-up on the Kconfig symbols that
+are to be removed in patch #6 and patch #6 simplify the logic as
+explained above.
+
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
-Changelog:
+Changes in v2:
 
-  v1 -> v2: small change in patch description
+  - By removing the logo_spe_clut224.o target from the Makefile, v1
+    also removed the logo_spe_clut224 object which is still being
+    referenced in
+
+      arch/powerpc/platforms/cell/spu_base.c
+
+    Restore the logo_spe_clut224.o target.
+
+Link to v1: https://lore.kernel.org/r/20251230-custom-logo-v1-0-4736374569ee@kernel.org
+
 ---
- drivers/gpu/drm/Makefile | 1 -
- fs/btrfs/Makefile        | 1 -
- 2 files changed, 2 deletions(-)
+Vincent Mailhol (6):
+      video/logo: remove orphan .pgm Makefile rule
+      video/logo: add a type parameter to the logo makefile function
+      video/logo: allow custom logo
+      newport_con: depend on LOGO_LINUX_CLUT224 instead of LOGO_SGI_CLUT224
+      sh: defconfig: remove CONFIG_LOGO_SUPERH_*
+      video/logo: move logo selection logic to Kconfig
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 0e1c668b46d2..b879a60ca79a 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -22,7 +22,6 @@ subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
- # The following turn off the warnings enabled by -Wextra
- ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
- subdir-ccflags-y += -Wno-missing-field-initializers
--subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-shift-negative-value
- endif
- ifeq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
-diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
-index 743d7677b175..40bc2f7e6f6b 100644
---- a/fs/btrfs/Makefile
-+++ b/fs/btrfs/Makefile
-@@ -17,7 +17,6 @@ subdir-ccflags-y += $(condflags)
- # The following turn off the warnings enabled by -Wextra
- subdir-ccflags-y += -Wno-missing-field-initializers
- subdir-ccflags-y += -Wno-sign-compare
--subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-shift-negative-value
- 
- obj-$(CONFIG_BTRFS_FS) := btrfs.o
+ arch/sh/configs/dreamcast_defconfig      |  2 -
+ arch/sh/configs/ecovec24_defconfig       |  2 -
+ arch/sh/configs/kfr2r09_defconfig        |  2 -
+ arch/sh/configs/migor_defconfig          |  2 -
+ arch/sh/configs/rts7751r2d1_defconfig    |  2 -
+ arch/sh/configs/rts7751r2dplus_defconfig |  2 -
+ arch/sh/configs/se7724_defconfig         |  2 -
+ arch/sh/configs/se7780_defconfig         |  2 -
+ arch/sh/configs/sh7785lcr_defconfig      |  3 --
+ arch/sh/configs/urquell_defconfig        |  3 --
+ drivers/video/console/newport_con.c      |  4 +-
+ drivers/video/logo/Kconfig               | 83 ++++++++++++++++++--------------
+ drivers/video/logo/Makefile              | 27 +++++------
+ drivers/video/logo/logo.c                | 46 ++----------------
+ include/linux/linux_logo.h               |  8 ---
+ 15 files changed, 63 insertions(+), 127 deletions(-)
+---
+base-commit: b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
+change-id: 20251227-custom-logo-932df316a02c
 
+Best regards,
 -- 
-2.52.0
+Vincent Mailhol <mailhol@kernel.org>
 
