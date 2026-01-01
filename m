@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CECED1DF
+	by mail.lfdr.de (Postfix) with ESMTPS id B58C8CED1E2
 	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 16:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3318A10E590;
-	Thu,  1 Jan 2026 15:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BB7610E5B6;
+	Thu,  1 Jan 2026 15:25:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QbSW8z3l";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qOu9Gmw/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E0410E590
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:25:49 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 157A110E5A5
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:25:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 18DCA43C46;
+ by tor.source.kernel.org (Postfix) with ESMTP id 34AD060055;
+ Thu,  1 Jan 2026 15:25:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79926C16AAE;
  Thu,  1 Jan 2026 15:25:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8A5C4CEF7;
- Thu,  1 Jan 2026 15:25:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767281149;
- bh=NkRsGfvIL1/OvrkR6mZatfZNK7t07Oc97Uf1iGkvo2I=;
- h=From:Subject:Date:To:Cc:From;
- b=QbSW8z3lPEubz6E+cuS/nRuQwyJwKYodiekZR4X+hPA15ji05N41SAA0JmL/6ILm/
- UHkoq7oiPYbzjG6zTNBAEpOKWF9jssGCoipdKXqnd4Y53k37y44Tz8C8uOD57ZeNmc
- NDEB0PFqnDrQ2LdBOWp4gs1lx+iiWFy2mzGZvByiIC65o/UL7FdcM+WK6HYILVyFTc
- VeUaK/Xd5Vb6hTYx3CGMzdrAmnIs+Cw96BOSo08HXGwuIFy2OSBv0OyKfI99rFukSX
- dB6oHinQ9n7ynZzEOVXRINhaAA3KN0OhgORJMF6Roag88zfP1Pff2vFe0TRX6c3Urv
- kIkOdlXNPiFmw==
+ s=k20201202; t=1767281151;
+ bh=/PRAWLk1+pSHIN+oE7HMAv23it2DWPyzsrdtDMwQB9k=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=qOu9Gmw/qz5EFdv+hSR2W3VzNET+Zfr9HOgruJn+ydot06HNKv1KjYj0nK9iXJxXV
+ wwD5KcRv2Rqtc6QC9jEgrBbdYfwceeuu1ZHxoh+b834D3L79+ISb4o66mFXNU+Cvpo
+ xcHJXmLnP9eQ8DIyZRP6OK3OaSLWI8xifV4Jfh2QrXGImjTloz0coBGdfInurVfr+Z
+ N0tPNWZQteUmIjTK2ZZp86y6revzzXPOAZh18AfvVvd8f9ECw4gv52xMde02Xyz2Kc
+ 5PeflIPLRTu1H0d/XwHKIWZSddaa85PE74gpg82TYt9s+DzKS7hhKgjhmep8zPEVy3
+ 6XwsmoRhCvdJw==
 From: Vincent Mailhol <mailhol@kernel.org>
-Subject: [PATCH v2 0/6] video/logo: allow custom boot logo and simplify logic
-Date: Thu, 01 Jan 2026 16:25:14 +0100
-Message-Id: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
+Date: Thu, 01 Jan 2026 16:25:15 +0100
+Subject: [PATCH v2 1/6] video/logo: remove orphan .pgm Makefile rule
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANqRVmkC/1XMQQ7CIBCF4as0sxYDQwupK+9humjolBIrGFCia
- bi72Lhx+U/mfRskio4SnJoNImWXXPA18NCAWUZvibmpNiDHTiBqZp7pEW5sDTawXuI0S6FGjgb
- q4h5pdq9duwy1F1d/43vHs/hef47kf04WjLNWSyV126me6Hyl6Gk9hmhhKKV8AAQhLDKnAAAA
-X-Change-ID: 20251227-custom-logo-932df316a02c
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260101-custom-logo-v2-1-8eec06dfbf85@kernel.org>
+References: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
+In-Reply-To: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
 To: Helge Deller <deller@gmx.de>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
@@ -49,12 +47,12 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
  Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2816; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=NkRsGfvIL1/OvrkR6mZatfZNK7t07Oc97Uf1iGkvo2I=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhEx9fcXPXcCtQu9Tl+yNGaWW2QFelZ//JFfHHGB89n
- BS65XtTx0QWBjEuBksxRZZl5ZzcCh2F3mGH/lrCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- hjpAJgMXpwBM9Y1ORoa9UyYfjjk9535u5aMd+1uZH9v/DOfWyvg2SZDXoYDlgUYvwz+9Lfq7/rF
- xnHqzvW72U+9WjcvG5twMQotjX16+ymvrf54fAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=943; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=/PRAWLk1+pSHIN+oE7HMAv23it2DWPyzsrdtDMwQB9k=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhE5977zg6YfvhbWbLtdZtERBYIBg/j6thn9ZBiahG7
+ RvuQdF+HRNZGMS4GCzFFFmWlXNyK3QUeocd+msJM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GuoAmQxcnAIw1XbTGf4K3AxbusiD12/mu9OnN61UsdWJs13et83b+PCbzfczZY5eYvjDb3k9asl
+ 25Zt229nunuDbUqbqeeG1quaHoD3Oh7edFe9lAAA=
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,70 +70,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series allows the user to replace the default kernel boot logo by
-a custom one directly in the kernel configuration. This makes it
-easier to customise the boot logo without the need to modify the
-sources and allows such customisation to remain persistent after
-applying the configuration to another version of the kernel.
+The kernel has no actual grey-scale logos. And looking at the git
+history, it seems that there never was one (or maybe there was in the
+pre-git history? I did not check that far…)
 
-Patch #1 and #2 are clean-up and preparation while patch #3 is the
-main feature of this series: making the boot logo customisable.
-
-While working on this, I realised that managing the logo file directly
-in Kbuild allows us to simplify how we handle the different existing
-variants of the Tux logo. This series thus ends with a clean-up which
-moves all the logo selection logic to Kbuild except from one special
-case (details in the patch description), simplifying the Makefile and
-the C code.
-
-Patch #4 and #5 do a tree-wide clean-up on the Kconfig symbols that
-are to be removed in patch #6 and patch #6 simplify the logic as
-explained above.
+Remove the Makefile rule for the .pgm grey scale images.
 
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
-Changes in v2:
+ drivers/video/logo/Makefile | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-  - By removing the logo_spe_clut224.o target from the Makefile, v1
-    also removed the logo_spe_clut224 object which is still being
-    referenced in
+diff --git a/drivers/video/logo/Makefile b/drivers/video/logo/Makefile
+index 895c60b8402e..8b67c4941a4c 100644
+--- a/drivers/video/logo/Makefile
++++ b/drivers/video/logo/Makefile
+@@ -30,8 +30,5 @@ $(obj)/%.c: $(src)/%.pbm $(obj)/pnmtologo FORCE
+ $(obj)/%.c: $(src)/%.ppm $(obj)/pnmtologo FORCE
+ 	$(call if_changed,logo)
+ 
+-$(obj)/%.c: $(src)/%.pgm $(obj)/pnmtologo FORCE
+-	$(call if_changed,logo)
+-
+ # generated C files
+-targets += *_mono.c *_vga16.c *_clut224.c *_gray256.c
++targets += *_mono.c *_vga16.c *_clut224.c
 
-      arch/powerpc/platforms/cell/spu_base.c
-
-    Restore the logo_spe_clut224.o target.
-
-Link to v1: https://lore.kernel.org/r/20251230-custom-logo-v1-0-4736374569ee@kernel.org
-
----
-Vincent Mailhol (6):
-      video/logo: remove orphan .pgm Makefile rule
-      video/logo: add a type parameter to the logo makefile function
-      video/logo: allow custom logo
-      newport_con: depend on LOGO_LINUX_CLUT224 instead of LOGO_SGI_CLUT224
-      sh: defconfig: remove CONFIG_LOGO_SUPERH_*
-      video/logo: move logo selection logic to Kconfig
-
- arch/sh/configs/dreamcast_defconfig      |  2 -
- arch/sh/configs/ecovec24_defconfig       |  2 -
- arch/sh/configs/kfr2r09_defconfig        |  2 -
- arch/sh/configs/migor_defconfig          |  2 -
- arch/sh/configs/rts7751r2d1_defconfig    |  2 -
- arch/sh/configs/rts7751r2dplus_defconfig |  2 -
- arch/sh/configs/se7724_defconfig         |  2 -
- arch/sh/configs/se7780_defconfig         |  2 -
- arch/sh/configs/sh7785lcr_defconfig      |  3 --
- arch/sh/configs/urquell_defconfig        |  3 --
- drivers/video/console/newport_con.c      |  4 +-
- drivers/video/logo/Kconfig               | 83 ++++++++++++++++++--------------
- drivers/video/logo/Makefile              | 27 +++++------
- drivers/video/logo/logo.c                | 46 ++----------------
- include/linux/linux_logo.h               |  8 ---
- 15 files changed, 63 insertions(+), 127 deletions(-)
----
-base-commit: b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
-change-id: 20251227-custom-logo-932df316a02c
-
-Best regards,
 -- 
-Vincent Mailhol <mailhol@kernel.org>
+2.52.0
 
