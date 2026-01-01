@@ -2,75 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165ADCED320
-	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 17:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBE1CED446
+	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 19:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732E210E5AC;
-	Thu,  1 Jan 2026 16:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D1310E03A;
+	Thu,  1 Jan 2026 18:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D+dJGBhn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E4JOakQb";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IDbEvmKG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E23610E35E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 16:58:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A152F444DC;
- Thu,  1 Jan 2026 16:58:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E887C4AF13;
- Thu,  1 Jan 2026 16:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767286714;
- bh=v/9NkwRyl9PO0r6MxNTix9cpNGcgG1JvI/Az6tJGjTY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=D+dJGBhnjZKlBqzsEhFOvvPIHqSM0dLZvoOBkok8Qiu5YWVmDk0Ab4aeXnx1cIzFd
- DRsh69+vqzW1por2OMlaemJNTiY6uwFBlSXlvVVgw9uptXlqupHno5by7LFPbQ3Qu8
- sU9TsXus7Ny4T9HTZhluaEvfYXv/yrevz9/QsDicOJOWKpsgcQqQErJwFRr2Ve/+Yq
- jkKBRZX+KKiT5o+AHES0WhUSqPrS1HFxtFdYP+5HY0//jNIiUi68OoBv7J0IQzk1YJ
- T0L9/PG7KtDmu69XSOls5uP780DBk9+BRvlRCAyvgKdWrzZ2Nu4UunMRFSI+k33oPO
- kmC1qoQ/XlL4A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 45344EED630;
- Thu,  1 Jan 2026 16:58:34 +0000 (UTC)
-From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?=
- <devnull+j.ne.posteo.net@kernel.org>
-Date: Thu, 01 Jan 2026 17:58:17 +0100
-Subject: [PATCH RESEND v5 4/4] dt-bindings: memory-controllers: Convert
- fsl,elbc to YAML
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C9E10E03A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 18:53:11 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6012DbYZ4028540
+ for <dri-devel@lists.freedesktop.org>; Thu, 1 Jan 2026 18:53:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=ik6hlVXeTmBKrAB0aF6mx5+u
+ 5ON4Nq+bNmY4Sp4BCBg=; b=E4JOakQbeHUd6cX0TJKs3SQDrGS3pN2GXE+/B77s
+ INRK2xConOMgsCZKtMw8/fZXSNHbErDJWHW4Kbo60eBISTJCQ9lIDk28sOEZTRDy
+ XVzeWLOybrD5nIZ4g2HAnzlujiKgLff4gMQgcQ6w56CooqFQXgPybL7gxO8s1m1h
+ 1VO/+c37m4ObAWcnTpVT/gg9QgA611Lr4ebrGOxbU3MdR+NLv5Ve2mkXK5OCjB+2
+ W3d3/b8NaEx7oRJzXPxramL2NbhUk/m2bJ0vEAMTCHM3UF6gjX/SaQC5qCVPLjjR
+ k2juBGo8D3SaarlLyE6ASbPvMHRwcBjhUHoCA5US8AI4pQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bd77v1w80-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jan 2026 18:53:10 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ed6ff3de05so322030851cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jan 2026 10:53:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1767293590; x=1767898390;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ik6hlVXeTmBKrAB0aF6mx5+u5ON4Nq+bNmY4Sp4BCBg=;
+ b=IDbEvmKGF9AzNoEGNpxiIL5V9h31IoDQBpnKbZEJIObGf62dNManZGeD4tqPXh2vHL
+ xUGkpWRo97Pn2J2bEGTFzpzVzkp0zAJ4TbhB9S1SRMohkBu54hPYqkWEcDVd52Vwf+Xb
+ JrTpNEhyrIMz/Py+030CDiTc+sJd1VdgxPlR7PikD6t0KvJtxpyYAhCmNdIfcDZezXdZ
+ ++206EDnTkRXK2pJ1VFp+01X/gqGqGcgxNfChVq4gtraGYmVbYi3snGNCSrOqiUkt9Qk
+ 79ewuueWMOICZgLf9aHqaFH66KMJB8XIbDkWJ2JPpwKTAS28vIGnmv5ydiM4+MeWdsIa
+ +uHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767293590; x=1767898390;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ik6hlVXeTmBKrAB0aF6mx5+u5ON4Nq+bNmY4Sp4BCBg=;
+ b=BcpzinJzai99b7ffzThNTEBrqJvI0rranad0B8oOBcwSgrk1EWZnAv5SQxelM1k7Pm
+ UqnUTxZtbUtp73yywaPuNsqmqaC28TYhj22bYyKBdYnL0nZHahMi2nGURRUwJ3GJb2a3
+ vAGdihCHMXiL0GNzmrzXDYdPgThaDdJBSjoFnpOgn/Wbt+jpJcsnzB4qEQgJ9njGfwdb
+ hGgf+D5sTrJ/n3kAPRFIUcBiRNiOA3xeTVMb/xMqF6jxZ8AE/KhAFeWIwhrZ/2i8vfYP
+ uOz6mpLmxELTIX6eRgRuR8xB1FeYnGKdZVIi0cGlOwnVytHTzFL2zfZaIrHrNYnbShop
+ zYPA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWI1shJ/W+ikQX6MhUnsyZPCelKQ//ujcsFeltiFpv6jvjmrmpts9nn99fQaJ9ssBQATKOkActhU+A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAtG619Ik1+OdGMWR0ZeZC2BuE45fhkfrdwN1wd2hQoo6PSj3K
+ YaV/krVqEwl2zdJnxEvjkYpn0+Ttkz2SkTs1UosmJe9ZbS4UHn4LEY0SnCgLgTyyPuENrifQV7b
+ QzAw3dlfvlQUf7tYQKv5dImtd8e1NVzSRdtX3zFoFODP5KNqxorG+MUrVtoPSYL5RbAyBlbg=
+X-Gm-Gg: AY/fxX4TmXED0b8f8NqaJRDvzwuaY1l06WSrR2LtCVy7hkarnoeqtny0FlfYOjT7b9d
+ lOvtVGZROCcE22sbplHAGnmIs6jPr13XUP56V0ogoUv9xbSIgFS1mTV7LOF0jKuHwsJPuPAYamC
+ S2s3I6scH520kFbI39M7V9tQZzkEsWqkmtOWdK1x4dBoFOe2SGGXzVYhuiVnh2cqKr48+k8Zbwz
+ gR0EdCtjA6E91Zw3ZeIowfrtCX/X0RuNw0FNbSyaCQEqzKq8DJzjI1EwGboswbPOCXj/8eki2qj
+ /YFNHSQDS14FvI+s9+9lAwIhC6ZckyuFXb9NM9RiynTRUXPua/cN8rxcoimbpRhJElKxBThNGlw
+ 8AUW84jsEIHrzkv16SLde
+X-Received: by 2002:a05:622a:1f06:b0:4f1:e0c7:7892 with SMTP id
+ d75a77b69052e-4f4abceebbcmr599601191cf.21.1767293589942; 
+ Thu, 01 Jan 2026 10:53:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFqWg0OwJN7WPv/Z6zzoCKj3pxTkw7ICxhLJa4qdOrQj71LJo+OUfAsFJ3QIwlHL9BMYoFVPw==
+X-Received: by 2002:a05:622a:1f06:b0:4f1:e0c7:7892 with SMTP id
+ d75a77b69052e-4f4abceebbcmr599600801cf.21.1767293589362; 
+ Thu, 01 Jan 2026 10:53:09 -0800 (PST)
+Received: from oss.qualcomm.com ([86.121.7.10])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b836b9b08c2sm1537526166b.58.2026.01.01.10.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Jan 2026 10:53:08 -0800 (PST)
+Date: Thu, 1 Jan 2026 20:53:06 +0200
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: manivannan.sadhasivam@oss.qualcomm.com
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Maxim Kochetkov <fido_max@inbox.ru>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+ netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] net: qrtr: Drop the MHI auto_queue feature for
+ IPCR DL channels
+Message-ID: <bah766ajefvfoiqgbgjwwlbbr4ech4yupo2wjogejxcd5tmq4p@q5powzzdfbbf>
+References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
+ <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260101-ppcyaml-elbc-v5-4-251c7f14a06c@posteo.net>
-References: <20260101-ppcyaml-elbc-v5-0-251c7f14a06c@posteo.net>
-In-Reply-To: <20260101-ppcyaml-elbc-v5-0-251c7f14a06c@posteo.net>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Crystal Wood <oss@buserror.net>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Naveen N Rao <naveen@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Christophe Leroy <chleroy@kernel.org>
-Cc: Frank Li <Frank.Li@nxp.com>, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767286712; l=9120;
- i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=xXWJdOjzGA+eFe7zIRw+MN6SaSf7T8txfejACcAOhAo=;
- b=Wgt91VmdU/zZviqVNNe90j8DMXjX9UNa31tGUwKKVLhVPP9aROlvN0E/vJo1u1ba6fkc7J1kw
- F2ZFdB6canED1yH41tXK5PW8ywsfz+s1rWZ9VDJ8DoVDD6CY3LCpkPe
-X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
- pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
-X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with auth_id=156
-X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
+X-Proofpoint-GUID: 7qR4uqpU7lPawODHnZUhrTc3aX5u3ESp
+X-Proofpoint-ORIG-GUID: 7qR4uqpU7lPawODHnZUhrTc3aX5u3ESp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAxMDE3MSBTYWx0ZWRfX3k3obNuFGFx0
+ wKtasIM83Of8YH1iTFZ0CnIGmm7e6aXwVxyHUQDkiQVeljiuTDmotx1UxzD9mrz4X5lWJIrCDeQ
+ PLXB2uBcjfzW4Kb/bzFyERBidb6AcRegJfhpc56vRBPoLsXbhnd7umRRVZx7WgZDwXeKgTTMZjM
+ r3cplAE7UUlPyM694FlAP556NhZyBl1FRts+AeFjOfNbGtdvh7mB6wSDk0DgU2N/KZ9BIpCZMwY
+ YIVyb82KLLrbpRxLWb3GumheBIjIy/lUZhYFrT/QcI34W1g3Wlof1f6T3ON1FepZfUH3K+uBf0P
+ MOjsZ4MaoIertRITL81KtjQCqrnJzxRHm7Y5zkK2yoNBkd7DQQopHw73CmPRZe9dhcQMKPDaWl3
+ 6WipTctJFN6H1DSqKzNYC+5sFSY6K8VIHaEm/uHUWRFmqCKhy+PGJaloioCi4yV6NtEHNocp8Dy
+ cZjvlVktxmgyzaEIlTQ==
+X-Authority-Analysis: v=2.4 cv=ev7SD4pX c=1 sm=1 tr=0 ts=6956c296 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=hZ5Vz02otkLiOpJ15TJmsQ==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=zitRP-D0AAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=isMaZ9OHK7bkWVW8W2QA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=xwnAI6pc5liRhupp6brZ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-01_07,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601010171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,289 +149,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: j.ne@posteo.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "J. Neuschäfer" <j.ne@posteo.net>
+On 25-12-18 22:21:44, Manivannan Sadhasivam via B4 Relay wrote:
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> 
+> MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
+> auto queue the buffers for the RX path (DL channel). Though this feature
+> simplifies the client driver design, it introduces race between the client
+> drivers and the MHI stack. For instance, with auto_queue, the 'dl_callback'
+> for the DL channel may get called before the client driver is fully probed.
+> This means, by the time the dl_callback gets called, the client driver's
+> structures might not be initialized, leading to NULL ptr dereference.
+> 
+> Currently, the drivers have to workaround this issue by initializing the
+> internal structures before calling mhi_prepare_for_transfer_autoqueue().
+> But even so, there is a chance that the client driver's internal code path
+> may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() is
+> called, leading to similar NULL ptr dereference. This issue has been
+> reported on the Qcom X1E80100 CRD machines affecting boot.
+> 
+> So to properly fix all these races, drop the MHI 'auto_queue' feature
+> altogether and let the client driver (QRTR) manage the RX buffers manually.
+> In the QRTR driver, queue the RX buffers based on the ring length during
+> probe and recycle the buffers in 'dl_callback' once they are consumed. This
+> also warrants removing the setting of 'auto_queue' flag from controller
+> drivers.
+> 
+> Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
+> So only the QRTR client driver requires the modification.
+> 
+> Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffers for DL channel")
+> Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation")
+> Reported-by: Johan Hovold <johan@kernel.org>
+> Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldconsulting.com
+> Suggested-by: Chris Lew <quic_clew@quicinc.com>
+> Acked-by: Jeff Johnson <jjohnson@kernel.org> # drivers/net/wireless/ath/...
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-Convert the Freescale localbus controller bindings from text form to
-YAML. Compared to the .txt version, the YAML binding contains a new
-usage example with FCM NAND flash, and a full list of compatible strings
-based on current usage in arch/powerpc/boot/dts/.
+Tested on Dell XPS13 9345, so:
 
-Note that the both the compatible strings and the unit address format
-are kept as-is, for compatibility with existing kernels and device
-trees, as well as unit address readability. This results in dts
-validation warnings:
-
-  Warning (simple_bus_reg): /example-0/localbus@f0010100/board-control@1,0:
-  simple-bus unit address format error, expected "100000000"
-
-Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
----
-
-V5:
-- fix reference to fsl/lbc.txt in
-  Documentation/devicetree/bindings/display/ssd1289fb.txt
-
-V4:
-- no changes
-
-V3:
-- move this patch after the GPCM/FCM patches to dtschema/dtc warnings
-  due to missing bindings for fsl,elbc-gpcm-uio and fsl,elbc-fcm-nand
-- add "simple-bus" again, for compatibility with existing DTs/drivers
-  based on discussion with Crystal Wood and Rob Herring
-- fix fsl,pq2-localbus compatible properties based on mgcoge.dts / ep8248e.dts
-  (was missing "simple-bus")
-- add board-control (bcsr) example again, now using the compatible
-  string listed in Documentation/devicetree/bindings/board/fsl,bcsr.yaml
-- remove interrupt-parent property from example
-- rework the commit message
-
-V2:
-- fix order of properties in examples, according to dts coding style
-- move to Documentation/devicetree/bindings/memory-controllers
-- clarify the commit message a tiny bit
-- remove unnecessary multiline markers (|)
-- define address format in patternProperties
-- trim subject line (remove "binding")
-- remove use of "simple-bus", because it's technically incorrect
----
- .../devicetree/bindings/display/ssd1289fb.txt      |   2 +-
- .../bindings/memory-controllers/fsl,elbc.yaml      | 158 +++++++++++++++++++++
- .../devicetree/bindings/powerpc/fsl/lbc.txt        |  43 ------
- 3 files changed, 159 insertions(+), 44 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/ssd1289fb.txt b/Documentation/devicetree/bindings/display/ssd1289fb.txt
-index 4fcd5e68cb6e00..8cb59359352c68 100644
---- a/Documentation/devicetree/bindings/display/ssd1289fb.txt
-+++ b/Documentation/devicetree/bindings/display/ssd1289fb.txt
-@@ -4,7 +4,7 @@ Required properties:
-   - compatible: Should be "solomon,ssd1289fb". The only supported bus for
-     now is lbc.
-   - reg: Should contain address of the controller on the LBC bus. The detail
--    was described in Documentation/devicetree/bindings/powerpc/fsl/lbc.txt
-+    was described in Documentation/devicetree/bindings/memory-controllers/fsl,elbc.yaml
- 
- Examples:
- display@2,0 {
-diff --git a/Documentation/devicetree/bindings/memory-controllers/fsl,elbc.yaml b/Documentation/devicetree/bindings/memory-controllers/fsl,elbc.yaml
-new file mode 100644
-index 00000000000000..620d7e7c62df35
---- /dev/null
-+++ b/Documentation/devicetree/bindings/memory-controllers/fsl,elbc.yaml
-@@ -0,0 +1,158 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/memory-controllers/fsl,elbc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale Enhanced Local Bus Controller
-+
-+maintainers:
-+  - J. Neuschäfer <j.ne@posteo.net>
-+
-+properties:
-+  $nodename:
-+    pattern: "^localbus@[0-9a-f]+$"
-+
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - fsl,mpc8313-elbc
-+              - fsl,mpc8315-elbc
-+              - fsl,mpc8377-elbc
-+              - fsl,mpc8378-elbc
-+              - fsl,mpc8379-elbc
-+              - fsl,mpc8536-elbc
-+              - fsl,mpc8569-elbc
-+              - fsl,mpc8572-elbc
-+              - fsl,p1020-elbc
-+              - fsl,p1021-elbc
-+              - fsl,p1023-elbc
-+              - fsl,p2020-elbc
-+              - fsl,p2041-elbc
-+              - fsl,p3041-elbc
-+              - fsl,p4080-elbc
-+              - fsl,p5020-elbc
-+              - fsl,p5040-elbc
-+          - const: fsl,elbc
-+          - const: simple-bus
-+
-+      - items:
-+          - enum:
-+              - fsl,mpc8247-localbus
-+              - fsl,mpc8248-localbus
-+              - fsl,mpc8272-localbus
-+          - const: fsl,pq2-localbus
-+          - const: simple-bus
-+
-+      - items:
-+          - enum:
-+              - fsl,mpc8247-localbus
-+              - fsl,mpc8248-localbus
-+              - fsl,mpc8360-localbus
-+          - const: fsl,pq2pro-localbus
-+          - const: simple-bus
-+
-+      - items:
-+          - enum:
-+              - fsl,mpc8540-localbus
-+              - fsl,mpc8544-lbc
-+              - fsl,mpc8544-localbus
-+              - fsl,mpc8548-lbc
-+              - fsl,mpc8548-localbus
-+              - fsl,mpc8560-localbus
-+              - fsl,mpc8568-localbus
-+          - const: fsl,pq3-localbus
-+          - const: simple-bus
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    enum: [2, 3]
-+    description:
-+      The first cell is the chipselect number, and the remaining cells are the
-+      offset into the chipselect.
-+
-+  "#size-cells":
-+    enum: [1, 2]
-+    description:
-+      Either one or two, depending on how large each chipselect can be.
-+
-+  ranges:
-+    description:
-+      Each range corresponds to a single chipselect, and covers the entire
-+      access window as configured.
-+
-+patternProperties:
-+  # format: name@chipselect,address
-+  "^.*@[0-9a-f]+,[0-9a-f]+$":
-+    type: object
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    localbus@f0010100 {
-+        compatible = "fsl,mpc8272-localbus",
-+                     "fsl,pq2-localbus",
-+                     "simple-bus";
-+        reg = <0xf0010100 0x40>;
-+        ranges = <0x0 0x0 0xfe000000 0x02000000
-+                  0x1 0x0 0xf4500000 0x00008000
-+                  0x2 0x0 0xfd810000 0x00010000>;
-+        #address-cells = <2>;
-+        #size-cells = <1>;
-+
-+        flash@0,0 {
-+            compatible = "jedec-flash";
-+            reg = <0x0 0x0 0x2000000>;
-+            bank-width = <4>;
-+            device-width = <1>;
-+        };
-+
-+        board-control@1,0 {
-+            reg = <0x1 0x0 0x20>;
-+            compatible = "fsl,mpc8360mds-bcsr";
-+        };
-+
-+        simple-periph@2,0 {
-+            compatible = "fsl,elbc-gpcm-uio";
-+            reg = <0x2 0x0 0x10000>;
-+            elbc-gpcm-br = <0xfd810800>;
-+            elbc-gpcm-or = <0xffff09f7>;
-+        };
-+    };
-+
-+  - |
-+    localbus@e0005000 {
-+        compatible = "fsl,mpc8315-elbc", "fsl,elbc", "simple-bus";
-+        reg = <0xe0005000 0x1000>;
-+        ranges = <0x0 0x0 0xfe000000 0x00800000
-+                  0x1 0x0 0xe0600000 0x00002000
-+                  0x2 0x0 0xf0000000 0x00020000
-+                  0x3 0x0 0xfa000000 0x00008000>;
-+        #address-cells = <2>;
-+        #size-cells = <1>;
-+        interrupts = <77 0x8>;
-+
-+        flash@0,0 {
-+            compatible = "cfi-flash";
-+            reg = <0x0 0x0 0x800000>;
-+            #address-cells = <1>;
-+            #size-cells = <1>;
-+            bank-width = <2>;
-+            device-width = <1>;
-+        };
-+
-+        nand@1,0 {
-+            compatible = "fsl,mpc8315-fcm-nand",
-+                         "fsl,elbc-fcm-nand";
-+            reg = <0x1 0x0 0x2000>;
-+            #address-cells = <1>;
-+            #size-cells = <1>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/powerpc/fsl/lbc.txt b/Documentation/devicetree/bindings/powerpc/fsl/lbc.txt
-deleted file mode 100644
-index 1c80fcedebb520..00000000000000
---- a/Documentation/devicetree/bindings/powerpc/fsl/lbc.txt
-+++ /dev/null
-@@ -1,43 +0,0 @@
--* Chipselect/Local Bus
--
--Properties:
--- name : Should be localbus
--- #address-cells : Should be either two or three.  The first cell is the
--                   chipselect number, and the remaining cells are the
--                   offset into the chipselect.
--- #size-cells : Either one or two, depending on how large each chipselect
--                can be.
--- ranges : Each range corresponds to a single chipselect, and cover
--           the entire access window as configured.
--
--Example:
--	localbus@f0010100 {
--		compatible = "fsl,mpc8272-localbus",
--			   "fsl,pq2-localbus";
--		#address-cells = <2>;
--		#size-cells = <1>;
--		reg = <0xf0010100 0x40>;
--
--		ranges = <0x0 0x0 0xfe000000 0x02000000
--			  0x1 0x0 0xf4500000 0x00008000
--			  0x2 0x0 0xfd810000 0x00010000>;
--
--		flash@0,0 {
--			compatible = "jedec-flash";
--			reg = <0x0 0x0 0x2000000>;
--			bank-width = <4>;
--			device-width = <1>;
--		};
--
--		board-control@1,0 {
--			reg = <0x1 0x0 0x20>;
--			compatible = "fsl,mpc8272ads-bcsr";
--		};
--
--		simple-periph@2,0 {
--			compatible = "fsl,elbc-gpcm-uio";
--			reg = <0x2 0x0 0x10000>;
--			elbc-gpcm-br = <0xfd810800>;
--			elbc-gpcm-or = <0xffff09f7>;
--		};
--	};
-
--- 
-2.51.0
-
-
+Tested-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
