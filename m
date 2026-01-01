@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C03CED1F7
-	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 16:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257EBCED1FB
+	for <lists+dri-devel@lfdr.de>; Thu, 01 Jan 2026 16:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF31310E5AB;
-	Thu,  1 Jan 2026 15:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7306810E59F;
+	Thu,  1 Jan 2026 15:26:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ss2CuzqI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kSicxtcx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E48810E59F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:26:05 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4279010E5AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jan 2026 15:26:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D705C600AE;
+ by sea.source.kernel.org (Postfix) with ESMTP id F31CD444A9;
+ Thu,  1 Jan 2026 15:26:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37512C19421;
  Thu,  1 Jan 2026 15:26:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D62C19423;
- Thu,  1 Jan 2026 15:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767281164;
- bh=c9rs47Rq9JsGR2S4cjbA10der3BMDGHlAJIPw4Woy/o=;
+ s=k20201202; t=1767281167;
+ bh=RB7GSPILpxEDFgqeq3nph2Z8WzcKMaUP8bzsVTQHrdA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Ss2CuzqIjsc6+WbNYlMSXZia6DjiHdiscnwEoIUyFEOBxAbphyT9C7NutJ+90eHx1
- KY2SdMpmhYXuLcaXXPr/bVHKElfE5Id8TzUuH4cTCwnuZrO3aJhfrMGgg3xDmXWaFD
- ccfW1m3DcxJ8ONzwtFs5IcdFmak17yR5NWcpi9yzDBUS0m5LEmYo+h7gsGqYMUTwSV
- LVWEPEw7n6bJdnNi90dn4ADnVA8cQmCnHhanmOWWlqnJZFld7n0tsQv4OgYXi+YCLX
- iFL3ox/K+w1RMDXIiDn/W82yC49gpQlrUbYS3z2HMiGdahjf5txUUfZGWYlYa055v8
- x/leN1R8DRp9Q==
+ b=kSicxtcxafAfnTnnk3UicDagIAv1QJrpz2+HcZk3ZqArSNnraVEOJ3izDJA5dSyMp
+ GQlirMSQdmcs5yFP8mQOTn4nDiNniMWYR2nWZZlmaTypyquoGCcCJ1cjknCufxMbdp
+ cRuG0vZ9AZMGJBcCCk3qOj4dnt+kSufKdCM/00jdZiLHI0SqV2YzVuaZWaYNhLGRie
+ 3fxz+U1NssQit04rXKjk/AF03Oh4GrQQKMq4IuiA1L2Q6Z80VmLY60LEIR+QmuCTiM
+ qtZJBjdqEDzDN8TtMnkVcz9uYsZdp9s3l7KaXzFbc4fhN8jWza8DD/FEMpFdNZ5wpG
+ ueqPkzMhsE2Nw==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Thu, 01 Jan 2026 16:25:19 +0100
-Subject: [PATCH v2 5/6] sh: defconfig: remove CONFIG_LOGO_SUPERH_*
+Date: Thu, 01 Jan 2026 16:25:20 +0100
+Subject: [PATCH v2 6/6] video/logo: move logo selection logic to Kconfig
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260101-custom-logo-v2-5-8eec06dfbf85@kernel.org>
+Message-Id: <20260101-custom-logo-v2-6-8eec06dfbf85@kernel.org>
 References: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
 In-Reply-To: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
 To: Helge Deller <deller@gmx.de>, 
@@ -47,12 +47,12 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
  Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5952; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=c9rs47Rq9JsGR2S4cjbA10der3BMDGHlAJIPw4Woy/o=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhEz+vlA0r8Sz3vPBO/t+eusPvj5mvyFh/6ekt3U/qT
- 3qubZL73zGRhUGMi8FSTJFlWTknt0JHoXfYob+WMHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
- oaEOkMnAxSkAU628gpHhH/u6uh+HBM8FTbG5mlqmoukgErHPfFfcWq98gaSS+4cMGP6ZHLwx/9s
- V13POytpLqsRjUk9znH7o89bnQc3tXUKi245wAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8170; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=RB7GSPILpxEDFgqeq3nph2Z8WzcKMaUP8bzsVTQHrdA=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJlhE7/pGK6WOOY4S+zwooYza/xN2p/sWngqZGMxs//xj
+ v0NTg6VHRNZGMS4GCzFFFmWlXNyK3QUeocd+msJM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GuoAmQxcnAIw1WK8DP8Tbm9fXF9vpjZ5pfj/t+6vj64Uk+T/EHDG/PSkA/WJv8yMGBlWvrf+czX
+ S9ETFRltzd+2uDEFb/3NxWeWNQestDn1LaGYCAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,158 +70,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CONFIG_LOGO_SUPERH_MONO, CONFIG_LOGO_SUPERH_VGA16 and
-CONFIG_LOGO_SUPERH_CLUT224 will be removed in an upcoming change but
-are still referenced in some of the defconfig.
+Now that the path to the logo file can be directly entered in Kbuild,
+there is no more need to handle all the logo file selection in the
+Makefile and the C files.
 
-Remove all the occurrences of CONFIG_LOGO_SUPERH_*.
+The only exception is the logo_spe_clut224 which is only used by the
+Cell processor (found for example in the Playstation 3) [1]. This
+extra logo uses its own different image which shows up on a separate
+line just below the normal logo. Because the extra logo uses a
+different image, it can not be factorized under the custom logo logic.
+
+Move all the logo file selection logic to Kbuild (except from the
+logo_spe_clut224.ppm), this done, clean-up the C code to only leave
+one entry for each logo type (monochrome, 16-colors and 224-colors).
+
+[1] Cell SPE logos
+Link: https://lore.kernel.org/all/20070710122702.765654000@pademelon.sonytel.be/
 
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
- arch/sh/configs/dreamcast_defconfig      | 2 --
- arch/sh/configs/ecovec24_defconfig       | 2 --
- arch/sh/configs/kfr2r09_defconfig        | 2 --
- arch/sh/configs/migor_defconfig          | 2 --
- arch/sh/configs/rts7751r2d1_defconfig    | 2 --
- arch/sh/configs/rts7751r2dplus_defconfig | 2 --
- arch/sh/configs/se7724_defconfig         | 2 --
- arch/sh/configs/se7780_defconfig         | 2 --
- arch/sh/configs/sh7785lcr_defconfig      | 3 ---
- arch/sh/configs/urquell_defconfig        | 3 ---
- 10 files changed, 22 deletions(-)
+**Changelog**
 
-diff --git a/arch/sh/configs/dreamcast_defconfig b/arch/sh/configs/dreamcast_defconfig
-index 4573d5d64989..dd58797e8298 100644
---- a/arch/sh/configs/dreamcast_defconfig
-+++ b/arch/sh/configs/dreamcast_defconfig
-@@ -60,8 +60,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- # CONFIG_DNOTIFY is not set
- CONFIG_PROC_KCORE=y
- CONFIG_TMPFS=y
-diff --git a/arch/sh/configs/ecovec24_defconfig b/arch/sh/configs/ecovec24_defconfig
-index 458115d83184..e751933ac840 100644
---- a/arch/sh/configs/ecovec24_defconfig
-+++ b/arch/sh/configs/ecovec24_defconfig
-@@ -78,8 +78,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- CONFIG_SOUND=y
- CONFIG_SND=y
- CONFIG_SND_SEQUENCER=y
-diff --git a/arch/sh/configs/kfr2r09_defconfig b/arch/sh/configs/kfr2r09_defconfig
-index d80e83e7ec38..056ba52600f9 100644
---- a/arch/sh/configs/kfr2r09_defconfig
-+++ b/arch/sh/configs/kfr2r09_defconfig
-@@ -66,8 +66,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_CLUT224 is not set
- CONFIG_USB_GADGET=y
- CONFIG_USB_CDC_COMPOSITE=m
- CONFIG_MMC=y
-diff --git a/arch/sh/configs/migor_defconfig b/arch/sh/configs/migor_defconfig
-index 7cdaa909ffd6..1d9d543eef4c 100644
---- a/arch/sh/configs/migor_defconfig
-+++ b/arch/sh/configs/migor_defconfig
-@@ -71,8 +71,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_CLUT224 is not set
- CONFIG_USB_GADGET=y
- CONFIG_USB_GADGET_M66592=y
- CONFIG_USB_G_SERIAL=m
-diff --git a/arch/sh/configs/rts7751r2d1_defconfig b/arch/sh/configs/rts7751r2d1_defconfig
-index 0c54ab2b06e6..745490d4807f 100644
---- a/arch/sh/configs/rts7751r2d1_defconfig
-+++ b/arch/sh/configs/rts7751r2d1_defconfig
-@@ -50,8 +50,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- CONFIG_SOUND=y
- CONFIG_SND=m
- CONFIG_SND_YMFPCI=m
-diff --git a/arch/sh/configs/rts7751r2dplus_defconfig b/arch/sh/configs/rts7751r2dplus_defconfig
-index 3173b616b2cb..cd90f5354459 100644
---- a/arch/sh/configs/rts7751r2dplus_defconfig
-+++ b/arch/sh/configs/rts7751r2dplus_defconfig
-@@ -55,8 +55,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- CONFIG_SOUND=y
- CONFIG_SND=m
- CONFIG_SND_YMFPCI=m
-diff --git a/arch/sh/configs/se7724_defconfig b/arch/sh/configs/se7724_defconfig
-index 8ca46d704c8b..9b4f8f3a1fdf 100644
---- a/arch/sh/configs/se7724_defconfig
-+++ b/arch/sh/configs/se7724_defconfig
-@@ -79,8 +79,6 @@ CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
- # CONFIG_LOGO_LINUX_CLUT224 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- CONFIG_SOUND=y
- CONFIG_SND=m
- # CONFIG_SND_DRIVERS is not set
-diff --git a/arch/sh/configs/se7780_defconfig b/arch/sh/configs/se7780_defconfig
-index 12463b766120..13fa6a59b8f1 100644
---- a/arch/sh/configs/se7780_defconfig
-+++ b/arch/sh/configs/se7780_defconfig
-@@ -66,8 +66,6 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
- CONFIG_SOUND=y
- CONFIG_SOUND_PRIME=y
- CONFIG_HID_A4TECH=y
-diff --git a/arch/sh/configs/sh7785lcr_defconfig b/arch/sh/configs/sh7785lcr_defconfig
-index 2fcf50d8c820..8738c590d5a0 100644
---- a/arch/sh/configs/sh7785lcr_defconfig
-+++ b/arch/sh/configs/sh7785lcr_defconfig
-@@ -60,9 +60,6 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
--# CONFIG_LOGO_SUPERH_CLUT224 is not set
- CONFIG_HID_A4TECH=y
- CONFIG_HID_APPLE=y
- CONFIG_HID_BELKIN=y
-diff --git a/arch/sh/configs/urquell_defconfig b/arch/sh/configs/urquell_defconfig
-index f51ff6b1ec38..e7924db29b69 100644
---- a/arch/sh/configs/urquell_defconfig
-+++ b/arch/sh/configs/urquell_defconfig
-@@ -86,9 +86,6 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
--# CONFIG_LOGO_SUPERH_MONO is not set
--# CONFIG_LOGO_SUPERH_VGA16 is not set
--# CONFIG_LOGO_SUPERH_CLUT224 is not set
- CONFIG_HID_A4TECH=y
- CONFIG_HID_APPLE=y
- CONFIG_HID_BELKIN=y
+v1 -> v2:
+
+  - By removing the logo_spe_clut224.o target from the Makefile, v1
+    also removed the logo_spe_clut224 object which is still being
+    referenced in
+
+      arch/powerpc/platforms/cell/spu_base.c
+
+    Restore the logo_spe_clut224.o target.
+
+Link: https://lore.kernel.org/all/20251230-custom-logo-v1-6-4736374569ee@kernel.org/
+---
+ drivers/video/logo/Kconfig  | 48 ++++++++-------------------------------------
+ drivers/video/logo/Makefile | 14 -------------
+ drivers/video/logo/logo.c   | 46 ++++---------------------------------------
+ include/linux/linux_logo.h  |  8 --------
+ 4 files changed, 12 insertions(+), 104 deletions(-)
+
+diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
+index 1d1651c067a1..af9301ebc51c 100644
+--- a/drivers/video/logo/Kconfig
++++ b/drivers/video/logo/Kconfig
+@@ -25,6 +25,7 @@ config LOGO_LINUX_MONO
+ config LOGO_LINUX_MONO_FILE
+ 	string "Monochrome logo .pbm file"
+ 	depends on LOGO_LINUX_MONO
++	default "drivers/video/logo/logo_superh_mono.pbm" if SUPERH
+ 	default "drivers/video/logo/logo_linux_mono.pbm"
+ 	help
+ 	  Takes a path to a monochromatic logo in the portable pixmap file
+@@ -42,6 +43,7 @@ config LOGO_LINUX_VGA16
+ config LOGO_LINUX_VGA16_FILE
+ 	string "16-color logo .ppm file"
+ 	depends on LOGO_LINUX_VGA16
++	default "drivers/video/logo/logo_superh_vga16.ppm" if SUPERH
+ 	default "drivers/video/logo/logo_linux_vga16.ppm"
+ 	help
+ 	  Takes a path to a logo in the portable pixmap file format (.ppm),
+@@ -61,6 +63,12 @@ config LOGO_LINUX_CLUT224
+ config LOGO_LINUX_CLUT224_FILE
+ 	string "224-color logo .ppm file"
+ 	depends on LOGO_LINUX_CLUT224
++	default "drivers/video/logo/logo_dec_clut224.ppm" if MACH_DECSTATION || ALPHA
++	default "drivers/video/logo/logo_mac_clut224.ppm" if MAC
++	default "drivers/video/logo/logo_parisc_clut224.ppm" if PARISC
++	default "drivers/video/logo/logo_sgi_clut224.ppm" if SGI_IP22 || SGI_IP27 || SGI_IP32
++	default "drivers/video/logo/logo_sun_clut224.ppm" if SPARC
++	default "drivers/video/logo/logo_superh_clut224.ppm" if SUPERH
+ 	default "drivers/video/logo/logo_linux_clut224.ppm"
+ 	help
+ 	  Takes a path to a 224-color logo in the portable pixmap file
+@@ -71,44 +79,4 @@ config LOGO_LINUX_CLUT224_FILE
+ 
+ 	    magick source_image -compress none -colors 224 destination.ppm
+ 
+-config LOGO_DEC_CLUT224
+-	bool "224-color Digital Equipment Corporation Linux logo"
+-	depends on MACH_DECSTATION || ALPHA
+-	default y
+-
+-config LOGO_MAC_CLUT224
+-	bool "224-color Macintosh Linux logo"
+-	depends on MAC
+-	default y
+-
+-config LOGO_PARISC_CLUT224
+-	bool "224-color PA-RISC Linux logo"
+-	depends on PARISC
+-	default y
+-
+-config LOGO_SGI_CLUT224
+-	bool "224-color SGI Linux logo"
+-	depends on SGI_IP22 || SGI_IP27 || SGI_IP32
+-	default y
+-
+-config LOGO_SUN_CLUT224
+-	bool "224-color Sun Linux logo"
+-	depends on SPARC
+-	default y
+-
+-config LOGO_SUPERH_MONO
+-	bool "Black and white SuperH Linux logo"
+-	depends on SUPERH
+-	default y
+-
+-config LOGO_SUPERH_VGA16
+-	bool "16-color SuperH Linux logo"
+-	depends on SUPERH
+-	default y
+-
+-config LOGO_SUPERH_CLUT224
+-	bool "224-color SuperH Linux logo"
+-	depends on SUPERH
+-	default y
+-
+ endif # LOGO
+diff --git a/drivers/video/logo/Makefile b/drivers/video/logo/Makefile
+index ac8e9da3f51a..0eddb6231edb 100644
+--- a/drivers/video/logo/Makefile
++++ b/drivers/video/logo/Makefile
+@@ -5,14 +5,6 @@ obj-$(CONFIG_LOGO)			+= logo.o
+ obj-$(CONFIG_LOGO_LINUX_MONO)		+= logo_linux_mono.o
+ obj-$(CONFIG_LOGO_LINUX_VGA16)		+= logo_linux_vga16.o
+ obj-$(CONFIG_LOGO_LINUX_CLUT224)	+= logo_linux_clut224.o
+-obj-$(CONFIG_LOGO_DEC_CLUT224)		+= logo_dec_clut224.o
+-obj-$(CONFIG_LOGO_MAC_CLUT224)		+= logo_mac_clut224.o
+-obj-$(CONFIG_LOGO_PARISC_CLUT224)	+= logo_parisc_clut224.o
+-obj-$(CONFIG_LOGO_SGI_CLUT224)		+= logo_sgi_clut224.o
+-obj-$(CONFIG_LOGO_SUN_CLUT224)		+= logo_sun_clut224.o
+-obj-$(CONFIG_LOGO_SUPERH_MONO)		+= logo_superh_mono.o
+-obj-$(CONFIG_LOGO_SUPERH_VGA16)		+= logo_superh_vga16.o
+-obj-$(CONFIG_LOGO_SUPERH_CLUT224)	+= logo_superh_clut224.o
+ 
+ obj-$(CONFIG_SPU_BASE)			+= logo_spe_clut224.o
+ 
+@@ -33,12 +25,6 @@ $(obj)/logo_linux_vga16.c: $(CONFIG_LOGO_LINUX_VGA16_FILE) $(obj)/pnmtologo FORC
+ $(obj)/logo_linux_clut224.c: $(CONFIG_LOGO_LINUX_CLUT224_FILE) $(obj)/pnmtologo FORCE
+ 	$(call if_changed,logo,clut224)
+ 
+-$(obj)/%.c: $(src)/%.pbm $(obj)/pnmtologo FORCE
+-	$(call if_changed,logo,mono)
+-
+-$(obj)/%_vga16.c: $(src)/%_vga16.ppm $(obj)/pnmtologo FORCE
+-	$(call if_changed,logo,vga16)
+-
+ $(obj)/%_clut224.c: $(src)/%_clut224.ppm $(obj)/pnmtologo FORCE
+ 	$(call if_changed,logo,clut224)
+ 
+diff --git a/drivers/video/logo/logo.c b/drivers/video/logo/logo.c
+index 141f15a9a459..91535f8848da 100644
+--- a/drivers/video/logo/logo.c
++++ b/drivers/video/logo/logo.c
+@@ -48,59 +48,21 @@ const struct linux_logo * __ref fb_find_logo(int depth)
+ 	if (nologo || logos_freed)
+ 		return NULL;
+ 
+-	if (depth >= 1) {
+ #ifdef CONFIG_LOGO_LINUX_MONO
+-		/* Generic Linux logo */
++	if (depth >= 1)
+ 		logo = &logo_linux_mono;
+ #endif
+-#ifdef CONFIG_LOGO_SUPERH_MONO
+-		/* SuperH Linux logo */
+-		logo = &logo_superh_mono;
+-#endif
+-	}
+ 	
+-	if (depth >= 4) {
+ #ifdef CONFIG_LOGO_LINUX_VGA16
+-		/* Generic Linux logo */
++	if (depth >= 4)
+ 		logo = &logo_linux_vga16;
+ #endif
+-#ifdef CONFIG_LOGO_SUPERH_VGA16
+-		/* SuperH Linux logo */
+-		logo = &logo_superh_vga16;
+-#endif
+-	}
+ 	
+-	if (depth >= 8) {
+ #ifdef CONFIG_LOGO_LINUX_CLUT224
+-		/* Generic Linux logo */
++	if (depth >= 8)
+ 		logo = &logo_linux_clut224;
+ #endif
+-#ifdef CONFIG_LOGO_DEC_CLUT224
+-		/* DEC Linux logo on MIPS/MIPS64 or ALPHA */
+-		logo = &logo_dec_clut224;
+-#endif
+-#ifdef CONFIG_LOGO_MAC_CLUT224
+-		/* Macintosh Linux logo on m68k */
+-		if (MACH_IS_MAC)
+-			logo = &logo_mac_clut224;
+-#endif
+-#ifdef CONFIG_LOGO_PARISC_CLUT224
+-		/* PA-RISC Linux logo */
+-		logo = &logo_parisc_clut224;
+-#endif
+-#ifdef CONFIG_LOGO_SGI_CLUT224
+-		/* SGI Linux logo on MIPS/MIPS64 */
+-		logo = &logo_sgi_clut224;
+-#endif
+-#ifdef CONFIG_LOGO_SUN_CLUT224
+-		/* Sun Linux logo */
+-		logo = &logo_sun_clut224;
+-#endif
+-#ifdef CONFIG_LOGO_SUPERH_CLUT224
+-		/* SuperH Linux logo */
+-		logo = &logo_superh_clut224;
+-#endif
+-	}
++
+ 	return logo;
+ }
+ EXPORT_SYMBOL_GPL(fb_find_logo);
+diff --git a/include/linux/linux_logo.h b/include/linux/linux_logo.h
+index e37699b7e839..1e727a2cb4c1 100644
+--- a/include/linux/linux_logo.h
++++ b/include/linux/linux_logo.h
+@@ -33,14 +33,6 @@ struct linux_logo {
+ extern const struct linux_logo logo_linux_mono;
+ extern const struct linux_logo logo_linux_vga16;
+ extern const struct linux_logo logo_linux_clut224;
+-extern const struct linux_logo logo_dec_clut224;
+-extern const struct linux_logo logo_mac_clut224;
+-extern const struct linux_logo logo_parisc_clut224;
+-extern const struct linux_logo logo_sgi_clut224;
+-extern const struct linux_logo logo_sun_clut224;
+-extern const struct linux_logo logo_superh_mono;
+-extern const struct linux_logo logo_superh_vga16;
+-extern const struct linux_logo logo_superh_clut224;
+ extern const struct linux_logo logo_spe_clut224;
+ 
+ extern const struct linux_logo *fb_find_logo(int depth);
 
 -- 
 2.52.0
