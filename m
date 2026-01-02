@@ -2,86 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F7CEEECC
-	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 16:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A01CEEEE3
+	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 16:58:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074D210E230;
-	Fri,  2 Jan 2026 15:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29DC110E210;
+	Fri,  2 Jan 2026 15:58:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A4d/1wqK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HxD4fyi7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
  [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEBC10E230
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 15:56:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A56A10E210
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 15:58:08 +0000 (UTC)
 Received: by mail-ej1-f65.google.com with SMTP id
- a640c23a62f3a-b8018eba13cso1907069566b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jan 2026 07:56:01 -0800 (PST)
+ a640c23a62f3a-b83122f9d78so944976466b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jan 2026 07:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767369360; x=1767974160; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=U/E4Pkle8R/umjjml+ar6gI8frpDcsvylCBgQE9LDis=;
- b=A4d/1wqK0THeZ/y3Vu7v5mJU/oEtBcAj5kReR+unF/ZElkSOMuN1Lf6Yk0aRr7d3xD
- qTPdNVLDIgwwOj4+ICTeXRhzMH5xJ+GAIRgl+oNWXDm+fD6nmjh4Jk001BqK4Dbc0hUq
- Vu7I4x7tEhjS9RqFp9sKbmQlZN0e7K6h1aQX3kIWSyeziIOzMDPgw67BkVo+7wixvWmp
- iz1CYSSz8DJPmDDYXyeKWKldKhI0pukd3+h1WMFroTRjbsiwSmgcmHz0hqQHxdutnhBM
- fz0my3Xzach9ZcB+Te7HUHrJFKy0oU1RMlcbSuIInaO4QSQFCtkFdm1RxuPjOK7/55Ti
- 4vXg==
+ d=gmail.com; s=20230601; t=1767369487; x=1767974287; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=inEjkYpZZFKseUFbKo7AFRhLn8xe1tV4AKOq/ebShUM=;
+ b=HxD4fyi73HDG0ScvR/DOr8jASdbiZUwxPm+KFys0OLuiA9dx7coNdtSJBpExkqnDqD
+ hBtAnZPoot9w49A647XEy72i2SqKsAUGvI79aQ0fiNFUHjDWYhC6DkiMBUBlLejDKshn
+ HEA38Iz2qvz4NCv2nvYQzESnygd5K6tHHiLfYy5AFnr6LTgqs2X9q2rEUIJHTvmS5uUB
+ xaJ2lB4YCNhjp6fX4YodQthj14jpgSo2MemKjQIrp6lKcNLKviv4ctQ8iHLQm5ltpKE3
+ F7Gs/gyPaDf3TBE6DPfpIalpH+gKyMzCnSCsiMqgIqMFrkHuPqSf5a6AFIZ+Q7/gfKIN
+ v0FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767369360; x=1767974160;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U/E4Pkle8R/umjjml+ar6gI8frpDcsvylCBgQE9LDis=;
- b=QNVLDs6TxrzVJgnilNIwKJDIlMNZmMHoWbKKJxThyCWw/F0+aNtqshFfdbSBngXcFp
- xHXQi/TPNRO8zxX+uZmBwd9S3P58XpKEe0I1/b9KRNig8sl6CUe47Z+ivPFzJY1bWONW
- hEkqZ3Betpq107v5vok6Svf+4kCPuTnSpLWRsGLfufskFWk+oF+IjAzFbBtydFnx/5Ja
- Bci8LNVX1LvUNi/pF/1Hzliqkq4NrN5TB1KJpdCP1m0lVwrD9+1VUqlqbTRxOoktNudT
- mQESbTZfQKY4+KyBPc1wyqGikskx0DIZDEbivGC5kxouvCWHTFgMPL8vYmFXMAD4q+3y
- gBtw==
+ d=1e100.net; s=20230601; t=1767369487; x=1767974287;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=inEjkYpZZFKseUFbKo7AFRhLn8xe1tV4AKOq/ebShUM=;
+ b=ExSz0/yBLGu9Ag+YvKm5Bxhksj1TvLoPAml7sIg49m4OUBP/vGK1dAAdyhec+vrkpI
+ 1DaJ3OTQUdDMIACym8fGfpi4bt9l3pG+Vzx0pvlQvWWENOaP10HHAhL9rubjXAcoFKkQ
+ 1dmTowMQnpKrR8zosjQrvDBy7WD8yURx7Zur362ng1TSxqxvYbVu1C10JYf0WL5i1izX
+ xt360/6qeb1DybKaH4hd+/UZlWq1bqbnUe7rK9vdw0j/BoEmHoio9MU4R/freyfFJmYp
+ ttYV0y+D29JGsr9pupmvH8Ic5CHp2Rb4jJVbq7YmaBS3AejsNsIV7pSV3KojAdPWUaFp
+ TzYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXSOR1a1rz+Ij87KHRXDftm7OJYwq/zvD8Wp2wmQfBYc1r7QEnAIp2moHFYgG0MpK2JJhpMT4K7Rg4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yybnii03xOl9Zq8RT20AmYdIwQaQJt28rE6AyfncwhDuDA9x791
- Lsh2qQV8LqKie+Hscy965df/ZtSTnZdC1NP0RFpUKexLObS3a6Ln0AxK
-X-Gm-Gg: AY/fxX4FNOPDjl+lKJIMup3EFpRrOtOZULbCW5RB8OvgFvi8dYVhoCJHEEszfa0WNsW
- GXaqsbKmI2ogN1NicEzAGpZ679mtgyLnid7uHUTVtU4gGBB3OL62qKIy6bSOBBt1yJDFBFIfRQ7
- l4h0JeFJKsXSppDb2UVlM0YNQV3rvAdZcXGOD6qTTKxmXKvMuh7J5LEHqBvI6nQqwt4ZoFVr4NW
- zduu4RJhQchC1twBQvP1pMzInCi9EbZW75dzf9JafPZ82AEkiCQ02qjwVxPyKrtkjoNwSGfVC3N
- ahVjj6n1tiFzh5ZvhTBeTKbXk0tCSi8DqQi1RszOq8t/55HiQtwGfN9yJlMU0x+h6QBivqZWK53
- NuSq0rofjrdAoabsoKuGS6sk11SGFPRLV/zEme9f4PFd6Oa87xI6jZmmX/9fGCX0uZ39e4j+e3X
- YaGxOWj10l6eGMrjJBDqCkyO91Bw==
-X-Google-Smtp-Source: AGHT+IEPvWgGFyPCVd7ePOa1jj1CQs953xedwLMhJbDS9KL168vNCZqWkuywUIt3CMvJc+d0CdFOTg==
-X-Received: by 2002:a17:907:9303:b0:b83:1340:1a2c with SMTP id
- a640c23a62f3a-b8313401b75mr2268205166b.64.1767369359470; 
- Fri, 02 Jan 2026 07:55:59 -0800 (PST)
-Received: from osama.. ([2a02:908:1b4:dac0:ac54:a680:a017:734f])
+ AJvYcCVbyq4ryZXpT3xljIg2etiQdH02j6vjEvTZ8q4PJnZ7mCKA2U9rrd6Bx9n22WbcRdYYp0IcV/wslY8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySzhK/lyZ8/anJ9AVPkwcVQoX1mrPsNtwHe6UZaFUtvLacvHLX
+ P0zm3D6igWNpKmuPvyNkRwTeklRW/DnfzlDjoq6/BQHz41qtu4tzTta+
+X-Gm-Gg: AY/fxX49v4dvcGhfkXJrpHQtgT6cmPUOAGhaCyONWEp8TQ2sZ+4AyQKq0ncj1nFy9/z
+ A6ssqy3RrrBbiQ4ux4FpBAddcXdDP9J3yUzwd19R8+2OxznHuLowjRE5X29PIvwwCcpxnyMTriQ
+ l1g32oZ06jj4LNXzfDIpip5qA2lzI34Xhjr4sQNaQoIb+o2q+IawWGkjSg8wR4axrAsxNL6CZQJ
+ qzrGRFghjpBE4jw8e0e1kKtxF51kGahDE+hbpoQvOLAnzf74BFmzahgeh58RwusC/7BazTme4OS
+ wux6gb/S6ildIceMoYHlWPHI4uD3Ppe47Ja8anO+ibgz5EfNtkfnwSygCZ1F5Bvp5LXm5NqAUG5
+ wH2NnsMbmqAMYAQ4utBffxrPplbdi6FAuWWa7MHORwr5+lMvvZkrkXNokYFiqMefzQJXVHul4df
+ OWx3z6NJU1x8aM
+X-Google-Smtp-Source: AGHT+IHiO3O4EGawpFCvkJsZU4HHFVkQUvnh0vx9UvoieKlX+GabYma9+cfOIH50Ic7AgiFfru4A+w==
+X-Received: by 2002:a17:907:3fa5:b0:b75:7b39:90c9 with SMTP id
+ a640c23a62f3a-b803718390fmr4882816666b.51.1767369486868; 
+ Fri, 02 Jan 2026 07:58:06 -0800 (PST)
+Received: from osama ([2a02:908:1b4:dac0:ac54:a680:a017:734f])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8037f089fesm4611961066b.46.2026.01.02.07.55.58
+ a640c23a62f3a-b8056ff4925sm4098474566b.31.2026.01.02.07.58.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jan 2026 07:55:58 -0800 (PST)
+ Fri, 02 Jan 2026 07:58:06 -0800 (PST)
+Date: Fri, 2 Jan 2026 16:58:04 +0100
 From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: luca.ceresoli@bootlin.com,
-	Andy Yan <andy.yan@rock-chips.com>
-Cc: Osama Abdelkader <osama.abdelkader@gmail.com>, stable@vger.kernel.org,
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andy Yan <andy.yan@rock-chips.com>, stable@vger.kernel.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/bridge: synopsys: dw-dp: fix error paths of dw_dp_bind
-Date: Fri,  2 Jan 2026 16:55:52 +0100
-Message-ID: <20260102155553.13243-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH v2] drm/bridge: synopsys: dw-dp: return when attach
+ bridge fail
+Message-ID: <aVfrDJojCylccwYJ@osama>
+References: <20251231144115.65968-1-osama.abdelkader@gmail.com>
+ <DFE1K6AD151E.23NWWMYDV2ZDI@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DFE1K6AD151E.23NWWMYDV2ZDI@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,95 +100,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix several issues in dw_dp_bind() error handling:
+On Fri, Jan 02, 2026 at 11:46:08AM +0100, Luca Ceresoli wrote:
+> Hello Osama, Andy Yan,
+> 
+> Andy, a question for you below.
+> 
+> On Wed Dec 31, 2025 at 3:41 PM CET, Osama Abdelkader wrote:
+> > When drm_bridge_attach() fails, the function should return an error
+> > instead of continuing execution.
+> >
+> > Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
+> > Cc: stable@vger.kernel.org
+> >
+> > Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> > ---
+> > v2:
+> > use concise error message
+> > add Fixes and Cc tags
+> > ---
+> >  drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> > index 82aaf74e1bc0..bc311a596dff 100644
+> > --- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> > @@ -2063,7 +2063,7 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
+> >
+> >  	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >  	if (ret)
+> > -		dev_err_probe(dev, ret, "Failed to attach bridge\n");
+> > +		return ERR_PTR(dev_err_probe(dev, ret, "Failed to attach bridge\n"));
+> 
+> Your change looks good now. However there is aanother issue, sorry for not
+> having noticed before.
+> 
+> While reading the dw_dp_bind() code in its entirety I have noticed that on
+> any error after drm_bridge_attach() (and also a drm_bridge_attach() error,
+> with this patch) it returns without undoing the previous actions. This is
+> fine for devm actions, but a problem for non-devm actions, which start at
+> drm_dp_aux_register().
+> 
+> For example, if phy_init() fails, dw_dp_bind() returns without calling
+> drm_dp_aux_unregister(), thus leaking the resources previously allocated by
+> drm_dp_aux_register().
+> 
+> Andy, can you tell whether my analysis is correct?
+> 
+> If it is, this should be fixed before applying this patch. Osama, do you
+> think you can add such a patch in your next iteration?
 
-1. Missing return after drm_bridge_attach() failure - the function
-   continued execution instead of returning an error.
+Thanks Luca for the review, I just sent v3.
 
-2. Resource leak: drm_dp_aux_register() is not a devm function, so
-   drm_dp_aux_unregister() must be called on all error paths after
-   aux registration succeeds. This affects errors from:
-   - drm_bridge_attach()
-   - phy_init()
-   - devm_add_action_or_reset()
-   - platform_get_irq()
-   - devm_request_threaded_irq()
+Best regards,
+Osama
 
-3. Bug fix: platform_get_irq() returns the IRQ number or a negative
-   error code, but the error path was returning ERR_PTR(ret) instead
-   of ERR_PTR(dp->irq).
-
-Use a goto label for cleanup to ensure consistent error handling.
-
-Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
-Cc: stable@vger.kernel.org
-
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
----
-v3:
-- Add resource leak fixes for all error paths after drm_dp_aux_register()
-- Fix platform_get_irq() error handling bug
-- Use goto pattern for cleanup as suggested by reviewer
-
-v2:
-- use concise error message
-- add Fixes and Cc tags
----
- drivers/gpu/drm/bridge/synopsys/dw-dp.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-index 82aaf74e1bc0..432342452484 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-@@ -2062,33 +2062,41 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
- 	}
- 
- 	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
--	if (ret)
-+	if (ret) {
- 		dev_err_probe(dev, ret, "Failed to attach bridge\n");
-+		goto unregister_aux;
-+	}
- 
- 	dw_dp_init_hw(dp);
- 
- 	ret = phy_init(dp->phy);
- 	if (ret) {
- 		dev_err_probe(dev, ret, "phy init failed\n");
--		return ERR_PTR(ret);
-+		goto unregister_aux;
- 	}
- 
- 	ret = devm_add_action_or_reset(dev, dw_dp_phy_exit, dp);
- 	if (ret)
--		return ERR_PTR(ret);
-+		goto unregister_aux;
- 
- 	dp->irq = platform_get_irq(pdev, 0);
--	if (dp->irq < 0)
--		return ERR_PTR(ret);
-+	if (dp->irq < 0) {
-+		ret = dp->irq;
-+		goto unregister_aux;
-+	}
- 
- 	ret = devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
- 					IRQF_ONESHOT, dev_name(dev), dp);
- 	if (ret) {
- 		dev_err_probe(dev, ret, "failed to request irq\n");
--		return ERR_PTR(ret);
-+		goto unregister_aux;
- 	}
- 
- 	return dp;
-+
-+unregister_aux:
-+	drm_dp_aux_unregister(&dp->aux);
-+	return ERR_PTR(ret);
- }
- EXPORT_SYMBOL_GPL(dw_dp_bind);
- 
--- 
-2.43.0
-
+> 
+> Best regards,
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
