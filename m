@@ -2,60 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE8CEE2FC
-	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 11:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E87CEE417
+	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 12:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABB810E057;
-	Fri,  2 Jan 2026 10:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1866110E09B;
+	Fri,  2 Jan 2026 11:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gNuzgdsO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NcKv32vZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C2010E057
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 10:46:18 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id C56724E41EF9;
- Fri,  2 Jan 2026 10:46:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 91F2860749;
- Fri,  2 Jan 2026 10:46:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 24DE8113B0716; Fri,  2 Jan 2026 11:46:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767350775; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=hwrpAtofACV8mGnbbTj3ALFCTWHZSpnmoDNSqNxt0fE=;
- b=gNuzgdsO86vSGmyIcX3LO5esH3tHwTMeHye+WadDjwMyHWXJrD1+TkSD3MUvlwzvIdzMvE
- o0g+MuY++yvo7f83RYo7HXxIsbrDHl8pgEAZMOO1oOtAVc/6Y4+aNyz/WMJ2WO5xq12GqT
- U5HO8SrdDNaNJAP/EYJdA5vhUD9efGauxclThSPoeWD/Ond7W7Jwef/8yT7oaq46dszGXz
- jCoZukKBzZ1rfyeFLxTEc9wJVCEI3To554eIbLnDjlo9CVVsFFPefySiKTCcswucWcyaW5
- Ly/IZ/pWw+BR/7EuzF6XzaNXviSvYfwu4t8XZEAvV/apN4sVCnyYbWjjDSP0VA==
-Mime-Version: 1.0
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF94710E09B
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 11:04:42 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2a097cc08d5so31194085ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jan 2026 03:04:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767351882; x=1767956682; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FIDs7EpZgwjKHQTJkjqicwJWn0vuoECrubEqmgA+6vU=;
+ b=NcKv32vZ5gdV5b6WPUtIokwWfo23b+LpAAQV27AkinKBTwj5y+LU7unjsu8R2toro/
+ uP80w54PxyUHNGMvZjr+wiypPWX3S5w3KRJP2zih6MHP99pJXTqlrS7rLLdqsStliHq8
+ GxjfC5PuciI42rOcP+x25w5G0xUJ6cRGKUTNEUG11KcpiRRryu+LvpISu2YJP602Ymc8
+ HKLDX4gXwenuTUP1lvLEP/OXJ0jANXJmoeMeI2F6JsBjsgIufcrUyrh0VjQmdTC7JWPf
+ F+8KPYO5AaNSkwOnO0MONj/yNeQEABgw9xVKKLMS6xoKj+gpyGTQ1nrF03xURIQNv43E
+ xoWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767351882; x=1767956682;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=FIDs7EpZgwjKHQTJkjqicwJWn0vuoECrubEqmgA+6vU=;
+ b=S/OVL3YIoF9xtpoN/zLAZnFpjdeGi1TuDJO5LzFN7k7ORK/jlXVpnfjFNCi0v/bzZ2
+ GvAOEwNPPZ5USIqUdTnHfVUe0+PWAZsCIqdzBpDZ6Wgi0pRAZfbYnxpPYLTIlO8NkNtP
+ PyMSZiwIcNVR/gleACy2DeUyKekyZuoas9naFZ+LAqbCrSiUc0Z84XzREAeX/XiGJv4c
+ v42wW36aXwlfxRw3JrXqRfof6eO1pML/7IcTc5rb809BXOWw/SJMMNY0pR4e0Ze7Suo3
+ UJHX6LBD/FfQyULfR6XcoTYB1NHlK5t21+hefppA3RPXufoIh8XahqfhxbQZID0PJepm
+ EajQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPuImB9fniZESj72QBY5Gwb5Sz7sXXiqVYr5n8JRqfnsfw6AOKcAxJ5R5EZhrZBjWXjMIGynzfrGQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvFGtRqL3p5ruuFdQ0FYkkVTrHnVD+YYNGu+OrU06mB5z0oEGq
+ DVkEI6hHX/LCd/ObRgk9mGDqkpky8rug5t7Siz02pIBZz15iTnqbvDfm5yWCD5lj/8HubyaIAs0
+ cOa8r+MQvGHsmUuAr6QrZCrzkxlqmLVU=
+X-Gm-Gg: AY/fxX7jCBggWO5hZsD08gQwlme7zUbs0HKdb01zjWhoyJG3OxQYXtmUn5Iw9gaNv0L
+ srhFxiRSn57pSxbgDRW7/LS6cTlVHcSXLWwlleR8+L8rMaNDTk6RXej8eNz3t8fIU4NGPpkEYYV
+ rWJxRMQRqBFt5ZSZwA34Oo83hhu9TBa30PI+PXA4+M36o6uYutZfzQEM6fE0qbdlbbUaNctXtPK
+ M1JpC/p9n44uPTz8FDAZIsc2vucaaHYz+udTdaebBtrAJ0qvPnTHsy5sQA/iStE4Hu2CPRxPXVN
+ dZLxvHD4eNrBx3s2HOcB9IwkkMbFZZVxYioa/3LI39sES+SWdKrfGx/GEa2tJsX4PNiqScWLQny
+ Gedz2HB/+OO3S
+X-Google-Smtp-Source: AGHT+IEZHP2Tt0L93hKtfLRSYNZV76m0YyhGtrMg6HK8YOKF7WDdzMO7LFlzqH2gnVcYBfD5MuH9A9W3GVedPNVkD/I=
+X-Received: by 2002:a05:7301:1509:b0:2a4:3592:cf89 with SMTP id
+ 5a478bee46e88-2b05ea19892mr15172023eec.0.1767351882060; Fri, 02 Jan 2026
+ 03:04:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
+ <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+ <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
+ <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
+In-Reply-To: <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 2 Jan 2026 12:04:28 +0100
+X-Gm-Features: AQt7F2rb7qQrF04KAinb0u8Ra4qw05S31gwaEul2jMZEj1pMA4QwOapz60W1DHs
+Message-ID: <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Vincent Mailhol <mailhol@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Jan 2026 11:46:08 +0100
-Message-Id: <DFE1K6AD151E.23NWWMYDV2ZDI@bootlin.com>
-To: "Osama Abdelkader" <osama.abdelkader@gmail.com>, "Andy Yan"
- <andy.yan@rock-chips.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2] drm/bridge: synopsys: dw-dp: return when attach
- bridge fail
-Cc: <stable@vger.kernel.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251231144115.65968-1-osama.abdelkader@gmail.com>
-In-Reply-To: <20251231144115.65968-1-osama.abdelkader@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +104,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Osama, Andy Yan,
-
-Andy, a question for you below.
-
-On Wed Dec 31, 2025 at 3:41 PM CET, Osama Abdelkader wrote:
-> When drm_bridge_attach() fails, the function should return an error
-> instead of continuing execution.
+On Thu, Jan 1, 2026 at 9:13=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu> w=
+rote:
 >
-> Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller suppor=
-t library")
-> Cc: stable@vger.kernel.org
->
-> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-> ---
-> v2:
-> use concise error message
-> add Fixes and Cc tags
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/br=
-idge/synopsys/dw-dp.c
-> index 82aaf74e1bc0..bc311a596dff 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> @@ -2063,7 +2063,7 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct=
- drm_encoder *encoder,
->
->  	ret =3D drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_C=
-ONNECTOR);
->  	if (ret)
-> -		dev_err_probe(dev, ret, "Failed to attach bridge\n");
-> +		return ERR_PTR(dev_err_probe(dev, ret, "Failed to attach bridge\n"));
+> thanks!  I think it's a bit sad to keep code only to make some checker
+> tooling happy, but for now it seems to be the right thing to do.
 
-Your change looks good now. However there is aanother issue, sorry for not
-having noticed before.
+Perhaps a patch to add a comment explaining Vincent's findings would
+be a good outcome, i.e. explaining the reason it needs to remain in
+place for the moment (even a link to lore.kernel.org to this thread
+would help).
 
-While reading the dw_dp_bind() code in its entirety I have noticed that on
-any error after drm_bridge_attach() (and also a drm_bridge_attach() error,
-with this patch) it returns without undoing the previous actions. This is
-fine for devm actions, but a problem for non-devm actions, which start at
-drm_dp_aux_register().
-
-For example, if phy_init() fails, dw_dp_bind() returns without calling
-drm_dp_aux_unregister(), thus leaking the resources previously allocated by
-drm_dp_aux_register().
-
-Andy, can you tell whether my analysis is correct?
-
-If it is, this should be fixed before applying this patch. Osama, do you
-think you can add such a patch in your next iteration?
-
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+Miguel
