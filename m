@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06413CEE7C9
-	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 13:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA18CEE7D9
+	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 13:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDD6C10E02D;
-	Fri,  2 Jan 2026 12:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C087B10E0B9;
+	Fri,  2 Jan 2026 12:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ktg/X2UE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IGxSmZ+z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A72A610E02D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 12:18:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4411910E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 12:19:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1C12D40B38;
- Fri,  2 Jan 2026 12:18:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE6DC116C6;
- Fri,  2 Jan 2026 12:18:40 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 224C643D63;
+ Fri,  2 Jan 2026 12:19:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710E7C116B1;
+ Fri,  2 Jan 2026 12:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767356321;
- bh=Tb2YDXRKcVQK2vPJv/quYKFzQ2ip2fRl0IeUjAystjo=;
+ s=k20201202; t=1767356378;
+ bh=DuFbu53uVycRjhiI2jx7UQcyXapBe7nmlDM/y0cpp9E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ktg/X2UE+tCc8C8dX9A/3G0im4i6nDacLtA+mHqt3ttjLNMYDbABukyS16ZGsMFgt
- EuR2gYg1o7QSvHpBp7ajMaxvbTtAATU+nV+SMezRvnrSdks5vOCcFUk3hnqVu9vk/e
- GBLiGir02y3Rb/XTwIieYlqT/vsejJp57UPdi9m9ciDMuKBmDk9b859YhqV3AQ9z4s
- PuMjZYatbP7KY1n7qiYEYdpx1jyCs6i4ZEriZyvVTbc1yCdHkjgTuGMRaJlh60SJz6
- HyK3YKr9wVs5gkOcflnDJ9QZMCFqtuABxwL5R9Ue0HjjSAQfP9dCFaZWj0vaCkkdxl
- NEJ+XawINS6RA==
-Date: Fri, 2 Jan 2026 13:18:38 +0100
+ b=IGxSmZ+zUXvRf71q7PeKNWNYQMFapQD1q5ly/GaqG1Ww3UgggOp5QZ2vnnqjq3my2
+ uhAe9Xz/8ZxHIM5g7Or/HwCvHhlyuupVmjFSyCPnKr5iz0zb23KYZTGNyngldBd/HC
+ CV6wDRsaHyIOJDAFUc6rr6sSrs8JtsOJn7hw6m9lvWmRXMuBmX516j1X8Jkmte17L2
+ 7xJFOYUpqA0X658Jj7Thp2/eSG9mdwbNF71soJd2Hh/CQ8WgMeZBr9iyAAJ1+mkniW
+ F0TMM3LX8DtAc9vrj0IErp08x7RXlZAcVHidNAXjvKWjtBeg93Ir7vJskU42/+wM5i
+ rREy+G966n/SQ==
+Date: Fri, 2 Jan 2026 13:19:35 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Kuan-Wei Chiu <visitorckw@gmail.com>
 Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
@@ -43,15 +43,15 @@ Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  linux-input@vger.kernel.org, 
  linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: serial: google, goldfish-tty: Convert to
+Subject: Re: [PATCH 2/6] dt-bindings: misc: google,android-pipe: Convert to
  DT schema
-Message-ID: <20260102-fast-clay-jackrabbit-6d6637@quoll>
+Message-ID: <20260102-unselfish-nimble-gecko-722c94@quoll>
 References: <20251230181031.3191565-1-visitorckw@gmail.com>
- <20251230181031.3191565-2-visitorckw@gmail.com>
+ <20251230181031.3191565-3-visitorckw@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251230181031.3191565-2-visitorckw@gmail.com>
+In-Reply-To: <20251230181031.3191565-3-visitorckw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +67,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 30, 2025 at 06:10:26PM +0000, Kuan-Wei Chiu wrote:
-> Convert the Google Goldfish TTY binding to DT schema format.
-> Move the file to the serial directory to match the subsystem.
-> Update the example node name to 'serial' to comply with generic node
-> naming standards.
+On Tue, Dec 30, 2025 at 06:10:27PM +0000, Kuan-Wei Chiu wrote:
+> Convert the Android Goldfish QEMU Pipe binding to DT schema format.
+> Move the file to the misc directory as it represents a miscellaneous
+> communication device.
+> Update the example node name to 'pipe' to comply with generic node
+> naming standards and fix the mismatch between unit address and reg
+> property in the original example.
 > 
 > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 > ---
->  .../devicetree/bindings/goldfish/tty.txt      | 17 ---------
->  .../bindings/serial/google,goldfish-tty.yaml  | 38 +++++++++++++++++++
+>  .../devicetree/bindings/goldfish/pipe.txt     | 17 ---------
+>  .../bindings/misc/google,android-pipe.yaml    | 38 +++++++++++++++++++
 >  2 files changed, 38 insertions(+), 17 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/goldfish/tty.txt
->  create mode 100644 Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/goldfish/tty.txt b/Documentation/devicetree/bindings/goldfish/tty.txt
-> deleted file mode 100644
-> index 82648278da77..000000000000
-> --- a/Documentation/devicetree/bindings/goldfish/tty.txt
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -Android Goldfish TTY
-> -
-> -Android goldfish tty device generated by android emulator.
-> -
-> -Required properties:
-> -
-> -- compatible : should contain "google,goldfish-tty" to match emulator
-> -- reg        : <registers mapping>
-> -- interrupts : <interrupt mapping>
-> -
-> -Example:
-> -
-> -	goldfish_tty@1f004000 {
-> -		compatible = "google,goldfish-tty";
-> -		reg = <0x1f004000 0x1000>;
-> -		interrupts = <0xc>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
-> new file mode 100644
-> index 000000000000..08fa12449a01
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
-> @@ -0,0 +1,38 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/serial/google,goldfish-tty.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Goldfish TTY
-> +
-> +maintainers:
-> +  - Kuan-Wei Chiu <visitorckw@gmail.com>
-> +
+>  delete mode 100644 Documentation/devicetree/bindings/goldfish/pipe.txt
+>  create mode 100644 Documentation/devicetree/bindings/misc/google,android-pipe.yaml
 
-Missing allOf to /schemas/serial/serial, unless this is not a serial, but then your
-commit msg should explain that.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
