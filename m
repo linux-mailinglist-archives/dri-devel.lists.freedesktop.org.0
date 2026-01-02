@@ -2,62 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8D4CEDFE9
-	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 08:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED97CEE0F4
+	for <lists+dri-devel@lfdr.de>; Fri, 02 Jan 2026 10:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D96410E055;
-	Fri,  2 Jan 2026 07:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53FEF10E0DE;
+	Fri,  2 Jan 2026 09:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NdgqqMWX";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RZVRLh7X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9461A10E055
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jan 2026 07:55:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2C74344273;
- Fri,  2 Jan 2026 07:55:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F83AC116B1;
- Fri,  2 Jan 2026 07:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767340518;
- bh=pOnKyluOFkW2N+u900uU1w6ot1ZQJr+Jq/KOEnjgfZU=;
- h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
- b=NdgqqMWXvqkjNpDjD8aQSm+E5nZXDdEbJTJ1qQ5erI4m+6RsR4CQ32EKznn+4kSXV
- aY56PD7oxNvBUOr6ZUwhqe3nfj93uX+zsZrPsM2pR34X9GHZf31J5/Akb7ZHgR4UBK
- XTx8D2836y/iG0zXPKBArfeBjG0oBjuX9UkkLhOpxqRT2pJf7atCZA8xD2EWtRAXBx
- I/0VbIgMmSkNOoBe5H6StvBs6oZIEd9vqIK5US1EyifRP3D/WkpQYCa/Q57BDTWPzy
- MgYf8L4uXhj2N5DPwTPBpzmKxXoGdWPCF9+KMFCQ5oyya29ZLm/HcI/0nCu+BYm6j0
- QfueNXF+FND+A==
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=1b07cf6eaa5d19226fd67d51c3e66b8bf06a0a75186b45da8bdf50e1e5cb;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 02 Jan 2026 08:55:13 +0100
-Message-Id: <DFDXXBFG13CK.385K2HM9FOWS6@kernel.org>
-Subject: Re: [PATCH v2 2/4] clk: keystone: don't cache clock rate
-Cc: "Frank Binns" <frank.binns@imgtec.com>, "Matt Coster"
- <matt.coster@imgtec.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Vignesh Raghavendra" <vigneshr@ti.com>,
- "Tero Kristo" <kristo@kernel.org>, "Andrew Davis" <afd@ti.com>, "Santosh
- Shilimkar" <ssantosh@kernel.org>, "Michael Turquette"
- <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Kevin
- Hilman" <khilman@baylibre.com>, "Randolph Sapp" <rs@ti.com>,
- <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Nishanth Menon" <nm@ti.com>
-X-Mailer: aerc 0.20.0
-References: <20251223124729.2482877-1-mwalle@kernel.org>
- <20251223124729.2482877-3-mwalle@kernel.org>
- <20251230201233.n36d5fiensqyb6fc@splice>
-In-Reply-To: <20251230201233.n36d5fiensqyb6fc@splice>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F57210E0D7;
+ Fri,  2 Jan 2026 09:29:31 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 602894JE035910; Fri, 2 Jan 2026 09:29:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ oaW0Z6j0ZPnwG0r3uuBK5kv3RVSJzkfV4NzktJbSi/E=; b=RZVRLh7X4ntl8dfB
+ tRQ0x4n5v3aI1mKFBP4ymFSYVg/Kgz+lPoPYML3uJ0k3SKf1I2GT3lzsuMwnEUIW
+ RI5vvgJBfWsaGv3bKlaZx/RctV1RzlXnFsqJ3M9gO0AjtfgE2cARuIckXqZa07zZ
+ uu6iW7eypk14uyq+iGn/t5kEICxXWX8+5TltRfJ6ZhowAMpIO0JL4SCnB2/9Ll82
+ 1vYohLTQ7vV9JDdF//iifyvE/HrNKhizH5oL6YnDkdg5noaNpvKSH1hmR+8XzLz1
+ 30XOYDob4FkFMGjbU5XBykF+0DYkJP+7rpl4Ok2gluoblTR2zAEKK9+8Lyq/7e1U
+ QTO3fA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bcx74c48q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Jan 2026 09:29:19 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 6029TIAB006914
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 2 Jan 2026 09:29:18 GMT
+Received: from [10.216.5.234] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 2 Jan
+ 2026 01:29:10 -0800
+Message-ID: <58b496b5-2847-4af7-8a34-e227e4324deb@quicinc.com>
+Date: Fri, 2 Jan 2026 14:59:07 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] dt-bindings: display: msm-dsi-phy-7nm: document
+ the QCS8300 DSI PHY
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <andersson@kernel.org>,
+ <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonathan@marek.ca>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>
+References: <20251225152134.2577701-1-quic_amakhija@quicinc.com>
+ <20251225152134.2577701-2-quic_amakhija@quicinc.com>
+ <20251227-doberman-of-radical-variation-d30aaf@quoll>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <20251227-doberman-of-radical-variation-d30aaf@quoll>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: zYsvGjGcXceGOpTB8rFMlvFOrGNmFuGV
+X-Proofpoint-GUID: zYsvGjGcXceGOpTB8rFMlvFOrGNmFuGV
+X-Authority-Analysis: v=2.4 cv=HNvO14tv c=1 sm=1 tr=0 ts=69578fef cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=fWUcj0S4klb-w0UgOPsA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAyMDA4NSBTYWx0ZWRfX5dJyz1g8G/Ja
+ 2vXNwTFU1hMK6ZsyFw0HozPYioy/cwffwIZRjGX5+rdMsSjFgGH5vq9tHbzBVGrJG5pJYjZCbA5
+ kj6vAih44inI5tN0KPlYRHSG6xFDDzovdJMy6zYYSnMdeiKoi/GZvBbo1TtLogKn1bjtEAlJL2x
+ pkafdL6lEskRwffpmi1u2msJxkDDD/vV4HQjBi6vURfLFaG6YdZ6nMZtpZK4xXD7ijVnfUjzkoU
+ g+4W6k0JQBzr410vBvBvt6ek9xQCHoG7U+OHtgNDdjBhzqYREdaFQVEt6GZG6RXxrVpUPhdB8sN
+ 0bQ+VN2JLFopRoyVC39lJQtIFDGzRBjDHDTgIlF6U0gkZPAO1YdyH23DGrtdwIbo/pJngKyXbxF
+ 4M0Y2T27982MvE85ECWMuAHFpG/G+L0EnLIk5ZnSNPCaza+QlL6IxvcZXb8MOXc4NTpncRFoe0o
+ q5D8BKIPNak2Aa+voyg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-01_07,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601020085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,93 +112,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---1b07cf6eaa5d19226fd67d51c3e66b8bf06a0a75186b45da8bdf50e1e5cb
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 12/27/2025 4:43 PM, Krzysztof Kozlowski wrote:
+> On Thu, Dec 25, 2025 at 08:51:30PM +0530, Ayushi Makhija wrote:
+>> The QCS8300 MDSS DSI PHY is the same 5nm PHY IP as on SA8775P, with
+>> identical register layout and programming model. Model this by using
+>> a QCS8300 specific compatible with a qcom,sa8775p-dsi-phy-5nm fallback,
+>> and update the schema to require this two entry form for QCS8300 while
+>> keeping existing single compatible users valid.
+> 
+> Last sentence is redundant. I asked to explain the hardware, not to tell
+> us how Devicetree works. Write concise and informative commit msgs which
+> tell non-obvious things. Not what you did. I alreaded asked this - do
+> not state the obvious, do not copy the subject.
+> 
+> The only useful part of your commit msg is first sentence - two lines,
+> so 33%. Remaining four lines, so 66%, is obvious.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-On Tue Dec 30, 2025 at 9:12 PM CET, Nishanth Menon wrote:
-> On 13:47-20251223, Michael Walle wrote:
->> The TISCI firmware will return 0 if the clock or consumer is not
->> enabled although there is a stored value in the firmware. IOW a call to
->> set rate will work but at get rate will always return 0 if the clock is
->> disabled.
->> The clk framework will try to cache the clock rate when it's requested
->> by a consumer. If the clock or consumer is not enabled at that point,
->> the cached value is 0, which is wrong. Thus, disable the cache
->> altogether.
->>=20
->> Signed-off-by: Michael Walle <mwalle@kernel.org>
->> Reviewed-by: Kevin Hilman <khilman@baylibre.com>
->> Reviewed-by: Randolph Sapp <rs@ti.com>
->> ---
->>  drivers/clk/keystone/sci-clk.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>=20
->> diff --git a/drivers/clk/keystone/sci-clk.c b/drivers/clk/keystone/sci-c=
-lk.c
->> index 9d5071223f4c..0a1565fdbb3b 100644
->> --- a/drivers/clk/keystone/sci-clk.c
->> +++ b/drivers/clk/keystone/sci-clk.c
->> @@ -333,6 +333,14 @@ static int _sci_clk_build(struct sci_clk_provider *=
-provider,
->> =20
->>  	init.ops =3D &sci_clk_ops;
->>  	init.num_parents =3D sci_clk->num_parents;
->> +
->> +	/*
->> +	 * A clock rate query to the SCI firmware will return 0 if either the
->> +	 * clock itself is disabled or the attached device/consumer is disable=
-d.
->> +	 * This makes it inherently unsuitable for the caching of the clk
->> +	 * framework.
->> +	 */
->> +	init.flags =3D CLK_GET_RATE_NOCACHE;
->>  	sci_clk->hw.init =3D &init;
->> =20
->>  	ret =3D devm_clk_hw_register(provider->dev, &sci_clk->hw);
->> --=20
->> 2.47.3
->>=20
->
-> Reviewed-by: Nishanth Menon <nm@ti.com>
->
-> I wish there was a better scheme, but inherently, just like SCMI and
-> other systems where power management co-processor controls clocks, there
-> is no real feasible caching scheme I can think of. I wonder if Stephen
-> or others have a thought on this?
->
-> That said, I wonder if we need fixes tag to this? I am sure there are
-> other clocks susceptible to this as well. I wonder if
-> commit 3c13933c6033 ("clk: keystone: sci-clk: add support for
-> dynamically probing clocks") is the appropriate tag?
+Hi Krzysztof,
 
-From my previous versions of this patch:
+Can you please check below commit description is it appropriate  ?
 
-> Regarding a Fixes: tag. I didn't include one because it might have a
-> slight performance impact because the firmware has to be queried
-> every time now and it doesn't have been a problem for now. OTOH I've
-> enabled tracing during boot and there were just a handful
-> clock_{get/set}_rate() calls.
+QCS8300 uses the same 5nm MDSS DSI PHY IP as SA8775P, sharing an identical
+register layout and programming model. Introduce a QCS8300-specific compatible
+with a fallback to `qcom,sa8775p-dsi-phy-5nm` to reflect this hardware reuse.
 
-I'm still undecided if this needs a Fixes tag or not. Strictly
-speaking it would need one. Although, I'm not sure it's the one
-you mentioned, because the culprit is the "we return 0 if the clock
-or it's consumer is disabled", which then caches the wrong value.
-So it is probably the very first commit b745c0794e2f ("clk:
-keystone: Add sci-clk driver support").
-
--michael
-
---1b07cf6eaa5d19226fd67d51c3e66b8bf06a0a75186b45da8bdf50e1e5cb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaVd54hIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/gcUQGAg2jdevhmzIo3MpxW/fmQhTzma7f+Pz6n
-47sV9LU70CQ37MlbGTA2td+AP2lBAewMAYCpZT5T5yRgVP3N00Tn5GVG4Ag10GUP
-WDnpYZrhnC6qDHRhIUdH2Nn1H0y4a99g1XY=
-=VIxe
------END PGP SIGNATURE-----
-
---1b07cf6eaa5d19226fd67d51c3e66b8bf06a0a75186b45da8bdf50e1e5cb--
+Thanks,
+Ayushi
