@@ -2,97 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2484CF04FD
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 20:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED2BCF0536
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 20:40:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00E8610E0E4;
-	Sat,  3 Jan 2026 19:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C9E10E23F;
+	Sat,  3 Jan 2026 19:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="oME+GmLI";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="T1NWBlSg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ptk8Eq01";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C72DE10E0E4
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:27:19 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dk9Yf1440z9sv3;
- Sat,  3 Jan 2026 20:27:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767468438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2XP6qw4a7+uuVk2H+Mf5Ib+nVhrZP+yHz8tm4VwbuXM=;
- b=oME+GmLIvYIV4xX9ApUXWFvxXXtrMqR7OJa0qexmleEQFn9kZhFFxDhsEh7Fx9GwC4mk3f
- 97+VR8fXV3aEfOZxqQ0iCe8dJI3Od1jdGsiEiPEj3FVGB3OT9tmHm113A67f9PJ8xajGTQ
- lQVOQCDJ+hMdmuhi0eTV/fyUArky7L5OcBhcfdwQQPZZHF2u5/Qd0SMOpduRmEi/YOnHTf
- Cnvp929qbvbP5ySEG/a8aGcxjPU7ZyaLV54KQHsZwkFevkfqEd26qedSSPRrjuGgXgZV6q
- BmSmvxkR3mtQlVCjuGcl/u5rbilyBzzF2gPuGC7YsEGGa4QbJe7I6Tzp8TzXcg==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=T1NWBlSg;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
- 2001:67c:2050:b231:465::1 as permitted sender)
- smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <e92e22a5-5cb3-442d-9a91-8d66a247ba9a@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767468436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2XP6qw4a7+uuVk2H+Mf5Ib+nVhrZP+yHz8tm4VwbuXM=;
- b=T1NWBlSguX37B1M/jTmqq65T34vovB6Jjht0+e0NlD6hiMLfFGrjvuEOIdlLBWPbg8phtm
- okA3CYE+z4oUi8p4B/j1+ZlEAXxJlO7sThHBfzM6nwyLW0As+MoPzF12Vx23aymIUCRank
- Mb0517UUXQQ1vnMtdyYjbGsoq7M43nTMW3XRLQjPhifl/fOR+MXJ/f6N8qwhqwdsBK1Z5B
- BY7IbVip7Nsy7tluxaJh2juldnyd9sL1JKLvlv2mLROOKQyOZ6DsOmejYYm7a6acwxW1u8
- AbASBJYEa1tAO3y+ZXYXlDLs1nmgN48hFSrWbX2dptWPgZTf1Y/HySspRHY1pQ==
-Date: Sat, 3 Jan 2026 20:27:06 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A93110E23F
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:40:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D1E8541B44;
+ Sat,  3 Jan 2026 19:40:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2700C113D0;
+ Sat,  3 Jan 2026 19:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767469226;
+ bh=tkpnTK4Qj656t1SjViYdrojmOrUb4VMdsQ1vCgGZFaM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ptk8Eq017hq7LXx1dg/UvM82Pt2sJPL5TWUcNecJF4hcdqsylreXB1vc6LxpYKW/R
+ 9BFtTUrUfQ6lI82kt6wwlhqf7M65pT8tHi9NtuTo7kfe+tZuRamjzVaBj8o2/xOmMS
+ LaoevR3U2LqszzHyshrbiae4H/vyhmY377Eo5dqooqKzC+noeELYMVY4t02yU2o+5C
+ qtYwbFBsNY0o0tndQO1CLdFe7U5Ma1IxgGojOEUmf4U6vKfryh1yieUj4B5oJplZ5N
+ grGmU4u6Dmx9hrkVInJgl38oRemDeRkyJojpy+NB09Tc3smQe+7xN7WuoL6oL+li+0
+ Drx6RpyJAa6UQ==
+Message-ID: <e66bd09b-9879-4562-a71e-a1e1a964f3f2@kernel.org>
+Date: Sat, 3 Jan 2026 20:40:17 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
-To: Linus Walleij <linusw@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] overflow: Update is_non_negative() and is_negative()
+ comment
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Vicente Bergas
- <vicencb@gmail.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
- stable@vger.kernel.org
-References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
- <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
- <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
- <817b2358-0920-4b7a-abb1-133103d0f9fe@ideasonboard.com>
- <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
- <6be8aaf6-b01d-4444-9850-967f8e316896@ideasonboard.com>
- <CAD++jLkWH8xxT+bTXseuJv+pXeEGy7qqE7Z1Mid2CwRg8O5D7A@mail.gmail.com>
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
+ <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+ <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
+ <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
+ <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
+ <b549e430-5623-4c60-acb1-4b5e095ae870@kernel.org>
+ <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
+ <903ba91b-f052-4b1c-827d-6292965026c5@moroto.mountain>
+ <c84557e6-aa92-42e9-8768-e246676ec1e9@kernel.org>
+ <aVlKTculhgJzuZJy@stanley.mountain>
+From: Vincent Mailhol <mailhol@kernel.org>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAD++jLkWH8xxT+bTXseuJv+pXeEGy7qqE7Z1Mid2CwRg8O5D7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 77nc8ht34szpzk9sqmo8ndpt41mmhnkh
-X-MBO-RS-ID: 65adf9a1f053822655f
-X-Rspamd-Queue-Id: 4dk9Yf1440z9sv3
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <aVlKTculhgJzuZJy@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,26 +92,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/3/26 8:12 PM, Linus Walleij wrote:
-> On Tue, Dec 23, 2025 at 12:48 PM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> On 23/12/2025 01:18, Linus Walleij wrote:
->>> On Sun, Dec 14, 2025 at 1:42 PM Tomi Valkeinen
->>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>
->>>>>> Should we merge this series as a fix for 6.18 rcs?
->>>>>
->>>>> Too late now, so let's merge it as a fix for v6.19 rcs!
->>>>
->>>> Ah, right. Indeed, I meant v6.19 rcs.
->>>
->>> Are you applying it or should I?
->>> Not sure if you want some special timing, like outside of
->>> holidays.
+On 03/01/2026 at 17:56, Dan Carpenter wrote:
+> On Sat, Jan 03, 2026 at 12:10:45PM +0100, Vincent Mailhol wrote:
+>> On 03/01/2026 at 11:02, Dan Carpenter wrote:
+>>> Thanks Randy, for sending this to me.  I'm on the sparse list, but
+>>> I've been on vacation and haven't caught up with my email. 
 >>
->> Oh. No, I'm not a DRM maintainer, so I was waiting for someone to merge
->> this. From my point of view it's ready for merging.
+>> Welcome back, hope you enjoyed your holidays!
+>>
+>>> I can easily silence this in Smatch.
+>>
+>> Thanks. I ran this locally, I can confirm that this silences the
+>> warning. So:
+>>
+>> Tested-by: Vincent Mailhol <mailhol@kernel.org>
+>>
+>>> diff --git a/check_unsigned_lt_zero.c b/check_unsigned_lt_zero.c
+>>> index bfeb3261f91d..ac3e650704ce 100644
+>>> --- a/check_unsigned_lt_zero.c
+>>> +++ b/check_unsigned_lt_zero.c
+>>> @@ -105,7 +105,8 @@ static bool is_allowed_zero(struct expression *expr)
+>>>  	    strcmp(macro, "STRTO_H") == 0 ||
+>>>  	    strcmp(macro, "SUB_EXTEND_USTAT") == 0 ||
+>>>  	    strcmp(macro, "TEST_CASTABLE_TO_TYPE_VAR") == 0 ||
+>>> -	    strcmp(macro, "TEST_ONE_SHIFT") == 0)
+>>> +	    strcmp(macro, "TEST_ONE_SHIFT") == 0 ||
+>>> +	    strcmp(macro, "check_shl_overflow") == 0)
+>>
+>> But, for the long term, wouldn't it better to just ignore all the code
+>> coming from macro extensions instead of maintaining this allow-list?
+>>
 > 
-> Aha OK, I applied and pushed it now. I added the same Fixes: tag as on
-> patch 1/4 to all 4 patches in the process.
-Thank you !
+> Of course, that idea occured to me, but so far the allow list is not
+> very burdensome to maintain.
+
+Indeed, but my concern was more on how people would treat such smatch
+warnings coming from the kernel test robot. It is very uncommon to have
+an allow-list hard coded into the static analyzer. Actually, this is the
+first time I see this. My fear here is that people will just uglify the
+code rather than sending a patch to extend the allow list in smatch.
+
+> I maybe should disable it for all macros unless the --spammy option is used...
+
+IMHO, that would be an even better approach. That said, I am happy
+enough with your previous patch which resolves my issue and which is way
+better than updating the is_non_negative() and is_negative() comments as
+I did in my patch!
+
+
+Yours sincerely,
+Vincent Mailhol
+
