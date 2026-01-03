@@ -2,101 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B219BCF030B
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 18:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1136CF0388
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 18:37:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF6F10E2F4;
-	Sat,  3 Jan 2026 17:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09C810E155;
+	Sat,  3 Jan 2026 17:37:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cZ5JJ8xj";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="fG6uFlDz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4349110E2F4
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 17:01:50 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-42fbc305914so8591142f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 09:01:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767459709; x=1768064509; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yHSQMnJBQHG3fEabcx1jHr7yPb3RERixhfZ5sKkWzqY=;
- b=cZ5JJ8xjbxHxA4zrjzUsYyzri/p+YDUSwlmYInU4zcBRc4IFIrLHCNctyatvLnFzs0
- 15FIdCmiX9IcGmcG9P7FmZ30oQErISPgu4toDed3oFRMH5PrnyPFcTCAQRVTVcgs+O0+
- RrpLpXjErV3S7+eKc0Rd+kTKFxsND7rT8FygJPVj3glyTjlWDcaECP2qtsjnw9hMlHi1
- LK5TaW6B2UP4LB7N4TZRvhZfd96dIcLpkVws0Sjn+W/551ah4HWnP/9OEQxoSTWF/7y8
- JDnJsjqQidF5kMHfMeRKFSpD9nsKU24rxP9ZwpioWv9KfHYB1vhrzrgM8Ih82ZFJmIxZ
- 6bKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767459709; x=1768064509;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yHSQMnJBQHG3fEabcx1jHr7yPb3RERixhfZ5sKkWzqY=;
- b=elGzwxHJSI9xTcIskpuWM07Q9pwSKQqmt5vksWFHfwr+2HFL1v0keK4lWP/v//5qb2
- cEilpiTpMrYhp0shOHzWizS1+4r975YwuG1NAL7iowI7vpoaS8WSgYd7ysHOaaxU1aOv
- x9iOrztwj8SmD1AWq0XnTrAiGRJBlnYvJlwkGv4Ma6aLfBPLMtvpFrTCaITVCJSpg51Y
- t29n2OdNHjysq3w3wEhtW0GxyRvTLTtFfpkI7Ef2zq6eO6HYs+b3WhmkbDAtTWG/txRi
- 0T3bP0IFIJnbITZxbb6HpXrutQzLZSEGJbsk+N/KTE0NXuIS/u8I0z6D6HHF9Ugf2NnV
- u+Kw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZ+jGhZHl3hiYXrlnIFMrlaAwUBeet//VqvAfXE50/Y2fpKHcFvSZ50dW30/bB49KMjfwc2FdNMdE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5068kbvOw/qRLug3ICxdDYioNOz63iH8cjuQGEKi83mRcpZXz
- aiSFD+Qy/Zvf04/QGqbpXu8u/03wys9snVYDwYV0/ohibhPNoROtoqhSwxTP9CnEjjw=
-X-Gm-Gg: AY/fxX40gyJ4p1tDHPQP48UTNHyH8rq/KQfg9ExMlx/lk00OpQma+zKuO72omuPnpVl
- Cor2Zi2m+7tvVCVGWajSCPdI9TZgP3jR8ZRZKpmmmoCo5auYzCpLrj6/KOh7Qs9SC6V1GH82qyv
- IGhHZQjdGoGGV7AfXTMUVc3KZTZ6LWdHvHV9SmArqXzPy3QT4GSMkRMwVyaXKN/Y2/QtzWrEDdZ
- wyJmEKHifFVDJKr2LdNH+AnUCZ9IPVRvunNun/NFSp1i2YrBruX1zCN2P5ZF0LnZp/KO+GcTHpc
- Dtml8LZu6uR8p3AYhhBnnttP33e+UsxOe9mS3xEftEm04hJ8MCcOFnO0JT7m7sJ5htpKN+CJdaD
- ZxJ7MEL0TUTnyzRc/F6dZUoD6Ja0f2PxCGHJpOsMoUaySreQ+0H0V7GxU1bByn4d/6OVnlMbhdv
- U3lggtWV4qtL+n356q
-X-Google-Smtp-Source: AGHT+IH76r9upX5LgpHZ/fOST6gsEDX5p5oGk436/qE1kT4SAaRLVvV1SuOGoIs6C86iZ8FylfCo5w==
-X-Received: by 2002:a05:6000:2c0f:b0:431:54c:6f0 with SMTP id
- ffacd0b85a97d-4324e4c739emr61327273f8f.4.1767459708384; 
- Sat, 03 Jan 2026 09:01:48 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4325b6bfe88sm82459187f8f.19.2026.01.03.08.56.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jan 2026 09:01:47 -0800 (PST)
-Date: Sat, 3 Jan 2026 19:56:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] overflow: Update is_non_negative() and is_negative()
- comment
-Message-ID: <aVlKTculhgJzuZJy@stanley.mountain>
-References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
- <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
- <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
- <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
- <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
- <b549e430-5623-4c60-acb1-4b5e095ae870@kernel.org>
- <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
- <903ba91b-f052-4b1c-827d-6292965026c5@moroto.mountain>
- <c84557e6-aa92-42e9-8768-e246676ec1e9@kernel.org>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEFEC10E098;
+ Sat,  3 Jan 2026 10:44:16 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4djxy54Y1bz9v6q;
+ Sat,  3 Jan 2026 11:44:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1767437053;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q490h70nD1q9mLKhZrcgkHWBp8ifCWlFiPf83Y6LE9o=;
+ b=fG6uFlDzocisagfyyAB0++nE5/QjrSCGtrUY/4snWl01tEjYQbzp5OCldcmUhS6ZzrULuS
+ +BU6AvO6OpNWl58oKTFr505vxeprxzi2YLA9iT6OJ05ICk/kNvX2+RfgnnxP0dIhQMDtyd
+ nFlJUn4CKrHwIyPBYEAqj/6YwA86HFbVnx0gqoWEwG53WQDIekjJ3igH6NAJk/1P2z3By9
+ Ie6sJiGKiU50msFt1OQXn+trHJBE7HcT0GBviV+5UAP52Wvc+QQkPlAiRNDgiI20tib1mA
+ b1wFGw4KLaRVfbnJQdRG18eE8EivbCyPyBgZu0yngbBK1ZtosIgQgN05Qg6iVg==
+Message-ID: <fdaf272295d90d2d051d4997a99ee899c45d7b67.camel@mailbox.org>
+Subject: Re: [PATCH] gpu: nova-core: use stable name() method in Chipset
+ Display impl
+From: Maurice Hieronymus <mhi@mailbox.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Alexandre Courbot
+ <acourbot@nvidia.com>,  David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Sat, 03 Jan 2026 11:44:09 +0100
+In-Reply-To: <DFEV1P747QKG.3O75MCC6HFYK4@kernel.org>
+References: <20260101184137.80445-1-mhi@mailbox.org>
+ <DFEV1P747QKG.3O75MCC6HFYK4@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c84557e6-aa92-42e9-8768-e246676ec1e9@kernel.org>
+X-MBO-RS-ID: 5c8225c05414e845f56
+X-MBO-RS-META: ms4ecxrcrreiq778guup4eppkrfkzd5b
+X-Mailman-Approved-At: Sat, 03 Jan 2026 17:37:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,40 +68,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 03, 2026 at 12:10:45PM +0100, Vincent Mailhol wrote:
-> On 03/01/2026 at 11:02, Dan Carpenter wrote:
-> > Thanks Randy, for sending this to me.  I'm on the sparse list, but
-> > I've been on vacation and haven't caught up with my email. 
-> 
-> Welcome back, hope you enjoyed your holidays!
-> 
-> >I can easily silence this in Smatch.
-> 
-> Thanks. I ran this locally, I can confirm that this silences the
-> warning. So:
-> 
-> Tested-by: Vincent Mailhol <mailhol@kernel.org>
-> 
-> > diff --git a/check_unsigned_lt_zero.c b/check_unsigned_lt_zero.c
-> > index bfeb3261f91d..ac3e650704ce 100644
-> > --- a/check_unsigned_lt_zero.c
-> > +++ b/check_unsigned_lt_zero.c
-> > @@ -105,7 +105,8 @@ static bool is_allowed_zero(struct expression *expr)
-> >  	    strcmp(macro, "STRTO_H") == 0 ||
-> >  	    strcmp(macro, "SUB_EXTEND_USTAT") == 0 ||
-> >  	    strcmp(macro, "TEST_CASTABLE_TO_TYPE_VAR") == 0 ||
-> > -	    strcmp(macro, "TEST_ONE_SHIFT") == 0)
-> > +	    strcmp(macro, "TEST_ONE_SHIFT") == 0 ||
-> > +	    strcmp(macro, "check_shl_overflow") == 0)
-> 
-> But, for the long term, wouldn't it better to just ignore all the code
-> coming from macro extensions instead of maintaining this allow-list?
-> 
+On Sat, 2026-01-03 at 10:52 +0100, Danilo Krummrich wrote:
+> On Thu Jan 1, 2026 at 7:41 PM CET, Maurice Hieronymus wrote:
+> > Chipset's Display was using Debug formatting ("{self:?}"), which is
+> > not
+> > guaranteed to be stable. Use the existing name() method instead,
+> > which
+> > provides stable lowercase strings suitable for firmware path
+> > generation.
+> >=20
+> > Signed-off-by: Maurice Hieronymus <mhi@mailbox.org>
+> > ---
+> > =C2=A0drivers/gpu/nova-core/gpu.rs | 10 +---------
+> > =C2=A01 file changed, 1 insertion(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-
+> > core/gpu.rs
+> > index 629c9d2dc994..be8c882338ea 100644
+> > --- a/drivers/gpu/nova-core/gpu.rs
+> > +++ b/drivers/gpu/nova-core/gpu.rs
+> > @@ -107,17 +107,9 @@ pub(crate) fn arch(&self) -> Architecture {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0}
+> > =C2=A0
+> > -// TODO
+> > -//
+> > -// The resulting strings are used to generate firmware paths,
+> > hence the
+> > -// generated strings have to be stable.
+> > -//
+> > -// Hence, replace with something like strum_macros
+> > derive(Display).
+> > -//
+> > -// For now, redirect to fmt::Debug for convenience.
+> > =C2=A0impl fmt::Display for Chipset {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 fn fmt(&self, f: &mut fmt::Formatter<'_>) -> f=
+mt::Result {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 write!(f, "{self:?}")
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 write!(f, "{}", self.name()=
+)
+> > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0}
+>=20
+> This also converts the printed string to lowercase. While this is not
+> that big a
+> deal, the solution we are looking for instead is what the TODO
+> comment says: be
+> able to derive a Display implementation (for enums).
+>=20
+> Now that we have syn in the kernel, this seems quite straight forward
+> to
+> implement. Are you interested in working on this instead?
+>=20
+Definitely!
 
-Of course, that idea occured to me, but so far the allow list is not
-very burdensome to maintain.  I maybe should disable it for all
-macros unless the --spammy option is used...
+The Display implementation should print the enum value as it is,
+without changing the case, correct?
 
-regards,
-dan carpenter
+I will have a look into that and send a new patch set in the next few
+days.
 
+> Thanks,
+> Danilo
