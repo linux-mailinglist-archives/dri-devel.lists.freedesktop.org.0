@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13340CF054B
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 20:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE091CF069E
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 23:05:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 160A010E0ED;
-	Sat,  3 Jan 2026 19:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 604C310E197;
+	Sat,  3 Jan 2026 22:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="X3qPlgEC";
+	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="J2SKy2cV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1EF10E0ED
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ixtra7cRCSdKLwXhSUeerbW4Jf6OvICRGOjEqE1xcTc=; b=X3qPlgEC3zqnSbPeNLJhra1FGD
- rIlNIQX1x7NIrLFoKM/iijDGGtjs6hqoeFGCZQVV0qLMRO8ioBcD610wI5x3IGh/A8PPgxo9qjlpx
- 8yNpfvSYw2bayVsmON4Uo4Ex2y+gtyffAnrwXav+9QqDrXu+IRM23GeA96b6a2/BxDXlMzSYa6kbW
- bXlkT7Us3j7B741Tsjdw+FF7jKJ3iu5ERoej1HzPEUMT9L8VCkwvFakprM//sGzdxYJmpNkdumcgs
- yX+m1Xo0YA+IP94/pk44JfQHy47Zm/lsK39cG/fH9V4cETMeAOd7ZWr2RfHMUPryUlZilV8ult15q
- lfnb14Wg==;
-Received: from [187.36.210.68] (helo=morissey)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vc7hX-001JDb-6W; Sat, 03 Jan 2026 20:54:15 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: mwen@igalia.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- Xiaolei Wang <xiaolei.wang@windriver.com>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/v3d: Set DMA segment size to avoid debug warnings
-Date: Sat,  3 Jan 2026 16:53:07 -0300
-Message-ID: <176746998017.120662.4920692890890221544.b4-ty@igalia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251203130323.2247072-1-xiaolei.wang@windriver.com>
-References: <20251203130323.2247072-1-xiaolei.wang@windriver.com>
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50BDA10E11F
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 17:48:03 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-b9a2e3c4afcso476808a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 09:48:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shenghaoyang.info; s=google; t=1767462482; x=1768067282;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CMMVHBbwwK7jtZ0OYDpGeyStVGVJxGzS7aRRfo4f/fk=;
+ b=J2SKy2cVRJ1SuJeXg5KLT3CiAQOVq2Cbz85JJW4Vbje4pltDTX0i9s7vGYN62Eg4ak
+ 8cren695ExbdNpTliEt8UMnxIUcrN2TBVkPTZejo73JsCBRlMPZaTllkkGrOu3q9bnug
+ 1Qx8rADn8RQtoqGAmoXXZQsmBEjMBtA5B1a/GEmYvzM+F7HcqqDuUjW+dDq3cSEOB/aj
+ SAiEgwJqjNXVcDy6fHrXBGVrwJxZYSReMGtXY5rjkblEcutvUy3MEZQcqSKCMMcSyT1v
+ HbvyqH+dnGMZTDtzzre2H29GyFO9QdiLcrPEWwAAXZlm6j8g2UN1VqYN4nlK7kDuCQP/
+ BWWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767462482; x=1768067282;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CMMVHBbwwK7jtZ0OYDpGeyStVGVJxGzS7aRRfo4f/fk=;
+ b=Is93ZppN2Wn9VinDXDZEKQArofSTBhMxseTlLmAGkW5GqTrrRD3YVtqfyrS2fbzlaA
+ slwvfojTUzy/kdI0sKdy/0zmJJL1nYJrpYEWrDlJ/9dPPRqYmvk6NLuKxeIIZdSnwdny
+ cyeCj83iGxzGr9vwV4H6ETdpDS8g88DxPuJmYbPvFW6ixpzghKEtIJ28cJG+UeTPYR3N
+ GRFRv4urUgpP7cBATito5uzizQ0PRhgyAPZWQsTudXPeFu/quKHQIzWjTOmnPwrs+XCX
+ 6i6EZKxeTV/mf6ewwmA81ND1rwoKfy7cWVNEQigjgSk+DNtYFrmV8n6csK4k/2ValHgQ
+ zGVw==
+X-Gm-Message-State: AOJu0YzBKRsoMFUdkP3xw/gSe4OvjfZc1Hp+GkuMB4IcaEmZ/UWsjIS0
+ 0JYGLrvO5P64snG+iW+XoHUMNS8idSV/naI5+kjHebcE9GBAe4QUtcUBliRxccSx+5c=
+X-Gm-Gg: AY/fxX4EpeYNCKOzu6ubfsoPvmg9Q1fZOTw5weQRhWRWhgV8YPW3v5rossY+ZZ8P3lZ
+ 1FwCWXRo0L/LtFurU1HxlbQKpjIr+GKOe8tdlmKDhkyrYR2MGKQuoEWB7VpNZqdQbX/9Z2WTnzY
+ GxM5nNSFijTLXGDG5j9SPeq2KyYVecrdH5B1FP23JepPHkc73OHVGSCwqHcUbxNYt2pSGjGnw6c
+ 9ILdJ0vLQqdrDg1kO7yUIM2BozdbrJ5TVTha4ZeJc5f2fa0U6DcFRY41ahTMFxDZz1TGp3Py9KH
+ uuTseOFVTXdwUxfD/8SGlJuCslK6KmQ7wrdOkyAeRrY3bhOohOcCWGffxtRmtVfL7jDeB8qzCto
+ hdC8CVVdlFMv6HUEY9Rfo2bNtQMZb0fcWVWHygiZ1otrCnA6eWKEyVC0n7XH7nld+2XGriOz+P/
+ VF0fJiUR48VTIe
+X-Google-Smtp-Source: AGHT+IHSCX2Wf+wBy6KWMv8C+2VIUsJiFOtnLlLt7RcY6gOr5exQicuGvvlAxBa6mQbcQUrCVjmqHA==
+X-Received: by 2002:a05:6a00:17a1:b0:7b8:bab9:5796 with SMTP id
+ d2e1a72fcca58-7ff66f5fe22mr30484716b3a.3.1767462482601; 
+ Sat, 03 Jan 2026 09:48:02 -0800 (PST)
+Received: from [10.0.0.178] ([132.147.84.99]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7ff7e88cdaesm43266253b3a.63.2026.01.03.09.48.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 03 Jan 2026 09:48:02 -0800 (PST)
+Message-ID: <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
+Date: Sun, 4 Jan 2026 01:47:58 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
+ disconnect
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251231055039.44266-1-me@shenghaoyang.info>
+ <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
+Content-Language: en-US
+From: Shenghao Yang <me@shenghaoyang.info>
+In-Reply-To: <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sat, 03 Jan 2026 22:05:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ruben,
 
-On Wed, 03 Dec 2025 21:03:23 +0800, Xiaolei Wang wrote:
-> When using V3D rendering with CONFIG_DMA_API_DEBUG enabled, the
-> kernel occasionally reports a segment size mismatch. This is because
-> 'max_seg_size' is not set. The kernel defaults to 64K. setting
-> 'max_seg_size' to the maximum will prevent 'debug_dma_map_sg()'
-> from complaining about the over-mapping of the V3D segment length.
+On 4/1/26 01:23, Ruben Wauters wrote:
+
+> With the elimination of these two WARN_ON_ONCEs, it's possible that
+> crtc_state may not be assigned below, and therefore may be read/passed
+> to functions when it is NULL (e.g. line 488). Either protection for a
+> null crtc_state should be added to the rest of the function, or the
+> function shouldn't continue if crtc is NULL.
 > 
-> DMA-API: v3d 1002000000.v3d: mapping sg segment longer than device
->  claims to support [len=8290304] [max=65536]
-> WARNING: CPU: 0 PID: 493 at kernel/dma/debug.c:1179 debug_dma_map_sg+0x330/0x388
-> CPU: 0 UID: 0 PID: 493 Comm: Xorg Not tainted 6.12.53-yocto-standard #1
-> Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
-> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : debug_dma_map_sg+0x330/0x388
-> lr : debug_dma_map_sg+0x330/0x388
-> sp : ffff8000829a3ac0
-> x29: ffff8000829a3ac0 x28: 0000000000000001 x27: ffff8000813fe000
-> x26: ffffc1ffc0000000 x25: ffff00010fdeb760 x24: 0000000000000000
-> x23: ffff8000816a9bf0 x22: 0000000000000001 x21: 0000000000000002
-> x20: 0000000000000002 x19: ffff00010185e810 x18: ffffffffffffffff
-> x17: 69766564206e6168 x16: 74207265676e6f6c x15: 20746e656d676573
-> x14: 20677320676e6970 x13: 5d34303334393134 x12: 0000000000000000
-> x11: 00000000000000c0 x10: 00000000000009c0 x9 : ffff8000800e0b7c
-> x8 : ffff00010a315ca0 x7 : ffff8000816a5110 x6 : 0000000000000001
-> x5 : 000000000000002b x4 : 0000000000000002 x3 : 0000000000000008
-> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00010a315280
-> Call trace:
->  debug_dma_map_sg+0x330/0x388
->  __dma_map_sg_attrs+0xc0/0x278
->  dma_map_sgtable+0x30/0x58
->  drm_gem_shmem_get_pages_sgt+0xb4/0x140
->  v3d_bo_create_finish+0x28/0x130 [v3d]
->  v3d_create_bo_ioctl+0x54/0x180 [v3d]
->  drm_ioctl_kernel+0xc8/0x140
->  drm_ioctl+0x2d4/0x4d8
-> 
-> [...]
+> Ruben
+>> -	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>> -
+>> -	mode = &crtc_state->mode;
+>> +	if (crtc)
+>> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>>  
+>>  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+>>  						  DRM_PLANE_NO_SCALING,
+>> @@ -492,6 +485,9 @@ int gud_plane_atomic_check(struct drm_plane *plane,
+>>  	if (old_plane_state->rotation != new_plane_state->rotation)
+>>  		crtc_state->mode_changed = true;
+>>  
+>> +	mode = &crtc_state->mode;
+>> +	format = fb->format;
 
-Applied, thanks!
+Yup - in this case I'm relying on drm_atomic_helper_check_plane_state()
+bailing out early after seeing that fb is NULL (since a NULL crtc should
+imply no fb) and setting plane_state->visible to false.
 
-[1/1] drm/v3d: Set DMA segment size to avoid debug warnings
-      commit: 9eb018828b1b30dfba689c060735c50fc5b9f704
+That would cause an early return in gud_plane_atomic_check() without
+dereferencing crtc_state.
 
-Best regards,
-- Maíra
+Would a more explicit check be preferred?
+
+Thanks,
+
+Shenghao
