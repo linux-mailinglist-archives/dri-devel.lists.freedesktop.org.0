@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36CDCEFA58
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 04:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AC9CEFA6A
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 04:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893C910E216;
-	Sat,  3 Jan 2026 03:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C055810E2EB;
+	Sat,  3 Jan 2026 03:34:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TDklVco3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jJxI3lMZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537F210E09D;
- Sat,  3 Jan 2026 03:22:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF2D10E2EB;
+ Sat,  3 Jan 2026 03:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767410545; x=1798946545;
+ t=1767411266; x=1798947266;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=/KS68S1wUbRid/TxE3cBE6LAtmAlf9OSK2uLviI4c3E=;
- b=TDklVco3AkTcFceu3zl849W5pstCIrj6VIaAh5Vx9i9VyWiGoi3UymU4
- rI7kCVJaws6Og+Qvw5Se7Lo3GJ1hhZrdNBhYiOg5qYDNBWvzKdH8s23zV
- WyRmmhx1Em2IERbF+b+KpEeYxfFPsd5kJlNLqj5T4ChLUnl6wItRDx4+X
- tN4k4oqo0uqZTDNoH4eEF0f9tuej1gVO9rX3NmzNbV4aS+mygvicbOAO9
- hEssMjHUtSyUFuHChO6e6XZzkTJ5Pb1u8tYZBzn1hDg2B53ohIehAIvYW
- g2YVdU6qfttryaR8pNYsvl81jqai/0+/btFqy6t9/45J2jCbfmH0tx2RK g==;
-X-CSE-ConnectionGUID: H/wBPbZ2RVqrsZFIdA+FrA==
-X-CSE-MsgGUID: 8y4ZwDQxRR6RUW5LPyc8Nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="79187729"
-X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="79187729"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2026 19:22:24 -0800
-X-CSE-ConnectionGUID: mTwaqU1ZRMuhiPcw+/oVTw==
-X-CSE-MsgGUID: Kg9tDkPASDKxssLZ4IjbwA==
+ bh=csYK7RCPSHPoz/5MB1fELyelv1I54HjB4geF/Uuzq4w=;
+ b=jJxI3lMZrpVcDfwEnEPgyTyurXoqk9S4FxytJVEtjQTdWOnijQ+usHsk
+ a7fFmY1DK6AhwUKYlc9zeZ0PuAfVnzuWMh/X+xPomjcn9ZYHoQG6esQCM
+ utBUa1UIXyH0aQCr8A6Ihx9/EGvPS5xZR1GYNjWfwvvX/lHDoN+3ettCt
+ /7ydcYJjlIVvN3Q4v2DLPQIxqVSY9nUdQy7Y0ASqIaHj9wuHfTjEO9UIR
+ HXkAcE0VhpIPqEdvVxabRI3I0THjjcmTvhXshb4uJCw/inuqlzAmrh56J
+ UsTE4aneghszJlg2b9ZlRBze5et2dcHf9P9CJtOtE9z1alkNH49zfLx4Z Q==;
+X-CSE-ConnectionGUID: 5OY//reHSXikS2c8xdDzhg==
+X-CSE-MsgGUID: 6USTtwKeRja0zOm2dmH2Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="71465972"
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="71465972"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2026 19:34:25 -0800
+X-CSE-ConnectionGUID: PycnsbgIQrS09W4Z1BbpnQ==
+X-CSE-MsgGUID: ZkTbTrcgQ5eke62DbUKzFA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="206071317"
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="239387734"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 02 Jan 2026 19:22:18 -0800
+ by orviesa001.jf.intel.com with ESMTP; 02 Jan 2026 19:34:19 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vbsDY-000000002Yb-2k3D;
- Sat, 03 Jan 2026 03:22:16 +0000
-Date: Sat, 3 Jan 2026 11:22:13 +0800
+ (envelope-from <lkp@intel.com>) id 1vbsPA-000000002Yv-3ibi;
+ Sat, 03 Jan 2026 03:34:16 +0000
+Date: Sat, 3 Jan 2026 11:34:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, balbirs@nvidia.com,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, balbirs@nvidia.com,
  matthew.brost@intel.com, akpm@linux-foundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, balbirs@nvidia.com,
  jgg@ziepe.ca, Felix.Kuehling@amd.com
 Subject: Re: [PATCH v1 3/8] mm: Add helpers to create migration entries from
  struct pages
-Message-ID: <202601030958.73URABlJ-lkp@intel.com>
+Message-ID: <202601030957.g8ml6bSY-lkp@intel.com>
 References: <20251231043154.42931-4-jniethe@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -88,26 +88,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/mm-migrate_
 base:   f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
 patch link:    https://lore.kernel.org/r/20251231043154.42931-4-jniethe%40nvidia.com
 patch subject: [PATCH v1 3/8] mm: Add helpers to create migration entries from struct pages
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20260103/202601030958.73URABlJ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030958.73URABlJ-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260103/202601030957.g8ml6bSY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030957.g8ml6bSY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601030958.73URABlJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601030957.g8ml6bSY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/rmap.c: In function 'try_to_migrate_one':
->> mm/rmap.c:2542:41: error: implicit declaration of function 'make_writable_migration_entry_from_page'; did you mean 'make_readable_migration_entry_from_page'? [-Wimplicit-function-declaration]
+>> mm/rmap.c:2542:13: error: call to undeclared function 'make_writable_migration_entry_from_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2542 |                                 entry = make_writable_migration_entry_from_page(
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         make_readable_migration_entry_from_page
->> mm/rmap.c:2542:41: error: incompatible types when assigning to type 'swp_entry_t' from type 'int'
+         |                                         ^
+   mm/rmap.c:2542:13: note: did you mean 'make_readable_migration_entry_from_page'?
+   include/linux/swapops.h:240:27: note: 'make_readable_migration_entry_from_page' declared here
+     240 | static inline swp_entry_t make_readable_migration_entry_from_page(struct page *page)
+         |                           ^
+>> mm/rmap.c:2542:11: error: assigning to 'swp_entry_t' from incompatible type 'int'
+    2542 |                                 entry = make_writable_migration_entry_from_page(
+         |                                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2543 |                                                         subpage);
+         |                                                         ~~~~~~~~
+   2 errors generated.
 
 
-vim +2542 mm/rmap.c
+vim +/make_writable_migration_entry_from_page +2542 mm/rmap.c
 
   2275	
   2276	/*
