@@ -2,99 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B59CF0105
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 15:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A66DCF011D
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 15:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE31A10E345;
-	Sat,  3 Jan 2026 14:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95DB910E12C;
+	Sat,  3 Jan 2026 14:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DRYq2viL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eEqxXVER";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8486210E318
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 14:23:02 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-640c9c85255so12684764d50.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 06:23:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767450181; x=1768054981; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KWO8OL17OBUAj+kZREKMHrCa17fZaSRz1SGAoiZKS+E=;
- b=DRYq2viLwS3vUWJQ7mh7ih8Ypgaes6zjtZSrnfK3SYN/fPnjaMmVc9EyhqEwZyEFTA
- e+T8xYS+15mG1c7frNtQCzU2mbVNOGH5/7m+jOtxt9c5DqLJFilNxpEz92zpUJLEy5da
- tzFw1TTCvvhKQo/VGjLPlJdAMjZwPSfJLWFTII/LT+RHT4fGPaiEnTORB/to8fETV79h
- F/BZk0Ngz3v4Cgf9jnmXobFDLgscdo5Rd3+1jSHggrsxBaeBn7zcBD/dN4hR6jgmWyyl
- zofS280JSCufn9Ger1COcE2gjjPlPboM4L21d5oPhpUd7MWnwHfPV6Zl4t1arzY1zkG4
- Yqvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767450181; x=1768054981;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KWO8OL17OBUAj+kZREKMHrCa17fZaSRz1SGAoiZKS+E=;
- b=uNle1RF4GUPvkH0BJ35e0KMYEx2Zz6cr6MChMJuj6p5RNUojs5w7aEQV2qiZpFhtTb
- zPw8dmdmstk9oTXA/Y9KRsi8neVP5MrOsYGEL3K+pMoqSDldoSFGex29uMpzfV7R6bvd
- hTjI1HuX9x0As4F2bXrfALUxj5fV9mLrdLEbAEHyW905y7nHNukcE4j0/pR5xhG5IWgI
- D1w2nCrgefGysvFV8UgRaqEUPzX/NqqbwHMgwEflMlTYqetD8K3annR/Mn5zN92dA4cc
- fKzu7kLSt6o0ouYxw9Bo6UWHh7UZIhwzuy1ylpwEWquxZ0KobwNB7NkbUDgcwPXi7DsG
- RS+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXfQU6wWgDcX0F551tTTxqhxPQo/Swo612U+XRgU1AVxHSU/+Qkkhloz18QWtxCqE130y1H8pMvnIA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCu5yUp3B/53DnXpl+rTrKII3+YQIlG4goGefvUWhIG0ev4u6v
- RE70ELpXcXcO3D2nf17guxDHE/r0RM+4nLWRUptDUAvDDm8/DMY/oIqX
-X-Gm-Gg: AY/fxX79a6fFnUAZcgio/ziinZEBbX0e7YEHKeP9zPA5rxKWr+ElKaLL6Wc74tJ4VmM
- vhWbKeshguzKJ7ru6L85ZleP/SNvx6qXq+2eZLIQCyz7C0KDoOzJEueEvwJ5r+llqyh9ysaxOiC
- ZTtR4CGztzQ3YRPgdDx75KI0j1uW/7LTIkqjasv2hi2quoeqwHg6JdvIGcZBaMmTKo7enVn53Th
- IectvmnDmJwB9zyWza4GfWgy1fDu3wEa3LLT3Q/ZaO74X1r8Vvx06Ipi495cDKV/XrNPML+lRIk
- aeUoVEe5e8L7N1MYjAxmaCcQ69p6EqNZIlfe1qNsZUVkjTqht3gcbXxL+GgXd2kqxqeQy55WNAW
- mFuDopI3FVOC7HgPe7mRF3kxeiQ5SdeefZsn+dGdS8l3BJWpm7447T+biE28KaNTbQJyYEi7KiU
- cpg1BS7Js=
-X-Google-Smtp-Source: AGHT+IEdPmL19UdV/nj838Gi9cF7n++Nt3CuB8F8HM0/Ed6ihGLC5se2e1S4EasbnPz0/pKisPSC0g==
-X-Received: by 2002:a53:cb03:0:b0:63f:a909:d0c6 with SMTP id
- 956f58d0204a3-6466a8b6552mr25947887d50.68.1767450181408; 
- Sat, 03 Jan 2026 06:23:01 -0800 (PST)
-Received: from localhost ([2601:346:0:79bd:3bbb:b821:6713:e729])
- by smtp.gmail.com with ESMTPSA id
- 956f58d0204a3-6466a8bcee0sm21277519d50.6.2026.01.03.06.23.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jan 2026 06:23:01 -0800 (PST)
-Date: Sat, 3 Jan 2026 09:22:59 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
-Message-ID: <aVkmQ4EGIQgAddZQ@yury>
-References: <20251225170930.1151781-1-yury.norov@gmail.com>
- <20251225170930.1151781-8-yury.norov@gmail.com>
- <20251226115848.298465d4@gandalf.local.home>
- <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
- <20251229111748.3ba66311@gandalf.local.home>
- <20260103005059.GA11015@joelbox2>
- <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67B510E12C
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 14:27:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 74D0A442AF;
+ Sat,  3 Jan 2026 14:27:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5792DC113D0;
+ Sat,  3 Jan 2026 14:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767450427;
+ bh=J2b3ntQBIY2fNOzsswgXygdX7ucgM984bK/mKexRJD0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eEqxXVERdmb0IxQ/6XuifpUpXt054nOItjBmRTV1RWZZsLLQmXWVSB3jCqc1KR+aA
+ XUz6PQykPujs2bcyO9SKykKa9OdLuZ9sCV1O3fzExhalm2D2ZT6akiw5zFugF28Asy
+ zpVAj4n5kzMfI6hJ+xTqEfB+2kTTM8lo88zLfMkTRqnnDHp2lwR8jHwantMpAzehaV
+ JefFgkvs+hl6ACMBSVz0WnvELMUyOfzdTYqHvTkTof7AU6Ov7CsOS0tT0h+EsPDFjB
+ GQAMtoORLGqamo2+uMYN6X5NbFajuIAc5QkMcXlwFfqnKYbcUpfXb+mMY/yg5+r0dg
+ bbUyCC5RWHcOQ==
+Message-ID: <b73deb5c-9f1f-4e1f-b905-773abd092b30@kernel.org>
+Date: Sat, 3 Jan 2026 15:27:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add Innolux
+ G150XGE-L05 panel
+To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
+Cc: dri-devel@lists.freedesktop.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@nabladev.com>
+References: <20260102141706.36842-1-festevam@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20260102141706.36842-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,31 +104,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 03, 2026 at 02:57:58PM +0200, Andy Shevchenko wrote:
-> On Fri, Jan 02, 2026 at 07:50:59PM -0500, Joel Fernandes wrote:
-> > On Mon, Dec 29, 2025 at 11:17:48AM -0500, Steven Rostedt wrote:
+On 02/01/2026 15:17, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@nabladev.com>
 > 
-> ...
+> Add Innolux G150XGE-L05 15.0" TFT 1024x768 LVDS panel compatible string.
 > 
-> > I use trace_printk() all the time for kernel, particularly RCU development.
-> > One of the key usecases I have is dumping traces on panic (with panic on warn
-> > and stop tracing on warn enabled). This is extremely useful since I can add
-> > custom tracing and dump traces when rare conditions occur. I fixed several
-> > bugs with this technique.
-> > 
-> > I also recommend keeping it convenient to use.
-> 
-> Okay, you know C, please share your opinion what header is the best to hold the
-> trace_printk.h to be included.
+> Signed-off-by: Fabio Estevam <festevam@nabladev.com>
+> ---
+> Changes since v1:
 
-What if we include it on Makefile level, similarly to how W=1 works?
 
-        make D=1 // trace_printk() is available
-        make D=0 // trace_printk() is not available
-        make     // trace_printk() is not available
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Where D stands for debugging.
-
-D=1 may be a default setting if you prefer, but the most important is
-that every compilation unit will have an access to debugging without
-polluting core headers.
+Best regards,
+Krzysztof
