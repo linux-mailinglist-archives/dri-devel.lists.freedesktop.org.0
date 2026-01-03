@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0802ECF0385
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 18:37:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40138CF0382
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 18:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C835B10E378;
-	Sat,  3 Jan 2026 17:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA50210E376;
+	Sat,  3 Jan 2026 17:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="s1wJwRcL";
+	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="L7/wD1H9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
- Sat, 03 Jan 2026 15:29:58 UTC
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com
- [203.205.221.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A3310E1C3
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 15:29:57 +0000 (UTC)
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com
+ [162.62.57.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E76C10E1C3
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 15:29:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1767454195; bh=D1NykMR6pr6A8VDRQDRtjrmNdSIxvA3GlcvAYxylwE0=;
+ t=1767454160; bh=D1NykMR6pr6A8VDRQDRtjrmNdSIxvA3GlcvAYxylwE0=;
  h=From:To:Cc:Subject:Date;
- b=s1wJwRcLE+OHk7Rpcmtn/sKUHxXgumhyDvT8gV4shYoLRq8i2MR3GmgA7dfYs+LZ4
- MQuwrZo/A7v0C9geZDdM2VvorBfahS7hrcdWsiYGVdUyNJ6Ctp4/QtqzORJA91uOjC
- qLgqhtG7O+X0AT9DD/vmcKNJVQZWHW723GjkctM8=
+ b=L7/wD1H9HRHOLVGB8YafH/PkgyziEOgSUKz+8sjrYHsUARX2U8HfSuiqJAKh8kyuw
+ gY05zp7YCGJEb+VhrtxiFh5euN88+rnn1IWvqdS0SMFaqpJdbuY9AsWjc5B+XYlm6z
+ TYwVDbzkBYWjFHPkbO+3rwQGrjD0BLIgXnZFmsHw=
 Received: from kali ([111.19.95.200])
- by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
- id 58905CCB; Sat, 03 Jan 2026 23:22:09 +0800
-X-QQ-mid: xmsmtpt1767453729t5gycshi5
-Message-ID: <tencent_2411FBA0D5386A96531A1093DCBB76AD0807@qq.com>
-X-QQ-XMAILINFO: MllZffuBkEb5aZmRGre3+wBnyPCSpWGi0Uov+YHz1hjwpmVK8/EJyDfYl5F3E9
- hlLUmCbOMQMAUZjZd3gYldA8JbU1JlOOmhfyHpplHBmfnEC3xRsrf39UzKaJYFOsAshBeSjZ5w7R
- mthUZL9A4JnkcKgSlWPtThaXpTy70iQmQGwXUZKbCaxv9Oim6QYK5McjacEqqVBx74s3JcubpkEa
- qfpe1PXC3LStcOs21As6U2zUEfsieA+A9h7Pb5UXoIfrd7jKnN0KE1BGVRn/lrT71pmMB2umZ1zo
- WdrrdmurJBpPnRkGjAmcMAjRVw5G+AnXJ9u3p6I5g+BHxmj7n/ILcje3jdt3glaWBIaLOg27BX7Q
- xd28vbYxsTtOv1OZYf48mzpXgSVKJVn1swscsoxYZgktXALPMTzapO0bWGoteAQrS/xKuAs/Ed/I
- aoOlbr1vkuPfsSW32VYs/KEXihduWQWt0lOjO49YT2m2aafKsXXy6RKy40pvyfm8q16u1zlQl5WY
- 0FKVrV3D9MBQybbDOyJHPGrH9Uur+lcoI8XupvqZWR4N5awapjANSkXPNXOewBJwhwa6NtLvE6wy
- /CW1493eGaMb04pB+ovmRUx41KQldFuphhv9oKu6gg+OVzfsbIIdRSpWYlBC+nCW6sRTxnIplgoh
- bYXL87l+bRddiqkbbbAeZN0tZwq0XtoHEEUckXxDy5e1XRHp5dSKDqknKFBPclYmbDrZz9/FC/2Z
- Q3mPxYMct7v99n+6Me1AHiopb3rm/dUhGWHyeuOqJdVQkYTKyffm4HHsNcUnBzQVysxCbecPU3Yt
- k4WjiEb3/kKgvz2ifvlMnyNQeIkvbRc62kTkG1gAOzPPFGAna+GRRYfyjzznHN6NS1UO9C7jDiHd
- 0NlIIYY7q6p1N5cnegDZxCPtfiOyQZVQhgskIllqTrU627Z1g/kb2QIAWWzbghyB6wFsg/Umjhg9
- 2HlkmVlftb3EBigI6Uq3KTdiiukGFqkUUtJfui1Mt28mqH5kP2vyd9ZwNB4nG8FbAXGeMCQZcIOu
- mT1mLyJdDb1pQVU5UCHPDXxwAUgi/CTStz1owQQsqEgtx36nIIP7EuvjFj9NVhM0JHVyVrA3q5gG
- 1dCa4w6Oo/XwCmMvwc1pclP+v1W61qefPrbj/h/J+o66lRTkk=
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+ by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+ id 66987664; Sat, 03 Jan 2026 23:25:41 +0800
+X-QQ-mid: xmsmtpt1767453941t5c1hl65d
+Message-ID: <tencent_B0A522AEEC81573BA9934E2340B672ABDA09@qq.com>
+X-QQ-XMAILINFO: NlUcpr8OjS4BZkRQGyNc30FHRV6BcmR2T/EZFJAZwJz5TqVVsLES91hMucL0ZZ
+ yl70CBCyVTl2rfzKar8B0K+2PdZ1L/6idrPdaZDD+HL7h/K5csq1CJPSIgom4a1iYni3tJ4bKwU+
+ Q82VkwBYVe/q5qiCkLd/sk9hwTHbSqfpppG/RyU0ig/JHSd4qZG/vGHOrf5iVInuVTDhNIacg2XP
+ uB+yjA/q2alRm4I/jAqGxwl933PYbnjdQyF++Yy3VXpNhLd2L2h74zqVI3GoXzvbg3AI00so86hV
+ apTw/Am/2W37BjP2aNngIY57XC4wlw896dqPfG2rJk27HnYr0psYMp9dAsJIbFBk/04CuKvgE3fO
+ dQVas8TAbQ3SznSEJ1I1/8L9og0w0fiNJCukpw7caBNn0Xfa5CrAEcETlErxfZNL6SHlQMBn4E5y
+ tuHP3tD7lgcQcwmThhdwdK/HUwcOGajDO1Qox6Qy2JaOTGmgnjDsue0XDjFv5ZUBQNf+S6EWlKjq
+ ADiYNWau35eaNfCU+095CzHGLEstt6MPkvXXr6JuOsbe3hnAI3DjuaG3+0Nx1Qx4oTqT9cbcSxHZ
+ FUzFHVpW/vTCS6O5w9UNllw51A6Vm53fPrkiFW8Fq9Bo80Pgsp/xAIZ3rtA0PWgxrD2LWp7dIEbu
+ 6Ej/Si2nJSZmBiInPQ+H93UZRU7DpZYLCwWOZwYbBmr50B/RlfGO6PqOuge+8+mCXRs79GZYgx3L
+ WRxXfFAKolMhWeM9ED/RqDwbRkBRIUBiBNwP6Iuw+MXiZyX02hK4gwmYJgAmpwyVknjWGCZHinMk
+ q45sGEZo2rJjXg+amj3PLJaLLgJM92q361fCimaRVDI298LIFqhVfiD94nyEVH6P4Fy1tnLpCEDM
+ fPicof/XLwRE0UESaw4mOEUYtzGn893hTUYWcidHbd7pe/ez4/dKulSdAlFjCX8yRL8JhUKUjcop
+ LuHeoNFA+vUg9rWGQHL15JrhKe+IAjR1zkVdh3i95hmQX/lMFmnotgdC3JCBk45b7yHrqDW1b3Xk
+ BDDEcJhXQJ6Oy7Cv745qVQ8htZEY8C5+T2X/ZxORoXE4zb//bVr1nilfcPGqgdcNh+MaN/b68QHD
+ svrGxA9Qaesfg7yeVvrINkpqZqP0Qs3ll2g5xKHr+p2HI7cwAddpG9kQMJ6Vm+rs8ObfWiEMQQmS
+ qSg9xNNszrQh8cZw==
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
 From: Xiao Kan <814091656@qq.com>
-To: w@1wt.eu
-Cc: security@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kanxiao666@gmail.com, xiao.kan@samsung.com, Xiao Kan <814091656@qq.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: w@1wt.eu, security@kernel.org, kanxiao666@gmail.com, xiao.kan@samsung.com,
+ Xiao Kan <814091656@qq.com>
 Subject: [PATCH] drm: limit property blob creation per file
-Date: Sat,  3 Jan 2026 10:21:55 -0500
-X-OQ-MSGID: <20260103152155.2613-1-814091656@qq.com>
+Date: Sat,  3 Jan 2026 10:25:29 -0500
+X-OQ-MSGID: <20260103152529.4381-1-814091656@qq.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
