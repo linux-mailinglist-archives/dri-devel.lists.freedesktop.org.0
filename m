@@ -2,99 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F23CEFDCE
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 11:02:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ECFCEFDF2
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 11:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4800510E327;
-	Sat,  3 Jan 2026 10:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8595410E125;
+	Sat,  3 Jan 2026 10:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gyl5dHZc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q8SBg0g4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC3F10E327
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 10:02:55 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-4308d81fdf6so6025980f8f.2
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 02:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767434574; x=1768039374; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pVMxWDM6IlrZiTwjie+uTeOt+ekq2BmDE9odN218w14=;
- b=gyl5dHZc1KQJltfyBTbYo5WQylw3Ko+YRNUtyz/RP2i0E7kt1uryutPSO0orgcGSl7
- 84WNiJQq/C0pxjZy1mP2YT6DdRpgTO8NKmSwVgpRSHilRfZirk9VunhsGEkwgVnkNzwp
- ktyJwIYL5CELn3CO1v7GMSVpca1jFvzMg6Kj80yIDDqnSAMMUK/jCEyzEO8IrTTiHlN+
- sxoqd6uxttmt2KkahI+Ga7WYdpE3x+2JVLrQ/1CRvL8hWys1J4FYJJUuR7hnZ/DlLyex
- 6f20tvvDYrDJbZAFr6KZZGTg/Il2oqbGZ7mtJdwYg0tXbv7Tq1FegUwURvPfFfnMFCkY
- hzEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767434574; x=1768039374;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pVMxWDM6IlrZiTwjie+uTeOt+ekq2BmDE9odN218w14=;
- b=gWOBHcX5LAx2kV29Fz+dg10IqvXyKqg/LKybQA9of6AiU+F615tuNkw6+4i/pHXd3i
- EVYSRgz/QLfvrXbwdtwbGUI2nRDzAl1slQivXRNM45bD1YifwYBHmn4s2MBvO7l2JPRk
- J5n3mSvBNZ5akGbEdkzZJ2r/ttLUET10ne9xhzphegqVEd5mGoi5GwP1OG0767ct0oju
- Ln5orB5XPy2AE9VG7X/sYLs2wUw2wyfIiYIbIyWqjcle584magBcmjji4QZHuwURrqX+
- 6UhWI5LuUfNa4O+10GQf23qdk+OBUzh64MHEfERDiP0RSgsHyw5jA3e5e03nZ9/nEVfa
- 16gQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXH3zSjfxPzvK+O4Rgf4sIrZ4RY9lIkW3GUuXntgN69WxfKLjtkFkumTsGQcoVU2rvevEfKic/4zys=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzz3q/uCd4l3RIdPJ+VMmjJQVdnpdwZGdSmeyOC32htF+yogfId
- rI0rUxLY0XpTAxZ7/WcEH37Xidcxk8RJyhLUjwKMfwBDinvJw+l8Y9EKhqoGsd8iooE=
-X-Gm-Gg: AY/fxX4ymJCuOS5YByeMbmHKrP18Pr8+7/lrtVBxqVLV59xrNni9LK4qzTlr5PM9HuU
- BM6mIwQbVjCFiuOKpEZtGgikR/YGQv2xG7OVpzUXacx6tFnIwfdPlt0TkBaP6xYf2zxIDQL3S3e
- 8CZuxLr/I72vuVvGcYQCHSH8SRp88BqR4XkAgnvnySdJ4hXmymZbA7upyhAyZFIOe+O7sU4OUsK
- v3qgv6qRbzn0NkUApbKW4gJ9KJ9iDm6yP2Z+dIbv5WCsvp9PfqeSgiZqhdRWuIndLc4WsdOzlFh
- Gb7SUufV3LzUCdl+7d8aB2dHx4zDG4QMFQGW7OZLUISK8+KckaHEqzdFZ+W1ITMln3Srm5eF1vi
- ibPC2MDOg6BVtRUbHXzIHhqtg8l5If0V5Ahp8a4y2kSe9pRoB2AsNO+zrxXIGN/BSXlwwjSjUiB
- koEpew6OAFvpLipDk6hllbYyBaZw==
-X-Google-Smtp-Source: AGHT+IFPkanq3RHUbcsbNCpasG6Z313jdsfGQVH9J5om8n/FtqWwK7E4sTbdu6zUmursa5ksRK1pIw==
-X-Received: by 2002:a05:6000:3113:b0:42f:bb4a:9989 with SMTP id
- ffacd0b85a97d-4324e4d0fc1mr49661835f8f.28.1767434573075; 
- Sat, 03 Jan 2026 02:02:53 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4324eab2a94sm89174903f8f.43.2026.01.03.02.02.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jan 2026 02:02:52 -0800 (PST)
-Date: Sat, 3 Jan 2026 13:02:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vincent Mailhol <mailhol@kernel.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] overflow: Update is_non_negative() and is_negative()
- comment
-Message-ID: <903ba91b-f052-4b1c-827d-6292965026c5@moroto.mountain>
-References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
- <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
- <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
- <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
- <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
- <b549e430-5623-4c60-acb1-4b5e095ae870@kernel.org>
- <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A4110E125;
+ Sat,  3 Jan 2026 10:15:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D092A40D83;
+ Sat,  3 Jan 2026 10:15:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D351AC113D0;
+ Sat,  3 Jan 2026 10:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767435300;
+ bh=VJPG6cAxntp719Jx+yOECXPqz1CSvBhPq9ajb2tyTX4=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=q8SBg0g495DLKSAVqjx4MtrtLI/KWiCvW4GWkdFlpUw+/KIF7qSVpRVDR62wiZOJp
+ BlTgbdL/SAc88Bjz+53B3bzv9S+iRBg4Z/K14olgFfTnZ/fV2UWGTQDd7i92+CK9fQ
+ t4lJxSoqZ1ue0A0dey4+5+O0sc78U4lJ9xNYqE7XoFUkeFknWE2i/MpGoozjoAQU1V
+ akGoUm+0QeSU2kDSfmyILZx2Vgmmhb3e0AdFzs3hUUAnGxzdbmxhbcPYsL/5SyJUny
+ g5mW3D9LQzzyWchTzZ2ccldRVzF5yac7YIzjhioffJ2YaAiRu+GVTA6Z2ryXr0cXTY
+ k7LfN5J1ztzAQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 03 Jan 2026 11:14:55 +0100
+Message-Id: <DFEVITW4O9DW.P4ITE1PWIDY6@kernel.org>
+Subject: Re: [PATCH v2 09/10] gpu: nova-core: simplify str_from_null_terminated
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ <epeer@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Lyude
+ Paul" <lyude@redhat.com>
+To: "John Hubbard" <jhubbard@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20251216-nova-misc-v2-0-dc7b42586c04@nvidia.com>
+ <20251216-nova-misc-v2-9-dc7b42586c04@nvidia.com>
+ <9c153278-c334-4649-8f73-ec5676ad25b0@nvidia.com>
+In-Reply-To: <9c153278-c334-4649-8f73-ec5676ad25b0@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,24 +65,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Randy, for sending this to me.  I'm on the sparse list, but
-I've been on vacation and haven't caught up with my email.  I can
-easily silence this in Smatch.
+On Sat Jan 3, 2026 at 4:37 AM CET, John Hubbard wrote:
+> On 12/15/25 8:27 PM, Alexandre Courbot wrote:
+>> The core library's `CStr` has a `from_bytes_until_nul` method that we
+>> can leverage to simplify this function.
+>>=20
+>> Reviewed-by: Lyude Paul <lyude@redhat.com>
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/util.rs | 9 ++-------
+>>  1 file changed, 2 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.=
+rs
+>> index 8b2a4b99c55b..2cccbce78c14 100644
+>> --- a/drivers/gpu/nova-core/util.rs
+>> +++ b/drivers/gpu/nova-core/util.rs
+>> @@ -2,15 +2,10 @@
+>> =20
+>>  /// Converts a null-terminated byte slice to a string, or `None` if the=
+ array does not
+>>  /// contains any null byte or contains invalid characters.
+>> -///
+>> -/// Contrary to [`core::ffi::CStr::from_bytes_with_nul`], the null byte=
+ can be anywhere in the
+>> -/// slice, and not only in the last position.
+>>  pub(crate) fn str_from_null_terminated(bytes: &[u8]) -> Option<&str> {
+>>      use core::ffi::CStr;
+>> =20
+>> -    bytes
+>> -        .iter()
+>> -        .position(|&b| b =3D=3D 0)
+>> -        .and_then(|null_pos| CStr::from_bytes_with_nul(&bytes[..=3Dnull=
+_pos]).ok())
+>> +    CStr::from_bytes_until_nul(bytes)
+>> +        .ok()
+>
+> I guess I should have reviewed this patch, before creating my version of =
+this.
+> I went so far as to delete this file entirely, see if you prefer that, it=
+'s
+> otherwise the same core idea, but with more cleanup. [1]
+>
+> [1] https://lore.kernel.org/20260103013438.247759-1-jhubbard@nvidia.com
 
-regards,
-dan carpenter
+Yes, let's remove str_from_null_terminated() entirely.
 
-diff --git a/check_unsigned_lt_zero.c b/check_unsigned_lt_zero.c
-index bfeb3261f91d..ac3e650704ce 100644
---- a/check_unsigned_lt_zero.c
-+++ b/check_unsigned_lt_zero.c
-@@ -105,7 +105,8 @@ static bool is_allowed_zero(struct expression *expr)
- 	    strcmp(macro, "STRTO_H") == 0 ||
- 	    strcmp(macro, "SUB_EXTEND_USTAT") == 0 ||
- 	    strcmp(macro, "TEST_CASTABLE_TO_TYPE_VAR") == 0 ||
--	    strcmp(macro, "TEST_ONE_SHIFT") == 0)
-+	    strcmp(macro, "TEST_ONE_SHIFT") == 0 ||
-+	    strcmp(macro, "check_shl_overflow") == 0)
- 		return true;
- 	return false;
- }
+>>          .and_then(|cstr| cstr.to_str().ok())
+
+Additionally, why do we return an Option here? While an error can only ever=
+ happen if
+the given slice does not contain any NULL byte, I don't see why we discard =
+the
+error code.
