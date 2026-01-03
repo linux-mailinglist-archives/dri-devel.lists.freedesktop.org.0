@@ -2,55 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF8CF03F9
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 19:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F956CF04C9
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 20:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B052010E0BC;
-	Sat,  3 Jan 2026 18:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28DFB10E038;
+	Sat,  3 Jan 2026 19:12:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="BLRw6m5I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XwkdHVZV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1720310E0BC
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 18:25:59 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dk8Bp2cvfz9t8q;
- Sat,  3 Jan 2026 19:25:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767464754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5wYQfU7ag1B+K7R6N+c6V+o4Hnuw36zvgOzcE2v0bRc=;
- b=BLRw6m5IAM3wKBZ1QwauFrHDoyYYFs6+WHQxmUtEPSOrKRlkLsTVRiUwmnmi5/celJ7i45
- xsXCDY18cf8xqSqduib9CS22oEXBVoiu/tTTUNSWSpE7megUaN8fcU2I12YdNEXUHDJlLX
- Aa+7tv3CK5QbvkmXnMbVzB0ACB0VkGA5Ugg/uMMp4qQsjqy8jnrw/9IZdT0N6A9Mc3VbtD
- CS9EfUfcrXqLZqJNFdM2KVegqQKHfje+s49dU+pFb5mezbtK8ca01cLTCa1jnNli8/7RsG
- n5DoGIoo1bonuelJ7htO0jSRyDIJHFdAkUtgoKCMP5nIkog/qb4ty+x0Im+aAw==
-Message-ID: <0e9f963b-00e0-43d1-b567-cb10b8f66df1@mailbox.org>
-Date: Sat, 3 Jan 2026 19:25:52 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B82E10E038
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:12:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BD7564424D
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:12:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7BBC2BCB9
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 19:12:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767467560;
+ bh=T925OkrZcUDgPFL2mYysHSWwXId47m50zcvgTJvCH2c=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=XwkdHVZV3gQnw/Squqt0WQf2kgDmWCB3uLhB4vNPfLhUYflWMvg0DlOyvLv6lOWkp
+ GxueGN/DejHjmBa9Q90itz6LELagfJKXs/snV9U7yJC+iCD9CyzzFUj6qTUop4scjD
+ pqQ7yjuP3byWkKSdyd0DCyYJ4TLXzhOM0IP5wXrvb8nbbq5WDjvxt5Xo9fPFPOBSOs
+ U85EwkPdKHWSQWmnpVHVj1cmGS9TlzUxF0c0zKJuYHRGeWMrmYAUro96BVlbfXlJaH
+ 2lzbhsxLlt/0vTNe6dCS1vYhYKKknqgjcV4eVykEomW57WOKnMJ6d0FKBOmXku8BKA
+ JIQ6TfoXrZcOA==
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-78c66bdf675so112660257b3.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 11:12:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXI5UmXGTsQXhXmXqsIcS7jN8PMzCIH37b86kOi9DBRckyJrIlQCZY3sbomJ5llX8CRtcB4thUVEcM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwroEMiTvIjyWjTEQARhILlmNmTvjdZJ0K+LxEuI+yEwtaZfbrz
+ ar2wlhERiuFYX+uUvEcOhRm5WodHBHFOfxZId/h3Fsvmy1yupgjNUAuhUdDVc7+J5Kc4JWMOg+b
+ wBBAZKq8u1gwb6OS1/7DO10KtcRYgung=
+X-Google-Smtp-Source: AGHT+IGShwlfB3khNYsriA05VuQGUjyDnWfdgI+OFTb0UW6gPumdUc17cvVkNIGVynpsd6//h1UTyWv7gZLMzA3VXbk=
+X-Received: by 2002:a53:bf8e:0:b0:643:833:bf3 with SMTP id
+ 956f58d0204a3-6466a8598f6mr27408373d50.42.1767467559732; 
+ Sat, 03 Jan 2026 11:12:39 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: drm/imagination: genpd_runtime_suspend() crash
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 4c3d46c5c68a2a2c5f0
-X-MBO-RS-META: jpe11m8d1334xqotpmt8dtm7matuaomg
+References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+ <3b13c7a2-f7e6-49fd-b3bb-3e0a1fe9acf3@ideasonboard.com>
+ <CAD++jLk8-0Rkh16T+R1dh6=e_f9U1i=AKOk1Y8dLGV4bxzRtFg@mail.gmail.com>
+ <817b2358-0920-4b7a-abb1-133103d0f9fe@ideasonboard.com>
+ <CAD++jLm_0xweD4tRJ8ZfwmcOe2BBGCsUuL1UWUiNM+Gpbq3Zuw@mail.gmail.com>
+ <6be8aaf6-b01d-4444-9850-967f8e316896@ideasonboard.com>
+In-Reply-To: <6be8aaf6-b01d-4444-9850-967f8e316896@ideasonboard.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 3 Jan 2026 20:12:28 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkWH8xxT+bTXseuJv+pXeEGy7qqE7Z1Mid2CwRg8O5D7A@mail.gmail.com>
+X-Gm-Features: AQt7F2oqzhLbhnApuLunbol1WMXqKAfZVNbTglNtWTgf1-h4HM11uw_w8WHAIqs
+Message-ID: <CAD++jLkWH8xxT+bTXseuJv+pXeEGy7qqE7Z1Mid2CwRg8O5D7A@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Vicente Bergas <vicencb@gmail.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +95,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/25 3:08 PM, Geert Uytterhoeven wrote:
+On Tue, Dec 23, 2025 at 12:48=E2=80=AFPM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> On 23/12/2025 01:18, Linus Walleij wrote:
+> > On Sun, Dec 14, 2025 at 1:42=E2=80=AFPM Tomi Valkeinen
+> > <tomi.valkeinen@ideasonboard.com> wrote:
+> >
+> >>>> Should we merge this series as a fix for 6.18 rcs?
+> >>>
+> >>> Too late now, so let's merge it as a fix for v6.19 rcs!
+> >>
+> >> Ah, right. Indeed, I meant v6.19 rcs.
+> >
+> > Are you applying it or should I?
+> > Not sure if you want some special timing, like outside of
+> > holidays.
+>
+> Oh. No, I'm not a DRM maintainer, so I was waiting for someone to merge
+> this. From my point of view it's ready for merging.
 
-Hello Geert,
+Aha OK, I applied and pushed it now. I added the same Fixes: tag as on
+patch 1/4 to all 4 patches in the process.
 
->       default_suspend_ok+0xb4/0x20c (P)
->       genpd_runtime_suspend+0x11c/0x4e0
->       __rpm_callback+0x44/0x1cc
->       rpm_callback+0x6c/0x78
->       rpm_suspend+0x108/0x564
->       pm_runtime_work+0xb8/0xbc
->       process_one_work+0x144/0x280
->       worker_thread+0x2c8/0x3d0
->       kthread+0x128/0x1e0
->       ret_from_fork+0x10/0x20
->      Code: aa1303e0 52800863 b0005661 912dc021 (f9402095)
->      ---[ end trace 0000000000000000 ]---
-> 
-> This driver uses manual PM Domain handling for multiple PM Domains.  In
-> my case, pvr_power_domains_fini() calls dev_pm_domain_detach() (twice),
-> which calls dev_pm_put_subsys_data(), and sets dev->power.subsys_data to
-> NULL when psd->refcount reaches zero.
-> 
-> Later/in parallel, default_suspend_ok() calls dev_gpd_data():
-> 
->      static inline struct generic_pm_domain_data *dev_gpd_data(struct
-> device *dev)
->      {
->              return to_gpd_data(dev->power.subsys_data->domain_data);
->      }
-> 
-> triggering the NULL pointer dereference.  Depending on timing, it may
-> crash earlier or later in genpd_runtime_suspend(), or not crash at all
-> (initially, I saw it only with extra debug prints in the genpd subsystem).
-
-I came to the same conclusion when revisiting it yesterday and today.
-
-The power 3dg-{a,b} domains are in RPM_SUSPENDING state, the 
-__rpm_callback() is running and it unlocks dev->power.lock spinlock for 
-just long enough, that the pvr_power_domains_fini() can issue 
-dev_pm_domain_detach() and then dev_pm_put_subsys_data() , which unsets 
-subsys_data, which are later still used by the __rpm_callback() (really 
-the genpd_runtime_suspend() -> suspend_ok() it calls for this domain).
-
-But, I wonder if the problem is actually in the CPG MSSR clock domain 
-driver. The pvr_power_domains_fini() dev_pm_domain_detach() really calls 
-cpg_mssr_detach_dev() which calls pm_clk_destroy() and that invokes the 
-dev_pm_domain_detach() which unsets the subsys_data . The 
-pm_clk_destroy() documentation is explicit about it unsetting the 
-subsys_data .
-
-I wonder if what we need to do instead, is patch the CPG MSSR clock 
-domain driver such, that it would surely NOT call pm_clk_destroy() 
-before the domain transitioned from RPM_SUSPENDING -> RPM_SUSPENDED 
-state and surely is done with all its __rpm_callback() invocations ?
-
-Can you please test this change and see if it fixes the problem ?
-
-The barrier should guarantee that the domain is settled and no more 
-callbacks are still running.
-
-"
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c 
-b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 7f9b7aa397906..14158cab1b129 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -24,6 +24,7 @@
-  #include <linux/platform_device.h>
-  #include <linux/pm_clock.h>
-  #include <linux/pm_domain.h>
-+#include <linux/pm_runtime.h>
-  #include <linux/psci.h>
-  #include <linux/reset-controller.h>
-  #include <linux/slab.h>
-@@ -656,8 +657,10 @@ int cpg_mssr_attach_dev(struct generic_pm_domain 
-*unused, struct device *dev)
-
-  void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct 
-device *dev)
-  {
--	if (!pm_clk_no_clocks(dev))
-+	if (!pm_clk_no_clocks(dev)) {
-+		pm_runtime_barrier(dev);
-  		pm_clk_destroy(dev);
-+	}
-  }
-
-  static void cpg_mssr_genpd_remove(void *data)
-"
+Yours,
+Linus Walleij
