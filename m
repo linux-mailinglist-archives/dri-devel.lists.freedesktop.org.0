@@ -2,67 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AC9CEFA6A
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 04:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E4DCEFA76
+	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 04:37:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C055810E2EB;
-	Sat,  3 Jan 2026 03:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08FC10E10A;
+	Sat,  3 Jan 2026 03:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jJxI3lMZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HF47XWOq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF2D10E2EB;
- Sat,  3 Jan 2026 03:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767411266; x=1798947266;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=csYK7RCPSHPoz/5MB1fELyelv1I54HjB4geF/Uuzq4w=;
- b=jJxI3lMZrpVcDfwEnEPgyTyurXoqk9S4FxytJVEtjQTdWOnijQ+usHsk
- a7fFmY1DK6AhwUKYlc9zeZ0PuAfVnzuWMh/X+xPomjcn9ZYHoQG6esQCM
- utBUa1UIXyH0aQCr8A6Ihx9/EGvPS5xZR1GYNjWfwvvX/lHDoN+3ettCt
- /7ydcYJjlIVvN3Q4v2DLPQIxqVSY9nUdQy7Y0ASqIaHj9wuHfTjEO9UIR
- HXkAcE0VhpIPqEdvVxabRI3I0THjjcmTvhXshb4uJCw/inuqlzAmrh56J
- UsTE4aneghszJlg2b9ZlRBze5et2dcHf9P9CJtOtE9z1alkNH49zfLx4Z Q==;
-X-CSE-ConnectionGUID: 5OY//reHSXikS2c8xdDzhg==
-X-CSE-MsgGUID: 6USTtwKeRja0zOm2dmH2Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="71465972"
-X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="71465972"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2026 19:34:25 -0800
-X-CSE-ConnectionGUID: PycnsbgIQrS09W4Z1BbpnQ==
-X-CSE-MsgGUID: ZkTbTrcgQ5eke62DbUKzFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; d="scan'208";a="239387734"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 02 Jan 2026 19:34:19 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vbsPA-000000002Yv-3ibi;
- Sat, 03 Jan 2026 03:34:16 +0000
-Date: Sat, 3 Jan 2026 11:34:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, balbirs@nvidia.com,
- matthew.brost@intel.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
- linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org,
- jgg@ziepe.ca, Felix.Kuehling@amd.com
-Subject: Re: [PATCH v1 3/8] mm: Add helpers to create migration entries from
- struct pages
-Message-ID: <202601030957.g8ml6bSY-lkp@intel.com>
-References: <20251231043154.42931-4-jniethe@nvidia.com>
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010061.outbound.protection.outlook.com [52.101.85.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19FA310E10A;
+ Sat,  3 Jan 2026 03:37:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UeD3EDVqsKJn+aWIRlM+Dbz5h7+Gfo6GUQVZVpoa4kC5IKwjhp1bOJoqdkfAVcrvK5+Gr4bjW+VPWT+vJUofpQxqjiJHTxSqvqAUcfe9LbFf0f6buwnFY0iaXzEukAXB9TLEH5uKcMY3cwRnItX3J+wd6HxmffAD/Ws/C6JVwIQsCNuBdOirDOa0clgUqbSzfbvGoNEYoi+7Ngdep+vGhG5zHKoxpzqTgp2Fs0cVu7jYjWYzrR3QF6ekxN8UMyTsklseXgpknA52ycbSE4D/3O+u1MdStom+/5ZvCv4X1umXP30434cBugu734cuog76ZD/CYePkmu3c3XWTuzgbag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JXe4bIpt97TCepgZGBd2w7K2OdB+/YLyv6xGA4oV+Jc=;
+ b=gAFudC+pzJ0WZgpBQqsza3QKOH/2rEiNgv/uelibIMjxCeqGdr5P4sidEPrxCxCXBPoijZbmAOb4jPi68DcBra+1QIc6WxrEpPycYQhgyLyhvEDZ4utiZv9oLrWbnmjrl/cv0HnQ1rzZoqen4GijVBD+dGbqX8Wa4OoEMbSGJzhkAdL4XJ7enxuvdGCil9hed3+lrNBbxlsVVgN3aGaMrHpssgzee91fwM21EkpYwu0QeZ3t38sjQpQpKzraGki7LjLDdmlV/zAphoN4xcLQ3FuC+DbtdI0zvuZjD0XwcbNn1cY+cj8eEOyX5kgqtKG2FxL8YyRUsq8dR3HEG7eMGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JXe4bIpt97TCepgZGBd2w7K2OdB+/YLyv6xGA4oV+Jc=;
+ b=HF47XWOqW+o0w45W1R0mMS6ER60OAQV9/M8Jk2pvS2xmfFR+hjAJTFNK6HAImL0xLDvlKPRvsX8XEFulxymwFi1F8VwGmUbUc3n3AcuBwJZ0wk9SCzlzNaxj63hztLcF888avkx/2AJOfup4p3XZamysWbwAC4New1bajpL0Zz/yNKzBpqX1oPEtsbnHWQqSk6OdxplsY4batw843HLiIYzVTEte5RUKlAmHaEPB6h+CYn6oy2g6SHSinIho8hMf21aiEvTVIWjZj67MR/y6LJvs/41Zh4KupCSeB0r7FtgofrHvtulI7ZZ6sfjnQI4+LwXiL44ZerHUI6g4mMkEmQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ CH2PR12MB4053.namprd12.prod.outlook.com (2603:10b6:610:7c::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4; Sat, 3 Jan 2026 03:37:40 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9478.004; Sat, 3 Jan 2026
+ 03:37:40 +0000
+Message-ID: <9c153278-c334-4649-8f73-ec5676ad25b0@nvidia.com>
+Date: Fri, 2 Jan 2026 19:37:31 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/10] gpu: nova-core: simplify str_from_null_terminated
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ Lyude Paul <lyude@redhat.com>
+References: <20251216-nova-misc-v2-0-dc7b42586c04@nvidia.com>
+ <20251216-nova-misc-v2-9-dc7b42586c04@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20251216-nova-misc-v2-9-dc7b42586c04@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0078.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::23) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251231043154.42931-4-jniethe@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CH2PR12MB4053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19069103-79a7-43ad-f84f-08de4a797214
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Lzg1UmpEaGRGN0dXekpsZldGOVN0eDZBM0V4RTVJalo1NkY0UExocU82aytk?=
+ =?utf-8?B?KzR3Z0p6V1hZeVJOU2o4NGJPSVVzaThMNUdnaHJIWFAxajRuRTNCYyt6ZXpj?=
+ =?utf-8?B?M2JydEhZQ0t2Y0ZxcW85STkyZHhaTmFpZWlBckRjTDA2YkUzR21IRDczbGdZ?=
+ =?utf-8?B?NEs0bkc4NHAzeWFUSk9GQXJJTTBVK2IxK2RMREtvcFZnU3hZVDF0Q1hTNGt4?=
+ =?utf-8?B?eGpWTFVITXVMRlg2WTA4eVNJQ1lQZkd2TU9CMDZ2dGx6UVVuTlVVUnAzby9O?=
+ =?utf-8?B?bWFCb3E4NE1NODdJeklhL0pSRmxWcXlTays0cE53UXcwbCsveFI0aHQ1eUxa?=
+ =?utf-8?B?ZVlqOEx0VHY1cW80MkJQYW1RMnFMekxlY01lUEdWUXUxK3lHRTNTR3J3czdm?=
+ =?utf-8?B?eDU5MFVxcFpTSmxPNHhTeU1KSElJZmJsMXJKa0oza3JWVktWQ2pPODd5anNz?=
+ =?utf-8?B?S2phbDhYaFhWUVNzdVcyQmdVbTNZSkxtOWd4eHNQaEpLUkZ5MDBwQjdtS0xh?=
+ =?utf-8?B?UjdDSUFpdk1tc3F6eWZiOUlXaDE3aEpnbG43b3owTWpOM1lPbXpHOXZDVWlM?=
+ =?utf-8?B?UjE5d2dLeXhRTXE5SldnZWRRSjJwMUdxa3B4bTVhN0RGUFdkUGlGODY5c0NV?=
+ =?utf-8?B?SW00NUFJRml4a3lnelRPVlVpemxXQ25rMlFZS1FLbk9BTEIvcDlncVg4TXdX?=
+ =?utf-8?B?cXlNNzVOY2FhMnZHTVM2VHlqNU5OL3c5aC9QbHlBd2pMdkkwQ3NHR3liM1ZJ?=
+ =?utf-8?B?SWZCOFhOVUZZdEZocnhCQU5rbWpBTnNSVmpHdXJOejBEQ1ZpSWRpZG56MDFJ?=
+ =?utf-8?B?bXIrR0lTUGtQbEpjMVVHUVkwVDlpYU9nSUJ6amxJWVNRWG5PVkZQSG05TEtF?=
+ =?utf-8?B?cFdkQ2FPZXJtSXh3TFdKSDlESnYvcEZyWmhQYVpicWJwMVo2M0RxQ2JjYU8z?=
+ =?utf-8?B?bTZscFptQ0xMVGxUbG1tRjRLUEhjZ2IwUmkwQUY2b0pHdWk3YTUzSVhyUVlo?=
+ =?utf-8?B?QjRQekNSUjJKd1RkM2xFQU9jZGJGQ290ZWpZemw0WEI1Q2cxNWVBRWZaUmU3?=
+ =?utf-8?B?bERPZ3lBRm5HWThDR0NCWDUrT3Rub3RaTWU3OElaWGx0bDZQSGlJUk1SczFR?=
+ =?utf-8?B?Ym9EYVBKZGdvd2JGdWIwRUxOUnZPWWthM0JTOWx1Zi9oRUdhSkhhQm1rc3ZN?=
+ =?utf-8?B?V1FFN1p2dit4RmxlS1FhRGd3dDFzTkhiY2VKMDhVcTVJZkcrOGU0bXc0VWhR?=
+ =?utf-8?B?eHZuR1hkZk5pR3VhcDFXaGZiQlpxclFYWGh2a1grS2JZMXNtbldLTXppTkRn?=
+ =?utf-8?B?QWJDMW5rZWV0R1BreXRoOWljVlBEWG1QbE1yZWtkRlNrSEM3Mm9BUStlV3hy?=
+ =?utf-8?B?end3TU1Ic21XeVI3bmJ3OTBUZFhHT3pyengzWXpNRFBVdEludE5leThOWWFo?=
+ =?utf-8?B?RmY1TlBvTExSNnpmK3kyZDNIckx6azNMOWxMNHYwM2ZSaXMzRnVRWStFNGlC?=
+ =?utf-8?B?aWZaMlJLWXUwRGZ6Nk4xN3hVNnNCa3M1bGVGMTZEejRJdzZKUlkwOG1ueFdp?=
+ =?utf-8?B?MHo1YUxGcjRVbytmVk9pQk4vRi9xTlVZOHZLRS8rZWZxQ0w0bGpmd3cvYUln?=
+ =?utf-8?B?RDNYSFkxN2dWRE5CMGlveVNHaGEzeVlUR3VORnFhS3dGNUFqam9UUGVwd0Er?=
+ =?utf-8?B?citZN2pxZnpoOGZmV2FESGMxS2VDUTFTWU9Hc2J1Z0xwNzdNZENORTVucHpB?=
+ =?utf-8?B?cmJXeXJTTFRKOGFIYjJyZDU3aUx0dWNmWkJpMzk5Z1R3SUloaklpYlNjQjF5?=
+ =?utf-8?B?ZGlmVUpxR1NTTkRqUGIzclhLQ0ZrK3RGbitldDZFQXZxZzIvUGI2OTQ5WTZU?=
+ =?utf-8?B?eWpvZGo5V3hiYnRySXcyaCtGMUxiSHFBSmt5dS9ka1dNTXFaWVFTNkZiTUYz?=
+ =?utf-8?B?NXlRVXFjdG0wOFZ4R1I5aVVHR0grSndIZU00MkRKbktneTlVRzZQL3U5K2VR?=
+ =?utf-8?B?cCs1WkNvYzh3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PR12MB9416.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDNMZ0MyRU9CNHBYN21IclJUWUp1ZjdOZnhIVVBVQUZvTlBRSFFPS25rSEhC?=
+ =?utf-8?B?RUgxbUM0SzFFNHk4QmxWWFVyVDVodUlaS1pZOEFyQkVMUDR2TEZJYXFGK2Ru?=
+ =?utf-8?B?RkJYTUEwOGJxTWFNM2tqT2JkeEVuNG94L0UxNitTY3dCZEdTazdkaFlGbmdJ?=
+ =?utf-8?B?N3Ziak8veEtlMUxGS3BJVkdHeDdCR2c3bk84U1Via2h5a01FNklXSTlWc1pJ?=
+ =?utf-8?B?TTNPOWczZURITHJKbndEV01wOXRYRHcrUVcrS05nWVZYWXdqWkljRkFHZ2tY?=
+ =?utf-8?B?QWk2K256UlJLZjFmT1hOOEtVL0pKR0g1TzlDMGVwL0djd2lhRzA0cCt6bWtE?=
+ =?utf-8?B?WHp3aS9BaVVobytwT1grQUQzOW9pWUdTSDFZdnJzdEFkWHFBMlJuZVhFdzVl?=
+ =?utf-8?B?OURxc3B6RWl0OE9ZQWlqSGFURWhlWUQ0MVpjcFVTR0o0WElsdjZqYzlMRnRi?=
+ =?utf-8?B?cUxITUt0QVJ0VlBkaHR0NGoxOGd6b1labW1XeXBidDdRVDdIS0c5SElFWnFW?=
+ =?utf-8?B?WmdaVVJDQjlIaWJ4QUI2TmlhcEhoNnk2b2tGZ0p1Yk9ybDM3MG13ZjU2QlNF?=
+ =?utf-8?B?K0w1andpZVBEczY3L1QreUEyTnk4N0VvTUR1dVB1R2FQMUw1cGJaanlJZ1Zk?=
+ =?utf-8?B?TWNRaDBpelM4ZDhLTHRXNHFLUTlJd1R0ZzhGVjRBRGdDdyt3bVZXMjRMZ24y?=
+ =?utf-8?B?RnU5VjJjL1VCdU16aGRzVWZONHU1Z0ZFYkdNb2t6dHpQWm5XbEd5ZU1KMFBK?=
+ =?utf-8?B?Y3pubjVtMjVzbm9zYmhTT29ubHRENlExVFpNTmhOdE9UQURIeVhqNFhZVHRt?=
+ =?utf-8?B?NEtRWGNLcTRORUhPTXJRdVdFTDlIT2NXcTJ0TGNJSSt1YXpEbU9LSGZsNGY0?=
+ =?utf-8?B?Y1BjaXNHdlRZRzIxcWZ0MG9LSElQUmg5WjdDVkRXdFhxMTRRUVppb2grVm5a?=
+ =?utf-8?B?ekNHTmNpV1BLZXJYWWpoc04wZGJKMFlZRDRuUWVyY2t6RVVWWDhNbFlzU0Mw?=
+ =?utf-8?B?eDg5MzZxY0daRDBrMUUxdm9BRGx0bER1WVNKTW1TK2hoU1ZjanJEbVF1NXFm?=
+ =?utf-8?B?VHdyMXFFQ1I0U2FKRE5TM0ErbE9MSHIwc2ZoKy8zUmVtcXFFVkZDWEphcTY3?=
+ =?utf-8?B?RUVyRERPRlhrKzRFN09peEYyNzh4bjE1dU03MEpiUXZiYVhGL2o5ZDdWVVFB?=
+ =?utf-8?B?bm83bUhkakhYQmhyemhlakNKcmlGaE5IZDF5ekFxWFpNY3ZUQWNrWXFxdzVl?=
+ =?utf-8?B?Mkg3ZFBNbGQ0UU9BWUxCZlZXVTd3M3RMT1VnTk5RYzhmbTI3RU5tWlpzVEN3?=
+ =?utf-8?B?RkQwRFRqTHB6SGFpS01nRk1YUmhsOWdKZUxCSC9CY050ZjRnQ2d2Sys4UDZE?=
+ =?utf-8?B?V1lPZXlDM3VsNXpZbGlXZnFmU2J5bENjUXJyY2krWnFQSXNFZTNyaVhCVFB4?=
+ =?utf-8?B?dUt4YXpydUdmeTh3YXIrbUE1ZXJSMjRpTzNaMm5ubW8vTHpOdDlFYkVrNURB?=
+ =?utf-8?B?RmlFVlZ5ZENPTG1YYVdKZ1N2cGowWG5MY3lqMHFkRlUyNHJ6NE9kcnZ1cDhl?=
+ =?utf-8?B?RDNDbFNOTm95MEQwNnlPU2RjWjFzeFFlNHQxUlM5aGlpMGw4aVZWQ0VqL3Bk?=
+ =?utf-8?B?aXBNUnBYbUFoZ3ZqZEdjUXdsa1I2ZXZsM1hPQXRlUWIxKzhLMUpoc2NueXFv?=
+ =?utf-8?B?MkgzUUxUclRwOGYyNktyNHJHaXhSa2hnWUg5L05abUNZM2lMdGlsdHM5UWVw?=
+ =?utf-8?B?aU1McXpDN2wxd1VVbG9zMnhsbG03emN1eDlIdUxwb1hZRjF0dmhNcGtxdFN0?=
+ =?utf-8?B?ZXdzTkYvcit5YU5HNmsrOG4ySDZDMVJ0eExzRE85Um9IamJIN2xOeFo1blhD?=
+ =?utf-8?B?bnJTNEFkNnd0UDQ3bFhCYVEzWXpjZWRQVFIyUmhGRnB1YjI2K1NkZGw4djJv?=
+ =?utf-8?B?V1NabkZ1Y0hZV2YyMzNCcGpmMGExTi9OSDlQWWdOVVdaN3ZXZ3h6MEc3aVpt?=
+ =?utf-8?B?Vzd6SzAzQUxPSGRUd3BUOVFjSWF5SWQ5ZUdqZ2Nxbm1wM21qRlVDbTRGZXZm?=
+ =?utf-8?B?TUlwZXJXSi9OY3RDdStaVDVlQ2FoYU9KSlM4ajhmK2owRElVOFZsQ2xVTUVK?=
+ =?utf-8?B?S3FvZGxYTDdUQ0o0K1luSnJXQ2xreG1UblhyWUJxVm9rU1gxN0IxcmF4ZUhk?=
+ =?utf-8?B?dlpsUEhESWs2dmtEaVRjRE5PVzdHYU1EVTNjem81NXh3S2hQZFFPc3d4SWl4?=
+ =?utf-8?B?elloajhKbGNjSUh2UC9KVkZWb0x5bzlxK3ByQUtoNE11S05xK2pQWStuaUlP?=
+ =?utf-8?B?L2E5dG54VUFMZ1BvMmhrL0JYR0pmcXhEZDJmcWc5NEM2WnJJd0JyZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19069103-79a7-43ad-f84f-08de4a797214
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2026 03:37:40.0730 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kGLZ6DIJqIbUhJ1547dXOJbH8hw5QKJ1vb4csvJxyzSG7TbCM5d4QMIoGotoXHmqZhJnzuOw9jmhd0717kEvmA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4053
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,364 +174,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jordan,
+On 12/15/25 8:27 PM, Alexandre Courbot wrote:
+> The core library's `CStr` has a `from_bytes_until_nul` method that we
+> can leverage to simplify this function.
+> 
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/util.rs | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.rs
+> index 8b2a4b99c55b..2cccbce78c14 100644
+> --- a/drivers/gpu/nova-core/util.rs
+> +++ b/drivers/gpu/nova-core/util.rs
+> @@ -2,15 +2,10 @@
+>  
+>  /// Converts a null-terminated byte slice to a string, or `None` if the array does not
+>  /// contains any null byte or contains invalid characters.
+> -///
+> -/// Contrary to [`core::ffi::CStr::from_bytes_with_nul`], the null byte can be anywhere in the
+> -/// slice, and not only in the last position.
+>  pub(crate) fn str_from_null_terminated(bytes: &[u8]) -> Option<&str> {
+>      use core::ffi::CStr;
+>  
+> -    bytes
+> -        .iter()
+> -        .position(|&b| b == 0)
+> -        .and_then(|null_pos| CStr::from_bytes_with_nul(&bytes[..=null_pos]).ok())
+> +    CStr::from_bytes_until_nul(bytes)
+> +        .ok()
 
-kernel test robot noticed the following build errors:
+I guess I should have reviewed this patch, before creating my version of this.
+I went so far as to delete this file entirely, see if you prefer that, it's
+otherwise the same core idea, but with more cleanup. [1]
 
-[auto build test ERROR on f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da]
+[1] https://lore.kernel.org/20260103013438.247759-1-jhubbard@nvidia.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/mm-migrate_device-Add-migrate-PFN-flag-to-track-device-private-pages/20251231-123453
-base:   f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
-patch link:    https://lore.kernel.org/r/20251231043154.42931-4-jniethe%40nvidia.com
-patch subject: [PATCH v1 3/8] mm: Add helpers to create migration entries from struct pages
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260103/202601030957.g8ml6bSY-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030957.g8ml6bSY-lkp@intel.com/reproduce)
+>          .and_then(|cstr| cstr.to_str().ok())
+>  }
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601030957.g8ml6bSY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> mm/rmap.c:2542:13: error: call to undeclared function 'make_writable_migration_entry_from_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2542 |                                 entry = make_writable_migration_entry_from_page(
-         |                                         ^
-   mm/rmap.c:2542:13: note: did you mean 'make_readable_migration_entry_from_page'?
-   include/linux/swapops.h:240:27: note: 'make_readable_migration_entry_from_page' declared here
-     240 | static inline swp_entry_t make_readable_migration_entry_from_page(struct page *page)
-         |                           ^
->> mm/rmap.c:2542:11: error: assigning to 'swp_entry_t' from incompatible type 'int'
-    2542 |                                 entry = make_writable_migration_entry_from_page(
-         |                                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2543 |                                                         subpage);
-         |                                                         ~~~~~~~~
-   2 errors generated.
-
-
-vim +/make_writable_migration_entry_from_page +2542 mm/rmap.c
-
-  2275	
-  2276	/*
-  2277	 * @arg: enum ttu_flags will be passed to this argument.
-  2278	 *
-  2279	 * If TTU_SPLIT_HUGE_PMD is specified any PMD mappings will be split into PTEs
-  2280	 * containing migration entries.
-  2281	 */
-  2282	static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
-  2283			     unsigned long address, void *arg)
-  2284	{
-  2285		struct mm_struct *mm = vma->vm_mm;
-  2286		DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
-  2287		bool anon_exclusive, writable, ret = true;
-  2288		pte_t pteval;
-  2289		struct page *subpage;
-  2290		struct mmu_notifier_range range;
-  2291		enum ttu_flags flags = (enum ttu_flags)(long)arg;
-  2292		unsigned long pfn;
-  2293		unsigned long hsz = 0;
-  2294	
-  2295		/*
-  2296		 * When racing against e.g. zap_pte_range() on another cpu,
-  2297		 * in between its ptep_get_and_clear_full() and folio_remove_rmap_*(),
-  2298		 * try_to_migrate() may return before page_mapped() has become false,
-  2299		 * if page table locking is skipped: use TTU_SYNC to wait for that.
-  2300		 */
-  2301		if (flags & TTU_SYNC)
-  2302			pvmw.flags = PVMW_SYNC;
-  2303	
-  2304		/*
-  2305		 * For THP, we have to assume the worse case ie pmd for invalidation.
-  2306		 * For hugetlb, it could be much worse if we need to do pud
-  2307		 * invalidation in the case of pmd sharing.
-  2308		 *
-  2309		 * Note that the page can not be free in this function as call of
-  2310		 * try_to_unmap() must hold a reference on the page.
-  2311		 */
-  2312		range.end = vma_address_end(&pvmw);
-  2313		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
-  2314					address, range.end);
-  2315		if (folio_test_hugetlb(folio)) {
-  2316			/*
-  2317			 * If sharing is possible, start and end will be adjusted
-  2318			 * accordingly.
-  2319			 */
-  2320			adjust_range_if_pmd_sharing_possible(vma, &range.start,
-  2321							     &range.end);
-  2322	
-  2323			/* We need the huge page size for set_huge_pte_at() */
-  2324			hsz = huge_page_size(hstate_vma(vma));
-  2325		}
-  2326		mmu_notifier_invalidate_range_start(&range);
-  2327	
-  2328		while (page_vma_mapped_walk(&pvmw)) {
-  2329			/* PMD-mapped THP migration entry */
-  2330			if (!pvmw.pte) {
-  2331				__maybe_unused unsigned long pfn;
-  2332				__maybe_unused pmd_t pmdval;
-  2333	
-  2334				if (flags & TTU_SPLIT_HUGE_PMD) {
-  2335					split_huge_pmd_locked(vma, pvmw.address,
-  2336							      pvmw.pmd, true);
-  2337					ret = false;
-  2338					page_vma_mapped_walk_done(&pvmw);
-  2339					break;
-  2340				}
-  2341	#ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-  2342				pmdval = pmdp_get(pvmw.pmd);
-  2343				if (likely(pmd_present(pmdval)))
-  2344					pfn = pmd_pfn(pmdval);
-  2345				else
-  2346					pfn = softleaf_to_pfn(softleaf_from_pmd(pmdval));
-  2347	
-  2348				subpage = folio_page(folio, pfn - folio_pfn(folio));
-  2349	
-  2350				VM_BUG_ON_FOLIO(folio_test_hugetlb(folio) ||
-  2351						!folio_test_pmd_mappable(folio), folio);
-  2352	
-  2353				if (set_pmd_migration_entry(&pvmw, subpage)) {
-  2354					ret = false;
-  2355					page_vma_mapped_walk_done(&pvmw);
-  2356					break;
-  2357				}
-  2358				continue;
-  2359	#endif
-  2360			}
-  2361	
-  2362			/* Unexpected PMD-mapped THP? */
-  2363			VM_BUG_ON_FOLIO(!pvmw.pte, folio);
-  2364	
-  2365			/*
-  2366			 * Handle PFN swap PTEs, such as device-exclusive ones, that
-  2367			 * actually map pages.
-  2368			 */
-  2369			pteval = ptep_get(pvmw.pte);
-  2370			if (likely(pte_present(pteval))) {
-  2371				pfn = pte_pfn(pteval);
-  2372			} else {
-  2373				const softleaf_t entry = softleaf_from_pte(pteval);
-  2374	
-  2375				pfn = softleaf_to_pfn(entry);
-  2376				VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
-  2377			}
-  2378	
-  2379			subpage = folio_page(folio, pfn - folio_pfn(folio));
-  2380			address = pvmw.address;
-  2381			anon_exclusive = folio_test_anon(folio) &&
-  2382					 PageAnonExclusive(subpage);
-  2383	
-  2384			if (folio_test_hugetlb(folio)) {
-  2385				bool anon = folio_test_anon(folio);
-  2386	
-  2387				/*
-  2388				 * huge_pmd_unshare may unmap an entire PMD page.
-  2389				 * There is no way of knowing exactly which PMDs may
-  2390				 * be cached for this mm, so we must flush them all.
-  2391				 * start/end were already adjusted above to cover this
-  2392				 * range.
-  2393				 */
-  2394				flush_cache_range(vma, range.start, range.end);
-  2395	
-  2396				/*
-  2397				 * To call huge_pmd_unshare, i_mmap_rwsem must be
-  2398				 * held in write mode.  Caller needs to explicitly
-  2399				 * do this outside rmap routines.
-  2400				 *
-  2401				 * We also must hold hugetlb vma_lock in write mode.
-  2402				 * Lock order dictates acquiring vma_lock BEFORE
-  2403				 * i_mmap_rwsem.  We can only try lock here and
-  2404				 * fail if unsuccessful.
-  2405				 */
-  2406				if (!anon) {
-  2407					VM_BUG_ON(!(flags & TTU_RMAP_LOCKED));
-  2408					if (!hugetlb_vma_trylock_write(vma)) {
-  2409						page_vma_mapped_walk_done(&pvmw);
-  2410						ret = false;
-  2411						break;
-  2412					}
-  2413					if (huge_pmd_unshare(mm, vma, address, pvmw.pte)) {
-  2414						hugetlb_vma_unlock_write(vma);
-  2415						flush_tlb_range(vma,
-  2416							range.start, range.end);
-  2417	
-  2418						/*
-  2419						 * The ref count of the PMD page was
-  2420						 * dropped which is part of the way map
-  2421						 * counting is done for shared PMDs.
-  2422						 * Return 'true' here.  When there is
-  2423						 * no other sharing, huge_pmd_unshare
-  2424						 * returns false and we will unmap the
-  2425						 * actual page and drop map count
-  2426						 * to zero.
-  2427						 */
-  2428						page_vma_mapped_walk_done(&pvmw);
-  2429						break;
-  2430					}
-  2431					hugetlb_vma_unlock_write(vma);
-  2432				}
-  2433				/* Nuke the hugetlb page table entry */
-  2434				pteval = huge_ptep_clear_flush(vma, address, pvmw.pte);
-  2435				if (pte_dirty(pteval))
-  2436					folio_mark_dirty(folio);
-  2437				writable = pte_write(pteval);
-  2438			} else if (likely(pte_present(pteval))) {
-  2439				flush_cache_page(vma, address, pfn);
-  2440				/* Nuke the page table entry. */
-  2441				if (should_defer_flush(mm, flags)) {
-  2442					/*
-  2443					 * We clear the PTE but do not flush so potentially
-  2444					 * a remote CPU could still be writing to the folio.
-  2445					 * If the entry was previously clean then the
-  2446					 * architecture must guarantee that a clear->dirty
-  2447					 * transition on a cached TLB entry is written through
-  2448					 * and traps if the PTE is unmapped.
-  2449					 */
-  2450					pteval = ptep_get_and_clear(mm, address, pvmw.pte);
-  2451	
-  2452					set_tlb_ubc_flush_pending(mm, pteval, address, address + PAGE_SIZE);
-  2453				} else {
-  2454					pteval = ptep_clear_flush(vma, address, pvmw.pte);
-  2455				}
-  2456				if (pte_dirty(pteval))
-  2457					folio_mark_dirty(folio);
-  2458				writable = pte_write(pteval);
-  2459			} else {
-  2460				const softleaf_t entry = softleaf_from_pte(pteval);
-  2461	
-  2462				pte_clear(mm, address, pvmw.pte);
-  2463	
-  2464				writable = softleaf_is_device_private_write(entry);
-  2465			}
-  2466	
-  2467			VM_WARN_ON_FOLIO(writable && folio_test_anon(folio) &&
-  2468					!anon_exclusive, folio);
-  2469	
-  2470			/* Update high watermark before we lower rss */
-  2471			update_hiwater_rss(mm);
-  2472	
-  2473			if (PageHWPoison(subpage)) {
-  2474				VM_WARN_ON_FOLIO(folio_is_device_private(folio), folio);
-  2475	
-  2476				pteval = swp_entry_to_pte(make_hwpoison_entry(subpage));
-  2477				if (folio_test_hugetlb(folio)) {
-  2478					hugetlb_count_sub(folio_nr_pages(folio), mm);
-  2479					set_huge_pte_at(mm, address, pvmw.pte, pteval,
-  2480							hsz);
-  2481				} else {
-  2482					dec_mm_counter(mm, mm_counter(folio));
-  2483					set_pte_at(mm, address, pvmw.pte, pteval);
-  2484				}
-  2485			} else if (likely(pte_present(pteval)) && pte_unused(pteval) &&
-  2486				   !userfaultfd_armed(vma)) {
-  2487				/*
-  2488				 * The guest indicated that the page content is of no
-  2489				 * interest anymore. Simply discard the pte, vmscan
-  2490				 * will take care of the rest.
-  2491				 * A future reference will then fault in a new zero
-  2492				 * page. When userfaultfd is active, we must not drop
-  2493				 * this page though, as its main user (postcopy
-  2494				 * migration) will not expect userfaults on already
-  2495				 * copied pages.
-  2496				 */
-  2497				dec_mm_counter(mm, mm_counter(folio));
-  2498			} else {
-  2499				swp_entry_t entry;
-  2500				pte_t swp_pte;
-  2501	
-  2502				/*
-  2503				 * arch_unmap_one() is expected to be a NOP on
-  2504				 * architectures where we could have PFN swap PTEs,
-  2505				 * so we'll not check/care.
-  2506				 */
-  2507				if (arch_unmap_one(mm, vma, address, pteval) < 0) {
-  2508					if (folio_test_hugetlb(folio))
-  2509						set_huge_pte_at(mm, address, pvmw.pte,
-  2510								pteval, hsz);
-  2511					else
-  2512						set_pte_at(mm, address, pvmw.pte, pteval);
-  2513					ret = false;
-  2514					page_vma_mapped_walk_done(&pvmw);
-  2515					break;
-  2516				}
-  2517	
-  2518				/* See folio_try_share_anon_rmap_pte(): clear PTE first. */
-  2519				if (folio_test_hugetlb(folio)) {
-  2520					if (anon_exclusive &&
-  2521					    hugetlb_try_share_anon_rmap(folio)) {
-  2522						set_huge_pte_at(mm, address, pvmw.pte,
-  2523								pteval, hsz);
-  2524						ret = false;
-  2525						page_vma_mapped_walk_done(&pvmw);
-  2526						break;
-  2527					}
-  2528				} else if (anon_exclusive &&
-  2529					   folio_try_share_anon_rmap_pte(folio, subpage)) {
-  2530					set_pte_at(mm, address, pvmw.pte, pteval);
-  2531					ret = false;
-  2532					page_vma_mapped_walk_done(&pvmw);
-  2533					break;
-  2534				}
-  2535	
-  2536				/*
-  2537				 * Store the pfn of the page in a special migration
-  2538				 * pte. do_swap_page() will wait until the migration
-  2539				 * pte is removed and then restart fault handling.
-  2540				 */
-  2541				if (writable)
-> 2542					entry = make_writable_migration_entry_from_page(
-  2543								subpage);
-  2544				else if (anon_exclusive)
-  2545					entry = make_readable_exclusive_migration_entry_from_page(
-  2546								subpage);
-  2547				else
-  2548					entry = make_readable_migration_entry_from_page(
-  2549								subpage);
-  2550				if (likely(pte_present(pteval))) {
-  2551					if (pte_young(pteval))
-  2552						entry = make_migration_entry_young(entry);
-  2553					if (pte_dirty(pteval))
-  2554						entry = make_migration_entry_dirty(entry);
-  2555					swp_pte = swp_entry_to_pte(entry);
-  2556					if (pte_soft_dirty(pteval))
-  2557						swp_pte = pte_swp_mksoft_dirty(swp_pte);
-  2558					if (pte_uffd_wp(pteval))
-  2559						swp_pte = pte_swp_mkuffd_wp(swp_pte);
-  2560				} else {
-  2561					swp_pte = swp_entry_to_pte(entry);
-  2562					if (pte_swp_soft_dirty(pteval))
-  2563						swp_pte = pte_swp_mksoft_dirty(swp_pte);
-  2564					if (pte_swp_uffd_wp(pteval))
-  2565						swp_pte = pte_swp_mkuffd_wp(swp_pte);
-  2566				}
-  2567				if (folio_test_hugetlb(folio))
-  2568					set_huge_pte_at(mm, address, pvmw.pte, swp_pte,
-  2569							hsz);
-  2570				else
-  2571					set_pte_at(mm, address, pvmw.pte, swp_pte);
-  2572				trace_set_migration_pte(address, pte_val(swp_pte),
-  2573							folio_order(folio));
-  2574				/*
-  2575				 * No need to invalidate here it will synchronize on
-  2576				 * against the special swap migration pte.
-  2577				 */
-  2578			}
-  2579	
-  2580			if (unlikely(folio_test_hugetlb(folio)))
-  2581				hugetlb_remove_rmap(folio);
-  2582			else
-  2583				folio_remove_rmap_pte(folio, subpage, vma);
-  2584			if (vma->vm_flags & VM_LOCKED)
-  2585				mlock_drain_local();
-  2586			folio_put(folio);
-  2587		}
-  2588	
-  2589		mmu_notifier_invalidate_range_end(&range);
-  2590	
-  2591		return ret;
-  2592	}
-  2593	
-
+thanks,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+John Hubbard
+
