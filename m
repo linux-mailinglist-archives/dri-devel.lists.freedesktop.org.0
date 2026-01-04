@@ -2,64 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4C9CF0F3E
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 13:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB03DCF0F9C
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 14:15:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29B710E19B;
-	Sun,  4 Jan 2026 12:53:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pkM+Tuvp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91B1A10E0A9;
+	Sun,  4 Jan 2026 13:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9757610E19B
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 12:53:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B5F266013B
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 12:53:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60338C2BC9E
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 12:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767531207;
- bh=2GkzvGGqfZL3bh5RhRzSvXBiSCt9ARZL8lfTivCCq5c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pkM+Tuvpq6xh9kXttjJxkeslslJivLTlCSRMs84VQyRYRU1/foHgO/txmsnJzqpIN
- dRJvrnlD0DVgb85tn3YJbL/nG7xmpS68eCiwVoxDVXO7XYHvdEtKx50TzM3z1sNVBj
- Szlc0XXcR0SMy1mRU7UGLjOdkY7oGuxHzlB3+LLjfFjk0osP32pXrQr5ndEkFjTCeG
- M3ENSwqh0j7zyLEhxW5lBwhLXE/oilGDaZO/Z+oyN14vMpE882PvV4fyDz/5jR5gsX
- qzv0gq8Q9crOJ/S+NBTCvlyL8myvm3acbUv9pnPgWLQFBlNEZOH0FAs6uvporBDCAS
- YjyPvb3UgF0iA==
-Received: by mail-yx1-f52.google.com with SMTP id
- 956f58d0204a3-6466d8fd383so10672419d50.2
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jan 2026 04:53:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXNKuwNw+8Vighad6w5JfojJcSpr7nwFOP6MPq1EVTv4yEHAouq/I5gg40M39CJ8uEpOzw3j5oFDSw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlFo4pBLN2w+VT1ASwJ3t0pmI8zkqvbKq5njfaIqVqeE3nBqQg
- VB97x05SBKawgkyVjbWlZeRqDW6/VRmMjanbHUgdxKwTDU51dqkni0ajtUvLnI4eMjoNKAzcTht
- GZK4Ini28Y7+r0A5tWrWrjT834HwXcYo=
-X-Google-Smtp-Source: AGHT+IEEB7mYuC/Sl5fgzqaCiKNvdcmDS04XEpUyWSPYmEeov9tXdUFy1CVORLpLNjlmR+GxJnX9QZRks9ks0p9OK54=
-X-Received: by 2002:a05:690e:1689:b0:63f:9a63:46e5 with SMTP id
- 956f58d0204a3-6466a899154mr37803010d50.28.1767531206677; Sun, 04 Jan 2026
- 04:53:26 -0800 (PST)
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4842C10E0A9
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 13:15:38 +0000 (UTC)
+Received: from localhost.localdomain (unknown [36.112.3.223])
+ by APP-05 (Coremail) with SMTP id zQCowABH3A_2Z1pp_3lIAw--.8231S2;
+ Sun, 04 Jan 2026 21:15:34 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: [PATCH] drm/amdkfd: fix a memory leak in device_queue_manager_init()
+Date: Sun,  4 Jan 2026 21:15:32 +0800
+Message-Id: <20260104131532.3978895-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20251223214915.503913-1-arnd@kernel.org>
-In-Reply-To: <20251223214915.503913-1-arnd@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 4 Jan 2026 13:53:15 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkcm8GfaKR73AjDmA5gBgp3Z+LX7khqLGgPGj2_s+oPRg@mail.gmail.com>
-X-Gm-Features: AQt7F2pUejdd99TBXw4TR4GtIkvYObIwTNgcH1-Xd0hxL5BVKIwzpDUdpfs9IMo
-Message-ID: <CAD++jLkcm8GfaKR73AjDmA5gBgp3Z+LX7khqLGgPGj2_s+oPRg@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: fix build regression
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Eslam Khafagy <eslam.medhat1993@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABH3A_2Z1pp_3lIAw--.8231S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFW3WFWrtFW3Wr48XFyUGFg_yoWfCFg_ua
+ yUZry3Xrs8CFnav3Wa9F17ZFyIyFW8Zay8WF4vq3WfGFZ8Xry5W3yUKrZYgrW8Wa17CFn8
+ Gay8ury5J347KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbcAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+ Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+ 1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q
+ 6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUonmRUUUUU
+X-Originating-IP: [36.112.3.223]
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiBgsRE2laQyA2DQAAsk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,34 +59,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 23, 2025 at 10:49=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
-ote:
+If dqm->ops.initialize() fails, add deallocate_hiq_sdma_mqd()
+to release the memory allocated by allocate_hiq_sdma_mqd().
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The drm_info() function requires the drm/drm_print.h header to be include=
-d
-> first:
->
-> In file included from drivers/gpu/drm/pl111/pl111_nomadik.c:7:
-> drivers/gpu/drm/pl111/pl111_nomadik.h:11:32: error: 'struct drm_device' d=
-eclared inside parameter list will not be visible outside of this definitio=
-n or declaration [-Werror]
->    11 | void pl111_nomadik_init(struct drm_device *dev);
->       |                                ^~~~~~~~~~
-> drivers/gpu/drm/pl111/pl111_nomadik.c: In function 'pl111_nomadik_init':
-> drivers/gpu/drm/pl111/pl111_nomadik.c:34:9: error: implicit declaration o=
-f function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-declara=
-tion]
->    34 |         drm_info(dev, "set Nomadik PMU mux to CLCD mode\n");
->       |         ^~~~~~~~
->       |         pr_info
->
-> Fixes: a1542b8ca6ed ("drm: pl111: replace dev_* print functions with drm_=
-* variants")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Patch applied to drm-misc-next where the offending patch is.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index d7a2e7178ea9..58a8d90c1533 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -3042,6 +3042,9 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+ 		return dqm;
+ 	}
+ 
++	if (!dev->kfd->shared_resources.enable_mes)
++		deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
++
+ out_free:
+ 	kfree(dqm);
+ 	return NULL;
+-- 
+2.25.1
 
-Thanks!
-Linus Walleij
