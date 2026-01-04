@@ -2,84 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5D9CF0744
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 01:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5458CF07C8
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 02:43:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB94F10E396;
-	Sun,  4 Jan 2026 00:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12AC10E14C;
+	Sun,  4 Jan 2026 01:43:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IENiP5ZT";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U9bEmwvH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD8D10E38F;
- Sun,  4 Jan 2026 00:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767486064; x=1799022064;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=EZ07LHl/c+KnJFICNJyVpY6174knisfxMAC3WeK1sEs=;
- b=IENiP5ZTDjjdOQ6wcuhpfTc0u0VfserIPvUcZvBCrytfPCFuM/aBLm6r
- vmJn3nMV5qhS6RNE+VAqB/ZJAgOlAEX8pfDz8taXKb7042xbe9PZ2MSnC
- 5uRGG/aVcPkpXWrLz4kdAPxheQIgS5mYJKLzufkN8kaH+eOeKXSPjA8A6
- g0gMNF9WH9lQHp34ey35yvDSK4K5cqd8aMvKfzuutE+4fzJ7VI3DsmtQg
- hnAZ6y60nUwQoWNobgZr4G/uM2ssTvlteZ/ntHCYSX5WJwN9QNP0setGl
- Ftez+MqfXt9wk8cpEpNO3qzDy6ilyjWtGwSH6z9hkm1rvdVUhoeDcnw3F w==;
-X-CSE-ConnectionGUID: huVvTIPlQX2r2ZFAp0/Mog==
-X-CSE-MsgGUID: RJq/cJRiTLaTGYv9tsWt+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68893384"
-X-IronPort-AV: E=Sophos;i="6.21,200,1763452800"; d="scan'208";a="68893384"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2026 16:21:03 -0800
-X-CSE-ConnectionGUID: er8J3jTxQTKaWgFpHOj7dA==
-X-CSE-MsgGUID: znKggkO8RgWK0+QLdUyaaQ==
-X-ExtLoop1: 1
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.244.75])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2026 16:20:58 -0800
-Date: Sun, 4 Jan 2026 02:20:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246B210E002
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 01:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1767490998;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JOHCJ6ws2PdEVpdMzUbfxY52ykfjA/AadGdfIrG4o2w=;
+ b=U9bEmwvHPK8Lk13UVDsT7YluTsNWUi8kEqL4pw1ZjIQJbC+fL4XaG6LrXLkAUyRt7w+Irg
+ T7u2Wts0tHBoenJMe7xCVHHH99cS/pUJno1ZVDflB8fyCw98iBdK1QtkSQmKPm/D1v9oXP
+ dSsxDjWQhmq6KlM4RPo6qVbMq9hyi8A=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-621-8xYrOUkAPh6aSHp3iCO0tw-1; Sat,
+ 03 Jan 2026 20:43:15 -0500
+X-MC-Unique: 8xYrOUkAPh6aSHp3iCO0tw-1
+X-Mimecast-MFC-AGG-ID: 8xYrOUkAPh6aSHp3iCO0tw_1767490993
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 62C001956080; Sun,  4 Jan 2026 01:43:12 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.132])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 36773180044F; Sun,  4 Jan 2026 01:43:00 +0000 (UTC)
+Date: Sun, 4 Jan 2026 09:42:55 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>,
+ linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+ Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- Yury Norov <yury.norov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
-Message-ID: <aVmyZ0iXzTkNU86y@smile.fi.intel.com>
-References: <20251225170930.1151781-1-yury.norov@gmail.com>
- <20251225170930.1151781-8-yury.norov@gmail.com>
- <20251226115848.298465d4@gandalf.local.home>
- <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
- <20251229111748.3ba66311@gandalf.local.home>
- <20260103005059.GA11015@joelbox2>
- <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
- <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
+Message-ID: <aVnFnzRYWC_Y5zHg@fedora>
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
+ <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com>
+ <20251204110709.GA22971@lst.de>
+ <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com>
+ <20251204131025.GA26860@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251204131025.GA26860@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,35 +87,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 03, 2026 at 03:36:44PM +0000, Joel Fernandes wrote:
-> > On Jan 3, 2026, at 7:58â€¯AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Jan 02, 2026 at 07:50:59PM -0500, Joel Fernandes wrote:
-> >> On Mon, Dec 29, 2025 at 11:17:48AM -0500, Steven Rostedt wrote:
-
-...
-
-> >> I use trace_printk() all the time for kernel, particularly RCU development.
-> >> One of the key usecases I have is dumping traces on panic (with panic on warn
-> >> and stop tracing on warn enabled). This is extremely useful since I can add
-> >> custom tracing and dump traces when rare conditions occur. I fixed several
-> >> bugs with this technique.
-> >> 
-> >> I also recommend keeping it convenient to use.
+On Thu, Dec 04, 2025 at 02:10:25PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 04, 2025 at 12:09:46PM +0100, Christian König wrote:
+> > > I find the naming pretty confusing a well.  But what this does is to
+> > > tell the file system/driver that it should expect a future
+> > > read_iter/write_iter operation that takes data from / puts data into
+> > > the dmabuf passed to this operation.
 > > 
-> > Okay, you know C, please share your opinion what header is the best to hold the
-> > trace_printk.h to be included.
+> > That explanation makes much more sense.
+> > 
+> > The remaining question is why does the underlying file system / driver
+> > needs to know that it will get addresses from a DMA-buf?
 > 
-> I do not think it is necessary to move it.
+> This eventually ends up calling dma_buf_dynamic_attach and provides
+> a way to find the dma_buf_attachment later in the I/O path.
 
-I'm not talking about move, I'm talking about the C 101 thingy. Any custom API
-should be included before use, otherwise compiler won't see it. Which header do
-you want to include to have this API being provided? Note, it's really bad
-situation right now with the header to be included implicitly via non-obvious
-or obscure path. The discussion moved as far as I see it towards the finding a
-good place for the trace_printk.h.
+Maybe it can be named as ->dma_buf_attach()?  For wiring dma-buf and the
+importer side(nvme).
 
--- 
-With Best Regards,
-Andy Shevchenko
+But I am wondering why not make it as one subsystem interface, such as nvme
+ioctl, then the whole implementation can be simplified a lot. It is reasonable
+because subsystem is exactly the side for consuming/importing the dma-buf.
+ 
 
+Thanks, 
+Ming
 
