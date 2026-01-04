@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798D8CF0E3C
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 13:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A49DCF0E36
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 13:11:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB9F10E2C8;
-	Sun,  4 Jan 2026 12:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161F910E28A;
+	Sun,  4 Jan 2026 12:11:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nLMoJ2uI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c7XL3UAi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D85A610E042
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 11:06:53 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-29efd139227so174095355ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jan 2026 03:06:53 -0800 (PST)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D339A10E042
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 11:07:00 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-c075ec1a58aso7550517a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jan 2026 03:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767524813; x=1768129613; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1767524820; x=1768129620; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dmz/Xu0Pokn7o5jLUorKqspAjEWkFQmifBWWvvSJmmg=;
- b=nLMoJ2uItQSZDkPpYM1RltuHKDde14EM0irHFrO2v9i7g9eqABQjanqcu8G6wanY/X
- bll5S8d0CcxTM6pV2VK1HiSJxjgEEJGCFAev0I+IXcLNThQsnaZiu4bVguUWyomm/wRZ
- Zax9KeHvGX27xcofAdmjl5xhtomUSGtMBu8NiK5Z3cm3sS9+em6lqPBLDXY7pyxbAZ/5
- Cn0/mbIo8aOvx1Xi6DmYP2nanUdZ3uvqbI2FuYTyL9iVdorFi9cQPa9bjxTX/lOkeoz1
- 7/Hnh6CL7hhudbyAM0iZEFRI7ckH1JthU+o59goh//XbBjCZDxPd9Bg6pzsSis9VvU8A
- oOow==
+ bh=a8buk09gLSh11LVEaXhuV14UfJjZO5sV2eu2MPf5Bj8=;
+ b=c7XL3UAiyIUPGw1qUFnjl6ep0/6Fekexak5CVWnnU/w3AYcjazRf6hdasWjwA5xPZJ
+ z0Fo9YgTtaBDEv9vGB21AK5zckv2yimXg5iSZGT++qpiwj5esiZtZug0qePEJfGAhI/T
+ bRDT96/Lq9H6q92YoYB/jz8X9T1QqsgQcQh/r0qT7O7VbaBYSaVPMnU1HDtwUI4tl+Df
+ lQk21NynQFRxce/0RQ5hXN7r8E80aagzGD5SY42O9aKvOJ48Cx/9ha3G7cxxrj5ZOPKB
+ E92NeBNUpca20qp5XJ+iMtPblJ3+E+zvrmyJVYaLmqoem/yBlazb6ay8i0CVDlTh9j9u
+ qiJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767524813; x=1768129613;
+ d=1e100.net; s=20230601; t=1767524820; x=1768129620;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=dmz/Xu0Pokn7o5jLUorKqspAjEWkFQmifBWWvvSJmmg=;
- b=UgvANzuT36XZwgbja4pdPGBO1Vs9lkxhFGe3qW1c70stcUq6ofL1Biot8NTw9o04Yp
- cHYSkQKbkq+uq8pDya8S2O0rrun3gwMU8Q27HfmH6C7FjWfU7BagoWYy6JV6qsrbj8ga
- uPcF5swdwM4QAsIfMh9UIxIhbc+3Bu9m96bBI/hBPMlK5924606/0AYftISCHeCLrTT4
- Zh/LFQkHmmI2vb3dNxM+6pGrRXqqW8kxiMzhlKLWhdkpYfJiRVHe7pT4aMJgs0QZp+cL
- zvwsziBFxZtgfenIHqIb1ubW6KkZ/g8wY08jNqwTBiovm9JY7gl5S+Kt1gpSvxqWwmme
- 0l/g==
+ bh=a8buk09gLSh11LVEaXhuV14UfJjZO5sV2eu2MPf5Bj8=;
+ b=Tzd1RzLp0D0LvaWYMa/XOKlvPBUpHYyg+tz2C9kDxroseKTyZSDEwsXLBXNSkhY4YN
+ 8+qOcMEhRyJtwDBKkZaTKIuRk0zdVL4D+H3P7pH2P3v0d7eC7zznQPPzPetE9l6+jW0B
+ i8ficsOsqiwyHIRtyL2Z0C03CisrSnfLKnJIpM+P+NFsLOoXFZ6zMkMQ8HBzQpz+U4rv
+ vg0zXtl7J/ucr+mrtRF+MslCZQqAeg2mUNiETUtKfxLRLx5RwywB7ajhqW7seYQk9xjN
+ OXCK4Hjg9BU7QvMKHW7oFId0BRw8W2InNJmj/wD+OI1h8v4cW8UlUwe29WE/1g4JfTjj
+ GfGw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXS0fcfQd4T60O2EfArl9Afi4BBnBrqBCa8tAeSWvxB5fMa/bCGlQei49IBnQ51IXfpojnfQndidfI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjKpZGwxaSjm6crK/4YIqNPjl2AymTO2L/iymz1XQJIP5VDowd
- m23eKvWjpniUC3pmeKbhTdr1D6GN4BBi8DT+OxqZIz5PO/sBABGjs0Nc
-X-Gm-Gg: AY/fxX6XvaqdjjryMZiItQ5acNpySDGjhsgXaCbNaU/VqPe1lA25ggHCJtpXpLQmEsW
- JZMAakkutDJPIYWXgGaEGU2DIHKPx4n8XHMsaCK4wBLR54BQeNuRomKqfBwIYgG1dQQCN7TIi/H
- XxPaBm2Xod1MEJgoi6y4AqV1AALzX561uKB967kMrTj2gWN4tUDMxnmRyN6F3PdxGYphar+63Ew
- Dt+xtYWqgjevbVXHrtfCODD+FqJdKZF/zC/X9m9K4xWYQcMVgORoKOOChBaBQgspt5UniQwQbB0
- Q7b/h6dfSpFpHh1b/3vOasyEEfeW+RxUZXeDkVmi5xjjrhqdX0JCVF3c7eIHLU6UpTsgpMXVreG
- jIPLyEqAyOBd86d+cvNyVogKFGfT5tKHbRCFisqbs5C4rL60WdYh8hK6UXp9JSOaSnbbNdf5rZd
- 1BvhlKOra5m8rScjvDTw9/dDTZrwsIpuej/uQqSRuDJeVQkxRhDFBXxvC1k8rJ4fczgjw4mLHVk
- WtERZXw2yo=
-X-Google-Smtp-Source: AGHT+IFT57sRzchwkgo2RkVk7eqybUBx+rr0/sZgZIOeGa49uoW05Lm/8gYoJDuz8K8fM2r6MbTUtA==
-X-Received: by 2002:a05:7022:6886:b0:11b:1cae:a0fa with SMTP id
- a92af1059eb24-1217213721emr48642842c88.0.1767524813143; 
- Sun, 04 Jan 2026 03:06:53 -0800 (PST)
+ AJvYcCVCW2CCsRwczS4rgR8bTvmCvMfBbetiy/wNvVAAgsV9W8wvxP2yu8AtSBdhCtsZ85HHFXJyiqckxAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJfVX/SQPKrw368IdXwQ/LIfOZcblkCC+6di3HgKOqJgk3r+5S
+ Xnf++ihvJIMhvq+HjocpDFNPKvc20DiM2G8bjrFb6xsgZcGKlNZQ+Bcr
+X-Gm-Gg: AY/fxX6KGm8XiiZkcaXgPA8awn0e8Q5aaRTFftLuabMFU3q1P2nN2+QNLZ2itpbRmbG
+ OwJLfcgKZFHxZb50cS+Jvo0WWLJRAFB3cExLdw7RREuJLWs1MzLI5Z82xpy/+emHVaOFc8JmM5z
+ F9EZFHjfvZJzor4ApWficeCjtlEEO8BW1TmPC2sTUAQmmxmaq/AChIbRGlcYgAMHm2ECjwptjSn
+ dY2k989aG60Kk8WXE6AhgoOYnlP5G0cj67VBBEmflXZ0Gzf6BtYRqIDEMCkKBx1mMf+RaYsUUn5
+ /u2V8LoKwGj69twIDrvtFvY1/D4DH5x7d9VZXCkSV0qQxHD9qSSTzWOhzNa8ievK13HgsHWbQjE
+ aHY3VIjNU+kI1Q19m4aoN4rGxeRb2OogIUxhiU9e/RzfyiwpSsyKc1uK1u96dC7SvGBRLLiaMYG
+ V3LOJMp+xeQ7NP758gCCHEu64zKiHWGkjpGXuuSlhWV6gfnuFjaSVf9503dIBkaIESXLTD1ekRn
+ wVevbQfj7Q=
+X-Google-Smtp-Source: AGHT+IEG7AhWv3k0U6Uxjf929Ja2jLSdUI1edkCr+Jls8BEFxccZF/h5EZO5GMeycslKnhnu+WhPSA==
+X-Received: by 2002:a05:7300:de07:b0:2ae:51ae:5cf3 with SMTP id
+ 5a478bee46e88-2b05ebd0d80mr34290611eec.6.1767524820215; 
+ Sun, 04 Jan 2026 03:07:00 -0800 (PST)
 Received: from ubuntu-linux-2404..
  (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
  by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2b140c42e4esm7743509eec.15.2026.01.04.03.06.50
+ 5a478bee46e88-2b140c42e4esm7743509eec.15.2026.01.04.03.06.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jan 2026 03:06:52 -0800 (PST)
+ Sun, 04 Jan 2026 03:06:59 -0800 (PST)
 From: Sun Jian <sun.jian.kdev@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Sun Jian <sun.jian.kdev@gmail.com>
-Subject: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in DT
- init parsing
-Date: Sun,  4 Jan 2026 19:06:35 +0800
-Message-ID: <20260104110638.532615-2-sun.jian.kdev@gmail.com>
+Subject: [PATCH v1 2/4] staging: fbtft: ssd1351: send gamma table via
+ fbtft_write_buf_dc()
+Date: Sun,  4 Jan 2026 19:06:36 +0800
+Message-ID: <20260104110638.532615-3-sun.jian.kdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
 References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
@@ -95,79 +95,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang reports a large stack frame for fbtft_init_display_from_property()
-(-Wframe-larger-than=1024) when the init sequence is emitted through a
-fixed 64-argument write_register() call.
+Clang reports a large stack frame in set_gamma() (-Wframe-larger-than=1024)
+due to the large write_reg() call emitting 63 gamma bytes via varargs.
 
-write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
-varargs which inflates stack usage. Switch the DT "init" path to send the
-command byte and the payload via fbtft_write_buf_dc() instead.
+Send the command byte (0xB8) and the gamma payload using
+fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
 
-No functional change intended: the same register values are sent in the
-same order, only the transport is changed.
+No functional change intended.
 
 Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
 ---
- drivers/staging/fbtft/fbtft-core.c | 32 ++++++++++++------------------
- 1 file changed, 13 insertions(+), 19 deletions(-)
+ drivers/staging/fbtft/fb_ssd1351.c | 35 +++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8a5ccc8ae0a1..127d0de87e03 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -846,7 +846,8 @@ EXPORT_SYMBOL(fbtft_unregister_framebuffer);
- static int fbtft_init_display_from_property(struct fbtft_par *par)
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index 6736b09b2f45..b4ab2c81e528 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -119,43 +119,38 @@ static int set_var(struct fbtft_par *par)
+  */
+ static int set_gamma(struct fbtft_par *par, u32 *curves)
  {
- 	struct device *dev = par->info->device;
--	int buf[64], count, index, i, j, ret;
-+	u8 buf[64];
-+	int count, index, i, j, ret;
- 	u32 *values;
- 	u32 val;
+-	unsigned long tmp[GAMMA_NUM * GAMMA_LEN];
++	u8 data[GAMMA_LEN];
++	u8 cmd = 0xB8;
+ 	int i, acc = 0;
++	int ret;
  
-@@ -881,7 +882,7 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
- 					ret = -EINVAL;
- 					goto out_free;
- 				}
--				buf[i++] = val;
-+				buf[i++] = val & 0xFF;
- 				val = values[++index];
- 			}
- 			/* make debug message */
-@@ -891,23 +892,16 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
- 				fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
- 					      "buf[%d] = %02X\n", j, buf[j]);
- 
--			par->fbtftops.write_register(par, i,
--				buf[0], buf[1], buf[2], buf[3],
--				buf[4], buf[5], buf[6], buf[7],
--				buf[8], buf[9], buf[10], buf[11],
--				buf[12], buf[13], buf[14], buf[15],
--				buf[16], buf[17], buf[18], buf[19],
--				buf[20], buf[21], buf[22], buf[23],
--				buf[24], buf[25], buf[26], buf[27],
--				buf[28], buf[29], buf[30], buf[31],
--				buf[32], buf[33], buf[34], buf[35],
--				buf[36], buf[37], buf[38], buf[39],
--				buf[40], buf[41], buf[42], buf[43],
--				buf[44], buf[45], buf[46], buf[47],
--				buf[48], buf[49], buf[50], buf[51],
--				buf[52], buf[53], buf[54], buf[55],
--				buf[56], buf[57], buf[58], buf[59],
--				buf[60], buf[61], buf[62], buf[63]);
-+			/* buf[0] is command, buf[1..i-1] is data */
-+			ret = fbtft_write_buf_dc(par, &buf[0], 1, 0);
-+			if (ret < 0)
-+				goto out_free;
+-	for (i = 0; i < 63; i++) {
++	for (i = 0; i < GAMMA_LEN; i++) {
+ 		if (i > 0 && curves[i] < 2) {
+ 			dev_err(par->info->device,
+ 				"Illegal value in Grayscale Lookup Table at index %d : %d. Must be greater than 1\n",
+ 				i, curves[i]);
+ 			return -EINVAL;
+ 		}
 +
-+			if (i > 1) {
-+				ret = fbtft_write_buf_dc(par, &buf[1], i - 1, 1);
-+				if (ret < 0)
-+					goto out_free;
-+			}
- 		} else if (val & FBTFT_OF_INIT_DELAY) {
- 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
- 				      "init: msleep(%u)\n", val & 0xFFFF);
+ 		acc += curves[i];
+-		tmp[i] = acc;
++
+ 		if (acc > 180) {
+ 			dev_err(par->info->device,
+ 				"Illegal value(s) in Grayscale Lookup Table. At index=%d : %d, the accumulated value has exceeded 180\n",
+ 				i, acc);
+ 			return -EINVAL;
+ 		}
++
++		data[i] = acc;
+ 	}
+ 
+-	write_reg(par, 0xB8,
+-		  tmp[0],  tmp[1],  tmp[2],  tmp[3],
+-		  tmp[4],  tmp[5],  tmp[6],  tmp[7],
+-		  tmp[8],  tmp[9],  tmp[10], tmp[11],
+-		  tmp[12], tmp[13], tmp[14], tmp[15],
+-		  tmp[16], tmp[17], tmp[18], tmp[19],
+-		  tmp[20], tmp[21], tmp[22], tmp[23],
+-		  tmp[24], tmp[25], tmp[26], tmp[27],
+-		  tmp[28], tmp[29], tmp[30], tmp[31],
+-		  tmp[32], tmp[33], tmp[34], tmp[35],
+-		  tmp[36], tmp[37], tmp[38], tmp[39],
+-		  tmp[40], tmp[41], tmp[42], tmp[43],
+-		  tmp[44], tmp[45], tmp[46], tmp[47],
+-		  tmp[48], tmp[49], tmp[50], tmp[51],
+-		  tmp[52], tmp[53], tmp[54], tmp[55],
+-		  tmp[56], tmp[57], tmp[58], tmp[59],
+-		  tmp[60], tmp[61], tmp[62]);
++	ret = fbtft_write_buf_dc(par, &cmd, 1, 0);
++	if (ret < 0)
++		return ret;
++
++	ret = fbtft_write_buf_dc(par, data, sizeof(data), 1);
++	if (ret < 0)
++		return ret;
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
