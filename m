@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE091CF069E
-	for <lists+dri-devel@lfdr.de>; Sat, 03 Jan 2026 23:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5D9CF0744
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 01:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604C310E197;
-	Sat,  3 Jan 2026 22:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB94F10E396;
+	Sun,  4 Jan 2026 00:21:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="J2SKy2cV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IENiP5ZT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50BDA10E11F
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jan 2026 17:48:03 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-b9a2e3c4afcso476808a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Jan 2026 09:48:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shenghaoyang.info; s=google; t=1767462482; x=1768067282;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CMMVHBbwwK7jtZ0OYDpGeyStVGVJxGzS7aRRfo4f/fk=;
- b=J2SKy2cVRJ1SuJeXg5KLT3CiAQOVq2Cbz85JJW4Vbje4pltDTX0i9s7vGYN62Eg4ak
- 8cren695ExbdNpTliEt8UMnxIUcrN2TBVkPTZejo73JsCBRlMPZaTllkkGrOu3q9bnug
- 1Qx8rADn8RQtoqGAmoXXZQsmBEjMBtA5B1a/GEmYvzM+F7HcqqDuUjW+dDq3cSEOB/aj
- SAiEgwJqjNXVcDy6fHrXBGVrwJxZYSReMGtXY5rjkblEcutvUy3MEZQcqSKCMMcSyT1v
- HbvyqH+dnGMZTDtzzre2H29GyFO9QdiLcrPEWwAAXZlm6j8g2UN1VqYN4nlK7kDuCQP/
- BWWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767462482; x=1768067282;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CMMVHBbwwK7jtZ0OYDpGeyStVGVJxGzS7aRRfo4f/fk=;
- b=Is93ZppN2Wn9VinDXDZEKQArofSTBhMxseTlLmAGkW5GqTrrRD3YVtqfyrS2fbzlaA
- slwvfojTUzy/kdI0sKdy/0zmJJL1nYJrpYEWrDlJ/9dPPRqYmvk6NLuKxeIIZdSnwdny
- cyeCj83iGxzGr9vwV4H6ETdpDS8g88DxPuJmYbPvFW6ixpzghKEtIJ28cJG+UeTPYR3N
- GRFRv4urUgpP7cBATito5uzizQ0PRhgyAPZWQsTudXPeFu/quKHQIzWjTOmnPwrs+XCX
- 6i6EZKxeTV/mf6ewwmA81ND1rwoKfy7cWVNEQigjgSk+DNtYFrmV8n6csK4k/2ValHgQ
- zGVw==
-X-Gm-Message-State: AOJu0YzBKRsoMFUdkP3xw/gSe4OvjfZc1Hp+GkuMB4IcaEmZ/UWsjIS0
- 0JYGLrvO5P64snG+iW+XoHUMNS8idSV/naI5+kjHebcE9GBAe4QUtcUBliRxccSx+5c=
-X-Gm-Gg: AY/fxX4EpeYNCKOzu6ubfsoPvmg9Q1fZOTw5weQRhWRWhgV8YPW3v5rossY+ZZ8P3lZ
- 1FwCWXRo0L/LtFurU1HxlbQKpjIr+GKOe8tdlmKDhkyrYR2MGKQuoEWB7VpNZqdQbX/9Z2WTnzY
- GxM5nNSFijTLXGDG5j9SPeq2KyYVecrdH5B1FP23JepPHkc73OHVGSCwqHcUbxNYt2pSGjGnw6c
- 9ILdJ0vLQqdrDg1kO7yUIM2BozdbrJ5TVTha4ZeJc5f2fa0U6DcFRY41ahTMFxDZz1TGp3Py9KH
- uuTseOFVTXdwUxfD/8SGlJuCslK6KmQ7wrdOkyAeRrY3bhOohOcCWGffxtRmtVfL7jDeB8qzCto
- hdC8CVVdlFMv6HUEY9Rfo2bNtQMZb0fcWVWHygiZ1otrCnA6eWKEyVC0n7XH7nld+2XGriOz+P/
- VF0fJiUR48VTIe
-X-Google-Smtp-Source: AGHT+IHSCX2Wf+wBy6KWMv8C+2VIUsJiFOtnLlLt7RcY6gOr5exQicuGvvlAxBa6mQbcQUrCVjmqHA==
-X-Received: by 2002:a05:6a00:17a1:b0:7b8:bab9:5796 with SMTP id
- d2e1a72fcca58-7ff66f5fe22mr30484716b3a.3.1767462482601; 
- Sat, 03 Jan 2026 09:48:02 -0800 (PST)
-Received: from [10.0.0.178] ([132.147.84.99]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7ff7e88cdaesm43266253b3a.63.2026.01.03.09.48.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Jan 2026 09:48:02 -0800 (PST)
-Message-ID: <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
-Date: Sun, 4 Jan 2026 01:47:58 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD8D10E38F;
+ Sun,  4 Jan 2026 00:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767486064; x=1799022064;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=EZ07LHl/c+KnJFICNJyVpY6174knisfxMAC3WeK1sEs=;
+ b=IENiP5ZTDjjdOQ6wcuhpfTc0u0VfserIPvUcZvBCrytfPCFuM/aBLm6r
+ vmJn3nMV5qhS6RNE+VAqB/ZJAgOlAEX8pfDz8taXKb7042xbe9PZ2MSnC
+ 5uRGG/aVcPkpXWrLz4kdAPxheQIgS5mYJKLzufkN8kaH+eOeKXSPjA8A6
+ g0gMNF9WH9lQHp34ey35yvDSK4K5cqd8aMvKfzuutE+4fzJ7VI3DsmtQg
+ hnAZ6y60nUwQoWNobgZr4G/uM2ssTvlteZ/ntHCYSX5WJwN9QNP0setGl
+ Ftez+MqfXt9wk8cpEpNO3qzDy6ilyjWtGwSH6z9hkm1rvdVUhoeDcnw3F w==;
+X-CSE-ConnectionGUID: huVvTIPlQX2r2ZFAp0/Mog==
+X-CSE-MsgGUID: RJq/cJRiTLaTGYv9tsWt+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68893384"
+X-IronPort-AV: E=Sophos;i="6.21,200,1763452800"; d="scan'208";a="68893384"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2026 16:21:03 -0800
+X-CSE-ConnectionGUID: er8J3jTxQTKaWgFpHOj7dA==
+X-CSE-MsgGUID: znKggkO8RgWK0+QLdUyaaQ==
+X-ExtLoop1: 1
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.75])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2026 16:20:58 -0800
+Date: Sun, 4 Jan 2026 02:20:55 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yury Norov <yury.norov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+Message-ID: <aVmyZ0iXzTkNU86y@smile.fi.intel.com>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
+ <20251229111748.3ba66311@gandalf.local.home>
+ <20260103005059.GA11015@joelbox2>
+ <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
+ <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
- disconnect
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20251231055039.44266-1-me@shenghaoyang.info>
- <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
-Content-Language: en-US
-From: Shenghao Yang <me@shenghaoyang.info>
-In-Reply-To: <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Sat, 03 Jan 2026 22:05:35 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,41 +95,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ruben,
+On Sat, Jan 03, 2026 at 03:36:44PM +0000, Joel Fernandes wrote:
+> > On Jan 3, 2026, at 7:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Jan 02, 2026 at 07:50:59PM -0500, Joel Fernandes wrote:
+> >> On Mon, Dec 29, 2025 at 11:17:48AM -0500, Steven Rostedt wrote:
 
-On 4/1/26 01:23, Ruben Wauters wrote:
+...
 
-> With the elimination of these two WARN_ON_ONCEs, it's possible that
-> crtc_state may not be assigned below, and therefore may be read/passed
-> to functions when it is NULL (e.g. line 488). Either protection for a
-> null crtc_state should be added to the rest of the function, or the
-> function shouldn't continue if crtc is NULL.
+> >> I use trace_printk() all the time for kernel, particularly RCU development.
+> >> One of the key usecases I have is dumping traces on panic (with panic on warn
+> >> and stop tracing on warn enabled). This is extremely useful since I can add
+> >> custom tracing and dump traces when rare conditions occur. I fixed several
+> >> bugs with this technique.
+> >> 
+> >> I also recommend keeping it convenient to use.
+> > 
+> > Okay, you know C, please share your opinion what header is the best to hold the
+> > trace_printk.h to be included.
 > 
-> Ruben
->> -	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->> -
->> -	mode = &crtc_state->mode;
->> +	if (crtc)
->> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->>  
->>  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->>  						  DRM_PLANE_NO_SCALING,
->> @@ -492,6 +485,9 @@ int gud_plane_atomic_check(struct drm_plane *plane,
->>  	if (old_plane_state->rotation != new_plane_state->rotation)
->>  		crtc_state->mode_changed = true;
->>  
->> +	mode = &crtc_state->mode;
->> +	format = fb->format;
+> I do not think it is necessary to move it.
 
-Yup - in this case I'm relying on drm_atomic_helper_check_plane_state()
-bailing out early after seeing that fb is NULL (since a NULL crtc should
-imply no fb) and setting plane_state->visible to false.
+I'm not talking about move, I'm talking about the C 101 thingy. Any custom API
+should be included before use, otherwise compiler won't see it. Which header do
+you want to include to have this API being provided? Note, it's really bad
+situation right now with the header to be included implicitly via non-obvious
+or obscure path. The discussion moved as far as I see it towards the finding a
+good place for the trace_printk.h.
 
-That would cause an early return in gud_plane_atomic_check() without
-dereferencing crtc_state.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Would a more explicit check be preferred?
 
-Thanks,
-
-Shenghao
