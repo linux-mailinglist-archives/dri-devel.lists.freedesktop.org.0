@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65B0CF159E
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 22:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FA2CF1577
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 22:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A2910E291;
-	Sun,  4 Jan 2026 21:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9127410E0F6;
+	Sun,  4 Jan 2026 21:35:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Msu6Gk2u";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Q0WJgdi1";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Nq7dANlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A95B10E291
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 21:40:23 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB7510E0F6
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 21:35:06 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dkrSg0v8tz9ssn;
- Sun,  4 Jan 2026 22:40:19 +0100 (CET)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dkrLc5jSVz9snt;
+ Sun,  4 Jan 2026 22:35:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767562819;
+ s=mail20150812; t=1767562504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gcJ4qySzjY0KVAwHFonFKf4MTj/0gwZsfwoy4TTth9c=;
- b=Msu6Gk2uRTh5Wq0JBpm6P79Un8o0EIiWk7gZyzhdv1eu7gjtktlm0JfFbc5Mru1GIjkcfm
- MSuBQ/6/odPVQ5sR9YsFCVD7dv+F5jq5STFexwJX3ae2hwQmh4J9bcEnJXf43Ak5KOuH5e
- CoJ5u5JHO6Nju1m8shUA/9tD/0WskxcnsFyMzo7B71D83LSFLg+bUlKBB02HfQm8JnzCZy
- sc7BoxXDNU806d5wxTCkSgWK6t4IQ5hEakURlxbah3WuTOzjSltSV26Z4zCeW9/2KABVUD
- FklBU0Nhat3neYUY6xLBuqDIUop6f8E/q3PIxutPe30bgGl67nbHIut9AA9yyg==
-Message-ID: <e4504a0b-65af-4749-8702-7b51dc933059@mailbox.org>
-Date: Sun, 4 Jan 2026 22:09:18 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH] drm/bridge: fsl-ldb: Parse register offsets from DT
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
-Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-References: <20251017154029.105099-1-marek.vasut@mailbox.org>
- <dc4b1b65-542f-4bd2-bd91-af3fe4223b63@nxp.com>
- <55d44163-4f37-462f-b860-c862cb5ada5a@mailbox.org>
- <b65d9221-bdb3-4e69-beed-6b7646c5d5eb@nxp.com>
- <3064e20f-92c8-4e3b-82bc-ef949f312826@mailbox.org>
- <ac21053f-21d9-4844-9049-09deb3708a6d@nxp.com>
-Content-Language: en-US
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rrUYwgrFVp1xDLQypda1U7/xuH0PMYfbXrKNuiEWFzQ=;
+ b=Q0WJgdi1c8Bu3C69bFWW3Nb+Uma9Dduxe9ijgcHB1dUzjvXHVTzmQ1PsVyrR8Rvpli/699
+ O6TjbvZ0NRmQ3gj/vazVxEu7G0ohxJVSTGRvOa5kiSvBIfNaNjchKDyUvnJUq75pSfEU81
+ 589Zuk4P60Lq6WQhAjLLZcqNl5kzY8KWMJvzQXgDEM+YvP2zA4xkMEKYYLytONcE2rxa/U
+ WCQRi9RpnVj5QU8WQzJHkNcqFGYva9tavEJrZPQGbCbqO6khuEXzNlIl4UFqIl8q4Qedoc
+ PkbMtdgrKITLias96wG1zi8rtQJQ10GRP30dMqAJ41U/dxyiiRkSiZGyJZedRw==
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <ac21053f-21d9-4844-9049-09deb3708a6d@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 4ef6ba8cb8fdf258150
-X-MBO-RS-META: 376wawhc1tkcnnz9scobhr58t5iu3ewg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1767562502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rrUYwgrFVp1xDLQypda1U7/xuH0PMYfbXrKNuiEWFzQ=;
+ b=Nq7dANlCWo5FfI/SSPJBHcxYLPnsggd08B29JF3hUac921Tk++Je2f91fbmGO+3XSjV396
+ zABbG4pOhRaAxAT4Rrv69ZcSqTjWGMWp0jhF/vhevCGDjXmJvQ8Xawdsi1slizlYZ9AGJs
+ XhSvBLqx11p6WNLgDcvqjYkVLzOzicO04sjXIO6ZpajWVRbEzQtH6vAxOJ0mkHmS9MScwz
+ jaG0MXNVQrh9t/svCQW4vXWoL/KzIHkacLR5pU1f+5uA8Gwt19Bs1qBkZ2hgXOSCPl3d3q
+ KfJUGiY5rniAjR535ucedX89joupM3jrjeoTjeBGBDI2rbCGGoinGLgr0Y+naw==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: bridge: ldb: Add check for reg and
+ reg-names
+Date: Sun,  4 Jan 2026 22:34:21 +0100
+Message-ID: <20260104213457.128734-1-marek.vasut@mailbox.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: sq7y4gpf6t1efmcr8ohft8b4xqwhjk3w
+X-MBO-RS-ID: 23d73df06f66d33f65e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +81,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/25 6:25 AM, Liu Ying wrote:
+Make "reg" property mandatory for all LDB devices and "reg-names"
+mandatory for i.MX8MP and i.MX93 which have two "reg" values. The
+i.MX6SX has only one "reg" value so the "reg-names" property there
+is optional and not needed.
 
-Hello Liu,
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+---
+ .../bindings/display/bridge/fsl,ldb.yaml           | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-sorry for my late reply.
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+index 07388bf2b90df..197ae2f2dd36c 100644
+--- a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+@@ -59,6 +59,7 @@ required:
+   - compatible
+   - clocks
+   - ports
++  - reg
+ 
+ allOf:
+   - if:
+@@ -73,6 +74,19 @@ allOf:
+         ports:
+           properties:
+             port@2: false
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: fsl,imx6sx-ldb
++    then:
++      required:
++        - compatible
++        - clocks
++        - ports
++        - reg
++        - reg-names
+ 
+ additionalProperties: false
+ 
+-- 
+2.51.0
 
->>>>>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
->>>>>> @@ -61,24 +61,16 @@ enum fsl_ldb_devtype {
->>>>>>     };
->>>>>>       struct fsl_ldb_devdata {
->>>>>> -    u32 ldb_ctrl;
->>>>>> -    u32 lvds_ctrl;
->>>>>>         bool lvds_en_bit;
->>>>>>         bool single_ctrl_reg;
->>>>>
->>>>> single_ctrl_reg can be dropped then, as it can be expressed by failing to
->>>>> get the second register.
->>>>>
->>>>> Furthermore, with this done, lvds_en_bit is the only member left and hence
->>>>> struct fsl_ldb_devdata can also be dropped, as IIRC there is no need to
->>>>> use a structure for device data with only a flag.
->>>> I plan to add more bits into the driver match data when adding the MX95,
->>>> so I would like to retain these instead of removing them and the adding
->>>> them back.
->>>
->>> i.MX95 LDB supports two LVDS channels.  Two DRM bridges are needed in single
->>> or separate LDB mode, while one DRM bridge is needed in split LDB mode.
->>
->> What do you refer to by "split LDB mode" , some interleaving or some such
->> thing ?
-> 
-> I mean "Split Channel DI0" and "Split Channel DI1" use cases in the below
-> table in i.MX95 TRM.
-> 
-> +------------------------------------------------------------+
-> |Table: Channel Mapping                                      |
-> |------------------------------------------------------------|
-> |Use Case           |  LVDS Channel 0   |  LVDS Channel 1    |
-> |------------------------------------------------------------|
-> |Single Channel DI0 | DI0               | Disabled           |
-> |------------------------------------------------------------|
-> |Single Channel DI1 | Disabled          | DI1                |
-> |------------------------------------------------------------|
-> |Separate Channels  | DI0               | DI1                |
-> |------------------------------------------------------------|
-> |Dual Channels DI0  | DI0               | DI0                |
-> |------------------------------------------------------------|
-> |Dual Channels DI1  | DI1               | DI1                |
-> |------------------------------------------------------------|
-> |Split Channel DI0  | DI0 (first pixel) | DI0 (second pixel) |
-> |------------------------------------------------------------|
-> |Split Channel DI1  | DI1 (first pixel) | DI1 (second pixel) |
-> +------------------------------------------------------------+
-So yes, split mode is effectively interleaving. But that should only be 
-a matter of syscon configuration.
