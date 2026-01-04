@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC47CF145A
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 21:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65B0CF159E
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 22:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1556710E344;
-	Sun,  4 Jan 2026 20:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A2910E291;
+	Sun,  4 Jan 2026 21:40:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iBRImHm3";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UFXy0n8Z";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Msu6Gk2u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC1F10E328;
- Sun,  4 Jan 2026 20:08:01 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A95B10E291
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 21:40:23 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dkpQ834tVz9snJ;
- Sun,  4 Jan 2026 21:08:00 +0100 (CET)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dkrSg0v8tz9ssn;
+ Sun,  4 Jan 2026 22:40:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767557280;
+ s=mail20150812; t=1767562819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e1bFVgbKd2bGX2uopKiOokyPDAQ+3U4m878ja6n9ICc=;
- b=iBRImHm3YZKOSDLxCmKXIMmJGvBjZ1NNNHjSd7boqJT4IDXal4nqsANtNJTS5Hl0JqeDdE
- QC0FZTq79Lpta5jXrGtNSsSSd1vjgvsItpONmp8OTXRZFnNovolff/NVkbU1DUlVOWw7pu
- vMZos0A+hURWe+ghPEtHCMG1Ftm2TAKNDF3mmxpyfmVv9+/frcr+ky2d8pNMLsDa2GS4TO
- 5VGNWJgay5ioIx8M7UXMO54rZpfrWaYAot5TSDK0GITk63LfhWQNo38kLrx1qglJyHw6mg
- 5C6VHlMg8R6EKL2n2IiBazQfvvTmGd+eSSi7jQkKsPDD4vFj1yfGU+eshVcQBw==
-From: Maurice Hieronymus <mhi@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767557278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e1bFVgbKd2bGX2uopKiOokyPDAQ+3U4m878ja6n9ICc=;
- b=UFXy0n8ZUlf+8CebJcoSFv4UsJbeRaURhXYI1Q7cFe4UBaVBx2sivR3wShdYcj2OKf9KmX
- VFuhG0WyQDkP223RgNDC02xuV7EqsPry3+mfXEsh5mNhmR9IfUu9JzJmY/KCUooWBHxqKv
- dxYdC43A6EYzWZ+XWDSr6YNhuVeiCbPx58c5sF0fG07JlJyq2wNI8fiyDkF15X4sbjrveM
- ac6WlqvWYXwJxDyS88X498SzQ0aBqu1COaj6AbGHou73hb0+dOMTyvrWQmyEnlUdHk9WI7
- cYadxzFM0Zv69BcRfzx/hzXeLc0ZSgj1szu0+Yb0yEasqxPFjVFBMKZETWzWaw==
-To: dakr@kernel.org
-Cc: aliceryhl@google.com, acourbot@nvidia.com, airlied@gmail.com,
- simona@ffwll.ch, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, mhi@mailbox.org, rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 2/2] gpu: nova-core: Use derive Display for Chipset enum
-Date: Sun,  4 Jan 2026 21:07:32 +0100
-Message-ID: <20260104200733.190494-3-mhi@mailbox.org>
-In-Reply-To: <20260104200733.190494-1-mhi@mailbox.org>
-References: <20260104200733.190494-1-mhi@mailbox.org>
+ bh=gcJ4qySzjY0KVAwHFonFKf4MTj/0gwZsfwoy4TTth9c=;
+ b=Msu6Gk2uRTh5Wq0JBpm6P79Un8o0EIiWk7gZyzhdv1eu7gjtktlm0JfFbc5Mru1GIjkcfm
+ MSuBQ/6/odPVQ5sR9YsFCVD7dv+F5jq5STFexwJX3ae2hwQmh4J9bcEnJXf43Ak5KOuH5e
+ CoJ5u5JHO6Nju1m8shUA/9tD/0WskxcnsFyMzo7B71D83LSFLg+bUlKBB02HfQm8JnzCZy
+ sc7BoxXDNU806d5wxTCkSgWK6t4IQ5hEakURlxbah3WuTOzjSltSV26Z4zCeW9/2KABVUD
+ FklBU0Nhat3neYUY6xLBuqDIUop6f8E/q3PIxutPe30bgGl67nbHIut9AA9yyg==
+Message-ID: <e4504a0b-65af-4749-8702-7b51dc933059@mailbox.org>
+Date: Sun, 4 Jan 2026 22:09:18 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: d7f6dc98ca0715cbf2a
-X-MBO-RS-META: 41iyczy5oti6zqpyf4g16pc5jha3nowi
+Subject: Re: [PATCH] drm/bridge: fsl-ldb: Parse register offsets from DT
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+References: <20251017154029.105099-1-marek.vasut@mailbox.org>
+ <dc4b1b65-542f-4bd2-bd91-af3fe4223b63@nxp.com>
+ <55d44163-4f37-462f-b860-c862cb5ada5a@mailbox.org>
+ <b65d9221-bdb3-4e69-beed-6b7646c5d5eb@nxp.com>
+ <3064e20f-92c8-4e3b-82bc-ef949f312826@mailbox.org>
+ <ac21053f-21d9-4844-9049-09deb3708a6d@nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <ac21053f-21d9-4844-9049-09deb3708a6d@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 4ef6ba8cb8fdf258150
+X-MBO-RS-META: 376wawhc1tkcnnz9scobhr58t5iu3ewg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +76,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the derive macro for implementing fmt::Display on the Chipset enum
-instead of relying on the compiler-generated Display output. This ensures
-stable display strings that won't change unexpectedly.
+On 11/4/25 6:25 AM, Liu Ying wrote:
 
-Signed-off-by: Maurice Hieronymus <mhi@mailbox.org>
----
- drivers/gpu/nova-core/gpu.rs | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+Hello Liu,
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 629c9d2dc994..db2e913f85bf 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -4,6 +4,7 @@
-     device,
-     devres::Devres,
-     fmt,
-+    macros,
-     pci,
-     prelude::*,
-     sync::Arc, //
-@@ -26,7 +27,7 @@ macro_rules! define_chipset {
-     ({ $($variant:ident = $value:expr),* $(,)* }) =>
-     {
-         /// Enum representation of the GPU chipset.
--        #[derive(fmt::Debug, Copy, Clone, PartialOrd, Ord, PartialEq, Eq)]
-+        #[derive(macros::Display, fmt::Debug, Copy, Clone, PartialOrd, Ord, PartialEq, Eq)]
-         pub(crate) enum Chipset {
-             $($variant = $value),*,
-         }
-@@ -107,20 +108,6 @@ pub(crate) fn arch(&self) -> Architecture {
-     }
- }
- 
--// TODO
--//
--// The resulting strings are used to generate firmware paths, hence the
--// generated strings have to be stable.
--//
--// Hence, replace with something like strum_macros derive(Display).
--//
--// For now, redirect to fmt::Debug for convenience.
--impl fmt::Display for Chipset {
--    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
--        write!(f, "{self:?}")
--    }
--}
--
- /// Enum representation of the GPU generation.
- ///
- /// TODO: remove the `Default` trait implementation, and the `#[default]`
--- 
-2.51.2
+sorry for my late reply.
 
+>>>>>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+>>>>>> @@ -61,24 +61,16 @@ enum fsl_ldb_devtype {
+>>>>>>     };
+>>>>>>       struct fsl_ldb_devdata {
+>>>>>> -    u32 ldb_ctrl;
+>>>>>> -    u32 lvds_ctrl;
+>>>>>>         bool lvds_en_bit;
+>>>>>>         bool single_ctrl_reg;
+>>>>>
+>>>>> single_ctrl_reg can be dropped then, as it can be expressed by failing to
+>>>>> get the second register.
+>>>>>
+>>>>> Furthermore, with this done, lvds_en_bit is the only member left and hence
+>>>>> struct fsl_ldb_devdata can also be dropped, as IIRC there is no need to
+>>>>> use a structure for device data with only a flag.
+>>>> I plan to add more bits into the driver match data when adding the MX95,
+>>>> so I would like to retain these instead of removing them and the adding
+>>>> them back.
+>>>
+>>> i.MX95 LDB supports two LVDS channels.  Two DRM bridges are needed in single
+>>> or separate LDB mode, while one DRM bridge is needed in split LDB mode.
+>>
+>> What do you refer to by "split LDB mode" , some interleaving or some such
+>> thing ?
+> 
+> I mean "Split Channel DI0" and "Split Channel DI1" use cases in the below
+> table in i.MX95 TRM.
+> 
+> +------------------------------------------------------------+
+> |Table: Channel Mapping                                      |
+> |------------------------------------------------------------|
+> |Use Case           |  LVDS Channel 0   |  LVDS Channel 1    |
+> |------------------------------------------------------------|
+> |Single Channel DI0 | DI0               | Disabled           |
+> |------------------------------------------------------------|
+> |Single Channel DI1 | Disabled          | DI1                |
+> |------------------------------------------------------------|
+> |Separate Channels  | DI0               | DI1                |
+> |------------------------------------------------------------|
+> |Dual Channels DI0  | DI0               | DI0                |
+> |------------------------------------------------------------|
+> |Dual Channels DI1  | DI1               | DI1                |
+> |------------------------------------------------------------|
+> |Split Channel DI0  | DI0 (first pixel) | DI0 (second pixel) |
+> |------------------------------------------------------------|
+> |Split Channel DI1  | DI1 (first pixel) | DI1 (second pixel) |
+> +------------------------------------------------------------+
+So yes, split mode is effectively interleaving. But that should only be 
+a matter of syscon configuration.
