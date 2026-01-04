@@ -2,103 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49556CF16AD
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 23:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E22CF16CE
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 23:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2328510E29E;
-	Sun,  4 Jan 2026 22:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CF710E0E2;
+	Sun,  4 Jan 2026 22:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ragnatech.se header.i=@ragnatech.se header.b="JHDOOdMY";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="jM+r3aHC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W5F1Cdms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b3-smtp.messagingengine.com
- (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6F4710E29E
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 22:28:48 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
- by mailfhigh.stl.internal (Postfix) with ESMTP id EB3947A00CC;
- Sun,  4 Jan 2026 17:28:47 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
- by phl-compute-12.internal (MEProxy); Sun, 04 Jan 2026 17:28:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1767565727;
- x=1767652127; bh=j6H3TfDcXQ/uij6hpQbctQ5MEz+mCGeFGo2d/TwOQVs=; b=
- JHDOOdMYIXuw95udcbhNaNgWL0kpPIey8f7SqcaTPklN8RH8MeIdhExVl45UTbqZ
- LXcvriIZDBaZrd+mHTDLZc48QrJ4fwvF8cWL79P4bu9Vj5RMh2Zqu9Yczejc63Wm
- h+Wozrpv4q2Cgmzk9Zipyfjk0PwRkY8uB3PS+7wuPQ9JozitgMYeDhNp+jL/UHUQ
- xtgr0oSP321mUo/GEDj48mmOix6Lf1BK6SIf3c+VExwrT71MJh/MYNacHId7xmTy
- S0YJjKJT4m/vw2GBSx5KAe84jFIoU7UPJzmCAzQqDNVaPjmzM4gjGoogcMokzs3R
- QFmI/8pCvCFEE/Cznu0AmA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767565727; x=
- 1767652127; bh=j6H3TfDcXQ/uij6hpQbctQ5MEz+mCGeFGo2d/TwOQVs=; b=j
- M+r3aHCgh8Ir4NxNMMMuCtAhHQ9WoG2etUYdAE1JJ7jtA9zptvFNNoWc1dDReIqh
- dckxPJi4siKQVSSdXYSn8fsjYDlwUWjj92YUbjpWhlQ2YuMA/r5/UbLvJonBxBzD
- I6STlm+kglm64zLxGvA/guGiphaFkwtYj5dTtFzHYMXlMaRG30I5Rh8Oa+qjcqp7
- nseTCQ+QpdhcMfFdyPYd3q96lU5Bwn+5jQgyRo7YHsR8Xng9DGoFRKYp/FcKIsAh
- 5y89y6613nqDfhnyyIk7oqkOToD5HDYRjFVEb7FC0d879skHccEq2NquTQkVKjtj
- CmQaTNfK48DHurYKHVc7A==
-X-ME-Sender: <xms:n-laaf2YgwJT-J9ZXGLeNRKt0HGesbYp6qK-VFCwcT2TG_P275fkiA>
- <xme:n-laaaY7OWpLs9UNdQpxwdJPF1SOogmcO6MyjyT0y6PaJjKAHHARudDWdZ5P-20I9
- BzzWYd7QIjVoCrW8fqW6bX3SaH14x-bC1i0ads7fbsPkGH5XvXafwY>
-X-ME-Received: <xmr:n-laaRgs81DcK72AR2NZx4PRJSDPDcrs2OBC003MihPUwIpG_z_wiztmG5vdIwkT_r62ZgWnC3DOqUZZlUw97Hcb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelheeivdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
- ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
- hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
- hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
- nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepudejpdhmohguvgepsh
- hmthhpohhuthdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehm
- rghilhgsohigrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlih
- guvghrrdgsvgdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhr
- tghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehfrhgrnh
- hkrdgsihhnnhhssehimhhgthgvtgdrtghomhdprhgtphhtthhopehkrhiikhdoughtsehk
- vghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtse
- hlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhes
- ghhmrghilhdrtghomhdprhgtphhtthhopehmrghtthdrtghoshhtvghrsehimhhgthgvtg
- drtghomh
-X-ME-Proxy: <xmx:n-laaR8VjLDPag7_dG1GkI-4s9qlKH67COcj53wgBFRP8VJCmmA83g>
- <xmx:n-laaXN0FCR8_3AbAVkPwVUE3TZmyXNaWAIQGE9iUdthB5CoQDuXWg>
- <xmx:n-laacq__vMSF2bW38MMgnlli01DUj1Eoq6xmaA4Lxt8XNP-BASBZg>
- <xmx:n-laac7XvsohMaI2BbgCcOuiUQwCon2_WrdanTdshN9JlWXuJKffwQ>
- <xmx:n-laaQd46ljGwyBCnedLm0YZ8CkI17zabM_yCbe_3gEl0s9Qf_lYXsBo>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 4 Jan 2026 17:28:46 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] arm64: dts: renesas: r8a77995: Add GE8300 GPU node
-Date: Sun,  4 Jan 2026 23:26:53 +0100
-Message-ID: <20260104222653.1659382-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260104222653.1659382-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20260104222653.1659382-1-niklas.soderlund+renesas@ragnatech.se>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AAE10E07F;
+ Sun,  4 Jan 2026 22:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767566494; x=1799102494;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=9k0MkleAVvHbKnQUmL9KWFcTXNH5jwQDODeMnaJJZTg=;
+ b=W5F1Cdms5Ijj0GE6NSeAxzn9V/2n4rK4uleu3HGM4B157ADxmlQntq+/
+ 2iZ8qOrU6B69fsBSFXRTj8RKUHqyX49u5K1gDa1SJYUxgNRTdNkN1Uyrk
+ fb6/4ai8N7j/FH51AGtKDoNghK0xCOPPc5XQCx7ftfD/B4yn41Xb9zVD4
+ zazraw8F2m/k6bDqOSxsWbA7euiXVd5mqFqa7PaLlbsTkhfp2lCmTARK9
+ oBqHFM1mzBGvvZEtEcQg56KUIDItWJ7JXFWCw0yePNYmwQeIrtp1Ay6UB
+ VvSTA4WeipGATiUpjbDtSWrApGYw7HM/y2BeZYnoRo3YpeEKtndon1UsH g==;
+X-CSE-ConnectionGUID: FkLXgt07QSmOjP3BXSB0bA==
+X-CSE-MsgGUID: q9F41Q5kShazH2BukoHaTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="79244436"
+X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; d="scan'208";a="79244436"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2026 14:41:33 -0800
+X-CSE-ConnectionGUID: aQulSiwVTGKKsjVzV89AIA==
+X-CSE-MsgGUID: ZUWYfN29S+OpqIvgdYz7JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; d="scan'208";a="207141229"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa)
+ ([10.211.93.152])
+ by fmviesa004.fm.intel.com with ESMTP; 04 Jan 2026 14:41:30 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vcWmu-000000000yD-1OxE;
+ Sun, 04 Jan 2026 22:41:28 +0000
+Date: Sun, 4 Jan 2026 23:41:04 +0100
+From: kernel test robot <lkp@intel.com>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, Felix.Kuehling@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: Re: [PATCH] drm/amdkfd: fix a memory leak in
+ device_queue_manager_init()
+Message-ID: <202601042317.3h1kg7NS-lkp@intel.com>
+References: <20260104131532.3978895-1-lihaoxiang@isrc.iscas.ac.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260104131532.3978895-1-lihaoxiang@isrc.iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,40 +75,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe Imagination Technologies PowerVR Rogue GE8300 BNVC 22.67.54.30
-present in Renesas R-Car R8A77995 D3 SoC.
+Hi Haoxiang,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 5f3fcef7560c..790aa1cf678d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -1295,6 +1295,21 @@ gic: interrupt-controller@f1010000 {
- 			resets = <&cpg 408>;
- 		};
- 
-+		gpu: gpu@fd000000 {
-+			compatible = "renesas,r8a77995-gpu",
-+				     "img,img-ge8300",
-+				     "img,img-rogue";
-+			reg = <0 0xfd000000 0 0x40000>;
-+			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_CORE R8A77995_CLK_ZG>,
-+				 <&cpg CPG_CORE R8A77995_CLK_S3D1>,
-+				 <&cpg CPG_MOD 112>;
-+			clock-names = "core", "mem", "sys";
-+			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-+			resets = <&cpg 112>;
-+			status = "disabled";
-+		};
-+
- 		vspbs: vsp@fe960000 {
- 			compatible = "renesas,vsp2";
- 			reg = <0 0xfe960000 0 0x8000>;
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.19-rc3 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/drm-amdkfd-fix-a-memory-leak-in-device_queue_manager_init/20260104-211645
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260104131532.3978895-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [PATCH] drm/amdkfd: fix a memory leak in device_queue_manager_init()
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260104/202601042317.3h1kg7NS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260104/202601042317.3h1kg7NS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601042317.3h1kg7NS-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: In function 'device_queue_manager_init':
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3046:17: error: implicit declaration of function 'deallocate_hiq_sdma_mqd'; did you mean 'allocate_hiq_sdma_mqd'? [-Wimplicit-function-declaration]
+    3046 |                 deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 allocate_hiq_sdma_mqd
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: At top level:
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3053:13: warning: conflicting types for 'deallocate_hiq_sdma_mqd'; have 'void(struct kfd_node *, struct kfd_mem_obj *)'
+    3053 | static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3053:13: error: static declaration of 'deallocate_hiq_sdma_mqd' follows non-static declaration
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3046:17: note: previous implicit declaration of 'deallocate_hiq_sdma_mqd' with type 'void(struct kfd_node *, struct kfd_mem_obj *)'
+    3046 |                 deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +3046 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c
+
+  2921	
+  2922	struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+  2923	{
+  2924		struct device_queue_manager *dqm;
+  2925	
+  2926		pr_debug("Loading device queue manager\n");
+  2927	
+  2928		dqm = kzalloc(sizeof(*dqm), GFP_KERNEL);
+  2929		if (!dqm)
+  2930			return NULL;
+  2931	
+  2932		switch (dev->adev->asic_type) {
+  2933		/* HWS is not available on Hawaii. */
+  2934		case CHIP_HAWAII:
+  2935		/* HWS depends on CWSR for timely dequeue. CWSR is not
+  2936		 * available on Tonga.
+  2937		 *
+  2938		 * FIXME: This argument also applies to Kaveri.
+  2939		 */
+  2940		case CHIP_TONGA:
+  2941			dqm->sched_policy = KFD_SCHED_POLICY_NO_HWS;
+  2942			break;
+  2943		default:
+  2944			dqm->sched_policy = sched_policy;
+  2945			break;
+  2946		}
+  2947	
+  2948		dqm->dev = dev;
+  2949		switch (dqm->sched_policy) {
+  2950		case KFD_SCHED_POLICY_HWS:
+  2951		case KFD_SCHED_POLICY_HWS_NO_OVERSUBSCRIPTION:
+  2952			/* initialize dqm for cp scheduling */
+  2953			dqm->ops.create_queue = create_queue_cpsch;
+  2954			dqm->ops.initialize = initialize_cpsch;
+  2955			dqm->ops.start = start_cpsch;
+  2956			dqm->ops.stop = stop_cpsch;
+  2957			dqm->ops.halt = halt_cpsch;
+  2958			dqm->ops.unhalt = unhalt_cpsch;
+  2959			dqm->ops.destroy_queue = destroy_queue_cpsch;
+  2960			dqm->ops.update_queue = update_queue;
+  2961			dqm->ops.register_process = register_process;
+  2962			dqm->ops.unregister_process = unregister_process;
+  2963			dqm->ops.uninitialize = uninitialize;
+  2964			dqm->ops.create_kernel_queue = create_kernel_queue_cpsch;
+  2965			dqm->ops.destroy_kernel_queue = destroy_kernel_queue_cpsch;
+  2966			dqm->ops.set_cache_memory_policy = set_cache_memory_policy;
+  2967			dqm->ops.process_termination = process_termination_cpsch;
+  2968			dqm->ops.evict_process_queues = evict_process_queues_cpsch;
+  2969			dqm->ops.restore_process_queues = restore_process_queues_cpsch;
+  2970			dqm->ops.get_wave_state = get_wave_state;
+  2971			dqm->ops.reset_queues = reset_queues_cpsch;
+  2972			dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
+  2973			dqm->ops.checkpoint_mqd = checkpoint_mqd;
+  2974			break;
+  2975		case KFD_SCHED_POLICY_NO_HWS:
+  2976			/* initialize dqm for no cp scheduling */
+  2977			dqm->ops.start = start_nocpsch;
+  2978			dqm->ops.stop = stop_nocpsch;
+  2979			dqm->ops.create_queue = create_queue_nocpsch;
+  2980			dqm->ops.destroy_queue = destroy_queue_nocpsch;
+  2981			dqm->ops.update_queue = update_queue;
+  2982			dqm->ops.register_process = register_process;
+  2983			dqm->ops.unregister_process = unregister_process;
+  2984			dqm->ops.initialize = initialize_nocpsch;
+  2985			dqm->ops.uninitialize = uninitialize;
+  2986			dqm->ops.set_cache_memory_policy = set_cache_memory_policy;
+  2987			dqm->ops.process_termination = process_termination_nocpsch;
+  2988			dqm->ops.evict_process_queues = evict_process_queues_nocpsch;
+  2989			dqm->ops.restore_process_queues =
+  2990				restore_process_queues_nocpsch;
+  2991			dqm->ops.get_wave_state = get_wave_state;
+  2992			dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
+  2993			dqm->ops.checkpoint_mqd = checkpoint_mqd;
+  2994			break;
+  2995		default:
+  2996			dev_err(dev->adev->dev, "Invalid scheduling policy %d\n", dqm->sched_policy);
+  2997			goto out_free;
+  2998		}
+  2999	
+  3000		switch (dev->adev->asic_type) {
+  3001		case CHIP_KAVERI:
+  3002		case CHIP_HAWAII:
+  3003			device_queue_manager_init_cik(&dqm->asic_ops);
+  3004			break;
+  3005	
+  3006		case CHIP_CARRIZO:
+  3007		case CHIP_TONGA:
+  3008		case CHIP_FIJI:
+  3009		case CHIP_POLARIS10:
+  3010		case CHIP_POLARIS11:
+  3011		case CHIP_POLARIS12:
+  3012		case CHIP_VEGAM:
+  3013			device_queue_manager_init_vi(&dqm->asic_ops);
+  3014			break;
+  3015	
+  3016		default:
+  3017			if (KFD_GC_VERSION(dev) >= IP_VERSION(12, 0, 0))
+  3018				device_queue_manager_init_v12(&dqm->asic_ops);
+  3019			else if (KFD_GC_VERSION(dev) >= IP_VERSION(11, 0, 0))
+  3020				device_queue_manager_init_v11(&dqm->asic_ops);
+  3021			else if (KFD_GC_VERSION(dev) >= IP_VERSION(10, 1, 1))
+  3022				device_queue_manager_init_v10(&dqm->asic_ops);
+  3023			else if (KFD_GC_VERSION(dev) >= IP_VERSION(9, 0, 1))
+  3024				device_queue_manager_init_v9(&dqm->asic_ops);
+  3025			else {
+  3026				WARN(1, "Unexpected ASIC family %u",
+  3027				     dev->adev->asic_type);
+  3028				goto out_free;
+  3029			}
+  3030		}
+  3031	
+  3032		if (init_mqd_managers(dqm))
+  3033			goto out_free;
+  3034	
+  3035		if (!dev->kfd->shared_resources.enable_mes && allocate_hiq_sdma_mqd(dqm)) {
+  3036			dev_err(dev->adev->dev, "Failed to allocate hiq sdma mqd trunk buffer\n");
+  3037			goto out_free;
+  3038		}
+  3039	
+  3040		if (!dqm->ops.initialize(dqm)) {
+  3041			init_waitqueue_head(&dqm->destroy_wait);
+  3042			return dqm;
+  3043		}
+  3044	
+  3045		if (!dev->kfd->shared_resources.enable_mes)
+> 3046			deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
+  3047	
+  3048	out_free:
+  3049		kfree(dqm);
+  3050		return NULL;
+  3051	}
+  3052	
+> 3053	static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
+  3054					    struct kfd_mem_obj *mqd)
+  3055	{
+  3056		WARN(!mqd, "No hiq sdma mqd trunk to free");
+  3057	
+  3058		amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
+  3059	}
+  3060	
+
 -- 
-2.52.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
