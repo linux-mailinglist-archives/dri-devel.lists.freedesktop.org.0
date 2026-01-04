@@ -2,128 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E7FCF0B72
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 08:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3742CF0E30
+	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 13:11:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04DF10E3AD;
-	Sun,  4 Jan 2026 07:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1036410E23E;
+	Sun,  4 Jan 2026 12:11:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TedDEedr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K5vKVzbH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013021.outbound.protection.outlook.com
- [40.93.196.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964B210E3AC;
- Sun,  4 Jan 2026 07:22:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qFtGNhGbac6r2EfKMcrHtwh1WjhZgag2jfFBenYnckH6Ch4etPgcCNeEDTITLY7CovU1qBK3iSSYnz8TMKdT7EM35MDc+h9kuE49u3PeWo39Iz6uqSku5nWUj8wFPzsexWTUIqSnCaLKKyUw4OSSON0o3jtqsjWSv0Gi/zeR5UVN6Fn0gZZTdnBoS6fB5mgb4I7PrOHXajlBMofXKsCDvE2ax83adDVU/Xkjy33L4sA87/hZoCO9b/rrdeBHMRS2uXqkK851AvvTZ1rE5rGTbwoenWV+zdgmwbxNgmNhY+/wEuAeXJF2D0wDEfQhgl4gRJ4QZ7SBHty9JOBFkCBfUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pEhcRp08TrkcMs/mdXjvglLWujQx6Wl/vt6RKxcaw2Y=;
- b=vzGc13YiDV8x6vAOIrvlQEqpDT3kFRnL//wKt2sNUsjRYEesFIJ2QJ5ZFad+NrT3IrCtyCg3tea/d8e5ksDq5cXW7brz4AzsdgllTpZaO4FBzeH5b370TEJh5jgELSCOjUnbyYS/qZn0dwrhj/vX01fetMwk/t6gikxZYU3NXnmNPH+4sQghAhNE5V9RnE+DKLV8FJgJebQqd31K0MxpwBkVW2qacmKoCdlQ/S7WnAMINeM6hoAxG/0FaPz9X5TEE3Kybc0LpgBysKRcNm2+gHIyF9HZD/iMnOju17qAmMNQZ43oh4N5gLodlpWtLT7ysEn0H0h/lViKKeJ9TNDDqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=collabora.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pEhcRp08TrkcMs/mdXjvglLWujQx6Wl/vt6RKxcaw2Y=;
- b=TedDEedr09sybNf5o2aXRpe8asiwnISnWfVEFr3IVeBqz5WCPRsQnhAo1+a+zH6vYrR5AFVtUg6nK6ADHeDQ5tqD0C1FT/VIu+ramgGaLDqdHT5N6ev2yz+cOyn3A+L+qWUsD3d+9pSjc2WEFRan16ZgjqlpSibZM+peen/R5T4=
-Received: from MN2PR16CA0066.namprd16.prod.outlook.com (2603:10b6:208:234::35)
- by SA5PPFE3F7EF2AE.namprd12.prod.outlook.com
- (2603:10b6:80f:fc04::8e6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Sun, 4 Jan
- 2026 07:22:26 +0000
-Received: from BN3PEPF0000B36D.namprd21.prod.outlook.com
- (2603:10b6:208:234:cafe::94) by MN2PR16CA0066.outlook.office365.com
- (2603:10b6:208:234::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Sun, 4
- Jan 2026 07:22:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN3PEPF0000B36D.mail.protection.outlook.com (10.167.243.164) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.0 via Frontend Transport; Sun, 4 Jan 2026 07:22:26 +0000
-Received: from honglei-remote.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sun, 4 Jan
- 2026 01:22:22 -0600
-From: Honglei Huang <honglei1.huang@amd.com>
-To: <Felix.Kuehling@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <Ray.Huang@amd.com>
-CC: <dmitry.osipenko@collabora.com>, <Xinhui.Pan@amd.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <akpm@linux-foundation.org>, <honghuan@amd.com>
-Subject: [PATCH v2 4/4] drm/amdkfd: Wire up batch userptr ioctl handler
-Date: Sun, 4 Jan 2026 15:21:22 +0800
-Message-ID: <20260104072122.3045656-5-honglei1.huang@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260104072122.3045656-1-honglei1.huang@amd.com>
-References: <20260104072122.3045656-1-honglei1.huang@amd.com>
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972FA10E042
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jan 2026 11:06:48 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-bc17d39ccd2so8150478a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jan 2026 03:06:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767524808; x=1768129608; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yUCt/I1JDgpKPWl0wJY+VdRCfc9g+GhZhdDVLk6Y6Gw=;
+ b=K5vKVzbHNaYH1BfykJ/XtcuLA3ST/P4ucnUBkU+a7M+9klS/wzFjqC9aQQedPHHrDj
+ JxGNwjq9In33lFRTELUt8hbBL/Awg71BJIeTEh4VjL5lL/hT7OyuUWaG+oO6C+vMdMir
+ oe+PbS0KobkkzB7eGEhjOKl/z9kW02VMthwE4q/pXjcQYfJBm+1A3LDrEOGYJO3LySgw
+ VaQLRNhiOS/0tZMxsGAq0HWjmFSQdhju9HHwWC6D18RSAyREGjh2+T5uMoRzGeSFu1G7
+ ptsjbyIRXH9eN6VcJXjT0VFB6TSpKvQAi4zfWQAjWjv6Nef33haPpzTLjp0+i23LIE/9
+ qzWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767524808; x=1768129608;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yUCt/I1JDgpKPWl0wJY+VdRCfc9g+GhZhdDVLk6Y6Gw=;
+ b=IUYHIRHM14JVxK831gyhuYmFkQNOfuYJJz6MTSaTKIG65+TdU1aKf+r0Z8O42OuET7
+ 9+Y28V8M18hOT2q+DityBHn7f6fWmZPhfAdGoieMrGZCqXWUM7OobYmeGslff2Ru2hcD
+ afU2V9utnwdlHlmoqeDmvMeTAi9f3ZuIJBX+d2sbbd+WbZQ+F7fe3Rh251qLVl4XImxS
+ 87FAn9aPxNvzI1DgVe9B/adT8D4k4OKMw6XEVRaYgD0C/QYx8vOsRDgrct3iCNnru5Mf
+ QWbrXWJEfZCWCAt5g6SXmLQNNnWZGOKA6zOKD2kYajUWKi53d0QHnBDJAj5NoxFdDa0h
+ 2jXA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyELnLht0DCgX0lkO1XKAZ9f5do45Tu2tw0kmT/DS7Aw+wopz2DrTaZmhA44y1JQOW0blhljHzfwU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynI1UvsTlJggFhesBjoFm7qQEbdSBPgYFqKDU+zfBCoFH0zy0s
+ +DLs8euzjzP0Hnwt//7qjptip7y3QmbY8UlN8p0jnkwkQ/eAU6LdNWXh
+X-Gm-Gg: AY/fxX5ACuJ8WA/tG0Eag8n292txbLvXmqcPqBpxYCixMNln/8J/5CznZeVsg14WVIv
+ p9qC+mQVWXMON8BOWKqIku+2O/vYm90JKnbJd+tb/aECL9QhLzj36mVh2TnO+mEe/AnxJ75Jvim
+ AbxLDy/TgPt0U5WHgxtEeMdPRQrbwJH6rwW1rFQ2kKUEfkHLaKHWtYmkTO7QYVmA+QJfvF2VIOK
+ lUB41TT1mtKo+bDqz2UBUQGxNqLRM0/cVeUR1tUfqmIv901tUx1XCyQG/XMe176LwDVxvGjAm31
+ 4ymKLDFHx4rJKg7TJdIDVx/q8Be7yo0xplxc0PP5NVQQyfBMDkymU3NELA3Fwlg9E7hSc/gHjnt
+ hMnTFXXYoBb3E+0WV1Xptk7DIYqqQb8TnODcQi+DHesVUDqLcKlNydJCHaussVciFOzeJx+Z1HA
+ r42hbOvvYCGo+LzLEn20hgAZ4eW36FNCV4DMDKS4x6AUNSTF8uCrwdXMw3IGEIHiBGGdRgL+Hu0
+ uVmPjDBxtY=
+X-Google-Smtp-Source: AGHT+IEJJ1hrsUL+EWG+/LYHmGIsftevAAvshlZviJRsmXOHXp8IxBwsGTPWSTtldkfSDqfO6NUI7A==
+X-Received: by 2002:a05:693c:4146:10b0:2b0:738e:287e with SMTP id
+ 5a478bee46e88-2b073904fd7mr23927432eec.30.1767524807784; 
+ Sun, 04 Jan 2026 03:06:47 -0800 (PST)
+Received: from ubuntu-linux-2404..
+ (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
+ by smtp.gmail.com with ESMTPSA id
+ 5a478bee46e88-2b140c42e4esm7743509eec.15.2026.01.04.03.06.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Jan 2026 03:06:47 -0800 (PST)
+From: Sun Jian <sun.jian.kdev@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sun Jian <sun.jian.kdev@gmail.com>
+Subject: [PATCH v1 0/4] staging: fbtft: reduce stack usage by avoiding large
+ write_reg() varargs
+Date: Sun,  4 Jan 2026 19:06:34 +0800
+Message-ID: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B36D:EE_|SA5PPFE3F7EF2AE:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ca9623a-cf97-417c-4f5f-08de4b6202f4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?K8UiKKWLwt0cyKOgJzLHQNxbtWPP4XOKIwzwQyS3gVuvKNQqsjzEaptTkVhb?=
- =?us-ascii?Q?HH9RDZ2g+Tsnv2OE0CqSlV1LD8enGaPiPAtj8diGED7qWn//h9vJUZ9kceng?=
- =?us-ascii?Q?8wPDTNZr8zfUFxp1hKNepgfu2rKP+ee9x028t5C0M4gjHMaoyjHoTOihaYJ9?=
- =?us-ascii?Q?tQYQU/wKQ3SiPPNi0/EIdrEQnYLNH53qV8YNQxwEueRjcFDL95vHA1Yvxovx?=
- =?us-ascii?Q?nOcioQzq1ki3pUNq3ug7I6hVYAI4avMrcpsoE+QgLdd0HCEqgS6OqNntgZ3S?=
- =?us-ascii?Q?QJJim35iQ/N0KQaJoIlQIzwZxDcaGVXssGunLb+T6YQB4XEA3CWiLPYITURn?=
- =?us-ascii?Q?sd0ZVMAe2u1bHBtdAAksRyimFO/Zn6ewW7tMbd8OY2mPOrH9k48FJh7l/PRP?=
- =?us-ascii?Q?k0cJ2WfogKMgDhnrUZEGHtirQmVmRmljbNXQRjHHiPICTwHw5v4yanX0iyBD?=
- =?us-ascii?Q?882o1XPJUrD5rwckk5GZX4RFRjwyYN8yJrv1AUsdGO2I0W/07aEWVtGIxu2m?=
- =?us-ascii?Q?0RIprY2TblIHKK6EkaacjBNTZ684oyk9sDq9jUStr/5ba7qyiHD6gohOWey9?=
- =?us-ascii?Q?IwhcvnaU5D5nn+7L0KOCJ1yMhjX3lm/OaUXsoyUW3iPcs3xHePC7HtqrsYQ/?=
- =?us-ascii?Q?4eDZ+K6ELoCGH3onweUDO08vT0YvNL6qy51XEySHACGx6TfnDsEfBTYM2K2B?=
- =?us-ascii?Q?Nr+myMmhgN76DJWWakf0ACWxz76kuhgB7dYq15pNy79e9jzyxqMF5Un3uADy?=
- =?us-ascii?Q?QdD8zCL3GDUeieZAcemQMeGjb9XXGnQsNbAU2im3yusySIMIMfcLb3M6VC9N?=
- =?us-ascii?Q?P4HnPfj0KzXejhEfDtHo8qXl+ev4ha+CPf5N4QQbwUldN9BLqINzE4IrvsTC?=
- =?us-ascii?Q?qfd2dhlu/GJcF1VaoSSvv/A8T6CLODS3PBwUFZgi07nfWOzx7xOhYZpfJS9K?=
- =?us-ascii?Q?O8oh3iNocLtrF6w3G1MuDNxoV5Cxhpq6jVLecLwhGYF4iT1GkkPU+73NkdhT?=
- =?us-ascii?Q?WfCivN0WrWIwAy1kU09F+m+ecJMlG3JegvvIP5WREmOQv3imo552AMEiHjjm?=
- =?us-ascii?Q?S2oajjcJNLAGtZwaGo4yhQXvnKc9tFnbjl2ZSGFp7tOQjN6D1DlmJKn4ANX4?=
- =?us-ascii?Q?uBWic1OAq+L5tS0/HEsUgmYK3CoUGPS5oECGvc5uXaK3aCgDVQvKCPeu/hgc?=
- =?us-ascii?Q?yGUVAOzHPy7dJw+2jXvvE28GFdfJMJby0YBy9G3AJt5PVVjDx2yJpppDZCnj?=
- =?us-ascii?Q?UIyLrO6K7OAafOAl7jj6qv99g6n8vVJN7dEFH+Zi7W5YRE7927LGzxTxjyQx?=
- =?us-ascii?Q?5oKK23IWA53f0FKoSjcL4o4EQJ0ktrfOFBBChix9sOWmzHw3h8r/sOsLsp4A?=
- =?us-ascii?Q?Z6V4+ERDOXHS/ppBREf+E4YuEyoSCKvsHVm78LjaLf63lHY5dGp4FKpk6bmh?=
- =?us-ascii?Q?DehvPAiN553BBrSypRJjAwqlfw7WGdzJmmyXtwEEKdEbIelM5wvlr0v407Sw?=
- =?us-ascii?Q?RDC7oNljsuNk4hLrAuRzbX7nkgMVj9oBcv+Di/w0apastAqIjt5WQYNd79w7?=
- =?us-ascii?Q?m7R/nn2J2qkoaZ7ylck=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2026 07:22:26.1198 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ca9623a-cf97-417c-4f5f-08de4b6202f4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B36D.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFE3F7EF2AE
+X-Mailman-Approved-At: Sun, 04 Jan 2026 12:11:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,202 +92,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Honglei Huang <honghuan@amd.com>
+Hi,
 
-Add the ioctl handler for AMDKFD_IOC_ALLOC_MEMORY_OF_GPU_BATCH that
-processes userspace requests for batch userptr allocation.
+This series fixes clang `-Wframe-larger-than=1024` warnings in the fbtft
+staging drivers.
 
-The handler performs validation of input parameters including:
-- Checking all ranges are page-aligned and non-zero
-- Verifying total size matches sum of range sizes
-- Ensuring no conflicts with existing SVM allocations
-- Validating that USERPTR flag is set
+The warnings are triggered by very large `write_reg()`/`write_register()`
+varargs calls, which result in excessive stack usage.
 
-This completes the batch userptr feature by connecting the UAPI
-to the implementation.
+Switch the affected paths to send a u8 command byte followed by the u8
+payload using `fbtft_write_buf_dc()`. The register values and ordering are
+kept unchanged; only the transfer method is updated.
 
-Signed-off-by: Honglei Huang <honghuan@amd.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 159 +++++++++++++++++++++++
- 1 file changed, 159 insertions(+)
+Patches:
+  1/4 staging: fbtft: core: avoid large stack usage in DT init parsing
+  2/4 staging: fbtft: ssd1351: send gamma table via fbtft_write_buf_dc()
+  3/4 staging: fbtft: ssd1331: send gamma table via fbtft_write_buf_dc()
+  4/4 staging: fbtft: hx8353d: send LUT via buffer to reduce stack usage
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index a72cc980a..d8cfd8697 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1196,6 +1196,162 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
- 	return err;
- }
- 
-+static int kfd_ioctl_alloc_memory_of_gpu_batch(struct file *filep,
-+					       struct kfd_process *p, void *data)
-+{
-+	struct kfd_ioctl_alloc_memory_of_gpu_batch_args *args = data;
-+	struct kfd_ioctl_userptr_range *ranges = NULL;
-+	struct kfd_process_device *pdd;
-+	void *mem;
-+	struct kfd_node *dev;
-+	int idr_handle;
-+	long err;
-+	uint32_t flags = args->flags;
-+	uint32_t i;
-+	uint64_t total_size = 0;
-+
-+	if (args->total_size == 0) {
-+		pr_err("Batch allocation: total size cannot be zero\n");
-+		return -EINVAL;
-+	}
-+
-+	if (args->num_ranges == 0) {
-+		pr_err("Batch allocation: invalid number of ranges %u\n",
-+		       args->num_ranges);
-+		return -EINVAL;
-+	}
-+
-+	if (!args->ranges_ptr) {
-+		pr_err("Batch allocation: ranges pointer is NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!(flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR)) {
-+		pr_err("Batch allocation requires USERPTR flag\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (p->context_id != KFD_CONTEXT_ID_PRIMARY) {
-+		pr_debug("Batch USERPTR is not supported on non-primary kfd_process\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ranges = kvmalloc_array(args->num_ranges, sizeof(*ranges), GFP_KERNEL);
-+	if (!ranges) {
-+		err = -ENOMEM;
-+		goto err_alloc_ranges;
-+	}
-+
-+	if (copy_from_user(ranges, (void __user *)args->ranges_ptr,
-+			   args->num_ranges * sizeof(*ranges))) {
-+		pr_err("Failed to copy ranges from user space\n");
-+		err = -EFAULT;
-+		goto err_copy_ranges;
-+	}
-+
-+	for (i = 0; i < args->num_ranges; i++) {
-+		if (!ranges[i].start || !ranges[i].size ||
-+		    (ranges[i].start & ~PAGE_MASK) ||
-+		    (ranges[i].size & ~PAGE_MASK)) {
-+			pr_err("Invalid range %u: start=0x%llx size=0x%llx\n",
-+			       i, ranges[i].start, ranges[i].size);
-+			err = -EINVAL;
-+			goto err_copy_ranges;
-+		}
-+		total_size += ranges[i].size;
-+	}
-+
-+	if (total_size != args->total_size) {
-+		pr_err("Size mismatch: provided %llu != calculated %llu\n",
-+		       args->total_size, total_size);
-+		err = -EINVAL;
-+		goto err_copy_ranges;
-+	}
-+
-+#if IS_ENABLED(CONFIG_HSA_AMD_SVM)
-+	/* Check for conflicts with SVM */
-+	svm_range_list_lock_and_flush_work(&p->svms, current->mm);
-+	mutex_lock(&p->svms.lock);
-+	mmap_write_unlock(current->mm);
-+
-+	/* Check GPU VA for SVM conflicts */
-+	if (args->va_addr &&
-+	    interval_tree_iter_first(&p->svms.objects,
-+				     args->va_addr >> PAGE_SHIFT,
-+				     (args->va_addr + args->total_size - 1) >> PAGE_SHIFT)) {
-+		pr_err("GPU VA 0x%llx already allocated by SVM\n", args->va_addr);
-+		mutex_unlock(&p->svms.lock);
-+		err = -EADDRINUSE;
-+		goto err_copy_ranges;
-+	}
-+
-+	/* Check each userptr range for SVM conflicts */
-+	for (i = 0; i < args->num_ranges; i++) {
-+		if (interval_tree_iter_first(&p->svms.objects,
-+					     ranges[i].start >> PAGE_SHIFT,
-+					     (ranges[i].start + ranges[i].size - 1) >> PAGE_SHIFT)) {
-+			pr_err("Userptr range %u (0x%llx) already allocated by SVM\n",
-+			       i, ranges[i].start);
-+			mutex_unlock(&p->svms.lock);
-+			err = -EADDRINUSE;
-+			goto err_copy_ranges;
-+		}
-+	}
-+
-+	mutex_unlock(&p->svms.lock);
-+#endif
-+
-+	mutex_lock(&p->mutex);
-+	pdd = kfd_process_device_data_by_id(p, args->gpu_id);
-+	if (!pdd) {
-+		err = -EINVAL;
-+		goto err_pdd;
-+	}
-+
-+	dev = pdd->dev;
-+
-+	pdd = kfd_bind_process_to_device(dev, p);
-+	if (IS_ERR(pdd)) {
-+		err = PTR_ERR(pdd);
-+		goto err_unlock;
-+	}
-+
-+	err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu_batch(
-+		dev->adev, args->va_addr, args->total_size, pdd->drm_priv,
-+		(struct kgd_mem **)&mem, NULL, ranges, args->num_ranges,
-+		flags, false);
-+
-+	if (err)
-+		goto err_unlock;
-+
-+	idr_handle = kfd_process_device_create_obj_handle(pdd, mem);
-+	if (idr_handle < 0) {
-+		err = -EFAULT;
-+		goto err_free;
-+	}
-+
-+	args->handle = MAKE_HANDLE(args->gpu_id, idr_handle);
-+
-+	mutex_unlock(&p->mutex);
-+	kvfree(ranges);
-+
-+	pr_debug("Batch userptr allocated: va=0x%llx size=0x%llx ranges=%u handle=0x%llx\n",
-+		 args->va_addr, args->total_size, args->num_ranges, args->handle);
-+
-+	return 0;
-+
-+err_free:
-+	amdgpu_amdkfd_gpuvm_free_memory_of_gpu(dev->adev, (struct kgd_mem *)mem,
-+					       pdd->drm_priv, NULL);
-+err_unlock:
-+err_pdd:
-+	mutex_unlock(&p->mutex);
-+err_copy_ranges:
-+	kvfree(ranges);
-+err_alloc_ranges:
-+	return err;
-+}
-+
- static int kfd_ioctl_free_memory_of_gpu(struct file *filep,
- 					struct kfd_process *p, void *data)
- {
-@@ -3309,6 +3465,9 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
- 
- 	AMDKFD_IOCTL_DEF(AMDKFD_IOC_CREATE_PROCESS,
- 			kfd_ioctl_create_process, 0),
-+
-+	AMDKFD_IOCTL_DEF(AMDKFD_IOC_ALLOC_MEMORY_OF_GPU_BATCH,
-+			kfd_ioctl_alloc_memory_of_gpu_batch, 0),
- };
- 
- #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+Thanks,
+Sun Jian
+
+--
+Sun Jian (4):
+  staging: fbtft: core: avoid large stack usage in DT init parsing
+  staging: fbtft: ssd1351: send gamma table via fbtft_write_buf_dc()
+  staging: fbtft: ssd1331: send gamma table via fbtft_write_buf_dc()
+  staging: fbtft: hx8353d: send LUT via buffer to reduce stack usage
+
+ drivers/staging/fbtft/fb_hx8353d.c | 38 ++++++++++++++++++++++--------
+ drivers/staging/fbtft/fb_ssd1331.c | 29 ++++++++++++-----------
+ drivers/staging/fbtft/fb_ssd1351.c | 35 ++++++++++++---------------
+ drivers/staging/fbtft/fbtft-core.c | 32 ++++++++++---------------
+ 4 files changed, 71 insertions(+), 63 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
