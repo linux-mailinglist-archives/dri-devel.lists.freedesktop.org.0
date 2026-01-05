@@ -2,140 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C18CF22FD
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 08:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A93CF2351
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 08:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D961810E312;
-	Mon,  5 Jan 2026 07:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9863710E1BA;
+	Mon,  5 Jan 2026 07:26:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qjVTX5Ul";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JAofkDJe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HqxFeITC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WmK5ClWl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y0578I7D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B9510E312
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 07:21:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 028B23373F;
- Mon,  5 Jan 2026 07:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767597693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Pl5I6YyDW9RCeYRgA+zV9PuJFynUTr+0MKLP/Pz6Dms=;
- b=qjVTX5UlOvmOixVVgspE9jZ0lfLrybc1cp7CcW5lpun2BacomISVoALZ5auUXCp4LaLSmV
- obHRdjWvlrNnzF4bwGKJ5RdnKl7VHRWECdMGfct4xBQoSTSogNPflQD+XdippzzjuWBNID
- pLQkPoFyOUKucIrHn/EA5vkF2KwAzfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767597693;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Pl5I6YyDW9RCeYRgA+zV9PuJFynUTr+0MKLP/Pz6Dms=;
- b=JAofkDJeQlXN0tvMNgNUINVT0sixksQ8sWKK7XgICf3+KY7WbOJ5UcLszqul4NgqOp8dmd
- QJWfeargqwa6pxCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767597692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Pl5I6YyDW9RCeYRgA+zV9PuJFynUTr+0MKLP/Pz6Dms=;
- b=HqxFeITCgcnT2y96VRASNlEbv0qQlESmcTjh6eH//MBe8uWGnmNvesjUB6hBc9PqTZVc4/
- qK+vXvJCVwZDimXr9v4l7C4eBUU06vXOJ3YCB2VWnXLbmg71pSl1xKTm7Y5c3RWe3EAl0O
- 38/01ZilfANDzSIhCf26jSzrbIrw9rc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767597692;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Pl5I6YyDW9RCeYRgA+zV9PuJFynUTr+0MKLP/Pz6Dms=;
- b=WmK5ClWl9spw2+7PMsk7EZxN+Im6l59TXFDa+817kekeyCRpHaHj8OF7VxcFRiXeIDJHi3
- BpT2sXgWDVrytFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A65613964;
- Mon,  5 Jan 2026 07:21:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id fP5FJHtmW2ksLQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 05 Jan 2026 07:21:31 +0000
-Message-ID: <e0ada957-ab34-4911-b189-e51160b44b80@suse.de>
-Date: Mon, 5 Jan 2026 08:21:31 +0100
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752A310E1BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 07:26:12 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-477619f8ae5so87362015e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jan 2026 23:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1767597971; x=1768202771; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tqXPGRlmqIR2c73hehXqAT4WnRWsCFlwnXSzbZ1gZgI=;
+ b=y0578I7D7HHIxH197q/rIPjBphbA28LD2cBvg3WCSdSXh5+eXitTeL6GfVdh/tE2+U
+ Vp2khXTkQkni/PkT1fCsPr/wMHZ8CYy1pPwZZgCoL3KwejCwIs0JmOGnFrha8HmTdsx+
+ Aque/5J9Nq/z7BlKDsdrLZo2yccHHIwu3q1oeCiFd9xSvdcbY1zU/14cCPe+vajlImfz
+ PUrlewhGYpNqAdSa0g451MZYLYUEkZdqebYOELF6IPoZpPmmYBzd5sf/JxEYchvMTDp2
+ u0D+ioBdBCZVVzyWCqGoSrql7B2v4zmaH+k20IvaZLNaMl/JTCHwym1UebpOqVYsI7tV
+ CNpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767597971; x=1768202771;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tqXPGRlmqIR2c73hehXqAT4WnRWsCFlwnXSzbZ1gZgI=;
+ b=hrs1z/4fZBTqG7VVHHYHdEKoGGDGZIasTc2Ut3kU1tZgCncBXZFKdRZzCm7UWLkRXk
+ cuyuLYXDYEed4o0GXcSJhMH844BXgfHwxum7VxnD77/+p3LxRG0ba73plR5HBRHgSyQJ
+ rOigQo0gHWyX6rbN/rmQ+u72D56WIQfMuqw5tnJwz/uTscNbqjjtC/mBO3avviVd9bpU
+ TV8TmRTF/cuZ8pnZpswmkPdiVJVKwCwDNWMV3+tYOdGeo/ElEdEBBMWxGbOCOWnenkhV
+ 7ee+mUJRiy4lDvpPF2t5FEG5IBMZk8RW/OAZnwDesSaOd2DK27QE64syziIkjOiQKJri
+ ptzA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWCvj8npa1sb/qGXwmirU4VylJxZyfxYYXDqyhIPFbUmX8viOSVzrE8nO9vxqxU1DtYgSEtGy7D5M4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWKzB53hfpAtDuNNdpsAztgxJJ3/s2T2nbqL+nTStCRrDzc47X
+ ag3/WpWBMplxHWxQ62a6ZWlQ6O53RVU8H3pkr9SR3VMJNw44Oq8Sy1kCxaLypm7JmUI=
+X-Gm-Gg: AY/fxX7cz5qPrISSAwhjezEeDQ2Qjk/F/zlVO/BHvWScNsMrf09V8Za7FIAZzeiDU4U
+ esTTBlQXRBQenFyN4ak0g3yDzKoMY5uWQkJItLa2iOCqISa3z4ymBS1asXBZORcIVswlajyD30X
+ wK7zweUCgVQnoosgpioO4roh0t/+1ZHGa8YR2gBRRL5VzxjcyykjIvyVWC3uqAeji9xojtJtHV6
+ 6enR1soBSFwYS266RFD/8nvLxDAETooGGshKimS3nJo2D3iU7Dn8kHqukdw5Aeq/uYyKsGXXVB4
+ hDCbDYwoZjBXuND+yBVeZLzUzFV5TBlzjQi3sa/jzN2xsZCrI/L/j7c58wIhvEsl416HbRIq/sk
+ VjO8dAPkRQTEl7dJlVw1wT0RZ+5FpdIM8RT8VlwRZs18EKu9K0MCVoLKoZIXRaLo7aroRmPgVCc
+ VfQFLzWDSeJp9wO5AN
+X-Google-Smtp-Source: AGHT+IFrdZFxzxTrmRZMpsP27Ztfl7Uoc6pbDtE/T7BSP5JYGzpyq/KpLAX/yGG7sIYcOpNE6ZVEuA==
+X-Received: by 2002:a05:600c:1d1d:b0:477:8ba7:fe0a with SMTP id
+ 5b1f17b1804b1-47d1957da90mr604728865e9.24.1767597970515; 
+ Sun, 04 Jan 2026 23:26:10 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47d6d45bb57sm148423745e9.14.2026.01.04.23.26.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Jan 2026 23:26:09 -0800 (PST)
+Date: Mon, 5 Jan 2026 10:26:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] overflow: Update is_non_negative() and is_negative()
+ comment
+Message-ID: <aVtnjgJOjMp9cMDn@stanley.mountain>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+ <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
+ <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
+ <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
+ <b549e430-5623-4c60-acb1-4b5e095ae870@kernel.org>
+ <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
+ <903ba91b-f052-4b1c-827d-6292965026c5@moroto.mountain>
+ <c84557e6-aa92-42e9-8768-e246676ec1e9@kernel.org>
+ <aVlKTculhgJzuZJy@stanley.mountain>
+ <e66bd09b-9879-4562-a71e-a1e1a964f3f2@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 2/3] drm/atomic: add max_size check to
- drm_property_replace_blob_from_id()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
-References: <20251210-drm-fix-lut-checks-v1-0-10ae38519f43@oss.qualcomm.com>
- <20251210-drm-fix-lut-checks-v1-2-10ae38519f43@oss.qualcomm.com>
- <f211044d-c797-4e10-a06e-10dce071f704@suse.de>
- <kxlk3cb6tsge6wf45xs74i6u6cmmkvw4sbujir54vuwqkwvriu@halwo27swzll>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <kxlk3cb6tsge6wf45xs74i6u6cmmkvw4sbujir54vuwqkwvriu@halwo27swzll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[13];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,amd.com,igalia.com,lists.freedesktop.org,vger.kernel.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, qualcomm.com:email,
- suse.de:mid, suse.com:url]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e66bd09b-9879-4562-a71e-a1e1a964f3f2@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,88 +113,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Sat, Jan 03, 2026 at 08:40:17PM +0100, Vincent Mailhol wrote:
+> On 03/01/2026 at 17:56, Dan Carpenter wrote:
+> > On Sat, Jan 03, 2026 at 12:10:45PM +0100, Vincent Mailhol wrote:
+> >> On 03/01/2026 at 11:02, Dan Carpenter wrote:
+> >>> Thanks Randy, for sending this to me.  I'm on the sparse list, but
+> >>> I've been on vacation and haven't caught up with my email. 
+> >>
+> >> Welcome back, hope you enjoyed your holidays!
+> >>
+> >>> I can easily silence this in Smatch.
+> >>
+> >> Thanks. I ran this locally, I can confirm that this silences the
+> >> warning. So:
+> >>
+> >> Tested-by: Vincent Mailhol <mailhol@kernel.org>
+> >>
+> >>> diff --git a/check_unsigned_lt_zero.c b/check_unsigned_lt_zero.c
+> >>> index bfeb3261f91d..ac3e650704ce 100644
+> >>> --- a/check_unsigned_lt_zero.c
+> >>> +++ b/check_unsigned_lt_zero.c
+> >>> @@ -105,7 +105,8 @@ static bool is_allowed_zero(struct expression *expr)
+> >>>  	    strcmp(macro, "STRTO_H") == 0 ||
+> >>>  	    strcmp(macro, "SUB_EXTEND_USTAT") == 0 ||
+> >>>  	    strcmp(macro, "TEST_CASTABLE_TO_TYPE_VAR") == 0 ||
+> >>> -	    strcmp(macro, "TEST_ONE_SHIFT") == 0)
+> >>> +	    strcmp(macro, "TEST_ONE_SHIFT") == 0 ||
+> >>> +	    strcmp(macro, "check_shl_overflow") == 0)
+> >>
+> >> But, for the long term, wouldn't it better to just ignore all the code
+> >> coming from macro extensions instead of maintaining this allow-list?
+> >>
+> > 
+> > Of course, that idea occured to me, but so far the allow list is not
+> > very burdensome to maintain.
+> 
+> Indeed, but my concern was more on how people would treat such smatch
+> warnings coming from the kernel test robot. It is very uncommon to have
+> an allow-list hard coded into the static analyzer. Actually, this is the
+> first time I see this. My fear here is that people will just uglify the
+> code rather than sending a patch to extend the allow list in smatch.
+> 
 
-Am 28.12.25 um 01:53 schrieb Dmitry Baryshkov:
-> On Thu, Dec 11, 2025 at 08:46:26AM +0100, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 10.12.25 um 20:42 schrieb Dmitry Baryshkov:
->>> The function drm_property_replace_blob_from_id() allows checking whether
->>> the blob size is equal to a predefined value. In case of variable-size
->>> properties (like the gamma / degamma LUTs) we might want to check for
->>> the blob size against the maximum, allowing properties of the size
->>> lesser than the max supported by the hardware. Extend the function in
->>> order to support such checks.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> ---
->>>    drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c |  5 +++++
->>>    drivers/gpu/drm/drm_atomic_uapi.c                       |  7 +++++--
->>>    drivers/gpu/drm/drm_property.c                          | 11 +++++++++++
->>>    include/drm/drm_property.h                              |  1 +
->>>    4 files changed, 22 insertions(+), 2 deletions(-)
->>>
->>> @@ -801,6 +803,15 @@ int drm_property_replace_blob_from_id(struct drm_device *dev,
->>>    			drm_property_blob_put(new_blob);
->>>    			return -EINVAL;
->>>    		}
->>> +
->>> +		if (max_size > 0 &&
->>> +		    new_blob->length > max_size) {
->>> +			drm_dbg_atomic(dev,
->>> +				       "[BLOB:%d] length %zu greater than max %zu\n",
->>> +				       new_blob->base.id, new_blob->length, max_size);
->>> +			drm_property_blob_put(new_blob);
->>> +			return -EINVAL;
->>> +		}
->> I'd first test for max_size before testing for expected size.
->>
->> And shouldn't you also test for (max_size % expected_elem_size == 0)?
-> No, why? We are testing the values passed from the userspace, not the
-> kernel itself. E.g. we also don't have a test that (expected_size %
-> expected_elem_size == 0).
+People need to learn to ignore false positives.  The zero day bot sends
+a one time email and if you just delete it, then it's gone forever.
+Forget about it.
 
-Well, OK.
+It's really limitting to try be totally static checker clean.  Things
+like passing a zero to ERR_PTR() for example.  It's a perfectly valid way
+to return NULL and the fs/ subsystem uses this a lot.  But 80% when you
+see it in new code, then it's a bug where they returned the wrong
+variable or something.  It's a high quality warning.  The solution is to
+look at it one time, when the code is fresh and then never look at it
+again.
 
-Best regards
-Thomas
+In this case when I disable the unsigned < 0 checking for macros then it
+means that if someone does if (WARN_ON(u32_var < 0)) { it's silenced.  I
+don't want that.
 
->
->> Best regards
->> Thomas
->>
->>>    	}
->>>    	*replaced |= drm_property_replace_blob(blob, new_blob);
->>> diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
->>> index 082f29156b3e..aa49b5a42bb5 100644
->>> --- a/include/drm/drm_property.h
->>> +++ b/include/drm/drm_property.h
->>> @@ -284,6 +284,7 @@ int drm_property_replace_blob_from_id(struct drm_device *dev,
->>>    				      uint64_t blob_id,
->>>    				      ssize_t expected_size,
->>>    				      ssize_t expected_elem_size,
->>> +				      ssize_t max_size,
->>>    				      bool *replaced);
->>>    int drm_property_replace_global_blob(struct drm_device *dev,
->>>    				     struct drm_property_blob **replace,
->>>
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
->> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
->>
->>
+I could create a much better way to silence false positives like this
+if I passed an expression pointer to the sm_warning()...  It's a bit of
+a re-work.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+regards,
+dan carpenter
 
 
+
+
+
+
+
+
+
+
+
+
+It's really limitting
+if we can only check 
+
+> > I maybe should disable it for all macros unless the --spammy option is used...
+> 
+> IMHO, that would be an even better approach. That said, I am happy
+> enough with your previous patch which resolves my issue and which is way
+> better than updating the is_non_negative() and is_negative() comments as
+> I did in my patch!
+> 
+> 
+> Yours sincerely,
+> Vincent Mailhol
