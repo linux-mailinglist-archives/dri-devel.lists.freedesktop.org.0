@@ -2,76 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16920CF19CA
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 03:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45711CF19DF
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 03:16:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC2910E074;
-	Mon,  5 Jan 2026 02:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 251B610E183;
+	Mon,  5 Jan 2026 02:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uUIE7nEw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uuk28qZD";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="bxbzuZiF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279D010E074
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 02:13:52 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA0310E183
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 02:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1767579369;
+ bh=9RzXzUvt8/QuFi+IRhSWlUXRQrQLYf71/r0RyEr+KcU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=bxbzuZiFEPDJvbADVOGfdeUMWlQiAu3gZgTFUD+nB2wguI6xjW2jShOTYD7eKMhn4
+ QIHEydmji2sarKmQRwdDuf8ZvJ5bucRg3J+dI97+2y00KrSzG0ZgW299sMcWcsVPRh
+ 1yyXRvYvNBkbPT3tfgCpIkOZEFLboujAv816cPxnZ2e/220CJilizXACvO48TC4SHK
+ P5XlV6z5ZWYx5hu5O1sxUXRNpov2ch/wSA9jKOuPY+xSgzpu09th96+tcoCIObyahb
+ MIIIGx+XVjzhmbCqEN55qQciBaVHmwZmGk2/g/ct7P3rmDQf4O1QDhNk0H1AXKzm1Z
+ RFtXPdQuqwSbw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dkyXG4DChz9t0l;
- Mon,  5 Jan 2026 03:13:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767579230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JUECMuqTPTti9Ot6WKiCSLREkvP/PSjUrsLYS0gj92w=;
- b=uUIE7nEw3HzG/JFECxTLY3A8M8W3sWxH/2pqxddIfrenRGrQsVFRVRKPmKMdRGecfhKXFu
- lkrvomg/r15r/XTin1lRDwBLjA9+Mi5KHN+89FAlTPxGCCjUnqR757VAS2/Ts5hnk82ebm
- jvjH5E6KM+mTL9dXVgCDeAQTCn1s/Cs2KWm5Z24MX6KIDa1aRrxwqCB44OJh7VtfDa+B1j
- WFD/f+4yfytSGLwmWDFE4nzldkragMBmULc+2xbQ7heM45NrDPjGNhhyQnGWKiK8ELNv7d
- 3W9If+rJzBNwkFR2GTICLmbRWk1F+nCj/UCaR9IOxSWM5PtQl9CeZsntPDsx1A==
-Message-ID: <dec21ad6-c87f-451b-bdab-9227d457a166@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767579228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JUECMuqTPTti9Ot6WKiCSLREkvP/PSjUrsLYS0gj92w=;
- b=uuk28qZDKMnJhI3Owfbv0IzmBf2xE4iGmD+q/qhu+7V8Uo30XiDayu/65ciYu9xtldWdTU
- 4SgbmQ3FwnqMIV5LYfDwdFAI6TYAGVz8BoxUrxe06BKoGWQ5Di6qM/PpGpSn92h2VPh9KG
- FFA4UowtTOwm70LIOk/u7oPbGwO2dpwgI6gEIgwEJYyW3RaOQLNQA/Rqx6s6wraIA1rOf5
- nEXRl10uhMsZboMfLQUCYmSmls4IiuG7aATqIUY0KJ5wh2LQJ9Dy4ZlnEfgq16ZIF8BzzB
- +UZ1rCTazbslmCkx4uRh3BZ+BQNVqOx+TRNdPlY5KRRVwxOQL5wkzYEZnKMY6A==
-Date: Mon, 5 Jan 2026 02:30:59 +0100
+ key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4dkyZw2hbwz4w9T;
+ Mon, 05 Jan 2026 13:16:08 +1100 (AEDT)
+Date: Mon, 5 Jan 2026 13:16:07 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, =?UTF-8?B?TG/Dr2M=?= Molinari
+ <loic.molinari@collabora.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: linux-next: manual merge of the drm tree with Linus' tree
+Message-ID: <20260105131607.718d22cb@canb.auug.org.au>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: gpu: img, powervr-rogue: Document GE8300
- GPU in Renesas R-Car D3
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-References: <20260104222653.1659382-1-niklas.soderlund+renesas@ragnatech.se>
- <20260104222653.1659382-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260104222653.1659382-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 9c3t8gm3gacrsr9u4o75s1myppzmoz1n
-X-MBO-RS-ID: c84e245cb2454d947dd
+Content-Type: multipart/signed; boundary="Sig_/spBOp=R_D0r.2JHT056REcV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,45 +58,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/4/26 11:26 PM, Niklas Söderlund wrote:
-> Document Imagination Technologies PowerVR Rogue GE8300 BNVC 22.67.54.30
-> present in Renesas R-Car R8A77995 D3 SoCs.
-> 
-> Compared to other R-Car Gen3 SoCs the D3 only have one power domain and
-> it is always on. Extend the list of special cases for R8A77995 to
-> capture this.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->   .../bindings/gpu/img,powervr-rogue.yaml       | 20 +++++++++++++++++++
->   1 file changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> index 86ef68985317..2122380561e4 100644
-> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> @@ -25,6 +25,11 @@ properties:
->                 - renesas,r8a779a0-gpu
+--Sig_/spBOp=R_D0r.2JHT056REcV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> +              - renesas,r8a77995-gpu
-                                   ^
+Hi all,
 
-Keep the list sorted (995 goes before a0)
+Today's linux-next merge of the drm tree got a conflict in:
 
-> +          - const: img,img-ge8300
-> +          - const: img,img-rogue
->         - items:
->             - enum:
->                 - ti,am62-gpu
-> @@ -111,6 +116,7 @@ allOf:
->           compatible:
->             contains:
->               enum:
-> +              - img,img-ge8300
->                 - img,img-ge7800
-                             ^^^
+  drivers/gpu/drm/drm_gem_shmem_helper.c
 
-Keep the list sorted, 8 > 7 .
+between commit:
 
->                 - img,img-gx6250
->                 - thead,th1520-gpu
+  8f05e411aee3 ("drm/gem-shmem: Fix typos in documentation")
+
+from Linus' tree and commit:
+
+  b440baf35591 ("drm/gem: Fix kerneldoc warnings")
+
+from the drm tree.
+
+I fixed it up (I just used the latter) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/spBOp=R_D0r.2JHT056REcV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmlbHucACgkQAVBC80lX
+0Gzg/wf/fosau1ItNUPRa9Dabe9bg73+WF+vMUUw7I53wWqRskCtVeBGPcIk/gXd
+twoLgeNBuQ6nBFRR2mqdl/K2lkiI0M9xVlIe1M7GPEQNUImYn5d++S9HeGx3wOIC
+N4PBL8/xtoF99kobOeUeU2txANfWDpNztToweO4bV1orlqIL0HevKwEYdtINySR0
+bZstxvNusDkxHF4PRb4W/Z+ulooCdigShHm4MfwuFKCOf9/RIVfnnW1ctKIpzGAp
+Jtu2up+ekg/wAQVgRh7VyZ4lJZMbtVjSQGJ3Xxg9EcA8NzRGZo6Pnm/bEYgD0vuZ
+khupYZc1qvD9Y3MPULZiv+R3yaiqSQ==
+=s4D6
+-----END PGP SIGNATURE-----
+
+--Sig_/spBOp=R_D0r.2JHT056REcV--
