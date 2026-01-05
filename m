@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A11CF5844
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C37CCF583B
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:25:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 543CB10E415;
-	Mon,  5 Jan 2026 20:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2413C10E40E;
+	Mon,  5 Jan 2026 20:25:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KfKDjkhx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cw1Y0U0G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28EC110E1ED
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:25:06 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8151E10E1ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4A1B06013A;
+ by sea.source.kernel.org (Postfix) with ESMTP id 38C5943288;
  Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EE6A7C116D0;
- Mon,  5 Jan 2026 20:25:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 11E23C19422;
+ Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1767644705;
- bh=XY0pQefpCFKLKtWJ2mFa1wekuuL/rvFmS2uFIx/iDN4=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=KfKDjkhxw5j+7J3CG2vjFG6GeJUZzPLMsmYx3lH3JwA485h9dlGzcbO8rXsTj+Fkw
- ym92knTIrhv5Tz0FmRI3AeDjHteE7y4/FUC8vuA1TqO578ahlL6LFez1Dn1O9E8Xz9
- mbaOiwFXGdIRlK+w+GIJlC9kwRB+ep9aj0kXCncPKE4medIT1l/4nnMX6CaGjePFGR
- hEku+6nOUoCgBVhXGwUzCYtGLjuoqYZtisexUNEG7THLu3Zc9NQRs14wF+TLmQ/cqM
- oWbHjfo1pB7KrrLCWAEqDtL6v136S0a82LGINqa46KHzb/zCzVp2jHl4mFrq2VXTHk
- Epwv6TWJvCq6w==
+ bh=O++W+XGALzh8MFUMgZfv9i2Z9xQlbx152lgCqyih+BQ=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=cw1Y0U0GH0buegMVh+JcBWk2hjLGpNShEgDEU6nQNeJU0bDAwsXL1OeSRWXMgl5CZ
+ 1fhuYXBb6ExrJj6ZvrjDBR41Yv8WZSMScYthfYigaZuVOZPJNeS1ekiwGEPczfAUlX
+ XDsfpY85BBb4O5Wrqzj7gCXTcrUxcBS27X/qNdFcnoZzW5tPbfZ6o760Z9yVKDFCgv
+ qrvftGw69RDzueJvbZ1MDJNADM8oEsTc68SlgNX0I/1nQgFh5J9x3SZILpUjst9izO
+ E8w+MqcL5Y884JWZG9tno25lVJxqtd7FMUOVi10u4SEUsrNIr4Iqli8pkzpkHISU6G
+ e0qRvj6WQG4dQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E43D7C79F90;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id F358BCCF2C2;
  Mon,  5 Jan 2026 20:25:04 +0000 (UTC)
 From: Sebastian Krzyszkowiak via B4 Relay
  <devnull+sebastian.krzyszkowiak.puri.sm@kernel.org>
-Subject: [PATCH 0/5] drm/panel: mantix-mlaf057we51: Power sequence improvements
-Date: Mon, 05 Jan 2026 21:24:39 +0100
-Message-Id: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
+Date: Mon, 05 Jan 2026 21:24:40 +0100
+Subject: [PATCH 1/5] drm/panel: mantix: Enable DSI LPM
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAceXGkC/x3M0QrCMAyF4VcZuTbYFuzAVxEv0i3awJZJM2Uw9
- u5GLz8O/9nBuAkbXLsdGn/EZFFHPHUwVNIno4xuSCHlEMMFZ9JVNqw0LfiQjQ37sc8hRc6pEHj
- 3avwfPLvd3YWMsTTSof6eJtG3nWeylRscxxcSnyQ9ggAAAA==
-X-Change-ID: 20260105-mantix-halo-fixes-7d76021e62ba
+Message-Id: <20260105-mantix-halo-fixes-v1-1-1ebc9b195a34@puri.sm>
+References: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
+In-Reply-To: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
 To: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
  Purism Kernel Team <kernel@puri.sm>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -56,21 +54,21 @@ To: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1495;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=876;
  i=sebastian.krzyszkowiak@puri.sm; h=from:subject:message-id;
- bh=XY0pQefpCFKLKtWJ2mFa1wekuuL/rvFmS2uFIx/iDN4=;
- b=owEBbQKS/ZANAwAKAejyNc8728P/AcsmYgBpXB4e6/Fa8ZmMg8ypQoB5dd1SNwK71wbRER7Vv
- qvmZjWLiXCJAjMEAAEKAB0WIQQi3Z+uAGoRQ1g2YXzo8jXPO9vD/wUCaVweHgAKCRDo8jXPO9vD
- /1eOEACGsoW5vjNV0FgwDdW70thj6I4KwqU+nBqq8mlKaPerKO8VoG/G3GHs0dyd/hti1Ng43hI
- BoOUWJKm0IKUXkTgY5S/MLY/z+1lfF4Eo9Ye7XwAiAqGBTY5hlXiOwbtaIJT2xc6K6Jz4z/wTrG
- ZOTnenPwjKLJp5oYY/tu6CinWjDxUXtu/AjYNW1Qes3LJ24hNz+okncBOWS8DpEZ+iAbLm2XJfj
- 6eiC7o/DVcBR/3POWsxGfs3lVoywT5x9cl/VC40uF13mIp7nuAKB72JaW97xQfjNyyfXshAOrqb
- uo+rGypcbPGOZVpW4HPN33sDR7atyHcRk04lnMLAgKXmJ3Tx2RGLeBhYSQectKCvwdwWz+JTMnU
- qav2IJQOsoE5sYr5/UtlFdlsaGPB7vPtN01NNQcDYDhzLW5j3EOKByv4132wX9Pw87FcqcNXD0e
- vv2VvNlhQq5GcS70V1NG7V9jCxBjtONqaz0RcRQn8BtPfxRYVWE5mldiqoOFJeBssYZYkEYtmUj
- Vy+vG4bW8brC92rx5UcHl19cnOv8YwJcW0byhmF6Z8xRZtEL70U+uvv0dHV7k9O8stljLigi0o6
- zpATR1/nwMfJbdnkpYDC0T+cINZJi9BBTpztPCgJeDkEr7EqU1ZF4DjPVmTR5JB72wT4YgdPzyo
- iDSAZ/40nxHWOQQ==
+ bh=ranr7EXhYO2dHs5BA4aYCo8Op/vp1BIUidKU26E9D+M=;
+ b=owEBbQKS/ZANAwAKAejyNc8728P/AcsmYgBpXB4fO3h3CtAiFssxXnaLfy8p9UQeh2skVa7wq
+ Pw6PiGUgfSJAjMEAAEKAB0WIQQi3Z+uAGoRQ1g2YXzo8jXPO9vD/wUCaVweHwAKCRDo8jXPO9vD
+ /36nD/9ZEHP3wwbu7iRj/w4bPjdu7Akmd9Wsay+D5b/l4rEdvqdzdG1b7nbixPCPiO8vhHvyPBz
+ 385E/llSqbZjaK2J3SI5gZSHJ4gswJxTFjTktedOgvPFv4fZcHvFT4aqX8PA+EDo17bJOtMyOfV
+ ExZ1xI8hw+Ot3ZPKS3f8yiFOYHskYv8M3OUt7ZJtLNXR0Ba5nL4e11wsA2zHLlyU7EgObCqZx5n
+ VrYgQ4PKZST6jog3aM3aTacUNuJPD74zlW1FB116vrznUt0ikOoj6GMGWgyJ1SdLwMm6w8NliUP
+ yybleFHCqTV1yL7Vz20/87thgnZv8E1Gwy5/QENfuCXC5XbSd+n+f65YdmP1heaFnNxaK7aYR4T
+ hkXbH/P1UWA6m62Y38yzSK7qXUJhnN91P+6bO3ZBTLTNTha8kbtaKlBueW4p/6M75fq3+LE+djA
+ DvMlL4k5eN7Q7YVLqUzoEvNvUaz0Hfq12y8RZ/kW/hYf1BtbN77+DIKtTJpAKpollaIHOD/45gL
+ 0OordlYds5ZIcga/3aXMCkeosBRpyMn7g2OO58xVqMDQNYxB3fhRcSVKc7cMpIk6IBnQCnkmvar
+ WI+XRAy3oQ2qopxSx+3mtR5eL6pwZu6YUtWG8Zj8D+VvsihDqWNUcIa84B7Dq1/4ekLgQN2ZKbf
+ hMJ8SPtJeBNliFw==
 X-Developer-Key: i=sebastian.krzyszkowiak@puri.sm; a=openpgp;
  fpr=22DD9FAE006A11435836617CE8F235CF3BDBC3FF
 X-Endpoint-Received: by B4 Relay for sebastian.krzyszkowiak@puri.sm/default
@@ -92,38 +90,30 @@ Reply-To: sebastian.krzyszkowiak@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are the patches that fix the issues with low contrast, "halo",
-temporary burn-in and occasional black screen on the Librem 5 phones,
-which use Mantix MLAF057WE51-X and Yashi Changhua YS57PSS36BH5GQ panels.
+From: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 
-They're mostly about improving the power sequences to match the ones
-described in FT8006P datasheet, so the driver does not end up disturbing
-the internal initialization process performed by the controller.
-Aside of that, using LP mode has been found to improve the reliability of
-sending DSI commands to the panel to the point where long chains
-of commands can be sent without erroring out - something that, at least
-on i.MX8MQ, wasn't possible without LPM.
-
-These have been used in Purism's downstream tree for months and tested
-across the variety of hardware batches.
+This improves reliability of sending DSI commands.
 
 Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 ---
-Sebastian Krzyszkowiak (5):
-      drm/panel: mantix: Enable DSI LPM
-      drm/panel: mantix: Improve power on sequence timings
-      drm/panel: mantix: Improve power off sequence
-      drm/panel: mantix: Drop bank 9 initialization
-      drm/panel: mantix: Don't turn on MIPI peripheral
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 35 ++++++++++++------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
----
-base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
-change-id: 20260105-mantix-halo-fixes-7d76021e62ba
+diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+index 55664f5d5aa5..fafd80f3e952 100644
+--- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
++++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+@@ -258,7 +258,7 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
+ 
+ 	dsi->lanes = 4;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM |
+ 		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+ 
+ 	ctx->avdd = devm_regulator_get(dev, "avdd");
 
-Best regards,
 -- 
-Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+2.52.0
 
 
