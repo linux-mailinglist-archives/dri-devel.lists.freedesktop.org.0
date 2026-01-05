@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170FFCF41B2
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B8DCF4203
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:32:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64A5110E3F7;
-	Mon,  5 Jan 2026 14:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1E10E1A3;
+	Mon,  5 Jan 2026 14:32:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RT/UiyYE";
+	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="QyfaNKCI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B50910E3F7
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:29:51 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id BD74D1A2665;
- Mon,  5 Jan 2026 14:29:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 8967F60726;
- Mon,  5 Jan 2026 14:29:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9BBD0103C847C; Mon,  5 Jan 2026 15:29:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767623388; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=m5a1q4+8KZ4VroTl8szIeT6DJLUnWji0vwzjJmPKVOY=;
- b=RT/UiyYEF8zOufF/RMp090pHJ3IBWOd4IbiXaTokdETQKrMOwK8Q8S2nZIFEcm1q63CHmV
- D08ZN1O3K/1Gs2xV+uE0bMucI+rbX1RqVtgt4MGGMn1AKSPqPRLs70HaBBQngw0tzHvfu0
- HUCwqMdkoZAydUqDN8ELrpazP6u4KUikTiPLwzPa1erGGDWdFePyrme9KN5cFNkjFRSC//
- NLlAMhDAxUNe/HzKmbxJnsGtmrWZInP+yWvx2+ecE05TJs/pIWEzfNTB3CCWUIyRXq7lmb
- 7IpkvtZ1mpV3oOH4G5j0pzoFUC7DGbNC4qX92galMenfSPV+eKwOd+p3R0prog==
-Date: Mon, 5 Jan 2026 15:29:39 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
- Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
- <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH v2 05/20] drm/tilcdc: Convert legacy panel binding via
- DT overlay at boot time
-Message-ID: <20260105152939.49642d0a@kmaincent-XPS-13-7390>
-In-Reply-To: <DF0K5UFX46JA.OH85T6IPC5MW@bootlin.com>
-References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
- <20251211-feature_tilcdc-v2-5-f48bac3cd33e@bootlin.com>
- <DF0K5UFX46JA.OH85T6IPC5MW@bootlin.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com
+ [203.205.221.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68AB810E1A3
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1767623571; bh=Rj3C2wZ9S0wjoIrgKj0WUxywglkGscU+ybeuw5VMwX8=;
+ h=From:To:Cc:Subject:Date:References:In-Reply-To;
+ b=QyfaNKCIMm/0APUu8g/OPfnM50u+/JJ7+1ThLv76l2pPXdYxvnpDEF3mBtIbe9pAl
+ ERbbKV40qsVhGkI6kJ5Iq+URHngP63FmMRDKbmMC2bGFjkwdZ92/tfy6O4J+vBzBqd
+ CYpnpYi1p967ER6qfy4mdgbzrjklvc5X/zKpsz/s=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-XMAILINFO: McF9JvsryK5J1mdk6pgIynRK5XkZyG/VrAOVqQSOk6+mPZU4ThRrHfaCmpnH0f
+ PlVbN9K7IJhJLVxh5ZE73eYbWDiyb7M8fcP1P0Oe9yZ7RxdKvFKgdRrecygQ/GIUncj5nTZlGPCFQ
+ XxsOQQG/9uvZQHDp3xPuVp9tBHMdFoabA388ocXZ99b+OLCcCHnImRaWb0jZo80oNrMi/JVGESsMf
+ nLkBlFaQk8PIXfgODG0WO27SLoSFm7YoZx6XDZcKJMG/U6t2Lq5R7x3Uedkc83Bo+E0ScWO2eOmhn
+ Ktp+72y/2/6QZZIkA+yF38olA8UpoSVq/kEBSH5mTdcE1eZfU6XF7Kyc/Mjfvi8PhlYUKNU00j9Qy
+ eXxZ7eO58ao9AJ8wJeYdLT4LdquPqE86Incur99i4st0nqKZ37eOfk05Ql2DxcS1iAqmuFWOGp1SK
+ Kv8C5Lmyw2IVeqSkxSwNFaanUVR8dPK93o+cr4lfdmDGy/a8plHeCAoLmbewn9q5dXsy3WprqxRGu
+ a9RRu63itA6+ARig/OFakdUb7kZi0Kn9Lw/5UKYddY+kGqeNPobVWRTsusaJHBn4mfhgGcfDINAt8
+ oha8IwxqPeFKjTKogvzHUdUizl3sugO2hMowMv96TlLglAGekOJpghhD3mDyN5H5xsUfNySm/d1pv
+ wK8zlinb71/iWiIRkLQjfkEzNeyT063kRAD3ZpUmQmGmaADZyRcPme12oV6W1FeUTUYzpbDOElheS
+ 0MWQo3miJpLwXsh7EPkISr5/W7Jir6onDT6V5YlvGfIOhiV8SuVM2jDqYX/vlZcZ38dDiWF9jrz/M
+ lBromqodttM8u5avfHCbylVn4bUSlURR7FdLsk3oImN8k9xdaTDQUncFAxl222EEQDYY00MJ8k65p
+ LQb+TmoibR+mk4j60UJ1yE54zgx4m7uv2A+ZtUzdZTNVRzuKmDTumrhQH6VyZwCYnPXfPkQokU/xB
+ xsEVHN8ugVCRulRR/MynyKkfDknty7R87+VIBz8YP0CWnMCJ/zkX7PCUW4Uwfy8yoqXw1/XK45hMo
+ Zpvqh
+From: "=?utf-8?B?a2FueGlhbw==?=" <814091656@qq.com>
+To: "=?utf-8?B?TWF4aW1lIFJpcGFyZA==?=" <mripard@kernel.org>,
+ "=?utf-8?B?WGlhbyBLYW4=?=" <814091656@qq.com>
+Cc: "=?utf-8?B?bWFhcnRlbi5sYW5raG9yc3Q=?=" <maarten.lankhorst@linux.intel.com>,
+ "=?utf-8?B?dHppbW1lcm1hbm4=?=" <tzimmermann@suse.de>,
+ "=?utf-8?B?YWlybGllZA==?=" <airlied@gmail.com>,
+ "=?utf-8?B?c2ltb25h?=" <simona@ffwll.ch>,
+ "=?utf-8?B?ZHJpLWRldmVs?=" <dri-devel@lists.freedesktop.org>,
+ "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>,
+ "=?utf-8?B?dw==?=" <w@1wt.eu>,
+ "=?utf-8?B?c2VjdXJpdHk=?=" <security@kernel.org>,
+ "=?utf-8?B?a2FueGlhbzY2Ng==?=" <kanxiao666@gmail.com>,
+ "=?utf-8?B?eGlhby5rYW4=?=" <xiao.kan@samsung.com>
+Subject: Re: [PATCH] drm: limit property blob creation per file
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_695BCB92_22C683E0_494B4EF3"
+Content-Transfer-Encoding: 8Bit
+Date: Mon, 5 Jan 2026 22:32:50 +0800
+X-Priority: 3
+Message-ID: <tencent_CD10FEDCD476E30831FBFED5056AFB531007@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <tencent_B0A522AEEC81573BA9934E2340B672ABDA09@qq.com>
+ <20260105-abiding-aloof-locust-dcadac@houat>
+In-Reply-To: <20260105-abiding-aloof-locust-dcadac@houat>
+X-QQ-mid: xmapzb53-0t1767623570t0pm507a2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,147 +81,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Luca,
+This is a multi-part message in MIME format.
 
-Thank you for your full review on this series!
+------=_NextPart_695BCB92_22C683E0_494B4EF3
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 17 Dec 2025 15:23:26 +0100
-"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
-> > +config DRM_TILCDC_PANEL_LEGACY
-> > +	bool "Support device tree blobs using TI LCDC Panel binding"
-> > +	default n =20
->=20
-> 'default' defaults to 'n', you can drop this line.
->=20
-> However I think it should instead be enabled by default. You propose to
-> entirely remove the tilcdc panel driver in the next patch, so any users
-> without DRM_TILCDC_PANEL_LEGACY in their defconfig would be broken. For
-> this reason, I propose to enable DRM_TILCDC_PANEL_LEGACY in all cases whe=
-re
-> the tilcdc_panel was compiled in, which I guess means:
->=20
->     default DRM_TILCDC
->=20
-> Except I think if DRM_TILCDC=3Dm, DRM_TILCDC_PANEL_LEGACY should be =3Dy.=
- I
-> don't know how to do that in Kconfig. But I'm not really sure about this
-> last topic.
+SGkgTWF4aW1lLA0KDQoNClRoYW5rcyBmb3IgdGhlIHN1Z2dlc3Rpb24g4oCUIHRoYXQgbWFr
+ZXMgc2Vuc2UuDQoNCg0KQWNjb3VudGluZyB0aGUgcHJvcGVydHkgYmxvYiBhbGxvY2F0aW9u
+IHZpYSBHRlBfQUNDT1VOVCBhZGRyZXNzZXMgdGhlIHByb2JsZW0gYXQgdGhlIHJpZ2h0IGxh
+eWVyIGJ5IGNoYXJnaW5nIG1lbW9yeSB1c2FnZSB0byB0aGUgY2FsbGVy4oCZcyBtZW1jZywg
+aW5zdGVhZCBvZiBpbnRyb2R1Y2luZyBhZGRpdGlvbmFsIHBlci1maWxlIGxpbWl0cyBvciBw
+b2xpY3kgaW4gRFJNLiBUaGlzIGVuc3VyZXMgdGhhdCBleGNlc3NpdmUgYWxsb2NhdGlvbnMg
+YXJlIGNvbnRhaW5lZCB3aXRoaW4gdGhlIG9mZmVuZGluZyBjZ3JvdXAgYW5kIGhhbmRsZWQg
+YnkgbWVtY2cgT09NLCBhdm9pZGluZyBzeXN0ZW0td2lkZSBpbXBhY3QuDQpJIGFncmVlIHRo
+aXMgaXMgYSBjbGVhbmVyIGFwcHJvYWNoIGFuZCB3aWxsIHJlc3BpbiB0aGUgcGF0Y2ggYWNj
+b3JkaW5nbHkuDQoNCg0KQlIsDQpYaWFvDQoNCg0KDQoNCi0tLU9yaWdpbmFsLS0tDQpGcm9t
+OiAiTWF4aW1lIFJpcGFyZCI8bXJpcGFyZEBrZXJuZWwub3JnJmd0Ow0KRGF0ZTogTW9uLCBK
+YW4gNSwgMjAyNiAxODozNiBQTQ0KVG86ICJYaWFvIEthbiI8ODE0MDkxNjU2QHFxLmNvbSZn
+dDs7DQpDYzogIm1hYXJ0ZW4ubGFua2hvcnN0IjxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5p
+bnRlbC5jb20mZ3Q7OyJ0emltbWVybWFubiI8dHppbW1lcm1hbm5Ac3VzZS5kZSZndDs7ImFp
+cmxpZWQiPGFpcmxpZWRAZ21haWwuY29tJmd0Ozsic2ltb25hIjxzaW1vbmFAZmZ3bGwuY2gm
+Z3Q7OyJkcmktZGV2ZWwiPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7OyJs
+aW51eC1rZXJuZWwiPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyJ3Ijx3QDF3
+dC5ldSZndDs7InNlY3VyaXR5IjxzZWN1cml0eUBrZXJuZWwub3JnJmd0Ozsia2FueGlhbzY2
+NiI8a2FueGlhbzY2NkBnbWFpbC5jb20mZ3Q7OyJ4aWFvLmthbiI8eGlhby5rYW5Ac2Ftc3Vu
+Zy5jb20mZ3Q7Ow0KU3ViamVjdDogUmU6IFtQQVRDSF0gZHJtOiBsaW1pdCBwcm9wZXJ0eSBi
+bG9iIGNyZWF0aW9uIHBlciBmaWxlDQoNCg0KSGksDQoNCk9uJm5ic3A7U2F0LCZuYnNwO0ph
+biZuYnNwOzAzLCZuYnNwOzIwMjYmbmJzcDthdCZuYnNwOzEwOjI1OjI5QU0mbmJzcDstMDUw
+MCwmbmJzcDtYaWFvJm5ic3A7S2FuJm5ic3A7d3JvdGU6DQomZ3Q7Jm5ic3A7RFJNX0lPQ1RM
+X01PREVfQ1JFQVRFUFJPUEJMT0ImbmJzcDthbGxvd3MmbmJzcDt1c2Vyc3BhY2UmbmJzcDt0
+byZuYnNwO2NyZWF0ZSZuYnNwO3Byb3BlcnR5Jm5ic3A7YmxvYnMNCiZndDsmbmJzcDt3aG9z
+ZSZuYnNwO2xpZmV0aW1lJm5ic3A7aXMmbmJzcDtzY29wZWQmbmJzcDt0byZuYnNwO2EmbmJz
+cDtkcm1fZmlsZS4NCiZndDsmbmJzcDsNCiZndDsmbmJzcDtDdXJyZW50bHksJm5ic3A7YSZu
+YnNwO3NpbmdsZSZuYnNwO2RybV9maWxlJm5ic3A7bWF5Jm5ic3A7Y3JlYXRlJm5ic3A7YW4m
+bmJzcDt1bmJvdW5kZWQmbmJzcDtudW1iZXImbmJzcDtvZiZuYnNwO2Jsb2JzLg0KJmd0OyZu
+YnNwO1JlcGVhdGVkJm5ic3A7aW9jdGwmbmJzcDtjYWxscyZuYnNwO2NhbiZuYnNwO3RyaWdn
+ZXImbmJzcDt1bmJvdW5kZWQmbmJzcDtrZXJuZWwmbmJzcDttZW1vcnkmbmJzcDthbGxvY2F0
+aW9uJm5ic3A7YW5kDQomZ3Q7Jm5ic3A7bGVhZCZuYnNwO3RvJm5ic3A7T09NLCZuYnNwO3Jl
+c3VsdGluZyZuYnNwO2luJm5ic3A7YSZuYnNwO2RlbmlhbC1vZi1zZXJ2aWNlLg0KJmd0OyZu
+YnNwOw0KJmd0OyZuYnNwO0ludHJvZHVjZSZuYnNwO2EmbmJzcDtwZXItZHJtX2ZpbGUmbmJz
+cDtsaW1pdCZuYnNwO29uJm5ic3A7dGhlJm5ic3A7bnVtYmVyJm5ic3A7b2YmbmJzcDt1c2Vy
+LWNyZWF0ZWQmbmJzcDtwcm9wZXJ0eQ0KJmd0OyZuYnNwO2Jsb2JzLiZuYnNwO1RoZSZuYnNw
+O2xpbWl0Jm5ic3A7aXMmbmJzcDtlbmZvcmNlZCZuYnNwO2F0Jm5ic3A7dGhlJm5ic3A7cG9p
+bnQmbmJzcDt3aGVyZSZuYnNwO2EmbmJzcDtibG9iJm5ic3A7YmVjb21lcyZuYnNwO2Fzc29j
+aWF0ZWQNCiZndDsmbmJzcDt3aXRoJm5ic3A7YSZuYnNwO2RybV9maWxlLCZuYnNwO21hdGNo
+aW5nJm5ic3A7dGhlJm5ic3A7ZXhpc3RpbmcmbmJzcDtvd25lcnNoaXAmbmJzcDthbmQmbmJz
+cDtsaWZldGltZSZuYnNwO21vZGVsLg0KJmd0OyZuYnNwO1RoaXMmbmJzcDtib3VuZHMmbmJz
+cDtwZXItZmlsZSZuYnNwO2FsbG9jYXRpb25zJm5ic3A7d2hpbGUmbmJzcDt0aGUmbmJzcDt0
+b3RhbCZuYnNwO251bWJlciZuYnNwO29mJm5ic3A7RFJNJm5ic3A7ZmlsZQ0KJmd0OyZuYnNw
+O2Rlc2NyaXB0b3JzJm5ic3A7cmVtYWlucyZuYnNwO2NvbnN0cmFpbmVkJm5ic3A7YnkmbmJz
+cDtleGlzdGluZyZuYnNwO2tlcm5lbCZuYnNwO2xpbWl0cy4NCiZndDsmbmJzcDsNCiZndDsm
+bmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hpYW8mbmJzcDtLYW4mbmJzcDs8ODE0MDkxNjU2
+QHFxLmNvbSZndDsNCiZndDsmbmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hpYW8mbmJzcDtL
+YW4mbmJzcDs8eGlhby5rYW5Ac2Ftc3VuZy5jb20mZ3Q7DQoNCldvdWxkbid0Jm5ic3A7aXQm
+bmJzcDttYWtlJm5ic3A7bW9yZSZuYnNwO3NlbnNlJm5ic3A7dG8mbmJzcDthY2NvdW50Jm5i
+c3A7dGhlJm5ic3A7YWxsb2NhdGlvbiZuYnNwO2luJm5ic3A7bWVtY2cmbmJzcDtieQ0KcGFz
+c2luZyZuYnNwO0dGUF9BQ0NPVU5UJm5ic3A7dG8mbmJzcDt0aGUmbmJzcDtrdnphbGxvYyZu
+YnNwO2NhbGwmbmJzcDtpbiZuYnNwO2RybV9wcm9wZXJ0eV9jcmVhdGVfYmxvYj8NCg0KTWF4
+aW1l
 
-Just setting default to 'y' works for both cases TILCDC as a module or buil=
-tin.=20
+------=_NextPart_695BCB92_22C683E0_494B4EF3
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> > +	depends on DRM_TILCDC
-> > +        depends on OF
-> > +        depends on BACKLIGHT_CLASS_DEVICE
-> > +        depends on PM
-> > +	select OF_OVERLAY
-> > +	select DRM_PANEL_SIMPLE
-> > +	help
-> > +	  Choose this option if you need a kernel that is compatible
-> > +	  with device tree blobs using the obsolete "ti,tilcdc,panel"
-> > +	  binding. If you find "ti,tilcdc,panel"-string from your DTB,
-> > +	  you probably need this. Otherwise you do not. =20
->=20
-> Maybe mention here what it does?
->=20
-> For example, rewording your commit message:
->=20
->   Modifies the live device tree at early boot to convert the legacy
->   "ti,tilcdc,panel" devicetree node to the standard panel-dpi node.  This
->   allows to maintain backward compatibility for boards which were using t=
-he
->   deprecated tilcdc_panel driver.
+PGRpdj48ZGl2PkhpIE1heGltZSw8L2Rpdj48ZGl2PjxiciAgLz48L2Rpdj48ZGl2PlRoYW5r
+cyBmb3IgdGhlIHN1Z2dlc3Rpb24g4oCUIHRoYXQgbWFrZXMgc2Vuc2UuPC9kaXY+PGRpdj48
+YnIgIC8+PC9kaXY+PGRpdj5BY2NvdW50aW5nIHRoZSBwcm9wZXJ0eSBibG9iIGFsbG9jYXRp
+b24gdmlhIEdGUF9BQ0NPVU5UIGFkZHJlc3NlcyB0aGUgcHJvYmxlbSBhdCB0aGUgcmlnaHQg
+bGF5ZXIgYnkgY2hhcmdpbmcgbWVtb3J5IHVzYWdlIHRvIHRoZSBjYWxsZXLigJlzIG1lbWNn
+LCBpbnN0ZWFkIG9mIGludHJvZHVjaW5nIGFkZGl0aW9uYWwgcGVyLWZpbGUgbGltaXRzIG9y
+IHBvbGljeSBpbiBEUk0uIFRoaXMgZW5zdXJlcyB0aGF0IGV4Y2Vzc2l2ZSBhbGxvY2F0aW9u
+cyBhcmUgY29udGFpbmVkIHdpdGhpbiB0aGUgb2ZmZW5kaW5nIGNncm91cCBhbmQgaGFuZGxl
+ZCBieSBtZW1jZyBPT00sIGF2b2lkaW5nIHN5c3RlbS13aWRlIGltcGFjdC48L2Rpdj48ZGl2
+PkkgYWdyZWUgdGhpcyBpcyBhIGNsZWFuZXIgYXBwcm9hY2ggYW5kIHdpbGwgcmVzcGluIHRo
+ZSBwYXRjaCBhY2NvcmRpbmdseS48L2Rpdj48ZGl2PjxiciAgLz48L2Rpdj48ZGl2PkJSLDwv
+ZGl2PjxkaXY+WGlhbzwvZGl2PjwvZGl2PjxkaXY+PGJyICAvPjwvZGl2PjxkaXY+PCEtLWVt
+cHR5c2lnbi0tPjwvZGl2PjxkaXY+PGRpdiBzdHlsZT0iZm9udC1zaXplOjEycHg7cGFkZGlu
+ZzoycHggMDsiIGNsYXNzPSJ4bV9tYWlsX29yaW5naW5hbF9kZXNjcmliZSI+LS0tT3JpZ2lu
+YWwtLS08L2Rpdj48ZGl2IHN0eWxlPSJmb250LXNpemU6MTJweDtiYWNrZ3JvdW5kOiNmMGYw
+ZjA7Y29sb3I6IzIxMjEyMTtwYWRkaW5nOjhweCFpbXBvcnRhbnQ7Ym9yZGVyLXJhZGl1czo0
+cHg7bGluZS1oZWlnaHQ6MS41OyI+PGRpdiBjbGFzcz0ieG1fbWFpbF9vcmluZ2luYWxfZGVz
+Y3JpYmUiPjxiPkZyb206PC9iPiAiTWF4aW1lIFJpcGFyZCImbHQ7bXJpcGFyZEBrZXJuZWwu
+b3JnJmd0OzwvZGl2PjxkaXYgY2xhc3M9InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48
+Yj5EYXRlOjwvYj4gTW9uLCBKYW4gNSwgMjAyNiAxODozNiBQTTwvZGl2PjxkaXYgY2xhc3M9
+InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48Yj5Ubzo8L2I+ICJYaWFvIEthbiImbHQ7
+ODE0MDkxNjU2QHFxLmNvbSZndDs7PC9kaXY+PGRpdiBjbGFzcz0ieG1fbWFpbF9vcmluZ2lu
+YWxfZGVzY3JpYmUiPjxiPkNjOjwvYj4gIm1hYXJ0ZW4ubGFua2hvcnN0IiZsdDttYWFydGVu
+Lmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20mZ3Q7OyJ0emltbWVybWFubiImbHQ7dHppbW1l
+cm1hbm5Ac3VzZS5kZSZndDs7ImFpcmxpZWQiJmx0O2FpcmxpZWRAZ21haWwuY29tJmd0Ozsi
+c2ltb25hIiZsdDtzaW1vbmFAZmZ3bGwuY2gmZ3Q7OyJkcmktZGV2ZWwiJmx0O2RyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7OyJsaW51eC1rZXJuZWwiJmx0O2xpbnV4LWtl
+cm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyJ3IiZsdDt3QDF3dC5ldSZndDs7InNlY3VyaXR5
+IiZsdDtzZWN1cml0eUBrZXJuZWwub3JnJmd0Ozsia2FueGlhbzY2NiImbHQ7a2FueGlhbzY2
+NkBnbWFpbC5jb20mZ3Q7OyJ4aWFvLmthbiImbHQ7eGlhby5rYW5Ac2Ftc3VuZy5jb20mZ3Q7
+OzwvZGl2PjxkaXYgY2xhc3M9InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48Yj5TdWJq
+ZWN0OjwvYj4gUmU6IFtQQVRDSF0gZHJtOiBsaW1pdCBwcm9wZXJ0eSBibG9iIGNyZWF0aW9u
+IHBlciBmaWxlPC9kaXY+PC9kaXY+PGJyICAvPkhpLDxiciAgLz48YnIgIC8+T24mbmJzcDtT
+YXQsJm5ic3A7SmFuJm5ic3A7MDMsJm5ic3A7MjAyNiZuYnNwO2F0Jm5ic3A7MTA6MjU6MjlB
+TSZuYnNwOy0wNTAwLCZuYnNwO1hpYW8mbmJzcDtLYW4mbmJzcDt3cm90ZTo8YnIgIC8+Jmd0
+OyZuYnNwO0RSTV9JT0NUTF9NT0RFX0NSRUFURVBST1BCTE9CJm5ic3A7YWxsb3dzJm5ic3A7
+dXNlcnNwYWNlJm5ic3A7dG8mbmJzcDtjcmVhdGUmbmJzcDtwcm9wZXJ0eSZuYnNwO2Jsb2Jz
+PGJyICAvPiZndDsmbmJzcDt3aG9zZSZuYnNwO2xpZmV0aW1lJm5ic3A7aXMmbmJzcDtzY29w
+ZWQmbmJzcDt0byZuYnNwO2EmbmJzcDtkcm1fZmlsZS48YnIgIC8+Jmd0OyZuYnNwOzxiciAg
+Lz4mZ3Q7Jm5ic3A7Q3VycmVudGx5LCZuYnNwO2EmbmJzcDtzaW5nbGUmbmJzcDtkcm1fZmls
+ZSZuYnNwO21heSZuYnNwO2NyZWF0ZSZuYnNwO2FuJm5ic3A7dW5ib3VuZGVkJm5ic3A7bnVt
+YmVyJm5ic3A7b2YmbmJzcDtibG9icy48YnIgIC8+Jmd0OyZuYnNwO1JlcGVhdGVkJm5ic3A7
+aW9jdGwmbmJzcDtjYWxscyZuYnNwO2NhbiZuYnNwO3RyaWdnZXImbmJzcDt1bmJvdW5kZWQm
+bmJzcDtrZXJuZWwmbmJzcDttZW1vcnkmbmJzcDthbGxvY2F0aW9uJm5ic3A7YW5kPGJyICAv
+PiZndDsmbmJzcDtsZWFkJm5ic3A7dG8mbmJzcDtPT00sJm5ic3A7cmVzdWx0aW5nJm5ic3A7
+aW4mbmJzcDthJm5ic3A7ZGVuaWFsLW9mLXNlcnZpY2UuPGJyICAvPiZndDsmbmJzcDs8YnIg
+IC8+Jmd0OyZuYnNwO0ludHJvZHVjZSZuYnNwO2EmbmJzcDtwZXItZHJtX2ZpbGUmbmJzcDts
+aW1pdCZuYnNwO29uJm5ic3A7dGhlJm5ic3A7bnVtYmVyJm5ic3A7b2YmbmJzcDt1c2VyLWNy
+ZWF0ZWQmbmJzcDtwcm9wZXJ0eTxiciAgLz4mZ3Q7Jm5ic3A7YmxvYnMuJm5ic3A7VGhlJm5i
+c3A7bGltaXQmbmJzcDtpcyZuYnNwO2VuZm9yY2VkJm5ic3A7YXQmbmJzcDt0aGUmbmJzcDtw
+b2ludCZuYnNwO3doZXJlJm5ic3A7YSZuYnNwO2Jsb2ImbmJzcDtiZWNvbWVzJm5ic3A7YXNz
+b2NpYXRlZDxiciAgLz4mZ3Q7Jm5ic3A7d2l0aCZuYnNwO2EmbmJzcDtkcm1fZmlsZSwmbmJz
+cDttYXRjaGluZyZuYnNwO3RoZSZuYnNwO2V4aXN0aW5nJm5ic3A7b3duZXJzaGlwJm5ic3A7
+YW5kJm5ic3A7bGlmZXRpbWUmbmJzcDttb2RlbC48YnIgIC8+Jmd0OyZuYnNwO1RoaXMmbmJz
+cDtib3VuZHMmbmJzcDtwZXItZmlsZSZuYnNwO2FsbG9jYXRpb25zJm5ic3A7d2hpbGUmbmJz
+cDt0aGUmbmJzcDt0b3RhbCZuYnNwO251bWJlciZuYnNwO29mJm5ic3A7RFJNJm5ic3A7Zmls
+ZTxiciAgLz4mZ3Q7Jm5ic3A7ZGVzY3JpcHRvcnMmbmJzcDtyZW1haW5zJm5ic3A7Y29uc3Ry
+YWluZWQmbmJzcDtieSZuYnNwO2V4aXN0aW5nJm5ic3A7a2VybmVsJm5ic3A7bGltaXRzLjxi
+ciAgLz4mZ3Q7Jm5ic3A7PGJyICAvPiZndDsmbmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hp
+YW8mbmJzcDtLYW4mbmJzcDsmbHQ7ODE0MDkxNjU2QHFxLmNvbSZndDs8YnIgIC8+Jmd0OyZu
+YnNwO1NpZ25lZC1vZmYtYnk6Jm5ic3A7WGlhbyZuYnNwO0thbiZuYnNwOyZsdDt4aWFvLmth
+bkBzYW1zdW5nLmNvbSZndDs8YnIgIC8+PGJyICAvPldvdWxkbid0Jm5ic3A7aXQmbmJzcDtt
+YWtlJm5ic3A7bW9yZSZuYnNwO3NlbnNlJm5ic3A7dG8mbmJzcDthY2NvdW50Jm5ic3A7dGhl
+Jm5ic3A7YWxsb2NhdGlvbiZuYnNwO2luJm5ic3A7bWVtY2cmbmJzcDtieTxiciAgLz5wYXNz
+aW5nJm5ic3A7R0ZQX0FDQ09VTlQmbmJzcDt0byZuYnNwO3RoZSZuYnNwO2t2emFsbG9jJm5i
+c3A7Y2FsbCZuYnNwO2luJm5ic3A7ZHJtX3Byb3BlcnR5X2NyZWF0ZV9ibG9iPzxiciAgLz48
+YnIgIC8+TWF4aW1lPGJyICAvPjxiciAgLz48L2Rpdj4=
 
-Ack, I will update it.
+------=_NextPart_695BCB92_22C683E0_494B4EF3--
 
-...
-
-> > +static int __init tilcdc_panel_copy_props(struct device_node *old_pane=
-l,
-> > +					  struct device_node *new_panel)
-> > +{
-> > +	struct device_node *child, *old_timing, *new_timing, *panel_info;
-> > +	u32 invert_pxl_clk =3D 0, sync_edge =3D 0;
-> > +	struct property *prop;
-> > +
-> > +	/* Copy all panel properties to the new panel node */
-> > +	for_each_property_of_node(old_panel, prop) {
-> > +		if (!strncmp(prop->name, "compatible",
-> > sizeof("compatible")))
-> > +			continue;
-> > +
-> > +		tilcdc_panel_update_prop(new_panel, prop->name,
-> > +					 prop->value, prop->length);
-> > +	}
-> > +
-> > +	child =3D of_get_child_by_name(old_panel, "display-timings"); =20
->=20
-> There's some housekeeping code in this function to ensure you put all the
-> device_node refs. It would be simpler and less error prone to use a clean=
-up
-> action. E.g.:
->=20
-> -	struct device_node *child, *old_timing, *new_timing, *panel_info;
->=20
-> -	child =3D of_get_child_by_name(old_panel, "display-timings");
-> +	struct device_node *child __free(device_node) =3D
-> of_get_child_by_name(old_panel, "display-timings");
-
-I am not used to this __free() macro and even some subsystem (net) are avoi=
-ding
-it but ok I will move to it. I don't know what are the pros and cons.
-
-...
-
-> > +	/* Copy all panel timing property to the new panel node */
-> > +	for_each_property_of_node(old_timing, prop)
-> > +		tilcdc_panel_update_prop(new_timing, prop->name,
-> > +					 prop->value, prop->length);
-> > +
-> > +	panel_info =3D of_get_child_by_name(old_panel, "panel-info");
-> > +	if (!panel_info)
-> > +		return -EINVAL; =20
->=20
-> tilcdc_panel_update_prop() has previously done various allocations which
-> will not be freed if you return here. You shoudl probably do all the
-> of_get_*() at the top, and if they all succeed start copying data along
-> with with the needed allocations.
-
-Ok.
-
-...
-
-> > +	ret =3D tilcdc_panel_copy_props(panel, new_panel);
-> > +	if (ret)
-> > +		goto overlay_remove;
-> > +
-> > +	/* Remove compatible property to avoid any driver compatible match
-> > */
-> > +	of_remove_property(panel, of_find_property(panel, "compatible",
-> > +						   NULL));
-> > +overlay_remove:
-> > +	of_overlay_remove(&ovcs_id); =20
->=20
-> Is it correct to remove the overlay here? Won't it remove what you have
-> just added?
-
-Indeed this should be only in the error path. That's weird that it was still
-working during my tests.=20
-
->=20
-> > +out:
-> > +	of_node_put(new_panel);
-> > +	of_node_put(panel);
-> > +	of_node_put(lcdc); =20
->=20
-> Here too you can use cleanup actions, even though the current code is
-> slightly simpler than tilcdc_panel_copy_props as far as of_node_put() is
-> concerned.
-
-Ack.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
