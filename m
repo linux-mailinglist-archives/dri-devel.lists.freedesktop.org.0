@@ -2,61 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC648CF473D
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1F9CF47A9
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B616710E428;
-	Mon,  5 Jan 2026 15:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C33D10E468;
+	Mon,  5 Jan 2026 15:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="X8LNy2fl";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="siYqSzl4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com
- [162.62.57.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D050A10E45F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 15:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1767627646; bh=YO+VnHMZ7XqygvjbowzYR0/1fxdZiUSZO6dZBsYDf38=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=X8LNy2flViG49axl6Jsz/ScJZaj/Stn5IQAdEQGt5PqhCtkX60FlaNzY3yv3Lii0B
- Vidn9Wlt7OwID82y1iuErPyVT5NZ+d2U3OcyXqmK70sycGWatRrCLCcPeofBfBwxcM
- ZNeW5rEQWCwS2A8qe8wuMrk3LW+PsiqyYP18mF1M=
-Received: from kali ([111.19.95.200])
- by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
- id A2A84EF4; Mon, 05 Jan 2026 23:40:42 +0800
-X-QQ-mid: xmsmtpt1767627642tj6w9zihd
-Message-ID: <tencent_A689560FA81D4E35410A7279DB1922CCEC09@qq.com>
-X-QQ-XMAILINFO: Nx5J06Esz7r7iWxsSJakIrwmX6l3kZZEwaoasDdajtnkeRRvSKpuDoQXmXvhF7
- Efj8mLzQBC2K+D/iRaJre01wyl4HilyS7xb8cEIo5CWCXVI9Gc66TtW19Tiw1ZBIH+CKkr7PF6jH
- Ky8+H6opyN0C8wYcE0ZJpC75K6JqraHhmTaeoBtYoLJ1y1kh8K4wYbZp4rZf+qc+t+kFpOH0fSNe
- JVbSaaZ1sfm7JWV6YoBFZTPrJDZCSwzZuPV+g7601mWbRXygvSCIee14VwrFvj2uidzb+L2GqENu
- SxvCfr/Upr8zHU1GMFipZchkaoOTKVO8BjIyBTtWa6qYFowPO++O1j4Nj9kqzUMxZmscMj07zWtV
- 03jFOpFp+Xk3seIL7jCi92U1Jq2AhPtLKLXf3hVXVDNlLmQjan+DMMfLF0hpYUx+2i9VODrnaHYP
- s+ybKv9NiU22rF75L4/DHXdTAeIg1D0cu2RJKZaBLjfmH14PuaKR5Y2DvzdY50GJmqvGrdZWxryE
- +uT8zC6xKadlnb+f2QAXsLZ+gdRTnUwuGoFilO493sblJryxAYZAfC3yCi2jtbk8uv8qIT/Rf87K
- RfXCrqJmz77tml8trvFIJLt9C6ruSHQuVw8BUy54qtASvPcbMfs24RbhHuNKcyq2tVKSE7WZ5TzZ
- jieOscuAKVuqi+abQQXfgOjvbS/pjX4tElgqq8RKxLB77qbJl+YYHptiMSegYuickKXW/c/pwFOb
- lfbjUXJt/zszUJkU5GFigeVmND6NLDdLKnhOLdi/PX+gxST7oq6VdWdC237bP+AVaINYSzda2p3M
- xQ+ReUXyxozDNOBAujsDwAwSbQIPAv1TehrjEqTPpLGGgbLGTYV6kM59F5ihuwNo26G3mfgW8ypA
- Nc1B+lfggER/I9WgG1W9gIaPi26vT0feU2dyvTR1OMTiGl5AfVUIDsAlf6fut1/nSW6HM/kh9IOr
- PH68VQvcQUMubcbd1UgJedgMwJlefaM/8G8GrbbX++QuJIokMxS5+K4LJnh/VFacC6K8qrL6Ia7m
- C69fK6dfuTFSU6DcpIHLNGyCJ/1la3ygXQBAF8bQ==
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-From: Xiao Kan <814091656@qq.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: w@1wt.eu, security@kernel.org, kanxiao666@gmail.com, xiao.kan@samsung.com,
- Xiao Kan <814091656@qq.com>
-Subject: [PATCH v2] drm: Account property blob allocations to memcg
-Date: Mon,  5 Jan 2026 10:40:20 -0500
-X-OQ-MSGID: <20260105154020.32717-1-814091656@qq.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260105-abiding-aloof-locust-dcadac@houat>
-References: <20260105-abiding-aloof-locust-dcadac@houat>
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0CF10E468
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 15:46:01 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 12CDE1A2667;
+ Mon,  5 Jan 2026 15:46:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id D0C1C60726;
+ Mon,  5 Jan 2026 15:45:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 5BF16103C8589; Mon,  5 Jan 2026 16:45:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1767627958; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=urFj5GEfGN8FUr9AOM2C6eqiJQ8QOnGyn9HuswUxntE=;
+ b=siYqSzl40Vyi3gRkzXNtwSMwEya76+IHz+53auu6Pjt5ozNbdfPZkTRqqklql44NeDop1b
+ g6skmldwyiDb3s414SWmAGzorvgwWlL7tjuFf8dfYjqUbJziGpnCtn4JmMyrLAZvkY65+/
+ Wad8Z/Xsgu7aVPaJ9jLbde9LuDKwZvkxi2PWu1RplG+8Pgaoc3a1Fc5YBiAhgmVD0t3DNU
+ o/f3kJQQEUpi5xDULWXoaFWYJv0ohNpe+07F6lCVXE+658vVHMueSf+9yr5DZYPzejXDNd
+ VJ+0XZjsUSqZ02HoL4dTROlwgBBOHtXuQx1EH4M3EWIEEA1EO2Q3FCeqzoHJaQ==
+Date: Mon, 5 Jan 2026 16:45:48 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
+ Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
+ <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
+ <miguel.gazquez@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-omap@vger.kernel.org>
+Subject: Re: [PATCH v2 13/20] drm/tilcdc: Remove the useless module list
+ support
+Message-ID: <20260105164548.0f760c66@kmaincent-XPS-13-7390>
+In-Reply-To: <DF0K7JPSOKLU.3V1FT4LAZSPGB@bootlin.com>
+References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
+ <20251211-feature_tilcdc-v2-13-f48bac3cd33e@bootlin.com>
+ <DF0K7JPSOKLU.3V1FT4LAZSPGB@bootlin.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +81,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_IOCTL_MODE_CREATEPROPBLOB allows userspace to allocate arbitrary-sized
-property blobs backed by kernel memory.
+On Wed, 17 Dec 2025 15:25:40 +0100
+"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
 
-Currently, the blob data allocation is not accounted to the allocating
-process's memory cgroup, allowing unprivileged users to trigger unbounded
-kernel memory consumption and potentially cause system-wide OOM.
+> On Thu Dec 11, 2025 at 5:38 PM CET, Kory Maincent (TI.com) wrote:
+> > The tilcdc driver previously supported a sub-module system where
+> > external display drivers (panels, encoders) could register themselves
+> > through tilcdc_module_init() and be automatically initialized through
+> > a module list. This infrastructure became unused after the component
+> > framework support and panel driver was removed.
+> >
+> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com> =20
+>=20
+> [...]
+>=20
+> > @@ -562,24 +533,7 @@ static struct platform_driver tilcdc_platform_driv=
+er =3D
+> > { .of_match_table =3D tilcdc_of_match,
+> >  	},
+> >  };
+> > -
+> > -static int __init tilcdc_drm_init(void)
+> > -{
+> > -	if (drm_firmware_drivers_only())
+> > -		return -ENODEV;
+> > -
+> > -	DBG("init");
+> > -	return platform_driver_register(&tilcdc_platform_driver);
+> > -}
+> > -
+> > -static void __exit tilcdc_drm_fini(void)
+> > -{
+> > -	DBG("fini");
+> > -	platform_driver_unregister(&tilcdc_platform_driver);
+> > -}
+> > -
+> > -module_init(tilcdc_drm_init);
+> > -module_exit(tilcdc_drm_fini);
+> > +module_platform_driver(tilcdc_platform_driver); =20
+>=20
+> Is this hunk related to the removal of the module list? Looks like it
+> should be a separate patch.
 
-Mark the property blob data allocation with GFP_ACCOUNT so that the memory
-is properly charged to the caller's memcg. This ensures existing cgroup
-memory limits apply and prevents uncontrolled kernel memory growth without
-introducing additional policy or per-file limits.
+Indeed it is not directly related, but a following cleanup. I will put it in
+another patch.
 
-Changes since v1:
-  - Drop the per-drm_file blob count limit.
-  - Account blob data allocations to memcg via GFP_ACCOUNT instead.
-
-Signed-off-by: Xiao Kan <814091656@qq.com>
-Signed-off-by: Xiao Kan <xiao.kan@samsung.com>
----
- drivers/gpu/drm/drm_property.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-index 596272149..c5c91b88f 100755
---- a/drivers/gpu/drm/drm_property.c
-+++ b/drivers/gpu/drm/drm_property.c
-@@ -562,7 +562,7 @@ drm_property_create_blob(struct drm_device *dev, size_t length,
- 	if (!length || length > INT_MAX - sizeof(struct drm_property_blob))
- 		return ERR_PTR(-EINVAL);
- 
--	blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
-+	blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL | GFP_ACCOUNT);
- 	if (!blob)
- 		return ERR_PTR(-ENOMEM);
- 
--- 
-2.51.0
-
+>=20
+> With that hunk removed (or kept if I'm wrong and it should stay):
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
