@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12736CF4516
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E987CF4525
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A08A10E405;
-	Mon,  5 Jan 2026 15:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF56E10E42E;
+	Mon,  5 Jan 2026 15:11:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mg4y+KTB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Zz0kop2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
  [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C12C610E405
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 15:11:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A92710E42E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 15:11:58 +0000 (UTC)
 Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4779ce2a624so76575e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 07:11:16 -0800 (PST)
+ 5b1f17b1804b1-4775e891b5eso53995e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 07:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767625875; x=1768230675; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1767625917; x=1768230717; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=fIpW6cQc9IrIDvqtHuiJ6nwu+gkAkXOSeW3JkpE2jgw=;
- b=Mg4y+KTBY/VEp17m3YJZatJOBZEWH+w521IvQmUSka85D1FsFjwtljJNxFm/fz8lZS
- PRNKA5HzCgRPf1u3jPvRQN8hIr0/nJB1No29hhZZCbQ8BaxR1vYwcMvqjkh9MV1Aznn2
- If5gJOJ3uSxa4CaCUTGsf0TtZLM4wgq1VLswInsLYjEQI9MirCdSZYbx+fc9J6OVM4tW
- xNSMFCVEKBRPP60FxTQCV0PcNuwnTaOtwyMDOqAlJUDmeKDcsjsDyi3XP8a9X/lYSJI3
- MccbtotuUbBhzwPxWiHKRFfReth/sexlRzvILoPVEp7aPuszP+wehiEd5BxLd5uTwJ1N
- sLwA==
+ :reply-to; bh=ZICbs1ZKFUXAVw8Uv53chEaSv1izJm54XChd7BXTSFI=;
+ b=Zz0kop2A8PMGsmawRq3pV1v8KL0RJtCiow5Aaeh5FkNJP02BTsDgPpMNBaD0r/1H6v
+ wC71604BN80XZVSMg1CNv4w3VuOggbT7gYMhB2TJoFV70/nMXhlDUrLxLBGH5DEZFDzy
+ EaAa4RrlD7RGVXR5GkM+xgD53TKpI90VDF+SGq0M9jsU5RHWSNh8DrQeIZ3E5ZC14jGB
+ 6zJiegBXzJFkAQtHvGZDDp3rAUnrfG6r1UJmMMsKG6dlsr1ugWQxF49iqQ0u3NDE0pHN
+ c4bgbPuA71Zdz2fgis7ozplR6gXKVMHAwSSg5zwMg5X4/VFhxjO6kPmz40ryJcg3xvZS
+ r1fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767625875; x=1768230675;
+ d=1e100.net; s=20230601; t=1767625917; x=1768230717;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fIpW6cQc9IrIDvqtHuiJ6nwu+gkAkXOSeW3JkpE2jgw=;
- b=KX9MrtOAW71BgCDrw/K+zjaP+rDTIh1zzjOeTngEe4P6BMGo14jMnDXLFyODlqusMa
- L9USPNz4osJQrO4ZpQiaPYyVuMeIJKwkqQI1DgkadXnoyQxYGXd/QbsmJoRB/avFRSyU
- vL8iRen05XC/YBXrxZeWd2eRk11wdM6JZUZ+RbrUytN48SE+oWCgtz/tdwhJUk0Vmp2J
- nDf1jArMNOfOzlkSi+gr96B1DfTUPsS5mGaV0rJP218ipYGnfufWqYZHZqcC6fJRxgzE
- xX+I4ABaIqTWThwdHHp8UoTbXs1CgCmlMmaZ9jst/A2UupRvU4RsVqtXuz7Pd6mXcOzB
- IqDQ==
-X-Gm-Message-State: AOJu0YyIG7VP7av6CC+bJ5WkiZHs9M7e4XxBLJkPn2wvyXCXkegLZ1zd
- 1dFZ37HNgpt/Pkz42hFoebTvYzoKynXi0dIHV+UB7Jn1E5MkVy9MSXy902o7deE3DhGNQVSYjPe
- 2juCx
-X-Gm-Gg: AY/fxX49WXxKEApdPnS+z7xPyWRT4ExG9Li9HLhaZN331uDe41tOBjW6fBe+kuYIChy
- XeiXTiMItTjxK8es/97rrJxnu/Ni75GOhVtBwAdLCDFiab2+686jUuK+k4T/jBDLEOMxY3BReH1
- Vb6kynVpO+LpCE6V5GleVajGgAjUN3ZRj4pj9EV6YZzCaxN6IK5GQrmWcc5ZhI72Y289jOErSnn
- vyKyZGO2wk4gr3nQQPT6TY8D2w3uivrOYwC6F+EPhudfNtBJrWIhtntEUQj8j/Z6b5yFyNhcUdc
- Vbt9XJW+vNKN+W5OXzzdVp5bJqB++EbnzAuI6NUJfcjxCCTACElyeKz4067pGc9LAPaU4iuNsZj
- 4bsSD0VDQVoqUyBjCItf/le2bsHU50FFD+VYDkQXVOIkUbBZhKTJfN1rXBMqG7hSCoXD1pXLmU2
- cZ/ydqkFNluB9UwWcFNMT9fNnCBF6Z99rQqCF9MusEsT0IqEsdkyVE5sw8vJ8HuuI=
-X-Google-Smtp-Source: AGHT+IGUHUHeBKegaOYx59FFoOUtzcp8vHYfP0LVvdnYaJI+3e/IojOUAlwYde9llSXTl/krlM8cpw==
-X-Received: by 2002:a05:600c:4ed2:b0:475:e067:f23d with SMTP id
- 5b1f17b1804b1-47d1959eaaemr657588355e9.25.1767625875140; 
- Mon, 05 Jan 2026 07:11:15 -0800 (PST)
+ bh=ZICbs1ZKFUXAVw8Uv53chEaSv1izJm54XChd7BXTSFI=;
+ b=IeBFRhZSctAYXzgSwBJnrgKx78zp7tHtj4tHT6HFCXfO4C4nmuO0JhhT71d/Ik8nkZ
+ q1WsoZzZ/5Dzh9Y6HaZ0MbgO65n4YCw7tpM8MDMwQXRHvualjKwlN4Vu3ZhJ3svWJ9iv
+ XMmqMdvVRfNKrQTyz4SngkqSQhFGF6rqSMPGnViExuBXoXeTniGie4mMYoeiLd+NyNb4
+ Kr1nR5JkfdaR5od1st3hf5D/YdNn2kraqCttk5OSnJn+KBYrgGmO54ATC+AB3zp6oQCc
+ sYv7D5Q4JHubdp7inOkwDtr1e1YU4oE5Ph91blWOJETIdIOjkspisWm+ynKa8y1vbeJa
+ CWaQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZ7f97qhXc+ZLCpTbiOr/jjTBiOn8gxFhNVwYKLo67cL4XMZeNOU4wsCk2MVVuqhMgy/5Om2XY8PI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyepVIMApyUHUS+jBVpG4O6U7iQ5NNDEqPQWqMChszNYHt8oIPf
+ 7mVsKDB+cHU6HYyLB0XdigaQfXuGrhXPfMyVHz1aHqQAL2C9DLjHtE+PLN5Y4n/2C14=
+X-Gm-Gg: AY/fxX6IBOmAI4dLo4LUCwsAhbkcr9rBKF9FlyBAywxWnFckKBY1n46aWWH0dDMMGuo
+ JCar0ajRnYNpJAE1QOD/ndphZ0ixFrEGHiy3WJ2FUkQBp0Q94aTgm0+Eyqo+CSOa/A1dka9ZPj8
+ eiYk7nrphBz+7kvXdYYCZSPtjmZ03AM4wvOX1re62BiVt7dwVZiXXQAgOX4BQKsNGiJnClDvaHZ
+ 6Z0KANdXBl74euRed3ILmQws7LZX6IicF95h9JFXWkfIZGw8jhWjVWu6VymiDMUWZp7UI6OH096
+ h88qh+h4hDf5lKGe6VEEME/PUcTVc/E6AWRRk0HaQmEKa+dHmakUe38WS10okAMwYqfH0HFWqAr
+ FPezX0dL+A8ZKrtss6E8VM8uElseu36y0CSdewD1HRHpzQBDNxsRSUBSDQClC/prHi8xaU4qWfD
+ 7rrkcKlO8suYwEcuJT5wo2fdqpI6NEohexx7y4z/25kvXdMZBIPpE5aryA3JD57y0=
+X-Google-Smtp-Source: AGHT+IHRLvC8RFN1wxpNMmjmLXPXlAzEc9S+ADXuomF/jWk/3+qxIvBtpEcUlQn4VBvzYM2OCRH1ZA==
+X-Received: by 2002:a05:600c:154b:b0:477:55c9:c3ea with SMTP id
+ 5b1f17b1804b1-47d1958e7b9mr656916475e9.35.1767625916649; 
+ Mon, 05 Jan 2026 07:11:56 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:d4c1:5589:eadb:1033?
  ([2a01:e0a:3d9:2080:d4c1:5589:eadb:1033])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47d73066fdbsm107246285e9.15.2026.01.05.07.11.14
+ 5b1f17b1804b1-47d6d13e2e0sm197844145e9.1.2026.01.05.07.11.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jan 2026 07:11:14 -0800 (PST)
-Message-ID: <91d3e10d-1f8e-4c1a-9919-fafb949e935d@linaro.org>
-Date: Mon, 5 Jan 2026 16:11:14 +0100
+ Mon, 05 Jan 2026 07:11:56 -0800 (PST)
+Message-ID: <9fbeb95f-8f79-4983-857c-659566206835@linaro.org>
+Date: Mon, 5 Jan 2026 16:11:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 2/2] drm/panel: simple: Add Innolux G150XGE-L05 panel
- entry
-To: Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org,
- Fabio Estevam <festevam@nabladev.com>
-References: <20260102141706.36842-1-festevam@gmail.com>
- <20260102141706.36842-2-festevam@gmail.com>
+Subject: Re: [PATCH 2/4] drm/panel-edp: Move FriendlyELEC HD702E
+To: Robin Murphy <robin.murphy@arm.com>, heiko@sntech.de,
+ dianders@chromium.org, thierry.reding@gmail.com, sam@ravnborg.org
+Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <cover.1767111804.git.robin.murphy@arm.com>
+ <027763b36fbad2005d09eeb289b7716c57f65e76.1767111809.git.robin.murphy@arm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -103,7 +103,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260102141706.36842-2-festevam@gmail.com>
+In-Reply-To: <027763b36fbad2005d09eeb289b7716c57f65e76.1767111809.git.robin.murphy@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,66 +122,105 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/2/26 15:17, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@nabladev.com>
+On 12/30/25 18:20, Robin Murphy wrote:
+> FriendlyELEC's HD702E module is an eDP panel (in as much as it's some
+> LVDS LCD behind a Chrontel CH7511B eDP bridge), so move its data over
+> to the eDP driver, also resolving the warning about the missing bpc
+> value in the process.
 > 
-> Add support for the Innolux G150XGE-L05 15.0" TFT 1024x768 LVDS panel.
-> 
-> Signed-off-by: Fabio Estevam <festevam@nabladev.com>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 > ---
-> Changes since v1:
-> - None.
+>   drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/panel/panel-simple.c | 25 -------------------------
+>   2 files changed, 26 insertions(+), 25 deletions(-)
 > 
->   drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
->   1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 3acc9f3dac16..c606e5932ca7 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2836,6 +2836,32 @@ static const struct panel_desc innolux_g121xce_l01 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 415b894890ad..dd53ccc209ce 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1256,6 +1256,29 @@ static const struct panel_desc boe_nv140fhmn49 = {
+>   	},
 >   };
 >   
-> +static const struct display_timing innolux_g150xge_l05_timing = {
-> +	.pixelclock   = { 53350000, 65000000, 80000000 },
-> +	.hactive      = { 1024, 1024, 1024 },
-> +	.hfront_porch = { 58, 160, 288 },
-> +	.hback_porch  = { 58, 160, 288 },
-> +	.hsync_len    = { 1, 1, 1 },
-> +	.vactive      = { 768, 768, 768 },
-> +	.vfront_porch = { 6, 19, 216 },
-> +	.vback_porch  = { 6, 19, 216 },
-> +	.vsync_len    = { 1, 1, 1 },
-> +	.flags        = DISPLAY_FLAGS_DE_HIGH,
+> +static const struct drm_display_mode friendlyarm_hd702e_mode = {
+> +	.clock		= 67185,
+> +	.hdisplay	= 800,
+> +	.hsync_start	= 800 + 20,
+> +	.hsync_end	= 800 + 20 + 24,
+> +	.htotal		= 800 + 20 + 24 + 20,
+> +	.vdisplay	= 1280,
+> +	.vsync_start	= 1280 + 4,
+> +	.vsync_end	= 1280 + 4 + 8,
+> +	.vtotal		= 1280 + 4 + 8 + 4,
+> +	.flags		= DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
 > +};
 > +
-> +static const struct panel_desc innolux_g150xge_l05 = {
-> +	.timings = &innolux_g150xge_l05_timing,
-> +	.num_timings = 1,
+> +static const struct panel_desc friendlyarm_hd702e = {
+> +	.modes = &friendlyarm_hd702e_mode,
+> +	.num_modes = 1,
 > +	.bpc = 8,
 > +	.size = {
-> +		.width  = 304,
-> +		.height = 228,
+> +		.width	= 94,
+> +		.height	= 151,
 > +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->   static const struct display_timing innolux_g156hce_l01_timings = {
->   	.pixelclock = { 120000000, 141860000, 150000000 },
->   	.hactive = { 1920, 1920, 1920 },
-> @@ -5314,6 +5340,9 @@ static const struct of_device_id platform_of_match[] = {
+>   static const struct drm_display_mode innolux_n116bca_ea1_mode = {
+>   	.clock = 76420,
+>   	.hdisplay = 1366,
+> @@ -1663,6 +1686,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "innolux,g121xce-l01",
->   		.data = &innolux_g121xce_l01,
+>   		.compatible = "boe,nv140fhmn49",
+>   		.data = &boe_nv140fhmn49,
 > +	}, {
-> +		.compatible = "innolux,g150xge-l05",
-> +		.data = &innolux_g150xge_l05,
+> +		.compatible = "friendlyarm,hd702e",
+> +		.data = &friendlyarm_hd702e,
 >   	}, {
->   		.compatible = "innolux,g156hce-l01",
->   		.data = &innolux_g156hce_l01,
+>   		.compatible = "innolux,n116bca-ea1",
+>   		.data = &innolux_n116bca_ea1,
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index b26b682826bc..3ea52667b858 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2359,28 +2359,6 @@ static const struct panel_desc frida_frd350h54004 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_DPI,
+>   };
+>   
+> -static const struct drm_display_mode friendlyarm_hd702e_mode = {
+> -	.clock		= 67185,
+> -	.hdisplay	= 800,
+> -	.hsync_start	= 800 + 20,
+> -	.hsync_end	= 800 + 20 + 24,
+> -	.htotal		= 800 + 20 + 24 + 20,
+> -	.vdisplay	= 1280,
+> -	.vsync_start	= 1280 + 4,
+> -	.vsync_end	= 1280 + 4 + 8,
+> -	.vtotal		= 1280 + 4 + 8 + 4,
+> -	.flags		= DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> -};
+> -
+> -static const struct panel_desc friendlyarm_hd702e = {
+> -	.modes = &friendlyarm_hd702e_mode,
+> -	.num_modes = 1,
+> -	.size = {
+> -		.width	= 94,
+> -		.height	= 151,
+> -	},
+> -};
+> -
+>   static const struct drm_display_mode giantplus_gpg482739qs5_mode = {
+>   	.clock = 9000,
+>   	.hdisplay = 480,
+> @@ -5235,9 +5213,6 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "frida,frd350h54004",
+>   		.data = &frida_frd350h54004,
+> -	}, {
+> -		.compatible = "friendlyarm,hd702e",
+> -		.data = &friendlyarm_hd702e,
+>   	}, {
+>   		.compatible = "giantplus,gpg482739qs5",
+>   		.data = &giantplus_gpg482739qs5
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
