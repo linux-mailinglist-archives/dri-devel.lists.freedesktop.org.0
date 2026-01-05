@@ -2,100 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093DFCF4B92
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:36:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6A0CF4BBC
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C8C10E421;
-	Mon,  5 Jan 2026 16:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E680810E411;
+	Mon,  5 Jan 2026 16:37:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OiDqQhsx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W7LVJEuK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9088B10E421
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:36:13 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-78fc520433aso1637107b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 08:36:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767630972; x=1768235772; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pmLroKiaaSIEDmiG3hNy96115cezpvbgC/O0Qw/mmcE=;
- b=OiDqQhsx2orWUqdE5CFYhVFE6bippgu6PqYpaal7j0uBaej8TS7TBE4MOi3NzaKXhW
- DEj4yMymf0cLM7iMGw+Su6mgKGAFNRp++7wEfNMn677DA5tmYrP45zzNsXogjQ8quYdp
- cltDjgd3Xvsqk246L1PPjHe1V59RZJmogAvZVT5Q4Da69mHCI6vmETuI8uHKBhpqd7BX
- F/vrjgwerlgDKIjWWEhVcAvoq1rJLIr3+y2fh204fl+egCqEC21ITCUcs9tNa/JE9H6T
- zAIXD+Ou6jZyOPPAnzx7SaaM09pegdTIgTvdW5NYjbkgSVq6MOBc80oUsmmG8L8Q9+P5
- wQOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767630972; x=1768235772;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pmLroKiaaSIEDmiG3hNy96115cezpvbgC/O0Qw/mmcE=;
- b=mYLtz/G5azKN6lQX7QFNeM8vC338Q9yLngwgriUMALTPWM44sh7eVWjbzxwQeGU/3W
- GRSI1KN3zTTG3i7Z/Hu19G2NOlyYn7qIqbMaMtFCFhXMgL/5fTqelKmsfVvgDv/MJPmu
- A8ud46hPhbN4wDxFpUb+zWNpDjcDAsyegZ6jwkO0udrPe/UACaq2qaJMXvqbYfRx6nPw
- xIClIkBIUm9U7VhpvlT+n++ipXA7S9gkjC50oXLhN5QNCVNNInTsnUnBsreaZW7OLltd
- wwYgMyr1x9Zx9JWDiXLVW+kLL+e2k+Yw9R4NKp2quDJtwH4XYdlteNTv92yvliCdeDOS
- k4Rg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlGOMCsvrsCM+VVE5wQwBrf9jOuxA/+ly9jnfbKQU8NQIwITnJBxYx7N56MJD+/NTAd9ACClcOmcY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeW5463ZEaKyvG9MP97Qikv68NkRnzsZZAbex1uAHlX0CJa3gQ
- 78mYyecMB13FcxZdnGFIdTw0tAZlPosAdoC6nTNctit8nFJUpRlEYM7F
-X-Gm-Gg: AY/fxX73Mmr11TVD5D/w/s/zpHHLz/klkXdzvQh0WE02ywYk5AKcnyVT1N3q+bUG/Ln
- BxAsvBE4kNFqoPJLodRVTuwPxWB0C7NK3fCgvzjMaPuuyIfkeWrLprdT6+/J+y7B/yUdLkgvJLu
- jF4PL29ibQrMiZZ3iYhZh0jqNMpGtRzffjnmu970yUn79rx8jT7K9hmXfa6XdyE/dVvUA9pVdxO
- Gm27rIol/71iYaenk9RgPl6N7vHzWBoORt8W6YJiLIV6RbTnB0JYNj6BIIvUzKbNYD3LMjm2+wN
- 7bp9rDdT5ngwoQHGkzluEQQ7LfY8iBz57sWIMiRqeaR3ASFZFrcEjwJaNaRHUqN+GgA9AHcoKg0
- QzOhhtEYG2yApPWXcNzNw2xcXgtVB1UsowUpqEvusT8RfAO8Q6UBfR6OHBSp4IsA/hB9Qp0qx3J
- UJNxKDHNM=
-X-Google-Smtp-Source: AGHT+IHZnvqij0p2dsVEyUAqfbDQF6JM3zbwBqi4iRccM72+GqOmYwfEQER+7XbmOSanBy2kuKO6sw==
-X-Received: by 2002:a05:690c:45ca:b0:78f:aa6d:48cd with SMTP id
- 00721157ae682-790a88f50b1mr1761297b3.0.1767630972421; 
- Mon, 05 Jan 2026 08:36:12 -0800 (PST)
-Received: from localhost ([2601:346:0:79bd:830c:9f83:df41:3e7d])
- by smtp.gmail.com with ESMTPSA id
- 00721157ae682-790a87dce60sm648267b3.13.2026.01.05.08.36.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jan 2026 08:36:12 -0800 (PST)
-Date: Mon, 5 Jan 2026 11:36:11 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A33610E437
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767631042; x=1799167042;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qZAn9J61xyp2Ig1CyWZxSXFDkMK7qiIB3/dvwnNhe+g=;
+ b=W7LVJEuKEeRy5Ljc6t0vHX7hPnyAR2Hgg2tTrzc0+esSkx6hLP1yvPND
+ S3SUnolAswg1rE2Gb1tBB69RDenG5yA9azNPpx2Q/CQZLOvugvY4YST7N
+ nSB98hp2RWZEdHjFw7xQlE2UrHdS2TnlGYkxnq5X2tdWnIYH0byb4sOzb
+ iXqZ3/u01JG1XLQPHuunYQJVWRUM0ZTKvKxTS6KirnfE5nPzUJKZhQR9y
+ 3MwjEmHAe99KS/0OrQdrgKxAULJizVAQRcHXyZaa13L7FfC7JDgK7bb0D
+ +aBU8y7iVqqY0K7974O30LunVCZngjP4YA8aTV+yLRSFjIfu3bUz1AvpE Q==;
+X-CSE-ConnectionGUID: JE8U8qibSKGT9x2ed+v4HA==
+X-CSE-MsgGUID: G9BOmQ1oQRaPCo0DPIgwIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79632665"
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="79632665"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 08:37:00 -0800
+X-CSE-ConnectionGUID: y6OEChXgRsWd37sdoT/7/w==
+X-CSE-MsgGUID: TKzZCZDEQLevivsC5HWQ9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="202475744"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.215])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 08:36:59 -0800
+Date: Mon, 5 Jan 2026 18:36:56 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
-Message-ID: <aVvoe5fQN3EUtEAJ@yury>
-References: <20251225170930.1151781-1-yury.norov@gmail.com>
- <20251225170930.1151781-8-yury.norov@gmail.com>
- <20251226115848.298465d4@gandalf.local.home>
- <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
- <20251229111748.3ba66311@gandalf.local.home>
- <20260103005059.GA11015@joelbox2>
- <aVkSVk2L6VH9MYGz@smile.fi.intel.com> <aVkmQ4EGIQgAddZQ@yury>
- <254c1096c3b892923dd12b07a8b80291b88c0e9b@intel.com>
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 4/4] staging: fbtft: hx8353d: send LUT via buffer to
+ reduce stack usage
+Message-ID: <aVvoqP9ONrNF45N4@smile.fi.intel.com>
+References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+ <20260104110638.532615-5-sun.jian.kdev@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <254c1096c3b892923dd12b07a8b80291b88c0e9b@intel.com>
+In-Reply-To: <20260104110638.532615-5-sun.jian.kdev@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,64 +75,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 05, 2026 at 11:29:51AM +0200, Jani Nikula wrote:
-> On Sat, 03 Jan 2026, Yury Norov <yury.norov@gmail.com> wrote:
-> > On Sat, Jan 03, 2026 at 02:57:58PM +0200, Andy Shevchenko wrote:
-> >> On Fri, Jan 02, 2026 at 07:50:59PM -0500, Joel Fernandes wrote:
-> >> > On Mon, Dec 29, 2025 at 11:17:48AM -0500, Steven Rostedt wrote:
-> >> 
-> >> ...
-> >> 
-> >> > I use trace_printk() all the time for kernel, particularly RCU development.
-> >> > One of the key usecases I have is dumping traces on panic (with panic on warn
-> >> > and stop tracing on warn enabled). This is extremely useful since I can add
-> >> > custom tracing and dump traces when rare conditions occur. I fixed several
-> >> > bugs with this technique.
-> >> > 
-> >> > I also recommend keeping it convenient to use.
-> >> 
-> >> Okay, you know C, please share your opinion what header is the best to hold the
-> >> trace_printk.h to be included.
-> >
-> > What if we include it on Makefile level, similarly to how W=1 works?
-> >
-> >         make D=1 // trace_printk() is available
-> >         make D=0 // trace_printk() is not available
-> >         make     // trace_printk() is not available
-> >
-> > Where D stands for debugging.
-> >
-> > D=1 may be a default setting if you prefer, but the most important is
-> > that every compilation unit will have an access to debugging without
-> > polluting core headers.
+On Sun, Jan 04, 2026 at 07:06:38PM +0800, Sun Jian wrote:
+> Clang reports a large stack frame in init_display()
+>  (-Wframe-larger-than=1024) due to the very large
+>  write_reg(MIPI_DCS_WRITE_LUT, ...) call.
 > 
-> You do realize this means recompiling everything when adding D=1 for
-> debugging?
+> Send MIPI_DCS_WRITE_LUT followed by the LUT payload using
+> fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
+> 
+> No functional change intended.
 
-Yes sir I do.
+...
 
-It would be as simple (or hard) as building another arch:
+> +static const u8 lut[] = {
+> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
+> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
+> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
 
-        make O=../build/linux-arm64
-        make O=../build/linux-x86_64
-        make D=1 W=1 O=../build/linux-x86_64-dev
+Two tabs too many on each line.
 
-If you're both developer and CI engineer in your company, you're likely
-already doing something like that. If you're CI-only, there're no
-changes for you. If you're a developer - yeah, you'd have to learn a
-new flag.
+> +		};
+> +
 
-The real problem of course is the status inflation. The fact that
-defconfig enables CONFIG_EXPERT and CONFIG_DEBUG_KERNEL implies that
-every random person who is able to do:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-        git clone && make && sudo make install
 
-now assumed an expert kernel user and active developer. It is not
-correct, and it leads to bloating kernel with dev-only features.
-
-What we discuss here is a new marker for those real experts and
-developers, I think. (In an hope that it will inflate not very fast.)
-
-Thanks,
-Yury
