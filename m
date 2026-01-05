@@ -2,81 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E022CCF5871
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8450CF58ED
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:47:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABF510E413;
-	Mon,  5 Jan 2026 20:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4860410E079;
+	Mon,  5 Jan 2026 20:47:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qc55tR0O";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BMHzx6W0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 655DE10E414
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:30:59 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-6505d1420daso47063a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 12:30:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767645058; x=1768249858; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding
- :disposition-notification-to:references:in-reply-to:date:cc:to:from
- :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=hVECE95AM8EQn11Eu+Wr1AoXJjdignGWqzA0rD5sR/g=;
- b=Qc55tR0OvuWG3l1ivg7U4MifO2GI2tJMqKMLTgfwwbEC/YuLSzTuL1VvWieLccZZMq
- iDQnwIkRFw/SHGHu6wzqe/zkdyPnWscRk3zLV7AnxYZoBYCE0AtxIU5L+w7VBQ8E7zdr
- 32kcaxP2awRx2s3mPZCC9ySt3FPvL6stbpizBA6xkWDdWhgX7NzW3UNBvamSdYhCfenz
- p3SKXRTuWeW1K4hnUWy9LVbXHvOfNlEXalE8L/8wpG/8b8x912SY9bg2yOTCU3DyLayB
- LgGwCKpWX0vE2zbGdUcb8D1AgXeZq+OAZ8CcPvqHakR7xj59Pwju31VfPDCRE2MTNfPK
- nmmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767645058; x=1768249858;
- h=mime-version:user-agent:content-transfer-encoding
- :disposition-notification-to:references:in-reply-to:date:cc:to:from
- :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=hVECE95AM8EQn11Eu+Wr1AoXJjdignGWqzA0rD5sR/g=;
- b=I7zZLSVjBAYW+t1p8JXqfzORVKKbGTIrYYbBayy2LoTxmQRm3TKDQVaVI4VYSUT4H4
- WG8eXCQRhjREHOKn+0atWfSyyU0YiyNCArDlcmrlShDybTdxRR+qYiXDKps/40gCwudr
- 28WtpNazfb05YiYn0TWZydeWlqliSWy4cNJKVFKzYto+kQunDWFe4BtzSGc4Ac5nWIxZ
- JxS1dlByc/ovDt9W+/yNF0+HKzl+1ao2CGQEaNMby4FPPFkXL8VShXzWH0DXby7CZQF9
- HiyKwtAH6PbIg9VsjXV1/wEyzh0cTUGcLQiWyv6Tix6WUKJkbCWcQmb3HmjjAjAHDszb
- W0XQ==
-X-Gm-Message-State: AOJu0YzKFnPu817v0Eh3UWJ+Y2vYKP5wX8UFrx63sEyAmPk5D2KrhZ+8
- eUmLQHcWsd/Zf77qm+784AIoV7+cHBzeVCd5AYSMtv6Dh7zJi4xdWbHN
-X-Gm-Gg: AY/fxX4NzB5XerhjXFxq+Iq4cSN7/MNIRJ62v1sZkumIXiItrRKK/rD2WU1DQjQE06b
- TTOAet54LoQjneE27HYpYEpKl0MFrQigdthYl3nncEmEhBEClPiFroM9GdL0paIDI+0y4ScVU1B
- jvXCAWVouqJOEh2M5I3S8HWdQ0bJ67nZBKykmOQKmC5iB1753/v89TCe0MuDlVtsuYLBZfTioOD
- s0cTvBjSfPFnlCEeZxQ5ixXDc+2epG4l3ked87t0B6YKxJrr2zjkeclunHJZYeHGGAziTThOGHv
- erT/c9XOS+QZEQd8BBPvQCMUBqlqomsNAPPehkSqb6hVwJGR10eYRMHRKbZcZzcRGnptoeIgn1Q
- qa1RHsLiXBI4QlTyGfGnDPybmgOf/jokXzJ6tjq0xU9ePk8+pyuCG9Bwaiz3HF6O8jM1xQXgSvF
- GIALsmXPyWjwvAhEpDE48t75U2Te0/k8Kol7Akpq8LnwJOkXKMHOm/HrO3/pHGcJyOgBwumOs=
-X-Google-Smtp-Source: AGHT+IEebwiWuXl1F8QHnnykIpu9467Snh7tcDDZiJH8az6WUjwWW9mBHxH2ppJZkdF+bHqj2P8QOA==
-X-Received: by 2002:a05:6402:3513:b0:640:abd5:8646 with SMTP id
- 4fb4d7f45d1cf-6507955d2abmr365284a12.4.1767645057730; 
- Mon, 05 Jan 2026 12:30:57 -0800 (PST)
-Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl.
- [87.205.5.123]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a4d31e7sm22291166b.42.2026.01.05.12.30.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jan 2026 12:30:57 -0800 (PST)
-Message-ID: <9213ab090c4aab1bdd134857d3f5a88cff505fc6.camel@gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Add VRR support for MST connectors
-From: tomasz.pakula.oficjalny@gmail.com
-To: =?UTF-8?Q?Micha=C5=82_Bie=C5=82aga?= <mbielaga1@gmail.com>, 
- amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
- sunpeng.li@amd.com, 	siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
-Date: Mon, 05 Jan 2026 21:30:56 +0100
-In-Reply-To: <20251103100845.12802-1-michal.bielaga@deliveroo.com>
-References: <20251103100845.12802-1-michal.bielaga@deliveroo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE4810E079
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:47:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 78D5960010;
+ Mon,  5 Jan 2026 20:47:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B913DC116D0;
+ Mon,  5 Jan 2026 20:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767646030;
+ bh=0cXxgiKJYEDsCA8YbH5UmnzTobnhAPOmLswUtmtPxRA=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=BMHzx6W0wYpa3dgpAYuiWxtwk/g6bicVK04ntKuo+FrzNCEcut784a7NVdkREQZ4Q
+ n4b9t2XKZwfbQY6ArCYQZMAmEdWhpQGSVD7qkABSAfRymBfqNTZYJpXZpRI7C7lRRR
+ oesQ925GuAJP+kPS+GIt2TaKlrtanK8p9EXO57ajadGtvsbqVeMrKEVFhcwYQdIYa7
+ VkFFAlpclS3v14r8gKi2wB1f3DcqJU46CQEAqo980IZaN8BYe9OfQtj3CP1niifHIy
+ FlIgh+mkVBtY0Cf10+z+7TjcjSnOIynxH6CzYDfTlgR9raoYjiNClOWiXo9nZjKbUj
+ kczLXVhiwMwjg==
+Message-ID: <54fe30d3-856e-45d4-ba30-b9e770d9afc6@kernel.org>
+Date: Mon, 5 Jan 2026 21:47:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] kbuild: remove gcc's -Wtype-limits
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+References: <20260101-remove_wtype-limits-v4-0-225b75c29086@kernel.org>
+ <aVutfSk4PWbGac_Q@levanger>
+From: Vincent Mailhol <mailhol@kernel.org>
+Content-Language: en-US
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Daniel Plakosh <dplakosh@sei.cmu.edu>
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <aVutfSk4PWbGac_Q@levanger>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,108 +79,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-11-03 at 11:08 +0100, Micha=C5=82 Bie=C5=82aga wrote:
-> From: Michal Bielaga <mbielaga1@gmail.com>
->=20
-> Variable Refresh Rate (VRR/FreeSync) currently only works with
-> Single-Stream Transport (SST) DisplayPort connections. Monitors
-> connected via MST hubs cannot utilize VRR even when they support it,
-> because the driver only enables VRR for SST connections.
->=20
-> This patch enables VRR for DisplayPort MST by:
-> - Including SIGNAL_TYPE_DISPLAY_PORT_MST in VRR capability detection
-> - Reading VRR range from display EDID instead of MST hub DPCD, since
->   dc_link points to the hub rather than the actual display
-> - Fixing call order to parse EDID before checking VRR capabilities,
->   ensuring display_info.monitor_range is populated
-> - Properly attaching VRR property to MST connectors by reusing the
->   master connector's property
->=20
-> Without this patch, MST displays cannot use VRR even if they support
-> it, limiting the user experience for multi-monitor DisplayPort MST
-> setups.
->=20
-> Signed-off-by: Michal Bielaga <mbielaga1@gmail.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c     | 11 +++++++++--
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c   |  9 ++++++---
->  2 files changed, 15 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index ef026143dc1c..ac5b6c22361f 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -12644,9 +12644,16 @@ void amdgpu_dm_update_freesync_caps(struct drm_c=
-onnector *connector,
->  		parse_edid_displayid_vrr(connector, edid);
-> =20
->  	if (edid && (sink->sink_signal =3D=3D SIGNAL_TYPE_DISPLAY_PORT ||
-> +		     sink->sink_signal =3D=3D SIGNAL_TYPE_DISPLAY_PORT_MST ||
->  		     sink->sink_signal =3D=3D SIGNAL_TYPE_EDP)) {
-> -		if (amdgpu_dm_connector->dc_link &&
-> -		    amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_p=
-aram) {
-> +		/* For MST, check monitor range from EDID directly since the dc_link
-> +		 * points to the MST hub, not the actual display
-> +		 */
-> +		if ((sink->sink_signal =3D=3D SIGNAL_TYPE_DISPLAY_PORT_MST ||
-> +		     (amdgpu_dm_connector->dc_link &&
-> +		      amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing=
-_param)) &&
-> +		    connector->display_info.monitor_range.min_vfreq &&
-> +		    connector->display_info.monitor_range.max_vfreq) {
->  			amdgpu_dm_connector->min_vfreq =3D connector->display_info.monitor_ra=
-nge.min_vfreq;
->  			amdgpu_dm_connector->max_vfreq =3D connector->display_info.monitor_ra=
-nge.max_vfreq;
->  			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq >=
- 10)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 77a9d2c7d318..062259514b3c 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -443,6 +443,9 @@ static int dm_dp_mst_get_modes(struct drm_connector *=
-connector)
->  			}
->  		}
-> =20
-> +		/* Update connector with EDID first so display_info.monitor_range is p=
-opulated */
-> +		drm_edid_connector_update(&aconnector->base, aconnector->drm_edid);
-> +
->  		if (aconnector->dc_sink) {
->  			amdgpu_dm_update_freesync_caps(
->  					connector, aconnector->drm_edid);
-> @@ -459,8 +462,6 @@ static int dm_dp_mst_get_modes(struct drm_connector *=
-connector)
->  		}
->  	}
-> =20
-> -	drm_edid_connector_update(&aconnector->base, aconnector->drm_edid);
-> -
->  	ret =3D drm_edid_connector_add_modes(connector);
-> =20
->  	return ret;
-> @@ -650,9 +651,11 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_m=
-gr *mgr,
->  	if (connector->max_bpc_property)
->  		drm_connector_attach_max_bpc_property(connector, 8, 16);
-> =20
-> +	/* Reuse VRR property from master connector for MST connectors */
->  	connector->vrr_capable_property =3D master->base.vrr_capable_property;
->  	if (connector->vrr_capable_property)
-> -		drm_connector_attach_vrr_capable_property(connector);
-> +		drm_object_attach_property(&connector->base,
-> +					   connector->vrr_capable_property, 0);
-> =20
->  	drm_object_attach_property(
->  		&connector->base,
+On 05/01/2026 at 13:24, Nicolas Schier wrote:
+> On Thu, Jan 01, 2026 at 04:21:38PM +0100, Vincent Mailhol wrote:
+>> I often read on the mailing list people saying "who cares about W=2
+>> builds anyway?". At least I do. Not that I want to fix all of them,
+>> but on some occasions, such as new driver submissions, I have often
+>> found a couple valid diagnostics in the W=2 output.
+>>
+>> That said, the annoying thing is that W=2 is heavily polluted by one
+>> warning: -Wtype-limits. Try a gcc W=2 build on any file and see the
+>> results for yourself. I suspect this to be the reason why so few
+>> people are using W=2.
+>>
+>> This series removes gcc's -Wtype-limits in an attempt to make W=2 more
+>> useful. Those who do not use W=2 can continue to not use it if they
+>> want. Those who, like me, use it for time to time will get an improved
+>> experience from the reduced spam.
+>>
+>> Patch #1 deactivates -Wtype-limits. Extra details on statistics, past
+>> attempts and alternatives are given in the description.
+>>
+>> Patch #2 clean-ups the local Kbuild -Wno-type-limits exceptions.
+>>
+>> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+>> ---
+>> Changes in v4:
+>>
+>>   - Remove patch #3.
+>>   - Aside from minor changes in the patch descriptions, this is
+>>     basially a revert to v1.
+>>
+>> Link to v3: https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org
+> 
+> just to prevent confusions:  As Dan silenced the Smatch warning caused
+> by patch #3 [1] (thanks!), the additional comment patch [2] is obsolete
+> and v3 of the series is a more complete version than v4.
 
-This doesn't consider if the connected MST device actually supports VRR
-pass-through. Unfortunately, this basically breaks display out with my
-Thinkpad Universal USB-C dock if VRR is ever toggled. It just can't do
-variable signal and immediately drops out.
+Exactly!
 
-In current state, this patch sadly breaks more things than it fixes.
+Thanks to Daniel's effort we finally have a complete fix.
+
+Let me know if you need any actions from my side. Otherwise, I will
+assume that my part of the work is done here and will just wait for the
+v3 to be picked.
+
+(I am so happy to start 2026 by getting rid of this annoying
+-Wtype-limits spam :D)
+
+
+Yours sincerely,
+Vincent Mailhol
+
