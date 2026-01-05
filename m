@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71605CF5169
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 18:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F230CF5247
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 19:02:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3337D10E202;
-	Mon,  5 Jan 2026 17:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFEF510E1D7;
+	Mon,  5 Jan 2026 18:02:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iZFy1usK";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Xc3f6UBe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KGQEebl0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD1F110E202
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 17:53:04 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dlMMz1dkfz9tQq;
- Mon,  5 Jan 2026 18:53:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767635583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=mlFYT/HEOvUY7CDKakI9f1tmEuOow/Z3hA5FQFme7mI=;
- b=iZFy1usK2fdQj0XU3g3+JdxY/JSJ+ylW8JeV5uq8c9f0qo3R3muAx39MlLs4UWDbgkTuah
- 7MTSOaplzhptD0plupo4tdzWB0Vt1kmh95U6naHbV49afTsZ8hvkAEzajzlXfEHQC18Uk1
- WdTQWhaIBUc/DfEiv8Ji5Ut0BA2+WePHAvjEJtOarV1pqVSAhRbE85j7h6SlcgvWF1y99b
- Um3Yhas5G9kTyxs81TeZRVpdtbf3PVkTDGQpfbrzkJfCym2dXsV/mupY3R8NVzsZyfcKNW
- uV3K1hzMZKUDAuIM8gd2F+NUwBcyXJRpOGqArKnEY/T+ycg2YQTYjRYnddSmBA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767635580;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=mlFYT/HEOvUY7CDKakI9f1tmEuOow/Z3hA5FQFme7mI=;
- b=Xc3f6UBe9tmQN9xVsvtBBJ+depcCxoJX3bhMBBQMV5iWEqhkSXlZF3pDGaXvL+ytc6n+e7
- y1rjHv9MBnrzhwnoPgDXVTWd3QD6y+EAgqHrmaVxqyLwOD3OfWJ5PL99cgsranRHFqfVdC
- J63Dx9mGRAkh1WyEpnUPLdIlVKZh9FVJFdL5N3/Zfgev0i7fxC506ucZaN/CUmKzgjM1WF
- V9hvC0TOIYM4SeXpOTlH8D2XbSUGQQa9oPJgpPbNe0xHo14xvYYmyXaMtFuuDkafIM5Yk2
- ZzA0xI2iJyufGskZmUTNOqF9AAOlMIlk22F8aCoGxYIwgUqhJXyYzNVRU9AN5w==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- kernel test robot <lkp@intel.com>, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] drm/rcar-du: dsi: Clean up VCLK divider calculation
-Date: Mon,  5 Jan 2026 18:52:04 +0100
-Message-ID: <20260105175250.64309-1-marek.vasut+renesas@mailbox.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9DAD10E1D7;
+ Mon,  5 Jan 2026 18:02:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767636167; x=1799172167;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=xzQ8MUiL4/i58dgc2OFqW8yINRnyW/ofpF9LycfoB+A=;
+ b=KGQEebl0qM/ufZAmGHI21GUGAnUHqiNsCilBvwPYNsBwrOdzEx1l0P8b
+ KLM239s3VKEWiNrdDSBB00jszf8TDldHioTRXqUX1HzsdAKU2NY687RaQ
+ bYsYLCWt1LaHIx2ugbIGfh0NFziMLlIBjZmJko6sV0DgB38wLY03V5as9
+ PCofmiTsKhOFtBIzjDmQ8He083V/hkRLcEVXtD4Z80vI6+139rczKNs9p
+ PmARG7tf2YzftiW9CKmoxQZ9IC8S5sHExz1gUFnuJQHBMPuFj1o4FnCEP
+ 3jSx3FmCyg5QWKu6YVB6GhT/DHDNV8A/TD74ZxQKeB43YqK/4Eaz8nz5z A==;
+X-CSE-ConnectionGUID: QexxQmD8QWijdrVc6510Dw==
+X-CSE-MsgGUID: RKrwWp0jQz+Kn5XiE/CTgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="91656772"
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="91656772"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 10:02:47 -0800
+X-CSE-ConnectionGUID: /TjlNcLXSdy8SIKayOYZSQ==
+X-CSE-MsgGUID: XkFOy6bMRhmkEcHEuTh5lg==
+X-ExtLoop1: 1
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.215])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 10:02:41 -0800
+Date: Mon, 5 Jan 2026 20:02:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yury Norov <yury.norov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+Message-ID: <aVv8vwtGFhssitxG@smile.fi.intel.com>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
+ <20251229111748.3ba66311@gandalf.local.home>
+ <20260103005059.GA11015@joelbox2>
+ <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
+ <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
+ <aVmyZ0iXzTkNU86y@smile.fi.intel.com>
+ <20260105113902.6bdfcfa8@gandalf.local.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 6czwgu3o71sasbatj75ppfox5y8wi7nc
-X-MBO-RS-ID: 22b2408a7d8588c0a71
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260105113902.6bdfcfa8@gandalf.local.home>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,149 +96,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, in rcar_mipi_dsi_parameters_calc(), the VCLK divider is stored
-in setup_info structure as BIT(divider). The rcar_mipi_dsi_parameters_calc()
-is called at the early beginning of rcar_mipi_dsi_startup() function. Later,
-in the same rcar_mipi_dsi_startup() function, the stored BIT(divider) value
-is passed to __ffs() to calculate back the divider out of the value again.
+On Mon, Jan 05, 2026 at 11:39:02AM -0500, Steven Rostedt wrote:
+> On Sun, 4 Jan 2026 02:20:55 +0200
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> 
+> > > I do not think it is necessary to move it.  
+> > 
+> > I'm not talking about move, I'm talking about the C 101 thingy. Any custom API
+> > should be included before use, otherwise compiler won't see it. Which header do
+> > you want to include to have this API being provided? Note, it's really bad
+> > situation right now with the header to be included implicitly via non-obvious
+> > or obscure path. The discussion moved as far as I see it towards the finding a
+> > good place for the trace_printk.h.
+> 
+> It's not a normal API. It's for debugging the kernel. Thus it should be
+> available everywhere without having to add a header. Hence, the best place
+> to include trace_printk.h, is in kernel.h.
 
-Factor out VCLK divider calculation into rcar_mipi_dsi_vclk_divider()
-function and call the function from both rcar_mipi_dsi_parameters_calc()
-and rcar_mipi_dsi_startup() to avoid this back and forth BIT() and _ffs()
-and avoid unnecessarily storing the divider value in setup_info at all.
+With the above it sounds like you rather want to see it being included as
+kconfig.h (to every single file). But I disagree on that approach, why do
+we need this header to pollute every file even if I do not debug the thing?
 
-This rework has a slight side-effect, in that it should allow the compiler
-to better evaluate the code and avoid compiler warnings about variable
-value overflows, which can never happen.
+But since the current state is kernel.h, the status quo is to keep it there
+for now.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202512222321.TeY4VbvK-lkp@intel.com/
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Use BIT_U16()
----
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 35 ++++++++++++++-----
- 1 file changed, 26 insertions(+), 9 deletions(-)
+> I'm thinking that my proposed config option is the best solution now. For
+> those that do not care about debugging the kernel, you enable the
+> "HIDE_TRACE_PRINTK" config so that your builds will be "quicker". But for
+> everyone else, it will not slow down their workflow when they need to debug
+> code.
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 4ef2e3c129ed7..508977b9e8926 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -84,7 +84,6 @@ struct dsi_setup_info {
- 	unsigned long fout;
- 	u16 m;
- 	u16 n;
--	u16 vclk_divider;
- 	const struct dsi_clk_config *clkset;
- };
- 
-@@ -335,10 +334,24 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
-  * Hardware Setup
-  */
- 
-+static unsigned int rcar_mipi_dsi_vclk_divider(struct rcar_mipi_dsi *dsi,
-+					       struct dsi_setup_info *setup_info)
-+{
-+	switch (dsi->info->model) {
-+	case RCAR_DSI_V3U:
-+	default:
-+		return (setup_info->clkset->vco_cntrl >> 4) & 0x3;
-+
-+	case RCAR_DSI_V4H:
-+		return (setup_info->clkset->vco_cntrl >> 3) & 0x7;
-+	}
-+}
-+
- static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
- 				   unsigned long fin_rate,
- 				   unsigned long fout_target,
--				   struct dsi_setup_info *setup_info)
-+				   struct dsi_setup_info *setup_info,
-+				   u16 vclk_divider)
- {
- 	unsigned int best_err = -1;
- 	const struct rcar_mipi_dsi_device_info *info = dsi->info;
-@@ -360,7 +373,7 @@ static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
- 			if (fout < info->fout_min || fout > info->fout_max)
- 				continue;
- 
--			fout = div64_u64(fout, setup_info->vclk_divider);
-+			fout = div64_u64(fout, vclk_divider);
- 
- 			if (fout < setup_info->clkset->min_freq ||
- 			    fout > setup_info->clkset->max_freq)
-@@ -390,7 +403,9 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 	unsigned long fout_target;
- 	unsigned long fin_rate;
- 	unsigned int i;
-+	unsigned int div;
- 	unsigned int err;
-+	u16 vclk_divider;
- 
- 	/*
- 	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
-@@ -412,18 +427,20 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 
- 	fin_rate = clk_get_rate(clk);
- 
-+	div = rcar_mipi_dsi_vclk_divider(dsi, setup_info);
-+
- 	switch (dsi->info->model) {
- 	case RCAR_DSI_V3U:
- 	default:
--		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
-+		vclk_divider = BIT_U16(div);
- 		break;
- 
- 	case RCAR_DSI_V4H:
--		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
-+		vclk_divider = BIT_U16(div + 1);
- 		break;
- 	}
- 
--	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
-+	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, vclk_divider);
- 
- 	/* Find hsfreqrange */
- 	setup_info->hsfreq = setup_info->fout * 2;
-@@ -439,7 +456,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 	dev_dbg(dsi->dev,
- 		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
- 		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
--		setup_info->vclk_divider, setup_info->fout, fout_target,
-+		vclk_divider, setup_info->fout, fout_target,
- 		err / 100, err % 100);
- 
- 	dev_dbg(dsi->dev,
-@@ -653,11 +670,11 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 	switch (dsi->info->model) {
- 	case RCAR_DSI_V3U:
- 	default:
--		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
-+		vclkset |= VCLKSET_DIV_V3U(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
- 		break;
- 
- 	case RCAR_DSI_V4H:
--		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
-+		vclkset |= VCLKSET_DIV_V4H(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
- 		break;
- 	}
- 
+Maybe, to keep a status quo.
+
+Seems for now the compromise is to have it split and be included back to
+kernel.h and later we can decide if the option or other variants can give a
+better granularity for people who are not lazy to remember and add a header if
+they need to debug stuff.
+
+Yury, I think in v5 you need to drop this patch, otherwise we won't move further.
+
 -- 
-2.51.0
+With Best Regards,
+Andy Shevchenko
+
 
