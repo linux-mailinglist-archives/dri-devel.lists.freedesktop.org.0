@@ -2,67 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A4ECF5310
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 19:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EED8CF5381
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 19:21:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFBA10E3FB;
-	Mon,  5 Jan 2026 18:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC85D10E401;
+	Mon,  5 Jan 2026 18:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LAIw0nam";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oWD8g/Eu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90ECD10E3FB
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 18:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767636936; x=1799172936;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=e5epsI/FOBOTiwLsRv0AAFvBevDBQEV2EUy1O+lXnOU=;
- b=LAIw0namx1BC5MPDShU7DeRjbFaF9y+IzS/1Dl3adotTKI/0JIWLLSEo
- Grd+EzVWwsU4wlXhPJFeYxjRiyLpRbuldy6WqC4w0OD8b9vdtMMWDcR8k
- f/jSo2mH9oA7nnvLr70C4LfloGwDmjzmzRoSpX5Hqhdj5KZ55+mg/0VY0
- AgwuHw9Gg6Q1hht49qZbebwxEEe16G+1v3MdAqZQN9O94uxq7lX/O2sTS
- bzspkhOWwvrDp9nhPKXarUwH3ERr5V+ib8pT1QgNX+UqV0QQr4IeWXvwo
- xOi9fV8uZ/AGkUmFvpc9i3nY7DCt8Sj8xruvwB2+O8lUH9M5OjPEmTjb0 w==;
-X-CSE-ConnectionGUID: AX8FTLGQR121XnVNDF7jIA==
-X-CSE-MsgGUID: VIgVnBGVSpGq2k4siv+uFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="69080449"
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="69080449"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 10:15:35 -0800
-X-CSE-ConnectionGUID: uSOsMfyLRZmwsTClLKtk8w==
-X-CSE-MsgGUID: 9PS+y98+Rd2JG/y8l6FgfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="202917674"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.215])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 10:15:33 -0800
-Date: Mon, 5 Jan 2026 20:15:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: sun jian <sun.jian.kdev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in
- DT init parsing
-Message-ID: <aVv_w643SMuIELDE@smile.fi.intel.com>
-References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
- <20260104110638.532615-2-sun.jian.kdev@gmail.com>
- <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
- <CABFUUZFeO51MW5n1uDp0tcwJeJvgxDRxY3rDqkj2Z-6cO23TwA@mail.gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B61FD10E3FF;
+ Mon,  5 Jan 2026 18:21:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 9A29260010;
+ Mon,  5 Jan 2026 18:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2910C116D0;
+ Mon,  5 Jan 2026 18:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767637299;
+ bh=LzC/4MIXgJ+/fSz8j0wORC98LSPXcdunvtYupg9ResM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oWD8g/EuogOjyE6K9wMAs+2YaZk/nPnAE2no167iPpVDel6JtYbBymaAozb/3WqA7
+ NyifLWoHmuGsDo1m2wGDnSQhTUFCaXXyPzL1569ljXqANGUhAXEzY1oF6SoaFPyjG1
+ kuvt+IIMdGagh3HPqhnau2MglK/TmYfeH0O9X8xrESGlpsJG24nZ28L8q6Od6jrobB
+ mCyrOFphX4TM9rBV6a8MNHcP+V4V8VBeY6cw1Agv44qB+cVMzlEYFmL/1lOeC4GHa6
+ 4ZqTOprmtXSS+KSQgsxmX3vDf3qs8U4LUI2zoYC395JOxAwruOi+261/rMzZoXGAxu
+ lbyrfQW/XulQw==
+Message-ID: <63a00906-a5c6-43de-82ce-328c8eaa7d3f@kernel.org>
+Date: Mon, 5 Jan 2026 19:21:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+To: Joel Fernandes <joelagnelf@nvidia.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Yury Norov <yury.norov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
+ <20251229111748.3ba66311@gandalf.local.home>
+ <20260103005059.GA11015@joelbox2> <aVkSVk2L6VH9MYGz@smile.fi.intel.com>
+ <937926D0-00DC-499B-9FD8-D921C903882D@nvidia.com>
+ <aVmyZ0iXzTkNU86y@smile.fi.intel.com>
+ <20260105113902.6bdfcfa8@gandalf.local.home>
+ <d642ef4c-145c-4b16-818d-153c8f2e3485@nvidia.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <d642ef4c-145c-4b16-818d-153c8f2e3485@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABFUUZFeO51MW5n1uDp0tcwJeJvgxDRxY3rDqkj2Z-6cO23TwA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,92 +84,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 06, 2026 at 01:00:33AM +0800, sun jian wrote:
 
-> Thanks for the feedback.
 
-You're welcome, but please, do not top-post!
-
-> You are right: changing the DT init path from write_register() to
-> fbtft_write_buf_dc() implicitly assumes "cmd byte + payload bytes" and
-> does not preserve the generic write_register() semantics (e.g. regwidth /
-> bus-specific handling).I only have clang/arm64 build coverage (no
-> access to the actual panels),
-> so I can’t provide runtime validation yet. For the remaining 3 driver-local
-> patches, all affected drivers have .regwidth = 8 and the sequences are
-> “1-byte command + N bytes data” (gamma/LUT). The intent was to avoid the
-> huge write_reg() varargs call that triggers -Wframe-larger-than=1024.
+Le 05/01/2026 à 18:11, Joel Fernandes a écrit :
 > 
-> Given the lack of hardware, would you prefer one of the following?
-
-How can you test without hardware at hand?
-
-> 1. Drop the driver changes and instead bump -Wframe-larger-than for these
->    specific objects in the Makefile as an exception; or
 > 
-> 2. Keep the driver changes but I should provide a detailed test pattern /
->    list of tested devices — if so, what level of detail would be acceptable
->    (exact panel model + wiring/bus type + expected output), and is “build-only”
->    ever sufficient for warning-only changes in fbtft?
+> On 1/5/2026 11:39 AM, Steven Rostedt wrote:
+>> On Sun, 4 Jan 2026 02:20:55 +0200
+>> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+>>
+>>>>
+>>>> I do not think it is necessary to move it.
+>>>
+>>> I'm not talking about move, I'm talking about the C 101 thingy. Any custom API
+>>> should be included before use, otherwise compiler won't see it. Which header do
+>>> you want to include to have this API being provided? Note, it's really bad
+>>> situation right now with the header to be included implicitly via non-obvious
+>>> or obscure path. The discussion moved as far as I see it towards the finding a
+>>> good place for the trace_printk.h.
+>>
+>> It's not a normal API. It's for debugging the kernel. Thus it should be
+>> available everywhere without having to add a header. Hence, the best place
+>> to include trace_printk.h, is in kernel.h.
+>>
+>> I'm thinking that my proposed config option is the best solution now. For
+>> those that do not care about debugging the kernel, you enable the
+>> "HIDE_TRACE_PRINTK" config so that your builds will be "quicker". But for
+>> everyone else, it will not slow down their workflow when they need to debug
+>> code.
 > 
-> Happy to follow the approach you think is appropriate for this staging driver.
+> 100% agree. We do have people running custom configs for faster builds, so this
+> hide thing could be enabled there assuming those don't care about debug.
+> 
+> In other words, "If it aint broke, don't fix it".
 
-I already explained in the response to the cover letter. Please, read it.
+But if I understand correctly, it would save 2% build time. That means 
+12 secondes on a 10 minutes build. Is it really worth it ?
 
-> On Tue, Jan 6, 2026 at 12:28 AM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> >
-> > On Sun, Jan 04, 2026 at 07:06:35PM +0800, Sun Jian wrote:
-> > > Clang reports a large stack frame for fbtft_init_display_from_property()
-> > > (-Wframe-larger-than=1024) when the init sequence is emitted through a
-> > > fixed 64-argument write_register() call.
-> > >
-> > > write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
-> > > varargs which inflates stack usage. Switch the DT "init" path to send the
-> > > command byte and the payload via fbtft_write_buf_dc() instead.
-> > >
-> > > No functional change intended: the same register values are sent in the
-> > > same order, only the transport is changed.
-> >
-> > How did you test this?
-
-...
-
-> > > -                     par->fbtftops.write_register(par, i,
-> > > -                             buf[0], buf[1], buf[2], buf[3],
-> > > -                             buf[4], buf[5], buf[6], buf[7],
-> > > -                             buf[8], buf[9], buf[10], buf[11],
-> > > -                             buf[12], buf[13], buf[14], buf[15],
-> > > -                             buf[16], buf[17], buf[18], buf[19],
-> > > -                             buf[20], buf[21], buf[22], buf[23],
-> > > -                             buf[24], buf[25], buf[26], buf[27],
-> > > -                             buf[28], buf[29], buf[30], buf[31],
-> > > -                             buf[32], buf[33], buf[34], buf[35],
-> > > -                             buf[36], buf[37], buf[38], buf[39],
-> > > -                             buf[40], buf[41], buf[42], buf[43],
-> > > -                             buf[44], buf[45], buf[46], buf[47],
-> > > -                             buf[48], buf[49], buf[50], buf[51],
-> > > -                             buf[52], buf[53], buf[54], buf[55],
-> > > -                             buf[56], buf[57], buf[58], buf[59],
-> > > -                             buf[60], buf[61], buf[62], buf[63]);
-> > > +                     /* buf[0] is command, buf[1..i-1] is data */
-> > > +                     ret = fbtft_write_buf_dc(par, &buf[0], 1, 0);
-> > > +                     if (ret < 0)
-> > > +                             goto out_free;
-> > > +
-> > > +                     if (i > 1) {
-> > > +                             ret = fbtft_write_buf_dc(par, &buf[1], i - 1, 1);
-> > > +                             if (ret < 0)
-> > > +                                     goto out_free;
-> > > +                     }
-> >
-> > I believe this is incorrect change and has not to be applied. write !=
-> > write_register. Without any evidence of testing, definite NAK to it.
-> > Otherwise, please provide detailed testing pattern and which devices were
-> > tested.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Christophe
