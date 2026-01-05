@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03625CF4076
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A707CF407F
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:08:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C5310E3E1;
-	Mon,  5 Jan 2026 14:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4C610E3E5;
+	Mon,  5 Jan 2026 14:08:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bwn72LJI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U9Tp6Kii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D17B10E3E1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:08:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D251B10E3E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:08:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 15E4643FFD;
- Mon,  5 Jan 2026 14:08:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1FBC4AF09;
- Mon,  5 Jan 2026 14:08:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B8EE443C74;
+ Mon,  5 Jan 2026 14:08:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C1B0C2BCB3;
+ Mon,  5 Jan 2026 14:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767622082;
- bh=bi86ofjhU/mHBq/m/0w31toaGLJU4PVhJwFISrEiBkI=;
+ s=k20201202; t=1767622109;
+ bh=aJh9t1bM6vf+VmVosxIK7IbHvrg9FWsW2VSp0svG2Zo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Bwn72LJI3FEUMdixE7dH60eJl29Fef+CyhD3PXFr7v05QTpGZbNKbykbMxtlu7Le6
- Yapr/R1tIMMGr//IKLFwLO1ytOTONDaYRAVQKJEQ/noq50d4BwQRm5+X6pos6xbf99
- rLavPdDhVwJyTRz7Ep2A87uOh8sF1li20gOyS1G6ojcqUzFcIj26qbKH8hrskqSWc7
- UWcdeJ2MP7mu59MXqor1J30jdbDCZy3t8xYa7JwIm0cb0h1r2l0EQUckp4Q0lcjFZp
- hdW2T5SYvY0hcXbXyKvi5iQ4vrqIxluqRkXespPcCNbI27O4cdfMRpv8/AINzv8Qrx
- XH+OIE1jw6UlQ==
+ b=U9Tp6KiixL4SZK+/Ueu0twwIlMKdhEjIMUbYiGdl045pCtHJYEUjgqWpxBbipuWwL
+ f7bNEV6wPVV9BSVXv6DtSxDgdn7Ne7rChs33QhcUcjgCiKAUb17/r5BVTuPEEBGpBg
+ dO+mw9fE55d/Y0OwY7ARRN2PuwjWnZ83ycAcGwVU5zYVfjybmWoazgJYEuD+i38hRf
+ B8g6pkqKYjNI4RNVSUHvIibQrTRcV5I/+fqLfNpBV6/hppH5zVURH+fpWk1luH+orV
+ 2hNUEXfRuBvd+MZG+iDpHajFEE8oKoZvdF0QLTUt0mci3IafaHUIgeQGOPr25bWxA2
+ DQa7MY3WD7PMQ==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Petr Hodina <phodina@protonmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- David Heidelberg <david@ixit.cz>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Amit Pundir <amit.pundir@linaro.org>, Casey Connolly <casey@connolly.tech>,
- Joel Selvaraj <foss@joelselvaraj.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v7 0/8] Add support for Pixel 3 and Pixel 3 XL
-Date: Mon,  5 Jan 2026 08:07:15 -0600
-Message-ID: <176762206382.2923194.3685391400254348366.b4-ty@kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Maud Spierings <maud_spierings@hotmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/3] arm64: dts: qcom: x1e80100-vivobook-s15: add more
+ missing features
+Date: Mon,  5 Jan 2026 08:07:34 -0600
+Message-ID: <176762206363.2923194.7383607598616456313.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
-References: <20251214-pixel-3-v7-0-b1c0cf6f224d@ixit.cz>
+In-Reply-To: <20251220-asus_usbc_dp-v3-0-5e244d420d0f@hotmail.com>
+References: <20251220-asus_usbc_dp-v3-0-5e244d420d0f@hotmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -78,23 +72,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sun, 14 Dec 2025 15:51:16 +0100, David Heidelberg wrote:
-> This adds initial device tree support for the following phones:
+On Sat, 20 Dec 2025 12:38:56 +0100, Maud Spierings wrote:
+> There are still many missing features on this machine, add the ps8830
+> retimers for display over usb-c, the simple bridge/HDMI port and set up
+> to use IRIS.
 > 
->  - Google Pixel 3 (blueline)
->  - Google Pixel 3 XL (crosshatch)
+> Currently IRIS gives a ETIMEDOUT, not sure what that is coming from.
 > 
-> Both phone boards use the same identifiers and differ only slightly
-> in their connected peripherals.
+> lots of these patches are very strongly based on the work of other
+> maintainers of these snapdragon machines, like the HDMI part on that of
+> Neil Armstrong, many thanks to those who laid the baseline for me to
+> follow.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/8] dt-bindings: arm: qcom: Add Pixel 3 and 3 XL
-      commit: 3845bc888660a238920fdba2f85fe284f01fb95f
-[8/8] arm64: dts: qcom: Add support for Pixel 3 and Pixel 3 XL
-      commit: a678adbf2d22edcb9078f8ad56706891a0ac9e80
+[1/3] arm64: dts: qcom: x1e80100-vivobook-s15: enable ps8830 retimers
+      commit: c0d377798d6f6d3efddee5ef7d96b608a071f833
+[2/3] arm64: dts: qcom: x1e80100-vivobook-s15: add HDMI port
+      commit: 34d76723c41018ef52480ca3849b3ed3afbd8b22
+[3/3] arm64: dts: qcom: x1e80100-vivobook-s15: enable IRIS
+      commit: b7415c490d8d75b8dc7500b9c02cf8e5852110e6
 
 Best regards,
 -- 
