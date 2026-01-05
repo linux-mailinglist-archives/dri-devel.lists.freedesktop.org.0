@@ -2,168 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3B6CF4D03
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6748CF4DD9
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 18:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D7510E41F;
-	Mon,  5 Jan 2026 16:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22C4F10E2C9;
+	Mon,  5 Jan 2026 17:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hM4HPcQv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T5PFf2mC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40DCE10E41B;
- Mon,  5 Jan 2026 16:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767631872; x=1799167872;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=uAae95ePgNqNZH0fEi0lSPhEsb0gh1xcrGiG9KiZZIU=;
- b=hM4HPcQv0drEdNbQkKlojvcPvJerCyqT8kdRSrPGHXmqn9gdkCbmXfSC
- oqua1Us8rJT8Qn1ujpxjQE6B4BJ1XTLLqv8L1GpEl6hNXkvtP6nbO5W87
- 10YFRJeyD4OU7c1ZfPbhGtkpRxsPEVvO7a8UpuuVQeeCJ5MlGHOALzDO5
- iTDcdUTqQFLPybCZcbaw6inmuMs4LhfN/842k91JLivHyC1XQWcQVb+dM
- R2cyTo6ciuOgc+w5t4MykN3A+HtOOKnhwQl5flf+Af0HOEgqnuq6p/95q
- IgmYRYvbIiOihoTeaSEu31DL3v2WR0wPlnK+0Q2/yzyqi6dA79BE//W2c g==;
-X-CSE-ConnectionGUID: PHNSbbkDRkyiKvw0ktDBCg==
-X-CSE-MsgGUID: ZRLG+nTARDm5Hi+P/WsVJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="56561299"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="56561299"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:51:12 -0800
-X-CSE-ConnectionGUID: sJwkCEjsQAidAel7Nj1czA==
-X-CSE-MsgGUID: gGF8CbOLRg+xrCv8tnLn2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="202447709"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:51:11 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 5 Jan 2026 08:51:11 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 5 Jan 2026 08:51:11 -0800
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.26) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 5 Jan 2026 08:51:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c6a7Q0cha/38gUrDbITLoIuazp3eRLqcm9WGDP3fCaognBd8lnmIJRue9AeafoxLAhisUTAsbQ3BJpgsPExCgjtMJd2jXYtz6f5jflp3+ndf+UijkyiBoXSaHZVctppvPPdg3Brz8pSgwmmeY+bxN/7H56lBY8VU1mu9O6zNTNeTqxDp1ngBcc2VSXb81krjTZlF7o1SISkY3Q5JqVkKDb+8Nh2EJRLpZKDqdDvt6HpIyS/4LxbskapMdydHZc1/dOuhMgmBlv98ANO1WXdXUxoTD0vlncgWU+qKiRQY6HM2DqQeV/cAp9UU9NgfNS+BUi/ASzGE8e6nNe5ORU4lnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=70uQEDhlFt2jdkEAnwAskbPq2o2dWi1K6XrSqLEP5Y8=;
- b=YgXbt8FxiFZb48AV9hsUT6Zpfut4z9wz4Zh9EqMeKO66bMCpt6QjtqlAx2zOZtEX7y0HlBwWncVk5mWy6j+JzjM5+QJpmiFqGnihFr4O5VTTrZpg0b5oagPzOqP8lIyYuswN1GPPaZngSgFrV5/b5kpD2It5JRWq4r6B4NOOdKjoOzHo7Z7QOm6nBc+mGK0tWtkPwHvLFuZsl1kiVwz6X9cQEOeWjGM7QlNLy7PM7n+gHzJXagKC2mRIMCiS4U45SfZdqtL3Y7yujd20wfTCBYLItkm92FcFpYuZvzPul8pCumJ5WeUpVtQMExV6rU6F6L9OcU3VLFxx4zZPCHf91A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SN7PR11MB6601.namprd11.prod.outlook.com (2603:10b6:806:273::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 5 Jan
- 2026 16:51:05 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Mon, 5 Jan 2026
- 16:51:05 +0000
-Date: Mon, 5 Jan 2026 08:51:03 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Francois Dugast <francois.dugast@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 4/5] DONOTMERGE drm/pagemap: Add drm_pagemap_cpages
-Message-ID: <aVvr9+8TaxtpUTUW@lstrano-desk.jf.intel.com>
-References: <20260105111945.73292-1-francois.dugast@intel.com>
- <20260105111945.73292-5-francois.dugast@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260105111945.73292-5-francois.dugast@intel.com>
-X-ClientProxiedBy: BYAPR02CA0005.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::18) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com
+ [74.125.224.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6A210E2C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 17:00:46 +0000 (UTC)
+Received: by mail-yx1-f42.google.com with SMTP id
+ 956f58d0204a3-6455a60c11fso97823d50.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 09:00:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767632445; x=1768237245; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G8NZXgPadPZEkwzWUBQYb5my2Ym2kpL3eDcs25dhOFE=;
+ b=T5PFf2mCeaLyBGwBSgMGoBxSuXOo7wvMvRFCQOTdAu1NJ/aARpK1SiY7XpibK6hq2U
+ zxaNT5Lh+SFQMQchpwBKDGVPG3lbAfomQ//2RkIDEgaqzQeUZEqTEIIW/5KwKRy+yyCz
+ 8vDmOOW36/1fAe2Uzg5ZC3we7O0WyTM+bQsnrkUzRuxJMF+M1aYqXsGMeBuzwQTFcWzB
+ 4e4R9jyL7ys+gln+LoH6Rcn9O6+DWF5c+I68h/iOZvnKRX4NeNhl9YCMj3OvR0B7F1dr
+ kCKe82EHTDJCMh03l2GO/EJfN7PBZK+VeIrx77hPNzaD3NfcsIm6qpMGV7/G5rKeDMTx
+ NnCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767632445; x=1768237245;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=G8NZXgPadPZEkwzWUBQYb5my2Ym2kpL3eDcs25dhOFE=;
+ b=v70Uwm806k2A5pfmfibUcRW4hmdRtQ+lg3K4j3WsqlaECZlS2mUtrtll/uFnjHEUKM
+ k51cc8ncvKtcz64m7u5OTkg5ZiwMNZsyUzkPf3h+UjePdpCv7MiTR5LXtE6+N7rlP1LK
+ DPBEgsfh6sRZzdZv5emctJa1pSGryVpZdJcUw0NTSd6Pmpx2cw5tgK5qHElI/2HWMRFt
+ HAFgtWSufDImWgO9Nf7x2v41Bi5w1yzkxRb1OxmVRLPp8IkitSi75BrK93O+1q0TpRsF
+ 0dWzjzGKX9ug3aiUzv98QVCGI/gUwn8n5a2RpUSb0Ok72OlSEem65X4q/tvlqIjVVAd4
+ u43Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV52IRqKzPKsZbTOTjBIYERQJw0lhefRlh/b5wEEHv20sOOdFUx5PlQPKQN+OT3Ceh6kthZ9RKKim0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzcvl5KNTqA38ad7rq+TUYiIgEqTu5L3MnC4ga5fytpTsAQiF+x
+ jRxeSX5l6PrqILnLlwmhC0Cvhk8HxHB0tXS/siA340FHadeoqzzfKrycHAAIKwEvQBaUn2k7d7D
+ 3A5XMsbipQ+tmv7jk3RTVb+B6Qc1is6zCF5cGzdbIhA==
+X-Gm-Gg: AY/fxX5aTci8uUks1ErwvEXia5cxEN9oOFQXsUOEHdeQ25J+824wt/LvMIpBBmezS99
+ KpiDrjZAPA48maFJ+bh7EqjDryJind8YM+uSrePHMKWmQDtt4BHG415/zrNjpC50zYBKeTP9Mjf
+ ClC+NaPrYlBa7BGFaKEO5OKccXJHF27FdpFnD1qdmfkhWNckPLQ1x4WvxFPlzOdcLeqN53F6bR3
+ 11ehKJk4qNQI1HWQGAiL+JcwxoMyEWStrJ/i8C1A/WqIJNiY9bhH0Da2QLerZ/sISxtG6z8vEjK
+X-Google-Smtp-Source: AGHT+IHIximRz2m2jGs8u0bx0xjsp8Um2C8mOpJTpVvJQsdOx3gGxbnLnp3w4IfsQ+GKL6y/oDU2erq+6ANxO3S6ECE=
+X-Received: by 2002:a05:690e:23c6:b0:644:2e1b:c8bb with SMTP id
+ 956f58d0204a3-6470c8e2d3amr131608d50.59.1767632445026; Mon, 05 Jan 2026
+ 09:00:45 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SN7PR11MB6601:EE_
-X-MS-Office365-Filtering-Correlation-Id: db2a11da-bd96-487f-a4eb-08de4c7a9e26
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?glu+iyBZT6OEyYV+oGgh4lcP+ZrNI9+DTbe7u3OnRF6JE5JGShy1URc+e6kh?=
- =?us-ascii?Q?0ymTXTSLEvAjlctXd51oG0SLBaPVBmO9HsdN3kbu32A7a92gI+xVE2DPWBKs?=
- =?us-ascii?Q?iC8l/8owpWO2kiHzg9/HiJFTWFy3mAOsqQW7DCoeD0aVirndC83ReJxU952s?=
- =?us-ascii?Q?ApF8fkGLDeUE0dGnspEEm66SwYMdSoETPAu9Uw9aV/Im+l8Ni6kPCwsuAC89?=
- =?us-ascii?Q?e+HgBck+VLImSyMq10dZAmYBXlq8D5gXNm4rejvUX9d3hdL6+BrGsWUfa18K?=
- =?us-ascii?Q?OdKwuATtjfZ2QFMZ2EkeeSpLyIIl3KYs/fYp3gdm2XYs/qTUUb/mBEzfF6HX?=
- =?us-ascii?Q?2jm0mojmYV4h6JzK6l52Ydpwroq14R8B1ERuQDC318to/MDNkZlNC/R/oDAT?=
- =?us-ascii?Q?y0iwlNeE7Ksu6Ir9UB+tbCxFuxSYThRexnWLxDopdX+VoGRDZXO8WtHY5boN?=
- =?us-ascii?Q?OELtmyUBSBbSg8pdLoPUvK2H3kTAcprsqiYJD/IB3ZYo8UXxlOlmIFL4lUJb?=
- =?us-ascii?Q?US6tnlTwNijc/uTBcwzBF3l2lv7ie8/wnPATh+0DF8nlwsxXTsK+w4wElkLd?=
- =?us-ascii?Q?ZWFbGFakwBdxEGPZ8EcEkY5+4ulJaX3v1iU/ayl3+EJn267y3nCRaqqeX46k?=
- =?us-ascii?Q?EddDJByqE0558FK60W++K2Hry74Zh+FwxMxtU4murolGJBfLzPiOqj766x0w?=
- =?us-ascii?Q?Fxtla7Poyyq0zxhF4X8GyArzezGKipW4wpqLnMkbcXw1ThDay7w6WqEL4s1t?=
- =?us-ascii?Q?It1tKmWm71pjUTN4b5W1ZPI16gjcob8ZChS0R2s9TZYa9tk4OiA1F9dUpVix?=
- =?us-ascii?Q?XYuiI9kx3rBNRffIAmrXdK3VJ7huFV7R0vogUfp9IOzeduXL3iRenZ1oNr7+?=
- =?us-ascii?Q?x6UOgFKtI1LM5noToYIzwxnSUQpZWbYfHA59GM9nM/i66ebZMArna5ToLfoz?=
- =?us-ascii?Q?Yz2U0pdD20RPkACA/KxD7qQen51vwQn9bcbj1QyaB10WIBDNJd6TDIw3AJbn?=
- =?us-ascii?Q?1QzM9w06gJbVZs5tbXt/kAbKyxomucBUe5sMA1OGlYMqNkANkSYYaLeP+fh1?=
- =?us-ascii?Q?8B8Ou9gIvZPK09BVjd3ER/Yv6wLAtzITDmWfTcY4zHfpWSNKG05wheDoPLwe?=
- =?us-ascii?Q?f3f1KISoRBPbMjTrd/nsfZuMdkBejg8Uk4TGbwGegwgC2PU5s4dlQQUU3AgD?=
- =?us-ascii?Q?Q5vc+8SwoLTyTQYhxbkk6UzLPpi82nsl7gkcla5hdJlWwT6/KYUU40rshB7r?=
- =?us-ascii?Q?MWRryaOzHruqazu54kU7zswEwB/AwO7OVgQmAKN8uErbkOotP1n5L3T6Hg9e?=
- =?us-ascii?Q?kzV6aVEThHcG5DEYbSSy8Zg6XpFnTUP76UtEhH9nkGrn2zFg6MQrMtcbCqjc?=
- =?us-ascii?Q?1bYTGrsuuZSQ89L+8C0SiqkuYOjBsuRk+xA9pTFn5HWH9dthlEcjh4Kv88Rq?=
- =?us-ascii?Q?t9t8G2AGWxiwnLL8uPYogeFFEPxk6c4W?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zsu8/kANAkPTKi6JDBhV4NHIqcBLrFzsi61N5tw9uqgDJ0OFuPherTWPUSLG?=
- =?us-ascii?Q?u+g4o17leKGMjFH8SfgDDQXi3yvpgciAilWhy4XZHtNyvKaLY+wBhqBucB3f?=
- =?us-ascii?Q?hM5pDsRAlzlTz0PpV5BGHq8ajl/JJw8elKW5f8AZZKh2MfYLG5NXRe9gfiAa?=
- =?us-ascii?Q?JQajS1SOLVoTgXJdjSv6UFYVkEcGSTqrGi64yAbaQQEGqXVadQQdnmLuz1K+?=
- =?us-ascii?Q?i/XlPHXO8JX9cJmXEgCUrZxtOWGuovx1Cgpjo2erRJZYrfqm5kOkg0lX1SYY?=
- =?us-ascii?Q?RHaTKQRquQfUfbFbKcelJXcSpCkZv1fCxQW21e0mJyQL6zRGVV74Hh1qiKH0?=
- =?us-ascii?Q?/YBglv3K339qFGH4Anpd+evKCjIM9avJEPcQy0wehivjNQEQXTJTIzEijGhD?=
- =?us-ascii?Q?wrLONJAtOq606geVlYvuzjWlprP7IFF250Xss5cueATGcGCXAA73f39mnS/v?=
- =?us-ascii?Q?9pAs3SJAbrjZUVRu0xX7uJbvzH9lJ9NlnsP7AVbhVzlvX1kzCVHPGsaFKMCl?=
- =?us-ascii?Q?RPTe50yhh45IOMCZtQkmGcN+gHNfDqLAWF/7JFyXxqJGAJuzNAqai0lLU5NZ?=
- =?us-ascii?Q?ytp9h1fJx7dL2EolH89Nwv05iZFwawcVdcivvffsBcGuOpY9Buru6F+gM7sW?=
- =?us-ascii?Q?PitPYLHbRQInm9OPHDBt2TeHgcqVkg11g60UbXRsryoNWtRl3aoUX8fguTkq?=
- =?us-ascii?Q?5kKHvGX2wvKz45hqIlV6d5DTtmcv9Ds0zRv8qYYMzFZMLDjzHDNQ4/slMVDV?=
- =?us-ascii?Q?H6R/wqxTvxJfPatXBkD+tO/kiFKhBACxSGSBxlRN/QuoVMNvqXc29acygkZe?=
- =?us-ascii?Q?kHh9tiJ0/H+ihca5KgKHx2DTsJmoaD9b8eqnP3mTJKQMeBp5rIKp5cfeZSLb?=
- =?us-ascii?Q?GP7Sd8PYdgVXOuT6F9SSGuKH8WMMcohtK7eYjlMiPjVw8lSGZp7nmZ9nTLcu?=
- =?us-ascii?Q?02gr7xU58b+q5Z8szQkjNRORu7WfPiQf+SWWZRb6FN29OI9g8b0em1XwoDF8?=
- =?us-ascii?Q?LVof+JhYWpjVPzlGA8hP6nRfZcfgzOdp84qtIyOTOgqveZ2XFpITWVthoE24?=
- =?us-ascii?Q?t17d3FJqMN8/kLGLvUaf1ox9mPrNS+Xc3L4sssb95q0C1ZyKfk2p99KylAyJ?=
- =?us-ascii?Q?WbS52kJPoKfZGT3BGNqdLNQ5rJG+7bTENzxcDIIPoSf51EULZQCr2laxS01+?=
- =?us-ascii?Q?YQH/SL7bm7d58BZvTs2HNyQVdGLTDkJDn9Ehv2AD88hDmkO+P2+iMHr3ugs9?=
- =?us-ascii?Q?0A318e5voWG7+IPLlsat4Yl/h/ndggHLFd0wUJ4jqi/DCUbWmMRpowNhRjA+?=
- =?us-ascii?Q?bOK1i0KhvVddMm5eYUhCayjjGQ4ceiC+AyySAgGDEJBB648Wlrj1PB/bHUX0?=
- =?us-ascii?Q?vTlL/EHO+9lH/51Q6Zw2YWndgCjL+rXy35OnbD18hxByEhJ2Md+aqAtUJQq3?=
- =?us-ascii?Q?YCB5IfTQNtmg6TWnNOlyMUGjiBDM2fcrUjBSm9daaSswGEuHikTsDeWAXtTb?=
- =?us-ascii?Q?8Qg1oXMI1zaqM05CZw1ER/GqGPsyHfhAbihXMyKZTXaHh4wMp4oEuGuj6j50?=
- =?us-ascii?Q?LinBLGZB6GH5SgBQASPpsrQCEpdqXJWBBaOCVkkDkt3Cufk4UnRh1qwirJ4c?=
- =?us-ascii?Q?BZQ7fCEpmAdP/SJ9OeE68wZ0S50zuGbWM7ucu/SDUS4dofBqqJqqyu6tV1Mj?=
- =?us-ascii?Q?OJ+cBjpsgs8FupAVX+2Q067s9KxgBNm08jcZxuEeP9Phq9+lhtq96owA7NWf?=
- =?us-ascii?Q?y0F23Ng5UYvR6+pVnIXckELY98xrFt8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: db2a11da-bd96-487f-a4eb-08de4c7a9e26
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 16:51:05.7765 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J86xqrUXf4YFVyYrcAIdRHQpW1m+pPMjxUdTlpUGaPeOpMo63KxZHCGLomUXixm3sWKOxq9mYnrsKuJPI4BS5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6601
-X-OriginatorOrg: intel.com
+References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+ <20260104110638.532615-2-sun.jian.kdev@gmail.com>
+ <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
+In-Reply-To: <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
+From: sun jian <sun.jian.kdev@gmail.com>
+Date: Tue, 6 Jan 2026 01:00:33 +0800
+X-Gm-Features: AQt7F2ph6P0Bf8OBdam7XZpIqbRkmM7c3K-cx7qIKWaHmSFeDtSuMjBbQmYOqkw
+Message-ID: <CABFUUZFeO51MW5n1uDp0tcwJeJvgxDRxY3rDqkj2Z-6cO23TwA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in
+ DT init parsing
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,83 +89,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 05, 2026 at 12:18:27PM +0100, Francois Dugast wrote:
-> This code was written by Matt Brost. This is a placeholder until his
-> patch is available.
-> 
+Hi Andy,
 
-Patch looks good to me, change myself to author and use this commit message:
+Thanks for the feedback.
 
-drm/xe: Correct cpages calculation for migrate_vma_setup
+You are right: changing the DT init path from write_register() to
+fbtft_write_buf_dc() implicitly assumes "cmd byte + payload bytes" and
+does not preserve the generic write_register() semantics (e.g. regwidth /
+bus-specific handling).I only have clang/arm64 build coverage (no
+access to the actual panels),
+so I can=E2=80=99t provide runtime validation yet. For the remaining 3 driv=
+er-local
+patches, all affected drivers have .regwidth =3D 8 and the sequences are
+=E2=80=9C1-byte command + N bytes data=E2=80=9D (gamma/LUT). The intent was=
+ to avoid the
+huge write_reg() varargs call that triggers -Wframe-larger-than=3D1024.
 
-cpages returned from migrate_vma_setup represents the total number of
-individual pages found, not the number of 4K pages. The math in
-drm_pagemap_migrate_to_devmem for npages is based on the number of 4K
-pages, so cpages != npages can fail even if the entire memory range is
-found in migrate_vma_setup (e.g., when a single 2M page is found).
-Add drm_pagemap_cpages, which converts cpages to the number of 4K pages
-found.
+Given the lack of hardware, would you prefer one of the following?
 
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> ---
->  drivers/gpu/drm/drm_pagemap.c | 36 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> index db3795f03aca..05e708730132 100644
-> --- a/drivers/gpu/drm/drm_pagemap.c
-> +++ b/drivers/gpu/drm/drm_pagemap.c
-> @@ -452,6 +452,39 @@ static int drm_pagemap_migrate_range(struct drm_pagemap_devmem *devmem,
->  	return ret;
->  }
->  
-> +/**
-> + * drm_pagemap_cpages() - Count collected pages
-> + * @migrate_pfn: Array of migrate_pfn entries to account
-> + * @npages: Number of entries in @migrate_pfn
-> + *
-> + * Compute the total number of minimum-sized pages represented by the
-> + * collected entries in @migrate_pfn. The total is derived from the
-> + * order encoded in each entry.
-> + *
-> + * Return: Total number of minimum-sized pages.
-> + */
-> +static int drm_pagemap_cpages(unsigned long *migrate_pfn, unsigned long npages)
-> +{
-> +	unsigned long i, cpages = 0;
-> +
-> +	for (i = 0; i < npages;) {
-> +		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
-> +		struct folio *folio;
-> +		unsigned int order = 0;
-> +
-> +		if (!page)
-> +			goto next;
-> +
-> +		folio = page_folio(page);
-> +		order = folio_order(folio);
-> +		cpages += NR_PAGES(order);
-> +next:
-> +		i += NR_PAGES(order);
-> +	}
-> +
-> +	return cpages;
-> +}
-> +
->  /**
->   * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
->   * @devmem_allocation: The device memory allocation to migrate to.
-> @@ -554,7 +587,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  		goto err_free;
->  	}
->  
-> -	if (migrate.cpages != npages) {
-> +	if (migrate.cpages != npages &&
-> +	    drm_pagemap_cpages(migrate.src, npages) != npages) {
->  		/*
->  		 * Some pages to migrate. But we want to migrate all or
->  		 * nothing. Raced or unknown device pages.
-> -- 
-> 2.43.0
-> 
+1. Drop the driver changes and instead bump -Wframe-larger-than for these
+   specific objects in the Makefile as an exception; or
+
+2. Keep the driver changes but I should provide a detailed test pattern /
+   list of tested devices =E2=80=94 if so, what level of detail would be ac=
+ceptable
+   (exact panel model + wiring/bus type + expected output), and is =E2=80=
+=9Cbuild-only=E2=80=9D
+   ever sufficient for warning-only changes in fbtft?
+
+Happy to follow the approach you think is appropriate for this staging driv=
+er.
+
+Best regards,
+Sun Jian
+
+On Tue, Jan 6, 2026 at 12:28=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Sun, Jan 04, 2026 at 07:06:35PM +0800, Sun Jian wrote:
+> > Clang reports a large stack frame for fbtft_init_display_from_property(=
+)
+> > (-Wframe-larger-than=3D1024) when the init sequence is emitted through =
+a
+> > fixed 64-argument write_register() call.
+> >
+> > write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
+> > varargs which inflates stack usage. Switch the DT "init" path to send t=
+he
+> > command byte and the payload via fbtft_write_buf_dc() instead.
+> >
+> > No functional change intended: the same register values are sent in the
+> > same order, only the transport is changed.
+>
+> How did you test this?
+>
+> ...
+>
+> >       struct device *dev =3D par->info->device;
+> > -     int buf[64], count, index, i, j, ret;
+> > +     u8 buf[64];
+> > +     int count, index, i, j, ret;
+>
+> Please, try to preserve reversed xmas tree order.
+>
+> >       u32 *values;
+> >       u32 val;
+> >
+>
+> ...
+>
+> > -                             buf[i++] =3D val;
+> > +                             buf[i++] =3D val & 0xFF;
+>
+> Unneeded change, I suppose.
+>
+> ...
+>
+> > -                     par->fbtftops.write_register(par, i,
+> > -                             buf[0], buf[1], buf[2], buf[3],
+> > -                             buf[4], buf[5], buf[6], buf[7],
+> > -                             buf[8], buf[9], buf[10], buf[11],
+> > -                             buf[12], buf[13], buf[14], buf[15],
+> > -                             buf[16], buf[17], buf[18], buf[19],
+> > -                             buf[20], buf[21], buf[22], buf[23],
+> > -                             buf[24], buf[25], buf[26], buf[27],
+> > -                             buf[28], buf[29], buf[30], buf[31],
+> > -                             buf[32], buf[33], buf[34], buf[35],
+> > -                             buf[36], buf[37], buf[38], buf[39],
+> > -                             buf[40], buf[41], buf[42], buf[43],
+> > -                             buf[44], buf[45], buf[46], buf[47],
+> > -                             buf[48], buf[49], buf[50], buf[51],
+> > -                             buf[52], buf[53], buf[54], buf[55],
+> > -                             buf[56], buf[57], buf[58], buf[59],
+> > -                             buf[60], buf[61], buf[62], buf[63]);
+> > +                     /* buf[0] is command, buf[1..i-1] is data */
+> > +                     ret =3D fbtft_write_buf_dc(par, &buf[0], 1, 0);
+> > +                     if (ret < 0)
+> > +                             goto out_free;
+> > +
+> > +                     if (i > 1) {
+> > +                             ret =3D fbtft_write_buf_dc(par, &buf[1], =
+i - 1, 1);
+> > +                             if (ret < 0)
+> > +                                     goto out_free;
+> > +                     }
+>
+> I believe this is incorrect change and has not to be applied. write !=3D
+> write_register. Without any evidence of testing, definite NAK to it.
+> Otherwise, please provide detailed testing pattern and which devices were
+> tested.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
