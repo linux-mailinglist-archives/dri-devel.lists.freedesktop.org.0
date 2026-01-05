@@ -2,70 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B8DCF4203
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C51BCF42DE
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 15:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1E10E1A3;
-	Mon,  5 Jan 2026 14:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 643C010E418;
+	Mon,  5 Jan 2026 14:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="QyfaNKCI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PRkXbSPE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com
- [203.205.221.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68AB810E1A3
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:32:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1767623571; bh=Rj3C2wZ9S0wjoIrgKj0WUxywglkGscU+ybeuw5VMwX8=;
- h=From:To:Cc:Subject:Date:References:In-Reply-To;
- b=QyfaNKCIMm/0APUu8g/OPfnM50u+/JJ7+1ThLv76l2pPXdYxvnpDEF3mBtIbe9pAl
- ERbbKV40qsVhGkI6kJ5Iq+URHngP63FmMRDKbmMC2bGFjkwdZ92/tfy6O4J+vBzBqd
- CYpnpYi1p967ER6qfy4mdgbzrjklvc5X/zKpsz/s=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-X-QQ-XMAILINFO: McF9JvsryK5J1mdk6pgIynRK5XkZyG/VrAOVqQSOk6+mPZU4ThRrHfaCmpnH0f
- PlVbN9K7IJhJLVxh5ZE73eYbWDiyb7M8fcP1P0Oe9yZ7RxdKvFKgdRrecygQ/GIUncj5nTZlGPCFQ
- XxsOQQG/9uvZQHDp3xPuVp9tBHMdFoabA388ocXZ99b+OLCcCHnImRaWb0jZo80oNrMi/JVGESsMf
- nLkBlFaQk8PIXfgODG0WO27SLoSFm7YoZx6XDZcKJMG/U6t2Lq5R7x3Uedkc83Bo+E0ScWO2eOmhn
- Ktp+72y/2/6QZZIkA+yF38olA8UpoSVq/kEBSH5mTdcE1eZfU6XF7Kyc/Mjfvi8PhlYUKNU00j9Qy
- eXxZ7eO58ao9AJ8wJeYdLT4LdquPqE86Incur99i4st0nqKZ37eOfk05Ql2DxcS1iAqmuFWOGp1SK
- Kv8C5Lmyw2IVeqSkxSwNFaanUVR8dPK93o+cr4lfdmDGy/a8plHeCAoLmbewn9q5dXsy3WprqxRGu
- a9RRu63itA6+ARig/OFakdUb7kZi0Kn9Lw/5UKYddY+kGqeNPobVWRTsusaJHBn4mfhgGcfDINAt8
- oha8IwxqPeFKjTKogvzHUdUizl3sugO2hMowMv96TlLglAGekOJpghhD3mDyN5H5xsUfNySm/d1pv
- wK8zlinb71/iWiIRkLQjfkEzNeyT063kRAD3ZpUmQmGmaADZyRcPme12oV6W1FeUTUYzpbDOElheS
- 0MWQo3miJpLwXsh7EPkISr5/W7Jir6onDT6V5YlvGfIOhiV8SuVM2jDqYX/vlZcZ38dDiWF9jrz/M
- lBromqodttM8u5avfHCbylVn4bUSlURR7FdLsk3oImN8k9xdaTDQUncFAxl222EEQDYY00MJ8k65p
- LQb+TmoibR+mk4j60UJ1yE54zgx4m7uv2A+ZtUzdZTNVRzuKmDTumrhQH6VyZwCYnPXfPkQokU/xB
- xsEVHN8ugVCRulRR/MynyKkfDknty7R87+VIBz8YP0CWnMCJ/zkX7PCUW4Uwfy8yoqXw1/XK45hMo
- Zpvqh
-From: "=?utf-8?B?a2FueGlhbw==?=" <814091656@qq.com>
-To: "=?utf-8?B?TWF4aW1lIFJpcGFyZA==?=" <mripard@kernel.org>,
- "=?utf-8?B?WGlhbyBLYW4=?=" <814091656@qq.com>
-Cc: "=?utf-8?B?bWFhcnRlbi5sYW5raG9yc3Q=?=" <maarten.lankhorst@linux.intel.com>,
- "=?utf-8?B?dHppbW1lcm1hbm4=?=" <tzimmermann@suse.de>,
- "=?utf-8?B?YWlybGllZA==?=" <airlied@gmail.com>,
- "=?utf-8?B?c2ltb25h?=" <simona@ffwll.ch>,
- "=?utf-8?B?ZHJpLWRldmVs?=" <dri-devel@lists.freedesktop.org>,
- "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>,
- "=?utf-8?B?dw==?=" <w@1wt.eu>,
- "=?utf-8?B?c2VjdXJpdHk=?=" <security@kernel.org>,
- "=?utf-8?B?a2FueGlhbzY2Ng==?=" <kanxiao666@gmail.com>,
- "=?utf-8?B?eGlhby5rYW4=?=" <xiao.kan@samsung.com>
-Subject: Re: [PATCH] drm: limit property blob creation per file
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_695BCB92_22C683E0_494B4EF3"
-Content-Transfer-Encoding: 8Bit
-Date: Mon, 5 Jan 2026 22:32:50 +0800
-X-Priority: 3
-Message-ID: <tencent_CD10FEDCD476E30831FBFED5056AFB531007@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <tencent_B0A522AEEC81573BA9934E2340B672ABDA09@qq.com>
- <20260105-abiding-aloof-locust-dcadac@houat>
-In-Reply-To: <20260105-abiding-aloof-locust-dcadac@houat>
-X-QQ-mid: xmapzb53-0t1767623570t0pm507a2
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CD910E04E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 14:39:39 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-42e2ba54a6fso6070860f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 06:39:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1767623977; x=1768228777; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ljlfQTMdubiXy6Trb6w37rOF+8B2DpqBmlsGz29D7zE=;
+ b=PRkXbSPEmvAHx9QgD4tgupV9n/YQxIaMSAyvTOEbrsNHnodxsNPiPLtHDCiG2xEak8
+ JeKaGShzzo1qY20bpb+C91ot3/rnh3djqNPkBhfQVTRyJllukqsJEJkmIwCoNDYFY1t6
+ MIi6WHTlV7MSsxYLqPhqLOnzP5arCIUdeF+24r84mkd4/jdc9A/km+/QE5qFkVoAI9hT
+ u8GvMIZ/efefkwGDZz23xI6HaOXJVcLCirRrMcBL15P8uPkJEm3TScm6X4KcylZNEBCs
+ QZ4WOgviNfoUklnZz4jk8e0XP2jLN2/fcnN30VG7Kykpn5+VyHbM6ocgpkgLh7Jdur2o
+ VVKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767623977; x=1768228777;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ljlfQTMdubiXy6Trb6w37rOF+8B2DpqBmlsGz29D7zE=;
+ b=sq0tur+lyG1epnf16V4rxAegMFoor95bGH4br/3t1QY2/cUjcfoFqcyB498RffIoVN
+ 8wq+vBgouWvhTMQPiPdPoATmMvVSu0VxsD/pHV6YfDnm9MfYeEhAf8x8Z4Q93c9Sof+R
+ +6Unkzb553Gyd8gF/1+p7nN70RwFFPyfI80Eb6qVLhogpbFYZC5bhXLMc2gU+6MSvnxH
+ VB0kuPjj+iXiQeFtfGOfmaeWBY0/PK72IkCVtmmEefI8mlIAQ+Q2OXeyVTX6YKpNGlGg
+ TakwYbvoPnVTzxAqSw0wCyfjmpAlx2y2lXhefjRIfjEjBz0/52QHjWH1Kvn6myrkMC1d
+ 6Dmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5y3y136iKd9CzDvXL+oBbVkBTolS5mwpR2W4dD1wtFdWCGKWAPPFkX3ysuu1gqQoGeG6BDS09OcE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVSVE9y1poAKlSj10B37ypoW56S99fVLxt89R5vt6pnp/g9uMX
+ 4puPhtmFbK1sS4muys5MRCixvOAC8ZVbBwY3Td0eSqIGTGSJ5wXgL/O6tfxQIbxaQkY=
+X-Gm-Gg: AY/fxX7h553iePQFomqQZikjT50TggkKUiJ0o70IX5fsnyiMuUKEVrZof6ljmb0p2ju
+ f/EeBgPXDq1oXOBj2clk2vZh8E145/5ml7PUGX5ymjEcoO+vlutLyUH4zG87W+5IYdncDX0fUj6
+ xlTo2Rj/sLp0eEJTQLa1RwxTWVk7CTfdwwFsSRcZ+487weyJ9dIWNP1BCJqeIRZKZ40Hx/CmMDq
+ mWtyLRyHTbpbUd1ql0Y6YydfFDHywxEkiWbMX1Q+sATuDJfWV+cJXnl0+shyiO/NNRX8AjiD5N1
+ 9lFW8GjLwI9Kd8XmNmiN7SuRzkoz4IHI6equRdE8Dc6ceBdw0L9vjCPY2js4A8qb0kzjSAfEHRY
+ dzjJBNFqV9I2sXhZ/OQLNWOKAsLkPwyytcCZoOyS3//it0bWNQNeuRKsIaHRM/nbRTYHdEmLIoN
+ 5BnrfHheBaxco0cbdk
+X-Google-Smtp-Source: AGHT+IHi6fS0MK2Kosi15XiBw2e95XkRVwWYbIeQ5N6L4qMRxWQV+A5hUru6upLl+PEiAB1wfKiYMw==
+X-Received: by 2002:a05:6000:220b:b0:430:fbce:f382 with SMTP id
+ ffacd0b85a97d-4324e4d04d4mr60068477f8f.25.1767623977366; 
+ Mon, 05 Jan 2026 06:39:37 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4324ea1afbfsm102065572f8f.9.2026.01.05.06.39.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jan 2026 06:39:36 -0800 (PST)
+Date: Mon, 5 Jan 2026 17:39:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 2/4] staging: fbtft: ssd1351: send gamma table via
+ fbtft_write_buf_dc()
+Message-ID: <aVvNJV93mprLcZwy@stanley.mountain>
+References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+ <20260104110638.532615-3-sun.jian.kdev@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260104110638.532615-3-sun.jian.kdev@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,139 +92,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
+On Sun, Jan 04, 2026 at 07:06:36PM +0800, Sun Jian wrote:
+> Clang reports a large stack frame in set_gamma() (-Wframe-larger-than=1024)
+> due to the large write_reg() call emitting 63 gamma bytes via varargs.
+> 
+> Send the command byte (0xB8) and the gamma payload using
+> fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
+> ---
+>  drivers/staging/fbtft/fb_ssd1351.c | 35 +++++++++++++-----------------
+>  1 file changed, 15 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+> index 6736b09b2f45..b4ab2c81e528 100644
+> --- a/drivers/staging/fbtft/fb_ssd1351.c
+> +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> @@ -119,43 +119,38 @@ static int set_var(struct fbtft_par *par)
+>   */
+>  static int set_gamma(struct fbtft_par *par, u32 *curves)
+>  {
+> -	unsigned long tmp[GAMMA_NUM * GAMMA_LEN];
+> +	u8 data[GAMMA_LEN];
 
-------=_NextPart_695BCB92_22C683E0_494B4EF3
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Ugh...  GAMMA_NUM is 1 so this is an annoying calculation.  So what
+this does is it changes the type from unsigned long to u8 and renames
+the variable.  I am fine with renaming the variable it's unrelated and
+makes the review harder.
 
-SGkgTWF4aW1lLA0KDQoNClRoYW5rcyBmb3IgdGhlIHN1Z2dlc3Rpb24g4oCUIHRoYXQgbWFr
-ZXMgc2Vuc2UuDQoNCg0KQWNjb3VudGluZyB0aGUgcHJvcGVydHkgYmxvYiBhbGxvY2F0aW9u
-IHZpYSBHRlBfQUNDT1VOVCBhZGRyZXNzZXMgdGhlIHByb2JsZW0gYXQgdGhlIHJpZ2h0IGxh
-eWVyIGJ5IGNoYXJnaW5nIG1lbW9yeSB1c2FnZSB0byB0aGUgY2FsbGVy4oCZcyBtZW1jZywg
-aW5zdGVhZCBvZiBpbnRyb2R1Y2luZyBhZGRpdGlvbmFsIHBlci1maWxlIGxpbWl0cyBvciBw
-b2xpY3kgaW4gRFJNLiBUaGlzIGVuc3VyZXMgdGhhdCBleGNlc3NpdmUgYWxsb2NhdGlvbnMg
-YXJlIGNvbnRhaW5lZCB3aXRoaW4gdGhlIG9mZmVuZGluZyBjZ3JvdXAgYW5kIGhhbmRsZWQg
-YnkgbWVtY2cgT09NLCBhdm9pZGluZyBzeXN0ZW0td2lkZSBpbXBhY3QuDQpJIGFncmVlIHRo
-aXMgaXMgYSBjbGVhbmVyIGFwcHJvYWNoIGFuZCB3aWxsIHJlc3BpbiB0aGUgcGF0Y2ggYWNj
-b3JkaW5nbHkuDQoNCg0KQlIsDQpYaWFvDQoNCg0KDQoNCi0tLU9yaWdpbmFsLS0tDQpGcm9t
-OiAiTWF4aW1lIFJpcGFyZCI8bXJpcGFyZEBrZXJuZWwub3JnJmd0Ow0KRGF0ZTogTW9uLCBK
-YW4gNSwgMjAyNiAxODozNiBQTQ0KVG86ICJYaWFvIEthbiI8ODE0MDkxNjU2QHFxLmNvbSZn
-dDs7DQpDYzogIm1hYXJ0ZW4ubGFua2hvcnN0IjxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5p
-bnRlbC5jb20mZ3Q7OyJ0emltbWVybWFubiI8dHppbW1lcm1hbm5Ac3VzZS5kZSZndDs7ImFp
-cmxpZWQiPGFpcmxpZWRAZ21haWwuY29tJmd0Ozsic2ltb25hIjxzaW1vbmFAZmZ3bGwuY2gm
-Z3Q7OyJkcmktZGV2ZWwiPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7OyJs
-aW51eC1rZXJuZWwiPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyJ3Ijx3QDF3
-dC5ldSZndDs7InNlY3VyaXR5IjxzZWN1cml0eUBrZXJuZWwub3JnJmd0Ozsia2FueGlhbzY2
-NiI8a2FueGlhbzY2NkBnbWFpbC5jb20mZ3Q7OyJ4aWFvLmthbiI8eGlhby5rYW5Ac2Ftc3Vu
-Zy5jb20mZ3Q7Ow0KU3ViamVjdDogUmU6IFtQQVRDSF0gZHJtOiBsaW1pdCBwcm9wZXJ0eSBi
-bG9iIGNyZWF0aW9uIHBlciBmaWxlDQoNCg0KSGksDQoNCk9uJm5ic3A7U2F0LCZuYnNwO0ph
-biZuYnNwOzAzLCZuYnNwOzIwMjYmbmJzcDthdCZuYnNwOzEwOjI1OjI5QU0mbmJzcDstMDUw
-MCwmbmJzcDtYaWFvJm5ic3A7S2FuJm5ic3A7d3JvdGU6DQomZ3Q7Jm5ic3A7RFJNX0lPQ1RM
-X01PREVfQ1JFQVRFUFJPUEJMT0ImbmJzcDthbGxvd3MmbmJzcDt1c2Vyc3BhY2UmbmJzcDt0
-byZuYnNwO2NyZWF0ZSZuYnNwO3Byb3BlcnR5Jm5ic3A7YmxvYnMNCiZndDsmbmJzcDt3aG9z
-ZSZuYnNwO2xpZmV0aW1lJm5ic3A7aXMmbmJzcDtzY29wZWQmbmJzcDt0byZuYnNwO2EmbmJz
-cDtkcm1fZmlsZS4NCiZndDsmbmJzcDsNCiZndDsmbmJzcDtDdXJyZW50bHksJm5ic3A7YSZu
-YnNwO3NpbmdsZSZuYnNwO2RybV9maWxlJm5ic3A7bWF5Jm5ic3A7Y3JlYXRlJm5ic3A7YW4m
-bmJzcDt1bmJvdW5kZWQmbmJzcDtudW1iZXImbmJzcDtvZiZuYnNwO2Jsb2JzLg0KJmd0OyZu
-YnNwO1JlcGVhdGVkJm5ic3A7aW9jdGwmbmJzcDtjYWxscyZuYnNwO2NhbiZuYnNwO3RyaWdn
-ZXImbmJzcDt1bmJvdW5kZWQmbmJzcDtrZXJuZWwmbmJzcDttZW1vcnkmbmJzcDthbGxvY2F0
-aW9uJm5ic3A7YW5kDQomZ3Q7Jm5ic3A7bGVhZCZuYnNwO3RvJm5ic3A7T09NLCZuYnNwO3Jl
-c3VsdGluZyZuYnNwO2luJm5ic3A7YSZuYnNwO2RlbmlhbC1vZi1zZXJ2aWNlLg0KJmd0OyZu
-YnNwOw0KJmd0OyZuYnNwO0ludHJvZHVjZSZuYnNwO2EmbmJzcDtwZXItZHJtX2ZpbGUmbmJz
-cDtsaW1pdCZuYnNwO29uJm5ic3A7dGhlJm5ic3A7bnVtYmVyJm5ic3A7b2YmbmJzcDt1c2Vy
-LWNyZWF0ZWQmbmJzcDtwcm9wZXJ0eQ0KJmd0OyZuYnNwO2Jsb2JzLiZuYnNwO1RoZSZuYnNw
-O2xpbWl0Jm5ic3A7aXMmbmJzcDtlbmZvcmNlZCZuYnNwO2F0Jm5ic3A7dGhlJm5ic3A7cG9p
-bnQmbmJzcDt3aGVyZSZuYnNwO2EmbmJzcDtibG9iJm5ic3A7YmVjb21lcyZuYnNwO2Fzc29j
-aWF0ZWQNCiZndDsmbmJzcDt3aXRoJm5ic3A7YSZuYnNwO2RybV9maWxlLCZuYnNwO21hdGNo
-aW5nJm5ic3A7dGhlJm5ic3A7ZXhpc3RpbmcmbmJzcDtvd25lcnNoaXAmbmJzcDthbmQmbmJz
-cDtsaWZldGltZSZuYnNwO21vZGVsLg0KJmd0OyZuYnNwO1RoaXMmbmJzcDtib3VuZHMmbmJz
-cDtwZXItZmlsZSZuYnNwO2FsbG9jYXRpb25zJm5ic3A7d2hpbGUmbmJzcDt0aGUmbmJzcDt0
-b3RhbCZuYnNwO251bWJlciZuYnNwO29mJm5ic3A7RFJNJm5ic3A7ZmlsZQ0KJmd0OyZuYnNw
-O2Rlc2NyaXB0b3JzJm5ic3A7cmVtYWlucyZuYnNwO2NvbnN0cmFpbmVkJm5ic3A7YnkmbmJz
-cDtleGlzdGluZyZuYnNwO2tlcm5lbCZuYnNwO2xpbWl0cy4NCiZndDsmbmJzcDsNCiZndDsm
-bmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hpYW8mbmJzcDtLYW4mbmJzcDs8ODE0MDkxNjU2
-QHFxLmNvbSZndDsNCiZndDsmbmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hpYW8mbmJzcDtL
-YW4mbmJzcDs8eGlhby5rYW5Ac2Ftc3VuZy5jb20mZ3Q7DQoNCldvdWxkbid0Jm5ic3A7aXQm
-bmJzcDttYWtlJm5ic3A7bW9yZSZuYnNwO3NlbnNlJm5ic3A7dG8mbmJzcDthY2NvdW50Jm5i
-c3A7dGhlJm5ic3A7YWxsb2NhdGlvbiZuYnNwO2luJm5ic3A7bWVtY2cmbmJzcDtieQ0KcGFz
-c2luZyZuYnNwO0dGUF9BQ0NPVU5UJm5ic3A7dG8mbmJzcDt0aGUmbmJzcDtrdnphbGxvYyZu
-YnNwO2NhbGwmbmJzcDtpbiZuYnNwO2RybV9wcm9wZXJ0eV9jcmVhdGVfYmxvYj8NCg0KTWF4
-aW1l
+> +	u8 cmd = 0xB8;
+>  	int i, acc = 0;
+> +	int ret;
+>  
+> -	for (i = 0; i < 63; i++) {
+> +	for (i = 0; i < GAMMA_LEN; i++) {
 
-------=_NextPart_695BCB92_22C683E0_494B4EF3
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+GAMMA_LEN is 63.  So this looks like a change, but it's an unrelated
+cleanup.
 
-PGRpdj48ZGl2PkhpIE1heGltZSw8L2Rpdj48ZGl2PjxiciAgLz48L2Rpdj48ZGl2PlRoYW5r
-cyBmb3IgdGhlIHN1Z2dlc3Rpb24g4oCUIHRoYXQgbWFrZXMgc2Vuc2UuPC9kaXY+PGRpdj48
-YnIgIC8+PC9kaXY+PGRpdj5BY2NvdW50aW5nIHRoZSBwcm9wZXJ0eSBibG9iIGFsbG9jYXRp
-b24gdmlhIEdGUF9BQ0NPVU5UIGFkZHJlc3NlcyB0aGUgcHJvYmxlbSBhdCB0aGUgcmlnaHQg
-bGF5ZXIgYnkgY2hhcmdpbmcgbWVtb3J5IHVzYWdlIHRvIHRoZSBjYWxsZXLigJlzIG1lbWNn
-LCBpbnN0ZWFkIG9mIGludHJvZHVjaW5nIGFkZGl0aW9uYWwgcGVyLWZpbGUgbGltaXRzIG9y
-IHBvbGljeSBpbiBEUk0uIFRoaXMgZW5zdXJlcyB0aGF0IGV4Y2Vzc2l2ZSBhbGxvY2F0aW9u
-cyBhcmUgY29udGFpbmVkIHdpdGhpbiB0aGUgb2ZmZW5kaW5nIGNncm91cCBhbmQgaGFuZGxl
-ZCBieSBtZW1jZyBPT00sIGF2b2lkaW5nIHN5c3RlbS13aWRlIGltcGFjdC48L2Rpdj48ZGl2
-PkkgYWdyZWUgdGhpcyBpcyBhIGNsZWFuZXIgYXBwcm9hY2ggYW5kIHdpbGwgcmVzcGluIHRo
-ZSBwYXRjaCBhY2NvcmRpbmdseS48L2Rpdj48ZGl2PjxiciAgLz48L2Rpdj48ZGl2PkJSLDwv
-ZGl2PjxkaXY+WGlhbzwvZGl2PjwvZGl2PjxkaXY+PGJyICAvPjwvZGl2PjxkaXY+PCEtLWVt
-cHR5c2lnbi0tPjwvZGl2PjxkaXY+PGRpdiBzdHlsZT0iZm9udC1zaXplOjEycHg7cGFkZGlu
-ZzoycHggMDsiIGNsYXNzPSJ4bV9tYWlsX29yaW5naW5hbF9kZXNjcmliZSI+LS0tT3JpZ2lu
-YWwtLS08L2Rpdj48ZGl2IHN0eWxlPSJmb250LXNpemU6MTJweDtiYWNrZ3JvdW5kOiNmMGYw
-ZjA7Y29sb3I6IzIxMjEyMTtwYWRkaW5nOjhweCFpbXBvcnRhbnQ7Ym9yZGVyLXJhZGl1czo0
-cHg7bGluZS1oZWlnaHQ6MS41OyI+PGRpdiBjbGFzcz0ieG1fbWFpbF9vcmluZ2luYWxfZGVz
-Y3JpYmUiPjxiPkZyb206PC9iPiAiTWF4aW1lIFJpcGFyZCImbHQ7bXJpcGFyZEBrZXJuZWwu
-b3JnJmd0OzwvZGl2PjxkaXYgY2xhc3M9InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48
-Yj5EYXRlOjwvYj4gTW9uLCBKYW4gNSwgMjAyNiAxODozNiBQTTwvZGl2PjxkaXYgY2xhc3M9
-InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48Yj5Ubzo8L2I+ICJYaWFvIEthbiImbHQ7
-ODE0MDkxNjU2QHFxLmNvbSZndDs7PC9kaXY+PGRpdiBjbGFzcz0ieG1fbWFpbF9vcmluZ2lu
-YWxfZGVzY3JpYmUiPjxiPkNjOjwvYj4gIm1hYXJ0ZW4ubGFua2hvcnN0IiZsdDttYWFydGVu
-Lmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20mZ3Q7OyJ0emltbWVybWFubiImbHQ7dHppbW1l
-cm1hbm5Ac3VzZS5kZSZndDs7ImFpcmxpZWQiJmx0O2FpcmxpZWRAZ21haWwuY29tJmd0Ozsi
-c2ltb25hIiZsdDtzaW1vbmFAZmZ3bGwuY2gmZ3Q7OyJkcmktZGV2ZWwiJmx0O2RyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7OyJsaW51eC1rZXJuZWwiJmx0O2xpbnV4LWtl
-cm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyJ3IiZsdDt3QDF3dC5ldSZndDs7InNlY3VyaXR5
-IiZsdDtzZWN1cml0eUBrZXJuZWwub3JnJmd0Ozsia2FueGlhbzY2NiImbHQ7a2FueGlhbzY2
-NkBnbWFpbC5jb20mZ3Q7OyJ4aWFvLmthbiImbHQ7eGlhby5rYW5Ac2Ftc3VuZy5jb20mZ3Q7
-OzwvZGl2PjxkaXYgY2xhc3M9InhtX21haWxfb3JpbmdpbmFsX2Rlc2NyaWJlIj48Yj5TdWJq
-ZWN0OjwvYj4gUmU6IFtQQVRDSF0gZHJtOiBsaW1pdCBwcm9wZXJ0eSBibG9iIGNyZWF0aW9u
-IHBlciBmaWxlPC9kaXY+PC9kaXY+PGJyICAvPkhpLDxiciAgLz48YnIgIC8+T24mbmJzcDtT
-YXQsJm5ic3A7SmFuJm5ic3A7MDMsJm5ic3A7MjAyNiZuYnNwO2F0Jm5ic3A7MTA6MjU6MjlB
-TSZuYnNwOy0wNTAwLCZuYnNwO1hpYW8mbmJzcDtLYW4mbmJzcDt3cm90ZTo8YnIgIC8+Jmd0
-OyZuYnNwO0RSTV9JT0NUTF9NT0RFX0NSRUFURVBST1BCTE9CJm5ic3A7YWxsb3dzJm5ic3A7
-dXNlcnNwYWNlJm5ic3A7dG8mbmJzcDtjcmVhdGUmbmJzcDtwcm9wZXJ0eSZuYnNwO2Jsb2Jz
-PGJyICAvPiZndDsmbmJzcDt3aG9zZSZuYnNwO2xpZmV0aW1lJm5ic3A7aXMmbmJzcDtzY29w
-ZWQmbmJzcDt0byZuYnNwO2EmbmJzcDtkcm1fZmlsZS48YnIgIC8+Jmd0OyZuYnNwOzxiciAg
-Lz4mZ3Q7Jm5ic3A7Q3VycmVudGx5LCZuYnNwO2EmbmJzcDtzaW5nbGUmbmJzcDtkcm1fZmls
-ZSZuYnNwO21heSZuYnNwO2NyZWF0ZSZuYnNwO2FuJm5ic3A7dW5ib3VuZGVkJm5ic3A7bnVt
-YmVyJm5ic3A7b2YmbmJzcDtibG9icy48YnIgIC8+Jmd0OyZuYnNwO1JlcGVhdGVkJm5ic3A7
-aW9jdGwmbmJzcDtjYWxscyZuYnNwO2NhbiZuYnNwO3RyaWdnZXImbmJzcDt1bmJvdW5kZWQm
-bmJzcDtrZXJuZWwmbmJzcDttZW1vcnkmbmJzcDthbGxvY2F0aW9uJm5ic3A7YW5kPGJyICAv
-PiZndDsmbmJzcDtsZWFkJm5ic3A7dG8mbmJzcDtPT00sJm5ic3A7cmVzdWx0aW5nJm5ic3A7
-aW4mbmJzcDthJm5ic3A7ZGVuaWFsLW9mLXNlcnZpY2UuPGJyICAvPiZndDsmbmJzcDs8YnIg
-IC8+Jmd0OyZuYnNwO0ludHJvZHVjZSZuYnNwO2EmbmJzcDtwZXItZHJtX2ZpbGUmbmJzcDts
-aW1pdCZuYnNwO29uJm5ic3A7dGhlJm5ic3A7bnVtYmVyJm5ic3A7b2YmbmJzcDt1c2VyLWNy
-ZWF0ZWQmbmJzcDtwcm9wZXJ0eTxiciAgLz4mZ3Q7Jm5ic3A7YmxvYnMuJm5ic3A7VGhlJm5i
-c3A7bGltaXQmbmJzcDtpcyZuYnNwO2VuZm9yY2VkJm5ic3A7YXQmbmJzcDt0aGUmbmJzcDtw
-b2ludCZuYnNwO3doZXJlJm5ic3A7YSZuYnNwO2Jsb2ImbmJzcDtiZWNvbWVzJm5ic3A7YXNz
-b2NpYXRlZDxiciAgLz4mZ3Q7Jm5ic3A7d2l0aCZuYnNwO2EmbmJzcDtkcm1fZmlsZSwmbmJz
-cDttYXRjaGluZyZuYnNwO3RoZSZuYnNwO2V4aXN0aW5nJm5ic3A7b3duZXJzaGlwJm5ic3A7
-YW5kJm5ic3A7bGlmZXRpbWUmbmJzcDttb2RlbC48YnIgIC8+Jmd0OyZuYnNwO1RoaXMmbmJz
-cDtib3VuZHMmbmJzcDtwZXItZmlsZSZuYnNwO2FsbG9jYXRpb25zJm5ic3A7d2hpbGUmbmJz
-cDt0aGUmbmJzcDt0b3RhbCZuYnNwO251bWJlciZuYnNwO29mJm5ic3A7RFJNJm5ic3A7Zmls
-ZTxiciAgLz4mZ3Q7Jm5ic3A7ZGVzY3JpcHRvcnMmbmJzcDtyZW1haW5zJm5ic3A7Y29uc3Ry
-YWluZWQmbmJzcDtieSZuYnNwO2V4aXN0aW5nJm5ic3A7a2VybmVsJm5ic3A7bGltaXRzLjxi
-ciAgLz4mZ3Q7Jm5ic3A7PGJyICAvPiZndDsmbmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hp
-YW8mbmJzcDtLYW4mbmJzcDsmbHQ7ODE0MDkxNjU2QHFxLmNvbSZndDs8YnIgIC8+Jmd0OyZu
-YnNwO1NpZ25lZC1vZmYtYnk6Jm5ic3A7WGlhbyZuYnNwO0thbiZuYnNwOyZsdDt4aWFvLmth
-bkBzYW1zdW5nLmNvbSZndDs8YnIgIC8+PGJyICAvPldvdWxkbid0Jm5ic3A7aXQmbmJzcDtt
-YWtlJm5ic3A7bW9yZSZuYnNwO3NlbnNlJm5ic3A7dG8mbmJzcDthY2NvdW50Jm5ic3A7dGhl
-Jm5ic3A7YWxsb2NhdGlvbiZuYnNwO2luJm5ic3A7bWVtY2cmbmJzcDtieTxiciAgLz5wYXNz
-aW5nJm5ic3A7R0ZQX0FDQ09VTlQmbmJzcDt0byZuYnNwO3RoZSZuYnNwO2t2emFsbG9jJm5i
-c3A7Y2FsbCZuYnNwO2luJm5ic3A7ZHJtX3Byb3BlcnR5X2NyZWF0ZV9ibG9iPzxiciAgLz48
-YnIgIC8+TWF4aW1lPGJyICAvPjxiciAgLz48L2Rpdj4=
+>  		if (i > 0 && curves[i] < 2) {
+>  			dev_err(par->info->device,
+>  				"Illegal value in Grayscale Lookup Table at index %d : %d. Must be greater than 1\n",
+>  				i, curves[i]);
+>  			return -EINVAL;
+>  		}
+> +
 
-------=_NextPart_695BCB92_22C683E0_494B4EF3--
+This is an unrelated white space change.
 
+>  		acc += curves[i];
+> -		tmp[i] = acc;
+> +
+>  		if (acc > 180) {
+>  			dev_err(par->info->device,
+>  				"Illegal value(s) in Grayscale Lookup Table. At index=%d : %d, the accumulated value has exceeded 180\n",
+>  				i, acc);
+>  			return -EINVAL;
+>  		}
+> +
+> +		data[i] = acc;
+
+Here we move the acc assignment after the sanity check, but it's just
+an unrelated cleanup.
+
+>  	}
+>  
+> -	write_reg(par, 0xB8,
+> -		  tmp[0],  tmp[1],  tmp[2],  tmp[3],
+> -		  tmp[4],  tmp[5],  tmp[6],  tmp[7],
+> -		  tmp[8],  tmp[9],  tmp[10], tmp[11],
+> -		  tmp[12], tmp[13], tmp[14], tmp[15],
+> -		  tmp[16], tmp[17], tmp[18], tmp[19],
+> -		  tmp[20], tmp[21], tmp[22], tmp[23],
+> -		  tmp[24], tmp[25], tmp[26], tmp[27],
+> -		  tmp[28], tmp[29], tmp[30], tmp[31],
+> -		  tmp[32], tmp[33], tmp[34], tmp[35],
+> -		  tmp[36], tmp[37], tmp[38], tmp[39],
+> -		  tmp[40], tmp[41], tmp[42], tmp[43],
+> -		  tmp[44], tmp[45], tmp[46], tmp[47],
+> -		  tmp[48], tmp[49], tmp[50], tmp[51],
+> -		  tmp[52], tmp[53], tmp[54], tmp[55],
+> -		  tmp[56], tmp[57], tmp[58], tmp[59],
+> -		  tmp[60], tmp[61], tmp[62]);
+> +	ret = fbtft_write_buf_dc(par, &cmd, 1, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = fbtft_write_buf_dc(par, data, sizeof(data), 1);
+> +	if (ret < 0)
+> +		return ret;
+
+These are good changes.  Just change the type from unsigned long to u8
+and use fbtft_write_buf_dc() instead of write_reg().  Then do the other
+changes in a separate patch.
+
+Same for the other patches.
+
+regards,
+dan carpenter
+
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.43.0
+> 
