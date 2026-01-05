@@ -2,60 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A38DCF4B6C
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093DFCF4B92
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C7910E3E7;
-	Mon,  5 Jan 2026 16:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C8C10E421;
+	Mon,  5 Jan 2026 16:36:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="BIVyRKIA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OiDqQhsx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0848710E423
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:34:38 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dlKdQ0LVmz9tQk;
- Mon,  5 Jan 2026 17:34:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767630874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qhJ7h8tQ1M7ApNeSHh732JqFfmiwDgOtDBPBZ+jirFw=;
- b=BIVyRKIAx9yStlJk6/RFqtP/ryK6HKjrxkjwB+gtaWVcJ7NZTq8cjMPQjZzj7PzcFggd0i
- rOPLXNRNGcHQ2/wrltWRRvKAWutkTr0/HVE2/JcAEGgRY1Zccgl5dfPIHM5guPAcgzEWVt
- TgX2ZshfKGAEy5Vf4mhPVRJ2VJ96S7uoOZuGpev7EUchI8MQ0NXqVKyJFhii+7A00YsSPH
- 8q+CVy6B0jGy8Aj/Zn87Kg6lkEHLcyLQ6nPzjuIau7h/8TJhG74dbyETc0FVEezb1XoE0I
- gIh8PxedLZmTLbfLRfipK3EyAYFTB+66y7CGvxGD1hokSpWe7uBl0xY0WOFWUw==
-Message-ID: <3af6990f-3b3e-4dbb-aa9e-1cd86341e0f0@mailbox.org>
-Date: Mon, 5 Jan 2026 17:34:30 +0100
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9088B10E421
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:36:13 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-78fc520433aso1637107b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 08:36:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767630972; x=1768235772; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pmLroKiaaSIEDmiG3hNy96115cezpvbgC/O0Qw/mmcE=;
+ b=OiDqQhsx2orWUqdE5CFYhVFE6bippgu6PqYpaal7j0uBaej8TS7TBE4MOi3NzaKXhW
+ DEj4yMymf0cLM7iMGw+Su6mgKGAFNRp++7wEfNMn677DA5tmYrP45zzNsXogjQ8quYdp
+ cltDjgd3Xvsqk246L1PPjHe1V59RZJmogAvZVT5Q4Da69mHCI6vmETuI8uHKBhpqd7BX
+ F/vrjgwerlgDKIjWWEhVcAvoq1rJLIr3+y2fh204fl+egCqEC21ITCUcs9tNa/JE9H6T
+ zAIXD+Ou6jZyOPPAnzx7SaaM09pegdTIgTvdW5NYjbkgSVq6MOBc80oUsmmG8L8Q9+P5
+ wQOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767630972; x=1768235772;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pmLroKiaaSIEDmiG3hNy96115cezpvbgC/O0Qw/mmcE=;
+ b=mYLtz/G5azKN6lQX7QFNeM8vC338Q9yLngwgriUMALTPWM44sh7eVWjbzxwQeGU/3W
+ GRSI1KN3zTTG3i7Z/Hu19G2NOlyYn7qIqbMaMtFCFhXMgL/5fTqelKmsfVvgDv/MJPmu
+ A8ud46hPhbN4wDxFpUb+zWNpDjcDAsyegZ6jwkO0udrPe/UACaq2qaJMXvqbYfRx6nPw
+ xIClIkBIUm9U7VhpvlT+n++ipXA7S9gkjC50oXLhN5QNCVNNInTsnUnBsreaZW7OLltd
+ wwYgMyr1x9Zx9JWDiXLVW+kLL+e2k+Yw9R4NKp2quDJtwH4XYdlteNTv92yvliCdeDOS
+ k4Rg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXlGOMCsvrsCM+VVE5wQwBrf9jOuxA/+ly9jnfbKQU8NQIwITnJBxYx7N56MJD+/NTAd9ACClcOmcY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeW5463ZEaKyvG9MP97Qikv68NkRnzsZZAbex1uAHlX0CJa3gQ
+ 78mYyecMB13FcxZdnGFIdTw0tAZlPosAdoC6nTNctit8nFJUpRlEYM7F
+X-Gm-Gg: AY/fxX73Mmr11TVD5D/w/s/zpHHLz/klkXdzvQh0WE02ywYk5AKcnyVT1N3q+bUG/Ln
+ BxAsvBE4kNFqoPJLodRVTuwPxWB0C7NK3fCgvzjMaPuuyIfkeWrLprdT6+/J+y7B/yUdLkgvJLu
+ jF4PL29ibQrMiZZ3iYhZh0jqNMpGtRzffjnmu970yUn79rx8jT7K9hmXfa6XdyE/dVvUA9pVdxO
+ Gm27rIol/71iYaenk9RgPl6N7vHzWBoORt8W6YJiLIV6RbTnB0JYNj6BIIvUzKbNYD3LMjm2+wN
+ 7bp9rDdT5ngwoQHGkzluEQQ7LfY8iBz57sWIMiRqeaR3ASFZFrcEjwJaNaRHUqN+GgA9AHcoKg0
+ QzOhhtEYG2yApPWXcNzNw2xcXgtVB1UsowUpqEvusT8RfAO8Q6UBfR6OHBSp4IsA/hB9Qp0qx3J
+ UJNxKDHNM=
+X-Google-Smtp-Source: AGHT+IHZnvqij0p2dsVEyUAqfbDQF6JM3zbwBqi4iRccM72+GqOmYwfEQER+7XbmOSanBy2kuKO6sw==
+X-Received: by 2002:a05:690c:45ca:b0:78f:aa6d:48cd with SMTP id
+ 00721157ae682-790a88f50b1mr1761297b3.0.1767630972421; 
+ Mon, 05 Jan 2026 08:36:12 -0800 (PST)
+Received: from localhost ([2601:346:0:79bd:830c:9f83:df41:3e7d])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-790a87dce60sm648267b3.13.2026.01.05.08.36.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jan 2026 08:36:12 -0800 (PST)
+Date: Mon, 5 Jan 2026 11:36:11 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 7/7] kernel.h: drop trace_printk.h
+Message-ID: <aVvoe5fQN3EUtEAJ@yury>
+References: <20251225170930.1151781-1-yury.norov@gmail.com>
+ <20251225170930.1151781-8-yury.norov@gmail.com>
+ <20251226115848.298465d4@gandalf.local.home>
+ <20251228133150.1d5731d04bc1b685b0fe81c1@linux-foundation.org>
+ <20251229111748.3ba66311@gandalf.local.home>
+ <20260103005059.GA11015@joelbox2>
+ <aVkSVk2L6VH9MYGz@smile.fi.intel.com> <aVkmQ4EGIQgAddZQ@yury>
+ <254c1096c3b892923dd12b07a8b80291b88c0e9b@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/imagination: Fix build on 32bit systems
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
- <666b75d9-108c-42cf-bce7-b7efdb25e027@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <666b75d9-108c-42cf-bce7-b7efdb25e027@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: efd2453e431ebab954b
-X-MBO-RS-META: 6ep6ign7mmgf1jwjst9tp54jsmqoiwad
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <254c1096c3b892923dd12b07a8b80291b88c0e9b@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +111,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/26 2:09 PM, Matt Coster wrote:
-> On 06/11/2025 23:24, Marek Vasut wrote:
->> Fix support for build on 32bit systems. Include linux/io-64-nonatomic-hi-lo.h
->> to provide non-atomic readq()/writeq()/ioread64()/iowrite64() accessors, and
->> use __ffs64() instead of plain ffs() on 64bit number SZ_1T.
->>
->> This allows this driver to bind on Renesas R-Car H2 which contains
->> Rogue G6400 BVNC 1.39.4.1 .
->>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On Mon, Jan 05, 2026 at 11:29:51AM +0200, Jani Nikula wrote:
+> On Sat, 03 Jan 2026, Yury Norov <yury.norov@gmail.com> wrote:
+> > On Sat, Jan 03, 2026 at 02:57:58PM +0200, Andy Shevchenko wrote:
+> >> On Fri, Jan 02, 2026 at 07:50:59PM -0500, Joel Fernandes wrote:
+> >> > On Mon, Dec 29, 2025 at 11:17:48AM -0500, Steven Rostedt wrote:
+> >> 
+> >> ...
+> >> 
+> >> > I use trace_printk() all the time for kernel, particularly RCU development.
+> >> > One of the key usecases I have is dumping traces on panic (with panic on warn
+> >> > and stop tracing on warn enabled). This is extremely useful since I can add
+> >> > custom tracing and dump traces when rare conditions occur. I fixed several
+> >> > bugs with this technique.
+> >> > 
+> >> > I also recommend keeping it convenient to use.
+> >> 
+> >> Okay, you know C, please share your opinion what header is the best to hold the
+> >> trace_printk.h to be included.
+> >
+> > What if we include it on Makefile level, similarly to how W=1 works?
+> >
+> >         make D=1 // trace_printk() is available
+> >         make D=0 // trace_printk() is not available
+> >         make     // trace_printk() is not available
+> >
+> > Where D stands for debugging.
+> >
+> > D=1 may be a default setting if you prefer, but the most important is
+> > that every compilation unit will have an access to debugging without
+> > polluting core headers.
 > 
-> Hi Marek,
+> You do realize this means recompiling everything when adding D=1 for
+> debugging?
 
-Hello Matt,
+Yes sir I do.
 
-> My apologies, this one appears to have slipped through the cracks on our
-> end.
+It would be as simple (or hard) as building another arch:
 
-No worries.
+        make O=../build/linux-arm64
+        make O=../build/linux-x86_64
+        make D=1 W=1 O=../build/linux-x86_64-dev
 
->> +++ b/drivers/gpu/drm/imagination/Kconfig
->> @@ -3,7 +3,7 @@
->>   
->>   config DRM_POWERVR
->>   	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
->> -	depends on (ARM64 || RISCV && 64BIT)
->> +	depends on ARM || ARM64 || RISCV
-> 
-> This seems fine to me. Do you know any reason why the single change
-> below might *not* be sufficient to support non-64-bit riscv? I can't
-> think of any, I just wanted to double check this had been considered.
-I do not have any 32bit RV to test this on, I only have 32bit ARM (R-Car 
-H2).
+If you're both developer and CI engineer in your company, you're likely
+already doing something like that. If you're CI-only, there're no
+changes for you. If you're a developer - yeah, you'd have to learn a
+new flag.
+
+The real problem of course is the status inflation. The fact that
+defconfig enables CONFIG_EXPERT and CONFIG_DEBUG_KERNEL implies that
+every random person who is able to do:
+
+        git clone && make && sudo make install
+
+now assumed an expert kernel user and active developer. It is not
+correct, and it leads to bloating kernel with dev-only features.
+
+What we discuss here is a new marker for those real experts and
+developers, I think. (In an hope that it will inflate not very fast.)
+
+Thanks,
+Yury
