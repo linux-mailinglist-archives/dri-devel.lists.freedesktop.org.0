@@ -2,63 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBACCF4ADB
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49900CF4AE4
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70AA110E1DC;
-	Mon,  5 Jan 2026 16:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB95C10E25F;
+	Mon,  5 Jan 2026 16:28:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gnPak/ru";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GAlKxgn1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E52D10E1DC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767630520; x=1799166520;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=FsPS/LubOaNTccnvOYz0BxmjeM7vrFfXaA9Rl62TCtg=;
- b=gnPak/ruUMxEH6yxtPppSzUydxbxw6n4S4ru+kXMWPvOYcj7B/m3SUW2
- FaxyA3/xJs14a3YCbFx8GgHhWHSvgGC6ok6Or0GqB/1Hi17Ymf/M+KnWd
- SEbq9+z+3gxZfBNI5U7pstmmufxrWGmTckFv7sT8Y5Rs87CzGfOjvIQPS
- UmknQFN+z+1lltA7wctAdo5U/CWpVd4q6UfAkHnS2FP7XgWbO+yMjJUwI
- OvFQ+UyC5iQSeT7Z9oIP9rs1uoWNA9F5ZyFMBCGYzV7mlFSmsKLipIMHJ
- wPYNLG4fQ2n9aWORzf0Jz1xeZD2tzPy70PtZk6LJGDLqilF156h6r6fh6 A==;
-X-CSE-ConnectionGUID: 7qqA+CFlS/eHrL22V2Sqgw==
-X-CSE-MsgGUID: cQasgG3hQjiD+OzeFI9EqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="71574087"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="71574087"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:28:35 -0800
-X-CSE-ConnectionGUID: yjeDY+T2RFOcWKugteKcWw==
-X-CSE-MsgGUID: HHb9E8xQQ6CS5mko4iL4fA==
-X-ExtLoop1: 1
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.215])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:28:33 -0800
-Date: Mon, 5 Jan 2026 18:28:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sun Jian <sun.jian.kdev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in
- DT init parsing
-Message-ID: <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
-References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
- <20260104110638.532615-2-sun.jian.kdev@gmail.com>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7EE310E25F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:28:57 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-59b25acdffbso28241e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 08:28:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767630536; x=1768235336; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MhLaZEGztBaqdfRcf1ZLhhb1lILxqOMU/Yvm4+Hg7yU=;
+ b=GAlKxgn1Asc3KDT3nWh8QZE4p+xmYRApYXZ3JbkJGoMp+EgrzQ+FZfVIq6HTnSRxqZ
+ exTe5KWRPyHyeFsq7PWL+QBGw+L/gfG9u1zSRJ9Izsx/eOvOtXmCB5etzsGcnUcaW+Kx
+ qGUA1QmYWtu/3AmjbAez87ysyDI8Sz8VcLMbA49/TOZu11rzXvzu/DMpqOE9aAjQuUJq
+ lCOCrsaEt1PEBgpgX56SgPpRCvVG6t55r2V7UTXlyV4dIOGi3S8z/2e7BBRJFZqGPrSO
+ Zp42JYMBBkiQ+aWPmCR49rWS+bS1x9T/cWQgdhqt8wYlEB/RZZqFZC4nImnYz/381vYz
+ W7yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767630536; x=1768235336;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MhLaZEGztBaqdfRcf1ZLhhb1lILxqOMU/Yvm4+Hg7yU=;
+ b=jYrFAuJfd/8p2Ba3roQH6GDIXUzp9tDrBl2uVwfMaCTmP/dSzP3A8KUt0BXgoJXZ/+
+ lOvUcvPnxHwTT8B5iGhrq6L6DvBXSrGtnESketzR5AMW4HdKVVQBc+YEO0IS55lQa4sn
+ CIN+02t2CTTxFsT7JpWlx0Upx9ujis10U5O1BWycqon95x5mJS4P1ryFRGpI552lBTYv
+ c54TAbKZ+uhFfKVd2JCPRM8ZB2nuMcFA150FdNSRj9mDlbOcy9/9D2xhaOp1ITo8nUJy
+ w/uQPaYjU/l9zlav/1Kk5vqvrXs7Z25B0Jzt+x3n3I773rJKHQsVPe09a2eZWHCfssWH
+ v3hA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUBVXOtUtxPjRHHPVB4dq6Tjj/82TOinS5wSZo81NBFkpZawI4c2l4mwRIoOPzqAZnQE4gnHMbRU+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsJbHDh1J05u5aBUgVA+unjSmxP7r2jBnOqv4sRG1dY86yZX7G
+ o/huuGC8Bd6jmkXyUC+TPZRsUwtPI+Iz+zQAASYY58xq3f3H8CTK2kl3
+X-Gm-Gg: AY/fxX4Bs3DbBfVxf3Wh+OcaqKr2lxDuc7HBfADLw/7Ew7avZbCYbYDaIeteALloicn
+ L4MbvXWpWkR+qrmJ9G/Q2gOxnq7KD8fZGIs56cRLVRDu0zzGJdrzE9ScHosbFyw42MhFPzl5ejI
+ QDxWzZXw77Earv5rCfgBwWKZV30flj/Ttn632baE+yH9cTtlgOKSrkE7R9lFO051pYNL/vjpiC9
+ LnacWuBjlvoVll7hzB0EiKPB4aaMKsjet82PcBH3tKM6wX7luAj59XjFcT3ZNRC20Jl5QN1lEgS
+ ajG25wCxYxltiMifnzxv1+Y+JYKkkMGRkMIGmInuy1qNhRuNnRy9Zr1Kyl8Oww2XDjYrlX00X67
+ iywn7aqJWfNEsCDlELs7jMvxSL0Mo/sZqqEgnWF235nhFDMJ5OMoK
+X-Google-Smtp-Source: AGHT+IEoZ87k72XOK4WRfNoEGxBoiDEdhg+qxrjQywDuv03+TjElLhMwviVR8rOvTsQRpLgtTWykmg==
+X-Received: by 2002:ac2:4f0a:0:b0:59a:113a:f517 with SMTP id
+ 2adb3069b0e04-59b6527a2afmr98478e87.7.1767630535563; 
+ Mon, 05 Jan 2026 08:28:55 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59b655143b5sm5936e87.85.2026.01.05.08.28.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jan 2026 08:28:54 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Mon, 5 Jan 2026 17:28:52 +0100
+To: Barry Song <21cnbao@gmail.com>
+Cc: urezki@gmail.com, akpm@linux-foundation.org, david@kernel.org,
+ dri-devel@lists.freedesktop.org, jstultz@google.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org, mripard@kernel.org,
+ sumit.semwal@linaro.org, v-songbaohua@oppo.com, zhengtangquan@oppo.com
+Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
+ whenever possible
+Message-ID: <aVvmxGUp2l0Tavwb@milan>
+References: <aUlC6N1jmDbMDPc5@milan> <20251223212336.36249-1-21cnbao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260104110638.532615-2-sun.jian.kdev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251223212336.36249-1-21cnbao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +95,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 04, 2026 at 07:06:35PM +0800, Sun Jian wrote:
-> Clang reports a large stack frame for fbtft_init_display_from_property()
-> (-Wframe-larger-than=1024) when the init sequence is emitted through a
-> fixed 64-argument write_register() call.
+On Wed, Dec 24, 2025 at 10:23:34AM +1300, Barry Song wrote:
+> > >  /*
+> > >   * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
+> > >   * flush caches.
+> > > @@ -658,20 +672,35 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+> > >
+> > >       WARN_ON(page_shift < PAGE_SHIFT);
+> > >
+> > > +     /*
+> > > +      * For vmap(), users may allocate pages from high orders down to
+> > > +      * order 0, while always using PAGE_SHIFT as the page_shift.
+> > > +      * We first check whether the initial page is a compound page. If so,
+> > > +      * there may be an opportunity to batch multiple pages together.
+> > > +      */
+> > >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> > > -                     page_shift == PAGE_SHIFT)
+> > > +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+> > >               return vmap_small_pages_range_noflush(addr, end, prot, pages);
+> > Hm.. If first few pages are order-0 and the rest are compound
+> > then we do nothing.
 > 
-> write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
-> varargs which inflates stack usage. Switch the DT "init" path to send the
-> command byte and the payload via fbtft_write_buf_dc() instead.
+> Now the dma-buf is allocated in descending order. If page0
+> is not huge, page1 will not be either. However, I agree that
+> we may extend support for this case.
 > 
-> No functional change intended: the same register values are sent in the
-> same order, only the transport is changed.
+> >
+> > >
+> > > -     for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
+> > > +     for (i = 0; i < nr; ) {
+> > > +             unsigned int shift = page_shift;
+> > >               int err;
+> > >
+> > > -             err = vmap_range_noflush(addr, addr + (1UL << page_shift),
+> > > +             /*
+> > > +              * For vmap() cases, page_shift is always PAGE_SHIFT, even
+> > > +              * if the pages are physically contiguous, they may still
+> > > +              * be mapped in a batch.
+> > > +              */
+> > > +             if (page_shift == PAGE_SHIFT)
+> > > +                     shift += get_vmap_batch_order(pages, nr - i, i);
+> > > +             err = vmap_range_noflush(addr, addr + (1UL << shift),
+> > >                                       page_to_phys(pages[i]), prot,
+> > > -                                     page_shift);
+> > > +                                     shift);
+> > >               if (err)
+> > >                       return err;
+> > >
+> > > -             addr += 1UL << page_shift;
+> > > +             addr += 1UL  << shift;
+> > > +             i += 1U << shift;
+> > >       }
+> > >
+> > >       return 0;
+> > >
+> > > Does this look clearer?
+> > >
+I think so, at least the place:
 
-How did you test this?
+<snip>
+[    2.959030] Oops: Oops: 0000 [#66] SMP NOPTI
+[    2.960004] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.18.0+ #220 PREEMPT(none)
+[    2.961781] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[    2.963870] BUG: unable to handle page fault for address: ffffffff3fd68118
+[    2.965383] #PF: supervisor read access in kernel mode
+[    2.966532] #PF: error_code(0x0000) - not-present page
+[    2.967682] BAD
+<snip>
 
-...
+but it is broken for sure:
 
->  	struct device *dev = par->info->device;
-> -	int buf[64], count, index, i, j, ret;
-> +	u8 buf[64];
-> +	int count, index, i, j, ret;
+i += 1U << shift - "i" is an index in the page array.
+For example if order-0 you jump 4096 indices ahead.
 
-Please, try to preserve reversed xmas tree order.
+Should be: i += 1U << (shift - PAGE_SHIFT)
 
->  	u32 *values;
->  	u32 val;
->  
+vmap_page_range() does flushing and it has instrumented KMSAN inside.
+We should follow same semantic. Also it uses ioremap_max_page_shift as
+maximum page shift policy.
 
-...
-
-> -				buf[i++] = val;
-> +				buf[i++] = val & 0xFF;
-
-Unneeded change, I suppose.
-
-...
-
-> -			par->fbtftops.write_register(par, i,
-> -				buf[0], buf[1], buf[2], buf[3],
-> -				buf[4], buf[5], buf[6], buf[7],
-> -				buf[8], buf[9], buf[10], buf[11],
-> -				buf[12], buf[13], buf[14], buf[15],
-> -				buf[16], buf[17], buf[18], buf[19],
-> -				buf[20], buf[21], buf[22], buf[23],
-> -				buf[24], buf[25], buf[26], buf[27],
-> -				buf[28], buf[29], buf[30], buf[31],
-> -				buf[32], buf[33], buf[34], buf[35],
-> -				buf[36], buf[37], buf[38], buf[39],
-> -				buf[40], buf[41], buf[42], buf[43],
-> -				buf[44], buf[45], buf[46], buf[47],
-> -				buf[48], buf[49], buf[50], buf[51],
-> -				buf[52], buf[53], buf[54], buf[55],
-> -				buf[56], buf[57], buf[58], buf[59],
-> -				buf[60], buf[61], buf[62], buf[63]);
-> +			/* buf[0] is command, buf[1..i-1] is data */
-> +			ret = fbtft_write_buf_dc(par, &buf[0], 1, 0);
-> +			if (ret < 0)
-> +				goto out_free;
-> +
-> +			if (i > 1) {
-> +				ret = fbtft_write_buf_dc(par, &buf[1], i - 1, 1);
-> +				if (ret < 0)
-> +					goto out_free;
-> +			}
-
-I believe this is incorrect change and has not to be applied. write !=
-write_register. Without any evidence of testing, definite NAK to it.
-Otherwise, please provide detailed testing pattern and which devices were
-tested.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--
+Uladzislau Rezki
