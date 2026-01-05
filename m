@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91590CF583E
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D1ACF582F
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A226210E410;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AB510E40D;
 	Mon,  5 Jan 2026 20:25:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cd7+QTX5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Av/+BWh8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7D610E40C
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:25:06 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 906DC10E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 806086013C;
+ by sea.source.kernel.org (Postfix) with ESMTP id 5C270441F6;
  Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 27585C19425;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 34C28C2BC86;
  Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1767644705;
- bh=zfQVRzbGancd/dU4asYi2E0hnd0cNIecEX20zJbsHaI=;
+ bh=mcbobS0/nLFdLVEHHe81rVV3FetOs73mgF92KpKfKZk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=Cd7+QTX5HS2bgbreSDFhCjffph//+3khnw8V2q9r/WA7O6YOiATbIQ+UCMe0BwStR
- MjDLTOWhH79l8fbARyBN+3v7OZfbBGQiZsXdva9/3ogx8EMOJzwlZbo6pgvuhk2PAc
- 1Pgb62MD0ZZ0WSP6dsTHusAcjpZh2+x31uyvwYwpOqVSaGEkU0OivDlD8/eYdmnI5c
- c/kafyJftMabKiEVceYkbE0xM/OjXpz+xGuKmbWdzwyZusbC8nTVLJJTNLghlt4CrS
- yxQntUkS4+tKxXStMdzsmsmY1rlVOWpwNA+Pv4lQGf4gAw2pTtPGtdB0ixwp7Q0I7K
- Qmsr6ciRjrZaQ==
+ b=Av/+BWh8QRLqn8ZcpjcgjHvnckWqA61J2oIxZFu6qkOz3BJylnEHiFL08A38s1JJR
+ I1l49azEFUVVmV+CEAcE7UU8vpzoFYyoYmavnJBZLga42JH32CFLSXNiLA1VHjtntm
+ HFY/0cnLbeJYAvTC/NnU0klUNJW5rvjsxyzZB33j7NhQ/m9t8as0iPeqK9UA5HVuDK
+ A46stB+dch4BPeGj9rEi4seq5ezjYvu1N2LSJ6ihRtwL54V+Rr4/7BiVy6zsZCxXrU
+ Tj315l9BzzVbX+cGuIBx5r6zAtmWSzQZt73tYx9F7AfkWLVAA9/ziGoyw/PBt6/BWP
+ 3+mwDK6ya6zlQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1C018C98331;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4FDC98334;
  Mon,  5 Jan 2026 20:25:05 +0000 (UTC)
 From: Sebastian Krzyszkowiak via B4 Relay
  <devnull+sebastian.krzyszkowiak.puri.sm@kernel.org>
-Date: Mon, 05 Jan 2026 21:24:42 +0100
-Subject: [PATCH 3/5] drm/panel: mantix: Improve power off sequence
+Date: Mon, 05 Jan 2026 21:24:43 +0100
+Subject: [PATCH 4/5] drm/panel: mantix: Drop bank 9 initialization
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260105-mantix-halo-fixes-v1-3-1ebc9b195a34@puri.sm>
+Message-Id: <20260105-mantix-halo-fixes-v1-4-1ebc9b195a34@puri.sm>
 References: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
 In-Reply-To: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
 To: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
@@ -54,21 +54,21 @@ To: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1555;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1501;
  i=sebastian.krzyszkowiak@puri.sm; h=from:subject:message-id;
- bh=Dh/WLymhJdMwIFAEyjNt9y6Y69wAsTgzXgbPUFyjE2I=;
- b=owEBbQKS/ZANAwAKAejyNc8728P/AcsmYgBpXB4f8uRY1ZjG9N97EnweMqwiHxMBjoTGniYKv
- bWVUu38hIOJAjMEAAEKAB0WIQQi3Z+uAGoRQ1g2YXzo8jXPO9vD/wUCaVweHwAKCRDo8jXPO9vD
- /0PbD/wOg8dkELC2fI87ZLxwvGJT7X3J685RUQ9xUTJWewx1+EgONaLuHKqdy2ccAdSNKGE36Hg
- uSTEkZDkCKhq6eDB2w6pP/w6sMq/CZl1+2HnpKfewgER/LaLIQNvIe0t7bWDocBY8wp/j0xeMcj
- kFubhYNrbzw2fBTLDZ/rxfVIxsKYvoLgLmTUvF0iOWhLE54cXYsUw/773J64ou+/dVb3Udtv+3t
- D0AOUfB5RpoLZQQXNeiYLknTQ/Jw+sIWcJBKIiY8qzi+eOVTEfMfYCv8efVnUNVkmYQ69yeuIU2
- rzoete1Cq9TywCCGV3IZfTFPCN9U3A8ttmg+rmBwNvJVsL6MuqOMT5Rmjm71bneJXq9JjXq6i0+
- WG3k485viogjiLrw3xfVcRQOWumzsGPIhWIG4QcGUNWBx/JsPn13PXprQD25JkqnCu9bX+Hy/0R
- WRlf9kZqCUhE8Nhl4bvTZCQbm0V4/n7BxBqYVGo+o9oXBbReoGUpoYugF0WL3A6MiSFOcfgNNXF
- OZhpoX7qv0zBlHFXmfZXmmwgbqWX6uWzxoMc1GgB8JJN0gP785JCHb7Z7w1U4iaaYVMeCfD8UyR
- hkmhFhky5Eex1mIMCdH7KcUGQiCz7hh2TWWjhTFaVHogaD2SouDfnDFNOLKZ6SJZC33DTZOg5pw
- rljEfVOKgX0DmIw==
+ bh=fTacoISDzrsIe/qkVdq5L0I6TElHekwwcldH8QJ1a6M=;
+ b=owEBbQKS/ZANAwAKAejyNc8728P/AcsmYgBpXB4fC5NgsqchE/2gem2pBTgPEsSA3MSi0AeWO
+ a0p6kjY03eJAjMEAAEKAB0WIQQi3Z+uAGoRQ1g2YXzo8jXPO9vD/wUCaVweHwAKCRDo8jXPO9vD
+ /wgLD/45bdk37+Gb53U6QZv9uoKXGGwyUaY8L/3KxnZ816JREFJ49oc5oHv/swwujzDgNXYSkTb
+ TOu04mrc8hU7YVfkAKfW7Rrnxk5tSvHSbBntHTQEglk+9gneSqqPpx8YmIUs4v1OVBqMzvVtRBO
+ +ss7uwqEF0/HLv+FP26GrlqYCCy42NOR0peZmsR7uZ/+a+qdMEj42FZfRDd7CFe2iH22RyNA+tU
+ 0+obpqQicZCcvunr340lUFVO3WdaNNOM+cpEK9kaar1s0y0BTdgCtG3yxeT2nJrxp+3fsDOK/qd
+ rFw4YI44HHP1IetZFwZafTIkaSVJgFO3MB0eq0SY7gNRa9KFRn/bFBrWtWGoi0t+HO/VDNW6xY2
+ lE04/oOuxsjWkEKDGCXh0TNgW6XR9Ujzuyub1FfhXn9SoUXMm2+G06lmPrSHCUbXXAz6jHfVAuU
+ WtxCoZ2z0ViH4vxCn0tcXlZSbkRidO3ggWreQslxGYCZmhZkCzJrl0D3fLZWoM/UvqidBCRHYvR
+ lqoqA+f5XAS1G8EZG/whvSPJd+rCgbykUt6WfZK8SSnYOgxyxVmSiWUELfNEBAAucoD5e1L+OOq
+ QomC7CuMvCoZNosYJcbIPKyqVKztZCypXTOhGA5hkRh9E7toX83m1xALZqgl9D4x61e8wBWIu6U
+ A/VGE19oyJt8jhw==
 X-Developer-Key: i=sebastian.krzyszkowiak@puri.sm; a=openpgp;
  fpr=22DD9FAE006A11435836617CE8F235CF3BDBC3FF
 X-Endpoint-Received: by B4 Relay for sebastian.krzyszkowiak@puri.sm/default
@@ -92,53 +92,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 
-According to the sequence from section 7.3.4 of FT8006P datasheet,
-TP_RSTN and RESX should be asserted after disabling AVDD and AVEE and
-together with VDDI.
-
-Also, AVEE power down needs to happen at least 150ms after entering
-sleep mode.
+This command is part of LIC sequence included in FT8006P firmware.
+There's no need to repeat it here.
 
 Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 ---
- drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-index bb5489e4d7a9..0e66ee7a727d 100644
+index 0e66ee7a727d..30e378faafcd 100644
 --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
 +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-@@ -96,6 +96,9 @@ static int mantix_disable(struct drm_panel *panel)
- 	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
- 	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+@@ -53,11 +53,9 @@ static void mantix_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+ 	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a);
  
-+	/* T10 */
-+	mipi_dsi_msleep(&dsi_ctx, 150);
-+
- 	return dsi_ctx.accum_err;
- }
+ 	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
+-	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
+-	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00);
  
-@@ -103,15 +106,16 @@ static int mantix_unprepare(struct drm_panel *panel)
- {
- 	struct mantix *ctx = panel_to_mantix(panel);
+-	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x09);
+-	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
++	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
++	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00); /* VCOM */
  
--	gpiod_set_value_cansleep(ctx->tp_rstn_gpio, 1);
--	usleep_range(5000, 6000);
--	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
--
- 	regulator_disable(ctx->avee);
- 	regulator_disable(ctx->avdd);
- 	/* T11 */
- 	usleep_range(5000, 6000);
- 	regulator_disable(ctx->vddi);
-+
-+	gpiod_set_value_cansleep(ctx->tp_rstn_gpio, 1);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+
- 	/* T14 */
- 	msleep(50);
- 
+ 	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xa5);
+ 	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2f);
 
 -- 
 2.52.0
