@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9999CF56F6
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 20:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EF6CF5777
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3C310E198;
-	Mon,  5 Jan 2026 19:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12EE410E3FA;
+	Mon,  5 Jan 2026 20:08:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Syh/ky0X";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="kEePRUG7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 454 seconds by postgrey-1.36 at gabe;
- Mon, 05 Jan 2026 19:54:32 UTC
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A48510E198
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 19:54:32 +0000 (UTC)
-Message-ID: <edc0ff1e-475b-4eeb-b70a-cd92d5bd2162@linux.dev>
+X-Greylist: delayed 599 seconds by postgrey-1.36 at gabe;
+ Mon, 05 Jan 2026 20:08:33 UTC
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B9F10E3FA
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 20:08:32 +0000 (UTC)
+Message-ID: <c28be0ef-f6c9-42e3-8f7b-133a93378d48@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1767642415;
+ t=1767643110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=npmWMOTIb0xePzM7TigOBLuJxrMPtNkDuKrlIQ6LcIg=;
- b=Syh/ky0XYiNacl6o1T/r3mNo59F0c+hIOzBhuXbwZB3QSQ84R5lpx7cJQTYzG+46ANyPIW
- 0aUjr5DYilFZcPTd0/q5Bbuxo8ROZw5QTuewQkaAH1I82GjUCsaIDUegQzd9B5soChlYr1
- iVjap4Fj8RF6A8R+gbyBCuXFor3e8iU=
-Date: Mon, 5 Jan 2026 14:46:50 -0500
+ bh=MQOHBIIdr9wb3UwAOgWeXeSOOFCWd5Ehvaxx7a4u9wQ=;
+ b=kEePRUG7Bn7W31+FpUyH1Drkt4k55aSIkcEwC0LQ0v+Xdk+5so+Rn+p6C+mvxgZ4cJrzPS
+ PZHL/K9e8ozNfpKTPZhfzmXGmcglbewyD0WHrmttQQ6486kMaBDvWSOroXHf9cZ59QZF/n
+ kTa6aczXX3vLcaQAWQu59ws4X2nkAF0=
+Date: Mon, 5 Jan 2026 14:58:25 -0500
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] drm: zynqmp: Make the video plane primary
+Subject: Re: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics plane
 To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -44,17 +44,17 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, Simona Vetter <simona@ffwll.ch>,
  "Simek, Michal" <michal.simek@amd.com>
 References: <20251113203715.2768107-1-sean.anderson@linux.dev>
- <20251113203715.2768107-3-sean.anderson@linux.dev>
- <MW4PR12MB71651E0E82AD8E4898DBD017E6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
- <680bee12-6bac-4634-8a02-4b1717a90aa2@linux.dev>
- <MW4PR12MB7165F8413848B53CB8C7C031E6CBA@MW4PR12MB7165.namprd12.prod.outlook.com>
- <7248b96f-be82-4b89-87e4-f86b3898bc55@linux.dev>
- <MW4PR12MB7165FECBD72C189B803D859AE6A6A@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <20251113203715.2768107-4-sean.anderson@linux.dev>
+ <MW4PR12MB716514EB76EE4585605D0E5AE6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <b97065ce-2dc0-453b-ab8e-b2d134fc3467@linux.dev>
+ <MW4PR12MB7165C437114B30DB21702365E6CBA@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <7f7423e9-809d-4023-be01-db59e6dd755e@linux.dev>
+ <MW4PR12MB7165CDDB17CF0855EA19AACDE6A6A@MW4PR12MB7165.namprd12.prod.outlook.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <MW4PR12MB7165FECBD72C189B803D859AE6A6A@MW4PR12MB7165.namprd12.prod.outlook.com>
+In-Reply-To: <MW4PR12MB7165CDDB17CF0855EA19AACDE6A6A@MW4PR12MB7165.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -73,18 +73,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anatoliy,
-
-Sorry for the delay.
-
-On 12/4/25 17:33, Klymenko, Anatoliy wrote:
+On 12/4/25 16:16, Klymenko, Anatoliy wrote:
 > [AMD Official Use Only - AMD Internal Distribution Only]
 > 
 > Hi Sean,
 > 
 >> -----Original Message-----
 >> From: Sean Anderson <sean.anderson@linux.dev>
->> Sent: Monday, November 17, 2025 8:10 AM
+>> Sent: Monday, November 17, 2025 7:36 AM
 >> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>; Laurent Pinchart
 >> <laurent.pinchart@ideasonboard.com>; Tomi Valkeinen
 >> <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
@@ -94,20 +90,21 @@ On 12/4/25 17:33, Klymenko, Anatoliy wrote:
 >> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
 >> linux-arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Simek,
 >> Michal <michal.simek@amd.com>
->> Subject: Re: [PATCH 2/3] drm: zynqmp: Make the video plane primary
+>> Subject: Re: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+>> plane
 >>
 >> Caution: This message originated from an External Source. Use proper caution
 >> when opening attachments, clicking links, or responding.
 >>
 >>
->> On 11/14/25 19:57, Klymenko, Anatoliy wrote:
+>> On 11/14/25 19:12, Klymenko, Anatoliy wrote:
 >> > [AMD Official Use Only - AMD Internal Distribution Only]
 >> >
 >> >> -----Original Message-----
 >> >> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
 >> Sean
 >> >> Anderson
->> >> Sent: Thursday, November 13, 2025 2:52 PM
+>> >> Sent: Thursday, November 13, 2025 3:07 PM
 >> >> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>; Laurent Pinchart
 >> >> <laurent.pinchart@ideasonboard.com>; Tomi Valkeinen
 >> >> <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
@@ -120,19 +117,20 @@ On 12/4/25 17:33, Klymenko, Anatoliy wrote:
 >> >> linux-arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>;
 >> Simek,
 >> >> Michal <michal.simek@amd.com>
->> >> Subject: Re: [PATCH 2/3] drm: zynqmp: Make the video plane primary
+>> >> Subject: Re: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+>> >> plane
 >> >>
 >> >> Caution: This message originated from an External Source. Use proper
 >> caution
 >> >> when opening attachments, clicking links, or responding.
 >> >>
 >> >>
->> >> On 11/13/25 17:45, Klymenko, Anatoliy wrote:
+>> >> On 11/13/25 18:03, Klymenko, Anatoliy wrote:
 >> >> > [AMD Official Use Only - AMD Internal Distribution Only]
 >> >> >
 >> >> > Hi Sean,
 >> >> >
->> >> > Thanks a lot for the patch (and tackling the alpha issue in general)
+>> >> > Thank you for the patch.
 >> >> >
 >> >> >> -----Original Message-----
 >> >> >> From: Sean Anderson <sean.anderson@linux.dev>
@@ -151,178 +149,124 @@ On 12/4/25 17:33, Klymenko, Anatoliy wrote:
 >> Simek,
 >> >> >> Michal <michal.simek@amd.com>; Sean Anderson
 >> >> >> <sean.anderson@linux.dev>
->> >> >> Subject: [PATCH 2/3] drm: zynqmp: Make the video plane primary
+>> >> >> Subject: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+>> >> plane
 >> >> >>
 >> >> >> Caution: This message originated from an External Source. Use proper
 >> >> caution
 >> >> >> when opening attachments, clicking links, or responding.
 >> >> >>
 >> >> >>
->> >> >> The zynqmp has two planes: "video" and "graphics". The video plane
+>> >> >> When global alpha is enabled, per-pixel alpha is ignored. Allow
+>> >> >> userspace to explicitly specify whether to use per-pixel alpha by
+>> >> >> exposing it through the blend mode property. I'm not sure whether the
+>> >> >> per-pixel alpha is pre-multiplied or not [1], but apparently it *must* be
+>> >> >> pre-multiplied so I guess we have to advertise it.
 >> >> >>
->> >> >> - Is on the bottom (zpos=0) (except when chroma keying as the master
->> >> plane)
->> >> >> - Supports "live" input (e.g. from an external source)
->> >> >> - Supports RGB, YUV, and YCbCr formats, including XRGB8888
->> >> >> - Does not support transparency, except via chroma keying (colorkey)
->> >> >> - Must cover the entire screen (translation/resizing not supported)
->> >> >>
->> >> >> The graphics plane
->> >> >>
->> >> >> - Is on the top (zpos=1)
->> >> >> - Supports "live" input (e.g. from an external source)
->> >> >> - Supports RGB and YUV444 formats, but not XRGB8888
->> >> >> - Supports transparency either via
->> >> >>   - Global alpha channel, which disables per-pixel alpha when enabled
->> >> >>   - Per-pixel alpha, which cannot be used with global alpha
->> >> >>   - Chroma keying (colorkey)
->> >> >> - Must cover the entire screen (translation/resizing not supported)
->> >> >>
->> >> >> Currently the graphics plane is the primary plane. Make the video plane
->> >> >> the primary plane:
->> >> >>
->> >> >> - The video plane supports XRGB8888, which is the default 24-bit
->> >> >>   colorspace for X. This results in improved performance when compared
->> >> >>   to RGB565.
->> >> >> - The graphics plane can be used as an overlay because it has a higher
->> >> >>   z-pos and supports a per-pixel alpha channel. Unfortunately, clients
->> >> >>   like weston cannot currently take advantage of this because they
->> >> >>   expect overlay planes to support translation/resizing.
->> >> >>
->> >> >> One downside to this approach could be that the graphics plane has
->> worse
->> >> >> support for YUV and YCBCr, so it may be more difficult to compose video
->> >> >
->> >> > Not just more difficult but practically impossible:
->> >> > 1. GFX (in Xilinx terminology) plane doesn't support pixel upscaling, so
->> >> > no support for NV12, YUY2 and other common video pixel formats.
->> >> > 2. Both planes are unscalable, this means we can only output native
->> >> > display resolution video on the top plane, or display thick black frame
->> >> > around the picture. We are losing GFX masking capabilities.
->> >>
->> >> The graphics masking capabilities are the same as they always were.
->> >>
->> >> > 3. We won't be able to render subtitles on top of the video.
->> >> > Probably the only practical video player option remains here is to render
->> >> > video to a texture and embed it into graphics composition.
->> >>
->> >> OK, but none of this is currently possible either because of the global
->> >> alpha setting. So do you have a specific program in mind that plays
->> >> video and will do it with an "underlay" plane?
->> >>
->> >
->> > webOS, Roku OS, just to name a few. But most importantly, AMD has quite
->> > a few customers using "underlay" plane because of its YUV 420 capability.
->>
->> Can you link to a specific example where the plane is selected based on
->> its primary/overlay status and not based on its format support?  I'm not
->> too familiar with these distros, but e.g. [1] selects the plane based on
->> the format, and doesn't care which one is primary.
->>
-> 
-> The plane selection by the type may not be explicit. For instance, if a
-> graphics compositor uses legacy API with drmModeSetCrtc, it would allocate
-> the primary plane implicitly. Or some compositor may just rely on planes
-> z-order. For instance, here [2] you may see exact z-order WebOS compositor
-> expects from the HW planes (both VideoPlane and FullscreenPlane are used
-> for the video playback, the graphics lives on MainPlane). Anyways, the
-> probability of primary plane being reserved for a graphics compositor is
-> too high to ignore.
-> Back to example [1], in our case the renderer would fail this check:
-> if ((ovr->possible_crtcs & (1 << pipe)) && !ovr->crtc_id)
-> for the primary plane pre-occupied by the graphics, and this check:
-> if (!format_support(ovr, p->fourcc))
-> for the overlay plane lacking pixel upsampling support.
-> 
-> [2] https://github.com/webosose/luna-surfacemanager/blob/b2fef6f73232244f6f13102aa66d2d3f5942835e/modules/weboscompositor/webossurfaceitem.cpp#L1794
-
-Does this matter? The z-order of the planes is fixed in hardware, no
-matter what software wishes it were. Regardless, the z-order does not
-change with this patch, so nothing should break. And from looking around
-in that repo, I cannot find any references to the primary plane, nor can
-I see any DRM calls.
-
-Plus, the purpose of the z-order stuff is to support punch-through
-rendering. But that can't work on ZynqMP without the following patch to
-fix the alpha channel.
-
---Sean
-
->> --Sean
->>
->> [1] https://github.com/webosose/omx-
->> components/blob/27b33e17c25023f2c7ffbbfda10169fb500dacdc/src/omxdrm/vid
->> eorenderer.cpp#L469
->>
->> >> >> streams into the window of a media player. However, no existing software
->> >> >> could rely on this because there is no way to enable the per-pixel alpha
->> >> >> channel when the graphics plane is enabled. This makes it impossible to
->> >> >
->> >> > This situation is a driver bug not a fatum.
->> >>
->> >> And yet the driver bug provides ample evidence that no one is doing this,
->> >> so we don't need to worry about it.
->> >>
->> >> --Sean
->> >>
->> >> > Per pixel alpha blending works
->> >> > just fine if we disable global alpha. We just need to avoid enabling it when
->> >> > we have alpha capable GFX plane format.
->> >> >
->> >> >> "carve out" an area in the graphics plane where the video plane shows
->> >> >> through. This limitation is addressed in the next patch, but it means we
->> >> >> do not need to worry about compatibility in this area.
->> >> >>
->> >> >> An alternate approach could be to pretend that the graphics plane
->> >> >> supports XRGB8888 by using the supported ARGB8888 mode instead
->> and
->> >> >> enabling the global alpha channel. However, this would rule out ever
->> >> >> using the per-pixel alpha channel.
+>> >> >> [1] All we get is "The alpha value available with the graphics stream
+>> >> >>     will define the transparency of the graphics."
 >> >> >>
 >> >> >> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 >> >> >> ---
 >> >> >>
->> >> >>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 6 +++---
->> >> >>  1 file changed, 3 insertions(+), 3 deletions(-)
+>> >> >>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 24 ++++++++++++++++++++++--
+>> >> >>  1 file changed, 22 insertions(+), 2 deletions(-)
 >> >> >>
 >> >> >> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c
 >> >> >> b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> >> index c80a2d4034f3..456ada9ac003 100644
+>> >> >> index 456ada9ac003..fa1cfc16db36 100644
 >> >> >> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
 >> >> >> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> >> @@ -161,8 +161,8 @@ static int zynqmp_dpsub_create_planes(struct
+>> >> >> @@ -61,6 +61,13 @@ static int
+>> zynqmp_dpsub_plane_atomic_check(struct
+>> >> >> drm_plane *plane,
+>> >> >>         if (!new_plane_state->crtc)
+>> >> >>                 return 0;
+>> >> >>
+>> >> >> +       if (new_plane_state->pixel_blend_mode !=
+>> >> >> DRM_MODE_BLEND_PIXEL_NONE &&
+>> >> >> +           new_plane_state->alpha >> 8 != 0xff) {
+>> >> >> +               drm_dbg_kms(plane->dev,
+>> >> >> +                           "Plane alpha must be 1.0 when using pixel alpha\n");
+>> >> >> +               return -EINVAL;
+>> >> >> +       }
+>> >> >> +
+>> >> >>         crtc_state = drm_atomic_get_crtc_state(state, new_plane_state-
+>> >crtc);
+>> >> >>         if (IS_ERR(crtc_state))
+>> >> >>                 return PTR_ERR(crtc_state);
+>> >> >> @@ -117,9 +124,13 @@ static void
+>> >> >> zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+>> >> >>
+>> >> >>         zynqmp_disp_layer_update(layer, new_state);
+>> >> >>
+>> >> >> -       if (plane->index == ZYNQMP_DPSUB_LAYER_GFX)
+>> >> >> -               zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
+>> >> >> +       if (plane->index == ZYNQMP_DPSUB_LAYER_GFX) {
+>> >> >> +               bool blend = plane->state->pixel_blend_mode ==
+>> >> >> +                            DRM_MODE_BLEND_PIXEL_NONE;
+>> >> >> +
+>> >> >> +               zynqmp_disp_blend_set_global_alpha(dpsub->disp, blend,
+>> >> >>                                                    plane->state->alpha >> 8);
+>> >> >> +       }
+>> >> >>
+>> >> >>         /*
+>> >> >>          * Unconditionally enable the layer, as it may have been disabled
+>> >> >> @@ -179,9 +190,18 @@ static int zynqmp_dpsub_create_planes(struct
 >> >> >> zynqmp_dpsub *dpsub)
->> >> >>                 if (!formats)
->> >> >>                         return -ENOMEM;
+>> >> >>                         return ret;
 >> >> >>
->> >> >> -               /* Graphics layer is primary, and video layer is overlay. */
->> >> >> -               type = i == ZYNQMP_DPSUB_LAYER_VID
->> >> >> +               /* Graphics layer is overlay, and video layer is primary. */
->> >> >> +               type = i == ZYNQMP_DPSUB_LAYER_GFX
->> >> >>                      ? DRM_PLANE_TYPE_OVERLAY :
->> >> >> DRM_PLANE_TYPE_PRIMARY;
->> >> >>                 ret = drm_universal_plane_init(&dpsub->drm->dev, plane, 0,
->> >> >>                                                &zynqmp_dpsub_plane_funcs,
->> >> >> @@ -322,7 +322,7 @@ static const struct drm_crtc_funcs
->> >> >> zynqmp_dpsub_crtc_funcs = {
->> >> >>
->> >> >>  static int zynqmp_dpsub_create_crtc(struct zynqmp_dpsub *dpsub)
->> >> >>  {
->> >> >> -       struct drm_plane *plane = &dpsub->drm-
->> >> >> >planes[ZYNQMP_DPSUB_LAYER_GFX];
->> >> >> +       struct drm_plane *plane = &dpsub->drm-
->> >> >> >planes[ZYNQMP_DPSUB_LAYER_VID];
->> >> >>         struct drm_crtc *crtc = &dpsub->drm->crtc;
->> >> >>         int ret;
->> >> >>
->> >> >> --
->> >> >> 2.35.1.1320.gc452695387.dirty
+>> >> >>                 if (i == ZYNQMP_DPSUB_LAYER_GFX) {
+>> >> >> +                       unsigned int blend_modes =
+>> >> >> +                               BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+>> >> >> +                               BIT(DRM_MODE_BLEND_PREMULTI);
 >> >> >
->> >> > Thank you,
->> >> > Anatoliy
+>> >> > | BIT(DRM_MODE_BLEND_COVERAGE) - this is what implemented in the
+>> >> hardware.
+>> >>
+>> >> Do you have a datasheet (or other) reference?
+>> >>
 >> >
->> > Thank you,
->> > Anatoliy
+>> > Yes https://docs.amd.com/v/u/en-US/ug1085-zynq-ultrascale-trm
+>>
+>> There is no mention of this in the TRM.
+>>
+>> | Video Blending is defined for two RGB video streams. One of these
+>> | streams will be graphics that have an alpha value along with RGB
+>> | stream. The alpha value available with the graphics stream will define
+>> | the transparency of the graphics. Alpha value defined for blending
+>> | function is always 8-bit. 1-bit alpha and 4-bit alpha are also
+>> | supported, but these are scaled to 8-bits before they are used for
+>> | alpha blending
+>>
+>> Please quote a specific section where the alpha blending formula is
+>> documented.
+>>
 > 
-> Thank you,
-> Anatoliy
+> Yes, there is no explicit alpha blending formula in the TRM, although
+> absence of "premultiplied alpha" term anywhere in the doc suggests that
+> alpha is treated as a straight. Anyways, I cooked a quick test that proved
+> the straight alpha theory: https://github.com/onotole/zynqmp-dp-alpha
+> 
+>> >> But in any case, DRM_MODE_BLEND_PREMULTI is mandatory even if we
+>> >> don't support
+>> >> it. See drm_plane_create_blend_mode_property for details.
+>> >>
+>> >
+>> > No doubts here
+>>
+>> OK, so regardless of what the hardware does, we have to pretend to
+>> support pre-multiplied alpha.
+>>
+> 
+> Yes, we my pretend so, or we may work around backward compatibility check
+> in drm_plane_create_blend_mode_property by setting blend mode to
+> DRM_MODE_BLEND_COVERAGE immediately and later reject plane states
+> with DRM_MODE_BLEND_PREMULTI mode.
+
+OK, I'll add a patch to allow blend mode without premulti for v2. The
+comment on the function says that it's a default for old userspace, but
+we don't have a userspace that expects a particular blend mode in the
+first place.
+
+--Sean
