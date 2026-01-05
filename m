@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31B0CF3DC7
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 14:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA2ECF3DE8
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 14:41:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB2E910E315;
-	Mon,  5 Jan 2026 13:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAACE10E3DF;
+	Mon,  5 Jan 2026 13:41:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RIT9efd2";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SWWR8+1+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B3210E315
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 13:39:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8573510E3DF
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 13:40:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E399F60010;
- Mon,  5 Jan 2026 13:39:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A34C116D0;
- Mon,  5 Jan 2026 13:39:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 49C9660010;
+ Mon,  5 Jan 2026 13:40:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D452C116D0;
+ Mon,  5 Jan 2026 13:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1767620356;
- bh=xy1xZoOBQwEBejcopEkBYS0eDeuZwMIlOoWmI9HHzX8=;
+ s=korg; t=1767620458;
+ bh=7H+3XKn6mGhmcV5XD9VrFlQs/P3PybupcfNub4+qvac=;
  h=Subject:To:Cc:From:Date:From;
- b=RIT9efd2RGLWrRs6O5BkNLrDV0N15rahdC0W4gNWnc46I+TzaORkPGyJ6b13FllAe
- O2/V3ADk5VH25Ajlm3ow6tjwHdXb9q2EF9QUy/veRSXr0mv/M2EOT1zfZ5Am4uU5G1
- ZqvKdeARIJ+EV1y4KQtt5QHX38/3Dd4RlVyAKvdA=
+ b=SWWR8+1+y4X4mr+RieTWH0P5r9DsTKmOJGZrgnHDhsrQt6V/koMp2dt7D1SuNulNl
+ nGap7jZkRHrbu2N899uSki03fO4C1nFlJuX1TeSg6xcJSYxC648og9jL7qW3pfcf9S
+ 5TFheuaq3V6Lp2Q9UQ7nbYk+UvdpqNUzLG4ovFjo=
 Subject: Patch "drm/gma500: Remove unused helper psb_fbdev_fb_setcolreg()" has
- been added to the 6.6-stable tree
+ been added to the 6.12-stable tree
 To: contact@stefanchrist.eu, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 05 Jan 2026 14:39:05 +0100
-Message-ID: <2026010505-devalue-ongoing-87b4@gregkh>
+Date: Mon, 05 Jan 2026 14:40:24 +0100
+Message-ID: <2026010524-sublevel-widget-218e@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gma500: Remove unused helper psb_fbdev_fb_setcolreg()
 
-to the 6.6-stable tree which can be found at:
+to the 6.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gma500-remove-unused-helper-psb_fbdev_fb_setcolreg.patch
-and it can be found in the queue-6.6 subdirectory.
+and it can be found in the queue-6.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -173,5 +173,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.6/drm-gma500-remove-unused-helper-psb_fbdev_fb_setcolreg.patch
-queue-6.6/drm-mgag200-fix-big-endian-support.patch
+queue-6.12/drm-gma500-remove-unused-helper-psb_fbdev_fb_setcolreg.patch
+queue-6.12/drm-mgag200-fix-big-endian-support.patch
