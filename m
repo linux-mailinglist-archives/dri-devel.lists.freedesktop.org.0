@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E9FCF500B
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 18:30:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A43ACF5005
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 18:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A207910E2D5;
-	Mon,  5 Jan 2026 17:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9586F10E3D5;
+	Mon,  5 Jan 2026 17:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nQVq7FeX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fPSA72U2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010015.outbound.protection.outlook.com [52.101.56.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A6D10E3DA
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 17:30:28 +0000 (UTC)
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011034.outbound.protection.outlook.com [52.101.62.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 416DD10E2D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 17:30:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WM3zDiLQRySIJa5RTZEMX2Pj5ELfoniav9V4GVrFqcwOPUdNL+lSwmYA9WjMmTvJE+vd/dI0x1jsGC9iWq4DLx8jZKyA+9ZShK342HDlmMOyJLB9sU87Nhai9UPocM5FUbeVmGYL4SsQerB8XJ9oYqOH+fxW88GV/oyaSoz+GrGxvwhkv76+++GDPFvJUCLBz70nsBAmI1Em4Mwivj6pGftivh5WOHmyXlYjNd9RMHMhjj2QbwnERksGgwBfOGm6ETwjKju00qQvzyDDrySvvylR/WP3haFJVCLQkhzssY8ydre5AcAZoMFpLOXg2v50aOpuNa7y77nfbvRs7EsvRg==
+ b=JYeN2Ycw2M5oc4m2sxgUo3UhPuERu8TT8fNFo6MSwuB3NLs3q4Rz4YWyXDHffl9BQ9X52cN9ytCxrTcI64A3awkflVyZDkq22hKkpineS4R8contV9S8O1vav9T+GlzmwWGpLYr+fjO4AfZa/k/b9IRYwNsmQEQsZ5isbyTDZeMapFjg7v+S5Ye1rOxDf7gSZki52a2ZBT5X1tTLoeyc/NkfcYZhLTY2F/FVp7k6C1/ZJVLIjxguSfKTn4oHFYCHxH15CEPT9a98ppo+LBILJgGcVzqXKKQn+jaF8DP/A6tdrpkzoOU4342p2AGa1P/CEJoKlVfAqdy64y3lkuSGPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gq38kDVRtiUTyD2S8W1dEnqpH4ZTdLdNEhzq2sJf3wo=;
- b=LVx4lO8+D0eTCA9L92G1bk4JJ38dMUN4I9iFQ5DlK8By4ynpv4sAsmgB7DeErJZGWEaghNst6M/GkKN3x4mmT1qWAvwqAFJ3BL21DOKDp2tgFGC/UalXFS3Q+34pA2IsFpb28TZ6u5Ilj7cawj20WAst5LTji+3ExrFMizxAhZkZC1jLHizwNIE7gNESV3jOGIoR45npfhhUiGyrU41oU4meCoS1BLbEIDVR1NJGXkBF75AUHKvlHaGM/0qmm9eRtP0KlTOhiR6vXhLvjGYhCx7DY8A0RtHERk1qFHvL3tNC4pBZSvoRC/H4QASqbMKKOtrSINVPnAV35wOyaiyHbA==
+ bh=1CeKbXscoyOKJY4pSNOMSKDZR8whD3MzQEcp0DuFtYg=;
+ b=WDNkHaaEqgDonAcaooWyDHK3XyEcy5SWqGs10AZqIGVPmraBhQqJ8yQAoa6AxPvmfGekLCFJwweYHfydc1BDlMuyisdB9Cw6U+8KGjyj6QSg8lxyDAEgy6ikhBhB/tZK9/qzkxImcD8iFzgWWejuxiE8PA+haozQrCh1IMk8bzcYtrEN2NcoQ2PGm7Mt5kB+mUkyyBEZZ4mPPvGOYziR2FPb1jz0t9vjcdvihcxL9h1QMcVtKLykn60rTPPoNWlXNHxQyInvkudnTWyvS3Eviv4ZXpBBBJARjIi0dq/pMHIDd143KqCbrLU04LlrtpLtiIqNagbiUUfkHFmC/IW0Qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gq38kDVRtiUTyD2S8W1dEnqpH4ZTdLdNEhzq2sJf3wo=;
- b=nQVq7FeXuF+sCM92B+CVr61W/Gy++2SJTgsyWHVGgM3Ciq0i0SuTNdt50ruhqj/hCQN4pXnFWsWwYQnJPF553aaaynTq0Xea0MNPWIKURbNjG75HHAsuVVRn8VcBXDGPk5VIk/lCAe1KGJt6vPliInUHNsLmaAJBaiAviy2LPsY=
-Received: from MW4PR04CA0139.namprd04.prod.outlook.com (2603:10b6:303:84::24)
- by PH7PR12MB6586.namprd12.prod.outlook.com (2603:10b6:510:212::21)
+ bh=1CeKbXscoyOKJY4pSNOMSKDZR8whD3MzQEcp0DuFtYg=;
+ b=fPSA72U2za7Kodo9Rk/ktkOLxdmMqRAxK6+N0WHMny2lsg3keS/Hn0/NyJo05e4JwMvErpIZJRW7gT+EPj/3Re8bPmtMTeezCS+XqJQ536Vo2AgaA/HrNct4DO23XYUU7cPVsrA4pe9udnBtPwps5TwUfE/tGODan+Z5eVjeclo=
+Received: from MW4PR04CA0131.namprd04.prod.outlook.com (2603:10b6:303:84::16)
+ by PH7PR12MB6834.namprd12.prod.outlook.com (2603:10b6:510:1b4::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
- 2026 17:30:17 +0000
+ 2026 17:30:18 +0000
 Received: from CO1PEPF000044FA.namprd21.prod.outlook.com
- (2603:10b6:303:84:cafe::d7) by MW4PR04CA0139.outlook.office365.com
- (2603:10b6:303:84::24) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:303:84:cafe::53) by MW4PR04CA0131.outlook.office365.com
+ (2603:10b6:303:84::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Mon, 5
- Jan 2026 17:30:17 +0000
+ Jan 2026 17:30:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,27 +50,27 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  CO1PEPF000044FA.mail.protection.outlook.com (10.167.241.200) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.0 via Frontend Transport; Mon, 5 Jan 2026 17:30:16 +0000
+ 15.20.9520.0 via Frontend Transport; Mon, 5 Jan 2026 17:30:17 +0000
 Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 5 Jan
- 2026 11:30:08 -0600
+ 2026 11:30:09 -0600
 Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 5 Jan 2026 09:30:07 -0800
+ Transport; Mon, 5 Jan 2026 09:30:08 -0800
 From: Lizhi Hou <lizhi.hou@amd.com>
 To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <maciej.falkowski@linux.intel.com>, <ilpo.jarvinen@linux.intel.com>,
  <hansg@kernel.org>
-CC: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>,
- <platform-driver-x86@vger.kernel.org>, <VinitKumar.Shukla@amd.com>, "Patil
- Rajesh Reddy" <Patil.Reddy@amd.com>, Lizhi Hou <lizhi.hou@amd.com>
-Subject: [PATCH V3 1/2] platform/x86/amd/pmf: Introduce new interface to
- export NPU metrics
-Date: Mon, 5 Jan 2026 09:29:55 -0800
-Message-ID: <20260105172956.3732123-2-lizhi.hou@amd.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
+ <mario.limonciello@amd.com>, <platform-driver-x86@vger.kernel.org>,
+ <Shyam-sundar.S-k@amd.com>, <VinitKumar.Shukla@amd.com>, Mario Limonciello
+ <superm1@kernel.org>
+Subject: [PATCH V3 2/2] accel/amdxdna: Add IOCTL to retrieve realtime NPU
+ power estimate
+Date: Mon, 5 Jan 2026 09:29:56 -0800
+Message-ID: <20260105172956.3732123-3-lizhi.hou@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260105172956.3732123-1-lizhi.hou@amd.com>
 References: <20260105172956.3732123-1-lizhi.hou@amd.com>
@@ -79,53 +79,53 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|PH7PR12MB6586:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e8cc491-ec3b-4aa3-3c5d-08de4c8017a5
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|PH7PR12MB6834:EE_
+X-MS-Office365-Filtering-Correlation-Id: d15906cd-b725-4b1f-090e-08de4c80184a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oGZsl3KkLxTg/mCxYnO4V1KeZI12gypsRMHAXAjLMTTEFGyG8o+CIQ3rgBKM?=
- =?us-ascii?Q?Damr38aaeFk1yllRVDUSKUEQZq5ME/3PhMmTOLm5yRAwGjiJIN3jsq9q4uxH?=
- =?us-ascii?Q?xgJ06MZnfYPgJc9X3aUdr3GFXZmGhM8bDCBsl8yJQJJYFfWoXlZd0Kp6wzWK?=
- =?us-ascii?Q?eiZ9M1Vd7K8XQ3ZfJrEryUnCHcbX5eQov8cUAgC2Y9nRHp+01OW522LhcE3J?=
- =?us-ascii?Q?MT2ZeZDf12qVmhsvlZOAe0Hii1k56uyQVFdCbKF6SOUIPrtKP4ClrgSGy/WZ?=
- =?us-ascii?Q?NZncWEvwKYVJqvYxvGLLuNR/2Gm0Q48BaNc5itMzIeVazgCQ9vA8aYQ3emmh?=
- =?us-ascii?Q?arCwMnkcXJWAFN/WgWzRhzVyfqXjysSxwf307uc3eGaQmUuUsb5irwgnb5yK?=
- =?us-ascii?Q?oE0jOSPvY6QGAY4eV8+xL9QUQFwp+CV22JDudSMsWDX6OrCwHrrQCsO9B9dL?=
- =?us-ascii?Q?kclSCepOd+nB/wFxCFQoQGthZA1AWSlmXH27Uqi9/PrlN2yxbXqrapLF5Agn?=
- =?us-ascii?Q?akCwrwGxd6ZqASd7F7SeLLBd9v9jLnyTAVZFrkGeP4JjHXPQo0Tfr9nvHLtR?=
- =?us-ascii?Q?paJe1h7dgfiz02fN8QnFFAaIr8+K7cGl+EUECdCzKgYvdAgj5rTe+MJs0EiR?=
- =?us-ascii?Q?BlTvgHBIRFkjQF1oWEgJeZW53ij9HMWWAwRJ5dInQcqQJIRXuvutBA3Jl90k?=
- =?us-ascii?Q?jdv6eAEbwUUHwJzsNPy1otJYqQaPdcoM0p2Y8Psp5XfDcqZV7ztfpGLMvZCm?=
- =?us-ascii?Q?v2gbSjLDxDI3v6bH2vSv8acd+sd/fMuDB42MKWIi5Q7A80U/ne+DmZ6b6GNQ?=
- =?us-ascii?Q?rxh4y+z2BDZcoIYk9AesvVxPViOar+qr0GCFAt8D/T0hEPsS6+V9eozxZ4qZ?=
- =?us-ascii?Q?Km+nOrwc+kSyP9yKB9CGQV10r6WV5tr9e60pLOSosA0itZ8g7OE/ZnU5HD0z?=
- =?us-ascii?Q?QrcuFu4s1+Ec8NBTD2WJbQzqlSy2c4ENaY5K9l8yzAsAy0qweVsbzHXOGhtu?=
- =?us-ascii?Q?8qEIX8cVic45VjJapzvLIFZoOI0Qk1MRDnkNaOHk0QlY7s0egnPws9eeiZVk?=
- =?us-ascii?Q?iPn1N7Wdu5luNqKQAspCNsL54J77CsO4vVfWEpJdlzQOZ8CuHzEK1PxrxjYc?=
- =?us-ascii?Q?w5QdNcPskIzBCC12cHd+n/7sTkCjSFbVLZUNotBQnlIRv6DGCkr/FEyq6P8f?=
- =?us-ascii?Q?OZLSPPZu57K2ORh3OCSpZknejKAgHcMLZdDquyBYi3wxl8DoZRR1v17R4uMo?=
- =?us-ascii?Q?LRoxcnJpEHWI99Q8F+zc7NEhU4/eLzLzRPHFBIdTFHkgApOSlEKgJ4Jw+8uJ?=
- =?us-ascii?Q?M1G5SgObRw8WduQFiEUC3LK0PPUqYF7K95NbQ/wFiOUd2kglG/foF1ptaRaM?=
- =?us-ascii?Q?OK9zawL7UGsyPoUJqcJyQ4ikd5A54lg5yxBoRW+RObvwZmeaOMQSnujNSD5w?=
- =?us-ascii?Q?IjyiiDYxjenNFj6CsN+GULbH3fzegqSM/2qmBvo1W/pm8gDvAPjdxjp8iFiE?=
- =?us-ascii?Q?xRBRdZhz1pXmdPnCy8Hxs36+bJg3lDrcS0sry2870xjtja77PPimf6OxH2Ho?=
- =?us-ascii?Q?2BjwtoOrNQ1JqevVGUg=3D?=
+ ARA:13230040|36860700013|82310400026|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gRGCxTsYtvhXZs22MkeUti8IX8znkxoLEcD8+5GjCWGKi8QNLVW55NtCxJJa?=
+ =?us-ascii?Q?45tt/QVDpY2RiQy00NhJdbgrfV+DiNXtbjKtwC2C4CYEtlBhV8jmcB7tcVrv?=
+ =?us-ascii?Q?0TebKijUvhqUp0fMZ3zMpcTblBsyJohNQQgAx0i3OIxE0+8Z5ueUdPkUXLxw?=
+ =?us-ascii?Q?q9qsXNQEh2BGvM4yl4hsbOYhtY59WfxpII4ufnFYBZT66Sxi8JOx3M++8W7a?=
+ =?us-ascii?Q?uRTPLXflC6J3vftxvP+LybBsX+GGQuQxtz2tIw9cEPngfD0CkXZAZ6kyk0nh?=
+ =?us-ascii?Q?uqlJm5X2kgIryKvvOg6jl43Kg77DC0ZpJLND6MI+qG9ZD0j1gOsqgfOPq01A?=
+ =?us-ascii?Q?k828/IGIkzRzcCOcskbsnZjrw3xUOSuu0gOJVgmpC+E01mEQNC1RkZwsGGKG?=
+ =?us-ascii?Q?k/5/IMeuXAfYMDZrIbL1xAYb0cSqHWyibtyeZ8HU46i4PyFCQuOyM9lXEBYf?=
+ =?us-ascii?Q?lqIf6swig67yuKe6uJRUDnnwm3iJEQCXacjOCYUxVgcAcihJIa0blE2hzBcL?=
+ =?us-ascii?Q?599XNgihJoAgHDPpmDv+xrx0x+ZxLNKpTmONKtlVOGRjQGzS1deMv2kncPtR?=
+ =?us-ascii?Q?5bUe3oXl60n6RMMxV/DSaCVtDgtVpkcnbtvPsfGiUUOjdnHuFYZxhYfr1ncF?=
+ =?us-ascii?Q?C1cholxJWAuE9Wn69bKRPujcBvQ9jbKGoyC/pVCd5L2oHNE4WZ1Fl6gGLZc5?=
+ =?us-ascii?Q?v9NmTQQIbA74v9W2q1DfHUnzHVFy6aWnNdu/q6dX9k3/KUvVIOMlPQmNPNJa?=
+ =?us-ascii?Q?o8BZ2ttCG1h93Kh3cqG8NT4G9erKbcEv+ada5XSnsQoy/PxaKGaA4+jBRiwC?=
+ =?us-ascii?Q?B6hyeGdlVMRkx9be8mYq1dRALy1NvsNvKnwRIgdKgvN6wjTwbRaOnOE3aCbj?=
+ =?us-ascii?Q?SAJelETV9P2JpYYb4oRQPF13CEbazjwHNc9UxRpqFJCEMlsx9YQOZbOrGiz5?=
+ =?us-ascii?Q?/AD00aiOZTbiuHKMlXWakD/OOd0ph6UbAWMIKSUVNh1Xbhs6tgEgJgmgg3Iu?=
+ =?us-ascii?Q?G2PZDrCVfa0Iiqz3ogL9zV92DYma8swA3yurZmMU4+PEcTzFOZp6VgK/8b0e?=
+ =?us-ascii?Q?8JFtOPkCHBvgKs/Xa9g8pp13Ua/RODlO9CNGhD8KRKMudl8IZhfSREfeLUaC?=
+ =?us-ascii?Q?8bBOZ/L6adN92t0x3n0MpLq+2f3Fr+8pVS60qAvSMvsC8QOpdmwLKUwj+vKf?=
+ =?us-ascii?Q?/rVpcPu11zp2ExQ2kGB8jXsdnjCAGcqYrBQm9tzM8jWhaoiEjB4rqNDKnq+X?=
+ =?us-ascii?Q?9yWAmri+0BcbT1N8MqHXbdHXMYSoRzWR6/cO1Nxl9oCKsHbmiKAX0YX6bSrU?=
+ =?us-ascii?Q?kobNaVf3OKe7+WM2mHrfdspSXv2TmxfPgPotwLaMot8DXg8tiL8vcRjKYCTp?=
+ =?us-ascii?Q?bSeG18PFsRoU9oeGDDTC3vvMjbGbAxhtjnZSVddtwzHmkbCBeCHhpsS8SukU?=
+ =?us-ascii?Q?nXxyQPoX/7aBQUBLDy+NchfQ6Gw8KyCWxtG0U2YaCvlpfL1E7hEXvVNvaKX1?=
+ =?us-ascii?Q?mS87S40GT52ZNkP5hPuNicMRTORE8BoxRZkIDYiIlFhpQ5nx7YUeskcBS6Rt?=
+ =?us-ascii?Q?du52OOB3LZxBhxzX0rM=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 17:30:16.8743 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e8cc491-ec3b-4aa3-3c5d-08de4c8017a5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 17:30:17.9455 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d15906cd-b725-4b1f-090e-08de4c80184a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FA.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6586
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6834
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,196 +141,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+The AMD PMF driver provides an interface to obtain realtime power
+estimates for the NPU. Expose this information to userspace through a
+new DRM_IOCTL_AMDXDNA_GET_INFO parameter, allowing applications to query
+the current NPU power level.
 
-The PMF driver retrieves NPU metrics data from the PMFW. Introduce a new
-interface to make NPU metrics accessible to other drivers like AMDXDNA
-driver, which can access and utilize this information as needed.
-
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-[lizhi: save return value of is_npu_metrics_supported() and return it]
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/platform/x86/amd/pmf/core.c | 76 +++++++++++++++++++++++++++++
- drivers/platform/x86/amd/pmf/pmf.h  |  2 +
- include/linux/amd-pmf-io.h          | 21 ++++++++
- 3 files changed, 99 insertions(+)
+ drivers/accel/amdxdna/aie2_pci.c        | 29 +++++++++++++++++++++++++
+ drivers/accel/amdxdna/aie2_pci.h        | 20 +++++++++++++++++
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 ++-
+ 3 files changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
-index 8fc293c9c538..d180a39e03bf 100644
---- a/drivers/platform/x86/amd/pmf/core.c
-+++ b/drivers/platform/x86/amd/pmf/core.c
-@@ -8,12 +8,15 @@
-  * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-  */
- 
-+#include <linux/array_size.h>
-+#include <linux/cleanup.h>
- #include <linux/debugfs.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/power_supply.h>
-+#include <linux/string.h>
- #include <asm/amd/node.h>
- #include "pmf.h"
- 
-@@ -53,6 +56,8 @@ static bool force_load;
- module_param(force_load, bool, 0444);
- MODULE_PARM_DESC(force_load, "Force load this driver on supported older platforms (experimental)");
- 
-+static struct device *pmf_device;
-+
- static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long event, void *data)
- {
- 	struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, pwr_src_notifier);
-@@ -314,6 +319,71 @@ int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev)
- 	return 0;
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index 81a8e4137bfd..55fbc8f0f455 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ #include <drm/gpu_scheduler.h>
++#include <linux/amd-pmf-io.h>
+ #include <linux/cleanup.h>
+ #include <linux/errno.h>
+ #include <linux/firmware.h>
+@@ -777,6 +778,31 @@ static int aie2_get_clock_metadata(struct amdxdna_client *client,
+ 	return ret;
  }
  
-+static int is_npu_metrics_supported(struct amd_pmf_dev *pdev)
++static int aie2_get_sensors(struct amdxdna_client *client,
++			    struct amdxdna_drm_get_info *args)
 +{
-+	switch (pdev->cpu_id) {
-+	case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
-+	case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
-+		return 0;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
++	struct amdxdna_drm_query_sensor sensor = {};
++	int ret;
 +
-+static int amd_pmf_get_smu_metrics(struct amd_pmf_dev *dev, struct amd_pmf_npu_metrics *data)
-+{
-+	int ret, i;
++	if (args->buffer_size < sizeof(sensor))
++		return -EINVAL;
 +
-+	guard(mutex)(&dev->metrics_mutex);
-+
-+	ret = is_npu_metrics_supported(dev);
++	ret = AIE2_GET_PMF_NPU_DATA(npu_power, sensor.input);
 +	if (ret)
 +		return ret;
++	sensor.type = AMDXDNA_SENSOR_TYPE_POWER;
++	sensor.unitm = -3;
++	scnprintf(sensor.label, sizeof(sensor.label), "Total Power");
++	scnprintf(sensor.units, sizeof(sensor.units), "mW");
 +
-+	ret = amd_pmf_set_dram_addr(dev, true);
-+	if (ret)
-+		return ret;
++	if (copy_to_user(u64_to_user_ptr(args->buffer), &sensor, sizeof(sensor)))
++		return -EFAULT;
 +
-+	memset(dev->buf, 0, dev->mtable_size);
-+
-+	/* Send SMU command to get NPU metrics */
-+	ret = amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, SET_CMD, METRICS_TABLE_ID, NULL);
-+	if (ret) {
-+		dev_err(dev->dev, "SMU command failed to get NPU metrics: %d\n", ret);
-+		return ret;
-+	}
-+
-+	memcpy(&dev->m_table_v2, dev->buf, dev->mtable_size);
-+
-+	data->npuclk_freq = dev->m_table_v2.npuclk_freq;
-+	for (i = 0; i < ARRAY_SIZE(data->npu_busy); i++)
-+		data->npu_busy[i] = dev->m_table_v2.npu_busy[i];
-+	data->npu_power = dev->m_table_v2.npu_power;
-+	data->mpnpuclk_freq = dev->m_table_v2.mpnpuclk_freq;
-+	data->npu_reads = dev->m_table_v2.npu_reads;
-+	data->npu_writes = dev->m_table_v2.npu_writes;
++	args->buffer_size = sizeof(sensor);
 +
 +	return 0;
 +}
 +
-+int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info)
-+{
-+	struct amd_pmf_dev *pdev;
-+
-+	if (!info)
-+		return -EINVAL;
-+
-+	if (!pmf_device)
-+		return -ENODEV;
-+
-+	pdev = dev_get_drvdata(pmf_device);
-+	if (!pdev)
-+		return -ENODEV;
-+
-+	return amd_pmf_get_smu_metrics(pdev, info);
-+}
-+EXPORT_SYMBOL_GPL(amd_pmf_get_npu_data);
-+
- static int amd_pmf_suspend_handler(struct device *dev)
+ static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void *arg)
  {
- 	struct amd_pmf_dev *pdev = dev_get_drvdata(dev);
-@@ -477,6 +547,10 @@ static int amd_pmf_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
+ 	struct amdxdna_drm_hwctx_entry *tmp __free(kfree) = NULL;
+@@ -980,6 +1006,9 @@ static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_i
+ 	case DRM_AMDXDNA_QUERY_CLOCK_METADATA:
+ 		ret = aie2_get_clock_metadata(client, args);
+ 		break;
++	case DRM_AMDXDNA_QUERY_SENSORS:
++		ret = aie2_get_sensors(client, args);
++		break;
+ 	case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
+ 		ret = aie2_get_hwctx_status(client, args);
+ 		break;
+diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
+index a929fa98a121..08122c249009 100644
+--- a/drivers/accel/amdxdna/aie2_pci.h
++++ b/drivers/accel/amdxdna/aie2_pci.h
+@@ -7,6 +7,7 @@
+ #define _AIE2_PCI_H_
  
-+	err = devm_mutex_init(dev->dev, &dev->metrics_mutex);
-+	if (err)
-+		return err;
+ #include <drm/amdxdna_accel.h>
++#include <linux/limits.h>
+ #include <linux/semaphore.h>
+ 
+ #include "amdxdna_mailbox.h"
+@@ -46,6 +47,25 @@
+ 	pci_resource_len(NDEV2PDEV(_ndev), (_ndev)->xdna->dev_info->mbox_bar); \
+ })
+ 
++#if IS_ENABLED(CONFIG_AMD_PMF)
++#define AIE2_GET_PMF_NPU_DATA(field, val)				\
++({									\
++	struct amd_pmf_npu_metrics _npu_metrics;			\
++	int _ret;							\
++									\
++	_ret = amd_pmf_get_npu_data(&_npu_metrics);			\
++	val = _ret ? U32_MAX : _npu_metrics.field;			\
++	(_ret);								\
++})
++#else
++#define SENSOR_DEFAULT_npu_power	U32_MAX
++#define AIE2_GET_PMF_NPU_DATA(field, val)				\
++({									\
++	val = SENSOR_DEFAULT_##field;					\
++	(-EOPNOTSUPP);							\
++})
++#endif
 +
- 	apmf_acpi_init(dev);
- 	platform_set_drvdata(pdev, dev);
- 	amd_pmf_dbgfs_register(dev);
-@@ -485,6 +559,8 @@ static int amd_pmf_probe(struct platform_device *pdev)
- 	if (is_apmf_func_supported(dev, APMF_FUNC_SBIOS_HEARTBEAT_V2))
- 		amd_pmf_notify_sbios_heartbeat_event_v2(dev, ON_LOAD);
+ enum aie2_smu_reg_idx {
+ 	SMU_CMD_REG = 0,
+ 	SMU_ARG_REG,
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index 7d59764d7869..053f72a31a5f 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -32,9 +32,10 @@ MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
+  * 0.4: Support getting resource information
+  * 0.5: Support getting telemetry data
+  * 0.6: Support preemption
++ * 0.7: Support getting power data
+  */
+ #define AMDXDNA_DRIVER_MAJOR		0
+-#define AMDXDNA_DRIVER_MINOR		6
++#define AMDXDNA_DRIVER_MINOR		7
  
-+	pmf_device = dev->dev;
-+
- 	dev_info(dev->dev, "registered PMF device successfully\n");
- 
- 	return 0;
-diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-index 9144c8c3bbaf..1bf896c5b92c 100644
---- a/drivers/platform/x86/amd/pmf/pmf.h
-+++ b/drivers/platform/x86/amd/pmf/pmf.h
-@@ -12,6 +12,7 @@
- #define PMF_H
- 
- #include <linux/acpi.h>
-+#include <linux/amd-pmf-io.h>
- #include <linux/input.h>
- #include <linux/platform_device.h>
- #include <linux/platform_profile.h>
-@@ -413,6 +414,7 @@ struct amd_pmf_dev {
- 	struct apmf_sbios_req_v1 req1;
- 	struct pmf_bios_inputs_prev cb_prev; /* To preserve custom BIOS inputs */
- 	bool cb_flag;			     /* To handle first custom BIOS input */
-+	struct mutex metrics_mutex;
- };
- 
- struct apmf_sps_prop_granular_v2 {
-diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
-index 6fa510f419c0..55198d2875cc 100644
---- a/include/linux/amd-pmf-io.h
-+++ b/include/linux/amd-pmf-io.h
-@@ -61,5 +61,26 @@ enum laptop_placement {
- 	LP_UNDEFINED,
- };
- 
-+/**
-+ * struct amd_pmf_npu_metrics: Get NPU metrics data from PMF driver
-+ * @npuclk_freq: NPU clock frequency [MHz]
-+ * @npu_busy: NPU busy % [0-100]
-+ * @npu_power: NPU power [mW]
-+ * @mpnpuclk_freq: MPNPU [MHz]
-+ * @npu_reads: NPU read bandwidth [MB/sec]
-+ * @npu_writes: NPU write bandwidth [MB/sec]
-+ */
-+struct amd_pmf_npu_metrics {
-+	u16 npuclk_freq;
-+	u16 npu_busy[8];
-+	u16 npu_power;
-+	u16 mpnpuclk_freq;
-+	u16 npu_reads;
-+	u16 npu_writes;
-+};
-+
- int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op);
-+
-+/* AMD PMF and NPU interface */
-+int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info);
- #endif
+ /*
+  * Bind the driver base on (vendor_id, device_id) pair and later use the
 -- 
 2.34.1
 
