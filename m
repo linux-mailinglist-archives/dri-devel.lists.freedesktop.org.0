@@ -2,147 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150BECF4989
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DF3CF4995
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:11:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74B4410E14A;
-	Mon,  5 Jan 2026 16:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3691510E325;
+	Mon,  5 Jan 2026 16:11:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="JOcwwgMA";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="Zl0RjHbG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CWXP265CU010.outbound.protection.outlook.com
- (mail-ukwestazon11022141.outbound.protection.outlook.com [52.101.101.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B239410E14A;
- Mon,  5 Jan 2026 16:11:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S+z+pSWA6WFVbfFonj02y+ect/QAS3SEv/OeoRYTRvlnfNtanxpJxftf7xJ2+G2WS+OMnbKOXeiLx2YonIzT6arbHHEy7p/5Org99mUqgw5ziKcrx7jYC/MT06wLp63tFn9bB9M0k1lsWIn9fJBTXGtAHFz51h+ptha7tcA5KJ1OzRORZosXumz8pfAV62wYDP/0U+mhGd4w+CFO2gQitBGOq1ujhjMl8ZjxcCnJTJ31VTCsr0uP2fL83/SObZ146cLmjNbXjMEFWbW9B45ntZF9A7u36u1BPNsI7UH7PAspBF1OzHWtWe1rW4KSiKA/JSn93BUhm+xCYOb3PKE2YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jpiTEAo/Wv4ppl4Rxv/TGckRIp+5dSDliQlERHSmGsI=;
- b=uHjlPIvGjz6t/8GywWvytJ7i8NRYaU65RTEtEfP5A9NU0chvp82g1eayD18TJwqnb9z32ryW4OhgTngiMman5s8YClxgj72ZjRsKGsGp7DUTGGhi5fgn1jiJJu32UjwAXiOVtISSQh8zMoAvbqZtXzADVfAvbzykh7wxcKYLj/X2zLnSPFm+MYDpt4H0WhUeUDdn56zdeA8aFTeB/PeJioJ9lRYi6Ebb2s4Dpn5vkktZE7OVQcpWGCdwkfChSdgAEM4xPh+nf6U/vgoRGnqVuUDARpz4QEB+zWRQySZVe/bOZ1fQsadC9XRFE+kWx2Q5AdLATVwH2uvpsjy0hY/B7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jpiTEAo/Wv4ppl4Rxv/TGckRIp+5dSDliQlERHSmGsI=;
- b=JOcwwgMAjHUwz8I8ocgJtau518ALQ3kd4fnM/qI9zJlx6UlAau2oDY+fCfe/871sQFyevjGmjgsIoPTwOFknxEDPPxN4kiPekJsweb/m4esWicvB4Nh03f6J++U1jx18cRFhHuTb49TiAV1f+52BZKMCRViB4tR67YF8YgGGeNk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB3058.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:d1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
- 2026 16:11:12 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::ea6a:3ec2:375d:1ce0]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::ea6a:3ec2:375d:1ce0%7]) with mapi id 15.20.9478.004; Mon, 5 Jan 2026
- 16:11:12 +0000
-Date: Mon, 5 Jan 2026 16:11:10 +0000
-From: Gary Guo <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Benno Lossin" <lossin@kernel.org>, "Maurice Hieronymus"
- <mhi@mailbox.org>, <aliceryhl@google.com>, <acourbot@nvidia.com>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <ojeda@kernel.org>, <boqun.feng@gmail.com>, <bjorn3_gh@protonmail.com>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] rust: macros: Add derive Display for enums
-Message-ID: <20260105161110.5d1ab548.gary@garyguo.net>
-In-Reply-To: <DFGL2QTNH7FE.93EN71L7BXFM@kernel.org>
-References: <20260104200733.190494-1-mhi@mailbox.org>
- <20260104200733.190494-2-mhi@mailbox.org>
- <DFGJ8UBULO54.NRW84R2DTHIK@kernel.org>
- <DFGL2QTNH7FE.93EN71L7BXFM@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P123CA0074.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:138::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336FD10E325
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:11:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1767629495; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HFPkpi3yUt2retBX3XruNmVKRhLugIWUtSku85zjLKmrEPbhagqb6VEPHqvjft5uymwswCMrdMbPUh8kAC+XU8Qt5CK2TPKjkKalykSR0xnplEcfK4AgWNjAVx3uLYlWnwJHvkJBR2gg2URbV9sUh2XU2wI3+XuF3YwJrx6SUQU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1767629495;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=TsUBNyZy9Y8U68MehXtbryg/+pqq1ZDESAgD5LeM2oE=; 
+ b=dvrqO+J+vBouU/c1lunfd4L19pTxn9BJKF9jYYImddGCntzHcCSkJRJoNFvl22N3vsXM1z0C92VHlUMzAZuXyIkDDPah93d+/Wq/QkWU8uPDYvtFeAzHtV3x1KO59NRC9SfUmrxDWNOygYPx0Rr/qr4i0HpY3Y4cIQ30smZdH+M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767629495; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=TsUBNyZy9Y8U68MehXtbryg/+pqq1ZDESAgD5LeM2oE=;
+ b=Zl0RjHbGG4ePiC5rg+Ouv9+o67810a4y9QZkBvPiRX+OJJ7J10dijLKO0ss9sXta
+ RKBINZ99rLgumWFz+daBMc/Ti1hLS0CBvX+gICkWe14wGqgvEO61AFfKj62tQ0q37Fy
+ DTGVuaPVEHF4UB/yVeBbFc3XZuzYsaPudrkYUYaYRfeanntjEqFUTGnj97v7cXR28JY
+ Umc3iToZbX0GyPfiAbm9fzWPcQWjNtYz6+6i2P8Rp89UPCn57I+2nUq5G0ZrKuu1Jci
+ weAiS5Or1saJBtv/fN9vWcEb3FHe7A3awgfYLakNokcUsPYHZAi6JRpxDOk4jiTvWAf
+ N7ZtTd4Lfg==
+Received: by mx.zohomail.com with SMTPS id 1767629491804668.4612361380402;
+ Mon, 5 Jan 2026 08:11:31 -0800 (PST)
+Message-ID: <a838dc0f8bd39c6d9da95f5fd137eba8c131c58a.camel@icenowy.me>
+Subject: Re: [PATCH v4 2/9] dt-bindings: display: add verisilicon,dc
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew Fustini
+ <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>,  Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
+ <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
+ Wilczynski <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao
+ Zi <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Tue, 06 Jan 2026 00:11:16 +0800
+In-Reply-To: <20260105154656.GA2585570-robh@kernel.org>
+References: <20251224161205.1132149-1-zhengxingda@iscas.ac.cn>
+ <20251224161205.1132149-3-zhengxingda@iscas.ac.cn>
+ <20260105154656.GA2585570-robh@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB3058:EE_
-X-MS-Office365-Filtering-Correlation-Id: 587a6465-f759-4a9a-8a41-08de4c750bae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|10070799003|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Q862y3c3myUji1/KNfaz5cMydICT9Tpjla3rpuutLqiVlA3pwq9hAyVqDNZ3?=
- =?us-ascii?Q?ppj2n2ynd9hPOfkMdi5LsnaBzW+jTWZdc8ktq8npXdXv2UYoZSayBkNrCpt6?=
- =?us-ascii?Q?Ey8GXyiKZTMe165pnvXL63kjPRY5fjqtb8qZch6PPd43QnvCdjTGJaG+f2pN?=
- =?us-ascii?Q?HM8WpnK/FRfy17Cc07Yxe9OTpyhH4pbAdTsTbGT90ET4693BQZBzNGWm/kYh?=
- =?us-ascii?Q?GHoNQA47Ta+4qldrbjYPoH3M6p6KdmwdGdYtPMAptD61hacCdpWJyCdKqpK+?=
- =?us-ascii?Q?OYPZyaaeP6Umflp6zWZNRTy3wRcV8Jv16cpFTzVW0Ghr7yOa5Zf/cKrZsSBC?=
- =?us-ascii?Q?l0tecHcCG/Hk3vf1ocmRJ8lUlJlhiKWTgPpL138QZUgwU5t0B04i9rF4j/T+?=
- =?us-ascii?Q?1I24ryP1aGa/z6tdtkqF2QUcvzc3KQO4AFwxEM8n4ydEMhThXpYt7p6jwcB7?=
- =?us-ascii?Q?rcq6CIdj/IjanQxucjMXWPqPjNgUgiLWsgip/+QtiSMNumnyGZ5AwoM6hBo5?=
- =?us-ascii?Q?O66O+hdzSpOZ2W410D7qX7DxIzi5KE1iMSqJvg9T5wjSsAmy+YPSddNq0McZ?=
- =?us-ascii?Q?U2ZxKAHtK4GtI4MqVjfjEuvu2Cx3YThzc6ybtOIJ9P1JlgtyUpPU/120bajW?=
- =?us-ascii?Q?ukqS2tROl+pT6QiuhabElTVdI+NV/8eAUliAvwEQXDblpmrAuDenaFQCA5Qv?=
- =?us-ascii?Q?oEL/FU1fpxbSa+cC4LqrA3PWW3CGYAOpND1kiciXmstywXFsoVr7mRtJOonw?=
- =?us-ascii?Q?REWbvmEuwiJTS8UZGkUqv9cA7v/92/6klSVMiAaBjOj4nbokr6QD6Sp4ws5P?=
- =?us-ascii?Q?M05ImQ/nvT4JnHye6leZ7jIxMKkh3e514xNoamD5viiwFO1veM84I5o+WSDL?=
- =?us-ascii?Q?A04u1BvGt6BKt8n+LdM/8K9k2zUmbncVUGQ4POq68XXBS63IlAuCgU3Ji+sh?=
- =?us-ascii?Q?RhcqIvwyfIDkF8XlvqXU5mU3L72dy3FXAZWXYWvrz13GBMVEizTqXp+ZCOHp?=
- =?us-ascii?Q?63OI2+p/57P1GaYQHKIx64uspD81iYAAIu6eV/MPegUpKKL11zwb4zcYQhps?=
- =?us-ascii?Q?1FA05dywfTQ3D7Vy5FeLUK5pKXTlGU7tAoLIRK0RbzJzJu5KRW8YjHcbZmIo?=
- =?us-ascii?Q?q1Ue4OHo4EkUSPR0qpy+s7J8hq4FFpCesO93PQT6Wmw/GtNdqHzH6V541hl+?=
- =?us-ascii?Q?aX/N+Bsm1xFfoAE2lRHgIf37rodnB8jSEoaf69cbbyLTucVsX/2n9k7STb+B?=
- =?us-ascii?Q?IoN4jPhEsGSJYR3HcwIMDCzLiyuhCVYbQmz6jeKSSyrILdk2yKkLhHarD2BB?=
- =?us-ascii?Q?B1nKixyvXCal+ObT2Xn9VoscZtdpbD3kSfLE/LdlzIXfm2FdqrSv0lne2bXg?=
- =?us-ascii?Q?F4pb2VFPPMaSXX3Q9gGBN/SvPZjbVbVc7zhq+QFZJZf5NW2DVFCsngzEVPpl?=
- =?us-ascii?Q?vwte7khlrPxKvcdse3wmVFlEMnEsp+we?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003)(7053199007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VVk5pFF2iuuxwKEjbf7HE95sOglzgIjKG16eW5HkiCsTA2VXMYsMC8ne5LQq?=
- =?us-ascii?Q?Z5hDp9PerzU35UTah3s+bODu0Z/AVcOeHiOOCrXW34c9S6DB2axGVny82VdF?=
- =?us-ascii?Q?OhmXgveK6dsEypH+CAhWhmCNI+dq+zDjl2jjxsPepcdeW/UdEs72kzeDJ868?=
- =?us-ascii?Q?CIqMaMECdIc5LZmZoKiErbPaE6YAj39k3AIXG3Y9LsQuigrhb/Ci1mDxbjdE?=
- =?us-ascii?Q?jj9Ev3WNjlG+OBQ9nVV1ntaexrkxZWgvxUzcVyEy93wAfNgGnYo7nhIgQ+D4?=
- =?us-ascii?Q?zkI0jeiaYtDvujuCVKui2wgkY78WgNjlRNxcIfkyBMLhUwL1HxIzRDMJV/64?=
- =?us-ascii?Q?v/dZMeYv4NXpgUmU/keHAq1HPVzyVElMbuXaI9awHTe+8HlLYVUXwOyGBRtM?=
- =?us-ascii?Q?HkNwjLZVtUzpw3525MwsALVl1s6YXfKcDzrjBgfvcyEyWcxQE+NxxsdTtvTU?=
- =?us-ascii?Q?ftwI4xRuUP8mhYAKAZCk6aQ5uZRUX+YSd7aVYlG2bEk/lWnptai+LNRsRXUf?=
- =?us-ascii?Q?1tUWt0CTRqs6gwUCNHaRPXu50yq/IZGePK/RMfWkj0ft3uoocpM93WSDzo00?=
- =?us-ascii?Q?zeDJvZW48wY8uRloR0E63eimafHiEpMB7DAhqAQsRQXPcA5dozNoxVRf8jyJ?=
- =?us-ascii?Q?TXWik32CyJ6SCy4FMlCkXY5UjKp8877H+bfPHuQwFKWP9U8lv4diTrm1cQvb?=
- =?us-ascii?Q?C4rIt9tFbF9d8OXrClYZC4cCKDdOp1FYuiCrefFMus9VfifWXxtDq+St0Gno?=
- =?us-ascii?Q?sbzlOF95dm8kGq2C4VQcMIZ2I0R7h9ulVzbv+wcy+1w4jR9LaFGKRoEsUsdp?=
- =?us-ascii?Q?Px62xcQ1HcTgVxfZV08N/i3a0/JTo8J1MtXOBlATdFAwf/1cZAkIbupHwplB?=
- =?us-ascii?Q?fxcXYwo4DrI7RjyuPMxN4EjMYTqI4NfauqTRBLYMeBz9V2ODFDXdyMDvy9j0?=
- =?us-ascii?Q?9AvAc/5wOlWApT0tHirNVMlS1r+DMv+sf2G/hNbI33+SNpJmnJF4ETir73ZA?=
- =?us-ascii?Q?gqSozqZZ63t2MfV7xClCxYjom+Evm00CywV+wMbvjHIQ6rXKYkzLx7LSVCxe?=
- =?us-ascii?Q?BBCkWrLQQDdxh6+waM2TvBBAHTrvvcviAOVOiB7RmwV06wEHxKzDIuPZEVO2?=
- =?us-ascii?Q?+cORSTLAjzaAv91YKS2Q7IRf8E/tSsGDbC90/bFg9OtC++46UO/ZSSe95LTu?=
- =?us-ascii?Q?PUnM5M3VKe0bSlRAeVU4tY+vpFhZzwZQiXqNPYaxe2ZswAi41CEh+HKeeyVC?=
- =?us-ascii?Q?zjxJ2vhRoImV5iv80EvcJ/Y50FtGC2hI4n4S74IT3ljz2E9fHbBJvzLUJqXD?=
- =?us-ascii?Q?Fzaaj1BDAMxr+XmJJPXF/Fr9Ai4I23LPSsL2I+CNyNTIY1q+XV9qFLVEkkg+?=
- =?us-ascii?Q?6LBEQ70O/Knu9LjDfrgGQNzNShDDrzjyG3JKO0DbtECP8XzgUWCzYXxm30AL?=
- =?us-ascii?Q?0dRs5cdAKntzPbcEnp+sw54GKR3rjvchBH20U7G/ZJI3c0CKlcaYkUoiAkqV?=
- =?us-ascii?Q?t5c867Cmdtua/ms+InOy/LFgV1qwIYhmo7FXQXWd86QTQBVBDSmkUTFQzFOw?=
- =?us-ascii?Q?Dd319F62HTwjRzEnIQYDAuBkFKlVkVD4HfJm6Pr206S4ksbXDKyUCeQ9IGOg?=
- =?us-ascii?Q?z9qTHCVSGBDXC/NC2o5csk/cY5cIfXqyVLE36zOjZu0z7fop+gpyDT0FYwdI?=
- =?us-ascii?Q?K1N3yDd5gbqbN6JhxSVlWnBUk42sNAbmD+4bH6hYLHGslNo8qWpsaiTXlGW+?=
- =?us-ascii?Q?sgonozo7Sw=3D=3D?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 587a6465-f759-4a9a-8a41-08de4c750bae
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 16:11:12.4947 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nNxKXc2EGuSs95GasHp+I40NMmZ9+mPC+v81zZFAgAboUzGxA9J1pxtKkcdnx7yau2WOBa71IwML5Hd3r7yWDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB3058
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,48 +84,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 05 Jan 2026 11:29:04 +0100
-"Danilo Krummrich" <dakr@kernel.org> wrote:
+=E5=9C=A8 2026-01-05=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 09:46 -0600=EF=BC=
+=8CRob Herring=E5=86=99=E9=81=93=EF=BC=9A
+> On Thu, Dec 25, 2025 at 12:11:58AM +0800, Icenowy Zheng wrote:
+> > From: Icenowy Zheng <uwu@icenowy.me>
+> >=20
+> > Verisilicon has a series of display controllers prefixed with DC
+> > and
+> > with self-identification facility like their GC series GPUs.
+> >=20
+> > Add a device tree binding for it.
+> >=20
+> > Depends on the specific DC model, it can have either one or two
+> > display
+> > outputs, and each display output could be set to DPI signal or "DP"
+> > signal (which seems to be some plain parallel bus to HDMI
+> > controllers).
+> >=20
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > ---
+> > Changes in v4:
+> > - Added a comment for "verisilicon,dc" that says the ID/revision is
+> > =C2=A0 discoverable via registers.
+> > - Removed clock minItems constraint w/o specific compatible
+> > strings.
+> >=20
+> > Changes in v3:
+> > - Added SoC-specific compatible string, and arm the binding with
+> > clock /
+> > =C2=A0 port checking for the specific SoC (with a 2-output DC).
+> >=20
+> > Changes in v2:
+> > - Fixed misspelt "versilicon" in title.
+> > - Moved minItems in clock properties to be earlier than items.
+> > - Re-aligned multi-line clocks and resets in example.
+> >=20
+> > =C2=A0.../bindings/display/verisilicon,dc.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 144
+> > ++++++++++++++++++
+> > =C2=A01 file changed, 144 insertions(+)
+> > =C2=A0create mode 100644
+> > Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> >=20
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> > b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> > new file mode 100644
+> > index 0000000000000..fe64cc1466690
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> > @@ -0,0 +1,144 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/verisilicon,dc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Verisilicon DC-series display controllers
+> > +
+> > +maintainers:
+> > +=C2=A0 - Icenowy Zheng <uwu@icenowy.me>
+> > +
+> > +properties:
+> > +=C2=A0 $nodename:
+> > +=C2=A0=C2=A0=C2=A0 pattern: "^display@[0-9a-f]+$"
+> > +
+> > +=C2=A0 compatible:
+> > +=C2=A0=C2=A0=C2=A0 items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - thead,th1520-=
+dc8200
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: verisilicon,dc # DC IPs have d=
+iscoverable
+> > ID/revision registers
+> > +
+> > +=C2=A0 reg:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 interrupts:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 clocks:
+> > +=C2=A0=C2=A0=C2=A0 items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: DC Core clock
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: DMA AXI bus clock
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: Configuration AHB bus cl=
+ock
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: Pixel clock of output 0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: Pixel clock of output 1
+> > +
+> > +=C2=A0 clock-names:
+> > +=C2=A0=C2=A0=C2=A0 items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: core
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: axi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: ahb
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: pix0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: pix1
+> > +
+> > +=C2=A0 resets:
+> > +=C2=A0=C2=A0=C2=A0 items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: DC Core reset
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: DMA AXI bus reset
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: Configuration AHB bus re=
+set
+> > +
+> > +=C2=A0 reset-names:
+> > +=C2=A0=C2=A0=C2=A0 items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: core
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: axi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: ahb
+> > +
+> > +=C2=A0 ports:
+> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +=C2=A0=C2=A0=C2=A0 properties:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 port@0:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $ref: /schemas/graph.yaml#/=
+properties/port
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 description: The first outp=
+ut channel , endpoint 0 should
+> > be
+>=20
+> No space before comma. Or perhaps should be a period instead.
 
-> On Mon Jan 5, 2026 at 10:02 AM CET, Benno Lossin wrote:
-> > On Sun Jan 4, 2026 at 9:07 PM CET, Maurice Hieronymus wrote:  
-> >> Add a derive macro that implements kernel::fmt::Display for enums.
-> >> The macro outputs the exact variant name as written, preserving case.
-> >>
-> >> This supports all enum variant types: unit, tuple, and struct variants.
-> >> For variants with data, only the variant name is displayed.  
-> >
-> > I don't think we should be adding this. Display is designed for
-> > user-facing output and so it should always be carefully designed and no
-> > automation should exist for it.  
-> 
-> In general I agree, but simple stringification of an enum variant for a Display
-> implementation is a very common use-case and it seems pretty unfortunate to have
-> to fall back to either do the below (especially if there are a lot of enum
-> variants) or having to go the declarative path of doing something as in [1].
-> 
-> Especially in combination with things like FromPrimitive and ToPrimitive it gets
-> us rid of the cases where we need such declarative macro mess.
-> 
-> Eventually, drivers will most likely implement their own proc macro for this or
-> repeat the declarative macro pattern over and over again.
-> 
-> Maybe we should just pick a more specific name for such a derive macro than
-> macros::Display.
-> 
-> Maybe something along the lines of macros::EnumVariantDisplay? We could also
-> have an optional argument indicating whether it should be converted to lower /
-> upper case.
+Well I don't know why I inserted such a space, will remove it.
 
-I think the proposal is reasonable.
+>=20
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 used for DPI fo=
+rmat output and endpoint 1 should be used
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for DP format o=
+utput.
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 port@1:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $ref: /schemas/graph.yaml#/=
+properties/port
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 description: The second out=
+put channel if the DC variant
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 supports. Follo=
+w the same endpoint addressing rule with
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the first port.
+> > +
+> > +=C2=A0=C2=A0=C2=A0 required:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - port@0
+> > +
+> > +required:
+> > +=C2=A0 - compatible
+> > +=C2=A0 - reg
+> > +=C2=A0 - interrupts
+> > +=C2=A0 - clocks
+> > +=C2=A0 - clock-names
+> > +=C2=A0 - ports
+> > +
+> > +allOf:
+> > +=C2=A0 - if:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contains:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
+st: thead,th1520-dc8200
+> > +=C2=A0=C2=A0=C2=A0 then:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clocks:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 minItems: 5
+>=20
+> That's already implicitly the min. Perhaps you wanted 'minItems: 4'
+> on=20
+> the clocks and clock-names definitions for versions with only 1
+> output?
 
-Being able to print enum name is very common and this is why crates like
-`strum` exist.
+Previously I specified minItems: 4 in the general part, however this
+does not play well when some of core/axi/ahb clocks are not present.
 
-Perhaps if we want to make user having a thought about what names to
-expose to users, we can have the case conversion argument be mandatory, so
-they are forced to make a choice rather than blindly stuck
-`#[derive(Display)]` onto their enum.
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ports:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - p=
+ort@0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - p=
+ort@1
+>=20
+> It is valid to omit these if the output is present, but unused.
 
-Best,
-Gary
+Well this sounds reasonable, although my driver does not play well if
+only a port@1 is defined w/o port@0 .
+
+Considering the previous two snippets, should I just remove this if
+part?
+
+>=20
+> > +
+> > +additionalProperties: false
+> > +
+=3D=3D=3D=3D=3D=3D 8< =3D=3D=3D=3D=3D=3D=3D=3D
