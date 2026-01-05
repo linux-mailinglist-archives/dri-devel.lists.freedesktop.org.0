@@ -2,61 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48B1CF5938
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 21:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3EDCF597B
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 22:04:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADCF810E44E;
-	Mon,  5 Jan 2026 20:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA4110E013;
+	Mon,  5 Jan 2026 21:04:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fOcqgRxm";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="AbeewUkH";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="O9RFqbFa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E636910E0CA;
- Mon,  5 Jan 2026 20:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767646406; x=1799182406;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Kc42dwE53HMT/1bdDwu6jDulto9lxiNJX4DJRPLyNgs=;
- b=fOcqgRxmjknKKoe1EseoZFy0iXFn+Cymc2ibi1zev1tZOAFVW2qLR7Fk
- Hbx5csD8XIlg62DtuzuuoW+Nz7Kwx91biHIJoj5MrnczAsVWQrmG0nq5q
- RmiXfJo7iyz0bZpRLjApeBzPSFdrtgXH7h+Q/PJUlhwu5QZBrmkT343oc
- r6lKnbPkGgPDhqfPMVeSRurIWhdl/JXl6UzJVYsl4O7JdmOs2NS6GqeBI
- Ql3Ar4htOXJtWPqPUjNhY0AP6dgA+ttCa/0JBcWS2gLREQwxUCh2qQsoM
- f21tOw2S4ky/Fuhk5HBTncYxW+HaYopGXTh51z7urAQFZByMo94ngTmQn A==;
-X-CSE-ConnectionGUID: Jg47hm1ITTWSEzgwK6kmug==
-X-CSE-MsgGUID: IT7pogKaSb+mf0E4OorOrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68924228"
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="68924228"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 12:53:25 -0800
-X-CSE-ConnectionGUID: Tq1E5Qj5QNOX0EuAaenLWw==
-X-CSE-MsgGUID: e/5zb6QoQuiZWUR1K5KsIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="233613808"
-Received: from dut4450lnl.fm.intel.com ([10.105.10.103])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 12:53:25 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com, ivan.briano@intel.com,
- matthew.auld@intel.com, dafna.hirschfeld@intel.com
-Subject: [PATCH v32 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Mon,  5 Jan 2026 20:53:29 +0000
-Message-ID: <20260105205323.81875-12-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260105205323.81875-7-jonathan.cavitt@intel.com>
-References: <20260105205323.81875-7-jonathan.cavitt@intel.com>
+Received: from fout-b1-smtp.messagingengine.com
+ (fout-b1-smtp.messagingengine.com [202.12.124.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5642D10E013
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 21:04:10 +0000 (UTC)
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+ by mailfout.stl.internal (Postfix) with ESMTP id BA5BF1D00104;
+ Mon,  5 Jan 2026 16:04:09 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+ by phl-compute-11.internal (MEProxy); Mon, 05 Jan 2026 16:04:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:message-id:mime-version:reply-to
+ :subject:subject:to:to; s=fm1; t=1767647049; x=1767733449; bh=Fm
+ 8K3+5irrckK0MC/V3f6c/1Gi9boQDobZ1i7gbQTQg=; b=AbeewUkHbhpp8HV5OA
+ fSyQ+Gf2Yrs4E08XfMlxEjZDhvqQa/tTfdPNnBA3gjRbosZrPlJaNjozzSJ9qUwF
+ k5E/FrGtPH7DYtiVGP9AMwZds1P51TNRws1+gMcx4/0HReglbBDoseyFWeIF0v5C
+ sHhMovM0kJ54HqRzxQ1K9PxsimErzZfEqACjNV2y7jp4Ys8W/NEFFRJgiJWKWlL3
+ FFFdX99MrEhlEcglSZ1v2MfA01GS0I8Q/OeVbA0h0kt/y7HhpIJE4uSr7mnKtViP
+ u7kv6gdeREqpzbDkvvmv5sFFRJjs0Yf4sowBARsiLZYe7DzkP9nQgp3MG/j9Z4Cv
+ 5XAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1767647049; x=1767733449; bh=Fm8K3+5irrckK0MC/V3f6c/1Gi9b
+ oQDobZ1i7gbQTQg=; b=O9RFqbFaQ/ubMC9/xM1fIBrsJ5SdxwZLoZETfgDCBdeX
+ +nB9oMbLrmg9YD8TGptNehU9/rL0bCM+X09Wgbx6eKaxj114OGIkHHBBSaSJ2DU1
+ STFqeBucK957JpuDOvFO1yrRMnc0TChkg98gylqqPjAzrBF2wCLc4ghr8THcfoPs
+ rF4uvKiQL7TMOLwgBGEYwwsTiBcMX6wEkxhkiqCUFKzP0vNNw1ipHoFCU3u9/P6U
+ +nq/U+SgnLVzmKutp1OFNuey5fhNJ+njZepwNmoguJ+oGU8BYCgrMC/914f5yaXf
+ 9WUjlQ5RZLwKtzsV+06/Wtjr+Ucl4T5Nrh1zgdgyjg==
+X-ME-Sender: <xms:SSdcab9ZYD2bUzSAmHl-t5uid1gSdAthmqwyKnWxv7oGYqBMj1FE1g>
+ <xme:SSdcaTIeUl_rpskIbyIxOxYIwfSC7dlngS1V73yYbuvcMC5cds5WnTcZ5hQCAuS59
+ nMlqBCWbbumyX_9eX8n895kEyyxqMubQ-lV7vZPrERMRoKgfwfLHNg>
+X-ME-Received: <xmr:SSdcacjaGhfe9Q8PGuQtsIKnYWymwCdEHZaVLI90cAVBh9lGZ7cs-k9jdxOSBcW66MM_l357sUFkdqm30vCDKhImxldxz4NLqdZn0A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelkeeffecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
+ uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefhtdeuud
+ eljeffuddvheekuedtfefhtddvieeigeehffelfeevvdfhgeeggefffeenucevlhhushht
+ vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
+ gvthdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+ rghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegurhhiqdguvg
+ hvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhg
+ thdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhope
+ hjsehjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:SSdcab69izJVJ1QQgWtRiqOThjgAEBSDnMLEceaZv8zjAA5au9YL8Q>
+ <xmx:SSdcacYQM2QBPnWjICP12FmFE0uv0n7w2jJEo4rjOG53b2CBJsFQSA>
+ <xmx:SSdcaY4y-To7H9FTc6gDSDI1hondH31pioruKeHHzzxvQKfgfwunuQ>
+ <xmx:SSdcaXDXg_MiJS3VtnHoZ_WpwFFS-SxosJe6kcYXehKusZOr__5Gyg>
+ <xmx:SSdcaZibmaShM8yyhbtFyeMMbU_TlFniapJdwLtImmcV0x20z513LBnb>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Jan 2026 16:04:07 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH i-g-t 0/3] Add infrastruture and initial tests for ashi DRM
+ render driver
+Date: Mon, 05 Jan 2026 22:03:44 +0100
+Message-Id: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADAnXGkC/x3MMQqAMAxA0atIZgOpUBWvIg5BY5tFpSkqiHe3O
+ L7h/wdMkorBUD2Q5FTTfStwdQVz5C0I6lIMDTUtOfLIxlExi2XDi09x2HHvaSEhXglKdyRZ9f6
+ fIygGzDC97wevvmLKagAAAA==
+X-Change-ID: 20260105-asahi-tests-wave1-7a850d0e0af0
+To: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1944; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=1maun1oJjM1Hu8fQx3t6bLB8U8dZwzJKItCNPc8qshE=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhswYdfspF8t/bL7pYrB99vbyyfv8fyS2Svye+NPo32amw
+ ywil2OjOkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAEykeykjw91LhR6sCReCHOL+
+ CPWUX3VnFhbn3LtBXCuyN1JyRVvoSkaGDytX60q2eQVqMrz9rtj6Qdj8u+dnB4Xgl4sYP5UeW/6
+ YBQA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,255 +109,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+I will start with upstreaming the asahi DRM render driver. The UAPI was
+merged in v6.16-rc1 and the downstream Asahi Linux kernel tree has a
+driver implementing this fully.
+The asahi (OpenGL 4.6 conformant) and honeycomb (Vulkan 1.4 conformant)
+user space drivers using this UAPI are available in mesa since 25.2.
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+This initial submission contains test infrastructure and tests for the
+ioctl DRM_IOCTL_ASAHI_GET_PARAMS and DRM_IOCTL_ASAHI_GET_TIME.
+These two tests are the only ones the initial version of the initial
+upstream submission of the driver will pass.
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+I have additional tests which the downstream driver passes as well. I
+was planning to submit them together with upstream driver patches which
+implement the necessary functionality for the tests.
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
+If preferred I could submit all tests and gate them based on the driver
+version to avoid expected igt-gpu-tools test failures against
+incomplete (as in not implementing the full UAPI) upstream driver
+versions.
 
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
-
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
-
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
-
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
-
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
-
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
-
-v11:
-- Remove unnecessary else condition
-- Correct backwards helper function size logic (jcavitt)
-
-v12:
-- Use size_t instead of int (Raag)
-
-v13:
-- Remove engine class and instance (Ivan)
-
-v14:
-- Map access type, fault type, and fault level to user macros (Matt
-  Brost, Ivan)
-
-v15:
-- Remove unnecessary size assertion (jcavitt)
-
-v16:
-- Nit fixes (Matt Brost)
-
-v17:
-- Rebase and refactor (jcavitt)
-
-v18:
-- Do not copy_to_user in critical section (Matt Brost)
-- Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
-  Brost)
-
-v19:
-- Remove unnecessary memset (Matt Brost)
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
-Cc: Ivan Briano <ivan.briano@intel.com>
+Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- drivers/gpu/drm/xe/xe_device.c |   2 +
- drivers/gpu/drm/xe/xe_vm.c     | 117 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |   3 +
- 3 files changed, 122 insertions(+)
+Janne Grunau (3):
+      drm-uapi/asahi: Initial import of asahi_drm.h
+      asahi: Add test infrastruture for asahi DRM render driver
+      tests/asahi: Add test for DRM_IOCTL_ASAHI_GET_TIME
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index e101d290b2a6..2ceeafe4c2b8 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -217,6 +217,8 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_EXEC_QUEUE_SET_PROPERTY, xe_exec_queue_set_property_ioctl,
- 			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 6be8da9b3c79..94c8400a7540 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3883,6 +3883,123 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+/*
-+ * Map access type, fault type, and fault level from current bspec
-+ * specification to user spec abstraction.  The current mapping is
-+ * 1-to-1, but if there is ever a hardware change, we will need
-+ * this abstraction layer to maintain API stability through the
-+ * hardware change.
-+ */
-+static u8 xe_to_user_access_type(u8 access_type)
-+{
-+	return access_type;
-+}
-+
-+static u8 xe_to_user_fault_type(u8 fault_type)
-+{
-+	return fault_type;
-+}
-+
-+static u8 xe_to_user_fault_level(u8 fault_level)
-+{
-+	return fault_level;
-+}
-+
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault *fault_list, fault_entry = { 0 };
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	fault_list = kcalloc(count, sizeof(struct xe_vm_fault), GFP_KERNEL);
-+	if (!fault_list)
-+		return -ENOMEM;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i == count)
-+			break;
-+
-+		fault_entry.address = entry->address;
-+		fault_entry.address_precision = entry->address_precision;
-+
-+		fault_entry.access_type = xe_to_user_access_type(entry->access_type);
-+		fault_entry.fault_type = xe_to_user_fault_type(entry->fault_type);
-+		fault_entry.fault_level = xe_to_user_fault_level(entry->fault_level);
-+
-+		memcpy(&fault_list[i], &fault_entry, entry_size);
-+
-+		i++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	ret = copy_to_user(usr_ptr, fault_list, args->size);
-+
-+	kfree(fault_list);
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	size_t size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (!args->size) {
-+			args->size = size;
-+			return 0;
-+		}
-+
-+		/*
-+		 * Number of faults may increase between calls to
-+		 * xe_vm_get_property_ioctl, so just report the number of
-+		 * faults the user requests if it's less than or equal to
-+		 * the number of faults in the VM fault array.
-+		 *
-+		 * We should also at least assert that the args->size value
-+		 * is a multiple of the xe_vm_fault struct size.
-+		 */
-+		if (args->size > size || args->size % sizeof(struct xe_vm_fault))
-+			return -EINVAL;
-+
-+		return fill_faults(vm, args);
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1] ||
-+			     args->reserved[2]))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 6b6041b8bb13..45be201427e9 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -210,6 +210,9 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
- int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
-+
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
- static inline bool xe_vm_in_fault_mode(struct xe_vm *vm)
+ include/drm-uapi/asahi_drm.h   | 1194 ++++++++++++++++++++++++++++++++++++++++
+ lib/drmtest.c                  |    1 +
+ lib/drmtest.h                  |    1 +
+ lib/igt_asahi.c                |   58 ++
+ lib/igt_asahi.h                |   15 +
+ lib/meson.build                |    1 +
+ meson.build                    |    8 +
+ tests/asahi/asahi_get_params.c |   55 ++
+ tests/asahi/asahi_get_time.c   |   63 +++
+ tests/asahi/meson.build        |   14 +
+ tests/meson.build              |    2 +
+ 11 files changed, 1412 insertions(+)
+---
+base-commit: cef45b995557367ba082bc460fbab2190af943fd
+change-id: 20260105-asahi-tests-wave1-7a850d0e0af0
+
+Best regards,
 -- 
-2.43.0
+Janne Grunau <j@jannau.net>
 
