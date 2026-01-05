@@ -2,129 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0476CF4836
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8BBCF4865
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 16:53:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3417D10E259;
-	Mon,  5 Jan 2026 15:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60D5A10E47C;
+	Mon,  5 Jan 2026 15:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U7TQd3qY";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iJVN/i8r";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B97gfyGI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB2110E259
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 15:51:37 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6059cn6S610492
- for <dri-devel@lists.freedesktop.org>; Mon, 5 Jan 2026 15:51:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=+oJLVBcbdzw6ywDggKDtuWpHTYQyHyIMvNK
- 2XVlueQQ=; b=U7TQd3qYT2j6DkIWCWwzpEMpTSJ0iTQlX7BJeC0KJObhNqXqF+w
- 5ZVZ9xRe4/txy1Xwrhi8/sKdwFiUxpqHrz5wVVAETwDxz7v+x/Wcl58ZSYd5j7Np
- fGVpuqxWXBWOfQ7TOD3vmBmLm+9S9OX8DLslIg7xzt6IlHIXHnpsv6d/z4DOEpTU
- qkkj5v/aSWfOWqJ8cz4q8QepnYpkTKIa9vyIzIdXbAFGYRBEy1EHEG/SIyTSG28G
- vaolz/RFHWZnfzxZFLJIr7JmezCKIwRqIlUP/Aqg2XIajlhEm5gulOWpA/xxpW4J
- tsytXk7IxsKWwfGZ9vZRSyvW35yeO/fY+fw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bgaus0xmt-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 15:51:37 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4ee09211413so582131cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 07:51:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767628296; x=1768233096;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+oJLVBcbdzw6ywDggKDtuWpHTYQyHyIMvNK2XVlueQQ=;
- b=iJVN/i8rhyQKT3JmU1kfQBuE4Jl9bez1YJiGT2kpzPM5tLH/0Es7G/qGcohIlo8v08
- Gr2ThNZ6srLBnjTjJt9vM4VgmtGtOULWGAxW5o6dqOTeOBrYp0LfJQEuDF7PV6FMlOKE
- PHpuJqaElBzCgGKZQqw8gHQa0h8olANLqwPGOPpSQjuidnImQFQkFkiW5c6xBOz9z7o3
- 7v798m765VnngfHyd4k3Iwp7Mus2WlCkrO/5F3tFYoCdQN9qIqY6HVpbXgmgZGAYxEd8
- t6zPONUeXkJNrJIteIPnvqn256r+q3PlZGuH9NiB8uLBWmo4dTpooxuooM+7ePfzbU3B
- X8cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767628296; x=1768233096;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+oJLVBcbdzw6ywDggKDtuWpHTYQyHyIMvNK2XVlueQQ=;
- b=pipB7D5JzRynMiI0zTpP+BWApDhvgW9nl7gWWLZqJfd3WJnbxdfQL+iIrm16GDrZkn
- 2GVpf0bKscRtTxPxRQ8FAnGHprCvgHSgJ8zSkhtX+ScGkz6orVN+lOeOgp9ze+rHNfVg
- yiEZtWbTeAsajSyIkYOt10Eq0pDKbKdK53opJUm3TZA2mztiGD/UmsFkoNWlPdGyGuR1
- vyK9LhGCNMwNddI/3czV1G+QtL9jj3LiF+XbKIqu+l1n7K4H/RbooGupIGWT7BJALh5g
- jX8zN6ejXujwkzBasXGqf1hID5qeIe6HbH1OMJAabInIVhnOv0Df7itULxE6X7lmQAF6
- GHBg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVg+IBMyuQXs03KpO9VDyE4+aiJBqiL5ag4xrIaYdArooUUM6rZVPWLZQdZXCdrDJ2x+TB53jWlhyE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIoObpkZiEvsV4Xp95cZk9v1CCaWG735yWTgFmb+K2mKXxzPAT
- pU0FnIU1XfFxoTUsb0AavxWFMiGtJXVRA7TIXPZ4WNutW5/kUqYuGj2UUEg9s8KIGmS+qx6nMZl
- gX5tjZa65IJbHOcqVKKoK1dzbtL0LF5ygfsXx14wa6A97d4FRWN8e813yLpb+0H5PogML0Es=
-X-Gm-Gg: AY/fxX5BkwEG8UTTltVJ+yv9VwKfdpjtZLNRlSwX4LyA2weh+IVFE9QcVDQeGGN4upk
- 2O7rNHq9JrsrFEzGGDD0qy28MjQIDDH2xPPDuN1CsEf9X6DmQrR9NAy2bDHI/S20QdfpQyZhEEF
- 4yAvLXnQxtyrKCZM/xn5Pga3IwLZ64oALjSrMUG7nd9k9Cv63phpTCqPG7AgP6EbkmYoHjg0Uu+
- 6ugdCDiQMhIupfvxLLXebItzCW9LFs/l4q8Tj6tgUYbdpkQvi1ySVIK76e7mkWCQxFYQmd/ug+Y
- +PYlXXu2M9w4KJ82FuVyA60VmpFEoWLxVsglJkMgcgYg4Pf2+rnLAhQX/eiHF5J7HSb7OY6sncw
- nGnRHVSW2RC76OWXVpSYaay11pD6xETjcHErWuds7mMsEbEORj0aIb0Lj+E7IpS2x6eDNYQHhuE
- 9d0bVopPiX4DFiRF/XpIQ9zrL5
-X-Received: by 2002:a05:622a:1aa4:b0:4ee:22d6:1cff with SMTP id
- d75a77b69052e-4f4abd0fbf7mr801986091cf.36.1767628296334; 
- Mon, 05 Jan 2026 07:51:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF8cNREa6elc2YWR6fRye0D91+x/QYT9zwEypZ0m3WtQ0cVjG4Dej3saxftu4tKvR4scf49bg==
-X-Received: by 2002:a05:622a:1aa4:b0:4ee:22d6:1cff with SMTP id
- d75a77b69052e-4f4abd0fbf7mr801985721cf.36.1767628295825; 
- Mon, 05 Jan 2026 07:51:35 -0800 (PST)
-Received: from shalem
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65075a240efsm126204a12.7.2026.01.05.07.51.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jan 2026 07:51:35 -0800 (PST)
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/panel: edp: add BOE NV140WUM-T08 panel
-Date: Mon,  5 Jan 2026 16:51:34 +0100
-Message-ID: <20260105155134.83266-1-johannes.goede@oss.qualcomm.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE2910E47F;
+ Mon,  5 Jan 2026 15:53:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767628424; x=1799164424;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=cH0X2LXHG3G2myU/RKMrZXYxk5MB5DUGW1PJmiHhBxU=;
+ b=B97gfyGImAfHrD5SUT80WOJ9ql0gP/+3kF+cfgOzcgGmiffcw8gEqQcJ
+ 3TegltfgFfEOLILztQLaMlJzXtPflZf3QOfBhwg55LaDGxRKpVBblf5MR
+ 6vGqW500zwsu2+FJpQ4J++MkHq9qCuTHoV4FyD5jpYF82tSzEfejMe2L/
+ 6ktZVjtA5yAbS6+rkssI9H66n/6Yr76CvFj7yA6bXFNKvdgMMRBtvTSgJ
+ ep2LMTP4dO0/8DPRCqufRGQ9HiWu28Rh1dKOmxPu3f7dxlXrTAgqbnqyk
+ jiPqEv2RDFNRdvlpGjCVXQHgs+vTFDiMvsalMM64dFrYCsFLME/EjrWlA A==;
+X-CSE-ConnectionGUID: VutWBKRNTNOjZXOXFzr+Hg==
+X-CSE-MsgGUID: TxTaxxwNRG6q9PBTISVIlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="86412625"
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="86412625"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 07:53:43 -0800
+X-CSE-ConnectionGUID: RRg2Hc13QBGMzFg1EO1swQ==
+X-CSE-MsgGUID: x1+MQUVbTkycmTMG4csmGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="201652810"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2026 07:53:43 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 5 Jan 2026 07:53:42 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 5 Jan 2026 07:53:42 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.47) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 5 Jan 2026 07:53:42 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AijLEx/+uTeV8sgfgknugJJIfyLVyCsnouspKUOiP+9QhnEPppWpivOCeMjSP5N2oGW3XChl3BF4Jzo1E0SDOrLB8ZWGG/CwCWFQIpWukexor0Udtfz+HwQ4OrVjnQjoLSW+0bRhvt6Dp7b2wqLtHe7Haeh3hAg0Hfao3SlCLLpvQRdbzvHmRKRi7ynnwAEsfNimN5trVN9K7n1gHX+TGEymN9J/V11YEaP8EUp0HZlQ7EppbspbQJdUsejUiAz9xYIwP3pWxHE6cH2UI3KlqR8Hwu2J6aASQpT2AOemUITVlgfPNjUXMHNyveAkGefBUq/BtKFQDhwvPfMF99rO6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fkgPaG37bMB7kuIcZIxxyFmz0QWsz80Qte//PXZcZhg=;
+ b=VEF7RKv4Lyfolso/BL1WMRasDC7H0Z9X0IoT5rZru7klGgfuJFHj2pNjp2LHvqRbCIzQzTyiUwErS624ZWE8eYbJgibHkMPu2HPGdfmZddgtVvIuWqSZVbEY6/DB3W6UJkftukYPCCmtk0+Qva8FShRF7uZddEPtJw9hL+l70UPDRgoTL7HxUCigbdK5wYwb0AVUQE/TMz1Ek8S6M0wvFS5WrEx9/ey4Aj8CJlm3gY2ZZ2i13jkqYI8rS+7Obfw7YV6D7dPlvDT9gYTzEoaWR7hVRaX1j4aRIbupNUdKPDlzMU1KXY6+Adtn6XXKOFSFl3nNxZsqBHcJAHptFoKs+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SJ2PR11MB7574.namprd11.prod.outlook.com (2603:10b6:a03:4ca::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
+ 2026 15:53:34 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Mon, 5 Jan 2026
+ 15:53:34 +0000
+Date: Mon, 5 Jan 2026 07:53:31 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Francois Dugast <francois.dugast@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 3/5] drm/pagemap: Add helper to access zone_device_data
+Message-ID: <aVvee9P8lSE7m68G@lstrano-desk.jf.intel.com>
+References: <20260105111945.73292-1-francois.dugast@intel.com>
+ <20260105111945.73292-4-francois.dugast@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260105111945.73292-4-francois.dugast@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0069.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::14) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: LoeZj9Rus7ceV8FmLRywdUM_EH7WKzab
-X-Authority-Analysis: v=2.4 cv=DP6CIiNb c=1 sm=1 tr=0 ts=695bde09 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=bhLjP5cL-QquzIq1CNkA:9 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: LoeZj9Rus7ceV8FmLRywdUM_EH7WKzab
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA1MDEzOSBTYWx0ZWRfX5SlDMYJoyjjv
- qW8IIVjK07Dxq2JUu7niJaE20Hn76+IEeCypIk19CHnaUOdoWPyyO/V160wwD1AeuVbaXTXCrIb
- 9Of8a6/HO33OOHK5eTPhgLg7KFxUzOhqQ5CUUVqF8t/ribUoWU+sFgXN2ox0CkcRUM10DNdROCl
- KNwVu1nTSfBAoJif8ngxASExZIPH84GBrUV+nf/hOZCfNR0nEKduqCbqzwpmn3C5rT9JPzLpvap
- 7GHQSpALi5kl4nF7LZsLPGiEZscBe5Y8Cy06KpX8nUK91fi6sexh8C01g4at+FZPiervVVLGtHH
- ZhXMY+gSHd5nCRCkm+d4PkW6JS9Qw1pX/YLKg+BH7Cdl6dTgRhonJFppI9Ck3rehFZ3ycYx4Mfu
- H3rlwCCtm0yyOML6u9dvEjHKxdkwWglWHycUuAbo98zaCmbUz4sdP4Sp6jsIyzcqTt6kKFCuu/S
- VdCgwpACTLkUX3I+gAw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-05_01,2026-01-05_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
- malwarescore=0 phishscore=0 adultscore=0 spamscore=0 suspectscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601050139
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ2PR11MB7574:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0dd9163-2103-4625-a451-08de4c7294b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?PtBZREH5LM6E90q4RoYPrB3KeG4orAE/bBBEdxrvJ0dGYIkblgsCXIQGzsC1?=
+ =?us-ascii?Q?EhynHETIeZEXST/iHfDH4wV5pfJQSJPDcNYPCpONu5DFb8+8jke0GCi9Bq7S?=
+ =?us-ascii?Q?8/obsHHH9ZR5dS7ewZXAeUwBubF4jo3Kk95BQli7kwuqGE4wVaJjvhy4GHJe?=
+ =?us-ascii?Q?YSaVLt3EOV0v8SHhxnnvTBWn5THao4YVol5Jc2PTtHoHe5TARDXfg6R5n6Cl?=
+ =?us-ascii?Q?mXX42IWw6CFVetxF1i3UscanPypRzBnQO4yVPxni/8BlxDUsjjVuA9Wh9amZ?=
+ =?us-ascii?Q?Pj3PYEA0ZcXHAkH9w8zM/f0brdtYphHWQZkFGgRKsGPbihu2BdeuOir0zmEw?=
+ =?us-ascii?Q?xRoSTDyPBENbp4WDHU01C7wdSHLRUVf8ZWGkMbyHz1I6lqsCFbgnxCREcCpc?=
+ =?us-ascii?Q?lI9vpMYi+/KMMl1hW2MBGgYSdVZpSznCXOgM4RKmKn9o+McqhiM0P9lIfFW1?=
+ =?us-ascii?Q?6q7aTisnpxdavt0GBmvYm6wLKmJ1HsCgNY12Dq7OwWAd5iqpNJq2OCEwDKLg?=
+ =?us-ascii?Q?uMMA/XnKvDJLRRYgWrWybzD662XfQ/rlVYS66nT9soy4gQPStaMRdRxYLpcC?=
+ =?us-ascii?Q?iYpIw/E8afSROPC+vlXFD77utYDkSJ1ThslOMQd1bIEJG795foS9CL79BaFV?=
+ =?us-ascii?Q?p3Jj2YL+SxUozJFKvWjkYc9qCy5fDkMW1PqI31Kf5R6jFdcmxAuLxOzewGY7?=
+ =?us-ascii?Q?2fsNs042zVp0JOeiI06ahs3BnCtcBVo24sesBF06Lj45OMRWrRo2bdL6YZ/I?=
+ =?us-ascii?Q?lbxKRhYEKBZADDeJO4PYTVSprr6++Ip+sKDTC4Yffp0TFjleECeXmagPzYtk?=
+ =?us-ascii?Q?AK+aCgaJ7m0NWbBPQZYEtxmto5SL4pLIXrE8Rvf4DV9hgilmwAHJgrqNtKVB?=
+ =?us-ascii?Q?zwYkj6KMZA2JAoQa6TykWzgUAtR3zuVVYbpqR3bwrn4I/7tqEfz6uhF/vu2j?=
+ =?us-ascii?Q?yjw+O5h7tc0n1gzh3cH10mXCXAQc91XVqbf1ISKaTaUEsttAyiRauUoCLjQ2?=
+ =?us-ascii?Q?gLpHW0hCRJDDTff3Ak9XjuXjHRovh028pW7FnFHY84GKtz/z0UNkr3cwJJZn?=
+ =?us-ascii?Q?kElQx7CAfO2TL9nj+/ArgVek7GrAVgmfO84F1yGILg4FO0tVC6fLTJz1Ax3/?=
+ =?us-ascii?Q?ubfymi8MGmPOr1Xc4GAtZ+sbH6tGar/0mKM1XjU95xGsefVfgAZP4Cj4HyTt?=
+ =?us-ascii?Q?7KfhIu/aGo0XPRpR/YML/9r6bm2QlBUZexZEZSkJJBAMSoJesfDZLQ3AFCrn?=
+ =?us-ascii?Q?RYsAMTRAiGmuBAjeqfLVvmiT4/frn5LEbfDZ7wX+w3siAkWWenkQDounfoxf?=
+ =?us-ascii?Q?PXTADw8J8k2N6cVPjlWX2YtVzCZMsQh/8VasKwVBYuL4ByYGu31Vwez7X9tw?=
+ =?us-ascii?Q?fkO2pjRjOhTPHxhoJD0q9UflaaBPDFph2FxYDnItLz56F2jnRCnuhQKEhGxC?=
+ =?us-ascii?Q?hqojOcZJoCXEDJhx/uUF6sJJn7GUuiFb?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TIOx5kSmPu9YVqulhvEDTrxqb8vC5hL114N8OxW90459YmpPsb/TO/i2XWDr?=
+ =?us-ascii?Q?f/hD/Nrk8rvnPt+3mNQNs0kpUdWr8cL8WXMAIvpmLY7h6fS5yFEvP0ayQrnz?=
+ =?us-ascii?Q?103wt91yuaSzQj66jpjJ2+liIN8794ZvB0mTj0x7nszco+9V7L8eRrzQ6yDN?=
+ =?us-ascii?Q?IQp+Vh9RoDljg+PFfd0675Ax2fsQtW3WA++aPzniLNsY2PCS17SM0rmObXIz?=
+ =?us-ascii?Q?Q2PlKUrZlC980ISwfzsVT1B3y15LSTYyz6WvD7RmGjA1Xxn2gZ1mxEdwtadB?=
+ =?us-ascii?Q?6r45OqcfHoeDfm8l30AkWTyFdYz20UWGi0FDoJZU+JAuiJHgulMMcNhRoQC3?=
+ =?us-ascii?Q?sl77RlhgI1XSPcuHER3zKGmEzDpdrigfXQqcG/62/Jl6kCpjM7es1kq082OV?=
+ =?us-ascii?Q?LRJsb1Eo4VcZnP58++d/uZZg98Qg3c5qpzNUPmZYS+0GrICzRqh8N74/qNDw?=
+ =?us-ascii?Q?qXKBaQ2gYtVUZZ9YXOGEl5FeXTRiikLO54dwwsu6AQxs8G/HpMkwqua20fTf?=
+ =?us-ascii?Q?nDxs8/rJ0Tc7d2Bh566t/MNqIN1+Q9H4325tIDLzpmyb8Jes6QyVmOCrm+o0?=
+ =?us-ascii?Q?asQPh+AJwgyw1GDVW4xHxCeALPZLDaUYd8yLVujMddGsrrpD81rl9V0QWpWV?=
+ =?us-ascii?Q?D+3dAb3PGqy6CAJOsRWrVDyDQksN6utJlb63VHuSoccHL1n2FVPmx1DIEKyR?=
+ =?us-ascii?Q?Y0eRGEwXvfcJn3vXuxNqHKyr3pZ3WEod4I8VR3kCW8cQlWV5OJmHfonEth3Q?=
+ =?us-ascii?Q?i3v+R5YpvTtcIf5ViN6rXH2ihySfSe+NUIIXQyTOKIaJNnf+jzZMGEuS/jH+?=
+ =?us-ascii?Q?+Fj8/8Eb3siQ8y/s5HH1bFDAGl5sx4s+G4L6s/EW5wp1l7fdbAaz1WbVwPJB?=
+ =?us-ascii?Q?Zea0SY3mJIa2LVeseftwNj/CvPvSoQi9TzzlHdEgN0B1vREtlMyuwoLwi4nN?=
+ =?us-ascii?Q?xQIwLThEoXmJdyx2BFoTFboGpXdGITdI/zRYcX/UG7cjl/Pm605GLfZOpAgW?=
+ =?us-ascii?Q?tzDgv50wZvu29Wea+5n6oTKZ/QTQi7Dwll8Ba3a0l7xhVNwiO1SbZF+0RP71?=
+ =?us-ascii?Q?6HYvizLfA/zExyVD2k0VhwfzwrEI+EsZyrtiREqkv4tMn9gbjvQ12kk7h2V6?=
+ =?us-ascii?Q?LyLb+i3oOG2yS/55eRuVLTjk0bZkfpz+nuG80ShK0L9e46n2SY+i7xyROsuJ?=
+ =?us-ascii?Q?2Dk3HaC9vfRaRkyhnV/N6c1jZ+hMAmprFTEkV+99LpPhffgS5ytRxkjIG3Kt?=
+ =?us-ascii?Q?8I7PXNPEclOh2xzk+R0/KnmxDQS9dEout/+/F8has4EeCdvoyJfHebRmm6qb?=
+ =?us-ascii?Q?NLv6lADZYZzE+bWDFyl0GAY1IvZ5/2q54mwLfYR9Euww/7QdAKbM3C3E59Ov?=
+ =?us-ascii?Q?EhmDvOctaoXnTi9MMwo20bmbt50hq94NLPqHOzsROwIgEMOYZMuA/Ub3rU2e?=
+ =?us-ascii?Q?z3UbY0wyirToEmvql+YB2gUE7lOP9ghYboYK1dJQX/TBnco1aY1RA92LibG6?=
+ =?us-ascii?Q?Homw71zTd0aIuU8TNGvWedmFg3UkBPC+O+stUno0skTpj0fd1M4otGMSXdXB?=
+ =?us-ascii?Q?j+f6CEampmzXx/O/EE0DyftCGBcSwYqlU3bDKtIPVEiI+46Cu5nNAO7eWdaI?=
+ =?us-ascii?Q?OqTX6y9ElNxAo/R7s/83jPTlv6wJXxbkrcX/nqXmJUH8838t0wWwq1hsSLn5?=
+ =?us-ascii?Q?mMe3fKdtE67SPQvncc8COOkYwhhCdcgNXeu9JybQb70zaXPiJtvK0Qrf9meN?=
+ =?us-ascii?Q?fTJnICiEPg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0dd9163-2103-4625-a451-08de4c7294b5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 15:53:34.0208 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zlc26DAB2x/eEQ0YgWObCLcjK+wJN93BMloCHgcujvLHf61RdAo8LeNEcJuLfqzrueChuuEIlrajujwvqt/reg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7574
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,53 +179,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add powerseq timing info for the BOE NV140WUM-T08 panel used on Lenovo
-Thinkpad T14s gen 6 (Snapdragon X1 Elite) laptops.
+On Mon, Jan 05, 2026 at 12:18:26PM +0100, Francois Dugast wrote:
+> This new helper helps ensure all accesses to zone_device_data use the
+> correct API whether the page is part of a folio or not.
+> 
+> v2:
+> - Move to drm_pagemap.h, stick to folio_zone_device_data (Matthew Brost)
+> - Return struct drm_pagemap_zdd * (Matthew Brost)
+> 
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
 
-edid-decode (hex):
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-00 ff ff ff ff ff ff 00 09 e5 26 0c 00 00 00 00
-0a 21 01 04 a5 1e 13 78 03 d6 62 99 5e 5a 8e 27
-25 53 58 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 33 3f 80 dc 70 b0 3c 40 30 20
-36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4c
-4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fe
-00 4e 56 31 34 30 57 55 4d 2d 54 30 38 0a 00 fa
-
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
----
-Changes in v2:
-- Change Subject prefix to: drm/panel: edp:
----
- drivers/gpu/drm/panel/panel-edp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 415b894890ad..7b8e5cd41594 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1730,6 +1730,12 @@ static const struct panel_delay delay_200_500_p2e100 = {
- 	.prepare_to_enable = 100,
- };
- 
-+static const struct panel_delay delay_200_500_p2e200 = {
-+	.hpd_absent = 200,
-+	.unprepare = 500,
-+	.prepare_to_enable = 200,
-+};
-+
- static const struct panel_delay delay_200_500_e50 = {
- 	.hpd_absent = 200,
- 	.unprepare = 500,
-@@ -1975,6 +1981,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c26, &delay_200_500_p2e200, "NV140WUM-T08"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cf2, &delay_200_500_e200, "NV156FHM-N4S"),
--- 
-2.52.0
-
+> ---
+>  drivers/gpu/drm/drm_gpusvm.c  |  7 +++++--
+>  drivers/gpu/drm/drm_pagemap.c | 21 ++++++++++++---------
+>  include/drm/drm_pagemap.h     | 15 +++++++++++++++
+>  3 files changed, 32 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+> index aa9a0b60e727..585d913d3d19 100644
+> --- a/drivers/gpu/drm/drm_gpusvm.c
+> +++ b/drivers/gpu/drm/drm_gpusvm.c
+> @@ -1488,12 +1488,15 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+>  		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
+>  		if (is_device_private_page(page) ||
+>  		    is_device_coherent_page(page)) {
+> +			struct drm_pagemap_zdd *__zdd =
+> +				drm_pagemap_page_zone_device_data(page);
+> +
+>  			if (!ctx->allow_mixed &&
+> -			    zdd != page->zone_device_data && i > 0) {
+> +			    zdd != __zdd && i > 0) {
+>  				err = -EOPNOTSUPP;
+>  				goto err_unmap;
+>  			}
+> -			zdd = page->zone_device_data;
+> +			zdd = __zdd;
+>  			if (pagemap != page_pgmap(page)) {
+>  				if (i > 0) {
+>  					err = -EOPNOTSUPP;
+> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+> index f63d72004a71..db3795f03aca 100644
+> --- a/drivers/gpu/drm/drm_pagemap.c
+> +++ b/drivers/gpu/drm/drm_pagemap.c
+> @@ -252,7 +252,7 @@ static int drm_pagemap_migrate_map_pages(struct device *dev,
+>  		order = folio_order(folio);
+>  
+>  		if (is_device_private_page(page)) {
+> -			struct drm_pagemap_zdd *zdd = page->zone_device_data;
+> +			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
+>  			struct drm_pagemap *dpagemap = zdd->dpagemap;
+>  			struct drm_pagemap_addr addr;
+>  
+> @@ -323,7 +323,7 @@ static void drm_pagemap_migrate_unmap_pages(struct device *dev,
+>  			goto next;
+>  
+>  		if (is_zone_device_page(page)) {
+> -			struct drm_pagemap_zdd *zdd = page->zone_device_data;
+> +			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
+>  			struct drm_pagemap *dpagemap = zdd->dpagemap;
+>  
+>  			dpagemap->ops->device_unmap(dpagemap, dev, pagemap_addr[i]);
+> @@ -601,7 +601,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+>  
+>  		pages[i] = NULL;
+>  		if (src_page && is_device_private_page(src_page)) {
+> -			struct drm_pagemap_zdd *src_zdd = src_page->zone_device_data;
+> +			struct drm_pagemap_zdd *src_zdd =
+> +				drm_pagemap_page_zone_device_data(src_page);
+>  
+>  			if (page_pgmap(src_page) == pagemap &&
+>  			    !mdetails->can_migrate_same_pagemap) {
+> @@ -721,8 +722,8 @@ static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
+>  			goto next;
+>  
+>  		if (fault_page) {
+> -			if (src_page->zone_device_data !=
+> -			    fault_page->zone_device_data)
+> +			if (drm_pagemap_page_zone_device_data(src_page) !=
+> +			    drm_pagemap_page_zone_device_data(fault_page))
+>  				goto next;
+>  		}
+>  
+> @@ -1063,7 +1064,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+>  	void *buf;
+>  	int i, err = 0;
+>  
+> -	zdd = page->zone_device_data;
+> +	zdd = drm_pagemap_page_zone_device_data(page);
+>  	if (time_before64(get_jiffies_64(), zdd->devmem_allocation->timeslice_expiration))
+>  		return 0;
+>  
+> @@ -1146,7 +1147,9 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+>   */
+>  static void drm_pagemap_folio_free(struct folio *folio)
+>  {
+> -	drm_pagemap_zdd_put(folio->page.zone_device_data);
+> +	struct page *page = folio_page(folio, 0);
+> +
+> +	drm_pagemap_zdd_put(drm_pagemap_page_zone_device_data(page));
+>  }
+>  
+>  /**
+> @@ -1162,7 +1165,7 @@ static void drm_pagemap_folio_free(struct folio *folio)
+>   */
+>  static vm_fault_t drm_pagemap_migrate_to_ram(struct vm_fault *vmf)
+>  {
+> -	struct drm_pagemap_zdd *zdd = vmf->page->zone_device_data;
+> +	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(vmf->page);
+>  	int err;
+>  
+>  	err = __drm_pagemap_migrate_to_ram(vmf->vma,
+> @@ -1228,7 +1231,7 @@ EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
+>   */
+>  struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
+>  {
+> -	struct drm_pagemap_zdd *zdd = page->zone_device_data;
+> +	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
+>  
+>  	return zdd->devmem_allocation->dpagemap;
+>  }
+> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> index 46e9c58f09e0..736fb6cb7b33 100644
+> --- a/include/drm/drm_pagemap.h
+> +++ b/include/drm/drm_pagemap.h
+> @@ -4,6 +4,7 @@
+>  
+>  #include <linux/dma-direction.h>
+>  #include <linux/hmm.h>
+> +#include <linux/memremap.h>
+>  #include <linux/types.h>
+>  
+>  #define NR_PAGES(order) (1U << (order))
+> @@ -359,4 +360,18 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+>  void drm_pagemap_destroy(struct drm_pagemap *dpagemap, bool is_atomic_or_reclaim);
+>  
+>  int drm_pagemap_reinit(struct drm_pagemap *dpagemap);
+> +
+> +/**
+> + * drm_pagemap_page_zone_device_data() - Page to zone_device_data
+> + * @page: Pointer to the page
+> + *
+> + * Return: Page's zone_device_data
+> + */
+> +static inline struct drm_pagemap_zdd *drm_pagemap_page_zone_device_data(struct page *page)
+> +{
+> +	struct folio *folio = page_folio(page);
+> +
+> +	return folio_zone_device_data(folio);
+> +}
+> +
+>  #endif
+> -- 
+> 2.43.0
+> 
