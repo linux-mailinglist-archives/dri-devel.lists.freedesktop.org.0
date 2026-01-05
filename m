@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6A0CF4BBC
-	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E538CF4BF5
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 17:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E680810E411;
-	Mon,  5 Jan 2026 16:37:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W7LVJEuK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F284410E423;
+	Mon,  5 Jan 2026 16:38:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A33610E437
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767631042; x=1799167042;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qZAn9J61xyp2Ig1CyWZxSXFDkMK7qiIB3/dvwnNhe+g=;
- b=W7LVJEuKEeRy5Ljc6t0vHX7hPnyAR2Hgg2tTrzc0+esSkx6hLP1yvPND
- S3SUnolAswg1rE2Gb1tBB69RDenG5yA9azNPpx2Q/CQZLOvugvY4YST7N
- nSB98hp2RWZEdHjFw7xQlE2UrHdS2TnlGYkxnq5X2tdWnIYH0byb4sOzb
- iXqZ3/u01JG1XLQPHuunYQJVWRUM0ZTKvKxTS6KirnfE5nPzUJKZhQR9y
- 3MwjEmHAe99KS/0OrQdrgKxAULJizVAQRcHXyZaa13L7FfC7JDgK7bb0D
- +aBU8y7iVqqY0K7974O30LunVCZngjP4YA8aTV+yLRSFjIfu3bUz1AvpE Q==;
-X-CSE-ConnectionGUID: JE8U8qibSKGT9x2ed+v4HA==
-X-CSE-MsgGUID: G9BOmQ1oQRaPCo0DPIgwIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79632665"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="79632665"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:37:00 -0800
-X-CSE-ConnectionGUID: y6OEChXgRsWd37sdoT/7/w==
-X-CSE-MsgGUID: TKzZCZDEQLevivsC5HWQ9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; d="scan'208";a="202475744"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.215])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2026 08:36:59 -0800
-Date: Mon, 5 Jan 2026 18:36:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sun Jian <sun.jian.kdev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 4/4] staging: fbtft: hx8353d: send LUT via buffer to
- reduce stack usage
-Message-ID: <aVvoqP9ONrNF45N4@smile.fi.intel.com>
-References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
- <20260104110638.532615-5-sun.jian.kdev@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+ [209.85.217.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C1010E423
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jan 2026 16:38:54 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id
+ ada2fe7eead31-5dd6fbe5091so32127137.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 08:38:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767631133; x=1768235933;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0Y+GO4Aa0gc2QPJ7CBexGJmUMXVgfq3CdqOnY2xACHY=;
+ b=MmIPyMHt4kNCdIMBZxsRmsJUdzLV6WoUDfLX5JyuQG/eYe0p9ZOslijRO7iNLzs2GT
+ xjDeoDpsJmlYNGsZi6zNSW+KjW2THFk5/ISDXCLJpunN0JPqbi4HJ6nthcqRCpTNQp9/
+ 4eJ7uvPhKS7QvU/DQu8Mp8Axj/2jDI8z4rJynq5hKqV15ZccDN7zsx+IMtjS286bChmx
+ ZJrVMw0Mgs+5GtHfxblKr3YCg0H83eJ+iTYLGpKj9qrfKcis5VtxpleRuDvOIrQ7OdQ3
+ 3DNx8Kyc6O4IIzHr958JliRXIzX/yU68LZotUsuXDRD+Bf1zG84uDOYkX/8GhN2cCz6G
+ qgEA==
+X-Gm-Message-State: AOJu0Yxgiz30ROZjxv4B1fkq6mYSkbU2o3dyXu6cCxUCEojwJXQIFCC+
+ ayhfdmQZxHLlkUrPEf6heeaTMyd7ZxdPp3XzQXu3TqwqOb7xN74TUlbMhvCxGKTk
+X-Gm-Gg: AY/fxX7uSFPBU1gqEkx/+cddPF2GAK8R1x1wIQgUG0Tv8AURrWwzmuvLU0xFYyyYP1t
+ FHqR9diMYDJqod9L7GdpWhs5Y0qppm9zN+gl9K63f5IZBhnxRb06nq+MO2YXzIBjxv+a4+oeaxr
+ uEM2uwmb9bBwkz/AGDVEymKxHH9dt3hdgsNCQ4g9x6WxS5ThHsGGEz8qb7EpA9J4+mauqrmfLSH
+ UuKRXPCeZ2roksduc/nujvM7ZMfmY1hSEEuab11vB+pR2qD/jZpTMmjHVy9YpLwZpBMhcwKGNoH
+ 0tWiRMRbVvDzMk4ID3C8vsOMPIkhFF/ccxiZKOQCfFY2BfYBh9dPHxcWMsBsEFFqXrSqzqkWbqW
+ A90M2oiH/UwPFprYcnW64A7ukSC2tvi5IchWxAi+A9fvDgX0kCCl3dfN3LiWHXBUo+DQpQRrKy4
+ RaSKweQUUtUHa2DoY2T55wGbf0SUiieplI+bTS96cxt5PRvx4iQO5M
+X-Google-Smtp-Source: AGHT+IFUiLgwSVeeUnGjwwW6lvTzmdWME2ijF+5DBA2xS20afXMT9DTBchFZ2FhrE8X0vRyG0zkhpg==
+X-Received: by 2002:a05:6102:1483:b0:5de:93bb:c531 with SMTP id
+ ada2fe7eead31-5eb1a812421mr17817038137.34.1767631131824; 
+ Mon, 05 Jan 2026 08:38:51 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com.
+ [209.85.221.175]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5ec723206fasm116763137.0.2026.01.05.08.38.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Jan 2026 08:38:51 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id
+ 71dfb90a1353d-560227999d2so48740e0c.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jan 2026 08:38:51 -0800 (PST)
+X-Received: by 2002:a05:6102:e11:b0:5db:dd12:3d16 with SMTP id
+ ada2fe7eead31-5ec742e6215mr9355137.6.1767631131303; Mon, 05 Jan 2026 08:38:51
+ -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260104110638.532615-5-sun.jian.kdev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20251231145712.60816-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251231145712.60816-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 Jan 2026 17:38:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUxOa2zUP8d7F=dUPP+Lun=_KHeU2N-OqxxknGnn24X0A@mail.gmail.com>
+X-Gm-Features: AQt7F2qVMJycMg8E3neruWziUPT3Uppf-0VX2kRzSJ5yJoTedPwJ-6TZ9u5HxsQ
+Message-ID: <CAMuHMdUxOa2zUP8d7F=dUPP+Lun=_KHeU2N-OqxxknGnn24X0A@mail.gmail.com>
+Subject: Re: [PATCH] drm/rcar-du: dsi: Clean up VCLK divider calculation
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>, 
+ David Airlie <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +89,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 04, 2026 at 07:06:38PM +0800, Sun Jian wrote:
-> Clang reports a large stack frame in init_display()
->  (-Wframe-larger-than=1024) due to the very large
->  write_reg(MIPI_DCS_WRITE_LUT, ...) call.
-> 
-> Send MIPI_DCS_WRITE_LUT followed by the LUT payload using
-> fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
-> 
-> No functional change intended.
+Hi Marek,
 
-...
+On Wed, 31 Dec 2025 at 15:57, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Currently, in rcar_mipi_dsi_parameters_calc(), the VCLK divider is stored
+> in setup_info structure as BIT(divider). The rcar_mipi_dsi_parameters_calc()
+> is called at the early beginning of rcar_mipi_dsi_startup() function. Later,
+> in the same rcar_mipi_dsi_startup() function, the stored BIT(divider) value
+> is passed to __ffs() to calculate back the divider out of the value again.
+>
+> Factor out VCLK divider calculation into rcar_mipi_dsi_vclk_divider()
+> function and call the function from both rcar_mipi_dsi_parameters_calc()
+> and rcar_mipi_dsi_startup() to avoid this back and forth BIT() and _ffs()
+> and avoid unnecessarily storing the divider value in setup_info at all.
+>
+> This rework has a slight side-effect, in that it should allow the compiler
+> to better evaluate the code and avoid compiler warnings about variable
+> value overflows, which can never happen.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512222321.TeY4VbvK-lkp@intel.com/
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-> +static const u8 lut[] = {
-> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
-> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
-> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
-> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
-> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
-> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+Thanks for your patch!
 
-Two tabs too many on each line.
-
-> +		};
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -412,18 +427,20 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>
+>         fin_rate = clk_get_rate(clk);
+>
+> +       div = rcar_mipi_dsi_vclk_divider(dsi, setup_info);
 > +
+>         switch (dsi->info->model) {
+>         case RCAR_DSI_V3U:
+>         default:
+> -               setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
+> +               vclk_divider = BIT_U32(div);
+
+BIT_U16(), as vclk_divider is u16?
+
+>                 break;
+>
+>         case RCAR_DSI_V4H:
+> -               setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
+> +               vclk_divider = BIT_U32(div + 1);
+
+Likewise.
+
+>                 break;
+>         }
+>
+> -       rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
+> +       rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, vclk_divider);
+>
+>         /* Find hsfreqrange */
+>         setup_info->hsfreq = setup_info->fout * 2;
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
