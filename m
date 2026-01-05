@@ -2,64 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E22CF16CE
-	for <lists+dri-devel@lfdr.de>; Sun, 04 Jan 2026 23:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4178DCF182D
+	for <lists+dri-devel@lfdr.de>; Mon, 05 Jan 2026 01:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7CF710E0E2;
-	Sun,  4 Jan 2026 22:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2E110E235;
+	Mon,  5 Jan 2026 00:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W5F1Cdms";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZSOBQMxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80AAE10E07F;
- Sun,  4 Jan 2026 22:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767566494; x=1799102494;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9k0MkleAVvHbKnQUmL9KWFcTXNH5jwQDODeMnaJJZTg=;
- b=W5F1Cdms5Ijj0GE6NSeAxzn9V/2n4rK4uleu3HGM4B157ADxmlQntq+/
- 2iZ8qOrU6B69fsBSFXRTj8RKUHqyX49u5K1gDa1SJYUxgNRTdNkN1Uyrk
- fb6/4ai8N7j/FH51AGtKDoNghK0xCOPPc5XQCx7ftfD/B4yn41Xb9zVD4
- zazraw8F2m/k6bDqOSxsWbA7euiXVd5mqFqa7PaLlbsTkhfp2lCmTARK9
- oBqHFM1mzBGvvZEtEcQg56KUIDItWJ7JXFWCw0yePNYmwQeIrtp1Ay6UB
- VvSTA4WeipGATiUpjbDtSWrApGYw7HM/y2BeZYnoRo3YpeEKtndon1UsH g==;
-X-CSE-ConnectionGUID: FkLXgt07QSmOjP3BXSB0bA==
-X-CSE-MsgGUID: q9F41Q5kShazH2BukoHaTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="79244436"
-X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; d="scan'208";a="79244436"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2026 14:41:33 -0800
-X-CSE-ConnectionGUID: aQulSiwVTGKKsjVzV89AIA==
-X-CSE-MsgGUID: ZUWYfN29S+OpqIvgdYz7JA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; d="scan'208";a="207141229"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa)
- ([10.211.93.152])
- by fmviesa004.fm.intel.com with ESMTP; 04 Jan 2026 14:41:30 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vcWmu-000000000yD-1OxE;
- Sun, 04 Jan 2026 22:41:28 +0000
-Date: Sun, 4 Jan 2026 23:41:04 +0100
-From: kernel test robot <lkp@intel.com>
-To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, Felix.Kuehling@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Subject: Re: [PATCH] drm/amdkfd: fix a memory leak in
- device_queue_manager_init()
-Message-ID: <202601042317.3h1kg7NS-lkp@intel.com>
-References: <20260104131532.3978895-1-lihaoxiang@isrc.iscas.ac.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013056.outbound.protection.outlook.com
+ [40.107.201.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F9910E235;
+ Mon,  5 Jan 2026 00:36:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vq6aTSsJdE5lKK96AWRLh463CtLtet/a3qb/wo+eb8PInGUIkv53OryRK+0btuPgbb5DijgwdrcfNp19HKHAtGWWAikgI8Co6lQ7qQ4ne5Mr0mHcK3ZvHTgNkrEh4m9XE/Y0+eyKaObVTao1WMLR/jTqoko1b5myEhO6rjrBzpbEdknglstBH0LgVEh3NptD32iW62orhlwaXsVIS5B74FleepmPJgQfJ9ysuPdU6KajMs0jhvDt2HFeuI1k32h5LlZJ9uS2Ltb1RohC3MdVF2JBZJcebRMhoyJAv3QdgeDupA1EpEThFv2OVE8KwBAXCzxmFgmt4+8ZBwb6tqcVEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2JTgCUYC7vcogScbcoA7W9NP+xjgbpfgkjLk5kq8e2E=;
+ b=eOvjuIJsZ/MD0hHzu9obPmOaNtgpeTZbXzXNsQCnK2WtChDM8WjAFVRIGZqtZL9RCQUMmoZ8Uwmz2piX33kFlpu0Xh/27JTYUGRD+BnXjevWwcuzT4P1lofBNVvZODt6y+p8MWXfrosIg8YQefK+BlDYE/nHEpwUIM24bnBGLyZ8L6MuHn4/o+Aku4wq06lv+A5kUdWsxxitoKNej7hWsDYU+CSQwhtZMW0TDr3rzopg+FeL8LY3MPnW9lbur4BpVlZweRfNzn8XCq+ey7FaKq6qaW1Twb2bc6ffhUj2L+DGZbwMP6XToFk8H0wFurwom99fXOmsG2XxGFIok39JeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2JTgCUYC7vcogScbcoA7W9NP+xjgbpfgkjLk5kq8e2E=;
+ b=ZSOBQMxx2O4wAwsGeMr9XmBbEKzH0BUDqk61YGL/9OqkMOXwTV794bLQHLbEB909ZIrTVwmkPCvnis218vuaAuN1DjqGymK51Ku7kZA+7oGlgkGQSSO5ZYS/ofUPFR0yivHrZRT+QU98Rjsm/AW/ZgjetbsrCNxiZFnuRNz/GEpnRW2Sm8nTjeM+FylGAk1mPPz2vH17iiJ3Vm2EH1yFJvsYu4CiWwl8MvFmfQdp3dmBnkNxm8tLyRdsVKfG5zkvUWaT0mPgMylTGUZPxmEF2s5Y6N8tpqf+hCEEk+S+duHWHqDJzAMGpMmosiKUqA2kaiJ3rcsToAUez8SQRyRkjg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ SA1PR12MB9490.namprd12.prod.outlook.com (2603:10b6:806:45b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
+ 2026 00:36:38 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9478.004; Mon, 5 Jan 2026
+ 00:36:38 +0000
+Date: Mon, 5 Jan 2026 11:36:32 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: "Kuehling, Felix" <felix.kuehling@amd.com>
+Cc: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org, 
+ balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, david@redhat.com,
+ ziy@nvidia.com, lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org, 
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com, mpenttil@redhat.com, 
+ jgg@nvidia.com, willy@infradead.org, linuxppc-dev@lists.ozlabs.org, 
+ intel-xe@lists.freedesktop.org, jgg@ziepe.ca
+Subject: Re: [PATCH v1 1/8] mm/migrate_device: Add migrate PFN flag to track
+ device private pages
+Message-ID: <nkxrhh3q7fgnr2q4gvtg4hi5j6juvli5a64ap6nlgacrevogel@nun4hfcmdfez>
+References: <20251231043154.42931-1-jniethe@nvidia.com>
+ <20251231043154.42931-2-jniethe@nvidia.com>
+ <d489ebb2-89c7-44e7-80eb-53b5fde8cd39@amd.com>
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260104131532.3978895-1-lihaoxiang@isrc.iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d489ebb2-89c7-44e7-80eb-53b5fde8cd39@amd.com>
+X-ClientProxiedBy: SY5P282CA0134.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:209::19) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SA1PR12MB9490:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a5175e9-eff3-4c46-00b0-08de4bf27cc3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?giWbZghvJ4hAzkO3e5uiLDkVVyfKSjHbxl3Nrolibp9L6eH4tmjeZPE+f/?=
+ =?iso-8859-1?Q?9YLU0NgqFyWrvGqvTgEvCc3c6OhBSclkXpTI/V+Nozmj/wXOz8Ch7SDzRv?=
+ =?iso-8859-1?Q?KBt0ORN/Qdxq+//Uu83rV/03m7v6CA968jq64WMi9HnyZ4II69aXzVXvH7?=
+ =?iso-8859-1?Q?oERmIenpi2O0b9VU4vkSOAsbwtNzUcO/BkH+nGqWWxoBD/9C/6w+8sD6+F?=
+ =?iso-8859-1?Q?Pw3a6cF+kGDop4zAMVAyNvdEYMZFa1h+zwbeImmAj7rLcz3ArJu47n1JXh?=
+ =?iso-8859-1?Q?cS1xTTMEfztHsyc1pKfSMMvRLMd31DW7eAY3K+Dv8f8o9GbhuUaoe19ow5?=
+ =?iso-8859-1?Q?VggtzfPd6fCBmPebMZ0kt9Eu+j8+H9yiUmh3OYJesd9qnl0KpfLVmXVSec?=
+ =?iso-8859-1?Q?6394aJ88hpB+i4YozBzsA1q8N8trgEj8qCaMdp4H7eV6Le+tONXiVW/Bsl?=
+ =?iso-8859-1?Q?omW9CUwj7ECgN48V3NK3jzg7TOAaveeEmglOh/U7qOO2SUkMj7HrXEVQb3?=
+ =?iso-8859-1?Q?GuPd6Dd7wvmZCeuiAGBVbdAznlJtBfzGpLbVdkXPHC1/Xfz05MFwUrLn2/?=
+ =?iso-8859-1?Q?xv5QaOBgPGOPaz1czxjGOuIRiH6r2fLlunRJ/vq6ZBZ5Iha+En8eRF/XEU?=
+ =?iso-8859-1?Q?qyeMrxbTu1LtxnbD2Pv00cuoWQPuL1cNZXg2Cn4DqATvq2Gz/uIbKDim0k?=
+ =?iso-8859-1?Q?nDKQabMg9Zqc70ylkFkeKHacLdbGLzGBNAst4fYucya5EUfiEmbwiTShO8?=
+ =?iso-8859-1?Q?/kk1B2Prx4pArLYFhp2Y0S99zEYEqSgsOkXv0AVQS3g9RrHoWHKEE3O/im?=
+ =?iso-8859-1?Q?/kkuSbqh1snTOLbePPRss7WnfESS0N91s3255tMbmMN7gLJ9vAwkYm+ClP?=
+ =?iso-8859-1?Q?hR8oGjk4BO2+TrOFxvKm7cHXh3CDJxg4a8V9DHCEj+PKjbFI6QcbPOmYxU?=
+ =?iso-8859-1?Q?Ui88v0zAW6HvaZrbZUj37Uu9nOtAm7si93neQ8mJCwoKrp3Ie0nw6cZpFw?=
+ =?iso-8859-1?Q?uixMtxm023c9PUsJ80HsrPTmLWaPT7HddybgqXT9jGnSlFbCYz0hcBWQ8t?=
+ =?iso-8859-1?Q?UuQhKF987j0OyZ3HqFSAvbMzH6JS+9u26bCciZy3sTsSL/ynf29DDGNfZR?=
+ =?iso-8859-1?Q?WR14zxCio3JDPuM57tsJvB9gpP7cPdpR1dTzm8ac8RHjmg/LCJEopiyqND?=
+ =?iso-8859-1?Q?lhXP+ZmOrdf15U/PLRWn9go8ZF+ft8y6gudMtNx9kA9Tl7VgDxz+TKx8R2?=
+ =?iso-8859-1?Q?5I42z6SqyVzCOzXTKT9gCZqUE7vhkbTJ/SSwrHOabqGGPdYQs8SE3MBO9f?=
+ =?iso-8859-1?Q?w7spG6DdyD/oRwsujnxBv+cc/JKoZkdrF+EWrwl6638RqAUsx+rQE7CBOl?=
+ =?iso-8859-1?Q?C1LAVfp10/X0IyYQpQ1/dCMCUYnqI3INW27zODc0hjUL6RTLursN+LDY1Q?=
+ =?iso-8859-1?Q?2jZp+0/UyitrgpHlJIKp2NwFB/vTd3z3XRntB5+cZw2mKe/R1pERafjpH1?=
+ =?iso-8859-1?Q?aJATsVfGtXG3SZEE39aCp1?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?98gNVg8LTHTVW+Xt8weavqyQgEZGfghh1/8djXEzP7MyYWUWgwsVq3vqYK?=
+ =?iso-8859-1?Q?3hZEYVogGAQp6o/BfAbOJEzzEgBbym071lkAvRQ8JzinelFnSBzkvQGBO1?=
+ =?iso-8859-1?Q?4tZms3WHOPxQz2+k61dOA5FdSAy6pMDmg2dNhhrlj8EBXGOE8qR80vy/B3?=
+ =?iso-8859-1?Q?xvugp89el/vYQcHDVTgsHxEbJgQ6WEmv1oDcL9qn8902+MftXzdcaVwDrw?=
+ =?iso-8859-1?Q?Zhoa+yVMa/+lw2Tcav89KU6FCqWshotCocFN20zSpxxrT1viNVXROk2h6L?=
+ =?iso-8859-1?Q?JX17n0PKyOyaR5+o+36m0fcPWEBn6Ra62y737JqxiXAh+7AR8ZahQGbVix?=
+ =?iso-8859-1?Q?FwGs1glkR4gszKOkOQaGR6vRqljGxDuDuX61RBHtiNyXe6V3LJdpyUGvFy?=
+ =?iso-8859-1?Q?y9u1qt1HBCl+UlzOYFsNtH88HRjSjIWwm3UYIghncEJsc6R+1SLGm2qsnC?=
+ =?iso-8859-1?Q?94bTSr7QEmebhRbKjk4wtyxi0ZG6CCSSGoooFSBP1DdTyL/ebJ1UazBw/n?=
+ =?iso-8859-1?Q?EiquC+4PRionRlUwiXXOpUYW1TDn8gh7KYiXmJOVJVgsB5dJI4iO5NNMAu?=
+ =?iso-8859-1?Q?24KhuK4L3f0IicXmrpYhIY82BnWrzvseDxB7HbmepW+6d3axsloK6dt/ar?=
+ =?iso-8859-1?Q?a1yq2OFIsY8Hrf+29dTyrsH3pa50FZ/2cZGOnDN+ujcnHo+owY2kiqvXEq?=
+ =?iso-8859-1?Q?RLwNshMOjYVTEnFmwduje5Bv/C2IY18gkm8hTtdojEPx3SipEW5LG1dJg4?=
+ =?iso-8859-1?Q?VIgRehwwclYQj31eL3wO+xlnClph5S+ZFs0/KzWaT1ZnLkUY1Ic4Ll8d7G?=
+ =?iso-8859-1?Q?lN3l0qviVGQJxAeJc18W4PYwC1tVI6Hf1nQ0BvZSmyBRMK+bRCYfrMbaZr?=
+ =?iso-8859-1?Q?5qPJQHmzmt8S/+HbYoZeGoFU7L7e+nKKg/izcV+CnCLp2IBq+CFF27hK8i?=
+ =?iso-8859-1?Q?B3olTZeQf63ty7jl/2d1feDoKke7+e13DpsuxXkld/pvg1qWODUnP7037F?=
+ =?iso-8859-1?Q?AFJJZW9M5LO0S8+/1507/HI0Pta+6EnTw4FtPPybLuMLnVS5yzGhVQfllZ?=
+ =?iso-8859-1?Q?7cNaaqkOnp6PImsHbJz4K8qyspSGUBN4qdm0HFZQak+9TIq5LZgOf8z00f?=
+ =?iso-8859-1?Q?CyooWRO/iJYKn5K7E//hVpCn2zie/xkwuX2NAaw8Cduery2d5nllgCkaq4?=
+ =?iso-8859-1?Q?HxWEPxOno1/7S7/J//9GEeERlBaJ2u3RHcJ7xFKBmGGVvyiRfrcpg+ium3?=
+ =?iso-8859-1?Q?f0j8vfd07nphyv+yj2xsoE0zt/HO4JEcmENAHxSftSSyOul90IHPUQs34/?=
+ =?iso-8859-1?Q?+xWOB31hG9qvSVAlDJVW18IB5nm5Wi1aQLbRwJuibD77TEN+tTm4lKbSz4?=
+ =?iso-8859-1?Q?GpceSAiAeHAfnrpE9K3xh45YBcNrqKBkRa+REY8E2gNx6LthvTSjkJ2VlI?=
+ =?iso-8859-1?Q?b6jjlLJ502mGbLCv6lE1ekHq6nRYPnXHWZeDTa/1B9Y568LgEOqro+NI4l?=
+ =?iso-8859-1?Q?b1QruPhINyp8quGf0iz/nHJpXUanrP9nKyHvH2XcBWOsroNKKmEXfODON/?=
+ =?iso-8859-1?Q?QHZir9TBJunQM6tk1dnmo2xkcedJxjSEp2bevxJ80gPvhAijVHMNdTiKcR?=
+ =?iso-8859-1?Q?uQlh1nCWxT0gSBkzhR1hev2wE9gjbAlRwlq8DV/A5j5JKFcRem1RkyC7mX?=
+ =?iso-8859-1?Q?4NrtzaRUxxHub07RcqMmL9HY0pgrrPUnKbH3gUrAlnlq4tyB8YpCqyBo/d?=
+ =?iso-8859-1?Q?IGERop6m7yq3ObTXV+hOFgsy4VBMhodwI1UH13GVBsQPMkTZB6DOQLEnZL?=
+ =?iso-8859-1?Q?wGP8UWRYLw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a5175e9-eff3-4c46-00b0-08de4bf27cc3
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 00:36:38.5025 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4fYwd7iZN0zAViiQX0su1ICPf7PNgUiBJYKbdf6nry6f8KHAxm208TL6gUptTVthqLfh0fW1/WYwBE6iqYLT3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9490
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,189 +161,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Haoxiang,
+On 2026-01-01 at 04:03 +1100, "Kuehling, Felix" <felix.kuehling@amd.com> wrote...
+> On 2025-12-30 23:31, Jordan Niethe wrote:
+> > A future change will remove device private pages from the physical
+> > address space. This will mean that device private pages no longer have
+> > normal PFN and must be handled separately.
+> > 
+> > Prepare for this by adding a MIGRATE_PFN_DEVICE flag to indicate
+> > that a migrate pfn contains a PFN for a device private page.
+> 
+> Thanks for doing this. Some comments inline regarding DEVICE_COHERENT pages.
+> I suspect this will have ripple effects on the rest of the patch series, at
+> least in patch 8, but I haven't looked at that in detail yet.
 
-kernel test robot noticed the following build errors:
+Thanks for catching the DEVICE_COHERENT aspects, they need to remain as real
+PFNs. I think the flag should be renamed to MIGRATE_PFN_DEVICE_PRIVATE to make
+this explicit.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > 
+> > ---
+> > v1:
+> > - Update for HMM huge page support
+> > - Update existing drivers to use MIGRATE_PFN_DEVICE
+> > ---
+> >   arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
+> >   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  3 ++-
+> >   drivers/gpu/drm/drm_pagemap.c            |  2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
+> >   include/linux/migrate.h                  |  1 +
+> >   lib/test_hmm.c                           |  4 ++--
+> >   mm/migrate_device.c                      | 11 ++++++++---
+> >   7 files changed, 16 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
+> > index e5000bef90f2..dac5d6454920 100644
+> > --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
+> > +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
+> > @@ -784,7 +784,7 @@ static int kvmppc_svm_page_in(struct vm_area_struct *vma,
+> >   		}
+> >   	}
+> > -	*mig.dst = migrate_pfn(page_to_pfn(dpage));
+> > +	*mig.dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE;
+> >   	migrate_vma_pages(&mig);
+> >   out_finalize:
+> >   	migrate_vma_finalize(&mig);
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> > index af53e796ea1b..0257c6e7f680 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> > @@ -303,7 +303,8 @@ svm_migrate_copy_to_vram(struct kfd_node *node, struct svm_range *prange,
+> >   			dst[i] = cursor.start + (j << PAGE_SHIFT);
+> >   			migrate->dst[i] = svm_migrate_addr_to_pfn(adev, dst[i]);
+> >   			svm_migrate_get_vram_page(prange, migrate->dst[i]);
+> > -			migrate->dst[i] = migrate_pfn(migrate->dst[i]);
+> > +			migrate->dst[i] = migrate_pfn(migrate->dst[i]) |
+> > +					  MIGRATE_PFN_DEVICE;
+> 
+> On some of our GPUs we use DEVICE_COHERENT pages. These are pages that are
+> coherently accessible by the CPU and peer devices in the system physical
+> address space. Therefore, this needs to be conditional. Maybe add something
+> like adev->kfd.migrate_pfn_flag that gets initialized conditionally in
+> kgd2kfd_init_zone_device. Then add ... | adev->kfd.migrate_pfn_flag here.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/drm-amdkfd-fix-a-memory-leak-in-device_queue_manager_init/20260104-211645
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260104131532.3978895-1-lihaoxiang%40isrc.iscas.ac.cn
-patch subject: [PATCH] drm/amdkfd: fix a memory leak in device_queue_manager_init()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260104/202601042317.3h1kg7NS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260104/202601042317.3h1kg7NS-lkp@intel.com/reproduce)
+I don't think you need a new flag, you could just make it conditional on
+adev->kfd.pgmap.type == MEMORY_DEVICE_PRIVATE.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601042317.3h1kg7NS-lkp@intel.com/
+Note the need for this conditional is specific to the AMD driver and HMM tests -
+AFAIK there are no other uses of DEVICE_COHERENT in the kernel.
 
-All error/warnings (new ones prefixed by >>):
+ - Alistair
 
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: In function 'device_queue_manager_init':
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3046:17: error: implicit declaration of function 'deallocate_hiq_sdma_mqd'; did you mean 'allocate_hiq_sdma_mqd'? [-Wimplicit-function-declaration]
-    3046 |                 deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 allocate_hiq_sdma_mqd
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: At top level:
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3053:13: warning: conflicting types for 'deallocate_hiq_sdma_mqd'; have 'void(struct kfd_node *, struct kfd_mem_obj *)'
-    3053 | static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3053:13: error: static declaration of 'deallocate_hiq_sdma_mqd' follows non-static declaration
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:3046:17: note: previous implicit declaration of 'deallocate_hiq_sdma_mqd' with type 'void(struct kfd_node *, struct kfd_mem_obj *)'
-    3046 |                 deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +3046 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c
-
-  2921	
-  2922	struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
-  2923	{
-  2924		struct device_queue_manager *dqm;
-  2925	
-  2926		pr_debug("Loading device queue manager\n");
-  2927	
-  2928		dqm = kzalloc(sizeof(*dqm), GFP_KERNEL);
-  2929		if (!dqm)
-  2930			return NULL;
-  2931	
-  2932		switch (dev->adev->asic_type) {
-  2933		/* HWS is not available on Hawaii. */
-  2934		case CHIP_HAWAII:
-  2935		/* HWS depends on CWSR for timely dequeue. CWSR is not
-  2936		 * available on Tonga.
-  2937		 *
-  2938		 * FIXME: This argument also applies to Kaveri.
-  2939		 */
-  2940		case CHIP_TONGA:
-  2941			dqm->sched_policy = KFD_SCHED_POLICY_NO_HWS;
-  2942			break;
-  2943		default:
-  2944			dqm->sched_policy = sched_policy;
-  2945			break;
-  2946		}
-  2947	
-  2948		dqm->dev = dev;
-  2949		switch (dqm->sched_policy) {
-  2950		case KFD_SCHED_POLICY_HWS:
-  2951		case KFD_SCHED_POLICY_HWS_NO_OVERSUBSCRIPTION:
-  2952			/* initialize dqm for cp scheduling */
-  2953			dqm->ops.create_queue = create_queue_cpsch;
-  2954			dqm->ops.initialize = initialize_cpsch;
-  2955			dqm->ops.start = start_cpsch;
-  2956			dqm->ops.stop = stop_cpsch;
-  2957			dqm->ops.halt = halt_cpsch;
-  2958			dqm->ops.unhalt = unhalt_cpsch;
-  2959			dqm->ops.destroy_queue = destroy_queue_cpsch;
-  2960			dqm->ops.update_queue = update_queue;
-  2961			dqm->ops.register_process = register_process;
-  2962			dqm->ops.unregister_process = unregister_process;
-  2963			dqm->ops.uninitialize = uninitialize;
-  2964			dqm->ops.create_kernel_queue = create_kernel_queue_cpsch;
-  2965			dqm->ops.destroy_kernel_queue = destroy_kernel_queue_cpsch;
-  2966			dqm->ops.set_cache_memory_policy = set_cache_memory_policy;
-  2967			dqm->ops.process_termination = process_termination_cpsch;
-  2968			dqm->ops.evict_process_queues = evict_process_queues_cpsch;
-  2969			dqm->ops.restore_process_queues = restore_process_queues_cpsch;
-  2970			dqm->ops.get_wave_state = get_wave_state;
-  2971			dqm->ops.reset_queues = reset_queues_cpsch;
-  2972			dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
-  2973			dqm->ops.checkpoint_mqd = checkpoint_mqd;
-  2974			break;
-  2975		case KFD_SCHED_POLICY_NO_HWS:
-  2976			/* initialize dqm for no cp scheduling */
-  2977			dqm->ops.start = start_nocpsch;
-  2978			dqm->ops.stop = stop_nocpsch;
-  2979			dqm->ops.create_queue = create_queue_nocpsch;
-  2980			dqm->ops.destroy_queue = destroy_queue_nocpsch;
-  2981			dqm->ops.update_queue = update_queue;
-  2982			dqm->ops.register_process = register_process;
-  2983			dqm->ops.unregister_process = unregister_process;
-  2984			dqm->ops.initialize = initialize_nocpsch;
-  2985			dqm->ops.uninitialize = uninitialize;
-  2986			dqm->ops.set_cache_memory_policy = set_cache_memory_policy;
-  2987			dqm->ops.process_termination = process_termination_nocpsch;
-  2988			dqm->ops.evict_process_queues = evict_process_queues_nocpsch;
-  2989			dqm->ops.restore_process_queues =
-  2990				restore_process_queues_nocpsch;
-  2991			dqm->ops.get_wave_state = get_wave_state;
-  2992			dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
-  2993			dqm->ops.checkpoint_mqd = checkpoint_mqd;
-  2994			break;
-  2995		default:
-  2996			dev_err(dev->adev->dev, "Invalid scheduling policy %d\n", dqm->sched_policy);
-  2997			goto out_free;
-  2998		}
-  2999	
-  3000		switch (dev->adev->asic_type) {
-  3001		case CHIP_KAVERI:
-  3002		case CHIP_HAWAII:
-  3003			device_queue_manager_init_cik(&dqm->asic_ops);
-  3004			break;
-  3005	
-  3006		case CHIP_CARRIZO:
-  3007		case CHIP_TONGA:
-  3008		case CHIP_FIJI:
-  3009		case CHIP_POLARIS10:
-  3010		case CHIP_POLARIS11:
-  3011		case CHIP_POLARIS12:
-  3012		case CHIP_VEGAM:
-  3013			device_queue_manager_init_vi(&dqm->asic_ops);
-  3014			break;
-  3015	
-  3016		default:
-  3017			if (KFD_GC_VERSION(dev) >= IP_VERSION(12, 0, 0))
-  3018				device_queue_manager_init_v12(&dqm->asic_ops);
-  3019			else if (KFD_GC_VERSION(dev) >= IP_VERSION(11, 0, 0))
-  3020				device_queue_manager_init_v11(&dqm->asic_ops);
-  3021			else if (KFD_GC_VERSION(dev) >= IP_VERSION(10, 1, 1))
-  3022				device_queue_manager_init_v10(&dqm->asic_ops);
-  3023			else if (KFD_GC_VERSION(dev) >= IP_VERSION(9, 0, 1))
-  3024				device_queue_manager_init_v9(&dqm->asic_ops);
-  3025			else {
-  3026				WARN(1, "Unexpected ASIC family %u",
-  3027				     dev->adev->asic_type);
-  3028				goto out_free;
-  3029			}
-  3030		}
-  3031	
-  3032		if (init_mqd_managers(dqm))
-  3033			goto out_free;
-  3034	
-  3035		if (!dev->kfd->shared_resources.enable_mes && allocate_hiq_sdma_mqd(dqm)) {
-  3036			dev_err(dev->adev->dev, "Failed to allocate hiq sdma mqd trunk buffer\n");
-  3037			goto out_free;
-  3038		}
-  3039	
-  3040		if (!dqm->ops.initialize(dqm)) {
-  3041			init_waitqueue_head(&dqm->destroy_wait);
-  3042			return dqm;
-  3043		}
-  3044	
-  3045		if (!dev->kfd->shared_resources.enable_mes)
-> 3046			deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
-  3047	
-  3048	out_free:
-  3049		kfree(dqm);
-  3050		return NULL;
-  3051	}
-  3052	
-> 3053	static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
-  3054					    struct kfd_mem_obj *mqd)
-  3055	{
-  3056		WARN(!mqd, "No hiq sdma mqd trunk to free");
-  3057	
-  3058		amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
-  3059	}
-  3060	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >   			mpages++;
+> >   		}
+> >   		spage = migrate_pfn_to_page(migrate->src[i]);
+> > diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+> > index 37d7cfbbb3e8..0c756d73419f 100644
+> > --- a/drivers/gpu/drm/drm_pagemap.c
+> > +++ b/drivers/gpu/drm/drm_pagemap.c
+> > @@ -404,7 +404,7 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+> >   		struct page *page = pfn_to_page(migrate.dst[i]);
+> >   		pages[i] = page;
+> > -		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
+> > +		migrate.dst[i] = migrate_pfn(migrate.dst[i]) | MIGRATE_PFN_DEVICE;
+> >   		drm_pagemap_get_devmem_page(page, zdd);
+> >   	}
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > index 58071652679d..2bd80c6f5bcd 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > @@ -766,7 +766,7 @@ static unsigned long nouveau_dmem_migrate_copy_one(struct nouveau_drm *drm,
+> >   		((paddr >> PAGE_SHIFT) << NVIF_VMM_PFNMAP_V0_ADDR_SHIFT);
+> >   	if (src & MIGRATE_PFN_WRITE)
+> >   		*pfn |= NVIF_VMM_PFNMAP_V0_W;
+> > -	mpfn = migrate_pfn(page_to_pfn(dpage));
+> > +	mpfn = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE;
+> >   	if (folio_order(page_folio(dpage)))
+> >   		mpfn |= MIGRATE_PFN_COMPOUND;
+> >   	return mpfn;
+> > diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+> > index 26ca00c325d9..52f65cd5c932 100644
+> > --- a/include/linux/migrate.h
+> > +++ b/include/linux/migrate.h
+> > @@ -126,6 +126,7 @@ static inline int migrate_misplaced_folio(struct folio *folio, int node)
+> >   #define MIGRATE_PFN_MIGRATE	(1UL << 1)
+> >   #define MIGRATE_PFN_WRITE	(1UL << 3)
+> >   #define MIGRATE_PFN_COMPOUND	(1UL << 4)
+> > +#define MIGRATE_PFN_DEVICE	(1UL << 5)
+> >   #define MIGRATE_PFN_SHIFT	6
+> >   static inline struct page *migrate_pfn_to_page(unsigned long mpfn)
+> > diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+> > index 8af169d3873a..19681904a666 100644
+> > --- a/lib/test_hmm.c
+> > +++ b/lib/test_hmm.c
+> > @@ -727,7 +727,7 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
+> >   				rpage = BACKING_PAGE(dpage);
+> >   				rpage->zone_device_data = dmirror;
+> > -				*dst = migrate_pfn(page_to_pfn(dpage)) | write;
+> > +				*dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE | write;
+> 
+> This needs to be conditional on dmirror->mdevice->zone_device_type.
+> 
+> 
+> >   				src_page = pfn_to_page(spfn + i);
+> >   				if (spage)
+> > @@ -754,7 +754,7 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
+> >   		pr_debug("migrating from sys to dev pfn src: 0x%lx pfn dst: 0x%lx\n",
+> >   			 page_to_pfn(spage), page_to_pfn(dpage));
+> > -		*dst = migrate_pfn(page_to_pfn(dpage)) | write;
+> > +		*dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_DEVICE | write;
+> 
+> Same here.
+> 
+> 
+> >   		if (is_large) {
+> >   			int i;
+> > diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+> > index 23379663b1e1..5d108ddf1a97 100644
+> > --- a/mm/migrate_device.c
+> > +++ b/mm/migrate_device.c
+> > @@ -199,6 +199,7 @@ static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
+> >   		(migrate->flags & MIGRATE_VMA_SELECT_COMPOUND) &&
+> >   		(IS_ALIGNED(start, HPAGE_PMD_SIZE) &&
+> >   		 IS_ALIGNED(end, HPAGE_PMD_SIZE))) {
+> > +		unsigned long device_private = 0;
+> >   		struct page_vma_mapped_walk pvmw = {
+> >   			.ptl = ptl,
+> > @@ -208,10 +209,13 @@ static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
+> >   		};
+> >   		unsigned long pfn = page_to_pfn(folio_page(folio, 0));
+> > +		if (folio_is_device_private(folio))
+> > +			device_private = MIGRATE_PFN_DEVICE;
+> >   		migrate->src[migrate->npages] = migrate_pfn(pfn) | write
+> >   						| MIGRATE_PFN_MIGRATE
+> > -						| MIGRATE_PFN_COMPOUND;
+> > +						| MIGRATE_PFN_COMPOUND
+> > +						| device_private;
+> >   		migrate->dst[migrate->npages++] = 0;
+> >   		migrate->cpages++;
+> >   		ret = set_pmd_migration_entry(&pvmw, folio_page(folio, 0));
+> > @@ -329,7 +333,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> >   			}
+> >   			mpfn = migrate_pfn(page_to_pfn(page)) |
+> > -					MIGRATE_PFN_MIGRATE;
+> > +					MIGRATE_PFN_MIGRATE |
+> > +					MIGRATE_PFN_DEVICE;
+> 
+> I think this also needs to be conditional to distinguish DEVICE_COHERENT
+> pages.
+> 
+> 
+> >   			if (softleaf_is_device_private_write(entry))
+> >   				mpfn |= MIGRATE_PFN_WRITE;
+> >   		} else {
+> > @@ -1368,7 +1373,7 @@ static unsigned long migrate_device_pfn_lock(unsigned long pfn)
+> >   		return 0;
+> >   	}
+> > -	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+> > +	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE | MIGRATE_PFN_DEVICE;
+> 
+> Same here.
+> 
+> Regards,
+>   Felix
+> 
+> 
+> >   }
+> >   /**
