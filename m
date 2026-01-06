@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE1CCF7075
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 08:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49973CF707B
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 08:25:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0726F10E477;
-	Tue,  6 Jan 2026 07:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7520410E37D;
+	Tue,  6 Jan 2026 07:25:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oE6SUWZF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="735YvuS6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DK7pTUYA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VB2wZ5VD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="eJGgzex+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gRR/2e6l";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FjRM++po";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EyMzRxdJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A849910E420
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 07:24:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81CD410E496
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 07:25:49 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2CFF1338AC;
- Tue,  6 Jan 2026 07:24:55 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0C285338AC;
+ Tue,  6 Jan 2026 07:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767684296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767684348; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gejg6SFCMYekzdpmtlGa8VBnXLE4f7CBwrYtpFUZckk=;
- b=oE6SUWZFTQnfi0ZurnSpi4LIUvc8KS4dT/w1CxjDQKu2/neNwaUOSGKZYUrTevGIZNxQQv
- 5Cemwt1Gdf8FSM5dIXY/LrLMrsfHBrHv/0zC5XgZsdZyjErh7tyZR7LWKPqaHyz24oE4Eo
- lZKgKh6Cw+w0azKj5OaAeNM0kOGNj8c=
+ bh=0VCg1bqWo7SfD6R5Vz3vKT5t+HOPeqSWyq3gNeYIpcE=;
+ b=eJGgzex+MnWKQAXwqxAaSTAXjFhrZYE3EjrEN6+tbU6418vA0lNONkReXgrC6iKh6Ba6i6
+ 6VUpFDVYE7E3xECht7UrKOb3QLo4kKlLoHrpY56kEKrEUb/Uu+BgwnWPpF11rgqybbS2fH
+ pBFkdgSkWZ9Y1wImESSSU6pCDhkBiWQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767684296;
+ s=susede2_ed25519; t=1767684348;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gejg6SFCMYekzdpmtlGa8VBnXLE4f7CBwrYtpFUZckk=;
- b=735YvuS67pAVrJjSAOjxtqaeBO78FHJf8aZ4xkLOPQKjvxxUUWChUcxYGow17OMua+tf9Y
- F9T3ZV3Q/KkTERCg==
+ bh=0VCg1bqWo7SfD6R5Vz3vKT5t+HOPeqSWyq3gNeYIpcE=;
+ b=gRR/2e6ldD1vMpKyfmb9nQz+UrFytDBhoChcUFNNyGj4T+KhJSKqUNqbIYfH9R3Fc4WAEs
+ ZRSWi6gEkyhnHtCQ==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DK7pTUYA;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VB2wZ5VD
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FjRM++po;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EyMzRxdJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767684295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767684347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gejg6SFCMYekzdpmtlGa8VBnXLE4f7CBwrYtpFUZckk=;
- b=DK7pTUYAPBbT8tD/LUcSvCk2VkH89JBp4/am3Xl0K5Ucnq1qg6JMHdivYtZnocs4rC4BGz
- FADZKxQLdxY48xLup26j9Aar8VyHroNiqroPhR/jC6apm4wa3ci1oFpQs/6Emd+P6CcVGe
- eXxIKZaR03ajcTw73slSUJWc9xUUww4=
+ bh=0VCg1bqWo7SfD6R5Vz3vKT5t+HOPeqSWyq3gNeYIpcE=;
+ b=FjRM++poaHPIxLVQMt7Tl65gcNdiFXVyjcizkTZGCqlGj9zyuoW7Od/nBJ5+7U5rN/V0fK
+ 3NADPGaS6EcZdBNcDGI+BXugYp5V6VvPjJwJUL6X1nkbAa/Eu/XEgiIX21O743WDURpO+h
+ l9XnbJJyvUnEhY1omQ6FHBW/v4sorK0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767684295;
+ s=susede2_ed25519; t=1767684347;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Gejg6SFCMYekzdpmtlGa8VBnXLE4f7CBwrYtpFUZckk=;
- b=VB2wZ5VD94OGrxiIOsS4bITjz3MH/x1qk7SAu0w6kNTmv8NWkAxSPFyfbMOPWidy2eXHOM
- PSMY5qH3GaY0EgAQ==
+ bh=0VCg1bqWo7SfD6R5Vz3vKT5t+HOPeqSWyq3gNeYIpcE=;
+ b=EyMzRxdJVrd2b0CfeMHyZ0LRzGfANiOYZJObyVzUgdfl5KnFUe62Iuz7J1SP72ryCx/Jnm
+ bqkFjPOkTN5UjKCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3D353EA63;
- Tue,  6 Jan 2026 07:24:54 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A74573EA63;
+ Tue,  6 Jan 2026 07:25:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Ek9gLsa4XGkufAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jan 2026 07:24:54 +0000
-Message-ID: <f13b0ddd-747f-432d-bab2-5b63bb830f89@suse.de>
-Date: Tue, 6 Jan 2026 08:24:54 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id VB6kJ/q4XGnjfAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 06 Jan 2026 07:25:46 +0000
+Message-ID: <f44ca674-775c-4e48-ab7c-9adb7881ff70@suse.de>
+Date: Tue, 6 Jan 2026 08:25:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] drm/atomic: add max_size check to
- drm_property_replace_blob_from_id()
+Subject: Re: [PATCH v3 3/3] drm/atomic: verify that gamma/degamma LUTs are not
+ too big
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -89,7 +89,7 @@ To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org
 References: <20260106-drm-fix-lut-checks-v3-0-f7f979eb73c8@oss.qualcomm.com>
- <20260106-drm-fix-lut-checks-v3-2-f7f979eb73c8@oss.qualcomm.com>
+ <20260106-drm-fix-lut-checks-v3-3-f7f979eb73c8@oss.qualcomm.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -116,12 +116,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260106-drm-fix-lut-checks-v3-2-f7f979eb73c8@oss.qualcomm.com>
+In-Reply-To: <20260106-drm-fix-lut-checks-v3-3-f7f979eb73c8@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
 X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 2CFF1338AC
+X-Rspamd-Queue-Id: 0C285338AC
 X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -136,7 +136,7 @@ X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email,qualcomm.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,qualcomm.com:email,suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email];
  SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
  DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
  DKIM_TRACE(0.00)[suse.de:+]
@@ -161,187 +161,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 06.01.26 um 04:09 schrieb Dmitry Baryshkov:
-> The function drm_property_replace_blob_from_id() allows checking whether
-> the blob size is equal to a predefined value. In case of variable-size
-> properties (like the gamma / degamma LUTs) we might want to check for
-> the blob size against the maximum, allowing properties of the size
-> lesser than the max supported by the hardware. Extend the function in
-> order to support such checks.
+> The kernel specifies LUT table sizes in a separate property, however it
+> doesn't enforce it as a maximum. Some drivers implement max suze check
+
+s/suze/size
+
+> on their own in the atomic_check path. Other drivers simply ignore the
+> issue. Perform LUT size validation in the generic place.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 18 +++++++++---------
->   drivers/gpu/drm/drm_atomic_uapi.c                      | 14 ++++++--------
->   drivers/gpu/drm/drm_property.c                         | 11 +++++++++++
->   include/drm/drm_property.h                             |  1 +
->   4 files changed, 27 insertions(+), 17 deletions(-)
+>   drivers/gpu/drm/drm_atomic_uapi.c | 22 ++++++++++++++++++++--
+>   1 file changed, 20 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index 2e3ee78999d9..8c5912b59e19 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -1676,8 +1676,8 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
->   	if (property == adev->mode_info.plane_degamma_lut_property) {
->   		ret = drm_property_replace_blob_from_id(plane->dev,
->   							&dm_plane_state->degamma_lut,
-> -							val, -1,
-> -							sizeof(struct drm_color_lut),
-> +							val,
-> +							-1, -1, sizeof(struct drm_color_lut),
->   							&replaced);
->   		dm_plane_state->base.color_mgmt_changed |= replaced;
->   		return ret;
-> @@ -1695,15 +1695,15 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
->   		ret = drm_property_replace_blob_from_id(plane->dev,
->   							&dm_plane_state->ctm,
->   							val,
-> -							sizeof(struct drm_color_ctm_3x4), -1,
-> +							-1, sizeof(struct drm_color_ctm_3x4), -1,
->   							&replaced);
->   		dm_plane_state->base.color_mgmt_changed |= replaced;
->   		return ret;
->   	} else if (property == adev->mode_info.plane_shaper_lut_property) {
->   		ret = drm_property_replace_blob_from_id(plane->dev,
->   							&dm_plane_state->shaper_lut,
-> -							val, -1,
-> -							sizeof(struct drm_color_lut),
-> +							val,
-> +							-1, -1, sizeof(struct drm_color_lut),
->   							&replaced);
->   		dm_plane_state->base.color_mgmt_changed |= replaced;
->   		return ret;
-> @@ -1715,16 +1715,16 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
->   	} else if (property == adev->mode_info.plane_lut3d_property) {
->   		ret = drm_property_replace_blob_from_id(plane->dev,
->   							&dm_plane_state->lut3d,
-> -							val, -1,
-> -							sizeof(struct drm_color_lut),
-> +							val,
-> +							-1, -1, sizeof(struct drm_color_lut),
->   							&replaced);
->   		dm_plane_state->base.color_mgmt_changed |= replaced;
->   		return ret;
->   	} else if (property == adev->mode_info.plane_blend_lut_property) {
->   		ret = drm_property_replace_blob_from_id(plane->dev,
->   							&dm_plane_state->blend_lut,
-> -							val, -1,
-> -							sizeof(struct drm_color_lut),
-> +							val,
-> +							-1, -1, sizeof(struct drm_color_lut),
->   							&replaced);
->   		dm_plane_state->base.color_mgmt_changed |= replaced;
->   		return ret;
 > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 7320db4b8489..dff1fdefcbeb 100644
+> index dff1fdefcbeb..dc013a22bf26 100644
 > --- a/drivers/gpu/drm/drm_atomic_uapi.c
 > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -416,7 +416,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+> @@ -413,10 +413,19 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+>   	} else if (property == config->prop_vrr_enabled) {
+>   		state->vrr_enabled = val;
+>   	} else if (property == config->degamma_lut_property) {
+> +		const size_t elem_size = sizeof(struct drm_color_lut);
+> +		u64 lut_size;
+> +
+> +		ret = drm_object_immutable_property_get_value(&crtc->base,
+> +							      config->degamma_lut_size_property,
+> +							      &lut_size);
+> +		if (ret)
+> +			return ret;
+> +
 >   		ret = drm_property_replace_blob_from_id(dev,
 >   					&state->degamma_lut,
 >   					val,
-> -					-1, sizeof(struct drm_color_lut),
-> +					-1, -1, sizeof(struct drm_color_lut),
+> -					-1, -1, sizeof(struct drm_color_lut),
+> +					elem_size * lut_size, -1, elem_size,
 >   					&replaced);
 >   		state->color_mgmt_changed |= replaced;
 >   		return ret;
-> @@ -424,7 +424,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
->   		ret = drm_property_replace_blob_from_id(dev,
->   					&state->ctm,
->   					val,
-> -					sizeof(struct drm_color_ctm), -1,
-> +					-1, sizeof(struct drm_color_ctm), -1,
->   					&replaced);
+> @@ -429,10 +438,19 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
 >   		state->color_mgmt_changed |= replaced;
 >   		return ret;
-> @@ -432,7 +432,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+>   	} else if (property == config->gamma_lut_property) {
+> +		const size_t elem_size = sizeof(struct drm_color_lut);
+> +		u64 lut_size;
+> +
+> +		ret = drm_object_immutable_property_get_value(&crtc->base,
+> +							      config->gamma_lut_size_property,
+> +							      &lut_size);
+> +		if (ret)
+> +			return ret;
+> +
 >   		ret = drm_property_replace_blob_from_id(dev,
 >   					&state->gamma_lut,
 >   					val,
-> -					-1, sizeof(struct drm_color_lut),
-> +					-1, -1, sizeof(struct drm_color_lut),
+> -					-1, -1, sizeof(struct drm_color_lut),
+> +					elem_size * lut_size, -1, elem_size,
 >   					&replaced);
 >   		state->color_mgmt_changed |= replaced;
 >   		return ret;
-> @@ -587,8 +587,7 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
->   		ret = drm_property_replace_blob_from_id(dev,
->   					&state->fb_damage_clips,
->   					val,
-> -					-1,
-> -					sizeof(struct drm_mode_rect),
-> +					-1, -1, sizeof(struct drm_mode_rect),
->   					&replaced);
->   		return ret;
->   	} else if (property == plane->scaling_filter_property) {
-> @@ -717,8 +716,7 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
->   	return drm_property_replace_blob_from_id(colorop->dev,
->   						 &state->data,
->   						 val,
-> -						 size,
-> -						 elem_size,
-> +						 -1, size, elem_size,
->   						 &replaced);
->   }
->   
-> @@ -876,7 +874,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
->   		ret = drm_property_replace_blob_from_id(dev,
->   				&state->hdr_output_metadata,
->   				val,
-> -				sizeof(struct hdr_output_metadata), -1,
-> +				-1, sizeof(struct hdr_output_metadata), -1,
->   				&replaced);
->   		return ret;
->   	} else if (property == config->aspect_ratio_property) {
-> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-> index 596272149a35..955fa960843b 100644
-> --- a/drivers/gpu/drm/drm_property.c
-> +++ b/drivers/gpu/drm/drm_property.c
-> @@ -757,6 +757,7 @@ EXPORT_SYMBOL(drm_property_replace_blob);
->    * @dev: DRM device
->    * @blob: a pointer to the member blob to be replaced
->    * @blob_id: the id of the new blob to replace with
-> + * @max_size: the maximum size of the blob property for variable-size blobs
->    * @expected_size: expected size of the blob property
->    * @expected_elem_size: expected size of an element in the blob property
->    * @replaced: if the blob was in fact replaced
-> @@ -771,6 +772,7 @@ EXPORT_SYMBOL(drm_property_replace_blob);
->   int drm_property_replace_blob_from_id(struct drm_device *dev,
->   					 struct drm_property_blob **blob,
->   					 uint64_t blob_id,
-> +					 ssize_t max_size,
->   					 ssize_t expected_size,
->   					 ssize_t expected_elem_size,
->   					 bool *replaced)
-> @@ -785,6 +787,15 @@ int drm_property_replace_blob_from_id(struct drm_device *dev,
->   			return -EINVAL;
->   		}
->   
-> +		if (max_size > 0 &&
-> +		    new_blob->length > max_size) {
-> +			drm_dbg_atomic(dev,
-> +				       "[BLOB:%d] length %zu greater than max %zu\n",
-> +				       new_blob->base.id, new_blob->length, max_size);
-> +			drm_property_blob_put(new_blob);
-> +			return -EINVAL;
-> +		}
-> +
->   		if (expected_size > 0 &&
->   		    new_blob->length != expected_size) {
->   			drm_dbg_atomic(dev,
-> diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
-> index 082f29156b3e..aa49b5a42bb5 100644
-> --- a/include/drm/drm_property.h
-> +++ b/include/drm/drm_property.h
-> @@ -284,6 +284,7 @@ int drm_property_replace_blob_from_id(struct drm_device *dev,
->   				      uint64_t blob_id,
->   				      ssize_t expected_size,
->   				      ssize_t expected_elem_size,
-> +				      ssize_t max_size,
->   				      bool *replaced);
->   int drm_property_replace_global_blob(struct drm_device *dev,
->   				     struct drm_property_blob **replace,
 >
 
 -- 
