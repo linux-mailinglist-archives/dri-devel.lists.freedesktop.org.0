@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F05CF9724
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F4CCF980C
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4728D10E51C;
-	Tue,  6 Jan 2026 16:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1833F10E514;
+	Tue,  6 Jan 2026 17:00:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BDCEmsoT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ac9WHcWM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D64F10E51C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 16:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1767718183;
- bh=LnO06ZmGejv8YZcopbGi/EMWYJSf0vXnCgMVlk5FR60=;
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A854010E514;
+ Tue,  6 Jan 2026 17:00:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 4410B4060D;
+ Tue,  6 Jan 2026 17:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933B6C16AAE;
+ Tue,  6 Jan 2026 17:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767718826;
+ bh=j6SyhV0DiBPLhIKyOsUP3YiiQFRRU3mowYcDweJvUcg=;
  h=From:To:Cc:Subject:Date:From;
- b=BDCEmsoTLMCoU/cTlu3Hp/Q78w4ajZXdZ8sppNcf8Dc5x8eSh4xWhReiinrN3fLWE
- QI13t2TCenhkV7IoKCJcKg5CaWUjDAZQdD9S1YD5iDZzvx+l1loNJm1xoT1xV2I+5b
- 1huzKylkgUmTSU5NLR232fBmAbiLi+LpTRf6RF5Mh4l/TwZ8M+RfjfVcFBV5TInZMY
- PijSjZ55tJuN9MWJ9J7nkujwh1RfAWW1oUrhmG49T5dO/13o8hhR0UigYUvzweCaWX
- ED8q05fxwLGJ+1Y0bMg6ii5EJ9H/JQpio6bc2qkLaSk7StdTQQxr6qqVggL+cjTGWB
- 9Y2B5xmNYHEqg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0A4A317E1214;
- Tue,  6 Jan 2026 17:49:43 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-Subject: [PATCH] drm/gem: Fix a GEM leak in drm_gem_get_unmapped_area()
-Date: Tue,  6 Jan 2026 17:49:35 +0100
-Message-ID: <20260106164935.409765-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.52.0
+ b=ac9WHcWMRAQqDZ1mwneGVHtHvHAaOAtVdUk/Zr7mX+KBRTze/jgDGmysmGDPkOVKg
+ REGVkPcnp3whSsSCOk+O9tHrDgLHMN5JRGKylwD5KLUJC6by817m19x+jetZoOd+aG
+ CLAZydFal/LeL/99TPDEdD2oEbubIILza1W2vZ7Sx6nxvQ2U1bOeSWmCZpM4fN3Es5
+ JNHtJwBLNnE1PkjJrsgCrBH+peh2oR+8Ids/17CAg/2T14PPlVpiC0lUVfzzc//69E
+ k3X2up3WXWdkHiT5DLGdnpqHiHTUsbPT5EuCNZbguxAD0L5T4ToChghLCkoNZndTr8
+ 0E+2WqRvz5clg==
+From: "Mario Limonciello (AMD)" <superm1@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, harry.wentland@amd.com,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>
+Subject: [PATCH 0/2] Add DRM property for panel type
+Date: Tue,  6 Jan 2026 11:00:15 -0600
+Message-ID: <20260106170017.68158-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,39 +56,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_object_lookup_at_offset() can return a valid object with
-filp or filp->f_op->get_unmapped_area set to NULL. Make sure we still
-release the ref we acquired on such objects.
+OLED panels consume a lot less power with darker content.  However
+userspace doesn't currently know what kind of panel technology is
+used to decide what kind of image to show.
 
-Cc: Loïc Molinari <loic.molinari@collabora.com>
-Fixes: 99bda20d6d4c ("drm/gem: Introduce drm_gem_get_unmapped_area() fop")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/drm_gem.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+This series introduces a DRM property for the panel type.  Initially
+the values are "Unknown" and "OLED" leaving room for expansion later
+for other display technologies like MiniLED or LCD if they are sensible
+to detect and advertise as well.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 36c8af123877..f7cbf6e8d1e0 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1298,11 +1298,13 @@ unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
- 	unsigned long ret;
- 
- 	obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
--	if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
--		return mm_get_unmapped_area(filp, uaddr, len, 0, flags);
-+	if (IS_ERR(obj))
-+		obj = NULL;
- 
--	ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
--						 flags);
-+	if (!obj || !obj->filp || !obj->filp->f_op->get_unmapped_area)
-+		ret = mm_get_unmapped_area(filp, uaddr, len, 0, flags);
-+	else
-+		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0, flags);
- 
- 	drm_gem_object_put(obj);
- 
+A userspace implementation utilizing the new property to decide the
+theme of GNOME is available here:
+
+Link: https://gitlab.gnome.org/GNOME/gnome-shell/-/merge_requests/4029
+
+Mario Limonciello (AMD) (2):
+  drm/connector: Add a new 'panel_type' property
+  drm/amd/display: Attach OLED property to eDP panels
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 ++++
+ drivers/gpu/drm/drm_connector.c               | 33 +++++++++++++++++++
+ include/drm/drm_connector.h                   |  1 +
+ include/drm/drm_mode_config.h                 |  4 +++
+ include/uapi/drm/drm_mode.h                   |  4 +++
+ 5 files changed, 49 insertions(+)
+
 -- 
-2.52.0
+2.43.0
 
