@@ -2,74 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B61CF8DA0
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 15:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D6FCF8DAA
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 15:48:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1C1C10E50A;
-	Tue,  6 Jan 2026 14:47:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X8sHDySV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AAB10E50B;
+	Tue,  6 Jan 2026 14:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 335B510E50A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 14:47:50 +0000 (UTC)
-Received: by mail-dl1-f51.google.com with SMTP id
- a92af1059eb24-11ddccf4afdso21034c88.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 06:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767710869; x=1768315669; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lGFocwYcUO10lAdaXraGl5kbq7qJfVKH2xOcweaicaY=;
- b=X8sHDySVCkyexJsz2TCMqmVl7pjSAU+6eWS4czL3xwx/h65nsy8kbpGYvlZrgZH/Xj
- AbpeeFT8DFSzstFWTmD2gfv0aETCj5I7a3JPT+kykRhxQSY4fb/UVPSTvk4y2Q/cU2fr
- YJzEu5G3sGNJ035qiu7uGNpl1VLL7Qy4QjRwIvQMCXbJlM3P+5V+yEBV0Uu+zejgjfOy
- TgtAaZcc0M75gZsahmPQnbwuqxsORs8N4vH7rU7W6KEqfNEr3yRzv+KdlR7C6eY74nmL
- k10Z7S/zSkxLf5mISRB/NBREo7crNXjHTq7Oz5Ydadm3N23U/Qt4QsgP+V2VzNrnGFyr
- cJpA==
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1888B10E0DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 14:48:04 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id
+ ada2fe7eead31-5e55bd6f5bbso608166137.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 06:48:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767710869; x=1768315669;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=lGFocwYcUO10lAdaXraGl5kbq7qJfVKH2xOcweaicaY=;
- b=wnGMJXyJmF7gsM2rDRagB/1V8OvHXLnPLmKMuF3J605lhjeZoGlpqqonjc4O6ChFlA
- oRfhq7G9J4mdFGVhlMb0O+4aUKeiY3yR5qi8x+66H/lp8xSKi+0z/Nz4CkGzhLmlvkG4
- LpwbELVGpwlZiKFHAMyFo3TPA1FPONE5r+B1k9EVa6QZThqakHAT9M3v67seCxjxwnFV
- wrQCznKpZoqYvM39zAM8a9DW/ore61uq8rdyx/9SBgm/fERxjCv4oO0wkomD4ASDHJrU
- esf0IFJp6KUnJkHXOk63+94M07dcwZUJ4faQzvenqryhTVjC9SV0j3i2Hi5DPSPFawqC
- 9chg==
+ d=1e100.net; s=20230601; t=1767710883; x=1768315683;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nJJUInj/XbYBOmFssNzAphx4WQGD5E9g7yIXL8sfIgU=;
+ b=gaEWJpE/mQXrZssHzN5F/XzSZvx9EkR3N5R3fwBfRUh0KPEiDgEKbMyWhGrIO8je6O
+ 9z87yiVuemmlXI4cjcaEV5tNrfzvehhKncFp7uyj/LYpDmwE5vEFGN3TXrypCRiqpKqs
+ TzWo6sSV5YzM4ni2kKFRs9CVErJOswovH9oZHj6cKNDvh/s7SOYEMlhoANP4lZ0BYFwR
+ ghQPPnzQ1iktUbWL4Mi3FJ8Lv5YWggsY7D1a6ybZVBSbrjQYVL5BfMah1nKqQl9QWL9I
+ zKD8Mw/9rJXHleO5xP3C1D6Fe/YIM67B1Cx8bQkl6ZGaXAokQ+9qL7KNA86aNdeioUzw
+ VcvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEMpTD06pRs+3zjc13NRPCFU6aGXFBHuYrqvFbV3tlpI95lBgeXEBhblq/n3qGdvDp5BmLRD6/x/U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzj08BFXssM+DkQ4pQmzZkB7cIZL2XfOs78b9U1Sex2ZVXc04YO
- EXwmQeVVCTam4tY0KmyU7CVbSw0dTFTJMDJ+1D97PZ1h9h4a80DWqwf76Z5+cxamAActSe/pQAh
- /VuJ9viDPMVn1ZHgrLRyQG4d6vnk4Zq4=
-X-Gm-Gg: AY/fxX5VkFIggxN/1ySSTOCQPjGzK8pSGYTfGDVK8+qFu6+3kZfZi+bImnqa3xjyHiw
- E0EEZEyivnZLhzjrbbOeZeU5z9AZ1L3mQAC0pVlpcSz2fTcaScSWKosOg21XdHFGvaUrEPfIStk
- dIUgSQKMlZZSlVf/zmorxpUOaSIu6YCI6P0zassQR+MkdYP/Eyl9mvgf72vM4wRlqxrK7Wdvrzq
- keFDqGLyTebZIESM3k1PhfAs2Hbl/kdkjvk/Wzy5aTAa3FQuo/OkuWqa8FmNwDhZ1gkptvw
-X-Google-Smtp-Source: AGHT+IEeTUiuD7kCf6JvD92QT3fvl/RpMs7KXHBBTDvwNHDOFoemydUJ2WuNt3K41sWhVgVvtnjJ7fUHLLutaCZ5vd8=
-X-Received: by 2002:a05:7301:1446:b0:2a4:3593:2c0a with SMTP id
- 5a478bee46e88-2b16f864435mr979958eec.3.1767710869195; Tue, 06 Jan 2026
- 06:47:49 -0800 (PST)
+ AJvYcCW4jgDPUCu4NdUCj+0nhEPIdU0BjXmUZqYX5+6jmfvJi5mz6CqKq470upJUHAef9d3Qxn2VUdxBchM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbSUq+eZwnowD0AePszOWXB5ubTkSWo7urvtpyhwKYvodf6r7f
+ gJke1ySnZ9rSYvieJRBLTFLcbuQ7Ni2swylDlNa98vUyFizBKYImqNzMtopQlf8P
+X-Gm-Gg: AY/fxX4ptk+Oj1K0YSRiHIeO5/5Xpgq3fwveaYCKV9cP0ePFmjoo0KKz+jb/YTEIKnt
+ ufsgjgtftyr5pUhtP7K+EyBpKalPeeyP9B/6PfCNC3STdpuXSXPIdgv6bw5JtU6vHNkxEtO7Fv8
+ fr6mG+/yLpU3YDDeO4u7uz+Iu/bRdiKruyUGlCaIQPTMTloRfwzjzTohKuEQb1SP7XpN1cHW3wD
+ btYRCcoDqMOEZ4HYAVcb2bAZ3com64I4ruSG+fMGqTZklBQ6DxQxcRpPxL4w8Jfr+VbglezMylX
+ nB2YXYwQW3ivMaJfomPMkMOEWJ/FmM7OA2qgSxL+0R9dOBq2TBPi/luITYLyMxip/2u+nFWZovo
+ eNVhYbzJJOG2mcYy5ltMNYVPzGjPN516Sf7YjKfkv9s7CrpW+0vgVjFsHWDkD6reLCOhO8xY7VA
+ tIU0xr3SqvfoqcNXJs9HgXax2I7x+ls7SAIy7DSSTt0rLddtM7
+X-Google-Smtp-Source: AGHT+IFsbYWhThknqOagUq+qgyoSabU/BMWkC8qRIEY5IIDwOpCkmgwnHrh+kiZAJEPaPT48kBI16A==
+X-Received: by 2002:a05:6102:4247:b0:5db:d7a5:ba1d with SMTP id
+ ada2fe7eead31-5ec7436e432mr996221137.16.1767710882362; 
+ Tue, 06 Jan 2026 06:48:02 -0800 (PST)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
+ [209.85.217.42]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5ec77004098sm667318137.1.2026.01.06.06.48.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jan 2026 06:48:02 -0800 (PST)
+Received: by mail-vs1-f42.google.com with SMTP id
+ ada2fe7eead31-5e55bd6f5bbso608139137.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 06:48:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsIO+Vg++DZOVH6ZG0n4tSwdVBQD4KnHSS4ms+WTpMbSsxvNkgUdBOf8R2CB0gw9k/IZ4/VsRSURI=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:1623:b0:5df:bddd:b590 with SMTP id
+ ada2fe7eead31-5ec7451df5fmr1123054137.34.1767710880890; Tue, 06 Jan 2026
+ 06:48:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20260106023712.54546-1-yaolu@kylinos.cn>
-In-Reply-To: <20260106023712.54546-1-yaolu@kylinos.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 6 Jan 2026 09:47:37 -0500
-X-Gm-Features: AQt7F2p9ChaNCsLSPwYIOt2PgtwTnPPeqDb16LJopLTt5PzQrlbAse8IKAMpwY8
-Message-ID: <CADnq5_Oh5iJirX57cJskcTyKixsLFGeDBaTgc-r15UjFt8fWVA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix drm panic null pointer when driver not
- support atomic
-To: yaolu@kylinos.cn
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it>
+ <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+In-Reply-To: <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Jan 2026 15:47:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
+X-Gm-Features: AQt7F2qsB5hg2NX_ZI18pHFrsB3JeydqfV6kNAMxXv_CqeMBbwVEPLSuyAomQME
+Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
+To: Francesco Valla <francesco@valla.it>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-embedded@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,41 +93,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Franceso,
 
-On Mon, Jan 5, 2026 at 9:37=E2=80=AFPM <yaolu@kylinos.cn> wrote:
+On Tue, 6 Jan 2026 at 15:26, Francesco Valla <francesco@valla.it> wrote:
+> Add a DRM client that draws a simple splash, with possibility to show:
 >
-> From: Lu Yao <yaolu@kylinos.cn>
+>   - a colored background;
+>   - a static BMP image (loaded as firmware);
+>   - the logo provided by EFI BGRT.
 >
-> When driver not support atomic, fb using plane->fb rather than
-> plane->state->fb.
+> The client is not meant to replace a full-featured bootsplash, but
+> rather to remove some complexity (and hopefully boot time) on small
+> embedded platforms or on systems with a limited scope (e.g: recovery
+> or manufacturing images).
 >
-> Fixes: fe151ed7af54 ("drm/amdgpu: add generic display panic helper code")
-> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> The background color can be set either at build time from a dedicated
+> config option or at runtime through the drm_client_lib.splash_color
+> command line parameter. Any color in RGB888 format can be used.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_display.c
-> index b5d34797d606..52bc04452812 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -1880,7 +1880,12 @@ int amdgpu_display_get_scanout_buffer(struct drm_p=
-lane *plane,
->                                       struct drm_scanout_buffer *sb)
->  {
->         struct amdgpu_bo *abo;
-> -       struct drm_framebuffer *fb =3D plane->state->fb;
-> +       struct drm_framebuffer *fb;
+> If enabled, the static BMP image is loaded using the kernel firmware
+> infrastructure; a valid BMP image with 24bpp color and no compression
+> is expected. The name of the image can be set through the
+> drm_client_lib.splash_bmp kernel command line parameter, with the
+> default being 'drm_splash.bmp'.
+>
+> Just like the existing DRM clients, the splash can be enabled from the
+> kernel command line using drm_client_lib.active=splash.
+>
+> Signed-off-by: Francesco Valla <francesco@valla.it>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/drivers/gpu/drm/clients/drm_splash.c
+
+> +#if IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT)
+
+There is no need to protect this block with #if, as it does not generate
+any code.
+
+> +#define BMP_FILE_MAGIC_ID 0x4d42
 > +
-> +       if (drm_drv_uses_atomic_modeset(plane->dev))
-> +               fb =3D plane->state->fb;
-> +       else
-> +               fb =3D plane->fb;
->
->         if (!fb)
->                 return -EINVAL;
-> --
-> 2.25.1
->
+> +/* BMP header structures copied from drivers/video/fbdev/efifb.c */
+> +struct bmp_file_header {
+> +       u16 id;
+> +       u32 file_size;
+> +       u32 reserved;
+> +       u32 bitmap_offset;
+> +} __packed;
+> +
+> +struct bmp_dib_header {
+> +       u32 dib_header_size;
+> +       s32 width;
+> +       s32 height;
+> +       u16 planes;
+> +       u16 bpp;
+> +       u32 compression;
+> +       u32 bitmap_size;
+> +       u32 horz_resolution;
+> +       u32 vert_resolution;
+> +       u32 colors_used;
+> +       u32 colors_important;
+> +} __packed;
+> +#endif // CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT
+
+As per [1], all these values are little-endian.  Hence they should
+be declared as such using le16 or le32, and accessed using
+get_unalined_le{16,32}().
+
+[1] https://en.wikipedia.org/wiki/BMP_file_format#File_structure
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
