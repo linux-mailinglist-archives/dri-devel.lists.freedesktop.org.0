@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A50ECF9CB3
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00918CF9CB6
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:44:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E013D10E530;
-	Tue,  6 Jan 2026 17:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6052610E535;
+	Tue,  6 Jan 2026 17:44:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HyBcRM3L";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ebaq3qZ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A0210E536
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 17:43:55 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED4A10E535
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 17:43:59 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 5D605C1E4B2;
- Tue,  6 Jan 2026 17:43:28 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id A459D4E41FB2;
+ Tue,  6 Jan 2026 17:43:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6DBCD60739;
- Tue,  6 Jan 2026 17:43:54 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7956C60739;
+ Tue,  6 Jan 2026 17:43:58 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6A5B2103C833E; Tue,  6 Jan 2026 18:43:49 +0100 (CET)
+ with ESMTPSA id 3C9DF103C81A7; Tue,  6 Jan 2026 18:43:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767721432; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767721436; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=MS4b7veCYN3tYDfz/s9LxcL0AfieJWRhqqzkQWfhAqQ=;
- b=HyBcRM3LaAPjt+Ff2ko8PCYyfUdfocd395/RYu/oAbEQkZNk5Tsbm17VxLKKBs9ZjRVSFs
- Io8PJrRFbnrIOL7QRaUIbScbmNS6KZzhIpn+R6cePVMwr1jOUy9lHnd2clnQAEV5bf6g4O
- 4UQ3lqqVMpsqQaC5X2DVSRtGpna7Xvox8NRn0SmW8x+Jetp46uf17RHE8Kd+gxKHSmM0YF
- bWlVj6EBTlXSBdPMCTQkr2KBKVTeKssE19PfSAO3PzmetMc0mpqSD1dsHFUIjk052juwyj
- +R8kuN6g2NBtsnAEcV+yaPHB2e/I+H1+3nPak+jIT6iYnBT/Qrd9V+fEnmS2zg==
+ bh=IASgUeePFpTVseIVPQ4U1gfCCgatBKZcsjSp38uopis=;
+ b=ebaq3qZ8ME64Sf66g8BGps0yIZMuHXj/HrC6uZTxx9+3r26ot9nOiCfWiUaCdiYkyLIFgC
+ Ix854VdfIz5Dw1pVJgTBAQzjsvYxyaq1MZSZgvCeoN2xeWkXi3YFqpGwxHJQ77pQoXWu7M
+ 5xYs928ydYUIk8vmGxaUyzyifUEX05kJ7Eli5csx5EdzWvn9rwJ53Q349TCyyMRACTXF5z
+ wD5CEExOxPIkT4zyJRfMUi8OaoKHnWmLO2+iIxXSraXrqD5c2S2OH20/1GsTX/gov0wFyt
+ kT7xNE2daVN+ATZaUYDXUPvAAvGh9a/ReLlDti9Ijn1U2SCJ9DNJu+1wGE2aig==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Tue, 06 Jan 2026 18:42:25 +0100
-Subject: [PATCH v3 09/22] drm/tilcdc: Remove redundant #endif/#ifdef in
- debugfs code
+Date: Tue, 06 Jan 2026 18:42:26 +0100
+Subject: [PATCH v3 10/22] drm/tilcdc: Remove unused encoder and connector
+ tracking arrays
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260106-feature_tilcdc-v3-9-9bad0f742164@bootlin.com>
+Message-Id: <20260106-feature_tilcdc-v3-10-9bad0f742164@bootlin.com>
 References: <20260106-feature_tilcdc-v3-0-9bad0f742164@bootlin.com>
 In-Reply-To: <20260106-feature_tilcdc-v3-0-9bad0f742164@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -81,30 +81,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the unnecessary #endif/#ifdef CONFIG_DEBUG_FS pair that splits
-the debugfs code section. This keeps all debugfs-related code within a
-single preprocessor conditional block, improving code readability.
+The num_encoders/encoders and num_connectors/connectors arrays in
+tilcdc_drm_private are never populated or used by the driver.
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 +--
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h | 6 ------
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 9b3a0435a8d2d..d2aae731b72c6 100644
+index d2aae731b72c6..a753cc47a59d7 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -438,9 +438,6 @@ static const struct {
- #undef REG
- };
+@@ -348,8 +348,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	if (ret)
+ 		goto unregister_cpufreq_notif;
  
--#endif
+-	if (!priv->external_connector &&
+-	    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
++	if (!priv->external_connector) {
+ 		dev_err(dev, "no encoders/connectors found\n");
+ 		ret = -EPROBE_DEFER;
+ 		goto unregister_cpufreq_notif;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index 181b9d7a515b6..717529a331009 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -75,12 +75,6 @@ struct tilcdc_drm_private {
+ 
+ 	struct drm_crtc *crtc;
+ 
+-	unsigned int num_encoders;
+-	struct drm_encoder *encoders[8];
 -
--#ifdef CONFIG_DEBUG_FS
- static int tilcdc_regs_show(struct seq_file *m, void *arg)
- {
- 	struct drm_info_node *node = (struct drm_info_node *) m->private;
+-	unsigned int num_connectors;
+-	struct drm_connector *connectors[8];
+-
+ 	struct drm_encoder *external_encoder;
+ 	struct drm_connector *external_connector;
+ 
 
 -- 
 2.43.0
