@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F033CF7403
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 09:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4BECF7412
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 09:16:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E84C10E49D;
-	Tue,  6 Jan 2026 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5DF10E49E;
+	Tue,  6 Jan 2026 08:16:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mpjwYcsg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ep82XW0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7432910E49D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 08:15:22 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-477563e28a3so4689555e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 00:15:22 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB5D10E49E
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 08:16:04 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-47aa03d3326so5706505e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 00:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767687321; x=1768292121; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1767687363; x=1768292163; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=WlcLJcRv6NmifS5tk12ISHXHC1kObcbQiLoIFthBsgY=;
- b=mpjwYcsgGQeSM9AkNe8Ptx6PTxR9VuHQtnmxLscW2dTJblruHZcdiiqeDGl+JW+AFv
- rbzwQViW8KHH4tqb46qciewB2bkvnsGiaqPurecDdnncugrRxpYRDSu5Z07m3mB0c91a
- N6kp2i1C1aNdRXAL/1dsV4JJrQsFSynhy0deotA7i48hWs2J8ZeZBoPb8n13BHdKj+Yb
- ceTGlJ744zjgD8ljBE2xFHz0++iNCi1lDkRH/zMqImQTq8zmpbqF1J0h9/8rQhhswr9E
- /etoFSZg9WFBh5OS9BWpPh2bDLMWzVvAPskZ8g69QMfzBaVF35kfb1vB+GkP9sXQtY43
- keGA==
+ :reply-to; bh=2RXzUF1ln5+oulmXk/n680HR54Be5PwLRIBrC3MX2Ps=;
+ b=ep82XW0XLCGfg5jS1n1pBNtBVolJ6xaMAC2S1FD7EQT4VD55eOtN4VQ5pi7RdwYk8V
+ CcEbQZbf53/nFjHp8+0IdVCFn4eQFc+33hcpf6UT/daKndfKW/xNgPiK3IX59OGWnHK+
+ dfsHYO04JOidZ7F3WkAaBxsRLmwjMb8cHkuPh8giu4H+9XyYTUjHb/4cgoh8/DGLcZAU
+ HalooMDl7xxABJOF6MZZ/KSLdf5RuLaBRLHXr4Cbe7OAdzoQp1IVFhKRzlXV2bnS8Rev
+ L3J0n64Ql85fFoGZ5LIc6rHRTjslqqjBCf2bwbHad+VXmyyFIUm6bDusDyScb2E7RXBi
+ YJRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767687321; x=1768292121;
+ d=1e100.net; s=20230601; t=1767687363; x=1768292163;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WlcLJcRv6NmifS5tk12ISHXHC1kObcbQiLoIFthBsgY=;
- b=i/YPKgrimo6DrGMgt4U1pDI9eyFSkjpDVLOGIPbZVWu5jI30vasb8/bDSOvpv6HvCf
- MYYe55nG19M99o3GAdidWYpLHcUK028NDyzR1Yli5NFyYc8mGNBHZ2AxeZd8LrsBIP/4
- PQpnkXd8LRljCP5ccmYM+8mQFDbNrfhKVExE/GjE14IWRcL2MEcQedNszbYrwY9jNOWW
- w5dm7w7LZK4/7n7yjYTBnjA7RwwiZqAUNa/vtDrEjTbfoALFehsJhSBeziuruvLSl1lp
- vmXSazYeCuL5RwBX7I+1KWWaFgrRUbNM2otQJegYeRSzqxMBlrFQS0Zce9kl6mZmBGIX
- 1pIA==
-X-Gm-Message-State: AOJu0YzRZSgDlf4OJlMfX2/a1pWdgAPnQtWR/h273OV8i204gaVhJFjn
- Qp+zUaAGfrn6lTjwdDY6NdDdqqOAlYhso6YQBds4/lpjH1MRVQZinY1PNqW86kL0PDY=
-X-Gm-Gg: AY/fxX5r+4v8hFUe+snp7+MxhbPNG4Wk8NR0qNKPaPlFwrGnfyFxYXkNq0K8wuzBAc9
- IGl1SmS6yNp6wbvAHenvr5hiRFj/zcC60H0zkbC3iDm/wVXFwNu41ttQte2Mxr1BD5QgZXfPaUA
- 13sBkme4cB2BUnsSuekYlT71lPfPsGIxCZNPHlP+Xz0QrFcqjBd6A4rMxYtHfFQs6KzpubNWOrO
- iyNTQq11UidctDgGlBEEulmT4gUnv3TRgXannCuDie31Uxjnui3D5F3vRavoR8PNkEuwXfRQNBq
- YWxHtLd52rtjBaK0ut3DwwU4r8diN+j5FTGMEAGly6yygk9+9XMx/Yv5mHYBAiN3z9Vwb4mkW+4
- 0ypRS3p7moUKPvMwRVLUPVUeKShhFc8+SHop7M3pwZwh79Ji/6vnKdgKiLHEtei5piXtAdWgYYZ
- o64sNkzbY24amneyLr77R8oauK5BPSPWYanp7zKpbXFadgR60BurWFGAU/RMqLxbI=
-X-Google-Smtp-Source: AGHT+IFWWMC+vC3Jv1zN8otnZ5o0DsOhfa+A4/daWU3DP9hf9GKf9S7nKRd7ftIFNdP05wOd8OCVIQ==
-X-Received: by 2002:a05:600c:a112:b0:477:5639:ff66 with SMTP id
- 5b1f17b1804b1-47d7f627b7fmr20939945e9.13.1767687320848; 
- Tue, 06 Jan 2026 00:15:20 -0800 (PST)
+ bh=2RXzUF1ln5+oulmXk/n680HR54Be5PwLRIBrC3MX2Ps=;
+ b=H8VeP7sxZeNFZCTmC5e0rTa8NrB1wMglcMPs1NBrrfshEVpn2ZoN4vZPD5sTlajJPl
+ g0ALmsA1uggFZoj6Ni0V4iNKHeStYnALHBeT69lzf6w1+wpU3XtL4qw8KnlQwcsQVKR/
+ XrnEzXTPxjGwVInkhoqU0sqmDU80FXGqp5tOIHvHp980siV5zYv+XXOsUShmhFobI5Yz
+ t/tCa7VghYyf4nCWrLLoQowfJxwaljhF1PNWo3DtH9hmkxVF7RYcFaZWob3g+ShFo+fO
+ mzHtBWoy4fQu2nI9UxAiKjzvlLg9All+dWBYQzU5qwNkkgoKfqFSa53Y/u/WBR/CtKel
+ Eh0Q==
+X-Gm-Message-State: AOJu0YyHxpyhCm1Mm2wjwqxSGNjtHm54h9NT1CXS5HLUsm2r8z6a38hq
+ JdM67dRVHyJdrVtiwdWxpnB1VtlYGugZp2Oj4F1OxQ76dieUCfboV4qpIxnCpdPCG5g=
+X-Gm-Gg: AY/fxX7g7/Lb+H6lJc4wz9aw6T2lk4Dxfesj/4FKvVP2cglzDrEYPT/0JCs6ZE6g/tL
+ c62jla3UB6Yqvw/6ZjtXyYork/M81tcXEEZ7EQgjk6mRPwmQE6RTNDtYqHei7M5ju2Nz4V4Nh28
+ oMQotee0MRxiqMPTyyyvxQjBGzvK7sWen39VSHRRJ+OY85qDC4u/GBGaDz8kgZXec6WVb12NOXS
+ 635orjpDtA36Hre4WivZ2bW0hNsqoaGyJ+T+HfKTnKpT0XTvfJc69qfzaggZ6edOP05hAYVl4ad
+ 93ZX1DAD80z0OP4ZFdUqsVZVGMlWKbBgiyNWP7Hr4QNo/EbP1UDHWYoNNlWErmJYxp0xrHwnhlr
+ Z4XJU1GvonLqeXiMHm3MJc3hX9FZJDTY1bMQHu4JvqTwP3eDeZ1qgBJoomCaKxfNKyLh3IIZLjb
+ fPLOcZlfwCpEXjINCSRSfNlIoaLOcukqzkI7gjaDkJcJ1WwMX9rTR2tKeTu+C+Hqo=
+X-Google-Smtp-Source: AGHT+IH60kuK/PXY0IqMZE4Sd9cXHxZGsJIz5+sRgLkn7IO6l5nc253rglz2ZxZzrX/dYgPe7W1yWQ==
+X-Received: by 2002:a05:600c:8b72:b0:475:e007:baf1 with SMTP id
+ 5b1f17b1804b1-47d7f0a3af9mr22232555e9.34.1767687362860; 
+ Tue, 06 Jan 2026 00:16:02 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:d283:7a7e:4c57:678d?
  ([2a01:e0a:3d9:2080:d283:7a7e:4c57:678d])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd5dfa07sm2901051f8f.25.2026.01.06.00.15.20
+ 5b1f17b1804b1-47d7f6ef885sm28607805e9.9.2026.01.06.00.16.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jan 2026 00:15:20 -0800 (PST)
-Message-ID: <d0751b98-86d6-4088-a4c4-cfa77fe0c241@linaro.org>
-Date: Tue, 6 Jan 2026 09:15:19 +0100
+ Tue, 06 Jan 2026 00:16:02 -0800 (PST)
+Message-ID: <307ea449-c8a1-4fd7-a67b-7c6777eb4669@linaro.org>
+Date: Tue, 6 Jan 2026 09:16:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/5] drm/panel: mantix: Improve power off sequence
+Subject: Re: [PATCH 4/5] drm/panel: mantix: Drop bank 9 initialization
 To: sebastian.krzyszkowiak@puri.sm, =?UTF-8?Q?Guido_G=C3=BCnther?=
  <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -77,7 +77,7 @@ To: sebastian.krzyszkowiak@puri.sm, =?UTF-8?Q?Guido_G=C3=BCnther?=
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20260105-mantix-halo-fixes-v1-0-1ebc9b195a34@puri.sm>
- <20260105-mantix-halo-fixes-v1-3-1ebc9b195a34@puri.sm>
+ <20260105-mantix-halo-fixes-v1-4-1ebc9b195a34@puri.sm>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -104,7 +104,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260105-mantix-halo-fixes-v1-3-1ebc9b195a34@puri.sm>
+In-Reply-To: <20260105-mantix-halo-fixes-v1-4-1ebc9b195a34@puri.sm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,53 +126,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 1/5/26 21:24, Sebastian Krzyszkowiak via B4 Relay wrote:
 > From: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 > 
-> According to the sequence from section 7.3.4 of FT8006P datasheet,
-> TP_RSTN and RESX should be asserted after disabling AVDD and AVEE and
-> together with VDDI.
-> 
-> Also, AVEE power down needs to happen at least 150ms after entering
-> sleep mode.
+> This command is part of LIC sequence included in FT8006P firmware.
+> There's no need to repeat it here.
 > 
 > Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
 > ---
->   drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> index bb5489e4d7a9..0e66ee7a727d 100644
+> index 0e66ee7a727d..30e378faafcd 100644
 > --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
 > +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> @@ -96,6 +96,9 @@ static int mantix_disable(struct drm_panel *panel)
->   	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
->   	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+> @@ -53,11 +53,9 @@ static void mantix_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+>   	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a);
 >   
-> +	/* T10 */
-> +	mipi_dsi_msleep(&dsi_ctx, 150);
-> +
->   	return dsi_ctx.accum_err;
->   }
+>   	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00);
 >   
-> @@ -103,15 +106,16 @@ static int mantix_unprepare(struct drm_panel *panel)
->   {
->   	struct mantix *ctx = panel_to_mantix(panel);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x09);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00); /* VCOM */
 >   
-> -	gpiod_set_value_cansleep(ctx->tp_rstn_gpio, 1);
-> -	usleep_range(5000, 6000);
-> -	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> -
->   	regulator_disable(ctx->avee);
->   	regulator_disable(ctx->avdd);
->   	/* T11 */
->   	usleep_range(5000, 6000);
->   	regulator_disable(ctx->vddi);
-> +
-> +	gpiod_set_value_cansleep(ctx->tp_rstn_gpio, 1);
-> +	usleep_range(5000, 6000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +
->   	/* T14 */
->   	msleep(50);
->   
+>   	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xa5);
+>   	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2f);
 > 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
