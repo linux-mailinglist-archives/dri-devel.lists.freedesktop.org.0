@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EF6CF9277
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 16:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C24CF93EE
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:04:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1099B10E515;
-	Tue,  6 Jan 2026 15:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5A6D10E0EC;
+	Tue,  6 Jan 2026 16:04:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Np9ZRZdd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q7OngM4L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6CC210E0EC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 15:48:28 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-34c3259da34so1074653a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 07:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767714508; x=1768319308; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZDeWwtGZZ/R+RJWyYvHftoXDDl+9pCPFMRNPnjt8G1g=;
- b=Np9ZRZddjWyMrQQ2/T8243/3HEE2wxTSTlR26c9PxQZycctgQRJ6sF8FzDFxMnyyM6
- LeAdAQJ4wS4rHlFlBcIqkTZNya5wLDpetf+jFYXL4vUv+JK082kCtnP0g/RSovzFYRFX
- VbnMDPqtcwJRXw8EO8gbeLIZYGZtze18zvcWrMzf5mEzA1WWG75ywg+golCEK+Ts+2wG
- uWh3L5ONcgn98pwMABZPu17nbuwYed1F5+ar59WoKOPvHTlsli1PPmMCkts2c5NPATOq
- mTickHwjTHTbHYICF5M1XF2+UiW3SXWVuRT29CnyZxIPULLZqdSVJMJ0jeshJm0LfP9F
- eoRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767714508; x=1768319308;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZDeWwtGZZ/R+RJWyYvHftoXDDl+9pCPFMRNPnjt8G1g=;
- b=gyMau3GQJxBj247+pMsJnzelIbAZIo4XEOfx81odWOcegtt4jr0VZNb1Cq4iDDzrWB
- EJwfl3F6edvk/8Bt6CmCUt/eirtVq+V8Ff0Mcu6pChAvoLhZp5Oy/xb6wsCpl/U5SydT
- gKF+v/wGGr0wCEM9eC+Ueyd6iWQ+HJZ2Yx9x9IM2tbuEaOXk0jxVHlJu6jPkVvff8WrX
- PxK6RpEqwH1x0DiT8BfBidbOnKPhfMz2KcIQ/sBUuFEWE45BPHYxRzCG8+VoYiqp0KE0
- L12uyHjngTWYVq1PENyVOhrCXTjyHhQSsqhwJ9EcVh/dFNFa1aRLn0Zz4trWBDW/nt6G
- Rwrg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXK8XB00j1BHh9Cg9NLpSx1qv3c9z7vOYmktEdFA0MohyHblbKwi+7V3YQ0JqMMxObeIyTrunNllTs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLG5eK6xqP8KP+Oiy7S4694jKKaquAf11socCsiM+8jPL57kyd
- vEqWlri2AhPoFkGyk0IiHg7UxnKmeSfzY1RAfQh2vQ68TMB+HjpG00cuZcy1Kbcj/kn0QxM5iW3
- iZBopJUjp6n6bU8Ks3BElc0zMYJ9Rm/g=
-X-Gm-Gg: AY/fxX4g6z321uhgwCkavbEIXX38Mb+F00VmqOhWWSHyW3fPB9yRp5DvbdPvAa+4D3P
- o+7nghFL+aILj8/EaE0QL4AlJk++XZNAyNhe693RyCNLQ/iohYHRc7Oq6w4G6npXegw5Gmx5CaY
- goplc8EY4nR3jst2r4J9oAyKSHrNr7gwppH+Q2awbQ2zpR34f+rBcaQZ6rR3veym7RKdKszrSkj
- 2vyuHDkMC9BiSZk3jIR8q2iDvxjVOWwBvatgFZFcQxph5eX+qBh1Z94GQq4DjRZpGk4UFLO
-X-Google-Smtp-Source: AGHT+IHiaPPGyj/cnpDj8m4HDXquR3Pl7oUuHN0aY5yL41pxEhlepn4C73GOB3o+YxsZXbMciPqziYoixcHsf8WCV5s=
-X-Received: by 2002:a17:90b:3e87:b0:34c:ed28:a279 with SMTP id
- 98e67ed59e1d1-34f5f291108mr2735224a91.11.1767714508280; Tue, 06 Jan 2026
- 07:48:28 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C5210E0EC;
+ Tue,  6 Jan 2026 16:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767715468; x=1799251468;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ywcXi/KRPk/ezq8QoHHlwmAfT0cBkesMmHgTX8bSDb8=;
+ b=Q7OngM4LgYdYBvn/NQi0RS0hx8GhzszqGI9zXiinFmA3Fzi77VGyaa8C
+ ifGUm74Hk9NBY/5M2QR0dAaQAZS7no8DLkXj+7fV2thvLTuwHaOSaLGu/
+ skqOaWH4V+YkRWFd9jeX/579h6oGHMni1juvcTp2/Bi/s4EOyuXymIfeV
+ XzGdsLYn/y3IHWpiPIH7xMMD06qjGX3UG+tu3dKuQowCHaJXPfof8pf+q
+ RGGwR22EJLBbSes4AqrOjPG+EcmXpOH9s0EaFdpGGX9v81gMAs+T//9qm
+ h9trqupK4EiItOxlMhpm5N8RU/auc3nLyc8SZTGZvUznDyCiy6GzyWGY3 w==;
+X-CSE-ConnectionGUID: jyB59mV/T1ensjou2nCPNA==
+X-CSE-MsgGUID: KcmYSn7US3SF+gFiwRFn0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="86667140"
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="86667140"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2026 08:04:27 -0800
+X-CSE-ConnectionGUID: /eTG9HdcQVaOFASGposZAQ==
+X-CSE-MsgGUID: wCaodbDGTI+53AJo6q/Bnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; d="scan'208";a="201824511"
+Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.21])
+ ([10.245.245.21])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2026 08:04:25 -0800
+Message-ID: <60ab8e82-a079-4ca1-adcc-ee50cfc5641d@intel.com>
+Date: Tue, 6 Jan 2026 16:04:23 +0000
 MIME-Version: 1.0
-References: <20251110144625.18653-1-gert.wollny@collabora.com>
- <20251119164624.9297-1-gert.wollny@collabora.com>
- <b307fa5c-ccce-4f4b-bc38-a69c6b9d6095@mailbox.org>
-In-Reply-To: <b307fa5c-ccce-4f4b-bc38-a69c6b9d6095@mailbox.org>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Tue, 6 Jan 2026 16:48:16 +0100
-X-Gm-Features: AQt7F2pXEHeKvFj3Y75tqV0CU6vcwn_KI1rYKFkw609zpE7T3WzeoCdHLYofjGY
-Message-ID: <CAH9NwWfZ7VU=2A5oVbN_Qakd3aHmK0kdPyC9PpOZhVCY5DCdJA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] drm/etnaviv: Add support for running a PPU flop
- reset
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: gert.wollny@collabora.com, Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel <kernel@dh-electronics.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/buddy: Prevent BUG_ON by validating rounded
+ allocation
+To: Sanjay Yadav <sanjay.kumar.yadav@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+References: <20251222065238.1661415-4-sanjay.kumar.yadav@intel.com>
+ <20251222065238.1661415-5-sanjay.kumar.yadav@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20251222065238.1661415-5-sanjay.kumar.yadav@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,35 +75,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> On 11/19/25 5:45 PM, gert.wollny@collabora.com wrote:
->
-> Hello Gert,
->
-> > this is the fifth version of the series to add PPU flop reset.
-> >
-> > Changes w.r.t. the previous version are:
-> >
-> >    * Apply all changes suggested by Christian Gmeiner:
-> >     - fix a memory leak that would occure when PPU data
-> >       initialization fails
-> >     - remove unneeded includes
-> >     - move includes to the files where they are actuall needed
-> >     - fix include style for "linux" headers
-> >     - fix typo in error message
-> >
-> >    * add Reviewed-by tags to the according commits
-> For the whole series:
->
-> Tested-by: Marek Vasut <marek.vasut@mailbox.org> # STM32MP255C DHCOS DHSBC
->
-> Thank you !
+On 22/12/2025 06:52, Sanjay Yadav wrote:
+> When DRM_BUDDY_CONTIGUOUS_ALLOCATION is set, the requested size is
+> rounded up to the next power-of-two via roundup_pow_of_two().
+> Similarly, for non-contiguous allocations with large min_block_size,
+> the size is aligned up via round_up(). Both operations can produce a
+> rounded size that exceeds mm->size, which later triggers
+> BUG_ON(order > mm->max_order).
+> 
+> Example scenarios:
+> - 9G CONTIGUOUS allocation on 10G VRAM memory:
+>    roundup_pow_of_two(9G) = 16G > 10G
+> - 9G allocation with 8G min_block_size on 10G VRAM memory:
+>    round_up(9G, 8G) = 16G > 10G
+> 
+> Fix this by checking the rounded size against mm->size. For
+> non-contiguous or range allocations where size > mm->size is invalid,
+> return -EINVAL immediately. For contiguous allocations without range
+> restrictions, allow the request to fall through to the existing
+> __alloc_contig_try_harder() fallback.
+> 
+> This ensures invalid user input returns an error or uses the fallback
+> path instead of hitting BUG_ON.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
 
-Applied to drm-misc-next.
+I think we should maybe add a fixes tag:
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
+Cc: <stable@vger.kernel.org> # v6.7+
 
-https://christian-gmeiner.info/privacypolicy
+?
+
+I don't think current xe can actually trigger this yet, but not sure if 
+amdgpu or something can somehow trigger this in some obscure case.
+
+We could maybe also add:
+
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/6712
+
+So it auto-closes plus gives some more context that this fix was 
+motivated from code inspection and not some user report. Otherwise I 
+think the change looks reasonable,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 2f279b46bd2c..5141348fc6c9 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -1155,6 +1155,15 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   	order = fls(pages) - 1;
+>   	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
+>   
+> +	if (order > mm->max_order || size > mm->size) {
+> +		if ((flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) &&
+> +		    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
+> +			return __alloc_contig_try_harder(mm, original_size,
+> +							 original_min_size, blocks);
+> +
+> +		return -EINVAL;
+> +	}
+> +
+>   	do {
+>   		order = min(order, (unsigned int)fls(pages) - 1);
+>   		BUG_ON(order > mm->max_order);
+
