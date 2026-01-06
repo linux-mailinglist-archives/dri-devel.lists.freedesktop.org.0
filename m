@@ -2,67 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1779CF9894
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E416CF989A
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:07:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7EFF10E531;
-	Tue,  6 Jan 2026 17:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28CA510E52C;
+	Tue,  6 Jan 2026 17:07:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tw7FouFw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="s4XrZUDY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B62C10E52A
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010014.outbound.protection.outlook.com
+ [52.101.193.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0A810E52F
  for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 17:07:23 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-78c66bdf675so12737337b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 09:07:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767719242; x=1768324042; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=q6nTt/11MUDH8R8hrkZ2QVblriU08h0BLeK1WGmhNU8=;
- b=Tw7FouFwZq4Ve4dQPxwc1F6TGAHJzrn328/1T9OPcVexZUVr9M340AMSsaEgPPAGJw
- xR4jp5UrezWNkFC0fqw8JZU5UwH4faut+gS1/HLIe19T1vXwNhP8IEI6/PAKLdJxwjcI
- /zgONL6TKNswyIinYA0nA67A3qSPfAhJS1Mt7HiqvUcHQjapFaKJnyWNbvp0kEYLaJAb
- PLle0FY2nIKQ6SJ57qfVASn9/qKU78VoZpyWKFO+sP+tzPwc0umaSMwGc3DuoKyWLYOi
- HakupiJUkZ42U+6E7PvuqX9My/0TbUHWWHqux6FSVNzOdWajnHEGgLWUHaEhzHpViqVF
- 7pYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767719242; x=1768324042;
- h=to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q6nTt/11MUDH8R8hrkZ2QVblriU08h0BLeK1WGmhNU8=;
- b=YDUbbEMVLEwYe9lAsCSfoWEGaoBdVw4wQQT5hZXsN1fJVqSj3T7y7vapQ6gC69niPf
- scZ1c0bcSwR7kZNkTDX4mqkqBz+rWmj1JRRmXtTEOSOhiscUD1zePj7HXmoSk6LVVlye
- xkRHs5fv0f/iBnI6dLUO+3qzZEd8T4QojxHCM63YJXH73z89c2mqWCyDQ27LIJwzhlsp
- Rbv1I/h/NS6P9r3ajJm0Kzi8kCuWiViVNTPUUYm4c7fyRy7JMBYJt2YlggLao4Vp9Vh2
- MxDQ1E9wGSccYC2hQZYmmV68YJZl2MtDqaSrVWBEEFSM1syPwBowlVa39gqyTUYKaX9h
- y7qA==
-X-Gm-Message-State: AOJu0YxzDVZDOYEj9KE315Ru7a18Wn0fqnnzRyWsZfRH9WFhgVOWbNac
- aJHFZj5IQ4l6Y5Yt85cEnuHHNwIr1vZ9JoB+jcT7CZfYVkLPjNn3Lk7fUFPzAeZTCcV4HZUvpQj
- CVZw9zRxwEjZr6fXasdpbspV9YCH/AlI3zD4+2fM=
-X-Gm-Gg: AY/fxX6lCBAhTAY9mN7g7d68mmlgO9VX2KFyzfcZjQRuBvQGMJZQVdXkry+UHU0lPK+
- 2cl6oN6rrOlb8qabZPxTmlpxP/MrhA/Mhwk6iy3vZql0owLeqJXyrTL1S/O7K8sSLGzRswBTQv3
- e5pptovcJuTwAJe3GhOPGsWQ0JU2BPd0Vx9psAcHQ11sKqJJZy1hm4NwJ18+yZyRgF0ajZamxfK
- S8JKLOrUAUMkkeCk3/R7OTJjlyHVssxVSYlaX6zXOEHun8zbJkSLA+5T9ngdQ4AKCthbcfhZRQ5
- te5VKAxuhM7LYSB7QjhGTJLQy/QUtayC4yRGJASSp0K3StAbk56Dn4c6jSmlma5rlPQLJFnLOVC
- tKCnXEOYkP7KYqA3oSW2PglrFVXKuTgM75UI/NEFcjwIgSLZY9gLhiNDS2Qs+2RxiI/53iw3jDH
- SetMf5FA==
-X-Google-Smtp-Source: AGHT+IH3ns3qcLsuyziFRxibcF6slu4HcENIZdI/yJNA5wSAEWxegWGV8pJcRnXFcQEYamZlGx5cD/OleihTrg5dDgQ=
-X-Received: by 2002:a05:690e:1a63:b0:645:5467:29f3 with SMTP id
- 956f58d0204a3-6470c88c2cbmr1995668d50.39.1767719241691; Tue, 06 Jan 2026
- 09:07:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s0y7Dzg5qh8DI2+FIWt3qlD1emx9+Qx4CcQIfReezy0JAzYsFbRbh/YJDwDVyhAgipEMnXhj2Su+c9z8iD+1iTor7bx4r/PcEgKvgmC1AbhdUfEhlWmNtSVIn0En5hmctq5R0WCdVjjRmXegTssph0aEurraSXzTjkf1MgYNASLZCNx5mYyQLUO1Y/4etG1Mf9OzwrwQOAtzHKvz8mYMQeycs2+8TXj8hXWej+AO9ozdigGO8xcP0XNa6hhaxPO6rDQXjKq9VufvG7FuPgJyLG2oZY4qO06ecV5absF7bOaD8c9S0fsxbRjXIwSIvVq5cGFgg+/OxFGn5ETHSYymhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LCY5Yt53KQpKq+bDZZyEDDSO0q/hCgPgYda6+6fwux8=;
+ b=tFSgs1YvXT0ROl/i+EvnuozwWpaX2NT3bF6dbdFZ/PedXxpiARHz5P05r76ySFaB9RjUz5QlOfXxe4K5CVoHQ2zYIEYGtZgR1G2Zbj55K16WRhdxL+bkUm85GqCKnOzkaWg4/aMds5bwcgNDtxnwULDcDwDCzMS9RjyWNyBKd7yyxWB/mHWNPo1cDl8b/h5Cf2C9g61YTl+YmicOkrdptHD77mKepXQPn03oomwVSy1VQcIH4biVYx6iQ2UMBSdtuxNZH/IXc7Zaabc59q3xD5/vyY4f0sh+d6RDhhxys8kJigk2B18j+3rDwwZn54do5dmY/fkhErELIsvUDwkg2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LCY5Yt53KQpKq+bDZZyEDDSO0q/hCgPgYda6+6fwux8=;
+ b=s4XrZUDYgYAuyonj+lFaOvVXQwO61AaHKwETqhjHxjq2qHQpNfyraDMKm9RL3Y95DKOeU4+RHyVraGlW8JjIrsAxMsUJxU7lh9eGAV0D9SagdiciIZK9aHLlS/k92xn4rrCcL/RiUIR5XRndH3jlHxBGXmU3soE+N3fRoAdP3aE=
+Received: from SJ0PR05CA0183.namprd05.prod.outlook.com (2603:10b6:a03:330::8)
+ by SA0PR12MB7074.namprd12.prod.outlook.com (2603:10b6:806:2d5::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Tue, 6 Jan
+ 2026 17:07:17 +0000
+Received: from SJ5PEPF000001F3.namprd05.prod.outlook.com
+ (2603:10b6:a03:330:cafe::fe) by SJ0PR05CA0183.outlook.office365.com
+ (2603:10b6:a03:330::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.1 via Frontend Transport; Tue, 6
+ Jan 2026 17:07:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ5PEPF000001F3.mail.protection.outlook.com (10.167.242.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.1 via Frontend Transport; Tue, 6 Jan 2026 17:07:16 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
+ 2026 11:07:15 -0600
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
+ 2026 09:07:15 -0800
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 6 Jan 2026 11:07:14 -0600
+Message-ID: <4363d65e-c50b-eb1a-39d3-99a9809f3c37@amd.com>
+Date: Tue, 6 Jan 2026 09:07:14 -0800
 MIME-Version: 1.0
-From: Satadru Pramanik <satadru@gmail.com>
-Date: Tue, 6 Jan 2026 12:07:08 -0500
-X-Gm-Features: AQt7F2pNquY56YVyxHy7ydQknVqSs1iLvrhNmAvZitHOaqj9cOig4ZyHNGKMZPw
-Message-ID: <CAFrh3J_OtTdve_ryOXZLfBV9sWDZ--HyTJZi9mSQ6gko98PJrA@mail.gmail.com>
-Subject: 6.19.0-rc4 regression from 6.19.0-rc3 in i915: [drm] PCH PWM1 enabled
-To: "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/alternative; boundary="00000000000076b6110647bb353c"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V3 1/2] platform/x86/amd/pmf: Introduce new interface to
+ export NPU metrics
+Content-Language: en-US
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
+ <ilpo.jarvinen@linux.intel.com>, <hansg@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>,
+ <platform-driver-x86@vger.kernel.org>, <VinitKumar.Shukla@amd.com>, "Patil
+ Rajesh Reddy" <Patil.Reddy@amd.com>
+References: <20260105172956.3732123-1-lizhi.hou@amd.com>
+ <20260105172956.3732123-2-lizhi.hou@amd.com>
+ <3e19f17e-3d5d-4b48-8776-65ac2543c066@amd.com>
+ <8495eeb5-b049-2efc-4ba7-c6dad1747501@amd.com>
+In-Reply-To: <8495eeb5-b049-2efc-4ba7-c6dad1747501@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F3:EE_|SA0PR12MB7074:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e609632-9777-444f-9380-08de4d460b19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SmZQdzk1YlczSFNONXhBbUJac2s3cUtpUy9LTnlvYUFtYXJNZDV3bTdFRTZa?=
+ =?utf-8?B?bUFRV0toYmxYdmRIRHRWNTZ6ME1Ka3Zmd2dVZkxheEZHcE11NzhRRCtNd3NF?=
+ =?utf-8?B?SzJrbWs3ZkQwc0pyc2JmUFJIdkNrekoybU44RW0zeFU2YVhvdk12bHdLck1v?=
+ =?utf-8?B?Y0o2TXBaamp0c2xBMVdMaTRldGRXaGVJVUhWQVlvMnQ4SjdubEZZc3h4ZVFU?=
+ =?utf-8?B?Q2FJMmduRXI0Nm5iRkZoZHJxMld3N0ZVV1hMYlIyZ2lrTllmdVFKb1RRL2lQ?=
+ =?utf-8?B?eUhuZE1TRUUvaHBMang0U0dDTDlFZzh6M1pHTUdLY09xT1ZkL1B0bnNQOVZ6?=
+ =?utf-8?B?NDM1QUwvWTdXQmR4cHhMeGJhS2dEN0NiMEExbENsN21vdnpYSHdxTVk0aXhZ?=
+ =?utf-8?B?cWZyQk1lL3Jtb1BmUnVScGxrVTJWNlZBSmFDTzBTZHhhOTVLR1RKamJsMVdz?=
+ =?utf-8?B?MnBhNkNKTzBlUTZxbS9GUXRLM3VMZ3lrR204bjRUcnFnOHl1VlhWcHZCNnFL?=
+ =?utf-8?B?WnVMNm1BSTBSSmM4dk5STW0xbnVIdlpNZ3BGYS9odTNUVnBZT0phcU1zZlRN?=
+ =?utf-8?B?OVM3OGRmd2FrWXRmTnh1aVdYL3NmRm9EWm9xN3BKdThwWXNDZ0lXRFpqckRC?=
+ =?utf-8?B?UEhWOEovbzVsZ004WkhYK2orMnluYlVWc3ZCcVhBU1QveG8xUmxVQWFQK3E2?=
+ =?utf-8?B?QVNiZlRzbE1TUy85UUdKZHNGbU9BTGZzcjhEelZycnpQbXhBWnk0Qlg2bUIx?=
+ =?utf-8?B?UlVvcVduMlU0Y0FUU0RHYWJjMkY1YXpyYWl1YllmWlgzRURZaERMajFoLzFR?=
+ =?utf-8?B?c2Nmek02aDU5dHAzTW0xdjRKT2Fma1FYSENqMTVnSkpYcXBVT1NZYmtkdnIr?=
+ =?utf-8?B?VUVtWHlSenpmOGtDT2JqL3lKNWVRYTdScVU2VW9RNzlWZStNWXFTUk41ZjZO?=
+ =?utf-8?B?ci9xc2hlMnh3bHZ6UWtrQStUbWZld205anpPNWhIb3FJNjF0cXZqWXhtNjl2?=
+ =?utf-8?B?cjI1SWdrVlVDbHFMZjYyaTM3bmZXS1hLeDcyYmhFZUFQeXFZMjFjV1g5eUdu?=
+ =?utf-8?B?VGxsYUNsMllQTzgyY0UxRUQ2TnNWZzludEhYam0wUGR3MFdZdDBVdmVWczVG?=
+ =?utf-8?B?VVpCbnE3U0lnQW1EZENkcWRRN0ZLOVdLVXl3YXVzQWhpN1ZKSHoyaFlOOW1B?=
+ =?utf-8?B?dDBVOHgwcHhhSFlxaWkyTFRXNk1QdkcvcGJsRU9lb2VWZitCZGFzS2RFdmtB?=
+ =?utf-8?B?YVRPMlBYSkxOZ2o4MnJSdWlzbEZ2VTJtVlIvMVJDeDR0akNiUVh4WUV1d0Zo?=
+ =?utf-8?B?UFErZklDMjIzK1k3aHYwQWxOZm1CUzFzSW13VnMzRnF5aVc5QjJKR0JCY2wy?=
+ =?utf-8?B?SGgybHhiNkZKTXppZm8yWlNQdHRTRmZGNmdkc21ReGU4OVFZVm05YnRRekZQ?=
+ =?utf-8?B?bGtrT2VSdHJ3U1IzNVJuZDQxTnJ2M2tpT2R1M3lidllkSHBLaFNBRDNkSHBH?=
+ =?utf-8?B?L3VDUEdSVFhPT01vN0ZSbDZ6VnZKd2xrU0hGMkUrcDNHbDVlYWZTZnZDSy84?=
+ =?utf-8?B?VXpoL21HS2xpOHE1ZHVXcWZQclU5VWhCbWt3d3o1VmIwQS9ZREdqV1ZyclZO?=
+ =?utf-8?B?TXRtM1NrdkJXa0JnSUMxY3FURmlsM0tpRXRFQmtWdCtKV0lxTVBTNTJCdk14?=
+ =?utf-8?B?VFkwYmZqWW9MVFl2WVFZb1dsZ0o4cWNDdnpYblFmZDFUR3laWnhMNXdoV0I1?=
+ =?utf-8?B?SWR4SmdGS1B2T3N6WGtRa3BjdTdRcDViUCszaVIxaHhNa1kzbWpsN3plcU1v?=
+ =?utf-8?B?Sy94bjFzaytKM2NZbXlOVmMvK3A4d1ZYRnNUcW50ZzZiOVlGblRKRzRScFZH?=
+ =?utf-8?B?YksrQ0J0NU44ai83TkJyTEtqVnNDcXhaK3k5TFBDVEtaTE5jR0ZpOUdjMmtY?=
+ =?utf-8?B?TEk3NVFaZ0gxNzIxWU5xTmlIRG40S1JlVFBvaGIvUzMzUnBFNndGSGZkRkRP?=
+ =?utf-8?B?eHM0SGl2WEljTnNvYUltQ2hNc0VYVUtJSnNhcHJQWEQyV1BUVFBiVDlkaUcv?=
+ =?utf-8?B?NzhBcUpaZHdqeExDWC8ydFhQenM0Wmc2ckIrZjNKUUpTVDVjVkE5NWZtL2Ni?=
+ =?utf-8?Q?iVu4=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2026 17:07:16.1339 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e609632-9777-444f-9380-08de4d460b19
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001F3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,211 +159,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000076b6110647bb353c
-Content-Type: text/plain; charset="UTF-8"
-
-Hello all, I'm newly getting this in my dmesg on my MacBookPro11,3 after
-updating from 6.19.0-rc3 to 6.19.0-rc4 on Ubuntu 25.10. I'm using the
-nouveau driver for my display, but this warning appears to be from i915,
-which my laptop also may be using for some portion of display enablement.
-
-[  200.760128] ------------[ cut here ]------------
-[  200.760132] i915 0000:00:02.0: [drm] PCH PWM1 enabled
-[  200.760134] WARNING:
-drivers/gpu/drm/i915/display/intel_display_power.c:1234 at
-hsw_enable_pc8+0x8a4/0xb10 [i915], CPU#0: kworker/u32:6/1378
-[  200.760351] Modules linked in: snd_seq_dummy snd_hrtimer
-scsi_transport_iscsi qrtr ccm algif_aead des3_ede_x86_64 des_generic libdes
-md4 rfcomm cmac algif_hash algif_skcipher af_alg bnep blocklayoutdriver
-nfsv4 nfs lockd grace nfs_localio netfs sunrpc binfmt_misc nls_iso8859_1
-cmdlinepart spi_nor mtd snd_hda_codec_intelhdmi intel_rapl_msr zfs(POE)
-intel_rapl_common x86_pkg_temp_thermal intel_powerclamp nouveau input_leds
-i915 spl(OE) snd_hda_codec_cs420x snd_hda_codec_generic
-snd_hda_codec_nvhdmi snd_hda_codec_hdmi hid_apple drm_ttm_helper coretemp
-facetimehd(OE) snd_hda_intel gpu_sched btusb videobuf2_dma_sg
-snd_intel_dspcfg drm_gpuvm videobuf2_memops btrtl snd_intel_sdw_acpi
-videobuf2_v4l2 snd_seq_midi snd_hda_codec btintel snd_seq_midi_event
-drm_exec drm_buddy iTCO_wdt videodev kvm_intel btbcm mxm_wmi i2c_algo_bit
-btmtk snd_hwdep intel_pmc_bxt snd_rawmidi spi_intel_platform wl(POE) joydev
-hid_generic videobuf2_common kvm spi_intel snd_hda_core iTCO_vendor_support
-applesmc ghash_clmulni_intel nvme ttm rapl bluetooth
-[  200.760418]  snd_seq intel_cstate uas usbhid drm_display_helper snd_pcm
-nvme_core cfg80211 cec efi_pstore rc_core hid mc bcm5974 sbs thunderbolt
-apple_mfi_fastcharge drm_client_lib i2c_i801 drm_kms_helper i2c_mux
-usb_storage i2c_smbus lpc_ich sbshc snd_timer apple_gmux snd_seq_device
-acpi_als industrialio_triggered_buffer mei_me kfifo_buf drm snd
-industrialio mei soundcore video wmi mac_hid dm_mirror dm_region_hash
-dm_log tcp_bbr sch_fq_codel pkcs8_key_parser msr parport_pc ppdev lp
-parport nfnetlink dmi_sysfs autofs4 aesni_intel
-[  200.760461] CPU: 0 UID: 0 PID: 1378 Comm: kworker/u32:6 Tainted: P     U
- W  OE       6.19.0-rc4 #1 PREEMPT(lazy)
-[  200.760466] Tainted: [P]=PROPRIETARY_MODULE, [U]=USER, [W]=WARN,
-[O]=OOT_MODULE, [E]=UNSIGNED_MODULE
-[  200.760468] Hardware name: Apple Inc.
-MacBookPro11,3/Mac-2BD1B31983FE1663, BIOS 432.60.3.0.0 10/27/2021
-[  200.760470] Workqueue: pm pm_runtime_work
-[  200.760478] Sched_ext: lavd_1.0.20_g3c8138b8_x86_64_unknown_linux_gnu
-(enabled+all), task: runnable_at=+0ms
-[  200.760480] RIP: 0010:hsw_enable_pc8+0x8aa/0xb10 [i915]
-[  200.760653] Code: 32 12 00 48 85 ff 74 04 48 8b 7f 08 4c 8b 67 50 4d 85
-e4 75 03 4c 8b 27 e8 e3 73 a7 e4 48 8d 3d dc 03 30 00 4c 89 e2 48 89 c6
-<67> 48 0f b9 3a e9 df f9 ff ff 48 8b 3b 80 bb 4b 14 00 00 00 0f 84
-[  200.760655] RSP: 0018:ffffaf668250fc68 EFLAGS: 00010282
-[  200.760658] RAX: ffffffffc1d688a4 RBX: ffff920740f62000 RCX:
-ffffffffc180f0d0
-[  200.760660] RDX: ffff920742008030 RSI: ffffffffc1d688a4 RDI:
-ffffffffc1c038d0
-[  200.760661] RBP: ffffaf668250fc90 R08: 0000000000000002 R09:
-0000000000000064
-[  200.760663] R10: 0000000000000000 R11: 0000000000000001 R12:
-ffff920742008030
-[  200.760664] R13: ffff920740ed4000 R14: 0000000000000000 R15:
-ffff920740ed4000
-[  200.760666] FS:  0000000000000000(0000) GS:ffff920b06bfd000(0000)
-knlGS:0000000000000000
-[  200.760668] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  200.760669] CR2: 00007f72423b701c CR3: 00000001777eb004 CR4:
-00000000001726f0
-[  200.760671] Call Trace:
-[  200.760673]  <TASK>
-[  200.760678]  intel_display_power_suspend+0x61/0x80 [i915]
-[  200.760852]  intel_runtime_suspend+0xd7/0x230 [i915]
-[  200.760963]  ? __pfx_pci_pm_runtime_suspend+0x10/0x10
-[  200.760970]  pci_pm_runtime_suspend+0x6a/0x1a0
-[  200.760974]  __rpm_callback+0x4b/0x1f0
-[  200.760979]  ? __pfx_pci_pm_runtime_suspend+0x10/0x10
-[  200.760983]  rpm_callback+0x6f/0x80
-[  200.760986]  rpm_suspend+0xe1/0x5e0
-[  200.760990]  ? __schedule+0x44b/0x1650
-[  200.760996]  pm_runtime_work+0x91/0xa0
-[  200.761000]  process_one_work+0x188/0x360
-[  200.761005]  worker_thread+0x327/0x460
-[  200.761007]  ? __pfx_worker_thread+0x10/0x10
-[  200.761010]  kthread+0x10b/0x220
-[  200.761015]  ? __pfx_kthread+0x10/0x10
-[  200.761018]  ret_from_fork+0x16e/0x1e0
-[  200.761023]  ? __pfx_kthread+0x10/0x10
-[  200.761027]  ret_from_fork_asm+0x1a/0x30
-[  200.761034]  </TASK>
-[  200.761035] ---[ end trace 0000000000000000 ]---
+Hi Ilpo,
 
 
-inxi -IG gives me this:
-Graphics:
-  Device-1: Intel Crystal Well Integrated Graphics driver: i915 v: kernel
-  Device-2: NVIDIA GK107M [GeForce GT 750M Mac Edition] driver: nouveau
-    v: kernel
-  Display: wayland server: X.Org v: 24.1.8 with: Xwayland v: 24.1.8
-    compositor: gnome-shell v: 49.0 driver: X: loaded: modesetting
-    unloaded: fbdev,vesa dri: nouveau gpu: nouveau resolution:
-3840x2400~60Hz
-  API: EGL v: 1.5 drivers: crocus,nouveau,swrast
-    platforms: gbm,wayland,x11,surfaceless,device
-  API: OpenGL v: 4.6 compat-v: 4.3 vendor: mesa
-    v: 25.3.2+git2512181741.a943c55aea0~q~mesarc2 renderer: NVE7
-  API: Vulkan v: 1.4.321 drivers: nvk,intel,llvmpipe
-    surfaces: xcb,xlib,wayland
-  Info: Tools: api: eglinfo, glxinfo, vulkaninfo x11: xdriinfo, xdpyinfo,
-    xprop, xrandr
-Info:
-  Memory: total: 16 GiB available: 15.53 GiB used: 4.85 GiB (31.2%)
-  Processes: 468 Uptime: 17m Shell: Bash inxi: 3.3.39
+What should be the next step? Should I generate both patches based on 
+review-ilpo-next? Will the amdxdna change upstream through platform-x86 
+tree?
 
-Please let me know if I'm sending this to the wrong list?
 
-Regards,
+Thanks,
 
-Satadru Pramanik
+Lizhi
 
---00000000000076b6110647bb353c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello all, I&#39;m newly getting this in my dmesg on =
-my MacBookPro11,3 after updating from 6.19.0-rc3 to 6.19.0-rc4 on Ubuntu 25=
-.10. I&#39;m using the nouveau driver for my display, but this warning appe=
-ars to be from i915, which my laptop also may be using for some portion of =
-display enablement.</div><div><br></div><div>[ =C2=A0200.760128] ----------=
---[ cut here ]------------<br>[ =C2=A0200.760132] i915 0000:00:02.0: [drm] =
-PCH PWM1 enabled<br>[ =C2=A0200.760134] WARNING: drivers/gpu/drm/i915/displ=
-ay/intel_display_power.c:1234 at hsw_enable_pc8+0x8a4/0xb10 [i915], CPU#0: =
-kworker/u32:6/1378<br>[ =C2=A0200.760351] Modules linked in: snd_seq_dummy =
-snd_hrtimer scsi_transport_iscsi qrtr ccm algif_aead des3_ede_x86_64 des_ge=
-neric libdes md4 rfcomm cmac algif_hash algif_skcipher af_alg bnep blocklay=
-outdriver nfsv4 nfs lockd grace nfs_localio netfs sunrpc binfmt_misc nls_is=
-o8859_1 cmdlinepart spi_nor mtd snd_hda_codec_intelhdmi intel_rapl_msr zfs(=
-POE) intel_rapl_common x86_pkg_temp_thermal intel_powerclamp nouveau input_=
-leds i915 spl(OE) snd_hda_codec_cs420x snd_hda_codec_generic snd_hda_codec_=
-nvhdmi snd_hda_codec_hdmi hid_apple drm_ttm_helper coretemp facetimehd(OE) =
-snd_hda_intel gpu_sched btusb videobuf2_dma_sg snd_intel_dspcfg drm_gpuvm v=
-ideobuf2_memops btrtl snd_intel_sdw_acpi videobuf2_v4l2 snd_seq_midi snd_hd=
-a_codec btintel snd_seq_midi_event drm_exec drm_buddy iTCO_wdt videodev kvm=
-_intel btbcm mxm_wmi i2c_algo_bit btmtk snd_hwdep intel_pmc_bxt snd_rawmidi=
- spi_intel_platform wl(POE) joydev hid_generic videobuf2_common kvm spi_int=
-el snd_hda_core iTCO_vendor_support applesmc ghash_clmulni_intel nvme ttm r=
-apl bluetooth<br>[ =C2=A0200.760418] =C2=A0snd_seq intel_cstate uas usbhid =
-drm_display_helper snd_pcm nvme_core cfg80211 cec efi_pstore rc_core hid mc=
- bcm5974 sbs thunderbolt apple_mfi_fastcharge drm_client_lib i2c_i801 drm_k=
-ms_helper i2c_mux usb_storage i2c_smbus lpc_ich sbshc snd_timer apple_gmux =
-snd_seq_device acpi_als industrialio_triggered_buffer mei_me kfifo_buf drm =
-snd industrialio mei soundcore video wmi mac_hid dm_mirror dm_region_hash d=
-m_log tcp_bbr sch_fq_codel pkcs8_key_parser msr parport_pc ppdev lp parport=
- nfnetlink dmi_sysfs autofs4 aesni_intel<br>[ =C2=A0200.760461] CPU: 0 UID:=
- 0 PID: 1378 Comm: kworker/u32:6 Tainted: P =C2=A0 =C2=A0 U =C2=A0W =C2=A0O=
-E =C2=A0 =C2=A0 =C2=A0 6.19.0-rc4 #1 PREEMPT(lazy) <br>[ =C2=A0200.760466] =
-Tainted: [P]=3DPROPRIETARY_MODULE, [U]=3DUSER, [W]=3DWARN, [O]=3DOOT_MODULE=
-, [E]=3DUNSIGNED_MODULE<br>[ =C2=A0200.760468] Hardware name: Apple Inc. Ma=
-cBookPro11,3/Mac-2BD1B31983FE1663, BIOS 432.60.3.0.0 10/27/2021<br>[ =C2=A0=
-200.760470] Workqueue: pm pm_runtime_work<br>[ =C2=A0200.760478] Sched_ext:=
- lavd_1.0.20_g3c8138b8_x86_64_unknown_linux_gnu (enabled+all), task: runnab=
-le_at=3D+0ms<br>[ =C2=A0200.760480] RIP: 0010:hsw_enable_pc8+0x8aa/0xb10 [i=
-915]<br>[ =C2=A0200.760653] Code: 32 12 00 48 85 ff 74 04 48 8b 7f 08 4c 8b=
- 67 50 4d 85 e4 75 03 4c 8b 27 e8 e3 73 a7 e4 48 8d 3d dc 03 30 00 4c 89 e2=
- 48 89 c6 &lt;67&gt; 48 0f b9 3a e9 df f9 ff ff 48 8b 3b 80 bb 4b 14 00 00 =
-00 0f 84<br>[ =C2=A0200.760655] RSP: 0018:ffffaf668250fc68 EFLAGS: 00010282=
-<br>[ =C2=A0200.760658] RAX: ffffffffc1d688a4 RBX: ffff920740f62000 RCX: ff=
-ffffffc180f0d0<br>[ =C2=A0200.760660] RDX: ffff920742008030 RSI: ffffffffc1=
-d688a4 RDI: ffffffffc1c038d0<br>[ =C2=A0200.760661] RBP: ffffaf668250fc90 R=
-08: 0000000000000002 R09: 0000000000000064<br>[ =C2=A0200.760663] R10: 0000=
-000000000000 R11: 0000000000000001 R12: ffff920742008030<br>[ =C2=A0200.760=
-664] R13: ffff920740ed4000 R14: 0000000000000000 R15: ffff920740ed4000<br>[=
- =C2=A0200.760666] FS: =C2=A00000000000000000(0000) GS:ffff920b06bfd000(000=
-0) knlGS:0000000000000000<br>[ =C2=A0200.760668] CS: =C2=A00010 DS: 0000 ES=
-: 0000 CR0: 0000000080050033<br>[ =C2=A0200.760669] CR2: 00007f72423b701c C=
-R3: 00000001777eb004 CR4: 00000000001726f0<br>[ =C2=A0200.760671] Call Trac=
-e:<br>[ =C2=A0200.760673] =C2=A0&lt;TASK&gt;<br>[ =C2=A0200.760678] =C2=A0i=
-ntel_display_power_suspend+0x61/0x80 [i915]<br>[ =C2=A0200.760852] =C2=A0in=
-tel_runtime_suspend+0xd7/0x230 [i915]<br>[ =C2=A0200.760963] =C2=A0? __pfx_=
-pci_pm_runtime_suspend+0x10/0x10<br>[ =C2=A0200.760970] =C2=A0pci_pm_runtim=
-e_suspend+0x6a/0x1a0<br>[ =C2=A0200.760974] =C2=A0__rpm_callback+0x4b/0x1f0=
-<br>[ =C2=A0200.760979] =C2=A0? __pfx_pci_pm_runtime_suspend+0x10/0x10<br>[=
- =C2=A0200.760983] =C2=A0rpm_callback+0x6f/0x80<br>[ =C2=A0200.760986] =C2=
-=A0rpm_suspend+0xe1/0x5e0<br>[ =C2=A0200.760990] =C2=A0? __schedule+0x44b/0=
-x1650<br>[ =C2=A0200.760996] =C2=A0pm_runtime_work+0x91/0xa0<br>[ =C2=A0200=
-.761000] =C2=A0process_one_work+0x188/0x360<br>[ =C2=A0200.761005] =C2=A0wo=
-rker_thread+0x327/0x460<br>[ =C2=A0200.761007] =C2=A0? __pfx_worker_thread+=
-0x10/0x10<br>[ =C2=A0200.761010] =C2=A0kthread+0x10b/0x220<br>[ =C2=A0200.7=
-61015] =C2=A0? __pfx_kthread+0x10/0x10<br>[ =C2=A0200.761018] =C2=A0ret_fro=
-m_fork+0x16e/0x1e0<br>[ =C2=A0200.761023] =C2=A0? __pfx_kthread+0x10/0x10<b=
-r>[ =C2=A0200.761027] =C2=A0ret_from_fork_asm+0x1a/0x30<br>[ =C2=A0200.7610=
-34] =C2=A0&lt;/TASK&gt;<br>[ =C2=A0200.761035] ---[ end trace 0000000000000=
-000 ]---</div><div><br></div><div><br></div><div>inxi -IG gives me this:<br=
->Graphics:<br>=C2=A0 Device-1: Intel Crystal Well Integrated Graphics drive=
-r: i915 v: kernel<br>=C2=A0 Device-2: NVIDIA GK107M [GeForce GT 750M Mac Ed=
-ition] driver: nouveau<br>=C2=A0 =C2=A0 v: kernel<br>=C2=A0 Display: waylan=
-d server: X.Org v: 24.1.8 with: Xwayland v: 24.1.8<br>=C2=A0 =C2=A0 composi=
-tor: gnome-shell v: 49.0 driver: X: loaded: modesetting<br>=C2=A0 =C2=A0 un=
-loaded: fbdev,vesa dri: nouveau gpu: nouveau resolution: 3840x2400~60Hz<br>=
-=C2=A0 API: EGL v: 1.5 drivers: crocus,nouveau,swrast<br>=C2=A0 =C2=A0 plat=
-forms: gbm,wayland,x11,surfaceless,device<br>=C2=A0 API: OpenGL v: 4.6 comp=
-at-v: 4.3 vendor: mesa<br>=C2=A0 =C2=A0 v: 25.3.2+git2512181741.a943c55aea0=
-~q~mesarc2 renderer: NVE7<br>=C2=A0 API: Vulkan v: 1.4.321 drivers: nvk,int=
-el,llvmpipe<br>=C2=A0 =C2=A0 surfaces: xcb,xlib,wayland<br>=C2=A0 Info: Too=
-ls: api: eglinfo, glxinfo, vulkaninfo x11: xdriinfo, xdpyinfo,<br>=C2=A0 =
-=C2=A0 xprop, xrandr<br>Info:<br>=C2=A0 Memory: total: 16 GiB available: 15=
-.53 GiB used: 4.85 GiB (31.2%)<br>=C2=A0 Processes: 468 Uptime: 17m Shell: =
-Bash inxi: 3.3.39</div><div><br></div><div>Please let me know if I&#39;m se=
-nding this to the wrong list?</div><div><br></div><div>Regards,</div><div><=
-br></div><div>Satadru Pramanik</div></div>
-
---00000000000076b6110647bb353c--
+On 1/6/26 08:16, Lizhi Hou wrote:
+>
+> On 1/6/26 05:19, Shyam Sundar S K wrote:
+>>
+>> On 1/5/2026 22:59, Lizhi Hou wrote:
+>>> From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>>
+>>> The PMF driver retrieves NPU metrics data from the PMFW. Introduce a 
+>>> new
+>>> interface to make NPU metrics accessible to other drivers like AMDXDNA
+>>> driver, which can access and utilize this information as needed.
+>>>
+>>> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>>> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>> [lizhi: save return value of is_npu_metrics_supported() and return it]
+>>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> Lizhi, just noticied that this patch may not apply cleanly on
+>> Ilpo-next (which tree does this change land? drm-misc or
+>> platform-x86)? If platform-x86, I can share you a rebased version
+>
+> I used drm-misc.
+>
+> Lizhi
+>
+>> offline so that you can wrap into XDNA series.
+>>
+>> Thanks,
+>> Shyam
+>>
+>>> ---
+>>>   drivers/platform/x86/amd/pmf/core.c | 76 
+>>> +++++++++++++++++++++++++++++
+>>>   drivers/platform/x86/amd/pmf/pmf.h  |  2 +
+>>>   include/linux/amd-pmf-io.h          | 21 ++++++++
+>>>   3 files changed, 99 insertions(+)
+>>>
+>>> diff --git a/drivers/platform/x86/amd/pmf/core.c 
+>>> b/drivers/platform/x86/amd/pmf/core.c
+>>> index 8fc293c9c538..d180a39e03bf 100644
+>>> --- a/drivers/platform/x86/amd/pmf/core.c
+>>> +++ b/drivers/platform/x86/amd/pmf/core.c
+>>> @@ -8,12 +8,15 @@
+>>>    * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>>    */
+>>>   +#include <linux/array_size.h>
+>>> +#include <linux/cleanup.h>
+>>>   #include <linux/debugfs.h>
+>>>   #include <linux/iopoll.h>
+>>>   #include <linux/module.h>
+>>>   #include <linux/pci.h>
+>>>   #include <linux/platform_device.h>
+>>>   #include <linux/power_supply.h>
+>>> +#include <linux/string.h>
+>>>   #include <asm/amd/node.h>
+>>>   #include "pmf.h"
+>>>   @@ -53,6 +56,8 @@ static bool force_load;
+>>>   module_param(force_load, bool, 0444);
+>>>   MODULE_PARM_DESC(force_load, "Force load this driver on supported 
+>>> older platforms (experimental)");
+>>>   +static struct device *pmf_device;
+>>> +
+>>>   static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, 
+>>> unsigned long event, void *data)
+>>>   {
+>>>       struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, 
+>>> pwr_src_notifier);
+>>> @@ -314,6 +319,71 @@ int amd_pmf_init_metrics_table(struct 
+>>> amd_pmf_dev *dev)
+>>>       return 0;
+>>>   }
+>>>   +static int is_npu_metrics_supported(struct amd_pmf_dev *pdev)
+>>> +{
+>>> +    switch (pdev->cpu_id) {
+>>> +    case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
+>>> +    case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
+>>> +        return 0;
+>>> +    default:
+>>> +        return -EOPNOTSUPP;
+>>> +    }
+>>> +}
+>>> +
+>>> +static int amd_pmf_get_smu_metrics(struct amd_pmf_dev *dev, struct 
+>>> amd_pmf_npu_metrics *data)
+>>> +{
+>>> +    int ret, i;
+>>> +
+>>> +    guard(mutex)(&dev->metrics_mutex);
+>>> +
+>>> +    ret = is_npu_metrics_supported(dev);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    ret = amd_pmf_set_dram_addr(dev, true);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    memset(dev->buf, 0, dev->mtable_size);
+>>> +
+>>> +    /* Send SMU command to get NPU metrics */
+>>> +    ret = amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, SET_CMD, 
+>>> METRICS_TABLE_ID, NULL);
+>>> +    if (ret) {
+>>> +        dev_err(dev->dev, "SMU command failed to get NPU metrics: 
+>>> %d\n", ret);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    memcpy(&dev->m_table_v2, dev->buf, dev->mtable_size);
+>>> +
+>>> +    data->npuclk_freq = dev->m_table_v2.npuclk_freq;
+>>> +    for (i = 0; i < ARRAY_SIZE(data->npu_busy); i++)
+>>> +        data->npu_busy[i] = dev->m_table_v2.npu_busy[i];
+>>> +    data->npu_power = dev->m_table_v2.npu_power;
+>>> +    data->mpnpuclk_freq = dev->m_table_v2.mpnpuclk_freq;
+>>> +    data->npu_reads = dev->m_table_v2.npu_reads;
+>>> +    data->npu_writes = dev->m_table_v2.npu_writes;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info)
+>>> +{
+>>> +    struct amd_pmf_dev *pdev;
+>>> +
+>>> +    if (!info)
+>>> +        return -EINVAL;
+>>> +
+>>> +    if (!pmf_device)
+>>> +        return -ENODEV;
+>>> +
+>>> +    pdev = dev_get_drvdata(pmf_device);
+>>> +    if (!pdev)
+>>> +        return -ENODEV;
+>>> +
+>>> +    return amd_pmf_get_smu_metrics(pdev, info);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(amd_pmf_get_npu_data);
+>>> +
+>>>   static int amd_pmf_suspend_handler(struct device *dev)
+>>>   {
+>>>       struct amd_pmf_dev *pdev = dev_get_drvdata(dev);
+>>> @@ -477,6 +547,10 @@ static int amd_pmf_probe(struct platform_device 
+>>> *pdev)
+>>>       if (err)
+>>>           return err;
+>>>   +    err = devm_mutex_init(dev->dev, &dev->metrics_mutex);
+>>> +    if (err)
+>>> +        return err;
+>>> +
+>>>       apmf_acpi_init(dev);
+>>>       platform_set_drvdata(pdev, dev);
+>>>       amd_pmf_dbgfs_register(dev);
+>>> @@ -485,6 +559,8 @@ static int amd_pmf_probe(struct platform_device 
+>>> *pdev)
+>>>       if (is_apmf_func_supported(dev, APMF_FUNC_SBIOS_HEARTBEAT_V2))
+>>>           amd_pmf_notify_sbios_heartbeat_event_v2(dev, ON_LOAD);
+>>>   +    pmf_device = dev->dev;
+>>> +
+>>>       dev_info(dev->dev, "registered PMF device successfully\n");
+>>>         return 0;
+>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h 
+>>> b/drivers/platform/x86/amd/pmf/pmf.h
+>>> index 9144c8c3bbaf..1bf896c5b92c 100644
+>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>>> @@ -12,6 +12,7 @@
+>>>   #define PMF_H
+>>>     #include <linux/acpi.h>
+>>> +#include <linux/amd-pmf-io.h>
+>>>   #include <linux/input.h>
+>>>   #include <linux/platform_device.h>
+>>>   #include <linux/platform_profile.h>
+>>> @@ -413,6 +414,7 @@ struct amd_pmf_dev {
+>>>       struct apmf_sbios_req_v1 req1;
+>>>       struct pmf_bios_inputs_prev cb_prev; /* To preserve custom 
+>>> BIOS inputs */
+>>>       bool cb_flag;                 /* To handle first custom BIOS 
+>>> input */
+>>> +    struct mutex metrics_mutex;
+>>>   };
+>>>     struct apmf_sps_prop_granular_v2 {
+>>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+>>> index 6fa510f419c0..55198d2875cc 100644
+>>> --- a/include/linux/amd-pmf-io.h
+>>> +++ b/include/linux/amd-pmf-io.h
+>>> @@ -61,5 +61,26 @@ enum laptop_placement {
+>>>       LP_UNDEFINED,
+>>>   };
+>>>   +/**
+>>> + * struct amd_pmf_npu_metrics: Get NPU metrics data from PMF driver
+>>> + * @npuclk_freq: NPU clock frequency [MHz]
+>>> + * @npu_busy: NPU busy % [0-100]
+>>> + * @npu_power: NPU power [mW]
+>>> + * @mpnpuclk_freq: MPNPU [MHz]
+>>> + * @npu_reads: NPU read bandwidth [MB/sec]
+>>> + * @npu_writes: NPU write bandwidth [MB/sec]
+>>> + */
+>>> +struct amd_pmf_npu_metrics {
+>>> +    u16 npuclk_freq;
+>>> +    u16 npu_busy[8];
+>>> +    u16 npu_power;
+>>> +    u16 mpnpuclk_freq;
+>>> +    u16 npu_reads;
+>>> +    u16 npu_writes;
+>>> +};
+>>> +
+>>>   int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum 
+>>> sfh_message_type op);
+>>> +
+>>> +/* AMD PMF and NPU interface */
+>>> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info);
+>>>   #endif
