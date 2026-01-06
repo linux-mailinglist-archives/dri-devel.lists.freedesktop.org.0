@@ -2,88 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B912ACF6DC9
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 07:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C874CF6DF7
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 07:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603AF10E48B;
-	Tue,  6 Jan 2026 06:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A516F10E48D;
+	Tue,  6 Jan 2026 06:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="pUw0IcUm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OFvHmsfo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Tue, 06 Jan 2026 06:15:55 UTC
-Received: from omta36.uswest2.a.cloudfilter.net
- (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F2D10E48B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 06:15:55 +0000 (UTC)
-Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
- by cmsmtp with ESMTPS
- id d06tvRvXZVCBNd0FLvFVRk; Tue, 06 Jan 2026 06:08:48 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id d0FLvnNRZSqlVd0FLvopdL; Tue, 06 Jan 2026 06:08:47 +0000
-X-Authority-Analysis: v=2.4 cv=I7FlRMgg c=1 sm=1 tr=0 ts=695ca6ef
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=Aea70ojWhvW6xI+oM0giEQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=9vlq1VobPfUJAe141Q0A:9 a=QEXdDO2ut3YA:10 a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=T8hG9y1BZklptsV/xBAiq/b+CBwDpXaK8p7nFH8qK/k=; b=pUw0IcUmyudnHEzadV7E5DiBFg
- NbxFokoAaw+dTAVWMOgnejpkK8g5Penu+9YGaRwrvUk3pN6HSR6U8CR0wP9HKSi6SROBuD39pHXKk
- oWMLarjaq710D+WwgE2G3o0doo4nc9jXiEeXNjIpBpXmcB/Dkv6hpwn/yyCZUpTTDr7mw6EkPMCoY
- 9ae1pU31x35kKTk0QDqjuVfYs0Hp2bqfNpq5mLUG486O2d9A84bwTzCKM0goxDBC2N37l2SOqCLIf
- sRX7RGJQMxg/H+rfufKCMQyCIAxrSl2acbH6BrE25L97lXIP9+wHW+Ur2iYnkcIs2uSSHkUNbko/u
- 2eBobKXQ==;
-Received: from flh4-122-130-137-161.osk.mesh.ad.jp ([122.130.137.161]:60510
- helo=[10.221.196.44])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.98.1)
- (envelope-from <gustavo@embeddedor.com>) id 1vd0FK-00000002wEp-24z5;
- Tue, 06 Jan 2026 00:08:46 -0600
-Message-ID: <e1009d16-cadb-4446-aef5-4a52197551a4@embeddedor.com>
-Date: Tue, 6 Jan 2026 15:08:41 +0900
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F7F10E48D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 06:19:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D2AE444258;
+ Tue,  6 Jan 2026 06:19:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB9BC19421;
+ Tue,  6 Jan 2026 06:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767680377;
+ bh=imiLwEBaT993UVCaeMAOWgSjk7AYRckTPdhPaGrRzzA=;
+ h=From:Subject:Date:To:Cc:From;
+ b=OFvHmsfoZrX3XS1pM8QjY435dwDTtavvTIbN77DCujkcICcVGvdc+G8O2cO6n9LOr
+ 8EaL/XkeYMYcjluJAPDBLQWTxUiN2VRQ1p9F8jgbihRO6TcRAV6ldQ66u1RBqj/D5O
+ 0cb8He8odFPEVV6mMvSBxh4q78RH/5cSEXEnB1jtlQmmK5dO16xY1McE+RvZEJYME8
+ 2KkNUOg6HpeNoSfhGi4NKMSTvKegKNQdKphyaOAkKW3DcaCHpk8xNhrLpaLd1V/oZm
+ gaUsSFS29JuzJqWNwYm4o4Dn0ieTno/2MMErXXIEu/JOztxpPUJoegoIhV9I5cA+KD
+ UxoNV27glPF5A==
+From: Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 0/2] drm/panic: Avoid crash from invalid
+ CONFIG_DRM_PANIC_SCREEN values
+Date: Mon, 05 Jan 2026 23:19:25 -0700
+Message-Id: <20260105-drm_panic-handle-invalid-drm_panic_screen-v1-0-55228bd4b0f8@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3][next] drm/nouveau: fifo: Avoid
- -Wflex-array-member-not-at-end warning
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <aJ17oxJYcqqr3946@kspp>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <aJ17oxJYcqqr3946@kspp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 122.130.137.161
-X-Source-L: No
-X-Exim-ID: 1vd0FK-00000002wEp-24z5
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: flh4-122-130-137-161.osk.mesh.ad.jp ([10.221.196.44])
- [122.130.137.161]:60510
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 6
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfDZnToC1Hdq7LpWWsicYUPlDK9fwBJSweJ1ZPqYYvvWKoXK67JjEQcKIlnjOpVFggrHQfs5RZIhF1b779JADUEeHrfEzYYhtThzaNPM9UpA/SrvIp+mR
- znBQJyHzXHPWapl7z//fDNFicm3/llfsXtMIhDMlFooQX2ug6Lp4zqfZFp9Pt0FK9jimfydf2T4FAIuEmhXdNOAuYPkctcgbl9J2OkaSer0WHDZTMvc0b0pz
+X-B4-Tracking: v=1; b=H4sIAG2pXGkC/0WN0QrCMAwAf2Xk2UJb5qT+isioadTIjCPRIYz9u
+ 3U++Hgc3M1gpEwG+2YGpYmNH1IhbBrAa5YLOS6VIfrY+eC3rui9H7MwuqrLUL1MeeDyF72hEon
+ zaUdtohiwTVB7o9KZ3+vrcPyxvU43wud3AMvyAVXZkVmNAAAA
+X-Change-ID: 20260105-drm_panic-handle-invalid-drm_panic_screen-097e49e21c49
+To: Jocelyn Falempe <jfalempe@redhat.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=imiLwEBaT993UVCaeMAOWgSjk7AYRckTPdhPaGrRzzA=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJkxK8sdH8VYOQo2aK2Kaphb/uTEQm7m//w7l/wXjlnQO
+ b9shll7RykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZjImjSGP5xGa900t5ybvLn6
+ ht4bXe9stgKBTSJ7tGf919AVD37Vu4Xhf1rzvA7dj2rNXrMv3X31677gnUVvfkxt+TtZmGebxMF
+ SfRYA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,53 +75,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi all,
 
-Friendly ping: who can take this, please?
+This series addresses a couple of issues I noticed when accessing
+/sys/module/drm/parameters/panic_screen on my Arch Linux machines, which
+have "qr_code" as the value of CONFIG_DRM_PANIC_SCREEN. This happened to
+be unsupported in my configuration since I was missing some Rust
+dependencies in my environment for CONFIG_DRM_PANIC_SCREEN_QR_CODE,
+resulting in a kernel crash. Patch one addresses the root cause of the
+crash and patch two addresses an inconsistency I noticed between this
+new code and the documented value for CONFIG_DRM_PANIC_SCREEN in Kconfig
+for qr_code.
 
-Thanks
--Gustavo
+If there are any issues, please let me know.
 
-On 8/14/25 15:01, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
-> 
-> Use the new TRAILING_OVERLAP() helper to fix the following warning:
-> 
-> drivers/gpu/drm/nouveau/nvif/fifo.c:29:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> This helper creates a union between a flexible-array member (FAM)
-> and a set of members that would otherwise follow it. This overlays
-> the trailing members onto the FAM while preserving the original
-> memory layout.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
-> Changes in v3:
->   - Use the new TRAILING_OVERLAP() helper.
-> 
-> Changes in v2:
->   - Adjust heap allocation.
-> 
->   drivers/gpu/drm/nouveau/nvif/fifo.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
-> index a463289962b2..b0ab80995d98 100644
-> --- a/drivers/gpu/drm/nouveau/nvif/fifo.c
-> +++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
-> @@ -25,13 +25,12 @@ static int
->   nvif_fifo_runlists(struct nvif_device *device)
->   {
->   	struct nvif_object *object = &device->object;
-> -	struct {
-> -		struct nv_device_info_v1 m;
-> +	TRAILING_OVERLAP(struct nv_device_info_v1, m, data,
->   		struct {
->   			struct nv_device_info_v1_data runlists;
->   			struct nv_device_info_v1_data runlist[64];
->   		} v;
-> -	} *a;
-> +	) *a;
->   	int ret, i;
->   
->   	if (device->runlist)
+---
+Nathan Chancellor (2):
+      drm/panic: Ensure drm_panic_type is initialized to a valid value
+      drm/panic: Fix expected string for QR_CODE in drm_panic_type_map
+
+ drivers/gpu/drm/drm_panic.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+---
+base-commit: 349d4efadc1f831ebc0b872ba1e3a2b7dd58b72b
+change-id: 20260105-drm_panic-handle-invalid-drm_panic_screen-097e49e21c49
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
 
