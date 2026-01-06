@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED78CF984A
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A168CFA2D0
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 19:32:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7440A10E524;
-	Tue,  6 Jan 2026 17:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485BA10E4DB;
+	Tue,  6 Jan 2026 18:32:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="o35fJd3z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TL8be2bi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0EA010E520
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 17:02:29 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1767718948;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=946vhw3zYbTSZObcCUOe4GKWrWXeYCq7idjeOFNDEeY=;
- b=o35fJd3zIcYk31Cd2zMQUz6uySvXFmA91qZ5gqowY7rbrPgSwiJdqGEolZlI4dKkAxmK6j
- Xpho1j0GvMOuKOGzrveF0lRfGboFfmlKAYbEOClmCnishJKwFx1sKy3d7AHqoQMgpPh0ww
- +0kbpYOLWxtoFCbQSAVAq5Ic2rezZk4=
-From: Sean Anderson <sean.anderson@linux.dev>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH v3 3/3] drm: zynqmp_dp: Retrain link after HPD if necessary
-Date: Tue,  6 Jan 2026 12:01:36 -0500
-Message-Id: <20260106170136.501044-4-sean.anderson@linux.dev>
-In-Reply-To: <20260106170136.501044-1-sean.anderson@linux.dev>
-References: <20260106170136.501044-1-sean.anderson@linux.dev>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 988D410E3DE
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 13:00:48 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4775ae5684fso4527035e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 05:00:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767704447; x=1768309247; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nbo9CTKl9iI9p+wpU++4dDR3MBazactVN245YZgjtV0=;
+ b=TL8be2bi2AlgsDgU/idXWLQEPa3BBdrWebSOVNuy4RYSVqoiA91f53NQ9Y0PWvZcqH
+ zeRGyHlaw550mBEQmYEOvVVng43nca2gm0XXqzsEPjeXFy9WDmKO6L8RX1+D/l7Dh+K2
+ AjXGAClKgQXiIgUU+59Nz6pqsFhctgwYwezFuNkR2qm32LIyie9y/1V9t8SyDQ+8yUdC
+ iHXeFtA47TLmeZFSptzmtHXzJIsvkEF/CXc9IyZWljdcrQmhotONvQJUv4HYqssDN4DP
+ pKszHLWHU1Rw4NZOGNFDbaL8glqSpvCABMDyh8kcmR3kAWr8R4VW0VXOIn0nNomEySg6
+ 76gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767704447; x=1768309247;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nbo9CTKl9iI9p+wpU++4dDR3MBazactVN245YZgjtV0=;
+ b=PTzBPPfmpjkFpZrjgYZO8giFtgwmtxy5ZeLwehIpAGwKg9V3FtbPEDAOhw4Bsq0fK6
+ beFWXXodsRV4NTvi9GFM+9PsoZDYPEDngW5vXNN/JaiPs34L9EBoBTS9CR+1NX3oPw8p
+ d9HUqECyCFg8XnbcnHLddG0zQCdShdK83QdTpTm9ovG2dLsyDmwoQ8x+yLIoh1E49xN+
+ o6leJZShhoPMow70YeyFaCQVJPZQKWKwLqlQpMrAogqeB1Gmfab+D2HRE7Osw3IJspZA
+ Qm/ysOg3ArqlWeK4hZg8dY6/idlQ47q8vUjSw2NdQ2wWkjniMzLjcu1qIQRJnOoR56wf
+ fPUQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHCifxj3b0m5kUGYDSrKutWMkfvvDHxqouNf00C4RoRrXkd1+QlJezC4s07kAFV2hIXxBbUbbDPw8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8msr0v9oU5SI0gv9oDmmUFwNnY8gub+qCA7oq7A+2NPtSvvgT
+ /hRYQGPixM6Ak2edJyg91eU4/f6QvCQiMD94LQy12L5Uks4omdHz8dbo
+X-Gm-Gg: AY/fxX4V/k628uKRzrCYLFjO3v1SF7NoE9W2g5iIxuFGAOgsEp7bDm8FK6B3MFDEf+E
+ JBk/XLEjUsjrQ/4xodM74AKThFRtJiMrqk//FmelJpDou3hdqMCObucNxljLuNlf1+2jug6mt3l
+ 3m7EkUpEYV7qOA5SXNs4osB0kSn0Td2QmXNLH1n9lZtiDxD87TjD0pawkWDRVFbwO/AdvMygXDu
+ MeXYCEDrb3e9lpGHxLfXwW43lwBoGk5IWzpKz8xUjQ3H2qZsKKc8dzpdizr+1Q3uwl6Acqbj3is
+ bR6nnCHPg+xgP/CbZE5ooUIsG9h/rxYZUtc0CuAT31A3YF1YekUZnLkGtXtDZXNsoYoU774z2LX
+ mOgmF43baaudwT14jYs5nWim0sdaz9SV6fbzqP5vNYk6lp19ivNBi8iUr3hwtErUuBE0cZkXewd
+ S5cTySBSqJZskFJSAhdMDFJ8nM5wTCxvLpm9IOppc=
+X-Google-Smtp-Source: AGHT+IHhEw9eqkK1KQJPCzdybojiNr+2Qye8Rob2jwtE95qwCczcNJiecqF6pkxIxbyLsgpc1DZoEA==
+X-Received: by 2002:a05:600c:4704:b0:477:b0b9:312a with SMTP id
+ 5b1f17b1804b1-47d7f066c43mr26446565e9.7.1767704446642; 
+ Tue, 06 Jan 2026 05:00:46 -0800 (PST)
+Received: from ionutnechita-arz2022.local
+ ([2a02:2f0e:ca09:7000:33fc:5cce:3767:6b22])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47d7f68f69dsm42684065e9.1.2026.01.06.05.00.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jan 2026 05:00:46 -0800 (PST)
+From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <superm1@kernel.org>,
+ Ionut Nechita <ionut_n2001@yahoo.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] drm/amdgpu: Fix TLB flush failures after hibernation
+ resume
+Date: Tue,  6 Jan 2026 14:59:30 +0200
+Message-ID: <20260106125929.25214-3-sunlightlinux@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Tue, 06 Jan 2026 18:32:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,112 +93,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Section 5.1.4 of the v1.2 DisplayPort standard says
+From: Ionut Nechita <ionut_n2001@yahoo.com>
 
-> The Source device shall respond to Hot Plug event/Hot Re-plug event by
-> first reading DPCD Link/Sink Device Status registers at DPCD 00200h
-> through 00205h.... If the link is unstable or lost, the Source device
-> then reads the DPCD Receiver Capabilities registers at DPCD 00000h
-> through 0000Fh to determine the appropriate information needed to
-> train the link. The Source device shall then initiate link training.
+Hi,
 
-However, zynqmp_dp_hpd_work_func does not check the link status. This
-may prevent the sink from detecting the source if, for example, the user
-disconnects the cable and then reconnects it. I encountered this problem
-when testing a mini DP connector (although I had no problem when using a
-full-size connector with the existing driver).
+This patch addresses critical TLB flush failures that occur during
+hibernation resume on AMD GPUs, particularly affecting ROCm workloads.
 
-Follow the spec by checking the link status after a HPD event and
-retraining if necessary. Simplify the condition a bit since
-drm_dp_channel_eq_ok checks a superset of drm_dp_clock_recovery_ok.
+Problem:
+--------
+After resuming from hibernation (S4), the amdgpu driver consistently
+fails TLB invalidation operations with these errors:
 
-Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
-Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
----
+  amdgpu: TLB flush failed for PASID xxxxx
+  amdgpu: failed to write reg 28b4 wait reg 28c6
+  amdgpu: failed to write reg 1a6f4 wait reg 1a706
 
-Changes in v3:
-- Simplify HPD retrain condition
+These failures cause compute workloads to malfunction or crash, making
+hibernation unreliable for systems running ROCm/OpenCL applications.
 
-Changes in v2:
-- needs_retain -> needs_retrain
-- Actually retrain the loop (accidentally removed while rebasing)
+Root Cause:
+-----------
+During resume, the KIQ (Kernel Interface Queue) ring is marked as ready
+(ring.sched.ready = true) before the GPU hardware has fully initialized.
+When TLB invalidation attempts to use KIQ for register access during
+this window, the commands fail because the GPU is not yet stable.
 
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 36 +++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+Solution:
+---------
+This patch introduces a resume_gpu_stable flag that:
+- Starts as false during resume
+- Forces TLB invalidation to use the reliable MMIO path initially
+- Gets set to true after ring tests pass in gfx_v9_0_cp_resume()
+- Allows switching to the faster KIQ path once GPU is confirmed stable
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index caf2e0ce3644..c7b31bb10276 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -1677,6 +1677,22 @@ static int zynqmp_dp_bridge_atomic_check(struct drm_bridge *bridge,
- 	return 0;
- }
- 
-+static bool zynqmp_hpd_needs_retrain(struct zynqmp_dp *dp)
-+{
-+	u8 status[DP_LINK_STATUS_SIZE + 2];
-+	int err;
-+
-+	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
-+			       DP_LINK_STATUS_SIZE + 2);
-+	if (err < 0) {
-+		dev_dbg_ratelimited(dp->dev,
-+				    "could not read sink status: %d\n", err);
-+		return false;
-+	}
-+
-+	return !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt);
-+}
-+
- static enum drm_connector_status __zynqmp_dp_bridge_detect(struct zynqmp_dp *dp)
- {
- 	struct zynqmp_dp_link_config *link_config = &dp->link_config;
-@@ -1698,6 +1714,9 @@ static enum drm_connector_status __zynqmp_dp_bridge_detect(struct zynqmp_dp *dp)
- 
- 	if (state & ZYNQMP_DP_INTERRUPT_SIGNAL_STATE_HPD) {
- 		WRITE_ONCE(dp->status, connector_status_connected);
-+		if (!zynqmp_hpd_needs_retrain(dp))
-+			return connector_status_connected;
-+
- 		ret = drm_dp_dpcd_read(&dp->aux, 0x0, dp->dpcd,
- 				       sizeof(dp->dpcd));
- 		if (ret < 0) {
-@@ -1712,6 +1731,7 @@ static enum drm_connector_status __zynqmp_dp_bridge_detect(struct zynqmp_dp *dp)
- 					       drm_dp_max_lane_count(dp->dpcd),
- 					       dp->num_lanes);
- 
-+		zynqmp_dp_train_loop(dp);
- 		return connector_status_connected;
- 	}
- 
-@@ -2335,25 +2355,13 @@ static void zynqmp_dp_hpd_irq_work_func(struct work_struct *work)
- {
- 	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
- 					    hpd_irq_work);
--	u8 status[DP_LINK_STATUS_SIZE + 2];
--	int err;
- 
- 	guard(mutex)(&dp->lock);
- 	if (dp->ignore_hpd)
- 		return;
- 
--	err = drm_dp_dpcd_read(&dp->aux, DP_SINK_COUNT, status,
--			       DP_LINK_STATUS_SIZE + 2);
--	if (err < 0) {
--		dev_dbg_ratelimited(dp->dev,
--				    "could not read sink status: %d\n", err);
--	} else {
--		if (status[4] & DP_LINK_STATUS_UPDATED ||
--		    !drm_dp_clock_recovery_ok(&status[2], dp->mode.lane_cnt) ||
--		    !drm_dp_channel_eq_ok(&status[2], dp->mode.lane_cnt)) {
--			zynqmp_dp_train_loop(dp);
--		}
--	}
-+	if (zynqmp_hpd_needs_retrain(dp))
-+		zynqmp_dp_train_loop(dp);
- }
- 
- static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+This ensures TLB flushes work correctly during early resume while still
+benefiting from KIQ-based invalidation after the GPU is fully operational.
+
+Testing:
+--------
+Tested on AMD Cezanne (Renoir) with ROCm workloads across multiple
+hibernation cycles. The patch eliminates all TLB flush failures and
+restores reliable hibernation support for compute workloads.
+
+Impact:
+-------
+Affects all AMD GPUs using KIQ for TLB invalidation, particularly
+visible on systems with active compute workloads (ROCm, OpenCL).
+
+Ionut Nechita (1):
+  drm/amdgpu: Fix TLB flush failures after hibernation resume
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c    |  9 +++++++--
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c      | 10 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c      |  6 +++++-
+ 5 files changed, 29 insertions(+), 3 deletions(-)
+
 -- 
-2.35.1.1320.gc452695387.dirty
+2.52.0
 
