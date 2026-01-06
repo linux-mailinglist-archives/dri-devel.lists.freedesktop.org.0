@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1483CF96C5
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D2CCF96C8
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0402110E4FF;
-	Tue,  6 Jan 2026 16:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8518410E516;
+	Tue,  6 Jan 2026 16:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QlTkB4ct";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="NgsZzBLI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com
- [91.218.175.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232CA10E0BD
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 16:43:12 +0000 (UTC)
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5AF10E516
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 16:43:14 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1767717790;
+ t=1767717793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NkZs5zdh+IB8LwYC9eN3BRgGph4b858iwLQZ9mtjEw0=;
- b=QlTkB4ctl3Lk0JPk81oKR5iSzGxZW6KC9kuKtr3fVp0v+CQs0/y5iLS72FMldN2n3pHMdL
- nn69V2rcdReXOmRpOgbJgGFsHnF05pmgFzmCHd5iGVYjhZfeHFSu6vsIEK5eFEPzi1CBNi
- scXS28HikHVHZfRIKuC5Jwzfu43KmCE=
+ bh=195iBqV5eoJAKk9Y2KXt/3tGtboP6oculGGs/M6v76U=;
+ b=NgsZzBLIagpOPtzt9rJ6oVaAeROC8PlfcUaVIPM1qwlX/r2tjDjPNBetjrNl3pesW0kJhY
+ dPFpWJb6puCAcJagVNEnSkRKei483r8hm1uLJsEPJlyyB27sGotn4SJVE41APVhtluCwo4
+ DHUiWX2bqjtlqAeyqJznEzHh4LqzBI8=
 From: Sean Anderson <sean.anderson@linux.dev>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -40,9 +40,9 @@ Cc: Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Mike Looijmans <mike.looijmans@topic.nl>,
  Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH v2 2/4] drm: zynqmp: Check property creation status
-Date: Tue,  6 Jan 2026 11:42:45 -0500
-Message-Id: <20260106164247.472544-3-sean.anderson@linux.dev>
+Subject: [PATCH v2 3/4] drm: zynqmp: Make the video plane primary
+Date: Tue,  6 Jan 2026 11:42:46 -0500
+Message-Id: <20260106164247.472544-4-sean.anderson@linux.dev>
 In-Reply-To: <20260106164247.472544-1-sean.anderson@linux.dev>
 References: <20260106164247.472544-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
@@ -63,44 +63,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure to return an error in the event that we can't create our
-properties.
+The zynqmp has two planes: "video" and "graphics". The video plane
 
-Fixes: 650f12042b85 ("drm: xlnx: zynqmp_dpsub: Add global alpha support")
-Fixes: 8c772f0b2b8e ("drm: xlnx: zynqmp_dpsub: Expose plane ordering to userspace")
+- Is on the bottom (zpos=0) (except when chroma keying as the master plane)
+- Supports "live" input (e.g. from an external source)
+- Supports RGB, YUV, and YCbCr formats, including XRGB8888
+- Does not support transparency, except via chroma keying (colorkey)
+- Must cover the entire screen (translation/resizing not supported)
+
+The graphics plane
+
+- Is on the top (zpos=1)
+- Supports "live" input (e.g. from an external source)
+- Supports RGB and YUV444 formats, but not XRGB8888
+- Supports transparency either via
+  - Global alpha channel, which disables per-pixel alpha when enabled
+  - Per-pixel alpha, which cannot be used with global alpha
+  - Chroma keying (colorkey)
+- Must cover the entire screen (translation/resizing not supported)
+
+Currently the graphics plane is the primary plane. Make the video plane
+the primary plane:
+
+- The video plane supports XRGB8888, which is the default 24-bit
+  colorspace for X. This results in improved performance when compared
+  to RGB565.
+- The graphics plane can be used as an overlay because it has a higher
+  z-pos and supports a per-pixel alpha channel. Unfortunately, clients
+  like weston cannot currently take advantage of this because they
+  expect overlay planes to support translation/resizing.
+
+One downside to this approach could be that the graphics plane has worse
+support for YUV and YCBCr, so it may be more difficult to compose video
+streams into the window of a media player. However, no existing software
+could rely on this because there is no way to enable the per-pixel alpha
+channel when the graphics plane is enabled. This makes it impossible to
+"carve out" an area in the graphics plane where the video plane shows
+through. This limitation is addressed in the next patch, but it means we
+do not need to worry about compatibility in this area.
+
+An alternate approach could be to pretend that the graphics plane
+supports XRGB8888 by using the supported ARGB8888 mode instead and
+enabling the global alpha channel. However, this would rule out ever
+using the per-pixel alpha channel.
+
 Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-Reviewed-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/xlnx/zynqmp_kms.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_kms.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index 02f3a7d78cf8..816bea4ea986 100644
+index 816bea4ea986..284acb23c53e 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -175,9 +175,15 @@ static int zynqmp_dpsub_create_planes(struct zynqmp_dpsub *dpsub)
+@@ -162,8 +162,8 @@ static int zynqmp_dpsub_create_planes(struct zynqmp_dpsub *dpsub)
+ 		if (!formats)
+ 			return -ENOMEM;
  
- 		drm_plane_helper_add(plane, &zynqmp_dpsub_plane_helper_funcs);
+-		/* Graphics layer is primary, and video layer is overlay. */
+-		type = i == ZYNQMP_DPSUB_LAYER_VID
++		/* Graphics layer is overlay, and video layer is primary. */
++		type = i == ZYNQMP_DPSUB_LAYER_GFX
+ 		     ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
+ 		ret = drm_universal_plane_init(&dpsub->drm->dev, plane, 0,
+ 					       &zynqmp_dpsub_plane_funcs,
+@@ -323,7 +323,7 @@ static const struct drm_crtc_funcs zynqmp_dpsub_crtc_funcs = {
  
--		drm_plane_create_zpos_immutable_property(plane, i);
--		if (i == ZYNQMP_DPSUB_LAYER_GFX)
--			drm_plane_create_alpha_property(plane);
-+		ret = drm_plane_create_zpos_immutable_property(plane, i);
-+		if (ret)
-+			return ret;
-+
-+		if (i == ZYNQMP_DPSUB_LAYER_GFX) {
-+			ret = drm_plane_create_alpha_property(plane);
-+			if (ret)
-+				return ret;
-+		}
- 	}
+ static int zynqmp_dpsub_create_crtc(struct zynqmp_dpsub *dpsub)
+ {
+-	struct drm_plane *plane = &dpsub->drm->planes[ZYNQMP_DPSUB_LAYER_GFX];
++	struct drm_plane *plane = &dpsub->drm->planes[ZYNQMP_DPSUB_LAYER_VID];
+ 	struct drm_crtc *crtc = &dpsub->drm->crtc;
+ 	int ret;
  
- 	return 0;
 -- 
 2.35.1.1320.gc452695387.dirty
 
