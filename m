@@ -2,149 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88FBCF7164
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 08:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CE3CF7470
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 09:21:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7535A10E18C;
-	Tue,  6 Jan 2026 07:41:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IVIbWsKr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="piig4lAg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IVIbWsKr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="piig4lAg";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C990710E4AA;
+	Tue,  6 Jan 2026 08:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34DD10E18C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 07:41:39 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4BBD1338B8;
- Tue,  6 Jan 2026 07:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767685298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dtvVfSW3sRZbLON5zW66Z5TmPMmANXuSS/2VLh6VV1s=;
- b=IVIbWsKrS2sheHINYs+fbTb/SQqoDW6j/oKvigOf1b2zXUBsEZEd2Ei1yqvTA+ffTnJMtl
- jtQWDa8oOqytfO6bX/pfA3/nj8R78tF/Qlr9GrE5Rsx17Zb1rJDSXzJV6UV5D890mumJ0T
- YPL32LfeQxNZiTW+/4Wj4SVcFCnsQ/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767685298;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dtvVfSW3sRZbLON5zW66Z5TmPMmANXuSS/2VLh6VV1s=;
- b=piig4lAgjPtqfk68d50HzFwxKKnR7aXqoyVj8a+unN1bvODMGASQu8VptGDNCp374g4e8u
- 00jWD4OZuWPWtLCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IVIbWsKr;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=piig4lAg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767685298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dtvVfSW3sRZbLON5zW66Z5TmPMmANXuSS/2VLh6VV1s=;
- b=IVIbWsKrS2sheHINYs+fbTb/SQqoDW6j/oKvigOf1b2zXUBsEZEd2Ei1yqvTA+ffTnJMtl
- jtQWDa8oOqytfO6bX/pfA3/nj8R78tF/Qlr9GrE5Rsx17Zb1rJDSXzJV6UV5D890mumJ0T
- YPL32LfeQxNZiTW+/4Wj4SVcFCnsQ/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767685298;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dtvVfSW3sRZbLON5zW66Z5TmPMmANXuSS/2VLh6VV1s=;
- b=piig4lAgjPtqfk68d50HzFwxKKnR7aXqoyVj8a+unN1bvODMGASQu8VptGDNCp374g4e8u
- 00jWD4OZuWPWtLCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DDDBA3EA63;
- Tue,  6 Jan 2026 07:41:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id i6RYNLG8XGlSCwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jan 2026 07:41:37 +0000
-Message-ID: <5f570a3b-7bee-43e0-9a36-3d106984fec6@suse.de>
-Date: Tue, 6 Jan 2026 08:41:37 +0100
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECA110E082;
+ Tue,  6 Jan 2026 07:42:24 +0000 (UTC)
+Received: from [192.168.0.114] (unknown [114.241.82.145])
+ by APP-05 (Coremail) with SMTP id zQCowABX6AvAvFxpa_ebAw--.32437S2;
+ Tue, 06 Jan 2026 15:41:52 +0800 (CST)
+Message-ID: <c652e45c-fedc-4bcd-9310-fc428e0e6c57@iscas.ac.cn>
+Date: Tue, 6 Jan 2026 15:41:52 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: xlnx: zynqmp_kms: 16 bpp fixes for Xorg startup
- on AMD KV260
-To: Mikko Rapeli <mikko.rapeli@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- Bill Mills <bill.mills@linaro.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>
-References: <20251205123751.2257694-1-mikko.rapeli@linaro.org>
- <533168f1-1655-4947-9032-b08463f502d7@ideasonboard.com>
- <aUVFUx55XTjb_2nO@nuoska> <aUkIQjKpd3MhNHjk@nuoska>
+Subject: Re: [PATCH 1/5] PCI/MSI: Conservatively generalize no_64bit_msi into
+ msi_addr_mask
+To: "Creeley, Brett" <bcreeley@amd.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
+ <20251224-pci-msi-addr-mask-v1-1-05a6fcb4b4c0@iscas.ac.cn>
+ <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aUkIQjKpd3MhNHjk@nuoska>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 4BBD1338B8
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.infradead.org,vger.kernel.org,ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,amd.com,linaro.org];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,linaro.org:email,suse.de:dkim,suse.de:mid];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID: zQCowABX6AvAvFxpa_ebAw--.32437S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtF17AF4DGF4UKr1ruF43trb_yoWxAw4fpa
+ ykGFWSyFW8K3yUta9Fy3WUZF1Yva1qgrWrWrW7K3sa93ZIvFy8JFnayry3Gwn7Xr4kCF40
+ qr1jgw1jgFnIk3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+ 04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+ nxnUUI43ZEXa7sRidbbtUUUUU==
+X-Originating-IP: [114.241.82.145]
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-Mailman-Approved-At: Tue, 06 Jan 2026 08:21:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,74 +80,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 22.12.25 um 09:58 schrieb Mikko Rapeli:
-> Hi,
->
-> On Fri, Dec 19, 2025 at 02:30:11PM +0200, Mikko Rapeli wrote:
->> On Fri, Dec 19, 2025 at 01:59:14PM +0200, Tomi Valkeinen wrote:
->>> On 05/12/2025 14:37, Mikko Rapeli wrote:
->>>> Currently on default yocto images Xorg fails to start on AMD KV260
->>>> because 24/32 color depth gets detected but does not actually work.
->>>>
->>>> These two patches fix the issue and now 16 bpp gets detected
->>>> and Xorg starts and draws on external HDMI display using
->>>> kernel.org based linux-yocto kernel.
->>>>
->>>> Anatoliy Klymenko (1):
->>>>    drm: xlnx: zynqmp_kms: Init fbdev with 16 bit color
->>>>
->>>> Mikko Rapeli (1):
->>>>    drm: xlnx: zynqmp_kms: set preferred_depth to 16 bpp
->>>>
->>>>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 3 ++-
->>>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>> Did you notice the few already sent serieses on the list where the topic
->>> has been discussed?
->>> [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
->>> [PATCH 0/3] drm: zynqmp: Make the video plane primary
->> Oh I wasn't aware of these.
+On 1/6/26 02:05, Creeley, Brett wrote:
+> On 12/23/2025 7:10 PM, Vivian Wang wrote:
+>> Caution: This message originated from an External Source. Use proper c=
+aution when opening attachments, clicking links, or responding.
 >>
->>> Or is there something else on KV260 that messes up the 24 bit color?
->> These look very similar and likely fix the X11 startup. I will give them
->> a try.
-> Right, now I've tested:
->
->   * these patches from Anatoliy and me to help X11 use 16bpp mode by default
->     and removes the need to manually setup Xorg for 16bpp
->   * "drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888" which enables the X11 default
->     24bpp to work, no need to set Xorg config to 16bpp
->   * "drm: zynqmp: Make the video plane primary" which also fixes the X11 default
->     24bpp to work, no need to set Xorg config to 16bpp
->
-> All of these fix HDMI graphics output on AMD KV260 board with yocto genericarm64 machine
-> and core-image-sato image which includes Xorg. The graphics rendering is still
-> very slow but I think that is a different problem.
->
-> I guess the last series from Sean Anderson is moving forward so I'll
-> reply to that thread separately.
+>>
+>> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
+>> implement less than 64 address bits. This breaks on platforms where su=
+ch
+>> a device is assigned an MSI address higher than what's reachable.
+>>
+>> Currently, we deal with this with a single no_64bit_msi flag, and
+>> (notably on powerpc) use 32-bit MSI address for these devices. However=
+,
+>> on some platforms the MSI doorbell address is above 32-bit but within
+>> device ability.
+>>
+>> As a first step, conservatively generalize the single-bit flag
+>> no_64bit_msi into msi_addr_mask. (The name msi_addr_mask is chosen to
+>> avoid confusion with msi_mask.)
+>>
+>> The translation is essentially:
+>>
+>> - no_64bit_msi =3D 1    ->    msi_addr_mask =3D DMA_BIT_MASK(32)
+>> - no_64bit_msi =3D 0    ->    msi_addr_mask =3D DMA_BIT_MASK(64)
+>> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
+>>
+>> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) is
+>> used, no functional change is intended. Future patches that make use o=
+f
+>> intermediate values of msi_addr_mask will follow, allowing devices tha=
+t
+>> cannot use full 64-bit addresses for MSI to work on platforms with MSI=
 
-Just want to say that the series here improves xlnx and makes it a 
-'better' driver. IMHO the changes should be merged independently from 
-what happens with the other series.
+>> doorbell above 32-bit address space.
+>>
+>> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+>>
+>> ---
+>>
+>> checkpatch complains about the comment include/linux/pci.h, which I ha=
+ve
+>> formatted similarly with other comments in the vicinity.
+>> ---
+>>   arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
+>>   arch/powerpc/platforms/pseries/msi.c                | 4 ++--
+>>   drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
+>>   drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
+>>   drivers/pci/msi/msi.c                               | 2 +-
+>>   drivers/pci/msi/pcidev_msi.c                        | 2 +-
+>>   drivers/pci/probe.c                                 | 7 +++++++
+>>   include/linux/pci.h                                 | 8 +++++++-
+>>   sound/hda/controllers/intel.c                       | 2 +-
+>>   9 files changed, 22 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/=
+platforms/powernv/pci-ioda.c
+>> index b0c1d9d16fb5..1c78fdfb7b03 100644
+>> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
+>> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+>> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_p=
+hb *phb, struct pci_dev *dev,
+>>                  return -ENXIO;
+>>
+>>          /* Force 32-bit MSI on some broken devices */
+>> -       if (dev->no_64bit_msi)
+>> +       if (dev->msi_addr_mask < DMA_BIT_MASK(64))
+>>                  is_64 =3D 0;
+>>
+>>          /* Assign XIVE to PE */
+>> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platf=
+orms/pseries/msi.c
+>> index a82aaa786e9e..7473c7ca1db0 100644
+>> --- a/arch/powerpc/platforms/pseries/msi.c
+>> +++ b/arch/powerpc/platforms/pseries/msi.c
+>> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
+dev, int nvec_in, int type,
+>>           */
+>>   again:
+>>          if (type =3D=3D PCI_CAP_ID_MSI) {
+>> -               if (pdev->no_64bit_msi) {
+>> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
+_FN, nvec);
+>>                          if (rc < 0) {
+>>                                  /*
+>> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
+dev, int nvec_in, int type,
+>>                  if (use_32bit_msi_hack && rc > 0)
+>>                          rtas_hack_32bit_msi_gen2(pdev);
+>>          } else {
+>> -               if (pdev->no_64bit_msi)
+>> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
+X_FN, nvec);
+>>                  else
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_MSIX_=
+FN, nvec);
+>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm=
+/radeon/radeon_irq_kms.c
+>> index 9961251b44ba..d550554a6f3f 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rd=
+ev)
+>>           */
+>>          if (rdev->family < CHIP_BONAIRE) {
+>>                  dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n"=
+);
+>> -               rdev->pdev->no_64bit_msi =3D 1;
+>> +               rdev->pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
+>>          }
+>>
+>>          /* force MSI on */
+>> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/dri=
+vers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> index 70d86c5f52fb..0671deae9a28 100644
+>> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const=
+ struct pci_device_id *ent)
+>>
+>>   #ifdef CONFIG_PPC64
+>>          /* Ensure MSI/MSI-X interrupts lie within addressable physica=
+l memory */
+>> -       pdev->no_64bit_msi =3D 1;
+>> +       pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
+> I know this is just an intermediate commit in the series, but does this=
 
-Best regards
-Thomas
+> retain the original intent?
+I do believe so, yes. The no_64bit_msi bit's meaning is the negation of
+this bit found in the MSI capability:
 
->
-> Tested-by: Mikko Rapeli <mikko.rapeli@linaro.org>
->
-> Cheers,
-> -Mikko
+=C2=A0 =C2=A0 #define=C2=A0 PCI_MSI_FLAGS_64BIT=C2=A0 =C2=A0 0x0080=C2=A0=
+ =C2=A0 /* 64-bit addresses allowed */
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+PCI_MSI_FLAGS_64BIT is set if this function handles PCI_MSI_ADDRESS_HI
+and cleared if doesn't handle=C2=A0PCI_MSI_ADDRESS_HI. So=C2=A0with "no 6=
+4bit",
+only PCI_MSI_ADDRESS_LO is usable, and MSI is limited to 32 bits. See
+also old handling here:
 
+>> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi=
+=2Ec
+>> index 5520aff53b56..0b0346813092 100644
+>> --- a/drivers/pci/msi/pcidev_msi.c
+>> +++ b/drivers/pci/msi/pcidev_msi.c
+>> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
+>>          }
+>>
+>>          if (!(ctrl & PCI_MSI_FLAGS_64BIT))
+>> -               dev->no_64bit_msi =3D 1;
+>> +               dev->msi_addr_mask =3D DMA_BIT_MASK(32);
+>>   }
+>>
+>>   void pci_msix_init(struct pci_dev *dev)
+=2E.. and the old definition of the flag here, where the comment
+explicitly says no_64bit_msi means 32-bit:
+>> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+>> index 41183aed8f5d..a2bff57176a3 100644
+>> --- a/drivers/pci/probe.c
+>> +++ b/drivers/pci/probe.c
+>>
+>> [...]
+>>
+>> @@ -441,7 +448,6 @@ struct pci_dev {
+>>
+>>          unsigned int    is_busmaster:1;         /* Is busmaster */
+>>          unsigned int    no_msi:1;               /* May not use MSI */=
+
+>> -       unsigned int    no_64bit_msi:1;         /* May only use 32-bit=
+ MSIs */
+>>          unsigned int    block_cfg_access:1;     /* Config space acces=
+s blocked */
+>>          unsigned int    broken_parity_status:1; /* Generates false po=
+sitive parity */
+>>          unsigned int    irq_reroute_variant:2;  /* Needs IRQ reroutin=
+g variant */
+Vivian "dramforever" Wang
 
