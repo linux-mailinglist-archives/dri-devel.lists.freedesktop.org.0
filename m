@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98C0CF96CC
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F05CF9724
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 17:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 858C410E518;
-	Tue,  6 Jan 2026 16:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4728D10E51C;
+	Tue,  6 Jan 2026 16:49:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="hYQwyQJj";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BDCEmsoT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE1C410E518
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 16:43:16 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1767717795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yZw3WZZYm28dE9HQYeQea/Sbj/eWbFcqNoZFr1t7j3E=;
- b=hYQwyQJjaehQX638QU04nMw0O9SL2XsmknEL14fxotw0BZ3t3e+XOY3BH1fsGpjNFO0Str
- IPvjbMHyGLvtebPz1PlLPivalacV6q0vdrGhxivOTUkKasCLwF9rZ9tm3a7ZGNreG035jc
- 4cf0bwTKuv2f1bph4miWnuaA2s5HuYg=
-From: Sean Anderson <sean.anderson@linux.dev>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Michal Simek <michal.simek@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D64F10E51C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 16:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767718183;
+ bh=LnO06ZmGejv8YZcopbGi/EMWYJSf0vXnCgMVlk5FR60=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BDCEmsoTLMCoU/cTlu3Hp/Q78w4ajZXdZ8sppNcf8Dc5x8eSh4xWhReiinrN3fLWE
+ QI13t2TCenhkV7IoKCJcKg5CaWUjDAZQdD9S1YD5iDZzvx+l1loNJm1xoT1xV2I+5b
+ 1huzKylkgUmTSU5NLR232fBmAbiLi+LpTRf6RF5Mh4l/TwZ8M+RfjfVcFBV5TInZMY
+ PijSjZ55tJuN9MWJ9J7nkujwh1RfAWW1oUrhmG49T5dO/13o8hhR0UigYUvzweCaWX
+ ED8q05fxwLGJ+1Y0bMg6ii5EJ9H/JQpio6bc2qkLaSk7StdTQQxr6qqVggL+cjTGWB
+ 9Y2B5xmNYHEqg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0A4A317E1214;
+ Tue,  6 Jan 2026 17:49:43 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mike Looijmans <mike.looijmans@topic.nl>,
- Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH v2 4/4] drm: zynqmp: Add blend mode property to graphics plane
-Date: Tue,  6 Jan 2026 11:42:47 -0500
-Message-Id: <20260106164247.472544-5-sean.anderson@linux.dev>
-In-Reply-To: <20260106164247.472544-1-sean.anderson@linux.dev>
-References: <20260106164247.472544-1-sean.anderson@linux.dev>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+Subject: [PATCH] drm/gem: Fix a GEM leak in drm_gem_get_unmapped_area()
+Date: Tue,  6 Jan 2026 17:49:35 +0100
+Message-ID: <20260106164935.409765-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,103 +61,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When global alpha is enabled, per-pixel alpha is ignored. Allow
-userspace to explicitly specify whether to use per-pixel alpha by
-exposing it through the blend mode property. The reference manual
-doesn't say whether the per-pixel alpha is pre-multiplied or not, but
-Anatoliy created a test case that shows alpha is not pre-multiplied [1].
-By default alpha is disabled, since this matches the behavior before
-this patch.
+drm_gem_object_lookup_at_offset() can return a valid object with
+filp or filp->f_op->get_unmapped_area set to NULL. Make sure we still
+release the ref we acquired on such objects.
 
-[1] https://lore.kernel.org/dri-devel/MW4PR12MB7165CDDB17CF0855EA19AACDE6A6A@MW4PR12MB7165.namprd12.prod.outlook.com/
-
-Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+Cc: Loïc Molinari <loic.molinari@collabora.com>
+Fixes: 99bda20d6d4c ("drm/gem: Introduce drm_gem_get_unmapped_area() fop")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
+ drivers/gpu/drm/drm_gem.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Changes in v2:
-- Advertise coverage instead of premulti, since that's what the hardware
-  supports.
-- Set default blend mode to none since that's what the default was
-  before this series.
-
- drivers/gpu/drm/xlnx/zynqmp_kms.c | 35 ++++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index 284acb23c53e..aadba00921c1 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -62,6 +62,13 @@ static int zynqmp_dpsub_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->crtc)
- 		return 0;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 36c8af123877..f7cbf6e8d1e0 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1298,11 +1298,13 @@ unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+ 	unsigned long ret;
  
-+	if (new_plane_state->pixel_blend_mode != DRM_MODE_BLEND_PIXEL_NONE &&
-+	    new_plane_state->alpha >> 8 != 0xff) {
-+		drm_dbg_kms(plane->dev,
-+			    "Plane alpha must be 1.0 when using pixel alpha\n");
-+		return -EINVAL;
-+	}
-+
- 	crtc_state = drm_atomic_get_crtc_state(state, new_plane_state->crtc);
- 	if (IS_ERR(crtc_state))
- 		return PTR_ERR(crtc_state);
-@@ -118,9 +125,13 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+ 	obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
+-	if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+-		return mm_get_unmapped_area(filp, uaddr, len, 0, flags);
++	if (IS_ERR(obj))
++		obj = NULL;
  
- 	zynqmp_disp_layer_update(layer, new_state);
+-	ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+-						 flags);
++	if (!obj || !obj->filp || !obj->filp->f_op->get_unmapped_area)
++		ret = mm_get_unmapped_area(filp, uaddr, len, 0, flags);
++	else
++		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0, flags);
  
--	if (plane->index == ZYNQMP_DPSUB_LAYER_GFX)
--		zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
-+	if (plane->index == ZYNQMP_DPSUB_LAYER_GFX) {
-+		bool blend = plane->state->pixel_blend_mode ==
-+			     DRM_MODE_BLEND_PIXEL_NONE;
-+
-+		zynqmp_disp_blend_set_global_alpha(dpsub->disp, blend,
- 						   plane->state->alpha >> 8);
-+	}
- 
- 	/*
- 	 * Unconditionally enable the layer, as it may have been disabled
-@@ -137,11 +148,18 @@ static const struct drm_plane_helper_funcs zynqmp_dpsub_plane_helper_funcs = {
- 	.atomic_disable		= zynqmp_dpsub_plane_atomic_disable,
- };
- 
-+void zynqmp_dpsub_plane_atomic_reset(struct drm_plane *plane)
-+{
-+	drm_atomic_helper_plane_reset(plane);
-+	if (plane->state)
-+		plane->state->pixel_blend_mode = DRM_MODE_BLEND_PIXEL_NONE;
-+}
-+
- static const struct drm_plane_funcs zynqmp_dpsub_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
- 	.destroy		= drm_plane_cleanup,
--	.reset			= drm_atomic_helper_plane_reset,
-+	.reset			= zynqmp_dpsub_plane_atomic_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- };
-@@ -180,9 +198,20 @@ static int zynqmp_dpsub_create_planes(struct zynqmp_dpsub *dpsub)
- 			return ret;
- 
- 		if (i == ZYNQMP_DPSUB_LAYER_GFX) {
-+			unsigned int blend_modes =
-+				BIT(DRM_MODE_BLEND_PIXEL_NONE) |
-+				BIT(DRM_MODE_BLEND_COVERAGE);
-+			unsigned int def = DRM_MODE_BLEND_COVERAGE;
-+
- 			ret = drm_plane_create_alpha_property(plane);
- 			if (ret)
- 				return ret;
-+
-+			ret = drm_plane_create_blend_mode_default(plane,
-+								  blend_modes,
-+								  def);
-+			if (ret)
-+				return ret;
- 		}
- 	}
+ 	drm_gem_object_put(obj);
  
 -- 
-2.35.1.1320.gc452695387.dirty
+2.52.0
 
