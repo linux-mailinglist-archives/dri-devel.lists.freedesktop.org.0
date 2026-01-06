@@ -2,144 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D5BCF7552
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 09:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06790CF75CF
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 09:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF0C10E082;
-	Tue,  6 Jan 2026 08:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3DE10E1CD;
+	Tue,  6 Jan 2026 08:53:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UZ7SW50O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3iK3ac6w";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UZ7SW50O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3iK3ac6w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kaO5BUkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA51710E082
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 08:42:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6FB0F5BCC4;
- Tue,  6 Jan 2026 08:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767688961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMd8pyi2Ng27hFZCjUicriYkoxmsVsQ2fdtQlOLHXZI=;
- b=UZ7SW50OnYmY5ndgtRWiuEMLlU18MpLMTyEQIF+bKJ+n/7u+lAFB76kYLAfrHvAG6FwL7Z
- +l2DH5B/k5UoyODKHcnbcx2LtOL9CD6AX323oNyskHNuq0pk3wmpYHaTMCR5vTU/pqLJDL
- DI3Y6SsvXKs8M7r3t389FIMCONTNS7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767688961;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMd8pyi2Ng27hFZCjUicriYkoxmsVsQ2fdtQlOLHXZI=;
- b=3iK3ac6w8OgjVDXkXag/ztPyHhm22nOXsyuKEtpi3n/DTErY4VtVQuUHjDyJA3c6KBlZat
- 5JYubuHs7fNdq8Bg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767688961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMd8pyi2Ng27hFZCjUicriYkoxmsVsQ2fdtQlOLHXZI=;
- b=UZ7SW50OnYmY5ndgtRWiuEMLlU18MpLMTyEQIF+bKJ+n/7u+lAFB76kYLAfrHvAG6FwL7Z
- +l2DH5B/k5UoyODKHcnbcx2LtOL9CD6AX323oNyskHNuq0pk3wmpYHaTMCR5vTU/pqLJDL
- DI3Y6SsvXKs8M7r3t389FIMCONTNS7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767688961;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMd8pyi2Ng27hFZCjUicriYkoxmsVsQ2fdtQlOLHXZI=;
- b=3iK3ac6w8OgjVDXkXag/ztPyHhm22nOXsyuKEtpi3n/DTErY4VtVQuUHjDyJA3c6KBlZat
- 5JYubuHs7fNdq8Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1918A3EA63;
- Tue,  6 Jan 2026 08:42:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id KhgEAwHLXGlZQQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jan 2026 08:42:41 +0000
-Message-ID: <93d715b1-cee0-4067-a8ff-1dce562bd083@suse.de>
-Date: Tue, 6 Jan 2026 09:42:40 +0100
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9611010E1CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 08:53:53 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b76b5afdf04so138919166b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 00:53:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767689632; x=1768294432; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8zj03KMt0f+v/u5GUo/vSld4cloIhAocdnrGClwkxRI=;
+ b=kaO5BUkt5coDsUJW27z4yXb1PpMpW3PoNvGS8bFfqsbI4+t64ay88t1EE2XSE+AthW
+ 2990rqz0dZ1Y/9fn81U5ujmIYYPJlI2aLfyWwZBUzipI7CTW+hHfDHmUJ1b6Kd9eHkdx
+ YiOPWFq24TyNcqfhnryWklWy9oYTazjL+/XYkL234DTHpuXIoJqd43VeIQiev4OeTxRq
+ W+An6qStioi/D9NWnUukkf4ZaLadZgXW+28rDVv16/k3DGZuL5YUPIJPREb8uDpUBALX
+ UNkDCJOjxgAY7peMBhv4JB0p06GirapnuY7ILHFwVXjBAC1LPmpcJkU+pnAFJe0x0yu+
+ btwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767689632; x=1768294432;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8zj03KMt0f+v/u5GUo/vSld4cloIhAocdnrGClwkxRI=;
+ b=ZNuyqWP4MT+pofj+LhZFcMJqIfJoLgDAb0aM36AxX9PYnJvL+v8Lczs02DWWj+hbp1
+ qRuv+GtT6O//Hb6qqgXkR4eG5Bsp+WxXSc/3U+5ne1XIL7rGCKAK4e1Ib2542GJV3903
+ aLNi4Ju8ZL0O7aidDsLPFcLNwzdnpoP7xSO28SxJXWBEdIkyOlhEImIMqEJy57pdw1Wm
+ HySlOPZvfQnvvunHHmf4+1pbKI7Dg5TAuF0GqNOWYppEUs2sbH0UBY3IO9+u8E51oQo9
+ UAsOQAp73wdgaBheAUBw8EAo+OqrdC9qjeU6dg6FrRwkGtm0biMAmJ9E230TupcUp38K
+ bwRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUf19wZkPy3vgvxqgIZUTlQvHng4wSMfIx9bRR5+e3KJAYPDqhHN3NkakImoypfLNh4/pxwuAEqdsM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzYzfuMDusBk6v0bpBUPUUx8XJ3ajxFGECC86mEGbtpgxXQ6V+
+ UugO2JtD7Bt1JHC7nwFpdgOY9LJgbvYo2V2cJKNGdfZXnBOHdktSBHkQDHB2mQGn4lCh007rpG4
+ FIVqOBJOADK/SHNd33H2p4QK/TQlgH6Q=
+X-Gm-Gg: AY/fxX5k1f0DokKWFU4htiaIwOM+NXU44UBsUzvk/C7nFeOWaB5wvLZqG0h3IAtDucj
+ +tivrxoBuInlcoclcG0vB60l/DXBvoiT+2PNoqdFaHPzoigYV6AMu5yb8LRhflCdA35R2cAEQxp
+ lnYBBKRPVCILkZzRRKohZpiGeHbMB/UHZRxHGTCmC8HD2Cq6BlYsTIBnq36ilDjRA6BJe//zsBB
+ fFw5A27MTHVT9FcEru5jly52wjulpsND9I4A3YlSYrtA+Jglulid4d1EUythDldYyN0H+XMt1fU
+ 7ruLh6Mf2xxWPkN+nZKyhHN4Clkx
+X-Google-Smtp-Source: AGHT+IFeGSi0Gu83/Slz77CIaqE04HdIsq1euie92j/WWWsvFczf8Qune5zij+g/7d5sUVF0t6D+zhRpgPjDgxph3ao=
+X-Received: by 2002:a17:907:96a5:b0:b76:7e90:713f with SMTP id
+ a640c23a62f3a-b8426a42536mr251065866b.10.1767689631733; Tue, 06 Jan 2026
+ 00:53:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: xlnx: zynqmp_kms: 16 bpp fixes for Xorg startup
- on AMD KV260
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- Bill Mills <bill.mills@linaro.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>
-References: <20251205123751.2257694-1-mikko.rapeli@linaro.org>
- <533168f1-1655-4947-9032-b08463f502d7@ideasonboard.com>
- <aUVFUx55XTjb_2nO@nuoska> <aUkIQjKpd3MhNHjk@nuoska>
- <5f570a3b-7bee-43e0-9a36-3d106984fec6@suse.de>
- <3d214bf3-6b52-4942-95d9-0504fa6f5877@ideasonboard.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <3d214bf3-6b52-4942-95d9-0504fa6f5877@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.991]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
- MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.infradead.org,vger.kernel.org,ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,amd.com,linaro.org];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url, imap1.dmz-prg2.suse.org:helo,
- suse.de:mid]
+References: <20251127161337.396531-1-avinal.xlvii@gmail.com>
+ <2a9f7c54-3669-4f8b-b46b-b7e01712a1b8@linaro.org>
+In-Reply-To: <2a9f7c54-3669-4f8b-b46b-b7e01712a1b8@linaro.org>
+From: Avinal Kumar <avinal.xlvii@gmail.com>
+Date: Tue, 6 Jan 2026 14:23:39 +0530
+X-Gm-Features: AQt7F2pD84OWfiybSYDwSACAcNC8vr1eDJxepzyPWq8ysZ0RAzhRQxyk-2xbFqo
+Message-ID: <CAJ9xu4wb1W08ds7f4y+5tzcpAxsNLvKDMAxpjjigsG9ipWREGQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: panasonic-vvx10f034n00: transition to mipi_dsi
+ wrapped functions
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000929c3a0647b45079"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,97 +86,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--000000000000929c3a0647b45079
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Am 06.01.26 um 09:29 schrieb Tomi Valkeinen:
+Hello Neil,
+
+Unlike mipi_dsi_turn_on_peripheral, mipi_dsi_shutdown_peripheral isn't
+marked deprecated, and no multi function available yet. And I wanted to
+keep it simple for the first patch.
+
+If it is okay, I can:
+- Create another patch or update this patch, to add a
+mipi_dsi_shutdown_peripheral_multi() function and deprecate the normal
+function.
+- Update the remaining function in this patch.
+
+Please let me know. Thank you
+
+
+On Tue, Jan 6, 2026 at 1:51=E2=80=AFPM <neil.armstrong@linaro.org> wrote:
+
 > Hi,
 >
-> On 06/01/2026 09:41, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 22.12.25 um 09:58 schrieb Mikko Rapeli:
->>> Hi,
->>>
->>> On Fri, Dec 19, 2025 at 02:30:11PM +0200, Mikko Rapeli wrote:
->>>> On Fri, Dec 19, 2025 at 01:59:14PM +0200, Tomi Valkeinen wrote:
->>>>> On 05/12/2025 14:37, Mikko Rapeli wrote:
->>>>>> Currently on default yocto images Xorg fails to start on AMD KV260
->>>>>> because 24/32 color depth gets detected but does not actually work.
->>>>>>
->>>>>> These two patches fix the issue and now 16 bpp gets detected
->>>>>> and Xorg starts and draws on external HDMI display using
->>>>>> kernel.org based linux-yocto kernel.
->>>>>>
->>>>>> Anatoliy Klymenko (1):
->>>>>>     drm: xlnx: zynqmp_kms: Init fbdev with 16 bit color
->>>>>>
->>>>>> Mikko Rapeli (1):
->>>>>>     drm: xlnx: zynqmp_kms: set preferred_depth to 16 bpp
->>>>>>
->>>>>>    drivers/gpu/drm/xlnx/zynqmp_kms.c | 3 ++-
->>>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>>
->>>>> Did you notice the few already sent serieses on the list where the
->>>>> topic
->>>>> has been discussed?
->>>>> [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
->>>>> [PATCH 0/3] drm: zynqmp: Make the video plane primary
->>>> Oh I wasn't aware of these.
->>>>
->>>>> Or is there something else on KV260 that messes up the 24 bit color?
->>>> These look very similar and likely fix the X11 startup. I will give them
->>>> a try.
->>> Right, now I've tested:
->>>
->>>    * these patches from Anatoliy and me to help X11 use 16bpp mode by
->>> default
->>>      and removes the need to manually setup Xorg for 16bpp
->>>    * "drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888" which enables
->>> the X11 default
->>>      24bpp to work, no need to set Xorg config to 16bpp
->>>    * "drm: zynqmp: Make the video plane primary" which also fixes the
->>> X11 default
->>>      24bpp to work, no need to set Xorg config to 16bpp
->>>
->>> All of these fix HDMI graphics output on AMD KV260 board with yocto
->>> genericarm64 machine
->>> and core-image-sato image which includes Xorg. The graphics rendering
->>> is still
->>> very slow but I think that is a different problem.
->>>
->>> I guess the last series from Sean Anderson is moving forward so I'll
->>> reply to that thread separately.
->> Just want to say that the series here improves xlnx and makes it a
->> 'better' driver. IMHO the changes should be merged independently from
->> what happens with the other series.
-> I might be missing something, but I don't think I fully agree. Yes, the
-> userspace doesn't seem to be able to cope with the current upstream
-> driver behavior (even if it's not wrong as such, afaics), so in that
-> sense this series is better. But I don't think (almost) anyone really
-> wants to use RGB565 if XRGB8888 is an option? And that's what the other
-> series is trying to achieve, and that series conflicts with this one.
+> On 11/27/25 17:08, Avinal Kumar wrote:
+> > Changes the panasonic-vvx10f034n00 panel to multi
+> > style functions for improved error handling.
+> >
+> > Signed-off-by: Avinal Kumar <avinal.xlvii@gmail.com>
+> > ---
+> > Here is the todo list for reference:
+> https://www.kernel.org/doc/html/latest/gpu/todo.html#transition-away-from=
+-using-deprecated-mipi-dsi-functions
+> >
+> > This is my first patch in Linux Kernel :)
+> >
+> >   drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+> b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+> > index 3c3308fc55df..03c87c02fb57 100644
+> > --- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+> > +++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+> > @@ -44,7 +44,12 @@ static inline struct wuxga_nt_panel
+> *to_wuxga_nt_panel(struct drm_panel *panel)
+> >
+> >   static int wuxga_nt_panel_on(struct wuxga_nt_panel *wuxga_nt)
+> >   {
+> > -     return mipi_dsi_turn_on_peripheral(wuxga_nt->dsi);
+> > +     struct mipi_dsi_multi_context dsi_ctx =3D {
+> > +             .dsi =3D wuxga_nt->dsi
+> > +     };
+> > +
+> > +     mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
+> > +     return dsi_ctx.accum_err;
+> >   }
+> >
+> >   static int wuxga_nt_panel_disable(struct drm_panel *panel)
 >
-> So I'd rather try to get a conclusion on Sean's series (or the other one
-> from Mike). If that effort fails, we could go with this series as a backup.
-
-My point wasn't really about the color format. I meant that the 
-preferred_depth field should always be set. If you see my comment on 
-patch 1, passing NULL to drm_client_setup() and letting it auto-pick the 
-format from preferred_depth would also make sense.
-
-Best regards
-Thomas
-
+> Why didn't you also update wuxga_nt_panel_disable() ?
 >
->   Tomi
+> Thanks,
+> Neil
 >
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+--000000000000929c3a0647b45079
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div><div><div><div><div>Hello Neil,<br><br></div>Unlike m=
+ipi_dsi_turn_on_peripheral, mipi_dsi_shutdown_peripheral isn&#39;t marked d=
+eprecated, and no multi function available yet. And I wanted to keep it sim=
+ple for the first patch.=C2=A0<br><br></div>If it is okay, I can:<br></div>=
+- Create another patch or update this patch, to add a mipi_dsi_shutdown_per=
+ipheral_multi() function and deprecate the normal function.<br></div>- Upda=
+te the remaining function in this patch.<br><br></div>Please let me know. T=
+hank you<br><br></div><br><div class=3D"gmail_quote gmail_quote_container">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 6, 2026 at 1:51=E2=80=AFP=
+M &lt;<a href=3D"mailto:neil.armstrong@linaro.org">neil.armstrong@linaro.or=
+g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>Hi,<br>
+<br>
+On 11/27/25 17:08, Avinal Kumar wrote:<br>
+&gt; Changes the panasonic-vvx10f034n00 panel to multi<br>
+&gt; style functions for improved error handling.<br>
+&gt; <br>
+&gt; Signed-off-by: Avinal Kumar &lt;<a href=3D"mailto:avinal.xlvii@gmail.c=
+om" target=3D"_blank">avinal.xlvii@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; Here is the todo list for reference: <a href=3D"https://www.kernel.org=
+/doc/html/latest/gpu/todo.html#transition-away-from-using-deprecated-mipi-d=
+si-functions" rel=3D"noreferrer" target=3D"_blank">https://www.kernel.org/d=
+oc/html/latest/gpu/todo.html#transition-away-from-using-deprecated-mipi-dsi=
+-functions</a><br>
+&gt; <br>
+&gt; This is my first patch in Linux Kernel :)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c | 7 +=
++++++-<br>
+&gt;=C2=A0 =C2=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/dr=
+ivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c<br>
+&gt; index 3c3308fc55df..03c87c02fb57 100644<br>
+&gt; --- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c<br>
+&gt; +++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c<br>
+&gt; @@ -44,7 +44,12 @@ static inline struct wuxga_nt_panel *to_wuxga_nt_pa=
+nel(struct drm_panel *panel)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static int wuxga_nt_panel_on(struct wuxga_nt_panel *wuxga_=
+nt)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0return mipi_dsi_turn_on_peripheral(wuxga_nt-&gt;d=
+si);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct mipi_dsi_multi_context dsi_ctx =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.dsi =3D wuxga_nt-&gt=
+;dsi<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0};<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0mipi_dsi_turn_on_peripheral_multi(&amp;dsi_ctx);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return dsi_ctx.accum_err;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static int wuxga_nt_panel_disable(struct drm_panel *panel)=
+<br>
+<br>
+Why didn&#39;t you also update wuxga_nt_panel_disable() ?<br>
+<br>
+Thanks,<br>
+Neil<br>
+</blockquote></div>
 
+--000000000000929c3a0647b45079--
