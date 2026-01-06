@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB33DCF9CFB
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF1DCF9DDC
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 18:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B7A10E543;
-	Tue,  6 Jan 2026 17:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8074710E520;
+	Tue,  6 Jan 2026 17:53:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GAVjxskH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tQiYK3UX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB8210E53C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 17:44:43 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id C7A704E41FB4;
- Tue,  6 Jan 2026 17:44:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 94DFF60739;
- Tue,  6 Jan 2026 17:44:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2AD41103C81A7; Tue,  6 Jan 2026 18:44:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767721481; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=C18nibWNbrI+mlm1MYTdBpxGmLeLHqkng45AdrWQivE=;
- b=GAVjxskHueCGsVdYhSARKRMqD9OB1izcKujykW1+msy2vchK0YW/SEDdlWFIm0uu686jU3
- b+xY8nJA+6GQNJLbOwDOGft5BGzxyF/e/aOh28ZHi7wadVQ7WWsOWyZKspu3SoO8rYwh8C
- /T1L+tRQVxYrh4b6Q2E7w105ymJ/iOkhrYPC6ViKqJjao12MzCarZ91nArdEjTZgj+i7f0
- ndThthTEM/TMFaB74Di7rez5oe4F+s7B5lBvqUA/1hqqdO9dUnuGlFQNkxQ6F8z3WJ5cLd
- 4mZk2WUHX3HWsxdbcEATaqGMZHdMeegUJqVnJz51Nv7W4dhaCTVS1mvbLsemsQ==
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Tue, 06 Jan 2026 18:42:38 +0100
-Subject: [PATCH v3 22/22] drm/tilcdc: Add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A90D10E09D;
+ Tue,  6 Jan 2026 17:52:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id ACD5B4074D;
+ Tue,  6 Jan 2026 17:52:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66F5C116C6;
+ Tue,  6 Jan 2026 17:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767721978;
+ bh=J49Ah6r3ppiaT0Ccz51lpd4pEOWs7B7UD75ItEoFIzE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=tQiYK3UXUjhruabV0TEB87eqcDD8yGQHz/zC5Qr6s9pFNQMNkOrM2Gu5bIL9b7dgl
+ eoQr5tItFOr4rqvdfUbcoXExCZE2DqcXquPXXkQj+ZhlZo5+PMJMNWqP59Ud+NqmBc
+ UUjeIiSMbVzoz/eYmAgkxHosjp7HjYXJfO4wfareJzA/LNN3sOu4w0DzHR3bU0QiSD
+ nHbiI24Dv4FYKUawiWsFHdxVyHJGPAHzdEBSlNKBvwChhcvg8uq8bKUgAUz5FMtdHg
+ Nu0ZUFDI53GPBDxqKyvXG1GzLm5D3RBBWGHGOZkj0fP4RKmXjH99KtPMHDquLdv+r1
+ 7XaURL/dJMkiw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v7 0/4] Add DisplayPort support to QCS615
+ devicetree
+Date: Tue,  6 Jan 2026 11:52:52 -0600
+Message-ID: <176772196932.3106040.4674734843475910105.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
+References: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260106-feature_tilcdc-v3-22-9bad0f742164@bootlin.com>
-References: <20260106-feature_tilcdc-v3-0-9bad0f742164@bootlin.com>
-In-Reply-To: <20260106-feature_tilcdc-v3-0-9bad0f742164@bootlin.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
- Bajjuri Praneeth <praneeth@ti.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miguel Gazquez <miguel.gazquez@bootlin.com>, 
- Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,92 +74,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the driver to use the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag when
-attaching bridges. This modernizes the driver by delegating connector
-creation to the bridge subsystem through drm_bridge_connector_init()
-instead of manually searching for connectors created by the bridge.
 
-The custom tilcdc_encoder_find_connector() function is removed and
-replaced with the standard drm_bridge_connector infrastructure, which
-simplifies the code and aligns with current DRM bridge best practices.
+On Tue, 04 Nov 2025 09:33:22 +0800, Xiangxu Yin wrote:
+> This series enables DisplayPort functionality on QCS615 platforms.
+> It introduces the required bindings, updates SM6150 dtsi for DP controller
+> and QMP USB3-DP PHY, and enables DP on the QCS615 Ride board with
+> connector and link configuration.
+> 
+> Depends-on:
+> https://lore.kernel.org/all/20250916-add-dp-controller-support-for-sm6150-v3-1-dd60ebbd101e@oss.qualcomm.com/
+> https://lore.kernel.org/all/20250926-add-displayport-support-for-qcs615-platform-v7-1-dc5edaac6c2b@oss.qualcomm.com/
+> 
+> [...]
 
-This change is safe as there are now no in-tree devicetrees that
-connect tilcdc to bridges which do not support the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+Applied, thanks!
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_encoder.c | 37 ++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+[3/4] arm64: dts: qcom: talos: Add DisplayPort and QMP USB3-DP PHY
+      commit: b7ad04269d6825b1c88de17e698a356bac5f3197
+[4/4] arm64: dts: qcom: qcs615-ride: Enable DisplayPort
+      commit: b5a3112bfd5742a5d831c0bdfac2cf6e6796ac9d
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-index d42be3e16c536..61dbd90a62f70 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-@@ -8,45 +8,40 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_of.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "tilcdc_drv.h"
- #include "tilcdc_encoder.h"
- 
--static
--struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
--						    struct drm_encoder *encoder)
--{
--	struct drm_connector *connector;
--
--	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
--		if (drm_connector_has_possible_encoder(connector, encoder))
--			return connector;
--	}
--
--	dev_err(ddev->dev, "No connector found for %s encoder (id %d)\n",
--		encoder->name, encoder->base.id);
--
--	return NULL;
--}
--
- static
- int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
- {
- 	struct tilcdc_drm_private *priv = ddev_to_tilcdc_priv(ddev);
-+	struct drm_connector *connector;
- 	int ret;
- 
- 	priv->encoder->possible_crtcs = BIT(0);
- 
--	ret = drm_bridge_attach(priv->encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(priv->encoder, bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		return ret;
- 
--	priv->connector = tilcdc_encoder_find_connector(ddev, priv->encoder);
--	if (!priv->connector)
--		return -ENODEV;
-+	connector = drm_bridge_connector_init(ddev, priv->encoder);
-+	if (IS_ERR(connector)) {
-+		dev_err(ddev->dev, "bridge_connector create failed\n");
-+		return PTR_ERR(connector);
-+	}
-+
-+	ret = drm_connector_attach_encoder(connector, priv->encoder);
-+	if (ret) {
-+		dev_err(ddev->dev, "attaching encoder to connector failed\n");
-+		return ret;
-+	}
- 
-+	priv->connector = connector;
- 	return 0;
- }
- 
-
+Best regards,
 -- 
-2.43.0
-
+Bjorn Andersson <andersson@kernel.org>
