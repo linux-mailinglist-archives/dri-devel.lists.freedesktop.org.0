@@ -2,48 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2435CFB36B
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 23:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDCDCFB41C
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 23:26:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A19010E24C;
-	Tue,  6 Jan 2026 22:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9823810E3FC;
+	Tue,  6 Jan 2026 22:26:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="bwMvFZ0H";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com
- [216.40.44.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC9C10E24C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 22:10:28 +0000 (UTC)
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay02.hostedemail.com (Postfix) with ESMTP id A177E13C358;
- Tue,  6 Jan 2026 22:10:25 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf01.hostedemail.com (Postfix) with ESMTPA id CBCED60011; 
- Tue,  6 Jan 2026 22:10:22 +0000 (UTC)
-Date: Tue, 6 Jan 2026 17:10:47 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Xiang Gao <gxxa03070307@gmail.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
- <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v12] dma-buf: add some tracepoints to debug.
-Message-ID: <20260106171047.766d826f@gandalf.local.home>
-In-Reply-To: <20251229031547.59272-1-gxxa03070307@gmail.com>
-References: <20251229031547.59272-1-gxxa03070307@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 573 seconds by postgrey-1.36 at gabe;
+ Tue, 06 Jan 2026 22:26:08 UTC
+Received: from fhigh-b8-smtp.messagingengine.com
+ (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7733F10E3FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 22:26:08 +0000 (UTC)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 2A85F7A00B6;
+ Tue,  6 Jan 2026 17:16:34 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+ by phl-compute-06.internal (MEProxy); Tue, 06 Jan 2026 17:16:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1767737794; x=1767824194; bh=mEWm+WVkhC7n0p80aiPEAouq9j7WfHhQI7z
+ k97WgZbc=; b=bwMvFZ0HgjtwLz59FNEVvzcp7IjHw40oX8W9io8nTRYVFbV+9rY
+ yMhFFnXxxCRDHnDBDnt9Om76DBRpB4gNjPPX5l5hQpwom+UhVzokzsqr1YbFryo6
+ gmXKAJ2bt0/B3KVromdltBPTTTy8gKPnclMd0n+epZguGfzra++q4hf6KJh2l797
+ YScHy/nrpOeHBXYmk96Rwb3x1sS1fjBd5KI8a0iV7qwrLZsrLBDX7HLFPzy3JEA7
+ FJMttBOnViQkYnu8XU06mARwrraTsiwBoAhCBaXosBDo2r8z3aj0tWlZUS6Twgmf
+ zVwfCmCNJ4Byl4wkAcxE82thYHudnT46eLw==
+X-ME-Sender: <xms:wYldaUkyJEKLPiOlQ_pCImcbQBdIP0HOPZS1D2D_0DKdZQTUYT77nQ>
+ <xme:wYldaXjyqPWi3MxC6_H2FIQAe7POFz5boE_nNquhW4cw0__ZJuiP3LgiO3Kn_8RpE
+ MDTb5xCaS_HQ4YdT9mJLdYD2KDg3PdGZVzXYkENoTqPGs-AsjGRap8>
+X-ME-Received: <xmr:wYldabRa3sBXlU6hNQCJc_0dvsa0cxpY_bJ8iOLrU8Tptz4Z-1QXXC5Pw6d-3V8E35fPRTeU33985UWapGja2OEAN0tor02QBUM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutddufeejucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcuvfhh
+ rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
+ gvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeuheeu
+ leenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfth
+ hhrghinheslhhinhhugidqmheikehkrdhorhhgpdhnsggprhgtphhtthhopeduvddpmhho
+ uggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrihhlhhholheskhgvrhhnvghlrdhorh
+ hgpdhrtghpthhtohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthht
+ ohepuggvlhhlvghrsehgmhigrdguvgdprhgtphhtthhopehgrhgvghhkhheslhhinhhugi
+ hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopeihshgrthhosehushgvrhhsrdhs
+ ohhurhgtvghfohhrghgvrdhjphdprhgtphhtthhopegurghlihgrsheslhhisggtrdhorh
+ hgpdhrtghpthhtohepghhlrghusghithiisehphhihshhikhdrfhhuqdgsvghrlhhinhdr
+ uggvpdhrtghpthhtoheplhhinhhugidqfhgsuggvvhesvhhgvghrrdhkvghrnhgvlhdroh
+ hrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhht
+ ohhprdhorhhg
+X-ME-Proxy: <xmx:wYldaR-emsrm7Fdppl-LLB4KZXDyglfbl8yhtRwyve1xrvE5qgXcbA>
+ <xmx:wYldaUO14_MqWJ26DTDcsBC3FGQvQTgewIwTd7sxSWdsEiTNTdQtbg>
+ <xmx:wYldaaiesD6tlOnqoGwgUFaUZdu9pbEpwGQdd3WUns9KSFWVF69BfA>
+ <xmx:wYldafkQGjXAXlOibwpD6dsRs4106CBvdYwvStf3wB08i-9yf4YLqA>
+ <xmx:woldaY6fvP1eHQ8-GqFzoIdgNywDpYHH4YzBggjNmEhg3tNpPaxNyTr7>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jan 2026 17:16:30 -0500 (EST)
+Date: Wed, 7 Jan 2026 09:16:27 +1100 (AEDT)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+cc: Geert Uytterhoeven <geert@linux-m68k.org>, Helge Deller <deller@gmx.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
+ linux-m68k <linux-m68k@lists.linux-m68k.org>
+Subject: Re: [PATCH v2 6/6] video/logo: move logo selection logic to
+ Kconfig
+In-Reply-To: <dda4052e-b843-43fa-850c-a1bb20e4a8e3@kernel.org>
+Message-ID: <eac23137-f6cd-0789-074c-279de76f72a0@linux-m68k.org>
+References: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
+ <20260101-custom-logo-v2-6-8eec06dfbf85@kernel.org>
+ <CAMuHMdVy48F5HAfqfJgbY83KDAztb9YWTqm8mT1ntTfj0311oA@mail.gmail.com>
+ <dda4052e-b843-43fa-850c-a1bb20e4a8e3@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: CBCED60011
-X-Stat-Signature: nxwhsk3uahg9fg6b4b4foaktayt5rcrt
-X-Spam-Status: No, score=-0.18
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19uyhsKHaO7BoxxPx6nTLgSBJzsvmK6sSQ=
-X-HE-Tag: 1767737422-377508
-X-HE-Meta: U2FsdGVkX1++sGP9isx8ZBi5GSpBQtv7kAzfi0YpXt/KKuPRRRkFsJjQFiEIx7rTHXbhyow8Z6Y2N+P/uryCm1M1fPpclOp9SXHgfUb1jhFKUwclnmvkBG1Six4hXSnPV1jLxx5FqZ+hxAQFoZRRm9EzlbuNWO+a4e520oCYj/7oXCoKHFZIU5j5eTUMnvpCEKBU0IASZxyzQw+fvqtRfHetkXlLH5nwLHgGBDfVk9bZzxaynZv8zxhSXLyYaOWDIyUD+ZyMZrGoodKeUDaeOdXQ7D4g7EGpzbPKfwBMB8b3jZUeIwTHFv9ATwsa3ra2hbq23hIrcBnrCqX2FbF2MTpllbP+iuILF+aQtuM/bf01IPHIUOg/K644iQK9Q218965zng+u1zBpg5in22LIzM/g2XyZ6fZBmvTnWHaMvbI=
+Content-Type: text/plain; charset=us-ascii
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +99,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Dec 2025 11:15:47 +0800
-Xiang Gao <gxxa03070307@gmail.com> wrote:
 
-> From: gaoxiang17 <gaoxiang17@xiaomi.com>
->=20
-> Since we can only inspect dmabuf by iterating over process FDs or the
-> dmabuf_list, we need to add our own tracepoints to track its status in
-> real time in production.
->=20
-> For example:
->    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_na=
-me=3Dqcom,system size=3D12685312 ino=3D2738
->    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=
-=3Dqcom,system size=3D12685312 ino=3D2738 fd=3D8
->    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal:=
- exp_name=3Dqcom,system size=3D28672 ino=3D2739
->      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=
-=3Dqcom,system size=3D12685312 ino=3D2738
->     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=
-=3Dqcom,system size=3D12771328 ino=3D2762 fd=3D176
->     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach=
-: exp_name=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18=
-dd00 is_dynamic=3D0 dev_name=3Dkgsl-3d0
->     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_na=
-me=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18dd00 is_=
-dynamic=3D0 dev_name=3Dkgsl-3d0
->=20
-> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+On Tue, 6 Jan 2026, Vincent Mailhol wrote:
 
-=46rom a tracing POV:
+> > 
+> > MACH_IS_MAC can be a runtime check.
+> 
+> OK. I missed this.
+> 
 
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+You can use "qemu-system-m68k -M q800 ..." to run the code you're 
+interested in.
 
--- Steve
+$ qemu-system-m68k -M q800 -g 800x600x16
+qemu-system-m68k: unknown display mode: width 800, height 600, depth 16
+Available modes:
+    640x480x1
+    640x480x2
+    640x480x4
+    640x480x8
+    640x480x24
+    800x600x1
+    800x600x2
+    800x600x4
+    800x600x8
+    800x600x24
+    1152x870x1
+    1152x870x2
+    1152x870x4
+    1152x870x8
+
