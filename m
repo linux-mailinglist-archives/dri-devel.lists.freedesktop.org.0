@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AA9CF6D3C
-	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 06:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B912ACF6DC9
+	for <lists+dri-devel@lfdr.de>; Tue, 06 Jan 2026 07:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689B310E26F;
-	Tue,  6 Jan 2026 05:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 603AF10E48B;
+	Tue,  6 Jan 2026 06:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="el8ktEYv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="pUw0IcUm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7A510E26F;
- Tue,  6 Jan 2026 05:56:14 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dlgQL3yZfz9tKf;
- Tue,  6 Jan 2026 06:56:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767678970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zNNJeUjcqXP09KifZHBl4UPg/Uv6TGp/KcRFDIyRRlw=;
- b=el8ktEYv6mUjC+Ut3t2jrwm1EL5iHjhlqc8tqoJWPzadHpZ1ivlHAdYQzAfJFvQtFjHNBt
- XvpePUFuabfxtTNv9mAFG3SbgY2crnLOgpOfkAZKVLPsviAjxklvKpkPrCnDHd8beWxgqM
- T/0pMRwrWw9CVS3xyIDTJyqNT86g7b7fhn6avcSZ6fD13fWSL1uPAWE0/8c7L/gjecJRPI
- h80xL9KYR8FTF4g5jQSEaOWFsrmAMPzam5rrj9BGskG9LW1wlqD7MNNz00fU5jf8VD9uP3
- wDHdMJLh1njKVWrmKkg4SyqmMGlugaSbjTc9znbKHrinivU1U9uvdVar5y4rBg==
-Message-ID: <90fac786f019f06765edb7c362e96f1a19801f26.camel@mailbox.org>
-Subject: Re: [PATCH v2 1/2] rust: macros: Add derive Display for enums
-From: Maurice Hieronymus <mhi@mailbox.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, 
- aliceryhl@google.com, acourbot@nvidia.com, airlied@gmail.com,
- simona@ffwll.ch, 	nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
- ojeda@kernel.org, boqun.feng@gmail.com, 	bjorn3_gh@protonmail.com,
- a.hindborg@kernel.org, tmgross@umich.edu, 	rust-for-linux@vger.kernel.org
-Date: Tue, 06 Jan 2026 06:56:05 +0100
-In-Reply-To: <DFGZUHLJ3ALF.EZDC85ZEFJA9@kernel.org>
-References: <20260104200733.190494-1-mhi@mailbox.org>
- <20260104200733.190494-2-mhi@mailbox.org>
- <DFGJ8UBULO54.NRW84R2DTHIK@kernel.org>
- <DFGL2QTNH7FE.93EN71L7BXFM@kernel.org>
- <20260105161110.5d1ab548.gary@garyguo.net>
- <cd9d7dd56e8191eb2d61dce1c3fd88ccffcff690.camel@mailbox.org>
- <DFGZUHLJ3ALF.EZDC85ZEFJA9@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Tue, 06 Jan 2026 06:15:55 UTC
+Received: from omta36.uswest2.a.cloudfilter.net
+ (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54F2D10E48B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jan 2026 06:15:55 +0000 (UTC)
+Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
+ by cmsmtp with ESMTPS
+ id d06tvRvXZVCBNd0FLvFVRk; Tue, 06 Jan 2026 06:08:48 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id d0FLvnNRZSqlVd0FLvopdL; Tue, 06 Jan 2026 06:08:47 +0000
+X-Authority-Analysis: v=2.4 cv=I7FlRMgg c=1 sm=1 tr=0 ts=695ca6ef
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=Aea70ojWhvW6xI+oM0giEQ==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
+ a=9vlq1VobPfUJAe141Q0A:9 a=QEXdDO2ut3YA:10 a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=T8hG9y1BZklptsV/xBAiq/b+CBwDpXaK8p7nFH8qK/k=; b=pUw0IcUmyudnHEzadV7E5DiBFg
+ NbxFokoAaw+dTAVWMOgnejpkK8g5Penu+9YGaRwrvUk3pN6HSR6U8CR0wP9HKSi6SROBuD39pHXKk
+ oWMLarjaq710D+WwgE2G3o0doo4nc9jXiEeXNjIpBpXmcB/Dkv6hpwn/yyCZUpTTDr7mw6EkPMCoY
+ 9ae1pU31x35kKTk0QDqjuVfYs0Hp2bqfNpq5mLUG486O2d9A84bwTzCKM0goxDBC2N37l2SOqCLIf
+ sRX7RGJQMxg/H+rfufKCMQyCIAxrSl2acbH6BrE25L97lXIP9+wHW+Ur2iYnkcIs2uSSHkUNbko/u
+ 2eBobKXQ==;
+Received: from flh4-122-130-137-161.osk.mesh.ad.jp ([122.130.137.161]:60510
+ helo=[10.221.196.44])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.98.1)
+ (envelope-from <gustavo@embeddedor.com>) id 1vd0FK-00000002wEp-24z5;
+ Tue, 06 Jan 2026 00:08:46 -0600
+Message-ID: <e1009d16-cadb-4446-aef5-4a52197551a4@embeddedor.com>
+Date: Tue, 6 Jan 2026 15:08:41 +0900
 MIME-Version: 1.0
-X-MBO-RS-META: 988fjm6qg93t4asmng8b5qxhs8p76q9z
-X-MBO-RS-ID: fb77628ce3067bce7cc
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3][next] drm/nouveau: fifo: Avoid
+ -Wflex-array-member-not-at-end warning
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <aJ17oxJYcqqr3946@kspp>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <aJ17oxJYcqqr3946@kspp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 122.130.137.161
+X-Source-L: No
+X-Exim-ID: 1vd0FK-00000002wEp-24z5
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: flh4-122-130-137-161.osk.mesh.ad.jp ([10.221.196.44])
+ [122.130.137.161]:60510
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 6
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDZnToC1Hdq7LpWWsicYUPlDK9fwBJSweJ1ZPqYYvvWKoXK67JjEQcKIlnjOpVFggrHQfs5RZIhF1b779JADUEeHrfEzYYhtThzaNPM9UpA/SrvIp+mR
+ znBQJyHzXHPWapl7z//fDNFicm3/llfsXtMIhDMlFooQX2ug6Lp4zqfZFp9Pt0FK9jimfydf2T4FAIuEmhXdNOAuYPkctcgbl9J2OkaSer0WHDZTMvc0b0pz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,43 +99,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2026-01-05 at 23:03 +0100, Danilo Krummrich wrote:
-> On Mon Jan 5, 2026 at 10:11 PM CET, Maurice Hieronymus wrote:
-> > Before I start implementing, I want to reach common ground.
-> >=20
-> > In my opinion a derive macro which implements Display would be
-> > perfectly fine, as long as the name suggests what it does. So for
-> > example #[derive(DisplayEnumVariant)]. This would communicate the
-> > intent clearly to the user.
-> >=20
-> > Benno, would you be okay with that? If not, Gary and Danilo, are
-> > you
-> > fine with the proposed trait implementation (e.g. the variant_name
-> > function)?
->=20
-> Actually, it might even be reasonable to have both. In the Nova
-> driver we have
-> the case that we want to print the enum variant exactly as it is
-> defined in the
-> code and a lowercase version of the enum variant.
->=20
-> > Are there any common use-cases where one wants to change the case
-> > of
-> > the enum variants? If not, I would not implement an argument and
-> > rather
-> > name the macro accordingly, so the intent is clear.
->=20
-> As mentioned above, we do have a case in Nova where we also want a
-> lowercase
-> representation to construct a firmware path with.
+Hi all,
 
-So there would be the need to have two derive macros:
+Friendly ping: who can take this, please?
 
-1. #[derive(DisplayEnumVariant)]
-Implements Display for all enum variants as they are (original case).
+Thanks
+-Gustavo
 
-2. #[derive(ImplementVariantName(Case::Lowercase))]
-Implements the mentioned trait. Case could be an Enum where one could
-choose between Case::Lowercase and Case::Original.
+On 8/14/25 15:01, Gustavo A. R. Silva wrote:
+> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> getting ready to enable it, globally.
+> 
+> Use the new TRAILING_OVERLAP() helper to fix the following warning:
+> 
+> drivers/gpu/drm/nouveau/nvif/fifo.c:29:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> This helper creates a union between a flexible-array member (FAM)
+> and a set of members that would otherwise follow it. This overlays
+> the trailing members onto the FAM while preserving the original
+> memory layout.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+> Changes in v3:
+>   - Use the new TRAILING_OVERLAP() helper.
+> 
+> Changes in v2:
+>   - Adjust heap allocation.
+> 
+>   drivers/gpu/drm/nouveau/nvif/fifo.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
+> index a463289962b2..b0ab80995d98 100644
+> --- a/drivers/gpu/drm/nouveau/nvif/fifo.c
+> +++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
+> @@ -25,13 +25,12 @@ static int
+>   nvif_fifo_runlists(struct nvif_device *device)
+>   {
+>   	struct nvif_object *object = &device->object;
+> -	struct {
+> -		struct nv_device_info_v1 m;
+> +	TRAILING_OVERLAP(struct nv_device_info_v1, m, data,
+>   		struct {
+>   			struct nv_device_info_v1_data runlists;
+>   			struct nv_device_info_v1_data runlist[64];
+>   		} v;
+> -	} *a;
+> +	) *a;
+>   	int ret, i;
+>   
+>   	if (device->runlist)
 
-Something along those lines?
