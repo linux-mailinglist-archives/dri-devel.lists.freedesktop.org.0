@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55B3CFD77D
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:47:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03F4CFD7AD
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE7AF10E598;
-	Wed,  7 Jan 2026 11:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C442810E0C9;
+	Wed,  7 Jan 2026 11:49:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ct1WRRQZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RQnxUXad";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B9010E598
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 11:46:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFA810E09B;
+ Wed,  7 Jan 2026 11:49:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767786418; x=1799322418;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CwxQdUJ3kA491M/9jjufzuPlu4DvofDj+2l0MJCel9U=;
- b=Ct1WRRQZ+NQeY6Kg4xQBX6x00Nb0HM5+fFCAgtB85bxiKO0JZOT4G/vO
- BJOL1hYr/6gJzAGNGyD/pjHNR828gwzKN3nFdJd2onB4Sy9drlTm+29ik
- 3192yVsQ6X1+LXcQ0ezXqVaAQyCEOimuvBUr85aUdFC1UuAxWjZeMywok
- fTazJEcKcihnLkFaRAn3lSJnJod4dunQ8zYrBbbmWJ0V7iN7sRwxPWGZH
- hoDF+LBTvBHfC+mOrwMKJ2liVhWUSn9rfHjZZ0synPia/S7PBiuuNzZik
- HpV7ZgB2ejlKNk199bkL9qFyfRsu0+lvkVQwjOIXxVUbhwXiF12WoZ7H9 Q==;
-X-CSE-ConnectionGUID: 9ToWwcSkR12rEkkMNi/ZTg==
-X-CSE-MsgGUID: WmM4b3qcQWCBxjS1K3qidQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69204202"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="69204202"
+ t=1767786585; x=1799322585;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=c9dAtQW+NwcoBXMSI3sjPP5VJocRS9bLUFFrxG4570o=;
+ b=RQnxUXadsEVTmb7S5F8YBtcOYEwvUePaWU9U+S5y7yAkhBfvedxqf5Th
+ v1nDJPza9oVr26SnGsHXR2BxRM86gu+fuwM7lot2hB1x2Vt7KPDK0SmSk
+ B7GM5zmGy1Yv2mo/RYOLZEDiA3ynMPNhAlINxFUdNQuZMnGR3ExtAOoQA
+ 1/+DG0zMfbfhXKjNncxd1s5hLvN/qtU7wiPx4Q5oO9/r4Jywicig/FXaV
+ dl/DVP9LaRu4EBeSIo3Mmj5No+c2vZoW1l28/lgJLSD1PWngTSdcza3Gl
+ wNNCvGayFvAWualPkzJX/uMKbSTyrtBFfGDLD3FDNR09HP/76cIIZhW3U g==;
+X-CSE-ConnectionGUID: hIGQiis0QRypHQVsYsOddQ==
+X-CSE-MsgGUID: WzynDgUnTReyLgAoovYllQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69204410"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="69204410"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 03:46:57 -0800
-X-CSE-ConnectionGUID: a7lmEk1IRqqaWwVk5xicWg==
-X-CSE-MsgGUID: Filt2EGvRKmqxDVXPW7T4A==
+ 07 Jan 2026 03:49:44 -0800
+X-CSE-ConnectionGUID: 1yx4wpkYT++uxIdphJFvAg==
+X-CSE-MsgGUID: KJxYPDRJRhSgVAJsqRLT9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="202921488"
-Received: from soc-5cg4396s2c.clients.intel.com (HELO [10.217.180.230])
- ([10.217.180.230])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 03:46:55 -0800
-Message-ID: <0eb54917-02cd-4dd6-a5fe-2599e1aab6a1@linux.intel.com>
-Date: Wed, 7 Jan 2026 12:46:30 +0100
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="202922441"
+Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
+ by orviesa007-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:49:42 -0800
+Date: Wed, 7 Jan 2026 12:49:38 +0100
+From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH i-g-t 2/3] asahi: Add test infrastruture for asahi DRM
+ render driver
+Message-ID: <20260107114938.cevehcqjypsdnozh@kamilkon-DESK.igk.intel.com>
+Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Janne Grunau <j@jannau.net>,
+ Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>
+References: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
+ <20260105-asahi-tests-wave1-v1-2-a6c72617e680@jannau.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Implement warm boot flow for NPU6 and unify
- boot handling
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- karol.wachowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-In-Reply-To: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260105-asahi-tests-wave1-v1-2-a6c72617e680@jannau.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,397 +77,311 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Hi Janne,
+On 2026-01-05 at 22:03:46 +0100, Janne Grunau wrote:
+> Asahi is DRM render-only driver for Apple AGX GPUs found in Apple
+> silicon SoCs starting with the Apple M1 family.
+> Add a define for the driver, build system support and a helper function
+> for DRM_IOCTL_ASAHI_GET_PARAMS. To ensure everything works add an
+> initial test for DRM_IOCTL_ASAHI_GET_PARAMS.
+> Further tests are expected to require some of the queried parameters.
+> 
 
-On 12/30/2025 3:21 PM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@linux.intel.com>
-> 
-> Starting from NPU6, the driver can pass boot parameters address through
-> the AON retention register and toggle between cold/warm boot types using
-> the boot_type parameter, while setting the cold boot entry point in both
-> cases.
-> 
-> Refactor the existing cold/warm boot handling to be consistent with the
-> new NPU6 boot flow requirements and still maintain compatibility with
-> older boot flows.
-> 
-> This will allow firmware to remove support for legacy warm boot starting
-> from NPU6.
-> 
-> Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
++cc Alyssa and Jean
+
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
->   drivers/accel/ivpu/ivpu_debugfs.c     |  4 +-
->   drivers/accel/ivpu/ivpu_drv.c         |  4 +-
->   drivers/accel/ivpu/ivpu_fw.c          | 13 +++--
->   drivers/accel/ivpu/ivpu_fw.h          |  9 ++--
->   drivers/accel/ivpu/ivpu_hw_40xx_reg.h |  6 +++
->   drivers/accel/ivpu/ivpu_hw_ip.c       | 74 ++++++++++++++++++---------
->   drivers/accel/ivpu/ivpu_hw_ip.h       |  1 -
->   drivers/accel/ivpu/ivpu_pm.c          | 13 +++--
->   drivers/accel/ivpu/ivpu_pm.h          |  1 -
->   9 files changed, 82 insertions(+), 43 deletions(-)
+>  lib/drmtest.c                  |  1 +
+>  lib/drmtest.h                  |  1 +
+>  lib/igt_asahi.c                | 44 +++++++++++++++++++++++++++++++++
+>  lib/igt_asahi.h                | 12 +++++++++
+>  lib/meson.build                |  1 +
+>  meson.build                    |  8 ++++++
+>  tests/asahi/asahi_get_params.c | 55 ++++++++++++++++++++++++++++++++++++++++++
+>  tests/asahi/meson.build        | 13 ++++++++++
+>  tests/meson.build              |  2 ++
+>  9 files changed, 137 insertions(+)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-> index 3bd85ee6c26b..a09f54fc4302 100644
-> --- a/drivers/accel/ivpu/ivpu_debugfs.c
-> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
-> @@ -20,6 +20,7 @@
->   #include "ivpu_hw.h"
->   #include "ivpu_jsm_msg.h"
->   #include "ivpu_pm.h"
-> +#include "vpu_boot_api.h"
->   
->   static inline struct ivpu_device *seq_to_ivpu(struct seq_file *s)
->   {
-> @@ -96,7 +97,8 @@ static int last_bootmode_show(struct seq_file *s, void *v)
->   {
->   	struct ivpu_device *vdev = seq_to_ivpu(s);
->   
-> -	seq_printf(s, "%s\n", (vdev->pm->is_warmboot) ? "warmboot" : "coldboot");
-> +	seq_printf(s, "%s\n", (vdev->fw->last_boot_mode == VPU_BOOT_TYPE_WARMBOOT) ?
-> +		   "warm boot" : "cold boot");
->   
->   	return 0;
->   }
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index 3d6fccdefdd6..8ffda57459df 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -384,6 +384,7 @@ int ivpu_boot(struct ivpu_device *vdev)
->   	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
->   
->   	ivpu_fw_boot_params_setup(vdev, ivpu_bo_vaddr(vdev->fw->mem_bp));
-> +	vdev->fw->last_boot_mode = vdev->fw->next_boot_mode;
->   
->   	ret = ivpu_hw_boot_fw(vdev);
->   	if (ret) {
-> @@ -396,13 +397,12 @@ int ivpu_boot(struct ivpu_device *vdev)
->   		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
->   		goto err_diagnose_failure;
->   	}
-> -
->   	ivpu_hw_irq_clear(vdev);
->   	enable_irq(vdev->irq);
->   	ivpu_hw_irq_enable(vdev);
->   	ivpu_ipc_enable(vdev);
->   
-> -	if (ivpu_fw_is_cold_boot(vdev)) {
-> +	if (!ivpu_fw_is_warm_boot(vdev)) {
->   		ret = ivpu_pm_dct_init(vdev);
->   		if (ret)
->   			goto err_disable_ipc;
-> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-> index 48386d2cddbb..107f8ad31050 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.c
-> +++ b/drivers/accel/ivpu/ivpu_fw.c
-> @@ -300,9 +300,7 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
->   	fw->image_load_offset = image_load_addr - runtime_addr;
->   	fw->image_size = image_size;
->   	fw->shave_nn_size = PAGE_ALIGN(fw_hdr->shave_nn_fw_size);
-> -
->   	fw->cold_boot_entry_point = fw_hdr->entry_point;
-> -	fw->entry_point = fw->cold_boot_entry_point;
->   
->   	fw->trace_level = min_t(u32, ivpu_fw_log_level, IVPU_FW_LOG_FATAL);
->   	fw->trace_destination_mask = VPU_TRACE_DESTINATION_VERBOSE_TRACING;
-> @@ -338,7 +336,7 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
->   		 fw->image_load_offset, fw->image_size);
->   	ivpu_dbg(vdev, FW_BOOT, "Read-only section: address 0x%llx, size %u\n",
->   		 fw->read_only_addr, fw->read_only_size);
-> -	ivpu_dbg(vdev, FW_BOOT, "FW entry point: 0x%llx\n", fw->entry_point);
-> +	ivpu_dbg(vdev, FW_BOOT, "FW cold boot entry point: 0x%llx\n", fw->cold_boot_entry_point);
->   	ivpu_dbg(vdev, FW_BOOT, "SHAVE NN size: %u\n", fw->shave_nn_size);
->   
->   	return 0;
-> @@ -616,6 +614,7 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
->   		 boot_params->power_profile);
->   	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_uses_ecc_mca_signal = 0x%x\n",
->   		 boot_params->vpu_uses_ecc_mca_signal);
-> +	ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n", boot_params->boot_type);
->   }
->   
->   void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
-> @@ -623,7 +622,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
->   	struct ivpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
->   
->   	/* In case of warm boot only update variable params */
-> -	if (!ivpu_fw_is_cold_boot(vdev)) {
-> +	if (ivpu_fw_is_warm_boot(vdev)) {
->   		boot_params->d0i3_residency_time_us =
->   			ktime_us_delta(ktime_get_boottime(), vdev->hw->d0i3_entry_host_ts);
->   		boot_params->d0i3_entry_vpu_ts = vdev->hw->d0i3_entry_vpu_ts;
-> @@ -635,16 +634,16 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
->   			 boot_params->d0i3_entry_vpu_ts);
->   		ivpu_dbg(vdev, FW_BOOT, "boot_params.system_time_us = %llu\n",
->   			 boot_params->system_time_us);
-> +		ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n", boot_params->boot_type);
->   
->   		boot_params->save_restore_ret_address = 0;
-> -		vdev->pm->is_warmboot = true;
-> +		boot_params->boot_type = VPU_BOOT_TYPE_WARMBOOT;
->   		wmb(); /* Flush WC buffers after writing save_restore_ret_address */
->   		return;
->   	}
->   
->   	memset(boot_params, 0, sizeof(*boot_params));
-> -	vdev->pm->is_warmboot = false;
-> -
-> +	boot_params->boot_type = VPU_BOOT_TYPE_COLDBOOT;
->   	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
->   	boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
->   
-> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
-> index 00945892b55e..d3c410912c9c 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.h
-> +++ b/drivers/accel/ivpu/ivpu_fw.h
-> @@ -6,6 +6,7 @@
->   #ifndef __IVPU_FW_H__
->   #define __IVPU_FW_H__
->   
-> +#include "vpu_boot_api.h"
->   #include "vpu_jsm_api.h"
->   
->   #define FW_VERSION_HEADER_SIZE	SZ_4K
-> @@ -34,8 +35,10 @@ struct ivpu_fw_info {
->   	u64 image_load_offset;
->   	u32 image_size;
->   	u32 shave_nn_size;
-> -	u64 entry_point; /* Cold or warm boot entry point for next boot */
-> +	u64 warm_boot_entry_point;
->   	u64 cold_boot_entry_point;
-> +	u8 last_boot_mode;
-> +	u8 next_boot_mode;
->   	u32 trace_level;
->   	u32 trace_destination_mask;
->   	u64 trace_hw_component_mask;
-> @@ -54,9 +57,9 @@ void ivpu_fw_fini(struct ivpu_device *vdev);
->   void ivpu_fw_load(struct ivpu_device *vdev);
->   void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params);
->   
-> -static inline bool ivpu_fw_is_cold_boot(struct ivpu_device *vdev)
-> +static inline bool ivpu_fw_is_warm_boot(struct ivpu_device *vdev)
->   {
-> -	return vdev->fw->entry_point == vdev->fw->cold_boot_entry_point;
-> +	return vdev->fw->next_boot_mode == VPU_BOOT_TYPE_WARMBOOT;
->   }
->   
->   static inline u32 ivpu_fw_preempt_buf_size(struct ivpu_device *vdev)
-> diff --git a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
-> index fc0ee8d637f9..421242acb184 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
-> +++ b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
-> @@ -121,6 +121,12 @@
->   #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY			0x0003006cu
->   #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY_STATUS_DLY_MASK	GENMASK(7, 0)
->   
-> +#define VPU_40XX_HOST_SS_AON_RETENTION0                                 0x0003000cu
-> +#define VPU_40XX_HOST_SS_AON_RETENTION1                                 0x00030010u
-> +#define VPU_40XX_HOST_SS_AON_RETENTION2                                 0x00030014u
-> +#define VPU_40XX_HOST_SS_AON_RETENTION3                                 0x00030018u
-> +#define VPU_40XX_HOST_SS_AON_RETENTION4                                 0x0003001cu
+> diff --git a/lib/drmtest.c b/lib/drmtest.c
+> index 4a788ea7a59cfd2878d0586b1d7ed9ad0de14a14..dc3fe330bf57693fa4f157cf9076e995e64639cb 100644
+> --- a/lib/drmtest.c
+> +++ b/lib/drmtest.c
+> @@ -222,6 +222,7 @@ static const struct module {
+>  	void (*modprobe)(const char *name);
+>  } modules[] = {
+>  	{ DRIVER_AMDGPU, "amdgpu" },
+> +	{ DRIVER_ASAHI, "asahi" },
+>  	{ DRIVER_INTEL, "i915", modprobe_i915 },
+>  	{ DRIVER_MSM, "msm" },
+>  	{ DRIVER_PANFROST, "panfrost" },
+> diff --git a/lib/drmtest.h b/lib/drmtest.h
+> index 37874d729bb89577f61875728bd0d6d2a6458756..74cff27ffd3deba4b7664b4f37fbd59143e04f3e 100644
+> --- a/lib/drmtest.h
+> +++ b/lib/drmtest.h
+> @@ -58,6 +58,7 @@ int __get_drm_device_name(int fd, char *name, int name_size);
+>  #define DRIVER_VKMS	(1 << 9)
+>  #define DRIVER_VIRTIO	(1 << 10)
+>  #define DRIVER_PANTHOR	(1 << 11)
+> +#define DRIVER_ASAHI	(1 << 12)
+>  
+>  /*
+>   * Exclude DRIVER_VGEM and DRIVER_VIRTIO from DRIVER_ANY since if you run
+> diff --git a/lib/igt_asahi.c b/lib/igt_asahi.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..90d2c190f0dd05e372af0eefaed22d2b2a26eb71
+> --- /dev/null
+> +++ b/lib/igt_asahi.c
+> @@ -0,0 +1,44 @@
+> +// SPDX-License-Identifier: MIT
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Asahi Linux contributors
+> +/*
+> + * Based on igt_panthor.c
+> + */
 > +
->   #define VPU_40XX_HOST_SS_AON_IDLE_GEN					0x00030200u
->   #define VPU_40XX_HOST_SS_AON_IDLE_GEN_EN_MASK				BIT_MASK(0)
->   #define VPU_40XX_HOST_SS_AON_IDLE_GEN_HW_PG_EN_MASK			BIT_MASK(1)
-> diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
-> index 06aa1e7dc50b..959984c54341 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_ip.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_ip.c
-> @@ -5,6 +5,7 @@
->   
->   #include "ivpu_drv.h"
->   #include "ivpu_fw.h"
-> +#include "ivpu_gem.h"
->   #include "ivpu_hw.h"
->   #include "ivpu_hw_37xx_reg.h"
->   #include "ivpu_hw_40xx_reg.h"
-> @@ -816,6 +817,14 @@ void ivpu_hw_ip_tbu_mmu_enable(struct ivpu_device *vdev)
->   		return ivpu_hw_ip_tbu_mmu_enable_40xx(vdev);
->   }
->   
-> +static inline u64 get_entry_point_addr(struct ivpu_device *vdev)
+> +#include "drmtest.h"
+> +#include "igt_asahi.h"
+> +#include "ioctl_wrappers.h"
+> +#include "asahi_drm.h"
+
+This should be before drmtest.h, keep it alphabetical.
+
+> +
+> +#include <stdint.h>
+
+System headers should be first ones, so before asahi_drm.h
+
+> +
+> +/**
+> + * SECTION:igt_asahi
+> + * @short_description: asahi support library
+> + * @title: Asahi
+> + * @include: igt.h
+> + *
+> + * This Library provides auxiliary helper functions for writing asahi tests.
+> + */
+> +
+> +/**
+> + * igt_asahi_get_params:
+> + * @fd: device file descriptor
+> + * @param_group: which params to query parameters for
+> + * @params: pointer to the struct to store the parameters in
+> + * @size: size of the params buffer
+> + * @err: expected error code, 0 for success
+> + */
+> +void igt_asahi_get_params(int fd, uint32_t param_group, void *params, size_t size, int err)
 > +{
-> +	if (ivpu_fw_is_warm_boot(vdev))
-> +		return vdev->fw->warm_boot_entry_point;
+> +	struct drm_asahi_get_params get_params = {
+> +		.param_group = param_group,
+> +		.pointer = (uintptr_t)params,
+> +		.size = size,
+> +	};
+> +
+> +	if (err)
+> +		do_ioctl_err(fd, DRM_IOCTL_ASAHI_GET_PARAMS, &get_params, err);
 > +	else
-> +		return vdev->fw->cold_boot_entry_point;
+> +		do_ioctl(fd, DRM_IOCTL_ASAHI_GET_PARAMS, &get_params);
 > +}
+> diff --git a/lib/igt_asahi.h b/lib/igt_asahi.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f0ac3fbf428a8050957eab0e9b259f68b5ecd0cd
+> --- /dev/null
+> +++ b/lib/igt_asahi.h
+> @@ -0,0 +1,12 @@
+> +// SPDX-License-Identifier: MIT
+
+Here it should be C-style comment:
+
+/* SPDX-License-Identifier: MIT */
+
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Asahi Linux contributors
+
+Same here, look into lib for pathor lib/igt_panthor.h
+Note that it differs from lib/igt_panthor.c
+
 > +
->   static int soc_cpu_boot_37xx(struct ivpu_device *vdev)
->   {
->   	u32 val;
-> @@ -832,15 +841,12 @@ static int soc_cpu_boot_37xx(struct ivpu_device *vdev)
->   	val = REG_CLR_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
->   	REGV_WR32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
->   
-> -	val = vdev->fw->entry_point >> 9;
-> +	val = get_entry_point_addr(vdev) >> 9;
->   	REGV_WR32(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, val);
->   
->   	val = REG_SET_FLD(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, DONE, val);
->   	REGV_WR32(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, val);
->   
-> -	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
-> -		 vdev->fw->entry_point == vdev->fw->cold_boot_entry_point ? "cold boot" : "resume");
-> -
->   	return 0;
->   }
->   
-> @@ -894,46 +900,68 @@ static int soc_cpu_drive_40xx(struct ivpu_device *vdev, bool enable)
->   	return ret;
->   }
->   
-> -static int soc_cpu_enable(struct ivpu_device *vdev)
-> +static void soc_cpu_set_entry_point_40xx(struct ivpu_device *vdev, u64 entry_point)
->   {
-> -	if (ivpu_hw_ip_gen(vdev) >= IVPU_HW_IP_60XX)
-> -		return 0;
-> +	u64 val64;
-> +	u32 val;
+> +#ifndef ASAHI_IOCTL_H
+
+Same here, look into panthor lib header, it should be:
+
+#ifndef IGT_ASAHI_H
+
+> +#define ASAHI_IOCTL_H
 > +
-> +	val64 = entry_point;
-> +	val64 <<= ffs(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK) - 1;
-> +	REGV_WR64(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val64);
->   
-> -	return soc_cpu_drive_40xx(vdev, true);
-> +	val = REGV_RD32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO);
-> +	val = REG_SET_FLD(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, DONE, val);
-> +	REGV_WR32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val);
->   }
->   
->   static int soc_cpu_boot_40xx(struct ivpu_device *vdev)
->   {
->   	int ret;
-> -	u32 val;
-> -	u64 val64;
->   
-> -	ret = soc_cpu_enable(vdev);
-> +	ret = soc_cpu_drive_40xx(vdev, true);
->   	if (ret) {
->   		ivpu_err(vdev, "Failed to enable SOC CPU: %d\n", ret);
->   		return ret;
->   	}
->   
-> -	val64 = vdev->fw->entry_point;
-> -	val64 <<= ffs(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK) - 1;
-> -	REGV_WR64(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val64);
-> +	soc_cpu_set_entry_point_40xx(vdev, get_entry_point_addr(vdev));
->   
-> -	val = REGV_RD32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO);
-> -	val = REG_SET_FLD(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, DONE, val);
-> -	REGV_WR32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val);
-> +	return 0;
-> +}
->   
-> -	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
-> -		 ivpu_fw_is_cold_boot(vdev) ? "cold boot" : "resume");
-> +static int soc_cpu_boot_60xx(struct ivpu_device *vdev)
+> +#include <stddef.h>
+> +#include <stdint.h>
+> +
+> +void igt_asahi_get_params(int fd, uint32_t param_group, void *data, size_t size, int err);
+> +
+> +#endif /* ASAHI_IOCTL_H */
+> diff --git a/lib/meson.build b/lib/meson.build
+> index d0487fb3ca79faa40640579ce78efd434eb38f86..73e07ea677ebbffa9722de7c28b6c94bc2a53ee0 100644
+> --- a/lib/meson.build
+> +++ b/lib/meson.build
+> @@ -105,6 +105,7 @@ lib_sources = [
+>  	'uwildmat/uwildmat.c',
+>  	'igt_kmod.c',
+>  	'igt_ktap.c',
+> +	'igt_asahi.c',
+>  	'igt_panfrost.c',
+>  	'igt_panthor.c',
+>  	'igt_v3d.c',
+> diff --git a/meson.build b/meson.build
+> index 4b2496c01679852c05c575ab4589192b15da149c..1b16a60281e6202b99affbf43d1ab4e098ea6860 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -286,6 +286,7 @@ includedir = get_option('includedir')
+>  libdir = get_option('libdir')
+>  libexecdir = join_paths(get_option('libexecdir'), 'igt-gpu-tools')
+>  amdgpudir = join_paths(libexecdir, 'amdgpu')
+> +asahidir = join_paths(libexecdir, 'asahi')
+>  msmdir = join_paths(libexecdir, 'msm')
+>  panfrostdir = join_paths(libexecdir, 'panfrost')
+>  panthordir = join_paths(libexecdir, 'panthor')
+> @@ -330,6 +331,12 @@ if get_option('use_rpath')
+>  	endforeach
+>  	amdgpudir_rpathdir = join_paths(amdgpudir_rpathdir, libdir)
+>  
+> +	asahi_rpathdir = '$ORIGIN'
+> +	foreach p : asahidir.split('/')
+> +		asahi_rpathdir = join_paths(asahi_rpathdir, '..')
+> +	endforeach
+> +	asahi_rpathdir = join_paths(asahi_rpathdir, libdir)
+> +
+>  	msm_rpathdir = '$ORIGIN'
+>  	foreach p : msmdir.split('/')
+>  		msm_rpathdir = join_paths(msm_rpathdir, '..')
+> @@ -375,6 +382,7 @@ else
+>  	bindir_rpathdir = ''
+>  	libexecdir_rpathdir = ''
+>  	amdgpudir_rpathdir = ''
+> +	asahi_rpathdir = ''
+>  	msm_rpathdir = ''
+>  	panfrost_rpathdir = ''
+>  	panthor_rpathdir = ''
+> diff --git a/tests/asahi/asahi_get_params.c b/tests/asahi/asahi_get_params.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..43482a00418f854cba2417f8f8eb5c6a04e19385
+> --- /dev/null
+> +++ b/tests/asahi/asahi_get_params.c
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: MIT
+> +// SPDX-FileCopyrightText: Copyright (C) Asahi Linux contributors
+> +
+> +#include "igt.h"
+> +#include "igt_core.h"
+> +#include "igt_asahi.h"
+> +#include "asahi_drm.h"
+
+Same here, should be before igt.h
+
+> +#include <stdint.h>
+
+Same here, should be first include, before asahi.h
+
+> +
+> +int igt_main()
 > +{
-> +	REGV_WR64(VPU_40XX_HOST_SS_AON_RETENTION1, vdev->fw->mem_bp->vpu_addr);
-> +	soc_cpu_set_entry_point_40xx(vdev, vdev->fw->cold_boot_entry_point);
->   
->   	return 0;
->   }
->   
->   int ivpu_hw_ip_soc_cpu_boot(struct ivpu_device *vdev)
->   {
-> -	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
-> -		return soc_cpu_boot_37xx(vdev);
-> -	else
-> -		return soc_cpu_boot_40xx(vdev);
-> +	int ret;
+> +	int fd;
 > +
-> +	switch (ivpu_hw_ip_gen(vdev)) {
-> +	case IVPU_HW_IP_37XX:
-> +		ret = soc_cpu_boot_37xx(vdev);
-> +		break;
-> +
-> +	case IVPU_HW_IP_40XX:
-> +	case IVPU_HW_IP_50XX:
-> +		ret = soc_cpu_boot_40xx(vdev);
-> +		break;
-> +
-> +	default:
-> +		ret = soc_cpu_boot_60xx(vdev);
+> +	igt_fixture() {
+> +		fd = drm_open_driver_render(DRIVER_ASAHI);
 > +	}
 > +
-> +	if (ret)
-> +		return ret;
+> +	igt_describe("Query global GPU parameters from device.");
+> +	igt_subtest("get-params") {
+> +		struct drm_asahi_params_global globals = {};
 > +
-> +	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
-> +		 ivpu_fw_is_warm_boot(vdev) ? "warm boot" : "cold boot");
-> +
-> +	return 0;
->   }
->   
->   static void wdt_disable_37xx(struct ivpu_device *vdev)
-> diff --git a/drivers/accel/ivpu/ivpu_hw_ip.h b/drivers/accel/ivpu/ivpu_hw_ip.h
-> index 5b1b391aa577..dbbcdd10a5f8 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_ip.h
-> +++ b/drivers/accel/ivpu/ivpu_hw_ip.h
-> @@ -29,7 +29,6 @@ u32 ivpu_hw_ip_ipc_rx_addr_get(struct ivpu_device *vdev);
->   void ivpu_hw_ip_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr);
->   void ivpu_hw_ip_irq_enable(struct ivpu_device *vdev);
->   void ivpu_hw_ip_irq_disable(struct ivpu_device *vdev);
-> -void ivpu_hw_ip_diagnose_failure(struct ivpu_device *vdev);
->   void ivpu_hw_ip_fabric_req_override_enable_50xx(struct ivpu_device *vdev);
->   void ivpu_hw_ip_fabric_req_override_disable_50xx(struct ivpu_device *vdev);
->   
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index 480c075d87f6..d20144a21e09 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -47,8 +47,10 @@ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
->   	ivpu_ipc_reset(vdev);
->   	ivpu_fw_log_reset(vdev);
->   	ivpu_fw_load(vdev);
-> -	fw->entry_point = fw->cold_boot_entry_point;
->   	fw->last_heartbeat = 0;
-> +
-> +	ivpu_dbg(vdev, FW_BOOT, "Cold boot entry point 0x%llx", vdev->fw->cold_boot_entry_point);
-> +	fw->next_boot_mode = VPU_BOOT_TYPE_COLDBOOT;
->   }
->   
->   static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
-> @@ -56,13 +58,14 @@ static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
->   	struct ivpu_fw_info *fw = vdev->fw;
->   	struct vpu_boot_params *bp = ivpu_bo_vaddr(fw->mem_bp);
->   
-> -	if (!bp->save_restore_ret_address) {
-> +	fw->warm_boot_entry_point = bp->save_restore_ret_address;
-> +	if (!fw->warm_boot_entry_point) {
->   		ivpu_pm_prepare_cold_boot(vdev);
->   		return;
->   	}
->   
-> -	ivpu_dbg(vdev, FW_BOOT, "Save/restore entry point %llx", bp->save_restore_ret_address);
-> -	fw->entry_point = bp->save_restore_ret_address;
-> +	ivpu_dbg(vdev, FW_BOOT, "Warm boot entry point 0x%llx", fw->warm_boot_entry_point);
-> +	fw->next_boot_mode = VPU_BOOT_TYPE_WARMBOOT;
->   }
->   
->   static int ivpu_suspend(struct ivpu_device *vdev)
-> @@ -110,7 +113,7 @@ static int ivpu_resume(struct ivpu_device *vdev)
->   	ivpu_hw_power_down(vdev);
->   	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
->   
-> -	if (!ivpu_fw_is_cold_boot(vdev)) {
-> +	if (ivpu_fw_is_warm_boot(vdev)) {
->   		ivpu_pm_prepare_cold_boot(vdev);
->   		goto retry;
->   	} else {
-> diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-> index a2aa7a27f32e..00f2a01e3df6 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.h
-> +++ b/drivers/accel/ivpu/ivpu_pm.h
-> @@ -18,7 +18,6 @@ struct ivpu_pm_info {
->   	struct rw_semaphore reset_lock;
->   	atomic_t reset_counter;
->   	atomic_t reset_pending;
-> -	bool is_warmboot;
->   	u8 dct_active_percent;
->   };
->   
+> +		igt_asahi_get_params(fd, 0, &globals, sizeof(globals), 0);
 
+Could you print all params here, before asserts below?
+
+> +
+> +		// Supported GPU generations start with G13G
+
+Use C-style comments, here and in all places below:
+
+		/* Supported GPU generations start with G13G */
+
+> +		igt_assert(globals.gpu_generation >= 13);
+> +		// chip id is expected to be non zero
+> +		igt_assert(globals.chip_id != 0);
+> +		// VM should contain some space
+> +		igt_assert(globals.vm_end > globals.vm_start);
+> +		// the driver is expected to request some space for the
+> +		// kernel in a VM
+> +		igt_assert(globals.vm_kernel_min_size > 0);
+> +		// the frequency of the clock used to generate timestamps
+> +		igt_assert(globals.command_timestamp_frequency_hz > 0);
+> +	}
+> +
+> +	igt_describe("Query global GPU parameters for invalid param_groups.");
+> +	igt_subtest_group() {
+> +		struct drm_asahi_params_global globals = {};
+> +
+> +		igt_subtest("get-params-1") {
+
+Better name would be invalid-param-1
+
+> +			igt_asahi_get_params(fd, 1, &globals, sizeof(globals), EINVAL);
+> +		}
+> +		igt_subtest("get-params-2") {
+
+invalid-param-2
+
+> +			igt_asahi_get_params(fd, 2, &globals, sizeof(globals), EINVAL);
+> +		}
+> +		igt_subtest("get-params-uint32-max") {
+
+invalid-param-uint32-max
+
+Above are minor fixes to do so after you will fix them
+imho you could add Alyssa and Neal r-b.
+
+Regards,
+Kamil
+
+> +			igt_asahi_get_params(fd, UINT32_MAX, &globals, sizeof(globals), EINVAL);
+> +		}
+> +	}
+> +
+> +	igt_fixture() {
+> +		drm_close_driver(fd);
+> +	}
+> +}
+> diff --git a/tests/asahi/meson.build b/tests/asahi/meson.build
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..909e146295e83f558ef7378f814ded55adaafe2b
+> --- /dev/null
+> +++ b/tests/asahi/meson.build
+> @@ -0,0 +1,13 @@
+> +asahi_progs = [
+> +	'asahi_get_params',
+> +]
+> +
+> +foreach prog : asahi_progs
+> +	test_executables += executable(prog,
+> +				       prog + '.c',
+> +				       dependencies : test_deps,
+> +				       install_dir : asahidir,
+> +				       install_rpath : asahi_rpathdir,
+> +				       install : true)
+> +	test_list += join_paths('asahi', prog)
+> +endforeach
+> diff --git a/tests/meson.build b/tests/meson.build
+> index 169340d7d0937020f04b1720d5570619ce0d3591..ba69c56e7f872cb0050f6508d91318e000be6e97 100644
+> --- a/tests/meson.build
+> +++ b/tests/meson.build
+> @@ -491,6 +491,8 @@ endif
+>  
+>  subdir('amdgpu')
+>  
+> +subdir('asahi')
+> +
+>  subdir('msm')
+>  
+>  subdir('panfrost')
+> 
+> -- 
+> 2.52.0
+> 
