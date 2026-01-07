@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7188CFED68
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 17:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423B4CFED62
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 17:22:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACB9A10E2A5;
-	Wed,  7 Jan 2026 16:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B39610E210;
+	Wed,  7 Jan 2026 16:22:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Pha0wCkx";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bzDLu4ho";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10AE610E230
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 16:22:36 +0000 (UTC)
-Received: from smtpout-01.galae.net (unknown [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 6E5A5C1EC93;
- Wed,  7 Jan 2026 16:22:08 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C3910E210
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 16:22:31 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id F230F4E41FE1;
+ Wed,  7 Jan 2026 16:22:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 8502A606F8;
- Wed,  7 Jan 2026 16:22:24 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BDBE56072B;
+ Wed,  7 Jan 2026 16:22:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 575F6103C821A; Wed,  7 Jan 2026 17:22:18 +0100 (CET)
+ with ESMTPSA id 5DAA0103C87C7; Wed,  7 Jan 2026 17:22:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767802942; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767802948; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=wUXQ33oruACQ84bvMK4XU+95VmvIsqK1JcpOd4ez768=;
- b=Pha0wCkxsAj9VUrxvtyNPAqtMpBbYFmzR/ZWP2ZBmYJABAmUuCaKoOcauZBE1D0F5MHlmW
- stSwWcgixFxFsTHeRDQGvgWzLzsZQh6tNbgWKlAZV2vyFHPh8TdWWnuidjK4YQ59YNQdfu
- /D7e9Ns5hsTkyfeibIXD6dFpuX8d0gk7HUlD39JFY5u2a1ARVgBqXQyM5u78ZefJjrb4MK
- YEH72jbp5bEqjufwRXhTOICCLPdxqin7vzDnHsTutvSQKWg3FcNlUltby5bCxNZVLOWN9T
- OMK9zY/YIO4wAM7t8V6aRKDmOSS6h9ZUZY1mhsQ5RjvOtVrzJ54erI55jfi0ng==
+ bh=qkiR0P62QEUb1PCOEii1nVoSK2mCmCTz+ERz0qbz4sk=;
+ b=bzDLu4hog3Yzapu+FCJaa75iEPEgDSakBa2bewsdNrO75fp1ds4LOGxHwDe7EK4GeGSQhJ
+ l9ijvmCRCnj+9qfTD2679M1ipP3NBnXdgBMYGAud8sUuPBztTSS+Cs1CzC/w1APFIhguw8
+ V2WVK0uZU8nZ2/mgFTNxxwsnxzVPsYW7MrWu7TF42BAOtRrvqPMjwj8VDRGYA9H6hzDBMd
+ ORN05jWhnTBgKBmXhTqTHtMlUCsTzAKGn9EN/JdOOHv1Bcpu4h8PJJzxGuJOmMyswQZtLO
+ X3PdwDEEQe+ZgynJ6865m0cZAIlwFoPQYmii3B/XEmsWX+WIc301Hkj56NUGNg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 07 Jan 2026 17:21:59 +0100
-Subject: [PATCH 1/6] drm/bridge: dw-hdmi: convert to
- of_drm_find_and_get_bridge()
+Date: Wed, 07 Jan 2026 17:22:00 +0100
+Subject: [PATCH 2/6] drm/meson/dw-hdmi: convert to of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-1-ef48a517828e@bootlin.com>
+Message-Id: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-2-ef48a517828e@bootlin.com>
 References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
 In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -92,46 +91,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done by using the drm_bridge::next_bridge pointer.
+is put when done.
+
+dw_hdmi->bridge is used only in dw_hdmi_top_thread_irq(), so in order to
+avoid potential use-after-free ensure the irq is freed before putting the
+dw_hdmi->bridge reference.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 3b77e73ac0ea..ee88c0e793b0 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -132,7 +132,6 @@ struct dw_hdmi_phy_data {
- struct dw_hdmi {
- 	struct drm_connector connector;
- 	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
+diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+index 0d7c68b29dff..fef1702acb14 100644
+--- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+@@ -778,7 +778,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+ 	if (IS_ERR(meson_dw_hdmi->hdmi))
+ 		return PTR_ERR(meson_dw_hdmi->hdmi);
  
- 	unsigned int version;
+-	meson_dw_hdmi->bridge = of_drm_find_bridge(pdev->dev.of_node);
++	meson_dw_hdmi->bridge = of_drm_find_and_get_bridge(pdev->dev.of_node);
  
-@@ -2912,7 +2911,7 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
- 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 	DRM_DEBUG_DRIVER("HDMI controller initialized\n");
  
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
--		return drm_bridge_attach(encoder, hdmi->next_bridge,
-+		return drm_bridge_attach(encoder, hdmi->bridge.next_bridge,
- 					 bridge, flags);
+@@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *dev, struct device *master,
+ 				   void *data)
+ {
+ 	struct meson_dw_hdmi *meson_dw_hdmi = dev_get_drvdata(dev);
++	struct platform_device *pdev = to_platform_device(dev);
++	int irq = platform_get_irq(pdev, 0);
  
- 	return dw_hdmi_connector_create(hdmi);
-@@ -3318,9 +3317,9 @@ static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
- 	if (!remote)
- 		return -ENODEV;
++	devm_free_irq(dev, irq, meson_dw_hdmi);
+ 	dw_hdmi_unbind(meson_dw_hdmi->hdmi);
++	drm_bridge_put(meson_dw_hdmi->bridge);
+ }
  
--	hdmi->next_bridge = of_drm_find_bridge(remote);
-+	hdmi->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
- 	of_node_put(remote);
--	if (!hdmi->next_bridge)
-+	if (!hdmi->bridge.next_bridge)
- 		return -EPROBE_DEFER;
- 
- 	return 0;
+ static const struct component_ops meson_dw_hdmi_ops = {
 
 -- 
 2.52.0
