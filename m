@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5624ECFCCBA
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3015CFCCC0
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:18:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B847210E575;
-	Wed,  7 Jan 2026 09:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9A310E578;
+	Wed,  7 Jan 2026 09:18:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mSgXs/Ob";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="oDmfdQ8S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013040.outbound.protection.outlook.com
- [40.93.201.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA2AB10E575;
- Wed,  7 Jan 2026 09:18:42 +0000 (UTC)
+ (mail-westcentralusazon11013004.outbound.protection.outlook.com
+ [40.93.201.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E5910E578;
+ Wed,  7 Jan 2026 09:18:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZLQxwNlZjwktSnACPhuOFrcuEhx0Pk2+aPh20RCWU1pXwcd6W8O6pMUmO3x2/GZBEQsyZgUTMp9+4K4AXgMc7Fr1Y1wTiBLjnArXn8ntMbBMNlMKXCiqWp7q3t70T0bdC2RifDKY8E52YsWzxxcI0bWHuKwpJoqj2dO8dxY+rwjDtL8mOAU7jUKmkECwQlXzVCjGxYfRiowCuCzqkx4R7TOg6eNnHyEe4GJSUlO+sDy/tpu9QXVvT3tXAfP4x470PUYlbKuuND3URfiDKySS7N7FckdPRxtESLGoSLqmM9/nWNDCnN6XbdpUWJDOgNnLjXJXsQnj0lqgX3y7O2B2Yg==
+ b=wpjgpwG5w1nLihEeKc5WDfjxbOGVkhKKYWNns4DRNaM9Oz5l/31G11QfUCw5AHvluwvKdpyUAebUMhU3edSsrx2fns0z1NAvhh5wXy6120XUIn6lj1zDT+KAjjawUiNSlIUnvoQ6OjHhafKGT2VYN7pOLWYSJcM4IYIXhh9fVgsfS3gNYX9N0bhdR/n0Pcra/GlhHmpUWldUZX4MjyX5gAwcQTEEVmwFA36Zrb85PLgJUUKclz/+4w9EB5inXbILFomFjZu0Uf1qBgW2NN6m1IF/34ujrSUIq5sscM60CQOlvT36TGdlNO3XDpl6jZPB0M5gDFMlbUH+jtWOgZBGyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RiPfsVeSco4+tw9MLR3a6AO8th+OP5bcrFN+x/BIKr4=;
- b=S9L+fGmPDbkOaHiDlHa8idiFsi+X66YwXpqyXPYAYgdBe1ODp3JSOOIJV+xfMRtsv7CBxeMpNU/UDQDyBnejfolx+AJJziwfhJ5fjZ8pVQ6iSkM0FM+vhl0jzFC2Rn2wn1u34Wlf/BGsH0FDPtm6NELDMjYbfc1DJJKEO8v4iYCrzgXUOxSAKfBbmlIoq9owfB7v5IKOar+InrbLTdOPtTz+39bGXSMg7O+YsFn+hRCTZc3j8UYJUIzElVZSp31QbzjvMkUAMZgwcOj5zb5GFKyb1NdABR5V46US2so1SEgduiVujJtNytZ3Y0IpJE826nHoYYXj7w75f/N/bMVtKw==
+ bh=0FJ0nFMwah6bOPj3aj8uu2307JgLdg6A3pZ+U/MQn4E=;
+ b=HdV9ExRTISTpnLINPZJC2Hq5D/ZOYhlKeMvU1ClnmhHNYRFJDze5UTNcDRSXyHeFHgjbH2lEGBpF8VxL39B8DJ2EIuqp6LVF2J+ESuJlls54dm2RcCvjqGXaKqjpRLCvFshtHy+MQzruPvSI0e+T6WpZ3f26iMSPOb0N1acyfmurbByBh1RjU8ATEyjcK/ecdGUN+3Ug2drPoohsP9z/gTP4THpsOmW7Y2E9QnRaXrBs0HNj2EdnmSkqSpUzZO/o5gsaHTxg4ez1Sfns9quBPe5+1cobz8VllBJxMudrN4TGJL31CUG/Q7IVsFDTRpHvRY/NssBYY5mgBmFK7eKsnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RiPfsVeSco4+tw9MLR3a6AO8th+OP5bcrFN+x/BIKr4=;
- b=mSgXs/ObBn9EHqPfUmrOVEkF8n5mnEKMiT6dInjMTJxZoFcTd33PkJG35Kt07LmesMOVUJH1G3DlRL8JmEE3gtj3FvLW24kbUuPzvcdRj3s/mkpRBQyzcgKSEcCiRAzrn/YLRbDWmpVd3cISGH5PtrmBNyuVhIvy97XO0uKabDSc+qyOhQHQ7jsDbFk3qMwvOOJjNyR3uA9vKkHY1S4JdHf4m9lEeCROdYx3ADukcKGqb7G/ZSQvbZG2WPCse+5IyRxFFkAOiK0RYc5J4OGh3Pu1aGbDlN9AktnVPfvU7sYsSw74pO3E5Vy88fPYOZ4hZ2EjwGrlvwv51+18bZWTWg==
+ bh=0FJ0nFMwah6bOPj3aj8uu2307JgLdg6A3pZ+U/MQn4E=;
+ b=oDmfdQ8SkV+HpZ+YO5zotNHN2skZ+It4WhzIGHo2ilonyJ2VzOaL+Vj4Qfkz7tVFtipzvB8CbhddbYR7+Hd4XLfJzZxzkiU37btp34AidP6FyXGB1MTUiNYQHQ+59WZuxyPrdlvlnMbVO5Wbv9s3TD1rI7x2LycOeYXw1/Ik4e/CAQN84IJVBwXviZuM3KYKVkQQRksMm/3zDN9WTv3utKe65qHsW4AqRg3BVP0uiPAxfwXwEkKqMhRo+KFbliuFOF+S528uYw8kQVRF0pOoXpHeepqZGLBzpbgVK/iWfA9DCp4IpX5tRANTXc/bR1NXeG72FGWzrdsYtHrquUwovA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
  MN2PR12MB4335.namprd12.prod.outlook.com (2603:10b6:208:1d4::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 09:18:39 +0000
+ 2026 09:18:43 +0000
 Received: from DM4PR12MB9072.namprd12.prod.outlook.com
  ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
  ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9499.002; Wed, 7 Jan 2026
- 09:18:39 +0000
+ 09:18:43 +0000
 From: Jordan Niethe <jniethe@nvidia.com>
 To: linux-mm@kvack.org
 Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
@@ -53,92 +53,93 @@ Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
  mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
  linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org,
  jgg@ziepe.ca, Felix.Kuehling@amd.com
-Subject: [PATCH v2 02/11] drm/amdkfd: Use migrate pfns internally
-Date: Wed,  7 Jan 2026 20:18:14 +1100
-Message-Id: <20260107091823.68974-3-jniethe@nvidia.com>
+Subject: [PATCH v2 03/11] mm/migrate_device: Make migrate_device_{pfns,
+ range}() take mpfns
+Date: Wed,  7 Jan 2026 20:18:15 +1100
+Message-Id: <20260107091823.68974-4-jniethe@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260107091823.68974-1-jniethe@nvidia.com>
 References: <20260107091823.68974-1-jniethe@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0088.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::33) To DM4PR12MB9072.namprd12.prod.outlook.com
+X-ClientProxiedBy: BY3PR03CA0028.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::33) To DM4PR12MB9072.namprd12.prod.outlook.com
  (2603:10b6:8:be::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|MN2PR12MB4335:EE_
-X-MS-Office365-Filtering-Correlation-Id: b50f75a3-b3c1-4f25-ee76-08de4dcdbebb
+X-MS-Office365-Filtering-Correlation-Id: 5c3e9036-632c-47c2-f5e0-08de4dcdc0ae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ht2hzWEkpYHYdJ3SnrQI+/WUi3+0McxrO1BfqRULwy2A/PBx6Hqkgy9Cfxnb?=
- =?us-ascii?Q?npDNpBhy/cm+zXSwWv3GwFXJnAXvV76BBr5kwSwXObF8qZMsDNxsbvtued/N?=
- =?us-ascii?Q?QwZJaPius1lBLSJGI6G1vdHyWLwDI7AGTUGEE13IB+yXqak8z8J32NIOdtu3?=
- =?us-ascii?Q?W8AUWL9x20oDPF4NyghpJ37jy3IJ0Lfx1/RwmOvv38E5ydOFmW877bJA0pSO?=
- =?us-ascii?Q?0cxvjNdsMNurmkoC6UDi9DVpE6mr8pQUlkFrvw9/C9EE9qukI5sYh10ecRyE?=
- =?us-ascii?Q?zbAgiQRPN3j+dIGTrVVldClGmZ5jsgMtTaRDEF8G2rpDSx2mSAXOyLAeEiVW?=
- =?us-ascii?Q?kPBvr6JC0Dh/A28NzvBHW6TApXYU7k3//M1Xc7wzRr0iEIN0cfzoGIZPOxNJ?=
- =?us-ascii?Q?DFeZXMG6B29sWclyGqOno1i6cpO/11CyKGrofEYoM2PetcoWcnCh1xKdqrHN?=
- =?us-ascii?Q?P4rDx/VqlvR90gxBR66rwZvTe3vrYvaxhN6MaTIxc0kW2GAznAkMLqOZePgM?=
- =?us-ascii?Q?uztlWnFrCxB7Unwn0iC+n8K9rB1ONW2+bY1ALqirwT3/8qT7T88pAUbyc5gp?=
- =?us-ascii?Q?LNeSOLavvzHFiPRxfwZYj12tkYoAWgLVxMAnR9Ld6VCgN9dHMsP1/1cT0T39?=
- =?us-ascii?Q?iCgh6fBWf7ftj5o+6IEAlAtWmD6In2vwFIjxShhFwufyCUjAYyCHNkmWw0Xd?=
- =?us-ascii?Q?m04LFQwxPAIc054KgaDYKKaNwN8qRkdV9eFJW28QB7xpvTIML6cJe5Y3HRKu?=
- =?us-ascii?Q?BQv937u6z4cuP/1UBLkMH+MQWKdjD0aZLZfsIcHj0kaOcU6C0kcHYws7nCBP?=
- =?us-ascii?Q?Mj7Z/FeGNpmbTvP/thp3BL7J40PwF8EMaZfXaUsZ7p+eCiwyouSI7n9uFeA8?=
- =?us-ascii?Q?lxOm4AcYGVMYj3szsxXfS9sjI9+mrR+O+o/eIsekw+fb0laGyEpvPbYFJ60w?=
- =?us-ascii?Q?kXtWSdvLrSPChGuiam1hYzgxv/ivai1w9DeCyBwcMIT6kbaq0GQXMsP255Mb?=
- =?us-ascii?Q?h86oIbOOYu7aD4cY7kjcnNyAQsPMKm6aFLox/nhJ9QG5Av1IjD/CwguHl/2Z?=
- =?us-ascii?Q?qxGz/18JVY/BPieS40cap1v+CJ10pPDh5DwV2QJvk81QIhdTFnnGz8zcj3fM?=
- =?us-ascii?Q?caS4Q0oiLWU67xNbtEIfBCz5+AA9EEXB6EwOsjwd7LqpzyzTPSBF0sr3THAJ?=
- =?us-ascii?Q?Z1xcrtQ+IiSaMbHrq38EEWoQpVuONbhbMb9jjgn6f2mopYy/Iy6dfe9jI4NL?=
- =?us-ascii?Q?cEL4ecdeaLPM05PGz0Ek3dMAsCUsZgxbfPeTh45bb8cb5N1ov8WKPH1L6n5j?=
- =?us-ascii?Q?UkKQ1oQZeHwH3ecnC0s8JYgHI6FHJqfWyyYF2ER51/EsXtNgjNefHDbLaJQn?=
- =?us-ascii?Q?vFs6ffV76/YN93mFalQP5y03AktYgMlvnPiz/besEuldOXBfH/KjprgB6Z+c?=
- =?us-ascii?Q?rIYoAhmNap47zkZ0EcQopYpIBYwrv/zu?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MTU9Esvnd0ncORySdqbNUeFPWACA6MV9bGmHkNgoS7jUNKcX5GSC0G0Apf1w?=
+ =?us-ascii?Q?lc04E8d///7YQwzrWpR8WX3ahl2okJFtT4XlwkXE0Ptth6sMSeUyzbPbZNnz?=
+ =?us-ascii?Q?i6gJBQjj2NQfeok98Zxb8I2/Z5zOkWyorVTrD5eJANixff/xxwtGsmudXJtu?=
+ =?us-ascii?Q?8hgwf9RCY1mUxFtbR8iujk2YYtb5PT9el6DOSpd2kddUHCouRJ0SLLhsXnqo?=
+ =?us-ascii?Q?JA5sAozEi5//wf5LlUXq8O23JDNfR/nOheqbCIr5qFN/AGyU1ad0XjAR7/r+?=
+ =?us-ascii?Q?WLT/y1lyjZ3IAcH3e1JWF+e89ajqaKnn2DdL9wdvnsOW3Cih8uoOCaf+3Wuw?=
+ =?us-ascii?Q?GN2CG5TSVBWzu5IEnY8JcydLKHoE4nwYSqi+Er6Yo8/j9PD+J9Z00WVbJNQP?=
+ =?us-ascii?Q?dgfhg8zCFcwVg/MvMjS2Pc5vCCerSvoYK2e/pwlufahnlXLbuU3aXXrQrXwH?=
+ =?us-ascii?Q?ocOnsabeO7Zk9HtVn+uA+nlu93Pe5oYWtYhgWtgvy2u68KfQN0ASJ01ANJM1?=
+ =?us-ascii?Q?pTW9UpubeA86acDhdxOB9erOA+lOF5WP4brjKEvE0B9YFEn7dpV7BjcVA+sz?=
+ =?us-ascii?Q?YjLS1R4DHd1BENHhHT7k+4OsjIR4RXFYzqD4Xv9p1SYID4j3Z1spiSGU4rnV?=
+ =?us-ascii?Q?zZsv28ecfAduNXqEttIyjBnhwCcOXTlVUgy5URNozQGSc4DEotGdg6ldzFlY?=
+ =?us-ascii?Q?Lrb4jOa0awU2gO47Jq3kLSyvJSec4Kzz44Nl1iZ/g0Ax/An9K+Qp4f/F5xid?=
+ =?us-ascii?Q?VYdcffYCn2EtY8tonxagQz87TWKkG2KN7RJTc2ZGdPSLCO8CjsH2DTVucvW+?=
+ =?us-ascii?Q?l9PkP0caw5p5ObYZv+mw8oA/8fx/9+tFs1i1RZuvjtrC/Zs7YX43j6jyZPXf?=
+ =?us-ascii?Q?rAymmW23WhHxm3qPmAhUPtkDmM2ruCIEPY0MtM53oHUcUwT0WlngEV9x/SKZ?=
+ =?us-ascii?Q?6x74J3bKRccDLUGxqEwSBhdzPVUOPG6o7Nj3SGQFtFKwxS1zz8ZKJs5ggyJQ?=
+ =?us-ascii?Q?KCurpz75NuPsemUlPADG7erI+DLgz+6iojThQZnv0R67P/7tQDHjVYFdEVcl?=
+ =?us-ascii?Q?6djUHkK+1w0JMHskasU9Pv8GGMiW/Fn1nsCbVWCtBoTV1Wgy+aegkh94q1f3?=
+ =?us-ascii?Q?ewofKVsGD2/N60uCxq02gVVTPiqjk0eUvR9wyIOml5JOezhFPb4ubpO5QPx8?=
+ =?us-ascii?Q?64QdGqidyaUnDg5ARkaVCLrEv6NqRnGhyPRyoeEgg+VD7jVa7kZBMLJ0dMfI?=
+ =?us-ascii?Q?TZr0fnLuP82mX9vmJds0TMB+i6dnmadcOM3oMoYWXSQzuBcs6d4wV1BNvckQ?=
+ =?us-ascii?Q?rgaD4deEd6GgP3ezWS973dxiSz5Jvqg6ymp6i1QaByMPKRtyJsnr1RoNf7r/?=
+ =?us-ascii?Q?z7+9V0D30OoxQa4WtYaEZ/aCXMxXbK7LNX0/15UwBgMcDfynynV+hrRQERhK?=
+ =?us-ascii?Q?bK+haitpNgMe0eVVvO3zQnbGvkVCVn70?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TCdr0I3l4QWPrwFFi5lHosQ7HhbTtAGak9zRtr7jfpFCscgseMnWcI2XufyU?=
- =?us-ascii?Q?d89OfYXoWTZuZDg1mVXHoJ+u05tDCUmvA7QFj71dkbj1hp7EXX56beS37N4v?=
- =?us-ascii?Q?uPbBwl+GsZep/Sy7hq86Qbi8cwzTuuxnIbCwWcVRDgZfpwc4+izC9s6WZh+o?=
- =?us-ascii?Q?Gx+qiNCQowd/JmPcKJ76csYY1uuusQuzjIP4kYq1VHc8kKgTnGu4xH71C4gV?=
- =?us-ascii?Q?HywCcK8CZkj05PJwtMtlFklON0RYfPUBguKY153q/k49++EESIKf6IDuKpaY?=
- =?us-ascii?Q?CQa2X2RDsr/wylupPHqjswVKX3UsnZueQCJzVVSDzX9D/0NiL5nYF9sVsGPe?=
- =?us-ascii?Q?/1eNCdLxg39BB30YAtHfl7i5ZQRkSjsOjrWiywfQvi9AF0o5hRIe0ON8++GR?=
- =?us-ascii?Q?PMPbWp8Pd3uokPiqhaTfMeAxUu1yVxPPy77oL6FwF8yq6/X/P5up4bo+JxkS?=
- =?us-ascii?Q?zJU/ZEl71wsespK37jfnCGXOOvoQRG3uiyOemAzxh5TOyEoh6D3neGIgowL+?=
- =?us-ascii?Q?1cAhU99xXjTDM85rpGuahsysCoJOOm4Xi1AkLzyO0cL48dlEh8QEEleSXO1u?=
- =?us-ascii?Q?LHaaxI3gZ1vFlblqLINZ3hoXB0/fs1HDo64gREvwrf10NMzg3JBYLPMOlfpf?=
- =?us-ascii?Q?8ECntDmtJbNCnykNK6C0QY/kQotv/Js0xw0hC9yUG3+3gdtiPbud4SwPywZE?=
- =?us-ascii?Q?J4Wo8ZZK3hiR0caO8xQX6BXYZDSm1ra57ax8Xou8oaz9bGBP0srnRLDgQsMm?=
- =?us-ascii?Q?p202NcIwfaHxO3igPuMsKDyaFu9F32pzpUrCJuhFtlnZ1VKKoKCmBnD47Joy?=
- =?us-ascii?Q?1EnjeuIXiAdRiQCP7s1Gs7rHUlqMIpZ4ibPJQlsba0hfrUfRvFzuRuLHKqa/?=
- =?us-ascii?Q?V36GurgEdvBAP7SLbkJhBnRODt9+8C9qtOnYMKSYDqHCiSq9KsUEpU/JHN/Y?=
- =?us-ascii?Q?7qrXnW6XurP4u0Sx8NyxwwXhGmNuNsmp4tHChWVDkJCCP1uZbIJZHp6J9XaL?=
- =?us-ascii?Q?fNMlq3eNlrpukt5jkqfqWVJomHZ4ZeJzosjHVi/t1pwc1EsRifqWjRqZsZYi?=
- =?us-ascii?Q?lp9OLL81RgZwJ+67Nisrqayqmf/eXbI6wUTfqxJok0lcgxl9xKvmK27Bx6SN?=
- =?us-ascii?Q?w5cOmGMmOSA87kJN3UnrD+O1ZqWWQWXLU8DqEwq3MVXkAb4wXKdJz3sPEl0K?=
- =?us-ascii?Q?NfbnhaB4l/2Ml1Vda5tedcF5YCfXodHDDxTywqI7nTjB9EUTzNiSwrItc9qd?=
- =?us-ascii?Q?qnUGol+FkoDnfCeq8QsY/SEmMLlIGI+bXeuN34xxFo6aDmNPDfqV9njmLfCd?=
- =?us-ascii?Q?qcHrPRk3qIvqQcilfF7/AomiaOeFfyRruKHCxC6MLJP0o8lgDe0swH0VinaN?=
- =?us-ascii?Q?IdwBIcM/JAfEYc8+zKNmWk1bSJnFkqBluxNg+UJ9Lr5aO8JKYu9ToCFeqDNL?=
- =?us-ascii?Q?8VrfYO84HL2U0bESEubhHqAXM/M1+UbTRBZP+GZ9H+yDazGQ6YEeKekv8Zyh?=
- =?us-ascii?Q?A8pV0ZArxhBEMDv8uQ0cz8/ArjBoVflcwtcgyGl9/M4FWR2VLq2sqdN7VCcG?=
- =?us-ascii?Q?bxk6o10qK46i06C9K65atlG6QHwycdSVHcmOQw9drQB14XcnfmoKiSTU63H1?=
- =?us-ascii?Q?BP687snziMVjT84+W0Z71hi9RJbMfz7wCUYcFjR99tNFhzIr2jhhSkUlPvLm?=
- =?us-ascii?Q?Fx/nby62zm4v8Ds7DO8TtB6qjLSaNp9kbVy2NR3Tq98a4yE8moxqUmq8Syec?=
- =?us-ascii?Q?Yi5jeYZoAg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1zmY4AYULCN9r9D0PQV2ZQDucUSPjOXyAuyR496llEPHS4U+mxTo5Gq6Ec2Y?=
+ =?us-ascii?Q?T3R5sHu1nrlgHNML9UPL50f+MbEQ5G0GNmlX7LID5w966X0JrITN4Y/hY+Qn?=
+ =?us-ascii?Q?QNiyfQBZfEN5saHiDZ88NXtSggUECGObYHxYoGGysM2ioVC8kXdWz7+bjU0q?=
+ =?us-ascii?Q?SZuepI0GcIECExBxnAaofybaEJCdQII6poHYm16407r8MqzOCWrbX+GhRJJa?=
+ =?us-ascii?Q?zmL17r+kmI+ZXE6R6zaUhu4RsY3BYN63rHjy49tP1+b9eCIe3zBqbeUGVzlC?=
+ =?us-ascii?Q?pOqv9eKA3ninkbu6JBOWcEQkycu0XK/os8XYxcfhhhO4fR1kpmw3+QLYNH1C?=
+ =?us-ascii?Q?83GLMIhp9CJTzfksCLr49lh8NKewZ9ungjXSiO7oRVl8TYPAj12nqXCqhbns?=
+ =?us-ascii?Q?67IaBkLYrDqi+thvxReUW4neEHWu+Rq6PoK76C8kZ/A58qkAeOf5PQM4B2lq?=
+ =?us-ascii?Q?a1CD1FxuUHj/r9DJHtMv1Q2JfAUERWgl65fHsVpqJHNHLaOMzLa3WOCCpk/M?=
+ =?us-ascii?Q?8HrvLlX8hoZjUREqbEGQhauGiTk02O81umcPD3leWb5NSjKSveQ82mYZdR3p?=
+ =?us-ascii?Q?N110sBz1joeHdolXJUd1gWVb3/cSznzOQ4c2mTmKhedeKbfvKn6aMyOwxwXc?=
+ =?us-ascii?Q?hHlAvTGuBsrXsAABDk+qBpZLmiTyLJ6oVA6izUm+WBcf/SQRjPyqfhEASH0Q?=
+ =?us-ascii?Q?S4qCa8hNEZz1PBXWNLNN0nnoITEAUtxED8AD3jKhvU97y8nU9HXfFZzL3DcI?=
+ =?us-ascii?Q?0IPOTEyA/Ueid+DGOp8y+JztvBhKvu9wmRidKKFgt88fQCLLZ8aY8MByauka?=
+ =?us-ascii?Q?EKjKark3rfmmkujgYCHkxXSzvCksMCgu0Wir4caS8RlyNBR9DtznY0AmVq64?=
+ =?us-ascii?Q?hF440zne18Ao298B4sxlCxhEZLnt0Z1cUFm2AezZs/2kX0Wm0g3URUcpjCm/?=
+ =?us-ascii?Q?+az6DZRH6+MApXbpwC2HzB5VyyqikVTMh2xV9s8zx62bShsj9329O7/0UEpP?=
+ =?us-ascii?Q?bJATX3X1y30THbodJMNM6s/VM9mHJljYWn1jLTVN+H3lMWalkkdZi+c9bzmo?=
+ =?us-ascii?Q?RkDuAOAW4AVG8jsyv9C9fq250vWqXFBqxJWaQoyBBKUhMC/MpzFfmKIwNfpF?=
+ =?us-ascii?Q?q4CHlEpJN0j0N3kqmNlU2xUOfXL4OQAeqroKmS7IdzJj0xTxkZKnefPcQsb7?=
+ =?us-ascii?Q?eUV6fiS90x2BtBPnZ4k+VV1CVFB6HIYDgiF3w6J6av0mKu3wfmbUuyOgritL?=
+ =?us-ascii?Q?Be/bE4+IGa4PUWx7uKUzON3GLatvB3TVqZF8++imRfqBJ57atwZSTe90BSJ3?=
+ =?us-ascii?Q?gRjHtYy7kvi0iMr5BYa41ZkxValr1L3yIE7eCyaovBHgZf85o8QXIwF6w8bd?=
+ =?us-ascii?Q?efuym8MdKxdhkimzk7+m1Dt9JoNonMGcRodzGZDxol+lNN4xQUf1Lm05Bw3b?=
+ =?us-ascii?Q?eebd/PeMUbAc/USfEQJkVlcocxC5AOlKetc4FLwDWjHwERMLerHwQT1S/ZwH?=
+ =?us-ascii?Q?UEszzwh5SRCW1noXg7q83TMBJOckfn68oqoxcn1VRkcSL8898vwbbIDO1i1Y?=
+ =?us-ascii?Q?UaBHIZIm+8VdKGxtxOPTxNukeP4ejtUw/Zloqr6AHSedctUYbuAmVP65AaM3?=
+ =?us-ascii?Q?xqR9i1iA6CakFc54P72dAKrdb9aiaVzI9JeW7lBD3RDLnBP3kzLyQOsba4HR?=
+ =?us-ascii?Q?xEhAvAChfCvkOVMPFqfnPjO89LVAJOuULjYfqwrhzw1UhEJDX9NdVavnCnDq?=
+ =?us-ascii?Q?E2mASLKYOA=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b50f75a3-b3c1-4f25-ee76-08de4dcdbebb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c3e9036-632c-47c2-f5e0-08de4dcdc0ae
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 09:18:39.7927 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 09:18:43.2973 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mGYfVMHJZtjE43fhRM2WJcAswJ4mqRfgDYtKFqcjs77+5SrP7+Izx+Z4hqu76ucJuCM/e5qIoV7MO/3Gf1/wlg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: jb23eVlR9TKfixmPSh4V2JmVqQbboPiTs7IDT3VK1zFNyHdbXNTBHFCgKPdAGzezSxDuJeD/SZzAoJtzo9aa3w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4335
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,91 +160,290 @@ A future change will remove device private pages from the physical
 address space. This will mean that device private pages no longer have a
 pfn.
 
-A MIGRATE_PFN flag will be introduced that distinguishes between mpfns
-that contain a pfn vs an offset into device private memory.
+This causes an issue for migrate_device_{pfns,range}() which take pfn
+parameters because depending on of the device is MEMORY_DEVICE_PRIVATE
+or MEMORY_DEVICE_COHERENT will effect how that parameter should be
+interpreted.
 
-Replace usages of pfns and page_to_pfn() to mpfns and
-migrate_pfn_to_page() to prepare for handling this distinction. This
-will assist in continuing to use the same code paths for both
-MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT devices.
+A MIGRATE_PFN flag will be introduced that distinguishes between mpfns
+that contain a pfn vs an offset into device private memory, we will take
+advantage of that here.
+
+Update migrate_device_{pfns,range}() to take a mpfn instead of pfn.
+
+Update the users of migrate_device_{pfns,range}() to pass in an mpfn.
+
+To support this change, update the
+dpagemap_devmem_ops::populate_devmem_pfn() to instead return mpfns and
+rename accordingly.
 
 Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
 ---
-v2:
-  - New to series
+v2: New to series
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 +++++++--------
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |  2 +-
- 2 files changed, 8 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_pagemap.c          |  9 +++---
+ drivers/gpu/drm/nouveau/nouveau_dmem.c |  5 +--
+ drivers/gpu/drm/xe/xe_svm.c            |  9 +++---
+ include/drm/drm_pagemap.h              |  8 ++---
+ lib/test_hmm.c                         |  2 +-
+ mm/migrate_device.c                    | 45 ++++++++++++++------------
+ 6 files changed, 41 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index ca552c34ece2..c493b19268cc 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -204,17 +204,17 @@ svm_migrate_copy_done(struct amdgpu_device *adev, struct dma_fence *mfence)
+diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+index 5ddf395847ef..e4c73a9ce68b 100644
+--- a/drivers/gpu/drm/drm_pagemap.c
++++ b/drivers/gpu/drm/drm_pagemap.c
+@@ -337,7 +337,7 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 
+ 	mmap_assert_locked(mm);
+ 
+-	if (!ops->populate_devmem_pfn || !ops->copy_to_devmem ||
++	if (!ops->populate_devmem_mpfn || !ops->copy_to_devmem ||
+ 	    !ops->copy_to_ram)
+ 		return -EOPNOTSUPP;
+ 
+@@ -390,7 +390,7 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 		goto err_finalize;
+ 	}
+ 
+-	err = ops->populate_devmem_pfn(devmem_allocation, npages, migrate.dst);
++	err = ops->populate_devmem_mpfn(devmem_allocation, npages, migrate.dst);
+ 	if (err)
+ 		goto err_finalize;
+ 
+@@ -401,10 +401,9 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 		goto err_finalize;
+ 
+ 	for (i = 0; i < npages; ++i) {
+-		struct page *page = pfn_to_page(migrate.dst[i]);
++		struct page *page = migrate_pfn_to_page(migrate.dst[i]);
+ 
+ 		pages[i] = page;
+-		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
+ 		drm_pagemap_get_devmem_page(page, zdd);
+ 	}
+ 
+@@ -575,7 +574,7 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
+ 	pagemap_addr = buf + (2 * sizeof(*src) * npages);
+ 	pages = buf + (2 * sizeof(*src) + sizeof(*pagemap_addr)) * npages;
+ 
+-	err = ops->populate_devmem_pfn(devmem_allocation, npages, src);
++	err = ops->populate_devmem_mpfn(devmem_allocation, npages, src);
+ 	if (err)
+ 		goto err_free;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index a7edcdca9701..bd3f7102c3f9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -483,8 +483,9 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
+ 	dst_pfns = kvcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL | __GFP_NOFAIL);
+ 	dma_info = kvcalloc(npages, sizeof(*dma_info), GFP_KERNEL | __GFP_NOFAIL);
+ 
+-	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
+-			npages);
++	migrate_device_range(src_pfns,
++			     migrate_pfn(chunk->pagemap.range.start >> PAGE_SHIFT),
++			     npages);
+ 
+ 	for (i = 0; i < npages; i++) {
+ 		if (src_pfns[i] & MIGRATE_PFN_MIGRATE) {
+diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
+index 55c5a0eb82e1..260676b0d246 100644
+--- a/drivers/gpu/drm/xe/xe_svm.c
++++ b/drivers/gpu/drm/xe/xe_svm.c
+@@ -5,6 +5,7 @@
+ 
+ #include <drm/drm_drv.h>
+ 
++#include <linux/migrate.h>
+ #include "xe_bo.h"
+ #include "xe_exec_queue_types.h"
+ #include "xe_gt_stats.h"
+@@ -681,8 +682,8 @@ static struct drm_buddy *vram_to_buddy(struct xe_vram_region *vram)
+ 	return &vram->ttm.mm;
  }
  
- unsigned long
--svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr)
-+svm_migrate_addr_to_mpfn(struct amdgpu_device *adev, unsigned long addr)
+-static int xe_svm_populate_devmem_pfn(struct drm_pagemap_devmem *devmem_allocation,
+-				      unsigned long npages, unsigned long *pfn)
++static int xe_svm_populate_devmem_mpfn(struct drm_pagemap_devmem *devmem_allocation,
++				       unsigned long npages, unsigned long *pfn)
  {
--	return (addr + adev->kfd.pgmap.range.start) >> PAGE_SHIFT;
-+	return migrate_pfn((addr + adev->kfd.pgmap.range.start) >> PAGE_SHIFT);
+ 	struct xe_bo *bo = to_xe_bo(devmem_allocation);
+ 	struct ttm_resource *res = bo->ttm.resource;
+@@ -697,7 +698,7 @@ static int xe_svm_populate_devmem_pfn(struct drm_pagemap_devmem *devmem_allocati
+ 		int i;
+ 
+ 		for (i = 0; i < drm_buddy_block_size(buddy, block) >> PAGE_SHIFT; ++i)
+-			pfn[j++] = block_pfn + i;
++			pfn[j++] = migrate_pfn(block_pfn + i);
+ 	}
+ 
+ 	return 0;
+@@ -705,7 +706,7 @@ static int xe_svm_populate_devmem_pfn(struct drm_pagemap_devmem *devmem_allocati
+ 
+ static const struct drm_pagemap_devmem_ops dpagemap_devmem_ops = {
+ 	.devmem_release = xe_svm_devmem_release,
+-	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
++	.populate_devmem_mpfn = xe_svm_populate_devmem_mpfn,
+ 	.copy_to_devmem = xe_svm_copy_to_devmem,
+ 	.copy_to_ram = xe_svm_copy_to_ram,
+ };
+diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+index f6e7e234c089..0d1d083b778a 100644
+--- a/include/drm/drm_pagemap.h
++++ b/include/drm/drm_pagemap.h
+@@ -157,17 +157,17 @@ struct drm_pagemap_devmem_ops {
+ 	void (*devmem_release)(struct drm_pagemap_devmem *devmem_allocation);
+ 
+ 	/**
+-	 * @populate_devmem_pfn: Populate device memory PFN (required for migration)
++	 * @populate_devmem_mpfn: Populate device memory PFN (required for migration)
+ 	 * @devmem_allocation: device memory allocation
+ 	 * @npages: Number of pages to populate
+-	 * @pfn: Array of page frame numbers to populate
++	 * @mpfn: Array of migrate page frame numbers to populate
+ 	 *
+ 	 * Populate device memory page frame numbers (PFN).
+ 	 *
+ 	 * Return: 0 on success, a negative error code on failure.
+ 	 */
+-	int (*populate_devmem_pfn)(struct drm_pagemap_devmem *devmem_allocation,
+-				   unsigned long npages, unsigned long *pfn);
++	int (*populate_devmem_mpfn)(struct drm_pagemap_devmem *devmem_allocation,
++				    unsigned long npages, unsigned long *pfn);
+ 
+ 	/**
+ 	 * @copy_to_devmem: Copy to device memory (required for migration)
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 7e5248404d00..a6ff292596f3 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -1389,7 +1389,7 @@ static void dmirror_device_evict_chunk(struct dmirror_chunk *chunk)
+ 	src_pfns = kvcalloc(npages, sizeof(*src_pfns), GFP_KERNEL | __GFP_NOFAIL);
+ 	dst_pfns = kvcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL | __GFP_NOFAIL);
+ 
+-	migrate_device_range(src_pfns, start_pfn, npages);
++	migrate_device_range(src_pfns, migrate_pfn(start_pfn), npages);
+ 	for (i = 0; i < npages; i++) {
+ 		struct page *dpage, *spage;
+ 
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index 1a2067f830da..a2baaa2a81f9 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -1354,11 +1354,11 @@ void migrate_vma_finalize(struct migrate_vma *migrate)
+ }
+ EXPORT_SYMBOL(migrate_vma_finalize);
+ 
+-static unsigned long migrate_device_pfn_lock(unsigned long pfn)
++static unsigned long migrate_device_pfn_lock(unsigned long mpfn)
+ {
+ 	struct folio *folio;
+ 
+-	folio = folio_get_nontail_page(pfn_to_page(pfn));
++	folio = folio_get_nontail_page(migrate_pfn_to_page(mpfn));
+ 	if (!folio)
+ 		return 0;
+ 
+@@ -1367,13 +1367,14 @@ static unsigned long migrate_device_pfn_lock(unsigned long pfn)
+ 		return 0;
+ 	}
+ 
+-	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
++	return mpfn | MIGRATE_PFN_MIGRATE;
  }
  
- static void
--svm_migrate_get_vram_page(struct svm_range *prange, unsigned long pfn)
-+svm_migrate_get_vram_page(struct svm_range *prange, unsigned long mpfn)
+ /**
+  * migrate_device_range() - migrate device private pfns to normal memory.
+- * @src_pfns: array large enough to hold migrating source device private pfns.
+- * @start: starting pfn in the range to migrate.
++ * @src_mpfns: array large enough to hold migrating source device private
++ * migrate pfns.
++ * @start: starting migrate pfn in the range to migrate.
+  * @npages: number of pages to migrate.
+  *
+  * migrate_vma_setup() is similar in concept to migrate_vma_setup() except that
+@@ -1389,28 +1390,29 @@ static unsigned long migrate_device_pfn_lock(unsigned long pfn)
+  * allocate destination pages and start copying data from the device to CPU
+  * memory before calling migrate_device_pages().
+  */
+-int migrate_device_range(unsigned long *src_pfns, unsigned long start,
++int migrate_device_range(unsigned long *src_mpfns, unsigned long start,
+ 			unsigned long npages)
  {
- 	struct page *page;
+-	unsigned long i, j, pfn;
++	unsigned long i, j, mpfn;
  
--	page = pfn_to_page(pfn);
-+	page = migrate_pfn_to_page(mpfn);
- 	svm_range_bo_ref(prange->svm_bo);
- 	page->zone_device_data = prange->svm_bo;
- 	zone_device_page_init(page, 0);
-@@ -225,7 +225,7 @@ svm_migrate_put_vram_page(struct amdgpu_device *adev, unsigned long addr)
- {
- 	struct page *page;
+-	for (pfn = start, i = 0; i < npages; pfn++, i++) {
+-		struct page *page = pfn_to_page(pfn);
++	for (mpfn = start, i = 0; i < npages; i++) {
++		struct page *page = migrate_pfn_to_page(mpfn);
+ 		struct folio *folio = page_folio(page);
+ 		unsigned int nr = 1;
  
--	page = pfn_to_page(svm_migrate_addr_to_pfn(adev, addr));
-+	page = migrate_pfn_to_page(svm_migrate_addr_to_mpfn(adev, addr));
- 	unlock_page(page);
- 	put_page(page);
- }
-@@ -235,7 +235,7 @@ svm_migrate_addr(struct amdgpu_device *adev, struct page *page)
- {
- 	unsigned long addr;
- 
--	addr = page_to_pfn(page) << PAGE_SHIFT;
-+	addr = (migrate_pfn_from_page(page) >> MIGRATE_PFN_SHIFT) << PAGE_SHIFT;
- 	return (addr - adev->kfd.pgmap.range.start);
- }
- 
-@@ -301,9 +301,8 @@ svm_migrate_copy_to_vram(struct kfd_node *node, struct svm_range *prange,
- 
- 		if (migrate->src[i] & MIGRATE_PFN_MIGRATE) {
- 			dst[i] = cursor.start + (j << PAGE_SHIFT);
--			migrate->dst[i] = svm_migrate_addr_to_pfn(adev, dst[i]);
-+			migrate->dst[i] = svm_migrate_addr_to_mpfn(adev, dst[i]);
- 			svm_migrate_get_vram_page(prange, migrate->dst[i]);
--			migrate->dst[i] = migrate_pfn(migrate->dst[i]);
- 			mpages++;
+-		src_pfns[i] = migrate_device_pfn_lock(pfn);
++		src_mpfns[i] = migrate_device_pfn_lock(mpfn);
+ 		nr = folio_nr_pages(folio);
+ 		if (nr > 1) {
+-			src_pfns[i] |= MIGRATE_PFN_COMPOUND;
++			src_mpfns[i] |= MIGRATE_PFN_COMPOUND;
+ 			for (j = 1; j < nr; j++)
+-				src_pfns[i+j] = 0;
++				src_mpfns[i+j] = 0;
+ 			i += j - 1;
+-			pfn += j - 1;
++			mpfn += (j - 1) << MIGRATE_PFN_SHIFT;
  		}
- 		spage = migrate_pfn_to_page(migrate->src[i]);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-index 2b7fd442d29c..a80b72abe1e0 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-@@ -48,7 +48,7 @@ int svm_migrate_vram_to_ram(struct svm_range *prange, struct mm_struct *mm,
- 			    uint32_t trigger, struct page *fault_page);
++		mpfn += 1 << MIGRATE_PFN_SHIFT;
+ 	}
  
- unsigned long
--svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr);
-+svm_migrate_addr_to_mpfn(struct amdgpu_device *adev, unsigned long addr);
+-	migrate_device_unmap(src_pfns, npages, NULL);
++	migrate_device_unmap(src_mpfns, npages, NULL);
  
- #endif /* IS_ENABLED(CONFIG_HSA_AMD_SVM) */
+ 	return 0;
+ }
+@@ -1418,32 +1420,33 @@ EXPORT_SYMBOL(migrate_device_range);
  
+ /**
+  * migrate_device_pfns() - migrate device private pfns to normal memory.
+- * @src_pfns: pre-popluated array of source device private pfns to migrate.
++ * @src_mpfns: pre-popluated array of source device private migrate pfns to
++ * migrate.
+  * @npages: number of pages to migrate.
+  *
+  * Similar to migrate_device_range() but supports non-contiguous pre-popluated
+  * array of device pages to migrate.
+  */
+-int migrate_device_pfns(unsigned long *src_pfns, unsigned long npages)
++int migrate_device_pfns(unsigned long *src_mpfns, unsigned long npages)
+ {
+ 	unsigned long i, j;
+ 
+ 	for (i = 0; i < npages; i++) {
+-		struct page *page = pfn_to_page(src_pfns[i]);
++		struct page *page = migrate_pfn_to_page(src_mpfns[i]);
+ 		struct folio *folio = page_folio(page);
+ 		unsigned int nr = 1;
+ 
+-		src_pfns[i] = migrate_device_pfn_lock(src_pfns[i]);
++		src_mpfns[i] = migrate_device_pfn_lock(src_mpfns[i]);
+ 		nr = folio_nr_pages(folio);
+ 		if (nr > 1) {
+-			src_pfns[i] |= MIGRATE_PFN_COMPOUND;
++			src_mpfns[i] |= MIGRATE_PFN_COMPOUND;
+ 			for (j = 1; j < nr; j++)
+-				src_pfns[i+j] = 0;
++				src_mpfns[i+j] = 0;
+ 			i += j - 1;
+ 		}
+ 	}
+ 
+-	migrate_device_unmap(src_pfns, npages, NULL);
++	migrate_device_unmap(src_mpfns, npages, NULL);
+ 
+ 	return 0;
+ }
 -- 
 2.34.1
 
