@@ -2,94 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D50CFE896
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 16:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D5CFE902
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 16:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B89110E61C;
-	Wed,  7 Jan 2026 15:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0990410E61D;
+	Wed,  7 Jan 2026 15:27:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="V4Dj6xzz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g7Yq0isi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f98.google.com (mail-yx1-f98.google.com
- [74.125.224.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 214E310E61C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 15:21:14 +0000 (UTC)
-Received: by mail-yx1-f98.google.com with SMTP id
- 956f58d0204a3-640d4f2f13dso2006523d50.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 07:21:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767799273; x=1768404073;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QTcD2ri22S3g0U4H6Hn0z+kqnMfuL6/VwWw5oEbZ+Uc=;
- b=DZEIyCENc5sSgqlSk++iR2jYrd+XNVHJZqHWV5VuOP05wYdKzVwJTPvEbBr7lGeEp2
- oQL8inqTTBJ1ajYe4ngJHi9vVXaMP0xgfXG4jr2DA18IymDe+GhDFaqbIZvvHvrufZGx
- 8nQJemKAQ0xB7gyLnyHd1J+XPLwJE+xb1OiUTb1K72iGDz6zdfpk9yktEM5bEydSgyFF
- Ef59wsKu/2kjiKWuHSCnLvpgtp+5Y7CDNktIQpaPHYPhKd2Quqgg1mewgnOAnH9gXsGp
- LO30cicXDAOrMGAr2NVHhqKHVDhec5MjeihFll5VRVBPwkT8PrzB5e66nigSL6Pb/6bR
- tmHA==
-X-Gm-Message-State: AOJu0Yyi3dv3ncmDv0gPNeTt6qDbevuOektKdvsut8ysZnzUcCeKt5Ca
- 8m804MTAh4CzH5uUgAvHmtjGCVWVqgjYFj0iuMWAlUNekVlbM0Rpfk00asRPQrNXJBu6eVp/DzN
- +TK9f6sQjdsDxGrQHK1vn+Wv383iZljbY/oGoPzHMLEsgSRbARwbkxUU50nah/Mdqp+4sqmBPdK
- pt9z52p9Gj91gBb1njpDa5xd4fYcjaLKv/sh8x1Dhy2/ssbtT9ecl4b5UoPV4slQBZegJKWWS9r
- UYfllGMFj7ISLVoU5Ph
-X-Gm-Gg: AY/fxX77occD0vRlQp0NW8AhZVsK8O4QdZJUTKyG9PRBlkVaryUpc8KzdY94sN0Rm8e
- QO5OUPL10WQyvbgXQlgiMOiCr50uU2UxXZ37Vp1Hm0v8XME544Ctbg26QVXdaO7E/X4lWlo5b9W
- TJOF86/Lx8gSJjVDTNG/sGs6r3UxPOggYHVx+LGNpyVpkJtn+kld1zkGmKOracFlXjLJKL9yZef
- evQVNT7EHUqN7L4FB7FGROl4w1N8OcQo35sIZrVeVSbO+cVkNFriYT/9Yn//X0VQawpAQEuKOd3
- xqcM2Q3xqQ8XkfOs5EXLDmmId5IOpJnSdInK4v5XUhp/eF+ePGeLDqS8bPLVapO1A0hlYnPZeqj
- 09nVo2m1Z3FACa25/Zd4CfugcEq2/VUxrPslpuyC+ohDDKMfUgEBl3iDS9/xPg+h47GTf0P6+xc
- ILnHyqzmlQ0qyG/smFQN9gZBs6O6Yyqgx0YQywPgVh4u9m
-X-Google-Smtp-Source: AGHT+IEu/qY9yzRFTXN44yYETUIwYJlR9P8Oxw/EELd56BelaPh0QGyQFNbBs9dTjlLJjVgpXtVe3lD86/Zt
-X-Received: by 2002:a05:690e:4195:b0:641:f5bc:69a6 with SMTP id
- 956f58d0204a3-64716cad31bmr2420737d50.84.1767799272806; 
- Wed, 07 Jan 2026 07:21:12 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-120.dlp.protect.broadcom.com. [144.49.247.120])
- by smtp-relay.gmail.com with ESMTPS id
- 956f58d0204a3-6470d8c4d07sm478219d50.13.2026.01.07.07.21.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Jan 2026 07:21:12 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dy1-f197.google.com with SMTP id
- 5a478bee46e88-2b0530846d3so1381173eec.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 07:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1767799271; x=1768404071;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QTcD2ri22S3g0U4H6Hn0z+kqnMfuL6/VwWw5oEbZ+Uc=;
- b=V4Dj6xzztzXQ31lNBJhN//vEtEWbguavOb/AisTxbrI+wfLSbRC+W5vS5AKx8N2eB/
- 7SGYIONYxqrDa0ItOnAf/kaVOQgS8kk/QNH7+XNcjQndkK4zgBdA9HPrKobmklTjREVh
- LwI9duRMQcSWzgijfSTMCyyGkYzfrrZU8K6+s=
-X-Received: by 2002:a05:7300:a897:b0:2ab:ca55:b760 with SMTP id
- 5a478bee46e88-2b17d2f0d70mr2106043eec.43.1767799271236; 
- Wed, 07 Jan 2026 07:21:11 -0800 (PST)
-X-Received: by 2002:a05:7300:a897:b0:2ab:ca55:b760 with SMTP id
- 5a478bee46e88-2b17d2f0d70mr2106018eec.43.1767799270605; 
- Wed, 07 Jan 2026 07:21:10 -0800 (PST)
-Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
- by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2b1706a53cdsm6795206eec.11.2026.01.07.07.21.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jan 2026 07:21:09 -0800 (PST)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH] drm/vmwgfx: Merge vmw_bo_release and vmw_bo_free functions
-Date: Wed,  7 Jan 2026 09:20:59 -0600
-Message-ID: <20260107152059.3048329-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B346F10E61D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 15:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767799631; x=1799335631;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Vg0/pBsT57sSy4lg74tRrQdS7siKmCwyfAx78i39u3Y=;
+ b=g7Yq0isipD6u8xYu81F83vISCE2kVAa3nsgB931+Tun0HvJx0o6Fb+ju
+ iS/md9nLg2evIE+TgR7Mu30sQ2wfrhca3VLSq1mFZXUPi58YX4amKdsZy
+ ZdzadwcZrtnzSg/AyNSEi22IcDZEtQNJAuEo4cVe8qufZ/b2khcBSSG+z
+ LmvxdCSnud77u52FjMOQgg+l3yZfquqr9VUvqLqpPKG2XQLW9b1cBb4Nm
+ WIIB97L5a3nmPbsGwgwjwq1+pEVN7FJ+33rI+JwJfJ146xmcnZjuytRg1
+ b6LGJ3WMJCRSplF4y+CoQU1apu3UuonnGX9lTpVjP7H5HpmndrtuKMRsl w==;
+X-CSE-ConnectionGUID: tkoeocXIQ9yLn6ULn8BtGA==
+X-CSE-MsgGUID: NkBFTNxfSDq8O3FekQzQIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69220551"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="69220551"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2026 07:27:11 -0800
+X-CSE-ConnectionGUID: +3Ws+UAwRQCdvqqCuPxH6w==
+X-CSE-MsgGUID: 17qe8lPaRgu30VHIGsSicw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="207480504"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.60])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2026 07:27:09 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	Andy Yan <andy.yan@rock-chips.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH] drm/rockchip: inno-hdmi: make inno_hdmi.h header
+ self-contained
+Date: Wed,  7 Jan 2026 17:27:04 +0200
+Message-ID: <20260107152704.2290146-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,59 +70,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some of the warnings need to be reordered between these two functions
-in order to be correct. This has happened multiple times.
-Merging them solves this problem once and for all.
+Include linux/types.h for u8.
 
-Fixes: d6667f0ddf46 ("drm/vmwgfx: Fix handling of dumb buffers")
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ include/drm/bridge/inno_hdmi.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index f031a312c783..b22887e8c881 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -32,9 +32,15 @@
+diff --git a/include/drm/bridge/inno_hdmi.h b/include/drm/bridge/inno_hdmi.h
+index 8b39655212e2..5bbcaeea94e2 100644
+--- a/include/drm/bridge/inno_hdmi.h
++++ b/include/drm/bridge/inno_hdmi.h
+@@ -6,6 +6,8 @@
+ #ifndef __INNO_HDMI__
+ #define __INNO_HDMI__
  
- #include <drm/ttm/ttm_placement.h>
- 
--static void vmw_bo_release(struct vmw_bo *vbo)
-+/**
-+ * vmw_bo_free - vmw_bo destructor
-+ *
-+ * @bo: Pointer to the embedded struct ttm_buffer_object
-+ */
-+static void vmw_bo_free(struct ttm_buffer_object *bo)
- {
- 	struct vmw_resource *res;
-+	struct vmw_bo *vbo = to_vmw_bo(&bo->base);
- 
- 	WARN_ON(kref_read(&vbo->tbo.base.refcount) != 0);
- 	vmw_bo_unmap(vbo);
-@@ -62,20 +68,8 @@ static void vmw_bo_release(struct vmw_bo *vbo)
- 		}
- 		vmw_surface_unreference(&vbo->dumb_surface);
- 	}
--	drm_gem_object_release(&vbo->tbo.base);
--}
--
--/**
-- * vmw_bo_free - vmw_bo destructor
-- *
-- * @bo: Pointer to the embedded struct ttm_buffer_object
-- */
--static void vmw_bo_free(struct ttm_buffer_object *bo)
--{
--	struct vmw_bo *vbo = to_vmw_bo(&bo->base);
--
- 	WARN_ON(!RB_EMPTY_ROOT(&vbo->res_tree));
--	vmw_bo_release(vbo);
-+	drm_gem_object_release(&vbo->tbo.base);
- 	WARN_ON(vbo->dirty);
- 	kfree(vbo);
- }
++#include <linux/types.h>
++
+ struct device;
+ struct drm_encoder;
+ struct drm_display_mode;
 -- 
-2.52.0
+2.47.3
 
