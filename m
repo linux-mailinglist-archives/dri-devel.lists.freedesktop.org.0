@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30F1CFB722
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 01:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E97CFB725
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 01:22:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB7310E249;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8531A10E55B;
 	Wed,  7 Jan 2026 00:22:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zmkd0xmO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f2sjWwAh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF3710E1EE;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424AD10E249;
  Wed,  7 Jan 2026 00:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1767745330; x=1799281330;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=NvyNXaAF2B9RxogMt35VloMFXHt6Ae4vqEsrkXyRxfM=;
- b=Zmkd0xmOqMDN5B1FgnVmbn3H78gOaCXGCjWEu6gtepc5gv3LmdoB6p6a
- XdZsaG5LuginhkXM/12Pp4qD5XWx0xIQgLikyvSs/dgVwXJIboDdy06m6
- /AD+s0vIkBWfCtHdthtkbpMbvDWXmfIYLD3EGCmD1Z/SS3XGFV563zNL9
- lumniiwEWTMl11bHUNkZE+6JZ69gJbdUNQCkphPthfg+Vpjkh7SHkTgoR
- fpsNUUei4CXhYmlZtN66ReFtfVtkDNNQrYdD5E3vSuYzkMv8nqRl0d81U
- RyJadTVu2aGxYy9Hfn9dE7E1+fLOLcGaj55LGC7j/epO/sbSVVKCh2tDi w==;
-X-CSE-ConnectionGUID: J2M7mQrbSSqa9MboI4J2Jw==
-X-CSE-MsgGUID: byXPViFnQmmpew2r04k3xQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69164114"
-X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; d="scan'208";a="69164114"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ODz8vQM06hZpoUx5eKexuLW904bBK0VE0zDOrwdA9y8=;
+ b=f2sjWwAhgR2Q3n4tL70h0dsa6ZW6KHmiMBdHBawXAtfn8/2O0zzIQ3RZ
+ kmjc6y+qRxo4y++Jih1dLEih2nJ477D/rqztY3DKVj/5r+Rqj0NtZrVqK
+ 5su6MaZmPr6VDYd8TL2Q9MpMZLQHgA54smCuNJnlqjPhiXWcCsMUlEbe6
+ FltH8lRYWGagfmFM9MQYvNe6zQHAjky2RzyZCRb7KJnuDNEaV5fFy8Dfn
+ fTMxFv+mHmGvpLP+3bY/77iw0vtPKoRlaLdDRQsWlB5SJBj+98EeW+ZKG
+ e5SwB9E0JcwgfOKdge2B8CoJAEPZ6pUxtx62P4WrOl1iiVfHRWaEj+CU7 Q==;
+X-CSE-ConnectionGUID: 5UZrbKeSQ9qvyjDMce19Rg==
+X-CSE-MsgGUID: 8AzHa4HZSCyx7hhuBSiNdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69164109"
+X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; d="scan'208";a="69164109"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Jan 2026 16:22:09 -0800
-X-CSE-ConnectionGUID: 2t//YsLMQlGnPko4Z79khQ==
-X-CSE-MsgGUID: 14nhtsiDQL2YPo5VlCkReQ==
+X-CSE-ConnectionGUID: oBG1V4ZQTdGsPP/XPPj7pg==
+X-CSE-MsgGUID: QdFPWMbtRxOYVL8C6Jajcw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; d="scan'208";a="206931516"
+X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; d="scan'208";a="206931519"
 Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Jan 2026 16:22:08 -0800
@@ -48,10 +48,13 @@ To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
  dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.comn
 Cc: "David E. Box" <david.e.box@linux.intel.com>, hansg@kernel.org,
  linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 0/4] platform/x86/intel/vsec: Prep for ACPI PMT discovery
-Date: Tue,  6 Jan 2026 16:21:47 -0800
-Message-ID: <20260107002153.63830-1-david.e.box@linux.intel.com>
+Subject: [PATCH 1/4] platform/x86/intel/vsec: Decouple add/link helpers from
+ PCI
+Date: Tue,  6 Jan 2026 16:21:48 -0800
+Message-ID: <20260107002153.63830-2-david.e.box@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260107002153.63830-1-david.e.box@linux.intel.com>
+References: <20260107002153.63830-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -70,49 +73,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series updates intel_vsec to decouple helper APIs from PCI, clean up
-error handling, and plumb ACPI=E2=80=91based Intel Platform Monitoring Tech=
-nology
-(PMT) discovery through the vsec layer.  It is preparatory infrastructure
-for the follow=E2=80=91on PMT core/telemetry and PMC/SSRAM series that add =
-ACPI
-discovery and new platforms.
+This refactor is preparatory for ACPI-enumerated PMT endpoints. While
+intel_vsec is bound to PCI today, some helpers are used by code that will
+also register PMT endpoints from non-PCI (ACPI) paths. Clean up
+PCI-specific plumbing where it isn=E2=80=99t strictly required and rely on
+generic struct device where possible.
 
-Highlights
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
+ drivers/platform/x86/intel/vsec.c      | 13 +++++++++----
+ drivers/platform/x86/intel/vsec_tpmi.c |  2 +-
+ include/linux/intel_vsec.h             |  2 +-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
 
-  -- Decouple add/link helpers from PCI so users need only a struct device.
-  -- Switch exported helpers from struct pci_dev to struct device.
-  -- Return real error codes from the registration path.
-  -- Carry ACPI PMT discovery tables through vsec.
-
-
-David E. Box (4):
-  platform/x86/intel/vsec: Decouple add/link helpers from PCI
-  platform/x86/intel/vsec: Switch exported helpers from pci_dev to
-    device
-  platform/x86/intel/vsec: Return real error codes from registration
-    path
-  platform/x86/intel/vsec: Plumb ACPI PMT discovery tables through vsec
-
- drivers/gpu/drm/xe/xe_debugfs.c               |   2 +-
- drivers/gpu/drm/xe/xe_hwmon.c                 |   2 +-
- drivers/gpu/drm/xe/xe_vsec.c                  |   7 +-
- drivers/gpu/drm/xe/xe_vsec.h                  |   2 +-
- drivers/platform/x86/intel/pmc/core.c         |   4 +-
- .../platform/x86/intel/pmc/ssram_telemetry.c  |   2 +-
- drivers/platform/x86/intel/pmt/class.c        |   8 +-
- drivers/platform/x86/intel/pmt/class.h        |   4 +-
- drivers/platform/x86/intel/pmt/discovery.c    |   4 +-
- drivers/platform/x86/intel/pmt/telemetry.c    |  13 +-
- drivers/platform/x86/intel/pmt/telemetry.h    |  11 +-
- drivers/platform/x86/intel/sdsi.c             |   5 +-
- drivers/platform/x86/intel/vsec.c             | 115 +++++++++++-------
- drivers/platform/x86/intel/vsec_tpmi.c        |   8 +-
- include/linux/intel_vsec.h                    |  40 ++++--
- 15 files changed, 136 insertions(+), 91 deletions(-)
-
-
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel=
+/vsec.c
+index ecfc7703f201..130577061a51 100644
+--- a/drivers/platform/x86/intel/vsec.c
++++ b/drivers/platform/x86/intel/vsec.c
+@@ -158,18 +158,23 @@ static bool vsec_driver_present(int cap_id)
+  */
+ static const struct pci_device_id intel_vsec_pci_ids[];
+=20
+-static int intel_vsec_link_devices(struct pci_dev *pdev, struct device *de=
+v,
++static int intel_vsec_link_devices(struct device *parent, struct device *d=
+ev,
+ 				   int consumer_id)
+ {
+ 	const struct vsec_feature_dependency *deps;
+ 	enum vsec_device_state *state;
+ 	struct device **suppliers;
+ 	struct vsec_priv *priv;
++	struct pci_dev *pdev;
+ 	int supplier_id;
+=20
+ 	if (!consumer_id)
+ 		return 0;
+=20
++	if (!dev_is_pci(parent))
++		return 0;
++
++	pdev =3D to_pci_dev(parent);
+ 	if (!pci_match_id(intel_vsec_pci_ids, pdev))
+ 		return 0;
+=20
+@@ -204,7 +209,7 @@ static int intel_vsec_link_devices(struct pci_dev *pdev=
+, struct device *dev,
+ 	return 0;
+ }
+=20
+-int intel_vsec_add_aux(struct pci_dev *pdev, struct device *parent,
++int intel_vsec_add_aux(struct device *parent,
+ 		       struct intel_vsec_device *intel_vsec_dev,
+ 		       const char *name)
+ {
+@@ -252,7 +257,7 @@ int intel_vsec_add_aux(struct pci_dev *pdev, struct dev=
+ice *parent,
+ 	if (ret)
+ 		goto cleanup_aux;
+=20
+-	ret =3D intel_vsec_link_devices(pdev, &auxdev->dev, intel_vsec_dev->cap_i=
+d);
++	ret =3D intel_vsec_link_devices(parent, &auxdev->dev, intel_vsec_dev->cap=
+_id);
+ 	if (ret)
+ 		goto cleanup_aux;
+=20
+@@ -349,7 +354,7 @@ static int intel_vsec_add_dev(struct pci_dev *pdev, str=
+uct intel_vsec_header *he
+ 	 * Pass the ownership of intel_vsec_dev and resource within it to
+ 	 * intel_vsec_add_aux()
+ 	 */
+-	return intel_vsec_add_aux(pdev, parent, no_free_ptr(intel_vsec_dev),
++	return intel_vsec_add_aux(parent, no_free_ptr(intel_vsec_dev),
+ 				  intel_vsec_name(header->id));
+ }
+=20
+diff --git a/drivers/platform/x86/intel/vsec_tpmi.c b/drivers/platform/x86/=
+intel/vsec_tpmi.c
+index 7748b5557a18..2ccde86c529f 100644
+--- a/drivers/platform/x86/intel/vsec_tpmi.c
++++ b/drivers/platform/x86/intel/vsec_tpmi.c
+@@ -655,7 +655,7 @@ static int tpmi_create_device(struct intel_tpmi_info *t=
+pmi_info,
+ 	 * feature_vsec_dev and res memory are also freed as part of
+ 	 * device deletion.
+ 	 */
+-	return intel_vsec_add_aux(vsec_dev->pcidev, &vsec_dev->auxdev.dev,
++	return intel_vsec_add_aux(&vsec_dev->auxdev.dev,
+ 				  feature_vsec_dev, feature_id_name);
+ }
+=20
+diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
+index 53f6fe88e369..28c2f5855a11 100644
+--- a/include/linux/intel_vsec.h
++++ b/include/linux/intel_vsec.h
+@@ -183,7 +183,7 @@ struct pmt_feature_group {
+ 	struct telemetry_region	regions[];
+ };
+=20
+-int intel_vsec_add_aux(struct pci_dev *pdev, struct device *parent,
++int intel_vsec_add_aux(struct device *parent,
+ 		       struct intel_vsec_device *intel_vsec_dev,
+ 		       const char *name);
+=20
 --=20
 2.43.0
 
