@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D028FCFD44E
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 11:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97F9CFD505
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA4B10E59C;
-	Wed,  7 Jan 2026 10:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011E310E58E;
+	Wed,  7 Jan 2026 11:03:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NAUz4MvY";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lNx4C+h6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 818A610E595
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 10:52:29 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-47774d3536dso6468235e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 02:52:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767783148; x=1768387948; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nyoXk4IsbX+mXFn0g5XNn3/4pH8CU481xkRQwI6wE0c=;
- b=NAUz4MvYIwXPAn+m41bZmfDR8NRHkY4bkq6zUV8cydNhquwx/H1QYTNzmrfypIftIa
- kJlPLeZTQWAFMS393lV64GThLJAhbAxaSNqkQv+GXn8M3T1zEYGtpFROAutDp4zhE1nm
- 4EPYnxu40ZQY//zFPoqG9HYimgPoITc69NMieQ5YQbhBkcsucVBgaxUqfWCuqktVgJkm
- y+KcTq/l5LIxtKxm0E5hUq9IoA0LZUEz57wujelpmvs+A7WMUeVr3HNhGgzwF2g+lWtX
- Q/hVUH+ByPsKtVEhO518sdzKGp8Bk8/B8t67opodUMGUAZ3LY4hTMKs8CyN/wNHFpNGy
- bXSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767783148; x=1768387948;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=nyoXk4IsbX+mXFn0g5XNn3/4pH8CU481xkRQwI6wE0c=;
- b=CG0GPliu6luiuJYmAd1zQAHbYy0hAbV6Nl9xP8SqsbhVYpFhMhE2APOVou2IVBuGEt
- WfZ0KvOAlEQ2zRJCWL1YuejvOnxxwzg+ksCqFsJebeATR4R5yE/GikJhM8RowqXogTMU
- pn36Nptlgzsu09iq5SunVF78268Vf6jix1fChtI10PthL54B7Systtos4N0K4SXu2ZED
- FntDUL/ZA3txHeB0YbMX39gRY3AbvER+atiAwVwK3X/ooeu85LUrFD5d1j5hD+qVdmBC
- mWEeRw5SwNw1xLBbdmTOGV4Kl+QyubxB+SsaQ5tqUfi2T9XZrTNFTx3oWiz+9WnY6JCY
- JQ1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfAk/6Od/I+EDgIx2T3sA1DxgTVN/Rz26HzfWbG5O3ypElE7nVo7MYdGThtavvkXuz5Aw5UHmA/0k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyblzm5Q5dU3T65Ey/hVYo2iSRvVDlqJD+MxkDcQlqKSKTnxVGE
- fy/Zfgy7xkCEoQZENbxf4l2d96cu7v29XWlzJCr360lbVw9J82zIhac6
-X-Gm-Gg: AY/fxX4w7/UHjUI41+ux6jIW6Tc5qSAZfuszMjeVk50+bnnm8/EK9t75LWEQzoB8Vj7
- fEWX4QeqkXOePx9uwyJDDO3ChpNsYRLfjIyIyTCzKBPBoWCGyEtaHVHqPzPD/3KMztUuHlOmG+Y
- 7tAG562ZcZkyh3q2EABcwT+T456ZprtKljKpnnNmrOK9tUSauTafoPhE4AssD9tXB9677P8dNNq
- eLVcMUsjTNKfoH1A6sgzipVYLhE6HL7bzTYWGRjuEmRhsZo8s/YmjwzsqDtcL42vPNYFwfZXiXK
- TBI19twvvpRPYahZr8CxlgiMnmv5hKQzmrKGCEdLGbioPiIdgD5G+3v+Qspr4KgmGkjgrVoAgV5
- i6veyCr5zCmCdSr26FJpLHzD3Sm7+HLC/3PcSBo062if5lMRUwEfY8q2H36MyZLvEUUcS6W/EIN
- 3D1Q+S6gHhGtkM6HqFf81354110IuAv4P+R+vNlaw=
-X-Google-Smtp-Source: AGHT+IHL3EPa8T4LtY57ZbvaqYVDxgPMDQ9C9RQwVhu2bQ8L+PoqikKxi5xWl3SgLYwSuxkLp8jnCQ==
-X-Received: by 2002:a05:600c:4685:b0:46f:a2ba:581f with SMTP id
- 5b1f17b1804b1-47d848787d4mr23001555e9.16.1767783147643; 
- Wed, 07 Jan 2026 02:52:27 -0800 (PST)
-Received: from ionutnechita-arz2022.local
- ([2a02:2f0e:ca09:7000:33fc:5cce:3767:6b22])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47d7f4184e1sm90953325e9.4.2026.01.07.02.52.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jan 2026 02:52:27 -0800 (PST)
-From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
-To: alexdeucher@gmail.com
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- ionut_n2001@yahoo.com, linux-kernel@vger.kernel.org,
- sunlightlinux@gmail.com, superm1@kernel.org
-Subject: Re: [PATCH 1/1] drm/amdgpu: Fix TLB flush failures after hibernation
- resume
-Date: Wed,  7 Jan 2026 12:52:25 +0200
-Message-ID: <20260107105225.37703-1-sunlightlinux@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <CADnq5_OXJnREtCUhyq4JWjKmih=k7hnc4w_y8mNd3J1g437V8Q@mail.gmail.com>
-References: <CADnq5_OXJnREtCUhyq4JWjKmih=k7hnc4w_y8mNd3J1g437V8Q@mail.gmail.com>
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD4810E58E;
+ Wed,  7 Jan 2026 11:03:33 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id E80DA1A26DD;
+ Wed,  7 Jan 2026 11:03:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BA5EA606F8;
+ Wed,  7 Jan 2026 11:03:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 55E84103C86EC; Wed,  7 Jan 2026 12:03:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1767783810; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=+i6jlMelvRxjO0pYFfuPPHQHln/TM3B0kSSKLuGvWNs=;
+ b=lNx4C+h6GNtEY43W/Pvarzw4DIFwmP8vhDGBW5RwZh9lZHHTP2Tg/GqIeDhbzjgYc5sDqB
+ R0TaC3O62Kwq2LNQ1ai9eIUBd6hbyQz5EIs/zxfapmiTfXcpsQD6HGwjsvCf40Pb7MmGxY
+ 15lLZ0treehtFrQDQsmccsUMaQ4OSrI2w3pnXOTtlEzcgCUH0WQw5Zi8Reot+7x8GHw7Tc
+ WaqfGIA2Pwknj70PbjWRofMMycfZdfGW+3GKcXQ5Elj3pNVHDDS3vCsXfDvAX86ZT6yMKB
+ GwhvoGmKgwWp08rORevMVgZzhMSfBtAJxi+1njUxz4aed+WX0tFPliDvPwgpsg==
+Message-ID: <52a1c55b-43fe-46b6-9846-21de0f263542@bootlin.com>
+Date: Wed, 7 Jan 2026 12:03:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/5] drm/atomic: Allocate atomic_state at the beginning
+ of atomic_ioctl
+To: Arun R Murthy <arun.r.murthy@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org,
+ harry.wentland@amd.com, uma.shankar@intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+References: <20260106-atomic-v7-0-d51d9a351684@intel.com>
+ <20260106-atomic-v7-3-d51d9a351684@intel.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+In-Reply-To: <20260106-atomic-v7-3-d51d9a351684@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,32 +72,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
 
-Thank you for the detailed review and for pointing out the ordering issue.
 
-You're absolutely right - I misunderstood the call sequence. Setting
-resume_gpu_stable to false in amdgpu_device_resume() happens after
-gfx_v9_0_cp_resume(), which defeats the purpose and permanently
-disables the KIQ path.
+On 1/6/26 05:37, Arun R Murthy wrote:
+> Move atomic_state allocation to the beginning of the atomic_ioctl
+> to accommodate drm_mode_atomic_err_code usage for returning error
+> code on failures.
+> As atomic state is required for drm_mode_atomic_err_code to store the
+> error codes.
+> 
+> v7: Reframe commit message (Suraj)
+> 
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>   drivers/gpu/drm/drm_atomic_uapi.c | 20 +++++++++++---------
+>   1 file changed, 11 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 7320db4b8489f10e24ed772094c77e2172951633..02029b5d7832eeaf4a225096a94947344083fc0b 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -1553,13 +1553,21 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>   	struct drm_modeset_acquire_ctx ctx;
+>   	struct drm_out_fence_state *fence_state;
+>   	int ret = 0;
+> -	unsigned int i, j, num_fences;
+> +	unsigned int i, j, num_fences = 0;
+>   	bool async_flip = false;
+>   
+>   	/* disallow for drivers not supporting atomic: */
+>   	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+>   		return -EOPNOTSUPP;
+>   
+> +	state = drm_atomic_state_alloc(dev);
+> +	if (!state)
+> +		return -ENOMEM;
 
-However, I'm still experiencing the TLB flush failures after hibernation
-resume on AMD Cezanne (Renoir):
+It seems strange to add num_fences = 0 at the top and then don't use it 
+before the num_fences = 0. Did you forgot to replace return -ENOMEM by 
+goto out?
 
-  amdgpu: TLB flush failed for PASID xxxxx
-  amdgpu: failed to write reg 28b4 wait reg 28c6
-  amdgpu: failed to write reg 1a6f4 wait reg 1a706
+> +
+> +	drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
+> +	state->acquire_ctx = &ctx;
+> +	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
+> +
+>   	/* disallow for userspace that has not enabled atomic cap (even
+>   	 * though this may be a bit overkill, since legacy userspace
+>   	 * wouldn't know how to call this ioctl)
+> @@ -1598,13 +1606,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>   		return -EINVAL;
+>   	}
+>   
+> -	state = drm_atomic_state_alloc(dev);
+> -	if (!state)
+> -		return -ENOMEM;
+> -
+> -	drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
+> -	state->acquire_ctx = &ctx;
+> -	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
+>   	state->plane_color_pipeline = file_priv->plane_color_pipeline;
+>   
+>   retry:
+> @@ -1703,7 +1704,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>   	}
+>   
+>   out:
+> -	complete_signaling(dev, state, fence_state, num_fences, !ret);
+> +	if (num_fences)
+> +		complete_signaling(dev, state, fence_state, num_fences, !ret);
 
-If kiq sched.ready is being handled correctly as you described, what
-else could cause these failures during resume? Are there any known
-issues with KIQ-based TLB invalidation after hibernation on GFX9?
+Hello Arun,
 
-Should I investigate:
-- Timing issues with KIQ command submission during early resume?
-- Power/clock gating states affecting KIQ functionality?
-- Missing synchronization after KIQ initialization?
+I am not familiar with this part of DRM, but this num_fences change 
+seems strange and unrelated to this patch.
 
-Any guidance on the correct direction to investigate would be appreciated.
+If this is intentional, I think this change the previous behavior:
+
+	num_fences = 0;
+	for (...) {
+		if (ret)
+			goto out;
+	}
+	ret = prepare_signaling(dev, state, arg, file_priv,
+				fence_state, &num_fences);
+	out:
+	complete_signaling(dev, state, fence_state, num_fences, !ret);
+
+Without your change:
+
+=> no error -> prepare_signaling/complete_signaling are called with 
+num_fences=0
+=> error in prepare_signaling -> complete_signaling is called in all cases
+=> error in loop = complete_signaling without prepare_signaling (very 
+strange, is it your fix?)
+
+With your change:
+
+=> no error -> same
+=> error in prepare_signaling -> depends on prepare_signaling, only if 
+num_fences!=0 (a bit strange, but maybe expected)
+=> error in loop -> don't call complete_signaling
+
+I don't know if the previous behavior is broken, but if this change is 
+needed, maybe you can extract it in a different patch?
 
 Thanks,
-Ionut
+Louis Chauvet
+
+
+>   	if (ret == -EDEADLK) {
+>   		drm_atomic_state_clear(state);
+> 
+
