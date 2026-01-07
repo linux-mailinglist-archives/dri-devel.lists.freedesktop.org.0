@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EC0CFDFCD
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764ECCFDFD0
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:38:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0603410E5CC;
-	Wed,  7 Jan 2026 13:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF1210E5D3;
+	Wed,  7 Jan 2026 13:38:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="NNqrnorB";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="J6Xbyrte";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="cESJymPw";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="M3xRcU+/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF0D10E5D3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:38:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C14CB10E5D3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:38:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792675; bh=kGflik9VbPGwdJ/anHWMppL
- 4CuNJ02DVZyvvduz9raU=; b=NNqrnorBFL0z6eL5xQaD2olhaoTbJWb5X5dW2ggaV+qrwZclNX
- GzzqoWqDWPTEDCmhOR1tnzN1F+P4xedKxddUur515R6cx0p0yB//Ei/5J+y5m2/E7gMG8z6eQi8
- RbHd3BlBFvuD//P4XKcmNcSdl89IoC/jIm6iIDcPylYeZ3kMGtn1yhZFXHKjORyctybpps5SQnF
- YVBBG6RXyN6QITSwMLcZ1SphBynlB2qbFpYkwzQvs1Q7WiWWsWQ/jAGOuTSK3HG20sGdEGIqdRY
- Q0hVjSczrNLShY8ZWE/RoBGRbLpie5dcmMR+0zM4XlVfScZW39eoe6VeKmW/25Kqbkg==;
+ h=To:Message-Id:Subject:Date:From; t=1767792676; bh=NaV9lkfW0P2ymvt3pfufEgA
+ rA63fyFY5MEhTkcp5K4c=; b=cESJymPwOR+2Mv8GRlSeadGUcX2U4ONV4rpPNagQGav5PqBbA/
+ fCHPZf7MHFlNHa32YV9ZFu9w5ms+OiKVFBUgngBJO+MsLlka2ZojOO/qRwddgKb0QzYj4Ylv89u
+ 3vlWFMDOB9my0gJHsLazJTv3MjC1aJST8F0o3a7cIt6vz8OsxNJO+05vbAxAScZTKEgj9prX+4n
+ MpIHsuGJufucurvb9TJogXvXtHNki3HtIilPTmN4qZcYQeqmAlXS/JP1dh/3RMaUiY14oMRJ8Dk
+ N/2SMoaJtya2gp9GwXhVYoUjgGgGhe/jvgL+C4pZXJqxiuCzqXhPOGUo+yPFqJn2kQA==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792675; bh=kGflik9VbPGwdJ/anHWMppL
- 4CuNJ02DVZyvvduz9raU=; b=J6Xbyrte5dq4Yboivczh9IX4sCCg2hOsPM72kDNfRO93ODM7M8
- ByUTKfi+/dusTKp9jPFgfHIMbXM5YBin7FBA==;
+ h=To:Message-Id:Subject:Date:From; t=1767792676; bh=NaV9lkfW0P2ymvt3pfufEgA
+ rA63fyFY5MEhTkcp5K4c=; b=M3xRcU+/JuoAkiLaMgtDEclpQDbfkj1uUnm43LZDaJDOFXTpQq
+ K4NqulYw2Es/0zArd58hh7e+I1f69hjo41Bg==;
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
  <barnabas.czeman@mainlining.org>
-Date: Wed, 07 Jan 2026 14:31:07 +0100
-Subject: [PATCH 3/5] arm64: dts: qcom: msm8953-xiaomi-vince: correct wled
+Date: Wed, 07 Jan 2026 14:31:08 +0100
+Subject: [PATCH 4/5] arm64: dts: qcom: msm8937-xiaomi-land: correct wled
  ovp value
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260107-pmi8950-wled-v1-3-5e52f5caa39c@mainlining.org>
+Message-Id: <20260107-pmi8950-wled-v1-4-5e52f5caa39c@mainlining.org>
 References: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
 In-Reply-To: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
@@ -54,11 +54,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
  linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792671; l=837;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792671; l=796;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=v8jKh7deIkBU5FebVf2aUVsP6DwuLjcMLNaTTYNAGn4=;
- b=/gRLfpy6zIiw7KrLHNhj3HdiFJZsP46dgA/TKGecN5/54ztl/FcGCzJ1UNNgHkspw0KQ9AwS5
- +eW+Ow+vfHiClEvIQt1q8NlLMI5eJ3mHwZyRiQyT6283TC08zpBstLL
+ bh=VW78Ujo+EwXFe0PRiUbzn+cyI2HRhNJC2s0rKR3xSr8=;
+ b=1H0UZG2Y3jbizp1sxueNLBEqJXnjaCUpBpDkRM9hjtfaY+tThnhRLUozfPE2fzyJ2fe43cDag
+ NswQXXNV87bDi5bE50GI6/zcQ47DQUE1k8CTocRl9dmnUzTuKt4XFR9
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,25 +78,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Correct wled ovp value from 29600 to 29500.
 
-Fixes: aa17e707e04a ("arm64: dts: qcom: msm8953: Add device tree for Xiaomi Redmi 5 Plus")
+Fixes: 2144f6d57d8e ("arm64: dts: qcom: Add Xiaomi Redmi 3S")
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts | 2 +-
+ arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
-index d46325e79917..c2a290bf493c 100644
---- a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
-@@ -169,7 +169,7 @@ &pm8953_resin {
- 
- &pmi8950_wled {
+diff --git a/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
+index 91837ff940f1..4f301e7c6517 100644
+--- a/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
++++ b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
+@@ -178,7 +178,7 @@ &pmi8950_wled {
+ 	qcom,num-strings = <2>;
+ 	qcom,external-pfet;
  	qcom,current-limit-microamp = <20000>;
 -	qcom,ovp-millivolt = <29600>;
 +	qcom,ovp-millivolt = <29500>;
- 	qcom,num-strings = <2>;
- 	qcom,external-pfet;
- 	qcom,cabc;
+ 
+ 	status = "okay";
+ };
 
 -- 
 2.52.0
