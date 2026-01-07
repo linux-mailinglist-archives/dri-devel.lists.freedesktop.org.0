@@ -2,129 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F15CFF06A
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 18:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD071CFF079
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 18:12:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 945BB10E64A;
-	Wed,  7 Jan 2026 17:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C5610E268;
+	Wed,  7 Jan 2026 17:12:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SmvqjGmP";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DLkqDB7X";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="CPsVyJJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DFE10E60D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 17:11:49 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 607H3u3m3049808
- for <dri-devel@lists.freedesktop.org>; Wed, 7 Jan 2026 17:11:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- I5A6LMvrvdG/sA+OhihB86YrSIuIZXOnVmSCc9pMPCU=; b=SmvqjGmPe90I8oBx
- DOOKhRaTF92Ogaf1Bj4FlbWdcFXCtQdE27Ndt6UPLGo9PUVRLQlo9bZP/5oRlYjC
- rLXXoOsEtMK490CUtaw5WvwdNn2Ph/Xi7sQroYjnaoZ/wCBYRj5wXEWP7u1A+KlP
- NJv6viAuqD+UMuNNFOSASxN2SOnEFyC3kT4clK+tCzb7ImWoD5ufGWkDBsiQVA6Q
- TO9T40RcVk7dVMaXEp2x2AxFJkaOqmfVnluVUhxg9CEnJ6XkB9P6pvZUeHcsJfDn
- UVhQiPWL/HxdvxWN0xWOJV/+6zMJOoQzOluDoWOi6JX9VDt7D4fvQJx/ZqD/xdA/
- pIRQzQ==
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhujeg193-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 17:11:48 +0000 (GMT)
-Received: by mail-dl1-f71.google.com with SMTP id
- a92af1059eb24-11dd10b03c6so2399232c88.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 09:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767805908; x=1768410708;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=I5A6LMvrvdG/sA+OhihB86YrSIuIZXOnVmSCc9pMPCU=;
- b=DLkqDB7Xr1IBieu8benhPhIboi3bOuu6mIfBcf1bOnrJlBgiEzhwybApZgm5xQ9nzC
- 1RQLD6Lh9BTx1kKdjYri2MkHmkyZ92bbl0OwB7Z/J/8++lvq9OBRbCkRqhfcmy9GvD88
- NHC5zPe46N0qLBnCKDD0FkB0ZF5P9QnS2ujjGVCteej0Yq3TerNv4TTzTQbwzRs/sXMs
- tfARXi0OKpEslzRr3C+TO1Fth5TjK1zooDuovVH9VK9cZcTyqa9I1ZCwRWieQdRFUD+q
- e/wvy4zlzvlcTvc4zS/yq24FWeSjZ2ucteWWO+NYwnTFHeZgC4pXjRUzqqUhESFf/TBT
- tF4g==
+Received: from mail-pl1-f226.google.com (mail-pl1-f226.google.com
+ [209.85.214.226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1E210E2A9
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 17:12:46 +0000 (UTC)
+Received: by mail-pl1-f226.google.com with SMTP id
+ d9443c01a7336-2a0d0788adaso17261095ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 09:12:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767805908; x=1768410708;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=I5A6LMvrvdG/sA+OhihB86YrSIuIZXOnVmSCc9pMPCU=;
- b=DtkALSVegsEnm/OYGYc5pF1+4hRwaY2HPo7u+F08XzzA5cK0t8SqbF/SIYVuvkTJVA
- NiX61YHHvI4Na1EHLf2ogsGFhApDHNyqYDDu1O3Mbz0kg4oB3SzCArlbCSe/WCV9JyLN
- KJnRqN+ugpncwDzZOGrfmn8dtNoz7/YzNU4+Q8BjUlPWBjd91EI9XKoNpuSOEuRpaBs/
- 5zrkUZtHAPhyKQjJfV/0SN/G7pjZSNtYLXr5Q2e2LnYTJmF+mfWmNpbfBav8m+pIXfCm
- NhfxJjaK0+kTq1vtsaItO7N8JoZieUJHBSfsQ+QNEbJF3V6cVq7GTjbb5p/fKwVYye5T
- UAsQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQl1rSTxATlj2d5RZVzjFQO58uEomi1K0iCdk5scK+huCnvnTLG1Av/6T2PIGaQUi2Rfyku1tzxRw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8DdrCZnn4kvIAFEyuyIk+o7RUJ+qS1mQ83xeST/nSPQLyvt6t
- aUlEReoOIBn+hFfKDukGvzBiAOB6ntCiVINDuHsRwYUF9waC0ojoS52Azq8f6HoDe+a5KIgvsI6
- gzZkcNgS5yGFO4tRb+0FeEpTEyjkxqXkNo/zaOfl06WDHj3Y/KPz8/DgOxtKKCYCpS308nOI=
-X-Gm-Gg: AY/fxX5Jv2GqvY3fCMu2mvPqbjonUz3oO8bEQCoyzN9WBvCUujkQgS+uyvEv0IRRLIy
- RzjS+dqEB2IdS+GyDEtgjKpQJp4oDBfcz5dAMzJ0qvSiqUo5j1BogYddatOVKefR7Ufz9hkNNBL
- mleaRZ0fkNiT8FVa8h2zWBZjMQqLn+qP2+3FKbQueIam8DVlMYtFtgc3hisbFJTyaNkE7rJ1GFz
- A71vTz1EoYWGamaQ6OU4g85VCFmK9X4DwMKZkBFdnfAhW3boq+1dbVfOn/8ExH0cn0zju4xQHlw
- 2rX7zd9+ee4P/tlnS92D8wqZ1zASaqRCibYCRpqSfqRvAqetjzPBl9xttbWKc2AcqlscBZOHF2i
- llFARVyf3Z7+LYu7dwQ98BKkhNPEJxmm5tsxfr/rt2o5U0cP1nMEuHhqaWWhGeRI=
-X-Received: by 2002:a05:7022:113:b0:119:e569:f626 with SMTP id
- a92af1059eb24-121f8b7a9f2mr2680616c88.31.1767805907582; 
- Wed, 07 Jan 2026 09:11:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFxqAGFzrRCt7KL+vHShVfUylOQM9rwoGqiRacKiOHEkY2vYbHl+9p+afbSXZvPyvhL2Gw7Lg==
-X-Received: by 2002:a05:7022:113:b0:119:e569:f626 with SMTP id
- a92af1059eb24-121f8b7a9f2mr2680588c88.31.1767805906991; 
- Wed, 07 Jan 2026 09:11:46 -0800 (PST)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ d=1e100.net; s=20230601; t=1767805966; x=1768410766;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kUMcpo3FyNZz5PJeq6x6M9ZsOLHzPhUzACdQ7/revgs=;
+ b=EybvxUMuFmQszG1cz5l3h3LZlqqXFxXQZQiqxK5OkD1vcFJnCyMasTu4OS0pU6Pmtk
+ cpRqgDmsjAVgvI+H+VnkAGoMq8ecQ+9VVgXvOM62ilgtEykuLeHv2FkNSNmwzNNV4wPX
+ ZVzlpQgMhy6ltq6Fp1il01M8botfqagpU3h879uBdh2KA+b1KQ2PVqeceLvPSjjDtg7D
+ ryXD+cn+BPxIm+MPyv9myJ+obrNgdfS/Zn8lJRdLIIZm+g/OTlnmeBJf6Xm9M+BeTqW4
+ 0K7MAfNfgHNo7S29TBR2ZPqVaRRUVTg91jyjzgomVvd9uHmFZTeb8peSaWfA2uoITIQP
+ B75w==
+X-Gm-Message-State: AOJu0Ywk1ufgvB9QesgJ846FGimcTQ3VDvA5ZmdJlmWGzZKFQ4gsKs4L
+ er8WFWDLeK7l/iBw3G3SVK1e7UXFsOJeTKZjkQOsEAppW2X9YZf+wFtvWMEqHES36znASfj4pyu
+ 87bS4D1g659Ugrgb8U8tCjVzDg4r+4YpOUQ0tG8FSf4rpTcyWRlOk3GrOnwtO/45fXZtQoNZkGx
+ xDNKam0t6i3E69WNZMZKHO5ZUjdEQwmMih1IdIAF1wYShVqVfma5mfQ/N/CXL6oTlE3ryfkQd8Z
+ LMrGTuHacBI8DClGkGc
+X-Gm-Gg: AY/fxX7ljtmLaIfMH8d68bW1k96Rs/ClCq7oUvBkGIzE1nyTEXT1NqmTqBzBsrHaqfJ
+ k7Xo4C9Qsju/F0h+cCoeWxlR0ITGQr/N6i6uOhyKvMSjTjS1q0ek7EfyrIVG4eAUHgMUMlAsEhT
+ cI+KzByJXlBC2AD7ntC5Em1X9l444sV9BrHEPKx0/WTlCKdikNkfK1lK3wbePv0H2z5PIkuRAQA
+ 6KJ4w370mJDXr2dHl6frcYUamY+LyMXq/08RXcEKoHCOMMc2ZNOPVIXfxFF1v7w4jrgoRV+rRv4
+ azRApIb2W1jW4gieVVSjsuaIygRbbZnEQRcRRA9srxZ0Fv2F1sGcXgMDUQ/RJdoUjke3FrLfD2B
+ anXysMF+SWstn1Aho2DxbTXJ4Lgwg0fhosuklQtIRsJFMukXyB1ezWsaa+Ro3Zd0FIhnxMHA2pj
+ 957rK95pD6zj2HEXHoMwGThZO9vHH6cQ812tiIqF0=
+X-Google-Smtp-Source: AGHT+IG/AOFMkXhxz3UhIhZW3qwDU1cD09KKdnjfztqS8V46Tf2E53AgTWkroD8tyPop341RE/STXNxBCx6l
+X-Received: by 2002:a17:903:248:b0:2a0:fb1c:144c with SMTP id
+ d9443c01a7336-2a3ee40ee95mr28896615ad.5.1767805965789; 
+ Wed, 07 Jan 2026 09:12:45 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
+ (address-144-49-247-1.dlp.protect.broadcom.com. [144.49.247.1])
+ by smtp-relay.gmail.com with ESMTPS id
+ d9443c01a7336-2a3e3ccfb79sm6578835ad.57.2026.01.07.09.12.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 07 Jan 2026 09:12:45 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dl1-f69.google.com with SMTP id
+ a92af1059eb24-11f3b54cfdeso1923239c88.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 09:12:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1767805963; x=1768410763;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kUMcpo3FyNZz5PJeq6x6M9ZsOLHzPhUzACdQ7/revgs=;
+ b=CPsVyJJDlwbmRBGKRh3yx3/BUts7CIgmI/CyoZL+0QGlL0cGlqyotVcjVFXXsIWxXM
+ NgI4xcXpptZynwJ/hhEVfrWcR0IidPAu2+5tpoyavJ1oS1xr1UDzgpbifc1hu1USsKJQ
+ /reluE2M2BvY/lIqPR6Ks+W4K2Jgw8y04WdKw=
+X-Received: by 2002:a05:7022:428f:b0:119:e56b:98b0 with SMTP id
+ a92af1059eb24-121f8b7957cmr1893861c88.23.1767805963236; 
+ Wed, 07 Jan 2026 09:12:43 -0800 (PST)
+X-Received: by 2002:a05:7022:428f:b0:119:e56b:98b0 with SMTP id
+ a92af1059eb24-121f8b7957cmr1893833c88.23.1767805962471; 
+ Wed, 07 Jan 2026 09:12:42 -0800 (PST)
+Received: from localhost.localdomain ([192.19.144.250])
  by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-121f243f6c7sm8242111c88.7.2026.01.07.09.11.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jan 2026 09:11:46 -0800 (PST)
-Message-ID: <ca17e5d1-9de9-44b2-a15a-664d50612ed6@oss.qualcomm.com>
-Date: Wed, 7 Jan 2026 10:11:45 -0700
+ a92af1059eb24-121f24984b0sm11420146c88.14.2026.01.07.09.12.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jan 2026 09:12:41 -0800 (PST)
+From: Zack Rusin <zack.rusin@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ maaz.mombasawala@broadcom.com, Brad Spengler <brad.spengler@opensrcsec.com>
+Subject: [PATCH] drm/vmwgfx: Fix invalid kref_put callback in
+ vmw_bo_dirty_release
+Date: Wed,  7 Jan 2026 12:12:36 -0500
+Message-ID: <20260107171236.3573118-1-zack.rusin@broadcom.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Implement warm boot flow for NPU6 and unify
- boot handling
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=WKNyn3sR c=1 sm=1 tr=0 ts=695e93d4 cx=c_pps
- a=JYo30EpNSr/tUYqK9jHPoA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
- a=yFqBbELRJrckAezSh9cA:9 a=QEXdDO2ut3YA:10 a=Fk4IpSoW4aLDllm1B1p-:22
-X-Proofpoint-GUID: JNXPQ9VNqhA6597dSTdBwVWRSQAd1GHD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDEzNCBTYWx0ZWRfX3EsMvu5SqWHL
- ycQvw3P9uPGYfLB/cqssFOxHzvMTFAX2auvEIU7wAWuBxuDE7/in/OxxUCqbEoFLtrHFE4O48Ho
- IZaqGw4fGXZeX/owAdc28iUWg6GWKuQ0M20VnGfGumxpOOyVtVyrong+3mlxQybRbBIaUuJA0cV
- VSS/kItSVsK4WIKUBhaFPlnUqt5PwSVg7DqQsKgSdLB0DA9JAztis7f4CnMrgTO/7M4nm9vcdZV
- rV3BHmC82F71sPiwi+16F7WEGhgwB6Lyxw0K1oIXyJjaWrUZFZdYxntCouqmN2zwux3P+wXhkuI
- dMbE5+Mg10KU0MXtjDvQSmEdMi7TIMEHFsIKHZi42fV/85eaHW1rGInKK+9/sE5miqNRw1QsHiB
- bZON2vOjpAAhrgz3l18DWnP7nUQqdBUAUn8X3UtWqDmB8TSKK1T6b5QXUqeCpO+IuDNiFr0Kr5T
- bRFVQDmfY3Dj7I/3YOA==
-X-Proofpoint-ORIG-GUID: JNXPQ9VNqhA6597dSTdBwVWRSQAd1GHD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-07_03,2026-01-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601070134
+Content-Transfer-Encoding: 8bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,25 +107,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/30/2025 7:21 AM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@linux.intel.com>
-> 
-> Starting from NPU6, the driver can pass boot parameters address through
-> the AON retention register and toggle between cold/warm boot types using
-> the boot_type parameter, while setting the cold boot entry point in both
-> cases.
-> 
-> Refactor the existing cold/warm boot handling to be consistent with the
-> new NPU6 boot flow requirements and still maintain compatibility with
-> older boot flows.
-> 
-> This will allow firmware to remove support for legacy warm boot starting
-> from NPU6.
-> 
-> Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+From: Brad Spengler <brad.spengler@opensrcsec.com>
 
-Happy new year.
+The kref_put() call uses (void *)kvfree as the release callback, which
+is incorrect. kref_put() expects a function with signature
+void (*release)(struct kref *), but kvfree has signature
+void (*)(const void *). Calling through an incompatible function pointer
+is undefined behavior.
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+The code only worked by accident because ref_count is the first member
+of vmw_bo_dirty, making the kref pointer equal to the struct pointer.
+
+Fix this by adding a proper release callback that uses container_of()
+to retrieve the containing structure before freeing.
+
+Fixes: c1962742ffff ("drm/vmwgfx: Use kref in vmw_bo_dirty")
+Signed-off-by: Brad Spengler <brad.spengler@opensrcsec.com>
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+index fd4e76486f2d..45561bc1c9ef 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+@@ -260,6 +260,13 @@ int vmw_bo_dirty_add(struct vmw_bo *vbo)
+ 	return ret;
+ }
+ 
++static void vmw_bo_dirty_free(struct kref *kref)
++{
++	struct vmw_bo_dirty *dirty = container_of(kref, struct vmw_bo_dirty, ref_count);
++
++	kvfree(dirty);
++}
++
+ /**
+  * vmw_bo_dirty_release - Release a dirty-tracking user from a buffer object
+  * @vbo: The buffer object
+@@ -274,7 +281,7 @@ void vmw_bo_dirty_release(struct vmw_bo *vbo)
+ {
+ 	struct vmw_bo_dirty *dirty = vbo->dirty;
+ 
+-	if (dirty && kref_put(&dirty->ref_count, (void *)kvfree))
++	if (dirty && kref_put(&dirty->ref_count, vmw_bo_dirty_free))
+ 		vbo->dirty = NULL;
+ }
+ 
+-- 
+2.48.1
+
