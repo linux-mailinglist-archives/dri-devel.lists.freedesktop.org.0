@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BD3D0054B
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7DDD00457
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DA210E65F;
-	Wed,  7 Jan 2026 22:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30DB10E654;
+	Wed,  7 Jan 2026 22:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nabladev.com header.i=@nabladev.com header.b="Snhx864w";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="So8EKM/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 338 seconds by postgrey-1.36 at gabe;
- Wed, 07 Jan 2026 21:41:32 UTC
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A2210E228
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 21:41:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6A21210D649; Wed,  7 Jan 2026 22:35:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
- s=dkim; t=1767821752; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=fy9APZzqEAIRSyeUxmDLTgDS8ZnQVE9HBWckGtI8aTk=;
- b=Snhx864w7UQNhCIosd2P/2oy5jI2xUnksS5iQSHRrtPDrUyKPzcRcVgEQ6sIpSc9ov2mnU
- 6yzpY7SCEZLAoB1kP6drNxHP58fGyYKzQnf2ESKwXeowMr/YF9vs3XHHLBrOe+BazpY9my
- KdeqTEdOI57Jbd7NaLYSrD01MdiYZ9Jpa85GnXAjdyqYQwOQH0HR/0nKi13YkmE8wXu0/J
- taJ66dc4Zco1+ZSYAtSxZVEYvVIIiv45IdxRs1mkuzWvmdc0oNLlHIHUAKp2bKrkybvC+z
- W/QBEPUydp8xJttU9SxgfegexCQxXSuMAUzgT5VsrpX+Q4FP1CjolOH9xUrJnQ==
-From: Marek Vasut <marex@nabladev.com>
-To: devicetree@vger.kernel.org
-Cc: Marek Vasut <marex@nabladev.com>,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: bridge: tc358867: mark port 0 and 1
- configuration as valid
-Date: Wed,  7 Jan 2026 22:35:21 +0100
-Message-ID: <20260107213546.505137-1-marex@nabladev.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Mailman-Approved-At: Wed, 07 Jan 2026 22:35:42 +0000
+X-Greylist: delayed 1040 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Jan 2026 22:06:03 UTC
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 211B510E654
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 22:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=wxhJiYBfHBK5O6NwVGJb00vyXaqPiPEmmOU64D8Kgfc=; b=So8EKM/pUWMvChNkrAerRuiB4c
+ csxckWK/oRKOSXqFQNrU6m5Ey94xsMOW4NdznR8NwoHmc4BYu9URDBpOjeKzLDykY9CctkPjvAnqg
+ 5/ByJXlDvYaaebD9pCNSVXm9YeFNZyJb2FUQAY9elYTD7GclXLzAgINnnsBQQ7NAIsE8=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:54936
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vdbOS-0005PG-9i; Wed, 07 Jan 2026 16:48:40 -0500
+Date: Wed, 7 Jan 2026 16:48:39 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Biju Das Biju Das
+ <biju.das.jz@bp.renesas.com>, Chris Brandt <Chris.Brandt@renesas.com>
+Message-Id: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+ autolearn_force=no version=3.4.2
+Subject: [BUG] drm/panel: ilitek-ili9881c:  kernel panic on reboot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,54 +69,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current binding document enforces presence of either port@0 (DSI in) or
-port@1 (DPI IN/OUT), with port@2 (DP out) being optional. This bridge is
-capable of DSI->DP, DPI->DP and DPI->DP, it is therefore perfectly valid
-to have both port@0 and port@1 described in the DT, because this is fairy
-standard DPI->DP configuration of this bridge. Replace oneOf with anyOf
-to cover this configuration.
+Hi,
+when issuing a reboot command, I encounter the following kernel panic:
 
-Signed-off-by: Marek Vasut <marex@nabladev.com>
----
-Cc: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
----
- .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
+[   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
+[   36.183504] Tainted: [M]=MACHINE_CHECK
+[   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+[   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+[   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+[   36.183547] sp : ffff8000813db860
+[   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
+[   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
+[   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
+[   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
+[   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
+[   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
+[   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
+[   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
+[   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
+[   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
+[   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
+[   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
+[   36.183665] Tainted: [M]=MACHINE_CHECK
+[   36.183668] Hardware name: devboard1 (DT)
+[   36.183672] Call trace:
+[   36.183675]  show_stack+0x18/0x24 (C)
+[   36.183692]  dump_stack_lvl+0x34/0x8c
+[   36.183702]  dump_stack+0x18/0x24
+[   36.183708]  vpanic+0x314/0x35c
+[   36.183716]  nmi_panic+0x0/0x64
+[   36.183722]  add_taint+0x0/0xbc
+[   36.183728]  arm64_serror_panic+0x70/0x80
+[   36.183735]  do_serror+0x28/0x68
+[   36.183742]  el1h_64_error_handler+0x34/0x50
+[   36.183751]  el1h_64_error+0x6c/0x70
+[   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+[   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+[   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+[   36.183792]  ili9881c_unprepare+0x38/0x88
+[   36.183802]  drm_panel_unprepare+0xbc/0x108
+[   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+[   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+[   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+[   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
+[   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+[   36.183865]  commit_tail+0xa4/0x18c
+[   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+[   36.183884]  drm_atomic_commit+0x8c/0xcc
+[   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+[   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+[   36.183911]  rzg2l_du_shutdown+0x18/0x24
+[   36.183920]  platform_shutdown+0x24/0x34
+[   36.183931]  device_shutdown+0x128/0x284
+[   36.183938]  kernel_restart+0x44/0xa4
+[   36.183950]  __do_sys_reboot+0x178/0x270
+[   36.183959]  __arm64_sys_reboot+0x24/0x30
+[   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+[   36.183979]  do_el0_svc+0x40/0xc0
+[   36.183988]  el0_svc+0x3c/0x164
+[   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+[   36.184002]  el0t_64_sync+0x198/0x19c
+[   36.184020] Kernel Offset: disabled
+[   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+[   36.184028] Memory Limit: none
+[   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-index 70f229dc4e0c4..75804114f71f7 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -115,11 +115,11 @@ properties:
-                   enum:
-                     - 0 # No pre-emphasis
-                     - 1 # 3.5dB pre-emphasis
-                     - 2 # 6dB pre-emphasis
- 
--    oneOf:
-+    anyOf:
-       - required:
-           - port@0
-       - required:
-           - port@1
- 
+The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is present in linux-6.19-rc4.
+
+The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+
+After bisecting, here is the first bad commit:
+
+    commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
+
+Reverting this change makes the bug disappear.
+
+My limited understanding seems to indicate that the MIPI/DSI host may
+no longer be available/on when the panel tries to send MIPI/DSI
+commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
+
+The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
+
 -- 
-2.51.0
-
+Hugo Villeneuve
