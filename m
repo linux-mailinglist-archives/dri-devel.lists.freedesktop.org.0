@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3E6CFD97D
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 13:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C34ACFDA0A
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 13:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA3B10E0C2;
-	Wed,  7 Jan 2026 12:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEE310E59F;
+	Wed,  7 Jan 2026 12:23:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="XXQItyR+";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="ADvw8/Kk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B9A10E0C2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 12:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=4h8Jx2ZI8h/J6LJOiYzY01rdWQD1J3ZD0e23g8rEcw4=; b=XXQItyR+AdD0pBYgPF6Xvj4Ow7
- qVZOgNkle+9jo8i8Vrmxs2aPlmBET7SSe7eF1OyAsbpZmXDYFdQOw7+UjPjy+MB1FNcK8+KGyBHAj
- lyX3GYOFpi8vsm0+nW2cbIU9XLyqg2hx0VCDgDEQYWAu9Dv+EBeR0V6WPutjl2ZH7UoZRzc4J4qRS
- bVwkenez8q1yPufdg/gj+AjqpfyClU8FBqwMzgyKNtOVEL5w33UgeeOFivWUjkgcAY6DmTfVXuq/x
- VDxNcY3GmGT0IYvNagOZ7j7OAViKwnspI7C59ef5+zG0p5e+w+lcjJ9Z4w+lVs7F5ynNIpWXDz7Z2
- /hkApNAg==;
-Received: from i53875b57.versanet.de ([83.135.91.87] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1vdSUC-001NDi-JT; Wed, 07 Jan 2026 13:18:01 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: Re: [PATCH] drm/mipi-dsi: Only remove child devices that match the
- dsi device type
-Date: Wed, 07 Jan 2026 13:18:00 +0100
-Message-ID: <2718437.9Mp67QZiUf@diego>
-In-Reply-To: <20251203115028.133-1-kernel@airkyi.com>
-References: <20251203115028.133-1-kernel@airkyi.com>
-MIME-Version: 1.0
+X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Jan 2026 12:23:33 UTC
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
+ [91.218.175.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04AD710E5A1
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 12:23:32 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+ s=key1; t=1767788286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xyxOVVnJKKmmJxMZsTyn7vn2lBMNGNuEjeeeFoSFD1A=;
+ b=ADvw8/KkVnrrBg9xwWqTARss2+6AB6k1ESvzoORAXmCmGq2JXxtqo8stEoZE1W90OuQYp+
+ ZK3JtyON8mB11BqNNmFFktvl0N2HllrV/ujbW2oqVCsAMPDPlSgKFhc036D31nKlnJNKtW
+ DlCm2e96B8QcQpXyJ1+DXz37DH8sjsJboyTWrW8pvpIB+WpEOXwvkDid7hFv5bQHNFLf46
+ 8AR1HpYJriKeGY5zqOl7wE9xEYU9XNLPnR8+lfY0gC07Yg0IkfMQh2kZrSq6HwwEsq02u9
+ +lD5gCn6npxDWl1Cwu/lnQbYGtUpx6Nby/ZckSxEXFOCAWSABHgIbC7Q+s/oog==
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 07 Jan 2026 13:18:00 +0100
+Message-Id: <DFICN8TKUFBH.1V8WHTIQ5BE2J@cknow-tech.com>
+Cc: "Robert Mader" <robert.mader@collabora.com>, <kernel@collabora.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, "Matt Roper"
+ <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v3 0/4] Introduce BACKGROUND_COLOR DRM CRTC property
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Sandy
+ Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Louis Chauvet"
+ <louis.chauvet@bootlin.com>, "Haneen Mohammed" <hamohammed.sa@gmail.com>,
+ "Melissa Wen" <melissa.srw@gmail.com>
+References: <20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com>
+In-Reply-To: <20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +70,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, 3. Dezember 2025, 12:50:28 Mitteleurop=C3=A4ische Normalzeit s=
-chrieb Chaoyi Chen:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->=20
-> This patch checks whether the device is a valid mipi_dsi_device before
-> accessing it in mipi_dsi_remove_device_fn().
->=20
-> The mipi_dsi_host_unregister() assumes that all child devices of the
-> host device are mipi_dsi_devices and uses mipi_dsi_remove_device_fn()
-> to perform subsequent operations specific to mipi_dsi_device.
->=20
-> In rockchip platform, for dw-mipi-dsi-rockchip.c, it creates a dphy
-> device, and it use the dsi host device as its parent device.
->=20
-> And when we call dw_mipi_dsi_remove() in
-> dw_mipi_dsi_rockchip_remove(), mipi_dsi_host_unregister() will get
-> such a dphy child device and treat it as an mipi_dsi_device, which
-> will lead to a further panic.
->=20
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Hi,
+
+On Tue Nov 18, 2025 at 12:51 AM CET, Cristian Ciocaltea wrote:
+> Some display controllers can be hardware-configured to present non-black
+> colors for pixels which are not covered by any plane (or are exposed
+> through transparent regions of higher planes).
+> ...
+> The subsequent patches add background color support to VKMS and the VOP2
+> display controller used in the RK3568, RK3576, and RK3588 Rockchip SoC
+> families.
+
+Cristian provided a helper script which would show a test pattern and
+then iterate through setting Red, Green, Blue background color and then
+set it back to the original value.
+
+I first tested this on a Rock 5B (RK3588).
+Without this patch set, the background color was Black with every
+iteration. But with this patch set, I did see a Red, Green and Blue
+background color, after which it was set back to Black.
+
+diederik@rock5b:~$ grep -E "^Changing prop|^Read BACKGROUND_COLOR" bgcol-te=
+st-bash-user.log
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+Changing prop value to: 0xffff00000000ffff
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+Changing prop value to 0xffffffff00000000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
+Changing prop value to 0xffff0000ffff0000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
+Changing prop value to 0xffff00000000ffff
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+Changing prop value to: 0xffff000000000000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+
+I then did the same test on a Quartz64-B (RK3566) and that too showed a
+Red, Green and Blue background color and then was set back to Black.
+
+diederik@quartz64b:~$ grep -E "^Changing prop|^Read BACKGROUND_COLOR" bgcol=
+-test-bash-user-q64b.log
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+Changing prop value to: 0xffff00000000ffff
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+Changing prop value to 0xffffffff00000000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
+Changing prop value to 0xffff0000ffff0000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
+Changing prop value to 0xffff00000000ffff
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+Changing prop value to: 0xffff000000000000
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+
+So this patch set does what it is supposed to do, so feel free to add:
+
+Tested-by: Diederik de Haas <diederik@cknow-tech.com>
+
+Cheers,
+  Diederik
+
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  drivers/gpu/drm/drm_mipi_dsi.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_ds=
-i.c
-> index a712e177b350..5b9cc799eb87 100644
-> --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> @@ -349,7 +349,12 @@ EXPORT_SYMBOL(mipi_dsi_host_register);
-> =20
->  static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
->  {
-> -	struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(dev);
-> +	struct mipi_dsi_device *dsi;
-> +
-> +	if (!dev_is_mipi_dsi(dev))
-> +		return 0;
-> +
-> +	dsi =3D to_mipi_dsi_device(dev);
-> =20
->  	if (dsi->attached)
->  		mipi_dsi_detach(dsi);
->=20
-
-This makes a lot of sense.
-
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-
-
-=46or people reading along:
-The DSI controllers on the RK3399 uses a phy that is _inside_ the
-DW-DSI controller, instead of a separate IP block.
-
-But this internal PHY can also work as a receiver for camera data
-for the ISP block in the RK3399.
-
-Heiko
-
-
+> Changes in v3:
+> - Added new patches:
+>   * uapi: Provide DIV_ROUND_CLOSEST()
+>   * drm/vkms: Support setting custom background color
+> - Improved DRM_ARGB64_{PREP|GET}*() helpers by using a conversion ratio
+>   for better color approximation when dealing with less than 16 bits of
+>   precision
+> - Mentioned the IGT test in the cover letter while documenting the
+>   validation results; also dropped references to the now useless
+>   modetest wrapper script and its generated report
+> - Rebased series onto latest drm-misc-next
+> - Link to v2: https://lore.kernel.org/r/20251013-rk3588-bgcolor-v2-0-25cc=
+3810ba8c@collabora.com
+>
+> Changes in v2:
+> - Improved uAPI consistency and readability by introducing
+>   DRM_ARGB64_PREP*() and DRM_ARGB64_GET*() helper macros
+> - Updated several code comment sections
+> - Referenced the counterpart Weston support in the cover letter
+> - Rebased series onto v6.18-rc1
+> - Link to v1: https://lore.kernel.org/r/20250902-rk3588-bgcolor-v1-0-fd97=
+df91d89f@collabora.com
+>
+> ---
+> Cristian Ciocaltea (4):
+>       uapi: Provide DIV_ROUND_CLOSEST()
+>       drm: Add CRTC background color property
+>       drm/vkms: Support setting custom background color
+>       drm/rockchip: vop2: Support setting custom background color
+>
+>  drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c            |  4 ++
+>  drivers/gpu/drm/drm_blend.c                  | 39 ++++++++++++++--
+>  drivers/gpu/drm/drm_mode_config.c            |  6 +++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++
+>  drivers/gpu/drm/vkms/vkms_composer.c         | 10 ++++-
+>  drivers/gpu/drm/vkms/vkms_crtc.c             |  3 ++
+>  include/drm/drm_blend.h                      |  4 +-
+>  include/drm/drm_crtc.h                       | 12 +++++
+>  include/drm/drm_mode_config.h                |  5 +++
+>  include/linux/math.h                         | 18 +-------
+>  include/uapi/drm/drm_mode.h                  | 67 ++++++++++++++++++++++=
+++++++
+>  include/uapi/linux/const.h                   | 17 +++++++
+>  14 files changed, 178 insertions(+), 25 deletions(-)
+> ---
+> base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd
+> change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
