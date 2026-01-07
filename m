@@ -2,85 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDC7CFD756
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55B3CFD77D
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE4310E595;
-	Wed,  7 Jan 2026 11:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7AF10E598;
+	Wed,  7 Jan 2026 11:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="aq/OpJsY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ct1WRRQZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B19D10E597
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 11:45:39 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id
- 4fb4d7f45d1cf-64dfb22c7e4so1200528a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 03:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1767786338; x=1768391138; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ob3g5q5jWnPVuY+nnqbiqZRINNocwJ2SJ68hLxsq1uU=;
- b=aq/OpJsYNN0kWw5qu6CQjphtw+eDNPfwF8DTO72RBJC9d/k9oQSJWOIZtIDT2QMYFb
- 6buZE1hg1ua02+ihdZ4NE/3ZUN+BiSTyLESdFSGosL1YUmPCHmF7Y4LEX7sI5EGialPB
- 6C4osroRQg4Z2hMG9Q6g6U8Hbhkk9axrs1wpajTg7IHerD+hqvTlGs2DTy3TBQF33KZf
- 0zPp89bOZXyIHIR5wibfNiKHDx+ZP05ep6u5149xKGmXwlztvdv0nm95u+TvcROm1/dD
- YOfOuAW8aOSiJd13mwTKsoOeoWA7O65j8H842KlazO7sP1LnJugHjYTv4vO5OZM39Fnq
- NKog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767786338; x=1768391138;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ob3g5q5jWnPVuY+nnqbiqZRINNocwJ2SJ68hLxsq1uU=;
- b=SmTSD54Dyxr+muMto5SEB65cPiYgntRzGnsR1Cr3OQrFLdjLX60GiGQWI+Kp87Kptu
- LFL4wR8NsHJZXxXUJAlTXJEfzzUECJqGn/lVU4pOc9Gns1lFdSvzrW/U1c/EvW3t8Ixm
- rOw6w6GSeLsSleUIl+DnuE18pSIOUUMy4I50w2W+Obq8hqg/w+1lnICdvKxjlbRDUVj9
- MRD1FRLEVo9ZNxMqcjNsDvH+oXlAg0e2d8R2TmdYhiXuwHdvDncc1mJMyWPSpNts7mP0
- V2CuNfRW0PkxKmwSQ9Sd8hG1FZAF0ba9naR9pLvq8y4Egfr9d2C/wrCWKUPHejvmHjsK
- Q6fg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJDoczSOqYtyI11VM3BHdZxAabBKc4+QI13Ljp+mHd4hsoLQUbXiv0/gkE7mvtrXQB/Aj4bltya5Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxr8O//8TQANylCcta5RjDvArVO1vcFq2PrUwd0l88NwQ0mN8Nv
- B7dRWsmdzYGxRPMsLq4wMtM9muyPsKaAJh0I55af9sm5P6GHQj7JvWfE8igrXs4Jc94=
-X-Gm-Gg: AY/fxX4yRwVkRV617N6eXB+9rFUtLDtFrOdo36qxAw4Dx0N/vFzABMUG9ZHnZEBbhJW
- DdCYaMk4J9IduKjFk8c6OorJbVu0O4Af/lcIvyUdl3rZNl3qyyf1311mPOzk5OsBdb4Pv/STOYT
- BYRxoihJhLJ+jU20JGnTIBweyCRc8FyCWPYfPWsLD/bm2K7sD9OzcnNm15GcPkFQ3jF71UjMZLs
- 6Nvu5rncS9v9EI1DBvaTkP6RY4rjekUHq5INlBtjnIau+AhDo0rCLAdjc8NYP0b9xhzMpjEtjXb
- mpdm8gLihSS6bbKc3TCGEwp2BfsX9mzwvd4enzFZOuuebdmqzvQR+1Hndjz5bKJQVApvHgoy4Iv
- ukCzwFRCTb6OSMrsTjT4J1GeGgrKXXCd5PDlHLzMGbLVts36lis4PIEwh4lPer1YzuuPEvM5xlG
- MxUNhJGpmkxAbcMw==
-X-Google-Smtp-Source: AGHT+IF+cPqxULnBUelcUpCMFoIf2W5SbdC3yAUiVTr+97+8pbT8Xepe9yvm6GNT+o8qSLb+2Lu6+w==
-X-Received: by 2002:a17:906:ef0c:b0:b79:eba9:83b4 with SMTP id
- a640c23a62f3a-b8444c5a60bmr291635566b.6.1767786337696; 
- Wed, 07 Jan 2026 03:45:37 -0800 (PST)
-Received: from localhost ([195.169.149.3]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a4d0290sm483752666b.32.2026.01.07.03.45.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jan 2026 03:45:37 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Jan 2026 12:45:37 +0100
-Message-Id: <DFIBYFY6L63Q.1A8WFXEQ7DYUT@fairphone.com>
-Cc: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Jessica
- Zhang" <jessica.zhang@oss.qualcomm.com>
-Subject: Re: [PATCH v3 00/12] drm/msm/dpu: rework format handling code
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Sean Paul" <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jordan Crouse"
- <jordan@cosmicpenguin.net>, "Jessica Zhang" <jesszhan0024@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251114-dpu-formats-v3-0-cae312379d49@oss.qualcomm.com>
-In-Reply-To: <20251114-dpu-formats-v3-0-cae312379d49@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B9010E598
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 11:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767786418; x=1799322418;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=CwxQdUJ3kA491M/9jjufzuPlu4DvofDj+2l0MJCel9U=;
+ b=Ct1WRRQZ+NQeY6Kg4xQBX6x00Nb0HM5+fFCAgtB85bxiKO0JZOT4G/vO
+ BJOL1hYr/6gJzAGNGyD/pjHNR828gwzKN3nFdJd2onB4Sy9drlTm+29ik
+ 3192yVsQ6X1+LXcQ0ezXqVaAQyCEOimuvBUr85aUdFC1UuAxWjZeMywok
+ fTazJEcKcihnLkFaRAn3lSJnJod4dunQ8zYrBbbmWJ0V7iN7sRwxPWGZH
+ hoDF+LBTvBHfC+mOrwMKJ2liVhWUSn9rfHjZZ0synPia/S7PBiuuNzZik
+ HpV7ZgB2ejlKNk199bkL9qFyfRsu0+lvkVQwjOIXxVUbhwXiF12WoZ7H9 Q==;
+X-CSE-ConnectionGUID: 9ToWwcSkR12rEkkMNi/ZTg==
+X-CSE-MsgGUID: WmM4b3qcQWCBxjS1K3qidQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69204202"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="69204202"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2026 03:46:57 -0800
+X-CSE-ConnectionGUID: a7lmEk1IRqqaWwVk5xicWg==
+X-CSE-MsgGUID: Filt2EGvRKmqxDVXPW7T4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="202921488"
+Received: from soc-5cg4396s2c.clients.intel.com (HELO [10.217.180.230])
+ ([10.217.180.230])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2026 03:46:55 -0800
+Message-ID: <0eb54917-02cd-4dd6-a5fe-2599e1aab6a1@linux.intel.com>
+Date: Wed, 7 Jan 2026 12:46:30 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Implement warm boot flow for NPU6 and unify
+ boot handling
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ karol.wachowski@linux.intel.com, lizhi.hou@amd.com
+References: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+In-Reply-To: <20251230142116.540026-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,62 +73,397 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Nov 14, 2025 at 4:43 AM CET, Dmitry Baryshkov wrote:
-> - Rework mdp_format.c in order to make format table manageable
-> - Rework layout population for UBWC formats in DPU driver
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+
+On 12/30/2025 3:21 PM, Maciej Falkowski wrote:
+> From: Karol Wachowski <karol.wachowski@linux.intel.com>
+> 
+> Starting from NPU6, the driver can pass boot parameters address through
+> the AON retention register and toggle between cold/warm boot types using
+> the boot_type parameter, while setting the cold boot entry point in both
+> cases.
+> 
+> Refactor the existing cold/warm boot handling to be consistent with the
+> new NPU6 boot flow requirements and still maintain compatibility with
+> older boot flows.
+> 
+> This will allow firmware to remove support for legacy warm boot starting
+> from NPU6.
+> 
+> Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 > ---
-> Changes in v3:
-> - Readded disappeared YUV flag to PSEUDO_YUV_FMT_TILED
-> - Link to v2: https://lore.kernel.org/r/20250905-dpu-formats-v2-0-7a67402=
-8c048@oss.qualcomm.com
->
-> Changes in v2:
-> - Dropped DX flag from the tiled NV12 format structure (Jessica)
-> - Changed round_up(foo, 192) to the roundup() as the former one is
->   supposed to be used with power of 2 argument (Jessica)
-> - Fixed undefined varuables warning in
->   _dpu_format_populate_plane_sizes_ubwc() by dropping the always-true
->   condition (LKP)
-> - Link to v1: https://lore.kernel.org/r/20250705-dpu-formats-v1-0-40f0bb3=
-1b8c8@oss.qualcomm.com
->
-> ---
-> Dmitry Baryshkov (12):
->       drm/msm/disp: set num_planes to 1 for interleaved YUV formats
->       drm/msm/disp: set num_planes and fetch_mode in INTERLEAVED_RGB_FMT
->       drm/msm/disp: set num_planes, fetch_mode and tile_height in INTERLE=
-AVED_RGB_FMT_TILED
->       drm/msm/disp: simplify RGB{,A,X} formats definitions
->       drm/msm/disp: simplify tiled RGB{,A,X} formats definitions
->       drm/msm/disp: pull in common YUV format parameters
->       drm/msm/disp: pull in common tiled YUV format parameters
->       drm/msm/disp: drop PSEUDO_YUV_FMT_LOOSE_TILED
->       drm/msm/dpu: simplify _dpu_format_populate_plane_sizes_*
->       drm/msm/dpu: drop redundant num_planes assignment in _dpu_format_po=
-pulate_plane_sizes*()
->       drm/msm/dpu: rewrite _dpu_format_populate_plane_sizes_ubwc()
->       drm/msm/dpu: use standard functions in _dpu_format_populate_plane_s=
-izes_ubwc()
-
-Seems to work as expected according to our messages in IRC, no issues
-seen booting up Phosh or SuperTuxKart.
-
-Tested-by: Luca Weiss <luca.weiss@fairphone.com> # qcm6490-fairphone-fp5
-
-Regards
-Luca
-
->
->  drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c    |  174 ++--
->  drivers/gpu/drm/msm/disp/dpu1/msm_media_info.h | 1155 ------------------=
-------
->  drivers/gpu/drm/msm/disp/mdp_format.c          |  614 +++++++------
->  3 files changed, 391 insertions(+), 1552 deletions(-)
-> ---
-> base-commit: b179ce312bafcb8c68dc718e015aee79b7939ff0
-> change-id: 20250705-dpu-formats-0d5ae4d1a1b9
->
-> Best regards,
+>   drivers/accel/ivpu/ivpu_debugfs.c     |  4 +-
+>   drivers/accel/ivpu/ivpu_drv.c         |  4 +-
+>   drivers/accel/ivpu/ivpu_fw.c          | 13 +++--
+>   drivers/accel/ivpu/ivpu_fw.h          |  9 ++--
+>   drivers/accel/ivpu/ivpu_hw_40xx_reg.h |  6 +++
+>   drivers/accel/ivpu/ivpu_hw_ip.c       | 74 ++++++++++++++++++---------
+>   drivers/accel/ivpu/ivpu_hw_ip.h       |  1 -
+>   drivers/accel/ivpu/ivpu_pm.c          | 13 +++--
+>   drivers/accel/ivpu/ivpu_pm.h          |  1 -
+>   9 files changed, 82 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
+> index 3bd85ee6c26b..a09f54fc4302 100644
+> --- a/drivers/accel/ivpu/ivpu_debugfs.c
+> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
+> @@ -20,6 +20,7 @@
+>   #include "ivpu_hw.h"
+>   #include "ivpu_jsm_msg.h"
+>   #include "ivpu_pm.h"
+> +#include "vpu_boot_api.h"
+>   
+>   static inline struct ivpu_device *seq_to_ivpu(struct seq_file *s)
+>   {
+> @@ -96,7 +97,8 @@ static int last_bootmode_show(struct seq_file *s, void *v)
+>   {
+>   	struct ivpu_device *vdev = seq_to_ivpu(s);
+>   
+> -	seq_printf(s, "%s\n", (vdev->pm->is_warmboot) ? "warmboot" : "coldboot");
+> +	seq_printf(s, "%s\n", (vdev->fw->last_boot_mode == VPU_BOOT_TYPE_WARMBOOT) ?
+> +		   "warm boot" : "cold boot");
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+> index 3d6fccdefdd6..8ffda57459df 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.c
+> +++ b/drivers/accel/ivpu/ivpu_drv.c
+> @@ -384,6 +384,7 @@ int ivpu_boot(struct ivpu_device *vdev)
+>   	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
+>   
+>   	ivpu_fw_boot_params_setup(vdev, ivpu_bo_vaddr(vdev->fw->mem_bp));
+> +	vdev->fw->last_boot_mode = vdev->fw->next_boot_mode;
+>   
+>   	ret = ivpu_hw_boot_fw(vdev);
+>   	if (ret) {
+> @@ -396,13 +397,12 @@ int ivpu_boot(struct ivpu_device *vdev)
+>   		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
+>   		goto err_diagnose_failure;
+>   	}
+> -
+>   	ivpu_hw_irq_clear(vdev);
+>   	enable_irq(vdev->irq);
+>   	ivpu_hw_irq_enable(vdev);
+>   	ivpu_ipc_enable(vdev);
+>   
+> -	if (ivpu_fw_is_cold_boot(vdev)) {
+> +	if (!ivpu_fw_is_warm_boot(vdev)) {
+>   		ret = ivpu_pm_dct_init(vdev);
+>   		if (ret)
+>   			goto err_disable_ipc;
+> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+> index 48386d2cddbb..107f8ad31050 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.c
+> +++ b/drivers/accel/ivpu/ivpu_fw.c
+> @@ -300,9 +300,7 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+>   	fw->image_load_offset = image_load_addr - runtime_addr;
+>   	fw->image_size = image_size;
+>   	fw->shave_nn_size = PAGE_ALIGN(fw_hdr->shave_nn_fw_size);
+> -
+>   	fw->cold_boot_entry_point = fw_hdr->entry_point;
+> -	fw->entry_point = fw->cold_boot_entry_point;
+>   
+>   	fw->trace_level = min_t(u32, ivpu_fw_log_level, IVPU_FW_LOG_FATAL);
+>   	fw->trace_destination_mask = VPU_TRACE_DESTINATION_VERBOSE_TRACING;
+> @@ -338,7 +336,7 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+>   		 fw->image_load_offset, fw->image_size);
+>   	ivpu_dbg(vdev, FW_BOOT, "Read-only section: address 0x%llx, size %u\n",
+>   		 fw->read_only_addr, fw->read_only_size);
+> -	ivpu_dbg(vdev, FW_BOOT, "FW entry point: 0x%llx\n", fw->entry_point);
+> +	ivpu_dbg(vdev, FW_BOOT, "FW cold boot entry point: 0x%llx\n", fw->cold_boot_entry_point);
+>   	ivpu_dbg(vdev, FW_BOOT, "SHAVE NN size: %u\n", fw->shave_nn_size);
+>   
+>   	return 0;
+> @@ -616,6 +614,7 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+>   		 boot_params->power_profile);
+>   	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_uses_ecc_mca_signal = 0x%x\n",
+>   		 boot_params->vpu_uses_ecc_mca_signal);
+> +	ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n", boot_params->boot_type);
+>   }
+>   
+>   void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
+> @@ -623,7 +622,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+>   	struct ivpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
+>   
+>   	/* In case of warm boot only update variable params */
+> -	if (!ivpu_fw_is_cold_boot(vdev)) {
+> +	if (ivpu_fw_is_warm_boot(vdev)) {
+>   		boot_params->d0i3_residency_time_us =
+>   			ktime_us_delta(ktime_get_boottime(), vdev->hw->d0i3_entry_host_ts);
+>   		boot_params->d0i3_entry_vpu_ts = vdev->hw->d0i3_entry_vpu_ts;
+> @@ -635,16 +634,16 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+>   			 boot_params->d0i3_entry_vpu_ts);
+>   		ivpu_dbg(vdev, FW_BOOT, "boot_params.system_time_us = %llu\n",
+>   			 boot_params->system_time_us);
+> +		ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n", boot_params->boot_type);
+>   
+>   		boot_params->save_restore_ret_address = 0;
+> -		vdev->pm->is_warmboot = true;
+> +		boot_params->boot_type = VPU_BOOT_TYPE_WARMBOOT;
+>   		wmb(); /* Flush WC buffers after writing save_restore_ret_address */
+>   		return;
+>   	}
+>   
+>   	memset(boot_params, 0, sizeof(*boot_params));
+> -	vdev->pm->is_warmboot = false;
+> -
+> +	boot_params->boot_type = VPU_BOOT_TYPE_COLDBOOT;
+>   	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
+>   	boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
+>   
+> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+> index 00945892b55e..d3c410912c9c 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.h
+> +++ b/drivers/accel/ivpu/ivpu_fw.h
+> @@ -6,6 +6,7 @@
+>   #ifndef __IVPU_FW_H__
+>   #define __IVPU_FW_H__
+>   
+> +#include "vpu_boot_api.h"
+>   #include "vpu_jsm_api.h"
+>   
+>   #define FW_VERSION_HEADER_SIZE	SZ_4K
+> @@ -34,8 +35,10 @@ struct ivpu_fw_info {
+>   	u64 image_load_offset;
+>   	u32 image_size;
+>   	u32 shave_nn_size;
+> -	u64 entry_point; /* Cold or warm boot entry point for next boot */
+> +	u64 warm_boot_entry_point;
+>   	u64 cold_boot_entry_point;
+> +	u8 last_boot_mode;
+> +	u8 next_boot_mode;
+>   	u32 trace_level;
+>   	u32 trace_destination_mask;
+>   	u64 trace_hw_component_mask;
+> @@ -54,9 +57,9 @@ void ivpu_fw_fini(struct ivpu_device *vdev);
+>   void ivpu_fw_load(struct ivpu_device *vdev);
+>   void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params);
+>   
+> -static inline bool ivpu_fw_is_cold_boot(struct ivpu_device *vdev)
+> +static inline bool ivpu_fw_is_warm_boot(struct ivpu_device *vdev)
+>   {
+> -	return vdev->fw->entry_point == vdev->fw->cold_boot_entry_point;
+> +	return vdev->fw->next_boot_mode == VPU_BOOT_TYPE_WARMBOOT;
+>   }
+>   
+>   static inline u32 ivpu_fw_preempt_buf_size(struct ivpu_device *vdev)
+> diff --git a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+> index fc0ee8d637f9..421242acb184 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+> +++ b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+> @@ -121,6 +121,12 @@
+>   #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY			0x0003006cu
+>   #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY_STATUS_DLY_MASK	GENMASK(7, 0)
+>   
+> +#define VPU_40XX_HOST_SS_AON_RETENTION0                                 0x0003000cu
+> +#define VPU_40XX_HOST_SS_AON_RETENTION1                                 0x00030010u
+> +#define VPU_40XX_HOST_SS_AON_RETENTION2                                 0x00030014u
+> +#define VPU_40XX_HOST_SS_AON_RETENTION3                                 0x00030018u
+> +#define VPU_40XX_HOST_SS_AON_RETENTION4                                 0x0003001cu
+> +
+>   #define VPU_40XX_HOST_SS_AON_IDLE_GEN					0x00030200u
+>   #define VPU_40XX_HOST_SS_AON_IDLE_GEN_EN_MASK				BIT_MASK(0)
+>   #define VPU_40XX_HOST_SS_AON_IDLE_GEN_HW_PG_EN_MASK			BIT_MASK(1)
+> diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
+> index 06aa1e7dc50b..959984c54341 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_ip.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_ip.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include "ivpu_drv.h"
+>   #include "ivpu_fw.h"
+> +#include "ivpu_gem.h"
+>   #include "ivpu_hw.h"
+>   #include "ivpu_hw_37xx_reg.h"
+>   #include "ivpu_hw_40xx_reg.h"
+> @@ -816,6 +817,14 @@ void ivpu_hw_ip_tbu_mmu_enable(struct ivpu_device *vdev)
+>   		return ivpu_hw_ip_tbu_mmu_enable_40xx(vdev);
+>   }
+>   
+> +static inline u64 get_entry_point_addr(struct ivpu_device *vdev)
+> +{
+> +	if (ivpu_fw_is_warm_boot(vdev))
+> +		return vdev->fw->warm_boot_entry_point;
+> +	else
+> +		return vdev->fw->cold_boot_entry_point;
+> +}
+> +
+>   static int soc_cpu_boot_37xx(struct ivpu_device *vdev)
+>   {
+>   	u32 val;
+> @@ -832,15 +841,12 @@ static int soc_cpu_boot_37xx(struct ivpu_device *vdev)
+>   	val = REG_CLR_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
+>   	REGV_WR32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
+>   
+> -	val = vdev->fw->entry_point >> 9;
+> +	val = get_entry_point_addr(vdev) >> 9;
+>   	REGV_WR32(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, val);
+>   
+>   	val = REG_SET_FLD(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, DONE, val);
+>   	REGV_WR32(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, val);
+>   
+> -	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
+> -		 vdev->fw->entry_point == vdev->fw->cold_boot_entry_point ? "cold boot" : "resume");
+> -
+>   	return 0;
+>   }
+>   
+> @@ -894,46 +900,68 @@ static int soc_cpu_drive_40xx(struct ivpu_device *vdev, bool enable)
+>   	return ret;
+>   }
+>   
+> -static int soc_cpu_enable(struct ivpu_device *vdev)
+> +static void soc_cpu_set_entry_point_40xx(struct ivpu_device *vdev, u64 entry_point)
+>   {
+> -	if (ivpu_hw_ip_gen(vdev) >= IVPU_HW_IP_60XX)
+> -		return 0;
+> +	u64 val64;
+> +	u32 val;
+> +
+> +	val64 = entry_point;
+> +	val64 <<= ffs(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK) - 1;
+> +	REGV_WR64(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val64);
+>   
+> -	return soc_cpu_drive_40xx(vdev, true);
+> +	val = REGV_RD32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO);
+> +	val = REG_SET_FLD(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, DONE, val);
+> +	REGV_WR32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val);
+>   }
+>   
+>   static int soc_cpu_boot_40xx(struct ivpu_device *vdev)
+>   {
+>   	int ret;
+> -	u32 val;
+> -	u64 val64;
+>   
+> -	ret = soc_cpu_enable(vdev);
+> +	ret = soc_cpu_drive_40xx(vdev, true);
+>   	if (ret) {
+>   		ivpu_err(vdev, "Failed to enable SOC CPU: %d\n", ret);
+>   		return ret;
+>   	}
+>   
+> -	val64 = vdev->fw->entry_point;
+> -	val64 <<= ffs(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK) - 1;
+> -	REGV_WR64(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val64);
+> +	soc_cpu_set_entry_point_40xx(vdev, get_entry_point_addr(vdev));
+>   
+> -	val = REGV_RD32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO);
+> -	val = REG_SET_FLD(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, DONE, val);
+> -	REGV_WR32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val);
+> +	return 0;
+> +}
+>   
+> -	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
+> -		 ivpu_fw_is_cold_boot(vdev) ? "cold boot" : "resume");
+> +static int soc_cpu_boot_60xx(struct ivpu_device *vdev)
+> +{
+> +	REGV_WR64(VPU_40XX_HOST_SS_AON_RETENTION1, vdev->fw->mem_bp->vpu_addr);
+> +	soc_cpu_set_entry_point_40xx(vdev, vdev->fw->cold_boot_entry_point);
+>   
+>   	return 0;
+>   }
+>   
+>   int ivpu_hw_ip_soc_cpu_boot(struct ivpu_device *vdev)
+>   {
+> -	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
+> -		return soc_cpu_boot_37xx(vdev);
+> -	else
+> -		return soc_cpu_boot_40xx(vdev);
+> +	int ret;
+> +
+> +	switch (ivpu_hw_ip_gen(vdev)) {
+> +	case IVPU_HW_IP_37XX:
+> +		ret = soc_cpu_boot_37xx(vdev);
+> +		break;
+> +
+> +	case IVPU_HW_IP_40XX:
+> +	case IVPU_HW_IP_50XX:
+> +		ret = soc_cpu_boot_40xx(vdev);
+> +		break;
+> +
+> +	default:
+> +		ret = soc_cpu_boot_60xx(vdev);
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
+> +		 ivpu_fw_is_warm_boot(vdev) ? "warm boot" : "cold boot");
+> +
+> +	return 0;
+>   }
+>   
+>   static void wdt_disable_37xx(struct ivpu_device *vdev)
+> diff --git a/drivers/accel/ivpu/ivpu_hw_ip.h b/drivers/accel/ivpu/ivpu_hw_ip.h
+> index 5b1b391aa577..dbbcdd10a5f8 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_ip.h
+> +++ b/drivers/accel/ivpu/ivpu_hw_ip.h
+> @@ -29,7 +29,6 @@ u32 ivpu_hw_ip_ipc_rx_addr_get(struct ivpu_device *vdev);
+>   void ivpu_hw_ip_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr);
+>   void ivpu_hw_ip_irq_enable(struct ivpu_device *vdev);
+>   void ivpu_hw_ip_irq_disable(struct ivpu_device *vdev);
+> -void ivpu_hw_ip_diagnose_failure(struct ivpu_device *vdev);
+>   void ivpu_hw_ip_fabric_req_override_enable_50xx(struct ivpu_device *vdev);
+>   void ivpu_hw_ip_fabric_req_override_disable_50xx(struct ivpu_device *vdev);
+>   
+> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> index 480c075d87f6..d20144a21e09 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.c
+> +++ b/drivers/accel/ivpu/ivpu_pm.c
+> @@ -47,8 +47,10 @@ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
+>   	ivpu_ipc_reset(vdev);
+>   	ivpu_fw_log_reset(vdev);
+>   	ivpu_fw_load(vdev);
+> -	fw->entry_point = fw->cold_boot_entry_point;
+>   	fw->last_heartbeat = 0;
+> +
+> +	ivpu_dbg(vdev, FW_BOOT, "Cold boot entry point 0x%llx", vdev->fw->cold_boot_entry_point);
+> +	fw->next_boot_mode = VPU_BOOT_TYPE_COLDBOOT;
+>   }
+>   
+>   static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
+> @@ -56,13 +58,14 @@ static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
+>   	struct ivpu_fw_info *fw = vdev->fw;
+>   	struct vpu_boot_params *bp = ivpu_bo_vaddr(fw->mem_bp);
+>   
+> -	if (!bp->save_restore_ret_address) {
+> +	fw->warm_boot_entry_point = bp->save_restore_ret_address;
+> +	if (!fw->warm_boot_entry_point) {
+>   		ivpu_pm_prepare_cold_boot(vdev);
+>   		return;
+>   	}
+>   
+> -	ivpu_dbg(vdev, FW_BOOT, "Save/restore entry point %llx", bp->save_restore_ret_address);
+> -	fw->entry_point = bp->save_restore_ret_address;
+> +	ivpu_dbg(vdev, FW_BOOT, "Warm boot entry point 0x%llx", fw->warm_boot_entry_point);
+> +	fw->next_boot_mode = VPU_BOOT_TYPE_WARMBOOT;
+>   }
+>   
+>   static int ivpu_suspend(struct ivpu_device *vdev)
+> @@ -110,7 +113,7 @@ static int ivpu_resume(struct ivpu_device *vdev)
+>   	ivpu_hw_power_down(vdev);
+>   	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+>   
+> -	if (!ivpu_fw_is_cold_boot(vdev)) {
+> +	if (ivpu_fw_is_warm_boot(vdev)) {
+>   		ivpu_pm_prepare_cold_boot(vdev);
+>   		goto retry;
+>   	} else {
+> diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
+> index a2aa7a27f32e..00f2a01e3df6 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.h
+> +++ b/drivers/accel/ivpu/ivpu_pm.h
+> @@ -18,7 +18,6 @@ struct ivpu_pm_info {
+>   	struct rw_semaphore reset_lock;
+>   	atomic_t reset_counter;
+>   	atomic_t reset_pending;
+> -	bool is_warmboot;
+>   	u8 dct_active_percent;
+>   };
+>   
 
