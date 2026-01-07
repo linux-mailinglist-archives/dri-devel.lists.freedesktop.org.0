@@ -2,170 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DFDD00442
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74C2D00451
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:05:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD31510E1BF;
-	Wed,  7 Jan 2026 22:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D8B10E608;
+	Wed,  7 Jan 2026 22:05:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="m5nZ2WiH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sKaXwa7v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012011.outbound.protection.outlook.com
- [40.107.200.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD8010E1BF;
- Wed,  7 Jan 2026 22:03:40 +0000 (UTC)
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013066.outbound.protection.outlook.com
+ [40.93.201.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2AA10E608
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 22:05:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hVHoqpAqOH3B3d2pzVLaRTUId/ZTGtdloqZwVK/S37g/3jhOJL8IuX6n/GGM1MwmwCgpig6Vw8MOIgI55cMXDTH+w/Wg6kI2pQCEmyi88qnosrXxlydreCc0kKfmj6soI7qD7i61taSAOLp9MP8H2VnURWyMAGRFp4FzCz6MZckis59V0PQh2g8LRc1WApdCFKJPloHMATmPv01IeRDkJfxVBQs3ytntuucYk1MTVK1adruxoU59kpql/n1P39LDg+SaSL6U4WqSETq0J6KWc5bP+eWcCR3vUdki8b1/B4p3xBLpCbW2Wa/1HBjhNt6zhYM0TY08XADvWcIDNIahhw==
+ b=DA2MXwFAG3ZpyzfUNPFirIYcVLOP9rA16FPkrIeyVw4c3EkOe0lDtnSzJLa5o44DCy8pXN8GyrUewzlajko+K/FnuI58xoWTBdDUXT0oK61HCE1ss6cz9/W9mFs9TJDc9AfdVk8sYvPQdXOaDvv68AN1TxD3MUdeiwl+AfX9tYSVl5h+H9g8DDedUvntMnb7aphip91HjOMfsZrtdZ75HEs0gA7YMlXiMhf713+OEXMEOhNQWcprE755QZfcL36RTDnw+Q9kjxmHZLRzNKGAxaglI5FvF9XKRucgOX7A0ixIfSq5YafQT+cXF3OnSghUcSqJ9b5WHEs+2D7fxSrDIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8Z8IOAJzIPPHuKqLdqJLRlTf7+E7hiWx0PCUaVT4Rg0=;
- b=Ac7ZigVlCJUxcANqdFr3FMt4EIpJ16QPS2SC8mzhH0CFoXvP+oq/ywPKhSa6/3d++4rQx2jHAtyiuCDN8rvJLzWT5H4xt8bA4thNZZIc4fq2oZFbOyLjVyQloFSjsdG1x6w9sFhZZ1Qavbl7lm1488k2Vic/32giXSUlKAtohHbnZBNloigtUW4EPTFGaH2DYBFN9rRd/7QTMWQnthXmXxICn8RFTdcCVKuXdlvW5iuyKLxeILjU7yUBy2nc/509iN/muXzHcn0Lo+J3rpyz411aUfIfpW39GEq9dUzk7Ifh0mCuwWpJxABJd13V7ZY+7iZGPsvA+mAvUV9qjWNPgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=3Cs+e8RTpsDOTXcDlpL0XOsPYYiR7NV/MEq0TCQMFiw=;
+ b=xFU85DhnS2pbMgBcENmnIhVXzsNT60TdTCQGxacO/5JnRdz1IcYi9xsNd1ODThZ/c8XqgNEBpNH1+KCeJ7I0krelRHE/1TRXinn3KT+F6GOSPuU0PjxUVw1Arn1I4g4JQ1N0fXkWIHHg5wvbCC2u93CjQs2z1kfUoL7e100gtz7tGWHFL8pHYgVKGAGgL5+NcA6eyRz0J11hEvQQI7ckdIV5k1gd2nAfFiKoX4HoPedWvdJuqvjaJYrwj4dZUNCZLBbM+ZKXeR7tA76zGZL+kUQ92bCixli/FfdZbErEGpzsUMhztTLdDYJ2hJEhZA/OLTpT2jVzUF0kUe81JqU9lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Z8IOAJzIPPHuKqLdqJLRlTf7+E7hiWx0PCUaVT4Rg0=;
- b=m5nZ2WiHTut8CNpSa2NGtR4H622q/J9jg4y00iGSZCtnmFEV/PLmCGrdrRrOK9uFLfbod29UeWkwO11s3I7YzMZs3D4OPnuDGVvdVZ9y1ivKidyAC7ttggYOegEsPUyF9McYYD6dcgPw0UPBUk1c6bw/RgMOzDbs2wD//aARBoMNfz5YUajs+UxtqsfS+bimsbOEjlvsEOPCZEj524wsWL8xJoM79Pfjga2lAOwEz1so8waSIgH2LMyrDizgMeUgywuan0YuVYIjapNIf6mKaYvuY/Q/3x60ZgxCNl2k2GO2J33MjfCa5gi0mtTmnrfWxRw+4SwZEDc9t9K25uT5Eg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- PH7PR12MB9222.namprd12.prod.outlook.com (2603:10b6:510:2ef::8) with
- Microsoft
+ bh=3Cs+e8RTpsDOTXcDlpL0XOsPYYiR7NV/MEq0TCQMFiw=;
+ b=sKaXwa7vubXvkRQCzFno4103xG+BYy7w3j/NEc3aoJH6J5v3PxO6PvlXKXQ6Qao8DU+f66nW+sJKJXoWkIQfqn0tl3UrPJ9zrlyztpvapfsNHxZAx7gjVYCrw4PgPu56fxsrCW8WjQEGBF4BzI92OqYUU74XshJj/wRoikiFsMY=
+Received: from BL1PR13CA0443.namprd13.prod.outlook.com (2603:10b6:208:2c3::28)
+ by PH7PR12MB8793.namprd12.prod.outlook.com (2603:10b6:510:27a::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
+ 2026 22:05:16 +0000
+Received: from BL02EPF00021F6B.namprd02.prod.outlook.com
+ (2603:10b6:208:2c3:cafe::28) by BL1PR13CA0443.outlook.office365.com
+ (2603:10b6:208:2c3::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.0 via Frontend Transport; Wed, 7
+ Jan 2026 22:05:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF00021F6B.mail.protection.outlook.com (10.167.249.7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.2; Wed, 7 Jan 2026 22:03:33 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.9478.004; Wed, 7 Jan 2026
- 22:03:33 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Matthew Brost <matthew.brost@intel.com>,
- Balbir Singh <balbirs@nvidia.com>, Alistair Popple <apopple@nvidia.com>
-Cc: Francois Dugast <francois.dugast@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 1/4] mm/migrate: Add migrate_device_split_page
-Date: Wed, 07 Jan 2026 17:03:28 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <541B31AD-1472-4D32-A968-B92895CC6890@nvidia.com>
-In-Reply-To: <aV7NBE3NS1wdsXBo@lstrano-desk.jf.intel.com>
-References: <20251216201206.1660899-1-francois.dugast@intel.com>
- <20251216201206.1660899-2-francois.dugast@intel.com>
- <F4EAA470-C922-4066-A115-13D6D055C73A@nvidia.com>
- <95BD5D5B-C8EB-4EFA-A895-CFD660504485@nvidia.com>
- <aV7NBE3NS1wdsXBo@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SJ0PR13CA0092.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::7) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+ 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 22:05:15 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 7 Jan
+ 2026 16:05:15 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 7 Jan
+ 2026 16:05:15 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 7 Jan 2026 14:05:14 -0800
+Message-ID: <1b8b49a7-762c-f530-3744-231beef9942f@amd.com>
+Date: Wed, 7 Jan 2026 14:05:09 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1 1/2] accel/amdxdna: Update message DMA buffer allocation
+Content-Language: en-US
+To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251219014356.2234241-1-lizhi.hou@amd.com>
+ <812bcf91-d903-410f-91c8-8a71be3f3f02@amd.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <812bcf91-d903-410f-91c8-8a71be3f3f02@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH7PR12MB9222:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2650459-0233-4253-d666-08de4e38994a
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6B:EE_|PH7PR12MB8793:EE_
+X-MS-Office365-Filtering-Correlation-Id: e14eeedf-d267-4bae-e187-08de4e38d6b1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MVA4NlpOYlpZYmxHQ2RWQWxKYjM4WS9CQ1kyd1lKZklrR2FOOUx4MHpYQTlZ?=
- =?utf-8?B?ei9OYXRnNEppQ01QRFZDTllvYnVEN3lRbjJiSzJSSHgvRU9PU2RHVGVSYys3?=
- =?utf-8?B?b0lMeURUaTYrRFo2Wmt5OFR2NE9pb3FBUmtpWnFxeVljQ0RHMytDd2I3MHYv?=
- =?utf-8?B?VlBJVml5ZFovWEN1TTNxVUJsRTVNbDVlcyt0eDRMZmxUMnRIbENXWkJmV3cw?=
- =?utf-8?B?QUVWMDZlQlFnWnVzSFdzcjE2bEk1VGpVY09oVDVIUnRwQ2N6QWZhdG1hamVY?=
- =?utf-8?B?R3JleTlEUXNtSkdvVy92Ui90ek5nQXhZc2ZKeWNjV3U1NWlmbjhERWV0K1M3?=
- =?utf-8?B?aHM0M2p2L0ozQVFUaGpYdkVmdHZEOVd6OVFBNGNYY0FIdW5yVE1FcjRwQTh3?=
- =?utf-8?B?MjVLaGVWTUY5TGFabEZwTVRJMkhtUWVxajlDcmhqaTR3NDdIMzNLNGxyTjIr?=
- =?utf-8?B?L1FYam0rZlNhcTdlU1ZkRm1DNTIxcmZ1cEorVkRoWWdhKzJETDBzeXNTMTY1?=
- =?utf-8?B?cGw2d04yODRoU2xTL2V3UVJhdlpGOVEzVUJBeDRJc2I1YTh4aXlXczVLZmZJ?=
- =?utf-8?B?MnBkY2VtaXl6UDJGTFJHQ2tDblNsaXE1a3Y1dTJIMW5YSHdGTk14Wnc3aWJ3?=
- =?utf-8?B?dlQySnUvQzFteVdXb0IvV0FBZm5aWlkxYVJNZnpudnRuRjFLVHBxT3orQU5i?=
- =?utf-8?B?MHJUcTJCb0h5eUZyclFpb3JVaGlkUVRrYTUxaFI2ZmJ3RS8zMFUwUkxSREJH?=
- =?utf-8?B?L2pKWmRKdm11cGZ3QXFIdTF6VFYzZklvc2R2Um03VFVTSXpFTGF2bkpVTFRW?=
- =?utf-8?B?UWdsbm04cUpLdWxvVEZZV3BscGRKeXNYUHhxQ1I0aDllRzVDYTlEYkpWQ3ZB?=
- =?utf-8?B?aGtWTGN2WGE1bm03b1J2NHNiQUNFYStIbkE5T0hpc1puQnZWeWRJcWNTbjVK?=
- =?utf-8?B?bWdBSW8yaFEwQlVLcW5pZHdjcXliVmkvbkRuSnI2UkJ6TFFhcGZ2dFFocksw?=
- =?utf-8?B?ZGM0Z0hUOHVHTFErNEV0TkN6WU45RElzUFNRWmluSUZTekpsRVNmWE5vZWpO?=
- =?utf-8?B?Y1oxclBlS21iR1lmd2tKdUo1TmsvaUFNTlNyRVl4eEJHWlBjNGNZbFhxb0t5?=
- =?utf-8?B?L2JqVWRmVlhmWk9pWm5KdkM4d1JaNDJTUFJSbjVYZDFyMWpmd0xwcW8vYkdv?=
- =?utf-8?B?ajZqc2RpazB2cWdiRktWRVlJMy9wYTEzQys3S1BhWHNYM1VYRU9RN2ttNHNa?=
- =?utf-8?B?MlFURXBXbE94MEZIUFp0NGNuSFRocWw0c3J1Z1ZtV01vakQ0cnpoUG5vMmEr?=
- =?utf-8?B?NTd1NWlpN3lobjMwbmF0K3hjZnZweHl2TWVBU3RZY2VGN2dHb0ZFbzNhYWt0?=
- =?utf-8?B?QlV5aElLVlZTMTFJVjRtTXQwNXhZa2p2Rkx6eFhYYjUvMXh6d3Y4Um5VTFcz?=
- =?utf-8?B?TmNCemNTQWpzaGlTMm1oVFJwVTNQbWtGZjQrMUhvQjh4MTcrbzBaY253NXkx?=
- =?utf-8?B?NDJPYnE5VHNEbmowOUdTSDlmNFhUTGpMVWdGd1RRZ2hibUdGM1J4ekVlREk1?=
- =?utf-8?B?R3d2SHI0WVBOQm9mNmhuWnBVWUk2WkdTSHpTeW4wRmdYbitEWmxzbkRseGxO?=
- =?utf-8?B?a05NNGw2S25UZ2JpMXVtMmtIRW5sVWIweWJZb053NDRNUTl2M1JJTnlic3Bt?=
- =?utf-8?B?RERWVHpiU1JWdDQwbE4vcTZWZC9UdlkwOXBsc0xEYjZTNnBLSWU3VFc2MzhP?=
- =?utf-8?B?d01xZENWcmNEMmpINTRyZDBnVTdBa1UwWVdmTmtoSFZzWDdoVFBzeGo5ZDlr?=
- =?utf-8?B?aklYcEJnSDVwbk9kME5vZjR1c1FYVlRNTHZyRGd6WjRXTmt1ai9ONVNiTFEx?=
- =?utf-8?B?VmRSc3daTW82c3pzQ0YwUzBud2Y4eW9ZdjJGRGtwRkJMNU9aZVphRGdmNHVw?=
- =?utf-8?Q?w7L8zqIRe3/sTTaLXzxoafRnNsPoO2hJ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
+ ARA:13230040|1800799024|82310400026|36860700013|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NlNUc1JOcGloaW9nU3BBNEk4UTVmQXhSTFlkL1hwOUM1SVBnMVVsN3UyUkpM?=
+ =?utf-8?B?YWdQKy9JRzFRd3RreGVpUWxHL0hwU1hxQlpNQTllOE4xWFVBOEpCcnROdVlZ?=
+ =?utf-8?B?eUhiMUozWXV4YXZMc1NmcmY0N2l1K1FxZ1d1WDBvU0tha0tjK2Zod0l4L0pJ?=
+ =?utf-8?B?bis3N0dBNlNPYnhQbS83SDFUUzNZbUJxT0VqQUVBYktzOUVHZmU5NTMwRktC?=
+ =?utf-8?B?NWdyNUZOOUpnbHVHNnIyc0tQREhXUy9XY0hpWkR4Tm1HZTM5bFg4NDBLN3gw?=
+ =?utf-8?B?L2UxR0QvRnp2NFoxNmFSZks1Mi9haUtBTkk0Nml4b1p2OU42YkpXaWswdWdr?=
+ =?utf-8?B?enVSYWI5Q2xBRG1hRGxlSFB1UzlDOHdBUmpLT0dmRGVqby9xY3BVbVNLcDhx?=
+ =?utf-8?B?UGFzckhCRysydUhUdk45MmxwY21Ha1NxUXdHUlo5Y3k5SzBLR0JxbmNKSWVL?=
+ =?utf-8?B?MVhmWU5obHVEMGh3d3ZYUytYVnNtcTdjcmRnZ3c1eTNGUzNEVGYxUTI2RWdy?=
+ =?utf-8?B?Rm5Bd1RFbXR5N2hOYXVYV2Y2aHZNS1E0ejdoMXhqTHI0SmlKTjdQenJUMUwv?=
+ =?utf-8?B?OERPa1hGK0pIU1YwZkVzREhVWFBldmg5c1IwdHJUaHAweGRBaWxuT3MxUTVY?=
+ =?utf-8?B?N2ExS1QwWGVLTWpTMDhTaldua1U3ZHBGMk82QVdLRlBXa05hZ2tuUTdNTlA0?=
+ =?utf-8?B?ZnZpWEpOU3JEbnR0Ky9PTlpERGlKaFJIUFJzRXhDUCt5eTBuQ0NvKzY0OHFx?=
+ =?utf-8?B?SzcyRi9Ec3hWSmcyamEwYUZ0cnUrZldlaGtmSWMxZjlTUGJoU0R1R2FHWFEr?=
+ =?utf-8?B?cTZFZ2kyV0FWcW5Cc250anduQlJNR0dTUVMvK0wweUQrTmNIK1BNL1J3Wmd6?=
+ =?utf-8?B?VFpuR3lzOUsvTWJJcWVoNkJpYmRKNmNNdU4wbkViemtVbkZZODkvRUcrUFZM?=
+ =?utf-8?B?TXJ6Mk5ZcVI4SDRBY0JDUnZ0cEZGWTJTNERWbGNKcG9OeEFoSExNdEJRRjFk?=
+ =?utf-8?B?Yy9vWDRhUjlHbUkzWEJhVjcwbCtJditoZzZYblRsc0dVNTQvNDdHQlpkemo2?=
+ =?utf-8?B?S2NwSGVLQTZNNlJuVDYyOVp1bzhhSG9JdmFxckJlWHVsUjYzWm80ZWxFaDhy?=
+ =?utf-8?B?a0wxTGw4bkpmNzFwWUVhTFlhenhVVzdwdDBBQkZNTUFrRHh5TFlsYm5HSldC?=
+ =?utf-8?B?dXNlTzU1WWFSQ3htQ3lTMWJFSmw5c3gvZWd5eGliY2pDSE10Wk1MNzh0SzJu?=
+ =?utf-8?B?akp2RW1oRTRzMTA0SFNxN3M5dW15M3hzcmFpZGp1cFl5enBFVml2TzB0YWlS?=
+ =?utf-8?B?UllQSUEyZzFXWjJscGFCVFhKVXorNW82d0phTXlvZ1ZVTjFHU29hc242TEJv?=
+ =?utf-8?B?dU1ueXkrL2NxSExEbzgybldqWFpMeCttMlR6YnN5STNUVldFbkdPYjJyVWdG?=
+ =?utf-8?B?dkszaTV6ZThJdm1lbXZqSktsZWJrR0N2RVZIODFDVGYwb3NHSjhFM1VvMko2?=
+ =?utf-8?B?MlZsa3ZlYWRWNVV0NHdicUtIcURBSys4aElqSkFmcDQxaytjTzlEeXFicG5m?=
+ =?utf-8?B?dDVxYkJZVkhkU1N4c1BmYVIyY3Z4c3drcnBDcFBlY3NxK1F0aW9XS0JHeU1t?=
+ =?utf-8?B?U0lPT0xHVUZiNURHWXlqTWU3TUhCMFVDZFpUSENlVnlNc2plQTE1RUMvMndO?=
+ =?utf-8?B?UlkyamJCemtVcVRIWFl2M1JMT0lsSjJYOVRFUVRoYjBtenFST3lVL3R4SFZ4?=
+ =?utf-8?B?ZlRReXgyUXRQYnZISmd4ODZkS05Jd2xLeW01RmxlTTVPam9tSkhaeE1QbWpx?=
+ =?utf-8?B?WlYweHFLZzJ6eXhkcFo2N2ZKcm5MUnpnSGNiNi9DVmNrNVVSQjJzS0s5UkNW?=
+ =?utf-8?B?clV4WXFWTkMrTndmMlBjMlhxS01tRVpPT0FuaUtBdmhDdmthbEVxUW1Nbyt0?=
+ =?utf-8?B?c1N0SFl4M0VVRlpXVnpFdUZYdGZaRitkS0xKd1hEZ1pqRGc4S0RDQ3FBL1lM?=
+ =?utf-8?B?ZnRITVlkakFaUTBzK0lFbzN6eWZwVjZHaWcwRU1xa0NWNDd4bHpZbW9rK1ZP?=
+ =?utf-8?B?ZDVzOWZhSkNNWVg2WCtTNlEvY0VXVjVwSlVKMys1d3ErWXdoSVprMnlZZHFn?=
+ =?utf-8?Q?0r1c=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014); DIR:OUT;
  SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Skc5amptYlhFZTh2Mzh1S0diQWp1VTVTbFcwY3JIMkUwNzI0bm8ybDZ4V2F4?=
- =?utf-8?B?SWg3NEtjK1lXYm85ekRYMDRPRWd4ekNQUXRmOFA5aXZ1ZmY1R3FqcEIwOG5W?=
- =?utf-8?B?R0JTUGt2MzN0SFI2cUVWekxqbUdKZXE1VXI4dnZkRTlrYmdrRHRNTFZ0U0ho?=
- =?utf-8?B?T29McW45Z1F3VTh4NUNmYWttZnNjZkpZaURLTkg4L25sbXY5MVluRGgrN1lC?=
- =?utf-8?B?K0QyUmczT3JOdDJCdzFBb1JQTEQzWjVGcGI5eFZ3S0kvYjZOM2VXdDFSd3hp?=
- =?utf-8?B?OFFmQ0NkN0Z0ZlVOTXFyUElDWjVmMjI3d094by9MTHcwaERXcCtacTFIVGlY?=
- =?utf-8?B?MWxYU1FOc2JGTGRzZnNQcHVzUDhyVGRzY2ZySVIwOHpGemFNZDMzcXduVzIw?=
- =?utf-8?B?aGtmbEJwd0c0aFRBaFJKOXB6dnJxMHZjN1RNWTV6eGZTWGJvWHk0R3pycFFi?=
- =?utf-8?B?S01jcTBWbjJqS1BoM2wzbFVleHFWMEtnazNpRG9BU0t6Y0NQeDgrOEU0QlJD?=
- =?utf-8?B?d013VzVSY2FmUGp4SWhLR3dKQ1lZZXNTaDVWeklxUFVxM1FQRDNpOWd1cEVm?=
- =?utf-8?B?Z2I4UXM0Q0xlQUcrMW5SMzBlWTIvclZWRWQ0R0VDcTh6dW9iT1c0dnpEM3pI?=
- =?utf-8?B?Sy9RUUZ5Mjd0TXdxckkvcjFGTWhQWW5PNU01dUQ1am9Cb1Nma1Y5ZWpLcS9a?=
- =?utf-8?B?Tk40ZVlkL3o3cmdLM09Kc3laRnh1d3lnYmxtMUU5YjVLbTNnREU5eXh5V2xS?=
- =?utf-8?B?RE16bndhcUJNMnZVMWV0T2ZtZTdhdkUxbEtNRHFXWERGT3ZXak5IV2hHK3RK?=
- =?utf-8?B?THMza0NpT004OUg2TGJYTXltTXl4UWpiUGRVMS9VTkxwRkpCUjZwcWNLU0Fw?=
- =?utf-8?B?eDIyN01ld2Zia0pISVhHY2x1RktZWDNhZnBzYkY0alVVejA1Q0FoVXZkSGNn?=
- =?utf-8?B?N0JNSjJKOWVWUENjbXd2bUMvcExrWUtUakFiWUpTWnVNekpxSVlzTjZTMFNm?=
- =?utf-8?B?SFp2cW1ib0hnVVl6MUdVSWRWTTR0aVdTRnJnb3pYWFRES29HZ0phTGErTkNL?=
- =?utf-8?B?ZHd2U2N4cmNveFNBSndHcDJpelptNG16T3lzK1JncG01aEtSaFdXNVUreFpE?=
- =?utf-8?B?MUgvdXhINWVEdk1YYXd1Y0VRNXFQb0FUeWhKc2ZncGVyOUkxOEExbVdEYW5Z?=
- =?utf-8?B?VmVCNHJya3l2Q2hjbFRZK2p2YUpjKzhGUk5OdUVWZVd1TUhRSzl6U3R2RGhn?=
- =?utf-8?B?djZyaENsTThhM0J4d2sxVWgreWwzTHZYditGZEpiT0JuUVdPOUdyU0g2Z3Fa?=
- =?utf-8?B?Y2VieGlraWxqWEMzN0hVdlJNSjl3d1g4SVFRZ0k5L3B1Umo1U0wvMVRJdWdJ?=
- =?utf-8?B?VWJKazF5K2ozdzJyUm1vK01nODk3eWtSN1MvNHp3RG5DQ3JjS1lmQ0NQaStw?=
- =?utf-8?B?RlBTbUtCd3lwU3NaTHo3N3JFSW1vNGtLbS9YR3dObDVHa0ptYU1pMnF3cElt?=
- =?utf-8?B?anFJeUtHOHYvZjR3ZHJOTU5OMklhY2tnZnptYUZqNVlTNjMwam5ERWZjaTQr?=
- =?utf-8?B?eWFxZGk4YVQrK25iMFhSbzlzcU1OemNjTkhyS3A2M080WWlXZmpzYnNGVlVV?=
- =?utf-8?B?MnpROXNneGtLcVNlMzY3WXZIWUkrdlp3bzlEOUUwdEJJZGtia0VRZzJXNGtG?=
- =?utf-8?B?a3JGZTBMNXpUMk03VTlzUmxKNnpwbkdwQkNUV3VoYTFuM1lpV1BXdU5oQ25P?=
- =?utf-8?B?ZGZOTHlrNWJ1NmdXRDBVL0xEb0xQbisyLzIyam1jWTBMaUhJWVA4RjhNWnZS?=
- =?utf-8?B?RzVZRHI5YU1JT2w3eElodGRaamhiakE3eTR2ekZWdEhrREY5clFsTlFwZDFK?=
- =?utf-8?B?WVVNTE1WYitwenNmNjlEWjVXWUtEUDU2dHNySERuRk5vZ01QVlBWVnUvZ2hw?=
- =?utf-8?B?eVZjZExBbGZ6NC9DNnJ3enhMazMwWnEvRG14b2MvL1Y4Zyt2RzJqUVZwUVJm?=
- =?utf-8?B?U0M1R2dKWGNmeStUSDhnTkszTkhHc0pxOVkvb3dvS09Ucjh2S01FUWtWcndH?=
- =?utf-8?B?WFRuT0pPc3FzNmtFaSsyckpVcnBMNm4vQlBjQm9McEFGcUd2elAyc283QVNG?=
- =?utf-8?B?dncyQ3VzRkxGbEQzR2MxSmRrR2oxbXQyWGZVbU1IbGRndjJPWUI4K0QvWHBj?=
- =?utf-8?B?ZU11Y2dqVjI2ZjAvWkRCcFdvWllLelVSRm9WWjFLby9wTjhEbG16NkVmR3VJ?=
- =?utf-8?B?czhxQ3lIWDZTdWtjTzhBbWNsRUpuM3JBN25UQWZNbjJaU2lrRU9mSGVCSHdo?=
- =?utf-8?B?NmlPK1NJdDlNNk1jckZaWTVCdXh4c1NWeTcyM0dvbzFGVzJmT040QT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2650459-0233-4253-d666-08de4e38994a
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 22:03:33.1267 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nooNT8RuqP/HFfMO1C3QCiPLorNerlACWzDbW4s8mg3k+wsHv03ZJtakki4wooAz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9222
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 22:05:15.9947 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e14eeedf-d267-4bae-e187-08de4e38d6b1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8793
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,287 +153,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7 Jan 2026, at 16:15, Matthew Brost wrote:
 
-> On Wed, Jan 07, 2026 at 03:38:35PM -0500, Zi Yan wrote:
->> On 7 Jan 2026, at 15:20, Zi Yan wrote:
+On 1/7/26 13:19, Mario Limonciello wrote:
+> On 12/18/25 7:43 PM, Lizhi Hou wrote:
+>> The latest firmware requires the message DMA buffer to
+>>    - have a minimum size of 8K
+>>    - use a power-of-two size
+>>    - be aligned to the buffer size
+>>    - not cross 64M boundary
 >>
->>> +THP folks
->>
->> +willy, since he commented in another thread.
->>
->>>
->>> On 16 Dec 2025, at 15:10, Francois Dugast wrote:
->>>
->>>> From: Matthew Brost <matthew.brost@intel.com>
->>>>
->>>> Introduce migrate_device_split_page() to split a device page into
->>>> lower-order pages. Used when a folio allocated as higher-order is free=
-d
->>>> and later reallocated at a smaller order by the driver memory manager.
->>>>
->>>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>>> Cc: Balbir Singh <balbirs@nvidia.com>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: linux-mm@kvack.org
->>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
->>>> ---
->>>>  include/linux/huge_mm.h |  3 +++
->>>>  include/linux/migrate.h |  1 +
->>>>  mm/huge_memory.c        |  6 ++---
->>>>  mm/migrate_device.c     | 49 ++++++++++++++++++++++++++++++++++++++++=
-+
->>>>  4 files changed, 56 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->>>> index a4d9f964dfde..6ad8f359bc0d 100644
->>>> --- a/include/linux/huge_mm.h
->>>> +++ b/include/linux/huge_mm.h
->>>> @@ -374,6 +374,9 @@ int __split_huge_page_to_list_to_order(struct page=
- *page, struct list_head *list
->>>>  int folio_split_unmapped(struct folio *folio, unsigned int new_order)=
-;
->>>>  unsigned int min_order_for_split(struct folio *folio);
->>>>  int split_folio_to_list(struct folio *folio, struct list_head *list);
->>>> +int __split_unmapped_folio(struct folio *folio, int new_order,
->>>> +			   struct page *split_at, struct xa_state *xas,
->>>> +			   struct address_space *mapping, enum split_type split_type);
->>>>  int folio_check_splittable(struct folio *folio, unsigned int new_orde=
-r,
->>>>  			   enum split_type split_type);
->>>>  int folio_split(struct folio *folio, unsigned int new_order, struct p=
-age *page,
->>>> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
->>>> index 26ca00c325d9..ec65e4fd5f88 100644
->>>> --- a/include/linux/migrate.h
->>>> +++ b/include/linux/migrate.h
->>>> @@ -192,6 +192,7 @@ void migrate_device_pages(unsigned long *src_pfns,=
- unsigned long *dst_pfns,
->>>>  			unsigned long npages);
->>>>  void migrate_device_finalize(unsigned long *src_pfns,
->>>>  			unsigned long *dst_pfns, unsigned long npages);
->>>> +int migrate_device_split_page(struct page *page);
->>>>
->>>>  #endif /* CONFIG_MIGRATION */
->>>>
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index 40cf59301c21..7ded35a3ecec 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -3621,9 +3621,9 @@ static void __split_folio_to_order(struct folio =
-*folio, int old_order,
->>>>   * Return: 0 - successful, <0 - failed (if -ENOMEM is returned, @foli=
-o might be
->>>>   * split but not to @new_order, the caller needs to check)
->>>>   */
->>>> -static int __split_unmapped_folio(struct folio *folio, int new_order,
->>>> -		struct page *split_at, struct xa_state *xas,
->>>> -		struct address_space *mapping, enum split_type split_type)
->>>> +int __split_unmapped_folio(struct folio *folio, int new_order,
->>>> +			   struct page *split_at, struct xa_state *xas,
->>>> +			   struct address_space *mapping, enum split_type split_type)
->>>>  {
->>>>  	const bool is_anon =3D folio_test_anon(folio);
->>>>  	int old_order =3D folio_order(folio);
->>>> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
->>>> index 23379663b1e1..eb0f0e938947 100644
->>>> --- a/mm/migrate_device.c
->>>> +++ b/mm/migrate_device.c
->>>> @@ -775,6 +775,49 @@ int migrate_vma_setup(struct migrate_vma *args)
->>>>  EXPORT_SYMBOL(migrate_vma_setup);
->>>>
->>>>  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
->>>> +/**
->>>> + * migrate_device_split_page() - Split device page
->>>> + * @page: Device page to split
->>>> + *
->>>> + * Splits a device page into smaller pages. Typically called when rea=
-llocating a
->>>> + * folio to a smaller size. Inherently racy=E2=80=94only safe if the =
-caller ensures
->>>> + * mutual exclusion within the page's folio (i.e., no other threads a=
-re using
->>>> + * pages within the folio). Expected to be called a free device page =
-and
->>>> + * restores all split out pages to a free state.
->>>> + */
->>
->> Do you mind explaining why __split_unmapped_folio() is needed for a free=
- device
->> page? A free page is not supposed to be a large folio, at least from a c=
-ore
->> MM point of view. __split_unmapped_folio() is intended to work on large =
-folios
->> (or compound pages), even if the input folio has refcount =3D=3D 0 (beca=
-use it is
->> frozen).
->>
+>> Update the buffer allocation logic to meet these requirements and 
+>> support
+>> the latest firmware.
 >
-> Well, then maybe this is a bug in core MM where the freed page is still
-> a THP. Let me explain the scenario and why this is needed from my POV.
+> We can't guarantee that kernel and firmware are moving at the same time.
+> What happens if you run old firmware with these changes?
+
+The old firmware runs fine this these changes. The new firmware adds 
+more alignment and size requirements which the old one does not need.
+
+
+Lizhi
+
 >
-> Our VRAM allocator in Xe (and several other DRM drivers) is DRM buddy.
-> This is a shared pool between traditional DRM GEMs (buffer objects) and
-> SVM allocations (pages). It doesn=E2=80=99t have any view of the page bac=
-king=E2=80=94it
-> basically just hands back a pointer to VRAM space that we allocate from.
-> From that, if it=E2=80=99s an SVM allocation, we can derive the device pa=
-ges.
+> If the old firmware can't run with these changes then it would be 
+> better to instead add a fallback system.
 >
-> What I see happening is: a 2M buddy allocation occurs, we make the
-> backing device pages a large folio, and sometime later the folio
-> refcount goes to zero and we free the buddy allocation. Later, the buddy
-> allocation is reused for a smaller allocation (e.g., 4K or 64K), but the
-> backing pages are still a large folio. Here is where we need to split
-
-I agree with you that it might be a bug in free_zone_device_folio() based
-on my understanding. Since zone_device_page_init() calls prep_compound_page=
-()
-for >0 orders, but free_zone_device_folio() never reverse the process.
-
-Balbir and Alistair might be able to help here.
-
-I cherry picked the code from __free_frozen_pages() to reverse the process.
-Can you give it a try to see if it solve the above issue? Thanks.
-
-From 3aa03baa39b7e62ea079e826de6ed5aab3061e46 Mon Sep 17 00:00:00 2001
-From: Zi Yan <ziy@nvidia.com>
-Date: Wed, 7 Jan 2026 16:49:52 -0500
-Subject: [PATCH] mm/memremap: free device private folio fix
-Content-Type: text/plain; charset=3D"utf-8"
-
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- mm/memremap.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 63c6ab4fdf08..483666ff7271 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -475,6 +475,21 @@ void free_zone_device_folio(struct folio *folio)
- 		pgmap->ops->folio_free(folio);
- 		break;
- 	}
-+
-+	if (nr > 1) {
-+		struct page *head =3D folio_page(folio, 0);
-+
-+		head[1].flags.f &=3D ~PAGE_FLAGS_SECOND;
-+#ifdef NR_PAGES_IN_LARGE_FOLIO
-+		folio->_nr_pages =3D 0;
-+#endif
-+		for (i =3D 1; i < nr; i++) {
-+			(head + i)->mapping =3D NULL;
-+			clear_compound_head(head + i);
-+		}
-+		folio->mapping =3D NULL;
-+		head->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP;
-+	}
- }
-
- void zone_device_page_init(struct page *page, unsigned int order)
---=20
-2.51.0
-
-
-
-> the folio into 4K pages so we can properly migrate the pages via the
-> migrate_vma_* calls. Also note: if you call zone_device_page_init with
-> an order of zero on a large device folio, that also blows up.
+> IE:
+> 1) kernel tries to load new firmware name and use new behavior
+> 2) if firmware is missing, kernel tries to load old firmware name and 
+> use old behavior.
+> 3) if firmware is missing in old name then fail probe
 >
-> Open to other ideas here for how to handle this scenario.
 >
->>>> +int migrate_device_split_page(struct page *page)
->>>> +{
->>>> +	struct folio *folio =3D page_folio(page);
->>>> +	struct dev_pagemap *pgmap =3D folio->pgmap;
->>>> +	struct page *unlock_page =3D folio_page(folio, 0);
->>>> +	unsigned int order =3D folio_order(folio), i;
->>>> +	int ret =3D 0;
->>>> +
->>>> +	VM_BUG_ON_FOLIO(!order, folio);
->>>> +	VM_BUG_ON_FOLIO(!folio_is_device_private(folio), folio);
->>>> +	VM_BUG_ON_FOLIO(folio_ref_count(folio), folio);
 >>
->> Please use VM_WARN_ON_FOLIO() instead to catch errors. There is no need =
-to crash
->> the kernel
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> ---
+>>   drivers/accel/amdxdna/aie2_error.c   | 10 ++++-----
+>>   drivers/accel/amdxdna/aie2_message.c | 33 ++++++++++++++++++++--------
+>>   drivers/accel/amdxdna/aie2_pci.h     |  5 +++++
+>>   3 files changed, 33 insertions(+), 15 deletions(-)
 >>
+>> diff --git a/drivers/accel/amdxdna/aie2_error.c 
+>> b/drivers/accel/amdxdna/aie2_error.c
+>> index d452008ec4f4..5e82df2b7cf6 100644
+>> --- a/drivers/accel/amdxdna/aie2_error.c
+>> +++ b/drivers/accel/amdxdna/aie2_error.c
+>> @@ -338,8 +338,7 @@ void aie2_error_async_events_free(struct 
+>> amdxdna_dev_hdl *ndev)
+>>       destroy_workqueue(events->wq);
+>>       mutex_lock(&xdna->dev_lock);
+>>   -    dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
+>> -                 events->addr, DMA_FROM_DEVICE);
+>> +    aie2_free_msg_buffer(ndev, events->size, events->buf, 
+>> events->addr);
+>>       kfree(events);
+>>   }
+>>   @@ -355,8 +354,8 @@ int aie2_error_async_events_alloc(struct 
+>> amdxdna_dev_hdl *ndev)
+>>       if (!events)
+>>           return -ENOMEM;
+>>   -    events->buf = dma_alloc_noncoherent(xdna->ddev.dev, 
+>> total_size, &events->addr,
+>> -                        DMA_FROM_DEVICE, GFP_KERNEL);
+>> +    events->buf = aie2_alloc_msg_buffer(ndev, &total_size, 
+>> &events->addr);
+>> +
+>>       if (!events->buf) {
+>>           ret = -ENOMEM;
+>>           goto free_events;
+>> @@ -396,8 +395,7 @@ int aie2_error_async_events_alloc(struct 
+>> amdxdna_dev_hdl *ndev)
+>>   free_wq:
+>>       destroy_workqueue(events->wq);
+>>   free_buf:
+>> -    dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
+>> -                 events->addr, DMA_FROM_DEVICE);
+>> +    aie2_free_msg_buffer(ndev, events->size, events->buf, 
+>> events->addr);
+>>   free_events:
+>>       kfree(events);
+>>       return ret;
+>> diff --git a/drivers/accel/amdxdna/aie2_message.c 
+>> b/drivers/accel/amdxdna/aie2_message.c
+>> index 051f4ceaabae..99215328505e 100644
+>> --- a/drivers/accel/amdxdna/aie2_message.c
+>> +++ b/drivers/accel/amdxdna/aie2_message.c
+>> @@ -55,6 +55,22 @@ static int aie2_send_mgmt_msg_wait(struct 
+>> amdxdna_dev_hdl *ndev,
+>>       return ret;
+>>   }
+>>   +void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
+>> +                dma_addr_t *dma_addr)
+>> +{
+>> +    struct amdxdna_dev *xdna = ndev->xdna;
+>> +    int order;
+>> +
+>> +    *size = max(*size, SZ_8K);
+>> +    order = get_order(*size);
+>> +    if (order > MAX_PAGE_ORDER)
+>> +        return NULL;
+>> +    *size = PAGE_SIZE << order;
+>> +
+>> +    return dma_alloc_noncoherent(xdna->ddev.dev, *size, dma_addr,
+>> +                     DMA_FROM_DEVICE, GFP_KERNEL);
+>> +}
+>> +
+>>   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev)
+>>   {
+>>       DECLARE_AIE2_MSG(suspend, MSG_OP_SUSPEND);
+>> @@ -346,14 +362,13 @@ int aie2_query_status(struct amdxdna_dev_hdl 
+>> *ndev, char __user *buf,
+>>   {
+>>       DECLARE_AIE2_MSG(aie_column_info, MSG_OP_QUERY_COL_STATUS);
+>>       struct amdxdna_dev *xdna = ndev->xdna;
+>> +    u32 buf_sz = size, aie_bitmap = 0;
+>>       struct amdxdna_client *client;
+>>       dma_addr_t dma_addr;
+>> -    u32 aie_bitmap = 0;
+>>       u8 *buff_addr;
+>>       int ret;
+>>   -    buff_addr = dma_alloc_noncoherent(xdna->ddev.dev, size, 
+>> &dma_addr,
+>> -                      DMA_FROM_DEVICE, GFP_KERNEL);
+>> +    buff_addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
+>>       if (!buff_addr)
+>>           return -ENOMEM;
+>>   @@ -363,7 +378,7 @@ int aie2_query_status(struct amdxdna_dev_hdl 
+>> *ndev, char __user *buf,
+>>         *cols_filled = 0;
+>>       req.dump_buff_addr = dma_addr;
+>> -    req.dump_buff_size = size;
+>> +    req.dump_buff_size = buf_sz;
+>>       req.num_cols = hweight32(aie_bitmap);
+>>       req.aie_bitmap = aie_bitmap;
+>>   @@ -391,7 +406,7 @@ int aie2_query_status(struct amdxdna_dev_hdl 
+>> *ndev, char __user *buf,
+>>       *cols_filled = aie_bitmap;
+>>     fail:
+>> -    dma_free_noncoherent(xdna->ddev.dev, size, buff_addr, dma_addr, 
+>> DMA_FROM_DEVICE);
+>> +    aie2_free_msg_buffer(ndev, buf_sz, buff_addr, dma_addr);
+>>       return ret;
+>>   }
+>>   @@ -402,19 +417,19 @@ int aie2_query_telemetry(struct 
+>> amdxdna_dev_hdl *ndev,
+>>       DECLARE_AIE2_MSG(get_telemetry, MSG_OP_GET_TELEMETRY);
+>>       struct amdxdna_dev *xdna = ndev->xdna;
+>>       dma_addr_t dma_addr;
+>> +    u32 buf_sz = size;
+>>       u8 *addr;
+>>       int ret;
+>>         if (header->type >= MAX_TELEMETRY_TYPE)
+>>           return -EINVAL;
+>>   -    addr = dma_alloc_noncoherent(xdna->ddev.dev, size, &dma_addr,
+>> -                     DMA_FROM_DEVICE, GFP_KERNEL);
+>> +    addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
+>>       if (!addr)
+>>           return -ENOMEM;
+>>         req.buf_addr = dma_addr;
+>> -    req.buf_size = size;
+>> +    req.buf_size = buf_sz;
+>>       req.type = header->type;
+>>         drm_clflush_virt_range(addr, size); /* device can access */
+>> @@ -440,7 +455,7 @@ int aie2_query_telemetry(struct amdxdna_dev_hdl 
+>> *ndev,
+>>       header->minor = resp.minor;
+>>     free_buf:
+>> -    dma_free_noncoherent(xdna->ddev.dev, size, addr, dma_addr, 
+>> DMA_FROM_DEVICE);
+>> +    aie2_free_msg_buffer(ndev, buf_sz, addr, dma_addr);
+>>       return ret;
+>>   }
+>>   diff --git a/drivers/accel/amdxdna/aie2_pci.h 
+>> b/drivers/accel/amdxdna/aie2_pci.h
+>> index a929fa98a121..e1745f07b268 100644
+>> --- a/drivers/accel/amdxdna/aie2_pci.h
+>> +++ b/drivers/accel/amdxdna/aie2_pci.h
+>> @@ -336,6 +336,11 @@ int aie2_sync_bo(struct amdxdna_hwctx *hwctx, 
+>> struct amdxdna_sched_job *job,
+>>            int (*notify_cb)(void *, void __iomem *, size_t));
+>>   int aie2_config_debug_bo(struct amdxdna_hwctx *hwctx, struct 
+>> amdxdna_sched_job *job,
+>>                int (*notify_cb)(void *, void __iomem *, size_t));
+>> +void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
+>> +                dma_addr_t *dma_addr);
+>> +#define aie2_free_msg_buffer(ndev, size, buff_addr, dma_addr)        \
+>> +    dma_free_noncoherent((ndev)->xdna->ddev.dev, size, buff_addr,    \
+>> +                 dma_addr, DMA_FROM_DEVICE)
+>>     /* aie2_hwctx.c */
+>>   int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
 >
-> Sure.
->
->>>> +
->>>> +	folio_lock(folio);
->>>> +
->>>> +	ret =3D __split_unmapped_folio(folio, 0, page, NULL, NULL, SPLIT_TYP=
-E_UNIFORM);
->>>> +	if (ret) {
->>>> +	       /*
->>>> +		* We can't fail here unless the caller doesn't know what they
->>>> +		* are doing.
->>>> +		*/
->>>> +		VM_BUG_ON_FOLIO(ret, folio);
->>
->> Same here.
->>
->
-> Will do.
->
-> Matt
->
->>>> +
->>>> +		return ret;
->>>> +	}
->>>> +
->>>> +	for (i =3D 0; i < 0x1 << order; ++i, ++unlock_page) {
->>>> +		page_folio(unlock_page)->pgmap =3D pgmap;
->>>> +		folio_unlock(page_folio(unlock_page));
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>>  /**
->>>>   * migrate_vma_insert_huge_pmd_page: Insert a huge folio into @migrat=
-e->vma->vm_mm
->>>>   * at @addr. folio is already allocated as a part of the migration pr=
-ocess with
->>>> @@ -927,6 +970,11 @@ static int migrate_vma_split_unmapped_folio(struc=
-t migrate_vma *migrate,
->>>>  	return ret;
->>>>  }
->>>>  #else /* !CONFIG_ARCH_ENABLE_THP_MIGRATION */
->>>> +int migrate_device_split_page(struct page *page)
->>>> +{
->>>> +	return 0;
->>>> +}
->>>> +
->>>>  static int migrate_vma_insert_huge_pmd_page(struct migrate_vma *migra=
-te,
->>>>  					 unsigned long addr,
->>>>  					 struct page *page,
->>>> @@ -943,6 +991,7 @@ static int migrate_vma_split_unmapped_folio(struct=
- migrate_vma *migrate,
->>>>  	return 0;
->>>>  }
->>>>  #endif
->>>> +EXPORT_SYMBOL(migrate_device_split_page);
->>>>
->>>>  static unsigned long migrate_vma_nr_pages(unsigned long *src)
->>>>  {
->>>> --=20
->>>> 2.43.0
->>>
->>>
->>> Best Regards,
->>> Yan, Zi
->>
->>
->> Best Regards,
->> Yan, Zi
-
-
-Best Regards,
-Yan, Zi
