@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0890CFE098
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EC0CFDFCD
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:38:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23BB710E5DB;
-	Wed,  7 Jan 2026 13:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0603410E5CC;
+	Wed,  7 Jan 2026 13:38:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="fARlK9La";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="aTNVw38g";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="NNqrnorB";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="J6Xbyrte";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9EAD10E5DB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:45:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF0D10E5D3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792674; bh=2ZdTHQRL24g1kd9SoN+wtFL
- oGYseQSnlsFXwk0HFrSM=; b=fARlK9LaPL5wRWuRtI6qvIwN8hIfLcVzf1S/EKZrOXc45KpZtH
- cHF9eRyicOSdRTzW6rLMrvUlqQ0P+bhQI6gafm42yYAf7RINrZAHyfnQ+59Ishuc3kw26ZWFd9g
- 39J8BpC/C0AcNAUVaGSOzn7CTBm8do4jSK0LU/+Kl52M/ellFNvOtF0dtxd9rogGZTNBjkZcV/t
- YQSrQ9pRAeE4kts+6xIK30smf0iRg9GCOzaAL30YEmND9hkTw8o/IZzL4pZBQnEBGHMYK8eYCOm
- BRDz4zJ8T+/yAYsuoOoFrO2mFmAguGTfSCak0SS4ThbHXPnyD0xYSJXjiOl8DMQzXSQ==;
+ h=To:Message-Id:Subject:Date:From; t=1767792675; bh=kGflik9VbPGwdJ/anHWMppL
+ 4CuNJ02DVZyvvduz9raU=; b=NNqrnorBFL0z6eL5xQaD2olhaoTbJWb5X5dW2ggaV+qrwZclNX
+ GzzqoWqDWPTEDCmhOR1tnzN1F+P4xedKxddUur515R6cx0p0yB//Ei/5J+y5m2/E7gMG8z6eQi8
+ RbHd3BlBFvuD//P4XKcmNcSdl89IoC/jIm6iIDcPylYeZ3kMGtn1yhZFXHKjORyctybpps5SQnF
+ YVBBG6RXyN6QITSwMLcZ1SphBynlB2qbFpYkwzQvs1Q7WiWWsWQ/jAGOuTSK3HG20sGdEGIqdRY
+ Q0hVjSczrNLShY8ZWE/RoBGRbLpie5dcmMR+0zM4XlVfScZW39eoe6VeKmW/25Kqbkg==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792674; bh=2ZdTHQRL24g1kd9SoN+wtFL
- oGYseQSnlsFXwk0HFrSM=; b=aTNVw38g2hxdO0mcRaxZ2UwII0oy41KUw0FyiEK3qbjqq5S2of
- pX5tgX6JTdP5LIL/slyBXwJ/eQS2bx9LGcDA==;
+ h=To:Message-Id:Subject:Date:From; t=1767792675; bh=kGflik9VbPGwdJ/anHWMppL
+ 4CuNJ02DVZyvvduz9raU=; b=J6Xbyrte5dq4Yboivczh9IX4sCCg2hOsPM72kDNfRO93ODM7M8
+ ByUTKfi+/dusTKp9jPFgfHIMbXM5YBin7FBA==;
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
  <barnabas.czeman@mainlining.org>
-Date: Wed, 07 Jan 2026 14:31:06 +0100
-Subject: [PATCH 2/5] backlight: qcom-wled: Support ovp values for PMI8950
+Date: Wed, 07 Jan 2026 14:31:07 +0100
+Subject: [PATCH 3/5] arm64: dts: qcom: msm8953-xiaomi-vince: correct wled
+ ovp value
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260107-pmi8950-wled-v1-2-5e52f5caa39c@mainlining.org>
+Message-Id: <20260107-pmi8950-wled-v1-3-5e52f5caa39c@mainlining.org>
 References: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
 In-Reply-To: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
@@ -53,11 +54,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
  linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792671; l=2256;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792671; l=837;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=Xd0MjFaAJ8G5rg+7lKnUxtQsSoNgu2jY53dTStONPB0=;
- b=nEYwFjK6mLK1ued0BzaeubKOmoxZ4Rsuvgk9e3dV65YOAD70XJLMeA1wuqNBq9NE8XUTmPb3g
- czSAL4MMGekAhAaGGB3lRpylRiNzP1ajmeUggpM68I3zugxKVWMdf/L
+ bh=v8jKh7deIkBU5FebVf2aUVsP6DwuLjcMLNaTTYNAGn4=;
+ b=/gRLfpy6zIiw7KrLHNhj3HdiFJZsP46dgA/TKGecN5/54ztl/FcGCzJ1UNNgHkspw0KQ9AwS5
+ +eW+Ow+vfHiClEvIQt1q8NlLMI5eJ3mHwZyRiQyT6283TC08zpBstLL
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,80 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WLED4 found in PMI8950 supports different ovp values.
+Correct wled ovp value from 29600 to 29500.
 
-Fixes: 10258bf4534bf ("backlight: qcom-wled: Add PMI8950 compatible")
+Fixes: aa17e707e04a ("arm64: dts: qcom: msm8953: Add device tree for Xiaomi Redmi 5 Plus")
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- drivers/video/backlight/qcom-wled.c | 41 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index a63bb42c8f8b..91335aeb65a3 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -1244,6 +1244,15 @@ static const struct wled_var_cfg wled4_ovp_cfg = {
- 	.size = ARRAY_SIZE(wled4_ovp_values),
- };
+diff --git a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
+index d46325e79917..c2a290bf493c 100644
+--- a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
++++ b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts
+@@ -169,7 +169,7 @@ &pm8953_resin {
  
-+static const u32 pmi8950_wled4_ovp_values[] = {
-+	31000, 29500, 19400, 17800,
-+};
-+
-+static const struct wled_var_cfg pmi8950_wled4_ovp_cfg = {
-+	.values = pmi8950_wled4_ovp_values,
-+	.size = ARRAY_SIZE(pmi8950_wled4_ovp_values),
-+};
-+
- static inline u32 wled5_ovp_values_fn(u32 idx)
- {
- 	/*
-@@ -1357,6 +1366,29 @@ static int wled_configure(struct wled *wled)
- 		},
- 	};
- 
-+	const struct wled_u32_opts pmi8950_wled4_opts[] = {
-+		{
-+			.name = "qcom,current-boost-limit",
-+			.val_ptr = &cfg->boost_i_limit,
-+			.cfg = &wled4_boost_i_limit_cfg,
-+		},
-+		{
-+			.name = "qcom,current-limit-microamp",
-+			.val_ptr = &cfg->string_i_limit,
-+			.cfg = &wled4_string_i_limit_cfg,
-+		},
-+		{
-+			.name = "qcom,ovp-millivolt",
-+			.val_ptr = &cfg->ovp,
-+			.cfg = &pmi8950_wled4_ovp_cfg,
-+		},
-+		{
-+			.name = "qcom,switching-freq",
-+			.val_ptr = &cfg->switch_freq,
-+			.cfg = &wled3_switch_freq_cfg,
-+		},
-+	};
-+
- 	const struct wled_u32_opts wled5_opts[] = {
- 		{
- 			.name = "qcom,current-boost-limit",
-@@ -1423,8 +1455,13 @@ static int wled_configure(struct wled *wled)
- 		break;
- 
- 	case 4:
--		u32_opts = wled4_opts;
--		size = ARRAY_SIZE(wled4_opts);
-+		if (of_device_is_compatible(dev->of_node, "qcom,pmi8950-wled")) {
-+			u32_opts = pmi8950_wled4_opts;
-+			size = ARRAY_SIZE(pmi8950_wled4_opts);
-+		} else {
-+			u32_opts = wled4_opts;
-+			size = ARRAY_SIZE(wled4_opts);
-+		}
- 		*cfg = wled4_config_defaults;
- 		wled->wled_set_brightness = wled4_set_brightness;
- 		wled->wled_sync_toggle = wled3_sync_toggle;
+ &pmi8950_wled {
+ 	qcom,current-limit-microamp = <20000>;
+-	qcom,ovp-millivolt = <29600>;
++	qcom,ovp-millivolt = <29500>;
+ 	qcom,num-strings = <2>;
+ 	qcom,external-pfet;
+ 	qcom,cabc;
 
 -- 
 2.52.0
