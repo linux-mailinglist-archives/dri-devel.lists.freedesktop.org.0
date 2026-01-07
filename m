@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED966CFED75
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 17:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D097CFED89
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 17:23:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC4210E63C;
-	Wed,  7 Jan 2026 16:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B24BF10E635;
+	Wed,  7 Jan 2026 16:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0PBXQU1I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MyjTRq2s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A1410E63C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 16:22:51 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id A7BE51A26E6;
- Wed,  7 Jan 2026 16:22:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 7C448606F8;
- Wed,  7 Jan 2026 16:22:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id CA559103C821A; Wed,  7 Jan 2026 17:22:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767802968; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=SA0cq6vwDyGvyP6SIBlq9HJkNg1w6ZLReUneEYt+F+A=;
- b=0PBXQU1IufSv9OAninwcHSoJr31ZcYtsGaC0anMJOqmxGaJiXaUsN7KM3zbRJlmgQ/00cN
- 2rozTMU32C/x2p83caDuDJtst5RQQL6r9XKMCkeYActN2bR5+sagZOR/Cw3VkgZ/26Pk2u
- 2iZKtRENzWlZf4JWjtnx7FvPTQrBEVuRRoPYW/CGOYHIezJxXcgz4KneTFZNAVpIP0pjDJ
- +24Mk1qaBmnA/usF75Sj7y2oXum8CDyme0KNsBfl5B1AvnjQW9RN/LSYJiJVzIl59oTWNN
- 6V2A+y8X+LGvZNLzzscItdC2jdgJuwEGmWOPpp6IFlC3nl7ett+ZgnqJ1LrnCA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 07 Jan 2026 17:22:04 +0100
-Subject: [PATCH 6/6] drm: rcar-du: lvds: convert to
- of_drm_find_and_get_bridge()
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3977110E635
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 16:23:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8532660018;
+ Wed,  7 Jan 2026 16:23:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53594C4AF09;
+ Wed,  7 Jan 2026 16:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767803011;
+ bh=k7AXjdlvSSY2GXbhosvmb93DQkkMFyru+9t+qiFbWVE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MyjTRq2sBL1oUubK+Eyi5zfLNNdQ6YouKwzG0StBJpxHnoWzrwks9XaCP52P28Sep
+ arLjT4uhUy2Eq7HhG1VED8zIdwrLRJSTl9ANMNkr3+/LJVP47UKsBlLptxXNL+PF4B
+ FpmE4lrEgzyiySaDu3CAjYq18NCLgp31epfwt1fB3y4u/JbaZnIqO3oMflmRIzhzgD
+ zib4wjuDZjU+qZ0zRU6cAXspS6EAA/0BzIqcCAwrmolQwWji1lUiQc4/FHvvnI1Awf
+ J75lbARQteJ7YEr6wOFX5VvdRhmlsUMVmx24J3RkubV/Oceca4VNF5KUS3hacONeWZ
+ MeAT0PV4ATYTQ==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Stefan Christ <contact@stefanchrist.eu>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10.y] drm/gma500: Remove unused helper
+ psb_fbdev_fb_setcolreg()
+Date: Wed,  7 Jan 2026 11:23:28 -0500
+Message-ID: <20260107162328.4079503-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2026010536-thwarting-rare-1984@gregkh>
+References: <2026010536-thwarting-rare-1984@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-6-ef48a517828e@bootlin.com>
-References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
-In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,55 +61,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done.
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-Since the companion bridge pointer is used by .atomic_enable, putting its
-reference in the remove function would be dangerous. Use .destroy to put it
-on final deallocation.
+[ Upstream commit be729f9de6c64240645dc80a24162ac4d3fe00a8 ]
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Remove psb_fbdev_fb_setcolreg(), which hasn't been called in almost
+a decade.
+
+Gma500 commit 4d8d096e9ae8 ("gma500: introduce the framebuffer support
+code") added the helper psb_fbdev_fb_setcolreg() for setting the fbdev
+palette via fbdev's fb_setcolreg callback. Later
+commit 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for
+fb_ops") set several default helpers for fbdev emulation, including
+fb_setcmap.
+
+The fbdev subsystem always prefers fb_setcmap over fb_setcolreg. [1]
+Hence, the gma500 code is no longer in use and gma500 has been using
+drm_fb_helper_setcmap() for several years without issues.
+
+Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Stefan Christ <contact@stefanchrist.eu>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v4.10+
+Link: https://elixir.bootlin.com/linux/v6.16.9/source/drivers/video/fbdev/core/fbcmap.c#L246 # [1]
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://lore.kernel.org/r/20250929082338.18845-1-tzimmermann@suse.de
+[ adapted file path from fbdev.c to framebuffer.c and removed fb_setcolreg from three fb_ops structures ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/framebuffer.c | 44 ----------------------------
+ 1 file changed, 44 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 001b3543924a..227818e37390 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -633,6 +633,13 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
- 	return true;
- }
+diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+index 6ef4ea07d1bb..c8db96b41dfa 100644
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -34,47 +34,6 @@ static const struct drm_framebuffer_funcs psb_fb_funcs = {
+ 	.create_handle = drm_gem_fb_create_handle,
+ };
  
-+static void rcar_lvds_destroy(struct drm_bridge *bridge)
-+{
-+	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-+
-+	drm_bridge_put(lvds->companion);
-+}
-+
- static int rcar_lvds_attach(struct drm_bridge *bridge,
- 			    struct drm_encoder *encoder,
- 			    enum drm_bridge_attach_flags flags)
-@@ -648,6 +655,7 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
- 	.attach = rcar_lvds_attach,
-+	.destroy = rcar_lvds_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-@@ -740,7 +748,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 		goto done;
- 	}
- 
--	lvds->companion = of_drm_find_bridge(companion);
-+	lvds->companion = of_drm_find_and_get_bridge(companion);
- 	if (!lvds->companion) {
- 		ret = -EPROBE_DEFER;
- 		goto done;
-
+-#define CMAP_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
+-
+-static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
+-			   unsigned blue, unsigned transp,
+-			   struct fb_info *info)
+-{
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct drm_framebuffer *fb = fb_helper->fb;
+-	uint32_t v;
+-
+-	if (!fb)
+-		return -ENOMEM;
+-
+-	if (regno > 255)
+-		return 1;
+-
+-	red = CMAP_TOHW(red, info->var.red.length);
+-	blue = CMAP_TOHW(blue, info->var.blue.length);
+-	green = CMAP_TOHW(green, info->var.green.length);
+-	transp = CMAP_TOHW(transp, info->var.transp.length);
+-
+-	v = (red << info->var.red.offset) |
+-	    (green << info->var.green.offset) |
+-	    (blue << info->var.blue.offset) |
+-	    (transp << info->var.transp.offset);
+-
+-	if (regno < 16) {
+-		switch (fb->format->cpp[0] * 8) {
+-		case 16:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		case 24:
+-		case 32:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static int psbfb_pan(struct fb_var_screeninfo *var, struct fb_info *info)
+ {
+ 	struct drm_fb_helper *fb_helper = info->par;
+@@ -167,7 +126,6 @@ static int psbfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ static const struct fb_ops psbfb_ops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_setcolreg = psbfb_setcolreg,
+ 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+ 	.fb_copyarea = psbfb_copyarea,
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+@@ -178,7 +136,6 @@ static const struct fb_ops psbfb_ops = {
+ static const struct fb_ops psbfb_roll_ops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_setcolreg = psbfb_setcolreg,
+ 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+ 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+@@ -189,7 +146,6 @@ static const struct fb_ops psbfb_roll_ops = {
+ static const struct fb_ops psbfb_unaccel_ops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_setcolreg = psbfb_setcolreg,
+ 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+ 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
 -- 
-2.52.0
+2.51.0
 
