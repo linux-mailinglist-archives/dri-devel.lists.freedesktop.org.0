@@ -2,58 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535CCCFD310
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 11:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C70CFD355
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 11:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A71910E081;
-	Wed,  7 Jan 2026 10:33:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="imIvlDwK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C72210E0D7;
+	Wed,  7 Jan 2026 10:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F83310E081
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 10:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767782008; x=1799318008;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=TCHGFA8MoUrLLhpWgfEV6aMmaW6ZLngK8om1sQmX8D0=;
- b=imIvlDwKjgjeGRWCt8guvCFUCNNjcWXKuobz26+SzoDZq6mmbH9OBb4J
- ckaAyqoM9en2TCgEwwidAWkNxS02hFE+iYEgOlbzDsRByJEufaZlnZhDh
- AVb2q2rf3UJjrZcBme9cIwXZviIzfeUH6Be7EnUiFWinOQOPjpSuZoTrd
- W97o74Fiq6re63/jyiH1epYx8pgHDzeLWTEv3wJqHPTFze1LHyzmwT4+2
- QN0N4ZWxcD7mFfOA2ehzGN1Fl9J7JNe200KGeRCEz1eVdU2oqh7nsTzAq
- 06QK//YU1lV/N/ctdrEDQYMC/A+W2xFjFT9PtwNHcZvgQ5a5MLqfEQqha w==;
-X-CSE-ConnectionGUID: O8iMXyFnQWiTBRlxFwz6Fw==
-X-CSE-MsgGUID: H0r63D3qTlGaVUUJSTWGNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69062353"
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; d="scan'208";a="69062353"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 02:33:27 -0800
-X-CSE-ConnectionGUID: WS7ExccSQau7qrCMAJ8T2Q==
-X-CSE-MsgGUID: wWheNjtfQNe5ttr0GfESZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; d="scan'208";a="202025752"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.60])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 02:33:26 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Satadru Pramanik <satadru@gmail.com>, "open list:DRM DRIVERS"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: 6.19.0-rc4 regression from 6.19.0-rc3 in i915: [drm] PCH PWM1
- enabled
-In-Reply-To: <CAFrh3J_OtTdve_ryOXZLfBV9sWDZ--HyTJZi9mSQ6gko98PJrA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <CAFrh3J_OtTdve_ryOXZLfBV9sWDZ--HyTJZi9mSQ6gko98PJrA@mail.gmail.com>
-Date: Wed, 07 Jan 2026 12:33:23 +0200
-Message-ID: <f2dc09294c3af2e9d97e72e10f8f3674368a8b36@intel.com>
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
+ [209.85.222.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E63B10E0D7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 10:37:09 +0000 (UTC)
+Received: by mail-ua1-f65.google.com with SMTP id
+ a1e0cc1a2514c-93f523bba52so516373241.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 02:37:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767782228; x=1768387028;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QvR5DRwy1DSGr/ekGfe0RQqbV4Hkmy/mYDx8B3sEcoo=;
+ b=frRbkmud8fK75fBAcNtJBG/YE/DIHIye6Q6Rkhyhl+9GpMZLmyjSYMWJ3WLThlyN3j
+ pET9KPnefZVTFaTAcUTQJ6rw/hx5ZUiu9g640Lz9lNI5cUvygqpY/sZVAw36idlWiAAh
+ h0wujYF2KNBA6TaYMJszy/EnCA412Jx4VdFZcSAVYkJYXHqjONt6hmLI6m4x+GSNUaVL
+ qgsdn9GzmfOFHrfQtPekFKD4Kifc0FOXvgX4foyyK7JuyGI+2WC0n0wqbBfMnKY+iXBM
+ IepwPaQVdPCGKDAPoFcm+OMb4FAcINIF5cFTkgerDlHQvFRxRw4GEK4zoCWKCbvW1yB7
+ yU4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEZMxNCVKWsLLfelmO5ODmmADj3xri1479suX/nNdAIpKiTC4Cu1de4nTNLxCS/GZrm/eled/XJYg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbP8j61nLfkKSaS6v+O8VJZXggCKbbB60A8ZytGKBOYOzsxl7d
+ 81h1B3WKR95jxHr7j7jxrZkw4tZDSsrF2LJlxUM+zGahf9+PHn+g+CkoWdqbDumU
+X-Gm-Gg: AY/fxX4UR7ZrhSCyytj+5QOgkTJjUjm5RzMoC9gH6/u6afcTcum2r61y0oRUFRz2rxh
+ 9q1/5dmZPh6rOmnm0YFHyXDF20VXi4EDt/3crdtfu0MbORewyhPhDxFs1CIdujEMnKvPSPyR+sM
+ dOruoIU7vD7vSuiNh15gX5qWzSZam9gQ4eydrUzvYfSRfl2BV4uSr+wxrzQsNj9kVw3ELsmyv+o
+ Yhu6ZAeYn7ctffTlRfTsAESyihArB8tZV0i/7unpQbNQyAsxTV1JCKahMaYWQCi/GpO+Ka1JKwh
+ FASldqaPn8hUL0URz6R+rExC4cIqvVZDSORsTcO/tKoTb/kLgm0xAFOvSj5jR6f2UGDZ1ZaSJKZ
+ 0ESLcEIFmwq5nVst/4EBsxGXWmiPyfEgdHxE0T+axPu4sMRCdp7RdxuJTjhhnG7ulN09t9Raio5
+ PvME9+WSn+kZa9LsVjge0BUZccHAD9XvKfgbNuKygir2fAxjn6VpO/2/HbnOimxgo=
+X-Google-Smtp-Source: AGHT+IHtcoDVLmWqopu5WGmfzAnwiH7FyeZosNs4H1kBwzosFiRLA5+WwNWM1bPibPfNijUrUYsZAQ==
+X-Received: by 2002:a05:6102:30b0:b0:5ed:ab0:e5d1 with SMTP id
+ ada2fe7eead31-5ed0ab0f29amr165068137.15.1767782228277; 
+ Wed, 07 Jan 2026 02:37:08 -0800 (PST)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com.
+ [209.85.221.170]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-944124c452asm2266748241.13.2026.01.07.02.37.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jan 2026 02:37:07 -0800 (PST)
+Received: by mail-vk1-f170.google.com with SMTP id
+ 71dfb90a1353d-55b4dafb425so405580e0c.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 02:37:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUK2ETfs2TkishDrMt8ancXhP5VDDb0Wvc2UYc3qBLPnjBK5P4Hwo29iNe7BsKOOvSlsoyRAYFJj9Q=@lists.freedesktop.org
+X-Received: by 2002:ac5:ccaf:0:b0:54a:8deb:21a7 with SMTP id
+ 71dfb90a1353d-56339dbf03dmr1504773e0c.4.1767782226762; Wed, 07 Jan 2026
+ 02:37:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260101-custom-logo-v2-0-8eec06dfbf85@kernel.org>
+ <20260101-custom-logo-v2-6-8eec06dfbf85@kernel.org>
+ <CAMuHMdVy48F5HAfqfJgbY83KDAztb9YWTqm8mT1ntTfj0311oA@mail.gmail.com>
+ <dda4052e-b843-43fa-850c-a1bb20e4a8e3@kernel.org>
+In-Reply-To: <dda4052e-b843-43fa-850c-a1bb20e4a8e3@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 7 Jan 2026 11:36:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXz9uKxQ0dH68a+xt4FHqVgdskvO3QRvev1_Wq8h-a1Qg@mail.gmail.com>
+X-Gm-Features: AQt7F2pWk5T5DK2Ps7GBdxmwjo6y5zM4oGY-k4cbzlgDPgVvKEzWy8YEHXjK3cA
+Message-ID: <CAMuHMdXz9uKxQ0dH68a+xt4FHqVgdskvO3QRvev1_Wq8h-a1Qg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] video/logo: move logo selection logic to Kconfig
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Helge Deller <deller@gmx.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sh@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,132 +93,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Jan 2026, Satadru Pramanik <satadru@gmail.com> wrote:
-> Hello all, I'm newly getting this in my dmesg on my MacBookPro11,3 after
-> updating from 6.19.0-rc3 to 6.19.0-rc4 on Ubuntu 25.10. I'm using the
-> nouveau driver for my display, but this warning appears to be from i915,
-> which my laptop also may be using for some portion of display enablement.
+Hi Vincent,
 
-AFAICS there were no related changes in the drm subsystem between -rc3
-and -rc4. I suspect something else changed. If you think otherwise,
-please bisect.
-
-> [  200.760128] ------------[ cut here ]------------
-> [  200.760132] i915 0000:00:02.0: [drm] PCH PWM1 enabled
-> [  200.760134] WARNING:
-> drivers/gpu/drm/i915/display/intel_display_power.c:1234 at
-> hsw_enable_pc8+0x8a4/0xb10 [i915], CPU#0: kworker/u32:6/1378
-> [  200.760351] Modules linked in: snd_seq_dummy snd_hrtimer
-> scsi_transport_iscsi qrtr ccm algif_aead des3_ede_x86_64 des_generic libdes
-> md4 rfcomm cmac algif_hash algif_skcipher af_alg bnep blocklayoutdriver
-> nfsv4 nfs lockd grace nfs_localio netfs sunrpc binfmt_misc nls_iso8859_1
-> cmdlinepart spi_nor mtd snd_hda_codec_intelhdmi intel_rapl_msr zfs(POE)
-> intel_rapl_common x86_pkg_temp_thermal intel_powerclamp nouveau input_leds
-> i915 spl(OE) snd_hda_codec_cs420x snd_hda_codec_generic
-> snd_hda_codec_nvhdmi snd_hda_codec_hdmi hid_apple drm_ttm_helper coretemp
-> facetimehd(OE) snd_hda_intel gpu_sched btusb videobuf2_dma_sg
-> snd_intel_dspcfg drm_gpuvm videobuf2_memops btrtl snd_intel_sdw_acpi
-> videobuf2_v4l2 snd_seq_midi snd_hda_codec btintel snd_seq_midi_event
-> drm_exec drm_buddy iTCO_wdt videodev kvm_intel btbcm mxm_wmi i2c_algo_bit
-> btmtk snd_hwdep intel_pmc_bxt snd_rawmidi spi_intel_platform wl(POE) joydev
-> hid_generic videobuf2_common kvm spi_intel snd_hda_core iTCO_vendor_support
-> applesmc ghash_clmulni_intel nvme ttm rapl bluetooth
-> [  200.760418]  snd_seq intel_cstate uas usbhid drm_display_helper snd_pcm
-> nvme_core cfg80211 cec efi_pstore rc_core hid mc bcm5974 sbs thunderbolt
-> apple_mfi_fastcharge drm_client_lib i2c_i801 drm_kms_helper i2c_mux
-> usb_storage i2c_smbus lpc_ich sbshc snd_timer apple_gmux snd_seq_device
-> acpi_als industrialio_triggered_buffer mei_me kfifo_buf drm snd
-> industrialio mei soundcore video wmi mac_hid dm_mirror dm_region_hash
-> dm_log tcp_bbr sch_fq_codel pkcs8_key_parser msr parport_pc ppdev lp
-> parport nfnetlink dmi_sysfs autofs4 aesni_intel
-> [  200.760461] CPU: 0 UID: 0 PID: 1378 Comm: kworker/u32:6 Tainted: P     U
->  W  OE       6.19.0-rc4 #1 PREEMPT(lazy)
-> [  200.760466] Tainted: [P]=PROPRIETARY_MODULE, [U]=USER, [W]=WARN,
-> [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
-
-Basically all bets are off with the proprietary modules. Can you
-reproduce without?
-
-> [  200.760468] Hardware name: Apple Inc.
-> MacBookPro11,3/Mac-2BD1B31983FE1663, BIOS 432.60.3.0.0 10/27/2021
-> [  200.760470] Workqueue: pm pm_runtime_work
-> [  200.760478] Sched_ext: lavd_1.0.20_g3c8138b8_x86_64_unknown_linux_gnu
-> (enabled+all), task: runnable_at=+0ms
-> [  200.760480] RIP: 0010:hsw_enable_pc8+0x8aa/0xb10 [i915]
-> [  200.760653] Code: 32 12 00 48 85 ff 74 04 48 8b 7f 08 4c 8b 67 50 4d 85
-> e4 75 03 4c 8b 27 e8 e3 73 a7 e4 48 8d 3d dc 03 30 00 4c 89 e2 48 89 c6
-> <67> 48 0f b9 3a e9 df f9 ff ff 48 8b 3b 80 bb 4b 14 00 00 00 0f 84
-> [  200.760655] RSP: 0018:ffffaf668250fc68 EFLAGS: 00010282
-> [  200.760658] RAX: ffffffffc1d688a4 RBX: ffff920740f62000 RCX:
-> ffffffffc180f0d0
-> [  200.760660] RDX: ffff920742008030 RSI: ffffffffc1d688a4 RDI:
-> ffffffffc1c038d0
-> [  200.760661] RBP: ffffaf668250fc90 R08: 0000000000000002 R09:
-> 0000000000000064
-> [  200.760663] R10: 0000000000000000 R11: 0000000000000001 R12:
-> ffff920742008030
-> [  200.760664] R13: ffff920740ed4000 R14: 0000000000000000 R15:
-> ffff920740ed4000
-> [  200.760666] FS:  0000000000000000(0000) GS:ffff920b06bfd000(0000)
-> knlGS:0000000000000000
-> [  200.760668] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  200.760669] CR2: 00007f72423b701c CR3: 00000001777eb004 CR4:
-> 00000000001726f0
-> [  200.760671] Call Trace:
-> [  200.760673]  <TASK>
-> [  200.760678]  intel_display_power_suspend+0x61/0x80 [i915]
-> [  200.760852]  intel_runtime_suspend+0xd7/0x230 [i915]
-> [  200.760963]  ? __pfx_pci_pm_runtime_suspend+0x10/0x10
-> [  200.760970]  pci_pm_runtime_suspend+0x6a/0x1a0
-> [  200.760974]  __rpm_callback+0x4b/0x1f0
-> [  200.760979]  ? __pfx_pci_pm_runtime_suspend+0x10/0x10
-> [  200.760983]  rpm_callback+0x6f/0x80
-> [  200.760986]  rpm_suspend+0xe1/0x5e0
-> [  200.760990]  ? __schedule+0x44b/0x1650
-> [  200.760996]  pm_runtime_work+0x91/0xa0
-> [  200.761000]  process_one_work+0x188/0x360
-> [  200.761005]  worker_thread+0x327/0x460
-> [  200.761007]  ? __pfx_worker_thread+0x10/0x10
-> [  200.761010]  kthread+0x10b/0x220
-> [  200.761015]  ? __pfx_kthread+0x10/0x10
-> [  200.761018]  ret_from_fork+0x16e/0x1e0
-> [  200.761023]  ? __pfx_kthread+0x10/0x10
-> [  200.761027]  ret_from_fork_asm+0x1a/0x30
-> [  200.761034]  </TASK>
-> [  200.761035] ---[ end trace 0000000000000000 ]---
+On Tue, 6 Jan 2026 at 21:10, Vincent Mailhol <mailhol@kernel.org> wrote:
+> On 06/01/2026 at 12:48, Geert Uytterhoeven wrote:
+> > Thanks for your patch, which is now commit bd710b3da7308cb1
+> > ("video/logo: move logo selection logic to Kconfig") in fbdev/for-next.
+> >
+> > On Thu, 1 Jan 2026 at 16:26, Vincent Mailhol <mailhol@kernel.org> wrote:
+> >> Now that the path to the logo file can be directly entered in Kbuild,
+> >> there is no more need to handle all the logo file selection in the
+> >> Makefile and the C files.
+> >
+> > This may do the wrong thing when booting a multi-platform kernel.
+> >
+> >>
+> >> The only exception is the logo_spe_clut224 which is only used by the
+> >> Cell processor (found for example in the Playstation 3) [1]. This
+> >> extra logo uses its own different image which shows up on a separate
+> >> line just below the normal logo. Because the extra logo uses a
+> >> different image, it can not be factorized under the custom logo logic.
+> >>
+> >> Move all the logo file selection logic to Kbuild (except from the
+> >> logo_spe_clut224.ppm), this done, clean-up the C code to only leave
+> >> one entry for each logo type (monochrome, 16-colors and 224-colors).
+> >>
+> >> [1] Cell SPE logos
+> >> Link: https://lore.kernel.org/all/20070710122702.765654000@pademelon.sonytel.be/
+> >>
+> >> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+> >
+> >> --- a/drivers/video/logo/Kconfig
+> >> +++ b/drivers/video/logo/Kconfig
+> >
+> >> @@ -61,6 +63,12 @@ config LOGO_LINUX_CLUT224
+> >>  config LOGO_LINUX_CLUT224_FILE
+> >>         string "224-color logo .ppm file"
+> >>         depends on LOGO_LINUX_CLUT224
+> >> +       default "drivers/video/logo/logo_dec_clut224.ppm" if MACH_DECSTATION || ALPHA
+> >> +       default "drivers/video/logo/logo_mac_clut224.ppm" if MAC
+> >
+> > E.g. an m68k multi-platform kernel including Mac support will scare
+> > non-Mac users into thinking their machine was assimilated by the
+> > Apple Empire...
+> >
+> >> +       default "drivers/video/logo/logo_parisc_clut224.ppm" if PARISC
+> >> +       default "drivers/video/logo/logo_sgi_clut224.ppm" if SGI_IP22 || SGI_IP27 || SGI_IP32
+> >> +       default "drivers/video/logo/logo_sun_clut224.ppm" if SPARC
+> >> +       default "drivers/video/logo/logo_superh_clut224.ppm" if SUPERH
+> >>         default "drivers/video/logo/logo_linux_clut224.ppm"
+> >>         help
+> >>           Takes a path to a 224-color logo in the portable pixmap file
+> >
+> >> --- a/drivers/video/logo/logo.c
+> >> +++ b/drivers/video/logo/logo.c
+> >> @@ -48,59 +48,21 @@ const struct linux_logo * __ref fb_find_logo(int depth)
+> >>         if (nologo || logos_freed)
+> >>                 return NULL;
+> >>
+> >> -       if (depth >= 1) {
+> >>  #ifdef CONFIG_LOGO_LINUX_MONO
+> >> -               /* Generic Linux logo */
+> >> +       if (depth >= 1)
+> >>                 logo = &logo_linux_mono;
+> >>  #endif
+> >> -#ifdef CONFIG_LOGO_SUPERH_MONO
+> >> -               /* SuperH Linux logo */
+> >> -               logo = &logo_superh_mono;
+> >> -#endif
+> >> -       }
+> >>
+> >> -       if (depth >= 4) {
+> >>  #ifdef CONFIG_LOGO_LINUX_VGA16
+> >> -               /* Generic Linux logo */
+> >> +       if (depth >= 4)
+> >>                 logo = &logo_linux_vga16;
+> >>  #endif
+> >> -#ifdef CONFIG_LOGO_SUPERH_VGA16
+> >> -               /* SuperH Linux logo */
+> >> -               logo = &logo_superh_vga16;
+> >> -#endif
+> >> -       }
+> >>
+> >> -       if (depth >= 8) {
+> >>  #ifdef CONFIG_LOGO_LINUX_CLUT224
+> >> -               /* Generic Linux logo */
+> >> +       if (depth >= 8)
+> >>                 logo = &logo_linux_clut224;
+> >>  #endif
+> >> -#ifdef CONFIG_LOGO_DEC_CLUT224
+> >> -               /* DEC Linux logo on MIPS/MIPS64 or ALPHA */
+> >> -               logo = &logo_dec_clut224;
+> >> -#endif
+> >> -#ifdef CONFIG_LOGO_MAC_CLUT224
+> >> -               /* Macintosh Linux logo on m68k */
+> >> -               if (MACH_IS_MAC)
+> >
+> > MACH_IS_MAC can be a runtime check.
 >
+> OK. I missed this.
 >
-> inxi -IG gives me this:
-> Graphics:
->   Device-1: Intel Crystal Well Integrated Graphics driver: i915 v: kernel
->   Device-2: NVIDIA GK107M [GeForce GT 750M Mac Edition] driver: nouveau
->     v: kernel
->   Display: wayland server: X.Org v: 24.1.8 with: Xwayland v: 24.1.8
->     compositor: gnome-shell v: 49.0 driver: X: loaded: modesetting
->     unloaded: fbdev,vesa dri: nouveau gpu: nouveau resolution:
-> 3840x2400~60Hz
->   API: EGL v: 1.5 drivers: crocus,nouveau,swrast
->     platforms: gbm,wayland,x11,surfaceless,device
->   API: OpenGL v: 4.6 compat-v: 4.3 vendor: mesa
->     v: 25.3.2+git2512181741.a943c55aea0~q~mesarc2 renderer: NVE7
->   API: Vulkan v: 1.4.321 drivers: nvk,intel,llvmpipe
->     surfaces: xcb,xlib,wayland
->   Info: Tools: api: eglinfo, glxinfo, vulkaninfo x11: xdriinfo, xdpyinfo,
->     xprop, xrandr
-> Info:
->   Memory: total: 16 GiB available: 15.53 GiB used: 4.85 GiB (31.2%)
->   Processes: 468 Uptime: 17m Shell: Bash inxi: 3.3.39
+> I think there are two options to fix this:
 >
-> Please let me know if I'm sending this to the wrong list?
+>   1. Keep CONFIG_LOGO_MAC_CLUT224 untouched
+>   2. Remove logo_mac_clut224.ppm
+>
+> The first option is less controversial but I would like to ask you what
+> you think about removing the logo_mac_clut224 file.
+>
+> Here, we are speaking of the Macintosh 68k which ended sales in 1995,
+> right? So the user base should be rather small, I guess.
 
-In general, please report i915 issues as described at [1].
+Yes, the user base is small.
 
-BR,
-Jani.
+BTW, the only reason you don't have this issue with MACH_DECSTATION and
+the various SGI_IP* options is that MIPS does not support multi-platform
+kernels.
 
+> And people who still want the custom MAC logo would still be able to add
+>
+>   CONFIG_LOGO_MAC_CLUT224="path/to/logo_mac_clut224.ppm"
 
-[1] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
+LOGO_LINUX_CLUT224_FILE ;-)
 
+> to their config to restore the old behaviour anyway.
+>
+> My choice would go more toward the removal option but what do you think?
+
+I am not too attached to keeping the dynamic behavior for the Mac logo,
+I just wanted to point out the impact.
+I expect most people who care about logos (in products) just have their
+own custom out-of-tree code.  As fb_find_logo() and the underlying
+infrastructure still exists, I don't expect them to have too much
+trouble forward porting that to newer kernels.
+
+What do other people think?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Jani Nikula, Intel
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
