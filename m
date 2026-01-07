@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CE4CFE09B
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8AFCFDF5C
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 14:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB5510E5DD;
-	Wed,  7 Jan 2026 13:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916AC10E5D0;
+	Wed,  7 Jan 2026 13:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="JRTKso5f";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="G/HQ3X/6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZsLZbs7o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3DD010E5DD
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
- c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792678; bh=3NZWoK7S/66Hxn8K/F6rDHS
- vz8ET7EHlWshH6nhF06A=; b=JRTKso5fE4+qWOr7ufZyGosB87rlL8q8l6OzkA9OSDl9GkZ8sB
- MacNm/sZbQ4ticwiI2GCn2u+cmKp3Rtgpas7WDzvwFfhagsYSQ2oXlEZ9tnM/4FcBuUQHNpIQeZ
- 3icmQEDu8utd/24U+EN2VAmT3T0JT0YF66IIq4flSrDYDG9n3gZDAi2Xw2WN6HuqzE2hKJv0t+S
- u2vq9v/pcnxGDkFD4UOb3dkVbfgv0h81Nm0wKtbkFBpmYnFjHFfBZxNzyQ6+AA9Sa4wzqFY5ku9
- qb8T4KMdlI5e4oIlQw36Gla3zxjy3YYQhWaZMUZHTrbqHC07Ws4M4ua0MO027GlSy6Q==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
- c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1767792678; bh=3NZWoK7S/66Hxn8K/F6rDHS
- vz8ET7EHlWshH6nhF06A=; b=G/HQ3X/6ol+IPEhJiGrI4+65x+20VBeYW32xHq0hgIsjn+sXc0
- 8iafuLoEqxPqA43OhcZAy74uPCCsFHhcnsDQ==;
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
- <barnabas.czeman@mainlining.org>
-Date: Wed, 07 Jan 2026 14:31:09 +0100
-Subject: [PATCH 5/5] arm64: dts: qcom: msm8953-xiaomi-daisy: fix backlight
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260107-pmi8950-wled-v1-5-5e52f5caa39c@mainlining.org>
-References: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
-In-Reply-To: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
- Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
- Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
- Alejandro Tafalla <atafalla@dnyon.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792671; l=801;
- i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=ru5PPFVgK9SKpbwP4epYMO1PvHxYRXXIDwD6I01+7M4=;
- b=Shp3cRJqe3u+C7unSmCbEj8vWCSm+WnrIpHcvjXWFfsNvB30no+mSCenDvBtHWh+0iMNDCn2A
- E7Ww946EZvpBskW3F/I2gGElqa0M2VCeNMlzIG2b1zuRXDS9rDwF2kN
-X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
- pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1CB910E5D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 13:33:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7FA8D41765;
+ Wed,  7 Jan 2026 13:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D683CC4CEF7;
+ Wed,  7 Jan 2026 13:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767792832;
+ bh=eRal9aRJEBMws0AwIbeE+xWsj4dyQhrtTO2oF039rMA=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=ZsLZbs7o8rWvOy1KXRQEHXUY+OZNgKMmY0wLvJ8iieksy79lUKP2qpEbtYYjj18AN
+ E7Xd9oiOs9XbNxr+4a9Ia06cop1T+OsmXvlKomwA1JcpOKqFyXILxvBcNGcMq38DZp
+ HKbwnC7jmd/ik1tz4BPGB9OR3OcTMLK9ETrR22i4v2rVF8AKst/eJmHg3pizbZ0FCZ
+ ciyGXWN51TABOpmO5w4SPjJ/n0kYXGAld0XeeODer6T7xx+Q6wEGXzip1eGcNwjLeM
+ P+aBsWtH1MwJXQHaAnU27itZ5joYHKy6ZNad+h2Z7Sx4DhaMZt9mwn9z9kKmC5JLUb
+ KNZlEazVnbbrQ==
+Message-ID: <7e796e122dcbce9a8d7678db9bbfc89d@kernel.org>
+Date: Wed, 07 Jan 2026 13:33:49 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 01/12] drm: of: drm_of_panel_bridge_remove(): fix
+ device_node leak
+In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-1-283d7bba061a@bootlin.com>
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-1-283d7bba061a@bootlin.com>
+Cc: benjamin.gaignard@linaro.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, "Adrien
+ Grassein" <adrien.grassein@gmail.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "David
+ Airlie" <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>,
+ "Hui Pu" <Hui.Pu@gehealthcare.com>, "Inki
+ Dae" <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu Ying" <victor.liu@nxp.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Philippe Cornu" <philippe.cornu@st.com>,
+ "Robert
+ Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
+ Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,27 +75,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set qcom,num-strings to 3 instead of 2 for avoid stripes.
+On Wed, 7 Jan 2026 14:12:52 +0100, Luca Ceresoli wrote:
+> drm_of_panel_bridge_remove() uses of_graph_get_remote_node() to get a
+> device_node but does not put the node reference.
+>=20
+> Fixes: c70087e8f16f ("drm/drm_of: add drm_of_panel_bridge_remove function=
+")
+> Cc: stable@vger.kernel.org # v4.15
+>=20
+> [ ... ]
 
-Fixes: 38d779c26395 ("arm64: dts: qcom: msm8953: Add device tree for Xiaomi Mi A2 Lite")
-Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
----
- arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-index ddd7af616794..59f873a06e4d 100644
---- a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-@@ -157,7 +157,7 @@ &pm8953_resin {
- 
- &pmi8950_wled {
- 	qcom,current-limit-microamp = <20000>;
--	qcom,num-strings = <2>;
-+	qcom,num-strings = <3>;
- 
- 	status = "okay";
- };
-
--- 
-2.52.0
+Thanks!
+Maxime
