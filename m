@@ -2,89 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36482CFC5FD
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 08:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C46CFC708
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 08:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C79110E0C3;
-	Wed,  7 Jan 2026 07:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 890F010E0D2;
+	Wed,  7 Jan 2026 07:46:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="e6GmTwmE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="45Niwm1d";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e6GmTwmE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="45Niwm1d";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iueJ/Nd6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M8Y7xvAe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iueJ/Nd6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M8Y7xvAe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BD810E0C3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 07:33:55 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EB910E0D2
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 07:46:47 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 75F4633AE6;
- Wed,  7 Jan 2026 07:33:54 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 578BF5BCD9;
+ Wed,  7 Jan 2026 07:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767771234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767772005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YTfH57cFLVxaRsvunRKLGg50I7siMF4FalkJ59/VEeY=;
- b=e6GmTwmEJGtXp95yn0E/gbgQlCdGoJ33og40KFGach7gphT8TA8tADAoL2glnD10b4x/n1
- HDROsoEvys+DHbLoxx2WUGSTxo1n9LJY3hrodG+GJmHGs85qpn6vndhaWUg1RiLETjkKeO
- ct3v78I15LX/Su1rRVYSifm61dDs8xE=
+ bh=N5+m3PUvDq1vrSCKYqFRL5OSEOuJdWqtxNxJ+r648F0=;
+ b=iueJ/Nd649+q8gDuqVTinERI8Ud3ZRWMSdduU6mTR2J6Jg3pVCw76Agf0QM24UlOYD25LC
+ srgn1lMMyd1/qrmJV85Iyk+zzYvIieCKfFhBygmxaLlLeoakFQjZBtzAGYPn9geabQ1YPk
+ 5wfo8dYfGAUB/KzA5xFnjuF93M10K4E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767771234;
+ s=susede2_ed25519; t=1767772005;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YTfH57cFLVxaRsvunRKLGg50I7siMF4FalkJ59/VEeY=;
- b=45Niwm1dcb1g9fb3xAo895dpHDawhlrj+DGe3fDBUn7sY1VcAuOyA9U+uQ2mQTdqZ73PEJ
- yJNmIy+6QTe9INAQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=e6GmTwmE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=45Niwm1d
+ bh=N5+m3PUvDq1vrSCKYqFRL5OSEOuJdWqtxNxJ+r648F0=;
+ b=M8Y7xvAevHHPKMhehVr2BAjJdj2lensZkolalkgwl4BJXryqlStNDDuYnit56LJ3NYvtSt
+ bnP68at65iW901Bw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="iueJ/Nd6";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=M8Y7xvAe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767771234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767772005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YTfH57cFLVxaRsvunRKLGg50I7siMF4FalkJ59/VEeY=;
- b=e6GmTwmEJGtXp95yn0E/gbgQlCdGoJ33og40KFGach7gphT8TA8tADAoL2glnD10b4x/n1
- HDROsoEvys+DHbLoxx2WUGSTxo1n9LJY3hrodG+GJmHGs85qpn6vndhaWUg1RiLETjkKeO
- ct3v78I15LX/Su1rRVYSifm61dDs8xE=
+ bh=N5+m3PUvDq1vrSCKYqFRL5OSEOuJdWqtxNxJ+r648F0=;
+ b=iueJ/Nd649+q8gDuqVTinERI8Ud3ZRWMSdduU6mTR2J6Jg3pVCw76Agf0QM24UlOYD25LC
+ srgn1lMMyd1/qrmJV85Iyk+zzYvIieCKfFhBygmxaLlLeoakFQjZBtzAGYPn9geabQ1YPk
+ 5wfo8dYfGAUB/KzA5xFnjuF93M10K4E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767771234;
+ s=susede2_ed25519; t=1767772005;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YTfH57cFLVxaRsvunRKLGg50I7siMF4FalkJ59/VEeY=;
- b=45Niwm1dcb1g9fb3xAo895dpHDawhlrj+DGe3fDBUn7sY1VcAuOyA9U+uQ2mQTdqZ73PEJ
- yJNmIy+6QTe9INAQ==
+ bh=N5+m3PUvDq1vrSCKYqFRL5OSEOuJdWqtxNxJ+r648F0=;
+ b=M8Y7xvAevHHPKMhehVr2BAjJdj2lensZkolalkgwl4BJXryqlStNDDuYnit56LJ3NYvtSt
+ bnP68at65iW901Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33FFF3EA63;
- Wed,  7 Jan 2026 07:33:54 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B77A3EA63;
+ Wed,  7 Jan 2026 07:46:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id vew/C2IMXmnvKwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Jan 2026 07:33:54 +0000
-Message-ID: <6382adc5-c27f-487a-80d2-32e6cf5eae18@suse.de>
-Date: Wed, 7 Jan 2026 08:33:53 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ofE4BWUPXmm3NwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Jan 2026 07:46:45 +0000
+Message-ID: <c6324a66-5886-4fbb-ba7b-fc7782c0f790@suse.de>
+Date: Wed, 7 Jan 2026 08:46:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency
- optional
-To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
-References: <20260107044258.528624-1-chintanlike@gmail.com>
- <20260107044258.528624-5-chintanlike@gmail.com>
+Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
+ disconnect
+To: Ruben Wauters <rubenru09@aol.com>, Shenghao Yang <me@shenghaoyang.info>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251231055039.44266-1-me@shenghaoyang.info>
+ <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
+ <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
+ <571d40f4d3150e61dfb5d2beccdf5c40f3b5be2c.camel@aol.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -111,27 +115,27 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260107044258.528624-5-chintanlike@gmail.com>
+In-Reply-To: <571d40f4d3150e61dfb5d2beccdf5c40f3b5be2c.camel@aol.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
 X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 75F4633AE6
+X-Rspamd-Queue-Id: 578BF5BCD9
 X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
+ MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[aol.com,shenghaoyang.info,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
  MID_RHS_MATCH_FROM(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org];
- RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
@@ -152,48 +156,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ruben
 
-
-Am 07.01.26 um 05:42 schrieb Chintan Patel:
-> The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but the
-> core driver does not require CONFIG_FB_DEVICE.
+Am 03.01.26 um 20:18 schrieb Ruben Wauters:
+> Hi
 >
-> Make overlay sysfs optional so that the driver can build and operate
-> even when FB_DEVICE is disabled. The kernel naturally ignores the
-> missing attribute group, preserving buildability and type safety.
->
-> Suggested-by: Helge Deller <deller@gmx.de>
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+> On Sun, 2026-01-04 at 01:47 +0800, Shenghao Yang wrote:
+>> Hi Ruben,
+>>
+>> On 4/1/26 01:23, Ruben Wauters wrote:
+>>
+>>> With the elimination of these two WARN_ON_ONCEs, it's possible that
+>>> crtc_state may not be assigned below, and therefore may be read/passed
+>>> to functions when it is NULL (e.g. line 488). Either protection for a
+>>> null crtc_state should be added to the rest of the function, or the
+>>> function shouldn't continue if crtc is NULL.
+>>>
+>>> Ruben
+>>>> -	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>>>> -
+>>>> -	mode = &crtc_state->mode;
+>>>> +	if (crtc)
+>>>> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>>>>   
+>>>>   	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+>>>>   						  DRM_PLANE_NO_SCALING,
+>>>> @@ -492,6 +485,9 @@ int gud_plane_atomic_check(struct drm_plane *plane,
+>>>>   	if (old_plane_state->rotation != new_plane_state->rotation)
+>>>>   		crtc_state->mode_changed = true;
+>>>>   
+>>>> +	mode = &crtc_state->mode;
+>>>> +	format = fb->format;
+>> Yup - in this case I'm relying on drm_atomic_helper_check_plane_state()
+>> bailing out early after seeing that fb is NULL (since a NULL crtc should
+>> imply no fb) and setting plane_state->visible to false.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+This is correct behavior.
 
-> ---
->   drivers/video/fbdev/sh_mobile_lcdcfb.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> That would cause an early return in gud_plane_atomic_check() without
+>> dereferencing crtc_state.
+> This does work, however this ends up returning 0, which implies that
+> the atomic check succeded. In my opinion in this case, -EINVAL should
+> be returned, as both the crtc and fb don't exist, therefore the check
+> should not succeed. I would personally prefer a more explicit check
+> that does return -EINVAL instead of 0 from
+> drm_atomic_helper_check_planes()
+
+If the plane has been disbabled, fb and crtc are NULL. So this is 
+correct. drm_atomic_helper_check_plane_state() is the place to do this 
+testing before doing much else in the atomic_check handler. If 
+drm_atomic_helper_check_plane_state() gives an error, the error should 
+be returns. But if it returns 0 and sets ->visible to false, the 
+atomic_check should return 0.  That means that the plane can 
+successfully be disabled.
+
 >
-> diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> index dd950e4ab5ce..5f3a0cd27db3 100644
-> --- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> +++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> @@ -1343,14 +1343,17 @@ static DEVICE_ATTR_RW(overlay_mode);
->   static DEVICE_ATTR_RW(overlay_position);
->   static DEVICE_ATTR_RW(overlay_rop3);
->   
-> -static struct attribute *overlay_sysfs_attrs[] = {
-> +static struct attribute *overlay_sysfs_attrs[] __maybe_unused = {
->   	&dev_attr_overlay_alpha.attr,
->   	&dev_attr_overlay_mode.attr,
->   	&dev_attr_overlay_position.attr,
->   	&dev_attr_overlay_rop3.attr,
->   	NULL,
->   };
-> +
-> +#ifdef CONFIG_FB_DEVICE
->   ATTRIBUTE_GROUPS(overlay_sysfs);
-> +#endif
->   
->   static const struct fb_fix_screeninfo sh_mobile_lcdc_overlay_fix  = {
->   	.id =		"SH Mobile LCDC",
+> As a side note, I'm not sure if there's a reasoning as to why
+> drm_atomic_helper_check_planes() returns 0 if fb is NULL instead of
+> -EINVAL, I'm assuming it's not designed to come across this specific
+> case. Either way it's not too much of an issue but maybe one of the drm
+> maintainers can clarify why it's this way.
+
+Disabling a plane is not an error, but a common operation.
+
+I think the patch is fine and IIRC we have similar logic in other drivers.
+
+Best regards
+Thomas
+
+>
+> Ruben
+>> Would a more explicit check be preferred?
+>>
+>> Thanks,
+>>
+>> Shenghao
 
 -- 
 --
