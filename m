@@ -2,167 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BCFD00159
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 22:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0ADFD0054E
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:35:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB19D10E64F;
-	Wed,  7 Jan 2026 21:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9365610E664;
+	Wed,  7 Jan 2026 22:35:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="po79M7gv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="WbN1bj2N";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="WbN1bj2N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011013.outbound.protection.outlook.com [40.107.208.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 422DA10E600;
- Wed,  7 Jan 2026 21:02:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DpUebXD0lyl7QaviQ8DS0rKFePdXRkb+HNvounvZtVA5g1QkQQOIlwZI29653Gi8haWSX0zwNuzVynlSgbQEAO24FgKi+LMoyAORYhqmMP6rRrPLATs2tcwfD7PqFJAXHHjX0FsT39O5pbIcbpHrp1O2KcG4vmpbULQ/Rxwhfe6Pl5z85nvw7M6peuB2KF7/7FM2K+CwJ9m/7FRISAe0S5J5512aXs35t2XUXK/GkNwHU79kZ8PnbC1GbFsMuHiESDu3Gpn8klBPsMFnYgZRafmvkI09VedOA1zhyHkz5tYrwKR3z/euNyqWPNXUfSQIzcWOQd50knZ6pHvFadGYNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=swAUCZxgAJwsCrP0iBvWMfPhsmnhIrxfbsUSHAYYT3A=;
- b=KTckA9gFcgnhe0cnzDl4hcPL/GhiMuhfi7ei/9pbroLF+2F8QHHM+VcKLJCAm8UszZOftZK8kbhJ1zlmZlwhWULfUYYucyFKG8yy9bOpHfWnc50n6TV+hJShhZXpJxwAD2/G5AtUh9rC/FoPw3Az1pmQk2r987gjOhQnVQjYY2E5d52QuxQfAy0Gw/3qVl3tsRPY9CemWqm5M5vx/SKSWIq6BpVnJ6+QRSQZDiKpfJJWR5GmzmbPt9fs7YOTl4H6DDhnA/ITva0g0la2LWOm2bCIkFMHHAO9E348uXN5d4N2I6hwpd7JjvPGZ4R9ArHuJmrf+fI0Gt/h2GrCdXl0WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=swAUCZxgAJwsCrP0iBvWMfPhsmnhIrxfbsUSHAYYT3A=;
- b=po79M7gv41XACuj+/WPvPfrdkyot3yCLJTBPCJ7U38BXwZd+AL455rJrMIyJTbtOm8UzS25SNVTtDeVcTxpPSQXTtUmw6bNnmZCkXsBAA+K1VIoUOM3OzeG/mu64CU/o6BUykF0KYTZ+Fguj776hJEYDe23Fq9zxsV9XeFkkrPMOEfq0jefDRY9uN+u641ZlgoruQwBzYsj8XDrsUMIe2r2GbgVzITbxkq/iQkTuIpLrNCQ+u6G9/1ubEnQdkwAerdBkKty0ioYrPcApw8LKRFi4uMPiU9zlXZkaEsp74D4VBzaK3JMWPELzc/YjQBR0O+Rw4iikmKzJ8bvmb6I66A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by SA0PR12MB4431.namprd12.prod.outlook.com (2603:10b6:806:95::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.5; Wed, 7 Jan
- 2026 21:02:31 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9478.004; Wed, 7 Jan 2026
- 21:02:31 +0000
-Message-ID: <c288bda8-66c4-4971-9322-e1450855f93b@nvidia.com>
-Date: Thu, 8 Jan 2026 08:02:25 +1100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBD910E039
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 12:19:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 641AC5BCCE;
+ Wed,  7 Jan 2026 12:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1767788342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1InH04BUhqu6lMlLWmyVtPrVr0o1jtu64a/MC1vmWxY=;
+ b=WbN1bj2NvmY+V7Jbi20SxuPQ/UHWer8r4OTn44HlYNZmRxL49sd5CkaVo8uYo4gmuSSJ0J
+ BbG+fRPzp1IReqgI6ZW/1fIGwbhzwQBSSzSEChftWtxrh9efKEwtUAeT4Yl3KXbLVAQYtU
+ i+p23blbGZYpxaaQSFnTz0TZ5Vu09JQ=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1767788342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1InH04BUhqu6lMlLWmyVtPrVr0o1jtu64a/MC1vmWxY=;
+ b=WbN1bj2NvmY+V7Jbi20SxuPQ/UHWer8r4OTn44HlYNZmRxL49sd5CkaVo8uYo4gmuSSJ0J
+ BbG+fRPzp1IReqgI6ZW/1fIGwbhzwQBSSzSEChftWtxrh9efKEwtUAeT4Yl3KXbLVAQYtU
+ i+p23blbGZYpxaaQSFnTz0TZ5Vu09JQ=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2AF53EA63;
+ Wed,  7 Jan 2026 12:19:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id auvPOjRPXmnfRAAAD6G6ig
+ (envelope-from <petr.pavlu@suse.com>); Wed, 07 Jan 2026 12:19:00 +0000
+Message-ID: <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
+Date: Wed, 7 Jan 2026 13:19:00 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] Remove device private pages from physical
- address space
-To: Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org,
- matthew.brost@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, david@redhat.com, ziy@nvidia.com,
- apopple@nvidia.com, lorenzo.stoakes@oracle.com, lyude@redhat.com,
- dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
- intel-xe@lists.freedesktop.org, Felix.Kuehling@amd.com
-References: <20260107091823.68974-1-jniethe@nvidia.com>
- <20260107120608.5ccd2cc7e4227d2e80028bd9@linux-foundation.org>
- <20260107205404.GI293394@nvidia.com>
+Subject: Re: [PATCH v18 34/42] dept: add module support for struct
+ dept_event_site and dept_event_site_dep
+To: Byungchul Park <byungchul@sk.com>
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, da.gomez@kernel.org,
+ samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
+ neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org,
+ urezki@gmail.com, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name,
+ okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+ anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251205071855.72743-1-byungchul@sk.com>
+ <20251205071855.72743-35-byungchul@sk.com>
 Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <20260107205404.GI293394@nvidia.com>
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20251205071855.72743-35-byungchul@sk.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR05CA0030.namprd05.prod.outlook.com
- (2603:10b6:a03:c0::43) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|SA0PR12MB4431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44ca71d2-bd00-4b32-2b04-08de4e3012c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|366016|376014|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aUdYVkNqL2JLWHlxSXRpU1FIaE8vQkxmL3NIYndCaVo2RWxCOXVtTG9obGpy?=
- =?utf-8?B?QnMyTnVLcmtFdHhxWGpMVVdEbDFuanhxMFdYYzNLZjh6U1poREtXTytuYThz?=
- =?utf-8?B?UkpYUlRuWExBMkw3Sjh0U0RVZzByeUF4SmZoSkFqOTFoMFlEMjMvVFVqUEJ4?=
- =?utf-8?B?WTZYMFJHQklBc0xtajV1NmpNekowQ1RSYUtxN1NOaXFpakkrbzlhbERsaW9F?=
- =?utf-8?B?d2hpbk5GZERoYmtjTDY3U3JzN3J0bVVXeUVSRmhEd0JtSlIyUnFTL0c4SVhl?=
- =?utf-8?B?YmZvVzY4OVBvUmpOWUhGc1g4WTRUZzZrS2NId0xtaks1VzNEZWZiL1h4YVRN?=
- =?utf-8?B?L3BPWVJTVFFVQng2YTdFK1hQVGtjaDBBbG10M2hnRnR2N2JWejIxbm1ONXFa?=
- =?utf-8?B?ZUYrMzJJQzk0dkN0VjBDSmZVeSsxOTVHa2FkS3Yyd05aLzliMjdaMDExOTRs?=
- =?utf-8?B?Y2I0SmtrdXFENWIzeHVTSnlGTkFBTFFBRzgydk9Lc2VFMVd1ZG5EM3BQeTlP?=
- =?utf-8?B?RDRJWHNHaEZ3S0ltWXBjajhXSjAxOVA4d3BqWkFQVkpBNkR6ZWRRRHM1eW1a?=
- =?utf-8?B?ME9NdnkxWDJXYUx4YWkyYi9HRGt5eGtIMXBMdW85YjN2SVIxc0tYNEVrNjR6?=
- =?utf-8?B?SjlRbzcxdnExWkZDbzFzVXoyblA4dzBmdTVIOHExSWZ3Y2o0WTJLRjM0VEtQ?=
- =?utf-8?B?dlRCZndnQWZ3MS9XdnNjb20vcGJWQmkxcWZOb2xTV1hnelhCeVhpbEdkTHlh?=
- =?utf-8?B?djlqVXNJaDc4d29qcUtSRDIxR05nd2U3UTdQaG9ycGlncEtXQUQrbkhqRW5D?=
- =?utf-8?B?elJwTmduS0Frdk45SFdGZVpmdDdDQW5EMUtxQzUxSlhHL2N2cHMyOFluaUd2?=
- =?utf-8?B?QVZJWGx2Y0VJRzFtbVgyQjFXM1BaQzdRbkY5ME1iR01aY0FqeW9kTUFlTXFq?=
- =?utf-8?B?UHpLbGZxbjVuRlZoOTk2RW1mMzVIQ1h3WlFvUVVrTjZja3NhZlVqOFdmUlpS?=
- =?utf-8?B?T0hlY1lnOVdjWXVVWmJFRVdTRE5qWW9SRndXdTJ5UE41bFIwcG44V3h0TXhJ?=
- =?utf-8?B?OStjT2pHUzhCcWVWcGJrZDY2eTBHbGgvaXB0bW9aNE9veHlxVXpoMExaRE9Q?=
- =?utf-8?B?WGVlV25Bb1QvU3ZySnBuZTB5a2wxVksrclFWU2ZiUy9JTDNtK1FnbmdFSWVK?=
- =?utf-8?B?YzgxMCtGM2V4Yk8xUStJaHUwdkNZeG1kdG9iNDllNXc5ZWtvL3BvU1hENUNj?=
- =?utf-8?B?OTR0N3EwSWRpeHdpcVBmR3hmQVNJZjR6TXlOMElWbUF2Q05PV0VPa3FHYWtk?=
- =?utf-8?B?YWRhMXFHUWtBYTFOM09xMjFzOUFzeEpCTUR5N3pPSldaVUtuZnl0Q0d4K2VK?=
- =?utf-8?B?YzhNcUNyWU8xN2hKdjFkY2xQY0VWQ1k3dWQ3aGlCeXdWN3JlWGVISzdnUllo?=
- =?utf-8?B?dlI5Ui8reHF3UTczQVU1V3ovTElVSmxNWjNkYVErdG1HYmJKOXdIOXdsejZX?=
- =?utf-8?B?R2NaVm13NU15VStlU2MzTlh1NUQ0bXZHWjJUTElscmNXaCtRWjRZT0gxSGtn?=
- =?utf-8?B?dnF1SlRxNVQxbE5xZklaS1NKODRodFB6bFJHS0hQbWpPZ0FQdHdYQWQrbGVh?=
- =?utf-8?B?blEydWM0Z0dYaGJId0h3UHZweE9xejI3eC9uZTdnbHJEckdPWksyUXg1L0la?=
- =?utf-8?B?V3l2Q0lRODNWRjBrZGxIbnRuMklqYTlJK1ZvRHBSRlBGVy9xMlNLaEdJN0E4?=
- =?utf-8?B?V1dTZlNOTkdLUlZ2Q0ZCV2ZVd1VqMHFMNFFRZlFtZk5QL3JaaHpyajZoU0U1?=
- =?utf-8?B?MUZvbXRUYVowZEF2NjNJY3duZ2J4enJCM3RYd2lQMlR5TS9oSWt1NXlnb1lI?=
- =?utf-8?B?dWNjOFo5K2lpNHNwbG9zbC9FakpMZkwrV2pTd0xiNHJONTZieEV3clMyWEVH?=
- =?utf-8?Q?D3rI+IORTw3X5rVdXIvM94KhMh9uDYek?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(376014)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjJiOGFJSG8rL2huWmxxaDdqQnlPenBOcWhveGVLT014LzA3anBVY2RWSm81?=
- =?utf-8?B?dStjUHN2UGYraVVKTXErRWJyL2puelA3ZFFtcTVURGsyZkVldWk5VzJmcDBp?=
- =?utf-8?B?R3hZTzZQK2pnR0xQQU9BQ3FGcW43akFFV3FxTXZlQzN5ODc5b21PQzdQZm0v?=
- =?utf-8?B?djc0dDI2bE9NZlNIZjM4QkFCQU03MmY3MXVURVdYVkdHTWRaK2JIa3hKbERK?=
- =?utf-8?B?VW5kOFpoS0tNMlFxRVIwb1h2ZXFTYzVIMm5WeGRqdHNFYURGYUJaL3JXdHZi?=
- =?utf-8?B?dkxFL0VDSkM5cFp1bi9rY1dQMWVLdHgvZXFtV0hLS3VpQ2tuNkZXajBFYWY0?=
- =?utf-8?B?YzhpaUJSSFlnUlJueWpsd3o1TUcwcWJuZVNwU25sS09xN1NCRUlmSXdRQzky?=
- =?utf-8?B?ckZvc0J4aHk4SDdlbk81WXdNSVJ3S3QzTjY1UGZLK2tiYTFFZDBlNTZwL3NY?=
- =?utf-8?B?ZHBQQ1F3NW1uWTdhSGVrSTRDTWgrMnRsYU1OMi9SUHRPemQrdDgzbWd4YWdj?=
- =?utf-8?B?SU1ZZldWVVErWExaVTFrb0JCWjN1S1VNTXFObHVCN3JWY1Rzcm1FMTVrUlU4?=
- =?utf-8?B?UGcwRzNuN3FDdnlkUjByaFpGVmdpM0M2cWxQU3RScjlCcmtBc0tMYVczUnJT?=
- =?utf-8?B?RzNtUE9oekhkV21jT2xRcEpkdHY5VVFKS1N3bWVLQWJ6SDJZMDBTLy81UjhC?=
- =?utf-8?B?cGgwd1Y0YVBqbXQ3WGFUUU1rVjRxWmxBV1JTbWtjeXM5WjYvaSt3bC9XNk5l?=
- =?utf-8?B?UkZEdndiYncwMzdQQXBlVThYQmdxemFxOHNpZjhReDMySWNGVUFRbXRTRnQ1?=
- =?utf-8?B?eG1tVmNXUGp1S2JMU1E1MDZQWm1lNEZKaG9NV0lBL01CMURkSDBIK2UyVE1a?=
- =?utf-8?B?ajBKN0dkOFVJS0IyQWwrSmV5Mm9hMDNzRUhHaytCN2xhZ0E1SlQyZmFPMVRk?=
- =?utf-8?B?NE1pOVlINzdweUVxUmxiOGNRZDZqa3Z6THBkNW4zQ2FWOVFMSnNRSWtRVUhK?=
- =?utf-8?B?dFVjd0RIazczQ0lFbnFjaURIM1J6UDRnNjB1cE93NExSSW1TOEdOWS8rbWt0?=
- =?utf-8?B?R2RaYkozNENRbStJM2NqL0c1QjRKN0NaRTVTYTF3RTZYRVQ5NUJpV3VLVHNw?=
- =?utf-8?B?SkdTQ0hlc2xGRk9UVjNweFZvNXp5NFV4UlVSb21WZVE0ZkhscWRaQlBsMlZv?=
- =?utf-8?B?OUJSNW9hdzUrY2ZRc3l5RGZSNDBWbTlGT2hTMjAwWTRQVzZzVlIxRXliRlJi?=
- =?utf-8?B?MHVKRjFqTXVrQ1V1K05WcUZqNFNaWjVIYmxsemZhdnljNmNEWUJvMDE3OVUr?=
- =?utf-8?B?WENxMFFqV0V4RTQ2WmlEMm0ySlg0aU5jcm5SR0ttZGtONzduZUZSZVBHQnlJ?=
- =?utf-8?B?bmgxMXloYU1NUWNNdWxvdTZ5ZXhlcWNHb3JEaGNJVEZGcE9yaWw1WFBBN2dq?=
- =?utf-8?B?Ri9uTTRtekV1MUxqNzBISnVKRHh5NllZY1FJU2VCRU8wbEczSzBTcUtaZzYv?=
- =?utf-8?B?bFR0T0tFZG9nR1hJK1RjTW1pckFmUGhMVzlPYTByWFlXT1NpZ0RpRmZQY3RM?=
- =?utf-8?B?RXB4Njd6RFdML3VBa2RYS05KRHNUd0JDN293UDRJZERuRFk1bjJRQmVYSHBL?=
- =?utf-8?B?UUlrMGRxblQrVDRkY0c3czhWQStKN2JOOXNoa25Wb05JWVJNeElYMFBmUkxw?=
- =?utf-8?B?a2tZeVVnUFBrSW11djRoSmFoN0t3SVBndzlYWit1L0wwV01Fck1yRnlCSVB3?=
- =?utf-8?B?THJLVEdSUFdjN2RLUVdrZ3luNXpONk5PaTRUSGtWMGNteUl2cEZnRWFLM2g0?=
- =?utf-8?B?TkhvRDJFMXlLM1NOTFdFSnF4VGI2QUFSYjQxMlI5WWFZZW9VMS9ySzQ4Q1Fj?=
- =?utf-8?B?L1ZoNzM1TEdBdDZSYUF0RG5hT2QxQlZYUmhIcGtpMnE3VTVESjkzcTJYN2FJ?=
- =?utf-8?B?d0xveTBDVlpyVEMvVkM1QXVYTFM2dkZmUGt3djI2NWk5N1JPOFJZbHVIaEhQ?=
- =?utf-8?B?UjB0OTA2c1h6aGFMV1VXY29UQkZKbXFCeHpHQ2ZNd1U0M2x3MnJNMUNvNDhp?=
- =?utf-8?B?aXNzV29GT1MvZFRPRTlxdzZZaXJkZ3huWnJvL0hEekxXNlFEdjRydTBIT1VF?=
- =?utf-8?B?RHJJSXpEQU1qdlNsQWIrYVUwWVo3WEVaUlNpa3BsS1RWMnlzQ015WHpCaXRt?=
- =?utf-8?B?UXRlb2tRZSt2RWtXUGhLYXBINnhmNzhyUzZrM3hSTWltTk83TXBjbU1icGFR?=
- =?utf-8?B?bW9ncFA5MW1HSWFoeTV6TWxhcGNNWWhQU3A5ckpaL3RCRkJ5MjczZmVPcWIx?=
- =?utf-8?B?dXlSa2RYV3BwUlhlWVpsTFlwNWlTQ0QrVmUyMEJwVWRDcm5ramRsU2N3a0xN?=
- =?utf-8?Q?SKOo57DEzaInQo4y7o589A+HqiWw9rb2Wexqx3NE4qNWw?=
-X-MS-Exchange-AntiSpam-MessageData-1: Jht4B071kJBCDQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44ca71d2-bd00-4b32-2b04-08de4e3012c8
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 21:02:31.5033 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f/lWBRVtu9+Uy83Q+EiwixRd2v0NT0I9qIxlekpPhmds3o0M4WNhfHTAVORQO6yQHQkLp/6gu+9d3vsUq9KiEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4431
+X-Spamd-Result: default: False [-0.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ FORGED_RECIPIENTS(2.00)[m:adilger.kernel@dilger.ca, m:peterz@infradead.org,
+ m:will@kernel.org, m:rostedt@goodmis.org, m:joel@joelfernandes.org,
+ m:sashal@kernel.org, m:daniel.vetter@ffwll.ch, m:duyuyang@gmail.com,
+ m:johannes.berg@intel.com, m:tj@kernel.org, m:willy@infradead.org,
+ m:david@fromorbit.com, m:amir73il@gmail.com, m:kernel-team@lge.com,
+ m:linux-mm@kvack.org, m:mhocko@kernel.org, m:minchan@kernel.org,
+ m:hannes@cmpxchg.org, m:vdavydov.dev@gmail.com, m:sj@kernel.org,
+ m:dennis@kernel.org, m:penberg@kernel.org, m:rientjes@google.com,
+ m:jlayton@kernel.org, m:dan.j.williams@intel.com, m:hch@infradead.org,
+ m:djwong@kernel.org, m:rodrigosiqueiramelo@gmail.com, m:melissa.srw@gmail.com,
+ m:hamohammed.sa@gmail.com, m:chris.p.wilson@intel.com,
+ m:gwan-gyeong.mun@intel.com, m:max.byungchul.park@gmail.com,
+ m:boqun.feng@gmail.com, m:yunseong.kim@ericsson.com, m:ysk@kzalloc.com,
+ m:yeoreum.yun@arm.com, m:matthew.brost@intel.com, m:her0gyugyu@gmail.com,
+ m:catalin.marinas@arm.com, m:bp@alien8.de, m:x86@kernel.org, m:hpa@zytor.com,
+ m:luto
+ @kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:josh@joshtriplett.org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,m:neil@brown.name,s:geert@linux-m68k.org,s:baolin.wang@linux.alibaba.com,s:shakeel.butt@linux.dev,s:alexander.shishkin@linux.intel.com,s:tim.c.chen@linux.intel.com,s:linux-arm-kernel@lists.infradead.org,s:linaro-mm-sig@lists.linaro.org,s:linux-rt-devel@lists.linux.dev,s:ziy@nvidia.com,s:neilb@ownmail.net,s:bjorn3_gh@protonmail.com,s:2407018371@qq.com,s:oleg@redhat.com,s:wsa@sang-engineering.com,s:lillian@star-ark.net,s:tom@talpey.com,s:linux@treblig.org,s:tmgross@umich.edu,s:francesco@valla.it];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ TAGGED_RCPT(0.00)[renesas];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[ownmail.net,protonmail.com,qq.com];
+ DKIM_SIGNED(0.00)[suse.com:s=susede1]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[skhynix.com,linux-foundation.org,opensource.wdc.com,vger.kernel.org,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu];
+ R_RATELIMIT(0.00)[to_ip_from(RLcnqra6cn5jdaucgrw4rzms4h)];
+ TO_MATCH_ENVRCPT_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_GT_50(0.00)[165];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[sk.com:email, imap1.dmz-prg2.suse.org:helo,
+ suse.com:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -0.80
+X-Mailman-Approved-At: Wed, 07 Jan 2026 22:35:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,27 +175,323 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/8/26 06:54, Jason Gunthorpe wrote:
-> On Wed, Jan 07, 2026 at 12:06:08PM -0800, Andrew Morton wrote:
+On 12/5/25 8:18 AM, Byungchul Park wrote:
+> struct dept_event_site and struct dept_event_site_dep have been
+> introduced to track dependencies between multi event sites for a single
+> wait, that will be loaded to data segment.  Plus, a custom section,
+> '.dept.event_sites', also has been introduced to keep pointers to the
+> objects to make sure all the event sites defined exist in code.
 > 
->>>   2) Attempting to add the device private pages to the linear map at
->>>      addresses beyond the actual physical memory causes issues on
->>>      architectures like aarch64  - meaning the feature does not work there [0].
->>
->> Can you better help us understand the seriousness of these problems? 
->> How much are our users really hurting from this?
+> dept should work with the section and segment of module.  Add the
+> support to handle the section and segment properly whenever modules are
+> loaded and unloaded.
 > 
-> We think it is pretty serious, in the future HW support sense, as it
-> means real systems being built do not work :)
-> 
-> Also Willy and others were cheering this work on at LPC. I think the
-> possible followup to move DEVICE_PRIVATE from struct page and reduce
-> the memory allocation would be well celebrated.
-> 
-> The Intel Xe and AMD GPU teams are the two drivers most important to
-> be testing this as they consume the feature.
-> 
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
 
-And the ultravisor usage in powerpc as well (book3s_hv_uvmem).
+Below are a few comments from the module loader perspective.
 
-Balbir
+> ---
+>  include/linux/dept.h     | 14 +++++++
+>  include/linux/module.h   |  5 +++
+>  kernel/dependency/dept.c | 79 +++++++++++++++++++++++++++++++++++-----
+>  kernel/module/main.c     | 15 ++++++++
+>  4 files changed, 103 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/dept.h b/include/linux/dept.h
+> index 44083e6651ab..c796cdceb04e 100644
+> --- a/include/linux/dept.h
+> +++ b/include/linux/dept.h
+> @@ -166,6 +166,11 @@ struct dept_event_site {
+>  	struct dept_event_site		*bfs_parent;
+>  	struct list_head		bfs_node;
+>  
+> +	/*
+> +	 * for linking all dept_event_site's
+> +	 */
+> +	struct list_head		all_node;
+> +
+>  	/*
+>  	 * flag indicating the event is not only declared but also
+>  	 * actually used in code
+> @@ -182,6 +187,11 @@ struct dept_event_site_dep {
+>  	 */
+>  	struct list_head		dep_node;
+>  	struct list_head		dep_rev_node;
+> +
+> +	/*
+> +	 * for linking all dept_event_site_dep's
+> +	 */
+> +	struct list_head		all_node;
+>  };
+>  
+>  #define DEPT_EVENT_SITE_INITIALIZER(es)					\
+> @@ -193,6 +203,7 @@ struct dept_event_site_dep {
+>  	.bfs_gen = 0,							\
+>  	.bfs_parent = NULL,						\
+>  	.bfs_node = LIST_HEAD_INIT((es).bfs_node),			\
+> +	.all_node = LIST_HEAD_INIT((es).all_node),			\
+>  	.used = false,							\
+>  }
+>  
+> @@ -202,6 +213,7 @@ struct dept_event_site_dep {
+>  	.recover_site = NULL,						\
+>  	.dep_node = LIST_HEAD_INIT((esd).dep_node),			\
+>  	.dep_rev_node = LIST_HEAD_INIT((esd).dep_rev_node),		\
+> +	.all_node = LIST_HEAD_INIT((esd).all_node),			\
+>  }
+>  
+>  struct dept_event_site_init {
+> @@ -225,6 +237,7 @@ extern void dept_init(void);
+>  extern void dept_task_init(struct task_struct *t);
+>  extern void dept_task_exit(struct task_struct *t);
+>  extern void dept_free_range(void *start, unsigned int sz);
+> +extern void dept_mark_event_site_used(void *start, void *end);
+
+Nit: The coding style recommends not using the extern keyword with
+function declarations.
+
+https://www.kernel.org/doc/html/v6.19-rc4/process/coding-style.html#function-prototypes
+
+>  
+>  extern void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
+>  extern void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
+> @@ -288,6 +301,7 @@ struct dept_event_site { };
+>  #define dept_task_init(t)				do { } while (0)
+>  #define dept_task_exit(t)				do { } while (0)
+>  #define dept_free_range(s, sz)				do { } while (0)
+> +#define dept_mark_event_site_used(s, e)			do { } while (0)
+>  
+>  #define dept_map_init(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
+>  #define dept_map_reinit(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index d80c3ea57472..29885ba91951 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -29,6 +29,7 @@
+>  #include <linux/srcu.h>
+>  #include <linux/static_call_types.h>
+>  #include <linux/dynamic_debug.h>
+> +#include <linux/dept.h>
+>  
+>  #include <linux/percpu.h>
+>  #include <asm/module.h>
+> @@ -588,6 +589,10 @@ struct module {
+>  #ifdef CONFIG_DYNAMIC_DEBUG_CORE
+>  	struct _ddebug_info dyndbg_info;
+>  #endif
+> +#ifdef CONFIG_DEPT
+> +	struct dept_event_site **dept_event_sites;
+> +	unsigned int num_dept_event_sites;
+> +#endif
+>  } ____cacheline_aligned __randomize_layout;
+>  #ifndef MODULE_ARCH_INIT
+>  #define MODULE_ARCH_INIT {}
+
+My understanding is that entries in the .dept.event_sites section are
+added by the dept_event_site_used() macro and they are pointers to the
+dept_event_site_init struct, not dept_event_site.
+
+> diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
+> index b14400c4f83b..07d883579269 100644
+> --- a/kernel/dependency/dept.c
+> +++ b/kernel/dependency/dept.c
+> @@ -984,6 +984,9 @@ static void bfs(void *root, struct bfs_ops *ops, void *in, void **out)
+>   * event sites.
+>   */
+>  
+> +static LIST_HEAD(dept_event_sites);
+> +static LIST_HEAD(dept_event_site_deps);
+> +
+>  /*
+>   * Print all events in the circle.
+>   */
+> @@ -2043,6 +2046,33 @@ static void del_dep_rcu(struct rcu_head *rh)
+>  	preempt_enable();
+>  }
+>  
+> +/*
+> + * NOTE: Must be called with dept_lock held.
+> + */
+> +static void disconnect_event_site_dep(struct dept_event_site_dep *esd)
+> +{
+> +	list_del_rcu(&esd->dep_node);
+> +	list_del_rcu(&esd->dep_rev_node);
+> +}
+> +
+> +/*
+> + * NOTE: Must be called with dept_lock held.
+> + */
+> +static void disconnect_event_site(struct dept_event_site *es)
+> +{
+> +	struct dept_event_site_dep *esd, *next_esd;
+> +
+> +	list_for_each_entry_safe(esd, next_esd, &es->dep_head, dep_node) {
+> +		list_del_rcu(&esd->dep_node);
+> +		list_del_rcu(&esd->dep_rev_node);
+> +	}
+> +
+> +	list_for_each_entry_safe(esd, next_esd, &es->dep_rev_head, dep_rev_node) {
+> +		list_del_rcu(&esd->dep_node);
+> +		list_del_rcu(&esd->dep_rev_node);
+> +	}
+> +}
+> +
+>  /*
+>   * NOTE: Must be called with dept_lock held.
+>   */
+> @@ -2384,6 +2414,8 @@ void dept_free_range(void *start, unsigned int sz)
+>  {
+>  	struct dept_task *dt = dept_task();
+>  	struct dept_class *c, *n;
+> +	struct dept_event_site_dep *esd, *next_esd;
+> +	struct dept_event_site *es, *next_es;
+>  	unsigned long flags;
+>  
+>  	if (unlikely(!dept_working()))
+> @@ -2405,6 +2437,24 @@ void dept_free_range(void *start, unsigned int sz)
+>  	while (unlikely(!dept_lock()))
+>  		cpu_relax();
+>  
+> +	list_for_each_entry_safe(esd, next_esd, &dept_event_site_deps, all_node) {
+> +		if (!within((void *)esd, start, sz))
+> +			continue;
+> +
+> +		disconnect_event_site_dep(esd);
+> +		list_del(&esd->all_node);
+> +	}
+> +
+> +	list_for_each_entry_safe(es, next_es, &dept_event_sites, all_node) {
+> +		if (!within((void *)es, start, sz) &&
+> +		    !within(es->name, start, sz) &&
+> +		    !within(es->func_name, start, sz))
+> +			continue;
+> +
+> +		disconnect_event_site(es);
+> +		list_del(&es->all_node);
+> +	}
+> +
+>  	list_for_each_entry_safe(c, n, &dept_classes, all_node) {
+>  		if (!within((void *)c->key, start, sz) &&
+>  		    !within(c->name, start, sz))
+> @@ -3337,6 +3387,7 @@ void __dept_recover_event(struct dept_event_site_dep *esd,
+>  
+>  	list_add(&esd->dep_node, &es->dep_head);
+>  	list_add(&esd->dep_rev_node, &rs->dep_rev_head);
+> +	list_add(&esd->all_node, &dept_event_site_deps);
+>  	check_recover_dl_bfs(esd);
+>  unlock:
+>  	dept_unlock();
+> @@ -3347,6 +3398,23 @@ EXPORT_SYMBOL_GPL(__dept_recover_event);
+>  
+>  #define B2KB(B) ((B) / 1024)
+>  
+> +void dept_mark_event_site_used(void *start, void *end)
+
+Nit: I suggest that dept_mark_event_site_used() take pointers to
+dept_event_site_init, which would catch the type mismatch with
+module::dept_event_sites.
+
+> +{
+> +	struct dept_event_site_init **evtinitpp;
+> +
+> +	for (evtinitpp = (struct dept_event_site_init **)start;
+> +	     evtinitpp < (struct dept_event_site_init **)end;
+> +	     evtinitpp++) {
+> +		(*evtinitpp)->evt_site->used = true;
+> +		(*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
+> +		list_add(&(*evtinitpp)->evt_site->all_node, &dept_event_sites);
+> +
+> +		pr_info("dept_event_site %s@%s is initialized.\n",
+> +				(*evtinitpp)->evt_site->name,
+> +				(*evtinitpp)->evt_site->func_name);
+> +	}
+> +}
+> +
+>  extern char __dept_event_sites_start[], __dept_event_sites_end[];
+
+Related to the above, __dept_event_sites_start and
+__dept_event_sites_end can already be properly typed here.
+
+>  
+>  /*
+> @@ -3356,20 +3424,11 @@ extern char __dept_event_sites_start[], __dept_event_sites_end[];
+>  void __init dept_init(void)
+>  {
+>  	size_t mem_total = 0;
+> -	struct dept_event_site_init **evtinitpp;
+>  
+>  	/*
+>  	 * dept recover dependency tracking works from now on.
+>  	 */
+> -	for (evtinitpp = (struct dept_event_site_init **)__dept_event_sites_start;
+> -	     evtinitpp < (struct dept_event_site_init **)__dept_event_sites_end;
+> -	     evtinitpp++) {
+> -		(*evtinitpp)->evt_site->used = true;
+> -		(*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
+> -		pr_info("dept_event %s@%s is initialized.\n",
+> -				(*evtinitpp)->evt_site->name,
+> -				(*evtinitpp)->evt_site->func_name);
+> -	}
+> +	dept_mark_event_site_used(__dept_event_sites_start, __dept_event_sites_end);
+>  	dept_recover_ready = true;
+>  
+>  	local_irq_disable();
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index 03ed63f2adf0..82448cdb8ed7 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -2720,6 +2720,11 @@ static int find_module_sections(struct module *mod, struct load_info *info)
+>  						&mod->dyndbg_info.num_classes);
+>  #endif
+>  
+> +#ifdef CONFIG_DEPT
+> +	mod->dept_event_sites = section_objs(info, ".dept.event_sites",
+> +					sizeof(*mod->dept_event_sites),
+> +					&mod->num_dept_event_sites);
+> +#endif
+>  	return 0;
+>  }
+>  
+> @@ -3346,6 +3351,14 @@ static int early_mod_check(struct load_info *info, int flags)
+>  	return err;
+>  }
+>  
+> +static void dept_mark_event_site_used_module(struct module *mod)
+> +{
+> +#ifdef CONFIG_DEPT
+> +	dept_mark_event_site_used(mod->dept_event_sites,
+> +			     mod->dept_event_sites + mod->num_dept_event_sites);
+> +#endif
+> +}
+> +
+
+It seems to me that the .dept.event_sites section can be discarded after
+the module is initialized. In this case, the section should be prefixed
+by ".init" and its address can be obtained at the point of use in
+dept_mark_event_site_used_module(), without needing to store it inside
+the module struct.
+
+Additionally, what is the reason that the dept_event_site_init data is
+not stored in the .dept.event_sites section directly and it requires
+a level of indirection?
+
+In general, for my own understanding, I also wonder whether the check to
+determine that a dept_event_site is used needs to be done at runtime, or
+if it could be done at build time by objtool/modpost.
+
+>  /*
+>   * Allocate and load the module: note that size of section 0 is always
+>   * zero, and we rely on this for optional sections.
+> @@ -3508,6 +3521,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
+>  	/* Done! */
+>  	trace_module_load(mod);
+>  
+> +	dept_mark_event_site_used_module(mod);
+> +
+>  	return do_init_module(mod);
+>  
+>   sysfs_cleanup:
+
+-- 
+Thanks,
+Petr
