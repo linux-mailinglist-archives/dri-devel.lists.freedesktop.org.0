@@ -2,169 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36168CFEB81
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 16:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51F4CFEB7E
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 16:56:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDDF10E615;
-	Wed,  7 Jan 2026 15:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE45310E602;
+	Wed,  7 Jan 2026 15:56:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5i4WeyxQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oK7GDxq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wFF/KdsH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oK7GDxq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wFF/KdsH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11012036.outbound.protection.outlook.com
- [40.93.195.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE0F10E615
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 15:56:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JQQ501cBUratPYNc0BMOoDnbPobXSAyWpkGrYsJsLPD9QzxFjDjTfGtb3AZnluaU8bIa4JSIo+RxCQHx63xKFiPrN5riiK55hu7H+mtxhWnAOP9Ez+wl9WHm0eFXi2szOj0fp+Kahg/JPzVBdliU+qQMpkd0ehC3yxZtiCeaP4Pl7KXW/QIFrZ9CGBUX6xh85ICuvyy4fMvpydAQTHz95rN0wCZuz5LeM/sGtfsHCVnR2i50r/GTQlf7z1aueGDvQH5Z6pBz+EUkclR6Mudc+oKkKLo83zQHXOUL2j7zT3pmY965WJhRDjv702el4MeZAc/GV//ZhH+5r2GvAGq6yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yI812y4koyhAdOEl6YrNnBtpM+Ex0VABxMKXej+OcJw=;
- b=ehlwo/gH9q9IZ5n8TtARUtm71gqMPyaN8O0dgyq2tBQ0brnpk0qalpbtc1/7XxdAUKkIUEed1QyvvdZzWzoR1gpRqn9DJgXX1Zob8le1UTtaVUXTxVkX586XK0yVdSg5J5204JlFscjzmygQ9N5/uwY4Pgs+lx0+T9XrWLGeUb04nV7DXcyGpQrbccbnTnsbUgoQaskzywuQPCOH++T+pqzKVh1vrQ4z+MK2FuL+JTs7g7dyFkL5d1eDLfxLCov7CI7DxBjddICCzDD3XY5trb5wVQ/zdNs63yuKIhip/NbGLJBMElvIlVFv/EBUgg0yNYdfBhUHljufX/h7O7GorQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yI812y4koyhAdOEl6YrNnBtpM+Ex0VABxMKXej+OcJw=;
- b=5i4WeyxQOq24Ya+TDzVpCOlHDdpd7Q95nkAAz5P6a5hS/Sw5otUtIOOBiWOTxwzg4uWsxLrTq3AhzCGCoULCXvLIoVhTalVpXXIEGUqqTXpKaZOlbYBeePZC7pH8x93u4bEEax2mtDte62vJqF5RVqxzknBnm20HTMxJOn6eUxQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB6974.namprd12.prod.outlook.com (2603:10b6:303:207::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 15:56:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9499.002; Wed, 7 Jan 2026
- 15:56:12 +0000
-Message-ID: <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
-Date: Wed, 7 Jan 2026 16:56:05 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
- io-uring@vger.kernel.org, Vishal Verma <vishal1.verma@intel.com>,
- tushar.gohad@intel.com, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <cover.1763725387.git.asml.silence@gmail.com>
- <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
- <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com>
- <20251204110709.GA22971@lst.de>
- <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com>
- <20251204131025.GA26860@lst.de> <aVnFnzRYWC_Y5zHg@fedora>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aVnFnzRYWC_Y5zHg@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0267.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:109::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C749910E615
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 15:56:15 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 84D2334027;
+ Wed,  7 Jan 2026 15:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767801374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+2WUgdN302aBfJMSWX4WXbbIKDmbpLJMq9QaMTUH2RI=;
+ b=oK7GDxq9K0SdRPWoJxE716F+I1bItRPyZ1cxZpA6OIA/JqZEWpuMVfUvDt5bXVoKiN61yM
+ ygXzIIEh2NWc57+XF2pXd1jo41gj38xsoQj50o6vtGgOlzOdSWNrtAiVPiZOnANtRf/aR2
+ CC8bLV8W29lMRZYs3aN1p21u/AM4qRg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767801374;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+2WUgdN302aBfJMSWX4WXbbIKDmbpLJMq9QaMTUH2RI=;
+ b=wFF/KdsHiCOIBuasSNE5530Eg393/mkZvZZEAkR9V6z9fZTaCpFSebGPxn9W5YGCWCcq0r
+ 4tJbmyd2xRbwmECw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oK7GDxq9;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="wFF/KdsH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767801374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+2WUgdN302aBfJMSWX4WXbbIKDmbpLJMq9QaMTUH2RI=;
+ b=oK7GDxq9K0SdRPWoJxE716F+I1bItRPyZ1cxZpA6OIA/JqZEWpuMVfUvDt5bXVoKiN61yM
+ ygXzIIEh2NWc57+XF2pXd1jo41gj38xsoQj50o6vtGgOlzOdSWNrtAiVPiZOnANtRf/aR2
+ CC8bLV8W29lMRZYs3aN1p21u/AM4qRg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767801374;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+2WUgdN302aBfJMSWX4WXbbIKDmbpLJMq9QaMTUH2RI=;
+ b=wFF/KdsHiCOIBuasSNE5530Eg393/mkZvZZEAkR9V6z9fZTaCpFSebGPxn9W5YGCWCcq0r
+ 4tJbmyd2xRbwmECw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 47AFE3EA63;
+ Wed,  7 Jan 2026 15:56:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id A21MEB6CXmk8HAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Jan 2026 15:56:14 +0000
+Message-ID: <8929ff0f-c2e0-49e6-a0ce-c4b0dcebae99@suse.de>
+Date: Wed, 7 Jan 2026 16:56:13 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6974:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3607b8f6-42fc-4b54-e20b-08de4e0547dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TE9BSG9xMFJzTGpJVmJnajNubUlEeGFKNDEvUExwakhjMXpERStCQjk5cDVj?=
- =?utf-8?B?aFgrUnNSeitXdDNDb253cE5OZjlOblVhWnFyZGtycXdmeDBiRzRYaWxFYlVZ?=
- =?utf-8?B?eUtIdElSVlJ0V2t3NEpUSlhrTlVDSW13UktndHl6QzliYjd2RkZrMmdqOTRI?=
- =?utf-8?B?T2MzeHhPdDFySnErRUszdFY0bkgwc2lxdnk5aEgyOVl4YjhvbzF0dzlpRFhH?=
- =?utf-8?B?aXdzc05yUU85RmI0WG9ocEh2bm5LU05ROXFOWG1mUUpDaWJTVm1qdWVpMGRL?=
- =?utf-8?B?ZTByWEQ4YjhhNUFzUlZnT3huZjUrMk14bWh6aTF0UVBrV3c5VWZubUFBNmJW?=
- =?utf-8?B?Qk1vZlZ5UGRVc2ZGekk1bDRGT1VTUUp6WjViUGNTYWtQazBad0VRL0Z3aE5S?=
- =?utf-8?B?S3Jmb1FIN05ZQ1JBdXRxYWU1MGFjT1dON3I3Y3JXOGZXWlFqTXlHeSs4bTRL?=
- =?utf-8?B?enduazdJd3Ird2RkR0QvdHYySTBWeGFvRzVHN1JxSjZoaXJlWmhTSXlZeXRX?=
- =?utf-8?B?ZDI3N21yTDhvV2R3VDJZT08vaDIxMjR4M1kwSE9UaWNtd3c1dk1obGRPbUlR?=
- =?utf-8?B?NUpFK29Rd2hoYThDN3dIUVEzZVgrVFNZbW41aVFETklWTnVnMmFoZXc0RmNS?=
- =?utf-8?B?NmxNOUppNFJqc3BXcVNqRnNxNHBLRE1oT2VIQXFvZDZRLzB6akJMd2FEVXlB?=
- =?utf-8?B?VnpoT2tTOS9xK0FzYktITlQ0akUxK2ptUXNKeXJhT1Y0K0Y2WUkyMllsQk1q?=
- =?utf-8?B?ZFBKOVFFdjE4czc1OGhFcVJtQTZwdXF1U3BnMm5PSDhTWWRDaXZDMFNvSVU1?=
- =?utf-8?B?Q3JKSzg1bzNDQ05JTC82VFloSzY3Qm9Eb1BDNzkwU3l3S1pNZTlaSzdObUpI?=
- =?utf-8?B?RWR0NzlzWlFsRmptVzJubU5EWmxuaytRREVGTWFNd1pkV25wTHhTcDQrb1hq?=
- =?utf-8?B?anhxTjRabXEyWEsrN2ZiS2FqNkVVU0NMQmg0MFl0VEdrOGx0Y2JxakZ5OU5L?=
- =?utf-8?B?WFE1SXppYld0YkxhNDBmOXo5SWk2R2F6UG0zWWIxYjRsVlNrUDU0S2pPT1Rq?=
- =?utf-8?B?UlorWWhXRldhMkRrVFpFRVMwMzNQcmxJQkpycEdCMUR5MGhvNzBlKy9sNS9E?=
- =?utf-8?B?TkRXb0E3a3JCZmdwb3liMHVzUEFEMmtvUVlYMDBNcDFoak1KaWN0bDRIVEJw?=
- =?utf-8?B?NXBnMDNQNTVIdENOTVhvQjBLRWJDQ3ZOVWVwV3FNNjFiMUNhNEhDRkpDanlO?=
- =?utf-8?B?TGlicnlwRVdtQVJrbm5oVm9CV2lxUXNrWjhLSVpnQmZZQmI0NER6Y29abDVu?=
- =?utf-8?B?Nkh6eXZKaGZJaU5QOXk2Mjd1TDArZjNPWkZmejZ2MUYzbEc4aGN1eG1mV1NL?=
- =?utf-8?B?UENFYUZyeU5pSlJIRVM4V1VWNmQ1NWc4VC9jVUZJVXR4SitBbDhoRUIwV0Q5?=
- =?utf-8?B?aGlNWlJEMGZlUnRraVI3YnRLYTRnL3krbjlKOTZxbGVkd09KblllbVpueC9w?=
- =?utf-8?B?Z1dMWHU5TFdpaVlsQUVaNGhTY3RKajBxeFAraVhoSjJZRzVxTGJoSmtGcDly?=
- =?utf-8?B?d083RFJLaFY4aGZHUlVZV3JLU041K2IrQTBFSG41RDRwblZST0ZmTEtSbGN2?=
- =?utf-8?B?aDJ1TzAyRUtjY0doVXdPUlBqMG5YU3VlNklyUDh6WkR5ckJ5bVdKOEQ2aytD?=
- =?utf-8?B?cXRIKy9OWlZuN0ZrTFdpVnhiZGtGUVJ4c0JiYjFKTXY1OW9DMW1hYndPcWhq?=
- =?utf-8?B?d1JodlBOclU4QkZXTnFBR0xKVnVNUlJXQWljdXBPQU41ZUpQSmtCTXJmWUV6?=
- =?utf-8?B?SWxkbnRzU0VmczZBOUtrOTRhUlAyNDBsYTRYLzV3MFZLT3NKNE9CSHkySG9Q?=
- =?utf-8?B?TER5WEQzRE02TDdqVk8xZkxkeFFjZXhkRWVNUzJYUlBZTGdZRm9oZHlQY2tR?=
- =?utf-8?Q?/GNdQ41tynkPL7X0Ki0dD1n30kqYa2Hm?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ry9UM1FDZWVHK3lMdzM0RnJRUzV4aC9yaE1Mekp0N1dZY2hXZ1QycGE5a2VV?=
- =?utf-8?B?VGxiUzVldy9oTERDVzN4QkFGcVNqWCs4aGZPaS9TdFZjR2RWSFRpNTNKRUlD?=
- =?utf-8?B?TnUxU2oxK0dDaWVRY1BYcGlxTmVLaE5XWE8wemhaelBabnhuWjkrM3dvNUky?=
- =?utf-8?B?M2swUm01VzV2S1lpL2xqL05wdnppR3F1WXgwUGhZeVYyQUFwT3pHek5JTTU4?=
- =?utf-8?B?SUhGM1NVOUtPVXA4dWFyZUhnS0J6NUh0cGNoWEFURE05MFZwL0UzQmZVZ1RK?=
- =?utf-8?B?Z0FGY2FzRTl2ajMyaHNQSkIzZHdnc2hkWlc4dmZ4WHQ0NGZBdnVIL000N0lR?=
- =?utf-8?B?TngrdEVUa2RnUzVqNzVVcElKNC9CaGRMNUJhOGFOVFk0dXJ3YVF0VXRFSmZs?=
- =?utf-8?B?RmJnaUVYck5SbnRGb1QzTHVIeURuVk1XQUx6OHlRS3g2OUNrSkE1Wlo2WFJO?=
- =?utf-8?B?SnA4b2laUVEwdUwyTjhpeEJQaFloUDNJbTh5bjIrVVJmOG9GaEVzUjNCa1Fs?=
- =?utf-8?B?NXZ1VHAvbys2QmdLVUQvWGNDRHpOZGUreHpmV09CK2xzWTU5dDF2ZUdWQnpF?=
- =?utf-8?B?NHBXSkpxMWpEeFJ4VFFiYlVwd1JjRHNaNzRWRmVNbGQ1OU5WcTlzQkl6OS9R?=
- =?utf-8?B?dXhwYnhBdnllQUhURzhCaEh5ZkhYSnhlRllYR05YWkdQWWJmajVuNm9rWERh?=
- =?utf-8?B?T3dibW0rS3BucFlROWt1YXIvakV2YzVxaFVHZ25GaXBGd1Z5dkF5ZGVZdXBR?=
- =?utf-8?B?KzVxbHJhRmp5RXhaTVB2ZmlsRGNWUDNXOFpyT3VpaXhFY2p4K04wYkg1blRN?=
- =?utf-8?B?eEw3cFhVUmthOFZRYzFPditjU0tRV1hZeFE0Z3k2NmxPa1R6MUpHNkNBYjZv?=
- =?utf-8?B?K0IxRW9WcXd0RjhTYmlDZmp5YlRwN1EzNDhCdVoxVXJGcG9Id3dmNGs5bU9l?=
- =?utf-8?B?ZUNnODNqejhIQWNTbFRxcjRuc2lHMHBHODcyMXRuNytmV0hmVUVUNzN3NFY0?=
- =?utf-8?B?aHljODVKdWJQTjhZTWxoakRvQWxVU3R4dUUyRDBLSlk0ek9iSHlkUXRMWk02?=
- =?utf-8?B?R0lScVV0VHRNRFBYbFZ5MHhvTCtTVVl3Y3dhaWxUU2ttb3ZXbnlvN0V3VThm?=
- =?utf-8?B?MHRjL2RGSWNwTlNkTTRKckkrMm1WUnZ0UnhWWkowNnl4aGRRNlpsb3FtMUVt?=
- =?utf-8?B?dWJzb08rV1ZRa1IvTnRHYVM4cGJZMk5JRUY5T3Q0aVQ0UnVuSjh1ZlZvTHgw?=
- =?utf-8?B?WUpLbHdkWG1PZVJuVUt3MmZBK005UzhVWnlKMWxjRDkrUERDOEIwSURqZnEw?=
- =?utf-8?B?TkNUMnFYV3I3WnhsdGFBNGlRZlpERm0rL0t4ajJvdXk0dklkckZ5Z3VzL3Vh?=
- =?utf-8?B?YVR0ZmdhZndydldYWElWQmNiZmFIM2lJQkdKbVEwWUhmWklyNkNIOUZrMFY4?=
- =?utf-8?B?ZTJSTUgzaFJDNDRnc2w1dzVITzdsY3NaU1AzOEtZdnJJZ3gwTS8vTVBNWWdw?=
- =?utf-8?B?V2xBV2ZLYnFvbDFSWTc5dDl6Wmc4TS9FNE9lMDg0N2lyR1ZZZ21xTDVkWVYr?=
- =?utf-8?B?RXZoOU5JV2h6ZW5NMVM1aDh0bHdseXNabGt0OTVjNkEwcEVsdGc1ZkJJRklJ?=
- =?utf-8?B?NnVyOHIrUzYrVWlEV1dSNlZERnZmM3ZPOUcycXhvSjZNRUlKUHVWWW8xbmRJ?=
- =?utf-8?B?RERONzBqR2l0ZGdFMnE4aHNRd0FZVjR0V1Q3Snp5amkzSWZucno1VDFiT3BN?=
- =?utf-8?B?WG1RYWV2MGZTNndKZ1I2ekUyTlJ2ZTRwbVN4VUl3VUNzU05mVmNJYzFtbVZN?=
- =?utf-8?B?UDFHRWw0Z1BXWmxDL1d6V2s0dHlpWVVlZDIzZEROTHFnUlF5bFcvS1JBdnZk?=
- =?utf-8?B?SDhkbUd6ZWQrOW9ET1JEeTR1Z21RalIzK09FSEhGbUxKakF5SW53dHJLczFs?=
- =?utf-8?B?dGRieWxDYVFSNzdxZDRoNU9xSzZoUUlDSVp2Rnd2aCtmR2RKQ2dMbkNWc29U?=
- =?utf-8?B?cFh0VE5sZHg5WGRFdXV4RFkwaHhhdGxkU21ndUhkbFE1UURMUHFtK3dwbEhO?=
- =?utf-8?B?bUE3YzJUOUJVUVhWZVFrYmMwQ1RFUG5WakluSkN5Uk1oNkMxdXhqVmxPVnhP?=
- =?utf-8?B?ZXdEWDMxaUZGYVBZUi8zSCtxb3JxT3cwNE5SaGhXYjRTdnJsdGNyWGdmVisw?=
- =?utf-8?B?c3o5cUVjaXZKcEhkL1Z1KzRISHgycWY2MSs1ZzZYYlRkWmVJRUl6R2JEendv?=
- =?utf-8?B?UG5YckJtR2pETkdiRTZ3NmNUT2h4VjhQN20zV2drdE1YYllYNjJ5azlOekIz?=
- =?utf-8?B?cDFsU2NKejF4cGJ2T3M2a0I5RXppeERLQ0RpbkRIdHFrcUxmZm1ZQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3607b8f6-42fc-4b54-e20b-08de4e0547dc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 15:56:12.2204 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B+3AU2iFjnI4pkM/6aA7Z0g3Hlz4I/oxBvNkz1HH3nooV8dPz1Rqb1Q1+7v2VRXY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6974
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
+ disconnect
+To: Ruben Wauters <rubenru09@aol.com>, Shenghao Yang <me@shenghaoyang.info>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251231055039.44266-1-me@shenghaoyang.info>
+ <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
+ <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
+ <571d40f4d3150e61dfb5d2beccdf5c40f3b5be2c.camel@aol.com>
+ <c6324a66-5886-4fbb-ba7b-fc7782c0f790@suse.de>
+ <229b5608222595bc69e7ca86509086a14501b2f7.camel@aol.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <229b5608222595bc69e7ca86509086a14501b2f7.camel@aol.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 84D2334027
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[aol.com,shenghaoyang.info,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.com:url];
+ URIBL_BLOCKED(0.00)[suse.com:url,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,41 +158,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/4/26 02:42, Ming Lei wrote:
-> On Thu, Dec 04, 2025 at 02:10:25PM +0100, Christoph Hellwig wrote:
->> On Thu, Dec 04, 2025 at 12:09:46PM +0100, Christian König wrote:
->>>> I find the naming pretty confusing a well.  But what this does is to
->>>> tell the file system/driver that it should expect a future
->>>> read_iter/write_iter operation that takes data from / puts data into
->>>> the dmabuf passed to this operation.
->>>
->>> That explanation makes much more sense.
->>>
->>> The remaining question is why does the underlying file system / driver
->>> needs to know that it will get addresses from a DMA-buf?
+Hi
+
+Am 07.01.26 um 16:02 schrieb Ruben Wauters:
+> Hi,
+>
+> On Wed, 2026-01-07 at 08:46 +0100, Thomas Zimmermann wrote:
+>> Hi Ruben
 >>
->> This eventually ends up calling dma_buf_dynamic_attach and provides
->> a way to find the dma_buf_attachment later in the I/O path.
-> 
-> Maybe it can be named as ->dma_buf_attach()?  For wiring dma-buf and the
-> importer side(nvme).
+>> Am 03.01.26 um 20:18 schrieb Ruben Wauters:
+>>> Hi
+>>>
+>>> On Sun, 2026-01-04 at 01:47 +0800, Shenghao Yang wrote:
+>>>> Hi Ruben,
+>>>>
+>>>> On 4/1/26 01:23, Ruben Wauters wrote:
+>>>>
+>>>>> With the elimination of these two WARN_ON_ONCEs, it's possible that
+>>>>> crtc_state may not be assigned below, and therefore may be read/passed
+>>>>> to functions when it is NULL (e.g. line 488). Either protection for a
+>>>>> null crtc_state should be added to the rest of the function, or the
+>>>>> function shouldn't continue if crtc is NULL.
+>>>>>
+>>>>> Ruben
+>>>>>> -	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>>>>>> -
+>>>>>> -	mode = &crtc_state->mode;
+>>>>>> +	if (crtc)
+>>>>>> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>>>>>>    
+>>>>>>    	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+>>>>>>    						  DRM_PLANE_NO_SCALING,
+>>>>>> @@ -492,6 +485,9 @@ int gud_plane_atomic_check(struct drm_plane *plane,
+>>>>>>    	if (old_plane_state->rotation != new_plane_state->rotation)
+>>>>>>    		crtc_state->mode_changed = true;
+>>>>>>    
+>>>>>> +	mode = &crtc_state->mode;
+>>>>>> +	format = fb->format;
+>>>> Yup - in this case I'm relying on drm_atomic_helper_check_plane_state()
+>>>> bailing out early after seeing that fb is NULL (since a NULL crtc should
+>>>> imply no fb) and setting plane_state->visible to false.
+>> This is correct behavior.
+>>
+>>>> That would cause an early return in gud_plane_atomic_check() without
+>>>> dereferencing crtc_state.
+>>> This does work, however this ends up returning 0, which implies that
+>>> the atomic check succeded. In my opinion in this case, -EINVAL should
+>>> be returned, as both the crtc and fb don't exist, therefore the check
+>>> should not succeed. I would personally prefer a more explicit check
+>>> that does return -EINVAL instead of 0 from
+>>> drm_atomic_helper_check_planes()
+>> If the plane has been disbabled, fb and crtc are NULL. So this is
+>> correct. drm_atomic_helper_check_plane_state() is the place to do this
+>> testing before doing much else in the atomic_check handler. If
+>> drm_atomic_helper_check_plane_state() gives an error, the error should
+>> be returns. But if it returns 0 and sets ->visible to false, the
+>> atomic_check should return 0.  That means that the plane can
+>> successfully be disabled.
+>>
+>>> As a side note, I'm not sure if there's a reasoning as to why
+>>> drm_atomic_helper_check_planes() returns 0 if fb is NULL instead of
+>>> -EINVAL, I'm assuming it's not designed to come across this specific
+>>> case. Either way it's not too much of an issue but maybe one of the drm
+>>> maintainers can clarify why it's this way.
+>> Disabling a plane is not an error, but a common operation.
+> I think I may have misunderstood the drm docs on this, if having crtc
+> and fb be null and returning 0 then is ok, I am happy for this patch to
+> be applied. I have tested it and it indeed works, and removes the oops
+> present in the driver before this.
 
-Yeah that would make it much more cleaner.
+No worries, DRM semantics can be murky. This is one of the cases that is 
+impossible to know unless you came across a patch like this one.
 
-Also some higher level documentation would certainly help.
+Best regards
+Thomas
 
-> But I am wondering why not make it as one subsystem interface, such as nvme
-> ioctl, then the whole implementation can be simplified a lot. It is reasonable
-> because subsystem is exactly the side for consuming/importing the dma-buf.
+>> I think the patch is fine and IIRC we have similar logic in other drivers.
+> Reviewed-by: Ruben Wauters <rubenru09@aol.com>
+>
+> I believe Shenghao mentioned another oops that is present? if so it may
+> be best to submit that in a separate patch rather than a v2 of this
+> one.
+>
+> Ruben
+>> Best regards
+>> Thomas
+>>
+>>> Ruben
+>>>> Would a more explicit check be preferred?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Shenghao
 
-Yeah that it might be better if it's more nvme specific came to me as well.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-Regards,
-Christian.
-
->  
-> 
-> Thanks, 
-> Ming
-> 
 
