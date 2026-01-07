@@ -2,57 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7258CFFCE5
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 20:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA73CCFFE5C
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 21:01:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53E9810E5DA;
-	Wed,  7 Jan 2026 19:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7143A10E65B;
+	Wed,  7 Jan 2026 20:01:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="fOmNBsdQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C92jH3rN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com
- [91.218.175.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0E1310E5DA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 19:42:47 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
- s=key1; t=1767814965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xRTbJOKwkZYdpEZZY1w1lPpqDpzoRzUFJtgND5Kkiuo=;
- b=fOmNBsdQH3r8E465w1m0/hb7SvFn25larE0IcdL+p1lfYSACDzHb5rx1GxekuQfFPZg0n0
- PacZa6h2gPIF1ZxVPSGMo8o3KJ81ZOAK7ScRXXRrHDVDxAHWgZZ7lhna3gLX7vG6u8LQHe
- n9x5hBQZKAYarCTcs5jQRetHJujtp+aT9f2s/kgAzJSQk3SXMH8zHAHYodXdgdHnwyNnPI
- ZXMyckftmevLGOp1LZw7xy5097Jl+7EQreUBjVLzWtZMsgLARl+VRDT1EE/5r0Ukd6+Njj
- FmOmX3riFNYkP6h1MYdGzFQEIDDUtOkIdavKfqFuoqTgm5TKFVwFKTzh61GQjQ==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Jan 2026 20:42:37 +0100
-Message-Id: <DFIM3O2VB0ZR.2D0W676YS74KG@cknow-tech.com>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Sandy
- Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Louis Chauvet"
- <louis.chauvet@bootlin.com>, "Haneen Mohammed" <hamohammed.sa@gmail.com>,
- "Melissa Wen" <melissa.srw@gmail.com>
-Cc: "Robert Mader" <robert.mader@collabora.com>, <kernel@collabora.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, "Matt Roper"
- <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v4 0/4] Introduce BACKGROUND_COLOR DRM CRTC property
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-References: <20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com>
-In-Reply-To: <20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3DDE10E5E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 20:01:32 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-78fcb465733so27729267b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 12:01:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767816092; x=1768420892; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bw1dDqtzxhWwWEi8xX5ZmaE/Mztn8IdFjmib1q0cdJY=;
+ b=C92jH3rNpiTRcDuYLvDB0CztAeCV9rsSun2FH+iOulKteRc9IN8nW6T3RW+TP+YI25
+ zThI/XUVXLZh9IY04070wDw85M2/6yQzGJn8UwT2/s03KgCQQFQ+iqLOevP1wQVQLf/N
+ 57pSeZMyOZhL7d4Xi8OtJkHlImBgqcxlwMHwdL8/Ve1ngzYPpLv8yfOjznxncT63hi0l
+ p42XRD2o1SrQswrpkoKnKaxyCNlIt6t6QtGsaGk9xNZBF11nk0+nLHTdnbPVs1IJy4nJ
+ 2JxuExfeHFG9uLoNRwGF9B51CgMo4GLct66ynoHKYa3qvFxLJW9lpXQLI+DaMsHFgSq1
+ sQoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767816092; x=1768420892;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bw1dDqtzxhWwWEi8xX5ZmaE/Mztn8IdFjmib1q0cdJY=;
+ b=NB7uz5MGCM71WhRZ3OHfjP5S/6MsrtzuMTEQMzTy4Ad/sDG/oeu9RkrsroWwRCqldM
+ voJd6yVwvE9WFDYuTbJ+Fi8StLW3dZ+O9fIN75yRCy3oOlOjP2qcIWhbSX7uBoaBxFbN
+ iyYFTjPIbY7U03wA2ORvUKDwem7ybrxsagDEc5kjLz1Np9xClbCKf0SoIC+Z+uL8AL43
+ vwz8m6B/GXeStwwUQlRpG86kKxLzkatbc8RPxBLyGhSilwccJXiqiMi5AWa0fkyNin9n
+ BpvJoxA0TBaGPV4ur1wjGrfGhTsh7v50ekZ6nJtPpDbOZ/S1CO39n0gceMCbolps5iK4
+ JL4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEcfrujI7zvF9DoRioqSRYUc8E5oAN4R5Hj17hZmkfToY47LBZEnbqi1ps4CKeR1rdqMUe6I+4xS0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkTryGShxtLs26qSElQyxnYtYoZ9EiGwvisjLbskzrM7kjVucF
+ LvgMGTNl8e9R64ceH+NjVxnDP+EjS/8E4AfiFwt3SLpwAEiWvfuVd9AzuxTr5yD9BBYZWu1VQea
+ 8xRLKYI5PUd1N3mP0Lm86XRXDJCDDM0k=
+X-Gm-Gg: AY/fxX6xIHb7RE5OP4yG99VPIBm8fWc3i/XgOGmF/ooU50tOcWIythg+Q82MwHR/bMS
+ rngoxxIUUH+4ntXIpriTov9EffjkLOEwWyxwNc0PwAqxwJrENHfSubUhs74NnCg+fxsklpnYSI1
+ HV01t33i1obqeWu4/HgiBgYphoRBcAuxNW4ig1GAS7Urssvjspn8LqcjHI+txEUwmf0VB0vwgD/
+ OdcNBxEWsIyGVkpS+qvhJsh7cLWUfa6o6vnzeTcpWqpkvvBo/e1X2d6IIcz8MVFGO0dneN2muja
+ p16i0To3ciQ0FypEGMTE65tvqdHuUw==
+X-Google-Smtp-Source: AGHT+IGvHXnVPwLtk2AfaYjIl3ufVpWEoMzjf05Wlyvun5/WGBAyf6b3AZpMO0jrqG+zCakLOjQyoYGCFgMnaCLej7U=
+X-Received: by 2002:a53:eac7:0:b0:63f:b5a5:37c with SMTP id
+ 956f58d0204a3-64716bbb65dmr2504318d50.2.1767816091690; Wed, 07 Jan 2026
+ 12:01:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
+ <TY4PR01MB144323B0DDC18B05EE1472B5298BFA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY4PR01MB144323B0DDC18B05EE1472B5298BFA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Wed, 7 Jan 2026 21:01:20 +0100
+X-Gm-Features: AQt7F2o4QulUaJZZRb2rNrPuwYD0wKGX8_-w5ECTaHV1w_JbEvoPR6OEd3x_uPI
+Message-ID: <CAFZQkGxdizG15chbehb-TGfBy4yL4NRy7GVD1b51mASmRG+0sA@mail.gmail.com>
+Subject: Re: [PATCH 00/11] Plane Color Pipeline support for MediaTek
+To: Shengyu Qu <wiagn233@outlook.com>
+Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, daniels@collabora.com, 
+ ariel.dalessandro@collabora.com, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,128 +94,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Dec 19, 2025 at 10:46 PM CET, Cristian Ciocaltea wrote:
-> Some display controllers can be hardware-configured to present non-black
-> colors for pixels which are not covered by any plane (or are exposed
-> through transparent regions of higher planes).
-> ...
-> The subsequent patches add background color support to VKMS and the VOP2
-> display controller used in the RK3568, RK3576, and RK3588 Rockchip SoC
-> families.
-
-As previously reported against the v3, while I actually tested v4 ...
-
-Cristian provided a helper script which would show a test pattern and
-then iterate through setting Red, Green, Blue background color and then
-set it back to the original value.
-
-I first tested this on a Rock 5B (RK3588).
-Without this patch set, the background color was Black with every
-iteration. But with this patch set, I did see a Red, Green and Blue
-background color, after which it was set back to Black.
-
-diederik@rock5b:~$ grep -E "^Changing prop|^Read BACKGROUND_COLOR" bgcol-te=
-st-bash-user.log
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-Changing prop value to: 0xffff00000000ffff
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-Changing prop value to 0xffffffff00000000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
-Changing prop value to 0xffff0000ffff0000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
-Changing prop value to 0xffff00000000ffff
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-Changing prop value to: 0xffff000000000000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-
-I then did the same test on a Quartz64-B (RK3566) and that too showed a
-Red, Green and Blue background color and then was set back to Black.
-
-diederik@quartz64b:~$ grep -E "^Changing prop|^Read BACKGROUND_COLOR" bgcol=
--test-bash-user-q64b.log
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-Changing prop value to: 0xffff00000000ffff
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-Changing prop value to 0xffffffff00000000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
-Changing prop value to 0xffff0000ffff0000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
-Changing prop value to 0xffff00000000ffff
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-Changing prop value to: 0xffff000000000000
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-
-So this patch set does what it is supposed to do, so feel free to add:
-
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>
-
-Cheers,
-  Diederik
-
+Am Mo., 29. Dez. 2025 um 19:53 Uhr schrieb Shengyu Qu <wiagn233@outlook.com>:
+> > The curves supported by Gamma are:
+> > * scRGB
+> > * BT.709
+> > * BT.2020
+> > * HLG
+> >
+> > Given the lack of support for writeback connectors on the MediaTek KMS
+> > driver, combined with limited hardware documentation, I haven't been
+> > able to verify the correctness of each curve, only that they were
+> > visually sane (gamma curves made the image on the display brighter,
+> > while inverse gamma made it darker).
 >
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> Changes in v4:
-> - Switched to simple bit-shifting approach when performing the bpc
->   conversion in the vop2 driver, to avoid the expensive division since
->   we shouldn't be concerned anymore about the precision (Chaoyi)
-> - Rebased series onto latest drm-misc-next
-> - Link to v3: https://lore.kernel.org/r/20251118-rk3588-bgcolor-v3-0-a2cc=
-909428ea@collabora.com
->
-> Changes in v3:
-> - Added new patches:
->   * uapi: Provide DIV_ROUND_CLOSEST()
->   * drm/vkms: Support setting custom background color
-> - Improved DRM_ARGB64_{PREP|GET}*() helpers by using a conversion ratio
->   for better color approximation when dealing with less than 16 bits of
->   precision
-> - Mentioned the IGT test in the cover letter while documenting the
->   validation results; also dropped references to the now useless
->   modetest wrapper script and its generated report
-> - Rebased series onto latest drm-misc-next
-> - Link to v2: https://lore.kernel.org/r/20251013-rk3588-bgcolor-v2-0-25cc=
-3810ba8c@collabora.com
->
-> Changes in v2:
-> - Improved uAPI consistency and readability by introducing
->   DRM_ARGB64_PREP*() and DRM_ARGB64_GET*() helper macros
-> - Updated several code comment sections
-> - Referenced the counterpart Weston support in the cover letter
-> - Rebased series onto v6.18-rc1
-> - Link to v1: https://lore.kernel.org/r/20250902-rk3588-bgcolor-v1-0-fd97=
-df91d89f@collabora.com
->
-> ---
-> Cristian Ciocaltea (4):
->       uapi: Provide DIV_ROUND_CLOSEST()
->       drm: Add CRTC background color property
->       drm/vkms: Support setting custom background color
->       drm/rockchip: vop2: Support setting custom background color
->
->  drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
->  drivers/gpu/drm/drm_atomic_uapi.c            |  4 ++
->  drivers/gpu/drm/drm_blend.c                  | 39 ++++++++++++++--
->  drivers/gpu/drm/drm_mode_config.c            |  6 +++
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++
->  drivers/gpu/drm/vkms/vkms_composer.c         | 10 ++++-
->  drivers/gpu/drm/vkms/vkms_crtc.c             |  3 ++
->  include/drm/drm_blend.h                      |  4 +-
->  include/drm/drm_crtc.h                       | 12 +++++
->  include/drm/drm_mode_config.h                |  5 +++
->  include/linux/math.h                         | 18 +-------
->  include/uapi/drm/drm_mode.h                  | 67 ++++++++++++++++++++++=
-++++++
->  include/uapi/linux/const.h                   | 17 +++++++
->  14 files changed, 178 insertions(+), 25 deletions(-)
-> ---
-> base-commit: 8e7460eac786c72f48c4e04ce9be692b939428ce
-> change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
->
->
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+> Hmmm I don't think this is acceptable. sRGB/scRGB has two transfer
+> functions mentioned in original specification[1]. To keep color
+> accuracy, we need someone from mediatek confirm whether this is
+> piece-wise or pure power 2.2 transfer function, this is already done in
+> original amdgpu color pipeline series, sRGB means piece-wise while also
+> dedicated power 2.2 function exists.
+scRGB is a different specification from sRGB and has only piece-wise
+and linear, not power 2.2. I seems unlikely that there's really a
+problem here.
 
+- Xaver
