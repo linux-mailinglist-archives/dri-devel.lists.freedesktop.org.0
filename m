@@ -2,68 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3331CFE5D4
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5DCCFE634
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:49:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D51EE10E0E8;
-	Wed,  7 Jan 2026 14:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B69410E1E8;
+	Wed,  7 Jan 2026 14:49:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mwG58V21";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="XmDC6RSj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECBD10E0E8
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 14:45:37 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 6C6AF4E41FD8;
- Wed,  7 Jan 2026 14:45:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 3334A606F8;
- Wed,  7 Jan 2026 14:45:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 54B3D103C87C1; Wed,  7 Jan 2026 15:45:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767797135; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=nTlOT3AM4kdk7PxlNs3Skb2xq4/lCpkf95bKd6Z7IFA=;
- b=mwG58V21Feidw7j15RkZ1DlmeBnygryUTg12PFyeun6SbL9UTMeQuBa/8vHS1eHFd8029L
- gUBiXaA5jWnwZ2IoTRm9A0ijTAesUa4m5wNMBnTmFh/kEfP25+oWQuPHZcFzPm52arShlN
- Z6LgEDcsgolgB1iwvYzSEO7kLDdcRqlxXrCocxejFHvB+d3UGfDMa3mipAFKt/h/EQuM9/
- vMFxUGBzyLB/mtlmKx5GPM6T8Ub5eDu524wcrnK1htz4OoOxRzvVkBhGLLVU2p/DojiX3V
- E3WLiGA8J/pTx5Gb0zznUhkhDBxNE2CLn0CfTKOwLLdUB8Mgwhp5crAsU6ogSg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Jan 2026 15:45:24 +0100
-Message-Id: <DFIFS3S64SGO.3UGHYN3F6HHRQ@bootlin.com>
-Subject: Re: [PATCH 09/12] drm/bridge: imx8qxp-ldb: convert to
- of_drm_find_and_get_bridge()
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Philippe Cornu"
- <philippe.cornu@st.com>, <benjamin.gaignard@linaro.org>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Adrien Grassein"
- <adrien.grassein@gmail.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "Inki Dae" <inki.dae@samsung.com>, "Jagan Teki"
- <jagan@amarulasolutions.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
-To: "Maxime Ripard" <mripard@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-0-283d7bba061a@bootlin.com>
- <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-9-283d7bba061a@bootlin.com>
- <20260107-weightless-adaptable-wildebeest-a3ed6f@houat>
-In-Reply-To: <20260107-weightless-adaptable-wildebeest-a3ed6f@houat>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E223510E1E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 14:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=l9zPldPO0gnPG9wqrGk15pRMXLG4lDUH1uQahecjpaw=; b=XmDC6RSjQjF/FBL9NZNvteRWSJ
+ XfSf2hlRECEq0ebGyg5PpKJwJCMOSfzAKwNiq943mtTwN562XqVg6CXBQSWlSMPkQvBjMDvcHMIaq
+ VbMaChEVW2NJrWYX+WTkUc4q69Qc5hAruLFHgmNhAYSWJ1vsrga7eXrkK796N4NMiipuPKZTZaOyY
+ rFR/5UDT6V5KElXh5mZSYB1MBSII5ql1opBUYPQgnNho0fHqTuxPNBDc2lGvJn8XWN6B5G7rhA+bL
+ 5Nr/2YPyuCjvtoxt9xu77oRYLe5AYcNt5uU3ZpPNrjBz5lS//E3QOZJVBGISdvCI/NU5j64SAazKq
+ NN8VbQ0g==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
+ Hat Linux)) id 1vdUqx-0000000DVit-44jG;
+ Wed, 07 Jan 2026 14:49:40 +0000
+Date: Wed, 7 Jan 2026 14:49:39 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: =?utf-8?B?546L5b+X?= <23009200614@stu.xidian.edu.cn>
+Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, x86@kernel.org, paulmck@kernel.org,
+ tglx@linutronix.de, peterz@infradead.org, akpm@linux-foundation.org,
+ syzkaller-bugs@googlegroups.com
+Subject: Re: [BUG] rcu: stall detected in sys_mmap with PREEMPT(full)
+ involving timer softirq and DRM vblank disable
+Message-ID: <aV5ygyPM7J7VdmgL@casper.infradead.org>
+References: <6b7e2fac.a60e.19b97034116.Coremail.23009200614@stu.xidian.edu.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6b7e2fac.a60e.19b97034116.Coremail.23009200614@stu.xidian.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +59,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Wed, Jan 07, 2026 at 01:52:11PM +0800, 王志 wrote:
+> Hello,
+> 
+> I am reporting an RCU stall detected during syzkaller-style fuzz testing.
+> The stall is reported while executing sys_mmap(), with the
+> rcu_preempt grace-period kthread starved for over 10 seconds. The
+> observed stacks involve memory fault handling, timer softirq processing,
+> and DRM vblank disable paths. With PREEMPT(full) enabled, the RCU grace
+> period fails to complete.
 
-Thanks for the blazingly fast review of the entire series!
-
-On Wed Jan 7, 2026 at 3:08 PM CET, Maxime Ripard wrote:
-> Hi,
->
-> On Wed, Jan 07, 2026 at 02:13:00PM +0100, Luca Ceresoli wrote:
->> of_drm_find_bridge() is deprecated. Move to its replacement
->> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure i=
-t
->> is put when done.
->>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->> ---
->>  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/=
-bridge/imx/imx8qxp-ldb.c
->> index 122502968927..6b80d798b27a 100644
->> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
->> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
->> @@ -552,7 +552,7 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx=
-8qxp_ldb *imx8qxp_ldb)
->>  		goto out;
->>  	}
->>
->> -	imx8qxp_ldb->companion =3D of_drm_find_bridge(companion_port);
->> +	imx8qxp_ldb->companion =3D of_drm_find_and_get_bridge(companion_port);
->>  	if (!imx8qxp_ldb->companion) {
->>  		ret =3D -EPROBE_DEFER;
->>  		DRM_DEV_DEBUG_DRIVER(dev,
->> @@ -679,6 +679,7 @@ static void imx8qxp_ldb_remove(struct platform_devic=
-e *pdev)
->>  	struct ldb *ldb =3D &imx8qxp_ldb->base;
->>
->>  	ldb_remove_bridge_helper(ldb);
->> +	drm_bridge_put(imx8qxp_ldb->companion);
->
-> the companion bridge is used in pretty much every KMS hook, we need to
-> put the reference in destroy.
-
-Ouch, indeed! Will fix in v2.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Get your changes into syzkaller upstream, don't spam us with "i'm doing
+syzbot's job".
