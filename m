@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0767FCFDAE5
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 13:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C88CFDB72
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 13:44:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C5810E5A5;
-	Wed,  7 Jan 2026 12:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E659110E5AE;
+	Wed,  7 Jan 2026 12:44:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ivCOlkKs";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lXgg1lUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6D610E5A5;
- Wed,  7 Jan 2026 12:32:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E94936000A;
- Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E98FC4CEF7;
- Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767789142;
- bh=2Nqjd5umGqQTshG/6KasLg0SyW2HMZV1B1Lxjp2ecFg=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ivCOlkKs/3FPom4CAQW/8n5+RtJ+Ktgpa46WuEDsbvA9PTBeWuC7vV4+xBeDgQh6I
- F+ikAwBIMxkTYm3UK5stlQN0iulvCSSl6E2JV1u4QXCSkGcTAkSB2mkHdzw/EdIDvc
- FUSAzwPfQKz6h4ZHo8/hDOFRATtO4FNaGq9u8a+Hb0DB/mfzr37+BspAyH9jtluOP9
- BThkvDxk9LJUGONm+dsYPaEtV1NScUVsoM3A4nX+KbKavoAkonyRlYC4BOBp/n+kNt
- uNOpMaeFLn9fsFJzYYAUv+hgwkrlZmLWtZDdw79Ff4blsc6mcmnifNIw3KUSZqGA+X
- RP1wITi7KGfyw==
-Message-ID: <57ad1884d9080ebc37abf8b96ab71abf@kernel.org>
-Date: Wed, 07 Jan 2026 12:32:20 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 04/10] drm/connector: make clear_infoframe callback
- mandatory for HDMI connectors
-In-Reply-To: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
- Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Chen-Yu
- Tsai" <wens@kernel.org>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>,
- "Dmitry Baryshkov" <lumag@kernel.org>,
- =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
- Ying" <victor.liu@nxp.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>,
- "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
- Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
- Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>,
- "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0166510E5AE;
+ Wed,  7 Jan 2026 12:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=tVHO0GW+8aw+7qVIwZSwwR7hk1Za0j1CXqpRaTb2Wl4=; b=lXgg1lUhC2+xDwd9vaNxnJh3Vp
+ IbWAsEuPjuVrEIxW9BVdgrOloa8RV1XVL66ZnfNFq083rdGphI+Q9RdwCPyYnU7oz/jRdijL02HWx
+ WcfXmqMj4nMR/uoRwoInjHRiEry3BgLAjBIPU8feb+zmStRpGskkmtvYJ8VNyJhPSEB7eZ1nJ72G1
+ nWxZfpM967vhn4ZUUCmnSby2CfcogJMhTwuIsngkjtSuVvdxguvG2O8aQqCR1OEyonmxxW3jeILDZ
+ SZ2681NLPM35ad2VNk3DwszjAM+LepxID3qSlRBaGWz4mbxFt96KgiCKyAvOoe/Ik1z0Dej1xWOqz
+ m38HBjiQ==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vdStJ-002Ysx-AJ; Wed, 07 Jan 2026 13:43:57 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [RFC 0/3] Simpler and more consistent handling of entities on missing
+ hw blocks
+Date: Wed,  7 Jan 2026 12:43:48 +0000
+Message-ID: <20260107124351.94738-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,16 +64,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Dec 2025 03:02:53 +0200, Dmitry Baryshkov wrote:
-> We already require both hdmi_write_infoframe and hdmi_clear_infoframe
-> for bridges implementing DRM_BRIDGE_OP_HDMI. It makes sense to require
-> the clear_infoframes callback for HDMI connectors utilizing
-> drmm_connector_hdmi_init().
-> 
-> 
-> [ ... ]
+Trying to consolidate how entity creation and/or submission is rejected when
+underlying hw ip block is missing.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Amdgpu appears to be the only user which can pass zero schedulers, or a single
+NULL scheduler to drm_sched_entity_init(), so if I did not miss something subtle
+and the first two patches are okay, then the last one removes handling for that
+special case from the DRM scheduler.
 
-Thanks!
-Maxime
+Tvrtko Ursulin (3):
+  drm/amdgpu: Reject impossible entities early
+  drm/amdgpu: Remove redundant missing hw ip handling
+  drm/sched: Disallow initializing entities with no schedulers
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  7 -------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c  |  5 +++++
+ drivers/gpu/drm/scheduler/sched_entity.c | 13 ++++---------
+ 3 files changed, 9 insertions(+), 16 deletions(-)
+
+-- 
+2.52.0
+
