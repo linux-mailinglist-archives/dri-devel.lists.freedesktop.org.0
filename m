@@ -2,66 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A350CFE297
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4564CFE2AC
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF5D10E5E6;
-	Wed,  7 Jan 2026 14:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB47D10E5EA;
+	Wed,  7 Jan 2026 14:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d+yKW82N";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UBmKmXa8";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cm9vtgvh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3DDA10E5E6
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 14:08:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B773060007;
- Wed,  7 Jan 2026 14:08:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9210C4CEF1;
- Wed,  7 Jan 2026 14:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767794885;
- bh=tixylDIwkfMzESf8/JELPILstX0GopnvIR6u5lHwaKk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d+yKW82NNNJx2vwiMYS/bjv0OXWpntcMb8wDjG09HZnubqTCbaqj+8kpP90FLjKlZ
- RDxkRBwLEpn+rnHZ/prOfonmw61IcVqCKKa0kFCJA7PQi0zVRjzu1HEA8XQC7t3vf8
- AeUgLYHGtc5ZxJm+m1b12TIuNRSGZFN9sB27rL1MeXdz9zWJDR/3fw0T/NyYqPKYFy
- SMwdLpHO4EFEwusImIAIZkIYBeIhkDzZRyC7ofsTkfJ9C/9ENFdLftj+HMgprXWwWC
- VyxpGtJ8WBNM8CAjpmc64bFSQ2hdxU5ZhZ10rsar79OuzK5b2qoXW//ACFMqHR4eCb
- Pu81Om00rpliA==
-Date: Wed, 7 Jan 2026 15:08:03 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Philippe Cornu <philippe.cornu@st.com>, 
- benjamin.gaignard@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, 
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 09/12] drm/bridge: imx8qxp-ldb: convert to
- of_drm_find_and_get_bridge()
-Message-ID: <20260107-weightless-adaptable-wildebeest-a3ed6f@houat>
-References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-0-283d7bba061a@bootlin.com>
- <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-9-283d7bba061a@bootlin.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2BA10E5E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 14:08:09 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6079c6GH2877508
+ for <dri-devel@lists.freedesktop.org>; Wed, 7 Jan 2026 14:08:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ mCbn5kuKUVOa7StqdNfdgtoPVjIvEhpYuWWE9PJhHbI=; b=UBmKmXa8lJdanWPk
+ 9kQMooo71A92HE7SGebPQ9STM8M+9pq6NRg8hbacBluETQb8u+OeIvIxmi5QV1Jr
+ PPJdfU+cqC24l9Ui5QXrV8HaJWZmBMNoge3SDtRbrJNE4HUPdYuKhXIEComH/kSZ
+ ZnhYEQ7tTCAp6G+VtP/I5N7zVGPQ9+bew655fML/x62frlELdJzEj/T7Y7Pr8W4j
+ +6BtDdiCIzQzxFA77rKgy/Wm1hyR48d4HPmcPVkRzJGwjpMmxbFcMLvd8YLzLmPQ
+ 3nm0I42bAyVexV9CKB79GExN/2KYdHL/O9gl4baTg83yDBqG04DgH+YNuoCP39+I
+ A+qYtw==
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhn1crrv5-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 14:08:09 +0000 (GMT)
+Received: by mail-yx1-f71.google.com with SMTP id
+ 956f58d0204a3-6455321ccc7so387811d50.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 06:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1767794888; x=1768399688;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mCbn5kuKUVOa7StqdNfdgtoPVjIvEhpYuWWE9PJhHbI=;
+ b=cm9vtgvh+OqzEsV+w7T9+oyi4wSo3dDxqN36UrVC+z98lmsUZspFyJpkRSuINAK8Q+
+ HN4U0b1bitJMe81k/0EI5mb2fqJEAd5E6N3M4nobUaPtaIPZR7T7dm+X0pQn47r5HTpp
+ WI0YV1yFVMTNNxSDlOOROvdhF8skTyhgIHs96HiR9h11ge9YVuuQn3JObvX429KqoBMg
+ 92eoyNitDv8xqa0Ijl7CsvnODULREyB+hAip4L3bEeDMqJ8w4jGrpRPVCs/MjYNQsZYy
+ Ll9t3Yjpp/N1h1WCnBZVrApZRvCOFpMhfwfXwcZP02Rew4HrI8byaIZPZ7l0OqACC7ZS
+ qN+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767794888; x=1768399688;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mCbn5kuKUVOa7StqdNfdgtoPVjIvEhpYuWWE9PJhHbI=;
+ b=tNWbx+ge5uqbs4Zjr+kkEWIKXSiz3v3+4KDyGCig5JuO8+DvMPSAzeAESeDcPwfLC0
+ Ghc1bIMLcix/HRL/TQ/D2FlYN5YVQwQcXh26OtjKLA0aNRUXjSOHMrUQdTYZ6VnWqY13
+ kRgKnDJ7y8FV+vI6KR8UdOyok++R7809i4wcvHcgzZ/PSUzUY3/ZamHjyL+qk7E4aDcb
+ MV/zleGTGhkPDlRkZcjREWPSaJ+iV73mwjvAsPiZe9X9zHdQ3GWTgEsnGA9vljR8ADGZ
+ UDVmDCRpH23LzSHcjhqRsBVD5FbMjkGBd7uhlcBfBXfsmBFjBPM1hneFfLI/mddmoTRr
+ UJ5A==
+X-Gm-Message-State: AOJu0YzEddj6o1lFXcDDYFS0K8xqN950OTwZpg7VIDhIqaAWw/N3bmqi
+ mQMbbkO57OiQrUMTGeao/h7by9XvawISiy/wt/H7ZLs1W+HaELXyCWOPAXjLWUtxn64m5z4w+P4
+ Col3X0/SLoBOoam7fF8QT1IxS1E72JnHMIQQweHvGwQJYh9uYntXsamSlTh5Y5v6HbJnSTXY=
+X-Gm-Gg: AY/fxX4z2tUv9LTzoGorZkUtWxugFd6+WeCQZ4Y2nvhqktgEU0sGFaXNMbgRhwd2TMW
+ dMqZHJyBdQLETg5GCVjelZ2IpWaa3wwtJcZ7I6QBrumZOUKmM4eP6LFXlkkVFndvZjqasiountX
+ MgDJhxde2TsAeG+Tc4HRsHe35rVcGlSSuzhGxYbQn4miEl/iVo7R+2TXA3Cp7eV1D7xd7m7HDYB
+ 9+S0ka/yokGN9ZYCHGchgqIHQslPW2n/OyCkaBYBaKHAhuKt8EMRlCc6obZ7+sVCNOhViTAGIx1
+ IPh7zzEOa3YJALpnyynBsMTeDDUAHwEjHC9a+wFNA1q3La+xuISUafxrFdJebDmdqpbbXgPavzX
+ tIVxZ9DISH1HOAVsOQA7BBqK4cqWwQA2qvXNE2QmivSgfv4S//PkSzmKqQ3oUYdvAtKo=
+X-Received: by 2002:a05:690c:9:b0:78c:2c4d:3df9 with SMTP id
+ 00721157ae682-790b54b5af8mr27270587b3.0.1767794888346; 
+ Wed, 07 Jan 2026 06:08:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHyUpA3k3b3g5qtKWK7Tl1X2D7wG2aBAVLD35CZGCs0GMhgDfMQ+H933I+o6Rq2dV0QTyPUnQ==
+X-Received: by 2002:a05:690c:9:b0:78c:2c4d:3df9 with SMTP id
+ 00721157ae682-790b54b5af8mr27270177b3.0.1767794887752; 
+ Wed, 07 Jan 2026 06:08:07 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b842a56962esm529552466b.66.2026.01.07.06.08.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jan 2026 06:08:07 -0800 (PST)
+Message-ID: <09a4642a-3552-44e7-97bd-b26e6937ad8b@oss.qualcomm.com>
+Date: Wed, 7 Jan 2026 15:08:04 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ljhomylig6poh7z3"
-Content-Disposition: inline
-In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-9-283d7bba061a@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] arm64: dts: qcom: msm8953-xiaomi-vince: correct wled
+ ovp value
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>,
+ Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>,
+ Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>,
+ Alejandro Tafalla <atafalla@dnyon.com>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
+References: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
+ <20260107-pmi8950-wled-v1-3-5e52f5caa39c@mainlining.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260107-pmi8950-wled-v1-3-5e52f5caa39c@mainlining.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDEwOSBTYWx0ZWRfX+XiR6XDbqwPp
+ I/gjFQ623VJCUA+RIntFE1EQwSjmWMOc1BrzuB8SUThJfj997cmEhG0v9J8zI6zgSC9wzbgyfsw
+ mLHX4Ew/vnvx6LeXR9JA//Otkm8aYKUBNHA2tJE92Ji0Ml7UO36FFep23E70/b13qboeUcSalHo
+ WWTBNHDqtFV40XF5DrkfPcTAKkAbSfoXDe0s4DznsW8wnbK0ELkZa7LHhuutkNA3QoEk6pwH4eN
+ CzsXM4SBaId8Mf8JbxWLOTEf3usjq6azrtWL1USh2dBXmICnJeEdmms9w3LEXWVBy/hU4qYcIRH
+ wnirz5Y7Zl553TtVrALRw8MLgGh5WQwEZODD+Zgle/f1RTKJjpOL8PRcRNomI08h80TyVzeTkA8
+ IfIXUtlBcucG0k3AYtPyN3RL+mNes50MWwk/PU2nsZx7ssfHDRVmufQjcV53uvKg16+FhZ9Puib
+ Hbig9+VxJq+t7EHQAhA==
+X-Authority-Analysis: v=2.4 cv=INwPywvG c=1 sm=1 tr=0 ts=695e68c9 cx=c_pps
+ a=ngMg22mHWrP7m7pwYf9JkA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=cwWn7d2NfpHSwl1uxIYA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=yHXA93iunegOHmWoMUFd:22
+X-Proofpoint-ORIG-GUID: jpwcrtJN_IxilfnM1aVLmKBpZ7QGixIH
+X-Proofpoint-GUID: jpwcrtJN_IxilfnM1aVLmKBpZ7QGixIH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-07_02,2026-01-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601070109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,64 +150,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 1/7/26 2:31 PM, Barnabás Czémán wrote:
+> Correct wled ovp value from 29600 to 29500.
 
---ljhomylig6poh7z3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 09/12] drm/bridge: imx8qxp-ldb: convert to
- of_drm_find_and_get_bridge()
-MIME-Version: 1.0
+This tells us what the fix is, but not why the fix needs to be made.
+We can infer the former from the patch contents, but it's really
+important that the next reader, perhaps in 5 years, can find out the
+reason it was made.
 
-Hi,
+How about:
 
-On Wed, Jan 07, 2026 at 02:13:00PM +0100, Luca Ceresoli wrote:
-> of_drm_find_bridge() is deprecated. Move to its replacement
-> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-> is put when done.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/b=
-ridge/imx/imx8qxp-ldb.c
-> index 122502968927..6b80d798b27a 100644
-> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-> @@ -552,7 +552,7 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8=
-qxp_ldb *imx8qxp_ldb)
->  		goto out;
->  	}
-> =20
-> -	imx8qxp_ldb->companion =3D of_drm_find_bridge(companion_port);
-> +	imx8qxp_ldb->companion =3D of_drm_find_and_get_bridge(companion_port);
->  	if (!imx8qxp_ldb->companion) {
->  		ret =3D -EPROBE_DEFER;
->  		DRM_DEV_DEBUG_DRIVER(dev,
-> @@ -679,6 +679,7 @@ static void imx8qxp_ldb_remove(struct platform_device=
- *pdev)
->  	struct ldb *ldb =3D &imx8qxp_ldb->base;
-> =20
->  	ldb_remove_bridge_helper(ldb);
-> +	drm_bridge_put(imx8qxp_ldb->companion);
+"""
+PMI8950 doesn't actually support setting an OVP threshold value of
+29.6 V. The closest allowed value is 29.5 V. Set that instead.
+"""
 
-the companion bridge is used in pretty much every KMS hook, we need to
-put the reference in destroy.
+With this or similar commit message:
 
-Maxime
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
---ljhomylig6poh7z3
-Content-Type: application/pgp-signature; name="signature.asc"
+Konrad
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaV5ovQAKCRAnX84Zoj2+
-dv4yAYC/18PKdVreCA8vF+oCiv+rArQOQdluKaPY7WyntK608MdJYBnbhVlGWFt3
-m/w0WAkBgIx7i5jlphIWLhPUgfA0LxoI4W9QLV2N3AymAfzRp7rmhJPGXGDZ03P/
-Q3gPy/78sg==
-=3oDC
------END PGP SIGNATURE-----
-
---ljhomylig6poh7z3--
