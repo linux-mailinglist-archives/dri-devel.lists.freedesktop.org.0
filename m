@@ -2,65 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37930CFD67E
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3CFCFD744
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:44:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B4F10E057;
-	Wed,  7 Jan 2026 11:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B019010E06A;
+	Wed,  7 Jan 2026 11:44:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jyx8w+q8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nqlN334W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41DB10E031;
- Wed,  7 Jan 2026 11:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767785654; x=1799321654;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JAxEZqqz6EJGA/R3k09eGy3oZPfnQZRUgKQUUI8QS7k=;
- b=Jyx8w+q8Urpd6gBhvnx94DWEczY2Tj00pesi+8SQiHDXlS1nu865bpmo
- uzbmRnDWUffpzlD1crS4kTLRpHJb+iuXpvEn8m991kbXtlxOEmKi+GWj1
- kYsIWKyArvPKZ3Fb742SwFGLgQxH0eU1+m3cfvax5pQezOR3XZq2PYk51
- PMBsEC+npYcUCF+cpU85/JZhTsVd7DR1kVugEfvxIpVdx9kA9kiDRZHiN
- fp4j+IlAG0xQuNx1B5bnLdk08WLB6nodwqNNKC0RBDIX+oo6Nx73AMeE0
- i/Cg9XV5AmhFo6yMnqxhpO/eOLxBtTO8Fxpg9qbLbfC1+KxTaSMTwcm0v A==;
-X-CSE-ConnectionGUID: yLb9ElDvRmauUAoG2XPIyg==
-X-CSE-MsgGUID: sxkS0OGjRvSu7kPxoOKz7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="80514558"
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; d="scan'208";a="80514558"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 03:33:56 -0800
-X-CSE-ConnectionGUID: u7gH7FV9STSGYWZVkZ/92g==
-X-CSE-MsgGUID: HRFF9JwqQ2GzFHAsdz7WaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; d="scan'208";a="203354662"
-Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
- by fmviesa009-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:33:55 -0800
-Date: Wed, 7 Jan 2026 12:33:35 +0100
-From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH i-g-t 1/3] drm-uapi/asahi: Initial import of asahi_drm.h
-Message-ID: <20260107113335.pwzhci7gdwd2lmtj@kamilkon-DESK.igk.intel.com>
-Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Janne Grunau <j@jannau.net>,
- Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>
-References: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
- <20260105-asahi-tests-wave1-v1-1-a6c72617e680@jannau.net>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336E210E06A;
+ Wed,  7 Jan 2026 11:44:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E367D43B93;
+ Wed,  7 Jan 2026 11:44:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B73D1C4CEF7;
+ Wed,  7 Jan 2026 11:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767786292;
+ bh=i12dijGR2EG5TROlBAmjQZIcGVlj0wQM3L9IkBSHFK8=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=nqlN334WX/TxihteSi+cCHq2vtVfblVpOeOxwUcMH7tl8POZAXBErk8tlfwy6KiH6
+ dCIcme6hB0I0NPs/IF1+C0fi5tX5HAv6OFnFUWHBgdBIed+kt2k+3MRAlp+jzNr9ar
+ uGeeEYWdQXr53Sa+nf7DRrqI8+KW/rXNReIiMI/Cm+R1a96IRuKAjjmomCz1NZFZL7
+ NroZBHgFA/GNLNGBxjwdc3CpWh36q6RilYZP4a1WtF7dpjbTvAhetMVFUh8W/DAETE
+ 6qM793cd/Z5mjXsqzhNCbRdKUaRCgNPZ/7DE3rp4lpDhosEKrehfgqkCXb195Dcc/X
+ hYEtDZwO53d4g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id AC968CD5856;
+ Wed,  7 Jan 2026 11:44:52 +0000 (UTC)
+From: Petr Hodina via B4 Relay <devnull+petr.hodina.protonmail.com@kernel.org>
+Date: Wed, 07 Jan 2026 12:44:43 +0100
+Subject: [PATCH v2] clk: qcom: dispcc-sdm845: Enable parents for pixel clocks
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260105-asahi-tests-wave1-v1-1-a6c72617e680@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260107-stability-discussion-v2-1-ef7717b435ff@protonmail.com>
+X-B4-Tracking: v=1; b=H4sIACpHXmkC/22NzQ6CMBCEX4Xs2Rq62EY9+R6GA/RHNjFgurUBS
+ d/dQuLN4zeZ+WYFdoEcw7VaIbhETNNYAA8VmKEbH06QLQxYo5IoUXDsenpSXIQlNm/eBsJK7XV
+ nSqO+QJm+gvM079p7W3ggjlNY9pckt/QnbP4LkxS16FFZfz6pRqG+0UzxaD7Q5py/CAgnTbYAA
+ AA=
+X-Change-ID: 20251212-stability-discussion-d16f6ac51209
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Petr Hodina <petr.hodina@protonmail.com>, 
+ David Heidelberg <david@ixit.cz>, Taniya Das <quic_tdas@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, phone-devel@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767786291; l=2169;
+ i=petr.hodina@protonmail.com; s=20260107; h=from:subject:message-id;
+ bh=rhHlOC5VvJkw1jNcO5wjpQE+ODSzLv7eBLSkXsZ0iyw=;
+ b=WTR4lz69OoEn9zFkm8BKk7lSNL6QEdFohSqc+8MLAekv3FMBPnv7HPsoadbU3e3BuDvuWolXZ
+ r5ZqrFE4sdpAeoGdrfVv6WacO2nwHCegWEbP4Qbn6nUKp3eJInBeEf7
+X-Developer-Key: i=petr.hodina@protonmail.com; a=ed25519;
+ pk=3QaVc6AaAu1IsyyH86+LIOOFhD7kCws8Xhe+wwyE7Bg=
+X-Endpoint-Received: by B4 Relay for petr.hodina@protonmail.com/20260107
+ with auth_id=594
+X-Original-From: Petr Hodina <petr.hodina@protonmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,64 +83,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: petr.hodina@protonmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janne,
-On 2026-01-05 at 22:03:45 +0100, Janne Grunau wrote:
-> Import asahi_drm.h from commit 8f0b4cce4481 ("Linux 6.19-rc1").
-> "asahi_drm.h" was added for Linux 6.16 and has not been modified so far.
-> The kernel driver will be sent upstream in the next few days. The
-> userspace drivers (OpenGL, OpenCl and Vulkan) are available in
-> mesa 25.2 and later.
-> 
+From: Petr Hodina <petr.hodina@protonmail.com>
 
-+cc Alyssa and Neal
+Add CLK_OPS_PARENT_ENABLE to MDSS pixel clock sources to ensure parent
+clocks are enabled during clock operations, preventing potential
+stability issues during display configuration.
 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  include/drm-uapi/asahi_drm.h | 1194 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 1194 insertions(+)
-> 
-> diff --git a/include/drm-uapi/asahi_drm.h b/include/drm-uapi/asahi_drm.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..de67f1c603afd42753982c7ed593619f394df527
-> --- /dev/null
-> +++ b/include/drm-uapi/asahi_drm.h
-> @@ -0,0 +1,1194 @@
-> +/* SPDX-License-Identifier: MIT */
+Fixes: 81351776c9fb ("clk: qcom: Add display clock controller driver for SDM845")
+Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
+---
+We are currently running the latest linux-next snapshots (next-202511*
+and next-202512*) and have encountered random freezes and crashes on the
+Pixel 3, as well as crash dumps on the OnePlus 6 and 6T.
 
-Note style comment in C headers. The same should be used in IGT
-headers.
+This commit fixes the stability issue. I've checked other SDM dispcc
+files and they also contain this configuration.
 
-> +/*
-> + * Copyright (C) The Asahi Linux Contributors
+For safety I also set the configuration for `disp_cc_mdss_pclk1_clk_src`
+though it should be sufficient only for `disp_cc_mdss_pclk0_clk_src`.
 
-Strange, no year here? As it comes from kernel let it be as is.
+Kind regards,
+Petr
+---
+Changes in v2:
+- Remove commits from v1 and introduce proper fix.
+- Link to v1: https://lore.kernel.org/r/20251213-stability-discussion-v1-0-b25df8453526@ixit.cz
+---
+ drivers/clk/qcom/dispcc-sdm845.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+diff --git a/drivers/clk/qcom/dispcc-sdm845.c b/drivers/clk/qcom/dispcc-sdm845.c
+index 2f9e9665d7e9..78e43f6d7502 100644
+--- a/drivers/clk/qcom/dispcc-sdm845.c
++++ b/drivers/clk/qcom/dispcc-sdm845.c
+@@ -280,7 +280,7 @@ static struct clk_rcg2 disp_cc_mdss_pclk0_clk_src = {
+ 		.name = "disp_cc_mdss_pclk0_clk_src",
+ 		.parent_data = disp_cc_parent_data_4,
+ 		.num_parents = ARRAY_SIZE(disp_cc_parent_data_4),
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_OPS_PARENT_ENABLE,
+ 		.ops = &clk_pixel_ops,
+ 	},
+ };
+@@ -295,7 +295,7 @@ static struct clk_rcg2 disp_cc_mdss_pclk1_clk_src = {
+ 		.name = "disp_cc_mdss_pclk1_clk_src",
+ 		.parent_data = disp_cc_parent_data_4,
+ 		.num_parents = ARRAY_SIZE(disp_cc_parent_data_4),
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_OPS_PARENT_ENABLE,
+ 		.ops = &clk_pixel_ops,
+ 	},
+ };
 
-Regards,
-Kamil
+---
+base-commit: f96074c6d01d8a5e9e2fccd0bba5f2ed654c1f2d
+change-id: 20251212-stability-discussion-d16f6ac51209
 
-> + * Copyright (C) 2018-2023 Collabora Ltd.
-> + * Copyright (C) 2014-2018 Broadcom
-> + */
-> +#ifndef _ASAHI_DRM_H_
-> +#define _ASAHI_DRM_H_
-> +
-> +#include "drm.h"
-> +
-> +#if defined(__cplusplus)
-> +extern "C" {
-> +#endif
-> +
-> +/**
-> + * DOC: Introduction to the Asahi UAPI
-> + *
-> + * This documentation describes the Asahi IOCTLs.
-> + *
-> + * Just a few generic rules about the data passed to the Asahi IOCTLs (cribbed
-> + * from Panthor):
-> + *
-[cut]
+Best regards,
+-- 
+Petr Hodina <petr.hodina@protonmail.com>
+
+
