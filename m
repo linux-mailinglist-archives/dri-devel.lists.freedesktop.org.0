@@ -2,88 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906F7CFC5DC
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 08:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60662CFC5EE
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 08:33:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FAF10E05D;
-	Wed,  7 Jan 2026 07:33:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B6210E099;
+	Wed,  7 Jan 2026 07:33:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fhNy0VWQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q1W2xYCW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fhNy0VWQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q1W2xYCW";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="urNM36zl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SVW++TCH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XjTDy6kE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nHCbqayP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 434EB10E05D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 07:33:03 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3167D10E099
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 07:33:23 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C509333AE6;
- Wed,  7 Jan 2026 07:33:01 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C615E5BCDA;
+ Wed,  7 Jan 2026 07:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767771181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767771202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kNmicFX9uo4c36EGPt7RVAQVHBUWoXvmmM52S4830vE=;
- b=fhNy0VWQyvIH7Dx+9YIHDTq+wlOKIE6f8Iu+2vvXrH9sL+d8gQjYl/ha8Tl6qFmTe6MC0z
- QHIjLveTduykEicoluJHh+K54x71Vdin4z4Db6xBmbx5VsNT+2iHFroHHkrg5b8sABaOdA
- KUru3tyZCWDWyZ/eZCnVzPiVWtB8wJM=
+ bh=jbQ6F1Id175wdNW1Z1StlgxuCVGW3fVxij8J49gh0hc=;
+ b=urNM36zl7LxtLlrIxaPSWAM6fDzZGRdeJ/IvS6e6QSkA8KRwYM+VD2b7gU4GZHKPUNLH5O
+ 59Yb9B0aW68vhWnWqoOxJTT+kwkEzIoElIlLeljBm7ZrZgG91lAhbc6UA30c3JjMfnnixT
+ SRRdcuva1eqFtFTaFnu6Z5vZ0lu33Co=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767771181;
+ s=susede2_ed25519; t=1767771202;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kNmicFX9uo4c36EGPt7RVAQVHBUWoXvmmM52S4830vE=;
- b=q1W2xYCWhrgAxtGEJbr1sVt1WxEB2QR/SBdJj9Y9BPSK+ZrLPIOuGylahNJ1FVqfSibvCM
- ctla6Dq6Xx9nM3AQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fhNy0VWQ;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q1W2xYCW
+ bh=jbQ6F1Id175wdNW1Z1StlgxuCVGW3fVxij8J49gh0hc=;
+ b=SVW++TCH5MqV5C7pRJvO4kJ3COOyIWuSk++lnfqPrNNAd6Eobgxf4PKZEcmAZxuTyXgo+6
+ ki9xtqJePFFZSuCA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XjTDy6kE;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nHCbqayP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1767771181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1767771201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kNmicFX9uo4c36EGPt7RVAQVHBUWoXvmmM52S4830vE=;
- b=fhNy0VWQyvIH7Dx+9YIHDTq+wlOKIE6f8Iu+2vvXrH9sL+d8gQjYl/ha8Tl6qFmTe6MC0z
- QHIjLveTduykEicoluJHh+K54x71Vdin4z4Db6xBmbx5VsNT+2iHFroHHkrg5b8sABaOdA
- KUru3tyZCWDWyZ/eZCnVzPiVWtB8wJM=
+ bh=jbQ6F1Id175wdNW1Z1StlgxuCVGW3fVxij8J49gh0hc=;
+ b=XjTDy6kEGa7qrLI42gsBRs5Q0Um30g07NqIsw9hr7HuyuCqRrAczDPGLqtORdr5ZjB4Itx
+ Y99EhgSzAOxw1eMDuPm4MyFtuNan1Ce+mY9N7yWE9lskBNDDM9oxjmCu9bG8lqWEVLGXvT
+ jVRjOIyLXuzf9qv2pWnSHXTagOe/a0M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1767771181;
+ s=susede2_ed25519; t=1767771201;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kNmicFX9uo4c36EGPt7RVAQVHBUWoXvmmM52S4830vE=;
- b=q1W2xYCWhrgAxtGEJbr1sVt1WxEB2QR/SBdJj9Y9BPSK+ZrLPIOuGylahNJ1FVqfSibvCM
- ctla6Dq6Xx9nM3AQ==
+ bh=jbQ6F1Id175wdNW1Z1StlgxuCVGW3fVxij8J49gh0hc=;
+ b=nHCbqayPUaZW9Cve8zDIpDTfdx1fMEHATnBRbxlRq/jQZnEs7Yi6sVuqTMwi4LP4KmsRGB
+ I1cRJ672eT4BdnDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A9AE3EA63;
- Wed,  7 Jan 2026 07:33:01 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 822453EA63;
+ Wed,  7 Jan 2026 07:33:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id agFsIC0MXmnCKgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Jan 2026 07:33:01 +0000
-Message-ID: <fc30b905-7db9-4d7a-98f6-b2c8c6f3d430@suse.de>
-Date: Wed, 7 Jan 2026 08:33:01 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4wJYHkEMXmnVKgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Jan 2026 07:33:21 +0000
+Message-ID: <aa922030-b0a1-4503-a3c0-7ce4c36c236e@suse.de>
+Date: Wed, 7 Jan 2026 08:33:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] staging: fbtft: Make FB_DEVICE dependency optional
+Subject: Re: [PATCH v4 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
 To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
 References: <20260107044258.528624-1-chintanlike@gmail.com>
- <20260107044258.528624-3-chintanlike@gmail.com>
+ <20260107044258.528624-4-chintanlike@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,9 +110,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260107044258.528624-3-chintanlike@gmail.com>
+In-Reply-To: <20260107044258.528624-4-chintanlike@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: C615E5BCDA
 X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -127,15 +130,12 @@ X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  FROM_HAS_DN(0.00)[];
  FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org];
  RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url,suse.de:email,suse.de:dkim,suse.de:mid];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Rspamd-Queue-Id: C509333AE6
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,81 +154,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 07.01.26 um 05:42 schrieb Chintan Patel:
-> fbtft provides sysfs interfaces for debugging and gamma configuration,
-> but these are not required for the core driver.
+> omapfb provides several sysfs interfaces for framebuffer configuration
+> and debugging, but these are not required for the core driver.
 >
-> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
-> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
-> sysfs operations are skipped while the code remains buildable and
-> type-checked.
+> Remove the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+> optional by using dev_of_fbinfo() to obtain the backing device at runtime.
+> When FB_DEVICE is disabled, sysfs operations are skipped while the code
+> still builds and is type-checked.
 >
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Suggested-by: Helge Deller <deller@gmx.de>
-> Reviewed-by: Helge Deller <deller@gmx.de>
 > Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/staging/fbtft/Kconfig       |  5 ++++-
->   drivers/staging/fbtft/fbtft-sysfs.c | 20 ++++++++++++++++----
->   2 files changed, 20 insertions(+), 5 deletions(-)
+>   drivers/video/fbdev/omap2/omapfb/Kconfig       |  3 ++-
+>   .../video/fbdev/omap2/omapfb/omapfb-sysfs.c    | 18 ++++++++++++++----
+>   2 files changed, 16 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfig
-> index c2655768209a..578412a2f379 100644
-> --- a/drivers/staging/fbtft/Kconfig
-> +++ b/drivers/staging/fbtft/Kconfig
-> @@ -2,11 +2,14 @@
->   menuconfig FB_TFT
->   	tristate "Support for small TFT LCD display modules"
->   	depends on FB && SPI
+> diff --git a/drivers/video/fbdev/omap2/omapfb/Kconfig b/drivers/video/fbdev/omap2/omapfb/Kconfig
+> index f4cdf999a080..2d20e79adefc 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/Kconfig
+> +++ b/drivers/video/fbdev/omap2/omapfb/Kconfig
+> @@ -5,7 +5,6 @@ config OMAP2_VRFB
+>   menuconfig FB_OMAP2
+>   	tristate "OMAP2+ frame buffer support"
+>   	depends on FB
 > -	depends on FB_DEVICE
->   	depends on BACKLIGHT_CLASS_DEVICE
->   	depends on GPIOLIB || COMPILE_TEST
->   	select FB_BACKLIGHT
->   	select FB_SYSMEM_HELPERS_DEFERRED
-> +	help
-> +	  Support for small TFT LCD display modules over SPI bus. FB_DEVICE
-> +	  is not required, but if enabled, provides sysfs interface for debugging
-> +	  and gamma curve configuration.
+>   	depends on DRM_OMAP = n
+>   	depends on GPIOLIB
+>   	select FB_OMAP2_DSS
+> @@ -13,6 +12,8 @@ menuconfig FB_OMAP2
+>   	select FB_IOMEM_HELPERS
+>   	help
+>   	  Frame buffer driver for OMAP2+ based boards.
+> +	  FB_DEVICE is not required, but if enabled, provides sysfs interface
+> +	  for framebuffer configuration and debugging.
 >   
->   if FB_TFT
+>   if FB_OMAP2
 >   
-> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
-> index e45c90a03a90..d05599d80011 100644
-> --- a/drivers/staging/fbtft/fbtft-sysfs.c
-> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
-> @@ -203,14 +203,26 @@ static struct device_attribute debug_device_attr =
+> diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c b/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c
+> index 831b2c2fbdf9..38a635d38d58 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c
+> +++ b/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c
+> @@ -558,10 +558,15 @@ int omapfb_create_sysfs(struct omapfb2_device *fbdev)
 >   
->   void fbtft_sysfs_init(struct fbtft_par *par)
->   {
-> -	device_create_file(par->info->dev, &debug_device_attr);
-> +	struct device *dev;
+>   	DBG("create sysfs for fbs\n");
+>   	for (i = 0; i < fbdev->num_fbs; i++) {
+> +		struct device *dev;
+>   		int t;
 > +
-> +	dev = dev_of_fbinfo(par->info);
-> +	if (!dev)
-> +		return;
+> +		dev = dev_of_fbinfo(fbdev->fbs[i]);
+> +		if (!dev)
+> +			continue;
 > +
-> +	device_create_file(dev, &debug_device_attr);
->   	if (par->gamma.curves && par->fbtftops.set_gamma)
-> -		device_create_file(par->info->dev, &gamma_device_attrs[0]);
-> +		device_create_file(dev, &gamma_device_attrs[0]);
+>   		for (t = 0; t < ARRAY_SIZE(omapfb_attrs); t++) {
+> -			r = device_create_file(fbdev->fbs[i]->dev,
+> -					&omapfb_attrs[t]);
+> +			r = device_create_file(dev, &omapfb_attrs[t]);
+>   
+>   			if (r) {
+>   				dev_err(fbdev->dev, "failed to create sysfs "
+> @@ -580,9 +585,14 @@ void omapfb_remove_sysfs(struct omapfb2_device *fbdev)
+>   
+>   	DBG("remove sysfs for fbs\n");
+>   	for (i = 0; i < fbdev->num_fbs; i++) {
+> +		struct device *dev;
+> +
+> +		dev = dev_of_fbinfo(fbdev->fbs[i]);
+> +		if (!dev)
+> +			continue;
+> +
+>   		for (t = 0; t < ARRAY_SIZE(omapfb_attrs); t++)
+> -			device_remove_file(fbdev->fbs[i]->dev,
+> -					&omapfb_attrs[t]);
+> +			device_remove_file(dev, &omapfb_attrs[t]);
+>   	}
 >   }
 >   
->   void fbtft_sysfs_exit(struct fbtft_par *par)
->   {
-> -	device_remove_file(par->info->dev, &debug_device_attr);
-> +	struct device *dev;
-> +
-> +	dev = dev_of_fbinfo(par->info);
-> +	if (!dev)
-> +		return;
-> +
-> +	device_remove_file(dev, &debug_device_attr);
->   	if (par->gamma.curves && par->fbtftops.set_gamma)
-> -		device_remove_file(par->info->dev, &gamma_device_attrs[0]);
-> +		device_remove_file(dev, &gamma_device_attrs[0]);
->   }
 
 -- 
 --
