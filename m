@@ -2,99 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1524CFF23A
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 18:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03933CFF2D6
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 18:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21EDC10E108;
-	Wed,  7 Jan 2026 17:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D2F10E0F3;
+	Wed,  7 Jan 2026 17:45:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Yw+yTVMH";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="J0Ekypq1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f227.google.com (mail-pg1-f227.google.com
- [209.85.215.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A5310E2B1
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 17:37:18 +0000 (UTC)
-Received: by mail-pg1-f227.google.com with SMTP id
- 41be03b00d2f7-c06cb8004e8so1127180a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 09:37:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767807438; x=1768412238;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ALNvUZinQAVItTtvMv4yQ3Bi2Ojl+/Q7mDNf3rvGRvQ=;
- b=aYDBmgwfwXIsoka894l3eF/6CYZ8899fRUG1Go9FdaGXdkYUihNAoXfDhc63xU+0Hu
- F3gGAa0xk9XgZLYzfixD7D/24W+DGrpeHRwSc6AUiWFGgb7kgx75L1lcwimlbejNBE/Z
- Ok32asZNmHCwIk/xHIycXSJx0OHwm4dQGAJyaY5S6gnSjM6oxg2F5xIzKYaQvY5vn6hy
- mnKQIIaP+Wjlrg++LuagRvB1eMfjfFtyQTbZMTDl0nSkfT57fjXSj6GzTcUwhKOwu5GT
- n75ezyOdUnwj944mwDYjED4eBMWbVOEgGlTN6FnDTngLjb0fhYK9HzPW22908Dr5MOJ7
- Ge3Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUAa2JbxRi7iGTuDTQy86YPP1TseEu26NiJ6/Umzd/+Hm/103f2bkYfrkng0JoB1iz9pST4gIqyKS4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqypeGLdD4CuFWLY15WsMei+WI8pporjlvyb26k7EDsX6/PQhP
- O4Lc3swS0A9rjtKKplN1itMfSqCXnkDwwb+NA3UlW+wYav3pdS6dbyP1w9CKOCMQEivKA6FBjXs
- gdkSD+hwSdMwkR0n+gL9VU0rMIr5RI24qS2YlTDfog6r2AIQRCLsWn10zWBxrzrfCe/7rQ5rQ/5
- lM6ylR+tsJnHBM/yUs358ZCa0o5SA4NTFZS21anDPgs+yP6VEXT9y0YGvbJfMdPLzhmWp9tSau9
- hyAlZ02zVPPgF8IOee5
-X-Gm-Gg: AY/fxX50AX5vJS9IZdCJfs4jRsU5IHoodEsBYf1aN/ftwmbuZvZLOq/Erku2sIEIgxm
- 4UWlS6Fa1YjgBs/hWpC+bvPQPHP50Ci+FERv4ffc2uPAzCynf1LZxY+6OMS0Lw8DXCYQUsov6Ms
- CrVl0qFMTGqva+HyQWuHUuoCXzF3o+4XZ2ZR1Xnf6fwH9pzrIJFvePDkynxYyeNSRBHVzKevCog
- PblDITGfXBelekRo9b0Npp6GzU+yzaNB4rgM7cuUxQ3eeQLMpePIfc21OO2Z8+QKvUv3e079Lp8
- K2LYQMXknKZeKnwvgl2WkeIp3HgA9ZOKecKB8iW8gYjcr0tfTS+v64fXtmZIeCgkzGvo7EEt6Sd
- UGpePsngoEVDPUg5aPFloFqRRzjf9GycTDToyfK161yVHWlBlVZjzoA8lgHvVUiDlY2SKoLLaZf
- HvHFeGQ9iQWaibSWnaPCrR+RqYvnjZC1x2s//Ugeg=
-X-Google-Smtp-Source: AGHT+IHQeoUN+4zFSW6fEAOBr2/7MWTt63J0QnKWNz0bfeXjQ/i8O8mhO9mQwKLp+NCmQf5wfWxCi/RCwaHD
-X-Received: by 2002:a17:90b:3c01:b0:34c:2ecf:2b2e with SMTP id
- 98e67ed59e1d1-34f68c282bbmr3271534a91.12.1767807437672; 
- Wed, 07 Jan 2026 09:37:17 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-1.dlp.protect.broadcom.com. [144.49.247.1])
- by smtp-relay.gmail.com with ESMTPS id
- 98e67ed59e1d1-34f6b7a2357sm50941a91.1.2026.01.07.09.37.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Jan 2026 09:37:17 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-59b73011791so517072e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 09:37:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1767807435; x=1768412235;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ALNvUZinQAVItTtvMv4yQ3Bi2Ojl+/Q7mDNf3rvGRvQ=;
- b=Yw+yTVMHYM1oyFK2BLjxrUs4JXjYqlVYN3rc6oDIlHJAEMsQeiH+vmfFzosjLhFX/E
- 2J3Rsj/Jz1jfqZK8OIOS80Nz1AhMnvCHw60QJmJQn4jih+ezOZZcZlwDe299cuiWx3Ka
- JDei+L3qcEkV3AmdTc8weFM3VbWE6ArPfN30Y=
-X-Forwarded-Encrypted: i=1;
- AJvYcCXfLxiPZtHzNj/aZH/31tx8cXL0myhpqGpGwxxRVa8mDOm623Hjp4/vPSpaLfEppdhJUNKHF80FWek=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3da7:b0:594:253c:209f with SMTP id
- 2adb3069b0e04-59b6f03520dmr1211916e87.39.1767807435104; 
- Wed, 07 Jan 2026 09:37:15 -0800 (PST)
-X-Received: by 2002:a05:6512:3da7:b0:594:253c:209f with SMTP id
- 2adb3069b0e04-59b6f03520dmr1211901e87.39.1767807434659; Wed, 07 Jan 2026
- 09:37:14 -0800 (PST)
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011070.outbound.protection.outlook.com [40.107.208.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C054610E0F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 17:45:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DU9tBS4sS59FiqCYh/Tv8x2tvKIPl2aOpgkmtekuGjXGNo+8gHFh1R+j4WqVo6LVPZzoXEiO3Rwug4Y/RQi3NuUN2rnM5Qp4sef8wNPSjWPP+jXAh7DVaLbxnE0mob1REMuhFemKSLsbj1aKN5lpXvxf5tYoXfAfY42vl7MSdxPzdKPfvummFQmZun4UYeRtWq/pwdH1uu9nPd0FESJBPwPOpXvANghDNY81X8u92dfFEtaucmKlZjK1ltlIJgFY4MfvGhpZgw9rYjTy3/sfMt1SZFTEWE5MIi2qewddHC8HGkqMVWnWo5jpWAsfvdJAsyuRIGcvssCnfvyY6U0f4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YBSCMC3PfSKvJmiBYWp0pbugQXMsu66YvEWZD9olrLw=;
+ b=ea/JWl35VD7JjJAZ/B9n7r67BINFM6df+Edoa0bpeftc+G/wE4ETx6GImGbQhDtgh1PJxfBsmfWUlgS8+TnVnIknWfZdoE9lLV0UfxR+j74hlPgQW4xs1+oo3eaAZm+LYI+pGsHS1LcaN6M2zaMKynqsvCO5XdCF0QMImd68pz8GoXLu4oWfdkHGNQTJt0CWSNc6Rz+DQVSL1M/KsChdg49poKnwBuaNWWK1Zdrw+yXttsfJqQTexQ3VSeDN+WkgnBfN+MR8ZlfZSlPPIEHyP6IKyCojTFeaF31ao4YzFcI0O9VwaDPc2xzBICfaeP4sRIhvdopmemCtX41bbQ29ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YBSCMC3PfSKvJmiBYWp0pbugQXMsu66YvEWZD9olrLw=;
+ b=J0Ekypq1OMC8jICTTbt1g4FHhRUlsvM0FgLAI+i3/CeTNsFzExxz1tvd4og4IWhdeOfMe3LDuLU7ViIhhd8Ujr12rIMB31waYslEdBsqC6EA4vu+EOMm8+MlOsygvt97TBI+xQA+pVJ8lDViF5+09BcbHU27bLHBhz0lpqIKHTw=
+Received: from IA4P221CA0008.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:559::6)
+ by DS4PPFAFF9EAD68.namprd10.prod.outlook.com (2603:10b6:f:fc00::d41) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
+ 2026 17:45:34 +0000
+Received: from MN1PEPF0000ECD5.namprd02.prod.outlook.com
+ (2603:10b6:208:559:cafe::7b) by IA4P221CA0008.outlook.office365.com
+ (2603:10b6:208:559::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
+ Jan 2026 17:45:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ MN1PEPF0000ECD5.mail.protection.outlook.com (10.167.242.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 17:45:33 +0000
+Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 7 Jan
+ 2026 11:45:31 -0600
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 7 Jan
+ 2026 11:45:31 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE204.ent.ti.com
+ (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 7 Jan 2026 11:45:31 -0600
+Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 607HjQlU1103883;
+ Wed, 7 Jan 2026 11:45:26 -0600
+From: Swamil Jain <s-jain1@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <aradhya.bhatia@linux.dev>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>,
+ <h-shenoy@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>
+Subject: [PATCH v3 0/3] Add Display support for AM62P SoC
+Date: Wed, 7 Jan 2026 23:15:22 +0530
+Message-ID: <20260107174525.1702585-1-s-jain1@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251224091105.1569464-1-lihaoxiang@isrc.iscas.ac.cn>
-In-Reply-To: <20251224091105.1569464-1-lihaoxiang@isrc.iscas.ac.cn>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 7 Jan 2026 12:37:01 -0500
-X-Gm-Features: AQt7F2p2pQ4EPAFR_MwDOyXxaN8jANK3L3neBoRP_4r6aGLu7KL4l-4tmAZz2tE
-Message-ID: <CABQX2QNDpNXuF6YhWjtWdcDriFR8B49sr22Yr+GKO-V6oCFqqg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix an error return check in
- vmw_compat_shader_add()
-To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Cc: bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jakob@vmware.com, thellstrom@vmware.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000039e99b0647cfbe4e"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD5:EE_|DS4PPFAFF9EAD68:EE_
+X-MS-Office365-Filtering-Correlation-Id: 638e02e5-b40f-45fc-8ae1-08de4e148f11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MraUxqePyik1oz77dgOaJcHCwYUreSD1NrWwKRzD/EaaKgYHXaut7EsM7LQQ?=
+ =?us-ascii?Q?jYSG4rD0gJt8gdIWM/t6Dp9wuCrD7fE8uyIR48ZMqq1ljzU4dOkWf8Re4FwR?=
+ =?us-ascii?Q?xGR1S2sne43i7HTGZ+Xl4SKZcnMC2NAuNWKxzrgcWw6HzTi8BUNpc6w47gZU?=
+ =?us-ascii?Q?REd94UB76rlpCpOz2KjVPNh4K5CgIj8FYibRXzA+JdVVDkUGFgZh4qNPBnzX?=
+ =?us-ascii?Q?qnJXG7CjCQbsMkEskmTsrluEURloj3nn/ZfkfMuad2kLZwfQs9sHaMQW33lr?=
+ =?us-ascii?Q?I2WAfbqX6u5PtnjmpsPcam1wHb0O62J5J9X8pGKYSNeOir6Kca1vx4JOQck6?=
+ =?us-ascii?Q?O8diibWTKXQHo+CyXoZoABQAGKVUCjb4vtB7fTHwUXfJJhpbl71n+46tPZVG?=
+ =?us-ascii?Q?whFE8uINd/C1RUafqhUTkjA3LJV2zGu1oTlh0KLUCAcxTwiU98FrRaXyQ8f5?=
+ =?us-ascii?Q?LatAE7BzcMfEs3u5UWrDAJJ2x6FkHtMMDd+F4Irm5pBGhQog2GzhtJvvRqNm?=
+ =?us-ascii?Q?t5CGRMZcn0sio+AMj4Tp7rs0D6RWlyAF9h+zxpkknLBx055cFKsV2AJ1o7PW?=
+ =?us-ascii?Q?gRKtGMn5k/L/XgH+nfcf3GBw8Oa6Vd2AYDMv4kyS3pNcBfddM/a9Mrrjoqk9?=
+ =?us-ascii?Q?KvPHRLda9CtQFDb6OaIwRgAQnFDMCc6s7Q2SqjKTAAieq0veygbP3SRlDDxQ?=
+ =?us-ascii?Q?iCkfuBlUdcHgr5ev6W3mMpJ6vnTUeJAHUSFmr8BGxomzF8nV8HfPqUy0TFMR?=
+ =?us-ascii?Q?3ichCyNKEJE+COlqt6q6XxAiB8Jf/x7aJnvA4fWNCt5rjUbQkIb6x3DNWxaW?=
+ =?us-ascii?Q?KBc/3XCGgREBQ2tUccjfjM2tGHvEoYdNYGxchLdqXtlhQ4rrjq11F0ZJpnVk?=
+ =?us-ascii?Q?y8ZXraTh0Fb/TWh9PN5mneRxdA+WjKydjPZug8cS6eb0W4CTWigQfwT7C9S3?=
+ =?us-ascii?Q?VR+IBkkL6lEUCybeaW4RvtmFn8cFMcF0tsg1FFSoOl148y5K/X77onkBhVj3?=
+ =?us-ascii?Q?0tPRF8GHukWp2fRpI0x+ecF0mCoWYDIngwOKC6uxScaZJXVD7MFF4joHWQoa?=
+ =?us-ascii?Q?YXwxfdEknRzqs46EeW+cssxVSIxv6hrn0t73vIq058P5IwASJaVw8EFptXY4?=
+ =?us-ascii?Q?iXHhTH/zihB+0cOThNY+Pc7oUBc8Rut9t20ZMsigdIe8r25d+kaptYeR/PMC?=
+ =?us-ascii?Q?F/pAp0P6EVb5iqusiGfG0l1t/vEDkuqiVsDHD/axBmsd+d90yp7ycLH1vR98?=
+ =?us-ascii?Q?Kkn5sFUHK4kPnDDpVrx96BnnzSIPoHdmZLzJmwK22WRCg73SX26VXBjk6o0E?=
+ =?us-ascii?Q?RuJvwPzb4b8NApArhfp4GeV9KtfcSCq6pEEmxLKaLykxojVb2yPEz3q2KsrP?=
+ =?us-ascii?Q?kHambiPKBq7qrwX8dabPdJz/IkN4B562i3UU9kWzIrkV9bJ6ZdWmvF3D2Z0S?=
+ =?us-ascii?Q?33kaqaOyOhVq1Q1Ra4DewgT8dPf8j8mg72NXNLehDErTiuk4KnjR+I5x00M/?=
+ =?us-ascii?Q?Shys8Bmx1qwUZxiWbO351gwAw6bzet8II+Wepjk2fBPuMjJ6WuRdZ3kG1XMp?=
+ =?us-ascii?Q?5176L0qSu4oS6piWqiDzJC1hb0PlHXwsKNb5LOYyOEquilJhNbmQeHRquDcL?=
+ =?us-ascii?Q?aA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 17:45:33.8617 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 638e02e5-b40f-45fc-8ae1-08de4e148f11
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
+ Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD5.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFAFF9EAD68
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,150 +148,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000039e99b0647cfbe4e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Display Controller Overview:
+TI's AM62P[1] SoC has two instances of TI's Display Subsystem (DSS).
+Each instance contains two video ports. Combined, both instances support
+up to three independent video streams: OLDI, DPI, and DSI.
 
-On Wed, Dec 24, 2025 at 4:11=E2=80=AFAM Haoxiang Li <lihaoxiang@isrc.iscas.=
-ac.cn> wrote:
->
-> In vmw_compat_shader_add(), the return value check of vmw_shader_alloc()
-> is not proper. Modify the check for the return pointer 'res'.
->
-> Found by code review and compiled on ubuntu 20.04.
->
-> Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_shader.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmw=
-gfx/vmwgfx_shader.c
-> index 69dfe69ce0f8..7ed938710342 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-> @@ -923,8 +923,10 @@ int vmw_compat_shader_add(struct vmw_private *dev_pr=
-iv,
->         ttm_bo_unreserve(&buf->tbo);
->
->         res =3D vmw_shader_alloc(dev_priv, buf, size, 0, shader_type);
-> -       if (unlikely(ret !=3D 0))
-> +       if (IS_ERR(res)) {
-> +               ret =3D PTR_ERR(res);
->                 goto no_reserve;
-> +       }
->
->         ret =3D vmw_cmdbuf_res_add(man, vmw_cmdbuf_res_shader,
->                                  vmw_shader_key(user_key, shader_type),
-> --
-> 2.25.1
->
+This series:
+  1. Updates bindings (PATCH 1/3)
+    - Adds "ti,am62p-dss" compatible string
+    - Modifies power-domain requirements
+  2. Updates driver (PATCH 2/3 and 3/3)
+    - Adds power management for attached PM domains
+    - Enables AM62P DSS support by adding compatible to the driver
 
-Thanks, looks good. I pushed it to drm-misc-fixes.
+Note:
+  - Device-tree changes will be submitted after this series is merged.  
+  - The device-tree patches are available here[2]
 
-z
+[1]: https://www.ti.com/product/AM62P
+[2]: https://github.com/swamiljain/linux-next/tree/AM62P_J722S_DSS_v1
+---
+Changelog:
+v2->v3:
+  - PATCH 1/3 - Add a broader range for top-level constraints in the 
+                bindings to resolve dt_biniding_check conflicts
+  - PATCH 2/3 - Remove and modify some comments
+              - Use IS_ERR_OR_NULL() instead od checking for both NULL
+                and IS_ERR()
+              - Changes in error handling paths
+  - PATCH 3/3 - Pick R-by tag
 
---00000000000039e99b0647cfbe4e
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+Link to v2:
+https://lore.kernel.org/all/20251125165942.2586341-1-s-jain1@ti.com/
 
-MIIVIgYJKoZIhvcNAQcCoIIVEzCCFQ8CAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghKPMIIGqDCCBJCgAwIBAgIQfofDCS7XZu8vIeKo0KeY9DANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNTNaFw0yOTA0MTkwMDAwMDBaMFIxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBS
-NiBTTUlNRSBDQSAyMDIzMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwjAEbSkPcSyn
-26Zn9VtoE/xBvzYmNW29bW1pJZ7jrzKwPJm/GakCvy0IIgObMsx9bpFaq30X1kEJZnLUzuE1/hlc
-hatYqyORVBeHlv5V0QRSXY4faR0dCkIhXhoGknZ2O0bUJithcN1IsEADNizZ1AJIaWsWbQ4tYEYj
-ytEdvfkxz1WtX3SjtecZR+9wLJLt6HNa4sC//QKdjyfr/NhDCzYrdIzAssoXFnp4t+HcMyQTrj0r
-pD8KkPj96sy9axzegLbzte7wgTHbWBeJGp0sKg7BAu+G0Rk6teO1yPd75arbCvfY/NaRRQHk6tmG
-71gpLdB1ZhP9IcNYyeTKXIgfMh2tVK9DnXGaksYCyi6WisJa1Oa+poUroX2ESXO6o03lVxiA1xyf
-G8lUzpUNZonGVrUjhG5+MdY16/6b0uKejZCLbgu6HLPvIyqdTb9XqF4XWWKu+OMDs/rWyQ64v3mv
-Sa0te5Q5tchm4m9K0Pe9LlIKBk/gsgfaOHJDp4hYx4wocDr8DeCZe5d5wCFkxoGc1ckM8ZoMgpUc
-4pgkQE5ShxYMmKbPvNRPa5YFzbFtcFn5RMr1Mju8gt8J0c+dxYco2hi7dEW391KKxGhv7MJBcc+0
-x3FFTnmhU+5t6+CnkKMlrmzyaoeVryRTvOiH4FnTNHtVKUYDsCM0CLDdMNgoxgkCAwEAAaOCAX4w
-ggF6MA4GA1UdDwEB/wQEAwIBhjBMBgNVHSUERTBDBggrBgEFBQcDAgYIKwYBBQUHAwQGCisGAQQB
-gjcUAgIGCisGAQQBgjcKAwwGCisGAQQBgjcKAwQGCSsGAQQBgjcVBjASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBQAKTaeXHq6D68tUC3boCOFGLCgkjAfBgNVHSMEGDAWgBSubAWjkxPioufi
-1xzWx/B/yGdToDB7BggrBgEFBQcBAQRvMG0wLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwMi5nbG9i
-YWxzaWduLmNvbS9yb290cjYwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjYuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yNi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUAA4IC
-AQCRkUdr1aIDRmkNI5jx5ggapGUThq0KcM2dzpMu314mJne8yKVXwzfKBtqbBjbUNMODnBkhvZcn
-bHUStur2/nt1tP3ee8KyNhYxzv4DkI0NbV93JChXipfsan7YjdfEk5vI2Fq+wpbGALyyWBgfy79Y
-IgbYWATB158tvEh5UO8kpGpjY95xv+070X3FYuGyeZyIvao26mN872FuxRxYhNLwGHIy38N9ASa1
-Q3BTNKSrHrZngadofHglG5W3TMFR11JOEOAUHhUgpbVVvgCYgGA6dSX0y5z7k3rXVyjFOs7KBSXr
-dJPKadpl4vqYphH7+P40nzBRcxJHrv5FeXlTrb+drjyXNjZSCmzfkOuCqPspBuJ7vab0/9oeNERg
-nz6SLCjLKcDXbMbKcRXgNhFBlzN4OUBqieSBXk80w2Nzx12KvNj758WavxOsXIbX0Zxwo1h3uw75
-AI2v8qwFWXNclO8qW2VXoq6kihWpeiuvDmFfSAwRLxwwIjgUuzG9SaQ+pOomuaC7QTKWMI0hL0b4
-mEPq9GsPPQq1UmwkcYFJ/Z4I93DZuKcXmKMmuANTS6wxwIEw8Q5MQ6y9fbJxGEOgOgYL4QIqNULb
-5CYPnt2LeiIiEnh8Uuh8tawqSjnR0h7Bv5q4mgo3L1Z9QQuexUntWD96t4o0q1jXWLyrpgP7Zcnu
-CzCCBYMwggNroAMCAQICDkXmuwODM8OFZUjm/0VRMA0GCSqGSIb3DQEBDAUAMEwxIDAeBgNVBAsT
-F0dsb2JhbFNpZ24gUm9vdCBDQSAtIFI2MRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpH
-bG9iYWxTaWduMB4XDTE0MTIxMDAwMDAwMFoXDTM0MTIxMDAwMDAwMFowTDEgMB4GA1UECxMXR2xv
-YmFsU2lnbiBSb290IENBIC0gUjYxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2Jh
-bFNpZ24wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQCVB+hzymb57BTKezz3DQjxtEUL
-LIK0SMbrWzyug7hBkjMUpG9/6SrMxrCIa8W2idHGsv8UzlEUIexK3RtaxtaH7k06FQbtZGYLkoDK
-RN5zlE7zp4l/T3hjCMgSUG1CZi9NuXkoTVIaihqAtxmBDn7EirxkTCEcQ2jXPTyKxbJm1ZCatzEG
-xb7ibTIGph75ueuqo7i/voJjUNDwGInf5A959eqiHyrScC5757yTu21T4kh8jBAHOP9msndhfuDq
-jDyqtKT285VKEgdt/Yyyic/QoGF3yFh0sNQjOvddOsqi250J3l1ELZDxgc1Xkvp+vFAEYzTfa5MY
-vms2sjnkrCQ2t/DvthwTV5O23rL44oW3c6K4NapF8uCdNqFvVIrxclZuLojFUUJEFZTuo8U4lptO
-TloLR/MGNkl3MLxxN+Wm7CEIdfzmYRY/d9XZkZeECmzUAk10wBTt/Tn7g/JeFKEEsAvp/u6P4W4L
-sgizYWYJarEGOmWWWcDwNf3J2iiNGhGHcIEKqJp1HZ46hgUAntuA1iX53AWeJ1lMdjlb6vmlodiD
-D9H/3zAR+YXPM0j1ym1kFCx6WE/TSwhJxZVkGmMOeT31s4zKWK2cQkV5bg6HGVxUsWW2v4yb3BPp
-DW+4LtxnbsmLEbWEFIoAGXCDeZGXkdQaJ783HjIH2BRjPChMrwIDAQABo2MwYTAOBgNVHQ8BAf8E
-BAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUrmwFo5MT4qLn4tcc1sfwf8hnU6AwHwYD
-VR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwDQYJKoZIhvcNAQEMBQADggIBAIMl7ejR/ZVS
-zZ7ABKCRaeZc0ITe3K2iT+hHeNZlmKlbqDyHfAKK0W63FnPmX8BUmNV0vsHN4hGRrSMYPd3hckSW
-tJVewHuOmXgWQxNWV7Oiszu1d9xAcqyj65s1PrEIIaHnxEM3eTK+teecLEy8QymZjjDTrCHg4x36
-2AczdlQAIiq5TSAucGja5VP8g1zTnfL/RAxEZvLS471GABptArolXY2hMVHdVEYcTduZlu8aHARc
-phXveOB5/l3bPqpMVf2aFalv4ab733Aw6cPuQkbtwpMFifp9Y3s/0HGBfADomK4OeDTDJfuvCp8g
-a907E48SjOJBGkh6c6B3ace2XH+CyB7+WBsoK6hsrV5twAXSe7frgP4lN/4Cm2isQl3D7vXM3PBQ
-ddI2aZzmewTfbgZptt4KCUhZh+t7FGB6ZKppQ++Rx0zsGN1s71MtjJnhXvJyPs9UyL1n7KQPTEX/
-07kwIwdMjxC/hpbZmVq0mVccpMy7FYlTuiwFD+TEnhmxGDTVTJ267fcfrySVBHioA7vugeXaX3yL
-SqGQdCWnsz5LyCxWvcfI7zjiXJLwefechLp0LWEBIH5+0fJPB1lfiy1DUutGDJTh9WZHeXfVVFsf
-rSQ3y0VaTqBESMjYsJnFFYQJ9tZJScBluOYacW6gqPGC6EU+bNYC1wpngwVayaQQMIIGWDCCBECg
-AwIBAgIMYT8cPnonh1geNIT5MA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNVBAYTAkJFMRkwFwYDVQQK
-ExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBDQSAy
-MDIzMB4XDTI0MTEyODA2NTUwOVoXDTI2MTEyOTA2NTUwOVowgaUxCzAJBgNVBAYTAlVTMRMwEQYD
-VQQIEwpDYWxpZm9ybmlhMREwDwYDVQQHEwhTYW4gSm9zZTEZMBcGA1UEYRMQTlRSVVMrREUtNjYx
-MDExNzEWMBQGA1UEChMNQlJPQURDT00gSU5DLjETMBEGA1UEAxMKWmFjayBSdXNpbjEmMCQGCSqG
-SIb3DQEJARYXemFjay5ydXNpbkBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQCwQ8KpnuEwUOX0rOrLRj3vS0VImknKwshcmcfA9VtdEQhJHGDQoNjaBEFQHqLqn4Lf
-hqEGUo+nKhz2uqGl2MtQFb8oG+yJPCFPgeSvbiRxmeOwSP0jrNADVKpYpy4UApPqS+UfVQXKbwbM
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIMZs
-iFMG75yxnYl+nWphOPDTdwfNQJpUGa1kbzEu6ta0MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MDEwNzE3MzcxNVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAJYxH+cYHe4NLV2YvRHjvav4SsXajx1IMVwOnAaJ
-xeg1jqpsHibWkRaIx8FFVN77WB/BUBgBUnIMJ9m6LRYLCrzxvNw34zsy1PFwoE8jIBwGddQK8EbH
-jBu+Jt/XaUaJxfn0v4IaDHeuYNif+RyIf5u0fqB3Rpw5ZrQ1MW31oIOj37Ylh+pynE0Ec9Nw0tfq
-SVfcujw7CLic7OndvcEzrGn7gOOXt18Jmgyr3moAMbueI0nLumC6QZOJS66taTXk/BitOGW8Ie2m
-GLWyJ3Aoa6aEEFv7JCRtto+NukIYQZReKyu097MiXA+VctDSaimaC7rGeBUKeUeMiPbatvYRhNE=
---00000000000039e99b0647cfbe4e--
+v1->v2:
+  - PATCH 1/3: - Remove unnecessary example
+               - Use "am62p-dss" compatible check for multiple
+                 power-domains
+  - PATCH 2/3:   Add Signed-off-by tag
+
+Link to v1:
+https://lore.kernel.org/all/20251114064336.3683731-1-s-jain1@ti.com/
+---
+Devarsh Thakkar (1):
+  drm/tidss: Power up attached PM domains on probe
+
+Swamil Jain (2):
+  dt-bindings: display: ti,am65x-dss: Add am62p dss compatible
+  drm: tidss: tidss_drv: Add support for AM62P display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 33 +++++++-
+ drivers/gpu/drm/tidss/tidss_drv.c             | 84 ++++++++++++++++++-
+ drivers/gpu/drm/tidss/tidss_drv.h             |  4 +
+ 3 files changed, 116 insertions(+), 5 deletions(-)
+
