@@ -2,92 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8C5CFC333
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 07:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163A9CFC54D
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 08:26:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D959B10E00B;
-	Wed,  7 Jan 2026 06:42:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="l4kevgBy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF32610E046;
+	Wed,  7 Jan 2026 07:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Wed, 07 Jan 2026 06:42:44 UTC
-Received: from omta036.useast.a.cloudfilter.net
- (omta036.useast.a.cloudfilter.net [44.202.169.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E0910E00B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 06:42:44 +0000 (UTC)
-Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
- by cmsmtp with ESMTPS
- id dLYgvpFrUKXDJdN8qv2Ows; Wed, 07 Jan 2026 06:35:36 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id dN8pvVFThV6WMdN8qvdaD1; Wed, 07 Jan 2026 06:35:36 +0000
-X-Authority-Analysis: v=2.4 cv=E//Npbdl c=1 sm=1 tr=0 ts=695dfeb8
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=Aea70ojWhvW6xI+oM0giEQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=0GjfSR-a_gbzBSTCPL8A:9 a=QEXdDO2ut3YA:10 a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=b61X3jZlNTO3XN8ImRNF8VeXxeNII79YjBB4Nfpnz6I=; b=l4kevgByUnt+MnUp1PWZPYh+Ej
- GogpXA0x4KEirmi1SRHjzg7R2rWbOlUNVZv2MkUsephPC3PXaAi72eTErLIeBusmenntGC1OdPjjy
- Igi6sGc5j/b4MYzpg0VSivUKiH0LQsFkK1V3nH+Y4zamhICOdm3u7xoGfh/ceadFaee3zLp1qr950
- P0ye8BDFX5OvuMjBW/Tk+z1TEYbpxGkLRi8ro3gXmL1OZYz2J8MWa3vs4nn2CkCxXGB/17MdJRSJx
- nafW+1rPJqAwr2G05Aj0bTMpoyhfKa0bYGL8fZa6GSrqwQscf4ToTWzO7IKPNnijY7uztlRl0F4be
- jm0haj1A==;
-Received: from flh4-122-130-137-161.osk.mesh.ad.jp ([122.130.137.161]:45860
- helo=[10.221.196.44])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.98.1)
- (envelope-from <gustavo@embeddedor.com>) id 1vdN8p-00000003Gyh-0fE5;
- Wed, 07 Jan 2026 00:35:35 -0600
-Message-ID: <69342e4a-3a2f-4fa4-a7a9-76d05a15e985@embeddedor.com>
-Date: Wed, 7 Jan 2026 15:35:24 +0900
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B2610E046
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 07:26:28 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-3ec6c10a295so821148fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 23:26:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767770787; x=1768375587;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Twe1C1BbPg2woexDagJv2HCcDGXNh4FadpJITTB224w=;
+ b=dRv2RJ0nUZS3Xf11osvXfpF+f9SdwP+JfytqbSEBKDjURphRLAk11/4820Is6/Rb/8
+ s7nL0g6rT9FdqMEm53Yc5YT+EQppCScco086nrTy/k1IAF6mnU9iC2sgHJvrhruEuq6L
+ VWdWUxR6bbgBDAqY6HpQFGZ4kGV51JZIjrhIDe4/JpDR8Wy0j4mOERGHBgf0Imsm3n9+
+ ilGZE1J/ue7VErAXm4GYS7tfV1EMFfn4n8MCOZkBEiP53h+56Z5Wvtbzb2C/+fqcPIRh
+ k9U+3QgwOr1iyCN2+M6IC+yjpKah/0x3d26HIZVf328eI5CmLYQa2TvajTUcGuLU1JAh
+ l62w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWpMN+M+kWQDsuQOPMdzagOdPEumrB4cZcH38BBsKcNGn4DeMKg7z5wHeOr7d+gJ8iVN0jV+HKS9p0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNvx+F6vyRBSYKnODnrM2w6D4lgF+luE0tTd2XDzj9IhCtcRWL
+ DCpwHD1mBd7S8FrXU95nS1f3Tfr/w7mxlkTFJ7+QcB/HMnsXj9v39duMrOmSYA==
+X-Gm-Gg: AY/fxX7jzD63JpwYnmc0wnHqjfT3B8SZgkf+ig5fSJjSbXlevlK7g46ebIlnhyZjIEH
+ ff964EcSGn3Snr7yBcvB+6MirJYNMb/qSkCnBn/l+AZ3KOJFz51HeuPCbO/sFdPMZpiIu78q2Ua
+ B0wVboVwbc3zmu4Xw8bkFsJ4vdi6R6iNy6NDORV+kZv27hcEL6QrVxINwadQfFKLIB72Qw+xuxS
+ zSxD9/+tHe2XdSeAkhLmSEonvVFb+lgRlLOudeIfnnbuo09cLC/nN+nqnT9cGG56xQWCm4yPDH6
+ nOvXhEKZXxmBKES/OwGG+UDBZLgu47xSocVcSbqST+pr8NNxW4LBER08dQUePLsss64aep7yR9a
+ S0tmRzHpdKW6mzguuKI7Ievk5bAIJTN+J8Vtp+SxqUTtl9hLM8yZWLgmExjbsvU3MvIIiMUyY6G
+ YtDak8DaV3CSE45BBUminK/P2QTBL3EoSQmUdmB1ON6ZdexFJKYMmPOGQsMqb11TNcXrswO1Fp
+X-Google-Smtp-Source: AGHT+IEvkXyhZFHC+0PvQ6SIDAc+ZQ6ElI2IuwmxGhb/e9ypsQolau0HOL98M98h4cg7iws6uCJ8wA==
+X-Received: by 2002:a05:6870:b008:b0:3e8:8dcb:cdbd with SMTP id
+ 586e51a60fabf-3ffc0be5f49mr608096fac.43.1767770787051; 
+ Tue, 06 Jan 2026 23:26:27 -0800 (PST)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com.
+ [209.85.210.41]) by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-3ffa4de55ffsm2750770fac.2.2026.01.06.23.26.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jan 2026 23:26:26 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-7c75178c05fso688857a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jan 2026 23:26:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUpEsBGdc4JyJNSqEgFUNM8t0sV+VunZHImIG90rAtQMJ5gF9N6AsSkEkzJGGJ4n/TKBFAk4q2u8Bo=@lists.freedesktop.org
+X-Received: by 2002:a05:6830:4426:b0:7ce:2b15:de88 with SMTP id
+ 46e09a7af769-7ce50bf0a1bmr888031a34.26.1767770786197; Tue, 06 Jan 2026
+ 23:26:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3][next] drm/nouveau: fifo: Avoid
- -Wflex-array-member-not-at-end warning
-To: Kees Cook <kees@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <aJ17oxJYcqqr3946@kspp>
- <e1009d16-cadb-4446-aef5-4a52197551a4@embeddedor.com>
- <b4e596b0-4e6d-40b8-933c-f407f2cc0980@kernel.org>
- <202601061220.EDD0476@keescook>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <202601061220.EDD0476@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 122.130.137.161
-X-Source-L: No
-X-Exim-ID: 1vdN8p-00000003Gyh-0fE5
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: flh4-122-130-137-161.osk.mesh.ad.jp ([10.221.196.44])
- [122.130.137.161]:45860
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOAsY+sjWDCXVBD2/emPFUdmX6HDvMoA9dB88myRurJzDnusFyxxetuS0N+bVjDC9NmhN3WYLrD8VbIhx3OA4K3M85/ZvobGZMIGdQxgQlxNu2TDhj3Y
- tKWkW/2mAH9Q3FwVgm6fOb/cpAt0+IVxpfDgFBvDUcv/YN8SsW+wzPufnSayhBRy9gwbJSdKRIBlbLHwyw+fXfP/JbT7NYqJLe0A3isPp1jE8F/r+Zeq5SLo
+References: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
+In-Reply-To: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
+From: Neal Gompa <neal@gompa.dev>
+Date: Wed, 7 Jan 2026 02:25:50 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je-Y2y_ibBemxN6ZQdHW-x+_kRa8ymiJ7z_79CHj=zorfQ@mail.gmail.com>
+X-Gm-Features: AQt7F2oqU_xLCPULW_gdHypgzwTMbTeHLd2wn-sF13-JYl990OjGigdncta4T_M
+Message-ID: <CAEg-Je-Y2y_ibBemxN6ZQdHW-x+_kRa8ymiJ7z_79CHj=zorfQ@mail.gmail.com>
+Subject: Re: [PATCH i-g-t 0/3] Add infrastruture and initial tests for ashi
+ DRM render driver
+To: Janne Grunau <j@jannau.net>
+Cc: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,29 +87,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 5, 2026 at 4:04=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
+>
+> I will start with upstreaming the asahi DRM render driver. The UAPI was
+> merged in v6.16-rc1 and the downstream Asahi Linux kernel tree has a
+> driver implementing this fully.
+> The asahi (OpenGL 4.6 conformant) and honeycomb (Vulkan 1.4 conformant)
+> user space drivers using this UAPI are available in mesa since 25.2.
+>
+> This initial submission contains test infrastructure and tests for the
+> ioctl DRM_IOCTL_ASAHI_GET_PARAMS and DRM_IOCTL_ASAHI_GET_TIME.
+> These two tests are the only ones the initial version of the initial
+> upstream submission of the driver will pass.
+>
+> I have additional tests which the downstream driver passes as well. I
+> was planning to submit them together with upstream driver patches which
+> implement the necessary functionality for the tests.
+>
+> If preferred I could submit all tests and gate them based on the driver
+> version to avoid expected igt-gpu-tools test failures against
+> incomplete (as in not implementing the full UAPI) upstream driver
+> versions.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Janne Grunau (3):
+>       drm-uapi/asahi: Initial import of asahi_drm.h
+>       asahi: Add test infrastruture for asahi DRM render driver
+>       tests/asahi: Add test for DRM_IOCTL_ASAHI_GET_TIME
+>
+>  include/drm-uapi/asahi_drm.h   | 1194 ++++++++++++++++++++++++++++++++++=
+++++++
+>  lib/drmtest.c                  |    1 +
+>  lib/drmtest.h                  |    1 +
+>  lib/igt_asahi.c                |   58 ++
+>  lib/igt_asahi.h                |   15 +
+>  lib/meson.build                |    1 +
+>  meson.build                    |    8 +
+>  tests/asahi/asahi_get_params.c |   55 ++
+>  tests/asahi/asahi_get_time.c   |   63 +++
+>  tests/asahi/meson.build        |   14 +
+>  tests/meson.build              |    2 +
+>  11 files changed, 1412 insertions(+)
+> ---
+> base-commit: cef45b995557367ba082bc460fbab2190af943fd
+> change-id: 20260105-asahi-tests-wave1-7a850d0e0af0
+>
+
+This series looks great to me.
+
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
 
-On 1/7/26 05:21, Kees Cook wrote:
-> On Tue, Jan 06, 2026 at 09:14:36PM +0100, Danilo Krummrich wrote:
->> On 1/6/26 7:08 AM, Gustavo A. R. Silva wrote:
->>> Friendly ping: who can take this, please?
->> For some reason this patch wasn't tagged for applying in my inbox -- seems like
->> it slipped through.
->>
->> I was about to pick it up, but recognized just in time that Kees already took it
->> through his hardening tree.
-> 
-> Ah great!
-> 
->> Sorry for the delay; thanks Kees for picking it up. Even though already applied,
->> please consider this patch:
->>
->> 	Acked-by: Danilo Krummrich <dakr@kernel.org>
-> 
-> Thanks! I had figured it was slipping through the cracks so I snagged
-> it. I'll add your Ack. :) If you'd rather take it, just say the word and
-> I can drop it from my tree.
-
-Thank you both!
-
--Gustavo
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
