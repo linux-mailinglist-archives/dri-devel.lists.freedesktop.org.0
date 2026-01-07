@@ -2,48 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0835ECFE2A4
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED762CFE2C5
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 15:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6720710E5E7;
-	Wed,  7 Jan 2026 14:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D28E10E5E9;
+	Wed,  7 Jan 2026 14:09:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tMjJA/SV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GrPQ+prQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244AF10E5E9;
- Wed,  7 Jan 2026 14:08:10 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFA5E10E5FF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 14:09:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E2C0640A98;
- Wed,  7 Jan 2026 14:08:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6456DC4CEF7;
- Wed,  7 Jan 2026 14:08:08 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 500DB60018;
+ Wed,  7 Jan 2026 14:09:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4990DC4CEF1;
+ Wed,  7 Jan 2026 14:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767794889;
- bh=NEoz9kconBg9NkwHDA2V2ValAY1/VU8u0UsT+syAgM4=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=tMjJA/SVma0rH5/9z9sCR6sTQBsL4LVaZQgruSqlQX44XAsE7FSVuqC+jRARlkADo
- WTueFnASNLxeKoajCjSl7247BHS4cOmeXmWV/AmtZZTYKCQ+8gU16Nlta2SBUloN6H
- lAWbPREALb0c742PoD4dkGB9fhpp2HJ1dw+Coy7Td9baLCwIImn8aXhQsaqRZweQh3
- kT5bwLJDakupoF7u6fsxcGavB2n3XMGzsFetSSNU526WYtJlWsrCsVCqUnZm1LHALQ
- ooAG26UC41zFkCxg2ceF5jg+cPaHPICiusqtIhMwJ1992wO83DCYBSC2ZIbQMR0JHs
- tCoWKowOJ/LCg==
-Mime-Version: 1.0
+ s=k20201202; t=1767794942;
+ bh=PZWDOBLRey6Z9yX+RyF83GqTHUzZPfvvBMqFhTb+pZg=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=GrPQ+prQOkX4BEgihC3kMMyG17wnhrSstZOLnQqhZ6YxGPgNVxNzO9jWwat+cRVab
+ YGij8q6a7bz/LWjIjWmcwvp6BWxpKKVc9XXYetlswpDBnQb4wbV0L1i7g2HW2ATEBW
+ KuzxcHzluA9oP5Vhbb2SsPp5J1X9cpdarnFrhtHopxt8scZm93r11XFzve7R35Luw8
+ 7iSpo71PthPlVmkmcLOo5dQ8mIkp4hToG2zAP7+WoR/LQe2Hl8JX0i40O/AgTdSJH0
+ VYGGgVpsT90VnW0ypGc2ZqLlW5NW/xfnW2dze6eGtP5l5oaxfSJm2xPQK+GI40qTO9
+ 8koUD5HgnSc9Q==
+Message-ID: <af317ef80c6bf8e670df3d6dbabacdeb@kernel.org>
+Date: Wed, 07 Jan 2026 14:09:00 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 10/12] drm/bridge: samsung-dsim:
+ samsung_dsim_host_attach: use a temporary variable for the next bridge
+In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-10-283d7bba061a@bootlin.com>
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-10-283d7bba061a@bootlin.com>
+Cc: benjamin.gaignard@linaro.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, "Adrien
+ Grassein" <adrien.grassein@gmail.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "David
+ Airlie" <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>,
+ "Hui Pu" <Hui.Pu@gehealthcare.com>, "Inki
+ Dae" <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu Ying" <victor.liu@nxp.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Philippe Cornu" <philippe.cornu@st.com>,
+ "Robert
+ Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
+ Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Jan 2026 15:08:06 +0100
-Message-Id: <DFIEZJJK8GUD.1XW0UQSIUCH2N@kernel.org>
-Subject: Re: [PATCH] drm/sched: Simplify idle entity check
-Cc: <dri-devel@lists.freedesktop.org>, <kernel-dev@igalia.com>,
- <intel-xe@lists.freedesktop.org>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Matthew Brost" <matthew.brost@intel.com>,
- "Philipp Stanner" <phasta@kernel.org>
-To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260107134405.96603-1-tvrtko.ursulin@igalia.com>
-In-Reply-To: <20260107134405.96603-1-tvrtko.ursulin@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,18 +75,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jan 7, 2026 at 2:44 PM CET, Tvrtko Ursulin wrote:
-> While at it, we add READ_ONCE annotation on the entity->stopped check to
-> mark the unlocked read.
+On Wed, 7 Jan 2026 14:13:01 +0100, Luca Ceresoli wrote:
+> In preparation to handle refcounting of the out_bridge, we need to ensure
+> the out_bridge pointer contains either a valid bridge pointer or NULL, not
+> an ERR_PTR. Otherwise calls such as drm_bridge_get/put() would try to
+> redeference an ERR_PTR.
+>=20
+>=20
+> [ ... ]
 
-READ_ONCE() is not about marking unlocked reads and does not guarantee
-atomicity.
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Instead, it is about compiler control, i.e. forcing loads, and, depending o=
-n the
-architecture, deal with address and control dependency barriers.
-
-If we want lockless access to entity->stopped it should be atomic_read(),
-atomic_read_acquire(), etc.
-
-- Danilo
+Thanks!
+Maxime
