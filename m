@@ -2,164 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447D4CFFFC9
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 21:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D5CFFFD8
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 21:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B35A10E2D2;
-	Wed,  7 Jan 2026 20:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D32E10E168;
+	Wed,  7 Jan 2026 20:21:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lS5mvSFQ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BOJyFSqW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011041.outbound.protection.outlook.com [52.101.62.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE46910E2D2;
- Wed,  7 Jan 2026 20:20:22 +0000 (UTC)
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010046.outbound.protection.outlook.com
+ [52.101.193.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87ECD10E086;
+ Wed,  7 Jan 2026 20:21:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Se40fD8XqZsSW09iJOwGW1n6IiPOBEgKSGr4rzjPurKFU43bSrIFYFS/q76sDW0WrrqffH9sr5fjYUMBOEZHKmy1YJ7BXoT7AxmSGogkuItFPqNdWauIsdkfHk853OJb3EpCDO7Qp4+W5FC8bTkYw7CHRBarZ4y9rMXHhink57pzpRLpknamktjhaxMa00dga/QB+g5a0B4oIkP04SNrno3GDKP+jjHxNhlpEDZbdXFufu2pe0jA1lPMnfGZg6CIRIhKRlKLddz2aV5MQGNk4fr8xKvc4zPDcKrektCUpuadz0aUijuwksoqMF2KQXl5NUVoi0m6CfOlMWUCnGawvg==
+ b=HMjWKQ2z5PSowpW3aGse7E5PTFNXm2vpW76EqMdJkb59wTUpU9wbEZUzTYqXTr9O89ZU2ZaZCuh7cmGgKEY3nGkEHFqXVFllVXsQPtIKhOInxoAb0JVxhCgNwEcMryCWarcVeNAQMX9eVJ7JvX1PWWJqh2wa+We5gmghtfXGY6tRncUGg6rX2hF0gt1VSXwOVI2u43C2jc/cG+zlJ39Y3M2dyE4E7zCZ/qHstauiyBhDX151vddYEGPICTwvXv+2fq7mhuo1ie77lbZWjdg/IbVejP87sYJDbUxWnk+TTa1rjV5fhxbHQbF9A3UXJQFJjWmn61INfhpzNLsD2V0lpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XWAbA3U5a7QAseeHncFszHt14OwDtua1LvgFFx6A4CE=;
- b=qGi4LPOxs9Ea/w9cPNUQo28px+Q8ysSeieCkeCpOmI/hRN4noPS7vGhVnHemSem091aINGmEh6r1WwgsDlyqBcfM7J064QZutwhp8FQykd9PvBIIU9ygGHw20MoYz1n9xuV9F/b6fBVq9GIZEgPZCY9khXNmbahF2tLJNH9qZtuJ2+Rvs7Mf99D2IGgjtKm8iMy7ogjMOMM8nA/azxyvpayFOdswX7RunRMrlULICHX1eK6FsVcpKW+TUsbMpXSDKwcnwoab//U5ulW6zKOal9eKRernsCcI0FnXcquNMAk9HQtapdfAeVV/0wiXfan9kGJGr9Pw0+Eu1moNgEoDhg==
+ bh=KsohBkGRHHllCnTdnXjS6kqwnu6Z+QdPtR9H2GrEfeo=;
+ b=zM9W4fvYfk4MqSLTEr6KJ2z9nRRYFQEAqELQyuEfAVCLWt+HeZO+FzHcs8E75e6Q6tiM//SFb60qnKRVGBhZvCwj4KE5kZtx6/QQCQYbowteX6JqWpZFJqyv2tAwk3/xqdU8+QRrXXFJOwAw2LkMm8B7FpYYTm5kgY7MO0UJI/5oc7dlj5t53ss0CdLlXgRn5peNEpe3Mybh5mJ93IiUUhD+WKjBifS64OdR7/Dvm/YZo36fcTVWyEyuexPLJFdxb6SAYlb/7fK6h93CbkqG+8aTBtEk4HQCC8LM24Gan0SNZxNzHPTjP8kumWlaqODPKWzZEKapDGfSEnlBdTVSAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XWAbA3U5a7QAseeHncFszHt14OwDtua1LvgFFx6A4CE=;
- b=lS5mvSFQvvj7a3CcK3EJNTEu201xPS0I6G2VnMYS4Y4slNvhrSmLJIO9h85VQanGadZiZ/zr0Q9YfBX4CM71BBa3eaMhRILsVcgyWfc5OBFk3g9InuwOg5c832SmE8i0U9AbRgLIg1041lghAdsWQ51mEp2Oe7Ackj3E00YPXAtIdbl88d2ImnyLWxm4d+uxnPhbRABDVp+OFqb0OOF5U+hxZEHumUJ2qlZo8oBGfnSiriD537PkMi8/2m7CKoZRTWobnB7nZmg8clHVwBA1juuF5zPT2hn9o4lB5T2E9+IrK7Vu/EI25AYYg5Mw90nCQnOc93PSpHpev+nQGyWDAw==
+ bh=KsohBkGRHHllCnTdnXjS6kqwnu6Z+QdPtR9H2GrEfeo=;
+ b=BOJyFSqWiT88LqH9+u+X+6/ZcxZQvRTmInvrf/v43Pu3by/DSP3/tUX+ZUUbrKZiZEKME5uId+dzZSXwXbAGjUVuXL+RgSDjAcM/mjJtZhamL0MkcbTTQGal8u0oVcLZ5vfJkMNb9j/RiByLWph8LYqBG4xiFvoC9Jc7a+mR1AgdUbu5CIYtYtNy9aIpMkyhpWfGY84xSkC9aFoRR71vHhvTJRdQkocQTJYEefAz9OzcqBsdoU5TlmJvea8mqDzTggxodSTszbZwh32Ad2no0AOxw9+OTPhKAy2DMEPrKM8kwkuSjCf9fjvEiXxKLyo2xrqThNeWy09Cf/bEX4AMww==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- BY5PR12MB4177.namprd12.prod.outlook.com (2603:10b6:a03:201::14) with
+ SN7PR12MB6670.namprd12.prod.outlook.com (2603:10b6:806:26e::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 20:20:19 +0000
+ 2026 20:21:38 +0000
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.9478.004; Wed, 7 Jan 2026
- 20:20:19 +0000
+ 20:21:38 +0000
 From: Zi Yan <ziy@nvidia.com>
-To: Francois Dugast <francois.dugast@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Balbir Singh <balbirs@nvidia.com>, 
- linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH 1/4] mm/migrate: Add migrate_device_split_page
-Date: Wed, 07 Jan 2026 15:20:15 -0500
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org,
+ balbirs@nvidia.com, akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, david@redhat.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
+ Felix.Kuehling@amd.com
+Subject: Re: [PATCH v2 00/11] Remove device private pages from physical
+ address space
+Date: Wed, 07 Jan 2026 15:21:33 -0500
 X-Mailer: MailMate (2.0r6290)
-Message-ID: <F4EAA470-C922-4066-A115-13D6D055C73A@nvidia.com>
-In-Reply-To: <20251216201206.1660899-2-francois.dugast@intel.com>
-References: <20251216201206.1660899-1-francois.dugast@intel.com>
- <20251216201206.1660899-2-francois.dugast@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Message-ID: <02D37B25-E2E4-4E1E-A714-1CF90AC7AA35@nvidia.com>
+In-Reply-To: <aV6nvCw2ugAbSpFL@lstrano-desk.jf.intel.com>
+References: <20260107091823.68974-1-jniethe@nvidia.com>
+ <aV6nvCw2ugAbSpFL@lstrano-desk.jf.intel.com>
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SJ0PR03CA0022.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::27) To DS7PR12MB9473.namprd12.prod.outlook.com
+X-ClientProxiedBy: BYAPR06CA0021.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::34) To DS7PR12MB9473.namprd12.prod.outlook.com
  (2603:10b6:8:252::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|BY5PR12MB4177:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53e35299-7134-4f9b-3be4-08de4e2a2d9f
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SN7PR12MB6670:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7620f76a-8e9c-4de7-141f-08de4e2a5c9e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YytjTmVKRzk3em1WRlY5UnA0OEdscTNxSE9RN0ZIZCtzZ0UxdmdwdU9ibmtY?=
- =?utf-8?B?RktNOSttditXRk9GeEpBb1JiL2VLcHd6cGd4bnB5VXF2SUZWR1MwWmViK1N1?=
- =?utf-8?B?QytqTEZlZ1puYVVhdC9LWW14dU1pOGlCcG9iT0RVRVdxc2R0YTM1UThvY1Jr?=
- =?utf-8?B?QlBTdjhZdFhINzAwNUhSamErZ2dIQUMvaXZHMHVaU0pVZjExdC9MY0M4bGRU?=
- =?utf-8?B?Q212OXZhZFRuZ0JiZURwNWNRMHNDalgwSFF6enBsOURsYkpZY3EvQk9uNk1E?=
- =?utf-8?B?c1gyVTJwZmxNaXVlblFpN0ExckJLZEtkZ2w1aEpaZXJtNFZ5OUNBeUo1NHpt?=
- =?utf-8?B?ZFBHMG4xaDZPaEkwVFFEZW5ERDZtQkR5TkthbUhjelZEOFZ6eGJBT0JUK0xF?=
- =?utf-8?B?TU5WVzFkNllMa0p5ZXlUSmc1S3BGakVZaW1kQzUvVndBRkNQdEdlenp5dVhT?=
- =?utf-8?B?QUdCNHErdGpOcDhvbHlqU2NhajR1TGp2NXVRdlpaMXFzeFJzcXdXanUyeHJ2?=
- =?utf-8?B?SXp6TVBMWDZuRzMyWFA2TTN6c2JRdDhYRHN0Ly9QUzhhZmJGNXdjVmIrUFdw?=
- =?utf-8?B?d05pMTJuMkRXT2tqNXVJKysySHRNTzZ3a1lNS2RHaU9iTlJmdzJJc1FtU1U1?=
- =?utf-8?B?RWNZUGxUUXd0aFNGV20zM3RwTmdPRXRzcUV1dys2bUVpN0E5R0pBTmlOaDZO?=
- =?utf-8?B?NHB5L2hvZlpTaS9FcFBwVzVkU0JnaWVvaFpSS1JLRW9KOUJJMm9ua2xDbDRG?=
- =?utf-8?B?R3hHWmpPV0Y2T1FkcTU1d3Z0WVVDRHhucDV1clNVNlhETUhqMjI3RDZnSHdG?=
- =?utf-8?B?T3hDRkNUWXNnYlFPVUtRRXBKUkFjVFBuSGVVdi9kckpmS2R4aVJJcjB3aUN1?=
- =?utf-8?B?RmVnbGlBRzR6WDFEdkVYMHJNcjZYMXcyMGFmbDczSDlOWnFqbFFCNGY5Q1du?=
- =?utf-8?B?eTVhTjBSWW9mZ2RGaHJRdDVhWm5oV3JDY3Z2ZStjb3lBdnd5eTNrczVJWVkr?=
- =?utf-8?B?M1Uwa05HdUdvVUVqbzVpaWRCc2d3NjVuQUc1L1lWa0YrSml1ejBoTHNOc01t?=
- =?utf-8?B?ZzcyZjBCV0t5Mmo3dnE4UWZlOXZ6TnIyZUhPckpUWlNOTXRFZk1aM2tKaU5v?=
- =?utf-8?B?VFpSMjhRY0tsZGxKRkVzaC90MmxjVkxaaytTa3RhdjY5Q25BOEU1OTFBTGkw?=
- =?utf-8?B?NGtEN1VMbFUrNVU2RzQyZlNhNGdjZHA2RURHU1QzbGtYTGNMYkVqM3FDbjFB?=
- =?utf-8?B?dHB2dUtxQWEyaE45ZjZmVUkyOVI5Ym44T0VzamdtelYvbDFGSGdwbTViRVhD?=
- =?utf-8?B?SFdBY1BqcDRVZ3AyODhSM2h5bXJzSE5jdVJuNUJNRnVzeHhuZjZYWjJXODJO?=
- =?utf-8?B?WWMvRFk4VXhQVFAvWlUwQ0lEdVVLQ0QzeW5Ia1VQOEtsTnN0TXhNZThBNVVs?=
- =?utf-8?B?anFaUkNwaUtJVTJIQ2Y0a1NzUmJua3ZuN0hzNjNKVnBkQTEwRzQ0RHJleTNI?=
- =?utf-8?B?ZENCaHZZUkZUclgwOEl0U0dtQmZ5UlRDTkVRMnVQbXFTK1FLLzRsVGJ1eitI?=
- =?utf-8?B?SnhXUWxybStybWptdzQzdTFnV0QvMSszNzkvaE1nblpST05FQ29rcWN1cnRh?=
- =?utf-8?B?TnRkN3BvQWhRdXpacGhkeUlsTS8xYmxLN3d2bGdvc2hWRHZxY3grV3ZXRmEv?=
- =?utf-8?B?ekhVYVNibWRqMSszQUF3USszR3FmMnlrM1dKdHdhV05vTjhHSm4rbTJnNTA5?=
- =?utf-8?B?YUtkdy9MejJaeXdwZHlDcVh1Snc1VWhpSTlQcVhyQWs2UGpnTFNqNUcvYjBU?=
- =?utf-8?B?dGp1K1QwalFpdWJsWW1TbmNCdFFTN1UyQ29LQzVjdVBGZURCNU5qZjZnd2Ry?=
- =?utf-8?B?QVVuRmk5SUN2K3pNelZYdCtVUXp6c25EcWVmYW0veVM3c29Lc3U5VDBPQ0ky?=
- =?utf-8?Q?8eQbU8BGzY9ZDszaF+eDpUugInDq671C?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?toRkQ/mrS1PIM/kpfOfSC8XiVxsqGN12y/XEzY5/Y92Su+tdr7L+0WkFEb//?=
+ =?us-ascii?Q?DAg0Pmkcm0mooiXLlavjWujynCZ8+3vrAojGlmIECq3BTY2iWufzUY2bNoTJ?=
+ =?us-ascii?Q?efQSdHWtA6xw61gqIxRfTxsBzlkZ+eNAr731M3Sq1gmgmud03aNo1mMy24XT?=
+ =?us-ascii?Q?CycIfUULX4s7F/V5KH5owAHC37f2hLMYV0maV+Hv7p2LfiphsZWY4oviFDFy?=
+ =?us-ascii?Q?TWca0Q7gczsjEPgMGlCzTDWoSF+jdElQbBLE37AT4PWpJx22UbOj2onf6eyl?=
+ =?us-ascii?Q?e3ZfbHO9VMpqpuohuVXHG+QNWo80hSJnOg2y/DWnVza6vGT7pf+i15xF68qn?=
+ =?us-ascii?Q?qEMVD3vfhJ0IqXxplyvJQhh0D7X9ZU94wxd/oWfKzGZTXvMytr/htT9FtMgf?=
+ =?us-ascii?Q?z6jke1RmAlVnKjlbu7SrQJ5JQ1J69i/l01Z4tZz1qKpsXgJ8qaDLihlUtAmd?=
+ =?us-ascii?Q?kSFBAJXYWyrGIZKtPXzVyvIrKNWLnA7ComoisihLEAiUmTucgKzcB2Y3VI1o?=
+ =?us-ascii?Q?RVICFs6g0zYK1mOEb2mVwto+Pq0RixHDMyRksAfOyU6SRBG2mEWFT1rsoKrF?=
+ =?us-ascii?Q?nYxoodkELnI+avy5X97a58F6DUSi9+bbBGCQwblIsSnZn+W44oAnYdUtt4MT?=
+ =?us-ascii?Q?ECABdN+o6vBKDC3EiuUb42pAHDsqucqpJSdnsKVTuN+fGbMpC31qSj2egp6/?=
+ =?us-ascii?Q?H2hoUc2pawdg1JopcJVz0MdwMf4uD+1ripyMMfUrsjJ+mouKbGCLljyOGtbc?=
+ =?us-ascii?Q?dqWlCm09T3WnEoKMdNcraiEEEif+5wGi2Sg/HGuVlkbQCZA57m5Uvn6KzBjv?=
+ =?us-ascii?Q?5JEGeg3QUiC/f7QY0RBgza37lQ2YgmY8LhjZvN7s1sQ2whUtorV9Yv3V9P3K?=
+ =?us-ascii?Q?crNSSzKG+ICbAXqXAz/uYle7cieEiv7+2xNdaJSSJu5RZOz6CTiBTWbHDgXl?=
+ =?us-ascii?Q?9//W3IgaWSDNka7HyZSylqGviIyYWeHP1QiDRrOmd3Fvr6wMQveHep3RC8hp?=
+ =?us-ascii?Q?Jah7S7+hFPQrkgxA8z7X36/RobIO+ijLjwgNu7Z1RoXT/QWy9eIbgZQEG2qf?=
+ =?us-ascii?Q?Wh2xq6Duhyp/54LvDldaPfUALW+KdHiwSqtJOLACsLlIJ3hF2MFrE5lZMFPa?=
+ =?us-ascii?Q?qFfwYRMJ8HgEhihOHw6B6CoZW7sGqnwj3Xq2CchksrGqwHEQJwrnz7NKDFMc?=
+ =?us-ascii?Q?OoFBdEEcRjv81VBgQvJ5PYauXoCxtBxLQp7oqjcp5AwiUHrbxgRc6cuurV4W?=
+ =?us-ascii?Q?SEKDvrjg4Ry2r8i/XdZqzWaWY9qIKqWny8q9Le0I638ZL27kCurYGlsy5m9d?=
+ =?us-ascii?Q?QNq8+bMgOjU/9xHuPSNzpAumV/cm1f4A337FLJbMob6RTUOBPmM7E9Ugo0jb?=
+ =?us-ascii?Q?OJ89xguAOwYc6tDqCSAxXPugy5QX+NZiPTc6gmteZFZA7cM/Q7mRtTPSrxoo?=
+ =?us-ascii?Q?JziUYxPWd0HJLleyyJtR4VjD6vqy1fW/?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(7416014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDcrSWl0RzVIQzNYZXRZZFNHemVDVFlQeVoxRXoxM3BLOVZ0WFlGS3Z6YWsy?=
- =?utf-8?B?czlqekFrc3VadFhESDN2YThzUFVxZHZPRzM1N0xSMDlFLzZtRHRxR0VvSXhR?=
- =?utf-8?B?bFFwMXlLalZSNHc3NjRzaExlUllabS94N290Q0p2Mm1Zc1RGT1JQRDBvZGRs?=
- =?utf-8?B?SlI5VmFmMWQ2bnlkWXRKOU9ucjNGUVd5VXJFV1hvTkNRZmxpd051ZjRhZ3lU?=
- =?utf-8?B?bVFlNCtmY3V1WmNqdjA1VXVzNGhzL0xxQUgrOTdqNjRLQ2JnQjZ3cUoyZE5a?=
- =?utf-8?B?dnFJS2NWeTgvYWVnQThLRndkRndvZTVNa3E0REZiWW43WXhabkZvU2pHV1Jy?=
- =?utf-8?B?SzdVWmFUaHB4dUl5azdJTmFZY0tSWHJkSHBOYzdJWkNta2p0Z0pYby9WZ1px?=
- =?utf-8?B?RzBvc3lWUEVZNWV4cnZiakdVU3ZsQVljSnY4WTBVbDRmMzV6aUtQQjZSZEVp?=
- =?utf-8?B?QWROcHlWakNYOHhFNUJsQ2xrSnZJcjZFbThBRzVUVFRWUFNGd1FBSnJYaUFU?=
- =?utf-8?B?cGRad25sSVpKZkRNdCtSWFB6U3hmVHAzRmRVUUZiT0RTaTRZcEtHL2Rya2Nr?=
- =?utf-8?B?cXY1K2VOcW9HdlBLdDdJeVFlWUdLbjRGVFhHWVhLS1dkSm85djVDOENsdCto?=
- =?utf-8?B?ZlNCbVMrOVN3SDJNcWNSSFk0RHRrbHR1bnlnSmRHQXovSHlnanRyOEtHcjdr?=
- =?utf-8?B?aFBNVW1wbVU2dFBUUktRd1h1bndGMklCcUtDK3NUcWgvekpVQWJVV0EySHRJ?=
- =?utf-8?B?bW40eFdVUDNMZ2UrbEI0TzFYeW9EY1k2NWl1UmhBcTBadkJGWm9mVy9Eam9P?=
- =?utf-8?B?UVhyZkg0aXJwb0VVOXd6ajUzN3MveVZBcjBhdmxSb0ZCQ3E4dU9xaytXdjgz?=
- =?utf-8?B?U2lkZ3VsN0pUdlErZDNWQnFJM3VxYmtZb2VZTy9XS1U0VUlMNmQ3QnhuWndy?=
- =?utf-8?B?UTVOTzF5eUMzT1JyR2tTdktnbWFJQnpGWXUwQTUxMmJ3a0dscEp5Rnl2eFBD?=
- =?utf-8?B?R0VCMmpZVUFhMCtab3FGaG5Sa3JOcDZPT2NNaWNZWWNudkJ2eWh5T2FjQmFl?=
- =?utf-8?B?TGIwcjI2c2lwNDBLMmp0amdTZWhDSmkrVGJ3aDhYTmJzY1dyK05mSGpaYmwy?=
- =?utf-8?B?cDllOUNVenVoZEV6QlVMMmtrTDUxYkgxOEVhUDdzTklsa3NPR2ZIZCtuU1lV?=
- =?utf-8?B?Z3RsRTg2UXBaenZPdC9MM2lzOFpvc0lVWEt3bWhwMlpCZ0hBMTROMFU1ZDJj?=
- =?utf-8?B?UlhSL3BnRkRVbWxCNmJWZ2F4Uk1yRlA3NklHVEZmUXdEOGNpRUVpb0I0RVhW?=
- =?utf-8?B?TEp0aUFYbS8wSlpVWU4rc2k0VUJFRUxpSXhCUmg1NXIrRnNjVGwyOE9SdzhY?=
- =?utf-8?B?MWRBOWY4ZmpJNk9Jank4MXZaVWRReTZ0a3kzcEJUZGZnQ1I3VVZDMDZYK3dM?=
- =?utf-8?B?MTloc29QRFI3eUNLb3pXRXZxbVJER1ExZzRzU2xEZFlqZGVPZUpBNTEyRC9n?=
- =?utf-8?B?WUZUNG1xWS93UGdGcHgzbUZaRlZuNEVEUlRuSmdvNU1EUzNaWXd6Y1Y4SEww?=
- =?utf-8?B?d2JnczZNMWU1a0NVTUJBdFYrMUxuQSszYUhDbzA3YnRZNngwbVh5Ym5aaERW?=
- =?utf-8?B?TWlPckFBYWI4U0Y1ZGFOTWgyeGVpS3hCWlVDS1hUM3d6V0NBbWQ4SEVjd09x?=
- =?utf-8?B?WVJ6WXlKNzA3c3VwY04wc3NsTlI3OXdlMUYxL1p2QVRtZDJ5cUJWRE9zV0pT?=
- =?utf-8?B?eVlmZVAzZ2ozYlpsQjhxOGN1c2VlY0tYT0ZVS1FVQXlaSGR2emkrT05iNHJW?=
- =?utf-8?B?bWQ4U2taWkdwT1BTbVpCcXhUL3dUTGNSRXF6Y3JJbG1Icm43VEJFdy9Yc2Ez?=
- =?utf-8?B?VzAvVk9GU3FPQlhmbmZlTHRjWnl0K05lYkxMZmU5UjkwUlgxVk1oRW1lUmZp?=
- =?utf-8?B?VlF3bkNjaWNuYVBnbzh2alcyK20rTGRFalpSMnFWekQxRzNWQjFPSWs2Rjd0?=
- =?utf-8?B?dDFvOXp5bmZ3NEIvb1JOeGI1SmJLTHJhN0o4dkZBbVI2ZzVOc0dkL053WDZM?=
- =?utf-8?B?MmJBMEFlRVVSRDRmR205OFI1RW0zdE5OTlVJaHdpRUl3dlN3QjFVaWQxdXA3?=
- =?utf-8?B?Z2RCUFVjUlJySlNUNkZsYW55cTN5c0lGd213VFZxMnFFYW5PblpVRWlzdk9U?=
- =?utf-8?B?dzFBNFRQUHE4Znl3d2ZOdm5BN0htNnlBY01TamJLQkIxeEVQMGFwTWlrYWJu?=
- =?utf-8?B?OUV4UlNjaWladnR1dndQQW54Z2oyYUlUWFhiV3FtZTVtUGFOa3ord01hbThw?=
- =?utf-8?B?ZVl6eVpyeTR5QS9hZmhiaExBcWp6RllIMmk1QWhuYmJidmFGN1hwUT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mSTur9QCazf9qA1hoQhBAhJm7h5O5PYlf4KfVkh2Q0CRfFKuF3VzuDbllbzF?=
+ =?us-ascii?Q?jAMsy1+Wj84TknJTMLIYDUAT4PhEXG8CixS9vi3Lmi3dkz+fXhxAF6mYzQ9X?=
+ =?us-ascii?Q?rXhZS+l6qTdw0L2bDA60PaQCShBl3RVqMQZsqx+T1Wh5D9aplhivNY1J5ir6?=
+ =?us-ascii?Q?ITWjFrpqizGXqdH9vQZrgbGdTA5axkli3cneBIm/8a9QZVAi16a4KMOJMbAG?=
+ =?us-ascii?Q?yy3BfHevWvGkJHGoxa+z7Pm8OKa8MrZbMNG4WrU64vT5RqMNLpaGdMZmmaaU?=
+ =?us-ascii?Q?SyHZ3VoYCdjsxcX4WN7g3e5sPL7801nzaLXLYLGDtBYCSt/PAfcitpTcFp64?=
+ =?us-ascii?Q?UUpiSCxwe1a0nfotVUZcc7H7/tvS+74BFg+efeeiDqfYAOjLMEdcgk7ApDJf?=
+ =?us-ascii?Q?LcTHTEwv8GEKCiPL73aNS8GHqxdB11Wc68qaYXaz515MPeKX/2UjNfJFweAP?=
+ =?us-ascii?Q?3mNlEbn8pyFmaqNpx7pHihUNcEkI99Rv20DYS35CV1AG7mIXKwjHQ1SCEggv?=
+ =?us-ascii?Q?iN1S3yMJZLUmoEjNuxieKPdNjeS7YT9JMBl5cOGtJFFuQYeVr+4RFnQXvhMG?=
+ =?us-ascii?Q?Ta2PRyNOh75vFqeaZ7FZg9SYc9wtCtTI32lpA6Vm8AdDkgfY/SFqnDgA1/5f?=
+ =?us-ascii?Q?zQ0i0IzF/xx4mUk13bIr8W89KF8PBCTmoxtMfSmWsnHIXRVQeI2CKM8FAl16?=
+ =?us-ascii?Q?oCSxzp8Ev75wIkWnuil0Oh+QYtjI1OvlIa9gmWp0NOiAxbfPvv3Zi9Nnrjey?=
+ =?us-ascii?Q?FlXhq5N/7g9/ss4m+xoKXga4hZSvf9LpeBai67bJ3/bjumPZUUxbhnVETF/9?=
+ =?us-ascii?Q?305v4cFitPcpbF0QJQH/p+vcGUB1hFpRfu0+FLnpEbSXUYCf4Y4Nvkw1DPA5?=
+ =?us-ascii?Q?eZdrQPZ8swuNxSMx07b6Gj9JtSw1OWojvNnKX9ZptKBkjf/mZ87vwI8w6XYG?=
+ =?us-ascii?Q?478X0qTr923jEgWAjoI/utEvDsOc4e+3ucryS+8XY5USzJwSQtHgi96viCSj?=
+ =?us-ascii?Q?zSQU7zClRFKloIwe1dnNGuT/mZWNNggdR42++zjStTudKqMWpdGUvDwgy8bO?=
+ =?us-ascii?Q?SGRbU+rqoNxGbRuC0mXYO9d7zoLgtMXyPlKlNNBZZVtLHIYPxY00KnSbbElk?=
+ =?us-ascii?Q?HETwHEXvvPD1oUc1cslZ2Z6EUAUFzaiWsAO86vN2fS6NqPLKX9C1YwHuKlYM?=
+ =?us-ascii?Q?JwyF86rTA4HAtT0w2ozgFeYblwagN4+TG4wOWe8uPk/+9dzI7yG7RY6NFTYL?=
+ =?us-ascii?Q?jebc1EO4HBa8WRFsMA9civjWYPFzAY0k0RT4447eOIBMGXI+IQUR9MmEnCq5?=
+ =?us-ascii?Q?6mbWFOy9zNYavhwrl1IpEp2rXN+dNUW5mM8tZuRvFKceK0C1I1b7fHB1Pu35?=
+ =?us-ascii?Q?3uH7KCmftjWkTKm0rI+KcLWVMchWkt5g8kitmkQgX9mxfMx1LMsiaA8mTVgR?=
+ =?us-ascii?Q?IYlSZ3fLC0lHr74UBVr8SKUw1UoWLVoLXxX78eshDlzXrnnxnBioBF0cnsxM?=
+ =?us-ascii?Q?Z/PtlMlxO6jAjnD5acBDOWY/txOjSmTiBkoy63gAzJ0HTAFya8662NF0wG6v?=
+ =?us-ascii?Q?HVcQw22K6kup7i2aDJ4o6LdyN7Z7yBGzrFA4DFOAl6JRAgp11N/zfv8x4KC6?=
+ =?us-ascii?Q?shJ3cLt+eFFrCA1Gna9/EynAsMRS/p5R9OOqzkzqRXFl0v8n0rjU2BmFM8zN?=
+ =?us-ascii?Q?uHB18sVq0QcKAoabb7rq9AkMtWOs8423omnst3xxaXD5AYgnl5htRcFSb5Wc?=
+ =?us-ascii?Q?Ws5E5EUQug=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53e35299-7134-4f9b-3be4-08de4e2a2d9f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7620f76a-8e9c-4de7-141f-08de4e2a5c9e
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 20:20:19.5198 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 20:21:38.4002 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: reVVIcDOHDh20r1ogmhcmNpXBsBviR6FzWLku5wPGorAjKxiQ+4Ea3mHU5HoG1bj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4177
+X-MS-Exchange-CrossTenant-UserPrincipalName: CraGEstQm7tkVhntxDl0ehOme9pjfXb5YvNlEk642Ei06pOPyCYF7OolTMuTmTL5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6670
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,161 +157,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+THP folks
+On 7 Jan 2026, at 13:36, Matthew Brost wrote:
 
-On 16 Dec 2025, at 15:10, Francois Dugast wrote:
+> On Wed, Jan 07, 2026 at 08:18:12PM +1100, Jordan Niethe wrote:
+>> Today, when creating these device private struct pages, the first step=
 
-> From: Matthew Brost <matthew.brost@intel.com>
+>> is to use request_free_mem_region() to get a range of physical address=
+
+>> space large enough to represent the devices memory. This allocated
+>> physical address range is then remapped as device private memory using=
+
+>> memremap_pages.
+>>
+>> Needing allocation of physical address space has some problems:
+>>
+>>   1) There may be insufficient physical address space to represent the=
+
+>>      device memory. KASLR reducing the physical address space and VM
+>>      configurations with limited physical address space increase the
+>>      likelihood of hitting this especially as device memory increases.=
+ This
+>>      has been observed to prevent device private from being initialize=
+d.
+>>
+>>   2) Attempting to add the device private pages to the linear map at
+>>      addresses beyond the actual physical memory causes issues on
+>>      architectures like aarch64  - meaning the feature does not work t=
+here [0].
+>>
+>> This series changes device private memory so that it does not require
+>> allocation of physical address space and these problems are avoided.
+>> Instead of using the physical address space, we introduce a "device
+>> private address space" and allocate from there.
+>>
+>> A consequence of placing the device private pages outside of the
+>> physical address space is that they no longer have a PFN. However, it =
+is
+>> still necessary to be able to look up a corresponding device private
+>> page from a device private PTE entry, which means that we still requir=
+e
+>> some way to index into this device private address space. Instead of a=
+
+>> PFN, device private pages use an offset into this device private addre=
+ss
+>> space to look up device private struct pages.
+>>
+>> The problem that then needs to be addressed is how to avoid confusing
+>> these device private offsets with PFNs. It is the inherent limited usa=
+ge
+>> of the device private pages themselves which make this possible. A
+>> device private page is only used for userspace mappings, we do not nee=
+d
+>> to be concerned with them being used within the mm more broadly. This
+>> means that the only way that the core kernel looks up these pages is v=
+ia
+>> the page table, where their PTE already indicates if they refer to a
+>> device private page via their swap type, e.g.  SWP_DEVICE_WRITE. We ca=
+n
+>> use this information to determine if the PTE contains a PFN which shou=
+ld
+>> be looked up in the page map, or a device private offset which should =
+be
+>> looked up elsewhere.
+>>
+>> This applies when we are creating PTE entries for device private pages=
+ -
+>> because they have their own type there are already must be handled
+>> separately, so it is a small step to convert them to a device private
+>> PFN now too.
+>>
+>> The first part of the series updates callers where device private
+>> offsets might now be encountered to track this extra state.
+>>
+>> The last patch contains the bulk of the work where we change how we
+>> convert between device private pages to device private offsets and the=
+n
+>> use a new interface for allocating device private pages without the ne=
+ed
+>> for reserving physical address space.
+>>
+>> By removing the device private pages from the physical address space,
+>> this series also opens up the possibility to moving away from tracking=
+
+>> device private memory using struct pages in the future. This is
+>> desirable as on systems with large amounts of memory these device
+>> private struct pages use a signifiant amount of memory and take a
+>> significant amount of time to initialize.
+>>
+>> *** Changes in v2 ***
+>>
+>> The most significant change in v2 is addressing code paths that are
+>> common between MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT device=
+s.
+>>
+>> This had been overlooked in previous revisions.
+>>
+>> To do this we introduce a migrate_pfn_from_page() helper which will ca=
+ll
+>> device_private_offset_to_page() and set the MIGRATE_PFN_DEVICE_PRIVATE=
+
+>> flag if required.
+>>
+>> In places where we could have a device private offset
+>> (MEMORY_DEVICE_PRIVATE) or a pfn (MEMORY_DEVICE_COHERENT) we update to=
+
+>> use an mpfn to disambiguate.  This includes some users in the drivers
+>> and migrate_device_{pfns,range}().
+>>
+>> Seeking opinions on using the mpfns like this or if a new type would b=
+e
+>> preferred.
+>>
+>>   - mm/migrate_device: Introduce migrate_pfn_from_page() helper
+>>     - New to series
+>>
+>>   - drm/amdkfd: Use migrate pfns internally
+>>     - New to series
+>>
+>>   - mm/migrate_device: Make migrate_device_{pfns,range}() take mpfns
+>>     - New to series
+>>
+>>   - mm/migrate_device: Add migrate PFN flag to track device private pa=
+ges
+>>     - Update for migrate_pfn_from_page()
+>>     - Rename to MIGRATE_PFN_DEVICE_PRIVATE
+>>     - drm/amd: Check adev->gmc.xgmi.connected_to_cpu
+>>     - lib/test_hmm.c: Check chunk->pagemap.type =3D=3D MEMORY_DEVICE_P=
+RIVATE
+>>
+>>   - mm: Add helpers to create migration entries from struct pages
+>>     - Add a flags param
+>>
+>>   - mm: Add a new swap type for migration entries of device private pa=
+ges
+>>     - Add softleaf_is_migration_device_private_read()
+>>
+>>   - mm: Add helpers to create device private entries from struct pages=
+
+>>     - Add a flags param
+>>
+>>   - mm: Remove device private pages from the physical address space
+>>     - Make sure last member of struct dev_pagemap remains DECLARE_FLEX=
+_ARRAY(struct range, ranges);
+>>
+>> Testing:
+>> - selftests/mm/hmm-tests on an amd64 VM
+>>
+>> * NOTE: I will need help in testing the driver changes *
+>>
 >
-> Introduce migrate_device_split_page() to split a device page into
-> lower-order pages. Used when a folio allocated as higher-order is freed
-> and later reallocated at a smaller order by the driver memory manager.
+> Thanks for the series. For some reason Intel's CI couldn't apply this
+> series to drm-tip to get results [1]. I'll manually apply this and run =
+all
+> our SVM tests and get back you on results + review the changes here. Fo=
+r
+> future reference if you want to use our CI system, the series must appl=
+y
+> to drm-tip, feel free to rebase this series and just send to intel-xe
+> list if you want CI results.
 >
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Balbir Singh <balbirs@nvidia.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> ---
->  include/linux/huge_mm.h |  3 +++
->  include/linux/migrate.h |  1 +
->  mm/huge_memory.c        |  6 ++---
->  mm/migrate_device.c     | 49 +++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 56 insertions(+), 3 deletions(-)
+> I was also wondering if Nvidia could help review one our core MM patche=
+s
+> [2] which is gating enabling 2M device pages too?
+
+I will take a look. But next time, do you mind Ccing MM maintainers and
+reviewers based on MAINTAINERS file? Otherwise, it is hard for people to
+check every email from linux-mm.
+
+Thanks.
+
 >
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index a4d9f964dfde..6ad8f359bc0d 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -374,6 +374,9 @@ int __split_huge_page_to_list_to_order(struct page *p=
-age, struct list_head *list
->  int folio_split_unmapped(struct folio *folio, unsigned int new_order);
->  unsigned int min_order_for_split(struct folio *folio);
->  int split_folio_to_list(struct folio *folio, struct list_head *list);
-> +int __split_unmapped_folio(struct folio *folio, int new_order,
-> +			   struct page *split_at, struct xa_state *xas,
-> +			   struct address_space *mapping, enum split_type split_type);
->  int folio_check_splittable(struct folio *folio, unsigned int new_order,
->  			   enum split_type split_type);
->  int folio_split(struct folio *folio, unsigned int new_order, struct page=
- *page,
-> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> index 26ca00c325d9..ec65e4fd5f88 100644
-> --- a/include/linux/migrate.h
-> +++ b/include/linux/migrate.h
-> @@ -192,6 +192,7 @@ void migrate_device_pages(unsigned long *src_pfns, un=
-signed long *dst_pfns,
->  			unsigned long npages);
->  void migrate_device_finalize(unsigned long *src_pfns,
->  			unsigned long *dst_pfns, unsigned long npages);
-> +int migrate_device_split_page(struct page *page);
+> Matt
 >
->  #endif /* CONFIG_MIGRATION */
+> [1] https://patchwork.freedesktop.org/series/159738/
+> [2] https://patchwork.freedesktop.org/patch/694775/?series=3D159119&rev=
+=3D1
 >
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 40cf59301c21..7ded35a3ecec 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3621,9 +3621,9 @@ static void __split_folio_to_order(struct folio *fo=
-lio, int old_order,
->   * Return: 0 - successful, <0 - failed (if -ENOMEM is returned, @folio m=
-ight be
->   * split but not to @new_order, the caller needs to check)
->   */
-> -static int __split_unmapped_folio(struct folio *folio, int new_order,
-> -		struct page *split_at, struct xa_state *xas,
-> -		struct address_space *mapping, enum split_type split_type)
-> +int __split_unmapped_folio(struct folio *folio, int new_order,
-> +			   struct page *split_at, struct xa_state *xas,
-> +			   struct address_space *mapping, enum split_type split_type)
->  {
->  	const bool is_anon =3D folio_test_anon(folio);
->  	int old_order =3D folio_order(folio);
-> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> index 23379663b1e1..eb0f0e938947 100644
-> --- a/mm/migrate_device.c
-> +++ b/mm/migrate_device.c
-> @@ -775,6 +775,49 @@ int migrate_vma_setup(struct migrate_vma *args)
->  EXPORT_SYMBOL(migrate_vma_setup);
->
->  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-> +/**
-> + * migrate_device_split_page() - Split device page
-> + * @page: Device page to split
-> + *
-> + * Splits a device page into smaller pages. Typically called when reallo=
-cating a
-> + * folio to a smaller size. Inherently racy=E2=80=94only safe if the cal=
-ler ensures
-> + * mutual exclusion within the page's folio (i.e., no other threads are =
-using
-> + * pages within the folio). Expected to be called a free device page and
-> + * restores all split out pages to a free state.
-> + */
-> +int migrate_device_split_page(struct page *page)
-> +{
-> +	struct folio *folio =3D page_folio(page);
-> +	struct dev_pagemap *pgmap =3D folio->pgmap;
-> +	struct page *unlock_page =3D folio_page(folio, 0);
-> +	unsigned int order =3D folio_order(folio), i;
-> +	int ret =3D 0;
-> +
-> +	VM_BUG_ON_FOLIO(!order, folio);
-> +	VM_BUG_ON_FOLIO(!folio_is_device_private(folio), folio);
-> +	VM_BUG_ON_FOLIO(folio_ref_count(folio), folio);
-> +
-> +	folio_lock(folio);
-> +
-> +	ret =3D __split_unmapped_folio(folio, 0, page, NULL, NULL, SPLIT_TYPE_U=
-NIFORM);
-> +	if (ret) {
-> +	       /*
-> +		* We can't fail here unless the caller doesn't know what they
-> +		* are doing.
-> +		*/
-> +		VM_BUG_ON_FOLIO(ret, folio);
-> +
-> +		return ret;
-> +	}
-> +
-> +	for (i =3D 0; i < 0x1 << order; ++i, ++unlock_page) {
-> +		page_folio(unlock_page)->pgmap =3D pgmap;
-> +		folio_unlock(page_folio(unlock_page));
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * migrate_vma_insert_huge_pmd_page: Insert a huge folio into @migrate->=
-vma->vm_mm
->   * at @addr. folio is already allocated as a part of the migration proce=
-ss with
-> @@ -927,6 +970,11 @@ static int migrate_vma_split_unmapped_folio(struct m=
-igrate_vma *migrate,
->  	return ret;
->  }
->  #else /* !CONFIG_ARCH_ENABLE_THP_MIGRATION */
-> +int migrate_device_split_page(struct page *page)
-> +{
-> +	return 0;
-> +}
-> +
->  static int migrate_vma_insert_huge_pmd_page(struct migrate_vma *migrate,
->  					 unsigned long addr,
->  					 struct page *page,
-> @@ -943,6 +991,7 @@ static int migrate_vma_split_unmapped_folio(struct mi=
-grate_vma *migrate,
->  	return 0;
->  }
->  #endif
-> +EXPORT_SYMBOL(migrate_device_split_page);
->
->  static unsigned long migrate_vma_nr_pages(unsigned long *src)
->  {
-> --=20
-> 2.43.0
+>> Revisions:
+>> - RFC: https://lore.kernel.org/all/20251128044146.80050-1-jniethe@nvid=
+ia.com/
+>> - v1: https://lore.kernel.org/all/20251231043154.42931-1-jniethe@nvidi=
+a.com/
+>>
+>> [0] https://lore.kernel.org/lkml/CAMj1kXFZ=3D4hLL1w6iCV5O5uVoVLHAJbc0r=
+r40j24ObenAjXe9w@mail.gmail.com/
+>>
+>> Jordan Niethe (11):
+>>   mm/migrate_device: Introduce migrate_pfn_from_page() helper
+>>   drm/amdkfd: Use migrate pfns internally
+>>   mm/migrate_device: Make migrate_device_{pfns,range}() take mpfns
+>>   mm/migrate_device: Add migrate PFN flag to track device private page=
+s
+>>   mm/page_vma_mapped: Add flags to page_vma_mapped_walk::pfn to track
+>>     device private pages
+>>   mm: Add helpers to create migration entries from struct pages
+>>   mm: Add a new swap type for migration entries of device private page=
+s
+>>   mm: Add helpers to create device private entries from struct pages
+>>   mm/util: Add flag to track device private pages in page snapshots
+>>   mm/hmm: Add flag to track device private pages
+>>   mm: Remove device private pages from the physical address space
+>>
+>>  Documentation/mm/hmm.rst                 |  11 +-
+>>  arch/powerpc/kvm/book3s_hv_uvmem.c       |  43 ++---
+>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  45 +++---
+>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |   2 +-
+>>  drivers/gpu/drm/drm_pagemap.c            |  11 +-
+>>  drivers/gpu/drm/nouveau/nouveau_dmem.c   |  45 ++----
+>>  drivers/gpu/drm/xe/xe_svm.c              |  37 ++---
+>>  fs/proc/page.c                           |   6 +-
+>>  include/drm/drm_pagemap.h                |   8 +-
+>>  include/linux/hmm.h                      |   7 +-
+>>  include/linux/leafops.h                  | 116 ++++++++++++--
+>>  include/linux/memremap.h                 |  64 +++++++-
+>>  include/linux/migrate.h                  |  23 ++-
+>>  include/linux/mm.h                       |   9 +-
+>>  include/linux/rmap.h                     |  33 +++-
+>>  include/linux/swap.h                     |   8 +-
+>>  include/linux/swapops.h                  | 136 ++++++++++++++++
+>>  lib/test_hmm.c                           |  86 ++++++----
+>>  mm/debug.c                               |   9 +-
+>>  mm/hmm.c                                 |   5 +-
+>>  mm/huge_memory.c                         |  43 ++---
+>>  mm/hugetlb.c                             |  15 +-
+>>  mm/memory.c                              |   5 +-
+>>  mm/memremap.c                            | 193 ++++++++++++++++++----=
+-
+>>  mm/migrate.c                             |   6 +-
+>>  mm/migrate_device.c                      |  76 +++++----
+>>  mm/mm_init.c                             |   8 +-
+>>  mm/mprotect.c                            |  10 +-
+>>  mm/page_vma_mapped.c                     |  32 +++-
+>>  mm/rmap.c                                |  59 ++++---
+>>  mm/util.c                                |   8 +-
+>>  mm/vmscan.c                              |   2 +-
+>>  32 files changed, 822 insertions(+), 339 deletions(-)
+>>
+>>
+>> base-commit: f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
+>> -- =
+
+>> 2.34.1
+>>
 
 
 Best Regards,
