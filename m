@@ -2,55 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A10CFCC82
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127D0CFCCAE
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6134710E567;
-	Wed,  7 Jan 2026 09:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C7B10E572;
+	Wed,  7 Jan 2026 09:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hDhzIVAA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jzsFeph9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF4AB10E567
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 09:14:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B32CA60007;
- Wed,  7 Jan 2026 09:14:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C37C4CEF7;
- Wed,  7 Jan 2026 09:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767777286;
- bh=HsPlCCX1CEyta2DFKeO1SH/8Utd6OpTbt/o6QeMxdoI=;
- h=From:To:Subject:Date:From;
- b=hDhzIVAAC19+cgnPI09bILtCRfXF3p6nxY6+6cBYuiKEvDub7R6ZCbU/tl4v0qTEr
- mUKbxTG5qvLxlvcetNxlxnQJAkShZu0jNxBXACh1u8tNEbrKRcZ5PgHNLoPRfAMKYZ
- ooXXOC/5JlIKE/fxcP3+oZU9YLfYjU14dikwHIonIlqUWZU4w9NqJbTsi2Cu9PlW/6
- JrSkw/Pt6j1+NSZipD4DN2rXk3uvpmx70q0ZmHfa7gIOLW7b9BCpfyEVgorJJHamMT
- Heh8v7vInmPCzP1tmE6/Vs+aBlJNT5Bro+LIOxE8TpH+sQvpqBc7JKv8WAGNQNEDNz
- zDLX6pBD3yhrA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Ankit Agrawal <ankita@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
- Jens Axboe <axboe@kernel.dk>
-Subject: types: reuse common phys_vec type instead of DMABUF open‑coded variant
-Date: Wed,  7 Jan 2026 11:14:14 +0200
-Message-ID: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
-X-Mailer: git-send-email 2.52.0
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010008.outbound.protection.outlook.com [52.101.61.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07FFF10E572;
+ Wed,  7 Jan 2026 09:18:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lHW/8AtMZ1yOYX6oWVnINVvU+SoXZQE4Df2hfV6Mdp62mixEUtgKebKDCkQ1O5eNZfI+ao+4oMHAMfHIItvS0ZikPYhKZb5UQp4vm+dfFKeuUCJkmMmlsuzvIHeGGgIzoDLM9Q3rdoDAmaJAN22DgqSI+u0pxMffxk1RfzhsjC9Khk/rpvRL3qUsXt1pua+eUoJR3rPRBL3ODTj21nLuAsfM8kjAyNmO3gEVqsOsY8fDTi6Fc/RHOZ3YcDP9hfBYizU+Peuivo7eNWZHmrydWicNe+zqSuMzo0QDELq2Ouo76C9oF1bY5FSx+z5aTG5jSfmgq02MfPykvsqQkJsntA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LNizLYsMyYyYs8Qx7xu/ZxcKN5P0YsoACEl2Zbu3vXI=;
+ b=CYrcBinczQSH0cgT640spks+pJ9bgc9oNSTfZQtDnz6K5iFRfekjSK6bKnUKw4sTobgRLBpppTixg2ATvG3NF8bJuD2ka+a9D6MwdN06d8J/9Pp1YftQQwRXSnGJpCZlVZElH+DgDDq3C2hQ187BMlU67h8wxr/LG4m74suF1c+RlPjOxV1UN6UgotTdRDdYzFSB3pBrBQvnWORU5aCPWOPNUme4wHxB3Tkl9ycCiWVOCCdSF330ipcU+zkwthxhGELakAMFOI0CIzxgEJyxETskFGHMIuFTb5WgBXdJKdK4NJSrNpYUIQR0bAEIWwyWTYhRirefEGSmgKXWXzOA5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LNizLYsMyYyYs8Qx7xu/ZxcKN5P0YsoACEl2Zbu3vXI=;
+ b=jzsFeph9NTamQhDtUAmrZO4/CJkNiQJy5igmep6eqcRH+p+2e39LaRAbK4ZD25CCBZ8idLHez7XKcrG1rBs5ufbV/2J6eEXFXues84vxWDglDEBwihkJ/NHhC5/zA4/anJ5uFfZAFbtczMsiTDITdNfBuHeursFHyCqkNWQmkFmpuhA2HIl3PADlEnFniDFxJhTUtvpjkwaMPD1jFu2pNFzVCwEAd51BtzHnvum8Ao8uU1VsNDmskuUVxMa7kO2EAowv3+votEXQVXPU7/y2cQAMvBP/NPFZM7XPsCIRGOgvXIKE9pdMksNLa9+pZhVUhlFxpNVzlH2M0555jXsANg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ MN2PR12MB4335.namprd12.prod.outlook.com (2603:10b6:208:1d4::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
+ 2026 09:18:32 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9499.002; Wed, 7 Jan 2026
+ 09:18:31 +0000
+From: Jordan Niethe <jniethe@nvidia.com>
+To: linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org,
+ jgg@ziepe.ca, Felix.Kuehling@amd.com
+Subject: [PATCH v2 00/11] Remove device private pages from physical address
+ space 
+Date: Wed,  7 Jan 2026 20:18:12 +1100
+Message-Id: <20260107091823.68974-1-jniethe@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0373.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::18) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260107-convert-to-pvec-bf04dfcf3d12
-X-Mailer: b4 0.15-dev-a6db3
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|MN2PR12MB4335:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d012cb4-ef2f-44d1-2c58-08de4dcdb9e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LCo95jmciyJYfj0jfbtfZOFCARFsOgMwiSIIWPT5QZ0sH2RgveWFH+CKOFqn?=
+ =?us-ascii?Q?tO5j49KpRVAnKLwTIM+/l/Br7pDWuQu64iQTkMgtTEtwtrLhoYD9TFOZ/lDo?=
+ =?us-ascii?Q?f5tUhfM4dtIRT56umKa6qtDa+HxA1Sv0RJGO/bo/41nWc6nCsnmuiPNZl/N4?=
+ =?us-ascii?Q?JuePH7QAxNVlE3eY/PRjRKBNSPqhspjgVEYmasdg/lR/Cw4FnE3QOFscEwRC?=
+ =?us-ascii?Q?MyjvvGaaoy7pVK5Hp76eQ9leaxNUvkdiE237fsNZHdPiZLPJpYUuUhsthqQd?=
+ =?us-ascii?Q?/4G+e5HFjQ97U9j7KrIrJ5yvJWu/E745BWWb0lezPEnvOfnUkmg1+oKa4PzP?=
+ =?us-ascii?Q?DQo8M3+OFa2x7yVGVfpa8CYSJos6Ce60aGUA0LklVisUGYdOkfyqrz3sEDMp?=
+ =?us-ascii?Q?lMM+ltiEWLvIfY6Oe+CG9ZGiwIEzGcXHVuBtPy3HdkMQXIkgq/rfzGH0RXot?=
+ =?us-ascii?Q?uq8B5Pu5DjRiMFwuuhrazctbcI1htYtHZlrym+BFloYxTpE8qZtmPHCYGuZh?=
+ =?us-ascii?Q?ZWbO0eM7S80cqGGWlMEPDFDEi8EGnrPuiN8hek8B65APNqX9rozpCS+KzDcb?=
+ =?us-ascii?Q?6V+DWoFRTChUjBngjB9+8GkKrVpS1YSIFYMlllRNmQjrHqjpxg5icxW7Ahsk?=
+ =?us-ascii?Q?rpCssTEvuU3fV+tGFXet2DmgvmqP4dNlREkm22qt7tdxWdUOb7bb8oWeAQwT?=
+ =?us-ascii?Q?/Rvr82jKB3LBMGl6F3Lq6yCK8/p019diEObKurvOMz7g4q3gEwWKa71rs3TC?=
+ =?us-ascii?Q?B/hAnBftr87a+eJxP8O1WvOT5A1IDVmdnSFczC/5B92Aj7l09UrOvyTVz3uq?=
+ =?us-ascii?Q?fhCTHx3CN+AJLFTPX3WaAEEHe1E1M+B/RzZz3nCh5uCofhpuCwUZDCQkbbKU?=
+ =?us-ascii?Q?Av7ufZXuJvYSpCrEmBDPzG8TRCb6meAnev9m8FVtA3PI1WG6IyULSgZfiBfR?=
+ =?us-ascii?Q?2Kaq07ktMlaAaGF/gsW2kX3vwxMEnXvO91DOWKsdB/eKWa+R7QLd7V9FX3uC?=
+ =?us-ascii?Q?4yQjp7BdBGmUNpofPS6Lu1K9HgmC67w3FP6Cu6mQFb+9zDkWh9xWBMlkDCyQ?=
+ =?us-ascii?Q?HP5ptrogFYkTJSDQm1Q/OMUsZ7FHfJop+eGjFd7hma0RwvZ+k680FXOg2CcZ?=
+ =?us-ascii?Q?U8d1uB85ypkGWNSdHu200dfka/+IgXZQH3/JxED8DEnWyf9nUjiHu0bnGQoU?=
+ =?us-ascii?Q?r36bndLb0kMz9QLwODhct0dtPd4vIChh3q+rc+srihZpB+tC1t0yA4s0+Ncs?=
+ =?us-ascii?Q?pIbzHPwTD4Pgx7MWhbldX5xrM8suHaNdaMnKxj/ppQ7DUPiRElIVb8UfI/Gl?=
+ =?us-ascii?Q?Rnzx8khXodlPmwhNHiY1SAyks/TdE8qp4xFl+o8HODGxijY8QnCKMaRkjokf?=
+ =?us-ascii?Q?obOq+7ne0HEPe8S/x06EsjLLMzlCJJr1lGM9wh8eVNkN+qTpQ+gyv3zfjqbr?=
+ =?us-ascii?Q?lJX8fKGLzLpZWb+laz0aGrGn6T4qWY302k2h3MltEjBAAq9Z/vhJQg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vr3H5vJHU782hzKDQ6nsp7FqMjU3OGAb3BBvv2ghmiC0RuPIfoNy6bhm4ljh?=
+ =?us-ascii?Q?eQbei+EUPvnT15blvvChU14KJ66m0uUVsraM34reHnyThiaWCTG8125p1ej2?=
+ =?us-ascii?Q?UzJxJzVt7atPleYVmw2pmR+vSCcDKDGLo0xU1mRfSCbaFvtpB1uQD1t7cm65?=
+ =?us-ascii?Q?jpg/c9YE/uGg4teVXr0yOy+D4kLa/DktnY0OndljFeSSpC1IAx1YpQ4XmCNb?=
+ =?us-ascii?Q?hWsaIPIKqTBIQtT2uUFwth5TP1tF45NODmHFWI/o5z3ZOrAODc0v03R/1nEQ?=
+ =?us-ascii?Q?c60oUy1sALMpAzQgcxOyY7lJmvxDe2+KuEnzfDE1QNQCPXArwTbUy/ySCo/q?=
+ =?us-ascii?Q?z7bZsWjHoK6oJ88Do0r4MJa8QUIZVJfwIJsqFuJw8bfXsE+QttHplnTIRhZ1?=
+ =?us-ascii?Q?gBT7+a2X9gAxpQx/fIxHp/UiDg6wOknS7cEWc9CG3zYelA8bZI1XU5mUFeEW?=
+ =?us-ascii?Q?wkilVT7HuA8SxTctGjqQYslJavvnUlGF3uEkTUcdtQoZWOICPoMjE+OlmYop?=
+ =?us-ascii?Q?cvCJqosMngS2xMsopFyhs5wy5OuVdpsqVRoWBWwnWdEz2mDomcrzpltoC9cI?=
+ =?us-ascii?Q?Ple4J1eBPe6j00K5wxYBisLUjJhtsYUGpoM1FEOTZxW5+FP0S3aqQ4kb/j4q?=
+ =?us-ascii?Q?8c0QolIOKkZZKvjq9PwqOIr39g9T3mUKLsR5piQbzXWro27qRIVYd9EG2V9+?=
+ =?us-ascii?Q?GjuM0gmfjguYyU+Y03WLokUpoFA83Vy3i3RvZmfmtsbo9ruFebkhk9m4CVfr?=
+ =?us-ascii?Q?lIXodlxoeuM4l1UhLbbd4552kWNDKayD6fodHO9ZobI76JQaQb/i35FqmlD7?=
+ =?us-ascii?Q?YJ5m/hqXift62fsW+x8qyMJ0XbOiliZNx8Dgwrz1lZ7VrtpeCeikO+AUojqf?=
+ =?us-ascii?Q?w9y7Gp5i2CW/wEM7p9SixqG66MKdm/6nTdPB8N+GKSc3mt2oE5tny1yXedca?=
+ =?us-ascii?Q?1SGDpCp5YNl6YB08s5IRZuBfKNEoWBMvkTOcGhmIUmmfnLXJFbZ7cw7ValPd?=
+ =?us-ascii?Q?4lb85EIMPhlxnKf6A5p1GO436G4gp3gqYO/3MNAB4wjXPcEZhg4vta85JCwY?=
+ =?us-ascii?Q?BUtw7SP7otOk1RI8kpit5ZNKqmHMZcJEZIat45ZOdO/IKsfSgnrsTgU0D5ED?=
+ =?us-ascii?Q?25ntTDOkM/LQRUY/NyjKq2Pgh7klb1j4PUJq6f2ustFm/SpHNHe56xKB+4vj?=
+ =?us-ascii?Q?rMngosamJywHi7hR1sdQe7PZOcKSumnX7LrqkRQob6u61Xr3TaH5p7aZ84rb?=
+ =?us-ascii?Q?76LhpB/0SJSQ4XZUwzpbJDQCgwx7dUsTLySTn8uXxPDSMOP5MabW/CRNJ26t?=
+ =?us-ascii?Q?8otmMDRnJDPm8iFv9gHf4XKxtiNWuTpvohLcSr3Ez9pcSTHFXczxxT9M+8SO?=
+ =?us-ascii?Q?MVprXNjrbDFwKxN8TXN2NfT+SIB6qeFalzJbSmM9H39pTcfvgSS0vMwxPrOU?=
+ =?us-ascii?Q?ftJJ8X6N1Gc0sDUYDUDaWZ/BXMxmN/PHGKDaNchvYEuxOEvtmvYTTiU1G/sl?=
+ =?us-ascii?Q?3GHDQcAoWN6k3ZLmaURHStXDIYpYB6qIL57dBNtRnv/y2/b7ACDtWBRdJtEb?=
+ =?us-ascii?Q?T3GhUYnbehQYFJqJjF2sBksfVa/QGvEbu67AHD8gFsdibaGTmytmQQyjKE+h?=
+ =?us-ascii?Q?xIn7B9GWfnhxViRpWfaS7dIlctYLWLEyY5IxPNP4OKJ2xa8kcw3riAy0AEbz?=
+ =?us-ascii?Q?x0ciJqwMEojROhpdb4zMR77x71ruzZN/VYuhY37y1qZnnNnJjO6PN/XoaYxr?=
+ =?us-ascii?Q?t5qvKnU7hQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d012cb4-ef2f-44d1-2c58-08de4dcdb9e9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 09:18:31.7871 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WPNNQiGktcohng+0T5lZepDvmoQ1EdT6M1Y8Tlk+DetoNDG//nXuSPq4+OfSdW8WHvyCv+DlTDhOV+fCoFdnnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4335
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,339 +153,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
-After commit fcf463b92a08 ("types: move phys_vec definition to common heade=
-r"),=0D
-we can use the shared phys_vec type instead of the DMABUF=E2=80=91specific=
-=0D
-dma_buf_phys_vec, which duplicated the same structure and semantics.=0D
-=0D
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>=0D
----=0D
-Alex,=0D
-=0D
-According to diffstat, VFIO is the subsystem with the largest set of change=
-s,=0D
-so it would be great if you could take it through your tree.=0D
-=0D
-The series is based on the for-7.0/blk-pvec shared branch from Jens:=0D
-https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=3Dfo=
-r-7.0/blk-pvec=0D
-=0D
-Thanks=0D
----=0D
-Cc: linux-media@vger.kernel.org=0D
-Cc: dri-devel@lists.freedesktop.org=0D
-Cc: linaro-mm-sig@lists.linaro.org=0D
-Cc: linux-kernel@vger.kernel.org=0D
-Cc: iommu@lists.linux.dev=0D
-Cc: kvm@vger.kernel.org=0D
-To: Sumit Semwal <sumit.semwal@linaro.org>=0D
-To: Christian K=C3=B6nig <christian.koenig@amd.com>=0D
-To: Jason Gunthorpe <jgg@ziepe.ca>=0D
-To: Kevin Tian <kevin.tian@intel.com>=0D
-To: Joerg Roedel <joro@8bytes.org>=0D
-To: Will Deacon <will@kernel.org>=0D
-To: Robin Murphy <robin.murphy@arm.com>=0D
-To: Yishai Hadas <yishaih@nvidia.com>=0D
-To: Shameer Kolothum <skolothumtho@nvidia.com>=0D
-To: Ankit Agrawal <ankita@nvidia.com>=0D
-To: Alex Williamson <alex@shazbot.org>=0D
-Cc: Matthew Wilcox <willy@infradead.org>=0D
-Cc: Jens Axboe <axboe@kernel.dk>=0D
----=0D
- drivers/dma-buf/dma-buf-mapping.c       |  6 +++---=0D
- drivers/iommu/iommufd/io_pagetable.h    |  2 +-=0D
- drivers/iommu/iommufd/iommufd_private.h |  5 ++---=0D
- drivers/iommu/iommufd/pages.c           |  4 ++--=0D
- drivers/iommu/iommufd/selftest.c        |  2 +-=0D
- drivers/vfio/pci/nvgrace-gpu/main.c     |  2 +-=0D
- drivers/vfio/pci/vfio_pci_dmabuf.c      |  8 ++++----=0D
- include/linux/dma-buf-mapping.h         |  2 +-=0D
- include/linux/dma-buf.h                 | 10 ----------=0D
- include/linux/vfio_pci_core.h           | 13 ++++++-------=0D
- 10 files changed, 21 insertions(+), 33 deletions(-)=0D
-=0D
-diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-ma=
-pping.c=0D
-index b7352e609fbd..174677faa577 100644=0D
---- a/drivers/dma-buf/dma-buf-mapping.c=0D
-+++ b/drivers/dma-buf/dma-buf-mapping.c=0D
-@@ -33,8 +33,8 @@ static struct scatterlist *fill_sg_entry(struct scatterli=
-st *sgl, size_t length,=0D
- }=0D
- =0D
- static unsigned int calc_sg_nents(struct dma_iova_state *state,=0D
--				  struct dma_buf_phys_vec *phys_vec,=0D
--				  size_t nr_ranges, size_t size)=0D
-+				  struct phys_vec *phys_vec, size_t nr_ranges,=0D
-+				  size_t size)=0D
- {=0D
- 	unsigned int nents =3D 0;=0D
- 	size_t i;=0D
-@@ -91,7 +91,7 @@ struct dma_buf_dma {=0D
-  */=0D
- struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach=
-,=0D
- 					 struct p2pdma_provider *provider,=0D
--					 struct dma_buf_phys_vec *phys_vec,=0D
-+					 struct phys_vec *phys_vec,=0D
- 					 size_t nr_ranges, size_t size,=0D
- 					 enum dma_data_direction dir)=0D
- {=0D
-diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd/i=
-o_pagetable.h=0D
-index 14cd052fd320..27e3e311d395 100644=0D
---- a/drivers/iommu/iommufd/io_pagetable.h=0D
-+++ b/drivers/iommu/iommufd/io_pagetable.h=0D
-@@ -202,7 +202,7 @@ struct iopt_pages_dmabuf_track {=0D
- =0D
- struct iopt_pages_dmabuf {=0D
- 	struct dma_buf_attachment *attach;=0D
--	struct dma_buf_phys_vec phys;=0D
-+	struct phys_vec phys;=0D
- 	/* Always PAGE_SIZE aligned */=0D
- 	unsigned long start;=0D
- 	struct list_head tracker;=0D
-diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommuf=
-d/iommufd_private.h=0D
-index eb6d1a70f673..6ac1965199e9 100644=0D
---- a/drivers/iommu/iommufd/iommufd_private.h=0D
-+++ b/drivers/iommu/iommufd/iommufd_private.h=0D
-@@ -20,7 +20,6 @@ struct iommu_group;=0D
- struct iommu_option;=0D
- struct iommufd_device;=0D
- struct dma_buf_attachment;=0D
--struct dma_buf_phys_vec;=0D
- =0D
- struct iommufd_sw_msi_map {=0D
- 	struct list_head sw_msi_item;=0D
-@@ -718,7 +717,7 @@ int __init iommufd_test_init(void);=0D
- void iommufd_test_exit(void);=0D
- bool iommufd_selftest_is_mock_dev(struct device *dev);=0D
- int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment=
-,=0D
--				     struct dma_buf_phys_vec *phys);=0D
-+				     struct phys_vec *phys);=0D
- #else=0D
- static inline void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd=
-,=0D
- 						 unsigned int ioas_id,=0D
-@@ -742,7 +741,7 @@ static inline bool iommufd_selftest_is_mock_dev(struct =
-device *dev)=0D
- }=0D
- static inline int=0D
- iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,=0D
--				 struct dma_buf_phys_vec *phys)=0D
-+				 struct phys_vec *phys)=0D
- {=0D
- 	return -EOPNOTSUPP;=0D
- }=0D
-diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c=
-=0D
-index dbe51ecb9a20..bababd564cf9 100644=0D
---- a/drivers/iommu/iommufd/pages.c=0D
-+++ b/drivers/iommu/iommufd/pages.c=0D
-@@ -1077,7 +1077,7 @@ static int pfn_reader_user_update_pinned(struct pfn_r=
-eader_user *user,=0D
- }=0D
- =0D
- struct pfn_reader_dmabuf {=0D
--	struct dma_buf_phys_vec phys;=0D
-+	struct phys_vec phys;=0D
- 	unsigned long start_offset;=0D
- };=0D
- =0D
-@@ -1460,7 +1460,7 @@ static struct dma_buf_attach_ops iopt_dmabuf_attach_r=
-evoke_ops =3D {=0D
-  */=0D
- static int=0D
- sym_vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,=0D
--				 struct dma_buf_phys_vec *phys)=0D
-+				 struct phys_vec *phys)=0D
- {=0D
- 	typeof(&vfio_pci_dma_buf_iommufd_map) fn;=0D
- 	int rc;=0D
-diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selft=
-est.c=0D
-index 550ff36dec3a..989d8c4c60a7 100644=0D
---- a/drivers/iommu/iommufd/selftest.c=0D
-+++ b/drivers/iommu/iommufd/selftest.c=0D
-@@ -2002,7 +2002,7 @@ static const struct dma_buf_ops iommufd_test_dmabuf_o=
-ps =3D {=0D
- };=0D
- =0D
- int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment=
-,=0D
--				     struct dma_buf_phys_vec *phys)=0D
-+				     struct phys_vec *phys)=0D
- {=0D
- 	struct iommufd_test_dma_buf *priv =3D attachment->dmabuf->priv;=0D
- =0D
-diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace=
--gpu/main.c=0D
-index 84d142a47ec6..a0f4edd6a30b 100644=0D
---- a/drivers/vfio/pci/nvgrace-gpu/main.c=0D
-+++ b/drivers/vfio/pci/nvgrace-gpu/main.c=0D
-@@ -784,7 +784,7 @@ nvgrace_gpu_write(struct vfio_device *core_vdev,=0D
- static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vdev,=
-=0D
- 				   struct p2pdma_provider **provider,=0D
- 				   unsigned int region_index,=0D
--				   struct dma_buf_phys_vec *phys_vec,=0D
-+				   struct phys_vec *phys_vec,=0D
- 				   struct vfio_region_dma_range *dma_ranges,=0D
- 				   size_t nr_ranges)=0D
- {=0D
-diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci=
-_dmabuf.c=0D
-index d4d0f7d08c53..9a84c238c013 100644=0D
---- a/drivers/vfio/pci/vfio_pci_dmabuf.c=0D
-+++ b/drivers/vfio/pci/vfio_pci_dmabuf.c=0D
-@@ -14,7 +14,7 @@ struct vfio_pci_dma_buf {=0D
- 	struct vfio_pci_core_device *vdev;=0D
- 	struct list_head dmabufs_elm;=0D
- 	size_t size;=0D
--	struct dma_buf_phys_vec *phys_vec;=0D
-+	struct phys_vec *phys_vec;=0D
- 	struct p2pdma_provider *provider;=0D
- 	u32 nr_ranges;=0D
- 	u8 revoked : 1;=0D
-@@ -94,7 +94,7 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops =3D {=
-=0D
-  *    will fail if it is currently revoked=0D
-  */=0D
- int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,=0D
--				 struct dma_buf_phys_vec *phys)=0D
-+				 struct phys_vec *phys)=0D
- {=0D
- 	struct vfio_pci_dma_buf *priv;=0D
- =0D
-@@ -116,7 +116,7 @@ int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachm=
-ent *attachment,=0D
- }=0D
- EXPORT_SYMBOL_FOR_MODULES(vfio_pci_dma_buf_iommufd_map, "iommufd");=0D
- =0D
--int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,=0D
-+int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,=0D
- 				struct vfio_region_dma_range *dma_ranges,=0D
- 				size_t nr_ranges, phys_addr_t start,=0D
- 				phys_addr_t len)=0D
-@@ -148,7 +148,7 @@ EXPORT_SYMBOL_GPL(vfio_pci_core_fill_phys_vec);=0D
- int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,=0D
- 				  struct p2pdma_provider **provider,=0D
- 				  unsigned int region_index,=0D
--				  struct dma_buf_phys_vec *phys_vec,=0D
-+				  struct phys_vec *phys_vec,=0D
- 				  struct vfio_region_dma_range *dma_ranges,=0D
- 				  size_t nr_ranges)=0D
- {=0D
-diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mappin=
-g.h=0D
-index a3c0ce2d3a42..09bde3f748e4 100644=0D
---- a/include/linux/dma-buf-mapping.h=0D
-+++ b/include/linux/dma-buf-mapping.h=0D
-@@ -9,7 +9,7 @@=0D
- =0D
- struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach=
-,=0D
- 					 struct p2pdma_provider *provider,=0D
--					 struct dma_buf_phys_vec *phys_vec,=0D
-+					 struct phys_vec *phys_vec,=0D
- 					 size_t nr_ranges, size_t size,=0D
- 					 enum dma_data_direction dir);=0D
- void dma_buf_free_sgt(struct dma_buf_attachment *attach, struct sg_table *=
-sgt,=0D
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h=0D
-index 0bc492090237..400a5311368e 100644=0D
---- a/include/linux/dma-buf.h=0D
-+++ b/include/linux/dma-buf.h=0D
-@@ -531,16 +531,6 @@ struct dma_buf_export_info {=0D
- 	void *priv;=0D
- };=0D
- =0D
--/**=0D
-- * struct dma_buf_phys_vec - describe continuous chunk of memory=0D
-- * @paddr:   physical address of that chunk=0D
-- * @len:     Length of this chunk=0D
-- */=0D
--struct dma_buf_phys_vec {=0D
--	phys_addr_t paddr;=0D
--	size_t len;=0D
--};=0D
--=0D
- /**=0D
-  * DEFINE_DMA_BUF_EXPORT_INFO - helper macro for exporters=0D
-  * @name: export-info name=0D
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h=
-=0D
-index 706877f998ff..2ac288bb2c60 100644=0D
---- a/include/linux/vfio_pci_core.h=0D
-+++ b/include/linux/vfio_pci_core.h=0D
-@@ -28,7 +28,6 @@=0D
- struct vfio_pci_core_device;=0D
- struct vfio_pci_region;=0D
- struct p2pdma_provider;=0D
--struct dma_buf_phys_vec;=0D
- struct dma_buf_attachment;=0D
- =0D
- struct vfio_pci_eventfd {=0D
-@@ -62,25 +61,25 @@ struct vfio_pci_device_ops {=0D
- 	int (*get_dmabuf_phys)(struct vfio_pci_core_device *vdev,=0D
- 			       struct p2pdma_provider **provider,=0D
- 			       unsigned int region_index,=0D
--			       struct dma_buf_phys_vec *phys_vec,=0D
-+			       struct phys_vec *phys_vec,=0D
- 			       struct vfio_region_dma_range *dma_ranges,=0D
- 			       size_t nr_ranges);=0D
- };=0D
- =0D
- #if IS_ENABLED(CONFIG_VFIO_PCI_DMABUF)=0D
--int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,=0D
-+int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,=0D
- 				struct vfio_region_dma_range *dma_ranges,=0D
- 				size_t nr_ranges, phys_addr_t start,=0D
- 				phys_addr_t len);=0D
- int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,=0D
- 				  struct p2pdma_provider **provider,=0D
- 				  unsigned int region_index,=0D
--				  struct dma_buf_phys_vec *phys_vec,=0D
-+				  struct phys_vec *phys_vec,=0D
- 				  struct vfio_region_dma_range *dma_ranges,=0D
- 				  size_t nr_ranges);=0D
- #else=0D
- static inline int=0D
--vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,=0D
-+vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,=0D
- 			    struct vfio_region_dma_range *dma_ranges,=0D
- 			    size_t nr_ranges, phys_addr_t start,=0D
- 			    phys_addr_t len)=0D
-@@ -89,7 +88,7 @@ vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys=
-_vec,=0D
- }=0D
- static inline int vfio_pci_core_get_dmabuf_phys(=0D
- 	struct vfio_pci_core_device *vdev, struct p2pdma_provider **provider,=0D
--	unsigned int region_index, struct dma_buf_phys_vec *phys_vec,=0D
-+	unsigned int region_index, struct phys_vec *phys_vec,=0D
- 	struct vfio_region_dma_range *dma_ranges, size_t nr_ranges)=0D
- {=0D
- 	return -EOPNOTSUPP;=0D
-@@ -228,6 +227,6 @@ static inline bool is_aligned_for_order(struct vm_area_=
-struct *vma,=0D
- }=0D
- =0D
- int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,=0D
--				 struct dma_buf_phys_vec *phys);=0D
-+				 struct phys_vec *phys);=0D
- =0D
- #endif /* VFIO_PCI_CORE_H */=0D
-=0D
----=0D
-base-commit: fcf463b92a08686d1aeb1e66674a72eb7a8bfb9b=0D
-change-id: 20260107-convert-to-pvec-bf04dfcf3d12=0D
-=0D
-Best regards,=0D
---  =0D
-Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
+Today, when creating these device private struct pages, the first step
+is to use request_free_mem_region() to get a range of physical address
+space large enough to represent the devices memory. This allocated
+physical address range is then remapped as device private memory using
+memremap_pages.
+
+Needing allocation of physical address space has some problems:
+
+  1) There may be insufficient physical address space to represent the
+     device memory. KASLR reducing the physical address space and VM
+     configurations with limited physical address space increase the
+     likelihood of hitting this especially as device memory increases. This
+     has been observed to prevent device private from being initialized.  
+
+  2) Attempting to add the device private pages to the linear map at
+     addresses beyond the actual physical memory causes issues on
+     architectures like aarch64  - meaning the feature does not work there [0].
+
+This series changes device private memory so that it does not require
+allocation of physical address space and these problems are avoided.
+Instead of using the physical address space, we introduce a "device
+private address space" and allocate from there.
+
+A consequence of placing the device private pages outside of the
+physical address space is that they no longer have a PFN. However, it is
+still necessary to be able to look up a corresponding device private
+page from a device private PTE entry, which means that we still require
+some way to index into this device private address space. Instead of a
+PFN, device private pages use an offset into this device private address
+space to look up device private struct pages.
+
+The problem that then needs to be addressed is how to avoid confusing
+these device private offsets with PFNs. It is the inherent limited usage
+of the device private pages themselves which make this possible. A
+device private page is only used for userspace mappings, we do not need
+to be concerned with them being used within the mm more broadly. This
+means that the only way that the core kernel looks up these pages is via
+the page table, where their PTE already indicates if they refer to a
+device private page via their swap type, e.g.  SWP_DEVICE_WRITE. We can
+use this information to determine if the PTE contains a PFN which should
+be looked up in the page map, or a device private offset which should be
+looked up elsewhere.
+
+This applies when we are creating PTE entries for device private pages -
+because they have their own type there are already must be handled
+separately, so it is a small step to convert them to a device private
+PFN now too.
+
+The first part of the series updates callers where device private
+offsets might now be encountered to track this extra state.
+
+The last patch contains the bulk of the work where we change how we
+convert between device private pages to device private offsets and then
+use a new interface for allocating device private pages without the need
+for reserving physical address space.
+
+By removing the device private pages from the physical address space,
+this series also opens up the possibility to moving away from tracking
+device private memory using struct pages in the future. This is
+desirable as on systems with large amounts of memory these device
+private struct pages use a signifiant amount of memory and take a
+significant amount of time to initialize.
+
+*** Changes in v2 ***
+
+The most significant change in v2 is addressing code paths that are
+common between MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT devices.
+
+This had been overlooked in previous revisions.
+
+To do this we introduce a migrate_pfn_from_page() helper which will call
+device_private_offset_to_page() and set the MIGRATE_PFN_DEVICE_PRIVATE
+flag if required.
+
+In places where we could have a device private offset
+(MEMORY_DEVICE_PRIVATE) or a pfn (MEMORY_DEVICE_COHERENT) we update to
+use an mpfn to disambiguate.  This includes some users in the drivers
+and migrate_device_{pfns,range}().
+
+Seeking opinions on using the mpfns like this or if a new type would be
+preferred.
+
+  - mm/migrate_device: Introduce migrate_pfn_from_page() helper
+    - New to series
+
+  - drm/amdkfd: Use migrate pfns internally
+    - New to series
+
+  - mm/migrate_device: Make migrate_device_{pfns,range}() take mpfns
+    - New to series
+
+  - mm/migrate_device: Add migrate PFN flag to track device private pages
+    - Update for migrate_pfn_from_page()
+    - Rename to MIGRATE_PFN_DEVICE_PRIVATE
+    - drm/amd: Check adev->gmc.xgmi.connected_to_cpu
+    - lib/test_hmm.c: Check chunk->pagemap.type == MEMORY_DEVICE_PRIVATE
+
+  - mm: Add helpers to create migration entries from struct pages
+    - Add a flags param
+
+  - mm: Add a new swap type for migration entries of device private pages
+    - Add softleaf_is_migration_device_private_read()
+
+  - mm: Add helpers to create device private entries from struct pages
+    - Add a flags param
+
+  - mm: Remove device private pages from the physical address space
+    - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(struct range, ranges);
+
+Testing:
+- selftests/mm/hmm-tests on an amd64 VM
+
+* NOTE: I will need help in testing the driver changes *
+
+Revisions:
+- RFC: https://lore.kernel.org/all/20251128044146.80050-1-jniethe@nvidia.com/
+- v1: https://lore.kernel.org/all/20251231043154.42931-1-jniethe@nvidia.com/
+
+[0] https://lore.kernel.org/lkml/CAMj1kXFZ=4hLL1w6iCV5O5uVoVLHAJbc0rr40j24ObenAjXe9w@mail.gmail.com/
+
+Jordan Niethe (11):
+  mm/migrate_device: Introduce migrate_pfn_from_page() helper
+  drm/amdkfd: Use migrate pfns internally
+  mm/migrate_device: Make migrate_device_{pfns,range}() take mpfns
+  mm/migrate_device: Add migrate PFN flag to track device private pages
+  mm/page_vma_mapped: Add flags to page_vma_mapped_walk::pfn to track
+    device private pages
+  mm: Add helpers to create migration entries from struct pages
+  mm: Add a new swap type for migration entries of device private pages
+  mm: Add helpers to create device private entries from struct pages
+  mm/util: Add flag to track device private pages in page snapshots
+  mm/hmm: Add flag to track device private pages
+  mm: Remove device private pages from the physical address space
+
+ Documentation/mm/hmm.rst                 |  11 +-
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |  43 ++---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  45 +++---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |   2 +-
+ drivers/gpu/drm/drm_pagemap.c            |  11 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |  45 ++----
+ drivers/gpu/drm/xe/xe_svm.c              |  37 ++---
+ fs/proc/page.c                           |   6 +-
+ include/drm/drm_pagemap.h                |   8 +-
+ include/linux/hmm.h                      |   7 +-
+ include/linux/leafops.h                  | 116 ++++++++++++--
+ include/linux/memremap.h                 |  64 +++++++-
+ include/linux/migrate.h                  |  23 ++-
+ include/linux/mm.h                       |   9 +-
+ include/linux/rmap.h                     |  33 +++-
+ include/linux/swap.h                     |   8 +-
+ include/linux/swapops.h                  | 136 ++++++++++++++++
+ lib/test_hmm.c                           |  86 ++++++----
+ mm/debug.c                               |   9 +-
+ mm/hmm.c                                 |   5 +-
+ mm/huge_memory.c                         |  43 ++---
+ mm/hugetlb.c                             |  15 +-
+ mm/memory.c                              |   5 +-
+ mm/memremap.c                            | 193 ++++++++++++++++++-----
+ mm/migrate.c                             |   6 +-
+ mm/migrate_device.c                      |  76 +++++----
+ mm/mm_init.c                             |   8 +-
+ mm/mprotect.c                            |  10 +-
+ mm/page_vma_mapped.c                     |  32 +++-
+ mm/rmap.c                                |  59 ++++---
+ mm/util.c                                |   8 +-
+ mm/vmscan.c                              |   2 +-
+ 32 files changed, 822 insertions(+), 339 deletions(-)
+
+
+base-commit: f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
+-- 
+2.34.1
+
