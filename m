@@ -2,55 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E327CFCBEB
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A32BCFCC1F
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 10:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A70910E569;
-	Wed,  7 Jan 2026 09:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F365989C0A;
+	Wed,  7 Jan 2026 09:12:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="1VIrkJlG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hUDNbMko";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCF010E56B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 09:09:45 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 7419CC1EC92;
- Wed,  7 Jan 2026 09:09:17 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 90BF8606F8;
- Wed,  7 Jan 2026 09:09:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 137A5103C86DE; Wed,  7 Jan 2026 10:09:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767776982; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=P1CKSMWAbSSOC/ne2tNQS1qPfmyiHDbzXLsDeMdW+pU=;
- b=1VIrkJlGrCCGNvTXSthbq1O53cc+xlQKxMQ29A1Qpqq96gUttEEwy6UU41Hd4ceKs5jw40
- jhC53clqe4aPp8j0R+Eu/HY2A6ibXzhWyRU6rDNv4Fi2CsFj0CEf6+msELJmU9fKdo1V5A
- HuXzhXInc8dsM8yzO0KB9ioGOD5kxq/E+T5uwqcdiVgQ1CKtwkrPzE62NqZdFzjWB5jUzH
- mUwcrK4utSOB+KHbMkjJGwW0Bwtwk9Pd5xZzp7XIXiILDbJej5RLaQUtS5KKRaMK3RVChn
- /ZHF7oQZW0NnE2cuCIGR24pT2Y7SeT8Y5/pmI+LpofK4FI/+VgZRkayuvxZ7MQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Jan 2026 10:09:39 +0100
-Message-Id: <DFI8N16SORJ9.3P2KY2DK6ACFS@bootlin.com>
-Subject: Re: [PATCH v2 0/1] drm/bridge: lontium-lt9611uxc: use irq as optional
-Cc: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
- <andrzej.hajda@intel.com>, <dmitry.baryshkov@oss.qualcomm.com>,
- <dri-devel@lists.freedesktop.org>, <jernej.skrabec@gmail.com>,
- <jonas@kwiboo.se>, <linux-kernel@vger.kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>, <simona@ffwll.ch>,
- <tzimmermann@suse.de>
-To: "Vladimir Yakovlev" <vovchkir@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260107032342.332758-1-vovchkir@gmail.com>
-In-Reply-To: <20260107032342.332758-1-vovchkir@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33B2610E568
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 09:12:00 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-34c565c3673so280492a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 01:12:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767777120; x=1768381920; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=z6PKvH2Ow6ko853+AH354pPeqzOvITROthdCzpOchPU=;
+ b=hUDNbMkoNx2pAXz7ECL/Fc648/+HKBqdI82/zJchfTAeNhPkGatsd1JoHLSBxiXr3h
+ 6J1iRpYezn4+CX5cWCw++cgvxLh27+rfbUC/aVV6clphH1lbLWQAdUQEknnuR2OwJxHp
+ MBlhgwMLoGacE6HHPEur6WFJ0/GGIPPGWy63ZNPzeXdTITLldKZM2Y0kkheeSRZtXxry
+ 2ge648IUUgLGm4jJ+GIr8psuZX0WbrhoG8kXd8Qezkn9JSWPwTtNAvWXGq/S7bd8tf5Z
+ E5NC/thDhPoIUTrt2aZN4rqRoNTBOsmGXKLkifhou68sxnScdbWQo/5Wcz+MI+k7OYvS
+ JyFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767777120; x=1768381920;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=z6PKvH2Ow6ko853+AH354pPeqzOvITROthdCzpOchPU=;
+ b=EHRdxVyrQCjPNvYMqFnz7TNwKivqvz2WOIDiiRKywk0n1J3HuQ/P9CGh3aHXq5tfpV
+ U1KqVfqCMJ2w8yxzmYbN3xAKLmhvs/3ra6GlomwzFuH3bwLD9Yd0Qfcn8Hlpvr1Kp6p8
+ Pmyi4DgiCKSkEbm4BjhiaGLKuRHds1m2uQqRt1yUXBwJUgb68QQkosYhC6fDv8vfg/sW
+ umFCdywqrVIbYi+JFtbiQotDrbY7CMpmWIhELzK4zEYwd1itFrqigKXSgpIzLVuwrFVv
+ WmdIKYEXO7Rmca/YwVYwcQwWbwrFrLCrL3rjlpwYmKOMsb+WTdTZIIO1XTXE7Tm56lnq
+ U2xQ==
+X-Gm-Message-State: AOJu0YwvodRKx46pgMDSHdjr2/amqiB/vFBPC39sL96isrHkxzkTjZvo
+ aRyUoriJHAjpqOa3SatfcksK/7j5x1SAyRLfCOI4+5L83970j9HhB1yc
+X-Gm-Gg: AY/fxX6MFxA+QnyNw1aRWG7eW+1LQf4M76UKgriM+Q0HG8F94Eryl1KJpCyhBCPr+SM
+ EAb0Q0qhuL529uAhATSwbIoIsetX7uVWLUd+/tGAp3cyXHUDzQ3Z3v/ALL5PQRzPAtT7jpura6R
+ pJ0aNl4QbxCQwfB194Gt/3T+ZeJe3vCDfMChu3G6ssakKxOXoX83bjQx47CbI9qqVY/pEethX90
+ 9pVDHfEjU+AyFWurDXkAZLabf6zSJWBAYpJoTGUlRJ5HFOCjKsulM9AORrnxiC2mw46JSOo/fwH
+ IPFghCRltjiMTKvQqiVW/g0q/Jhn89qrHxXRE/C+ew1dPwaPlXxjJrooLHdOOGMPW3TVjwwGM0M
+ zWDO1uzvqe+5wTIJXJ0n4rZriC00u1l+u3rILS70+hi3rVotI0rDMKSTugQdd4fXsrNrV8J8uU7
+ lk+l3sWr1h9fjJ4Fttecka9JDEEukEsU6GNy/lSjfVoHRZ3Sru5sNXYDc=
+X-Google-Smtp-Source: AGHT+IET8/5wzNt7Aff+epntdgaB5qdBkTImmgeJLXZCQ39VAdysCsV7Qhu6h3hzUYQd0+SOKj8n7w==
+X-Received: by 2002:a17:90b:4f81:b0:34f:5039:5ac7 with SMTP id
+ 98e67ed59e1d1-34f5f84a94dmr4656646a91.6.1767777119628; 
+ Wed, 07 Jan 2026 01:11:59 -0800 (PST)
+Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-819c59e9d42sm4335843b3a.51.2026.01.07.01.11.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jan 2026 01:11:59 -0800 (PST)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Wed,  7 Jan 2026 18:11:54 +0900
+Message-Id: <20260107091154.27436-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,30 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jan 7, 2026 at 4:23 AM CET, Vladimir Yakovlev wrote:
-> Hello!
->
-> This patch add support IRQ as optional for lt9611uxc
->
-> Changes in v2:
-> - As Luca Ceresoli recommended earlier, I added a patch to replace
-> - request_threaded_irq with devm_request_threaded_irq before making
-> - these changes.
-> -
-> - Since the updates only affected this patch, and the previous patch
-> - was new, I made v2 just for this one. I apologize if this is incorrect.
+Hi Dave and Daniel,
 
-This series depends on "[PATCH] drm/bridge: lontium-lt9611uxc: change to
-use devm_request_threaded_irq" which you have sent separately, so it cannot
-be applied as-is. The best thing to do would have been sending a v2 series
-with 2 patches: first the devm conversion, then this one.
+   One trivial cleanup which replaces system_wq with system_percpu_wq
+   in HDMI driver.
 
-However no need to send again just for this, it can be handled while
-applying.
+   This change aligns the driver with the new workqueue model and avoids
+   further use of the ambiguous system_wq. No functional change is intended.
 
-Luca
+   Merging this early helps unblock and simplify further workqueue API
+   refactoring.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Please kindly let me know if there is any problem.
+
+Thanks,
+Inki Dae
+
+
+The following changes since commit c4f2ae53863de2b5d125c3cdc9ff12668868a74a:
+
+  Merge tag 'drm-rust-fixes-2025-12-29' of https://gitlab.freedesktop.org/drm/rust/kernel into drm-fixes (2026-01-05 14:45:33 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-v6.19-rc5
+
+for you to fetch changes up to 8e6ad0dac6266c5e13874e816b016759d7145500:
+
+  drm/exynos: hdmi: replace use of system_wq with system_percpu_wq (2026-01-07 17:50:50 +0900)
+
+----------------------------------------------------------------
+One code cleanup
+. Replace system_wq with system_percpu_wq in the Exynos HDMI driver.
+  system_wq is effectively a per-cpu workqueue, but its name does not make
+  this explicit. Recent workqueue changes introduced system_percpu_wq to clarify
+  semantics and support ongoing workqueue API refactoring.
+
+----------------------------------------------------------------
+Marco Crivellari (1):
+      drm/exynos: hdmi: replace use of system_wq with system_percpu_wq
+
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
