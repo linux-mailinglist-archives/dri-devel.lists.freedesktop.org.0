@@ -2,137 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088D4D0053D
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 23:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE65D006AA
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 00:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49AB710E65E;
-	Wed,  7 Jan 2026 22:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C5C10E11D;
+	Wed,  7 Jan 2026 23:48:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Lt2EnnOk";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="ZcRbrUwE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013059.outbound.protection.outlook.com
- [40.93.201.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8678D10E65D;
- Wed,  7 Jan 2026 22:33:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DaQUG544pP/WdhDUB1S92YPzkxWRhU5iAyGhKrZNcesScaChX5x2Pt1S/PG9xXN0fNeEz84I7s7P3OacazsPoGJhq36uUV9zj0BKfL0GnkzAG6izAj1w2vfqiBOWAzH/iEQM6nlIrqgwncOL5eTYMd9EtZhg6Q49jwOLGeBcLp8cHeOQh5ijxcWa0+DFRfz3fzsm15W0ZBWnkrDY/aJI6a3533ZtzdVm++4tASVUT4dbpaihUVgog8PB+2TZuoNT1dRnPkFf4xbnqapONPepUIJ5k7K/awrkLPTak4VHWsd6dQ7r1eJDMrQDWzor+HJVhtPF/B1SmNyxc+fzQjqxSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5eRRtLJtRGVTetIth15OfpjAsFhevj7qj4j101LB4IQ=;
- b=Jn3xtcRec0/a2JMy4iouuoe3HFKD1gc1siAzG3TcPF1ymgMyYMvjR9Wpd0UTxHAIKbPQRC5vazB/N5lgV6OK/jiAQj7SHn90cL43TqPARkrWVh2BxMIrOZ/TwNxx43PbobzhvrEJNYHqRYgw3kClfFIGG6yDS2qXgxtL+wYji82dWPdJdQwyuosJg3ZDKv8tg3r0VvpkbSffZl6v4mpUe4Vjpqw8ZLVBQasUMCdqSJJENBkSeEeVKU8mcLIXhvxv2lgISzLS76ItvY2LBpxbXZNJ9x/dz/Eay649mR1TnRCpQoW7OzYxkfBWcwc0DqwUONYNyakw9TPNyI5xNuHwVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5eRRtLJtRGVTetIth15OfpjAsFhevj7qj4j101LB4IQ=;
- b=Lt2EnnOkjpuT9yzwQR0YLSDD7/EstD+lwYqV/JAFoTuoai+eShL7C5Y5tOxPDRli2rRO+1sf+xBHohR+RXbJbsTpbflcSRtWEtudfens+ICq88HRYljkmvuNrqmjdkT3dI4OecI4VgDhSpMaNJfe12kAj7MCNyB/Pb3k8HNxbBk=
-Received: from BYAPR11CA0064.namprd11.prod.outlook.com (2603:10b6:a03:80::41)
- by DS5PPF18A985A10.namprd12.prod.outlook.com (2603:10b6:f:fc00::645)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 22:33:25 +0000
-Received: from SJ1PEPF00001CE0.namprd05.prod.outlook.com
- (2603:10b6:a03:80:cafe::3d) by BYAPR11CA0064.outlook.office365.com
- (2603:10b6:a03:80::41) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
- Jan 2026 22:33:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00001CE0.mail.protection.outlook.com (10.167.242.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 22:33:24 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 7 Jan
- 2026 16:33:23 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 7 Jan
- 2026 16:33:23 -0600
-Received: from p8.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Wed, 7 Jan 2026 14:33:22 -0800
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, radeon drm-fixes-6.19
-Date: Wed, 7 Jan 2026 17:33:14 -0500
-Message-ID: <20260107223315.16095-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A78510E11D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 23:48:31 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20260107234828euoutp01955cf036de90cbb90ceef5d5e6d8b9f8~Il8D4xZ6O0726807268euoutp016
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 23:48:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20260107234828euoutp01955cf036de90cbb90ceef5d5e6d8b9f8~Il8D4xZ6O0726807268euoutp016
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1767829708;
+ bh=TYCzIUiOEy3kP/HiVQ2wZRrRPpZ4XZI8gw9kTIvwkig=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=ZcRbrUwE0aCSm07m0ZAGZxJqi+smXR6sOaSkQNGRA/aaVVXXra1EA26P9OVZXHgoM
+ aGEhVYVOd3cGxnnM9aKFvNxes9G4ULczGDrTrEa1JxXTa/SmBbzJIT9RCMK9VIrcKZ
+ UFzKdI1lMTHP5Czb15+QUV6lIyPeYK3iCwEMt8FE=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260107234827eucas1p27fbd224b2f588f92989d2f7bfa08ab37~Il8C276YY0130501305eucas1p2E;
+ Wed,  7 Jan 2026 23:48:27 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260107234825eusmtip2ddfb2c42a8a3442eed7670b1dee474df~Il8AyfPoH0345103451eusmtip2c;
+ Wed,  7 Jan 2026 23:48:25 +0000 (GMT)
+Message-ID: <77c70d7b-23bc-4f74-9a13-d10f4af132dd@samsung.com>
+Date: Thu, 8 Jan 2026 00:48:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 00/12] drm/bridge: convert users of
+ of_drm_find_bridge(), part 2
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philippe Cornu <philippe.cornu@st.com>,
+ benjamin.gaignard@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Adrien
+ Grassein <adrien.grassein@gmail.com>, Liu Ying <victor.liu@nxp.com>, Shawn
+ Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
+ <jagan@amarulasolutions.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-0-283d7bba061a@bootlin.com>
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: alexander.deucher@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE0:EE_|DS5PPF18A985A10:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21118a31-27f3-445c-5428-08de4e3cc50e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|30052699003|1800799024|82310400026|13003099007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3hSQUdWaTlNSXZ4ckF5Ti9lQXdWTENDa3lJSkRqZ2RzUE9xV1N3TUNPakdY?=
- =?utf-8?B?cWVXSlBscWNGUktyRWp1TWNWeFB3UHZGVnZzWC9Fa2RoaEpJMGZUMlp6c2Vu?=
- =?utf-8?B?U2Mvb0svV0xZOEYxeVR3bE1QNzNPK2gzSVFlL2l6VjJkOEVRU1haOTlKNUZU?=
- =?utf-8?B?TVBUUXQzL3hXVlRaU09Mb1NaN243U3FUa3ZhTVdlM0lvUnRrZjJpek9IVFQx?=
- =?utf-8?B?cFFiQVpSdVdCZHBvbmhFVWVJNGZ3OE4vUmo1STM1Q2s4d3BjckZsTGhhekk2?=
- =?utf-8?B?SDJxN2s2RGhNaVkzSi9SeWtsNVMyS1NxQXR4U0lMczNOVXd1bCtISVpIdTlG?=
- =?utf-8?B?Zm9odzM1eUgvKzVwRGNjUWxlSW9UcXdsQWo4bmU0Qkp0STJrYkdWTlo2eUs2?=
- =?utf-8?B?Vi9Kc2ZPZVJ0Z2Q5SGQ5QUp3WGxERHU2T2ZTYmYxVWkreUNSY3BzTXFmRlRv?=
- =?utf-8?B?c0xMQis5Mmh2VDl3bFYyMFZLYU9wa0hPUjQrSGx0Z1pLalUrcXhEZkpWOHp3?=
- =?utf-8?B?T3J4L2VpRURPVWhmd2x2cEFjWkdMTTNBc2dEOVVQVW5qNHZDRjE3TjNjVzJY?=
- =?utf-8?B?dUFpRUJLKzdNMXl2U3BvYTF3WWJlZmV3Ymp3Um5YRlB5ZnN0N3AwV2FzdFNV?=
- =?utf-8?B?WGluc3hwSkhUZEY1c3ZBK0l4ZkQwa010ZHQrU0Q5emh6VjE4bmEvTTVBWVN6?=
- =?utf-8?B?Z3E3emJxQnhJNlpFVGdmNkRya0ZBeklGU3g2azl1R1FCNk02dXlva3dvbENn?=
- =?utf-8?B?TEluYldOTStZRVpHNnJqVWlMSHRPZWtQUXF1L0dTTkJZOWFCWmlHdFZkR08x?=
- =?utf-8?B?QTltWEEvblRHMlpZSklETDJTZUZNalZtZGVFYXliOFZnVjdGMmVCTkorRCsy?=
- =?utf-8?B?Sm5yNGs3UEJFZk9aVkdIUU02MTNLNExacEFpUENQYUJtNEJhY3pjMWJkSHg4?=
- =?utf-8?B?KzFqY3RBVEFaWE0ycVNCYUFEc2hQQmUyQkdndloyYU1IU2JVbHNjREsyVitx?=
- =?utf-8?B?dkQ4bWllL3UxeS80UGdiRFM1amVMdkxsaG5EbFY0UlVuRjl6ekxRUjEvV2g4?=
- =?utf-8?B?Y3Bma2Z5NHhYRStaSDVLTkR3SGRjbGRNbTBPU3ZrMjd6ZzJYazE1UmYrbXpl?=
- =?utf-8?B?MzFkeUtZc1NETDVuUVYrc3l2NStTOHJXMTJVRHhVMGowc044Qi9hcHpVMmFo?=
- =?utf-8?B?dGlSMHZSaytYbGRmb1lRS25rbnBWRHFjd1pqYWMweHFRVDBKRldJeGRNSzNE?=
- =?utf-8?B?SHllU3hBTm9nQm0vN2FGb3FiSU43cTlBUGljd25Da3c3dnpsSU0vNEFyekd3?=
- =?utf-8?B?QWVQT0NFRy91czJSYkpCOC83RzdYSkdvUTVEQUE5RVdwVWZnL0lyUkRKYVJt?=
- =?utf-8?B?SkovSVRIdGduVEJNVEc5aHdCMnphNHBzSkZ5NmtwM3FITTlnUWU3Mktqdk1G?=
- =?utf-8?B?MUd5blFTMy95bFRYclNqMVQ3SGlWd0F5U2kydE5xZDZvOUh1QmF4VHArdVBt?=
- =?utf-8?B?U2dvV2RNcEw3WUUvVmFLTmRWS3EwZDNRTTh5VERuMVVvT0krYW1aU2p1eXVR?=
- =?utf-8?B?dTUrejA4S0FId0F4aE10TUlybkYvRzFiajY3YllQeHZxQ2VQVVhJRnI5RFAw?=
- =?utf-8?B?eWRmMCtUUk9NSEVIRzJSRXkwYzM0NWZ3cjR3TkdMNkNhRC9mcUdSUDJ3VWhj?=
- =?utf-8?B?TjJGZElsMFA2Z1JTU0pwUHFYUEhkaEtXSE9SN1V6a0xxOU5sMTJtTHpoN05C?=
- =?utf-8?B?Q0p4U3BqVHFwVGdLU2VvNVRJYUZoZmlSOFlXV3ZsanBpTkFzaUh2ellsbGlv?=
- =?utf-8?B?dnpSN0htNUFpcC9YbEZXN0VXUWlaQkVGMk1FWU5WcmFSeFZHTXpMZms0Y3po?=
- =?utf-8?B?L1dDNG5SVVRrRFlWTTV4aUVPdXhKWVJUaFJhVzN4VnhPbVdHM2VrdE81MU5n?=
- =?utf-8?B?eHBKdTNLZnJhMnJORDhwaERPNUpHNHhBcXNsMUdBSU9lM3VkMUxPYjZUTVRY?=
- =?utf-8?B?Zm8ycElpcXEwVE90RjlNQ3VBR01seUtQMzRjdG5FMHZuSnh5RGYyTjcrclNU?=
- =?utf-8?Q?mjvBHc?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(30052699003)(1800799024)(82310400026)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 22:33:24.2876 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21118a31-27f3-445c-5428-08de4e3cc50e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE0.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF18A985A10
+X-CMS-MailID: 20260107234827eucas1p27fbd224b2f588f92989d2f7bfa08ab37
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260107131333eucas1p2ee0b7afe47dc2fafa29e893e4283962b
+X-EPHeader: CA
+X-CMS-RootMailID: 20260107131333eucas1p2ee0b7afe47dc2fafa29e893e4283962b
+References: <CGME20260107131333eucas1p2ee0b7afe47dc2fafa29e893e4283962b@eucas1p2.samsung.com>
+ <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-0-283d7bba061a@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,88 +87,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+On 07.01.2026 14:12, Luca Ceresoli wrote:
+> This series converts all DRM bridge drivers (*) from the now deprecated
+> of_drm_find_bridge() to its replacement of_drm_find_and_get_bridge() which
+> allows correct bridge refcounting. It also converts per-driver
+> "next_bridge" pointers to the unified drm_bridge::next_bridge which puts
+> the reference automatically on bridge deallocation.
+>
+> This is part of the work to support hotplug of DRM bridges. The grand plan
+> was discussed in [0].
 
-Happy New Year!  Fixes for 6.19.
+This patchset breaks Exynos DSI (Samsung-DSIM) driver operation on all 
+my test boards. I will try to debug it and provide more information 
+tomorrow though.
 
-The following changes since commit c4f2ae53863de2b5d125c3cdc9ff12668868a74a:
 
-  Merge tag 'drm-rust-fixes-2025-12-29' of https://gitlab.freedesktop.org/drm/rust/kernel into drm-fixes (2026-01-05 14:45:33 +1000)
+> Here's the work breakdown (➜ marks the current series):
+>
+>   1. ➜ add refcounting to DRM bridges struct drm_bridge,
+>        based on devm_drm_bridge_alloc()
+>      A. ✔ add new alloc API and refcounting (v6.16)
+>      B. ✔ convert all bridge drivers to new API (v6.17)
+>      C. ✔ kunit tests (v6.17)
+>      D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+>           and warn on old allocation pattern (v6.17)
+>      E. ➜ add get/put on drm_bridge accessors
+>         1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+>         2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+>         3. ✔ drm_bridge_get_next_bridge() (v6.19)
+>         4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+>         5. ✔ drm_bridge_connector_init (v6.19)
+>         6. … protect encoder bridge chain with a mutex
+>         7. ➜ of_drm_find_bridge
+>            a. ✔… add of_drm_get_bridge(), convert basic direct users
+> 	        (v6.20?, one driver still pending)
+> 	  b. ➜ convert direct of_drm_get_bridge() users, part 2
+> 	  c.   convert direct of_drm_get_bridge() users, part 3
+> 	  d.   convert direct of_drm_get_bridge() users, part 4
+> 	  e.   convert bridge-only drm_of_find_panel_or_bridge() users
+>         8. drm_of_find_panel_or_bridge, *_of_get_bridge
+>         9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+>      F. ✔ debugfs improvements
+>         1. ✔ add top-level 'bridges' file (v6.16)
+>         2. ✔ show refcount and list lingering bridges (v6.19)
+>   2. … handle gracefully atomic updates during bridge removal
+>      A. ✔ Add drm_dev_enter/exit() to protect device resources (v6.20?)
+>      B. … protect private_obj removal from list
+>   3. … DSI host-device driver interaction
+>   4. ✔ removing the need for the "always-disconnected" connector
+>   5. finish the hotplug bridge work, moving code to the core and potentially
+>      removing the hotplug-bridge itself (this needs to be clarified as
+>      points 1-3 are developed)
+>
+> [0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+>
+> This work is a continuation of the work to correctly handle bridge
+> refcounting for existing of_drm_find_bridge(). The ground work is in:
+>
+>    - commit 293a8fd7721a ("drm/bridge: add of_drm_find_and_get_bridge()")
+>    - commit 9da0e06abda8 ("drm/bridge: deprecate of_drm_find_bridge()")
+>    - commit 3fdeae134ba9 ("drm/bridge: add next_bridge pointer to struct drm_bridge")
+>
+> The whole conversion is split in multiple series to make the review process
+> a bit smoother. Parts 3 and 4 are converting non-bridge drivers (mostly
+> encoders).
+>
+> (*) One bridge driver (synopsys/dw-hdmi) is converted in another series,
+>      together with its (non-bridge) users. Additionally this series converts
+>      drm_of_panel_bridge_remove() which is a special case, and has a bugfix
+>      for it too.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+> Luca Ceresoli (12):
+>        drm: of: drm_of_panel_bridge_remove(): fix device_node leak
+>        drm: of: drm_of_panel_bridge_remove(): convert to of_drm_find_and_get_bridge()
+>        drm/bridge: sii902x: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: thc63lvd1024: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: tfp410: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: tpd12s015: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: lt8912b: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: imx8mp-hdmi-pvi: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: imx8qxp-ldb: convert to of_drm_find_and_get_bridge()
+>        drm/bridge: samsung-dsim: samsung_dsim_host_attach: use a temporary variable for the next bridge
+>        drm/bridge: samsung-dsim: samsung_dsim_host_attach: don't use the bridge pointer as an error indicator
+>        drm/bridge: samsung-dsim: samsung_dsim_host_attach: convert to of_drm_find_and_get_bridge()
+>
+>   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c | 15 +++++++-------
+>   drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c     |  3 ++-
+>   drivers/gpu/drm/bridge/lontium-lt8912b.c     | 31 ++++++++++++++--------------
+>   drivers/gpu/drm/bridge/samsung-dsim.c        | 28 ++++++++++++++++---------
+>   drivers/gpu/drm/bridge/sii902x.c             |  7 +++----
+>   drivers/gpu/drm/bridge/thc63lvd1024.c        |  7 +++----
+>   drivers/gpu/drm/bridge/ti-tfp410.c           | 27 ++++++++++++------------
+>   drivers/gpu/drm/bridge/ti-tpd12s015.c        |  8 +++----
+>   include/drm/bridge/samsung-dsim.h            |  1 -
+>   include/drm/drm_of.h                         |  6 +++++-
+>   10 files changed, 69 insertions(+), 64 deletions(-)
+> ---
+> base-commit: 2bcba510a612cea32b8a536eedeabd7fcb413cd0
+> change-id: 20251223-drm-bridge-alloc-getput-drm_of_find_bridge-2-12c6bbcb6896
+>
+> Best regards,
 
-are available in the Git repository at:
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.19-2026-01-06
-
-for you to fetch changes up to 6b2989ac5e8c496c1814d7961bee6f2d05382b3e:
-
-  Reapply "Revert "drm/amd: Skip power ungate during suspend for VPE"" (2026-01-07 17:24:16 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.19-2026-01-06:
-
-amdgpu:
-- Clang fixes
-- Navi1x PCIe DPM fixes
-- Ring reset fixes
-- ISP suspend fix
-- Analog DC fixes
-- VPE fixes
-- Mode1 reset fix
-
-radeon:
-- Variable sized array fix
-
-----------------------------------------------------------------
-Alan Liu (1):
-      drm/amdgpu: Fix query for VPE block_type and ip_count
-
-Alex Deucher (3):
-      drm/radeon: Remove __counted_by from ClockInfoArray.clockInfo[]
-      drm/amdgpu: don't reemit ring contents more than once
-      drm/amdgpu: always backup and reemit fences
-
-Alex Hung (1):
-      drm/amd/display: Check NULL before calling dac_load_detection
-
-Mario Limonciello (AMD) (1):
-      Reapply "Revert "drm/amd: Skip power ungate during suspend for VPE""
-
-Nathan Chancellor (3):
-      drm/amd/display: Apply e4479aecf658 to dml
-      drm/amd/display: Reduce number of arguments of dcn30's CalculatePrefetchSchedule()
-      drm/amd/display: Reduce number of arguments of dcn30's CalculateWatermarksAndDRAMSpeedChangeSupport()
-
-Perry Yuan (1):
-      drm/amd/pm: Disable MMIO access during SMU Mode 1 reset
-
-Pratap Nirujogi (1):
-      drm/amd/amdgpu: Fix SMU warning during isp suspend-resume
-
-Timur Kristóf (2):
-      drm/amd/display: Correct color depth for SelectCRTC_Source
-      drm/amd/display: Add missing encoder setup to DACnEncoderControl
-
-Yang Wang (2):
-      drm/amd/pm: fix wrong pcie parameter on navi1x
-      drm/amd/pm: force send pcie parmater on navi1x
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |  36 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c            |  24 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_isp.h            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h           |   7 +-
- drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c            |  41 ++
- drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |   4 +-
- .../gpu/drm/amd/display/dc/bios/command_table.c    |  44 +-
- .../gpu/drm/amd/display/dc/bios/command_table.h    |   4 +-
- drivers/gpu/drm/amd/display/dc/dml/Makefile        |   6 +-
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c | 545 ++++++---------------
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |  28 +-
- .../gpu/drm/amd/display/dc/link/link_detection.c   |   6 +-
- .../drm/amd/display/include/bios_parser_types.h    |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  33 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   7 +-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |   9 +-
- drivers/gpu/drm/radeon/pptable.h                   |   2 +-
- 19 files changed, 332 insertions(+), 480 deletions(-)
