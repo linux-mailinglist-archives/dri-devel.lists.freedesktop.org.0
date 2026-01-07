@@ -2,66 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03F4CFD7AD
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A385ECFD7EB
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 12:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C442810E0C9;
-	Wed,  7 Jan 2026 11:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0E110E09B;
+	Wed,  7 Jan 2026 11:52:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RQnxUXad";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="M+YCveE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFA810E09B;
- Wed,  7 Jan 2026 11:49:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767786585; x=1799322585;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=c9dAtQW+NwcoBXMSI3sjPP5VJocRS9bLUFFrxG4570o=;
- b=RQnxUXadsEVTmb7S5F8YBtcOYEwvUePaWU9U+S5y7yAkhBfvedxqf5Th
- v1nDJPza9oVr26SnGsHXR2BxRM86gu+fuwM7lot2hB1x2Vt7KPDK0SmSk
- B7GM5zmGy1Yv2mo/RYOLZEDiA3ynMPNhAlINxFUdNQuZMnGR3ExtAOoQA
- 1/+DG0zMfbfhXKjNncxd1s5hLvN/qtU7wiPx4Q5oO9/r4Jywicig/FXaV
- dl/DVP9LaRu4EBeSIo3Mmj5No+c2vZoW1l28/lgJLSD1PWngTSdcza3Gl
- wNNCvGayFvAWualPkzJX/uMKbSTyrtBFfGDLD3FDNR09HP/76cIIZhW3U g==;
-X-CSE-ConnectionGUID: hIGQiis0QRypHQVsYsOddQ==
-X-CSE-MsgGUID: WzynDgUnTReyLgAoovYllQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69204410"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="69204410"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2026 03:49:44 -0800
-X-CSE-ConnectionGUID: 1yx4wpkYT++uxIdphJFvAg==
-X-CSE-MsgGUID: KJxYPDRJRhSgVAJsqRLT9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; d="scan'208";a="202922441"
-Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
- by orviesa007-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:49:42 -0800
-Date: Wed, 7 Jan 2026 12:49:38 +0100
-From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH i-g-t 2/3] asahi: Add test infrastruture for asahi DRM
- render driver
-Message-ID: <20260107114938.cevehcqjypsdnozh@kamilkon-DESK.igk.intel.com>
-Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Janne Grunau <j@jannau.net>,
- Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>
-References: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
- <20260105-asahi-tests-wave1-v1-2-a6c72617e680@jannau.net>
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C3D10E09B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 11:52:48 +0000 (UTC)
+Received: from [192.168.1.229] (unknown [194.212.224.132])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519) (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id C5299534070B;
+ Wed, 07 Jan 2026 12:52:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1767786765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aS/cRuQZc4+qVgpsY1PgxDG7HqC1Gqd9wTGV+veBTSM=;
+ b=M+YCveE8YUEnmv4Qhy186TMdCkwO+f+fHaOkNNvNjx1mvqRmunnMxZRj7+NuEMa70dbtG2
+ 6uwfX3D1Cx3Qb//Svp2E4x8FaeW+5leTFmFQq7B3m5BsWQkCj6metG4H1FjXUH/Nf7sOzd
+ J3BAu1Iq9Lh6oF47EyL4gbUvuWFcwQ8=
+Message-ID: <3d5868e7-13df-4608-95c7-02f08ae2024e@ixit.cz>
+Date: Wed, 7 Jan 2026 12:52:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260105-asahi-tests-wave1-v1-2-a6c72617e680@jannau.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] clk: qcom: dispcc-sdm845: Enable parents for pixel
+ clocks
+To: petr.hodina@protonmail.com, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20260107-stability-discussion-v2-1-ef7717b435ff@protonmail.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260107-stability-discussion-v2-1-ef7717b435ff@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,311 +112,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janne,
-On 2026-01-05 at 22:03:46 +0100, Janne Grunau wrote:
-> Asahi is DRM render-only driver for Apple AGX GPUs found in Apple
-> silicon SoCs starting with the Apple M1 family.
-> Add a define for the driver, build system support and a helper function
-> for DRM_IOCTL_ASAHI_GET_PARAMS. To ensure everything works add an
-> initial test for DRM_IOCTL_ASAHI_GET_PARAMS.
-> Further tests are expected to require some of the queried parameters.
+On 07/01/2026 12:44, Petr Hodina via B4 Relay wrote:
+> From: Petr Hodina <petr.hodina@protonmail.com>
 > 
-
-+cc Alyssa and Jean
-
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> Add CLK_OPS_PARENT_ENABLE to MDSS pixel clock sources to ensure parent
+> clocks are enabled during clock operations, preventing potential
+> stability issues during display configuration.
+> 
+> Fixes: 81351776c9fb ("clk: qcom: Add display clock controller driver for SDM845")
+> Signed-off-by: Petr Hodina <petr.hodina@protonmail.com>
 > ---
->  lib/drmtest.c                  |  1 +
->  lib/drmtest.h                  |  1 +
->  lib/igt_asahi.c                | 44 +++++++++++++++++++++++++++++++++
->  lib/igt_asahi.h                | 12 +++++++++
->  lib/meson.build                |  1 +
->  meson.build                    |  8 ++++++
->  tests/asahi/asahi_get_params.c | 55 ++++++++++++++++++++++++++++++++++++++++++
->  tests/asahi/meson.build        | 13 ++++++++++
->  tests/meson.build              |  2 ++
->  9 files changed, 137 insertions(+)
+> We are currently running the latest linux-next snapshots (next-202511*
+> and next-202512*) and have encountered random freezes and crashes on the
+> Pixel 3, as well as crash dumps on the OnePlus 6 and 6T.
 > 
-> diff --git a/lib/drmtest.c b/lib/drmtest.c
-> index 4a788ea7a59cfd2878d0586b1d7ed9ad0de14a14..dc3fe330bf57693fa4f157cf9076e995e64639cb 100644
-> --- a/lib/drmtest.c
-> +++ b/lib/drmtest.c
-> @@ -222,6 +222,7 @@ static const struct module {
->  	void (*modprobe)(const char *name);
->  } modules[] = {
->  	{ DRIVER_AMDGPU, "amdgpu" },
-> +	{ DRIVER_ASAHI, "asahi" },
->  	{ DRIVER_INTEL, "i915", modprobe_i915 },
->  	{ DRIVER_MSM, "msm" },
->  	{ DRIVER_PANFROST, "panfrost" },
-> diff --git a/lib/drmtest.h b/lib/drmtest.h
-> index 37874d729bb89577f61875728bd0d6d2a6458756..74cff27ffd3deba4b7664b4f37fbd59143e04f3e 100644
-> --- a/lib/drmtest.h
-> +++ b/lib/drmtest.h
-> @@ -58,6 +58,7 @@ int __get_drm_device_name(int fd, char *name, int name_size);
->  #define DRIVER_VKMS	(1 << 9)
->  #define DRIVER_VIRTIO	(1 << 10)
->  #define DRIVER_PANTHOR	(1 << 11)
-> +#define DRIVER_ASAHI	(1 << 12)
->  
->  /*
->   * Exclude DRIVER_VGEM and DRIVER_VIRTIO from DRIVER_ANY since if you run
-> diff --git a/lib/igt_asahi.c b/lib/igt_asahi.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..90d2c190f0dd05e372af0eefaed22d2b2a26eb71
-> --- /dev/null
-> +++ b/lib/igt_asahi.c
-> @@ -0,0 +1,44 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Asahi Linux contributors
-> +/*
-> + * Based on igt_panthor.c
-> + */
-> +
-> +#include "drmtest.h"
-> +#include "igt_asahi.h"
-> +#include "ioctl_wrappers.h"
-> +#include "asahi_drm.h"
-
-This should be before drmtest.h, keep it alphabetical.
-
-> +
-> +#include <stdint.h>
-
-System headers should be first ones, so before asahi_drm.h
-
-> +
-> +/**
-> + * SECTION:igt_asahi
-> + * @short_description: asahi support library
-> + * @title: Asahi
-> + * @include: igt.h
-> + *
-> + * This Library provides auxiliary helper functions for writing asahi tests.
-> + */
-> +
-> +/**
-> + * igt_asahi_get_params:
-> + * @fd: device file descriptor
-> + * @param_group: which params to query parameters for
-> + * @params: pointer to the struct to store the parameters in
-> + * @size: size of the params buffer
-> + * @err: expected error code, 0 for success
-> + */
-> +void igt_asahi_get_params(int fd, uint32_t param_group, void *params, size_t size, int err)
-> +{
-> +	struct drm_asahi_get_params get_params = {
-> +		.param_group = param_group,
-> +		.pointer = (uintptr_t)params,
-> +		.size = size,
-> +	};
-> +
-> +	if (err)
-> +		do_ioctl_err(fd, DRM_IOCTL_ASAHI_GET_PARAMS, &get_params, err);
-> +	else
-> +		do_ioctl(fd, DRM_IOCTL_ASAHI_GET_PARAMS, &get_params);
-> +}
-> diff --git a/lib/igt_asahi.h b/lib/igt_asahi.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f0ac3fbf428a8050957eab0e9b259f68b5ecd0cd
-> --- /dev/null
-> +++ b/lib/igt_asahi.h
-> @@ -0,0 +1,12 @@
-> +// SPDX-License-Identifier: MIT
-
-Here it should be C-style comment:
-
-/* SPDX-License-Identifier: MIT */
-
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Asahi Linux contributors
-
-Same here, look into lib for pathor lib/igt_panthor.h
-Note that it differs from lib/igt_panthor.c
-
-> +
-> +#ifndef ASAHI_IOCTL_H
-
-Same here, look into panthor lib header, it should be:
-
-#ifndef IGT_ASAHI_H
-
-> +#define ASAHI_IOCTL_H
-> +
-> +#include <stddef.h>
-> +#include <stdint.h>
-> +
-> +void igt_asahi_get_params(int fd, uint32_t param_group, void *data, size_t size, int err);
-> +
-> +#endif /* ASAHI_IOCTL_H */
-> diff --git a/lib/meson.build b/lib/meson.build
-> index d0487fb3ca79faa40640579ce78efd434eb38f86..73e07ea677ebbffa9722de7c28b6c94bc2a53ee0 100644
-> --- a/lib/meson.build
-> +++ b/lib/meson.build
-> @@ -105,6 +105,7 @@ lib_sources = [
->  	'uwildmat/uwildmat.c',
->  	'igt_kmod.c',
->  	'igt_ktap.c',
-> +	'igt_asahi.c',
->  	'igt_panfrost.c',
->  	'igt_panthor.c',
->  	'igt_v3d.c',
-> diff --git a/meson.build b/meson.build
-> index 4b2496c01679852c05c575ab4589192b15da149c..1b16a60281e6202b99affbf43d1ab4e098ea6860 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -286,6 +286,7 @@ includedir = get_option('includedir')
->  libdir = get_option('libdir')
->  libexecdir = join_paths(get_option('libexecdir'), 'igt-gpu-tools')
->  amdgpudir = join_paths(libexecdir, 'amdgpu')
-> +asahidir = join_paths(libexecdir, 'asahi')
->  msmdir = join_paths(libexecdir, 'msm')
->  panfrostdir = join_paths(libexecdir, 'panfrost')
->  panthordir = join_paths(libexecdir, 'panthor')
-> @@ -330,6 +331,12 @@ if get_option('use_rpath')
->  	endforeach
->  	amdgpudir_rpathdir = join_paths(amdgpudir_rpathdir, libdir)
->  
-> +	asahi_rpathdir = '$ORIGIN'
-> +	foreach p : asahidir.split('/')
-> +		asahi_rpathdir = join_paths(asahi_rpathdir, '..')
-> +	endforeach
-> +	asahi_rpathdir = join_paths(asahi_rpathdir, libdir)
-> +
->  	msm_rpathdir = '$ORIGIN'
->  	foreach p : msmdir.split('/')
->  		msm_rpathdir = join_paths(msm_rpathdir, '..')
-> @@ -375,6 +382,7 @@ else
->  	bindir_rpathdir = ''
->  	libexecdir_rpathdir = ''
->  	amdgpudir_rpathdir = ''
-> +	asahi_rpathdir = ''
->  	msm_rpathdir = ''
->  	panfrost_rpathdir = ''
->  	panthor_rpathdir = ''
-> diff --git a/tests/asahi/asahi_get_params.c b/tests/asahi/asahi_get_params.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..43482a00418f854cba2417f8f8eb5c6a04e19385
-> --- /dev/null
-> +++ b/tests/asahi/asahi_get_params.c
-> @@ -0,0 +1,55 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) Asahi Linux contributors
-> +
-> +#include "igt.h"
-> +#include "igt_core.h"
-> +#include "igt_asahi.h"
-> +#include "asahi_drm.h"
-
-Same here, should be before igt.h
-
-> +#include <stdint.h>
-
-Same here, should be first include, before asahi.h
-
-> +
-> +int igt_main()
-> +{
-> +	int fd;
-> +
-> +	igt_fixture() {
-> +		fd = drm_open_driver_render(DRIVER_ASAHI);
-> +	}
-> +
-> +	igt_describe("Query global GPU parameters from device.");
-> +	igt_subtest("get-params") {
-> +		struct drm_asahi_params_global globals = {};
-> +
-> +		igt_asahi_get_params(fd, 0, &globals, sizeof(globals), 0);
-
-Could you print all params here, before asserts below?
-
-> +
-> +		// Supported GPU generations start with G13G
-
-Use C-style comments, here and in all places below:
-
-		/* Supported GPU generations start with G13G */
-
-> +		igt_assert(globals.gpu_generation >= 13);
-> +		// chip id is expected to be non zero
-> +		igt_assert(globals.chip_id != 0);
-> +		// VM should contain some space
-> +		igt_assert(globals.vm_end > globals.vm_start);
-> +		// the driver is expected to request some space for the
-> +		// kernel in a VM
-> +		igt_assert(globals.vm_kernel_min_size > 0);
-> +		// the frequency of the clock used to generate timestamps
-> +		igt_assert(globals.command_timestamp_frequency_hz > 0);
-> +	}
-> +
-> +	igt_describe("Query global GPU parameters for invalid param_groups.");
-> +	igt_subtest_group() {
-> +		struct drm_asahi_params_global globals = {};
-> +
-> +		igt_subtest("get-params-1") {
-
-Better name would be invalid-param-1
-
-> +			igt_asahi_get_params(fd, 1, &globals, sizeof(globals), EINVAL);
-> +		}
-> +		igt_subtest("get-params-2") {
-
-invalid-param-2
-
-> +			igt_asahi_get_params(fd, 2, &globals, sizeof(globals), EINVAL);
-> +		}
-> +		igt_subtest("get-params-uint32-max") {
-
-invalid-param-uint32-max
-
-Above are minor fixes to do so after you will fix them
-imho you could add Alyssa and Neal r-b.
-
-Regards,
-Kamil
-
-> +			igt_asahi_get_params(fd, UINT32_MAX, &globals, sizeof(globals), EINVAL);
-> +		}
-> +	}
-> +
-> +	igt_fixture() {
-> +		drm_close_driver(fd);
-> +	}
-> +}
-> diff --git a/tests/asahi/meson.build b/tests/asahi/meson.build
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..909e146295e83f558ef7378f814ded55adaafe2b
-> --- /dev/null
-> +++ b/tests/asahi/meson.build
-> @@ -0,0 +1,13 @@
-> +asahi_progs = [
-> +	'asahi_get_params',
-> +]
-> +
-> +foreach prog : asahi_progs
-> +	test_executables += executable(prog,
-> +				       prog + '.c',
-> +				       dependencies : test_deps,
-> +				       install_dir : asahidir,
-> +				       install_rpath : asahi_rpathdir,
-> +				       install : true)
-> +	test_list += join_paths('asahi', prog)
-> +endforeach
-> diff --git a/tests/meson.build b/tests/meson.build
-> index 169340d7d0937020f04b1720d5570619ce0d3591..ba69c56e7f872cb0050f6508d91318e000be6e97 100644
-> --- a/tests/meson.build
-> +++ b/tests/meson.build
-> @@ -491,6 +491,8 @@ endif
->  
->  subdir('amdgpu')
->  
-> +subdir('asahi')
-> +
->  subdir('msm')
->  
->  subdir('panfrost')
+> This commit fixes the stability issue. I've checked other SDM dispcc
+> files and they also contain this configuration.
 > 
-> -- 
-> 2.52.0
+> For safety I also set the configuration for `disp_cc_mdss_pclk1_clk_src`
+> though it should be sufficient only for `disp_cc_mdss_pclk0_clk_src`.
 > 
+> Kind regards,
+> Petr
+> ---
+> Changes in v2:
+> - Remove commits from v1 and introduce proper fix.
+> - Link to v1: https://lore.kernel.org/r/20251213-stability-discussion-v1-0-b25df8453526@ixit.cz
+> ---
+>   drivers/clk/qcom/dispcc-sdm845.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+
+Reviewed-by: David Heidelberg <david@ixit.cz>
