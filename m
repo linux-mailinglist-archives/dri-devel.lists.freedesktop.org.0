@@ -2,156 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A0CD00241
-	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 22:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93337D0024D
+	for <lists+dri-devel@lfdr.de>; Wed, 07 Jan 2026 22:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5314C10E115;
-	Wed,  7 Jan 2026 21:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF28210E665;
+	Wed,  7 Jan 2026 21:20:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Rht53Xbm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dHjayqDi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013010.outbound.protection.outlook.com
- [40.107.201.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ABD610E115
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 21:19:59 +0000 (UTC)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011032.outbound.protection.outlook.com
+ [40.93.194.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FEFD10E659
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jan 2026 21:20:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tEH7nhFa0ij9g5P7e+AarcdYneTl0r92fJD8xSSQxXSQA/i6qt2WOBvpSwlbGIreAUmOL5V2Jt2QY0k9j+6hGQaGKQ3yz6stdUi9rRqohr+BNxY0fazDITZ/I+gzJhAjA4tOLKxj0FhgU4lNN+TrI+g5RIBn6zE2UUqkZNI9gqSPELRVywbtTrtkyzKR4gMpiCowJgoyYvxtC2QIYrVw9M9Lb+Sh8KIuKw0IrcwBEWsBc+05ICHCAiQ8EbvX5oe0J/e2VZMHqtx9gBrnlYFbBSV5dzBUFqRJS8um73h///yQZVLDgXBc5z967GnG4PmwZA8SVdH4YeAI710F9xsTgg==
+ b=kwYvJrq9ET1loXkcoCvL0g3pRXC/K8S9oZ6DVcae/p8dsGP+/X1Q4TZQdV4BwYV66uk0a8siG5fMZBzBV63yH6sCpSB+uhRVUsxE6jwMHuI164YYSesim5dk6dc2A+7fViqFG6aMAKjAema8OEx4aXGUlIN/bZHwQRI1dkQBY8otr324DzIo9GWl0IvsjlTFtzoJG7FabJsOukWSuLjqmH3PLiTT25jKTrr7muaJk2GHc/lvv3KywOkyvYvIMQd6UNYIQ9gBC2Ib3RU0UFSRGIwW4bHgnGcIJivmB9+m1PTvUOPgb5PmjifctME/jUQ2RIJQqDLnQgk/lm0I9/yaRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YbO2VIHihFbeUDCfWLgvHRPCppBPpMamfbhN58euglY=;
- b=L/pLWyhbbfVkcS6YE0sMwC5daL6u1MMQdxJHj2nfqVrScjhV3UDn4wvcyypBMmtB/pkVtUzu8WiwuXEjBcAtSiqN440Y2XGjrxsp+dSdvOknjFpbJ9li8JfPm0M/EKBsXQluPESfCuHnHb93T6qHxqRIysvo5+BKcd6ImYzgXMDYvhW48yArkF41sX0kOU5zlYsiDeVWukJonv1uJ7EreWLI+qoc+8BkNACf73bgdz3yzJOepGugUeDcKlEKHxBkwtsYKa7aaF0Y7nHde/0d2kfS+yttyI0/L4MZK9P965rrOcako3CU+LDV/ZHsGaLwPPRSwbxTQopXs3JE/iSihA==
+ bh=L5QH2t/cI12XByXzliklVaSiqbHzpoShETe+UPwglZY=;
+ b=LdSGGTsemjwtqdO1WlscVejWMbLoQn6p1jMuwuO+D8e8mdVw+8kZD5mLCNzAx1bttyYJHqOtvG7RE1PdD3VvcwRsCEpwrspcamfJ7o1isOrYUlsbWUyZuMFuYOiA2sawD9PtWRlXrbyIge4xexffobesE4Luu/YnjXjRi36/vi2P/yfitVaY/xRrR4uloAMZ/8CnqwP4yblp1JRhh/zURnsRgyDn4I8H7oZy4ZeHvj7nUlkoFomYRw/Tv9L4GBKwhmwuspfDe3gKFJwHbYUJFbp5KTypzCediiY4SCGXtHxP7PBTBzoABlWTHFGC0i2L4fl3j6zSljGkeOmemc4GQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YbO2VIHihFbeUDCfWLgvHRPCppBPpMamfbhN58euglY=;
- b=Rht53XbmFMTclrvXBimrRdR7nk9O5SZE+MdFDqfysxJaR3inLtb9NSaM4waA4O+YTimWTgWKzKAWXzSRNrtbExRPiKMvtSUwa4PWzt7fUlEnEabb5osz2XBhQEgNUjv1BvezfbWa/+6/4Ko+VGRKF9GdZiZaVH4meKeByrvPAz0=
+ bh=L5QH2t/cI12XByXzliklVaSiqbHzpoShETe+UPwglZY=;
+ b=dHjayqDiRLEk52FKi+RmMpHLrpRTBwnZYrkiUtODyajn1n8/Au4/iJvHiVf5ZpKawuFVZR8kWa/awHfndv7N6TzFdKhaWGfkKNvWcqCYDptuAYJvO4MzQW3+Sft9tDVINXpeCdEhK5fIgcu2rWqdoKmC7/C4WCJFJnbn3iYn3t8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by MW4PR12MB7432.namprd12.prod.outlook.com (2603:10b6:303:22d::9)
- with Microsoft SMTP Server (version=TLS1_2,
+ by DS0PR12MB8573.namprd12.prod.outlook.com (2603:10b6:8:162::15) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 21:19:53 +0000
+ 2026 21:20:52 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9478.004; Wed, 7 Jan 2026
- 21:19:53 +0000
-Message-ID: <812bcf91-d903-410f-91c8-8a71be3f3f02@amd.com>
-Date: Wed, 7 Jan 2026 15:19:44 -0600
+ 21:20:52 +0000
+Message-ID: <0eb1b06c-72be-409b-b49a-e340bf49453d@amd.com>
+Date: Wed, 7 Jan 2026 15:20:47 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 1/2] accel/amdxdna: Update message DMA buffer allocation
+Subject: Re: [PATCH V1 2/2] accel/amdxdna: Update firmware version check for
+ latest firmware
 To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
  quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
  maciej.falkowski@linux.intel.com
 Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
 References: <20251219014356.2234241-1-lizhi.hou@amd.com>
+ <20251219014356.2234241-2-lizhi.hou@amd.com>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20251219014356.2234241-1-lizhi.hou@amd.com>
+In-Reply-To: <20251219014356.2234241-2-lizhi.hou@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0051.namprd04.prod.outlook.com
- (2603:10b6:806:120::26) To MN0PR12MB6101.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN7PR04CA0037.namprd04.prod.outlook.com
+ (2603:10b6:806:120::12) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MW4PR12MB7432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6680cf8d-d8d1-419b-971f-08de4e327fa4
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB8573:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef2b74b0-71f8-49ef-ba75-08de4e32a2b1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0RYQmFEbTJ6cTZhVTJ4ckVTbmRMWjhpU2JnbTU1TGNvMDJDWENjRVVjL2xB?=
- =?utf-8?B?bWxwamFUVmwwV285bGl3bWZFUmZlWFpyMk9nMVp4TlZLcUV1V0ZnZ05TUWV3?=
- =?utf-8?B?Zk5tTVJ1YitXMTA1NDR3dlBqbW01aU9GZEdCbHd2M3NwS1FKbmtnb0dOK1ZG?=
- =?utf-8?B?TW03QWI5M2M4eG5wL00xN2pWbjRCTnlxcHJaZ3pSSlVmZWVtaDRod2NiQTBh?=
- =?utf-8?B?dXRmL3VFdENmdkphTWc5WTBQYWw2dEYzMjhwWE1sRkhUeExvWHpIVGE4UzI4?=
- =?utf-8?B?aHRSdExPR21FdG54eGxRT2RWSW9VS204dlZxREdpSlEyanV4YW1vd09CMTkx?=
- =?utf-8?B?ajZ5aFB3Ty83Q1NBQ2MwRXl6WUNyemRycll2TXdiSktnYUVud1VMbmtNcE9q?=
- =?utf-8?B?Kzc5ZUx4THpwdGFJWldyUjdXVytsUXp5WG9lajdHRENIQ1AxaHZqVldPN1pz?=
- =?utf-8?B?S21tUStqajVTNElZd3EzY3NIby9RMGR0alh2NjB2OWRidHZaUGk2bzVkcnVu?=
- =?utf-8?B?endyT0ZxSVlyNTI4S3U2YjI0OWJpWVJYOFJxanZ3dVo1d1UxNnZPQWVISEpL?=
- =?utf-8?B?REJVZTFWQUpYM2RiYjVES2MyR3gxcjBnMFo0djJZQ09lWllReXVKcURMWUc4?=
- =?utf-8?B?Z0NRQWhmSlU0RU1nYS9vaC81R2JQZFRKTlRiaGpzczloVm9LMlhPaktyTUl6?=
- =?utf-8?B?c3N1bVRNZzhCZE40OS9YdkQ2S1BYRUVVSyt6Z0xoYW53THFMeVZRRjdDUHFs?=
- =?utf-8?B?Y1RIdE1yd2pDOVlPUGROdUI0US9Wb3VOdHAyOURFWUZvYXNQMHI1V1dYdTBU?=
- =?utf-8?B?TTFLam4yTVNoVUQydHJYZmoxSi9xOGRUTGxuNUIyS0piM1p0Zi9BL3YyakN4?=
- =?utf-8?B?M2grNlk3bFgxNFg2cjFEUVBZWFBTMFlIQkFaWkxjcklMMjMybzlWVDJpU3p4?=
- =?utf-8?B?blhjdldpMFhuSXZvMFU1RUJMYmtKSldUSXRPT3BqUFhqRnNtWGFwMy9xOEJ0?=
- =?utf-8?B?WUJnK3RZV3hHczAvbXBlbk5HemxmQk90VncwRjFuR3RzVTNrM0VBTUF4SVQw?=
- =?utf-8?B?LzVGUFkxVSs1Tng3eDNnUURvYy9hV0ZPd3YxeDBzVEU5WUJhQit4VUJEbFJP?=
- =?utf-8?B?ckhDM09DOVBnZXFGU2tpaHh3bjJteEEzbWp6L0lGd0QrZk1ZRU5BVDIrN0xk?=
- =?utf-8?B?L3VRYy9PZ29CSGtTaTVPTWFKOE5UZ1ZyMVlnNTNJcW5UMy9DcDFjYS9HN2F5?=
- =?utf-8?B?RzBIWUIyZzJDOHNVb2ViQU51bFU3dXhOTC9IQnhaTENMbkswTjEzOTZGUG5N?=
- =?utf-8?B?WndxMUFhSWtZMzZlbjRVQWhSQmc5Sk0rMnVHMFJVQVVsY3R0VmgvT1I2RDV6?=
- =?utf-8?B?aHVjTTg5YWtTSVprS29UT04yVlU2ZDg4N1ZjenhjMGFkNk9aRWVLTVB5NUhC?=
- =?utf-8?B?QlpTbktHQVJZNjVlam8vcDBveFlzOG1maVZ2UGUxcG0wdWtyc2lha2s0ZHN4?=
- =?utf-8?B?ZkVRVStpUDZpeE1pbnFpRHJ1OE9vNkFEN0g2Q3pnS0JxbHhTY2RhZ0s2VHVm?=
- =?utf-8?B?cUd0QVZnZXRPOVg1R1Q0OXJoMzBGbHdwdFJ6UTlST1JRQ2RBd3pSdHBVWXIw?=
- =?utf-8?B?S3B0Sm9XTEZXbFd2ZU5ERVBhTWpTOXorMWZaMlV3OXNOeVBLcjk2Y1Q5d2Jv?=
- =?utf-8?B?Mnh6R2FzKzdEMFBvSmFNR3N1RWVaUGhHdUNJVEVvdy90Ry83TDVSM0NuajFl?=
- =?utf-8?B?VVovRzNEV01yaTRLaWlZUXhkdlRUR0szdHFPSUlOaHVHWWQ3YWZYWlZwSHFw?=
- =?utf-8?B?RzZrbmRxeFlwU2pWY2N5R2VXeWFCd2x4bzJlWk93ODVzOStZbjZaVDkvMnB4?=
- =?utf-8?B?S3RXMGhpUGRaSmYzME5XRU1BL3RqQlhzeGgrbG5hbWpFZFJ5QzZpS3E1MVNk?=
- =?utf-8?Q?riFAJmbjjfCUcZRV8a1YnhbDKm2JKuYk?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RWVQeDlhbUVRUFJVbTViY0dwWnY4Si9jU3J4QXBjNGU2RXlVUWtWN1dMNzlS?=
+ =?utf-8?B?Nm56Y2Jja3NOa284eXovSEZmTzM2TVJXNDhFeWNOZ1drUjFycUtjbjNGQlpR?=
+ =?utf-8?B?UUdoM0RPNnRpdWVBQnVPOFNHZHMyWkRoc3pocUpudkxORVRJV3VGRHQ3dHlR?=
+ =?utf-8?B?eG85QXdISkhFUEJudjM0YjZqckdCdHAxZ2N5a3BOQ2JtZnRFVE9aNkV6d0F6?=
+ =?utf-8?B?VHQvVXZJZmhvaW1MOGV0WnE2L0NlNm9BYUZXLzFqU29mMDZXcGtodmM1N3ZZ?=
+ =?utf-8?B?ZUljaHV6b3R6VXFEeXJVVVdhaDlVR3NlRmJMS2pEbkxSVnBJdWIxbTJTSktu?=
+ =?utf-8?B?dGhKUFBJc0MzOXlLRHk4K0Ezc1lmK0k5MDdGb2ViSVZDblpaQkhEMXhEQlQw?=
+ =?utf-8?B?UWVGSjJDMmFwZWRSN1N0K3dtMnhpVUdySnkyZHhnWWdHeE1jQU5sR2J6a09G?=
+ =?utf-8?B?OGM0djlmQk5VZnZpbWFGb3FLZGNWOG1kcEUrS1hhYi9YRVVZWHUrSlAwdEFv?=
+ =?utf-8?B?T2Z1cm5ZalRZVkdUSG8ybUs0eFExMVBSdzdRelliU2owdjA0TlZ6bGxpWDU3?=
+ =?utf-8?B?d1NVV1ZwQzZESnFRRDR3ditMb1ZoNWdxTlY2dGFrYy9SR2F4dGQ1aGp2WFNa?=
+ =?utf-8?B?OE0yVWt0MHBNbDd2Wm9wRnMwMVFiZzdMV3BLNWQ2aC9MT1VlYllzcDU4WkdO?=
+ =?utf-8?B?dUY1SFhmTzY0WlA2YkhjbDhGb1ByVlluZHVDQ05rTVlqWm5jb3hlbm5SY1pv?=
+ =?utf-8?B?dWZuS3dYY3FNQnhzU1FabE40VWpXcWJncTA4TFJXanVnaWZjWVU0bk9xcnRB?=
+ =?utf-8?B?ZXVSSHVEUm1XV1hPY0FjT0NCQmZ6M1UxSExiMFpySWNvUy82aVY2ZnFvTWRz?=
+ =?utf-8?B?MGJyaFk1RmhyOW9vSzMzYmluK0thUFFmV2RnWlIrRUk0ZElYSnF1MnRNait6?=
+ =?utf-8?B?Q3czZEhQT1VuUGFWUmlNa2UzYjdXcnorR0VjRkZYb3NjY1c4WWRNc3IvSTRJ?=
+ =?utf-8?B?QnVKZTVOQWlqMmdoTjVOa2JPSDVwaGpHbnNqeDVQRm9kSUdVWmE4SlBQZGdX?=
+ =?utf-8?B?eFB1YTNLaGkwbGhmUGNtZjZDWHZNS1Q5NzJpUlZmMlN1bG80UUNNNHBMZ3VI?=
+ =?utf-8?B?Z29nQW5Zc2JHRUQ3TXJTUG5STnQ2eGxTbnI1cFBFMnFNUTVETmo4eno0WStF?=
+ =?utf-8?B?SlozNTIvR2p0d3FDendCd3JHazFzZ0dtVzdzRUVMUVRaSEpLV1ZQVjYzVTI1?=
+ =?utf-8?B?R3A2c3lsRVZPQ0FETktoaG9sVmplQ0E2dW80SGdzUjFiNmgwNzRUemE2bEx0?=
+ =?utf-8?B?ODFuV3Z0eFQ4NzZQWUhzN0FHTER1dE1WdkxFTXVVRHVjMXVSejUwNnpiRk1T?=
+ =?utf-8?B?VHFQaXFhL2VoMkJ6WVJWeWR5TTkxU3VQTkUyempKbG5FeG5GaVYyZ0NibVk3?=
+ =?utf-8?B?YktGODBUR3VnREhWZUZ5NGZNbGFST1FjbWNvTElKWUVST1FMMmZJUGRrY2RE?=
+ =?utf-8?B?b01RQjc3dDZ4L29CcFVkQmUxNUdvRWRhaDljL1dOSnhVTzVxM2N6SW9SblhN?=
+ =?utf-8?B?L0lvZUExN1NkaVYvdHFNYlBYdmcveTZzZ1A3MmxtVE03UU5GbFpTNEUyL3E5?=
+ =?utf-8?B?Y2VTMUVmdWJDUTdoT3o2THMyT1ZBNk5wU3lsYlFiTlIyWmQ1NS82Zm01anBW?=
+ =?utf-8?B?bmJ5d2c3ejFIeEVGQ0tOMW4vQjVUMzZaaUhlQ3ZENUphQmNXQ1krZkJxeU1D?=
+ =?utf-8?B?c0E5V05qeHZsclZJblVIZGM4ckwrWXNkS1hFcjZtNEJRNHpoUFNNZXhPOTRm?=
+ =?utf-8?B?NHJnQVV2MkRaQisxZStLTklYQndPUG9EbFppTHhjVmZZWHhjRUVUWG9sWjYr?=
+ =?utf-8?B?WnhvVHp2RHlxUTJueXVZeWh2UlRLRkM4UTJadWRLbzFPMjJkZkI0UkhiV1Fl?=
+ =?utf-8?Q?/1fBKD3IpBERAwlDlVSpcnND/nYenLGe?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3RNUUJhY0ptZ29GaUJETGwwWkIzcEhQWHgwL3NJYmtzUmtvcUMxQ0xHRUdt?=
- =?utf-8?B?RE9aUzVtOWN2UFlsMXlkdnEwZDJuVDQzNEFqVkd2Slcwdk1OaFp4cjA5ajFD?=
- =?utf-8?B?QXBVUzVuWUc5WklpTnBOdGN2eDdWUGVXRVZCV0JvV29sbmtTV09LakcyOWJw?=
- =?utf-8?B?L0cxVmZvYWlDN2dXN09zMXdJNTZDZFZma1dsUmVhb1laWWpqUHNGRmZIVjZj?=
- =?utf-8?B?ZnJibFRQaFoyc0szRVJmWFNIV3hoOTlFQURsTWVsNElyall5MHdYMXE5dTZy?=
- =?utf-8?B?WXEvVlMyYktXNW40S3VVYllKSlM5OVRZaHRyZm90TjFLWXNidGRVTGlhMUhU?=
- =?utf-8?B?WElwd0ZVdXFJMnpoOEZaNjFsa2liTlVJV3dKbWFLV28wNllBUnhNTXRnd1p0?=
- =?utf-8?B?bE5FM2JveStPR1dOZlNVYXJuZm5xdE4rM09qRlJldXZ3SVo5UVZac29ld3hk?=
- =?utf-8?B?SHk0Wnp5UUR6RXRKcENHZ0ZoYUxqN2xGMDJBQ2pKOSt5bmNFRC9xZGFmR205?=
- =?utf-8?B?S0Y3a0pXVk4rNGtHWlBBR29uSEI4dTl2dmN5ZkFBbFBZUUpyUS9tc1FMZkN5?=
- =?utf-8?B?d1hwVDc5Z2pCcGdZRzVKQzVFdHZkRzNteTJJVGFEeHZWdHNjYllNQjVncENN?=
- =?utf-8?B?SE1QdUFIQ0p0N0dvQVQzUlFCQjNiQU1zdTZDbERqaGZhekhaTUdkeG1IUVkr?=
- =?utf-8?B?dkdaeVFoQVlZMGNzVWFyY0dzSmlycmJZc3dzWEJ1am5OV0dUandEL0RyTjJ0?=
- =?utf-8?B?WERDSmlhN1lNZDJvOGVDc1BCeGNJa3Uvb00rNzN5aDYyc2hScmV4QldtQVVK?=
- =?utf-8?B?SWtBMStGUDJ6SG9rUU4xL0VJRFRHc0dIaWluQm1YRGRwcnZVOTd4N3dGWk96?=
- =?utf-8?B?YXpxK0NIcTlBbGhFTW9VczJLZWJnT2JQb09zSE85V0JzMWxhOUZ2R20zOVVB?=
- =?utf-8?B?WEFIYXA2M3F0OFUyOGJROWl4TjFNNDNmN3NteUFEdUF6Vjk5SzRjY2ZpY3RN?=
- =?utf-8?B?Y2lZNnV5czhKQ2RHcUYwSTZCMGhoelN3djgvZm5DYldoZHRjaWlCUXcwakpN?=
- =?utf-8?B?N0pRUEM3NEhERlJYM21walBKbjNJdEZqek43c05OY0xEZDFvRFJ1bGF0K3or?=
- =?utf-8?B?QzRaSmJzL1FNcHdGNnNwbWY3WHZBbjEraENHSlRMa0pvRlpLOE5hazQraGgx?=
- =?utf-8?B?aFl1Zko2cUJrWUMweEF5elRzU1ErWlVOZWVHaDZ0eXIxb2prNUoxWVh5M3FW?=
- =?utf-8?B?QUlEMzBXdTFlMGJUWlJGaU1BTDlTWEtUQ2lXRTZXYytHMDNWVnJmeVdJVXY3?=
- =?utf-8?B?TVB1UHBvaExRTnlCMzVVY1FkLytFM3ZMcFloQXpmdWFZYTNmWmRpc0UwOWtO?=
- =?utf-8?B?TW92dFhrakNlSDNJR1F5U1lUZVlPeHBVM041UHl5MWFoY2tYQzZjWG5PVG5n?=
- =?utf-8?B?RllpMk05MWlTSXR2RWNEKzFhNExaY2tBY1lLUGRvMU1NRzkxZXVicXJRWFM0?=
- =?utf-8?B?a0d6UExFbld3MjlMSlJxcTBpQXVRTi82WWl0QUQ5T1lLVXZTUVpiVlkvcFRV?=
- =?utf-8?B?cHpZWXUvcmVwZkdLd04yVEhIdUlDSWw0U1N3YkRoU29CbkJlQ2NSVThYTTZT?=
- =?utf-8?B?blgrdjBrZGJyQkgrU3FhemsrVG5jZ2VnRXF6ZXlaNE9COTFQcDNRRDVwSDlV?=
- =?utf-8?B?amJXVVhzVk9qSkdkOUZFakJXTmpPTytIcFhrN3ZiakYwNXlIeFQwUkpJYmZR?=
- =?utf-8?B?YWZCcXNlQTc0ZTZaVHAyVjM0czdxbm9qU2RYV0NnTjUyWndyanFBZnRxOFJn?=
- =?utf-8?B?blE3YzVXRDUxQlZsYUd0Z1Z3NjA5a0hNYW56SGFsZU5PeHNXVjhES1ZZbWYw?=
- =?utf-8?B?V2piNTNwNG5UNlNDRFIrYWhkZ2R4Q0ExNEE1N09uc0w5dVJyb25jR2ZBM2sr?=
- =?utf-8?B?R2hkL3FQc0Y0S2FFRktUTGJhSStwSlNpT0trWVRlSkIrNzJoQStIc29sMFl2?=
- =?utf-8?B?YVV1SGVibHJxcVBlWS9IMjJ4QzM3UE5ZaGcyM1dMSU1oM0pyWEt5TmMrRFNQ?=
- =?utf-8?B?ZUJSREo5UUlpbWtPK1NIYTNIRndIVWptQTY1blFVUnkyb21pdUZraDUySUI2?=
- =?utf-8?B?SUl5eVpLU05BWUZ0UHU3R3RXZGY5YkpIaEc4cTN2ekpkOUZRN2FZQkJBLzRV?=
- =?utf-8?B?K01KT3RiUnowSXR2bnlDSEl0Qk8ySHFWQWpVbHhDRWpUaHRzbkFnS0syMXdI?=
- =?utf-8?B?QXdnOXNPUk5oQXJjT0lnTXl3Z0dVUDVHS1dPRUdWOTd3c3FHMmxGWW92b3RZ?=
- =?utf-8?B?L2pHUHlJaW5obmZSTkh6dURHdk8zNldvcUJXYzkzS2tTZmxmT3c5QT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T21ReXQ5djRraE00eDRxT1oyajJVYXVlOHplckViejNhSzNwbkpwM2pGRU45?=
+ =?utf-8?B?NzlpMCtPT2J5d0RVUGREekNqdDZ4aXBlN3crRm8xeFB3L3kydkFzeCs0RmNR?=
+ =?utf-8?B?N3Y5N0UyRXhWN0pua3phNWNXeDMwTGdEY0s5eWVJUDlLVXcxMnBub0Z0U2ZV?=
+ =?utf-8?B?Y2t6Z2ZUNm41eWN5a1RzYUllTlBacDNCUXk4NnJjaGd5NlNxd1BXQmphRDZm?=
+ =?utf-8?B?M25WWWlhaFlFRDRVeFV2a2ZhUndjQ0w5S1BCZjZvY2FFNmRYWVltZUVWVHN2?=
+ =?utf-8?B?WFpJRnN0d1NQbEYrY21GMmtmZ1VGTld1alJEajhmSUgrL1BKWGpzMXlKb2xr?=
+ =?utf-8?B?N0hOR0UwN0NKNytESmxlbldyMGs3a0ZmM0MzQk81MjN2WkdXZ3dPQjBvbE5x?=
+ =?utf-8?B?d2tHcnRXRExtdk9iLzFaSXJUejBRNjFMMTRSS2tML3VKWnAwbVBoazZsQzNa?=
+ =?utf-8?B?UXlDUTNCbWlTdkMyNjJnWGhLdkQ5ZTJxWE9rdzlOdDR6K2tib0pLUHBSdUYw?=
+ =?utf-8?B?OFl6dldjb1BxcUV1UmhhOUYrWVh4cUt6bU10bVc2SnNSVGlCMlI3WWFydTM5?=
+ =?utf-8?B?Z0N5b3poQ2RCMlRPVmtBQnlJUWduZytERFA4Qlo2UlNqUUxEUC9nNEZDNnFT?=
+ =?utf-8?B?TnF3RGcwZERUV2FGVFRQZWdJVS8vdWE2NVB2c0VHV0Zmb0MrR0R6dFN1NFNR?=
+ =?utf-8?B?ZUVYekdoWGV6cU1ObUl0SmhPbkI2WXhWM3JIMVN1NGxsZWw0Wi9rVHVTUUdW?=
+ =?utf-8?B?a3FkMVFyMXdKNXpGNnNkc3FGMGhDOHdvNlg0R0lxbldXVklXYk1xOXJTaHhi?=
+ =?utf-8?B?TjVVQitRTk11MHJ1ck9NRVdsKzdiUTRNNTNKS0dkaDFTWnpWSXMrWjZ0dVBE?=
+ =?utf-8?B?cnVyQzQ4cGZKcGFOdHU4R0w0VzNOSUNOOXNJUldiTmxPOHFYY3dmZys4TmNl?=
+ =?utf-8?B?aVNZaHlBYkVNN2h0WngwS1pCa1I0eGZybU00VTNmMXNrdVV4aEdoZVd6T2t6?=
+ =?utf-8?B?aEFzaHlOaFRiKy9XVTlSTDJXeUIyT0hoblNPZGFIaEZ5VWN5SXhjNDNtVHk1?=
+ =?utf-8?B?MTNBNHA3WVRPd2JmRE13enZEOHQva1lrSmZsWWRjS2srWVJkU2ttc3BtaGFq?=
+ =?utf-8?B?SFZ2d1RHcjdTOFRyODIzLzZUbWd2K05uZkdKWHVUeU1QSjErOEd4V0Zhakp4?=
+ =?utf-8?B?b1RkWnlaYmFJS1pFNWdDalVqd1AzSmwraThZRjVvU21udWhKMUROUGNRdGxr?=
+ =?utf-8?B?NmlleXhzUjQ5TU1hWmQ4Z0ZGN0ErRWlZWXdYTEtrTDZhQ0dUanhxMW0wT21R?=
+ =?utf-8?B?dkZlajd2N3ZiY1ZaSHlWQWFET3BlZlBFNEt5MUl1OTZUWG45c2JMa1ZVSXAr?=
+ =?utf-8?B?c0RiL3hIay9UbVN4RU5rUjR2aDN0NzFJN2JDTGh0VmNzLzhwMWJ0TjFDdllL?=
+ =?utf-8?B?TFh5bTd0YURHN2RGRmt0TmVKdzd0Mm1TNnJBNlRBV3RpeVJDRlBBd2VzU2JU?=
+ =?utf-8?B?S2tTUG5leW81RFZSeHBkMFBLNHFsOVpqdVg1bVExWHFDa2Q4ZHNoZ0ZseXZu?=
+ =?utf-8?B?NDl3SVlGUnI5clExWktuR3U1VHF2VWtta3ZLUHRRQ3BBaUpYWHFQbnRHUmp3?=
+ =?utf-8?B?TVFoaHBwOWYwUitFSUJJQmk1TWpNYTFnenI2d1JnWjR6aHFBa3h5Q2QxTXU0?=
+ =?utf-8?B?SnJ4V1RMdGJIN1BYTlFJdmFia0w1bXRZc1VXdExJNy9VMTdESmZWV2d5eTVJ?=
+ =?utf-8?B?dWtlb3RwOTJwVWdIdVJSMUN3dHQwVXVQZC9TYlY2d1hSNXM4NzBQUUxXcHd5?=
+ =?utf-8?B?Qjc4MHlGd2NlaFZRekZ0NXUyelptOVZxTmsvSDgzUFdWR0tVTFBSMG5qVk9L?=
+ =?utf-8?B?Z3I5NCtiN0JIbEhjRi9oYXZLbndXM1ZGREN5a3VLM3NOMkF3c3lsc3lvSHE3?=
+ =?utf-8?B?cjIwZHBWOFZmVVQwbkRTQUZaMitZR0hwMUZqWGYzSTNMYTB4N0dsYUJ3NDBO?=
+ =?utf-8?B?Uy9nTWpDYzlvSUdNWEQzZTI4L2JmamNCN1BTYlg1OXJJZFZaNEJpOCtEZm5Y?=
+ =?utf-8?B?c2pwbDA1cEV5ZkpPcVlWM3FpOG04YjQ0eDNubERHM1Z6em5YSjh6UnE2UmI4?=
+ =?utf-8?B?RnNsZHZqMjNCUkU3VERTQ0t2YS9rVVdUQ1htU21jVlpLcFNFendIaUM1M3Rj?=
+ =?utf-8?B?TWppdkFjdmViUXlObUdDbXg0WkQ3UUlyUTV2bk5CNWZ4bUpCOHdQbVJ0cHFI?=
+ =?utf-8?B?bUtuMHprenBrdkl5aG5YWDNYdWZoLzN6YkplVWlMbEZpczQ5K3BiMzMycXpt?=
+ =?utf-8?B?dHR4QWoyTFRrY00wTTRsSm9mWEhCdjhxbjZ2ckxwTnNkcjVaRG5TQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6680cf8d-d8d1-419b-971f-08de4e327fa4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef2b74b0-71f8-49ef-ba75-08de4e32a2b1
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 21:19:53.1530 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 21:20:51.9348 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pk3a8bAD79ZF9afOkkZK8gC0NVdh8lYZkkMqazL4jgE9lZqbn6O71hVDM5J3sGzHoRCvAb5LvZ58yy5uCTaFtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7432
+X-MS-Exchange-CrossTenant-UserPrincipalName: SEqDal9jnPU07L4nbNafHUkhO4rAzaJIXLNHvoDVL/X8xMncDfrKsa4PwQrAz6rRH4r7xgRVQu/3DN6yIPDkMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8573
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,179 +170,188 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/18/25 7:43 PM, Lizhi Hou wrote:
-> The latest firmware requires the message DMA buffer to
->    - have a minimum size of 8K
->    - use a power-of-two size
->    - be aligned to the buffer size
->    - not cross 64M boundary
-> 
-> Update the buffer allocation logic to meet these requirements and support
-> the latest firmware.
-
-We can't guarantee that kernel and firmware are moving at the same time.
-What happens if you run old firmware with these changes?
-
-If the old firmware can't run with these changes then it would be better 
-to instead add a fallback system.
-
-IE:
-1) kernel tries to load new firmware name and use new behavior
-2) if firmware is missing, kernel tries to load old firmware name and 
-use old behavior.
-3) if firmware is missing in old name then fail probe
-
-
+> The latest firmware increases the major version number. Update
+> aie2_check_protocol() to accept and support the new firmware version.
 > 
 > Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+
+I know it's painful and tech debt; but I suggest you add new paths to 
+handle both versions of firmware at least until the next LTS kernel.
+
 > ---
->   drivers/accel/amdxdna/aie2_error.c   | 10 ++++-----
->   drivers/accel/amdxdna/aie2_message.c | 33 ++++++++++++++++++++--------
->   drivers/accel/amdxdna/aie2_pci.h     |  5 +++++
->   3 files changed, 33 insertions(+), 15 deletions(-)
+>   drivers/accel/amdxdna/aie2_pci.c  | 36 ++++++++-----------------------
+>   drivers/accel/amdxdna/aie2_pci.h  |  5 ++---
+>   drivers/accel/amdxdna/npu1_regs.c |  6 +++---
+>   drivers/accel/amdxdna/npu4_regs.c | 11 +++++-----
+>   drivers/accel/amdxdna/npu5_regs.c |  2 --
+>   drivers/accel/amdxdna/npu6_regs.c |  2 --
+>   6 files changed, 20 insertions(+), 42 deletions(-)
 > 
-> diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
-> index d452008ec4f4..5e82df2b7cf6 100644
-> --- a/drivers/accel/amdxdna/aie2_error.c
-> +++ b/drivers/accel/amdxdna/aie2_error.c
-> @@ -338,8 +338,7 @@ void aie2_error_async_events_free(struct amdxdna_dev_hdl *ndev)
->   	destroy_workqueue(events->wq);
->   	mutex_lock(&xdna->dev_lock);
->   
-> -	dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
-> -			     events->addr, DMA_FROM_DEVICE);
-> +	aie2_free_msg_buffer(ndev, events->size, events->buf, events->addr);
->   	kfree(events);
->   }
->   
-> @@ -355,8 +354,8 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
->   	if (!events)
->   		return -ENOMEM;
->   
-> -	events->buf = dma_alloc_noncoherent(xdna->ddev.dev, total_size, &events->addr,
-> -					    DMA_FROM_DEVICE, GFP_KERNEL);
-> +	events->buf = aie2_alloc_msg_buffer(ndev, &total_size, &events->addr);
-> +
->   	if (!events->buf) {
->   		ret = -ENOMEM;
->   		goto free_events;
-> @@ -396,8 +395,7 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
->   free_wq:
->   	destroy_workqueue(events->wq);
->   free_buf:
-> -	dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
-> -			     events->addr, DMA_FROM_DEVICE);
-> +	aie2_free_msg_buffer(ndev, events->size, events->buf, events->addr);
->   free_events:
->   	kfree(events);
->   	return ret;
-> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-> index 051f4ceaabae..99215328505e 100644
-> --- a/drivers/accel/amdxdna/aie2_message.c
-> +++ b/drivers/accel/amdxdna/aie2_message.c
-> @@ -55,6 +55,22 @@ static int aie2_send_mgmt_msg_wait(struct amdxdna_dev_hdl *ndev,
->   	return ret;
->   }
->   
-> +void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
-> +			    dma_addr_t *dma_addr)
-> +{
-> +	struct amdxdna_dev *xdna = ndev->xdna;
-> +	int order;
-> +
-> +	*size = max(*size, SZ_8K);
-> +	order = get_order(*size);
-> +	if (order > MAX_PAGE_ORDER)
-> +		return NULL;
-> +	*size = PAGE_SIZE << order;
-> +
-> +	return dma_alloc_noncoherent(xdna->ddev.dev, *size, dma_addr,
-> +				     DMA_FROM_DEVICE, GFP_KERNEL);
-> +}
-> +
->   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev)
+> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+> index 81a8e4137bfd..181fdbc10dae 100644
+> --- a/drivers/accel/amdxdna/aie2_pci.c
+> +++ b/drivers/accel/amdxdna/aie2_pci.c
+> @@ -56,41 +56,23 @@ struct mgmt_mbox_chann_info {
+>   static int aie2_check_protocol(struct amdxdna_dev_hdl *ndev, u32 fw_major, u32 fw_minor)
 >   {
->   	DECLARE_AIE2_MSG(suspend, MSG_OP_SUSPEND);
-> @@ -346,14 +362,13 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
->   {
->   	DECLARE_AIE2_MSG(aie_column_info, MSG_OP_QUERY_COL_STATUS);
->   	struct amdxdna_dev *xdna = ndev->xdna;
-> +	u32 buf_sz = size, aie_bitmap = 0;
->   	struct amdxdna_client *client;
->   	dma_addr_t dma_addr;
-> -	u32 aie_bitmap = 0;
->   	u8 *buff_addr;
->   	int ret;
+>   	const struct aie2_fw_feature_tbl *feature;
+> -	struct amdxdna_dev *xdna = ndev->xdna;
+> -
+> -	/*
+> -	 * The driver supported mailbox behavior is defined by
+> -	 * ndev->priv->protocol_major and protocol_minor.
+> -	 *
+> -	 * When protocol_major and fw_major are different, it means driver
+> -	 * and firmware are incompatible.
+> -	 */
+> -	if (ndev->priv->protocol_major != fw_major) {
+> -		XDNA_ERR(xdna, "Incompatible firmware protocol major %d minor %d",
+> -			 fw_major, fw_minor);
+> -		return -EINVAL;
+> -	}
+> +	bool found = false;
 >   
-> -	buff_addr = dma_alloc_noncoherent(xdna->ddev.dev, size, &dma_addr,
-> -					  DMA_FROM_DEVICE, GFP_KERNEL);
-> +	buff_addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
->   	if (!buff_addr)
->   		return -ENOMEM;
+> -	/*
+> -	 * When protocol_minor is greater then fw_minor, that means driver
+> -	 * relies on operation the installed firmware does not support.
+> -	 */
+> -	if (ndev->priv->protocol_minor > fw_minor) {
+> -		XDNA_ERR(xdna, "Firmware minor version smaller than supported");
+> -		return -EINVAL;
+> -	}
+> -
+> -	for (feature = ndev->priv->fw_feature_tbl; feature && feature->min_minor;
+> -	     feature++) {
+> +	for (feature = ndev->priv->fw_feature_tbl; feature->major; feature++) {
+> +		if (feature->major != fw_major)
+> +			continue;
+>   		if (fw_minor < feature->min_minor)
+>   			continue;
+>   		if (feature->max_minor > 0 && fw_minor > feature->max_minor)
+>   			continue;
 >   
-> @@ -363,7 +378,7 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
+> -		set_bit(feature->feature, &ndev->feature_mask);
+> +		ndev->feature_mask |= feature->features;
+> +
+> +		/* firmware version matches one of the driver support entry */
+> +		found = true;
+>   	}
 >   
->   	*cols_filled = 0;
->   	req.dump_buff_addr = dma_addr;
-> -	req.dump_buff_size = size;
-> +	req.dump_buff_size = buf_sz;
->   	req.num_cols = hweight32(aie_bitmap);
->   	req.aie_bitmap = aie_bitmap;
->   
-> @@ -391,7 +406,7 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
->   	*cols_filled = aie_bitmap;
->   
->   fail:
-> -	dma_free_noncoherent(xdna->ddev.dev, size, buff_addr, dma_addr, DMA_FROM_DEVICE);
-> +	aie2_free_msg_buffer(ndev, buf_sz, buff_addr, dma_addr);
->   	return ret;
+> -	return 0;
+> +	return found ? 0 : -EOPNOTSUPP;
 >   }
 >   
-> @@ -402,19 +417,19 @@ int aie2_query_telemetry(struct amdxdna_dev_hdl *ndev,
->   	DECLARE_AIE2_MSG(get_telemetry, MSG_OP_GET_TELEMETRY);
->   	struct amdxdna_dev *xdna = ndev->xdna;
->   	dma_addr_t dma_addr;
-> +	u32 buf_sz = size;
->   	u8 *addr;
->   	int ret;
->   
->   	if (header->type >= MAX_TELEMETRY_TYPE)
->   		return -EINVAL;
->   
-> -	addr = dma_alloc_noncoherent(xdna->ddev.dev, size, &dma_addr,
-> -				     DMA_FROM_DEVICE, GFP_KERNEL);
-> +	addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
->   	if (!addr)
->   		return -ENOMEM;
->   
->   	req.buf_addr = dma_addr;
-> -	req.buf_size = size;
-> +	req.buf_size = buf_sz;
->   	req.type = header->type;
->   
->   	drm_clflush_virt_range(addr, size); /* device can access */
-> @@ -440,7 +455,7 @@ int aie2_query_telemetry(struct amdxdna_dev_hdl *ndev,
->   	header->minor = resp.minor;
->   
->   free_buf:
-> -	dma_free_noncoherent(xdna->ddev.dev, size, addr, dma_addr, DMA_FROM_DEVICE);
-> +	aie2_free_msg_buffer(ndev, buf_sz, addr, dma_addr);
->   	return ret;
->   }
->   
+>   static void aie2_dump_chann_info_debug(struct amdxdna_dev_hdl *ndev)
 > diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-> index a929fa98a121..e1745f07b268 100644
+> index e1745f07b268..b20a3661078c 100644
 > --- a/drivers/accel/amdxdna/aie2_pci.h
 > +++ b/drivers/accel/amdxdna/aie2_pci.h
-> @@ -336,6 +336,11 @@ int aie2_sync_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
->   		 int (*notify_cb)(void *, void __iomem *, size_t));
->   int aie2_config_debug_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
->   			 int (*notify_cb)(void *, void __iomem *, size_t));
-> +void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
-> +			    dma_addr_t *dma_addr);
-> +#define aie2_free_msg_buffer(ndev, size, buff_addr, dma_addr)		\
-> +	dma_free_noncoherent((ndev)->xdna->ddev.dev, size, buff_addr,	\
-> +			     dma_addr, DMA_FROM_DEVICE)
+> @@ -237,7 +237,8 @@ enum aie2_fw_feature {
+>   };
 >   
->   /* aie2_hwctx.c */
->   int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
+>   struct aie2_fw_feature_tbl {
+> -	enum aie2_fw_feature feature;
+> +	u64 features;
+> +	u32 major;
+>   	u32 max_minor;
+>   	u32 min_minor;
+>   };
+> @@ -246,8 +247,6 @@ struct aie2_fw_feature_tbl {
+>   
+>   struct amdxdna_dev_priv {
+>   	const char			*fw_path;
+> -	u64				protocol_major;
+> -	u64				protocol_minor;
+>   	const struct rt_config		*rt_config;
+>   	const struct dpm_clk_freq	*dpm_clk_tbl;
+>   	const struct aie2_fw_feature_tbl *fw_feature_tbl;
+> diff --git a/drivers/accel/amdxdna/npu1_regs.c b/drivers/accel/amdxdna/npu1_regs.c
+> index ebc6e2802297..6f36a27b5a02 100644
+> --- a/drivers/accel/amdxdna/npu1_regs.c
+> +++ b/drivers/accel/amdxdna/npu1_regs.c
+> @@ -6,6 +6,7 @@
+>   #include <drm/amdxdna_accel.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/gpu_scheduler.h>
+> +#include <linux/bits.h>
+>   #include <linux/sizes.h>
+>   
+>   #include "aie2_pci.h"
+> @@ -65,14 +66,13 @@ const struct dpm_clk_freq npu1_dpm_clk_table[] = {
+>   };
+>   
+>   static const struct aie2_fw_feature_tbl npu1_fw_feature_table[] = {
+> -	{ .feature = AIE2_NPU_COMMAND, .min_minor = 8 },
+> +	{ .major = 5, .min_minor = 7 },
+> +	{ .features = BIT_U64(AIE2_NPU_COMMAND), .min_minor = 8 },
+>   	{ 0 }
+>   };
+>   
+>   static const struct amdxdna_dev_priv npu1_dev_priv = {
+>   	.fw_path        = "amdnpu/1502_00/npu.sbin",
+> -	.protocol_major = 0x5,
+> -	.protocol_minor = 0x7,
+>   	.rt_config	= npu1_default_rt_cfg,
+>   	.dpm_clk_tbl	= npu1_dpm_clk_table,
+>   	.fw_feature_tbl = npu1_fw_feature_table,
+> diff --git a/drivers/accel/amdxdna/npu4_regs.c b/drivers/accel/amdxdna/npu4_regs.c
+> index a62234fd266d..a8d6f76dde5f 100644
+> --- a/drivers/accel/amdxdna/npu4_regs.c
+> +++ b/drivers/accel/amdxdna/npu4_regs.c
+> @@ -6,6 +6,7 @@
+>   #include <drm/amdxdna_accel.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/gpu_scheduler.h>
+> +#include <linux/bits.h>
+>   #include <linux/sizes.h>
+>   
+>   #include "aie2_pci.h"
+> @@ -88,16 +89,16 @@ const struct dpm_clk_freq npu4_dpm_clk_table[] = {
+>   };
+>   
+>   const struct aie2_fw_feature_tbl npu4_fw_feature_table[] = {
+> -	{ .feature = AIE2_NPU_COMMAND, .min_minor = 15 },
+> -	{ .feature = AIE2_PREEMPT, .min_minor = 12 },
+> -	{ .feature = AIE2_TEMPORAL_ONLY, .min_minor = 12 },
+> +	{ .major = 6, .min_minor = 12 },
+> +	{ .features = BIT_U64(AIE2_NPU_COMMAND), .major = 6, .min_minor = 15 },
+> +	{ .features = BIT_U64(AIE2_PREEMPT), .major = 6, .min_minor = 12 },
+> +	{ .features = BIT_U64(AIE2_TEMPORAL_ONLY), .major = 6, .min_minor = 12 },
+> +	{ .features = GENMASK_ULL(AIE2_TEMPORAL_ONLY, AIE2_NPU_COMMAND), .major = 7 },
+>   	{ 0 }
+>   };
+>   
+>   static const struct amdxdna_dev_priv npu4_dev_priv = {
+>   	.fw_path        = "amdnpu/17f0_10/npu.sbin",
+> -	.protocol_major = 0x6,
+> -	.protocol_minor = 12,
+>   	.rt_config	= npu4_default_rt_cfg,
+>   	.dpm_clk_tbl	= npu4_dpm_clk_table,
+>   	.fw_feature_tbl = npu4_fw_feature_table,
+> diff --git a/drivers/accel/amdxdna/npu5_regs.c b/drivers/accel/amdxdna/npu5_regs.c
+> index 131080652ef0..c0a35cfd886c 100644
+> --- a/drivers/accel/amdxdna/npu5_regs.c
+> +++ b/drivers/accel/amdxdna/npu5_regs.c
+> @@ -64,8 +64,6 @@
+>   
+>   static const struct amdxdna_dev_priv npu5_dev_priv = {
+>   	.fw_path        = "amdnpu/17f0_11/npu.sbin",
+> -	.protocol_major = 0x6,
+> -	.protocol_minor = 12,
+>   	.rt_config	= npu4_default_rt_cfg,
+>   	.dpm_clk_tbl	= npu4_dpm_clk_table,
+>   	.fw_feature_tbl = npu4_fw_feature_table,
+> diff --git a/drivers/accel/amdxdna/npu6_regs.c b/drivers/accel/amdxdna/npu6_regs.c
+> index 1f71285655b2..1fb07df99186 100644
+> --- a/drivers/accel/amdxdna/npu6_regs.c
+> +++ b/drivers/accel/amdxdna/npu6_regs.c
+> @@ -64,8 +64,6 @@
+>   
+>   static const struct amdxdna_dev_priv npu6_dev_priv = {
+>   	.fw_path        = "amdnpu/17f0_10/npu.sbin",
+> -	.protocol_major = 0x6,
+> -	.protocol_minor = 12,
+>   	.rt_config	= npu4_default_rt_cfg,
+>   	.dpm_clk_tbl	= npu4_dpm_clk_table,
+>   	.fw_feature_tbl = npu4_fw_feature_table,
 
