@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F39D02086
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49135D02095
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:10:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D042A10E6E0;
-	Thu,  8 Jan 2026 10:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A4210E6E6;
+	Thu,  8 Jan 2026 10:10:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LzZZOBOH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FeUYRS8q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D52B10E6E0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:10:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3DC8060018;
- Thu,  8 Jan 2026 10:10:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BF1C116C6;
- Thu,  8 Jan 2026 10:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767867001;
- bh=jhGglnHR79yKqzMve8kZuUJdzdwyNEoqDK2d7uLN0qk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LzZZOBOHwTd6nrl3/mbpOCHau0gCfmiYTDmWCyoFBGa4zofYuWFQz+EhZZL+46hGX
- bKrZAD4dVcQXwVVHAUS9Lf1fclm7MLcc7nuMWEHhn/bWIjO3zb3OBsF9VaWLAA59hz
- ioZoAOIPycOm3zpmADzhBEe+cMfNFw+VMNAuZjTxO8vmbhUs4sCuOFNub935V1fHSB
- wF/I3/cfExGbzozL6uhKb0aaD9Ou+linoMAj40L4CbOaFNbD6wzEUjz2T0uasVwU0E
- v0gqkJFm/Rxa/OR9Eclq2tXEuURfL+HxpFUlIkMpbrRY+rB/zVTlmudeGltnID8pC0
- 4zlPsVHHIg5EQ==
-Date: Thu, 8 Jan 2026 11:09:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Kiran Gunda <quic_kgunda@quicinc.com>, 
- Helge Deller <deller@gmx.de>, Luca Weiss <luca@lucaweiss.eu>, 
- Konrad Dybcio <konradybcio@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, 
- Gianluca Boiano <morf3089@gmail.com>, Alejandro Tafalla <atafalla@dnyon.com>, 
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/7] dt-bindings: backlight: qcom-wled: Document ovp
- values for PMI8994
-Message-ID: <20260108-illustrious-original-harrier-e93aaf@quoll>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 716AB10E6EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767867035;
+ bh=YaQvJbwb5cvw9pQXUgjez+s34rHrO/Vi4ge9pnXNGJs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FeUYRS8quDewCiarMyMDipNZiSa+SyPzAVcRDrQxauMX/TBAtYalb3hujsHAPhaIy
+ U9iLoXJ2pcT0nHFeN9Cl1nPbZozrDpJwd/100o1Iidqi1W/Qz4lSnJnhwaNleqfCzZ
+ T09gjytsyfne96UGSUoxkGNrmFodz9R8FcX1Zc/ffxcCARvqiS+eqbd25MpU8+/HQj
+ YqXLndq94/ZLsC6t5mYsBTHyIevEz4J4Yw9U78/hr6mQ3QPkCEXHSEnoqKgWBS1amp
+ 8UmrDJiphcA++F45Nkuf8WURzL6maPcDEteY8/s++8QHlfqbQgR6QEf7ROUWjNrYhT
+ 7oH1Oq7AjADiA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C1DC817E13D8;
+ Thu,  8 Jan 2026 11:10:34 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+Subject: [PATCH] drm/panfrost: Fix a page leak in
+ panfrost_mmu_map_fault_addr() when THP is on
+Date: Thu,  8 Jan 2026 11:10:25 +0100
+Message-ID: <20260108101025.933843-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,20 +62,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 08, 2026 at 04:43:19AM +0100, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wr=
-ote:
-> Document ovp values supported by wled found in PMI8994.
->=20
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas.czeman@mainlining=
-=2Eorg>
-> ---
->  .../bindings/leds/backlight/qcom-wled.yaml         | 22 ++++++++++++++++=
-++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+drm_gem_put_pages(), which we rely on for returning BO pages to shmem,
+assume per-folio refcounting and not per-page. If we call
+shmem_read_mapping_page() per-page, we break this assumption and leak
+pages every time we get a huge page allocated.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Loïc Molinari <loic.molinari@collabora.com>
+Fixes: c12e9fcb5a5a ("drm/panfrost: Introduce huge tmpfs mountpoint option")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 37 +++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 8f3b7a7b6ad0..9b61ad98a77e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -595,6 +595,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	pgoff_t page_offset;
+ 	struct sg_table *sgt;
+ 	struct page **pages;
++	u32 nr_pages;
+ 
+ 	bomapping = addr_to_mapping(pfdev, as, addr);
+ 	if (!bomapping)
+@@ -613,6 +614,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	addr &= ~((u64)SZ_2M - 1);
+ 	page_offset = addr >> PAGE_SHIFT;
+ 	page_offset -= bomapping->mmnode.start;
++	nr_pages = bo->base.base.size >> PAGE_SHIFT;
+ 
+ 	obj = &bo->base.base;
+ 
+@@ -626,8 +628,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 			goto err_unlock;
+ 		}
+ 
+-		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+-				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
++		pages = kvmalloc_array(nr_pages, sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+ 		if (!pages) {
+ 			kvfree(bo->sgts);
+ 			bo->sgts = NULL;
+@@ -650,6 +651,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	mapping_set_unevictable(mapping);
+ 
+ 	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
++		struct folio *folio;
++
+ 		/* Can happen if the last fault only partially filled this
+ 		 * section of the pages array before failing. In that case
+ 		 * we skip already filled pages.
+@@ -657,12 +660,34 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		if (pages[i])
+ 			continue;
+ 
+-		pages[i] = shmem_read_mapping_page(mapping, i);
+-		if (IS_ERR(pages[i])) {
+-			ret = PTR_ERR(pages[i]);
+-			pages[i] = NULL;
++		folio = shmem_read_folio(mapping, i);
++		if (IS_ERR(folio)) {
++			ret = PTR_ERR(folio);
+ 			goto err_unlock;
+ 		}
++
++		/* We always fill the page array at a folio granularity so
++		 * there's no reason for a missing page to not be the first
++		 * in the folio. We want to ensure that's the case to avoid
++		 * unbalanced folio_{get,put}() leading to leaks, because
++		 * drm_gem_put_pages() assumes per-folio refcounting not
++		 * per-page.
++		 */
++		if (WARN_ON(folio_file_page(folio, i) != folio_page(folio, 0))) {
++			folio_put(folio);
++			ret = -EINVAL;
++			goto err_unlock;
++		}
++
++		/* Fill a folio worth of pages, even if it goes beyond
++		 * NUM_FAULT_PAGES, otherwise we'll end up with unbalanced
++		 * refcounting next time we hit an unmapped section crossing
++		 * this folio.
++		 */
++		for (u32 j = 0; j < folio_nr_pages(folio) && i < nr_pages; j++)
++			pages[i + j] = folio_page(folio, j);
++
++		i += folio_nr_pages(folio) - 1;
+ 	}
+ 
+ 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
+-- 
+2.52.0
 
