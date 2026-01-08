@@ -2,140 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2EBD0375C
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56A5D03765
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F2110E757;
-	Thu,  8 Jan 2026 14:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239D010E758;
+	Thu,  8 Jan 2026 14:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hElMPaWp";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="THQmiDbA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ftpQCXo4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFEE110E756
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 14:45:54 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 608EfNIp1838799
- for <dri-devel@lists.freedesktop.org>; Thu, 8 Jan 2026 14:45:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=pq2wpHyoeSeo3GqHlkYEI4kR
- dN2xjLc7p2A7VL8bab8=; b=hElMPaWpSDnK8Nl8T293takM/9sTGm+HwaY6o1Jg
- TYLvhwxU0qLR7N21twWwDB9dbQcH0YpCAsnrJ+n/78w3UaaQGh3HzOaCm4Vhwtn9
- +nogCtGxpb38KlvyCqI1k9mKGyBiBkaUKEFkG2RpuY1Oy90HHI/g2r7IVNwz95CX
- lMO1JdmAzquKjonEadUKAT/KIDZ7YYICF/MFpkyLfUPKhASu1oHDYQZzS8vXjIOq
- Lb7QwxQ74NgUZ/oO3Zyroq/mE+0C9EGMRthaURzydqwp+eq7EaeGoRfvNW+DGZ2W
- Tn3SQOz3i1rC+Vz2dv8BoChN3VJQSeaXG9oOWBGokkEqFA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bj8921a14-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 14:45:54 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8b259f0da04so812820785a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 06:45:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767883553; x=1768488353;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pq2wpHyoeSeo3GqHlkYEI4kRdN2xjLc7p2A7VL8bab8=;
- b=THQmiDbA00LDpxDqKUv9tNnddLH6n0UaMVH6pF1LIAyXD9AKE+LkxKPrqER8WnPJys
- yp/7qraZ5kXkwsb5Cd+mHqlH+GstH1fvGC5guNAYjtI4fQMKEIZIdVDS2Fj85HDk+w9Q
- G37aAARDoZG+dEWJv25PtcH3ZsNE8RIXyP/n1+ADzN1EqjkXJzDuo1mSt3ULFgNyz0Kh
- qM/YG2b+y1C+YraQpukTWL6M2kef22MSs8LLFrGq8Glm10W1eaIWgH62ScAtk/k8EB6J
- BO8WAwhRdV107R6dMuWLeZ2UeHv4nqktPrIKWuxRFgccbBIuQPQFG6n5lj0GXn48T+tF
- uHjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767883553; x=1768488353;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pq2wpHyoeSeo3GqHlkYEI4kRdN2xjLc7p2A7VL8bab8=;
- b=Kgu1BObxaNtvbQkOIqSI5GLQOMpAq4lMpFtcFj3b03RKv/xOSI1+J+soF/jG6GCXC3
- FtdyzrFK9//T/SfelS/XFWpR+E5IBY3HK8AQkWjQOpN0Il83G5NKTmqORfdC5Y8GK7SN
- 5/oaVBGaf3I5boYV24RnTvr/IjvKbqC9fBZ0/+9zZhxr9JvHNlP3u7ERRWUlQ58wK2gi
- BPC8B3Bft6OBCzgLUOC1L03KbjhXBiXIgaPY0mLvvzMnY5WYptIzc8Qfz2swQRC5Aqu5
- hHjoVUFINVn3HleNeRp7mDnRhQRUtCZIXvqXEDe1iCDefsxffJcsYvp7roTeqoO+IHt8
- IAaw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtWees3hAXTBhjLMwUvQ8dSMKnZEDOI/9I1Ym+FY+w4i1gl64hTizFOWkrTGNyw7i9iOEZOHBn6mE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVKZUGH+sIFfyFNVH1CziW18DNnVKnxLrSrga6i32dExc0CqxU
- k8TN8L8E0+GTDkE+or6hcTCbNRhgDQZRPPUAu0nFzTXmy3qx5Kj3SGYg4Y250gOPGfOaoTYNMrf
- f/zb/ozGrTw63GmrCtAjvNkVHgrqQk8CRllj9oRMEA4jtx1w6dTbsQ8bQDdOEpFgi+M+YaoY=
-X-Gm-Gg: AY/fxX5fpUgWFLLHWqmb3Eur/iRON6qXS2kREsJOVdsrfSnrg5RKWeTS+OBkHkPNWhY
- joCecDXrNqU+VupEbc0SS/dzvUAh7fNpTlVcbQ0x2Yh+e4K+CQUy3UUZ1dfPdetyXXaO8h6bauM
- vJhNVx6wcTcHrrIGnbIbyhHPq5M7PURWx0b8573Trzt48ZHIqdhV33WnvvnDT7PlA9NsxVyUiAd
- YsgbHkL6FXGuivvhgKuOD8DzIKY7Y0sxTP0sHsOpPuY1TZyXfgsvoRZtxvbaFKgG6S50YScpaUw
- gsq0iI2hZNmdMG+0o+dVOUmaLmzdTFwNxo6v0fp4LuyzrexOkd/HUo2q0oE/zqu0Zt8Fax7fzVy
- 52qdogjsOeT/qm0cymf/VnNZsLRHQ6SRDA9TrQh2yR4wepg96w713Ypzwjwu8+kAVp0iDTLRasE
- bhlt/aW2Rfr61sQTRkla9RZeo=
-X-Received: by 2002:a05:620a:3714:b0:8b2:ec1e:fe24 with SMTP id
- af79cd13be357-8c3893ef768mr859429685a.42.1767883553354; 
- Thu, 08 Jan 2026 06:45:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGwxcTdCeqYmfFw81rrVjX1o3tZ6HAubMUWOlK6ohdXbyRzc6ZAmRhgkWfEBnW4WJG0MWoThw==
-X-Received: by 2002:a05:620a:3714:b0:8b2:ec1e:fe24 with SMTP id
- af79cd13be357-8c3893ef768mr859422685a.42.1767883552810; 
- Thu, 08 Jan 2026 06:45:52 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-382eb8ad930sm16527261fa.28.2026.01.08.06.45.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jan 2026 06:45:52 -0800 (PST)
-Date: Thu, 8 Jan 2026 16:45:49 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v3 2/3] soc: qcom: ubwc: Get HBB from SMEM
-Message-ID: <you4xijwc5g4ngcnhxm4ecn7opexnsdfayvd5wiiqpl7734r7w@bdkpjqmlzxre>
-References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
- <20260108-topic-smem_dramc-v3-2-6b64df58a017@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2A110E758
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 14:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767883560;
+ bh=fdiNKjhyzhYfbAJ7xJSMVGv8b02ejKRcWDgiL0JyFrE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ftpQCXo4dQ86GAjkTl7PZtKfmjL5bCbJFDHf+9Y0xBGf3gcY+t+agzjSwqLDjLEop
+ /VnOcaDKE9bCp+7yyBSWojM3uZFO/SguTlxe3nvQ6AmiMBJvEoAey+n04kno7bfoRM
+ LI3dYvp1+A8X565R7F2i5MJpES8whRVgTaF6z2JM8k0WZLEcG3wqfj9edS0aBeTRyV
+ g9rDpf7a8gjTxxGiKK4b+gjvJ0ASgfRW1DSGxkbdVKv5p29z/pqNoUJXaChLMFYL65
+ o6tw5Dfbm3gxTcua2eLk1w9/XNSPBPff3Rv/VWNy0J/DnFkDdRLXhmxVPjTPgenPQ0
+ hL+oUtOYotpGg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 71D4417E0020;
+ Thu,  8 Jan 2026 15:46:00 +0100 (CET)
+Date: Thu, 8 Jan 2026 15:45:54 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@collabora.com
+Subject: Re: [PATCH] drm/gem: Fix a GEM leak in drm_gem_get_unmapped_area()
+Message-ID: <20260108154554.66d22550@fedora>
+In-Reply-To: <1423e153-3b4b-4b8e-9614-955af95c6b08@collabora.com>
+References: <20260106164935.409765-1-boris.brezillon@collabora.com>
+ <20260107121232.6e1efae5@fedora>
+ <43836c92-d19e-43c9-8480-cb26c37bdfea@collabora.com>
+ <20260108144344.33952ddf@fedora>
+ <1423e153-3b4b-4b8e-9614-955af95c6b08@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108-topic-smem_dramc-v3-2-6b64df58a017@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=M45A6iws c=1 sm=1 tr=0 ts=695fc322 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=7S24nFsuF8Kv7I6KVrkA:9 a=CjuIK1q_8ugA:10 a=ZXulRonScM0A:10
- a=zZCYzV9kfG8A:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: 81wAIIvr25z4hAw3W0dhrAvQg0oT_h9F
-X-Proofpoint-GUID: 81wAIIvr25z4hAw3W0dhrAvQg0oT_h9F
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDEwNiBTYWx0ZWRfXyxbTFh4U7z/9
- afGLVMpDQKyeQ5wzo/xZtubyNS//hmLIMTmKG89i33xMLxobxgBLqaXTHCPnO4OHT300gyJ6OeH
- APU03/V8ISExJEbraWsl320lJapIfCC/entY1IlrWI+nf0H3n7XlXqUx93kHthnBM5P87Uy6v6L
- SwswH6yfog7WVIvrfUgWQvNUs2utUj69MByrQhTLq2l1xz9GxFrxIq5I8SPZJQm2x3d1+sgirzL
- CiEdLd4fdNbpmZrZEzbajkJiAmwGgvXE0c8BvK4I4W8aKP1gnTs3XU+V1KLF7hQr//r7ZrMNqnT
- 4PqnyBageuTdqyk0o07j5E9/VH7EiCXst9j9pocVee36sdZxxPuZ4SOFMUWO7PPVL2mPcVHNFw4
- 1uXN6YuWSa2tWyYtZGrOUQohB8QT1DqyMdXcrnoSgTZVc3czEKQI5mK7Tkb1s4egEAmBlx3lKrW
- jUuyHMse9D3a0EGgR3Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-08_03,2026-01-07_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 bulkscore=0
- phishscore=0 suspectscore=0 clxscore=1015 spamscore=0 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601080106
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,23 +68,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 08, 2026 at 03:21:51PM +0100, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> To make sure the correct settings for a given DRAM configuration get
-> applied, attempt to retrieve that data from SMEM (which happens to be
-> what the BSP kernel does, albeit with through convoluted means of the
-> bootloader altering the DT with this data).
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> ---
-> I'm not sure about this approach - perhaps a global variable storing
-> the selected config, which would then be non-const would be better?
+On Thu, 8 Jan 2026 15:04:33 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-I'd prefer if const data was const, split HBB to a separate API.
+> On 08/01/2026 14:43, Boris Brezillon wrote:
+> > On Thu, 8 Jan 2026 14:25:01 +0100
+> > Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+> >  =20
+> >> On 07/01/2026 12:12, Boris Brezillon wrote: =20
+> >>> On Tue,  6 Jan 2026 17:49:35 +0100
+> >>> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> >>>     =20
+> >>>> drm_gem_object_lookup_at_offset() can return a valid object with
+> >>>> filp or filp->f_op->get_unmapped_area set to NULL. Make sure we still
+> >>>> release the ref we acquired on such objects.
+> >>>>
+> >>>> Cc: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> >>>> Fixes: 99bda20d6d4c ("drm/gem: Introduce drm_gem_get_unmapped_area()=
+ fop")
+> >>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>>> ---
+> >>>>    drivers/gpu/drm/drm_gem.c | 10 ++++++----
+> >>>>    1 file changed, 6 insertions(+), 4 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> >>>> index 36c8af123877..f7cbf6e8d1e0 100644
+> >>>> --- a/drivers/gpu/drm/drm_gem.c
+> >>>> +++ b/drivers/gpu/drm/drm_gem.c
+> >>>> @@ -1298,11 +1298,13 @@ unsigned long drm_gem_get_unmapped_area(stru=
+ct file *filp, unsigned long uaddr,
+> >>>>    	unsigned long ret;
+> >>>>   =20
+> >>>>    	obj =3D drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE=
+_SHIFT);
+> >>>> -	if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_ar=
+ea)
+> >>>> -		return mm_get_unmapped_area(filp, uaddr, len, 0, flags);
+> >>>> +	if (IS_ERR(obj))
+> >>>> +		obj =3D NULL;
+> >>>>   =20
+> >>>> -	ret =3D obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, =
+0,
+> >>>> -						 flags);
+> >>>> +	if (!obj || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> >>>> +		ret =3D mm_get_unmapped_area(filp, uaddr, len, 0, flags); =20
+> >>>
+> >>> Also, I'm wondering if we shouldn't pass pgoff instead of zero here to
+> >>> have the exact same behavior that existed before
+> >>> drm_gem_get_unmapped_area() was introduced.
+> >>>     =20
+> >>
+> >> For mappings with a file (the DRM file in our case), if
+> >> filp->f_op->get_unmapped_area isn't set then generic_get_unmapped_area=
+()
+> >> is used and it ignores the pgoff argument. =20
+> >=20
+> > That's true for architectures that rely on the default implementation
+> > (Arm64 for instance), but other architectures might have their own
+> > implementation.
+> >=20
+> >  =20
+> >> So it wasn't 0 before but was
+> >> ignored anyway. =20
+> >=20
+> > Didn't check all of them but the Arm implementation does take this
+> > pgoff into account if I read the code correctly [1]. The fact this
+> > argument is passed around makes me think other architectures might take
+> > this into account too. I know this pgoff is just a fake offset into the
+> > /dev/dri pseudo-file, but if we want to err on the safe side, we'd
+> > rather do exactly what was done before drm_gem_get_unmapped_area() was
+> > introduced for the ->filp=3D=3DNULL case. That's just my 2 cts, of cour=
+se. =20
+>=20
+> You're right, I focused on arm64 here and there's obviously other archs=20
+> so we'd better pass pgoff for the fallback case.
 
-
--- 
-With best wishes
-Dmitry
+Do you want me to send a patch doing that, or should I take care of it?
