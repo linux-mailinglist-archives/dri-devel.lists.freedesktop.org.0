@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB606D02140
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82027D0216A
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:20:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E8010E2B3;
-	Thu,  8 Jan 2026 10:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361B010E6E8;
+	Thu,  8 Jan 2026 10:20:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Aeif+1Gc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZOOZJESj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D09F10E2B3
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:17:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5CF6B441AB;
- Thu,  8 Jan 2026 10:17:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A93A0C116C6;
- Thu,  8 Jan 2026 10:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767867473;
- bh=FlOcNDp9sNM8DLGW6Xw6lFu1fBpLA2WtnpnC+96/W5s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Aeif+1GcIvuHYuwImiJbr7JLCjanX25RFT8jtzl+0B446ERGcm1rBvHQybzUYoWZW
- 9YjQP26sK8bjLESF+VjCB9A1Ea2Q7RonkyEnyIVPin0FUP4y2QT+sFf9nhcOeSmuKg
- gLdcVfdh4WPOcp0wKqqNLmiOWHEjzDprtSOMyW2l34Qpd5F64IgjaIvczRPox2x1Mh
- sfWz7XDTtaAKkW+B1hbcJlci1j/kxMd5sb05i5WqmQyhkYffeAIPy0u8Auv7znvay2
- bsWRFw2nKmBMdfO6nVij1WSP116/IuNWhZM24njd4EiI0tUJ/tyDXRqIQpBqKr3HnJ
- P84xYWGcGgl5g==
-Date: Thu, 8 Jan 2026 11:17:50 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Kiran Gunda <quic_kgunda@quicinc.com>, 
- Helge Deller <deller@gmx.de>, Luca Weiss <luca@lucaweiss.eu>, 
- Konrad Dybcio <konradybcio@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, 
- Gianluca Boiano <morf3089@gmail.com>, Alejandro Tafalla <atafalla@dnyon.com>, 
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 3/7] dt-bindings: backlight: qcom-wled: Document ovp
- values for PMI8950
-Message-ID: <20260108-piquant-quiet-porpoise-b502b2@quoll>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-3-8687f23147d7@mainlining.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5F810E09E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767867612;
+ bh=YyeBDlNSLY4ru+W23YyttLQ3wHEda1dN+Y7WEoCQAts=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZOOZJESj4giVfU+dJYjFnTOe3lg+laQO/reAJsmJjsh6SiISklOJahmN+7Wa9b3a8
+ 4j3LOIXvAw17G9kCb6Rwqbm4wP6Yo88RSdIXBMhcZQ8lduNCWWmH2nXLDEDLGMmRNh
+ LeHJ9MDtsai+wmu0zkcBJnaXfxWs4T4pTAdUqZ2UmkYLXhYY+0OqOHD8JCpOfXucsr
+ r4BRT3rjov2hfxc/j7H2lEbB7W7RbxqFdZutVvYEF1E+CrSFh5WvOSSUe7CzEZab2N
+ 1S3PDe2tPfWt4SdySOwQet1aOCGiUs1c9xRk5zmgSmLtW5oGMrNshY1fYCQra4lhbe
+ /UlAyNpwKBYmg==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4BCA817E1330;
+ Thu,  8 Jan 2026 11:20:12 +0100 (CET)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ bisson.gary@gmail.com, kernel@collabora.com
+Subject: [PATCH] drm/mediatek: mtk_dsi: Add support for High Speed (HS) mode
+Date: Thu,  8 Jan 2026 11:19:59 +0100
+Message-ID: <20260108101959.14872-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260108-pmi8950-wled-v2-3-8687f23147d7@mainlining.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +61,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 08, 2026 at 04:43:21AM +0100, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wr=
-ote:
-> Document ovp values supported by wled found in PMI8950.
->=20
-> Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas.czeman@mainlining=
-=2Eorg>
-> ---
->  Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+Up until now, the MediaTek DSI Controller has always been working
+in Low Power Mode (LPM), as this driver has always ignored the
+MIPI_DSI_MSG_USE_LPM flag hence never setting HS mode.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In the current state of the driver the only thing that is needed
+to add support for DSI High Speed (HS) transmit is to simply set
+the "HSTX" config bit in the configuration register.
 
-Best regards,
-Krzysztof
+Check if flag MIPI_DSI_MSG_USE_LPM is set and, if not, set HSTX.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index e4953d5cb6a8..a90cae9512c5 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -155,6 +155,7 @@
+ #define SHORT_PACKET			0
+ #define LONG_PACKET			2
+ #define BTA				BIT(2)
++#define HSTX				BIT(3)
+ #define DATA_ID				GENMASK(15, 8)
+ #define DATA_0				GENMASK(23, 16)
+ #define DATA_1				GENMASK(31, 24)
+@@ -1177,6 +1178,9 @@ static void mtk_dsi_cmdq(struct mtk_dsi *dsi, const struct mipi_dsi_msg *msg)
+ 	else
+ 		config = (msg->tx_len > 2) ? LONG_PACKET : SHORT_PACKET;
+ 
++	if (!(msg->flags & MIPI_DSI_MSG_USE_LPM))
++		config |= HSTX;
++
+ 	if (msg->tx_len > 2) {
+ 		cmdq_size = 1 + (msg->tx_len + 3) / 4;
+ 		cmdq_off = 4;
+-- 
+2.52.0
 
