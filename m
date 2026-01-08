@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC91AD05F07
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 20:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD546D05F4D
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 21:01:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38DA510E0E4;
-	Thu,  8 Jan 2026 19:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304F810E129;
+	Thu,  8 Jan 2026 20:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gvyZrxiu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BSCU4sbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 349FB10E129
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 19:57:28 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-42fb2314f52so1868340f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 11:57:28 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B0E10E129
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 20:01:01 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-430f3ef2d37so3060875f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 12:01:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767902247; x=1768507047; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1767902460; x=1768507260; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=QCRWVLE8KYqwVCUSR+leEM1QO2iDsc6SFUmiGPEHzWo=;
- b=gvyZrxiuJP3qXGrCo/ne1YXDWbBJ6oQHPD/PmYxufL9eeAmOm42hAIUyQSY4eaBYpN
- 0A+voW3wT2/twxzKogBEyNWnqKV9cK2OE+8dH+KHYK2lTgMkIrqkHBsClWHz4nRfMeEw
- uxQVSLBAwpDc7qR0hNhgFwPZgHhH38L0OaGrmS4F0zRHj5xjHvrt+1xtjTJ7Cadimkl1
- /BN8k5Vng41MK46PYlGjCLYOMqgJ7UC6iwq35Bhiz0gR2SqIF3oKKJIUxoijfVH8YM/g
- Ki9KmUWFo/th0UYsvQwRIwrDrZCKgwdWqDLEVBBb2/AOSIFACOAdGHI++Qn0DO/P2QG7
- Oeng==
+ bh=0R59JhP2h+GNKoVP+C9/jngayGQfqzbzM8akEAfrgYo=;
+ b=BSCU4sbQ9gCksEdtDgFJdmxJJM256kd5EdXQ6oDO0M4PQPn65VnPg6wth3yi/zzCZh
+ EdzO/vJe9Ihk+CpycMtbetE3ZsbUxNxGzJjwAFx/a+ShjMb9JAwc+8upoAG4KjGCsWDA
+ 5Q9OD5WJJlZQ8zYxUFzyqUBEjk3xvWSAKzm8fn5HNjZyTWozD5oRQSt/2ylSKVlJaZ4m
+ wYsGdZi9lZcdK0PHpbvPMe8WJqI6tySF+J3kIxdr8iA3P3zgII1vcXyCHtPUoFXSJrUn
+ zYsltBQi8dOa4HD802d/dQw87B7dF8wDlp/9UAlKZ5jj0ge+oVnZNP81L2QEONOtU9xg
+ c+mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767902247; x=1768507047;
+ d=1e100.net; s=20230601; t=1767902460; x=1768507260;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QCRWVLE8KYqwVCUSR+leEM1QO2iDsc6SFUmiGPEHzWo=;
- b=hWWPJn+qOQ1vgsiZT+b2ImwXh9tpji9PsVSjhe19JyzGgp9ShoFWtpYRdCkDYoWkGB
- eKf+cErttlF0CywYgroS6HA1yw1KYo+MFEmR0U+OjeXcPIbfGJZwBRWBZjQ+usXuwMhO
- boHktkjKWhhZNg07dXqN41ojkQvclcVTV7YMHlJigHpkdI82bRVVNH8Y6A7J70KS1gSu
- DoZSMwlUUldA1+Pn+c5Lpn3DFPMRp7iO9MeV+hpZExmZhsFctf44AooicYw0UuoDXiLU
- rM0YbqZxBAmhSKYYrOdS+jrlZ5ElG+jzxMyhDD4PjTEv2x22c876RYL42Vwg1PGJjC9s
- pH2g==
+ bh=0R59JhP2h+GNKoVP+C9/jngayGQfqzbzM8akEAfrgYo=;
+ b=sz5UJbLwab3PMejoaBWYY31ekidiEuCii9Lln1rNP3ttIO+Fgfw5s86CkkfIxw9OoB
+ 3+fUbppNG2LTK/AC3MgRMzzt11Tvd50tTpkWLneokZyMAWQWTdj6hCpglHLp1VTWcyIk
+ VmqiQOhxD0ZHuzbXOImGgLktPVu8CvxpwYj5sn0Kb/CQ226JHBM3cYSdky8EWvck89IK
+ F06tuEWB2kE28YRndSEOePw3n2GSWG0Ww6j0E+Vtse2fgqDqO4qbg5CT6jmzibqAD7T8
+ Z9zbMZeIGughMqHixK+A+OM71wpnxPpM0vSgMw8t/dhrSn1jC41wkP3KvV7CDv9EsFZy
+ QZrg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVb76mnE2iKPAAI15MuIjekQ2uJRhtDxNZdpFm2Bx5TclmwVUX43emNiAZvvqO4WI9pci9U7VhEzxo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjmlrWCX1dFasG3wrUQkCAJ9dMWne7PXoKcp5Nl7hhEChQfCpt
- ++01QixfaNRr8IbIJahI2Y56+ATngHmcAavdavAGS5zu0MvBWwPyoJyWMmVJ7HHlCMU=
-X-Gm-Gg: AY/fxX4kYnImSARkFxEDigMxR0//SHG2PyvjwFJx8eFxZwdbzd3Z4OD+oO/AtUpMKN7
- rWXSSey9+6HBP/y/rm4qjlhyeCYcOsTBr6i8sYq4JpMZML11X0NmjQnOMR1NI6UHAqX9ar50Lt2
- JwaLhhfJBNQdEfNAR1tMHKAZLMoHTsw0PfwNTBys62gEbCWGjJERXJ4jE380KFxG9De7e0DuJ6U
- agIRvsiwxGjBf3w0zj3OSCZRkdxgSaMpU/8iG9t8/ZzS63OXnE4lgWUA9hnNPTRPvwVjojyfwDv
- 02Iv+0pegq6H0/K1REoHOCRA0QTDgQZsAIyjwro9PTDDFmSYAi51gPG/PZTD+4Ivh+oLsGTIoTJ
- dvsMzWyurqM6T9tqpOfpLSXHXsv5M1oq695pZWzQrfdN4gUH4ZX7VKr0A5/n+3gAwOdWdEm8KCE
- NWKBlfDB9yqf8SPPU1
-X-Google-Smtp-Source: AGHT+IFcp3VtHt/q/Alt1immzh6zHpZoD2LnzhIVd+S2uek5Z3OEZpx2nKLWt2bXAXJEShIrU12xOw==
-X-Received: by 2002:a05:6000:24c6:b0:430:f742:fbb4 with SMTP id
- ffacd0b85a97d-432c37a4f66mr8711115f8f.43.1767902246566; 
- Thu, 08 Jan 2026 11:57:26 -0800 (PST)
+ AJvYcCWXEVVLudXPKoaCIIsHqfPD51gwgrXdt5xspl4EWR0GzGRhZh/SBP3mFfoncWNOw3B0J3QM86EjgbM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzk5w0imFLON6jSU1NviGmx4u00YtV2lP8GkEpf2HH6H3LMa907
+ FCltY9Npm5nwtobGhWYcz2XSb+BTw+ZGTXu6sAHuELUhJqOGaGcRRB4Rg0L/YkE7aPVwzfpkPN+
+ cSurD
+X-Gm-Gg: AY/fxX6QuErMY1OmozrkeqwgtTsuVBWTLgcCMHSv5hWUBBjcqVLLaosYjJHINBhv8ZY
+ 9aTM9sFIJWDC5hRlWp7krfZHqyLzYRELEmPPS1CP6lRxmVgdZChTPaP/RddNFnu6ZFrEYnyeiEI
+ h9/aQhSKjV4nsoT9SJk5jKgXYsFR9l0Go4mTOEkERAGwG/OymmbebLaVoz65mu0Ord8TYDDru1g
+ r9yrV96aBS00w/39LXAAilVyVMZ9r+wu914NyQdUzk7rcXN/gb825T2m6/+QP2qsc3mpaHiCUMH
+ Xfm/JInqENcC3A03AEM0N0FbP3Rh0ghDxIGwf8A81Kt7EberfqCPwYn+05Vwe9n3UEIW/kHM0+V
+ X7MCBQLF/05T5Q+qzx49QpSnC+ERRsbgdC902eHgS2iSiJr7G9VJ8bSUrkkgsx1tiqUf4D2819X
+ 25kitqe5JTQhNgF6ep
+X-Google-Smtp-Source: AGHT+IE0npwunWACAYL+5K87C4JawJUGa/VvYRBjPWPZGKZYwiEeVeAPHCRJ0OWPGNFKQWH85CyAbg==
+X-Received: by 2002:a05:6000:4287:b0:430:f494:6aad with SMTP id
+ ffacd0b85a97d-432c378a7dfmr8823298f8f.2.1767902460211; 
+ Thu, 08 Jan 2026 12:01:00 -0800 (PST)
 Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd5df91fsm18529516f8f.23.2026.01.08.11.57.25
+ ffacd0b85a97d-432bd5edb7esm17838263f8f.30.2026.01.08.12.00.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jan 2026 11:57:26 -0800 (PST)
-Date: Thu, 8 Jan 2026 22:57:22 +0300
+ Thu, 08 Jan 2026 12:00:59 -0800 (PST)
+Date: Thu, 8 Jan 2026 23:00:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/msm: remove some dead code
-Message-ID: <aWAMIhZLxUcecbLd@stanley.mountain>
+To: Helge Deller <deller@gmx.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] fbdev: omapfb: remove duplicate check in omapfb_setup_mem()
+Message-ID: <aWAM-SZArPSRNaNK@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -93,40 +89,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is supposed to test for integer overflow but it is wrong and
-unnecessary.  The size_add()/mul() macros return SIZE_MAX when there is
-an integer overflow.  This code saves the SIZE_MAX to a u64 and then
-tests if the result is greater than SIZE_MAX which it never will be.
-Fortunately, when we try to allocate SIZE_MAX bytes the allocation
-will fail.  We even pass __GFP_NOWARN so the allocation fails
-harmlessly and quietly.
+We know "size" is non-zero because it is checked on the line before.
+Delete the duplicate check and pull the code in a tab.
 
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_gem_vma.c | 8 +-------
- 1 file changed, 1 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/omap/omapfb_main.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 71d5238437eb..7968c2dccff0 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -947,15 +947,9 @@ vm_bind_job_create(struct drm_device *dev, struct drm_file *file,
- 		   struct msm_gpu_submitqueue *queue, uint32_t nr_ops)
- {
- 	struct msm_vm_bind_job *job;
--	uint64_t sz;
- 	int ret;
+diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+index 106d21e74738..a8740213e891 100644
+--- a/drivers/video/fbdev/omap/omapfb_main.c
++++ b/drivers/video/fbdev/omap/omapfb_main.c
+@@ -846,12 +846,10 @@ static int omapfb_setup_mem(struct fb_info *fbi, struct omapfb_mem_info *mi)
+ 		 * be reenabled unless its size is > 0.
+ 		 */
+ 		if (old_size != size && size) {
+-			if (size) {
+-				memcpy(new_var, &fbi->var, sizeof(*new_var));
+-				r = set_fb_var(fbi, new_var);
+-				if (r < 0)
+-					goto out;
+-			}
++			memcpy(new_var, &fbi->var, sizeof(*new_var));
++			r = set_fb_var(fbi, new_var);
++			if (r < 0)
++				goto out;
+ 		}
  
--	sz = struct_size(job, ops, nr_ops);
--
--	if (sz > SIZE_MAX)
--		return ERR_PTR(-ENOMEM);
--
--	job = kzalloc(sz, GFP_KERNEL | __GFP_NOWARN);
-+	job = kzalloc(struct_size(job, ops, nr_ops), GFP_KERNEL | __GFP_NOWARN);
- 	if (!job)
- 		return ERR_PTR(-ENOMEM);
- 
+ 		if (fbdev->ctrl->sync)
 -- 
 2.51.0
 
