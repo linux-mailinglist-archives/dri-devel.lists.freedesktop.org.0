@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B47D030B9
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A85D030C2
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D405810E352;
-	Thu,  8 Jan 2026 13:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C61010E71B;
+	Thu,  8 Jan 2026 13:32:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="scj9Jhum";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OumEKn3n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09EF410E352
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:32:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749AE10E71B
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:32:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 57F8F60132;
- Thu,  8 Jan 2026 13:32:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92BF0C116C6;
- Thu,  8 Jan 2026 13:32:43 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E93AD60132;
+ Thu,  8 Jan 2026 13:32:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C170C16AAE;
+ Thu,  8 Jan 2026 13:32:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1767879164;
- bh=sfwHTS93ZoBPcHTdKcrw9Hx9qDhb71FYj8wx7vicpzA=;
+ s=korg; t=1767879177;
+ bh=tNK2RFCDpEzyqI3EYxu2xs/8fO/YMgmhpDxm5GS3BNQ=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=scj9JhumNICQh0aDFPFWMwNwkos71MGjY72niH8+aHS4f7ctKLwTt9V3hHenULnyz
- SN2V9AY6fI8Wr8cbNj2ncUQuPwkPexUICNFll83mse+uNF6/levciXSubegVTM0qsw
- h4yE3f1lsWugcy2/nqH7QDRoMi6I79MD95WVqHfA=
+ b=OumEKn3nNswrjdmQ4HLZ50SM8r2KRRCFza5hmo53zxN/Z+QjDbjsk73sNBi32zcx+
+ ccheKLuB1OR2mbZ2wEfvtjgmm9VMEJd9C5MCYVSPTESQzVv7hjIhynz5ST5D7W4PUO
+ mri+M/LFoTHwLi9gty/cr3kuWxvlMuo931HWU4NA=
 Subject: Patch "drm/vmwgfx: Fix a null-ptr access in the cursor snooper" has
- been added to the 5.10-stable tree
+ been added to the 5.15-stable tree
 To: airlied@gmail.com, airlied@redhat.com, ajay.kaher@broadcom.com,
  alexey.makhalov@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
  brianp@vmware.com, dri-devel@lists.freedesktop.org, dtor@vmware.com,
@@ -40,9 +40,9 @@ To: airlied@gmail.com, airlied@redhat.com, ajay.kaher@broadcom.com,
  zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 08 Jan 2026 14:32:40 +0100
+Date: Thu, 08 Jan 2026 14:32:55 +0100
 In-Reply-To: <20251224083652.614902-1-shivani.agarwal@broadcom.com>
-Message-ID: <2026010840-sharpie-spouse-2271@gregkh>
+Message-ID: <2026010854-patronage-wafer-7a0d@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -68,12 +68,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vmwgfx: Fix a null-ptr access in the cursor snooper
 
-to the 5.10-stable tree which can be found at:
+to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -121,7 +121,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1520,6 +1520,7 @@ static int vmw_cmd_dma(struct vmw_privat
+@@ -1525,6 +1525,7 @@ static int vmw_cmd_dma(struct vmw_privat
  		       SVGA3dCmdHeader *header)
  {
  	struct vmw_buffer_object *vmw_bo = NULL;
@@ -129,7 +129,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	struct vmw_surface *srf = NULL;
  	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdSurfaceDMA);
  	int ret;
-@@ -1555,18 +1556,24 @@ static int vmw_cmd_dma(struct vmw_privat
+@@ -1560,18 +1561,24 @@ static int vmw_cmd_dma(struct vmw_privat
  
  	dirty = (cmd->body.transfer == SVGA3D_WRITE_HOST_VRAM) ?
  		VMW_RES_DIRTY_SET : 0;
@@ -163,7 +163,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from shivani.agarwal@broadcom.com are
 
-queue-5.10/usb-xhci-move-link-chain-bit-quirk-checks-into-one-helper-function.patch
-queue-5.10/rdma-core-fix-kasan-slab-use-after-free-read-in-ib_register_device-problem.patch
-queue-5.10/drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
-queue-5.10/usb-xhci-apply-the-link-chain-quirk-on-nec-isoc-endpoints.patch
+queue-5.15/usb-xhci-move-link-chain-bit-quirk-checks-into-one-helper-function.patch
+queue-5.15/rdma-core-fix-kasan-slab-use-after-free-read-in-ib_register_device-problem.patch
+queue-5.15/drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
+queue-5.15/usb-xhci-apply-the-link-chain-quirk-on-nec-isoc-endpoints.patch
