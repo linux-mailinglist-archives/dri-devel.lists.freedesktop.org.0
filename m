@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B94CD034D7
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51282D034E2
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875C910E74E;
-	Thu,  8 Jan 2026 14:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C8110E751;
+	Thu,  8 Jan 2026 14:22:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RcrLmkq9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xa9p18R/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6331E10E74E;
- Thu,  8 Jan 2026 14:22:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9FF410E751;
+ Thu,  8 Jan 2026 14:22:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CE13560131;
+ by tor.source.kernel.org (Postfix) with ESMTP id 4894560131;
+ Thu,  8 Jan 2026 14:22:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F8FC116C6;
  Thu,  8 Jan 2026 14:22:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE79C19422;
- Thu,  8 Jan 2026 14:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767882138;
- bh=uDuRuz6holk0p1W5KjXd7ziv9LHNLbMpJvwufQS0xJI=;
+ s=k20201202; t=1767882143;
+ bh=0hY9JelA00ZEkrC7+2oNgWXngE5MpTczcLOf3S0rzvw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=RcrLmkq93kQ22yZ9KL0tLoCY85RZ5mb861YZWHp9bN/RkkydVX3ta9OkLr98YILsv
- 3elplbb62imu+1070aJRrAZxJhTiQp/2HFLzo8Fq32P4haBvIE8sNakstXPoBrQVvE
- wvsqWdfUcYnOtl9+bjPN7zgyQ/Z3rIgZcnUNu/97/dKSR1x3+vKKo7zDe/MG352YLM
- eh5mPiQzXY91FJv+ZIaHb7x5K//xv5me5mfxBHkLFnVFxfwILllRGiThqOS3Lc8Pgy
- M6Lv3olL+rYlZ+EMX+lWOKWZcQVJdkg6FuRMhammC/Dw4GLqafKJrwWMpltXbAR+qk
- IRE6ajaoclBiw==
+ b=Xa9p18R/CYw8HZX364CEj6bdpfUoIngst996QFzwnZloIOVlrs4JYPOlV5Lf13+f5
+ u3arwHIrXUjSlndMHQKztRmek++C5yUfk+Uh/j3CJ4+WbFm860ithOP6OkNWMZMwww
+ Kq63DW5zMPtffqiXbQlZJECGHgjpI1qwStauFUezVUIeeVS+x2aC2EnRtFs7GoPaOU
+ AduV82cD28JT+NSTSXFkXZIHrU5HgMZV8dCqsqYUgJ0iNbxUhYBLeObfAYt5Wz+6hR
+ YZz1A98/1h7+Wj+7WjsS0H8Deqc6oc/4zPTOljkM7ZXqxWya76k9Pq+4R/Zlv5FNvS
+ 4KXK+b03at1rw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Thu, 08 Jan 2026 15:21:51 +0100
-Subject: [PATCH v3 2/3] soc: qcom: ubwc: Get HBB from SMEM
+Date: Thu, 08 Jan 2026 15:21:52 +0100
+Subject: [PATCH v3 3/3] drm/msm/adreno: Trust the SSoT UBWC config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-topic-smem_dramc-v3-2-6b64df58a017@oss.qualcomm.com>
+Message-Id: <20260108-topic-smem_dramc-v3-3-6b64df58a017@oss.qualcomm.com>
 References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
 In-Reply-To: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -54,11 +54,11 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767882123; l=9485;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767882123; l=5689;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=PNGfZ45coN1C/o+QL9ZexnumgXEWcaMR9QTIU53QLLI=;
- b=HIkBEggRFxaEVDk+SXDG8YmOReIY+FoLieMqX0aAIL8ImBlyKUPBmw/dPNneUFtXWfUt/K7zG
- 8MsZqEIwSnYC/kv+n417iT/cgfrOMgDr2dua/tB9KaQu43py9AxKaF4
+ bh=aTiejsPtfF2C+UvMvN1X8HZ/alQLAnwLRugfA9Gd7pc=;
+ b=UjmQRKA9IH21fUaxqBYt5irSAUkUhy+Es7pOm2Z5NFVDKfc2ml4W4kBdGRaHyAs8d7AV7G92I
+ e/hv5XcKzAFCpChVUBWNSPKYA5MDbmS55KybMHemL3qJ/ZlFy/m3Dwl
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,268 +78,167 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-To make sure the correct settings for a given DRAM configuration get
-applied, attempt to retrieve that data from SMEM (which happens to be
-what the BSP kernel does, albeit with through convoluted means of the
-bootloader altering the DT with this data).
+Now that the highest_bank_bit value is retrieved from the running
+system and the global config has been part of the tree for a couple
+of releases, there is no reason to keep any hardcoded values inside
+the GPU driver.
+
+Get rid of them.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
 ---
-I'm not sure about this approach - perhaps a global variable storing
-the selected config, which would then be non-const would be better?
----
- drivers/soc/qcom/ubwc_config.c | 69 ++++++++++++++++++++++++++----------------
- 1 file changed, 43 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 11 ++---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 82 ++-------------------------------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h |  5 --
+ 3 files changed, 6 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
-index 1c25aaf55e52..21bb444dc27c 100644
---- a/drivers/soc/qcom/ubwc_config.c
-+++ b/drivers/soc/qcom/ubwc_config.c
-@@ -11,12 +11,13 @@
- #include <linux/platform_device.h>
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 56eaff2ee4e4..eba6e74d0084 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1728,7 +1728,6 @@ static struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
+ 	struct adreno_platform_config *config = pdev->dev.platform_data;
+-	const struct qcom_ubwc_cfg_data *common_cfg;
+ 	struct a5xx_gpu *a5xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+@@ -1766,13 +1765,9 @@ static struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 	a5xx_preempt_init(gpu);
  
- #include <linux/soc/qcom/ubwc.h>
-+#include <linux/soc/qcom/smem.h>
+ 	/* Inherit the common config and make some necessary fixups */
+-	common_cfg = qcom_ubwc_config_get_data();
+-	if (IS_ERR(common_cfg))
+-		return ERR_CAST(common_cfg);
+-
+-	/* Copy the data into the internal struct to drop the const qualifier (temporarily) */
+-	adreno_gpu->_ubwc_config = *common_cfg;
+-	adreno_gpu->ubwc_config = &adreno_gpu->_ubwc_config;
++	adreno_gpu->ubwc_config = qcom_ubwc_config_get_data();
++	if (IS_ERR(adreno_gpu->ubwc_config))
++		return ERR_CAST(adreno_gpu->ubwc_config);
  
--static const struct qcom_ubwc_cfg_data no_ubwc_data = {
-+static struct qcom_ubwc_cfg_data no_ubwc_data = {
- 	/* no UBWC, no HBB */
- };
+ 	adreno_gpu->uche_trap_base = 0x0001ffffffff0000ull;
  
--static const struct qcom_ubwc_cfg_data kaanapali_data = {
-+static struct qcom_ubwc_cfg_data kaanapali_data = {
- 	.ubwc_enc_version = UBWC_6_0,
- 	.ubwc_dec_version = UBWC_6_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -26,7 +27,7 @@ static const struct qcom_ubwc_cfg_data kaanapali_data = {
- 	.macrotile_mode = true,
- };
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 2129d230a92b..3a2429632225 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -729,82 +729,6 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+ 	gpu_write(gpu, REG_A6XX_CP_PROTECT(protect->count_max - 1), protect->regs[i]);
+ }
  
--static const struct qcom_ubwc_cfg_data msm8937_data = {
-+static struct qcom_ubwc_cfg_data msm8937_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_1_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL1 |
-@@ -35,7 +36,7 @@ static const struct qcom_ubwc_cfg_data msm8937_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data msm8998_data = {
-+static struct qcom_ubwc_cfg_data msm8998_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_1_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL1 |
-@@ -44,12 +45,12 @@ static const struct qcom_ubwc_cfg_data msm8998_data = {
- 	.highest_bank_bit = 15,
- };
- 
--static const struct qcom_ubwc_cfg_data qcm2290_data = {
-+static struct qcom_ubwc_cfg_data qcm2290_data = {
- 	/* no UBWC */
- 	.highest_bank_bit = 15,
- };
- 
--static const struct qcom_ubwc_cfg_data sa8775p_data = {
-+static struct qcom_ubwc_cfg_data sa8775p_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL3,
-@@ -58,7 +59,7 @@ static const struct qcom_ubwc_cfg_data sa8775p_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sar2130p_data = {
-+static struct qcom_ubwc_cfg_data sar2130p_data = {
- 	.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
- 	.ubwc_dec_version = UBWC_4_3,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -68,7 +69,7 @@ static const struct qcom_ubwc_cfg_data sar2130p_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sc7180_data = {
-+static struct qcom_ubwc_cfg_data sc7180_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -77,7 +78,7 @@ static const struct qcom_ubwc_cfg_data sc7180_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sc7280_data = {
-+static struct qcom_ubwc_cfg_data sc7280_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -87,7 +88,7 @@ static const struct qcom_ubwc_cfg_data sc7280_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sc8180x_data = {
-+static struct qcom_ubwc_cfg_data sc8180x_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -96,7 +97,7 @@ static const struct qcom_ubwc_cfg_data sc8180x_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sc8280xp_data = {
-+static struct qcom_ubwc_cfg_data sc8280xp_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -106,7 +107,7 @@ static const struct qcom_ubwc_cfg_data sc8280xp_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sdm670_data = {
-+static struct qcom_ubwc_cfg_data sdm670_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -114,7 +115,7 @@ static const struct qcom_ubwc_cfg_data sdm670_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sdm845_data = {
-+static struct qcom_ubwc_cfg_data sdm845_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -122,7 +123,7 @@ static const struct qcom_ubwc_cfg_data sdm845_data = {
- 	.highest_bank_bit = 15,
- };
- 
--static const struct qcom_ubwc_cfg_data sm6115_data = {
-+static struct qcom_ubwc_cfg_data sm6115_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL1 |
-@@ -132,7 +133,7 @@ static const struct qcom_ubwc_cfg_data sm6115_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sm6125_data = {
-+static struct qcom_ubwc_cfg_data sm6125_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_3_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL1 |
-@@ -141,7 +142,7 @@ static const struct qcom_ubwc_cfg_data sm6125_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sm6150_data = {
-+static struct qcom_ubwc_cfg_data sm6150_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -149,7 +150,7 @@ static const struct qcom_ubwc_cfg_data sm6150_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sm6350_data = {
-+static struct qcom_ubwc_cfg_data sm6350_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -158,7 +159,7 @@ static const struct qcom_ubwc_cfg_data sm6350_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sm7150_data = {
-+static struct qcom_ubwc_cfg_data sm7150_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -166,7 +167,7 @@ static const struct qcom_ubwc_cfg_data sm7150_data = {
- 	.highest_bank_bit = 14,
- };
- 
--static const struct qcom_ubwc_cfg_data sm8150_data = {
-+static struct qcom_ubwc_cfg_data sm8150_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -174,7 +175,7 @@ static const struct qcom_ubwc_cfg_data sm8150_data = {
- 	.highest_bank_bit = 15,
- };
- 
--static const struct qcom_ubwc_cfg_data sm8250_data = {
-+static struct qcom_ubwc_cfg_data sm8250_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -185,7 +186,7 @@ static const struct qcom_ubwc_cfg_data sm8250_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sm8350_data = {
-+static struct qcom_ubwc_cfg_data sm8350_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -196,7 +197,7 @@ static const struct qcom_ubwc_cfg_data sm8350_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sm8550_data = {
-+static struct qcom_ubwc_cfg_data sm8550_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_3,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -207,7 +208,7 @@ static const struct qcom_ubwc_cfg_data sm8550_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data sm8750_data = {
-+static struct qcom_ubwc_cfg_data sm8750_data = {
- 	.ubwc_enc_version = UBWC_5_0,
- 	.ubwc_dec_version = UBWC_5_0,
- 	.ubwc_swizzle = 6,
-@@ -217,7 +218,7 @@ static const struct qcom_ubwc_cfg_data sm8750_data = {
- 	.macrotile_mode = true,
- };
- 
--static const struct qcom_ubwc_cfg_data x1e80100_data = {
-+static struct qcom_ubwc_cfg_data x1e80100_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_3,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-@@ -301,14 +302,30 @@ static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
- 
- const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void)
+-static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+-{
+-	const struct qcom_ubwc_cfg_data *common_cfg;
+-	struct qcom_ubwc_cfg_data *cfg = &gpu->_ubwc_config;
+-
+-	/* Inherit the common config and make some necessary fixups */
+-	common_cfg = qcom_ubwc_config_get_data();
+-	if (IS_ERR(common_cfg))
+-		return PTR_ERR(common_cfg);
+-
+-	/* Copy the data into the internal struct to drop the const qualifier (temporarily) */
+-	*cfg = *common_cfg;
+-
+-	/* Use common config as is for A8x */
+-	if (!adreno_is_a8xx(gpu)) {
+-		cfg->ubwc_swizzle = 0x6;
+-		cfg->highest_bank_bit = 15;
+-	}
+-
+-	if (adreno_is_a610(gpu)) {
+-		cfg->highest_bank_bit = 13;
+-		cfg->ubwc_swizzle = 0x7;
+-	}
+-
+-	if (adreno_is_a612(gpu))
+-		cfg->highest_bank_bit = 14;
+-
+-	if (adreno_is_a618(gpu))
+-		cfg->highest_bank_bit = 14;
+-
+-	if (adreno_is_a619(gpu))
+-		/* TODO: Should be 14 but causes corruption at e.g. 1920x1200 on DP */
+-		cfg->highest_bank_bit = 13;
+-
+-	if (adreno_is_a619_holi(gpu))
+-		cfg->highest_bank_bit = 13;
+-
+-	if (adreno_is_a621(gpu))
+-		cfg->highest_bank_bit = 13;
+-
+-	if (adreno_is_a623(gpu))
+-		cfg->highest_bank_bit = 16;
+-
+-	if (adreno_is_a650(gpu) ||
+-	    adreno_is_a660(gpu) ||
+-	    adreno_is_a690(gpu) ||
+-	    adreno_is_a730(gpu) ||
+-	    adreno_is_a740_family(gpu)) {
+-		/* TODO: get ddr type from bootloader and use 15 for LPDDR4 */
+-		cfg->highest_bank_bit = 16;
+-	}
+-
+-	if (adreno_is_a663(gpu)) {
+-		cfg->highest_bank_bit = 13;
+-		cfg->ubwc_swizzle = 0x4;
+-	}
+-
+-	if (adreno_is_7c3(gpu))
+-		cfg->highest_bank_bit = 14;
+-
+-	if (adreno_is_a702(gpu))
+-		cfg->highest_bank_bit = 14;
+-
+-	if (cfg->highest_bank_bit != common_cfg->highest_bank_bit)
+-		DRM_WARN_ONCE("Inconclusive highest_bank_bit value: %u (GPU) vs %u (UBWC_CFG)\n",
+-			      cfg->highest_bank_bit, common_cfg->highest_bank_bit);
+-
+-	if (cfg->ubwc_swizzle != common_cfg->ubwc_swizzle)
+-		DRM_WARN_ONCE("Inconclusive ubwc_swizzle value: %u (GPU) vs %u (UBWC_CFG)\n",
+-			      cfg->ubwc_swizzle, common_cfg->ubwc_swizzle);
+-
+-	gpu->ubwc_config = &gpu->_ubwc_config;
+-
+-	return 0;
+-}
+-
+ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
  {
--	const struct qcom_ubwc_cfg_data *data;
-+	struct qcom_ubwc_cfg_data *data;
-+	int hbb;
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -2721,10 +2645,10 @@ static struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	msm_mmu_set_fault_handler(to_msm_vm(gpu->vm)->mmu, gpu,
+ 				  adreno_gpu->funcs->mmu_fault_handler);
  
--	data = of_machine_get_match_data(qcom_ubwc_configs);
-+	if (!qcom_smem_is_available())
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	/* Discard the const qualifier, but still return a const pointer to consumers */
-+	data = (struct qcom_ubwc_cfg_data *)of_machine_get_match_data(qcom_ubwc_configs);
- 	if (!data) {
- 		pr_err("Couldn't find UBWC config data for this platform!\n");
- 		return ERR_PTR(-EINVAL);
+-	ret = a6xx_calc_ubwc_config(adreno_gpu);
+-	if (ret) {
++	adreno_gpu->ubwc_config = qcom_ubwc_config_get_data();
++	if (IS_ERR(adreno_gpu->ubwc_config)) {
+ 		a6xx_destroy(&(a6xx_gpu->base.base));
+-		return ERR_PTR(ret);
++		return ERR_CAST(adreno_gpu->ubwc_config);
  	}
  
-+	hbb = qcom_smem_dram_get_hbb();
-+	if (hbb == -ENODATA) {
-+		/* Lack of HBB data is OK - it was only introduced later */
-+		return data;
-+	} else if (hbb < 0) {
-+		pr_err("Couldn't get HBB data from SMEM: %d\n", hbb);
-+		return ERR_PTR(hbb);
-+	}
-+
-+	data->highest_bank_bit = hbb;
-+
- 	return data;
- }
- EXPORT_SYMBOL_GPL(qcom_ubwc_config_get_data);
+ 	/* Set up the preemption specific bits and pieces for each ringbuffer */
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 1d0145f8b3ec..da9a6da7c108 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -237,12 +237,7 @@ struct adreno_gpu {
+ 	/* firmware: */
+ 	const struct firmware *fw[ADRENO_FW_MAX];
+ 
+-	/*
+-	 * The migration to the central UBWC config db is still in flight - keep
+-	 * a copy containing some local fixups until that's done.
+-	 */
+ 	const struct qcom_ubwc_cfg_data *ubwc_config;
+-	struct qcom_ubwc_cfg_data _ubwc_config;
+ 
+ 	/*
+ 	 * Register offsets are different between some GPUs.
 
 -- 
 2.52.0
