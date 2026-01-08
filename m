@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D07ED01DE3
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430B6D01E58
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:45:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0310E6C8;
-	Thu,  8 Jan 2026 09:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB1C10E6CF;
+	Thu,  8 Jan 2026 09:44:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Fy6ON4kU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fLWtefTO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7FE10E6C9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 09:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1767865056;
- bh=+QUCh+BiJaBruD2vdyKisViWbUs5fQdsky3TtckYH1s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Fy6ON4kUwZ7sOCvN0m9+ZwtFwRLoUBghzLMyZb0KTCNefUJkRsK7HOn8Xf3WgbnAY
- C6FFfzKThnYDfrm4/5X8yMkPsqch0SBLOJFWEv02DmIfTFcAH5R5ay6keNlJtRjsM2
- q3Tb87mS6hBwW3rsM1IlSMDVJK8jRb0BQt6PgkScPQP7DUIPN5x2kSGstiJmWxz/bU
- zFXXp3CBjoAIeke4xIvKlGVAFsAImrQCygWhaOp2Q/fJkx78c5UnxErlkKgC/Itlu8
- NIo58fwbwhOxxjRh7jpPlt3PDVxK05cPDj4Z4eqwnT+8f2mACjYBSDlGvrLtpzc9s2
- kttCq8N/OwYfg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C4B4A17E11FB;
- Thu,  8 Jan 2026 10:37:35 +0100 (CET)
-Message-ID: <e6c2c86d-71bd-453c-847c-1eff2be88be7@collabora.com>
-Date: Thu, 8 Jan 2026 10:37:35 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A02E910E6CC;
+ Thu,  8 Jan 2026 09:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767865498; x=1799401498;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=My9ve60U7r5pxDU002QmNDBMr9ZqZr5q2SgiIYPyB84=;
+ b=fLWtefTO8p859+1DBXr4ShAIWhvxLmqxyu3Aa4T6IKCUaXT7jUkK3Ztj
+ DECzAZ+UtxoK7IUpnOVbGYQa8v7dC0U79BG7K5alnlh0R24v6pjYrcGli
+ NkVfcuOkrZRJyAhqWBE/TczzRNaCpv2x9YZmi57GsHr94v6308qfug5vD
+ snDXOe0Vv0Syf8yLxK61gcSXan5IxVCBgfynRLCro7WVe3Ww5dA614zWu
+ VDOwHcrfAGFVnTj5upfrTTqDrXVN3y5pmgTuj0JqeHwzk4dWm1VyE+ktR
+ jpp1zMMOtWkdQGwjyBjWHhLMLUWRfYEZGcgrdof+2hCaTgBL2hxFAN60r w==;
+X-CSE-ConnectionGUID: m3kfqCuuQ9OIlF0odl6wqQ==
+X-CSE-MsgGUID: 081w9xQbRL6wPt7GAf4Xnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72876481"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="72876481"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2026 01:44:58 -0800
+X-CSE-ConnectionGUID: eYcbpmrKTtqNr4xWgzpfQQ==
+X-CSE-MsgGUID: FJ9aEXqjQiuKiwWHO+UZrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208231933"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 01:44:52 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
+Date: Thu, 08 Jan 2026 15:13:21 +0530
+Message-Id: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] Add GCE support for MT8196 (series 1/4)
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>,
- Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Chen-yu Tsai <wenst@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADp8X2kC/x2MQQrCMBAAv1L27EqSbqzxJAg+wGvpIU03NmBTS
+ YoopX839DjDMCtkToEzXKoVEn9CDnMsUB8qcKONT8YwFAYllJZCCrT5Fx167oUxUhGJHkr7Tuz
+ Dd/+00D7utw66on2aJ1zGxHafNFaTIqvRnmtCcs6hEcTIThtupNcDn64hLvw6unmCbfsDRkOw6
+ 58AAAA=
+X-Change-ID: 20251010-async-feb09912440b
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org, 
+ andrealmeid@igalia.com, naveen1.kumar@intel.com, ville.syrjala@intel.com, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +79,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 31/10/25 16:56, Jason-JH Lin ha scritto:
-> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
-> 
-> This series adds initial support for the MediaTek MT8196 GCE in the CMDQ
-> driver, including related API changes for new hardware requirements.
-> 
-> Series application order:
->    1. [Fixes] Refine DMA address handling for the command buffer
->    - https://lore.kernel.org/all/20251022171847.379470-1-jason-jh.lin@mediatek.com/
->    2. [Series 1/4] Add GCE support for MT8196 and update CMDQ APIs (this series)
->    3. [Series 2/4] Migrate subsystems to new CMDQ APIs
->    4. [Series 3/4] Remove shift_pa from CMDQ jump functions
->    5. [Series 4/4] Remove deprecated CMDQ APIs
-> 
-> Please apply this series after the DMA address handling Fixes patch[1],
-> and before the following series.
-> 
+struct drm_crtc_state {
+         /**
+          * @async_flip:
+          *
+          * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
+          * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL
+itself yet.
+          */
+         bool async_flip;
 
-Jassi, since this is touching both mailbox and soc/mediatek, can we avoid to create
-immutable branches to pick this entire thing?
+In the existing code the flag async_flip was intended for the legacy
+PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
+As per the hardware feature is concerned, async flip is a plane feature
+and is to be treated per plane basis and not per pipe basis.
+For a given hardware pipe, among the multiple hardware planes, one can
+go with sync flip and other 2/3 can go with async flip.
+Tearing affect will be noticed with this and if any policy should be
+taken care by the user space. KMD not to include any policy
+as to allow async on only one plane for a given pipe as all policy done
+in user and KMD exposes what is supported by the hardware.
 
-If you wish, I'm fine with you picking the soc/mediatek commits as well as the
-mailbox ones, or I can pick the mailbox ones instead if you're okay with that.
+There would be a bunch of changes to correct this in the atomic path.
+Add a new async_flip plane property to allow user enable async flip on
+the required plane.
+Any restriction checks for async_flip will be taken in atomic_check()
+and not in the atomic_ioctl().
+Let the preset code reside as is even in the atomic patch until all the
+existing drivers and user space implementations move to plane property
+for async flips.
+Changes include removal of the checks we have in atomic path so as to
+reject any changes(different plane, pipe, connector) along with async
+flip. This would be replaced with checks so as to reject any change in
+that particular plane where async is enabled(reject any change in
+pipe/connector as that would have impact on this plane)
 
-Whole series is, of course...
+With the above changes, the challenge that we have presently so as to
+enable async flip on overlays which is handled seperately with if
+condition in drm_atomic_uapi.c can be moved to driver specific
+atomic_check code.
 
-Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This series depicts the changes in the drm core and upon getting
+feedback on this, driver specific changes for theis will be done in the
+next revision on the same series.
 
-Cheers,
-Angelo
+Please let us know your opinion on this.
 
-> ---
-> 
-> Jason-JH Lin (9):
->    arm64: dts: mediatek: Add GCE header for MT8196
->    mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
->      instruction
->    mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
->    mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
->      transaction
->    mailbox: mtk-cmdq: Add driver data to support for MT8196
->    soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
->    soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
->      subsys ID support
->    soc: mediatek: mtk-cmdq: Extend cmdq_pkt_write API for SoCs without
->      subsys ID
->    soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
->      addresses
-> 
->   arch/arm64/boot/dts/mediatek/mt8196-gce.h | 612 ++++++++++++++++++++++
->   drivers/mailbox/mtk-cmdq-mailbox.c        |  74 ++-
->   drivers/soc/mediatek/mtk-cmdq-helper.c    |  77 ++-
->   include/linux/mailbox/mtk-cmdq-mailbox.h  |  19 +
->   include/linux/soc/mediatek/mtk-cmdq.h     |  93 ++++
->   5 files changed, 869 insertions(+), 6 deletions(-)
->   create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
-> 
+Note: The series is partially tested with the IGT so as to ensure the
+existing implementation is not broken. Full feature testing is pending,
+just opening the series as RFC so as to get comments so that I can
+incorporate them.
 
+Thanks and Regards,
+Arun R Murthy
+-------------
 
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+---
+Arun R Murthy (7):
+      drm/atomic/plane: Add plane property for async flip
+      drm/atomic/plane: create async flip property for plane
+      drm/atomic: Re-route the async flip based on the flag
+      drm/atomic: Move the plane property check for async flip to atomic_check
+      drm/atomic: Allow planes with NULL fb along with async flip
+      drm/atomic: flip_done signal for planes
+      drm/i915/irq: Enable flip_done for each plane on async flip
+
+ drivers/gpu/drm/drm_atomic.c                       | 122 ++++++++++++++++++++-
+ drivers/gpu/drm/drm_atomic_helper.c                |   2 +
+ drivers/gpu/drm/drm_atomic_uapi.c                  |  74 +++----------
+ drivers/gpu/drm/drm_plane.c                        |  33 ++++++
+ drivers/gpu/drm/i915/display/intel_display_irq.c   |  98 ++++++++++++++---
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |   2 +-
+ include/drm/drm_plane.h                            |  19 ++++
+ 7 files changed, 277 insertions(+), 73 deletions(-)
+---
+base-commit: b3845fe8af5ec5c1d4b26e40ac6b4c7370e5fa35
+change-id: 20251010-async-feb09912440b
+
+Best regards,
+-- 
+Arun R Murthy <arun.r.murthy@intel.com>
 
