@@ -2,53 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB954D048D1
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001FDD04907
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:54:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB17110E36D;
-	Thu,  8 Jan 2026 16:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0908B10E79C;
+	Thu,  8 Jan 2026 16:54:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="somT5Me4";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="R0sqWtpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D6D10E36A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:51:59 +0000 (UTC)
-Received: from aerhardt-tuxedo.buero.augsburg.tuxedo.de
- (business-24-134-105-141.pool2.vodafone-ip.de [24.134.105.141])
- (Authenticated sender: a.erhardt@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 4ED042FC004A;
- Thu,  8 Jan 2026 17:51:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1767891117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9zIefKkZMzxo7MD02YKy4yO08bQ/1V31nPzenPtLvac=;
- b=somT5Me4utwc5C4kKGD15Znawh/YuJYCResyw7SZAHFfgJ5ZDVy0exZwRM5zOe51n1SLc1
- Tyqajuf9lPw7cNAzx2mtSNLPXQlsqpxYYZVdFplz0iSn+4s4pxE4Ii2pplwhsydtcw9jmz
- ii644c10srauSIZPfZSvn6e5Rm4TXq4=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=a.erhardt@tuxedocomputers.com
- smtp.mailfrom=aer@tuxedocomputers.com
-From: Aaron Erhardt <aer@tuxedocomputers.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Aaron Erhardt <aer@tuxedocomputers.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [RESEND RFC PATCH 1/1] drm: ensure that vblank diff is never negative
-Date: Thu,  8 Jan 2026 17:51:39 +0100
-Message-ID: <20260108165139.1381835-2-aer@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260108165139.1381835-1-aer@tuxedocomputers.com>
-References: <20260108165139.1381835-1-aer@tuxedocomputers.com>
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3703210E79C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:54:09 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-59b6d5bd575so2621877e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 08:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1767891247; x=1768496047; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5tFEi7D1Ny0FGyhvAd0NOx+lhbZg2wFDhqn24TA+o7I=;
+ b=R0sqWtpLEhsl3sWPSP3SwBHKzHQ5nPvWXkbtNwerNMJz68xEYkqHck0V/y9AT1JZpD
+ qDzJLYnhVrajTEoow023HTV0ajDsLPhu8ZhfgyQP7jNPVjgafKJKZwq16BpFibJ5/Kup
+ F5Al7Ufp9Lxk3rOL3BjvME9Hp5n0kWeHahmbHoWg48RlIP/VvEYSkEy+i2SH0eKH0HrI
+ d/Us7h27/C83vESTzBlRSAiW10Efyx9E3FKRf25qkCgwC7HIaPvMzjq9hUEydUK4Oa37
+ 3wi5J7BwDI//5CC7+APO0DFDJJIpKeKEZrbGOxR5zNLDl/m2/00eBC8TWJkrewAvNdC7
+ vKBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767891247; x=1768496047;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=5tFEi7D1Ny0FGyhvAd0NOx+lhbZg2wFDhqn24TA+o7I=;
+ b=GfkIb54dyVKVm4Ir3bD8+gbFtYiWvyqb8L3zK0r3PR3IMROmJoHOrI+HTtLGEuTO/s
+ o+rYqIlR6zMBiOaTSWeAoKWCerY/M6rVVky2Kk2PHUzT8oVmUqBEXl9bleZmD/at0SYu
+ dtzrTNS57vldc5FRKRM3MBcl0xmckqhPogsLEdRd2SoYmIm1r9KKwulJhd0Uq6akwhtT
+ wdSmSL2GBXSV3vSu0xBqaTuesGYdmAHo/dsD8u5NgyQnJdwZLxgxEILVlkmeWB5baPSR
+ Imuv9JGstQf6PkbKGNDHxo8Bc4ViUWWPV0xHgEwvfKmYEWjMq64i1kLSk1vPpbb14i9A
+ N6dg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlOtoummNb1M4h0C12f3G5yYCvc38OFD7ozPlGj5dquN8BWTVhIX1Fev5B5dQ8mQaeRwaG920+Cjg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbnOQ25tdydX+n9TTXXPQq35xWI93ukFrJRclwlqys2OSbVBts
+ 9Ykyz5hCtKbg9ENhr9hz9kPvvNF+r4g2FtTs7VbyiO5uK6zUX9onPZ1zSlLMw7pjO9hDmfZ8rwe
+ Ju8jvnbI1cbhJ3WUlwX5Un+vbnriq++K2il2LZ0Waxg==
+X-Gm-Gg: AY/fxX76DVADOmIs8+QZi7kFeN1X4+08/ChAdQ+9HfoviHDe4PNQpXCxSAXggzOg8bX
+ S5VucgsciwG6470XQ/W22+lLvv8z0FQPR+WCa7I4UEwidz7RY+AchOrDXcbB15C/pbkO43477vJ
+ rRXCIyRCZWRKiTPqkV1lUY5R0LL1Su8IyO61T6KU4yHqerDYcR8sDC3HZkdEMR4e5iEaNYQV6Xm
+ sY3B8ncuRf658pxnnaFrs8eszqkzMuJRBl83vrZVWANLZFJGgLYMgDumC6J4Vzo13gGJ8LHFZUJ
+ oAXcJBT1aesEpYDHNw+RAVurV8n2
+X-Google-Smtp-Source: AGHT+IHcaq3Iod3MNNgnnvFFNIpcziSsOqmmFlOGlQ74iUyxAGstEgFcIYPH3qVrmLUpnmc350OzASEAfdSgs1QHSkM=
+X-Received: by 2002:a05:6512:10cf:b0:598:de74:7a66 with SMTP id
+ 2adb3069b0e04-59b6f023bc8mr2163410e87.26.1767891247505; Thu, 08 Jan 2026
+ 08:54:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251103170604.310895-1-marco.crivellari@suse.com>
+ <20251103170604.310895-3-marco.crivellari@suse.com>
+In-Reply-To: <20251103170604.310895-3-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Thu, 8 Jan 2026 17:53:56 +0100
+X-Gm-Features: AQt7F2oYFLywsT6cVyy-Fw18Te-lDh35_yrTBGDJ2XEJK1ILpY0zCAOBMCVlL-4
+Message-ID: <CAAofZF5iwRcEg9813aZf+Bib36u3K9MSjCwt478rzxuKW97gcw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/xe: add WQ_PERCPU to alloc_workqueue users
+To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +92,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handle cases, where drivers report incorrect timestamps and negative
-time differences are calculated. If the negative difference is large
-enough, negative missed vblanks are reported, but stored in an unsigned
-integer which can causes freezes. This patch prevents this case.
+Hi,
 
-This fix has been verified to fix problems with the i915 driver on
-modern Intel CPUs (e.g. Intel Core Ultra 7 155H).
+I realized something in the meantime, looking manually at the patch,
+while preparing the v3.
+There is a bug in the alloc_workqueue() line in xe_ggtt_init_early():
 
-Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
----
- drivers/gpu/drm/drm_vblank.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+On Mon, Nov 3, 2025 at 6:06=E2=80=AFPM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> [...]
+> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+> index 5edc0cad47e2..566163ab96ae 100644
+> --- a/drivers/gpu/drm/xe/xe_ggtt.c
+> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
+> @@ -291,7 +291,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
+>         else
+>                 ggtt->pt_ops =3D &xelp_pt_ops;
+>
+> -       ggtt->wq =3D alloc_workqueue("xe-ggtt-wq", 0, WQ_MEM_RECLAIM);
+> +       ggtt->wq =3D alloc_workqueue("xe-ggtt-wq", WQ_PERCPU, WQ_MEM_RECL=
+AIM);
+>         if (!ggtt->wq)
+>                 return -ENOMEM;
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 94e45ed6869d..1022b6d61e4e 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1563,7 +1563,14 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
- 	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
- 
- 	diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
--	if (framedur_ns)
-+
-+	/*
-+	 * Make sure no bogus diffs result from negative differences
-+	 * when incorrect timestamps are reported by a driver.
-+	 */
-+	if (drm_WARN_ON_ONCE(dev, t_vblank < vblank->time))
-+		diff = 0;
-+	else if (framedur_ns)
- 		diff = DIV_ROUND_CLOSEST_ULL(diff_ns, framedur_ns);
- 
- 
--- 
-2.43.0
+> -       ggtt->wq =3D alloc_workqueue("xe-ggtt-wq", 0, WQ_MEM_RECLAIM);
 
+The workqueue flag is the 2nd parameter, not the 3rd. The 3rd is max_active=
+.
+
+I will send a patch in order to fix this before proceeding with this
+entire series.
+
+Thanks!
+
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
