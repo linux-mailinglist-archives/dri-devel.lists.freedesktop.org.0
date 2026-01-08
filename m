@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9EDD02616
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 12:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B576D026A3
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 12:34:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C6210E282;
-	Thu,  8 Jan 2026 11:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD3210E6EE;
+	Thu,  8 Jan 2026 11:34:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ThLzjdMe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d0FNGsEt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB9210E282
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 11:28:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 28BCB6012A;
- Thu,  8 Jan 2026 11:28:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEAC0C16AAE;
- Thu,  8 Jan 2026 11:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767871697;
- bh=3Kjhp0b3kwImrDL2L6LwF5n2i36fqNua3dzRnbIjReU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ThLzjdMelW930c+ei43cTLAinWpByX4H/unWusBtDJx67SVViBKH2HJp4NN6pfDNJ
- S0o7hNKCFpHN/OgGfD6igSGlJ+DPmag7+/e0kTpckOhnpH4/JEH0gfkDq+GHZ7SxYn
- sTyyqEFxobiUx11gdTDahJHp0S7VvuoNQkGG/Ur1aZa0Y+nB3xQm4Fkmv34B6GL8QO
- Nq7K/rJN9iNmi7PHXBbpiP7k8HzQKFH8gMdUHColDMn4ALEVUyYXDEC8klO5AsygFp
- YxojfWXoN1bQ6FS99fp0EAppdIAS45JOYnyHidAfSv8R/GxlvUu1OujF92bEY8vZHy
- 1hh01tlZp1NfA==
-Date: Thu, 8 Jan 2026 11:28:10 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: =?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <barnabas.czeman@mainlining.org>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>,
- Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>,
- Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>,
- Alejandro Tafalla <atafalla@dnyon.com>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/7] backlight: qcom-wled: Support ovp values for
- PMI8994
-Message-ID: <aV-UyhP7wllSBpYj@aspen.lan>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-2-8687f23147d7@mainlining.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536D510E33C;
+ Thu,  8 Jan 2026 11:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767872039; x=1799408039;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KA8rZZEHFAhApfRp4avt4rONfw7UKHIgrmDqP6alZn4=;
+ b=d0FNGsEtbgZDrcAZonSa3/xZf8PwD+kS/8QNpv/dBLnAg3gWJA1BfvSM
+ ZyMccngC5Kd7a0/VbXcY9c8r3pzWilVRr2BXt7t2d5Q65dRjAwzZZu9kN
+ gTJfEjrlfZy5hK5BZ8fKa84f+zE/nhCLeMKWmVQzh0aFdslIDwt1V1/fX
+ rXTvlnaHeQWXRKesoGRx1iwcOiqMOyYWm20IbI7jtTVZuN8ug8CWYqwqq
+ fQ4daRnACawLnwSNMMRKR3WeqKs81eX5pvJP629eoEPHSrFSQ+jhFw4cV
+ QiEZb/+vaRU+PE9plmSmtaQdrldUrjNcGFC4mnaK0OcJ4kaly8g8rPC96 A==;
+X-CSE-ConnectionGUID: aBrLEIuHSYCgUqAPOQhN8A==
+X-CSE-MsgGUID: msH/UApdQDiZDBUdgGnRkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="71824645"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="71824645"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2026 03:33:59 -0800
+X-CSE-ConnectionGUID: H7rqe9+8QY6oTm/1+ClEJw==
+X-CSE-MsgGUID: /kj0q9CzQMG3USqSZzhbhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208024030"
+Received: from yadavs-z690i-a-ultra-plus.iind.intel.com ([10.190.216.90])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2026 03:33:57 -0800
+From: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>
+Subject: [PATCH v2 0/2] drm/buddy: Fix BUG_ON from oversized rounded
+ allocations
+Date: Thu,  8 Jan 2026 17:02:28 +0530
+Message-ID: <20260108113227.2101872-4-sanjay.kumar.yadav@intel.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260108-pmi8950-wled-v2-2-8687f23147d7@mainlining.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +70,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 08, 2026 at 04:43:20AM +0100, Barnabás Czémán wrote:
-> WLED4 found in PMI8994 supports different ovp values.
->
-> Fixes: 6fc632d3e3e0 ("video: backlight: qcom-wled: Add PMI8994 compatible")
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
->  drivers/video/backlight/qcom-wled.c | 41 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index a63bb42c8f8b..5decbd39b789 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -1244,6 +1244,15 @@ static const struct wled_var_cfg wled4_ovp_cfg = {
->  	.size = ARRAY_SIZE(wled4_ovp_values),
->  };
->
-> +static const u32 pmi8994_wled_ovp_values[] = {
-> +	31000, 29500, 19400, 17800,
-> +};
-> +
-> +static const struct wled_var_cfg pmi8994_wled_ovp_cfg = {
-> +	.values = pmi8994_wled_ovp_values,
-> +	.size = ARRAY_SIZE(pmi8994_wled_ovp_values),
-> +};
-> +
+This series addresses a crash in drm_buddy allocator when allocation
+requests exceed mm->max_order after rounding operations. This can occur
+with non-power-of-two VRAM sizes (e.g., 10G = 8G + 2G roots) where
+mm->max_order represents the largest block (8G).
 
-Do these *have* to be named after one of the two PMICs that implement
-this OVP range.
+The issue manifests in two scenarios:
 
-Would something like wled4_alternative_ovp_values[] (and the same
-throughout the patch) be more descriptive?
+1. CONTIGUOUS allocations: roundup_pow_of_two(9G) = 16G > 10G
+2. Large min_block_size: round_up(9G, 8G) = 16G > 10G
 
+Both cases trigger BUG_ON(order > mm->max_order) deep in the allocation
+path, crashing the system on invalid user input.
 
-Daniel.
+The fix validates the rounded size early and handles it appropriately:
+- For CONTIGUOUS-only allocations, use the existing try_harder fallback
+- For other cases (non-contiguous, or contiguous+range), return -EINVAL
+
+v2: (Matt A)
+- Add Fixes, Cc stable, and Closes tags for context
+
+Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
+
+Sanjay Yadav (2):
+  drm/buddy: Prevent BUG_ON by validating rounded allocation
+  drm/tests/drm_buddy: Add tests for allocations exceeding max_order
+
+ drivers/gpu/drm/drm_buddy.c            |  9 +++++++
+ drivers/gpu/drm/tests/drm_buddy_test.c | 35 ++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
+-- 
+2.52.0
+
