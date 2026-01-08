@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB16D04EA6
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 18:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C327CD052EC
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 18:50:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA32A10E7A3;
-	Thu,  8 Jan 2026 17:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E02310E20C;
+	Thu,  8 Jan 2026 17:49:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XKyAyKs/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AKg1kNbf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12A010E7A3;
- Thu,  8 Jan 2026 17:24:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A7210E20C;
+ Thu,  8 Jan 2026 17:49:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0F5AB60130;
- Thu,  8 Jan 2026 17:24:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA179C116C6;
- Thu,  8 Jan 2026 17:24:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 54E836012B;
+ Thu,  8 Jan 2026 17:49:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5788C116C6;
+ Thu,  8 Jan 2026 17:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767893052;
- bh=hq0TVgPrc0pom/V97hgluSg19lH8GAucG7MJGGWa3KI=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=XKyAyKs/CwbFCuPL7zO2AjeTOhShG2a3lDcM2MJrb7R5/ZhZnwSoE4EiuNOoG4fT2
- un3qnNrPHUot6XOKHiudxgPiDSFf2cKH/uCP9lGfsjMMu83Qpa7Mn2fuH34c9NXQtm
- 2PbE40s9olywJM5M5kNdzMaQu9qO2kcfCGkYfxT5hC2X5xcnf14EsoTiopz3mE333m
- a4bZM0MB/8sxuo36fNWu0R8BcVkdDX69B/r/v7Q+NdLA5Otpp5ts6Bdvlb4EKETINs
- 2Lidp0s1+l07wnXzjH6Z3N7OT3XP39NYbpZMolhrVdwb/Sq1cUdE+AXnKpG/65s/O0
- jChUimgAy7L3A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 08 Jan 2026 18:24:03 +0100
-Message-Id: <DFJDS4EY28HD.WZ344DONCS5L@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 0/3] Rust GPUVM prerequisites
-Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Matthew Brost"
- <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris Brezillon"
- <boris.brezillon@collabora.com>, "Steven Price" <steven.price@arm.com>,
- "Liviu Dudau" <liviu.dudau@arm.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Frank Binns" <frank.binns@imgtec.com>, "Matt
- Coster" <matt.coster@imgtec.com>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Sean Paul" <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, "Lyude Paul"
- <lyude@redhat.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Sumit Semwal"
- <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>
-References: <20260108-gpuvm-rust-v2-0-dbd014005a0b@google.com>
-In-Reply-To: <20260108-gpuvm-rust-v2-0-dbd014005a0b@google.com>
+ s=k20201202; t=1767894597;
+ bh=yHXzZ4miF7zh5XwZfOW7e/mH9PaCOotHUPX6zGX/Uos=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AKg1kNbfR7AwjZlLXGLigURd6geItf/1jIcBGUAQTH+bRwf8/Q8/8CCSOmoky3qX9
+ KeCK9KH5x9DbICdcKOqRZ1OVmeysHblEGw8bOMB/mbaJhvC2Sgntiej5Bxg+PI/6UZ
+ XKG9QlGnN9x5K8l7FBDByJLSV7CNjc70R4MOJIKhLbvS5x8c7jGYKNVthyuwGTIn7B
+ +Xi6C3MjUPd2vMQ1Od3L4DUL9pV0nYQJH/mIxKLcneX+0l65StmljCEt4qE1caNvUJ
+ /9Aa4J99EJG+sPw+bYcAVPcWLUephad2ahlaEJV9ncUZCNpzuwxV5HOmszziUICAB8
+ 0C0w6a1tJRVkA==
+Date: Thu, 8 Jan 2026 11:49:54 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v3 2/3] soc: qcom: ubwc: Get HBB from SMEM
+Message-ID: <b2pqfrs2ptaoxxeanzumxyibmydsoiqslcsg6yrm4hihynowj4@mzazqnrptnyf>
+References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
+ <20260108-topic-smem_dramc-v3-2-6b64df58a017@oss.qualcomm.com>
+ <you4xijwc5g4ngcnhxm4ecn7opexnsdfayvd5wiiqpl7734r7w@bdkpjqmlzxre>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <you4xijwc5g4ngcnhxm4ecn7opexnsdfayvd5wiiqpl7734r7w@bdkpjqmlzxre>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,18 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Jan 8, 2026 at 5:07 PM CET, Alice Ryhl wrote:
-> Alice Ryhl (3):
->       drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()
+On Thu, Jan 08, 2026 at 04:45:49PM +0200, Dmitry Baryshkov wrote:
+> On Thu, Jan 08, 2026 at 03:21:51PM +0100, Konrad Dybcio wrote:
+> > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> > 
+> > To make sure the correct settings for a given DRAM configuration get
+> > applied, attempt to retrieve that data from SMEM (which happens to be
+> > what the BSP kernel does, albeit with through convoluted means of the
+> > bootloader altering the DT with this data).
+> > 
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> > 
+> > ---
+> > I'm not sure about this approach - perhaps a global variable storing
+> > the selected config, which would then be non-const would be better?
+> 
+> I'd prefer if const data was const, split HBB to a separate API.
+> 
 
-Applied to drm-misc-fixes, thanks!
+I agree, but I'd prefer to avoid a separate API for it.
 
->       drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and staged mode
+Instead I'd like to either return the struct by value (after updating
+the hbb), but we then loose the ability to return errors, or by changing
+the signature to:
 
-   [ Slightly reword commit message to refer to commit 9ce4aef9a5b1
-     ("drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()").
-     - Danilo ]
+int qcom_ubwc_config_get_data(struct qcom_ubwc_cfg_data *data)
 
->       drm/gpuvm: use const for drm_gpuva_op_* ptrs
+This costs us an additional 16 bytes in each client (as the pointer is
+replaced with the data), but I think it's a cleaner API.
 
-Applied to drm-misc-next, thanks!
+Regards,
+Bjorn
