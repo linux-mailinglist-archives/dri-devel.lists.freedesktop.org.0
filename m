@@ -2,63 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A4CD068C2
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 00:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616DED068E6
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 00:41:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A7210E19C;
-	Thu,  8 Jan 2026 23:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84F4210E7DD;
+	Thu,  8 Jan 2026 23:41:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LaDAOUIY";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="TMXOe7zs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B8E10E19C;
- Thu,  8 Jan 2026 23:29:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B6E71435BB;
- Thu,  8 Jan 2026 23:29:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BCEC116C6;
- Thu,  8 Jan 2026 23:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767914978;
- bh=Rw3b/I81KHL7rDt7WZsRA6q5wG50TRlXUqsg2VrqzSg=;
- h=From:Date:Subject:To:Cc:From;
- b=LaDAOUIYfdcS1TELNDZjf6/2IqXXfGW9tJJF8AlT3amw0KHLz9m4RzhPpyFj0eUwO
- NkBhHLaa4ImtevJtSzL/7gXNCnJEsHk79Z3H1XX8ESpkJ59wXKL+/6RpIq2l15CV0N
- zCQSF+DO1Z38ppubYSyswD8prBuFDD+RBJW9PxrDck8LviJp+WGDOhzsjBOKKS1GY/
- UWleuMUSKLsIeCBFE4EexrdxldpVclpji9HV49gz9eb4QvdVZvkBRt33eEbZbnFk+Y
- aiGKhCCqHynXF3WvHn8yik682hKDChFuk+YnPkVGwQy9Jg+7feUnHXmCQgX9xOBMU1
- FwUSkYrQcnf4g==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 08 Jan 2026 16:29:25 -0700
-Subject: [PATCH] drm/msm/dp: Avoid division by zero in msm_dp_ctrl_config_msa()
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010010.outbound.protection.outlook.com [52.101.56.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B2410E7EF;
+ Thu,  8 Jan 2026 23:41:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tekkW5XICDFWsv1X0V8AmhCAmXx4WrnVs1J1sXStPS2By1WObDTKzrkLPpmmo7VcO4RFXzJmh/CYNw1ht7LtOZ/NAA8abzKlKhaGe4B3JdC9ftcUVB9/u9MewxXiEVH1rmzgUB6bXz4DKJh4EeDEJsudeyZldca8wt6aEuO4fRiuGNG7FyM2BxsxP1KQd7VhicMUxdZrG43u0f6Zy3QWMp7Qha14TrQ8twqaccht3f0KL7Vs1qtxtckFhelseIvu1uw/NDdo5477qyIu+EzG1+hNr60bDf8AwmapoVphKOYdVHMyYgJJShaqKC4tlo2KZUDfDTENMXGYjcaRtDRiXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lEjHDZZC97K3WCYH8fG6Iwu5wzGnnCM7C2bIlMjJ8nA=;
+ b=g6z/Oc5J2Sf0yq8pcfiHGjHwiFTYFlhOA8mRfdrpdTtEpvdJnZYQC7qmFbO1VWo2/DLuqt6VWx9fW7PI46Vjy7/tPWarVL72rfM1C7z60oCqkTRemw1PykJSFdY8t0xsi2FjJoszO750GvSkXcDjIAM1GqVIEPZB3t+uT7Oz7yczr17rOP733wxKzqrG6MTXc5NIowmTG97qX76pIPd9KC2xWTf32c7VtY1Xiofaf1PZXOxOsMcyx1UgLsV9DD7T9JOG715ebWqrWEQiozfHIbC+vnrrDOrkOykY1mAIpyLdiA2XRWVcLOecOHllB59+u4gXsTwcJkYGrPFA6Lo6MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lEjHDZZC97K3WCYH8fG6Iwu5wzGnnCM7C2bIlMjJ8nA=;
+ b=TMXOe7zsV0yhVdWyV+Po+X+FiFQZx2U4rFZY462vr5TcoDWbY6ZH84BxER8wWgnL0hlMu/vHkSHykAB5uk7qKJ9Q3fGci6loIWjYdrNA4IKEiZa9m13UpgUEkdGENLcD8mnIIylGqhhx0bhItz8WqBECwUWr/pb/DcHTo2bmL9OAWfsFUHz8OAoCKRdtMIR8jbnhAQYBOMwl9H7yR7SSvJic4WtOD7O09/UGspmigBV/NrSehIe5QHw3pgQTZOr7XHXFYX9HOBvopICyH1tPVDEZKXSHDuVcotEGYoP92St/TH7/5aiEUhfvnEmpGiBFLeD6yP20vzK4p6oQeRW+VA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ DS4PR12MB9684.namprd12.prod.outlook.com (2603:10b6:8:281::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4; Thu, 8 Jan 2026 23:41:20 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9499.002; Thu, 8 Jan 2026
+ 23:41:19 +0000
+Message-ID: <106a76cf-c2e6-4371-85e0-b6308255c075@nvidia.com>
+Date: Fri, 9 Jan 2026 10:41:11 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/11] mm/migrate_device: Add migrate PFN flag to track
+ device private pages
+To: Felix Kuehling <felix.kuehling@amd.com>, linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca
+References: <20260107091823.68974-1-jniethe@nvidia.com>
+ <20260107091823.68974-5-jniethe@nvidia.com>
+ <93449f35-9512-47d2-ad32-0f0efabfb8f5@amd.com>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <93449f35-9512-47d2-ad32-0f0efabfb8f5@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SY4P282CA0001.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:a0::11) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-drm-msm-dp_ctrl-avoid-zero-div-v1-1-6a8debcb3033@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXN0QrCMAxA0V8ZeTbQDifDXxGRNYkasetIZxHH/
- n1VH8/LvQtkMZUMx2YBk6JZ01jhdw3QfRhvgsrV0Lr24LzrkS1izBF5utBsTxxKUsaPWELWgkE
- 6pr2jQL6HGplMrvr+DU7nv/MrPITmbxXWdQMS7Q8DggAAAA==
-X-Change-ID: 20260108-drm-msm-dp_ctrl-avoid-zero-div-be5dc40cbc18
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, kernel test robot <lkp@intel.com>, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2225; i=nathan@kernel.org;
- h=from:subject:message-id; bh=Rw3b/I81KHL7rDt7WZsRA6q5wG50TRlXUqsg2VrqzSg=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJkJtvckMppmf1ITXfHmyfb7Mzas2bhW59SuK76O7ketn
- kTdWRa5t6OUhUGMi0FWTJGl+rHqcUPDOWcZb5yaBDOHlQlkCAMXpwBMZOYERobLr3oXTIlLNNns
- qfGj32ri40sRd+SPHXM9f9HMNfvJkSYlhv8uosfs1tsuObR9s++ClsJ9u15fTJVmZdraah9R+mM
- P91UGAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|DS4PR12MB9684:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0713fcab-8975-4adb-a7d6-08de4f0f6c7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UjZqSVpzbDNzMGg1SmxjNHk1bFh2WERPUXdqQVZuM1pyVkVBanZIckl4cWNP?=
+ =?utf-8?B?U24xV1hOZldzamN1M3FzbElnWXp3K3U3c2hxTFh2eXIyS2VEcnowNEhNQ0lU?=
+ =?utf-8?B?Yy9vVXdsMWRabFNWNWV4YzhJcmdkdGhubDV2emNzbzZvaVkyNWZ1RkJFdURy?=
+ =?utf-8?B?OTNnb0tMaVArSzRJSXFPVHhaUkRmR3hkL21BY09tSGNBQnBPQTRsZjk4MmpM?=
+ =?utf-8?B?RzF1UmNGNTNiTjVRQU5EQmM4TzQ0Z1IrTG9iaWRqN3d2R2wybjM0MkxkY3dP?=
+ =?utf-8?B?NzBQT210azB6em9qdDg2R0ZncEpyYTN3Y1JUSkR0cUlubDBjWjI1QzJhejZT?=
+ =?utf-8?B?SnE4YytPdTQ4ZmU2dTREWHdCaHJCKy9ZK3pyZXZPUHB6cHJBMU9pLzE0aHFw?=
+ =?utf-8?B?U3h0TGNSd3BiLzdaay9kNGJZUEY1NFJmRUg0SlAxaDd4UmJGQVlKT2pVVXZZ?=
+ =?utf-8?B?cnp6a0xZRDk4d2tsK0V0S1dXb2JjdWNIOGozT3RhQVFHdDEwd0J6T0JEQUp4?=
+ =?utf-8?B?RS80d1R4NkVzTGs5bGw2MDRlNVFULzE3OXVQM3BiZVZZMENibkZpRTlNcVpu?=
+ =?utf-8?B?NGxhYzRnc2hTZmNhSkNuTWpvem9JY1BVaFQ5Q3dxK2pNWFFueTBUMjNxUW84?=
+ =?utf-8?B?UXlzdnZPYmdDUjdJTTVFYlMva3FSSHphckEzY2g4T1BVMHIyUGJFUFVkNDFP?=
+ =?utf-8?B?d29DMi9JbjV5bEFoZHBHejNqeXhlM2pnUXB6dmRmWHFiMzUyU21wK2dJMnNr?=
+ =?utf-8?B?cVdJY20xcmdRaTJVcDIwMUtEbHJiWk8yS3RwMXVkREpJRHcxbE4ydnVwdC9h?=
+ =?utf-8?B?bjBnSmpKcUJRZWw2SFNvK2NvZFZQcWNqYjJLVi9NY0IveC96dlFEQ3QzUTBX?=
+ =?utf-8?B?Q0tHajlmR0hndFEyekNNM005ZWtBZUJzQ2JkL1U0b0RqVTNtMkxudVI1bEkw?=
+ =?utf-8?B?QnNZZERncDFrc1JhdEhRZUtoQTdZVWFxamh4bW9aRUc0RjNPNHBpek5DY3Ey?=
+ =?utf-8?B?UExYWVJidjFlSTkrdHkvMy9BWk5SVjc2VnI3elE2ZVJiZG12MmcyU1FESkJO?=
+ =?utf-8?B?c0Q5ZU80QXhOejRsYkNBbzhPTldMVWdHQUplenZXMC9Cd24zbHRQVkxNR0RE?=
+ =?utf-8?B?cG9vMmVUWE9PUEpzQXJnNG8xN0FTbFpxMVEyWkZaN3VHQWJiVU85QlBzS3NK?=
+ =?utf-8?B?UHlZMmZGYzhiMkUzc09EblNxMDdibmdFQk9JTU5XU3J3YjA5S2l1UXI1aGR6?=
+ =?utf-8?B?V1UwTHgzNG1CaDdFYytnQy9HZVNkZHh6aFZjcU1BVDd4MkNIMXVEaHJjN21p?=
+ =?utf-8?B?b1Y2anJMSFBraWxnekx2VklEWmk3SDhmc1Q2WUNMMHFHWUZBRkVHM1RmZ0NJ?=
+ =?utf-8?B?U21rcklSVCtmS3RnYzNrOEJlQlBIYWtNYmZMd0VVVmcwQmQ1ZGRqU3hDekRL?=
+ =?utf-8?B?YmsyR3BkQlRZNldCVlVMbkgwWGYzT1cyTWIxOEJ3OU9sczJzT2M3WWZrdXhQ?=
+ =?utf-8?B?Q2h6SzlRWDQ2a0JhVWFscVUwcDZ0Q0dCUmJFU0x1VUJxKzNRbzBNUUJGSmVF?=
+ =?utf-8?B?eElmSjNDeUZ0SlhabjRhYVBsZkxHcDJDSVdxY1BCUmNBL1RiMGJCcnBuRlZu?=
+ =?utf-8?B?VEtUVU90WlJsc1phMHRQeU5hZkRWcTVCdWl0L1FXVC9LdkFrS2tUcXljeXNv?=
+ =?utf-8?B?cjE1eDA0b0N2MHA3R0NzNFlPek9GUHZOYys1VVVkcGdlTE50R2FmUkFnSm9H?=
+ =?utf-8?B?NGFKRElHRFIyY1FkMTkrSFlBU21XakErRjVaWXBoSUo5ZFp6N2huMmFrbldW?=
+ =?utf-8?B?WWlUb0xLcDdiNVYxOVRVdzYvZ0Z2RmI5Q2x0Vmtza0tYRUpZTU15UFZjbXdV?=
+ =?utf-8?B?NUV3TE9DZE9PR2dFVjVCdFVWalJWaFpmYnMvNmFBTFVJeGx4MHZsR1pwQXZV?=
+ =?utf-8?Q?cc2R1EJOk+hzUU/JiE9asSFH1w0e2Wgv?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTdwZVovOXpJbkp2VU1Od1FNL3dlVndaQ0c2MElxcDhsSnJQSDNZcFdMZ3lD?=
+ =?utf-8?B?dU1Lbk5JUFVkdklXbmNGcWZFM21ob0hwMEo5bkZDMk92OGRyaC9OSXI5UnEw?=
+ =?utf-8?B?bnRjTU5iM0dMS0EvRVVXYXV1d3JVblhlNHpXeXQ4RmdNVVkvd2xtV0Y3NUpU?=
+ =?utf-8?B?MkVrTXdEQWxBVDlPQ01OeHVsSU53ZHJPN29YNE1vSExoOXZuaWtkeG1pVXM3?=
+ =?utf-8?B?ZlJTT3JQdFBDRmRBelN3Sk1hV2dOdEVFS0kzMjlubVZoU1dDMm5wejdkNVlk?=
+ =?utf-8?B?VC9uRWVRMDdZRVMva042K0V0bXhKcEdLUXVFSDVReC9OY1FRSEpiZ0dCTWpC?=
+ =?utf-8?B?RUFBaERWYnZ1Vm9sT3dpVTFxZ09YTU96eVJRK1RDdkdncTEwQ0VkREhRd01y?=
+ =?utf-8?B?R3BMQkxQMTEvV3RDcDVHYVkxcUh0OGg3OEVoVWgwcElVR2NGQWFiRDRkRWtF?=
+ =?utf-8?B?MVJZbm9tUTVqc3JPTXNGU2V0ZFJINzAwU01ZcUVMdTBVTXZ6aE1pakI5UUd3?=
+ =?utf-8?B?VXl2YjhnSFVscER0MUYvSWZjNGtpRVNaWmgvUUhPR1d6ODhLNnVvYnlhSmx1?=
+ =?utf-8?B?ME9WSVhkeU93R0ZJNGVIVDNqQWtRSVppQXZDV0VoUUFQVlJRdTZPNkQrOFdJ?=
+ =?utf-8?B?UEpTd1VrYmZzQUFYZldJcm10dTA5aFVuSFhaRUN5cWxXMGhpZEVWa2tKd2Mr?=
+ =?utf-8?B?YUhxcDZmT3RsdjhLUXh5N2N0cXhMSlpXb01rbFZ4OGpOSTRJRWNwOHdoRkYv?=
+ =?utf-8?B?MENGTTNONjNxRU9LUkhXU0NWSjUwVUhRL2M2TnpvTTZydDhyb3hsNFJSemFE?=
+ =?utf-8?B?ZG41bUpxbXBYNUw5aGtZdWNsMjJXTEZzQTFnWWlvT0M5a2JGQlBlelNEL05m?=
+ =?utf-8?B?T1hZODBsTDBnNFZ1WVBQbGFZN21CalNvQ2ZnN3NyN1pYU1B0YklOdzhFQnl4?=
+ =?utf-8?B?TUVrOSs5RDN3RVg0WVhIekI3YXlEdUcvTWdnTysreXEzUnhVekZhODBVelZn?=
+ =?utf-8?B?bzFyL1VyWXdkMk1jSGY5ZkgxUEphT3lFVVRpd0syMzBYcDUyTk9lbFVPRDFJ?=
+ =?utf-8?B?b2wyQ1dCWk5JM2NrRXlUNWh1QTVLMW9qYTJQL2VEdlVDbjExSDZFbzc2Wkl2?=
+ =?utf-8?B?Yk90RWlSZ3pIZGFhYi9Qckh1ZmRzUEhQblFEZkQyeno3YVp6K0ZtMWQxUDNx?=
+ =?utf-8?B?eVAvMmFkSko3U2JxQndNVFh3bXN0b2VXcXFqWVlJMnFMREtjZVl2eHNjRjdI?=
+ =?utf-8?B?cDZxZDFuU1V6U01JT3NZWnJVTE9PRndGN1RqclBDS2Vhb05wdG8xU2lMUG82?=
+ =?utf-8?B?K1V1ODJ0Y3FlMzFtQVM0cUk5dkdua3NMbGh3SkpLMjZOanFGeFZQc0hnM3FY?=
+ =?utf-8?B?VU9NWE9xVVNLUUphMDhYRy8vMTB1K1RXZmVnK29TOEFiY0xBQVhRdnJ5ZUhm?=
+ =?utf-8?B?LzlsTEsvWm84Uy90N0phTlFxRVdVMWtOU3FGeHAwamYzM0Z4QlJQdU1mZzMy?=
+ =?utf-8?B?UTdQMWRUcWNCVlNGTUhWRjNqYnhUMTNicUl3alNlMzNVc091UGdWcU9jc2Y5?=
+ =?utf-8?B?RHMrUEdiM0QxcmNXYkVPTk0yQVpmbmxxczhialRPQS9pTEt2ZXhyTVlnQlZB?=
+ =?utf-8?B?NEJyMUlVcUxXd2RhTm1qMlR4bmVBWEtEcmJ6Mk96TmZRSHljWTdybDh0TFJD?=
+ =?utf-8?B?TUJhRU9IVGZTdlgzS3V4d3R6Z2F3cHNhRkZxMGlEV1l3V3VxMUpieWUwbjEw?=
+ =?utf-8?B?SjRzc0o2Y0RTeEJJQ1NvQTNMeERHQkFvdzRvTkwxSXpyd0x4L0FNNHNBVm5Z?=
+ =?utf-8?B?KzkrbGZjMkxnS2ZiMngwN29ZZDRzNTQ1RnFYRkc2QmtNaDJkWGtQWkVSNncr?=
+ =?utf-8?B?Z016UW1sc25NMlFJU0dPc3dPLzRtOWlMeFRma2pOSWt3TFBLMVJlL1BrQW9J?=
+ =?utf-8?B?Q04xanlFQkUzcFJOSkx4QkU1NGxMMlB6cFBlUXJOWjVDTkliVXVBQnJISkxQ?=
+ =?utf-8?B?SUsxVk93T2ZkKzNCZFB1S3EvdTVlQXF2MFJnV0hwTlRyRWV6MHdSWUhQdzYr?=
+ =?utf-8?B?TDV6eE01ZkFVbHJnUUNydG1CQVQ1cnUyWmRmWUNVNDY0aktZOENWZDVsQUVk?=
+ =?utf-8?B?T0hUWUpmclRMMjlJcUIzQWFyejk3NEQyUnhzT2lSYkRIUiszQXFhTExtcFMv?=
+ =?utf-8?B?SGNzTTdLVGhUUGxBaWdZS0NFbnE3R3QrUnRRQUJaUjE4VmRyZVVBeW9pSWV3?=
+ =?utf-8?B?Z2U1azBqUmhXMkJSWnlDS2RuUm5EdGlVNDlYNUozZkltMERUOURhdjRhYzNp?=
+ =?utf-8?B?a1hJWG5QTnAwOU00c2JiVXYvc0VmWUtYR1UzcDAwVjNpOU53RjRzZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0713fcab-8975-4adb-a7d6-08de4f0f6c7b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 23:41:19.9101 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xq5Hmar/r9E2Olhu77s+iGKxlw3WUFxkSPeV0vAcLDbAQ45InL7tIbvhRB5p5EvTyFfUR2AVXxnFMebeG48RYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9684
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +174,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An (admittedly problematic) optimization change in LLVM 20 [1] turns
-known division by zero into the equivalent of __builtin_unreachable(),
-which invokes undefined behavior if it is encountered in a control flow
-graph, destroying code generation. When compile testing for x86_64,
-objtool flags an instance of this optimization triggering in
-msm_dp_ctrl_config_msa(), inlined into msm_dp_ctrl_on_stream():
+Hi,
 
-  drivers/gpu/drm/msm/msm.o: warning: objtool: msm_dp_ctrl_on_stream(): unexpected end of section .text.msm_dp_ctrl_on_stream
+On 9/1/26 07:01, Felix Kuehling wrote:
+> 
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/ 
+>> drm/amd/amdkfd/kfd_migrate.c
+>> index c493b19268cc..1a07a8b92e8f 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+>> @@ -206,7 +206,12 @@ svm_migrate_copy_done(struct amdgpu_device *adev, 
+>> struct dma_fence *mfence)
+>>   unsigned long
+>>   svm_migrate_addr_to_mpfn(struct amdgpu_device *adev, unsigned long 
+>> addr)
+>>   {
+>> -    return migrate_pfn((addr + adev->kfd.pgmap.range.start) >> 
+>> PAGE_SHIFT);
+>> +    unsigned long flags = 0;
+>> +
+>> +    if (!adev->gmc.xgmi.connected_to_cpu)
+> 
+> We could probably use adev->kfd.pgmap.type == MEMORY_DEVICE_PRIVATE 
+> here. This avoids making any assumptions about how KFD decides device 
+> page type it wants to use, which may change on future HW generations.
+> 
+> Other than that, this looks good to me.
 
-The zero division happens if the else branch in the first if statement
-in msm_dp_ctrl_config_msa() is taken because pixel_div is initialized to
-zero and it is not possible for LLVM to eliminate the else branch since
-rate is still not known after inlining into msm_dp_ctrl_on_stream().
-Change pixel_div to one to make the division well defined in the
-presence of an unsupported rate, relying on the DRM_ERROR print to
-indicate the error to the user.
+That's a good point - I'll update.
 
-Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-Link: https://github.com/llvm/llvm-project/commit/37932643abab699e8bb1def08b7eb4eae7ff1448 [1]
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601081959.9UVJEOfP-lkp@intel.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for review,
+Jordan.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index cbcc7c2f0ffc..e4731c059ed8 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -2395,7 +2395,7 @@ static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
- 			       bool is_ycbcr_420)
- {
- 	u32 pixel_m, pixel_n;
--	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
-+	u32 mvid, nvid, pixel_div = 1, dispcc_input_rate;
- 	u32 const nvid_fixed = DP_LINK_CONSTANT_N_VALUE;
- 	u32 const link_rate_hbr2 = 540000;
- 	u32 const link_rate_hbr3 = 810000;
+> 
+> Thanks,
+>    Felix
+> 
+> 
 
----
-base-commit: 66691e272e40c91305f1704695e0cb340cd162ff
-change-id: 20260108-drm-msm-dp_ctrl-avoid-zero-div-be5dc40cbc18
-
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
 
