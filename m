@@ -2,61 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D64D01D5F
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D07ED01DE3
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:37:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBD1D10E6C5;
-	Thu,  8 Jan 2026 09:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0310E6C8;
+	Thu,  8 Jan 2026 09:37:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="bNmYW9mb";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="PBLmol3z";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Fy6ON4kU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD92910E6C5
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 09:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
- c=relaxed/relaxed; 
- h=Message-ID:Subject:To:From:Date; t=1767864616; bh=+K11+gyj9g6pr1Fpatee6Fb
- hZy6Ep79Tz865ZNh+y2o=; b=bNmYW9mb+hvjiXOEHgfKR388gGi1kaK5ew8+1VFhAz3409D1zl
- Jby0ccPef2RHURAi4zCoDtZ02eNHBuoSxWQhI37IsKXjJHEO6+JyrRXf15Yn2xWsbfV4+LVnpn6
- 7SfQ/AOr8NL+j7Aec1JfwKI49sfaTdjKtfAJtidseDG8G5pJqu8F7ZT1twbMbTBsxxxG++PilFc
- qUQco/aw6xKwQN9zFHABPuX5YAKofsgqe1JfCY6R2KmnPkdPTvitRZUZxyYNcM95+aBp5rsm3Tq
- Pt0BLx0R9O1y+IL3qK2sHhK5SZ6wjkdXTBFIbPAMc4Py6DSvRZavArSllhar9NwlNqw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
- c=relaxed/relaxed; 
- h=Message-ID:Subject:To:From:Date; t=1767864616; bh=+K11+gyj9g6pr1Fpatee6Fb
- hZy6Ep79Tz865ZNh+y2o=; b=PBLmol3zo+INqRrInBMw5dF73Z7o/6UOGtR1zM5ijDZ0zRlzzv
- 3nMgGEK7kkBXP64oWTCvdMKxtMXFzIQLMzAQ==;
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7FE10E6C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 09:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767865056;
+ bh=+QUCh+BiJaBruD2vdyKisViWbUs5fQdsky3TtckYH1s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Fy6ON4kUwZ7sOCvN0m9+ZwtFwRLoUBghzLMyZb0KTCNefUJkRsK7HOn8Xf3WgbnAY
+ C6FFfzKThnYDfrm4/5X8yMkPsqch0SBLOJFWEv02DmIfTFcAH5R5ay6keNlJtRjsM2
+ q3Tb87mS6hBwW3rsM1IlSMDVJK8jRb0BQt6PgkScPQP7DUIPN5x2kSGstiJmWxz/bU
+ zFXXp3CBjoAIeke4xIvKlGVAFsAImrQCygWhaOp2Q/fJkx78c5UnxErlkKgC/Itlu8
+ NIo58fwbwhOxxjRh7jpPlt3PDVxK05cPDj4Z4eqwnT+8f2mACjYBSDlGvrLtpzc9s2
+ kttCq8N/OwYfg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C4B4A17E11FB;
+ Thu,  8 Jan 2026 10:37:35 +0100 (CET)
+Message-ID: <e6c2c86d-71bd-453c-847c-1eff2be88be7@collabora.com>
+Date: Thu, 8 Jan 2026 10:37:35 +0100
 MIME-Version: 1.0
-Date: Thu, 08 Jan 2026 10:30:16 +0100
-From: barnabas.czeman@mainlining.org
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, Jingoo
- Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Kiran Gunda
- <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, Luca Weiss
- <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, Eugene Lepshy
- <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, Alejandro Tafalla
- <atafalla@dnyon.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: backlight: qcom-wled: Document ovp
- values for PMI8994
-In-Reply-To: <52778327-69bb-4f6c-8d64-094f33809480@oss.qualcomm.com>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
- <45a2b510-c825-4191-975a-1389f4f18903@oss.qualcomm.com>
- <c7bca43b1b912a6a100d83229d78abde@mainlining.org>
- <52778327-69bb-4f6c-8d64-094f33809480@oss.qualcomm.com>
-Message-ID: <1d1601c3b871e67c76e4f3572400b2d7@mainlining.org>
-X-Sender: barnabas.czeman@mainlining.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] Add GCE support for MT8196 (series 1/4)
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,32 +77,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2026-01-08 10:22, Konrad Dybcio wrote:
-> On 1/8/26 10:17 AM, barnabas.czeman@mainlining.org wrote:
->> On 2026-01-08 09:54, Konrad Dybcio wrote:
->>> On 1/8/26 4:43 AM, Barnabás Czémán wrote:
->>>> Document ovp values supported by wled found in PMI8994.
->>>> 
->>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>> 
->>> I reviewed a version of this that said PMI8950, which is very much
->>> not the same..
->>> 
->>> Let me try and get some more docs to confirm or deny what you're
->>> saying..
->> I have sent it for the previous revision msm-4.4 contains the 
->> documentation.
->> https://lore.kernel.org/all/95f7c89fdf9b856f567a498cc56ecfa5@mainlining.org/T/#u
+Il 31/10/25 16:56, Jason-JH Lin ha scritto:
+> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 > 
-> Right, but I didn't send any reply acknowledging that.
+> This series adds initial support for the MediaTek MT8196 GCE in the CMDQ
+> driver, including related API changes for new hardware requirements.
 > 
-> On v1, my review tag meant "I concur this is the case for PMI8950"
-Yes, sorry. Since they are pretty much same i have considered it is a
-minor change i have only changed everything to pmi8994 because it
-was introduced before pmi8950 at upstream. I will be more careful next 
-time.
+> Series application order:
+>    1. [Fixes] Refine DMA address handling for the command buffer
+>    - https://lore.kernel.org/all/20251022171847.379470-1-jason-jh.lin@mediatek.com/
+>    2. [Series 1/4] Add GCE support for MT8196 and update CMDQ APIs (this series)
+>    3. [Series 2/4] Migrate subsystems to new CMDQ APIs
+>    4. [Series 3/4] Remove shift_pa from CMDQ jump functions
+>    5. [Series 4/4] Remove deprecated CMDQ APIs
 > 
-> Because you carried it in v2, it appears as if I said "I concur this
-> is the case for PMI8994", which is not what I then said.
+> Please apply this series after the DMA address handling Fixes patch[1],
+> and before the following series.
 > 
-> Konrad
+
+Jassi, since this is touching both mailbox and soc/mediatek, can we avoid to create
+immutable branches to pick this entire thing?
+
+If you wish, I'm fine with you picking the soc/mediatek commits as well as the
+mailbox ones, or I can pick the mailbox ones instead if you're okay with that.
+
+Whole series is, of course...
+
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
+> ---
+> 
+> Jason-JH Lin (9):
+>    arm64: dts: mediatek: Add GCE header for MT8196
+>    mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+>      instruction
+>    mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+>    mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+>      transaction
+>    mailbox: mtk-cmdq: Add driver data to support for MT8196
+>    soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+>    soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+>      subsys ID support
+>    soc: mediatek: mtk-cmdq: Extend cmdq_pkt_write API for SoCs without
+>      subsys ID
+>    soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+>      addresses
+> 
+>   arch/arm64/boot/dts/mediatek/mt8196-gce.h | 612 ++++++++++++++++++++++
+>   drivers/mailbox/mtk-cmdq-mailbox.c        |  74 ++-
+>   drivers/soc/mediatek/mtk-cmdq-helper.c    |  77 ++-
+>   include/linux/mailbox/mtk-cmdq-mailbox.h  |  19 +
+>   include/linux/soc/mediatek/mtk-cmdq.h     |  93 ++++
+>   5 files changed, 869 insertions(+), 6 deletions(-)
+>   create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
+> 
+
+
+
