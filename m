@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430B6D01E58
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8BBD01E5E
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:45:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB1C10E6CF;
-	Thu,  8 Jan 2026 09:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E1F10E6D2;
+	Thu,  8 Jan 2026 09:45:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fLWtefTO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dUXy12zr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A02E910E6CC;
- Thu,  8 Jan 2026 09:44:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A1310E6D1;
+ Thu,  8 Jan 2026 09:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767865498; x=1799401498;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=My9ve60U7r5pxDU002QmNDBMr9ZqZr5q2SgiIYPyB84=;
- b=fLWtefTO8p859+1DBXr4ShAIWhvxLmqxyu3Aa4T6IKCUaXT7jUkK3Ztj
- DECzAZ+UtxoK7IUpnOVbGYQa8v7dC0U79BG7K5alnlh0R24v6pjYrcGli
- NkVfcuOkrZRJyAhqWBE/TczzRNaCpv2x9YZmi57GsHr94v6308qfug5vD
- snDXOe0Vv0Syf8yLxK61gcSXan5IxVCBgfynRLCro7WVe3Ww5dA614zWu
- VDOwHcrfAGFVnTj5upfrTTqDrXVN3y5pmgTuj0JqeHwzk4dWm1VyE+ktR
- jpp1zMMOtWkdQGwjyBjWHhLMLUWRfYEZGcgrdof+2hCaTgBL2hxFAN60r w==;
-X-CSE-ConnectionGUID: m3kfqCuuQ9OIlF0odl6wqQ==
-X-CSE-MsgGUID: 081w9xQbRL6wPt7GAf4Xnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72876481"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="72876481"
+ t=1767865503; x=1799401503;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=c1395ejJbihpYFk0A/GtcNVJ+bLcmV1S/6CH42VrOkg=;
+ b=dUXy12zrYoCUg6J2duWSvcUhyLei4nvbP6BaEO61wB2bj1A23ZzaTp2n
+ JQjApXtM/MyVXv4NrNovPow0Z0djrsxH+71BPgpfwwT76bA0urkQ/eiEX
+ EdPbjteuHzWo1DS6u1s5QWkab2D1D+ODz5OI+cK8DfMCqWoAyxPGRdeqD
+ 8EKIq5b1B6CpjT1npfksoXO/a/SLMLAJUpQ5yZIAeavZPhD+MKKXYecDl
+ qIPJ/nc1hHt6WlH7JXKP6w3eofpbWlz8n/HCxZQrd08y1kDrhqnI1YZkG
+ vXtgQrB3USGGN/CT19/sQyD2Ce7DPgv8zfMJjNzYKKjtIRf11JWnj2ajT g==;
+X-CSE-ConnectionGUID: FEn7FomuQTOk7yXiKDf+5w==
+X-CSE-MsgGUID: b+Obu16PQoaNh2fG2TB41w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72876498"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="72876498"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2026 01:44:58 -0800
-X-CSE-ConnectionGUID: eYcbpmrKTtqNr4xWgzpfQQ==
-X-CSE-MsgGUID: FJ9aEXqjQiuKiwWHO+UZrg==
+ 08 Jan 2026 01:45:03 -0800
+X-CSE-ConnectionGUID: lMhTT77nT9+/2pZr9nkFPA==
+X-CSE-MsgGUID: JEjZi/b/Ri+rVUZV7TOe3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208231933"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208231964"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 01:44:52 -0800
+ by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 01:44:57 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
-Date: Thu, 08 Jan 2026 15:13:21 +0530
-Message-Id: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
+Date: Thu, 08 Jan 2026 15:13:22 +0530
+Subject: [PATCH [RFC] v3 1/7] drm/atomic/plane: Add plane property for
+ async flip
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADp8X2kC/x2MQQrCMBAAv1L27EqSbqzxJAg+wGvpIU03NmBTS
- YoopX839DjDMCtkToEzXKoVEn9CDnMsUB8qcKONT8YwFAYllJZCCrT5Fx167oUxUhGJHkr7Tuz
- Dd/+00D7utw66on2aJ1zGxHafNFaTIqvRnmtCcs6hEcTIThtupNcDn64hLvw6unmCbfsDRkOw6
- 58AAAA=
-X-Change-ID: 20251010-async-feb09912440b
+Message-Id: <20260108-async-v3-1-e7730c3fe9ff@intel.com>
+References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
+In-Reply-To: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -79,85 +77,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct drm_crtc_state {
-         /**
-          * @async_flip:
-          *
-          * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
-          * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL
-itself yet.
-          */
-         bool async_flip;
-
-In the existing code the flag async_flip was intended for the legacy
-PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
-As per the hardware feature is concerned, async flip is a plane feature
-and is to be treated per plane basis and not per pipe basis.
-For a given hardware pipe, among the multiple hardware planes, one can
-go with sync flip and other 2/3 can go with async flip.
-Tearing affect will be noticed with this and if any policy should be
-taken care by the user space. KMD not to include any policy
-as to allow async on only one plane for a given pipe as all policy done
-in user and KMD exposes what is supported by the hardware.
-
-There would be a bunch of changes to correct this in the atomic path.
-Add a new async_flip plane property to allow user enable async flip on
-the required plane.
-Any restriction checks for async_flip will be taken in atomic_check()
-and not in the atomic_ioctl().
-Let the preset code reside as is even in the atomic patch until all the
-existing drivers and user space implementations move to plane property
-for async flips.
-Changes include removal of the checks we have in atomic path so as to
-reject any changes(different plane, pipe, connector) along with async
-flip. This would be replaced with checks so as to reject any change in
-that particular plane where async is enabled(reject any change in
-pipe/connector as that would have impact on this plane)
-
-With the above changes, the challenge that we have presently so as to
-enable async flip on overlays which is handled seperately with if
-condition in drm_atomic_uapi.c can be moved to driver specific
-atomic_check code.
-
-This series depicts the changes in the drm core and upon getting
-feedback on this, driver specific changes for theis will be done in the
-next revision on the same series.
-
-Please let us know your opinion on this.
-
-Note: The series is partially tested with the IGT so as to ensure the
-existing implementation is not broken. Full feature testing is pending,
-just opening the series as RFC so as to get comments so that I can
-incorporate them.
-
-Thanks and Regards,
-Arun R Murthy
--------------
+Add a new property for enabling/disabling async flip on a plane for
+atomic path. Certain vendors have support for async flip on more than
+one plane and with the present implementation using the flag, async flip
+can be enabled on only one plane.
+Adding a plane property for async flip enables driver to allow async
+flip on multiple planes in atomic path.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
-Arun R Murthy (7):
-      drm/atomic/plane: Add plane property for async flip
-      drm/atomic/plane: create async flip property for plane
-      drm/atomic: Re-route the async flip based on the flag
-      drm/atomic: Move the plane property check for async flip to atomic_check
-      drm/atomic: Allow planes with NULL fb along with async flip
-      drm/atomic: flip_done signal for planes
-      drm/i915/irq: Enable flip_done for each plane on async flip
+ drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+ drivers/gpu/drm/drm_plane.c       | 31 +++++++++++++++++++++++++++++++
+ include/drm/drm_plane.h           | 12 ++++++++++++
+ 3 files changed, 47 insertions(+)
 
- drivers/gpu/drm/drm_atomic.c                       | 122 ++++++++++++++++++++-
- drivers/gpu/drm/drm_atomic_helper.c                |   2 +
- drivers/gpu/drm/drm_atomic_uapi.c                  |  74 +++----------
- drivers/gpu/drm/drm_plane.c                        |  33 ++++++
- drivers/gpu/drm/i915/display/intel_display_irq.c   |  98 ++++++++++++++---
- drivers/gpu/drm/i915/display/skl_universal_plane.c |   2 +-
- include/drm/drm_plane.h                            |  19 ++++
- 7 files changed, 277 insertions(+), 73 deletions(-)
----
-base-commit: b3845fe8af5ec5c1d4b26e40ac6b4c7370e5fa35
-change-id: 20251010-async-feb09912440b
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 7320db4b8489f10e24ed772094c77e2172951633..4a2da81abd713127d5157e84f2cae2f8b34a4dd6 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -593,6 +593,8 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+ 		return ret;
+ 	} else if (property == plane->scaling_filter_property) {
+ 		state->scaling_filter = val;
++	} else if (property == plane->async_flip_property) {
++		state->async_flip = val;
+ 	} else if (plane->funcs->atomic_set_property) {
+ 		return plane->funcs->atomic_set_property(plane, state,
+ 				property, val);
+@@ -672,6 +674,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+ 			state->fb_damage_clips->base.id : 0;
+ 	} else if (property == plane->scaling_filter_property) {
+ 		*val = state->scaling_filter;
++	} else if (property == plane->async_flip_property) {
++		*val = state->async_flip;
+ 	} else if (plane->funcs->atomic_get_property) {
+ 		return plane->funcs->atomic_get_property(plane, state, property, val);
+ 	} else if (property == plane->hotspot_x_property) {
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index bed2562bf911b27ab81957f332b2a3cd5f847e43..ca51c87267662c11cee5f28276b2b941e1a87973 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1879,3 +1879,34 @@ int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_color_pipeline_property);
++
++/**
++ * drm_plane_create_async_flip_property - create asynchronous flip property
++ *
++ * @plane: drm plane
++ *
++ * Create a property to enable/disable asynchronous flip on the plane.
++ *
++ * RETURNS:
++ * Zero for success or -errno
++ */
++int drm_plane_create_async_flip_property(struct drm_plane *plane)
++{
++	struct drm_property *prop;
++
++	prop = drm_property_create_bool(plane->dev, DRM_MODE_PROP_IMMUTABLE,
++					"async_flip");
++
++	if (!prop)
++		return -ENOMEM;
++
++	drm_object_attach_property(&plane->base, prop, false);
++
++	plane->async_flip_property = prop;
++
++	if (plane->state)
++		plane->state->async_flip = false;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_create_async_flip_property);
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 703ef4d1bbbcf084c43aa5e127d28691878061c4..ed8342c9a6258ee97ad930092a48ac3a34e62fc9 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -268,6 +268,12 @@ struct drm_plane_state {
+ 	 * flow.
+ 	 */
+ 	bool color_mgmt_changed : 1;
++
++	/**
++	 * @async_flip: Indicate that the present plane is asynchronous flip
++	 * mode.
++	 */
++	bool async_flip;
+ };
+ 
+ static inline struct drm_rect
+@@ -815,6 +821,11 @@ struct drm_plane {
+ 	 */
+ 	struct drm_property *hotspot_y_property;
+ 
++	/**
++	 * @async_flip_property: property to set asynchronous flip on the plane
++	 */
++	struct drm_property *async_flip_property;
++
+ 	/**
+ 	 * @kmsg_panic: Used to register a panic notifier for this plane
+ 	 */
+@@ -1021,6 +1032,7 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+ int drm_plane_add_size_hints_property(struct drm_plane *plane,
+ 				      const struct drm_plane_size_hint *hints,
+ 				      int num_hints);
++int drm_plane_create_async_flip_property(struct drm_plane *plane);
+ 
+ int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+ 					     const struct drm_prop_enum_list *pipelines,
 
-Best regards,
 -- 
-Arun R Murthy <arun.r.murthy@intel.com>
+2.25.1
 
