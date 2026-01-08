@@ -2,75 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54E9D01422
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 07:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D64D01605
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 08:18:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B782910E696;
-	Thu,  8 Jan 2026 06:41:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ituyddiG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3EFF10E20F;
+	Thu,  8 Jan 2026 07:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
- [209.85.160.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D8910E696
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 06:41:11 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-3ffc3d389a8so914762fac.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jan 2026 22:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1767854470; x=1768459270;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fKxEAdYiJlS8fDoSU85pZDagNF70n0w9ciKlM1INT/U=;
- b=ituyddiGUO5Zr9qk3q5Wg4vjn3pqfMW2u1oXcpPAYvN20k/WEqiMWrwG/LZexFwveK
- yKd+a4FE1gH4XrSzCWMS+YfQo/KOdTRbuDiHaJQZIZDg9Jp80hPOj9NuQI252W1VmKWu
- bc/Y7q/ewxpxzN8WKGF944vK24VaJUBUpZ5rl9RLMAiKOEIv4Z5iS+dEwWdoHYu7Bbm4
- +CXRVjwXRWTq6KOrKFZeqFiXH4/LMWjXtvOR4+say2QejheF9NB01iH340oqyuiaXXRE
- k3IbY+irl0C0VYi1rW0FC2gUhPb8XkPtmV/DAj9uDsQTfhLD8i7Y/IySWkaF3w9L3Y8a
- g+xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767854470; x=1768459270;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=fKxEAdYiJlS8fDoSU85pZDagNF70n0w9ciKlM1INT/U=;
- b=YGm8GN9JvnACVti1WgKmS/1ws4rhkfMS8+YxXHedrU2i5tppkFSv5/ouVZVrJv14qa
- NXV8vtbBssxOOB5/M4m42h0w9abE26tiFTwVelO+N4J0VEGLwfJgxqFYHhsSIeBkX4LD
- cEbuLrfsmLuZsywzxe6ylkblPu6emD3JJQ28Yha6rbYpETPdnBC796vz46de0+w3Oprx
- eF1ym2xmHEheaj1Pdzck+NTLT4QgrPLAKwQ4IQkeZguutXjJ8LwNX6+udYFU8+Auz+uB
- hfarZLKpOdfVJ9Ky0WYzxU1UFG8LfHsIAGQLPU6+lQOFGagrrb5OMMzwz0zSvcgjC9YP
- ZNLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQgz4q99gjqZPenBpfpg4VoJ8J7KPdzZCgE9CxjVpZPM+6zMVhKVNRsJlqmF6nU9Wjna0GW34i8g4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnJAohmMzVVqD7t6Xn3ujYvtl/QHPpi6Qu4z6ts81D2fJVxUvp
- MdwylUNQUxPvCpQMX65dk/F/SPmydAk6jMdkyO40sYDaSnqbG8HmBanboiJBKhMuK17vSm0UAKS
- TJ7mfjZyXW9WzsMBYDeRA8pF9iX3ov+xnammXd++h
-X-Gm-Gg: AY/fxX5sPzbm/lPoCcXvC0Ak/XqCv3EEbrhNVBxGvdhLX5jQXIvPxBk/Yae7gti1Em+
- bkemljedl+fB2kxWEcAL5LLyfaRPLQ+hzv8PSgUKURNb1177LGRGONF6QscYzcQVTrT1tEW+QiF
- slS0XMeRzAFBizWRiRKw/sAwKFW1azbVS1WHuzR3CiMViuGfsdTAmKL2tTXW7JKxGTM/NgkC1kg
- SGI3nVnbAim+pdRfwwzvWCBSIi32BwYmnrD2+sF/k8Ai2W3cVnLdYdLpDltndPnG8dsZ0TnCWmy
- 15viQg+odd58xv+xZ9M5YMFTDc2iXrOVC0x71IyDThu56EgyrLBarPIep6Y=
-X-Google-Smtp-Source: AGHT+IGBodRfkjq3ySaB5gepcgr25ld9Em+U0Br2++GdDCZSnQNlfymSxhpKwGmkFcDnmN0/CTyxJFyk2qGpL8ky4gw=
-X-Received: by 2002:a05:6871:826:b0:3ff:bf04:f12e with SMTP id
- 586e51a60fabf-3ffc094cf02mr2095026fac.3.1767854470155; Wed, 07 Jan 2026
- 22:41:10 -0800 (PST)
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 252EA10E20F;
+ Thu,  8 Jan 2026 07:18:27 +0000 (UTC)
+Received: from localhost.localdomain (unknown [36.112.3.223])
+ by APP-05 (Coremail) with SMTP id zQCowACHHRFAWl9pfor3Aw--.56272S2;
+ Thu, 08 Jan 2026 15:18:24 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, ozeng@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH v3] drm/amdkfd: fix a memory leak in
+ device_queue_manager_init()
+Date: Thu,  8 Jan 2026 15:18:22 +0800
+Message-Id: <20260108071822.297364-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1f849a1a.ab5b.19b9b6beda1.Coremail.wangzhi_xd@stu.xidian.edu.cn>
-In-Reply-To: <1f849a1a.ab5b.19b9b6beda1.Coremail.wangzhi_xd@stu.xidian.edu.cn>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Thu, 8 Jan 2026 07:40:59 +0100
-X-Gm-Features: AQt7F2ptA9RfDjB3sEEtR3CSDsPayA4rba6AWtuNL-nB4cyxuAGS1uaFD_wg9kE
-Message-ID: <CANp29Y7JeN3NntqAJ+g1oqA7pXHLy7qW8Pp9as+ft5d89_2oXA@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in drm_prime_destroy_file_private
-To: =?UTF-8?B?546L5b+X?= <wangzhi_xd@stu.xidian.edu.cn>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACHHRFAWl9pfor3Aw--.56272S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFyUKw1rXw1fAFy3try3XFb_yoW8Zw1kpF
+ Z3Ja45J348tr429asrZayUCa43Gw4fGr93WrWxK3s2gr4avr98Xrn5Xr4rW3yrKrWxCF4j
+ q3yrKFW5tr10yr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-Originating-IP: [36.112.3.223]
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiCQ4BE2le-Z5SAQABsT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,54 +62,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 8, 2026 at 3:25=E2=80=AFAM '=E7=8E=8B=E5=BF=97' via syzkaller-b=
-ugs
-<syzkaller-bugs@googlegroups.com> wrote:
->
-> syzbot has found the following issue on:
+If dqm->ops.initialize() fails, add deallocate_hiq_sdma_mqd()
+to release the memory allocated by allocate_hiq_sdma_mqd().
+Move deallocate_hiq_sdma_mqd() up to ensure proper function
+visibility at the point of use.
 
-Please do not mark bugs that you report yourself as [syzbot], it's not
-correct and very confusing.
+Fixes: 11614c36bc8f ("drm/amdkfd: Allocate MQD trunk for HIQ and SDMA")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+---
+Chnages in v3:
+- recheck the patch format.
+Changes in v2:
+- Move deallocate_hiq_sdma_mqd() up. Thanks, Felix!
+- Add a Fixes tag.
+---
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
->
-> HEAD commit:    6.18.0-rcX
-> git tree:       linux-stable
-> console output: (see below)
-> kernel config:  (please provide if available)
->
-> ---
->
-> WARNING: CPU: 3 PID: 28430 at drivers/gpu/drm/drm_prime.c:223 drm_prime_d=
-estroy_file_private+0x43/0x60
-> Modules linked in:
-> CPU: 3 UID: 0 PID: 28430 Comm: syz.0.6460 Not tainted 6.18.0 #1 PREEMPT(f=
-ull)
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-=
-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-> RIP: 0010:drm_prime_destroy_file_private+0x43/0x60
-> Code: 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 21 48 8b 83 90 0=
-0 00 00 48 85 c0 75 06 5b e9 a3 4f 81 fc e8 9e 4f 81 fc 90 <0f> 0b 90 5b e9=
- 94 4f 81 fc e8 7f a8 e7 fc eb d8 66 66 2e 0f 1f 84
-> RSP: 0018:ffffc900032c7cb8 EFLAGS: 00010293
-> RAX: 0000000000000000 RBX: ffff888100aa4380 RCX: ffffffff8b428d97
-> RDX: ffff888122c61d00 RSI: ffffffff85390862 RDI: ffff888100aa4410
-> RBP: 0000000000000000 R08: 0000000000000001 R09: fffff52000658f77
-> R10: ffffc900032c7bbf R11: 0000000000000000 R12: ffff888100aa4000
-> R13: dffffc0000000000 R14: ffff888100aa42d8 R15: ffff888100aa42b0
-> FS:  000055556463b500(0000) GS:ffff8881a2701000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000000110c2acc50 CR3: 00000001326c0000 CR4: 00000000000006f0
->
-> Call Trace:
->  <TASK>
->  drm_file_free.part.0+0x805/0xcf0
->  drm_close_helper.isra.0+0x183/0x1f0
->  drm_release+0x1ab/0x360
->  __fput+0x402/0xb50
->  task_work_run+0x16b/0x260
->  exit_to_user_mode_loop+0xf9/0x130
->  do_syscall_64+0x424/0xfa0
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->  </TASK>
->
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index d7a2e7178ea9..8af0929ca40a 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -2919,6 +2919,14 @@ static int allocate_hiq_sdma_mqd(struct device_queue_manager *dqm)
+ 	return retval;
+ }
+ 
++static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
++				    struct kfd_mem_obj *mqd)
++{
++	WARN(!mqd, "No hiq sdma mqd trunk to free");
++
++	amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
++}
++
+ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+ {
+ 	struct device_queue_manager *dqm;
+@@ -3042,19 +3050,14 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+ 		return dqm;
+ 	}
+ 
++	if (!dev->kfd->shared_resources.enable_mes)
++		deallocate_hiq_sdma_mqd(dev, &dqm->hiq_sdma_mqd);
++
+ out_free:
+ 	kfree(dqm);
+ 	return NULL;
+ }
+ 
+-static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
+-				    struct kfd_mem_obj *mqd)
+-{
+-	WARN(!mqd, "No hiq sdma mqd trunk to free");
+-
+-	amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
+-}
+-
+ void device_queue_manager_uninit(struct device_queue_manager *dqm)
+ {
+ 	dqm->ops.stop(dqm);
+-- 
+2.25.1
+
