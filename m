@@ -2,89 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C76D0316A
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593AAD031EB
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77F610E72B;
-	Thu,  8 Jan 2026 13:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9356010E729;
+	Thu,  8 Jan 2026 13:43:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="DWk6kMk7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V/TT2UAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC78310E72B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:39:39 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2a2bff5f774so8615785ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 05:39:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shenghaoyang.info; s=google; t=1767879579; x=1768484379;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/GHhYdpR7V8zZlwM3eTsC01NbGzT6JFmZY6i1ixPREY=;
- b=DWk6kMk7+ks3338iZ4rssyAcubPfK3WsswXGVN/ChWaXzPEpWNAtyJMLomUo1quQtk
- K3aJxw4dUhziA1QyWQ2IzLO3e94HuYEOvpm5Iv+F1VYr73TPvr98qERWOcSjAZzQ5sQs
- cHogytjyOsaNq89fUM/g0gCN39tRqKlotvDfPSFYZjZIabWgjx6V6lz/FKAd+L7CYAnt
- Es8b8KdfeKew4G/qllGmhQD/9o7kecXlNQ0usGqNNsgYj+L6ei/u0zR/4nfIYxBXmMza
- uL6UCAimLTnrnEThA3HjYqtcguAHFdPRG3EK8fOr1zFDK3WVfanLV70koVKP5Hz+U8EO
- 33lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767879579; x=1768484379;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/GHhYdpR7V8zZlwM3eTsC01NbGzT6JFmZY6i1ixPREY=;
- b=MENwYXNTjw2PagM8ah8qOnDGzLar03/KWZ6UDcFUc0SQohTYcwSd0ve3cMzhVnbOdH
- yYkLbyIBCOCqcyxui2WerTqZBjmjYJL/gmJ2dnXzCGjyDriouVGMaR052FelN/mQwJVJ
- bIAD53jXd6xHdDE9qYBl9eJIJlwjop0iXP+3iYbps+IC7Hs9aTc66N1VG8I+Svpt3Ki9
- 51mZxHtNZEjq1tW7Hx6tvmWVxFVTb2q7Hpk5HkEzusciLxm2TyMWQbHeAlNB3BzIz10O
- Kh89hsF00Wj/X2fYdgzv94Zdc/WOdNLbyZ8aSet1C2Z0O+j+mz2iCFfWlvPlyDHCyv4i
- w7Gg==
-X-Gm-Message-State: AOJu0YynqKM2NHtEFflD4IoRm5vsJHytKskJI/RdWua2UlY5E88jXS/L
- a1/dJUFEK8RSCs0j+4bp7+arsxQd3EeZom+hgHbLVtsK2HqBWB2txUFB8h1tocaEoVO7xG/e4YY
- sjlQ0zFY=
-X-Gm-Gg: AY/fxX7+oRZyyvzuJoft1mhEqp1ljYhazAmDRfBUGHTDWSJyejB5ZBpH7Kn1qCvgJEA
- Eap7pntUkMf023f/jHuvQY2hihRmQMaT/dD6jw/8G6EhnqJ5poZX0rs4d08UPoQbPCMoBprPnvv
- Gs6tWJVmn+3eWJJZsvhK6G3azzD/P5k99OpqyXVjRIdpUKzWPAAnqvHLL22w33UXHyeZ7Da3miv
- wncMjP2cRnq3hKkEOaBFsqk8X3cPweihwdMMnAdrdd8BBooUDvMDuAIiLGl61dnSM61ARcLQzF+
- qL27Z5JJoVqJWgVwRdXnm7tZKpB9LHME67zHBM/FQQA3FNgLY6z8pj41Go0p1XU/e2fhveVqlvU
- 8j3C2t+XLxsxDRAtZ4VDVEry4NkJ5bzqK2ekmgtbbgjnUochbsTYBvvVwVsVle1IgjotiWcP+YZ
- 5NXlcQAqonxxox
-X-Google-Smtp-Source: AGHT+IFY5CMv9JNbTut+rJZkqAvSsXhd9YTo4o2zYmRo3eELWLHqTa8Gz4ZgjeXAHX7j+60ZKHIcsA==
-X-Received: by 2002:a17:903:4b24:b0:295:745a:800a with SMTP id
- d9443c01a7336-2a3ee42589amr43889185ad.2.1767879579058; 
- Thu, 08 Jan 2026 05:39:39 -0800 (PST)
-Received: from [10.0.0.178] ([132.147.84.99]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3c47390sm80110855ad.25.2026.01.08.05.39.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jan 2026 05:39:38 -0800 (PST)
-Message-ID: <65110c51-1f47-4382-ac92-518c7f157a06@shenghaoyang.info>
-Date: Thu, 8 Jan 2026 21:39:27 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D11E10E729
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1767879830;
+ bh=8zfPaqX+0CQVCJHmHIWGRax0qrh8hIwIn4sBCLjMtTs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V/TT2UAmGCQeava9cll9+rbOz88b4UWE5MBvvw+fYhISOTcw67SW2G1FLqyVF7ztU
+ Lz+vHzWHpUcy2TSRamofsVkmPumgV7vAvmT1CHeRhJGAE9/M/tOifmlA/VkfD23t3N
+ Xk0wKtjLCnzBw1CbdROlzOreVnoMitkzEF/UnQCouC/9e03RJcPdCu/0MFyOHM2MK2
+ SKaFC401H+MsiTZDeVDbw1r2HwCPNOkXXEMSSy9U9ULMm7kY/iF0w6QRwthUBNoIa1
+ xrxhRQOQJZIBpNIF9hS6H9JW33R9OXqMeYv7utEiBNNZJfGF6Sqk2KBCDJExHsWhEl
+ zVgAzDNwoj3OA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4BBB917E0125;
+ Thu,  8 Jan 2026 14:43:50 +0100 (CET)
+Date: Thu, 8 Jan 2026 14:43:44 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@collabora.com
+Subject: Re: [PATCH] drm/gem: Fix a GEM leak in drm_gem_get_unmapped_area()
+Message-ID: <20260108144344.33952ddf@fedora>
+In-Reply-To: <43836c92-d19e-43c9-8480-cb26c37bdfea@collabora.com>
+References: <20260106164935.409765-1-boris.brezillon@collabora.com>
+ <20260107121232.6e1efae5@fedora>
+ <43836c92-d19e-43c9-8480-cb26c37bdfea@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
- disconnect
-To: Thomas Zimmermann <tzimmermann@suse.de>, Ruben Wauters
- <rubenru09@aol.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20251231055039.44266-1-me@shenghaoyang.info>
- <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
- <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
- <571d40f4d3150e61dfb5d2beccdf5c40f3b5be2c.camel@aol.com>
- <c6324a66-5886-4fbb-ba7b-fc7782c0f790@suse.de>
- <229b5608222595bc69e7ca86509086a14501b2f7.camel@aol.com>
- <8929ff0f-c2e0-49e6-a0ce-c4b0dcebae99@suse.de>
-Content-Language: en-US
-From: Shenghao Yang <me@shenghaoyang.info>
-In-Reply-To: <8929ff0f-c2e0-49e6-a0ce-c4b0dcebae99@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,26 +66,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ruben, Thomas,
+On Thu, 8 Jan 2026 14:25:01 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-On 7/1/26 23:56, Thomas Zimmermann wrote:
+> On 07/01/2026 12:12, Boris Brezillon wrote:
+> > On Tue,  6 Jan 2026 17:49:35 +0100
+> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> >  =20
+> >> drm_gem_object_lookup_at_offset() can return a valid object with
+> >> filp or filp->f_op->get_unmapped_area set to NULL. Make sure we still
+> >> release the ref we acquired on such objects.
+> >>
+> >> Cc: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> >> Fixes: 99bda20d6d4c ("drm/gem: Introduce drm_gem_get_unmapped_area() f=
+op")
+> >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_gem.c | 10 ++++++----
+> >>   1 file changed, 6 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> >> index 36c8af123877..f7cbf6e8d1e0 100644
+> >> --- a/drivers/gpu/drm/drm_gem.c
+> >> +++ b/drivers/gpu/drm/drm_gem.c
+> >> @@ -1298,11 +1298,13 @@ unsigned long drm_gem_get_unmapped_area(struct=
+ file *filp, unsigned long uaddr,
+> >>   	unsigned long ret;
+> >>  =20
+> >>   	obj =3D drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SH=
+IFT);
+> >> -	if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> >> -		return mm_get_unmapped_area(filp, uaddr, len, 0, flags);
+> >> +	if (IS_ERR(obj))
+> >> +		obj =3D NULL;
+> >>  =20
+> >> -	ret =3D obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+> >> -						 flags);
+> >> +	if (!obj || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> >> +		ret =3D mm_get_unmapped_area(filp, uaddr, len, 0, flags); =20
+> >=20
+> > Also, I'm wondering if we shouldn't pass pgoff instead of zero here to
+> > have the exact same behavior that existed before
+> > drm_gem_get_unmapped_area() was introduced.
+> >  =20
+>=20
+> For mappings with a file (the DRM file in our case), if=20
+> filp->f_op->get_unmapped_area isn't set then generic_get_unmapped_area()=
+=20
+> is used and it ignores the pgoff argument.
 
-> 
-> No worries, DRM semantics can be murky. This is one of the cases that is impossible to know unless you came across a patch like this one.
-> 
-> Best regards
-> Thomas
-> 
->>> I think the patch is fine and IIRC we have similar logic in other drivers.
->> Reviewed-by: Ruben Wauters <rubenru09@aol.com>
->>
->> I believe Shenghao mentioned another oops that is present? if so it may
->> be best to submit that in a separate patch rather than a v2 of this
->> one.
->>
->> Ruben
+That's true for architectures that rely on the default implementation
+(Arm64 for instance), but other architectures might have their own
+implementation.
 
 
-Thanks both! I'll split the patch for the second oops.
+> So it wasn't 0 before but was=20
+> ignored anyway.
 
-Shenghao
+Didn't check all of them but the Arm implementation does take this
+pgoff into account if I read the code correctly [1]. The fact this
+argument is passed around makes me think other architectures might take
+this into account too. I know this pgoff is just a fake offset into the
+/dev/dri pseudo-file, but if we want to err on the safe side, we'd
+rather do exactly what was done before drm_gem_get_unmapped_area() was
+introduced for the ->filp=3D=3DNULL case. That's just my 2 cts, of course.
+
+Regards,
+
+Boris
+
+[1]https://elixir.bootlin.com/linux/v6.18.3/source/arch/arm/mm/mmap.c#L30
