@@ -2,77 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35027D023B1
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:56:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A04D01F0E
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:51:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA8110E337;
-	Thu,  8 Jan 2026 10:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C10ED10E6E3;
+	Thu,  8 Jan 2026 09:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GIdDMNjZ";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="UTRxRKAk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A5A10E6D9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 09:47:22 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7aa9be9f03aso1893629b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 01:47:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1767865642; x=1768470442; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qHueD//8AAJamdtTx3KncyHUFlVGKxTPD0kTSQsmSD0=;
- b=GIdDMNjZ+gPPaMEWiPoC5z0Vxq9Yo3IgXeAuVB4V2TGUyEfs0KfjvepZH9VXhu3WO4
- CL2ZOfqOlAUVNI68JDLqc1OBagUBl3r0zSoBxfotGXtjjv0YOJigr330a6kjK/939lgn
- cxNVCw1GDQEe8Zddxb1y2camldomeJdKtYvV3XztaVHdLVhdw7cg/5efNI55Bl+O+Z6x
- hLArAT0xp7caFQlBnmq6VNnzqiWGz+caqrV8CQEbEgSuToPQBcpMXNyJq2cYjylcCKyv
- 4a9ney4dlixmj3Yr/Bns15nGonMYvUfOJ0+bo2xbKpgIzq9lI64NwzDRJyjOdV7iG1Nl
- 8PKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767865642; x=1768470442;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qHueD//8AAJamdtTx3KncyHUFlVGKxTPD0kTSQsmSD0=;
- b=UaJR3AmgjjCZdGFHO9DF85jYmVTduh0t9WRwVsOxW96MsiRrYM90d9FlBBR7M05fhQ
- wlmz9XVjGiF49+6oUsyYgUWelyjzumI0lXzmXaATUmQRpJlVoGzK33EwbJ9b7Vb30dnI
- R6LIGdm1NmptZ2JBGIVBLY55i+5BdfLEe0OupFDikZ5JWcVT9A45+A9e57SYKLRmp7kg
- +r2am+YzMb7sag/CWw4RUfru4u/WtOraf1J/4PpmP2gEb8+H5kJoGWC5fYAS9JmFCusL
- udimVLPRTCyaiDTqwKjjQavufz5DsiNfR3f373FanJQ77pMkE/yahbmUvncR2Y3dTmO6
- aUCQ==
-X-Gm-Message-State: AOJu0YzxT1Is5XA3teezUcZoUiM2gYZIii+K9Otx+7aSoSd4I9RtFPpy
- mpzk5GqhAhnjwdItj89AzYr4MzUdrIeghos77tak2IbG/uAO05YIPC3jkoNW3L0m
-X-Gm-Gg: AY/fxX79pUdKv6nF3gAQiqKD9eShfGDuulxpfCXeLwvwbGoRy6bS/hge1aKPhYu3re6
- 7XlMqlp96ylhNk5swCHbLkENH93huYHIJoQ3+gadbwDFlpJWDswiq7IEzrznqzewj1YvClU/p5S
- u1fJmQApI71vJ1q58pzctqNkxuKIJ2cIvtCVsm7ccsfSd0OAqfFh1U2CZK9SKIhdAEiAA+Su+g6
- GzD7bdyMU+ucB2eTa5oU8yhvGIAYzktz8eK6fnQyi9MdXqu6ZFpU6Jaqqj4vvv5l43lyM+XwiBF
- rL9fCStM/v+vSJZjQN81jj0maFR5uH0cx9gW8BVwSl2D01xHVyNOXksTKvE1yTtOo8UlxqCAS7a
- 51LnC/1UJo5vCnxvgAOxV2AGdo89RtgWEsL9DfgLaHlVnISk+bE1OTYnlpnk2080fISkLEtaOhk
- KdhKGqq8mMYEp/BP0yrB479gQ3iLwGx8BzWZFc24yl6mTlQRfSNc+KChQwRUfXl2aonV+Otw==
-X-Google-Smtp-Source: AGHT+IEbE+jBmq+j0BRN5nADLvU8jxL1ZMAc9aObMxYhpM+qu+5ZyALvccqrtar+8Lm5985P6axv3Q==
-X-Received: by 2002:a05:6a20:9184:b0:34f:2f38:cad9 with SMTP id
- adf61e73a8af0-3898f976c60mr5324357637.53.1767865641705; 
- Thu, 08 Jan 2026 01:47:21 -0800 (PST)
-Received: from localhost.localdomain ([2409:40e3:44:c9c0:8d34:cc3d:a8c9:1a48])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3cc88c2sm73602135ad.79.2026.01.08.01.47.18
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 08 Jan 2026 01:47:20 -0800 (PST)
-From: Chaitanya Mishra <chaitanyamishra.ai@gmail.com>
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- chaitanyamishra.ai@gmail.com
-Subject: [PATCH] staging: fbtft: align tinylcd write_reg args
-Date: Thu,  8 Jan 2026 15:17:09 +0530
-Message-ID: <20260108094709.92561-1-chaitanyamishra.ai@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C481C10E6E3
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 09:51:20 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20260108095119euoutp012e7ad1462b8b6546e4cff164dba8ea55~IuKaJVawL1372713727euoutp01r;
+ Thu,  8 Jan 2026 09:51:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20260108095119euoutp012e7ad1462b8b6546e4cff164dba8ea55~IuKaJVawL1372713727euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1767865879;
+ bh=qIhgIeQrfxHoSwY6/8Qg78ZyXWur/EQhKlbMMeWRoFE=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=UTRxRKAkfvHrYXb9uuCmebd05iS7yvKrvvnJwRrRGhnYTQOLlD9QO1+EdwnMJ+ehI
+ u+g5bCtH0fF1cWkIawNRR2L1XBWHErXWwnjERy/ax6OfO/jSXefKZQPQG4zziy4O0D
+ g+iU8AvXlmt/VOaAS6kHTAjcr9t0XASl+sQYc+ow=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20260108095118eucas1p1a2ae95ae60fa870c35c955b087ba4649~IuKZz7bdM1725517255eucas1p1B;
+ Thu,  8 Jan 2026 09:51:18 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260108095116eusmtip22f2b99fa0f4ed0d118e1c4afbe18750f~IuKXrldR10240202402eusmtip2j;
+ Thu,  8 Jan 2026 09:51:16 +0000 (GMT)
+Message-ID: <af154ebb-53b9-40eb-8ff9-089ed8bc3f04@samsung.com>
+Date: Thu, 8 Jan 2026 10:51:15 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 08 Jan 2026 10:56:33 +0000
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 5/6] drm/exynos: hdmi: convert to
+ of_drm_find_and_get_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alim
+ Akhtar <alim.akhtar@samsung.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-5-ef48a517828e@bootlin.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260108095118eucas1p1a2ae95ae60fa870c35c955b087ba4649
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de
+X-EPHeader: CA
+X-CMS-RootMailID: 20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
+ <CGME20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de@eucas1p2.samsung.com>
+ <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-5-ef48a517828e@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,32 +99,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Checkpatch reports a misaligned continuation line in the
+On 07.01.2026 17:22, Luca Ceresoli wrote:
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>   drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
 
-fb_tinylcd init_display() write_reg() gamma table. Align the
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-continuation line with the open parenthesis to match kernel style.
-
-No functional change.
-
-Signed-off-by: Chaitanya Mishra <chaitanyamishra.ai@gmail.com>
----
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..60cda57bcb33 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
- 	write_reg(par, 0xE5, 0x00);
- 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
- 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
--		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
-+		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	udelay(250);
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> index 01813e11e6c6..bfcf2fa62fe1 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *hdata)
+>   		return -EINVAL;
+>   	}
+>   
+> -	hdata->bridge = of_drm_find_bridge(np);
+> +	hdata->bridge = of_drm_find_and_get_bridge(np);
+>   	of_node_put(np);
+>   
+>   	if (!hdata->bridge)
+> @@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pdev)
+>   
+>   	put_device(&hdata->ddc_adpt->dev);
+>   
+> +	drm_bridge_put(hdata->bridge);
+> +
+>   	mutex_destroy(&hdata->mutex);
+>   }
+>   
+>
+Best regards
 -- 
-2.50.1 (Apple Git-155)
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
