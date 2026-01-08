@@ -2,60 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56E0D03491
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5937ED038A1
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 15:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2099F10E746;
-	Thu,  8 Jan 2026 14:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1DF510E775;
+	Thu,  8 Jan 2026 14:51:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="Jfn46NFS";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="17nT0uqj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JXfDqnGH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="17nT0uqj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JXfDqnGH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E29E10E74E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 14:19:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1767881975; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Ec7OGRVcSDXGtrn6jT7vkEQFBep4RfwUeKDVHxPGwdJO+8wPPj32jVu8hchl+bld4AEMTmMQcDMeoIcJnzFEauaK9AFBcUvWRoKlEJy83tHcvww47bE5wC803j3EGgNCbN3/GVxI5qLpG0/lMGHeWXNaq/vauXpZBAwEcNq+sMU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1767881975;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=K6mUBx9/ebAXJ+SK7lE5IxrLDopzwW/ITww0M6RJLL0=; 
- b=eIsyAUxifDZv9e85jp4aWGGWrg/DR95koogMJxVeC5uqoGgbgNMDAjwZdwqE0PHg4J5Tw0uVrNK3zwMJ6vkIt+4lA5JYbpRbRF9RkDLXlS40hQNMQZFu0N0g6JkgtTRVnXZoPpPV9dswZ0lRd9AxC2N1shhnUqChBO6YJi59c/4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767881975; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=K6mUBx9/ebAXJ+SK7lE5IxrLDopzwW/ITww0M6RJLL0=;
- b=Jfn46NFSxy93Wi1y6vvHvN7MMQqkp733UAsL/nf73Zfj5zaR+jE/vHAWODm8F26h
- jX4hRlhr9pCb5SCemRjvNmCvurUvExaISMH8wKN617V0wuavcMLQ3FDBVuLSnWjNJ59
- Jl36Vrj+rQ8K3RzOymTTr6p512fFeb/ZpzvDGm8I=
-Received: by mx.zohomail.com with SMTPS id 1767881973968101.95956885417854;
- Thu, 8 Jan 2026 06:19:33 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 08 Jan 2026 15:19:09 +0100
-Subject: [PATCH v7 4/4] drm/panthor: Add gpu_job_irq tracepoint
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744B510E775
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 14:51:03 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2321D5C7ED;
+ Thu,  8 Jan 2026 14:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767883862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+ b=17nT0uqjPz0zuGGPN8BFn/IN8UWKB3/64/EgNojzs3caB8vVlpmXObNvPeH5QFysqBxDql
+ LFWq/u6aq5kIhOdB5VBlnUx6K2TkU76Jj4nUJM0Nj2vR5MJlv5/f11Q81PSZzRGiq+gvgu
+ INVl4dHfsMz1SewAnEnInWIdLRDR/6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767883862;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+ b=JXfDqnGHp6pJ4mjYM9WpoOZEsKI2Xi7ofK6+Z0TqtYp3GjU1CGwAcJ01yCLJT+xSlUfsbU
+ 1osCB9gSFXt5cxCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767883862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+ b=17nT0uqjPz0zuGGPN8BFn/IN8UWKB3/64/EgNojzs3caB8vVlpmXObNvPeH5QFysqBxDql
+ LFWq/u6aq5kIhOdB5VBlnUx6K2TkU76Jj4nUJM0Nj2vR5MJlv5/f11Q81PSZzRGiq+gvgu
+ INVl4dHfsMz1SewAnEnInWIdLRDR/6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767883862;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+ b=JXfDqnGHp6pJ4mjYM9WpoOZEsKI2Xi7ofK6+Z0TqtYp3GjU1CGwAcJ01yCLJT+xSlUfsbU
+ 1osCB9gSFXt5cxCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBB403EA63;
+ Thu,  8 Jan 2026 14:51:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ebp1MFXEX2n0WQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 08 Jan 2026 14:51:01 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
+ javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/8] drm, coreboot: Add DRM coreboot driver
+Date: Thu,  8 Jan 2026 15:19:40 +0100
+Message-ID: <20260108145058.56943-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-panthor-tracepoints-v7-4-afeae181f74a@collabora.com>
-References: <20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com>
-In-Reply-To: <20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.992];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[11];
+ RCVD_COUNT_TWO(0.00)[2];
+ FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,110 +107,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali's CSF firmware triggers the job IRQ whenever there's new firmware
-events for processing. While this can be a global event (BIT(31) of the
-status register), it's usually an event relating to a command stream
-group (the other bit indices).
+Coreboot implements framebuffer support via simplefb. Provide a
+native DRM driver. Keep the simplefb code for now.
 
-Panthor throws these events onto a workqueue for processing outside the
-IRQ handler. It's therefore useful to have an instrumented tracepoint
-that goes beyond the generic IRQ tracepoint for this specific case, as
-it can be augmented with additional data, namely the events bit mask.
+For each firmware's provided framebuffer, we want a dedicated DRM
+driver tailored towards the platform's feature set. The coreboot
+framebuffer device creates a simplefb device for the provided
+framebuffer. When the native graphics driver unloads the simplefb
+device, it leaves behind a dangling pointer in the coreboot framebuffer
+device. [1] This only works because the coreboot framebuffer device
+never runs this code; even after the native driver took over the
+hardware. At that point the underlying coreboot framebuffer is gone,
+which is inconsistent with kernel state.
 
-This can then be used to debug problems relating to GPU jobs events not
-being processed quickly enough. The duration_ns field can be used to
-work backwards from when the tracepoint fires (at the end of the IRQ
-handler) to figure out when the interrupt itself landed, providing not
-just information on how long the work queueing took, but also when the
-actual interrupt itself arrived.
+Additionally, the simplefb drivers handle simple-framebuffer nodes in
+the DeviceTree, but were not meant for supporting arbitrary framebuffers.
+The simplefb infrastructure should be phased out for non-DT use cases.
+Coreboot is one of the final users of the code (besides n64).
 
-With this information in hand, the IRQ handler itself being slow can be
-excluded as a possible source of problems, and attention can be directed
-to the workqueue processing instead.
+Patches 1 to 4 of this series prepare the kernel's coreboot support for
+the DRM driver. With patch 1, the coreboot framebuffer device will only
+be created if it really handles the framebuffer. Some systems emulate
+UEFI instead. The other 3 patches make coreboot drivers available to
+other subsystems. A DRM driver will then be able to bind directly to a
+coreboot device.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
- drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+Patch 5 prepares the kernel's aperture helpers for coreboot devices.
+This is required to handover hardware to the native graphics driver.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 0e46625f7621..b3b48c1b049c 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -26,6 +26,7 @@
- #include "panthor_mmu.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
-+#include "panthor_trace.h"
- 
- #define CSF_FW_NAME "mali_csffw.bin"
- 
-@@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 
- static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- {
-+	u32 duration;
-+	u64 start;
-+
-+	if (tracepoint_enabled(gpu_job_irq))
-+		start = ktime_get_ns();
-+
- 	gpu_write(ptdev, JOB_INT_CLEAR, status);
- 
- 	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-@@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- 		return;
- 
- 	panthor_sched_report_fw_events(ptdev, status);
-+
-+	if (tracepoint_enabled(gpu_job_irq)) {
-+		if (check_sub_overflow(ktime_get_ns(), start, &duration))
-+			duration = U32_MAX;
-+		trace_gpu_job_irq(ptdev->base.dev, status, duration);
-+	}
- }
- PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-index 5bd420894745..6ffeb4fe6599 100644
---- a/drivers/gpu/drm/panthor/panthor_trace.h
-+++ b/drivers/gpu/drm/panthor/panthor_trace.h
-@@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
- 	panthor_hw_power_status_register, panthor_hw_power_status_unregister
- );
- 
-+/**
-+ * gpu_job_irq - called after a job interrupt from firmware completes
-+ * @dev: pointer to the &struct device, for printing the device name
-+ * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
-+ * @duration_ns: Nanoseconds between job IRQ handler entry and exit
-+ *
-+ * The panthor_job_irq_handler() function instrumented by this tracepoint exits
-+ * once it has queued the firmware interrupts for processing, not when the
-+ * firmware interrupts are fully processed. This tracepoint allows for debugging
-+ * issues with delays in the workqueue's processing of events.
-+ */
-+TRACE_EVENT(gpu_job_irq,
-+	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
-+	TP_ARGS(dev, events, duration_ns),
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__field(u32, events)
-+		__field(u32, duration_ns)
-+	),
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__entry->events		= events;
-+		__entry->duration_ns	= duration_ns;
-+	),
-+	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
-+		  __entry->events, __entry->duration_ns)
-+);
-+
- #endif /* __PANTHOR_TRACE_H__ */
- 
- #undef TRACE_INCLUDE_PATH
+Patches 6 to 8 prepare DRM and add a new driver for the coreboot
+framebuffer. The corebootdrm driver follows the pattern established by
+similar drivers. It also uses the same sysfb helpers. It's fairly small
+therefore.
+
+Tested on an HP Chromebook with MrChromebox 4.16. Runs with Weston and
+fbcon. Xorg requires an additional patch available at [2].
+
+[1] https://elixir.bootlin.com/linux/v6.18/source/drivers/firmware/google/framebuffer-coreboot.c#L92
+[2] https://gitlab.freedesktop.org/tzimmermann/xserver/-/commit/0b326aad28549762ed2b0e2bedf8f8a42f1f6b3b
+
+Thomas Zimmermann (8):
+  firmware: google: Do sysfb test before creating coreboot framebuffer
+  firmware: google: Init coreboot bus with subsys_initcall()
+  firmware: google: Clean up include statements in coreboot_table.h
+  firmware: google: Export coreboot driver and device interfaces
+  video/aperture: Support coreboot devices
+  drm/sysfb: Remove duplicate declarations
+  drm/sysfb: Generalize pixel-format matching
+  drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+
+ drivers/firmware/google/Kconfig               |   1 +
+ drivers/firmware/google/cbmem.c               |   4 +-
+ drivers/firmware/google/coreboot_table.c      |  33 +-
+ .../firmware/google/framebuffer-coreboot.c    |  20 +-
+ drivers/firmware/google/memconsole-coreboot.c |   3 +-
+ drivers/firmware/google/vpd.c                 |   3 +-
+ drivers/gpu/drm/sysfb/Kconfig                 |  16 +
+ drivers/gpu/drm/sysfb/Makefile                |   1 +
+ drivers/gpu/drm/sysfb/corebootdrm.c           | 402 ++++++++++++++++++
+ drivers/gpu/drm/sysfb/drm_sysfb.c             |  24 ++
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |  17 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c |  30 --
+ drivers/gpu/drm/sysfb/efidrm.c                |   8 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   8 +-
+ drivers/video/aperture.c                      |  60 ++-
+ include/linux/aperture.h                      |  16 +
+ .../linux/coreboot.h                          |  29 +-
+ 17 files changed, 575 insertions(+), 100 deletions(-)
+ create mode 100644 drivers/gpu/drm/sysfb/corebootdrm.c
+ rename drivers/firmware/google/coreboot_table.h => include/linux/coreboot.h (86%)
 
 -- 
 2.52.0
