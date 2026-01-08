@@ -2,46 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5E9D045D3
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DC9D047FC
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:44:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E77B10E79B;
-	Thu,  8 Jan 2026 16:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E892110E369;
+	Thu,  8 Jan 2026 16:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CnUzUomQ";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="mNLamhB3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D7610E79B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:28:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CB73A43FDC;
- Thu,  8 Jan 2026 16:28:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426BBC116C6;
- Thu,  8 Jan 2026 16:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1767889684;
- bh=cMtp4ViB5FOEFsKw6VEvjAT4jP16jiUTXjmmugUEzSM=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=CnUzUomQgtd5dyKPSXwfypNaT/5xqp+5hbay9MMng6DDd2gm/smT0TDiCpfLH37Qy
- HJnITwpsPoUZCd9//M1ZOKpqZyKGT6t7MlX9NUvaxLizQQhAQf50RpDP9ZBOM+3DL+
- RqnhJS6xF3hEjbgxWTFMEqfQGIYfqqFqaEHosoGo=
-Subject: Patch "drm/gma500: Remove unused helper psb_fbdev_fb_setcolreg()" has
- been added to the 5.10-stable tree
-To: contact@stefanchrist.eu, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- patrik.r.jakobsson@gmail.com, sashal@kernel.org, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 08 Jan 2026 17:27:37 +0100
-In-Reply-To: <20260107162328.4079503-1-sashal@kernel.org>
-Message-ID: <2026010837-implicate-shiny-c50d@gregkh>
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEC910E369
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:44:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UEH1MsK9ZY1k3PCbTCqKt72UT8t/1DMoN5a5ixw+rpyAD+6dEgn+15wJZn07bOzgspBKIEbdrH/3+uIX4UPyjk97kKsi1dfueWDoIqFrN2kXQg4YkYV21YClRU7BXm1qdIqt/7Tsl8WWPmeNoKO+D+hGXYCUR4SnPqtNr+w6aFrrWw8J52eSaGYA3Al8qIJXQea0aRYZK1sPdIV4263P28xuZHd42dNBa/1F5jtjA6Lqnb9pQwTg/i1Vo8tiVESdVynY9EZ5NjY8qSVODz2PIeDIVB+UB6wa4sdDyA+J1p7FDxJpMckVxcXfEPbe0xXKFX13gvfXMvov+yPj5CnM+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k/3Y7P+gs6973yt+CzsfUuTIQVExb895fOl99y2ogqg=;
+ b=s7x/O8nkl9AZBsyx9/xF4nlRN4BamJl2zqayYoTPjSvyr2g2X2fhRLkc3LE67OrzUHIp+SQUfWDWk84rDz0K/U5bt6QxBrX4y0v2rZpeBsl7gE2gWDNwRKys1Uq2inzHedJA/AvQnLHUoHmwj+NPrvxMO2lJrdcMGnmCCUxxn7UA7OJksvaNWZovuWyOyreKCN5Hy+DLIoO6UJLf+hLOXolzJ1KTUpywFx+2+dP98mt8Tua78EjyyW9qMNc1k3+CpsR6ctUh51c+V6P1ZK1XHZfssU/ECW9PYjTMTPoP1jIeTNWb2ZozZ7SvJR/L7Zhy5ln5xpgIFr3Bd4TpfyNdHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k/3Y7P+gs6973yt+CzsfUuTIQVExb895fOl99y2ogqg=;
+ b=mNLamhB3ybyN3QDOljrc/ubUj6qjdR8qUBz9erdFAnQBkn7/Ikz2Xe2VJ3GeCUzX8lu6lN18pJBNv4984qfRnh3iAUajWqS8Tv1JJ09TnDtXPhYgPP/4VILuw3n6gncAn973M0OnCFVSz02AxpdVQ1hMCyiZYUzdBfQ4QiUJKO8=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TY1PR01MB10769.jpnprd01.prod.outlook.com (2603:1096:400:322::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Thu, 8 Jan
+ 2026 16:44:38 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9520.001; Thu, 8 Jan 2026
+ 16:44:38 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>, Claudiu.Beznea
+ <claudiu.beznea@tuxon.dev>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Brandt
+ <Chris.Brandt@renesas.com>
+Subject: RE: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+Thread-Topic: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+Thread-Index: AQHcgH7+LfMjCpngTEmutarkKkFyQ7VIbNOAgAAJDQA=
+Date: Thu, 8 Jan 2026 16:44:37 +0000
+Message-ID: <TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+ <f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
+ <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
+In-Reply-To: <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY1PR01MB10769:EE_
+x-ms-office365-filtering-correlation-id: 5f6ad3af-ab12-4044-8117-08de4ed5365c
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?YwbVMBqLCE2PMgO9NTHd6pG0Dw52F0ezQkNhZPM99ahffucYmoouNj0KgD8D?=
+ =?us-ascii?Q?Sld0nSMqkw9UfWjVhK2Nfp1lwjpRs6J3fjjQDDSS+5jEaJ7+DOeVP1DUlB9+?=
+ =?us-ascii?Q?5rUQGlzjtWfRBts2eQ2IJFBdwFuDmXkm53r5qKIsqWtXrBHkhubXQClG0Hyc?=
+ =?us-ascii?Q?objuZn32ZYWgzh94NxTAmIseX7WoKIBfwZqXhHwZJ/Q9mtZW5m/MD+EkALbn?=
+ =?us-ascii?Q?MY2bS0XysR1KGuLqdNTCTKF9eKpWD/E4CX8OD/5FjZmMv4YrCcsL8H2EMeKS?=
+ =?us-ascii?Q?YfONIE+wwlzMTwqYTeSugzXgFGbqJdEpelZrWq/FpbSwjnVdADT/p0m1mRda?=
+ =?us-ascii?Q?3chALCF2Ug1306u2JuzZxT7j2Ec7366DoXL7NMn19XD5oS4mW0NL9tlr0l4U?=
+ =?us-ascii?Q?16OwnT+RI1NQfZaq7iloXRqOOEiajPp1H1Pro4RSG+ePpkRD9/z8IF3BJfB/?=
+ =?us-ascii?Q?LtgbzSYUUOXh3oATR++1mpDIL4Dt8KZeNDdvJrx7QWO/RMIq3bLggvUKAyHC?=
+ =?us-ascii?Q?UpUNMts1+KSEs1tdpaEh5jY+OQYkyifuQebc4BestW3fanPamx0jRpE0rWLr?=
+ =?us-ascii?Q?54Rx4jJMbBVqHCK2HlUrdtoy7kfy93N0hl5TdAD7f7XIxpzTiQ2TDlcjFqcL?=
+ =?us-ascii?Q?QYhoQkRXt6UaoZqUe9yFT08AYVnlIGXlLHd5+eAaMWt1cs+NnYm1cDU456zz?=
+ =?us-ascii?Q?kI7eERiPVoC9nHspMcGKsUuL0PgBBQovuYfHqQT8w8vVALKWuUfikxVVH27q?=
+ =?us-ascii?Q?Ks1FN84ce7hRIDeW12yUSWGHtt5B5WcDb32LXziY3ML/oSGBrjbSw8XdLo0H?=
+ =?us-ascii?Q?KDDfUjyBaU+8yd/YXyIiDjSGeBmtsNlKYp1dcRjsbsGPs9xYdUY01gsyC42q?=
+ =?us-ascii?Q?8kblzSzHrhaSaPjEwoPsTT1SPMzNkbFVEQ9auujbHFAHlPDksdJmzFeSU7K8?=
+ =?us-ascii?Q?DerKM4/Q4Uphh86Q35thCg51fNH+sYR6Aixq3tksBvFR7jGf8LgD7Z6y/LBf?=
+ =?us-ascii?Q?W2IZqRGV0t0Qggq4XyxiraD6KLEAEY13JcXlcSyoFEX7glCBFp1iJ8e2Y51j?=
+ =?us-ascii?Q?aLv+ukt01iCRrT1kAEgbJRJ+jwSugGFZ2eIahxAVOnYJceacAOfQN+wk9gXV?=
+ =?us-ascii?Q?XAXobdyLf8MwxvCBvewtPUfGfin3zFu9FQfdcWMsj2pwFUwhbkmrtv9FQft5?=
+ =?us-ascii?Q?9K6KNj3SaHMHSOQg5LHLnQd+hkn9A5Rojlnp/Fc/adxgVOCZE+gxrKaDJ3ba?=
+ =?us-ascii?Q?3C0XnhzDlxEF9SoJ+qId2BLOWOdgLelusy7L0xpLk0nIWovkcoGGkWsKx8De?=
+ =?us-ascii?Q?vG9HCYTey40RzlfSKm3fK1V0RV5ezRTb0lm5L0lPCCEYCtf8K6NX+rgFX9+V?=
+ =?us-ascii?Q?U1ZjAD6vF5dWGDpXsOKVyEzSbf+RoYm0362ry7g3Q1piaNGSUeXq544M5e+k?=
+ =?us-ascii?Q?ONFjYcKQfkPXxrw5nrNt0ihWtxLAX3cKc8KxjwUSqeLImppWeo9eUQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KQoSvSeyzYU9PZ0PuRzjBZDbSKDUKr0QEVKfVZv0M2bILQdL/0eSEuAQUd6S?=
+ =?us-ascii?Q?JCkgXPi3sMHHuudoAAJUdSQXzpIsPvZzPf7W4m9NnKs/KhwptQW/mdCyDwQU?=
+ =?us-ascii?Q?u2HxEtrai0hAwduiP6FXDAS0wOre7mf0RvgYp4PEoruDGCRlPOdWyEHEsVRb?=
+ =?us-ascii?Q?cZFd+gMMcXKCkOGofwlLtt+cZn/oNJ/Hd2o5RfqngY5wt7Z14WymyPBRpzIi?=
+ =?us-ascii?Q?3V8fMzcEMK3H1A3ArQ1H/yJVWcOQNNaj6qjBGrSONSGL4pXOQVFZAfTc6VBZ?=
+ =?us-ascii?Q?I37IUrmfNWCflsdYPoKW/ql8Gg6byYzw4VB2Il1doc7aleNfqlteSkXgh5NW?=
+ =?us-ascii?Q?ENy6FaEPe+q6/6GNrGMPgmWaHYziu/qS0jJ0XLnBcyxXU/CQAy077TY+keu8?=
+ =?us-ascii?Q?CyirvAUPduF7KULRpmsoTGosH1/1SbFB7SoA+3pdhboZVAPOhAw9jPeD/zoN?=
+ =?us-ascii?Q?faa3vhmUW4Wtd0sZ8iU/df7TKq2y+OkPQRuXfhKKjqaJrIoC4uPFVEW3hDa1?=
+ =?us-ascii?Q?53OObC3tBtexP+aCZtk83UrPtSqYyMTHI26vtcyhp0dpONoA8vYj8IcjOKDN?=
+ =?us-ascii?Q?RPb2MtB+NvJLuK21osw+8ShrJKDcg/NNDtzh+K/8OYYfj7B45KmHH5ZRQ8q7?=
+ =?us-ascii?Q?NJtPP/wlcGg3OE0tusD9WgkSTbEkewqr4zkzQQzq5iEetePYSkxtRanHnPGI?=
+ =?us-ascii?Q?fzzYs/AgMFmxYJ+e+JomM3f2hebBsMi8tmkViFdgEv/m6CdqbbNgFBH9l7um?=
+ =?us-ascii?Q?qTWVCnU98DFGDtKeC8II8W52sDIZ2/E+n4zRFzqoszX874+tWxcJTLi/4/+C?=
+ =?us-ascii?Q?50+zNndJ7ivqiZCifCH7UzBbyXIPEmajn9Kc3HnX7ZiZz+LueBCMcHQVlrxm?=
+ =?us-ascii?Q?PEBSJouwyWn6kyA49IH35qmkGsEnVU1ZJc6shG9Ay3t/xfDj0kywZoe7owL9?=
+ =?us-ascii?Q?DQSAQlUSCK3P5HFGneulwEPn3m7E7kmBS/mHK+kfPYxn30zEN/rNn6Ue1cXD?=
+ =?us-ascii?Q?PjBM5I1pCE1etv6uMfyV1d7BT6h9shTLXst+FpeakaEQ67PYCPpvE1F3Eenn?=
+ =?us-ascii?Q?JMsk6ySx/cSh9uWLF4k7bektjajRy+g/2V9oWVvFgEIrzZglw2+zLqBM/hWO?=
+ =?us-ascii?Q?cqwTxwEv0pEqcJ7K/fyBsJW2i/hOWNaI7a7xDhjFZeuAOf+JTsF4iM6udlX3?=
+ =?us-ascii?Q?k9rknsJ2p8f6VaD7SYLNbGLikJTBRnD6/T3QkkJkv7DiCOuEB+88+ovj/urQ?=
+ =?us-ascii?Q?3dtMdtdrNXGW1hTCQSvMn0q8pSj4jYNuEIIM6EcN/aCGkH7u6IFdK9c+N8TX?=
+ =?us-ascii?Q?OGqas/ID/eWtzBz+iyZWhE+TtrMN9zVhaKvyUT6XTn1f675MC5jXH4zqiaDy?=
+ =?us-ascii?Q?RltdNHc7MicknurpHT6ByqyPyKEEGfwCUbctPG3gOU81QareOIwvvttmtqD+?=
+ =?us-ascii?Q?FVnCEkF3YDGcZLrJGqrAupQC5tyl5vUdRTrtXg1jWqQf7IaZ6Q5NCvkUlsOj?=
+ =?us-ascii?Q?Pb4jiQ9mSOCzFr6PrMGSwS1rvec1vhX8W/7lqSarhsMadmM2UF+4+nr3g2Rp?=
+ =?us-ascii?Q?t+WVkwhfKAHgk+7+XkUrCY33Z8WyyIhH6mcxiXHhESFlFHjNjr1XhnRtyZmW?=
+ =?us-ascii?Q?ZSnVfN0efm7kLjVq4BmnCiZaHnxbWWt//+585IYqWwxJL6BX4KvQhIQUFV4q?=
+ =?us-ascii?Q?V6yplzu63lPnezVOP/RZUOkBtpMMher3rFtQ+N70ttBd85vDBJcjPCQ4TOhn?=
+ =?us-ascii?Q?DE5X1OJddQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f6ad3af-ab12-4044-8117-08de4ed5365c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jan 2026 16:44:37.9901 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ao6QPkQhA15kbrkHGOqiNfxuJ7XJliP2m/3CGmPLynT2jCjuhfcy+6oXp1suJp/OB4oMU9HJj2k+mXf01y6OLCwM7d2ygQmKF1vN9/1rZ0A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10769
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,411 +164,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Hugo Villeneuve,
 
-This is a note to let you know that I've just added the patch titled
+> -----Original Message-----
+> From: Hugo Villeneuve <hugo@hugovil.com>
+> Sent: 08 January 2026 15:53
+> Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+>=20
+> Hi Claudiu,
+>=20
+> On Thu, 8 Jan 2026 11:12:54 +0200
+> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>=20
+> > Hi, Hugo,
+> >
+> > On 1/7/26 23:48, Hugo Villeneuve wrote:
+> > > Hi,
+> > > when issuing a reboot command, I encounter the following kernel panic=
+:
+> > >
+> > > [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- S=
+Error
+> > > [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G =
+  M                6.19.0-
+> rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > [   36.183504] Tainted: [M]=3DMACHINE_CHECK
+> > > [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+> > > [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS =
+BTYPE=3D--)
+> > > [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+> > > [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+> > > [   36.183547] sp : ffff8000813db860
+> > > [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff0=
+00009dd7450
+> > > [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff8=
+00080e1f7a8
+> > > [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff0=
+00009dd7430
+> > > [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000=
+000ffffffff
+> > > [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8=
+000813db220
+> > > [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000=
+000000009a2
+> > > [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff8=
+00081255bc0
+> > > [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 00000=
+00000000000
+> > > [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 00000=
+00000000028
+> > > [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff8=
+00081780000
+> > > [   36.183652] Kernel panic - not syncing: Asynchronous SError Interr=
+upt
+> > > [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G =
+  M                6.19.0-
+> rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > [   36.183665] Tainted: [M]=3DMACHINE_CHECK
+> > > [   36.183668] Hardware name: devboard1 (DT)
+> > > [   36.183672] Call trace:
+> > > [   36.183675]  show_stack+0x18/0x24 (C)
+> > > [   36.183692]  dump_stack_lvl+0x34/0x8c
+> > > [   36.183702]  dump_stack+0x18/0x24
+> > > [   36.183708]  vpanic+0x314/0x35c
+> > > [   36.183716]  nmi_panic+0x0/0x64
+> > > [   36.183722]  add_taint+0x0/0xbc
+> > > [   36.183728]  arm64_serror_panic+0x70/0x80
+> > > [   36.183735]  do_serror+0x28/0x68
+> > > [   36.183742]  el1h_64_error_handler+0x34/0x50
+> > > [   36.183751]  el1h_64_error+0x6c/0x70
+> > > [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+> > > [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+> > > [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+> > > [   36.183792]  ili9881c_unprepare+0x38/0x88
+> > > [   36.183802]  drm_panel_unprepare+0xbc/0x108
+> > > [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+> > > [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+> > > [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+> > > [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
+> > > [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+> > > [   36.183865]  commit_tail+0xa4/0x18c
+> > > [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+> > > [   36.183884]  drm_atomic_commit+0x8c/0xcc
+> > > [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+> > > [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+> > > [   36.183911]  rzg2l_du_shutdown+0x18/0x24
+> > > [   36.183920]  platform_shutdown+0x24/0x34
+> > > [   36.183931]  device_shutdown+0x128/0x284
+> > > [   36.183938]  kernel_restart+0x44/0xa4
+> > > [   36.183950]  __do_sys_reboot+0x178/0x270
+> > > [   36.183959]  __arm64_sys_reboot+0x24/0x30
+> > > [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+> > > [   36.183979]  do_el0_svc+0x40/0xc0
+> > > [   36.183988]  el0_svc+0x3c/0x164
+> > > [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+> > > [   36.184002]  el0t_64_sync+0x198/0x19c
+> > > [   36.184020] Kernel Offset: disabled
+> > > [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+> > > [   36.184028] Memory Limit: none
+> > > [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SErr=
+or Interrupt ]---
+> > >
+> > > The problem is present since linux-6.18-rc1, but not in linux-6.17. I=
+ also confirm the bug is
+> present in linux-6.19-rc4.
+> > >
+> > > The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+> > >
+> > > After bisecting, here is the first bad commit:
+> > >
+> > >      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for
+> > > RZ/G2L")
+> > >
+> > > Reverting this change makes the bug disappear.
+> > >
+> > > My limited understanding seems to indicate that the MIPI/DSI host
+> > > may no longer be available/on when the panel tries to send MIPI/DSI
+> > > commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock ha=
+s been stopped...
+> > >
+> > > The exact same board with two other panels (jd9365da and st7703) does=
+n't have the bug.
+> >
+> > Could you please provide the output of command:
+> >
+> > cat /sys/kernel/debug/mstop
+> >
+> > for both cases?
+>=20
+> Here it is for the panel which has the bug:
+>=20
+> ----------------------------------
+>                            MSTOP
+>                      clk   -------------------------
+> clk_name             cnt   cnt   off   val    shared
+> --------             ----- ----- ----- ------ ------
+> gic                  1     1     0xb80 0x0
+> ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
+> ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
+> dmac_aclk            2     1     0xb80 0x0
+> dmac_pclk            1     1     0xb80 0x0
+> ostm0_pclk           0     0     0xb7c 0x10
+> ostm1_pclk           1     1     0xb7c 0x0
+> ostm2_pclk           1     1     0xb7c 0x0
+> mtu_x_mck            0     0     0xb64 0x4
+> gpt_pclk             1     1     0xb64 0x0
+> poeg_a_clkp          0     0     0xb64 0x20
+> poeg_b_clkp          0     0     0xb64 0x40
+> poeg_c_clkp          0     0     0xb64 0x80
+> poeg_d_clkp          0     0     0xb64 0x100
+> wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
+> spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
+> sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sd=
+hi0_clk_hs sdhi0_aclk
+> sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sd=
+hi0_clk_hs sdhi0_aclk
+> sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sd=
+hi0_clk_hs sdhi0_aclk
+> sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sd=
+hi0_clk_hs sdhi0_aclk
+> sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sd=
+hi1_clk_hs sdhi1_aclk
+> sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sd=
+hi1_clk_hs sdhi1_aclk
+> sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sd=
+hi1_clk_hs sdhi1_aclk
+> sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sd=
+hi1_clk_hs sdhi1_aclk
+> gpu_clk              1     1     0xb80 0x0
+> cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pcl=
+k cru_aclk
+> cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pcl=
+k cru_aclk
+> cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pcl=
+k cru_aclk
+> cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pcl=
+k cru_aclk
+> dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi=
+_aclk dsi_pclk dsi_vclk
+> dsi_lpclk
+> lcdc_a               3     1     0xb78 0x0    lcdc_a lcdc_p
+> lcdc_p               3     1     0xb78 0x0    lcdc_a lcdc_p
+> lcdc_clk_d           3     1     0xb78 0x0
+> ssi0_pclk            0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> ssi0_sfr             0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> ssi1_pclk            0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> ssi1_sfr             0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> ssi2_pclk            0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> ssi2_sfr             0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> ssi3_pclk            0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> ssi3_sfr             0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> usb0_host            3     1     0xb6c 0x0
+> usb1_host            0     0     0xb6c 0x80
+> usb0_func            1     1     0xb6c 0x0
+> usb_pclk             5     1     0xb6c 0x0
+> eth0_axi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> eth0_chi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> eth1_axi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> eth1_chi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> i2c0                 0     0     0xb68 0x400
+> i2c1                 0     0     0xb68 0x800
+> i2c2                 0     0     0xb68 0x1000
+> i2c3                 0     0     0xb68 0x2000
+> scif0                2     1     0xb68 0x0
+> scif1                0     0     0xb68 0x4
+> scif2                0     0     0xb68 0x8
+> scif3                0     0     0xb68 0x10
+> scif4                0     0     0xb68 0x20
+> sci0                 0     0     0xb68 0x80
+> sci1                 0     0     0xb68 0x100
+> rspi0                0     0     0xb64 0x4000
+> rspi1                0     0     0xb64 0x8000
+> rspi2                0     0     0xb68 0x1
+> canfd                0     0     0xb68 0x200
+> gpio                 1     1     0xb70 0x0
+> adc_adclk            0     0     0xb68 0x4000 adc_adclk adc_pclk
+> adc_pclk             0     0     0xb68 0x4000 adc_adclk adc_pclk
+> tsu_pclk             1     1     0xb68 0x0
+> ----------------------------------
+>=20
+> I do not have acces to the other panels for the moment to run the same co=
+mmand.
+>=20
+>=20
+> > Also, could you please check if the following diff solves your problem:
+> >
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > index 5edd45424562..62957632a96f 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -1282,6 +1282,10 @@ static ssize_t
+> > rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+> >                  value |=3D SQCH0DSC0AR_FMT_SHORT;
+> >          }
+> >
+> > +       ret =3D pm_runtime_resume_and_get(dsi->dev);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> >          rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+> >
+> >          /*
+> > @@ -1322,6 +1326,8 @@ static ssize_t
+> > rzg2l_mipi_dsi_host_transfer(struct
+> > mipi_dsi_host *host,
+> >                          ret =3D packet.payload_length;
+> >          }
+> >
+> > +       pm_runtime_put(dsi->dev);
+> > +
+> >          return ret;
+> >   }
+>=20
+> I confirm that it fixes the bug, altought I assume this is just for testi=
+ng and is not the "proper"
+> fix.
 
-    drm/gma500: Remove unused helper psb_fbdev_fb_setcolreg()
+Pre-MSTOP case during reboot, without clk it is accessing registers)(mstop =
+off always)
+it won't crash. But looks like you may have ignored timeout error from [1].
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Post MSTOP case, if you access registers with mstop on, it will lead to cra=
+sh.
 
-The filename of the patch is:
-     drm-gma500-remove-unused-helper-psb_fbdev_fb_setcolreg.patch
-and it can be found in the queue-5.10 subdirectory.
+and the patch fixes crash.=20
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+Basically, you are accessing link register after video is stopped with this=
+ panel.
+Looks like it is a fix for me.=20
 
+Better check if there is any timeout error[1] with this patch. if not,
+It is proper fix.
 
-From stable+bounces-206185-greg=kroah.com@vger.kernel.org Wed Jan  7 17:44:01 2026
-From: Sasha Levin <sashal@kernel.org>
-Date: Wed,  7 Jan 2026 11:23:28 -0500
-Subject: drm/gma500: Remove unused helper psb_fbdev_fb_setcolreg()
-To: stable@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Stefan Christ <contact@stefanchrist.eu>, Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Message-ID: <20260107162328.4079503-1-sashal@kernel.org>
+[1] https://elixir.bootlin.com/linux/v6.19-rc4/source/drivers/gpu/drm/renes=
+as/rz-du/rzg2l_mipi_dsi.c#L893
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-[ Upstream commit be729f9de6c64240645dc80a24162ac4d3fe00a8 ]
-
-Remove psb_fbdev_fb_setcolreg(), which hasn't been called in almost
-a decade.
-
-Gma500 commit 4d8d096e9ae8 ("gma500: introduce the framebuffer support
-code") added the helper psb_fbdev_fb_setcolreg() for setting the fbdev
-palette via fbdev's fb_setcolreg callback. Later
-commit 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for
-fb_ops") set several default helpers for fbdev emulation, including
-fb_setcmap.
-
-The fbdev subsystem always prefers fb_setcmap over fb_setcolreg. [1]
-Hence, the gma500 code is no longer in use and gma500 has been using
-drm_fb_helper_setcmap() for several years without issues.
-
-Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Stefan Christ <contact@stefanchrist.eu>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.10+
-Link: https://elixir.bootlin.com/linux/v6.16.9/source/drivers/video/fbdev/core/fbcmap.c#L246 # [1]
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://lore.kernel.org/r/20250929082338.18845-1-tzimmermann@suse.de
-[ adapted file path from fbdev.c to framebuffer.c and removed fb_setcolreg from three fb_ops structures ]
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/gma500/framebuffer.c |   44 -----------------------------------
- 1 file changed, 44 deletions(-)
-
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -34,47 +34,6 @@ static const struct drm_framebuffer_func
- 	.create_handle = drm_gem_fb_create_handle,
- };
- 
--#define CMAP_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
--
--static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
--			   unsigned blue, unsigned transp,
--			   struct fb_info *info)
--{
--	struct drm_fb_helper *fb_helper = info->par;
--	struct drm_framebuffer *fb = fb_helper->fb;
--	uint32_t v;
--
--	if (!fb)
--		return -ENOMEM;
--
--	if (regno > 255)
--		return 1;
--
--	red = CMAP_TOHW(red, info->var.red.length);
--	blue = CMAP_TOHW(blue, info->var.blue.length);
--	green = CMAP_TOHW(green, info->var.green.length);
--	transp = CMAP_TOHW(transp, info->var.transp.length);
--
--	v = (red << info->var.red.offset) |
--	    (green << info->var.green.offset) |
--	    (blue << info->var.blue.offset) |
--	    (transp << info->var.transp.offset);
--
--	if (regno < 16) {
--		switch (fb->format->cpp[0] * 8) {
--		case 16:
--			((uint32_t *) info->pseudo_palette)[regno] = v;
--			break;
--		case 24:
--		case 32:
--			((uint32_t *) info->pseudo_palette)[regno] = v;
--			break;
--		}
--	}
--
--	return 0;
--}
--
- static int psbfb_pan(struct fb_var_screeninfo *var, struct fb_info *info)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
-@@ -167,7 +126,6 @@ static int psbfb_mmap(struct fb_info *in
- static const struct fb_ops psbfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_setcolreg = psbfb_setcolreg,
- 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
- 	.fb_copyarea = psbfb_copyarea,
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
-@@ -178,7 +136,6 @@ static const struct fb_ops psbfb_ops = {
- static const struct fb_ops psbfb_roll_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_setcolreg = psbfb_setcolreg,
- 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
- 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
-@@ -189,7 +146,6 @@ static const struct fb_ops psbfb_roll_op
- static const struct fb_ops psbfb_unaccel_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_setcolreg = psbfb_setcolreg,
- 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
- 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+Cheers,
+Biju
 
 
-Patches currently in stable-queue which might be from sashal@kernel.org are
 
-queue-5.10/usb-fix-descriptor-count-when-handling-invalid-mbim-.patch
-queue-5.10/net-dsa-b53-skip-multicast-entries-for-fdb_dump.patch
-queue-5.10/ipmi-fix-the-race-between-__scan_channels-and-delive.patch
-queue-5.10/nfsv4-pnfs-clear-nfs_ino_layoutcommit-in-pnfs_mark_l.patch
-queue-5.10/iio-imu-st_lsm6dsx-introduce-st_lsm6dsx_device_set_e.patch
-queue-5.10/macintosh-mac_hid-fix-race-condition-in-mac_hid_togg.patch
-queue-5.10/vhost-vsock-improve-rcu-read-sections-around-vhost_v.patch
-queue-5.10/dma-pool-eliminate-alloc_pages-warning-in-atomic_poo.patch
-queue-5.10/mfd-mt6397-irq-fix-missing-irq_domain_remove-in-erro.patch
-queue-5.10/platform-x86-ibm_rtl-fix-ebda-signature-search-point.patch
-queue-5.10/acpi-property-fix-fwnode-refcount-leak-in-acpi_fwnod.patch
-queue-5.10/power-supply-apm_power-only-unset-own-apm_get_power_.patch
-queue-5.10/xhci-dbgtty-fix-device-unregister.patch
-queue-5.10/mlxsw-spectrum_mr-fix-use-after-free-when-updating-m.patch
-queue-5.10/alsa-vxpocket-fix-resource-leak-in-vxpocket_probe-er.patch
-queue-5.10/revert-nfs-clear-sb_rdonly-before-getting-superblock.patch
-queue-5.10/usb-gadget-udc-fix-use-after-free-in-usb_gadget_state_work.patch
-queue-5.10/crypto-ccree-correctly-handle-return-of-sg_nents_for.patch
-queue-5.10/firmware-imx-scu-irq-fix-of-node-leak-in.patch
-queue-5.10/efi-cper-align-arm-cper-type-with-uefi-2.9a-2.10-spe.patch
-queue-5.10/usb-chaoskey-fix-locking-for-o_nonblock.patch
-queue-5.10/arm-9464-1-fix-input-only-operand-modification-in-lo.patch
-queue-5.10/block-fix-comment-for-op_is_zone_mgmt-to-include-res.patch
-queue-5.10/nfs-don-t-unhash-dentry-during-unlink-rename.patch
-queue-5.10/nfs-avoid-changing-nlink-when-file-removes-and-attri.patch
-queue-5.10/rdma-bnxt_re-fix-ib_send_ip_csum-handling-in-post_se.patch
-queue-5.10/hwmon-replace-snprintf-in-show-functions-with-sysfs_emit.patch
-queue-5.10/fbdev-ssd1307fb-fix-potential-page-leak-in-ssd1307fb.patch
-queue-5.10/mips-fix-a-reference-leak-bug-in-ip22_check_gio.patch
-queue-5.10/rdma-bnxt_re-fix-dma_free_coherent-pointer.patch
-queue-5.10/rdma-efa-remove-possible-negative-shift.patch
-queue-5.10/rdma-rtrs-server-fix-error-handling-in-get_or_create.patch
-queue-5.10/platform-x86-huawei-wmi-add-keys-for-honor-models.patch
-queue-5.10/net-ethtool-ioctl-remove-if-n_stats-checks-from-etht.patch
-queue-5.10/virtio-fix-virtqueue_set_affinity-docs.patch
-queue-5.10/pwm-bcm2835-support-apply-function-for-atomic-config.patch
-queue-5.10/fs_context-drop-the-unused-lsm_flags-member.patch
-queue-5.10/firewire-nosy-switch-from-pci_-to-dma_-api.patch
-queue-5.10/nfs-automounted-filesystems-should-inherit-ro-noexec.patch
-queue-5.10/alsa-uapi-fix-typo-in-asound.h-comment.patch
-queue-5.10/hfsplus-fix-missing-hfs_bnode_get-in-__hfs_bnode_cre.patch
-queue-5.10/block-rnbd-clt-fix-signedness-bug-in-init_dev.patch
-queue-5.10/compiler-gcc.h-define-__sanitize_address__-under-hwa.patch
-queue-5.10/net-mlx5-fw_tracer-handle-escaped-percent-properly.patch
-queue-5.10/xfrm-also-call-xfrm_state_delete_tunnel-at-destroy-t.patch
-queue-5.10/spi-xilinx-increase-number-of-retries-before-declari.patch
-queue-5.10/usb-raw-gadget-cap-raw_io-transfer-length-to-kmalloc.patch
-queue-5.10/backlight-led-bl-add-devlink-to-supplier-leds.patch
-queue-5.10/asoc-stm-use-dev_err_probe-helper.patch
-queue-5.10/perf-x86-intel-correct-large-pebs-flag-check.patch
-queue-5.10/media-vpif_capture-fix-section-mismatch.patch
-queue-5.10/revert-xfrm-destroy-xfrm_state-synchronously-on-net-.patch
-queue-5.10/netrom-fix-memory-leak-in-nr_sendmsg.patch
-queue-5.10/block-rnbd-remove-a-useless-mutex.patch
-queue-5.10/firewire-nosy-fix-dma_free_coherent-size.patch
-queue-5.10/via_wdt-fix-critical-boot-hang-due-to-unnamed-resour.patch
-queue-5.10/iio-imu-st_lsm6dsx-fix-measurement-unit-for-odr-stru.patch
-queue-5.10/crypto-af_alg-zero-initialize-memory-allocated-via-sock_kmalloc.patch
-queue-5.10/leds-lp50xx-get-rid-of-redundant-check-in-lp50xx_enable_disable.patch
-queue-5.10/iommu-arm-smmu-qcom-enable-use-of-all-smr-groups-whe.patch
-queue-5.10/cpufreq-s5pv210-fix-refcount-leak.patch
-queue-5.10/xfrm-delete-x-tunnel-as-we-delete-x.patch
-queue-5.10/mfd-da9055-fix-missing-regmap_del_irq_chip-in-error-.patch
-queue-5.10/net-openvswitch-avoid-needlessly-taking-the-rtnl-on-.patch
-queue-5.10/net-sched-ets-remove-drr-class-from-the-active-list-.patch
-queue-5.10/ipvs-fix-ipv4-null-ptr-deref-in-route-error-path.patch
-queue-5.10/crypto-asymmetric_keys-prevent-overflow-in-asymmetri.patch
-queue-5.10/i40e-fix-scheduling-in-set_rx_mode.patch
-queue-5.10/btrfs-fix-memory-leak-of-fs_devices-in-degraded-seed.patch
-queue-5.10/mtd-lpddr_cmds-fix-signed-shifts-in-lpddr_cmds.patch
-queue-5.10/net-rose-fix-invalid-array-index-in-rose_kill_by_dev.patch
-queue-5.10/nbd-partition-nbd_read_stat-into-nbd_read_reply-and-.patch
-queue-5.10/net-hns3-using-the-num_tqps-in-the-vf-driver-to-appl.patch
-queue-5.10/perf-tools-fix-split-kallsyms-dso-counting.patch
-queue-5.10/nfc-pn533-fix-error-code-in-pn533_acr122_poweron_rdr.patch
-queue-5.10/platform-x86-asus-wmi-use-brightness_set_blocking-fo.patch
-queue-5.10/usb-dwc2-fix-hang-during-suspend-if-set-as-periphera.patch
-queue-5.10/x86-dumpstack-prevent-kasan-false-positive-warnings-.patch
-queue-5.10/inet-avoid-ehash-lookup-race-in-inet_ehash_insert.patch
-queue-5.10/selftests-bpf-improve-reliability-of-test_perf_branc.patch
-queue-5.10/power-supply-wm831x-check-wm831x_set_bits-return-val.patch
-queue-5.10/net-bridge-describe-tunnel_hash-member-in-net_bridge.patch
-queue-5.10/pci-brcmstb-fix-disabling-l0s-capability.patch
-queue-5.10/ocfs2-fix-memory-leak-in-ocfs2_merge_rec_left.patch
-queue-5.10/alsa-usb-mixer-us16x08-validate-meter-packet-indices.patch
-queue-5.10/selftests-bpf-fix-failure-paths-in-send_signal-test.patch
-queue-5.10/alsa-wavefront-fix-integer-overflow-in-sample-size-validation.patch
-queue-5.10/btrfs-don-t-rewrite-ret-from-inode_permission.patch
-queue-5.10/octeontx2-pf-fix-ubsan-shift-out-of-bounds-error.patch
-queue-5.10/i3c-master-inherit-dma-masks-and-parameters-from-par.patch
-queue-5.10/pmdomain-use-device_get_match_data.patch
-queue-5.10/iavf-fix-off-by-one-issues-in-iavf_config_rss_reg.patch
-queue-5.10/rculist-add-hlist_nulls_replace_rcu-and-hlist_nulls_.patch
-queue-5.10/usb-dwc2-fix-hang-during-shutdown-if-set-as-peripher.patch
-queue-5.10/netfilter-nf_conncount-reduce-unnecessary-gc.patch
-queue-5.10/dm-log-writes-add-missing-set_freezable-for-freezabl.patch
-queue-5.10/asoc-stm32-sai-fix-clk-prepare-imbalance-on-probe-failure.patch
-queue-5.10/nfs-fix-open-coded-versions-of-nfs_set_cache_invalid.patch
-queue-5.10/usb-xhci-limit-run_graceperiod-for-only-usb-3.0-devi.patch
-queue-5.10/iommu-qcom-fix-device-leak-on-of_xlate.patch
-queue-5.10/asoc-ak5558-disable-regulator-when-error-happens.patch
-queue-5.10/i3c-remove-i2c-board-info-from-i2c_dev_desc.patch
-queue-5.10/drm-gma500-remove-unused-helper-psb_fbdev_fb_setcolreg.patch
-queue-5.10/asoc-ak4458-disable-regulator-when-error-happens.patch
-queue-5.10/smack-fix-bug-unprivileged-task-can-create-labels.patch
-queue-5.10/ima-handle-error-code-returned-by-ima_filter_rule_ma.patch
-queue-5.10/genalloc.h-fix-htmldocs-warning.patch
-queue-5.10/s390-ap-don-t-leak-debug-feature-files-if-ap-instruc.patch
-queue-5.10/netfilter-nft_connlimit-update-the-count-if-add-was-.patch
-queue-5.10/acpi-property-use-acpi-functions-in-acpi_graph_get_n.patch
-queue-5.10/broadcom-b44-prevent-uninitialized-value-usage.patch
-queue-5.10/serial-sprd-return-eprobe_defer-when-uart-clock-is-n.patch
-queue-5.10/usb-typec-ucsi-handle-incorrect-num_connectors-capab.patch
-queue-5.10/drm-amd-display-fix-logical-vs-bitwise-bug-in-get_em.patch
-queue-5.10/sunrpc-svcauth_gss-avoid-null-deref-on-zero-length-gss_token-in-gss_read_proxy_verf.patch
-queue-5.10/x86-dumpstack-make-show_trace_log_lvl-static.patch
-queue-5.10/nfsd-nfsv4-file-creation-neglects-setting-acl.patch
-queue-5.10/rdma-core-fix-kasan-slab-use-after-free-read-in-ib_register_device-problem.patch
-queue-5.10/netfilter-nft_connlimit-move-stateful-fields-out-of-.patch
-queue-5.10/net-mlx5-fw_tracer-validate-format-string-parameters.patch
-queue-5.10/backlight-led_bl-take-led_access-lock-when-required.patch
-queue-5.10/ext4-remove-unused-return-value-of-__mb_check_buddy.patch
-queue-5.10/soc-renesas-r9a06g032-sysctrl-handle-h2mode-setting-.patch
-queue-5.10/mlxsw-spectrum_router-fix-neighbour-use-after-free.patch
-queue-5.10/xfs-fix-a-memory-leak-in-xfs_buf_item_init.patch
-queue-5.10/jbd2-fix-the-inconsistency-between-checksum-and-data-in-memory-for-journal-sb.patch
-queue-5.10/nvme-fc-don-t-hold-rport-lock-when-putting-ctrl.patch
-queue-5.10/efi-cper-adjust-infopfx-size-to-accept-an-extra-spac.patch
-queue-5.10/arm-dts-microchip-sama5d2-fix-spi-flexcom-fifo-size-to-32.patch
-queue-5.10/firmware-imx-scu-irq-init-workqueue-before-request-m.patch
-queue-5.10/net-hns3-add-vlan-id-validation-before-using.patch
-queue-5.10/usb-dwc3-keep-susphy-enabled-during-exit-to-avoid-controller-faults.patch
-queue-5.10/rdma-core-fix-logic-error-in-ib_get_gids_from_rdma_h.patch
-queue-5.10/wifi-ieee80211-correct-fils-status-codes.patch
-queue-5.10/nfsd-blocklayout-fix-minlength-check-in-proc_layoutg.patch
-queue-5.10/f2fs-fix-to-avoid-updating-zero-sized-extent-in-extent-cache.patch
-queue-5.10/crypto-seqiv-do-not-use-req-iv-after-crypto_aead_enc.patch
-queue-5.10/tpm-cap-the-number-of-pcr-banks.patch
-queue-5.10/usb-dwc2-disable-platform-lowlevel-hw-resources-duri.patch
-queue-5.10/acpi-processor_core-fix-map_x2apic_id-for-amd-pstate.patch
-queue-5.10/nfs-clean-up-function-nfs_mark_dir_for_revalidate.patch
-queue-5.10/cpufreq-scmi-fix-null-ptr-deref-in-scmi_cpufreq_get_rate.patch
-queue-5.10/scsi-sim710-fix-resource-leak-by-adding-missing-iopo.patch
-queue-5.10/drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
-queue-5.10/blk-mq-abort-suspend-when-wakeup-events-are-pending.patch
-queue-5.10/acpica-avoid-walking-the-namespace-if-start_node-is-.patch
-queue-5.10/bpf-arm64-do-not-audit-capability-check-in-do_jit.patch
-queue-5.10/exfat-fix-remount-failure-in-different-process-envir.patch
-queue-5.10/hfsplus-verify-inode-mode-when-loading-from-disk.patch
-queue-5.10/net-openvswitch-fix-middle-attribute-validation-in-p.patch
-queue-5.10/pwm-bcm2835-make-sure-the-channel-is-enabled-after-p.patch
-queue-5.10/mfd-mt6358-irq-fix-missing-irq_domain_remove-in-erro.patch
-queue-5.10/regulator-core-protect-regulator_supply_alias_list-w.patch
-queue-5.10/pci-dwc-fix-wrong-port_logic_ltssm_state_mask-defini.patch
-queue-5.10/powerpc-64s-ptdump-fix-kernel_hash_pagetable-dump-fo.patch
-queue-5.10/leds-netxbig-fix-gpio-descriptor-leak-in-error-paths.patch
-queue-5.10/wifi-rtl818x-fix-potential-memory-leaks-in-rtl8180_i.patch
-queue-5.10/rdma-bnxt_re-fix-incorrect-bar-check-in-bnxt_qplib_m.patch
-queue-5.10/nbd-defer-config-unlock-in-nbd_genl_connect.patch
-queue-5.10/mm-balloon_compaction-we-cannot-have-isolated-pages-in-the-balloon-list.patch
-queue-5.10/hwmon-max16065-use-local-variable-to-avoid-toctou.patch
-queue-5.10/powerpc-pseries-cmm-call-balloon_devinfo_init-also-without-config_balloon_compaction.patch
-queue-5.10/f2fs-fix-to-propagate-error-from-f2fs_enable_checkpoint.patch
-queue-5.10/drm-vgem-fence-fix-potential-deadlock-on-release.patch
-queue-5.10/nbd-clean-up-return-value-checking-of-sock_xmit.patch
-queue-5.10/f2fs-fix-to-detect-recoverable-inode-during-dryrun-of-find_fsync_dnodes.patch
-queue-5.10/net-usb-rtl8150-fix-memory-leak-on-usb_submit_urb-fa.patch
-queue-5.10/spi-imx-keep-dma-request-disabled-before-dma-transfe.patch
-queue-5.10/wifi-rtl818x-rtl8187-fix-potential-buffer-underflow-.patch
-queue-5.10/ti-sysc-allow-omap2-and-omap4-timers-to-be-reserved-.patch
-queue-5.10/caif-fix-integer-underflow-in-cffrml_receive.patch
-queue-5.10/i3c-support-dynamically-added-i2c-devices.patch
-queue-5.10/ext4-correct-the-checking-of-quota-files-before-movi.patch
-queue-5.10/powerpc-pseries-cmm-adjust-balloon_migrate-when-migrating-pages.patch
-queue-5.10/usbip-fix-locking-bug-in-rt-enabled-kernels.patch
-queue-5.10/scsi-qla2xxx-use-reinit_completion-on-mbx_intr_comp.patch
-queue-5.10/nbd-defer-config-put-in-recv_work.patch
-queue-5.10/block-rnbd-clt-fix-leaked-id-in-init_dev.patch
-queue-5.10/media-samsung-exynos4-is-fix-potential-abba-deadlock-on-init.patch
-queue-5.10/staging-fbtft-core-fix-potential-memory-leak-in-fbtf.patch
-queue-5.10/asoc-bcm-bcm63xx-pcm-whistler-check-return-value-of-.patch
-queue-5.10/lockd-fix-vfs_test_lock-calls.patch
-queue-5.10/soc-rockchip-power-domain-manage-resource-conflicts-with-firmware.patch
-queue-5.10/hwmon-ibmpex-fix-use-after-free-in-high-low-store.patch
-queue-5.10/drm-panel-visionox-rm69299-don-t-clear-all-mode-flag.patch
-queue-5.10/s390-smp-fix-fallback-cpu-detection.patch
-queue-5.10/ext4-minor-defrag-code-improvements.patch
-queue-5.10/efi-cper-add-a-new-helper-function-to-print-bitmasks.patch
-queue-5.10/ext4-improve-integrity-checking-in-__mb_check_buddy-.patch
-queue-5.10/media-mediatek-vcodec-fix-a-reference-leak-in-mtk_vcodec_fw_vpu_init.patch
-queue-5.10/nfsd-clear-seclabel-in-the-suppattr_exclcreat-bitmap.patch
-queue-5.10/scsi-qla2xxx-fix-initiator-mode-with-qlini_mode-excl.patch
-queue-5.10/clk-mvebu-cp110-add-clk_ignore_unused-to-pcie_x10-pc.patch
-queue-5.10/scsi-target-do-not-write-nul-characters-into-ascii-c.patch
-queue-5.10/asoc-stm32-sai-use-the-devm_clk_get_optional-helper.patch
-queue-5.10/net-mlx5-fw_tracer-add-support-for-unrecognized-stri.patch
-queue-5.10/powerpc-64s-slb-fix-slb-multihit-issue-during-slb-preload.patch
-queue-5.10/x86-ptrace-always-inline-trivial-accessors.patch
-queue-5.10/xfrm-flush-all-states-in-xfrm_state_fini.patch
-queue-5.10/net-sched-sch_cake-fix-incorrect-qlen-reduction-in-c.patch
-queue-5.10/watchdog-wdat_wdt-fix-acpi-table-leak-in-probe-funct.patch
-queue-5.10/ocfs2-relax-bug-to-ocfs2_error-in-__ocfs2_move_exten.patch
-queue-5.10/netfilter-nf_conncount-fix-leaked-ct-in-error-paths.patch
-queue-5.10/backlight-lp855x-fix-lp855x.h-kernel-doc-warnings.patch
-queue-5.10/ipmi-fix-__scan_channels-failing-to-rescan-channels.patch
-queue-5.10/fs-nls-fix-inconsistency-between-utf8_to_utf32-and-u.patch
-queue-5.10/leds-lp50xx-remove-duplicated-error-reporting-in-.remove.patch
-queue-5.10/usb-ohci-nxp-fix-device-leak-on-probe-failure.patch
-queue-5.10/net-ethtool-ioctl-split-ethtool_get_phy_stats-into-m.patch
-queue-5.10/btrfs-scrub-always-update-btrfs_scrub_progress-last_.patch
-queue-5.10/hfsplus-fix-volume-corruption-issue-for-generic-073.patch
-queue-5.10/reset-fix-bit-macro-reference.patch
-queue-5.10/ipv6-bug-in-pskb_expand_head-as-part-of-calipso_skbu.patch
-queue-5.10/wifi-mac80211-discard-beacon-frames-to-non-broadcast-address.patch
-queue-5.10/kmsan-introduce-__no_sanitize_memory-and-__no_kmsan_.patch
-queue-5.10/i3c-fix-refcount-inconsistency-in-i3c_master_registe.patch
-queue-5.10/wifi-cw1200-fix-potential-memory-leak-in-cw1200_bh_r.patch
-queue-5.10/hfsplus-fix-volume-corruption-issue-for-generic-070.patch
-queue-5.10/platform-x86-acer-wmi-ignore-backlight-event.patch
-queue-5.10/ipvlan-ignore-packet_loopback-in-handle_mode_l2.patch
-queue-5.10/revert-nfs-ignore-sb_rdonly-when-mounting-nfs.patch
-queue-5.10/pinctrl-single-fix-pin_config_bias_disable-handling.patch
-queue-5.10/ipv4-fix-reference-count-leak-when-using-error-route.patch
-queue-5.10/fs-nls-fix-utf16-to-utf8-conversion.patch
-queue-5.10/nfs-label-the-dentry-with-a-verifier-in-nfs_rmdir-an.patch
-queue-5.10/regulator-core-disable-supply-if-enabling-main-regul.patch
-queue-5.10/powerpc-addnote-fix-overflow-on-32-bit-builds.patch
-queue-5.10/scsi-stex-fix-reboot_notifier-leak-in-probe-error-pa.patch
-queue-5.10/usb-ohci-nxp-use-helper-function-devm_clk_get_enabled.patch
-queue-5.10/netfilter-nf_conncount-rework-api-to-use-sk_buff-dir.patch
-queue-5.10/net-sched-ets-always-remove-class-from-active-list-b.patch
-queue-5.10/clk-renesas-r9a06g032-export-function-to-set-dmamux.patch
-queue-5.10/block-rnbd-clt-fix-wrong-max-id-in-ida_alloc_max.patch
-queue-5.10/dm-raid-fix-possible-null-dereference-with-undefined.patch
-queue-5.10/media-renesas-rcar_drif-fix-device-node-reference-leak-in-rcar_drif_bond_enabled.patch
-queue-5.10/selftests-ftrace-traceonoff_triggers-strip-off-names.patch
-queue-5.10/net-mdio-aspeed-move-reg-accessing-part-into-separat.patch
-queue-5.10/mm-balloon_compaction-convert-balloon_page_delete-to-balloon_page_finalize.patch
-queue-5.10/platform-x86-msi-laptop-add-missing-sysfs_remove_gro.patch
-queue-5.10/rdma-bnxt_re-fix-to-use-correct-page-size-for-pde-ta.patch
-queue-5.10/ip6_gre-make-ip6gre_header-robust.patch
-queue-5.10/pinctrl-stm32-fix-hwspinlock-resource-leak-in-probe-.patch
-queue-5.10/irqchip-qcom-irq-combiner-fix-section-mismatch.patch
-queue-5.10/ethtool-use-phydev-variable.patch
-queue-5.10/mm-balloon_compaction-make-balloon-page-compaction-callbacks-static.patch
-queue-5.10/revert-nfs-ignore-sb_rdonly-when-remounting-nfs.patch
-queue-5.10/ethtool-avoid-overflowing-userspace-buffer-on-stats-.patch
-queue-5.10/bluetooth-btusb-add-new-vid-pid-13d3-3533-for-rtl882.patch
-queue-5.10/samples-work-around-glibc-redefining-some-of-our-def.patch
-queue-5.10/lib-vsprintf-check-pointer-before-dereferencing-in-t.patch
-queue-5.10/leds-leds-lp50xx-enable-chip-before-any-communication.patch
-queue-5.10/team-fix-check-for-port-enabled-in-team_queue_overri.patch
-queue-5.10/usb-usb-storage-no-additional-quirks-need-to-be-adde.patch
-queue-5.10/bfs-reconstruct-file-type-when-loading-from-disk.patch
-queue-5.10/ext4-fix-string-copying-in-parse_apply_sb_mount_options.patch
-queue-5.10/livepatch-match-old_sympos-0-and-1-in-klp_find_func.patch
-queue-5.10/alsa-pcmcia-fix-resource-leak-in-snd_pdacf_probe-err.patch
-queue-5.10/watchdog-wdat_wdt-stop-watchdog-when-uninstalling-mo.patch
-queue-5.10/leds-lp50xx-reduce-level-of-dereferences.patch
-queue-5.10/clk-renesas-r9a06g032-fix-memory-leak-in-error-path.patch
-queue-5.10/f2fs-use-global-inline_xattr_slab-instead-of-per-sb-slab-cache.patch
-queue-5.10/x86-kmsan-don-t-instrument-stack-walking-functions.patch
-queue-5.10/i3c-allow-of-alias-based-persistent-bus-numbering.patch
-queue-5.10/mptcp-pm-ignore-unknown-endpoint-flags.patch
-queue-5.10/net-mdio-aspeed-add-dummy-read-to-avoid-read-after-w.patch
-queue-5.10/alsa-wavefront-clear-substream-pointers-on-close.patch
-queue-5.10/pci-keystone-exit-ks_pcie_probe-for-invalid-mode.patch
-queue-5.10/pinctrl-qcom-msm-fix-deadlock-in-pinmux-configuratio.patch
-queue-5.10/pinctrl-single-fix-incorrect-type-for-error-return-v.patch
-queue-5.10/iio-imu-st_lsm6dsx-discard-samples-during-filters-se.patch
-queue-5.10/pmdomain-imx-fix-reference-count-leak-in-imx_gpc_probe.patch
