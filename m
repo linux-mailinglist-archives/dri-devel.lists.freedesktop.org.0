@@ -2,171 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E53CD063DB
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 22:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB6BD0644A
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 22:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D71610E7CB;
-	Thu,  8 Jan 2026 21:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B989A10E381;
+	Thu,  8 Jan 2026 21:21:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PrA871h7";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="WcQLrDO+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB7210E7CB;
- Thu,  8 Jan 2026 21:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767907080; x=1799443080;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=+35zHgp1LNolsiPqji7ysB1bLpwt9v1BBVTTK5J5M2E=;
- b=PrA871h7URZCWDOZFREKxNtG7mmFvgby4f76vqBj1tqgv4oG/qpYxUPc
- Z/08DRBEA6agyieBVXp6DlMtCoZ+L/sh32lrSUsxbUoKi/Op43BwAlioA
- ny29yjBdYzEgmYCicMWBRj/IdXbPIdZcS3n+WabAjd8B8w73QUxADWQjT
- 6gWooCqHs4iLpBeGIgqmYeDI/9lsA54i+nY0JRVxlod6B+2Y5ugTLHADP
- fMwkM9fZ/w9jOZqJHJpBZ40zUsO7lDYtHQ+DLDFkVOzgFUWPKb2IZAoW9
- vZK8qxpKRhEdiD9ZEgj74HGkTNzhWVBgxVjOvHuqlNl75yvRAQ2mM79VX w==;
-X-CSE-ConnectionGUID: yMOOVto8SBWGe5gVQaaMHw==
-X-CSE-MsgGUID: OuofZ6XQS8G9iYGbjSVvEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69206071"
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; d="scan'208";a="69206071"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2026 13:18:00 -0800
-X-CSE-ConnectionGUID: TN9kzgY/TqCtMu5UONjWPA==
-X-CSE-MsgGUID: 8KEm7g7dTMeEW04tQxcYSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; d="scan'208";a="234480675"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2026 13:18:00 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 8 Jan 2026 13:17:59 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Thu, 8 Jan 2026 13:17:59 -0800
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.15) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 8 Jan 2026 13:17:59 -0800
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011050.outbound.protection.outlook.com [52.101.125.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9775D10E381
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 21:21:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t8yFBcueip95O5qC1+wu6tcIYTjCiYTNVbM6yu5EDHZnSs4pkTzTyoNdLhbBNGt1KfMHyrMW1dyhV1HswoaC8E7Y1a+q2SgkKIlwd+RgzXtG4LMIa8bXJiSIIWs2SedzD9aLUZ3ZlX6BDIYrxoegodBvijlevHmz8q6QMEWGVsDWE0OwYFOBngn30y8Kne87pM79Q36hXrWLQmZII1UPZR6enDhojNkxsEFVXJRBN97F10C8faorNCElp283dXrnGN+EteZdCS958GV+mUWpS7lG1TK7vGYGQTGtGTUJ8ROjF6+fLXCDd6tRSRXO9eU0nUOSJqOGIQybE3Xs3H/WWQ==
+ b=zWcG9aU/VVsRnvxgqPX36u/OhXrKHhdMX3kLlTLQyS0uwhTGdqV1UzYXo0I3B+gOEV7rwyqBwnjKpzqMkaS18D0Jtm0jORYKOtZOuJWESprfqT3JVdhAMKMaFVhaEnOOHSxlN7AhgSAmt+hsNwOeSIB1nA97opvfJCnnmb47yU1n9QyMnnc25lgoDMWa8tNfno7Z69FNFKhYYy9ljPZPi4sVW68mUfrmgiaC8GRj/oluNrwjv3fWdJpx+69WllOq8y566+994GxOcEw7C2R+IKn3Q+I2mgBfQfP0jGsp8WmncJWbUUzt+1wmJuqs/3+IYof/gDCfMaXChdXtHyMwRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=22oNlTYF79TpdfMeDBLP9l6m2Vvf30i85evQZpoOYiM=;
- b=B/760K6z5EFvOmPxT/I2sk/Jp13L5zLb7UqgI3qEwhOVTcHtIW9e4YPPfx4f2sAEtWm/otjW1wNSWZxPo3iyuiXY1vnyclq90Dcs7+e0XWVOPIG3uoBoWNSf//qKN3yFcPHvX1ffptl2NkorSdaqqfHr1Q4I7//UOsJQ4ZWsj5izytvrCbi52NBz44qmwHoI0yqGcpQyHFsHzq0QaPs99y8TRm4+gFLZNbEqvsGiA/5NJOL77j9aR2P3ME112xXPK+zdrfVVM/xcpdDkxA9CJQpdCXTuigjOgGtduumNTKMzItckW09NN+cZSvH+PATi31clkFsEhwQ2lRZJJq6dUQ==
+ bh=91JO3P2ORlEbY7pdYywP32s0w8mgnNa0NKRNm9dnue8=;
+ b=Bgsr04KezVtcB3P2yi6L0ZAsEor2OoM0/Jbe1rvDXWW8CP0Zo4GYzdETm1N2GlkGG8agosc/CLg1+locjxHexNeXbT17Xvti14Hhkxvuzz86ad/M8T6HKjZzRzkSvjOqi6j9bEDQ6z6tv9o1OCPOaEREGPfHbnGSsLtxKDGXkYC/YiayIN2UL8sNlR7Cf85w3cVIyEp9urPR8c6w8rkA00nK/LnnOGi0LgfCUqWzmK9IU4Kze3EyK+/OBP5XnZOwPJMlpqSPEYLttRu/sob6K0QxAjhvdCctpZNnanSGeO+CWIc6vw+9RyVCvywECIwbQbq9BTnKyVthwxDb+yKOtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by IA4PR11MB9345.namprd11.prod.outlook.com (2603:10b6:208:56c::15)
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=91JO3P2ORlEbY7pdYywP32s0w8mgnNa0NKRNm9dnue8=;
+ b=WcQLrDO+T+NXE+EtwfxduDDgYcw5alVwZn/FUOr4yAxj5soQPPAn2NedDpnu4N747DS022NbdISWIWh/8zhqxFKELy3yphsI2XVCS/U18lfFbKtK0Cl9+sqD5uHFk9S8NHrcW8dcT9yeWRQiSv/Bu8IGr0c893hTS4HQECBZNoI=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB9416.jpnprd01.prod.outlook.com (2603:1096:400:195::5)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
- 2026 21:17:58 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
- 21:17:57 +0000
-Date: Thu, 8 Jan 2026 16:17:54 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Osama Abdelkader <osama.abdelkader@gmail.com>
-CC: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/xe: Add missing newlines to drm_warn messages
-Message-ID: <aWAfAkkcpDnQUqsu@intel.com>
-References: <20251224212116.59021-1-osama.abdelkader@gmail.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.0; Thu, 8 Jan
+ 2026 21:21:00 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9520.001; Thu, 8 Jan 2026
+ 21:21:00 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Brandt
+ <Chris.Brandt@renesas.com>
+Subject: RE: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+Thread-Topic: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+Thread-Index: AQHcgH7+LfMjCpngTEmutarkKkFyQ7VIbNOAgAAJDQCAABf9AIAAOKJg
+Date: Thu, 8 Jan 2026 21:21:00 +0000
+Message-ID: <TY3PR01MB113467DBEE7A2A0B3A93050788685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+ <f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
+ <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
+ <TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20260108125134.6ce05fd214a217a37de9ed4b@hugovil.com>
+In-Reply-To: <20260108125134.6ce05fd214a217a37de9ed4b@hugovil.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9416:EE_
+x-ms-office365-filtering-correlation-id: b62e9549-47a6-4a97-a86e-08de4efbd261
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?F+/ik5tq3Jg7xd3R/swhMUzcuF84fIixcICPbT989rP3vOFXVQuM0ZMpdK9m?=
+ =?us-ascii?Q?8iHzPOTKt+GdqidhljXfzu2UBY2TadOZfYyEh4wEatuU1QOH+BPSy5RkKgwv?=
+ =?us-ascii?Q?FEk86SWD8ERuCbWEtT1yv6WezfoBkxzVO9iJ87HaHb9hYwio4cA0B4f/+gNN?=
+ =?us-ascii?Q?/l3kLpIMy6djKtyxw7DMa0hqoPYv1CFToje5dRorcWWWBUaf+l6W+3iq2k/T?=
+ =?us-ascii?Q?FxpI3IDM+DiATAxzV5L6owA2RcP2F+3/I1KZubkP05+5bUSkHwe5qOL3gKDA?=
+ =?us-ascii?Q?V+Usk+VMycoSFySJlsv64gTRTVgoC1mxKFFmh7jqU1/RdkptSpfEcz2KanwS?=
+ =?us-ascii?Q?ZfjMFIM31BFomex5gQO0bQBp27bD9FPVEi6QUv+/Cvj0vlbw0R+uM2XTFoIr?=
+ =?us-ascii?Q?25NK4XxlfvqSxgYLO8wbyMg8sFUGnMP4TDfYSssu7zaCWeq/A/0kjtyZKMql?=
+ =?us-ascii?Q?XQQ2yHFBonWgSWz19AJT4dM+K/PDmfo6zJAr0KDmI389tGW6qgplKi3WXP80?=
+ =?us-ascii?Q?i9Qg3n9ZEF7Y+UJEymh49rxYgUw9C4x/J9Qgsz1j6sM5nd7/IE+XQh+Mmm38?=
+ =?us-ascii?Q?7IY3Q91LMp0caXSA7V4jvgNEp9cdaP9zW5eFb91XQz5TWzSYNSBPJQUE3JR3?=
+ =?us-ascii?Q?+AceqsQmGWnLXIPe3TWNGSVyDrArSD7gx8jPerrQ8lCAKQVkZ0FRNPybsNKz?=
+ =?us-ascii?Q?Xp5mQaYMUOWpKpdB9qMjS9wHS/b9Hq5PdG0mmGdEmmPugiYlZhNSnZs64D3d?=
+ =?us-ascii?Q?av8n2Z5dY19+p0lzCFkUGZc/VrBQlTvj7B8b6F2kHjQMSv+F5J8AHBlE122T?=
+ =?us-ascii?Q?IhT5fDp7V3rnher2WTYb6X9bhPAt5lZXO4FQ4e0nriZERDacS+BjH4qL12eQ?=
+ =?us-ascii?Q?G6P5F3oyDF55p94l3zUq3kkUhnaTNORfw3a3TJFuqk22DtmU0FVR/Vb5Y+6d?=
+ =?us-ascii?Q?/Pm8dZDXLKMlOl47mZgF6qRgq4EGI3S2+350i3PyikwZjR2Iyw5pE7W7geMP?=
+ =?us-ascii?Q?Y1Kl2rlkoBtIEx1wRbaJzMNAkt1CP9xHMcCNAivb2VH+L46qG+2MjAl+uQ1t?=
+ =?us-ascii?Q?5xzCQqh0er0mBZ8Ofw5wB5ufLHxoq6V6lKTTq4MIm5ObxIHThcs+vIzmb9za?=
+ =?us-ascii?Q?YjfgWZLFznSmF2Ir3jr27kMKmilUqi8u6y0LvHKiQ8dkHyn39srNp0fPc4+8?=
+ =?us-ascii?Q?ZRlYdovqpGv048wu6XD9VRgqhGyfKJNryWk+vpQisaGNCQE7+C927oRXHkv+?=
+ =?us-ascii?Q?XFQ0mVg00ZCQ0KN34Y6dNv/p792ZvJfM9ZoakAwKQpAxA+O4vJX+XmnpvK0R?=
+ =?us-ascii?Q?kICHMR6Btm+NYeDQdq13uNwwiRDLL6lFVHnF5KL7fYbFuudBHStg5xrsUwNA?=
+ =?us-ascii?Q?rmHcPgOq8+hc5zGIGn3nVnLS/98h5NRruhwgG3r4vqzs9iiZ+VF8te32+zET?=
+ =?us-ascii?Q?3pO6w5r3UQ8857YNh1LJCIaVFMeoPpAPQoUuPFVj6f7N+zoTYObnhhdaoduT?=
+ =?us-ascii?Q?BPacQHG2VXAIPNEibgwsBPpv0QbKhhs1ngV0?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wEdFREi8p7tIGe+DbgcGQw/Pt4QR3EXXDnDPA75326HNusyMb4M18MKXQ9cH?=
+ =?us-ascii?Q?UlUhCFoU8+IivRFjFGmlwMIKmWVwx9RiZdCpf6wmzrNmVK9tNEvlnEBcpBol?=
+ =?us-ascii?Q?uFCQMXtu5aPvVeSwPvakP7y+L5vk7Jkqba4AEiHgNjcXfjwP0+E6YIGqX7zi?=
+ =?us-ascii?Q?wKRZ4obrgraTmnGKUJJ+wRZMgWCq5U0nDkOx+cNglX9vGMel960tNespGCMd?=
+ =?us-ascii?Q?YvJYbPd+HRF9k6Wn3z4ShJN0fF3cxrudZNEPqT2uHTcEheVjAS+Fm9LwXs/V?=
+ =?us-ascii?Q?ZCRPyTUIShyUQzwDJYqDdeurKm8tvBxV1dT8/shBgLNLBSlw2klKUJ4zShAK?=
+ =?us-ascii?Q?bk57U9ac6oNzL4yhvJLokEd0nl9VVW6rSMoWVf+XZOQjxR5t3qb3KV2jQ4r3?=
+ =?us-ascii?Q?5mqfi/sjAC5WdpwlRn9GK+O/nsb3LLvpZXIPIsYLTZYLs8MpU8qtOe5oNpRD?=
+ =?us-ascii?Q?sFK9ADmGpLO+/gZPGoTeJcmbW04lqO/8W0bo7AEdObWWMN1nCIP59kte1bo/?=
+ =?us-ascii?Q?B3FCd5UOnGGXylCiHSFBugE+PfilhZxCaXWq2Nm1Kv1gojNbW2Aa3Sdl1nPP?=
+ =?us-ascii?Q?bNKQa9SoC9l09QqWX3o0ywcxyQ4b7VqBpB7BP28crASX4qq+ajPvgQ74mzuL?=
+ =?us-ascii?Q?VSZ76mZ7T4Fd6kFbnAGkn2lESp1tVKevz0Kp1G1Tb2tnDZlGuaLuvhQ9mRrq?=
+ =?us-ascii?Q?VQrnCGsnSpwlvkY/Q3/SusJjHlVgeTmsLxU4lJ3CAuGVmlWS23Sk0xk5AZvi?=
+ =?us-ascii?Q?i8FfycHP9U0uD2jwCmi5uL04O6HW99sXhhluhmBwzBk0a+WIhVoVgDPSMFgm?=
+ =?us-ascii?Q?9KdnI3U62765CK3hf2FW4Up+KIyZHgor9GvhvZvxaGg+EYiLZgSujDEyyMFX?=
+ =?us-ascii?Q?HZKwPi6rzcctnGgKDiyvKL2UKQ7pTccDawzN8u6etqAb1fu1XlA1tEr11QcN?=
+ =?us-ascii?Q?N9MBjGuuOVXgO1MXKbUd/gHvJ0K3W2GIROC5gIzeHyhQco5+Ez3rKEuQai6z?=
+ =?us-ascii?Q?cv4nLJGt8QPGQ0cEVX4VQdQsPf13Af5LW3FA3JoiFEYyUjbuDFRPpo9tdrJp?=
+ =?us-ascii?Q?mxOcVbZ4gSdarsofM8fgmfr1FR96X7AANuSzAdqHmBv+JHC6+WdW9SMfIJcb?=
+ =?us-ascii?Q?nbKcG0OJGYYghiW3mscKo4dhOncH6hemyuCvMJgMBtL7EOhGKH9HxdYLtQWB?=
+ =?us-ascii?Q?9KsT5cA1Edcg2NL6OQFGG5Wg+DiLCeUbN3cpDvMoIQm5y1Ij3xsgDXPh7RPv?=
+ =?us-ascii?Q?9fPlUuyDwzQ0/TlhMil3DDz0s/TQOZaAmKsb3+pizLhaqhPONuvhlD04PJ/a?=
+ =?us-ascii?Q?jKw8Dwz7+AId3GzHzD6Yn4TFh8OlGhA5Teu4TYTps2zR8aPCzM+3NCNOcx1u?=
+ =?us-ascii?Q?orFqHJdzraKV+Se8VEl7W24phE+a4e1WE2BLpe9UxTRf2zyLWVNQ//qCl+mB?=
+ =?us-ascii?Q?HX4gH6gn9qbqjwy+j2WKOqpAgtIe97+7kb/IYtKCDCzUGMqSusmsD0bOidEa?=
+ =?us-ascii?Q?bK81VoBpNz0AHtYeQpgM2LCob84KTCJ+8LoVCPmvf7Ggk/FV3Tk+YV535rr3?=
+ =?us-ascii?Q?B4j9UUqawC84CHs1zO8ykguwQJMEZL3eXAq9E1xCsfK1mAWnUyiFeW4FIivI?=
+ =?us-ascii?Q?9qihhKGyhiSfO/Fl/u6yK2GGzkhIx8a1FBuPi7m5fhsnZUYmK7zgRFshCBYH?=
+ =?us-ascii?Q?AQL5zqvWfpPAQ3+5jHEYaERQ2vp0eX43P0GbSwmSSa321yhz+Ro3ichQrrK2?=
+ =?us-ascii?Q?qVUtYIGz5A=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251224212116.59021-1-osama.abdelkader@gmail.com>
-X-ClientProxiedBy: BYAPR08CA0019.namprd08.prod.outlook.com
- (2603:10b6:a03:100::32) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|IA4PR11MB9345:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb3d9d24-52b5-4939-d863-08de4efb6545
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rAtau9XULRonv1QyKfLyzQ78woNrG33Z3wvP5pbf1LCIFGMlsNqE4YJqalLb?=
- =?us-ascii?Q?NFQ6ELOePqIQ8Wp87nYL8pa58WYtrbAiYyqPfq27PYEOpW4jHgxKM2HkvnxX?=
- =?us-ascii?Q?EWAOy7h8XkbIYBlNLNz4+GaiH4IeyjwKfA8AFHfra+gK8cUJV59HKWtX+4K/?=
- =?us-ascii?Q?w44XqpbOLN1CTUm5yc8cBjMiVxts7TMAho6oDwkPM+btDdkTKJl2w1S/4Rw5?=
- =?us-ascii?Q?AKcDw71UFiyJQiW80JoHAzGXybDJ53ZnP203IiqQF+l4Ib+2WEI+qmkMu6Oj?=
- =?us-ascii?Q?S7o3QkAsSDxNLq/6UKqzp3eg8zzGzdLhgRKZIBa+LqrVvvmZlxs3di0AelA2?=
- =?us-ascii?Q?ohCivBDK8hQ+YB7uNG0bD/cbkGiCo5FTx+BIRkI6G4TlGumTnLkmuD47JyJi?=
- =?us-ascii?Q?rqLd3OjyGrkrJMGQ/34tvCQdGer/F0S1FLyUrAuxKc6eX/ou9d6wv35XaHIj?=
- =?us-ascii?Q?ZzFVlA1qnlVaNzbT+7BQ0Iye4/+QbAuQh/Wm1U7FTKhFn/sPiAEhRa1o14xt?=
- =?us-ascii?Q?zaCGwnPcu/IBsHwgN6dUCEIT642el8yi/7ARPVzbglHw2t0q0Qc6izOorKHY?=
- =?us-ascii?Q?czFZ6lqvlSefKenwX3hd1hVWOLKqn6J4MGz6vdcQMG/aLw9JtxDD9kxLoVIC?=
- =?us-ascii?Q?4f+CZYWHz2GIDVbPICWCbIRgAnxil1kw7XZk44Y7X8g5mMVIgYgf9nKCm/u7?=
- =?us-ascii?Q?3MxCCY7fa/HxsaX1tCuB5VWf7Gen3Lal3qfMuVzC1YLKF6bhtmOV1SmKbmq3?=
- =?us-ascii?Q?ZyhthFMI9pGEa5g5msj9XBi7XX6tqzS1qXKmxQM43RU5todhqTki4B3reLGX?=
- =?us-ascii?Q?bjbJUgh3DqAkESi0DdLJUcWlOwb4CYF6brY5PBBvYt9e91e5h2N47bMX4k+u?=
- =?us-ascii?Q?X3kPRrRLXnZOOaKJBvwIM04UKRYpbijnf+TyimZ1CPBLRFoRyvQPe5igFRsE?=
- =?us-ascii?Q?6LfF8OAO65kHxyiwgD77TkhCQvSfuRzncRkJbTFsCQXAPHNb86BjWDvD12CJ?=
- =?us-ascii?Q?pM0mDYsMyxbr6qyGD+Dj60CRGRBkXZ4w4ydgbImHYKPrPqe5HyrNdcXk2E5+?=
- =?us-ascii?Q?GjtfpVlaIxKLRRyF6hNez0AyAePLj/zA+QB/H07GUrdYlKof3H8lPujmBN7n?=
- =?us-ascii?Q?WJFwPbebYLo1mXset8MX/21/MQTiiYqEsbl4b5aFe8YxVg3LurbPuD0sbWRR?=
- =?us-ascii?Q?X7rZTwgkItRAQu6MdoGPIdUNYbXOJQvM62/VGgajToTX6PTdRmp7QcGoYkh9?=
- =?us-ascii?Q?mrH4aY0L3tYxASMOURBttnGKHYqRouIX0YiJJ8Lvr2l4Xc2F+LcY0ocx5JCN?=
- =?us-ascii?Q?ApCbMT8B4m/PK1baaLL2C63ZVvkhWPmQVK6ces1hGGgaSGvCRzOwkJWLfQwh?=
- =?us-ascii?Q?mVyBulPz9qJSEDglrlHNxJiwj5FnNmuRXmHtPr2CoQS2URmhG+dxHAZ82NHV?=
- =?us-ascii?Q?F31bt/i8u136Si/ctandBfKGdoCTgXCT?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wyQpp1ugXHjSwLJPMV+6xWHXokuHPluwUv+0A4rKRblL1sgBDXQjjqd3OafZ?=
- =?us-ascii?Q?c+li7QFxyFtGsm4euVG2rxM5/Ew8Jo9U2qYOBncs6GOERuof8W7qpBB2KN5b?=
- =?us-ascii?Q?I9vyFFyIGFysXMhjezJlE4x2odI/JXdRuRKOGPGOKg72cihWXsC08FW9tNE3?=
- =?us-ascii?Q?DccBtL097I02dpPVBH4bvQlOF3Io1+qOo8ziRMGydm6Wmd10wYQzIgIDMG3H?=
- =?us-ascii?Q?2fsg2Pa2AZnJ/Zd2LERT8Khjfuhaks5vG5b7z/FhQTokadyAwbnDts8AjCWV?=
- =?us-ascii?Q?2dXW06vlKHTsUpnRQAXMRfQaR6vLTZ6GZfBJ4F1W4YqHBYZyhr8lRRyy1fW2?=
- =?us-ascii?Q?WteFhw20f8/Hkr0nfqjCWGhDkOhQGsKKIP2ReyjVM82uujmsfwq69J5y0rD0?=
- =?us-ascii?Q?iW4jk4OfZ28z6UrwzRl9e8UbzBH3faiQ/vWeZ/6EFmGpKcfZoEJfk7rEa+59?=
- =?us-ascii?Q?mrOIPhj+N7zbXAqc2Cm48gaJF3kr+XHxDd1ddZ6BWAiLCfkq0yEDSeHYPwEZ?=
- =?us-ascii?Q?N5iQhBlFXy5QTmhtP21CLqWz4aM26nUNAvHSQEo8khxCZhAcPmuCo43sqCNO?=
- =?us-ascii?Q?7UuVmfIEPHyL4EQXlO4Zk9+LN07drToqN4fflGOeMxA2SmVcozYeia8/8C4y?=
- =?us-ascii?Q?k/7a3hM/4+DwHUXz8729gaZ753yMbBgFRB4W6cNerwa7lt3BVdwGS1YuAmeS?=
- =?us-ascii?Q?bBvZe5HZyrfQcCD1EEbyvdpXH+HnfGJZ2hNQAcBjTcE78niztK0jVw5Pp4Yq?=
- =?us-ascii?Q?4wib/Oi/l+nLIhRwXIAHTes1GCT9d38VkPaQGQsO/dNs5rWkzjUXnuSOub9E?=
- =?us-ascii?Q?19Re/RzKGkSAMVv3LTprqWnJp0bpGJai7e50Ap0OFFrvQ2she3gHB4KWagPM?=
- =?us-ascii?Q?oULLTXpP4CxwWCLymYwC8hkhgBeVm41/DidFvrcD/pX1WPBZBBKRNsmVBx5P?=
- =?us-ascii?Q?bFSE3AAXvgyWny0DCZnFkKxPPw58A4g2JtH93a319HeDRYdbRr/NZCZY7XRt?=
- =?us-ascii?Q?4eWIEJaS9MsRYQWmKYgN6cazHZ2Br4aS6zldcqbpgaKBskpcImJOgBriHVAC?=
- =?us-ascii?Q?2GfyBTSp1u073eGiX+VwF6aADTfqKL14u7CTi3M124cxT3NDcZqB+ZhChCTi?=
- =?us-ascii?Q?WIM00Fvwq5Uc0zn/HeNPd1UCBwf4AQJt8no2m2opRfm0EMns6V2bajUUpnP4?=
- =?us-ascii?Q?0GFZodOcTmXJB64WK0qn40WHUEltqU0qyRM0/dNwdtXmuGdCne3eKoS3R68a?=
- =?us-ascii?Q?S3ooXXiI9dY+wMXzqAzvKbGr4YxBHeAJNKAUp9Z/SVF6vXw/bmIVpmVAOcI4?=
- =?us-ascii?Q?zwfr5e8oWHW7XYRZ+bRIX/XMAzaUX0GNRzhiUMRlfMqbZJgj/p7oLo7bPb10?=
- =?us-ascii?Q?uJOGvnGzBe6ZLxKC/jH1Nf2gCb8T885zDFAYbcsx29MRwxqcsOx2iYZQ65Jg?=
- =?us-ascii?Q?hYOxyIo2UWHTQ0f1A5ERlxp9IwxP7FXmDW5AdI7OZ3Ox3gzwNR8n7ToeX5Ja?=
- =?us-ascii?Q?XF5hXY0Mzia2Q1NSvQP4NOl570t2B2edB9JbmCtmqZI9R4WA6AZJ/LyPkoCE?=
- =?us-ascii?Q?f5bq9cmV+X/vjcVMJWO36teWscNCeP6YMWuFsduT4AaeuXDfYLbmm6i6fbxP?=
- =?us-ascii?Q?Swvw9xbgzEgP/3CmXugg7j0RmcEEHBL5ODvfjnD4Mz+QGWl0TbKc8a9Ozv1m?=
- =?us-ascii?Q?I6nCgWG6XblmbqEdD0WIuCRkhS+2pqrdrKjp9MsrT82BvWD9hpgwZl7Iiinu?=
- =?us-ascii?Q?nnZ3uLTIYQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb3d9d24-52b5-4939-d863-08de4efb6545
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 21:17:57.8858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6vkiiqdAewcg/1hdPgCkdskLJ+d1gxm6eNuwtnfOPaOmVgmQonk/CzJcEjtZC2lflPAGdmJ8dRLeQ5ATELx0tw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9345
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b62e9549-47a6-4a97-a86e-08de4efbd261
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jan 2026 21:21:00.6289 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UvkJa+Ct+wnRY6TbjxBrrxn8PL44X32kSsr5iDv9DkNBXdPXcO39tDWaCr8n092u5jU+cC/8tgTEeBnWjK2sbTb6UvzQtBa6x8lF/FfaulY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9416
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,90 +167,361 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 24, 2025 at 10:21:16PM +0100, Osama Abdelkader wrote:
-> The drm_warn() calls in the default cases of various switch statements
-> in xe_vm.c were missing trailing newlines, which can cause log messages
-> to be concatenated with subsequent output. Add '\n' to all affected
-> messages.
+Hi Hugo,
 
-As the lines state, not possible... but well, if the messages exist,
-let's ensure that if that end up happening it doesn't get concatenated.
+> From: Hugo Villeneuve <hugo@hugovil.com>
+> Sent: 08 January 2026 17:52
+> Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+>=20
+> Hi Biju,
+>=20
+> On Thu, 8 Jan 2026 16:44:37 +0000
+> Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>=20
+> > Hi Hugo Villeneuve,
+> >
+> > > -----Original Message-----
+> > > From: Hugo Villeneuve <hugo@hugovil.com>
+> > > Sent: 08 January 2026 15:53
+> > > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on
+> > > reboot
+> > >
+> > > Hi Claudiu,
+> > >
+> > > On Thu, 8 Jan 2026 11:12:54 +0200
+> > > Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> > >
+> > > > Hi, Hugo,
+> > > >
+> > > > On 1/7/26 23:48, Hugo Villeneuve wrote:
+> > > > > Hi,
+> > > > > when issuing a reboot command, I encounter the following kernel p=
+anic:
+> > > > >
+> > > > > [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 =
+-- SError
+> > > > > [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted=
+: G   M
+> 6.19.0-
+> > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > > [   36.183504] Tainted: [M]=3DMACHINE_CHECK
+> > > > > [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+> > > > > [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -S=
+SBS BTYPE=3D--)
+> > > > > [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+> > > > > [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+> > > > > [   36.183547] sp : ffff8000813db860
+> > > > > [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: f=
+fff000009dd7450
+> > > > > [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: f=
+fff800080e1f7a8
+> > > > > [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: f=
+fff000009dd7430
+> > > > > [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 0=
+0000000ffffffff
+> > > > > [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: f=
+fff8000813db220
+> > > > > [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 0=
+0000000000009a2
+> > > > > [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : f=
+fff800081255bc0
+> > > > > [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0=
+000000000000000
+> > > > > [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0=
+000000000000028
+> > > > > [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : f=
+fff800081780000
+> > > > > [   36.183652] Kernel panic - not syncing: Asynchronous SError In=
+terrupt
+> > > > > [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted=
+: G   M
+> 6.19.0-
+> > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > > [   36.183665] Tainted: [M]=3DMACHINE_CHECK
+> > > > > [   36.183668] Hardware name: devboard1 (DT)
+> > > > > [   36.183672] Call trace:
+> > > > > [   36.183675]  show_stack+0x18/0x24 (C)
+> > > > > [   36.183692]  dump_stack_lvl+0x34/0x8c
+> > > > > [   36.183702]  dump_stack+0x18/0x24
+> > > > > [   36.183708]  vpanic+0x314/0x35c
+> > > > > [   36.183716]  nmi_panic+0x0/0x64
+> > > > > [   36.183722]  add_taint+0x0/0xbc
+> > > > > [   36.183728]  arm64_serror_panic+0x70/0x80
+> > > > > [   36.183735]  do_serror+0x28/0x68
+> > > > > [   36.183742]  el1h_64_error_handler+0x34/0x50
+> > > > > [   36.183751]  el1h_64_error+0x6c/0x70
+> > > > > [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+> > > > > [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+> > > > > [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+> > > > > [   36.183792]  ili9881c_unprepare+0x38/0x88
+> > > > > [   36.183802]  drm_panel_unprepare+0xbc/0x108
+> > > > > [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+> > > > > [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+> > > > > [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+> > > > > [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0=
+x5f8
+> > > > > [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+> > > > > [   36.183865]  commit_tail+0xa4/0x18c
+> > > > > [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+> > > > > [   36.183884]  drm_atomic_commit+0x8c/0xcc
+> > > > > [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+> > > > > [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+> > > > > [   36.183911]  rzg2l_du_shutdown+0x18/0x24
+> > > > > [   36.183920]  platform_shutdown+0x24/0x34
+> > > > > [   36.183931]  device_shutdown+0x128/0x284
+> > > > > [   36.183938]  kernel_restart+0x44/0xa4
+> > > > > [   36.183950]  __do_sys_reboot+0x178/0x270
+> > > > > [   36.183959]  __arm64_sys_reboot+0x24/0x30
+> > > > > [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+> > > > > [   36.183979]  do_el0_svc+0x40/0xc0
+> > > > > [   36.183988]  el0_svc+0x3c/0x164
+> > > > > [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+> > > > > [   36.184002]  el0t_64_sync+0x198/0x19c
+> > > > > [   36.184020] Kernel Offset: disabled
+> > > > > [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+> > > > > [   36.184028] Memory Limit: none
+> > > > > [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous =
+SError Interrupt ]---
+> > > > >
+> > > > > The problem is present since linux-6.18-rc1, but not in
+> > > > > linux-6.17. I also confirm the bug is
+> > > present in linux-6.19-rc4.
+> > > > >
+> > > > > The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+> > > > >
+> > > > > After bisecting, here is the first bad commit:
+> > > > >
+> > > > >      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP
+> > > > > for
+> > > > > RZ/G2L")
+> > > > >
+> > > > > Reverting this change makes the bug disappear.
+> > > > >
+> > > > > My limited understanding seems to indicate that the MIPI/DSI
+> > > > > host may no longer be available/on when the panel tries to send
+> > > > > MIPI/DSI commands in ili9881c_unprepare(), maybe because the MIPI=
+/DSI clock has been
+> stopped...
+> > > > >
+> > > > > The exact same board with two other panels (jd9365da and st7703) =
+doesn't have the bug.
+> > > >
+> > > > Could you please provide the output of command:
+> > > >
+> > > > cat /sys/kernel/debug/mstop
+> > > >
+> > > > for both cases?
+> > >
+> > > Here it is for the panel which has the bug:
+> > >
+> > > ----------------------------------
+> > >                            MSTOP
+> > >                      clk   -------------------------
+> > > clk_name             cnt   cnt   off   val    shared
+> > > --------             ----- ----- ----- ------ ------
+> > > gic                  1     1     0xb80 0x0
+> > > ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
+> > > ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
+> > > dmac_aclk            2     1     0xb80 0x0
+> > > dmac_pclk            1     1     0xb80 0x0
+> > > ostm0_pclk           0     0     0xb7c 0x10
+> > > ostm1_pclk           1     1     0xb7c 0x0
+> > > ostm2_pclk           1     1     0xb7c 0x0
+> > > mtu_x_mck            0     0     0xb64 0x4
+> > > gpt_pclk             1     1     0xb64 0x0
+> > > poeg_a_clkp          0     0     0xb64 0x20
+> > > poeg_b_clkp          0     0     0xb64 0x40
+> > > poeg_c_clkp          0     0     0xb64 0x80
+> > > poeg_d_clkp          0     0     0xb64 0x100
+> > > wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > > wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > > wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > > wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > > spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
+> > > spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
+> > > sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk=
+2 sdhi0_clk_hs sdhi0_aclk
+> > > sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk=
+2 sdhi0_clk_hs sdhi0_aclk
+> > > sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk=
+2 sdhi0_clk_hs sdhi0_aclk
+> > > sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk=
+2 sdhi0_clk_hs sdhi0_aclk
+> > > sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk=
+2 sdhi1_clk_hs sdhi1_aclk
+> > > sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk=
+2 sdhi1_clk_hs sdhi1_aclk
+> > > sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk=
+2 sdhi1_clk_hs sdhi1_aclk
+> > > sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk=
+2 sdhi1_clk_hs sdhi1_aclk
+> > > gpu_clk              1     1     0xb80 0x0
+> > > cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru=
+_pclk cru_aclk
+> > > cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru=
+_pclk cru_aclk
+> > > cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru=
+_pclk cru_aclk
+> > > cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru=
+_pclk cru_aclk
+> > > dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk=
+ dsi_aclk dsi_pclk dsi_vclk
+> > > dsi_lpclk
+> > > lcdc_a               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > > lcdc_p               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > > lcdc_clk_d           3     1     0xb78 0x0
+> > > ssi0_pclk            0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > > ssi0_sfr             0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > > ssi1_pclk            0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > > ssi1_sfr             0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > > ssi2_pclk            0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > > ssi2_sfr             0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > > ssi3_pclk            0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > > ssi3_sfr             0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > > usb0_host            3     1     0xb6c 0x0
+> > > usb1_host            0     0     0xb6c 0x80
+> > > usb0_func            1     1     0xb6c 0x0
+> > > usb_pclk             5     1     0xb6c 0x0
+> > > eth0_axi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > > eth0_chi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > > eth1_axi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > > eth1_chi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > > i2c0                 0     0     0xb68 0x400
+> > > i2c1                 0     0     0xb68 0x800
+> > > i2c2                 0     0     0xb68 0x1000
+> > > i2c3                 0     0     0xb68 0x2000
+> > > scif0                2     1     0xb68 0x0
+> > > scif1                0     0     0xb68 0x4
+> > > scif2                0     0     0xb68 0x8
+> > > scif3                0     0     0xb68 0x10
+> > > scif4                0     0     0xb68 0x20
+> > > sci0                 0     0     0xb68 0x80
+> > > sci1                 0     0     0xb68 0x100
+> > > rspi0                0     0     0xb64 0x4000
+> > > rspi1                0     0     0xb64 0x8000
+> > > rspi2                0     0     0xb68 0x1
+> > > canfd                0     0     0xb68 0x200
+> > > gpio                 1     1     0xb70 0x0
+> > > adc_adclk            0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > > adc_pclk             0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > > tsu_pclk             1     1     0xb68 0x0
+> > > ----------------------------------
+> > >
+> > > I do not have acces to the other panels for the moment to run the sam=
+e command.
+> > >
+> > >
+> > > > Also, could you please check if the following diff solves your prob=
+lem:
+> > > >
+> > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > index 5edd45424562..62957632a96f 100644
+> > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > @@ -1282,6 +1282,10 @@ static ssize_t
+> > > > rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+> > > >                  value |=3D SQCH0DSC0AR_FMT_SHORT;
+> > > >          }
+> > > >
+> > > > +       ret =3D pm_runtime_resume_and_get(dsi->dev);
+> > > > +       if (ret)
+> > > > +               return ret;
+> > > > +
+> > > >          rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+> > > >
+> > > >          /*
+> > > > @@ -1322,6 +1326,8 @@ static ssize_t
+> > > > rzg2l_mipi_dsi_host_transfer(struct
+> > > > mipi_dsi_host *host,
+> > > >                          ret =3D packet.payload_length;
+> > > >          }
+> > > >
+> > > > +       pm_runtime_put(dsi->dev);
+> > > > +
+> > > >          return ret;
+> > > >   }
+> > >
+> > > I confirm that it fixes the bug, altought I assume this is just for t=
+esting and is not the
+> "proper"
+> > > fix.
+> >
+> > Pre-MSTOP case during reboot, without clk it is accessing
+> > registers)(mstop off always) it won't crash. But looks like you may hav=
+e ignored timeout error from
+> [1].
+>=20
+> In case of a timeout error, it is not really ignored as the proper error =
+code -ETIMEDOUT will be
+> returned by rzg2l_mipi_dsi_host_transfer() (see log below). The hardware =
+manual doesn't seem to
+> properly explain how to deal with a timeout (or I could not find it). Do =
+you have any suggestion on
+> how to improve this?
+>=20
+> >
+> > Post MSTOP case, if you access registers with mstop on, it will lead to=
+ crash.
+> >
+> > and the patch fixes crash.
+> >
+> > Basically, you are accessing link register after video is stopped with =
+this panel.
+> > Looks like it is a fix for me.
+>=20
+> Ok, like I said I am not an expert on this, but I was just assuming that =
+there was a better way to
+> ensure that the mipi/dsi interface was still active until the panel unpre=
+pare() function could do its
+> work. I was looking at some other drivers mipi/dsi
+> host_transfer() functions and did not see a similar
+> pm_runtime_resume_and_get() scheme, hence my confusion.
+>=20
+> > Better check if there is any timeout error[1] with this patch. if not,
+> > It is proper fix.
+>=20
+> The patch does fixes the kernel panic, but doesn't allow the panel to be =
+properly unprepared, as I
+> just noticed the timeout message:
+>=20
+>     [   39.321153] ili9881c-dsi 10850000.dsi.0: sending DCS SET_DISPLAY_O=
+FF failed: -110
+>=20
+> In my case, for a reboot, this is not a problem, but it may be a problem =
+for systems where it can be
+> suspended (I assume)?
+>=20
+> Thank you for your help with this.
 
-pushed to drm-xe-next. Thanks for the patch.
+Can you please try implement .atomic_post_disable() symmetrical to rzg2l_mi=
+pi_dsi_atomic_pre_enable?
 
-> 
-> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-> ---
->  drivers/gpu/drm/xe/xe_vm.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 79ab6c512d3e..1349dbc6f0ab 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -2187,7 +2187,7 @@ static void print_op(struct xe_device *xe, struct drm_gpuva_op *op)
->  		       (ULL)xe_vma_start(vma), (ULL)xe_vma_size(vma));
->  		break;
->  	default:
-> -		drm_warn(&xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&xe->drm, "NOT POSSIBLE\n");
->  	}
->  }
->  #else
-> @@ -2283,7 +2283,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
->  		xe_bo_unlock(bo);
->  		break;
->  	default:
-> -		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  		ops = ERR_PTR(-EINVAL);
->  	}
->  	if (IS_ERR(ops))
-> @@ -2552,7 +2552,7 @@ static int xe_vma_op_commit(struct xe_vm *vm, struct xe_vma_op *op)
->  		op->flags |= XE_VMA_OP_COMMITTED;
->  		break;
->  	default:
-> -		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  	}
->  
->  	return err;
-> @@ -2750,7 +2750,7 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct drm_gpuva_ops *ops,
->  
->  			break;
->  		default:
-> -			drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +			drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  		}
->  
->  		err = xe_vma_op_commit(vm, op);
-> @@ -2812,7 +2812,7 @@ static void xe_vma_op_unwind(struct xe_vm *vm, struct xe_vma_op *op,
->  		/* Nothing to do */
->  		break;
->  	default:
-> -		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  	}
->  }
->  
-> @@ -2989,7 +2989,7 @@ static int op_lock_and_prep(struct drm_exec *exec, struct xe_vm *vm,
->  		break;
->  	}
->  	default:
-> -		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  	}
->  
->  	return err;
-> @@ -3228,7 +3228,7 @@ static void op_add_ufence(struct xe_vm *vm, struct xe_vma_op *op,
->  		vma_add_ufence(gpuva_to_vma(op->base.prefetch.va), ufence);
->  		break;
->  	default:
-> -		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> +		drm_warn(&vm->xe->drm, "NOT POSSIBLE\n");
->  	}
->  }
->  
-> -- 
-> 2.43.0
-> 
+Ie, move just rzg2l_mipi_dsi_stop(dsi) from rzg2l_mipi_dsi_atomic_disable()=
+ to rzg2l_mipi_dsi_atomic_post_disable()
+
+and check  you can send DCS SET_DISPLAY_OFF successfully.
+
+Cheers,
+Biju
+
+
+
+
+
+
