@@ -2,90 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BB7D01B19
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 09:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DB0D01B1D
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 09:58:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB40110E6B1;
-	Thu,  8 Jan 2026 08:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E27B110E6B9;
+	Thu,  8 Jan 2026 08:58:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GXpqs16A";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aj8bPYwl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cr+cDKz/";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dpOqXij4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E7710E6B3
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 08:58:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB34410E6B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 08:58:24 +0000 (UTC)
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6088wGiv1571246
- for <dri-devel@lists.freedesktop.org>; Thu, 8 Jan 2026 08:58:16 GMT
+ 6088w9S21570543
+ for <dri-devel@lists.freedesktop.org>; Thu, 8 Jan 2026 08:58:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=FQG5BqsGnCi
- ZEwc/eMkHo/ya5niea9nDglgo72tq9vo=; b=GXpqs16ArlQM6ExhDe7TB9Mow9X
- JzBm1MTIQBIsiJVONT69vJMSgllTdw9dtrrYUuvP37HjXD1IEhcpvArbfKjvY5Kf
- 2sq503cV2I9EomIC4Q034KPtWi2lR1DQUdWzLVg+KzY+9mOvvOVMM/5aphfHGJ5s
- BmpX1+ilFKdUGlvHzIvIJ9iGhLAXc/WJ4TF5lxZDMpG9ivvUQYpZsB1OYPEPKRHX
- FlUZKz34x8ChAsWfHqlEemgR+UF7KNwBe0Qo47bno/MaD0esXJAL8An05C/Z9W/m
- +Vi5aI+pEktOax9mT9Y4ZvcquTg40ydIuaTIj/dkRoqCpepfC7OmlRWUx1g==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bj9hqr00q-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=AlSWjXvP89D
+ 8APUnrnCOFRXps/W1frFHw3Bcs+wBdn0=; b=cr+cDKz/xSZUWk6B06N+mmY220k
+ I2lAAwjoK/uUXw+OQdofauEx2KHJHLu2Ts2WBb5bRLTC1fFG0gZz4hZB4WkDReOR
+ D8x+tCTnwpWVWH+gYuRC43tuxo5CT+zM12+z0+LipTab+0vGlxRd1zvVWmnhUi0z
+ rWWRMMuME88sXlMuePPDaKVDUhcVGaHfAjMGWC1wf0YQWshm/nE8x8k7T9/PFW1V
+ LQ2I51KG7tlQU3d9LQ+k3pM4hNf4baKJsQbqM5wtYX51QxFDSCZpN84Q8His4zbd
+ ziVL1uQv+eWtSz4Btaj4e1MRtbZUzX5tzTGAkfjAYJuoe5QCKRI2h/95tnQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bj9hqr019-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 08:58:16 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8b2ea3d12fcso707957885a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 00:58:15 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 08:58:24 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8b234bae2a7so790585585a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 00:58:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767862695; x=1768467495;
+ d=oss.qualcomm.com; s=google; t=1767862703; x=1768467503;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FQG5BqsGnCiZEwc/eMkHo/ya5niea9nDglgo72tq9vo=;
- b=aj8bPYwlU+T+EEAElix5AcQP+SjzcM2nJ1ujmeQ6B/6JmrQbDIvRgVH9JicasUQDRj
- +XKTkok674Gd+NwOFIVA5C3ffe41ftMHYI+h7f0/7+BaQtk/AUC0o6lA1GvEK3ntoccB
- xyQpt70n/HmNUZDiSrpYyTB5Wh1MT8JpEpy8YO4bhJzt1AJDuTWR9+jIuTqTsx4vVnz0
- R//LHNFBCnRmFswtMsgXcJXCqgkJgwPfM4v7ftiRgDEMGSY7EeJ8we8Ti9YmHnpKuDV2
- 9eScpd7En1mUgZAobEaBnNjwr0A1lU15UIRO0Pnjv5MoOkJdQIb/F5Wdl3E9ipvJRP73
- 9ToQ==
+ bh=AlSWjXvP89D8APUnrnCOFRXps/W1frFHw3Bcs+wBdn0=;
+ b=dpOqXij4d1n2FrzV1Oi24Fb0Z/k3mSUuC26azR1YfLuQs6hHDhxBakBlD1s7GCEHk+
+ j8QavRVhJt1TICvPZuL+0zaQpS4lKjNerrpoesdf+YVLa77j6XPUwvlSgT6PZ7m7qg8Y
+ /NEZwv6rEulNw2mfVtTZfIbWmBRxAyiReUamTvhiLglzyD9Q1exQw+oPcYz7R+PmdGa4
+ xnVcBksuXQFngl9Q9+UJPoPBu+pkt0o8MnaA9x2bx4YRBodVGmYrz8s3SxNiIX1IQ+aI
+ 99nrw3nDtAfDo8yr8KEFbWgo+thPyRGioHJH2TIuImBsW+D74rIUmDvdp8bcrPhqrz4C
+ JX5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767862695; x=1768467495;
+ d=1e100.net; s=20230601; t=1767862703; x=1768467503;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=FQG5BqsGnCiZEwc/eMkHo/ya5niea9nDglgo72tq9vo=;
- b=vrkdX6eS2MgDZyboENKhWnDMF/5Zji9UzDmI5fReE39NR9nhxqMCoJWKds1YxYFIMb
- 5e5fBah4+FOyudRGFrIuzhqP8qTm5e1t3MqVXQAJqulEeP+OkVxMGSm+dbX6v2v5Odj8
- rTVEqffyytN+sy4EZTwtZDPnw9zm7HZjBB4AQqT/MBTHtWZjmuye8rY8rXMUnzlUXhj0
- PY2beYMSsXR4vO1FhTeOo5zySAkbIrHrORQgQ1ASCPo7D6AovEcxm8PyYr3HbcvSRQ3g
- dYvJVwd0pe8xvA62cUSELANvLJ3d9vd0enFCXYUwX8gUsY/x/1UO+v22XFNrvK/VyHic
- Id7w==
+ bh=AlSWjXvP89D8APUnrnCOFRXps/W1frFHw3Bcs+wBdn0=;
+ b=c6nA3ZZ1MtlIXrvqd3+pk8Azqbufnas4Upx4R16Uh6IjJ6oUPeo1ZdVEQOlDdm6kyl
+ Y7LH0yHLaampoXsKjRABK2gCqMWo/haWb4n8aPy88xHXcscpaFZmP3w7rDhO8l5F90jl
+ JQnwhFBUL/mis5AyBNL4PzNd0LpuyvOgji4U6RJfWSTAgNLaaXDK+X8+l76ZCdltWe2O
+ gJhJAMoaIf967lP+rDymPwDH0F+H7LgVUEH716TdrCqRUNrrJltkg5R1nJ1wgOej11RY
+ N7oLOG1z0b/0X0ZEbyEj/o3SRi4XRxdUHQB18IHtS/lCe7Qn/lV0zaNBUNbwxnvKn8/V
+ kEwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+9HxVs6idW2tVUJfr5Q9/HhGSybuVl0JnspyqCXhyRkGwVxGfgA0hdVvHi8bb+VwfGe6T6aXzKcY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUyi9m6RGggpSemBW5Zz9f4u0u9JiO7myrIhANXj3b7LPEuBMp
- 2vdadgHKuZSi0DcRIl3ixco/kXpi4QJw9pO6P9M3nI3jCmF2XhhsBawzIu/m7MqQ6BMeWs9Iwfr
- p4VD9uZVEd35s1tSav3PBydex32XJg93W511Cc7VE+ti2TcjFOylQ82tmbax4cvDv9J1/CYc=
-X-Gm-Gg: AY/fxX57PU6vIEfvoKf0jcj/RuykYK+0jX6Ei8elvpJeGQhQlnq2JkYihxoWmNvhG46
- nmXPNOrNGXTrVjhEzbjsKdfpnoNRhs+aY0b+B7Gurutyhyg/u9vh0/VI/nw+FNLL7kUrTm1ghjm
- w75eiNiMcDCTK7JClJBeISy2wn5RVcKUfjbsGgtXISTB5VAdDwgnfWYzq0fs2hpDtCz1BY51b2U
- L2dc5abRvLTcaU4h4YbqFupqkyv489td2sW7WaXMLRax5/ZDGBoKHFb8jLECbjoePQPMKx2N56+
- R+DhKOXTPUzHU+ZqOyPJEIDZY8u2xFEYoOX15g64xQZLYuNBRZ0I2GYWaXSLs5DY5XODrIKjy3H
- lKjE+i3zKxKBbjnDAPvBYFGSltP+q9rlZVYnwp1zKjS3ypYOQ926PcfkwhytIK4IfVeE=
-X-Received: by 2002:a05:620a:28c4:b0:8be:6592:f823 with SMTP id
- af79cd13be357-8c3893853ffmr707780185a.20.1767862695111; 
- Thu, 08 Jan 2026 00:58:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHE1l+9FTOJ+Z9xJMvA2OgwRV2jSHqoYIgGuLFFOfrr4dq2w6v3q/Wl47LjzyQVU7zH3mMFhA==
-X-Received: by 2002:a05:620a:28c4:b0:8be:6592:f823 with SMTP id
- af79cd13be357-8c3893853ffmr707778285a.20.1767862694611; 
- Thu, 08 Jan 2026 00:58:14 -0800 (PST)
+ AJvYcCUKCDKIlnj+TIRHXubYK2PLtgbIsr+WVBhfbC9Y77ROS0CZ6yEtoqfIq6SHe9h+7flNlGPKjpF85z0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxujEhIuc2gKMPqSAgWjZFmkWyYb6rwcLRgjEH/q21rve+uDgIw
+ E044g4LAFeE7I11n7HHos+zG3tV7ILzwgpOwzLGiaPPvsDlaPp5DTVnV4u588i6ndQbcNb1nmjj
+ MVRRbAkU+fHPLfSCc8YY+Y8EYLYoFpiL+1K5VEmU1DdudNe7NR9cskC2kr14BFV6GbvsmppA=
+X-Gm-Gg: AY/fxX7Qe52cL1hGUHPQtURn804gFkZ7ShkKuF6f6/mBUtdDcJ2mxMD3xdxcUc1959l
+ G3q/qxqRRNE+8NFm0aw02I1T4xHOBj9sHKTtsG6Ro5r/Qf58Xz4xT0pAk8JvAXTqOovcG7o1hw6
+ YHAiFmthpMNLO+AuXjcwFhcb257gpFh3EQx3vtSh7CRLsyVtpjpYqrbBH3oHUeTC+crUGvc3qW/
+ X7eslR6YN3RiHDoMPnVEh17bIRUKy6G4zSE2/538YBsABwxnnBxwVAU3tp1dIs4Oi0ves7tcHsZ
+ dBFO/sHaJRBdyAfp1IIYfHsCFA6P240P6XIuM/KvRj4GQadoVGR2DsYWGvqdbTEko21cSoinmtl
+ MheN7fIn70MNHmk8elvN1FL+WzL8WlbsFrmE//+Pw8dAcsbUgazwI6iSPKweu8M1nIIo=
+X-Received: by 2002:a05:620a:1aa8:b0:8b2:664a:309b with SMTP id
+ af79cd13be357-8c38941c034mr652183785a.84.1767862703422; 
+ Thu, 08 Jan 2026 00:58:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFd2KU0rDWQ/R3b6xYRGG3myKrYnDS3p+KmuStEdvZ5CG3nEDqVpppZIpNi/G/SxwTUg47LCQ==
+X-Received: by 2002:a05:620a:1aa8:b0:8b2:664a:309b with SMTP id
+ af79cd13be357-8c38941c034mr652181685a.84.1767862703011; 
+ Thu, 08 Jan 2026 00:58:23 -0800 (PST)
 Received: from yuanjiey.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
  [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-890770cc7eesm49680326d6.2.2026.01.08.00.58.07
+ 6a1803df08f44-890770cc7eesm49680326d6.2.2026.01.08.00.58.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jan 2026 00:58:14 -0800 (PST)
+ Thu, 08 Jan 2026 00:58:22 -0800 (PST)
 From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
 To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
  sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
@@ -98,28 +98,28 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
  aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v5 06/12] drm/msm/dsi/phy: Add support for Kaanapali
-Date: Thu,  8 Jan 2026 16:56:53 +0800
-Message-Id: <20260108085659.790-7-yuanjie.yang@oss.qualcomm.com>
+Subject: [PATCH v5 07/12] drm/msm/dsi: Add support for Kaanapali
+Date: Thu,  8 Jan 2026 16:56:54 +0800
+Message-Id: <20260108085659.790-8-yuanjie.yang@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260108085659.790-1-yuanjie.yang@oss.qualcomm.com>
 References: <20260108085659.790-1-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=GN8F0+NK c=1 sm=1 tr=0 ts=695f71a8 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+X-Authority-Analysis: v=2.4 cv=GN8F0+NK c=1 sm=1 tr=0 ts=695f71b0 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=ab5uJhi7KCXt4xzmVoQA:9 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: UKxTMaJptXf7MdjEpTbh3KJ7R8ZveR89
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA1OSBTYWx0ZWRfXy5+GOU4w2FZS
- LHLFGj6jZmaMmhBYV5aSUxg7hS77HXD/C1uRVpYBZNqepWLF+j/f0ls+f0iGgXOJTuB2YysCrfQ
- DfA1Gf24T4OILOlg/k5qA2Odh5hwaxfLakjeBRur0fBkoPeygHs+j/qiTTAhowJYr2aDbZGaZJg
- Hs2hv1nnEXgS1nA1smX1yBx/1kE4Ffriunr+ven3xMlMgP5DpXvrRtOo33UDdQ53KxOjRVX160O
- XHayIZE8fLA/rRjwVNYz7xkj5h53sYgTpKM1SUG8EoGZfdb7zlgCwqx+uy8D7c0LvGsBdXWJh2j
- D01KNiowy/3NfaB2aviDY9mnew9zfhT2iXUd6J+INMMX9WW+3xvl7b5FnWDWBdfd+hnidDHikvV
- jtWXJpcec0y9WkHcYpxPv64BmRW4YyDXL9RAA02UuSiBMsWX2q4AquAr0T5BAVW7aK1MarfLJ/E
- 50jBSf2wOuOZvacGqZA==
-X-Proofpoint-ORIG-GUID: UKxTMaJptXf7MdjEpTbh3KJ7R8ZveR89
+ a=EUspDBNiAAAA:8 a=EGddA7oXPexY6v9tJfMA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: udnuIpcww8tUvl_uCOl12w2RH6P9zHnl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA1OSBTYWx0ZWRfX9SdunT4CdkAw
+ XB8KKxboAcKxQxlLrplf+qzOhbOvaqiniEfCPeZaNaAYCql5FP9r4vaPg+l93bjChrwM2o+0E1z
+ Xy4ddhZdhR8YqsfGDLV5FDvh7yKxGGCETH9mikw2XjAEjhG/nGLiAY0R8RAxSjeFYFoPVgXDlGU
+ pqg5TUBV2gHap83qabjhZRhAOc1qs8+DSbcL4rrRTGLnssoDf0uE/TLvpWsx2JFz81YUE9jSkO+
+ uIvpfnSP2V6MsSTsXe6tyiP7bY23WxUteyNNZoqbQJjI4SsBjhIZKYJLl0982zGTlNEIpR9Ac4W
+ b5wb+y6l+TYSX3k1J21vV0uvg8Y4LecL6U0XtOQ3rujYISu3XIjwokPCUycrXo8kWt4zHP0zVPm
+ fO2+xK2yJ8S7SBtBS329UzCwaHNsAmNg8etBYm74RIT3N32+8U7bfStU7XWgM7I0uUnjC+gUTxM
+ DBzR9LM3GVKziwsc+pg==
+X-Proofpoint-ORIG-GUID: udnuIpcww8tUvl_uCOl12w2RH6P9zHnl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-08_01,2026-01-07_03,2025-10-01_01
@@ -145,76 +145,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-Add DSI PHY support for the Kaanapali platform, Kaanapali introduce
-addition of DSI2/DSI2_phy compared to SM8650. However, based on the
-HPG diagram, only DSI0_phy and DSI1_phy works.
+Add DSI Controller version 2.10.0 support for DSI on Qualcomm
+Kaanapali SoC.
 
 Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  2 ++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 23 +++++++++++++++++++++++
- 3 files changed, 26 insertions(+)
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c | 13 +++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 4ea681130dba..7937266de1d2 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -577,6 +577,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
- 	  .data = &dsi_phy_4nm_8650_cfgs },
- 	{ .compatible = "qcom,sm8750-dsi-phy-3nm",
- 	  .data = &dsi_phy_3nm_8750_cfgs },
-+	{ .compatible = "qcom,kaanapali-dsi-phy-3nm",
-+	  .data = &dsi_phy_3nm_kaanapali_cfgs },
- #endif
- 	{}
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index fed8e9b67011..bd3c51c350e7 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -205,6 +205,17 @@ static const struct msm_dsi_config sm8650_dsi_cfg = {
+ 	},
  };
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 3cbf08231492..c01784ca38ed 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -64,6 +64,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_5nm_sar2130p_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8550_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8650_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_3nm_8750_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_3nm_kaanapali_cfgs;
  
- struct msm_dsi_dphy_timing {
- 	u32 clk_zero;
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index c5e1d2016bcc..8cb0db3a9880 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -1504,3 +1504,26 @@ const struct msm_dsi_phy_cfg dsi_phy_3nm_8750_cfgs = {
- 	.num_dsi_phy = 2,
- 	.quirks = DSI_PHY_7NM_QUIRK_V7_0,
- };
-+
-+const struct msm_dsi_phy_cfg dsi_phy_3nm_kaanapali_cfgs = {
-+	.has_phy_lane = true,
-+	.regulator_data = dsi_phy_7nm_98000uA_regulators,
-+	.num_regulators = ARRAY_SIZE(dsi_phy_7nm_98000uA_regulators),
-+	.ops = {
-+		.enable = dsi_7nm_phy_enable,
-+		.disable = dsi_7nm_phy_disable,
-+		.pll_init = dsi_pll_7nm_init,
-+		.save_pll_state = dsi_7nm_pll_save_state,
-+		.restore_pll_state = dsi_7nm_pll_restore_state,
-+		.set_continuous_clock = dsi_7nm_set_continuous_clock,
++static const struct msm_dsi_config kaanapali_dsi_cfg = {
++	.io_offset = DSI_6G_REG_SHIFT,
++	.regulator_data = sm8650_dsi_regulators,
++	.num_regulators = ARRAY_SIZE(sm8650_dsi_regulators),
++	.bus_clk_names = dsi_v2_4_clk_names,
++	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
++	.io_start = {
++		{ 0x9ac0000, 0x9ac3000 },
 +	},
-+	.min_pll_rate = 600000000UL,
-+#ifdef CONFIG_64BIT
-+	.max_pll_rate = 5000000000UL,
-+#else
-+	.max_pll_rate = ULONG_MAX,
-+#endif
-+	.io_start = { 0x9ac1000, 0x9ac4000 },
-+	.num_dsi_phy = 2,
-+	.quirks = DSI_PHY_7NM_QUIRK_V7_0,
 +};
++
+ static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
+ 	{ .supply = "vdda", .init_load_uA = 8350 },	/* 1.2 V */
+ 	{ .supply = "refgen" },
+@@ -332,6 +343,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+ 		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+ 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_9_0,
+ 		&sm8650_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
++	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_10_0,
++		&kaanapali_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
+ };
+ 
+ const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+index 38f303f2ed04..5dc812028bd5 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+@@ -32,6 +32,7 @@
+ #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
+ #define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
+ #define MSM_DSI_6G_VER_MINOR_V2_9_0	0x20090000
++#define MSM_DSI_6G_VER_MINOR_V2_10_0	0x200a0000
+ 
+ #define MSM_DSI_V2_VER_MINOR_8064	0x0
+ 
 -- 
 2.34.1
 
