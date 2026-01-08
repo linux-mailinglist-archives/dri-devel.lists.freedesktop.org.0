@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7B8D0196B
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 09:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C92D01A68
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 09:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F05510E23B;
-	Thu,  8 Jan 2026 08:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA07F10E317;
+	Thu,  8 Jan 2026 08:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fyT3UKpK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FobKct5Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA6610E6A6
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 08:32:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE2810E317
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 08:51:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CC50A60007;
- Thu,  8 Jan 2026 08:32:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF8DDC16AAE;
- Thu,  8 Jan 2026 08:32:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7FF324166C;
+ Thu,  8 Jan 2026 08:51:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE43C116C6;
+ Thu,  8 Jan 2026 08:51:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767861170;
- bh=A9w0BCdpbzO3cEAawaW5oG0xj1MDnVrwPeqSo2zfeBc=;
- h=From:To:Cc:Subject:Date:From;
- b=fyT3UKpKLreox1cC29WGoTYSVcT2OXnPWiXm4VgI4Q7Uj2y3SH9BCbZED1BsSA3C8
- k+FLER4I5ZMvteq/qH6bMuRhHJQ2tSMBwdQI96KeuLUkappdbNzafVQ4cMNIe9+R9W
- j4LuIbB99+ZHxUv+ZECfYKsedvqDEhN9FSaRJEfwyM7oUZ/2RsfbsTYMoIlJ51A0uI
- beIR/ap/+cJZvEcrwJSfURJYjGLrSNwicgjAjSbUPAjzeo0KIA4+yBy9dg8gZRUmPY
- eWo7hHS79P9ZA5cqVHtCLpp+IwsYPSh1Nk5gVINraFTun1u26s1deXP1EE4/zGW8f9
- obktCBUjCUKoQ==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sched: Remove racy hack from drm_sched_fini()
-Date: Thu,  8 Jan 2026 09:30:20 +0100
-Message-ID: <20260108083019.63532-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+ s=k20201202; t=1767862271;
+ bh=U0RdNwymGhxdU7n+ZSNtVa/3CAhVyD3Pla188s6EqUY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FobKct5QaObSbDlpckkxQg6GhMpVn4yfSaG5EIhhQ9W3Y/V76wPkgLhXW2Jit3Hqa
+ 2SAtCVqV1L6DY/VyDskRU31yzVCTtTFzCVRXSBL9OM7pwS49mQTuvmioUehU8h7OwA
+ +b2rBF7bzCYeBPGmAZBNEsAjCpahqjmYwXlPTiCBINo1lyHLYR8lM6vPgVnNK8xT1t
+ YGBgAgSNbbrDSBik8WJnpP2ZCNVl6niwEu1ZzIt8mGlmh2gIa+vj2N1NpAjTGCDtXB
+ /eKb7Dp1vmVOFApdrKPv4DNjhgPuHuhiqsyozIj3BgRvsjZ/u+4nPPTfw2Gz4pmRqv
+ W3JZmmpjnXPLA==
+Date: Thu, 8 Jan 2026 09:51:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Swamil Jain <s-jain1@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ aradhya.bhatia@linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devarsht@ti.com, praneeth@ti.com, h-shenoy@ti.com,
+ u-kumar1@ti.com
+Subject: Re: [PATCH v3 1/3] dt-bindings: display: ti, am65x-dss: Add am62p dss
+ compatible
+Message-ID: <20260108-expert-whippet-of-downpour-ba277f@quoll>
+References: <20260107174525.1702585-1-s-jain1@ti.com>
+ <20260107174525.1702585-2-s-jain1@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260107174525.1702585-2-s-jain1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,84 +64,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_fini() contained a hack to work around a race in amdgpu.
-According to AMD, the hack should not be necessary anymore. In case
-there should have been undetected users,
+On Wed, Jan 07, 2026 at 11:15:23PM +0530, Swamil Jain wrote:
+> TI's AM62P SoC contains two instances of the TI Keystone Display
+> SubSystem (DSS), each with two video ports and two video planes. These
+> instances support up to three independent video streams through OLDI,
+> DPI, and DSI interfaces.
+> 
+> DSS0 (first instance) supports:
+>  - Two OLDI transmitters on video port 1, configurable in dual-link or
+>    single-link mode.
+>  - DPI output on video port 2.
+> 
+> DSS1 (second instance) supports:
+>  - One OLDI transmitter on video port 1 (single-link mode only).
+>  - DSI controller output on video port 2.
+> 
+> The two OLDI transmitters can be configured in clone mode to drive a
+> pair of identical OLDI single-link displays. DPI outputs from
+> DSS0 VP2, DSS1 VP1, and DSS1 VP2 are multiplexed, allowing only one
+> DPI output at a time.
+> 
+> Add the compatible string "ti,am62p-dss" and update related
+> description accordingly.
+> 
+> AM62P has different power domains for DSS and OLDI compared to other
+> Keystone SoCs. Therefore, add 'minItems' and set to 1 and 'maxItems'
+> field in the power-domains property to 3 for the "ti,am62p-dss"
+> compatible entry to reflect this hardware difference.
 
-commit 975ca62a014c ("drm/sched: Add warning for removing hack in drm_sched_fini()")
+Last sentence is redundant. You are again explain repeating the diff
+which is pointless, but did not explain WHY you think 2 power domains is
+correct.
 
-had added a warning one release cycle ago.
+> 
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 33 ++++++++++++++++++-
+>  1 file changed, 32 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 38fcee91211e..e74e710934fc 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -24,6 +24,19 @@ description: |
+>    DPI signals are also routed internally to DSI Tx controller present within the
+>    SoC. Due to clocking limitations only one of the interface i.e. either DSI or
+>    DPI can be used at once.
+> +  The AM62P has two instances of TI Keystone Display SubSystem, each with two
+> +  video ports and two video planes. These instances can support up to 3
+> +  independent video streams through OLDI, DPI, and DSI interfaces.
+> +  DSS0 (first instance) supports:
+> +    - Two OLDI TXes on video port 1, configurable in dual-link or
+> +      single link clone mode
+> +    - DPI output on video port 2
+> +  DSS1 (second instance) supports:
+> +    - One OLDI TX on video port 1 (single-link mode only)
+> +    - DSI controller output on video port 2
+> +  The two OLDI TXes can be configured in clone mode to drive a pair of
+> +  identical OLDI single-link displays. DPI outputs from DSS0 VP2, DSS1 VP1,
+> +  and DSS1 VP2 are muxed, allowing only one DPI output at a time.
+>  
+>  properties:
+>    compatible:
+> @@ -31,6 +44,7 @@ properties:
+>        - ti,am625-dss
+>        - ti,am62a7-dss
+>        - ti,am62l-dss
+> +      - ti,am62p-dss
+>        - ti,am65x-dss
+>  
+>    reg:
+> @@ -81,7 +95,8 @@ properties:
+>      maxItems: 1
+>  
+>    power-domains:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 3
+>      description: phandle to the associated power domain
+>  
+>    dma-coherent: true
+> @@ -196,6 +211,22 @@ allOf:
+>                properties:
+>                  endpoint@1: false
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62p-dss
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          minItems: 1
+> +          maxItems: 3
 
-Thus, it can be derived that the hack can be savely removed by now.
+This is still not constrained enough. You need to define the items
+instead. I still do not understand why number of power domains is
+flexible.
 
-Remove the hack.
+> +    else:
+> +      properties:
+> +        power-domains:
+> +          minItems: 1
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
-As hinted at in the commit, I want to cozyly queue this one up for the
-next merge window, since we're printing that warning since last merge
-window already.
+You can drop this one.
 
-If someone has concerns I'm also happy to delay this patch for a few
-more releases.
----
- drivers/gpu/drm/scheduler/sched_main.c | 38 +-------------------------
- 1 file changed, 1 insertion(+), 37 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 1d4f1b822e7b..381c1694a12e 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1416,48 +1416,12 @@ static void drm_sched_cancel_remaining_jobs(struct drm_gpu_scheduler *sched)
-  */
- void drm_sched_fini(struct drm_gpu_scheduler *sched)
- {
--	struct drm_sched_entity *s_entity;
- 	int i;
- 
- 	drm_sched_wqueue_stop(sched);
- 
--	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
--		struct drm_sched_rq *rq = sched->sched_rq[i];
--
--		spin_lock(&rq->lock);
--		list_for_each_entry(s_entity, &rq->entities, list) {
--			/*
--			 * Prevents reinsertion and marks job_queue as idle,
--			 * it will be removed from the rq in drm_sched_entity_fini()
--			 * eventually
--			 *
--			 * FIXME:
--			 * This lacks the proper spin_lock(&s_entity->lock) and
--			 * is, therefore, a race condition. Most notably, it
--			 * can race with drm_sched_entity_push_job(). The lock
--			 * cannot be taken here, however, because this would
--			 * lead to lock inversion -> deadlock.
--			 *
--			 * The best solution probably is to enforce the life
--			 * time rule of all entities having to be torn down
--			 * before their scheduler. Then, however, locking could
--			 * be dropped alltogether from this function.
--			 *
--			 * For now, this remains a potential race in all
--			 * drivers that keep entities alive for longer than
--			 * the scheduler.
--			 *
--			 * The READ_ONCE() is there to make the lockless read
--			 * (warning about the lockless write below) slightly
--			 * less broken...
--			 */
--			if (!READ_ONCE(s_entity->stopped))
--				dev_warn(sched->dev, "Tearing down scheduler with active entities!\n");
--			s_entity->stopped = true;
--		}
--		spin_unlock(&rq->lock);
-+	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++)
- 		kfree(sched->sched_rq[i]);
--	}
- 
- 	/* Wakeup everyone stuck in drm_sched_entity_flush for this scheduler */
- 	wake_up_all(&sched->job_scheduled);
--- 
-2.49.0
-
+> +          maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
