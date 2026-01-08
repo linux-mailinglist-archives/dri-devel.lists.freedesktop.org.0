@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A85D030C2
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14F3D030DA
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:33:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C61010E71B;
-	Thu,  8 Jan 2026 13:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E915710E722;
+	Thu,  8 Jan 2026 13:33:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OumEKn3n";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="sKPwsa9F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749AE10E71B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:32:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E93AD60132;
- Thu,  8 Jan 2026 13:32:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C170C16AAE;
- Thu,  8 Jan 2026 13:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1767879177;
- bh=tNK2RFCDpEzyqI3EYxu2xs/8fO/YMgmhpDxm5GS3BNQ=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=OumEKn3nNswrjdmQ4HLZ50SM8r2KRRCFza5hmo53zxN/Z+QjDbjsk73sNBi32zcx+
- ccheKLuB1OR2mbZ2wEfvtjgmm9VMEJd9C5MCYVSPTESQzVv7hjIhynz5ST5D7W4PUO
- mri+M/LFoTHwLi9gty/cr3kuWxvlMuo931HWU4NA=
-Subject: Patch "drm/vmwgfx: Fix a null-ptr access in the cursor snooper" has
- been added to the 5.15-stable tree
-To: airlied@gmail.com, airlied@redhat.com, ajay.kaher@broadcom.com,
- alexey.makhalov@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- brianp@vmware.com, dri-devel@lists.freedesktop.org, dtor@vmware.com,
- gregkh@linuxfoundation.org, ian.forbes@broadcom.com, kuzeyardabulut@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, sashal@kernel.org,
- shivani.agarwal@broadcom.com, simona@ffwll.ch, tapas.kundu@broadcom.com,
- thellstrom@vmware.com, tzimmermann@suse.de,
- vamsi-krishna.brahmajosyula@broadcom.com, yin.ding@broadcom.com,
- zack.rusin@broadcom.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 08 Jan 2026 14:32:55 +0100
-In-Reply-To: <20251224083652.614902-1-shivani.agarwal@broadcom.com>
-Message-ID: <2026010854-patronage-wafer-7a0d@gregkh>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD4E410E71F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 13:33:35 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 260511A2702;
+ Thu,  8 Jan 2026 13:33:34 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id E7479606B6;
+ Thu,  8 Jan 2026 13:33:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2A0A8103C8015; Thu,  8 Jan 2026 14:33:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1767879212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=veR9z3VsPIxAIyHsq0lQYRUjw8X7wRPHnBNDDdwkacw=;
+ b=sKPwsa9FJ30YXeCceqg/sgl5hl7N1B8vBkjnivZtZ9WLfiad/iUvCpYp5zx7EH5mnAktcS
+ Ukx6sLzq365pfy43i0wXbEVOdcXzZZQpq0S4P/AXGeB0jErgEAE8MI/cWs073s+X6Q6BO0
+ U2rBXKXJUw1Be/qgPhWJfeyCLbj/3cPgEkKlKvb4CuwEBxfW6P4TCMcZ5/aLlK5g3B8sdk
+ 3Jh6Ax3CjT4bdTICgvdVo+DssWSbO4INP6ToR3ILqbznkgVqDCtCtlHw7j9ir2CvbGyFdA
+ w2bF6QUnuM0tyBSp5vR7652XvHbchIM4GmarNyGAGcbtlVBhI2IWlgOJtlX/8A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 08 Jan 2026 14:33:21 +0100
+Message-Id: <DFJ8VHH9BVEZ.2445GF73YTGSO@bootlin.com>
+Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>
+To: "Marek Szyprowski" <m.szyprowski@samsung.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Philippe Cornu"
+ <philippe.cornu@st.com>, <benjamin.gaignard@linaro.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Adrien Grassein"
+ <adrien.grassein@gmail.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Inki Dae" <inki.dae@samsung.com>, "Jagan Teki"
+ <jagan@amarulasolutions.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 10/12] drm/bridge: samsung-dsim:
+ samsung_dsim_host_attach: use a temporary variable for the next bridge
+X-Mailer: aerc 0.20.1
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-0-283d7bba061a@bootlin.com>
+ <CGME20260107131416eucas1p22557f62e9d6498e5fdda4e6280cfe793@eucas1p2.samsung.com>
+ <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-2-v1-10-283d7bba061a@bootlin.com>
+ <be425ab8-1772-46fb-84ee-0c8840c3eef2@samsung.com>
+In-Reply-To: <be425ab8-1772-46fb-84ee-0c8840c3eef2@samsung.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,107 +80,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marek,
 
-This is a note to let you know that I've just added the patch titled
+On Thu Jan 8, 2026 at 10:26 AM CET, Marek Szyprowski wrote:
+> On 07.01.2026 14:13, Luca Ceresoli wrote:
+>> In preparation to handle refcounting of the out_bridge, we need to ensur=
+e
+>> the out_bridge pointer contains either a valid bridge pointer or NULL, n=
+ot
+>> an ERR_PTR. Otherwise calls such as drm_bridge_get/put() would try to
+>> redeference an ERR_PTR.
+>>
+>> As a preliminary cleanup, add a temporary local 'next_bridge' pointer an=
+d
+>> only copy it in dsi->out_bridge when returning successfully.
+>>
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> ---
+>>   drivers/gpu/drm/bridge/samsung-dsim.c | 14 ++++++++------
+>>   1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bri=
+dge/samsung-dsim.c
+>> index eabc4c32f6ab..b3003aa49dc3 100644
+>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> @@ -1886,6 +1886,7 @@ static int samsung_dsim_host_attach(struct mipi_ds=
+i_host *host,
+>>   {
+>>   	struct samsung_dsim *dsi =3D host_to_dsi(host);
+>>   	const struct samsung_dsim_plat_data *pdata =3D dsi->plat_data;
+>> +	struct drm_bridge *next_bridge;
+>>   	struct device *dev =3D dsi->dev;
+>>   	struct device_node *np =3D dev->of_node;
+>>   	struct device_node *remote;
+>> @@ -1924,17 +1925,17 @@ static int samsung_dsim_host_attach(struct mipi_=
+dsi_host *host,
+>>
+>>   	panel =3D of_drm_find_panel(remote);
+>>   	if (!IS_ERR(panel)) {
+>> -		dsi->out_bridge =3D devm_drm_panel_bridge_add(dev, panel);
+>> +		next_bridge =3D devm_drm_panel_bridge_add(dev, panel);
+>>   	} else {
+>> -		dsi->out_bridge =3D of_drm_find_bridge(remote);
+>> -		if (!dsi->out_bridge)
+>> -			dsi->out_bridge =3D ERR_PTR(-EINVAL);
+>> +		next_bridge =3D of_drm_find_bridge(remote);
+>> +		if (!next_bridge)
+>> +			next_bridge =3D ERR_PTR(-EINVAL);
+>>   	}
+>>
+>>   	of_node_put(remote);
+>>
+>> -	if (IS_ERR(dsi->out_bridge)) {
+>> -		ret =3D PTR_ERR(dsi->out_bridge);
+>> +	if (IS_ERR(next_bridge)) {
+>> +		ret =3D PTR_ERR(next_bridge);
+>>   		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+>>   		return ret;
+>>   	}
+>> @@ -1967,6 +1968,7 @@ static int samsung_dsim_host_attach(struct mipi_ds=
+i_host *host,
+>>   	dsi->lanes =3D device->lanes;
+>>   	dsi->format =3D device->format;
+>>   	dsi->mode_flags =3D device->mode_flags;
+>> +	dsi->out_bridge =3D next_bridge;
+>>
+>
+> This assignment is too late, dsi->out_bridge is used (indirectly, by
+> samsung_dsim_attach() called from drm_bridge_attach()) by
+>
+> ret =3D pdata->host_ops->attach(dsi, device);
 
-    drm/vmwgfx: Fix a null-ptr access in the cursor snooper
+Thanks for testing, reporting, and suggesting a solution. I'm not sure why
+it worked on my setup, but this is indeed a bug.
 
-to the 5.15-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+> a few lines before this assignment, so the following fix has to be added:
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c index b3003aa49dc3..f88aa8ab2879
+> 100644 --- a/drivers/gpu/drm/bridge/samsung-dsim.c +++
+> b/drivers/gpu/drm/bridge/samsung-dsim.c @@ -1959,6 +1959,7 @@ static int
+> samsung_dsim_host_attach(struct mipi_dsi_host *host, return ret; } +
+> dsi->out_bridge =3D next_bridge; if (pdata->host_ops &&
+> pdata->host_ops->attach) { ret =3D pdata->host_ops->attach(dsi, device);
+> if (ret) @@ -1968,7 +1969,6 @@ static int
+> samsung_dsim_host_attach(struct mipi_dsi_host *host, dsi->lanes =3D
+> device->lanes; dsi->format =3D device->format; dsi->mode_flags =3D
+> device->mode_flags; - dsi->out_bridge =3D next_bridge; return 0; }
 
-The filename of the patch is:
-     drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
-and it can be found in the queue-5.15 subdirectory.
+This needed a bit of demangling :) but it looks like a correct solution.
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+I took a moment to understand why this did not break my setup. The answer
+is I have a fsl,imx8mp-mipi-dsim, which has no .attach set in its
+samsung_dsim_host_ops.
 
+Sorry for the inconvenience. I'm fixing this in v2.
 
-From stable+bounces-203358-greg=kroah.com@vger.kernel.org Wed Dec 24 09:57:13 2025
-From: Shivani Agarwal <shivani.agarwal@broadcom.com>
-Date: Wed, 24 Dec 2025 00:36:52 -0800
-Subject: drm/vmwgfx: Fix a null-ptr access in the cursor snooper
-To: stable@vger.kernel.org, gregkh@linuxfoundation.org
-Cc: zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch, airlied@gmail.com, brianp@vmware.com, dtor@vmware.com, airlied@redhat.com, thellstrom@vmware.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com, vamsi-krishna.brahmajosyula@broadcom.com, yin.ding@broadcom.com, tapas.kundu@broadcom.com, Kuzey Arda Bulut <kuzeyardabulut@gmail.com>, Ian Forbes <ian.forbes@broadcom.com>, Sasha Levin <sashal@kernel.org>, Shivani Agarwal <shivani.agarwal@broadcom.com>
-Message-ID: <20251224083652.614902-1-shivani.agarwal@broadcom.com>
+Luca
 
-From: Zack Rusin <zack.rusin@broadcom.com>
-
-[ Upstream commit 5ac2c0279053a2c5265d46903432fb26ae2d0da2 ]
-
-Check that the resource which is converted to a surface exists before
-trying to use the cursor snooper on it.
-
-vmw_cmd_res_check allows explicit invalid (SVGA3D_INVALID_ID) identifiers
-because some svga commands accept SVGA3D_INVALID_ID to mean "no surface",
-unfortunately functions that accept the actual surfaces as objects might
-(and in case of the cursor snooper, do not) be able to handle null
-objects. Make sure that we validate not only the identifier (via the
-vmw_cmd_res_check) but also check that the actual resource exists before
-trying to do something with it.
-
-Fixes unchecked null-ptr reference in the snooping code.
-
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: c0951b797e7d ("drm/vmwgfx: Refactor resource management")
-Reported-by: Kuzey Arda Bulut <kuzeyardabulut@gmail.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
-Link: https://lore.kernel.org/r/20250917153655.1968583-1-zack.rusin@broadcom.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[Shivani: Modified to apply on v5.10.y-v6.1.y]
-Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |   17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
-
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1525,6 +1525,7 @@ static int vmw_cmd_dma(struct vmw_privat
- 		       SVGA3dCmdHeader *header)
- {
- 	struct vmw_buffer_object *vmw_bo = NULL;
-+	struct vmw_resource *res;
- 	struct vmw_surface *srf = NULL;
- 	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdSurfaceDMA);
- 	int ret;
-@@ -1560,18 +1561,24 @@ static int vmw_cmd_dma(struct vmw_privat
- 
- 	dirty = (cmd->body.transfer == SVGA3D_WRITE_HOST_VRAM) ?
- 		VMW_RES_DIRTY_SET : 0;
--	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface,
--				dirty, user_surface_converter,
--				&cmd->body.host.sid, NULL);
-+	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface, dirty,
-+				user_surface_converter, &cmd->body.host.sid,
-+				NULL);
- 	if (unlikely(ret != 0)) {
- 		if (unlikely(ret != -ERESTARTSYS))
- 			VMW_DEBUG_USER("could not find surface for DMA.\n");
- 		return ret;
- 	}
- 
--	srf = vmw_res_to_srf(sw_context->res_cache[vmw_res_surface].res);
-+	res = sw_context->res_cache[vmw_res_surface].res;
-+	if (!res) {
-+		VMW_DEBUG_USER("Invalid DMA surface.\n");
-+		return -EINVAL;
-+	}
- 
--	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->base, header);
-+	srf = vmw_res_to_srf(res);
-+	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->base,
-+			     header);
- 
- 	return 0;
- }
-
-
-Patches currently in stable-queue which might be from shivani.agarwal@broadcom.com are
-
-queue-5.15/usb-xhci-move-link-chain-bit-quirk-checks-into-one-helper-function.patch
-queue-5.15/rdma-core-fix-kasan-slab-use-after-free-read-in-ib_register_device-problem.patch
-queue-5.15/drm-vmwgfx-fix-a-null-ptr-access-in-the-cursor-snooper.patch
-queue-5.15/usb-xhci-apply-the-link-chain-quirk-on-nec-isoc-endpoints.patch
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
