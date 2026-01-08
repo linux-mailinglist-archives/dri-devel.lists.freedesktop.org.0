@@ -2,49 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82027D0216A
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3D6D021CA
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 11:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361B010E6E8;
-	Thu,  8 Jan 2026 10:20:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZOOZJESj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8CE10E09E;
+	Thu,  8 Jan 2026 10:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5F810E09E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1767867612;
- bh=YyeBDlNSLY4ru+W23YyttLQ3wHEda1dN+Y7WEoCQAts=;
- h=From:To:Cc:Subject:Date:From;
- b=ZOOZJESj4giVfU+dJYjFnTOe3lg+laQO/reAJsmJjsh6SiISklOJahmN+7Wa9b3a8
- 4j3LOIXvAw17G9kCb6Rwqbm4wP6Yo88RSdIXBMhcZQ8lduNCWWmH2nXLDEDLGMmRNh
- LeHJ9MDtsai+wmu0zkcBJnaXfxWs4T4pTAdUqZ2UmkYLXhYY+0OqOHD8JCpOfXucsr
- r4BRT3rjov2hfxc/j7H2lEbB7W7RbxqFdZutVvYEF1E+CrSFh5WvOSSUe7CzEZab2N
- 1S3PDe2tPfWt4SdySOwQet1aOCGiUs1c9xRk5zmgSmLtW5oGMrNshY1fYCQra4lhbe
- /UlAyNpwKBYmg==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4BCA817E1330;
- Thu,  8 Jan 2026 11:20:12 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- bisson.gary@gmail.com, kernel@collabora.com
-Subject: [PATCH] drm/mediatek: mtk_dsi: Add support for High Speed (HS) mode
-Date: Thu,  8 Jan 2026 11:19:59 +0100
-Message-ID: <20260108101959.14872-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.52.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 90DEA10E09E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 10:28:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4239E497;
+ Thu,  8 Jan 2026 02:27:57 -0800 (PST)
+Received: from [10.1.33.26] (e122027.cambridge.arm.com [10.1.33.26])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C04763F5A1;
+ Thu,  8 Jan 2026 02:28:02 -0800 (PST)
+Message-ID: <bca803d3-692c-4939-a342-e3e018b25823@arm.com>
+Date: Thu, 8 Jan 2026 10:28:00 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: Fix a page leak in
+ panfrost_mmu_map_fault_addr() when THP is on
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Rob Herring <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+References: <20260108101025.933843-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260108101025.933843-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,43 +50,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up until now, the MediaTek DSI Controller has always been working
-in Low Power Mode (LPM), as this driver has always ignored the
-MIPI_DSI_MSG_USE_LPM flag hence never setting HS mode.
+Hi Boris,
 
-In the current state of the driver the only thing that is needed
-to add support for DSI High Speed (HS) transmit is to simply set
-the "HSTX" config bit in the configuration register.
+Happy new year!
 
-Check if flag MIPI_DSI_MSG_USE_LPM is set and, if not, set HSTX.
+On 08/01/2026 10:10, Boris Brezillon wrote:
+> drm_gem_put_pages(), which we rely on for returning BO pages to shmem,
+> assume per-folio refcounting and not per-page. If we call
+> shmem_read_mapping_page() per-page, we break this assumption and leak
+> pages every time we get a huge page allocated.
+> 
+> Cc: Loïc Molinari <loic.molinari@collabora.com>
+> Fixes: c12e9fcb5a5a ("drm/panfrost: Introduce huge tmpfs mountpoint option")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 37 +++++++++++++++++++++----
+>  1 file changed, 31 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index 8f3b7a7b6ad0..9b61ad98a77e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -595,6 +595,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  	pgoff_t page_offset;
+>  	struct sg_table *sgt;
+>  	struct page **pages;
+> +	u32 nr_pages;
+>  
+>  	bomapping = addr_to_mapping(pfdev, as, addr);
+>  	if (!bomapping)
+> @@ -613,6 +614,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  	addr &= ~((u64)SZ_2M - 1);
+>  	page_offset = addr >> PAGE_SHIFT;
+>  	page_offset -= bomapping->mmnode.start;
+> +	nr_pages = bo->base.base.size >> PAGE_SHIFT;
+>  
+>  	obj = &bo->base.base;
+>  
+> @@ -626,8 +628,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  			goto err_unlock;
+>  		}
+>  
+> -		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+> -				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+> +		pages = kvmalloc_array(nr_pages, sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+>  		if (!pages) {
+>  			kvfree(bo->sgts);
+>  			bo->sgts = NULL;
+> @@ -650,6 +651,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  	mapping_set_unevictable(mapping);
+>  
+>  	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
+> +		struct folio *folio;
+> +
+>  		/* Can happen if the last fault only partially filled this
+>  		 * section of the pages array before failing. In that case
+>  		 * we skip already filled pages.
+> @@ -657,12 +660,34 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  		if (pages[i])
+>  			continue;
+>  
+> -		pages[i] = shmem_read_mapping_page(mapping, i);
+> -		if (IS_ERR(pages[i])) {
+> -			ret = PTR_ERR(pages[i]);
+> -			pages[i] = NULL;
+> +		folio = shmem_read_folio(mapping, i);
+> +		if (IS_ERR(folio)) {
+> +			ret = PTR_ERR(folio);
+>  			goto err_unlock;
+>  		}
+> +
+> +		/* We always fill the page array at a folio granularity so
+> +		 * there's no reason for a missing page to not be the first
+> +		 * in the folio. We want to ensure that's the case to avoid
+> +		 * unbalanced folio_{get,put}() leading to leaks, because
+> +		 * drm_gem_put_pages() assumes per-folio refcounting not
+> +		 * per-page.
+> +		 */
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+I'm a little uneasy about this reasoning. Above we do mask the address
+to be a multiple of 2MB, but the folio could (in theory at least) be
+bigger than 2MB. So I don't see what stops a GPU job faulting in the
+middle of a buffer and triggering this warning.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e4953d5cb6a8..a90cae9512c5 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -155,6 +155,7 @@
- #define SHORT_PACKET			0
- #define LONG_PACKET			2
- #define BTA				BIT(2)
-+#define HSTX				BIT(3)
- #define DATA_ID				GENMASK(15, 8)
- #define DATA_0				GENMASK(23, 16)
- #define DATA_1				GENMASK(31, 24)
-@@ -1177,6 +1178,9 @@ static void mtk_dsi_cmdq(struct mtk_dsi *dsi, const struct mipi_dsi_msg *msg)
- 	else
- 		config = (msg->tx_len > 2) ? LONG_PACKET : SHORT_PACKET;
- 
-+	if (!(msg->flags & MIPI_DSI_MSG_USE_LPM))
-+		config |= HSTX;
-+
- 	if (msg->tx_len > 2) {
- 		cmdq_size = 1 + (msg->tx_len + 3) / 4;
- 		cmdq_off = 4;
--- 
-2.52.0
+Can we not walk backwards to the beginning of the folio if the address
+isn't aligned and check that?
+
+> +		if (WARN_ON(folio_file_page(folio, i) != folio_page(folio, 0))) {
+> +			folio_put(folio);
+> +			ret = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +
+> +		/* Fill a folio worth of pages, even if it goes beyond
+> +		 * NUM_FAULT_PAGES, otherwise we'll end up with unbalanced
+> +		 * refcounting next time we hit an unmapped section crossing
+> +		 * this folio.
+> +		 */
+> +		for (u32 j = 0; j < folio_nr_pages(folio) && i < nr_pages; j++)
+
+This "i < nr_pages" check is wrong - presumably it should be "i + j <
+nr_pages".
+
+> +			pages[i + j] = folio_page(folio, j);
+> +
+> +		i += folio_nr_pages(folio) - 1;
+
+I feel like the outer for() loop needs reworking into a different form.
+It makes complete sense to walk in terms of folios, but we've got this
+weird mix of pages and folios going on, leading to odd things like this
+"- 1" fix up here.
+
+Thanks,
+Steve
+
+>  	}
+>  
+>  	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
 
