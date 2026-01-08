@@ -2,60 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3161FD05BD6
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 20:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B816D05E20
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 20:46:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823F510E7C0;
-	Thu,  8 Jan 2026 19:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB92510E038;
+	Thu,  8 Jan 2026 19:46:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZQUrmuZU";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mwatL2s7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ECC410E7C1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 19:06:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7B50C443B0;
- Thu,  8 Jan 2026 19:06:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7590DC19422;
- Thu,  8 Jan 2026 19:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767899200;
- bh=nzkCwsYo4b20ZD3Dg3Ci0saP2LNe+hBoDY7LvPoafDU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ZQUrmuZUAIXASltmI09sCLTXiPuug9i4TFSqpzr7L1WWuFGZ4Bxu6ScceNJ2fQ+5u
- vuh022c2OwinCp6Un4cS0wz+cHY+wKssUi1bZNUYV+5SKjhiFCx0V7eyavnwCKH0QI
- XhHtym/ayZteu/GQrY//YsLdGPhQdMVpk7Rj9mJyO7wDd+EDBddcCfu1dvzO9Woy8h
- 9hVISMZANQu57KBjoj+N9ngXWEEwWZiiC8d9XfNkL6yoFTt3l5uo67MQz6VHWj8Xum
- n/U8VVTJzemMtrvVY+85OtY/2H9dU+FcO5y0ztF4eSCIarIXUSse3eRz4UN+14HDff
- eh3NA7SaW8XCQ==
-From: Vincent Mailhol <mailhol@kernel.org>
-Date: Thu, 08 Jan 2026 20:04:55 +0100
-Subject: [PATCH v3 7/7] video/logo: move logo selection logic to Kconfig
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010008.outbound.protection.outlook.com [52.101.56.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26C410E038;
+ Thu,  8 Jan 2026 19:46:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kgr3BC5zgGGHQgJ959hkgAXqgIA2aGZ2+3J/CfwJcUc3YOLMhITGyJIdMhb2jDjMxnlf/9vNM6/tmVwHo7tClj81P3WVP361MXspVNQwZaUbqSrdGzDwtfpCjd9oOZZTPzoBWp045ZKJmBlJKLjfpo7W3Ii40mf3bsBhnUUSVi/ImT8HRbr+kew/AQRseornytcl3aaxa+BG1TPZSVfkLVV3lMd+NtSUlbuCpa+j/gOj1HRRI1CxYbwUSRmGM2jnOZajr+0kdN4bMtVp9tJWyK5afDHrML6OWLVUShoCQkiGsUYjHSCY2EB4d/xhB6H9FUCHriFgftUUH2s/hdgIYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YxwGImQRPxL+Mb1cu1lTexsoyMd/BdGGPeJO9Fk61lM=;
+ b=MmuJPSpu9oUUgS0ZVg/pthZZVHyVoYJimfn37UYUGGCzCmkqItsUVwQ7w5mcxXR48PVtxRf1OMSucPqmTKSr10XK5CpZpCatptDgztXlCsVIkeCnpiXbH/mySUs4qCgnMUvFdZhK/0GpEwNdCLcJ56jlDV9ucIy0c1Zhx/uM2biu0FXLFfrqcvna6C3ZCPCeH2nneag19SVbECqpOlnIpalDt+d/LNNOVb/2zfTaph0S/BjmeDvCtOQ5RUoqTmLV/QQo+47Sern1ZNYrWF23VAb5CVViPhqU9+aJQjpHpA4OYJpSywzCV+YFooFmU9xHYlyy2rJLtEOEfLfxUGmalw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YxwGImQRPxL+Mb1cu1lTexsoyMd/BdGGPeJO9Fk61lM=;
+ b=mwatL2s7wB7mtjz0wY5dt3hpyKo1KciOGl9zTCyGwJqnKMGjp7Uh1v0rb9kIe48ykWbDy3OXdFewXWLSCjCyVJ2u1LABerCuXoR1tglOL77SqYHs0NuMDj3vfysNxPsb3PWcAQLjum9PMFThSmQlNt/cWktWQz55HtqIq0KrpPw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by IA0PR12MB7628.namprd12.prod.outlook.com (2603:10b6:208:436::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
+ 2026 19:46:09 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81%7]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
+ 19:46:09 +0000
+Message-ID: <64f0d21c-1217-4f84-b1ce-b65c1f5c2ef1@amd.com>
+Date: Thu, 8 Jan 2026 14:46:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] drm/amdkfd: Add batch userptr allocation support
+To: Honglei Huang <honglei1.huang@amd.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Ray.Huang@amd.com
+Cc: dmitry.osipenko@collabora.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, akpm@linux-foundation.org, honghuan@amd.com
+References: <20260104072122.3045656-1-honglei1.huang@amd.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20260104072122.3045656-1-honglei1.huang@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQZPR01CA0105.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:83::22) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-custom-logo-v3-7-5a7aada7a6d4@kernel.org>
-References: <20260108-custom-logo-v3-0-5a7aada7a6d4@kernel.org>
-In-Reply-To: <20260108-custom-logo-v3-0-5a7aada7a6d4@kernel.org>
-To: Helge Deller <deller@gmx.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sh@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- Vincent Mailhol <mailhol@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7766; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=nzkCwsYo4b20ZD3Dg3Ci0saP2LNe+hBoDY7LvPoafDU=;
- b=kA0DAAoW0WQ+QNd/fbMByyZiAGlgACChcyB7YL8uiNRjHPdqejgYmigUouC4A88ON+6plTHQj
- oiRBAAWCgA5FiEEpncJCyCIcUtWwv050WQ+QNd/fbMFAmlgACAbFIAAAAAABAAObWFudTIsMi41
- KzEuMTEsMiwyAAoJENFkPkDXf32zXEoBALMvjYYk235x956rzCqIvRS8OJex8HXyGIBgTFYlJcD
- fAQCHP5mayWiMiEnS5tA3Q9Pdv/dVGC9vrvpN7I5QF1UBAg==
-X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
- fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA0PR12MB7628:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55be9875-de09-40bd-ab34-08de4eee91de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QWhCYU1CTXFHN1RFMkRjcGVkUWoza2hYWWYydXU5cW1QMXE3cndJUXRrWWxN?=
+ =?utf-8?B?S2VWR0sxNHl5OG5TblpjOVg5RHN0ZzRCcDJ1dndEUmNNcW5JaElYb1RUZExQ?=
+ =?utf-8?B?R2diRU4yc2NPVCs1K0xiNnpablVnSTZwSVpHMG9MejBCNFg0bmREd05JZ3Vt?=
+ =?utf-8?B?SzkrSHZRTGs3Kzd4YW9DTUZPVEJiWG1PQTQwcldwTGUveEp1ZjViUitEaHhv?=
+ =?utf-8?B?cnBYa0VZNy9tYlFkWnkzVTZhb0EwM1prSytPWkFrM3ZQcHlyT2R3dDRnb0pY?=
+ =?utf-8?B?S3F0VHpkUlQ4U1VIbFc5eVRkemxNS2JJUEUwWjV6UTY3ZEpqOGdGcG16QWV6?=
+ =?utf-8?B?VjQydS9DczFzTzhBWGRkcndWdEdNWXZoNFUwZ1FQSjV1RHh3V012eTFPZzRv?=
+ =?utf-8?B?SUE3emdyaFFsd0M3YkRiRzNMNVB0MVVwNGRVNEVxZjI4dHVQOFMxYm93NFNx?=
+ =?utf-8?B?NXJNZXlrZGh1K3RjZUJJTUd0TUR1Z2liTkkrTWloM2M3b3E5bENzTlcxOW5W?=
+ =?utf-8?B?QlpsSUxTUlBUeE9vMStLbzdrN2E2ZGQ5TWxkZkpRUTY4YnUzdUhObTRtWElM?=
+ =?utf-8?B?NkVFMmFNMVVpVDQ1SzRLK2x0ZjFScC9nazMzcys3Q0s1K2R4dzFacnViemNY?=
+ =?utf-8?B?Uk1GMzJ2SGxGYjlrQjVmSDNkb1JYby93SXJMZUNMV3h3NUZKSnVBMG1xNzhj?=
+ =?utf-8?B?SUlWZnR2cXdCMnRvOFJ4Z2pWUXBLUEdacmd4VXpDWWlVVWs2Z3Nvb2w0SFMz?=
+ =?utf-8?B?SHA5UGN2UEVGajRpcjhxaVdOR1dNb3Q5Rlo5UzlGcjI3eEQveGhKUitYZmNS?=
+ =?utf-8?B?OXovYmgxenZhdURIalY3WWdtOU9JaVZkcUFIN1IxWDNqRzg2eFJtQXdjZWta?=
+ =?utf-8?B?Y2VJQ3RrdmhtM2xwbEt0dTB2V2lmamN5SlBkQkFSdG5YOUN4blZrZUwrQjRL?=
+ =?utf-8?B?ZlowaG5RekpTVTZZYmplMDUrdFF1WS9tYmFLeFVwbnBhdGtXaTB0d3Z5UmFY?=
+ =?utf-8?B?VStxZ1hqaHRiZ0NtZlU5TjRQZWpKQ1ExQU9PMHZqdHF1OWV1S2ZleWNyNXZh?=
+ =?utf-8?B?bUF0bVAxYnVIdStNem5YT1luUzFxZVU1SGFTSThvRWxhZ1puc3duMDYvVm1o?=
+ =?utf-8?B?MmpRY2lPNzlOR3dPQnJlViszekdPdlhpUW5FVUZ1UEZqbnlhZk1YRHp2MDVt?=
+ =?utf-8?B?SkNzc2hMNFd1K0xuYWlaNERNZVRmeHBkaVZvaHN6WExPamhUUHg2b0plUFRS?=
+ =?utf-8?B?M2VxcVJvcDFXQUVPUEhNUjNZd1pyMmw4eXJ6L0JoclNLLzcrcGxsZ0VpdStW?=
+ =?utf-8?B?Zmw2QTI4YzZKcG5ZUXhIZVV3aXY2RG1RZTlGWFhOdE4wT0NoelNiS1dhK2NJ?=
+ =?utf-8?B?aGhabktTUlVkbWV1UktOY1VURTRrWWdub0x3cEVVM0JtMC80aXRRZW1iK0lE?=
+ =?utf-8?B?dVNKMDZuaHZYV2pONldBTFcrRVJmVUgxZEk0RlNoZDdMS2UvTk9WYktVS2pm?=
+ =?utf-8?B?UENkV0ozWm1BeXVoZHMvaWVVWWRrc3NzcTlDRE5hVUVSU0d3bXM2TnVpaUNn?=
+ =?utf-8?B?SG5CSCsrRmVFUDhzM1IydHV0SUJsTnZHTzFEZWt5bTVmQXRlRkEvSm9nRTRY?=
+ =?utf-8?B?ZTJGNjA1QnBScngvNld3TXBabjY5OHZQRmw3cTJ0UnFaZnFtb2hlS0VLZUNh?=
+ =?utf-8?B?Nk90YkFjdXBoeVFvYlRhUVJBZVNCS2U2RGpBRnl3WGl2enV3QlMrTTFJckxw?=
+ =?utf-8?B?QlFQQjBrdjY0MFh6ZjlqNHlHMDJiYk83SzlhWTNHNEhsbjhwUjZqMWNYaEIv?=
+ =?utf-8?B?bnZPKzMvZ0ZjWHVHdGY1eGpUTHFvMU1wWWFkZFhXdjA2VGxwZFhTQUlka3d4?=
+ =?utf-8?B?cW15MkpQQTNtMzd0OE5zdkR3ZmVCMnJvNDA4eG1QOTMzN3hQMjNlRFp4UG1q?=
+ =?utf-8?B?U0JzVlJvaEtUVWFCUklPK1E4L042UDZhYjRvWmhWNXFwdWlLekdUQzMwMkVM?=
+ =?utf-8?B?aGZrMkRBWDJnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHNkSFcwN2Iwa21ucThnR3NmQUU4ZUdOaUYzZHU5WWV6R0YyVmxaS1NlNDNh?=
+ =?utf-8?B?SmRIY2FLRDlUdTRwODV5TytLUnBpU1Voa2FqWmNXRHR2cmU2UHlRN016WjVJ?=
+ =?utf-8?B?RG42NTBkTVJXeXVGL1ZrRWJ2S1BaU0JzL2tZNCs2YWQ5ZitOTHRrdU94Z2V1?=
+ =?utf-8?B?ZWdXbU5ua3paZ1JRR3hoN0V2MnB6bGJYL3JkODNlbjF2NW5iTXl0Z1lMeFRt?=
+ =?utf-8?B?TjVTaDFkNWhlNkIzUGJWd2xQdGZHb0lqRmhmU3FWTlc3NXlrRmJOeFNUSTBJ?=
+ =?utf-8?B?Yi9La0Q5TDBzb05XOFQ1Zk9ja3FRcFkyd3pJZDMrbkxDczFTSmNZa21MTFlv?=
+ =?utf-8?B?YUFRN1hwTk9IRkFVNFNEZUo4Y0hFbll1bGw1aHlYTEk1NTNPYWNMVkhuSUZW?=
+ =?utf-8?B?OE5OOXJyZHBIcmR3ZjNVbDhxYUdYMVhDNTNGWjA2SUhNQmVqcnF1a3c3a3Fi?=
+ =?utf-8?B?Yk5Va08wVjBMajViZ2pPNkMyVGJaY0tzUFMwc3hqZEtkcGIzOUJpRHV3Q0NG?=
+ =?utf-8?B?QmdMNWI4cFlwT3RIRlR1aGN0QVZKNVB0VXBIeEJYbi9nTDF4dzFWdURNaGtq?=
+ =?utf-8?B?TWVkMFpvdWRWV2JVYmZkR2hKNS9Hb013ZUhBK2Y1ZGt3R3RKOVNrZ0lZVHlo?=
+ =?utf-8?B?YTRJd1ZydnJXU1k4SjI3eXFuY292SG13ZUN5YWVIdUZwMjBVRmxwSEFRTjZi?=
+ =?utf-8?B?Z3d1aTJKQjJ5RktDTnFUWnZkbGtOaTNLdWdTRjk1ZTU3bjlMTUVDeTdWbHJu?=
+ =?utf-8?B?TkxSeVMvd2NEc2NGMkZsZDMvTE1PV1BCWkxEY1BGV2xXSllqVE1TUnVjdXFu?=
+ =?utf-8?B?bDFBOVErU1FSbW15b3JuME80TlhMK0swR3BkKzNod0R2YlBjV0dPV1drTUdR?=
+ =?utf-8?B?ekw5YXVmRDRkVytVcUtBQ0tlSm1wLzRJV3RVVE1aQlhwajZDNmNkSVNwVXJH?=
+ =?utf-8?B?VUh0SG1VOWRHMURFRjM3TFdsZ3ZQcDdaU3VaRXJxL2h6SHpldVNOMzJnaDcy?=
+ =?utf-8?B?V0FMblNPYTZ6N0hsQlI4Y3lxRDNXTFgyVWxiYXF1bzJWUTVWTDNEcFI4YWFJ?=
+ =?utf-8?B?VExUZzJaMml6OXZKVURLS0p6Yno1MkI4U3NtS3VMY25RR3BuRC8wQ2JVZ3V4?=
+ =?utf-8?B?ZlU1SFY2Q0ozRUpEQ3paUkhMZHNKV2hhY0RReUw5anV2dGw0TzZUcEVPeDA5?=
+ =?utf-8?B?azM3TU1iMXlWa2YzZDhMYmVZb3dyZU9aUnNKcHlHbCtmL21HWGlJUEx4ZVJE?=
+ =?utf-8?B?dHc0QkFjRHpIVXBySWVsdE10Q3dBdldBaGN5b1F6MlVKOVIwbFlMdmhmWjJw?=
+ =?utf-8?B?MTFNeXRxWFJ6a2NrTndsVmhMTUZHR293NTRPa3l3RGdKL3FmMGZGY25paXpT?=
+ =?utf-8?B?aHFXd1dTRUdQVjdMWGYrR012VGRHQXptekZZMlRJNEtwTGxoNndyeXpYeDQ5?=
+ =?utf-8?B?V0ZCclY1SnEvNjVrM1BidkV2SGpXUUk4T3JMMzRzdGdDQVd0ZkdZbFkxZHZU?=
+ =?utf-8?B?dWZvWlRHSzhiQ3FiWTJQb01tWGowQTU2UE5YZ1JIM0JwUVpuMlFDVm8ySytP?=
+ =?utf-8?B?cHh2akxvQXNFY0ZoNmpUUnlGWVZvczNuSDVvbWUycndOeUdSOVh3ZEFvSjBB?=
+ =?utf-8?B?SzAzTkNKdFNFMjgvK2lWd1J0bVlmeWRiM2ErNEIvSGJQSnljaUIzVThCdCt6?=
+ =?utf-8?B?c01QYTBMWlI2QnBCSzlkcDNqaGROazlmSWZLMHFsRWZnQTU3TmhFbUcwY04x?=
+ =?utf-8?B?azVpaEFhSmdtSFYvVUJ0ZmxscjNFaEwxZXN5MmRxMUhzVzRXU1FFaHZEZmti?=
+ =?utf-8?B?OWR5MGExVHBwY3A5dGdrNEpIVWk3aUpWVENjSnhvN3RWVFhLVUNzelpadmN1?=
+ =?utf-8?B?MmQ2MkxCUVdZRkNlWkp4bjdNakUxS1JYM2YyUWFZRWJrWmJvQ0lUTkVmM2dB?=
+ =?utf-8?B?bnpsbkxwRUFCOEJ0dDVzcGxlSTBScm1pTHZnQVlrNmJMejVwQjZXOWtGQklY?=
+ =?utf-8?B?eEV4bW1KakFCTnd4b2lhcVhmVlhHMnhTVC9Jb3RzQTljZ0V0THE0TFl6UnU0?=
+ =?utf-8?B?c2Vad1RWQTBRbU9MV3ZQc3I2dzZoTFNCeTdNbDh1NEJYZkFNSTFVajJGWXdC?=
+ =?utf-8?B?WjFSK0xOL2JXMERUQVhlUU5LKzU3L1hJWEFZbmFERjJub1V4RFBVL3p1WStF?=
+ =?utf-8?B?NGpJaTYzZFF4Z2JrM1lEUEtJNTNuNFhHQjdEMStocGNxenhlZVIvZVcySFg1?=
+ =?utf-8?B?RlIzaHRrd1RDWi9HUVVrYm5YTDd3ZXl4UnBkRXBvK0N1S0d1UFdZMG05K2FW?=
+ =?utf-8?B?STVjSWpHTDZmQzhnclp1ZFFzdEVRUXhxUG1aYVRURThCR3FaNzlWUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55be9875-de09-40bd-ab34-08de4eee91de
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 19:46:09.1116 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TNu3C3wS669kpaMROr1/M5hDFHNRACvMdOYuw9XdA3S56173NaMs64UHv9h/qJhdsBYOSvH58motx19dB17JkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7628
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,231 +170,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the path to the logo file can be directly entered in Kbuild,
-there is no more need to handle all the logo file selection in the
-Makefile and the C files.
+I don't have time to review this in detail right now. I am concerned 
+about adding new KFD API, when the trend is moving towards DRM render 
+node APIs. This creates additional burden for ongoing support of these 
+APIs in addition to the inevitable DRM render node duplicates we'll have 
+in the future. Would it be possible to implement this batch userptr 
+allocation in a render node API from the start?
 
-The only exception is the logo_spe_clut224 which is only used by the
-Cell processor (found for example in the Playstation 3) [1]. This
-extra logo uses its own different image which shows up on a separate
-line just below the normal logo. Because the extra logo uses a
-different image, it can not be factorized under the custom logo logic.
+Regards,
+   Felix
 
-Move all the logo file selection logic to Kbuild (except from the
-logo_spe_clut224.ppm), this done, clean-up the C code to only leave
-one entry for each logo type (monochrome, 16-colors and 224-colors).
 
-[1] Cell SPE logos
-Link: https://lore.kernel.org/all/20070710122702.765654000@pademelon.sonytel.be/
-
-Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
----
-**Changelog**
-
-v1 -> v2:
-
-  - By removing the logo_spe_clut224.o target from the Makefile, v1
-    also removed the logo_spe_clut224 object which is still being
-    referenced in
-
-      arch/powerpc/platforms/cell/spu_base.c
-
-    Restore the logo_spe_clut224.o target.
-
-Link: https://lore.kernel.org/all/20251230-custom-logo-v1-6-4736374569ee@kernel.org/
----
- drivers/video/logo/Kconfig  | 43 +++++++------------------------------------
- drivers/video/logo/Makefile | 13 -------------
- drivers/video/logo/logo.c   | 41 ++++-------------------------------------
- include/linux/linux_logo.h  |  7 -------
- 4 files changed, 11 insertions(+), 93 deletions(-)
-
-diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
-index 413ddb4be15e..34ee207e5e77 100644
---- a/drivers/video/logo/Kconfig
-+++ b/drivers/video/logo/Kconfig
-@@ -25,6 +25,7 @@ config LOGO_LINUX_MONO
- config LOGO_LINUX_MONO_FILE
- 	string "Monochrome logo .pbm file"
- 	depends on LOGO_LINUX_MONO
-+	default "drivers/video/logo/logo_superh_mono.pbm" if SUPERH
- 	default "drivers/video/logo/logo_linux_mono.pbm"
- 	help
- 	  Takes a path to a monochromatic logo in the portable pixmap file
-@@ -42,6 +43,7 @@ config LOGO_LINUX_VGA16
- config LOGO_LINUX_VGA16_FILE
- 	string "16-color logo .ppm file"
- 	depends on LOGO_LINUX_VGA16
-+	default "drivers/video/logo/logo_superh_vga16.ppm" if SUPERH
- 	default "drivers/video/logo/logo_linux_vga16.ppm"
- 	help
- 	  Takes a path to a logo in the portable pixmap file format (.ppm),
-@@ -61,6 +63,11 @@ config LOGO_LINUX_CLUT224
- config LOGO_LINUX_CLUT224_FILE
- 	string "224-color logo .ppm file"
- 	depends on LOGO_LINUX_CLUT224
-+	default "drivers/video/logo/logo_dec_clut224.ppm" if MACH_DECSTATION || ALPHA
-+	default "drivers/video/logo/logo_parisc_clut224.ppm" if PARISC
-+	default "drivers/video/logo/logo_sgi_clut224.ppm" if SGI_IP22 || SGI_IP27 || SGI_IP32
-+	default "drivers/video/logo/logo_sun_clut224.ppm" if SPARC
-+	default "drivers/video/logo/logo_superh_clut224.ppm" if SUPERH
- 	default "drivers/video/logo/logo_linux_clut224.ppm"
- 	help
- 	  Takes a path to a 224-color logo in the portable pixmap file
-@@ -71,40 +78,4 @@ config LOGO_LINUX_CLUT224_FILE
- 
- 	    magick source_image -compress none -colors 224 destination.ppm
- 
--config LOGO_DEC_CLUT224
--	bool "224-color Digital Equipment Corporation Linux logo"
--	depends on MACH_DECSTATION || ALPHA
--	default y
--
--
--config LOGO_PARISC_CLUT224
--	bool "224-color PA-RISC Linux logo"
--	depends on PARISC
--	default y
--
--config LOGO_SGI_CLUT224
--	bool "224-color SGI Linux logo"
--	depends on SGI_IP22 || SGI_IP27 || SGI_IP32
--	default y
--
--config LOGO_SUN_CLUT224
--	bool "224-color Sun Linux logo"
--	depends on SPARC
--	default y
--
--config LOGO_SUPERH_MONO
--	bool "Black and white SuperH Linux logo"
--	depends on SUPERH
--	default y
--
--config LOGO_SUPERH_VGA16
--	bool "16-color SuperH Linux logo"
--	depends on SUPERH
--	default y
--
--config LOGO_SUPERH_CLUT224
--	bool "224-color SuperH Linux logo"
--	depends on SUPERH
--	default y
--
- endif # LOGO
-diff --git a/drivers/video/logo/Makefile b/drivers/video/logo/Makefile
-index e2b7605fa8e3..937b37d3b6c7 100644
---- a/drivers/video/logo/Makefile
-+++ b/drivers/video/logo/Makefile
-@@ -5,13 +5,6 @@ obj-$(CONFIG_LOGO)			+= logo.o
- obj-$(CONFIG_LOGO_LINUX_MONO)		+= logo_linux_mono.o
- obj-$(CONFIG_LOGO_LINUX_VGA16)		+= logo_linux_vga16.o
- obj-$(CONFIG_LOGO_LINUX_CLUT224)	+= logo_linux_clut224.o
--obj-$(CONFIG_LOGO_DEC_CLUT224)		+= logo_dec_clut224.o
--obj-$(CONFIG_LOGO_PARISC_CLUT224)	+= logo_parisc_clut224.o
--obj-$(CONFIG_LOGO_SGI_CLUT224)		+= logo_sgi_clut224.o
--obj-$(CONFIG_LOGO_SUN_CLUT224)		+= logo_sun_clut224.o
--obj-$(CONFIG_LOGO_SUPERH_MONO)		+= logo_superh_mono.o
--obj-$(CONFIG_LOGO_SUPERH_VGA16)		+= logo_superh_vga16.o
--obj-$(CONFIG_LOGO_SUPERH_CLUT224)	+= logo_superh_clut224.o
- 
- obj-$(CONFIG_SPU_BASE)			+= logo_spe_clut224.o
- 
-@@ -32,12 +25,6 @@ $(obj)/logo_linux_vga16.c: $(CONFIG_LOGO_LINUX_VGA16_FILE) $(obj)/pnmtologo FORC
- $(obj)/logo_linux_clut224.c: $(CONFIG_LOGO_LINUX_CLUT224_FILE) $(obj)/pnmtologo FORCE
- 	$(call if_changed,logo,clut224)
- 
--$(obj)/%.c: $(src)/%.pbm $(obj)/pnmtologo FORCE
--	$(call if_changed,logo,mono)
--
--$(obj)/%_vga16.c: $(src)/%_vga16.ppm $(obj)/pnmtologo FORCE
--	$(call if_changed,logo,vga16)
--
- $(obj)/%_clut224.c: $(src)/%_clut224.ppm $(obj)/pnmtologo FORCE
- 	$(call if_changed,logo,clut224)
- 
-diff --git a/drivers/video/logo/logo.c b/drivers/video/logo/logo.c
-index b4eb4f3489a0..91535f8848da 100644
---- a/drivers/video/logo/logo.c
-+++ b/drivers/video/logo/logo.c
-@@ -48,54 +48,21 @@ const struct linux_logo * __ref fb_find_logo(int depth)
- 	if (nologo || logos_freed)
- 		return NULL;
- 
--	if (depth >= 1) {
- #ifdef CONFIG_LOGO_LINUX_MONO
--		/* Generic Linux logo */
-+	if (depth >= 1)
- 		logo = &logo_linux_mono;
- #endif
--#ifdef CONFIG_LOGO_SUPERH_MONO
--		/* SuperH Linux logo */
--		logo = &logo_superh_mono;
--#endif
--	}
- 	
--	if (depth >= 4) {
- #ifdef CONFIG_LOGO_LINUX_VGA16
--		/* Generic Linux logo */
-+	if (depth >= 4)
- 		logo = &logo_linux_vga16;
- #endif
--#ifdef CONFIG_LOGO_SUPERH_VGA16
--		/* SuperH Linux logo */
--		logo = &logo_superh_vga16;
--#endif
--	}
- 	
--	if (depth >= 8) {
- #ifdef CONFIG_LOGO_LINUX_CLUT224
--		/* Generic Linux logo */
-+	if (depth >= 8)
- 		logo = &logo_linux_clut224;
- #endif
--#ifdef CONFIG_LOGO_DEC_CLUT224
--		/* DEC Linux logo on MIPS/MIPS64 or ALPHA */
--		logo = &logo_dec_clut224;
--#endif
--#ifdef CONFIG_LOGO_PARISC_CLUT224
--		/* PA-RISC Linux logo */
--		logo = &logo_parisc_clut224;
--#endif
--#ifdef CONFIG_LOGO_SGI_CLUT224
--		/* SGI Linux logo on MIPS/MIPS64 */
--		logo = &logo_sgi_clut224;
--#endif
--#ifdef CONFIG_LOGO_SUN_CLUT224
--		/* Sun Linux logo */
--		logo = &logo_sun_clut224;
--#endif
--#ifdef CONFIG_LOGO_SUPERH_CLUT224
--		/* SuperH Linux logo */
--		logo = &logo_superh_clut224;
--#endif
--	}
-+
- 	return logo;
- }
- EXPORT_SYMBOL_GPL(fb_find_logo);
-diff --git a/include/linux/linux_logo.h b/include/linux/linux_logo.h
-index 1f04adc853a9..1e727a2cb4c1 100644
---- a/include/linux/linux_logo.h
-+++ b/include/linux/linux_logo.h
-@@ -33,13 +33,6 @@ struct linux_logo {
- extern const struct linux_logo logo_linux_mono;
- extern const struct linux_logo logo_linux_vga16;
- extern const struct linux_logo logo_linux_clut224;
--extern const struct linux_logo logo_dec_clut224;
--extern const struct linux_logo logo_parisc_clut224;
--extern const struct linux_logo logo_sgi_clut224;
--extern const struct linux_logo logo_sun_clut224;
--extern const struct linux_logo logo_superh_mono;
--extern const struct linux_logo logo_superh_vga16;
--extern const struct linux_logo logo_superh_clut224;
- extern const struct linux_logo logo_spe_clut224;
- 
- extern const struct linux_logo *fb_find_logo(int depth);
-
--- 
-2.52.0
-
+On 2026-01-04 02:21, Honglei Huang wrote:
+> From: Honglei Huang <honghuan@amd.com>
+>
+> Hi all,
+>
+> This is v2 of the patch series to support allocating multiple non-contiguous
+> CPU virtual address ranges that map to a single contiguous GPU virtual address.
+>
+> **Key improvements over v1:**
+> - NO memory pinning: uses HMM for page tracking, pages can be swapped/migrated
+> - NO impact on SVM subsystem: avoids complexity during KFD/KGD unification
+> - Better approach: userptr's VA remapping design is ideal for scattered VA registration
+>
+> Based on community feedback, v2 takes a completely different implementation
+> approach by leveraging the existing userptr infrastructure rather than
+> introducing new SVM-based mechanisms that required memory pinning.
+>
+> Changes from v1
+> ===============
+>
+> v1 attempted to solve this problem through the SVM subsystem by:
+> - Adding a new AMDKFD_IOC_SVM_RANGES ioctl for batch SVM range registration
+> - Introducing KFD_IOCTL_SVM_ATTR_MAPPED attribute for special VMA handling
+> - Using pin_user_pages_fast() to pin scattered memory ranges
+> - Registering multiple SVM ranges with pinned pages
+>
+> This approach had significant drawbacks:
+> 1. Memory pinning defeated the purpose of HMM-based SVM's on-demand paging
+> 2. Added complexity to the SVM subsystem
+> 3. Prevented memory oversubscription and dynamic migration
+> 4. Could cause memory pressure due to locked pages
+> 5. Interfered with NUMA optimization and page migration
+>
+> v2 Implementation Approach
+> ==========================
+>
+> 1. **No memory pinning required**
+>     - Uses HMM (Heterogeneous Memory Management) for page tracking
+>     - Pages are NOT pinned, can be swapped/migrated when not in use
+>     - Supports dynamic page eviction and on-demand restore like standard userptr
+>
+> 2. **Zero impact on KFD SVM subsystem**
+>     - Extends ALLOC_MEMORY_OF_GPU path, not SVM
+>     - New ioctl: AMDKFD_IOC_ALLOC_MEMORY_OF_GPU_BATCH
+>     - Zero changes to SVM code, limited scope of changes
+>
+> 3. **Perfect fit for non-contiguous VA registration**
+>     - Userptr design naturally supports GPU VA != CPU VA mapping
+>     - Multiple non-contiguous CPU VA ranges -> single contiguous GPU VA
+>     - Unlike KFD SVM which maintains VA identity, userptr allows remapping,
+>       This VA remapping capability makes userptr ideal for scattered allocations
+>
+> **Implementation Details:**
+>     - Each CPU VA range gets its own mmu_interval_notifier for invalidation
+>     - All ranges validated together and mapped to contiguous GPU VA
+>     - Single kgd_mem object with array of user_range_info structures
+>     - Unified eviction/restore path for all ranges in a batch
+>
+> Patch Series Overview
+> =====================
+>
+> Patch 1/4: Add AMDKFD_IOC_ALLOC_MEMORY_OF_GPU_BATCH ioctl and data structures
+>      - New ioctl command and kfd_ioctl_userptr_range structure
+>      - UAPI for userspace to request batch userptr allocation
+>
+> Patch 2/4: Extend kgd_mem for batch userptr support
+>      - Add user_range_info and associated fields to kgd_mem
+>      - Data structures for tracking multiple ranges per allocation
+>
+> Patch 3/4: Implement batch userptr allocation and management
+>      - Core functions: init_user_pages_batch(), get_user_pages_batch()
+>      - Per-range eviction/restore handlers with unified management
+>      - Integration with existing userptr eviction/validation flows
+>
+> Patch 4/4: Wire up batch userptr ioctl handler
+>      - Ioctl handler with input validation
+>      - SVM conflict checking for GPU VA and CPU VA ranges
+>      - Integration with kfd_process and process_device infrastructure
+>
+> Performance Comparison
+> ======================
+>
+> Before implementing this patch, we attempted a userspace solution that makes
+> multiple calls to the existing AMDKFD_IOC_ALLOC_MEMORY_OF_GPU ioctl to
+> register non-contiguous VA ranges individually. This approach resulted in
+> severe performance degradation:
+>
+> **Userspace Multiple ioctl Approach:**
+> - Benchmark score: ~80,000 (down from 200,000 on bare metal)
+> - Performance loss: 60% degradation
+>
+> **This Kernel Batch ioctl Approach:**
+> - Benchmark score: 160,000 - 190,000 (80%-95% of bare metal)
+> - Performance improvement: 2x-2.4x faster than userspace approach
+> - Achieves near-native performance in virtualized environments
+>
+> The batch registration in kernel avoids the repeated syscall overhead and
+> enables efficient unified management of scattered VA ranges, recovering most
+> of the performance lost to virtualization.
+>
+> Testing Results
+> ===============
+>
+> The series has been tested with:
+> - Multiple scattered malloc() allocations (2-4000+ ranges)
+> - Various allocation sizes (4KB to 1G+ per range)
+> - GPU compute workloads using the batch-allocated ranges
+> - Memory pressure scenarios and eviction/restore cycles
+> - OpenCL CTS in KVM guest environment
+> - HIP catch tests in KVM guest environment
+> - AI workloads: Stable Diffusion, ComfyUI in virtualized environments
+> - Small LLM inference (3B-7B models) using HuggingFace transformers
+>
+> Corresponding userspace patche
+> ================================
+> Userspace ROCm changes for new ioctl:
+> - libhsakmt: https://github.com/ROCm/rocm-systems/commit/ac21716e5d6f68ec524e50eeef10d1d6ad7eae86
+>
+> Thank you for your review and waiting for the feedback.
+>
+> Best regards,
+> Honglei Huang
+>
+> Honglei Huang (4):
+>    drm/amdkfd: Add batch userptr allocation UAPI
+>    drm/amdkfd: Extend kgd_mem for batch userptr support
+>    drm/amdkfd: Implement batch userptr allocation and management
+>    drm/amdkfd: Wire up batch userptr ioctl handler
+>
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  21 +
+>   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 543 +++++++++++++++++-
+>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 159 +++++
+>   include/uapi/linux/kfd_ioctl.h                |  37 +-
+>   4 files changed, 740 insertions(+), 20 deletions(-)
+>
