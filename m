@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1F8D01E6D
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:45:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A760D01E73
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 10:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D55210E6D6;
-	Thu,  8 Jan 2026 09:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C1210E6DC;
+	Thu,  8 Jan 2026 09:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UQRNmBQN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CrdaBEZd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712B310E6D4;
- Thu,  8 Jan 2026 09:45:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5850310E6D5;
+ Thu,  8 Jan 2026 09:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767865519; x=1799401519;
+ t=1767865520; x=1799401520;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=Rjps/nX0jH3DCZt1X85lB/JZXzMu4fAgJVPB8baQO0Y=;
- b=UQRNmBQNV5r3zbgQ6n2kQlNTWOHvQHgpN/yf4M5eFHbgwzEcneVL+XOS
- XjE8GIxZiUweScT78oZCKmDuEu+neDeX1KK3g72ozUHGuay07sr0XRuQ4
- bDZDK3oS9Aq5B2S63YWJYdUHWsj1VBagrQdIz1izcAVzDYbPvD1q2+Lc+
- OmovAPeTvXlKwQN4stVtZWHNBZybu2ZuC12Cvf72eeWasHu+PCtyxHheq
- vOYt4IG8uXozSuKVhkQ4n9qdiclK7L9onnuAuIydm2X9PsrUdkEYrwpfA
- MrSWxnKmA7kxpwY1cCdaIY78Yzs0HHXPZydNTdpTHprlm2qNTnbvjvPZE w==;
-X-CSE-ConnectionGUID: WJrvzC/MQmm0zZOd54EMig==
-X-CSE-MsgGUID: N0qQzBh7TKmg4Q1VqaHqgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72876541"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="72876541"
+ bh=P/GpUp6G8Wgim73sDmwtAhgYVC3/YpvT01aimc3kqec=;
+ b=CrdaBEZd0VpGuYAHbBmOU3XZPSeSuUnWeJuBqONkGTZo7JzbAfAbPK8e
+ 375Y6ffW1sXzhsiD7aDGCxUq94NGKxPjFhz/oBn2EoKq5soPQMVcKedJN
+ q17+KglG79C94K1UmzB+lETPAoZ2cKWGgZbyAnWEeDXPyv+qgErM5VuzY
+ SK7f3ISfxFJ7FWUwgJWJ2gjhO0VVhwBMxb7JMaaLCRRK5GQgJ8MIkm9ju
+ llhqvs3fwkBErG6KmBtjT7HcnZVkEjv/Gv84QDPH+cjZXTPc6bWuNVGhn
+ S8leeVp8Ep6AKJern6qititfIkx1yYHrb9xLYMkjQLybZcbHKsLiMs/jG g==;
+X-CSE-ConnectionGUID: CdwO4gloTZ6qKnVuHE3gsA==
+X-CSE-MsgGUID: iB6uFu3sSL2Je6UQZ4bdag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72876565"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="72876565"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2026 01:45:08 -0800
-X-CSE-ConnectionGUID: EUDy9DWVTRyD8FwbQAXkjw==
-X-CSE-MsgGUID: +OOmk2EjQKq17vy5p8ltSw==
+ 08 Jan 2026 01:45:13 -0800
+X-CSE-ConnectionGUID: OlLaTQ/cSuOzarrbJaMm0w==
+X-CSE-MsgGUID: 9ykuwAlfSL2RxGr6gOcI0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208232073"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; d="scan'208";a="208232107"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 01:45:03 -0800
+ by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 01:45:08 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Thu, 08 Jan 2026 15:13:23 +0530
-Subject: [PATCH [RFC] v3 2/7] drm/atomic/plane: create async flip property
- for plane
+Date: Thu, 08 Jan 2026 15:13:24 +0530
+Subject: [PATCH [RFC] v3 3/7] drm/atomic: Re-route the async flip based on
+ the flag
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-async-v3-2-e7730c3fe9ff@intel.com>
+Message-Id: <20260108-async-v3-3-e7730c3fe9ff@intel.com>
 References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
 In-Reply-To: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -77,27 +77,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the planes supporting async flip create the plane property for
-enabling async flip.
+At present the async flip is being done by the flag
+DRM_MODE_PAGE_FLIP_ASYNC. New plane property is being added for async
+flip on per plane basis. Allow existing users using the flag
+DRM_MODE_PAGE_FLIP_ASYNC to do async flip and internally set the
+plane_state flags for async flip.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/drm_plane.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/drm_atomic_uapi.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index ca51c87267662c11cee5f28276b2b941e1a87973..dd457cf37e0977298e026b014414c59764432032 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -498,6 +498,8 @@ static int __drm_universal_plane_init(struct drm_device *dev,
- 						   blob->base.id);
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 4a2da81abd713127d5157e84f2cae2f8b34a4dd6..eb4d7146f1f92eec58aba99ce6f5b678c0959b66 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1190,6 +1190,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 		ret = drm_atomic_connector_set_property(connector,
+ 				connector_state, file_priv,
+ 				prop, prop_value);
++
+ 		break;
+ 	}
+ 	case DRM_MODE_OBJECT_CRTC: {
+@@ -1256,6 +1257,10 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 				plane_state, file_priv,
+ 				prop, prop_value);
+ 
++		/* Hack to make the legacy DRM_MODE_PAGE_FLIP_ASYNC work with atomic_ioctl() */
++		if (async_flip && prop == config->prop_fb_id)
++			plane_state->async_flip = true;
++
+ 		break;
+ 	}
+ 	case DRM_MODE_OBJECT_COLOROP: {
+@@ -1591,6 +1596,12 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
++		/*
++		 * Legacy way of handling async flip using the flag
++		 * DRM_MODE_PAGE_FLIP_ASYNC is still supported using the local
++		 * flag async_flip. Once the UMD moves to the plane property
++		 * for async flip this should be removed.
++		 */
+ 		async_flip = true;
  	}
  
-+	if (dev->mode_config.async_page_flip)
-+		drm_plane_create_async_flip_property(plane);
- 
- 	return 0;
- }
 
 -- 
 2.25.1
