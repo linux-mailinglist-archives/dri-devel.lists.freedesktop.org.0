@@ -2,159 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4FCD02A86
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 13:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CE5D02E9C
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 14:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7367110E6FA;
-	Thu,  8 Jan 2026 12:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE6A10E718;
+	Thu,  8 Jan 2026 13:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="k47fS0bh";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hyx28nCt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011016.outbound.protection.outlook.com
- [40.93.194.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A2410E6F9;
- Thu,  8 Jan 2026 12:36:25 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010066.outbound.protection.outlook.com [52.101.56.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5862E10E718;
+ Thu,  8 Jan 2026 13:13:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tQ3TGAx+RycSRy2TYTDkaioBpur29EOiM3Oe6g4E5d69ezmEIP26hOQRP6+MK6VkM8S0K9ifWobJdLnjOHxUOpw1bpSEZRNrTvo13JcXZP9GKLuBke0VsWLfoJF48rsKc27Yk3G6DeyQBhaxCjqoowwrwIpyE08zGv72MwVyKjyicRSE3c68nDa7Hsa9nRpFCCwvW9cF9w9AUila1QEkLaqLpgBLD2+wKFE9sJmUmqxkBVZpEAbpZTQ0mRbT2y/AeSb0KHrkdLKhw2UUl3ojQ5xMpy/+AbJjwkVRzNpYrMLkOT1tR4gWKjNio4J36D+vjm/WvbubFamXT1Nt7Vt4vw==
+ b=futE5BqRcUd74BWj/BOrEJ9i7zyXuqJIymQzoNWmiGtzxGQ+yCUzWVtiL/2pZPWVSB4guG099+11rchtH7Qny31WvJZZEnTi0cuEs+PnznV+MZ1UpFFeC2Rbd1aD7u5GEk61hegD2izr4JBcgh2H+O0FPooZmrTzGhdWTIHTSkfxtrkK5HUsTim6dN3qkNLKR8zsdUxyfkXou53gy0K6RvGBkiv/FSkbNVxbYdhVBJ0HcRt2AVQokIolHo1d5iQtD0NSUHxjKkHFYT8V/Hz08et3pYN15DlBuEb5hMDZnP70cu2s0ZSaIlmIufBKYow27wKN/zdWiit+JWjWDCnd/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RXkfGSha1tcLjsDBagCkCg7x/kkHihCkb5+8I21JTKE=;
- b=N55DJPRUHun2IT7Py7VT1h1zQiGekQZudTGb0tnz94tjJJ6dBJfLq5NcvlNJeSIYVH8ge2lejMPFZIODkm6jiIJXoEkf00a5+tvm+pYsPrcQTy9r7cVI3rrxzhwyKQCdmSDuS+O/1QwFqSrDBzx8nzGtxUpP/mCtpxohdzuEju7FtRuduhD2Getvcvtf9bqX9cJQQTtpNT97nFCHhkLKhIrVp23f/SrVrncb2wRzI7GH6T6TLgxKRiukN5VzcQfUylXvjm/ZisVlrlKAyrb2EIllawoaJwaUtl9ZEnM57BTJfBmWdpiqKD38bZAwZ9EQ24kB75Av+gcwtSlQaxy4Ew==
+ bh=HgQ5z1VlzMHAVJGBmwy/q3wGjB8W1GpX3vAjbTtPfPM=;
+ b=H6wPp/9wNA5/YMuE+8rVxKnb7fIYirVXZv0omBIM5WWSmvHm/5MeuDowPIEmyzdBnSoI+4X23tXeMTmAauZy5HHM8JJjxmV0ccs/thEUMkDWX3dwUBpOmEJePh2QNtILkvS9i8L2GXmwTM3swk/t8dG31kAx4EdnFfMD94i8IDVSG2+vxpiWCZx12ZZU8DefepWc/Y8OPXhH2BOUFiry9cealdgkq+1jNh6EqLRng/KSkh8+HPHtfsq9l/31QPY+BKzvQjmnUZVQFKi36R0DrUMVxaolF8inJ2S+xVkqd+ovGmUWi7vFe55WwRNJp7Li0quHL3HWubJjDDiDUS/PyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RXkfGSha1tcLjsDBagCkCg7x/kkHihCkb5+8I21JTKE=;
- b=k47fS0bhlUbvKcmsMfxd98F1aKTPqOWU4x0MsLDJkCX+UGR7LikGFA48ZS5dqJJP20JqHpM6pcG5LnSJngYS3R0J/y8l7mRQVnBRNNjooQFEq1jZWY1O3tsvilJxieTeoJsDUXBGavMMCUnw06M99raroaSOpMWyfrpSKrmdgoE=
+ bh=HgQ5z1VlzMHAVJGBmwy/q3wGjB8W1GpX3vAjbTtPfPM=;
+ b=hyx28nCtzW4Bq9XTft5kfL5RP5R5a57zeWIl7LrlY8tucInV6Ch5zGDJOnZcu1lMnRWjv0H40ZxomLXy4+EB08fERAJu138mNgNWZLQKKukkA8oOwlmlxS9W+SxmzcVHA/XEYMO6gNbQZ39FEaoWZ/BmHnsxY77N/y/GNVvflPE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA5PPF50009C446.namprd12.prod.outlook.com
- (2603:10b6:80f:fc04::8c8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
- 2026 12:36:21 +0000
+ by DM4PR12MB6206.namprd12.prod.outlook.com (2603:10b6:8:a7::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.2; Thu, 8 Jan 2026 13:13:11 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
- 12:36:21 +0000
-Message-ID: <77fa0344-3507-420e-9d77-d454ace55cfd@amd.com>
-Date: Thu, 8 Jan 2026 13:36:18 +0100
+ 13:13:11 +0000
+Message-ID: <cdd30c63-cc02-400c-a056-42da6a3bc37e@amd.com>
+Date: Thu, 8 Jan 2026 14:13:05 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/amdgpu: Fix TLB flush failures after hibernation
- resume
-To: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <superm1@kernel.org>, Ionut Nechita <ionut_n2001@yahoo.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260106125929.25214-3-sunlightlinux@gmail.com>
- <20260106125929.25214-6-sunlightlinux@gmail.com>
+Subject: Re: [RFC 1/3] drm/amdgpu: Reject impossible entities early
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20260107124351.94738-1-tvrtko.ursulin@igalia.com>
+ <20260107124351.94738-2-tvrtko.ursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260106125929.25214-6-sunlightlinux@gmail.com>
+In-Reply-To: <20260107124351.94738-2-tvrtko.ursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9P222CA0013.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:408:10c::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN1PR12CA0014.namprd12.prod.outlook.com
+ (2603:10b6:408:e1::19) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA5PPF50009C446:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b0d220a-62a1-46bd-9801-08de4eb2876e
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6206:EE_
+X-MS-Office365-Filtering-Correlation-Id: 473ba117-2db8-418a-01d8-08de4eb7ac5e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sm5HZTM4Sy9nRTdwbHdrRTk1UTRPWFBNbjZXNmNlZzVkSDJreFZ6RGZhU1F3?=
- =?utf-8?B?a2lHZW0xNlZlZXU1YzZiKzRvcTBYbEZRNXBNRzNQYXNkOUxMUDRETkc0cGhn?=
- =?utf-8?B?QXA2d3Z0amFWUGx6emUwL0JrYis2QzFaT3dqRG9zWCtybE0rb1dPbU8wZmxy?=
- =?utf-8?B?dmxmRTlmTnljM05pYTQ4WTR2S0RrQXFibDlra2dTZ3NnU3M3Y3dNMXdhNVBI?=
- =?utf-8?B?cC9Pa004ZTlxdVFIYXBQN3RiYlYzVGExZjN3aFBXM3ZZQisxTk95SzRiL0Zk?=
- =?utf-8?B?OUlXZVR6MTRUWmdNNTE1SXdVcUZlQlJaV0U1aVdZanlWR204Y3FjNGJIalFI?=
- =?utf-8?B?NGcyRUh5YU5BaTlDSUNzWTNuR1gvYkU1UitoY0M5QXgxSW45OTd3LzVvRjJ0?=
- =?utf-8?B?M2VtNDZicko4VHFBOWZHQkkzTVJ3d1hrMXNIVzBlRTUybmFLdXhnbUFPbWh3?=
- =?utf-8?B?ek5HNTcxKzN6U3dsQTlraVljYk9mVTY3aUFYbzF0dmpPejZRdHZCdGlSTzRv?=
- =?utf-8?B?UWR0Vmhsb0pzVCtUMjhGWFNYT0JaUDFwZjNsV09rMlNmSlVlL0RUZkFwRUpu?=
- =?utf-8?B?aVRWeWp5eWo4ZkxWcmlvY3RWZ2dIVjh1NDM4emk2Y0x4Wm5KSVhpWERUc051?=
- =?utf-8?B?aHpkMUdzRENNOFJOeGdTT2FzSUUzSTY2VkxmVG9OMCtxYzFVUW5tQ2N2aUlV?=
- =?utf-8?B?dkRRMjhkWXNtOUN2VloxZmZqYTJHRUxmcmFoOEJoM3VLSGNmUlFwM0Z2RDdP?=
- =?utf-8?B?VThDSXdGOUdad0dQWHcyTWZYaXZRQytUeWFFbG50dEIwTVpIdmNsY1BhcnZZ?=
- =?utf-8?B?TStEZE9TeThSdkRHVjNmL2hEdkZBVWs3TzN5Snd4WDFwM1Z0WVM2NWMxWGw5?=
- =?utf-8?B?eFNEM2ZDYlFtOVo1Uzl2aGxYVmxFUTdrdi9KbFcvQkRORmQ5NWZpZFo5WXJw?=
- =?utf-8?B?MW16ZnhVSXN4Zmg3YmE4SkpGOXdTU1hqNzhyb0JWWWF0blRLTWxmaEIrTW54?=
- =?utf-8?B?TUpjNG5yVitkT01KeTFJejJncC82SE02Nkp6c1VyU2d6Z2tzUEpNbksyNDNS?=
- =?utf-8?B?MDNyZjhNVnlEVkY4eXRmTXpBQ0o3Q2FhZ2N3a29XUFFFdjZBbmQ3aGdqTzZa?=
- =?utf-8?B?SEZvNEV3Szc4NHdleDNIV2RKUG85NXVzTEs1d0NEdHZWYkE2SDNPbFBWbnJY?=
- =?utf-8?B?WTRuWlNhM3haSUhkRFJaY3VHSmVzQTdqQjg1QVNxVVlDcGxIUXJqM2plRTdX?=
- =?utf-8?B?dnA4MTdGTCthVGJKUWhRdEVCRlhubXd6dXpjUG9wTmlKdUhUSk1aNUMwZlZn?=
- =?utf-8?B?aFhNOEpGVVRlcHpoR0phVGJ1UlJiRXVURTJKTUpXODJKbXhCcEdFVFRQZWZs?=
- =?utf-8?B?WW9rSHowS0g4eUxkNU04WWN3bTZNVEZXa3VwZld4dTNlZEJRVGQrWGlBdGs4?=
- =?utf-8?B?NHpOaG9xWHlyVjdGb1owcWR1RUxVb2JFRjNRVVV3TW9VcDdDT0pyV0NQY01U?=
- =?utf-8?B?bndyRHpUNlhWc0RDaU5zSVE3VmZTOEVQYlZWMS9tUHpsamM3WkV2OUtkUWs4?=
- =?utf-8?B?L0xRQ1BNZ1VwMTBhQmJ5cGxRczYrYW5sQjVIMVhMZ0VkLzd0WGEwT1NvZDNr?=
- =?utf-8?B?bFQwZ0VtSkk1RW9ENFA1NlN5aG9zNlhoOURqNVBpbm9iNnRSNjJUUFpHczBQ?=
- =?utf-8?B?cmZsM2N4MVlVOU94SlVaQVdRcmRKYTVTSnVWb1ovbkJHc1BsZ1FrNVRIOEZO?=
- =?utf-8?B?TDJERkZ0enBTYkEvNWVEWVhvS3dBZzk1cU0xTk43YW1jQWF0Njl0ZkRqa0Zy?=
- =?utf-8?B?dEtBdDZhYlJrZThPMTFQQVNyY2pEWDN0c2VIRU9yMis3MmtTb1Z4MDJJVGdJ?=
- =?utf-8?B?OEJhbW52ODh3VWNmcG5pZjhhaThtc2hUNTY4R2s1TjUxVlpHbjVVWUxJYXIx?=
- =?utf-8?Q?SI1IumqiUEUemqedf8fELj6uY3lk1vFW?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?anRKL0FCelEzWnBvWCs3ZjlPVHpOMDZqV0pRWVNSd3dnN3BVR0pXMVhQQk5j?=
+ =?utf-8?B?MHlPYlU3NlNSWFkrcE1jZ0J2bmxTVUxuLzZQSHk0M3drdmczWGhQTjVkejNF?=
+ =?utf-8?B?ZCt3Qk56WTJHdUJWVlUwODdkVzY5VFBCTEtGWk5XY2xQVi9vQzVrSkQ5eENR?=
+ =?utf-8?B?clBIN0dpaVIvTWVZQlp2MEJrUzFxR25mRnRYSkk4dXlYYWI3akJhZjNzWDds?=
+ =?utf-8?B?YUJOOXVjN3Z5bVFBdEpmRThyd25SQXgzeW4xM0FKaEJ5MkM4SmFGU2JQSity?=
+ =?utf-8?B?MTFnWGNJVzBSZXNPaW1xNTB1MzF3bnlzUWdYSWR6Mzd6cTY2dkptQ01OM0t2?=
+ =?utf-8?B?WlVaM3hhVkJXL2RyV3cyejdtTDdYRnZiQlpVSzhzWjVQWUFnV0dnYlRhMXRz?=
+ =?utf-8?B?WVBLSFgrczZOeC9VVGxBSEgxdXZvdGlBUTA1QUlKUjVFSjZVc3BkOG14U0M2?=
+ =?utf-8?B?Ny80amxvWUFVQXU2ajdGR1UweXY4Q2w5eGR4aWcvOWFpbXlXM2ZYMmtvS3dF?=
+ =?utf-8?B?OHVzQWF3SEFoT0NrYytXOEJmMmtZakdIejI3d2xXM0M2aUU1VWJqOWpsM3d0?=
+ =?utf-8?B?dUtBSjA1anJVL0pDR2s3aWpxMGlSNkd6YjVaYVRGSE1NVy83b0MxU0JPbzJZ?=
+ =?utf-8?B?WWdLTVYrdWhuYXJ3Qm5YdkVaMTBlbWgwNE5TVlNvWXRiTW5DMGhuZ2I5Sk96?=
+ =?utf-8?B?NHp0bTJ1UmN2RFczQlVUU0lnRitHeE55QnJ1QXJBTlQzMHJRZlJjeFJJeXpm?=
+ =?utf-8?B?L0ExM0VMRXpCMndvSUV5T3RTOXdqMmh6SUZhdHRSeS9KNGtSY1VBS2o4Q3g5?=
+ =?utf-8?B?b0ZWdGtnTDFndEN1MVdZVG93UkVCb1luU3BCRlRUaWo0ZjhjV1lUVW1hcVZu?=
+ =?utf-8?B?SFZucFRic1B5SmN1SDNqZEsxL1pPekhYaXp3c2hRVUljcnFFd0ZPdThLUDI4?=
+ =?utf-8?B?Zis0Y1J2YmE0OHRkQ2hrd2gvT0lnT1dJTWR0MThzaCsyMFYwbHVGWDRpQ3RN?=
+ =?utf-8?B?eTJlMThsMFVaOS84NE9nR2lLVGV6RUx0NGxLZjBwZi9BKzdoVEEzdzdJUEla?=
+ =?utf-8?B?T013RlF4cFRmSUpRaENadTd3Z3lUMjR1WXQ5L1pZU1V3OG5la013dkRGa1JO?=
+ =?utf-8?B?d0k0eXhvN0llUXNKZzJ0dUFNUVR4UDYyVG0xTGVtN3M5cmRodjY4aEV2cEhQ?=
+ =?utf-8?B?aGFqdjVHaGN3amVCN1BzbzBmNnJFS0JKbzNtUlpIWGVHcFMrYXRMZWlJbkds?=
+ =?utf-8?B?eW1FVzFLNjBqQzZoRDFESHBReEV6MnBva2lSOGxCeEZaVzc3SmNYcXkrTW4z?=
+ =?utf-8?B?cXhrSTk0cDVObVNnbXg0d1dJZTNaK3d5YitjMzFpKzNxRDFDQmlIMkI3blRh?=
+ =?utf-8?B?Wm9LNUxERXhRenc4UjY1QmN6dHZQSXdFQmhUSFJScVBkZHJ0Z0tBSW44U3FB?=
+ =?utf-8?B?cXkrTnVkYlhDUDhoQkZUdnlHV3JqLzBUbDhMYzlyejJrSG1wREtPVEMzSXpK?=
+ =?utf-8?B?NWJqU0ZPT3ZsQVlIaFZ2dEt0UUNBZ1EwTG9DbnFOQXUvVThobWpXejRzU0tZ?=
+ =?utf-8?B?K3dXWWxSdGlFQk90NUVVaFduZmtRUzhJdTNTQUhtZ29HeHFpMFhQT29MeGdJ?=
+ =?utf-8?B?RmxrNXhPM21QZUZiNldwM0hZMmFiY2ZJbEx4Zm1WTU1EUUw2c3pTNkloTUF4?=
+ =?utf-8?B?aWgyc0kvcitRWFVpN0diNnMrL04zd21Zc0dKcWp3VmF6b2pIWmVOczVwWENk?=
+ =?utf-8?B?WWNGalIyOENFaXN1ZDlMazBWUlZEa3JaT1dMelpEd0ZFYXVZUm5TcmtvTUxy?=
+ =?utf-8?B?c1l5dDl1SkZjcGFmL3hCc3pFTHhyenlMWS9SaURNRlZHUTZ1dWlJT0YrR1JV?=
+ =?utf-8?B?eXd3YnRURkNvT0h4VFpPdm04eDBleEE2Z2lxV0dlYmRoclZ0bGM2NGhrWjFW?=
+ =?utf-8?Q?G6PHWgcCCV8rc4E1ZYRXyv3vfe5zOMYr?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VExsK0FlWkM0Mktmb3lLS1RYNXk3elZ0MnhKTXhYZzJVRXJBcEE3eDJyVDNy?=
- =?utf-8?B?dHRYc0FXM3liS3NhaVJsekxRaU95VlE2UldCZjBsMlRENUZUNXpnbDVLSHVv?=
- =?utf-8?B?dVdPdEp3SmdzRVhXTEd1YnBXK1VWZzJFMzVaOXVXTjF2TTRlZEY5VkhneFRp?=
- =?utf-8?B?OHJuOER6WkhuMnMvK1BzZ1MvSmF1elNZTmsyckd5NEFPQVNHRTRPVU1KdXhS?=
- =?utf-8?B?L0E3VFdlYXRocEVjYTg5L0ZpT0ZtWjhNYlp5NnZzZ2YvMXdERWJ5RXFUTjd0?=
- =?utf-8?B?NmZLUk1kTzB0cTA1WXFmQXhJQ2RIL3ZlcTB2SGNOc1Z5aUdlWEZoaGZucG01?=
- =?utf-8?B?eitGQXJJYXZmQ2lCQm9ING40V3BUSUxQcU5BK1hTZ0I0d1JRcnRwb3pkVkxm?=
- =?utf-8?B?Yk9kc09sZ1RXSFMybTgxUjEzTXIwcWorQ0ZLaDBPajdLZmVNOE5tZFhtQzVw?=
- =?utf-8?B?WXJmaWFoeHZWVlJlRXFBZ3FIeDFWdUIwQmtTV2FVR2xOendTMjVmdFlOY212?=
- =?utf-8?B?a04ybEFqQ1FoZDFocm1Xc0w2emoyR01GUHI0YVZFU0w3N2U2R0pRT0dwOG1E?=
- =?utf-8?B?MWRpRnV5S2JuR09sOTg5dVQvdjA4UHZuVXJYSEJOdUNXVzdTZE9OMHhmWUZo?=
- =?utf-8?B?NmZUVWZuL1FXK0U2eHlPZ21ZWGs4UUZRdHZ6VnkzeTZzSmI3bzFybE5kclVx?=
- =?utf-8?B?Z2NqZU5UMkw3YXdIb3pleTAxWkdIUVd3V0cvT0RualpRc3BhTkpPQjRieUg3?=
- =?utf-8?B?cEdEdmQ2aHBDVkVhWUhpeExvQkxlOXExbnppWHZUTWszYlQ4eXVxeEZ6NTZn?=
- =?utf-8?B?N2xxTStxQWJiZFU3NDR2OE1sVWdnaUxYM1h1QndwRlFFcE1XMEp5ZEFlbzR6?=
- =?utf-8?B?MFoyYVlXSGNTQ0ZJczBhcUwxR3pPOUdlVHBHQVlDTEZHWTRoV0QyRW5PSDli?=
- =?utf-8?B?czJKWmFLUUNnb2hvUlp0bUltaTB5NGI0TituMlhDNUdIWWhzRXBEL0VsZUVC?=
- =?utf-8?B?V0dHQXIwMXpIaytMa08yYVVCYmJvTkVNRDRKR0djUGFuSER0em1iYjJqc20r?=
- =?utf-8?B?eWNLNXZVbnZFYkkwbFNETnhteFhyRFllMWlzL2w4RWtocmQvZVhWRDYrbDc0?=
- =?utf-8?B?b0hrWm02aXdacXJaS0VEcExHSERHYUtGTDI5RzRSd1JmUEJXcW5zcHV2aDdQ?=
- =?utf-8?B?bk9TV1RicmdJeEkyM2V5NnVSMzJrZ1RQNHY3V0E1eU1SUGtqOFJRRHBpQXZC?=
- =?utf-8?B?SG10VTk2ekszSzIyWWtQOG94cTMydis4U2Z5eUhmMm9YQlVxaUozK1pVbmsv?=
- =?utf-8?B?SmhhWEI0Z1NnRnlqMm1TL2t2SjM4Nmo0U1FRQWVnb0xnUkQrYi9kUzIyV2xM?=
- =?utf-8?B?NVJWekdlSlErNGFUV3c4TDl1VjlZUDZXMk9CNmxQdmthNHQ5U0xiTUprMnBp?=
- =?utf-8?B?bWFxcWJ5aFU2VXVzV2ZwVFFnVkYrYW8wN3pZM1JlZEdmTFdrR25KMmVDcnJx?=
- =?utf-8?B?NHROKzdpQ2tDaDZlQjd6bDNhMTU4VjN2QWNPRmloUjdhMkl4MGFGR3NYUVdt?=
- =?utf-8?B?bTJrMGxrNFhiRUpJQlc1MFE3VGJlcDRaTHMvSm8wRjNBMkdmVGNqVVVOWndH?=
- =?utf-8?B?NHBUbmwwUFZ0RE94VW41KzBUQ2ozWDUwdlBPVUkxd0ZGcTNVZDNVdzdCc1kv?=
- =?utf-8?B?ODdCSk4xVCtLaDd5Z0ozL0ZjRGIwL2Q3TkNsSEdZeVE0QmRtQVZsYUxadGdq?=
- =?utf-8?B?UVpRb1J5andNeVFmZzZOSW03RVJ6cy9YT3A5KytmdnlEenpBY3VjNUtYRWNt?=
- =?utf-8?B?WUVibWVCQmpmODFQNmJlYmVMdGVrVjlMWHFrU0JkSGF5OFdxT1Y5Q1d5RHRU?=
- =?utf-8?B?Q3k5OTd3SWRDS0o4clRTazl6VEVkWEVHTWlTWW5Sc0lBY0hFWUc5VUZhY2l3?=
- =?utf-8?B?Ym5xaHZ2NDR2VnhzUWRTS3RZcWd6Qk5rTU1YYmg5bGdaaXJUcE9JN0pjeE9j?=
- =?utf-8?B?SjZUZGVzcE5yNVVJTDg2Zi96VkZMQS95TXhENXpiMngyK0VQNnZNWDhYNm5Q?=
- =?utf-8?B?Q29OV0N1WVptUjBsNk95RjJJbEJScGtRSnQrcTREVEdramQzQUlJM05TZFps?=
- =?utf-8?B?b0NjNVNOV3ladVZsMjRvK3I3RkxIaGJhT3hvelVBWTh3SlhPWTY2YU11TWQz?=
- =?utf-8?B?eXR6YS80THRXV2xIb294ODBhSm11OGwzWUdIcVVBaVZ1MjBrYUtIRUd0WDY5?=
- =?utf-8?B?UThTNkNmUWhxUFA2M2xyRjRyYW1jV3RrcGZHTHlxNi9vUTc1eUdiRnRwZDBi?=
- =?utf-8?Q?iqKQ6Brc05cknKkVl2?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VUs3TkJaR0F3aFJYODJpUWF1OXMyTFRmSU1QOE40NVpCMVg5OEVnMThmVXdh?=
+ =?utf-8?B?NTB3aWxmVHlxekFtd0plN2txaVYwenBGNU9yRWZHdFZ6NnBHWi9kc2VUM3hV?=
+ =?utf-8?B?bkRGRDZDV0tZQzNnMzdydnc3TjJncXoyVyttOEErWlh1K3pRYmJzZElyWUha?=
+ =?utf-8?B?RkNVV2hwL3psZ0NEZWFTWHVKMThPMzV2ZDNFRjhiSjFsSzNHNlFSaG41SWxM?=
+ =?utf-8?B?QnRNc0M4MUJOYjNLa1N4ckpCam9OUXhMZzBXQVFOZDI0SVUwOE5MVmxFcC92?=
+ =?utf-8?B?eHBSdk9PZE8waVJ6T3BPMHBnc3N6TXZVWDhyOUcxTTQyYXJHT1A3dW1CdGVN?=
+ =?utf-8?B?OHJtL3lrQTNPRGM2RTdRVzloK1hyd1YvVzIyL2tXck5DMktMUjg1WmFEa0oy?=
+ =?utf-8?B?N1VmTS9ENU5INjg4WmlScFhvbDl4cGtMalhjMUZpNWhuUG1PTE5FMjhQQWdt?=
+ =?utf-8?B?OVVzSm1KSm9BeTlvRFNYaXl1OHdPTnlTdEVCQUhvdXdYVWk0eFZzYk00Mnpz?=
+ =?utf-8?B?d2xMYmx5RkVHVExqTWpQQ0pjR29aMzBubmVGNDNRV3B5ZzMxU3pjNmlLVFN3?=
+ =?utf-8?B?ZENxb1lvbFllUVhrRlpxa09Nb2dQdDFyaHp1cHRHSU1zWFAyUVI3K2xqbzNr?=
+ =?utf-8?B?TGNHSHU2clVvZ1Fha1hTdG9odnByaEhhaWdZZHQyckRDMTFqcnVCYTQ3WVNh?=
+ =?utf-8?B?WXlJVllFNGZxM0FKV2FYM1JHSjlNRHZtVDljMUUvWmE0NVFkblpoL2NTWDdH?=
+ =?utf-8?B?aEdnQXRBWjl1a3JiR2g3eVVKYys5UG81Nzh1RWZvcXlzcDBoS1h5VEVLTWZH?=
+ =?utf-8?B?SG9jbU5Fa1gvRFJndzlTN24zRk1GRmoxN0N3dERpZ0RsSXBtUFFIMit3TTBE?=
+ =?utf-8?B?UmQxU0Z4ZWNFTmRkOXkrZjBscmFhb2hsRjlQVkpKNVozSzJaZnBZVWRidklu?=
+ =?utf-8?B?dzJKTmx0cmYvN3Y3bTNzODBpdUp0enZrWXpQWTgxenhXbENCdXdidVdUR3B1?=
+ =?utf-8?B?SEdGQTBzN0VJNVdRTlhCcXhGZWZacTc1QVVjeG1qd0VHOTdWN2k1bHJyNTE4?=
+ =?utf-8?B?TFErc3I2WEV3RFBMLzJyeXpoNFllMlhBZ3I3bENlN3AxSjVuYmkwUFFsNm1U?=
+ =?utf-8?B?SFdKMmVVbzA4RURqUWNtblpNVDBxRkhwUklqekJGQU1MRG9NVVRCbHFGd3F1?=
+ =?utf-8?B?KzJIRDZTa3pubGRSckMraTYyTW9aRmw5NHRuTXFaTzU3RCtRbjZRMmxmNDJE?=
+ =?utf-8?B?RUZLeXhCWjlnSEVoUUx6KzN6dWpneTEyQXRLeDJtLzhGVTNnMEVmeExvVC9a?=
+ =?utf-8?B?Wm1lc3o2Z29Cc0hSaXJ5ekVWalVuUzY5UUI5QkJlREZKdjRabEdjZDZKTnAv?=
+ =?utf-8?B?SmxjTGxvN2NBTmZLOXdvS1RDejA3VXFUNGd1cGJmTUxwZzc2TWZ0b0padXlX?=
+ =?utf-8?B?d0M1S1FCL0lCZnBPSXpjbG1wR2lxTUtQZkhWbjltTE1NL3N3TXdkazl3bjZ0?=
+ =?utf-8?B?dDBDQTFJSVBWclM0eXo5eFBNTGNmZTVKR1VVdkxmZ0ZmRWlFSXEzU21jK1B6?=
+ =?utf-8?B?TDAzUURmOFZaRkl3UjZjaENmMzY4NVdnYkozNmpuTlY5MERwNXRaRDQ1UXFD?=
+ =?utf-8?B?UjN5K2YydzJmZVJ0SkZPSVVQQ0NCZW1zOXp4cjcrME5iQjZKcTQveDB4T1pm?=
+ =?utf-8?B?d3JUWFJvbWsrYndsMHZjK2dnS1ExRGFWcG9oVW1JU2dPQkd6bmRzaFgyQS9h?=
+ =?utf-8?B?a29UU21jcUFMMEdxVlVROC92SjJheTJJNjVldHYreWZmb3ozV0psQkVVK3JQ?=
+ =?utf-8?B?eG96dy9GTkZiWXFFNC91UmdyL05ibTZCbW9aQzZ6ajNkMmYyemozTkk3OEM2?=
+ =?utf-8?B?QjduU2JBMXRjUmsrN3crQXJQa1JENVJrT1FyVzhwMG5oc3p4Y2dRSnpkTVdp?=
+ =?utf-8?B?Y2NwbWFXR1Q5OFZxb0oxMlhuWWlhTTN5QkFKUk9QUTY0VFUxZ3VhRTRZVnFE?=
+ =?utf-8?B?eGhKUDkvOXBlc3A2SGl5akdiVTBNK3F2S2h0Q2RudUdHcXVpbU13KzNaQnlW?=
+ =?utf-8?B?U3BJWkt6U2UxdU0rMlJRaDRlSXdlTUxvaVZFdDlrNmNIekIyOG1rdHZZN0Rq?=
+ =?utf-8?B?WUczM21keVpJQWc4d056NVVtMk1BTXNhT0lxNG9lVTMvTFYwakE3anZwVEk0?=
+ =?utf-8?B?R3RoTzlFb2VqM3FLVlk4cWl1OUoxdGdDUStLV3BFRWZ4VkVlWkdxbkl1ODdT?=
+ =?utf-8?B?ZXNvU3g4NGN0Ty9XK1lxbit4TWwwYkRKWnI3WENTRE02YW1WTnlBMmRZa0JI?=
+ =?utf-8?Q?+xjQA3GycYtaVRFHGZ?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b0d220a-62a1-46bd-9801-08de4eb2876e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 473ba117-2db8-418a-01d8-08de4eb7ac5e
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 12:36:21.7775 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 13:13:11.3014 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t9WtZ1h6F6bTx+ddHjldwgU3XU+sPNF3fOs8rriveqOgMTx4lbdzJpIL+G8mtqOT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF50009C446
+X-MS-Exchange-CrossTenant-UserPrincipalName: GTeOXLp5AqHQqR80muTL/jPH2J0x0/OZsAXwWdD7w3H2ApK+1QH8wYW9MjN+tgl6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6206
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,172 +167,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/6/26 13:59, Ionut Nechita (Sunlight Linux) wrote:
-> From: Ionut Nechita <ionut_n2001@yahoo.com>
+On 1/7/26 13:43, Tvrtko Ursulin wrote:
+> Currently there are two different behaviour modes when userspace tries to
+> operate on not present HW IP blocks. On a machine without UVD, VCE and VPE
+> blocks, this can be observed for example like this:
 > 
-> After resume from hibernation, the amdgpu driver experiences TLB
-> flush failures with errors:
-
-In general we don't support hibernation with the driver.
-
+> $ sudo ./amd_fuzzing --r cs-wait-fuzzing
+> ...
+> amd_cs_wait_fuzzing DRM_IOCTL_AMDGPU_CTX r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_GFX r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_COMPUTE r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_DMA r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_UVD r -1
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_VCE r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_UVD_ENC r -1
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_VCN_DEC r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_VCN_ENC r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_VCN_JPEG r 0
+> amd_cs_wait_fuzzing AMDGPU_WAIT_CS AMD_IP_VPE r 0
 > 
->   amdgpu: TLB flush failed for PASID xxxxx
->   amdgpu: failed to write reg 28b4 wait reg 28c6
->   amdgpu: failed to write reg 1a6f4 wait reg 1a706
+> We can see that UVD returns an errno (-EINVAL) from the CS_WAIT ioctl,
+> while VCE and VPE return unexpected successes.
 > 
-> Root Cause:
-> -----------
-> The KIQ (Kernel Interface Queue) ring is marked as ready
-> (ring.sched.ready = true) during resume, but the hardware is not
-> fully functional yet.
-
-Well since that is the root cause we should probably fix that.
-
-> When TLB invalidation attempts to use KIQ
-> for register access, the commands fail because the GPU hasn't
-> completed initialization.
+> The difference stems from the fact the UVD is a load balancing engine
+> which retains the context, so with a workaround implemented in
+> amdgpu_ctx_init_entity(), but which does not account for the fact hardware
+> block may not be present.
 > 
-> Solution:
-> ---------
-> 1. Add resume_gpu_stable flag (initially false on resume)
-> 2. Force TLB invalidation to use direct MMIO path instead of KIQ
->    when resume_gpu_stable is false
-
-That is a really bad idea. So absolutely clear NAK to this patch here.
-
-> 3. After ring tests pass in gfx_v9_0_cp_resume(), set
->    resume_gpu_stable to true
-> 4. From that point forward, use faster KIQ path for TLB invalidation
+> This causes a single NULL scheduler to be passed to
+> drm_sched_entity_init(), which immediately rejects this with -EINVAL.
 > 
-> This ensures TLB flushes work correctly during early resume while
-> still benefiting from KIQ-based invalidation after the GPU is stable.
+> The not present VCE and VPE cases on the other hand pass zero schedulers
+> to drm_sched_entity_init(), which is explicitly allowed and results in
+> unusable entities.
+> 
+> As the UVD case however shows, call paths can handle the errors, so we can
+> consolidate this into a single path which will always return -EINVAL if
+> the HW IP block is not present.
+> 
+> We do this by rejecting it early and not calling drm_sched_entity_init()
+> when there is no backing hardware.
+> 
+> This also removes the need for the drm_sched_entity_init() to handle the
+> zero schedulers and NULL scheduler cases, which means that we can follow
+> up by removing the special casing from the DRM scheduler.
 
-No it doesn't. This patch only works by coincident and not proper engineering.
+Yeah I remember that Luben looked into that issue at some point as well.
 
-This only works because the TLB flush is most likely not necesssary.
+IIRC the solution back then looked similar to this here, but we had to revert that at some point because it caused issues.
 
-Question is why the KIQ is not up and running before we do anything with it?
+Could be that those issues are now solved, but even if not applying the patches and fixing the fallout is probably the more reasonable thing to do.
+
+So Reviewed-by: Christian König <christian.koenig@amd.com> for the entire series.
 
 Regards,
 Christian.
 
 > 
-> Changes:
-> --------
-> - amdgpu.h: Add resume_gpu_stable flag to amdgpu_device
-> - amdgpu_device.c: Initialize resume_gpu_stable to false on resume
-> - amdgpu_gmc.c: Check resume_gpu_stable in flush_gpu_tlb_pasid
-> - gfx_v9_0.c: Set resume_gpu_stable after ring tests pass
-> - gmc_v9_0.c: Check resume_gpu_stable before using KIQ path
-> 
-> Tested on AMD Cezanne (Renoir) with ROCm workloads after hibernation.
-> Result: Eliminates TLB flush failures on resume.
-> 
-> Signed-off-by: Ionut Nechita <ionut_n2001@yahoo.com>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> References: f34e8bb7d6c6 ("drm/sched: fix null-ptr-deref in init entity")
+> Cc: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  6 ++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c    |  9 +++++++--
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c      | 10 ++++++++++
->  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c      |  6 +++++-
->  5 files changed, 29 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 9f9774f58ce1c..6bf4f6c90164c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1225,6 +1225,7 @@ struct amdgpu_device {
->  	bool				in_s4;
->  	bool				in_s0ix;
->  	suspend_state_t			last_suspend_state;
-> +	bool				resume_gpu_stable;
->  
->  	enum pp_mp1_state               mp1_state;
->  	struct amdgpu_doorbell_index doorbell_index;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 12201b8e99b3f..440d86ed1e0d3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -5457,6 +5457,12 @@ int amdgpu_device_resume(struct drm_device *dev, bool notify_clients)
->  		goto exit;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> index afedea02188d..a5f85ea9fbb6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> @@ -239,6 +239,11 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
+>  			goto error_free_entity;
 >  	}
 >  
-> +	/*
-> +	 * Set resume_gpu_stable to false BEFORE KFD resume to ensure
-> +	 * extended timeouts are used for TLB flushes during hibernation recovery
-> +	 */
-> +	adev->resume_gpu_stable = false;
-> +
->  	r = amdgpu_amdkfd_resume(adev, !amdgpu_sriov_vf(adev) && !adev->in_runpm);
->  	if (r)
->  		goto exit;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-> index 869bceb0fe2c6..83fe30f0ada75 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-> @@ -731,7 +731,12 @@ int amdgpu_gmc_flush_gpu_tlb_pasid(struct amdgpu_device *adev, uint16_t pasid,
->  	if (!down_read_trylock(&adev->reset_domain->sem))
->  		return 0;
->  
-> -	if (!adev->gmc.flush_pasid_uses_kiq || !ring->sched.ready) {
-> +	/*
-> +	 * After hibernation resume, KIQ may report as ready but not be fully
-> +	 * functional. Use direct MMIO path until GPU is confirmed stable.
-> +	 */
-> +	if (!adev->gmc.flush_pasid_uses_kiq || !ring->sched.ready ||
-> +	    !adev->resume_gpu_stable) {
->  		if (adev->gmc.flush_tlb_needs_extra_type_2)
->  			adev->gmc.gmc_funcs->flush_gpu_tlb_pasid(adev, pasid,
->  								 2, all_hub,
-> @@ -835,9 +840,9 @@ void amdgpu_gmc_fw_reg_write_reg_wait(struct amdgpu_device *adev,
->  		goto failed_kiq;
->  
->  	might_sleep();
-> +
->  	while (r < 1 && cnt++ < MAX_KIQ_REG_TRY &&
->  	       !amdgpu_reset_pending(adev->reset_domain)) {
-> -
->  		msleep(MAX_KIQ_REG_BAILOUT_INTERVAL);
->  		r = amdgpu_fence_wait_polling(ring, seq, MAX_KIQ_REG_WAIT);
->  	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> index 0148d7ff34d99..fbd07b455b915 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> @@ -3985,6 +3985,16 @@ static int gfx_v9_0_cp_resume(struct amdgpu_device *adev)
->  		amdgpu_ring_test_helper(ring);
->  	}
->  
-> +	/*
-> +	 * After successful ring tests, mark GPU as stable for resume.
-> +	 * This allows KIQ-based TLB invalidation to be used instead of
-> +	 * slower direct MMIO path.
-> +	 */
-> +	if (!adev->resume_gpu_stable) {
-> +		adev->resume_gpu_stable = true;
-> +		dev_info(adev->dev, "GPU rings verified, enabling KIQ path\n");
+> +	if (num_scheds == 0) {
+> +		r = -EINVAL;
+> +		goto error_free_entity;
 > +	}
 > +
->  	gfx_v9_0_enable_gui_idle_interrupt(adev, true);
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> index 8ad7519f7b581..8a0202f6b3e3c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> @@ -855,9 +855,13 @@ static void gmc_v9_0_flush_gpu_tlb(struct amdgpu_device *adev, uint32_t vmid,
->  
->  	/* This is necessary for SRIOV as well as for GFXOFF to function
->  	 * properly under bare metal
-> +	 *
-> +	 * After hibernation resume, KIQ may report as ready but not be fully
-> +	 * functional. Use direct MMIO path until GPU is confirmed stable.
->  	 */
->  	if (adev->gfx.kiq[inst].ring.sched.ready &&
-> -	    (amdgpu_sriov_runtime(adev) || !amdgpu_sriov_vf(adev))) {
-> +	    (amdgpu_sriov_runtime(adev) || !amdgpu_sriov_vf(adev)) &&
-> +	    adev->resume_gpu_stable) {
->  		uint32_t req = hub->vm_inv_eng0_req + hub->eng_distance * eng;
->  		uint32_t ack = hub->vm_inv_eng0_ack + hub->eng_distance * eng;
->  
+>  	/* disable load balance if the hw engine retains context among dependent jobs */
+>  	if (hw_ip == AMDGPU_HW_IP_VCN_ENC ||
+>  	    hw_ip == AMDGPU_HW_IP_VCN_DEC ||
 
