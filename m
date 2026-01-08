@@ -2,97 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD968D04408
-	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A617D0452A
+	for <lists+dri-devel@lfdr.de>; Thu, 08 Jan 2026 17:24:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEEF310E794;
-	Thu,  8 Jan 2026 16:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D49C10E7A8;
+	Thu,  8 Jan 2026 16:24:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="XlJ+ejb/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QVpYc5L3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1951310E79A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:16:07 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-432777da980so1846327f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 08:16:07 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196B210E36C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jan 2026 16:24:09 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4775e891b5eso16313895e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jan 2026 08:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1767888965; x=1768493765;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6vW3/P/N4+paGKM071bgG2imOi6n7IKDgUKqaIxzm8s=;
- b=XlJ+ejb/F6Z9+Vo4ZX851LUZnHZhirxuNB3eYKtWQX7K6TRcL0Z5j9gnbfC/x+2OZt
- /k6Yz4L4YoNP+JKY7cxFfgK6A4PdSiODp4jvvI4QsIfJjmdQanCIrLqrSRXJCVorQebc
- lTbszpjX/lT8fbNQYtUH5xAEMcoxpjCLECPaClLnUqXsjH1AtD2qf03hSWyMTkWne9az
- L2Aba+du+8c9N29ZZASQHTVDrOUCmHiJON//OzhTKY4r+nj40jw5lJhPwCYMUri5TbdB
- UaHQ/TM2nOrk+itwX/WN4vfWY4V2SVwqaJcMdxULlEDRFwLU3J/UzH6VExVVsw2B5A3V
- XI4w==
+ d=linaro.org; s=google; t=1767889447; x=1768494247; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Xj3aIiaT0bH4pSRmSIPmDloBNbQZF2Z2t+m5n9HJxGY=;
+ b=QVpYc5L3CTgmxj7EVOoqbNcNDkb4gXYeF6Y1Cm7g8Poy3J8pI8eN9TLPZS+QmIJ4Uc
+ VmbtJ0/p/KhXLUJCpsm0RK5aCYDx8q3L3Z6X9R4q4kzvyrmm+sfoI2Id0ZfMa121qg+C
+ eakXpejieiGjQm2LZgrhYnB/uvwuoDQTVKlt4xjwMM48y1pWhgzmUEO+LJX1r7u/RdY2
+ FhT9I01caGHtBet8rFQszc0h00D/TNQdnnc2kppy7j8/qld32pW2CxEpCAizVzvgyG4Y
+ 3DTXox7N+HnAoTBnRL2vqeRqpdLyJ5CAaJnu683BBhzOgMexE1T7qaZPsIKOEJ9wiWQy
+ Ww7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767888965; x=1768493765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=6vW3/P/N4+paGKM071bgG2imOi6n7IKDgUKqaIxzm8s=;
- b=VpKkJKNuIM3cVqgQG3sBfuRfERkz3NSEhniVTU4d9xmV8cQm4tV6H92Iwq6f2aXa4o
- le5doCA1oIE16PyxrC/cqk9T43owxJiy7LJd99BTh2ba4N/vrJ+xd2Ep2JLINLcFGEMW
- ty51LcDbuXg+O8cJrYo7yURqM4Tr0en57eqHxV9AudVhSqMPpT6jMN7Z/y69MZZAQfsh
- e6fBZlRelGh0Ppbv8DEbHjir+9r7lE230sz83YNXd/bvm6J74B52LCfOdaM58wfpY12b
- qRJCFeHsq3pViiwo5fBWKoZOoQ42/GHmOQDtWRtThNiF5wsdWMOeCKSUDDN+8cv/LSro
- tF/Q==
+ d=1e100.net; s=20230601; t=1767889447; x=1768494247;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xj3aIiaT0bH4pSRmSIPmDloBNbQZF2Z2t+m5n9HJxGY=;
+ b=aLqQblXPLfv/cyHycGpk48+O8ykXqd2OO9nGnAj4V/WwEU+e13wiq0JlgkzfvWMkwH
+ yyTR2ezhgcPUXWu2HTKJWudGRRpf5x0LKRn//Dw/h4AOi4JLPx/6seXMoKzvO9YcbOVb
+ +PrKhhI/4Lv2zzx8pK3XgPZGkucTv+Y3yT3u1/u3ne4k9cP8HBjTqTh3md181JK+yhJh
+ u9EBKH5Fla9QjkgnqG4Y5jGCnQ6pG9jFVWrv9a43BPq00G2XPfjcvPGR1ey0pOKTuqpq
+ fZ0U3qXTYdaA90u5EXs8d3Miai6D76ZLfosG8GybL7F3VUObwh4LPa0QblXKMqlZofua
+ GDCg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV85vyjagj3Od/rPh48mo+XQlXPAEl0ZI0auDO0aP33wIjqvyWxKjRgyAt+DwQNtJyM2w3+BFiVJQk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxjr+2AR9PaMbHTakKwB1Ox7z3PVk+xvyan+lUV1NKftxwLh7a/
- /wcnuVaks87XAFwoZxFT4uRcRst96sOhjFsq9GRqvLN5wRqtePYsR1J94cTSx0beIH5yNYx8eHZ
- wRjkZaxJRVggYDpKNcbbk4GH6SuPdgTuAXqVIw6F1
-X-Gm-Gg: AY/fxX4a7LRRrbC4TQfHoQ3REznohot4CwXtR4io2jstI1mMFLWWY0L3Qx6tQgDTCci
- Lf6VoP4eQPANFTFJcDt9gn+DBYWnaJE/U5lhEiv+tUatd2hcg8XkHWVSPKforSzA2oL3gJef2X4
- CYZJh9Vuj/3wLc0ePuKgQJLyK5uRKbi6d9yeyv9OUTcdZ7Z/76sDgQFLU53Nz8QSdCAGyCMDbfD
- 4IrcomyIl1YPcNbClnWlpBQnK545ov6tdg32FGGKDlnF1a8KMddNddY4EtHo73ebZ7q+Ob4kn9C
- WXsj0e/JOnQRfRPPJ+rCySuwunLKvnfnfzLEOr/SEZkroOeWbPRpm9dC6A==
-X-Google-Smtp-Source: AGHT+IFlwj7HPJoXMHh8QpN1Ab7H/UDknjidGuhXb0xbkpRQOk6X4xFeRXquaMOfNkP2YrRvaqkzOLHouDmVZwg+94c=
-X-Received: by 2002:a05:6000:2311:b0:432:aa61:a06e with SMTP id
- ffacd0b85a97d-432c374fc59mr8831012f8f.32.1767888965176; Thu, 08 Jan 2026
- 08:16:05 -0800 (PST)
+ AJvYcCVA+0f3dXO/GsUQOZgSxJhXfPLYqTuZFeiWaKGaWAarzV4aTkNN6TugOKB75jshN+9pM3ssS2CAdkM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYPQGq6aqbGBmQubbWa44lOAZjBfw8oOJHtQ7kF3hyMTVz9l8e
+ Sr1jSNHNX0JUy1Kt/KUp2W4BgQBm+R1Ju0lLqQlEaSCVNdVKJUbnavIpbTViP/D9cBYTAXF2TJn
+ 7z0vhiUQ=
+X-Gm-Gg: AY/fxX6QLaK8g+U155Nfwzq0WT1wyaiv+CBCYR/8sepivI60wgETWFNcsZRSxYwHjs0
+ WOW2nT6XQwj8rp1kuXE+jjceDcKrwRrsh4r2K9u6mk5gdVEx+ZhblyvruFsVMRxX+GlqMShmY1n
+ Wmi8dBQNXncxrNp0pIBVPXhTq3y3y6vp2I5huldqxb/2ZuJH+YtT9nwe1ZResr2GYXd+TwKDK0k
+ WajGRwC7KwGTsaN5mPdh0dwKj/GSDO9yxKrMC0i3Pb0pdmtiVtWAsVkvJGP4w/0aUEPGjmYA/r1
+ l74ylL2VU/VaJJGxeNs3puzE4x9yyvihqZJf58AtxSyRECpqAPGaa+hkxi7sS1qHTQ1GH6KcZFD
+ 1KLfz1RRM780lu6SUFEjDNceYdbwXEaw64X8zaArWjMZcwyxi0mMVh9aKr0g6JQZFKfePP22Wqm
+ UwDTM58hSzhmUwOM3RhmE9CgBTIpsUzmh3tRx1YJKciwZVZEB/uQftT+czk+L7ytM=
+X-Google-Smtp-Source: AGHT+IFtkr+pOe+dymcdTTnpe2tek3vHKNG63sW1D+pxy/ROjygFfnUCBjyfiTcNGWCt+yUnplxx4w==
+X-Received: by 2002:a05:600c:468e:b0:477:a1a2:d829 with SMTP id
+ 5b1f17b1804b1-47d84b1862cmr87476145e9.13.1767889447411; 
+ Thu, 08 Jan 2026 08:24:07 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:2cb0:c864:18bd:9835?
+ ([2a01:e0a:3d9:2080:2cb0:c864:18bd:9835])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47d7f69e802sm164071575e9.8.2026.01.08.08.24.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jan 2026 08:24:06 -0800 (PST)
+Message-ID: <276fa41c-d575-419d-ae29-ad2acbe7f024@linaro.org>
+Date: Thu, 8 Jan 2026 17:24:05 +0100
 MIME-Version: 1.0
-References: <20260108-gpuvm-rust-v2-0-dbd014005a0b@google.com>
-In-Reply-To: <20260108-gpuvm-rust-v2-0-dbd014005a0b@google.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 8 Jan 2026 17:15:52 +0100
-X-Gm-Features: AQt7F2pLnnImtkMgl2KE50d4CB3AXYote1UE4JeFi6pzxph4V_uj8MRfBo1vVss
-Message-ID: <CAH5fLgg36qSD7jCarKwipxTSUz4W2uiDDmL_Thqv-+8jBe5DTw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] Rust GPUVM prerequisites
-To: Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/mipi-dsi: add mipi_dsi_shutdown_peripheral_multi
+To: Avinal Kumar <avinal.xlvii@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20260106112302.204635-1-avinal.xlvii@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260106112302.204635-1-avinal.xlvii@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,53 +118,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 8, 2026 at 5:07=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
-ote:
->
-> See v1 for the Rust code that uses these C changes.
->
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+On 1/6/26 12:21, Avinal Kumar wrote:
+> Add mipi_dsi_shutdown_peripheral_multi function and mark
+> mipi_dsi_shutdown_peripheral function as deprecated.
+> 
+> Signed-off-by: Avinal Kumar <avinal.xlvii@gmail.com>
 > ---
-> Changes in v2:
-> - For this version, only the C prerequisites are included. Rust will be
->   sent as follow-up.
-
-I forgot to fill out the changelog. Here it is:
-
-Changes in v2:
-- For this version, only the C prerequisites are included. Rust will be
-  sent as follow-up.
-- Add comment to drm_gpuvm_bo_destroy_not_in_lists()
-- Add Fixes: tag.
-- Pick up Reviewed-by tags.
-
-> - Link to v1: https://lore.kernel.org/r/20251128-gpuvm-rust-v1-0-ebf66bf2=
-34e0@google.com
->
-> ---
-> Alice Ryhl (3):
->       drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()
->       drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and staged mode
->       drm/gpuvm: use const for drm_gpuva_op_* ptrs
->
->  drivers/gpu/drm/drm_gpuvm.c            | 91 ++++++++++++++++++++++++----=
-------
->  drivers/gpu/drm/imagination/pvr_vm.c   |  2 +-
->  drivers/gpu/drm/msm/msm_gem.h          |  2 +-
->  drivers/gpu/drm/msm/msm_gem_vma.c      |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_uvmm.c |  2 +-
->  drivers/gpu/drm/panthor/panthor_mmu.c  | 10 ----
->  drivers/gpu/drm/xe/xe_vm.c             |  4 +-
->  include/drm/drm_gpuvm.h                | 12 ++---
->  8 files changed, 76 insertions(+), 49 deletions(-)
-> ---
-> base-commit: 44e4c88951fa9c73bfbde8269e443ea5343dd2af
-> change-id: 20251128-gpuvm-rust-b719cac27ad6
->
-> Best regards,
+> Please refer: https://patchwork.kernel.org/project/dri-devel/patch/20251127161337.396531-1-avinal.xlvii@gmail.com/#26719778
+> Build and boot tested with QEMU.
+> 
+>   drivers/gpu/drm/drm_mipi_dsi.c | 28 ++++++++++++++++++++++++++++
+>   include/drm/drm_mipi_dsi.h     |  1 +
+>   2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index a712e177b350..2fed50172a44 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -587,6 +587,9 @@ EXPORT_SYMBOL(mipi_dsi_create_packet);
+>    * mipi_dsi_shutdown_peripheral() - sends a Shutdown Peripheral command
+>    * @dsi: DSI peripheral device
+>    *
+> + * This function is deprecated. Use mipi_dsi_shutdown_peripheral_multi()
+> + * instead.
+> + *
+>    * Return: 0 on success or a negative error code on failure.
+>    */
+>   int mipi_dsi_shutdown_peripheral(struct mipi_dsi_device *dsi)
+> @@ -1980,6 +1983,31 @@ void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_scanline_multi);
+> 
+> +/**
+> + * mipi_dsi_shutdown_peripheral_multi() - sends a Shutdown Peripheral command
+> + * @ctx: Context for multiple DSI transactions
+> + *
+> + * Like mipi_dsi_shutdown_peripheral() but deals with errors in a way that
+> + * makes it convienient to make seeral calls in a row.
+> + */
+> +void mipi_dsi_shutdown_peripheral_multi(struct mipi_dsi_multi_context *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	if (ctx->accum_err)
+> +		return;
+> +
+> +	ret = mipi_dsi_shutdown_peripheral(dsi);
+> +	if (ret < 0) {
+> +		ctx->accum_err = ret;
+> +		dev_err(dev, "Failed to shutdown peripheral: %d\n",
+> +			ctx->accum_err);
+> +	}
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_shutdown_peripheral_multi);
+> +
+>   static int mipi_dsi_drv_probe(struct device *dev)
+>   {
+>   	struct mipi_dsi_driver *drv = to_mipi_dsi_driver(dev->driver);
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 3aba7b380c8d..19ccdf5eeb5f 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -389,6 +389,7 @@ void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
+>   void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
+>   					  u16 scanline);
+>   void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx);
+> +void mipi_dsi_shutdown_peripheral_multi(struct mipi_dsi_multi_context *ctx);
+> 
+>   /**
+>    * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
 > --
-> Alice Ryhl <aliceryhl@google.com>
->
+> 2.52.0
+> 
+
+
+Looks good, please send a multi-patch patchset with "drm/panel: panasonic-vvx10f034n00: transition to mipi_dsi wrapped functions"
+updated to use this function aswell.
+
+If you want to use a simpler way to generate patchsets, please have a look the b4 tool.
+
+Neil
