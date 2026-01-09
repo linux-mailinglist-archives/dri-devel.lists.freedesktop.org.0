@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E13D0BA50
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 18:30:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D829DD0BA54
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 18:30:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B17E10E799;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D66510E78E;
 	Fri,  9 Jan 2026 17:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="Q5Iv7Qfr";
+	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="GvooJNu3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
  [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C3810E799
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 17:30:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A4510E78E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 17:30:22 +0000 (UTC)
 Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-b8427c74ef3so683606766b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 09:30:21 -0800 (PST)
+ a640c23a62f3a-b73161849e1so878082866b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 09:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mary.zone; s=google; t=1767979820; x=1768584620; darn=lists.freedesktop.org; 
+ d=mary.zone; s=google; t=1767979821; x=1768584621; darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=elZC+OpWvMiao47yhMKfmzrUQTBNeJ6lH9L5GUb402I=;
- b=Q5Iv7QfrVKjJWL2O+x4bziBeuxaARi/uT64uQdn5NAq8QKvmYGHj+HK/fK0Bw6gL54
- CDLJX/fUFAdPbQqIy3YvZwOLnk+l72XXhCgKtJHkDAC2Q9b+1Bhr6wnXfhUkuRm0t8dB
- sh39w/YRD7edFSFonI1Xkjps+ShihtqLiHGXE96khjHL+MqTqebZjebUpoFT9vehOQwu
- izLc9zMQMz6mj0l2u345IO6GrhJKvJaIjlCwlGHvE1dTm48xDDnFL+IoN/vQBxa8iKhC
- iQsZhlc2pOlEEibvjaQyEpV7U7p6qn99S3H9JaN42hxv46RGriFWR1EVSrp6zNJZzxDN
- kFKw==
+ :reply-to; bh=c4pndAZp3XUCZdYMEMFqYX+gyvVUXnO23TwwbWPj1IU=;
+ b=GvooJNu3WFE2ZzCvkyuF7sgoDJ2E6C4LHE0b7puIvMgp95+YIxBZ5JFVb1MBxEAHg5
+ a4vb1N9V5caP1+dfpD7PsgmDvOyS+hGS63/hedCrUx1o15+pC3aQsafXp/PRuJqDC4/W
+ sLnyKHFPBUdVgXTgH6DkKTohSRm4whdG4ehrponP3JKJVLhS07ZnsK/9sB6aRqo6cYjZ
+ oXjtaDcD3UDm1ntYsfMtJQbHsEgCAXfuBCm3SIDrmEpFx5VgTbKwQgW4DuEltb6qdvGn
+ tjbkug/IWyI7o29DusBK9t7aFWDhKojLTgLhfd5IT5OH4FXvkBeb5+3RNVmgtNmfg7p3
+ fLjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767979820; x=1768584620;
+ d=1e100.net; s=20230601; t=1767979821; x=1768584621;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=elZC+OpWvMiao47yhMKfmzrUQTBNeJ6lH9L5GUb402I=;
- b=LFon/cr5obezAckNylnl08KCIVysc3cMnpflhlo32D1Z2ccpfzu66lv/862Y6LUuE3
- rCJngxboQdfJiCjermFcO18o22Jpl2ZT1iyIyGQ1KTrrc+xV8K8mm7TpS1NCYNZl1W7O
- 9cDlMxToNJXX420W9DcSaHRkyEh43EXm979c94+PQImLYyWAJ7pG/XaCyyyoktiWrc97
- 7+ge+PgG8XBe8oqs4GlaAnbmMBfUaK0IO+2mqvjWxX/aTLCcObaTz+HgO4zZKLh7dF5E
- W578AKBNexuJKApCvG5stPO7bWp8G/HCUo1uoEgtNWPehSEXtbczAwmPtdO7S4ZZoUn2
- QTuA==
-X-Gm-Message-State: AOJu0YxdxeaC+h5hiG+NwF9SA2Z1D0HHEH2QxHEfOcn7/IQiCgMmDihp
- HwOO36BVENb9l2PNC9D7ppQfcrCDd1THvEyTa3KZz+p67X7uCKDwZA073YMCL3WnF7UWHzyYysV
- d8li+
-X-Gm-Gg: AY/fxX7HMUS7oxYR2SguUmCLV30zup20hBjmP0pjikupOAAnMs7k5wBnzU7XNN9/GKf
- gUrDSYhtun3f+mqP78A5MYxD5hdmtMvvhBFdTKCWfKQt6bl+ZMwxYweuZ1lMV9WBLHEu5FIcn72
- M0HWacINlcQKK4UbvCSKemNSjtbda1ZqKrgmkTUEaIjEwOJ8Xl2F2fzyVVpTeOrx7VuVDvnCq7R
- nMqPGOn7jKWDIa9s+3OqYwQkjWoeVgLQUrAVmC1nkZ44g//s3vsdPd07DEHABu0wW+9RvR/nhr2
- TYiCuRKYcE13gvLDKPT2w7xCkwycJ6oCTUJTs1V6NJvCwRO8cmrK9pEB/vXY+qacP3EePSEwSq1
- l5ZzOOCRoEc+BS9fv6fRdVUviOv7aR5Iil+wrt3mNjRM8zKu9KmIuxk+XFTTrS4pwBIuIJOGrRA
- HQiw7hkv9/xz8qwOLPxcaWKsGyfoVjgar2e4cMULmJXkeiDBVScOzJpRWAPQdlBHa/lgnXzbA=
-X-Google-Smtp-Source: AGHT+IEYiFQaO2dhDZqmH9t7iNpy+GLxla8nCF9CHBGFTiZHm/wAyRIa7gXAFdArBNItEHmS/LcEwQ==
-X-Received: by 2002:a17:907:1c82:b0:b83:972c:77fe with SMTP id
- a640c23a62f3a-b84450332aamr1052665066b.2.1767979820236; 
- Fri, 09 Jan 2026 09:30:20 -0800 (PST)
+ bh=c4pndAZp3XUCZdYMEMFqYX+gyvVUXnO23TwwbWPj1IU=;
+ b=YsbJw+VxWkrg7W8HGm+RuI9HO7Ckbo9O7tt80A/0uljoMuizVI6EpgyYS5CDCXiusy
+ ePD1wFSib/79zF3Rr4VEYjsJ4OvMWMytRQvokPda2+7VLXWv21qm7/Q+C+PCKY5ImqI2
+ 0LmyCMQI6spQVHL+1liiGsmk774xrO/r/+lqxsx+lraM7uAqHgFZOw6UG5hAXbUv6rY1
+ vTLTB7viwJC9EeYw0dgt8y0D62rjgCOvkGlqsbiuN8KFBmwHbPK19U5CMoRDKVpVmLXA
+ bDbdl3BonTraLYIDvlDaNofeRj6GimGkQbV0KnR9Mq+WhhqMFwaAEZXSgODf6s0aA2PI
+ ljeA==
+X-Gm-Message-State: AOJu0YxG7xWtH/BWFYoRsHfT1gdYo0NOjxQdN2XzJ3I7zOW8E//e+yds
+ c3n919eiGmvpQoRDZKggrlweuv5iKNu+M9P2fxkc253dCF8QFq7F11msMEv50TBiZzs=
+X-Gm-Gg: AY/fxX5bc6MVnVy2m5QkP6tvPHxExN0yeBqONOUqEJN96IoaCnfvZsqvD242xuYCzJk
+ p1ul7xN1jvjDYFxu7Q9YDp3dWuKiDlMPpaR4fAsKzQFlyEs4/zUq8Z6CXrxVPH5+OwsjD14ZFlz
+ gcMOvc4D/fTBR4b05OA+25AJxBiVPB6Lq/UWHqs6otWAG4Z1ZiQpt486xF+CTViZFpxFOTdE9z6
+ tIb6zsU6vXxBIz9xoGnURRU+BlObkKnwsUOO4J5BSYs5/U/sa/Qma4bF9xGBmhy84eWdXmBCjtf
+ du8S8M/cBrM9nJJMCeNAww7aZBC2DrxuEJoZ0+qmoRvqF2uqcVanQeRlKMy9z0v+9cKuLVcxsAA
+ TgKBhjhyQUlieCR5v+3WUqYb0c2S8Nw6sStHZpH5PTaz1IVVrg//aWQ45ap3HvTc6EcfWx0gD2c
+ Wbm+4M5KQ41rK0kaFD6zib36TuLnl1e1UJRTDwhIIa6hry6USZbOSMEoKSruB4B+lQS2FvFjU=
+X-Google-Smtp-Source: AGHT+IHlRIJqTv050/JxoEGVWa701IUHS6s1jR7sh7piM48WsLHe74BonLRvxKWmwsHoeIZUx3Ag/A==
+X-Received: by 2002:a17:907:7b91:b0:b7c:f5b6:bb52 with SMTP id
+ a640c23a62f3a-b84453a0305mr1020235866b.43.1767979821138; 
+ Fri, 09 Jan 2026 09:30:21 -0800 (PST)
 Received: from [192.168.1.42]
  (2a01cb0405e83a000cb38cfe29807c1e.ipv6.abo.wanadoo.fr.
  [2a01:cb04:5e8:3a00:cb3:8cfe:2980:7c1e])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a230db0sm1195426266b.2.2026.01.09.09.30.19
+ a640c23a62f3a-b842a230db0sm1195426266b.2.2026.01.09.09.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jan 2026 09:30:19 -0800 (PST)
+ Fri, 09 Jan 2026 09:30:20 -0800 (PST)
 From: Mary Guillemard <mary@mary.zone>
-Date: Fri, 09 Jan 2026 18:30:10 +0100
-Subject: [PATCH 1/3] drm/nouveau/chan: Store channel allocation details in
- nouveau_channel
+Date: Fri, 09 Jan 2026 18:30:11 +0100
+Subject: [PATCH 2/3] drm/nouveau: Unify GPFIFO ring buffer max count query
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-nouveau-gpfifo-increase-v1-1-ed0be9822878@mary.zone>
+Message-Id: <20260109-nouveau-gpfifo-increase-v1-2-ed0be9822878@mary.zone>
 References: <20260109-nouveau-gpfifo-increase-v1-0-ed0be9822878@mary.zone>
 In-Reply-To: <20260109-nouveau-gpfifo-increase-v1-0-ed0be9822878@mary.zone>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
@@ -95,88 +93,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously, nouveau_channel_init was hardcoding offsets and length
-for the internal pushbuf and GPFIFO entries details.
+Previously, the max count for the GPFIFO ring buffer was hardcoded in two
+different places.
 
-As we are going to extend the size of the GPFIFO ring, we now store
-those information in nouveau_channel_ctor and use those when creating
-related NVIF objects for channels.
+This patch adds a new function nouveau_channel_get_gpfifo_entries_count
+to share the logic between the two side of the codebase allowing us to
+later on increase the limit.
 
 Signed-off-by: Mary Guillemard <mary@mary.zone>
 ---
- drivers/gpu/drm/nouveau/nouveau_chan.c | 20 ++++++++++++--------
- drivers/gpu/drm/nouveau/nouveau_chan.h |  3 +++
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_abi16.c | 15 +++++++++++++--
+ drivers/gpu/drm/nouveau/nouveau_chan.c  |  3 ++-
+ drivers/gpu/drm/nouveau/nouveau_chan.h  | 12 ++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_dma.h   |  3 ---
+ 4 files changed, 27 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+index a3ba07fc48a0..a5445e97179f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
++++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+@@ -232,15 +232,26 @@ nouveau_abi16_fini(struct nouveau_abi16 *abi16)
+ static inline int
+ getparam_dma_ib_max(struct nvif_device *device)
+ {
+-	const struct nvif_mclass dmas[] = {
++	const struct nvif_mclass hosts[] = {
+ 		{ NV03_CHANNEL_DMA, 0 },
+ 		{ NV10_CHANNEL_DMA, 0 },
+ 		{ NV17_CHANNEL_DMA, 0 },
+ 		{ NV40_CHANNEL_DMA, 0 },
+ 		{}
+ 	};
++	int cid;
++	u32 res;
+ 
+-	return nvif_mclass(&device->object, dmas) < 0 ? NV50_DMA_IB_MAX : 0;
++	cid = nvif_mclass(&device->object, hosts);
++	if (cid < 0)
++		res = NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT;
++	else
++		res = nouveau_channel_get_gpfifo_entries_count(hosts[cid].oclass);
++
++	if (res == 0)
++		return 0;
++
++	return res - 1;
+ }
+ 
+ int
 diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-index b1e92b1f7a26..b646212a34b3 100644
+index b646212a34b3..8695b5d6aefc 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-@@ -293,6 +293,10 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
- 	if (ret)
- 		return ret;
+@@ -274,7 +274,7 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+ 	struct nouveau_channel *chan;
+ 	const u64 plength = 0x10000;
+ 	const u64 ioffset = plength;
+-	const u64 ilength = 0x02000;
++	u64 ilength;
+ 	int cid, ret;
+ 	u64 size;
  
-+	chan->push.plength = plength;
-+	chan->push.ioffset = ioffset;
-+	chan->push.ilength = ilength;
-+
- 	/* create channel object */
- 	args->version = 0;
- 	args->namelen = __member_size(args->name);
-@@ -311,8 +315,8 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
- 			args->ctxdma = nvif_handle(&chan->push.ctxdma);
- 		else
- 			args->ctxdma = 0;
--		args->offset = ioffset + chan->push.addr;
--		args->length = ilength;
-+		args->offset = chan->push.addr + chan->push.ioffset;
-+		args->length = chan->push.ilength;
- 	}
- 	args->huserd = 0;
- 	args->ouserd = 0;
-@@ -437,22 +441,22 @@ nouveau_channel_init(struct nouveau_channel *chan, u32 vram, u32 gart)
- 	} else
- 	if (chan->user.oclass < FERMI_CHANNEL_GPFIFO) {
- 		ret = nvif_chan506f_ctor(&chan->chan, chan->userd->map.ptr,
--					 (u8*)chan->push.buffer->kmap.virtual + 0x10000, 0x2000,
--					 chan->push.buffer->kmap.virtual, chan->push.addr, 0x10000);
-+					 (u8 *)chan->push.buffer->kmap.virtual + chan->push.ioffset, chan->push.ilength,
-+					 chan->push.buffer->kmap.virtual, chan->push.addr, chan->push.plength);
- 		if (ret)
- 			return ret;
- 	} else
- 	if (chan->user.oclass < VOLTA_CHANNEL_GPFIFO_A) {
- 		ret = nvif_chan906f_ctor(&chan->chan, chan->userd->map.ptr,
--					 (u8*)chan->push.buffer->kmap.virtual + 0x10000, 0x2000,
--					 chan->push.buffer->kmap.virtual, chan->push.addr, 0x10000,
-+					 (u8 *)chan->push.buffer->kmap.virtual + chan->push.ioffset, chan->push.ilength,
-+					 chan->push.buffer->kmap.virtual, chan->push.addr, chan->push.plength,
- 					 chan->sema.bo->kmap.virtual, chan->sema.vma->addr);
- 		if (ret)
- 			return ret;
- 	} else {
- 		ret = nvif_chanc36f_ctor(&chan->chan, chan->userd->map.ptr,
--					 (u8*)chan->push.buffer->kmap.virtual + 0x10000, 0x2000,
--					 chan->push.buffer->kmap.virtual, chan->push.addr, 0x10000,
-+					 (u8 *)chan->push.buffer->kmap.virtual + chan->push.ioffset, chan->push.ilength,
-+					 chan->push.buffer->kmap.virtual, chan->push.addr, chan->push.plength,
- 					 chan->sema.bo->kmap.virtual, chan->sema.vma->addr,
- 					 &drm->client.device.user, chan->token);
- 		if (ret)
+@@ -282,6 +282,7 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+ 	if (cid < 0)
+ 		return cid;
+ 
++	ilength = nouveau_channel_get_gpfifo_entries_count(hosts[cid].oclass) * 8;
+ 	if (hosts[cid].oclass < NV50_CHANNEL_GPFIFO)
+ 		size = plength;
+ 	else
 diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
-index bb34b0a6082d..9839de8da985 100644
+index 9839de8da985..294d061497c0 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_chan.h
 +++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
-@@ -29,6 +29,9 @@ struct nouveau_channel {
- 		struct nouveau_vma *vma;
- 		struct nvif_object ctxdma;
- 		u64 addr;
-+		u64 plength;
-+		u64 ioffset;
-+		u64 ilength;
- 	} push;
+@@ -4,6 +4,7 @@
+ #include <nvif/object.h>
+ #include <nvif/event.h>
+ #include <nvif/chan.h>
++#include <nvif/class.h>
+ struct nvif_device;
  
- 	void *fence;
+ struct nouveau_channel {
+@@ -65,6 +66,17 @@ void nouveau_channel_del(struct nouveau_channel **);
+ int  nouveau_channel_idle(struct nouveau_channel *);
+ void nouveau_channel_kill(struct nouveau_channel *);
+ 
++/* Maximum GPFIFO entries per channel. */
++#define NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT (0x02000 / 8)
++
++static inline u32 nouveau_channel_get_gpfifo_entries_count(u32 oclass)
++{
++	if (oclass < NV50_CHANNEL_GPFIFO)
++		return 0;
++
++	return NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT;
++}
++
+ extern int nouveau_vram_pushbuf;
+ 
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dma.h b/drivers/gpu/drm/nouveau/nouveau_dma.h
+index c25ef9a54b9f..7f8445014e4d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dma.h
++++ b/drivers/gpu/drm/nouveau/nouveau_dma.h
+@@ -47,9 +47,6 @@ int nouveau_dma_wait(struct nouveau_channel *, int size);
+ /* Maximum push buffer size. */
+ #define NV50_DMA_PUSH_MAX_LENGTH 0x7fffff
+ 
+-/* Maximum IBs per ring. */
+-#define NV50_DMA_IB_MAX ((0x02000 / 8) - 1)
+-
+ /* Object handles - for stuff that's doesn't use handle == oclass. */
+ enum {
+ 	NvDmaFB		= 0x80000002,
 
 -- 
 2.52.0
