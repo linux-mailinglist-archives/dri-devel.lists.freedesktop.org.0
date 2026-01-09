@@ -2,118 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7465ED07D39
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B692ED07DBD
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:38:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8869A10E818;
-	Fri,  9 Jan 2026 08:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E92810E81A;
+	Fri,  9 Jan 2026 08:38:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cmxysUpD";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Z9zrRtGV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
- [209.85.221.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF64D10E810
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:31:14 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id
- ffacd0b85a97d-430fbb6012bso2908751f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 00:31:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1767947473; x=1768552273; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:reply-to:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=ScHhY7gthksnfmgH6uljC923NNYDsVbTgY/cHmeyxX0=;
- b=cmxysUpD4e1nzRrqpjjdFSP3TaaKbMwk1Z1ZtbPIIOpvyrMlzDAvcgyh/MOeSn1qTK
- VDEJbn91bMnnLhVoP7b4rA63iqLV3TD1iyrtHLncoQEwTeAHzSNbhrqDAzcOhvxgB6ei
- dI31wxTU+Gm7Oo5xVM3VVfE4majlvD8lYUZ0nKMk9g49OlhGRi6sF/9FdmjLkMo/uvK8
- k9FB276lZ3WFDHLuzH0UD9jG31EQiZAKfd6yvh5D90b0CaUU+GpvS7GNHc9ogpeMImeV
- teXJkBLKn1lbK7IsAX8ZBBltpc39P95vPrTPVuiRHN+sxZz2kcbslSpLhYYfIHYJml5a
- XxWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767947473; x=1768552273;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:reply-to:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ScHhY7gthksnfmgH6uljC923NNYDsVbTgY/cHmeyxX0=;
- b=ARQffFXD0oDl7N7I6HhWOPKoCBYuMJcapS6Gtpk7poCAdJPUnQkvaPhBOZLpPsGfZ/
- dKNAbFmLq2RAULq516l8VPNlrAL6iCn6OEPIBI/2GOZwks3x/YJlMJkHC3dC3EnQ0S4p
- 0XOpCYUlGMbzpetJtcz84IilTyPAdG3s9F7EeRAxc3Wzd7RGNCAWXrz0DLjfFEM9Iqpg
- /70cjk4oF5XTQ/2J7Y1v0+gVVxeBgzIzFC8WtXfyU31YlbnhNvW2prq0pZQN7GhZdCJr
- Mhv4EOruwzYGV1GWLzuOC3H6Sbd8JBuaoIF2mA2zJRkLzKsdZtXB99FyGrzLcu89w+8I
- h4Jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5/cqOp8z6cwjVS8b8m+o2pdI1T2NxbOtlvq9J8bUBSUklHNmFMM6Vs4GGWfVpvbOxgH+OC7Ju/Ks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJ36fn66xyCVboD4Gh8Hx5d7txs4pYG0gxpjEUcpZ4c4hYPyuc
- n4ffNeS3PhUfkmWxvkFqfvs56tK2efQdauXt+8QKfWzgB+hAhj0tEzuUZpuvl9ces0c=
-X-Gm-Gg: AY/fxX6IRuW92zeL1gvLWGae+UCsdwISvGvalmuygPrx1swS+dayDGmBg5VzPGHuEbk
- TXFHLGgtMtfInb8it87QWCK+H/Cz8FV0jZ9eIs0xltLiHgYZI/i7QRMjJTsvqDF9U8Wej4TH53l
- LeB8OsGXPXydqXv697JaHqOdMm7VJbsMBCEZlPznQkpe/6eokxNahpk4V/swdkvNPDPQiXeLn+J
- 8r+EjZ8Qmz4N8lQs54mgYGpBmGoIYQ6ongeWZbSkbErPbkRLVnHaOZMvxdlnFEh7SKNZg/ZYgtl
- hcWe2baWlWqmhBluruBC8ZvTxGeK03pYsHTdDueMdlCW8QXdfc+keshkTewziVT3ytbPhkuoym/
- D5XVympuzqWjV4RvpqEeazQbvm0+ExqKWLWfB+zUFjxFimiEQY5CgzP6Zpp0Dibx/vrF4PwfL6A
- X2P0HHsa0KhAfrG5VYuYAj/mB87TevisveTSR8w8ZAJngyP7qy0XXsuinxG873eYU=
-X-Google-Smtp-Source: AGHT+IHsXjfVMgqUU883lNdJMdHku+hLNkk+zQ+G0NK84h/s8sm1XXRkmzNxWJiENK0PtpaJaMtafw==
-X-Received: by 2002:a05:6000:26ca:b0:430:f5ed:83fc with SMTP id
- ffacd0b85a97d-432c3760facmr12321898f8f.11.1767947473278; 
- Fri, 09 Jan 2026 00:31:13 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:d283:7a7e:4c57:678d?
- ([2a01:e0a:3d9:2080:d283:7a7e:4c57:678d])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd0e16f4sm21785092f8f.11.2026.01.09.00.31.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jan 2026 00:31:13 -0800 (PST)
-Message-ID: <34590271-0e34-45cd-ac6f-6f901e833087@linaro.org>
-Date: Fri, 9 Jan 2026 09:31:12 +0100
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5550410E81A;
+ Fri,  9 Jan 2026 08:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1767947902; x=1768552702; i=markus.elfring@web.de;
+ bh=wBLE+Q/eI31VMmf58y6FTCPFYwybMbrpRy7SEvxUB/w=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Z9zrRtGV7/Fg4Dd7e7wXRv/9LQNoA0yrPTNef0bNYwWB8oweEdj+UfECDlrJYJCU
+ eGNF5RPhpRghFLagni0iBEt0l9Il5mC0zTRBnLT35HjaTMfGRcVxdsMuYHhLj/UpD
+ XROYsog03GRQe3GWV0Ldy+oPXw7fSdMXeFjMxZVxdkFxz8n5DrYddwvTSdUt6ujqN
+ zQsPLabhplYOEi1KilJEGSBSkrdQSfRctmiHBFaTpWVRYthGVrffcrAQ0FmBsA8xA
+ fjQFnAi4IEeS5dQw4eaBX/aHCRM88j1/8TWHnO8PeVimvhZ/qhv/ZsIpMrX1VM+NR
+ 7+C74sWrX5KYtCp8eQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.182]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mf3qK-1wKJJU1hWs-00qEG4; Fri, 09
+ Jan 2026 09:38:22 +0100
+Message-ID: <e76fc27b-0742-4685-96e6-f6000bd62fa8@web.de>
+Date: Fri, 9 Jan 2026 09:37:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Retrieve information about DDR from SMEM
-To: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [v2] drm/amdkfd: fix a memory leak in device_queue_manager_init()
+To: =?UTF-8?Q?Felix_K=C3=BChling?= <felix.kuehling@amd.com>,
+ Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Oak Zeng <ozeng@amd.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+References: <20260106015731.1906738-1-lihaoxiang@isrc.iscas.ac.cn>
+ <57a9f219-2612-4a64-a9fb-44b04e09ec15@web.de>
+ <cc24a955-f5b2-43e6-a4fd-ff446d699fce@amd.com>
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <cc24a955-f5b2-43e6-a4fd-ff446d699fce@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cWejsUk3C9iAgCaj5Bc1cLzfeORWS0ZJfJXrQJP0IHLeSADUth7
+ JyQtl2pc2rEmUUCcWLRdTpNXwVqDtewf1oh0RxFzZHCSl6lrVC44wk/Pk9yAmC7x2Ca3cYC
+ Jr+LogUzD7DxrJCRdtIQy9wzAqlNkcFrlKStpEDG9Z5SJZO+6qGbUgBXizCsabft283oOic
+ 2YUj29eP+IQVIAxP6DDRg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:RB3GDoPLNl4=;HBh0eWzJ87c4AHmzbG+3RIbq5Qu
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,81 +143,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/8/26 15:21, Konrad Dybcio wrote:
-> SMEM allows the OS to retrieve information about the DDR memory.
-> Among that information, is a semi-magic value called 'HBB', or Highest
-> Bank address Bit, which multimedia drivers (for hardware like Adreno
-> and MDSS) must retrieve in order to program the IP blocks correctly.
-> 
-> This series introduces an API to retrieve that value, uses it in the
-> aforementioned programming sequences and exposes available DDR
-> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
-> information can be exposed in the future, as needed.
-> 
-> Patch 3 should really be merged after 1&2
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
-> Changes in v3:
-> - Support v6 and v7 DDRInfo (v7 is used on e.g. Hamoa)
-> - Handle rare cases of DDRInfo v5 with additional trailing data
-> - Rebase/adjust to SSoT UBWC
-> - Expose hbb value in debugfs
-> - cosmetic changes
-> - Link to v2: https://lore.kernel.org/r/20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com
-> 
-> Changes in v2:
-> - Avoid checking for < 0 on unsigned types
-> - Overwrite Adreno UBWC data to keep the data shared with userspace
->    coherent with what's programmed into the hardware
-> - Call get_hbb() in msm_mdss_enable() instead of all UBWC setup
->    branches separately
-> - Pick up Bjorn's rb on patch 1
-> - Link to v1: https://lore.kernel.org/r/20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com
-> 
-> ---
-> Konrad Dybcio (3):
->        soc: qcom: smem: Expose DDR data from SMEM
->        soc: qcom: ubwc: Get HBB from SMEM
->        drm/msm/adreno: Trust the SSoT UBWC config
-> 
->   drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  11 +-
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  82 +------
->   drivers/gpu/drm/msm/adreno/adreno_gpu.h |   5 -
->   drivers/soc/qcom/Makefile               |   3 +-
->   drivers/soc/qcom/smem.c                 |  14 +-
->   drivers/soc/qcom/smem.h                 |   9 +
->   drivers/soc/qcom/smem_dramc.c           | 408 ++++++++++++++++++++++++++++++++
->   drivers/soc/qcom/ubwc_config.c          |  69 ++++--
->   include/linux/soc/qcom/smem.h           |   4 +
->   9 files changed, 485 insertions(+), 120 deletions(-)
-> ---
-> base-commit: fc4e91c639c0af93d63c3d5bc0ee45515dd7504a
-> change-id: 20250409-topic-smem_dramc-6467187ac865
-> 
-> Best regards,
+> My conclusion is that this WARN is just unnecessary.
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+Would you like to omit such a questionable macro call then?
 
-root@qemuarm64:~# cat /sys/kernel/debug/qcom_smem/
-dram_frequencies  hbb
-root@qemuarm64:~# cat /sys/kernel/debug/qcom_smem/dram_frequencies
-200000000
-547200000
-768000000
-1555200000
-1708800000
-2092800000
-2736000000
-3187200000
-3686400000
-4224000000
-root@qemuarm64:~# cat /sys/kernel/debug/qcom_smem/hbb
-16
 
-Thanks,
-Neil
+> But it's also harmless.
+
+How do you think about to avoid special development concerns here?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst?h=v6.19-rc4#n1242
+
+Regards,
+Markus
