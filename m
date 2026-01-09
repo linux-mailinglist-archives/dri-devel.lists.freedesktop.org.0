@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA8DD0865E
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7ACD08662
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD4B10E87B;
-	Fri,  9 Jan 2026 10:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F1310E87F;
+	Fri,  9 Jan 2026 10:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0Y4aL+Wh";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QMd2Dhf8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1A510E87B
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:33 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9FF10E87D
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:39 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 613F74E4201B;
- Fri,  9 Jan 2026 10:03:32 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 3FFC21A273E;
+ Fri,  9 Jan 2026 10:03:38 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 33F5A60734;
- Fri,  9 Jan 2026 10:03:32 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 11C9560734;
+ Fri,  9 Jan 2026 10:03:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 32C3E103C88A8; Fri,  9 Jan 2026 11:03:24 +0100 (CET)
+ with ESMTPSA id 83744103C88D2; Fri,  9 Jan 2026 11:03:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767953009; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767953015; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=e7yKYTktaJ5QBYIv/riMau9mtMOQxGCnsiL5HskQuQs=;
- b=0Y4aL+WhrqX8pFZoSHXt+GHmfUVCLeSuTr+X3dQAvdxLYKoCo/T47xKtVtnl13bEHRzgER
- OiUc1Rxr0DZAN1DpP/MZ8T9yxTDShFSiU4WPVzdnZL7JRdZMto8U/SaRiuKcT/Zm2eY9Ig
- AYWB4UoLm+w/n+7PmJttTEbXGZmEeIN1D1WKUrOdGEXIKqgYrX/S7dIYT5PoCgKjwR24jH
- YQEUIK0pSwHRjiqSXEg5Uc/ybUUVKGaItruo4ogLPrNsGUlN3lRyC8UhJjUQJL0KSzk6OQ
- TJBwqIM+d/FQizQHv8ds7ex8LeiOIpHdOfpBgG1dsNQpYPq8UGexwV/I/4OC5Q==
+ bh=/SEnvILKis2K8TQc2e0J/EfZp0VkAsieLSYp0vPG558=;
+ b=QMd2Dhf8C7VDVY3winTShkqSbLELJJwFtbNxwjnPdCYsv8g1PpxVZh24c+Bq48qPKiXjVN
+ kSMcnUO28jl24PrPhnxMhrXlYUL/hSZvaikbjBD4V7SpAUWGNvApTykY97V3vh6kTOM/2/
+ b/o6NEpKo5enWj0jrpimRtal1LjRDf4V+075vvDB3FF+7JmNeXv2asPqmmpp/H9n5G+MHN
+ V7DkWGe7zaeGxohbnHgc1y/FtBrzWeOGidIdUinCMJKjHZyXOYu8LxNdhkQMDrZJ9Mygog
+ I3oOefYg2q/VCnl08Xa8KStJ+I4utKEc0cXNLT6gEf+A/hnsFuBVVSC5yc6PRQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 11:02:52 +0100
-Subject: [PATCH v2 3/6] drm/imx/dw-hdmi: convert to
+Date: Fri, 09 Jan 2026 11:02:53 +0100
+Subject: [PATCH v2 4/6] drm/mediatek: mtk_hdmi*: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-3-8d7a3dbacdf4@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-4-8d7a3dbacdf4@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -93,52 +93,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done.
+is put when done by using the drm_bridge::next_bridge pointer.
 
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
+ drivers/gpu/drm/mediatek/mtk_hdmi.c        | 4 ++--
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 4 ++--
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 1 -
+ drivers/gpu/drm/mediatek/mtk_hdmi_v2.c     | 4 ++--
+ 4 files changed, 6 insertions(+), 7 deletions(-)
 
-Changes  in v2:
-- add missing drm_bridge_put() on component_add() failure
-- reorder lines in dw_hdmi_imx_remove()
----
- drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
-index 07e5f96202d4..398f3cce5532 100644
---- a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
-+++ b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
-@@ -241,7 +241,7 @@ static int dw_hdmi_imx_probe(struct platform_device *pdev)
- 	if (IS_ERR(hdmi->hdmi))
- 		return PTR_ERR(hdmi->hdmi);
- 
--	hdmi->bridge = of_drm_find_bridge(np);
-+	hdmi->bridge = of_drm_find_and_get_bridge(np);
- 	if (!hdmi->bridge) {
- 		dev_err(hdmi->dev, "Unable to find bridge\n");
- 		dw_hdmi_remove(hdmi->hdmi);
-@@ -249,8 +249,10 @@ static int dw_hdmi_imx_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index 0face4dcaa36..1ea259854780 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -986,8 +986,8 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
  	}
  
- 	ret = component_add(&pdev->dev, &dw_hdmi_imx_ops);
--	if (ret)
-+	if (ret) {
-+		drm_bridge_put(hdmi->bridge);
- 		dw_hdmi_remove(hdmi->hdmi);
-+	}
+-	if (hdmi->next_bridge) {
+-		ret = drm_bridge_attach(encoder, hdmi->next_bridge,
++	if (hdmi->bridge.next_bridge) {
++		ret = drm_bridge_attach(encoder, hdmi->bridge.next_bridge,
+ 					bridge, flags);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+index e78eb0876f16..40ded86dbea3 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+@@ -315,8 +315,8 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device
+ 		return -EINVAL;
  
- 	return ret;
- }
-@@ -260,6 +262,7 @@ static void dw_hdmi_imx_remove(struct platform_device *pdev)
- 	struct imx_hdmi *hdmi = platform_get_drvdata(pdev);
+ 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
+-		hdmi->next_bridge = of_drm_find_bridge(remote);
+-		if (!hdmi->next_bridge) {
++		hdmi->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
++		if (!hdmi->bridge.next_bridge) {
+ 			dev_err(dev, "Waiting for external bridge\n");
+ 			of_node_put(remote);
+ 			return -EPROBE_DEFER;
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+index de5e064585f8..cace3c5dc067 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+@@ -150,7 +150,6 @@ struct mtk_hdmi_conf {
  
- 	component_del(&pdev->dev, &dw_hdmi_imx_ops);
-+	drm_bridge_put(hdmi->bridge);
- 	dw_hdmi_remove(hdmi->hdmi);
- }
- 
+ struct mtk_hdmi {
+ 	struct drm_bridge bridge;
+-	struct drm_bridge *next_bridge;
+ 	struct drm_connector *curr_conn;/* current connector (only valid when 'enabled') */
+ 	struct device *dev;
+ 	const struct mtk_hdmi_conf *conf;
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+index c272e1e74b7d..2adeece499b6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+@@ -940,8 +940,8 @@ static int mtk_hdmi_v2_bridge_attach(struct drm_bridge *bridge,
+ 		DRM_ERROR("The flag DRM_BRIDGE_ATTACH_NO_CONNECTOR must be supplied\n");
+ 		return -EINVAL;
+ 	}
+-	if (hdmi->next_bridge) {
+-		ret = drm_bridge_attach(encoder, hdmi->next_bridge, bridge, flags);
++	if (hdmi->bridge.next_bridge) {
++		ret = drm_bridge_attach(encoder, hdmi->bridge.next_bridge, bridge, flags);
+ 		if (ret)
+ 			return ret;
+ 	}
 
 -- 
 2.52.0
