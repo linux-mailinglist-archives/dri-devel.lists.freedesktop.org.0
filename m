@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D357D0A5C7
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 14:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAB9D0A660
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 14:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C7610E16D;
-	Fri,  9 Jan 2026 13:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8E010E8BF;
+	Fri,  9 Jan 2026 13:26:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YUSONdW5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EC11Tbxf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A387A10E16D;
- Fri,  9 Jan 2026 13:19:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1193610E8BF;
+ Fri,  9 Jan 2026 13:26:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4757643A0F;
- Fri,  9 Jan 2026 13:19:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D83ADC4CEF1;
- Fri,  9 Jan 2026 13:19:19 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CD3D643524;
+ Fri,  9 Jan 2026 13:26:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDB3C4CEF1;
+ Fri,  9 Jan 2026 13:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767964764;
- bh=dOxdIeEYnf0HHhRSlCVN+8qvKXOjd/cuc/y3jSDfBf4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YUSONdW55AHnI3b6E7AM+H4ziSAbRNNojnS9YaKKU56OSEAVcyjGNmbj6ESfHJ3V5
- xf67oZKNsHgnOLFuemh01jIB8kvlYYLup79S+W+UOwzKpa/XM91lGXBwGEr91CArqJ
- dNtKCj7HeuNPuSE9dlKijCprNkLxX5uoFRilwErcAEIWAGVj9sNDdAxO7DQ6ZhTPZt
- 04mQOhkgpmVlqbCRpYUPBFRYvsMqel6SzBsAaCB4Fs/b+9EZ2xUWtLOpD8sdViTUGx
- nJJw7wuj4MIEt9ouViJadObqt9nlWeGsYHnGauTsWRL37Gq9GujZHd5hFuHKr1mB3C
- Hn3TsHoXRQ0FA==
-Message-ID: <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
-Date: Fri, 9 Jan 2026 14:19:16 +0100
+ s=k20201202; t=1767965172;
+ bh=rSrNZz5QuO35JMfXkvRl29RhRhrRLAhpa1h/+u6Awa4=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=EC11TbxfibS1rBJPwUU4vRuK8VxuKYxP9cvyX8DaK2CEm8mfuCEZOQwc4FOovjNzm
+ 0dHm04BVq+fpWRcZQY8g1rtsOtp1Th8tVI9DF5yvZzC8om5m8NAUZaMgicpbOGGbdr
+ vws+agyWs6qGOT/DwErVkiWe19qf9F1K+jkIvgs89LwjCIx+Cbd9OUgxPlBjx67hhw
+ 3D8cDOJlkUpuw7+OZb4MrDTdHL0jr32bSoJgFvRSfgtnSw6obeGFwCMgv+OcTPTG3U
+ cfDOcjYLTbVrw7QYMEsq/4VzoiU6E/DXEKBqyu0kl44nimp8bCQoDLWLIKihODpLcE
+ R9JyrmzsmDy0A==
+Message-ID: <1319a24a-bcfc-47e5-a022-f5d00994acc9@kernel.org>
+Date: Fri, 9 Jan 2026 14:26:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/7] mm: Add folio_split_unref helper
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
 To: Francois Dugast <francois.dugast@intel.com>, intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
  Balbir Singh <balbirs@nvidia.com>, Andrew Morton
@@ -47,7 +48,7 @@ Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
  Alistair Popple <apopple@nvidia.com>
 References: <20260109085605.443316-1-francois.dugast@intel.com>
  <20260109085605.443316-2-francois.dugast@intel.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+ <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -92,7 +93,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
  EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
  qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
-In-Reply-To: <20260109085605.443316-2-francois.dugast@intel.com>
+In-Reply-To: <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,96 +111,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/26 09:54, Francois Dugast wrote:
-> From: Matthew Brost <matthew.brost@intel.com>
+On 1/9/26 14:19, David Hildenbrand (Red Hat) wrote:
+> On 1/9/26 09:54, Francois Dugast wrote:
+>> From: Matthew Brost <matthew.brost@intel.com>
+>>
+>> Add folio_split_unref helper which splits an unreferenced folio
 > 
-> Add folio_split_unref helper which splits an unreferenced folio
-
-split_unref reads like "split and unref".
-
-You probably want to call this something like "folio_split_frozen" ?
-
-The very definition of "frozen" is "refcount = 0 ", so you can simplify 
-the documentation.
-
-Are the folios you want to pass in there completely unused (-> free) or 
-might they still be in use (e.g., migration entries point at them during 
-folio split)
-
-So I am not sure yet if this should be "folio_split_frozen()" or 
-"folio_split_freed()" or sth like that.
-
-I'm not CCed on the other patches in the series or the cover letter, so 
-I don't see the context.
-
-You should describe in this patch here in which context the function is 
-supposed to be used in later commits.
-
-
-> (refcount == 0) into individual pages. Intended to be called on special
-> pages (e.g., device-private, DAX, etc.) when returning the folio to the
-> free page pool.
+> split_unref reads like "split and unref".
 > 
-> Cc: Balbir Singh <balbirs@nvidia.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Suggested-by: Alistair Popple <apopple@nvidia.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> ---
->   include/linux/huge_mm.h |  1 +
->   mm/huge_memory.c        | 39 +++++++++++++++++++++++++++++++++++++++
->   2 files changed, 40 insertions(+)
+> You probably want to call this something like "folio_split_frozen" ?
 > 
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index a4d9f964dfde..18cb9728d8f1 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -369,6 +369,7 @@ enum split_type {
->   	SPLIT_TYPE_NON_UNIFORM,
->   };
->   
-> +void folio_split_unref(struct folio *folio);
->   int __split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
->   		unsigned int new_order);
->   int folio_split_unmapped(struct folio *folio, unsigned int new_order);
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 40cf59301c21..0eb9e6ad8639 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3580,6 +3580,45 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
->   		ClearPageCompound(&folio->page);
->   }
->   
-> +/**
-> + * folio_split_unref() - split an unreferenced folio (refcount == 0)
-> + * @folio: the to-be-split folio
-> + *
-> + * Split an unreferenced folio (refcount == 0) into individual pages.
-> + * Intended to be called on special pages (e.g., device-private, DAX, etc.)
-> + * when returning the folio to the free page pool.
-> + */
-> +void folio_split_unref(struct folio *folio)
-> +{
-> +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
-> +	int order, i;
-> +
-> +	folio->mapping = NULL;
+> The very definition of "frozen" is "refcount = 0 ", so you can simplify
+> the documentation.
+> 
+> Are the folios you want to pass in there completely unused (-> free) or
+> might they still be in use (e.g., migration entries point at them during
+> folio split)
+> 
+> So I am not sure yet if this should be "folio_split_frozen()" or
+> "folio_split_freed()" or sth like that.
+> 
+> I'm not CCed on the other patches in the series or the cover letter, so
+> I don't see the context.
+> 
 
-It's unclear why you mess with the mapping. Usually, throughout a folio 
-split, we populate the folio->mapping to all split folios.
+Ah, I was CCed on #3 where we call this function on folios that are 
+getting freed.
 
+In that case it would be acceptable to initialize folio->mapping (and 
+folio->index?) of the split folios. Do we also have to initialize 
+folio->flags, folio->private etc?
+
+See __split_huge_page_tail().
+
+folio_split_freed() would likely be best, because then it is clearer 
+that there is absolutely no state to copy from the large folio.
+
+> You should describe in this patch here in which context the function is
+> supposed to be used in later commits.
 
 -- 
 Cheers
