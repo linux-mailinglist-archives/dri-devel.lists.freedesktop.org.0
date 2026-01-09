@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7ACD08662
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49E2D0866E
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F1310E87F;
-	Fri,  9 Jan 2026 10:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C5510E877;
+	Fri,  9 Jan 2026 10:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QMd2Dhf8";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZJSYFvqh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9FF10E87D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:39 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7D610E877
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:46 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 3FFC21A273E;
- Fri,  9 Jan 2026 10:03:38 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 2B7D4C1F6D3;
+ Fri,  9 Jan 2026 10:03:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 11C9560734;
- Fri,  9 Jan 2026 10:03:38 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 6BAFE60734;
+ Fri,  9 Jan 2026 10:03:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 83744103C88D2; Fri,  9 Jan 2026 11:03:30 +0100 (CET)
+ with ESMTPSA id 47C31103C88D4; Fri,  9 Jan 2026 11:03:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767953015; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767953022; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=/SEnvILKis2K8TQc2e0J/EfZp0VkAsieLSYp0vPG558=;
- b=QMd2Dhf8C7VDVY3winTShkqSbLELJJwFtbNxwjnPdCYsv8g1PpxVZh24c+Bq48qPKiXjVN
- kSMcnUO28jl24PrPhnxMhrXlYUL/hSZvaikbjBD4V7SpAUWGNvApTykY97V3vh6kTOM/2/
- b/o6NEpKo5enWj0jrpimRtal1LjRDf4V+075vvDB3FF+7JmNeXv2asPqmmpp/H9n5G+MHN
- V7DkWGe7zaeGxohbnHgc1y/FtBrzWeOGidIdUinCMJKjHZyXOYu8LxNdhkQMDrZJ9Mygog
- I3oOefYg2q/VCnl08Xa8KStJ+I4utKEc0cXNLT6gEf+A/hnsFuBVVSC5yc6PRQ==
+ bh=sDYasl3TO+ykUDgltsiebhB15xiF9vjquBvH4qBcVHM=;
+ b=ZJSYFvqhklyH3Vwt24dpnaBUo8OPit1uS9BZYNEbqIBp0HfvE4SbWkyhACiyoS872ce5ot
+ Hn5BN62UXidJKbd2f7/wtAoXH141rhnGrFQDsmDvDVaQWopM55T+4Jgc6M4yVx1Wqj5WZQ
+ KyteiRTpHK4ob8ILlsfcBPXafKwvl/D9uowH4pMC3GjPKM/MTYto1ArHSbFPJJ2TfjWRfs
+ vcRIAPWYY48xjSFr787foREYv2/8pWqgazzHIn1GRe0XLrW5IqaeymG51zNkB5R1+trpCf
+ 1DswaF+HFw3D/rJ3x3cCdOtICEyhGJdFrbQyxxlXhEatRedBDZ1amnhSf3EOTQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 11:02:53 +0100
-Subject: [PATCH v2 4/6] drm/mediatek: mtk_hdmi*: convert to
+Date: Fri, 09 Jan 2026 11:02:54 +0100
+Subject: [PATCH v2 5/6] drm/exynos: hdmi: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-4-8d7a3dbacdf4@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-5-8d7a3dbacdf4@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -93,74 +93,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done by using the drm_bridge::next_bridge pointer.
+is put when done.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c        | 4 ++--
- drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 4 ++--
- drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 1 -
- drivers/gpu/drm/mediatek/mtk_hdmi_v2.c     | 4 ++--
- 4 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 0face4dcaa36..1ea259854780 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -986,8 +986,8 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 01813e11e6c6..bfcf2fa62fe1 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *hdata)
  		return -EINVAL;
  	}
  
--	if (hdmi->next_bridge) {
--		ret = drm_bridge_attach(encoder, hdmi->next_bridge,
-+	if (hdmi->bridge.next_bridge) {
-+		ret = drm_bridge_attach(encoder, hdmi->bridge.next_bridge,
- 					bridge, flags);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-index e78eb0876f16..40ded86dbea3 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-@@ -315,8 +315,8 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device
- 		return -EINVAL;
+-	hdata->bridge = of_drm_find_bridge(np);
++	hdata->bridge = of_drm_find_and_get_bridge(np);
+ 	of_node_put(np);
  
- 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
--		hdmi->next_bridge = of_drm_find_bridge(remote);
--		if (!hdmi->next_bridge) {
-+		hdmi->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
-+		if (!hdmi->bridge.next_bridge) {
- 			dev_err(dev, "Waiting for external bridge\n");
- 			of_node_put(remote);
- 			return -EPROBE_DEFER;
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-index de5e064585f8..cace3c5dc067 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-@@ -150,7 +150,6 @@ struct mtk_hdmi_conf {
+ 	if (!hdata->bridge)
+@@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pdev)
  
- struct mtk_hdmi {
- 	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
- 	struct drm_connector *curr_conn;/* current connector (only valid when 'enabled') */
- 	struct device *dev;
- 	const struct mtk_hdmi_conf *conf;
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-index c272e1e74b7d..2adeece499b6 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-@@ -940,8 +940,8 @@ static int mtk_hdmi_v2_bridge_attach(struct drm_bridge *bridge,
- 		DRM_ERROR("The flag DRM_BRIDGE_ATTACH_NO_CONNECTOR must be supplied\n");
- 		return -EINVAL;
- 	}
--	if (hdmi->next_bridge) {
--		ret = drm_bridge_attach(encoder, hdmi->next_bridge, bridge, flags);
-+	if (hdmi->bridge.next_bridge) {
-+		ret = drm_bridge_attach(encoder, hdmi->bridge.next_bridge, bridge, flags);
- 		if (ret)
- 			return ret;
- 	}
+ 	put_device(&hdata->ddc_adpt->dev);
+ 
++	drm_bridge_put(hdata->bridge);
++
+ 	mutex_destroy(&hdata->mutex);
+ }
+ 
 
 -- 
 2.52.0
