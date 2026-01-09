@@ -2,159 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D80D0769A
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 07:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66C7D07C76
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A1D10E7EC;
-	Fri,  9 Jan 2026 06:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 101E510E80B;
+	Fri,  9 Jan 2026 08:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="hZRr3tfu";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ILc7fmsU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazhn15011023.outbound.protection.outlook.com [52.102.137.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E8F10E7EC
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 06:42:12 +0000 (UTC)
+ (mail-eastusazhn15011021.outbound.protection.outlook.com [52.102.137.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9838710E173
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 06:13:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H1HKg5lxFkTk1wuEmVIUCW31hSCofJgIoMsMMy1QIWaO7mkbXOnXxXjKdYN/x5uksSSUwlWZw3ez4AJw+EseZRtmUwo1ZfKY1Z/EVmWtqUMXHSev7dnecICNK/WvrWzm58ThaPY3sh6yErcPgjtrPH+nheusUZ6YQ6QzFQ9ozPBo1TT1ksmqon3H0qjtpDIUeWu9uhyINKkLQJjA8BHEqCPpM2M6Rp0zwkEqmo25sS8WDyDrtB7EfxfajFxBf22uKm05GQ0XrgcLgDKs2UiXfpls0UVVWY0rA3icaHqtQ2t/azy3CEvYz5CltaEp55li1ZFH8uhBaeGMEvJY8HBuGw==
+ b=PvuePYXr1ucr4TX6S0JjUXYB5divYl92To2TfvPHFoFCCPO8Pxs5ingMMrECFg6YFBgC3W/vZKPuESoJeVwRG20JIrtdKWlTEkcPs+LabksbRGusMG61M4/b4wqMFXOtGcAzgWUpOBAt7IDkIeVAIxydDa/7c11MvXuWMR3uetcggdUVDZQ0XB6D1Ctcs0haj4tYkO/B0p1yNaYAZxSMQAhExsJpCgStT839Ngd1OUWAevZRYEHVuBroAH0LXaPpOrhMgmiWobaPiPNc+tcsQG54FBen8P900ajCRqaFCq47E3RyLyHBGFLzwgncXgeC1vczjGwFI/CIFVwAZjjtaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4mK5DFiGq0DlkN/yhYev6sSPqqfuDUBU1DdB+RcIJZg=;
- b=rjo9cpf1vBBDMugRMV61SlkBp1ftGBrOe/pJ7kIiow+G6PMmUXcluXnFayEIwqtpArZsiwglDNBvWoOOh+nRvxhNunLIy552jHYDXGwZJDHsfbDpruvVtO/RzXuBEyksaT+AuuQ/Otno/DBPVih59n3r+dtnniDyl+8j1PijvY5XCy7hBTHfSJCZ79V0C/Q0CAT+zYmS7WgI73S3motigVK8V974oBxS/iYjlFDZdn3HKY5C3vcV3QGJMDTqrCqEm+DehTMI2BRoodpLitINReoBBTs+j0HvnKq0HMIrXqSDZaDGsswWFrcbHs73qUhxSDwiLrTKKCdk3MrfFIUozQ==
+ bh=9nT/8EYaFZ1zz7FQBtUVz1qxpYuLF35UT6/AK5QpSfI=;
+ b=Atri9M3pxlB9/MIAZ1ki4F0fIRAGBomvfyJcW0Yxzu796JYCJkbLE4Uh4KjQjcLHRejsrsbe8SzDKsBNl5rr2t9kgMxCIwRji1ln8PpHgh1jtjBy+ZY59SDsQDtgifYapWU4NF80SmsceOwfSJikpsvjTB2ewP0/yF5xbf2GFsZ8CEQoO0aVhqbBqleFU9TxI7jQ3qCw5UqXZn/eSmkkPEQOTAl0MNSMA0ykMgzx/bF36JUfgLd8nb34OfQsLdfJ87MiR4WC8lK5vGm5UuaruSs17x7ULRD/icZIAp72hjmdL8WOiAbjZd8GZJGmMRfYU7ul7kF/yPpAsxdP6OMVPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=ti.com;
+ 198.47.21.194) smtp.rcpttodomain=pengutronix.de smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4mK5DFiGq0DlkN/yhYev6sSPqqfuDUBU1DdB+RcIJZg=;
- b=hZRr3tfuGsiaZ4mljIvGXdSIf1epaZ0j03juaCl0U4nOpXy+Q+GRidtclA+zXM00w5qEC84xGyzr4yZe+l2A5M6A5j+B5DZPYFLqkUXnAxAyM+gFFrgsBg0x9YZadGp/kbjQO59YMr1L5YGJltBQaCPyfg0qsBJ5/gfio5hJuq4=
-Received: from BN1PR10CA0010.namprd10.prod.outlook.com (2603:10b6:408:e0::15)
- by DS4PPF67D158296.namprd10.prod.outlook.com (2603:10b6:f:fc00::d23)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=9nT/8EYaFZ1zz7FQBtUVz1qxpYuLF35UT6/AK5QpSfI=;
+ b=ILc7fmsUTfyOpOaHjEVK6fmRIxm2hdG4M63AIrwh0r5YGGkHqfYfHvtvd3s5COEztFUiaLlLqX6xfLXyyDq1y51dRsagREGKBqxSDWxWtvLS7X5FunfGHQpsC2zUI8cJH+mvwQJCCbKzcjTLLjwy7R2MQTytk8yqLElLay3895k=
+Received: from DS7PR03CA0190.namprd03.prod.outlook.com (2603:10b6:5:3b6::15)
+ by MN6PR10MB8142.namprd10.prod.outlook.com (2603:10b6:208:4fd::15) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.4; Fri, 9 Jan
- 2026 06:42:08 +0000
-Received: from BN1PEPF00005FFD.namprd05.prod.outlook.com
- (2603:10b6:408:e0:cafe::a6) by BN1PR10CA0010.outlook.office365.com
- (2603:10b6:408:e0::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.4 via Frontend Transport; Fri, 9
- Jan 2026 06:42:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ 2026 06:13:10 +0000
+Received: from CY4PEPF0000EDD6.namprd03.prod.outlook.com
+ (2603:10b6:5:3b6:cafe::1f) by DS7PR03CA0190.outlook.office365.com
+ (2603:10b6:5:3b6::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Fri, 9
+ Jan 2026 06:13:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BN1PEPF00005FFD.mail.protection.outlook.com (10.167.243.229) with Microsoft
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CY4PEPF0000EDD6.mail.protection.outlook.com (10.167.241.202) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.1 via Frontend Transport; Fri, 9 Jan 2026 06:42:07 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9520.1 via Frontend Transport; Fri, 9 Jan 2026 06:13:08 +0000
+Received: from DFLE212.ent.ti.com (10.64.6.70) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 9 Jan
- 2026 00:42:06 -0600
-Received: from DLEE215.ent.ti.com (157.170.170.118) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 00:12:35 -0600
+Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 9 Jan
- 2026 00:42:06 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 00:12:35 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 9 Jan 2026 00:42:06 -0600
-Received: from [172.24.233.62] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.233.62])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6096fwS63691113;
- Fri, 9 Jan 2026 00:41:59 -0600
-Message-ID: <1bde67c9-8265-48f3-8da2-a736e09e69e4@ti.com>
-Date: Fri, 9 Jan 2026 12:11:58 +0530
+ Transport; Fri, 9 Jan 2026 00:12:35 -0600
+Received: from uda0543015.dhcp.ti.com (uda0543015.dhcp.ti.com [10.24.69.9])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6096CTED3761468;
+ Fri, 9 Jan 2026 00:12:29 -0600
+From: Abhash Kumar Jha <a-kumar2@ti.com>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <devarsht@ti.com>, <u-kumar1@ti.com>
+CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <s-jain1@ti.com>, <p-mantena@ti.com>,
+ <aradhya.bhatia@linux.dev>, <tomi.valkeinen@ideasonboard.com>,
+ <p.zabel@pengutronix.de>
+Subject: [PATCH] cdns-dsi: Split pm_ops into runtime_pm and system_sleep ops
+Date: Fri, 9 Jan 2026 11:33:12 +0530
+Message-ID: <20260109060312.2853133-1-a-kumar2@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/3] devicetree: bindings: dsiplay: panel:
- panel-simple.yaml: Add Raspberry pi dsi panel compatible
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Harikrishna Shenoy
- <a0512644@ti.com>
-CC: "Raghavendra, Vignesh" <vigneshr@ti.com>, Harikrishna Shenoy
- <h-shenoy@ti.com>, <neil.armstrong@linaro.org>,
- <jessica.zhang@oss.qualcomm.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <nm@ti.com>, <kristo@kernel.org>,
- <thierry.reding@gmail.com>, <sam@ravnborg.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <s-jain1@ti.com>, <u-kumar1@ti.com>,
- Andrew Davis <afd@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20250818154746.1373656-1-h-shenoy@ti.com>
- <20250818154746.1373656-2-h-shenoy@ti.com>
- <td7d5mldzdunb4sxs5rxa4tfnvvpolcmpwurcv5ubn47whnqek@azedwe6h3y5r>
- <8a31d1c5-4233-4696-bf8c-58f5db68d41f@ti.com>
- <fe6f848e-d7bf-477d-bad0-0c8a860f3ae6@ti.com>
- <c1edadf5-538c-43f6-aea4-8fa9f9c5aa13@ti.com>
- <k5llnrrvc72stluvlbvzireqn6jq3h6dan7valuim4rty77mfg@gfv7drdyms2q>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <k5llnrrvc72stluvlbvzireqn6jq3h6dan7valuim4rty77mfg@gfv7drdyms2q>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFD:EE_|DS4PPF67D158296:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39e38ab7-2f0a-4c4c-c245-08de4f4a35b2
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD6:EE_|MN6PR10MB8142:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a47b04d-075a-4aaf-8ced-08de4f4628ea
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|34020700016|376014|7416014|82310400026|13003099007|12100799066;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WVhPcDA4cXdsN3pydUptSVhCUjFnN1lJcVRKa3FqQUZxRHVuZHJiYnFuZlA4?=
- =?utf-8?B?Slo5TTQzdlJSMTU3enMrc1AzanRIVzVIWHlMbWMzUVNwV3U4c3RHVHNLMWlP?=
- =?utf-8?B?WmZsRU1lRVdSc1VvZzBuWmRaRHVMK1ZKSFIzSnpMa2hMeWVhMlpPOENKM1Jv?=
- =?utf-8?B?U0NNNmd4d2E0RmowU3h1SDg1cjJBMFJUcVBENjRnYnMySUprVzQ2dDNMWWgr?=
- =?utf-8?B?RVZpai9WRDF5ZnRtMTFWZ0JnNnpxUnBnVVR1aGs3bkYzeWlPeEhjamQ0SHB1?=
- =?utf-8?B?TFFtZFRFVjFsMjJmREdWRVVZMm4xZnJOK05UbFpYZlp2V1ZibGlUTW5qZ0hq?=
- =?utf-8?B?bGpNYVFZUDNBTHR0Uk1JTCtlK29XSEVXbi9oVGtONjlCSzQ3a0hjamJsVFBk?=
- =?utf-8?B?VUtwQytXQ1lPODVZanA4OVhtQmtvRTkrWDAzSlczVjFkRHdGYk5lRHZ2WVNQ?=
- =?utf-8?B?bU15L3Vub3NNeGdDazFTM2tKbGxNS1JNUW5LeDM1Zml1bVRiVXpCcXBvS0FB?=
- =?utf-8?B?Q25yUk1IUHRsUGdLYm5hODFWOUoxUHVCTDRkNENLdDg2ZmRxZTFHVmxTcEtx?=
- =?utf-8?B?NHc0bEp0M1BaTjN1RnliTkZ5YlZzUmQ0TzJFK3o5MVNPNmpHbUpEZTBpNmhC?=
- =?utf-8?B?Z2NNQzlMMGFzSDY4QWp5ME9OTjVid2tyRkVHcEVrcmw4YkliaFFNYUV5YVVl?=
- =?utf-8?B?dGNWaVdEcUp4Nmtvb1lTYm42Smg0M0g4N1RFQ3pBdTJ0SFFxcTQxVTFUVGhn?=
- =?utf-8?B?TU1scUlETmt0UmdmSHNJZEJ0NzRLdGxkRUhZQW9KeGcrR2RpcVFGOXRTT0F3?=
- =?utf-8?B?MTEyaHFWajhxNDhnMzJGZkZZaGxjM0JGYkYyLzRMZTlKL1BDZ2lXYzJScEpm?=
- =?utf-8?B?dzVmNFU3NjFDZnZCcmhKUEJDNHo1Mk9ueFBhWDB6TkhieTBpVGlUU1NMajRn?=
- =?utf-8?B?NUFZVWZVUytiK1ZPQmIrQVYxelVHelg3ZmZwVjM5aHhLcC9KaVJXN2E4QzEw?=
- =?utf-8?B?TTJhcmtiaVF3dS9JRlNlL2RwZ1N4QlVwb1F6Z3BZTjZSSWx1MHZ2NForYU1u?=
- =?utf-8?B?cFFKRVdGZDBZczA4MGtudXRveHpZMFVUMzBiRUZ1Mk80Nk1Ub2x0NXVZazdw?=
- =?utf-8?B?R1hoY2RZRVpEWEdYcmJJNHhVZHN1WTcyc2dVU3RuUU0wOWxZVmNmM0pIelNI?=
- =?utf-8?B?UGZhK0x3WHBtemE4NUdQbnA3a2dLcDdQMU1jVGp1N1VZLzNZYmp4WTNNcHd5?=
- =?utf-8?B?aXdFamhlVFdXb0s1azVyaXNRckJPQ0RORmdyMW56Ukc0VDl1aTZmVlFuK1pZ?=
- =?utf-8?B?Sk9kSGRhOFM2clJRcDQyYytpU3R4M1Z6OUxRby8rODRQRFRkMGpGWm9pY1dH?=
- =?utf-8?B?LzRYcXFLdXdzejc5aU9DNW8yS3NraS8rd29JWmpHN1M3V3QxNVVXQnZ2VlpU?=
- =?utf-8?B?MjJJcFE4YVBwbldNMmczd2h0cjBjU3A1UWJyc2t4Z1ZwNGMvcDlLd0JuZmkr?=
- =?utf-8?B?WXIyakUySUM2ZmM5bXVReElYeUxDVFQ0NCtROGVGcFdBZC9mZVQ5QVlNb0pq?=
- =?utf-8?B?WWU4SzZzOHppVG5OWVJKN3VHeXlNQ25rWTFWTFFMK2xCMi9hRDc1TFlBSE9S?=
- =?utf-8?B?T2VydHI2NWJlKy9XdWtFR3hsOUszS25MY0I2RDhEOGZLOXpZTHM2cndrR0lY?=
- =?utf-8?B?cGsvdGZ0NWE0Qm02ckVsU0VUNjV0V2R1aGhCSlI4UFpta1RnUk1rN1VETTdt?=
- =?utf-8?B?b3ZqckQwMFIyenN0STZSYldLS281bWdtM042a2dMdU80TkZMeXZjUTBRRWtm?=
- =?utf-8?B?RlNGRm80eVJBYXpDNkJXL2cyc2JSUWl1dkdsYW0zVlZxSlYvQmt3Qm1DemUy?=
- =?utf-8?B?aHNSWFpXVUlPNFV6OUljcDUyM0Q3dFF0RStnbzZzd3JpT2ZiZU5rY29OcElp?=
- =?utf-8?B?a2dzRzdrUzFZMFZzSUFlVzBkd0I2YW56VUZQN09WZUNkdUY1MnJXUkthV1dM?=
- =?utf-8?Q?scxkEV4Txx53/2LkH8X2a11g0/Sio8=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(34020700016)(376014)(7416014)(82310400026)(13003099007)(12100799066);
+ ARA:13230040|34020700016|36860700013|82310400026|1800799024|376014|7416014|12100799066;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8Dk++1LANxKWPMHD18leFxPEbPi/dmil6Kmvsu3phA+G7IFKqylfiO6DBZfF?=
+ =?us-ascii?Q?xTJlEwtGVKaBNFQJlnsNzkgXjbh6fBPmQN+YUOM1Ew/iG5BahxzZ+pOyjd+e?=
+ =?us-ascii?Q?L89kUHMB9GKdriE9N+t5JhgVNDvd+yQ07wPdQVLrOwWnCpHrwt7avycYQtt8?=
+ =?us-ascii?Q?yKtUtHZLNyvHDqUrtRAvV/3FUO7jTCntUN0FdLSJqYNYfPg5IhsTQhOJblEz?=
+ =?us-ascii?Q?h9iJ3Glcq/om0xs0iBfCRcalW7WJ9GqtWaErLvAFFMfzvP/p7m1eZRBJWE0a?=
+ =?us-ascii?Q?RY3Jy4zFRVoQBNHgnmSLhaWLjr+9dB7Ua9Oo9i+D7iSK8p+TYk0D0d9oZi4G?=
+ =?us-ascii?Q?TCS512Lf0YMuWXo5Op8PY9Q5XuJ+H+PAoMX4Kw+J9dSCIzo/Yo3xZKUA0ga5?=
+ =?us-ascii?Q?4t4dUbSSHjauR2nK93qh+rXkTmeW77uRsQrLRm6+g0Pw0L9b+8X8kxogX/Qr?=
+ =?us-ascii?Q?4UYGhws9PCEWtrdCKn1OQpG3Y099TvuPRFkm4Rmqe4HG7o9qUqqoHJkfQr4p?=
+ =?us-ascii?Q?ZWIkQZJ+nJzofUMa8qtMosIHOeiZ6S6jkd5+d0M8HbBcP14k5glafa0M/ORo?=
+ =?us-ascii?Q?cnowOSXYhbneutkp87XyZt4k8RuoxW5DPtBDHdjosd0SafcAPECTtTvMohCr?=
+ =?us-ascii?Q?IbCWK7VbbZJdCbO4E1I0qD/FtQoBjn/GSdPLzyhknrLwBAW9oDZtlDNn5/rf?=
+ =?us-ascii?Q?6uL770VLqZb6R1lmmMOaHe++vtS6lP1bHn+or0a6bVKpD0nJ+eXpfof728HV?=
+ =?us-ascii?Q?pxk4S2kcE9Ze1GLJ8K6glmeG8zZSYkea9JCq7VrPWVYChMCYMIMnYqx9gYbR?=
+ =?us-ascii?Q?WfG8lSuIBb69HcGz9AnuSggSW0bGKaRpiB0zdyZ4xeO68i2dofu+Psw2T4lF?=
+ =?us-ascii?Q?QT4xeGNXdjc5GlqH8Mmm3mMZ/X0y/XyYb/j3AUJ1rr80aytjpDGWDMxu6iMJ?=
+ =?us-ascii?Q?G03bbWpmxtDWFILX0jZDe9Q5qJkTXFj6nW17hevOp3YEVUURnVCYd/TcxHef?=
+ =?us-ascii?Q?qPQHGabMi+4jccphiWBxPBRsbqnYUzVm19jDY/bMEnXOP+Ub+p5ZuESLPOgV?=
+ =?us-ascii?Q?TpskmjyKYkXaFUDKtFbfEY+R9bsbD7wuxFyKAmoXqGdN1RuIFRnVFei+XMXG?=
+ =?us-ascii?Q?ATi+NMjiA9oWNIfGVJ43lm43ne3OCiX2jjL49yGRkXff86JBZ+sdn+1GnJSr?=
+ =?us-ascii?Q?W4WTDzfglrhLZBR8dN6L0m4M+Q7K7Z5rU0gKa2DSn2dw8U02v1WBhlOu287H?=
+ =?us-ascii?Q?P9AhodCxhHcYEI8LIcJGiEumVdQDmNfqjRdOVlBH0YIRw0bc8gn7BB1yonxd?=
+ =?us-ascii?Q?fHCGdqA4IkMTWxbuDRXkf+lQdPnpEKMx/pbgDoeEEGlibh7rUPwwJEV2C2VY?=
+ =?us-ascii?Q?GqQoqngf7Qxp3mg5FSp1/lCw1q4Q2AvsTRGC1/pcGC/STj+JMFea4jhxmBoA?=
+ =?us-ascii?Q?V8rstYHyj2D39QMInJ1eQn5HOeRelhXmqjsvdGF6FTktF+z3vqRAI0kWVgfg?=
+ =?us-ascii?Q?a8Loja55ZrwZjzek1XAVdHziFNfKSC8wkYOgs6IMUPyLWPDNokjsnWdJBBZM?=
+ =?us-ascii?Q?075i9AfW4huXy9Ji5ww=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(34020700016)(36860700013)(82310400026)(1800799024)(376014)(7416014)(12100799066);
  DIR:OUT; SFP:1501; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 06:42:07.9126 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39e38ab7-2f0a-4c4c-c245-08de4f4a35b2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 06:13:08.5498 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a47b04d-075a-4aaf-8ced-08de4f4628ea
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
- Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00005FFD.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD6.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF67D158296
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB8142
+X-Mailman-Approved-At: Fri, 09 Jan 2026 08:24:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,116 +148,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Use pm_runtime_force_suspend/resume in system_sleep pm callbacks to let
+runtime-pm take care of the coordination between system suspend and
+itself. This ensures that they do not interfere with each other.
 
-On 21/08/25 16:16, Dmitry Baryshkov wrote:
-> On Thu, Aug 21, 2025 at 10:33:43AM +0530, Harikrishna Shenoy wrote:
->>
->> On 8/20/25 15:34, Raghavendra, Vignesh wrote:
->>>
->>> On 8/20/2025 11:06 AM, Harikrishna Shenoy wrote:
->>>> On 8/19/25 06:54, Dmitry Baryshkov wrote:
->>>>> On Mon, Aug 18, 2025 at 09:17:44PM +0530, Harikrishna Shenoy wrote:
->>>>>> Add RPi DSI panel[0] as a valid compatible for simple-panel.
->>>>>>
->>>>>> [0]:https://www.raspberrypi.com/products/raspberry-pi-touch-display/
->>>>>>
->>>>>> Signed-off-by: Harikrishna Shenoy<h-shenoy@ti.com>
->>>>>> ---
->>>>>>     .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->>>>>>     1 file changed, 2 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/display/panel/panel-
->>>>>> simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-
->>>>>> simple.yaml
->>>>>> index 1ac1f0219079..65f486f2bc9d 100644
->>>>>> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->>>>>> @@ -268,6 +268,8 @@ properties:
->>>>>>           - rocktech,rk070er9427
->>>>>>             # Rocktech Display Ltd. RK043FN48H 4.3" 480x272 LCD-TFT panel
->>>>>>           - rocktech,rk043fn48h
->>>>>> +        # Raspberry, 7" dsi panel
->>>>>> +      - rpi,7inch-dsi
->>>>> It's powertip,ph800480t013-idf02
+Signed-off-by: Abhash Kumar Jha <a-kumar2@ti.com>
+---
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 32 +++++++++++++------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
-I think there is waveshare based 7inch version too [6].
-
->>>> Could you please point to any documentation for this?
->>> Git log would point you to it:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=051e95ee7ec10050154e4c8f48be4d99ac83f8fc
->>
->> Timing patterns we use differ from powertip,ph800480t013-idf02.
->>
->> Link:
->>
->> https://github.com/raspberrypi/linux/commit/8648a8c9442b45e85b73423be1b469d10234b4e2
->>
->> https://github.com/beagleboard/linux/commit/bde1b4c52cc5a79a2108076b8706e23d5844afa9
->>
->> So I think, separate compatible needs to be added.
-> 
-> Then please identify the panel that is actually being used. RaspberryPi
-> isn't a panel vendor.
-> 
-
-These are the version 1 raspberry pi display panels [0], to what I 
-understand there are multiple vendors e.g waveshare [1], df-robot [2] 
-producing these panels with same branding name as "Raspberry PI display" 
-and as tested at my end both work fine with exact same timings too as 
-referenced from RPi kernel fork tree [7]. I am more in favor of having a 
-common binding here similar to what was done for version 2 ilitek 
-controller based raspberry pi display panels [3] which use below 
-compatibles:
-
-raspberrypi,dsi-5inch
-raspberrypi,dsi-7inch
-
-Similar to this, version 1 displays too have 5 inch [4] and 7 inch [5] 
-versions, so isn't it fair to have similar compatibles for version 1 
-raspberry panels as well ?
-
-Also to what I understand neither version 1 nor version 2 panels have 
-full datasheet available, so timings are coming mainly from the 
-raspberry pi's linux kernel fork.
-
-[0] :
-https://www.raspberrypi.com/documentation/accessories/display.html
-
-[1] :
-https://www.crazypi.com/5INCH-DSI-RASPBERRY-PI-TOUCH-DISPLAY-INDIA?srsltid=AfmBOorV_Ehvx-SV5REvbga9loUfCEAktXPWLg6ZghHdW2Qf7ClMGQWF
-
-https://www.waveshare.com/wiki/5inch_HDMI_LCD?srsltid=AfmBOor8kd-K1b5cxTP9ojDOO42obVJyab6SJzc-55uqnrFGv2zUmowe
-
-[2]:
-https://robu.in/product/dfrobot-5-800x480-ips-touchscreen-with-optical-bonding-compatible-with-raspberry-pi-4b-3b-3b/?gad_source=1&gad_campaignid=17416544847&gbraid=0AAAAADvLFWdKkaTxqsUSVBiF_p2H_zMRM&gclid=Cj0KCQiAyP3KBhD9ARIsAAJLnnZJfXfpZEI6GBQIQUYIj14jPElQqhexEyRni4n9VvRcpzYQ3AUTXxUaAqyTEALw_wcB
-
-[3]
-https://lore.kernel.org/all/20250904205743.186177-1-marek.vasut+renesas@mailbox.org/
-https://www.raspberrypi.com/products/touch-display-2/?resellerType=industry
-
-[4]
-https://robu.in/product/waveshare-5inch-capacitive-touch-display-for-raspberry-pi-dsi-interface-800x480/?gad_source=1&gad_campaignid=17416544847&gbraid=0AAAAADvLFWdKkaTxqsUSVBiF_p2H_zMRM&gclid=Cj0KCQiAyP3KBhD9ARIsAAJLnnbDCNmutkZo93f6dTfo5aAwqCWQpYPhaE1MkUekYdmNNih6BW1411EaAlXuEALw_wcB
-
-[5]
-https://robocraze.com/products/waveshare-7inch-capacitive-touch-display-for-raspberry-pi-dsi-interface-800x-480?variant=47338361979104&country=IN&currency=INR&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&campaignid=22271813913&adgroupid=&keyword=&device=c&gad_source=1&gad_campaignid=22271815110&gbraid=0AAAAADgHQvY8QWzvch_lWTffUWAcAu8eG&gclid=Cj0KCQiAyP3KBhD9ARIsAAJLnnYq9neCRwbd7XwAvfE9fbN_EZV-IlKWiSaWyZ3_lAKM0w6_3N8m5yYaAo2wEALw_wcB
-
-[6] 
-https://robocraze.com/products/waveshare-7inch-capacitive-touch-display-for-raspberry-pi-dsi-interface-800x-480?variant=47338361979104&country=IN&currency=INR&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&campaignid=22271813913&adgroupid=&keyword=&device=c&gad_source=1&gad_campaignid=22271815110&gbraid=0AAAAADgHQvY8QWzvch_lWTffUWAcAu8eG&gclid=Cj0KCQiAyP3KBhD9ARIsAAJLnnYq9neCRwbd7XwAvfE9fbN_EZV-IlKWiSaWyZ3_lAKM0w6_3N8m5yYaAo2wEALw_wcB
-
-[7] https://github.com/raspberrypi/linux/
-
-
-Regards
-Devarsh
-
->>
->>>>>>             # Samsung Electronics 10.1" WXGA (1280x800) TFT LCD panel
->>>>>>           - samsung,ltl101al01
->>>>>>             # Samsung Electronics 10.1" WSVGA TFT LCD panel
->>>>>> -- 
->>>>>> 2.34.1
->>>>>>
-> 
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index 09b289f0fcbf..25eaf0192013 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -1230,7 +1230,18 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
+ 	.transfer = cdns_dsi_transfer,
+ };
+ 
+-static int __maybe_unused cdns_dsi_resume(struct device *dev)
++static int cdns_dsi_runtime_suspend(struct device *dev)
++{
++	struct cdns_dsi *dsi = dev_get_drvdata(dev);
++
++	clk_disable_unprepare(dsi->dsi_sys_clk);
++	clk_disable_unprepare(dsi->dsi_p_clk);
++	reset_control_assert(dsi->dsi_p_rst);
++
++	return 0;
++}
++
++static int cdns_dsi_runtime_resume(struct device *dev)
+ {
+ 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
+ 
+@@ -1241,18 +1252,21 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused cdns_dsi_suspend(struct device *dev)
++static int cdns_dsi_suspend(struct device *dev)
+ {
+-	struct cdns_dsi *dsi = dev_get_drvdata(dev);
++	return pm_runtime_force_suspend(dev);
++}
+ 
+-	clk_disable_unprepare(dsi->dsi_sys_clk);
+-	clk_disable_unprepare(dsi->dsi_p_clk);
+-	reset_control_assert(dsi->dsi_p_rst);
+-	return 0;
++static int cdns_dsi_resume(struct device *dev)
++{
++	return pm_runtime_force_resume(dev);
+ }
+ 
+-static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
+-			    NULL);
++static const struct dev_pm_ops cdns_dsi_pm_ops = {
++	SET_RUNTIME_PM_OPS(cdns_dsi_runtime_suspend,
++			cdns_dsi_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume)
++};
+ 
+ static int cdns_dsi_drm_probe(struct platform_device *pdev)
+ {
+-- 
+2.34.1
 
