@@ -2,53 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEBAD0BDD8
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27867D0BE8C
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:44:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A9410E91F;
-	Fri,  9 Jan 2026 18:37:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cKq/4w7g";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C843610E928;
+	Fri,  9 Jan 2026 18:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7884210E91F;
- Fri,  9 Jan 2026 18:37:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3A08460160;
- Fri,  9 Jan 2026 18:37:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 602F1C4CEF7;
- Fri,  9 Jan 2026 18:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1767983862;
- bh=ARzqSTrB4mFRoJEjpwqfD7XvlHCDD3ZE6XeoURLYd8g=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=cKq/4w7gGX95/qxZpKSvwIsa09ufoQFCR4/Y9FL0I8olI1SnCnQzQpwg1S3mCWVVs
- fajeQx6jMNNGo8G7kMsAbEd0MC7fMHF/ztwPL66zbVw9ppWO5gaoYQ86zcxHeG59MP
- FlZEs7fuDVbcUF9xgvE6Fs9QTch66UtAMgMDUxjk=
-Date: Fri, 9 Jan 2026 10:37:41 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: Francois Dugast <francois.dugast@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Matthew
- Brost <matthew.brost@intel.com>, Balbir Singh <balbirs@nvidia.com>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, Ryan Roberts
- <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v3 1/7] mm: Add folio_split_unref helper
-Message-Id: <20260109103741.533c1b807f3ccf9a6f0264de@linux-foundation.org>
-In-Reply-To: <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
-References: <20260109085605.443316-1-francois.dugast@intel.com>
- <20260109085605.443316-2-francois.dugast@intel.com>
- <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D2210E928
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 18:44:14 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-944168e8c5fso2510126241.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:44:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767984253; x=1768589053;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gRHLGasfyR69c6srR1G3LqlEAk+Zi7+IjINLOavqaCU=;
+ b=vHsjvV+Y99TXDJBt05YmcqrQhMwMWnkohWheMWuHW6X8bUg0l+W8vE3kVAAJtdrlO+
+ lbmbDbwsamkLb2TDTXlijlPJYwd77w3xR4Unhk2sZ/BLS2TkqCnERIyfpxuhvUImgk/n
+ //MkRcRUWUIEIY7gE28P7+LpOgAGA6t28f/b2Q8lWq5Vmai1MleU+KmyGjDFs7WqdUFW
+ Aztcnvi/YppdycSX3IBBMwlWBixxE8BkB1lxJEarV5+2nYljnIn58e2PeYJvVz7N6J7t
+ R3gNnz+jp0zuM2kVHoXF+KA7UhaAzl2GxBlPADBEYTza5oLWNtFPBUcj8QtNOewJG/30
+ HPCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJdZx2LutbDgFmK2z8Utq8QOjeDfwCKMHAkMa8eEEfxDKh1eARCX1JD7pJscACNgwPZKQUcI4emWA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywp/0+8uMqWqzMSxwB2mamNsasNnwoZpl0n9qn5hQruAX2yIaYo
+ d9LatPepxP6WYNVYmnNsRrRmP5Udbp3fQtjomID4m4BLj7s5SUq3SArCJ5RgcmDr
+X-Gm-Gg: AY/fxX56xe1jENt3+OGr7LxHLHxn7ugwyOCGy1ttSGpHDuq1aLxCABHDTJcPLxbhJVT
+ HyhgQyTP3tjtpQsQAFBGb6y9ykpmMV3uh0pnkNfZ9ljuMqP4IxUyPCX54ngPmlbUqZnNm53sn1v
+ lUEGxYturJR4V0I0B/zyC4h7Hi/OlPQBj3F3tVmfR8nm3HCNpbtLmEsdx9O2pGCxzhYhf/9+sYj
+ L5wWIcbsDMxDsONJ3kBNoWaM2+hk9jU+AmVjmipIfQdKoSCcWoC0MkPCOGCmGwIfJoFX4+JQR9m
+ mJ1T7z13gwB2VpxOXNCUh1silDsA91aAt+I8jo+t6Beu6JlV0cmMV3ORjZz+XXoL+233AfF1zB6
+ qi9JEXx74WI7lTklZ3Bezk5GQwsY88GsAp0p6ZHweQXXWIOaaVdGC5PhvzbKQi2dKMVQdgrLXV5
+ T1fcBu5lJ6f+iHVLigeMOvJQ4C38hEbh4nWwZktrpZr/DwcUVZ
+X-Google-Smtp-Source: AGHT+IFHt+IDnwUfuIrUyUeY69sHAdIfcnO78+l24rSWJdA7p8hBMHvkqTepBz35qUtBbW80ZU+APg==
+X-Received: by 2002:a05:6102:2c11:b0:5e4:95f6:3dca with SMTP id
+ ada2fe7eead31-5ecb69647c9mr5146085137.30.1767984253146; 
+ Fri, 09 Jan 2026 10:44:13 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
+ [209.85.217.46]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5ec772e322asm10640840137.13.2026.01.09.10.44.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jan 2026 10:44:13 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5eb8f9be588so4004052137.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:44:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/CvMHAQUzF9O7d+K1d5LasUL4MjPlZoH6Ih7HhTZkRLmLfCNfv7vHq/rTHxER4rnat03oyhCoTDE=@lists.freedesktop.org
+X-Received: by 2002:a05:6122:459a:b0:563:6d01:a514 with SMTP id
+ 71dfb90a1353d-5636d01a684mr805296e0c.17.1767983883673; Fri, 09 Jan 2026
+ 10:38:03 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <f7130b18f20fe80f4187cf0b024dc10438f2820e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <f7130b18f20fe80f4187cf0b024dc10438f2820e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 9 Jan 2026 19:37:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW74u0a7eKN_xS9hc6Y0GycGbnwF7170KjV5oNi3QnY2Q@mail.gmail.com>
+X-Gm-Features: AZwV_QjTECnB1PZN8BE8Sxq6bqzf7JgBJC7TEeRima6lECENgoL1jMbZT1RrYiI
+Message-ID: <CAMuHMdW74u0a7eKN_xS9hc6Y0GycGbnwF7170KjV5oNi3QnY2Q@mail.gmail.com>
+Subject: Re: [PATCH 05/22] clk: renesas: r9a09g047: Add CLK_PLLDSI{0,
+ 1}_CSDIV clocks
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+ biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,10 +100,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 Jan 2026 14:19:16 +0100 "David Hildenbrand (Red Hat)" <david@kernel.org> wrote:
+On Wed, 26 Nov 2025 at 15:09, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add the CLK_PLLDSI0_CSDIV and CLK_PLLDSI1_CSDIV fixed-factor clocks to
+> the r9a09g047 SoC clock driver.
+>
+> These clocks are required to enable DSI and RGB output support.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-> I'm not CCed on the other patches in the series or the cover letter, so 
-> I don't see the context.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Both linux-mm and I received a random subset of this series.  Something
-went wrong.
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
