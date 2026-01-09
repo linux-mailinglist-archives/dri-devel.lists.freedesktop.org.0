@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0507D0B31F
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 17:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A4FD0B343
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 17:23:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA8DB10E901;
-	Fri,  9 Jan 2026 16:22:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kp6zpKd+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9925310E904;
+	Fri,  9 Jan 2026 16:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1786410E904
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 16:22:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BDA2A40411;
- Fri,  9 Jan 2026 16:22:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D373C4CEF1;
- Fri,  9 Jan 2026 16:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767975746;
- bh=Ly5rsu9iAyn9lW0IFWV/1YmnCBk3D0LSGmuBOF+470I=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=kp6zpKd+Le+FlxEkkb0lIwlDXyO3zbz+qGxAgdrwblE6+eSaebxkz3JFeNI8thkWx
- ZWkOmjHAruLbDEz53ggeUo2zqzG+N9XC8+EXtLjoc5ARcPFyOTPupkWQht/tNSNTXA
- FhclIOxgVyqpCRSew9fq3uTLPWvBAmIW23L08clUReZJK0DSefSJozBur+3P8vb7W9
- 9oWjpItm2awRrZjMDC0LHtr6P+Mif3/SYCI8d1saq0bnzqrma4xfM+Cs5y5guD49xy
- H89h7bAHbkecmNJ2G4XSD32LNkJoM+qtqtcOcJJohTTH5KjA4oJXDBp69coq/wVmje
- VohysB/Z0MLVA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B0AD710E904
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 16:23:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88A5D497;
+ Fri,  9 Jan 2026 08:23:30 -0800 (PST)
+Received: from [10.1.36.18] (e122027.cambridge.arm.com [10.1.36.18])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0AD53F5A1;
+ Fri,  9 Jan 2026 08:23:34 -0800 (PST)
+Message-ID: <0772b791-85ad-4eb0-8c71-daeae74f0b79@arm.com>
+Date: Fri, 9 Jan 2026 16:23:32 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/4] drm/panthor: Add gpu_job_irq tracepoint
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com>
+ <20260108-panthor-tracepoints-v7-4-afeae181f74a@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260108-panthor-tracepoints-v7-4-afeae181f74a@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Jan 2026 17:22:23 +0100
-Message-Id: <DFK73G5XKCEW.3IE3GE9726PDQ@kernel.org>
-Subject: Re: [PATCH] drm/gpuvm: fix name in kernel doc of
- drm_gpuvm_bo_obtain_locked()
-Cc: <lkp@intel.com>, <bbrezillon@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <oe-kbuild-all@lists.linux.dev>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <202601091113.0b0WuRML-lkp@intel.com>
- <20260109082019.3999814-1-aliceryhl@google.com>
-In-Reply-To: <20260109082019.3999814-1-aliceryhl@google.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +54,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jan 9, 2026 at 9:20 AM CET, Alice Ryhl wrote:
-> When renaming this function, the name in the docs was not updated. This
-> causes a KernelDoc warning. Thus, fix it.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202601091113.0b0WuRML-lkp@i=
-ntel.com/
-> Fixes: 9bf4ca1e699c ("drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and =
-staged mode")
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-
-Applied to drm-misc-next, thanks!
-
+On 08/01/2026 14:19, Nicolas Frattaroli wrote:
+> Mali's CSF firmware triggers the job IRQ whenever there's new firmware
+> events for processing. While this can be a global event (BIT(31) of the
+> status register), it's usually an event relating to a command stream
+> group (the other bit indices).
+> 
+> Panthor throws these events onto a workqueue for processing outside the
+> IRQ handler. It's therefore useful to have an instrumented tracepoint
+> that goes beyond the generic IRQ tracepoint for this specific case, as
+> it can be augmented with additional data, namely the events bit mask.
+> 
+> This can then be used to debug problems relating to GPU jobs events not
+> being processed quickly enough. The duration_ns field can be used to
+> work backwards from when the tracepoint fires (at the end of the IRQ
+> handler) to figure out when the interrupt itself landed, providing not
+> just information on how long the work queueing took, but also when the
+> actual interrupt itself arrived.
+> 
+> With this information in hand, the IRQ handler itself being slow can be
+> excluded as a possible source of problems, and attention can be directed
+> to the workqueue processing instead.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
-> Does anyone know what the config option to enable these warnings in my
-> own build is?
+>  drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
+>  drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
+>  2 files changed, 41 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 0e46625f7621..b3b48c1b049c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -26,6 +26,7 @@
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> +#include "panthor_trace.h"
+>  
+>  #define CSF_FW_NAME "mali_csffw.bin"
+>  
+> @@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
+>  
+>  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+> +	u32 duration;
+> +	u64 start;
+> +
+> +	if (tracepoint_enabled(gpu_job_irq))
+> +		start = ktime_get_ns();
+> +
+>  	gpu_write(ptdev, JOB_INT_CLEAR, status);
+>  
+>  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
+> @@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+>  		return;
+>  
+>  	panthor_sched_report_fw_events(ptdev, status);
+> +
+> +	if (tracepoint_enabled(gpu_job_irq)) {
+> +		if (check_sub_overflow(ktime_get_ns(), start, &duration))
 
-I think any of the documentation targets should do the trick, I usually use=
- the
-htmldocs make target.
+It's minor but if the tracepoint was enabled during the handler, the
+duration will use start uninitialised. It's probably best to initialise
+start just to avoid a potential stack leak.
+
+Thanks,
+Steve
+
+> +			duration = U32_MAX;
+> +		trace_gpu_job_irq(ptdev->base.dev, status, duration);
+> +	}
+>  }
+>  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+> index 5bd420894745..6ffeb4fe6599 100644
+> --- a/drivers/gpu/drm/panthor/panthor_trace.h
+> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
+> @@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
+>  	panthor_hw_power_status_register, panthor_hw_power_status_unregister
+>  );
+>  
+> +/**
+> + * gpu_job_irq - called after a job interrupt from firmware completes
+> + * @dev: pointer to the &struct device, for printing the device name
+> + * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
+> + * @duration_ns: Nanoseconds between job IRQ handler entry and exit
+> + *
+> + * The panthor_job_irq_handler() function instrumented by this tracepoint exits
+> + * once it has queued the firmware interrupts for processing, not when the
+> + * firmware interrupts are fully processed. This tracepoint allows for debugging
+> + * issues with delays in the workqueue's processing of events.
+> + */
+> +TRACE_EVENT(gpu_job_irq,
+> +	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
+> +	TP_ARGS(dev, events, duration_ns),
+> +	TP_STRUCT__entry(
+> +		__string(dev_name, dev_name(dev))
+> +		__field(u32, events)
+> +		__field(u32, duration_ns)
+> +	),
+> +	TP_fast_assign(
+> +		__assign_str(dev_name);
+> +		__entry->events		= events;
+> +		__entry->duration_ns	= duration_ns;
+> +	),
+> +	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
+> +		  __entry->events, __entry->duration_ns)
+> +);
+> +
+>  #endif /* __PANTHOR_TRACE_H__ */
+>  
+>  #undef TRACE_INCLUDE_PATH
+> 
+
