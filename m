@@ -2,64 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3FCD07C07
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:18:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B236AD07C22
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:20:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0008410E80A;
-	Fri,  9 Jan 2026 08:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0489710E3A0;
+	Fri,  9 Jan 2026 08:20:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ihV5qP51";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="o/eFLIvI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC8C010E80B
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:18:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767946695; x=1799482695;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1dclAeAmo/kEKTJgPxF3hc0nU/ucwLIlvxkT6ispSeo=;
- b=ihV5qP51RQi+Mn0kaHsmqlZ35jJVlPbogOdh/bTBe2fo301f5Fzvjsh4
- kr3iwvDPeDspo8Li5Dnho0xcD0A1QytPV5rljJfBOUtuW+HR8K7u0hGwf
- vaYW568mo22irv6jiK98Yk8Cl+SUMS3MwVIOTajsJZIBuX0Pi9IpoRBYP
- TtaLeGi9zXeSZulW5N3OqU6mTk4gDoY+YCYzRFcuS/3NSdlE59WJTrq5u
- F0Sdg6VXExGPAqrzDbXhpWycq5lt6N0JbQx6kIhLL43xidneZdTVjJbPL
- Ngo0DvgrrAlCNpIEj640gfAv5KmGMXth96f1h9A95XQGz4ti1DqLjv+9J g==;
-X-CSE-ConnectionGUID: qRJxmzwhR8WJFxJqsnF7BA==
-X-CSE-MsgGUID: cHwEaJrXRbqM1pZ9JETQEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79623979"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="79623979"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2026 00:18:15 -0800
-X-CSE-ConnectionGUID: yHCXLxk+Sw+DerJM4Bzemw==
-X-CSE-MsgGUID: swLwwOcHSXGGGha3ZSthpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="234596574"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.143])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2026 00:18:11 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Aaron Erhardt <aer@tuxedocomputers.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Aaron Erhardt <aer@tuxedocomputers.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND RFC PATCH 1/1] drm: ensure that vblank diff is never
- negative
-In-Reply-To: <20260108165139.1381835-2-aer@tuxedocomputers.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260108165139.1381835-1-aer@tuxedocomputers.com>
- <20260108165139.1381835-2-aer@tuxedocomputers.com>
-Date: Fri, 09 Jan 2026 10:18:08 +0200
-Message-ID: <686ae9c3d4697956d16eff0b6f2e6e43cb25ba90@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7950710E3A0
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:20:23 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-430f527f5easo1466232f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 00:20:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1767946822; x=1768551622;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zyry+szf9M9K8ZoJdoLtp8bdGl2dJDUUhxBOiIqV+fg=;
+ b=o/eFLIvIx6VJBC+aI1qCZcvgdlGSUbYgh1qtMsu8pIXTyyjENlqf6v3b1TQYbD8RsT
+ BApZ/3ZDs4z4rgxHGjKhji+Rrrlg2B+4P3KtM0UHtyNj6GVYGgSso/Fm3OvWiEyngqBp
+ qwm3qsVFaXvKuViN8UqUah4rWQTRP47OfnR5ckMm6mwxpjciz4KJT4ffoRknF0OrvLxw
+ qaWtHebYnlusRqMojLagGe0BqraKemLx591nZoGsIMBs3nBhIMTtpDvJ48kKyPoZJoFP
+ Zn4EphbFo6wVQ7+lY+UjvXIpxPS09zNGEqnqcPxNuV8O/TP28h5Hu2gTImDValJUCNqG
+ alGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767946822; x=1768551622;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zyry+szf9M9K8ZoJdoLtp8bdGl2dJDUUhxBOiIqV+fg=;
+ b=IWtC06uXpP9h9gV5NwW3tbc+8N4NnJ5mVRSrlcz9oXHWJZJ+N8tEAWyl4g55iegd4S
+ 3hqQRGH7kJe8LOJ5a1HEV4f4/HTuib6T9h76bT7ViLAvvNwnUbKGXbRzSMAlDEdze10C
+ eBUbLIJVkAKvBLg3gkWOlXdTvVlgV+sZOVFy87majWQGravJW1PEcIhSKDEVl5539zmC
+ E80V5A4Wcmdl+q44SNaTToMwPquSDceh2Sv3tkpIEvpYpWl20gqP7dG2M8Wf6GROTh3R
+ iACmVNKgfr2UfPbic3iXXIfLpyTNj/N4M3UuOGRJpVAKxAkTnL+/teszGYKgRZB+PeI2
+ Rozw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3Fkskf2ntK2fZPyg/YETzrSloyPmnr/v0Nm7PWRFZN+Du1KqPnV6DWrMxm6FvgxgDB+qgwBHoPtc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHgVslSU0rUhVXEPqA409dYCpUmJq6984lsp7oRRD8UoVNhxan
+ t7AvMErqkaOPldwCUQjBWTnha0tpInrYuEOjFnxasM8o6Gqe6d9IeE6199twqtD7rNp6+7w5b6n
+ 9/dGq7arFfCsrq1+EzA==
+X-Google-Smtp-Source: AGHT+IH8/dxnFkIPXI5oH6OCxXDjMpSEFjD+Jve3O5XrIh566SkPJXqi/4GrJctYsg/eEDEY2rX+Mxrfi2nwKBM=
+X-Received: from wmot14.prod.google.com ([2002:a05:600c:450e:b0:479:2d82:5535])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:198a:b0:477:a289:d854 with SMTP id
+ 5b1f17b1804b1-47d8484a113mr111305585e9.5.1767946822104; 
+ Fri, 09 Jan 2026 00:20:22 -0800 (PST)
+Date: Fri,  9 Jan 2026 08:20:18 +0000
+In-Reply-To: <202601091113.0b0WuRML-lkp@intel.com>
+Mime-Version: 1.0
+References: <202601091113.0b0WuRML-lkp@intel.com>
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1324; i=aliceryhl@google.com; 
+ h=from:subject;
+ bh=1tZFHv16ZwL+7SKnmUSQAUFEBTMTAOwSnIDQecX4Q3E=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpYLot7X73B4sGZrWfHFlDRnVAcjmhZlZf6QzFU
+ f6Z9C0QNSqJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaWC6LQAKCRAEWL7uWMY5
+ RpkQD/9aqpRA3ZLxzulyknkdjstWLk1KiYjiealHIgUZdFDW0rYeHeBzEfDLpJ8b1GRI6H6zhso
+ xESviPCfPyzVhiBR6zyT2Rzn0/PCSM2SDc2aQl1WO3oadL+vEBVdUXN4L4hKwQ6SSxIfCbi6pBZ
+ 5Dp2ckM4IAXcN1Mh3wbBrT/sjEpNYEXK/9U6TDXfHECzKta3sJ2lysB6C7AEo9gm6CaNAywDVGW
+ ZltLkRyUzDvZyIl5ihoJIAl6IhDwA7R8emT3+xH9Tb+gXtrb3ibLq+Y6q1dMYCUQclqLkvGU2UZ
+ W+VceUZb3eN5hsVxdYabyWhW7sAspA5t1gnXSKUHvhdU+oEKL7DAdmhkCh4P2/1vrGmSspam/eq
+ PWzaI1QU8lrE+G9g+mmlHBw15qqYaeVU/yBCoCz2XyRf4aTkvWvTKzjaQFwAq9Jkmw+7bKPTfg5
+ RfdnCiAjN5NRL8eI7wiosZUq43NxW99+KBbaStBVbadsehvcLg8gRiAyPwCFGqAh0yo2G+YzJ9R
+ sqAbQgWf/M0PgsF5VYzFVp/SRY1idQrvl53v/MJNeW3+ONCsSlvVX7YfhXlMpicVXy2ZTpxk6wC
+ iOlpC+BhEc3zU/hWQ4yIRyCKXpHIFpBf9sFip0cVNB0uR+uMIivNNuuERjcPPvu7eclSSZJMeSF
+ RVGfFz930NlKcSQ==
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260109082019.3999814-1-aliceryhl@google.com>
+Subject: [PATCH] drm/gpuvm: fix name in kernel doc of
+ drm_gpuvm_bo_obtain_locked()
+From: Alice Ryhl <aliceryhl@google.com>
+To: lkp@intel.com
+Cc: aliceryhl@google.com, bbrezillon@kernel.org, dakr@kernel.org, 
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,50 +98,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 08 Jan 2026, Aaron Erhardt <aer@tuxedocomputers.com> wrote:
-> Handle cases, where drivers report incorrect timestamps and negative
-> time differences are calculated. If the negative difference is large
-> enough, negative missed vblanks are reported, but stored in an unsigned
-> integer which can causes freezes. This patch prevents this case.
->
-> This fix has been verified to fix problems with the i915 driver on
-> modern Intel CPUs (e.g. Intel Core Ultra 7 155H).
+When renaming this function, the name in the docs was not updated. This
+causes a KernelDoc warning. Thus, fix it.
 
-Is there a reported bug about this, preferrably with logs? If not,
-please file one as instructed at [1], and reference the patch.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601091113.0b0WuRML-lkp@intel.com/
+Fixes: 9bf4ca1e699c ("drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and staged mode")
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Does anyone know what the config option to enable these warnings in my
+own build is?
 
+ drivers/gpu/drm/drm_gpuvm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-BR,
-Jani.
+diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+index 0bb115b6b59c..c75b4877ab92 100644
+--- a/drivers/gpu/drm/drm_gpuvm.c
++++ b/drivers/gpu/drm/drm_gpuvm.c
+@@ -1815,8 +1815,8 @@ drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
+ EXPORT_SYMBOL_GPL(drm_gpuvm_bo_find);
+ 
+ /**
+- * drm_gpuvm_bo_obtain() - obtains an instance of the &drm_gpuvm_bo for the
+- * given &drm_gpuvm and &drm_gem_object
++ * drm_gpuvm_bo_obtain_locked() - obtains an instance of the &drm_gpuvm_bo for
++ * the given &drm_gpuvm and &drm_gem_object
+  * @gpuvm: The &drm_gpuvm the @obj is mapped in.
+  * @obj: The &drm_gem_object being mapped in the @gpuvm.
+  *
 
-
-[1] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
-
-
->
-> Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
-> ---
->  drivers/gpu/drm/drm_vblank.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 94e45ed6869d..1022b6d61e4e 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1563,7 +1563,14 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
->  	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
->  
->  	diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
-> -	if (framedur_ns)
-> +
-> +	/*
-> +	 * Make sure no bogus diffs result from negative differences
-> +	 * when incorrect timestamps are reported by a driver.
-> +	 */
-> +	if (drm_WARN_ON_ONCE(dev, t_vblank < vblank->time))
-> +		diff = 0;
-> +	else if (framedur_ns)
->  		diff = DIV_ROUND_CLOSEST_ULL(diff_ns, framedur_ns);
-
+base-commit: ec27500c8f2b65a3be6ce39a5844d6d246d1b2b0
 -- 
-Jani Nikula, Intel
+2.52.0.457.g6b5491de43-goog
+
