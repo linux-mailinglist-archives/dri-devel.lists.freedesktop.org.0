@@ -2,67 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9703D0AC9B
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 16:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1065BD0AD05
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 16:11:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2696110E35A;
-	Fri,  9 Jan 2026 15:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB6510E8DF;
+	Fri,  9 Jan 2026 15:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="JPH91PrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fSZakySj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6978710E8E5
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 15:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=qkIpYE7E2QFWeCBnb4EIVkrZiK4H3YHDoWTpZcRtKJ4=; b=JPH91PrQLf7oVix5Vbd6o36PPQ
- OWw3qgOkPgCMj6DU4th+3gyWnDpw1K+2gS+6gMQbdH5gKpv2UgF/BVxw8Q4cgRxlvkOtBaboIz+PB
- UrucbphFpxRBkyl6M2A3P4kFfmSnuFDQGUx92l/S1QkDdMVdLP/w3CFId1Wuvnphj/UI=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:60784
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1veE2X-00024c-KU; Fri, 09 Jan 2026 10:04:38 -0500
-Date: Fri, 9 Jan 2026 10:04:36 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Claudiu
- Beznea <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Brandt
- <Chris.Brandt@renesas.com>
-Message-Id: <20260109100436.f499618affc1fecd11c25097@hugovil.com>
-In-Reply-To: <TY3PR01MB113467DBEE7A2A0B3A93050788685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
- <f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
- <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
- <TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20260108125134.6ce05fd214a217a37de9ed4b@hugovil.com>
- <TY3PR01MB113467DBEE7A2A0B3A93050788685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF4E410E8DF;
+ Fri,  9 Jan 2026 15:11:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 748E360151;
+ Fri,  9 Jan 2026 15:11:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6881BC4CEF1;
+ Fri,  9 Jan 2026 15:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767971491;
+ bh=2FBHrNHxevA7xEit3psQVoy33Em494KJnTdG6Fnk1wY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fSZakySjexp8G8Uu0Qz+AYFvOBvbPowqbgQ+u6hdU2jft9SSsnDPMWYRtoerKCThb
+ Tppz6LSNxEvQN4B9A9LDh6y0sc3f2AHa9NEU/RBwVUABwOaxQrIpJoHb8n6XJ7WFEN
+ c/ZU1/QBoUtebaWN/Ju+kycH1+Cly3f4wJTUCBLvHX3BPt/2aqZLfjlYuD/oGHE0GG
+ m6s+4abpx0NmFh77ux70vvjS9d0q4YDTJHvM6PTOQjb0F77l3ZCZEUTqcLuAjB3XZB
+ RLJEluiUmxXo9lCYUf9xDgtCZDZB5UFvabEDn0SngYXQVnYrio2l5wgUDbENPT+rIt
+ W0mlzL2k1ZzRA==
+Message-ID: <85033126-c60a-4cac-8f6f-5bd2f6102fec@kernel.org>
+Date: Fri, 9 Jan 2026 16:11:23 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] mm: Add folio_split_unref helper
+To: Zi Yan <ziy@nvidia.com>
+Cc: Francois Dugast <francois.dugast@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, Balbir Singh <balbirs@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Alistair Popple <apopple@nvidia.com>
+References: <20260109085605.443316-1-francois.dugast@intel.com>
+ <20260109085605.443316-2-francois.dugast@intel.com>
+ <59fb1669-2908-4cab-b3c0-b97479da3fb9@kernel.org>
+ <1319a24a-bcfc-47e5-a022-f5d00994acc9@kernel.org>
+ <A5512463-283A-4137-B4A8-780783C5DF0E@nvidia.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+In-Reply-To: <A5512463-283A-4137-B4A8-780783C5DF0E@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.6 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-2.6 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,316 +115,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
-
-On Thu, 8 Jan 2026 21:21:00 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
-
-> Hi Hugo,
+On 1/9/26 15:30, Zi Yan wrote:
+> On 9 Jan 2026, at 8:26, David Hildenbrand (Red Hat) wrote:
 > 
-> > From: Hugo Villeneuve <hugo@hugovil.com>
-> > Sent: 08 January 2026 17:52
-> > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
-> > 
-> > Hi Biju,
-> > 
-> > On Thu, 8 Jan 2026 16:44:37 +0000
-> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > 
-> > > Hi Hugo Villeneuve,
-> > >
-> > > > -----Original Message-----
-> > > > From: Hugo Villeneuve <hugo@hugovil.com>
-> > > > Sent: 08 January 2026 15:53
-> > > > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on
-> > > > reboot
-> > > >
-> > > > Hi Claudiu,
-> > > >
-> > > > On Thu, 8 Jan 2026 11:12:54 +0200
-> > > > Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> > > >
-> > > > > Hi, Hugo,
-> > > > >
-> > > > > On 1/7/26 23:48, Hugo Villeneuve wrote:
-> > > > > > Hi,
-> > > > > > when issuing a reboot command, I encounter the following kernel panic:
-> > > > > >
-> > > > > > [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
-> > > > > > [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M
-> > 6.19.0-
-> > > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
-> > > > > > [   36.183504] Tainted: [M]=MACHINE_CHECK
-> > > > > > [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
-> > > > > > [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > > > > > [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
-> > > > > > [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
-> > > > > > [   36.183547] sp : ffff8000813db860
-> > > > > > [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
-> > > > > > [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
-> > > > > > [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
-> > > > > > [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
-> > > > > > [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
-> > > > > > [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
-> > > > > > [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
-> > > > > > [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
-> > > > > > [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
-> > > > > > [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
-> > > > > > [   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
-> > > > > > [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M
-> > 6.19.0-
-> > > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
-> > > > > > [   36.183665] Tainted: [M]=MACHINE_CHECK
-> > > > > > [   36.183668] Hardware name: devboard1 (DT)
-> > > > > > [   36.183672] Call trace:
-> > > > > > [   36.183675]  show_stack+0x18/0x24 (C)
-> > > > > > [   36.183692]  dump_stack_lvl+0x34/0x8c
-> > > > > > [   36.183702]  dump_stack+0x18/0x24
-> > > > > > [   36.183708]  vpanic+0x314/0x35c
-> > > > > > [   36.183716]  nmi_panic+0x0/0x64
-> > > > > > [   36.183722]  add_taint+0x0/0xbc
-> > > > > > [   36.183728]  arm64_serror_panic+0x70/0x80
-> > > > > > [   36.183735]  do_serror+0x28/0x68
-> > > > > > [   36.183742]  el1h_64_error_handler+0x34/0x50
-> > > > > > [   36.183751]  el1h_64_error+0x6c/0x70
-> > > > > > [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
-> > > > > > [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
-> > > > > > [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
-> > > > > > [   36.183792]  ili9881c_unprepare+0x38/0x88
-> > > > > > [   36.183802]  drm_panel_unprepare+0xbc/0x108
-> > > > > > [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
-> > > > > > [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
-> > > > > > [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
-> > > > > > [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
-> > > > > > [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
-> > > > > > [   36.183865]  commit_tail+0xa4/0x18c
-> > > > > > [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
-> > > > > > [   36.183884]  drm_atomic_commit+0x8c/0xcc
-> > > > > > [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
-> > > > > > [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
-> > > > > > [   36.183911]  rzg2l_du_shutdown+0x18/0x24
-> > > > > > [   36.183920]  platform_shutdown+0x24/0x34
-> > > > > > [   36.183931]  device_shutdown+0x128/0x284
-> > > > > > [   36.183938]  kernel_restart+0x44/0xa4
-> > > > > > [   36.183950]  __do_sys_reboot+0x178/0x270
-> > > > > > [   36.183959]  __arm64_sys_reboot+0x24/0x30
-> > > > > > [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
-> > > > > > [   36.183979]  do_el0_svc+0x40/0xc0
-> > > > > > [   36.183988]  el0_svc+0x3c/0x164
-> > > > > > [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
-> > > > > > [   36.184002]  el0t_64_sync+0x198/0x19c
-> > > > > > [   36.184020] Kernel Offset: disabled
-> > > > > > [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
-> > > > > > [   36.184028] Memory Limit: none
-> > > > > > [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
-> > > > > >
-> > > > > > The problem is present since linux-6.18-rc1, but not in
-> > > > > > linux-6.17. I also confirm the bug is
-> > > > present in linux-6.19-rc4.
-> > > > > >
-> > > > > > The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
-> > > > > >
-> > > > > > After bisecting, here is the first bad commit:
-> > > > > >
-> > > > > >      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP
-> > > > > > for
-> > > > > > RZ/G2L")
-> > > > > >
-> > > > > > Reverting this change makes the bug disappear.
-> > > > > >
-> > > > > > My limited understanding seems to indicate that the MIPI/DSI
-> > > > > > host may no longer be available/on when the panel tries to send
-> > > > > > MIPI/DSI commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been
-> > stopped...
-> > > > > >
-> > > > > > The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
-> > > > >
-> > > > > Could you please provide the output of command:
-> > > > >
-> > > > > cat /sys/kernel/debug/mstop
-> > > > >
-> > > > > for both cases?
-> > > >
-> > > > Here it is for the panel which has the bug:
-> > > >
-> > > > ----------------------------------
-> > > >                            MSTOP
-> > > >                      clk   -------------------------
-> > > > clk_name             cnt   cnt   off   val    shared
-> > > > --------             ----- ----- ----- ------ ------
-> > > > gic                  1     1     0xb80 0x0
-> > > > ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
-> > > > ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
-> > > > dmac_aclk            2     1     0xb80 0x0
-> > > > dmac_pclk            1     1     0xb80 0x0
-> > > > ostm0_pclk           0     0     0xb7c 0x10
-> > > > ostm1_pclk           1     1     0xb7c 0x0
-> > > > ostm2_pclk           1     1     0xb7c 0x0
-> > > > mtu_x_mck            0     0     0xb64 0x4
-> > > > gpt_pclk             1     1     0xb64 0x0
-> > > > poeg_a_clkp          0     0     0xb64 0x20
-> > > > poeg_b_clkp          0     0     0xb64 0x40
-> > > > poeg_c_clkp          0     0     0xb64 0x80
-> > > > poeg_d_clkp          0     0     0xb64 0x100
-> > > > wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
-> > > > wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
-> > > > wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
-> > > > wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
-> > > > spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
-> > > > spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
-> > > > sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> > > > sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> > > > sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> > > > sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> > > > sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> > > > sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> > > > sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> > > > sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> > > > gpu_clk              1     1     0xb80 0x0
-> > > > cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> > > > cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> > > > cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> > > > cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> > > > dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
-> > > > dsi_lpclk
-> > > > lcdc_a               3     1     0xb78 0x0    lcdc_a lcdc_p
-> > > > lcdc_p               3     1     0xb78 0x0    lcdc_a lcdc_p
-> > > > lcdc_clk_d           3     1     0xb78 0x0
-> > > > ssi0_pclk            0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
-> > > > ssi0_sfr             0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
-> > > > ssi1_pclk            0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
-> > > > ssi1_sfr             0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
-> > > > ssi2_pclk            0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
-> > > > ssi2_sfr             0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
-> > > > ssi3_pclk            0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
-> > > > ssi3_sfr             0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
-> > > > usb0_host            3     1     0xb6c 0x0
-> > > > usb1_host            0     0     0xb6c 0x80
-> > > > usb0_func            1     1     0xb6c 0x0
-> > > > usb_pclk             5     1     0xb6c 0x0
-> > > > eth0_axi             0     0     0xb6c 0x4    eth0_axi eth0_chi
-> > > > eth0_chi             0     0     0xb6c 0x4    eth0_axi eth0_chi
-> > > > eth1_axi             0     0     0xb6c 0x8    eth1_axi eth1_chi
-> > > > eth1_chi             0     0     0xb6c 0x8    eth1_axi eth1_chi
-> > > > i2c0                 0     0     0xb68 0x400
-> > > > i2c1                 0     0     0xb68 0x800
-> > > > i2c2                 0     0     0xb68 0x1000
-> > > > i2c3                 0     0     0xb68 0x2000
-> > > > scif0                2     1     0xb68 0x0
-> > > > scif1                0     0     0xb68 0x4
-> > > > scif2                0     0     0xb68 0x8
-> > > > scif3                0     0     0xb68 0x10
-> > > > scif4                0     0     0xb68 0x20
-> > > > sci0                 0     0     0xb68 0x80
-> > > > sci1                 0     0     0xb68 0x100
-> > > > rspi0                0     0     0xb64 0x4000
-> > > > rspi1                0     0     0xb64 0x8000
-> > > > rspi2                0     0     0xb68 0x1
-> > > > canfd                0     0     0xb68 0x200
-> > > > gpio                 1     1     0xb70 0x0
-> > > > adc_adclk            0     0     0xb68 0x4000 adc_adclk adc_pclk
-> > > > adc_pclk             0     0     0xb68 0x4000 adc_adclk adc_pclk
-> > > > tsu_pclk             1     1     0xb68 0x0
-> > > > ----------------------------------
-> > > >
-> > > > I do not have acces to the other panels for the moment to run the same command.
-> > > >
-> > > >
-> > > > > Also, could you please check if the following diff solves your problem:
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > index 5edd45424562..62957632a96f 100644
-> > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > @@ -1282,6 +1282,10 @@ static ssize_t
-> > > > > rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-> > > > >                  value |= SQCH0DSC0AR_FMT_SHORT;
-> > > > >          }
-> > > > >
-> > > > > +       ret = pm_runtime_resume_and_get(dsi->dev);
-> > > > > +       if (ret)
-> > > > > +               return ret;
-> > > > > +
-> > > > >          rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
-> > > > >
-> > > > >          /*
-> > > > > @@ -1322,6 +1326,8 @@ static ssize_t
-> > > > > rzg2l_mipi_dsi_host_transfer(struct
-> > > > > mipi_dsi_host *host,
-> > > > >                          ret = packet.payload_length;
-> > > > >          }
-> > > > >
-> > > > > +       pm_runtime_put(dsi->dev);
-> > > > > +
-> > > > >          return ret;
-> > > > >   }
-> > > >
-> > > > I confirm that it fixes the bug, altought I assume this is just for testing and is not the
-> > "proper"
-> > > > fix.
-> > >
-> > > Pre-MSTOP case during reboot, without clk it is accessing
-> > > registers)(mstop off always) it won't crash. But looks like you may have ignored timeout error from
-> > [1].
-> > 
-> > In case of a timeout error, it is not really ignored as the proper error code -ETIMEDOUT will be
-> > returned by rzg2l_mipi_dsi_host_transfer() (see log below). The hardware manual doesn't seem to
-> > properly explain how to deal with a timeout (or I could not find it). Do you have any suggestion on
-> > how to improve this?
-> > 
-> > >
-> > > Post MSTOP case, if you access registers with mstop on, it will lead to crash.
-> > >
-> > > and the patch fixes crash.
-> > >
-> > > Basically, you are accessing link register after video is stopped with this panel.
-> > > Looks like it is a fix for me.
-> > 
-> > Ok, like I said I am not an expert on this, but I was just assuming that there was a better way to
-> > ensure that the mipi/dsi interface was still active until the panel unprepare() function could do its
-> > work. I was looking at some other drivers mipi/dsi
-> > host_transfer() functions and did not see a similar
-> > pm_runtime_resume_and_get() scheme, hence my confusion.
-> > 
-> > > Better check if there is any timeout error[1] with this patch. if not,
-> > > It is proper fix.
-> > 
-> > The patch does fixes the kernel panic, but doesn't allow the panel to be properly unprepared, as I
-> > just noticed the timeout message:
-> > 
-> >     [   39.321153] ili9881c-dsi 10850000.dsi.0: sending DCS SET_DISPLAY_OFF failed: -110
-> > 
-> > In my case, for a reboot, this is not a problem, but it may be a problem for systems where it can be
-> > suspended (I assume)?
-> > 
-> > Thank you for your help with this.
+>> On 1/9/26 14:19, David Hildenbrand (Red Hat) wrote:
+>>> On 1/9/26 09:54, Francois Dugast wrote:
+>>>> From: Matthew Brost <matthew.brost@intel.com>
+>>>>
+>>>> Add folio_split_unref helper which splits an unreferenced folio
+>>>
+>>> split_unref reads like "split and unref".
+>>>
+>>> You probably want to call this something like "folio_split_frozen" ?
+>>>
+>>> The very definition of "frozen" is "refcount = 0 ", so you can simplify
+>>> the documentation.
+>>>
+>>> Are the folios you want to pass in there completely unused (-> free) or
+>>> might they still be in use (e.g., migration entries point at them during
+>>> folio split)
+>>>
+>>> So I am not sure yet if this should be "folio_split_frozen()" or
+>>> "folio_split_freed()" or sth like that.
+>>>
+>>> I'm not CCed on the other patches in the series or the cover letter, so
+>>> I don't see the context.
+>>>
+>>
+>> Ah, I was CCed on #3 where we call this function on folios that are getting freed.
+>>
+>> In that case it would be acceptable to initialize folio->mapping (and folio->index?) of the split folios. Do we also have to initialize folio->flags, folio->private etc?
+>>
+>> See __split_huge_page_tail().
+>>
+>> folio_split_freed() would likely be best, because then it is clearer that there is absolutely no state to copy from the large folio.
 > 
-> Can you please try implement .atomic_post_disable() symmetrical to rzg2l_mipi_dsi_atomic_pre_enable?
+> Yes, basically, we do not have a reverse function of prep_compound_page() and
+> open codes the reverse process in free_pages_prepare(). For zone devices,
+> zone_device_page_init() calls prep_compound_page() to form a folio but
+> free_zone_device_folio() never does the reverse. FS DAX has its own
+> dax_folio_put() to do it. Alistair suggested to come up with a helper
+> function for both FS DAX and free_zone_device_folio().
 > 
-> Ie, move just rzg2l_mipi_dsi_stop(dsi) from rzg2l_mipi_dsi_atomic_disable() to rzg2l_mipi_dsi_atomic_post_disable()
-> 
-> and check  you can send DCS SET_DISPLAY_OFF successfully.
+> Maybe free_zone_device_folio_prepare() is better. And put it in mm/memremap.c.
 
-I reverted the previous fix (pm_runtime_resume_and_get), and implemented
-.atomic_post_disable as you suggested, and this works great: the bug is
- no longer present and I do not see timeout errors:
+That would be even better, if we can limit this completely to zone_device.
+-- 
+Cheers
 
-[  537.727556] systemd-shutdown[1]: Syncing filesystems and block devices.
-[  537.734544] systemd-shutdown[1]: Rebooting.
-[  538.520174] rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
-[  538.547848] ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
-[  538.564524] rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
-[  538.574016] reboot: Restarting system
-
-Hugo.
+David
