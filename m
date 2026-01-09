@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C44D07945
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BB0D07948
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D6A10E7F5;
-	Fri,  9 Jan 2026 07:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F8A10E7FC;
+	Fri,  9 Jan 2026 07:32:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uGrm2Yh8";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="wfUa1/x9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E2B10E7FC
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:32:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBB710E7FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:32:21 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 9C1AF4E4201A;
- Fri,  9 Jan 2026 07:32:16 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 86E214E4201B;
+ Fri,  9 Jan 2026 07:32:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6FE6A60734;
- Fri,  9 Jan 2026 07:32:16 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 5BD2660734;
+ Fri,  9 Jan 2026 07:32:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 00DDA103C881F; Fri,  9 Jan 2026 08:32:10 +0100 (CET)
+ with ESMTPSA id 9918E103C8820; Fri,  9 Jan 2026 08:32:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767943935; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767943939; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=GxKIdaKvfopekWvG3hWQtDnNeXJiX7i9YK2gyW5SATs=;
- b=uGrm2Yh8nMAkdUDVxEMReHX/rp073WAEC8AuKIwYdsjF7jvVbJWnZVLt/HMUXJ456u9I2k
- T+sHC/WNkPQAl91yt58yr4H93+vm3bHo9tBVYc8iB3pMJrAsugXLt0lOrvje6bwsA5HT/4
- 9mskfawdl3gHTEJEsJhWmRCBTONx4pNMMDoc6poS+9SRrGrKz+xamS74fQaEtvWD7KyfSu
- fVQU7HhTnzkHJ5DqK3Lconib10bEPvwO+uLwGWpLXvt0Zg/4aUF69UoguJOT4rwHdWEWFk
- 9vBEBtdq0X01kgxwRvBw4vxjdfkUTDuNIx4L40Qoit2RdKup8SofWc+EqirxSA==
+ bh=7iqDfxUkukxgHnkpAItwIxVCJfcJyoW7v+OTkqRu2ww=;
+ b=wfUa1/x9gPAJupv1NstN+FEpg1om/b5kWSEidra5PWmkVO4FW8xChlVs1fv9YaEpqgg9vw
+ EjVH2k3qcUiR7mrD4+W8UWjRSLHXgziWvt3z4voAAr3oJpG0p3rHJdJATXAq4wb394IS/r
+ HwETWKZH4skir9SCWpHBKTUG5H9L2Ia3VYSVQCTHIe5chjz/jBChWun0ORiOba/70HWhUZ
+ VmnukaJSCwHVos01/UHjy6n9CyVr5icw0t8Yta/VL7TqHMJyLkpzfg+GZRYJ4Gvxe9xFRc
+ nZmal0FhoVttm/3ajVc20pMxH4RnGAPKWnsQM6nbRkPg+4pdcWhnZYvM62bfgQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 08:31:39 +0100
-Subject: [PATCH v2 08/12] drm/bridge: imx8mp-hdmi-pvi: convert to
+Date: Fri, 09 Jan 2026 08:31:40 +0100
+Subject: [PATCH v2 09/12] drm/bridge: imx8qxp-ldb: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-8-8bad3ef90b9f@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-9-8bad3ef90b9f@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,77 +80,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done by using the drm_bridge::next_bridge pointer.
+is put when done.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Since the companion bridge pointer is used by many bridge funcs, putting
+its reference in the remove function would be dangerous. Use .destroy to
+put it on final deallocation.
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-index 3a6f8587a257..15fbb1be07cd 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-@@ -29,7 +29,6 @@
- struct imx8mp_hdmi_pvi {
- 	struct drm_bridge	bridge;
- 	struct device		*dev;
--	struct drm_bridge	*next_bridge;
- 	void __iomem		*regs;
- };
- 
-@@ -45,7 +44,7 @@ static int imx8mp_hdmi_pvi_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
- 
--	return drm_bridge_attach(encoder, pvi->next_bridge,
-+	return drm_bridge_attach(encoder, pvi->bridge.next_bridge,
- 				 bridge, flags);
+---
+
+Changes in v2:
+- put in .destroy, not in remove
+---
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+index 122502968927..675995cbeb6b 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+@@ -62,6 +62,15 @@ static inline struct imx8qxp_ldb *base_to_imx8qxp_ldb(struct ldb *base)
+ 	return container_of(base, struct imx8qxp_ldb, base);
  }
  
-@@ -78,8 +77,8 @@ static void imx8mp_hdmi_pvi_bridge_enable(struct drm_bridge *bridge,
- 	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
- 		val |= PVI_CTRL_OP_HSYNC_POL | PVI_CTRL_INP_HSYNC_POL;
++static void imx8qxp_ldb_bridge_destroy(struct drm_bridge *bridge)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++	struct ldb *ldb = ldb_ch->ldb;
++	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
++
++	drm_bridge_put(imx8qxp_ldb->companion);
++}
++
+ static void imx8qxp_ldb_set_phy_cfg(struct imx8qxp_ldb *imx8qxp_ldb,
+ 				    unsigned long di_clk, bool is_split,
+ 				    struct phy_configure_opts_lvds *phy_cfg)
+@@ -391,6 +400,7 @@ imx8qxp_ldb_bridge_mode_valid(struct drm_bridge *bridge,
+ }
  
--	if (pvi->next_bridge->timings)
--		bus_flags = pvi->next_bridge->timings->input_bus_flags;
-+	if (pvi->bridge.next_bridge->timings)
-+		bus_flags = pvi->bridge.next_bridge->timings->input_bus_flags;
- 	else if (bridge_state)
- 		bus_flags = bridge_state->input_bus_cfg.flags;
+ static const struct drm_bridge_funcs imx8qxp_ldb_bridge_funcs = {
++	.destroy		= imx8qxp_ldb_bridge_destroy,
+ 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset		= drm_atomic_helper_bridge_reset,
+@@ -552,7 +562,7 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
+ 		goto out;
+ 	}
  
-@@ -108,7 +107,7 @@ imx8mp_hdmi_pvi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 					  unsigned int *num_input_fmts)
- {
- 	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
--	struct drm_bridge *next_bridge = pvi->next_bridge;
-+	struct drm_bridge *next_bridge = pvi->bridge.next_bridge;
- 	struct drm_bridge_state *next_state;
- 
- 	if (!next_bridge->funcs->atomic_get_input_bus_fmts)
-@@ -157,10 +156,10 @@ static int imx8mp_hdmi_pvi_probe(struct platform_device *pdev)
- 	if (!remote)
- 		return -EINVAL;
- 
--	pvi->next_bridge = of_drm_find_bridge(remote);
-+	pvi->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
- 	of_node_put(remote);
- 
--	if (!pvi->next_bridge)
-+	if (!pvi->bridge.next_bridge)
- 		return dev_err_probe(&pdev->dev, -EPROBE_DEFER,
- 				     "could not find next bridge\n");
- 
-@@ -168,7 +167,7 @@ static int imx8mp_hdmi_pvi_probe(struct platform_device *pdev)
- 
- 	/* Register the bridge. */
- 	pvi->bridge.of_node = pdev->dev.of_node;
--	pvi->bridge.timings = pvi->next_bridge->timings;
-+	pvi->bridge.timings = pvi->bridge.next_bridge->timings;
- 
- 	drm_bridge_add(&pvi->bridge);
- 
+-	imx8qxp_ldb->companion = of_drm_find_bridge(companion_port);
++	imx8qxp_ldb->companion = of_drm_find_and_get_bridge(companion_port);
+ 	if (!imx8qxp_ldb->companion) {
+ 		ret = -EPROBE_DEFER;
+ 		DRM_DEV_DEBUG_DRIVER(dev,
 
 -- 
 2.52.0
