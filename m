@@ -2,82 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8182D0BA5C
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 18:30:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA87D0BAA1
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 18:32:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F3310E918;
-	Fri,  9 Jan 2026 17:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A709410E90E;
+	Fri,  9 Jan 2026 17:32:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="oBTAZU7x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kI42mGF7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9A310E90E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 17:30:23 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-b73161849e1so878086866b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 09:30:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mary.zone; s=google; t=1767979822; x=1768584622; darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=soBNR1e6XweQILJtXjtm9TEGUThkXw+V/3f+H5hzVkI=;
- b=oBTAZU7x1Fb6LX6yEfKt5OD8ai0rSZqyCYUZ6HVEdWG525SnojmUOskn0w0XERNlko
- 92tRRGDt0yiwCddfJBXy354OPeUlsRvA7+eaHzXt08N134zRvOJGKpodEvd92VikZa1K
- nzFglIQIrq1XtUTC1J/cD4I00XZDYrN/Qx8pN9UrCXpCHiwqalvfGo8ufbJtC4E/sL/z
- R/QKG9zO01ozw0xhBUftSD8Ef/E0a2PlhitiVPshdEGojkpz3zDzD5OWquwClj39sYe0
- LGGPEGft6XHp2IFElcX63XA+kYbfyYdGcddwDG1G5Gxa3QjJdLn6qcXwSq5kgH7VRSqb
- RBbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767979822; x=1768584622;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=soBNR1e6XweQILJtXjtm9TEGUThkXw+V/3f+H5hzVkI=;
- b=vec+vVFusKJpAU4NefjqrBxGXzbfpmcxu3sayE8eOXrlJM8wYnp1u7wkoqLb3h1Y04
- ro6nq8rTl/5Y6yw5DTpMcXrjHQJVovsQIJZyfXMpNoEhh4yl452gVy1lLPHk/gSFTlZx
- hlUnYbdu5++D3LnLc/Yl0A2cABmdcrl4OwZeSQGKVtHwe0X5HzT+ZELH5sV052Tkq1xR
- sILAY3c1o/h2wnnlHMhyOgW+pcBJnWYfzYlbFq3XlIJoOOKws0FFYDBDrosLttnqyPQw
- 9l+1RUjalunLCFkW9XK/d1fpZr+7KidlC8kCR1/PklZifaFTU6ObMEGYT285gqPiR1WJ
- 7M9Q==
-X-Gm-Message-State: AOJu0YyicFbO2f0aiFg2fG8uWW7nyexX6+VwDUsukFIka8jCHJ5EYI6j
- 5GtibicBbOQKfrdnewsswMeoT5lT6sLuKZkuJcCiIbVWXgmY26luk6KElZVSVea9zAI=
-X-Gm-Gg: AY/fxX706CAzBoiwODudkbOBWOLC2tuv54k1p6ZQhd2Q7KgU2Ui5uJ8gZapXTl1q/Pg
- bDMybZcB1eabLkji8lVlJSNw7E+DygBvW9uZ7gZHoKH65cdv7lMFkRQGPqubXVgyS9mHkipLywb
- p37pKE7Q6WqTZgIHO0tar9YweBzJYH+EiZTg5wVGSZSR8baIX0DlLZHSWqgpAU3hjksb/iHLfpw
- X1BOlBUJGyKg0/iM6ZCtPs1Vez2JYD+75HrUP7ti4WyKeLo8lM5ZiclEEcnFkxXW8k4+RvGn1Hk
- IiXLOegHfKVoVBg5FibBXJxJD5zlZSmhRvgCiVy8KTjBnL322efzgL+jrzh85LQ7fdyaZKTN+Kz
- wSFMd4O8IYO/xSrKTa1FCI/SjvViepXL9LpKLIzQrA1w7IPqJ3jGsvAtVjfFChh6DUaXa0NlQO/
- YbDHzKuaEBcEWB6vut0sUQU8ntLIes08D2mRrWf6gDIXJ/SisHx+hDiBCSlmGuqP1LpHROfBs=
-X-Google-Smtp-Source: AGHT+IHFU94UKK7N8MjH0NapjtAUM1yZypK3zcxYo0z9XKFp722c/LN1D62iYRnj+aYYDrmJMwDA6A==
-X-Received: by 2002:a17:907:7283:b0:b73:79e9:7d3b with SMTP id
- a640c23a62f3a-b84451ec8bamr1068044566b.25.1767979821976; 
- Fri, 09 Jan 2026 09:30:21 -0800 (PST)
-Received: from [192.168.1.42]
- (2a01cb0405e83a000cb38cfe29807c1e.ipv6.abo.wanadoo.fr.
- [2a01:cb04:5e8:3a00:cb3:8cfe:2980:7c1e])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a230db0sm1195426266b.2.2026.01.09.09.30.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jan 2026 09:30:21 -0800 (PST)
-From: Mary Guillemard <mary@mary.zone>
-Date: Fri, 09 Jan 2026 18:30:12 +0100
-Subject: [PATCH 3/3] drm/nouveau: Increase GPFIFO ring buffer size on Maxwell+
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE1F10E90E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 17:32:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 37EA8600B0;
+ Fri,  9 Jan 2026 17:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB23AC4CEF1;
+ Fri,  9 Jan 2026 17:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1767979926;
+ bh=NUMdQS00w2uiyTP712LRVWwLS5uwiQjstrFqaeib/HU=;
+ h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+ b=kI42mGF7mAGgB1DUaM+HCHA+uJSf0Kwy4CJNgL+Ylroq6HKbf82uGgUy2ORKePL25
+ uz+erEJF/9Fm+bfY2dy3RwC8pD2jcAX1ynaDvuxqlUUdbQqOGLXubcaCx5Nr2f9lIx
+ ux8TgPEY45Jx7xw4u57Xc2R/uprcqt1Z58+aYh6cuPr0/q7NHjo9U6Ta2QLiuB1pwH
+ n3qCaDl+5CiU/K9CWP8Q6hK8/KkufrxMNzfDIqA9sdl1vONCN0jEV6jJnEhFfF+2g2
+ SXukyakydNz4q8Lhul1Wn8JA9ki60XdT5DEs9dNXxIyYpgfkyvMGBxkA4WcvkXeZCl
+ OvlGbpEINqBLw==
+Message-ID: <685f4a41-b90c-4f8f-b4be-531eae1905ce@kernel.org>
+Date: Fri, 9 Jan 2026 11:32:05 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/dp: Add byte-by-byte fallback for broken USB-C
+ adapters
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+References: <20251204024647.1462866-1-acelan.kao@canonical.com>
+Content-Language: en-US
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20251204024647.1462866-1-acelan.kao@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-nouveau-gpfifo-increase-v1-3-ed0be9822878@mary.zone>
-References: <20260109-nouveau-gpfifo-increase-v1-0-ed0be9822878@mary.zone>
-In-Reply-To: <20260109-nouveau-gpfifo-increase-v1-0-ed0be9822878@mary.zone>
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Mary Guillemard <mary@mary.zone>
-X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,78 +59,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since Tesla days, the limit has been increased considerably.
+On 12/3/25 8:46 PM, Chia-Lin Kao (AceLan) wrote:
+> Some USB-C hubs and adapters have buggy firmware where multi-byte AUX
+> reads consistently timeout, while single-byte reads from the same address
+> work correctly.
+> 
+> Known affected devices that exhibit this issue:
+> - Lenovo USB-C to VGA adapter (VIA VL817 chipset)
+>    idVendor=17ef, idProduct=7217
+> - Dell DA310 USB-C mobile adapter hub
+>    idVendor=413c, idProduct=c010
+> 
+> Analysis of the failure pattern shows:
+> - Single-byte probes to 0xf0000 (LTTPR) succeed
+> - Single-byte probes to 0x00102 (TRAINING_AUX_RD_INTERVAL) succeed
+> - Multi-byte reads from 0x00000 (DPCD capabilities) timeout with -ETIMEDOUT
+> - Retrying does not help - the failure is consistent across all attempts
+> 
+> The issue appears to be a firmware bug in the AUX transaction handling
+> that specifically affects multi-byte reads.
+> 
+> Add a fallback mechanism in drm_dp_dpcd_read_data() that attempts
+> byte-by-byte reading when the normal multi-byte read fails. This
+> workaround only activates for adapters that fail the standard read path,
+> ensuring no impact on correctly functioning hardware.
+> 
+> Tested with:
+> - Lenovo USB-C to VGA adapter (VIA VL817) - now works with fallback
+> - Dell DA310 USB-C hub - now works with fallback
+> - Dell/Analogix Slimport adapter - continues to work with normal path
+> 
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 
-From the various testing I did, since at least Maxwell, it is safe
-to use up to at least 32768 entries and this should be matching
-NVIDIA proprietary driver behavior.
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-This patch increase the ring buffer to 32768 entries on Maxwell and
-later allowing up to 16382 entries to be used by the userspace.
+As this fixes reads for some existing hardware on the market and is just 
+in fallback path I feel this is low risk.  I've applied this to 
+drm-misc-fixes.
 
-Signed-off-by: Mary Guillemard <mary@mary.zone>
----
- drivers/gpu/drm/nouveau/nouveau_abi16.c | 22 ++++++++++++++++++----
- drivers/gpu/drm/nouveau/nouveau_chan.h  |  6 +++++-
- 2 files changed, 23 insertions(+), 5 deletions(-)
+a8f49a0043011 (HEAD -> drm-misc-fixes) drm/dp: Add byte-by-byte fallback 
+for broken USB-C adapters
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-index a5445e97179f..d4a25a442568 100644
---- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-@@ -233,10 +233,24 @@ static inline int
- getparam_dma_ib_max(struct nvif_device *device)
- {
- 	const struct nvif_mclass hosts[] = {
--		{ NV03_CHANNEL_DMA, 0 },
--		{ NV10_CHANNEL_DMA, 0 },
--		{ NV17_CHANNEL_DMA, 0 },
--		{ NV40_CHANNEL_DMA, 0 },
-+		{ BLACKWELL_CHANNEL_GPFIFO_B, 0 },
-+		{ BLACKWELL_CHANNEL_GPFIFO_A, 0 },
-+		{    HOPPER_CHANNEL_GPFIFO_A, 0 },
-+		{    AMPERE_CHANNEL_GPFIFO_B, 0 },
-+		{    AMPERE_CHANNEL_GPFIFO_A, 0 },
-+		{    TURING_CHANNEL_GPFIFO_A, 0 },
-+		{     VOLTA_CHANNEL_GPFIFO_A, 0 },
-+		{    PASCAL_CHANNEL_GPFIFO_A, 0 },
-+		{   MAXWELL_CHANNEL_GPFIFO_A, 0 },
-+		{    KEPLER_CHANNEL_GPFIFO_B, 0 },
-+		{    KEPLER_CHANNEL_GPFIFO_A, 0 },
-+		{     FERMI_CHANNEL_GPFIFO  , 0 },
-+		{       G82_CHANNEL_GPFIFO  , 0 },
-+		{      NV50_CHANNEL_GPFIFO  , 0 },
-+		{      NV40_CHANNEL_DMA     , 0 },
-+		{      NV17_CHANNEL_DMA     , 0 },
-+		{      NV10_CHANNEL_DMA     , 0 },
-+		{      NV03_CHANNEL_DMA     , 0 },
- 		{}
- 	};
- 	int cid;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
-index 294d061497c0..708ded06a859 100644
---- a/drivers/gpu/drm/nouveau/nouveau_chan.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
-@@ -67,13 +67,17 @@ int  nouveau_channel_idle(struct nouveau_channel *);
- void nouveau_channel_kill(struct nouveau_channel *);
- 
- /* Maximum GPFIFO entries per channel. */
--#define NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT (0x02000 / 8)
-+#define NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT		(0x02000 / 8)
-+#define MAXWELL_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT	(0x40000 / 8)
- 
- static inline u32 nouveau_channel_get_gpfifo_entries_count(u32 oclass)
- {
- 	if (oclass < NV50_CHANNEL_GPFIFO)
- 		return 0;
- 
-+	if (oclass >= MAXWELL_CHANNEL_GPFIFO_A)
-+		return MAXWELL_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT;
-+
- 	return NV50_CHANNEL_GPFIFO_ENTRIES_MAX_COUNT;
- }
- 
-
--- 
-2.52.0
+> ---
+> v2. 1. Move the workaround from intel_dp_read_dprx_caps() to
+>         drm_dp_dpcd_read_data(), so that it applies to all DPCD reads across
+>         all DRM drivers benefit from this fix, not just i915.
+>      2. Move the definition of drm_dp_dpcd_readb() before
+>         drm_dp_dpcd_read_data()
+> ---
+>   include/drm/display/drm_dp_helper.h | 57 +++++++++++++++++++----------
+>   1 file changed, 37 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index df2f24b950e4..14d2859f0bda 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -551,6 +551,22 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+>   ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+>   			  void *buffer, size_t size);
+>   
+> +/**
+> + * drm_dp_dpcd_readb() - read a single byte from the DPCD
+> + * @aux: DisplayPort AUX channel
+> + * @offset: address of the register to read
+> + * @valuep: location where the value of the register will be stored
+> + *
+> + * Returns the number of bytes transferred (1) on success, or a negative
+> + * error code on failure. In most of the cases you should be using
+> + * drm_dp_dpcd_read_byte() instead.
+> + */
+> +static inline ssize_t drm_dp_dpcd_readb(struct drm_dp_aux *aux,
+> +					unsigned int offset, u8 *valuep)
+> +{
+> +	return drm_dp_dpcd_read(aux, offset, valuep, 1);
+> +}
+> +
+>   /**
+>    * drm_dp_dpcd_read_data() - read a series of bytes from the DPCD
+>    * @aux: DisplayPort AUX channel (SST or MST)
+> @@ -570,12 +586,29 @@ static inline int drm_dp_dpcd_read_data(struct drm_dp_aux *aux,
+>   					void *buffer, size_t size)
+>   {
+>   	int ret;
+> +	size_t i;
+> +	u8 *buf = buffer;
+>   
+>   	ret = drm_dp_dpcd_read(aux, offset, buffer, size);
+> -	if (ret < 0)
+> -		return ret;
+> -	if (ret < size)
+> -		return -EPROTO;
+> +	if (ret >= 0) {
+> +		if (ret < size)
+> +			return -EPROTO;
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * Workaround for USB-C hubs/adapters with buggy firmware that fail
+> +	 * multi-byte AUX reads but work with single-byte reads.
+> +	 * Known affected devices:
+> +	 * - Lenovo USB-C to VGA adapter (VIA VL817, idVendor=17ef, idProduct=7217)
+> +	 * - Dell DA310 USB-C hub (idVendor=413c, idProduct=c010)
+> +	 * Attempt byte-by-byte reading as a fallback.
+> +	 */
+> +	for (i = 0; i < size; i++) {
+> +		ret = drm_dp_dpcd_readb(aux, offset + i, &buf[i]);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+>   
+>   	return 0;
+>   }
+> @@ -609,22 +642,6 @@ static inline int drm_dp_dpcd_write_data(struct drm_dp_aux *aux,
+>   	return 0;
+>   }
+>   
+> -/**
+> - * drm_dp_dpcd_readb() - read a single byte from the DPCD
+> - * @aux: DisplayPort AUX channel
+> - * @offset: address of the register to read
+> - * @valuep: location where the value of the register will be stored
+> - *
+> - * Returns the number of bytes transferred (1) on success, or a negative
+> - * error code on failure. In most of the cases you should be using
+> - * drm_dp_dpcd_read_byte() instead.
+> - */
+> -static inline ssize_t drm_dp_dpcd_readb(struct drm_dp_aux *aux,
+> -					unsigned int offset, u8 *valuep)
+> -{
+> -	return drm_dp_dpcd_read(aux, offset, valuep, 1);
+> -}
+> -
+>   /**
+>    * drm_dp_dpcd_writeb() - write a single byte to the DPCD
+>    * @aux: DisplayPort AUX channel
 
