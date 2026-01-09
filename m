@@ -2,156 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24585D0B162
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 17:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0C5D0B159
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 16:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA7710E8F9;
-	Fri,  9 Jan 2026 16:00:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Xug3r07o";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF4D10E8F8;
+	Fri,  9 Jan 2026 15:59:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010025.outbound.protection.outlook.com [52.101.229.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483E710E8F9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 16:00:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q1vDYv3V3EsuwEFPX14DSdyvs2kDX48bmpte86iO61pV5cRzrCZ4n3M4QXQJKyg0tIJV0+q+TjO9PFUY0laT8xiJO1O34l9k1QLVcjw7SieChHZAyq1nBULLN9yYqYiEyizvafqWIbTEkLz6y1OlCHKmVeWff0yYCIjT1eqCa9eAi2RfKXW/XCTj0n1Tsewxa8SsRBReFUDcb622bmwVe4YCOAt8XB4AkJBNDgyQLX/RLT/afJ3xxlGy8LKk0zZpRNAnjzU1w0kOkLBNaUcVU9NpZ+pfgUsy+1L3HE7gnpNCz8E6cqPXajU2q5/ESH9+NaITpvGqpsyhTAvMlwZXlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tHhFUCgZj77AWutw/CVZbqjHswvXCkKOssI/Qsf5RLs=;
- b=jylzWgdsSQBlzanTnxn6nvsU8OUPCTW/GSedMzLmrfd1DCjqaWbHjozeIpoAJ/T7GIhYyqRtqdPZ9p9tvgW3cvI0c5Zi6xEab2F/VQZhUAG7LlKq9EmA2KhpHxUAERtCKqYAvq1QzdNrSAxLUD6x+pkMl3tWEs1YLTNlC8B65a5JPI1c+3E0wNczwMjIg+yNdvSDTQTvAkcY+JCfLZNm0yVc6xXFWj50Wrsnbr+aYcFKF0RoxZKseTNIhT+I+8OUF6Wg1mVq6nijbYjtjSYKgc8RDrY9Wb0up64dM908DzBVO54mmTHH9nV2rIBTU/RPOk4RWkAIkRwXFmbLiwSGsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tHhFUCgZj77AWutw/CVZbqjHswvXCkKOssI/Qsf5RLs=;
- b=Xug3r07oJO9vyHRIZwAf4xwY3+Y5DhPglozuESl7rkSW/1CPBea7Kjc8smS4bGJw46GrkZh0g47t9WF3kIvNorOkEwjcbkDvZnkP0Hysbc9feVqrHi+NfeXPoj3d/4+u0uVEQZIllkyK5p5O4/mOZqMjrXH2vwFTOeXqFinwvts=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OSCPR01MB16241.jpnprd01.prod.outlook.com (2603:1096:604:3e9::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.2; Fri, 9 Jan
- 2026 16:00:00 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9520.001; Fri, 9 Jan 2026
- 15:59:59 +0000
-Date: Fri, 9 Jan 2026 16:59:40 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Message-ID: <aWEl7A43aW9MAGvq@tom-desktop>
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-X-ClientProxiedBy: FR2P281CA0183.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::19) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D1C3D10E8F8
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 15:59:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D4CB497;
+ Fri,  9 Jan 2026 07:59:46 -0800 (PST)
+Received: from [10.1.36.18] (e122027.cambridge.arm.com [10.1.36.18])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B5623F5A1;
+ Fri,  9 Jan 2026 07:59:50 -0800 (PST)
+Message-ID: <f19b2ca3-56f6-4f69-9823-f6444a2d5eae@arm.com>
+Date: Fri, 9 Jan 2026 15:59:46 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSCPR01MB16241:EE_
-X-MS-Office365-Filtering-Correlation-Id: e169db5b-60d1-48a5-8aef-08de4f98241d
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|52116014|7416014|366016|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5IF2kiea7lo6QjM/mhMnRXnpFoUtpQcLCpdgN4DGhDlbHYb4PE6P/j+zET3o?=
- =?us-ascii?Q?FW7yygKxiWMphj7FDxh4y1CIhQP8LLy8XX+4ub9MyKsVbT1evb6Dp6vdc2E/?=
- =?us-ascii?Q?ED1r42uY/YPtDUbcTWSd5+yPMqY1rJw6yF5GJyNVUSgaJAawSRhP79HU7tge?=
- =?us-ascii?Q?gnb9DnuYKz+E0i1PSQbhtU7XztB6h1HXiI3h8+lb0nQpdx3c4ALGHwgIytvj?=
- =?us-ascii?Q?kJOkdU2rNX9Du+7RsFa/y3sLMBaK2OwS/4bu/wU9AUnBO+/VGAziMg83r+3c?=
- =?us-ascii?Q?ddLEhecUO24VgPC72WDFV2tNGF0Ns1M4e/l5LYGxEc6DpzJq57yGGLqOP0ww?=
- =?us-ascii?Q?w7estU36NxeAsEb/HhqgvLaXhqTXGLafFpqxYfLgsg36i9nBSWpLInGlvjxt?=
- =?us-ascii?Q?YpVh8izZ03foCzaqu9bNusVtipPH0iyjKeiUzg/RIePLHzKJKjeisMzNw/ay?=
- =?us-ascii?Q?Wnhljv+xoMBhTdaWKgTRLg6CQp68XNYJSCdHTBMVVCw2yEvq0SVbU9EOJOLf?=
- =?us-ascii?Q?/71BswzSZwHsY+4a+lfBwCvpeUG3Sx7oyKhtQq//zGE2A/lE6gmfU831aVJf?=
- =?us-ascii?Q?/rchkbycQy76BLwT73W0OxTTS3lnxxFQEdaMpKB/jBShXGl4WeD/xOKovtke?=
- =?us-ascii?Q?H6cBJ5aMD5W04DZxWIn8aO27JxJSp1Fo7+NYMindyNLf/MMtruESXsELpSXo?=
- =?us-ascii?Q?0IBaISi1N3mKtvtMCMboJ5QK2T+6MEnDDNFoAkXYvuOdkVS8EUzqeUvhB7jf?=
- =?us-ascii?Q?rdwoEzf76TEIWp8VwrJpAsz+xNZLMn69Z7LirnlYoOxk3oMqFs404KpUuuIA?=
- =?us-ascii?Q?T3NmvLMyio0PyOZwJrC5kL/HMpEI12ZZIvSH+x3CeyS1pm3wXum+bU484gai?=
- =?us-ascii?Q?xLOY/E9d51quUsM0ZLj7ulQK+qrm/+4/PPFjGM8/dYqxn/fgLNl+VMfJR79u?=
- =?us-ascii?Q?InAOUjVvghuo+W2eKZw4/xLw33j8gxUeFsXbHSBSv6NtDa/DX8XCpad+Ri3R?=
- =?us-ascii?Q?Brm5cUlvl7ja2XA3Vy5o119bu90JVv+etXRqGAeNfa7caDKGInRD9Dv/NDlN?=
- =?us-ascii?Q?KshnHHU4IbzG86QrD6P9FbsQ3L1q0LbazAEkRQ39oruCslMiNS4PGOy4zmsb?=
- =?us-ascii?Q?CJ0AdLQgHjnhTpmEZ+IPhvun8eWGRSWO2XsaNGMvoS2JklX87gIzsvS+2Ppy?=
- =?us-ascii?Q?a56qtvC0HKtx0IOc+uMH8+yOaqK2D4tx5Q3ekru6EuU7AX+8Cm5CHbCfOAa7?=
- =?us-ascii?Q?kMoNxOjUmdnurdgVhG/lfSaw2SrNM4fRy4u+Hje4bhjg7RxsJKJBe8Fhe2Co?=
- =?us-ascii?Q?XF6Mgb9RQx5eddLJNw7vVHKy3RXilYIDpAwK19hvOdIWt4gwBHpVcLQpt31Q?=
- =?us-ascii?Q?b4xMMzSoFIHVPEks4Cvb6npprzGeLThQ+Tx7zi9k/5Rby0u1QzjsoHnGfUSE?=
- =?us-ascii?Q?Rb9jYF8CyxCgsfBCCFcQZqwSrLqlfUIzK1iqTgOLbxRTfPInQ2p4IP0xiZ9H?=
- =?us-ascii?Q?duHEbjuhkPhOeYfRfPvFvOPtaB2LgjcxOCOq?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB11947.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OMPXy6lWgmYyWOY4wbWBmwG29ODNTb6Ofwh5pI+DVb3kZMNSHsjaOK3gmiZB?=
- =?us-ascii?Q?O7lRTgLLPxo1N8+AYzXA50bszC1kL/tZA8xPzVQSgWx2gnxIX6qFTFF21hrQ?=
- =?us-ascii?Q?LfWUh1AIXKJyj+VzbF0My8T79hPwnlRvnNXKxaF4Ruwwo6a+OTLj/dZTXnIe?=
- =?us-ascii?Q?EiGzy4eqYXF0f5L3GogCYcrPspTkVTdx58zoE4dPQb55ht7uJMg8yvawDeoz?=
- =?us-ascii?Q?aSGWz8JeaZabtYACXv1ZObpY4lNd9CKq/CS40fs6CeZQ8Ngy/JrrJfwYHPUn?=
- =?us-ascii?Q?zMo7zTnDlbY7YMqwbsMJ7wVXZcYINCzaz1hI3o7WrvTotcwWHdb7R2y+mw/u?=
- =?us-ascii?Q?BeevwFrRSNx3U3ZVQv59U2xrrdr9CqEuBji56V65tOn3WPZ/VAsnWafpHOE8?=
- =?us-ascii?Q?NgnP/5UYZm7bxnrOp53wNDGGqksbSaKq3MdyuRa26pt+YTAvCopDDyFCl0cr?=
- =?us-ascii?Q?ZQBitWYKrCGd0UVxM+Nb3i/oHOz+YJegAjyyHpVkL55C+JP4ArONbb84ZFfv?=
- =?us-ascii?Q?50OmJ/S/+MBRSiVwti0rxKUawpboyV3+3NmSnX513bOtIF5ow972xJAj2Lrl?=
- =?us-ascii?Q?JbtpVKkJH5IMvIGtrSz2jBXfifmhY6Jj5kx5otuWToRSsdDMugzAU5YbaFc6?=
- =?us-ascii?Q?YhGCWoOAMrIkYKqvwyLADi3Az/Qzkb7sNZMsnTNvpOIk0pRLuwFdKkf5K8CV?=
- =?us-ascii?Q?PlGfXadL168PDUh54OzJWZICCqmaMwBQ1+JpPPwFFBWjcL1EH9AN5r2lGDsq?=
- =?us-ascii?Q?DDg6KTBHwrXQ2tIWXplJDyGMSo/tiHY5DycdB7jZjzcw5nlMpRKXMNYrEu40?=
- =?us-ascii?Q?Xvqc3ImpkulkfayDdCIOrIbB1xuXmjuTzpuaWQWoaRfw6x9aC3pKr/8rMNEI?=
- =?us-ascii?Q?t3A2NHRALjeECX8HNPeKIAjgIaVf+YTajltR+EBgzLg7WsZV3RuuGcLNVMQt?=
- =?us-ascii?Q?RDFoCCU6lHuxiy7cy2sgJqCl/6kPwUR5JlBzAjjM/8xSRH3OG/a+9GbjCtzK?=
- =?us-ascii?Q?rV8kI6p2hQveS1Hk969QulgSaMnSIPQJoWo13OjTto/vfREsmvlV1zZIwYID?=
- =?us-ascii?Q?krvp5Q4N/6p4MjjRFy8jiEpLJgxTqC2o0xdTbu/v/AeAGwXJ4CdO47Elf+WO?=
- =?us-ascii?Q?eLzr0GoneETaDXVLShuW4mNbID3pW1g9EptuAhGNKmO8rxU0AAh4loXzr6Wa?=
- =?us-ascii?Q?3FVhxyFKesWV2pyRLwdP8wAKgCX4c0lFqimu8L6FXaDrNs9IXqpE/0NeqLmO?=
- =?us-ascii?Q?sQhCPOprAOItNDo5hvfb4WJvkv46w6gqMqPOIuphrm1umMdnsN0UWDhWLpIZ?=
- =?us-ascii?Q?usabuCOhg+9VUihX+QJIQXfa7qMeZaLoLGx5qCGdpPuIP07cRXHCAuXyvsWD?=
- =?us-ascii?Q?KMYMBKc90G1tZWplfEhVD1q15B1PbHVVR8j/6vJ9h1I5DNuVgSDZmBtHHRAT?=
- =?us-ascii?Q?00vWW9hgLGdyj60Wlv1JNrQ1Md3mbwr3RpTyYp0TkqRUDxVOn9d1GtzHRKRf?=
- =?us-ascii?Q?SOvcbuWjM3aj8esbA1tiCPU4xqVNud2Il/zCjwiySMftmEC1Ns0m4fT83kRV?=
- =?us-ascii?Q?WhPOufGFojly3JWvBtD+Pi2kE3S6H5NthBXs2OYwlNjm4HnZw3EJzmFF+egd?=
- =?us-ascii?Q?g+WTZ9Zhu265lBZCpW+4ccQCDBg++MDWfkGOA0VyDwUxGlMwG+VlEZsRW60o?=
- =?us-ascii?Q?nXhTiL5zOYmWc+RrCVD6ECN1+wYtnAZAP/mgGbevr4m36fZHPaNf7BRKQoSI?=
- =?us-ascii?Q?iYWLv5FDM+Q79gQk8ieZzdNDg90IAmmyGunmJwHTYo4e0O7896xy?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e169db5b-60d1-48a5-8aef-08de4f98241d
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 15:59:59.6183 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cO29CUMWOyQ0KdUOPNhuvPpXdH6vCRdXTq00HKQTf2Dulgydt+ctJtq+25wsqbtF20UkDZp//QDYmXgYQGrg9kGifU2A0rGZVLU57zrw7f6WtEJIeUUoVHlWnGAZwiyV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16241
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/4] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com>
+ <20260108-panthor-tracepoints-v7-1-afeae181f74a@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260108-panthor-tracepoints-v7-1-afeae181f74a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,95 +55,511 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krystoff, Laurent, Geert,
-
-On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
-> Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
-> Processor (VSPD), and Display Unit (DU).
+On 08/01/2026 14:19, Nicolas Frattaroli wrote:
+> The current IRQ helpers do not guarantee mutual exclusion that covers
+> the entire transaction from accessing the mask member and modifying the
+> mask register.
 > 
->  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
->  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
+> This makes it hard, if not impossible, to implement mask modification
+> helpers that may change one of these outside the normal
+> suspend/resume/isr code paths.
 > 
-> Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> and 'renesas,r9a09g047-du1'.
+> Add a spinlock to struct panthor_irq that protects both the mask member
+> and register. Acquire it in all code paths that access these, but drop
+> it before processing the threaded handler function. Then, add the
+> aforementioned new helpers: enable_events, and disable_events. They work
+> by ORing and NANDing the mask bits.
 > 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> resume is changed to no longer have a mask passed, as pirq->mask is
+> supposed to be the user-requested mask now, rather than a mirror of the
+> INT_MASK register contents. Users of the resume helper are adjusted
+> accordingly, including a rather painful refactor in panthor_mmu.c.
+> 
+> panthor_irq::suspended remains an atomic, as it's necessarily written to
+> outside the mask_lock in the suspend path.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  .../bindings/display/renesas,rzg2l-du.yaml    | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_device.h |  60 ++++++--
+>  drivers/gpu/drm/panthor/panthor_fw.c     |   3 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |   2 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c    | 247 ++++++++++++++++---------------
+>  drivers/gpu/drm/panthor/panthor_pwr.c    |   2 +-
+>  5 files changed, 179 insertions(+), 135 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> index 2cc66dcef870..a68252ae02fb 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -20,6 +20,8 @@ properties:
->        - enum:
->            - renesas,r9a07g043u-du # RZ/G2UL
->            - renesas,r9a07g044-du # RZ/G2{L,LC}
-> +          - renesas,r9a09g047-du0 # RZ/G3E DU0
-> +          - renesas,r9a09g047-du1 # RZ/G3E DU1
->            - renesas,r9a09g057-du # RZ/V2H(P)
->        - items:
->            - enum:
-> @@ -137,6 +139,46 @@ allOf:
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index f35e52b9546a..cf76a8abca76 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -73,11 +73,14 @@ struct panthor_irq {
+>  	/** @irq: IRQ number. */
+>  	int irq;
 >  
->            required:
->              - port@0
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g047-du0
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: LVDS
-> +            port@2:
-> +              description: LVDS
-> +
-> +          required:
-> +            - port@0
-> +            - port@1
-> +            - port@2
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g047-du1
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: LVDS
-> +            port@2:
-> +              description: DPAD
-> +
-> +          required:
-> +            - port@0
-> +            - port@1
-> +            - port@2
+> -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> +	/** @mask: Values to write to xxx_INT_MASK if active. */
+>  	u32 mask;
 >  
->  examples:
->    # RZ/G2L DU
-> -- 
-> 2.43.0
+>  	/** @suspended: Set to true when the IRQ is suspended. */
+>  	atomic_t suspended;
+> +
+> +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> +	spinlock_t mask_lock;
+>  };
+>  
+>  /**
+> @@ -410,6 +413,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+>  	struct panthor_irq *pirq = data;							\
+>  	struct panthor_device *ptdev = pirq->ptdev;						\
+>  												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+>  	if (atomic_read(&pirq->suspended))							\
+>  		return IRQ_NONE;								\
+>  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+> @@ -424,9 +429,14 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+>  	struct panthor_irq *pirq = data;							\
+>  	struct panthor_device *ptdev = pirq->ptdev;						\
+>  	irqreturn_t ret = IRQ_NONE;								\
+> +	u32 mask;										\
+> +												\
+> +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> +		mask = pirq->mask;								\
+> +	}											\
+>  												\
+>  	while (true) {										\
+> -		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> +		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & mask);		\
+>  												\
+>  		if (!status)									\
+>  			break;									\
+> @@ -435,26 +445,34 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+>  		ret = IRQ_HANDLED;								\
+>  	}											\
+>  												\
+> -	if (!atomic_read(&pirq->suspended))							\
+> -		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> +		if (!atomic_read(&pirq->suspended)) {						\
+> +			/* Only restore the bits that were used and are still enabled */	\
+> +			gpu_write(ptdev, __reg_prefix ## _INT_MASK,				\
+> +				  gpu_read(ptdev, __reg_prefix ## _INT_MASK) |			\
+> +				  (mask & pirq->mask));						\
+> +		}										\
+> +	}											\
+>  												\
+>  	return ret;										\
+>  }												\
+>  												\
+>  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+>  {												\
+> -	pirq->mask = 0;										\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> +	}											\
+>  	synchronize_irq(pirq->irq);								\
+
+This isn't quite safe with the threaded handler. The following can occur:
+
+CPU 0				| CPU 1
+--------------------------------+----------------------------
+Running _irq_threaded_handler() |
+Enters __handler() callback     |
+				| Enters _irq_suspend
+				| Writes 0 to _INT_MASK
+				| Drops scoped_guard()
+				| Waits for the threaded handler
+Enters the final scoped_guard   |
+pirq->suspended is non-zero	|
+Reads pirq->mask/mask		|
+Writes non-zero to _INT_MASK	|
+				| Sets suspended, but it's too late
+
+Leading to the suspend occurring with interrupts not masked.
+
+In the next patches you introduce the SUSPENDING flag which I think
+might fix this, but with just this patch it's broken so we could have
+bisection issues.
+
+Admittedly the old code was a little dodgy with the usage of irq->mask
+(I think really we should have atomic accesses to ensure that the write
+of pirq->mask is observed before the gpu_write).
+
+Can you reorder the patches - introduce the panthor_irq_state enum first
+(with just SUSPENDED and ACTIVE states) and then do the conversion in
+one step?
+
+Thanks,
+Steve
+
+>  	atomic_set(&pirq->suspended, true);							\
+>  }												\
+>  												\
+> -static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+> +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq)			\
+>  {												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+>  	atomic_set(&pirq->suspended, false);							\
+> -	pirq->mask = mask;									\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
+> +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+>  }												\
+>  												\
+>  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> @@ -463,13 +481,33 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+>  {												\
+>  	pirq->ptdev = ptdev;									\
+>  	pirq->irq = irq;									\
+> -	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+> +	pirq->mask = mask;									\
+> +	spin_lock_init(&pirq->mask_lock);							\
+> +	panthor_ ## __name ## _irq_resume(pirq);						\
+>  												\
+>  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+>  					 panthor_ ## __name ## _irq_raw_handler,		\
+>  					 panthor_ ## __name ## _irq_threaded_handler,		\
+>  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+>  					 pirq);							\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_enable_events(struct panthor_irq *pirq, u32 mask)	\
+> +{												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+> +	pirq->mask |= mask;									\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_disable_events(struct panthor_irq *pirq, u32 mask)\
+> +{												\
+> +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> +												\
+> +	pirq->mask &= ~mask;									\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+>  }
+>  
+>  extern struct workqueue_struct *panthor_cleanup_wq;
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index a64ec8756bed..0e46625f7621 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1080,7 +1080,8 @@ static int panthor_fw_start(struct panthor_device *ptdev)
+>  	bool timedout = false;
+>  
+>  	ptdev->fw->booted = false;
+> -	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
+> +	panthor_job_irq_enable_events(&ptdev->fw->irq, ~0);
+> +	panthor_job_irq_resume(&ptdev->fw->irq);
+>  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
+>  
+>  	if (!wait_event_timeout(ptdev->fw->req_waitqueue,
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 057e167468d0..9304469a711a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -395,7 +395,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+>   */
+>  void panthor_gpu_resume(struct panthor_device *ptdev)
+>  {
+> -	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+> +	panthor_gpu_irq_resume(&ptdev->gpu->irq);
+>  	panthor_hw_l2_power_on(ptdev);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index b888fff05efe..64aa249c8a93 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -655,125 +655,6 @@ static void panthor_vm_release_as_locked(struct panthor_vm *vm)
+>  	vm->as.id = -1;
+>  }
+>  
+> -/**
+> - * panthor_vm_active() - Flag a VM as active
+> - * @vm: VM to flag as active.
+> - *
+> - * Assigns an address space to a VM so it can be used by the GPU/MCU.
+> - *
+> - * Return: 0 on success, a negative error code otherwise.
+> - */
+> -int panthor_vm_active(struct panthor_vm *vm)
+> -{
+> -	struct panthor_device *ptdev = vm->ptdev;
+> -	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+> -	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
+> -	int ret = 0, as, cookie;
+> -	u64 transtab, transcfg;
+> -
+> -	if (!drm_dev_enter(&ptdev->base, &cookie))
+> -		return -ENODEV;
+> -
+> -	if (refcount_inc_not_zero(&vm->as.active_cnt))
+> -		goto out_dev_exit;
+> -
+> -	/* Make sure we don't race with lock/unlock_region() calls
+> -	 * happening around VM bind operations.
+> -	 */
+> -	mutex_lock(&vm->op_lock);
+> -	mutex_lock(&ptdev->mmu->as.slots_lock);
+> -
+> -	if (refcount_inc_not_zero(&vm->as.active_cnt))
+> -		goto out_unlock;
+> -
+> -	as = vm->as.id;
+> -	if (as >= 0) {
+> -		/* Unhandled pagefault on this AS, the MMU was disabled. We need to
+> -		 * re-enable the MMU after clearing+unmasking the AS interrupts.
+> -		 */
+> -		if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as))
+> -			goto out_enable_as;
+> -
+> -		goto out_make_active;
+> -	}
+> -
+> -	/* Check for a free AS */
+> -	if (vm->for_mcu) {
+> -		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
+> -		as = 0;
+> -	} else {
+> -		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
+> -	}
+> -
+> -	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
+> -		struct panthor_vm *lru_vm;
+> -
+> -		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
+> -						  struct panthor_vm,
+> -						  as.lru_node);
+> -		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
+> -			ret = -EBUSY;
+> -			goto out_unlock;
+> -		}
+> -
+> -		drm_WARN_ON(&ptdev->base, refcount_read(&lru_vm->as.active_cnt));
+> -		as = lru_vm->as.id;
+> -
+> -		ret = panthor_mmu_as_disable(ptdev, as, true);
+> -		if (ret)
+> -			goto out_unlock;
+> -
+> -		panthor_vm_release_as_locked(lru_vm);
+> -	}
+> -
+> -	/* Assign the free or reclaimed AS to the FD */
+> -	vm->as.id = as;
+> -	set_bit(as, &ptdev->mmu->as.alloc_mask);
+> -	ptdev->mmu->as.slots[as].vm = vm;
+> -
+> -out_enable_as:
+> -	transtab = cfg->arm_lpae_s1_cfg.ttbr;
+> -	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
+> -		   AS_TRANSCFG_PTW_RA |
+> -		   AS_TRANSCFG_ADRMODE_AARCH64_4K |
+> -		   AS_TRANSCFG_INA_BITS(55 - va_bits);
+> -	if (ptdev->coherent)
+> -		transcfg |= AS_TRANSCFG_PTW_SH_OS;
+> -
+> -	/* If the VM is re-activated, we clear the fault. */
+> -	vm->unhandled_fault = false;
+> -
+> -	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+> -	 * before enabling the AS.
+> -	 */
+> -	if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as)) {
+> -		gpu_write(ptdev, MMU_INT_CLEAR, panthor_mmu_as_fault_mask(ptdev, as));
+> -		ptdev->mmu->as.faulty_mask &= ~panthor_mmu_as_fault_mask(ptdev, as);
+> -		ptdev->mmu->irq.mask |= panthor_mmu_as_fault_mask(ptdev, as);
+> -		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
+> -	}
+> -
+> -	/* The VM update is guarded by ::op_lock, which we take at the beginning
+> -	 * of this function, so we don't expect any locked region here.
+> -	 */
+> -	drm_WARN_ON(&vm->ptdev->base, vm->locked_region.size > 0);
+> -	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
+> -
+> -out_make_active:
+> -	if (!ret) {
+> -		refcount_set(&vm->as.active_cnt, 1);
+> -		list_del_init(&vm->as.lru_node);
+> -	}
+> -
+> -out_unlock:
+> -	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> -	mutex_unlock(&vm->op_lock);
+> -
+> -out_dev_exit:
+> -	drm_dev_exit(cookie);
+> -	return ret;
+> -}
+> -
+>  /**
+>   * panthor_vm_idle() - Flag a VM idle
+>   * @vm: VM to flag as idle.
+> @@ -1772,6 +1653,128 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  }
+>  PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+>  
+> +/**
+> + * panthor_vm_active() - Flag a VM as active
+> + * @vm: VM to flag as active.
+> + *
+> + * Assigns an address space to a VM so it can be used by the GPU/MCU.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_vm_active(struct panthor_vm *vm)
+> +{
+> +	struct panthor_device *ptdev = vm->ptdev;
+> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+> +	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
+> +	int ret = 0, as, cookie;
+> +	u64 transtab, transcfg;
+> +	u32 fault_mask;
+> +
+> +	if (!drm_dev_enter(&ptdev->base, &cookie))
+> +		return -ENODEV;
+> +
+> +	if (refcount_inc_not_zero(&vm->as.active_cnt))
+> +		goto out_dev_exit;
+> +
+> +	/* Make sure we don't race with lock/unlock_region() calls
+> +	 * happening around VM bind operations.
+> +	 */
+> +	mutex_lock(&vm->op_lock);
+> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> +
+> +	if (refcount_inc_not_zero(&vm->as.active_cnt))
+> +		goto out_unlock;
+> +
+> +	as = vm->as.id;
+> +	if (as >= 0) {
+> +		/* Unhandled pagefault on this AS, the MMU was disabled. We need to
+> +		 * re-enable the MMU after clearing+unmasking the AS interrupts.
+> +		 */
+> +		if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as))
+> +			goto out_enable_as;
+> +
+> +		goto out_make_active;
+> +	}
+> +
+> +	/* Check for a free AS */
+> +	if (vm->for_mcu) {
+> +		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
+> +		as = 0;
+> +	} else {
+> +		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
+> +	}
+> +
+> +	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
+> +		struct panthor_vm *lru_vm;
+> +
+> +		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
+> +						  struct panthor_vm,
+> +						  as.lru_node);
+> +		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
+> +			ret = -EBUSY;
+> +			goto out_unlock;
+> +		}
+> +
+> +		drm_WARN_ON(&ptdev->base, refcount_read(&lru_vm->as.active_cnt));
+> +		as = lru_vm->as.id;
+> +
+> +		ret = panthor_mmu_as_disable(ptdev, as, true);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+> +		panthor_vm_release_as_locked(lru_vm);
+> +	}
+> +
+> +	/* Assign the free or reclaimed AS to the FD */
+> +	vm->as.id = as;
+> +	set_bit(as, &ptdev->mmu->as.alloc_mask);
+> +	ptdev->mmu->as.slots[as].vm = vm;
+> +
+> +out_enable_as:
+> +	transtab = cfg->arm_lpae_s1_cfg.ttbr;
+> +	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
+> +		   AS_TRANSCFG_PTW_RA |
+> +		   AS_TRANSCFG_ADRMODE_AARCH64_4K |
+> +		   AS_TRANSCFG_INA_BITS(55 - va_bits);
+> +	if (ptdev->coherent)
+> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
+> +
+> +	/* If the VM is re-activated, we clear the fault. */
+> +	vm->unhandled_fault = false;
+> +
+> +	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+> +	 * before enabling the AS.
+> +	 */
+> +	fault_mask = panthor_mmu_as_fault_mask(ptdev, as);
+> +	if (ptdev->mmu->as.faulty_mask & fault_mask) {
+> +		gpu_write(ptdev, MMU_INT_CLEAR, fault_mask);
+> +		ptdev->mmu->as.faulty_mask &= ~fault_mask;
+> +		panthor_mmu_irq_enable_events(&ptdev->mmu->irq, fault_mask);
+> +		panthor_mmu_irq_disable_events(&ptdev->mmu->irq, ptdev->mmu->as.faulty_mask);
+> +	}
+> +
+> +	/* The VM update is guarded by ::op_lock, which we take at the beginning
+> +	 * of this function, so we don't expect any locked region here.
+> +	 */
+> +	drm_WARN_ON(&vm->ptdev->base, vm->locked_region.size > 0);
+> +	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
+> +
+> +out_make_active:
+> +	if (!ret) {
+> +		refcount_set(&vm->as.active_cnt, 1);
+> +		list_del_init(&vm->as.lru_node);
+> +	}
+> +
+> +out_unlock:
+> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +	mutex_unlock(&vm->op_lock);
+> +
+> +out_dev_exit:
+> +	drm_dev_exit(cookie);
+> +	return ret;
+> +}
+> +
+> +
+>  /**
+>   * panthor_mmu_suspend() - Suspend the MMU logic
+>   * @ptdev: Device.
+> @@ -1815,7 +1818,8 @@ void panthor_mmu_resume(struct panthor_device *ptdev)
+>  	ptdev->mmu->as.faulty_mask = 0;
+>  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+>  
+> -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> +	panthor_mmu_irq_enable_events(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+>  }
+>  
+>  /**
+> @@ -1869,7 +1873,8 @@ void panthor_mmu_post_reset(struct panthor_device *ptdev)
+>  
+>  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+>  
+> -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> +	panthor_mmu_irq_enable_events(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+>  
+>  	/* Restart the VM_BIND queues. */
+>  	mutex_lock(&ptdev->mmu->vm.lock);
+> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
+> index 57cfc7ce715b..ed3b2b4479ca 100644
+> --- a/drivers/gpu/drm/panthor/panthor_pwr.c
+> +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
+> @@ -545,5 +545,5 @@ void panthor_pwr_resume(struct panthor_device *ptdev)
+>  	if (!ptdev->pwr)
+>  		return;
+>  
+> -	panthor_pwr_irq_resume(&ptdev->pwr->irq, PWR_INTERRUPTS_MASK);
+> +	panthor_pwr_irq_resume(&ptdev->pwr->irq);
+>  }
 > 
-
-What is your opinion on this patch?
-I posted some more HW details on [0]
-
-Thanks & Regards,
-Tommaso
-
-[0] https://patchwork.kernel.org/comment/26686746/
-
-
 
