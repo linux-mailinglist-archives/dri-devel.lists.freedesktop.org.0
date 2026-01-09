@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF18D0BD24
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EE6D0BD33
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E5C10E266;
-	Fri,  9 Jan 2026 18:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E6610E91B;
+	Fri,  9 Jan 2026 18:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
- [209.85.217.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97BC410E266
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 18:27:18 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id
- ada2fe7eead31-5eea2b345fbso630564137.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:27:18 -0800 (PST)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A10210E91B
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 18:27:48 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-5efa6d5dbf5so168910137.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:27:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767983237; x=1768588037;
+ d=1e100.net; s=20230601; t=1767983267; x=1768588067;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KcttSXs7hZcQIHZPsbTRNE9EfXDmld5bm3jzlnDASfE=;
- b=uldPBAtrg78D+kNOl1QKwBbTd9r8mb063AaXqvRLMk/C5YbITUQP7uzJkwZYJmLfwu
- 2ryHmR2OPvq51/1xJGCKt2MUcVzGhn0kWdZYi1GK4KB4ZWrdrKI8wlTTJ/vTU5SPZIJS
- v7SNa5df3tRZE0s3ZVd/oXUsxRiciBiP9BforIpJuNJE2OBtNYThExcf5a8AeWCq8IFE
- JIU5iDdy7xgfUgJuXafiKkJetpVe/rWiAGZ1CqO81UWElV0KqP4qfu53GvBqj93byUs+
- DGiP1TvS9USgRn1/txOSEmkEUCleRiqUSS8ak/IfJvwJ8tbel/yILAYTb2F8OGWld4je
- k6/w==
+ bh=+fLS5br715ALrW9iu7K4XmrLPlp0NmncdqOKXgMKuek=;
+ b=GVFX7+gcFSBjWLHs0kQb8QC5uG/k4DgoTcwM3nX0C3BaAZ66iocftY7g/4UfBa06ko
+ XvJhcHPjbGgcUEUG6+5uPyYGFld9q+Jh1Ygfb0PxZt6AeVPJxyRYtr9zTgyyl4WYisF9
+ kLFKz2BSoUdXr/Jf3h/9gVm0AuITpMwf76zNB8kKbolYtdzeymMJC3yJDRwYyK04DZBX
+ z73sdPGqevlrCTPr/JgUFNeLNGCUGwJYuOgtwC5++ysH4M/9JWekdFg/mmk1M7ATFZJE
+ KtE8c1+qLc+hze5a7MkR8rUnNHe4Tpx633In0983VHYFyL/UYRbTI/JLx52djwlU/Fw1
+ VByw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUa7efnd7cec5bVAgA1cUeAKF6OJDqYKkh1yczynqTgrIPfQtiT2lTRmLm32ocffDD+7UMd/MIKV8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyDoQ2iEa+IPmjgBvWwyO7lDIegaP90S2uPr+DuRjDGB/fR+Eg
- Pka/3znfFoiDo6tCb4w2f+7LfAncCOOxu3M1Euim72G94lAj850+GPIoUzB2yexF
-X-Gm-Gg: AY/fxX4APWGVrNIYwYyPmbnWdA2H3ok5zkmnJelAvB+3qiPgOFu7KyCxjfV6QZJHsEs
- NFWzEh1clwQXFko4veWsXzSSjUoOAd1qEz/9lOdtOkBo6+omkWTSBoRoB+uHKasli+yCUoSLK76
- jqm4BlyO9ApZ8dBGygkBkqMGkN+4nKTkZhR9CTmnLlhZpLoWHr2mi2OuDo2p1zu5Y02O8JOZ2kk
- Oa17hBfC28PUQHILd3kU+bFVKyIq/OKULnXvZUNAvdpfOiBnoTZTE5qHvR0WeBbnau7JEYkClli
- KAsFSk3OPcFJf8ktfEFR/IiXC/dG1VjsKCr/juE45WyWSwJWtF7rYqOOLxdOrgV6ZQv+T5zjcqu
- 4bWTsXSxkOxE51JQeRxpRM60mFREkqZODBnq7r/0rtroH2ej5GONc2GQ21XXBVaRvqNlUo+/Za3
- C/l9ocgudDQrYFt26C9k1arOe+t+pUhSeF9ZGtHuu8Uivdp7GZpdKq7P/NBSo=
-X-Google-Smtp-Source: AGHT+IEHgzPkqPA3B/4nkA/emUglVfOkQ1B4STEPOuEOeHWCnTcNbeAzDhFzHdz3hrcEGY+N1juGWw==
-X-Received: by 2002:a05:6102:4412:b0:5df:c354:18c5 with SMTP id
- ada2fe7eead31-5ecb5cbba48mr4302732137.7.1767983237438; 
- Fri, 09 Jan 2026 10:27:17 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
- [209.85.222.52]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5ec770644d5sm10181587137.8.2026.01.09.10.27.16
+ AJvYcCU24riCi56sCRyaJTdTkLxZkrPqF83ypBYem/RFKnmRybDnDRZ5joMTmXXZuVvMe3PA8/55J3cifFc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YybPrL6sY30rI0NrvwLIfqKrmUuOJXM01BKRSdV9D5Vtgkfmepu
+ JyYB7+djWgpRd9rlX9Bv8aYiPManScAiuytyHyHJl4+pNipMH8bD/nuI1hyq7/kO
+X-Gm-Gg: AY/fxX7OkyzhpC3vyD3faBzeMCDuc5wn2ABuZQ1kc72Rmlc5bTiGIg3NQ6v31pUywcu
+ 4tlxBk0e/YdpGZnzeN4Mw+0o+qq1BRlrHsoRg+fHzHfJpdyZRuugFMZFHdDW+3Z77/zidKo2t7q
+ iapbBgxaCt6EKCYst7D3QQ80OBVBIB1oPRxj1bj11hRkJ0/+qKgvH3h5cisKTvPwZgtZ79g/Wv8
+ KSa2ov+UPcHxhvD7hqyLkf1DemplnwNeBMTz6Mrbpc63t0MZv36Nfxv+DZVFii2j6nBX6xHyTcm
+ vhXIvQk394UA8o/SZ9udqNGLkrCghRMgl2tvcoKTsQ/NZB7w08658oXPdQyCaT2rYJJmoycRcoR
+ jbXqy2X9f+9swPGzkhxkE8Jx+IZDfrjVTFnZE2ZumejodB/gwYxnPpt+PoazVmRYoSyY/LVKNEt
+ cTuAu5sNzJys5Pq/JDZMytx3hH/0Us1LjxIt7IygnbQaX1a/vH
+X-Google-Smtp-Source: AGHT+IHLK4aWe67892BJatj2iEe2VyJGDXJ87648xmYptUaoYQq4b6k+cm6bSWrdIiIs1xWkDvp0kw==
+X-Received: by 2002:a67:e112:0:b0:5ee:9e4b:a81c with SMTP id
+ ada2fe7eead31-5ee9e4baa91mr2330844137.22.1767983267598; 
+ Fri, 09 Jan 2026 10:27:47 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5ecc521d7b1sm9344849137.0.2026.01.09.10.27.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jan 2026 10:27:16 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id
- a1e0cc1a2514c-93f5b804d4aso1652857241.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:27:16 -0800 (PST)
+ Fri, 09 Jan 2026 10:27:47 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-9371f6f2813so1448671241.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:27:47 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGwuylq/6OIZJN7P1N8sAjABalwXuEuMdoaI7QC7KrPZzaJtZwou/p8ZZ2ziAn/r51jq5Ml3Cwovs=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:3908:b0:5ee:a6f8:f925 with SMTP id
- ada2fe7eead31-5eea6f90e16mr2088665137.8.1767983235950; Fri, 09 Jan 2026
- 10:27:15 -0800 (PST)
+ AJvYcCWiVAQdit6ZZGgiWd2QvF+fj/PqJ1hN4mUVNcLW9/6H3oG8f6h4/sXcL7dc2mqwm85SEbBaeihXoZo=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:604f:b0:5ed:f26:55f4 with SMTP id
+ ada2fe7eead31-5ed0f26580cmr3794404137.34.1767983267169; Fri, 09 Jan 2026
+ 10:27:47 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <3ab81490b7bdbd2dafd7a940ae242f07d30aaa17.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <3ab81490b7bdbd2dafd7a940ae242f07d30aaa17.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <371314eb59c84965e73c4c225db386456d82b1d3.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <371314eb59c84965e73c4c225db386456d82b1d3.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jan 2026 19:27:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXU6traB73KaFj0kRtdo4NDT4ynUyfd-4L36=D6cUUd6A@mail.gmail.com>
-X-Gm-Features: AZwV_QiFWie1jtTH6cP5clrt_EyRli2uQRED0h6evUp71Jo1c1Hn9WoeLwyfMeU
-Message-ID: <CAMuHMdXU6traB73KaFj0kRtdo4NDT4ynUyfd-4L36=D6cUUd6A@mail.gmail.com>
-Subject: Re: [PATCH 01/22] clk: renesas: rzv2h: Add PLLDSI clk mux support
+Date: Fri, 9 Jan 2026 19:27:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWqDPYNPE63ZBFxWTnJtzJwisMNpUPFPf3BJodCxzZ+ew@mail.gmail.com>
+X-Gm-Features: AZwV_QheUwWEgzt_8L2XxxL-r3KN1XzfOq-OJJW2J8DrDX2eZqhIZwBOou0w49E
+Message-ID: <CAMuHMdWqDPYNPE63ZBFxWTnJtzJwisMNpUPFPf3BJodCxzZ+ew@mail.gmail.com>
+Subject: Re: [PATCH 02/22] clk: renesas: r9a09g047: Add CLK_PLLETH_LPCLK
+ support
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
  biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -99,71 +100,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tommaso,
-
 On Wed, 26 Nov 2025 at 15:08, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add PLLDSI clk mux support to select PLLDSI clock from different clock
-> sources.
->
-> Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
-> them in the clock driver.
->
-> Extend the determine_rate callback to calculate and propagate PLL
-> parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
-> using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
+> Add CLK_PLLETH_LPCLK clock support.
 >
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-
-[...]
-
->  static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
->  {
->         struct pll_clk *pll_clk = to_pll(hw);
-> @@ -1085,6 +1213,9 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
->         case CLK_TYPE_PLLDSI_DIV:
->                 clk = rzv2h_cpg_plldsi_div_clk_register(core, priv);
->                 break;
-> +       case CLK_TYPE_PLLDSI_SMUX:
-> +               clk = rzv2h_cpg_plldsi_smux_clk_register(core, priv);
-> +               break;
->         default:
->                 goto fail;
->         }
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-> index dc957bdaf5e9..5f6e775612e7 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -203,6 +203,7 @@ enum clk_types {
->         CLK_TYPE_SMUX,          /* Static Mux */
->         CLK_TYPE_PLLDSI,        /* PLLDSI */
->         CLK_TYPE_PLLDSI_DIV,    /* PLLDSI divider */
-> +       CLK_TYPE_PLLDSI_SMUX,   /* PLLDSI Static Mux */
->  };
->
->  #define DEF_TYPE(_name, _id, _type...) \
-> @@ -241,6 +242,13 @@ enum clk_types {
->                  .dtable = _dtable, \
->                  .parent = _parent, \
->                  .flag = CLK_SET_RATE_PARENT)
-> +#define DEF_PLLDSI_SMUX(_name, _id, _smux_packed, _parent_names) \
-> +       DEF_TYPE(_name, _id, CLK_TYPE_PLLDSI_SMUX, \
-> +                .cfg.smux = _smux_packed, \
-> +                .parent_names = _parent_names, \
-> +                .num_parents = ARRAY_SIZE(_parent_names), \
-> +                .flag = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT, \
-> +                .mux_flags = CLK_MUX_HIWORD_MASK)
->
->  /**
->   * struct rzv2h_mod_clk - Module Clocks definitions
-
-Why do you need a completely new clock type, and can't you just use
-the existing CLK_TYPE_SMUX?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
