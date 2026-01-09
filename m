@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B042AD0B520
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 17:42:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3A9D0B51A
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 17:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCAA610E909;
-	Fri,  9 Jan 2026 16:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9501010E912;
+	Fri,  9 Jan 2026 16:42:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="YEl3xCx8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZdbkAvfz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECA510E917
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 16:42:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1767976935; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=agtmgCfgpSkBJCtPp9cTO2Dt1yyWcd8bmOguw/tL56rf7viyClxbM10m6Uf+uIx7nQ8Cv+iQmP0wp0PgSJSmT05q/SRxS3wFM2D5bT8w8ZPdmaLghl/xqsNFdPmh7QzTtvPmGpTxrposqS9QdOa7eDN5onCSXdQpANdLxc7L46s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1767976935;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=JNTejUwMiSEdSNxf3cyXoBf3DYKoIBzToWE3YlySGNo=; 
- b=PwBrbsPgqCYiwxr+sP0nlLPDC4lwXqiQWsmTEUiP6LpUVg6sIMWx2C6NDx0oU76tVjVXQMjUXgy7N21S5WaS7oXXPcJPja8AdQG0QdocqsEF1Pvu3oGnQVfDWwYzXCpLtePhAXTFhgLS98+Iq38t5qz58HZNacxD8HxIxN9OG/Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767976935; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=JNTejUwMiSEdSNxf3cyXoBf3DYKoIBzToWE3YlySGNo=;
- b=YEl3xCx8ho8xsTyJWZOznuHcY8r32ioVXOn+KHN/R+IL8K9t4L4u3pj+YeQyPb+u
- DDa4YCgqP13sYxkbQenTN8BoNZGpXHT2Mo2e7JGZiEnkX1nPq/It4Nwn3R6d4I4iJzs
- pOxJAojuyQPut6e9H8vdwOhyh6k16aGwxt0oQFPY=
-Received: by mx.zohomail.com with SMTPS id 1767976933626933.7246823335041;
- Fri, 9 Jan 2026 08:42:13 -0800 (PST)
-Date: Fri, 9 Jan 2026 16:42:09 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com, 
- =?utf-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Subject: Re: [PATCH v2] drm/panfrost: Fix a page leak in
- panfrost_mmu_map_fault_addr() when THP is on
-Message-ID: <mbyabxygvpdhuab2jablztgnsnvt3czpx4yxz2fvl2knadnzda@rjah5t2ekity>
-References: <20260108123325.1088195-1-boris.brezillon@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 174CB10E910;
+ Fri,  9 Jan 2026 16:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767976936; x=1799512936;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0jjufuSgUGdcBWU99CGbO/ni1CnXtJoDNBcE6WTvAvA=;
+ b=ZdbkAvfzlD0Eg3D9TAEwpIKFMjUVcwSqL5liDjLaVp8h8vFdfwE43l+Q
+ r2BogF4BThfLAvdj4BEz4sTo0dVAdmf+TNOL3M2nU9o7x3gOfPiwjRj+2
+ /AruLzCQP9vcdbyTQO+STEcqWXt3WpgdgLxwt4KBOpMHbBoEavO4xujlI
+ FSUddUgI40E0OBJlJk7q2R9CKEIDAW8jAmrxqobC/C90mQksvYBFU1uQf
+ e/dlmQ22TbqG17fyh0oUrHi4ZruXrm3JIklDRk6ghNVsZ7xi/aCs3DMhW
+ DHAPwQQI3j8SsVqIES+BNdWBTQRVKjMG0uMz4I7WuBUyAnd5Q+xj7Htk9 g==;
+X-CSE-ConnectionGUID: eQ8D0Ji3SHOjXKdohKhVbA==
+X-CSE-MsgGUID: Dmeua9XVRJ67qZIcSg9asg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69517847"
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; d="scan'208";a="69517847"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2026 08:42:15 -0800
+X-CSE-ConnectionGUID: Usj9Z4mCTO2SN271sYyxQQ==
+X-CSE-MsgGUID: Ss/XKTXjQLe0QXYrelNlxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; d="scan'208";a="203427027"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.142])
+ ([10.245.244.142])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2026 08:42:13 -0800
+Message-ID: <b2aa28aa-ce9c-4948-9bed-289700f4eb4a@intel.com>
+Date: Fri, 9 Jan 2026 16:42:11 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/buddy: Optimize large alignment handling to avoid
+ unnecessary splits
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20251211122319.2054-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20251211122319.2054-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260108123325.1088195-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,105 +74,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Queued to drm-misc-next.
-
-On 08.01.2026 13:33, Boris Brezillon wrote:
-> drm_gem_put_pages(), which we rely on for returning BO pages to shmem,
-> assume per-folio refcounting and not per-page. If we call
-> shmem_read_mapping_page() per-page, we break this assumption and leak
-> pages every time we get a huge page allocated.
->
-> v2:
-> - Rework the logic for() loop to better match the folio-granular
->   allocation scheme
->
-> Cc: Loïc Molinari <loic.molinari@collabora.com>
-> Fixes: c12e9fcb5a5a ("drm/panfrost: Introduce huge tmpfs mountpoint option")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On 11/12/2025 12:23, Arunpravin Paneer Selvam wrote:
+> Large alignment requests previously forced the allocator to search by
+> alignment order, causing large free blocks to be split even when a
+> smaller aligned range existed within them. This patch switches the
+> search to prioritize the requested size and uses an augmented RB-tree
+> field (subtree_max_alignment) to efficiently locate blocks that satisfy
+> both size and alignment. This prevents unnecessary block splitting and
+> significantly reduces fragmentation.
+> 
+> A practical example is the VKCTS test
+> dEQP-VK.memory.allocation.basic.size_8KiB.reverse.count_4000, which
+> allocates 8 KiB buffers with a 256 KiB alignment. Previously, these
+> requests caused the allocator to split large blocks despite having
+> smaller aligned portions within them that could satisfy the allocation.
+> The new design now identifies and allocates from these portions,
+> avoiding unnecessary splitting.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 40 +++++++++++++++----------
->  1 file changed, 25 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 02ccc05e23bb..3f8e7eced1c0 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -586,12 +586,12 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
->  static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  				       u64 addr)
->  {
-> -	int ret, i;
-> +	int ret;
->  	struct panfrost_gem_mapping *bomapping;
->  	struct panfrost_gem_object *bo;
->  	struct address_space *mapping;
->  	struct drm_gem_object *obj;
-> -	pgoff_t page_offset;
-> +	pgoff_t page_offset, nr_pages;
->  	struct sg_table *sgt;
->  	struct page **pages;
->
-> @@ -612,6 +612,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  	addr &= ~((u64)SZ_2M - 1);
->  	page_offset = addr >> PAGE_SHIFT;
->  	page_offset -= bomapping->mmnode.start;
-> +	nr_pages = bo->base.base.size >> PAGE_SHIFT;
->
->  	obj = &bo->base.base;
->
-> @@ -625,8 +626,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  			goto err_unlock;
->  		}
->
-> -		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
-> -				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
-> +		pages = kvmalloc_array(nr_pages, sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
->  		if (!pages) {
->  			kvfree(bo->sgts);
->  			bo->sgts = NULL;
-> @@ -648,20 +648,30 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  	mapping = bo->base.base.filp->f_mapping;
->  	mapping_set_unevictable(mapping);
->
-> -	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
-> -		/* Can happen if the last fault only partially filled this
-> -		 * section of the pages array before failing. In that case
-> -		 * we skip already filled pages.
-> -		 */
-> -		if (pages[i])
-> -			continue;
-> +	for (pgoff_t pg = page_offset; pg < page_offset + NUM_FAULT_PAGES;) {
-> +		bool already_owned = false;
-> +		struct folio *folio;
->
-> -		pages[i] = shmem_read_mapping_page(mapping, i);
-> -		if (IS_ERR(pages[i])) {
-> -			ret = PTR_ERR(pages[i]);
-> -			pages[i] = NULL;
-> +		folio = shmem_read_folio(mapping, pg);
-> +		if (IS_ERR(folio)) {
-> +			ret = PTR_ERR(folio);
->  			goto err_unlock;
->  		}
+>   drivers/gpu/drm/drm_buddy.c | 205 +++++++++++++++++++++++++++++++++---
+>   include/drm/drm_buddy.h     |   3 +
+>   2 files changed, 191 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index f2c92902e4a3..f749814bb270 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -23,6 +23,18 @@ static struct kmem_cache *slab_blocks;
+>   #define for_each_free_tree(tree) \
+>   	for ((tree) = 0; (tree) < DRM_BUDDY_MAX_FREE_TREES; (tree)++)
+>   
+> +static unsigned int drm_buddy_min_offset_or_size_order(struct drm_buddy_block *block)
+> +{
+> +	return min_t(unsigned int,
+> +		     __ffs(drm_buddy_block_offset(block)),
+> +		     drm_buddy_block_order(block));
+
+Didn't quite get this bit. Why do we pick the min between the order and 
+"alignment"? Say we have order zero block but is has 256K addr alignment 
+this just selects zero? What is the idea here?
+
+> +}
 > +
-> +		pg &= ~(folio_nr_pages(folio) - 1);
-> +		for (u32 i = 0; i < folio_nr_pages(folio) && pg < nr_pages; i++) {
-> +			if (pages[pg])
-> +				already_owned = true;
+> +RB_DECLARE_CALLBACKS_MAX(static, drm_buddy_augment_cb,
+> +			 struct drm_buddy_block, rb,
+> +			 unsigned int, subtree_max_alignment,
+> +			 drm_buddy_min_offset_or_size_order);
 > +
-> +			pages[pg++] = folio_page(folio, i);
+>   static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   					       struct drm_buddy_block *parent,
+>   					       unsigned int order,
+> @@ -40,6 +52,9 @@ static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   	block->header |= order;
+>   	block->parent = parent;
+>   
+> +	block->subtree_max_alignment =
+> +		drm_buddy_min_offset_or_size_order(block);
+> +
+>   	RB_CLEAR_NODE(&block->rb);
+>   
+>   	BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
+> @@ -76,26 +91,32 @@ static bool rbtree_is_empty(struct rb_root *root)
+>   	return RB_EMPTY_ROOT(root);
+>   }
+>   
+> -static bool drm_buddy_block_offset_less(const struct drm_buddy_block *block,
+> -					const struct drm_buddy_block *node)
+> -{
+> -	return drm_buddy_block_offset(block) < drm_buddy_block_offset(node);
+> -}
+> -
+> -static bool rbtree_block_offset_less(struct rb_node *block,
+> -				     const struct rb_node *node)
+> -{
+> -	return drm_buddy_block_offset_less(rbtree_get_free_block(block),
+> -					   rbtree_get_free_block(node));
+> -}
+> -
+>   static void rbtree_insert(struct drm_buddy *mm,
+>   			  struct drm_buddy_block *block,
+>   			  enum drm_buddy_free_tree tree)
+>   {
+> -	rb_add(&block->rb,
+> -	       &mm->free_trees[tree][drm_buddy_block_order(block)],
+> -	       rbtree_block_offset_less);
+> +	struct rb_node **link, *parent = NULL;
+> +	struct drm_buddy_block *node;
+> +	struct rb_root *root;
+> +	unsigned int order;
+> +
+> +	order = drm_buddy_block_order(block);
+> +
+> +	root = &mm->free_trees[tree][order];
+> +	link = &root->rb_node;
+> +
+> +	while (*link) {
+> +		parent = *link;
+> +		node = rbtree_get_free_block(parent);
+> +
+> +		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
+> +			link = &parent->rb_left;
+> +		else
+> +			link = &parent->rb_right;
+
+Is this correct? From the docs it sounds like we are meant to update the 
+max alignment for each subtree on the path leading up to the insertion? 
+It looks like insert_augmentated will only do it if there is something 
+to be rebalanced.
+
+> +	}
+> +
+> +	rb_link_node(&block->rb, parent, link);
+> +	rb_insert_augmented(&block->rb, root, &drm_buddy_augment_cb);
+>   }
+>   
+>   static void rbtree_remove(struct drm_buddy *mm,
+> @@ -108,7 +129,7 @@ static void rbtree_remove(struct drm_buddy *mm,
+>   	tree = get_block_tree(block);
+>   	root = &mm->free_trees[tree][order];
+>   
+> -	rb_erase(&block->rb, root);
+> +	rb_erase_augmented(&block->rb, root, &drm_buddy_augment_cb);
+>   	RB_CLEAR_NODE(&block->rb);
+>   }
+>   
+> @@ -596,6 +617,88 @@ static bool block_incompatible(struct drm_buddy_block *block, unsigned int flags
+>   	return needs_clear != drm_buddy_block_is_clear(block);
+>   }
+>   
+> +static bool drm_buddy_subtree_can_satisfy(struct rb_node *node,
+> +					  unsigned int alignment)
+> +{
+> +	struct drm_buddy_block *block;
+> +
+> +	if (!node)
+> +		return false;
+> +
+> +	block = rbtree_get_free_block(node);
+> +	return block->subtree_max_alignment >= alignment;
+> +}
+> +
+> +static struct drm_buddy_block *
+> +drm_buddy_find_block_aligned(struct drm_buddy *mm,
+> +			     enum drm_buddy_free_tree tree,
+> +			     unsigned int order,
+> +			     unsigned int tmp,
+> +			     unsigned int alignment,
+> +			     unsigned long flags)
+> +{
+> +	struct rb_root *root = &mm->free_trees[tree][tmp];
+> +	struct rb_node *rb = root->rb_node;
+> +
+> +	/* Try to find a block of the requested size that is already aligned */
+> +	while (rb) {
+> +		struct drm_buddy_block *block = rbtree_get_free_block(rb);
+> +		struct rb_node *left_node = rb->rb_left, *right_node = rb->rb_right;
+> +
+> +		if (left_node) {
+> +			if (drm_buddy_subtree_can_satisfy(left_node, alignment)) {
+> +				rb = left_node;
+> +				continue;
+> +			}
 > +		}
 > +
-> +		/* We always fill the page array at a folio granularity so
-> +		 * there's no valid reason for a folio range to be partially
-> +		 * populated.
-> +		 */
-> +		if (drm_WARN_ON(&pfdev->base, already_owned))
-> +			folio_put(folio);
->  	}
->
->  	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
-> --
-> 2.52.0
+> +		if (drm_buddy_block_order(block) >= order &&
+> +		    __ffs(drm_buddy_block_offset(block)) >= alignment)
+> +			return block;
+> +
+> +		if (right_node) {
+> +			if (drm_buddy_subtree_can_satisfy(right_node, alignment)) {
+> +				rb = right_node;
+> +				continue;
+> +			}
+> +		}
+> +
+> +		break;
+> +	}
+> +
+> +	if (tmp < max(order, alignment))
+> +		return NULL;
+> +
+> +	/* If none found, look for a larger block that can satisfy the alignment */
 
-Adrian Larumbe
+What is the idea here? IIUC we are looking at some specific order and we 
+want some min addr alignment, if the above can't find any subtree with 
+suitable max alignment then we should bail and try the next order? Why 
+instead do we do the search again with the same alignment below?
+
+> +	rb = root->rb_node;
+> +	while (rb) {
+> +		struct drm_buddy_block *block = rbtree_get_free_block(rb);
+> +		struct rb_node *left_node = rb->rb_left, *right_node = rb->rb_right;
+> +
+> +		if (left_node) {
+> +			if (drm_buddy_subtree_can_satisfy(left_node, alignment)) {
+> +				rb = left_node;
+> +				continue;
+> +			}
+> +		}
+> +
+> +		if (drm_buddy_block_order(block) >= max(order, alignment) &&
+> +		    drm_buddy_min_offset_or_size_order(block) >= alignment)
+> +			return block;
+> +
+> +		if (right_node) {
+> +			if (drm_buddy_subtree_can_satisfy(right_node, alignment)) {
+> +				rb = right_node;
+> +				continue;
+> +			}
+> +		}
+> +
+> +		break;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+>   static struct drm_buddy_block *
+>   __alloc_range_bias(struct drm_buddy *mm,
+>   		   u64 start, u64 end,
+> @@ -798,6 +901,69 @@ alloc_from_freetree(struct drm_buddy *mm,
+>   	return ERR_PTR(err);
+>   }
+>   
+> +static int drm_buddy_offset_aligned_allocation(struct drm_buddy *mm,
+> +					       u64 size,
+> +					       u64 min_block_size,
+> +					       unsigned long flags,
+> +					       struct list_head *blocks)
+> +{
+> +	struct drm_buddy_block *block = NULL;
+> +	unsigned int order, tmp, alignment;
+> +	enum drm_buddy_free_tree tree;
+> +	unsigned long pages;
+> +
+> +	alignment = ilog2(min_block_size);
+> +	pages = size >> ilog2(mm->chunk_size);
+> +	order = fls(pages) - 1;
+> +
+> +	tree = (flags & DRM_BUDDY_CLEAR_ALLOCATION) ?
+> +		DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
+> +
+> +	for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> +		block = drm_buddy_find_block_aligned(mm, tree, order,
+> +						     tmp, alignment, flags);
+> +		if (!block) {
+> +			tree = (tree == DRM_BUDDY_CLEAR_TREE) ?
+> +				DRM_BUDDY_DIRTY_TREE : DRM_BUDDY_CLEAR_TREE;
+> +			block = drm_buddy_find_block_aligned(mm, tree, order,
+> +							     tmp, alignment, flags);
+> +		}
+> +
+> +		if (block)
+> +			break;
+> +	}
+> +
+> +	if (!block)
+> +		return -ENOSPC;
+> +
+> +	while (drm_buddy_block_order(block) > order) {
+> +		unsigned int child_order = drm_buddy_block_order(block) - 1;
+> +		struct drm_buddy_block *left, *right;
+> +		int r;
+> +
+> +		r = split_block(mm, block);
+> +		if (r)
+> +			return r;
+> +
+> +		left  = block->left;
+> +		right = block->right;
+> +
+> +		if (child_order >= alignment)
+> +			block = right;
+> +		else
+> +			block = left;
+> +	}
+> +
+> +	mark_allocated(mm, block);
+> +	mm->avail -= drm_buddy_block_size(mm, block);
+> +	if (drm_buddy_block_is_clear(block))
+> +		mm->clear_avail -= drm_buddy_block_size(mm, block);
+> +	kmemleak_update_trace(block);
+> +	list_add_tail(&block->link, blocks);
+> +
+> +	return 0;
+> +}
+> +
+>   static int __alloc_range(struct drm_buddy *mm,
+>   			 struct list_head *dfs,
+>   			 u64 start, u64 size,
+> @@ -1147,6 +1313,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   		min_block_size = size;
+>   	/* Align size value to min_block_size */
+>   	} else if (!IS_ALIGNED(size, min_block_size)) {
+> +		if (min_block_size > size && is_power_of_2(size))
+> +			return drm_buddy_offset_aligned_allocation(mm, size,
+> +								   min_block_size,
+> +								   flags,
+> +								   blocks);
+>   		size = round_up(size, min_block_size);
+>   	}
+>   
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index d7891d08f67a..da6a40fb4763 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -11,6 +11,7 @@
+>   #include <linux/slab.h>
+>   #include <linux/sched.h>
+>   #include <linux/rbtree.h>
+> +#include <linux/rbtree_augmented.h>
+>   
+>   #include <drm/drm_print.h>
+>   
+> @@ -60,6 +61,8 @@ struct drm_buddy_block {
+>   	};
+>   
+>   	struct list_head tmp_link;
+> +
+> +	unsigned int subtree_max_alignment;
+>   };
+>   
+>   /* Order-zero must be at least SZ_4K */
+
