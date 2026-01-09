@@ -2,139 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A57D08205
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 10:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECA1D08251
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 10:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5CE10E84C;
-	Fri,  9 Jan 2026 09:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679DB10E2A4;
+	Fri,  9 Jan 2026 09:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YxoQLUak";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="C+mecLIt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dDIeWs3I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Q1sK4iN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B/0XAQmx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="td1TZn/i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF4C10E84C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 09:13:01 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60952gsP3542105
- for <dri-devel@lists.freedesktop.org>; Fri, 9 Jan 2026 09:13:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1P93m0XTzLapwNrcaQ2biPDhM8Asz8miZJjKBvF7vq8=; b=YxoQLUakCVzeOh88
- ZqaK/OwdfAOF9sIZtVbbMX1FqVVQRdPVRy6AA/h/jNUsiKRnj8fw8zBmyc20k/3I
- gfkZ4sE1wlKql3l/BpUpXDKIOrSKKYiF0bxso7vZcnl2zK4Dx6sYxeoBprpe+IYv
- RQHzKrsshZaR4ZdtvawBNBJtgtJKWtxdvuvqajbUJeSATPZNQTMJ+jfGqbDhBOwF
- KKl8qlzD3tEo1F9xwTZimAxNBOMMUfd2DtakIxa3FohJyBz4F3KKeWAtN/yqxv8b
- 8LFSP/Cz1LwjmALIpsQLPUuu+l0MYZMlZly9QTGkSyjKZmMziEKrB5X1PPVqJEKc
- NMvsKA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bju6b0ph4-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 09:13:01 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b1be0fdfe1so124788785a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 01:13:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1767949980; x=1768554780;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1P93m0XTzLapwNrcaQ2biPDhM8Asz8miZJjKBvF7vq8=;
- b=C+mecLItBAaBsyn03A4FJ1O3XTZgDbL8ii5rfyk9iszEp6fIMwXCsKGgx68EI69pA8
- oqzutONyQ370gj/n43zps3P+hgn3n0C2ainuVKV02nJVKq4wp+QbyrOb35mcFOk2W7g5
- s9MBVMk2Vwa5MaOY1eNX0YPhpdP9plDTVSPt7/PgE3VNzE9qKjiXMuAGRyEuSYFpYfCc
- iz0vZnCN8Ts2E7OHGwWRhXAWjm/KZepKxTIwc2eFlvJ6QF6+7aI+sYhlp3G3WAVrXp8r
- NWkpGQCznlE9s+wYbXaxpXH8LUuy74ln14XujXDQsdAq970N/DrmdaBmzG9k2Uzdm8Hz
- cLeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767949980; x=1768554780;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1P93m0XTzLapwNrcaQ2biPDhM8Asz8miZJjKBvF7vq8=;
- b=vRykaW/8K4UOiTI/9ZwTkRukCrF9J4ORixRoC2L3PVtZE5r/qykdefLTDQlefHP1rt
- f5EQlOhArAMXtRAHQ6y/q5Cf4OJZVYn4qTlJv+CAkcTdC2jojQ1VfFcLHcL2xcBgtCM9
- 4CNBopl/Er7PHfJ6M599mkVJj7L+0V8+xnD3Adh8qgWxjj+ukkfu4Q+bb6dRhhg1pKLr
- mZRKfZu1NzkF00Q7sH8NkfB7zzhiESKV+NzEMjjATV2KPbYwpSyZSBGXF+y+ELtqSsv4
- 1pB4g4dYCYx1v7hlV2r5GJSwR5n4p1YGGG38Sx5fY/MqO2uLB7QeRvSw6iO8yHwzKL4Y
- 0AVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQZa6drbRTkOVXxzOITpnFVoKjRwX+XqO/hllsQc+BccmUaVmU/nJ717gFGOaY1JCG5KQje/hYwys=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKDfT7rjC+140DQQItwxfmtN/n0/OOvPpSdn8UOF6+rc3sFqFX
- Q5dV3Sqi840v6pynUagsz1n9ZYjuiSMoGdVxzzUYR8Ll2XVKoZvhRup5oqvPyejGPlaSy73OHMG
- pyh3FLwKAt9/d1LddgR5JMOkpgQ823JPhamdUyvghFi5l0H0zJ61cQQT4hwhjl4V2Zzw3/J4=
-X-Gm-Gg: AY/fxX6Vaq3XMqkk259PNh5f71JZ0vEDXpWdNFwiXAvKhTOkV9z1FRqWWOiRzrpnui+
- OnBswOT4YVC/EgTuQYmG6JI8gf5AIn0cvt/Z74WtlXmxxO+lXPfM/MTSdTq14dbLlleDnbkADYi
- U5ArNw+fwcUXLHg+lLHRYOqcdOlhvBp5PsRJiOGj+oTdm6J7UM1aLw1tnd4lpg9fiLCpbuwgkzd
- 71yJa/tD6mkHSjVLoPjn3yzqKn/hR8KgUNwkp8OCh0oX3m56YroRkkmDB4tnFRKlCwZIWmuadWd
- zsaJ761b/oG21JcT+AWRL1cXUIF6PuYIKlrosmvp6p8V8d3egAa8XX4GcUFSVXMlM20KQMsPb59
- DKsXZLvniSsuKaZhd7Fvd4yIzeqNybgI0BweBN2/Kd1as3KsHKRMv7FdRytLz5oT9s3A=
-X-Received: by 2002:a05:620a:2847:b0:8a5:2246:bc29 with SMTP id
- af79cd13be357-8c3893fd6f5mr926314685a.8.1767949980556; 
- Fri, 09 Jan 2026 01:13:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGeBZSG8kdSBLShp1+Wc/UybzJzIr8kq9RYBBSnMDG9wd87B0tyDpTBrTpAW7NtU14bEKYlTA==
-X-Received: by 2002:a05:620a:2847:b0:8a5:2246:bc29 with SMTP id
- af79cd13be357-8c3893fd6f5mr926312685a.8.1767949980148; 
- Fri, 09 Jan 2026 01:13:00 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a5187afsm1043952666b.58.2026.01.09.01.12.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jan 2026 01:12:59 -0800 (PST)
-Message-ID: <faf2dc8f-fd5d-46cf-8572-41879b3f4aa4@oss.qualcomm.com>
-Date: Fri, 9 Jan 2026 10:12:57 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0B710E2A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 09:17:25 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4306F5BEE8;
+ Fri,  9 Jan 2026 09:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767950244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+ b=dDIeWs3IDpTXQ2sf6hgYqJzhjLEwHli8pfhFuJVNtM/gFc5FbJkcZ8kJ/5Emdz3xClTy6t
+ VhIDV69RnDHbFiX84IKZcWE8+IKWsGxoWtqtTcgRWstmbAMkQc8F0uZMW0P13z3KM86NE8
+ r5X8eRsulByGQQJbis2W6sFJPmKmERc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767950244;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+ b=1Q1sK4iNLOFRtg58YuTYf4iAfyUo3HRDCt3ay2dzRnC2RhXjB/hrMIXkIc2Wmcm2y6yXg/
+ jpoM9iFKX7WN3jAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767950243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+ b=B/0XAQmxFHU7HhkS/2rvWuw4JJE2VLNmVKek+J3Xksczqpzdf0MZGVOxSgPdcWs8I5WndV
+ vOw+88+52bZMMP1aUBNINvPKyA40ZT9wmWbvE9qVNMGZ4tyFpgX5JCUL57jLe5ge8N62jv
+ kMJ88y112Eg/3pxfA/fW9hhYQ9z2nsY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767950243;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+ b=td1TZn/i3V+QvQSxrbYvv4XGlESsOz6Nlg0j2x4AU9JCjKtMU5TLVdk98UZpHMr5QTRPAU
+ sMNrVnOml3bCS7CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E11893EA63;
+ Fri,  9 Jan 2026 09:17:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id O+a6NaLHYGmSdwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 09 Jan 2026 09:17:22 +0000
+Message-ID: <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
+Date: Fri, 9 Jan 2026 10:17:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/27] drm/msm/dsi_phy_14nm: convert from
- divider_round_rate() to divider_determine_rate()
-To: Brian Masney <bmasney@redhat.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20260108-clk-divider-round-rate-v1-0-535a3ed73bf3@redhat.com>
- <20260108-clk-divider-round-rate-v1-24-535a3ed73bf3@redhat.com>
+Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
+ coreboot framebuffer
+To: Julius Werner <jwerner@chromium.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20260108145058.56943-1-tzimmermann@suse.de>
+ <20260108145058.56943-2-tzimmermann@suse.de>
+ <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260108-clk-divider-round-rate-v1-24-535a3ed73bf3@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDA2NSBTYWx0ZWRfX3862ZObZ+kGy
- SljyPkrsBxS+ERlhE8ADfMxBMVIec0tGU6smW7rDtBAVOiEeD8m2JeMFTHCoLWV02PCrShanG/V
- g2L9XKZ/lavMRnxTwoAGb9VdNEj4G2M+k9O+o/v8Bycbiv0itEw/ciCIQHyrEKazBqcz73E49Wm
- CYu/cQkxIbn5k/Mzme0CJnwo9Ylu6BKG64l4tTTsktSHZv7IJZ+WUYcXGvhQu2tOhibbyschAB6
- k1aZcOkDPh4rDNcVFYFB3J2iu3pGOeDisLirbOFc9aEP2kkYKABpPeGn02tT/6GYVm40I2agLTl
- YS2HMetc1HO2w6C8Nu3BLaGpxgvujY9iCfJNUFW1VKCV4UWNoBpN4JOftuRgT3+uQjeJczMI171
- cS8QlVIOsCI9hfsaqoAxzrpwhDxmuEq/6TTS25HwbOwK3sm8Tyz5AoKqmgGr4Te4/Xa35SEv8Wv
- yzdnV+M9wh3S31I9FRA==
-X-Proofpoint-ORIG-GUID: FtCriP-ViW3RZmSbhMDndEmWaf6RoIGM
-X-Authority-Analysis: v=2.4 cv=V+5wEOni c=1 sm=1 tr=0 ts=6960c69d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8
- a=MmoDKESpECQAgM94Xi4A:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: FtCriP-ViW3RZmSbhMDndEmWaf6RoIGM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-09_02,2026-01-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601090065
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[10];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, suse.com:url,
+ imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,25 +146,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/8/26 10:16 PM, Brian Masney wrote:
-> The divider_round_rate() function is now deprecated, so let's migrate
-> to divider_determine_rate() instead so that this deprecated API can be
-> removed.
-> 
-> Note that when the main function itself was migrated to use
-> determine_rate, this was mistakenly converted to:
-> 
->     req->rate = divider_round_rate(...)
-> 
-> This is invalid in the case when an error occurs since it can set the
-> rate to a negative value.
-> 
-> Fixes: cc41f29a6b04 ("drm/msm/dsi_phy_14nm: convert from round_rate() to determine_rate()")
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> 
-> ---
+Hi
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Am 08.01.26 um 17:55 schrieb Julius Werner:
+> This seems less consistent to me, although tbh I don't understand the
+> Linux device and driver framework that well. I think the original idea
+> here was that the coreboot bus represents the coreboot table, and each
+> entry is represented as one device (regardless of whether any driver
+> actually wants to do anything with that entry). That's why we're
+> creating a device for all the tags even though most of them aren't
+> really interesting for kernel drivers. This also helps with inspecting
+> things in sysfs.
 
-Konrad
+We need to distinguish between coreboot and sysfb. Only one of these 
+subsystems can handle the framebuffer. Having a framebuffer device on 
+the coreboot bus, if the underlying framebuffer is managed by a 
+different device seems even more incorrect.
+
+>
+> So the device with TAG_FRAMEBUFFER doesn't mean that we have a
+> framebuffer, it just means that we have an entry in the table
+> describing a framebuffer. Whether it should actually be used to set up
+> a framebuffer should be up to the binding driver. That's why I think
+> keeping this decision in the driver probe makes more sense, and
+> excluding it from the devices on the bus is weird (because you're just
+> randomly excluding one of the entries in the table from being
+> represented like the others, just because of details about how its
+> drivers would want to use it).
+>
+> If you want these devices to be bound by drivers outside this
+> directory, then I think either that other driver needs to have the
+> logic to decide when a coreboot framebuffer should actually be used,
+> or maybe you should have a small stub driver in this directory that
+> binds to the list entry device, makes the decision whether to actually
+> use it, and if so creates a sub-device or something (if that's
+> possible?) which the actual outside driver can find and bind to.
+
+This is what the current code in framebuffer-coreboot.c does. It binds 
+to the coreboot-framebuffer device and create another device for 
+external DRM/fbdev drivers to handle. This is problematic, as
+
+1) the additional device will be gone after the native hardware drivers 
+takes over the display, so the pdev pointer at [1] is dangling. 
+Apparently no one ever unloads the coreboot-framebuffer device to 
+trigger this problem.
+
+2) The corboot-framebuffer device sets itself as the external device's 
+parent. This is incorrect. The framebuffer exists on top of a PCI 
+graphics device, so that device should be the parent. Otherwise the user 
+can hot-unplug the PCI hardware and the coreboot framebuffer operates on 
+a bogus graphics aperture. Modeling the parent-child relationships 
+correctly, avoids this problem.  We've seen these problems with 
+UEFI/VESA framebuffers and fixed it accordingly. [2] Something similar 
+should be done for coreboot. Coreboot devices can still be located on 
+the coreboot bus.
+
+[1] 
+https://elixir.bootlin.com/linux/v6.18.4/source/drivers/firmware/google/framebuffer-coreboot.c#L92
+[2] 
+https://elixir.bootlin.com/linux/v6.18.4/source/drivers/firmware/sysfb.c#L160
+
+Another question I have is why there's a separate device for the 
+coreboot-table? Couldn't the kernel just create the coreboot bus and 
+then populate it with the table entries? DT does that. If the 
+coreboot-table device is really just the parent for the other deivce, 
+that is incorrect, as I describe above.
+
+The coreboot bus is only for convenience, I guess? Other subsystems 
+(sysfb, DT) create platform devices directly.
+
+Best regards
+Thomas
+
+
+
+>
+> On Thu, Jan 8, 2026 at 3:51 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Test sysfb before creating the coreboot framebuffer device. Skip
+>> device creation if the test fails, as this framebuffer does not exist.
+>>
+>> Depending on the system setup, the initial framebuffer can be provided
+>> by the boot loader via screen_info boot parameters and handled by the
+>> kernel's sysfb code in drivers/firmware/sysfb.c. With the sysfb test in
+>> the coreboot-framebuffer probing, the coreboot device is present without
+>> the framebuffer. Even after the sysfb device has been replaced with a
+>> native PCI device, the coreboot device persists.
+>>
+>> Skipping device creation early avoids all these inconsistencies. It
+>> further prepares coreboot to support graphics drivers besides the one
+>> in framebuffer-coreboot.c.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/firmware/google/coreboot_table.c       | 17 +++++++++++++++++
+>>   drivers/firmware/google/coreboot_table.h       |  1 +
+>>   drivers/firmware/google/framebuffer-coreboot.c | 16 ----------------
+>>   3 files changed, 18 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+>> index 882db32e51be..c34426e5002d 100644
+>> --- a/drivers/firmware/google/coreboot_table.c
+>> +++ b/drivers/firmware/google/coreboot_table.c
+>> @@ -18,6 +18,7 @@
+>>   #include <linux/of.h>
+>>   #include <linux/platform_device.h>
+>>   #include <linux/slab.h>
+>> +#include <linux/sysfb.h>
+>>
+>>   #include "coreboot_table.h"
+>>
+>> @@ -118,6 +119,22 @@ static int coreboot_table_populate(struct device *dev, void *ptr)
+>>                          return -EINVAL;
+>>                  }
+>>
+>> +               switch (entry->tag) {
+>> +               case CB_TAG_FRAMEBUFFER:
+>> +                       /*
+>> +                        * On coreboot systems, the advertised CB_TAG_FRAMEBUFFER entry
+>> +                        * in the coreboot table should only be used if the payload did
+>> +                        * not pass a framebuffer information to the Linux kernel.
+>> +                        *
+>> +                        * If the global screen_info data has been filled, the generic
+>> +                        * system framebuffers (sysfb) will already register a platform
+>> +                        * device and pass that screen_info as platform_data to a driver
+>> +                        * that can scan-out using the system-provided framebuffer.
+>> +                        */
+>> +                       if (sysfb_handles_screen_info())
+>> +                               continue;
+>> +               }
+>> +
+>>                  device = kzalloc(sizeof(device->dev) + entry->size, GFP_KERNEL);
+>>                  if (!device)
+>>                          return -ENOMEM;
+>> diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+>> index bb6f0f7299b4..e3c353676940 100644
+>> --- a/drivers/firmware/google/coreboot_table.h
+>> +++ b/drivers/firmware/google/coreboot_table.h
+>> @@ -40,6 +40,7 @@ struct lb_cbmem_ref {
+>>          u64 cbmem_addr;
+>>   };
+>>
+>> +#define CB_TAG_FRAMEBUFFER 0x12
+>>   #define LB_TAG_CBMEM_ENTRY 0x31
+>>
+>>   /* Corresponds to LB_TAG_CBMEM_ENTRY */
+>> diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+>> index c68c9f56370f..bb53d1a47409 100644
+>> --- a/drivers/firmware/google/framebuffer-coreboot.c
+>> +++ b/drivers/firmware/google/framebuffer-coreboot.c
+>> @@ -15,12 +15,9 @@
+>>   #include <linux/module.h>
+>>   #include <linux/platform_data/simplefb.h>
+>>   #include <linux/platform_device.h>
+>> -#include <linux/sysfb.h>
+>>
+>>   #include "coreboot_table.h"
+>>
+>> -#define CB_TAG_FRAMEBUFFER 0x12
+>> -
+>>   static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
+>>
+>>   static int framebuffer_probe(struct coreboot_device *dev)
+>> @@ -37,19 +34,6 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>>                  .format = NULL,
+>>          };
+>>
+>> -       /*
+>> -        * On coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
+>> -        * in the coreboot table should only be used if the payload did
+>> -        * not pass a framebuffer information to the Linux kernel.
+>> -        *
+>> -        * If the global screen_info data has been filled, the Generic
+>> -        * System Framebuffers (sysfb) will already register a platform
+>> -        * device and pass that screen_info as platform_data to a driver
+>> -        * that can scan-out using the system provided framebuffer.
+>> -        */
+>> -       if (sysfb_handles_screen_info())
+>> -               return -ENODEV;
+>> -
+>>          if (!fb->physical_address)
+>>                  return -ENODEV;
+>>
+>> --
+>> 2.52.0
+>>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
