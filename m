@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BD9D0800F
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8D0D08055
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:57:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD64910E850;
-	Fri,  9 Jan 2026 08:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B49410E858;
+	Fri,  9 Jan 2026 08:57:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OxnmN0ZE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CYNAVNRd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 667D410E850
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fTEki+a4dZq+PCarkxxwEYFqCoPGr+kqWvm5RiTwHrc=; b=OxnmN0ZElZ7RFX9XFmmcsq8Iwu
- lrsbSFYKPohVHaCQ8g0+gNBMq0R5oRbmpcCYKsBHH8oZDVqh6U61osahOtd+l/212BphavtR/+AXi
- zPSGKtcnm3/RQchiRKIWnNsmnpH9CcmcMGsbeZbECldXcgmuU8ps/wtNDij7bfDeCGlxHz/WSBlvg
- IWAWVVSM29O8v2BpVG3M4DxBZaRY8qfjdbZ5ff5q1VhsIFeuT1BmgxcY3wnuX3ky6idkYBGwkn0/p
- DCLU6HdR/5cCaEwGhDhHtVQkRJb3EmqsJZEzzu/e1jlWtz9i87qB3yWyEhloQ8OgS6HoTe1vMF23E
- D3FVVO6g==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ve8HS-003KbE-Er; Fri, 09 Jan 2026 09:55:38 +0100
-Message-ID: <b2197fa6-ab12-41ee-88fd-c57f6caa681e@igalia.com>
-Date: Fri, 9 Jan 2026 08:55:37 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4EE10E85F;
+ Fri,  9 Jan 2026 08:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1767949070; x=1799485070;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=1a/eS75yyIWZcpFPllckDkjXoSc9AeiUGsnNAUgVcN8=;
+ b=CYNAVNRdGsTgSppPXJ53YCkGDPQwLLf0oB3hK4r+Gm+BPoZwWuD/ZRc3
+ 41cgHUKR7p+2iNUXjmSf3FVbL/6EdoKdTTP0CIQDYz6PagDA2c1UE46Y4
+ DdvtsuuVppI6sjqFU4kf5AliX4cebEu/ql+uQMHqLUG6ly6AOvLRdHS24
+ btOf/PD6qwSPEroNeUKOsyTcrfV/f4D5RfgPfC+z4syCjf6QSCOyJAMoY
+ L/0v4IRKlBdzwwzsNG0OQKUdmx48ak9OWjOAvkpCBdfxljvXtCzNnuNMD
+ /enpySuo2/c4I/e6lVga3cG3jXz00LTJJvNe/UB98cQkZ7IK+Dzb+VJDG Q==;
+X-CSE-ConnectionGUID: CI1Js4/DQwy3udCle0/c+w==
+X-CSE-MsgGUID: uhaqiaJBQqatGJtVCqpYPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="80440346"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="80440346"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2026 00:57:49 -0800
+X-CSE-ConnectionGUID: DLTAWVfrQQCSZ/i15WEwxA==
+X-CSE-MsgGUID: MSaS3n6XSQeg3Yn5eKBbWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="203851334"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.143])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2026 00:57:44 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kaushlendra Kumar <kaushlendra.kumar@intel.com>, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Kaushlendra Kumar
+ <kaushlendra.kumar@intel.com>
+Subject: Re: [PATCH] drm/i915: free _DSM package when no connectors
+In-Reply-To: <20260109032549.1826303-1-kaushlendra.kumar@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260109032549.1826303-1-kaushlendra.kumar@intel.com>
+Date: Fri, 09 Jan 2026 10:57:42 +0200
+Message-ID: <fcef7bb595e9197eec717a3876d8bc0c869a4b25@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/panic: Avoid crash from invalid
- CONFIG_DRM_PANIC_SCREEN values
-To: Nathan Chancellor <nathan@kernel.org>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260105-drm_panic-handle-invalid-drm_panic_screen-v1-0-55228bd4b0f8@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20260105-drm_panic-handle-invalid-drm_panic_screen-v1-0-55228bd4b0f8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +75,37 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 06/01/2026 06:19, Nathan Chancellor wrote:
-> Hi all,
-> 
-> This series addresses a couple of issues I noticed when accessing
-> /sys/module/drm/parameters/panic_screen on my Arch Linux machines, which
-> have "qr_code" as the value of CONFIG_DRM_PANIC_SCREEN. This happened to
-> be unsupported in my configuration since I was missing some Rust
-> dependencies in my environment for CONFIG_DRM_PANIC_SCREEN_QR_CODE,
-> resulting in a kernel crash. Patch one addresses the root cause of the
-> crash and patch two addresses an inconsistency I noticed between this
-> new code and the documented value for CONFIG_DRM_PANIC_SCREEN in Kconfig
-> for qr_code.
-> 
-> If there are any issues, please let me know.
+Subject prefix "drm/i915/acpi:"
 
-I've pushed the series to drm-misc-next, thanks for fixing it up!
+On Fri, 09 Jan 2026, Kaushlendra Kumar <kaushlendra.kumar@intel.com> wrote:
+> acpi_evaluate_dsm_typed() returns an ACPI package in pkg.
+> When pkg->package.count =3D=3D 0, we returned without freeing pkg,
+> leaking memory. Free pkg before returning on the empty case.
 
-Regards,
+Fixes: 337d7a1621c7 ("drm/i915: Fix invalid access to ACPI _DSM objects")
+Cc: Takashi Iwai <tiwai@suse.de>
+Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.14+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Tvrtko
-
-> 
+> Signed-off-by: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
 > ---
-> Nathan Chancellor (2):
->        drm/panic: Ensure drm_panic_type is initialized to a valid value
->        drm/panic: Fix expected string for QR_CODE in drm_panic_type_map
-> 
->   drivers/gpu/drm/drm_panic.c | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
-> ---
-> base-commit: 349d4efadc1f831ebc0b872ba1e3a2b7dd58b72b
-> change-id: 20260105-drm_panic-handle-invalid-drm_panic_screen-097e49e21c49
-> 
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
-> 
+>  drivers/gpu/drm/i915/display/intel_acpi.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/=
+i915/display/intel_acpi.c
+> index 68c01932f7b4..e06f324027be 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> @@ -96,6 +96,7 @@ static void intel_dsm_platform_mux_info(acpi_handle dha=
+ndle)
+>=20=20
+>  	if (!pkg->package.count) {
+>  		DRM_DEBUG_DRIVER("no connection in _DSM\n");
+> +		ACPI_FREE(pkg);
+>  		return;
+>  	}
 
+--=20
+Jani Nikula, Intel
