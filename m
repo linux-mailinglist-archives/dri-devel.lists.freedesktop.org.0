@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49E2D0866E
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8565DD08677
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 11:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06C5510E877;
-	Fri,  9 Jan 2026 10:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FDE10E881;
+	Fri,  9 Jan 2026 10:03:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZJSYFvqh";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KSZfI1Sa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7D610E877
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:46 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0969410E883
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 10:03:51 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 2B7D4C1F6D3;
- Fri,  9 Jan 2026 10:03:18 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id F096E1A273D;
+ Fri,  9 Jan 2026 10:03:49 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6BAFE60734;
- Fri,  9 Jan 2026 10:03:44 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id C397160734;
+ Fri,  9 Jan 2026 10:03:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 47C31103C88D4; Fri,  9 Jan 2026 11:03:36 +0100 (CET)
+ with ESMTPSA id A7926103C88D0; Fri,  9 Jan 2026 11:03:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767953022; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767953028; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=sDYasl3TO+ykUDgltsiebhB15xiF9vjquBvH4qBcVHM=;
- b=ZJSYFvqhklyH3Vwt24dpnaBUo8OPit1uS9BZYNEbqIBp0HfvE4SbWkyhACiyoS872ce5ot
- Hn5BN62UXidJKbd2f7/wtAoXH141rhnGrFQDsmDvDVaQWopM55T+4Jgc6M4yVx1Wqj5WZQ
- KyteiRTpHK4ob8ILlsfcBPXafKwvl/D9uowH4pMC3GjPKM/MTYto1ArHSbFPJJ2TfjWRfs
- vcRIAPWYY48xjSFr787foREYv2/8pWqgazzHIn1GRe0XLrW5IqaeymG51zNkB5R1+trpCf
- 1DswaF+HFw3D/rJ3x3cCdOtICEyhGJdFrbQyxxlXhEatRedBDZ1amnhSf3EOTQ==
+ bh=SA0cq6vwDyGvyP6SIBlq9HJkNg1w6ZLReUneEYt+F+A=;
+ b=KSZfI1SaMumTTlA7aUO6fknx5ClPCFywopEJddmgU9FBvO0pmHTfpu2e904RhR6gPPoMSB
+ ZPe00R76Xz/t/ZaLShL8VZs2/VQbhzctQtsji7KJ4/m4s9zXyFup7MJcoAA8x8Zv7qeSoR
+ Pq18G1V6UTxRFRfxEIHCBQkmOxiOHdSF7fb5Pzu8WyzjbAczpR7CYY5L7Jmp7bCyerI1RI
+ WRVm2ww91LMZFoNvTkNMzRhdIHSA2YI64XzE99H+xp5GGHdf1oLkQ7Pu3fXg2sjZAhss1E
+ NXN9D3QTghu/aY1qyCeS6OHAoXBaM+hwIbn+Sm4gLdBkf1Gqh+Fr9rsU3YGqyA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 11:02:54 +0100
-Subject: [PATCH v2 5/6] drm/exynos: hdmi: convert to
+Date: Fri, 09 Jan 2026 11:02:55 +0100
+Subject: [PATCH v2 6/6] drm: rcar-du: lvds: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-5-8d7a3dbacdf4@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-6-8d7a3dbacdf4@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -95,34 +95,50 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Since the companion bridge pointer is used by .atomic_enable, putting its
+reference in the remove function would be dangerous. Use .destroy to put it
+on final deallocation.
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 01813e11e6c6..bfcf2fa62fe1 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *hdata)
- 		return -EINVAL;
- 	}
- 
--	hdata->bridge = of_drm_find_bridge(np);
-+	hdata->bridge = of_drm_find_and_get_bridge(np);
- 	of_node_put(np);
- 
- 	if (!hdata->bridge)
-@@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pdev)
- 
- 	put_device(&hdata->ddc_adpt->dev);
- 
-+	drm_bridge_put(hdata->bridge);
-+
- 	mutex_destroy(&hdata->mutex);
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+index 001b3543924a..227818e37390 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+@@ -633,6 +633,13 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+ 	return true;
  }
  
++static void rcar_lvds_destroy(struct drm_bridge *bridge)
++{
++	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
++
++	drm_bridge_put(lvds->companion);
++}
++
+ static int rcar_lvds_attach(struct drm_bridge *bridge,
+ 			    struct drm_encoder *encoder,
+ 			    enum drm_bridge_attach_flags flags)
+@@ -648,6 +655,7 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
+ 	.attach = rcar_lvds_attach,
++	.destroy = rcar_lvds_destroy,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+@@ -740,7 +748,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+ 		goto done;
+ 	}
+ 
+-	lvds->companion = of_drm_find_bridge(companion);
++	lvds->companion = of_drm_find_and_get_bridge(companion);
+ 	if (!lvds->companion) {
+ 		ret = -EPROBE_DEFER;
+ 		goto done;
 
 -- 
 2.52.0
