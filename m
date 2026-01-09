@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F61FD07933
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:32:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023EAD07939
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB14E10E7F9;
-	Fri,  9 Jan 2026 07:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55FDD10E7F8;
+	Fri,  9 Jan 2026 07:32:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wj+4gEOs";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iGbPeTtF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42CF210E7F9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:31:58 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB99410E7FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:32:01 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 2475E4E4201A;
- Fri,  9 Jan 2026 07:31:57 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 4C70FC1F6CE;
+ Fri,  9 Jan 2026 07:31:34 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id ED8A360734;
- Fri,  9 Jan 2026 07:31:56 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 8CD3760734;
+ Fri,  9 Jan 2026 07:32:00 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E56EA103C87E8; Fri,  9 Jan 2026 08:31:51 +0100 (CET)
+ with ESMTPSA id E5A6C103C881F; Fri,  9 Jan 2026 08:31:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767943915; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767943919; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=xbfkkRL/MGRcgqDvDpIMuvcsCJnlzFYd2Dd6uEyNIfE=;
- b=Wj+4gEOsRDpvVFKtj85yDoEYt0GlQBO/GV44M9b6EjHHFe2U47E2xYOG2Y6Nho9UJHBkyH
- t53Y7OJYp/uu1v8nuQgSwSj3lQyfJR+sLkr8OrkKWiBjsu6hKdgxUuHY6lMU+WLE28kugh
- lt1ImhFCS3fknd8S8kJQaKuGp8IH4JW/q6fe5/8ym7KWXTVM1dTzy7zhKJwOjE4kyESM7K
- aDhqUvDW1LZhHE0RlYJVtNpp7hakA7X1WHECacKR82S+pr6vtgJX3S0jMsceQobszIE2fK
- Q6Nd/+RE0tlV/3M9KNk3GLR/lFER7XYiMZfiZgfsyf428iQvqOoIG4dacgQGmQ==
+ bh=FMUIcmX1ssvYnvOCBSl/fsdMgg8W5jXv5tr1P/C0UEk=;
+ b=iGbPeTtFCVzJVQ6tozr5mnARxFxazh+jedm+A1PS86TzzTDjfxP99pLlPgw/WahU3TlG8a
+ FSP6f0gGNfM8KzqqAudm0ZbEN8AMxkWBpsWnmprHXfdTPIVk5cjpqG+VqjEM8dxo7qWyw/
+ T1n3dh2qJTLwRq4haP4FK0wXoDFEHhkES8onZBbM5kzhO6KQ5b7QMBQjt2C9urOXCgJEl3
+ w8447TOw8hlu314rpF+DqDMUb5pwXacWEPp0HslEDOwA4ofD20+THJmH543Sv8KkykeRAC
+ dhzm1WtI1IeJb8fdYV61C0NRAHW+h5wOcMjYphEBuPiLGeNyh2INXctXcN4r/g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 08:31:34 +0100
-Subject: [PATCH v2 03/12] drm/bridge: sii902x: convert to
+Date: Fri, 09 Jan 2026 08:31:35 +0100
+Subject: [PATCH v2 04/12] drm/bridge: thc63lvd1024: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-3-8bad3ef90b9f@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-4-8bad3ef90b9f@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -85,42 +85,42 @@ is put when done by using the drm_bridge::next_bridge pointer.
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/sii902x.c | 7 +++----
+ drivers/gpu/drm/bridge/thc63lvd1024.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 1f0aba28ad1e..12497f5ce4ff 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -175,7 +175,6 @@ struct sii902x {
- 	struct i2c_client *i2c;
- 	struct regmap *regmap;
+diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
+index 2cb7cd0c0608..c804222846c3 100644
+--- a/drivers/gpu/drm/bridge/thc63lvd1024.c
++++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
+@@ -32,7 +32,6 @@ struct thc63_dev {
+ 	struct gpio_desc *oe;
+ 
  	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
- 	struct drm_connector connector;
- 	struct gpio_desc *reset_gpio;
- 	struct i2c_mux_core *i2cmux;
-@@ -421,7 +420,7 @@ static int sii902x_bridge_attach(struct drm_bridge *bridge,
- 	int ret;
+-	struct drm_bridge *next;
  
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
--		return drm_bridge_attach(encoder, sii902x->next_bridge,
-+		return drm_bridge_attach(encoder, sii902x->bridge.next_bridge,
- 					 bridge, flags);
+ 	struct drm_bridge_timings timings;
+ };
+@@ -48,7 +47,7 @@ static int thc63_attach(struct drm_bridge *bridge,
+ {
+ 	struct thc63_dev *thc63 = to_thc63(bridge);
  
- 	drm_connector_helper_add(&sii902x->connector,
-@@ -1204,9 +1203,9 @@ static int sii902x_probe(struct i2c_client *client)
- 			return -ENODEV;
- 		}
+-	return drm_bridge_attach(encoder, thc63->next, bridge, flags);
++	return drm_bridge_attach(encoder, thc63->bridge.next_bridge, bridge, flags);
+ }
  
--		sii902x->next_bridge = of_drm_find_bridge(remote);
-+		sii902x->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
- 		of_node_put(remote);
--		if (!sii902x->next_bridge)
-+		if (!sii902x->bridge.next_bridge)
- 			return dev_err_probe(dev, -EPROBE_DEFER,
- 					     "Failed to find remote bridge\n");
+ static enum drm_mode_status thc63_mode_valid(struct drm_bridge *bridge,
+@@ -132,9 +131,9 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
+ 		return -ENODEV;
  	}
+ 
+-	thc63->next = of_drm_find_bridge(remote);
++	thc63->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
+ 	of_node_put(remote);
+-	if (!thc63->next)
++	if (!thc63->bridge.next_bridge)
+ 		return -EPROBE_DEFER;
+ 
+ 	endpoint = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
 
 -- 
 2.52.0
