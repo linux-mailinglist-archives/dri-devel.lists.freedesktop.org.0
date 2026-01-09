@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862D0D07E44
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7428D07E4A
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:43:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F1A10E820;
-	Fri,  9 Jan 2026 08:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BBC10E823;
+	Fri,  9 Jan 2026 08:43:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O0NCuAJb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vnafr0tp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5AA10E817;
- Fri,  9 Jan 2026 08:42:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E931E10E822;
+ Fri,  9 Jan 2026 08:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767948178; x=1799484178;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=KbTCncQ97eerYnw4Wnp91TIcTti+LR3nCKvYH1J59aA=;
- b=O0NCuAJbxovJWCsIc0rdwx//7xYBqj3W60ixSSKSz/V9qhFORLYRPGBx
- xcddnU01o7WFeu5QOML9n2Jgxj1+sHXpwGGqiHeQDxzwvC5pjSx3qI542
- KPf4Q2+VS3W00FilYYXCnBI+mXMOQobXHhVsvD8Ey+cky8i/WK/YQ2ZEN
- /+Bo50MilqNcx2BmDbfAYOfeUbUFuw1xVElSAPYSnqSoGL4rlSQmePyGw
- TIByaXufrhsRslU+nfROV0qWUdXPtpKIjEN/t217hDXo18HHNmZQqE2ur
- RCogqHVDUSoxUwzOIzEIzkhq8veJ/++nKaZlQ15oc7dwSGDE1IEV4N+hW g==;
-X-CSE-ConnectionGUID: 4q+uutgZTFWFnZt/I9G8fQ==
-X-CSE-MsgGUID: +TchHBtISS+pidLfZ4JqCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69241385"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="69241385"
+ t=1767948182; x=1799484182;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=X54EmWCLnUvfF3np7HSj3dFltlC2dEJiUB/2EsvAzws=;
+ b=Vnafr0tphFZvdBBBEbrTkxvUblH9ABuQZp1/5IatpIwZ9yFWupmJ4YJL
+ 6TX84D9yfvYcGc1CUVt1SKl5RayYP1m3gwg7zvypSY/L+ocrKVybwkwjT
+ fVofgyPS9IOdsgZU2XuMifjzq+8d4+Uk7WgRWJkMMoeAep2cITL3+AqI2
+ ypoiaVs7LPeZRbqubpfyG/cni3Z7lJNWJ3RB0ruVMq3XBQzHFaHxLrwsp
+ 1MjH86S7qdiGS9LTzsQWycw/frPV0vMi6H3iiSwRixnJFHpefWZCD5NkZ
+ 4MQ4ejCm48q/Os1/0mbWXSb+efet2C2S+glQ8vf+2sns4ZVNgxxsGld4T Q==;
+X-CSE-ConnectionGUID: NIx8IB0nQuOyBBivK63/RA==
+X-CSE-MsgGUID: 3S7zJAgaQF+u8kfoM9TIYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69241391"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="69241391"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2026 00:42:58 -0800
-X-CSE-ConnectionGUID: ps0lOmumRfGomJYoGwQ6Qw==
-X-CSE-MsgGUID: K6mETJ7JSumbVto6QyMiaw==
+ 09 Jan 2026 00:43:02 -0800
+X-CSE-ConnectionGUID: FoXJhT2ETIKIWiyU3FqWPA==
+X-CSE-MsgGUID: XD7AbwujTomQUsDmFX0o3g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="240924425"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="240924450"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by orviesa001.jf.intel.com with ESMTP; 09 Jan 2026 00:42:53 -0800
+ by orviesa001.jf.intel.com with ESMTP; 09 Jan 2026 00:42:58 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
@@ -48,13 +48,14 @@ Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
  alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
  suraj.kandpal@intel.com, nfraprado@collabora.com,
  ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: [PATCH v2 00/13] drm: Color pipeline teardown and follow-up
- fixes/improvements
-Date: Fri,  9 Jan 2026 13:47:15 +0530
-Message-Id: <20260109081728.478844-1-chaitanya.kumar.borah@intel.com>
+Subject: [PATCH v2 01/13] drm/i915/color: Place 3D LUT after CSC in plane
+ color pipeline
+Date: Fri,  9 Jan 2026 13:47:16 +0530
+Message-Id: <20260109081728.478844-2-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260109081728.478844-1-chaitanya.kumar.borah@intel.com>
+References: <20260109081728.478844-1-chaitanya.kumar.borah@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,82 +72,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series contains follow-up fixes and improvements for the DRM color
-pipeline infrastructure that was introduced in v6.19.[1][2]
+Move the 3D LUT block to its correct position in the plane
+color pipeline:
 
-The central handling of clean up of colorop from the mode_config list
-is missing. While vkms calls drm_colorop_pipeline_destroy() in vkms_destroy(),
-amd driver calls it only during failure of the init path and i915/xe driver
-does not call it at all. This means amd and intel leaks these objects on
-driver removal.
+  [Pre-CSC] -> [CSC] -> [3DLUT] -> [Post-CSC]
 
-This series adds the teardown of mode_config.colorop_list in drm_mode_config_cleanup().
-Since, i915/xe sub-classes the drm_colorop within intel_colorop it was not enough
-to just use drm_colorop_pipeline_destroy(). Therefore, this series
+Fixes: 65db7a1f9cf7 ("drm/i915/color: Add 3D LUT to color pipeline")
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+---
+ .../drm/i915/display/intel_color_pipeline.c    | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-- Introduces driver-managed destruction for drm_colorop objects and
-  updates core helpers to use driver-provided destroy callbacks.
-- Ensures all colorop objects are correctly torn down during
-  mode_config cleanup and driver removal.
-
-In addition to that following changes are made in the series
-- Fixes enum name lifetime leaks in color pipeline init in i915, amdgpu_dm, and vkms
-- Corrects the ordering of the 3D LUT block in the i915 plane color pipeline
-- Refactors i915 plane color pipeline initialization to reliably clean
-  up partially constructed pipelines on failure.
-
-Thanks for taking a look. Feedback is welcome.
-
-[1] https://lore.kernel.org/dri-devel/cbe00ac4-a535-47d3-813a-e2eda7e9b991@amd.com/
-[2] https://lore.kernel.org/intel-gfx/20251203085211.3663374-1-uma.shankar@intel.com/
-
-v2:
- - Re-arrange patches (Alex)
- - Re-factor code to avoid repitition in pipeline creation (Suraj)
-
-==
-Chaitanya
-
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Uma Shankar <uma.shankar@intel.com>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Daniel Stone <daniels@collabora.com>
-Cc: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-
-Chaitanya Kumar Borah (13):
-  drm/i915/color: Place 3D LUT after CSC in plane color pipeline
-  drm/amd/display: Fix color pipeline enum name leak
-  drm/vkms: Fix color pipeline enum name leak
-  drm/i915/display: Fix color pipeline enum name leak
-  drm/colorop: Add destroy helper for colorop objects
-  drm: Allow driver-managed destruction of colorop objects
-  drm/amd/display: Hook up colorop destroy helper for plane pipelines
-  drm/vkms: Hook up colorop destroy helper for plane pipelines
-  drm/i915/display: Hook up intel_colorop_destroy
-  drm: Clean up colorop objects during mode_config cleanup
-  drm/vkms: Remove drm_colorop_pipeline_destroy() from vkms_destroy()
-  drm/colorop: Use destroy callback for color pipeline teardown
-  drm/i915/color: Add failure handling in plane color pipeline init
-
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c |  31 ++-
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  13 +-
- drivers/gpu/drm/drm_colorop.c                 |  46 +++--
- drivers/gpu/drm/drm_mode_config.c             |   6 +
- .../drm/i915/display/intel_color_pipeline.c   | 179 +++++++++++++-----
- drivers/gpu/drm/i915/display/intel_colorop.c  |   6 +
- drivers/gpu/drm/i915/display/intel_colorop.h  |   1 +
- drivers/gpu/drm/vkms/vkms_colorop.c           |  31 +--
- drivers/gpu/drm/vkms/vkms_drv.c               |   1 -
- include/drm/drm_colorop.h                     |  40 +++-
- 10 files changed, 264 insertions(+), 90 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index 942d9b9c93ce..684641c8323b 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -39,6 +39,15 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	/* TODO: handle failures and clean up */
+ 	prev_op = &colorop->base;
+ 
++	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
++	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
++					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	if (ret)
++		return ret;
++
++	drm_colorop_set_next_property(prev_op, &colorop->base);
++	prev_op = &colorop->base;
++
+ 	if (DISPLAY_VER(display) >= 35 &&
+ 	    intel_color_crtc_has_3dlut(display, pipe) &&
+ 	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
+@@ -55,15 +64,6 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 		prev_op = &colorop->base;
+ 	}
+ 
+-	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
+-					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+-	if (ret)
+-		return ret;
+-
+-	drm_colorop_set_next_property(prev_op, &colorop->base);
+-	prev_op = &colorop->base;
+-
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
+ 	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
+ 						  PLANE_GAMMA_SIZE,
 -- 
 2.25.1
 
