@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D2FD07F58
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64430D07F64
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD34B10E86F;
-	Fri,  9 Jan 2026 08:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF68710E873;
+	Fri,  9 Jan 2026 08:50:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="YMRNwSI0";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="jl8V1hyT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF0610E86F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:49:51 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F13E510E873
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:50:12 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20260109084949euoutp0125b40c25589d327250319dcf2a4549a2~JA_AITBdy2011020110euoutp01T
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:49:49 +0000 (GMT)
+ 20260109085011euoutp01ce0160d8047f8c8ce45a4ad39b8a8970~JA_U1P68H2011020110euoutp01X
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:50:11 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20260109084949euoutp0125b40c25589d327250319dcf2a4549a2~JA_AITBdy2011020110euoutp01T
+ 20260109085011euoutp01ce0160d8047f8c8ce45a4ad39b8a8970~JA_U1P68H2011020110euoutp01X
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1767948589;
- bh=DqIjDWDNDsxEnQmjqSn3lRLsKhnspZsn6fUpo/KCo90=;
+ s=mail20170921; t=1767948611;
+ bh=9nrTgJ1fPRBZ5eKN3EFtjQRxmnL67+4GleGznV0Og94=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=YMRNwSI0wOZceG8PA3KPr6eUHpRCI4nEB1T3hx/UIUIEVNxe2jnxPUWw53vAm0Xm1
- mh77tLU02YzvuYMn7HWU5SQGgp0Ra/nxZGl2zLQxNys4T5mpfMsy+yMVavw/YhWI1V
- NSbVonu+LY+EjcCjR0PuqWH3TWe0nlE7XUaZit/I=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ b=jl8V1hyTmZgKkfA3qNbL0xn6zKIaV16Qve4X078BJ/FWPkD8UM3JPkuFx9cWPe6RK
+ VN0SNlmoAcPoLck1PQaLdDyIfkXH7CIXc72uzylh0hgq1zq1MbdmAxoiNgypK4ykKs
+ qB36XKFfyUeij0edb1kcpKIQB/4i9uE5pFebbDk4=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20260109084948eucas1p25d45866af56896d55a77289f1816a144~JA9-oK3f80983509835eucas1p2E;
- Fri,  9 Jan 2026 08:49:48 +0000 (GMT)
+ 20260109085011eucas1p2825c7d44757c204152e65965f5864715~JA_UXFXip0983509835eucas1p2V;
+ Fri,  9 Jan 2026 08:50:11 +0000 (GMT)
 Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20260109084946eusmtip19166b5af025e4b586d8c35e4bbabd918~JA99w3fNE3189931899eusmtip1L;
- Fri,  9 Jan 2026 08:49:46 +0000 (GMT)
-Message-ID: <098a1557-aad0-4db4-822f-ed672e97c473@samsung.com>
-Date: Fri, 9 Jan 2026 09:49:46 +0100
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260109085009eusmtip20e7d4ebf0b633fecfd09193091d0f534~JA_S04kDD0959909599eusmtip2F;
+ Fri,  9 Jan 2026 08:50:09 +0000 (GMT)
+Message-ID: <ff9abc0f-c934-44a9-88ba-75265699b384@samsung.com>
+Date: Fri, 9 Jan 2026 09:50:09 +0100
 MIME-Version: 1.0
 User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2 11/12] drm/bridge: samsung-dsim:
- samsung_dsim_host_attach: don't use the bridge pointer as an error indicator
+Subject: Re: [PATCH v2 12/12] drm/bridge: samsung-dsim:
+ samsung_dsim_host_attach: convert to of_drm_find_and_get_bridge()
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -62,17 +62,17 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
  linux-arm-kernel@lists.infradead.org
 Content-Language: en-US
 From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-11-8bad3ef90b9f@bootlin.com>
+In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260109084948eucas1p25d45866af56896d55a77289f1816a144
+X-CMS-MailID: 20260109085011eucas1p2825c7d44757c204152e65965f5864715
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260109073233eucas1p2221313acb7879127ca0582b2391ba460
+X-RootMTR: 20260109073236eucas1p27fab1926761fc4058cc2a127c117e219
 X-EPHeader: CA
-X-CMS-RootMailID: 20260109073233eucas1p2221313acb7879127ca0582b2391ba460
+X-CMS-RootMailID: 20260109073236eucas1p27fab1926761fc4058cc2a127c117e219
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
- <CGME20260109073233eucas1p2221313acb7879127ca0582b2391ba460@eucas1p2.samsung.com>
- <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-11-8bad3ef90b9f@bootlin.com>
+ <CGME20260109073236eucas1p27fab1926761fc4058cc2a127c117e219@eucas1p2.samsung.com>
+ <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,57 +89,118 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09.01.2026 08:31, Luca Ceresoli wrote:
-> In preparation to handle refcounting of the out_bridge, we need to ensure
-> the out_bridge pointer contains either a valid bridge pointer or NULL, not
-> an ERR_PTR. Otherwise calls such as drm_bridge_get/put() would try to
-> redeference an ERR_PTR.
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done. Also switch to the drm_bridge::next_bridge pointer.
 >
-> Stop using IS_ERR(next_bridge) as an indication of an error, and instead
-> use the 'ret' integer.
+> This needs to handle both cases: when of_drm_find_panel() succeeds and when
+> it fails.
 >
-> No functional change.
+> In the 'else' case (i.e. when of_drm_find_panel() fails), just switch to
+> of_drm_find_and_get_bridge() to ensure the bridge is not freed while in use
+> in the function tail, when it is stored in dsi->bridge.next_bridge.
 >
-> Acked-by: Maxime Ripard <mripard@kernel.org>
+> In the 'then' case (i.e. when of_drm_find_panel() succeeds),
+> devm_drm_panel_bridge_add() already increments the refcount using devres
+> which ties the bridge allocation lifetime to the device lifetime, so we
+> would not need to do anything. However to have the same behaviour in both
+> branches take an additional reference here, so that the bridge needs to be
+> put whichever branch is taken without more complicated logic. Ensure to
+> clear the bridge pointer however, to avoid calling drm_bridge_put() on an
+> ERR_PTR.
+>
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
->   drivers/gpu/drm/bridge/samsung-dsim.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> Changes in v2:
+> - updated after "pointer set too late" fix inprevious patch
+> - *not* add Acked-by: Maxime as the patch has changed
+> ---
+>   drivers/gpu/drm/bridge/samsung-dsim.c | 20 +++++++++++++-------
+>   include/drm/bridge/samsung-dsim.h     |  1 -
+>   2 files changed, 13 insertions(+), 8 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 8dd058124e93..afaa63c4d3f7 100644
+> index afaa63c4d3f7..1d85e706c74b 100644
 > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1891,7 +1891,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+> @@ -1828,7 +1828,7 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
+>   {
+>   	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+>   
+> -	return drm_bridge_attach(encoder, dsi->out_bridge, bridge,
+> +	return drm_bridge_attach(encoder, dsi->bridge.next_bridge, bridge,
+>   				 flags);
+>   }
+>   
+> @@ -1886,7 +1886,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>   {
+>   	struct samsung_dsim *dsi = host_to_dsi(host);
+>   	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
+> -	struct drm_bridge *next_bridge;
+> +	struct drm_bridge *next_bridge __free(drm_bridge_put) = NULL;
+>   	struct device *dev = dsi->dev;
 >   	struct device_node *np = dev->of_node;
 >   	struct device_node *remote;
->   	struct drm_panel *panel;
-> -	int ret;
-> +	int ret = 0;
->   
->   	/*
->   	 * Devices can also be child nodes when we also control that device
-> @@ -1926,16 +1926,17 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+> @@ -1926,10 +1926,14 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
 >   	panel = of_drm_find_panel(remote);
 >   	if (!IS_ERR(panel)) {
 >   		next_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +		if (IS_ERR(next_bridge))
-> +			ret = PTR_ERR(next_bridge);
+> -		if (IS_ERR(next_bridge))
+> +		if (IS_ERR(next_bridge)) {
+>   			ret = PTR_ERR(next_bridge);
+> +			next_bridge = NULL; // Inhibit the cleanup action on an ERR_PTR
+> +		} else {
+> +			drm_bridge_get(next_bridge);
+> +		}
 >   	} else {
->   		next_bridge = of_drm_find_bridge(remote);
+> -		next_bridge = of_drm_find_bridge(remote);
+> +		next_bridge = of_drm_find_and_get_bridge(remote);
 >   		if (!next_bridge)
-> -			next_bridge = ERR_PTR(-EINVAL);
-> +			ret = -EINVAL;
+>   			ret = -EINVAL;
+>   	}
+> @@ -1961,7 +1965,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
 >   	}
 >   
->   	of_node_put(remote);
+>   	// The next bridge can be used by host_ops->attach
+> -	dsi->out_bridge = next_bridge;
+> +	dsi->bridge.next_bridge = drm_bridge_get(next_bridge);
 >   
-> -	if (IS_ERR(next_bridge)) {
-> -		ret = PTR_ERR(next_bridge);
-> +	if (ret) {
->   		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
->   		return ret;
->   	}
+>   	if (pdata->host_ops && pdata->host_ops->attach) {
+>   		ret = pdata->host_ops->attach(dsi, device);
+> @@ -1976,7 +1980,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>   	return 0;
+>   
+>   err_release_next_bridge:
+> -	dsi->out_bridge = NULL;
+> +	drm_bridge_put(dsi->bridge.next_bridge);
+> +	dsi->bridge.next_bridge = NULL;
+>   	return ret;
+>   }
+>   
+> @@ -1997,7 +2002,8 @@ static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
+>   	if (pdata->host_ops && pdata->host_ops->detach)
+>   		pdata->host_ops->detach(dsi, device);
+>   
+> -	dsi->out_bridge = NULL;
+> +	drm_bridge_put(dsi->bridge.next_bridge);
+> +	dsi->bridge.next_bridge = NULL;
+>   
+>   	samsung_dsim_unregister_te_irq(dsi);
+>   
+> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+> index 31d7ed589233..03005e474704 100644
+> --- a/include/drm/bridge/samsung-dsim.h
+> +++ b/include/drm/bridge/samsung-dsim.h
+> @@ -100,7 +100,6 @@ struct samsung_dsim_plat_data {
+>   struct samsung_dsim {
+>   	struct mipi_dsi_host dsi_host;
+>   	struct drm_bridge bridge;
+> -	struct drm_bridge *out_bridge;
+>   	struct device *dev;
+>   	struct drm_display_mode mode;
+>   
 >
 Best regards
 -- 
