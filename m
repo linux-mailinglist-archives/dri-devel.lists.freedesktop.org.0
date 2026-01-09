@@ -2,88 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A397DD0BDA9
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992B9D0BDBD
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 19:36:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F5A10E91D;
-	Fri,  9 Jan 2026 18:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EAF410E924;
+	Fri,  9 Jan 2026 18:36:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DCwHUf8e";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
- [209.85.221.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 709F610E91D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 18:35:56 +0000 (UTC)
-Received: by mail-vk1-f172.google.com with SMTP id
- 71dfb90a1353d-55b219b2242so1924822e0c.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:35:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1767983755; x=1768588555;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kI7MDthQA3ktqoj3LLmvl8KmAEBVvsPZr76uV+u11SI=;
- b=G+mjyi9CpH+3qobhnhyYyr3M7DkN6XwURbLGXC51vDCqmKVRlCwoXtJYKshpeZ62yO
- 82aNkcupWzX50SD0fyHZMz/LQpqO/r2pzrw/Iwv2bRb9jtkJFKc83ElOlbOJugypGmUl
- +OU5i6+0OEeww1uoc0iqH0bdV+9OuUpBDtVmUrvm3o5Ka2YSHnvHzyU5KI/51HpUjfdH
- v5qjXnpvHbAvPbJUwsdOAEjq+5H/NHzcQC89+1Xa07OugHVpKk+jtL0QGlFgBMuSijNr
- wO7taJdk7h/aiSHq+7DOpDXlDdTXRS31v2DR5Fk/ci88zhZd1jHAB7tVPXIffpNsp7JN
- SRHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTSXCwkgI/WygwMFNChsp00+6WdctBXt1jUY1ysZdc+NXHaC3sQnduOaAznAiVf2mzXaH7+mWSkuw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzj5r8dWi2xDUIemB2Gnn7U8RiaE+WbsEHt4l6gNt1U2ZE68s4e
- zdrD2FXVeZPPNy4PHuL6J1/QemZeP19+4XSR38QR6PTXfQDd0QNytydknzXd2l7E
-X-Gm-Gg: AY/fxX4fpBjYt6LEbrbgmdfb5C1x2X3+H7wrN6aHe+GwoSo3XbTUqp0gz89HEI4luwB
- b0j0aNgkAygsSkJ4Y+x+WMBcz6bYZ+UG5J5tm7NNHGLK+f2ztz5BGr/bidfJJTBOuaaHM3PNnKo
- tcuV7PKKdGkQit28JMNHj/7V9m6HfCQ5mHPgbciihVcyi9oBpiGvNreqdpp061sZHgQEV7PrfhH
- HBUzUHXTF2uzPVU2qCFU0nIR7zieTdOlvxf9/2jQVzx0zhoykDWoIYs1RG88mCuaT5CgLvnPQSa
- C6D9N0srS3aIvV6ry5mM7poRZuDKMkvsNDP8tUCgEzdDfZ4W7S/x0MwlS1PRajkBPPk8sDy91XH
- nI+hcll6kaBDVHx+GNR6dWTrnr2kUI1LHnctvXFea9lupHFBsY9FokAoIkmBwQ7cTOimFzDFMZy
- AnS1YYES9X8oKuEoqKmO89tRMDJ3Tnm1usC9nfN912whDtOqIT1vueFObyqR8=
-X-Google-Smtp-Source: AGHT+IE5hY9fNpqr/OSwRxJ3ItvQsOzHwvafalzyl00Mgod9Fmy5kgzsond1LPHekzJih6rMnU8KeA==
-X-Received: by 2002:a05:6122:3383:b0:55e:82c3:e1fb with SMTP id
- 71dfb90a1353d-563466b1471mr4029041e0c.10.1767983755228; 
- Fri, 09 Jan 2026 10:35:55 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com.
- [209.85.222.44]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5633a43fe52sm10201603e0c.20.2026.01.09.10.35.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jan 2026 10:35:55 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id
- a1e0cc1a2514c-93f63c8592cso2222579241.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jan 2026 10:35:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9rsdhrOmbQ4+gihhXDFzP3mzWCpKSODPcKwCJ0uI0TpKPA60qhBazBplDHvpBv13fA78tD9LqVKM=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:50ab:b0:5e5:6396:48e2 with SMTP id
- ada2fe7eead31-5ec7573b1dfmr6430422137.16.1767983754869; Fri, 09 Jan 2026
- 10:35:54 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70CD10E921
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 18:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=5VE6xr1oOEHd+xvz86sHmcJE+TkTcDJzyPDUPe4TWuI=; b=DCwHUf8emBArs7N8+/HW2m0fld
+ 7LQCfufDfyqXEHWkpw7Sm899G1UcXeHOf+IF+8BILQmjieeMVTdw82kbiTg+QEXCYR6Xx+P4bxwRO
+ tRjnq1APgIZ2xp/UWTCNqnj3i1rf77aZ2X0dQ6Fge0xEYjT5dnNhdrY9KXDyd4mDJaD64WdiRLKdD
+ 2ANArl4yJOoPX2CZQ8G5nEqKEo8X1YVqqMRtScwik1sY3JB5mdi6cxqTaWVNQohAAYl3SUr4w+PAH
+ HAgusrAR8qKfzXX4r5uwNDhfpoGA273m4IOxSFyVHoWGTltRpt9enSoNCDU9Gt3TaMmopnZmjfSHF
+ TWdwiaqw==;
+Received: from [187.36.210.68] (helo=janis.local)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1veHLP-003Wwc-S7; Fri, 09 Jan 2026 19:36:20 +0100
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH 0/2] drm/v3d: Convert v3d logging to device-based DRM helpers
+Date: Fri, 09 Jan 2026 15:35:50 -0300
+Message-Id: <20260109-v3d-drm-debug-v1-0-02041c873e4d@igalia.com>
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <1d7a6c1380a80d82680e606a8523c76e0000390a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <1d7a6c1380a80d82680e606a8523c76e0000390a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jan 2026 19:35:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW-CSVVDHXEXA5GwjERKaUHO4xxd9HCX0nez0vtCT18PA@mail.gmail.com>
-X-Gm-Features: AZwV_Qhl0ZCxFQW4Tw2z2j1hLTuejm9SEcPf1C0HVyWLKtwLrOiE5-4aIHJu94g
-Message-ID: <CAMuHMdW-CSVVDHXEXA5GwjERKaUHO4xxd9HCX0nez0vtCT18PA@mail.gmail.com>
-Subject: Re: [PATCH 03/22] clk: renesas: r9a09g047: Add CLK_PLLDSI{0, 1} clocks
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
- biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIZKYWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQwNL3TLjFN2UolzdlNSk0nRdE0Oj5NRkA4NEk8RkJaCegqLUtMwKsHn
+ RsbW1AMEhpXxfAAAA
+X-Change-ID: 20260109-v3d-drm-debug-412cec00a4ac
+To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1003; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=oJbHepvgb4VfeKmRNgrfKwOU3X48I6z2v4dKV116Khc=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpYUqbJlE9dv52zTctbeO2WK2AXfEUgyO8AGByH
+ 6CDz5RKCMGJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaWFKmwAKCRA/8w6Kdoj6
+ qjUWB/4qzM3yI8mukg8RwYAMhb9DwUUBKo2L3cH1K/ROAcuFPb8XnUQDHawf75/fx9n80HIyrAj
+ PFSjM5cBg4xbusYQAu1i+QkBiaGH/Bt0GWgx0q4YCpum7+OKrnKa40dzz5KLIWW6fedSyibqoKp
+ 5tyQW+c1FoZfWKgOzA1P9G9CTm4OfMZ1MGYkMYDLtXbJil6NAprpU270g8TdbMXFssfOOT0W12n
+ nU3W5Sy0PNx2NsPo6MCmMYK0hmEeI9FCbUX230arU576r83/vJ5flwTjloH2vxTvpFmM1VqIrEz
+ eoY1BgnDkY0gMlC4A+kg6j7CDJ0iP1XjASCNGzPorKGJ8CWr
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,66 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025 at 15:08, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add support for the PLLDSI{0,1} clocks in the r9a09g047 CPG driver.
->
-> Introduce CLK_PLLDSI{0,1} also, introduce the
-> rzg3e_cpg_pll_dsi{0,1}_limits structures to describe the frequency
-> constraints specific to the RZ/G3E SoC.
->
-> On Renesas RZ/G3E:
->
->  - PLLDSI0 maximum output frequency: 1218 MHz
->  - PLLDSI1 maximum output frequency: 609 MHz
->
-> These limits are enforced through the newly added
-> RZG3E_CPG_PLL_DSI{0,1}_LIMITS().
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+This small series intends to replace the legacy DRM_DEBUG/INFO/WARN/ERROR
+logging with the corresponding device-based drm_dbg(), drm_info(), drm_warn()
+and drm_err() helpers. I split the series in two patches to ease the
+reviewing process as the first one has a minor code-refactor.
 
-> --- a/include/linux/clk/renesas.h
-> +++ b/include/linux/clk/renesas.h
-> @@ -153,6 +153,26 @@ struct rzv2h_pll_div_pars {
->                 .k = { .min = -32768, .max = 32767 },                   \
->         }                                                               \
->
-> +#define RZG3E_CPG_PLL_DSI0_LIMITS(name)                                        \
-> +       static const struct rzv2h_pll_limits (name) = {                 \
-> +               .fout = { .min = 25 * MEGA, .max = 1218 * MEGA },       \
-> +               .fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },     \
-> +               .m = { .min = 64, .max = 533 },                         \
-> +               .p = { .min = 1, .max = 4 },                            \
-> +               .s = { .min = 0, .max = 6 },                            \
-> +               .k = { .min = -32768, .max = 32767 },                   \
-> +       }                                                               \
-> +
-> +#define RZG3E_CPG_PLL_DSI1_LIMITS(name)                                        \
-> +       static const struct rzv2h_pll_limits (name) = {                 \
-> +               .fout = { .min = 25 * MEGA, .max = 609 * MEGA },        \
-> +               .fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },     \
-> +               .m = { .min = 64, .max = 533 },                         \
-> +               .p = { .min = 1, .max = 4 },                            \
-> +               .s = { .min = 0, .max = 6 },                            \
-> +               .k = { .min = -32768, .max = 32767 },                   \
-> +       }                                                               \
-> +
->  #ifdef CONFIG_CLK_RZV2H
->  bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
->                         struct rzv2h_pll_pars *pars, u64 freq_millihz);
+Thanks for the review!
 
-So these definitions are shared with the DRM driver, and thus are a
-hard dependency from DRM to clock driver.
+Best regards,
+- Maíra
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Maíra Canal (2):
+      drm/v3d: Consolidate CPU job validation in a function
+      drm/v3d: Convert v3d logging to device-based DRM helpers
 
-Gr{oetje,eeting}s,
+ drivers/gpu/drm/v3d/v3d_bo.c     |   8 +-
+ drivers/gpu/drm/v3d/v3d_drv.c    |   6 +-
+ drivers/gpu/drm/v3d/v3d_gem.c    |  16 ++--
+ drivers/gpu/drm/v3d/v3d_irq.c    |   8 +-
+ drivers/gpu/drm/v3d/v3d_mmu.c    |   6 +-
+ drivers/gpu/drm/v3d/v3d_sched.c  |   6 +-
+ drivers/gpu/drm/v3d/v3d_submit.c | 181 ++++++++++++++++++---------------------
+ 7 files changed, 108 insertions(+), 123 deletions(-)
+---
+base-commit: 44e4c88951fa9c73bfbde8269e443ea5343dd2af
+change-id: 20260109-v3d-drm-debug-412cec00a4ac
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
