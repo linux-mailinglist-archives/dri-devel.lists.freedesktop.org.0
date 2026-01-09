@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31D1D0C16D
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 20:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13458D0C1CD
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 20:52:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84E2210E1EA;
-	Fri,  9 Jan 2026 19:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4A610E36E;
+	Fri,  9 Jan 2026 19:52:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kq7zAsaC";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="cTWK5hdO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4671310E1EA
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 19:38:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4C70C60150;
- Fri,  9 Jan 2026 19:38:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2F2C4CEF7;
- Fri,  9 Jan 2026 19:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1767987523;
- bh=nDkn27oYOuMDkWeE+yGnQViGkHKfMDPc1UHkLfEWgHU=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=Kq7zAsaC2Ky2YfeLklHhHMYDdU45bZHTWq6oWSE1bDpn8nMquqByGxDPzlyks14oS
- 0Phe/mrPA47IOZmq/lrjNJ5be5FeLq3cvwVizt0eaL3DJUW2TFNVFSa0hmhV75Sdkf
- 4Gqt3b2+eUjehrpM06LJtQpMsjj6MafmLdO7zk+2/rxDbiJtTO5PwOo5l0V7w8ySuX
- 4nXc6g44+Z1CB3tcy9+9AlJ5aVgYkV+zbTDVG3WhcRR/wAoOxzjvmVxG2egrReBkS3
- +mO6pFsew9m+nghBQ7dC6At9SGXB46mcBZ1+sH0j12YoYQfSGSMicPam31k6vkhHzh
- msWRPW2FIsVZw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Jan 2026 20:38:37 +0100
-Message-Id: <DFKB9OUFLT3A.2TJ21YPFZPATD@kernel.org>
-Cc: "Steven Price" <steven.price@arm.com>, "Liviu Dudau"
- <liviu.dudau@arm.com>, =?utf-8?q?Adri=C3=A1n_Larumbe?=
- <adrian.larumbe@collabora.com>, <dri-devel@lists.freedesktop.org>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Akash
- Goel" <akash.goel@arm.com>, "Rob Clark" <robin.clark@oss.qualcomm.com>,
- "Sean Paul" <sean@poorly.run>, "Konrad Dybcio" <konradybcio@kernel.org>,
- "Akhil P Oommen" <akhilpo@oss.qualcomm.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dmitry Osipenko"
- <dmitry.osipenko@collabora.com>, "Chris Diamand" <chris.diamand@arm.com>,
- "Matthew Brost" <matthew.brost@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Alice Ryhl" <aliceryhl@google.com>, <kernel@collabora.com>
-To: "Boris Brezillon" <boris.brezillon@collabora.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v1 2/9] drm/gpuvm: Validate BOs in the extobj list when
- VM is resv protected
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-3-boris.brezillon@collabora.com>
-In-Reply-To: <20260109130801.1239558-3-boris.brezillon@collabora.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475C910E36E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 19:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=UXv5SDgabeUxHI5NH+8KwOclEnx72hBve7UveRrT45E=; b=cTWK5hdONnvZF3ymA/s+bPw93s
+ KaXA7CIhUQ3bqsbO/2o2LN6q6njDpZ6iDqvUVtYIcFWwh5VvfnsQXQSqCpt6mjaUS3vvuvXJEjuFG
+ NHRl0pshWfay9dv614AdsHV+biFqKrCbCdeaQo5yXtQdLckjU1m0DEpZHbd6LcT/fd8Vg+Z2fWqaq
+ mlJAx2xSWv5owGZuNWoNuHfxuxKPOff9ylHglBIaK0waUmCoQKHNewjuAk4OoeXjb9AnB0hSCKPrL
+ +dC4lYM60P/bppB8w3N6zrUFulgPM/0dy2tUE+PonVkMOzvSPDk82Kd2nZTd+zuT390fqAvmIjO9x
+ GqPPv4AA==;
+Received: from [192.76.154.238] (helo=phil.dip.tu-dresden.de)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1veIWi-001fth-ER; Fri, 09 Jan 2026 20:52:05 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-rockchip@lists.infradead.org, Chris Morgan <macroalpha82@gmail.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, mripard@kernel.org,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
+ tzimmermann@suse.de, jonas@kwiboo.se, neil.armstrong@linaro.org,
+ sebastian.reichel@collabora.com, jernej.skrabec@gmail.com,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+ andy.yan@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
+ Laurent.pinchart@ideasonboard.com, cristian.ciocaltea@collabora.com,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: (subset) [PATCH V3 0/3] Add HDMI for Gameforce Ace
+Date: Fri,  9 Jan 2026 20:51:53 +0100
+Message-ID: <176798831388.3446147.13187044565812566559.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20251119225526.70588-1-macroalpha82@gmail.com>
+References: <20251119225526.70588-1-macroalpha82@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +64,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jan 9, 2026 at 2:07 PM CET, Boris Brezillon wrote:
-> When the VM is protected with the root object resv, evicted extobjs
-> are not inserted in the evict list.
 
-I'd rather say: "When the evicted object list is protected with the root ob=
-ject
-reservation lock, ...".
+On Wed, 19 Nov 2025 16:55:23 -0600, Chris Morgan wrote:
+> Add support for the micro HDMI port for the Gameforce Ace. This port does
+> not have a HPD pin so it requires making changes to the HDMI controller
+> to support this configuration.
+> 
+> Changes since v1:
+>  - Simplified checking of no-hpd parameter and changed to
+>    device_property_read_bool() function.
+> 
+> [...]
 
-> Make sure we record when the extobj
-> list contains evicted BOs that are not already in the evict list so we
-> can validate those when drm_gpuvm_validate() is called.
+Applied, thanks!
 
-Why is this necessary in the first place? drm_gpuvm_prepare_objects() picks=
- up
-the affected external objects already.
+[3/3] arm64: dts: rockchip: Add HDMI to Gameforce Ace
+      commit: 97a9b5edcdd4179063773f17a00904a464b8aa7c
 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 23 ++++++++++++++++++++++-
->  include/drm/drm_gpuvm.h     |  6 ++++++
->  2 files changed, 28 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index 0bb115b6b59c..95f0a1c843ad 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -1505,6 +1505,22 @@ drm_gpuvm_validate_locked(struct drm_gpuvm *gpuvm,=
- struct drm_exec *exec)
->  			drm_gpuvm_bo_list_del_init(vm_bo, evict, false);
->  	}
-> =20
-> +	if (READ_ONCE(gpuvm->extobj.check_evicted)) {
-> +		list_for_each_entry_safe(vm_bo, next, &gpuvm->extobj.list,
-> +					 list.entry.extobj) {
-
-Running the external object list (again) seems wasteful given that this cas=
-e can
-never happen when drm_gpuvm_prepare_objects() is called before (which has t=
-o be
-the case, given that somehow the objects have to be locked).
-
-And even if for some reason you open code this, it would be much better to =
-add a
-helper doing the check when the object is locked.
-
-> +			dma_resv_assert_held(vm_bo->obj->resv);
-> +
-> +			if (!vm_bo->evicted)
-> +				continue;
-> +
-> +			ret =3D ops->vm_bo_validate(vm_bo, exec);
-> +			if (ret)
-> +				break;
-> +		}
-> +
-> +		WRITE_ONCE(gpuvm->extobj.check_evicted, false);
-
-Why do we need READ_ONCE() and WRITE_ONCE() here? Don't we hold the object'=
-s
-reservation lock whenever we touch check_evicted anyways?
-
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
