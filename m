@@ -2,70 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E64D08DE6
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 12:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD20D096F9
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 13:17:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4EF010E8A0;
-	Fri,  9 Jan 2026 11:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA2710E203;
+	Fri,  9 Jan 2026 12:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iPkzT5g7";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oTmRIo45";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE5A10E8A0
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 11:23:09 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dnfXB1sQCz9tRD;
- Fri,  9 Jan 2026 12:23:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1767957786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4YVGV/Yb9izcoWuOvgKsXDa6QswfuZB/Juc+OgN1i7I=;
- b=iPkzT5g7FRvlP82GzKGjGT7cn7EcHblr0ojPzgEb3zuihspG68ED4gAh1naWA2nzf5OdGO
- UXkgN7TON8/IDpBPFc5iV2Wu65XIDcJ7LFO6g86AsHfvQd0j2/54Dnrmqtu/24HO9AIm+J
- VYkRI79gyd3Z2koUiR2IlpHIrhWF3hXC83XfDhP2Zfln1ncQZq6Z8Fed7xKIrOEJVgKuGq
- twIm/mMb+36eSkeyGaXduWgaOzAFKGzlMpC2ysK/9jY+d0LY60Y28TcjGrNRdhux/tOMl/
- EBz+R0ndwAOkN25QUZmF3vI4FbS+PDUaz9TqK48XvNSgGsdzQ2WqRWWdIdii0g==
-Message-ID: <05ac3e30-b3dc-48ea-96db-1cbdb4454730@mailbox.org>
-Date: Fri, 9 Jan 2026 12:23:00 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4410E203
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 12:17:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8A42D400D1;
+ Fri,  9 Jan 2026 12:17:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10246C4CEF1;
+ Fri,  9 Jan 2026 12:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1767961053;
+ bh=6UADEA1sC0nV8Vxf0FLWj0k8gqvMEhQtwyXWQ5EaXdg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oTmRIo45Ase4v+lEgbbh3wubryoqcHeq3AA+KE0YtQhoAZz5E3pm1L3IAeK57lcNa
+ lUZuqA1VOQT0gEHRTiXS7Un/9k0wYNoE2tJz0NASjVTU4HmCNSnPNxu9pEohEcJkp1
+ mL5fDsI+jTfnwhpdDoAx7Q6AafzUbXQVGDLUoURw=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Stefan Christ <contact@stefanchrist.eu>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 6.6 619/737] drm/gma500: Remove unused helper
+ psb_fbdev_fb_setcolreg()
+Date: Fri,  9 Jan 2026 12:42:38 +0100
+Message-ID: <20260109112157.288275284@linuxfoundation.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260109112133.973195406@linuxfoundation.org>
+References: <20260109112133.973195406@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Subject: Re: [PATCH [RFC] v3 5/7] drm/atomic: Allow planes with NULL fb along
- with async flip
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <20260108-async-v3-5-e7730c3fe9ff@intel.com>
- <6316ba11-0660-419c-afb6-a1588f6efef5@mailbox.org>
- <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 50e49ebdfe95bdea6d2
-X-MBO-RS-META: 5pn7ingpy5i51pgnr5yizttjjzy98dq5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,22 +61,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/26 12:08, Murthy, Arun R wrote:
->> From: Michel Dänzer <michel.daenzer@mailbox.org>
->> On 1/8/26 10:43, Arun R Murthy wrote:
->>> Along with async flip if there is a request to disable a sync plane by
->>> providing a NULL fb allow them.
->>
->> That could result in async changes to other planes taking effect in an earlier
->> refresh cycle than the sync plane being disabled, couldn't it? In which case the
->> commit arguably wouldn't actually be "atomic".
->>
-> This is the request from the community to allow disabling of a sync plane in an async flip atomic ioctl.
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
-Can't see any such request there. I suspect there might be a misunderstanding.
+------------------
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit be729f9de6c64240645dc80a24162ac4d3fe00a8 upstream.
+
+Remove psb_fbdev_fb_setcolreg(), which hasn't been called in almost
+a decade.
+
+Gma500 commit 4d8d096e9ae8 ("gma500: introduce the framebuffer support
+code") added the helper psb_fbdev_fb_setcolreg() for setting the fbdev
+palette via fbdev's fb_setcolreg callback. Later
+commit 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for
+fb_ops") set several default helpers for fbdev emulation, including
+fb_setcmap.
+
+The fbdev subsystem always prefers fb_setcmap over fb_setcolreg. [1]
+Hence, the gma500 code is no longer in use and gma500 has been using
+drm_fb_helper_setcmap() for several years without issues.
+
+Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Stefan Christ <contact@stefanchrist.eu>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v4.10+
+Link: https://elixir.bootlin.com/linux/v6.16.9/source/drivers/video/fbdev/core/fbcmap.c#L246 # [1]
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://lore.kernel.org/r/20250929082338.18845-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/gma500/fbdev.c |   43 -----------------------------------------
+ 1 file changed, 43 deletions(-)
+
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -51,48 +51,6 @@ static const struct vm_operations_struct
+  * struct fb_ops
+  */
+ 
+-#define CMAP_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
+-
+-static int psb_fbdev_fb_setcolreg(unsigned int regno,
+-				  unsigned int red, unsigned int green,
+-				  unsigned int blue, unsigned int transp,
+-				  struct fb_info *info)
+-{
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct drm_framebuffer *fb = fb_helper->fb;
+-	uint32_t v;
+-
+-	if (!fb)
+-		return -ENOMEM;
+-
+-	if (regno > 255)
+-		return 1;
+-
+-	red = CMAP_TOHW(red, info->var.red.length);
+-	blue = CMAP_TOHW(blue, info->var.blue.length);
+-	green = CMAP_TOHW(green, info->var.green.length);
+-	transp = CMAP_TOHW(transp, info->var.transp.length);
+-
+-	v = (red << info->var.red.offset) |
+-	    (green << info->var.green.offset) |
+-	    (blue << info->var.blue.offset) |
+-	    (transp << info->var.transp.offset);
+-
+-	if (regno < 16) {
+-		switch (fb->format->cpp[0] * 8) {
+-		case 16:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		case 24:
+-		case 32:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	if (vma->vm_pgoff != 0)
+@@ -137,7 +95,6 @@ static const struct fb_ops psb_fbdev_fb_
+ 	.owner = THIS_MODULE,
+ 	__FB_DEFAULT_IOMEM_OPS_RDWR,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_setcolreg = psb_fbdev_fb_setcolreg,
+ 	__FB_DEFAULT_IOMEM_OPS_DRAW,
+ 	.fb_mmap = psb_fbdev_fb_mmap,
+ 	.fb_destroy = psb_fbdev_fb_destroy,
 
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
