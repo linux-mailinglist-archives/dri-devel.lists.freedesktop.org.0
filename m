@@ -2,77 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64430D07F64
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FD4D07F7F
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:51:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF68710E873;
-	Fri,  9 Jan 2026 08:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354D410E874;
+	Fri,  9 Jan 2026 08:51:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="jl8V1hyT";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mFtTmEUG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="12qBbHNj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mFtTmEUG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="12qBbHNj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13E510E873
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:50:12 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20260109085011euoutp01ce0160d8047f8c8ce45a4ad39b8a8970~JA_U1P68H2011020110euoutp01X
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:50:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20260109085011euoutp01ce0160d8047f8c8ce45a4ad39b8a8970~JA_U1P68H2011020110euoutp01X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1767948611;
- bh=9nrTgJ1fPRBZ5eKN3EFtjQRxmnL67+4GleGznV0Og94=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=jl8V1hyTmZgKkfA3qNbL0xn6zKIaV16Qve4X078BJ/FWPkD8UM3JPkuFx9cWPe6RK
- VN0SNlmoAcPoLck1PQaLdDyIfkXH7CIXc72uzylh0hgq1zq1MbdmAxoiNgypK4ykKs
- qB36XKFfyUeij0edb1kcpKIQB/4i9uE5pFebbDk4=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20260109085011eucas1p2825c7d44757c204152e65965f5864715~JA_UXFXip0983509835eucas1p2V;
- Fri,  9 Jan 2026 08:50:11 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20260109085009eusmtip20e7d4ebf0b633fecfd09193091d0f534~JA_S04kDD0959909599eusmtip2F;
- Fri,  9 Jan 2026 08:50:09 +0000 (GMT)
-Message-ID: <ff9abc0f-c934-44a9-88ba-75265699b384@samsung.com>
-Date: Fri, 9 Jan 2026 09:50:09 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E6810E874
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:50:58 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7C16C5BEE8;
+ Fri,  9 Jan 2026 08:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767948657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
+ b=mFtTmEUGczOGpEFdHzC2ensdm/6K4zYahKpPpXxrClz737G3tkaBzoXkn/pbhpOrRfemum
+ Uu0s1VyhNv+gfOYpTtw1KKGWuu7Niygy4+HbZvPCQXGx6nCTYqWud6wnq/xCqlCqh7Pv08
+ vdR218gw6gqMfVksPex4ylJPOa8gxr0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767948657;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
+ b=12qBbHNjd2XMduiGc8zkr7lZwe1ePBSeumgssBfVBJvNlwuFKV/5bdXLNnt/883F+RqH81
+ W2+ibLPqY+WEbsAQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mFtTmEUG;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=12qBbHNj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1767948657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
+ b=mFtTmEUGczOGpEFdHzC2ensdm/6K4zYahKpPpXxrClz737G3tkaBzoXkn/pbhpOrRfemum
+ Uu0s1VyhNv+gfOYpTtw1KKGWuu7Niygy4+HbZvPCQXGx6nCTYqWud6wnq/xCqlCqh7Pv08
+ vdR218gw6gqMfVksPex4ylJPOa8gxr0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1767948657;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
+ b=12qBbHNjd2XMduiGc8zkr7lZwe1ePBSeumgssBfVBJvNlwuFKV/5bdXLNnt/883F+RqH81
+ W2+ibLPqY+WEbsAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CFFB3EA63;
+ Fri,  9 Jan 2026 08:50:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9zPxBHHBYGmDXQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 09 Jan 2026 08:50:57 +0000
+Message-ID: <8d1b915c-b1c4-42db-b941-cf62613c17bf@suse.de>
+Date: Fri, 9 Jan 2026 09:50:56 +0100
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2 12/12] drm/bridge: samsung-dsim:
- samsung_dsim_host_attach: convert to of_drm_find_and_get_bridge()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philippe Cornu <philippe.cornu@st.com>,
- benjamin.gaignard@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Adrien
- Grassein <adrien.grassein@gmail.com>, Liu Ying <victor.liu@nxp.com>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] drm, coreboot: Add DRM coreboot driver
+To: Brian Norris <briannorris@chromium.org>
+Cc: tzungbi@kernel.org, jwerner@chromium.org, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20260108145058.56943-1-tzimmermann@suse.de>
+ <aV_zKzBth1TJNFvJ@google.com>
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260109085011eucas1p2825c7d44757c204152e65965f5864715
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260109073236eucas1p27fab1926761fc4058cc2a127c117e219
-X-EPHeader: CA
-X-CMS-RootMailID: 20260109073236eucas1p27fab1926761fc4058cc2a127c117e219
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
- <CGME20260109073236eucas1p27fab1926761fc4058cc2a127c117e219@eucas1p2.samsung.com>
- <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aV_zKzBth1TJNFvJ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.51
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+ DKIM_TRACE(0.00)[suse.de:+]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[10]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:dkim,suse.de:mid]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7C16C5BEE8
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,122 +154,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09.01.2026 08:31, Luca Ceresoli wrote:
-> of_drm_find_bridge() is deprecated. Move to its replacement
-> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-> is put when done. Also switch to the drm_bridge::next_bridge pointer.
->
-> This needs to handle both cases: when of_drm_find_panel() succeeds and when
-> it fails.
->
-> In the 'else' case (i.e. when of_drm_find_panel() fails), just switch to
-> of_drm_find_and_get_bridge() to ensure the bridge is not freed while in use
-> in the function tail, when it is stored in dsi->bridge.next_bridge.
->
-> In the 'then' case (i.e. when of_drm_find_panel() succeeds),
-> devm_drm_panel_bridge_add() already increments the refcount using devres
-> which ties the bridge allocation lifetime to the device lifetime, so we
-> would not need to do anything. However to have the same behaviour in both
-> branches take an additional reference here, so that the bridge needs to be
-> put whichever branch is taken without more complicated logic. Ensure to
-> clear the bridge pointer however, to avoid calling drm_bridge_put() on an
-> ERR_PTR.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->
-> Changes in v2:
-> - updated after "pointer set too late" fix inprevious patch
-> - *not* add Acked-by: Maxime as the patch has changed
-> ---
->   drivers/gpu/drm/bridge/samsung-dsim.c | 20 +++++++++++++-------
->   include/drm/bridge/samsung-dsim.h     |  1 -
->   2 files changed, 13 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index afaa63c4d3f7..1d85e706c74b 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1828,7 +1828,7 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
->   {
->   	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
->   
-> -	return drm_bridge_attach(encoder, dsi->out_bridge, bridge,
-> +	return drm_bridge_attach(encoder, dsi->bridge.next_bridge, bridge,
->   				 flags);
->   }
->   
-> @@ -1886,7 +1886,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->   {
->   	struct samsung_dsim *dsi = host_to_dsi(host);
->   	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
-> -	struct drm_bridge *next_bridge;
-> +	struct drm_bridge *next_bridge __free(drm_bridge_put) = NULL;
->   	struct device *dev = dsi->dev;
->   	struct device_node *np = dev->of_node;
->   	struct device_node *remote;
-> @@ -1926,10 +1926,14 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->   	panel = of_drm_find_panel(remote);
->   	if (!IS_ERR(panel)) {
->   		next_bridge = devm_drm_panel_bridge_add(dev, panel);
-> -		if (IS_ERR(next_bridge))
-> +		if (IS_ERR(next_bridge)) {
->   			ret = PTR_ERR(next_bridge);
-> +			next_bridge = NULL; // Inhibit the cleanup action on an ERR_PTR
-> +		} else {
-> +			drm_bridge_get(next_bridge);
-> +		}
->   	} else {
-> -		next_bridge = of_drm_find_bridge(remote);
-> +		next_bridge = of_drm_find_and_get_bridge(remote);
->   		if (!next_bridge)
->   			ret = -EINVAL;
->   	}
-> @@ -1961,7 +1965,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->   	}
->   
->   	// The next bridge can be used by host_ops->attach
-> -	dsi->out_bridge = next_bridge;
-> +	dsi->bridge.next_bridge = drm_bridge_get(next_bridge);
->   
->   	if (pdata->host_ops && pdata->host_ops->attach) {
->   		ret = pdata->host_ops->attach(dsi, device);
-> @@ -1976,7 +1980,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->   	return 0;
->   
->   err_release_next_bridge:
-> -	dsi->out_bridge = NULL;
-> +	drm_bridge_put(dsi->bridge.next_bridge);
-> +	dsi->bridge.next_bridge = NULL;
->   	return ret;
->   }
->   
-> @@ -1997,7 +2002,8 @@ static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
->   	if (pdata->host_ops && pdata->host_ops->detach)
->   		pdata->host_ops->detach(dsi, device);
->   
-> -	dsi->out_bridge = NULL;
-> +	drm_bridge_put(dsi->bridge.next_bridge);
-> +	dsi->bridge.next_bridge = NULL;
->   
->   	samsung_dsim_unregister_te_irq(dsi);
->   
-> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-> index 31d7ed589233..03005e474704 100644
-> --- a/include/drm/bridge/samsung-dsim.h
-> +++ b/include/drm/bridge/samsung-dsim.h
-> @@ -100,7 +100,6 @@ struct samsung_dsim_plat_data {
->   struct samsung_dsim {
->   	struct mipi_dsi_host dsi_host;
->   	struct drm_bridge bridge;
-> -	struct drm_bridge *out_bridge;
->   	struct device *dev;
->   	struct drm_display_mode mode;
->   
->
+Hi
+
+Am 08.01.26 um 19:10 schrieb Brian Norris:
+> On Thu, Jan 08, 2026 at 03:19:40PM +0100, Thomas Zimmermann wrote:
+>> Coreboot implements framebuffer support via simplefb. Provide a
+>> native DRM driver. Keep the simplefb code for now.
+> I'm not much of a DRM-er, but what's blocking us from just replacing the
+> simplefb driver with DRM completely? Just being conservative and
+> allowing flexibility? Or are there technical reasons this wouldn't be a
+> proper replacement? It sounds like supporting 2 drivers provides at
+> least some small complications, like in patch 1, where you're trying to
+> avoid repeating similar logic in 2 framebuffer-handling drivers.
+
+Yes, that's true.
+
+There are currently two drivers that bind to the created 
+simple-framebuffer: fbdev's simplefb and DRM's simpledrm. The new 
+corebootdrm intents to replace simpledrm. And simplefb is deprecated: if 
+no one uses that any longer, I'm all for removing coreboot's current 
+framebuffer handling.
+
 Best regards
+Thomas
+
+>
+> Brian
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
