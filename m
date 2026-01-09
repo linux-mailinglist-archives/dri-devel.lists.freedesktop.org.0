@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD20D096F9
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 13:17:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D272AD0A081
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 13:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA2710E203;
-	Fri,  9 Jan 2026 12:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9AF10E8B1;
+	Fri,  9 Jan 2026 12:52:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oTmRIo45";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SKK1iJF8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4410E203
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 12:17:33 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E456410E8B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 12:52:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8A42D400D1;
- Fri,  9 Jan 2026 12:17:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10246C4CEF1;
- Fri,  9 Jan 2026 12:17:32 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1EE2E60181;
+ Fri,  9 Jan 2026 12:52:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2ADC4CEF1;
+ Fri,  9 Jan 2026 12:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1767961053;
- bh=6UADEA1sC0nV8Vxf0FLWj0k8gqvMEhQtwyXWQ5EaXdg=;
+ s=korg; t=1767963169;
+ bh=KSitO+/ag9qBIBmbeG9iSM7XfU38528NWJf3t+TFosE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oTmRIo45Ase4v+lEgbbh3wubryoqcHeq3AA+KE0YtQhoAZz5E3pm1L3IAeK57lcNa
- lUZuqA1VOQT0gEHRTiXS7Un/9k0wYNoE2tJz0NASjVTU4HmCNSnPNxu9pEohEcJkp1
- mL5fDsI+jTfnwhpdDoAx7Q6AafzUbXQVGDLUoURw=
+ b=SKK1iJF8zJqqQTvvQ0OG7gVpZSto7lwdYBVsbGQSvsJ63/zk0r3Ic1bD9YKnJupEs
+ wL9Ql7/AZUg2pVQcwsA8Ht3WGb1uP1yXyythRXF8CgkXtfaQouZayZ+XojFs5LZgC/
+ pTP47uCQ37//7PK9hXD8f9gL8w+tk3h08ActnF8U=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
  Stefan Christ <contact@stefanchrist.eu>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 6.6 619/737] drm/gma500: Remove unused helper
+ Thomas Zimmermann <tzimmermann@suse.de>, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1 594/634] drm/gma500: Remove unused helper
  psb_fbdev_fb_setcolreg()
-Date: Fri,  9 Jan 2026 12:42:38 +0100
-Message-ID: <20260109112157.288275284@linuxfoundation.org>
+Date: Fri,  9 Jan 2026 12:44:32 +0100
+Message-ID: <20260109112139.976790486@linuxfoundation.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260109112133.973195406@linuxfoundation.org>
-References: <20260109112133.973195406@linuxfoundation.org>
+In-Reply-To: <20260109112117.407257400@linuxfoundation.org>
+References: <20260109112117.407257400@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,13 +61,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit be729f9de6c64240645dc80a24162ac4d3fe00a8 upstream.
+[ Upstream commit be729f9de6c64240645dc80a24162ac4d3fe00a8 ]
 
 Remove psb_fbdev_fb_setcolreg(), which hasn't been called in almost
 a decade.
@@ -93,23 +93,24 @@ Link: https://elixir.bootlin.com/linux/v6.16.9/source/drivers/video/fbdev/core/f
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 Link: https://lore.kernel.org/r/20250929082338.18845-1-tzimmermann@suse.de
+[ adapted patch from fbdev.c to framebuffer.c where the function was named psbfb_setcolreg() instead of psb_fbdev_fb_setcolreg() ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/gma500/fbdev.c |   43 -----------------------------------------
- 1 file changed, 43 deletions(-)
+ drivers/gpu/drm/gma500/framebuffer.c |   42 -----------------------------------
+ 1 file changed, 42 deletions(-)
 
---- a/drivers/gpu/drm/gma500/fbdev.c
-+++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -51,48 +51,6 @@ static const struct vm_operations_struct
-  * struct fb_ops
-  */
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -35,47 +35,6 @@ static const struct drm_framebuffer_func
+ 	.create_handle = drm_gem_fb_create_handle,
+ };
  
 -#define CMAP_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
 -
--static int psb_fbdev_fb_setcolreg(unsigned int regno,
--				  unsigned int red, unsigned int green,
--				  unsigned int blue, unsigned int transp,
--				  struct fb_info *info)
+-static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
+-			   unsigned blue, unsigned transp,
+-			   struct fb_info *info)
 -{
 -	struct drm_fb_helper *fb_helper = info->par;
 -	struct drm_framebuffer *fb = fb_helper->fb;
@@ -146,16 +147,16 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 -	return 0;
 -}
 -
- static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ static vm_fault_t psbfb_vm_fault(struct vm_fault *vmf)
  {
- 	if (vma->vm_pgoff != 0)
-@@ -137,7 +95,6 @@ static const struct fb_ops psb_fbdev_fb_
+ 	struct vm_area_struct *vma = vmf->vma;
+@@ -146,7 +105,6 @@ static int psbfb_mmap(struct fb_info *in
+ static const struct fb_ops psbfb_unaccel_ops = {
  	.owner = THIS_MODULE,
- 	__FB_DEFAULT_IOMEM_OPS_RDWR,
  	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_setcolreg = psb_fbdev_fb_setcolreg,
- 	__FB_DEFAULT_IOMEM_OPS_DRAW,
- 	.fb_mmap = psb_fbdev_fb_mmap,
- 	.fb_destroy = psb_fbdev_fb_destroy,
+-	.fb_setcolreg = psbfb_setcolreg,
+ 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+ 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
 
 
