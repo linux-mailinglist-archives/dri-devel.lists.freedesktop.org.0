@@ -2,63 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A433BD08037
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE41D0800C
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 09:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0604310E87C;
-	Fri,  9 Jan 2026 08:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3E310E84F;
+	Fri,  9 Jan 2026 08:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hH539nJS";
+	dkim=pass (2048-bit key; unprotected) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="df3H5sBM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1593D10E875;
- Fri,  9 Jan 2026 08:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1767949006; x=1799485006;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=h1ASdeN/O0vxyTijAXhXC87fph4Q1vK+qgLbkkaHE78=;
- b=hH539nJS2tsDGsRbTo6sybRYbGvrTRiBmsW376h/eQ48c+DWveqs7mfG
- y3i6KMrpySyxMb0a5QgS07Nuzl+a9kIHl5I/F8qLnh9O2mUhK2/boyjrM
- zBOoKCYXIDXgJqwFEuo8s7u/uulp5Xr2cKJHCPJroY+U67u/t09TJYR4x
- cORdgBU7jAMWOCdxCfXYccnlV+6m5u0rknqd1coRlDjaM9n61MdRrq7UG
- OeCCxYySUiA9rv9xTwgmJXPa1D9c6lWXEYKHQWMJAGdzMF2YKZnOWjRFz
- xbgnFacLP4+9VaXOjuhCgoX02HbRy7ORZ1tXUlhGAnjakiSHRUvI2kCTi g==;
-X-CSE-ConnectionGUID: y3hmu5VjQLO6Fgwp1ukUwA==
-X-CSE-MsgGUID: wAYTSr4aRkK5s/hysnSuvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79626024"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="79626024"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2026 00:56:46 -0800
-X-CSE-ConnectionGUID: Iuh+grkiQVCx/re01xu5EA==
-X-CSE-MsgGUID: ykGppMPbT0+byLZEFCuLsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; d="scan'208";a="202538645"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO fdugast-desk.intel.com)
- ([10.245.244.83])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2026 00:56:45 -0800
-From: Francois Dugast <francois.dugast@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Francois Dugast <francois.dugast@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>
-Subject: [PATCH v3 7/7] drm/pagemap: Enable THP support for GPU memory
- migration
-Date: Fri,  9 Jan 2026 09:54:27 +0100
-Message-ID: <20260109085605.443316-8-francois.dugast@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260109085605.443316-1-francois.dugast@intel.com>
-References: <20260109085605.443316-1-francois.dugast@intel.com>
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11020143.outbound.protection.outlook.com
+ [52.101.84.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C53010E84F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 08:55:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pUg/A6cunQ1Q6nEk1c86SCednXAmTEen6606rxLvMdgJMcBe+oNCTzUzzlDu+YucokJXM/xXjAtDsKHSIqbo6v75QMO5asgFEC+wUkYQpZPQA6j/4H1eb7XSDvyIi0vQYDVcTGCS5Nb6CKYrGt/9royXAplibgKqmSsO2nTXJ9+4KY983l7G5DwaJwgxsDyrwVhmih0e/3FW1DtH3dDelE139vxWKIHi2T6Kj5FG5r+ZKrZKWhrKsiamK1Y5LaWB9rNyc/KpYf5aueCXczoOMEeyLa/C3iTe1XYVPPhRkU3IT8AarP2sGbD0eZdtj6oucfo3lpiJbVHHlbmzmVKKWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LV8rXPj3w+Xd+Kr4SaVocr4ESLPg85B+FZ1f05w/FsI=;
+ b=c4i2kwXuZeOpnv9kcM0m4cA3mtDf4FXcqMVGd3blM4pDnCjNe1YI9J30rpY6vecTd1aHuNBylL0pp5FGc03yz3cgr8c6g3lWYWBXgNFL5C9FggLMk2IeGo6Ubqlmk9b/YW5Lfl1eO4h8YTtBITyPdK+CZ5l6suXH6LvA5GYJIp+JJ6g+7yrZdpFpRvlswN4kxjjf3yoqJrxVUgGZEpDvd7x8/NYT4XKusfoz+r+kuyHrR/iLGcEDlW/5tLVTVZWFwTRHQC0K04EiTdWbY7TZVJ+EuytrwKaVolv5xnz9ynm54MPs9tU1Ajiq/3hKZdyD3IaDllzowTOp6QNjj2vrhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gocontroll.com; dmarc=pass action=none
+ header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LV8rXPj3w+Xd+Kr4SaVocr4ESLPg85B+FZ1f05w/FsI=;
+ b=df3H5sBMBZqHjuB0EpLZlfWv1KXtIQ3ZOZAx0goqLJJ+qOzbh0H2uezimn6+6HfXQQOCE9nkhBDa78Rkorst4Q5hSFNGskXT/ivJ+HUgXM6+PlDTIGxNNiXXmxFVOLFjFUZafSYTlcTBadzAk0FCvHfTkQ3Jto+gXPElePoEfue3W7UrsIPbp/KJ+d6G7HuLd5lH+jU2pGQZCRLRiKiEL6rwRW40tUFQyuqq03Fx3+jVLxk48DoZYxpQWP5pRudxoQLPAq05NXyiBab+xD9et0qwxXcwtpFsxBhdMx2c6Ypw/+ivYiPAWAZzbkplNdv8mXbQcu2ntEHYquGVqaFBFQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gocontroll.com;
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com (2603:10a6:20b:6f3::7)
+ by AM8PR04MB7218.eurprd04.prod.outlook.com (2603:10a6:20b:1d9::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Fri, 9 Jan
+ 2026 08:55:32 +0000
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::ee70:7a62:e9f:12b7]) by AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::ee70:7a62:e9f:12b7%7]) with mapi id 15.20.9499.003; Fri, 9 Jan 2026
+ 08:55:32 +0000
+Message-ID: <fc5aad54-08fe-453e-a3cf-621414c8a060@gocontroll.com>
+Date: Fri, 9 Jan 2026 09:55:18 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] backlight: add max25014atg backlight
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
+ <20251201-max25014-v6-2-88e3ac8112ff@gocontroll.com>
+ <aTG0EK_zuSB-U_bb@aspen.lan>
+ <8a9a59b8-d5c0-46b3-8f86-a4cd910b7af3@gocontroll.com>
+ <aTaqCxsGj_waN92Y@aspen.lan>
+Content-Language: en-US
+From: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <aTaqCxsGj_waN92Y@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4PR10CA0004.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5dc::8) To AMBPR04MB11741.eurprd04.prod.outlook.com
+ (2603:10a6:20b:6f3::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBPR04MB11741:EE_|AM8PR04MB7218:EE_
+X-MS-Office365-Filtering-Correlation-Id: 694bdcaf-0c66-4133-aaee-08de4f5cd84b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|366016|7416014|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTk0UU1MNFZUWUpUUXl5eGxxdEtkTm44b2RQbVk3VWV6TTFsYUtacVduc29z?=
+ =?utf-8?B?alBkS1ltRU1zUEE5S3JQL3lzSXlUMzZvV3M3MnVVK2JucDFoVWVzQzFDSHhY?=
+ =?utf-8?B?UmJpU1RzMW1CTEY0YlJkVGZaRVROQ0hIUDcwY3lLeE5UTlhvVjB5M3dweVhs?=
+ =?utf-8?B?b0lqQXNkUFdOdG8vRnVLVVNIUldYenhranZrUzl4Wi9wYzNSdTVYczB3NGRS?=
+ =?utf-8?B?YVJRVlNyZTFKd2t1WmxsY2tseTlKR1ZmU1l6UXhER3BNN1hkVURzWXpNWXlv?=
+ =?utf-8?B?SGtRWUFpamZ6blFrVEtoTGhCNWtwS0JubWs1UmNzRnErWlg3TGc2SkRYTjdD?=
+ =?utf-8?B?R3l4eElXeDZVVjdHRXJLODl2N0lxZEVMVUxEeTNydmNNaERRS1N6dGhrbG9J?=
+ =?utf-8?B?OFNrTlluLytLL2pySTFCcnlVQ3dLaE85ZFJqRHAyWjJjVVk0QXRDWkUwUWdZ?=
+ =?utf-8?B?VDRlNEdjZ3hVcnNQUWRGNmsrMHdzQ3U2cTU3WlE1cUVRRWV3RmI1QnNBcHVo?=
+ =?utf-8?B?dTlYOEZwUy9QTXBjYUZ1MjhtbG5NTmNGM3ZvVUROR3dUYVQ4SFY0NGlZYytV?=
+ =?utf-8?B?VUtQVmhYbUllS3hZdkttOFN4NHJteTBiODhZVFpBMmR1cGp0bjArblltLzBG?=
+ =?utf-8?B?YUdaY2RyMTFFT3ZHbVE4ZHlndTVSMWl0NWtUMXoxaTRNa1lVc2JwZGJRZ05i?=
+ =?utf-8?B?STdvVUZqbmZJYUV1S3dNUmNOdXk3YTZHTVNoOGZ3UlBaaVZON2J4cXV3UGFV?=
+ =?utf-8?B?R0ZhcWY1Rm9rREZwcUVnbC8wU0h0LzRKLzgxaEtwdGJONnF1MTVFcCsrc2da?=
+ =?utf-8?B?Ykg5RHdLdG1CRzh0RWhCbUdmR1NILzF2QzZ6WmhwNjdVSUpmOStyMGRMeHZh?=
+ =?utf-8?B?K1pEdTBmbWZid2FXYnNNeTBXM3ZVQi8rTkE4bkNxZUFUWVdKUVJMM3pZQ1ho?=
+ =?utf-8?B?TWRTa0pZc1pIWXFFeWsrVDN5azBoZWl0eXJrRlZCc3dWTEpPR2NqVXZpYWx4?=
+ =?utf-8?B?aWhJMWpjNDIrYUJ6S3hZVm5rWkl0NWhSUXd1S2MrWWFyVjN6Z0QvdGpxTjBW?=
+ =?utf-8?B?enloWXh3MEIyYUw3QnQxLzMvVW5lcEhGTVUzMTBjK2JoSU12Y040Wklpd0kw?=
+ =?utf-8?B?Z3RQWHpCSEx6eEp0MSsrTWpHM3gxbHFGRjdFeURpaStjckpZb2tCNDczUExP?=
+ =?utf-8?B?Wk4vSWJIS3VvSFVNNVRPeTNJNWJKTFBvOGRTNXQvOWxwVXR6NG5jZFNwOUxR?=
+ =?utf-8?B?emU2NURoQmdIUzJlM3NPZno0SVpUZXVaQ2ZiTjQvOVZjb2dQSFNlMEh4TEVo?=
+ =?utf-8?B?c2pkanQxbDZRYVZkdDFRL3Y2NGhFaEdjakxBV3YzU0VRTWorOFNyakhuTmhZ?=
+ =?utf-8?B?SEc2d0VQamF4WkFVR0lNTE9Sdm1HQXM1cUpIUFNMWXVhM1pBMWd0VGJscUxE?=
+ =?utf-8?B?bCtNVXlYWllyaFhWcGRWU2lwajFZY0VOQ01KNjNYVVgrNFFuS1phRWpWbVIz?=
+ =?utf-8?B?aGZpY0xhdzFhMXZXbDVWZDlNSDhPSGJ5VlN5NU5pU1JNL2RzRThlSlZ2Vm9N?=
+ =?utf-8?B?bXdyWkJrMUdHTFF2OWVKYlVYWVI1MGUzMXNjbkEyVVNXamloMWxuRUZ4cUdX?=
+ =?utf-8?B?WmN6WWl5elpmVHRVSlRER1RmZWFQS1QrWE5mQ01ZRFdGb1FMT0lvOHdYU2U2?=
+ =?utf-8?B?bjdGM0x3dFVIams3cEMwY2JEeUNnZWU2WDlTb3NRR3JlUXV1WHBxZjhvTXZM?=
+ =?utf-8?B?dFFMdmg3OGg4T0IxbDNNbDFJZzZSMnlrTWVtRTlQbnlDc05Ma2VtVnRRZkE3?=
+ =?utf-8?B?Zjd6MmxyeUgvR0ZvRmVyeE5KNDFoY0g4Mi9Id0xhZHJGT055N05jQmdKdmZl?=
+ =?utf-8?B?VDBJdERnTEdXTmVBaGI4QlptWlE1Mllybkl0Mi9RNWJUWitwUm5BcjdGc0RJ?=
+ =?utf-8?Q?krrGe6ylVYpQGtDluEKuIIPjmbf5uMyR?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AMBPR04MB11741.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7416014)(10070799003); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TG92NFFvb3V1M1RaYlcvVXFtSEpSMVRocTlhNzhXaTlIa292bFdlNVpsYmFE?=
+ =?utf-8?B?QnhiUkdHYllTZjN0R2NBZ1htWGZia2dhNFNVVkJzbXZsOExjWGRSSVUydkJD?=
+ =?utf-8?B?WHNnVmhZaE44bWE2V2VuaW1qWVFZbHJsc0JFVTRjWitWcExiSmRCeXNhcTJw?=
+ =?utf-8?B?dTRIc1cyeEdwMXN4aVNNblVteWo2K1A0QTdlK1gwekxRTS9tcnU0bUg2dkVJ?=
+ =?utf-8?B?S0JXa2I1MTJwSDl3Z2pIVVl0QWtpQnNiQ1J1VnNQRC9BelRSVHBzK0NFeUNo?=
+ =?utf-8?B?VmRWdFg4OVBZRXB5aFpiMTVtd0NJOXVDZ0gwWnJxRWx3WjMwUUFwV0hVTVdC?=
+ =?utf-8?B?THlVeWZtR20yeG5IMGFCV1gvREtndkEyNmcvSS9sNEFYVGQydGwxVTlDVXpn?=
+ =?utf-8?B?eTNaQ0Q0YjgrK1ZTV3luWlJWMzJnVnltdFlHYkw4dzZiWmV0Y3dOdkowaDd6?=
+ =?utf-8?B?TU9CeitZY0J0TmYyWjZEeTlsM1dmWXIyTnJUanFxUVpYNU5NQytDaUt0WGI1?=
+ =?utf-8?B?Q2FsTW1wbkoxMUZZbG5DN0s4clQwQVU2MzVlN3ZUSWpsd0hEbnNWdHVUZG9t?=
+ =?utf-8?B?aEdXZERSQU42YW8rMndwb2hmUVN6SkQwNFJiTWR3ZWY5WXMrNUFYUDNrdXky?=
+ =?utf-8?B?bmE2OUtwL3ljRmwwTjdPV2gyci9mTXZMVkVEWmhQM0gwem5PTGRqM0ZyTTdY?=
+ =?utf-8?B?NXdQaEtYeHNmRzNkTHZqRnZ0VEdCRUlTQjhkQlJ6YnlYVU9VUmpTU1VwZEdi?=
+ =?utf-8?B?L2FKd1I3VndjSVRVODdhenE2SDFpWitKazFsTmlBNitpNk40SzZ5WmZHZ1FY?=
+ =?utf-8?B?ZlY5bVA4TVRJU1dNZlAvVXh2QXo3Zi9VMmNmTXVUMXdXTFNNcXdqa0l0TExY?=
+ =?utf-8?B?cHFTQnR1bHp2UTlUakJiMVh1VFd1eXRuNlNEcTUyY2xNRCtONThpdldpcEpx?=
+ =?utf-8?B?NG5YTTUzUVlpaGdvbVZDRzJEakVWUlZuZFlveFg4MUl5WFZTczVjamk4azc1?=
+ =?utf-8?B?VjhXL3Rzd3JJNEZjSW0xakR4UG9laFVoem44bTRsLyszL0dCck1ubzZCRUtS?=
+ =?utf-8?B?Yk9TczBSSHpoSW5SRG5QbmJBRDZscURnOU5JZHZJdUY2akVBT2JqMlp2b3hQ?=
+ =?utf-8?B?OUZxdWovd1JWYWtCS1JCZndlenBqaDFSRGRuOUptNTJkYUVIWGx5SUwrRU9K?=
+ =?utf-8?B?RE10d012SnNSeFhQUCswZlRlUUpOd2tpa0NGdkVRVmlZL3hSRlppV21jRVYv?=
+ =?utf-8?B?OFRubVFtL1FKWDJZRnVqL25USVNYVU84dEkybkFmQ2ZpOUlReGFpUU5qYVUr?=
+ =?utf-8?B?YkNnckdDUk83QWxlUkxuNXdBU1F1QXV5RnJ5akNPMmpHYlJVNytMOFZoejJX?=
+ =?utf-8?B?NlFQMFM0c3hrL2IraDc1aGRHR3Rqa0V1WG0xOWZDSjJJY25wemFsTnU0RVpW?=
+ =?utf-8?B?bmN5SXdhRDYzS0VJYXMxQzJTU1J0enRYUTBGRU9hczlWOWw2d1pmL01XdU1Y?=
+ =?utf-8?B?ZTdHcTZZcGdmcE8rR2M1cTlmVW9xWkdPaHNuREdzYTV3UE5BU09vSjMxOXRW?=
+ =?utf-8?B?TldDV1k0aW1rVklrNm81a0ZDd0lhMEtOcFpGV29Fd1haWHpneXFxdmJaME9t?=
+ =?utf-8?B?WFFJTzdXV2oxRmx2YlZCdFQ5ZXZnRjVqaG5ZZ2lwczFQZWsvNzYyOE5Vc0Fw?=
+ =?utf-8?B?M3k5SjJDb0xBSW9iRVBOdGgyM0tGTWZoVmFrZnJRNDZJZ25BeC9TaUt5RFo1?=
+ =?utf-8?B?WXFxalhBWHJjRzFxSXBnRFk4N29JS1RNV1BGZ1dTYVdrQlhrTEZpQVNTZ0ta?=
+ =?utf-8?B?MktOYXZnWGhaZHk3dDVzWnBwYlRrTzdPVXZlWTRTT2c5UURJaGd3SlVvWG5G?=
+ =?utf-8?B?RFZoQ0RveGMzL0pqc3JYbnlPNTlXYUdMRjMzdlluSVZwelVJYnZwWVBPaU5q?=
+ =?utf-8?B?NE90bVpEVEpjSEpkb0w5UkNIRDZReFJRbHI2MzVpbTQ4NVNwRGk2VWNIS0Vu?=
+ =?utf-8?B?b1pmNXdCeFdvNk5NVEIwSERhdjM3OVBFb2pWN0M3SXRVTlcwVkRtTVJZaEdz?=
+ =?utf-8?B?Zk5IUUNidlFrOTRHSER3RFBEYVN0NWpYQUd3TUxHWVBXRW9nY3BRd3NFMGY5?=
+ =?utf-8?B?QWx6RERKbDhOOWdYM0Exd0Z1Nm4zNFExdlNVMTMreTZpMEJNbXhSY3ByZk9j?=
+ =?utf-8?B?QndURzUxc3M4L3hmdm9PQkZqTmwvMVNjcUxrcnYvczlKZ2g4cEh4bXpMcjho?=
+ =?utf-8?B?VGJlL1FzdFNqZ0FCOGNNSnYxWlZmcXRCNkg5Yk1ON0dYQmhEU3dGblBDSURp?=
+ =?utf-8?B?a25FN2plSndtdENKbTVobnJackxxVGg4QjVJdWxPRmQya05OMUdWdVhMdng3?=
+ =?utf-8?Q?HeqBBy06ULfKlomUHejyj3NXTrPIDn6myj7iztGfJziQx?=
+X-MS-Exchange-AntiSpam-MessageData-1: 2UKOxadQYWQMYcTt4JzF62zXPwPfG6PjmMQ=
+X-OriginatorOrg: gocontroll.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 694bdcaf-0c66-4133-aaee-08de4f5cd84b
+X-MS-Exchange-CrossTenant-AuthSource: AMBPR04MB11741.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 08:55:32.0303 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wz4cVAO0IbVSmKYSIKvnJFJLz5Gh1ICGKHHfGk3nZ+Isg1sE3UhvBOXyXbtcgezzBWYbNpgfMDIQg9UuJnd5hgrRVbcVV2UzcviFgmYmtm8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7218
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,210 +184,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This enables support for Transparent Huge Pages (THP) for device pages by
-using MIGRATE_VMA_SELECT_COMPOUND during migration. It removes the need to
-split folios and loop multiple times over all pages to perform required
-operations at page level. Instead, we rely on newly introduced support for
-higher orders in drm_pagemap and folio-level API.
+Do you have any comments about:
 
-In Xe, this drastically improves performance when using SVM. The GT stats
-below collected after a 2MB page fault show overall servicing is more than
-7 times faster, and thanks to reduced CPU overhead the time spent on the
-actual copy goes from 23% without THP to 80% with THP:
+> +static void max25014_remove(struct i2c_client *cl)
+> +{
+> +	struct max25014 *maxim = i2c_get_clientdata(cl);
+> +
+> +	maxim->bl->props.brightness = 0;
+> +	max25014_update_status(maxim->bl);
+> +	gpiod_set_value_cansleep(maxim->enable, 0);
+> +	regulator_disable(maxim->vin);
+> +}
 
-Without THP:
+I'm feeling like the setting of the brightness + update status maybe 
+should be a call to backlight_device_set_brightness() or maybe it 
+shouldn't really be there at all?
 
-    svm_2M_pagefault_us: 966
-    svm_2M_migrate_us: 942
-    svm_2M_device_copy_us: 223
-    svm_2M_get_pages_us: 9
-    svm_2M_bind_us: 10
-
-With THP:
-
-    svm_2M_pagefault_us: 132
-    svm_2M_migrate_us: 128
-    svm_2M_device_copy_us: 106
-    svm_2M_get_pages_us: 1
-    svm_2M_bind_us: 2
-
-v2:
-- Fix one occurrence of drm_pagemap_get_devmem_page() (Matthew Brost)
-
-v3:
-- Remove migrate_device_split_page() and folio_split_lock, instead rely on
-  free_zone_device_folio() to split folios before freeing (Matthew Brost)
-- Assert folio order is HPAGE_PMD_ORDER (Matthew Brost)
-- Always use folio_set_zone_device_data() in split (Matthew Brost)
-
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Michal Mrozek <michal.mrozek@intel.com>
-Signed-off-by: Francois Dugast <francois.dugast@intel.com>
----
- drivers/gpu/drm/drm_pagemap.c | 69 +++++++++++++++++++++++++++++++----
- 1 file changed, 61 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 121234cef38c..5b89140edb8e 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -200,16 +200,20 @@ static void drm_pagemap_migration_unlock_put_pages(unsigned long npages,
- /**
-  * drm_pagemap_get_devmem_page() - Get a reference to a device memory page
-  * @page: Pointer to the page
-+ * @order: Order
-  * @zdd: Pointer to the GPU SVM zone device data
-  *
-  * This function associates the given page with the specified GPU SVM zone
-  * device data and initializes it for zone device usage.
-  */
- static void drm_pagemap_get_devmem_page(struct page *page,
-+					unsigned int order,
- 					struct drm_pagemap_zdd *zdd)
- {
--	page->zone_device_data = drm_pagemap_zdd_get(zdd);
--	zone_device_page_init(page, 0);
-+	struct folio *folio = page_folio(page);
-+
-+	folio_set_zone_device_data(folio, drm_pagemap_zdd_get(zdd));
-+	zone_device_page_init(page, order);
- }
- 
- /**
-@@ -534,7 +538,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 		 * rare and only occur when the madvise attributes of memory are
- 		 * changed or atomics are being used.
- 		 */
--		.flags		= MIGRATE_VMA_SELECT_SYSTEM | MIGRATE_VMA_SELECT_DEVICE_COHERENT,
-+		.flags		= MIGRATE_VMA_SELECT_SYSTEM | MIGRATE_VMA_SELECT_DEVICE_COHERENT |
-+				  MIGRATE_VMA_SELECT_COMPOUND,
- 	};
- 	unsigned long i, npages = npages_in_range(start, end);
- 	unsigned long own_pages = 0, migrated_pages = 0;
-@@ -640,10 +645,12 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 
- 	own_pages = 0;
- 
--	for (i = 0; i < npages; ++i) {
-+	for (i = 0; i < npages;) {
-+		unsigned long j;
- 		struct page *page = pfn_to_page(migrate.dst[i]);
- 		struct page *src_page = migrate_pfn_to_page(migrate.src[i]);
- 		cur.start = i;
-+		unsigned int order = 0;
- 
- 		pages[i] = NULL;
- 		if (src_page && is_device_private_page(src_page)) {
-@@ -670,7 +677,20 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 			pages[i] = page;
- 		}
- 		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
--		drm_pagemap_get_devmem_page(page, zdd);
-+
-+		if (migrate.src[i] & MIGRATE_PFN_COMPOUND) {
-+			drm_WARN_ONCE(dpagemap->drm, src_page &&
-+				      folio_order(page_folio(src_page)) != HPAGE_PMD_ORDER,
-+				      "Unexpected folio order\n");
-+
-+			order = HPAGE_PMD_ORDER;
-+			migrate.dst[i] |= MIGRATE_PFN_COMPOUND;
-+
-+			for (j = 1; j < NR_PAGES(order) && i + j < npages; j++)
-+				migrate.dst[i + j] = 0;
-+		}
-+
-+		drm_pagemap_get_devmem_page(page, order, zdd);
- 
- 		/* If we switched the migrating drm_pagemap, migrate previous pages now */
- 		err = drm_pagemap_migrate_range(devmem_allocation, migrate.src, migrate.dst,
-@@ -680,7 +700,10 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 			npages = i + 1;
- 			goto err_finalize;
- 		}
-+
-+		i += NR_PAGES(order);
- 	}
-+
- 	cur.start = npages;
- 	cur.ops = NULL; /* Force migration */
- 	err = drm_pagemap_migrate_range(devmem_allocation, migrate.src, migrate.dst,
-@@ -789,6 +812,8 @@ static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
- 		page = folio_page(folio, 0);
- 		mpfn[i] = migrate_pfn(page_to_pfn(page));
- 
-+		if (order)
-+			mpfn[i] |= MIGRATE_PFN_COMPOUND;
- next:
- 		if (page)
- 			addr += page_size(page);
-@@ -1044,8 +1069,15 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
- 	if (err)
- 		goto err_finalize;
- 
--	for (i = 0; i < npages; ++i)
-+	for (i = 0; i < npages;) {
-+		unsigned int order = 0;
-+
- 		pages[i] = migrate_pfn_to_page(src[i]);
-+		if (pages[i])
-+			order = folio_order(page_folio(pages[i]));
-+
-+		i += NR_PAGES(order);
-+	}
- 
- 	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
- 	if (err)
-@@ -1098,7 +1130,8 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 		.vma		= vas,
- 		.pgmap_owner	= page_pgmap(page)->owner,
- 		.flags		= MIGRATE_VMA_SELECT_DEVICE_PRIVATE |
--		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
-+				  MIGRATE_VMA_SELECT_DEVICE_COHERENT |
-+				  MIGRATE_VMA_SELECT_COMPOUND,
- 		.fault_page	= page,
- 	};
- 	struct drm_pagemap_migrate_details mdetails = {};
-@@ -1164,8 +1197,15 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 	if (err)
- 		goto err_finalize;
- 
--	for (i = 0; i < npages; ++i)
-+	for (i = 0; i < npages;) {
-+		unsigned int order = 0;
-+
- 		pages[i] = migrate_pfn_to_page(migrate.src[i]);
-+		if (pages[i])
-+			order = folio_order(page_folio(pages[i]));
-+
-+		i += NR_PAGES(order);
-+	}
- 
- 	err = ops->copy_to_ram(pages, pagemap_addr, npages, NULL);
- 	if (err)
-@@ -1223,9 +1263,22 @@ static vm_fault_t drm_pagemap_migrate_to_ram(struct vm_fault *vmf)
- 	return err ? VM_FAULT_SIGBUS : 0;
- }
- 
-+static void drm_pagemap_folio_split(struct folio *orig_folio, struct folio *new_folio)
-+{
-+	struct drm_pagemap_zdd *zdd;
-+
-+	if (!new_folio)
-+		return;
-+
-+	new_folio->pgmap = orig_folio->pgmap;
-+	zdd = folio_zone_device_data(orig_folio);
-+	folio_set_zone_device_data(new_folio, drm_pagemap_zdd_get(zdd));
-+}
-+
- static const struct dev_pagemap_ops drm_pagemap_pagemap_ops = {
- 	.folio_free = drm_pagemap_folio_free,
- 	.migrate_to_ram = drm_pagemap_migrate_to_ram,
-+	.folio_split = drm_pagemap_folio_split,
- };
- 
- /**
--- 
-2.43.0
-
+Kind regards,
+Maud
