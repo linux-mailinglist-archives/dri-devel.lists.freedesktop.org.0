@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7816D0792A
-	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CA8D0792D
+	for <lists+dri-devel@lfdr.de>; Fri, 09 Jan 2026 08:31:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C1510E7F6;
-	Fri,  9 Jan 2026 07:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C5E10E7F7;
+	Fri,  9 Jan 2026 07:31:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jABOhxKZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="d/GBUMzy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9823710E7F5
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:31:50 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9E010E7F7
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jan 2026 07:31:54 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 1536FC1F6CF;
- Fri,  9 Jan 2026 07:31:23 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 073EB4E4201C;
+ Fri,  9 Jan 2026 07:31:53 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 5418060734;
- Fri,  9 Jan 2026 07:31:49 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id CE3FF60734;
+ Fri,  9 Jan 2026 07:31:52 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D2901103C87F9; Fri,  9 Jan 2026 08:31:44 +0100 (CET)
+ with ESMTPSA id 56B9E103C8820; Fri,  9 Jan 2026 08:31:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1767943907; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1767943911; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7G0VQZhCL0E1RG/9vT5q4DhtmO9Jz5X+7mGnytpns6k=;
- b=jABOhxKZYevXq35Y/dw2OauCpOzC4O5PvKI4NVE0SWcsexbyfyRaVjJEYfkRcMOwLrsmmc
- JZsZZPMU/tn1RZ11AeFV8wudEjS0FpNduTmCweyYhIkpHZhJ6Eqj2YAzo7y3tpHyMpO4YE
- lf02ZwqPTxUlrPRJYx7USyhoZDAaBgqH6PjXGbMgb0ZGuWHclq6JKI+OXUdiyPMtc8YV7l
- sMbWc//+lnblF9FnL3mL3ARa2rq3yVQ5ZdEL3l30W+0O2P5acKrZd8YvanmZS8E0MAlh4B
- G0CYNTSrWZ/AqT+N+3Ve0DGrsyljbGn7k5/X8BP40arYYyIZ5oRMhZipOEXDPQ==
+ bh=gRp+L8UjoWDmuIpXqFfLmzodLWWfkNseQ+dp2qEU4qk=;
+ b=d/GBUMzyOhyO6LiVGwWMVSTwjXJiCKoYcpKd9hSZVUfHnaWKqsfm77Es/Y3M4CDLrDmE7T
+ q/Np1b0DiwrGutUJuMxA8VlxH1GAcBbWgs29aOxh2sDn/VAKdmRdsonPD8pAkXtjNncmKF
+ v3BlnsL78EGj5KNwKQUqRZTqdsK8euUgX2TPT/czOtUTnFD2q//gOWMBEjNkagV6DWwt6M
+ j/7bGcj+3gJAKAZ7ek+YNMxHT2YYYSr1+41gzbCQ+BYmbzBmRVgi4sTSJfR0KnobunBHnJ
+ YlGEYY3wHaMXPR7i1nzIQeRV7OouKo0K3C0EX6FNJu+ti976/h4aPcemX+uSUA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 08:31:32 +0100
-Subject: [PATCH v2 01/12] drm: of: drm_of_panel_bridge_remove(): fix
- device_node leak
+Date: Fri, 09 Jan 2026 08:31:33 +0100
+Subject: [PATCH v2 02/12] drm: of: drm_of_panel_bridge_remove(): convert to
+ of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-1-8bad3ef90b9f@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-2-8bad3ef90b9f@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -60,7 +60,7 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, stable@vger.kernel.org
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,38 +78,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_of_panel_bridge_remove() uses of_graph_get_remote_node() to get a
-device_node but does not put the node reference.
+of_drm_find_bridge() is deprecated. Move to its replacement
+of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+is put when done.
 
-Fixes: c70087e8f16f ("drm/drm_of: add drm_of_panel_bridge_remove function")
-Cc: stable@vger.kernel.org # v4.15
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- include/drm/drm_of.h | 3 +++
- 1 file changed, 3 insertions(+)
+ include/drm/drm_of.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-index 7f0256dae3f1..f3e55ea2174c 100644
+index f3e55ea2174c..f2f2bf82eff9 100644
 --- a/include/drm/drm_of.h
 +++ b/include/drm/drm_of.h
-@@ -5,6 +5,7 @@
- #include <linux/err.h>
- #include <linux/of_graph.h>
- #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
-+#include <linux/of.h>
- #include <drm/drm_bridge.h>
- #endif
+@@ -171,9 +171,10 @@ static inline int drm_of_panel_bridge_remove(const struct device_node *np,
+ 	if (!remote)
+ 		return -ENODEV;
  
-@@ -173,6 +174,8 @@ static inline int drm_of_panel_bridge_remove(const struct device_node *np,
- 	bridge = of_drm_find_bridge(remote);
+-	bridge = of_drm_find_bridge(remote);
++	bridge = of_drm_find_and_get_bridge(remote);
  	drm_panel_bridge_remove(bridge);
  
-+	of_node_put(remote);
-+
++	drm_bridge_put(bridge);
+ 	of_node_put(remote);
+ 
  	return 0;
- #else
- 	return -EINVAL;
 
 -- 
 2.52.0
