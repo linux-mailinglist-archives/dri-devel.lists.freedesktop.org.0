@@ -2,87 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF51D0D690
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 14:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88577D0D851
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 16:13:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF5910E06B;
-	Sat, 10 Jan 2026 13:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E3E10E037;
+	Sat, 10 Jan 2026 15:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hm2UN18N";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="dtAbhAyt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D19410E06B
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 13:20:19 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-8ba0d6c68a8so586216085a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 05:20:19 -0800 (PST)
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
+ (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C413F10E037
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 14:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768051218; x=1768656018; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
- :message-id:from:references:cc:to:subject:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mvmFtpYq3AhGNwfLF6kPdeLfesgtuyHszNnUMDnYmVI=;
- b=hm2UN18NzUL1Z4vSQxQl/gCPlElEZUS7AYalPEHDnaU03c0e4iwSW/T51zDi9gxZS6
- zSRq64BQvRHINO7DVMERdwbJzn0JWqi3pxULWJw8b0OU+NJ6QrVSvtOpwUmk0P8c7XN0
- GFcSJc5AGVRVEtqctuwHvW8q/Prt9tBMUKdP8Cw3bQt3IWkDjzfIwntmfVXK9Xzf1my0
- Ec8LPYJDsGRmPvc3Mm3XNNLG5Czza0j+aTwY2GSgcUyrfnYEISXEvIgwLMWn53wgFUTC
- Hby7bbhzh4eTK7KO8qjWyVkUftoMZ41VgJF6Z7LGBuKfjsRTEY8eYVyqCT5P5Li6JCHQ
- 9lPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768051218; x=1768656018;
- h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
- :message-id:from:references:cc:to:subject:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mvmFtpYq3AhGNwfLF6kPdeLfesgtuyHszNnUMDnYmVI=;
- b=QbG3+JSCswk/qbbIZ6IVHPgq1vJtEq0WMu53nl/unXShZOWCUAci3Bwvym3iSIa3bf
- iMyAxgSlFRmPtpI6fXqfe75RuhYW21WitfcxzgF+c78Q4dCUmK2Quj/Ug7KBTJLvzeRN
- KOoIrgB3ym/pq74Dn/71OxGu83VoxztKs3vqwyMLcFZtjcvKRYwR6unf9ltiEjWfN1nP
- ZLYiYzsa9Q/2JkZFL0Simme+JnqLhaFpAqryW4lrRqRBwlEH7Sg7rvLj5uW/NpjdhAXs
- fT1+9NHvFtghKSH5Hz4UKECFnP5g7iaX4MNGR5EKPHNKxu2x+y1ZufpE2OJskfCotw3/
- t+AQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtMhYM9McWcrZH1zZ0986orDNstaIWim+4BD6fk7CaCb40k3peFV7kmi8cuRG1AO3HL5Na+K/F5Fs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzDkR3dTR9acwL+GHFJmNcARizGXPjuwk/kH/xjy/4JyrufrRo
- byTbLWWprAUOmmOKQRFu+M/X132+Z4OXke5NkZsmNHFehFC7wcEFJQM=
-X-Gm-Gg: AY/fxX53vDjGRyrk2QpXhZCwfwkEqWgoDarxTM5JzVxSAXMkY1YuaMs+6GAC34hnisM
- 4APOd+GsmGZDldf2liCZ8tY34seYvcJIJbZ2SwviZiuFOFEMcHop4J4ql7VIBXxiFLUkS3Rmj4C
- jq9rH/Gfj62D4x2XDPr8Duj9HV2MpCuinI0vBhyIYoDpUxWwgBKKOahGl9Mx6dFHdha8NSy0hVL
- Lbqq7HKYEXx/lTtkqtRAEa0wCIN+X+bnBRYbOYjJDHgoPse9IQJ38nxQXO78vb4atCfw1UsD7R9
- f9GfJq+8My2NCl0u0CjtN/iCJrZuiPTqeNzn5UhyE69+cQF2X9yZa22ApZzd5jNTbTotavbrGue
- hZB/zGvCLhL1g7NBZFXIrk6INApG0uPPYC0dAfHB8C601NePOk1RduzevHUaz6VcdJoPfy78NVV
- 0gX1A0XeZ6UmZjZOioJ9VhQMSmJtwLccAhYiSkYSQ=
-X-Google-Smtp-Source: AGHT+IHYkrReK4yF4naTlaDor67swNTpLoEWAakzLr0Pf9Lu/+qdcpqgONPLVqMEeWigmof52e/WWw==
-X-Received: by 2002:a05:620a:2910:b0:8a1:ac72:e3db with SMTP id
- af79cd13be357-8c389429138mr1637486585a.72.1768051218033; 
- Sat, 10 Jan 2026 05:20:18 -0800 (PST)
-Received: from [120.7.1.23] (135-23-93-252.cpe.pppoe.ca. [135.23.93.252])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c37f51d06fsm1031114585a.32.2026.01.10.05.20.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Jan 2026 05:20:17 -0800 (PST)
-Subject: Re: [PATCH v2] fbdev: bitblit: bound-check glyph index in bit_putcs*
-To: Vitaly Chikunov <vt@altlinux.org>, Junjie Cao <junjie.cao@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- Helge Deller <deller@gmx.de>, Zsolt Kajtar <soci@c64.rulez.org>,
- Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- regressions@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20251020134701.84082-1-junjie.cao@intel.com>
- <aU23brU4lZqIkw4Z@altlinux.org>
-From: Woody Suwalski <terraluna977@gmail.com>
-Message-ID: <e6aac320-846d-eecf-0016-23b56d7cd854@gmail.com>
-Date: Sat, 10 Jan 2026 08:20:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101
- Firefox/128.0 SeaMonkey/2.53.23
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
+ bh=qWBdgLLp3U48ixcxIz3yatM4/hvgyZyqXK4wxfV4qwQ=; b=dtAbhAytSTwgy
+ ZlI9o8gVbb1ktwzvUVlWCrb/qHPZNXLjvA9kVnoiIH5DdQhwK5VFClnwzRsr2CUV
+ ibI4cWXYXVPqoaXTWxIfxCMWgv1obOVn+WOJsZRLzL44tiTx6jHEREvMM9Htcgj/
+ LH2nklHJRB7G5RyLQ0TrwAxr7icFHA=
+Received: from wangzhi_xd$stu.xidian.edu.cn ( [113.200.174.49] ) by
+ ajax-webmail-hzbj-edu-front-4.icoremail.net (Coremail) ; Sat, 10 Jan 2026
+ 22:16:03 +0800 (GMT+08:00)
+X-Originating-IP: [113.200.174.49]
+Date: Sat, 10 Jan 2026 22:16:03 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5b+X?= <wangzhi_xd@stu.xidian.edu.cn>
+To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [BUG] WARNING in idr_alloc during drm_gem_change_handle_ioctl
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-In-Reply-To: <aU23brU4lZqIkw4Z@altlinux.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 10 Jan 2026 13:44:06 +0000
+Message-ID: <6db3d523.bb3f.19ba843a1f9.Coremail.wangzhi_xd@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BrQMCkBmx9ojX2Jp64YDAQ--.15714W
+X-CM-SenderInfo: qstqimqsqqliuu6v33wo0lvxldqovvfxof0/1tbiAgUJCGlhD89t9
+	gAAsV
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+X-Mailman-Approved-At: Sat, 10 Jan 2026 15:13:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,158 +65,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vitaly Chikunov wrote:
-> Dear linux-fbdev, stable,
->
-> On Mon, Oct 20, 2025 at 09:47:01PM +0800, Junjie Cao wrote:
->> bit_putcs_aligned()/unaligned() derived the glyph pointer from the
->> character value masked by 0xff/0x1ff, which may exceed the actual font's
->> glyph count and read past the end of the built-in font array.
->> Clamp the index to the actual glyph count before computing the address.
->>
->> This fixes a global out-of-bounds read reported by syzbot.
->>
->> Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
->> Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
->> Signed-off-by: Junjie Cao <junjie.cao@intel.com>
-> This commit is applied to v5.10.247 and causes a regression: when
-> switching VT with ctrl-alt-f2 the screen is blank or completely filled
-> with angle characters, then new text is not appearing (or not visible).
->
-> This commit is found with git bisect from v5.10.246 to v5.10.247:
->
->    0998a6cb232674408a03e8561dc15aa266b2f53b is the first bad commit
->    commit 0998a6cb232674408a03e8561dc15aa266b2f53b
->    Author:     Junjie Cao <junjie.cao@intel.com>
->    AuthorDate: 2025-10-20 21:47:01 +0800
->    Commit:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->    CommitDate: 2025-12-07 06:08:07 +0900
->
->        fbdev: bitblit: bound-check glyph index in bit_putcs*
->
->        commit 18c4ef4e765a798b47980555ed665d78b71aeadf upstream.
->
->        bit_putcs_aligned()/unaligned() derived the glyph pointer from the
->        character value masked by 0xff/0x1ff, which may exceed the actual font's
->        glyph count and read past the end of the built-in font array.
->        Clamp the index to the actual glyph count before computing the address.
->
->        This fixes a global out-of-bounds read reported by syzbot.
->
->        Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
->        Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
->        Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
->        Signed-off-by: Junjie Cao <junjie.cao@intel.com>
->        Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->        Signed-off-by: Helge Deller <deller@gmx.de>
->        Cc: stable@vger.kernel.org
->        Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
->     drivers/video/fbdev/core/bitblit.c | 16 ++++++++++++----
->     1 file changed, 12 insertions(+), 4 deletions(-)
->
-> The minimal reproducer in cli, after kernel is booted:
->
->    date >/dev/tty2; chvt 2
->
-> and the date does not appear.
->
-> Thanks,
->
-> #regzbot introduced: 0998a6cb232674408a03e8561dc15aa266b2f53b
->
->> ---
->> v1: https://lore.kernel.org/linux-fbdev/5d237d1a-a528-4205-a4d8-71709134f1e1@suse.de/
->> v1 -> v2:
->>   - Fix indentation and add blank line after declarations with the .pl helper
->>   - No functional changes
->>
->>   drivers/video/fbdev/core/bitblit.c | 16 ++++++++++++----
->>   1 file changed, 12 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
->> index 9d2e59796c3e..085ffb44c51a 100644
->> --- a/drivers/video/fbdev/core/bitblit.c
->> +++ b/drivers/video/fbdev/core/bitblit.c
->> @@ -79,12 +79,16 @@ static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
->>   				     struct fb_image *image, u8 *buf, u8 *dst)
->>   {
->>   	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
->> +	unsigned int charcnt = vc->vc_font.charcount;
->>   	u32 idx = vc->vc_font.width >> 3;
->>   	u8 *src;
->>   
->>   	while (cnt--) {
->> -		src = vc->vc_font.data + (scr_readw(s++)&
->> -					  charmask)*cellsize;
->> +		u16 ch = scr_readw(s++) & charmask;
->> +
->> +		if (ch >= charcnt)
->> +			ch = 0;
->> +		src = vc->vc_font.data + (unsigned int)ch * cellsize;
->>   
->>   		if (attr) {
->>   			update_attr(buf, src, attr, vc);
->> @@ -112,14 +116,18 @@ static inline void bit_putcs_unaligned(struct vc_data *vc,
->>   				       u8 *dst)
->>   {
->>   	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
->> +	unsigned int charcnt = vc->vc_font.charcount;
->>   	u32 shift_low = 0, mod = vc->vc_font.width % 8;
->>   	u32 shift_high = 8;
->>   	u32 idx = vc->vc_font.width >> 3;
->>   	u8 *src;
->>   
->>   	while (cnt--) {
->> -		src = vc->vc_font.data + (scr_readw(s++)&
->> -					  charmask)*cellsize;
->> +		u16 ch = scr_readw(s++) & charmask;
->> +
->> +		if (ch >= charcnt)
->> +			ch = 0;
->> +		src = vc->vc_font.data + (unsigned int)ch * cellsize;
->>   
->>   		if (attr) {
->>   			update_attr(buf, src, attr, vc);
->> -- 
->> 2.48.1
->>
-I have done the same bisecting work, too bad I did not notice Vitaly's 
-work earlier :-(
-
-There is a "cheap" workaround for systems before 5.11, (not addressing 
-the root issue but) working:
-
-diff --git a/drivers/video/fbdev/core/bitblit.c 
-b/drivers/video/fbdev/core/bitblit.c
-index 7c2fc9f..c5a1a9d 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -86,7 +86,7 @@ static inline void bit_putcs_aligned(struct vc_data 
-*vc, struct fb_info *info,
-      while (cnt--) {
-          u16 ch = scr_readw(s++) & charmask;
-
--        if (ch >= charcnt)
-+        if (charcnt && ch >= charcnt)
-              ch = 0;
-          src = vc->vc_font.data + (unsigned int)ch * cellsize;
-
-@@ -125,7 +125,7 @@ static inline void bit_putcs_unaligned(struct 
-vc_data *vc,
-      while (cnt--) {
-          u16 ch = scr_readw(s++) & charmask;
-
--        if (ch >= charcnt)
-+        if (charcnt && ch >= charcnt)
-              ch = 0;
-          src = vc->vc_font.data + (unsigned int)ch * cellsize;
-
-I will try next to go full backport from 5.11 as Thorsten has suggested.
-
-However the bigger problem is that the fbdev patch has landed in the 
-5.4.302 EOL, and essentially the 5.4 EOL kernel is now hanging broken :-(
-
-Thanks, Woody
-
+RGVhciBNYWludGFpbmVycywKV2hlbiB1c2luZyBvdXIgY3VzdG9taXplZCBTeXprYWxsZXIgdG8g
+ZnV6eiB0aGUgbGF0ZXN0IExpbnV4IGtlcm5lbCwgdGhlIGZvbGxvd2luZyBjcmFzaCB3YXMgdHJp
+Z2dlcmVkLgpIRUFEIGNvbW1pdDo3ZDBhNjZlNGJiOTA4MWQ3NWM4MmVjNDk1N2M1MDAzNGNiMGVh
+NDQ5CmdpdCB0cmVlOiB1cHN0cmVhbQpPdXRwdXQ6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAv
+Y3Jhc2gvYmxvYi9tYWluL3JlcG9ydDMudHh0Cktlcm5lbCBjb25maWc6IGh0dHBzOi8vZ2l0aHVi
+LmNvbS9tYW51YWwwL2NyYXNoL2Jsb2IvbWFpbi9jb25maWcudHh0CkMgcmVwcm9kdWNlcjpodHRw
+czovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8zLmMKU3l6IHJlcHJv
+ZHVjZXI6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAvY3Jhc2gvYmxvYi9tYWluL3JlcHJvMy5z
+eXoKClRoZSBrZXJuZWwgdHJpZ2dlcmVkIGEgV0FSTklORyBhdCBsaWIvaWRyLmM6ODQgaW4gaWRy
+X2FsbG9jLiBUaGlzIHdhcm5pbmcgaXMgdHlwaWNhbGx5IHRyaWdnZXJlZCB3aGVuIHRoZSBpZHJf
+YWxsb2MoKSBmdW5jdGlvbiBpcyBjYWxsZWQgd2l0aCBhIG5lZ2F0aXZlIHN0YXJ0IHZhbHVlIG9y
+IGFuIGludmFsaWQgcmFuZ2UgdGhhdCB2aW9sYXRlcyB0aGUgSURSIGV4cGVjdGF0aW9ucy4KClRo
+ZSBjYWxsIHRyYWNlIGluZGljYXRlcyB0aGF0IHRoZSBpc3N1ZSBvcmlnaW5hdGVzIGZyb20gZHJt
+X2dlbV9jaGFuZ2VfaGFuZGxlX2lvY3RsIHdpdGhpbiB0aGUgRFJNIHN1YnN5c3RlbS4gVGhpcyBm
+dW5jdGlvbiBpcyBhdHRlbXB0aW5nIHRvIGFsbG9jYXRlIG9yIGNoYW5nZSBhIEdFTSBoYW5kbGUs
+IGFuZCBpdCBzZWVtcyB0byBwYXNzIGFuIGludmFsaWQgcGFyYW1ldGVyIHRvIHRoZSBJRFIgYWxs
+b2NhdG9yLiBUaGlzIGNvdWxkIGJlIGR1ZSB0byBhIGxhY2sgb2YgcHJvcGVyIGJvdW5kcyBjaGVj
+a2luZyBvbiB1c2VyLXN1cHBsaWVkIHZhbHVlcyBpbiB0aGUgRFJNX0lPQ1RMX0dFTV9GTElOSyBv
+ciBzaW1pbGFyIGhhbmRsZS1yZWxhdGVkIElPQ1RMcy4KCklmIHlvdSBmaXggdGhpcyBpc3N1ZSwg
+cGxlYXNlIGFkZCB0aGUgZm9sbG93aW5nIHRhZyB0byB0aGUgY29tbWl0OgpSZXBvcnRlZC1ieTog
+WmhpIFdhbmcgPHdhbmd6aGlAc3R1LnhpZGlhbi5lZHUuY24+LCBCaW4gWXU8Ynl1QHhpZGlhbi5l
+ZHUuY24+LCBNaW5nWXUgV2FuZzx3MTUzMDM3NDYwNjJAMTYzLmNvbT4sIFdlbkppYW4gTHU8MTk4
+NjE3MDI2NzhAMTYzLmNvbT4sIEtlRmVuZyBHYW88MjQwMTU1MzA2NEBxcS5jb20+CgpSQlA6IDAw
+MDA3ZmI4N2ZkNGYwMTAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAw
+MApSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDAw
+MDAwMDAwMDAwMQpSMTM6IDAwMDA3ZmI4ODE1ODYwMzggUjE0OiAwMDAwN2ZiODgxNTg1ZmEwIFIx
+NTogMDAwMDdmYjg3ZmQyZjAwMAogPC9UQVNLPgotLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0t
+LS0tLS0tLS0KV0FSTklORzogQ1BVOiAyIFBJRDogMTMzNzEgYXQgbGliL2lkci5jOjg0IGlkcl9h
+bGxvYysweDEyMy8weDE0MCBob21lL2xpbnV4LTYuMTgvbGliL2lkci5jOjg0Ck1vZHVsZXMgbGlu
+a2VkIGluOiBib2NocyBkcm1fc2htZW1faGVscGVyIGRybV9rbXNfaGVscGVyIGRybSBhdGFfZ2Vu
+ZXJpYyB2aXJ0aW9fcGNpIHZpcnRpb19wY2lfbGVnYWN5X2RldiBpMmNfcGlpeDQgZHJtX3BhbmVs
+X29yaWVudGF0aW9uX3F1aXJrcyBwYXRhX2FjcGkgdmlydGlvX3BjaV9tb2Rlcm5fZGV2IGkyY19z
+bWJ1cwpDUFU6IDIgVUlEOiAwIFBJRDogMTMzNzEgQ29tbTogc3l6LjQuNDEyNyBOb3QgdGFpbnRl
+ZCA2LjE4LjAgIzkgUFJFRU1QVCh2b2x1bnRhcnkpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5k
+YXJkIFBDIChpNDQwRlggKyBQSUlYLCAxOTk2KSwgQklPUyByZWwtMS4xNi4zLTAtZ2E2ZWQ2Yjcw
+MWYwYS1wcmVidWlsdC5xZW11Lm9yZyAwNC8wMS8yMDE0ClJJUDogMDAxMDppZHJfYWxsb2MrMHgx
+MjMvMHgxNDAgaG9tZS9saW51eC02LjE4L2xpYi9pZHIuYzo4NApDb2RlOiA4YiA0NCAyNCA1OCA2
+NSA0OCAyYiAwNSA4MyA1MCBjMiAwMyA3NSAyNyA0OCA4MyBjNCA2MCA0NCA4OSBlMCA1YiA1ZCA0
+MSA1YyA0MSA1ZCA0MSA1ZSA0MSA1ZiBlOSBjMyBhOSAwYiAwMCBlOCBiZSA2YSBiYSBmYiA5MCA8
+MGY+IDBiIDkwIDQxIGJjIGVhIGZmIGZmIGZmIGViIGIyIGU4IDRkIDBmIDA5IDAwIDY2IDY2IDJl
+IDBmIDFmIDg0ClJTUDogMDAxODpmZmZmODg4MTE4NjBmYjYwIEVGTEFHUzogMDAwMTAyMTYKUkFY
+OiAwMDAwMDAwMDAwMDAwMDkxIFJCWDogMDAwMDAwMDA4MDAwMDAwMSBSQ1g6IGZmZmZjOTAwMDYw
+MDgwMDAKUkRYOiAwMDAwMDAwMDAwMDgwMDAwIFJTSTogZmZmZmZmZmY4NWJiYmZhMiBSREk6IDAw
+MDAwMDAwMDAwMDAwMDUKUkJQOiAxZmZmZjExMDIzMGMxZjZjIFIwODogMDAwMDAwMDAwMDAwMjgw
+MCBSMDk6IGZmZmZlZDEwMjMwYzFmNzEKUjEwOiAwMDAwMDAwMDgwMDAwMDAwIFIxMTogMDAwMDAw
+MDAwMDAwMDAwMCBSMTI6IDAwMDAwMDAwODAwMDAwMDAKUjEzOiBmZmZmODg4MTA0ZDI5MDg4IFIx
+NDogZmZmZjg4ODEwNTg5ZjAwMCBSMTU6IDAwMDAwMDAwMDAwMDI4MDAKRlM6ICAwMDAwN2Y5ZWUw
+NGNmNjQwKDAwMDApIEdTOmZmZmY4ODgxOTEzM2YwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAw
+MDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNS
+MjogMDAwMDdmOWVlMWE0NTljMCBDUjM6IDAwMDAwMDAxMDYyNmUwMDAgQ1I0OiAwMDAwMDAwMDAw
+MDAwNmYwCkNhbGwgVHJhY2U6CiA8VEFTSz4KIGRybV9nZW1fY2hhbmdlX2hhbmRsZV9pb2N0bCsw
+eDJiZi8weDRmMCBob21lL2xpbnV4LTYuMTgvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYzo5ODgg
+W2RybV0KIGRybV9pb2N0bF9rZXJuZWwrMHgxZjIvMHgzZTAgaG9tZS9saW51eC02LjE4L2RyaXZl
+cnMvZ3B1L2RybS9kcm1faW9jdGwuYzo3OTcgW2RybV0KIGRybV9pb2N0bCsweDU4MC8weGI3MCBo
+b21lL2xpbnV4LTYuMTgvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jOjg5NCBbZHJtXQogdmZz
+X2lvY3RsIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjUxIFtpbmxpbmVdCiBfX2RvX3N5c19p
+b2N0bCBob21lL2xpbnV4LTYuMTgvZnMvaW9jdGwuYzo1OTcgW2lubGluZV0KIF9fc2Vfc3lzX2lv
+Y3RsIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjU4MyBbaW5saW5lXQogX194NjRfc3lzX2lv
+Y3RsKzB4MTk0LzB4MjEwIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjU4MwogZG9fc3lzY2Fs
+bF94NjQgaG9tZS9saW51eC02LjE4L2FyY2gveDg2L2VudHJ5L3N5c2NhbGxfNjQuYzo2MyBbaW5s
+aW5lXQogZG9fc3lzY2FsbF82NCsweGM2LzB4MzkwIGhvbWUvbGludXgtNi4xOC9hcmNoL3g4Ni9l
+bnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc3
+LzB4N2YKUklQOiAwMDMzOjB4N2Y5ZWUxYTkwNTlkCkNvZGU6IDAyIGI4IGZmIGZmIGZmIGZmIGMz
+IDY2IDBmIDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2
+IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmIDA1IDw0OD4gM2Qg
+MDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYTggZmYgZmYgZmYgZjcgZDggNjQgODkgMDEg
+NDgKUlNQOiAwMDJiOjAwMDA3ZjllZTA0Y2VmOTggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDog
+MDAwMDAwMDAwMDAwMDAxMApSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2Y5ZWUxZDA1
+ZmEwIFJDWDogMDAwMDdmOWVlMWE5MDU5ZApSRFg6IDAwMDAyMDAwMDAwMDAzODAgUlNJOiAwMDAw
+MDAwMGMwMjA2NGQyIFJESTogMDAwMDAwMDAwMDAwMDAwMwpSQlA6IDAwMDA3ZjllZTFiMmUwNzgg
+UjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApSMTA6IDAwMDAwMDAw
+MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDAwMDAwMDAwMDAwMApSMTM6
+IDAwMDA3ZjllZTFkMDYwMzggUjE0OiAwMDAwN2Y5ZWUxZDA1ZmEwIFIxNTogMDAwMDdmOWVlMDRh
+ZjAwMAogPC9UQVNLPgppcnEgZXZlbnQgc3RhbXA6IDE1NjUKaGFyZGlycXMgbGFzdCAgZW5hYmxl
+ZCBhdCAoMTU3NSk6IFs8ZmZmZmZmZmY4MTU1YmQzOT5dIF9fdXBfY29uc29sZV9zZW0rMHg4OS8w
+eGEwIGhvbWUvbGludXgtNi4xOC9rZXJuZWwvcHJpbnRrL3ByaW50ay5jOjM0NQpoYXJkaXJxcyBs
+YXN0IGRpc2FibGVkIGF0ICgxNTg0KTogWzxmZmZmZmZmZjgxNTViZDFlPl0gX191cF9jb25zb2xl
+X3NlbSsweDZlLzB4YTAgaG9tZS9saW51eC02LjE4L2tlcm5lbC9wcmludGsvcHJpbnRrLmM6MzQz
+CnNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDEzNzYpOiBbPGZmZmZmZmZmODEzZDJlMDk+XSBz
+b2Z0aXJxX2hhbmRsZV9lbmQgaG9tZS9saW51eC02LjE4L2tlcm5lbC9zb2Z0aXJxLmM6NDY4IFtp
+bmxpbmVdCnNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDEzNzYpOiBbPGZmZmZmZmZmODEzZDJl
+MDk+XSBoYW5kbGVfc29mdGlycXMrMHg1MDkvMHg3NjAgaG9tZS9saW51eC02LjE4L2tlcm5lbC9z
+b2Z0aXJxLmM6NjUwCnNvZnRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDEzNzEpOiBbPGZmZmZmZmZm
+ODEzZDMxNDA+XSBfX2RvX3NvZnRpcnEgaG9tZS9saW51eC02LjE4L2tlcm5lbC9zb2Z0aXJxLmM6
+NjU2IFtpbmxpbmVdCnNvZnRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDEzNzEpOiBbPGZmZmZmZmZm
+ODEzZDMxNDA+XSBpbnZva2Vfc29mdGlycSBob21lL2xpbnV4LTYuMTgva2VybmVsL3NvZnRpcnEu
+Yzo0OTYgW2lubGluZV0Kc29mdGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMTM3MSk6IFs8ZmZmZmZm
+ZmY4MTNkMzE0MD5dIF9faXJxX2V4aXRfcmN1KzB4ZDAvMHgxMDAgaG9tZS9saW51eC02LjE4L2tl
+cm5lbC9zb2Z0aXJxLmM6NzIzCi0tLVsgZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAgXS0tLQoK
+VGhhbmtzLApaaGkgV2FuZw==
