@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88577D0D851
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 16:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD754D0D894
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 16:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79E3E10E037;
-	Sat, 10 Jan 2026 15:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A3710E0A4;
+	Sat, 10 Jan 2026 15:27:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="dtAbhAyt";
+	dkim=pass (2048-bit key; unprotected) header.d=nabladev.com header.i=@nabladev.com header.b="YBk+EmSv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
- (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
- by gabe.freedesktop.org (Postfix) with ESMTP id C413F10E037
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 14:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
- bh=qWBdgLLp3U48ixcxIz3yatM4/hvgyZyqXK4wxfV4qwQ=; b=dtAbhAytSTwgy
- ZlI9o8gVbb1ktwzvUVlWCrb/qHPZNXLjvA9kVnoiIH5DdQhwK5VFClnwzRsr2CUV
- ibI4cWXYXVPqoaXTWxIfxCMWgv1obOVn+WOJsZRLzL44tiTx6jHEREvMM9Htcgj/
- LH2nklHJRB7G5RyLQ0TrwAxr7icFHA=
-Received: from wangzhi_xd$stu.xidian.edu.cn ( [113.200.174.49] ) by
- ajax-webmail-hzbj-edu-front-4.icoremail.net (Coremail) ; Sat, 10 Jan 2026
- 22:16:03 +0800 (GMT+08:00)
-X-Originating-IP: [113.200.174.49]
-Date: Sat, 10 Jan 2026 22:16:03 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?546L5b+X?= <wangzhi_xd@stu.xidian.edu.cn>
-To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [BUG] WARNING in idr_alloc during drm_gem_change_handle_ioctl
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544FB10E0A4
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 15:27:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 392B4103478; Sat, 10 Jan 2026 16:27:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+ s=dkim; t=1768058874; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=jPuCYz9M+uS+LPyzVn6gpI54syQVbiK+1G5ZGXrjAeI=;
+ b=YBk+EmSvl6cMfa/yJiRh8yDvKSH9+w+Y62/z7nF4Ji4Jm5jPW9LHQpMAC2Zefy9kFRXiut
+ 9MA3peqFkvGfvgcS/i4pcIbbCSx8jtaiYgk2T41TobuODZyU5YOPk+Xo1dpCP3DaWcIsEV
+ 7somRUZfuI5pdHqOegvl4kd3OjTxXFZx46Iw3NzYTwx4fRHVRTgz/3CB2KccBzmyjGDhEl
+ 94AaCSa0HSxDNU5WgJfRifK3i9RkJ688MlueWtBagcJDEApTUoa3zF1uUndplvAJuCWF0N
+ fP871G7A8lvHq7VJv7uiBbBZjdIigf2yOsD2+xoFNreN+Wf6jJPfDxy9EsBU0w==
+From: Marek Vasut <marex@nabladev.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@nabladev.com>, stable@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel@dh-electronics.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel-simple: fix connector type for DataImage
+ SCF0700C48GGU18 panel
+Date: Sat, 10 Jan 2026 16:27:28 +0100
+Message-ID: <20260110152750.73848-1-marex@nabladev.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Message-ID: <6db3d523.bb3f.19ba843a1f9.Coremail.wangzhi_xd@stu.xidian.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: BrQMCkBmx9ojX2Jp64YDAQ--.15714W
-X-CM-SenderInfo: qstqimqsqqliuu6v33wo0lvxldqovvfxof0/1tbiAgUJCGlhD89t9
-	gAAsV
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-X-Mailman-Approved-At: Sat, 10 Jan 2026 15:13:14 +0000
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,93 +57,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGVhciBNYWludGFpbmVycywKV2hlbiB1c2luZyBvdXIgY3VzdG9taXplZCBTeXprYWxsZXIgdG8g
-ZnV6eiB0aGUgbGF0ZXN0IExpbnV4IGtlcm5lbCwgdGhlIGZvbGxvd2luZyBjcmFzaCB3YXMgdHJp
-Z2dlcmVkLgpIRUFEIGNvbW1pdDo3ZDBhNjZlNGJiOTA4MWQ3NWM4MmVjNDk1N2M1MDAzNGNiMGVh
-NDQ5CmdpdCB0cmVlOiB1cHN0cmVhbQpPdXRwdXQ6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAv
-Y3Jhc2gvYmxvYi9tYWluL3JlcG9ydDMudHh0Cktlcm5lbCBjb25maWc6IGh0dHBzOi8vZ2l0aHVi
-LmNvbS9tYW51YWwwL2NyYXNoL2Jsb2IvbWFpbi9jb25maWcudHh0CkMgcmVwcm9kdWNlcjpodHRw
-czovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8zLmMKU3l6IHJlcHJv
-ZHVjZXI6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAvY3Jhc2gvYmxvYi9tYWluL3JlcHJvMy5z
-eXoKClRoZSBrZXJuZWwgdHJpZ2dlcmVkIGEgV0FSTklORyBhdCBsaWIvaWRyLmM6ODQgaW4gaWRy
-X2FsbG9jLiBUaGlzIHdhcm5pbmcgaXMgdHlwaWNhbGx5IHRyaWdnZXJlZCB3aGVuIHRoZSBpZHJf
-YWxsb2MoKSBmdW5jdGlvbiBpcyBjYWxsZWQgd2l0aCBhIG5lZ2F0aXZlIHN0YXJ0IHZhbHVlIG9y
-IGFuIGludmFsaWQgcmFuZ2UgdGhhdCB2aW9sYXRlcyB0aGUgSURSIGV4cGVjdGF0aW9ucy4KClRo
-ZSBjYWxsIHRyYWNlIGluZGljYXRlcyB0aGF0IHRoZSBpc3N1ZSBvcmlnaW5hdGVzIGZyb20gZHJt
-X2dlbV9jaGFuZ2VfaGFuZGxlX2lvY3RsIHdpdGhpbiB0aGUgRFJNIHN1YnN5c3RlbS4gVGhpcyBm
-dW5jdGlvbiBpcyBhdHRlbXB0aW5nIHRvIGFsbG9jYXRlIG9yIGNoYW5nZSBhIEdFTSBoYW5kbGUs
-IGFuZCBpdCBzZWVtcyB0byBwYXNzIGFuIGludmFsaWQgcGFyYW1ldGVyIHRvIHRoZSBJRFIgYWxs
-b2NhdG9yLiBUaGlzIGNvdWxkIGJlIGR1ZSB0byBhIGxhY2sgb2YgcHJvcGVyIGJvdW5kcyBjaGVj
-a2luZyBvbiB1c2VyLXN1cHBsaWVkIHZhbHVlcyBpbiB0aGUgRFJNX0lPQ1RMX0dFTV9GTElOSyBv
-ciBzaW1pbGFyIGhhbmRsZS1yZWxhdGVkIElPQ1RMcy4KCklmIHlvdSBmaXggdGhpcyBpc3N1ZSwg
-cGxlYXNlIGFkZCB0aGUgZm9sbG93aW5nIHRhZyB0byB0aGUgY29tbWl0OgpSZXBvcnRlZC1ieTog
-WmhpIFdhbmcgPHdhbmd6aGlAc3R1LnhpZGlhbi5lZHUuY24+LCBCaW4gWXU8Ynl1QHhpZGlhbi5l
-ZHUuY24+LCBNaW5nWXUgV2FuZzx3MTUzMDM3NDYwNjJAMTYzLmNvbT4sIFdlbkppYW4gTHU8MTk4
-NjE3MDI2NzhAMTYzLmNvbT4sIEtlRmVuZyBHYW88MjQwMTU1MzA2NEBxcS5jb20+CgpSQlA6IDAw
-MDA3ZmI4N2ZkNGYwMTAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAw
-MApSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDAw
-MDAwMDAwMDAwMQpSMTM6IDAwMDA3ZmI4ODE1ODYwMzggUjE0OiAwMDAwN2ZiODgxNTg1ZmEwIFIx
-NTogMDAwMDdmYjg3ZmQyZjAwMAogPC9UQVNLPgotLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0t
-LS0tLS0tLS0KV0FSTklORzogQ1BVOiAyIFBJRDogMTMzNzEgYXQgbGliL2lkci5jOjg0IGlkcl9h
-bGxvYysweDEyMy8weDE0MCBob21lL2xpbnV4LTYuMTgvbGliL2lkci5jOjg0Ck1vZHVsZXMgbGlu
-a2VkIGluOiBib2NocyBkcm1fc2htZW1faGVscGVyIGRybV9rbXNfaGVscGVyIGRybSBhdGFfZ2Vu
-ZXJpYyB2aXJ0aW9fcGNpIHZpcnRpb19wY2lfbGVnYWN5X2RldiBpMmNfcGlpeDQgZHJtX3BhbmVs
-X29yaWVudGF0aW9uX3F1aXJrcyBwYXRhX2FjcGkgdmlydGlvX3BjaV9tb2Rlcm5fZGV2IGkyY19z
-bWJ1cwpDUFU6IDIgVUlEOiAwIFBJRDogMTMzNzEgQ29tbTogc3l6LjQuNDEyNyBOb3QgdGFpbnRl
-ZCA2LjE4LjAgIzkgUFJFRU1QVCh2b2x1bnRhcnkpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5k
-YXJkIFBDIChpNDQwRlggKyBQSUlYLCAxOTk2KSwgQklPUyByZWwtMS4xNi4zLTAtZ2E2ZWQ2Yjcw
-MWYwYS1wcmVidWlsdC5xZW11Lm9yZyAwNC8wMS8yMDE0ClJJUDogMDAxMDppZHJfYWxsb2MrMHgx
-MjMvMHgxNDAgaG9tZS9saW51eC02LjE4L2xpYi9pZHIuYzo4NApDb2RlOiA4YiA0NCAyNCA1OCA2
-NSA0OCAyYiAwNSA4MyA1MCBjMiAwMyA3NSAyNyA0OCA4MyBjNCA2MCA0NCA4OSBlMCA1YiA1ZCA0
-MSA1YyA0MSA1ZCA0MSA1ZSA0MSA1ZiBlOSBjMyBhOSAwYiAwMCBlOCBiZSA2YSBiYSBmYiA5MCA8
-MGY+IDBiIDkwIDQxIGJjIGVhIGZmIGZmIGZmIGViIGIyIGU4IDRkIDBmIDA5IDAwIDY2IDY2IDJl
-IDBmIDFmIDg0ClJTUDogMDAxODpmZmZmODg4MTE4NjBmYjYwIEVGTEFHUzogMDAwMTAyMTYKUkFY
-OiAwMDAwMDAwMDAwMDAwMDkxIFJCWDogMDAwMDAwMDA4MDAwMDAwMSBSQ1g6IGZmZmZjOTAwMDYw
-MDgwMDAKUkRYOiAwMDAwMDAwMDAwMDgwMDAwIFJTSTogZmZmZmZmZmY4NWJiYmZhMiBSREk6IDAw
-MDAwMDAwMDAwMDAwMDUKUkJQOiAxZmZmZjExMDIzMGMxZjZjIFIwODogMDAwMDAwMDAwMDAwMjgw
-MCBSMDk6IGZmZmZlZDEwMjMwYzFmNzEKUjEwOiAwMDAwMDAwMDgwMDAwMDAwIFIxMTogMDAwMDAw
-MDAwMDAwMDAwMCBSMTI6IDAwMDAwMDAwODAwMDAwMDAKUjEzOiBmZmZmODg4MTA0ZDI5MDg4IFIx
-NDogZmZmZjg4ODEwNTg5ZjAwMCBSMTU6IDAwMDAwMDAwMDAwMDI4MDAKRlM6ICAwMDAwN2Y5ZWUw
-NGNmNjQwKDAwMDApIEdTOmZmZmY4ODgxOTEzM2YwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAw
-MDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNS
-MjogMDAwMDdmOWVlMWE0NTljMCBDUjM6IDAwMDAwMDAxMDYyNmUwMDAgQ1I0OiAwMDAwMDAwMDAw
-MDAwNmYwCkNhbGwgVHJhY2U6CiA8VEFTSz4KIGRybV9nZW1fY2hhbmdlX2hhbmRsZV9pb2N0bCsw
-eDJiZi8weDRmMCBob21lL2xpbnV4LTYuMTgvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYzo5ODgg
-W2RybV0KIGRybV9pb2N0bF9rZXJuZWwrMHgxZjIvMHgzZTAgaG9tZS9saW51eC02LjE4L2RyaXZl
-cnMvZ3B1L2RybS9kcm1faW9jdGwuYzo3OTcgW2RybV0KIGRybV9pb2N0bCsweDU4MC8weGI3MCBo
-b21lL2xpbnV4LTYuMTgvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jOjg5NCBbZHJtXQogdmZz
-X2lvY3RsIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjUxIFtpbmxpbmVdCiBfX2RvX3N5c19p
-b2N0bCBob21lL2xpbnV4LTYuMTgvZnMvaW9jdGwuYzo1OTcgW2lubGluZV0KIF9fc2Vfc3lzX2lv
-Y3RsIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjU4MyBbaW5saW5lXQogX194NjRfc3lzX2lv
-Y3RsKzB4MTk0LzB4MjEwIGhvbWUvbGludXgtNi4xOC9mcy9pb2N0bC5jOjU4MwogZG9fc3lzY2Fs
-bF94NjQgaG9tZS9saW51eC02LjE4L2FyY2gveDg2L2VudHJ5L3N5c2NhbGxfNjQuYzo2MyBbaW5s
-aW5lXQogZG9fc3lzY2FsbF82NCsweGM2LzB4MzkwIGhvbWUvbGludXgtNi4xOC9hcmNoL3g4Ni9l
-bnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc3
-LzB4N2YKUklQOiAwMDMzOjB4N2Y5ZWUxYTkwNTlkCkNvZGU6IDAyIGI4IGZmIGZmIGZmIGZmIGMz
-IDY2IDBmIDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2
-IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmIDA1IDw0OD4gM2Qg
-MDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYTggZmYgZmYgZmYgZjcgZDggNjQgODkgMDEg
-NDgKUlNQOiAwMDJiOjAwMDA3ZjllZTA0Y2VmOTggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDog
-MDAwMDAwMDAwMDAwMDAxMApSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2Y5ZWUxZDA1
-ZmEwIFJDWDogMDAwMDdmOWVlMWE5MDU5ZApSRFg6IDAwMDAyMDAwMDAwMDAzODAgUlNJOiAwMDAw
-MDAwMGMwMjA2NGQyIFJESTogMDAwMDAwMDAwMDAwMDAwMwpSQlA6IDAwMDA3ZjllZTFiMmUwNzgg
-UjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApSMTA6IDAwMDAwMDAw
-MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDAwMDAwMDAwMDAwMApSMTM6
-IDAwMDA3ZjllZTFkMDYwMzggUjE0OiAwMDAwN2Y5ZWUxZDA1ZmEwIFIxNTogMDAwMDdmOWVlMDRh
-ZjAwMAogPC9UQVNLPgppcnEgZXZlbnQgc3RhbXA6IDE1NjUKaGFyZGlycXMgbGFzdCAgZW5hYmxl
-ZCBhdCAoMTU3NSk6IFs8ZmZmZmZmZmY4MTU1YmQzOT5dIF9fdXBfY29uc29sZV9zZW0rMHg4OS8w
-eGEwIGhvbWUvbGludXgtNi4xOC9rZXJuZWwvcHJpbnRrL3ByaW50ay5jOjM0NQpoYXJkaXJxcyBs
-YXN0IGRpc2FibGVkIGF0ICgxNTg0KTogWzxmZmZmZmZmZjgxNTViZDFlPl0gX191cF9jb25zb2xl
-X3NlbSsweDZlLzB4YTAgaG9tZS9saW51eC02LjE4L2tlcm5lbC9wcmludGsvcHJpbnRrLmM6MzQz
-CnNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDEzNzYpOiBbPGZmZmZmZmZmODEzZDJlMDk+XSBz
-b2Z0aXJxX2hhbmRsZV9lbmQgaG9tZS9saW51eC02LjE4L2tlcm5lbC9zb2Z0aXJxLmM6NDY4IFtp
-bmxpbmVdCnNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDEzNzYpOiBbPGZmZmZmZmZmODEzZDJl
-MDk+XSBoYW5kbGVfc29mdGlycXMrMHg1MDkvMHg3NjAgaG9tZS9saW51eC02LjE4L2tlcm5lbC9z
-b2Z0aXJxLmM6NjUwCnNvZnRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDEzNzEpOiBbPGZmZmZmZmZm
-ODEzZDMxNDA+XSBfX2RvX3NvZnRpcnEgaG9tZS9saW51eC02LjE4L2tlcm5lbC9zb2Z0aXJxLmM6
-NjU2IFtpbmxpbmVdCnNvZnRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDEzNzEpOiBbPGZmZmZmZmZm
-ODEzZDMxNDA+XSBpbnZva2Vfc29mdGlycSBob21lL2xpbnV4LTYuMTgva2VybmVsL3NvZnRpcnEu
-Yzo0OTYgW2lubGluZV0Kc29mdGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMTM3MSk6IFs8ZmZmZmZm
-ZmY4MTNkMzE0MD5dIF9faXJxX2V4aXRfcmN1KzB4ZDAvMHgxMDAgaG9tZS9saW51eC02LjE4L2tl
-cm5lbC9zb2Z0aXJxLmM6NzIzCi0tLVsgZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAgXS0tLQoK
-VGhhbmtzLApaaGkgV2FuZw==
+The connector type for the DataImage SCF0700C48GGU18 panel is missing and
+devm_drm_panel_bridge_add() requires connector type to be set. This leads
+to a warning and a backtrace in the kernel log and panel does not work:
+"
+WARNING: CPU: 3 PID: 38 at drivers/gpu/drm/bridge/panel.c:379 devm_drm_of_get_bridge+0xac/0xb8
+"
+The warning is triggered by a check for valid connector type in
+devm_drm_panel_bridge_add(). If there is no valid connector type
+set for a panel, the warning is printed and panel is not added.
+Fill in the missing connector type to fix the warning and make
+the panel operational once again.
+
+Cc: stable@vger.kernel.org
+Fixes: 97ceb1fb08b6 ("drm/panel: simple: Add support for DataImage SCF0700C48GGU18")
+Signed-off-by: Marek Vasut <marex@nabladev.com>
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jessica Zhang <jesszhan0024@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 3acc9f3dac16a..e33ee2308e715 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1900,6 +1900,7 @@ static const struct panel_desc dataimage_scf0700c48ggu18 = {
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
+ static const struct display_timing dlc_dlc0700yzg_1_timing = {
+-- 
+2.51.0
+
