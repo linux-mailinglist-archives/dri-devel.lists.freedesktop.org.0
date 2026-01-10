@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F73D0DE03
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 22:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0501D0DECB
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 23:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD86B10E079;
-	Sat, 10 Jan 2026 21:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D701B10E191;
+	Sat, 10 Jan 2026 22:53:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ltzHVbKR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DwI+P/Gj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD6010E079
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 21:12:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768079562;
- bh=5oSK6ZqGW1O08DhJ5RerDVMpW9oPSKQr7Adg8seGHvM=;
- h=From:Date:Subject:To:Cc:From;
- b=ltzHVbKRz/LBWg7AQ+EKyQMVw6HQeghMfh1XBvkWj6CXkGT6MdOfa2BRy461NnsSo
- QxJQGmaNSNO95xoIPtKq8cAHrVPBi+P95fQC9TRkee28QzUIdzYQgm/aIpYH53/088
- VzzF/YOsR+mIbiiXpMWwtUPsmjzI1xhqES4yt7zBO+Hx18x+3ql3AJ5rIwfB+MVN9N
- /qDhcrC/OGVwW3gBHsznIh4RlurPjtbk8KGdzLa6tqSfe3wUrriuR9Fa6CqmRlZ/qA
- 8JQPDJin5tFB6aa0zU+gqgAfdMrushf6D7yS7XgVk/+lMbCfYM0tJaeoIrJ7K+KWTV
- I2ZYbBeumw5Xg==
-Received: from localhost (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id ACE6F17E14FA;
- Sat, 10 Jan 2026 22:12:42 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 10 Jan 2026 23:12:11 +0200
-Subject: [PATCH] drm/rockchip: dw_hdmi_qp: Switch to gpiod_set_value_cansleep()
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF48210E013;
+ Sat, 10 Jan 2026 22:53:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0E5EF6017B;
+ Sat, 10 Jan 2026 22:53:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450C3C4CEF1;
+ Sat, 10 Jan 2026 22:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768085619;
+ bh=zu8KmA7iTm8o7eYlgcTEtwZ1BTZxDzvpAVPGWphWOGo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DwI+P/GjbEOStW2Kv8CyMlnplVMLKYUuRqeQNcnsbvEEy0Pqd+cNG8ug5jgkZ9Jdt
+ JL0GshbttdeHqq3Wl/JZ12pSzP4k5C2PpkQpyAYcqr7zoAjyAXaOYRBrr6T/sceAxY
+ mEyfxeis4ozICCgPPegs34ZeqK0O3kFd9/N6nOPLzizalGHPC0KjK+soph2tQCCjid
+ 8zFxVZvTiY5LhKo+5ahdCF7K0N6faOYf1/LwGuA+wwyW8oPSdLhYmPT42LXIfIpDyX
+ 4wEcyBqW3Q8GCuWFKPgqnB9YEOd9IC3KYZjmBCVffCuhmLviTjL/Ldb7wyxCpyuUQB
+ Smpm2TNW4ALHw==
+Date: Sat, 10 Jan 2026 15:53:34 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, llvm@lists.linux.dev,
+ patches@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/msm/dp: Avoid division by zero in
+ msm_dp_ctrl_config_msa()
+Message-ID: <20260110225334.GA1672363@ax162>
+References: <20260108-drm-msm-dp_ctrl-avoid-zero-div-v1-1-6a8debcb3033@kernel.org>
+ <ca851614-2804-4029-9799-19e71dd73414@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260110-dw-hdmi-qp-cansleep-v1-1-1ce937c5b201@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAKrAYmkC/x2MQQqAIBAAvxJ7bkENgvpKdFh0rYWyUqhA/HvSb
- eYwkyFxFE4wNhki35LkCFV024BdKSyM4qqDUaZXWit0D65uF7xOtBTSxlzBEmnjaeh8B7U8I3t
- 5/+s0l/IBzRSAzWUAAAA=
-X-Change-ID: 20260110-dw-hdmi-qp-cansleep-ccaa12fa93f3
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca851614-2804-4029-9799-19e71dd73414@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +65,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 20cf2aed89ac ("gpio: rockchip: mark the GPIO controller as
-sleeping"), the Rockchip GPIO chip operations potentially sleep, hence
-the kernel complains when trying to make use of the non-sleeping API:
+On Fri, Jan 09, 2026 at 10:06:29AM +0100, Konrad Dybcio wrote:
+> Dmitry, would it be beneficial to throw an actual error when the rate is
+> is mangled? i.e.
 
-[   16.653343] WARNING: drivers/gpio/gpiolib.c:3902 at gpiod_set_value+0xd0/0x108, CPU#5: kworker/5:1/93
-...
-[   16.678470] Hardware name: Radxa ROCK 5B (DT)
-[   16.682374] Workqueue: events dw_hdmi_qp_rk3588_hpd_work [rockchipdrm]
-...
-[   16.729314] Call trace:
-[   16.731846]  gpiod_set_value+0xd0/0x108 (P)
-[   16.734548]  dw_hdmi_qp_rockchip_encoder_enable+0xbc/0x3a8 [rockchipdrm]
-[   16.737487]  drm_atomic_helper_commit_encoder_bridge_enable+0x314/0x380 [drm_kms_helper]
-[   16.740555]  drm_atomic_helper_commit_tail_rpm+0xa4/0x100 [drm_kms_helper]
-[   16.743501]  commit_tail+0x1e0/0x2c0 [drm_kms_helper]
-[   16.746290]  drm_atomic_helper_commit+0x274/0x2b8 [drm_kms_helper]
-[   16.749178]  drm_atomic_commit+0x1f0/0x248 [drm]
-[   16.752000]  drm_client_modeset_commit_atomic+0x490/0x5d0 [drm]
-[   16.754954]  drm_client_modeset_commit_locked+0xf4/0x400 [drm]
-[   16.757911]  drm_client_modeset_commit+0x50/0x80 [drm]
-[   16.760791]  __drm_fb_helper_restore_fbdev_mode_unlocked+0x9c/0x170 [drm_kms_helper]
-[   16.763843]  drm_fb_helper_hotplug_event+0x340/0x368 [drm_kms_helper]
-[   16.766780]  drm_fbdev_client_hotplug+0x64/0x1d0 [drm_client_lib]
-[   16.769634]  drm_client_hotplug+0x178/0x240 [drm]
-[   16.772455]  drm_client_dev_hotplug+0x170/0x1c0 [drm]
-[   16.775303]  drm_connector_helper_hpd_irq_event+0xa4/0x178 [drm_kms_helper]
-[   16.778248]  dw_hdmi_qp_rk3588_hpd_work+0x44/0xb8 [rockchipdrm]
-[   16.781080]  process_one_work+0xc3c/0x1658
-[   16.783719]  worker_thread+0xa24/0xc40
-[   16.786333]  kthread+0x3b4/0x3d8
-[   16.788889]  ret_from_fork+0x10/0x20
+This certainly seems more robust if acceptable.
 
-Since gpiod_get_value() is called from a context that can sleep, switch
-to its *_cansleep() variant and get rid of the issue.
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index aa2303d0e148..4f710b8e6bc6 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -2404,9 +2404,9 @@ static int msm_dp_ctrl_link_retrain(struct msm_dp_ctrl_private *ctrl)
+>         return msm_dp_ctrl_setup_main_link(ctrl, &training_step);
+>  }
+>  
+> -static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
+> -                              u32 rate, u32 stream_rate_khz,
+> -                              bool is_ycbcr_420)
+> +static int msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
+> +                                 u32 rate, u32 stream_rate_khz,
+> +                                 bool is_ycbcr_420)
+>  {
+>         u32 pixel_m, pixel_n;
+>         u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This initialization is now unnecessary with this change.
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 6e39e8a00774..8604342f9943 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -121,7 +121,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- 	struct drm_crtc *crtc = encoder->crtc;
- 
- 	/* Unconditionally switch to TMDS as FRL is not yet supported */
--	gpiod_set_value(hdmi->frl_enable_gpio, 0);
-+	gpiod_set_value_cansleep(hdmi->frl_enable_gpio, 0);
- 
- 	if (!crtc || !crtc->state)
- 		return;
-
----
-base-commit: f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-change-id: 20260110-dw-hdmi-qp-cansleep-ccaa12fa93f3
-
+> @@ -2415,14 +2415,21 @@ static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
+>         u32 const link_rate_hbr3 = 810000;
+>         unsigned long den, num;
+>  
+> -       if (rate == link_rate_hbr3)
+> +       switch (rate) {
+> +       case link_rate_hbr3:
+>                 pixel_div = 6;
+> -       else if (rate == 162000 || rate == 270000)
+> -               pixel_div = 2;
+> -       else if (rate == link_rate_hbr2)
+> +               break;
+> +       case link_rate_hbr2:
+>                 pixel_div = 4;
+> -       else
+> +               break;
+> +       case 270000:
+> +       case 162000:
+> +               pixel_div = 2;
+> +               break;
+> +       default:
+>                 DRM_ERROR("Invalid pixel mux divider\n");
+> +               return -EINVAL;
+> +       }
+>  
+>         dispcc_input_rate = (rate * 10) / pixel_div;
+>  
+> @@ -2458,6 +2465,8 @@ static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
+>         drm_dbg_dp(ctrl->drm_dev, "mvid=0x%x, nvid=0x%x\n", mvid, nvid);
+>         msm_dp_write_link(ctrl, REG_DP_SOFTWARE_MVID, mvid);
+>         msm_dp_write_link(ctrl, REG_DP_SOFTWARE_NVID, nvid);
+> +
+> +       return 0;
+>  }
+>  
+>  int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train)
+> @@ -2525,10 +2534,11 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
+>  
+>         msm_dp_ctrl_configure_source_params(ctrl);
+>  
+> -       msm_dp_ctrl_config_msa(ctrl,
+> -               ctrl->link->link_params.rate,
+> -               pixel_rate_orig,
+> -               ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
+> +       ret = msm_dp_ctrl_config_msa(ctrl, ctrl->link->link_params.rate,
+> +                                    pixel_rate_orig,
+> +                                    ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
+> +       if (ret)
+> +               return ret;
+>  
+>         msm_dp_panel_clear_dsc_dto(ctrl->panel);
+>  
+> 
+> 
+> Konrad
