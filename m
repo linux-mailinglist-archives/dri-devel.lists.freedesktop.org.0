@@ -2,81 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BADBD0D934
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 17:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7D0D0D943
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jan 2026 17:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4A510E1BE;
-	Sat, 10 Jan 2026 16:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDEA10E1E2;
+	Sat, 10 Jan 2026 16:54:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zk1QTtEM";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="HjtqOkDx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F9E10E1BE
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 16:48:12 +0000 (UTC)
-Received: by mail-dl1-f50.google.com with SMTP id
- a92af1059eb24-121a0bcd364so5508267c88.0
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 08:48:12 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6917F10E1E2
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 16:54:28 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-79045634f45so57902027b3.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 08:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768063692; x=1768668492; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Pymo/XHo3xN1Q0UiU9ynvWIgTsVpB73mCjCSizmghhM=;
- b=Zk1QTtEM98iY61FnsGjypVPQy8rh3Oq11P6aotsTzubGBjiUcTdbC1NW8QPrfF5P5+
- vAXaetwkpGfuI5PzuHOJCEIBNfaqZWDDSsqu6b4iSlZuIudml9yP0G8tgBHwi4H/hAgX
- r6GFMdfEaKYgI4lhHlsyIfT49gQmSXtsjO5zEaFYNQFk0oC9yxWBZ5zk0TuNj9MTisEj
- ZBtwZHT9anLPuTU3KPbACts19VlSYcBjFiskS925udCA3+Q2eURN11ndWTv4O6JEsp3r
- NEumARc7JSNIXBFgWCRmJ/MyhIIJJRjnhCswQXm1TwX2jeA5vM1elSOLKQXGjIK5oVB7
- mNGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768063692; x=1768668492;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1768064067;
+ x=1768668867; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Pymo/XHo3xN1Q0UiU9ynvWIgTsVpB73mCjCSizmghhM=;
- b=UHL9ACs0hnbCd6ZbSETjW0fOrJqve781akuGoIxtgQIQTDOAFmLLhhm2pajWM7NezO
- OHN3wlfpaQlBlmLNK5DZ2+sqEyfTYUbt5/MestG+MQVAsQ3CFvRB8Y2mqaiwRMtqw2xr
- HARldGC09JnZAbUb53QAMTXJPPJPXczjxSuWB2soxqkaAqe+iafOtBckcacizOC+zP25
- KQ9VQMLSaUPw1ixjW8RotoIAa2RKVWwA7I18DU/JhzbrAhCgEHtKigilVGtwr+tkS+t1
- oFW3DjpmCXeFQjaAHKcDFpuoqEVD59sYsxqq1J4BkXOswX3Ge9QONJLwbfO9ncDI+ZHR
- 9VDw==
+ bh=zgFtFK+acLpuQAz2BzGRmGrNRWb9jmojhInoAcIgzv8=;
+ b=HjtqOkDxZ3hIybnJESgdoUuLW7AhT1YG07ZZkgp04d2lMx8Hsm8sws7gLKyeZxlL89
+ OxoRUiUvVMbEFZ1Y+yFN24SLN2Np2e3+h6hPVd4kWujVUpb0Urofgfgmei9uUn5AtVzw
+ xV+fS8dJBveLPy0fiDs/rsv4CPU8woDPk9KFl8C8uAH78nKHrSIy9pwlBdkwxNWAKLXR
+ AhxcSkn0fyDEnVlvk/Dj3Y07FbO6dl+GWqTIaQHO6Mqucx7m2+ywG+s40MUggH4ZGp/F
+ 7ZWyVcd99LRsqNF0Yn/TeggiLuyWjFo/731kD8Roob9NIK3kZID46iR6ILDoKGbIwqUf
+ f05Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768064067; x=1768668867;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=zgFtFK+acLpuQAz2BzGRmGrNRWb9jmojhInoAcIgzv8=;
+ b=XScG+vbNLpTrtJCJA9GXiYLA+agZC9VoEy90L6ggiNfyV3pdncs41Cn32HUdZrej35
+ MCOXejMjwSIvmEcdrVtvyyxbhVFYD4Kp+qz0cHeWfy3pSD5P9OQiJiQcpMrP+VQOgs9O
+ 5a3ZstP/Zjz8y2PrlAGb8GEvzjBLfCLHiKUSaqEO3FRxqKMASS6GBy52B47aNrPez+qn
+ /BXmSthkMjtX8Ir9SjPlI0PDCeFQvCc5lS/9cI94Uj3hg0X2V12B7l/Ep/K+oQ5Fnmry
+ FiuSSU8WsGWR3SuXBnW7m5+pxcUOUDb4gNDA7wML46XjB8byD1ZbMnQJOYxdeSerM9k3
+ vlAw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMYMxenmFh349IKIqeTvX/w6SB4UraEdYBnP1nQPKiISJ9D3TJ/mvSWFptckWxX1swR9OQz6IGYJg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzifWB98BOHyUAuJg8HAgaHdwh7Ij1Yu3UdpWDiOnhld0kui7sQ
- gc8s1/krXvADVnojrDMh3BQU9rTBy/IHbHjrhF34/Ri1uJorJ5SEfdEp
-X-Gm-Gg: AY/fxX5mFbs4CHjoOWHPysj/5c7fLfcWvPYrBv+1j1R+x6A+/+2RpAjTl6cWF4Jobeg
- poS+EzyjmvC06b7lAYkWSLrw1QpZQMSi6wqy75RNAJGGnNYKW8hngWxfOqzXphcuDdX885auZwu
- vxY19IvTqF+ydGM95f/zT8vkZAPDMr2FXiOBTNbSQ3EPRsq2qKK62AN7dAcJ6HSsXyLUiX9xhK8
- blRWM0vezSYsH8EoAW7SaLKP3rhCx0fpKzDldE2yCwxOQRDKmBizn/aO8g0OJ7H1TVhZ1FCqCxF
- 7EDEilipQaF4RFXeFhD/e2BgY1HJFXkCpKK36qknSE4OHntBubwlg+3JzJuOSZqzGsrSDbJ5dhu
- eq8pSMKe5wCBWDkPQQW585/iVY0bPNKmHUmduZVR4i0PPO6mv6QC9uVLS8RefUU6aVCT3uOpMWS
- smAqNsrPAOVs4Vj0+ABCbMM/8=
-X-Google-Smtp-Source: AGHT+IEkR+HFL1Nq5SpvTf3AgMFECL3jz/y0NxbGAy5WuzwF5WmF+0vXkeRJ3kFSqnA+wrIjSWB1Lg==
-X-Received: by 2002:a05:7022:ef07:b0:119:e56c:18a7 with SMTP id
- a92af1059eb24-121f8b14920mr9924771c88.15.1768063691770; 
- Sat, 10 Jan 2026 08:48:11 -0800 (PST)
-Received: from localhost.localdomain ([202.120.237.35])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-121f248bb6esm19509083c88.12.2026.01.10.08.48.07
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 10 Jan 2026 08:48:11 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] drm/amd/ras: use proper error checking for kthread_run return
-Date: Sun, 11 Jan 2026 00:47:55 +0800
-Message-Id: <20260110164800.39203-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ AJvYcCX8tQV13eJx5bweg//llRHc7/SMDhFPdqwV4/eNVxsoqTgk2wkyn4iqO5o4oGHWxttx14K99B1a/4M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGPDonR6XK+ebFSZVc54RwbA/n36nXQVy78sV5py9aSrrIGr1L
+ vU0UObKt7GEWtQAISbSuQL7TxTfMjOn7/uP4A6XYlEERSz+ZTBcFe/S6OstM8fJoHwV2c6D+aAD
+ mWq4/KWY=
+X-Gm-Gg: AY/fxX5CWVYo+rA7UQgnkoy0Nfdtn6nKHZ3UkxnkpsxM2xPBhH0C0dxJ6uTvPXJK7+a
+ iQTcYDBqtaqTBPOeejbJsfSzQt0i7WFikr/LZm/HvTnscxj2c2TZytww1HJgLS/U5QW1q93/mTS
+ BGxWJ2oOTOSGGFFvSCk78BO7Ai8faqIe8Tve3lY9/HYxARJ1MrmLIZinEUNK7ddjYASj+eQMfRR
+ MOoGDayHDP4BHCCicF33ztyAE/+2fj5rtBTUXFbX6zbaY96uhT1B7oP0SMqS5dgmjgg+Nz2wPTb
+ 79qwNhWsYLPfJJL1i9vluPP7XzRPOSMI3tf3cSvpZgcBHlN0O+VrFYX+lop+w/ws01+wzbob4c8
+ 0zhDXUjj2dVznGuVsDRC5vQHY3ISz/c+9Fl/CpN5HSuEPw5rhVeU2461z0cOxlwMDDhCMMG8zTO
+ NFlF86KUtz9FIEyQoAaHgENPbGhse2fsRj7tM06L5p3kEg+PAjvg==
+X-Google-Smtp-Source: AGHT+IFIl4Z//DYVwjIQgM3EqV/JfDiytV64ACCDM6KFLzJmo+mLe3Byy17FLZYfMqHxJD1tOyQydg==
+X-Received: by 2002:a05:690c:c8f:b0:78c:2edf:5860 with SMTP id
+ 00721157ae682-790b572e820mr106763147b3.13.1768064067007; 
+ Sat, 10 Jan 2026 08:54:27 -0800 (PST)
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com.
+ [74.125.224.49]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-790aa6a0538sm52653607b3.38.2026.01.10.08.54.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Jan 2026 08:54:26 -0800 (PST)
+Received: by mail-yx1-f49.google.com with SMTP id
+ 956f58d0204a3-6420c0cf4abso4755050d50.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jan 2026 08:54:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSqElpV0o/33PQwv7Ps5FKprrr/cIuYoElDylTqOzJ/8SwEujRLgiaz5yRedIDN9AtnZKvZVYB3i8=@lists.freedesktop.org
+X-Received: by 2002:a53:bdcc:0:b0:63f:b1d4:f9e3 with SMTP id
+ 956f58d0204a3-64716b3a7d4mr8056846d50.9.1768064066164; Sat, 10 Jan 2026
+ 08:54:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251215-rocket-error-path-v1-0-eec3bf29dc3b@cherry.de>
+In-Reply-To: <20251215-rocket-error-path-v1-0-eec3bf29dc3b@cherry.de>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Sat, 10 Jan 2026 17:54:15 +0100
+X-Gmail-Original-Message-ID: <CAAObsKBmJDbDfegLP-yrO+ys5m1zyoDUe9KMQ8tHeRXxQGAdow@mail.gmail.com>
+X-Gm-Features: AQt7F2rSDY8AwFu9wKOfOPB3fQ0feqjbIImAsj0T1FY9RvNW3OrnzYnknqJKAuw
+Message-ID: <CAAObsKBmJDbDfegLP-yrO+ys5m1zyoDUe9KMQ8tHeRXxQGAdow@mail.gmail.com>
+Subject: Re: [PATCH 0/2] accel/rocket: fix unwinding in error paths of two
+ functions
+To: Quentin Schulz <foss+kernel@0leil.net>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, Quentin Schulz <quentin.schulz@cherry.de>, 
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +106,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kthread_run() returns an error pointer on failure, not NULL.
-Replace NULL check with IS_ERR and use PTR_ERR to
-propagate the real error from kthread_run.
+On Mon, Dec 15, 2025 at 5:36=E2=80=AFPM Quentin Schulz <foss+kernel@0leil.n=
+et> wrote:
+>
+> As reported[1], in the current state of master (that is, *without*
+> that[2] patch, yet unmerged), it is possible to trigger
+> Oops/out-of-bounds errors/unbalanced runtime PM by simply compiling
+> DRM_ACCEL_ROCKET built-in (=3Dy) instead of as a module (=3Dm).
+>
+> This fixes points 1 and 2 reported here[1] by fixing the unwinding in
+> two functions to properly undo everything done in the same function
+> prior to the error.
+>
+> Note that this doesn't mean the Rocket device is usable if one core is
+> missing. In fact, it seems it doesn't as I'm hit with many
+> rocket fdac0000.npu: NPU job timed out
+> followed by one
+> rocket fdad0000.npu: NPU job timed out
+> (and that, five times) whenever core0 (fdab0000.npu) fails to probe and
+> I'm running the example from
+> https://docs.mesa3d.org/teflon.html#do-some-inference-with-mobilenetv1
+> so something else probably needs some additional love.
+>
+> [1] https://lore.kernel.org/linux-rockchip/0b20d760-ad4f-41c0-b733-39db10=
+d6cc41@cherry.de/
+> [2] https://lore.kernel.org/linux-rockchip/20251205064739.20270-1-rmxpzlb=
+@gmail.com/
+>
+> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-Fixes: ea61341b9014 ("drm/amd/ras: Add thread to handle ras events")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/amd/ras/rascore/ras_process.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Thank you, pushed it to drm-misc-next.
 
-diff --git a/drivers/gpu/drm/amd/ras/rascore/ras_process.c b/drivers/gpu/drm/amd/ras/rascore/ras_process.c
-index 3267dcdb169c..c001074c8c56 100644
---- a/drivers/gpu/drm/amd/ras/rascore/ras_process.c
-+++ b/drivers/gpu/drm/amd/ras/rascore/ras_process.c
-@@ -248,9 +248,10 @@ int ras_process_init(struct ras_core_context *ras_core)
- 
- 	ras_proc->ras_process_thread = kthread_run(ras_process_thread,
- 							(void *)ras_core, "ras_process_thread");
--	if (!ras_proc->ras_process_thread) {
-+	if (IS_ERR(ras_proc->ras_process_thread)) {
- 		RAS_DEV_ERR(ras_core->dev, "Failed to create ras_process_thread.\n");
--		ret =  -ENOMEM;
-+		ret = PTR_ERR(ras_proc->ras_process_thread);
-+		ras_proc->ras_process_thread = NULL;
- 		goto err;
- 	}
- 
--- 
-2.39.5 (Apple Git-154)
+Best regards,
 
+Tomeu Vizoso
+
+> ---
+> Quentin Schulz (2):
+>       accel/rocket: fix unwinding in error path in rocket_core_init
+>       accel/rocket: fix unwinding in error path in rocket_probe
+>
+>  drivers/accel/rocket/rocket_core.c |  7 +++++--
+>  drivers/accel/rocket/rocket_drv.c  | 15 ++++++++++++++-
+>  2 files changed, 19 insertions(+), 3 deletions(-)
+> ---
+> base-commit: a619746d25c8adafe294777cc98c47a09759b3ed
+> change-id: 20251212-rocket-error-path-f9784c46a503
+>
+> Best regards,
+> --
+> Quentin Schulz <quentin.schulz@cherry.de>
+>
