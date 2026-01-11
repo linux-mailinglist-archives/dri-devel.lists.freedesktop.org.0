@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A416BD0F9B3
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 19:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A79D0F9CB
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 19:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0931010E117;
-	Sun, 11 Jan 2026 18:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E736910E25F;
+	Sun, 11 Jan 2026 18:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tJ7FnHsY";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Z5hB/2E2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6F810E117
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 18:53:02 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8463610E25F
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 18:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1768157567; x=1768762367; i=deller@gmx.de;
- bh=GBHb74sT6wMOr9J9+NredjJJ4qv6kdo2yoWJPEC//qo=;
+ s=s31663417; t=1768157952; x=1768762752; i=deller@gmx.de;
+ bh=YD6qnOGS4BH6RHEjHTwhI+VFS3Q5J/BZ51yccOxceRE=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=tJ7FnHsYnyacSkOfq0j/W8SZlYKe2pxSa0v1U+wWiejXGKTKHMOcbqjKwY/PTh+l
- a0oDvVVve6p2TIuAl2IrH/O/RDSVP6HamXEL/8kQ/r6v4bTJ6k3o6zZPxPzUajPpL
- ADraxZBk9Pk0VyW+yS38d24JgpaonRjfhcun78RyazjvsO363IW47U8gwFF07WOkG
- coaVIkDIBs4KoEs+HY/TaYlIy2tjDqz2w7NHE7+Kc/tNNl9Imj2SDIyd1m1qp8GBE
- nlkH8Q9XOmCAktoAYb/ZCI9f/sJ51pOSjLdu+QZ2Y/5BQeV8z2yEr17Yxm+ipcX2O
- KIIyuJ4y81pOdJZRyA==
+ b=Z5hB/2E2J2nAlsywBGtZTFDZW3XRM1vF0Lc3GtYh2I6UVe3ue2GmhGybxGNPbwKS
+ GKpF3Jhzp7SBNLA0nfzVybRZVjJpzZ2fVPeR47CDMDrjKpe9hlIw+dtAOIjtxAbMe
+ NLBS2fjTc2aQhHz2m7fTiuLpSyMD4aQaMmJO5l4pRTjzxzYXnhppUmCfKxDCw1EhY
+ +MRfEbI9QTTxPXxIAj0z+ksdrTRh64we2sf+JHhrXaeojAJ1NA3CPa11cGtQfwsf5
+ ukvpQmHERW/vxogAAT/C8w8H94DRxg4X0bnH0BH5v0BkCrY9jGXSzbLZdYjz9jqWh
+ y9Bacn1Fu4jxXtmutQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.51.120]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYNNo-1vILBk3jSE-00Tb9y; Sun, 11
- Jan 2026 19:52:46 +0100
-Message-ID: <3bb1ed8b-4aa9-4cdb-b70a-a0dd3f9b2ff9@gmx.de>
-Date: Sun, 11 Jan 2026 19:52:46 +0100
+Received: from [192.168.20.55] ([109.250.51.120]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MwQXH-1vxEOb2UDt-00vrly; Sun, 11
+ Jan 2026 19:59:12 +0100
+Message-ID: <1adf55f0-3524-46e6-840b-d897c3f4dc9e@gmx.de>
+Date: Sun, 11 Jan 2026 19:59:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, gregkh@linuxfoundation.org
-References: <20260107044258.528624-1-chintanlike@gmail.com>
- <20260107044258.528624-4-chintanlike@gmail.com>
- <aa922030-b0a1-4503-a3c0-7ce4c36c236e@suse.de>
+Subject: Re: [PATCH v3 0/7] video/logo: allow custom boot logo and simplify
+ logic
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-m68k@lists.linux-m68k.org
+References: <20260108-custom-logo-v3-0-5a7aada7a6d4@kernel.org>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -91,88 +89,88 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <aa922030-b0a1-4503-a3c0-7ce4c36c236e@suse.de>
+In-Reply-To: <20260108-custom-logo-v3-0-5a7aada7a6d4@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rETCjRfTBIPIlMFcEpUehrrH6egdLqXI0k6hkhL3sHDDJ08rdY+
- 2tZlKQQE4pxv35V4k/n7mJGoSO8pOgbyMlP2Xsc2OobhJ9we4wLsSl/Fv1Vu8E21Pk6+m1s
- 8tF6T3qlQTbYQOFyB2YFPr7oiNybGUnr2G3h9/M+TDeRZ6EmTdX05YDk5rL9r5I5CJZWIzx
- p1wl4KEP6Ta2gy4I6Vjrg==
+X-Provags-ID: V03:K1:JDzcJj4sr49ItHYapb5Q/AngnQkYMnF6soBQK2OT4D2d2deWhWG
+ 3elQUkoPE40nefmkuu1KbGlPfDXiCXvGCAmqH2a3AqnVCtk6xeZA0bEWGwqHsHquG78kgHM
+ kL5Zbs5gG/hZLl0UkJv5sxtYx+FartNYPlyCAp5Sh6ssywDI734Gs+T565GXYRodNqAbaSV
+ ticBhfu4wtrf/5VX9cd6g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZpZJP4vTkM8=;6k4WXkGJH9r091zvCTB95udC0Tb
- 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
- vVMITZeA=
+UI-OutboundReport: notjunk:1;M01:P0:TF+6AIAOhNM=;QKGMmxOQAGmIJMa+LCqwRllP1oz
+ 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
+ iFI2b+2g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,35 +186,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/7/26 08:33, Thomas Zimmermann wrote:
+On 1/8/26 20:04, Vincent Mailhol wrote:
+> This series allows the user to replace the default kernel boot logo by
+> a custom one directly in the kernel configuration. This makes it
+> easier to customise the boot logo without the need to modify the
+> sources and allows such customisation to remain persistent after
+> applying the configuration to another version of the kernel.
 >=20
+> Patch #1 and #2 are clean-up and preparation while patch #3 is the
+> main feature of this series: making the boot logo customisable.
 >=20
-> Am 07.01.26 um 05:42 schrieb Chintan Patel:
->> omapfb provides several sysfs interfaces for framebuffer configuration
->> and debugging, but these are not required for the core driver.
->>
->> Remove the hard dependency on CONFIG_FB_DEVICE and make sysfs support
->> optional by using dev_of_fbinfo() to obtain the backing device at runti=
-me.
->> When FB_DEVICE is disabled, sysfs operations are skipped while the code
->> still builds and is type-checked.
->>
->> Suggested-by: Helge Deller <deller@gmx.de>
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+> While working on this, I realised that managing the logo file directly
+> in Kbuild allows us to simplify how we handle the different existing
+> variants of the Tux logo. This series thus ends with a clean-up which
+> moves all the logo selection logic to Kbuild except from one special
+> case (details in the patch description), simplifying the Makefile and
+> the C code.
 >=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Patch #4 and #5 do a tree-wide clean-up on the Kconfig symbols that
+> are to be removed in patch #7. Patch #6 removes the Macintosh 68k logo
+> which is conflicting with our simplification plans. Patch #7 finally
+> simplifies the logic as explained above.
+>=20
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 
-applied to fbdev.
+series applied to fbdev git tree.
 
 Thanks!
 Helge
 
- =20
->> ---
->> =C2=A0 drivers/video/fbdev/omap2/omapfb/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3 ++-
->> =C2=A0 .../video/fbdev/omap2/omapfb/omapfb-sysfs.c=C2=A0=C2=A0=C2=A0 | =
-18 ++++++++++++++----
->> =C2=A0 2 files changed, 16 insertions(+), 5 deletions(-)
-
+> Changes in v3:
+>=20
+>    - v2 broke the logo selection for m68k resulting in the MAC logo
+>      replacing the default logo on some machine where it shouldn't.
+>      v3 resolves the conflict by removing that logo.
+>=20
+>    - Typo fix in patch #4 description.
+>=20
+> Link to v2: https://lore.kernel.org/r/20260101-custom-logo-v2-0-8eec06df=
+bf85@kernel.org
+>=20
+> Changes in v2:
+>=20
+>    - By removing the logo_spe_clut224.o target from the Makefile, v1
+>      also removed the logo_spe_clut224 object which is still being
+>      referenced in
+>=20
+>        arch/powerpc/platforms/cell/spu_base.c
+>=20
+>      Restore the logo_spe_clut224.o target.
+>=20
+> Link to v1: https://lore.kernel.org/r/20251230-custom-logo-v1-0-47363745=
+69ee@kernel.org
+>=20
+> ---
+> Vincent Mailhol (7):
+>        video/logo: remove orphan .pgm Makefile rule
+>        video/logo: add a type parameter to the logo makefile function
+>        video/logo: allow custom logo
+>        newport_con: depend on LOGO_LINUX_CLUT224 instead of LOGO_SGI_CLU=
+T224
+>        sh: defconfig: remove CONFIG_LOGO_SUPERH_*
+>        video/logo: remove logo_mac_clut224
+>        video/logo: move logo selection logic to Kconfig
+>=20
+>   arch/sh/configs/dreamcast_defconfig      |    2 -
+>   arch/sh/configs/ecovec24_defconfig       |    2 -
+>   arch/sh/configs/kfr2r09_defconfig        |    2 -
+>   arch/sh/configs/migor_defconfig          |    2 -
+>   arch/sh/configs/rts7751r2d1_defconfig    |    2 -
+>   arch/sh/configs/rts7751r2dplus_defconfig |    2 -
+>   arch/sh/configs/se7724_defconfig         |    2 -
+>   arch/sh/configs/se7780_defconfig         |    2 -
+>   arch/sh/configs/sh7785lcr_defconfig      |    3 -
+>   arch/sh/configs/urquell_defconfig        |    3 -
+>   drivers/video/console/newport_con.c      |    4 +-
+>   drivers/video/logo/Kconfig               |   82 +-
+>   drivers/video/logo/Makefile              |   29 +-
+>   drivers/video/logo/logo.c                |   46 +-
+>   drivers/video/logo/logo_mac_clut224.ppm  | 1604 ----------------------=
+=2D-------
+>   include/linux/linux_logo.h               |    8 -
+>   16 files changed, 63 insertions(+), 1732 deletions(-)
+> ---
+> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> change-id: 20251227-custom-logo-932df316a02c
+>=20
+> Best regards,
 
