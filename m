@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA24AD0FEC1
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 22:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AA7D0FF2F
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 22:26:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3951710E297;
-	Sun, 11 Jan 2026 21:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9114B10E267;
+	Sun, 11 Jan 2026 21:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I44hA7vb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YEMmQ9B4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A83010E295;
- Sun, 11 Jan 2026 21:10:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFD810E267
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 21:26:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1A83A40E27;
- Sun, 11 Jan 2026 21:10:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5EDC4CEF7;
- Sun, 11 Jan 2026 21:10:39 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A7DC142A83;
+ Sun, 11 Jan 2026 21:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C44FC4CEF7;
+ Sun, 11 Jan 2026 21:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768165844;
- bh=WqFU50m/OyhqgZvSHbEJ4aKEsuxX2yYUFm9IKQ1ptZE=;
+ s=k20201202; t=1768166763;
+ bh=s5jblEsCOIT04MrKBnvGy+lMBUADNsEWPlmYaB1oizw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I44hA7vb8mnKL2syz2J8NjW3Dze1aeQSO3cXS7haeBvwYyIUMYlnlUlu83Omx4IVE
- VIKMlDpAGEkAE29gKpCRF4HE3uqiENb46eDJjCws+Bp3pPK8pn/sYm5E39szNcJIY2
- 6smxZEs61DroFFQ0PcLZQhIB+L8kw9t83WKEfZPd1N7sPK9hZg+p/oeGMxp9Blg7nd
- dugg0oqbPzJa2Fa40IurP0xearExeDwqP/5RTFFYHOZzEJhBvoyr5jTwanBg+rl2Nb
- aUhjo5jPC/FylU2KdJlKj+GG1oxTChIWQg6iYH/ScTJZOEVR1s+MxC+5C8VgAvKRjx
- 2DMUDW+40HeAg==
-Message-ID: <1a2ad0cf-4f07-4f48-af17-5fc022d3fb64@kernel.org>
-Date: Sun, 11 Jan 2026 21:10:37 +0000
+ b=YEMmQ9B48yZVuinyjMHjUqxfDHVeaANWrveeR9+MqDl2gf9oDVLQLJqVqbvtnx2ft
+ es+NoYldiPk14hdmjahePyEKCYLhWL3mc8YUezSlapO3OkurIRCgsIgyf6o4f/+s4z
+ OD5+/qZAUNj9FHKOsqVqI1bwTCzOLksxWWGzTl06LLScKTGCPsTDQ17sLxnmtgOURh
+ 3pKr/qyZlhSC5mg4m6aNoaT5Nsu2mFlBLmjWOf20TtYVbyL1KHCI4dG645vefIpIQD
+ +edg2g3zNKgTtiHTARvsHQ0fnawUcYvkobvnKVW49QOm4iOaCf+RYsCqg2d6hCct+F
+ Kudgg+mggqjcw==
+Message-ID: <db3cacfb-cd10-495b-b761-96ee6d7ee95a@kernel.org>
+Date: Sun, 11 Jan 2026 22:25:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] media: iris: drop remnants of UBWC configuration
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org
-References: <20260110-iris-ubwc-v1-0-dd70494dcd7b@oss.qualcomm.com>
- <vAOrry4hBgy7cpUq3cFv850-E5z3bj4pw-tNuc-_BimXl6B_6j4F-ISdIELVavCsb4LycRLyrfilNz5ASenRXQ==@protonmail.internalid>
- <20260110-iris-ubwc-v1-9-dd70494dcd7b@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH] video/logo: don't select LOGO_LINUX_MONO and
+ LOGO_LINUX_VGA16 by default
+To: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260110-mono_and_vga16_logos_default_to_no-v1-1-30f36da979b4@kernel.org>
+ <d48231e4-6c69-4948-99a9-121cd17e2db0@gmx.de>
+From: Vincent Mailhol <mailhol@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20260110-iris-ubwc-v1-9-dd70494dcd7b@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <d48231e4-6c69-4948-99a9-121cd17e2db0@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,88 +70,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2026 19:38, Dmitry Baryshkov wrote:
-> Now as all UBWC configuration bits were migrated to be used or derived
-> from the global UBWC platform-specific data, drop the unused struct and
-> field definitions.
+On 11/01/2026 at 20:12, Helge Deller wrote:
+> On 1/10/26 13:23, Vincent Mailhol wrote:
+>> Nowadays, nearly all systems have a color depth of eight or more and
+>> are thus able to display the clut224 logo. This means that the
+>> monochrome and vga16 logos will never be displayed on an average
+>> machine and are thus just a waste of bytes.
+>>
+>> Set CONFIG_LOGO_LINUX_MONO and CONFIG_LOGO_LINUX_VGA16 configuration
+>> symbols to no by default.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/iris/iris_platform_common.h | 4 ----
->   drivers/media/platform/qcom/iris/iris_platform_gen2.c   | 7 -------
->   2 files changed, 11 deletions(-)
+> I agree, that on basically every system today there is no need for the
+> monochrome or VGA16 logo.
+> But I'm not sure about the historic/exotic platforms, e.g. m68, sparc
+> and so on.
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index 4abaf4615cea..3b0e9e3cfecb 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -71,9 +71,6 @@ struct tz_cp_config {
->   	u32 cp_nonpixel_size;
->   };
+> So, maybe instead of dropping the default "y", we should e.g. do:
+> +    default y if SUPERH
+
+SUPERH also has a clut224 logo, so I assume we can also default to no
+for it.
+
+> +    default y if XYZ (some other architecture/platform) ???
+> +    default n  (for all others)
 > 
-> -struct ubwc_config_data {
-> -};
-> -
->   struct platform_inst_caps {
->   	u32 min_frame_width;
->   	u32 max_frame_width;
-> @@ -218,7 +215,6 @@ struct iris_platform_data {
->   	struct tz_cp_config *tz_cp_config_data;
->   	u32 core_arch;
->   	u32 hw_response_timeout;
-> -	struct ubwc_config_data *ubwc_config;
->   	u32 num_vpp_pipe;
->   	bool no_aon;
->   	u32 max_session_count;
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> index e78cda7e307d..5c4f108c14a2 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> @@ -631,9 +631,6 @@ static const struct platform_clk_data sm8550_clk_table[] = {
->   	{IRIS_HW_CLK,   "vcodec0_core" },
->   };
-> 
-> -static struct ubwc_config_data ubwc_config_sm8550 = {
-> -};
-> -
->   static struct tz_cp_config tz_cp_config_sm8550 = {
->   	.cp_start = 0,
->   	.cp_size = 0x25800000,
-> @@ -760,7 +757,6 @@ const struct iris_platform_data sm8550_data = {
->   	.tz_cp_config_data = &tz_cp_config_sm8550,
->   	.core_arch = VIDEO_ARCH_LX,
->   	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> -	.ubwc_config = &ubwc_config_sm8550,
->   	.num_vpp_pipe = 4,
->   	.max_session_count = 16,
->   	.max_core_mbpf = NUM_MBS_8K * 2,
-> @@ -852,7 +848,6 @@ const struct iris_platform_data sm8650_data = {
->   	.tz_cp_config_data = &tz_cp_config_sm8550,
->   	.core_arch = VIDEO_ARCH_LX,
->   	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> -	.ubwc_config = &ubwc_config_sm8550,
->   	.num_vpp_pipe = 4,
->   	.max_session_count = 16,
->   	.max_core_mbpf = NUM_MBS_8K * 2,
-> @@ -934,7 +929,6 @@ const struct iris_platform_data sm8750_data = {
->   	.tz_cp_config_data = &tz_cp_config_sm8550,
->   	.core_arch = VIDEO_ARCH_LX,
->   	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> -	.ubwc_config = &ubwc_config_sm8550,
->   	.num_vpp_pipe = 4,
->   	.max_session_count = 16,
->   	.max_core_mbpf = NUM_MBS_8K * 2,
-> @@ -1020,7 +1014,6 @@ const struct iris_platform_data qcs8300_data = {
->   	.tz_cp_config_data = &tz_cp_config_sm8550,
->   	.core_arch = VIDEO_ARCH_LX,
->   	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> -	.ubwc_config = &ubwc_config_sm8550,
->   	.num_vpp_pipe = 2,
->   	.max_session_count = 16,
->   	.max_core_mbpf = ((4096 * 2176) / 256) * 4,
-> 
-> --
-> 2.47.3
-> 
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> The question is: Which arches may have needed the VGA16 or monochrome logo?
+
+My wild guess would be none. Furthermore, no one "needs" a logo. It is
+just a fun thing to add. This is why the LOGO sub menu is turned off by
+default and that none of the defconfig would automatically select a LOGO.
+
+And so, because a user interaction is needed anyway, the few who still
+want a monochrome or vga16 logo can turn the option back on just after
+selecting the LOGO sub-menu.
+
+I guess the same could be said in reverse: we could keep all the logo on
+by default as it is now and the users who only need the clut224 can turn
+off the monochrome and vga16. But let's go for the majority ;)
+
+Well, if someone can come with the list you are looking for, I will
+happily add it to the patch. We can wait for a couple weeks if you want,
+no rush here!
+
+Or your can already stage it in fbdev-next and I will send you a v2 as
+needed. Maybe we will get more comments if this reaches linux-next?
+
+
+Yours sincerely,
+Vincent Mailhol
+
