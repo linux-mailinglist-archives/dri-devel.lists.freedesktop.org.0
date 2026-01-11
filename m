@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBA5D0FDC1
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 21:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB39D0FDC7
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 21:59:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B324C10E26B;
-	Sun, 11 Jan 2026 20:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D63110E28E;
+	Sun, 11 Jan 2026 20:59:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YWNEveyU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C2cx6XEu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2C0C10E28E;
- Sun, 11 Jan 2026 20:59:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F56010E264;
+ Sun, 11 Jan 2026 20:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768165164; x=1799701164;
+ t=1768165168; x=1799701168;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=akE/Z01yEQIwtJD2UJY94Z/0Ycw5aoVagvBjfr0UIfw=;
- b=YWNEveyUQuae/88QjMpAgVuPGWj2azQ8EvtivXn9iDVRNDlWqnqBmMNH
- mAiJeLmaeAbBBlC4gi1+jA/7tWfj6f+gMYKRJFA7zeNUtPwXRa0a2nNv6
- w6ZLuHZtEqNwDY8lU+u50CjoV3/s6ZJ/Ow2soNr/wqFneZorAJAfaRm9D
- q+NGqY/LyNh0rucxRcZ7ACI7aVG7851Dvn871W62yuXeBvoLw8nTfVjhx
- RDYSjF1xQWgSabfw4AY7/DlzFJDoDY/8b+IlpkHnmCVbLPTJ4R/Zfbpjo
- gMKJ40RW3iGLHKIwCpFodahRhr+aQi3YSjcW8knW2FFTJcsD5NULU0fsk w==;
-X-CSE-ConnectionGUID: S0lodv8zQB6yKwFZEvaHqQ==
-X-CSE-MsgGUID: u1cjch4KQI2Cp93bbC7xFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80904718"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80904718"
+ bh=K7CaEXPX1Y90SZ4Qo51hMuLmWTYy4KmDbfKNdHZkWz0=;
+ b=C2cx6XEuVkBgsJ1WVPnfRTZP3FG4hHXALGGdjaGvC6l1gPSSM/J6uaHz
+ pIXYNDqARDJw13923MyAyUkN49rUJhubYXrZRP36Sv9AiZ5V1OU/fiw/c
+ Y6mAkL3GHNQ+QzvyD5rQvVwYp6dEjCkpg3etFIw/T+2j0rmDyWX8tnnjx
+ BAzn0Db56WxkxMAqBN3Qb/Qp4os3cDbZHiodSeisSRZjCLyFPz0KGEZar
+ j8uDAR19GVAbiVn09CDYZK6WH6tek2uJInni/eQQ2aVJz4q9+CW7rnuPq
+ LQwmHiOKW+J8Wkh8NAGZI6I1KWWjVtwORb25b0Zj65dyfjwlb277XmB3b Q==;
+X-CSE-ConnectionGUID: 4kLMhjbVTi2PK5J9OTFOmw==
+X-CSE-MsgGUID: gf1fgvK4QRm5p8rPbQjYYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80904730"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80904730"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 12:59:24 -0800
-X-CSE-ConnectionGUID: G1RwncdhQOmKVSiO7JufMQ==
-X-CSE-MsgGUID: rK9ZPakuS1mx8SoRRimqwA==
+ 11 Jan 2026 12:59:27 -0800
+X-CSE-ConnectionGUID: TBj5hiKzRKO9UOCqgU5/JA==
+X-CSE-MsgGUID: e9tGNLFfThio2sQzfZP3cg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208419996"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208420013"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO fdugast-desk.home)
  ([10.245.245.11])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 12:59:20 -0800
+ 11 Jan 2026 12:59:23 -0800
 From: Francois Dugast <francois.dugast@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
@@ -55,9 +55,9 @@ Cc: dri-devel@lists.freedesktop.org,
  Zi Yan <ziy@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
  Matthew Brost <matthew.brost@intel.com>
-Subject: [PATCH v4 4/7] drm/pagemap: Unlock and put folios when possible
-Date: Sun, 11 Jan 2026 21:55:43 +0100
-Message-ID: <20260111205820.830410-5-francois.dugast@intel.com>
+Subject: [PATCH v4 5/7] drm/pagemap: Add helper to access zone_device_data
+Date: Sun, 11 Jan 2026 21:55:44 +0100
+Message-ID: <20260111205820.830410-6-francois.dugast@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260111205820.830410-1-francois.dugast@intel.com>
 References: <20260111205820.830410-1-francois.dugast@intel.com>
@@ -78,9 +78,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the page is part of a folio, unlock and put the whole folio at once
-instead of individual pages one after the other. This will reduce the
-amount of operations once device THP are in use.
+This new helper helps ensure all accesses to zone_device_data use the
+correct API whether the page is part of a folio or not.
+
+v2:
+- Move to drm_pagemap.h, stick to folio_zone_device_data (Matthew Brost)
+- Return struct drm_pagemap_zdd * (Matthew Brost)
 
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>
@@ -98,62 +101,145 @@ Suggested-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Francois Dugast <francois.dugast@intel.com>
 ---
- drivers/gpu/drm/drm_pagemap.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_gpusvm.c  |  7 +++++--
+ drivers/gpu/drm/drm_pagemap.c | 21 ++++++++++++---------
+ include/drm/drm_pagemap.h     | 15 +++++++++++++++
+ 3 files changed, 32 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index aa9a0b60e727..585d913d3d19 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1488,12 +1488,15 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
+ 		if (is_device_private_page(page) ||
+ 		    is_device_coherent_page(page)) {
++			struct drm_pagemap_zdd *__zdd =
++				drm_pagemap_page_zone_device_data(page);
++
+ 			if (!ctx->allow_mixed &&
+-			    zdd != page->zone_device_data && i > 0) {
++			    zdd != __zdd && i > 0) {
+ 				err = -EOPNOTSUPP;
+ 				goto err_unmap;
+ 			}
+-			zdd = page->zone_device_data;
++			zdd = __zdd;
+ 			if (pagemap != page_pgmap(page)) {
+ 				if (i > 0) {
+ 					err = -EOPNOTSUPP;
 diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index df253b13cf85..bd9a4703fbce 100644
+index bd9a4703fbce..308c14291eba 100644
 --- a/drivers/gpu/drm/drm_pagemap.c
 +++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -154,15 +154,15 @@ static void drm_pagemap_zdd_put(struct drm_pagemap_zdd *zdd)
- }
+@@ -252,7 +252,7 @@ static int drm_pagemap_migrate_map_pages(struct device *dev,
+ 		order = folio_order(folio);
  
- /**
-- * drm_pagemap_migration_unlock_put_page() - Put a migration page
-- * @page: Pointer to the page to put
-+ * drm_pagemap_migration_unlock_put_folio() - Put a migration folio
-+ * @folio: Pointer to the folio to put
-  *
-- * This function unlocks and puts a page.
-+ * This function unlocks and puts a folio.
+ 		if (is_device_private_page(page)) {
+-			struct drm_pagemap_zdd *zdd = page->zone_device_data;
++			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
+ 			struct drm_pagemap *dpagemap = zdd->dpagemap;
+ 			struct drm_pagemap_addr addr;
+ 
+@@ -323,7 +323,7 @@ static void drm_pagemap_migrate_unmap_pages(struct device *dev,
+ 			goto next;
+ 
+ 		if (is_zone_device_page(page)) {
+-			struct drm_pagemap_zdd *zdd = page->zone_device_data;
++			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
+ 			struct drm_pagemap *dpagemap = zdd->dpagemap;
+ 
+ 			dpagemap->ops->device_unmap(dpagemap, dev, pagemap_addr[i]);
+@@ -611,7 +611,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 
+ 		pages[i] = NULL;
+ 		if (src_page && is_device_private_page(src_page)) {
+-			struct drm_pagemap_zdd *src_zdd = src_page->zone_device_data;
++			struct drm_pagemap_zdd *src_zdd =
++				drm_pagemap_page_zone_device_data(src_page);
+ 
+ 			if (page_pgmap(src_page) == pagemap &&
+ 			    !mdetails->can_migrate_same_pagemap) {
+@@ -733,8 +734,8 @@ static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
+ 			goto next;
+ 
+ 		if (fault_page) {
+-			if (src_page->zone_device_data !=
+-			    fault_page->zone_device_data)
++			if (drm_pagemap_page_zone_device_data(src_page) !=
++			    drm_pagemap_page_zone_device_data(fault_page))
+ 				goto next;
+ 		}
+ 
+@@ -1075,7 +1076,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+ 	void *buf;
+ 	int i, err = 0;
+ 
+-	zdd = page->zone_device_data;
++	zdd = drm_pagemap_page_zone_device_data(page);
+ 	if (time_before64(get_jiffies_64(), zdd->devmem_allocation->timeslice_expiration))
+ 		return 0;
+ 
+@@ -1159,7 +1160,9 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
   */
--static void drm_pagemap_migration_unlock_put_page(struct page *page)
-+static void drm_pagemap_migration_unlock_put_folio(struct folio *folio)
+ static void drm_pagemap_folio_free(struct folio *folio, unsigned int order)
  {
--	unlock_page(page);
--	put_page(page);
-+	folio_unlock(folio);
-+	folio_put(folio);
+-	drm_pagemap_zdd_put(folio->page.zone_device_data);
++	struct page *page = folio_page(folio, 0);
++
++	drm_pagemap_zdd_put(drm_pagemap_page_zone_device_data(page));
  }
  
  /**
-@@ -177,15 +177,23 @@ static void drm_pagemap_migration_unlock_put_pages(unsigned long npages,
+@@ -1175,7 +1178,7 @@ static void drm_pagemap_folio_free(struct folio *folio, unsigned int order)
+  */
+ static vm_fault_t drm_pagemap_migrate_to_ram(struct vm_fault *vmf)
  {
- 	unsigned long i;
+-	struct drm_pagemap_zdd *zdd = vmf->page->zone_device_data;
++	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(vmf->page);
+ 	int err;
  
--	for (i = 0; i < npages; ++i) {
-+	for (i = 0; i < npages;) {
- 		struct page *page;
-+		struct folio *folio;
-+		unsigned int order = 0;
+ 	err = __drm_pagemap_migrate_to_ram(vmf->vma,
+@@ -1241,7 +1244,7 @@ EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
+  */
+ struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
+ {
+-	struct drm_pagemap_zdd *zdd = page->zone_device_data;
++	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
  
- 		if (!migrate_pfn[i])
--			continue;
-+			goto next;
- 
- 		page = migrate_pfn_to_page(migrate_pfn[i]);
--		drm_pagemap_migration_unlock_put_page(page);
-+		folio = page_folio(page);
-+		order = folio_order(folio);
-+
-+		drm_pagemap_migration_unlock_put_folio(folio);
- 		migrate_pfn[i] = 0;
-+
-+next:
-+		i += NR_PAGES(order);
- 	}
+ 	return zdd->devmem_allocation->dpagemap;
  }
+diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+index 46e9c58f09e0..736fb6cb7b33 100644
+--- a/include/drm/drm_pagemap.h
++++ b/include/drm/drm_pagemap.h
+@@ -4,6 +4,7 @@
  
+ #include <linux/dma-direction.h>
+ #include <linux/hmm.h>
++#include <linux/memremap.h>
+ #include <linux/types.h>
+ 
+ #define NR_PAGES(order) (1U << (order))
+@@ -359,4 +360,18 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+ void drm_pagemap_destroy(struct drm_pagemap *dpagemap, bool is_atomic_or_reclaim);
+ 
+ int drm_pagemap_reinit(struct drm_pagemap *dpagemap);
++
++/**
++ * drm_pagemap_page_zone_device_data() - Page to zone_device_data
++ * @page: Pointer to the page
++ *
++ * Return: Page's zone_device_data
++ */
++static inline struct drm_pagemap_zdd *drm_pagemap_page_zone_device_data(struct page *page)
++{
++	struct folio *folio = page_folio(page);
++
++	return folio_zone_device_data(folio);
++}
++
+ #endif
 -- 
 2.43.0
 
