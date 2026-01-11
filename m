@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C288D0FE23
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 22:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FABD0FE39
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 22:05:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9609110E00E;
-	Sun, 11 Jan 2026 21:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C98510E27C;
+	Sun, 11 Jan 2026 21:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dBlHjjsh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rtKdEy1I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D97810E00E;
- Sun, 11 Jan 2026 21:03:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E9410E264;
+ Sun, 11 Jan 2026 21:05:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6A38860165;
- Sun, 11 Jan 2026 21:03:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E41C4CEF7;
- Sun, 11 Jan 2026 21:03:18 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0427060165;
+ Sun, 11 Jan 2026 21:05:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A802C4CEF7;
+ Sun, 11 Jan 2026 21:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768165403;
- bh=98SF4EWDPtPWNz2NGKy6Q4k9fisJSYi7J5ndWT0pWOQ=;
+ s=k20201202; t=1768165542;
+ bh=cAYliiNA8SLRvSWdlx6nI/Y2kpsMyFDFJQVvBbaYjTg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dBlHjjshBzEfzfnSG45GSFz8aW+CrrDYdFV45vH4eBEYfHuWBXTNwIZXBq+9M2S+6
- ZK2Zn8xwWCJyq6AGbII8K1kSVReN3xH/zbbLxquv93S1JzrNHhxv/5hWUKs8WoDpcL
- FQZHOtMgyqIUwh+jxMaTrjsHzbbdgChin0lAK1KMBCpge+xD80soRMd2L9mEYX2AIY
- Hf9sJF3cdPM7U3QzxBZVHHSnzWWaoV+H17aSvV7QMeyXHn9AcQ2a2Mc4vCx98EZC4n
- j/r/ZqYrjf9Oy0dGkMxaVsIQTmPB9/GPzQWuzOtZKx1uzupzKyrTOP2c3BweNUKgKa
- HV1W0KmXn6x+Q==
-Message-ID: <40046fe6-4b30-4f12-a5ca-f85d27cf935e@kernel.org>
-Date: Sun, 11 Jan 2026 21:03:16 +0000
+ b=rtKdEy1IVFdkQz8oemqb4Yg7DwiCin1gwsMpRcOY2kUFSU0IUDpJ43pfSDvU/T4uo
+ DsdhyV7ZW0bWQ68QCwGpWmS7tr3D0YvXPErgw8Wyw8p3X5V+xCR6gnJdEDPIcS2AVo
+ WCtjWaSjHD9A+H/fT1SpJ8rBbcGwXm0BkQUqcalqbXOnvfH4JdegHMRDIar/tyowv4
+ SI0hWcrO+D4K5Z3Vc9HUuOILaAWJHq8RMsyHTw5khYdKViXkslLJJiqzJCnuahn3P1
+ WX0fv/wb4QWC7Xlzx+0Gh2r94Hy1TIDixoiJAZrmM3bzhpXQBe4GxTrX7RvfsLxiMz
+ OtbcU1oBUUoig==
+Message-ID: <bd95734f-5c38-46d0-a3f3-e88f85d384f5@kernel.org>
+Date: Sun, 11 Jan 2026 21:05:35 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 02/11] soc: qcom: ubwc: add helper to get min_acc length
@@ -98,8 +98,19 @@ On 10/01/2026 19:37, Dmitry Baryshkov wrote:
 > +		 cfg->ubwc_dec_version == UBWC_3_0);
 > +}
 > +
-Does that indentation pass checkpatch ?
+>   #endif /* __QCOM_UBWC_H__ */
+> 
+> --
+> 2.47.3
+> 
+> 
 
-I assume so but, please check.
+Why not have this function return either 64 if the above is true or 32 
+if not, then rename to qcom_ubwc_min_acc_length() ?
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+You could imagine some function SoC having a 128b length for argument's 
+sake, it would make more sense just to modify this function then instead 
+of all of the callsites.
+
+---
+bod
