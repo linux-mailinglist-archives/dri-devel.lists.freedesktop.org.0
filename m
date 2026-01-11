@@ -2,86 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60799D0FB1E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 20:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E651D0FD9F
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 21:59:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 106C810E03A;
-	Sun, 11 Jan 2026 19:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0161B10E10B;
+	Sun, 11 Jan 2026 20:59:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gdUmvDRj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KCr9Phyf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC87310E03A
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 19:51:07 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2a0d52768ccso39005265ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 11:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768161067; x=1768765867; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MRLXkFTiZd9a9Tg70dQ7iXKOuDpg8c1t7/NoM418xOw=;
- b=gdUmvDRjYFyEH0EEyO5Q2CyoL7andIMl1aXdrCIO717gleAqtk8MJUzdgaDC75dc82
- oSOE5uiSohl2MezLcxWLDfr0uuM5v1rKWA3phKWiw3pJDAo32Hf5hmLlwpll7jKDtbLz
- x3lLpw9UXwNRWbN6odeGjdo+v+Lq2QSYSDD9PL+eYYBNHhkkMNX0Cjbc3qRk0Xv7O84Z
- I0yuJ9yuOJBfDK2cZ9HNsRbKojjz2Oli3nokHysP41zYKT7JrJzyQFyYtcP+W5Oyn3kA
- +XXxq2719hkQDuBwNZzTHvAKE2Dm5xZetKRA9qbV8/qF06viRHDfuzERVrizGu14ZuZR
- qt7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768161067; x=1768765867;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MRLXkFTiZd9a9Tg70dQ7iXKOuDpg8c1t7/NoM418xOw=;
- b=oikNSpCGvgQ6htoMfgHeAu71pesBw6XIIyOhRE3bpJCYMtldGD9xMeqfrWTVYnMFNs
- mahGuicJmw6RbaGklls/zWDAbuP1N8ZhmnMzDKUrvp6eH+ehxzyiD80/fb96akyPd0qQ
- RMvQK13KOTA+KaikKnpM58zbWsK0S0xaEbGI39mSrEXk6UUFXUb+O6Mb/7eC/bkt4csv
- wrqHh7aRLRbagWbou+q8m6d7X6EIZINQ2g8BR7hOfT611EDorN1nJL7Zh7ZXtE6BsDuU
- CVF+TzsVJseBkLK+0h9dXgYKjvnv/9vLdftlJ/iBeDC8AMKcv/d+SaIQW6xlJUUQ9a11
- E/PA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHmfu7s6mmuK3VgCYXEsLZ3bRHY+wzGTs1geotz0Q1gnIb7uHXLlxiWGaS8zR7xm9PYsmWrbIYJzM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyuh50oTNe2+d2IRrnlXlfcNch9SWeorFa0JXqDfsG2kWBcMZ6A
- 0E8085ieSMDLAqCwe6QVqfXMVm6tFMFhpYXUBKVavqzZrATDsT97kVQ/5tYpLg==
-X-Gm-Gg: AY/fxX6dl0ohh2fYr7irvMl0SsA7Hqf/2aU9+iWP41mojbGWfDVpZfd6g97eRc01u1+
- LLT68b0p8pxkp+Q+OoFu2LjZCslaV+wKchN/xJBFdqcVZWHgmEAqR9Q9vub8po4lnynNadnwp/P
- 8I++1reQ3i6ZLtE0CWNpcKgwydSt4Wawct06k2ks6hLI8/m/yTt2OTeSBNU0Rh/hrAJ5QPBJl6W
- UjZ0bB9P8CQza3cZ3bElA8c2whfzHcMe5v360AH8UBljrwCj40hUDoxejlwqTIw4e6fSqCh4yhc
- ASPRlypWsAYGyINo6U6q1bDij58XwntT3+w30X4jqMLhiAVCQOLVvJZP16sGa67R8sMZ95OCg6P
- tdLG7hsiAWDItus65aUwN5oPrFQqgy8hrCJvH5g7ZikajWyCs/eGl6/V22Umo1CQMwa8gKUHm+Z
- c/tCV5BgT69Fd/pdeVf0yOYYhBEeoJDbDqKtiH7dS+aYHjOCNMlnOevdrCyaMt
-X-Google-Smtp-Source: AGHT+IE6MC5cdfKFrapIzQPAQHoSLTs/H9+tHC4hZDCvPVWe/VgmNXYnGJFwo73wIBWsCgtbF09Mjw==
-X-Received: by 2002:a17:902:e88f:b0:2a0:a793:3357 with SMTP id
- d9443c01a7336-2a3ee4fecdcmr148105215ad.43.1768161066959; 
- Sun, 11 Jan 2026 11:51:06 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:a2d6:d17d:ed6b:f017?
- ([2601:1c0:5780:9200:a2d6:d17d:ed6b:f017])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3cd2953sm152979465ad.86.2026.01.11.11.51.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Jan 2026 11:51:06 -0800 (PST)
-Message-ID: <75cb40e4-bf33-46eb-875f-f6100f657801@gmail.com>
-Date: Sun, 11 Jan 2026 11:51:05 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2524E10E0C7;
+ Sun, 11 Jan 2026 20:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768165146; x=1799701146;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JowSG+4tQQyTE47Rbtpcgaez8ldKvXlCh+DCDwat3uA=;
+ b=KCr9PhyfERHVC0FFL5f0bUnE3VBF21GzZpnAjMAEHSHGUNj4X7Jm2EGl
+ VFilqUcSVnIwPkpWjd7hqBrKVMahXaa9YJbdJILBKrGQLJmjnOpG2eOPw
+ ikQgRZStF+jT3w5YWGcPtxb4T9hVTXL2Bd0T+HNhYp/+L1aQFbgJgrCiZ
+ 2ceIyJ/X907T9eoDxrv4WDdvTw1Vd+Oe7J6QNQ8b9//uMD9CRPWv6ty4L
+ AmvClJoQCX74BlkxIVUB1P5fxuSriiV/lJThwnBbrmrm3qvdFdeekJwls
+ 8N1kYtUAvDP5IhtYmGWSTk177GpTV5OyWfR+2zmM/NRixi/nXE5ob2x+P A==;
+X-CSE-ConnectionGUID: u5h6LQMeRfK+EImVKhoHew==
+X-CSE-MsgGUID: 1LflAFv6RXeenPU742gLQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80904655"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80904655"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2026 12:59:05 -0800
+X-CSE-ConnectionGUID: D5xpyBpvRRC3zs7F9qTySg==
+X-CSE-MsgGUID: /4GjZEskTMOj7ia6RpYfqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208419944"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO fdugast-desk.home)
+ ([10.245.245.11])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2026 12:58:55 -0800
+From: Francois Dugast <francois.dugast@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Francois Dugast <francois.dugast@intel.com>, Zi Yan <ziy@nvidia.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Balbir Singh <balbirs@nvidia.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v4 0/7] Enable THP support in drm_pagemap
+Date: Sun, 11 Jan 2026 21:55:39 +0100
+Message-ID: <20260111205820.830410-1-francois.dugast@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs
- support
-To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, andy@kernel.org, gregkh@linuxfoundation.org
-References: <20260107044258.528624-1-chintanlike@gmail.com>
- <20260107044258.528624-2-chintanlike@gmail.com>
- <40911dd0-52e1-46de-b060-0372988291ca@gmx.de>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <40911dd0-52e1-46de-b060-0372988291ca@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,26 +96,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use Balbir Singh's series for device-private THP support [1] and
+previous preparation work in drm_pagemap [2] to add 2MB/THP support
+in xe. This leads to significant performance improvements when using
+SVM with 2MB pages.
 
+[1] https://lore.kernel.org/linux-mm/20251001065707.920170-1-balbirs@nvidia.com/
+[2] https://patchwork.freedesktop.org/series/151754/
 
-On 1/11/26 10:50, Helge Deller wrote:
-> On 1/7/26 05:42, Chintan Patel wrote:
->> Add dev_of_fbinfo() to return the framebuffer struct device when
->> CONFIG_FB_DEVICE is enabled, or NULL otherwise.
->>
->> This allows fbdev drivers to use sysfs interfaces via runtime checks
->> instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
->> remaining fully buildable.
->>
->> Suggested-by: Helge Deller <deller@gmx.de>
->> Reviewed-by: Helge Deller <deller@gmx.de>
->> Reviewed-by: Andy Shevchenko <andy@kernel.org>
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->> ---
->>   include/linux/fb.h | 9 +++++++++
->>   1 file changed, 9 insertions(+)
-> 
-> Whole v4 series applied to fbdev git tree.
-> 
-Appreciate Helge and everyone who reviewed it! This was my first kernel 
-series and it was good learning experience for me.
+v2:
+- rebase on top of multi-device SVM
+- add drm_pagemap_cpages() with temporary patch
+- address other feedback from Matt Brost on v1
+
+v3:
+The major change is to remove the dependency to the mm/huge_memory
+helper migrate_device_split_page() that was called explicitely when
+a 2M buddy allocation backed by a large folio would be later reused
+for a smaller allocation (4K or 64K). Instead, the first 3 patches
+provided by Matthew Brost ensure large folios are split at the time
+of freeing.
+
+v4:
+- add order argument to folio_free callback
+- send complete series to linux-mm and MM folks as requested (Zi Yan
+  and Andrew Morton) and cover letter to anyone receiving at least
+  one of the patches (Liam R. Howlett)
+
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Logan Gunthorpe <logang@deltatee.com>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Balbir Singh <balbirs@nvidia.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-cxl@vger.kernel.org
+Cc: nvdimm@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+
+Francois Dugast (3):
+  drm/pagemap: Unlock and put folios when possible
+  drm/pagemap: Add helper to access zone_device_data
+  drm/pagemap: Enable THP support for GPU memory migration
+
+Matthew Brost (4):
+  mm/zone_device: Add order argument to folio_free callback
+  mm/zone_device: Add free_zone_device_folio_prepare() helper
+  fs/dax: Use free_zone_device_folio_prepare() helper
+  drm/pagemap: Correct cpages calculation for migrate_vma_setup
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |   2 +-
+ drivers/gpu/drm/drm_gpusvm.c             |   7 +-
+ drivers/gpu/drm/drm_pagemap.c            | 165 ++++++++++++++++++-----
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |   4 +-
+ drivers/pci/p2pdma.c                     |   2 +-
+ fs/dax.c                                 |  24 +---
+ include/drm/drm_pagemap.h                |  15 +++
+ include/linux/memremap.h                 |   8 +-
+ lib/test_hmm.c                           |   4 +-
+ mm/memremap.c                            |  60 ++++++++-
+ 11 files changed, 227 insertions(+), 66 deletions(-)
+
+-- 
+2.43.0
+
