@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFDCD0F99E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 19:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A416BD0F9B3
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 19:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB39810E1B8;
-	Sun, 11 Jan 2026 18:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0931010E117;
+	Sun, 11 Jan 2026 18:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="s6F5IRpY";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tJ7FnHsY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2927810E1B8
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 18:50:48 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6F810E117
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 18:53:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1768157437; x=1768762237; i=deller@gmx.de;
- bh=4giF1Ylnl0OprmOltB2maMEKRmScAsi0wfaxs7LIMCY=;
+ s=s31663417; t=1768157567; x=1768762367; i=deller@gmx.de;
+ bh=GBHb74sT6wMOr9J9+NredjJJ4qv6kdo2yoWJPEC//qo=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=s6F5IRpY+JSpAXpuzrZtlrppKn74Pch1FTNJ4svNy9XMB8C4oTdg6r0+V9flC4CJ
- lclhlgPJ9v8SPpFeJaMY+FwSnKAq8KCHIO9Zx5e7rYK1UvgyAIRCfw//3LtJ2G/NR
- SsXz55mSwbQOXb61yUxFX99PMMm59/I4CuvkUz0dqCyLihCEpT5lebGumjMLPn6a+
- guRdd0Pxjmip7G5Adba2O7hvOb0PFsLuv9nRJdAXnIDvRMWIf/3aigh65HJ9GX4O2
- T1gGhoteqYN3ICXy+92lnt3hvbwyrSSlEch4l+rvc7YQIFqnop8Bmji6eWjv3OsHi
- h/tlbBMtY82chA+y6g==
+ b=tJ7FnHsYnyacSkOfq0j/W8SZlYKe2pxSa0v1U+wWiejXGKTKHMOcbqjKwY/PTh+l
+ a0oDvVVve6p2TIuAl2IrH/O/RDSVP6HamXEL/8kQ/r6v4bTJ6k3o6zZPxPzUajPpL
+ ADraxZBk9Pk0VyW+yS38d24JgpaonRjfhcun78RyazjvsO363IW47U8gwFF07WOkG
+ coaVIkDIBs4KoEs+HY/TaYlIy2tjDqz2w7NHE7+Kc/tNNl9Imj2SDIyd1m1qp8GBE
+ nlkH8Q9XOmCAktoAYb/ZCI9f/sJ51pOSjLdu+QZ2Y/5BQeV8z2yEr17Yxm+ipcX2O
+ KIIyuJ4y81pOdJZRyA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.51.120]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1Hdw-1vgfTj16GQ-005S2j; Sun, 11
- Jan 2026 19:50:37 +0100
-Message-ID: <40911dd0-52e1-46de-b060-0372988291ca@gmx.de>
-Date: Sun, 11 Jan 2026 19:50:36 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYNNo-1vILBk3jSE-00Tb9y; Sun, 11
+ Jan 2026 19:52:46 +0100
+Message-ID: <3bb1ed8b-4aa9-4cdb-b70a-a0dd3f9b2ff9@gmx.de>
+Date: Sun, 11 Jan 2026 19:52:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs
- support
-To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+Subject: Re: [PATCH v4 3/4] fbdev: omapfb: Make FB_DEVICE dependency optional
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, andy@kernel.org, gregkh@linuxfoundation.org
+ andy@kernel.org, gregkh@linuxfoundation.org
 References: <20260107044258.528624-1-chintanlike@gmail.com>
- <20260107044258.528624-2-chintanlike@gmail.com>
+ <20260107044258.528624-4-chintanlike@gmail.com>
+ <aa922030-b0a1-4503-a3c0-7ce4c36c236e@suse.de>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -90,87 +91,88 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20260107044258.528624-2-chintanlike@gmail.com>
+In-Reply-To: <aa922030-b0a1-4503-a3c0-7ce4c36c236e@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:LRJjXxtVZrPLcO8WGOvnc0L5lSO00ZKZ17x0QNckWvg7CNRB+ka
- /3CJJyxSqTYgC5Fm+GrNr7r6c+6Nn18vfKtKcTaTDRTPG2ZBPir8nzSJEdbDaNDtV8qYZ5Q
- PK3tpcQ8Kkh131VPnSdw79iF68Glpj3e1UZGXa4p7rrryMYe2d5fNmyGpn9v/JOy0Gq3Joc
- twiRNdHKTtlQ+hY3vGynA==
+X-Provags-ID: V03:K1:rETCjRfTBIPIlMFcEpUehrrH6egdLqXI0k6hkhL3sHDDJ08rdY+
+ 2tZlKQQE4pxv35V4k/n7mJGoSO8pOgbyMlP2Xsc2OobhJ9we4wLsSl/Fv1Vu8E21Pk6+m1s
+ 8tF6T3qlQTbYQOFyB2YFPr7oiNybGUnr2G3h9/M+TDeRZ6EmTdX05YDk5rL9r5I5CJZWIzx
+ p1wl4KEP6Ta2gy4I6Vjrg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eS+6eo+assI=;/1wEpZQVxkwObyfxW4aiEw15poL
- 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
- WUkwYmhBC0nQuogrZOhvQVUTgz9gVD+amq5Ulb
+UI-OutboundReport: notjunk:1;M01:P0:ZpZJP4vTkM8=;6k4WXkGJH9r091zvCTB95udC0Tb
+ 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
+ vVMITZeA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,23 +188,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/7/26 05:42, Chintan Patel wrote:
-> Add dev_of_fbinfo() to return the framebuffer struct device when
-> CONFIG_FB_DEVICE is enabled, or NULL otherwise.
+On 1/7/26 08:33, Thomas Zimmermann wrote:
 >=20
-> This allows fbdev drivers to use sysfs interfaces via runtime checks
-> instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
-> remaining fully buildable.
 >=20
-> Suggested-by: Helge Deller <deller@gmx.de>
-> Reviewed-by: Helge Deller <deller@gmx.de>
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
->   include/linux/fb.h | 9 +++++++++
->   1 file changed, 9 insertions(+)
+> Am 07.01.26 um 05:42 schrieb Chintan Patel:
+>> omapfb provides several sysfs interfaces for framebuffer configuration
+>> and debugging, but these are not required for the core driver.
+>>
+>> Remove the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+>> optional by using dev_of_fbinfo() to obtain the backing device at runti=
+me.
+>> When FB_DEVICE is disabled, sysfs operations are skipped while the code
+>> still builds and is type-checked.
+>>
+>> Suggested-by: Helge Deller <deller@gmx.de>
+>> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Whole v4 series applied to fbdev git tree.
+applied to fbdev.
 
 Thanks!
 Helge
+
+ =20
+>> ---
+>> =C2=A0 drivers/video/fbdev/omap2/omapfb/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 3 ++-
+>> =C2=A0 .../video/fbdev/omap2/omapfb/omapfb-sysfs.c=C2=A0=C2=A0=C2=A0 | =
+18 ++++++++++++++----
+>> =C2=A0 2 files changed, 16 insertions(+), 5 deletions(-)
+
+
