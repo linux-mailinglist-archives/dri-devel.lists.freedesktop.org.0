@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ABFD0FDBE
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 21:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBA5D0FDC1
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 21:59:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE2C10E110;
-	Sun, 11 Jan 2026 20:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B324C10E26B;
+	Sun, 11 Jan 2026 20:59:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b7BeWLen";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YWNEveyU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABDB10E110;
- Sun, 11 Jan 2026 20:59:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C0C10E28E;
+ Sun, 11 Jan 2026 20:59:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768165161; x=1799701161;
+ t=1768165164; x=1799701164;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=x0o46IltvZIziPvuDUlJFM12hoQwAZmCbZJupxvwuok=;
- b=b7BeWLenzY6xP2gNh8Xx2lDkh3NUJyo7z9OfkgUU0eW7297nJwhgwwdx
- RsK+abogvCGJVHzHS7huEMhdnaOgZ/f2t+2GdqDtSBl9jyvT7VBZLMRcX
- 9rbniTfnEadFbQRG9jghH6UQ8frgfFMQLs2xKvEUJ6Gh0ZMgHDVmebyL9
- /S+NQawnPS4PLTK6vxjnRxflipk4kliQzIYu56iXuxnTpw5zrP0IiQffC
- 3qSRsrwagR3j90U7nwup7I1AtktL9btQ+LL8jy3PVdVglcDp0naHx5X5Y
- o3RBSPcyTFWey1Z3kdMmcQuuGxYWwnzNQDnjcf0subrklsra3Ie2WL2NZ w==;
-X-CSE-ConnectionGUID: r8/JutUMRTGt4r+Ux7jJ9Q==
-X-CSE-MsgGUID: d5i7jnRfS+e6+dN63+iReA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80904705"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80904705"
+ bh=akE/Z01yEQIwtJD2UJY94Z/0Ycw5aoVagvBjfr0UIfw=;
+ b=YWNEveyUQuae/88QjMpAgVuPGWj2azQ8EvtivXn9iDVRNDlWqnqBmMNH
+ mAiJeLmaeAbBBlC4gi1+jA/7tWfj6f+gMYKRJFA7zeNUtPwXRa0a2nNv6
+ w6ZLuHZtEqNwDY8lU+u50CjoV3/s6ZJ/Ow2soNr/wqFneZorAJAfaRm9D
+ q+NGqY/LyNh0rucxRcZ7ACI7aVG7851Dvn871W62yuXeBvoLw8nTfVjhx
+ RDYSjF1xQWgSabfw4AY7/DlzFJDoDY/8b+IlpkHnmCVbLPTJ4R/Zfbpjo
+ gMKJ40RW3iGLHKIwCpFodahRhr+aQi3YSjcW8knW2FFTJcsD5NULU0fsk w==;
+X-CSE-ConnectionGUID: S0lodv8zQB6yKwFZEvaHqQ==
+X-CSE-MsgGUID: u1cjch4KQI2Cp93bbC7xFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80904718"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80904718"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 12:59:21 -0800
-X-CSE-ConnectionGUID: UlIOxdrHSwKszggz7EuscQ==
-X-CSE-MsgGUID: /wOnx8gTQ2iwNjeNht87pg==
+ 11 Jan 2026 12:59:24 -0800
+X-CSE-ConnectionGUID: G1RwncdhQOmKVSiO7JufMQ==
+X-CSE-MsgGUID: rK9ZPakuS1mx8SoRRimqwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208419980"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208419996"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO fdugast-desk.home)
  ([10.245.245.11])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 12:59:15 -0800
+ 11 Jan 2026 12:59:20 -0800
 From: Francois Dugast <francois.dugast@intel.com>
 To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
+Cc: dri-devel@lists.freedesktop.org,
+ Francois Dugast <francois.dugast@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@kernel.org>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
@@ -57,11 +54,10 @@ Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
  Zi Yan <ziy@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-kernel@vger.kernel.org, Francois Dugast <francois.dugast@intel.com>
-Subject: [PATCH v4 3/7] fs/dax: Use free_zone_device_folio_prepare() helper
-Date: Sun, 11 Jan 2026 21:55:42 +0100
-Message-ID: <20260111205820.830410-4-francois.dugast@intel.com>
+ Matthew Brost <matthew.brost@intel.com>
+Subject: [PATCH v4 4/7] drm/pagemap: Unlock and put folios when possible
+Date: Sun, 11 Jan 2026 21:55:43 +0100
+Message-ID: <20260111205820.830410-5-francois.dugast@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260111205820.830410-1-francois.dugast@intel.com>
 References: <20260111205820.830410-1-francois.dugast@intel.com>
@@ -82,16 +78,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+If the page is part of a folio, unlock and put the whole folio at once
+instead of individual pages one after the other. This will reduce the
+amount of operations once device THP are in use.
 
-Use free_zone_device_folio_prepare() to restore fsdax ZONE_DEVICE folios
-to a sane initial state upon the final put.
-
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
@@ -104,51 +94,66 @@ Cc: Zi Yan <ziy@nvidia.com>
 Cc: Alistair Popple <apopple@nvidia.com>
 Cc: Balbir Singh <balbirs@nvidia.com>
 Cc: linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: nvdimm@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Suggested-by: Alistair Popple <apopple@nvidia.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Francois Dugast <francois.dugast@intel.com>
 ---
- fs/dax.c | 24 +-----------------------
- 1 file changed, 1 insertion(+), 23 deletions(-)
+ drivers/gpu/drm/drm_pagemap.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/fs/dax.c b/fs/dax.c
-index 289e6254aa30..d998f7615abb 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -391,29 +391,7 @@ static inline unsigned long dax_folio_put(struct folio *folio)
- 	if (ref)
- 		return ref;
- 
--	folio->mapping = NULL;
--	order = folio_order(folio);
--	if (!order)
--		return 0;
--	folio_reset_order(folio);
--
--	for (i = 0; i < (1UL << order); i++) {
--		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
--		struct page *page = folio_page(folio, i);
--		struct folio *new_folio = (struct folio *)page;
--
--		ClearPageHead(page);
--		clear_compound_head(page);
--
--		new_folio->mapping = NULL;
--		/*
--		 * Reset pgmap which was over-written by
--		 * prep_compound_page().
--		 */
--		new_folio->pgmap = pgmap;
--		new_folio->share = 0;
--		WARN_ON_ONCE(folio_ref_count(new_folio));
--	}
-+	free_zone_device_folio_prepare(folio);
- 
- 	return ref;
+diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+index df253b13cf85..bd9a4703fbce 100644
+--- a/drivers/gpu/drm/drm_pagemap.c
++++ b/drivers/gpu/drm/drm_pagemap.c
+@@ -154,15 +154,15 @@ static void drm_pagemap_zdd_put(struct drm_pagemap_zdd *zdd)
  }
+ 
+ /**
+- * drm_pagemap_migration_unlock_put_page() - Put a migration page
+- * @page: Pointer to the page to put
++ * drm_pagemap_migration_unlock_put_folio() - Put a migration folio
++ * @folio: Pointer to the folio to put
+  *
+- * This function unlocks and puts a page.
++ * This function unlocks and puts a folio.
+  */
+-static void drm_pagemap_migration_unlock_put_page(struct page *page)
++static void drm_pagemap_migration_unlock_put_folio(struct folio *folio)
+ {
+-	unlock_page(page);
+-	put_page(page);
++	folio_unlock(folio);
++	folio_put(folio);
+ }
+ 
+ /**
+@@ -177,15 +177,23 @@ static void drm_pagemap_migration_unlock_put_pages(unsigned long npages,
+ {
+ 	unsigned long i;
+ 
+-	for (i = 0; i < npages; ++i) {
++	for (i = 0; i < npages;) {
+ 		struct page *page;
++		struct folio *folio;
++		unsigned int order = 0;
+ 
+ 		if (!migrate_pfn[i])
+-			continue;
++			goto next;
+ 
+ 		page = migrate_pfn_to_page(migrate_pfn[i]);
+-		drm_pagemap_migration_unlock_put_page(page);
++		folio = page_folio(page);
++		order = folio_order(folio);
++
++		drm_pagemap_migration_unlock_put_folio(folio);
+ 		migrate_pfn[i] = 0;
++
++next:
++		i += NR_PAGES(order);
+ 	}
+ }
+ 
 -- 
 2.43.0
 
