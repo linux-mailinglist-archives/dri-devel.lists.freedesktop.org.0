@@ -2,74 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961FD15DE6
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 00:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD1CD15E18
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 00:53:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A1A10E43A;
-	Mon, 12 Jan 2026 23:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8174510E43B;
+	Mon, 12 Jan 2026 23:53:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mJ7zvACA";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JAgcyPVO";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="feqa8xza";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269DD10E43A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 23:48:50 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dqpxD5Pjfz9srT;
- Tue, 13 Jan 2026 00:48:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768261728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iM2b5gOUQ7qmIDWC4AJaeVNpSYjr/hygekEC/yksaTg=;
- b=mJ7zvACAPuS98kMc2hpYBK/8t+96Uy6Td5Bh2bcBQGqn7c8j8MapVn/CGjYufvm+OKB6u+
- 63OEyrZB+/VwpS1sArnQhpeY6AibkaRFjZd8x4+1I8wUt4rQPsvj0RJjMKPOso0cEUM/wy
- AFD66Yfesmc6/z796zgFXnakLB5cltL6DX8iH/P+kuNz3m8+t0BT9r22Hye9gJ47xeyJEB
- soRn0gEHjZ63XjADs1r6Jt9FK5mbfnaVuzyDRsl+JVjdfCmaNJT3iqAyRErEN+Wjeljdm3
- 37P0Cm7zBUl+9dvBheKwM+eJ5t1rYuFz/sCb7ubZwcxmkE7H7hoqMW5nxb8qKQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768261726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iM2b5gOUQ7qmIDWC4AJaeVNpSYjr/hygekEC/yksaTg=;
- b=JAgcyPVOQh0PHdqbNF/co/ClYMOycDEiFVR/lB1lSQlKePLdrdYrCkM8AsGgr+hdimzSJO
- EvM3r7AJ71QmiUgCbGO6Juj44MXgSAKrMsW/4g4J9YiDdoSgk8VTwVZjKXbYTaIe233nOi
- OyKBAJpV1KjBcC1hjxRzXyT8H6jFRn51nFr/pNejHm35bbCyxok6qhZLM5vzybO8SYyYRi
- 6vMK5flU2mpi4z/87HcNQ1t6B7761gq3UXTvJNb0hwJBo3RYBn0Gz6p7Gb2dfGJrk64QDI
- uyDxYIWxTaMhtESNob3A5QohW4YIpogj6ulPxCh8XUw4heax+qZp8YB7MySd/g==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Joseph Guo <qijian.guo@nxp.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE49010E440
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 23:53:08 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id
+ af79cd13be357-8b1e54aefc5so624097685a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 15:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1768261987; x=1768866787; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MFAPVPPrTQcXGzmX4uMQny5ONRwVZsvoYJMZG32QBJM=;
+ b=feqa8xzaI2PGqHAXING1kUF3gh9XohkXBW2JeIHEgAPKO0lGL9J9eKMP4iOHOZbUMT
+ 5eT2qKWaez4z+FvlofahN5HD+fod6+fF7TRPKrAhsbiiuZdIsQtQwxLkBxEfVjQCee9Y
+ BldS7KGYkthMXZdAtCcjC3cQDiAkk+dx+m7fj/dgn9S0NCzG3IdYEPNqGhoofcYsDmYb
+ XSRQxTOmyioFGd1dR7mZlos2baQb0KtU1VivsGEtqD66RLLlnA4/TBQJMkY0Trq14j1Q
+ 6RQ0VYCgjYNb7f0Oz2UMIcv9ZB/CzUNyEXXcINiMva4G03ISKtwI6eOZo0fBw6LQjNHL
+ HUVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768261987; x=1768866787;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MFAPVPPrTQcXGzmX4uMQny5ONRwVZsvoYJMZG32QBJM=;
+ b=BAUuHyGVpC79u2dxEnOuyLtmGxwc4iKNngEye9AtYiAeV/MOdpDUGPQETEnjorj/5S
+ cHwoPa0IfUmXJ9Jgsre3w8SpE2FwF2i1p2MjrSfhFH1T/NCPRDA7YGQDjoURY52k7E9X
+ L2XNgF5VH7rJTQptimUfzOhgZdx+MhlDvMRnbyJm9DebaIj7w7MeL0gjUI4RNx0i8jLo
+ T+f3mxbWG9XC6lnwoTwln2WBy/vgmYxZPMFUqbrjcpymRPi11ybBrzOZF8DPiZ03Z+Zw
+ q085huEURz2fDqtYCgc0JR56tyWapa5cJnutG3gSmyPOhzfg185tGFq5Prny4aTj6GOR
+ 0s8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWutoaDTY5hKXiA4vSrwwXsX/H8Y+ITo7Nn2Wn5YPDEhyt/bS9zl5UtfkVaHX9L0ydB0JBDdP/FsII=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkzNwWQ6Etuxrdj89dK3zDvnc+BQSuZVD2354urjOzBwCupx/q
+ 5wwglrEYYlGJAE4tDw+sAoctXL2VxRwwA4HCLVnRKD8jHP6oPeB/5Bg7CG0u4FtTvho=
+X-Gm-Gg: AY/fxX4Xj2ClNDKQFKiQxfiKdxkFWvD9bv4Ih/097pq7hNRhWGjAzZZ+jUr8Zb/jjHX
+ JT2DtZkkdMM+8uK10LVLgZvfFg3VVPTzdPZFoiv8+w2Q+6KS1Iu4sQhbsqrvfYsfD3c9UmhPBm7
+ ISR0ZX8FLQ1/sjL8in+3hESWM8voFk/kda24aRryEQ9XxxxasYrfxWOSGZvllvtfxSTVAJwAhmu
+ Bo7HmV6VT8xU6pv3XwsagrLglj1A8upcKRsCjWo8p/pmu71HOEYZ/ErmS2+tQJasyxWFIkZTyxv
+ 0eSpr9LRi6IseDpzf8uNFZyMJ9xZL2cVgNyMSFbIpMsvjBTL83WOAH80wp/e7BNkvSBXf8ugifT
+ kv1mJi71Vwe0a8wrNxZF5FoNrYZm5TFoaZ/Z2JkRHRtPrllkEIsjIarCjlqsDOZ81Ny6p0x1bxK
+ m3c+gSs4dljMujq6FU9AnfCJUAUjFEdfzhSf+c1K30aQpESSpO9GkfJQWePoozw6gdhCWyfvler
+ I+fSA==
+X-Google-Smtp-Source: AGHT+IECCLtz04Q1g6y58MlK+cu2G+IQ+shlJTLlvJFkV+wtTDGmcQVfka7R8tosUNuc3dGp+UEbDg==
+X-Received: by 2002:a05:620a:4804:b0:8b2:7536:bd2c with SMTP id
+ af79cd13be357-8c3894188a8mr2759937485a.78.1768261987580; 
+ Mon, 12 Jan 2026 15:53:07 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8c37f530907sm1597443885a.39.2026.01.12.15.53.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 15:53:07 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vfRic-00000003fUQ-2VnR;
+ Mon, 12 Jan 2026 19:53:06 -0400
+Date: Mon, 12 Jan 2026 19:53:06 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Balbir Singh <balbirs@nvidia.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4 DSI data
- lanes
-Date: Tue, 13 Jan 2026 00:47:39 +0100
-Message-ID: <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
-References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Alistair Popple <apopple@nvidia.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] mm/zone_device: Add order argument to folio_free
+ callback
+Message-ID: <20260112235306.GN745888@ziepe.ca>
+References: <874d29da-2008-47e6-9c27-6c00abbf404a@nvidia.com>
+ <0D532F80-6C4D-4800-9473-485B828B55EC@nvidia.com>
+ <20260112134510.GC745888@ziepe.ca>
+ <218D42B0-3E08-4ABC-9FB4-1203BB31E547@nvidia.com>
+ <20260112165001.GG745888@ziepe.ca>
+ <86D91C8B-C3EA-4836-8DC2-829499477618@nvidia.com>
+ <20260112182500.GI745888@ziepe.ca>
+ <6AFCEB51-8EE1-4AC9-8F39-FCA561BE8CB5@nvidia.com>
+ <20260112192816.GL745888@ziepe.ca>
+ <8DB7DC41-FDBD-4739-AABC-D363A1572ADD@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: f9bd0521b2c6d8e43f1
-X-MBO-RS-META: ku7re1uxjpbu3y6fiowt6k9aeoa54y8d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8DB7DC41-FDBD-4739-AABC-D363A1572ADD@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +129,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Parse the data lane count out of DT. Limit the supported data lanes
-to 1..4 which is the maximum available DSI pairs on the connector of
-any known panels which may use this bridge. Internally, this bridge
-is an ChipOne ICN6211 which loads its register configuration from a
-dedicated storage and its I2C does not seem to be accessible. The
-ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
+On Mon, Jan 12, 2026 at 06:34:06PM -0500, Zi Yan wrote:
+> page[1].flags.f &= ~PAGE_FLAGS_SECOND. It clears folio->order.
+> 
+> free_tail_page_prepare() clears ->mapping, which is TAIL_MAPPING, and
+> compound_head at the end.
+> 
+> page->flags.f &= ~PAGE_FLAGS_CHECK_AT_PREP. It clears PG_head for compound
+> pages.
+> 
+> These three parts undo prep_compound_page().
 
-To avoid any breakage on old DTs where the parsing of data lanes from
-DT may fail, fall back to the original hard-coded value of 2 lanes and
-warn user.
+Well, mm doesn't clear all things on alloc..
 
-The lane configuration is preconfigured in the bridge for each of the
-WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
-others seem to use 2-lane configuration. This is a hardware property,
-so the actual count should come from DT.
+> In current nouveau code, ->free_folios is used holding the freed folio.
+> In nouveau_dmem_page_alloc_locked(), the freed folio is passed to
+> zone_device_folio_init(). If the allocated folio order is different
+> from the freed folio order, I do not know how you are going to keep
+> track of the rest of the freed folio. Of course you can implement a
+> buddy allocator there.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Joseph Guo <qijian.guo@nxp.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/bridge/waveshare-dsi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+nouveau doesn't support high order folios.
 
-diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
-index 9254446f54958..7fcb878f37e2b 100644
---- a/drivers/gpu/drm/bridge/waveshare-dsi.c
-+++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-@@ -66,7 +66,11 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
- 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->lanes = 2;
-+	dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
-+	if (dsi->lanes < 0) {
-+		dev_warn(dev, "Invalid DSI lane count %d, falling back to 2 lanes\n", dsi->lanes);
-+		dsi->lanes = 2;	/* Old DT backward compatibility */
-+	}
- 
- 	ret = devm_mipi_dsi_attach(dev, dsi);
- 	if (ret < 0)
--- 
-2.51.0
+A simple linked list is not really a suitable data structure to ever
+support high order folios with.. If it were to use such a thing, and
+did want to take a high order folio off the list, and reduce its
+order, then it would have to put the remainder back on the list with a
+revised order value. That's all, nothing hard.
 
+Again if the driver needs to store information in the struct page to
+manage its free list mechanism (ie linked pointers, order, whatever)
+then it should be doing that directly.
+
+When it takes the memory range off the free list it should call
+zone_device_page_init() to make it ready to be used again. I think it
+is a poor argument to say that zone_device_page_init() should rely on
+values already in the struct page to work properly :\
+
+The usable space within the struct page, and what values must be fixed
+for correct system function, should exactly mirror what frozen pages
+require. After free it is effectively now a frozen page owned by the
+device driver.
+
+I haven't seen any documentation on that, but I suspect Matthew and
+David have some ideas..
+
+If there is a reason for order, flags and mapping to be something
+particular then it should flow from the definition of frozen pages,
+and be documented, IMHO.
+
+Jason
