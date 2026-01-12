@@ -2,60 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE095D13EAE
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989A9D13E96
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB7A10E419;
-	Mon, 12 Jan 2026 16:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4A8A10E413;
+	Mon, 12 Jan 2026 16:13:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=buaa.edu.cn header.i=@buaa.edu.cn header.b="TrotUIJZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z4wSELc3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 456 seconds by postgrey-1.36 at gabe;
- Mon, 12 Jan 2026 10:48:39 UTC
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net
- [4.193.249.245])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AC9110E091
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 10:48:39 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24E5710E0DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:32:57 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-81e9d0cd082so2074229b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 04:32:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=buaa.edu.cn; s=buaa; h=Received:Date:From:To:Cc:Subject:
- In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID; bh=EFFu1vxT9Ga1UlHn2AU8ueN0ysuZIXQk8bAX
- Mf/0TmI=; b=TrotUIJZ8t2V9EItUrZDKt6x/GfgX2ZstW4mHLLIqHWQE/mHkBw3
- thHyE4xNxIsKFovtMlGzuVVnHSVQtsv1mJ3e5Xmi9li3ajFkBiuNJSckGuE0DnA/
- dopG1+uuD6U78kC1Xfv1UxB5MQkr6r1WMncTxMP8XsAfIWol3J0AX8M=
-Received: from zy2421106$buaa.edu.cn ( [219.224.171.14] ) by
- ajax-webmail-coremail-app1 (Coremail) ; Mon, 12 Jan 2026 18:40:52 +0800
- (GMT+08:00)
-X-Originating-IP: [219.224.171.14]
-Date: Mon, 12 Jan 2026 18:40:52 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Xingjing Deng" <zy2421106@buaa.edu.cn>
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: "Xingjing Deng" <micro6947@gmail.com>, srini@kernel.org,
- amahesh@qti.qualcomm.com, arnd@arndb.de,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-Subject: =?UTF-8?Q?Re:_=E3=80=90SPAM=E3=80=91_Re:_[PATCH]_misc:_fastrpc:_p?=
- =?UTF-8?Q?ossible_double-free_of_cctx->remote=5Fheap?=
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
- 20240305(0ac2fdd1) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-63b7ebb9-fa87-40c1-9aec-818ec5a006d9-buaa.edu.cn
-In-Reply-To: <2026011227-casualty-rephrase-9381@gregkh>
-References: <20260112090221.3250133-1-xjdeng@buaa.edu.cn>
- <2026011227-casualty-rephrase-9381@gregkh>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ d=gmail.com; s=20230601; t=1768221176; x=1768825976; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GmdD8KZWFllN0kxC+KJpu7oOwNYAIMDzyBObDdyGg+A=;
+ b=Z4wSELc3I0utY7CLsF4UY5osaYuVAQTMwo/iUFW8dhKSEAt75uGNIGqD9u9a9etRkW
+ vewPZmniuyxbzqFv/CoenSmY0PpwkTfXn4E5eEZB3wlN5zPzC+LMnLq5wFsrNYWwFK9O
+ e6mPjhLiWzjqKaK7rHFqTq/idMLdbBgSMgBYLhEzaWZC3cUIMOmSnFP+eXDGW2rbLc01
+ St7NkL6p+AJAtZ4juvDU8fhwQCeff3vCLkD6IyPam1+Dczuugx3C3kpfto7hnejIQY1J
+ JKluoEtzJ1zMP5sMiWwEx/+Zqe/Cknku7JPjbidH7TQOF9sl6fNw0UDiUMIpt49TVkCb
+ Mbfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768221176; x=1768825976;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GmdD8KZWFllN0kxC+KJpu7oOwNYAIMDzyBObDdyGg+A=;
+ b=FG3TBK5JB7vdDnWa+DPO2R2rOENeJSufOW/4+xeP6G7LFPQmDeAdugijZJWtwDxq5N
+ UE4UBkyvQFSPp38ArNLaIA4pMoJqnL26xhnUvlvr22HlXIuAjm0sCR52v2a2oANRnNSh
+ 2C1iTkkEVNLbZniCKx8H3Mkhj7SLE/8BcSxk0r5ngU49kCP4QofywQf4sUTbKfvt8NZ4
+ B3r+FCSG04DSWmHV9GIGfQkzLD0UAglJJw+lUcvPVGIdoy0LYBgtmuTbxuBaQ7nxM4x4
+ EZdUY3DP4aXeHXQD06vHOZfHiMSytRtICiXkpKYvoHrcuQo3Tc3XXxhHQjIx29dA6hbh
+ qEtg==
+X-Gm-Message-State: AOJu0Yy3OJansxYVyRFmjvyPD5/vBZnurKQizYdSMgmBsrAUJ6AudLhT
+ fodVp57WViz50bCnOQk2yn4beUBsAs3BveSIbRJzfxp4JgPZPOoT1NAF
+X-Gm-Gg: AY/fxX6lnS3HwQY8VnKjoGeiuUFV2EHTaGGUUxYqW9yDXhH6ZybpgR/f+Sx6QSgyY6K
+ FdMS5o8knuf4i3h8wQzuWh4T2Vf5KEnEG06dun56AeixS5vYw/+rvetMOFQXFzEJuJ5zH9RGQ/f
+ 9VU2gdyjXHr12Gf8e0zxVG79tB0Z6gb6JhxgBhprY2IMZtAtz0PPdhHHQoDEwRbpiOrVwm4jLnT
+ NOpOejeViD/MfLFkLJ5lvUKI3pxCAniFGXDQTlE2Rv4DNMjXGzHDKQ11kjFVERWu84GF6ooeHwH
+ rKv5CVig9MslHte5LPZWItRpUDZTG0kayeDKLJyrvCYZlduwDosReTsIB6H/0kPH183VToZgdPD
+ RFxqXVeljJXjTiD9MyOLoG/zec+swTV5eWjNgX3kbhsev4y18KVc4L9XjFsERGnp73iNX6q5J/k
+ kO5XtM6R0kKtGHsf5vCpJW+wA=
+X-Google-Smtp-Source: AGHT+IG6oEHPvEC/onlSfhniFExueTjVWKGz+6vfBL+I0KYIrm1outw4HFM2YSLadev+0+rrQXITRA==
+X-Received: by 2002:a05:6a00:4144:b0:81f:5037:a318 with SMTP id
+ d2e1a72fcca58-81f5037a797mr2984858b3a.21.1768221176467; 
+ Mon, 12 Jan 2026 04:32:56 -0800 (PST)
+Received: from localhost.localdomain ([111.202.170.108])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-81f32ccb4aesm6987379b3a.9.2026.01.12.04.32.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 04:32:56 -0800 (PST)
+From: Xingjing Deng <micro6947@gmail.com>
+X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
+To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
+Subject: [PATCH v2] misc: fastrpc: possible double-free of cctx->remote_heap
+Date: Mon, 12 Jan 2026 20:32:49 +0800
+Message-Id: <20260112123249.3523369-1-xjdeng@buaa.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <31f000e3.c65c.19bb1cb5978.Coremail.zy2421106@buaa.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: OCz+CgCHdyy0z2Rpver3AA--.21043W
-X-CM-SenderInfo: d21skjarrqlqpexdthxhgxhubq/1tbiAgQFCWljsbNKqwABsi
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-X-Mailman-Approved-At: Mon, 12 Jan 2026 16:14:01 +0000
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 12 Jan 2026 16:13:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +88,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksdjIgd2lsbCBhZGQgdGhlIG1pc3NpbmcgdGFnczoKRml4ZXM6IDA4NzE1NjEwNTVlNjYgKCJt
-aXNjOiBmYXN0cnBjOiBBZGQgc3VwcG9ydCBmb3IgYXVkaW9wZCIpCkNjOiBzdGFibGVAdmdlci5r
-ZXJuZWwub3JnICMgNi4yKwpJ4oCZbSBoYXZpbmcgdHJvdWJsZSBzZW5kaW5nIHYyIHZpYSBnaXQg
-c2VuZC1lbWFpbCBhdCB0aGUgbW9tZW50OyBJIHdpbGwKcmVzZW5kIHRoZSBhY3R1YWwgdjIgcGF0
-Y2ggYXMgc29vbiBhcyBTTVRQIGlzIHdvcmtpbmcuClRoYW5rcywgWGluZ2ppbmcgRGVuZy4KCgo+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZXMtLS0tLQo+IEZyb206ICJHcmVnIEtIIiA8Z3JlZ2toQGxp
-bnV4Zm91bmRhdGlvbi5vcmc+Cj4gU2VuZCB0aW1lOk1vbmRheSwgMDEvMTIvMjAyNiAxNzoxNjoz
-OAo+IFRvOiAiWGluZ2ppbmcgRGVuZyIgPG1pY3JvNjk0N0BnbWFpbC5jb20+Cj4gQ2M6IHNyaW5p
-QGtlcm5lbC5vcmcsIGFtYWhlc2hAcXRpLnF1YWxjb21tLmNvbSwgYXJuZEBhcm5kYi5kZSwgZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZywgbGludXgtYXJtLW1zbUB2Z2VyLmtlcm5lbC5v
-cmcsICJYaW5namluZyBEZW5nIiA8eGpkZW5nQGJ1YWEuZWR1LmNuPgo+IFN1YmplY3Q6IOOAkFNQ
-QU3jgJEgUmU6IFtQQVRDSF0gbWlzYzogZmFzdHJwYzogcG9zc2libGUgZG91YmxlLWZyZWUgb2Yg
-Y2N0eC0+cmVtb3RlX2hlYXAKPiAKPiAKPiBPbiBNb24sIEphbiAxMiwgMjAyNiBhdCAwNTowMjoy
-MVBNICswODAwLCBYaW5namluZyBEZW5nIHdyb3RlOgo+ID4gZmFzdHJwY19pbml0X2NyZWF0ZV9z
-dGF0aWNfcHJvY2VzcygpIG1heSBmcmVlIGNjdHgtPnJlbW90ZV9oZWFwIG9uIHRoZQo+ID4gZXJy
-X21hcCBwYXRoIGJ1dCBkb2VzIG5vdCBjbGVhciB0aGUgcG9pbnRlci4gTGF0ZXIsIGZhc3RycGNf
-cnBtc2dfcmVtb3ZlKCkKPiA+IGZyZWVzIGNjdHgtPnJlbW90ZV9oZWFwIGFnYWluIGlmIGl0IGlz
-IG5vbi1OVUxMLCB3aGljaCBjYW4gbGVhZCB0byBhCj4gPiBkb3VibGUtZnJlZSBpZiB0aGUgSU5J
-VF9DUkVBVEVfU1RBVElDIGlvY3RsIGhpdHMgdGhlIGVycm9yIHBhdGggYW5kIHRoZSBycG1zZwo+
-ID4gZGV2aWNlIGlzIHN1YnNlcXVlbnRseSByZW1vdmVkL3VuYm91bmQuCj4gPiBDbGVhciBjY3R4
-LT5yZW1vdGVfaGVhcCBhZnRlciBmcmVlaW5nIGl0IGluIHRoZSBlcnJvciBwYXRoIHRvIHByZXZl
-bnQgdGhlCj4gPiBsYXRlciBjbGVhbnVwIGZyb20gZnJlZWluZyBpdCBhZ2Fpbi4KPiA+IAo+ID4g
-U2lnbmVkLW9mZi1ieTogWGluZ2ppbmcgRGVuZyA8eGpkZW5nQGJ1YWEuZWR1LmNuPgo+ID4gLS0t
-Cj4gPiAgZHJpdmVycy9taXNjL2Zhc3RycGMuYyB8IDEgKwo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9taXNjL2Zhc3RycGMu
-YyBiL2RyaXZlcnMvbWlzYy9mYXN0cnBjLmMKPiA+IGluZGV4IGVlNjUyZWYwMTUzNC4uZmIzYjU0
-ZTA1OTI4IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9taXNjL2Zhc3RycGMuYwo+ID4gKysrIGIv
-ZHJpdmVycy9taXNjL2Zhc3RycGMuYwo+ID4gQEAgLTEzNzAsNiArMTM3MCw3IEBAIHN0YXRpYyBp
-bnQgZmFzdHJwY19pbml0X2NyZWF0ZV9zdGF0aWNfcHJvY2VzcyhzdHJ1Y3QgZmFzdHJwY191c2Vy
-ICpmbCwKPiA+ICAJfQo+ID4gIGVycl9tYXA6Cj4gPiAgCWZhc3RycGNfYnVmX2ZyZWUoZmwtPmNj
-dHgtPnJlbW90ZV9oZWFwKTsKPiA+ICsJZmwtPmNjdHgtPnJlbW90ZV9oZWFwID0gTlVMTDsKPiA+
-ICBlcnJfbmFtZToKPiA+ICAJa2ZyZWUobmFtZSk7Cj4gPiAgZXJyOgo+ID4gLS0gCj4gPiAyLjI1
-LjEKPiA+IAo+IAo+IFdoYXQgY29tbWl0IGlkIGRvZXMgdGhpcyBmaXg/ICBTaG91bGQgaXQgZ28g
-dG8gc3RhYmxlIGtlcm5lbHM/Cj4gCj4gdGhhbmtzLAo+IAo+IGdyZWcgay1oCg==
+fastrpc_init_create_static_process() may free cctx->remote_heap on the
+err_map path but does not clear the pointer. Later, fastrpc_rpmsg_remove()
+frees cctx->remote_heap again if it is non-NULL, which can lead to a
+double-free if the INIT_CREATE_STATIC ioctl hits the error path and the rpmsg
+device is subsequently removed/unbound.
+Clear cctx->remote_heap after freeing it in the error path to prevent the
+later cleanup from freeing it again.
+
+Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
+Cc: stable@vger.kernel.org # 6.2+
+Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+
+v2 changes:
+Add Fixes: and Cc: stable@vger.kernel.org.
+---
+ drivers/misc/fastrpc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index ee652ef01534..fb3b54e05928 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -1370,6 +1370,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 	}
+ err_map:
+ 	fastrpc_buf_free(fl->cctx->remote_heap);
++	fl->cctx->remote_heap = NULL;
+ err_name:
+ 	kfree(name);
+ err:
+-- 
+2.25.1
+
