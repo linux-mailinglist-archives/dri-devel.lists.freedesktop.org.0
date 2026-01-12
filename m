@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E9AD12809
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4214FD1283C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:21:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 173AE89654;
-	Mon, 12 Jan 2026 12:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8261510E3B6;
+	Mon, 12 Jan 2026 12:21:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iL2K02pv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kchJVSnv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E8A89654
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:20:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 544F06013C;
- Mon, 12 Jan 2026 12:20:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233D1C16AAE;
- Mon, 12 Jan 2026 12:20:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768220402;
- bh=+Nliq3Hq9k4ThIYArW3/W+oRJeWgrnz/ZUwpOJtv0cM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iL2K02pvk6E1DsvDlqWboBCtpQHXaKUBrL1wltPlg05hlgRoVPE9d6yCnJgpfHU3K
- 5wnwkxG9AmFATvFjjgHmhJmW/kYdcxNn5zEl7CCQGsXozborPGix1NS3B6tfKluFUp
- 4+jaQq6nlsWR88DToo/mPKJ87brhQnhnntP/R+nXtW3dhiXFicBW1f3BpAsty+mLjZ
- 99FE2FBFc/kRsz2G+ht2VEMhhnQ2twEqyml4iPXDcjXNFCp0ahYY66D1dhde+2mS0q
- 8Y77nf0bPjNjJG2JcBS0x7Evxif8Ub6tPWPTIo5nqywmPi5aJOLKCeAsDSKhiNLd77
- 0aouxLftPfDUw==
-Date: Mon, 12 Jan 2026 14:19:56 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Williamson <alex@shazbot.org>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 0/4] dma-buf: add revoke mechanism to invalidate shared
- buffers
-Message-ID: <20260112121956.GE14378@unreal>
-References: <20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com>
- <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3222C10E3B6;
+ Mon, 12 Jan 2026 12:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768220508;
+ bh=iRtfMCL1Oz7vI19NsR0rJtTifPlnDjelAukBq66MZrY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kchJVSnvf8Az4kLIN6nwQlaUO8oCVTJpDz4fZ4UDRsQBeSmTzhl21q03BUIJ0CX6g
+ 9RcJfsPZmCXJt0HFDXbvuvutBP6b6xFyP8iac/HL3xvmtmtDasDMZ5GjN3WWEFs+F+
+ +YTLYQDyT36wTdTYrsN4xTVPUFSModSOqG785KHBtI0TjimxwsjdnGDjb/urPtAwAo
+ mMV4lwGofzWnbbQXp5+eCbCwExWaAHkwt8HXrCHtoJ8zDbziXqewk4+bcjimynu9nL
+ A1fxt9ebjRuqjkpiOapCg0NV7CO+RgdULoYEoStd/A276z4En2o9GuLgFkkjDgllT8
+ EtrYL421nak3Q==
+Received: from nemo.lan (unknown [IPv6:2a07:244:40:6b00::646])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vivek)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6673D17E0CB0;
+ Mon, 12 Jan 2026 13:21:48 +0100 (CET)
+From: Vivek Das Mohapatra <vivek@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] drm/amd/display: Initialise backlight level values from hw
+Date: Mon, 12 Jan 2026 12:20:46 +0000
+Message-Id: <20260112122140.2609679-1-vivek@collabora.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +61,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 12, 2026 at 11:04:38AM +0100, Christian König wrote:
-> On 1/11/26 11:37, Leon Romanovsky wrote:
-> > This series implements a dma-buf “revoke” mechanism: to allow a dma-buf
-> > exporter to explicitly invalidate (“kill”) a shared buffer after it has
-> > been distributed to importers, so that further CPU and device access is
-> > prevented and importers reliably observe failure.
-> 
-> We already have that. This is what the move_notify is all about.
-> 
-> > Today, dma-buf effectively provides “if you have the fd, you can keep using
-> > the memory indefinitely.” That assumption breaks down when an exporter must
-> > reclaim, reset, evict, or otherwise retire backing memory after it has been
-> > shared. Concrete cases include GPU reset and recovery where old allocations
-> > become unsafe to access, memory eviction/overcommit where backing storage
-> > must be withdrawn, and security or isolation situations where continued access
-> > must be prevented. While drivers can sometimes approximate this with
-> > exporter-specific fencing and policy, there is no core dma-buf state transition
-> > that communicates “this buffer is no longer valid; fail access” across all
-> > access paths.
-> 
-> It's not correct that there is no DMA-buf handling for this use case.
-> 
-> > The change in this series is to introduce a core “revoked” state on the dma-buf
-> > object and a corresponding exporter-triggered revoke operation. Once a dma-buf
-> > is revoked, new access paths are blocked so that attempts to DMA-map, vmap, or
-> > mmap the buffer fail in a consistent way.
-> > 
-> > In addition, the series aims to invalidate existing access as much as the kernel
-> > allows: device mappings are torn down where possible so devices and IOMMUs cannot
-> > continue DMA.
-> > 
-> > The semantics are intentionally simple: revoke is a one-way, permanent transition
-> > for the lifetime of that dma-buf instance.
-> > 
-> > From a compatibility perspective, users that never invoke revoke are unaffected,
-> > and exporters that adopt it gain a core-supported enforcement mechanism rather
-> > than relying on ad hoc driver behavior. The intent is to keep the interface
-> > minimal and avoid imposing policy; the series provides the mechanism to terminate
-> > access, with policy remaining in the exporter and higher-level components.
-> 
-> As far as I can see that patch set is completely superfluous.
-> 
-> The move_notify mechanism has been implemented exactly to cover this use case and is in use for a couple of years now.
-> 
-> What exactly is missing?
+Internal backlight levels are initialised from ACPI but the values
+are sometimes out of sync with the levels in effect until there has
+been a read from hardware (eg triggered by reading from sysfs).
 
-From what I can tell, the missing piece is what happens after .move_notify()
-is called. According to the documentation, the exporter remains valid, and
-the importer is expected to recreate all mappings.
+This means that the first drm_commit can cause the levels to be set
+to a different value than the actual starting one, which results in
+a sudden change in brightness.
 
-include/linux/dma-buf.h:
-  471          * Mappings stay valid and are not directly affected by this callback.
-  472          * But the DMA-buf can now be in a different physical location, so all
-  473          * mappings should be destroyed and re-created as soon as possible.
-  474          *
-  475          * New mappings can be created after this callback returns, and will
-  476          * point to the new location of the DMA-buf.
+This path shows the problem (when the values are out of sync):
 
-Call to dma_buf_move_notify() does not prevent new attachments to that
-exporter, while "revoke" does. In the current code, the importer is not aware
-that the exporter no longer exists and will continue calling
-dma_buf_map_attachment().
+   amdgpu_dm_atomic_commit_tail()
+   -> amdgpu_dm_commit_streams()
+   -> amdgpu_dm_backlight_set_level(..., dm->brightness[n])
 
-In summary, the current implementation allows a single .attach() check but
-permits multiple .map_dma_buf() calls. With "revoke", we gain the ability to
-block any subsequent .map_dma_buf() operations.
+This patch calls the backlight ops get_brightness explicitly
+at the end of backlight registration to make sure dm->brightness[n]
+is in sync with the actual hardware levels.
 
-Main use case is VFIO as exporter and IOMMUFD as importer.
+Signed-off-by: Vivek Das Mohapatra <vivek@collabora.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Thanks
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 354e359c4507..50f0547ed63c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5258,6 +5258,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	struct amdgpu_dm_backlight_caps *caps;
+ 	char bl_name[16];
+ 	int min, max;
++	int real_brightness;
++	int init_brightness;
+ 
+ 	if (aconnector->bl_idx == -1)
+ 		return;
+@@ -5282,6 +5284,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	} else
+ 		props.brightness = props.max_brightness = MAX_BACKLIGHT_LEVEL;
+ 
++	init_brightness = props.brightness;
++
+ 	if (caps->data_points && !(amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)) {
+ 		drm_info(drm, "Using custom brightness curve\n");
+ 		props.scale = BACKLIGHT_SCALE_NON_LINEAR;
+@@ -5297,6 +5301,18 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 					  &amdgpu_dm_backlight_ops, &props);
+ 	dm->brightness[aconnector->bl_idx] = props.brightness;
+ 
++	/*
++	 * dm->brightness[x] can be inconsistent just after startup until
++	 * ops.get_brightness is called.
++	 */
++	real_brightness =
++		amdgpu_dm_backlight_ops.get_brightness(dm->backlight_dev[aconnector->bl_idx]);
++
++	if (real_brightness != init_brightness) {
++		dm->actual_brightness[aconnector->bl_idx] = real_brightness;
++		dm->brightness[aconnector->bl_idx] = real_brightness;
++	}
++
+ 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
+ 		drm_err(drm, "DM: Backlight registration failed!\n");
+ 		dm->backlight_dev[aconnector->bl_idx] = NULL;
+-- 
+2.39.5
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > BTW, see this megathread [1] for additional context.  
-> > Ironically, it was posted exactly one year ago.
-> > 
-> > [1] https://lore.kernel.org/all/20250107142719.179636-2-yilun.xu@linux.intel.com/
-> > 
-> > Thanks
-> > 
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: kvm@vger.kernel.org
-> > Cc: iommu@lists.linux.dev
-> > To: Jason Gunthorpe <jgg@ziepe.ca>
-> > To: Leon Romanovsky <leon@kernel.org>
-> > To: Sumit Semwal <sumit.semwal@linaro.org>
-> > To: Christian König <christian.koenig@amd.com>
-> > To: Alex Williamson <alex@shazbot.org>
-> > To: Kevin Tian <kevin.tian@intel.com>
-> > To: Joerg Roedel <joro@8bytes.org>
-> > To: Will Deacon <will@kernel.org>
-> > To: Robin Murphy <robin.murphy@arm.com>
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> > Leon Romanovsky (4):
-> >       dma-buf: Introduce revoke semantics
-> >       vfio: Use dma-buf revoke semantics
-> >       iommufd: Require DMABUF revoke semantics
-> >       iommufd/selftest: Reuse dma-buf revoke semantics
-> > 
-> >  drivers/dma-buf/dma-buf.c          | 36 ++++++++++++++++++++++++++++++++----
-> >  drivers/iommu/iommufd/pages.c      |  2 +-
-> >  drivers/iommu/iommufd/selftest.c   | 12 ++++--------
-> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 27 ++++++---------------------
-> >  include/linux/dma-buf.h            | 31 +++++++++++++++++++++++++++++++
-> >  5 files changed, 74 insertions(+), 34 deletions(-)
-> > ---
-> > base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
-> > change-id: 20251221-dmabuf-revoke-b90ef16e4236
-> > 
-> > Best regards,
-> > --  
-> > Leon Romanovsky <leonro@nvidia.com>
-> > 
-> 
-> 
