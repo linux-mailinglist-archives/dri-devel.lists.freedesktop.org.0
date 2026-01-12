@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DB7D11B03
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 11:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C7DD11B20
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 11:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FDB10E094;
-	Mon, 12 Jan 2026 10:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E301310E0DC;
+	Mon, 12 Jan 2026 10:02:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I9zkIGIM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GLo7Tw3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C713410E08D;
- Mon, 12 Jan 2026 10:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768212127; x=1799748127;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sVWVfgBIynE4TGF6oGHVNnynLpGW5kHWmxUa5cShgrU=;
- b=I9zkIGIMzKy6SoyYC1uzrPWXrKevVkB5GUR+AxPgpbu200UFOkdotXYq
- pHX0jPof3wsk3oMolPQ6kmQGvXdGC8bQkD3QRHbS7EFrua7iCPtPn4GZx
- rtbyZvtCgyTCttFIEa3K2essAajs6dTH9bPVsaC8OhIxL3fJIlXopjRF7
- ZWy1T7rzlkFcgq6TM0z1lcUBpJg+pOhnTZE6gESs6PXJ61MQl1ZyZVhBG
- ObGr7ryQUUeC6f5Z90sOowTR7xpSTV1kozQZGc5ARCgH0fDp/DN1zYWgr
- KaZXuigKACxOGflAtMWLsp1ftvM2DQY0faz/38JkiT+hGbLQmBi6gpg0o w==;
-X-CSE-ConnectionGUID: KncIgp5hSSe5/MIKZWjMfA==
-X-CSE-MsgGUID: 9pN5QskmSzCl7fa0zySG1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="92150119"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="92150119"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 02:02:06 -0800
-X-CSE-ConnectionGUID: +xATSLPfTr2vKQbvSkMGCQ==
-X-CSE-MsgGUID: s7Jg6rexS2GEEigjs0znWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="204334170"
-Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 02:02:03 -0800
-Date: Mon, 12 Jan 2026 11:02:00 +0100
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v3 3/4] drm/xe/xe_hw_error: Add support for GT hardware
- errors
-Message-ID: <aWTGmL3761UiS7lz@black.igk.intel.com>
-References: <20251205083934.3602030-6-riana.tauro@intel.com>
- <20251205083934.3602030-9-riana.tauro@intel.com>
- <aTm5W6ibEn3XPZ3o@black.igk.intel.com>
- <1f77c982-6b83-4a0b-8844-e1ab2137fcff@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846CC10E316
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 10:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768212170;
+ bh=l0pv5pZ/xVnRRZcmyOOTRtfEyklwaw4RDdM9CvaIT6Q=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GLo7Tw3KqP3Eh/veXc8DC7dOZX+4jgHJWeF18Yvc4sh759WqvuvrF8qrNzWchqdCK
+ tO8EuvRyNVkCZG0KMoQHKws7I+PnQXNu7+jJP0bgA6hYMifdqz6MxaoVda5wYi7+zi
+ LqYXEID5y0VUy3+DYZPrS58ISnelsQktyrIaaQI65EU4EFo0dQMfBUPnwJ/zZr6Db7
+ V+9rsm2hH2NNnep2Yb9tOrQnk3duF+mBUB+k4N8q0Z8lItbBHU/hqGfeM3UVeweIfD
+ CTQ+YV1mDCNTU0XyZLgrjen1/0F7ZJlas98kueO8HO0BXv4TPBCsftK0d5Iyto95YO
+ immHd3GawtijQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4F34E17E0E30;
+ Mon, 12 Jan 2026 11:02:49 +0100 (CET)
+Date: Mon, 12 Jan 2026 11:02:43 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ "=?UTF-8?B?QWRyacOhbg==?= Larumbe" <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dmitry
+ Osipenko <dmitry.osipenko@collabora.com>, Chris Diamand
+ <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?="
+ <thomas.hellstrom@linux.intel.com>, kernel@collabora.com
+Subject: Re: [PATCH v1 1/9] drm/gem: Consider GEM object reclaimable if
+ shrinking fails
+Message-ID: <20260112110243.6d2a762b@fedora>
+In-Reply-To: <aWS98P5ocWn8GmJk@google.com>
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-2-boris.brezillon@collabora.com>
+ <aWS98P5ocWn8GmJk@google.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f77c982-6b83-4a0b-8844-e1ab2137fcff@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +75,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 12, 2026 at 09:11:05AM +0530, Riana Tauro wrote:
-> On 12/10/2025 11:48 PM, Raag Jadav wrote:
-> > On Fri, Dec 05, 2025 at 02:09:35PM +0530, Riana Tauro wrote:
-> > > PVC supports GT error reporting via vector registers along with
-> > > error status register. Add support to report these errors and
-> > > update respective counters. Incase of Subslice error reported
-> > > by vector register, process the error status register
-> > > for applicable bits.
-> > > 
-> > > Incorporate the counter inside the driver itself and start
-> > > using the drm_ras generic netlink to report them.
+On Mon, 12 Jan 2026 09:25:04 +0000
+Alice Ryhl <aliceryhl@google.com> wrote:
 
-...
-
-> > > +		vector = xe_mmio_read32(mmio, ERR_STAT_GT_VECTOR_REG(severity, i));
-> > > +		if (!vector)
-> > > +			continue;
-> > > +
-> > > +		switch (i) {
-> > > +		case ERR_STAT_GT_VECTOR0:
-> > > +		case ERR_STAT_GT_VECTOR1:
-> > > +			u32 errbit;
-> > > +
-> > > +			val = hweight32(vector);
-> > > +			atomic64_add(val, &info[error_id].counter);
-> > > +			log_gt_err(tile, "Subslice", i, vector, severity);
-> > > +
-> > > +			if (err_stat)
-> > > +				break;
+> On Fri, Jan 09, 2026 at 02:07:53PM +0100, Boris Brezillon wrote:
+> > If the object wasn't moved to a different LRU after the shrink callback
+> > is called, it means the buffer is still reclaimable. Update the remaining
+> > counter to reflect that.
 > > 
-> > So we won't ever be getting past this point, is that right?
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
 > 
-> err stat will be read only once. The first time we will not hit this.
+> Should this have a Fixes:?
 
-Right, so let's explain it with a small comment.
-
-...
-
-> > > @@ -96,11 +240,39 @@ static void hw_error_source_handler(struct xe_tile *tile, enum drm_xe_ras_error_
-> > >   		goto unlock;
-> > >   	}
-> > > -	if (err_src & XE_CSC_ERROR)
-> > > +	if (err_src & XE_CSC_ERROR) {
-> > 
-> > Shouldn't this be inside the loop below?
-> 
-> We do not have a separate type for CSC. And once we get a CSC error, the
-> driver will be wedged and only way to recover is firmware flash.
-> 
-> So there is no point of keeping count or checking other bits.
-
-Ditto for a small comment.
-
-Raag
+If we wanted one, that would be e7c2af13f811 ("drm/gem: Add LRU/shrinker
+helper"), but I'm still not sure what the original intent was, so let's
+wait for Rob to confirm that a transient reclaim failures (most likely
+an inner lock that couldn't be acquired with a _try_lock()) should count
+as reclaimable.
