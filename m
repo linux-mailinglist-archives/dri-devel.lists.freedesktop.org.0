@@ -2,51 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2F0D13A9F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 16:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866BED13B4E
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 16:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84583890EB;
-	Mon, 12 Jan 2026 15:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80D2110E18F;
+	Mon, 12 Jan 2026 15:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lpg9efCT";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="QQGCa9m+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0674890EB;
- Mon, 12 Jan 2026 15:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768231741;
- bh=2EBOUlFdg3MszkEBGNlnfrYy2xczDbjzxVzmkBS+tt8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lpg9efCTjL9dEcFCNwqHaMJbX0lZhj+F9+dNTVXtFuT1nb0YzDRn8IIa2LqU85lwE
- xcZ/fg/UcpNjWs/DHM3prQFyQhpdYwLVYpKUDpHWgzAKBZwVMsGtNS2e+PbXBtokI8
- GQtKXxQVh+/TYoAPM2+/Z/bT44afLkB0rtdDLDqYmhDhHII93Ttpv2tuCWZp07UNPm
- xVHKS+BGltaLFfs1JEu/qxmkW9zchhWn6lokjh67RixNh8nfqabSH0TYWzvj/pf3rP
- UZsgc2E36Hy6SMcv0ypJjNGAVn84pZVmtWGvyrRabqA/ucQyG10LHYqF1e3FTjr1k5
- SpxLSw9a9vhAw==
-Received: from nemo.lan (unknown [IPv6:2a07:244:40:6b00::646])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vivek)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E938917E13F1;
- Mon, 12 Jan 2026 16:29:00 +0100 (CET)
-From: Vivek Das Mohapatra <vivek@collabora.com>
-To: superm1@kernel.org
-Cc: airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
- kernel@collabora.com, linux-kernel@vger.kernel.org, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com, vivek@collabora.com
-Subject: [PATCH v2] drm/amd/display: Initialise backlight level values from hw
-Date: Mon, 12 Jan 2026 15:28:56 +0000
-Message-Id: <20260112152856.2616532-1-vivek@collabora.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <7ec7b4ae-6186-4961-a857-f97afcfc3ded@kernel.org>
-References: <7ec7b4ae-6186-4961-a857-f97afcfc3ded@kernel.org>
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BB4710E18F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 15:35:05 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-88a26ce6619so68806586d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 07:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1768232104; x=1768836904; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YhowijaztWf/3gTanh1QGKmo9pcuIvisiulcfP4DQN8=;
+ b=QQGCa9m+VT1mSxHn+voIgzn4FqRIJLOYsfS9CrItKXXKtCDPdSn3wxe+2ZM0LccVEH
+ v5bYAIpJ0O5r7UBsvqtoQOZyPmqR5Qr804mru7QpVml2gz3h5n0INZFQbErmTUhKb0nc
+ FgwhpEtBa1a8JQVrTa42aajhLdVZeHM5K6Ht9BlpoashoPHkB/q55oYefN/UV2lGwQ7F
+ 0Mo7iBKCa2peEu07+9xI68YvuUWfutEbQjizw2zs76IR9n1xIr1eOI4THU3oH5j4WH4T
+ P2IkwfhQrvissxdk/tzxPMv8Nd5xmrCTCjmabn3a+0EG98sOLbQTALquVMxt+u6Qy+JH
+ BYPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768232104; x=1768836904;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YhowijaztWf/3gTanh1QGKmo9pcuIvisiulcfP4DQN8=;
+ b=CSYCKFWz6KPAN88Kw9ULiKJ+pemBjoKDsbjM+sXwhelKyksQCsBuptx0w2sC0ILEdL
+ wepmjHqd3xky8XM1Eqs6lQzWP7h1Lm5aTPOe/P9czjZnA3Hf9Nf7/wyr5+zEO9gSs5/x
+ 4E0kHOiQS6L3XIvTjNIPtmw5W8+dOm1biRncsWLRs/FBuXV4ERAYCmqyNngxxik4fpO3
+ 2xG2QCnPcJJN7ogBXVpmz2mS307Df+S+uXMWkhsH1F57WGy1YB3FNAIrq8UjqtbTyrd4
+ NMw+N9z4219V6i3tSZKWfhpnTLiAlRDmIFbWh9VEPRhn0mzds1TGXkpoGOZtJx2m2+k0
+ AL6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU16EyRR95FQ2lKmuNhNmNU6lA9yaA8Mq0iwrhx+FROSC/nlnZdRiCoQXzXmQ1p2eWuE4D3M6axoHo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzH+9WEKMpf3CDtizgPwL3/CR1sKs3wHp7OknZAiKzuqEVR1gOj
+ Vac7FlS4EkjIC1IBrXxkJg/Z0Av1Lyzo3LAZf6RVUAnrFqmdCUTSnnUBLt3Lf4i267o=
+X-Gm-Gg: AY/fxX6EkzBpKM6XXQWh3AGfOXUPKWpC2Se8QeuZrhoF76Rc6nDz439gGDHBByMR9uo
+ 9ozhapQb5CcwXvEVJoiCYukQ3QsTMPJVktGePD86Ij1BGl06qCOs/yP0uowjfmWhxO3VukVOZRj
+ 3eoH05W9ZXME+Zv70HooBh0Lg7VEedG0wRR3wg5SHDmVXUmTIQ5ZxQOX7pPoRkfkT66KTKHNbVJ
+ aow7uVKls6evMMUE3LExbpb/a3TeKp1hGZrUIyOHq4guhuNOHanQAi57CDZzbERT+0j7qKj3OF2
+ 4Hn90O21l0Ci7nHWoY0K4b98Y3zJ1vd86yZ+ctqOqidYOBJs8cboi2eH0SCBZx+Zywz74da5ieJ
+ j3HykdOOZM5nRqOAf9wfL3EQekqVvUwBJwAwISwJdnAsyjLA9c1OaHz+LVC1u+MVcuHyVC8E5OJ
+ cUZt6KPBS1AoiSYY4rhdljxkLs/Kq32HD9TZX3i+tTwdAD+aXO4WzO8a8nninpGA1KnbU=
+X-Google-Smtp-Source: AGHT+IHFUDshOX5YDXPelpZvfCAVTGi9FjIy10Hnlj/GEw1ZiF/o5tF46ZaUyCruFsiUwzfjzfL6tA==
+X-Received: by 2002:a05:6214:458e:b0:888:6fa6:782b with SMTP id
+ 6a1803df08f44-890841d596amr270142346d6.30.1768232104214; 
+ Mon, 12 Jan 2026 07:35:04 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-89077280fd3sm137593066d6.55.2026.01.12.07.35.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 07:35:03 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vfJwd-00000003R6K-0Swy;
+ Mon, 12 Jan 2026 11:35:03 -0400
+Date: Mon, 12 Jan 2026 11:35:03 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Leon Romanovsky <leon@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Alex Williamson <alex@shazbot.org>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH 0/4] dma-buf: add revoke mechanism to invalidate shared
+ buffers
+Message-ID: <20260112153503.GF745888@ziepe.ca>
+References: <20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com>
+ <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
+ <20260112121956.GE14378@unreal>
+ <2db90323-9ddc-4408-9074-b44d9178bc68@amd.com>
+ <20260112141440.GE745888@ziepe.ca>
+ <f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +106,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Internal backlight levels are initialised from ACPI but the values
-are sometimes out of sync with the levels in effect until there has
-been a read from hardware (eg triggered by reading from sysfs).
+On Mon, Jan 12, 2026 at 03:56:32PM +0100, Christian König wrote:
+> > The problem revoke is designed to solve is that many importers have
+> > hardware that can either be DMA'ing or failing. There is no fault
+> > mechanims that can be used to implement the full "move around for no
+> > reason" semantics that are implied by move_notify.
+> 
+> In this case just call dma_buf_pin(). We already support that
+> approach for RDMA devices which can't do ODP.
 
-This means that the first drm_commit can cause the levels to be set
-to a different value than the actual starting one, which results in
-a sudden change in brightness.
+That alone isn't good enough - the patch adding the non-ODP support
+also contained this:
 
-This path shows the problem (when the values are out of sync):
+static void
+ib_umem_dmabuf_unsupported_move_notify(struct dma_buf_attachment *attach)
+{
+	struct ib_umem_dmabuf *umem_dmabuf = attach->importer_priv;
 
-   amdgpu_dm_atomic_commit_tail()
-   -> amdgpu_dm_commit_streams()
-   -> amdgpu_dm_backlight_set_level(..., dm->brightness[n])
+	ibdev_warn_ratelimited(umem_dmabuf->umem.ibdev,
+			       "Invalidate callback should not be called when memory is pinned\n");
+}
 
-This patch calls the backlight ops get_brightness explicitly
-at the end of backlight registration to make sure dm->brightness[n]
-is in sync with the actual hardware levels.
+static struct dma_buf_attach_ops ib_umem_dmabuf_attach_pinned_ops = {
+	.allow_peer2peer = true,
+	.move_notify = ib_umem_dmabuf_unsupported_move_notify,
+};
 
-Signed-off-by: Vivek Das Mohapatra <vivek@collabora.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+So we can't just allow it to attach to exporters that are going to
+start calling move_notify while pinned.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 354e359c4507..9e8cbfeee915 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5258,6 +5258,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	struct amdgpu_dm_backlight_caps *caps;
- 	char bl_name[16];
- 	int min, max;
-+	int real_brightness;
-+	int init_brightness;
- 
- 	if (aconnector->bl_idx == -1)
- 		return;
-@@ -5282,6 +5284,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	} else
- 		props.brightness = props.max_brightness = MAX_BACKLIGHT_LEVEL;
- 
-+	init_brightness = props.brightness;
-+
- 	if (caps->data_points && !(amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)) {
- 		drm_info(drm, "Using custom brightness curve\n");
- 		props.scale = BACKLIGHT_SCALE_NON_LINEAR;
-@@ -5300,8 +5304,20 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
- 		drm_err(drm, "DM: Backlight registration failed!\n");
- 		dm->backlight_dev[aconnector->bl_idx] = NULL;
--	} else
-+	} else {
-+		/*
-+		 * dm->brightness[x] can be inconsistent just after startup until
-+		 * ops.get_brightness is called.
-+		 */
-+		real_brightness =
-+			amdgpu_dm_backlight_ops.get_brightness(dm->backlight_dev[aconnector->bl_idx]);
-+
-+		if (real_brightness != init_brightness) {
-+			dm->actual_brightness[aconnector->bl_idx] = real_brightness;
-+			dm->brightness[aconnector->bl_idx] = real_brightness;
-+		}
- 		drm_dbg_driver(drm, "DM: Registered Backlight device: %s\n", bl_name);
-+	}
- }
- 
- static int initialize_plane(struct amdgpu_display_manager *dm,
--- 
-2.39.5
+Looking around I don't see anyone else doing something like this, and
+reading your remarks I think EFA guys got it wrong. So I'm wondering
+if this should not have been allowed. Unfortunately 5 years later I'm
+pretty sure it is being used in places where we don't have HW support
+to invalidate at all, and it is now well established uAPI that we
+can't just break.
 
+Which is why we are coming to negotiation because at least the above
+isn't going to work if move_notify is called for revoke reasons, and
+we'd like to block attaching exporters that need revoke for the above.
+
+So, would you be happier with this if we documented that move_notify
+can be called for pinned importers for revoke purposes and figure out
+something to mark the above as special so exporters can fail pin if
+they are going to call move_notify?
+
+Then this series would transform into documentation, making VFIO
+accept pin and continue to call move_notify as it does right now, and
+some logic to reject the RDMA non-ODP importer.
+
+Jason
