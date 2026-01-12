@@ -2,145 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66757D1017E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jan 2026 23:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE715D102C4
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 01:19:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9839110E16F;
-	Sun, 11 Jan 2026 22:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6486810E13D;
+	Mon, 12 Jan 2026 00:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NfhwuijR";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b8NRXyl+";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="MYTFZo2Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F2910E16F
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 22:43:23 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60BKt2Xa3368611
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 22:43:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Faru6CUzvpC9D3oH/nq2pvSx
- ZQHDpHYFbWCOcDMAIcw=; b=NfhwuijRI/XJ10J2lfnowsT0HnkzmKrQr4/eLW3K
- UEGbDBUdOrbBaIke78lJcRxR8Vab02tAYfESSoyuynOQfcq3f51SEu7VoVh9lADD
- BLkv+zAfGWrkWW1WDjsAIhVQKe3mLBIbnk9nzMRExQwsltfQB+bHYROLb1QW081b
- 751Datk9nEAPJyaDnO9/iZJxsjdzRp4cum5E4CfY1vtNAWMnXK5f0nWFGhMZdCIs
- zlPuLkfRMNrdksvZntSj4Vky3TrwNr0IINQUjqD13elBSZJzI0OwG4W2fqElyuKj
- /tjuG/bSZ2LO4ugmGTKGE9I1sny4KIpHRMclT9B290YgGg==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bkjvxthp1-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 22:43:22 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-890805821c0so187345406d6.3
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 14:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768171402; x=1768776202;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Faru6CUzvpC9D3oH/nq2pvSxZQHDpHYFbWCOcDMAIcw=;
- b=b8NRXyl+5Jpsf4H7bNkxSXpRV0atFljPoGiK5Rnt+p3QPg6qNlH6W5WoHlKsYUp6Cd
- imPAC1ptb8yESBENQcB8t8qNLpD4AnY5o07d/kYSQcLNk7W0oTFmcB6K1DUz4LQR22Fd
- lhme4sxNBeniSlL+bzYaNeQuSKtyk6ek5UTjiyZFrwd8MbNwH3qPPUwg0gK7i2tL/FPc
- cxo8upCfGomt9V3HgMoIz/upntZyiNtY4WvC9egpJ5rDwB/+5RVWFKY7c394QL6hWgKR
- dGeAbNZVkX2yjjkYLL8f02U0Uuo8loysAatjs1QVFZI5cGR9e2V8d+BTaftvpAl9/Guc
- dFsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768171402; x=1768776202;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Faru6CUzvpC9D3oH/nq2pvSxZQHDpHYFbWCOcDMAIcw=;
- b=Y6lslxh8QPrYLxVLOp7AreOiFkW+1NJuBVNyJSjRsy2PfphsDRgrt06s8M/0HqPoPq
- s+KwnrL8JQB2QGI8nD9x6FZA+6+4CDydkRgG6GYGNcxQiUR+KaOhMRy6SIwPC7hVerht
- 06JXV8491uRRUckXRzkyh2sF2U5X0W7bIVFb46EbLdH6I2H7OFkJ7SPnfOL2sPlTtpUA
- Is2v8JcEpKgt4J6Tmuqnn0ZRHA9Yb9xNWwNnHfO9zkJ59XSQqhfaMsi2Q32PULghUdVP
- j5IDUzEkMGl53byPU94KoXTOiqdaIkQzSDmVHH1m27YJcK5w2xnFoaVneODsixAdS5rr
- v9Ow==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVfU07ZqKouz7+jlfyg7xif9LqtCYMCjOFYu6jKXFnef0NJ/+N0DawnGAiUM04Ph1WaF60BVc7EBXU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9Xs7EjTRvcff9mTKzloCeBWChWZ5FEGpW8/oarQA1p8NAu3LW
- SbTrd8cudvmdf2jzHkIG3qyFDm1t+M/2iFIc398pN0W11heXzsVFqckyTojKH0UH+OENdiG8+qf
- gJDUo+VP0qrBLRCQtlxk+OiDH+qtdDErkL9yiJG41XmJ/mATbF6wvhEbXgcyFQXlrr0YvXUs=
-X-Gm-Gg: AY/fxX6pIS7yDC1lO8YoOEXFD261Owkv1K7MXCNBnPaGGzKAhzSkjz3IRjNL6WrkkR/
- Z+oTU2LpC1m1n84jtVBGIkYTyAqz8dWRQB2i1AlExjOwteqzuDea/9q5I03WbH7/v3pLE1QuL8w
- nCv+0Bdl/ocz0J5ngfNXzcUYcyB6wrswYkbcpu8nLfTGt/tciWecpA0m7cGiQE/M9y8gsMzmxpo
- b/TvLfI0biEtUwfeLV6ZPoxnBpFCfVBJswsfKpJYQXXXGy0oAsrK6wNyGxIi2pwBsZXONd9LFsM
- koHru0Gtjgsc9SQJ7oukDU46XFToja2wH1VE6ARwZ567HbbHWqbn9h5bTy6CA9JYPVzEkMpfiq+
- 9t6NNYTvCgh8/eszwJ8KEnfQuoaVkuhf63l93hZxUFvQOl7TXnnTjmxfDaLBh4mWj2MwRtEK8PG
- Yyjec6lk366O+Cs6eY0XUUEYY=
-X-Received: by 2002:a05:6214:234b:b0:88a:34dc:9933 with SMTP id
- 6a1803df08f44-890842aafeemr249835776d6.56.1768171401762; 
- Sun, 11 Jan 2026 14:43:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEthh+n2T4dXkL7d0hv0bhD94TCKrGq5BGhzi1YhOggBEE5NkjcgeCy5QYeiQcAKszgoKM5pA==
-X-Received: by 2002:a05:6214:234b:b0:88a:34dc:9933 with SMTP id
- 6a1803df08f44-890842aafeemr249835456d6.56.1768171401291; 
- Sun, 11 Jan 2026 14:43:21 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59b79e11154sm2643050e87.94.2026.01.11.14.43.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jan 2026 14:43:19 -0800 (PST)
-Date: Mon, 12 Jan 2026 00:43:17 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bryan O'Donoghue <bod@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010067.outbound.protection.outlook.com [52.101.56.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C73B810E03E;
+ Mon, 12 Jan 2026 00:19:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R7nYMm5Rf0TV1vuZIELBwsG9/3Dmp2D1xn/cjvuGAGMn1bIIq/RF1Yl/Kobp5ga1SHhxgrWhFrboYWbZETFJ9CrFws3v8WS05MBehUrTnzdPGHSQQ9Mmdn/7dqMkaqQ63ah9s76EOzHLC5n0rhJfIgSTE/XaESCn0NZ7FR3FwpNQ0+78xCsrGe4Dmeg10Eo42z9e2z71BYL41cZOwT39p8tdrq2bWKdqV0CLwnQTeO8OkRTS+fsO0Z7mpWTZOxRSYCj2bY1u+fawR7IqF6GYwi4VwwBkHrrJO1BbcP8rO56NlbNpotzrVcKLJlRRpP9RvzZ5lGC06Hz54d0GO8eMwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VdrRkLOMm+ozwUganZNKIj4ayijPT9fY73joHbu3uxA=;
+ b=rQoGZPlcwDTQ2Y23znudvjHYxDyE+IrFIj8ha68Yt3Rxt7Dfu1zFfNeTZxlKjSFgDWetn8bmyr0pT9HAD6gSZInwoSomjuxqh72bNkhrT2XRqESyDCkEoop3LCE7V6ZRB3ITUiQz5e3tIbVHm/yI9Yt2BdvEvlZZAZoXKhAYuPJqbJRy8+z/dkzuj0FyxkC2cLBg6mTptr3vZzIkrk0VqW1EsSlakhM7AkwWGuGSjKAD9ox8at33h65we2a/oSBrIulc+fAL8vpB9BHOVhm0qUC25C9D2C5dgNl7e097rCLinTv9VVznurJJ0Fde+MYE7STixEijaAP/NwQZ6yflSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VdrRkLOMm+ozwUganZNKIj4ayijPT9fY73joHbu3uxA=;
+ b=MYTFZo2QjeMNYUGZga9AYJlivnC8WkNjAJAcdElXBSaOCzjBYHpyzxthjsk6a2+8mb7IGbNz3T9JcKfA3JW0TMN+En5Vs+JPbZlH3eEn47AUpRkGpJYw4UwqRINAywwCzp+mufMFFXaBr9L3YVKiGfbkMG9tcfjPyKVhhUOgBANU46oZM6zI46a9RINn8qGoGsUMHHdhFP57bTv8HMyQdxK3qMGhQuQbpwg1BhDJFyXMd4UIeMORH4T9U6wPS0JNwqy5kh/h20Ga8qec0CeLUq60arTb5D1YSnm/Zol1v03z1EkgnEv/lbUgACg0Cud6yeTtp98HMVJqSKBi2lnPBA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by DS0PR12MB999106.namprd12.prod.outlook.com (2603:10b6:8:301::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
+ 2026 00:19:33 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::2920:e6d9:4461:e2b4]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::2920:e6d9:4461:e2b4%5]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
+ 00:19:33 +0000
+Message-ID: <874d29da-2008-47e6-9c27-6c00abbf404a@nvidia.com>
+Date: Mon, 12 Jan 2026 11:19:23 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/7] mm/zone_device: Add order argument to folio_free
+ callback
+To: Matthew Wilcox <willy@infradead.org>,
+ Francois Dugast <francois.dugast@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH 04/11] media: iris: don't specify min_acc_length in the
- source code
-Message-ID: <4cvcpvobzlcyaqzy7ewhgc3u5gqawt7pa25dz6jkhuwintbkxp@ffun7t4bot6a>
-References: <20260110-iris-ubwc-v1-0-dd70494dcd7b@oss.qualcomm.com>
- <i1eMEm9fSpXb30tw6zP_FKeXfJr4sD7bS88njLCMUniDy_QNsOiVn5w41aA0zXnLaVRNFLaLrHgr73Yo2XV5lQ==@protonmail.internalid>
- <20260110-iris-ubwc-v1-4-dd70494dcd7b@oss.qualcomm.com>
- <d8f6969f-a58c-4a02-a59d-f608e1a95ba7@kernel.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Alistair Popple <apopple@nvidia.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
+References: <20260111205820.830410-1-francois.dugast@intel.com>
+ <20260111205820.830410-2-francois.dugast@intel.com>
+ <aWQlsyIVVGpCvB3y@casper.infradead.org>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <aWQlsyIVVGpCvB3y@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR05CA0073.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::18) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8f6969f-a58c-4a02-a59d-f608e1a95ba7@kernel.org>
-X-Authority-Analysis: v=2.4 cv=Wrsm8Nfv c=1 sm=1 tr=0 ts=6964278a cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=kMIBw9bMVBG50rZdcTUA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: po_3fm6nNJlLSZ7ciEjCg7UalQAGMicE
-X-Proofpoint-ORIG-GUID: po_3fm6nNJlLSZ7ciEjCg7UalQAGMicE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTExMDIwOCBTYWx0ZWRfX31lp5y+31aCh
- 8ibpo7VXDQp7Oi423Lf8m54i4x0jLEAqY+56fLogVC56lc6+BYpqRa2droTYySUnAJJmPYth57A
- 5d3PGNpygXgP7tpT6cgk+9I15oTvmAIVqfsoimiXtByC0pNJ0+oMDjTUl4Umow+D52uL9jQqj5q
- 9vyUQVY5aP3v5K7k3chSzxMg32oPtnOJLfdyJ24yoZpL2nh/IrTpO4eFuIIZS512EmRP3P4YKty
- GhW3EpUYqNTaF29aa+jYiV5UrC4oNJQ+v/PDxiRuso7ervgBBOw3bHKk31m+/WEd73pUYIoOUsT
- I7zK+7JflSkFtQzZdwJmww4UWJvWkWqrG94p8iL2UlQ6AJdth51BzgPEUiM/2k/hfGnadNUty/U
- 6K6wxvKXphIgRwAFjXaGCPj94PN5UZN1cfU/MueGCo1239vjp13ELrmoRi9FnoqJ53xdSpYwWRr
- ZjvK2L5BzALf1mi0Iaw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-11_08,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601110208
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS0PR12MB999106:EE_
+X-MS-Office365-Filtering-Correlation-Id: c21cb57b-1351-43b5-4998-08de517042bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|10070799003|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cWF5aStUQ0J4WlRseS8weDJINEhRMk1UN3BRNWNOcVh0WUliZzZOTGVtZ3l2?=
+ =?utf-8?B?RGkrTW9DTUVSVHlXbGVuVXU4TzRVSysvNEVtcmFERXV3eUQwRWg1eGF1NGpG?=
+ =?utf-8?B?cm5wTlpkODJ3THJLUUdvTTI1VlZYa044cGErVHppQWdaeS85TmxaMkYzUkh2?=
+ =?utf-8?B?cUFyOXVRSVhmenR1SmlhemV5Zml1N1lUSXd5RmtmRGE5UkJ0Q0Y5S3NPdFhF?=
+ =?utf-8?B?WjdDNTFGYTQ3WWlOWmtCQTV6SUhPOWVDV28remZ5cTJMOVVoaFZKU3FwcUZW?=
+ =?utf-8?B?Wk1xUGhndWRvNVBDRy9uQnVUaW93eDA0Z0kxUjkrVUc5b3czdXJNN050cmdl?=
+ =?utf-8?B?dFNrbFZmZyt6Zm5ucFl6djQ0OWpJZEEzRXdrdDFMT1Vvdnh6V3MwaXhEMmxy?=
+ =?utf-8?B?YW9ZT1lFNUhKQnRKMm5EdTZ5TlR2aWVIZkNTbGljSTl0RlhjMVdJREdxWllH?=
+ =?utf-8?B?aU5DNWM0cHB0QUhvWGVvVzRPRklQZWxiNFNHSlhMcGw2S1g5ZCtBSktheXVm?=
+ =?utf-8?B?MEo3VHcvd3dZT003Uk00NzdmMXIybUtVTHg2Q0ROWkpKVlVOTG8xUk5UWVZq?=
+ =?utf-8?B?N0I0Q1NHaE15Q0Q5aW8rMEpqZHovdjB5b1JiR0J6eXZuSWFmbCtTZVpWaE5G?=
+ =?utf-8?B?NUhEREJscjBreDV3L2tjSnBzMDdOT09EZ1JhM09mek5OMGl0SFBHN2J6dzVq?=
+ =?utf-8?B?SjlyL0FHVlFCZ2hwcndIQTNZc01rWmVKaEg0TEdqYStkZjhKVTNEekxEWGI1?=
+ =?utf-8?B?Y3dZcWsyaHlWanlZVTBKYjBmNGxRdjhLWkJveDBhK1c0MDV2ODNsaXBRV00r?=
+ =?utf-8?B?cHNLeWR4SzBEendCelhoeDk4T3pMQWtEZXZKb01oU0haVUUzbHVuVmpRTzd1?=
+ =?utf-8?B?WWNzVnRERnBRZDFWMEtzQ29VL3A5c2ZzTEdPQS9NNWEwN3lnS2RyRUhndE1L?=
+ =?utf-8?B?dFFHTlR4ZHNQeG9tbGhaRjZoM05KczhqVXFTT2w2eSt1blJxQkZpMjF2d3Qz?=
+ =?utf-8?B?ZlNoR3pMMDJVSC9YdzZvTEZ1TWNMOWFwR2RoT2hwYUVCTEpWdW1FejVhcFlz?=
+ =?utf-8?B?WGEyUTJpVDIybUhRQnZmK1dxMEM2NVlnNkh4UVZRZ2VPa1NFWVhndGpSVi9Q?=
+ =?utf-8?B?TmQvYzZ1WUM2L0NBbW9IUWtZa0cyaUtHT2xBZXp2Q2pDM21TOGFVYTErRitW?=
+ =?utf-8?B?aWNZaDZqaDNhdTNDODJUWDZzcGdFTW1oOEJjemRzdDZkeExPM1J6bzhvdVBw?=
+ =?utf-8?B?OWU5SmsvRUpraFpoN01OTDFzQXhOOVRSWjYyenJjZWhXcFpMWHAyU0dxTTJO?=
+ =?utf-8?B?MkpoOTQ0MklPdk9DMjB6Z2xtUUszdWF3RE1EOXlkMjNVZU53a2pUeS9GOHU1?=
+ =?utf-8?B?RCt1a3dJWmg3cEYxMUwyZGJTZkc3K24rVk5QT1lRajRmTFkyVTdBMDh6UFJt?=
+ =?utf-8?B?SC9jOGZ0YkIwNVpOSUI3eFo3L1hWQW1IYTFvcFpSLzIrVVhlSjQwYTJyRTcr?=
+ =?utf-8?B?YVYrVWtNdklxSitnNm9YalZlT1k1c0JleHBiTW5tSU95OUhJdktuRElxQkh0?=
+ =?utf-8?B?Y2tIaTF6ZFZ6UFBUdmRheGNWUDVKVEFjNjAxSG9xRHlhOVBNOWtQSWhYMU43?=
+ =?utf-8?B?czAvNDdSSlVNaHpQbE8vZWtnL3J0TDFTWTFYMHlyeVZhNEp0aHFrS2RaRHdX?=
+ =?utf-8?B?OXVaZjlESmxsY1FWUjlZN1ozajVsaFZBbzl5SWxBWWFaak9rQ3dwaGJmblBM?=
+ =?utf-8?B?WU9xdHFUTExBVUtQbkYxUHBOcWpwNWY4ZmFsRUkrT2JHNnIvZXBScGpjSDZr?=
+ =?utf-8?B?SjJQT05HUlZEL0l5bUlwcGc4Yk01S1ZWVmI0RmxiK2w1NEVXQm1OTzFPQlkw?=
+ =?utf-8?B?eUxTVVlBR3RGNS90ZEI0MUVNaGQ3MW9QK2ZOU1NKS2hmUUpKWk9sV3U1UGNi?=
+ =?utf-8?Q?RPJqjUf1cHNwT1RcX7gj3NfyczvSSwTd?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(10070799003)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3R1RldiS1AyUC9JQjNncnFORmJjQ1F5dWIrcXdaUnJIdVNVYmdFaUtnL2pX?=
+ =?utf-8?B?Um5xRXB6WCtGbWFMZkZOVVE1T0ViYVRoTUMvYk96cG5KdXY5YjVTYmIxTFNo?=
+ =?utf-8?B?VW9Gaml2c0xLWVJ6aXlZK2luZjQ2WENkaTArOVg5VFUyUXdlTE9qUGxqYXFL?=
+ =?utf-8?B?QkRUbjhqWEljTnZ2MUJvTDZUaFdTUXlZL1hSbUpmL2pUTCtFK1dmSGpHQmdP?=
+ =?utf-8?B?b1JEa3J4VEFwN1l5YlpmbjcxM0ZqRHhoRVQ4Y3RuZWxCRXFpdVF6ZjRhK3Uz?=
+ =?utf-8?B?K3B0Vzg4Q05qdGN0REZsUVBQR28zVkxsbjk1Rmt0R0w2OEVyU1hyVEE4MktP?=
+ =?utf-8?B?azFaVXRJMkMxUkVSeFVTblZKYncrLzQxUWpXSFRCVHNCK1NYSW1GQVZCNHJD?=
+ =?utf-8?B?YjRISllyZzFyYklsUUdKZ3pJakZNQXF0aDEyb2dTdUpGUGxJODdaZHBrOXZi?=
+ =?utf-8?B?d0lHcW93YzBaSWU0VDB3SnpUdmhqWUFXZjJaYTBQbm9IUDdQOXBkL0o4cVdD?=
+ =?utf-8?B?V1Q4VWt1Ynl6NmpuamkxT0dBOGptUHd0bHdlWEpkd0htbDlnZFYrbTB1by9W?=
+ =?utf-8?B?dzlHTEg4V2picS9ldGdydXhMV00yWEFCelM0L0NGN0pYbkVXTVBHZG5GM3hl?=
+ =?utf-8?B?VzhrNzl1TnM4aWZLOXlOcExqNXhNa3VmVEs4UEdmbXdvTFFoMlB0Vm1URklS?=
+ =?utf-8?B?UllkUzVEdmJLeTU1RE9Xa1Q1MzNCcXIxQ1N1Vk05TnJEeHRkVjAyZS9kdkJq?=
+ =?utf-8?B?VlpWeGpBS0hGZ2g0cHZPN3dnWCtkTDdDc0ZUQ2YxWUx2NlExbWhRMG9aQXBH?=
+ =?utf-8?B?QXY3L1IzVDFhV29jV2NhTUFDRXFrVlVSQTBMZGd5QXBLUm9peDRVK1hUT2tU?=
+ =?utf-8?B?SUxjSy9PaG1xc0J2cVZZSlFKQzdUMUtBRzdrcElQU29yUU4xdkV0bU9WSGo2?=
+ =?utf-8?B?N3NOZ0lMSVBCOHhpS0dySkxsd01qcDgyQjhwZUxSNVNvczZETHRzbzBjWEFF?=
+ =?utf-8?B?RWwxL3E0ai83eERIUnk5My9jc0Z1cVhuUk9xQXVERWxyWDZtRUs4N2NsblND?=
+ =?utf-8?B?clI2cHQ1U0hiNTJiQjFKWXNrT2w4YWs5a29sd2JGSlVFakZFSGxlUU9GOGlE?=
+ =?utf-8?B?cG1ucENrRHAwYTdBSzl1ZU9nZFdqdnVjSzJBRUIyWHJ4TzdsZngzQ244c1Ew?=
+ =?utf-8?B?RHBBSSswaXF0VjZWWjlnZUZjV3hKbGJmbmk3akl0L0JycUdEZHVwbisxVHVw?=
+ =?utf-8?B?WnpZQVpuZ0lVWUJkdUhEQVVMVDdZdzFxa01CMkJDQkIvaG1yUDdMdW1Lb25X?=
+ =?utf-8?B?MzQzOFZ1R3Q5eTA2dHFTWE5DbGx5YkRPYjdkSnQ5TjRIODlkR3l1N0N2SEl3?=
+ =?utf-8?B?NGdvT3hqeHJ1eXRWTU9GS0ZxZmVRbzRKQVdGMmtBL1BjcUZZdmxJN1Rhcm15?=
+ =?utf-8?B?OW5JY3BRZHpHQW9ta2s2ZzJSNUhSdnkzMmI2VmR6bTYwVk92MWFETWd1dTB4?=
+ =?utf-8?B?UFZnQkpZRlJuZHhnWmFRVWVCdmEyQW8yTk5paWtXQWtrVDRFVEljREJUbElM?=
+ =?utf-8?B?d3FnQUJsdHc3MmVOOThMOFZKOU5mRlVMakhKWWs1TjB0OUFoRnk4dnBVUkFp?=
+ =?utf-8?B?dFRhWjRmZExIZHRVTzZ5bHRTSTlQWjBSaXJJc2N1TFJPcjR5R2J2QlhrUHZa?=
+ =?utf-8?B?YUZkam1KT2tYNHdGeG9MK3JJVzNIZ1l6ZkdWdDJpeUg1QlVuYVBjeXhuRFhF?=
+ =?utf-8?B?VDgzQUdRWGRuY2toQUpkSmdSTUVNUXkyTmMxamtFdmMxUVdzSnc2ZzBIVk1G?=
+ =?utf-8?B?cHg3aFI4cy8wa3FKKzB3VXVzdmNlNkdHTmhvRURXbndobmhoaUNFMEEzQ0JO?=
+ =?utf-8?B?NDFZV3lKS1pvbkNLbUkxNFpKenNTSnpmdHovZnBxcWVwUjI5bGV6MW1DRlNu?=
+ =?utf-8?B?RzYyV0d5M3l4L0grMDk1YVRkTHd5dlJJazZUaEYyVDdhTkpuOVpTQnk5aFRU?=
+ =?utf-8?B?MEVGOTY5bjhOS0JKN2dDcHZnOE84YlhGQnFsbWFDaGpIZ3kwKzc5QzIvUU92?=
+ =?utf-8?B?RE5vcHJCR2pqdGh0a3g3Znc3YlJRc0NUVW5FVnVSMklRR29mV3FzQnh4MWlU?=
+ =?utf-8?B?K3MydFV4Q1RKelJScXdFT29GemZVcnBSUytuMDRzc29TN1ZsV0RpWXk2aThI?=
+ =?utf-8?B?MzNjUUlEOFlaQ3Bjd3RkZlo4R3J0TkN2WGRldkU4bkNyQWJHOXlMeGZsaXd6?=
+ =?utf-8?B?ZGVma2tPL3p5S0s0YmJLSjB6OUJqUWNmWFJCZEpURXdPVUtwWjJrZ21OTXJF?=
+ =?utf-8?B?TWlXSm54OUNxWm9BTjFQaE05QUJlYlQwelE3QmF3ZVdLSkhKbmtGbzJ5NXl4?=
+ =?utf-8?Q?WGMQpnrNqfWfC+SqLFSjCd7xSOMVUlcmT4VY2U+aV5L7S?=
+X-MS-Exchange-AntiSpam-MessageData-1: WVS8jmt7PNxYfw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c21cb57b-1351-43b5-4998-08de517042bd
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 00:19:33.2215 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yb4GfrrQH3xS7MIOM3dKh2zCLVCduAeJN3AMqebBFqepQobMbmUILz07to+siA0cNG5xwXk2/bG8iSBFRyvKVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB999106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,48 +196,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 11, 2026 at 09:06:52PM +0000, Bryan O'Donoghue wrote:
-> On 10/01/2026 19:37, Dmitry Baryshkov wrote:
-> > The min_acc length can be calculated from the platform UBWC
-> > configuration. Use the freshly introduced helper and calculate min_acc
-> > length based on the platform UBWC configuration instead of specifying it
-> > directly in the source.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >   drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c | 5 ++++-
-> >   drivers/media/platform/qcom/iris/iris_platform_common.h | 1 -
-> >   drivers/media/platform/qcom/iris/iris_platform_gen2.c   | 1 -
-> >   3 files changed, 4 insertions(+), 3 deletions(-)
-> > 
-
-> > @@ -146,7 +149,7 @@ void iris_hfi_gen2_packet_sys_init(struct iris_core *core, struct iris_hfi_heade
-> >   				    &payload,
-> >   				    sizeof(u32));
-> > 
-> > -	payload = core->iris_platform_data->ubwc_config->mal_length;
-> > +	payload = qcom_ubwc_min_acc_length_64b(ubwc) ? 64 : 32;
-> >   	iris_hfi_gen2_create_packet(hdr,
-> >   				    HFI_PROP_UBWC_MAL_LENGTH,
-> >   				    HFI_HOST_FLAGS_NONE,
+On 1/12/26 08:35, Matthew Wilcox wrote:
+> On Sun, Jan 11, 2026 at 09:55:40PM +0100, Francois Dugast wrote:
+>> The core MM splits the folio before calling folio_free, restoring the
+>> zone pages associated with the folio to an initialized state (e.g.,
+>> non-compound, pgmap valid, etc...). The order argument represents the
+>> folio’s order prior to the split which can be used driver side to know
+>> how many pages are being freed.
 > 
-> This code is fine but, I still suggest changing the 64b postfix in
-> qcom_ubwc_min_acc_length_64b and just having the function return the size
-> for the platform as _that_ is the more sustainable way.
-
-See how MAL is handled in the DRM patches. If the UBWC spec is extended
-to allow 16 or 128 bytes, the drm/msm driver will need to be changed
-anyway to cope with that: driver uses flags to pass the value instead of
-passing the value as is.
-
+> This really feels like the wrong way to fix this problem.
 > 
-> Up to you.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> 
-> ---
-> bod
 
--- 
-With best wishes
-Dmitry
+This stems from a special requirement, freeing is done in two phases
+
+1. Free the folio -> inform the driver (which implies freeing the backing device memory)
+2. Return the folio back, split it back to single order folios
+
+The current code does not do 2. 1 followed by 2 does not work for
+Francois since the backing memory can get reused before we reach step 2.
+The proposed patch does 2 followed 1, but doing 2 means we've lost the 
+folio order and thus the old order is passed in. Although, I wonder if the
+backing folio's zone_device_data can be used to encode any order information
+about the device side allocation.
+
+@Francois, I hope I did not miss anything in the explanation above.
+
+> I think someone from the graphics side really needs to take the lead on
+> understanding what the MM is doing (both currently and in the future).
+> I'm happy to work with you, but it feels like there's a lot of churn right
+> now because there's a lot of people working on this without understanding
+> the MM side of things (and conversely, I don't think (m)any people on the
+> MM side really understand what graphics cards are trying to accomplish).
+> 
+
+I suspect you are referring to folio specialization and/or downsizing?
+
+> Who is that going to be?  I'm happy to get on the phone with someone.
+
+Happy to work with you, but I am not the authority on graphics, I can speak
+to zone device folios. I suspect we'd need to speak to more than one person.
+
+Balbir
