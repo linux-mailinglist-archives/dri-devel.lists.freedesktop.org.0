@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989A9D13E96
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D95D13E9F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A8A10E413;
-	Mon, 12 Jan 2026 16:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F10310E415;
+	Mon, 12 Jan 2026 16:13:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z4wSELc3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iJE+GvVX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E5710E0DF
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:32:57 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-81e9d0cd082so2074229b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 04:32:57 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F5F10E0FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 14:04:29 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-47798089d30so5823825e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 06:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768221176; x=1768825976; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768226668; x=1768831468; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GmdD8KZWFllN0kxC+KJpu7oOwNYAIMDzyBObDdyGg+A=;
- b=Z4wSELc3I0utY7CLsF4UY5osaYuVAQTMwo/iUFW8dhKSEAt75uGNIGqD9u9a9etRkW
- vewPZmniuyxbzqFv/CoenSmY0PpwkTfXn4E5eEZB3wlN5zPzC+LMnLq5wFsrNYWwFK9O
- e6mPjhLiWzjqKaK7rHFqTq/idMLdbBgSMgBYLhEzaWZC3cUIMOmSnFP+eXDGW2rbLc01
- St7NkL6p+AJAtZ4juvDU8fhwQCeff3vCLkD6IyPam1+Dczuugx3C3kpfto7hnejIQY1J
- JKluoEtzJ1zMP5sMiWwEx/+Zqe/Cknku7JPjbidH7TQOF9sl6fNw0UDiUMIpt49TVkCb
- Mbfw==
+ bh=ckmRos2OAgMm2H7B68f5iy8S3ZBKtjS9ZYbxKUXmKoY=;
+ b=iJE+GvVXD0ik276aDXn3ixzUFqylVxipmM9QtFh8LGS9swJx4iLustwZVreZPFoxUv
+ kawAnKhtQ5KqTKe2svpWmVQm+fU7hjvgP6yHrybGkNZxpUhQoD9OXwrW7vJ30VK907do
+ OjchnAiaUKEOPckl9/t1q1W4zKYijiJhZXPHqxiB1/zRpDT8OcpwGs4VG/mCx5dwj913
+ tHgJ2J4Mm0/vpYQPmfqvoxiOilRHfh44mRQt1A1TYUVsuv6jLgsTNE2BWyoiLFWjTxVI
+ VQh30E30LoCt5jHGO6DTrEm+9l9LVBm/W/JOqjneXCA0VBIxev8sp0Jtgf3EQkZkzSvY
+ 0QVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768221176; x=1768825976;
+ d=1e100.net; s=20230601; t=1768226668; x=1768831468;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GmdD8KZWFllN0kxC+KJpu7oOwNYAIMDzyBObDdyGg+A=;
- b=FG3TBK5JB7vdDnWa+DPO2R2rOENeJSufOW/4+xeP6G7LFPQmDeAdugijZJWtwDxq5N
- UE4UBkyvQFSPp38ArNLaIA4pMoJqnL26xhnUvlvr22HlXIuAjm0sCR52v2a2oANRnNSh
- 2C1iTkkEVNLbZniCKx8H3Mkhj7SLE/8BcSxk0r5ngU49kCP4QofywQf4sUTbKfvt8NZ4
- B3r+FCSG04DSWmHV9GIGfQkzLD0UAglJJw+lUcvPVGIdoy0LYBgtmuTbxuBaQ7nxM4x4
- EZdUY3DP4aXeHXQD06vHOZfHiMSytRtICiXkpKYvoHrcuQo3Tc3XXxhHQjIx29dA6hbh
- qEtg==
-X-Gm-Message-State: AOJu0Yy3OJansxYVyRFmjvyPD5/vBZnurKQizYdSMgmBsrAUJ6AudLhT
- fodVp57WViz50bCnOQk2yn4beUBsAs3BveSIbRJzfxp4JgPZPOoT1NAF
-X-Gm-Gg: AY/fxX6lnS3HwQY8VnKjoGeiuUFV2EHTaGGUUxYqW9yDXhH6ZybpgR/f+Sx6QSgyY6K
- FdMS5o8knuf4i3h8wQzuWh4T2Vf5KEnEG06dun56AeixS5vYw/+rvetMOFQXFzEJuJ5zH9RGQ/f
- 9VU2gdyjXHr12Gf8e0zxVG79tB0Z6gb6JhxgBhprY2IMZtAtz0PPdhHHQoDEwRbpiOrVwm4jLnT
- NOpOejeViD/MfLFkLJ5lvUKI3pxCAniFGXDQTlE2Rv4DNMjXGzHDKQ11kjFVERWu84GF6ooeHwH
- rKv5CVig9MslHte5LPZWItRpUDZTG0kayeDKLJyrvCYZlduwDosReTsIB6H/0kPH183VToZgdPD
- RFxqXVeljJXjTiD9MyOLoG/zec+swTV5eWjNgX3kbhsev4y18KVc4L9XjFsERGnp73iNX6q5J/k
- kO5XtM6R0kKtGHsf5vCpJW+wA=
-X-Google-Smtp-Source: AGHT+IG6oEHPvEC/onlSfhniFExueTjVWKGz+6vfBL+I0KYIrm1outw4HFM2YSLadev+0+rrQXITRA==
-X-Received: by 2002:a05:6a00:4144:b0:81f:5037:a318 with SMTP id
- d2e1a72fcca58-81f5037a797mr2984858b3a.21.1768221176467; 
- Mon, 12 Jan 2026 04:32:56 -0800 (PST)
-Received: from localhost.localdomain ([111.202.170.108])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-81f32ccb4aesm6987379b3a.9.2026.01.12.04.32.53
+ bh=ckmRos2OAgMm2H7B68f5iy8S3ZBKtjS9ZYbxKUXmKoY=;
+ b=oiDTqwHS8Uf5rnOR47OgumHXK2EOmt9lSL0JIBKXzlElbqSPOPGY0GY3rRXlSqNIac
+ 5xqnJ1ZE94nSN/Za2lHrmpFRYNLmiJO1b/9S8XEfVKFJZKcpU+5NI/AIwwO7/goiOni3
+ Fyofc5J8rhPpbCgBHw4/Jpf9Ls8cWWflwjVmz8SLz47FG1CBupThqvXh3s1BMXJL8Zza
+ rtrXSH6Wk8MJgW/ioN/nM48CXlr/XZSO9aqE3RwizUDr4BFVwT9yWqom2ikj3+3a4OFO
+ AiUGDyxA2QHGWF8pNtpHcqutlnkbE3mCi5XgyFNPQXu5tU0WlK9KmPO3q0f2DpB/EIOr
+ VVDA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUBC8OkWeQ/uA6v8PM+6nm2It4QYYl52xo9IZ6KEv7mVklr8KdnaFcu56G6mwOIPSwflbN+WPai7U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx99/3u8l4qmj5IirBWUM8DHLa8QKG/5PkhYrtqYZKpD4D419mU
+ ltkBDG44kAkSedc3Lbnv6ccrhZVKXOW6TZd9kkbyWSFtXkx7ehF4folc
+X-Gm-Gg: AY/fxX6+jeRshPnXLVHr4AAgHrhD6Yu9cdWs4KE0RV418tawwTxTVK1efoZ1SY9Oyah
+ 8gNWF8HIb3A6efdbCXGlkikniaFdqGLByNS8HFWGOnqqTVceIZIkIXEA4jykLm+hyPIL55pbwTH
+ 8cMtV4BXOlgt4jBlyHmXNtkeQzxYiH8zUgZLHeVxcniJtCNEQD6PWc0A5nyUEF0bEra1iSj6HrP
+ CyIZ+Cu4EiZQATEe0DyyLUrvg8RP4sa5ckXrrs9KStgRIw8x/6RCiNPBnjcP9xfaQNdB4WvWtBB
+ wT93nMKD37SI/s71pc5O9OYHwig9uehOHE5L/hPVWZfu+MixEWplEOgRmt5TtDWXVSVUbnBzOTg
+ TrU9OzbKlIIOSnZUYvkVxpMRb+kJwgnRTiOtkxjCwkxogOwWPctWzQunpbEjTpdvc2oDapwEP/o
+ 7e7Otl+qcZeybInh+uhaZT8tgabrCDAgzU0ZF5dA8GI5qjNAKMCtR9Civze6VdK/xVysvsD0js7
+ o2CE30=
+X-Google-Smtp-Source: AGHT+IH7GUSAAsNDPqrKUndihq0lAKqsPDKz3kaDifL2lP8tPCtWl0A1pugqhFaqlY9nRll5jZEn6w==
+X-Received: by 2002:a05:6000:22c1:b0:430:f718:23a0 with SMTP id
+ ffacd0b85a97d-432c39ded43mr12214129f8f.6.1768226667344; 
+ Mon, 12 Jan 2026 06:04:27 -0800 (PST)
+Received: from thomas-precision3591.paris.inria.fr
+ (wifi-pro-83-215.paris.inria.fr. [128.93.83.215])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-432bd5dfa07sm38643537f8f.25.2026.01.12.06.04.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jan 2026 04:32:56 -0800 (PST)
-From: Xingjing Deng <micro6947@gmail.com>
-X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
-To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
-Subject: [PATCH v2] misc: fastrpc: possible double-free of cctx->remote_heap
-Date: Mon, 12 Jan 2026 20:32:49 +0800
-Message-Id: <20260112123249.3523369-1-xjdeng@buaa.edu.cn>
-X-Mailer: git-send-email 2.25.1
+ Mon, 12 Jan 2026 06:04:26 -0800 (PST)
+From: Thomas Fourier <fourier.thomas@gmail.com>
+To: 
+Cc: Thomas Fourier <fourier.thomas@gmail.com>, stable@vger.kernel.org,
+ Alexey Charkov <alchark@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Helge Deller <deller@gmx.de>, Tony Prisk <linux@prisktech.co.nz>,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: vt8500lcdfb: fix missing dma_free_coherent()
+Date: Mon, 12 Jan 2026 15:00:27 +0100
+Message-ID: <20260112140031.63594-2-fourier.thomas@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 12 Jan 2026 16:13:39 +0000
@@ -88,36 +93,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fastrpc_init_create_static_process() may free cctx->remote_heap on the
-err_map path but does not clear the pointer. Later, fastrpc_rpmsg_remove()
-frees cctx->remote_heap again if it is non-NULL, which can lead to a
-double-free if the INIT_CREATE_STATIC ioctl hits the error path and the rpmsg
-device is subsequently removed/unbound.
-Clear cctx->remote_heap after freeing it in the error path to prevent the
-later cleanup from freeing it again.
+fbi->fb.screen_buffer is alloced with dma_free_coherent() but is not
+freed if the error path is reached.
 
-Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
-Cc: stable@vger.kernel.org # 6.2+
-Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-
-v2 changes:
-Add Fixes: and Cc: stable@vger.kernel.org.
+Fixes: e7b995371fe1 ("video: vt8500: Add devicetree support for vt8500-fb and wm8505-fb")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
 ---
- drivers/misc/fastrpc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/vt8500lcdfb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index ee652ef01534..fb3b54e05928 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -1370,6 +1370,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+diff --git a/drivers/video/fbdev/vt8500lcdfb.c b/drivers/video/fbdev/vt8500lcdfb.c
+index b08a6fdc53fd..85c7a99a7d64 100644
+--- a/drivers/video/fbdev/vt8500lcdfb.c
++++ b/drivers/video/fbdev/vt8500lcdfb.c
+@@ -369,7 +369,7 @@ static int vt8500lcd_probe(struct platform_device *pdev)
+ 	if (fbi->palette_cpu == NULL) {
+ 		dev_err(&pdev->dev, "Failed to allocate palette buffer\n");
+ 		ret = -ENOMEM;
+-		goto failed_free_io;
++		goto failed_free_mem_virt;
  	}
- err_map:
- 	fastrpc_buf_free(fl->cctx->remote_heap);
-+	fl->cctx->remote_heap = NULL;
- err_name:
- 	kfree(name);
- err:
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -432,6 +432,9 @@ static int vt8500lcd_probe(struct platform_device *pdev)
+ failed_free_palette:
+ 	dma_free_coherent(&pdev->dev, fbi->palette_size,
+ 			  fbi->palette_cpu, fbi->palette_phys);
++failed_free_mem_virt:
++	dma_free_coherent(&pdev->dev, fbi->fb.fix.smem_len,
++			  fbi->fb.screen_buffer, fbi->fb.fix.smem_start);
+ failed_free_io:
+ 	iounmap(fbi->regbase);
+ failed_free_res:
 -- 
-2.25.1
+2.43.0
 
