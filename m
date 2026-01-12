@@ -2,67 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFF5D13E39
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CDCD13EA2
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A362410E402;
-	Mon, 12 Jan 2026 16:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F48510E416;
+	Mon, 12 Jan 2026 16:13:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oIPgEntU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ynp7bLHi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FEF310E402
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768234027;
- bh=qf2liF3PRGdd5V9MVGiiYjiIaPACQ6TvC6haw+nVM60=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=oIPgEntUkn0gJZSCgScT3rRPQBpcJTQd79KqHzeJTVJChq9gfBr4ZjZBtLTd10yqX
- oW/KgknSezNyFrvcwmoEoLnryxtpJt2rrXOTC8gViYZrDrMBW1iFiQcsalF+f7U50A
- sI2PIayLga/8GLw7c7AT2uM+9/JBBFNbZkvOGPQvprjU2ztjcEsE7I2tyZjlSDwWTm
- 4X4g0DyrezWaGH0o7frB2jJvaqhQt3LDScRTPVLmYvtmUhF8++D6zg8sKAxTEYgMHP
- tgJrKLKf2yL4W8rldatrO07WthFKk4ucwgejlIbNUIV+6QsSoiqS/8d7tcGNpga1FM
- 24jqpU4I9kLLA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 424A417E0A49;
- Mon, 12 Jan 2026 17:07:06 +0100 (CET)
-Date: Mon, 12 Jan 2026 17:06:58 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>, Rob Clark
- <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dmitry
- Osipenko <dmitry.osipenko@collabora.com>, Chris Diamand
- <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, kernel@collabora.com
-Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
-Message-ID: <20260112170658.1bda2573@fedora>
-In-Reply-To: <CAH5fLgj_mGHjk81ZVS2o+Q-+UY3PhZ-ech1BzjDewUvGHaeWBA@mail.gmail.com>
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-9-boris.brezillon@collabora.com>
- <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
- <20260112153953.61eb20dc@fedora>
- <CAH5fLggS-sgKYRvnraRsOoYysVnYoDdhmiu1jbdWv132BBcWAA@mail.gmail.com>
- <20260112164908.02d25584@fedora>
- <CAH5fLgj_mGHjk81ZVS2o+Q-+UY3PhZ-ech1BzjDewUvGHaeWBA@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51D610E412
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:08:02 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-64b560e425eso9312979a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:08:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768234081; x=1768838881; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XFchl4IL2iHP7X4M9jCzRqchpxPAMZ+ZvVMJ6ag12p4=;
+ b=Ynp7bLHis+5vafnJYF/AR0oCQMoyRGFKmPGL8Aos0Qzqzrc8kMcymxCkqxubDWk4S+
+ FqcS9+zIB6iIY6+ujJ2XkO/cXR+U1BHMP/L5B1BUiqqtu3QOqiW+CWg1xTW/frIKuOAD
+ zi7dGNlca3lbGG//0oxMCP12w1cJd8a3fcEDafq717N5ACwLp5PoYz4o/Io46vlZF7Kd
+ Cnz1BppQ+vt8P70jfRI4PpVCjAluDZuIPewcN/g39c9DDP8XED+jobiZlQBEiqWu5kEY
+ Pf9AGgQq9Lf08WBweaceqw+s4ObVXMaOymLFHNiJM57cDFgVdQAyt/0ZPOWHSNQq2l5t
+ P2sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768234081; x=1768838881;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XFchl4IL2iHP7X4M9jCzRqchpxPAMZ+ZvVMJ6ag12p4=;
+ b=aC+2yNoDeP0YdoVGD+EWYCPtXu4BKyP0RxJp9zuGvxpD3vzcPyk7eM+mvUM21wiEAn
+ FiECTzM0iPTmL3Rd4vxIRJsilQmOEZ8S9q0ce9oWsm9qmcTDiy+pTpSlYZgMchconAnP
+ jbJQpeaDgZ5en7xNap8a6Jfz1l8fG8QEiTp+8jHMfHeEjxbtT7XO0YXn5wFwh3MFxJh0
+ RvJbpHmR4g3egsVymBgr0sayVaxPXalXFr8DhyJf+7k2WnmXUYy3Kye55+2U3EySZIwn
+ pNCc8Wfpq6quS2Sva+atZ4mMMIaxCH+1Bhs6flSTBswveYe0YlVUtpEqy7dZIN9/AwKC
+ RO9Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4GijCUIsPeJBMMrqeJCbYiWAGKou98HO3CwmFg3lBEpPCXmq1V7yhELtZ5AkDITP07C9iV6EAIAY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWF46YR0++WKYwk/Zewil/HCxNvz4WbNnPu/GF6d6pRc+49oK3
+ S9fJP0YbaHoGhpj0xw+SbbfY01v3s6qzYDGooOoyq8rYa5lUpGoGg78T
+X-Gm-Gg: AY/fxX6pKzrUtHkSsXcKNjsiSt81R6pg5d1C9o1m8tmCasABmxwhVvKqVTeg20iqUBy
+ CZuIs1kkdcwy6cXJON3AlCBlZ42It2pUpY5Cs6pwcz/J716YQxnr5Jie3/fyV07sdE88NU3fZTk
+ krVtYlU7hoIhKZFmtjk/YqAW15HfGRTefKU7v/aaybb1BGVhTex/IBcb3kI5/MY+NKf840t9nuW
+ phJQd/2dK8dq9ilbLyqG1lrNT+ta6YR+ze6BT/RdVfjtJnq89xBW2K2NXmFuSMKBbf9k7sb75d3
+ QYBdzcv6rr/ti3E1q9x96aosSQmddxZO8GPe+jOstbsJe76TD2E8tppEKQZWKvUDFY6GA4XkBBc
+ SqzK/bBfTWUt0xciAZ/3ACb9lT/JlSWREQxNvAXtXEyqWHRK0QM77ZPyf0BKuLcOleZvYGZbuWv
+ Jv59ZnCgqxLSIPSOeXr7OsmsEjtDdJTUrCsZtjDnzxUQw=
+X-Google-Smtp-Source: AGHT+IFz4Glbd4ZA3dxtqcV317tXnM3myln6ByCS2T281F927mkqk5Eht9v3v1U1SGONoSGsJThyfg==
+X-Received: by 2002:a17:907:9403:b0:b87:7e8:e287 with SMTP id
+ a640c23a62f3a-b8707e91202mr564365466b.30.1768234080781; 
+ Mon, 12 Jan 2026 08:08:00 -0800 (PST)
+Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b86f9a9103bsm667481666b.30.2026.01.12.08.08.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 08:08:00 -0800 (PST)
+From: Nauman Sabir <officialnaumansabir@gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Nauman Sabir <officialnaumansabir@gmail.com>
+Subject: [PATCH v3 1/3] dt-bindings: display: mediatek: Fix typo 'hardwares'
+ to 'hardware'
+Date: Mon, 12 Jan 2026 17:07:59 +0100
+Message-ID: <20260112160759.19027-1-officialnaumansabir@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 12 Jan 2026 16:13:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,118 +92,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Jan 2026 16:51:26 +0100
-Alice Ryhl <aliceryhl@google.com> wrote:
+Fix incorrect plural form of the uncountable noun 'hardware' in the
+MediaTek DP binding description.
 
-> On Mon, Jan 12, 2026 at 4:49=E2=80=AFPM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Mon, 12 Jan 2026 16:19:52 +0100
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> > =20
-> > > On Mon, Jan 12, 2026 at 3:40=E2=80=AFPM Boris Brezillon
-> > > <boris.brezillon@collabora.com> wrote: =20
-> > > >
-> > > > On Mon, 12 Jan 2026 12:33:33 +0000
-> > > > Steven Price <steven.price@arm.com> wrote:
-> > > > =20
-> > > > > On 09/01/2026 13:08, Boris Brezillon wrote: =20
-> > > > > > +static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> > > > > > +{
-> > > > > > +   struct panthor_gem_object *bo =3D to_panthor_bo(vma->vm_pri=
-vate_data);
-> > > > > > +
-> > > > > > +   if (drm_gem_is_imported(&bo->base))
-> > > > > > +           goto out;
-> > > > > > +
-> > > > > > +   if (refcount_dec_not_one(&bo->cmap.mmap_count))
-> > > > > > +           goto out;
-> > > > > > +
-> > > > > > +   dma_resv_lock(bo->base.resv, NULL);
-> > > > > > +   if (!refcount_dec_not_one(&bo->cmap.mmap_count))
-> > > > > > +           refcount_set(&bo->cmap.mmap_count, 0);
-> > > > > > +   dma_resv_unlock(bo->base.resv); =20
-> > > > >
-> > > > > I don't think this logic is safe. Holding the resv_lock doesn't p=
-rotect
-> > > > > against another thread doing a refcount_inc_not_zero() without ho=
-lding
-> > > > > the lock.
-> > > > >
-> > > > > I think you can just replace the if() part with a refcount_dec() =
-call,
-> > > > > the lock AFAICT is needed because the following patch wants to be=
- sure
-> > > > > that !!mmap_count is stable when resv_lock is held. =20
-> > > >
-> > > > I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 wit=
-hout
-> > > > complaining :P. =20
-> > >
-> > > I'm pretty sure that refcount_dec() is fine with 1->0. =20
-> >
-> > That's not what [1] says. refcount_dec_and_test() is okay though, but
-> > it'd force us to do a
-> >
-> >         (void)refcount_dec_and_test()
-> >
-> > and detail why it's okay to ignore the returned value. Not too sure
-> > which one is better. =20
->=20
-> You're right, I mixed it up with refcount_dec_and_test().
->=20
-> > > > > I also feel you should invert the conditino for refcount_dec_not_=
-one,
-> > > > > leading to the following which I feel is easier to read:
-> > > > >
-> > > > > static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> > > > > {
-> > > > >       [...]
-> > > > >
-> > > > >       if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
-> > > > >               dma_resv_lock(bo->base.resv, NULL);
-> > > > >               refcount_dec(&bo->cmap.mmap_count);
-> > > > >               dma_resv_unlock(bo->base.resv);
-> > > > >       } =20
-> > > >
-> > > > The best I can do is:
-> > > >
-> > > >         if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
-> > > >                 dma_resv_lock(bo->base.resv, NULL);
-> > > >                 if (!refcount_dec_not_one(&bo->cmap.mmap_count))
-> > > >                         refcount_set(&bo->cmap.mmap_count, 0);
-> > > >                 dma_resv_unlock(bo->base.resv);
-> > > >         }
-> > > >
-> > > > so we only take the lock when absolutely needed, but the 1 -> 0
-> > > > transition still has to be done with "if (dec_not_one) set(0)". =20
-> > >
-> > > Why not just use atomic_t and use the atomic inc/dec operations? They
-> > > don't have saturation, but also do not require treating zero
-> > > specially. =20
-> >
-> > I had suggested using atomics back when I was reviewing the
-> > shmem-shrinker stuff to avoid this exact same issue. I can't find the
-> > thread anymore and I can't remember the rationale either (probably that
-> > saturation detection was useful, still), but the decision was to use a
-> > refcount_t. I don't mind using atomics here, but I'd rather not be
-> > blocked on that when/if I try to move that code into a common lib.
-> >
-> > [1]https://elixir.bootlin.com/linux/v6.19-rc4/source/include/linux/refc=
-ount.h#L460 =20
->=20
-> It's just a suggestion - no need to block on it.
+Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dp.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sure, np.
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+index 274f590807ca..8f4bd9fb560b 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Jitao shi <jitao.shi@mediatek.com>
+ 
+ description: |
+-  MediaTek DP and eDP are different hardwares and there are some features
++  MediaTek DP and eDP are different hardware and there are some features
+   which are not supported for eDP. For example, audio is not supported for
+   eDP. Therefore, we need to use two different compatibles to describe them.
+   In addition, We just need to enable the power domain of DP, so the clock
+-- 
+2.52.0
 
->=20
-> It sounds like refcount_t should have an refcount_inc_maybe_first()
-> where 0->1 is ok.
-
-We actually need refcount_dec_maybe_last() in this context, but I get
-the idea. Don't know if the "ATOMIC INFRASTRUCTURE" maintainers would
-be okay with this idea though, since it's silencing the "do something
-special when your counter reaches zero" behavior enforced by the
-refcount API, and it's not that often that resources are released
-lazily like that anyway, so maybe the extra line is not that big of a
-deal.
