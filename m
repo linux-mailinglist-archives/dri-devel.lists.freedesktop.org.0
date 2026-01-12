@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8D1D127E1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E9AD12809
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4908210E0C9;
-	Mon, 12 Jan 2026 12:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 173AE89654;
+	Mon, 12 Jan 2026 12:20:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iL2K02pv";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8BC6E10E0C9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:15:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D9E5497;
- Mon, 12 Jan 2026 04:15:13 -0800 (PST)
-Received: from [10.57.11.182] (unknown [10.57.11.182])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EFC43F59E;
- Mon, 12 Jan 2026 04:15:15 -0800 (PST)
-Message-ID: <37e36106-8d62-4915-a0e1-c7b283e0ff17@arm.com>
-Date: Mon, 12 Jan 2026 12:15:13 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78E8A89654
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:20:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 544F06013C;
+ Mon, 12 Jan 2026 12:20:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233D1C16AAE;
+ Mon, 12 Jan 2026 12:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768220402;
+ bh=+Nliq3Hq9k4ThIYArW3/W+oRJeWgrnz/ZUwpOJtv0cM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iL2K02pvk6E1DsvDlqWboBCtpQHXaKUBrL1wltPlg05hlgRoVPE9d6yCnJgpfHU3K
+ 5wnwkxG9AmFATvFjjgHmhJmW/kYdcxNn5zEl7CCQGsXozborPGix1NS3B6tfKluFUp
+ 4+jaQq6nlsWR88DToo/mPKJ87brhQnhnntP/R+nXtW3dhiXFicBW1f3BpAsty+mLjZ
+ 99FE2FBFc/kRsz2G+ht2VEMhhnQ2twEqyml4iPXDcjXNFCp0ahYY66D1dhde+2mS0q
+ 8Y77nf0bPjNjJG2JcBS0x7Evxif8Ub6tPWPTIo5nqywmPi5aJOLKCeAsDSKhiNLd77
+ 0aouxLftPfDUw==
+Date: Mon, 12 Jan 2026 14:19:56 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Williamson <alex@shazbot.org>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH 0/4] dma-buf: add revoke mechanism to invalidate shared
+ buffers
+Message-ID: <20260112121956.GE14378@unreal>
+References: <20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com>
+ <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 6/9] drm/panthor: Lazily allocate pages on mmap()
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-7-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260109130801.1239558-7-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,202 +65,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2026 13:07, Boris Brezillon wrote:
-> Defer pages allocation until their first access.
+On Mon, Jan 12, 2026 at 11:04:38AM +0100, Christian König wrote:
+> On 1/11/26 11:37, Leon Romanovsky wrote:
+> > This series implements a dma-buf “revoke” mechanism: to allow a dma-buf
+> > exporter to explicitly invalidate (“kill”) a shared buffer after it has
+> > been distributed to importers, so that further CPU and device access is
+> > prevented and importers reliably observe failure.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 119 ++++++++++++++++----------
->  1 file changed, 75 insertions(+), 44 deletions(-)
+> We already have that. This is what the move_notify is all about.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 0e52c7a07c87..44f05bd957e7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -600,15 +600,6 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
->  	if (is_cow_mapping(vma->vm_flags))
->  		return -EINVAL;
->  
-> -	dma_resv_lock(obj->resv, NULL);
-> -	ret = panthor_gem_backing_get_pages_locked(bo);
-> -	if (!ret)
-> -		ret = panthor_gem_prep_for_cpu_map_locked(bo);
-> -	dma_resv_unlock(obj->resv);
-> -
-> -	if (ret)
-> -		return ret;
-> -
->  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
->  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  	if (should_map_wc(bo))
-> @@ -628,82 +619,122 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
->  	return res;
->  }
->  
-> -static bool try_map_pmd(struct vm_fault *vmf, unsigned long addr, struct page *page)
-> +static vm_fault_t insert_page(struct vm_fault *vmf, struct page *page)
->  {
-> +	struct vm_area_struct *vma = vmf->vma;
-> +	vm_fault_t ret;
-> +
->  #ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
->  	unsigned long pfn = page_to_pfn(page);
->  	unsigned long paddr = pfn << PAGE_SHIFT;
-> -	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
-> +	bool aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
->  
->  	if (aligned &&
->  	    pmd_none(*vmf->pmd) &&
->  	    folio_test_pmd_mappable(page_folio(page))) {
->  		pfn &= PMD_MASK >> PAGE_SHIFT;
-> -		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
-> -			return true;
-> +		ret = vmf_insert_pfn_pmd(vmf, pfn, false);
-> +		if (ret == VM_FAULT_NOPAGE)
-> +			return VM_FAULT_NOPAGE;
->  	}
->  #endif
->  
-> -	return false;
-> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
->  }
->  
-> -static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
-> +static vm_fault_t nonblocking_page_setup(struct vm_fault *vmf, pgoff_t page_offset)
->  {
->  	struct vm_area_struct *vma = vmf->vma;
-> -	struct drm_gem_object *obj = vma->vm_private_data;
->  	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> -	loff_t num_pages = obj->size >> PAGE_SHIFT;
->  	vm_fault_t ret;
-> -	pgoff_t page_offset;
-> -	unsigned long pfn;
->  
-> -	/* Offset to faulty address in the VMA. */
-> -	page_offset = vmf->pgoff - vma->vm_pgoff;
-> +	if (!dma_resv_trylock(bo->base.resv))
-> +		return VM_FAULT_RETRY;
->  
-> -	dma_resv_lock(bo->base.resv, NULL);
-> +	if (bo->backing.pages)
-> +		ret = insert_page(vmf, bo->backing.pages[page_offset]);
-> +	else
-> +		ret = VM_FAULT_RETRY;
->  
-> -	if (page_offset >= num_pages ||
-> -	    drm_WARN_ON_ONCE(obj->dev, !bo->backing.pages)) {
-> -		ret = VM_FAULT_SIGBUS;
-> -		goto out;
-> +	dma_resv_unlock(bo->base.resv);
-> +	return ret;
-> +}
-> +
-> +static vm_fault_t blocking_page_setup(struct vm_fault *vmf,
-> +				      struct panthor_gem_object *bo,
-> +				      pgoff_t page_offset, bool mmap_lock_held)
-> +{
-> +	vm_fault_t ret;
-> +	int err;
-> +
-> +	if (vmf->flags & FAULT_FLAG_INTERRUPTIBLE) {
-> +		err = dma_resv_lock_interruptible(bo->base.resv, NULL);
-> +		if (err)
-> +			return mmap_lock_held ? VM_FAULT_NOPAGE : VM_FAULT_RETRY;
+> > Today, dma-buf effectively provides “if you have the fd, you can keep using
+> > the memory indefinitely.” That assumption breaks down when an exporter must
+> > reclaim, reset, evict, or otherwise retire backing memory after it has been
+> > shared. Concrete cases include GPU reset and recovery where old allocations
+> > become unsafe to access, memory eviction/overcommit where backing storage
+> > must be withdrawn, and security or isolation situations where continued access
+> > must be prevented. While drivers can sometimes approximate this with
+> > exporter-specific fencing and policy, there is no core dma-buf state transition
+> > that communicates “this buffer is no longer valid; fail access” across all
+> > access paths.
+> 
+> It's not correct that there is no DMA-buf handling for this use case.
+> 
+> > The change in this series is to introduce a core “revoked” state on the dma-buf
+> > object and a corresponding exporter-triggered revoke operation. Once a dma-buf
+> > is revoked, new access paths are blocked so that attempts to DMA-map, vmap, or
+> > mmap the buffer fail in a consistent way.
+> > 
+> > In addition, the series aims to invalidate existing access as much as the kernel
+> > allows: device mappings are torn down where possible so devices and IOMMUs cannot
+> > continue DMA.
+> > 
+> > The semantics are intentionally simple: revoke is a one-way, permanent transition
+> > for the lifetime of that dma-buf instance.
+> > 
+> > From a compatibility perspective, users that never invoke revoke are unaffected,
+> > and exporters that adopt it gain a core-supported enforcement mechanism rather
+> > than relying on ad hoc driver behavior. The intent is to keep the interface
+> > minimal and avoid imposing policy; the series provides the mechanism to terminate
+> > access, with policy remaining in the exporter and higher-level components.
+> 
+> As far as I can see that patch set is completely superfluous.
+> 
+> The move_notify mechanism has been implemented exactly to cover this use case and is in use for a couple of years now.
+> 
+> What exactly is missing?
 
-I'm not sure about this. First FAULT_FLAG_INTERRUPTIBLE is currently
-only used by userfaultfd AFAICT. Second returning VM_FAULT_NOPAGE seems
-wrong - that's for the case were we've inserted a pte but in this case
-we haven't.
+From what I can tell, the missing piece is what happens after .move_notify()
+is called. According to the documentation, the exporter remains valid, and
+the importer is expected to recreate all mappings.
 
-Otherwise I couldn't spot any issues staring at the code, but I might
-have missed something. mm code is always hard to follow!
+include/linux/dma-buf.h:
+  471          * Mappings stay valid and are not directly affected by this callback.
+  472          * But the DMA-buf can now be in a different physical location, so all
+  473          * mappings should be destroyed and re-created as soon as possible.
+  474          *
+  475          * New mappings can be created after this callback returns, and will
+  476          * point to the new location of the DMA-buf.
 
-Thanks,
-Steve
+Call to dma_buf_move_notify() does not prevent new attachments to that
+exporter, while "revoke" does. In the current code, the importer is not aware
+that the exporter no longer exists and will continue calling
+dma_buf_map_attachment().
 
-> +	} else {
-> +		dma_resv_lock(bo->base.resv, NULL);
->  	}
->  
-> -	if (try_map_pmd(vmf, vmf->address, bo->backing.pages[page_offset])) {
-> -		ret = VM_FAULT_NOPAGE;
-> -		goto out;
-> +	err = panthor_gem_backing_get_pages_locked(bo);
-> +	if (!err)
-> +		err = panthor_gem_prep_for_cpu_map_locked(bo);
-> +
-> +	if (err) {
-> +		ret = mmap_lock_held ? VM_FAULT_SIGBUS : VM_FAULT_RETRY;
-> +	} else {
-> +		struct page *page = bo->backing.pages[page_offset];
-> +
-> +		if (mmap_lock_held)
-> +			ret = insert_page(vmf, page);
-> +		else
-> +			ret = VM_FAULT_RETRY;
->  	}
->  
-> -	pfn = page_to_pfn(bo->backing.pages[page_offset]);
-> -	ret = vmf_insert_pfn(vma, vmf->address, pfn);
-> -
-> - out:
->  	dma_resv_unlock(bo->base.resv);
->  
->  	return ret;
->  }
->  
-> -static void panthor_gem_vm_open(struct vm_area_struct *vma)
-> +static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
->  {
-> +	struct vm_area_struct *vma = vmf->vma;
->  	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> +	loff_t num_pages = bo->base.size >> PAGE_SHIFT;
-> +	pgoff_t page_offset;
-> +	vm_fault_t ret;
->  
-> -	drm_WARN_ON(bo->base.dev, drm_gem_is_imported(&bo->base));
-> +	/* We don't use vmf->pgoff since that has the fake offset */
-> +	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> +	if (page_offset >= num_pages)
-> +		return VM_FAULT_SIGBUS;
->  
-> -	dma_resv_lock(bo->base.resv, NULL);
-> +	ret = nonblocking_page_setup(vmf, page_offset);
-> +	if (ret != VM_FAULT_RETRY)
-> +		return ret;
->  
-> -	/* We should have already pinned the pages when the buffer was first
-> -	 * mmap'd, vm_open() just grabs an additional reference for the new
-> -	 * mm the vma is getting copied into (ie. on fork()).
-> -	 */
-> -	drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages);
-> +	/* Check if we're allowed to retry. */
-> +	if (fault_flag_allow_retry_first(vmf->flags)) {
-> +		/* If we're allowed to retry but not wait here, return
-> +		 * immediately, the wait will be done when the fault
-> +		 * handler is called again, with the mmap_lock held.
-> +		 */
-> +		if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
-> +			return VM_FAULT_RETRY;
->  
-> -	dma_resv_unlock(bo->base.resv);
-> +		/* Wait with the mmap lock released, if we're allowed to. */
-> +		drm_gem_object_get(&bo->base);
-> +		mmap_read_unlock(vmf->vma->vm_mm);
-> +		ret = blocking_page_setup(vmf, bo, page_offset, false);
-> +		drm_gem_object_put(&bo->base);
-> +		return ret;
-> +	}
->  
-> -	drm_gem_vm_open(vma);
-> +	return blocking_page_setup(vmf, bo, page_offset, true);
->  }
->  
->  const struct vm_operations_struct panthor_gem_vm_ops = {
->  	.fault = panthor_gem_fault,
-> -	.open = panthor_gem_vm_open,
-> +	.open = drm_gem_vm_open,
->  	.close = drm_gem_vm_close,
->  };
->  
+In summary, the current implementation allows a single .attach() check but
+permits multiple .map_dma_buf() calls. With "revoke", we gain the ability to
+block any subsequent .map_dma_buf() operations.
 
+Main use case is VFIO as exporter and IOMMUFD as importer.
+
+Thanks
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > BTW, see this megathread [1] for additional context.  
+> > Ironically, it was posted exactly one year ago.
+> > 
+> > [1] https://lore.kernel.org/all/20250107142719.179636-2-yilun.xu@linux.intel.com/
+> > 
+> > Thanks
+> > 
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: kvm@vger.kernel.org
+> > Cc: iommu@lists.linux.dev
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > To: Leon Romanovsky <leon@kernel.org>
+> > To: Sumit Semwal <sumit.semwal@linaro.org>
+> > To: Christian König <christian.koenig@amd.com>
+> > To: Alex Williamson <alex@shazbot.org>
+> > To: Kevin Tian <kevin.tian@intel.com>
+> > To: Joerg Roedel <joro@8bytes.org>
+> > To: Will Deacon <will@kernel.org>
+> > To: Robin Murphy <robin.murphy@arm.com>
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> > Leon Romanovsky (4):
+> >       dma-buf: Introduce revoke semantics
+> >       vfio: Use dma-buf revoke semantics
+> >       iommufd: Require DMABUF revoke semantics
+> >       iommufd/selftest: Reuse dma-buf revoke semantics
+> > 
+> >  drivers/dma-buf/dma-buf.c          | 36 ++++++++++++++++++++++++++++++++----
+> >  drivers/iommu/iommufd/pages.c      |  2 +-
+> >  drivers/iommu/iommufd/selftest.c   | 12 ++++--------
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 27 ++++++---------------------
+> >  include/linux/dma-buf.h            | 31 +++++++++++++++++++++++++++++++
+> >  5 files changed, 74 insertions(+), 34 deletions(-)
+> > ---
+> > base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> > change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> > 
+> > Best regards,
+> > --  
+> > Leon Romanovsky <leonro@nvidia.com>
+> > 
+> 
+> 
