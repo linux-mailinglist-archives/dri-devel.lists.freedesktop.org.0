@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D340D12902
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C63D129C5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:49:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07C510E3BC;
-	Mon, 12 Jan 2026 12:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00EF10E0C2;
+	Mon, 12 Jan 2026 12:49:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="WEbIohqn";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 47F1710E3C0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:33:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F5EC497;
- Mon, 12 Jan 2026 04:33:33 -0800 (PST)
-Received: from [10.57.11.182] (unknown [10.57.11.182])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80BC83F59E;
- Mon, 12 Jan 2026 04:33:35 -0800 (PST)
-Message-ID: <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
-Date: Mon, 12 Jan 2026 12:33:33 +0000
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4799110E0C2;
+ Mon, 12 Jan 2026 12:49:48 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dqXJl6GbVz9tM7;
+ Mon, 12 Jan 2026 13:49:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1768222183; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q6ZWZX+cTNaC+6Y0TJs/u5fF+DycThso3XLecrwoiOM=;
+ b=WEbIohqnf1/9a+vSF5adBmG/x/2DFP+VYJ0RS40cCnYch2L1eG+jBBfVOgReJz1ZtKkKj3
+ kjGKQC5JQ6WFNTtFcj2kum3+/fglIKUKwJg6FA9Ej6vqsfhYq5Oj3m9/RNUwIwua8qlf+v
+ TYgmNPpDqO67D6K2DLljBkzSsHM2VPqiZNOhBuGodDK4UTLOiv8faXIaiWtPgat8vLWZep
+ KFw7NavFAfs2v5NiGBVVXySU010JLRFfdvV0NmyUWQ8YTJhipJ1MKTz+hCU1vU1E9kDw2S
+ 7fVYZN+7DUMYDggIA1O0OuNO2wz4nSTKnWApMFMNu2jhAylHpaJqQYkwPfn4aQ==
+Message-ID: <87d5ab37bb3594ee8b1707ffaa28f4937a7f0ad4.camel@mailbox.org>
+Subject: Re: [RFC 3/3] drm/sched: Disallow initializing entities with no
+ schedulers
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>
+Date: Mon, 12 Jan 2026 13:49:39 +0100
+In-Reply-To: <340d0ce2-85e6-4fd8-992c-c35dda9b0cbb@igalia.com>
+References: <20260107124351.94738-1-tvrtko.ursulin@igalia.com>
+ <20260107124351.94738-4-tvrtko.ursulin@igalia.com>
+ <a763700944ed4ccfe2f36ae805e4a348dd3fd10f.camel@mailbox.org>
+ <340d0ce2-85e6-4fd8-992c-c35dda9b0cbb@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-9-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260109130801.1239558-9-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 96028ad7dd6197c1215
+X-MBO-RS-META: aofbom7rw3zwyf5aa58oq3nyye3kyn31
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,129 +66,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2026 13:08, Boris Brezillon wrote:
-> This will be used to order things by reclaimability.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 44 +++++++++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
->  2 files changed, 45 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 44f05bd957e7..458d22380e96 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -484,6 +484,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
->  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
->  			  refcount_read(&bo->cmap.vaddr_use_count));
->  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
-> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
->  }
->  
->  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
-> @@ -600,6 +601,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
->  	if (is_cow_mapping(vma->vm_flags))
->  		return -EINVAL;
->  
-> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
-> +		dma_resv_lock(obj->resv, NULL);
-> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
-> +			refcount_set(&bo->cmap.mmap_count, 1);
-> +		dma_resv_unlock(obj->resv);
-> +	}
-> +
->  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
->  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  	if (should_map_wc(bo))
-> @@ -732,10 +740,42 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
->  	return blocking_page_setup(vmf, bo, page_offset, true);
->  }
->  
-> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> +
-> +	/* mmap_count must have been incremented at mmap time, so it can't be
-> +	 * zero here.
-> +	 */
-> +	if (!drm_gem_is_imported(&bo->base))
-> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
-> +
-> +	drm_gem_vm_open(vma);
-> +}
-> +
-> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> +
-> +	if (drm_gem_is_imported(&bo->base))
-> +		goto out;
-> +
-> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
-> +		goto out;
-> +
-> +	dma_resv_lock(bo->base.resv, NULL);
-> +	if (!refcount_dec_not_one(&bo->cmap.mmap_count))
-> +		refcount_set(&bo->cmap.mmap_count, 0);
-> +	dma_resv_unlock(bo->base.resv);
+On Mon, 2026-01-12 at 10:29 +0000, Tvrtko Ursulin wrote:
+>=20
+> On 08/01/2026 13:54, Philipp Stanner wrote:
+> > What's the merge plan for this series? Christian?
+>=20
+> It sounds that staged merge would be safest. First two patches could go=
+=20
+> to amd-next and if everything will look fine, I would follow up by=20
+> sending the DRM scheduler patch once amdgpu patches land to drm-next.
 
-I don't think this logic is safe. Holding the resv_lock doesn't protect
-against another thread doing a refcount_inc_not_zero() without holding
-the lock.
+Works for me.
 
-I think you can just replace the if() part with a refcount_dec() call,
-the lock AFAICT is needed because the following patch wants to be sure
-that !!mmap_count is stable when resv_lock is held.
+>=20
+> Or if DRM scheduler maintainers are happy for the DRM scheduler patch to=
+=20
+> also go via amd-next that is another option.
+> =C2=A0 > On Wed, 2026-01-07 at 12:43 +0000, Tvrtko Ursulin wrote:
+> > > Since we have removed the case where amdgpu was initializing entitite=
+s
+> > > with either no schedulers on the list, or with a single NULL schedule=
+r,
+> > > and there appears no other drivers which rely on this, we can simplif=
+y the
+> > > scheduler by explictly rejecting that early.
+> > >=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 13 ++++-------=
+--
+> > > =C2=A0=C2=A01 file changed, 4 insertions(+), 9 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/d=
+rm/scheduler/sched_entity.c
+> > > index fe174a4857be..bb7e5fc47f99 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > @@ -61,32 +61,27 @@ int drm_sched_entity_init(struct drm_sched_entity=
+ *entity,
+> > > =C2=A0=C2=A0			=C2=A0 unsigned int num_sched_list,
+> > > =C2=A0=C2=A0			=C2=A0 atomic_t *guilty)
+> > > =C2=A0=C2=A0{
+> > > -	if (!(entity && sched_list && (num_sched_list =3D=3D 0 || sched_lis=
+t[0])))
+> > > +	if (!entity || !sched_list || !num_sched_list || !sched_list[0])
+> >=20
+> > I personally am a fan of checking integers explicitly against a number,
+> > which would make the diff a bit more straightforward, too. But I accept
+> > that like that is common kernel practice.
+> >=20
+> > > =C2=A0=C2=A0		return -EINVAL;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	memset(entity, 0, sizeof(struct drm_sched_entity));
+> > > =C2=A0=C2=A0	INIT_LIST_HEAD(&entity->list);
+> > > =C2=A0=C2=A0	entity->rq =3D NULL;
+> > > =C2=A0=C2=A0	entity->guilty =3D guilty;
+> > > -	entity->num_sched_list =3D num_sched_list;
+> > > =C2=A0=C2=A0	entity->priority =3D priority;
+> > > =C2=A0=C2=A0	entity->last_user =3D current->group_leader;
+> > > -	/*
+> > > -	 * It's perfectly valid to initialize an entity without having a va=
+lid
+> > > -	 * scheduler attached. It's just not valid to use the scheduler bef=
+ore it
+> > > -	 * is initialized itself.
+> > > -	 */
+> > > +	entity->num_sched_list =3D num_sched_list;
+> >=20
+> > Why do you move that line downwards? Just leave it where it was?
+> > num_sched_list isn't changed or anything, so I don't see a logical
+> > connection to the line below so that grouping would make sense.
+>=20
+> It looks completely logical to me to have both lines dealing with the
+> same scheduler list, accessing the same input parameter even, next to
+> each other:
+>=20
+> =C2=A0=C2=A0 entity->num_sched_list =3D num_sched_list;
+> =C2=A0=C2=A0 entity->sched_list =3D num_sched_list > 1 ? sched_list : NUL=
+L;
+>=20
+> No? In other words, I can respin if you insist but I don't see the need.
 
-I also feel you should invert the conditino for refcount_dec_not_one,
-leading to the following which I feel is easier to read:
+Fine by me. Though a little sentence about that cosmetical change in
+the commit message would have made that clearer.
 
-static void panthor_gem_vm_close(struct vm_area_struct *vma)
-{
-	[...]
 
-	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
-		dma_resv_lock(bo->base.resv, NULL);
-		refcount_dec(&bo->cmap.mmap_count);
-		dma_resv_unlock(bo->base.resv);
-	}
+Greetings
+P.
 
-	drm_gem_object_put(&bo->base);
-}
-
-Thanks,
-Steve
-
-> +
-> +out:
-> +	drm_gem_object_put(&bo->base);
-> +}
-> +
->  const struct vm_operations_struct panthor_gem_vm_ops = {
->  	.fault = panthor_gem_fault,
-> -	.open = drm_gem_vm_open,
-> -	.close = drm_gem_vm_close,
-> +	.open = panthor_gem_vm_open,
-> +	.close = panthor_gem_vm_close,
->  };
->  
->  static const struct drm_gem_object_funcs panthor_gem_funcs = {
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index b66478c9590c..c0a18dca732c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -80,6 +80,9 @@ struct panthor_gem_cpu_map {
->  
->  	/** @vaddr_use_count: Number of active vmap() requests on this GEM */
->  	refcount_t vaddr_use_count;
-> +
-> +	/** @mmap_count: Number of active mmap() requests on this GEM */
-> +	refcount_t mmap_count;
->  };
->  
->  /**
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> >=20
+> > With that:
+> > Acked-by: Philipp Stanner <phasta@kernel.org>
+> >=20
+> >=20
+> > P.
+> >=20
+> > > =C2=A0=C2=A0	entity->sched_list =3D num_sched_list > 1 ? sched_list :=
+ NULL;
+> > > =C2=A0=C2=A0	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+> > > =C2=A0=C2=A0	RB_CLEAR_NODE(&entity->rb_tree_node);
+> > > =C2=A0=20
+> > > -	if (num_sched_list && !sched_list[0]->sched_rq) {
+> > > +	if (!sched_list[0]->sched_rq) {
+> > > =C2=A0=C2=A0		/* Since every entry covered by num_sched_list
+> > > =C2=A0=C2=A0		 * should be non-NULL and therefore we warn drivers
+> > > =C2=A0=C2=A0		 * not to do this and to fix their DRM calling order.
+> > > =C2=A0=C2=A0		 */
+> > > =C2=A0=C2=A0		pr_warn("%s: called with uninitialized scheduler\n", __=
+func__);
+> > > -	} else if (num_sched_list) {
+> > > +	} else {
+> > > =C2=A0=C2=A0		/* The "priority" of an entity cannot exceed the number=
+ of run-queues of a
+> > > =C2=A0=C2=A0		 * scheduler. Protect against num_rqs being 0, by conve=
+rting to signed. Choose
+> > > =C2=A0=C2=A0		 * the lowest priority available.
+> >=20
+>=20
 
