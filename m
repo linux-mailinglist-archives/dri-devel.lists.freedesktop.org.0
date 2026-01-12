@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9D9D12448
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:23:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672F7D12460
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEA2110E38A;
-	Mon, 12 Jan 2026 11:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F35710E399;
+	Mon, 12 Jan 2026 11:24:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oB2lvARq";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="GlnGuxi2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A47110E0D7;
- Mon, 12 Jan 2026 11:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768217035; x=1799753035;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vpQ9JqNi8vbXtk07HarRI+KUMBkRhb2mbzH+2yXf7sU=;
- b=oB2lvARqcmaPruSYEqRU7duY1Kb/+nVyD/VK5S0riHo4RjXLaHGZlb3F
- db6+q7MpRI9V3AI5mDP/0Y5YtDN8s3fuZeMAz28uRY4sraGUVbggDWRKy
- iIq5kkA2ux7VR+gbbho73Fiy17E9YM75x3Lmj93H3+3iXvjTbxLPIHEsJ
- kLewJIfFpvjQ4RIe1dGlOD46MDXalQvRp2bQoIn9ucc2wWqKODLDkulGk
- 27pdYYjC5uPz+WFUPS40KgDVcmvqGjXit4YAJhJc9JiIb/0NZy/Yf7QzB
- kpDH9onVAC9lL0eY2V2jHHkFcl2R2hpBL8en+WLCq9kVk+rCMkz8DZOBD w==;
-X-CSE-ConnectionGUID: ZzvpFO/jSqmuD5lu/8xkFQ==
-X-CSE-MsgGUID: QZn5J2uSSD+zzFH08IqTDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="57038338"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="57038338"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 03:23:54 -0800
-X-CSE-ConnectionGUID: VBTLzxHXRc6HuSdW7ski3g==
-X-CSE-MsgGUID: pqAqYpfESSSGTYAIa7xZTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="209139569"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.222])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 03:23:50 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: harry.wentland@amd.com, louis.chauvet@bootlin.com, mwen@igalia.com,
- contact@emersion.fr, alex.hung@amd.com, daniels@collabora.com,
- uma.shankar@intel.com, suraj.kandpal@intel.com, nfraprado@collabora.com,
- ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: Re: [PATCH v2 05/13] drm/colorop: Add destroy helper for colorop
- objects
-In-Reply-To: <20260109081728.478844-6-chaitanya.kumar.borah@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260109081728.478844-1-chaitanya.kumar.borah@intel.com>
- <20260109081728.478844-6-chaitanya.kumar.borah@intel.com>
-Date: Mon, 12 Jan 2026 13:23:46 +0200
-Message-ID: <bd769e61d261899ada538818b5a3923070ba2b72@intel.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F135E10E394;
+ Mon, 12 Jan 2026 11:24:29 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dqVQK5T59z9tg3;
+ Mon, 12 Jan 2026 12:24:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1768217065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k9qsQBgQmcYl9JfRBt1EVbQqr+3xaDhHk08wDhx5hwM=;
+ b=GlnGuxi2JFokRJLgmOle2YNC3D1sKPUNqvn9sWOX+PVLdNFEL97hUenaFSGHIcB/CoQLxn
+ dxf0sH/Dweim5lCvwc6bF9Q7rLyVJ+A8GvIu10IluTRQlvzaEBmw7UXp06d6z2IhqujZi0
+ eCasyqSFCSIlcwH9n33Jy9QG9hu6lJyGE0xpkh+/gbe8ZTxGqo+kreiQuJH6O4trPGgwne
+ BdEGPWaUeXpjs9Zmd0bucRaDOfrAybqlMeHQvtQxtTbYyAykeTGwNMk9ifOpo0YK3gN95e
+ YC91YDshsPlzjt5o8VmiES8u3LRxUm1jkdO0zbp80vJMh2Sl8YwBEK0II5kzQA==
+Message-ID: <702511b9-28bc-4ea0-809c-f14135a80af1@mailbox.org>
+Date: Mon, 12 Jan 2026 12:24:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH [RFC] v3 5/7] drm/atomic: Allow planes with NULL fb along
+ with async flip
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
+ "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
+ "Kumar, Naveen1" <naveen1.kumar@intel.com>,
+ "Syrjala, Ville" <ville.syrjala@intel.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
+ <20260108-async-v3-5-e7730c3fe9ff@intel.com>
+ <6316ba11-0660-419c-afb6-a1588f6efef5@mailbox.org>
+ <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <05ac3e30-b3dc-48ea-96db-1cbdb4454730@mailbox.org>
+ <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 7f5cb030d28f0f4c8eb
+X-MBO-RS-META: xw8pkfps9a71ikjd3antcqtsxspxkojz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,71 +82,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 09 Jan 2026, Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com> wrote:
-> Add a helper that performs common cleanup and frees the
-> associated object. This can be used by drivers if they do not
-> require any driver-specific teardown.
->
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> Reviewed-by: Alex Hung <alex.hung@amd.com>
-> ---
->  drivers/gpu/drm/drm_colorop.c | 12 ++++++++++++
->  include/drm/drm_colorop.h     | 10 ++++++++++
->  2 files changed, 22 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 44eb823585d2..ba19a3ab23cb 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -178,6 +178,18 @@ void drm_colorop_cleanup(struct drm_colorop *colorop)
->  }
->  EXPORT_SYMBOL(drm_colorop_cleanup);
->  
-> +/**
-> + * drm_colorop_destroy() - Helper for colorop destruction
-> + *
-> + * @colorop: colorop to destroy
-> + */
-> +void drm_colorop_destroy(struct drm_colorop *colorop)
-> +{
-> +	drm_colorop_cleanup(colorop);
-> +	kfree(colorop);
-> +}
-> +EXPORT_SYMBOL(drm_colorop_destroy);
-> +
->  /**
->   * drm_colorop_pipeline_destroy - Helper for color pipeline destruction
->   *
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index a3a32f9f918c..0f5ba72c1704 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -420,6 +420,16 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
->   */
->  void drm_colorop_reset(struct drm_colorop *colorop);
->  
-> +/**
-> + * drm_colorop_destroy - destroy colorop
-> + * @colorop: drm colorop
-> + *
-> + * Destroys @colorop by performing common DRM cleanup and freeing the
-> + * colorop object. This can be used by drivers if they do not
-> + * require any driver-specific teardown.
-> + */
+On 1/12/26 09:26, Murthy, Arun R wrote:
+> On 09-01-2026 16:53, Michel Dänzer wrote:
+>> On 1/9/26 12:08, Murthy, Arun R wrote:
+>>>> From: Michel Dänzer <michel.daenzer@mailbox.org>
+>>>> On 1/8/26 10:43, Arun R Murthy wrote:
+>>>>> Along with async flip if there is a request to disable a sync plane by
+>>>>> providing a NULL fb allow them.
+>>>> That could result in async changes to other planes taking effect in an earlier
+>>>> refresh cycle than the sync plane being disabled, couldn't it? In which case the
+>>>> commit arguably wouldn't actually be "atomic".
+>>>>
+>>> This is the request from the community to allow disabling of a sync plane in an async flip atomic ioctl.
+>>> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834
+>> Can't see any such request there. I suspect there might be a misunderstanding.
+> 
+> Here cursor is a sync flip.
+> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843
 
-The kernel-doc should be with the function definition, not at the
-declaration, and certainly not both.
+Not sure what you mean.
 
-BR,
-Jani.
+The cursor plane is disabled in KWin's atomic commits with DRM_MODE_PAGE_FLIP_ASYNC, so it's irrelevant for them.
 
-> +void drm_colorop_destroy(struct drm_colorop *colorop);
-> +
->  /**
->   * drm_colorop_index - find the index of a registered colorop
->   * @colorop: colorop to find index for
+In the comment following the one you referenced, Xaver (one of the main KWin developers) agreed that KWin not setting DRM_MODE_PAGE_FLIP_ASYNC in the commit which disables the cursor plane is fine.
+
+I see no request for being able to mix sync & async plane updates in a single commit.
+
 
 -- 
-Jani Nikula, Intel
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
