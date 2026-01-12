@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672F7D12460
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4183BD12499
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:27:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F35710E399;
-	Mon, 12 Jan 2026 11:24:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="GlnGuxi2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4AB410E397;
+	Mon, 12 Jan 2026 11:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F135E10E394;
- Mon, 12 Jan 2026 11:24:29 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dqVQK5T59z9tg3;
- Mon, 12 Jan 2026 12:24:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768217065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k9qsQBgQmcYl9JfRBt1EVbQqr+3xaDhHk08wDhx5hwM=;
- b=GlnGuxi2JFokRJLgmOle2YNC3D1sKPUNqvn9sWOX+PVLdNFEL97hUenaFSGHIcB/CoQLxn
- dxf0sH/Dweim5lCvwc6bF9Q7rLyVJ+A8GvIu10IluTRQlvzaEBmw7UXp06d6z2IhqujZi0
- eCasyqSFCSIlcwH9n33Jy9QG9hu6lJyGE0xpkh+/gbe8ZTxGqo+kreiQuJH6O4trPGgwne
- BdEGPWaUeXpjs9Zmd0bucRaDOfrAybqlMeHQvtQxtTbYyAykeTGwNMk9ifOpo0YK3gN95e
- YC91YDshsPlzjt5o8VmiES8u3LRxUm1jkdO0zbp80vJMh2Sl8YwBEK0II5kzQA==
-Message-ID: <702511b9-28bc-4ea0-809c-f14135a80af1@mailbox.org>
-Date: Mon, 12 Jan 2026 12:24:05 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 072C510E397
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 11:27:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACE9E497;
+ Mon, 12 Jan 2026 03:27:01 -0800 (PST)
+Received: from [10.57.11.182] (unknown [10.57.11.182])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 126BF3F694;
+ Mon, 12 Jan 2026 03:27:03 -0800 (PST)
+Message-ID: <b83acc7f-309e-4fdb-8dff-23fdd9ccb870@arm.com>
+Date: Mon, 12 Jan 2026 11:27:01 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH [RFC] v3 5/7] drm/atomic: Allow planes with NULL fb along
- with async flip
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/9] drm/panthor: Move panthor_gems_debugfs_init() to
+ panthor_gem.c
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <20260108-async-v3-5-e7730c3fe9ff@intel.com>
- <6316ba11-0660-419c-afb6-a1588f6efef5@mailbox.org>
- <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <05ac3e30-b3dc-48ea-96db-1cbdb4454730@mailbox.org>
- <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-4-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260109130801.1239558-4-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 7f5cb030d28f0f4c8eb
-X-MBO-RS-META: xw8pkfps9a71ikjd3antcqtsxspxkojz
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,33 +61,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/26 09:26, Murthy, Arun R wrote:
-> On 09-01-2026 16:53, Michel Dänzer wrote:
->> On 1/9/26 12:08, Murthy, Arun R wrote:
->>>> From: Michel Dänzer <michel.daenzer@mailbox.org>
->>>> On 1/8/26 10:43, Arun R Murthy wrote:
->>>>> Along with async flip if there is a request to disable a sync plane by
->>>>> providing a NULL fb allow them.
->>>> That could result in async changes to other planes taking effect in an earlier
->>>> refresh cycle than the sync plane being disabled, couldn't it? In which case the
->>>> commit arguably wouldn't actually be "atomic".
->>>>
->>> This is the request from the community to allow disabling of a sync plane in an async flip atomic ioctl.
->>> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834
->> Can't see any such request there. I suspect there might be a misunderstanding.
+On 09/01/2026 13:07, Boris Brezillon wrote:
+> There's no reason for panthor_drv to know about panthor_gem.c internals,
+> so let's move the GEM debugfs init logic to panthor_gem.c.
 > 
-> Here cursor is a sync flip.
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Not sure what you mean.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-The cursor plane is disabled in KWin's atomic commits with DRM_MODE_PAGE_FLIP_ASYNC, so it's irrelevant for them.
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 26 +-----------------------
+>  drivers/gpu/drm/panthor/panthor_gem.c | 29 +++++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gem.h |  3 +--
+>  3 files changed, 29 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 165dddfde6ca..52c27a60c84a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1635,34 +1635,10 @@ static const struct file_operations panthor_drm_driver_fops = {
+>  };
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -static int panthor_gems_show(struct seq_file *m, void *data)
+> -{
+> -	struct drm_info_node *node = m->private;
+> -	struct drm_device *dev = node->minor->dev;
+> -	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+> -
+> -	panthor_gem_debugfs_print_bos(ptdev, m);
+> -
+> -	return 0;
+> -}
+> -
+> -static struct drm_info_list panthor_debugfs_list[] = {
+> -	{"gems", panthor_gems_show, 0, NULL},
+> -};
+> -
+> -static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> -{
+> -	drm_debugfs_create_files(panthor_debugfs_list,
+> -				 ARRAY_SIZE(panthor_debugfs_list),
+> -				 minor->debugfs_root, minor);
+> -
+> -	return 0;
+> -}
+> -
+>  static void panthor_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_mmu_debugfs_init(minor);
+> -	panthor_gems_debugfs_init(minor);
+> +	panthor_gem_debugfs_init(minor);
+>  }
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index b61908fd508a..13e9dd3764fa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -9,6 +9,8 @@
+>  #include <linux/err.h>
+>  #include <linux/slab.h>
+>  
+> +#include <drm/drm_debugfs.h>
+> +#include <drm/drm_file.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/panthor_drm.h>
+>  
+> @@ -683,8 +685,8 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>  		totals->reclaimable += resident_size;
+>  }
+>  
+> -void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> -				   struct seq_file *m)
+> +static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +					  struct seq_file *m)
+>  {
+>  	struct gem_size_totals totals = {0};
+>  	struct panthor_gem_object *bo;
+> @@ -704,4 +706,27 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>  	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+>  		   totals.size, totals.resident, totals.reclaimable);
+>  }
+> +
+> +static int panthor_gem_show_bos(struct seq_file *m, void *data)
+> +{
+> +	struct drm_info_node *node = m->private;
+> +	struct drm_device *dev = node->minor->dev;
+> +	struct panthor_device *ptdev =
+> +		container_of(dev, struct panthor_device, base);
+> +
+> +	panthor_gem_debugfs_print_bos(ptdev, m);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct drm_info_list panthor_gem_debugfs_list[] = {
+> +	{ "gems", panthor_gem_show_bos, 0, NULL },
+> +};
+> +
+> +void panthor_gem_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panthor_gem_debugfs_list,
+> +				 ARRAY_SIZE(panthor_gem_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +}
+>  #endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 22519c570b5a..94b2d17cf032 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -203,8 +203,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> -				   struct seq_file *m);
+> +void panthor_gem_debugfs_init(struct drm_minor *minor);
+>  #endif
+>  
+>  #endif /* __PANTHOR_GEM_H__ */
 
-In the comment following the one you referenced, Xaver (one of the main KWin developers) agreed that KWin not setting DRM_MODE_PAGE_FLIP_ASYNC in the commit which disables the cursor plane is fine.
-
-I see no request for being able to mix sync & async plane updates in a single commit.
-
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
