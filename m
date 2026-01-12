@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89374D13E03
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFF5D13E39
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:07:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E686610E410;
-	Mon, 12 Jan 2026 16:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A362410E402;
+	Mon, 12 Jan 2026 16:07:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="NlChRciG";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oIPgEntU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A5410E410
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:04:00 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177]) (Authenticated sender: zamundaaa)
- by letterbox.kde.org (Postfix) with ESMTPSA id 1FE8C33F73B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:03:59 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1768233839; bh=hr2la+8/JBfPcYjUwUtbWIuE339Cr77t3Ej9auuplwY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NlChRciGGkDlE4G8RhDwUhzAEhco27lg76VyntBIXVJgDDNpJBe1hFdc+lXga0beG
- h14L4N881WEya0+LG040q+tvFOvduw5YM0NEeMZmdNW/qGbq7SHpyTBxtutfeEg4eI
- D6MpyhGBPxj/ExZm6qXQ6owA8FIc94f+PR6B5BRZWEW8sE+A+nTHxyD+fWlzMxBfcv
- Te+CN+sN+lGvOHueLIGf7pnQnT8/QuX3b+I3dYAVMHuU9BIM1530QW3y3q+Mo+Kpko
- HrI9wn3HfxLRIched+iKS+vCoKRfYk0209PUmUgMj3C4xjH6m2n1re0Z+GO1hMLVDP
- g51IdTR/h13IQ==
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-792768a0cd3so16139467b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:03:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV06ZlS04z1wToyP5x+X2eIFqenkY0aBGDvLQu+49qHeecapaoxX03B/jokMCVUVvSvQ/Pm8ed6bxg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIXVMPiD9dVQzbgOukPkI8cFjO7/kczGDErDcGmetK4CDLQJPP
- uNxZbI6wZ8cubP0DzlR5QzNh8ylGoA07WRD/eHa4iux9qDt0lx25zUWtVXc4GnTrxA9G9nhguR0
- eEMIiWW/Abl7adnFechgReMeY+FwV1YI=
-X-Google-Smtp-Source: AGHT+IEhESDidL9ipWyioVB98E0jff2u4z7/bM7Ubxstme7Bh1kkDw05miCNdkOT9ec3RpZmQlooAES9QRtdTG4sTE0=
-X-Received: by 2002:a05:690e:1c07:b0:644:2e1b:c8bb with SMTP id
- 956f58d0204a3-64716c58c47mr14446417d50.59.1768233837397; Mon, 12 Jan 2026
- 08:03:57 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FEF310E402
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768234027;
+ bh=qf2liF3PRGdd5V9MVGiiYjiIaPACQ6TvC6haw+nVM60=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=oIPgEntUkn0gJZSCgScT3rRPQBpcJTQd79KqHzeJTVJChq9gfBr4ZjZBtLTd10yqX
+ oW/KgknSezNyFrvcwmoEoLnryxtpJt2rrXOTC8gViYZrDrMBW1iFiQcsalF+f7U50A
+ sI2PIayLga/8GLw7c7AT2uM+9/JBBFNbZkvOGPQvprjU2ztjcEsE7I2tyZjlSDwWTm
+ 4X4g0DyrezWaGH0o7frB2jJvaqhQt3LDScRTPVLmYvtmUhF8++D6zg8sKAxTEYgMHP
+ tgJrKLKf2yL4W8rldatrO07WthFKk4ucwgejlIbNUIV+6QsSoiqS/8d7tcGNpga1FM
+ 24jqpU4I9kLLA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 424A417E0A49;
+ Mon, 12 Jan 2026 17:07:06 +0100 (CET)
+Date: Mon, 12 Jan 2026 17:06:58 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dmitry
+ Osipenko <dmitry.osipenko@collabora.com>, Chris Diamand
+ <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, kernel@collabora.com
+Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
+Message-ID: <20260112170658.1bda2573@fedora>
+In-Reply-To: <CAH5fLgj_mGHjk81ZVS2o+Q-+UY3PhZ-ech1BzjDewUvGHaeWBA@mail.gmail.com>
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-9-boris.brezillon@collabora.com>
+ <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
+ <20260112153953.61eb20dc@fedora>
+ <CAH5fLggS-sgKYRvnraRsOoYysVnYoDdhmiu1jbdWv132BBcWAA@mail.gmail.com>
+ <20260112164908.02d25584@fedora>
+ <CAH5fLgj_mGHjk81ZVS2o+Q-+UY3PhZ-ech1BzjDewUvGHaeWBA@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <20260108-async-v3-5-e7730c3fe9ff@intel.com>
- <6316ba11-0660-419c-afb6-a1588f6efef5@mailbox.org>
- <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <05ac3e30-b3dc-48ea-96db-1cbdb4454730@mailbox.org>
- <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
- <702511b9-28bc-4ea0-809c-f14135a80af1@mailbox.org>
- <63c2c8b1-d695-454b-ada1-b79d61018bd6@intel.com>
-In-Reply-To: <63c2c8b1-d695-454b-ada1-b79d61018bd6@intel.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Mon, 12 Jan 2026 17:03:46 +0100
-X-Gmail-Original-Message-ID: <CAFZQkGw5GTsebz_7vp48zkwtfNfu1uRU3p=nhibY8+WxgeEBOQ@mail.gmail.com>
-X-Gm-Features: AZwV_QiS6uAS3cm2nJoqLpeAb3FcK1vPpWaMcJpsefkzkTvrPaAofwG-GcaXOKY
-Message-ID: <CAFZQkGw5GTsebz_7vp48zkwtfNfu1uRU3p=nhibY8+WxgeEBOQ@mail.gmail.com>
-Subject: Re: [PATCH [RFC] v3 5/7] drm/atomic: Allow planes with NULL fb along
- with async flip
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>, "Kumar,
- Naveen1" <naveen1.kumar@intel.com>, 
- "Syrjala, Ville" <ville.syrjala@intel.com>, Dmitry Baryshkov <lumag@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +78,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > I see no request for being able to mix sync & async plane updates in a single commit.
+On Mon, 12 Jan 2026 16:51:26 +0100
+Alice Ryhl <aliceryhl@google.com> wrote:
+
+> On Mon, Jan 12, 2026 at 4:49=E2=80=AFPM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
 > >
-> Sorry maybe I might be creating more confusion or my words are not
-> giving clarity.
->
-> Let me try to put it in simple words.
-> The
-> comment(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2857640)
-> from Xaver says that disabling of cursor plane along with a sync flip
-> should work.
-> Uma in the
-> comment(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2863599)
-> has acknowledged the changes.
-That's about a plane that was previously already disabled by a
-non-async atomic commit. The issue is about the async commit failing
-in a sequence like this:
-- disable cursor plane in sync commit
-- disable cursor plane in async commit + flip on the primary plane
+> > On Mon, 12 Jan 2026 16:19:52 +0100
+> > Alice Ryhl <aliceryhl@google.com> wrote:
+> > =20
+> > > On Mon, Jan 12, 2026 at 3:40=E2=80=AFPM Boris Brezillon
+> > > <boris.brezillon@collabora.com> wrote: =20
+> > > >
+> > > > On Mon, 12 Jan 2026 12:33:33 +0000
+> > > > Steven Price <steven.price@arm.com> wrote:
+> > > > =20
+> > > > > On 09/01/2026 13:08, Boris Brezillon wrote: =20
+> > > > > > +static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   struct panthor_gem_object *bo =3D to_panthor_bo(vma->vm_pri=
+vate_data);
+> > > > > > +
+> > > > > > +   if (drm_gem_is_imported(&bo->base))
+> > > > > > +           goto out;
+> > > > > > +
+> > > > > > +   if (refcount_dec_not_one(&bo->cmap.mmap_count))
+> > > > > > +           goto out;
+> > > > > > +
+> > > > > > +   dma_resv_lock(bo->base.resv, NULL);
+> > > > > > +   if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+> > > > > > +           refcount_set(&bo->cmap.mmap_count, 0);
+> > > > > > +   dma_resv_unlock(bo->base.resv); =20
+> > > > >
+> > > > > I don't think this logic is safe. Holding the resv_lock doesn't p=
+rotect
+> > > > > against another thread doing a refcount_inc_not_zero() without ho=
+lding
+> > > > > the lock.
+> > > > >
+> > > > > I think you can just replace the if() part with a refcount_dec() =
+call,
+> > > > > the lock AFAICT is needed because the following patch wants to be=
+ sure
+> > > > > that !!mmap_count is stable when resv_lock is held. =20
+> > > >
+> > > > I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 wit=
+hout
+> > > > complaining :P. =20
+> > >
+> > > I'm pretty sure that refcount_dec() is fine with 1->0. =20
+> >
+> > That's not what [1] says. refcount_dec_and_test() is okay though, but
+> > it'd force us to do a
+> >
+> >         (void)refcount_dec_and_test()
+> >
+> > and detail why it's okay to ignore the returned value. Not too sure
+> > which one is better. =20
+>=20
+> You're right, I mixed it up with refcount_dec_and_test().
+>=20
+> > > > > I also feel you should invert the conditino for refcount_dec_not_=
+one,
+> > > > > leading to the following which I feel is easier to read:
+> > > > >
+> > > > > static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> > > > > {
+> > > > >       [...]
+> > > > >
+> > > > >       if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+> > > > >               dma_resv_lock(bo->base.resv, NULL);
+> > > > >               refcount_dec(&bo->cmap.mmap_count);
+> > > > >               dma_resv_unlock(bo->base.resv);
+> > > > >       } =20
+> > > >
+> > > > The best I can do is:
+> > > >
+> > > >         if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+> > > >                 dma_resv_lock(bo->base.resv, NULL);
+> > > >                 if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+> > > >                         refcount_set(&bo->cmap.mmap_count, 0);
+> > > >                 dma_resv_unlock(bo->base.resv);
+> > > >         }
+> > > >
+> > > > so we only take the lock when absolutely needed, but the 1 -> 0
+> > > > transition still has to be done with "if (dec_not_one) set(0)". =20
+> > >
+> > > Why not just use atomic_t and use the atomic inc/dec operations? They
+> > > don't have saturation, but also do not require treating zero
+> > > specially. =20
+> >
+> > I had suggested using atomics back when I was reviewing the
+> > shmem-shrinker stuff to avoid this exact same issue. I can't find the
+> > thread anymore and I can't remember the rationale either (probably that
+> > saturation detection was useful, still), but the decision was to use a
+> > refcount_t. I don't mind using atomics here, but I'd rather not be
+> > blocked on that when/if I try to move that code into a common lib.
+> >
+> > [1]https://elixir.bootlin.com/linux/v6.19-rc4/source/include/linux/refc=
+ount.h#L460 =20
+>=20
+> It's just a suggestion - no need to block on it.
 
-I would *in general* like to be able to use the cursor plane while
-doing async flips on the primary one, but I think doing that requires
-more discussion on the high level API design first.
+Sure, np.
 
-- Xaver
+>=20
+> It sounds like refcount_t should have an refcount_inc_maybe_first()
+> where 0->1 is ok.
+
+We actually need refcount_dec_maybe_last() in this context, but I get
+the idea. Don't know if the "ATOMIC INFRASTRUCTURE" maintainers would
+be okay with this idea though, since it's silencing the "do something
+special when your counter reaches zero" behavior enforced by the
+refcount API, and it's not that often that resources are released
+lazily like that anyway, so maybe the extra line is not that big of a
+deal.
