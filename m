@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A28D1592D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 23:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C643D1597A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 23:40:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E26810E281;
-	Mon, 12 Jan 2026 22:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC50810E2BB;
+	Mon, 12 Jan 2026 22:40:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SqJsOxj3";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Sd439CFm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D58C10E281
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 22:26:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2670E10E43B
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 22:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768256798;
- bh=hPdWONUuBZHvs/8qLAlcTuSIfRD9EX7k/uxvPVejFN8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SqJsOxj37Eryt6u1z5Lp1xwAEIilQBm1uUvAMhMyXI4GCvhcdh/Byqgv9ZAOySt4Z
- +v3jlk11NGLqiVST+FsK4Xa822xaTlf4fPN9XhWXepCZ3kz4qqlvmvcIF8Rc8MBfiM
- WBDKMDyG9UIyaN8Q9Z1mGLSflGLNgzMmw9PY7iGRIMYBkmob2op85rx+0Z+7oF1w5Y
- pVR5mkTpH7+J64Mxuir45vpj/njFoa6BN9tao5f4DRnCZm4tTtYiAjhdFiZ3Wg2LtK
- sbLVYASHE4AnYp84iTsJcs9r9ZqjZDotiX/CMVNg+JsDmDQY/R2YuwevVUJNBxHaYt
- GEw7bPfozWV1g==
-Received: from localhost (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E6C7517E1513;
- Mon, 12 Jan 2026 23:26:37 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 13 Jan 2026 00:26:21 +0200
-Subject: [PATCH v2 4/4] drm/rockchip: dw_hdmi_qp: Do not send HPD events
- for all connectors
+ s=mail; t=1768257647;
+ bh=36qLqTSDEnjJClGk7t0KNXMJeK/xpEkNJs2C1xB0rkQ=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=Sd439CFmcd/A+4IKZDBrmZby+gwWEWv71fOHlhPZG6pLWjdY8WSGBmXZ0IzGOgTBf
+ dfD9iJBdpB5x3IhAx+QD3YflxcRkvACP+kwFzStbPD6zN7CLpecZwijbQDaw5eL2rT
+ LyiKW62IKPCDG/N6+HgwihPc1XXQdOtzw1VdoLzqayp+Jkkv2QATnM56FRDn/xcZBS
+ yfJVWAygvVbC19rITn8mwK1+7XU80CFOZwHIJHrHDiB50gy3opZ+IZipXWKJ143NNz
+ CGe+VrZvG9FVgzTntJCvEv2vAB2VOr0kGOb0n/apKoo0nXGNb921j4XyWboh+xHRg9
+ GD74FBHo2o64Q==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C146F17E0A49;
+ Mon, 12 Jan 2026 23:40:46 +0100 (CET)
+Message-ID: <0b28ae6d-295d-4958-9571-190fedd95efe@collabora.com>
+Date: Tue, 13 Jan 2026 00:40:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-dw-hdmi-qp-scramb-v2-4-ae7b2c58d24d@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Add HDMI 2.0 support to DW HDMI QP TX
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Chris Morgan <macromorgan@hotmail.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Diederik de Haas <diederik@cknow-tech.com>,
+ Maud Spierings <maud_spierings@hotmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>
 References: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
+Content-Language: en-US
 In-Reply-To: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Diederik de Haas <diederik@cknow-tech.com>, 
- Maud Spierings <maud_spierings@hotmail.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,113 +73,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to optimize the HPD event handling and run the detect cycle on
-the affected connector only, make use of
-drm_connector_helper_hpd_irq_event() instead of
-drm_helper_hpd_irq_event().
+On 1/13/26 12:26 AM, Cristian Ciocaltea wrote:
+> This patch series provides the missing support for high TMDS clock ratio
+> and scrambling to DW HDMI QP TX library, required for handling HDMI 2.0
+> display modes on RK3576 & RK3588 SoCs.
+> 
+> In order to allow addressing the SCDC status lost on sink disconnects,
+> it adds an atomic variant of the drm_bridge_funcs.detect callback and a
+> new drm_bridge_detect_ctx() helper, which is further used in
+> drm_bridge_connector to switch to ->detect_ctx hook.
+> 
+> Furthermore, it optimizes HPD event handling in dw_hdmi_qp Rockchip
+> platform driver to run the detect cycle on the affected connector only.
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Changes in v2:
+> - Collected Tested-by tags from Diederik and Maud
+> - Rebased onto latest drm-misc-next
+> - Ensured the recently introduced 'no-hpd' support for dealing with
+>   unconnected/repurposed/broken HPD pin is limited to HDMI 1.4 rates
 
-Additionally, move devm_request_threaded_irq() after bridge connector
-initialization.
+Chris, could you please confirm no-hpd is still functional with this series on
+your Gameforce Ace board when testing with a HDMI 2.0 display?
 
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>
-Tested-by: Maud Spierings <maud_spierings@hotmail.com>
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 44 ++++++++++++--------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index e91caae7e353..4091966a2075 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -92,6 +92,7 @@ struct rockchip_hdmi_qp {
- 	struct regmap *regmap;
- 	struct regmap *vo_regmap;
- 	struct rockchip_encoder encoder;
-+	struct drm_connector *connector;
- 	struct dw_hdmi_qp *hdmi;
- 	struct phy *phy;
- 	struct gpio_desc *frl_enable_gpio;
-@@ -251,14 +252,10 @@ static void dw_hdmi_qp_rk3588_hpd_work(struct work_struct *work)
- 	struct rockchip_hdmi_qp *hdmi = container_of(work,
- 						     struct rockchip_hdmi_qp,
- 						     hpd_work.work);
--	struct drm_device *drm = hdmi->encoder.encoder.dev;
--	bool changed;
-+	bool changed = drm_connector_helper_hpd_irq_event(hdmi->connector);
- 
--	if (drm) {
--		changed = drm_helper_hpd_irq_event(drm);
--		if (changed)
--			dev_dbg(hdmi->dev, "connector status changed\n");
--	}
-+	if (changed)
-+		dev_dbg(hdmi->dev, "connector status changed\n");
- }
- 
- static irqreturn_t dw_hdmi_qp_rk3576_hardirq(int irq, void *dev_id)
-@@ -475,13 +472,12 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	struct dw_hdmi_qp_plat_data plat_data = {};
- 	const struct rockchip_hdmi_qp_cfg *cfg;
- 	struct drm_device *drm = data;
--	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct rockchip_hdmi_qp *hdmi;
- 	struct resource *res;
- 	struct clk_bulk_data *clks;
- 	struct clk *ref_clk;
--	int ret, irq, i;
-+	int ret, hpd_irq, i;
- 
- 	if (!pdev->dev.of_node)
- 		return -ENODEV;
-@@ -582,17 +578,9 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (plat_data.cec_irq < 0)
- 		return plat_data.cec_irq;
- 
--	irq = platform_get_irq_byname(pdev, "hpd");
--	if (irq < 0)
--		return irq;
--
--	ret = devm_request_threaded_irq(hdmi->dev, irq,
--					cfg->ctrl_ops->hardirq_callback,
--					cfg->ctrl_ops->irq_callback,
--					IRQF_SHARED, "dw-hdmi-qp-hpd",
--					hdmi);
--	if (ret)
--		return ret;
-+	hpd_irq = platform_get_irq_byname(pdev, "hpd");
-+	if (hpd_irq < 0)
-+		return hpd_irq;
- 
- 	drm_encoder_helper_add(encoder, &dw_hdmi_qp_rockchip_encoder_helper_funcs);
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
-@@ -606,12 +594,20 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 				     "Failed to bind dw-hdmi-qp");
- 	}
- 
--	connector = drm_bridge_connector_init(drm, encoder);
--	if (IS_ERR(connector))
--		return dev_err_probe(hdmi->dev, PTR_ERR(connector),
-+	hdmi->connector = drm_bridge_connector_init(drm, encoder);
-+	if (IS_ERR(hdmi->connector))
-+		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->connector),
- 				     "Failed to init bridge connector\n");
- 
--	return drm_connector_attach_encoder(connector, encoder);
-+	ret = drm_connector_attach_encoder(hdmi->connector, encoder);
-+	if (ret)
-+		return ret;
-+
-+	return devm_request_threaded_irq(hdmi->dev, hpd_irq,
-+					 cfg->ctrl_ops->hardirq_callback,
-+					 cfg->ctrl_ops->irq_callback,
-+					 IRQF_SHARED, "dw-hdmi-qp-hpd",
-+					 hdmi);
- }
- 
- static void dw_hdmi_qp_rockchip_unbind(struct device *dev,
-
--- 
-2.52.0
+Thanks,
+Cristian
 
