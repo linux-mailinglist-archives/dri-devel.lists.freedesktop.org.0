@@ -2,194 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70863D1097E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 05:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD6ED10987
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 05:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2975810E2BC;
-	Mon, 12 Jan 2026 04:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFB3310E2BF;
+	Mon, 12 Jan 2026 04:50:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NTdpVHVV";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="K6COAQvz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7A010E2BC;
- Mon, 12 Jan 2026 04:46:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768193185; x=1799729185;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=93T/zb6eAx2i/mQqdO308+osRad3a9lRAMhFqzUxdOQ=;
- b=NTdpVHVVKpH/EMNKlxBEVNeTj1qhOvrPeeY9eqnFP9LV3olpeSIOuYIT
- e1q0URUjmmLS/III+gITfe+7a0AJzzuegoefW5mgpiPqyJNkTw9bIqntP
- SMQcaba9Bqj5EdwMbqv2TyCrEmUIIPNWdk5Ks1Mt/5HegJewh6aD6XyA1
- 0b7jTOOeR7SGxHfhhhxgFhjHV+aqxFAKOIQVp+pyfjuDnVG0AHkSLrBXl
- rM4a9VhF0YUEHfNRj9ADAfozLdWXjGNKZJfizryEz7s1G+dykAcIH3TXm
- 19MAPZzGQX30CoZhELdEd53M4MAk/vTQ8d6dHrpP3MjV2ujtTaFQcCQ5F g==;
-X-CSE-ConnectionGUID: X2ri/UAGQlakCaorMHJtyw==
-X-CSE-MsgGUID: KxKvSKE6TnawsLrsLKciGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80919147"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80919147"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 20:46:24 -0800
-X-CSE-ConnectionGUID: FSubdL2TR02NJLv2zZTfew==
-X-CSE-MsgGUID: OoD31ghnRAuH4Er390Jgew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="227262984"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2026 20:46:23 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Sun, 11 Jan 2026 20:46:23 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Sun, 11 Jan 2026 20:46:23 -0800
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.26) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Sun, 11 Jan 2026 20:46:22 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010009.outbound.protection.outlook.com [52.101.61.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9133210E011;
+ Mon, 12 Jan 2026 04:50:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EiqeZplOc9HvDtf9I2P8W461tb7jtZtL1930oZRVy7yrGTLe5GbCu4V6CGyR7QnG4qq3QTk9mZr7tWGysapfcwjPqMBor/dZtdhyUBUYPTpBsdXFB770xNPbMBziNMWMaiekyEaYP59BgMQ7IHluuCQ7UCWnOgEo+v+qmYyPg+34N0Nr8BZZxgQaEsbnBn9b2qerZiu/IzmNaOYq97yY7XERHbnP4rCyPJZxifrRETLu/RO4QA0RbPLsBZGkfFfIS16nf6sTh+0uxd5OXftTDFFHM//18nMny/pZAYFP2jLwq0XYOybtOT90W+w6lS+4IxlWUtMv4LPyczty9LQVWA==
+ b=Rq2UX2gnkZUOFsqzEFZniM0ClY3TzL2U7e057qyIx30jOt8/7z43IpNiyN5DtqdUHO/llNMS5XKUqpPO6CkDw7yF0I5c/B7flcNa4Bw3wNx4+BqRD/q+2M1lXIhC0PiZqKTfXwg2GJz44Hxs147veENt2GOSiZSkavhruo71m/lKFGzXWM22DmXkkunKsGJQii/GWROZLfEoPlFxsIOUxV1o1k8JainADReKFangdwJDnCT0SfrB+0TRcc784pLxC8nzezjwbgSY1xcTON0nbjheWQJrN6+Ge5swhrSLc5po8dlK9wjZi8yk+icSV9DnepqsvAuy94aug3V5SBOuhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RZDPO2UyIUnaRJJs8rqp5/knHbHMxBGzyA5V9OjG26Y=;
- b=EnMONOTTuMGSgOXQc0lCvtZFkm47b+wAj3FK8U2aE9mQ6SGNPV+kj5J5BsQNG2LzfDlFUkDouwCTX5Iwx4Zj9KEJCKcD1/n67U3SMkhzHC1KO5DGkkP1szPfeXCHbzZ9WQyvwzPJdJ5dzmU+wu6IxaUMhkI8zzOHjcFUH56d73mL3ikJgXwbdNRjFDOTFnNk0n8i3+JPOIlzbvyx8UJ651XhPpUN4XtZUEGS0JvIAKXyuYmszGAkEscdCA+VVST0PexnPEvctw8yknfp6fYBiEi5wbcogOyi7YuCQwAadYbKE1akoDVAOfuV6dRe0o2RB+cvUviirLKVVcovTjLNwg==
+ bh=5J2mW+mGII9FKVjFlFjc08EeY9Of0jtDLe8x/G0mFco=;
+ b=I4rx4NJ6K2iwIkluw1OdN7qStooyWMaJpVlJtYx3O0Z4Um6xfjGC/DWQ/Sobujdbd2UksuVPyy35D6QWTiCc/+V3Dbuk6O0mKxaXwYlg0lFMHksD1sVFPTtVT8rWsRsGT3wwU1O1RjCqKG1KZdjLamxrKyXLANItYyvkwWmPcM8ehZRfFlwmRniNX5SVaVw+x7AdFjouQ4PBoZPmMbCd/UpNIIWFUFu+fW72xqPDdAN72Tq0irKIAA/cAnpt7lXSuC8355kxvWBK6dKCZv0/lpq6ombf4ZuYlBwiJrAyrLaiCxDym/ajg0tGudS9vpmd/KMJwVK1HWB6eu5YNvQvkQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5J2mW+mGII9FKVjFlFjc08EeY9Of0jtDLe8x/G0mFco=;
+ b=K6COAQvzknBfs4Sbvc0+dcfXyu5ssiAF/PhhpdV3DPGxF6NhxjYZv9kRlYW6Ok2eZfIxvJ25QbtsyFDh5+3RkI4wLMrNMg/nD+syvMJSkrOJUcrTV23rblOsYv6INSwhjE2hlZbGMPgiEfpkLh88+D5snRLLS0oRL2T4+rP5tSNkxTl86lT0dYlMuw4TnevIHrPX6A69IYnTvGuiQhcQ81YGa069z3XJLj23gd3SdVbIt6YKTyDnuu5N5gULEAk4kG2jIbuLdyUP34c6/usojeio795hrDMpmieEtu7dZnZtA44+6XjCpaczVkrrrOpKL0MfOwg5FyEO+1ZDrykwjw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
- PH0PR11MB5205.namprd11.prod.outlook.com (2603:10b6:510:3d::24) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.7; Mon, 12 Jan 2026 04:46:15 +0000
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca%7]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
- 04:46:15 +0000
-Message-ID: <55c9e0d6-42e7-4736-a5d1-29ac6933e067@intel.com>
-Date: Mon, 12 Jan 2026 10:15:58 +0530
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by DM4PR12MB7504.namprd12.prod.outlook.com (2603:10b6:8:110::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
+ 2026 04:50:23 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::2920:e6d9:4461:e2b4]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::2920:e6d9:4461:e2b4%5]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
+ 04:50:23 +0000
+Message-ID: <1610f592-e383-42bb-a1c8-ec81b9e08037@nvidia.com>
+Date: Mon, 12 Jan 2026 15:50:13 +1100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/xe/xe_hw_error: Add support for PVC SOC errors
-To: Raag Jadav <raag.jadav@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>,
- <rodrigo.vivi@intel.com>, <joonas.lahtinen@linux.intel.com>,
- <lukas@wunner.de>, <simona.vetter@ffwll.ch>, <airlied@gmail.com>,
- <pratik.bari@intel.com>, <joshua.santosh.ranjan@intel.com>,
- <ashwin.kumar.kulkarni@intel.com>, <shubham.kumar@intel.com>, "Himal Prasad
- Ghimiray" <himal.prasad.ghimiray@intel.com>
-References: <20251205083934.3602030-6-riana.tauro@intel.com>
- <20251205083934.3602030-10-riana.tauro@intel.com>
- <aT_oXo97R3GyWgNk@black.igk.intel.com>
+Subject: Re: [PATCH v4 1/7] mm/zone_device: Add order argument to folio_free
+ callback
+To: Zi Yan <ziy@nvidia.com>, Matthew Wilcox <willy@infradead.org>
+Cc: Francois Dugast <francois.dugast@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Alistair Popple <apopple@nvidia.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
+References: <20260111205820.830410-1-francois.dugast@intel.com>
+ <20260111205820.830410-2-francois.dugast@intel.com>
+ <aWQlsyIVVGpCvB3y@casper.infradead.org>
+ <874d29da-2008-47e6-9c27-6c00abbf404a@nvidia.com>
+ <0D532F80-6C4D-4800-9473-485B828B55EC@nvidia.com>
 Content-Language: en-US
-From: Riana Tauro <riana.tauro@intel.com>
-In-Reply-To: <aT_oXo97R3GyWgNk@black.igk.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0100.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1d1::8) To DS0PR11MB7958.namprd11.prod.outlook.com
- (2603:10b6:8:f9::19)
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <0D532F80-6C4D-4800-9473-485B828B55EC@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0070.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::15) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|PH0PR11MB5205:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4945d85-fd76-480f-215f-08de5195847b
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DM4PR12MB7504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67fb2cdf-1361-4318-674b-08de51961881
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXZQZG92NThJZU9TUXMxVjM0bGE0UXE4cnRpRHI0MS9EMUx1S3BNdHJDQ1BG?=
- =?utf-8?B?Qkt3dFU1bHhjQS92c3NHZFdRazRDQzZNZEJNUzJsOE1UYm5nWVQ0MU5YbnM4?=
- =?utf-8?B?d01pdG5Sc2cxeU9XYWxCWUlOOHBjSUlaWHFTNmUrL3BjTXlHcnZ4TTNTWVBm?=
- =?utf-8?B?a1ZwWEgvWjdLQXVWSVRHRUIyQ1krOTNQdzEwTG9XNHl3L05KU21ZdVVoVlBj?=
- =?utf-8?B?dDduc0FRMHEvQnhMa0lMQkZjOUV2d3F2RldRR3FRSDJiRFpQNlFNbytNaWcv?=
- =?utf-8?B?SXVJRzNlLys0amxQVTl6emJDK2NzYnZ4SHcwa2R1NDRYSDBzK1ozUHlkZW40?=
- =?utf-8?B?RHZSdC9oL3RlSDN2dUdOMGRTZkkxSzdRU2VkUWdiTW03elc1VlY3TXVRM1Zt?=
- =?utf-8?B?NTlkQU9ERGt0RnNNaVlEdTcwd1ZsTXdzNzBvWU1IR3N4VUliUlhVb2JXVzcv?=
- =?utf-8?B?LzNaZVBoaGFZaXRtU2hURnFRWmJhWHRIRlYrUVNCTlJzallpRTlSUkQwRXF5?=
- =?utf-8?B?ZVJlczZGb1lTaDRrQzZoZUpNR2lUSGRJSlN0bmVNeWZoZkdUcWRZeU1DVzRa?=
- =?utf-8?B?YnpiUlBuV1lzYzZxU1dSNlk2OXpna0ZkM3VhSFc4a3FYTDdhU1ZqTklhT3hD?=
- =?utf-8?B?TDU1eEhwb2xXbEM2QVFuOTJrTU1jYTFnL2xHenRnL2hHMlFrbEJJbTA0UEdJ?=
- =?utf-8?B?TVRlSWYxUE5STmFjMTRwaWZ3Vm1VNGNJT0Y0RWdvbjdKc2NoMkowaHpEcjlt?=
- =?utf-8?B?bDNxekoxVDRJZFdzZEFxS1M1WHE5WU54dWhNcnV3ZmtiZDJ6SDRxVm1Objh0?=
- =?utf-8?B?TDgyVHhnN0dyN2pybUw4eUhyNS9mTWNsUmpKa0N4akxuVjdkdFc5S1pLYVNn?=
- =?utf-8?B?R2JPeEwvbTZkSmRpRzd4S0o1WVZmUDFYQitReEFCdVNkcDcrN1A1RTZPN1pz?=
- =?utf-8?B?SURKSFFvOENFQjB0cmlId0pDdzZxQ1pSTnNtQlFXdWlLeE50L0ppVzRWTHVm?=
- =?utf-8?B?MnRrTG5kbWJuN29DVFYraTJGdUxQbkdXTnl3bFNFSmFGK3FFaHBacnU4TC9u?=
- =?utf-8?B?RUQ1b3pOc3d1MjNkYTc0c1FNYXFwVC81UzkrY1pGdUdONVVTYkg3a2J4bUVw?=
- =?utf-8?B?T1FDemEzNGtRbnovU0duTEo2V083VEpUNlVnbldoQVl0TkhTTlVIaHhwR1Jn?=
- =?utf-8?B?clJ2SXpsUVREWWhPTTZITEJaTTNjSjJiU1JhNnJSMEtkZWdsT1lYWWJRaTVl?=
- =?utf-8?B?ZDFMMEVZcUQrNC8yMmsvSTFsemdzRy9MWTFaNlYrL3RoOE9RWklwNXk0OHdw?=
- =?utf-8?B?ZmRwY0FpMEtCL2VwS3h4R2t3emgvOEVnejhBWC9PYXBvTENHcll1d1pUR2pq?=
- =?utf-8?B?SHZUbjhpVC9aaHl5MWVBTFBBaDhCOWd5NGgzV1VvSGtBMllPZHUxZ1pvZHFi?=
- =?utf-8?B?SU5qMmNVakM1QlhtdUtNdUZHb3Rhc0Y0Q3MvNVFjVU5pRGtqc1U0ZDhnVFNB?=
- =?utf-8?B?aFg1QWIyNzQwT2xpdHB1WHlhcWl2S1JQMUlZNTNCNUF3YVJOWlJLa040cVhY?=
- =?utf-8?B?MHN3dGxkNFBGdjcvcHZRUndQVFlHb3lwd3hNbmZ6OWdxU29CbkdKM0VYTzFw?=
- =?utf-8?B?eGs5ajhkVDN2RXBROUQzMGlxTVZ3S2J0d0tWMlZDNUtLaEZHNWFnYjFLL085?=
- =?utf-8?B?WkMrVFlDMTFDcUxjVHo2MVIwWFF0T0JlNlNUZzdVMkxDZDk3enVUcTQrcGJL?=
- =?utf-8?B?R0JveWVIWW5oMURWRnBLNm1Bc1Bmd0RIV09ySFlVcTRSSnl5MmllYnRhQzJt?=
- =?utf-8?B?UEkvblYxeStTd1dNcU0vR2F0am5XM2FvZmFLQjEydjBLeTZnSzNhdHgvL1Fn?=
- =?utf-8?B?cHZTUXUxMEliTmhxMnhEWTJwTzJ4UTVZRVowYXN0WmZxV2VXbkc5d2pQWkNL?=
- =?utf-8?Q?7J8geG/bZDGi7b0RWCkRerI+xSeXdv8v?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|1800799024|7416014|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUZVeU5ZNFB0V2dMYWY4d1IvMTF4THlvTmJjcGdqdFI3T3pDT0licEJwRHJL?=
+ =?utf-8?B?YjRYbVo3NUtDcFpvMzJYdEQ2M3hvQVd4YWZkcjRYdTYyVTZvWTFLZzh5UUpp?=
+ =?utf-8?B?eUdLNXBWQWt5aHN5NjZRTitpR1hKTElPb2kvMnVqRUFvWkVLaHRTOUE2WE5q?=
+ =?utf-8?B?MzdnSm1DN00wdnZlUG0rTm9rcnBlUGxhcDNuaHlMZmVkbVEwamx5d1B2YTRa?=
+ =?utf-8?B?R1picXhDRkpzQVd1SGtOTU9ndDJmSTBkMm8zWnMwTlJSSDJLbUN1NEI5MVlz?=
+ =?utf-8?B?RytRU3hqZWMxVGM4K0YwL1ZnYnpOcXArN1MyZVlEZ2l1cXdkTG5jWjJGMERk?=
+ =?utf-8?B?WnU1Z2RuVXhGSlFaZ1BTTXNMZUFpQXBrMldXWktTdU1jNS90Lzl5Q1IvbFg5?=
+ =?utf-8?B?RHVraDNKRWFGYUMvbFptUG0rY3dDSTB5NGZyUklCV0NhUXBUTldqZjJwTDZS?=
+ =?utf-8?B?QTkydmNoK20yblhjemZSVGZmdTNIdnZqUjV3WXRoaXVVc3lwbnBLa2lZbktx?=
+ =?utf-8?B?RXRqbWJXZ3VYTjdPQTNPcFBEMFV2ZjZiUHRTbWlhL1FqTE4xUFVoc3BhY3VR?=
+ =?utf-8?B?cU0xenNlY2VwRnM0VTdvc2xGUzBZcy8xM25yMTRxZy9sVzFxdE80UGlMRTA3?=
+ =?utf-8?B?MDJabDk5VmI4K1lyMStkM01qbC9RTEZheWZXR0EwUENuZTBMQnU0UVdYQkJ0?=
+ =?utf-8?B?aGl1MzMxZ243UmhsLzBxY0h1NkdvUHdMZ3RrR2h5UUMxeXR1b2piWXJuV1JB?=
+ =?utf-8?B?Z083amFiQjFPMlhRNXh3NU4zcVhoL3hsWkxLeE5PVjZ0SUs4KzhaRUc2RUk4?=
+ =?utf-8?B?YUJGRWpHMFA1Q3A1YllXZG1tdndRQ1d6MjBZNk0xMmFPN21ld2hUaU4zUFY4?=
+ =?utf-8?B?SXYrV2h4YzZzQlNXTFE1dUwzSHlISE1NTW5nWkR1MklvVjJhcWR5UkdaVUdJ?=
+ =?utf-8?B?d2l3MlRqOFhTOEdUK1ZLQlZSY3MzMnVLc2daMCtjT3poN0dpUnMzWkNORzFo?=
+ =?utf-8?B?Nnh2N2dIU09RRk8vS0Q0WkJjYTdrbHhDZUVvUXpmVVA2RCtodmFJQlVyTW4x?=
+ =?utf-8?B?ajl2WksrajNhNXNLYnRWTW9kODEwZDRMRE9nenVFMis1amhuZ01QT3N6VmZk?=
+ =?utf-8?B?NnhYVWptdTZyRmVlQlFUc1AyQkR5RnFXY0grRkRJbWI0Kzl0Z0NKcENRSE1v?=
+ =?utf-8?B?cVpCUTlRRGhFdm1WeEVkZWNLVUd5UGNVL3kxRUcwNk1hQkF6cXNWejBaamw3?=
+ =?utf-8?B?emUwVkpXUUFoUEluenFWS3haL3IvdmpaWHpZM3ZFa0piQlhaSjJjdDBKVWww?=
+ =?utf-8?B?MUN1T1g5UFVqUmdMbnlzaHBySHQycU5wbE1NSXBYNU1mcHhIU2lXaU8wVHpa?=
+ =?utf-8?B?MjIxUmFQZ2wxQmxiZWh6MkNuTVgwYml1UUQ2VGFpNVd1WU85RnFFcnZjdHpR?=
+ =?utf-8?B?ZUYxSEZNN3BPNldYL1lJVHAyUXJGbWNPUjdMQ0tSWGlvaGxnSUNDZ2hCTGdW?=
+ =?utf-8?B?TUI3c1ZGM2pQd1h6Tjh6aVFNaFpyUmtjbGNCZG1IWDhRbHZGM1NpYjBBckIw?=
+ =?utf-8?B?bW94cXZwclZycEsyNm10amx1ZTl2ejRYb1Y5MHZCVTVLUXhiK01nTmxqeVBh?=
+ =?utf-8?B?SDFOa1BZdy9JZEtVUk5Ea0dnd1V2WTlTTHpQYXZNSGVvdHh1bmhmWHEvQlNL?=
+ =?utf-8?B?cUF1L1ZJNkFRQnA0R1F6VFlxRThBdzBUY0NGRnlldUtYYXlTUEFmVmZqMmdG?=
+ =?utf-8?B?UldvZFk4TmZkWnp3cnNlWGIwYWRrTkViS1FFRnVwYXhNSDZEcmdEd3kwNjNE?=
+ =?utf-8?B?bVgzcEw1VkFBT0pTakN1Q3ZyRFUyUkJYOEswakNOaVlRV1pvWklDblV5aUJt?=
+ =?utf-8?B?bEpwdTc4Z2dPV3BLSmcxOWdhVXJVT2todFp5TjcrM1EwejlqcGtGMWE5anA2?=
+ =?utf-8?Q?6MHIPw+kmnfam1E8nVOn4pwl+eBAGsxD?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1pzUXBid0JVQ2U0YlJWclBnbmN5ZkxPL3NUdGtSK01RbXdNUGVCam5kR0JD?=
- =?utf-8?B?dy9wbkVjT25ZeWFxK3h6b2JXN1J4Smw2Q0M2YzE0UldlUGp0bWczQ0RkeEV2?=
- =?utf-8?B?b3Y2SXA4WUhFNGNxM05HcFpNSVprYTUxaGc5cVhDWCt1NEorREdtdlc4RzV1?=
- =?utf-8?B?ZkI4Q2pGaEdHcHZuQ0pDd0dRUW9vSWliNzFnbVpUVEJuUEJmdVlOV3pzT3Jz?=
- =?utf-8?B?L2tBYUpHOXdqWHVaWktRbFpuRU9RWnM2SktBZjJCTHQ5cDlnNEdscHBKNEN5?=
- =?utf-8?B?TFU0UWFSMDk1V0ZONkR3WGFxcURveTA3VkozcU1RdVhOU1FXZUd2Z1BrdnY5?=
- =?utf-8?B?dU16N1hVdXYzOFhYYmRBZWtuM3Z4Y2hwc2FoSUNxN3dhRXowa3pkMW5nT2Vp?=
- =?utf-8?B?NER2b1lQMzZWNnAyQUExb3RIN0tsOUltTFZUM0k1dWFFSDRBOWsveW5DVWJC?=
- =?utf-8?B?Y2VFbGRlRTJwS0pNR2ZFRkFQZzZER2xFMkNSOFRuSDc0UzdaazVKL3UrY0ZC?=
- =?utf-8?B?aWtmT0ZFZUtWMnZWS2hKSVQvZFQ4QWxDeXhRMVlueEx4cWUyR3JNbUFKL0RT?=
- =?utf-8?B?a0toWERwUWh2UzgybW5nYlpxbTZoSWpkY0U5MG9YNFZBODNUNTM2UTlwUFh6?=
- =?utf-8?B?Qkp0c2FMSmtlQ01keTRuUVM2a25kOFJ3SlRUdGkyeXR6VG8ybDJWUzJGS1JS?=
- =?utf-8?B?dzNGb1FIV08rSzIrY3VUN0duakk5VXNGejhTK2ZkdHR3ZGlYakhlUmJMdmgy?=
- =?utf-8?B?MVdvWTNKN3lqYTRjenNuZFU2ZGt0aitueVpleTBXVkhiUytTTUFrMTlGdmlt?=
- =?utf-8?B?dWh1eXJRbWpxUnBZWVA2UXIxM2F0bGRVVHY2aURpWGg5TW9hR0RBb0M1eU1r?=
- =?utf-8?B?ZmMwbE5UYkI1cTZOMmo0djJnOWhjNVpqTXRFeG5wbndkME9RUElsSlNOVDhU?=
- =?utf-8?B?cGxidHV0RWxlUGhoV0NTVzdNZUEzb25oSGZ5RmNBY1V5dXhTRzhvcWY5VzNq?=
- =?utf-8?B?MSs5M3Jac0lJaEFPMVNjVktHaThRN21FYXVESVloYjhyN3JLVnV4UThhQS9K?=
- =?utf-8?B?S0pFc1BCcFVZelZZWlUvdERabHZVanVIUzBSUjd5UkZLMmdLVWYvU1dRNzNH?=
- =?utf-8?B?SVpUWGFBRW5OcktwU2x3NFdIK216YkFjSkg0c0lZZXZkS3hxdlBseGFmeEYx?=
- =?utf-8?B?eCs3TDZ3czE0b1BTaVpoZVJpb1VLc2xpOG9xNmQwQjl0NWlLN0RCM1I5V21S?=
- =?utf-8?B?bXloY1pmYnpRWVZZc1NxNWxJQ29ZZ2l0WVBWZlNtaXkyQVI3RGFwLzZDUlFn?=
- =?utf-8?B?Wkc2bC92Nzk5eGVGamJSUURkZmdTeUZwckd4OHl0OVRTODI4MkdiVHF1N3Ra?=
- =?utf-8?B?WDZiVUNFWnl0ME0xalMwY0l2RVd6eUZpMEczNjJLYXYxTnZHeEZxd1VKWmdT?=
- =?utf-8?B?a2NJclpvRmpUbDNlVW5RVU5oVDNBZFZPajB0aTFIaEF3UjZLYVNmWE9NQnJK?=
- =?utf-8?B?VEVHKzhubG1RK3VwcnptQ01STGR2TkMvL204Z3dmcUZPNlVwd1FSZlZ6OFlq?=
- =?utf-8?B?enlBWHdNeW9NWG5ybkJocGY4dnFGMEg3dnJpeE9zalkxTkFmYjduc2Npd2xD?=
- =?utf-8?B?YSthMW5PNy9aRUZWbmQwYzRpZTdOSlNTK3M0Ky9aZ0QrTXZXZmkyc01nYU9G?=
- =?utf-8?B?a0ZsRWl6a2szWGIwaGRGT2VGZ1U4eUdDY0hGc1pDMVhWS3lCR2oyUlVkUG8z?=
- =?utf-8?B?eStWSkY1ak85MVZ4S3FQdFIwVmlMRTYvaEpCNmh4OHRDdi82b24rQXlBTTc3?=
- =?utf-8?B?WDhGa2F3V2lDc1VSdDVmK2xHWkpZeEJ4emFMNXJoY0JqTzBtVUpzS2x0Vmgv?=
- =?utf-8?B?NFV3RFIyeXFzTGRhdmxoT1ZjTW9jVlovTVBNTXU0cy9yV041Z3hlZmxmZnU4?=
- =?utf-8?B?TGVJS0pUWkp2cTBFNVFLK0xPbElHVmhSUzY4YVFJakFFRjNUWXI1ZWNmenpC?=
- =?utf-8?B?NWZ3L1VWeVpHb0QwYnE4SkU4Tndyd3E2czRtSTV0YkdVbm4yczBZS3JjMlUy?=
- =?utf-8?B?aWY2VWtNd1JCVzJJUk1RcUs5dU5qdmppUXRET1VwenBiSHZmMjJOeXhLSTZ1?=
- =?utf-8?B?SzVHd0xoazM1RmpoZFcrWDZldVZZMlJFU0JVczEvUmJDcVBMUzVEd0hNUm5k?=
- =?utf-8?B?dXNvdUpHV2drd0ZGdDBXTTB2TEhVU0lwMGhMbE1WSmR4VFB6b0tFbVBvbDdG?=
- =?utf-8?B?REV5ZEJzV1BGc2RnZEJuT0xIa1N3Ti9ob1dYampCdFNMRkd6WlNIR1YrUzZY?=
- =?utf-8?B?L2NYUzdLSDhJYmM4NGhnNkd4d1JHQmZ0eENkUlZHZVp6dmZYa1Zndz09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4945d85-fd76-480f-215f-08de5195847b
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7416014)(10070799003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVE3dlQ5all4NHdQTXo1dnBSWnBrSWxsQ29nQTROTjhYcktKM0U1amdTQUxU?=
+ =?utf-8?B?QzYwQnB4Ny91ZVhzMUUxSmFaK1FQK0x5cExBZ0k4ak9KUm9zTGh6NVVDYlZn?=
+ =?utf-8?B?anJuYmpJY1VuTEplUkgzak1EUzdqcE1XUm1xWkRtbnZJMkZLRFY1bFJhQ2Fr?=
+ =?utf-8?B?czdydXhLUGt6WDMvakY2NFpXMXFEMXl3bHVOQ0hjWDNZNXk2R0lrSjFQQURQ?=
+ =?utf-8?B?ZkQ2NnhXSXFHNHNGVW83UjZWeEllemJ1SEhxMi83azV1bFhicjZYYWVIZXIv?=
+ =?utf-8?B?VUR5ZzdycnI3aGVRU0VUYkdDU1NRZG1jYmRTSzdRNXVwUmVBOFFMbXFaNXBl?=
+ =?utf-8?B?OTNwL3hBNzRPNTBjNnZodEc0bStQKzZQQmljcVA0cGJ4dVRPQmIwTWhQYUU1?=
+ =?utf-8?B?RDliRURGQVdiUCtKTFZqTDRZYTlQUEN1NWZobjM0STluN0V5VTREMkVFUWwr?=
+ =?utf-8?B?czU4eE5WdTRIRzBFdlRzbG15ZmtDbFdVSzZ2OENGRlQwakFQZFF1RXVMdDVn?=
+ =?utf-8?B?QXdCNklvRERtMlN3U214SWlBUXBVLzVYWWdSSnVRSk8xR2pmS25SY2lQekVK?=
+ =?utf-8?B?WVJXdk1NM3NUc2NZM2V1SEJLWWJmRVZjdWhnaFM0UVlmQWZlSGRDMlF4WFJj?=
+ =?utf-8?B?MFJIY3RZVlF1MGZaWlhjbzdDMUh1YWtjNnJUVzBONGd0bEJzM3pGOHo1bzQ4?=
+ =?utf-8?B?UWRzWHBHOXZpNVkzVm5UcUVHbCs2MWsvdlJ5NTNreWhMNmxua09JQXA2RHA5?=
+ =?utf-8?B?YTNvM3JqQWtzaEVtQndPZEc3QlgyNVYxbjNGblcwbzlJSnRkL09rSWo2MHBs?=
+ =?utf-8?B?a05pSEx6TTIwOGRxSEZReDFHSU1SQTdYVUgwYW9KUW9vcHlIaktTM09iK3dx?=
+ =?utf-8?B?K2NHNnUxUHlWNjBMODhhNlNwdmhCc2VQRUxHbHRIOGpFc2J2U0UrZDdxc0VL?=
+ =?utf-8?B?VUdBdG1yTnhzZFJBbWFjcGpvM2hzQkxqNXUxQnU3Ynd6NTd3dFBrUEd3OTFz?=
+ =?utf-8?B?K29ObXJTcHYxZlcrMVFEdmpFTThSaC90Tjg1SDRKTmllTkJMTENJS3A4TkVP?=
+ =?utf-8?B?QkpVRzhKOGsvcVdXeEdpUUVxWHdIZzZuQTJiY3E0OVN2NHlqWnpiWkU4YmRK?=
+ =?utf-8?B?b3NmZnhybjAwVVZQQUxrakIrRjRlTk42ZE5xa25iM3FyYmovL1F2cUx6QXoz?=
+ =?utf-8?B?Si9kckR1d3VGd20xR2JHdzMwSldaYmVlQ0ZTWUdIZnpqWkltczZCVFdkb0E3?=
+ =?utf-8?B?VmJoK045djVNK3o2UnJ2MDBqenpVOFo0NmRMeGxvWXNVQWdxSzRNZnZlL1pE?=
+ =?utf-8?B?QWg5NXFUaS9ZUlU2UXFPVW1xaXo2ZEhpVEpSZXIxaS8vdzVUb0hZOFpUM29F?=
+ =?utf-8?B?LzhWUVZLdVd1TUdkS2xoc28zMmFrMzE2Lyt4STExVFVDYWF3UnVYYm56aUFO?=
+ =?utf-8?B?U1p3M05jTWVBQlE4RVRvbGdwQjUyOXhXdmljQkZYR1JjZ09rZHpBRFpyZk5a?=
+ =?utf-8?B?L3htR2dTK2V2U3doRWJrNzdtT2d0Vlp0cVQrODZEL0ZNY0Njd3JIdGJ2Q0wy?=
+ =?utf-8?B?S1Bld3hXbEVXbTZzdWkwR2pWSTJwVTBvWDFKUHZZejE5N2drSUxENURXMmNE?=
+ =?utf-8?B?QStJMTRpNENqM1NvcHgyTi9BcmVybDJoc3loVmczNDUxeXFQbWN4NXc5RFdJ?=
+ =?utf-8?B?UUpRWktjYTlZMTlJZENUSWhHMzFUaDBCYnk2by9tZCs5NUUvV1lsVTU0bGdT?=
+ =?utf-8?B?NjhvOVgzYVZLcmtRQ21iRXRrT3gweERBNSt5Q3pPSkl3anZ0TzRuNnZwVzhO?=
+ =?utf-8?B?eFl0cTEwdVJXRzNYZ3JzcVZBRnNENFFRL0hvdzZCRnhaeTJyUE03aGpLdWtz?=
+ =?utf-8?B?ZldDRUEvL1NtY0hra2E5NUZKYmlLREw4d092aGJEb0o1YnhjamduVVBYampI?=
+ =?utf-8?B?ajRBbU52UWwvMzlHc3RqM0lWRVVucEJ3cE0zSFpWa1BVVDFLK1MzVmFDMFJT?=
+ =?utf-8?B?bG16bnZGN1hXTUZMbWhETFZoY2FRanVrdTlVOUp3MFF6OHpyajd6eFZZWmtK?=
+ =?utf-8?B?dEN1UUI5Z3NjRkFtSW40dW9MSE04blcyS0RhNUpvQlVialBWVUN1aXR5aTRl?=
+ =?utf-8?B?RzFEYVpSVGsxL1VDSENuUHp3ZkJ5RkF6V0RFd3Y5L1REMEhub2hVL0tuWENW?=
+ =?utf-8?B?SDdwTjRRaHVabEFCNzRtbmQ5UXVkUG5pQmF6YWc5THNUNkNIRFdqa3BWNmNH?=
+ =?utf-8?B?SE5rWkU3T3J3MHBHdHl1L3VrU3NlZ1JLQ2UrYXVnRitSY25nNURnRWYyMllQ?=
+ =?utf-8?B?WnpqWnNoeUYvQUpobW5mVEFkNnZSd1pNUGZzaWo5RzFLbnhZTmpzTzMvaTFy?=
+ =?utf-8?Q?ZEvwYJZSWwPPcxb8cDGNiWzPD8ZFDHc8tkY2J8/3SUG0J?=
+X-MS-Exchange-AntiSpam-MessageData-1: bv5Y55Qz9pEZkw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67fb2cdf-1361-4318-674b-08de51961881
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 04:46:15.1150 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 04:50:23.2780 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rlgR+7hMWmOtDM1gXFM39KhvuQVys5eRaYSQkvLg7UEOZEThFvNvDhAZFU1kTVVrWPboTq5KGTPJ12gEkmpWqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5205
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: dXHrR9Wia0l2g3pYkg8M7dM99Xj0xDHFftr+IuYjYg0guQjkzoQ1zCEOxIa7ly5YrGQ/qYF01o4/jV6Whu15vA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -205,376 +198,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raag
-
-On 12/15/2025 4:22 PM, Raag Jadav wrote:
-> On Fri, Dec 05, 2025 at 02:09:36PM +0530, Riana Tauro wrote:
->> Report the SOC nonfatal/fatal hardware error and update the counters.
+On 1/12/26 10:51, Zi Yan wrote:
+> On 11 Jan 2026, at 19:19, Balbir Singh wrote:
 > 
-> ...
+>> On 1/12/26 08:35, Matthew Wilcox wrote:
+>>> On Sun, Jan 11, 2026 at 09:55:40PM +0100, Francois Dugast wrote:
+>>>> The core MM splits the folio before calling folio_free, restoring the
+>>>> zone pages associated with the folio to an initialized state (e.g.,
+>>>> non-compound, pgmap valid, etc...). The order argument represents the
+>>>> folio’s order prior to the split which can be used driver side to know
+>>>> how many pages are being freed.
+>>>
+>>> This really feels like the wrong way to fix this problem.
+>>>
 > 
->> +#define SOC_PVC_BASE				0x282000
+> Hi Matthew,
 > 
-> Curious, should we use 'master' naming for consistency with the code?
-
-Okay will name it master
-
+> I think the wording is confusing, since the actual issue is that:
 > 
->> +#define SOC_PVC_SLAVE_BASE			0x283000
->> +
->> +#define SOC_GCOERRSTS				0x200
->> +#define SOC_GNFERRSTS				0x210
->> +#define SOC_GLOBAL_ERR_STAT_REG(base, x)	XE_REG(_PICK_EVEN((x), \
->> +								  (base) + SOC_GCOERRSTS, \
->> +								  (base) + SOC_GNFERRSTS))
->> +#define   SOC_SLAVE_IEH				BIT(1)
->> +#define   SOC_IEH0_LOCAL_ERR_STATUS		BIT(0)
->> +#define   SOC_IEH1_LOCAL_ERR_STATUS		BIT(0)
+> 1. zone_device_page_init() calls prep_compound_page() to form a large folio,
+> 2. but free_zone_device_folio() never reverse the course,
+> 3. the undo of prep_compound_page() in free_zone_device_folio() needs to
+>    be done before driver callback ->folio_free(), since once ->folio_free()
+>    is called, the folio can be reallocated immediately,
+> 4. after the undo of prep_compound_page(), folio_order() can no longer provide
+>    the original order information, thus, folio_free() needs that for proper
+>    device side ref manipulation.
 > 
-> What's the secret spacing convention in this file? Really, I couldn't
-> figure out ;)
+> So this is not used for "split" but undo of prep_compound_page(). It might
+> look like a split to non core MM people, since it changes a large folio
+> to a bunch of base pages. BTW, core MM has no compound_page_dctor() but
+> open codes it in free_pages_prepare() by resetting page flags, page->mapping,
+> and so on. So it might be why the undo prep_compound_page() is missed
+> by non core MM people.
 > 
-
-This is patchwork/diff issue. If you apply the patch the spacing is fine.
-Even checkpatch shows no error
-
->> +#define SOC_GSYSEVTCTL				0x264
->> +#define SOC_GSYSEVTCTL_REG(base, slave_base, x)	XE_REG(_PICK_EVEN((x), \
->> +								  (base) + SOC_GSYSEVTCTL, \
->> +								  slave_base + SOC_GSYSEVTCTL))
-> 
-> Brace around slave_base for consistency.
-
-okay
-
-> 
->> +#define SOC_LERRUNCSTS				0x280
->> +#define SOC_LERRCORSTS				0x294
->> +#define SOC_LOCAL_ERR_STAT_REG(base, x)		XE_REG(x == DRM_XE_RAS_ERROR_CORRECTABLE ? \
-> 
-> In previous patch this was 'hw_err', so whichever one you use please make
-> it consistent.
-> 
->> +						      (base) + SOC_LERRCORSTS : \
->> +						      (base) + SOC_LERRUNCSTS)
->> +
->>   #endif
->> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
->> index 77c90f1b06fd..1b7c782dbd98 100644
->> --- a/drivers/gpu/drm/xe/xe_hw_error.c
->> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
->> @@ -18,6 +18,7 @@
->>   
->>   #define  HEC_UNCORR_FW_ERR_BITS 4
->>   #define XE_RAS_REG_SIZE 32
->> +#define XE_SOC_NUM_IEH 2
-> 
-> Alignment please! (including the values)
-
-will align values. macro names are aligned
-
-> 
->>   extern struct fault_attr inject_csc_hw_error;
->>   static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
->> @@ -34,6 +35,7 @@ static const char * const hec_uncorrected_fw_errors[] = {
->>   
->>   static const unsigned long xe_hw_error_map[] = {
->>   	ERR_INDEX(XE_GT_ERROR, DRM_XE_RAS_ERROR_CORE_COMPUTE),
->> +	ERR_INDEX(XE_SOC_ERROR, DRM_XE_RAS_ERROR_SOC_INTERNAL),
->>   };
->>   
->>   enum gt_vector_regs {
->> @@ -48,6 +50,92 @@ enum gt_vector_regs {
->>   	ERR_STAT_GT_VECTOR_MAX,
->>   };
->>   
->> +static const char * const pvc_slave_local_fatal_err_reg[] = {
->> +	[0]		= "Local IEH internal: Malformed PCIe AER",
->> +	[1]		= "Local IEH internal: Malformed PCIe ERR",
->> +	[2]		= "Local IEH internal: UR conditions in IEH",
->> +	[3]		= "Local IEH internal: From SERR Sources",
-> 
-> Unless there's anything like 'IEH external', let's try to simplify a bit.
-> 
->> +	[4 ... 19]	= "Undefined",
->> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
->> +	[21 ... 31]	= "Undefined",
-> 
-> Nit: I'd align '=' in all the arrays here but ofcourse it's a personal
-> preference.
-
-will align
-
-> 
->> +};
->> +
->> +static const char * const pvc_slave_global_err_reg[] = {
->> +	[0]         = "Undefined",
->> +	[1]         = "HBM SS2: Channel0",
->> +	[2]         = "HBM SS2: Channel1",
->> +	[3]         = "HBM SS2: Channel2",
->> +	[4]         = "HBM SS2: Channel3",
->> +	[5]         = "HBM SS2: Channel4",
->> +	[6]         = "HBM SS2: Channel5",
->> +	[7]         = "HBM SS2: Channel6",
->> +	[8]         = "HBM SS2: Channel7",
->> +	[9]         = "HBM SS3: Channel0",
->> +	[10]        = "HBM SS3: Channel1",
->> +	[11]        = "HBM SS3: Channel2",
->> +	[12]        = "HBM SS3: Channel3",
->> +	[13]        = "HBM SS3: Channel4",
->> +	[14]        = "HBM SS3: Channel5",
->> +	[15]        = "HBM SS3: Channel6",
->> +	[16]        = "HBM SS3: Channel7",
->> +	[17]        = "Undefined",
->> +	[18]        = "ANR MDFI",
->> +	[19 ... 31] = "Undefined",
->> +};
->> +
->> +static const char * const pvc_master_global_err_reg[] = {
->> +	[0 ... 1]   = "Undefined",
->> +	[2]         =  "HBM SS0: Channel0",
->> +	[3]         =  "HBM SS0: Channel1",
->> +	[4]         =  "HBM SS0: Channel2",
->> +	[5]         =  "HBM SS0: Channel3",
->> +	[6]         =  "HBM SS0: Channel4",
->> +	[7]         =  "HBM SS0: Channel5",
->> +	[8]         =  "HBM SS0: Channel6",
->> +	[9]         =  "HBM SS0: Channel7",
->> +	[10]        =  "HBM SS1: Channel0",
->> +	[11]        =  "HBM SS1: Channel1",
->> +	[12]        =  "HBM SS1: Channel2",
->> +	[13]        =  "HBM SS1: Channel3",
->> +	[14]        =  "HBM SS1: Channel4",
->> +	[15]        =  "HBM SS1: Channel5",
->> +	[16]        =  "HBM SS1: Channel6",
->> +	[17]        =  "HBM SS1: Channel7",
->> +	[18 ... 31] = "Undefined",
->> +};
-> 
-> I'd move this array above as per SS<N> ordering. Also, group together
-> global and local ones.
-
-okay
-> 
->> +static const char * const pvc_master_local_fatal_err_reg[] = {
->> +	[0]         = "Local IEH internal: Malformed IOSF PCIe AER",
->> +	[1]         = "Local IEH internal: Malformed IOSF PCIe ERR",
->> +	[2]         = "Local IEH internal: IEH UR RESPONSE",
->> +	[3]         = "Local IEH internal: From SERR SPI controller",
->> +	[4]         = "Base Die MDFI T2T",
->> +	[5]         = "Undefined",
->> +	[6]         = "Base Die MDFI T2C",
->> +	[7]         = "Undefined",
->> +	[8]         = "Invalid CSC PSF Command Parity",
->> +	[9]         = "Invalid CSC PSF Unexpected Completion",
->> +	[10]        = "Invalid CSC PSF Unsupported Request",
->> +	[11]        = "Invalid PCIe PSF Command Parity",
->> +	[12]        = "PCIe PSF Unexpected Completion",
->> +	[13]        = "PCIe PSF Unsupported Request",
->> +	[14 ... 19] = "Undefined",
->> +	[20]        = "Malformed MCA error packet (HBM/Punit)",
->> +	[21 ... 31] = "Undefined",
->> +};
->> +
->> +static const char * const pvc_master_local_nonfatal_err_reg[] = {
->> +	[0 ... 3]   = "Undefined",
->> +	[4]         = "Base Die MDFI T2T",
->> +	[5]         = "Undefined",
->> +	[6]         = "Base Die MDFI T2C",
->> +	[7]         = "Undefined",
->> +	[8]         = "Invalid CSC PSF Command Parity",
->> +	[9]         = "Invalid CSC PSF Unexpected Completion",
->> +	[10]        = "Invalid PCIe PSF Command Parity",
->> +	[11 ... 31] = "Undefined",
->> +};
->> +
->>   static bool fault_inject_csc_hw_error(void)
->>   {
->>   	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
->> @@ -197,6 +285,117 @@ static void gt_handle_errors(struct xe_tile *tile,
->>   	}
->>   }
->>   
->> +static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
->> +			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
->> +{
->> +	const char *severity_str = error_severity[severity];
->> +	struct xe_device *xe = tile_to_xe(tile);
->> +	struct xe_drm_ras *ras = &xe->ras;
->> +	struct xe_drm_ras_counter *info = ras->info[severity];
->> +	const char *name;
->> +
->> +	name = reg_info[err_bit];
->> +
->> +	if (strcmp(name, "Undefined") != 0) {
-> 
-> Do we need '!= 0'?
-
-Can be removed
-
-> 
->> +		if (severity == DRM_XE_RAS_ERROR_FATAL)
->> +			drm_err_ratelimited(&xe->drm, "%s SOC %s error detected",
-> 
-> Again, duplicate 'error'.
-> 
->> +					    name, severity_str);
->> +		else
->> +			drm_warn(&xe->drm, "%s SOC %s error detected", name, severity_str);
-> 
-> Ditto.
-> 
->> +		atomic64_inc(&info[index].counter);
->> +	}
->> +}
->> +
->> +static void soc_hw_error_handler(struct xe_tile *tile,
->> +				 const enum drm_xe_ras_error_severity severity, u32 error_id)
->> +{
->> +	struct xe_device *xe = tile_to_xe(tile);
->> +	struct xe_mmio *mmio = &tile->mmio;
->> +	unsigned long master_global_errstat, slave_global_errstat;
->> +	unsigned long master_local_errstat, slave_local_errstat;
->> +	u32 base, slave_base, regbit;
->> +	int i;
->> +
->> +	if (xe->info.platform != XE_PVC)
->> +		return;
->> +
->> +	base = SOC_PVC_BASE;
->> +	slave_base = SOC_PVC_SLAVE_BASE;
->> +
->> +	/*
->> +	 * Mask error type in GSYSEVTCTL so that no new errors of the type will be reported
->> +	 */
-> 
-> Can be one line.
-
-will remove multiline
-
-> 
->> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
->> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(base, slave_base, i), ~REG_BIT(severity));
->> +
->> +	if (severity == DRM_XE_RAS_ERROR_CORRECTABLE) {
->> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity), REG_GENMASK(31, 0));
->> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity), REG_GENMASK(31, 0));
->> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, severity),
->> +				REG_GENMASK(31, 0));
->> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, severity),
->> +				REG_GENMASK(31, 0));
->> +		goto unmask_gsysevtctl;
->> +	}
->> +
->> +	/*
->> +	 * Read the master global IEH error register if
->> +	 * BIT 1 is set then process the slave IEH first. If BIT 0 in
->> +	 * global error register is set then process the corresponding
->> +	 * Local error registers
->> +	 */
-> 
-> This can definitely be less lines.
-
-okay. It'll still be 3 lines
-
-> 
->> +	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity));
->> +	if (master_global_errstat & SOC_SLAVE_IEH) {
->> +		slave_global_errstat = xe_mmio_read32(mmio,
->> +						      SOC_GLOBAL_ERR_STAT_REG(slave_base, severity));
->> +		if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
->> +			slave_local_errstat = xe_mmio_read32(mmio,
->> +							     SOC_LOCAL_ERR_STAT_REG(slave_base,
->> +										    severity));
->> +
->> +			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE) {
->> +				if (severity == DRM_XE_RAS_ERROR_FATAL)
-> 
-> Shouldn't this condition be outside the loop? Also, should we not log it
-> after we clear the bits?
-
-Yeah condition can be.
-
-But why should we log it after? Anyway the rest of the registers need to 
-cleared too to unmask
-
-> 
->> +					log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
->> +						      regbit, error_id);
->> +			}
->> +
->> +			xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, severity),
->> +					slave_local_errstat);
->> +		}
->> +
->> +		for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
->> +			log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
-> 
-> Ditto.
-> 
->> +
->> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, severity),
->> +				slave_global_errstat);
->> +	}
->> +
->> +	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
->> +		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity));
->> +
->> +		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE) {
->> +			if (severity == DRM_XE_RAS_ERROR_FATAL)
->> +				log_soc_error(tile, pvc_master_local_fatal_err_reg, severity,
->> +					      regbit, error_id);
->> +			if (severity == DRM_XE_RAS_ERROR_NONFATAL)
->> +				log_soc_error(tile, pvc_master_local_nonfatal_err_reg, severity,
->> +					      regbit, error_id);
-> 
-> These can be consolidated using temp variable. Also, log after clear.
-
-will consolidate the arrays
-
-Thanks
-Riana
-
-> 
->> +		}
->> +
->> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(base, severity), master_local_errstat);
->> +	}
->> +
->> +	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
->> +		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
-> 
-> Ditto.
-> 
->> +
->> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(base, severity), master_global_errstat);
->> +
->> +unmask_gsysevtctl:
->> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
->> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(base, slave_base, i),
->> +				(DRM_XE_RAS_ERROR_SEVERITY_MAX << 1) + 1);
->> +}
->> +
->>   static void gt_hw_error_handler(struct xe_tile *tile,
->>   				const enum drm_xe_ras_error_severity severity, u32 error_id)
->>   {
->> @@ -269,6 +468,9 @@ static void hw_error_source_handler(struct xe_tile *tile, enum drm_xe_ras_error_
->>   		}
->>   		if (BIT(err_bit) & XE_GT_ERROR)
->>   			gt_hw_error_handler(tile, severity, error_id);
->> +
->> +		if (BIT(err_bit) == XE_SOC_ERROR)
-> 
-> Make this consistent with above.
-> 
-> Raag
-> 
->> +			soc_hw_error_handler(tile, severity, error_id);
->>   	}
->>   
->>   clear_reg:
->> -- 
->> 2.47.1
 >>
+>> This stems from a special requirement, freeing is done in two phases
+>>
+>> 1. Free the folio -> inform the driver (which implies freeing the backing device memory)
+>> 2. Return the folio back, split it back to single order folios
+> 
+> Hi Balbir,
+> 
+> Please refrain from using "split" here, since it confuses MM people. A folio
+> is split when it is still in use, but in this case, the folio has been freed
+> and needs to be restored to "free page" state.
+> 
+
+Yeah, the word split came from the initial version that called it folio_split_unref()
+and I was also thinking of the split callback for zone device folios, but I agree
+(re)initialization is a better term.
+
+>>
+>> The current code does not do 2. 1 followed by 2 does not work for
+>> Francois since the backing memory can get reused before we reach step 2.
+>> The proposed patch does 2 followed 1, but doing 2 means we've lost the
+>> folio order and thus the old order is passed in. Although, I wonder if the
+>> backing folio's zone_device_data can be used to encode any order information
+>> about the device side allocation.
+>>
+>> @Francois, I hope I did not miss anything in the explanation above.
+>>
+>>> I think someone from the graphics side really needs to take the lead on
+>>> understanding what the MM is doing (both currently and in the future).
+>>> I'm happy to work with you, but it feels like there's a lot of churn right
+>>> now because there's a lot of people working on this without understanding
+>>> the MM side of things (and conversely, I don't think (m)any people on the
+>>> MM side really understand what graphics cards are trying to accomplish).
+>>>
+>>
+>> I suspect you are referring to folio specialization and/or downsizing?
+>>
+>>> Who is that going to be?  I'm happy to get on the phone with someone.
+>>
+>> Happy to work with you, but I am not the authority on graphics, I can speak
+>> to zone device folios. I suspect we'd need to speak to more than one person.
+>>
+> 
+> --
+> Best Regards,
+> Yan, Zi
 
