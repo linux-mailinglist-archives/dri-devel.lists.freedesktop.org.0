@@ -2,124 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27815D1496B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 18:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6F9D14BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 19:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED4410E296;
-	Mon, 12 Jan 2026 17:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235E210E0F3;
+	Mon, 12 Jan 2026 18:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JRYKv2jg";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XTIZeXZL";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="cBOFG4CO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6851010E296
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 17:55:22 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60CHfIsJ1912178
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 17:55:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7wC12hIjapFHnxbTfyvh347loINH0/VC2F8iYpPdYKg=; b=JRYKv2jgb+iiZ3b4
- Kaiwf07C+GReQjrv69JZ+ClqMMhzeS+tTV3E98uX1wm1KYP8mlCNrIPpgOXbzlZt
- AzhpFu4YFTysSOsjNMbVpGkmEXUzqxiMyHUbMqgZoPsaQAE2l+RMGZaFdXoS+Ly6
- WBkVoNKwh4A035kNiyrFLCqcwiFT3GCkCvcJBTLCPvkkKNTb8r6EsEMMTU4xlSIt
- 11DlBIaZe+yBhwZ1I4x5x4AhRXu361qGi7yXGIUK9IXtQFV4uaaQh9XFRenyO/gu
- VKqUhQyDwnxjovSzh7yTN66cHuDh8J/E3n3UoQLtQm0+b+cyGWf1E/UG72hCW2Pi
- mjRL1w==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bmvhw1ywa-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 17:55:21 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4ffc5f68516so101227061cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 09:55:21 -0800 (PST)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5E910E2B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 18:25:02 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-88a379ca088so73962636d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 10:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768240520; x=1768845320;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7wC12hIjapFHnxbTfyvh347loINH0/VC2F8iYpPdYKg=;
- b=XTIZeXZL84BxgGvdkv7RZBfbS+8TWloNTMQTGA5uL3ahasq/Z5TwRp6EeBKrDYaS7v
- cSaiYc/idiGAAUiWRKPUgnqqsg+gqcYp10X9WelGvi7NjD7BfwYYshp7XQ0mLpqfZOsj
- +dkCXBUhCRKOsPH8QKBUUzTpawbqSXYfzdzAvT70cdyZrdVp+Q+yIul9+ynIazOXdEu3
- 2xQRqFrDsHu3oCVgNOqAew/I4il4IJ4LXI3KTnRYTzK2OVUWsnqZp1vA7JEqW9oBbk7C
- nb0+SrONbDRRbXtVuGfSqEFK7ov6kbdbsl50nMeudAg3H/V8rUxx4orjp+E0hmYHbqBJ
- dTmQ==
+ d=ziepe.ca; s=google; t=1768242301; x=1768847101; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=jdD8MqriJAO2uyiGLSo7KkiIHx3VWLqLd6aNoF+yCm8=;
+ b=cBOFG4COn080/Z9WyuXlRr5Hmz1BcShow5odAyVjyHl3IRLTtJtfJqpjcbq5hh0YrW
+ 02/bX717yrcfeaiak5ki+toH7fY3NSAMJm6V2F5egXvX/1GJiqFNdRqYtaV6lj5VBEnB
+ UqkxF8CvbNgl0wFjUdO/zrbBQJZp2yT0o8PlNxQ0XitC9cnWFdws7i/aCojKM4DPUJ+Z
+ oMdaMjP8sdKNimU5d+8AiuK7W/SScVJwbwr4htL5TJaJfOX2AkC6mNW26REdO0KqZhAV
+ Q/ppKZx+6m0LfIn/MmB9sxEUE8GoWMJCSyK0Qd+COSA9iWe3L0eavbiSpvlD4MZIKR5/
+ HlPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768240520; x=1768845320;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=7wC12hIjapFHnxbTfyvh347loINH0/VC2F8iYpPdYKg=;
- b=Ln29H7lMsiYyAbmiy7tbNpmV3/H66PqVxn+U3EveeEQH/HN/1Zzre3wviKyOC9BMJT
- ThW+FswoZ7TUQkWK0KztMXKLto9eGEUZQqIgSDEbYZEKLF4FOZ/2vxEMkFBMIhuNgMRh
- O7TJ5QaSzPgARLU9RYfwFrr44f1C+xfkJujgPxS0RUoe2B006WzbSYroy/julZBXtonD
- 1ObTLSnbvo0e7gzU6wGS/AyI6U5/2rujjm9N1gLgq8UXfxqs6m7uQeVzSFJKrgbcEDh+
- L/qUJL2C1KwRN6n8xv24K7gE0K/LIlJDkP5LKj29mfMncoM94cOsOV4mImug8Z44/7n2
- lbxg==
+ d=1e100.net; s=20230601; t=1768242301; x=1768847101;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jdD8MqriJAO2uyiGLSo7KkiIHx3VWLqLd6aNoF+yCm8=;
+ b=qr3f3omDtFDxdpDq0g+r3fxnJICS6dG08jWnBHcZLngctt5ezJ4JMTjhtSf16gkxh0
+ GAqr6zrnKywzPPvnbU+IA141Q23lFuO5fnhEHCEJZ3xwiHHIbxtf92snoLJWMyObqI6V
+ 7I9uIz0oGKEPjeTZaXp0EY3haZlwcEiABgv6W5q1HXtY0HgB7QbhqQoLho32yKsGQ9k1
+ E/8eEEr5V6b1kRSpay3lekGzohONYKClIOTWDcsvqgFraVwMDkkUNZ+m1aCAGS0u96nS
+ /qLSFwAlV1nTrGm4DCrKAw8GPVhCA3oE1x3kJ23aB0eTav4ZC47IkneA3ahBGQICyHpd
+ psEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8cCpe4r1mElJCaOSmYLSA+ktMetAul1PaBx3Al2gEZMuU00kUxEnRufD6mTApNeI4zn0Z98haekA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVtPWSR7W8t4g76L5tvVrXrgpBmfETSaYTFO/4zqv5r16bJA5Q
- 65j4Prtig5/fJcMgmRaApMNANGferYRmi2D9ccf4j0+pAlBjucRR4wmecvj/Sf/nxCij9o+E4Pn
- BYTIWSESLh2vXip0PU/CbiMwM20qkHzRW+yEf2V3SodJveiYGIgwwPlU815U6xFglEqZ3NIZkdp
- dPuaC5UY1yeEI+DdH886DU+2pcak8ThLQ259RWsKNdA1sW14qKWybQXAksZ3R+BQ==
-X-Gm-Gg: AY/fxX54JzEuDmcFDgdQROHIgThoJDaPMNb1ZtT6DQmqLalqneV86IQVdY4JYlsZcQL
- RHoqgj6ERVt6Dy+Aollb3+ya9RFBcrrVer3McNApz6t4ZhON7kaxcNRGVogjPRqFS6DsIqw9hDy
- LgVeYxZiWbjtzFrWTkJkho5pBXZkOrId5aCNilKh5D//XHy3YZ+Yaze6Rl7WyKO9Taakw=
-X-Received: by 2002:ac8:7d12:0:b0:4ee:209a:a012 with SMTP id
- d75a77b69052e-4ffb493248amr239254721cf.30.1768240520406; 
- Mon, 12 Jan 2026 09:55:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHkIE4UQiDWlGLDB5w+wYNs+Gn36BQ7I0jvQlIkWPIDFo+CJGqpd/klyc5izbasi9kBaeAa2piY49p4mUqvGPQ=
-X-Received: by 2002:ac8:7d12:0:b0:4ee:209a:a012 with SMTP id
- d75a77b69052e-4ffb493248amr239254401cf.30.1768240519876; Mon, 12 Jan 2026
- 09:55:19 -0800 (PST)
+ AJvYcCVq2Qs4mH6OjUBHliVq0e916bWT/9wd7SiIikrlOA95q9pwQPHRP6K+dCNUhaN483fkLm/h/g1hwJk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyR9XgZ3cVQ6i8T7/jwpKDvV3RV0f5KGt4lLhc72TEkkj+EG+1/
+ KdV98pPcQ+X4+gCnvf6RlF1rd4HC2mkhoL1PqcBQycLjV0AVyShqiNaFQUgUyvx8ku4=
+X-Gm-Gg: AY/fxX6nlAPpc/Ii9X1VDTDlC6x2uRRHBAnVw3EVDx8wXAkOzeJMkkLWjQVXOLE90pl
+ nqJfHXlojDY42OpLJbcvCkiLrBdZvsV6ZDL1OVJ4PZDGbP/gmyAhxv11wGzZIc5yAW2eb9O6+Dv
+ CjYDzsbgK6M/RnZEyj5eRTPJ2EoCHUcK+yUBwYAfeQtfdh2brStiYaG5eyNn9Yv7eS0uP+KWgKO
+ r+DHkMITqahWr8Oj75H0Dq2Xgwo/9GWHN+jCdp7O6/MjH8Ns6R6aZYEjxLJ5KRpov4tJZs+JbcD
+ oBKt09NfATNlKTa4CuGy/uXnBc1D/gvizNgtt5GR63tqqtCVAOWSmdsti5Ta+D9Hrc31JGW0l9S
+ Lf3YsvFGKgHs+5+JdwSb8faRtcX8tR0dylYkX2dEyunCaD3l6LlmUcoqfPceeO8AB0dhQ0kumVK
+ N8WOBirWpkkoGuInKHrFeuS/++WOGubVZwKHOv5D4RGpIuQFdGG7C1SXTd9MbOVZs0baM=
+X-Google-Smtp-Source: AGHT+IGn2SBiEVfPnYP4nrga1XlmOOc9x/h3J7lqU+usVoOUoaNofJJs2v26tTONjDwmwZ1AsmIeFg==
+X-Received: by 2002:a05:6214:428e:b0:88e:9f73:2c08 with SMTP id
+ 6a1803df08f44-89084179da3mr258471116d6.5.1768242300986; 
+ Mon, 12 Jan 2026 10:25:00 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-890770ce985sm138366276d6.11.2026.01.12.10.25.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 10:25:00 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vfMb6-00000003SfZ-05E0;
+ Mon, 12 Jan 2026 14:25:00 -0400
+Date: Mon, 12 Jan 2026 14:25:00 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Balbir Singh <balbirs@nvidia.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Alistair Popple <apopple@nvidia.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] mm/zone_device: Add order argument to folio_free
+ callback
+Message-ID: <20260112182500.GI745888@ziepe.ca>
+References: <20260111205820.830410-1-francois.dugast@intel.com>
+ <20260111205820.830410-2-francois.dugast@intel.com>
+ <aWQlsyIVVGpCvB3y@casper.infradead.org>
+ <874d29da-2008-47e6-9c27-6c00abbf404a@nvidia.com>
+ <0D532F80-6C4D-4800-9473-485B828B55EC@nvidia.com>
+ <20260112134510.GC745888@ziepe.ca>
+ <218D42B0-3E08-4ABC-9FB4-1203BB31E547@nvidia.com>
+ <20260112165001.GG745888@ziepe.ca>
+ <86D91C8B-C3EA-4836-8DC2-829499477618@nvidia.com>
 MIME-Version: 1.0
-References: <20251224143009.2769836-1-youssef.abdulrahman@oss.qualcomm.com>
- <c0d07081-cb27-6c2f-604c-00f6f526a0dd@amd.com>
-In-Reply-To: <c0d07081-cb27-6c2f-604c-00f6f526a0dd@amd.com>
-From: Youssef Abdulrahman <youssef.abdulrahman@oss.qualcomm.com>
-Date: Mon, 12 Jan 2026 17:55:08 +0000
-X-Gm-Features: AZwV_QgCA8afy_69FJDdsfDkXyaqRMMIpeabluPijgC7rXl1YMMaLtc1rcnrj-g
-Message-ID: <CANyhwx0ts+Xx2mwEn+H6RkYgGzA=MS0e55+bmpceAOcWpcqPBQ@mail.gmail.com>
-Subject: Re: [PATCH v2] accel/qaic: Handle DBC deactivation if the owner went
- away
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com,
- ogabbay@kernel.org, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDE0OCBTYWx0ZWRfX+HoL+EykKKiH
- 8QgI0Vfm+AVLtf6aFNKXVpVjApztbBV0CmHBL6SqPFscKNa/wp9/y4t7LVsbBXZWJp1SvgbkKlH
- 4QpVBQiajl6d+a1GyEiz7BgaQiBZXy7ftt2Osg5r+P2o9Sb3Fv2IP6E21whVQGtOFzIYE5Hwnt4
- jgimeclOpZSWwTIMvqK/r8kQtWXu6hbWd7QJlOjd2uE54fZ7MJa/Qd1ORx6sZVXayQNjhdwKdMe
- hdBtqLAzgbxI2Ac7oIyvWRBRe3A8CmQ51ODUVLioFsom8sfwJMwPNOVg+w+9MJsxnvCM65NcqFs
- dCNaeUgnVQhKeclSkJUR/kv1c5gLMFmZkeQox54a8lARa3AQY3SLPXMNMl8B/LRAJ6DrdZREukk
- LdfYvYo0RJcenpJVWeSFgAR/M6YjCsBxAMkb6KmrAddkJCZzkFfrbwhI3ap6uYWuNapn5s7/CFQ
- BSAU2vmPje7nTT3wUNA==
-X-Authority-Analysis: v=2.4 cv=JP02csKb c=1 sm=1 tr=0 ts=69653589 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=zd2uoN0lAAAA:8
- a=CdaD7TzLHgGr7jEhopsA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-GUID: r7TL-K8PrvQsr-um65hhO382zC0iGdL8
-X-Proofpoint-ORIG-GUID: r7TL-K8PrvQsr-um65hhO382zC0iGdL8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-12_05,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601120148
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86D91C8B-C3EA-4836-8DC2-829499477618@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,24 +129,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 7, 2026 at 6:14=E2=80=AFPM Lizhi Hou <lizhi.hou@amd.com> wrote:
->
-> > @@ -1108,6 +1108,9 @@ static void *msg_xfer(struct qaic_device *qdev, s=
-truct wrapper_list *wrappers, u
-> >       mutex_lock(&qdev->cntl_mutex);
-> >       if (!list_empty(&elem.list))
-> >               list_del(&elem.list);
-> > +     /* resp_worker() processed the response but the wait was interrup=
-ted */
-> > +     else if (list_empty(&elem.list) && ret =3D=3D -ERESTARTSYS)
->
-> Rechecking list_empty(&elem.list) can be removed.
-Good point, I'll apply this in the next revision.
->
-> And if ret =3D=3D -ERESTARTSYS, elem.buf is not NULL?
-No, this check handles the case where resp_worker() is able to get to
-the element inside list_for_each_*(), which will set elem->buf to the
-resp message, at the same time the user interrupts the wait in
-msg_xfer(). So, it will be treated as a valid response message.
+On Mon, Jan 12, 2026 at 12:46:57PM -0500, Zi Yan wrote:
+> On 12 Jan 2026, at 11:50, Jason Gunthorpe wrote:
+> 
+> > On Mon, Jan 12, 2026 at 11:31:04AM -0500, Zi Yan wrote:
+> >>> folio_free()
+> >>>
+> >>> 1) Allocator finds free memory
+> >>> 2) zone_device_page_init() allocates the memory and makes refcount=1
+> >>> 3) __folio_put() knows the recount 0.
+> >>> 4) free_zone_device_folio() calls folio_free(), but it doesn't
+> >>>    actually need to undo prep_compound_page() because *NOTHING* can
+> >>>    use the page pointer at this point.
+> >>> 5) Driver puts the memory back into the allocator and now #1 can
+> >>>    happen. It knows how much memory to put back because folio->order
+> >>>    is valid from #2
+> >>> 6) #1 happens again, then #2 happens again and the folio is in the
+> >>>    right state for use. The successor #2 fully undoes the work of the
+> >>>    predecessor #2.
+> >>
+> >> But how can a successor #2 undo the work if the second #1 only allocates
+> >> half of the original folio? For example, an order-9 at PFN 0 is
+> >> allocated and freed, then an order-8 at PFN 0 is allocated and another
+> >> order-8 at PFN 256 is allocated. How can two #2s undo the same order-9
+> >> without corrupting each other’s data?
+> >
+> > What do you mean? The fundamental rule is you can't read the folio or
+> > the order outside folio_free once it's refcount reaches 0.
+> 
+> There is no such a rule. In core MM, folio_split(), which splits a high
+> order folio to low order ones, freezes the folio (turning refcount to 0)
+> and manipulates the folio order and all tail pages compound_head to
+> restructure the folio.
 
-- Youssef
+That's different, I am talking about reaching 0 because it has been
+freed, meaning there are no external pointers to it.
+
+Further, when a page is frozen page_ref_freeze() takes in the number
+of references the caller has ownership over and it doesn't succeed if
+there are stray references elsewhere.
+
+This is very important because the entire operating model of split
+only works if it has exclusive locks over all the valid pointers into
+that page.
+
+Spurious refcount failures concurrent with split cannot be allowed.
+
+I don't see how pointing at __folio_freeze_and_split_unmapped() can
+justify this series.
+
+> Your fundamental rule breaks this.  Allowing compound information
+> to stay after a folio is freed means you cannot tell whether a folio
+> is under split or freed.
+
+You can't refcount a folio out of nothing. It has to come from a
+memory location that already is holding a refcount, and then you can
+incr it.
+
+For example lockless GUP fast will read the PTE, adjust to the head
+page, attempt to incr it, then recheck the PTE.
+
+If there are races then sure maybe the PTE will point to a stray tail
+page that refers to an already allocated head page, but the re-check
+of the PTE wille exclude this. The refcount system already has to
+tolerate spurious refcount incrs because of GUP fast.
+
+Nothing should be looking at order and refcount to try to guess if
+concurrent split is happening!!
+
+Jason
