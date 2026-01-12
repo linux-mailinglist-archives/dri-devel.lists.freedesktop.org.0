@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823B9D1333E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 15:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B84D1337A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 15:40:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FC310E3FB;
-	Mon, 12 Jan 2026 14:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C562110E3F1;
+	Mon, 12 Jan 2026 14:40:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="H61uylt7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CA4hKwoj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A3010E3F8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 14:38:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1768228701; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lkdE90YzutlnpcOL8fLNexi4YFPlQPlm+AuicewDPgxR5EvN7uy/J779424UunHObn/sr6JRW7T+8mrNwNjI1teAbty0BdGSBZHlk/ehk5MtMIZuJUbRD+eqVb81c9Vv6iRNI/8oY/o244jcsc/jURPGkDW6KvhLwfrLh6g9CGo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1768228701;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=19nv2PZgHaBu1531IdjRSZZ3SQBGh0yLoB263HOVEbI=; 
- b=QcZcO7y61M2VnzWzzQp/49O2o+pqzO93axIQARGkQJzq6uj7Ne4PL61GRcT41PFX6my38U2BiMAfuNfGeC7GzyTMOfxTj6oT8O4tZgdS0Zx2NfRxPQSjUzKYOPXNBH8qv9CI3FW/8Fp+YPQFkMzbzR9Fi5RV6TfcYcDKTC26UL0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768228701; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=19nv2PZgHaBu1531IdjRSZZ3SQBGh0yLoB263HOVEbI=;
- b=H61uylt7scOajnX3jm3x5G9LvCn3lNpk0cmemU8AHkzpsY0lkxkti+jwFIr+ncKX
- HTseLSwuJpOALmvNMp4RgCaZxd7DXKI9VAXEexVECZ9jfaQH3pGFt8LoV0XA5FTBbPh
- Qd6pymuA6RE4yKifgfoJTx9L2uw7bciMbGv987qs=
-Received: by mx.zohomail.com with SMTPS id 1768228700175793.4416726525178;
- Mon, 12 Jan 2026 06:38:20 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 12 Jan 2026 15:37:52 +0100
-Subject: [PATCH v8 4/4] drm/panthor: Add gpu_job_irq tracepoint
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7313E10E3F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 14:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768228800;
+ bh=q1K8cL4jzMGK0wjsy9g3Vr0t4eFVzqTsxZezJ5sczLE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=CA4hKwojCKeunZ7OdfzSPYv1BLMcfvO/zvrlhbJ9z+uL72woo3AMKdl36GY/H9gXR
+ sTOdtnXPCpPoCgJ/AygtQrxEZIUwpOZVvixWTXXLBQYyEPYrS5haHEoClV0JXjYiSl
+ icle9Dl2sIhB+YOjhhvUHrz7CX281GeeVXSDk2vMPnjBiAG9IwZyX0DmwthRadcfTM
+ D2ork6QiIH4wavEJEN0mMNyDv4ghmbg7vdiujUQSAcfudyWz0gwKZQwYyoN/008TbV
+ K+0QFi0ebarFBtDU8AYvc6IokMpPcaFGVqvbJ2nP+iwxbzvNFnOtbe4fVCYxZYjayV
+ qkNC+Ayafxl2g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 357EC17E0333;
+ Mon, 12 Jan 2026 15:40:00 +0100 (CET)
+Date: Mon, 12 Jan 2026 15:39:53 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Akash Goel
+ <akash.goel@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Akhil P Oommen
+ <akhilpo@oss.qualcomm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Chris Diamand <chris.diamand@arm.com>,
+ Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
+ kernel@collabora.com
+Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
+Message-ID: <20260112153953.61eb20dc@fedora>
+In-Reply-To: <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-9-boris.brezillon@collabora.com>
+ <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260112-panthor-tracepoints-v8-4-63efcb421d22@collabora.com>
-References: <20260112-panthor-tracepoints-v8-0-63efcb421d22@collabora.com>
-In-Reply-To: <20260112-panthor-tracepoints-v8-0-63efcb421d22@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,111 +75,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali's CSF firmware triggers the job IRQ whenever there's new firmware
-events for processing. While this can be a global event (BIT(31) of the
-status register), it's usually an event relating to a command stream
-group (the other bit indices).
+On Mon, 12 Jan 2026 12:33:33 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Panthor throws these events onto a workqueue for processing outside the
-IRQ handler. It's therefore useful to have an instrumented tracepoint
-that goes beyond the generic IRQ tracepoint for this specific case, as
-it can be augmented with additional data, namely the events bit mask.
+> On 09/01/2026 13:08, Boris Brezillon wrote:
+> > This will be used to order things by reclaimability.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_gem.c | 44 +++++++++++++++++++++++++--
+> >  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+> >  2 files changed, 45 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 44f05bd957e7..458d22380e96 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -484,6 +484,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
+> >  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
+> >  			  refcount_read(&bo->cmap.vaddr_use_count));
+> >  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
+> > +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
+> >  }
+> >  
+> >  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
+> > @@ -600,6 +601,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
+> >  	if (is_cow_mapping(vma->vm_flags))
+> >  		return -EINVAL;
+> >  
+> > +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
+> > +		dma_resv_lock(obj->resv, NULL);
+> > +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
+> > +			refcount_set(&bo->cmap.mmap_count, 1);
+> > +		dma_resv_unlock(obj->resv);
+> > +	}
+> > +
+> >  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+> >  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+> >  	if (should_map_wc(bo))
+> > @@ -732,10 +740,42 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
+> >  	return blocking_page_setup(vmf, bo, page_offset, true);
+> >  }
+> >  
+> > +static void panthor_gem_vm_open(struct vm_area_struct *vma)
+> > +{
+> > +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+> > +
+> > +	/* mmap_count must have been incremented at mmap time, so it can't be
+> > +	 * zero here.
+> > +	 */
+> > +	if (!drm_gem_is_imported(&bo->base))
+> > +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
+> > +
+> > +	drm_gem_vm_open(vma);
+> > +}
+> > +
+> > +static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> > +{
+> > +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+> > +
+> > +	if (drm_gem_is_imported(&bo->base))
+> > +		goto out;
+> > +
+> > +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
+> > +		goto out;
+> > +
+> > +	dma_resv_lock(bo->base.resv, NULL);
+> > +	if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+> > +		refcount_set(&bo->cmap.mmap_count, 0);
+> > +	dma_resv_unlock(bo->base.resv);  
+> 
+> I don't think this logic is safe. Holding the resv_lock doesn't protect
+> against another thread doing a refcount_inc_not_zero() without holding
+> the lock.
+> 
+> I think you can just replace the if() part with a refcount_dec() call,
+> the lock AFAICT is needed because the following patch wants to be sure
+> that !!mmap_count is stable when resv_lock is held.
 
-This can then be used to debug problems relating to GPU jobs events not
-being processed quickly enough. The duration_ns field can be used to
-work backwards from when the tracepoint fires (at the end of the IRQ
-handler) to figure out when the interrupt itself landed, providing not
-just information on how long the work queueing took, but also when the
-actual interrupt itself arrived.
+I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 without
+complaining :P.
 
-With this information in hand, the IRQ handler itself being slow can be
-excluded as a possible source of problems, and attention can be directed
-to the workqueue processing instead.
+> 
+> I also feel you should invert the conditino for refcount_dec_not_one,
+> leading to the following which I feel is easier to read:
+> 
+> static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> {
+> 	[...]
+> 
+> 	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+> 		dma_resv_lock(bo->base.resv, NULL);
+> 		refcount_dec(&bo->cmap.mmap_count);
+> 		dma_resv_unlock(bo->base.resv);
+> 	}
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
- drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+The best I can do is:
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 0e46625f7621..5a904ca64525 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -26,6 +26,7 @@
- #include "panthor_mmu.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
-+#include "panthor_trace.h"
- 
- #define CSF_FW_NAME "mali_csffw.bin"
- 
-@@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 
- static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- {
-+	u32 duration;
-+	u64 start = 0;
-+
-+	if (tracepoint_enabled(gpu_job_irq))
-+		start = ktime_get_ns();
-+
- 	gpu_write(ptdev, JOB_INT_CLEAR, status);
- 
- 	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-@@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
- 		return;
- 
- 	panthor_sched_report_fw_events(ptdev, status);
-+
-+	if (tracepoint_enabled(gpu_job_irq) && start) {
-+		if (check_sub_overflow(ktime_get_ns(), start, &duration))
-+			duration = U32_MAX;
-+		trace_gpu_job_irq(ptdev->base.dev, status, duration);
-+	}
- }
- PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-index 5bd420894745..6ffeb4fe6599 100644
---- a/drivers/gpu/drm/panthor/panthor_trace.h
-+++ b/drivers/gpu/drm/panthor/panthor_trace.h
-@@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
- 	panthor_hw_power_status_register, panthor_hw_power_status_unregister
- );
- 
-+/**
-+ * gpu_job_irq - called after a job interrupt from firmware completes
-+ * @dev: pointer to the &struct device, for printing the device name
-+ * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
-+ * @duration_ns: Nanoseconds between job IRQ handler entry and exit
-+ *
-+ * The panthor_job_irq_handler() function instrumented by this tracepoint exits
-+ * once it has queued the firmware interrupts for processing, not when the
-+ * firmware interrupts are fully processed. This tracepoint allows for debugging
-+ * issues with delays in the workqueue's processing of events.
-+ */
-+TRACE_EVENT(gpu_job_irq,
-+	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
-+	TP_ARGS(dev, events, duration_ns),
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__field(u32, events)
-+		__field(u32, duration_ns)
-+	),
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__entry->events		= events;
-+		__entry->duration_ns	= duration_ns;
-+	),
-+	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
-+		  __entry->events, __entry->duration_ns)
-+);
-+
- #endif /* __PANTHOR_TRACE_H__ */
- 
- #undef TRACE_INCLUDE_PATH
+ 	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+ 		dma_resv_lock(bo->base.resv, NULL);
+ 		if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+			refcount_set(&bo->cmap.mmap_count, 0);
+ 		dma_resv_unlock(bo->base.resv);
+ 	}
 
--- 
-2.52.0
+so we only take the lock when absolutely needed, but the 1 -> 0
+transition still has to be done with "if (dec_not_one) set(0)".
 
+> 
+> 	drm_gem_object_put(&bo->base);
+> }
