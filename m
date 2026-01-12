@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B60D142B2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC36D1436F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:59:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77D710E423;
-	Mon, 12 Jan 2026 16:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A040810E421;
+	Mon, 12 Jan 2026 16:59:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ktlGEvsl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UThJTTKk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3CDB10E423
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:50:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5280B10E421
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768236639;
- bh=d+xKr9ICAvPr1JHnRWqDtV6qZe9wf1FAtE0yhx7tspA=;
+ s=mail; t=1768237177;
+ bh=OTu08QbRf5g0XMTPJ8gP2PEQflZLtZN4iLdt6rK1uTM=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ktlGEvsl2s9q+x66Oe32NQVO5Q3c6GLQzk1NsanLuuGXQstqxnYp+UgsF0xc/4awM
- HAkSarMK7Hd4kDY4VNyRPhlwrNk4OhuL65W8GQzAmSfAU9/6MorIOpGIp7UaeFDSCB
- vNbo21Ow+66Wh7yfkpIech4uFFuNMG8WAoXD2nKwSD3cibXHVXPZVoWJtpbFr4OlML
- 11zOxOyEf1GYZz80UXZ0FNLzrP26ehvh/6zFhi9XMbL+RI5ozVsydE6aXTDTHU2MmF
- Hb7TFBA6lR/oly8EySUXrCB+nm9MfVyqlc3C2huFHDWQ7XXO864ZKEAqejr03K4Bio
- CwERVYJ+iCxOQ==
+ b=UThJTTKkqmZlwVN+A41aJzwLmVdJmJDzVCKKqzkuxGBjnFmX61lvzlU2AhYLySl3u
+ Rfh5C7pJPVScfnZS7Fhk4ihvyoGDIQ8fNPzqHg9fUx5GdxFacOaJ1rKxA5fvX/v6KU
+ HqSCw3Dh47pIB8RYMDXmf0UBhm++hxTPqByoQdZBEgJW3ie9z5s+QrZXm2bTJ1/O1Z
+ foj8OVrowJjncJx7kUW3ZPGTCS76sQbBNJM/umymwh6cDj/lBcgYdScLNQ5SVsv+//
+ xRwxHyKzy5mI9T9Vvg/Bel/QmJ+wFZzV86D5CA5fjSNave10eKfXGp83oNNF+Kk3XO
+ Yax14svlG2X0w==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D73817E0A49;
- Mon, 12 Jan 2026 17:50:38 +0100 (CET)
-Date: Mon, 12 Jan 2026 17:50:32 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1AF9817E13F1;
+ Mon, 12 Jan 2026 17:59:37 +0100 (CET)
+Date: Mon, 12 Jan 2026 17:59:31 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
@@ -49,14 +49,14 @@ Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
  <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
  <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
  kernel@collabora.com
-Subject: Re: [PATCH v1 6/9] drm/panthor: Lazily allocate pages on mmap()
-Message-ID: <20260112175032.487fd27e@fedora>
-In-Reply-To: <5bdd278c-4474-466f-b2bf-ac50accb29f4@arm.com>
+Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
+Message-ID: <20260112175931.541cc086@fedora>
+In-Reply-To: <3c1b791c-f2e6-4199-af6c-920f52f4870c@arm.com>
 References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-7-boris.brezillon@collabora.com>
- <37e36106-8d62-4915-a0e1-c7b283e0ff17@arm.com>
- <20260112153200.30fd4e3e@fedora>
- <5bdd278c-4474-466f-b2bf-ac50accb29f4@arm.com>
+ <20260109130801.1239558-9-boris.brezillon@collabora.com>
+ <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
+ <20260112153953.61eb20dc@fedora>
+ <3c1b791c-f2e6-4199-af6c-920f52f4870c@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -77,128 +77,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Jan 2026 16:41:41 +0000
+On Mon, 12 Jan 2026 16:49:33 +0000
 Steven Price <steven.price@arm.com> wrote:
 
-> On 12/01/2026 14:32, Boris Brezillon wrote:
-> > On Mon, 12 Jan 2026 12:15:13 +0000
+> On 12/01/2026 14:39, Boris Brezillon wrote:
+> > On Mon, 12 Jan 2026 12:33:33 +0000
 > > Steven Price <steven.price@arm.com> wrote:
 > >   
-> >> On 09/01/2026 13:07, Boris Brezillon wrote:  
-> >>> Defer pages allocation until their first access.
+> >> On 09/01/2026 13:08, Boris Brezillon wrote:  
+> >>> This will be used to order things by reclaimability.
 > >>>
 > >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > >>> ---
-> >>>  drivers/gpu/drm/panthor/panthor_gem.c | 119 ++++++++++++++++----------
-> >>>  1 file changed, 75 insertions(+), 44 deletions(-)
+> >>>  drivers/gpu/drm/panthor/panthor_gem.c | 44 +++++++++++++++++++++++++--
+> >>>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+> >>>  2 files changed, 45 insertions(+), 2 deletions(-)
 > >>>
 > >>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> >>> index 0e52c7a07c87..44f05bd957e7 100644
+> >>> index 44f05bd957e7..458d22380e96 100644
 > >>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
 > >>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> >>> @@ -600,15 +600,6 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
+> >>> @@ -484,6 +484,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
+> >>>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
+> >>>  			  refcount_read(&bo->cmap.vaddr_use_count));
+> >>>  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
+> >>> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
+> >>>  }
+> >>>  
+> >>>  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
+> >>> @@ -600,6 +601,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
 > >>>  	if (is_cow_mapping(vma->vm_flags))
 > >>>  		return -EINVAL;
 > >>>  
-> >>> -	dma_resv_lock(obj->resv, NULL);
-> >>> -	ret = panthor_gem_backing_get_pages_locked(bo);
-> >>> -	if (!ret)
-> >>> -		ret = panthor_gem_prep_for_cpu_map_locked(bo);
-> >>> -	dma_resv_unlock(obj->resv);
-> >>> -
-> >>> -	if (ret)
-> >>> -		return ret;
-> >>> -
+> >>> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
+> >>> +		dma_resv_lock(obj->resv, NULL);
+> >>> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
+> >>> +			refcount_set(&bo->cmap.mmap_count, 1);
+> >>> +		dma_resv_unlock(obj->resv);
+> >>> +	}
+> >>> +
 > >>>  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
 > >>>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
 > >>>  	if (should_map_wc(bo))
-> >>> @@ -628,82 +619,122 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
-> >>>  	return res;
+> >>> @@ -732,10 +740,42 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
+> >>>  	return blocking_page_setup(vmf, bo, page_offset, true);
 > >>>  }
 > >>>  
-> >>> -static bool try_map_pmd(struct vm_fault *vmf, unsigned long addr, struct page *page)
-> >>> +static vm_fault_t insert_page(struct vm_fault *vmf, struct page *page)
-> >>>  {
-> >>> +	struct vm_area_struct *vma = vmf->vma;
-> >>> +	vm_fault_t ret;
+> >>> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
+> >>> +{
+> >>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
 > >>> +
-> >>>  #ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
-> >>>  	unsigned long pfn = page_to_pfn(page);
-> >>>  	unsigned long paddr = pfn << PAGE_SHIFT;
-> >>> -	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
-> >>> +	bool aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
-> >>>  
-> >>>  	if (aligned &&
-> >>>  	    pmd_none(*vmf->pmd) &&
-> >>>  	    folio_test_pmd_mappable(page_folio(page))) {
-> >>>  		pfn &= PMD_MASK >> PAGE_SHIFT;
-> >>> -		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
-> >>> -			return true;
-> >>> +		ret = vmf_insert_pfn_pmd(vmf, pfn, false);
-> >>> +		if (ret == VM_FAULT_NOPAGE)
-> >>> +			return VM_FAULT_NOPAGE;
-> >>>  	}
-> >>>  #endif
-> >>>  
-> >>> -	return false;
-> >>> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-> >>>  }
-> >>>  
-> >>> -static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
-> >>> +static vm_fault_t nonblocking_page_setup(struct vm_fault *vmf, pgoff_t page_offset)
-> >>>  {
-> >>>  	struct vm_area_struct *vma = vmf->vma;
-> >>> -	struct drm_gem_object *obj = vma->vm_private_data;
-> >>>  	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> >>> -	loff_t num_pages = obj->size >> PAGE_SHIFT;
-> >>>  	vm_fault_t ret;
-> >>> -	pgoff_t page_offset;
-> >>> -	unsigned long pfn;
-> >>>  
-> >>> -	/* Offset to faulty address in the VMA. */
-> >>> -	page_offset = vmf->pgoff - vma->vm_pgoff;
-> >>> +	if (!dma_resv_trylock(bo->base.resv))
-> >>> +		return VM_FAULT_RETRY;
-> >>>  
-> >>> -	dma_resv_lock(bo->base.resv, NULL);
-> >>> +	if (bo->backing.pages)
-> >>> +		ret = insert_page(vmf, bo->backing.pages[page_offset]);
-> >>> +	else
-> >>> +		ret = VM_FAULT_RETRY;
-> >>>  
-> >>> -	if (page_offset >= num_pages ||
-> >>> -	    drm_WARN_ON_ONCE(obj->dev, !bo->backing.pages)) {
-> >>> -		ret = VM_FAULT_SIGBUS;
-> >>> -		goto out;
-> >>> +	dma_resv_unlock(bo->base.resv);
-> >>> +	return ret;
+> >>> +	/* mmap_count must have been incremented at mmap time, so it can't be
+> >>> +	 * zero here.
+> >>> +	 */
+> >>> +	if (!drm_gem_is_imported(&bo->base))
+> >>> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
+> >>> +
+> >>> +	drm_gem_vm_open(vma);
 > >>> +}
 > >>> +
-> >>> +static vm_fault_t blocking_page_setup(struct vm_fault *vmf,
-> >>> +				      struct panthor_gem_object *bo,
-> >>> +				      pgoff_t page_offset, bool mmap_lock_held)
+> >>> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
 > >>> +{
-> >>> +	vm_fault_t ret;
-> >>> +	int err;
+> >>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
 > >>> +
-> >>> +	if (vmf->flags & FAULT_FLAG_INTERRUPTIBLE) {
-> >>> +		err = dma_resv_lock_interruptible(bo->base.resv, NULL);
-> >>> +		if (err)
-> >>> +			return mmap_lock_held ? VM_FAULT_NOPAGE : VM_FAULT_RETRY;    
+> >>> +	if (drm_gem_is_imported(&bo->base))
+> >>> +		goto out;
+> >>> +
+> >>> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
+> >>> +		goto out;
+> >>> +
+> >>> +	dma_resv_lock(bo->base.resv, NULL);
+> >>> +	if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+> >>> +		refcount_set(&bo->cmap.mmap_count, 0);
+> >>> +	dma_resv_unlock(bo->base.resv);    
 > >>
-> >> I'm not sure about this. First FAULT_FLAG_INTERRUPTIBLE is currently
-> >> only used by userfaultfd AFAICT.  
+> >> I don't think this logic is safe. Holding the resv_lock doesn't protect
+> >> against another thread doing a refcount_inc_not_zero() without holding
+> >> the lock.
+> >>
+> >> I think you can just replace the if() part with a refcount_dec() call,
+> >> the lock AFAICT is needed because the following patch wants to be sure
+> >> that !!mmap_count is stable when resv_lock is held.  
 > > 
-> > And GUP, which admittedly, only seems possible if one tries to map a
-> > userpage in kernel space, and we don't support that (yet?).  
+> > I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 without
+> > complaining :P.  
 > 
-> Well unless my grepping is wrong, GUP is the one place that sets it and
-> userfaultfd is the one place that consumes it.
+> Yeah, I misread the refcount_dec() code the first time I looked at it.
+> 
+> >>
+> >> I also feel you should invert the conditino for refcount_dec_not_one,
+> >> leading to the following which I feel is easier to read:
+> >>
+> >> static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> >> {
+> >> 	[...]
+> >>
+> >> 	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+> >> 		dma_resv_lock(bo->base.resv, NULL);
+> >> 		refcount_dec(&bo->cmap.mmap_count);
+> >> 		dma_resv_unlock(bo->base.resv);
+> >> 	}  
+> > 
+> > The best I can do is:
+> > 
+> >  	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+> >  		dma_resv_lock(bo->base.resv, NULL);
+> >  		if (!refcount_dec_not_one(&bo->cmap.mmap_count))  
+> 
+> The problem is here - if another thread does an increment from 1 to 2 at
+> this point then we lose a reference count. And since you don't have to
+> hold the lock for that we have a problem.
 
-Indeed.
+Okay, I see what you mean now. I was considering 0 -> 1, not 1 -> 2. So
+we really need a
+
+		if (refcount_dec_and_test(&bo->cmap.mmap_count))
+			/* Do nothing */;
 
 > 
-> As special as Mali is, I'm not sure why we're doing something that no
-> other driver is?
+> > 			refcount_set(&bo->cmap.mmap_count, 0);
+> >  		dma_resv_unlock(bo->base.resv);
+> >  	}
+> > 
+> > so we only take the lock when absolutely needed, but the 1 -> 0
+> > transition still has to be done with "if (dec_not_one) set(0)".  
+> 
+> It's not the holding of the lock that's concerning me - it's the fact
+> that the increment part might not be holding the lock.
+> 
+> Your suggestion of "(void)refcount_dec_and_test()" would work, but it's
+> rather abusing the API. I can't help feeling this points to the refcount
+> API being the wrong thing to be using...
+> 
+> Thanks,
+> Steve
+> 
+> >>
+> >> 	drm_gem_object_put(&bo->base);
+> >> }  
+> 
 
-Fair enough, I'll drop this "if (interruptible)" block.
