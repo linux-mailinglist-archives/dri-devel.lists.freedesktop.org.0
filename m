@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91136D10B48
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 07:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC49D10BD2
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 07:46:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBD9910E2CB;
-	Mon, 12 Jan 2026 06:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786BE10E2C9;
+	Mon, 12 Jan 2026 06:46:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tbfZrKbx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.64.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8831A10E2C9;
- Mon, 12 Jan 2026 06:32:13 +0000 (UTC)
-X-QQ-mid: zesmtpgz4t1768199477t5221490e
-X-QQ-Originating-IP: lAr+nSzbSl4WkkI7JdgxjIK725eukfFUvW8YDestnqc=
-Received: from [127.0.0.1] ( [116.234.96.45]) by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 12 Jan 2026 14:31:15 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12744510694498697808
-Message-ID: <F4CDF36128041430+0d030e3b-054c-4910-a132-72273c541948@radxa.com>
-Date: Mon, 12 Jan 2026 14:31:16 +0800
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC7110E2C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 06:46:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0F4814168A;
+ Mon, 12 Jan 2026 06:46:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DA53FC116D0;
+ Mon, 12 Jan 2026 06:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768200362;
+ bh=T+6DAB5U+aymplM4EogtY9wqWk51pwq6UxFmNbuENE0=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=tbfZrKbxOiISXeXUJid3i04ienS21t35b4CjUdrYP/OKE5PQG5QcCHI3TCdaxe7D8
+ 8DHNusUeVVo+Jfkh8h+vc4HkM4IW8DEkUoqXRs6q9pFP+gxK+a/Jevbhi+Ov3KXUBp
+ bvmipZ776SVylDNY2CG8FKeJ3R03bSkQBMAtH+Ixlxbv/yphT3Ep8EgC9a8zp31+13
+ /pkCyI+l20BpTZpaSC8n7xr2/aga8zZCG76OVBi49bMj1BBKQgP8SwbU5Bf6R3R+fa
+ 5ob3msmF1rX/xSZUekMnBYKux2ktODdxZO5XokqfwRByszFHczYBcA+Dv0029QpNPl
+ kB1ESOaoNI/yg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id C8360D2503B;
+ Mon, 12 Jan 2026 06:46:02 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Mon, 12 Jan 2026 14:47:07 +0800
+Subject: [PATCH] drm/bridge: it6505: disable HDCP retry when KSV list timeout
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
-Content-Language: en-US
-From: Xilin Wu <sophon@radxa.com>
-In-Reply-To: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NcfXIs+Ms1qH1CliA/F7ih2AitXk1RUayG5THx2Om380CtSgoO0SOQre
- grFq2adx+hdV+jGa0PVFo7otwUdwdX+0QCnqjzqEa3oLg05iOqwDYDtzPMAcYyC9J1T7tvZ
- 1h0GEZlCTYCjxKk/zuVtLWqbtLC0oS40XVQjReWmeyE+nSOKAmndqSs8gZK6Mn0H7U0kzau
- bAkFpb6TQIERzYrEPss8IDkbEzwMTWRm1DtbuXpMMe1X85OSVASW7ROmUs5SpZshyHt8n/5
- uLSUwV2YXqJsPmXW1Om0rUniwvGyDbYQxzzGRgQDUI9+vZS+k4IO6hO5D2BBH3VIh9mTBrQ
- LKx8dthaOMgLntz/+1Yj8BS9enyjrO3PE7pj+lbrgPW+B3qFiiX46KyJauHFhk86eeNWfHh
- 2NpqQ8H52x4n8nMXkSh0kn2PjJRB+eLPpUawdMg1R0tKnmXQ6IEGathafF2u7eEMZAd9CVw
- WkSxuzIrzlyiCijx0HbtIKQFJ9zdHVDbmsd18KlYKmMorVLL/ELwSFaftXHg9MwK5A4QMeb
- afGeQ60xVMT/bfvvk/YA6okq6b0Kf0sPuMFukc+/tVzLIsvHpoR592yRRk5BPB2e3mtt+8d
- rW6QUOvpnMogDt8YzUtFtp7qwVlSeBk1vtuavj8/wyKthezZFVZUeiUV9SZmRoiyG4S+vND
- 7qRtUcTff2jALaRK8CRcZWxKCcyz8VQOwGKgLYxSNlHz19fI5mFXTHKOtKMLE5ozrlKur6E
- LuamsmiH384Nx1n9XngTAnN3h7P/UtPIW96eMeyEDl9gOSGf2vV7XtC9MGn3nXB3/R1JYil
- jOqVSVlBl0e+wU3Z2yyPyYSyeMt7oxpfi+VX8pgQm6HsIcCsm5IZoFHn7dsCXM49o7Jo8Jz
- 98L+sGuO+0v4HPCo7W4rgERQrC3k8ShYzzlYyUSJSY65I42rH/XHpzJoZ0DHvZNbwU6PYdR
- 3R2lpnRCA8xCdnE1TEpjwig3AMoefiwwOdkpsyMVZDN9fb8SLqLijRbAA6h5H7B6VQe2q+U
- 8w+OIx2w==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+Message-Id: <20260112-disable-hdcp-auto-retry-v1-1-dc9217f08f7c@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAOqYZGkC/x3MMQqAMAxA0atIZgNth6JeRRxiGzUgKqmKIt7d4
+ viG/x9IrMIJmuIB5VOSrEuGLQsIEy0jo8RscMZ5Y63DKIn6mXGKYUM69hWVd73RUxWNGXxProZ
+ cb8qDXP+57d73A4D9RE9pAAAA
+X-Change-ID: 20260112-disable-hdcp-auto-retry-6a8d00f6ba29
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768200435; l=1553;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=rCW3jddM8TQgyxZZEpHfDk8/Yn8r6UZLGkwB+J85M8A=;
+ b=7A7jap0TA1DohHAgYYmCcYl1NvpnYzSGNv+i1t3xfwhcNzW/K+OvbUDvCRlUdUPNYksWhPW6n
+ ku9ky5ji0efD3VRnbEgNU/W8mhV7rEfdjoyUPEQMYt+3f6A0E2XVlM+
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +78,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/2025 9:38 AM, Jessica Zhang wrote:
-> Filter out modes that have a clock rate greater than the max core clock
-> rate when adjusted for the perf clock factor
-> 
-> This is especially important for chipsets such as QCS615 that have lower
-> limits for the MDP max core clock.
-> 
-> Since the core CRTC clock is at least the mode clock (adjusted for the
-> perf clock factor) [1], the modes supported by the driver should be less
-> than the max core clock rate.
-> 
-> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-Hi. This patch effectively filters out the 3840x2160@120Hz mode on 
-SC8280XP CRD. The calculated adjusted_mode_clk is 623700, which slightly 
-exceeds the supported max core clock of 600000.
+Some DP to HDMI converters fail to report KSV list within the 6-second
+HDCP window, causing the IT6505 to repeatedly restart authentication.
+This results in continuous flickering on the connected HDMI monitor.
 
-However, 4K 120Hz works flawlessly with the limit removed on this 
-platform. I even tried connecting two 4K 120Hz displays, and they can 
-work properly simultaneously. Is it possible to bring back support for 
-this mode, or adjust the limits?
+Disable automatic HDCP retry when KSV list timeout. This breaks the
+re-auth loop and significantly improves stability/user experience with
+problematic converters.
 
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--- 
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index a094803ba7aa4e12165fcde432d4e6417fbf3676..1c1e6b78fadbf29da00a68e26671ce5b54ee1557 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2238,7 +2238,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 		return;
+ 
+ timeout:
+-	it6505_start_hdcp(it6505);
++	it6505_stop_hdcp(it6505);
+ }
+ 
+ static void it6505_hdcp_work(struct work_struct *work)
+@@ -2596,7 +2596,7 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6505)
+ 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp fail interrupt");
+ 	it6505->hdcp_status = HDCP_AUTH_IDLE;
+ 	it6505_show_hdcp_info(it6505);
+-	it6505_start_hdcp(it6505);
++	it6505_stop_hdcp(it6505);
+ }
+ 
+ static void it6505_irq_aux_cmd_fail(struct it6505 *it6505)
+
+---
+base-commit: 38feb171b3f92d77e8061fafb5ddfffc2c13b672
+change-id: 20260112-disable-hdcp-auto-retry-6a8d00f6ba29
+
 Best regards,
-Xilin Wu <sophon@radxa.com>
+-- 
+Hermes Wu <Hermes.wu@ite.com.tw>
+
+
