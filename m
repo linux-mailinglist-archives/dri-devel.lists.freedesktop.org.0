@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4214FD1283C
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B014FD12839
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 13:21:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8261510E3B6;
-	Mon, 12 Jan 2026 12:21:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kchJVSnv";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A5610E09B;
+	Mon, 12 Jan 2026 12:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3222C10E3B6;
- Mon, 12 Jan 2026 12:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768220508;
- bh=iRtfMCL1Oz7vI19NsR0rJtTifPlnDjelAukBq66MZrY=;
- h=From:To:Cc:Subject:Date:From;
- b=kchJVSnvf8Az4kLIN6nwQlaUO8oCVTJpDz4fZ4UDRsQBeSmTzhl21q03BUIJ0CX6g
- 9RcJfsPZmCXJt0HFDXbvuvutBP6b6xFyP8iac/HL3xvmtmtDasDMZ5GjN3WWEFs+F+
- +YTLYQDyT36wTdTYrsN4xTVPUFSModSOqG785KHBtI0TjimxwsjdnGDjb/urPtAwAo
- mMV4lwGofzWnbbQXp5+eCbCwExWaAHkwt8HXrCHtoJ8zDbziXqewk4+bcjimynu9nL
- A1fxt9ebjRuqjkpiOapCg0NV7CO+RgdULoYEoStd/A276z4En2o9GuLgFkkjDgllT8
- EtrYL421nak3Q==
-Received: from nemo.lan (unknown [IPv6:2a07:244:40:6b00::646])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vivek)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6673D17E0CB0;
- Mon, 12 Jan 2026 13:21:48 +0100 (CET)
-From: Vivek Das Mohapatra <vivek@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drm/amd/display: Initialise backlight level values from hw
-Date: Mon, 12 Jan 2026 12:20:46 +0000
-Message-Id: <20260112122140.2609679-1-vivek@collabora.com>
-X-Mailer: git-send-email 2.39.5
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A17810E09B
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 12:21:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B550497;
+ Mon, 12 Jan 2026 04:21:27 -0800 (PST)
+Received: from [10.57.11.182] (unknown [10.57.11.182])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35E993F59E;
+ Mon, 12 Jan 2026 04:21:30 -0800 (PST)
+Message-ID: <63c0a3ae-24a2-425e-a9a5-0595c90b69fe@arm.com>
+Date: Mon, 12 Jan 2026 12:21:28 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 7/9] drm/panthor: Split panthor_vm_prepare_map_op_ctx()
+ to prepare for reclaim
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-8-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260109130801.1239558-8-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +61,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Internal backlight levels are initialised from ACPI but the values
-are sometimes out of sync with the levels in effect until there has
-been a read from hardware (eg triggered by reading from sysfs).
+On 09/01/2026 13:07, Boris Brezillon wrote:
+> We're gonna need just the page table reservation logic when we restore
+> evicted BO mappings, so let's prepare for that by extracting the
+> op_ctx init and page table pre-allocation into separate helpers.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-This means that the first drm_commit can cause the levels to be set
-to a different value than the actual starting one, which results in
-a sudden change in brightness.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-This path shows the problem (when the values are out of sync):
+(A nice easy refactor after trying to get my head round mm-code - just
+what I needed ;) )
 
-   amdgpu_dm_atomic_commit_tail()
-   -> amdgpu_dm_commit_streams()
-   -> amdgpu_dm_backlight_set_level(..., dm->brightness[n])
+Thanks,
+Steve
 
-This patch calls the backlight ops get_brightness explicitly
-at the end of backlight registration to make sure dm->brightness[n]
-is in sync with the actual hardware levels.
-
-Signed-off-by: Vivek Das Mohapatra <vivek@collabora.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 354e359c4507..50f0547ed63c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5258,6 +5258,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	struct amdgpu_dm_backlight_caps *caps;
- 	char bl_name[16];
- 	int min, max;
-+	int real_brightness;
-+	int init_brightness;
- 
- 	if (aconnector->bl_idx == -1)
- 		return;
-@@ -5282,6 +5284,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	} else
- 		props.brightness = props.max_brightness = MAX_BACKLIGHT_LEVEL;
- 
-+	init_brightness = props.brightness;
-+
- 	if (caps->data_points && !(amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)) {
- 		drm_info(drm, "Using custom brightness curve\n");
- 		props.scale = BACKLIGHT_SCALE_NON_LINEAR;
-@@ -5297,6 +5301,18 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 					  &amdgpu_dm_backlight_ops, &props);
- 	dm->brightness[aconnector->bl_idx] = props.brightness;
- 
-+	/*
-+	 * dm->brightness[x] can be inconsistent just after startup until
-+	 * ops.get_brightness is called.
-+	 */
-+	real_brightness =
-+		amdgpu_dm_backlight_ops.get_brightness(dm->backlight_dev[aconnector->bl_idx]);
-+
-+	if (real_brightness != init_brightness) {
-+		dm->actual_brightness[aconnector->bl_idx] = real_brightness;
-+		dm->brightness[aconnector->bl_idx] = real_brightness;
-+	}
-+
- 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
- 		drm_err(drm, "DM: Backlight registration failed!\n");
- 		dm->backlight_dev[aconnector->bl_idx] = NULL;
--- 
-2.39.5
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 70 ++++++++++++++++-----------
+>  1 file changed, 42 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index c323b7123713..3290e0b5facb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1170,6 +1170,45 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+>  	return 0;
+>  }
+>  
+> +static void panthor_vm_init_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+> +				   u64 size, u64 va, u32 flags)
+> +{
+> +	memset(op_ctx, 0, sizeof(*op_ctx));
+> +	op_ctx->flags = flags;
+> +	op_ctx->va.range = size;
+> +	op_ctx->va.addr = va;
+> +}
+> +
+> +static int panthor_vm_op_ctx_prealloc_pts(struct panthor_vm_op_ctx *op_ctx)
+> +{
+> +	u64 size = op_ctx->va.range;
+> +	u64 va = op_ctx->va.addr;
+> +	int ret;
+> +
+> +	/* L1, L2 and L3 page tables.
+> +	 * We could optimize L3 allocation by iterating over the sgt and merging
+> +	 * 2M contiguous blocks, but it's simpler to over-provision and return
+> +	 * the pages if they're not used.
+> +	 */
+> +	u64 pt_count = ((ALIGN(va + size, 1ull << 39) - ALIGN_DOWN(va, 1ull << 39)) >> 39) +
+> +		       ((ALIGN(va + size, 1ull << 30) - ALIGN_DOWN(va, 1ull << 30)) >> 30) +
+> +		       ((ALIGN(va + size, 1ull << 21) - ALIGN_DOWN(va, 1ull << 21)) >> 21);
+> +
+> +	op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
+> +						 sizeof(*op_ctx->rsvd_page_tables.pages),
+> +						 GFP_KERNEL);
+> +	if (!op_ctx->rsvd_page_tables.pages)
+> +		return -ENOMEM;
+> +
+> +	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
+> +				    op_ctx->rsvd_page_tables.pages);
+> +	op_ctx->rsvd_page_tables.count = ret;
+> +	if (ret != pt_count)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+>  #define PANTHOR_VM_BIND_OP_MAP_FLAGS \
+>  	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
+>  	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
+> @@ -1185,7 +1224,6 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  {
+>  	struct drm_gpuvm_bo *preallocated_vm_bo;
+>  	struct sg_table *sgt = NULL;
+> -	u64 pt_count;
+>  	int ret;
+>  
+>  	if (!bo)
+> @@ -1204,10 +1242,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  	    bo->exclusive_vm_root_gem != panthor_vm_root_gem(vm))
+>  		return -EINVAL;
+>  
+> -	memset(op_ctx, 0, sizeof(*op_ctx));
+> -	op_ctx->flags = flags;
+> -	op_ctx->va.range = size;
+> -	op_ctx->va.addr = va;
+> +	panthor_vm_init_op_ctx(op_ctx, size, va, flags);
+>  
+>  	ret = panthor_vm_op_ctx_prealloc_vmas(op_ctx);
+>  	if (ret)
+> @@ -1250,30 +1285,9 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  
+>  	op_ctx->map.bo_offset = offset;
+>  
+> -	/* L1, L2 and L3 page tables.
+> -	 * We could optimize L3 allocation by iterating over the sgt and merging
+> -	 * 2M contiguous blocks, but it's simpler to over-provision and return
+> -	 * the pages if they're not used.
+> -	 */
+> -	pt_count = ((ALIGN(va + size, 1ull << 39) - ALIGN_DOWN(va, 1ull << 39)) >> 39) +
+> -		   ((ALIGN(va + size, 1ull << 30) - ALIGN_DOWN(va, 1ull << 30)) >> 30) +
+> -		   ((ALIGN(va + size, 1ull << 21) - ALIGN_DOWN(va, 1ull << 21)) >> 21);
+> -
+> -	op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
+> -						 sizeof(*op_ctx->rsvd_page_tables.pages),
+> -						 GFP_KERNEL);
+> -	if (!op_ctx->rsvd_page_tables.pages) {
+> -		ret = -ENOMEM;
+> +	ret = panthor_vm_op_ctx_prealloc_pts(op_ctx);
+> +	if (ret)
+>  		goto err_cleanup;
+> -	}
+> -
+> -	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
+> -				    op_ctx->rsvd_page_tables.pages);
+> -	op_ctx->rsvd_page_tables.count = ret;
+> -	if (ret != pt_count) {
+> -		ret = -ENOMEM;
+> -		goto err_cleanup;
+> -	}
+>  
+>  	/* Insert BO into the extobj list last, when we know nothing can fail. */
+>  	dma_resv_lock(panthor_vm_resv(vm), NULL);
 
