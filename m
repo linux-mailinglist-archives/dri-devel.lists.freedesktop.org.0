@@ -2,69 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B22D12543
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53929D1254F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18C10E3A6;
-	Mon, 12 Jan 2026 11:34:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="P894DcFQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8109410E051;
+	Mon, 12 Jan 2026 11:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B39910E39F;
- Mon, 12 Jan 2026 11:34:10 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dqVdW4X5jz9tcZ;
- Mon, 12 Jan 2026 12:34:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768217647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d8rlGSoJxQTohwGd2bVPJ1S4uW+QJheDPobh7iFtTL0=;
- b=P894DcFQ+auLM5s0sIWopii4yHUJDgQQNcYSonMmMmzBsfo1jDOS55MqQS1CUwbkdV0DYc
- YjWHFSL5ORXs1pisZDrTSk+NiZdyi/YQegIKK0ojNjOEx4JDU4dQGj43AxmbC4bR/z9g3b
- lIn7gqKAdYsoERuUgifmvq4wmOC8lh4HKpornfRaeDsbcxivmdhtmL+fSnfVR/aqzfvE36
- /OJQfrdH/nRmcjAHkfcn6FOhyoBvW6idf+p+2x2RMGLM/vyKA794nDEi+Va3FvxRg1bEpD
- 7FM5t1bm1RSRQSqAF9cPN5i+k8/LgbXK+Jz31acu2MHuBocIO72mQ3hd0BMHZQ==
-Message-ID: <dd0a089c-6591-4fc3-b14e-5acc1c59cf8e@mailbox.org>
-Date: Mon, 12 Jan 2026 12:34:01 +0100
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFA910E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 11:35:29 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-55ab217bb5eso957316e0c.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:35:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768217728; x=1768822528;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kCwZy8nplNPe4SBnl4QbdPCHxaIVjw84NdLZ03XKiqs=;
+ b=AU4KOAozcqeCFjBVENrsOnwJSc/CTAkwCOeVYXbYEQSUP8zCq+AJ/DODnn/RkPaoca
+ 33UIQBeyio751/9F68dQccESxBJ2v6hoaUEZSTgRfM/QLtmgPSPQtl5j7pr9jxE+IgFf
+ zfHgA6aIalRU/3E6xDvSkJX8Bt2aYi2HJ8c/3I+bfAEgGkZqpLAvBJEyOeBnJ8Q1BCxB
+ tFExwW5CjsW4OP97LgAsEfsLLzVMzwKRh4KE1+0wkJMBzsVsrlyzolZCOxECFWCGiQbr
+ IQ/WzXc9vByyhU9gI17zBbZs07GkWOsJS/gIXkidpQjxf5A9f+rWFzF03214FaXVvSxl
+ lNlQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWu7z3dCGDuQk22iJ+QxYhBIoctahSXR4cbPUwARs39f55ZnrSO/GH9ZypbPjdF7q+z1ZWkX8ysqSw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywbuxok/fusM2UW1u9DJdrnzYlsp2uScdGbLlWomnEYgGqQQKmE
+ lFIZX3YJbHmJdAEO0zemdkXq5bAr42rCx2fwqFxT1o3C20J+4v0S5K5nDDGAhsr9
+X-Gm-Gg: AY/fxX7UvGCyXIRpF2gLupSYxYe6+RhTEtDlF62LYqJuCibC3G5F5lqIu0lCKHH/XN1
+ OIR+dfKOSV3hONPA/Pv1Yrek9xx35flWbDKqCX5CLttGfIHoCZ7NxZDVIgDytT5SZlMzZU0wMGQ
+ 2xbe1SR//67Hb94fEIzxh0GbghUeOriy5BZ1vovLAfIjY3tgR7QZpgoWXW+hAR5FeDpWt7fh5FV
+ VeWEWgyltgoZfrJ5xgeHBBXq14yhRnQM3UYyddGmsyj7x0Nt4HDdHXMOcwphmYceWsMlLoFXuNJ
+ 8iiNXeLUCllhXKNOSROh6vnYCfShToFmor9x3fIC0qTN37U5yGio2RsFsP5wZBplRdzz8KiDKi7
+ WHWbwOjQz4smJJPZxZbTseKUetKAi6fkERHcogMD+dm6cvoXx04hjF86RTNJJDgyKlcbfKH9YyK
+ hTZ6yUW7TR7VM4TWRXYfjZyC9qCRyV2eoL5JIe7WVHGgv9WWrf
+X-Google-Smtp-Source: AGHT+IH/gIcIUsd+F5lbE5ys0KnyKq+pyrvp6nTkbBb47spTIzixawWsDyLbr7XW+Ljx5xM6OU05BQ==
+X-Received: by 2002:a05:6122:9003:b0:54c:da0:f711 with SMTP id
+ 71dfb90a1353d-56347d6e767mr5387210e0c.7.1768217727978; 
+ Mon, 12 Jan 2026 03:35:27 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
+ [209.85.222.43]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-563618ff8d5sm10802420e0c.7.2026.01.12.03.35.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jan 2026 03:35:26 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id
+ a1e0cc1a2514c-93f63d46f34so1902371241.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:35:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMCtZ5jqBot86IMgRpA5zpVHGen5e5o8sP4GDWPtplo/Ar3huJcEn6JHSUsYY9O1tD6mAFFcs/xo4=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:6058:b0:5ec:c528:4dd3 with SMTP id
+ ada2fe7eead31-5ecc5284f7amr6284383137.42.1768217726081; Mon, 12 Jan 2026
+ 03:35:26 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <42bbdec7-ce6d-417c-a13d-ce0a6782bc9a@kernel.org>
+ <aWEnfJonv4egKhXo@tom-desktop>
+ <CAMuHMdUm-yHkRw0k42pfq9BD8urLO7rqF2yD7s2JbkMFpRTQwQ@mail.gmail.com>
+ <aWE8ikhsthB_0VQV@tom-desktop>
+ <CAMuHMdWGf7MgFzxjuea8agZgSyAMzXwFYO22NmRZ7i1-VPzqFw@mail.gmail.com>
+ <aWTYS9BjWn2bY5Lz@tom-desktop>
+In-Reply-To: <aWTYS9BjWn2bY5Lz@tom-desktop>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 12 Jan 2026 12:35:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
+X-Gm-Features: AZwV_QgqmWBfwmu_212Rxj3vjBBvkBDNMwpqCH0FZHQJKUGeDVAXwigjiGPPHlA
+Message-ID: <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
+Subject: Re: [PATCH 09/22] dt-bindings: display: bridge: renesas,dsi: Add
+ support for RZ/G3E SoC
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com, 
+ linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <342abb15-95e6-4ed6-8b86-a900c0f403a4@mailbox.org>
- <IA0PR11MB730722B84E81A0CC9BF80275BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org>
- <83e50bd4-de11-4298-bab9-7a5255b0c5ca@intel.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <83e50bd4-de11-4298-bab9-7a5255b0c5ca@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: a9bfdf55568a29c3aaa
-X-MBO-RS-META: ybazce1qmafp71yhci7t3j3i74jhze84
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +108,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/26 09:23, Murthy, Arun R wrote:
-> On 09-01-2026 16:52, Michel Dänzer wrote:
->> On 1/9/26 12:07, Murthy, Arun R wrote:
->>>> From: Michel Dänzer <michel.daenzer@mailbox.org>
->>>> On 1/8/26 10:43, Arun R Murthy wrote:
->>>>> struct drm_crtc_state {
->>>>>          /**
->>>>>           * @async_flip:
->>>>>           *
->>>>>           * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
->>>>>           * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL
->>>>> itself yet.
->>>>>           */
->>>>>          bool async_flip;
->>>>>
->>>>> In the existing code the flag async_flip was intended for the legacy
->>>>> PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
->>>>> As per the hardware feature is concerned, async flip is a plane
->>>>> feature and is to be treated per plane basis and not per pipe basis.
->>>>> For a given hardware pipe, among the multiple hardware planes, one can
->>>>> go with sync flip and other 2/3 can go with async flip.
->>>> FWIW, this kind of mix'n'match doesn't seem useful with current UAPI, since no
->>>> new commit can be made for the async plane(s) before the previous commit for
->>>> the sync plane(s) has completed, so the async plane(s) can't actually have
->>>> higher update rate than the sync one(s).
->>> That’s right, such mix and match flips will still consume vblank time for flipping.
->> Does a plane property really make sense for this then?
-> 
-> As per the hardware this async flip is per plane basis and not per crtc.
+Hi Tommaso,
 
-That's not really relevant.
+On Mon, 12 Jan 2026 at 12:18, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> On Fri, Jan 09, 2026 at 06:59:12PM +0100, Geert Uytterhoeven wrote:
+> > On Fri, 9 Jan 2026 at 18:36, Tommaso Merciai
+> > <tommaso.merciai.xr@bp.renesas.com> wrote:
+> > > On Fri, Jan 09, 2026 at 05:22:02PM +0100, Geert Uytterhoeven wrote:
+> > > > On Fri, 9 Jan 2026 at 17:06, Tommaso Merciai
+> > > > <tommaso.merciai.xr@bp.renesas.com> wrote:
+> > > > > On Sun, Nov 30, 2025 at 09:24:57AM +0100, Krzysztof Kozlowski wrote:
+> > > > > > On 26/11/2025 15:07, Tommaso Merciai wrote:
+> > > > > > > The MIPI DSI interface on the RZ/G3E SoC is nearly identical to that of
+> > > > > > > the RZ/V2H(P) SoC, except that this have 2 input port and can use vclk1
+> > > > > > > or vclk2 as DSI Video clock, depending on the selected port.
+> > > > > > >
+> > > > > > > To accommodate these differences, a SoC-specific
+> > > > > > > `renesas,r9a09g047-mipi-dsi` compatible string has been added for the
+> > > > > > > RZ/G3E SoC.
+> > > > > > >
+> > > > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
+> > > > > > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > > > > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > > > > > > @@ -28,6 +28,7 @@ properties:
+> > > > > > >            - const: renesas,r9a09g057-mipi-dsi
+> > > > > > >
+> > > > > > >        - enum:
+> > > > > > > +          - renesas,r9a09g047-mipi-dsi # RZ/G3E
+> > > > > > >            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
+> > > > > > >
+> > > > > > >    reg:
+> > > > > > > @@ -84,6 +85,13 @@ properties:
+> > > > > > >            - const: pclk
+> > > > > > >            - const: vclk
+> > > > > > >            - const: lpclk
+> > > > > > > +      - items:
+> > > > > > > +          - const: pllrefclk
+> > > > > > > +          - const: aclk
+> > > > > > > +          - const: pclk
+> > > > > > > +          - const: vclk1
+> > > > > > > +          - const: vclk2
+> > > > > > > +          - const: lpclk
+> > > > > >
+> > > > > > Why are you creating completely new lists every time?
+> > > > > >
+> > > > > > No, come with unified approach.
+> > > > >
+> > > > > The intent is not to create a completely new clock list per IP, but to keep a
+> > > > > unified clock definition that can scale with feature differences.
+> > > > >
+> > > > > The previous IP supports a single DSI input port, whereas this IP supports two
+> > > > > DSI input ports.
+> > > > >
+> > > > > Because of this added capability, the hardware naturally introduced an
+> > > > > additional clock.
+> > > > >
+> > > > > Can you please suggest how to handle it?
+> > > >
+> > > > Keep on calling the first vclk "vclk", and add "vclk2" at the end of the list?
+> > > > Then RZ/V2H can specify the first 5 clocks, and RZ/G3E can specify all 6.
+> > >
+> > > Testing a bit your suggestion
+> > > we can do:
+> > >
+> > >   clock-names:
+> > >     oneOf:
+> > >       - items:
+> > >           - const: pllclk
+> > >           - const: sysclk
+> > >           - const: aclk
+> > >           - const: pclk
+> > >           - const: vclk
+> > >           - const: lpclk
+> > >       - minItems: 5
+> > >         items:
+> > >           - const: pllrefclk
+> > >           - const: aclk
+> > >           - const: pclk
+> > >           - const: vclk
+> > >           - const: lpclk
+> > >           - const: vclk2
+> > >
+> > > Then later into the compatible if switch we can do:
+> > >
+> > >
+> > >   - if:
+> > >       properties:
+> > >         compatible:
+> > >           contains:
+> > >             const: renesas,r9a09g047-mipi-dsi
+> > >     then:
+> > >       properties:
+> > >         clocks:
+> > >           items:
+> > >             - description: DSI PLL reference input clock
+> > >             - description: DSI AXI bus clock
+> > >             - description: DSI Register access clock
+> > >             - description: DSI Video clock
+> > >             - description: DSI D-PHY Escape mode transmit clock
+> > >             - description: DSI Video clock (2nd input clock)
+> >
+> > All descriptions belong at the top level. Just add the 6th one.
+>
+> Please correct me if I'm wrong but if we move up:
+>
+>         - description: DSI Video clock (2nd input clock)
+>
+> To the top level description we will have 6 clocks for G3E and 6 for
+> RZ/G2L. With that I think dt_binding_check will fail ("is valid under
+> each of") because of the oneOf.
 
-> Not that I am trying to clean up this. Recently AMD added async support on overlays as well for which  few other hacks were added. The checks that we do for async flip were all done in place of copy the objs/properties, but it actually is supposed to be done in the check_only() part of the drm core code. This was the limitation with the existing implementation.
+RZ/G2L and RZ/V2H need "maxItems: 5" in their if-sections.
 
-Those implementation details can be changed without changing UAPI.
+> > >         clock-names:
+> > >           minItems: 6
+> >
+> > Exactly.
 
+Gr{oetje,eeting}s,
 
-> As per hardware the async flip is associated with the plane, hence changing it to a plane property.
-
-A plane property would only really be needed for mixing async & sync plane updates in a single commit. Since that's currently not usefully possible due to other restrictions of the UAPI, the DRM_MODE_PAGE_FLIP_ASYNC flag which affects the commit as a whole is fine at this point.
-
-
->>> This series doesn’t solve that, but rather accommodate multiple plane async flips in an atomic ioctl and allowing disabling of a sync plane which is already enabled. There has been a long discussion in the gitlab(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834) on this.
->> AFAICT that's a false-positive rejection of commits which don't actually change cursor plane state.
-> 
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843
-
-Not sure what you're trying to say here / how that comment contradicts what I wrote.
-
+                        Geert
 
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
