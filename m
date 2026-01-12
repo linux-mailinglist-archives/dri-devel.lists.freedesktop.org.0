@@ -2,97 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53929D1254F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A351D12579
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 12:40:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8109410E051;
-	Mon, 12 Jan 2026 11:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89A8E10E3AB;
+	Mon, 12 Jan 2026 11:40:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R0y7hwsK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFA910E051
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 11:35:29 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id
- 71dfb90a1353d-55ab217bb5eso957316e0c.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:35:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768217728; x=1768822528;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kCwZy8nplNPe4SBnl4QbdPCHxaIVjw84NdLZ03XKiqs=;
- b=AU4KOAozcqeCFjBVENrsOnwJSc/CTAkwCOeVYXbYEQSUP8zCq+AJ/DODnn/RkPaoca
- 33UIQBeyio751/9F68dQccESxBJ2v6hoaUEZSTgRfM/QLtmgPSPQtl5j7pr9jxE+IgFf
- zfHgA6aIalRU/3E6xDvSkJX8Bt2aYi2HJ8c/3I+bfAEgGkZqpLAvBJEyOeBnJ8Q1BCxB
- tFExwW5CjsW4OP97LgAsEfsLLzVMzwKRh4KE1+0wkJMBzsVsrlyzolZCOxECFWCGiQbr
- IQ/WzXc9vByyhU9gI17zBbZs07GkWOsJS/gIXkidpQjxf5A9f+rWFzF03214FaXVvSxl
- lNlQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWu7z3dCGDuQk22iJ+QxYhBIoctahSXR4cbPUwARs39f55ZnrSO/GH9ZypbPjdF7q+z1ZWkX8ysqSw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywbuxok/fusM2UW1u9DJdrnzYlsp2uScdGbLlWomnEYgGqQQKmE
- lFIZX3YJbHmJdAEO0zemdkXq5bAr42rCx2fwqFxT1o3C20J+4v0S5K5nDDGAhsr9
-X-Gm-Gg: AY/fxX7UvGCyXIRpF2gLupSYxYe6+RhTEtDlF62LYqJuCibC3G5F5lqIu0lCKHH/XN1
- OIR+dfKOSV3hONPA/Pv1Yrek9xx35flWbDKqCX5CLttGfIHoCZ7NxZDVIgDytT5SZlMzZU0wMGQ
- 2xbe1SR//67Hb94fEIzxh0GbghUeOriy5BZ1vovLAfIjY3tgR7QZpgoWXW+hAR5FeDpWt7fh5FV
- VeWEWgyltgoZfrJ5xgeHBBXq14yhRnQM3UYyddGmsyj7x0Nt4HDdHXMOcwphmYceWsMlLoFXuNJ
- 8iiNXeLUCllhXKNOSROh6vnYCfShToFmor9x3fIC0qTN37U5yGio2RsFsP5wZBplRdzz8KiDKi7
- WHWbwOjQz4smJJPZxZbTseKUetKAi6fkERHcogMD+dm6cvoXx04hjF86RTNJJDgyKlcbfKH9YyK
- hTZ6yUW7TR7VM4TWRXYfjZyC9qCRyV2eoL5JIe7WVHGgv9WWrf
-X-Google-Smtp-Source: AGHT+IH/gIcIUsd+F5lbE5ys0KnyKq+pyrvp6nTkbBb47spTIzixawWsDyLbr7XW+Ljx5xM6OU05BQ==
-X-Received: by 2002:a05:6122:9003:b0:54c:da0:f711 with SMTP id
- 71dfb90a1353d-56347d6e767mr5387210e0c.7.1768217727978; 
- Mon, 12 Jan 2026 03:35:27 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
- [209.85.222.43]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-563618ff8d5sm10802420e0c.7.2026.01.12.03.35.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Jan 2026 03:35:26 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id
- a1e0cc1a2514c-93f63d46f34so1902371241.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:35:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMCtZ5jqBot86IMgRpA5zpVHGen5e5o8sP4GDWPtplo/Ar3huJcEn6JHSUsYY9O1tD6mAFFcs/xo4=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:6058:b0:5ec:c528:4dd3 with SMTP id
- ada2fe7eead31-5ecc5284f7amr6284383137.42.1768217726081; Mon, 12 Jan 2026
- 03:35:26 -0800 (PST)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010045.outbound.protection.outlook.com
+ [40.93.198.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA2F10E39F;
+ Mon, 12 Jan 2026 11:40:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dFHC467iXEw9rPCxVnY4UB+MfCPC++F1XKeXRZfwTv65nM6nPzqNkta6kiQL1UHh9RlsFqi7f8YBrklPkOksVHSPArI7Joc3liVCefng1te1T39NDi69UTHypAmFn4lpQeS4Jm8s5gJWdiiVyuLjNpMEXJlh7AsImTnKRlzuyHkmDfSeIzm9BWAZiwNftzcyRpbXRt6H9I5bBJTPAIssciNVrVv2QoI3VsrHL1FUcWOWyC/kY0ta1u+j5iDr0soOhKG2WVxQy7G+4FRsbfsGNE9Xf1EoyOjYQlu3suw1+WZyhonvKIiqgHHZJB4yOzGrQTxBJoNQsj/5BNKQfpejkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6a0CVgZCkSVQg8Gk7DxEwGxV/NQ0c9gcxWFpY/P/IBc=;
+ b=gq+208zPmDk64rBXIcgsIiTnqL1Tg2TGs3DJN38JF60RZkEqQjUWt9ZrlnG1/D/IBnKLfVg/Hg1X5CxMT8SjT41TZkMc70KZ4BJQ1mlhMmShPPdQoE4ONBPOeb7E1CtajLuplRp6IySVGb8ZwpLTArzojkEIMNb3vt2m/Q6M692lrkvK6VaojfOrZxuiBVLd9D+MfhEM61TJEOWwa9pTw1fexR1qgaEwgL0EmqIwLMgV8sV5y3JhBiX3aajFtIWyMjyXBrjiB0g3tNwXOYTsGYMASMW7Oc/leUCz3h+9SVvysZ5/pZgXSTFViyziU06x4NAnL8GUD5Mq+EBv5UYHAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6a0CVgZCkSVQg8Gk7DxEwGxV/NQ0c9gcxWFpY/P/IBc=;
+ b=R0y7hwsKB49dh+Kb9H9R1YV/wGqxZ/ilHkTUxEOoMJQySywHgeOXfbFBJoY6P+lKpyuD+aC7EE30ao09sY4ehDvnQkMzWFYZkouyj2ISAPFrxcN2fIziy8mQsdwa175idsFLvEba67dwDTXB8En326oaD4OE3nTnUXoRpbzJy7M=
+Received: from BL0PR02CA0077.namprd02.prod.outlook.com (2603:10b6:208:51::18)
+ by SN7PR12MB7155.namprd12.prod.outlook.com (2603:10b6:806:2a6::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
+ 2026 11:40:45 +0000
+Received: from BL02EPF0001A0FE.namprd03.prod.outlook.com
+ (2603:10b6:208:51:cafe::bb) by BL0PR02CA0077.outlook.office365.com
+ (2603:10b6:208:51::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Mon,
+ 12 Jan 2026 11:40:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF0001A0FE.mail.protection.outlook.com (10.167.242.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.1 via Frontend Transport; Mon, 12 Jan 2026 11:40:45 +0000
+Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 12 Jan
+ 2026 05:40:41 -0600
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <matthew.auld@intel.com>, <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: <alexander.deucher@amd.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v2] MAINTAINERS: drm: add maintainers for DRM buddy allocator
+Date: Mon, 12 Jan 2026 17:10:22 +0530
+Message-ID: <20260112114022.315139-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <42bbdec7-ce6d-417c-a13d-ce0a6782bc9a@kernel.org>
- <aWEnfJonv4egKhXo@tom-desktop>
- <CAMuHMdUm-yHkRw0k42pfq9BD8urLO7rqF2yD7s2JbkMFpRTQwQ@mail.gmail.com>
- <aWE8ikhsthB_0VQV@tom-desktop>
- <CAMuHMdWGf7MgFzxjuea8agZgSyAMzXwFYO22NmRZ7i1-VPzqFw@mail.gmail.com>
- <aWTYS9BjWn2bY5Lz@tom-desktop>
-In-Reply-To: <aWTYS9BjWn2bY5Lz@tom-desktop>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 Jan 2026 12:35:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
-X-Gm-Features: AZwV_QgqmWBfwmu_212Rxj3vjBBvkBDNMwpqCH0FZHQJKUGeDVAXwigjiGPPHlA
-Message-ID: <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
-Subject: Re: [PATCH 09/22] dt-bindings: display: bridge: renesas,dsi: Add
- support for RZ/G3E SoC
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com, 
- linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FE:EE_|SN7PR12MB7155:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9f66efb-b6b0-4497-8936-08de51cf6c58
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|36860700013|1800799024|7053199007|13003099007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eDVrajFtdG1xWmhJRzZMeTJ6UHJkY0h4NWRlNnc5blhVMXBoSDJPR2EzNldy?=
+ =?utf-8?B?VkRnRFVqdjlqZ1dQRjNBck81YXZ6blRhRzNYV0tYNno4dk9la3YycTFOeXZH?=
+ =?utf-8?B?MUF6VUQ2SzNmR0tPbFFhTTRyV0VHNUp5TkxUYVhQSGFkenN3RlJsZkJBQmFo?=
+ =?utf-8?B?Z1BwZ05QS3lXdkhTN0xLTHNrb0VzUjE5SXMxay9TdCtaY21HUUZGVStWb0d4?=
+ =?utf-8?B?bjc3RWRETm4vdTNOUDlSRUQvYW04K1pLVUJvOTdCOWQ1OUkxMlB0dzhSVmFB?=
+ =?utf-8?B?M3VzOWZFajU1Z0QxY3NpNmlqUVYySmJpMkVmQXhiQ2c0ZUIvbUNKQmxBNzIw?=
+ =?utf-8?B?ZnZJTHNlZTZPMHFTNWpRMUtvTWVMUFQrejR1dlE5eTQvcjBpSlFDbEIzcmd6?=
+ =?utf-8?B?R0VIYzJZdGNGYzdyeTBnQzN5aElySmVOMDNERW9QWGZRa2d2Uk9IOHNuRito?=
+ =?utf-8?B?R05sUEZ6aWw0Mk1aRkFmQkluNkRGaXBCWURuWWRkOGkrVzlFdjJaZDdGOW9T?=
+ =?utf-8?B?Lytra2E1dVFVbWphYi9TcjVzcUQwUXlOY3Z1ejdnajFYdVhtL1lFM20xU2p3?=
+ =?utf-8?B?dmNNc29qaUI2dTAzRW5rQjBTNnRuRjc5VWVBbG5leFBWOEpmMzBpSXBXMzN4?=
+ =?utf-8?B?bjh1OE5xVm92eUt2Zzk2TC9JeTBLOXZ2OHA4NVdPU3pKZ0w3dmdRUHM0QXU2?=
+ =?utf-8?B?VTRKNURsVXJsUXpPL0JqSXRRRmh5SjRiWjJtOUpWQ1gyVVFwNWhtbXljV2dN?=
+ =?utf-8?B?UGY3bjVqc3E5V1dhT0dzc3YvNDZjazJReGo4R2pGR2dBZjZpYTZCVlVMeFZt?=
+ =?utf-8?B?UDNFcEdPUkNRS3ZTd3FtZTdOd2Nac2ZvOGZwZGRUK0YxL2U0Z01UY1dHckRw?=
+ =?utf-8?B?bk00OWh3UHM5eURtTm42Szdzb3NaVThWYUk2N2diZjROdEpROGNJTlZpWGhW?=
+ =?utf-8?B?WUEyeTcwcGdOVDV3RW5FZUZ3NDhhSHg1THA5bGRaM2VDMThvMlBmb3FwYTJD?=
+ =?utf-8?B?VDg4UmRWSDJvcVllZVYrSVhHQ3owc2lqVlRRdFEwc1FtaWlDcnJvVmhUalkx?=
+ =?utf-8?B?enNqdkZWcTJEcXg0MkZRYld4bW1FNEk5LzhBOUgvZTh1Tm1hNnZKMVQwMFh4?=
+ =?utf-8?B?YVNWbGdidCt5QVNwN2N4cGE1SS9pNTFMSjJWeS9WQmtQZE5RYlhrTUdVYTk3?=
+ =?utf-8?B?TXRRQ214WE15NXVHWkJGL2lRNDkrc2RkcjJhQVFBNUhDUWZxUWxDVFJWempF?=
+ =?utf-8?B?enNVdHVDV0xPZnBiOFBFbmFJR3FzR2FzMUFka1d1NU9UVEx6aFNBZzRwMmdt?=
+ =?utf-8?B?cTF4c0lpQmZxcTNJZWhiNFFQL0drTlo0Z0pRTW00R1pKRmNWaXNJeFYvMlVl?=
+ =?utf-8?B?TmlDNWZyc3FVcFIrdmJITGQ4Nm4xQ1VsTlVtK0FUYUhPYjVNSGh1THJmZE1k?=
+ =?utf-8?B?ODVPMWx6blhrZEo5c1pRVTIxb1hiWXpxeTR6VEhJYU8vQUVtZzJ0ZXY2UlBT?=
+ =?utf-8?B?cVFlNXI2aHVIR1FxN2pWQ1hPaElGSm9FYVVYQnd2bDNpQUt5Uk9lKzkreVd5?=
+ =?utf-8?B?Mms4NUtvclZndFNCclI4c0k5SkNORXZsd2NFWHptaW1naS9WNUNDRFNpMlgw?=
+ =?utf-8?B?S1FnWTByNU9ZbUlQTTluQUN4SnRudS81VXVUbS9LYzkxYUFyT1VWQlA4ZEFX?=
+ =?utf-8?B?aWVuRCtKSzUxZmJuSlZQRzNKMFdLR2ZDL2lscHJXRzVza1ZVdHdzc05qRk53?=
+ =?utf-8?B?a1YzbExpaVVNdm4rb0lYcTA2S1F5WFludElNVUFaNUZHTE1qajRhWUU0dlR4?=
+ =?utf-8?B?VnFDOXRYaEdyV0pGU2kwNG96ZW9SbFYxT1VncUw0VkhqdUJENXE3NjVLc21o?=
+ =?utf-8?B?T1V2eXdQdEhDLzljdEZFWGZyVDFra3QvRXplNW1Lb1dRT1VMQzQ2NFduSVha?=
+ =?utf-8?B?ZE90SHJVS0JVVll1anV5VTQ4bzgvQjVoYU1BcVMzZkdUanNBM2Z1V1NqNFB6?=
+ =?utf-8?B?ZjljVlh0VGJsU3ptOHVKeTY2Y1k0VXlnNmNVUjQ2dkV4QjJIdkE4YU13V0Fk?=
+ =?utf-8?Q?peSlrV?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(7053199007)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 11:40:45.0569 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9f66efb-b6b0-4497-8936-08de51cf6c58
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FE.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,132 +144,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tommaso,
+The DRM buddy allocator is a shared DRM memory management
+component used by multiple DRM drivers.
 
-On Mon, 12 Jan 2026 at 12:18, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> On Fri, Jan 09, 2026 at 06:59:12PM +0100, Geert Uytterhoeven wrote:
-> > On Fri, 9 Jan 2026 at 18:36, Tommaso Merciai
-> > <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > On Fri, Jan 09, 2026 at 05:22:02PM +0100, Geert Uytterhoeven wrote:
-> > > > On Fri, 9 Jan 2026 at 17:06, Tommaso Merciai
-> > > > <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > > > On Sun, Nov 30, 2025 at 09:24:57AM +0100, Krzysztof Kozlowski wrote:
-> > > > > > On 26/11/2025 15:07, Tommaso Merciai wrote:
-> > > > > > > The MIPI DSI interface on the RZ/G3E SoC is nearly identical to that of
-> > > > > > > the RZ/V2H(P) SoC, except that this have 2 input port and can use vclk1
-> > > > > > > or vclk2 as DSI Video clock, depending on the selected port.
-> > > > > > >
-> > > > > > > To accommodate these differences, a SoC-specific
-> > > > > > > `renesas,r9a09g047-mipi-dsi` compatible string has been added for the
-> > > > > > > RZ/G3E SoC.
-> > > > > > >
-> > > > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Matthew Auld and Arun Pravin have been actively involved in
+maintaining this code, including patch review and functional
+changes.
 
-> > > > > > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > > > > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > > > > > > @@ -28,6 +28,7 @@ properties:
-> > > > > > >            - const: renesas,r9a09g057-mipi-dsi
-> > > > > > >
-> > > > > > >        - enum:
-> > > > > > > +          - renesas,r9a09g047-mipi-dsi # RZ/G3E
-> > > > > > >            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
-> > > > > > >
-> > > > > > >    reg:
-> > > > > > > @@ -84,6 +85,13 @@ properties:
-> > > > > > >            - const: pclk
-> > > > > > >            - const: vclk
-> > > > > > >            - const: lpclk
-> > > > > > > +      - items:
-> > > > > > > +          - const: pllrefclk
-> > > > > > > +          - const: aclk
-> > > > > > > +          - const: pclk
-> > > > > > > +          - const: vclk1
-> > > > > > > +          - const: vclk2
-> > > > > > > +          - const: lpclk
-> > > > > >
-> > > > > > Why are you creating completely new lists every time?
-> > > > > >
-> > > > > > No, come with unified approach.
-> > > > >
-> > > > > The intent is not to create a completely new clock list per IP, but to keep a
-> > > > > unified clock definition that can scale with feature differences.
-> > > > >
-> > > > > The previous IP supports a single DSI input port, whereas this IP supports two
-> > > > > DSI input ports.
-> > > > >
-> > > > > Because of this added capability, the hardware naturally introduced an
-> > > > > additional clock.
-> > > > >
-> > > > > Can you please suggest how to handle it?
-> > > >
-> > > > Keep on calling the first vclk "vclk", and add "vclk2" at the end of the list?
-> > > > Then RZ/V2H can specify the first 5 clocks, and RZ/G3E can specify all 6.
-> > >
-> > > Testing a bit your suggestion
-> > > we can do:
-> > >
-> > >   clock-names:
-> > >     oneOf:
-> > >       - items:
-> > >           - const: pllclk
-> > >           - const: sysclk
-> > >           - const: aclk
-> > >           - const: pclk
-> > >           - const: vclk
-> > >           - const: lpclk
-> > >       - minItems: 5
-> > >         items:
-> > >           - const: pllrefclk
-> > >           - const: aclk
-> > >           - const: pclk
-> > >           - const: vclk
-> > >           - const: lpclk
-> > >           - const: vclk2
-> > >
-> > > Then later into the compatible if switch we can do:
-> > >
-> > >
-> > >   - if:
-> > >       properties:
-> > >         compatible:
-> > >           contains:
-> > >             const: renesas,r9a09g047-mipi-dsi
-> > >     then:
-> > >       properties:
-> > >         clocks:
-> > >           items:
-> > >             - description: DSI PLL reference input clock
-> > >             - description: DSI AXI bus clock
-> > >             - description: DSI Register access clock
-> > >             - description: DSI Video clock
-> > >             - description: DSI D-PHY Escape mode transmit clock
-> > >             - description: DSI Video clock (2nd input clock)
-> >
-> > All descriptions belong at the top level. Just add the 6th one.
->
-> Please correct me if I'm wrong but if we move up:
->
->         - description: DSI Video clock (2nd input clock)
->
-> To the top level description we will have 6 clocks for G3E and 6 for
-> RZ/G2L. With that I think dt_binding_check will fail ("is valid under
-> each of") because of the oneOf.
+Add a dedicated MAINTAINERS entry to reflect the current
+maintainership.
 
-RZ/G2L and RZ/V2H need "maxItems: 5" in their if-sections.
+v2: Include drivers/gpu/drm/tests/drm_buddy_test.c file (Matthew).
 
-> > >         clock-names:
-> > >           minItems: 6
-> >
-> > Exactly.
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+---
+ MAINTAINERS | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6169bd4d7bac..3b84ad595e22 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8780,6 +8780,17 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/ttm/
+ F:	include/drm/ttm/
+ 
++DRM BUDDY ALLOCATOR
++M:	Matthew Auld <matthew.auld@intel.com>
++M:	Arun Pravin <arunpravin.paneerselvam@amd.com>
++R:	Christian Koenig <christian.koenig@amd.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	drivers/gpu/drm/drm_buddy.c
++F:	drivers/gpu/drm/tests/drm_buddy_test.c
++F:	include/drm/drm_buddy.h
++
+ DRM AUTOMATED TESTING
+ M:	Helen Koike <helen.fornazier@gmail.com>
+ M:	Vignesh Raman <vignesh.raman@collabora.com>
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
