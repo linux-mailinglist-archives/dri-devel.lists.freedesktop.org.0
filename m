@@ -2,83 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C35D14153
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C50DD141BF
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:41:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D4F10E418;
-	Mon, 12 Jan 2026 16:36:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V7p+fn7d";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE2010E41C;
+	Mon, 12 Jan 2026 16:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB16710E418
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:36:54 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-477563e28a3so36468475e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:36:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768235813; x=1768840613;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iuN40gNIyZBuGMzBE5z0ViOghmdtoXr0DPh84HD5+v0=;
- b=V7p+fn7d0b+TkoVgSLiogWlTfS9nOOoqoJs0MO6k7tfErqWAyO4P6sN/gpTTsIG6RE
- jgDij+QdQq+zTBrax32YE1t5fGrQr6hioVhOSOOETDKwtYEVUGvoi5qIZUmWvg0KuE7U
- OyWcekJ/zmfzwG2KEPlF36qTpVb8qs+vpWgqhMPYo8DQWx0hbb6VfgBcwCKu1dRjvTcO
- T8z7ypkbYU5LfTKpHx7vJvDwc/4/3l8fmcObekMGR7E5XvnkgrLQBCIjebqDLB6l2zZ5
- jjqfWSRzn3W7x73mnNstYTztA5pk+4mwUrR7ckv2DfIdOD5nN5xI39SgiTUl9082n5Wr
- wfDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768235813; x=1768840613;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iuN40gNIyZBuGMzBE5z0ViOghmdtoXr0DPh84HD5+v0=;
- b=hUxcdrIvcmexPPEfEtIHxfgFpJYK/RcfGBpK8UoPglPbdZ7ug34Gr1nnQ5xeqLFTZm
- Gy8SzXAYgCfzRODEXyRUcKF2ii8bvNtl2knyWH8xFPkcF228xRUxykFb8dYiB7gl/el5
- qV3twSenicl7Ct62esQPMz02K+H7KIBu7uaIZUKDxTntLOaAQpDQG1UieQU9ZKLeOWfv
- bqD8sxghgR4+253Fpv7I6ellIk22MRTeiwlAVxpT2WW+e0hUEt5iQe/V87+qK54bGtH7
- KmOlxjULQ5xAWLV/6Lc2CUNX3M9m/Sdamd4CqeFxjLgjaCbYjc1iUVVc9Ia0T/wDaLfw
- jn5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWY1261NDlwRJqXs2E9u82ORul4uYmzMVt8pR4A1jRLK1daYAOc1twA2RpUVEUahyEMJcy3etdV9PY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmhX/mAKBEtiL0THR+z+NBTjKTYvIqVyc8qLehQ4p+4sgH9jXD
- +s/6P4rRsWaIfvNDiisoZAMXFNDV6kaWuMF/gm10DO/Y105fGU5SF2EWihlPLsB/eng=
-X-Gm-Gg: AY/fxX5j0J1kLLIQ78gNiQi1c8gcCiNxirDh789FdLsDqQcaf6gMw5y1KVCrwENb1M3
- RdWBnIjuba13mNHM3rgMsSRBfbGyHk4wQ/SUiHOyZaiFlpuMkSRq29F594gC08BjwJJe9/Obc4o
- W0u4xEtqpNtKPAZbsQYgQ3IanBL6KZR6bpEkrhCRDSxN7Qpg8xK0Unzmrz7BG6IgM7smdTmRl6s
- VFCfLKQeK1mnjA2mkoTwKTgBehgZDmUPYN7Zckzq9B0pS3p+5ch0jWH1aZiowkCK6JpLPBSyovR
- F0nGKlbRUYHiMC+rVNmKKcRvQpwa7/uVAPTOclZubSUY++QXXTUwLx3XcGGrnnS/Zkj0+ApLtrx
- 7YFxquWeAT1ALHuZek0+wwTe16z1tjvvsV25P1Z/YtHI5/oqSt6Mp3FaRoSw2Gf9WHg+LDxcnXa
- JdCtkI5dxz/zdSqqMmd0vRsEuek39aFKzfigeeSSCDyjf4g9Pc+nTGyWPhGYTTCkeeazQpNvSi
-X-Google-Smtp-Source: AGHT+IFVWjkYmspdIo+VHzJS6pc/DuMRVMtKtFY4d5NqlyFw/HXxxGZXcPwZ3d7963IvfcY0zKgJcA==
-X-Received: by 2002:a05:600c:3e15:b0:477:a219:cdc3 with SMTP id
- 5b1f17b1804b1-47ed7c16bb0mr245735e9.12.1768235813097; 
- Mon, 12 Jan 2026 08:36:53 -0800 (PST)
-Received: from localhost
- (p200300f65f20eb047d7efe6100b35af4.dip0.t-ipconnect.de.
- [2003:f6:5f20:eb04:7d7e:fe61:b3:5af4])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-47d7f410c6csm375182565e9.1.2026.01.12.08.36.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jan 2026 08:36:52 -0800 (PST)
-Date: Mon, 12 Jan 2026 17:36:51 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: mipi-dsi: Make use of bus callbacks
-Message-ID: <hhzmdtpm7q4el36wzr2cbu2etkmsf5rcmu26n3x6jgjlux3obk@zgtlzhe2zk2q>
-References: <20251219100452.3387068-2-u.kleine-koenig@baylibre.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB4B410E41C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:41:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97DA6497;
+ Mon, 12 Jan 2026 08:41:41 -0800 (PST)
+Received: from [10.57.11.182] (unknown [10.57.11.182])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42AC73F59E;
+ Mon, 12 Jan 2026 08:41:44 -0800 (PST)
+Message-ID: <5bdd278c-4474-466f-b2bf-ac50accb29f4@arm.com>
+Date: Mon, 12 Jan 2026 16:41:41 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tw6ysm4htfggxdzp"
-Content-Disposition: inline
-In-Reply-To: <20251219100452.3387068-2-u.kleine-koenig@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 6/9] drm/panthor: Lazily allocate pages on mmap()
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-7-boris.brezillon@collabora.com>
+ <37e36106-8d62-4915-a0e1-c7b283e0ff17@arm.com>
+ <20260112153200.30fd4e3e@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260112153200.30fd4e3e@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,49 +62,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/01/2026 14:32, Boris Brezillon wrote:
+> On Mon, 12 Jan 2026 12:15:13 +0000
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 09/01/2026 13:07, Boris Brezillon wrote:
+>>> Defer pages allocation until their first access.
+>>>
+>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_gem.c | 119 ++++++++++++++++----------
+>>>  1 file changed, 75 insertions(+), 44 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> index 0e52c7a07c87..44f05bd957e7 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> @@ -600,15 +600,6 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
+>>>  	if (is_cow_mapping(vma->vm_flags))
+>>>  		return -EINVAL;
+>>>  
+>>> -	dma_resv_lock(obj->resv, NULL);
+>>> -	ret = panthor_gem_backing_get_pages_locked(bo);
+>>> -	if (!ret)
+>>> -		ret = panthor_gem_prep_for_cpu_map_locked(bo);
+>>> -	dma_resv_unlock(obj->resv);
+>>> -
+>>> -	if (ret)
+>>> -		return ret;
+>>> -
+>>>  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+>>>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>>>  	if (should_map_wc(bo))
+>>> @@ -628,82 +619,122 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
+>>>  	return res;
+>>>  }
+>>>  
+>>> -static bool try_map_pmd(struct vm_fault *vmf, unsigned long addr, struct page *page)
+>>> +static vm_fault_t insert_page(struct vm_fault *vmf, struct page *page)
+>>>  {
+>>> +	struct vm_area_struct *vma = vmf->vma;
+>>> +	vm_fault_t ret;
+>>> +
+>>>  #ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
+>>>  	unsigned long pfn = page_to_pfn(page);
+>>>  	unsigned long paddr = pfn << PAGE_SHIFT;
+>>> -	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
+>>> +	bool aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
+>>>  
+>>>  	if (aligned &&
+>>>  	    pmd_none(*vmf->pmd) &&
+>>>  	    folio_test_pmd_mappable(page_folio(page))) {
+>>>  		pfn &= PMD_MASK >> PAGE_SHIFT;
+>>> -		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
+>>> -			return true;
+>>> +		ret = vmf_insert_pfn_pmd(vmf, pfn, false);
+>>> +		if (ret == VM_FAULT_NOPAGE)
+>>> +			return VM_FAULT_NOPAGE;
+>>>  	}
+>>>  #endif
+>>>  
+>>> -	return false;
+>>> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+>>>  }
+>>>  
+>>> -static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
+>>> +static vm_fault_t nonblocking_page_setup(struct vm_fault *vmf, pgoff_t page_offset)
+>>>  {
+>>>  	struct vm_area_struct *vma = vmf->vma;
+>>> -	struct drm_gem_object *obj = vma->vm_private_data;
+>>>  	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+>>> -	loff_t num_pages = obj->size >> PAGE_SHIFT;
+>>>  	vm_fault_t ret;
+>>> -	pgoff_t page_offset;
+>>> -	unsigned long pfn;
+>>>  
+>>> -	/* Offset to faulty address in the VMA. */
+>>> -	page_offset = vmf->pgoff - vma->vm_pgoff;
+>>> +	if (!dma_resv_trylock(bo->base.resv))
+>>> +		return VM_FAULT_RETRY;
+>>>  
+>>> -	dma_resv_lock(bo->base.resv, NULL);
+>>> +	if (bo->backing.pages)
+>>> +		ret = insert_page(vmf, bo->backing.pages[page_offset]);
+>>> +	else
+>>> +		ret = VM_FAULT_RETRY;
+>>>  
+>>> -	if (page_offset >= num_pages ||
+>>> -	    drm_WARN_ON_ONCE(obj->dev, !bo->backing.pages)) {
+>>> -		ret = VM_FAULT_SIGBUS;
+>>> -		goto out;
+>>> +	dma_resv_unlock(bo->base.resv);
+>>> +	return ret;
+>>> +}
+>>> +
+>>> +static vm_fault_t blocking_page_setup(struct vm_fault *vmf,
+>>> +				      struct panthor_gem_object *bo,
+>>> +				      pgoff_t page_offset, bool mmap_lock_held)
+>>> +{
+>>> +	vm_fault_t ret;
+>>> +	int err;
+>>> +
+>>> +	if (vmf->flags & FAULT_FLAG_INTERRUPTIBLE) {
+>>> +		err = dma_resv_lock_interruptible(bo->base.resv, NULL);
+>>> +		if (err)
+>>> +			return mmap_lock_held ? VM_FAULT_NOPAGE : VM_FAULT_RETRY;  
+>>
+>> I'm not sure about this. First FAULT_FLAG_INTERRUPTIBLE is currently
+>> only used by userfaultfd AFAICT.
+> 
+> And GUP, which admittedly, only seems possible if one tries to map a
+> userpage in kernel space, and we don't support that (yet?).
 
---tw6ysm4htfggxdzp
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm: mipi-dsi: Make use of bus callbacks
-MIME-Version: 1.0
+Well unless my grepping is wrong, GUP is the one place that sets it and
+userfaultfd is the one place that consumes it.
 
-Hello,
+As special as Mali is, I'm not sure why we're doing something that no
+other driver is?
 
-On Fri, Dec 19, 2025 at 11:04:51AM +0100, Uwe Kleine-K=F6nig wrote:
-> These are nearly identical to the respective driver callbacks. The only
-> differences are that .remove() returns void instead of int and .shutdown()
-> has to cope for unbound devices.
->=20
-> The objective is to get rid of users of struct device_driver callbacks
-> .probe(), .remove() and .shutdown() to eventually remove those.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
->=20
-> only build tested (on x86_64, arm64 and s390x using allmodconfig).
+>> Second returning VM_FAULT_NOPAGE seems
+>> wrong - that's for the case were we've inserted a pte but in this case
+>> we haven't.
+> 
+> Got this from [1], and remember going through the fault handler API
+> with Akash, and finding something describing this case.
 
-Gentle ping. Is this patch on someone's radar for review and/or
-application?
+Yes - it does appear that pattern appears elsewhere as a retry
+mechanism. Fair enough - the mm documentation is confusing!
 
-Best regards
-Uwe
+Thanks,
+Steve
 
---tw6ysm4htfggxdzp
-Content-Type: application/pgp-signature; name="signature.asc"
+>>
+>> Otherwise I couldn't spot any issues staring at the code, but I might
+>> have missed something. mm code is always hard to follow!
+> 
+> It is, indeed, which is why I'm glad to have a new pair of eyes looking
+> at this ;-).
+> 
+> Thanks,
+> 
+> Boris
+> 
+> [1]https://elixir.bootlin.com/linux/v6.18.4/source/drivers/gpu/drm/ttm/ttm_bo_vm.c#L116
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmllIyEACgkQj4D7WH0S
-/k4HsAf/Vo2ddYTR7o29wzzWGosoDm/NWEa3/4HQRgu09//G5RN5wmLEN7QF9W7x
-9zpm/0YR9S1lISnHCht3Vo23BSkJwakwHBS4Iwthm098RQMQB97QZcs8JyEKW0dH
-OmPbbK7riv4X4fJE8MzO9ZDhx6HMVuYgCM6auOUS53p1uE4DaPSFTXodCE9x0V8t
-rfrGZ+wc+8xp5UC7fQrurWbghTnI1Ed/UfPOVJ5AHwj81bIdVJZB3g4IDVovAnyj
-55QvZt6hfojLoZr6MQ+CEFNkNXGUGDZu6NkA1QVE9sztqrt9Exk1LggamLkbMJNT
-ZrpgbCi82L5xXN7LI/vaUMngLdC4iQ==
-=asom
------END PGP SIGNATURE-----
-
---tw6ysm4htfggxdzp--
