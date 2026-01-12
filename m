@@ -2,65 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2272D114D6
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 09:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6092BD116F6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 10:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFEFB10E30E;
-	Mon, 12 Jan 2026 08:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9697E10E0C8;
+	Mon, 12 Jan 2026 09:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.64.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1BE210E30E;
- Mon, 12 Jan 2026 08:45:57 +0000 (UTC)
-X-QQ-mid: zesmtpgz4t1768207503t46538021
-X-QQ-Originating-IP: No/iic3a9D/6g3qukB23n+O3HzQ9Cq5/4EDsCy+J4VY=
-Received: from [127.0.0.1] ( [116.234.96.45]) by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 12 Jan 2026 16:45:01 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9623093880798620638
-Message-ID: <5B7B8ACBA1105D89+a1ddf0aa-8eb9-4704-a512-f1e545cd8d39@radxa.com>
-Date: Mon, 12 Jan 2026 16:45:01 +0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AA0AF10E335
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 09:15:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2E32339;
+ Mon, 12 Jan 2026 01:15:38 -0800 (PST)
+Received: from [10.57.11.182] (unknown [10.57.11.182])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A19E3F694;
+ Mon, 12 Jan 2026 01:15:43 -0800 (PST)
+Message-ID: <aed91df5-16ab-409a-aa3e-1bfa8910d83d@arm.com>
+Date: Mon, 12 Jan 2026 09:15:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
-To: Val Packett <val@packett.cool>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
- <F4CDF36128041430+0d030e3b-054c-4910-a132-72273c541948@radxa.com>
- <caf44ce9-48ec-45b4-b633-3a49b7705b1e@packett.cool>
-Content-Language: en-US
-From: Xilin Wu <sophon@radxa.com>
-In-Reply-To: <caf44ce9-48ec-45b4-b633-3a49b7705b1e@packett.cool>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: N4ZILu3POr3OXF1PuzZFi/STzd/ukakWMM0s/7fIqBXEYEc7Rv5uuuMZ
- 9qZo+Yg5FzVdV8Hb+RsRGffrgnIMvhPhT+NyqYqxPDOLeHE0B+VtYCtEbod/GAua+GlohmM
- 7VWwq7sP2AjKsfRJ/0tHb6I7YrFTuJ9FwpOBz4cDZHa/tNnvqvu8p/+i+ktaQtcI/ktDpyU
- EzrZcMWzu1+dElJ+U0bTXqgyPf69tUWV33o88EbJF1tV15prnbXBhLYQqAWpVda4JsTPN3/
- 8EMICTL/cN0ud+qDOluiVJjqDpO2ExRks4O9cGaGYbjbaXJsZPbaOd+ULrhRadwTGWatN4j
- pY63v1r/zVywvfSn12ZzMWkrgkEg9eah6tkx7RMf8zWimXxsJ+JUe1jOkDkOWf1jco7gaHU
- yd2yP/BJm6Lq3eJgwmY3czNHrFNXm0Rr0K+sB3PSxYY9xCihQoV5r+a2XiC31XRbrccA/Ws
- fc9t4e6JY67ut69hg+bQQFecdaH1EEo9FrzY7TWWW4Nqiv+kEVYXvbFqUfianbOztQeTk8G
- 9f+wilblrmw36nWfLb3uPubYUx3AVpVmtTRPGirSMKgUA052XimWM5CWil4Vs7n423g59yI
- ktrFUOrOp5MhrVxSL6g1qHtHFoX3g3TSENDfctgA7C+t8d6FjXOXjUmjDeOZXz3ZXbfM1s+
- dLniZCuHhOWwEt5Ae/MfR299QFFAPqJWbFTdvuo/wI1/Pr5LoMpv9g7/f9d1odXFtSD2CXB
- ZA7S9p7PhqKy/+CMTTelq9I3hIQOdMTRbrS5XLhR0Kx2cpT12VxHmUKg84Y5XMx+B6URqF6
- bFH3lyjVjyIIfwOJQCOlSl00p9bgllYIQnTmzIf2wySmnf17E9ZvUGZQwnVdmHA/6kw7WMW
- e//dHyd9TO5Wek6+q6686qk4SVbrVy0ppcn44fbyxgiBVIDsWchE8CVkN85FDwPHT8Nxl1n
- Q5JgBHr4iWB8KPEfHjIPi1tl0wFgELP6RjPLRtFGHvGM+sJrCOzRAKK+UmArJUSm4dXVMcE
- 11Vgxo0WQSQR8kXu5PpZY4cmrBwiY=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+Subject: Re: [PATCH v7 4/4] drm/panthor: Add gpu_job_irq tracepoint
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com>
+ <20260108-panthor-tracepoints-v7-4-afeae181f74a@collabora.com>
+ <0772b791-85ad-4eb0-8c71-daeae74f0b79@arm.com> <5773030.GXAFRqVoOG@workhorse>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <5773030.GXAFRqVoOG@workhorse>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,57 +55,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/2026 3:54 PM, Val Packett wrote:
-> 
-> On 1/12/26 3:31 AM, Xilin Wu wrote:
->> On 5/7/2025 9:38 AM, Jessica Zhang wrote:
->>> Filter out modes that have a clock rate greater than the max core clock
->>> rate when adjusted for the perf clock factor
+On 11/01/2026 11:49, Nicolas Frattaroli wrote:
+> On Friday, 9 January 2026 17:23:32 Central European Standard Time Steven Price wrote:
+>> On 08/01/2026 14:19, Nicolas Frattaroli wrote:
+>>> Mali's CSF firmware triggers the job IRQ whenever there's new firmware
+>>> events for processing. While this can be a global event (BIT(31) of the
+>>> status register), it's usually an event relating to a command stream
+>>> group (the other bit indices).
 >>>
->>> This is especially important for chipsets such as QCS615 that have lower
->>> limits for the MDP max core clock.
+>>> Panthor throws these events onto a workqueue for processing outside the
+>>> IRQ handler. It's therefore useful to have an instrumented tracepoint
+>>> that goes beyond the generic IRQ tracepoint for this specific case, as
+>>> it can be augmented with additional data, namely the events bit mask.
 >>>
->>> Since the core CRTC clock is at least the mode clock (adjusted for the
->>> perf clock factor) [1], the modes supported by the driver should be less
->>> than the max core clock rate.
+>>> This can then be used to debug problems relating to GPU jobs events not
+>>> being processed quickly enough. The duration_ns field can be used to
+>>> work backwards from when the tracepoint fires (at the end of the IRQ
+>>> handler) to figure out when the interrupt itself landed, providing not
+>>> just information on how long the work queueing took, but also when the
+>>> actual interrupt itself arrived.
 >>>
->>> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/ 
->>> msm/disp/dpu1/dpu_core_perf.c#L83
+>>> With this information in hand, the IRQ handler itself being slow can be
+>>> excluded as a possible source of problems, and attention can be directed
+>>> to the workqueue processing instead.
 >>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 >>> ---
+>>>  drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
+>>>  drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
+>>>  2 files changed, 41 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+>>> index 0e46625f7621..b3b48c1b049c 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+>>> @@ -26,6 +26,7 @@
+>>>  #include "panthor_mmu.h"
+>>>  #include "panthor_regs.h"
+>>>  #include "panthor_sched.h"
+>>> +#include "panthor_trace.h"
+>>>  
+>>>  #define CSF_FW_NAME "mali_csffw.bin"
+>>>  
+>>> @@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
+>>>  
+>>>  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+>>>  {
+>>> +	u32 duration;
+>>> +	u64 start;
+>>> +
+>>> +	if (tracepoint_enabled(gpu_job_irq))
+>>> +		start = ktime_get_ns();
+>>> +
+>>>  	gpu_write(ptdev, JOB_INT_CLEAR, status);
+>>>  
+>>>  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
+>>> @@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
+>>>  		return;
+>>>  
+>>>  	panthor_sched_report_fw_events(ptdev, status);
+>>> +
+>>> +	if (tracepoint_enabled(gpu_job_irq)) {
+>>> +		if (check_sub_overflow(ktime_get_ns(), start, &duration))
 >>
->> Hi. This patch effectively filters out the 3840x2160@120Hz mode on 
->> SC8280XP CRD. The calculated adjusted_mode_clk is 623700, which 
->> slightly exceeds the supported max core clock of 600000.
+>> It's minor but if the tracepoint was enabled during the handler, the
+>> duration will use start uninitialised. It's probably best to initialise
+>> start just to avoid a potential stack leak.
+> 
+> Good catch.
+> 
+> Should I unconditionally initialize it to ktime_get_ns(), or do we want
+> to avoid a call into that and initialize it to something that will result
+> in a nonsense duration? Alternatively we initialize it to 0 and skip the
+> tracepoint if !start.
+> 
+> My gut tells me reading the monotonic clock shouldn't be considered
+> expensive, though having the tracepoint overhead with an inactive
+> tracepoint be within a Planck time of "free" would be preferable,
+> so I'm leaning towards
+> 
+>     u64 start = 0;
+> 
+>     if (tracepoint_enabled(gpu_job_irq))
+>             start = ktime_get_ns();
+> 
+>     ...
+> 
+>     if (start && tracepoint_enabled(gpu_job_irq)) {
+>             ...
+
+Yeah I'd go with this option. There is quite a bit of effort to keep
+reading the clock cheap, but it's still going to be much more expensive
+than not reading it. And we really don't care if we drop the first
+tracepoint when it's enabled.
+
+Note that reordering the condition to
+
+     if (tracepoint_enabled(gpu_job_irq) && start) {
+
+would be slightly preferable, so that the static key avoids the check of
+'start' when the tracepoint is disabled. Although with compiler
+optimisations and CPU out-of-order execution, I'm not sure whether the
+difference is actually measurable ;)
+
+Thanks,
+Steve
+
+> Kind regards,
+> Nicolas Frattaroli
+> 
 >>
->> However, 4K 120Hz works flawlessly with the limit removed on this 
->> platform. I even tried connecting two 4K 120Hz displays, and they can 
->> work properly simultaneously. Is it possible to bring back support for 
->> this mode, or adjust the limits? 
+>> Thanks,
+>> Steve
+>>
+>>> +			duration = U32_MAX;
+>>> +		trace_gpu_job_irq(ptdev->base.dev, status, duration);
+>>> +	}
+>>>  }
+>>>  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
+>>>  
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+>>> index 5bd420894745..6ffeb4fe6599 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_trace.h
+>>> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
+>>> @@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
+>>>  	panthor_hw_power_status_register, panthor_hw_power_status_unregister
+>>>  );
+>>>  
+>>> +/**
+>>> + * gpu_job_irq - called after a job interrupt from firmware completes
+>>> + * @dev: pointer to the &struct device, for printing the device name
+>>> + * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
+>>> + * @duration_ns: Nanoseconds between job IRQ handler entry and exit
+>>> + *
+>>> + * The panthor_job_irq_handler() function instrumented by this tracepoint exits
+>>> + * once it has queued the firmware interrupts for processing, not when the
+>>> + * firmware interrupts are fully processed. This tracepoint allows for debugging
+>>> + * issues with delays in the workqueue's processing of events.
+>>> + */
+>>> +TRACE_EVENT(gpu_job_irq,
+>>> +	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
+>>> +	TP_ARGS(dev, events, duration_ns),
+>>> +	TP_STRUCT__entry(
+>>> +		__string(dev_name, dev_name(dev))
+>>> +		__field(u32, events)
+>>> +		__field(u32, duration_ns)
+>>> +	),
+>>> +	TP_fast_assign(
+>>> +		__assign_str(dev_name);
+>>> +		__entry->events		= events;
+>>> +		__entry->duration_ns	= duration_ns;
+>>> +	),
+>>> +	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
+>>> +		  __entry->events, __entry->duration_ns)
+>>> +);
+>>> +
+>>>  #endif /* __PANTHOR_TRACE_H__ */
+>>>  
+>>>  #undef TRACE_INCLUDE_PATH
+>>>
+>>
+>>
 > 
-> hm, interestingly on X1E80100 we didn't hit *that* limit, 
-> the adjusted_mode_clk (576318) was only above what disp_cc_mdss_mdp_clk 
-> was set to (575000), and reducing the clk_inefficiency_factor from 105 
-> to 104 was enough to lower it.
 > 
-> https://gitlab.freedesktop.org/drm/msm/-/issues/38#note_3216051
-> 
-> I guess it's also sink dependent, like if the mode for some monitors has 
-> much more front/back porch etc.? What's the entire modeline that 
-> resulted in 623700?
-> 
-> ~val
 > 
 > 
 
-The modeline here is "3840x2160": 120 1188000 3840 4016 4104 4400 2160 
-2168 2178 2250 0x40 0x5
-
-1188000 / 2 = 594000
-594000 * 1.05 = 623700
-
--- 
-Best regards,
-Xilin Wu <sophon@radxa.com>
