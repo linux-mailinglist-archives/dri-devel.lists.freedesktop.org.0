@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B942D11DBB
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 11:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F399D11DE2
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 11:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDEE10E335;
-	Mon, 12 Jan 2026 10:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D85D110E33E;
+	Mon, 12 Jan 2026 10:29:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T+OLXLSH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ivSQONP0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0356410E0D5;
- Mon, 12 Jan 2026 10:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768213631; x=1799749631;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=M1qnNXXnU4ythQw3ZcVlVpymP9jZUc0obFE9gq46d10=;
- b=T+OLXLSHHLMLhJHApiqc0r+CH4WmNof1gaygeBJzccpkvfC4MWP9NFYb
- y3kjdV2E1FmKfcLj3E26E997usT0sBCKKWRp2TibMuIKGSmRpmhghHX/W
- mhLUpNmQGuhSy/R8YqkIgbXVmltaxBOGlSxXqheXoIztpGxj7y8oKBChG
- fGe52ZL/l4ec3zoBmhgtBttc2s/TXU6bw+nn9vJ+kcvc2J1JGwiC/EvGh
- UfKnxBFtzHyeKnkKOdsN7kzSxIo/PZl3lcmK1BegQR/BWEXrVaxIVgGFk
- SGayqXZEQ7BcTgzJLcdC6cq0668UKfQlh5k+VfZ4WcoVdBwzY6wOKGu84 w==;
-X-CSE-ConnectionGUID: KAuHs4NDTTKk3GYM5kDF1g==
-X-CSE-MsgGUID: FzfKZk7kTr2b+x3p6F+byA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69468613"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="69468613"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 02:27:11 -0800
-X-CSE-ConnectionGUID: m5XYCjgfSnKoty+aAVa5mg==
-X-CSE-MsgGUID: iPGHhv32RsWosCWQjynV8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="208537619"
-Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 02:27:08 -0800
-Date: Mon, 12 Jan 2026 11:27:05 +0100
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com
-Subject: Re: [PATCH v3 2/4] drm/xe/xe_drm_ras: Add support for drm ras
-Message-ID: <aWTMef5w6NH4SxRF@black.igk.intel.com>
-References: <20251205083934.3602030-6-riana.tauro@intel.com>
- <20251205083934.3602030-8-riana.tauro@intel.com>
- <aTfcV5nb_vBOOBvP@black.igk.intel.com>
- <ac78c819-51ce-4a6b-a5c8-1f327d1d8a7e@intel.com>
- <aWENCzpkeI4OaZqa@intel.com> <aWEljhdVF10_70Cz@black.igk.intel.com>
- <fb4fed2d-27e6-4533-a37e-8a8d24f20aae@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 015BD10E33E;
+ Mon, 12 Jan 2026 10:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CUDPMkr/BfqDfgAdrNtIoI7UWB+5RtkTpAa2KIFVzyk=; b=ivSQONP0yjW55JI6zSU6/nYn59
+ iugtn8jkvdW/6YewHpqaz6NNx7T9263vng9G8/vS69pcvUrnK15CSjMgI4xc9ZBEf0J+7F0KrEBLp
+ qq8yq8cIFTX8qeIuUjDgrtmXcyB4hU0Q71XlEwhzM4G9NZKF+eBgCb2ZH80HKvFmXMHd/iPriVXd8
+ bIOfuxSpWiSlppQX4llAQ6vC9kmWTsGrE3se9N5kaYAukiKRfM30CVvOkDAxeONfAR2njliPK49TT
+ EZY+R0Li4i2KKeLnJQna7/CcZiMSeY4Ci9J7/v/VSN3ZgDyR9s1b51sbjLCydFC6TNBpVqBy2dP1N
+ qWd8tNrQ==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vfFAj-004LxJ-H9; Mon, 12 Jan 2026 11:29:17 +0100
+Message-ID: <340d0ce2-85e6-4fd8-992c-c35dda9b0cbb@igalia.com>
+Date: Mon, 12 Jan 2026 10:29:16 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb4fed2d-27e6-4533-a37e-8a8d24f20aae@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 3/3] drm/sched: Disallow initializing entities with no
+ schedulers
+To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20260107124351.94738-1-tvrtko.ursulin@igalia.com>
+ <20260107124351.94738-4-tvrtko.ursulin@igalia.com>
+ <a763700944ed4ccfe2f36ae805e4a348dd3fd10f.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <a763700944ed4ccfe2f36ae805e4a348dd3fd10f.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,65 +66,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 12, 2026 at 11:43:16AM +0530, Riana Tauro wrote:
-> On 1/9/2026 9:28 PM, Raag Jadav wrote:
-> > On Fri, Jan 09, 2026 at 09:13:31AM -0500, Rodrigo Vivi wrote:
-> > > On Fri, Jan 09, 2026 at 01:38:44PM +0530, Riana Tauro wrote:
-> > > > Hi Raag
-> > > > 
-> > > > Thank you for the review
-> > > > 
-> > > > On 12/9/2025 1:52 PM, Raag Jadav wrote:
-> > > > > On Fri, Dec 05, 2025 at 02:09:34PM +0530, Riana Tauro wrote:
-> > > > > > Allocate correctable, nonfatal and fatal nodes per xe device.
-> > > > > > Each node contains error classes, counters and respective
-> > > > > > query counter functions.
-> > > > > > 
-> > > > > > Add basic functionality to create and register drm nodes.
-> > > > > > Below operations can be performed using Generic netlink DRM RAS interface
 
-...
+On 08/01/2026 13:54, Philipp Stanner wrote:
+> What's the merge plan for this series? Christian?
 
-> > > > > > +/**
-> > > > > > + * enum drm_xe_ras_error_class - Supported drm ras error classes.
-> > > > > > + */
-> > > > > > +enum drm_xe_ras_error_class {
-> > > > > > +	/** @DRM_XE_RAS_ERROR_CORE_COMPUTE: GT and Media Error */
-> > > > > > +	DRM_XE_RAS_ERROR_CORE_COMPUTE = 1,
-> > > > > > +	/** @DRM_XE_RAS_ERROR_SOC_INTERNAL: SOC Error */
-> > > > > > +	DRM_XE_RAS_ERROR_SOC_INTERNAL,
-> > > > > > +	/** @DRM_XE_RAS_ERROR_CLASS_MAX: Max Error */
-> > > > > > +	DRM_XE_RAS_ERROR_CLASS_MAX,	/* non-ABI */
-> > > > > > +};
-> > > > > 
-> > > > > Also, all of the enums share the same DRM_XE_RAS_ERROR_* prefix, so let's try
-> > > > > to have distinguishable naming. Perhaps [*] would be useful here as well ;)
-> > > > 
-> > > > DRM_XE_RAS_ERROR_SEVERITY_* will cause longer names. Any suggestions?
-> > 
-> > Already mentioned above[*], the key is to not overuse 'error' ;)
-> > 
-> > DRM_XE_RAS_SEVERITY_*
-> > DRM_XE_RAS_COMPONENT_*
+It sounds that staged merge would be safest. First two patches could go 
+to amd-next and if everything will look fine, I would follow up by 
+sending the DRM scheduler patch once amdgpu patches land to drm-next.
+
+Or if DRM scheduler maintainers are happy for the DRM scheduler patch to 
+also go via amd-next that is another option.
+  > On Wed, 2026-01-07 at 12:43 +0000, Tvrtko Ursulin wrote:
+>> Since we have removed the case where amdgpu was initializing entitites
+>> with either no schedulers on the list, or with a single NULL scheduler,
+>> and there appears no other drivers which rely on this, we can simplify the
+>> scheduler by explictly rejecting that early.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 13 ++++---------
+>>   1 file changed, 4 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index fe174a4857be..bb7e5fc47f99 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -61,32 +61,27 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>   			  unsigned int num_sched_list,
+>>   			  atomic_t *guilty)
+>>   {
+>> -	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
+>> +	if (!entity || !sched_list || !num_sched_list || !sched_list[0])
 > 
-> There's been an interest expressed to add telemetry nodes as well.
+> I personally am a fan of checking integers explicitly against a number,
+> which would make the diff a bit more straightforward, too. But I accept
+> that like that is common kernel practice.
 > 
-> https://patchwork.freedesktop.org/patch/666138/?series=118435&rev=5
+>>   		return -EINVAL;
+>>   
+>>   	memset(entity, 0, sizeof(struct drm_sched_entity));
+>>   	INIT_LIST_HEAD(&entity->list);
+>>   	entity->rq = NULL;
+>>   	entity->guilty = guilty;
+>> -	entity->num_sched_list = num_sched_list;
+>>   	entity->priority = priority;
+>>   	entity->last_user = current->group_leader;
+>> -	/*
+>> -	 * It's perfectly valid to initialize an entity without having a valid
+>> -	 * scheduler attached. It's just not valid to use the scheduler before it
+>> -	 * is initialized itself.
+>> -	 */
+>> +	entity->num_sched_list = num_sched_list;
 > 
-> I have kept the prefix (DRM_XE_RAS_ERROR) consistent with the first patch
-> (type - ERROR_COUNTER) for alignment.
+> Why do you move that line downwards? Just leave it where it was?
+> num_sched_list isn't changed or anything, so I don't see a logical
+> connection to the line below so that grouping would make sense.
+
+It looks completely logical to me to have both lines dealing with the 
+same scheduler list, accessing the same input parameter even, next to 
+each other:
+
+   entity->num_sched_list = num_sched_list;
+   entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+
+No? In other words, I can respin if you insist but I don't see the need.
+
+Regards,
+
+Tvrtko
+
 > 
-> From my perspective retaining the prefix ERROR would be beneficial to
-> differentiate if there are different types.
+> With that:
+> Acked-by: Philipp Stanner <phasta@kernel.org>
 > 
-> Can you please have a look at the link and let me know if you still think
-> the same
+> 
+> P.
+> 
+>>   	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+>>   	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>>   	RB_CLEAR_NODE(&entity->rb_tree_node);
+>>   
+>> -	if (num_sched_list && !sched_list[0]->sched_rq) {
+>> +	if (!sched_list[0]->sched_rq) {
+>>   		/* Since every entry covered by num_sched_list
+>>   		 * should be non-NULL and therefore we warn drivers
+>>   		 * not to do this and to fix their DRM calling order.
+>>   		 */
+>>   		pr_warn("%s: called with uninitialized scheduler\n", __func__);
+>> -	} else if (num_sched_list) {
+>> +	} else {
+>>   		/* The "priority" of an entity cannot exceed the number of run-queues of a
+>>   		 * scheduler. Protect against num_rqs being 0, by converting to signed. Choose
+>>   		 * the lowest priority available.
+> 
 
-Fair, whichever makes sense for the usecase and please excuse my
-bikeshedding.
-
-> For differentiation, i will add SEVERITY and CLASS/COMPONENT.
-
-Thank you.
-
-Raag
