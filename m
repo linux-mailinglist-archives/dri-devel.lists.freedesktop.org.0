@@ -2,73 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C26AD13A21
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 16:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2F0D13A9F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 16:29:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8269210E1AD;
-	Mon, 12 Jan 2026 15:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84583890EB;
+	Mon, 12 Jan 2026 15:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="nh89DPR9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lpg9efCT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5583810E1AD;
- Mon, 12 Jan 2026 15:25:34 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0674890EB;
+ Mon, 12 Jan 2026 15:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768231741;
+ bh=2EBOUlFdg3MszkEBGNlnfrYy2xczDbjzxVzmkBS+tt8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=lpg9efCTjL9dEcFCNwqHaMJbX0lZhj+F9+dNTVXtFuT1nb0YzDRn8IIa2LqU85lwE
+ xcZ/fg/UcpNjWs/DHM3prQFyQhpdYwLVYpKUDpHWgzAKBZwVMsGtNS2e+PbXBtokI8
+ GQtKXxQVh+/TYoAPM2+/Z/bT44afLkB0rtdDLDqYmhDhHII93Ttpv2tuCWZp07UNPm
+ xVHKS+BGltaLFfs1JEu/qxmkW9zchhWn6lokjh67RixNh8nfqabSH0TYWzvj/pf3rP
+ UZsgc2E36Hy6SMcv0ypJjNGAVn84pZVmtWGvyrRabqA/ucQyG10LHYqF1e3FTjr1k5
+ SpxLSw9a9vhAw==
+Received: from nemo.lan (unknown [IPv6:2a07:244:40:6b00::646])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dqbmV6YPCz9tbt;
- Mon, 12 Jan 2026 16:25:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768231531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hP29uxTqEYKFHGcWUc6BuUnuj+pmslLcfo/YmbcLelM=;
- b=nh89DPR9/khwuAKLVblZ5xa73pOsOakZfJzzJxB1eKbxidP9R1eMCmun/ggUDB33LyY4us
- n92JlWhBxNXsQoR6PZUGLkTAw5umDPXh0KVm63/wT28MvihXx8FuWI+LeKziHoOJcvF4TZ
- 4bbKPBcFg7ZigtLOGmf5DKOJaUiwQu0o9JIlIuUBA+ptOioq98i7LPIblz/bSm1UM61Xor
- IYbGWoIF81m89vU0k4XDfZNfRgzuDmVFdXI0AE63+jCjtL+iTOkI+o6/WcVl4XJDItjx/y
- SUJT9i0+PUDl1IjJeYcuIjtw7sjTUlkYm1IY7GM1XYkFZodrH80BkU0XoSBkuQ==
-Message-ID: <dfe336b7-3d96-4e63-91e7-0eb9c23512c5@mailbox.org>
-Date: Mon, 12 Jan 2026 16:25:23 +0100
+ (No client certificate requested) (Authenticated sender: vivek)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E938917E13F1;
+ Mon, 12 Jan 2026 16:29:00 +0100 (CET)
+From: Vivek Das Mohapatra <vivek@collabora.com>
+To: superm1@kernel.org
+Cc: airlied@gmail.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ kernel@collabora.com, linux-kernel@vger.kernel.org, simona@ffwll.ch,
+ siqueira@igalia.com, sunpeng.li@amd.com, vivek@collabora.com
+Subject: [PATCH v2] drm/amd/display: Initialise backlight level values from hw
+Date: Mon, 12 Jan 2026 15:28:56 +0000
+Message-Id: <20260112152856.2616532-1-vivek@collabora.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <7ec7b4ae-6186-4961-a857-f97afcfc3ded@kernel.org>
+References: <7ec7b4ae-6186-4961-a857-f97afcfc3ded@kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH [RFC] v3 5/7] drm/atomic: Allow planes with NULL fb along
- with async flip
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <20260108-async-v3-5-e7730c3fe9ff@intel.com>
- <6316ba11-0660-419c-afb6-a1588f6efef5@mailbox.org>
- <IA0PR11MB73076D91D60F168B9D112051BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <05ac3e30-b3dc-48ea-96db-1cbdb4454730@mailbox.org>
- <385071a7-15c9-4265-87b0-fe30dcf6f87e@intel.com>
- <702511b9-28bc-4ea0-809c-f14135a80af1@mailbox.org>
- <63c2c8b1-d695-454b-ada1-b79d61018bd6@intel.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <63c2c8b1-d695-454b-ada1-b79d61018bd6@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: mixo78356i5w6c8h8a7njq1jy4worxan
-X-MBO-RS-ID: 0fb8ede8d1bbdff355f
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,43 +62,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/26 16:20, Murthy, Arun R wrote:
-> 
-> On 12-01-2026 16:54, Michel Dänzer wrote:
->> On 1/12/26 09:26, Murthy, Arun R wrote:
->>> On 09-01-2026 16:53, Michel Dänzer wrote:
->>>> On 1/9/26 12:08, Murthy, Arun R wrote:
->>>>>> From: Michel Dänzer <michel.daenzer@mailbox.org>
->>>>>> On 1/8/26 10:43, Arun R Murthy wrote:
->>>>>>> Along with async flip if there is a request to disable a sync plane by
->>>>>>> providing a NULL fb allow them.
->>>>>> That could result in async changes to other planes taking effect in an earlier
->>>>>> refresh cycle than the sync plane being disabled, couldn't it? In which case the
->>>>>> commit arguably wouldn't actually be "atomic".
->>>>>>
->>>>> This is the request from the community to allow disabling of a sync plane in an async flip atomic ioctl.
->>>>> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834
->>>> Can't see any such request there. I suspect there might be a misunderstanding.
->>> Here cursor is a sync flip.
->>> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843
->> Not sure what you mean.
->>
->> The cursor plane is disabled in KWin's atomic commits with DRM_MODE_PAGE_FLIP_ASYNC, so it's irrelevant for them.
->>
->> In the comment following the one you referenced, Xaver (one of the main KWin developers) agreed that KWin not setting DRM_MODE_PAGE_FLIP_ASYNC in the commit which disables the cursor plane is fine.
->>
->> I see no request for being able to mix sync & async plane updates in a single commit.
->>
-> Sorry maybe I might be creating more confusion or my words are not giving clarity.
-> 
-> Let me try to put it in simple words.
-> The comment(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2857640) from Xaver says that disabling of cursor plane along with a sync flip should work.
+Internal backlight levels are initialised from ACPI but the values
+are sometimes out of sync with the levels in effect until there has
+been a read from hardware (eg triggered by reading from sysfs).
 
-Honestly can't see how that comment could be interpreted that way.
+This means that the first drm_commit can cause the levels to be set
+to a different value than the actual starting one, which results in
+a sudden change in brightness.
 
-Maybe Xaver can clarify.
+This path shows the problem (when the values are out of sync):
 
+   amdgpu_dm_atomic_commit_tail()
+   -> amdgpu_dm_commit_streams()
+   -> amdgpu_dm_backlight_set_level(..., dm->brightness[n])
 
+This patch calls the backlight ops get_brightness explicitly
+at the end of backlight registration to make sure dm->brightness[n]
+is in sync with the actual hardware levels.
+
+Signed-off-by: Vivek Das Mohapatra <vivek@collabora.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 354e359c4507..9e8cbfeee915 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5258,6 +5258,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	struct amdgpu_dm_backlight_caps *caps;
+ 	char bl_name[16];
+ 	int min, max;
++	int real_brightness;
++	int init_brightness;
+ 
+ 	if (aconnector->bl_idx == -1)
+ 		return;
+@@ -5282,6 +5284,8 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	} else
+ 		props.brightness = props.max_brightness = MAX_BACKLIGHT_LEVEL;
+ 
++	init_brightness = props.brightness;
++
+ 	if (caps->data_points && !(amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)) {
+ 		drm_info(drm, "Using custom brightness curve\n");
+ 		props.scale = BACKLIGHT_SCALE_NON_LINEAR;
+@@ -5300,8 +5304,20 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
+ 		drm_err(drm, "DM: Backlight registration failed!\n");
+ 		dm->backlight_dev[aconnector->bl_idx] = NULL;
+-	} else
++	} else {
++		/*
++		 * dm->brightness[x] can be inconsistent just after startup until
++		 * ops.get_brightness is called.
++		 */
++		real_brightness =
++			amdgpu_dm_backlight_ops.get_brightness(dm->backlight_dev[aconnector->bl_idx]);
++
++		if (real_brightness != init_brightness) {
++			dm->actual_brightness[aconnector->bl_idx] = real_brightness;
++			dm->brightness[aconnector->bl_idx] = real_brightness;
++		}
+ 		drm_dbg_driver(drm, "DM: Registered Backlight device: %s\n", bl_name);
++	}
+ }
+ 
+ static int initialize_plane(struct amdgpu_display_manager *dm,
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+2.39.5
+
