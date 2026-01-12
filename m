@@ -2,203 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2509D11315
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 09:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D9D11325
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 09:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0364910E047;
-	Mon, 12 Jan 2026 08:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D198810E302;
+	Mon, 12 Jan 2026 08:25:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mpL9QA2c";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Lnqoxx1S";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="c/IC+y8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 935A910E047;
- Mon, 12 Jan 2026 08:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768206257; x=1799742257;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:mime-version;
- bh=HDLY76yd1I6rYBUXfKD+tm8x2OiIbjnKhaLaTFzp+nk=;
- b=mpL9QA2cvZ1pGRAs17MDnTHm6JQxhyxJ7OTXy2FH6Aw1hhpaO/01s61O
- 7Ke69q4159wMZw+KEtyC51LIYbkIcgl56o0kVv0pwX3r458pws0G11+lr
- dGYo+pXM/LQ5QkmZI2Fc83RGSSCMhX6bsf1rJHbTelG+XiKHdD1X68xs0
- yWNvyYzWUspj9L5KQWn2CCMSxtlpb0HDULi2aUYYk59f/1cI+IL+ZfkCI
- vR5BWnW3Z52RR2qvCco6xlAEllKGgYE5zpy02tIMl6LGIE9MwAON9QZeE
- go4ZiGXSCXknZtBfJVhPjZjQo2qDSkM9cfKr2ZhTszcETgz/N48PIIb2F w==;
-X-CSE-ConnectionGUID: ljDmMuZBQK6xgywin1Prbg==
-X-CSE-MsgGUID: Z3U1HvFwS920RGJ4VQ4rCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69631064"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208,217";a="69631064"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 00:24:16 -0800
-X-CSE-ConnectionGUID: 4tmNvMf4RJ+F3ZEq2Hpu/g==
-X-CSE-MsgGUID: Ul/V+lTYSOmZ+ycV3iryFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
- d="scan'208,217";a="208518492"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2026 00:24:16 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 12 Jan 2026 00:24:15 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 12 Jan 2026 00:24:15 -0800
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.49) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 12 Jan 2026 00:24:14 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XaxkCs3+s+yFAnrij8Ccmgy6QOPn8nrCGMgn11iGIuBDlvWXh6EM5tpVrlAGvGsxJ/sff/5A5fsmkDUqWMr1Klp3jYnlDYX6WIpK7zMGInz0bmGh/FvbUuMrSxmag/4sx3YPNUVHO0LMnIVesF1uRDfK5zch5EinsTVJAQDBTzu7R64P281/fWShTg1MwJ4w3AKN/oNUJBsAk0Xbm+m2URD/Ouk3+RDjA0oxoZzYYyR0akZ/i1R8ap7B+OyuVe/qtpbb806Y9r0j+yGduejPB1KjiJVk8+N4DflAH3UhffTsRnNa58wQQvrBlMedoEc1e48KV05WatRSG34RiZM0uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hL2iC/EtgE2D5pPnRzYz/zplRHQzjhZWqPpyi0DlUUs=;
- b=NXjru5yhcC6XCG5FffxxIV6Ijxd/cmlHxnsmWgaWELYnXzroxp/KsAi9iaxxBztupK1zh61H8tozxwr8AgWaPWePdQjTGAuqBN5yEfihaGdabARAXWu3CU3Fq1HC+TKX+X0XlK+/t0zvyxvOqbLuD6obAVDHhU2UPNj1F6ZptO8J2NCKtPisc+p/IwMCVzCxqx8KkLy9vCe43Ywg1vYF3r/39U9sAKsmNB3EnXef52Dl/MyF131SMbF5skAjhxUcG/TztsvhpbpDXC2eYUp4n30xsS9TAZWy3F4la1sYDVWPcJvd850JHDVArW4NdadcadH6kZmFkCt7lzZ7Jh5lqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by DS4PPF1B1B74C09.namprd11.prod.outlook.com (2603:10b6:f:fc02::e)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 08:24:08 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%6]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
- 08:24:08 +0000
-Content-Type: multipart/alternative;
- boundary="------------jPIX0HM0G4sRHGfdrn8rxK0p"
-Message-ID: <83e50bd4-de11-4298-bab9-7a5255b0c5ca@intel.com>
-Date: Mon, 12 Jan 2026 13:53:58 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>, "Kumar, Naveen1"
- <naveen1.kumar@intel.com>, "Syrjala, Ville" <ville.syrjala@intel.com>,
- "Dmitry Baryshkov" <lumag@kernel.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <342abb15-95e6-4ed6-8b86-a900c0f403a4@mailbox.org>
- <IA0PR11MB730722B84E81A0CC9BF80275BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org>
-Content-Language: en-US
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org>
-X-ClientProxiedBy: MA5PR01CA0003.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:174::13) To IA0PR11MB7307.namprd11.prod.outlook.com
- (2603:10b6:208:437::10)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9D3210E305
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:25:42 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60C84HtD3014049
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:25:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7eUOrm48pVIkwjT7mhYkGDB3wIt6XmnD5l2NmrqDlFQ=; b=Lnqoxx1S/lwnqyKi
+ m82SCGrXOVPKKD2qaEKwbbW5WY00DKcikxm0YPmyGCYFfHvSScI+vb8O1unbwVo+
+ HUC14QfGbwTaVlc3K+Pi9TyM7yAhgNLsfDdN3S8O244EBjkZ/n3cYmuxskNhE6xO
+ xTMuNBQbyuOg87c5Do9u6i1jII9WquIf7KSdakM57JhJxNwabWDbM1dJo82ec5RK
+ b/Uyj2pV6xbPVQINVocDMkwic0xBpK6JJEyl0ori0VYqXK3nAEDBNLGHgtl9WQyJ
+ 7ZoI5NJT/VidImJKLup0M50pFttvW/ODd+jIxtS481K30Qfde9dhWIBMqNGAdxVp
+ d62SsQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bkntukkqm-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 08:25:42 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8b17194d321so906742185a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 00:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768206341; x=1768811141;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7eUOrm48pVIkwjT7mhYkGDB3wIt6XmnD5l2NmrqDlFQ=;
+ b=c/IC+y8ugtvyvfx9oVzhvMENb2paK7Gf6+zcSGO+WGV0uOkA7T1mivmgp284GSUQ/X
+ eSkBeIY5zzJhgJ1kOhQuUc3nGdNmNVPTRn8paT3hSZpDEOfwQxZlUvdFto2abVmtoaUx
+ clSjLVjxRwVo+6T08o2amrIYSN/pCIksUViGChhhI0eUeSEb8/sLIoo0xFOmcia1BIco
+ J8nSo2JT9vhWIHLpW7bHhxkCPm3UKTiOflHhawC7zjl5b5E4RMl8d8d/KZbalBoEjWfs
+ Xe5UH16L5yHCAVJTArUDvbb8/bEeNK0lJgOHIYRfaBCX69usSC5/uQyw+p3hkCf7O8HI
+ WRXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768206341; x=1768811141;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7eUOrm48pVIkwjT7mhYkGDB3wIt6XmnD5l2NmrqDlFQ=;
+ b=jcY8iFqlY5X0QDDJtMXxDnvRbMxOUn/eBCB3VZoqSBWJhgNjqG1WIpJIzxjvsR+YQc
+ Efkb+tNSWp+IMjOAXGRNXyV6vuY4aQ/uUCCjrhD1M0yqirF7GbHWGPhNQZEYfyzWMkiz
+ prsBNJDZ8fXb9/T9IH80VXkzQ+ZCxlqULs1dVTXvoExkbJ0CI3DdFEptCJv1u6BPMRj5
+ jgck25rZfQj4FB3+EK2CR9zLqhgHUGPm2hlOCPbg6WR9R1ANrhHCZiyfL89bub3GKhPN
+ IB8uF9VC903+VJ3GxYoIJ1lmzom0iG9XLGKkFD20vMaRA63+FsvBvZkZkS1MC9tIukDT
+ ieOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhocZj9H4ol5QLvMSrh+hEfHDcohyjm4TQwNFYLSDNDn6puYZMDOnsW6x5jbKjIvJAXADrA2X1ULg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3Q2qszmkHulwtH05oNcn0v5ZiPOW8v2xHfjrpJ43MDlKzZSFu
+ 9b+dPcldrrcM3O/J0123+hyrq6zWQrtI/CYiMIyDBV9NGIT/8QdkzX1+RRu+ebIqQZTC2NmWJe3
+ 8wdQhIiPq4PNg2AJfc6hfd8ATgTCgyCdrp0/uFutfmVMbFIIckmWUYqCiWquZELBHzKkfA/Y=
+X-Gm-Gg: AY/fxX49WmSd17ydf1elMvK6yUsG+Vk+QgF2h8RqSnrGfO+ftarCHYknh86l8+bifbA
+ Lqnh+4ZTgHAHWbr3go5QdKEVdfkl04Wo+YY2Ay13s1q0gbVX0xzvZus0MnYV1eCEp/kqftg/r2e
+ VUoxT/QWxfonze0zHDPrEXdZyeqJRUaXBOYMhGQRJ+NMrNbn70CRRaJf6UcrCCfY0wwwc5BhLdj
+ XiKGXKGj8zD7tYj/1oZftNh4dTSJgOU5zsQtiEerxUyB+8g1pArHblj9n7lCbNh0FjYDDmOqy/+
+ l1alDL8bbfSISzAV5bkwpdLT08/Nu1dWwCvcuNbW7kgvwmZNWjLCywS05tkcqNlqQndezSbVjMt
+ IbkKhfpex11oWa53m7nXDmGedU252iO/f8KEDe6HTPH8IANaTIjaWL0M3ucML6nSYcaN7Bx0=
+X-Received: by 2002:a05:620a:4143:b0:89e:a9ea:a374 with SMTP id
+ af79cd13be357-8c3893e042dmr2325403285a.67.1768206341078; 
+ Mon, 12 Jan 2026 00:25:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHqUgoQ0GCP62X1wdfQgILxQr4zc6ioMmvxHh5zsjlzgNHwrmBI204t3AI/afaZeiXkQyR08A==
+X-Received: by 2002:a05:620a:4143:b0:89e:a9ea:a374 with SMTP id
+ af79cd13be357-8c3893e042dmr2325400685a.67.1768206340519; 
+ Mon, 12 Jan 2026 00:25:40 -0800 (PST)
+Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
+ [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8c37f544674sm1430752785a.54.2026.01.12.00.25.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 00:25:40 -0800 (PST)
+Date: Mon, 12 Jan 2026 16:25:30 +0800
+From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jesszhan0024@gmail.com, sean@poorly.run, marijn.suijten@somainline.org,
+ airlied@gmail.com, simona@ffwll.ch, krzysztof.kozlowski@linaro.org,
+ konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 1/2] drm/msm/dpu: fix mismatch between power and frequency
+Message-ID: <aWSv+kVV3G18I/NJ@yuanjiey.ap.qualcomm.com>
+References: <20260109083808.1047-1-yuanjie.yang@oss.qualcomm.com>
+ <20260109083808.1047-2-yuanjie.yang@oss.qualcomm.com>
+ <kusxzlezvsuwcwwdtm7yqwnqea6gdeolkepxpx3estabaiqymo@edj7pgccli3y>
+ <aWSTcI6H6+7AXkEN@yuanjiey.ap.qualcomm.com>
+ <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|DS4PPF1B1B74C09:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8687eada-60c0-4dc9-b48a-08de51b3f4a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|7416014|7053199007|13003099007|8096899003|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MU1NbmRDZTRVb0I2NmNDRHI0clVBWUFpN2ZydHhoRDcrN3huWkhPSmhteThi?=
- =?utf-8?B?ejBid0NXcnFFMSs1S0xNYy9qeFBuelRVUG15K2dTWllFVkRWZFhFYVc2TFBY?=
- =?utf-8?B?a2NHL1hUdUdTajBIdThERGkyclpTWmRXQVo3Q2NsRVhJR3N6bnY3enFzV2Zr?=
- =?utf-8?B?SFVNdWNObitTS3kzd3FyczNidTVpN1Q4b1lTeWlod05BTDMySFphL3Y4RjZX?=
- =?utf-8?B?TElQT0lGbTJvdS9Qd3AvZkcrTyt4anhwM2pxY0pOb1BqbGwvTFBodUd6V3JB?=
- =?utf-8?B?Sk1ZUVJBa29Wd0Z5QUFiNm9ESzE2QTFxazZxRVhDUlRMOUU1RzdueGk2M0xv?=
- =?utf-8?B?ZDBwNDJKb3hUa1lPZGIrTEhnRUZHWVRpWld5Q1ZIMmEwVHFLSnFvdnJpU1hp?=
- =?utf-8?B?bXF0ekJqR3BtdDYxYkNYc3pZZ2w1MGVaVE5EZFN0c20vSG1Vd0RaL3lzUWNk?=
- =?utf-8?B?NDhXWVBja010R0hpZ0JsZGRtRmJhVWY3Unc0bkQvK3liay8yTDE2VnNZcWM2?=
- =?utf-8?B?L2NJWDdlb0VMZGt4dDFydWtVQ2VtWE9XTHRyeHh2MHF4WE9zeHVFVUl0T2tR?=
- =?utf-8?B?ak1GR215d25MMFVlUFFGNTllTEZscmRMR3p4Z1p3RExHNDZXajUrTVdGYWRq?=
- =?utf-8?B?QkU0QWFKRE52S3A3ZHNUWkwwRHp6K2lVM056RXFmSG9vNUZYQTFxRW9DWnFl?=
- =?utf-8?B?QlZoR3hVcUMzVEw4R3QwWEhXODhHSWxxN05mc0NzYmVrbURIOVNvaXBhU1hK?=
- =?utf-8?B?ZUtaQklsdCtEc252aUkzVWpDVkpNbStiQmIyMGlHelcwRXpsQVVoaUZYb2Zu?=
- =?utf-8?B?cUpnRkhvb2FCUkQrNFJxUUkrTXlBK3d2eGRTb1B2a1lUVDAxYmIxY2tGU0lo?=
- =?utf-8?B?OG1BZ0xMSjRoTWtOS29jaXZqbEZpaVRnbWFDOWNLd20vRWZ5YVdtNTIrU2lw?=
- =?utf-8?B?Z2VYR2pkVWFMRFJYQXlDRHVaWWl0OG45WCtWRGpjUTJFQ1dlazZsOFVjdi9x?=
- =?utf-8?B?aDl3enF5cy9PUjI5aHoxdEJxS29xQ25jTFRTcEhsUjJJQUg1TkFvNTJ3emtS?=
- =?utf-8?B?S1YvZ3gxV1F0cys2SWYxaUkyVFE2ME5tc2ZkaVhjUXhIdk9XK2VpZGIwbXFT?=
- =?utf-8?B?cmtvQ2Rad2xLNW8vWlUxcktJZThMVlRVZ3p4NFBRdS9EMmRvM0U5Y3RmZnhO?=
- =?utf-8?B?bFV1K1JiUDlLTGZGZWNYa0xLUUUrb0xuZ0xVU01OcjNqa2VrazVITmx1TnFG?=
- =?utf-8?B?cFBzY1gyMFVxczkyMXE5WkxnNmlMU2o3OFlKSGRxSTE4QVYvREQrWks5U096?=
- =?utf-8?B?Z04rSVZheGdWbStSaGFraWNCN2VWNUFCUlNYaTVHSHM2WTIyV1g3VGVmSUY1?=
- =?utf-8?B?cTRZMlBSYStJVHM3bXNTMlpNbHB1N3hrLzdxdVJqSE5CbFA4ckF4MGJYUENZ?=
- =?utf-8?B?UXFNaTRWOU1RanZHWG5BRUdJZzNkVHV2Tm53b2hTb2VTZGtlb0hMY244S283?=
- =?utf-8?B?Q2kzMExVamQ2bHYxRkJteU1XTDNEK0x0SGhFck85MmFIMk9SbVFiREl0aTVi?=
- =?utf-8?B?SldZNkZQem5QYmUyQkZoT2tEeGljNStzV1dPWlQ4NUhYcklEY0h2YmpEb09J?=
- =?utf-8?B?Mlk5Wlo3RTBZZEdRV203NjlubTRyZ2c1OWVQL3ozMmtEZXJXZFhLVDZMNWRa?=
- =?utf-8?B?aDVDVXFCcVZTdk9abEgvU2VnejRrb3d5VWk3TFN1dkZQdk90b3NTREpxdWtM?=
- =?utf-8?B?NEJaRXBTQVoyMHd2aXNydEl5VW9MRFptZnUwWEY4cjBYMlFUN1piUzRXY29U?=
- =?utf-8?B?RnVOUCtkWEtiQ0xHNFREblF3YWRBYUlRTlJIS1JqUUtiaEFRQTBQY2U5b0Zo?=
- =?utf-8?B?cEw4V3pTWmRqbjhSejJlVnh4dFZoZis4QzRJYlAvNlRaZ2NTU1NXcW85Q1Fq?=
- =?utf-8?Q?oQqpIqdwWuCo7vZIXU5ZIvelFqUOijZQ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014)(7053199007)(13003099007)(8096899003)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?LzBLTXVOZWVjZUllcHRPNXIvVzhtVXRobjJ6M2xpeDhpSTNiRDE1YzJPQ3c4?=
- =?utf-8?B?M3VJSXo2MnFnMjh3SGV4TDhMc1R3TTd5Y203aHVPWEQyN1hPZmpObGZmaytx?=
- =?utf-8?B?UDdUcHdPaTVuVVIzcUNOc0xoZitmYWkyN04zcXJLTDluWnVOQUpWV2ZXcmw3?=
- =?utf-8?B?Y3Ryekp1MDFrd1RSVG9HTGFsd1RKUlk0WEN1bmVaUXNGcVgxQ3BETjRySjRQ?=
- =?utf-8?B?UGtwNDdMdXJFbFlKRXFXWWxybzhRTW1DVUZoZWd0K3hIVmdIMTFDNk8rZ2hy?=
- =?utf-8?B?RktmRmpkMXRsVFM1QStEdGxMaFprSjYyMnRmeFdZY2I3MDhzL2p2bXdPMnBC?=
- =?utf-8?B?YmVVblBuVDRCcHZGYmdlNzkvbnlsQ2x3Wi96cE4zeFlDRjdDVk5VYUkzTm0w?=
- =?utf-8?B?TUEzOVFxUmpCaTkyV1JQbW1HMm5VU0lHWW1zKzMvWU84RW9yZ0FvclB1cWM1?=
- =?utf-8?B?L0ZFRldmaGt1U0p1TWFVOHYzQllRc1dGOVliT0l6Nk02OWxkdmJ1Z3F5VWxF?=
- =?utf-8?B?U0NlN3JIYnRoQTdMREdlNW1oMi9vUWc4bXp6VHF1cHNRZjZxbXl5Z0czUEhW?=
- =?utf-8?B?RGRiNWRWU283a0c1RFdBclpGRWgyUUdRenRUNjNYeERtQVg1STZrRTZqdy9y?=
- =?utf-8?B?SkRYRlNNYXIzTUgrSzBtWWd5NGdtK29JV1B2RTM0aVRtWkZkTmFiNWVLNUNx?=
- =?utf-8?B?S2lpWGs2QjVwU3lWVmZPbFlNS2FZdXgwdW1jVEJud3NDdy9sK1AyUy9vZ0RX?=
- =?utf-8?B?dzU3TjhxVFo3MmdYV0dnSy9kK1pkazFTaDcyMWxIQm1LTmp2K0dhTUF6eEZR?=
- =?utf-8?B?c1h3dU9SRXdUZDNwK0FYSHdTMTFtbDB5U1pQbTZtTTRBUEY1bEhYRHd1WlRo?=
- =?utf-8?B?N1NvYXo5b2dKZExHNnExTitOTERwaGVCM2ZQNHRYMDhydklDYTVsbGxDN2V0?=
- =?utf-8?B?N0FHTVhVZXdZYUlXZndMWjFmQkNhZUR3QjZ4ZGJoaUh6ZTJ5azlIZHRXb01P?=
- =?utf-8?B?UHAwSm9XRXMxVnpGMkw1Y3RpdWhOdnZqOTlvemh3VEJsTmNqWmNCWUc0dzYv?=
- =?utf-8?B?ekhDS1ZCVWJoVENyS0YyZTc4ZXhwNHR0WjJISXZaYVVYeEtKSjIyZWNFZ0x2?=
- =?utf-8?B?Y3hJZEE1UjJSRitOM2Iyc2Zxc2NxdWJVNVJ1UzNBZW5tTlRSYUUyK3ZKbkRP?=
- =?utf-8?B?R1VWYmhQN2paR2J1dTFlM1pEMEtHanR2RmhldzZLNVQrajZ1RTE2UmFXOVVF?=
- =?utf-8?B?Sklad0kzTVlHRnp2V3orV3dHNnJ1NVhBb1luT2k4WHp0Ty9LbW14SXljL1lO?=
- =?utf-8?B?ZGdVUmJvWURlVGJobDFZTWVtT0ZFMUEzQ1NBcVBGQWxpYVJPU3p1ZVQxYTFk?=
- =?utf-8?B?TGE4d0JzVzR1WGZOSGpsTWZsektPd0lMU1VpS3JaVGViWk44WW5razB4RXIw?=
- =?utf-8?B?S0ZpbkR6UG5qUzE2QVVEUGVmYWNpdmVFbGliS1Z4NnVjOFpwQU9hSERLbjhU?=
- =?utf-8?B?WHQ4L2dXcVFmMXlXYjFKVGZpaCtmS0R1c0JUSjJDZTRqZlVmaW00SnNiaU41?=
- =?utf-8?B?VEFoWXA5TEZPOWFqdnpWS1V2MmxhM3Bsemd1emZJVXFnL2ZkWk94eEpIWHQr?=
- =?utf-8?B?blYvSm1ocVZzYXlabTBlckFwV1FmSXBNM0dVZFJsWnF0OEtnRXdVYzlMMkVI?=
- =?utf-8?B?VXc0UmtuZmphdTRKZHRONnJla1gzdTdkVURMUm41ZFZTNUZWUUI3UVYrcEZT?=
- =?utf-8?B?cGJoRHRsdmdETEg4RVk5K2VDS2hkS3E3S0l1dXpVUTJLYVVudlZaemNuR3FG?=
- =?utf-8?B?RFh6Mk8vb0JQRi9LUlRBbjNqZWhmODZjQ0RpaUg0TUVlMHJvVUxkWnoybHp0?=
- =?utf-8?B?QjFGMzNVU3ZjZURPQy9BWnkrVzlsTDZwS0VMRTBNYWdVbE9MK0dpMEFMMFp2?=
- =?utf-8?B?aE9KQlhFSkY2RGUrRnNQYVRpQWNNNDdCKzRaTmhmbTBaaDFXT3RmU2xRRkkr?=
- =?utf-8?B?R08wNUw2TlM2V2hFR1A4Si9wZ2MzOEh1UmRmSm1CNWM1bkY5TE5heXVlT3d1?=
- =?utf-8?B?WGlCKzEwK1ZvL0U3K2lNeWNPZ2k4YU9RSDZGeVhUN3BZbnpaWWl6eWd5c2py?=
- =?utf-8?B?eHUwMjR5dWQxRU1td2JrTkxDK0g4VnR0OHpIRHpvNm9KRm1QUHVrOURObmtj?=
- =?utf-8?B?WjgyeWRxc2lZc2tQTFRxOE5rRDJYUjlocFRCQU1HekM4SEN1cjFmV0Q5ZDJv?=
- =?utf-8?B?cUpJR1FLK3dQNXRBNEw5QWVyT2VWWDZCTjJxRmpZNFdueXN4NkVubmpTWkZR?=
- =?utf-8?B?bkd5L1pOZE9hMFhTTFEwUDRrb0xiRmNYUG5RRU5Zc2NXOVNwUkdzdz09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8687eada-60c0-4dc9-b48a-08de51b3f4a4
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 08:24:08.2280 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9gHdxBpioCVRHVoRXjQoOGmKxYtKgO/8BGt5I4s7vSlPgv/GEKIqAEuhesML521f2aO5WrMjrP84RBcZz494iA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF1B1B74C09
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDA2NSBTYWx0ZWRfX/zt3jTByH0mK
+ t5lz0BM0lQvCJ2K51tQFZaR3Txu5nT9W6rugcqrRaL7/8fufapiGpPQ9j3ROajI4hKU+21uQEhp
+ NcC43jdacKIVC2OlCETxFfBVaJagiIjyf25DD0/DIvibd1fL1Nu9X3322Ik9tN54P5Bq2bzgnK+
+ Fr6p60OV+dakhbFM2dBouHii/G86VYWXEGpPdHOC1OEDWOQA2z8rGsRzE144KmPgPY8jD0eROz4
+ pe1z8DT2jJaAaOzGJTN11MZmdxELyNs1giHDA1pZKVyVrs5czqPThY+dqJFFlFwEI02q0PT8/YP
+ fQAxFPiDFGV2uXx/uVQdu9Y/8MvJ0OsrDZbXVbLBxx2a/JaGqyz03USXCQBQCWeqf2QAKhr1gIj
+ vhQExM2D+J/unQk4qip/lT9Gux9yz4o2uqPGCVH2WvzQBice5+O/ElOGuPcRYe+xDXhpOOymx81
+ PT7ojYz+dCQGNr5RfSg==
+X-Authority-Analysis: v=2.4 cv=R6AO2NRX c=1 sm=1 tr=0 ts=6964b006 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=b9kIr6_pAvzuZN9lwc0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: wuFLF3WtUf0b1Acg-XkkssZALLXrzpzc
+X-Proofpoint-GUID: wuFLF3WtUf0b1Acg-XkkssZALLXrzpzc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-12_02,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ adultscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601120065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -214,158 +148,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------jPIX0HM0G4sRHGfdrn8rxK0p
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Mon, Jan 12, 2026 at 09:38:41AM +0200, Dmitry Baryshkov wrote:
+> On Mon, 12 Jan 2026 at 08:23, yuanjiey <yuanjie.yang@oss.qualcomm.com> wrote:
+> >
+> > On Fri, Jan 09, 2026 at 05:22:37PM +0200, Dmitry Baryshkov wrote:
+> > > On Fri, Jan 09, 2026 at 04:38:07PM +0800, yuanjie yang wrote:
+> > > > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > > >
+> > > > During DPU runtime suspend, calling dev_pm_opp_set_rate(dev, 0) drops
+> > > > the MMCX rail to MIN_SVS while the core clock frequency remains at its
+> > > > original (highest) rate. When runtime resume re-enables the clock, this
+> > > > may result in a mismatch between the rail voltage and the clock rate.
+> > > >
+> > > > For example, in the DPU bind path, the sequence could be:
+> > > >   cpu0: dev_sync_state -> rpmhpd_sync_state
+> > > >   cpu1:                                     dpu_kms_hw_init
+> > > > timeline 0 ------------------------------------------------> t
+> > > >
+> > > > After rpmhpd_sync_state, the voltage performance is no longer guaranteed
+> > > > to stay at the highest level. During dpu_kms_hw_init, calling
+> > > > dev_pm_opp_set_rate(dev, 0) drops the voltage, causing the MMCX rail to
+> > > > fall to MIN_SVS while the core clock is still at its maximum frequency.
+> > >
+> > > Ah, I see. dev_pm_set_rate(0) transforms to  _disable_opp_table(), which
+> > > doesn't do anything with clocks. I think we should have a call to
+> > > clk_disable_unprepare() before that and clk_prepare_enable() in the
+> > > resume path.
+> >
+> > I do check the backtrace on kaanapali:
+> >
+> > active_corner = 3 (MIN_SVS)
+> > rpmhpd_aggregate_corner+0x168/0x1d0
+> > rpmhpd_set_performance_state+0x84/0xd0
+> > _genpd_set_performance_state+0x50/0x198
+> > genpd_set_performance_state.isra.0+0xbc/0xdc
+> > genpd_dev_pm_set_performance_state+0x60/0xc4
+> > dev_pm_domain_set_performance_state+0x24/0x3c
+> > _set_opp+0x370/0x584
+> > dev_pm_opp_set_rate+0x258/0x2b4
+> > dpu_runtime_suspend+0x50/0x11c [msm]
+> > pm_generic_runtime_suspend+0x2c/0x44
+> > genpd_runtime_suspend+0xac/0x2d0
+> > __rpm_callback+0x48/0x19c
+> > rpm_callback+0x74/0x80
+> > rpm_suspend+0x108/0x588
+> > rpm_idle+0xe8/0x190
+> > __pm_runtime_idle+0x50/0x94
+> > dpu_kms_hw_init+0x3a0/0x4a8
+> >
+> > dev_pm_opp_set_rate(dev, 0); just low power to MIN_SVS.
+> > And freq MDP: 650MHz
+> >
+> >
+> > And I try change the order:
+> > from:
+> >         dev_pm_opp_set_rate(dev, 0);
+> >         clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks);
+> > to:
+> >         clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks);
+> >         dev_pm_opp_set_rate(dev, 0);
+> >
+> > But the issue is still here.
+> 
+> But which clock is still demanding higher MMCX voltage? All DPU clocks
+> should be turned off at this point.
+Yes, no DPU clock demand higher MMCX voltage here. But next time pm_runtime_get_sync
+need higher MMCX voltagei due to high freq.
+ 
+> >
+> >
+> > > > When the power is re-enabled, only the clock is enabled, leading to a
+> > > > situation where the MMCX rail is at MIN_SVS but the core clock is at its
+> > > > highest rate. In this state, the rail cannot sustain the clock rate,
+> > > > which may cause instability or system crash.
+> > > >
+> > > > Fix this by setting the corresponding OPP corner during both power-on
+> > > > and power-off sequences to ensure proper alignment of rail voltage and
+> > > > clock frequency.
+> > > >
+> > > > Fixes: b0530eb11913 ("drm/msm/dpu: Use OPP API to set clk/perf state")
+> > > >
+> > > > Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > >
+> > > No empty lines between the tags. Also please cc stable.
+> >
+> > Sure, will fix.
+> >
+> > > > ---
+> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 16 ++++++++++++----
+> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  3 +++
+> > > >  2 files changed, 15 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > index 0623f1dbed97..c31488335f2b 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > @@ -1306,9 +1306,14 @@ static int dpu_kms_init(struct drm_device *ddev)
+> > > >     struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+> > > >     struct dev_pm_opp *opp;
+> > > >     int ret = 0;
+> > > > -   unsigned long max_freq = ULONG_MAX;
+> > > > +   dpu_kms->max_freq = ULONG_MAX;
+> > > > +   dpu_kms->min_freq = 0;
+> > > >
+> > > > -   opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+> > > > +   opp = dev_pm_opp_find_freq_floor(dev, &dpu_kms->max_freq);
+> > > > +   if (!IS_ERR(opp))
+> > > > +           dev_pm_opp_put(opp);
+> > > > +
+> > > > +   opp = dev_pm_opp_find_freq_ceil(dev, &dpu_kms->min_freq);
+> > > >     if (!IS_ERR(opp))
+> > > >             dev_pm_opp_put(opp);
+> > > >
+> > > > @@ -1461,8 +1466,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
+> > > >     struct msm_drm_private *priv = platform_get_drvdata(pdev);
+> > > >     struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+> > > >
+> > > > -   /* Drop the performance state vote */
+> > > > -   dev_pm_opp_set_rate(dev, 0);
+> > > > +   /* adjust the performance state vote to low performance state */
+> > > > +   dev_pm_opp_set_rate(dev, dpu_kms->min_freq);
+> > >
+> > > Here min_freq is the minumum working frequency, which will keep it
+> > > ticking at a high frequency.  I think we are supposed to turn it off
+> > > (well, switch to XO). Would it be enough to swap these two lines
+> > > instead?
+> >
+> > Yes, just clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks) to
+> > disable clk is OK.
+> > we can drop change here.
+> >
+> > > >     clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks);
+> > > >
+> > > >     for (i = 0; i < dpu_kms->num_paths; i++)
+> > > > @@ -1481,6 +1486,9 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+> > > >     struct drm_device *ddev;
+> > > >
+> > > >     ddev = dpu_kms->dev;
+> > > > +   /* adjust the performance state vote to high performance state */
+> > > > +   if (dpu_kms->max_freq != ULONG_MAX)
+> > > > +           dev_pm_opp_set_rate(dev, dpu_kms->max_freq);
+> > >
+> > > This one should not be necessary, we should be setting the performance
+> > > point while comitting the DRM state.
+> >
+> > No, issue is during dpu binding path. And in msm_drm_kms_init driver just
+> > pm_runtime_resume_and_get enable power and pm_runtime_put_sync disable power.
+> > But We do not set the appropriate OPP each time the power is enabled.
+> > As a result, a situation may occur where the rail stays at MIN_SVS while the
+> > MDP is running at a high frequency.
+> 
+> Please move dev_pm_opp_set_rate() from dpu_kms_init() to dpu_kms_hw_init().
 
-On 09-01-2026 16:52, Michel Dänzer wrote:
-> On 1/9/26 12:07, Murthy, Arun R wrote:
->>> From: Michel Dänzer<michel.daenzer@mailbox.org>
->>> On 1/8/26 10:43, Arun R Murthy wrote:
->>>> struct drm_crtc_state {
->>>>           /**
->>>>            * @async_flip:
->>>>            *
->>>>            * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
->>>>            * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL
->>>> itself yet.
->>>>            */
->>>>           bool async_flip;
->>>>
->>>> In the existing code the flag async_flip was intended for the legacy
->>>> PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
->>>> As per the hardware feature is concerned, async flip is a plane
->>>> feature and is to be treated per plane basis and not per pipe basis.
->>>> For a given hardware pipe, among the multiple hardware planes, one can
->>>> go with sync flip and other 2/3 can go with async flip.
->>> FWIW, this kind of mix'n'match doesn't seem useful with current UAPI, since no
->>> new commit can be made for the async plane(s) before the previous commit for
->>> the sync plane(s) has completed, so the async plane(s) can't actually have
->>> higher update rate than the sync one(s).
->> That’s right, such mix and match flips will still consume vblank time for flipping.
-> Does a plane property really make sense for this then?
+During dpu_kms_hw_init and msm_drm_kms_init and msm_drm_kms_post_init.
 
-As per the hardware this async flip is per plane basis and not per crtc. 
-Looking into the corrections in the display driver, the flag that we are 
-using async_flip which is defined in drm_crtc_state has been commented 
-saying this is to be used with legacy page_flip ioctl.
-When support for async was added in atomic_ioctl, approach was taken so 
-as to get it working with minimal changes.
-Not that I am trying to clean up this. Recently AMD added async support 
-on overlays as well for which  few other hacks were added. The checks 
-that we do for async flip were all done in place of copy the 
-objs/properties, but it actually is supposed to be done in the 
-check_only() part of the drm core code. This was the limitation with the 
-existing implementation.
-As per hardware the async flip is associated with the plane, hence 
-changing it to a plane property. Have taken precautions to not break the 
-existing workflow.
+There are multiple places where pm_runtime_get_sync(pm_runtime_resume_and_get)and pm_runtime_put_sync are called.
+And each time after pm_runtime_get_sync(pm_runtime_resume_and_get) will access register depond on MDP clk.
 
-This change will make the driver more clean for async flips and will 
-give path for enabling more hardware features pertaining to async flip 
-supported by the hardware.
+Do I need to add dev_pm_opp_set_rate after every pm_runtime_get_sync and pm_runtime_resume_and_get?
 
+pm_runtime_get_sync
+dev_pm_opp_set_rate
+"access register"
+pm_runtime_put_sync
 
->
->> This series doesn’t solve that, but rather accommodate multiple plane async flips in an atomic ioctl and allowing disabling of a sync plane which is already enabled. There has been a long discussion in the gitlab(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834) on this.
-> AFAICT that's a false-positive rejection of commits which don't actually change cursor plane state.
+pm_runtime_resume_and_get
+dev_pm_opp_set_rate
+"access register"
+pm_runtime_put_sync
 
-https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843
+Thanks,
+Yuanjie
 
-Thanks and Regards,
-Arun R Murthy
---------------------
-
---------------jPIX0HM0G4sRHGfdrn8rxK0p
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 09-01-2026 16:52, Michel Dänzer
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org">
-      <pre wrap="" class="moz-quote-pre">On 1/9/26 12:07, Murthy, Arun R wrote:
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">From: Michel Dänzer <a class="moz-txt-link-rfc2396E" href="mailto:michel.daenzer@mailbox.org">&lt;michel.daenzer@mailbox.org&gt;</a>
-On 1/8/26 10:43, Arun R Murthy wrote:
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">struct drm_crtc_state {
-         /**
-          * @async_flip:
-          *
-          * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
-          * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL
-itself yet.
-          */
-         bool async_flip;
-
-In the existing code the flag async_flip was intended for the legacy
-PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
-As per the hardware feature is concerned, async flip is a plane
-feature and is to be treated per plane basis and not per pipe basis.
-For a given hardware pipe, among the multiple hardware planes, one can
-go with sync flip and other 2/3 can go with async flip.
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">
-FWIW, this kind of mix'n'match doesn't seem useful with current UAPI, since no
-new commit can be made for the async plane(s) before the previous commit for
-the sync plane(s) has completed, so the async plane(s) can't actually have
-higher update rate than the sync one(s).
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">That’s right, such mix and match flips will still consume vblank time for flipping.
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Does a plane property really make sense for this then?
-</pre>
-    </blockquote>
-    <p>As per the hardware this async flip is per plane basis and not
-      per crtc. Looking into the corrections in the display driver, the
-      flag that we are using async_flip which is defined in
-      drm_crtc_state has been commented saying this is to be used with
-      legacy page_flip ioctl.<br>
-      When support for async was added in atomic_ioctl, approach was
-      taken so as to get it working with minimal changes.<br>
-      Not that I am trying to clean up this. Recently AMD added async
-      support on overlays as well for which&nbsp; few other hacks were added.
-      The checks that we do for async flip were all done in place of
-      copy the objs/properties, but it actually is supposed to be done
-      in the check_only() part of the drm core code. This was the
-      limitation with the existing implementation.<br>
-      As per hardware the async flip is associated with the plane, hence
-      changing it to a plane property. Have taken precautions to not
-      break the existing workflow.</p>
-    <p>This change will make the driver more clean for async flips and
-      will give path for enabling more hardware features pertaining to
-      async flip supported by the hardware.</p>
-    <br>
-    <blockquote type="cite" cite="mid:d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org">
-      <pre wrap="" class="moz-quote-pre">
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">This series doesn’t solve that, but rather accommodate multiple plane async flips in an atomic ioctl and allowing disabling of a sync plane which is already enabled. There has been a long discussion in the gitlab(<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834">https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834</a>) on this.
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-AFAICT that's a false-positive rejection of commits which don't actually change cursor plane state.
-</pre>
-    </blockquote>
-    <p><a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843">https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2855843</a></p>
-    <p>Thanks and Regards,<br>
-      Arun R Murthy<br>
-      --------------------<span style="white-space: pre-wrap">
-</span></p>
-  </body>
-</html>
-
---------------jPIX0HM0G4sRHGfdrn8rxK0p--
+> >
+> > rpm_idle+0xe8/0x190
+> > __pm_runtime_idle+0x50/0x94
+> > dpu_kms_hw_init+0x3a0/0x4a8 [msm]
+> > msm_drm_kms_init+0xb8/0x340 [msm]
+> > msm_drm_init+0x16c/0x22c [msm]
+> > msm_drm_bind+0x30/0x3c [msm]
+> > try_to_bring_up_aggregate_device+0x168/0x1d4
+> > __component_add+0xa4/0x170
+> > component_add+0x14/0x20
+> > dsi_dev_attach+0x20/0x2c [msm]
+> > dsi_host_attach+0x58/0x98 [msm]
+> > mipi_dsi_attach+0x30/0x54
+> > novatek_nt37801_probe+0x13c/0x1c8 [panel_novatek_nt37801]
+> >
+> > And I found a a similar bug.
+> > https://lore.kernel.org/all/20220915205559.14574-1-quic_bjorande@quicinc.com/
+> >
+> > Since the panel driver does not hold the property power-domains = <&rpmhpd RPMHPD_MMCX>
+> > once all drivers that do own the RPMHPD_MMCX power domain finish probing,
+> > the interconnect’s dev_sync_state is triggered, which eventually runs rpmhpd_sync_state
+> > and starts dynamic voltage adjustment. This is when the issue occurs.
+> >
+> >
+> > if do change below, this issue can also be fixed.
+> > &mdss_dsi0 {
+> >     ...
+> >         panel@0 {
+> >                 compatible = "novatek,nt37801";
+> >                 ...
+> >         ++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+> >     }
+> > }
+> > But I don't think panel driver should own a power-domains = <&rpmhpd RPMHPD_MMCX>;
+> 
+> That's not related.
+> 
+> >
+> >
+> >
+> > Thanks,
+> > Yuanjie
+> >
+> > > >
+> > > >     rc = clk_bulk_prepare_enable(dpu_kms->num_clocks, dpu_kms->clocks);
+> > > >     if (rc) {
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> > > > index 993cf512f8c5..8d2595d8a5f6 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> > > > @@ -92,6 +92,9 @@ struct dpu_kms {
+> > > >     struct clk_bulk_data *clocks;
+> > > >     size_t num_clocks;
+> > > >
+> > > > +   unsigned long max_freq;
+> > > > +   unsigned long min_freq;
+> > > > +
+> > > >     /* reference count bandwidth requests, so we know when we can
+> > > >      * release bandwidth.  Each atomic update increments, and frame-
+> > > >      * done event decrements.  Additionally, for video mode, the
+> > > > --
+> > > > 2.34.1
+> > > >
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+> 
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
