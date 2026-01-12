@@ -2,138 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA01D13E99
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA85D13E9C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D89A10E411;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF93510E414;
 	Mon, 12 Jan 2026 16:13:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="cjfrvp37";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Cfju3nAF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azhn15012023.outbound.protection.outlook.com [52.102.149.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE4410E055
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 09:12:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aI4ETuDEcUMyOybWWFjivQ9v4gBCBir7MkQ3p7eUTIkGJZd86ZZGT6JL5/1ag4TRZgTGVzfevtIaSQewedDACDEKAkwE4HIuegDhfVB0iwCjoFSlKsonbwgP1qnH/2rwwzQbPEV1lKoNmi1m03KAhPDpAyzlIFJyESlDO0RfyWHZ8iSYK3NUjnL1pentjhk2naA0cbkI+ZF+XZPhIFLqegW+iGhA2RnX2QdPD4numQal9wtWqI4YLd4lJwTZD0Bk+CsODeSXZz2fVTw8o0TINFNG6j21Cv+sO78s4Hl6G/2kF4oRpWbMuVKDfIsXOJvRRUlq2mM3YcrknQYX5eFvrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YgWH2W7r3EyBaDwSYnSbvV8TNZoCNA/rHy71pjVdDlQ=;
- b=Jpfb8RXE5wvqlPL0fjBDL/I/P6/FnO3M5nDyIXTCu2ZLYuuuZPJMk/5MnUoCIfRzMCi4qzSqZjD864hOIv4j3+8wL+Oz4tDYEQpF5zpL2W7cctXeGUSGpL6P9X8WCbFTuvMHJYKgrUnawwCQppnAMWUhLd8M07+oL3oyeSBcA9Q8I90fXFf+XkwQhkevRWGO9gK8WrFn6RdhrvAKFIduvXeGB8TlRSP5YeZrUALbq+O9IIlHM44BHZMUda7sfTQVkyI4hb+yU9rs5bkoTmYkjcp6r8XmmvquoK16v+nQyX0L2pIBolZ5et4IZL9kZNjAVBFfqeeZGBoE+pxHLM2Wmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=pengutronix.de smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YgWH2W7r3EyBaDwSYnSbvV8TNZoCNA/rHy71pjVdDlQ=;
- b=cjfrvp37r53o3Bt+vlTbwzggnG9cPr35xE3Oy0iCe4pDEEXCJEHOsle2z2OK89DT5q/TdHkbMZWtrrjNGj/tvRqsXwqjyHp2Cbz7b5ExjOtUyHqXZv0tJAsWKWu5F3VWUt6hE+ogNIpPcCJl3h38KJK05VVFHe1krcB95PxWaq8=
-Received: from BN0PR03CA0045.namprd03.prod.outlook.com (2603:10b6:408:e7::20)
- by SA6PR10MB8038.namprd10.prod.outlook.com (2603:10b6:806:43c::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 09:12:45 +0000
-Received: from BN2PEPF000044A4.namprd02.prod.outlook.com
- (2603:10b6:408:e7:cafe::83) by BN0PR03CA0045.outlook.office365.com
- (2603:10b6:408:e7::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Mon,
- 12 Jan 2026 09:12:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN2PEPF000044A4.mail.protection.outlook.com (10.167.243.155) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.1 via Frontend Transport; Mon, 12 Jan 2026 09:12:43 +0000
-Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 12 Jan
- 2026 03:12:42 -0600
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 12 Jan
- 2026 03:12:42 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 12 Jan 2026 03:12:42 -0600
-Received: from uda0543015.dhcp.ti.com (uda0543015.dhcp.ti.com [10.24.69.9])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60C9CYcc245717;
- Mon, 12 Jan 2026 03:12:35 -0600
-From: Abhash Kumar Jha <a-kumar2@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <mripard@kernel.org>, <tzimmermann@suse.de>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <devarsht@ti.com>, <u-kumar1@ti.com>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <s-jain1@ti.com>, <p-mantena@ti.com>,
- <aradhya.bhatia@linux.dev>, <tomi.valkeinen@ideasonboard.com>,
- <p.zabel@pengutronix.de>
-Subject: [PATCH v2] drm/bridge: cdns-dsi: Split pm_ops into runtime_pm and
- system_sleep ops
-Date: Mon, 12 Jan 2026 14:42:10 +0530
-Message-ID: <20260112091210.3505622-1-a-kumar2@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B9910E06D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 09:17:09 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-64daeb28c56so10044690a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 01:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768209428; x=1768814228; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
+ b=Cfju3nAFTNwIngM7purt4IOAMAEuKmJLMjEILER7kDN5DqovI3TcT6uaZLrJdB09Sp
+ Q4ut9+/ReQkkRQt4tzGi25D6o6ZgOwKVDQrrbBLjAQR+BnMB892pnjhyP9NvtYe4XiAY
+ dD/6rECV8mBeER4LSVomM+E+CZQNi2YZA5uKoKoHfSW4JyzrwNCIcde6R0TRvekZeIPi
+ D8K8WO1gccK0KfNO2ZBs1U6c+QNm0wx2asyenaxs759Jly45E3i9Bkhyaz+VzEHi718X
+ OFdDv0DO0eErLWAYlhpA9D10y2epgvgyZ5yqdUc6IzdawbbNliHKtcRNsiJpvNuhAoBY
+ Pdpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768209428; x=1768814228;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
+ b=pdwiVPGGmatL9hGxVxeYOFTeHt/RBqNq5J98HgO4hZ0/xkCUAoyLU/qabdtF+NTMxn
+ MPe9tSQkAoXrwOGVYChVO/e+akjSLYvKM9/Ymf6OtPVI6awTmUZXXxtSXhh8TJDSvhRg
+ B2aVDV3st3C/cac0LcsJLFI0jinzHBrj7qkvGS7sHQGrqf+GEzh7HzJqHFL89dFPxqj6
+ j24IMXvceKq5zZynxZIoTO2YSQyscCjZzw2GbwnlCEzYPHxoApkvwaZZt+wxw2T3tMfd
+ IhLj5X8SNI/Qf91eeRfbSAUl4e9smGWC/SjOo2vS6/uMi9QEwLRMFuf5s3LpG/AryIEo
+ ZsvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVI+27arXwFQHDmQu5hG7tkFsmuawAufnqp8Xe5Iea2rTTfsEXh81VezSsp9aX0PH+UEo+9vMNn6lk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvpqGUeTYrTaFoqzFvMc3VQlZK+jR6s8nakPeUjGsvDikyPPpb
+ BRF/6+XzitXcWaM5HvlurSfLxcvWYg0RIh4xPy0mGx5wibKTamYOjJVa
+X-Gm-Gg: AY/fxX6HwrYMnTm03ynqlg600/GvtqBdOH5F/IMm2mCqcAvjM4f02VB1Pwg52Ef1X1G
+ WKKkohUO2q4QqVu8dG8NZpw4s5zSuE8pvssbTYCNl2auMEIE9l2AHSiXTC77i4r0uxKwmpE6vQ/
+ IH3tT3ZS0wIO4kK1OR+vKLF2e8bYCSvSt2Uoq5zTvr3jQFG87Djv6ivuQ1E207Qthc6K1WfdE6+
+ W8s8V+NblEVFppu3RL/ik3z2vS1wGC9NArrBimX5G8yuM3Nn9mKtG52XKAfpavaurjDvPdYqM3I
+ 3gLTvGPdUN9ilXDqIc1I2TF/Xzj2qPXko2xYs3H4cnqeu0H4DsAfCkGqNc5PH8F2ACbOLWEl5aO
+ MbzP+K0ByIWljIvAYoO2mefY7AKEtksssizKOfQTlp5OaGtmCcJmBea9Z1NJX3HWmagSnBET6BH
+ 3E8KWbqXMD8cKPHY7q0V7WbPDxyO+ugLlVKj7JEQVuNi4=
+X-Google-Smtp-Source: AGHT+IEVkFHwWdARDiOC3T5oubH1b0HSoQYmd/NAnJNXQ0ysw0Xt1Fgn+FqRVmFL8guwSSYOYkTxEQ==
+X-Received: by 2002:a17:907:7202:b0:b87:efa:8786 with SMTP id
+ a640c23a62f3a-b870efae612mr369083166b.55.1768209427070; 
+ Mon, 12 Jan 2026 01:17:07 -0800 (PST)
+Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b870b0dba4esm411401466b.17.2026.01.12.01.17.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jan 2026 01:17:06 -0800 (PST)
+From: Nauman Sabir <officialnaumansabir@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Nauman Sabir <officialnaumansabir@gmail.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Gao Xiang <xiang@kernel.org>,
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>,
+ Chunhai Guo <guochunhai@vivo.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jitao shi <jitao.shi@mediatek.com>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+ workflows@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] Documentation: Fix typos and grammatical errors
+Date: Mon, 12 Jan 2026 10:16:56 +0100
+Message-ID: <20260112091659.12316-1-officialnaumansabir@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044A4:EE_|SA6PR10MB8038:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5745309-082d-4198-b68d-08de51babe4d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|34020700016|7416014|376014|12100799066;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?B3FS4eoSjQ4hj5bJNEH4dXUBCv8RrrPeUhpfB4YpyL7z1DlQHalgjEVTCMjH?=
- =?us-ascii?Q?UzbySx/L4b4TxB0OcrT1ZWDIdHeb4uR1RpccZQe6HKBEcsb/TpO4CJ5n+YbX?=
- =?us-ascii?Q?kJJa/9F803ZSO0J7Sqo2drOCB1Sb4uvZMajmjl3zv/6jmT/Pkf3RLPRrsXCq?=
- =?us-ascii?Q?4FGNi5Y1L6E22ND+Ct7dnLmabT3ofqgVmO1ykZ8J4TxG92R+gmmsAB8SpCHS?=
- =?us-ascii?Q?aG5//LFnscyHwCC7W1Ffo+JmzgPTOxQBBkzmtFyu1SDy0ROlfol9OOgY6bUu?=
- =?us-ascii?Q?vmlFdaJ/6Ow2HAc66qErHMiXv9xHNC6ssmDT+KHTvUB7nOYCU9JB/yvja5J9?=
- =?us-ascii?Q?ERBPxqApQflD9VoWj6+jfYpEeN13yWWQa4rVYqLCo998NFqFPZhwsW9cuQUn?=
- =?us-ascii?Q?OgLGzHB4auJ0WF3wYVK2V7u7XhVOcAB7gXt+PL2DZmEdGsXEqXLvlx031vLT?=
- =?us-ascii?Q?1I/GWrq4edekO0TmzNVq1o/jxdBwH2u5DJjz32mlv56oaBcwXC9Gr3cSBmLD?=
- =?us-ascii?Q?fSyDPzc7w2D1TqOtF/+XakeL6DR55QplwnpEBBnZytTmRBIlWjl2L8CLjpow?=
- =?us-ascii?Q?01gtJBzeA5BXPYawdmQMkDGgVH0OVGBQs8rKtBCLiHkhMj+TiiC1fCnW7Bls?=
- =?us-ascii?Q?wxHu1zumsbgwc/q+L8SEhDBgQTnGaT5pLxZP5hG4jzn6p9wODLcfIzMPvGV0?=
- =?us-ascii?Q?Bv07zW26O1KN1UiKQiWyIKeoHiRG6a5Elg3qQM1RMSfANalzFbuULSS+Rvsb?=
- =?us-ascii?Q?YnAmgPsZYW4KhRrsZZ4DOYW+u3Ceb75AQuY82Q9+CDnkIbeWIskxcY/77EhG?=
- =?us-ascii?Q?7EJdHwDLvjPA0w+9KRufB8M/inTDFlgnqBRuUTDBuFxFXZI8JgpSfu3kI4RR?=
- =?us-ascii?Q?kvkPUS86vNHcnTKG9gLYhqmZoJFqMfRTh63ZtQNj4uHyPg49Bmsks+9K0GgE?=
- =?us-ascii?Q?3DMFaIssnYuYLYjiHyFBAjPEakstKkOYxQgwFYOyKDNvi7vUI5CaJMD9VNSA?=
- =?us-ascii?Q?tu4P15UYkb0WVvnlgF+WJ/53awfYToaVddwSoZ0RlJete3cfHgMdeRTfSmwG?=
- =?us-ascii?Q?a8tGb0leGQ40I2qp/bpi7k6cWPBrETlVwqu7yc3sOYaCOngcbz4XaG6FAFY7?=
- =?us-ascii?Q?15VYnZlvlr9vVEhkG6TKmYLvJSHvD31ffUb+7zmMW5frWv96/kESvBtHlxIz?=
- =?us-ascii?Q?uVgbRkJaSm66mQh1KtB4OFVT1EAB7eUOU35DH4PY5/Y5N7I4szdxFbXRTf1D?=
- =?us-ascii?Q?nkp84Yo35pYo/yaXNZPgGeAVmCMqDIV42ZuOLeKHAt2H4bGMxBdQfCb3Evxn?=
- =?us-ascii?Q?7SwaILpyRKzy81mGYh/SOwqMXwD8Nja9QaP+bvFgxM0hTlyjDea0V+yowNuI?=
- =?us-ascii?Q?iZAuA2GPCXxLeajZeFU9tgMvR2LCb8NYCZ69V11zp7dfC3pLbRFEBo4JzD4D?=
- =?us-ascii?Q?LZ4Koe7dKmflVGhl1Kdzn6DU2uWYhC+hdJzftoiK99VTRCijzl1uJTyELLQo?=
- =?us-ascii?Q?jSJn/de3jk96aPrxGFYBaIkHHouWylkuC/yShUwbOrSZ+iyeGaGyfYGS7LjP?=
- =?us-ascii?Q?tl8Na2JjCDUwwg//QvQ=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(34020700016)(7416014)(376014)(12100799066);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 09:12:43.0572 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5745309-082d-4198-b68d-08de51babe4d
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A4.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8038
 X-Mailman-Approved-At: Mon, 12 Jan 2026 16:13:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -150,86 +112,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If runtime-pm has already suspended the device and a system suspend
-occurs, then we see a kernel crash when disabling and unpreparing the
-clocks.
+Fix various typos and grammatical errors across multiple documentation
+files to improve clarity and consistency.
 
-Use pm_runtime_force_suspend/resume in system_sleep pm callbacks to let
-runtime-pm take care of the coordination between system suspend and
-itself. This ensures that they do not interfere with each other.
+Changes include:
+- Fix missing preposition 'in' in process/changes.rst
+- Correct 'result by' to 'result from' in admin-guide/README.rst
+- Fix 'before hand' to 'beforehand' (3 instances) in cgroup-v1/hugetlb.rst
+- Correct 'allows to limit' to 'allows limiting' in cgroup-v1/hugetlb.rst,
+  cgroup-v2.rst, and kconfig-language.rst
+- Fix 'needs precisely know' to 'needs to precisely know' in
+  cgroup-v1/hugetlb.rst
+- Correct 'overcommited' to 'overcommitted' in cgroup-v1/hugetlb.rst
+- Fix subject-verb agreement: 'never causes' to 'never cause' (2 instances)
+  in cgroup-v1/hugetlb.rst
+- Fix subject-verb agreement: 'there is enough' to 'there are enough' in
+  cgroup-v1/hugetlb.rst
+- Remove incorrect plural from uncountable nouns: 'metadatas' to 'metadata'
+  in filesystems/erofs.rst, and 'hardwares' to 'hardware' in
+  devicetree/bindings/.../mediatek,dp.yaml, userspace-api/.../legacy_dvb_audio.rst,
+  and scsi/ChangeLog.sym53c8xx
 
-Signed-off-by: Abhash Kumar Jha <a-kumar2@ti.com>
+Note: British spelling 'recognised' retained per maintainer feedback.
+
+These corrections improve the overall quality and readability of the
+kernel documentation.
+
+Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
 ---
-Hi,
+ Documentation/admin-guide/README.rst           |  2 +-
+ .../admin-guide/cgroup-v1/hugetlb.rst          | 18 +++++++++---------
+ Documentation/admin-guide/cgroup-v2.rst        |  2 +-
+ .../bindings/display/mediatek/mediatek,dp.yaml |  2 +-
+ Documentation/filesystems/erofs.rst            |  2 +-
+ Documentation/kbuild/kconfig-language.rst      |  2 +-
+ Documentation/process/changes.rst              |  2 +-
+ Documentation/scsi/ChangeLog.sym53c8xx         |  2 +-
+ .../media/dvb/legacy_dvb_audio.rst             |  2 +-
+ 9 files changed, 17 insertions(+), 17 deletions(-)
 
-If a device is runtime_pm suspended and a system wide suspend is triggered,
-we see a kernel crash. Hence split the power management ops into separate
-system_sleep and runtime_pm ops.
-
-Changes in v2:
-- Improve the commit description and subject.
-- Link to v1: https://lore.kernel.org/all/20260109060312.2853133-1-a-kumar2@ti.com/
-
-Thanks,
-Abhash
-
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 32 +++++++++++++------
- 1 file changed, 23 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 09b289f0fcbf..25eaf0192013 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -1230,7 +1230,18 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
- 	.transfer = cdns_dsi_transfer,
- };
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index 05301f03b..77fec1de6 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -53,7 +53,7 @@ Documentation
+    these typically contain kernel-specific installation notes for some
+    drivers for example. Please read the
+    :ref:`Documentation/process/changes.rst <changes>` file, as it
+-   contains information about the problems, which may result by upgrading
++   contains information about the problems which may result from upgrading
+    your kernel.
  
--static int __maybe_unused cdns_dsi_resume(struct device *dev)
-+static int cdns_dsi_runtime_suspend(struct device *dev)
-+{
-+	struct cdns_dsi *dsi = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(dsi->dsi_sys_clk);
-+	clk_disable_unprepare(dsi->dsi_p_clk);
-+	reset_control_assert(dsi->dsi_p_rst);
-+
-+	return 0;
-+}
-+
-+static int cdns_dsi_runtime_resume(struct device *dev)
- {
- 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
+ Installing the kernel source
+diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+index 493a8e386..b5f3873b7 100644
+--- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
++++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+@@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
+ doesn't support page reclaim, enforcing the limit at page fault time implies
+ that, the application will get SIGBUS signal if it tries to fault in HugeTLB
+ pages beyond its limit. Therefore the application needs to know exactly how many
+-HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
++HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
+ there are enough available on the machine for all the users to avoid processes
+ getting SIGBUS.
  
-@@ -1241,18 +1252,21 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
- 	return 0;
- }
+@@ -91,23 +91,23 @@ getting SIGBUS.
+   hugetlb.<hugepagesize>.rsvd.usage_in_bytes
+   hugetlb.<hugepagesize>.rsvd.failcnt
  
--static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-+static int cdns_dsi_suspend(struct device *dev)
- {
--	struct cdns_dsi *dsi = dev_get_drvdata(dev);
-+	return pm_runtime_force_suspend(dev);
-+}
+-The HugeTLB controller allows to limit the HugeTLB reservations per control
++The HugeTLB controller allows limiting the HugeTLB reservations per control
+ group and enforces the controller limit at reservation time and at the fault of
+ HugeTLB memory for which no reservation exists. Since reservation limits are
+-enforced at reservation time (on mmap or shget), reservation limits never causes
+-the application to get SIGBUS signal if the memory was reserved before hand. For
++enforced at reservation time (on mmap or shget), reservation limits never cause
++the application to get SIGBUS signal if the memory was reserved beforehand. For
+ MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
+ limit, enforcing memory usage at fault time and causing the application to
+ receive a SIGBUS if it's crossing its limit.
  
--	clk_disable_unprepare(dsi->dsi_sys_clk);
--	clk_disable_unprepare(dsi->dsi_p_clk);
--	reset_control_assert(dsi->dsi_p_rst);
--	return 0;
-+static int cdns_dsi_resume(struct device *dev)
-+{
-+	return pm_runtime_force_resume(dev);
- }
+ Reservation limits are superior to page fault limits described above, since
+ reservation limits are enforced at reservation time (on mmap or shget), and
+-never causes the application to get SIGBUS signal if the memory was reserved
+-before hand. This allows for easier fallback to alternatives such as
++never cause the application to get SIGBUS signal if the memory was reserved
++beforehand. This allows for easier fallback to alternatives such as
+ non-HugeTLB memory for example. In the case of page fault accounting, it's very
+-hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
+-the HugeTLB usage of all the tasks in the system and make sure there is enough
+-pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
++hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
++the HugeTLB usage of all the tasks in the system and make sure there are enough
++pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
+ systems is practically impossible with page fault accounting.
  
--static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
--			    NULL);
-+static const struct dev_pm_ops cdns_dsi_pm_ops = {
-+	SET_RUNTIME_PM_OPS(cdns_dsi_runtime_suspend,
-+			cdns_dsi_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume)
-+};
  
- static int cdns_dsi_drm_probe(struct platform_device *pdev)
- {
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 7f5b59d95..098d6831b 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2816,7 +2816,7 @@ DMEM Interface Files
+ HugeTLB
+ -------
+ 
+-The HugeTLB controller allows to limit the HugeTLB usage per control group and
++The HugeTLB controller allows limiting the HugeTLB usage per control group and
+ enforces the controller limit during page fault.
+ 
+ HugeTLB Interface Files
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+index 274f59080..8f4bd9fb5 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Jitao shi <jitao.shi@mediatek.com>
+ 
+ description: |
+-  MediaTek DP and eDP are different hardwares and there are some features
++  MediaTek DP and eDP are different hardware and there are some features
+   which are not supported for eDP. For example, audio is not supported for
+   eDP. Therefore, we need to use two different compatibles to describe them.
+   In addition, We just need to enable the power domain of DP, so the clock
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 08194f194..e61db115e 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -154,7 +154,7 @@ to be as simple as possible::
+   0 +1K
+ 
+ All data areas should be aligned with the block size, but metadata areas
+-may not. All metadatas can be now observed in two different spaces (views):
++may not. All metadata can be now observed in two different spaces (views):
+ 
+  1. Inode metadata space
+ 
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index abce88f15..7067ec3f0 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -216,7 +216,7 @@ applicable everywhere (see syntax).
+ 
+ - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
+ 
+-  This allows to limit the range of possible input values for int
++  This allows limiting the range of possible input values for int
+   and hex symbols. The user can only input a value which is larger than
+   or equal to the first symbol and smaller than or equal to the second
+   symbol.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 62951cdb1..0cf97dbab 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
+ Linux documentation for functions is transitioning to inline
+ documentation via specially-formatted comments near their
+ definitions in the source.  These comments can be combined with ReST
+-files the Documentation/ directory to make enriched documentation, which can
++files in the Documentation/ directory to make enriched documentation, which can
+ then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
+ In order to convert from ReST format to a format of your choice, you'll need
+ Sphinx.
+diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
+index 3435227a2..6bca91e03 100644
+--- a/Documentation/scsi/ChangeLog.sym53c8xx
++++ b/Documentation/scsi/ChangeLog.sym53c8xx
+@@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
+ 	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
+ 	  Fix sent by Stig Telfer <stig@api-networks.com>.
+ 	- Backport from SYM-2 the work-around that allows to support 
+-	  hardwares that fail PCI parity checking.
++	  hardware that fails PCI parity checking.
+ 	- Check that we received at least 8 bytes of INQUIRY response 
+ 	  for byte 7, that contains device capabilities, to be valid.
+ 	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+index 81b762ef1..99ffda355 100644
+--- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+@@ -444,7 +444,7 @@ Description
+ ~~~~~~~~~~~
+ 
+ A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
+-following bits set according to the hardwares capabilities.
++following bits set according to the hardware's capabilities.
+ 
+ 
+ -----
 -- 
-2.34.1
+2.52.0
 
