@@ -2,65 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCB0D14222
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:45:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E921CD1429D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 17:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F42310E210;
-	Mon, 12 Jan 2026 16:45:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Pc/RSIN9";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3064410E41D;
+	Mon, 12 Jan 2026 16:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A550410E210
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768236315;
- bh=0sxm3kDDzgJmwS8ewdPqvTDhvUSiRdHGqlzFqGWGru0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Pc/RSIN9wiADI9+wlqBLwrafhEWw+fn3LIKM4n7vS7xjoQ2dWS2RtNLDF2q3tyh3L
- Bi/Hh7tSEzxoMaLedT/vwykdqCGYiiP8gXyMNeY+l5bc2GP5DoaxR2+gRljwNyS3in
- hSmH7LthJ0a14O4WySukF2kIMzg/4e/dCcmj3A7A1RZYbr7OawO9RUkx7ki1FRJ7Ov
- 82jv2SZxnA6R6DddiXW+eZXzyC/NYaBGEYWg3pErjfOoCmD5FvXzTzQU2SKN6h5633
- Z6BzEM1VZvGJFkwCzbkHDfZMYmmyqkMSyVk6kz2khL8RbS8+XI/jT+24/wdj6l51ly
- 1OxBNiA72JJyg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6774017E0699;
- Mon, 12 Jan 2026 17:45:14 +0100 (CET)
-Date: Mon, 12 Jan 2026 17:45:07 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Akash Goel
- <akash.goel@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Akhil P Oommen
- <akhilpo@oss.qualcomm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Chris Diamand <chris.diamand@arm.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v1 5/9] drm/panthor: Part ways with drm_gem_shmem_object
-Message-ID: <20260112174507.1ef006b9@fedora>
-In-Reply-To: <00c89251-5d2e-4a50-a99b-cf09cde85264@arm.com>
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-6-boris.brezillon@collabora.com>
- <f55ecaa7-0695-4cdc-94f4-4769e1b72bb0@arm.com>
- <20260112151714.4461d045@fedora>
- <00c89251-5d2e-4a50-a99b-cf09cde85264@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 432D910E41D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 16:49:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2896E497;
+ Mon, 12 Jan 2026 08:49:33 -0800 (PST)
+Received: from [10.57.11.182] (unknown [10.57.11.182])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 986BE3F59E;
+ Mon, 12 Jan 2026 08:49:35 -0800 (PST)
+Message-ID: <3c1b791c-f2e6-4199-af6c-920f52f4870c@arm.com>
+Date: Mon, 12 Jan 2026 16:49:33 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-9-boris.brezillon@collabora.com>
+ <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
+ <20260112153953.61eb20dc@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260112153953.61eb20dc@fedora>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,119 +62,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Jan 2026 16:03:18 +0000
-Steven Price <steven.price@arm.com> wrote:
-
-> On 12/01/2026 14:17, Boris Brezillon wrote:
-> > On Mon, 12 Jan 2026 12:06:17 +0000
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >> On 09/01/2026 13:07, Boris Brezillon wrote:  
-> >>> While drm_gem_shmem_object does most of the job we need it to do, the
-> >>> way sub-resources (pages, sgt, vmap) are handled and their lifetimes
-> >>> gets in the way of BO reclaim. There has been attempts to address
-> >>> that [1], but in the meantime, new gem_shmem users were introduced
-> >>> (accel drivers), and some of them manually free some of these resources.
-> >>> This makes things harder to control/sanitize/validate.
-> >>>
-> >>> Thomas Zimmerman is not a huge fan of enforcing lifetimes of sub-resources
-> >>> and forcing gem_shmem users to go through new gem_shmem helpers when they
-> >>> need manual control of some sort, and I believe this is a dead end if
-> >>> we don't force users to follow some stricter rules through carefully
-> >>> designed helpers, because there will always be one user doing crazy things
-> >>> with gem_shmem_object internals, which ends up tripping out the common
-> >>> helpers when they are called.
-> >>>
-> >>> The consensus we reached was that we would be better off forking
-> >>> gem_shmem in panthor. So here we are, parting ways with gem_shmem. The
-> >>> current transition tries to minimize the changes, but there are still
-> >>> some aspects that are different, the main one being that we no longer
-> >>> have a pages_use_count, and pages stays around until the GEM object is
-> >>> destroyed (or when evicted once we've added a shrinker). The sgt also
-> >>> no longer retains pages. This is losely based on how msm does things by
-> >>> the way.    
-> >>
-> >> From a reviewing perspective it's a little tricky trying to match up the
-> >> implementation to shmem because of these changes. I don't know how
-> >> difficult it would be to split the changes to a patch which literally
-> >> copies (with renames) from shmem, followed by simplifying out the parts
-> >> we don't want.  
-> > 
-> > It's a bit annoying as the new implementation is not based on shmem at
-> > all, but if you think it helps the review, I can try what you're
-> > suggesting. I mean, I'm not convinced it will be significantly easier
-> > to review with this extra step, since the new logic is different enough
-> > (especially when it comes to resource refcounting) that it needs a
-> > careful review anyway (which you started doing here).  
+On 12/01/2026 14:39, Boris Brezillon wrote:
+> On Mon, 12 Jan 2026 12:33:33 +0000
+> Steven Price <steven.price@arm.com> wrote:
 > 
-> I wasn't sure how much you had originally based it on shmem. I noticed
-> some comments were copied over and in some places it was easy to match
-> up. But in others it's much less clear.
+>> On 09/01/2026 13:08, Boris Brezillon wrote:
+>>> This will be used to order things by reclaimability.
+>>>
+>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_gem.c | 44 +++++++++++++++++++++++++--
+>>>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+>>>  2 files changed, 45 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> index 44f05bd957e7..458d22380e96 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> @@ -484,6 +484,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
+>>>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
+>>>  			  refcount_read(&bo->cmap.vaddr_use_count));
+>>>  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
+>>> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
+>>>  }
+>>>  
+>>>  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
+>>> @@ -600,6 +601,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
+>>>  	if (is_cow_mapping(vma->vm_flags))
+>>>  		return -EINVAL;
+>>>  
+>>> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
+>>> +		dma_resv_lock(obj->resv, NULL);
+>>> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
+>>> +			refcount_set(&bo->cmap.mmap_count, 1);
+>>> +		dma_resv_unlock(obj->resv);
+>>> +	}
+>>> +
+>>>  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+>>>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>>>  	if (should_map_wc(bo))
+>>> @@ -732,10 +740,42 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
+>>>  	return blocking_page_setup(vmf, bo, page_offset, true);
+>>>  }
+>>>  
+>>> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
+>>> +{
+>>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+>>> +
+>>> +	/* mmap_count must have been incremented at mmap time, so it can't be
+>>> +	 * zero here.
+>>> +	 */
+>>> +	if (!drm_gem_is_imported(&bo->base))
+>>> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
+>>> +
+>>> +	drm_gem_vm_open(vma);
+>>> +}
+>>> +
+>>> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
+>>> +{
+>>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+>>> +
+>>> +	if (drm_gem_is_imported(&bo->base))
+>>> +		goto out;
+>>> +
+>>> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
+>>> +		goto out;
+>>> +
+>>> +	dma_resv_lock(bo->base.resv, NULL);
+>>> +	if (!refcount_dec_not_one(&bo->cmap.mmap_count))
+>>> +		refcount_set(&bo->cmap.mmap_count, 0);
+>>> +	dma_resv_unlock(bo->base.resv);  
+>>
+>> I don't think this logic is safe. Holding the resv_lock doesn't protect
+>> against another thread doing a refcount_inc_not_zero() without holding
+>> the lock.
+>>
+>> I think you can just replace the if() part with a refcount_dec() call,
+>> the lock AFAICT is needed because the following patch wants to be sure
+>> that !!mmap_count is stable when resv_lock is held.
 > 
-> If you haven't actually started from a direct copy of shmem then it's
-> probably not going to be much clearer doing that as an extra step. It's
-> just in places it looked like you had.
+> I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 without
+> complaining :P.
 
-The reason both look similar has more to do with the fact they both
-use shmem for their memory allocation than one being a copy of the
-other. That's not to say I didn't pick bits and pieces here and there
-(including comments), but it didn't start as a full copy followed by
-incremental modifications.
+Yeah, I misread the refcount_dec() code the first time I looked at it.
 
-> >>  
-> >>> +	}
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +static int panthor_gem_backing_pin_locked(struct panthor_gem_object *bo)
-> >>> +{
-> >>> +	int ret;
-> >>> +
-> >>> +	dma_resv_assert_held(bo->base.resv);
-> >>> +	drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base));
-> >>> +
-> >>> +	if (refcount_inc_not_zero(&bo->backing.pin_count))
-> >>> +		return 0;
-> >>> +
-> >>> +	ret = panthor_gem_backing_get_pages_locked(bo);
-> >>> +	if (!ret)
-> >>> +		refcount_set(&bo->backing.pin_count, 1);
-> >>> +
-> >>> +	return ret;
-> >>> +}
-> >>> +
-> >>> +static void panthor_gem_backing_unpin_locked(struct panthor_gem_object *bo)
-> >>> +{
-> >>> +	dma_resv_assert_held(bo->base.resv);
-> >>> +	drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base));
-> >>> +
-> >>> +	/* We don't release anything when pin_count drops to zero.
-> >>> +	 * Pages stay there until an explicit cleanup is requested.
-> >>> +	 */
-> >>> +	if (!refcount_dec_not_one(&bo->backing.pin_count))
-> >>> +		refcount_set(&bo->backing.pin_count, 0);    
-> >>
-> >> Why not just refcount_dec()?  
-> > 
-> > Because refcount_dec() complains when it's passed a value that's less
-> > than 2. The rational being that you need to do something special
-> > (release resources) when you reach zero. In our case we don't, because
-> > pages are lazily reclaimed, so we just set the counter back to zero.  
+>>
+>> I also feel you should invert the conditino for refcount_dec_not_one,
+>> leading to the following which I feel is easier to read:
+>>
+>> static void panthor_gem_vm_close(struct vm_area_struct *vma)
+>> {
+>> 	[...]
+>>
+>> 	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+>> 		dma_resv_lock(bo->base.resv, NULL);
+>> 		refcount_dec(&bo->cmap.mmap_count);
+>> 		dma_resv_unlock(bo->base.resv);
+>> 	}
 > 
-> Ah, yes I'd misread the "old <= 1" check as "old < 1". Hmm, I dislike it
-> because it's breaking the atomicity - if another thread does a increment
-> between the two operations then we lose a reference count.
-
-I don't think we do, because any 0 <-> 1 transition needs to happen
-with the resv lock held (see the dma_resv_assert_held() in both
-panthor_gem_backing_unpin_locked() and
-panthor_gem_backing_pin_locked()).
-
+> The best I can do is:
 > 
-> It does make me think that perhaps the refcount APIs are not designed
-> for this case and perhaps we should just use atomics directly.
+>  	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
+>  		dma_resv_lock(bo->base.resv, NULL);
+>  		if (!refcount_dec_not_one(&bo->cmap.mmap_count))
 
-It's the lazy/deferred put_pages() that makes it look weird I think,
-but for the rest, refcount_t looks like the right tool (!locked variants
-and even _pin_locked() look sane).
+The problem is here - if another thread does an increment from 1 to 2 at
+this point then we lose a reference count. And since you don't have to
+hold the lock for that we have a problem.
+
+> 			refcount_set(&bo->cmap.mmap_count, 0);
+>  		dma_resv_unlock(bo->base.resv);
+>  	}
+> 
+> so we only take the lock when absolutely needed, but the 1 -> 0
+> transition still has to be done with "if (dec_not_one) set(0)".
+
+It's not the holding of the lock that's concerning me - it's the fact
+that the increment part might not be holding the lock.
+
+Your suggestion of "(void)refcount_dec_and_test()" would work, but it's
+rather abusing the API. I can't help feeling this points to the refcount
+API being the wrong thing to be using...
+
+Thanks,
+Steve
+
+>>
+>> 	drm_gem_object_put(&bo->base);
+>> }
+
