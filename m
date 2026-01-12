@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057A4D15DE3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 00:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C961FD15DE6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 00:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6819510E2DA;
-	Mon, 12 Jan 2026 23:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A1A10E43A;
+	Mon, 12 Jan 2026 23:48:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="c3KoTaTw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hP4vqZBE";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mJ7zvACA";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JAgcyPVO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087D210E2DA
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 23:48:46 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269DD10E43A
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 23:48:50 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dqpx93MyCz9tCT;
- Tue, 13 Jan 2026 00:48:45 +0100 (CET)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dqpxD5Pjfz9srT;
+ Tue, 13 Jan 2026 00:48:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768261725;
+ s=mail20150812; t=1768261728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=eUbMXuVri41hcEdHLFuizo5f7hR7q4K8BFuRxgKtq7A=;
- b=c3KoTaTwFujL/xgizZKeM6BoupPDwEVqO+bbzak2gcbBG1wRnnLNkd7k20DKUhZtEefJEG
- tX5E5raM/UVkFE7OcrnQ6kuWc5xEgyfpZdPmlNnEuFjLQDdi2KtjLX+FK+8oZWtRBcBFMt
- xe0cyjt0ADwVZdQQlLXD0Moh1CdhOxIBgBMaf1slIww0fP8EIVtBqaf/90whGUv1DQYsyU
- Uu7bgM1AfyjrtkinEo273fc+iJ5LplfWlcidT0j8L/nRa6kvUkJ6FxoS0KwBPpFkHuuQ8y
- gw/tlaJLV/S3e3j5BOA7mMlYuGDe4wLjDfEnWcvTtjiB78m0ZmrkJqaY66tYEg==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hP4vqZBE;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
- designates 2001:67c:2050:b231:465::2 as permitted sender)
- smtp.mailfrom=marek.vasut+renesas@mailbox.org
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iM2b5gOUQ7qmIDWC4AJaeVNpSYjr/hygekEC/yksaTg=;
+ b=mJ7zvACAPuS98kMc2hpYBK/8t+96Uy6Td5Bh2bcBQGqn7c8j8MapVn/CGjYufvm+OKB6u+
+ 63OEyrZB+/VwpS1sArnQhpeY6AibkaRFjZd8x4+1I8wUt4rQPsvj0RJjMKPOso0cEUM/wy
+ AFD66Yfesmc6/z796zgFXnakLB5cltL6DX8iH/P+kuNz3m8+t0BT9r22Hye9gJ47xeyJEB
+ soRn0gEHjZ63XjADs1r6Jt9FK5mbfnaVuzyDRsl+JVjdfCmaNJT3iqAyRErEN+Wjeljdm3
+ 37P0Cm7zBUl+9dvBheKwM+eJ5t1rYuFz/sCb7ubZwcxmkE7H7hoqMW5nxb8qKQ==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768261723;
+ s=mail20150812; t=1768261726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=eUbMXuVri41hcEdHLFuizo5f7hR7q4K8BFuRxgKtq7A=;
- b=hP4vqZBEc1SNC5xdJoBlhtifYNCPqa5I2iKsnAPN8ILmaUSP9w2G79BDjlIz2ehbfcUhwV
- fbbQ7D1VSdTI8ukn6o7IuDxjTtM1TwGAylFsUmN/TLpojADX8KQXAkJoelWcWTEitZKPIf
- GZ8yegGFMpFxuy0/OZKjz58fJcra1ajj/cZm6AcnsyxunW3hEKzgjlqCj3aSIQ2++sRsU9
- RW3nUOcUCHID9DrFet5MolTEc5Rv9E1RuP2otJb1/YoZCp1Qs9bM8OxLZQTcbV0r7ZQPoP
- 4iAkFlD4ojFi32RH4Sxx0VtdDWZsvdlq3qfpKf5q4yNEu8k97Om6iej3SAtz9w==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iM2b5gOUQ7qmIDWC4AJaeVNpSYjr/hygekEC/yksaTg=;
+ b=JAgcyPVOQh0PHdqbNF/co/ClYMOycDEiFVR/lB1lSQlKePLdrdYrCkM8AsGgr+hdimzSJO
+ EvM3r7AJ71QmiUgCbGO6Juj44MXgSAKrMsW/4g4J9YiDdoSgk8VTwVZjKXbYTaIe233nOi
+ OyKBAJpV1KjBcC1hjxRzXyT8H6jFRn51nFr/pNejHm35bbCyxok6qhZLM5vzybO8SYyYRi
+ 6vMK5flU2mpi4z/87HcNQ1t6B7761gq3UXTvJNb0hwJBo3RYBn0Gz6p7Gb2dfGJrk64QDI
+ uyDxYIWxTaMhtESNob3A5QohW4YIpogj6ulPxCh8XUw4heax+qZp8YB7MySd/g==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -64,15 +60,16 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: display: bridge: waveshare,
- dsi2dpi: Document 1..4 DSI lane support
-Date: Tue, 13 Jan 2026 00:47:38 +0100
-Message-ID: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4 DSI data
+ lanes
+Date: Tue, 13 Jan 2026 00:47:39 +0100
+Message-ID: <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
+References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 65d4d573ca4b3c32f46
-X-MBO-RS-META: 4pi3w94uourscirswxd786cx76bany7w
-X-Rspamd-Queue-Id: 4dqpx93MyCz9tCT
+X-MBO-RS-ID: f9bd0521b2c6d8e43f1
+X-MBO-RS-META: ku7re1uxjpbu3y6fiowt6k9aeoa54y8d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,12 +85,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe 1..4 DSI lanes as supported. Internally, this bridge is
-an ChipOne ICN6211 which loads its register configuration from a
+Parse the data lane count out of DT. Limit the supported data lanes
+to 1..4 which is the maximum available DSI pairs on the connector of
+any known panels which may use this bridge. Internally, this bridge
+is an ChipOne ICN6211 which loads its register configuration from a
 dedicated storage and its I2C does not seem to be accessible. The
-ICN6211 supports up to 4 DSI lanes, so this is a hard limit for
-this bridge. The lane configuration is preconfigured in the bridge
-for each of the WaveShare panels.
+ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
+
+To avoid any breakage on old DTs where the parsing of data lanes from
+DT may fail, fall back to the original hard-coded value of 2 lanes and
+warn user.
+
+The lane configuration is preconfigured in the bridge for each of the
+WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
+others seem to use 2-lane configuration. This is a hardware property,
+so the actual count should come from DT.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -117,26 +123,26 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- .../devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml  | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/bridge/waveshare-dsi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml b/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml
-index 5e8498c8303dd..3820dd7e11af1 100644
---- a/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml
-@@ -40,9 +40,12 @@ properties:
-             properties:
-               data-lanes:
-                 description: array of physical DSI data lane indexes.
-+                minItems: 1
-                 items:
-                   - const: 1
-                   - const: 2
-+                  - const: 3
-+                  - const: 4
+diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
+index 9254446f54958..7fcb878f37e2b 100644
+--- a/drivers/gpu/drm/bridge/waveshare-dsi.c
++++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
+@@ -66,7 +66,11 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->lanes = 2;
++	dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
++	if (dsi->lanes < 0) {
++		dev_warn(dev, "Invalid DSI lane count %d, falling back to 2 lanes\n", dsi->lanes);
++		dsi->lanes = 2;	/* Old DT backward compatibility */
++	}
  
-             required:
-               - data-lanes
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0)
 -- 
 2.51.0
 
