@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DB7D11803
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 10:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80B6D11900
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 10:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A4F10E2ED;
-	Mon, 12 Jan 2026 09:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7C210E0CB;
+	Mon, 12 Jan 2026 09:43:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="0Fh48Bkc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kgS/AYlw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F0810E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 09:31:33 +0000 (UTC)
-Received: from francesco-nb
- (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
- by mail11.truemail.it (Postfix) with ESMTPA id 39D001FAEB;
- Mon, 12 Jan 2026 10:31:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1768210291;
- bh=s3LRU1JMOrxpverMraSdvoJOfwQ2d8WQFmbgP0Dj6GY=; h=From:To:Subject;
- b=0Fh48BkctmxJDE4uLjJyY2eSpFTGZXrrj32Td53w2GYyWjPve4k6tyrJgoPN+t0FX
- 7QJQporLkHabZaE/w6Bvz+MSmM5z//l7+qw9kiDFUx2qC6GETaT/UUJrEB66otMWqh
- Kq5oTKt3RckFBEDFV9kw5lmkzC836/VmJcNZk9F1xe95WzN6Wb6pHPCN+Qw1aYzoPN
- ZIvEONosaEuiQ0BtijjeZCey8ZQb0gbqgNL0okUB3ASbx8GfuuvxnGp6QjtfvgUYEu
- W3GxcbBucgHWXPg7befFqSSyAjVlK0d3rVKTOMj4cqCXjy7ckqeuQV2n9+OhE0o291
- EAWgDIKe+mnXg==
-Date: Mon, 12 Jan 2026 10:31:27 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [PATCH 0/5] drm/bridge: simple-bridge: Add DPI color encoder
- support
-Message-ID: <20260112093127.GA121274@francesco-nb>
-References: <20250304101530.969920-1-victor.liu@nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D46010E035;
+ Mon, 12 Jan 2026 09:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768211029; x=1799747029;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hFYjGeENMmJdLOhWkBSt6iYzYmiySYP8v4Ssk0NNA7A=;
+ b=kgS/AYlw2hxRjralxOlCjWWd5l8FUkTtpdBgjaK6GlapTQLlnf+YS1UR
+ +iYO7G8r3BIzic+FUDS7xD5s5nePpAIchBDLrGW4mNtKnGpT4enFduu7A
+ CyE25eQQQEJ2zQvmRSeHkFkAXfiBYI2X3Cmp7BYgMIWaWsD16Qwzst8+w
+ 40LIByiYJc2S74YSpLEITVrXYGEcLDxxr6LPS/lEhyiVGyICWyxg3PRYg
+ 2wj8T4+x1h8503eYKYAXulNZnSRcZtcJ8vMC+tT7j+307n2j9ZrGNUXrU
+ 9W4fmQXCSD5TE+cBeU5l8acivLj45P8vUnWMMmZl7e823jocylImDV+Pj A==;
+X-CSE-ConnectionGUID: JO9T+cIeT76PAEWLhttnOw==
+X-CSE-MsgGUID: NlIe/cTDRgWka/Vu2j17cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80848540"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; d="scan'208";a="80848540"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2026 01:43:48 -0800
+X-CSE-ConnectionGUID: xTCsY2C6Qda7frW4ZnkaaQ==
+X-CSE-MsgGUID: WEhYTkkMQF22ETdVgDQkgg==
+X-ExtLoop1: 1
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.87])
+ ([10.245.245.87])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2026 01:43:45 -0800
+Message-ID: <4d76d9f8-0cf1-46b0-bced-8d6e71ff322b@intel.com>
+Date: Mon, 12 Jan 2026 09:43:43 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250304101530.969920-1-victor.liu@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: drm: add maintainers for DRM buddy allocator
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, airlied@gmail.com, simona@ffwll.ch
+References: <20260112072447.299685-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20260112072447.299685-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,26 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Liu,
-
-On Tue, Mar 04, 2025 at 06:15:25PM +0800, Liu Ying wrote:
-> This patch series aims to add DPI color encoder support as a simple DRM
-> bridge.  A DPI color encoder simply converts input DPI color coding to
-> output DPI color coding, like Adafruit Kippah DPI hat[1] which converts
-> input 18-bit pixel data to 24-bit pixel data(with 2 low padding bits in
-> every color component though).  A real use case is that NXP i.MX93 11x11
-> EVK[2] and i.MX93 9x9 QSB[3] boards may connect a 24-bit DPI panel through
-> the Adafruit Kippah DPI hat.  The display pipeline is
+On 12/01/2026 07:24, Arunpravin Paneer Selvam wrote:
+> The DRM buddy allocator is a shared DRM memory management
+> component used by multiple DRM drivers.
 > 
-> i.MX93 LCDIF display controller(RGB888) ->
-> i.MX93 parallel display format configuration(RGB666) ->
-> on-board Raspiberry Pi compatible interface(RPi)(RGB666) ->
-> Adafruit Kippah DPI hat(RGB888 with 2 low padding bits in color components) ->
-> 24-bit "ontat,kd50g21-40nt-a1" DPI panel
+> Matthew Auld and Arun Pravin have been actively involved in
+> maintaining this code, including patch review and functional
+> changes.
+> 
+> Add a dedicated MAINTAINERS entry to reflect the current
+> maintainership.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   MAINTAINERS | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6169bd4d7bac..3cd69f6905ae 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8780,6 +8780,16 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	drivers/gpu/drm/ttm/
+>   F:	include/drm/ttm/
+>   
+> +DRM BUDDY ALLOCATOR
+> +M:	Matthew Auld <matthew.auld@intel.com>
+> +M:	Arun Pravin <arunpravin.paneerselvam@amd.com>
+> +R:	Christian Koenig <christian.koenig@amd.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	drivers/gpu/drm/drm_buddy.c
+> +F:	include/drm/drm_buddy.h
 
+I guess we should also add:
 
-Any update/progress/plan on this patch series?
+drivers/gpu/drm/tests/drm_buddy_test.c
 
-Thanks,
-Francesco
+?
+
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+
+> +
+>   DRM AUTOMATED TESTING
+>   M:	Helen Koike <helen.fornazier@gmail.com>
+>   M:	Vignesh Raman <vignesh.raman@collabora.com>
 
