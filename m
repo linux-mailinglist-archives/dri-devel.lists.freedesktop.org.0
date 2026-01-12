@@ -2,106 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6C5D158E4
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 23:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883E0D1591D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 23:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1DE310E034;
-	Mon, 12 Jan 2026 22:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCBA10E176;
+	Mon, 12 Jan 2026 22:26:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="O6BeZK8w";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PKj03Xzg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6E410E034
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 22:22:08 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-2a0f3f74587so51509995ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 14:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1768256528; x=1768861328;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4w19gL9Si5xuUOM+xx0Gkc/M1vHSFtlbSnI9ldzTAww=;
- b=O6BeZK8wCndkUqBiSq1WxtWpq+kec8qwnZ6TqE0CzB4SqInlXy5QA1rW07PUu0N8/s
- 8eSk+eMU7/pQqYIs7nBNo7IEaS6gadJyGU+tRNP/UTPae3kynPIbJsy2ZKj+SsxznQ4/
- Um7pTpTtfSyD+QRVHYgzb2fTVJ/t9gMFxum92hYrFgfC2kFXvzpBBqVsYGIs8QZhFHM4
- sOB0bbghDVvS/UZsZgVzvcZ1H4YGTBVJMS4cCXStZtaaEAOzY7H4VMkRPCVdkVTKPFfL
- 6I0GRrqUbUVWXXGEfpCmkZ3j0BizndGUrmku2VUK4taPZqAjj4hFdhT16S8mAZoP2DvK
- p1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768256528; x=1768861328;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=4w19gL9Si5xuUOM+xx0Gkc/M1vHSFtlbSnI9ldzTAww=;
- b=kiMkT3+Uf47LO2H2T3u6h6ZmuFJDGEuE7tmkKvpzqZM7NRS8dHUkMBULhpzpBl67Q7
- fs2ZoNI8OQ+vNv8YMvDUwMi9u4VxN+zcYG84bt5eN2n9sS/C3+B9K5MBX88iFKhUuH6p
- wtNDWcd4VXizVTsCaU0I+JDQ8WvGzQiu8OVwxyM64SGkqo88s/cYrDvNArLb1tckxqX+
- AxOVe3q4KPFkvBbMIOGG2O2QWZSjILTXqKELX82C6MpcA0FwV8FgW2hygvcI0591pVP+
- 9jrj3ZiVUM5BCMCAVAdc3IK8s8/13qfTWlKttUuLghBOZSqNu6p7hw0kWKMt9cTskppk
- TjeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXx+oW8uu+iRMlv8E8K+R/fE1ygX9AzX9O/LX3vGFc8XvZ2k5jhpkMvejqsPTLLZkiQFwoLdngiV3c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZiY45CfTkX9vm6WUKZSsrjKeEDmrcTGmZKwjvQ8AiyaIHBW8D
- TMyoOosKI7Q0ZSjhXtmDXfytEbfsUp4fMxi3eVd/3hRk5f5tU06DUqZRgFV7LvpSZGoVB27f8Fa
- QO0AGLJbv+1+LI7NNcu/7PfNxZ1JGWMk=
-X-Gm-Gg: AY/fxX6AAjo7IPUSVclWMO31qF9nXcvWxQ/p2yUaLRNLrKqBHt2hxdwtsfORR/MBTSv
- DhiTGl4c1boDObNTNxLwZC8kxx/2wzLRCDSgqkSd1eliJ3b4/H/MNN+lt08CG8Ld8Ha/+17BFOp
- tuL7EP5/dwhKlb9IOkq5C/jwS0wMiTe/2eaCNoWP03Lh4tAzkW4eWSbmDap/ZRvpPqNE3MNJj9u
- oeK6ByNFJvSr1gAuwdXG0RZS2W2WheK/xYC8aS+kAFlVeQdO/NUd7+KhlI5j7tDslg0SOdkkPyy
- 0gXOZXoExAs9r91e3ipZl6aXP7Ee
-X-Google-Smtp-Source: AGHT+IF7+Y5y+W1I/oKu3PaWNvUb9K8PSy+WoJh05TRnlBlC82+qzM+GksYGzWHyPWmgmkdzBXyTwo91e0gYk9qAGBM=
-X-Received: by 2002:a17:903:40ca:b0:295:592e:7633 with SMTP id
- d9443c01a7336-2a3ee4c0fb5mr187274885ad.29.1768256527834; Mon, 12 Jan 2026
- 14:22:07 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4505610E152
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 22:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768256794;
+ bh=TgYUCidDKWv6b2I1M6WbhdnXeMuTPT1duM24nQAyZlg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=PKj03XzgkwC/BaGrdJQaZl6lDTjl55mcEilEjibuY9NQaAqwg1A5mxKXN/5DzHlZR
+ KivywoZZhIejOUv8q0Pmt+AXkay99Eo8lbFfhA+cvPR81ZiexTFwVzB9+EQSgU3ksx
+ ic02rfNz/jgGtSqLr7jYQyilr+oa4Fn0oYIFQ3taR9TBf9NRIc5QM5Znq3WmgQSAYW
+ 46v5ZNtQQMo9g4vao4t5bPxcmrlWWoVocAhKYbf3yYFpx5mO1lUlZ8lhNr7JyO9y5A
+ wb2bRH/IvEcf+lp4wNICVe3Slmd9clOckC3kshh9ARHydFwxDWxRta64hoXG+aA5tW
+ Lb/VSnZnb7vGw==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7A67217E0A49;
+ Mon, 12 Jan 2026 23:26:34 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v2 0/4] Add HDMI 2.0 support to DW HDMI QP TX
+Date: Tue, 13 Jan 2026 00:26:17 +0200
+Message-Id: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
 MIME-Version: 1.0
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
- <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Mon, 12 Jan 2026 23:21:56 +0100
-X-Gm-Features: AZwV_Qj9tssGMaPejz2Zl0XwPzPqVqwiSQM5-St_AAUm7gwon2Sgi9P4XfkbVUU
-Message-ID: <CAFBinCBWUXNwEDCJNEmdCtOcGO9eVFfZFC9p9fpdRTesZ7xBSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] drm/meson/dw-hdmi: convert to
- of_drm_find_and_get_bridge()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAp1ZWkC/32NTQ6CMBBGr0Jm7Zi2yO/KexgW7bTIJECxNagh3
+ N3KAVy+l3zv2yC6wC5Cm20Q3MqR/ZxAnTKgQc93h2wTgxKqkErkaF842InxsWCkoCeDZI2tTVE
+ R9Q2k3RJcz++jeesSDxyfPnyOi1X+7L/aKlFgnZe9qy5C6rK5kh9HbXzQZ/ITdPu+fwFEpJprt
+ gAAAA==
+X-Change-ID: 20251203-dw-hdmi-qp-scramb-cdbd8b57ccf9
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
- linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, 
+ Diederik de Haas <diederik@cknow-tech.com>, 
+ Maud Spierings <maud_spierings@hotmail.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,38 +76,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+This patch series provides the missing support for high TMDS clock ratio
+and scrambling to DW HDMI QP TX library, required for handling HDMI 2.0
+display modes on RK3576 & RK3588 SoCs.
 
-On Fri, Jan 9, 2026 at 11:03=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
->
-> of_drm_find_bridge() is deprecated. Move to its replacement
-> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-> is put when done.
->
-> dw_hdmi->bridge is used only in dw_hdmi_top_thread_irq(), so in order to
-> avoid potential use-after-free ensure the irq is freed before putting the
-> dw_hdmi->bridge reference.
->
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+In order to allow addressing the SCDC status lost on sink disconnects,
+it adds an atomic variant of the drm_bridge_funcs.detect callback and a
+new drm_bridge_detect_ctx() helper, which is further used in
+drm_bridge_connector to switch to ->detect_ctx hook.
 
-[...]
-> @@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *dev,=
- struct device *master,
->                                    void *data)
->  {
->         struct meson_dw_hdmi *meson_dw_hdmi =3D dev_get_drvdata(dev);
-> +       struct platform_device *pdev =3D to_platform_device(dev);
-> +       int irq =3D platform_get_irq(pdev, 0);
->
-> +       devm_free_irq(dev, irq, meson_dw_hdmi);
-I have one question (so I can understand things better):
-is there a particular reason why you went with free'ing the IRQ
-instead of "just" masking it (so the hardware won't fire anymore of
-those IRQs)?
+Furthermore, it optimizes HPD event handling in dw_hdmi_qp Rockchip
+platform driver to run the detect cycle on the affected connector only.
 
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v2:
+- Collected Tested-by tags from Diederik and Maud
+- Rebased onto latest drm-misc-next
+- Ensured the recently introduced 'no-hpd' support for dealing with
+  unconnected/repurposed/broken HPD pin is limited to HDMI 1.4 rates
+- Link to v1: https://lore.kernel.org/r/20251203-dw-hdmi-qp-scramb-v1-0-836fe7401a69@collabora.com
 
-Best regards,
-Martin
+---
+Cristian Ciocaltea (4):
+      drm/bridge: Add ->detect_ctx hook and drm_bridge_detect_ctx()
+      drm/bridge-connector: Switch to using ->detect_ctx hook
+      drm/bridge: dw-hdmi-qp: Add high TMDS clock ratio and scrambling support
+      drm/rockchip: dw_hdmi_qp: Do not send HPD events for all connectors
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 184 ++++++++++++++++++++++---
+ drivers/gpu/drm/display/drm_bridge_connector.c |  73 +++++-----
+ drivers/gpu/drm/drm_bridge.c                   |  58 ++++++++
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c |  44 +++---
+ include/drm/drm_bridge.h                       |  30 ++++
+ 5 files changed, 313 insertions(+), 76 deletions(-)
+---
+base-commit: 38feb171b3f92d77e8061fafb5ddfffc2c13b672
+change-id: 20251203-dw-hdmi-qp-scramb-cdbd8b57ccf9
+
