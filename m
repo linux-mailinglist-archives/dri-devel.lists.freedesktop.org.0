@@ -2,101 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF2D106D7
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 04:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B09CD106DE
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jan 2026 04:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75D3D10E2A8;
-	Mon, 12 Jan 2026 03:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB87410E2A1;
+	Mon, 12 Jan 2026 03:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kg1DY6AM";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EtF029l+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BYYDZ50p";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dQviYgS5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76BA10E2A8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:42 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4422C10E299
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:44 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60BJ0RdQ2679521
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:42 GMT
+ 60BMdCE41238549
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- rED9lwvork3PLMQ2f9ebapLwUohNxkXpM0yGp5P1L/4=; b=kg1DY6AMxLMNu2Vk
- y86WfTV+kTzAZ1DSgxFbOALuUHuAaDpQ40+cmHkQHOGqb0hMj3d5+zQw9z/pdRtL
- +BYSri6MXHy22jt8gnvO2M5HY5oJuSS+2iWDP3AC5qqSSK5xq1EpTNsWe2cnW+I6
- J1HrVAFsTSMAJnCP2Fjtoz97FX/TSiUBotC+OO0ngbmU6rpJU14DV7h+QQYqPM2s
- wEg0SjyB2ouN8j91l3eH+j/hLEXUONvV7/lpwJglD/lCoTtaFaKRjTbtfN+Wvlw+
- u+M1usmbVBnW5e2IWtiqZzbhJYfjIw7ww7YtLq0jP0H1j4GFikX2atSfxBulR2Lo
- 81WGlw==
+ SMZ7Iu9/ClBHG50He5BgPV5hNwYWu69ArfAKOu74zkc=; b=BYYDZ50pi/cIuXzo
+ jdPcFwF48g76v0ns0XtyrYRh0tb4CHxjPeeTWrJE8cxbIGdr05643zWpEaydxRLa
+ krZiueTB0iPXupKXlMfAzPeWZrFJArhzi1as7/kft0s5/bKjImdshyX3uOFdJbq/
+ vM8BqcSwh/gL8Tf+kUIdyEF5RtTuvyRIKYM7/ypThlqUV/IPFYojEvmoTTkD1f6r
+ nbMtcarLSIfCKZsYsee70ABEfpQST6TtLW4DjIX4ofJ4ZsV1uOZzvai0Kpc+u/wY
+ saePXlAcsvTVQIIZ/n5DHNUL4KPul4so4oHMhYuO5emxBMnl4jHKz2iipcmmpxj7
+ jldTGg==
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
  [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bkf57b9y2-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bkfxfu8g2-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:42 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 03:11:43 +0000 (GMT)
 Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b2e41884a0so1228940385a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 19:11:41 -0800 (PST)
+ af79cd13be357-8b51396f3efso1162412585a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jan 2026 19:11:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768187501; x=1768792301;
+ d=oss.qualcomm.com; s=google; t=1768187503; x=1768792303;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rED9lwvork3PLMQ2f9ebapLwUohNxkXpM0yGp5P1L/4=;
- b=EtF029l+BcMsNgqJ+rwlMAEhjt54ob+78/VxeEns7wA/8V7DWX8VbbEpv8PJwjqnRR
- enfbMAIww34T6GhB27OEdN5watsU+NHcoCD652Fr6U/SZysdBw4FEGS7rjvKfp3a1xbj
- Um1kaB+Ny5/+WW64hGBr2DmZaGMPXcXoPkdXdTjAc0L8FlLunw5Gujf8Ou6hxTMu+EA/
- 2o6It3NE0tdV9VfIfF9Z57uNH96+ubut8W+NDJpUoJHMxZbnJtiasy2P++JY+OaPe7aX
- A7MXDFqlvlVI2Y0mtOVk+5AMu52FIhE3DSIq3rkVkkWWKrpRGc5ryKeZ+ETPSxTEB/b7
- H9Lw==
+ :reply-to; bh=SMZ7Iu9/ClBHG50He5BgPV5hNwYWu69ArfAKOu74zkc=;
+ b=dQviYgS5bG/nUlh/t4+hteYRzkFuYH23IIv6ivsBwHuOgJ8TA86Dbw0eKZJ/bvXkjR
+ V1/j5xUIAYMm1YA2A/037I5H44qqwPbTAsV9ND9+xMwXeQTJ2F3cBqupNI9WD/xVD7ko
+ I+cFV44+aRa97xxjQznldFKUDF6737BAiDufnmgzjG7Z0Md8o3hE+mmk+haeTAY/tn+5
+ DSxl4mzjkLp0tuR4DTpowh7xLBbNnCh4tw/oLogl+nbCX9KV5PV/PK2I9zR2BlZXg24M
+ GGQQizshgZGTw8qlN6hSRUWxoZOVftucIDETb4Exx8EjP2h5REqzLZcghbFbbUHJAe0E
+ 89Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768187501; x=1768792301;
+ d=1e100.net; s=20230601; t=1768187503; x=1768792303;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=rED9lwvork3PLMQ2f9ebapLwUohNxkXpM0yGp5P1L/4=;
- b=ULQx+WsfAocHDj1ledQXTIl/YJ7YwvTuSAEryN+zJAgi2Rr0vc6+WcWwiFMKurth8o
- 9HkPqV9Lr1eftbsEZC5EKfwyT3FAd52XEUSxesE93unvbdwcMMS7k5Yb+8czJVKTJ/zg
- OFel71p0e6Tam0bXvxAYVKWVcgk4bGl6+FgM7ASaxI4kgbBnabeWq3Kg5Gi1RUzozpf8
- eLpmWuUtEZ7VwZRg0CC4WzqJ/dm86rSA8McgwaQaR5hAxAGSf8lJ+Oz4+/tdF8AAbkmV
- Ca8KD0PaYRb3YjuhGIgSvMyaUdQe8zfTC4F68eUEUTKCDgFh271Bi+lrZyNuhe+Qe0eN
- VqPQ==
+ bh=SMZ7Iu9/ClBHG50He5BgPV5hNwYWu69ArfAKOu74zkc=;
+ b=e+B0RI+Wi5wXs80Rm8BT9V8T5NLjXAIHCHLhe3QzkBcn+D+nxUes+w/3Ma2ZtBL0cu
+ 7Nski2T6GEdDmeaV0LpabOD1fc5QOFalw+WK5uRj2wyQkZyklPzozJ+Kq3xxbdgsvLim
+ Q+m14dvPvhPkhVAaNwETC+mud1qvV8LNeiFZwI3ivOPYX5KM+o9RFnLSmu5ST5yXddMG
+ m3Dh4cuLP30QOA6ZxeYNGYUlz8DF8RDMUGKlCH9qxal9PoyGmsCrskrBrQ0KTVpUXa6n
+ 8XvSm6NYeWb9ShM2z37Mqi4jxDO3hP539zzywH/xiM+9AeDmO1ka+fyVVa74WM9X6k3V
+ hhFw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQVUF84i8FKct3xGfN8HVFr2J88tjnNDtXZkJfd+Kjxk+0Iuo6F8dIrNtz2BlrtQKtOl6Cfvhvl34=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyL5Vn4t1TCW4dsFj3tWJjlz83YSicICrxG1sZD/qC8X3JicfsD
- k0atpvg0Vhi1BM+E6D7mijp/f9el5dF9mh3SBhKAUEDWQ57rEyXNWOq7JNfgzJ+xTp7KK/NJGVV
- BNsz6X37DZXJqAnWR5MD6s1uw4IZAEI9HYviUxydf/p5wbYV5hUAqprA/HB3Du3q54DSjJsg=
-X-Gm-Gg: AY/fxX7pFyAlY8a33QVgy0Fa6W/7k2pmvFRzDy+PXqOuXV0t+pQDD/6n8mXrUV8zizm
- 8QqOnePE5EZwZob09VmrFlTHevHfCoC7aGYBvFFLJGQ8UmOQi6y/5E7NQr6s35U1GtGIbqqaYrG
- ImS8gb8VtlAx8HLy8NOIyigFIR3mzPvP96GImQ//lobAX3H2/p+1FJQ/VSTlhTTYmT2CnEIuH8o
- 5N/hF+C7zKiVZLfvrl35U/ZPxV9Bz7PgWSAKBmA5N+pMOHHkgpoNyw3Dk1yRc3gvI+dnLtmqaNG
- 39mZx2BMNm8TJRDy2k9hLjY4tDVHtIl9GeDxzsI+cUE6hXnnw6QYteYq86FESg2vihx3sQyNYLu
- N/sEL4mLXBLONaJvdjhi1c4/8nYDsI821gn+XiDebQ275ukzRcOuO4/9r8j3U1r8SKArmgxe6OX
- Xe9yzxwAy4WAaU55Imc+tqdcs=
-X-Received: by 2002:a05:620a:28d4:b0:8a3:f8c2:5f03 with SMTP id
- af79cd13be357-8c389421df8mr2032890085a.83.1768187501430; 
+ AJvYcCVKoxKK9sY6n4tClO0RSaNrjZ1j4BZxFaQR8nZxAzfQz3crSr13JSi+951T1f2s9t5ZS/LpTrwAboM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWKFY7pjFiaYJk5Mk9PTa/EiXM1dOzEs+CDsxKtV160wsku4hc
+ 8ycyTQLw4eHhOsy48GyyZdD8TKDLqHomiPhHIunlW6JLX2jNY4msswbFeY2ZHI/Q8cAkoMyRyOs
+ aDDdjvk1VZPdCV2uzXV219ATAaymqFnUj4CDO/Mv9O1+SSD0ANjXNMBeB7tz7yRPW6WlpwNs=
+X-Gm-Gg: AY/fxX4Nyp/wNJmKTFgXfXyvUGvrCkCZPuvi5cSgHu1p9OsdSwvr1r//a2z5eR6FDU2
+ tDvuczcCP9dazmM+LcjbMCzcXB0TfoPRdh4G3gD5FpDmH35RT7X0LBH20zmQ7kFK9UZjBKRHzVk
+ hCjBhKHdWX2+D/lDNFQU6Jv4V/0SV/VJy0MntqrQHqs+dD/zsR/hi6ZwWTy89YSbHBnlpkSdxOs
+ DzOqqFRJiSuZYMBT07j15uadYmUij7mU0l60J9xknN3NbNBhz+K02O2YlAVtu2F8Y2ihNEAI338
+ dH6V5OaBiGQ3ha3ZugFKEo5u/pLBV6OuFzpAG5IFcT5Z3teZL0Y9GqLvB1Hl31QZChEIrZ3NCeR
+ RdHr63BYGog5EoBE18hYpLMS3Zw62cWPmj+fChSn1mu4F1kczdLW8ye9b+9ygk2Mdgkkwz2nT1G
+ E7sobdfbf1yR+YISHsmTjy92A=
+X-Received: by 2002:a05:620a:3714:b0:8a1:426a:2cca with SMTP id
+ af79cd13be357-8c3893dd3f9mr2297038285a.41.1768187502533; 
+ Sun, 11 Jan 2026 19:11:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGZlCZ55KSEfgo3DonvQKshjkirRC4BG8OKPHXr7tR1qmEJlecfCFxV41+QRvOGgoIo+Tibxw==
+X-Received: by 2002:a05:620a:3714:b0:8a1:426a:2cca with SMTP id
+ af79cd13be357-8c3893dd3f9mr2297035785a.41.1768187501976; 
  Sun, 11 Jan 2026 19:11:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFy2sOPSG9xnspRGe3S50DMCS9lvh724LPP3uuPnBxMoXPZql+DuoZXe5XMhxwVlt6UBPrypA==
-X-Received: by 2002:a05:620a:28d4:b0:8a3:f8c2:5f03 with SMTP id
- af79cd13be357-8c389421df8mr2032872985a.83.1768187496172; 
- Sun, 11 Jan 2026 19:11:36 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59b792cf330sm2758871e87.102.2026.01.11.19.11.35
+ 2adb3069b0e04-59b792cf330sm2758871e87.102.2026.01.11.19.11.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jan 2026 19:11:35 -0800 (PST)
+ Sun, 11 Jan 2026 19:11:41 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 12 Jan 2026 05:11:30 +0200
-Subject: [PATCH v3 2/3] drm/msm/dpu: filter writeback modes using writeback
- maxlinewidth
+Date: Mon, 12 Jan 2026 05:11:31 +0200
+Subject: [PATCH v3 3/3] drm/msm/dpu: remove max_mixer_width from catalog
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260112-max-mixer-width-v3-2-f98063ea21f5@oss.qualcomm.com>
+Message-Id: <20260112-max-mixer-width-v3-3-f98063ea21f5@oss.qualcomm.com>
 References: <20260112-max-mixer-width-v3-0-f98063ea21f5@oss.qualcomm.com>
 In-Reply-To: <20260112-max-mixer-width-v3-0-f98063ea21f5@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -109,39 +108,39 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1546;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=19211;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=zHSRfRG/yEhgqLh6Odv+yciJer7YgF5rsUQscTWE1lE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpZGZj86aFD68n5Ir9ySTR6r3+b7J6Z3y0AMQq5
- gzT7WbLmQKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaWRmYwAKCRCLPIo+Aiko
- 1VWSB/9aYazlDtkhbS00IerH0YtRm2wj0D6n62SQ0+t78++Kjfo0KnbLQUG6u4ToJVsSE1/uesR
- SiNSI4iPmBkLWk1/b5TteDZnWpXV+prZDGMOt+x1U6cDdcB0i6AnTeUB2z+mRt22PjYA+xBURlk
- xmQV3sDKQq1ckzDOTROXFDSUZ0heuHRZ1zL0oW49LDAEpdSwlo0AQZxGM4O+XjLqAopJrZ3Rmee
- wFiM4d3EAYgxcJY33rkSDohsk9V6oL8eFAR6xSo5QxyqOakPPdeOBoCLRW1v1wyI33tl9e7cDKV
- qijHaBSid8o2tyLDhR4QaUBuvypNXp/LrBaNGkYdy3xOoePM
+ bh=OeIeX85m68KtKpaL4CxfY88JJs2W1shJKLbOI0vfmPo=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpZGZjMMaIjKXPKvc1XHS1pulHpq31TrGuPxNCW
+ 2eI+YwwaEiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaWRmYwAKCRCLPIo+Aiko
+ 1SAeB/4kF0tZOVzq1CgHJtcBno5YSpf8Gx3uDQa4t8w7Bo2a8WHb0P7niAKTI2mZMnocfHyB5J2
+ h//O5OICEEwR6oEgm3RhxVVwBmbgB2tZcpmaf2q/GUYBIbgelyqRoq2KOVgULH2DvvphkFHQdeh
+ qpKd1e/9/okApma+F05oABLLYCn7qj6kpDf+uxkuUebkestxwY4eTXrhSJfzlUSABg/OMj81iii
+ StYAHc4Hy6Xzvb5LnJbRxfO+G4ryEFg+bx8LqpcY8lENw8w2VfIVvgMiRJMia98ZlVptmxMgW6T
+ g4CgSbW/O+PR3mSFmRdEvL9AGa5a0JW1J7v7n8yR2Y1hkwUJ
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=K/sv3iWI c=1 sm=1 tr=0 ts=6964666e cx=c_pps
+X-Proofpoint-ORIG-GUID: gnJA5xLcR887Ekut2PN-HeWG-5YBSB2W
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDAyNCBTYWx0ZWRfXzELh8P0b+75b
+ rUUk6ePMFb9MlIxyAdWR1xPEjdMIkKAw7pJ+yGR6buSU0qtCss8QgFSiBhZBf1u5eIPrfTlCkHu
+ ejU1gsG8Ua0UvxM6CIEs/nmYGa+xQwedH1SdbjONyBmDHmXHNnfDkp+Vp8aOGk1MjFBE4Ya63kn
+ PsMiuxdiKbyFqqZjicbu4YX71ZdsXilZ5C+Bh1+1quFXHmcq7fxq6S5xknQhCJiIWlecda/mLDA
+ J9K+W9csb38HRt37nXqtuxKnssd1Ueum42JdSEda21Z7LdjANh90DnEcFPDa7VwCsfQKTmoU9bC
+ 3GdQ1MMF87n5vF1o5ewxr45qdOzP8S1j8z2h9iqtQ4op9CPHrqKtpOEfzXUixO04z93dIq8LLU7
+ JpaKlhttqr5h/PrBoWoE4KqGEpJ08jLCzBamiHhx/f5qdpKRCOspMnoC3QPJ/VTWb1FqnIhq9Rk
+ vOfxbn51JCZwwM2EK9w==
+X-Authority-Analysis: v=2.4 cv=c7WmgB9l c=1 sm=1 tr=0 ts=6964666f cx=c_pps
  a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=K26iOwrG_T4ePdtMxkgA:9 a=QEXdDO2ut3YA:10
+ a=EUspDBNiAAAA:8 a=XwF-NPJyeaUn0DJ09rAA:9 a=QEXdDO2ut3YA:10
  a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDAyNCBTYWx0ZWRfX42z6Lm/zzwbj
- /KsTPWLmh8Gu1wIZqbYse2J+Ru7n6+3/xeXlNFu2nb1XTp3mJmBnJ5qlrRUGErjUFRWBWJLkkEl
- 5MxyRsKyLYPlwwBCx6cbdYhJ2Rwz+OTWGpSMaO1M0iA3mCIZlYeOdTzS1oI5xtCsgWNMP5gNDFJ
- n49Di2xo+j6EBYBAeXwZR6r5V/7hFewjKWMGaq3+SnLObkgMtWdiMj3lLRAe9bBGcTGkytdCVnn
- OsIoRTzlynYHEEE5UXTXEEI76Nu5z0XyM+yapJxz9TFuyGn3GWbIqjZXpwRG3pcUsRInWfCUxam
- KwcyvRCh8DwA8kTzXcdRfpFLIVKFTLVNo1/Drlhd2e6OPOfIPIF73sg5nG0OXW+tX9Hl79944GJ
- 2rfCOWg6ShgpwtIRoMXaq/fDVypNxs46D8J6f2v8eOZmgEN8vtV3VT94S7zvkBrpJQLQtIHx3m2
- v7DL5vP3UC6mBzSJaRw==
-X-Proofpoint-GUID: k_3gq8vLOB1G-H16UGqv88L92wNOZ-QT
-X-Proofpoint-ORIG-GUID: k_3gq8vLOB1G-H16UGqv88L92wNOZ-QT
+X-Proofpoint-GUID: gnJA5xLcR887Ekut2PN-HeWG-5YBSB2W
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-11_09,2026-01-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 spamscore=0
+ clxscore=1015 phishscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601120024
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -161,38 +160,426 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 
-Maximum width of the writeback mode is limited by the hardware buffer in
-the WB block rather than by the LM properties (LM doesn't have an actual
-buffer). Use the actual hardware limit (the writeback maxlinewidth) to
-filter modes.
+Remove the now-unused max_mixer_width field from the HW catalog. It
+doesn't represent an actual hardware constraint.
 
 Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-[DB: fixed commit message]
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           | 2 --
+ 31 files changed, 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-index 7545c0293efb..209b1e27a84b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-@@ -14,14 +14,7 @@ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+index 56d3c38c8778..18866ca279df 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+@@ -8,7 +8,6 @@
+ #define _DPU_10_0_SM8650_H
  
--	/*
--	 * We should ideally be limiting the modes only to the maxlinewidth but
--	 * on some chipsets this will allow even 4k modes to be added which will
--	 * fail the per SSPP bandwidth checks. So, till we have dual-SSPP support
--	 * and source split support added lets limit the modes based on max_mixer_width
--	 * as 4K modes can then be supported.
--	 */
--	return drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_mixer_width,
-+	return drm_add_modes_noedid(connector, dpu_kms->catalog->wb->maxlinewidth,
- 			dev->mode_config.max_height);
- }
+ static const struct dpu_caps sm8650_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
+index db8cc2d0112c..13cc84b28058 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
+@@ -9,7 +9,6 @@
+ #define _DPU_12_0_SM8750_H
  
+ static const struct dpu_caps sm8750_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h
+index 13bb43ba67d3..59a4859ce67a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h
+@@ -7,7 +7,6 @@
+ #define _DPU_12_2_GLYMUR_H
+ 
+ static const struct dpu_caps glymur_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
+index 29e0eba91930..c6923e0093cd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
+@@ -7,7 +7,6 @@
+ #define _DPU_1_14_MSM8937_H
+ 
+ static const struct dpu_caps msm8937_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
+ 	.pixel_ram_size = 40 * 1024,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+index cb1ee4b63f9f..14d0619c1479 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+@@ -7,7 +7,6 @@
+ #define _DPU_1_14_MSM8917_H
+ 
+ static const struct dpu_caps msm8917_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
+ 	.pixel_ram_size = 16 * 1024,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+index b44d02b48418..17f6d1ee90aa 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+@@ -7,7 +7,6 @@
+ #define _DPU_1_16_MSM8953_H
+ 
+ static const struct dpu_caps msm8953_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
+ 	.pixel_ram_size = 40 * 1024,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
+index 8af63db315b4..1885ea92a808 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
+@@ -9,7 +9,6 @@
+ #define _DPU_1_7_MSM8996_H
+ 
+ static const struct dpu_caps msm8996_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_src_split = true,
+ 	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+index f91220496082..3fafb10661cf 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+@@ -8,7 +8,6 @@
+ #define _DPU_3_0_MSM8998_H
+ 
+ static const struct dpu_caps msm8998_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h
+index 8f9a097147c0..b2bd87f4af43 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h
+@@ -7,7 +7,6 @@
+ #define _DPU_3_2_SDM660_H
+ 
+ static const struct dpu_caps sdm660_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+index 0ad18bd273ff..e4304ace8eb9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+@@ -7,7 +7,6 @@
+ #define _DPU_3_3_SDM630_H
+ 
+ static const struct dpu_caps sdm630_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+index 5cc9f55d542b..ee3b78ce6bd1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+@@ -8,7 +8,6 @@
+ #define _DPU_4_0_SDM845_H
+ 
+ static const struct dpu_caps sdm845_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index ae1b2ed96e9f..02621def12b2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -8,7 +8,6 @@
+ #define _DPU_5_0_SM8150_H
+ 
+ static const struct dpu_caps sm8150_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index b572cfa7ed35..04afc22d9fad 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -8,7 +8,6 @@
+ #define _DPU_5_1_SC8180X_H
+ 
+ static const struct dpu_caps sc8180x_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+index a56c288ac10c..371fcb7f7bef 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+@@ -8,7 +8,6 @@
+ #define _DPU_5_2_SM7150_H
+ 
+ static const struct dpu_caps sm7150_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+index 26883f6b66b3..a5a3944a5601 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+@@ -7,7 +7,6 @@
+ #define _DPU_5_3_SM6150_H
+ 
+ static const struct dpu_caps sm6150_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x9,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
+index fbf50f279e66..42d6d1a6cce4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
+@@ -9,7 +9,6 @@
+ #define _DPU_5_4_SM6125_H
+ 
+ static const struct dpu_caps sm6125_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x6,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+index 7b8b7a1c2d76..d39ca9b287d4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+@@ -8,7 +8,6 @@
+ #define _DPU_6_0_SM8250_H
+ 
+ static const struct dpu_caps sm8250_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+index c990ba3b5db0..afe83f5e4349 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+@@ -8,7 +8,6 @@
+ #define _DPU_6_2_SC7180_H
+ 
+ static const struct dpu_caps sc7180_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x9,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+index 343ff5482382..90d696707227 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+@@ -8,7 +8,6 @@
+ #define _DPU_6_3_SM6115_H
+ 
+ static const struct dpu_caps sm6115_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+index 093d16bdc450..d7a94b7c69f1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+@@ -9,7 +9,6 @@
+ #define _DPU_6_4_SM6350_H
+ 
+ static const struct dpu_caps sm6350_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+index 47053bf9b0a2..fadbfd4f9f95 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+@@ -8,7 +8,6 @@
+ #define _DPU_6_5_QCM2290_H
+ 
+ static const struct dpu_caps qcm2290_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+index 98190ee7ec7a..9427ec024d60 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+@@ -9,7 +9,6 @@
+ #define _DPU_6_9_SM6375_H
+ 
+ static const struct dpu_caps sm6375_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x4,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index 85aae40c210f..5fe2673fa8d3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -8,7 +8,6 @@
+ #define _DPU_7_0_SM8350_H
+ 
+ static const struct dpu_caps sm8350_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+index 2f8688224f34..223ba5b0e8b3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+@@ -8,7 +8,6 @@
+ #define _DPU_7_2_SC7280_H
+ 
+ static const struct dpu_caps sc7280_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x7,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index 303d33dc7783..37a539a195df 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -8,7 +8,6 @@
+ #define _DPU_8_0_SC8280XP_H
+ 
+ static const struct dpu_caps sc8280xp_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 11,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index b09a6af4c474..bda58b5c48df 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -8,7 +8,6 @@
+ #define _DPU_8_1_SM8450_H
+ 
+ static const struct dpu_caps sm8450_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+index 0f7b4a224e4c..c5affbb42ecb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+@@ -7,7 +7,6 @@
+ #define _DPU_8_4_SA8775P_H
+ 
+ static const struct dpu_caps sa8775p_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index 465b6460f875..a34d85a82e99 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -8,7 +8,6 @@
+ #define _DPU_9_0_SM8550_H
+ 
+ static const struct dpu_caps sm8550_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+index 6caa7d40f368..21e40f098d6e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+@@ -8,7 +8,6 @@
+ #define _DPU_9_1_SAR2130P_H
+ 
+ static const struct dpu_caps sar2130p_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+index 7243eebb85f3..6906fb060c19 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+@@ -7,7 +7,6 @@
+ #define _DPU_9_2_X1E80100_H
+ 
+ static const struct dpu_caps x1e80100_dpu_caps = {
+-	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 3d979e856b7c..c959d59ac129 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -259,7 +259,6 @@ struct dpu_rotation_cfg {
+ 
+ /**
+  * struct dpu_caps - define DPU capabilities
+- * @max_mixer_width    max layer mixer line width support.
+  * @max_mixer_blendstages max layer mixer blend stages or
+  *                       supported z order
+  * @has_src_split      source split feature status
+@@ -272,7 +271,6 @@ struct dpu_rotation_cfg {
+  * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
+  */
+ struct dpu_caps {
+-	u32 max_mixer_width;
+ 	u32 max_mixer_blendstages;
+ 	bool has_src_split;
+ 	bool has_dim_layer;
 
 -- 
 2.47.3
