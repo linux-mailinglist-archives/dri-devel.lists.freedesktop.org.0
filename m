@@ -2,81 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97584D1B2CD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 21:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DA4D1B2D3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 21:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE8810E0E4;
-	Tue, 13 Jan 2026 20:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239E710E541;
+	Tue, 13 Jan 2026 20:19:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PJD53ecP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JOeSqGUT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E82B410E065
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:28:11 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-431048c4068so21919f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:28:11 -0800 (PST)
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9658979D
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:23:05 +0000 (UTC)
+Received: by mail-dl1-f47.google.com with SMTP id
+ a92af1059eb24-121bf277922so9375273c88.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 10:23:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768325290; x=1768930090; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EEEjpAa0hiVuWSNQpUBIYifaKxqsQfJ6JiXcZAA+XqM=;
- b=PJD53ecP9qdXJzde83zqjhUdAeYZKWEmFDwQDx81cndOJIhCdyq5Lgym7mPBOQORU4
- ElgHgCPv6pugYaO9Ss011JX0GZSN5mBrhAe+z2meNh+nqpFqGNIAB4pBTse8gmKCJCqH
- gMhLwBBiL0WJeZD8XQcNwWe1wBZokhSWsMp5ADAzlqx7RAEhmtkOwae8sbGg3+nsgGbG
- 6R1wEblbJTzZSJfbiSZQW7X7+DRtYWZNk2xulcaAZKHdFn0tuMgm7bkMlgdPkUycZWo6
- 7mReVVU0t8wHElGl6V0JDicFu0EACcDhOTht1KYziPtEclQ9dXKKFL40CyZR5MQXO9uh
- 83ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768325290; x=1768930090;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1768328584; x=1768933384; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EEEjpAa0hiVuWSNQpUBIYifaKxqsQfJ6JiXcZAA+XqM=;
- b=w3MoM6qEHmiW+hjYul9pGTBGC9kJ2h2PoRClOrYwWhfrO084qci34LeVlYp731B1Ei
- Bpy4pRn1grv1Cks0h5BLYbP2izyH1uGwpKLJdy3GPd0udO7OwrcH76ZhJT4OOlyBKCZ+
- EcSp04iA7KB2ICyyveDPro8qZdB4AAazLxrFY0BqOOp/aTXMWIGwVmPHYylvGr+aVfU3
- KV5Y2gui273hv3zD9+KRwiKYGsiy+yHbl+VUJLoBOs1Z6Wv7qbBOOmtaqQaQc3WCzCDu
- ixdXnIy6ULQ0c25FfBNI4xxg5sAZS606wKENjEfq96qfUPyaG+2WTeg5/TZoZH9Ed7Wl
- JZww==
+ bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
+ b=JOeSqGUTiGwxgzLDl3piUwyx/v5HgKGf3syFPgyIqM11ZX9VsXIJNrPL8Uivw3NiNl
+ iEGRzse9ThFmWoJRkVkAmfXcbuddALs9oIpruIJO/61Jw8nfbZYq+n9EdcCYl6J/TjBq
+ voUzMUoGU59H1yidjTBVYIWikJGT18fY3fRjMpuDW09Xes4VABkOD1WtVZ7mitUWwpSh
+ dru0M4FWgRItpvb/XOy45TJBYIQChPGDgYS0kQVHEJSZEfiFLuUxHaTpeoKhJmOCpl8Y
+ Yk4FVY07c92WVi9nHV/O5HMK8g6rzqYQ/h7LnpQkKHehsX2YKPqUjvT3HehXxYOTebvg
+ tzBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768328584; x=1768933384;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
+ b=wK+QecMc4dgjroJi0QYGIrNwoG4YovvnndcQ9vcc3rmWAhVYey2tWOhCAsXlpfO4+g
+ 0q2vnH+TILQ+Ya+seXO4MifYeBRPMd1mmWVMETlcwxf/rYQwJ4aZoSgnIA65ku76204U
+ zj4MroUju7WpHCmro0+MMHa+dJ1hxgnzykv/vCQ0pQGXxi3BZNtmG6ptgVf2hgizquRH
+ KSO1rxZ3ZE7iq4uouSdbYT9fYlS41m7k5vYTGws4c85WZUecxcYEDeMVt48aTEKzDIcJ
+ lJbD1sO/zak4C4arwgkPCwtbTsGECiR+GnWZULJtkofxoS0a1iKRoiHGOpKfRsbrl4JY
+ O7MQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+jmZBjFghrHR1agAQmcZcodoedhK3iuitGiLib6mp9SlkU8SAAd0nSwBk2lrKh6DB3RoqG5+MXYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9h7IihYWlq4CadgbcXGa9HWJFZJTxOm5cMLN24tvPSTQyC+0i
- WxuAfWikXiFvSR0PfR4LfN8oBCuN7EQkK0ci1JLqot/tZH74ZJn7zqmq
-X-Gm-Gg: AY/fxX59kwfpEA1ZSpbPyF0cUh0EgxLRyjgciqI6UB1JflRZEpxw1cMcOaKOMncQAaw
- JLfZSFxAr/oc367gGgpUAu4CkLyBOuyY3FuJN8sIXPB9OT8B8QUsxvaiioUm15bdRWtIE3YLmhw
- VqSIWeT5fOU6CIteeCQPTWuq/e4zDu5EA5Xqzjc4xLpGFHAdjhevxLgz9A11kTsPN12byYR2NV2
- bLP7puUN6g7FednQAmFkxuPBzlyxbi/AAJSsZWiYMILbc0dZ1uhnINqd6se/O/0FD8+kZBbsNad
- NNsdjX/M64x/0fR/z2+Z+BrVa4dVptzD+sim4fp17TSQzBppDnZQdi/i7EwimVCdNwHQxWjCuD7
- 0KpOwXBM5DN1+WCt1vuBOy9MGmmILD4Dp9WKqeZJzCR226G7BH0idwuguoNT0ROrd57ipN/tn8r
- j27ViRizEq4UUrGFkyBDw3y6/QgKBC8WKEJkbMbUWiRruf
-X-Google-Smtp-Source: AGHT+IHH51cskQ/rWPUY+DHYeuVH4jyvuoMluFfD7D37fHpkEs8+rYtzPOXZVsHRQyZzJD5N1Wq29w==
-X-Received: by 2002:a05:6000:230c:b0:42f:f627:3a88 with SMTP id
- ffacd0b85a97d-43423e77f7bmr4931500f8f.4.1768325290175; 
- Tue, 13 Jan 2026 09:28:10 -0800 (PST)
-Received: from ubuntu.localdomain ([154.161.61.30])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd0dacdcsm44792388f8f.1.2026.01.13.09.28.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 09:28:09 -0800 (PST)
-From: Gideon Adjei <gideonadjei.dev@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Jianglei Nie <niejianglei2021@163.com>,
- Matthew Wilcox <willy@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Gideon Adjei <gideonadjei.dev@gmail.com>
-Subject: [PATCH] staging: fbtft: Change udelay() to usleep_range()
-Date: Tue, 13 Jan 2026 09:27:56 -0800
-Message-Id: <20260113172756.14744-1-gideonadjei.dev@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCVbjT1zZP6r7Nz4ufeInNyCzGCrUSQON/UFyWrZV3vZH0Bd2zIqVuWWFQLYWW3JEAIiqlNdS2gmgms=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6J7ePIgXi3rbe+6HEa+wP6DWhi/7hDaTSFdiQwLdFj/C+PUHC
+ YXvza2QNWaSi3oHKUAmddpos5bzPnODjtwI6UDpctjQTpf2TEp9d5vHwcS4tl9oOLpArgSjER2y
+ gHgibXxShXZV0n6niGltS4EPXFbD8Cuo=
+X-Gm-Gg: AY/fxX6+zerq7YTlUnGmLGX2jw7nVGBG9FqGGR8CYDuDlVUiCxqSwALqSaDJA/16GN2
+ vf9VrDuQ50kycphoW+dktUNsoIRPNqFOuzqkHddgiE3rn3VK8FSVgtexWTDSf3aCz8faBVG5S8p
+ y9wvvsRBGCFjRz4xzc/R8xFkMWGB8GWXKG3L+fsv4yLlJBFPqrnRPXYJer31I52pJ2dLP+AvdyC
+ +lug+kso57QKC+ROiYsuBCCwRqI0sGWf9cp1pfmS1NmCX8Rm5vIBUp/Fedd9u8KzG+94pSLLnRp
+ 46V7LORVIhVQW/PGZIoGOdahwy3z+gKETHvZlroGEEXk3aymUCDoULLay7+gm2utpdDqrg0PZp6
+ 7KhiJXAxCc82y5GI=
+X-Google-Smtp-Source: AGHT+IFry5mrp+qhfmaTmFowwpyilhTDV99e4+YsYHR4eczlm0CCEKca1hIFDilnVzeT/ocGVM7wlP2rRttk0FeEdcc=
+X-Received: by 2002:a05:7022:613:b0:119:e569:f62e with SMTP id
+ a92af1059eb24-121f8b8d73amr21681821c88.39.1768328584025; Tue, 13 Jan 2026
+ 10:23:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
+ <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
+In-Reply-To: <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Tue, 13 Jan 2026 12:22:37 -0600
+X-Gm-Features: AZwV_QgGjFNmrIcWdIpWbLrkpdUzkEwOLFO_r4C0G38vOy1_mGAz7cr1Zzr72TQ
+Message-ID: <CAOCHtYgW4Gzyed3oTofjZYzZ+Umr1Q2fxNm7uGDEUmnG-kXyOg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] accel/thames: Add driver for the C7x DSPs in TI SoCs
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>,
+ Randolph Sapp <rs@ti.com>, 
+ Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
+ Chirag Shilwant <c-shilwant@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 13 Jan 2026 20:19:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,50 +99,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace udelay() calls >= 100us with usleep_range() to avoid busy-waiting.
-This allows the scheduler to run other tasks while waiting.
+On Tue, Jan 13, 2026 at 11:45=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.ne=
+t> wrote:
+>
+> Some SoCs from Texas Instruments contain DSPs that can be used for
+> general compute tasks.
+>
+> This driver provides a drm/accel UABI to userspace for submitting jobs
+> to the DSP cores and managing the input, output and intermediate memory.
+>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  Documentation/accel/thames/index.rst |  28 +++++
+>  MAINTAINERS                          |   9 ++
+>  drivers/accel/Kconfig                |   1 +
+>  drivers/accel/Makefile               |   3 +-
+>  drivers/accel/thames/Kconfig         |  26 +++++
+>  drivers/accel/thames/Makefile        |   9 ++
+>  drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_core.h   |  53 +++++++++
+>  drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
+>  drivers/accel/thames/thames_device.h |  46 ++++++++
+>  drivers/accel/thames/thames_drv.c    | 156 +++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_drv.h    |  21 ++++
+>  drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++=
+++++++
+>  drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_rpmsg.h  |  27 +++++
+>  15 files changed, 985 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/t=
+hames/index.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ca8391031f226f7ef1dc210a3=
+56c86acbe126c6f
+> --- /dev/null
+> +++ b/Documentation/accel/thames/index.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> + accel/thames Driver for the C7x DSPs from Texas Instruments
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The accel/thames driver supports the C7x DSPs inside some Texas Instrume=
+nts SoCs
+> +such as the J722S. These can be used as accelerators for various workloa=
+ds,
+> +including machine learning inference.
+> +
+> +This driver controls the power state of the hardware via :doc:`remotepro=
+c </staging/remoteproc>`
+> +and communicates with the firmware running on the DSP via :doc:`rpmsg_vi=
+rtio </staging/rpmsg_virtio>`.
+> +The kernel driver itself allocates buffers, manages contexts, and submit=
+s jobs
+> +to the DSP firmware. Buffers are mapped by the DSP itself using its MMU,
+> +providing memory isolation among different clients.
+> +
+> +The source code for the firmware running on the DSP is available at:
+> +https://gitlab.freedesktop.org/tomeu/thames_firmware/.
+> +
+> +Everything else is done in userspace, as a Gallium driver (also called t=
+hames)
+> +that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+> +
+> +If there is more than one core that advertises the same rpmsg_virtio ser=
+vice
+> +name, the driver will load balance jobs between them with drm-gpu-schedu=
+ler.
+> +
+> +Hardware currently supported:
+> +
+> +* J722S
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dc731d37c8feeff25613c59fe9c929927dadaa7e..a3fc809c797269d0792dfe520=
+2cc1b49f6ff57e9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7731,6 +7731,15 @@ F:       Documentation/devicetree/bindings/npu/roc=
+kchip,rk3588-rknn-core.yaml
+>  F:     drivers/accel/rocket/
+>  F:     include/uapi/drm/rocket_accel.h
+>
+> +DRM ACCEL DRIVER FOR TI C7x DSPS
+> +M:     Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +L:     dri-devel@lists.freedesktop.org
+> +S:     Supported
+> +T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:     Documentation/accel/thames/
+> +F:     drivers/accel/thames/
+> +F:     include/uapi/drm/thames_accel.h
 
-Signed-off-by: Gideon Adjei <gideonadjei.dev@gmail.com>
----
- drivers/staging/fbtft/fb_tinylcd.c   | 2 +-
- drivers/staging/fbtft/fb_upd161704.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Oh where is this "thames_accel.h" ? ;)
 
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..ee8d6b10374a 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -41,7 +41,7 @@ static int init_display(struct fbtft_par *par)
- 		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
--	udelay(250);
-+	usleep_range(250, 400);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	return 0;
-diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
-index c680160d6380..aed5cc7cabde 100644
---- a/drivers/staging/fbtft/fb_upd161704.c
-+++ b/drivers/staging/fbtft/fb_upd161704.c
-@@ -32,7 +32,7 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* oscillator start */
- 	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
--	udelay(100);
-+	usleep_range(100, 200);
- 
- 	/* y-setting */
- 	write_reg(par, 0x0024, 0x007B);	/* amplitude setting */
-@@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* Power supply setting */
- 	write_reg(par, 0x0019, 0x0000);	/* DC/DC output setting */
--	udelay(200);
-+	usleep_range(200, 400);
- 	write_reg(par, 0x001A, 0x1000);	/* DC/DC frequency setting */
- 	write_reg(par, 0x001B, 0x0023);	/* DC/DC rising setting */
- 	write_reg(par, 0x001C, 0x0C01);	/* Regulator voltage setting */
--- 
-2.34.1
 
+2026-01-13T18:16:11.881084Z 01E
+drivers/accel/thames/thames_drv.c:8:10: fatal error:
+drm/thames_accel.h: No such file or directory
+2026-01-13T18:16:11.881086Z 01E     8 | #include <drm/thames_accel.h>
+2026-01-13T18:16:11.881087Z 01E       |          ^~~~~~~~~~~~~~~~~~~~
+2026-01-13T18:16:11.881115Z 01E compilation terminated.
+2026-01-13T18:16:11.884552Z 01E make[8]: ***
+[scripts/Makefile.build:287: drivers/accel/thames/thames_drv.o] Error
+1
+2026-01-13T18:16:11.884694Z 01E make[7]: ***
+[scripts/Makefile.build:544: drivers/accel/thames] Error 2
+2026-01-13T18:16:11.884926Z 01E make[6]: ***
+[scripts/Makefile.build:544: drivers/accel] Error 2
+2026-01-13T18:16:11.884976Z 01E make[6]: *** Waiting for unfinished jobs...=
+.
+
+$ find . | grep thames_accel.h
+$ grep -R "thames_accel.h" ./*
+./drivers/accel/thames/Kconfig:      include/uapi/drm/thames_accel.h
+and is used by the Thames userspace
+./drivers/accel/thames/thames_job.c:#include <drm/thames_accel.h>
+./drivers/accel/thames/thames_drv.c:#include <drm/thames_accel.h>
+./drivers/accel/thames/thames_gem.c:#include <drm/thames_accel.h>
+./MAINTAINERS:F:    include/uapi/drm/thames_accel.h
+
+Regards,
+
+--=20
+Robert Nelson
+https://rcn-ee.com/
