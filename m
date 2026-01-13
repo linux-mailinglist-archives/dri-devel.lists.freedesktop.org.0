@@ -2,50 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04E8D1A095
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:56:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B23D1A16D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 17:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7DB10E35F;
-	Tue, 13 Jan 2026 15:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D68610E35D;
+	Tue, 13 Jan 2026 16:08:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uSfoIVOb";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AXenmkWO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A49310E35F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:56:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F005343D88;
- Tue, 13 Jan 2026 15:56:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 547ACC116C6;
- Tue, 13 Jan 2026 15:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768319793;
- bh=XmmO4eigvsjhYZsKYVguJ3MD+xURrXSOfaIeJSmmkzU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uSfoIVObSK1ZHvp48d0wP9bpnVJIp/Mqv+0QSOcJFL4eofct0tFh+RV4UY6Ce6Xza
- imS1H3EonpbiPriEgQX4ZbQl+NrRj7Iws8fD+jyqeLkwl9JPJHPB328ljaiLHsJJ1l
- UmPhFHyTubshC6zSHdyKUheoQJH1H5yEpmIQepSx5j03b3SYK8pnRxlvz4/Klkb3/L
- 46HtF9Jo8oD2KRgFkkOUyEHQab8iD6wcxjb01dWLdImkUmD05zXeW+YBcITviUK0Wd
- FOyPsLHiwN8wAWlZ+Sj9M0GwC6/qGtGBmJnoI1m3ixU3xg2atj0dLefGAyn8iMgjWZ
- HYIAJyhYukNmw==
-Date: Tue, 13 Jan 2026 16:56:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Xiao Kan <814091656@qq.com>
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, w@1wt.eu, security@kernel.org,
- kanxiao666@gmail.com, xiao.kan@samsung.com
-Subject: Re: [PATCH v2] drm: Account property blob allocations to memcg
-Message-ID: <20260113-kickass-sensible-basilisk-66d487@houat>
-References: <20260105-abiding-aloof-locust-dcadac@houat>
- <tencent_817B74448A3DED2A1535F6290308666E4206@qq.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0D4710E35D
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768320489;
+ bh=XrcoqIdL7mqLMAZSLEUBjwk3677mywTfFnps1LIr2qA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=AXenmkWO0eq5YWShnSaSv3RU3e/vIfy2AYsdeNYFaYb63vC1Wfxa4deyTH9bKjZdA
+ zkIfbiY4MFlNVaAbEHedzyfCo5epss/7f9Fe41KSANOp3W7SJ6jqA3jj5IhjA5cHfp
+ jXMlLjN45Ix9TjPtsQyew8bp+hTWRzToGrBW5tPz9k3W8mUlOtHczuEQWkOnA7tK8E
+ iY9NUTgtz4t5KziPuiYtjkxoj+jZ53hT/w1WayTNHan+buwycMpWWBUpp5tYW2wFgK
+ 8AtxVdb+UXSRg183npbS02u28cojtXfs1ns0AwIVQsmKKaVZDsyNpBbd/6qiSZ6l89
+ DWmoRged+oF+w==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9819B17E026C;
+ Tue, 13 Jan 2026 17:08:08 +0100 (CET)
+Date: Tue, 13 Jan 2026 17:08:03 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Chia-I Wu <olvaffe@gmail.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] Make MT8196 get its Mali GPU shader_present from
+ nvmem
+Message-ID: <20260113170803.6e5ebedb@fedora>
+In-Reply-To: <CAPDyKFqkPg5rWYk7cwDywRn_pexQhd2V3R63atjruJnSpYxfZQ@mail.gmail.com>
+References: <20251220-mt8196-shader-present-v2-0-45b1ff1dfab0@collabora.com>
+ <CAPDyKFqkPg5rWYk7cwDywRn_pexQhd2V3R63atjruJnSpYxfZQ@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nockj24eq2mz3xjv"
-Content-Disposition: inline
-In-Reply-To: <tencent_817B74448A3DED2A1535F6290308666E4206@qq.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +75,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 29 Dec 2025 12:52:13 +0100
+Ulf Hansson <ulf.hansson@linaro.org> wrote:
 
---nockj24eq2mz3xjv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] drm: Account property blob allocations to memcg
-MIME-Version: 1.0
+> On Sat, 20 Dec 2025 at 19:50, Nicolas Frattaroli
+> <nicolas.frattaroli@collabora.com> wrote:
+> >
+> > The MediaTek MT8196 SoC's Mali SHADER_PRESENT register does not list
+> > only functional shader cores, but also those that are fused off to
+> > improve yield.
+> >
+> > The SHADER_PRESENT bitmask with the one fused off core omitted is to be
+> > found in an efuse. However, the efuse address is considered
+> > confidential, and is not public knowledge.
+> >
+> > The MT8196 GPUEB MCU, which does the power management for the Mali GPU
+> > on this SoC, knows and reads the efuse however, and exposes it in the
+> > shared memory intended to communicate state to the application
+> > processor. Reading the bitmask from this shared memory area is the
+> > vendor's intended solution.
+> >
+> > This series models this in the binding and implements it in the
+> > corresponding Linux drivers:
+> > - the mali-valhall-csf binding gets an nvmem-cells/nvmem-cell-names
+> >   property to declare that shader-present is in a different castle
+> > - the mt8196-gpufreq binding requires nodes to expose the shader-present
+> >   cell
+> > - panthor checks for the presence of the shader-present cell and uses it
+> >   as the shader-present value if it's found, instead of the Mali GPU
+> >   register contents
+> > - mtk-mfg-pmdomain becomes an nvmem provider and will happily serve
+> >   queries for the shader-present cell
+> >
+> > While it would be preferable if we could read the efuse directly, it's
+> > not possible as things stand, and insisting on it will just keep this
+> > hardware from working in mainline. Running a GPU workload with a
+> > SHADER_PRESENT bitmask that includes a faulty core results in corrupt
+> > GPU rendering output.
+> >
+> > Modelling the mt8196-gpufreq device as a nvmem-cell provider however is
+> > not lying about the hardware's capabilities, as it truly does provide
+> > access to the nvmem-cell, even if it acts as a proxy.
+> >
+> > From a bindings and panthor perspective, this is also generic enough to
+> > where hypothetical other vendors doing the same thing (even with direct
+> > efuse access) can rely on the same cell name and implementation.
+> >
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>  
+> 
+> I have applied the pmdomain changes in patch2 and patch 4 for next, thanks!
+> 
+> I assume the gpu changes will be funneled via another tree, but let me
+> know if there is a reason to keep these changes together.
 
-Hi,
+Yep, I just queued the remaining two patches to drm-misc-next.
 
-On Mon, Jan 05, 2026 at 11:14:13AM -0500, Xiao Kan wrote:
-> DRM_IOCTL_MODE_CREATEPROPBLOB allows userspace to allocate arbitrary-sized
-> property blobs backed by kernel memory.
->=20
-> Currently, the blob data allocation is not accounted to the allocating
-> process's memory cgroup, allowing unprivileged users to trigger unbounded
-> kernel memory consumption and potentially cause system-wide OOM.
->=20
-> Mark the property blob data allocation with GFP_ACCOUNT so that the memory
-> is properly charged to the caller's memcg. This ensures existing cgroup
-> memory limits apply and prevents uncontrolled kernel memory growth without
-> introducing additional policy or per-file limits.
->=20
-> Changes since v1:
->   - Drop the per-drm_file blob count limit.
->   - Account blob data allocations to memcg via GFP_KERNEL_ACCOUNT instead.
->=20
-> Signed-off-by: Xiao Kan <814091656@qq.com>
-> Signed-off-by: Xiao Kan <xiao.kan@samsung.com>
+Thanks,
 
-It looks like you sent two different patches labelled v2? Sending a new
-version in itself is not a problem (and even encourage), but you should
-always bump the version number.
-
-Maxime
-
---nockj24eq2mz3xjv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaWZrKgAKCRAnX84Zoj2+
-dke0AX0XqaaweRGyv7Lfp2P44eeacopKQH3Ngpyh3UWZO2fk4XmKMyveOr/lWhXN
-h8WEF1ABgOPlCUbB12J/wp0yiavQjIGP+LrfJ07ImS6Sj9t5dGzvIS47mApwbC3m
-9Vk2EDZk3w==
-=5oNp
------END PGP SIGNATURE-----
-
---nockj24eq2mz3xjv--
+Boris
