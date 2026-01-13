@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04E6D197E8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 15:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBDBD1981A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 15:35:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C9A10E1F0;
-	Tue, 13 Jan 2026 14:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D679210E193;
+	Tue, 13 Jan 2026 14:35:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fvxAx4YC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fwR9Ybjd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4133610E193
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 14:34:55 +0000 (UTC)
-Received: by mail-dl1-f67.google.com with SMTP id
- a92af1059eb24-12056277571so9050789c88.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 06:34:55 -0800 (PST)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBEF10E193
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 14:35:50 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-34abc7da414so4371089a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 06:35:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768314894; x=1768919694; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Zco7EFUTNtZlgUYwabK6K3z7XvpUMikF8ohw5sUN8wk=;
- b=fvxAx4YCryeiG8FV/4cXb3SlkI5kPOxAjW2tyVQxSCF4yYzDr5B8qvJW8br1M4M8Fk
- aE/fmu7aXxPjmixs4QHoNY6eI5UFL3SAZaZZJC3Ozc0TNd7eUQ2v99wc99ozrGjNDYdW
- 6o8ZkdMALEMHPrc43izoVwq3u2nwf8OgYQHQzMsSPAtXNd+oOC5ax5uwpjE39gt/OTW/
- xwhTqVHEjqZt8H9+agqPxvMDaSQLRo+mAT0RWljSty4SFiCbr0wYRUt8Wp8PInX9ktfz
- aG+867EN07yEFsPL34TJqgIcMV5SoHqzqaGaaIyJMLnSfPSQ1nKK4zwU33zFXhbZI3kS
- eplg==
+ d=gmail.com; s=20230601; t=1768314950; x=1768919750; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=oSG1flMMfh36IrNc9ewR5ZYBFxhDPNDnEZLwNTNKxSw=;
+ b=fwR9YbjdmsO9NIoC25kaSGckmSt/9oOp7rxkKpavHO9bhJjttkDO4lo4jYPbaZ2N9T
+ 0s+F6vSfUHjbgdEvCD0GgXk+4uNdLSQyEb0Yo+FZd3mP7K4BKNz/PoXN4VCkXV8KHsM2
+ UzFW3eYGYnvnt2frvUMvRXOidBUDddQUtYBuLqQvHsXCbLMjGgW3LpJg4iwbAP6pnUck
+ OwYcWRXKikGTQvL8dWL4FnPTBimJtAn6tphyc2ap651dqmhOXXSd6jB84hUnoZHojHdE
+ jj/Dzgz829gVRLRXTJEeCfdVAvbURuCHeWx860/lv9MBXSV3XNVIEU5vWhDRLPgl1Df2
+ OJXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768314894; x=1768919694;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Zco7EFUTNtZlgUYwabK6K3z7XvpUMikF8ohw5sUN8wk=;
- b=D6Bb63oT1ph8ngrZqYy1J2QXXiVvn2So9CowpyPVFwErCeG9fvWQtJKWcIOgzPeNrn
- X5jiDdAPTjeln64dRectAQcZlQY8ugDAu6FJ+bYeeDZTW+0/dLBQc4Q1+PMBu0vxg7g5
- cQoJi9JkS2o95vqOWYBqsoEJNJ+aRe3ObQaUUM4I6Kga+godiTf9fHOIuzsN0kWax5S8
- R8txBr2QvSgUtk9s16a7E5Du7i3AJdH015g4dU5QphitG8QadufewdPxnBwvvHbVI1Eu
- ktPKMK3SzU3pz+/twjEs+ogcq+9crnPjT1L5jcdhx0Sotj2lrkycphQzHDxMv03SB103
- NxXw==
-X-Gm-Message-State: AOJu0YyVGqhxvWXhjvqDd5HypehSduWcGe9BvbdWAcTsKAX0chbNiYF8
- kNSIJQqLtGYquNRya4mFG1zmaDirpiJDgIpKelLSv671yfXeBqhdpMfX
-X-Gm-Gg: AY/fxX6YqNKVnpZj9oCcDmS/Qjl/949IfS7rh2FDyBFMZFi1A8MT/x1eYEyckC8S+Ox
- xQ9gYLSdMenSiQA9ePv1jKwRl7Zlrs+tMkY+lMwbbQ5h/XrLb2Sl21wmW4g4BO7Pxeoh0k+t588
- xOT0r/hT1yF2YwzhcgR4yy0h4wJ636RQg1mHNa4p/6NVSR8ZcoHK5lRtfIpHPy3dsDlC8WT4zws
- RahkxFPH4CDofZZ9MCvQPO7KKvf8aq4hCIf5BLkVnFKTvqh6IeT4jM/Q9ytpzhR6OYpIs30PD1G
- TqMRvuNc/rRDSJA+ly1pGLZ0H8XgMwaUsjVXgcpc3NLdOjDnUThCPdIq//2sLtOeilIjT9BD12E
- GfUYIJSDUPnYbP9ON+RudF6b/lkIk4pmm6nCM8TZOoBozYSSUMSdGpiEAFMn6BCBOUlnjsNg05F
- vk10zSW3yRuTJBZFNVQg4G
-X-Google-Smtp-Source: AGHT+IE6eqficxeF/oTartYDjBh3+Z6jmQslJHwouLzBiZA7Qxp1OVpE8sFLB0l1i1KCqcJgNMf5pg==
-X-Received: by 2002:a05:7022:4390:b0:119:e56b:98ab with SMTP id
- a92af1059eb24-121f8b0e125mr22306128c88.18.1768314893939; 
- Tue, 13 Jan 2026 06:34:53 -0800 (PST)
-Received: from localhost.localdomain ([1.203.169.108])
- by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2b1707b21dasm19672434eec.27.2026.01.13.06.34.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 06:34:53 -0800 (PST)
-From: Xingjing Deng <micro6947@gmail.com>
-X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
-To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
- stable@vger.kernel.org
-Subject: [PATCH v4] misc: fastrpc: check qcom_scm_assign_mem() return in
- rpmsg_probe
-Date: Tue, 13 Jan 2026 22:34:45 +0800
-Message-Id: <20260113143445.889031-1-xjdeng@buaa.edu.cn>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20230601; t=1768314950; x=1768919750;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oSG1flMMfh36IrNc9ewR5ZYBFxhDPNDnEZLwNTNKxSw=;
+ b=SEzIc6qvgcTT1SDsjvAVhffpnxGq+WCiRT+ar5BiGG9LQbincHlXPi1vt/LyPsYfwT
+ rQqY84DahTGg8bzhpQmyH5OTsG5fRdRJ5lghtPyQGKmmM/l5pcDLzP2DCaof3iutkMlR
+ Q/nK0ohDjPVWI5yv5M37DRNfUxhyNEk1xA7/Odu6EisCIob8H069h2XMVltukJmPRcA/
+ 6uGYE+UeiMvzlYTxnpvU0KVdJzElDZmHBMnxj2s3rkp7+1t7Q+JvkRZ/S2yCjce/RlYd
+ 6Prf9VOS+3S40bZAITwITGMG3r5fxSSNRAOANfPnfevNwCrZpGrQz4hDpFb0ODOk4wWo
+ Go+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0kzS4soJj/C4OZIEGE8Nf9K5mwlyILtTZJH48yAbHdIaqmZPijEmB42grscwAhziv7Z1Gln546mU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKZsuDcz+sqAGJWzyt5xUvokhH3nksc+r0Kj34KpdAnpuNeerj
+ RKvXFYzE7z3xFAfbyvsI5VTARa35ENqYha/RVbIaKz16782rBOshYIvhDdlybNHzUWkL+EcaKmU
+ XaQv7wLYRayT8ZfLPnWFU7hVaJqJVjyI=
+X-Gm-Gg: AY/fxX5M6iVsOX7Z166nUEU7wfRTDh2OYNeXTKpts8i1mcPKh/F0p5vbji6h9LHwRed
+ fHcbukMV0kwKAXd4dVN6W6F9tv47xWArd4QpdizICw3jCdjjtYrPDIIaJqB4QApuq/xxUmhYDYQ
+ ciI5Lima9ZteJq7HsEs5NPbLyKMFEeVK1g12dW+yOb6MR8hB/IjACCar2lYmo8wzRKgZrOokpD5
+ X29OybyoFlXIBaK4X06yr3W2n2bfRzyIQjvGcU8j9iPPYRVNz0HkhopkdSV2kAAsuzg
+X-Google-Smtp-Source: AGHT+IHT+/65AwG7pbeaD+hwDIeJFQVVT8OcPnsbknIVCNlEW+jBEIRg6vXSDBwDn6VbTK0XAMZHrcwQrDSLxvGIXR4=
+X-Received: by 2002:a17:90b:264a:b0:341:3ea2:b625 with SMTP id
+ 98e67ed59e1d1-34f68b661eamr23258771a91.12.1768314949735; Tue, 13 Jan 2026
+ 06:35:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260113065409.32171-1-xjdeng@buaa.edu.cn>
+ <20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com>
+In-Reply-To: <20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com>
+From: Xingjing Deng <micro6947@gmail.com>
+Date: Tue, 13 Jan 2026 22:35:38 +0800
+X-Gm-Features: AZwV_QilNtsaInykWQuPTQNCtpY0ZlBqP2RfpYd9nDByrVVow35WCZNPQxZXsrw
+Message-ID: <CAK+ZN9oMpc9nh08vK1j1XDfhs8w=sQngmJ6rPOqa9QZwjTioUQ@mail.gmail.com>
+Subject: Re: [PATCH v3] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de, 
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,57 +85,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: micro6947@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
-reserved memory to the configured VMIDs, but its return value was not
-checked.
+OK, I will do that.
+PATCH v4 is released now.
 
-Fail the probe if the SCM call fails to avoid continuing with an
-unexpected/incorrect memory permission configuration
-
-Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access to the DSP")
-Cc: stable@vger.kernel.org # 6.11-rc1
-Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-
----
-
-v4:
-- Format the indentation
-- Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
-
-v3:
-- Add missing linux-kernel@vger.kernel.org to cc list.
-- Standarlize changelog placement/format.
-- Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
-
-v2:
-- Add Fixes: and Cc: stable tags.
-- Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xjdeng@buaa.edu.cn/T/#u
-
-Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
----
- drivers/misc/fastrpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index cbb12db110b3..9c41b51d80ee 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -2339,10 +2339,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 			src_perms = BIT(QCOM_SCM_VMID_HLOS);
- 
- 			err = qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
--				    data->vmperms, data->vmcount);
-+				    				data->vmperms, data->vmcount);
- 			if (err) {
- 				dev_err(rdev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
--					res.start, resource_size(&res), err);
-+						res.start, resource_size(&res), err);
- 				goto err_free_data;
- 			}
- 		}
--- 
-2.25.1
-
+Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B41=E6=9C=88=
+13=E6=97=A5=E5=91=A8=E4=BA=8C 16:44=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, Jan 13, 2026 at 02:54:09PM +0800, Xingjing Deng wrote:
+> > In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
+> > reserved memory to the configured VMIDs, but its return value was not
+> > checked.
+> >
+> > Fail the probe if the SCM call fails to avoid continuing with an
+> > unexpected/incorrect memory permission configuration
+> >
+> > Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access =
+to the DSP")
+> > Cc: stable@vger.kernel.org # 6.11-rc1
+> > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> >
+> > ---
+> >
+> > v3:
+> > - Add missing linux-kernel@vger.kernel.org to cc list.
+> > - Standarlize changelog placement/format.
+> >
+> > v2:
+> > - Add Fixes: and Cc: stable tags.
+> >
+> > Link: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnf=
+i67e@hu-mojha-hyd.qualcomm.com/T/#t
+> > Link: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xj=
+deng@buaa.edu.cn/T/#u
+>
+> v3:
+>  - ...
+>  - ..
+>  - Links to v2 : https://lore.kernel.org/linux-arm-msm/20260113063618.e2k=
+e47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#m84a16b6d0f58e93c1f786ea04550681=
+b23e79df4
+>
+>
+> v2:
+>  - ..
+>  - ..
+>  - Link to v1: ...
+>
+> You could even use b4..
+>
+>
+> >  drivers/misc/fastrpc.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > index fb3b54e05928..cbb12db110b3 100644
+> > --- a/drivers/misc/fastrpc.c
+> > +++ b/drivers/misc/fastrpc.c
+> > @@ -2338,8 +2338,13 @@ static int fastrpc_rpmsg_probe(struct rpmsg_devi=
+ce *rpdev)
+> >               if (!err) {
+> >                       src_perms =3D BIT(QCOM_SCM_VMID_HLOS);
+> >
+> > -                     qcom_scm_assign_mem(res.start, resource_size(&res=
+), &src_perms,
+> > +                     err =3D qcom_scm_assign_mem(res.start, resource_s=
+ize(&res), &src_perms,
+> >                                   data->vmperms, data->vmcount);
+>
+> Fix the alignment to previous line '(' like you did for dev_err(), I know=
+ this file lacks it,
+> but that does not mean we should repeat it.
+>
+>
+> > +                     if (err) {
+> > +                             dev_err(rdev, "Failed to assign memory ph=
+ys 0x%llx size 0x%llx err %d",
+> > +                                     res.start, resource_size(&res), e=
+rr);
+> > +                             goto err_free_data;
+> > +                     }
+> >               }
+>
+> With the above change.
+>
+> Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+>
+> >
+> >       }
+> > --
+> > 2.25.1
+> >
+>
+> --
+> -Mukesh Ojha
