@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDA1D177A7
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E8FD177AA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:06:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 388FC10E477;
-	Tue, 13 Jan 2026 09:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0801310E480;
+	Tue, 13 Jan 2026 09:06:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fwrAErEE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="suqmwgPN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 831A810E477
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:06:04 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id
- 5b1f17b1804b1-4775895d69cso36092295e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:06:04 -0800 (PST)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38AEF10E47F
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:06:05 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id
+ 5b1f17b1804b1-477a2ab455fso66613705e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1768295163; x=1768899963; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1768295164; x=1768899964; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oQVbzReVaCOjbseqkmeJ4F8mIO4/HJrr2/RcKEppRuA=;
- b=fwrAErEEl1Uf4Z1rev6VrUyndo/xjpERMLjM3DR1IvYteT+nYgmKQawD6Ay4eIg8Iw
- XCc3Tz9Y946Rkk3C1b2N5Ja3JDcM9n4XTbN9AxCpeR1vOP8fPDKeYRQuVT62EGzLHi/z
- gJObTEfaO1k734TJ80TpQwq9ivVRjDucnHm8r0XWATGvsxi0OoTAuR6SuS2/pV3Fmrh8
- dUQ0dTceUOddPX470PzQnpXgMXY7aSwGbs85H3awHOH/xAzbIo75QiOy0KgMQgLfONWI
- XSmtJVJo3pkSuHGRpZAG6AhCdRwI+PaAEqTF+digCGjPAoEKEwlOrJ/Qs/ajiiQSmFf7
- RoCw==
+ bh=tJ5qgBPNt2A9KU2NCZgM7k5Zf215ZqcLLzVeUQlD8sw=;
+ b=suqmwgPNh8rIM3TxtXDOSQjUh4pyU9rvZ6wZXzo9h1NFzkZ1OVnpU0CaoZCK6Zqyjm
+ +ZPibf3vRriPVmJZa0YQniquCbgSGRlsWb3QKJSRQF753Jyifp+1sCbCtMno4PT01eJp
+ p4W+VBUhqoSSbB493iCA7vk2imYT0ItqyJBqEGYTyE7twn1GkZZwJKTxvf/DM7h6rqLf
+ CYAerRktGUDMt7r3IOSmvjOkfL1/BY8gJNzDiZjA9EtWlbO1DJGofK4SSqkDWzU3fZzM
+ o3vQ5FlMkI3QFYrlbC7hq9xQEK/mQuMUO/PPCKF6AAx3UJnGUzLeS2IgcNnnCMG49m8B
+ mUog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768295163; x=1768899963;
+ d=1e100.net; s=20230601; t=1768295164; x=1768899964;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=oQVbzReVaCOjbseqkmeJ4F8mIO4/HJrr2/RcKEppRuA=;
- b=TZWFR8fSrXKYcdLRF0axtmnAbv2Bi/uicDm/Vu7+VgY76FCOepZySG2AI161AFht/B
- Q+AogX47jTWmtfy1nqFpgrv4Czg+pPKvjmLg18+cwfo8mu4fM96eV5nXvTITj8c18nV0
- LdZTVlR36HoohUWP1YTmxoHqUuRLdgAaC1bOK2NZ96FMKwVETBDDWFDFVj0KK1BMDHzO
- o0BsEuMaOI3tQok4Rzvy2viTR3jx2jVj+uRXK4Zv+d2aDhOQpcRm8WH7PkY5RugCKnSD
- fgn3CRTiaOh//8WMC41kpMv6Ojxe0Q7PiVyNxNLSPfWf9hw5dM7CaDJxfFjQChQYq1wY
- +5jQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiuhR5HsoHxl42hu2cjDrXgVHFx+NV8sWeDcy2PiprMmFGT+909g1JCDiacwZAB/el1uonY7Ni55I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydlwX7JXdbqXrZqOMPHRJkJCtml/G0O4f75MaJNeuR8mskMzi1
- TWAt05/H3U2JmTEgCnLLQsh/X/JuNlXo9c90JzgOjyYHoojxgNFMtjzLmZMbfk6goJw=
-X-Gm-Gg: AY/fxX7nFrdkTNN9FiWj5pKZI7R9ayOakkkxj/NUBfSvppEt2Q0GSuv64rRHAb1Vv3l
- L7P6VTOG+LdF6liMVuVJg8IroJPgxjxssuRchzN6Wu17MczRmpQy+tFRkUK6U9xTkBjO54fyAnz
- BWLoZ94aYBlSMp0k2jBLtbpV1K9sHRwDjckJLQir9a9I1p76Iy9baFdzq97cNzeT440H0GCAtLj
- n3DfbVFDJKhHJ72RD2K8I4ATbmMVFcgqPAJauTK7IRpHx9e63TfQe//HpoJzQ3j5iwcYaYQAkh9
- J820h76AQN+NID4ljJBnQBPosp0lXxkXQLg84NtZYj5i93s0n/yLiDZg5z46BTU9a/2G0+jgaO1
- Qk4QgRXtozHtKa9BLLPOxVsY8yWXCFEB2CihQZLJCEjH+Ui2vG+ORSZAh1QJ4y63Vt14+eJet0V
- W3/bKMQG1FVPR/RHjlG/M=
-X-Google-Smtp-Source: AGHT+IE5oxGi5BcctmqcFTS+LS6xBFAy5ImxA6AoRo+BNpmpFn2RZeA1MyxYoBoziJVowToHvAqypA==
-X-Received: by 2002:a05:600c:4f0e:b0:470:fe3c:a3b7 with SMTP id
- 5b1f17b1804b1-47d84b1a3dfmr239967365e9.5.1768295162881; 
- Tue, 13 Jan 2026 01:06:02 -0800 (PST)
+ bh=tJ5qgBPNt2A9KU2NCZgM7k5Zf215ZqcLLzVeUQlD8sw=;
+ b=kcP5si8GyfE1TU91r+oxe916GewsFJJFdCaRzCx4Od4UroFVxkAoyiKFODoekiSFCw
+ /1aoCc8sQIhSNTM982rGvbu/1R9iBOB7Dq+OA//mdSQJADyaMAORFd7LDW/KChhRSY3X
+ /VVF98GZHHz8a39z5G7C08HKBN4ArQDEJs7seWMDBMZFt8fggCzs7oATlPY0K8uRwdmT
+ 79o7rLJS1qBJrkroceCiMqDT7yNXZUIV8a7FBbF0sYMXyw3WIfD4zgyh2hARfmhQGsf7
+ sUQDPm6iInlsk1Ty0Z5uJbfWWcCefaMlriviz/zKB/qOCw2sOMUcFVbf+TVeo3oKhgco
+ rZtQ==
+X-Gm-Message-State: AOJu0Yw80ZD2+62cKUfWuYIA7eAJ7Ef/SK5oL45AtcCR570l+iVf7qVp
+ LUxpKaL1L1uB0+UEWkCfCh48eq6CBsZfhbKjIffahee/DmC+y4BMarujAl7ZLTD267I=
+X-Gm-Gg: AY/fxX5dGBVNhQBxKqe1h0zlBgbVwQoiS8cDmBzmHEZ1USE3IYZKtFIrCk/sgJ7Gj8m
+ t3oi3+3vvrpAh9b77KUTU/lj0AkaT3u2DWjMByH9R7AEplfvt4NXkGrAXDvJvMMLhdcSDlpyFTn
+ j6BA9m7CrM4XH7Qh1gMmZEOw0E4K0Xs1Im5Mk3hReGlRJbexct2B6m9ftE/jcIsINIoQ20e90Y6
+ Eq799qUj1N5Ltm9leseZpOZQDInLakULDmbEqQ1UK/c/ur5bxAS4BvW2Wgc5dwBbmEGfXCNNzsj
+ bLzZWU8KFO5PpB/GzYopOJ9hvMP9DhfCN+FUsTAt0z09MaT6enZLxPQWIfBh6d01TZ3lwX/GEZF
+ vmb5mOnb/tbIikmmKyfWSzilekQd6FfEj83gC/9MooA5w5sK/WiRX6Xg9WYFP2QRY80qoazpCDP
+ r4jQuRqpPqXw/PhjvYLQKXJcl8baT+EQ==
+X-Google-Smtp-Source: AGHT+IGZHjyIjphvR5P4dJrp4ySSxf5hi6F1gI/ah3Nvh1cEvuJE5z/lMWwcIYG1dWuzcPNVjjm7RA==
+X-Received: by 2002:a05:600c:4ed4:b0:471:14f5:126f with SMTP id
+ 5b1f17b1804b1-47d84b41181mr262528085e9.33.1768295163573; 
+ Tue, 13 Jan 2026 01:06:03 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080::17ad:35a9])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47ed9fe7ac3sm11118635e9.4.2026.01.13.01.06.02
+ 5b1f17b1804b1-47ed9fe7ac3sm11118635e9.4.2026.01.13.01.06.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 01:06:02 -0800 (PST)
+ Tue, 13 Jan 2026 01:06:03 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: jesszhan0024@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: dianders@chromium.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251216075530.1966327-1-yelangyan@huaqin.corp-partner.google.com>
-References: <20251216075530.1966327-1-yelangyan@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH RESEND] drm/panel: ilitek-ili9882t: Switch Tianma
- TL121BVMS07 to DSC 120Hz mode
-Message-Id: <176829516214.3839584.5633639501004642162.b4-ty@linaro.org>
-Date: Tue, 13 Jan 2026 10:06:02 +0100
+To: Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ Fabio Estevam <festevam@nabladev.com>
+In-Reply-To: <20260102141706.36842-1-festevam@gmail.com>
+References: <20260102141706.36842-1-festevam@gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add Innolux
+ G150XGE-L05 panel
+Message-Id: <176829516301.3839584.15689890384888126553.b4-ty@linaro.org>
+Date: Tue, 13 Jan 2026 10:06:03 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -96,16 +93,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, 16 Dec 2025 15:55:30 +0800, Langyan Ye wrote:
-> Migrate the TL121BVMS07 panel from non-DSC 60 Hz to DSC-enabled 120 Hz,
-> including updated init sequence, DSC configuration, and display timings.
+On Fri, 02 Jan 2026 11:17:05 -0300, Fabio Estevam wrote:
+> Add Innolux G150XGE-L05 15.0" TFT 1024x768 LVDS panel compatible string.
 > 
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/1] drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC 120Hz mode
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/65ce1f5834e9598e5120048010b4fe220e70473c
+[1/2] dt-bindings: display: simple: Add Innolux G150XGE-L05 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e7ec00be22d6563430f8e7bc44117cbcbf0fc1ee
+[2/2] drm/panel: simple: Add Innolux G150XGE-L05 panel entry
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ed7417e5b889769ef7f66edfd0f836fa812655bc
 
 -- 
 Neil
