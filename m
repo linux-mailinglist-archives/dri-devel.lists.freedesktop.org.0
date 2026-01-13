@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D72CD177B9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B0ED1787C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5EA10E484;
-	Tue, 13 Jan 2026 09:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B5B10E481;
+	Tue, 13 Jan 2026 09:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ox6ckTon";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="TTexg3lI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B94A310E484
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:06:08 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id
- 5b1f17b1804b1-477a2ab455fso66614345e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:06:08 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13EE210E481
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:12:36 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-59b77f2e43aso4871304e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1768295167; x=1768899967; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ d=suse.com; s=google; t=1768295554; x=1768900354; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AqK787/zdRuNWrcsacNL83Odl0czet1nnm2tIHnOZP8=;
- b=ox6ckTont6IjlPwJpAx96BMfvVqmttJDg8xEMzglYbcxT27YNCL5ATALoH4u417ajo
- GC+q0JmsxNN6zu2j8fmJN4imvPYu5QoJARpkxDLkg+L4clNV+UNnLKwzwf/jigcMrejY
- ANZ2tPi9RXw/gMZLsc1fUha0uvz7k5hRRsJyW3sHYi2FHxtNfLm3wcmINvr99utbXX9y
- I8geVXo3pRH3S/xRqxcyDwpFtHmqKKEaFqqD629Rh7roxNgOcqFvH9rxP8y2DYV5MZ2Q
- s9bOUgjOXS0hKN1OLRHPIId+UWHM2eBd9imDEElp6IJPn2RgpFMyXMr97wEF8OmeWGDZ
- Deog==
+ bh=V5Lu9VL/waQAbTkAQTcFCMqP0vluh93OTwbl1ZNQ4mc=;
+ b=TTexg3lIx7deRur2GlDwT5qiTUbx+kk592+f6k9pHpESlUiCRp9O5H84lLi7HA3Rat
+ UHti0UejKUATzrzS5Eyq1cQYBRpS4UTGUjyTRIz4d6DdMBp3Phi18KHlruRjJhMfwQTK
+ HvrZHCDJ6xdFybw/r7kjUMwipdcziP/y6yjGfNDL2rPVaXuGp6WhJvzOvSjibkwqS4k/
+ 21gZlL4Bbh3sr2/V2B7iQxO/rSRLTVHwlrFWY0T5Pq+3BS06QT8FKc6tfn7NtoGSvRYO
+ ppI8P9epq8Dto6QzHE6PicmN86TPWjNJDnR9AMi00jEkfH3GRgVlk66LQ9ypwC1bFCw9
+ X28A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768295167; x=1768899967;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+ d=1e100.net; s=20230601; t=1768295554; x=1768900354;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=AqK787/zdRuNWrcsacNL83Odl0czet1nnm2tIHnOZP8=;
- b=GXQRQHtFdVt7sIkcGfrb+YSOnGu60aUee8rqD+qrIjNRUcJJJv6oF8bl5FLnOI8PMh
- YQRE9m4ZhqwLEsXxc6WngPcEBYrVvlBWODgtLTlGN4PkdSinSdgrp70ba70gBGX9OOkT
- UYHP/sIsWimJUSaNywAR/a8jnpuOQb4MX8zqYU7XQayHsZLAWF2ki3ISNeBUnVor2YMZ
- XjT62aBM+LG1kFybJYYxryAes28ROgAboVVbXGX2yCIKuZpQeNdgxwNb2jJwnX3CQiYv
- 8LcNwFEPrWVDmQA42Qla5BhkhUULUQbl/5S4UQ+ZC9n9aapeH/D65Bjjir0+cZ/ziKLH
- Q9rg==
+ bh=V5Lu9VL/waQAbTkAQTcFCMqP0vluh93OTwbl1ZNQ4mc=;
+ b=TjRwPAU6bdyJ7C5BXla+iqJNL+4vd6NOPuLl1j/i85tkwu0CqydS0uBkvUHI6KUdMq
+ eQdBJowZb1IfTdbhi9Pc+5Eu/fyYyyZxDSE+hl0F+iPAev1mtPPKiXMrTuQSGb5ivDtN
+ Y1DGwzeZaapN+PyecJCeCPCj1zfwf8RJaQkRolXSyWZvvQjYpYmEWmLK8v8KwRq/Fp1M
+ 5TY567i5SuEA/tTX8EIDH2ixI/WnBH8AU21JaI6V4M3TlAoepWmb41Txi/vL8QUHbx5q
+ l+d1OBevr+mvifITHycjFu6PZOIQcpnEjM2magOts9mf0ICkXVg9pwWvZ8uYKxSF3GiQ
+ Vi8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXb8Kq5lizFVxe0jnjglC9+fAMokScoMjeQNZZcNiBXgGoggVVDTXMuuJHZmuzr6Q45wn1BxPDYs28=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfkeCllWKYyUJUD1P24B/DZy3bcvP9ev2BIItPOpcYp3ZHk0FL
- tVthakjyHhaTv3ZYf1s4c0TZT2r9AQvINlxawlK0Z4QHhPq/UDQ277/wREEGuZLlVsAWP5yamd1
- 2sXJj
-X-Gm-Gg: AY/fxX7OnrpH1FCE970SninjvZRtAFihCBDRhjEDmhKHXoi227Tegoqtje0KimwIbBc
- ROpsFb9kpYj2BmMw3yrDDhY+w8RCl94S6h6QVwynT0EYz1bimADl2JOlaFLWmeoEtfnXsWPmmBu
- omDrbwb2t0w1hlh3njPQIYYkxfN8b0y0g4Bx/2jPljO7/+JWjmAq+NjCYHSEOWwBcXcNP9V4api
- 17spvJ2mYZnTvNVahJ/v8ES7Rf+9K5ciHCCXKOcjYk91poG//BEhXF1zhoGorOnqpZwhDy4v6Kw
- 3fObQnutcacSLbD0wNSVWrpSMwab3nVp2VFbxFQlD2gBW/ZV4ISfDXsa3tMFQ6K/lp115HobdRv
- 2dkPWmLJG04/igBTpruibtjbNDu9VDwb7z0D/3vwPIU1va6JFkaID71F5mWG1fc7z06oNgzituz
- H6AoHbCIcYm0BqDc6/GCY=
-X-Google-Smtp-Source: AGHT+IH32H7DrrJfDznDfer6T6NKmAqU+johaMZVkksiLwoI48BInzNHabUE4o/kQTVaIzlRBQ8ewg==
-X-Received: by 2002:a05:600c:a08:b0:477:63b5:6f39 with SMTP id
- 5b1f17b1804b1-47d84b3477amr212210935e9.19.1768295167091; 
- Tue, 13 Jan 2026 01:06:07 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080::17ad:35a9])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47ed9fe7ac3sm11118635e9.4.2026.01.13.01.06.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 01:06:06 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
- Vladimir Yakovlev <vovchkir@gmail.com>
-Cc: Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251208161613.3763049-1-vovchkir@gmail.com>
-References: <20251208161613.3763049-1-vovchkir@gmail.com>
-Subject: Re: [PATCH] drm/panel: himax-hx83102: change to
- gpiod_set_value_cansleep
-Message-Id: <176829516629.3839584.1563715741397294916.b4-ty@linaro.org>
-Date: Tue, 13 Jan 2026 10:06:06 +0100
+ AJvYcCXMlHAPaedlbRjRAoYrle61M3sbdG3DLhbGBlAQKPYnvWXxpOEldWcdhMWnZFhG9cOXBkalKBbj83A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWrEOOklUWg0elGeyqccMVQ9Tzi58CapHLPFJ4EtbJeqPCQ//R
+ AP/7SXHiMn/bqRrnCyeMdcoOhbHPF8kTIDLABQFgBLxberv0xL/p9S6c/awpazkb+VfcIm4VwX0
+ UpFyXpBLMpYVh7+N4ZhX8ljLVc1e+jZuPMJk/MDc9CQ==
+X-Gm-Gg: AY/fxX7d5xTIA7wzrgifN2vo7EPIiwNX+Mbgd4Rh8gmZcdruQluRUck1r3j/eP6Y3uL
+ qf4/WFlSUZ1idAlxzuCx18h7nuBg/ctUBNjrbsK0yXZqr4v/K6l+e4XaYgq2tSVlTuVezld194M
+ pkPnUnAj5CNpTgrK2sOpkylZSiLP0pE2jOvsXjRN9yWvv2S7oHDfqGK2mN6a/jvK4KWLAMy62SS
+ vW/QhCoaQEGROuWgxeAlkw9DfAGnBEvKd4BzVpuwowLDKQQdObNqzl4hKMthXc6vRNXWzmB9ruG
+ bCambke4pVVVCIpcQ7egJNepTmAC
+X-Google-Smtp-Source: AGHT+IFO0QWk84GwDkUloLkJLVyn+8xkr3E+9yMv4djfq68ciziTgMuF8uHWaBgPDEn5fYSmiqMy86iO3TOXKQFxaLE=
+X-Received: by 2002:a05:6512:3d1d:b0:594:2d64:bce9 with SMTP id
+ 2adb3069b0e04-59b99205d87mr763490e87.4.1768295554325; Tue, 13 Jan 2026
+ 01:12:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+References: <20251104100032.61525-1-marco.crivellari@suse.com>
+In-Reply-To: <20251104100032.61525-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Tue, 13 Jan 2026 10:12:22 +0100
+X-Gm-Features: AZwV_QgDqvIuirhPPXWl91IKmGczjtuzjt4Lp_eCDerphNV8SI7U_RsqMPGesiM
+Message-ID: <CAAofZF4E3dMuM-0aXqRLgb8psB2kzjF1iy3q0Srqp93+MefN6A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] replace old wq(s), add WQ_PERCPU to alloc_workqueue
+To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Karas <krzysztof.karas@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,21 +92,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On Mon, 08 Dec 2025 19:16:13 +0300, Vladimir Yakovlev wrote:
-> It's better to use gpiod_set_value_cansleep because the panel can be
-> connected via i2c/spi expander or similar external devices
-> 
-> for reference see Documentation/driver-api/gpio/consumer.rst
-> 
-> 
+On Tue, Nov 4, 2025 at 11:00=E2=80=AFAM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+>[...]
+> Marco Crivellari (3):
+>   drm/i915: replace use of system_unbound_wq with system_dfl_wq
+>   drm/i915: replace use of system_wq with system_percpu_wq in the
+>     documentation
+>   drm/i915: add WQ_PERCPU to alloc_workqueue users
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Gentle ping.
 
-[1/1] drm/panel: himax-hx83102: change to gpiod_set_value_cansleep
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/4a768c544f64eaa2fc7cfa91e46f43aa4aad0c40
+Thanks!
 
--- 
-Neil
 
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
