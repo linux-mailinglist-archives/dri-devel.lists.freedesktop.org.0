@@ -2,103 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD44D1A719
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 17:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C323D1A725
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 17:57:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F3B10E516;
-	Tue, 13 Jan 2026 16:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C2D10E518;
+	Tue, 13 Jan 2026 16:57:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fv+gz4hJ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RQ42UNWS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bl70m0mn";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j2m8001R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B5F10E516
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:28 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA0210E518
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:30 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60DD1FO63637271
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:27 GMT
+ 60DBDX6v4164854
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=jOOAn5FsdoX6OtORQDUyzK
- OqdOTp2Hgauc3T1xnw21Y=; b=Fv+gz4hJd7qxPqScnumc1RxO3EJxmk5jUL69jL
- QUrXqcjNpnbeSwnI9P6FYlkHHhY/cBGqRR1v4x9JJmk0UQtZOmd2LTi3iwWCv9ek
- eabX/0bWdMCjDzQpFzQ1TwJAWEtqysnB6OqjKHPwiFBVlL4ZvS+xPiwRTjkWwjt5
- 31oVemX3USHgqA/PfSkzz0JDcTg9y84NwToNjdHXwiXJZcAycj6x/qsu8j7HcZSA
- q0c61n/Rft/vDFjPbYIlwWg2Zsbns4RzYZFbEWvj0mgh7Wx7zVfIrFJhsNdawvKu
- y+R2P/gsdhV34MwtURlcKz4nVN/01V0ixlNb/X/GbSmj7ehw==
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ JK9AxhgYIbJM0+cWK43XTstWc5qQZ8PXw5+cHXsulL0=; b=Bl70m0mnIlE3PPiH
+ xlZWgYuYfe3yQGbXCaJHGFprZEdXuDhiWbfEADlSsQSfeMKD0bwzFiXFnHgx/Cc4
+ AVJ6nXpTaXAoK+VwLUPpEWR9pJ/RlOWqpXxqSfphEOpORj73NaZ5P/mT5hu1qDYD
+ mam1bKmJPDSKGlI8gKF0jErs6HWIirJsPdpNdSPfkmo07yuX02mBXNce+aXOkWAd
+ M68CXgvpH5KW73UyI5Ctm3M70MAK/msQmO+Om14m3X6rqcqs9a+CEw/cDfzLnR6p
+ Y4JzZHp8dhOUBxyDxQDlCLY+9TdtANtbgkTBDzBAFQOGDNgPKwripZBC7qoIyL7i
+ 83mR9A==
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bng2c26hq-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnn06s4j4-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:27 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 16:57:29 +0000 (GMT)
 Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8b6963d163eso1967539485a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 08:57:27 -0800 (PST)
+ af79cd13be357-8b2e235d4d2so3028923985a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 08:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768323447; x=1768928247;
+ d=oss.qualcomm.com; s=google; t=1768323448; x=1768928248;
  darn=lists.freedesktop.org; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jOOAn5FsdoX6OtORQDUyzKOqdOTp2Hgauc3T1xnw21Y=;
- b=RQ42UNWSaODoa1/uOy6mTpsqU4W4pqDrJzACWJNlu1F+YcZcC6HgvDSCyKGFn69KKG
- HkSb6XpeE1HFcEyYP6dY7kho8C44wg91lvQQcTMgYNCTBCSnDufp3MtzWoVD0yDeBNq0
- Tl7SN8lB17vktRQws9eh/8AbQ7hqxaKBs6vgWSRbSMWsr8rqPmVjcPB/KTq+BnHgFE0S
- fDIgSzdFvSwCIYpSd3qhEcP2dqLzy3LioPGbThLAl4QLCxjCkKr3fF/+k8+FUxz30G+m
- cqkTDIM/WRqBX6a6E/yvCKbxFqWcwXrf15l5AEST8RGYlOXhsfnwG7KGNs1LIwidWPzG
- LCyg==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=JK9AxhgYIbJM0+cWK43XTstWc5qQZ8PXw5+cHXsulL0=;
+ b=j2m8001RO2ZsLeIy7TA4+IrODoVlhMSkDJmuhFWpel8uyqwEMUd9I3+64H+CSqActI
+ kUiH3Heg1CuPfbxzebxl8sg3xwRRBeZgIYGNX3nvDv7IK37vABojSGY6z6XQ8ka1j9BP
+ Z98coAediR3Uz6x0DCTEllA9GW+kwzs8EzYHXGPVvIp5aNDkDispG3KSOoWPiU+Uem2S
+ qQJNrWTnDvfo6V/R2mu39G+s+mF0w3IAb3W56dHEqyKtp2rGFKA8HNPWwKHhvmDrVfkU
+ brdoBCP6GueF4KrpI5foHYOdNjan5yjygo2d28qUoRkZwqDqRgXz1iIY4ElbqSeEHEik
+ O7eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768323447; x=1768928247;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jOOAn5FsdoX6OtORQDUyzKOqdOTp2Hgauc3T1xnw21Y=;
- b=SpRkjJ79VY9YmS8Z9xmS2g8WW7a5jMZNyYNIJjuPcZgZSD6GclnsFhWFQWbG+foZ/g
- IgbIpyFdQOU2QTQBFkg/FEkAfajahHtMtqrSRXAU7qqJyATLilXfR6HAgbfWEhfPy24J
- Lcg+XeXt6oYFrysDuUBNXyNE1pxYxd1b88wutZ69wRzjuQlycAoo0mGooJSSwzrDyFFB
- qZDYIYO/WBe+bjEKOAb7UUSKmmnr8Mk83cGQTGdTRbFLGb33TPg3zp34mhO6ZcZShoWR
- C9jaQE9YcsBQ8yB9q0wAprVTrNyA8E2qR6dSNoc5nbp7z0435telKZIK2SxXfA24O5dZ
- wYmg==
+ d=1e100.net; s=20230601; t=1768323448; x=1768928248;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=JK9AxhgYIbJM0+cWK43XTstWc5qQZ8PXw5+cHXsulL0=;
+ b=qUxAskINrbL7h8VFPn88JtybIISJnoiQE6UKFGpM7UxWrLBvgkqAWgXdmXBw8VvR8V
+ 2YHdyXKZxwsrF3YNwuQeDzCVjxZLpFGxzeHPGeG1FIKS4YP3stTVU7CvnZTWOFhNa2kY
+ 1ymz7FtjTvmVyFgmkHhnx9rh4Yj1Z7Tij4BX1ldCe7zVn6lxc88+myULP63M7WFCGv8E
+ 42XoXNaVxzgnT2iYXzE68X5G9cqvYcXpdC3BVwa/R8yJBM+k0ra0hLKphKMB0S05ceKs
+ 9QcX6ytsMHXhcGoXa83O4DxrQb1uDFeVINN0sJYv+fEIgJ4YAc1vZ4vrO+w5ZquGlwYh
+ abhA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRt9kMtdPG2Rahb9aQgBcBXaLcJf02l3fIQ+ThcoO+LDkrsurbwly47J5ftfMdLGeh53E3XgDSDRE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpIhzGALPmcxOaGkU6rnKstkAENSjdiD3GiyilyFbOuQTpkF8g
- hS2KoWre40eHk4XR3NiOXMhKBJNdWYjXvFdoeRp8fyBVtbR/WZWyHvdmcckJ3x6LCG9UWwMZp7A
- t6NbFQSL5LT22652ScU3E3RIUu/ih/RJ8K2fMOnuSS5g4W0DnwR5wN3/6Og9FtTq+64QPgkc=
-X-Gm-Gg: AY/fxX4jqH5iViRZ0CliFgOzbZ/28iR1B4kjxrxlujlndCUeH5LM4uRu5KpIm3zkLAb
- 7GYL+l8hoX6XswSuTN41vYTVzE+i2zrvUQf8mWpuXu8Q/1C0nqK5dsOHeMMqz1Yh+ryMgKyqr7n
- n8NIFpaJXe802wv9qpwEJCkezl3P8dWu0zg+EL16OcsEViuqI38A15//GguHXyBUzQIh8OeW25Z
- j/vfvB3EomMg13ws9v8pm9Y0Z6jWBKL4A6/RQ/1CwV85WPhUlUg6b7wO3CuELMiZmnRb3RI4q5v
- 15nqMcboBIrLv6JgeJ7cj84LB9sUsHYAYJuBRth3IZOpPkWQf1517C+hxfzUkwagu3Bq/SU0G8G
- ex52qmMfViqxKt3xZU1wTEz6pdnHf/R3cABJNQmXiseiQ9GVLBwD7VaqZrEfKkCGr9/Nv87eI9w
- dFOFEIQykmUeeLWfwirMsz0i4=
-X-Received: by 2002:a05:620a:371f:b0:8a9:eb9d:512b with SMTP id
- af79cd13be357-8c389370d03mr2851935585a.6.1768323446570; 
- Tue, 13 Jan 2026 08:57:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFnv+zvvUSVye807I3iOxQYYNjQn6GHKp+z4DaM9QnMqbhtS6EBuyv4QUimpYjB1lN8tO2ITQ==
-X-Received: by 2002:a05:620a:371f:b0:8a9:eb9d:512b with SMTP id
- af79cd13be357-8c389370d03mr2851931785a.6.1768323445952; 
- Tue, 13 Jan 2026 08:57:25 -0800 (PST)
+ AJvYcCWLuPDIiaQRL0olfle1Wz8uOS+HOdLqyi8WXPNjfalRovEbqrNQsFjTP892ARgdePbxYodzkRi0UqM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGirJqpgCMURY8gwWYV0WzaISP2CoLgu90XWN3gg8hcEUjxkYn
+ qe/fb2JLWT9Fwip8aoQFTM1GxBhQUWFqRC9j/gsjQkVUUA07xhLzNrQDf5XP3sNePkuPBDHvFrN
+ vEPsQhxVnSk/uFAV4bKVHrXa6+5q04Z077URcjWHTkvZllLmEn1xK4wGvHgSdcMUUXCaEPRg=
+X-Gm-Gg: AY/fxX67NMy2vrWp5sHL2uq1frW1YOFliT2Jx7t9dglXzYHEmdiQiU0OqZyRk/bcnFe
+ S9fZ1bY6goryZuNG1YE50cvz3TpeQ5s/42KOgRNb1KQW2ExA/1Gu5PweB2v56x7Arr2wJl3CNjp
+ Biwb8xWSnClUFMUKzNWYmfM+EkOl7K1sfrjqBaBT619Tfpp0xRKaZu5vvoqjvKbVNfzdQK/A4qb
+ tZ75Fmpz+o3OQMgGTK8EZaVbvMiLPSB54N+cqMj79GvoStQVB7sYWZqIOYKf6L95tSWkaFtwziU
+ 1RTWl23KjTqRyO4I66WQnX92uteGf4N/qidVwxSrjlJbaV6gn65nwYsIwUv8LyabFMrp5vFDoVu
+ cFtURBQMWF5YQiKiyKZ9ECsZ5YGHj+s54HBhiVkHp12UknXvqXtFOly6YU43BjBU/qtYvW6hB2u
+ LONlve+glNZWcOX0Z5qh7ug7o=
+X-Received: by 2002:a05:620a:7106:b0:8c0:e5ad:adcc with SMTP id
+ af79cd13be357-8c38942eb97mr3003665185a.89.1768323448376; 
+ Tue, 13 Jan 2026 08:57:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG/AmuzhGdeXGb9IMgcYMTT/QFul/YgNecvob9Z4X2y8Ir09IUQq8baUg6jojH31xE/m7+iNQ==
+X-Received: by 2002:a05:620a:7106:b0:8c0:e5ad:adcc with SMTP id
+ af79cd13be357-8c38942eb97mr3003661285a.89.1768323447925; 
+ Tue, 13 Jan 2026 08:57:27 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59b72af5ed2sm4788677e87.58.2026.01.13.08.57.24
+ 2adb3069b0e04-59b72af5ed2sm4788677e87.58.2026.01.13.08.57.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 08:57:24 -0800 (PST)
+ Tue, 13 Jan 2026 08:57:26 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 00/11] media: iris: migrate to using global UBWC config
-Date: Tue, 13 Jan 2026 18:57:15 +0200
-Message-Id: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
+Date: Tue, 13 Jan 2026 18:57:16 +0200
+Subject: [PATCH v2 01/11] soc: qcom: ubwc: add missing include
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGt5ZmkC/22MywrCMBBFf6XM2pQkhhRd+R/SRV61A7axGRuVk
- n83du3mwrkczgYUEgaCc7NBChkJ41xBHhpwo5lvgaGvDJJLzYXgDBMSW+3LMa4HrZy1R2ECVP+
- RwoDvvXXtK49Iz5g+ezqL3/uvkgXjzPuOq5Pyznf2EonaZTV3F6eprQN9KeUL0XGXGakAAAA=
-X-Change-ID: 20260110-iris-ubwc-06f64cbb31ae
+Message-Id: <20260113-iris-ubwc-v2-1-4346a6ef07a9@oss.qualcomm.com>
+References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
+In-Reply-To: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
  Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -117,42 +116,41 @@ Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2418;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=780;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=FuTV8yKkAY6u6qjOMMvptbXjFhaNrD5gYES2m68Z6+c=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpZnlyn4aTfhoELy+96Isg6gj+FEpj2PM4HLF3F
- l1/0r1uUj2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaWZ5cgAKCRCLPIo+Aiko
- 1TmpCACl8frr4Rr5rQxMRtCKc/tXubQEf7JhK63d4C4QxeYZnM9mBbK21nk9Gc0bY+8Y7CoS1mn
- nJptHC4vVnfgOGY1OdJ9ZwRtMYJTn0qEP/h3Kr6znajAFMoTLydKFY5pKyePXFKR6dkc+qslqR3
- pRdk9RUuy+C3pwtYOYBrdiTWMB74Spzr9LN/6XIGYuAaOp9lJKWxW7krmo28iHhdAymwth4doGn
- y+xaoRDX8j746gcU+LvA3jD1r9fPSgnQaxnMKe6kayC/pXSs1rFxMEYAjJFX/EJ8cuUYMAH3X7K
- 9Sm7H23OqzEDJpo3NOWagf6Coc/gfA8H1dIsQqFlVuqlEOOs
+ bh=htP3Z9truSrb0C/f6zBgHeYgKgcZBATzt8YmI0trXfw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpZnlyX+mRV4ra4qO0k58wxnrmUYqzjwCmx66iL
+ BixaHexCTSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaWZ5cgAKCRCLPIo+Aiko
+ 1XTHB/9jF+1UmwmCL8Abj1wTPKQwTjOSMKu6jxaBgqrHCKE6UxKbVVBKzZIVwfVdgEpPK4bJX1V
+ Al1LMZOXT1R/4+nvtR89oNI9IjoQHm9V7VN19DULx6VgiTDf+XvDPHpOAMaW4gsZM3K5s4F2Qg8
+ 703xTjLcG6gJlNgQT6iozLZ4MfV4UIve5RBkxscPBuFTooHSC9klrNJ+LnOZcCQ0LJo9SgRVqz2
+ /aydN9DfyYEdDTQ490hOFIoJTzMu8G32KfdTgnZT6nAZH2wdUwPvzfnHDxnGG9AK+HQe0qTIIZL
+ ocD1X6Tbmg+JEpK+CG1ZUyg6O8tDRDPKBzSs1aW26UKO1vjQ
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDE0MCBTYWx0ZWRfX6YJenMux06OS
- sAtyjfNuX9CDLd/750fNXOYJ5k+40p6PhFILQ8KJNTt/1O3xouCaaDwhuivJCUpa8XcavGSgl5p
- Ae4xMWKDsrV7nrIq7giE+4kkUjFy4ySa/gV9wcQuqT9g/6wt5oJJDa5kQ0bn+pD8xXoZG6kIn2x
- sfzOvvNQ+4PV6UJ51rJV2JdPKXPLApvgBN6B7oBksGyUdHUuCbzWaVnMt5Yu6x83DWuISDHJAvP
- MruvMnhjT78GuBldteFDAMSLS3wz1hLeqmuuZukbzzwmYCWdpn9oAFrTei/2B//pjNRVu7WAIHr
- N1Bcl3HF3WoDfGthmImJpyuyL8n2Xs39pRGeOGo/vdhviQ+txF0mts2uP0sl2/ItuteHxKgX9zL
- 5I4jHLpGrPD6GsXmdakiDkXOtpJpi5h268NGz87sD66stwbj9BcpkHS1x7G4SbEvVWw+130Rjer
- 4CH2gXplZM1P4fqtuWw==
-X-Authority-Analysis: v=2.4 cv=C5TkCAP+ c=1 sm=1 tr=0 ts=69667977 cx=c_pps
+X-Proofpoint-GUID: mOnm-6xuAh2uMCOqkS5t0oE61ML37Y-Y
+X-Authority-Analysis: v=2.4 cv=ZODaWH7b c=1 sm=1 tr=0 ts=69667979 cx=c_pps
  a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=sotOLrqpNFqtnHaJl_IA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: grfZXRLcYXU7UvYAqB-RDmJD5d4kAsqm
-X-Proofpoint-ORIG-GUID: grfZXRLcYXU7UvYAqB-RDmJD5d4kAsqm
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=ALiPkwqszP5KJWpCD6MA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: mOnm-6xuAh2uMCOqkS5t0oE61ML37Y-Y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDE0MCBTYWx0ZWRfX0T8CTkuJYug+
+ 3wMlLjjf8jqjO0xZ/t6/YM7klOslibFDLx4lh2rARSCkDhPTvipNA4Bun3S0EJ7tBPsNIKuzICr
+ 2fJ3wH155r0RxUQ+DQziVSUow6vR4N6Y9ech5Fv7w1DUbVDpZJ64GHSel/5REE8vPw5xbEZfFUF
+ wLFSBp5RBP2vEfhlmjmcvVZsRp1rU6h4m38eXNuHQok9IdRUXnZyFvNB7Qc9HlcgSTyZTfPVsXw
+ xG+ZhQFKdkd+M+A9zeLGGRV/kMVNdckvAx1xR1ZLZKJDu4y+DAplOSZATQ2+aiHGDph00g0YvmC
+ sANddcf99ciObI1ONfml7+1ZZulxTPeviqFj7R4hObGHhpgMcuF3Z+L9uypOyojsre4z/W2f0JD
+ aLB35670L+2Th/97Fe5xwkMW2KrCMtYWcHq9batFMv/A5jek75DjQGtVUTfi2Z9a58D98RVU3XB
+ oRa+k1NMIxglONryBeQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 suspectscore=0 lowpriorityscore=0
- malwarescore=0 clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601130140
+ adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601130140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,56 +166,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having UBWC configuration in the driver is error prone. For example, the
-driver specifies fixed values for HBB, while the actual value might
-depend on the DDR type. Stop defining UBWC data in the iris driver and
-use the global UBWC configuration registry.
+The header has a function which calls pr_err(). Don't require users of
+the header to include <linux/printk.h> and include it here.
 
-Merge strategy: either merge SoC bits directly through the media tree
-(with Bjorn's ack) or merge to the media tree through the immutable tag.
-The drm patches will follow depending on the way the SoC patches are
-merged.
-
-Note: the patches are compile-tested only because of the lack of the
-Gen2 hardware at hand.
-
+Fixes: 87cfc79dcd60 ("drm/msm/a6xx: Resolve the meaning of UBWC_MODE")
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
-Changes in v2:
-- Extended the commit message and added a comment for the min_acc length
-  helper (Konrad)
-- Link to v1: https://lore.kernel.org/r/20260110-iris-ubwc-v1-0-dd70494dcd7b@oss.qualcomm.com
+ include/linux/soc/qcom/ubwc.h | 1 +
+ 1 file changed, 1 insertion(+)
 
----
-Dmitry Baryshkov (11):
-      soc: qcom: ubwc: add missing include
-      soc: qcom: ubwc: add helper to get min_acc length
-      media: iris: retrieve UBWC platform configuration
-      media: iris: don't specify min_acc_length in the source code
-      media: iris: don't specify highest_bank_bit in the source code
-      media: iris: don't specify ubwc_swizzle in the source code
-      media: iris: don't specify bank_spreading in the source code
-      media: iris: don't specify max_channels in the source code
-      media: iris: drop remnants of UBWC configuration
-      drm/msm/mdss: use new helper to set min_acc length
-      drm/msm/a6xx: use new helper to set min_acc length
+diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.h
+index 0a4edfe3d96d..f052e241736c 100644
+--- a/include/linux/soc/qcom/ubwc.h
++++ b/include/linux/soc/qcom/ubwc.h
+@@ -8,6 +8,7 @@
+ #define __QCOM_UBWC_H__
+ 
+ #include <linux/bits.h>
++#include <linux/printk.h>
+ #include <linux/types.h>
+ 
+ struct qcom_ubwc_cfg_data {
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c                   |  5 ++---
- drivers/gpu/drm/msm/msm_mdss.c                          |  6 ++----
- drivers/media/platform/qcom/iris/Kconfig                |  1 +
- drivers/media/platform/qcom/iris/iris_core.h            |  4 ++++
- drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c | 17 ++++++++++-------
- drivers/media/platform/qcom/iris/iris_platform_common.h | 11 -----------
- drivers/media/platform/qcom/iris/iris_platform_gen2.c   | 14 --------------
- drivers/media/platform/qcom/iris/iris_probe.c           |  5 +++++
- include/linux/soc/qcom/ubwc.h                           | 11 +++++++++++
- 9 files changed, 35 insertions(+), 39 deletions(-)
----
-base-commit: 0f853ca2a798ead9d24d39cad99b0966815c582a
-change-id: 20260110-iris-ubwc-06f64cbb31ae
-
-Best regards,
 -- 
-With best wishes
-Dmitry
+2.47.3
 
