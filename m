@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE55D1B1E8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 20:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FEED1B1EE
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 20:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB88010E53B;
-	Tue, 13 Jan 2026 19:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCC6D10E540;
+	Tue, 13 Jan 2026 19:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SshSzzGg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y1ldhYgj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
- [209.85.210.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3AE110E540
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 19:59:47 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id
- 46e09a7af769-7ce229972f1so7036195a34.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 11:59:47 -0800 (PST)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8AD10E53E
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 19:59:49 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-7c6da42fbd4so4433083a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 11:59:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768334387; x=1768939187; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=H8g5bJc3pUYOOH+Mh3z0UWCzPpBzWdqcnl8TWmpkj5A=;
- b=SshSzzGgor0sOGrrdoUbLeRxoF6W+JK0dPRbjeIJx1Ig6/S3sfCejKwPeJLJrEI2Q8
- SpnKc/K97UD59q7pawx1LeZlyUauJ5ctaqvwjRmemRNitOnGrG4w5R27kPzZfzAhm3ft
- +RvPI5KyHGACR6UVbiw++OSRu10M7jTdKqUG3huaLgmLab0YfzNk8y1Zu6Y6+UeNnuW9
- Y3UFBMsenABPtT40W98318nvzbnd+QlLkNJ5J3qEC3wee7BaHo38Oyd1b/nKQQ1xnnVj
- QFwt8JMtXQ+g6MnNVqhs6mByCehJ4niaVkExPkTWl7q1Ilkb1/dWXzNzOFnGsTyC9oLC
- SjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768334387; x=1768939187;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1768334388; x=1768939188; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H8g5bJc3pUYOOH+Mh3z0UWCzPpBzWdqcnl8TWmpkj5A=;
- b=sKiydmK/nZEFHUtqPPuvtSHxOMcjNPQH3rf9VIPurrmMTiNSB+eE8UXd3QraKEViSo
- 7n4e32Kj0j4kpX2WWxLCfQTTaoRp3PUYFq3WONqcf6eFmZfXNQfgaHNmbEhyF2rvfLIL
- +kXO/1yrRCWykZlBBZaxZsYN61ITZcfENpZggAMk/LDbqdOQFzc0pcMhb/hxqFb8DMod
- aHd/2hCiwPJYSvaL9Was0DOXDUz4LT7So4uN3DzHddudcB0tthcq7jmV4/RsnVFEdP5j
- UP+ZBIJ1wzLHRXchmanXzc+WD42gEGNolC8W2xyIIKk2XgosCsORByiTkVQOY6G2pZ7U
- 9MZQ==
-X-Gm-Message-State: AOJu0Yw2evdL7qsWcRBagSt0qsMrH5ODK++0pjfLqZPPAjQtEcPGFpKv
- CuRzNrT65bsExqudiD6zGdppk4e99lpUwItSgajIdc9q3fS2ypE4R0Eq
-X-Gm-Gg: AY/fxX6ya3zZ92qaZ23UyukIdHrhhDZ1oqmveszpa4KLbrqoOc6W3qW6xucJaBv3IaG
- VSu6zxHa5dEWL9xX+ahs0CjdcFFgpdFkRBYfjaqIzGWT9igXBgcyavgdWVl9bJleQbUQt48MR05
- B8EeqJrx0O8NvdkkGEklAbM2Da/VAEQsA1XDtIg4d0IcZ4AGSAJ2v5z3JO6Hr1dYkr+ONmDQApd
- S7obyM97HcVhB3g+utFtMe9GddW3mxnVtX/rmiGarybeZqzA9GsgHz5oQa2pWgHWl/XryhEk9Zi
- FRHa4aRYQxDu7fPflN2zXQlnWhKMCcY8dmg6e+JQ8gmZbWF/1LOLvUIQFmOimEoH29K98+1OVwz
- Dun5jPMmHTT+4f6gCNJW6v0beGeX0rxrJB+AYIYjcTKQr/rCGkj6hNPs7PgKzHyc+O7Vb/CW4Cr
- 0v9SaicmMs
-X-Received: by 2002:a9d:6c18:0:b0:7c7:1c91:1258 with SMTP id
- 46e09a7af769-7cfc8b3a696mr126207a34.26.1768334386967; 
- Tue, 13 Jan 2026 11:59:46 -0800 (PST)
+ bh=dJ3Ahf49hlWnxKtsDsKhHCo3RwD4rUKnAOeXD4F8idM=;
+ b=Y1ldhYgjpg6xVtjeUfp9C2GpE7lOMl8yuZPyIFFvpoLWUXdk/5QQFvrXI4mIE/Vd5b
+ 6JpVbl4/9OCtmrzORFCoDD5fSXcMOhGMPLOI3gPeStIOAOZ7cl+7wvVPPAJY3Uknusqh
+ 16t1+lcuZq5qr4MqyukspvFW72OoYF3xASDahczRdEMC+2vReoYjlkKFr/NL0pIbXJB3
+ Tw+z7jk5qe6aZVxKUxsxkT2mlych+bOrNBPyhqE2i9cVsRTJ4T2CN990e8GVHdypByAY
+ 1ZEzSpAEsRrOIJcWowyjp+8By+M7eowTMuvuuCqH9smOX9ESZK8QTezJRkh+cPjUpKSo
+ jILQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768334388; x=1768939188;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=dJ3Ahf49hlWnxKtsDsKhHCo3RwD4rUKnAOeXD4F8idM=;
+ b=Ww1VaiM09YgffPUexTsuKFgMsUBJCqEc4VhgWX7Xi3j6kMbJIZ9QWMSci5uuZvPofW
+ gX9ze9PnzA6kSx4iNJlwA96S3vwy2cGwY/7H3WPn6vD6+blHlyYbLkUbSYGiQ4nVKzPZ
+ uk9WQA2aIGKnzrbDwPwBEsBbssErumhL2G6ajSFr+4vg6mtqyfiOsCCXo+Jh9MbtZjiK
+ yKDn7eukIyJtqnTQDkFQogsE19bqS0P+Slhq/c+YiWW+bIhAox1XxLkk3NOLK8Nqxal1
+ MmCuBfFltiVUFjFhQeXbNQFG1ZlZ6JXfyUFFEyjGBVNMnZJN5MEDfEIvhTUc1m3PUb52
+ JXug==
+X-Gm-Message-State: AOJu0Yyr1A1mc0/fD2VBEMhStjUoDDu3WRcz6BAIpkapgiGRzT232RTf
+ m6GguFUhNneRhHEZZV75PCEsV0D8DbnX6TLFaPNBnTpilXX19aAI4q48
+X-Gm-Gg: AY/fxX7LHHTGuM85p2B41BKhe+PcwzqoHN/eiA2LH/6+tZfMQgbbeCE5ZXBeOQvjMpm
+ gaeBw53a/wbH+JitpBi7oADt1sovhmGxwWZZmwL40FYo2XwNSB8WNWQ8xiqMzTC8TSNI7DjTubT
+ yOTpYNL+sIkQp2OEQiKIs0q5nx8ODzebeJpbcUau9+Y4/1Er2f6oICoz3rlotwyWOZwLMyqKODl
+ dt/qBw+ECFZWpfqXIXM8nQWgIXIh8yxhFfWmkuZBjKTeX9FWB53/E5R611QJ8n8DB+rUWux5SML
+ s+8RDUOYGsv5EKTvBXcW89WX7JwgaLvp1G7NISvUNBb0FcF0klZhyHMkiZ8CYR3WyvjdnjQOc46
+ J1U7Eq8qDLSskvAlSEBqGLpgdp4qGpELh8cNXM8GTOznH44ne8oiLdT7bAQWJvvYU7u7d9NCzlF
+ ojBwOFjTFG
+X-Received: by 2002:a05:6830:6408:b0:7bc:31fe:57a9 with SMTP id
+ 46e09a7af769-7cfc8b3b8f6mr195237a34.31.1768334388271; 
+ Tue, 13 Jan 2026 11:59:48 -0800 (PST)
 Received: from localhost.localdomain ([2600:1700:fb0:1bc0::54])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-7ce47801d4dsm16221119a34.5.2026.01.13.11.59.45
+ 46e09a7af769-7ce47801d4dsm16221119a34.5.2026.01.13.11.59.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 11:59:46 -0800 (PST)
+ Tue, 13 Jan 2026 11:59:47 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
@@ -67,10 +68,12 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  jesszhan0024@gmail.com, neil.armstrong@linaro.org, jagan@edgeble.ai,
  heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
  aweinzerl13@yahoo.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 0/6] Add Anbernic RG-DS
-Date: Tue, 13 Jan 2026 13:57:15 -0600
-Message-ID: <20260113195721.151205-1-macroalpha82@gmail.com>
+Subject: [PATCH 1/6] drm: panel: jd9365da: Use gpiod_set_value_cansleep()
+Date: Tue, 13 Jan 2026 13:57:16 -0600
+Message-ID: <20260113195721.151205-2-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260113195721.151205-1-macroalpha82@gmail.com>
+References: <20260113195721.151205-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,30 +93,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the Anbernic RG-DS. The Anbernic RG-DS is a dual-screen
-handheld from Anbernic powered by the Rockchip RK3568 SoC. It has
-dual DSI displays with touchscreens, multiple face buttons, and is in
-a foldable clamshell form-factor.
+Change instances of gpiod_set_value() to gpiod_set_value_cansleep().
+Uses of gpiod_set_value() generates warnings when used in instances
+where desc->gdev->can_sleep is true.
 
-https://anbernic.com/products/rgds
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Chris Morgan (6):
-  drm: panel: jd9365da: Use gpiod_set_value_cansleep()
-  dt-bindings: display: panel: Add compatible for Anbernic RG-DS
-  drm/panel: jd9365da: Support for Anbernic RG-DS Panel
-  dt-bindings: arm: rockchip: Add Anbernic RG-DS
-  dt-bindings: input: touchscreen: goodix: Add "panel" property
-  arm64: dts: rockchip: Add Anbernic RG-DS
-
- .../devicetree/bindings/arm/rockchip.yaml     |    6 +
- .../display/panel/jadard,jd9365da-h3.yaml     |    2 +
- .../bindings/input/touchscreen/goodix.yaml    |    2 +
- arch/arm64/boot/dts/rockchip/Makefile         |    1 +
- .../dts/rockchip/rk3568-anbernic-rg-ds.dts    | 1237 +++++++++++++++++
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  |  281 +++-
- 6 files changed, 1522 insertions(+), 7 deletions(-)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3568-anbernic-rg-ds.dts
-
+diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+index aa05316dc57b..063ed9646d53 100644
+--- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
++++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+@@ -109,13 +109,13 @@ static int jadard_prepare(struct drm_panel *panel)
+ 	if (jadard->desc->lp11_to_reset_delay_ms)
+ 		msleep(jadard->desc->lp11_to_reset_delay_ms);
+ 
+-	gpiod_set_value(jadard->reset, 0);
++	gpiod_set_value_cansleep(jadard->reset, 0);
+ 	msleep(5);
+ 
+-	gpiod_set_value(jadard->reset, 1);
++	gpiod_set_value_cansleep(jadard->reset, 1);
+ 	msleep(10);
+ 
+-	gpiod_set_value(jadard->reset, 0);
++	gpiod_set_value_cansleep(jadard->reset, 0);
+ 	msleep(130);
+ 
+ 	ret = jadard->desc->init(jadard);
+@@ -129,11 +129,11 @@ static int jadard_unprepare(struct drm_panel *panel)
+ {
+ 	struct jadard *jadard = panel_to_jadard(panel);
+ 
+-	gpiod_set_value(jadard->reset, 0);
++	gpiod_set_value_cansleep(jadard->reset, 0);
+ 	msleep(120);
+ 
+ 	if (jadard->desc->reset_before_power_off_vcioo) {
+-		gpiod_set_value(jadard->reset, 1);
++		gpiod_set_value_cansleep(jadard->reset, 1);
+ 
+ 		usleep_range(1000, 2000);
+ 	}
 -- 
 2.43.0
 
