@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0AAD1ADA6
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 19:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC30D1AE20
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 19:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF1310E374;
-	Tue, 13 Jan 2026 18:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B8D10E20C;
+	Tue, 13 Jan 2026 18:47:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gZUtQ5xg";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pcT1AznV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D363610E155
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:33:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0828D6000A;
- Tue, 13 Jan 2026 18:33:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C357C116C6;
- Tue, 13 Jan 2026 18:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768329196;
- bh=R2aY6EwkXwDSmFxiHPV6lffansfd19XxZpu70KVqEeA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gZUtQ5xgMkiZrOPV+rgnbsnvaugvv27SR/VkLlfayTtgFjlJn5p1+zogUieWXx8yt
- bHzotdtayAVoX7OHjxoL7mI+8Edu1ZLfsSZRU1C5m4rjVleS3sJREx67Zir38uB6kg
- tABlnvNNHk6vjl8+PBJDqqsEGrgX+WnFZ53t4N0I3DUwuuti1zByYNLFjmVzmb9/6L
- yzw7bTPH0C00mdZULei4xQUezDj+xIlhoHUWXHJgl0G4MsMZTuCp99y4X2mSNsKv8h
- PCtO1RdOlaS951p3QNZE6l5CzEJ3rw2O6nNxYlRi4lpQO9jrfVgH+HiLqCLCFCl1+E
- VubdQXvY0exnw==
-Message-ID: <a226272a-55ea-4687-8c71-a6fd2a77c4cd@kernel.org>
-Date: Tue, 13 Jan 2026 12:33:12 -0600
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC7010E20C
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:47:27 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 2DBB74E420AF;
+ Tue, 13 Jan 2026 18:47:25 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id DE35760701;
+ Tue, 13 Jan 2026 18:47:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id E8A64103C86C8; Tue, 13 Jan 2026 19:47:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1768330043; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=XBfKYR3s+m4uVx66jqSCMnQk1nUYcz8gNJ4Bv4c9bQg=;
+ b=pcT1AznVO23Z9+VPY0ot3H1QEBYMTDXCdYr71v6AewUO868x72RhtbGFY7xkP3K0BDKIe0
+ /1a46mC6m9KbDrO0QTQAIi9agWfNf5oPOyTLgAn4PPLRii51w8wzh/ZQZLje3UriuOk0Zv
+ jyeqEvRdKEfSAz23k+xTtqdq5TFZxbzZfa5joXZ+Nh8Tp20SQjWXlBSv/Qh80C5E7+QwqJ
+ QTVRrZBQlTZBLFgND64DGushbxwgAymBHkeTW4m8eVU87AciVB1g80ecNILmqGw/aaRN73
+ CVe4QajqgcXPc/fY3J/mS2DKqauo/Hvb4wMRfLE+Jhy9T+K25fk1V2gImyzN8g==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH RESEND v4 0/7] drm/bridge: protect encoder bridge chain
+ with a mutex
+Date: Tue, 13 Jan 2026 19:47:11 +0100
+Message-Id: <20260113-drm-bridge-alloc-encoder-chain-mutex-v4-0-60f3135adc45@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Fix notifier_wq flushing warning
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- maciej.falkowski@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20260113173624.256053-1-lizhi.hou@amd.com>
-Content-Language: en-US
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20260113173624.256053-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Ian Ray <ian.ray@gehealthcare.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +68,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series ensures that the bridge chain of the encoder will not be
+modified while some other concurrent code flows are iterating over it.
 
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [1].
 
-On 1/13/2026 11:36 AM, Lizhi Hou wrote:
-> Create notifier_wq with WQ_MEM_RECLAIM flag to fix the possible warning.
-> 
->    workqueue: WQ_MEM_RECLAIM amdxdna_js:drm_sched_free_job_work [gpu_sched] is flushing !WQ_MEM_RECLAIM notifier_wq:0x0
-> 
-> Fixes: e486147c912f ("accel/amdxdna: Add BO import and export")
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Here's the work breakdown (➜ marks the current series):
 
-> ---
->   drivers/accel/amdxdna/amdxdna_pci_drv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> index a7968fd140a9..1c83efb51f7d 100644
-> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> @@ -277,7 +277,7 @@ static int amdxdna_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   		fs_reclaim_release(GFP_KERNEL);
->   	}
->   
-> -	xdna->notifier_wq = alloc_ordered_workqueue("notifier_wq", 0);
-> +	xdna->notifier_wq = alloc_ordered_workqueue("notifier_wq", WQ_MEM_RECLAIM);
->   	if (!xdna->notifier_wq)
->   		return -ENOMEM;
->   
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. ➜ protect encoder bridge chain with a mutex
+       7. of_drm_find_bridge
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. … Add drm_dev_enter/exit() to protect device resources
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
+
+The per-encoder bridge chain is currently assumed to be static once it is
+fully initialized. Work is in progress to add hot-pluggable bridges,
+breaking that assumption.
+
+With hotplug and especially hot-unplug, bridges will be added and removed
+without notice, and thus be added/removed to/from the encoder chain in
+drm_bridge_attach/detach(), concurrently to the code iterating on the
+chain. This can result in disruption of the code iterating over the
+chain. The rationale is explained by a detailed example in patch 2.
+
+Avoid bugs by introducing a mutex to make list insertion, removal and
+iterations mutually exclusive.
+
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v4:
+- No patch changes (this series was tested a lot since v3 without issues)
+- Added Reviewed-by from Maxime
+- Rebased on current drm-misc-next
+- Small improvement to kerneldoc for the two for_each macros
+- Link to v3: https://lore.kernel.org/r/20251009-drm-bridge-alloc-encoder-chain-mutex-v3-0-c90ed744efec@bootlin.com
+
+Changes in v3:
+- Re-added the drm_bridge_put() in the for_each macros, leading to largely
+  rewrite them
+- Removed the drm_encoder_chain_[un]lock() wrappers
+- Fixed a potential ABBA deadlock in patch
+- Improved some commit messages
+- Link to v2: https://lore.kernel.org/r/20251003-drm-bridge-alloc-encoder-chain-mutex-v2-0-78bf61580a06@bootlin.com
+
+Changes in v2:
+- Improve commit messages and add documentation as per v1 review
+- Patch 4: fixed infinite loop when encoder->bridge_chain is empty
+- Link to v1: https://lore.kernel.org/r/20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com
+
+---
+Luca Ceresoli (7):
+      drm/encoder: add mutex to protect the bridge chain
+      drm/encoder: drm_encoder_cleanup: lock the encoder chain mutex during removal
+      drm/bridge: drm_bridge_attach: lock the encoder chain mutex during insertion
+      drm/bridge: lock the encoder chain in scoped for_each loops
+      drm/bridge: prevent encoder chain changes while iterating with list_for_each_entry_from()
+      drm/bridge: prevent encoder chain changes while iterating with list_for_each_entry_reverse()
+      drm/bridge: prevent encoder chain changes in pre_enable/post_disable
+
+ drivers/gpu/drm/drm_bridge.c  | 83 ++++++++++++++++++++++---------------------
+ drivers/gpu/drm/drm_encoder.c | 18 ++++++++--
+ include/drm/drm_bridge.h      | 73 +++++++++++++++++++++++--------------
+ include/drm/drm_encoder.h     |  4 +++
+ 4 files changed, 109 insertions(+), 69 deletions(-)
+---
+base-commit: 71bedd70985a573db58ab62cbcc3c11f9ef66013
+change-id: 20250925-drm-bridge-alloc-encoder-chain-mutex-b78d62085ee5
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
