@@ -2,84 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA0CD19C58
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68924D19C5B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:13:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264EF10E4F0;
-	Tue, 13 Jan 2026 15:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD13F10E4F3;
+	Tue, 13 Jan 2026 15:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="RrQgcmA5";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dTLpB3g4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D811310E303
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:13:25 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-47ee1fe7b24so675395e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 07:13:25 -0800 (PST)
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E35B10E318
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:13:28 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-431054c09e3so4532820f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 07:13:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1768317204; x=1768922004;
+ d=google.com; s=20230601; t=1768317207; x=1768922007;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=6N1TEsiPesyo6Bt0PZvnhVY3O3p5gV/3E/K/p2dHoxc=;
- b=RrQgcmA5dx5ff9r3oXbNjxE4zfdt8AL3iV9mZ8C82YC0QkXx4WFT26WDsc/RTwbJpo
- 7edw6BVJPEWzrDVGnEDMGda4dhNIMFCh+0B5PEeNjcxZ4qk/pNmjhZcGJaEzAUbEqy71
- Yf//MYnTyrlmTbTmBpd4OTkRiwteoOHQEXZSo/fpE5LTUx/IULOVKvIlRfMAY7CprxIx
- nmWtijzge5Ey+tFHeMASAJKEN4hZHdAO5SCyfxF8GjXIr32SyrB6472sAyaiHb759PlQ
- 9cXLvTaRX4c8xn0OcVHAE1XY0qyaZDm/tw28flImGGMDfWBoEieVpnz9CYt7lmutqqwh
- pMnQ==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=clahOJSyAVmCLVNVjHaJTlJ4hThwgbY6ylIwpTEN8h8=;
+ b=dTLpB3g4QfZodPXhxDr78yKFCCmQF2sUPl3XyZoeoAPVePkvB60SRiCssgh6XIufR8
+ nzwQhx59dvwOVjr+kSgq9k0B5rou7t4Uk+T1uo4/XEovL7xGcEi+gu3GM23LfZFd8JjB
+ 2oU5HghtnmZjHoi3XWtmwvwQ9c3Ri5zuNB/KDwQ7zzw/YG2Uj1bv+xC33Q+OAi/0rl8R
+ hF5NLUWbEVOSGyMAzWrN+gAIH4ZbNvT48i2llliP9ueYz6VSMp5cSVmHzeIME2PQKmwR
+ MY0OgF2vF0Lese/FUEidON/4fizaqdLJB56550Ul5V7W4EmPTIuEYWEzu1qsovY+XqlL
+ 325Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768317204; x=1768922004;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6N1TEsiPesyo6Bt0PZvnhVY3O3p5gV/3E/K/p2dHoxc=;
- b=BpVhfFpecGPPMUOvB8LtVtXnrtH/LwY2HKW+HHuX1z/rKDBxbSLnJ/Gmns676zDVoT
- STEU1AYvqetfG+blVdKm/5x3mF+P0gk8v/fPC7siPt5xjRk9EbeTZsZwK3SliqPQ+59H
- jGJWfot1iyBPSfSCv8rs8+ugDv+aQMkWSXa0liWpusXYfrGG1NRaEPjVpugDqOttckx5
- HA345aSYAXmiRaYkSINU9wQZUMLsj52JEUuzy51orjLLHCPxEhhVDpNTQLIjp1uOQ3BV
- Z6e1EEihTIw7KuKprocCKAWFHQ/3aVK82C3Z0G9KY0bAuvLdXRUXDOoJ5gF7uJhaWYBL
- He4w==
+ d=1e100.net; s=20230601; t=1768317207; x=1768922007;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=clahOJSyAVmCLVNVjHaJTlJ4hThwgbY6ylIwpTEN8h8=;
+ b=Y/WLYNmz2hOG+JrLunnBjb3w4TtekBONT3MTl/JqVrtMEfemsYC1HW/BdFbmUa21lo
+ 141zabkFdOcKbgZKkdCZCrURJVtBfa8+RIfoXBEx/sBq7w6eNVhutom0fDhEOHC8jiQf
+ IVmIvAVrh2OmIIlYTxUhHN/zgNbhBJu3FoutByV+wPicS+ZeHxEX5B/fExQ9aQvYtZYN
+ 40d9DQ96mD+FfOac9UGIDkEsEpc+24CnHOBV9NQ/1vvviNeKkX1d6yco87+T/gHPXKZh
+ U2QlMzgNXe8XAEgkYjzQ49va6xUPDp/lJnFbBMvm+Di6NW7BdXJDQT5V77vNJBeiLKpk
+ tHPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHgpmKeCxoEI+96KRhuJZVgYfh1B0Ov8JtRhDgeqbRYWoEgpBTQ4QRiSVgsV9IUYVN22XYubtF9Wo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzye4cWtKsL5JltnjO0lvzXSMe9V8HkEgaxxGvqrHnMhG3g39xk
- bL8ym+nKOmxXkH/7ggWSEtbnqBIhNzhKTfWXFGgZStNo8snxaAx4A3iuM3WwPxixHGmz79BPzon
- 59kJdMpIya3RzNWNiXQ==
-X-Google-Smtp-Source: AGHT+IHoXaO70n2FJmZP8Rd2OF/hvQHQN06mNSOik2NmPij5NQxkTvgCkvgal1N4XDc5+fSDkHKcsHUBNt57n8A=
-X-Received: from wmim12.prod.google.com ([2002:a7b:cb8c:0:b0:47a:9f70:c329])
+ AJvYcCVDKyu0f8VJ/QPOda3ZH8UoSh5lqi8+ou2Ig6H3NjgiH+Y3r4k6IdXBiZgvoCXBgb4A5OjLdrv8jVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAIhCKpsB60BzA3d7tMryMN6hR9NUPQ5aYs3k1QlzU+5SesGVj
+ StYEmZkdBVyz7um6QEeO6sY5StYTfYQx3ddW9TpfcayAlBagvyrvhf60fxlYGR1AfSAK2iIbRBn
+ tBE3V+litVlTaPJRl0A==
+X-Google-Smtp-Source: AGHT+IFANjV4vLX5QPuJ5KpCs0Rj644PourkYIVXhMKZkYuRk0oEaR0gmzWWf8Xi/v74hg4ToVXO6AC9XE7qoTU=
+X-Received: from wrbbs10.prod.google.com ([2002:a05:6000:70a:b0:430:a835:4ce8])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8119:b0:477:b0b9:3129 with SMTP id
- 5b1f17b1804b1-47d84b0a8dfmr237085685e9.3.1768317204383; 
- Tue, 13 Jan 2026 07:13:24 -0800 (PST)
-Date: Tue, 13 Jan 2026 15:12:35 +0000
+ 2002:a05:6000:1a8b:b0:432:84f9:95f4 with SMTP id
+ ffacd0b85a97d-432c374f4a7mr27176145f8f.31.1768317206801; 
+ Tue, 13 Jan 2026 07:13:26 -0800 (PST)
+Date: Tue, 13 Jan 2026 15:12:36 +0000
+In-Reply-To: <20260113-clk-send-sync-v4-0-712bc7d94a79@google.com>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAORgZmkC/3XMQQ6CMBCF4auYrh0znZZYXXkP46KUARqRGmqIh
- HB3CwuNGJfvJd8/isid5yiOm1F03PvoQ5uG3m6Eq21bMfgibUFIGR5Qg2uuELktIA6tA+VKuy8
- 1S8ckkrl3XPrn0jtf0q59fIRuWPK9nN9/pV6CBG0KJKUIOTenKoSq4Z0LNzGnenpziYRrToCgt
- c0zpSyj0T9cfThJs+YqcdYmJ6ZSsnVffJqmF9R+xfwpAQAA
-X-Change-Id: 20250904-clk-send-sync-3cfa7f4e1ce2
+References: <20260113-clk-send-sync-v4-0-712bc7d94a79@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1242; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1369; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=uKkVhBaphq3Yv4o1VV/s1jKOfUDc6KdF7Ew3LDTjeJI=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpZmELFbghZxWZ7vaaZvAKoZIouMjeMx/D5VtYF
- y/dj/EnouKJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaWZhCwAKCRAEWL7uWMY5
- RkUiD/9LHMHZPK8MfjH8P7x1+RzDmIXcOknAAS7n4m+VzrOjWzYSNqifU29O+VSt/W2ByxeTzYT
- aS1g2+Knt0WvtdmrmjV9Oi8vVsvlvJBWxBDtYFz8JW0c1m9w9+PUR2prE63e9bhpaF9ZK4jtN9F
- LMiiOZoqtCep7C+0aLHtunxvrUdJg39W8HXc0/RMJXv0iv9KImXAeuk0Gk/WV9npuZxU1AWMVV8
- W2zKm7ZD2cAB8V5JVSrh0LHN8lpMGSWU38mzd4N/0c662gulPBXsY47rbyj+ieUCU1e7Xb4rq5B
- XIC8Mu1AgLO0cM5Yr6G1Z1v09A1OECpW2F76vg16IFCNsCP5LNcYx2QE9SJh/dszq6riDB7N58q
- tZkOXDELeZ4++DyyRgnTGh+f07jh89dg9v77g/B+USWQm/jZ9P1VRFHJfhkdjjKmSCZuidXUx0U
- aHVaDuZcRBdGpZz0lGsO6868mSmdNYqR+PMcjDTiFqa2n2HRQCvdJybEcQoQGCmTgkxNLaicwR+
- 0UDy8ZXpzI/D8WLlV/EyKHrvutrSXsAv1f3SEOvqzrq8WgsKNhrKiH+GHnyuGjAnCz1JmMumvTf
- 0KM745KlQEWD2wlcWYm6yXD7EPEXhU+/gLRvZKu7c5b9rnjPGb90UJbYFFOb2UmYeVz9Imn43fN
- yqmFT6fOTRmLMfg==
+ bh=5DE8fHUHNeug+88kGFo3S/QoXnkelD/PvswD8rGjIrM=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpZmEQNNwQvfw9jQxuDNt4fC2n5Cfx+vcwSjcWB
+ EjbHAg9hU2JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaWZhEAAKCRAEWL7uWMY5
+ RvRxEACuwFIesZvoHE5gK5RQaiufwGNORvDKEuP1GJmMebtB3qC4PmH2wFMguWvNpJTUKWU0D5d
+ jdQ+ITMxKWDtDMpGzdoBMliByodTN5wwtvNZGIPaLLEUZ+uImdP1HlZ+5M03+eyQJOMs05GW7Zc
+ TSlL6zpiv+54WAj40TJH1d5HPB0WLbITPscM6xHXaCvfaCMxSEcbqqDprp8VoDZ6zgZSeAIqc8v
+ zVSXwizZxkbc9uGfqfyY6kGS2soNpo+IyeElYFqMNY4pR992VOqL1+37BbqF6BxAxLrtBwNoyBC
+ KbUq7ZcC+1DqYAejPv1soQ+e+hcJK9X/dtfkBjW6GBe3B9P0Y6s7qEHIUqV7BSEvxOB/mIQ5UZ0
+ rtRm3VEAOnA8v8E2oGTQazJ58ezoKWwB5L6muDTmHlSyEYQhVqNUNAVsxi61bWxCcuXPu9KmxgC
+ LHI3zLNriAuors7Gzwlu7Ahzu/6yPgqwJ6ebzzMhWAwTKLvVRvIL7BbAMjEEfFofP9IEuyazi/l
+ Up8zWnwYgaiqqLz/g9gxZdaF1h1dm0DWqMUCkAe0/o95w00/ZUtgyOkYMGdSqL8zyYHhS6K7/Qg
+ NaPzd6f01DT77HGn2DEO6xOX2PbrAgvzU9PVSXxUEpt/0wR1I5PF2aS3brFDfpjwLpJ/0c2p8pf
+ 28UFVHEynEoLnxg==
 X-Mailer: b4 0.14.2
-Message-ID: <20260113-clk-send-sync-v4-0-712bc7d94a79@google.com>
-Subject: [PATCH v4 0/3] Implement Send and Sync for clk
+Message-ID: <20260113-clk-send-sync-v4-1-712bc7d94a79@google.com>
+Subject: [PATCH v4 1/3] rust: clk: implement Send and Sync
 From: Alice Ryhl <aliceryhl@google.com>
 To: Stephen Boyd <sboyd@kernel.org>
 Cc: Michael Turquette <mturquette@baylibre.com>, 
@@ -98,8 +95,7 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
  Daniel Almeida <daniel.almeida@collabora.com>, 
  linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-pwm@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>, 
- linux-riscv@lists.infradead.org
+ linux-pwm@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -116,43 +112,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Clk type is thread-safe, so let's mark it as thread-safe in the type
-system. This lets us get rid of hacks in drivers.
+These traits are required for drivers to embed the Clk type in their own
+data structures because driver data structures are usually required to
+be Send. Since the Clk type is thread-safe, implement the relevant
+traits.
 
-For Stephen's clk tree.
-
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+Reviewed-by: Gary Guo <gary@garyguo.net>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Changes in v4:
-- Pick up Reviewed-by tags.
-- Link to v3: https://lore.kernel.org/r/20251218-clk-send-sync-v3-0-e48b2e2f1eac@google.com
+ rust/kernel/clk.rs | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Changes in v3:
-- Rebase on v6.19-rc1.
-- Pick up tags.
-- Add fix for pwm driver as well.
-- Link to v2: https://lore.kernel.org/r/20251020-clk-send-sync-v2-0-44ab533ae084@google.com
+diff --git a/rust/kernel/clk.rs b/rust/kernel/clk.rs
+index c1cfaeaa36a22be2e3180b1e9142bb608ab276ea..d192fbd97861212d738d24510eebcd99c9177f2c 100644
+--- a/rust/kernel/clk.rs
++++ b/rust/kernel/clk.rs
+@@ -129,6 +129,13 @@ mod common_clk {
+     #[repr(transparent)]
+     pub struct Clk(*mut bindings::clk);
+ 
++    // SAFETY: It is safe to call `clk_put` on another thread than where `clk_get` was called.
++    unsafe impl Send for Clk {}
++
++    // SAFETY: It is safe to call any combination of the `&self` methods in parallel, as the
++    // methods are synchronized internally.
++    unsafe impl Sync for Clk {}
++
+     impl Clk {
+         /// Gets [`Clk`] corresponding to a [`Device`] and a connection id.
+         ///
 
-Changes in v2:
-- Rebase on v6.18-rc1.
-- Add patch to tyr driver.
-- Link to v1: https://lore.kernel.org/r/20250904-clk-send-sync-v1-1-48d023320eb8@google.com
-
----
-Alice Ryhl (3):
-      rust: clk: implement Send and Sync
-      tyr: remove impl Send/Sync for TyrData
-      pwm: th1520: remove impl Send/Sync for Th1520PwmDriverData
-
- drivers/gpu/drm/tyr/driver.rs | 12 ------------
- drivers/pwm/pwm_th1520.rs     | 15 ---------------
- rust/kernel/clk.rs            |  7 +++++++
- 3 files changed, 7 insertions(+), 27 deletions(-)
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20250904-clk-send-sync-3cfa7f4e1ce2
-
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.52.0.457.g6b5491de43-goog
 
