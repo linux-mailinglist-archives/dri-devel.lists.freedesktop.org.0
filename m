@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E88D178A0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:14:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FDCD178A3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:14:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7B010E485;
-	Tue, 13 Jan 2026 09:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6238510E488;
+	Tue, 13 Jan 2026 09:14:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eF8QegMr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ndLnUtdp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 645B710E485
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:14:05 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id
- 5b1f17b1804b1-47d3ffa6720so67688805e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:05 -0800 (PST)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D36A10E485
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:14:06 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id
+ 5b1f17b1804b1-47ed9b04365so2694555e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1768295644; x=1768900444; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1768295645; x=1768900445; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6t77eX7yaBvcCOvnjldeAucp/yf03hkwDiK7NZl34Ao=;
- b=eF8QegMr7OPfTfKArBf/2LNIs1h1lZI2RGdW9/4fUqrvnJQL8crY5xisILwa6jbBKv
- PS8o9syrD87TwIXNmYGybtEnLYHgOFLqH2QiU4JxZ89+Ep4OFe5gxUGOmiPb/vvpqzKl
- QO2UvGQvFZLMVZR+sMAIkQQ+zu8If11Wkc8lMlv1e/NjcyOnU3aDISVqBXXVOGtk7kMm
- HljdJfLjRC58yM9mbmzj9MhsfwVqoWn8HyoOb9Y8VGFM+NQfL/9EH3HRL2vf+2nmTvcl
- MvrviaGvpdhFbd4gftWZjn7oxIBpbv6xJNPACpxb7EcvyUm1VMiB8lczHFDprM2SmoDC
- EHdA==
+ bh=KMDgVPdIGJYUf6y5Oggv+7udOHVtwJ863RSkn2wJe9M=;
+ b=ndLnUtdpfA3sL+DBolw6LTFc/mhvhCF0aWU4F1pd41aZQbn6FZOq6OFbBuuuP1uciv
+ p9R2X6DnpIbd3aA9aFHxQWFQqnj4x/rTsBCQNpnku4H1wSU3aNknlHdfjWCFmea9/Gtq
+ 5vJh0PiqihOJDFnobMIruPMDKshs33q3tMnWotx4dAAk9YSZSS3wj88lItKJPheNCixD
+ pMwizWNmrkITI1OAvjRmHULwtNQG3F0rCj5ceMxSutW5MiZ+w+b98CBJKADU5sgmoCCy
+ nNpYBLrxzXjtXkyxvmPPlFBzBqb6LdU7ESlZI4vdLndLJGVOFux6i3qk23bWGX6IPVh0
+ JC7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768295644; x=1768900444;
+ d=1e100.net; s=20230601; t=1768295645; x=1768900445;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=6t77eX7yaBvcCOvnjldeAucp/yf03hkwDiK7NZl34Ao=;
- b=eXPMSVp02gf4xsJjuvGEaCxXaLTJkf4SjEUM+R1HReU3X7s8aFokMPExSp/NPXSUAX
- hhLpRpfnvKuOmI69LGZCoXDxXIDDeEnoc1MDGQhOHgDnLLJyg4TDu5QB4wZ8AQkHEJBR
- dyRP7utCFCJj3fbLyP4nBEd7wGhSgyXI6VucW3hVIJQzM2P0PLzsxiLCB1U4J6jQKxLe
- nClJJpXhKuTgJqb3aWCpy5Qpb2QrrMXn5KXNA9JrMVp2A1ybnNP1m+Q/WYIoN2NLD58R
- 89TS4fTK+GzH+uneUgP0Y4+HkyT9lF7I0du0aI9TAeY+PXlBQMYqAHtpTENY7Lpz9VCX
- 3gqg==
-X-Gm-Message-State: AOJu0YyhETuz76OALwNevrOIaI4VFbCioZa6Vjkw6YysahIXsz45Od7q
- 7a1v+Rfz+0zS5EKryu3qtR2iA5LMuB4/Cf+aY5Lbux2hGlYOfn5aCG9AWwaqydCNHk4=
-X-Gm-Gg: AY/fxX628VLMpF8b5Bk3n1Z8kMRv9l1S3H/0MZ78ZkppnH/E1uZGn6ixKYEnl7bLZnU
- CCbSp+JZk1cci1Oqj9EhTDcGa2mBNFRNFW1b0Lyt54YlXskojkGn0WbzGxRUyawkeT3zzW6AlmK
- WZcQCct4yXo3OSW1LbELwstxZf3KQ5d7+HOwvG65Tvy0Fw9xPod+KTUCRAcaIsUPEa1aecWfDWq
- 7BPhicFPEHwXdUm/fpcskZCAHvhxNnA8YEaM8VhVTT7ALbqUhalKd9/NfCX4dYDHZoTZsc6LW59
- zHzzOmQ0djpuDfcwyBeRF2exUaK6oTWZjAtLZvWA+aKTbgLkjYi+g5EYwIMsdz+rBWXJC+agr5a
- H4xBLJddgtvkHEnMIw3XbnQR9BO/7JERJvI2Guwqet/HRCftvtxdozH1457oGudK9+sdU237DQ2
- LXYRD4vXOkOaxe4DSKd5o=
-X-Google-Smtp-Source: AGHT+IFdwglDB4crXEY7aXy9oh45LxhHLxaO2WfsMgiAukZiGDRTuNDlAiSJmqz3Kb/0VrBgLjUUog==
-X-Received: by 2002:a05:600c:3b15:b0:475:dd89:acb with SMTP id
- 5b1f17b1804b1-47d84b3472amr233883255e9.22.1768295643794; 
- Tue, 13 Jan 2026 01:14:03 -0800 (PST)
+ bh=KMDgVPdIGJYUf6y5Oggv+7udOHVtwJ863RSkn2wJe9M=;
+ b=S3R14R1YRafJ/dnQe/7C6LgVgbcPga35uTKyMD0zVr1+JpGqCFk354X3HUZecs9l6D
+ Zb6vp1ICvy2T6Nu3GrZlGlPNKfKduBfkmIi3M5zIJLoBqhEpVLe8OClTpLl1CUsiHtaS
+ agp1nTRefiUOFCchjeyqjc9GAbusFckc2EDmG/vwW4wz90q6gsuDqbAdUI6Z1OWrgxq6
+ 0tQDXj3O0QUfecCMmmSZEC3CBCy+9LxJdr922dUmMCh7BzuMxRf+QBrGPYKgvy55/t2w
+ LUxHYO1YC665q/nPUUfWIiW7oQOGKPuhXaHAbufu50lW6KSTGio9aiAKZSFvC4nyoz21
+ OzKw==
+X-Gm-Message-State: AOJu0YyGi/GIijh3xxHUjhrp5q8f6vCfN9e8G35062rlEQOCivAwPvKq
+ kLaLlP2inD6L4E1U20cwioBBKKTCOMgLtQq/ekXZ8H2ZMz9KCxBqqcyHZMj7EMbZ4iUPi94KdyZ
+ Y+A6q
+X-Gm-Gg: AY/fxX5ojdbaqkldT2YtKwEO89uF8IjqJwwWQ/cbRAHN9Kn5UDcRCkEZqRLvWv0PIsK
+ OGGCpItW2s2WBqh1Xke4KqwJYpH/7cLEHjI9M7ID72NSW3BuAWkkKyBhSdIXobw40+a1CmkJ7On
+ wbKctLzHDukrXY9Nz6LRywwJlGAsaqkLLWKQP4L2R64LNMGQPUCuIWezGbh7p0djo9C3ceLr4oe
+ JzfwnyEZolwmtH5N+QFhY12Wk13mdKi6Hx7kxiN7BYJMEHsVZ4Ab7fTTQQ1UhPTNC6g2i1ThULJ
+ KUsBtBvjR/qYs6uyX+UpGPyEThadDmm9CAWIcsRRY7+RhUcKNiCcDPfZ0GVTW8sHO+sUNP+dB+s
+ rqH+GmrxDZaZQ//kLTrnxYGTmtEMQGjQ7si+YoTNUy248Tlqu/ef0YPnMjisLcrVayEXa9asdgp
+ 1wZ1fUGi+QakbRrNWCrHXBrzjFwsHq5w==
+X-Google-Smtp-Source: AGHT+IEPcscQv2ri8mOfi12wdz6zyBY4BZVDA7abTN2YTuRZ3izGc0ELm8FGAzpFw+QVhENdmw6gyA==
+X-Received: by 2002:a05:600c:1385:b0:477:582e:7a81 with SMTP id
+ 5b1f17b1804b1-47d84b0a227mr236803025e9.4.1768295644684; 
+ Tue, 13 Jan 2026 01:14:04 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080::17ad:35a9])
  by smtp.gmail.com with ESMTPSA id
  5b1f17b1804b1-47eda0ee80bsm11389945e9.4.2026.01.13.01.14.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 01:14:03 -0800 (PST)
+ Tue, 13 Jan 2026 01:14:04 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, Marek Vasut <marex@nabladev.com>
-Cc: stable@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
+To: Jessica Zhang <jesszhan0024@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260110152750.73848-1-marex@nabladev.com>
-References: <20260110152750.73848-1-marex@nabladev.com>
-Subject: Re: [PATCH] drm/panel-simple: fix connector type for DataImage
- SCF0700C48GGU18 panel
-Message-Id: <176829564314.3883041.15001190221335999378.b4-ty@linaro.org>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20251218-lcd_panel_connector_type_fix-v3-1-ddcea6d8d7ef@microchip.com>
+References: <20251218-lcd_panel_connector_type_fix-v3-1-ddcea6d8d7ef@microchip.com>
+Subject: Re: [PATCH REGRESSION v3] drm/panel: simple: restore
+ connector_type fallback
+Message-Id: <176829564393.3883041.15471923198292664331.b4-ty@linaro.org>
 Date: Tue, 13 Jan 2026 10:14:03 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -96,25 +100,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Sat, 10 Jan 2026 16:27:28 +0100, Marek Vasut wrote:
-> The connector type for the DataImage SCF0700C48GGU18 panel is missing and
-> devm_drm_panel_bridge_add() requires connector type to be set. This leads
-> to a warning and a backtrace in the kernel log and panel does not work:
-> "
-> WARNING: CPU: 3 PID: 38 at drivers/gpu/drm/bridge/panel.c:379 devm_drm_of_get_bridge+0xac/0xb8
-> "
-> The warning is triggered by a check for valid connector type in
-> devm_drm_panel_bridge_add(). If there is no valid connector type
-> set for a panel, the warning is printed and panel is not added.
-> Fill in the missing connector type to fix the warning and make
-> the panel operational once again.
+On Thu, 18 Dec 2025 14:34:43 +0100, Ludovic Desroches wrote:
+> The switch from devm_kzalloc() + drm_panel_init() to
+> devm_drm_panel_alloc() introduced a regression.
+> 
+> Several panel descriptors do not set connector_type. For those panels,
+> panel_simple_probe() used to compute a connector type (currently DPI as a
+> fallback) and pass that value to drm_panel_init(). After the conversion
+> to devm_drm_panel_alloc(), the call unconditionally used
+> desc->connector_type instead, ignoring the computed fallback and
+> potentially passing DRM_MODE_CONNECTOR_Unknown, which
+> drm_panel_bridge_add() does not allow.
 > 
 > [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/1] drm/panel-simple: fix connector type for DataImage SCF0700C48GGU18 panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/6ab3d4353bf75005eaa375677c9fed31148154d6
+[1/1] drm/panel: simple: restore connector_type fallback
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/9380dc33cd6ae4a6857818fcefce31cf716f3fae
 
 -- 
 Neil
