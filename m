@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C66AD182CE
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FDED182D7
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:49:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714D610E4B9;
-	Tue, 13 Jan 2026 10:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4159210E4C4;
+	Tue, 13 Jan 2026 10:49:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nC67vZo1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mNvELwML";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C569810E4BE;
- Tue, 13 Jan 2026 10:49:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4751B10E4C1;
+ Tue, 13 Jan 2026 10:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768301345; x=1799837345;
+ t=1768301349; x=1799837349;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SNb/qfSQF2RldnCvlvNyKEVFAyihFQy31/ZzoPH4p70=;
- b=nC67vZo1h/PtJ85L33DerdIkXhKH1tZNfFXfw07WmGI0AMikfuruYUM2
- UKQCGcnm/aw5TeFMFR0CxsraeEihdAFDMtOo6Y2GhLdpjyONyopnJNkrE
- Kncul511GjnUp3bXh6DBn4ZFZCDvL8JyWbA9WU2Sq5xoC3RnNZKmIv7mm
- p5akqhHn9RDGR4cQywfzbYrZhDyhobVNzdIvXzGxuqBu/5wJ+gv4bLb/H
- Ljm7NfVY0o5LzwTsmNregNTKOAUtpkdDzWwjFeS7FdNDb3oiyaRWrDzN4
- wrdJjpHSdsFHTlbw5DSYIBuzyrVqL1wu4vxVhLh0J84t2sgyKBACxQsgZ Q==;
-X-CSE-ConnectionGUID: 1+1h0CvvTLu18gJhLI1rVA==
-X-CSE-MsgGUID: e0qCohr4SAaCmkbwHUdjJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165236"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165236"
+ bh=iK45lZ/ahOR/QOYtn7T6DOAqWFpf47Y7fcJK0nr+txc=;
+ b=mNvELwMLbI0iEzJJnObCo37KcX5/PhlQAqT8Pxebg9cgX0XQMZnY7tf5
+ iTl9mRmJdJoCdIZiGZzj5RYEbL7jfpu1P3HJXIONOQjVFea/5migl7Anc
+ RZl5Y5nBP3lhR80PFLjKWUH+5+PEW+FN8OAe99eGbvRLCoxSIC4nguAZq
+ WxrBibEAmgbOed9Nr7GQvr1RCjoAq7Njxt2cnSRpeZGmjx9xEewKIcVkn
+ bqraIen6orGPZvT5jncyASMPDrfZ5SGA39xefPH+Zt2NG8RucHaKOZlRC
+ fI6KyldYj0xQGRBwyCuQDI1+tN70P6UwL9z58xe6fYqW9P+OAVNJjryvA Q==;
+X-CSE-ConnectionGUID: 4R6UTn4+R1K0X3giaYkK/A==
+X-CSE-MsgGUID: 6YKjenHvQja6DMopzXNviQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165243"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165243"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2026 02:49:05 -0800
-X-CSE-ConnectionGUID: F5Jtgp97SneZIUK+Ke4/LQ==
-X-CSE-MsgGUID: ePVl3c5oQkKdzk58Z+2zcg==
+ 13 Jan 2026 02:49:09 -0800
+X-CSE-ConnectionGUID: c6Y3pD1fSfGNdnneIcc3Rw==
+X-CSE-MsgGUID: 5XdMbIhlQfaWZOVW82lBYw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554635"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554644"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:49:00 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:49:05 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
@@ -48,10 +48,9 @@ Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
  alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
  suraj.kandpal@intel.com, nfraprado@collabora.com,
  ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: [PATCH v3 08/13] drm/vkms: Hook up colorop destroy helper for plane
- pipelines
-Date: Tue, 13 Jan 2026 15:52:58 +0530
-Message-Id: <20260113102303.724205-9-chaitanya.kumar.borah@intel.com>
+Subject: [PATCH v3 09/13] drm/i915/display: Hook up intel_colorop_destroy
+Date: Tue, 13 Jan 2026 15:52:59 +0530
+Message-Id: <20260113102303.724205-10-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
 References: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
@@ -72,71 +71,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide a drm_colorop_funcs instance for vkms color pipeline
-objects and hook up the common drm_colorop_destroy() helper as the
-destroy callback.
+i915 embeds struct drm_colorop inside struct intel_colorop, so the
+default drm_colorop_destroy() helper cannot be used. Add an
+intel_colorop_destroy() helper that performs common DRM cleanup and
+frees intel_colorop object.
+
+This ensures correct teardown of plane color pipeline objects.
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-Reviewed-by: Alex Hung <alex.hung@amd.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_colorop.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_color_pipeline.c | 13 +++++++++----
+ drivers/gpu/drm/i915/display/intel_colorop.c        |  6 ++++++
+ drivers/gpu/drm/i915/display/intel_colorop.h        |  1 +
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
-index 9e9dd0494628..ba826ad384b7 100644
---- a/drivers/gpu/drm/vkms/vkms_colorop.c
-+++ b/drivers/gpu/drm/vkms/vkms_colorop.c
-@@ -12,6 +12,10 @@ static const u64 supported_tfs =
- 	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
- 	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index d3d73d60727c..8fecc53540ba 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -13,6 +13,10 @@
+ #define PLANE_DEGAMMA_SIZE 128
+ #define PLANE_GAMMA_SIZE 32
  
-+static const struct drm_colorop_funcs vkms_colorop_funcs = {
-+	.destroy = drm_colorop_destroy,
++static const struct drm_colorop_funcs intel_colorop_funcs = {
++	.destroy = intel_colorop_destroy,
 +};
 +
- #define MAX_COLOR_PIPELINE_OPS 4
+ static
+ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list,
+ 				     enum pipe pipe)
+@@ -25,7 +29,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
  
- static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-@@ -31,7 +35,8 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
- 	}
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_PRE_CSC_LUT);
  
--	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL, supported_tfs,
-+	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, &vkms_colorop_funcs,
-+					      supported_tfs,
- 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
- 	if (ret)
- 		goto cleanup;
-@@ -48,7 +53,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
- 	}
+-	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, NULL,
++	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, &intel_colorop_funcs,
+ 						  PLANE_DEGAMMA_SIZE,
+ 						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+@@ -39,7 +43,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	prev_op = &colorop->base;
  
--	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, NULL,
-+	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, &vkms_colorop_funcs,
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane, NULL,
++	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane, &intel_colorop_funcs,
  					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
  	if (ret)
- 		goto cleanup;
-@@ -65,7 +70,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
+ 		return ret;
+@@ -52,7 +56,8 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
+ 		colorop = intel_colorop_create(INTEL_PLANE_CB_3DLUT);
+ 
+-		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane, NULL, 17,
++		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane,
++						   &intel_colorop_funcs, 17,
+ 						   DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
+ 						   true);
+ 		if (ret)
+@@ -64,7 +69,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
  	}
  
--	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, NULL,
-+	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, &vkms_colorop_funcs,
- 					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
- 	if (ret)
- 		goto cleanup;
-@@ -82,7 +87,8 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
- 	}
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
+-	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, NULL,
++	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, &intel_colorop_funcs,
+ 						  PLANE_GAMMA_SIZE,
+ 						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+diff --git a/drivers/gpu/drm/i915/display/intel_colorop.c b/drivers/gpu/drm/i915/display/intel_colorop.c
+index 1d84933f05aa..9e54f51cfad8 100644
+--- a/drivers/gpu/drm/i915/display/intel_colorop.c
++++ b/drivers/gpu/drm/i915/display/intel_colorop.c
+@@ -35,3 +35,9 @@ struct intel_colorop *intel_colorop_create(enum intel_color_block id)
  
--	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL, supported_tfs,
-+	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, &vkms_colorop_funcs,
-+					      supported_tfs,
- 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
- 	if (ret)
- 		goto cleanup;
+ 	return colorop;
+ }
++
++void intel_colorop_destroy(struct drm_colorop *colorop)
++{
++	drm_colorop_cleanup(colorop);
++	kfree(to_intel_colorop(colorop));
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_colorop.h b/drivers/gpu/drm/i915/display/intel_colorop.h
+index 9276eee6e75a..638baf67d98d 100644
+--- a/drivers/gpu/drm/i915/display/intel_colorop.h
++++ b/drivers/gpu/drm/i915/display/intel_colorop.h
+@@ -13,5 +13,6 @@ struct intel_colorop;
+ struct intel_colorop *to_intel_colorop(struct drm_colorop *colorop);
+ struct intel_colorop *intel_colorop_alloc(void);
+ struct intel_colorop *intel_colorop_create(enum intel_color_block id);
++void intel_colorop_destroy(struct drm_colorop *colorop);
+ 
+ #endif /* __INTEL_COLOROP_H__ */
 -- 
 2.25.1
 
