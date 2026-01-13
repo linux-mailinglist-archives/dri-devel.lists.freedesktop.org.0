@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD18CD19FD2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D61D19FE1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:45:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACC210E507;
-	Tue, 13 Jan 2026 15:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E6F10E50E;
+	Tue, 13 Jan 2026 15:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vj8jfYtw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XtJCt6/f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E6F10E507
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:45:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7978C10E50A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:45:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 44A1E4425B;
- Tue, 13 Jan 2026 15:45:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E26DC116C6;
- Tue, 13 Jan 2026 15:45:24 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 54BF541B5C;
+ Tue, 13 Jan 2026 15:45:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC128C116C6;
+ Tue, 13 Jan 2026 15:45:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768319125;
- bh=QHGVjit8VwhbShRK0/bCyoMxk6VdPqYNKqTmhctqjgI=;
+ s=k20201202; t=1768319148;
+ bh=2ch8B9+IkqJucpdXMmNhvo6UgJALlKVnnk9xuC8jxlE=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=Vj8jfYtwVpN34UwgShpcL1FzDSlbpS4bQm/7dqRQuoY033E5XM6Ez+rNImqngRxaB
- nACj9ts4NjsXPOn6EI8eK2xmCitwWCkFZ4Y6xRKBW7pACKehM0GcKToi2UWCQXMxSF
- ALNGfep40AaS5dnCgcrxri74TGGyx8aj4aKHim2wtG64SFu+zmj3Zk1BPgB5ry6A+g
- sQUuF5paG+KZiBnPIXtW6y3Vl9cYgfEXAJsC38IoaXWC5Fy8rTH+Oe/wnzRAgr8BR1
- DhE/OshV7DBef0v+a+FogMakqTnHanKfmyFi84uzDFx5lJekUOyGnmb8xmUvOU484p
- tIUyS5z5f9x3g==
-Message-ID: <f83f12627d2e010007b84931049632f1@kernel.org>
-Date: Tue, 13 Jan 2026 15:45:22 +0000
+ b=XtJCt6/f8JYUn2CLu/erh/doXfMoxX7ZrozSK7JW7KeqTm+7LSqDg8FiYqPJkcf4C
+ DVHV/56otjZS53EKRPfR+0KHivlNsJ7g291+jwtXa3LY4w4+hezAuZfDLy+1hPiClI
+ d5wUYi1Kgli7Ymsht2tOQfGuiJ9sPkVdCOklqac4exe5UB48gwo/kxrUX5sgS5+0hy
+ 5NUksS1pD243HRTbOKYIMuc3Bo40eUzPAGId2aXPSpMEfpT1EKQ5I2s7jRmNrjwyGX
+ AeE93s1SZTYQGhz4NrNeY1g468p5+O4IWUyT2+0Jw3VxHYd8DR6Wm6fwPx29jXhoq/
+ 1BdTJTSEm3EKg==
+Message-ID: <10da6c5fdd68c71babd985ae97e09673@kernel.org>
+Date: Tue, 13 Jan 2026 15:45:45 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 3/6] drm/imx/dw-hdmi: convert to
+Subject: Re: [PATCH v2 5/6] drm/exynos: hdmi: convert to
  of_drm_find_and_get_bridge()
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-3-8d7a3dbacdf4@bootlin.com>
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-3-8d7a3dbacdf4@bootlin.com>
+In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-5-8d7a3dbacdf4@bootlin.com>
+References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-5-8d7a3dbacdf4@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
@@ -86,12 +86,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 Jan 2026 11:02:52 +0100, Luca Ceresoli wrote:
+On Fri, 9 Jan 2026 11:02:54 +0100, Luca Ceresoli wrote:
 > of_drm_find_bridge() is deprecated. Move to its replacement
 > of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 > is put when done.
 >=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 >=20
 > [ ... ]
 
