@@ -2,110 +2,178 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CD2D1760E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 09:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4014BD1761D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 09:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D9C10E474;
-	Tue, 13 Jan 2026 08:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6874810E479;
+	Tue, 13 Jan 2026 08:51:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dnEnfPTM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="msmrIFvS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB5EA10E474
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 08:50:15 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-432d2c7dd52so3718618f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 00:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1768294214; x=1768899014; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=btYBQPxGZ6/zTkhNRnpWbOMv4rzD+TuRmul2jGF/OfU=;
- b=dnEnfPTMro8+ZHESqjTYiIqw/A5GcNOuc84E63/mLU2kk4qXFTRNO82+JXzhFZbrZP
- jnEbPgT0oWdbD4KWzKgmtvno6RmrENoQOinOqAu/kgHa6rkPJTTQZujxJ5DZb+cqbqiq
- qrhtkEeEC+yvOjRqav/yJrGpJDT5YGCS7nbjB1rRvoJZyi8TVRCgc0vMd4nzwSRCzLgT
- r1DV6EZHe54NKzZKhUb9uwB97KHhRSzto54SSNb2lqkLEUidVeGcNAMMwIOW3Cy3pVw7
- uzsHqtky/xpEsXjUB91qg9fBbsWR82TL1w0XrKAzrSAGxwDEc0kcPB9XeJYY8OP42f+V
- eV2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768294214; x=1768899014;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=btYBQPxGZ6/zTkhNRnpWbOMv4rzD+TuRmul2jGF/OfU=;
- b=r7gPGREOCxtukad45pHaLuYk9BlujRNf4023Gf9SlnWDF3/yKrUZohVw0AjFOYjkG2
- inIwvADAIR1QEe1YNckxo0iAWF/Ey7Mi2Bk3Ar0qzHDRUZTTK1dPebz2kvFIL2+1MdyF
- l1/vY9OILk/zXTvqq+lPMDpE20geEu+OsK84nDO19/MehyLFTG8xIUq7n9F3hLBLUETT
- fYIuCcX1qPcHOkH+zGetct6w6lBiWT0a3ouC/ZbxxMKBE0YfLgDlL8ymeQdBfUjS+w3p
- w56CPDXmY2Qv+WeOt81clZl0NNr/ZCZ0jv8iTOxNxdPQG8vsU6216hVUOs93ImAoDFvD
- WQvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUc4rTLsQx89R+1bX1z2XaYT+qma0pN1hDtlTw1ou+8PiLIcq2l/LLJtW6yRBJhIfoLLTlsxcWlVLs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywv1KHKCE1+g3C8AA3vvrH+/mN/aSanTfWjNYxSBN4PHbURR+/k
- YfqubAGeW2yWrRrmFTNL1C9yDIy5i8Zj4YP3nvkw9Qs7lDynWqP8/3hpsGVwlBkdKjw=
-X-Gm-Gg: AY/fxX7nFpxwSBOWeAN6PrSgnwWNnXOVwDoSioHyudYIm16rmoQ7IreEW6TwRD9Jilt
- VmWt8jSBiI+iKfx8O2pa8K/s1EkOoElS4VIHKUfA9LzgYzJhJWcDwvoOgIK1gzgz/DTdFsedaRe
- +Ja4YNuID7U4BiTAmHDc13BC6VhacgsmbG2/ubwySW8xAdoIMuEzqO0z64kcGMjdhVYn/J0y5sU
- txm2Uuce5PfBILP4tGHNjRambt0R1e3AQ4kXjHlAw0VM8LvvwDtVGxA3yGplp603XIqsjV/SRsL
- HYwXDHZYOmOSIOFE+tTCa7qciobzQfqVQhOhVHWvgYhv8GjoQ32yIu0az8rWeFZ8JvIBZ5Lqzhf
- ovEVjlvuPBBw4qo//BuszNOCLt/wHvfPoqn38Gi/ielFNgoyoae5q08g2ZaDyQI13DVTtp51pyR
- o7NMwHJLFSU8X8Zq4LHesYeTLvNAfxvUF3m7NVARQ=
-X-Google-Smtp-Source: AGHT+IE+MQbkpYrvA0T2ZzGjjsds5XFNW4TeVrgSjdmTMTa+faZuX0qzbNC2EWiMZ4q5qzjkCGlbyQ==
-X-Received: by 2002:a05:6000:184a:b0:430:ff8b:fdc2 with SMTP id
- ffacd0b85a97d-432c37a9a6amr22821175f8f.60.1768294213934; 
- Tue, 13 Jan 2026 00:50:13 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080::fa42:7768?
- ([2a01:e0a:3d9:2080::fa42:7768]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd5ff0b2sm42889241f8f.42.2026.01.13.00.50.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jan 2026 00:50:13 -0800 (PST)
-Message-ID: <6fcc46b7-2e22-471e-a26a-c0c79f2bdc40@linaro.org>
-Date: Tue, 13 Jan 2026 09:50:12 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C6E10E475;
+ Tue, 13 Jan 2026 08:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768294279; x=1799830279;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=GIiH1jnOhOpoHjngF9gja9Tt31SyiixzFf5TxV7Cue8=;
+ b=msmrIFvSFP+N6MpgmrwbdMfLyNlnT/GL6TtGJdH8vfL3sgq+JS1p5dla
+ D25VU/QO3nhVBToIGQq50upqi7R9jQvz9ZF8a89BYiJQhIUk6chtAYcjk
+ Quz/lxmhlzeX3SRLhlmE2/BdYz+53mzUiWFXsCKeuQIUrNwGthgk8toRd
+ 7MSkJR65z0IjXx+BVV9vwMcl27ugSye2z4AeMDAp3m8A+oNuKDmjfU03L
+ lpSbMjK7oI9NOi0LCrhY49n8D5FqI/uXTuJM84d2rOqrbpGSMf1nssVAb
+ 9y2fcAgQdzoodjpkEexnBtZote5SHJx0w0J52kqUAI+Kn5A1k6uFR9yZz Q==;
+X-CSE-ConnectionGUID: SNiJxJaLRROwmxZMAKEooA==
+X-CSE-MsgGUID: +iUHa5FcTqW+az4JVYlurw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69734343"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="69734343"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 00:51:18 -0800
+X-CSE-ConnectionGUID: sz2+T8chS/awc3eRX/TWMg==
+X-CSE-MsgGUID: J5qSBpDDTO6UFhlka6/jmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="204226728"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 00:51:18 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 13 Jan 2026 00:51:17 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Tue, 13 Jan 2026 00:51:17 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.26) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 13 Jan 2026 00:51:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SMG7pmu00IHsfzs5I+2w4ML6M9t5bXqpdVRcwjGDXhO20y4p+TFf12ZtgtCMe/cNbwoo7aof7Ub7ZpKBGhncs5KFE7Tj/aOmfGjUlf4x2BfaPZ8mW0puxNJCF3gWqOOD2zi67bXq5q4g/qLxk/pX95TxK7+RuBrVMcvY46At7Afjojf0aT86Ab+k3PydgnP8U447YKQG6x5Yo8rDWiG9OxlfAwUxl5Ew3GjSzYglSauHyJxIMpgBKe2eVUEv52FcIjUg0uu2qfagKKBgXww+5QlXt8Aab8zyPDDrSSfL8yEX6ENnfZ/thPd/p5sTi9v3lDEjM7wGAz0n4k37FM+RBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GIiH1jnOhOpoHjngF9gja9Tt31SyiixzFf5TxV7Cue8=;
+ b=WdKAatlQzphX7IyLY9DyOoRiAc+8iE/SA4xNTuQCufQzLhOAZ6z1+K3DLk7pqrX6GUhk2oOapYMwRHPrPdgeW+MIMZZuBxpiYmNCvmFugErq463UUMwMFBpphQoplWl4DCTUP0rFxdvtRo9FOT8+YlRlHHRlifN6VrEgnwddJZ4jYElYdzJiZCmH/8fxoqx486C3OLaVxL/mo2jDUceAAr5Zoa0FiA9gixYaQ0kzWa25gLZ7J1LlFAawHdxNSdvhFNsqntZKspG+Cfwua+S9jb3oMinM5aiYNLC1zIM+dRCFhKNW4G4k/DJOo73JILn9VXMvjKuVipNCaUlyU5FeZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV3PR11MB8768.namprd11.prod.outlook.com (2603:10b6:408:211::19)
+ by CH3PR11MB8342.namprd11.prod.outlook.com (2603:10b6:610:167::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
+ 2026 08:51:15 +0000
+Received: from LV3PR11MB8768.namprd11.prod.outlook.com
+ ([fe80::154a:b33e:71c0:2308]) by LV3PR11MB8768.namprd11.prod.outlook.com
+ ([fe80::154a:b33e:71c0:2308%6]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
+ 08:51:15 +0000
+From: "Kumar, Kaushlendra" <kaushlendra.kumar@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "tursulin@ursulin.net"
+ <tursulin@ursulin.net>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>
+CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915/bios: Use get_unaligned_* for VBT block size
+Thread-Topic: [PATCH] drm/i915/bios: Use get_unaligned_* for VBT block size
+Thread-Index: AQHchGjDnt+Oek37DEODcvae/yj0HrVPypXw
+Date: Tue, 13 Jan 2026 08:51:15 +0000
+Message-ID: <LV3PR11MB8768CCEC44F65999ABC8DA82F58EA@LV3PR11MB8768.namprd11.prod.outlook.com>
+References: <20260113031210.330128-1-kaushlendra.kumar@intel.com>
+ <a15f6e8a6ab43f2dbaa2b33c606ee001f6ed38cd@intel.com>
+In-Reply-To: <a15f6e8a6ab43f2dbaa2b33c606ee001f6ed38cd@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR11MB8768:EE_|CH3PR11MB8342:EE_
+x-ms-office365-filtering-correlation-id: 564bbf32-20dd-478e-2ab7-08de5280e917
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?LHxPfAA2Qii33/N1yfBgbodQQXQry+xqBhZNUysmRqBBWwdHbGpcar4d3tpP?=
+ =?us-ascii?Q?6ZeST2bOZO0Ph+lVjI/IAJF2cWWkBKc/PgLUIjvls5akTVadku0StyuoQSxB?=
+ =?us-ascii?Q?ae/4yQ/N8Rqn1/aorKxUl+RCSYHNCgh1j1HVWQXmDiAz69jrxGGeJr2uSZyj?=
+ =?us-ascii?Q?EkhD76UE3jV004srM9DUm/aZw4x1Jat0C2OeKFjrMzFqM+OL0VQIP9ZC77gg?=
+ =?us-ascii?Q?kl95Dbd8KtEE9nx3D45cdVGzk5Q1BWC3Tz6doYv8goCUZATixgey8KXoT4mB?=
+ =?us-ascii?Q?WQJDckP6E2RsQlEs6Yr+jXvCh27pEKrjyLwztZlTuNPyapC/PpMVLDZGlgaL?=
+ =?us-ascii?Q?0osYiZ2LJ16SLVG3SMId0CPIibhYbxjaGR6tSECNUBLxnTuia4fGrWaDMhry?=
+ =?us-ascii?Q?ixwH2bnoyP8Uj59Nlv4FIXGD4shOOLyid3Iz2+9Qdi1QAAqsAXJJsNoWciQm?=
+ =?us-ascii?Q?DDArCT9r4Vll+fkJ2s5MWk8rAi2ZPwh4ou4gRkNc8nRpQSMcSjZgxFUxAEaP?=
+ =?us-ascii?Q?ni8qJ1K/+ulkQqb97tjaWTFmjBDXPOZcuvlGf9oD2pckQ/E4Cbql60SovYiE?=
+ =?us-ascii?Q?Q/zCezmBnIKQYA+1ectEqrBLrMIZMtXbUl47iyNUzHit9n/gVH6rm467S1dz?=
+ =?us-ascii?Q?vv8tMxfp6YB+DHN0HL5Cfzc0GlGEZ7alQd+8EWNvcEi6R7sp6sX4Ygqw06OR?=
+ =?us-ascii?Q?6dQ6nKi83WXEuMrzUgATVm22euDnMzB0akdNMdSvmydNaeQeBID1MtMXB5Dn?=
+ =?us-ascii?Q?f/9iWUv0fWZQeLjH/9ws99rkjukpxhddMKrJ2GG9TrKygSsnakPrnO8144vT?=
+ =?us-ascii?Q?aVqoGTnfX/zl8DxlQWADqkFcQnkS0reGY5B1uSs1spaUOeap8i2vC9AMdbmx?=
+ =?us-ascii?Q?cbxAyHIfmkyTCA6p7lpQUtTXZzkc0gYBxHm22WTQA6TF4fbyjpDGiVGAd6JZ?=
+ =?us-ascii?Q?I1n5E+zPGFJgWyVH/fmhT3V3A86G+0aqG3BVARxFAWN7WXeRIlSBedCywbLI?=
+ =?us-ascii?Q?Tam5LbtWqhtYmGtKHaabp42pWNEyh/N8AHl7uPjfKhXExFvGCasP95syUSoR?=
+ =?us-ascii?Q?rT/mWsX7pXfZc9bB1h5rknV0cMUqV5R1sCIKi9AGEH+0zxFyRkDD3vEKXSBJ?=
+ =?us-ascii?Q?AHi6FjW6R3rqNvYJsIMQvI6/gyuGZ4+nog+euWnq/oFD6MPC8fCy8R2/LJZa?=
+ =?us-ascii?Q?iyd+1t6ZM6+j0SK2Vy+71gpczMrgDdZzBk8kUzyhX3XZ0Vbbfib0bweF3GLy?=
+ =?us-ascii?Q?8BW2DscL5Z1PEz9pIr/nyA2P16O9qwJwUf6IGlezVItMVPOImNHtJUqO5+mI?=
+ =?us-ascii?Q?lJFuPiUdJHAo8K+Kn0rkxjbqeBM/nbLWZToVD85IxjcuozhtJZY+evijerBY?=
+ =?us-ascii?Q?zPQqxM2XONyTllNnh/80tkGQkYhOayBdJVRFf17kRUnGuLxnvCgcwhiHAtfw?=
+ =?us-ascii?Q?5gSIY1/Fw/JddRRv6PNQVn4hfD6IF7wQBxFlaT+Pgpjz2NaDKG55moU5T/HH?=
+ =?us-ascii?Q?a1ZkQNI9RMn43oFNT6Fi9mVx8A9l77agsSia?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV3PR11MB8768.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700021); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OLbO67MHIS7CL3VWjvXhkaNfahXdbSJDfabzvYj6hQ0l5GMd3vn837jfmIE6?=
+ =?us-ascii?Q?Zt3xgy0w/q4PXwszyHRNft8aFomVAjIqCjQTBcuCEW01JT/wO0GhjHxBFM1I?=
+ =?us-ascii?Q?FtjOo5OvDCYIu8PghqCCxsGp4cdCaRjF1totxtBE7ET1s0Bi4TbaKCqcGemb?=
+ =?us-ascii?Q?T4pwtE0J7RsJceLcx5berR05VkFYmkJd0Hwv2yEEHw/oaMzUfZY6BiSDoz3h?=
+ =?us-ascii?Q?Er69JcoiQz/TW/CDVquti5uSRcvEuiG4qlHVjhbPvEDd4O2WQN/wNXERkSf5?=
+ =?us-ascii?Q?CjQxqGo+nnLqxxgkRL8U4WxusEPtpzm0oYUhFiQR2aAoSIELsxIp/Upz5viL?=
+ =?us-ascii?Q?Lq0KLB7kYN7o26DY/5jDnFT06+Ji7N4/gC5LGALlCuxa0P66Bc5LoPs04OBN?=
+ =?us-ascii?Q?6ExZ+izTOqnllq/kNHWE+ur3CyTVtNP2QYwIAITiab+lHiLNadxZdETTQ84r?=
+ =?us-ascii?Q?q0yY6OwpLjfdpEgoPaw0T4l6nbroa49iu24eCH47qJjFpmA+FY18djMtpvAR?=
+ =?us-ascii?Q?anXwxsoTwYn19N0wvye2mrEHBmQpJipsSi7AR7aSW653nq5b6b6N33SCnP3P?=
+ =?us-ascii?Q?YJfDoAKmj+gycKdaI0HvMEYUuicrekP3AUdsnVims2TrLLJ9VgbUnhpbaz67?=
+ =?us-ascii?Q?JwSb+QZ3n/Afco6vC/zejT6OKn2ZlbEFFP0iBsoPklwFSGhgDgHlmiAxxAof?=
+ =?us-ascii?Q?aYqhL23daGTvXHDay+/VhIKSfea+nsCZugWQP70ecUvGemMTjLnqPZ6Il3te?=
+ =?us-ascii?Q?EQ3VenmNR6k4GkqJe4a0IGdGoBorN1veO4ls8CFGtSBlFbggUAyJYkwh1hea?=
+ =?us-ascii?Q?XvkwQrLSvv2m/GM+tjiAbjuYNlgDkYH5Tn8dIzGzKVUBy/smnHPKSsfecUTB?=
+ =?us-ascii?Q?UdjimJM8+D/1S7YHr93x04971YZtBiXltENl2sUDrZwvbloxrEpIs7fJEIA4?=
+ =?us-ascii?Q?n4Q2MBXtR38ndR5VB+zt/neY3Ag2egz0cAkuEnIiblnhWuC6+MZ8GBZHwLgj?=
+ =?us-ascii?Q?mVqC06Nge/zF8MOtYchQ6wj3FaH98XQueXe/gnrsv4JmV2la8dPO1yBDv/jR?=
+ =?us-ascii?Q?fc17f+n+oXrunqJdzj/wNUnNM5sQxxDlRBycXEwUYC3qkA55Z0Dinv5dJLRr?=
+ =?us-ascii?Q?L14oIp8Yei+UJkAiExt9+9J1rDP2MjOKORksOzMrdinOSuzZ/G6oB02w3Mio?=
+ =?us-ascii?Q?bEj+Wk4UNCncOz4yHYZZXPreJre3G8Csx3HWZDyE5l14AhoFcPIceJSlGzva?=
+ =?us-ascii?Q?jDEAvabbRAdk3TdB+pbCb5RsCZIyL+xOpz7dQe4fpeKEwavpWHo9SWr0tKba?=
+ =?us-ascii?Q?2WR/GekWoB5pd3NNEOJrpm16AxRSn8NzVrVp+IjQ2ZPu1M5a9UJei3nHY+7m?=
+ =?us-ascii?Q?nTagIo+ENKkDyRWZStErSHKZUvLHnfKLwi9ZPAvanOyqTvuWFpGy5goVD0gJ?=
+ =?us-ascii?Q?gKHuzHxtH2LayT+WThyz/vgCC+1imZHTmOcNgq0yDB0rkfiNjia/VgIIPlry?=
+ =?us-ascii?Q?hsT94bakZa8eKbXqIBHPuJSjUEBj026z6Ke5XZuWW/2fA9iXPjnM8cVjq6v6?=
+ =?us-ascii?Q?JC8rfqRqcabi3109pDTHN3FB81k7xLY+gbYTJisUbHICXMBBHDUyQA8esTTG?=
+ =?us-ascii?Q?oB9PHFcfGiR064QTCqTe/QODGh/ZxmmH2/nPGjMvltVx99NrI3R1bPp6z7cR?=
+ =?us-ascii?Q?A/Bf8zRGoCzJKG2HbhpP9p5KZFthb42vJqQ5VTYNwUbKXOdMDR4IuqEZdsns?=
+ =?us-ascii?Q?DQJcGzVqAg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH RESEND] drm/panel: ilitek-ili9882t: Switch Tianma
- TL121BVMS07 to DSC 120Hz mode
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- jesszhan0024@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251216075530.1966327-1-yelangyan@huaqin.corp-partner.google.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20251216075530.1966327-1-yelangyan@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8768.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 564bbf32-20dd-478e-2ab7-08de5280e917
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2026 08:51:15.2502 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UgYHH341AuLQLuL12dZ1wjKjxJAbDhmpWfTdaUEYccqqFxombDu+RvGyttCTUdhGnn2neqnICLgOpmaay24v5uTSIJzr001gULfWLe5d0rI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8342
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,259 +186,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/16/25 08:55, Langyan Ye wrote:
-> Migrate the TL121BVMS07 panel from non-DSC 60 Hz to DSC-enabled 120 Hz,
-> including updated init sequence, DSC configuration, and display timings.
-> 
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 147 ++++++++++++++++--
->   1 file changed, 136 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> index c52f20863fc7..370424ddfc80 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> @@ -8,6 +8,8 @@
->   #include <linux/of.h>
->   #include <linux/regulator/consumer.h>
->   
-> +#include <drm/display/drm_dsc.h>
-> +#include <drm/display/drm_dsc_helper.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_mipi_dsi.h>
-> @@ -15,6 +17,8 @@
->   
->   #include <video/mipi_display.h>
->   
-> +#define DSC_BPG_OFFSET(x)	((u8)((x) & DSC_RANGE_BPG_OFFSET_MASK))
-> +
->   struct ili9882t;
->   
->   /*
-> @@ -23,6 +27,7 @@ struct ili9882t;
->    */
->   struct panel_desc {
->   	const struct drm_display_mode *modes;
-> +	const struct drm_dsc_config *dsc;
->   	unsigned int bpc;
->   
->   	/**
-> @@ -52,6 +57,8 @@ struct ili9882t {
->   	struct regulator *avee;
->   	struct regulator *avdd;
->   	struct gpio_desc *enable_gpio;
-> +
-> +	struct drm_dsc_config dsc;
->   };
->   
->   /* ILI9882-specific commands, add new commands as you decode them */
-> @@ -68,6 +75,67 @@ struct ili9882t {
->   	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
->   				     0x5a, 0xa5, (page))
->   
-> +static const struct drm_dsc_config tianma_il79900a_dsc = {
-> +	.dsc_version_major = 1,
-> +	.dsc_version_minor = 2,
-> +	.slice_height = 8,
-> +	.slice_width = 800,
-> +	.slice_count = 2,
-> +	.bits_per_component = 8,
-> +	.bits_per_pixel = 8 << 4,
-> +	.block_pred_enable = true,
-> +	.native_420 = false,
-> +	.native_422 = false,
-> +	.simple_422 = false,
-> +	.vbr_enable = false,
-> +	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-> +	.pic_width = 1600,
-> +	.pic_height = 2560,
-> +	.convert_rgb = 0,
-> +	.vbr_enable = 0,
-> +	.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
-> +	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-> +	.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
-> +	.rc_tgt_offset_high = DSC_RC_TGT_OFFSET_HI_CONST,
-> +	.rc_tgt_offset_low = DSC_RC_TGT_OFFSET_LO_CONST,
-> +	.mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC,
-> +	.line_buf_depth = 9,
-> +	.first_line_bpg_offset = 12,
-> +	.initial_xmit_delay = 512,
-> +	.initial_offset = 6144,
-> +	.rc_quant_incr_limit0 = 11,
-> +	.rc_quant_incr_limit1 = 11,
-> +	.nfl_bpg_offset = 1402,
-> +	.rc_range_params = {
-> +		{ 0,  4, DSC_BPG_OFFSET(2)},
-> +		{ 0,  4, DSC_BPG_OFFSET(0)},
-> +		{ 1,  5, DSC_BPG_OFFSET(0)},
-> +		{ 1,  6, DSC_BPG_OFFSET(-2)},
-> +		{ 3,  7, DSC_BPG_OFFSET(-4)},
-> +		{ 3,  7, DSC_BPG_OFFSET(-6)},
-> +		{ 3,  7, DSC_BPG_OFFSET(-8)},
-> +		{ 3,  8, DSC_BPG_OFFSET(-8)},
-> +		{ 3,  9, DSC_BPG_OFFSET(-8)},
-> +		{ 3, 10, DSC_BPG_OFFSET(-10)},
-> +		{ 5, 10, DSC_BPG_OFFSET(-10)},
-> +		{ 5, 11, DSC_BPG_OFFSET(-12)},
-> +		{ 5, 11, DSC_BPG_OFFSET(-12)},
-> +		{ 9, 12, DSC_BPG_OFFSET(-12)},
-> +		{12, 13, DSC_BPG_OFFSET(-12)},
-> +	},
-> +	.initial_scale_value = 32,
-> +	.slice_chunk_size = 800,
-> +	.initial_dec_delay = 657,
-> +	.final_offset = 4320,
-> +	.scale_increment_interval = 222,
-> +	.scale_decrement_interval = 11,
-> +	.initial_scale_value = 32,
-> +	.nfl_bpg_offset = 3511,
-> +	.slice_bpg_offset = 2179,
-> +	.flatness_max_qp = 12,
-> +	.flatness_min_qp = 3,
-> +};
-> +
->   static int starry_ili9882t_init(struct ili9882t *ili)
->   {
->   	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-> @@ -423,22 +491,72 @@ static int starry_ili9882t_init(struct ili9882t *ili)
->   static int tianma_il79900a_init(struct ili9882t *ili)
->   {
->   	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-> +	struct drm_dsc_picture_parameter_set pps;
->   
->   	mipi_dsi_usleep_range(&ctx, 5000, 5100);
->   
->   	il79900a_switch_page(&ctx, 0x06);
->   	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
->   
-> +	il79900a_switch_page(&ctx, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00);
-> +
->   	il79900a_switch_page(&ctx, 0x02);
-> -	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x00);
->   	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
->   	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
->   
-> +	il79900a_switch_page(&ctx, 0x05);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0X9e, 0xe9);
-> +
->   	il79900a_switch_page(&ctx, 0x07);
-> -	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x01);
-> +
-> +	il79900a_switch_page(&ctx, 0x17);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00,
-> +				     0x00, 0x89, 0x30, 0x80, 0x0a, 0x00, 0x06, 0x40, 0x00,
-> +				     0x08, 0x03, 0x20, 0x03, 0x20, 0x02, 0x00, 0x02, 0x91,
-> +				     0x00, 0x20, 0x00, 0xde, 0x00, 0x0b, 0x00, 0x0c, 0x0d,
-> +				     0xb7, 0x08, 0x83, 0x18, 0x00, 0x10, 0xe0, 0x03, 0x0c,
-> +				     0x20, 0x00, 0x06, 0x0b, 0x0b, 0x33, 0x0e, 0x1c, 0x2a,
-> +				     0x38, 0x46, 0x54, 0x62, 0x69, 0x70, 0x77, 0x79, 0x7b,
-> +				     0x7d, 0x7e, 0x01, 0x02, 0x01, 0x00, 0x09, 0x40, 0x09,
-> +				     0xbe, 0x19, 0xfc, 0x19, 0xfa, 0x19, 0xf8, 0x1a, 0x38,
-> +				     0x1a, 0x78, 0x1a, 0xb6, 0x2a, 0xb6, 0x2a, 0xf4, 0x2a,
-> +				     0xf4, 0x4b, 0x34, 0x63, 0x74);
->   
->   	il79900a_switch_page(&ctx, 0x06);
-> -	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x91, 0x45);
-> +
-> +	il79900a_switch_page(&ctx, 0x16);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x03, 0x4b);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x04, 0x73);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x05, 0xdf);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x00, 0x01);
-> +
-> +	il79900a_switch_page(&ctx, 0x10);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x12, 0x8c);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x14, 0x3c);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x15, 0x3d);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1d, 0xfc);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x25, 0x9d);
-> +
-> +	il79900a_switch_page(&ctx, 0x0e);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc0, 0x18);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0x0e);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x38, 0xcd);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x80, 0x53);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x81, 0x0e);
-> +
-> +	il79900a_switch_page(&ctx, 0x1e);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x61, 0x5c);
-> +
-> +	drm_dsc_pps_payload_pack(&pps, &tianma_il79900a_dsc);
-> +
-> +	mipi_dsi_picture_parameter_set_multi(&ctx, &pps);
-> +
-> +	mipi_dsi_compression_mode_ext_multi(&ctx, true,
-> +					    MIPI_DSI_COMPRESSION_DSC, 1);
->   
->   	il79900a_switch_page(&ctx, 0x00);
->   	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-> @@ -447,9 +565,9 @@ static int tianma_il79900a_init(struct ili9882t *ili)
->   
->   	mipi_dsi_dcs_set_display_on_multi(&ctx);
->   
-> -	mipi_dsi_msleep(&ctx, 80);
-> +	mipi_dsi_msleep(&ctx, 20);
->   
-> -	return 0;
-> +	return ctx.accum_err;
->   };
->   
->   static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
-> @@ -569,15 +687,15 @@ static const struct drm_display_mode starry_ili9882t_default_mode = {
->   };
->   
->   static const struct drm_display_mode tianma_il79900a_default_mode = {
-> -	.clock = 264355,
-> +	.clock = 543850,
->   	.hdisplay = 1600,
->   	.hsync_start = 1600 + 20,
-> -	.hsync_end = 1600 + 20 + 4,
-> -	.htotal = 1600 + 20 + 4 + 20,
-> +	.hsync_end = 1600 + 20 + 2,
-> +	.htotal = 1600 + 20 + 2 + 20,
->   	.vdisplay = 2560,
-> -	.vsync_start = 2560 + 82,
-> -	.vsync_end = 2560 + 82 + 2,
-> -	.vtotal = 2560 + 82 + 2 + 36,
-> +	.vsync_start = 2560 + 62,
-> +	.vsync_end = 2560 + 62 + 2,
-> +	.vtotal = 2560 + 62 + 2 + 136,
->   	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
->   };
->   
-> @@ -597,6 +715,7 @@ static const struct panel_desc starry_ili9882t_desc = {
->   
->   static const struct panel_desc tianma_tl121bvms07_desc = {
->   	.modes = &tianma_il79900a_default_mode,
-> +	.dsc = &tianma_il79900a_dsc,
->   	.bpc = 8,
->   	.size = {
->   		.width_mm = 163,
-> @@ -716,6 +835,12 @@ static int ili9882t_probe(struct mipi_dsi_device *dsi)
->   	dsi->mode_flags = desc->mode_flags;
->   	ili->desc = desc;
->   	ili->dsi = dsi;
-> +
-> +	if (desc->dsc) {
-> +		ili->dsc = *desc->dsc;
-> +		dsi->dsc = &ili->dsc;
-> +	}
-> +
->   	ret = ili9882t_add(ili);
->   	if (ret < 0)
->   		return ret;
+On Tue, 13 Jan 2026, Jani Nikula wrote:
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Please put the include next to other linux/ includes, sorted.
+>=20
+> There's a handful of other places in the file that could use the same=20
+> treatment.
+
+Hi Jani,
+
+Thanks for the review. I'll fix the include ordering and update other=20
+instances in the file for v2.
 
 Thanks,
-Neil
+Kaushlendra
