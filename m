@@ -2,156 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281B2D192B7
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 14:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9291D19473
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 15:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36E3610E4DE;
-	Tue, 13 Jan 2026 13:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06D310E350;
+	Tue, 13 Jan 2026 14:05:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="lJMfbuUQ";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="bqlRAiZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011020.outbound.protection.outlook.com [52.101.125.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477AE10E4DE
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 13:51:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L25sGqxOovuVZl8gshgNFzNNKF1C6Gwq9nLt/nJRy+FY9zZ+XS29QHyz4AxQi4W7Bdrl/mxFQO3ABk350T+oBlECf1hMw54eMUVMS2kAiQzRTPU6XTPVkny3iKvlt/gjlJP+xXQ19k5pzwys54TMeK/aw6aItuuGt7b+7V0/2zzOeT/t6ano0JrTY7KmgXIfjtgt2dpMzLV8kDnY4vf2tTi71dMlDLbju19p5aeHZ/wEbzAJDaDX3G8LCTEZjmEHgMiEEyUe4NKNP9CgP3SllEYGnQlF69g/11Dbs3zfVb+MjcJyttFqSNK2m4DCJ+2a1hMlu6FBtc+1RciROqIPeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7EYLEnLRsFZQmKVJmX8nRcNORWcYXUPpSopXH8NFJpw=;
- b=Yf2up2aL6h51VnrSeJAwJUi+De1Rizvx4QIMZm6tx4WoYvzvPkUnSAA35rptZhbgDRI3DZgj7C1/lIw2AOUX78tNZoH0uiAjA6PTp4r+XcXon2klsZHgZDLpW5vrhWbRAQoYyqtogrNa/T8JHrrvYFG7jPS7eudIm93AKJ4jykMGaMviz3RfxeomySDEpdMCYpLKyQ4Gu+a+t76LUk73pCP+hwnGMFc/y18AoVkQFFKzeVq0PMr6Q1rJVFT7XTiV4BnQAkCZpufzk1CdKTVUMY1Ns6qwubLN04AA+FTrMu5mh6VCSZSbqYZ6cwwO1XTcKF1fLWxEaTr0txD4maRb1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7EYLEnLRsFZQmKVJmX8nRcNORWcYXUPpSopXH8NFJpw=;
- b=lJMfbuUQzkpBdVVHSVowJMKyOgS5vXTrFtTdx2SYf2tWwHEcCQmZxtEa8OMnWXAeFwH6TsvKaSB/DCj5greBroEAgjPShny0irbDdDRQjzNjhc7LdrPIr1ag9gA4GzHrvt148lzBo4qOZFK6TTFRMU0+RPKa1J1//2By+2ecPOQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TY4PR01MB16974.jpnprd01.prod.outlook.com (2603:1096:405:335::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Tue, 13 Jan
- 2026 13:51:27 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9520.003; Tue, 13 Jan 2026
- 13:51:27 +0000
-Date: Tue, 13 Jan 2026 14:51:07 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
- biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 06/22] clk: renesas: r9a09g047: Add support for
- SMUX2_DSI{0,1}_CLK
-Message-ID: <aWZNy7MmeO-obgYr@tom-desktop>
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <cdd044968c1d199ad41ec84ed71162725cb2ec66.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <CAMuHMdVpgnCXVzuZ7ZJQ8dy4Yae=zse3pq=r-g3frymbSVRpVg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVpgnCXVzuZ7ZJQ8dy4Yae=zse3pq=r-g3frymbSVRpVg@mail.gmail.com>
-X-ClientProxiedBy: MR1P264CA0069.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3f::15) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+Received: from sonic306-20.consmr.mail.gq1.yahoo.com
+ (sonic306-20.consmr.mail.gq1.yahoo.com [98.137.68.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B69C10E350
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 14:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1768313141; bh=UXqT3OxvL4fWZ5v0F/aacWjVx/cPbj2b1GcMebuJ8wE=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=bqlRAiZm3ZfPqWpEX4BGKXPWbwh51+Cz3cmetWwekqPLeSo66ZbdowISE3Ls8g897LpS269yt+d58H/AB9b1aQ4eUMVDckuztpxkG5V4kLauPL4lEEdy9oBVX90Pwe9sKorehFppI1+hn9+ulTNbTls4mi+H6VPI3pEXMayZ3bSLiqEHa4pg6ypBq4tmQzxcNcav2vhfXSRWjDyB0jde1jT0gPHXttL+xrJIm0fqDO7SMsZZgywfnWghPFSpA2bjgU9xjoIP/SeHpzbbzbXEH88rpPQPds5joSlXPDdPyBce18WVjVI5e48xgtfucK+URe/5NbPYBzWmIIeFtsVXLg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1768313141; bh=eMOtkEEOyEIBkosqnJ2b/wnvPGSnOtR3xRuqnUBIKvs=;
+ h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
+ b=b0rmsEMEK9J8hswsEpaZC48T5dUrUUpvBC+bs4ivn0TYef9k7DN3MKDBuXcB29kjrFLlAMrmybmPjBxFcnEeupWkE6T3f8N/lGQDQ6MAB/w5VbqWO/6LQ74cDVSt1rOJVtDsMz+Batsq114RHTw5mWXeXpr6ET0aZIVbPGGpyek7YP4uUhxAV/Y24XPJdwqgC9N5TD7X63E1cLSjl1fqRHw4/GaVbOliMgpBCzPQGKgWrxuIV4KroF2Ay7ZDPfJQHO7nNnl1CdA2QBkf5qepy3T2GNfRuO1NHeSbYYs6WzzSaRIwnc6FmMhn0c90kuE8B9Vo4tkSNApNJgf4CDj8Ew==
+X-YMail-OSG: rxZL8cQVM1mKaBXGS2.SHA92D1KBUhJUkejW6wCtp.YpsAf1GgyfF4V3UsRQASh
+ AccHnyHKAWCj24mWJ5pbEDHciTDjODcjctOdOInluMgq2IuJ2ZJGiAPJLIKgrNMDF4b6.PE57rAU
+ PJrv52oRr4WTRyXxrYphVmEGUtYYlcbKa5t63PEYq4r7zRlLOYjg97QJSt0L6E1EtVJ7gBshQFAk
+ SdmtGxk6rKG8QUsCXl_umvnA975lqkezGKfnaQxj0BEW6yNa1gCBNENN6ERO_RdEuU7B1O58uzwT
+ JEEoe3Qkb6XGfWTaID5k2vfUUNAWpYvGW4G2L4CRxN4Z7YGYRX.s8t8tQo9MDCKe4f3M4s1EvKjQ
+ Ux88Sf2Rmp6yRoCrtYOXmIRfPjPXdmpBqyqAJD1tCXb6ffZeJiqu6.S_kO9cMemd0LJK0HlHJCst
+ fDIZ0aMGQ8tlRnyC7WeBLhijawoUrirq5RNv682dzwLHyvLL0WdYWpznCRzLRInXxi9raqBHg.zz
+ O_1rgUBjBhehcPmiEvQlGeHc2zuG8dXjGwLqr0De9OjRpIvkrYvY.EolYCuT0rECOSvDUJBHcp0.
+ yrNEJhb7A64Oj60xMdo.aHK1oL5PNhSrhGm4R0z1aD3kyZhpnsnrNhX.KrryDrp4a3zXKcfNfAcC
+ ojWoVqalnHww7lzg7MEiL_pjNOFqnOCebaIIbP.HHOxW05x9kHDEUh34fwqYrLRh3J_V5OZuSXvX
+ skxTwHIDjuGmRaiFlrW0RBDB7l7VzvKZgD3d9ct9hFRczB.p9xFXT.VHQjQ.ZT00oZfIYkCSXibF
+ CmH3RW2hy9zZmlzh3QLiNLaSVvGnKsmZ_PmFMXTpzucAyUi6Fq5vRx5sxSblgPa1cQcAtbLclcNO
+ K5X7aZqreIiKOIKstn7XoTZCRyUBtH3nQYpaBtqWG3d_NRopSnmYRp3zJnmO6Fwy7MXhb5UvBA84
+ 4MohFRg2h0TSuobYmmVj3HMBOK54ULoj2_BCxxCxR9cgv.01tC9gGCPwvOPwrQf5_3cETZ5OuIzX
+ .C1faUh2hetYwgVRQw8T9Lu5U75vqQBu_pFuf1kT04zQ.viWg8b9oPiXq4fzq045b4bMe1aJsZPA
+ 1Epc_w8VVdXff6ClM.Pgyf77x0kNoKRNwGzngriJDu5BVWRmt8U8tJSxxDwphtQGYPKcOiaI1shS
+ XozhboEhMCnua7yzdtnxJ6wzmANRF3VPCTJXHE3o9unC4STe48bDvY34O.JinzogfaD1KVT9awcs
+ C6cngFq29gmfsHpVmpk0flJLGLYAOyJtzU5EcnhPd3HN8pfwHKrO7ulcw7UkKnFx_eI5JXQjmpVr
+ SF41RWodYnBH9iYRxVVwE39ns3hfOizYdN3Lo08bOu8rotaIar0iIATo1OfMoBcZC_3V_mTyYdDA
+ jOesmQX7HxvgmTMvD5qr8yP8w._wouBK5sfSR3YK6_huftpmpX0af0zFp8D0PQbH3JVYtUgQt60C
+ 3N02A9QdH_NUDbCA8pEFiDEdmta3zSTD8ZXte9xSAEHX6aKdlNcBpGvCvr1TclTsdAUm1eFlCaJI
+ kgUs7f50TooEprx9wyPhBY8hNsNYJa5Um.maSDKOR5.Iwev.Qv5_eaPuY6btVCxnrBdiVwXV9WX_
+ 4wTeekAMSYBl.w0BvBYyA63FFNcRRk6HjzJyOHCipxB9FVbktEtaR3bA9SXZiWaBYOzjYpqSyPl5
+ fCllfN4fWSLK87XGMTInUSrXF9E0E5sihVQPoBMKaZ9m1Ki2dL1XoE0iiUfsl.vTGDO57iuk6qPs
+ BQJ2tXrbhpMVnXEx9XyKW5YeOt.COWHrjRpZdRBd0BcjUDCByxJqA.nilEcx4n8qoG_lz36KvL_L
+ oN4I2bDbAqvrfQcLj1obpbng8nXkmTtGOcIQiY_fMDT0pfIJTRZPX6weA6WUQxWc0DIkZL6oaEKr
+ ozOIXKo4vVkGZ6RK4Zi0.d9gk54suxJInfClbER8JJ91YVPMVRKYXx8Ui9V1meunRPMj7Uv.sFoq
+ pjQuMiDsQBzduVfvlcRPguktgdFMhCTkQ39vx6s2hTHkj6ugT5IDLZK3gdVqI9ifxppWyS7exKs7
+ wEoX5kbbU.MY8v3YXW3qCU6yOv4s82EYfd_KXabYIXvJZcBVzTengXwSjCdVfDDKxVw.wmsEHzMS
+ dhvFMM6vTVmEqSAbF9c7M99MFQONcSEfsMCLOMbKJJ_x5SMPHuCCar9gAmj1eDbP3zeEkg0tIf9y
+ 5nrq505SmBCW39jrPJUVmTgXLeaILIRFZc_3BmOPey8E9VIzziiAYStCJNDL7R56Owc_3vZV1rVr
+ cwA--
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 813af666-4f25-4c68-8622-4131645669d7
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic306.consmr.mail.gq1.yahoo.com with HTTP; Tue, 13 Jan 2026 14:05:41 +0000
+Received: by hermes--production-ir2-6fcf857f6f-7nlzs (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 9b43bdbb810054b7366e75cd1eadd578; 
+ Tue, 13 Jan 2026 14:05:38 +0000 (UTC)
+Message-ID: <69a714228f562d399e78cd0e54a23769490336f9.camel@aol.com>
+Subject: Re: [PATCH] drm/gud: fix NULL fb and crtc dereferences on USB
+ disconnect
+From: Ruben Wauters <rubenru09@aol.com>
+To: Shenghao Yang <me@shenghaoyang.info>, Thomas Zimmermann	
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Date: Tue, 13 Jan 2026 14:05:35 +0000
+In-Reply-To: <65110c51-1f47-4382-ac92-518c7f157a06@shenghaoyang.info>
+References: <20251231055039.44266-1-me@shenghaoyang.info>
+ <28c39f1979452b24ddde4de97e60ca721334eb49.camel@aol.com>
+ <938b5e8e-b849-4d12-8ee2-98312094fc1e@shenghaoyang.info>
+ <571d40f4d3150e61dfb5d2beccdf5c40f3b5be2c.camel@aol.com>
+ <c6324a66-5886-4fbb-ba7b-fc7782c0f790@suse.de>
+ <229b5608222595bc69e7ca86509086a14501b2f7.camel@aol.com>
+ <8929ff0f-c2e0-49e6-a0ce-c4b0dcebae99@suse.de>
+ <65110c51-1f47-4382-ac92-518c7f157a06@shenghaoyang.info>
+Autocrypt: addr=rubenru09@aol.com; prefer-encrypt=mutual;
+ keydata=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
+ eIvzsqg==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-WK1prZNvwrKcwvmDYqit"
+User-Agent: Evolution 3.56.2 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TY4PR01MB16974:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52586136-cf7f-4349-0258-08de52aad8f0
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|52116014|7416014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xAqoZNfCx5nTc2bW5PluqWsOUcQgFZh537MMkDGJOo2vWkJgZr73iMphFw2N?=
- =?us-ascii?Q?jUyTDDcvuWqLZxng0kuK9Acaqje6pKjDDNVBNJb46cVP7DXru2V+ylHfFW0P?=
- =?us-ascii?Q?4eaunW1/9WNoJqJg5jBbFW0fXHIFNPN5qU+p7GybEMjT+PeNa+Yf8OkSBQES?=
- =?us-ascii?Q?vxCDT2Mt+nPHd+Onv0KS7iY32IzpLxiNQurTvobBBNhdLI/bwxNW1W2475xM?=
- =?us-ascii?Q?PWpmlgwfjp7iy5nYMJucf0oqKCwwZOICmDaTgSAMYyG/6QSNPmxYXGo3XSKH?=
- =?us-ascii?Q?CZA4D3dwvmqcXy/xwn7ngtf5qnzPqiSx0lmcntyAbGUyYJIV0qIFNhGTcH9k?=
- =?us-ascii?Q?m9Rb72DnLB/kqD3ZPYDd/yemU0vGYIfHibkiz0CVS8lo3pIwsTIvBYHaAnQE?=
- =?us-ascii?Q?R0SHZzWhNRJFge6VfJg4+wVQaJZAOwKdEnzSqxRLIq9IwT6akJuKAZMqsg11?=
- =?us-ascii?Q?cU5jRlwEFhz2dTr0+LV5jTtLd7vdAlKzOV0I7rwHgIp/S2FqQ6h8gHdOG9Wu?=
- =?us-ascii?Q?vQUzi9qFv1pLCpoyW3Zq6iuKQ/CPf3KHpaDI8QklE+Ei8MuPWI5nHbRD/glI?=
- =?us-ascii?Q?oxr4GRHhjN5dJGv3Y6ydEi3CczV9LF7W3b7WgbjMAl2e31axJKJvM/p1LqvW?=
- =?us-ascii?Q?Yo6eGE07Yje/hVI1Rgu84oQt8tNbRFM/jw5bIYlgyJOhu2uKv50l/MYAHW3T?=
- =?us-ascii?Q?kdtEKcJKa62TpJMFUCpnHv+xZqKvm9Bt0b62HIg0XNMWfsxpVn8ZK4eEckGP?=
- =?us-ascii?Q?dA+k58LuI99kaqRFJ7uK+GhQj4fgtTrXqQZFkwze0X0d3hl1cV8ZA8DZV7fH?=
- =?us-ascii?Q?U4ku8rnDBdSk02PJ7R8Om3AiJ3wn1jKpV2ioq/pEyjC1YX9dbkZ8lUEzhmwK?=
- =?us-ascii?Q?o74tblhXnv2vzfg2nqq4I/KuZoh0u6vEs9rCYc9wFcmyacVLo7zV9OHJJgeL?=
- =?us-ascii?Q?INHHgKnWxMLsfA++BePbLUDS2Hu7ShjXNOexS3Me4BDHFQJkcnNh0L7m9u05?=
- =?us-ascii?Q?4Fl67l39BSLnXn0swDfbBk+MTbMhdBXf3K98gqNjBy7V3Mrs8ryMwmKEB4q6?=
- =?us-ascii?Q?YRPs8D+0tfAb4+GxbM2prZ6mtYePhWDAbFDz0W4bKZChFSdoU9Frrdr1Xeau?=
- =?us-ascii?Q?bFcZLbepyPl4K0s4DbjngNIX3xAKOSX+3QpS4uN8EUUN1AogmK4iRse2fZ/V?=
- =?us-ascii?Q?gvmhPiy7nnoCvZ7I6LwVAGxaKbEBBoSIIN9x+c5w7V2gnlgNV4h7yi8a2/N1?=
- =?us-ascii?Q?CJx3nK4tNc/La6jIJ+kqsH1KcDaYzuW5Y1HmRQbIfomAijT+hg/JJ4t6/HBG?=
- =?us-ascii?Q?V4Q81fBRSBUjRZdxzak+wljghi2wvCQMj7qOf2q8Zc78rTMGRbHinpucsqR8?=
- =?us-ascii?Q?Rc/aGmCqTdG057h+g9rMuYif2PTWcY5uZ+Erw2ASFEt6/7tHJxdbEY32s5J8?=
- =?us-ascii?Q?EFYo+1io/4BspP5fIOBoU53lw81EUov50ONCbC4ywYxafXnE+B/mrYV0M/qs?=
- =?us-ascii?Q?d+gZWGr2bRE+7Rwl2rH2lvu2pX66RMbAVctR?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB11947.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(52116014)(7416014)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6hw0kuP+Rf6aNxQimBedguPNr0wRkTIaoaIyOdScPP7dEyH7LBXXjs3sdlRk?=
- =?us-ascii?Q?a3vqdt2RqVMk2qEN0LnNmgd5rp32NWRCAUWc+OC2kLARHtF5NuuIZLzoLOM5?=
- =?us-ascii?Q?6co1xKB5JbozRsEgt0v1zAShKYwozKpBBQZA/YtoIgO603fyoXhNY/us8Lya?=
- =?us-ascii?Q?gLSi4uV85Kkzy9bxs/SEOhTbr2Xpr4+YntgSDT7V8xvyFjwqRumi3pQsQvlb?=
- =?us-ascii?Q?J2Rbm7gKrbDpDv8CTMCjefj955CkiTvk7zh3qktf5vvXyzu7wPtM8vnM8Utz?=
- =?us-ascii?Q?tbDoUwmSSOCg01ByBbBvBUlASV1+IWKzx+Kgdr164UuiK3LjfRrHzlARcn/z?=
- =?us-ascii?Q?MEEIXCdb8SqA36VZfL0qTBqz+qNC8a8EDZvunQniakU6GFL9I7qf4tkaiuVh?=
- =?us-ascii?Q?drPCNasyYCgPRNf6w35j2AS923xJJHthhEcIVaxhIiwLrZwD6diJ62H1FS0Z?=
- =?us-ascii?Q?evn/c/GiEtmROnbYQMvw3CPDSPXr6Pucl0T4lGnSevOmesXIkRJLuOSsfaSG?=
- =?us-ascii?Q?ohzsM/X+L4E9DSs7V4dd3OPd3+55bjOiDBMudkZYxsfumN2ALV7tL0OSpbuk?=
- =?us-ascii?Q?YduE4cIoJbtPx7m/JGOd7+kdqbD1+RNlw6OdRb8PH5CjdvSY3UDbwiUb6MtQ?=
- =?us-ascii?Q?anuecizsNfWHYTpGHxR355dpd1qb6HRXUKM2uSspo2ROa3AWwmuMx8yd4L7a?=
- =?us-ascii?Q?5olC93rLuGfftvt0A4/y9mmxZsZjzSClDq8eBrc0I1xJd8Mfci7TeIQtM3O7?=
- =?us-ascii?Q?pr0Lubmon5O8DfSxEm5bCjLLU88vK5xivQwbcl71ntV56ZxQkCIef6RmtFq1?=
- =?us-ascii?Q?n1HXC/rHyx6fBXasLhDVhQ/1fth6cYPQWwHxBWsYVQ0OqE4EIy1LPJSoO2Qb?=
- =?us-ascii?Q?ZOMA0YphVqYIjU7/vCzc9KGvtkelJP2w9bVLt3glzbvYuTN2SVEwJraKqvuF?=
- =?us-ascii?Q?ltYtn7UrjLD8XK+0vNwFW778dvhf2rLKAVRwOAeY+5iedgS5yKpv5cAaZ76P?=
- =?us-ascii?Q?lmDS3f+UHh7V8eiuEEeiJUSlUPaFd325FRb1Gmj4jpZ8omlM0cWyvfkxPgot?=
- =?us-ascii?Q?xXxg9o59KTPsNLPI96B89jke/VS6lWFOPpJSJoKy7Dt3kijbsJjkWQZIzSKm?=
- =?us-ascii?Q?64MF4+uagqADQZkEWkSnfhshKkiWv1HWiI6V9qi5JfqvSJJFhWqlGByHlQ0T?=
- =?us-ascii?Q?Q0iVHgLr13n2ApVvsy7Wpx2kSaT9WIkTpDh/KvWoDhET/m7jcVnUhbTJ1g0n?=
- =?us-ascii?Q?SiKORu1QvHSs8uHRX1+6chtUIvZkhRQTs9HxxbIb1iFBa7Gb6ebF3HFvjtNZ?=
- =?us-ascii?Q?aFsX+4BE0U8uejn3C70/xhuBIF6I9VMKxPuIlFlPNnomgXRRk4ol7OJUgXvV?=
- =?us-ascii?Q?R/PNslYkP50EtIdTGcp40QKSuWe7nIVa1KSY+mzbwvZE0ZlLDsa+j00sPshH?=
- =?us-ascii?Q?Rwdn77L0OxWMnMi6XWHHpXYWmybpsoLuRLa4NL3j8lw6EBMIRca0T55PWQuQ?=
- =?us-ascii?Q?wH62j4F/o0TcBDt9Mmjbp/Fll7VQtU5irxG03e9thDaKKnZgNIclydrKK4cR?=
- =?us-ascii?Q?1fTk05L+5V/HBi0IK0pPDA6TQ8qwOWHAzZTa8chtf2u4WMi1iy3xD9sZFcG8?=
- =?us-ascii?Q?4PhMaUYLeRUS8hQ1p8NB3KqL93XvdCFbvvUziaHpajipD1MPSqtDnwOrkUvJ?=
- =?us-ascii?Q?VJMfpJ+clH7SyHNmiPGSJ4dIm0IUWXeSItYOyZVIn9feK7k+80sAfT61+IrP?=
- =?us-ascii?Q?PjKDBb8+xL+AfthWNHBneh4ENPBLg38oT/4vxxEGE2U4bQKRjyJ4?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52586136-cf7f-4349-0258-08de52aad8f0
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 13:51:27.3742 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YRw2GfLorgGKCiPDgiCfnj0YmXgAbweaE/NRokDXQeY3nLLTL/Dv/MdCqKGSS3Zm9y56V6B7teR7RfsHjDyYElPSikQ6AQFn5tjlPHolNhf/j8WrivgjE6JKnaadLehD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB16974
+X-Mailer: WebService/1.1.24866
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,82 +137,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-Thanks for your review.
 
-On Fri, Jan 09, 2026 at 07:38:40PM +0100, Geert Uytterhoeven wrote:
-> Hi Tommaso,
-> 
-> On Wed, 26 Nov 2025 at 15:10, Tommaso Merciai
-> <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > Add support for the SMUX2_DSI0_CLK and SMUX2_DSI1_CLK clock muxes
-> > present on the r9a09g047 SoC.
-> >
-> > These muxes select between CDIV7_DSI{0,1}_CLK and CSDIV_2to16_PLLDSI{0,1}
-> > using the CPG_SSEL3 register (SELCTL0 and SELCTL1 bits).
-> >
-> > According to the hardware manual, when LVDS0 or LVDS1 outputs are used,
-> > SELCTL0 or SELCTL1 must be set accordingly.
-> >
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> > +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-> > @@ -64,6 +64,8 @@ enum clk_ids {
-> >         CLK_SMUX2_GBE0_RXCLK,
-> >         CLK_SMUX2_GBE1_TXCLK,
-> >         CLK_SMUX2_GBE1_RXCLK,
-> > +       CLK_SMUX2_DSI0_CLK,
-> > +       CLK_SMUX2_DSI1_CLK,
-> 
-> Please move these up, before CLK_SMUX2_GBE0_TXCLK.
+--=-WK1prZNvwrKcwvmDYqit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ack.
+On Thu, 2026-01-08 at 21:39 +0800, Shenghao Yang wrote
+Hi
+> Hi Ruben, Thomas,
+>=20
+> On 7/1/26 23:56, Thomas Zimmermann wrote:
+>=20
+> >=20
+> > No worries, DRM semantics can be murky. This is one of the cases that i=
+s impossible to know unless you came across a patch like this one.
+> >=20
+> > Best regards
+> > Thomas
+> >=20
+> > > > I think the patch is fine and IIRC we have similar logic in other d=
+rivers.
+> > > Reviewed-by: Ruben Wauters <rubenru09@aol.com>
 
-> 
-> >         CLK_PLLDTY_DIV16,
-> >         CLK_PLLVDO_CRU0,
-> >         CLK_PLLVDO_GPU,
-> > @@ -143,6 +145,8 @@ RZG3E_CPG_PLL_DSI1_LIMITS(rzg3e_cpg_pll_dsi1_limits);
-> >  #define PLLDSI1                PLL_PACK_LIMITS(0x160, 1, 1, &rzg3e_cpg_pll_dsi1_limits)
-> >
-> >  /* Mux clock tables */
-> > +static const char * const smux2_dsi0_clk[] = { ".plldsi0_div7", ".plldsi0_csdiv" };
-> > +static const char * const smux2_dsi1_clk[] = { ".plldsi1_div7", ".plldsi1_csdiv" };
-> >  static const char * const smux2_gbe0_rxclk[] = { ".plleth_gbe0", "et0_rxclk" };
-> >  static const char * const smux2_gbe0_txclk[] = { ".plleth_gbe0", "et0_txclk" };
-> >  static const char * const smux2_gbe1_rxclk[] = { ".plleth_gbe1", "et1_rxclk" };
-> > @@ -218,6 +222,10 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
-> >                        CSDIV1_DIVCTL3, dtable_2_16_plldsi),
-> >         DEF_FIXED(".plldsi0_div7", CLK_PLLDSI0_DIV7, CLK_PLLDSI0, 1, 7),
-> >         DEF_FIXED(".plldsi1_div7", CLK_PLLDSI1_DIV7, CLK_PLLDSI1, 1, 7),
-> > +       DEF_PLLDSI_SMUX(".smux2_dsi0_clk", CLK_SMUX2_DSI0_CLK,
-> > +                       SSEL3_SELCTL0, smux2_dsi0_clk),
-> > +       DEF_PLLDSI_SMUX(".smux2_dsi1_clk", CLK_SMUX2_DSI1_CLK,
-> > +                       SSEL3_SELCTL1, smux2_dsi1_clk),
-> 
-> Why can't these use the existing DEF_SMUX()?
+Patch applied to drm-misc-fixes, thanks
+> > >=20
+> > > I believe Shenghao mentioned another oops that is present? if so it m=
+ay
+> > > be best to submit that in a separate patch rather than a v2 of this
+> > > one.
+> > >=20
+> > > Ruben
+>=20
+>=20
+> Thanks both! I'll split the patch for the second oops.
+>=20
+> Shenghao
 
-Same comment of [0].
+--=-WK1prZNvwrKcwvmDYqit
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Kind Regards,
-Tommaso
+-----BEGIN PGP SIGNATURE-----
 
-[0] https://patchwork.kernel.org/comment/26730109/
+iQJPBAABCAA5FiEE3obNNdPQ9V5CQi2Y0n5QwFCuDOEFAmlmUS8bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJENJ+UMBQrgzhuogP/1FYmM6VabykYtv2eR2L
+jVMsjHXGBVF3zpEZHxXsxCDf+csh27ZOdbfgE9Imbr1Z/0VEm8+He02X+fYNo/70
+OkeCh3WKEWwiOhlYnuc+yoLvQUCFujXqy9AySMfDHpErGlVG0iksLCLzDKgDTYiW
+cu4Jz7iXrVIwoLVtfG0Tzawe1JOmDDdHxFHxl8SbpPy2fy3W8496nMy1v/t5QvVX
+lpsyUfh+qtwfn1JyzkzXcNYlwojUIqhTa000gDs2S+yltobOPosxrqA09icFovGK
+IEqGO9kUU0HVM8c2uCJit3JME59z8gEL/3La46nFtoWuh620AtvvpcU0xk65wX9c
+hN393S5s6ey2v5je+Ypk2//Oj9t1lZbQzclsqmbn1RpGL9KLdPTmsirbtMLRgRBM
+ppYiC8Mo3YRyxPO4ra2gVl908JrtfjQhrIZ1MrhtxCqAgZgVtMzCOCjmusFT1cDl
+kXdxFyjZKT8o6NATkNj5+NN5h2nhrkQiQh9B2I/vd5yZomgkvMkGHocw6xR8Lzi1
+wP0HQ6UYy5zgi3nRTRZQz7bU0mG9caomrBC3zXcth5plqeqlLlAw4Q52hgu9a1J6
+ovorUrc1YYeZbNJ+0xrBmLPwRcDaGeXKTCmr2GVuPhsp6TAGM5Nwrc22eBt2iytC
+BvT2qdA2bVnEJI2uUhH7XjTj
+=Exhg
+-----END PGP SIGNATURE-----
 
-> >
-> >         /* Core Clocks */
-> >         DEF_FIXED("sys_0_pclk", R9A09G047_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+--=-WK1prZNvwrKcwvmDYqit--
