@@ -2,81 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B0ED1787C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765DED1840C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B5B10E481;
-	Tue, 13 Jan 2026 09:12:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="TTexg3lI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1C110E323;
+	Tue, 13 Jan 2026 10:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EE210E481
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:12:36 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-59b77f2e43aso4871304e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:12:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1768295554; x=1768900354; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V5Lu9VL/waQAbTkAQTcFCMqP0vluh93OTwbl1ZNQ4mc=;
- b=TTexg3lIx7deRur2GlDwT5qiTUbx+kk592+f6k9pHpESlUiCRp9O5H84lLi7HA3Rat
- UHti0UejKUATzrzS5Eyq1cQYBRpS4UTGUjyTRIz4d6DdMBp3Phi18KHlruRjJhMfwQTK
- HvrZHCDJ6xdFybw/r7kjUMwipdcziP/y6yjGfNDL2rPVaXuGp6WhJvzOvSjibkwqS4k/
- 21gZlL4Bbh3sr2/V2B7iQxO/rSRLTVHwlrFWY0T5Pq+3BS06QT8FKc6tfn7NtoGSvRYO
- ppI8P9epq8Dto6QzHE6PicmN86TPWjNJDnR9AMi00jEkfH3GRgVlk66LQ9ypwC1bFCw9
- X28A==
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5FB310E323
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 10:58:13 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id
+ 46e09a7af769-7c6cc44ff62so5896075a34.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 02:58:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768295554; x=1768900354;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=V5Lu9VL/waQAbTkAQTcFCMqP0vluh93OTwbl1ZNQ4mc=;
- b=TjRwPAU6bdyJ7C5BXla+iqJNL+4vd6NOPuLl1j/i85tkwu0CqydS0uBkvUHI6KUdMq
- eQdBJowZb1IfTdbhi9Pc+5Eu/fyYyyZxDSE+hl0F+iPAev1mtPPKiXMrTuQSGb5ivDtN
- Y1DGwzeZaapN+PyecJCeCPCj1zfwf8RJaQkRolXSyWZvvQjYpYmEWmLK8v8KwRq/Fp1M
- 5TY567i5SuEA/tTX8EIDH2ixI/WnBH8AU21JaI6V4M3TlAoepWmb41Txi/vL8QUHbx5q
- l+d1OBevr+mvifITHycjFu6PZOIQcpnEjM2magOts9mf0ICkXVg9pwWvZ8uYKxSF3GiQ
- Vi8Q==
+ d=1e100.net; s=20230601; t=1768301893; x=1768906693;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MR0NoHyZdJndLOZGMkASZoG8F5TIOzALE+PpGAFfY78=;
+ b=IsIZsRJ75epabrnRzfUwBM7wMfEwUvcWgm2ks4UaFo4gSVMNHlg/jugF6HIuuKEVtC
+ 8T3CWrVsnUcy6INPmRW+vDw8D4QAPsks7o8quJnnEIM/iXqRCImtGRc3Cn4kMhf6b+WS
+ lRAdJZBhtapEb4MH+H10yt/qOG2Y/4JSHZYbcJp8/bMU67hd/WQ80bXo2g7ymwLsOiqu
+ b81oFQYGtMe/x9abaajFLpScOAHCI9577ymy99dJxOmkn7JJ0Mu6tlBIPVduFPyqZnmp
+ 64cXn9BzFt7Uxo5bHYzLXzXojyiK+7LeAbNkOVr8zcryAvKcQrSmUyuOmcFqZt8C9jNQ
+ 98nw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMlHAPaedlbRjRAoYrle61M3sbdG3DLhbGBlAQKPYnvWXxpOEldWcdhMWnZFhG9cOXBkalKBbj83A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWrEOOklUWg0elGeyqccMVQ9Tzi58CapHLPFJ4EtbJeqPCQ//R
- AP/7SXHiMn/bqRrnCyeMdcoOhbHPF8kTIDLABQFgBLxberv0xL/p9S6c/awpazkb+VfcIm4VwX0
- UpFyXpBLMpYVh7+N4ZhX8ljLVc1e+jZuPMJk/MDc9CQ==
-X-Gm-Gg: AY/fxX7d5xTIA7wzrgifN2vo7EPIiwNX+Mbgd4Rh8gmZcdruQluRUck1r3j/eP6Y3uL
- qf4/WFlSUZ1idAlxzuCx18h7nuBg/ctUBNjrbsK0yXZqr4v/K6l+e4XaYgq2tSVlTuVezld194M
- pkPnUnAj5CNpTgrK2sOpkylZSiLP0pE2jOvsXjRN9yWvv2S7oHDfqGK2mN6a/jvK4KWLAMy62SS
- vW/QhCoaQEGROuWgxeAlkw9DfAGnBEvKd4BzVpuwowLDKQQdObNqzl4hKMthXc6vRNXWzmB9ruG
- bCambke4pVVVCIpcQ7egJNepTmAC
-X-Google-Smtp-Source: AGHT+IFO0QWk84GwDkUloLkJLVyn+8xkr3E+9yMv4djfq68ciziTgMuF8uHWaBgPDEn5fYSmiqMy86iO3TOXKQFxaLE=
-X-Received: by 2002:a05:6512:3d1d:b0:594:2d64:bce9 with SMTP id
- 2adb3069b0e04-59b99205d87mr763490e87.4.1768295554325; Tue, 13 Jan 2026
- 01:12:34 -0800 (PST)
+ AJvYcCVULhSk5u9Nd7dGjNo/EPthG4JQ6E9hhUi8rZTdIcZDuOrWI1RYBVEYPphUZZYcv5KXwHe7Gu5RAj8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwV0vzlAB5R9HqI73p5m1lDbt8hv/H8q9z8sTljwJILpJAtik8h
+ ptwWwWuiUt+Iu5/Vzdn9gg6MlmsDmkPLLZha8+d38sKZBMWVJvOIdswBvufFe+n+xOs=
+X-Gm-Gg: AY/fxX5H1v9iXCIZbgLoE28TznAW8X0TV6Wu+u9KQ9OgO0k14+mQXBSVrEZHWjLFdt1
+ 1HJItVZmiQx8midn8nRJTPVWWIAQBE2/rWyMVpk0YzGqC0P7asROLDqx5EDLP1kAQfFxbMu9twH
+ fJDGYLo0zqExakEUCQtRXZIVKielNPr5+icvBJSjhwGAnXwEpDSezDOVcoj6LIZJE941PVPbiu6
+ MFvs2HupsTSkv5gGUizzqkLfdySpoMb/vFHMZscyakCk3BpUUUCczxXHw2q27RHuHqe+JlFejLd
+ R9ZGPIMTvGaxuRUjLYpdEaH/yf0zTV24IWRcPqStZ8fcZfvkx26fCi/B2Pb11DaPuRDz0NzdQI2
+ Bt6dJg6fIBv5Gx6WV5IuXuaPnOABDkNs+vLCvt8jQtzjdkC+iPbbvc25P4/Ww07JYImZ+cl+ZGc
+ 0Sy+xNDHJuK1TE37bjOD/WEtnfg52bzmh4xSX6N4lgY4HxBJM8
+X-Google-Smtp-Source: AGHT+IHehMAvT4hUnkoXYjoLSl0ck7VVq/Fl8Go1ybdnZpTlCTdNfej5TclV1V/OnoYyKdljFBZxAA==
+X-Received: by 2002:a05:6122:1d0d:b0:563:72d8:ea6 with SMTP id
+ 71dfb90a1353d-56372d810f9mr3984400e0c.10.1768295620786; 
+ Tue, 13 Jan 2026 01:13:40 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-5633a1ea810sm18870664e0c.5.2026.01.13.01.13.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jan 2026 01:13:40 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id
+ a1e0cc1a2514c-9412edb5defso2042750241.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:13:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+qBYnn9AITFcgDyUAd6chC51lI2NgKWgU6aXmirNIH+TEhobLMe9yByeR/9G8sncs73+4doMOHbc=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:419e:b0:5df:ab05:d846 with SMTP id
+ ada2fe7eead31-5ecbae4aedemr6860725137.40.1768295619640; Tue, 13 Jan 2026
+ 01:13:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20251104100032.61525-1-marco.crivellari@suse.com>
-In-Reply-To: <20251104100032.61525-1-marco.crivellari@suse.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Tue, 13 Jan 2026 10:12:22 +0100
-X-Gm-Features: AZwV_QgDqvIuirhPPXWl91IKmGczjtuzjt4Lp_eCDerphNV8SI7U_RsqMPGesiM
-Message-ID: <CAAofZF4E3dMuM-0aXqRLgb8psB2kzjF1iy3q0Srqp93+MefN6A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] replace old wq(s), add WQ_PERCPU to alloc_workqueue
-To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Michal Hocko <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Krzysztof Karas <krzysztof.karas@intel.com>
+References: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 13 Jan 2026 10:13:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVGsfCTzSSjh474Ohimad2W5h1Z=vNhS6zU=Lb9f5Zbxw@mail.gmail.com>
+X-Gm-Features: AZwV_Qhh8RJBBYa7gKoAKpUlBeVNsz1RZyqK3-3_U_RszPPYx3TukXyRJOwF8cM
+Message-ID: <CAMuHMdVGsfCTzSSjh474Ohimad2W5h1Z=vNhS6zU=Lb9f5Zbxw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Fork Waveshare panels
+ into separate document
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,24 +98,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Marek,
 
-On Tue, Nov 4, 2025 at 11:00=E2=80=AFAM Marco Crivellari
-<marco.crivellari@suse.com> wrote:
->[...]
-> Marco Crivellari (3):
->   drm/i915: replace use of system_unbound_wq with system_dfl_wq
->   drm/i915: replace use of system_wq with system_percpu_wq in the
->     documentation
->   drm/i915: add WQ_PERCPU to alloc_workqueue users
+On Tue, 13 Jan 2026 at 01:07, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Move the Waveshare panels description into separate document, so they
+> can be properly described with compatible = "waveshare,...", "panel-dpi"
+> and attached to "waveshare,dsi2dpi" bridge.
+>
+> While these panels are described as DPI panels, they are generally part
+> of a larger unit in non-removable metal casing, so the actual internal
+> configuration is not known. It is likely that internally, those panels
+> are LVDS panels, connected to ICN6211 DSI-to-DPI bridge and then another
+> unknown DPI-to-LVDS bridge.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Gentle ping.
+Thanks for your patch!
 
-Thanks!
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/waveshare,dpi.yaml
+> @@ -0,0 +1,32 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
+scripts/checkpatch.pl:
 
---=20
+    WARNING: DT binding documents should be licensed (GPL-2.0-only OR
+BSD-2-Clause)
+    #68: FILE: Documentation/devicetree/bindings/display/panel/waveshare,dpi.yaml:1:
 
-Marco Crivellari
+which matches what panel-simple.yaml uses.
 
-L3 Support Engineer
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
