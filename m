@@ -2,163 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AD9D1B22A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 21:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB99FD1B254
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 21:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1D589453;
-	Tue, 13 Jan 2026 20:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597AF10E038;
+	Tue, 13 Jan 2026 20:07:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="M7wu4zi5";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="jhHjuAvr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012059.outbound.protection.outlook.com
- [40.107.200.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21707890BB;
- Tue, 13 Jan 2026 20:04:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SlPAKaFnLtwDL2u+sEtbSawRRD76ccZcYB7fXIjr9tcW8JHKxrLJxthydr3wkTr1zSRAMDVvuWhASzvkHvUD3SrDAMlhNXCDzHdYvWo9yb93Ivk0H+eVYO8mfk8ISPt4uSPlm6wYBl6u9sONSlKsWuaR4+2ibygurqgVBv/1Y4HKRYASi44reCD1B9nxbceiFD9Q0mcGb2qVdsjBW7J+2ubwnthHSOlVVYOIuvVLZY11UWJ+hI+H3hnLfVO2S0A/92/MjkvvFwdqWS6IRQDwAtFyTvLVXGjSYRACL3FePfVq0IlDVPETn242CVeIFydCpQoFSLNj4yxhe7G9/Hzs1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yGOhj3PQ3wDem02v+a5lxa0pQr9j2IipeoIhKvVgP9c=;
- b=vMFfRuPgkkqNuUX+adT6lSJamYdDh0bymbmnYpnCal6USvnFtxuWRgKYueQXA1o7S16NocU8V5YwCAJ7tKzI1X0vrQ94tLEKa6tFNF4LutOLPdIIRYBMu1sh6hwSQw5gUzDBHJGPNkZT6eLd2OutRwGzmzz2oYVjzbqDBbswBXSQAZQzDpqGjaO7vZPaVzF/Ap05w3ikYkVYWKo6+XklPtj0d5QrT7ncCXUVzw0+I+nbhYk7UJNYe0Dq+wbsxOTsLVMwRbI3wMyJdcBaf47kNu+i7IyoIvdW5Mj4DVS13xskxagXcyUUx7D1irp8MtolNsui/3JSrMCaVu4+IGZ5Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yGOhj3PQ3wDem02v+a5lxa0pQr9j2IipeoIhKvVgP9c=;
- b=M7wu4zi50h0Sw0pD5tl7N5hykFh3Z+kXi6vWnXrNzcI44bFO/EINbbWbEQQukTeoOLodh+6J9FqmZ/cbmtQ+fMhFdahw5hHGi1fTG40P24Yi410Mt7HJf7pa/PlBO2TyrkAiXxpQjGBUElDBqYIRywjiznFbKePm5sr1v61yP/RnOhULwf/c0Gy/i3NNRnLbWDJ59HlJFpz8xerUQj//eApBvkiI22UlYlso2gENG9L7gd5U3KVUKkZbHdVDfxs+PbJw8yzJ/EjCcmplG6TjDhw4ANEMy0JfsWMFTcMGrXL300s8f7eWb51CmT/0mJdJM5sl6+wCh9L3cY0QJ+iEkA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- PH7PR12MB5829.namprd12.prod.outlook.com (2603:10b6:510:1d4::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.7; Tue, 13 Jan 2026 20:04:28 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
- 20:04:28 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Jordan Niethe <jniethe@nvidia.com>
-Cc: linux-mm@kvack.org, balbirs@nvidia.com, matthew.brost@intel.com,
- akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, david@redhat.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
- linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
- Felix.Kuehling@amd.com
-Subject: Re: [PATCH v2 11/11] mm: Remove device private pages from the
- physical address space
-Date: Tue, 13 Jan 2026 15:04:18 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
-In-Reply-To: <20260107091823.68974-12-jniethe@nvidia.com>
-References: <20260107091823.68974-1-jniethe@nvidia.com>
- <20260107091823.68974-12-jniethe@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BYAPR11CA0075.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::16) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8357910E038
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 20:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1768334866; x=1768939666; i=wahrenst@gmx.net;
+ bh=kLqIweRiHHZXLWpYMmQpkhFs4IB4LuXUNRGIExyhc/w=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=jhHjuAvrtw8Fz9o6/yVBX02h7hXWxxPTd09u5lNlRzM1vtf+Q6xUppzDvWi5RE4v
+ Tz6oFiIPKuAXirdAaynPc9Lk9GC5wO+8apOkzpRWoorj0mekWKGIs/NRSgViz3ID8
+ pUYkpoNCrK6d8FHEOBMYG5EY6sNGyb5r6P/q0BRmXhhayjrbTGxQC6QFFNSZ2Dcql
+ 1zGjk2Iut5EiKEOITDpyTrovkPLKckBVjZ0T53EhGSre43xP2Ru5z4c/kwCNz/Gb6
+ rYKeO7Ib9l/V0+w5AeV63sv8g3+CkWlwDbfqEsnqT3HnBpn/l25rbZnzgW2N9OLPL
+ 8Vj0w7aqthESvKbHNQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.156] ([91.41.209.202]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mo6qp-1wCKPh2Oct-00lWnE; Tue, 13
+ Jan 2026 21:07:46 +0100
+Message-ID: <c93d7eb0-2591-48e7-97e9-3fd899b1026c@gmx.net>
+Date: Tue, 13 Jan 2026 21:07:43 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH7PR12MB5829:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed79eb82-60af-4bb1-38ed-08de52def55d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TTdNZjlVMUM1ZmluZ0RXS1FGaDJHZTZ5RFFsOGpXUTI3OEZjVUVtakQxK0k5?=
- =?utf-8?B?OFVUQ3V3SEI0eHQ0SEhvVlBJcUJvckhRWHpITWxxL2Q2ZnBuMnArVkxaVk9S?=
- =?utf-8?B?VVNRMlJBTGdhZ2NhbnRpclBGa3ZtTjI3VWJKaEhnQUprOGJZMlZoTjlqTGxt?=
- =?utf-8?B?WUxaY3hiOGo3TWw4WDZIbWFiZkQyOE9vNjdaaVR5MDVKem5SSzY2WnduNVJO?=
- =?utf-8?B?RmUxTmh1Q20wb1VnZWtlRDFOMS9IczZLTG9WSXcxL2ZJcUIwVzlQeWdWWW5U?=
- =?utf-8?B?V0h6UCt4a3FMZ3ZtSzRNVE5sOWhMck1sYnh6K2NnZjhrNjA2RzNSbVg2WE1G?=
- =?utf-8?B?anlGYjNZbDl4b0ZSZmZMcHZTRGF3RzhUaTJQc3JMdnBLYXptQkVZb3ZXYThy?=
- =?utf-8?B?dHVGSGlwdEtVdGxsWFZBVnRiamN4ZE0weFArU3I3UWFzRjcrZkRVZVJ4YjBM?=
- =?utf-8?B?dmJkYzN6N3BjaXBMUDFDbStlT21PelFpVVRHb3VrZGFhYUpQYmVUUGM3VjAy?=
- =?utf-8?B?cS9xLzNvQkpLNmJDNnRrRHVLSUUvQlFCemtwWjVtaDd5eHF1aENjWmluS3hu?=
- =?utf-8?B?ajF6dU85bUxHbjNaWXRCV3hrQ2ZSV0I0R3dJdXdTNVNNQkRWREFvRE5oUE81?=
- =?utf-8?B?cERHN0VLTit5N3k5U01RMU1TWmtSUlF2NGhvblJFdXI5Z3VKdi9jUEgxYWEy?=
- =?utf-8?B?ZW9tdE5HVVlBbU1YWVJ2LzFpTDNHTzJTTHMxYUxPRUs0NWVDK05oYnhqcXRr?=
- =?utf-8?B?amx2dmZaOG5JUkpwd1ZUV0RIYjF4c2w4TUZEWVpOZDk1Z1VSakkvMzVkaXdq?=
- =?utf-8?B?UHlZRWkwNlpZTzhZN1ArVnljRGpuTDI4UnJ6T05vM1E5alVWakZMN0QxR3Z1?=
- =?utf-8?B?bWxzL2xHMEQ0MzFibS9tWWhlODBpM3JMSjBxRE5KdUppVnQ2RXpPRldVMmRt?=
- =?utf-8?B?SVdzTDdORDRITllZZ1dIcmlrWEJkZGdTQ0JNNTFQZnQwY2pVWGVjMWZPdDJj?=
- =?utf-8?B?TmFPM0orR1NXeWF2K3NoZjU0ZDYyL0ZJc1RrWXVvcnR1bW05R29tM0ZPbGFm?=
- =?utf-8?B?Y3l4K2xTVkFmMlM5NUhFeTkxNFgvUU9rbTlqUjBtWXVUdVBPSlp4enFyd0s2?=
- =?utf-8?B?MmI5elBFUGtyMkZpb3VTeHlMcW5iUnJrbmh0YWd4WXpkVXRnOHdyNGYrV0dh?=
- =?utf-8?B?RVBFSHV2b28yRkg0by9ucDJRLzZXNUU2Tnh4cUNCTzNWZnVqenFjTTdacUFV?=
- =?utf-8?B?VzVuOFZUVTlsR1NNMmkvVDJHeEd3czRZRjkyWTFreVZzTmVJV3ZJdHg2d0pp?=
- =?utf-8?B?eWVwTUpBWkxSOGNYWmFsb0ZSR3dCWlY1R25VQ01DelRzUzdUUVVNdDYvd285?=
- =?utf-8?B?cCtKRjJ3ZjE5Z2FIRmsvYllhaHlBaVlHQ1Bmb1VrUVlwclFuYjdlZzB5YUt4?=
- =?utf-8?B?WXBIczQxWktJZlppK0YzYTJCbzBhWkZOYWcvYVdKNSt3SkRpVEVuODd6N2ls?=
- =?utf-8?B?aEdSbC9qUDYra2lOZ2xvSW8ra3Q2RnB3MWxTQ3B2WHZJeXNiNVJCT2pYOE11?=
- =?utf-8?B?YU5RTkRyTFl3U3VmVEY5UmE1UEIrckEzZnNyc0QxTmpZTDBiR2c3OFhHY0Iz?=
- =?utf-8?B?cm4xNU9QVCtsbXRsVlk2bUYrQTVGbW5vRXVNNjI4WnBrbGtoQjdmbGM4ditI?=
- =?utf-8?B?Y3hIc0RNbjhHaFB5bGJaWWEwMEwwelF1RndBeGZ3a1g1N0d1cTc2cDZPQ3hH?=
- =?utf-8?B?UGpGK092VzJQZ3lla21oeWkrbG4vY2QxOEt6anlYWmIrcXZYZDVRZEV4WlBP?=
- =?utf-8?B?V3hza2RIUnNEZllCTUhjUkM1Rjc1cGxhYjBXaG1lMDNiR0hndXArWFlPeHVq?=
- =?utf-8?B?eERmczNJM2ZEekgzU00zNzJxRVJmYzZUdVdvN0k2OG1HOHJLWVZqSURvUXho?=
- =?utf-8?Q?CgbTmWVd4I8nEIVkMy88L6TbDCLDGoQm?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2FsUElKdllRRTd1S0l3SGVnTGJPWEM4OWtldmJUVWt1a08wZTczTDlsUm40?=
- =?utf-8?B?anIwaXNWRzREdzZKRi80bGJSbUd0dHhxbENQUksrSFVHb0xZN0ZtZ3l2bjJj?=
- =?utf-8?B?SjQ5K0xvV1MrMW1OUlBLRWhkUVpKQVdQNlZFeWY3Nm9lU2dTMFE1dHd6MzJ2?=
- =?utf-8?B?alNRVUxFckhhZnlOYzFqOW9zdk9PSHVjQU9oUnY0UU5DNzdvSDVYSXJ3SzlE?=
- =?utf-8?B?R0Q5V2JPbnJ1aVBFbC9XSUJBTDY5ZmY1NkxIRlFOYWNaZHNLaWp6ZkhtOUJW?=
- =?utf-8?B?WGdmL0ZoajlrcVY3djd2YkU2ekVqYkJ4c3RxZGEvdDkxSzcwQ2d1cGhzM1lw?=
- =?utf-8?B?WTN1ajQxb282dlM5aHlFSS9yMHJGVVlhVVRnZ1JXK2trTmZXclR2YTMzVG1Z?=
- =?utf-8?B?bzlTbTc5SFRkK0VlUWdvOG9ndTVjT3M5blBLT0tUM01FMm4zbElhZlhnNGFE?=
- =?utf-8?B?R3IxNm1hcFdXTlZVSVVFUWU2Ym9tajNtaVYxZDRYRUQvNloycHNDMU83NDFX?=
- =?utf-8?B?ZkxTZVpHMmdJOWxXZHJLQU9QZjBUM05kdjhTaktVWlpXeVo3MHRiTk1vSHVm?=
- =?utf-8?B?RENLR3R0cXRiS0c2UGpocnlBNDRFNTZVWThBMUxuNHZwTTNYald3di9MUSt1?=
- =?utf-8?B?V1h0SFBGSU1mZkJoY0p5a0xrZCtlY2lKT0pzZmRuY3QwZjMxZWZhNlNTWXBi?=
- =?utf-8?B?NS9zSkxvMldUcVNGaXNCTkpyUTVCaGVZNmtLamlSRTBNZ1g0NlgrZjNMZmFi?=
- =?utf-8?B?R2VBMFV1UGpnUDJLNnJjZy9wa2xkRVF1aHlhOHVxWkMvTzAvWXNrR1RTQTRl?=
- =?utf-8?B?UWZ5Sm4xa1dKa2Q5N2RIZ1pxdEE5dlE4V3h1NldPdFJZM1Z6Tk1TMmJOLzJD?=
- =?utf-8?B?M2RxUTN3TEpoWkY1M0JPVVZrT3d0WFNFNXlBNUJPclZzcW9GeWFxdENuUHRS?=
- =?utf-8?B?L09lZWIzYTVnU0VjTVpabU1VZDFaMVNMY2piTDAxMmxGWm9RTkZKWnR0WEgx?=
- =?utf-8?B?N214R2xjeVBJaWRsb2hvVEVGTDBFdUFTamY0RmFHdTdGSjVmSFdnZUdXY3RV?=
- =?utf-8?B?UkRhNDM4UkJocGxodk9FeSs2NEJmK1QwWUl1UzJUVTJPbTdnYll3SnFGN3hX?=
- =?utf-8?B?bmY1cWVQZzlJeDM3UmhhYVo1MSthTE1qc3A0MU5kdndLa1ZUWWk0T1c0ODQz?=
- =?utf-8?B?TVRjTkw5Wk1rRXlNQXl0Qlp1WFlhd292K0h5YndSQmpyNWRhQUZ1RWdOMVh1?=
- =?utf-8?B?bk55QytXYVhBSmFjbTBKakZqQUt1R28xd2h5MVZTUnJydHFQcGtkeU5tT1dp?=
- =?utf-8?B?MVpsaThFazdmdU9PUWw1TUErS0pETHBBYkM5OVdnM3NvbjVoWnlGUmk1M05v?=
- =?utf-8?B?ZU5NbnVhREhoRnhnR0VjWFgzTnZTTFQvbzJSUmErUWEzY202N1VuMXBhbHFX?=
- =?utf-8?B?QklRQjRzajU3T2lWdDFXNGpzTnVWd2I2QU9zaW1uY0p4Z0hjUXdYQ3RlVlFq?=
- =?utf-8?B?YWNLaGUwMXBWLzFSTjBRcUoxa2JueHRWR2pBOWZOTU1hcElMWXJjYXVXdFUz?=
- =?utf-8?B?RWlzWEpWUTlKSVZGTlk0ZEZzYlRtZ0drYU81aHF3ZlA2ZlBhUW5tMGRkM1Vs?=
- =?utf-8?B?a1RObGo2VlhlczhLZXpmdCtodm9BSmcvQ2NCaXdqd0dvQ3d4KzhZeXdTV0ZW?=
- =?utf-8?B?bDhBYzI1Y2J1U0VQam9ManpXdzhIVlNhUVU4YnhaY3NrOHY4M09jRUhuelVQ?=
- =?utf-8?B?UXRvRjRqWTFzQkZxd2gvc05uODZ5bHhETWNVNnB0eHZoQXAzdjVwSnBobFhY?=
- =?utf-8?B?UjY1VENKRDZab1JuNHBubDdPNzhoNVJESGlEMkZ3M3BUQ2ZMUm42ZGF0ZlNI?=
- =?utf-8?B?NGoyc1h0MVRIYXRudnB5ZUVSVzBTbDhGZ28reHpqbTZVaVJDZG5xL2g2OGlH?=
- =?utf-8?B?UklLc1VkN3dlM0JyYjQ4Tm5ObXMzTHJpVVQ4L3VOQ3VpSnFCNDYyL1psTlRE?=
- =?utf-8?B?MXlhYXFReTBnN2JBdjY2TXpoZ2t1K2lxMFZaV2VEZEQwSmovQjhvTTBTWStj?=
- =?utf-8?B?RXVTL3pTbE1PMzFuVHhzVmM3emVScFROT215cUVMSGc5aGNkQjJWNnVRNncx?=
- =?utf-8?B?eFNYTHYwdFcwRk9pcW5MMUdaYjZySitieElqaEE1NEQ5S2tvdXZ4MEY2WlNZ?=
- =?utf-8?B?YmZzMVNtWGNCa1JkdERtN1lFMGFzKzdGQWlMQ2Jyd0ZiN2tEalpERFErWkVV?=
- =?utf-8?B?ZmhSbHdjdStKYmp4bjdxNFZGZ1VEQnN1T2F6ZXlLdFZIb1duelJxc3E5YjJC?=
- =?utf-8?B?NE9UNzJZQklyYzNUNHJnZ0hRaHI5d3V6V2Q5ZHRwOVdvemVGQlBBdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed79eb82-60af-4bb1-38ed-08de52def55d
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 20:04:28.7347 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NzSboNEHvdg/7LYKgk16WjV3R07nDrnk2PYlaGi83SuDabolP+rVMLBSBdeZmp5+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5829
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: broadcom: bcm2712: Add V3D device node
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel-dev@igalia.com
+References: <20260113192902.48046-2-mcanal@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <20260113192902.48046-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lk7Dkz0mthlPu9uENRCv7r/Qru9BqtLUqZQ+beOsXhqZ6ni5/n3
+ X/PgPxQ55bq21hVZx4ICdOOkb6r16P1eq7u/9SDXJHCaSeMDvXMsAbFbvfF283dEspA8e8E
+ woTL0EdTlq4w/7hk1bSe1d01y71F9Bisx3J9zl2tXYbngYiO94gIzSrsqg1s1FHzda8b+X5
+ HoWVAcUt+8YZV9ho9XCTA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:FsoGziLSOTE=;zlI6tP8Pudgi47wdOZdRQYNuCXD
+ +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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,259 +155,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7 Jan 2026, at 4:18, Jordan Niethe wrote:
+Hi Ma=C3=ADra,
 
-> Currently when creating these device private struct pages, the first
-> step is to use request_free_mem_region() to get a range of physical
-> address space large enough to represent the devices memory. This
-> allocated physical address range is then remapped as device private
-> memory using memremap_pages().
+Am 13.01.26 um 20:28 schrieb Ma=C3=ADra Canal:
+> Commits 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
+> and 6fd9487147c4 ("drm/v3d: add brcm,2712-v3d as a compatible V3D device=
+")
+> added driver support for V3D on BCM2712, but the corresponding device
+> tree node is still missing.
 >
-> Needing allocation of physical address space has some problems:
+> Add the V3D device tree node to the BCM2712 DTS.
 >
->   1) There may be insufficient physical address space to represent the
->      device memory. KASLR reducing the physical address space and VM
->      configurations with limited physical address space increase the
->      likelihood of hitting this especially as device memory increases. Th=
-is
->      has been observed to prevent device private from being initialized.
->
->   2) Attempting to add the device private pages to the linear map at
->      addresses beyond the actual physical memory causes issues on
->      architectures like aarch64 meaning the feature does not work there.
->
-> Instead of using the physical address space, introduce a device private
-> address space and allocate devices regions from there to represent the
-> device private pages.
->
-> Introduce a new interface memremap_device_private_pagemap() that
-> allocates a requested amount of device private address space and creates
-> the necessary device private pages.
->
-> To support this new interface, struct dev_pagemap needs some changes:
->
->   - Add a new dev_pagemap::nr_pages field as an input parameter.
->   - Add a new dev_pagemap::pages array to store the device
->     private pages.
->
-> When using memremap_device_private_pagemap(), rather then passing in
-> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
-> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
-> private range that is reserved is returned in dev_pagemap::range.
->
-> Forbid calling memremap_pages() with dev_pagemap::ranges::type =3D
-> MEMORY_DEVICE_PRIVATE.
->
-> Represent this device private address space using a new
-> device_private_pgmap_tree maple tree. This tree maps a given device
-> private address to a struct dev_pagemap, where a specific device private
-> page may then be looked up in that dev_pagemap::pages array.
->
-> Device private address space can be reclaimed and the assoicated device
-> private pages freed using the corresponding new
-> memunmap_device_private_pagemap() interface.
->
-> Because the device private pages now live outside the physical address
-> space, they no longer have a normal PFN. This means that page_to_pfn(),
-> et al. are no longer meaningful.
->
-> Introduce helpers:
->
->   - device_private_page_to_offset()
->   - device_private_folio_to_offset()
->
-> to take a given device private page / folio and return its offset within
-> the device private address space.
->
-> Update the places where we previously converted a device private page to
-> a PFN to use these new helpers. When we encounter a device private
-> offset, instead of looking up its page within the pagemap use
-> device_private_offset_to_page() instead.
->
-> Update the existing users:
->
->  - lib/test_hmm.c
->  - ppc ultravisor
->  - drm/amd/amdkfd
->  - gpu/drm/xe
->  - gpu/drm/nouveau
->
-> to use the new memremap_device_private_pagemap() interface.
->
-> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
+>   .../boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts  |  4 ++++
+>   arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 14 ++++++++++++++
+>   2 files changed, 18 insertions(+)
 >
-> NOTE: The updates to the existing drivers have only been compile tested.
-> I'll need some help in testing these drivers.
->
-> v1:
-> - Include NUMA node paramater for memremap_device_private_pagemap()
-> - Add devm_memremap_device_private_pagemap() and friends
-> - Update existing users of memremap_pages():
->     - ppc ultravisor
->     - drm/amd/amdkfd
->     - gpu/drm/xe
->     - gpu/drm/nouveau
-> - Update for HMM huge page support
-> - Guard device_private_offset_to_page and friends with CONFIG_ZONE_DEVICE
->
-> v2:
-> - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(=
-struct range, ranges);
-> ---
->  Documentation/mm/hmm.rst                 |  11 +-
->  arch/powerpc/kvm/book3s_hv_uvmem.c       |  41 ++---
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  23 +--
->  drivers/gpu/drm/nouveau/nouveau_dmem.c   |  35 ++--
->  drivers/gpu/drm/xe/xe_svm.c              |  28 +---
->  include/linux/hmm.h                      |   3 +
->  include/linux/leafops.h                  |  16 +-
->  include/linux/memremap.h                 |  64 +++++++-
->  include/linux/migrate.h                  |   6 +-
->  include/linux/mm.h                       |   2 +
->  include/linux/rmap.h                     |   5 +-
->  include/linux/swapops.h                  |  10 +-
->  lib/test_hmm.c                           |  69 ++++----
->  mm/debug.c                               |   9 +-
->  mm/memremap.c                            | 193 ++++++++++++++++++-----
->  mm/mm_init.c                             |   8 +-
->  mm/page_vma_mapped.c                     |  19 ++-
->  mm/rmap.c                                |  43 +++--
->  mm/util.c                                |   5 +-
->  19 files changed, 391 insertions(+), 199 deletions(-)
->
-<snip>
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts b/=
+arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts
+> index 7d4742ebe247..97522c6803c5 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts
+this file doesn't exist in linux-next anymore.
 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index e65329e1969f..b36599ab41ba 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2038,6 +2038,8 @@ static inline unsigned long memdesc_section(memdesc=
-_flags_t mdf)
->   */
->  static inline unsigned long folio_pfn(const struct folio *folio)
->  {
-> +	VM_BUG_ON(folio_is_device_private(folio));
-
-Please use VM_WARN_ON instead.
-
+Do you mean bcm2712-rpi-5-b-base.dtsi ?
+> @@ -247,3 +247,7 @@ &pcie1 {
+>   &pcie2 {
+>   	status =3D "okay";
+>   };
 > +
->  	return page_to_pfn(&folio->page);
->  }
->
-> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> index 57c63b6a8f65..c1561a92864f 100644
-> --- a/include/linux/rmap.h
-> +++ b/include/linux/rmap.h
-> @@ -951,7 +951,7 @@ static inline unsigned long page_vma_walk_pfn(unsigne=
-d long pfn)
->  static inline unsigned long folio_page_vma_walk_pfn(const struct folio *=
-folio)
->  {
->  	if (folio_is_device_private(folio))
-> -		return page_vma_walk_pfn(folio_pfn(folio)) |
-> +		return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
->  		       PVMW_PFN_DEVICE_PRIVATE;
->
->  	return page_vma_walk_pfn(folio_pfn(folio));
-> @@ -959,6 +959,9 @@ static inline unsigned long folio_page_vma_walk_pfn(c=
-onst struct folio *folio)
->
->  static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_=
-pfn)
->  {
-> +	if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
-> +		return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+> +&v3d {
+> +	clocks =3D <&firmware_clocks 5>;
+> +};
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot=
+/dts/broadcom/bcm2712.dtsi
+> index 330a121ebfcb..4c9c63fcf037 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/soc/bcm2835-pm.h>
+>  =20
+>   / {
+>   	compatible =3D "brcm,bcm2712";
+> @@ -642,6 +643,19 @@ mip1: msi-controller@1000131000 {
+>   			msi-ranges =3D <&gicv2 GIC_SPI 247 IRQ_TYPE_EDGE_RISING 8>;
+>   			brcm,msi-offset =3D <8>;
+>   		};
 > +
->  	return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
->  }
+> +		v3d: gpu@2000000 {
+Please keep the order of the addresses. In case v3d is really part of=20
+the axi bus, then this should be the first child node of axi (2000000 <=20
+1000100000).
 
-<snip>
+Thanks
+> +			compatible =3D "brcm,2712-v3d";
+> +			reg =3D <0x10 0x02000000 0x0 0x4000>,
+> +			      <0x10 0x02008000 0x0 0x6000>,
+> +			      <0x10 0x02030800 0x0 0x0700>;
+> +			reg-names =3D "hub", "core0", "sms";
+> +
+> +			power-domains =3D <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
+> +			resets =3D <&pm BCM2835_RESET_V3D>;
+> +			interrupts =3D <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
+> +		};
+>   	};
+>  =20
+>   	vc4: gpu {
 
-> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
-> index 96c525785d78..141fe5abd33f 100644
-> --- a/mm/page_vma_mapped.c
-> +++ b/mm/page_vma_mapped.c
-> @@ -107,6 +107,7 @@ static bool map_pte(struct page_vma_mapped_walk *pvmw=
-, pmd_t *pmdvalp,
->  static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long p=
-te_nr)
->  {
->  	unsigned long pfn;
-> +	bool device_private =3D false;
->  	pte_t ptent =3D ptep_get(pvmw->pte);
->
->  	if (pvmw->flags & PVMW_MIGRATION) {
-> @@ -115,6 +116,9 @@ static bool check_pte(struct page_vma_mapped_walk *pv=
-mw, unsigned long pte_nr)
->  		if (!softleaf_is_migration(entry))
->  			return false;
->
-> +		if (softleaf_is_migration_device_private(entry))
-> +			device_private =3D true;
-> +
->  		pfn =3D softleaf_to_pfn(entry);
->  	} else if (pte_present(ptent)) {
->  		pfn =3D pte_pfn(ptent);
-> @@ -127,8 +131,14 @@ static bool check_pte(struct page_vma_mapped_walk *p=
-vmw, unsigned long pte_nr)
->  			return false;
->
->  		pfn =3D softleaf_to_pfn(entry);
-> +
-> +		if (softleaf_is_device_private(entry))
-> +			device_private =3D true;
->  	}
->
-> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
-> +		return false;
-> +
->  	if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->  		return false;
->  	if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
-> @@ -137,8 +147,11 @@ static bool check_pte(struct page_vma_mapped_walk *p=
-vmw, unsigned long pte_nr)
->  }
->
->  /* Returns true if the two ranges overlap.  Careful to not overflow. */
-> -static bool check_pmd(unsigned long pfn, struct page_vma_mapped_walk *pv=
-mw)
-> +static bool check_pmd(unsigned long pfn, bool device_private, struct pag=
-e_vma_mapped_walk *pvmw)
->  {
-> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
-> +		return false;
-> +
->  	if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->  		return false;
->  	if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
-> @@ -255,6 +268,8 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk=
- *pvmw)
->
->  				if (!softleaf_is_migration(entry) ||
->  				    !check_pmd(softleaf_to_pfn(entry),
-> +					       softleaf_is_device_private(entry) ||
-> +					       softleaf_is_migration_device_private(entry),
->  					       pvmw))
->  					return not_found(pvmw);
->  				return true;
-> @@ -262,7 +277,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk=
- *pvmw)
->  			if (likely(pmd_trans_huge(pmde))) {
->  				if (pvmw->flags & PVMW_MIGRATION)
->  					return not_found(pvmw);
-> -				if (!check_pmd(pmd_pfn(pmde), pvmw))
-> +				if (!check_pmd(pmd_pfn(pmde), false, pvmw))
->  					return not_found(pvmw);
->  				return true;
->  			}
-
-It seems to me that you can add a new flag like =E2=80=9Cbool is_device_pri=
-vate=E2=80=9D to
-indicate whether pfn is a device private index instead of pfn without
-manipulating pvmw->pfn itself.
-
-Best Regards,
-Yan, Zi
