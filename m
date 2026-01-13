@@ -2,92 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E3DD18BB3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2484FD18F51
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C347010E4BA;
-	Tue, 13 Jan 2026 12:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424DD10E293;
+	Tue, 13 Jan 2026 12:55:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F86X2kUR";
+	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="Ki1HAdCq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3858B10E4BA
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:33:26 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-47d182a8c6cso44087465e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 04:33:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768307605; x=1768912405; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
- b=F86X2kUR+xYn7gKQj/F9RzVZ5PZdG2PfxzF0KA4eElRHRJBSnBqxTV6TgmQd8oHM88
- XzFJrza4g2TxNfbAJfa+ypdHIiTy1S3ultUm1XRl28P9PdUd9cPGscXf0LlmMOw3KnvC
- IcBIHuM/GH0fSCii53/S/JKwcxylA+yk8lMioiLlCV8yIIH79sfrE2iboo9uLmXKs9xA
- +rGPCpMn4QpIONV0+LLIIrKSNnQf48dfJflhz+HpJLHZ8NGbLyg5X8Je2Jgb2+b0TvB+
- Zklz9Vv3O700e51Qp0YcJ2VNu0h8Fi0Jzdv8u7hJNFEkaw0Kj9aCruFsz//cYH0ly4ZN
- 43pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768307605; x=1768912405;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
- b=eoMo2yqJqwaS9Pb9wC6nfjISM187YznT+BqD2SIXfKKpqSc0H6dxyt9j73HoHJplTY
- zJlIAe4fmeRYBxx/11Utf3u2RLUT3b0FDlpFni+TVrw4fx8oJNQ8P3P0JH71cLbzC7Bi
- JKdSDWhGYbJ6JZ8NV2HgYa8cd6EdGG8wt+S58V6LUkl/+/ZxckFt8XjZXcJntAEk79ui
- HHNrjwOD5IDVAsrRx9CrtUtt8rUAE60S1f0rW08nEV2izhSTufsaO6aV7N+mIcad8kV3
- /RQigNmxE9j/NXSLYTqsChx6J2aJrJJJk8EvuIt1nvuhqqlqgBr2jj8LuBs/ZErukuVO
- 6Sxw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWJn5h3HIPT9yKVyq8PdZhd3MuQ5Rr43CJ1v14GYlnXGd1wAYw6f9sYtuFjkTpWj8MZYyWWIEVvJFk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzDVh/936VPShh1Earr+42sVRIsQ8AhyoSCI3nvEpXEeQD9gsYU
- jh2HdHijvV5gnQl/e1YZixGUQ9FkNk8vtaGs1h2/Rv+KRJAwl8227Ztu
-X-Gm-Gg: AY/fxX6g9FliFJq3CeHhqsRmXa9wgZ54cECk1QgPkN3Nq2yQAiQBOEnVb9DUR35WTQE
- OAi4HQtpr193uLEAKnyLz6cZzwPVzhBJYeCinHsX1n684/LJL+zIf0GWq9NtpWiKocNRDXknJ5X
- TBVGeC1kNdTBOazNUaECBhze68e8QpnfCSoc3o6txJ+P7JhG6G9L5bsotPloDLNlBmKlv61u7aa
- Udzwt60MiEwj/n0FRg/Hr/f4BMG07A1lWQL9LQjfhVlkehBl/605UN2hKnm0tLJm7ib6hoiIb5O
- Fpt6RM88QeZNqjVejoFf/5MuosqQ2Vr/xhYh9K9dk0F/djqZVNCoFsu1CBlYoQlcBKo0W+NjKc3
- xvBZcbp+Dl86pS/A/LU09XPXoqds3ry4KdYjSRHZdQ5nDELv4kp4s5c9pkxQg0QbOVNYmFIuatS
- tTdFwvvOsMvPPTCFPzwnYpsSSxvqfgkYB4u6n2zdKxOG748VTKlOqhc7SdYmrJ3H/vVOAumcT6p
- qH+SgpJYQuV
-X-Google-Smtp-Source: AGHT+IG8MSHR6UelEVmGpCyFD9NdUlMZd6tKUDDeZ0GaaRamXIcxo7BgHJmGz6YZQf7c2j4pEDiVyw==
-X-Received: by 2002:a05:600c:83c7:b0:479:3a86:dc1c with SMTP id
- 5b1f17b1804b1-47d84b52e31mr244947625e9.36.1768307604465; 
- Tue, 13 Jan 2026 04:33:24 -0800 (PST)
-Received: from orome (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47d7f390a69sm399651475e9.0.2026.01.13.04.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 04:33:22 -0800 (PST)
-Date: Tue, 13 Jan 2026 13:33:20 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Akhil R <akhilrajeev@nvidia.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-crypto@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
-Message-ID: <aWY7f5V_VE2RY74T@orome>
-References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 581D010E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:55:32 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
+ t=1768308598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ifzs265vUAPV6IFIZqod6woQ6e3KxesGPyzpRuY/iQY=;
+ b=Ki1HAdCqqKBaK15MOgTWKFwgvoe4O1HRO6+Mj3xlA5tV4Hx2joKK1RolVMOxqwkWzlOAE0
+ s/ImAGc8EaMUlaZp3Ov0OL3HhBf/duX9ugvAEqWXnI5d9U7TC+sn+1b4TiK5gdmQEHbQS3
+ /L98D5ouUf0M9yEHyoOHRfSJFmFSXPo=
+From: Henrik Grimler <henrik@grimler.se>
+Subject: [PATCH v4 0/3] drm/bridge: sii9234: use extcon to detect cable
+ attachment
+Date: Tue, 13 Jan 2026 13:49:28 +0100
+Message-Id: <20260113-exynos4-sii9234-driver-v4-0-6e8c0ac14f84@grimler.se>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="u2bmktfhhry3gyx6"
-Content-Disposition: inline
-In-Reply-To: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OwQrCMAyA4VeRnq00aWarJ99DPEybaUA3aaUoY
+ +9ut4uK6PEP5Et6lTgKJ7We9SpyliRdW4LmM3U41e2RtYTSCg1aQPCa74+2S6STyAot6RAlc9T
+ Bgwu0rwBCpcryNXIj9wne7kqfJN26+JjuZBinI1kZh/CLzKCNRibHwWCzdG5zjHI5c1wkVqOZ8
+ d2hnw4Wp6mZkaiBQObLsS/H/3FscbzxtGIHy9p+/jMMwxMQonxoTQEAAA==
+X-Change-ID: 20231218-exynos4-sii9234-driver-d817d4b511d5
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org, 
+ linux-kernel@vger.kernel.org, Henrik Grimler <henrik@grimler.se>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2044; i=henrik@grimler.se;
+ h=from:subject:message-id; bh=+9icRJM878guDktkvKRdV7M11E818HdtxnWGnfxrGmU=;
+ b=owEBbQGS/pANAwAKAbAHbkkLcWFrAcsmYgBpZj9mvaR4IAPwmtcAYazzSD8ToTudKzzOhAXmU
+ lhUfGm8+FeJATMEAAEKAB0WIQQsfymul4kfZBmp4s2wB25JC3FhawUCaWY/ZgAKCRCwB25JC3Fh
+ a74AB/9GAGkrx/DO009mUlBXkmbzwe9ybgsLcjgJzBdtu7e/ZevZBiZI4afBlqfi6dehvtL5BuY
+ z/oy0HhLgUlGFx4RvXNpWrGGQ4L7aCRmZgV4G+9xkTY4uEY1bkXCdyTO226C8cPgSd8CleAZAzM
+ 8c6zBfSDFBbkQGUJ6dJtjkoRE6o2NXwgh9Ed7Zzadtg4wvs4tJzT06Y3VHOPY0H/805G2QQB3r1
+ cPmMAc6pi0aZUUAZwZFnNCGcXiGhkCuw5Mc63rIpyMNONnaIOCATlxT3m7uLG77n7I13Qoz2tO1
+ gTmw8ZvokF+7nXB5mWsgaE9c99hi/GRiPZ8ce3JFTlBUQaNr
+X-Developer-Key: i=henrik@grimler.se; a=openpgp;
+ fpr=2C7F29AE97891F6419A9E2CDB0076E490B71616B
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,57 +79,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---u2bmktfhhry3gyx6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
-MIME-Version: 1.0
+This series fixes so HDMI through the sii9234 MHL chip works when
+cable is hotplugged, by making the MHL chip use extcon cable detection
+functions. Patch 3, that actually implements the extcon parts, is heavily
+inspired by commit 688838442147 ("drm/bridge/sii8620: use micro-USB
+cable detection logic to detect MHL") by Maciej Purski.
 
-On Wed, Dec 10, 2025 at 09:31:36AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->=20
-> with the eventual goal to get rid of the callbacks .probe(), .remove()
-> and .shutdown() in struct device_driver, migrate host1x to use bus
-> callbacks instead.
->=20
-> Best regards
-> Uwe
->=20
-> Uwe Kleine-K=C3=B6nig (2):
->   host1x: Make remove callback return void
->   host1x: Convert to bus methods
->=20
->  drivers/crypto/tegra/tegra-se-main.c      |  4 +-
->  drivers/gpu/drm/tegra/drm.c               |  4 +-
->  drivers/gpu/host1x/bus.c                  | 67 +++++++++++------------
->  drivers/staging/media/tegra-video/video.c |  4 +-
->  include/linux/host1x.h                    |  2 +-
->  5 files changed, 37 insertions(+), 44 deletions(-)
+Before these changes, HDMI only worked if cable was plugged in before
+booting. If no cable was connected, then wlr-randr still showed HDMI
+as connected, with 0x0 px, which confused at least some UIs (phosh)
+and caused problems:
+https://gitlab.gnome.org/World/Phosh/phosh/-/issues/828
 
-Applied, thanks.
+Tested on exynos4412-i9305.
 
-Thierry
+Best regards,
+Henrik Grimler
 
---u2bmktfhhry3gyx6
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Henrik Grimler <henrik@grimler.se>
+---
+Changes in v4:
+- Collect tags
+- Link to v3: https://lore.kernel.org/r/20250824-exynos4-sii9234-driver-v3-0-80849e716a37@grimler.se
 
------BEGIN PGP SIGNATURE-----
+Changes in v3:
+- Fix return of dev_err_probe in patch 2 and patch 3, spotted by
+  Dmitry and Marek respectively.
+- Change to depends on EXTCON || !EXTCON instead of select
+- Collect tags for patch 1 (not 3 since there were (minor) changes)
+- Link to v2: https://lore.kernel.org/r/20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmlmO40ACgkQ3SOs138+
-s6GKWBAAkeHMxtj03MuTuHomrmoj2kYvczHvqu0BchkARJlcBuq1QbDBow2Tyjil
-qTY5YZp/VaU/tTbssrx5tdAsTOEK2yYugUOxfVz5IbyDzavUQAv8tq6kKLhY468g
-v4+p3ypGVT+XiQaAoQOn7GVdKp9X5SLxkJclGirBiepzO2CrJR6ci+NjBqaBBa7n
-mO8nh6jRN891vYt9IyZSd0VUf7W4K4mFS/RDKQaQYreFWSNiBAqdYMWCoUknnNY4
-lSKKIwp8IUO7wSW6kO7sEFfrQDdQjzp7kBDmG18NkhOsaXs+WjXgEFP3aQqKgmu9
-PYV79R8kRqMLuin51hrHrNvGuFbZqNOYFFJe86ipiO2wZTdXbaR4FjkBV5bGcj/a
-nwGAeax2FkhF4wGu9Zlfo0Zc0IuAb+S03c+RojN5EguuwTQpj8Fpd4TM6wLC/hur
-86LbYnh7oDIeq6rF31GpQv/uQKoXtbseL5CKi0uK9wc+MP0xP/LwONb8oNHbynRq
-rPyCADy46HhE0MX7Ki6wONVMloMept5PQdKzt7uizTB7W9cTZDJzIbPCq/kUhw4q
-AT9+bH0Pxgn7Q4MpCoQCwvz164tWFowRgcKmbuVO5Bp9WfkzhCNsp01s9+Y+PL+0
-1zY/BIC2SpeWjz1ip4Cl19Vid5SJ+6Tv/3EXKQ/PauUfgWbF2sU=
-=lJz6
------END PGP SIGNATURE-----
+Changes in v2:
+- Add dependency on extcon in patch 3. Issue reported by kernel test robot <lkp@intel.com>
+- Link to v1: https://lore.kernel.org/r/20250721-exynos4-sii9234-driver-v1-0-2e47ed02f677@grimler.se
 
---u2bmktfhhry3gyx6--
+---
+Henrik Grimler (3):
+      drm/bridge: sii9234: fix some typos in comments and messages
+      drm/bridge: sii9234: use dev_err_probe where applicable
+      drm/bridge: sii9234: use extcon cable detection logic to detect MHL
+
+ drivers/gpu/drm/bridge/Kconfig   |   1 +
+ drivers/gpu/drm/bridge/sii9234.c | 124 +++++++++++++++++++++++++++++++--------
+ 2 files changed, 102 insertions(+), 23 deletions(-)
+---
+base-commit: a87fef0880c4f52769b5a3c2fc1b2d73aaa04eb3
+change-id: 20231218-exynos4-sii9234-driver-d817d4b511d5
+
+Best regards,
+-- 
+Henrik Grimler <henrik@grimler.se>
+
