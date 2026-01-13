@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E76FD1828D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D754D182A2
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B51B10E4AA;
-	Tue, 13 Jan 2026 10:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBE310E4A0;
+	Tue, 13 Jan 2026 10:48:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i7U8t7XU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jrqn2P3I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2A510E4AA;
- Tue, 13 Jan 2026 10:48:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB7810E49E;
+ Tue, 13 Jan 2026 10:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768301323; x=1799837323;
+ t=1768301327; x=1799837327;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=48BF35lcmr09wrBXC3c6k6HUjw5OuyWkLtc69E/ST54=;
- b=i7U8t7XUw3v7AGgOEJwL+caiy09yvX0pgzpWmAT+r0qcwoOx08MokVgq
- v2ppad3bX8bkv1Sw9jyf5VWl5MEq623w3opANVO4grX3zvh/PHmE+7wo6
- xHr/5ry9/HieboQdD6MOGINlMP6a2PNfxgCQz5f86gvxDdoTi5OD8uX2v
- Ufv/ilEKlriWQuBumxGXGfVee1yCUWJ1EQewkCfQhEz0CGPL+LQKmtwwm
- wmrhI4RzySCyoW6bz9Pco99uR3aBnrGlsSlgVR5SYPdKyAdvjTv7Dpkez
- Dob9gPFw7dRxbdbB1dejt+sDjhRWYG8/ZCl0xykVBtQG3oHShYIrmkdPf w==;
-X-CSE-ConnectionGUID: gwtn9VSuRqW8SQ7+40/Zdw==
-X-CSE-MsgGUID: ig2HxCXzQA+jg4s4LhoaPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165189"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165189"
+ bh=JbuGO6tkIMo4IH9d/mtz7RLf8pS5209+bUVgnZrPmS8=;
+ b=jrqn2P3IdKb+9cZFwqCjUhBmvSX6lqR6WRh+ObegTFaBxZDwJV3HsejR
+ n6o2BFDtF09hjOre3Ou68AZppbNv74QcZnCjed5eL0cu5HoZkSsgsZs7W
+ cBNNA06lBv0HkU2wuEIC1GGo54g42t/rh31JfKDpnbElLDUhAfkg+qpKg
+ WBW30+Cotnx0ve5Jp+1UjLI3/ETNksVMMqV+NuHMlBvR6W12QMrWQtq75
+ CXWlTewFEvT2+sMT/GirZ2RCJfsf9oRHo+1Mg62jlBg2hI/POQqe90StN
+ JdnUGCdxMVM12R+1NC4R/wLLK71CK1gLxxJ0LyIeEG1wB5UY//b0lET0K w==;
+X-CSE-ConnectionGUID: 1REfPl4PS9CudDEh1jYN7Q==
+X-CSE-MsgGUID: foZUBj4BQ6Kx5XKA4dpNQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165202"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165202"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2026 02:48:43 -0800
-X-CSE-ConnectionGUID: tzazq86aQXaPwEkqB4y9Tg==
-X-CSE-MsgGUID: w0Vj894jSHqLTyAcYoU7iQ==
+ 13 Jan 2026 02:48:47 -0800
+X-CSE-ConnectionGUID: l26+d0UHT1OpUj08rt7oJQ==
+X-CSE-MsgGUID: JCTpfpgWSz65cII57CvcqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554592"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554598"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:48:39 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:48:43 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
@@ -48,9 +48,9 @@ Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
  alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
  suraj.kandpal@intel.com, nfraprado@collabora.com,
  ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: [PATCH v3 03/13] drm/vkms: Fix color pipeline enum name leak
-Date: Tue, 13 Jan 2026 15:52:53 +0530
-Message-Id: <20260113102303.724205-4-chaitanya.kumar.borah@intel.com>
+Subject: [PATCH v3 04/13] drm/i915/display: Fix color pipeline enum name leak
+Date: Tue, 13 Jan 2026 15:52:54 +0530
+Message-Id: <20260113102303.724205-5-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
 References: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
@@ -71,65 +71,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-vkms_initialize_colorops() allocates enum names for color pipelines,
-which are copied by drm_property_create_enum(). The temporary strings
-were not freed, resulting in a memory leak.
+intel_color_pipeline_plane_init() allocates enum names for color
+pipelines, which are copied by drm_property_create_enum(). The temporary
+strings were not freed, resulting in a memory leak.
 
-Allocate enum names only after successful pipeline construction and
-free them on all exit paths
+Allocate enum names only after successful pipeline construction and free
+them on all exit paths.
 
-Fixes: c1e578bd08da ("drm/vkms: Add enumerated 1D curve colorop")
+Fixes: ef105316819d ("drm/i915/color: Create a transfer function color pipeline")
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-Reviewed-by: Alex Hung <alex.hung@amd.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_colorop.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ .../drm/i915/display/intel_color_pipeline.c    | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
-index 5c3ffc78aea0..d03a1f2e9c41 100644
---- a/drivers/gpu/drm/vkms/vkms_colorop.c
-+++ b/drivers/gpu/drm/vkms/vkms_colorop.c
-@@ -37,7 +37,6 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index 684641c8323b..04af552b3648 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -34,7 +34,6 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 		return ret;
  
- 	list->type = ops[i]->base.id;
--	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
+ 	list->type = colorop->base.base.id;
+-	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
  
- 	i++;
+ 	/* TODO: handle failures and clean up */
+ 	prev_op = &colorop->base;
+@@ -74,6 +73,8 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
  
-@@ -88,6 +87,8 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 	drm_colorop_set_next_property(prev_op, &colorop->base);
  
- 	drm_colorop_set_next_property(ops[i - 1], ops[i]);
- 
-+	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[0]->base.id);
++	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", list->type);
 +
  	return 0;
+ }
  
- cleanup:
-@@ -103,18 +104,18 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 
- int vkms_initialize_colorops(struct drm_plane *plane)
+@@ -81,9 +82,10 @@ int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
  {
--	struct drm_prop_enum_list pipeline;
+ 	struct drm_device *dev = plane->dev;
+ 	struct intel_display *display = to_intel_display(dev);
+-	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
++	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES] = {};
+ 	int len = 0;
 -	int ret;
-+	struct drm_prop_enum_list pipeline = {};
 +	int ret = 0;
++	int i;
  
- 	/* Add color pipeline */
- 	ret = vkms_initialize_color_pipeline(plane, &pipeline);
+ 	/* Currently expose pipeline only for HDR planes */
+ 	if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
+@@ -92,8 +94,14 @@ int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
+ 	/* Add pipeline consisting of transfer functions */
+ 	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len], pipe);
  	if (ret)
 -		return ret;
 +		goto out;
+ 	len++;
  
- 	/* Create COLOR_PIPELINE property and attach */
- 	ret = drm_plane_create_color_pipeline_property(plane, &pipeline, 1);
--	if (ret)
--		return ret;
- 
--	return 0;
-+	kfree(pipeline.name);
+-	return drm_plane_create_color_pipeline_property(plane, pipelines, len);
++	ret = drm_plane_create_color_pipeline_property(plane, pipelines, len);
++
++	for (i = 0; i < len; i++)
++		kfree(pipelines[i].name);
++
 +out:
 +	return ret;
  }
