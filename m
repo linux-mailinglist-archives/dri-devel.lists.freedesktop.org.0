@@ -2,47 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D97D1CBF4
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 07:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CB5D1D17F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1DD10E0A1;
-	Wed, 14 Jan 2026 06:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC0310E366;
+	Wed, 14 Jan 2026 08:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wLy0+VHF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FIVYMTKO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE5810E0A1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 06:55:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7FC2A4011C;
- Wed, 14 Jan 2026 06:55:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 848C2C4CEF7;
- Wed, 14 Jan 2026 06:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1768373723;
- bh=jAU13ANnoHREg4tq8eq6SJekJk5aOvQhMYOQD9AiiyM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wLy0+VHFuKyl80wtCYn90C1oJlp4fr0a6PL+eNsBMKBKl5ixsjWyTxn32I7+exbo2
- DsoPvx1leqaitLTQjvm6e1aM3JJh26k2vJgCnOZfrxGNvbQIcJ9tOVzSWneVlDi0Pv
- DQHEuvenFTHPGO+HcPuUPJGS9OCZbUl9jyrBT+xM=
-Date: Wed, 14 Jan 2026 07:55:19 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Gideon Adjei <gideonadjei.dev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Abdun Nihaal <abdun.nihaal@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Jianglei Nie <niejianglei2021@163.com>,
- Matthew Wilcox <willy@infradead.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: fbtft: Change udelay() to fsleep()
-Message-ID: <2026011432-disliking-boxlike-fcb3@gregkh>
-References: <20260113221722.5157-1-gideonadjei.dev@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E31D10E29A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 22:58:30 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-477a219dbcaso63806935e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 14:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768345108; x=1768949908; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XY8aJdo/isS51GiJT3XMMqYZL8w9JZXzmK3xbGt6GFw=;
+ b=FIVYMTKOhxS47lYyHMTpC+DhbC3BKbsKYozoBKjpTFTksxJkLOLAf6O7C/1FYsFJ0Q
+ XpREU+kfD2GO+yVIWEzeKhv0jAZLQ0D5VbqwKjI1B05sDzqFVrowoEPEgMYffjfP+UNs
+ 4VY3/jkvY5LAPN+18PMhzOVLLguccPpRo+B7+qSTOauC7KIc6OrpsKf9DCKzJW1z98Zu
+ trJokvU44vV0MCiS/iB6mteFbYBX0or1kvNBX3P37AFn/ICZhpvamF1s0wr/Rof90IzJ
+ KXEc8wntfx2Lh6I/rXugyeFjbYKhTO4azP7Ya3GnxLyv2KaWglMtVt/Ilm4D8UZZak64
+ m+Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768345108; x=1768949908;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XY8aJdo/isS51GiJT3XMMqYZL8w9JZXzmK3xbGt6GFw=;
+ b=ByJ3vLDg7IdaIdVjlBsotjgbmvQnNFSTRGUpdgiBtL4+fHFxuUrWgw6igwTcxzFxVg
+ QRFAut85LVbdnhpgCXGGTLFeuklqy4MiKEViduYX5whlukLb1Dkt+NGanU1BZ9TLfGwA
+ xmvphuz4z9NIK44W+hlBHKkHbsv79U1XlNoyY1OgI6R6F1pHQQyyU7h2hLliAcrFgEUO
+ ajsON0nIw1yVja/UapvQtvIYFbiHMoNUKu2nkWg0IzNUONb6DxpVbjPQ94EI2ibxpakH
+ 7/hE1NNjOwjSYc6TLtIpSTVKLz1elxJ9JmDSamvTImu+Bd08hbmEVRcQBloq76bfqAfU
+ 3hhw==
+X-Gm-Message-State: AOJu0YwjdRQ6ze3PzcJqog51j3qGQDWvNGJXeFk5zsMCGb8Mn2/evP6n
+ L2l05hOEVWWcBdqO4FJ+EIK/z7EOrmbMeF4l4Ped4oNQJEpaEiof0RS4
+X-Gm-Gg: AY/fxX605KhGYpk8roH4lxki9TSk2acL+L7NOWStOqo1WupTEL+kXsoIYd2hSmBgABp
+ KCDTXtjUC1wUTYmEvjElCLnNsmy7qm3N7R2HxLBb8QzPbPmdyfbHKFiMjF8+64SjSoD/1F4tYG/
+ FerDLJHP8r6N/rtL0OLj0lSEG4j3aidnIseFibQboQI9yylTRBA6+Tk8zPiLdb9LYdkKhDXKKl8
+ jB62H2PD5aLH4G/fgmAmGWVlR1qon3zDGFDTMOwHHeBcxVvDLdoT1AqOeMTF/rI4IFNzsdTJ34+
+ IFy2awjlpBrfaK7v6JM6SGJjy2RCfzfhOYTDh+izeCLFEE9O2Zi0KPLl5h5tzZWJSRytgKTGGuE
+ tMfNzsOcgrODYIKUZYwq5TPB86suTfvbmkMz9SQfzGoaKIl8fTCmpeZSu1+NeKx9QrKQeD4aDft
+ 84BG3Qpac4HrCuE7C59AVg4dcowWSHtnMG4k4fBA==
+X-Received: by 2002:a05:600c:638f:b0:47d:333d:868a with SMTP id
+ 5b1f17b1804b1-47ee484c53bmr1267985e9.33.1768345108321; 
+ Tue, 13 Jan 2026 14:58:28 -0800 (PST)
+Received: from practice.local ([147.235.205.136])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-432bd5fe67csm46588246f8f.40.2026.01.13.14.58.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jan 2026 14:58:27 -0800 (PST)
+From: Jay Winston <jaybenjaminwinston@gmail.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Jay Winston <jaybenjaminwinston@gmail.com>
+Subject: [PATCH] drm/gpusvm: Fix kernel-doc header, parameter, and grammar
+Date: Wed, 14 Jan 2026 00:56:56 +0200
+Message-ID: <20260113225656.21703-1-jaybenjaminwinston@gmail.com>
+X-Mailer: git-send-email 2.46.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113221722.5157-1-gideonadjei.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 14 Jan 2026 08:25:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,37 +85,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 02:17:22PM -0800, Gideon Adjei wrote:
-> Replace udelay() calls >= 100us with fsleep() to avoid busy-waiting.
-> 
-> The delays are used in init_display() callbacks. These callbacks are
-> invoked by fbtft_probe_common() during the driver's probe path. The
-> probe path runs in process context which already uses sleeping APIs.
-> This makes fsleep() safe to use in these situations.
-> 
-> Signed-off-by: Gideon Adjei <gideonadjei.dev@gmail.com>
-> ---
->  drivers/staging/fbtft/fb_tinylcd.c   | 2 +-
->  drivers/staging/fbtft/fb_upd161704.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-> index 9469248f2c50..3fb15df31592 100644
-> --- a/drivers/staging/fbtft/fb_tinylcd.c
-> +++ b/drivers/staging/fbtft/fb_tinylcd.c
-> @@ -41,7 +41,7 @@ static int init_display(struct fbtft_par *par)
->  		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
->  	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
->  	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
-> -	udelay(250);
-> +	fsleep(250);
+The kernel-doc for the GPU SVM validation helper has drifted from the
+actual implementation. Specifically:
 
-Without the hardware and specifications to test this with, we can't take
-this type of patch.  Please see the mailing list archives for the
-multitude of times it has been rejected in the past.
+1. The function name in the comment refers to a 'range' naming
+   convention not present in the function signature.
+2. The second parameter is documented as '@range' instead of
+   '@svm_pages'.
+3. The description seems to have some minor grammatical errors.
 
-sorry, but checkpatch can be ignored here.
+Update the kernel-doc block to match the implementation and improve
+readability.
 
-thanks,
+Signed-off-by: Jay Winston <jaybenjaminwinston@gmail.com>
 
-greg k-h
+ On branch gpusvm-docfix
+ Changes to be committed:
+	modified:   drivers/gpu/drm/drm_gpusvm.c
+---
+ drivers/gpu/drm/drm_gpusvm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index aa9a0b60e727..1091514d9cf8 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1338,12 +1338,12 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
+ 
+ /**
+- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
++ * drm_gpusvm_pages_valid_unlocked() - GPU SVM range pages valid unlocked
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
+  *
+- * This function determines if a GPU SVM range pages are valid. Expected be
+- * called without holding gpusvm->notifier_lock.
++ * This function determines if a GPU SVM range of pages is valid. Expected to
++ * be called without holding gpusvm->notifier_lock.
+  *
+  * Return: True if GPU SVM range has valid pages, False otherwise
+  */
+-- 
+2.46.4
+
