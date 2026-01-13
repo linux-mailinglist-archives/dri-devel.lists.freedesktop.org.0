@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C563D19F7E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0170BD19FAB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5D010E509;
-	Tue, 13 Jan 2026 15:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B1210E506;
+	Tue, 13 Jan 2026 15:44:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dRIX4ovA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tmNtaCHZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC3710E509
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:42:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D36910E506
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:44:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2F22141AF7;
- Tue, 13 Jan 2026 15:42:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84744C19425;
- Tue, 13 Jan 2026 15:42:40 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 44E0F40905;
+ Tue, 13 Jan 2026 15:44:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A405C116C6;
+ Tue, 13 Jan 2026 15:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768318961;
- bh=rrnWNw3vkU2Ih+pUchIRcev1TZ+Nr+r2PD7leoOT0ic=;
+ s=k20201202; t=1768319046;
+ bh=PHMLXYcYeFMLCHsXk+6wPpFG2rT9iu0Lpjf1Mwx26o0=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=dRIX4ovAcZciutAuOjH7KQc2v9gHBtJoOBqf4Pxso1e7n9i4dWqiX+7IqmwrjPTPJ
- B0e5/4HJ7m54NhbtKd6S9xn2jiVbR4u/eV8I8+jALdOPwALqwmScrcM10i+OkgwtFp
- y8LgNs1nJxKeX2TY4+yq6gIpP8z5YZiVRJsr5cWkdSg67W4BVMTa0QYnme2T7YBQm7
- UgwdrDoBegVx8/wmLfJiMJmB7ll6tIsVzXk/O5fQWvMk1D5Fhh+HTU/NZ2lGmbiOUR
- vb6yvGPhdaSXuswQaRoRBCFC5JjMfEAJvh/gtzzX4eFYKLDEvHcV4LRuVHGLcwhC2g
- vKxh6FazgkQ+A==
-Message-ID: <45d26d0bc35eb157f798cc74004af133@kernel.org>
-Date: Tue, 13 Jan 2026 15:42:38 +0000
+ b=tmNtaCHZhnOPkNQtKmhqE0bQ88+IeHPB6ckoskfF7ruYjI/e08Cv3ldpq51A8gL5K
+ qq0X+J8iT/Grf19XLTgb5OATfWR284kq/RnlqtUlkNoSxo6eibXw0WFnZlU02HB8pw
+ e2+yJczgiszrzdUco7ZUEptG4UiqdKwfUFwhuaLNX9Vu2S9AuNmlZtb6nkEmMVGIhX
+ KwjPuHC0MsPjRd7zhbOpkBnj44uodYV/nc/YhTg7NLH8IvjByTZDT7JyzL6OyBRWNg
+ BTT8J2U3ljOUcbgUGhMiYHM2lYIf0yxPl3TAE7HT3MbvSZLQTMV1LzFo+UA30q7ZDf
+ YE5fPWPxXXfBg==
+Message-ID: <0985336fa75f27b7a85dd41e54a88e06@kernel.org>
+Date: Tue, 13 Jan 2026 15:44:03 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 10/12] drm/bridge: samsung-dsim:
- samsung_dsim_host_attach: use a temporary variable for the next bridge
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-10-8bad3ef90b9f@bootlin.com>
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-10-8bad3ef90b9f@bootlin.com>
+Subject: Re: [PATCH v2 12/12] drm/bridge: samsung-dsim:
+ samsung_dsim_host_attach: convert to of_drm_find_and_get_bridge()
+In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
+References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-12-8bad3ef90b9f@bootlin.com>
 Cc: benjamin.gaignard@linaro.org, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, "Adrien
@@ -75,12 +75,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 Jan 2026 08:31:41 +0100, Luca Ceresoli wrote:
-> In preparation to handle refcounting of the out_bridge, we need to ensure
-> the out_bridge pointer contains either a valid bridge pointer or NULL, not
-> an ERR_PTR. Otherwise calls such as drm_bridge_get/put() would try to
-> redeference an ERR_PTR.
+On Fri, 9 Jan 2026 08:31:43 +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done. Also switch to the drm_bridge::next_bridge pointer.
 >=20
+> This needs to handle both cases: when of_drm_find_panel() succeeds and wh=
+en
 >=20
 > [ ... ]
 
