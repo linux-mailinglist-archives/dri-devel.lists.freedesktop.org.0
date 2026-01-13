@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71063D19BE9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568CFD19C1F
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:11:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D317910E1D6;
-	Tue, 13 Jan 2026 15:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA38410E4EF;
+	Tue, 13 Jan 2026 15:11:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="APMuYhk6";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="XjfUI6hM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9908610E1D6
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768317008;
- bh=3Qt3PPBW0EOqivH7PZKc5Rp9J4QVVjOldfrh4WBzw4U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=APMuYhk6HiXkfK0tgcarBgKZ/Exw2pisufwnpt8i+3dJCVUESaxTZcGQPQLqfEdjT
- 6Zze6kL3ZBBqCdB3frKCF3Ohd4trq8s7l6qgNQPv3Z88QuI3snH4zVkz1CGqnz66u0
- GvGubIOqvDO3Lcfe5I5GpUj44k/iKg0RmfSeIp4r4+yA5NWHD+e0lOGI+/HUKeYYdZ
- PMFxTKPPEYuJ/G/HytMam0EX5hFIG6CBgqN/9nCFzWpoiOW3LNEY/QK4H5OrO4YaAc
- bYw+rLPiO3HQhDawE+VScw5laGg2zfJpqnNqNvhZ5bCllMg444nMqBc7Ru6g5/Kn+4
- xhVATSp5KSdfw==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 63DB617E0443;
- Tue, 13 Jan 2026 16:10:07 +0100 (CET)
-Message-ID: <38f9e21c-ac64-45cd-a425-4036ad2ef32b@collabora.com>
-Date: Tue, 13 Jan 2026 17:10:06 +0200
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46EAC10E4EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1768317095; x=1799853095;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7XznA18BA70UboFGcQVIjFlVsDecJjM7njq32R22DrE=;
+ b=XjfUI6hMLptuz4mTDBw3ElweDYUvYsuxuMln1fZhugY2M6oezogqeHlj
+ jp/wOXNrK9nccRxkUqgpRtVndRo8oUKO/X7AzYxeCJD3oIvkqRccWHyr/
+ iMx56Wr2jrtFfwFO4JgkriZDK1zpfzEjLwiuHqhGbsm+MrywaZzuYgErk
+ 94pVO+KaYZ2uMuL5pqWeIuTYcf5Dcs+NvLx9HIXQiT9JhJe5NXYBcpfSE
+ tjA+agpiaJ6oNAU7yFDAeJlNtc3RU401nWe1bTovL6qx6BrAV1xJyXqHk
+ E7n/HBph1rTIjPnodDQ1cIWtlK65ediWF3+lZ1RqbDSGQGm029dJlV6aL w==;
+X-CSE-ConnectionGUID: elVzir9fTFac2yKBdCUdNg==
+X-CSE-MsgGUID: PRgTA9VDTSiMPgwjr6n34Q==
+X-IronPort-AV: E=Sophos;i="6.21,222,1763449200"; d="scan'208";a="52247948"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 08:11:34 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.87.152) by
+ chn-vm-ex2.mchp-main.com (10.10.87.31) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Tue, 13 Jan 2026 08:11:12 -0700
+Received: from [10.159.205.69] (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 13 Jan 2026 08:11:09 -0700
+Message-ID: <468e4624-355b-400f-8d03-4db5c37e3ec7@microchip.com>
+Date: Tue, 13 Jan 2026 16:11:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] drm/bridge: dw-hdmi-qp: Add high TMDS clock ratio
- and scrambling support
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Diederik de Haas <diederik@cknow-tech.com>,
- Maud Spierings <maud_spierings@hotmail.com>
-References: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
- <20260113-dw-hdmi-qp-scramb-v2-3-ae7b2c58d24d@collabora.com>
- <20260113-unselfish-russet-chicken-80d3c3@houat>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260113-unselfish-russet-chicken-80d3c3@houat>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v5 3/5] ARM: dts: microchip: sam9x60: Add GFX2D GPU
+To: Cyrille Pitchen <cyrille.pitchen@microchip.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Russell King <linux@armlinux.org.uk>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20260113-cpitchen-mainline_gfx2d-v5-0-9cdab8fa699b@microchip.com>
+ <20260113-cpitchen-mainline_gfx2d-v5-3-9cdab8fa699b@microchip.com>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Content-Language: en-US, fr
+Organization: microchip
+In-Reply-To: <20260113-cpitchen-mainline_gfx2d-v5-3-9cdab8fa699b@microchip.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,106 +79,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On 1/13/26 5:00 PM, Maxime Ripard wrote:
-> On Tue, Jan 13, 2026 at 12:26:20AM +0200, Cristian Ciocaltea wrote:
->> @@ -902,13 +981,74 @@ static void dw_hdmi_qp_bridge_atomic_disable(struct drm_bridge *bridge,
->>  
->>  	hdmi->tmds_char_rate = 0;
->>  
->> +	dw_hdmi_qp_disable_scramb(hdmi);
->> +
->> +	hdmi->curr_conn = NULL;
->>  	hdmi->phy.ops->disable(hdmi, hdmi->phy.data);
->>  }
->>  
->> -static enum drm_connector_status
->> -dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
->> +static int dw_hdmi_qp_reset_link(struct dw_hdmi_qp *hdmi,
->> +				 struct drm_connector *conn,
->> +				 struct drm_modeset_acquire_ctx *ctx)
->> +{
->> +	struct drm_crtc *crtc;
->> +	u8 config;
->> +	int ret;
->> +
->> +	if (!conn->state)
->> +		return 0;
->> +
->> +	crtc = conn->state->crtc;
->> +	if (!crtc)
->> +		return 0;
->> +
->> +retry:
->> +	ret = drm_modeset_lock(&crtc->mutex, ctx);
->> +	if (ret)
->> +		goto check_err;
->> +
->> +	if (!crtc->state->active)
->> +		return 0;
->> +
->> +	if (conn->state->commit &&
->> +	    !try_wait_for_completion(&conn->state->commit->hw_done))
->> +		return 0;
->> +
->> +	ret = drm_scdc_readb(hdmi->bridge.ddc, SCDC_TMDS_CONFIG, &config);
->> +	if (ret < 0) {
->> +		dev_err(hdmi->dev, "Failed to read TMDS config: %d\n", ret);
->> +		return 0;
->> +	}
->> +
->> +	if (!!(config & SCDC_SCRAMBLING_ENABLE) == hdmi->scramb_enabled)
->> +		return 0;
->> +
->> +	dev_dbg(hdmi->dev, "%s resetting crtc\n", __func__);
->> +
->> +	drm_atomic_helper_connector_hdmi_hotplug(conn, connector_status_connected);
->> +
->> +	/*
->> +	 * Conform to HDMI 2.0 spec by ensuring scrambled data is not sent
->> +	 * before configuring the sink scrambling, as well as suspending any
->> +	 * TMDS transmission while changing the TMDS clock rate in the sink.
->> +	 */
->> +	ret = drm_atomic_helper_reset_crtc(crtc, ctx);
->> +
->> +check_err:
->> +	if (ret == -EDEADLK) {
->> +		drm_modeset_backoff(ctx);
->> +		goto retry;
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->> +static int dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge,
->> +				    struct drm_connector *connector,
->> +				    struct drm_modeset_acquire_ctx *ctx)
->>  {
->>  	struct dw_hdmi_qp *hdmi = bridge->driver_private;
->> +	enum drm_connector_status status;
->>  	const struct drm_edid *drm_edid;
->>  
->>  	if (hdmi->no_hpd) {
->> @@ -919,7 +1059,15 @@ dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connec
->>  			return connector_status_disconnected;
->>  	}
->>  
->> -	return hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
->> +	status = hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
->> +
->> +	dev_dbg(hdmi->dev, "%s status=%d scramb=%d\n", __func__,
->> +		status, hdmi->scramb_enabled);
->> +
->> +	if (status == connector_status_connected && hdmi->scramb_enabled)
->> +		dw_hdmi_qp_reset_link(hdmi, connector, ctx);
->> +
->> +	return status;
->>  }
+On 13/01/2026 at 14:10, Cyrille Pitchen wrote:
+> Add support for the GFX2D GPU.
 > 
-> We have drm_bridge_helper_reset_crtc() now, any reason you didn't use it?
+> Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
+> ---
+>   arch/arm/boot/dts/microchip/sam9x60.dtsi | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/microchip/sam9x60.dtsi b/arch/arm/boot/dts/microchip/sam9x60.dtsi
+> index b075865e6a7688005d471665459b3f6f1f26f7a4..338a0f3b336ffa6f1e3f900a4b4a58e4e3f93bb8 100644
+> --- a/arch/arm/boot/dts/microchip/sam9x60.dtsi
+> +++ b/arch/arm/boot/dts/microchip/sam9x60.dtsi
+> @@ -353,6 +353,14 @@ AT91_XDMAC_DT_PERID(26))>,
+>   				status = "disabled";
+>   			};
+>   
+> +			gpu: gpu@f0018000 {
+> +				compatible = "microchip,sam9x60-gfx2d";
+> +				reg = <0xf0018000 0x4000>;
 
-Ups, I missed it somehow..
+Same here, probably smaller size for register map is better.
 
-Thanks,
-Cristian
+Regards,
+   Nicolas
+
+> +				interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
+> +				clocks = <&pmc PMC_TYPE_PERIPHERAL 36>;
+> +				status = "disabled";
+> +			};
+> +
+>   			i2s: i2s@f001c000 {
+>   				compatible = "microchip,sam9x60-i2smcc";
+>   				reg = <0xf001c000 0x100>;
+> 
+
