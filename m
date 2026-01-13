@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DA4D1B2D3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 21:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC716D1AF1F
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 20:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239E710E541;
-	Tue, 13 Jan 2026 20:19:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JOeSqGUT";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E43810E539;
+	Tue, 13 Jan 2026 19:07:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9658979D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:23:05 +0000 (UTC)
-Received: by mail-dl1-f47.google.com with SMTP id
- a92af1059eb24-121bf277922so9375273c88.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 10:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768328584; x=1768933384; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
- b=JOeSqGUTiGwxgzLDl3piUwyx/v5HgKGf3syFPgyIqM11ZX9VsXIJNrPL8Uivw3NiNl
- iEGRzse9ThFmWoJRkVkAmfXcbuddALs9oIpruIJO/61Jw8nfbZYq+n9EdcCYl6J/TjBq
- voUzMUoGU59H1yidjTBVYIWikJGT18fY3fRjMpuDW09Xes4VABkOD1WtVZ7mitUWwpSh
- dru0M4FWgRItpvb/XOy45TJBYIQChPGDgYS0kQVHEJSZEfiFLuUxHaTpeoKhJmOCpl8Y
- Yk4FVY07c92WVi9nHV/O5HMK8g6rzqYQ/h7LnpQkKHehsX2YKPqUjvT3HehXxYOTebvg
- tzBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768328584; x=1768933384;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
- b=wK+QecMc4dgjroJi0QYGIrNwoG4YovvnndcQ9vcc3rmWAhVYey2tWOhCAsXlpfO4+g
- 0q2vnH+TILQ+Ya+seXO4MifYeBRPMd1mmWVMETlcwxf/rYQwJ4aZoSgnIA65ku76204U
- zj4MroUju7WpHCmro0+MMHa+dJ1hxgnzykv/vCQ0pQGXxi3BZNtmG6ptgVf2hgizquRH
- KSO1rxZ3ZE7iq4uouSdbYT9fYlS41m7k5vYTGws4c85WZUecxcYEDeMVt48aTEKzDIcJ
- lJbD1sO/zak4C4arwgkPCwtbTsGECiR+GnWZULJtkofxoS0a1iKRoiHGOpKfRsbrl4JY
- O7MQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbjT1zZP6r7Nz4ufeInNyCzGCrUSQON/UFyWrZV3vZH0Bd2zIqVuWWFQLYWW3JEAIiqlNdS2gmgms=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6J7ePIgXi3rbe+6HEa+wP6DWhi/7hDaTSFdiQwLdFj/C+PUHC
- YXvza2QNWaSi3oHKUAmddpos5bzPnODjtwI6UDpctjQTpf2TEp9d5vHwcS4tl9oOLpArgSjER2y
- gHgibXxShXZV0n6niGltS4EPXFbD8Cuo=
-X-Gm-Gg: AY/fxX6+zerq7YTlUnGmLGX2jw7nVGBG9FqGGR8CYDuDlVUiCxqSwALqSaDJA/16GN2
- vf9VrDuQ50kycphoW+dktUNsoIRPNqFOuzqkHddgiE3rn3VK8FSVgtexWTDSf3aCz8faBVG5S8p
- y9wvvsRBGCFjRz4xzc/R8xFkMWGB8GWXKG3L+fsv4yLlJBFPqrnRPXYJer31I52pJ2dLP+AvdyC
- +lug+kso57QKC+ROiYsuBCCwRqI0sGWf9cp1pfmS1NmCX8Rm5vIBUp/Fedd9u8KzG+94pSLLnRp
- 46V7LORVIhVQW/PGZIoGOdahwy3z+gKETHvZlroGEEXk3aymUCDoULLay7+gm2utpdDqrg0PZp6
- 7KhiJXAxCc82y5GI=
-X-Google-Smtp-Source: AGHT+IFry5mrp+qhfmaTmFowwpyilhTDV99e4+YsYHR4eczlm0CCEKca1hIFDilnVzeT/ocGVM7wlP2rRttk0FeEdcc=
-X-Received: by 2002:a05:7022:613:b0:119:e569:f62e with SMTP id
- a92af1059eb24-121f8b8d73amr21681821c88.39.1768328584025; Tue, 13 Jan 2026
- 10:23:04 -0800 (PST)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 444C910E53A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 19:07:44 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <m.felsch@pengutronix.de>)
+ id 1vfjjn-0008Q2-JK; Tue, 13 Jan 2026 20:07:31 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH v8 0/3] Add i.MX91/93 parallel display support
+Date: Tue, 13 Jan 2026 20:07:26 +0100
+Message-Id: <20260113-v6-18-topic-imx93-parallel-display-v8-0-4abccdc473a5@pengutronix.de>
 MIME-Version: 1.0
-References: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
- <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
-In-Reply-To: <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
-From: Robert Nelson <robertcnelson@gmail.com>
-Date: Tue, 13 Jan 2026 12:22:37 -0600
-X-Gm-Features: AZwV_QgGjFNmrIcWdIpWbLrkpdUzkEwOLFO_r4C0G38vOy1_mGAz7cr1Zzr72TQ
-Message-ID: <CAOCHtYgW4Gzyed3oTofjZYzZ+Umr1Q2fxNm7uGDEUmnG-kXyOg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] accel/thames: Add driver for the C7x DSPs in TI SoCs
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>,
- Randolph Sapp <rs@ti.com>, 
- Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 13 Jan 2026 20:19:08 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO6XZmkC/5XNQQ6CMBCF4auYrh3TFijgynsYF9AOMEmFpkUCI
+ dzdwsrEjS7fZPL9KwvoCQO7nlbmcaJAQx9HcT4x3VV9i0Ambia5zITkAiYFooBxcKSBnnOZgKt
+ 8ZS1aMBScrRYos6aUSVo3SmsWIeexofmI3B9xdxTGwS9Hc1L79S8+vnDIa54pFJjVAm8O+/Y1+
+ qGn+WKQ7Y0p/3TlT24eXak1JsKoVPHiy9227Q2QmM2FMQEAAA==
+X-Change-ID: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+ Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,132 +66,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 11:45=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.ne=
-t> wrote:
->
-> Some SoCs from Texas Instruments contain DSPs that can be used for
-> general compute tasks.
->
-> This driver provides a drm/accel UABI to userspace for submitting jobs
-> to the DSP cores and managing the input, output and intermediate memory.
->
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  Documentation/accel/thames/index.rst |  28 +++++
->  MAINTAINERS                          |   9 ++
->  drivers/accel/Kconfig                |   1 +
->  drivers/accel/Makefile               |   3 +-
->  drivers/accel/thames/Kconfig         |  26 +++++
->  drivers/accel/thames/Makefile        |   9 ++
->  drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
->  drivers/accel/thames/thames_core.h   |  53 +++++++++
->  drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
->  drivers/accel/thames/thames_device.h |  46 ++++++++
->  drivers/accel/thames/thames_drv.c    | 156 +++++++++++++++++++++++++++
->  drivers/accel/thames/thames_drv.h    |  21 ++++
->  drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++=
-++++++
->  drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
->  drivers/accel/thames/thames_rpmsg.h  |  27 +++++
->  15 files changed, 985 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/t=
-hames/index.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ca8391031f226f7ef1dc210a3=
-56c86acbe126c6f
-> --- /dev/null
-> +++ b/Documentation/accel/thames/index.rst
-> @@ -0,0 +1,28 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> + accel/thames Driver for the C7x DSPs from Texas Instruments
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The accel/thames driver supports the C7x DSPs inside some Texas Instrume=
-nts SoCs
-> +such as the J722S. These can be used as accelerators for various workloa=
-ds,
-> +including machine learning inference.
-> +
-> +This driver controls the power state of the hardware via :doc:`remotepro=
-c </staging/remoteproc>`
-> +and communicates with the firmware running on the DSP via :doc:`rpmsg_vi=
-rtio </staging/rpmsg_virtio>`.
-> +The kernel driver itself allocates buffers, manages contexts, and submit=
-s jobs
-> +to the DSP firmware. Buffers are mapped by the DSP itself using its MMU,
-> +providing memory isolation among different clients.
-> +
-> +The source code for the firmware running on the DSP is available at:
-> +https://gitlab.freedesktop.org/tomeu/thames_firmware/.
-> +
-> +Everything else is done in userspace, as a Gallium driver (also called t=
-hames)
-> +that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
-> +
-> +If there is more than one core that advertises the same rpmsg_virtio ser=
-vice
-> +name, the driver will load balance jobs between them with drm-gpu-schedu=
-ler.
-> +
-> +Hardware currently supported:
-> +
-> +* J722S
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dc731d37c8feeff25613c59fe9c929927dadaa7e..a3fc809c797269d0792dfe520=
-2cc1b49f6ff57e9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7731,6 +7731,15 @@ F:       Documentation/devicetree/bindings/npu/roc=
-kchip,rk3588-rknn-core.yaml
->  F:     drivers/accel/rocket/
->  F:     include/uapi/drm/rocket_accel.h
->
-> +DRM ACCEL DRIVER FOR TI C7x DSPS
-> +M:     Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +L:     dri-devel@lists.freedesktop.org
-> +S:     Supported
-> +T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:     Documentation/accel/thames/
-> +F:     drivers/accel/thames/
-> +F:     include/uapi/drm/thames_accel.h
+Hi,
 
-Oh where is this "thames_accel.h" ? ;)
+this patchset adds the driver, dt-bindings and dt integration required
+to drive a parallel display on the i.MX93.
 
+Since the i.MX91 register layout equals the one from the i.MX93, I added
+the support for both but tested only the i.MX93 case.
 
-2026-01-13T18:16:11.881084Z 01E
-drivers/accel/thames/thames_drv.c:8:10: fatal error:
-drm/thames_accel.h: No such file or directory
-2026-01-13T18:16:11.881086Z 01E     8 | #include <drm/thames_accel.h>
-2026-01-13T18:16:11.881087Z 01E       |          ^~~~~~~~~~~~~~~~~~~~
-2026-01-13T18:16:11.881115Z 01E compilation terminated.
-2026-01-13T18:16:11.884552Z 01E make[8]: ***
-[scripts/Makefile.build:287: drivers/accel/thames/thames_drv.o] Error
-1
-2026-01-13T18:16:11.884694Z 01E make[7]: ***
-[scripts/Makefile.build:544: drivers/accel/thames] Error 2
-2026-01-13T18:16:11.884926Z 01E make[6]: ***
-[scripts/Makefile.build:544: drivers/accel] Error 2
-2026-01-13T18:16:11.884976Z 01E make[6]: *** Waiting for unfinished jobs...=
-.
+This patchset depends on:
+ - https://lore.kernel.org/all/20251201-v6-18-topic-imx93-blkctrl-v1-0-b57a72e60105@pengutronix.de/
 
-$ find . | grep thames_accel.h
-$ grep -R "thames_accel.h" ./*
-./drivers/accel/thames/Kconfig:      include/uapi/drm/thames_accel.h
-and is used by the Thames userspace
-./drivers/accel/thames/thames_job.c:#include <drm/thames_accel.h>
-./drivers/accel/thames/thames_drv.c:#include <drm/thames_accel.h>
-./drivers/accel/thames/thames_gem.c:#include <drm/thames_accel.h>
-./MAINTAINERS:F:    include/uapi/drm/thames_accel.h
+@Conor Dooley
+I dropped your r-b tag since I added the 'bus-width' property.
 
 Regards,
+  Marco
 
---=20
-Robert Nelson
-https://rcn-ee.com/
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+Changes in v8:
+- Link to v7: https://lore.kernel.org/r/20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de
+- dt-bindings: add nxp,imx91-pdfc compatible (Liu)
+- dt-bindings: use video-interfaces.yaml# (Liu)
+- dt-bindings: s/data lanes/data lines/ (Liu)
+- dt-bindings: drop 'reg' poperty
+- dt-bindings: drop #address-cells, #size-cells
+- imx93-pdfc: drop drm/drm_print.h include (Liu)
+- imx93-pdfc: s/exist/exists/ (Liu)
+- imx93-pdfc: drop MEDIA_BUS_FMT_FIXED from imx93_pdfc_bus_output_fmts
+- imx93-pdfc: imx93_pdfc_bus_output_fmt_supported: make fmt const
+- imx93-pdfc: Rework input-fmt selection to always fallback to a sane
+              default.
+- imx93-pdfc: imx93_pdfc_bridge_atomic_check: make use of
+	      imx93_pdfc_bus_output_fmt_supported() 
+- imx93-pdfc: drop 'reg' dt-property usage
+- imx93-pdfc: imx93_pdfc_bridge_probe: pass -1 for endpoint reg value (Liu)
+
+Changes in v7:
+- Link to v6: https://lore.kernel.org/r/20251201-v6-18-topic-imx93-parallel-display-v6-0-7b056e1e5b1e@pengutronix.de
+- Add missing bits.h and bitfield.h headers (lkp)
+
+Changes in v6:
+- Link to v5: https://lore.kernel.org/all/20250304082434.834031-1-victor.liu@nxp.com/
+- Add bus-width support
+- rebase onto v6.18-rc1
+- add review feedback (Alexander)
+- driver license "GPL v2" -> "GPL" (checkpatch)
+- make use of reg of-property
+- fix to short Kconfig description (checkpath)
+- add OF integration
+
+---
+Liu Ying (2):
+      dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC subnode to schema and example
+      drm/bridge: imx: Add i.MX93 parallel display format configuration support
+
+Marco Felsch (1):
+      arm64: dts: imx93: Add parallel display output nodes
+
+ .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml |  79 ++++++++
+ arch/arm64/boot/dts/freescale/imx91_93_common.dtsi |  54 +++++
+ arch/arm64/boot/dts/freescale/imx93.dtsi           |  12 ++
+ drivers/gpu/drm/bridge/imx/Kconfig                 |  11 +
+ drivers/gpu/drm/bridge/imx/Makefile                |   1 +
+ drivers/gpu/drm/bridge/imx/imx93-pdfc.c            | 221 +++++++++++++++++++++
+ 6 files changed, 378 insertions(+)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+
+Best regards,
+-- 
+Marco Felsch <m.felsch@pengutronix.de>
+
