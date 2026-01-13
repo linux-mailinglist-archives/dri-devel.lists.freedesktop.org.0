@@ -2,68 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2802BD18B23
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E3DD18BB3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:33:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A739210E33D;
-	Tue, 13 Jan 2026 12:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C347010E4BA;
+	Tue, 13 Jan 2026 12:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FZSyAGls";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F86X2kUR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE9F10E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768307174;
- bh=zOID85pYQNAz6QRHBxOnf8t7FGLiSz88ADTjpfHGDMI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FZSyAGls5i7EcvHPOlwHK6AWqOItfskDOPX48A5blfbCs3ISS3E4bYbReqz8c4c4N
- GbRoYu2vci6qtfDV8EDIJmr3m+X3EssSnI0fk839u34MW6/jMLJmNO51KpjFvOJDD3
- egZ6eTYk5aZrActXlWUeGEmkkgL3dyi2obRflrrmL7aHhaQKbL7cSFOJu9fHdiPxe4
- a82k+Kykbl2pU9vGa9HTV4KQOVxI9zm/1e0xKHta+spfnAhPq/2RDBkLZyWICQvYeb
- Gl6mdPeTEqlA+i4cSRSM4kW+IlsFYKHYndzf/fQrLwzlWR2N0rmgy2zSykVTBl+iwh
- egVPECtYxuOBQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7271417E10C8;
- Tue, 13 Jan 2026 13:26:13 +0100 (CET)
-Date: Tue, 13 Jan 2026 13:26:08 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Akash Goel
- <akash.goel@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Akhil P Oommen
- <akhilpo@oss.qualcomm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Chris Diamand <chris.diamand@arm.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v1 8/9] drm/panthor: Track the number of mmap on a BO
-Message-ID: <20260113132608.2ec5e8c3@fedora>
-In-Reply-To: <42366f2d-b1ee-4e08-9734-78deaadcd7d5@arm.com>
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-9-boris.brezillon@collabora.com>
- <c86e341d-0dd2-4a97-b047-f62f2aa64c7e@arm.com>
- <20260112153953.61eb20dc@fedora>
- <3c1b791c-f2e6-4199-af6c-920f52f4870c@arm.com>
- <20260112175931.541cc086@fedora>
- <42366f2d-b1ee-4e08-9734-78deaadcd7d5@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3858B10E4BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:33:26 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-47d182a8c6cso44087465e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 04:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768307605; x=1768912405; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
+ b=F86X2kUR+xYn7gKQj/F9RzVZ5PZdG2PfxzF0KA4eElRHRJBSnBqxTV6TgmQd8oHM88
+ XzFJrza4g2TxNfbAJfa+ypdHIiTy1S3ultUm1XRl28P9PdUd9cPGscXf0LlmMOw3KnvC
+ IcBIHuM/GH0fSCii53/S/JKwcxylA+yk8lMioiLlCV8yIIH79sfrE2iboo9uLmXKs9xA
+ +rGPCpMn4QpIONV0+LLIIrKSNnQf48dfJflhz+HpJLHZ8NGbLyg5X8Je2Jgb2+b0TvB+
+ Zklz9Vv3O700e51Qp0YcJ2VNu0h8Fi0Jzdv8u7hJNFEkaw0Kj9aCruFsz//cYH0ly4ZN
+ 43pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768307605; x=1768912405;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
+ b=eoMo2yqJqwaS9Pb9wC6nfjISM187YznT+BqD2SIXfKKpqSc0H6dxyt9j73HoHJplTY
+ zJlIAe4fmeRYBxx/11Utf3u2RLUT3b0FDlpFni+TVrw4fx8oJNQ8P3P0JH71cLbzC7Bi
+ JKdSDWhGYbJ6JZ8NV2HgYa8cd6EdGG8wt+S58V6LUkl/+/ZxckFt8XjZXcJntAEk79ui
+ HHNrjwOD5IDVAsrRx9CrtUtt8rUAE60S1f0rW08nEV2izhSTufsaO6aV7N+mIcad8kV3
+ /RQigNmxE9j/NXSLYTqsChx6J2aJrJJJk8EvuIt1nvuhqqlqgBr2jj8LuBs/ZErukuVO
+ 6Sxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWJn5h3HIPT9yKVyq8PdZhd3MuQ5Rr43CJ1v14GYlnXGd1wAYw6f9sYtuFjkTpWj8MZYyWWIEVvJFk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDVh/936VPShh1Earr+42sVRIsQ8AhyoSCI3nvEpXEeQD9gsYU
+ jh2HdHijvV5gnQl/e1YZixGUQ9FkNk8vtaGs1h2/Rv+KRJAwl8227Ztu
+X-Gm-Gg: AY/fxX6g9FliFJq3CeHhqsRmXa9wgZ54cECk1QgPkN3Nq2yQAiQBOEnVb9DUR35WTQE
+ OAi4HQtpr193uLEAKnyLz6cZzwPVzhBJYeCinHsX1n684/LJL+zIf0GWq9NtpWiKocNRDXknJ5X
+ TBVGeC1kNdTBOazNUaECBhze68e8QpnfCSoc3o6txJ+P7JhG6G9L5bsotPloDLNlBmKlv61u7aa
+ Udzwt60MiEwj/n0FRg/Hr/f4BMG07A1lWQL9LQjfhVlkehBl/605UN2hKnm0tLJm7ib6hoiIb5O
+ Fpt6RM88QeZNqjVejoFf/5MuosqQ2Vr/xhYh9K9dk0F/djqZVNCoFsu1CBlYoQlcBKo0W+NjKc3
+ xvBZcbp+Dl86pS/A/LU09XPXoqds3ry4KdYjSRHZdQ5nDELv4kp4s5c9pkxQg0QbOVNYmFIuatS
+ tTdFwvvOsMvPPTCFPzwnYpsSSxvqfgkYB4u6n2zdKxOG748VTKlOqhc7SdYmrJ3H/vVOAumcT6p
+ qH+SgpJYQuV
+X-Google-Smtp-Source: AGHT+IG8MSHR6UelEVmGpCyFD9NdUlMZd6tKUDDeZ0GaaRamXIcxo7BgHJmGz6YZQf7c2j4pEDiVyw==
+X-Received: by 2002:a05:600c:83c7:b0:479:3a86:dc1c with SMTP id
+ 5b1f17b1804b1-47d84b52e31mr244947625e9.36.1768307604465; 
+ Tue, 13 Jan 2026 04:33:24 -0800 (PST)
+Received: from orome (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47d7f390a69sm399651475e9.0.2026.01.13.04.33.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jan 2026 04:33:22 -0800 (PST)
+Date: Tue, 13 Jan 2026 13:33:20 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Akhil R <akhilrajeev@nvidia.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-crypto@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
+Message-ID: <aWY7f5V_VE2RY74T@orome>
+References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="u2bmktfhhry3gyx6"
+Content-Disposition: inline
+In-Reply-To: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,136 +103,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Jan 2026 17:10:12 +0000
-Steven Price <steven.price@arm.com> wrote:
 
-> On 12/01/2026 16:59, Boris Brezillon wrote:
-> > On Mon, 12 Jan 2026 16:49:33 +0000
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >> On 12/01/2026 14:39, Boris Brezillon wrote:  
-> >>> On Mon, 12 Jan 2026 12:33:33 +0000
-> >>> Steven Price <steven.price@arm.com> wrote:
-> >>>     
-> >>>> On 09/01/2026 13:08, Boris Brezillon wrote:    
-> >>>>> This will be used to order things by reclaimability.
-> >>>>>
-> >>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>>>> ---
-> >>>>>  drivers/gpu/drm/panthor/panthor_gem.c | 44 +++++++++++++++++++++++++--
-> >>>>>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
-> >>>>>  2 files changed, 45 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> >>>>> index 44f05bd957e7..458d22380e96 100644
-> >>>>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> >>>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> >>>>> @@ -484,6 +484,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
-> >>>>>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
-> >>>>>  			  refcount_read(&bo->cmap.vaddr_use_count));
-> >>>>>  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
-> >>>>> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
-> >>>>>  }
-> >>>>>  
-> >>>>>  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
-> >>>>> @@ -600,6 +601,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
-> >>>>>  	if (is_cow_mapping(vma->vm_flags))
-> >>>>>  		return -EINVAL;
-> >>>>>  
-> >>>>> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
-> >>>>> +		dma_resv_lock(obj->resv, NULL);
-> >>>>> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
-> >>>>> +			refcount_set(&bo->cmap.mmap_count, 1);
-> >>>>> +		dma_resv_unlock(obj->resv);
-> >>>>> +	}
-> >>>>> +
-> >>>>>  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> >>>>>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-> >>>>>  	if (should_map_wc(bo))
-> >>>>> @@ -732,10 +740,42 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
-> >>>>>  	return blocking_page_setup(vmf, bo, page_offset, true);
-> >>>>>  }
-> >>>>>  
-> >>>>> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
-> >>>>> +{
-> >>>>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> >>>>> +
-> >>>>> +	/* mmap_count must have been incremented at mmap time, so it can't be
-> >>>>> +	 * zero here.
-> >>>>> +	 */
-> >>>>> +	if (!drm_gem_is_imported(&bo->base))
-> >>>>> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
-> >>>>> +
-> >>>>> +	drm_gem_vm_open(vma);
-> >>>>> +}
-> >>>>> +
-> >>>>> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> >>>>> +{
-> >>>>> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> >>>>> +
-> >>>>> +	if (drm_gem_is_imported(&bo->base))
-> >>>>> +		goto out;
-> >>>>> +
-> >>>>> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
-> >>>>> +		goto out;
-> >>>>> +
-> >>>>> +	dma_resv_lock(bo->base.resv, NULL);
-> >>>>> +	if (!refcount_dec_not_one(&bo->cmap.mmap_count))
-> >>>>> +		refcount_set(&bo->cmap.mmap_count, 0);
-> >>>>> +	dma_resv_unlock(bo->base.resv);      
-> >>>>
-> >>>> I don't think this logic is safe. Holding the resv_lock doesn't protect
-> >>>> against another thread doing a refcount_inc_not_zero() without holding
-> >>>> the lock.
-> >>>>
-> >>>> I think you can just replace the if() part with a refcount_dec() call,
-> >>>> the lock AFAICT is needed because the following patch wants to be sure
-> >>>> that !!mmap_count is stable when resv_lock is held.    
-> >>>
-> >>> I wish I could, but refcount_dec() doesn't let me do the 1 -> 0 without
-> >>> complaining :P.    
-> >>
-> >> Yeah, I misread the refcount_dec() code the first time I looked at it.
-> >>  
-> >>>>
-> >>>> I also feel you should invert the conditino for refcount_dec_not_one,
-> >>>> leading to the following which I feel is easier to read:
-> >>>>
-> >>>> static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> >>>> {
-> >>>> 	[...]
-> >>>>
-> >>>> 	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
-> >>>> 		dma_resv_lock(bo->base.resv, NULL);
-> >>>> 		refcount_dec(&bo->cmap.mmap_count);
-> >>>> 		dma_resv_unlock(bo->base.resv);
-> >>>> 	}    
-> >>>
-> >>> The best I can do is:
-> >>>
-> >>>  	if (!refcount_dec_not_one(&bo->cmap.mmap_count)) {
-> >>>  		dma_resv_lock(bo->base.resv, NULL);
-> >>>  		if (!refcount_dec_not_one(&bo->cmap.mmap_count))    
-> >>
-> >> The problem is here - if another thread does an increment from 1 to 2 at
-> >> this point then we lose a reference count. And since you don't have to
-> >> hold the lock for that we have a problem.  
-> > 
-> > Okay, I see what you mean now. I was considering 0 -> 1, not 1 -> 2. So
-> > we really need a
-> > 
-> > 		if (refcount_dec_and_test(&bo->cmap.mmap_count))
-> > 			/* Do nothing */;  
-> 
-> Yes - I was just writing a longer email to say that ;)
-> 
-> I'm not sure if there's a better way of writing that - it does seem like
-> a missing function in the refcount API. I just worry it points to
-> refcounts being the wrong thing to use. But other than the missing
-> function the refcount API does work fine here.
+--u2bmktfhhry3gyx6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
+MIME-Version: 1.0
 
-New version (with changes as fixup commits) is here [1] in case you want
-to check it. I'll wait for more feedback on the shrinker implementation
-before posting a v2.
+On Wed, Dec 10, 2025 at 09:31:36AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>=20
+> with the eventual goal to get rid of the callbacks .probe(), .remove()
+> and .shutdown() in struct device_driver, migrate host1x to use bus
+> callbacks instead.
+>=20
+> Best regards
+> Uwe
+>=20
+> Uwe Kleine-K=C3=B6nig (2):
+>   host1x: Make remove callback return void
+>   host1x: Convert to bus methods
+>=20
+>  drivers/crypto/tegra/tegra-se-main.c      |  4 +-
+>  drivers/gpu/drm/tegra/drm.c               |  4 +-
+>  drivers/gpu/host1x/bus.c                  | 67 +++++++++++------------
+>  drivers/staging/media/tegra-video/video.c |  4 +-
+>  include/linux/host1x.h                    |  2 +-
+>  5 files changed, 37 insertions(+), 44 deletions(-)
 
-[1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commits/panthor-shrinker
+Applied, thanks.
+
+Thierry
+
+--u2bmktfhhry3gyx6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmlmO40ACgkQ3SOs138+
+s6GKWBAAkeHMxtj03MuTuHomrmoj2kYvczHvqu0BchkARJlcBuq1QbDBow2Tyjil
+qTY5YZp/VaU/tTbssrx5tdAsTOEK2yYugUOxfVz5IbyDzavUQAv8tq6kKLhY468g
+v4+p3ypGVT+XiQaAoQOn7GVdKp9X5SLxkJclGirBiepzO2CrJR6ci+NjBqaBBa7n
+mO8nh6jRN891vYt9IyZSd0VUf7W4K4mFS/RDKQaQYreFWSNiBAqdYMWCoUknnNY4
+lSKKIwp8IUO7wSW6kO7sEFfrQDdQjzp7kBDmG18NkhOsaXs+WjXgEFP3aQqKgmu9
+PYV79R8kRqMLuin51hrHrNvGuFbZqNOYFFJe86ipiO2wZTdXbaR4FjkBV5bGcj/a
+nwGAeax2FkhF4wGu9Zlfo0Zc0IuAb+S03c+RojN5EguuwTQpj8Fpd4TM6wLC/hur
+86LbYnh7oDIeq6rF31GpQv/uQKoXtbseL5CKi0uK9wc+MP0xP/LwONb8oNHbynRq
+rPyCADy46HhE0MX7Ki6wONVMloMept5PQdKzt7uizTB7W9cTZDJzIbPCq/kUhw4q
+AT9+bH0Pxgn7Q4MpCoQCwvz164tWFowRgcKmbuVO5Bp9WfkzhCNsp01s9+Y+PL+0
+1zY/BIC2SpeWjz1ip4Cl19Vid5SJ+6Tv/3EXKQ/PauUfgWbF2sU=
+=lJz6
+-----END PGP SIGNATURE-----
+
+--u2bmktfhhry3gyx6--
