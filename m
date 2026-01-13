@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72143D182B1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DD4D182BF
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D36010E4B0;
-	Tue, 13 Jan 2026 10:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6757710E4B1;
+	Tue, 13 Jan 2026 10:48:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nttcn8Ls";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FBLpvq3D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7267510E490;
- Tue, 13 Jan 2026 10:48:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D59710E4B3;
+ Tue, 13 Jan 2026 10:48:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768301331; x=1799837331;
+ t=1768301336; x=1799837336;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ttnICJt5IYENWLPuqHFYEXOSG6v+L8k1jixrSFejo8Y=;
- b=nttcn8LsGaUFKW2u8Dy8q+lZwGPFvqbk496LVYb6gc6ZoEk5wMMUrXF5
- nVtYvTsS7v2fdHsriicL11sW9idUofXqloFCW/aoNccYBXp6GUp/um0R/
- uWimMISu4ZYoyViNOBtl7U2MrDxeIgiae8onGmshJiOwmAyOqOtl6idrN
- DEQf3+Pzw+gwb2wMrHhSyRIIbHZRkVgMLn80FLF0GD0Waxu+//dqTkqE5
- FVeMkSfQ1ahfNuKNrDg2sB+FmmdRGhhd6BeElx8rDQkwm/juGW0fRcRl9
- AZ28MQP4cg7zbWIzb78BE2gN/rhtSeZbaZpw1d3jL/weuO7lqyTebtCp7 A==;
-X-CSE-ConnectionGUID: WO7zaduCQByVvniKa8ZgTg==
-X-CSE-MsgGUID: /sXIken3ST2beV/PNcTgGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165208"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165208"
+ bh=/18g7qvfF+UUqTUmW1+4l0aw9BQFw6UKKH3PiT9PeHo=;
+ b=FBLpvq3DXErHvc1vOBtVUbbZ0fJw8tw0+RukGkfXOaJcODbiLHNxCwvN
+ /L9wmURIaFZbFxS1MUSkuiM6D3L7YwA+em77XQErN/5RJaIRtJW9Jldjl
+ OlVgY1Gdk1R2tkCC0IyYea1awO1n5FlfjdRDjNaNHIYVVUsG0l2IL0Yof
+ x6e5T7U1yCpKaDbF1ivovbfWCAby/bgVYFVEY1SwbhF/YiirGpRW16blq
+ 1K7W54Uu+dBeB6zYTWOqcJmfi0ludfZhAWTwWFem0v2IfDxXU+1ryKT1h
+ s12Hl7s8VaglAjCnp+5ZvmAVhzoujMz0YHqbVdZuujkp6jBT3lrnMQ2VG w==;
+X-CSE-ConnectionGUID: lmHrdfZZSAa5MhYBRmUH2g==
+X-CSE-MsgGUID: ID66bSvHQHCvsOjPxHrFSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87165214"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="87165214"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2026 02:48:51 -0800
-X-CSE-ConnectionGUID: qdUrcqTJRBaAIMckZYbHrA==
-X-CSE-MsgGUID: nDJa8XW2Q/quOnZbauFUCw==
+ 13 Jan 2026 02:48:56 -0800
+X-CSE-ConnectionGUID: AOdgo9BmQN+xgBXJ3T9u4Q==
+X-CSE-MsgGUID: l5zL2Av8SAKP+7wkPPniig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554604"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; d="scan'208";a="227554614"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:48:47 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2026 02:48:51 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
@@ -48,9 +48,10 @@ Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
  alex.hung@amd.com, daniels@collabora.com, uma.shankar@intel.com,
  suraj.kandpal@intel.com, nfraprado@collabora.com,
  ville.syrjala@linux.intel.com, matthew.d.roper@intel.com
-Subject: [PATCH v3 05/13] drm/colorop: Add destroy helper for colorop objects
-Date: Tue, 13 Jan 2026 15:52:55 +0530
-Message-Id: <20260113102303.724205-6-chaitanya.kumar.borah@intel.com>
+Subject: [PATCH v3 06/13] drm: Allow driver-managed destruction of colorop
+ objects
+Date: Tue, 13 Jan 2026 15:52:56 +0530
+Message-Id: <20260113102303.724205-7-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
 References: <20260113102303.724205-1-chaitanya.kumar.borah@intel.com>
@@ -71,61 +72,376 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper that performs common cleanup and frees the
-associated object. This can be used by drivers if they do not
-require any driver-specific teardown.
+Some drivers might want to embed struct drm_colorop inside
+driver-specific objects, similar to planes or CRTCs. In such
+cases, freeing only the drm_colorop is incorrect.
 
-v2:
-- Add function documentation only before definition (Jani)
+Add a drm_colorop_funcs callback to allow drivers to provide a destroy
+hook that cleans up the full enclosing object. Make changes in helper
+functions to accept helper functions as argument. Pass NULL for now
+to retain current behavior.
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 Reviewed-by: Alex Hung <alex.hung@amd.com>
 ---
- drivers/gpu/drm/drm_colorop.c | 15 +++++++++++++++
- include/drm/drm_colorop.h     |  2 ++
- 2 files changed, 17 insertions(+)
+ .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 18 ++++++-----
+ drivers/gpu/drm/drm_colorop.c                 | 31 +++++++++++++------
+ .../drm/i915/display/intel_color_pipeline.c   |  8 ++---
+ drivers/gpu/drm/vkms/vkms_colorop.c           | 10 +++---
+ include/drm/drm_colorop.h                     | 30 +++++++++++++++---
+ 5 files changed, 66 insertions(+), 31 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+index a2de3bba8346..dfdb4fb4219f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+@@ -72,7 +72,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
++	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL,
+ 					      amdgpu_dm_supported_degam_tfs,
+ 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+@@ -89,7 +89,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_mult_init(dev, ops[i], plane, DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	ret = drm_plane_colorop_mult_init(dev, ops[i], plane, NULL, DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
+ 
+@@ -104,7 +104,8 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, NULL,
++					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
+ 
+@@ -120,7 +121,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 			goto cleanup;
+ 		}
+ 
+-		ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
++		ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL,
+ 						amdgpu_dm_supported_shaper_tfs,
+ 						DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 		if (ret)
+@@ -137,7 +138,8 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 			goto cleanup;
+ 		}
+ 
+-		ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, MAX_COLOR_LUT_ENTRIES,
++		ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, NULL,
++							MAX_COLOR_LUT_ENTRIES,
+ 							DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 							DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 		if (ret)
+@@ -154,7 +156,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 			goto cleanup;
+ 		}
+ 
+-		ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, LUT3D_SIZE,
++		ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, NULL, LUT3D_SIZE,
+ 					DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
+ 					DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 		if (ret)
+@@ -172,7 +174,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
++	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL,
+ 					      amdgpu_dm_supported_blnd_tfs,
+ 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+@@ -189,7 +191,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, MAX_COLOR_LUT_ENTRIES,
++	ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, NULL, MAX_COLOR_LUT_ENTRIES,
+ 						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
 diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 44eb823585d2..c226870fde9e 100644
+index c226870fde9e..2bce29176ab3 100644
 --- a/drivers/gpu/drm/drm_colorop.c
 +++ b/drivers/gpu/drm/drm_colorop.c
-@@ -178,6 +178,21 @@ void drm_colorop_cleanup(struct drm_colorop *colorop)
- }
- EXPORT_SYMBOL(drm_colorop_cleanup);
+@@ -93,7 +93,8 @@ static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_list[] =
+ /* Init Helpers */
  
-+/**
-+ * drm_colorop_destroy - destroy colorop
-+ * @colorop: drm colorop
-+ *
-+ * Destroys @colorop by performing common DRM cleanup and freeing the
-+ * colorop object. This can be used by drivers if they do not
-+ * require any driver-specific teardown.
-+ */
-+void drm_colorop_destroy(struct drm_colorop *colorop)
-+{
-+	drm_colorop_cleanup(colorop);
-+	kfree(colorop);
-+}
-+EXPORT_SYMBOL(drm_colorop_destroy);
-+
- /**
-  * drm_colorop_pipeline_destroy - Helper for color pipeline destruction
-  *
+ static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				  struct drm_plane *plane, enum drm_colorop_type type,
++				  struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				  enum drm_colorop_type type,
+ 				  uint32_t flags)
+ {
+ 	struct drm_mode_config *config = &dev->mode_config;
+@@ -109,6 +110,7 @@ static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *co
+ 	colorop->type = type;
+ 	colorop->plane = plane;
+ 	colorop->next = NULL;
++	colorop->funcs = funcs;
+ 
+ 	list_add_tail(&colorop->head, &config->colorop_list);
+ 	colorop->index = config->num_colorop++;
+@@ -218,6 +220,7 @@ EXPORT_SYMBOL(drm_colorop_pipeline_destroy);
+  * @dev: DRM device
+  * @colorop: The drm_colorop object to initialize
+  * @plane: The associated drm_plane
++ * @funcs: control functions for the new colorop
+  * @supported_tfs: A bitfield of supported drm_plane_colorop_curve_1d_init enum values,
+  *                 created using BIT(curve_type) and combined with the OR '|'
+  *                 operator.
+@@ -225,7 +228,8 @@ EXPORT_SYMBOL(drm_colorop_pipeline_destroy);
+  * @return zero on success, -E value on failure
+  */
+ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				    struct drm_plane *plane, u64 supported_tfs, uint32_t flags)
++				    struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				    u64 supported_tfs, uint32_t flags)
+ {
+ 	struct drm_prop_enum_list enum_list[DRM_COLOROP_1D_CURVE_COUNT];
+ 	int i, len;
+@@ -246,7 +250,7 @@ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_CURVE, flags);
++	ret = drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_1D_CURVE, flags);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -303,20 +307,23 @@ static int drm_colorop_create_data_prop(struct drm_device *dev, struct drm_color
+  * @dev: DRM device
+  * @colorop: The drm_colorop object to initialize
+  * @plane: The associated drm_plane
++ * @funcs: control functions for new colorop
+  * @lut_size: LUT size supported by driver
+  * @interpolation: 1D LUT interpolation type
+  * @flags: bitmask of misc, see DRM_COLOROP_FLAG_* defines.
+  * @return zero on success, -E value on failure
+  */
+ int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
+-					struct drm_plane *plane, uint32_t lut_size,
++					struct drm_plane *plane,
++					const struct drm_colorop_funcs *funcs,
++					uint32_t lut_size,
+ 					enum drm_colorop_lut1d_interpolation_type interpolation,
+ 					uint32_t flags)
+ {
+ 	struct drm_property *prop;
+ 	int ret;
+ 
+-	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LUT, flags);
++	ret = drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_1D_LUT, flags);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -354,11 +361,12 @@ int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_color
+ EXPORT_SYMBOL(drm_plane_colorop_curve_1d_lut_init);
+ 
+ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				   struct drm_plane *plane, uint32_t flags)
++				   struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				   uint32_t flags)
+ {
+ 	int ret;
+ 
+-	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_CTM_3X4, flags);
++	ret = drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_CTM_3X4, flags);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -378,16 +386,18 @@ EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
+  * @dev: DRM device
+  * @colorop: The drm_colorop object to initialize
+  * @plane: The associated drm_plane
++ * @funcs: control functions for the new colorop
+  * @flags: bitmask of misc, see DRM_COLOROP_FLAG_* defines.
+  * @return zero on success, -E value on failure
+  */
+ int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				struct drm_plane *plane, uint32_t flags)
++				struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				uint32_t flags)
+ {
+ 	struct drm_property *prop;
+ 	int ret;
+ 
+-	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_MULTIPLIER, flags);
++	ret = drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_MULTIPLIER, flags);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -406,6 +416,7 @@ EXPORT_SYMBOL(drm_plane_colorop_mult_init);
+ 
+ int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 				 struct drm_plane *plane,
++				 const struct drm_colorop_funcs *funcs,
+ 				 uint32_t lut_size,
+ 				 enum drm_colorop_lut3d_interpolation_type interpolation,
+ 				 uint32_t flags)
+@@ -413,7 +424,7 @@ int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *col
+ 	struct drm_property *prop;
+ 	int ret;
+ 
+-	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_3D_LUT, flags);
++	ret = drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_3D_LUT, flags);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index 04af552b3648..d3d73d60727c 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -25,7 +25,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_PRE_CSC_LUT);
+ 
+-	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
++	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, NULL,
+ 						  PLANE_DEGAMMA_SIZE,
+ 						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+@@ -39,7 +39,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	prev_op = &colorop->base;
+ 
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
++	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane, NULL,
+ 					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		return ret;
+@@ -52,7 +52,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
+ 		colorop = intel_colorop_create(INTEL_PLANE_CB_3DLUT);
+ 
+-		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane, 17,
++		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane, NULL, 17,
+ 						   DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
+ 						   true);
+ 		if (ret)
+@@ -64,7 +64,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+ 	}
+ 
+ 	colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
+-	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
++	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane, NULL,
+ 						  PLANE_GAMMA_SIZE,
+ 						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+index d03a1f2e9c41..9e9dd0494628 100644
+--- a/drivers/gpu/drm/vkms/vkms_colorop.c
++++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+@@ -31,7 +31,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs,
++	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL, supported_tfs,
+ 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
+@@ -48,7 +48,8 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, NULL,
++					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
+ 
+@@ -64,7 +65,8 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane, NULL,
++					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
+ 
+@@ -80,7 +82,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
+-	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs,
++	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, NULL, supported_tfs,
+ 					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 	if (ret)
+ 		goto cleanup;
 diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index a3a32f9f918c..3056f3f02597 100644
+index 3056f3f02597..bd082854ca74 100644
 --- a/include/drm/drm_colorop.h
 +++ b/include/drm/drm_colorop.h
-@@ -420,6 +420,8 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
-  */
- void drm_colorop_reset(struct drm_colorop *colorop);
+@@ -187,6 +187,19 @@ struct drm_colorop_state {
+ 	struct drm_atomic_state *state;
+ };
  
-+void drm_colorop_destroy(struct drm_colorop *colorop);
++/**
++ * struct drm_colorop_funcs - driver colorop control functions
++ */
++struct drm_colorop_funcs {
++	/**
++	 * @destroy:
++	 *
++	 * Clean up colorop resources. This is called at driver unload time
++	 * through drm_mode_config_cleanup()
++	 */
++	void (*destroy)(struct drm_colorop *colorop);
++};
 +
  /**
-  * drm_colorop_index - find the index of a registered colorop
-  * @colorop: colorop to find index for
+  * struct drm_colorop - DRM color operation control structure
+  *
+@@ -362,6 +375,8 @@ struct drm_colorop {
+ 	 */
+ 	struct drm_property *next_property;
+ 
++	/** @funcs: colorop control functions */
++	const struct drm_colorop_funcs *funcs;
+ };
+ 
+ #define obj_to_colorop(x) container_of(x, struct drm_colorop, base)
+@@ -390,17 +405,22 @@ void drm_colorop_pipeline_destroy(struct drm_device *dev);
+ void drm_colorop_cleanup(struct drm_colorop *colorop);
+ 
+ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				    struct drm_plane *plane, u64 supported_tfs, uint32_t flags);
++				    struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				    u64 supported_tfs, uint32_t flags);
+ int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
+-					struct drm_plane *plane, uint32_t lut_size,
++					struct drm_plane *plane,
++					const struct drm_colorop_funcs *funcs,
++					uint32_t lut_size,
+ 					enum drm_colorop_lut1d_interpolation_type interpolation,
+ 					uint32_t flags);
+ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				   struct drm_plane *plane, uint32_t flags);
++				   struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				   uint32_t flags);
+ int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				struct drm_plane *plane, uint32_t flags);
++				struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
++				uint32_t flags);
+ int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+-				 struct drm_plane *plane,
++				 struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
+ 				 uint32_t lut_size,
+ 				 enum drm_colorop_lut3d_interpolation_type interpolation,
+ 				 uint32_t flags);
 -- 
 2.25.1
 
