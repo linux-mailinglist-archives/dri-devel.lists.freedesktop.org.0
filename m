@@ -2,77 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1401FD1B5DD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 22:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D74D1B674
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 22:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668C010E20A;
-	Tue, 13 Jan 2026 21:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD42A10E54B;
+	Tue, 13 Jan 2026 21:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BsAnh/NS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AN5crtGL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F33510E20A
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 21:14:29 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-b871ba73f49so380552466b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 13:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768338867; x=1768943667; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pQigQI/8admlpIuls6ZhRKbo+cO5u2/w2RF0qKuRaZQ=;
- b=BsAnh/NSegebds7sROCdafl3YFthGG8Oz3gRLVr9V9Gr8PCBYM/xnrLnqWuLYEWJRM
- kajPtQoQuf2kpzhJKyCebnJQqSvloRfOGdhEaTMUCoapcx3lGVKmG+6JpgzPT6GX+3tw
- afagbXitblFLAarkKIG/B+wZLYo0XhnDG2atTihaM2+zQWl0JDMIdpkJ3ifFhj1OEnKR
- JqlEWfkXJmtQu/3ujv5DhhaYUO1N5CQOnblWVMvqm6i18CbspSkAPYRcDGutTRQmbaUp
- YHq7p1nr7/PabjewE96SaDC26SSPRBHH75dX5nlwcOXwBS8O2FOn9haKThQiRehohtuD
- Gj/Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F416A10E54D
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 21:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1768339999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jP7f0lQJG9KXkNw18KBRK9Mc0gzLz/Z1noHFWbbNo8Y=;
+ b=AN5crtGLe8p+QbWIoKGZodnuFRiLHIGwxLH60JsUj435whgJqrLg5DtQKK+VrX3ESBJ0Q1
+ T60OD3Or0kvyob/E9EdzDoEt3n/G+oH8JwSrVJ6wGOHGDVYOevpAS/ABvl8s55Vhecwv1/
+ 7QAMjgmDHSCsWTtZY65UYpX9O8tVamA=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-458-1pC_MO76OwGUZY2PuK68PQ-1; Tue, 13 Jan 2026 16:33:15 -0500
+X-MC-Unique: 1pC_MO76OwGUZY2PuK68PQ-1
+X-Mimecast-MFC-AGG-ID: 1pC_MO76OwGUZY2PuK68PQ_1768339995
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4ee0c1c57bcso326386841cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 13:33:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768338867; x=1768943667;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=pQigQI/8admlpIuls6ZhRKbo+cO5u2/w2RF0qKuRaZQ=;
- b=uPet1qEBKCjtNzHrg3h2W7O2rj78Er4Od4QlNfyTYf73uaO8mgtcIFWC2jZvXloGS+
- 7uKKuM7imJptB+r914MDPlyQiFyW8a41TsFFKYpwqhOgOcbHmCt+gSJENYvqkESakxMu
- i9vNlKhu2sh4OITsEcAE9+fbwH4tNHMB1mhuNYFFuSd5kmSgv4Pcidpw7xSdlRO/h8kM
- zVUj0otZJj/l/5Fm6lrgmf2ye+XZCJOaY4UVD5P9rxw80qUelL+Sq2FzhCnMr+LlB37J
- kGaWM6O4//3JvQXs7foCXdPmt7HCDbbrR2irVfVloMJCqwBxzP8J435rqI3u9nfaE3Wl
- lakw==
+ d=1e100.net; s=20230601; t=1768339995; x=1768944795;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jP7f0lQJG9KXkNw18KBRK9Mc0gzLz/Z1noHFWbbNo8Y=;
+ b=AciAhv+jUgl75xQf3YJ78HKPiDW2og+5aaZ6qYOS/8ZC/CIOZSl5j6rzayIITl5w74
+ tACegB47/gSHTPhQ5OQSkgJMSJa90Afd4kb7Oc0ou5I6tGL42+SLXJWOqoDYbQb438aP
+ y07G3tduoOG1534s3crMm1a1Cj14LxnNjxxCE6RIH7T7UF7PrGpjkXyVEyx0qiL/YKp4
+ 41OVnsam1FhegkNa0nrYxyfeJ1KhvhBr8gdrcknmJaKGMWgYh9ux7uF4oicYzRMLiKjY
+ dqMRIys7ymk10hgYo5jIJ/QFR2JkkBWwqoLKsoHJFHojHjzP21b30BCFgIQgAEX6X10e
+ PNbQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWEysLfyyn/8cqt0iyPFlj4kbbqcVJ4fdY8J7OQoxVrO7RBmj1ltAlEhwi8aHsX0gOqC2r/3Epp3nA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylyNjaD5z7CXHCfrnqDiny8PSCa0dNeZHtTg2j3Cd5BMCGj1MC
- dJlES2CaqqQpHUtFE9Axf68dvD637KLitsuweU/3sUzA3TPj4uUkKpt0U/BnByVzQF2GWpblSNM
- jMSiPxDqZ8awXw1pcYTnHJ256GP84V+8=
-X-Gm-Gg: AY/fxX6dXKff3X4/qqzb669HqsF84SJJtod8OFqtOlZk/e4ou7Y18wOzg9osCO5BjYz
- DlpNxDVqiAAgneF/YB84gsRNI5KSJc2HgtBlI4jeqti59KG1SKVxNm4UaAQNbWn5c9Bqx9VWtYf
- wSzObRbEVAX2RnOGuSaE9A4q3vEkv5GO7etOwy/ZqPJmA0WQTP3LOw6iXjB4Ntnq08uM5fYgAF2
- cz9bD8JOJi3KUZPZlACGdTshPGUPzk61R0wkZsTLSZmyaBj5bRAwod6hV6P4gCMTXK38RcjVmcW
- vQS2RTpTgf0MQAXswcyj6OpU5VP5PnL/PXbkdyNbc3DvD+PZArbEfdg7tDS1j0ZzJ3bZtHc=
-X-Received: by 2002:a17:907:6ea5:b0:b79:f4e4:b544 with SMTP id
- a640c23a62f3a-b876103e568mr44161266b.21.1768338867286; Tue, 13 Jan 2026
- 13:14:27 -0800 (PST)
+ AJvYcCXqb9BmafqEvdh4w900A8eRhWlvkGSBRCpGLxcYACJ4QQpqWvU7SqxD/C4j0hrr4b8jRaQq/ME9mr8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIBXgkKSE4ZQDrp5JxFSdFCx3dbyCkjfg0Er7CKHYV5lZq7NYG
+ pMwM0yRFKqNYNZXMNoMy2clO+yKhyAwM1tDS6CdMEULtnVKgMK4RpOBHPIYdOom8Udv4INe1jCr
+ TNThbRzbr6LGBlj9FsUJSM93eVTqqnB3DPJrfr/KatHhAEw+AzB0QeBrrsztiY6zBqdec5g==
+X-Gm-Gg: AY/fxX53Z5XqnbOYlJ/VCJTaCcfqG1CX/QpI7JHsBsO1yViiuT4gpuiWpkHM5mmmPtr
+ OgND7tylIyYwlBWQaOXwY61UuWRvh3QLuAn5usi9CoWMrQq84RSSyXHAWh7wLfhOmv/Se5mgW4o
+ lAo6u4Nbg+EgSQkRrYsOWswewIq6yGtWwY039D/FNDGq5i57IXvgpl5VUYHaJNTNAZm6RhC7Gkq
+ 38tpp9Uc/HSZMWYfTLnDzQyc42BlLbvVVGeRITAGXndc7VYvySv9lZ+TGDNcTUHYmoqQMivBfNr
+ HGTGirOhsb7S1iH2r7GRFiwpR65T/tFGA+9W2d8cDUOrZx+7+cPfq1s9LLXqSh+CT9OeHJOzCyc
+ 13goajuH3CibCV0oCWnpEB0+tOKQcVANMf0neILfdG3hrG9QcOS8=
+X-Received: by 2002:a05:622a:c6:b0:4ee:19f2:9f1b with SMTP id
+ d75a77b69052e-5014822bafemr8156901cf.37.1768339995143; 
+ Tue, 13 Jan 2026 13:33:15 -0800 (PST)
+X-Received: by 2002:a05:622a:c6:b0:4ee:19f2:9f1b with SMTP id
+ d75a77b69052e-5014822bafemr8156571cf.37.1768339994692; 
+ Tue, 13 Jan 2026 13:33:14 -0800 (PST)
+Received: from localhost (pool-100-17-20-16.bstnma.fios.verizon.net.
+ [100.17.20.16]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-89077268016sm164280926d6.46.2026.01.13.13.33.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jan 2026 13:33:14 -0800 (PST)
+From: Eric Chanudet <echanude@redhat.com>
+Subject: [PATCH v2 0/2] dma-buf: system_heap: account for system heap
+ allocation in memcg
+Date: Tue, 13 Jan 2026 16:32:43 -0500
+Message-Id: <20260113-dmabuf-heap-system-memcg-v2-0-e85722cc2f24@redhat.com>
 MIME-Version: 1.0
-References: <20260113210559.3020-1-gideonadjei.dev@gmail.com>
-In-Reply-To: <20260113210559.3020-1-gideonadjei.dev@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 13 Jan 2026 23:13:51 +0200
-X-Gm-Features: AZwV_QjOLtUncA12ujRVp-N3ahqpmevsE8icLNdM6IvrWboaeofcQ5aBk58-iqo
-Message-ID: <CAHp75VcGTgd6T4p-5ceE61Y3CGQ4qriXh=VV3kBi=hEF9hNPWw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: fbtft: Change udelay() to usleep_range()
-To: Gideon Adjei <gideonadjei.dev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Abdun Nihaal <abdun.nihaal@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>,
- Jianglei Nie <niejianglei2021@163.com>, Matthew Wilcox <willy@infradead.org>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zXNQQ7CIBCF4as0s3YaoILVlfcwLkaYFha0DVCja
+ Xp30cTlt3j/2yBzCpzh0myQ+BlymKcKdWjAeppGxuCqQQllhBQKXaTHOqBnWjC/c+GIkaMd0fa
+ Gul46YzqCOl8SD+H1S9/u1UOaIxafmP5BLZWU8txJYdqT1sdeo0L+3q6Or4mdp9LaOcK+fwCrp
+ AtLqAAAAA==
+X-Change-ID: 20260102-dmabuf-heap-system-memcg-c86a381d663a
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maxime Ripard <mripard@redhat.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Eric Chanudet <echanude@redhat.com>
+X-Mailer: b4 0.14.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aTsMtK2ZN5YFriMwu1QblGR60__Oc3nLmeG7MS6BUio_1768339995
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,20 +109,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 11:06=E2=80=AFPM Gideon Adjei <gideonadjei.dev@gmai=
-l.com> wrote:
->
-> Replace udelay() calls >=3D 100us with usleep_range() to avoid busy-waiti=
-ng.
->
-> The delays are used in init_display() callbacks. These callbacks are
-> invoked by fbtft_probe_common() during the driver's probe path. the
-> probe path runs in process context which already uses sleeping APIs.
-> This makes usleep_range() safe to use in these situations.
+Capture dmabuf system heap allocations in memcg following prior
+conversations[1][2]. Disable this behavior by default unless configured
+by "dma_heap.mem_accounting" module parameter.
 
-Nice, now can we switch to modern API, i.e. fsleep()?
+[1] https://lore.kernel.org/dri-devel/Z-5GZ3kJDbhgVBPG@phenom.ffwll.local/
+[2] https://lore.kernel.org/all/CABdmKX2_UOENujpW0dXe0Z0x+4V3onfGDmHf1DMOXfDha6ddOA@mail.gmail.com/
 
+Changes in v2:
+- Add a module parameter to enable dma-buf cgroup accounting, disabled
+  by default.
+- Split system_heap logic in its own commit.
+- Link to v1: https://lore.kernel.org/lkml/20251211193106.755485-2-echanude@redhat.com/
 
---=20
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: Eric Chanudet <echanude@redhat.com>
+---
+Eric Chanudet (2):
+      dma-buf: heaps: add parameter to account allocations using cgroup
+      dma-buf: system_heap: account for system heap allocation in memcg
+
+ drivers/dma-buf/dma-heap.c          | 5 +++++
+ drivers/dma-buf/heaps/system_heap.c | 9 +++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+---
+base-commit: b71e635feefc852405b14620a7fc58c4c80c0f73
+change-id: 20260102-dmabuf-heap-system-memcg-c86a381d663a
+
+Best regards,
+-- 
+Eric Chanudet <echanude@redhat.com>
+
