@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B99D1AB11
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 18:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730F6D1AB1A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 18:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB56210E51F;
-	Tue, 13 Jan 2026 17:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD26E10E528;
+	Tue, 13 Jan 2026 17:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
  [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29E1D10E51F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:44:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870A310E523
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:44:54 +0000 (UTC)
 Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-64b921d9e67so13479886a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:44:52 -0800 (PST)
+ 4fb4d7f45d1cf-64d4d8b3ad7so12668450a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:44:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768326291; x=1768931091;
+ d=1e100.net; s=20230601; t=1768326293; x=1768931093;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=rvL++eFf8eIVqP6taVlc3hrlge6qjnL7ItzEPQWhJc8=;
- b=Wz6QVDLEuF4wGcyqZyYX3DxS3s1zqiL+YFfmlpjdxHv02jN6Rj4GwDf2LP2sEYAtxR
- NU6b7ew966hsq7gDDDAlim6C1FJunokg2eS98kqo30GU8m4tgiLLP54YSfc/7OjODp94
- xL3pz6p6ydMhwLuyREIz4sdqvhwR7RmkYcbSUVngPUuUdKFU0sXCG8kQMkz3qkLqN42X
- PbhPdjSlSlYSIL2nzE0N6e60oVSxkKMe28kvDOtnKX+kFBOKeCHEJfQ6TxTgTuZHQx6c
- XRcSWR/y0Tl/KwvcZKazqegL0S+0X7GNLIjDmxs292JQcUgfIgJM+o3WMv1YrKcEralV
- FqhQ==
+ bh=v2l8wIBjsApl5lsjMAOqlkMIbLPfjDWiLseIy2qbcjU=;
+ b=bsBJGnOus5GpTeHVvEFPAZPMryw0rCTe/123g99w5aVomYjX7emaUTV0NizUqJpK+Z
+ 7J7+Bdaxrc0UT4qTb9B9SnzsGsrMIbcpfrFxu4CCrGGqtWaWp+AxAMuRJw90k90usg5r
+ mhzIjXuW4y60vl7/4HL0o5muh7PeIPe7F9yGq7aqRz1qO49XLKLiVBSMgIsVc8/eAp+6
+ 9ZGQ8ff+aqr8He2qqeXRFwKVzXrSCEFJc9R6FtZK+qBhBtNharCRhcy0PYavHnx/PmrH
+ lvRxiVffdmj0ciJR4XgFMmtB9CEPhK3Js/KHRB8/HPTN+d16k2A2EVNtFNfLygXm7Zf/
+ DRSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUN3KYHV4PwoP8QxV2arIdrhgDpjPwnyQePDa7bM2NemHZJud9+BD9AxtSRdTdHZbLMg8xe4YJGp/g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyuv//S6/a6MGsn5UqNxu5YvZsifa5aljYmv/ZmUybYsgU8wR/w
- WXIvjiWtPM1Gv/mgL79DKkyP/xwf2oxu4dBO6mrt73GyRMsKCYVTNZ0o
-X-Gm-Gg: AY/fxX6INwJteLIYzdOoRo3tscOcvvh/UOWnTO97akBNJC+o9hf5ysRjvPVYI4j7L8y
- Kp8I+4aU9wL5pvy52UKi2o6SxrGrUXRPoLW1HKgQLEumn/VKX3Ela7PyiJo3mYGHfC5eNpqtLR6
- vv4Nqi2v5tD3LaU0HBhcRS28DRRj4pjzg5hji6DJ7tWtetHnbD32sY5gOXmVzbq/uCSa3akU28k
- R7JTk4a7c6KjtGxjEgCm09pnxNrpHvtUlg0zqzremG2CgqutLZo2vufQcfIlIwqsqbZSeDpymdI
- TBo/kOc9LVyjycIUXstfI0Dqu4mh4Np0FD8rCD5NDNj7OrJxfIJ48uvjY2QvFcB3Sf0paUKw6oy
- syhvfFIpfITZIcj9S465rr5j/JnpNlb/MC6eGyT62gRROg79rK+oxwQUsMapSmwz16LZOuXZOb4
- r8K8/i6RSOJaZOXMQeobEu6m6apf6pTvCJdJLkIazflCeZDzzKb+hEkD4u
-X-Google-Smtp-Source: AGHT+IHzxhLlXygniXug99OqLhNTIK+UUK5hfdOz7lu2pci3DfQuJ116g0HkeQWy/Tth8IooGn8ofQ==
-X-Received: by 2002:a05:6402:2114:b0:64c:e9b6:14d7 with SMTP id
- 4fb4d7f45d1cf-65097e5ee3dmr18671624a12.24.1768326290238; 
- Tue, 13 Jan 2026 09:44:50 -0800 (PST)
+ AJvYcCX4gYAV8Po/qnJ3NJttittNhJCaiY6UznQWWVRg844kW4YizJ9apXFKcb6C3LPbYwGgGudT8BDY/ZQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywk2ZPDPAFF4a/nKMky1nCyTWp5tLuuM1g8Tt6EQkBye6Kd7qAp
+ TuaHBd0PcM8H5wiz14nCjdTRKrOCk4igfWv58TEfW69vFdBci9G3O+S/
+X-Gm-Gg: AY/fxX5QHPZOUhyufZB/e/IuXyR1BmI2MruGJW9xw/pI4PM/9BNLqLyXwAYaCHeqYOV
+ 068b7PGbopLZ5b5uL1TCSwEUsZBaEXC4sXklh+9wKExUOV8Wac5RpwGQq/dHjBK4/ax/bDb3aRV
+ aXr6OoMJ8j+f69piE4XyY1fk3u3DlNG7VXv9Q52eYIEvC7wD2kZHUFYPIn4wD/tr31Zk1cgcENB
+ hCToxygQMH9nDYPYsXVW+nNsEvUXsKMqRtPzO/i2zE0G2N3AgQQb5+UrlFIWNjbRYAKaT1Qjp8L
+ DUwTfyrBzBCvL8hB3386i45kCwTXAexl+w0wY9t7eFI94b/FyEx0bWYxvzQHP6+OiO1DWNi0qAB
+ nEwQlQbCbKhEeVOcoJ/RjEnrGzTQJrSRkmvjwLIqpQO/aqx7C7iyRZJDNjn6KL49WlURJtSVkey
+ AIEFgGwZvEb/JOrq+zsQcrVPCGC/scddlkJwCKJBxz5UsNGg==
+X-Google-Smtp-Source: AGHT+IGYYREEN/5lBbERJSEIoYk6+xX8TKQHB6V6QK9t02Hm3hex4r4o0KRxPxU4VDxzdmDeNKmVmQ==
+X-Received: by 2002:a05:6402:1e92:b0:653:9cd7:2004 with SMTP id
+ 4fb4d7f45d1cf-6539cd72323mr1132657a12.28.1768326292719; 
+ Tue, 13 Jan 2026 09:44:52 -0800 (PST)
 Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6507be655aesm20873259a12.17.2026.01.13.09.44.48
+ 4fb4d7f45d1cf-6507be655aesm20873259a12.17.2026.01.13.09.44.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 09:44:49 -0800 (PST)
+ Tue, 13 Jan 2026 09:44:52 -0800 (PST)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Tue, 13 Jan 2026 18:44:36 +0100
-Subject: [PATCH 2/5] accel/thames: Add driver for the C7x DSPs in TI SoCs
+Date: Tue, 13 Jan 2026 18:44:37 +0100
+Subject: [PATCH 3/5] accel/thames: Add IOCTLs for BO creation and mapping
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
+Message-Id: <20260113-thames-v1-3-99390026937c@tomeuvizoso.net>
 References: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
 In-Reply-To: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
@@ -85,1120 +85,560 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some SoCs from Texas Instruments contain DSPs that can be used for
-general compute tasks.
+Uses the SHMEM DRM helpers, mapping on creation to the device as all
+created buffers are expected to be accessed by the DSPs. We map to all
+DSPs because we cannot know upfront what DSP cores will run a given job.
 
-This driver provides a drm/accel UABI to userspace for submitting jobs
-to the DSP cores and managing the input, output and intermediate memory.
+Buffers are mapped for the device by the DSPs themselves, as each
+contains a MMU.
+
+Buffers belong to a context, which is used by the DSP to switch to the
+page table that mapped the buffers for the user of the job to execute.
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- Documentation/accel/thames/index.rst |  28 +++++
- MAINTAINERS                          |   9 ++
- drivers/accel/Kconfig                |   1 +
- drivers/accel/Makefile               |   3 +-
- drivers/accel/thames/Kconfig         |  26 +++++
- drivers/accel/thames/Makefile        |   9 ++
- drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
- drivers/accel/thames/thames_core.h   |  53 +++++++++
- drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
- drivers/accel/thames/thames_device.h |  46 ++++++++
- drivers/accel/thames/thames_drv.c    | 156 +++++++++++++++++++++++++++
- drivers/accel/thames/thames_drv.h    |  21 ++++
- drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++++++++
- drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
- drivers/accel/thames/thames_rpmsg.h  |  27 +++++
- 15 files changed, 985 insertions(+), 1 deletion(-)
+ drivers/accel/thames/Makefile       |   1 +
+ drivers/accel/thames/thames_drv.c   |   5 +-
+ drivers/accel/thames/thames_gem.c   | 355 ++++++++++++++++++++++++++++++++++++
+ drivers/accel/thames/thames_gem.h   |  41 +++++
+ drivers/accel/thames/thames_rpmsg.c |  69 +++++++
+ 5 files changed, 470 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/thames/index.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..ca8391031f226f7ef1dc210a356c86acbe126c6f
---- /dev/null
-+++ b/Documentation/accel/thames/index.rst
-@@ -0,0 +1,28 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+============================================================
-+ accel/thames Driver for the C7x DSPs from Texas Instruments
-+============================================================
-+
-+The accel/thames driver supports the C7x DSPs inside some Texas Instruments SoCs
-+such as the J722S. These can be used as accelerators for various workloads,
-+including machine learning inference.
-+
-+This driver controls the power state of the hardware via :doc:`remoteproc </staging/remoteproc>`
-+and communicates with the firmware running on the DSP via :doc:`rpmsg_virtio </staging/rpmsg_virtio>`.
-+The kernel driver itself allocates buffers, manages contexts, and submits jobs
-+to the DSP firmware. Buffers are mapped by the DSP itself using its MMU,
-+providing memory isolation among different clients.
-+
-+The source code for the firmware running on the DSP is available at:
-+https://gitlab.freedesktop.org/tomeu/thames_firmware/.
-+
-+Everything else is done in userspace, as a Gallium driver (also called thames)
-+that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
-+
-+If there is more than one core that advertises the same rpmsg_virtio service
-+name, the driver will load balance jobs between them with drm-gpu-scheduler.
-+
-+Hardware currently supported:
-+
-+* J722S
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dc731d37c8feeff25613c59fe9c929927dadaa7e..a3fc809c797269d0792dfe5202cc1b49f6ff57e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7731,6 +7731,15 @@ F:	Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
- F:	drivers/accel/rocket/
- F:	include/uapi/drm/rocket_accel.h
- 
-+DRM ACCEL DRIVER FOR TI C7x DSPS
-+M:	Tomeu Vizoso <tomeu@tomeuvizoso.net>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/accel/thames/
-+F:	drivers/accel/thames/
-+F:	include/uapi/drm/thames_accel.h
-+
- DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
- M:	Oded Gabbay <ogabbay@kernel.org>
- L:	dri-devel@lists.freedesktop.org
-diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-index bdf48ccafcf21b2fd685ec963e39e256196e6e17..cb49c71cd4e4a4220624f7041a75ba950a1a2ee1 100644
---- a/drivers/accel/Kconfig
-+++ b/drivers/accel/Kconfig
-@@ -30,5 +30,6 @@ source "drivers/accel/habanalabs/Kconfig"
- source "drivers/accel/ivpu/Kconfig"
- source "drivers/accel/qaic/Kconfig"
- source "drivers/accel/rocket/Kconfig"
-+source "drivers/accel/thames/Kconfig"
- 
- endif
-diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-index 1d3a7251b950f39e2ae600a2fc07a3ef7e41831e..8472989cbe22746f1e7292d2401fa0f7424a6c15 100644
---- a/drivers/accel/Makefile
-+++ b/drivers/accel/Makefile
-@@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
- obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
- obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
- obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
--obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-\ No newline at end of file
-+obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-+obj-$(CONFIG_DRM_ACCEL_THAMES)		+= thames/
-\ No newline at end of file
-diff --git a/drivers/accel/thames/Kconfig b/drivers/accel/thames/Kconfig
-new file mode 100644
-index 0000000000000000000000000000000000000000..50e0b6ac2a16a942ba8463333991f5b0161b99ac
---- /dev/null
-+++ b/drivers/accel/thames/Kconfig
-@@ -0,0 +1,26 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config DRM_ACCEL_THAMES
-+	tristate "Thames (support for TI C7x DSP accelerators)"
-+	depends on DRM_ACCEL
-+	depends on TI_K3_R5_REMOTEPROC || COMPILE_TEST
-+	depends on RPMSG
-+	depends on MMU
-+	select DRM_SCHED
-+	select DRM_GEM_SHMEM_HELPER
-+	help
-+	  Choose this option if you have a Texas Instruments SoC that contains
-+	  C7x DSP cores that can be used as compute accelerators. This includes
-+	  SoCs such as the AM62A, J721E, J721S2, and J784S4.
-+
-+	  The C7x DSP cores can be used for general-purpose compute acceleration
-+	  and are exposed through the DRM accel subsystem.
-+
-+	  The interface exposed to userspace is described in
-+	  include/uapi/drm/thames_accel.h and is used by the Thames userspace
-+	  driver in Mesa3D.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called thames.
 diff --git a/drivers/accel/thames/Makefile b/drivers/accel/thames/Makefile
-new file mode 100644
-index 0000000000000000000000000000000000000000..7ccd8204f0f5ea800f30e84b319f355be948109d
---- /dev/null
+index 7ccd8204f0f5ea800f30e84b319f355be948109d..0051e319f2e4966de72bc342d5b6e40b2890c006 100644
+--- a/drivers/accel/thames/Makefile
 +++ b/drivers/accel/thames/Makefile
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_DRM_ACCEL_THAMES) := thames.o
-+
-+thames-y := \
-+	thames_core.o \
-+	thames_device.o \
-+	thames_drv.o \
-+	thames_rpmsg.o
-diff --git a/drivers/accel/thames/thames_core.c b/drivers/accel/thames/thames_core.c
+@@ -6,4 +6,5 @@ thames-y := \
+ 	thames_core.o \
+ 	thames_device.o \
+ 	thames_drv.o \
++	thames_gem.o \
+ 	thames_rpmsg.o
+diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
+index a288e6ef05d7b1a21741ac0ca9cc8981f33969e4..29a80b9747ae84778b09f5dbd5b8d6d596f1947a 100644
+--- a/drivers/accel/thames/thames_drv.c
++++ b/drivers/accel/thames/thames_drv.c
+@@ -13,6 +13,7 @@
+ 
+ #include "thames_drv.h"
+ #include "thames_core.h"
++#include "thames_gem.h"
+ #include "thames_ipc.h"
+ 
+ static struct platform_device *drm_dev;
+@@ -54,7 +55,8 @@ static void thames_postclose(struct drm_device *dev, struct drm_file *file)
+ 
+ static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
+ #define THAMES_IOCTL(n, func) DRM_IOCTL_DEF_DRV(THAMES_##n, thames_ioctl_##func, 0)
+-
++	THAMES_IOCTL(BO_CREATE, bo_create),
++	THAMES_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset),
+ };
+ 
+ DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
+@@ -63,6 +65,7 @@ static const struct drm_driver thames_drm_driver = {
+ 	.driver_features = DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
+ 	.open = thames_open,
+ 	.postclose = thames_postclose,
++	.gem_create_object = thames_gem_create_object,
+ 	.ioctls = thames_drm_driver_ioctls,
+ 	.num_ioctls = ARRAY_SIZE(thames_drm_driver_ioctls),
+ 	.fops = &thames_accel_driver_fops,
+diff --git a/drivers/accel/thames/thames_gem.c b/drivers/accel/thames/thames_gem.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..92af1d68063116bcfa28a33960cbe829029fc1bf
+index 0000000000000000000000000000000000000000..a153e73a15253e0f955d74020b4765a1fa833fc4
 --- /dev/null
-+++ b/drivers/accel/thames/thames_core.c
-@@ -0,0 +1,155 @@
++++ b/drivers/accel/thames/thames_gem.c
+@@ -0,0 +1,355 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
 +
-+#include "linux/remoteproc.h"
-+#include <linux/dev_printk.h>
-+#include <linux/err.h>
-+#include <linux/of.h>
-+#include <linux/of_address.h>
-+#include <linux/platform_device.h>
-+#include <linux/completion.h>
-+#include <linux/jiffies.h>
-+#include <linux/rpmsg.h>
-+
-+#include "thames_core.h"
-+#include "thames_device.h"
-+#include "thames_rpmsg.h"
-+
-+/* Shift to convert bytes to megabytes (divide by 1048576) */
-+#define THAMES_BYTES_TO_MB_SHIFT 20
-+
-+int thames_core_get_iova_range(struct rpmsg_device *rpdev, u64 *iova_start, u64 *iova_size)
-+{
-+	struct rproc *rproc;
-+	struct device_node *of_node;
-+	struct device_node *mem_node;
-+	struct resource mem_res;
-+	int err;
-+
-+	if (!iova_start || !iova_size)
-+		return -EINVAL;
-+
-+	rproc = rproc_get_by_child(&rpdev->dev);
-+	if (!rproc) {
-+		dev_err(&rpdev->dev, "Failed to get rproc device\n");
-+		return -ENODEV;
-+	}
-+
-+	of_node = rproc->dev.parent->of_node;
-+	put_device(&rproc->dev);
-+
-+	if (!of_node) {
-+		dev_err(&rpdev->dev, "No device tree node found on rproc parent\n");
-+		return -ENODEV;
-+	}
-+
-+	/*
-+	 * Read the IOVA pool range from the device tree node.
-+	 * The third memory-region (index 2) defines the virtual address range.
-+	 * The first two regions are typically:
-+	 *   [0] = DMA memory region for remoteproc (physically contiguous)
-+	 *   [1] = Code/data memory region for remoteproc (physically contiguous)
-+	 *   [2] = Virtual address pool for BO mappings (firmware-managed MMU)
-+	 */
-+	mem_node = of_parse_phandle(of_node, "memory-region", 2);
-+	if (!mem_node) {
-+		dev_err(&rpdev->dev, "Missing third memory-region (DSP VA pool) in device tree\n");
-+		return -EINVAL;
-+	}
-+
-+	err = of_address_to_resource(mem_node, 0, &mem_res);
-+	of_node_put(mem_node);
-+	if (err) {
-+		dev_err(&rpdev->dev, "Failed to get DSP VA pool range from memory-region[2]: %d\n",
-+			err);
-+		return err;
-+	}
-+
-+	*iova_start = mem_res.start;
-+	*iova_size = resource_size(&mem_res);
-+
-+	if (!*iova_size) {
-+		dev_err(&rpdev->dev, "Invalid DSP VA pool size: 0\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int thames_core_validate_iova_range(struct thames_core *core)
-+{
-+	struct thames_device *tdev = core->tdev;
-+	u64 iova_start, iova_size;
-+	int err;
-+
-+	err = thames_core_get_iova_range(core->rpdev, &iova_start, &iova_size);
-+	if (err)
-+		return err;
-+
-+	if (iova_start != tdev->iova_start || iova_size != tdev->iova_size) {
-+		dev_err(core->dev,
-+			"Core %d IOVA range mismatch! Expected 0x%llx-0x%llx, got 0x%llx-0x%llx\n",
-+			core->index, tdev->iova_start, tdev->iova_start + tdev->iova_size - 1,
-+			iova_start, iova_start + iova_size - 1);
-+		dev_err(core->dev,
-+			"All cores must have the same memory-region[2] (IOVA pool) in device tree\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+int thames_core_init(struct thames_core *core)
-+{
-+	int err = 0;
-+
-+	err = thames_core_validate_iova_range(core);
-+	if (err)
-+		return err;
-+
-+	err = thames_rpmsg_init(core);
-+	if (err)
-+		return err;
-+
-+	err = thames_rpmsg_ping_test(core);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+void thames_core_fini(struct thames_core *core)
-+{
-+	thames_rpmsg_fini(core);
-+}
-+
-+void thames_core_reset(struct thames_core *core)
-+{
-+	struct rpmsg_device *rpdev = core->rpdev;
-+	struct rproc *rproc;
-+	int ret;
-+
-+	dev_warn(core->dev, "Resetting DSP core %d", core->index);
-+
-+	if (!atomic_read(&core->reset.pending))
-+		dev_warn(core->dev, "Reset called without reset.pending set\n");
-+
-+	rproc = rproc_get_by_child(&rpdev->dev);
-+	if (!rproc) {
-+		dev_err(core->dev, "Failed to get rproc for reset\n");
-+		return;
-+	}
-+
-+	ret = rproc_shutdown(rproc);
-+	if (ret) {
-+		dev_err(&rproc->dev, "Failed to shut down DSP: %d\n", ret);
-+		goto put_rproc;
-+	}
-+
-+	ret = rproc_boot(rproc);
-+	if (ret)
-+		dev_err(&rproc->dev, "Failed to boot DSP: %d\n", ret);
-+
-+put_rproc:
-+	put_device(&rproc->dev);
-+}
-diff --git a/drivers/accel/thames/thames_core.h b/drivers/accel/thames/thames_core.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..72c3d3d6c575f56cc1d8731d1c9dc958486dbf7f
---- /dev/null
-+++ b/drivers/accel/thames/thames_core.h
-@@ -0,0 +1,53 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
-+#ifndef __THAMES_CORE_H__
-+#define __THAMES_CORE_H__
-+
-+#include <linux/rpmsg.h>
-+#include <drm/gpu_scheduler.h>
-+#include <linux/mutex_types.h>
-+#include <linux/completion.h>
-+
-+struct thames_msg_buffer_op;
-+
-+struct thames_core {
-+	struct rpmsg_device *rpdev;
-+	struct device *dev;
-+	struct thames_device *tdev;
-+	unsigned int index;
-+
-+	/* RPMSG communication context */
-+	struct {
-+		struct rpmsg_endpoint *endpoint;
-+
-+		struct {
-+			u32 sequence;
-+			u32 expected_data;
-+			bool success;
-+			struct completion completion;
-+		} ping_test;
-+	} rpmsg_ctx;
-+
-+	struct mutex job_lock;
-+	struct thames_job *in_flight_job;
-+
-+	spinlock_t fence_lock;
-+
-+	struct {
-+		struct workqueue_struct *wq;
-+		struct work_struct work;
-+		atomic_t pending;
-+	} reset;
-+
-+	struct drm_gpu_scheduler sched;
-+	u64 fence_context;
-+	u64 emit_seqno;
-+};
-+
-+int thames_core_init(struct thames_core *core);
-+void thames_core_fini(struct thames_core *core);
-+void thames_core_reset(struct thames_core *core);
-+int thames_core_get_iova_range(struct rpmsg_device *rpdev, u64 *iova_start, u64 *iova_size);
-+
-+#endif
-diff --git a/drivers/accel/thames/thames_device.c b/drivers/accel/thames/thames_device.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..2b2aa32b07ee361ea388ab5ec781a13ff4359e5f
---- /dev/null
-+++ b/drivers/accel/thames/thames_device.c
-@@ -0,0 +1,93 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
++#include "drm/drm_gem_shmem_helper.h"
++#include <drm/drm_device.h>
 +#include <drm/drm_drv.h>
-+#include <linux/array_size.h>
-+#include <linux/clk.h>
++#include <drm/drm_print.h>
++#include <drm/drm_utils.h>
++#include <drm/thames_accel.h>
 +#include <linux/dma-mapping.h>
 +#include <linux/idr.h>
-+#include <linux/platform_device.h>
 +
++#include "thames_gem.h"
 +#include "thames_device.h"
-+
-+/* Shift to convert bytes to megabytes (divide by 1048576) */
-+#define THAMES_BYTES_TO_MB_SHIFT 20
-+
-+struct thames_device *thames_device_init(struct platform_device *pdev,
-+
-+					 const struct drm_driver *thames_drm_driver, u64 iova_start,
-+					 u64 iova_size)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct thames_device *tdev;
-+	struct drm_device *ddev;
-+	int err;
-+
-+	tdev = devm_drm_dev_alloc(dev, thames_drm_driver, struct thames_device, ddev);
-+	if (IS_ERR(tdev))
-+		return tdev;
-+
-+	tdev->num_cores = 0;
-+	ddev = &tdev->ddev;
-+	dev_set_drvdata(dev, tdev);
-+
-+	dma_set_max_seg_size(dev, UINT_MAX);
-+
-+	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(40));
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	err = devm_mutex_init(dev, &tdev->sched_lock);
-+	if (err)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ida_init(&tdev->bo_ida);
-+	ida_init(&tdev->ctx_ida);
-+	ida_init(&tdev->job_ida);
-+	ida_init(&tdev->ipc_seq_ida);
-+
-+	/*
-+	 * Initialize shared virtual address space for all DSP cores.
-+	 *
-+	 * IMPORTANT: This driver does NOT use Linux IOMMU. The TI C7x DSP cores
-+	 * have their own MMUs that are managed entirely by the DSP firmware.
-+	 * The VA space is shared across all cores - userspace receives VAs that
-+	 * work on all cores. Each core's firmware programs its own MMU to map
-+	 * the same VA to the same PA.
-+	 *
-+	 * The Linux driver's role is only to:
-+	 * 1. Allocate non-overlapping virtual addresses from a safe range
-+	 * 2. Provide physical addresses to each DSP firmware via IPC
-+	 * 3. Let each firmware program its own MMU to map VA -> PA
-+	 */
-+	if (!iova_size) {
-+		dev_err(dev, "Invalid DSP VA pool size: 0\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	tdev->iova_start = iova_start;
-+	tdev->iova_size = iova_size;
-+
-+	drm_mm_init(&tdev->mm, iova_start, iova_size);
-+	err = devm_mutex_init(dev, &tdev->mm_lock);
-+	if (err)
-+		return ERR_PTR(-ENOMEM);
-+
-+	err = drm_dev_register(ddev, 0);
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	return tdev;
-+}
-+
-+void thames_device_fini(struct thames_device *tdev)
-+{
-+	WARN_ON(tdev->num_cores > 0);
-+
-+	ida_destroy(&tdev->bo_ida);
-+	ida_destroy(&tdev->ctx_ida);
-+	ida_destroy(&tdev->job_ida);
-+	ida_destroy(&tdev->ipc_seq_ida);
-+	drm_mm_takedown(&tdev->mm);
-+	drm_dev_unregister(&tdev->ddev);
-+}
-diff --git a/drivers/accel/thames/thames_device.h b/drivers/accel/thames/thames_device.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..c7d8e521d4323122134e8c8e8d256d957c89ae5f
---- /dev/null
-+++ b/drivers/accel/thames/thames_device.h
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
-+#ifndef __THAMES_DEVICE_H__
-+#define __THAMES_DEVICE_H__
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_mm.h>
-+#include <linux/clk.h>
-+#include <linux/container_of.h>
-+#include <linux/idr.h>
-+#include <linux/platform_device.h>
-+
-+#include "thames_core.h"
-+
-+#define MAX_CORES 8
-+
-+struct thames_device {
-+	struct drm_device ddev;
-+
-+	struct mutex sched_lock;
-+
-+	struct thames_core cores[MAX_CORES];
-+	unsigned int num_cores;
-+
-+	struct ida bo_ida;
-+	struct ida ctx_ida;
-+	struct ida job_ida;
-+	struct ida ipc_seq_ida;
-+
-+	struct drm_mm mm;
-+	struct mutex mm_lock;
-+
-+	u64 iova_start;
-+	u64 iova_size;
-+};
-+
-+struct thames_device *thames_device_init(struct platform_device *pdev,
-+					 const struct drm_driver *thames_drm_driver, u64 iova_start,
-+					 u64 iova_size);
-+void thames_device_fini(struct thames_device *rdev);
-+
-+#define to_thames_device(drm_dev) \
-+	((struct thames_device *)(container_of((drm_dev), struct thames_device, ddev)))
-+
-+#endif /* __THAMES_DEVICE_H__ */
-diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..a288e6ef05d7b1a21741ac0ca9cc8981f33969e4
---- /dev/null
-+++ b/drivers/accel/thames/thames_drv.c
-@@ -0,0 +1,156 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
-+#include <drm/drm_accel.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_ioctl.h>
-+#include <drm/thames_accel.h>
-+#include <linux/err.h>
-+#include <linux/platform_device.h>
-+#include <linux/remoteproc.h>
-+#include <linux/rpmsg.h>
-+
 +#include "thames_drv.h"
-+#include "thames_core.h"
-+#include "thames_ipc.h"
++#include "thames_rpmsg.h"
 +
-+static struct platform_device *drm_dev;
-+static struct thames_device *tdev;
++#define THAMES_BO_FLAGS DRM_THAMES_BO_NO_MMAP
 +
-+static int thames_open(struct drm_device *dev, struct drm_file *file)
++/*
++ * DSP MMU permission flags for buffer object mappings.
++ * These control read/write/execute permissions in the DSP's address space.
++ */
++#define THAMES_BO_PERM_READ (1 << 0)
++#define THAMES_BO_PERM_WRITE (1 << 1)
++#define THAMES_BO_PERM_EXEC (1 << 2)
++#define THAMES_BO_PERM_RWX (THAMES_BO_PERM_READ | THAMES_BO_PERM_WRITE | THAMES_BO_PERM_EXEC)
++
++static u64 thames_alloc_vaddr(struct thames_device *tdev, struct thames_gem_object *bo, size_t size)
 +{
-+	struct thames_device *tdev = to_thames_device(dev);
-+	struct thames_file_priv *thames_priv;
 +	int ret;
 +
-+	if (!try_module_get(THIS_MODULE))
-+		return -EINVAL;
++	size = ALIGN(size, SZ_1M);
 +
-+	thames_priv = kzalloc(sizeof(*thames_priv), GFP_KERNEL);
-+	if (!thames_priv) {
-+		ret = -ENOMEM;
-+		goto err_put_mod;
-+	}
++	mutex_lock(&tdev->mm_lock);
++	ret = drm_mm_insert_node(&tdev->mm, &bo->mm, size);
++	mutex_unlock(&tdev->mm_lock);
 +
-+	thames_priv->tdev = tdev;
++	if (ret)
++		return 0;
 +
-+	file->driver_priv = thames_priv;
++	return bo->mm.start;
++}
 +
-+	return 0;
++static void thames_free_vaddr(struct thames_device *tdev, struct thames_gem_object *bo)
++{
++	if (!drm_mm_node_allocated(&bo->mm))
++		return;
 +
-+err_put_mod:
-+	module_put(THIS_MODULE);
++	mutex_lock(&tdev->mm_lock);
++	drm_mm_remove_node(&bo->mm);
++	mutex_unlock(&tdev->mm_lock);
++}
++
++static int thames_context_destroy_on_core(struct thames_file_priv *priv, struct thames_core *core)
++{
++	struct thames_device *tdev = priv->tdev;
++	int ret;
++
++	ret = thames_rpmsg_send_destroy_context(core, priv->context_id);
++	if (ret)
++		dev_warn(tdev->ddev.dev, "Failed to destroy context on core %d: %d", core->index,
++			 ret);
++
 +	return ret;
 +}
 +
-+static void thames_postclose(struct drm_device *dev, struct drm_file *file)
++static int thames_context_create_on_core(struct thames_file_priv *priv, struct thames_core *core)
 +{
-+	struct thames_file_priv *thames_priv = file->driver_priv;
++	struct thames_device *tdev = priv->tdev;
++	int ret;
 +
-+	kfree(thames_priv);
-+	module_put(THIS_MODULE);
++	ret = thames_rpmsg_send_create_context(core, priv->context_id);
++	if (ret)
++		dev_warn(tdev->ddev.dev, "Failed to create context on core %d: %d", core->index,
++			 ret);
++
++	return ret;
 +}
 +
-+static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
-+#define THAMES_IOCTL(n, func) DRM_IOCTL_DEF_DRV(THAMES_##n, thames_ioctl_##func, 0)
-+
-+};
-+
-+DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
-+
-+static const struct drm_driver thames_drm_driver = {
-+	.driver_features = DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
-+	.open = thames_open,
-+	.postclose = thames_postclose,
-+	.ioctls = thames_drm_driver_ioctls,
-+	.num_ioctls = ARRAY_SIZE(thames_drm_driver_ioctls),
-+	.fops = &thames_accel_driver_fops,
-+	.name = "thames",
-+	.desc = "thames DRM",
-+};
-+
-+static int thames_probe(struct rpmsg_device *rpdev)
++int thames_context_create(struct thames_file_priv *priv)
 +{
-+	u64 iova_start, iova_size;
-+	unsigned int core;
-+	int err;
++	struct thames_device *tdev = priv->tdev;
++	int i, ret;
 +
-+	if (!tdev) {
-+		err = thames_core_get_iova_range(rpdev, &iova_start, &iova_size);
-+		if (err)
-+			return err;
++	ret = ida_alloc_min(&tdev->ctx_ida, 1, GFP_KERNEL);
++	if (ret < 0)
++		return ret;
 +
-+		tdev = thames_device_init(drm_dev, &thames_drm_driver, iova_start, iova_size);
-+		if (IS_ERR(tdev)) {
-+			dev_err(&rpdev->dev, "failed to initialize thames device\n");
-+			return PTR_ERR(tdev);
-+		}
-+	}
-+
-+	core = tdev->num_cores;
-+
-+	tdev->cores[core].tdev = tdev;
-+	tdev->cores[core].rpdev = rpdev;
-+	tdev->cores[core].dev = &rpdev->dev;
-+	tdev->cores[core].index = core;
-+
-+	tdev->num_cores++;
-+
-+	return thames_core_init(&tdev->cores[core]);
-+}
-+
-+static void thames_remove(struct rpmsg_device *rpdev)
-+{
-+	unsigned int core;
-+
-+	for (core = 0; core < tdev->num_cores; core++) {
-+		if (tdev->cores[core].rpdev == rpdev) {
-+			thames_core_fini(&tdev->cores[core]);
-+			tdev->num_cores--;
-+			break;
-+		}
-+	}
++	priv->context_id = ret;
++	priv->context_valid = false;
 +
 +	if (!tdev->num_cores) {
-+		thames_device_fini(tdev);
-+		tdev = NULL;
-+	}
-+}
-+
-+static const struct rpmsg_device_id thames_rpmsg_id_table[] = { { .name = THAMES_SERVICE_NAME },
-+								{} };
-+
-+static struct rpmsg_driver thames_rpmsg_driver = {
-+	.drv = {
-+		.name = "thames",
-+		.owner = THIS_MODULE,
-+	},
-+	.id_table = thames_rpmsg_id_table,
-+	.probe = thames_probe,
-+	.remove = thames_remove,
-+};
-+
-+static int __init thames_register(void)
-+{
-+	drm_dev = platform_device_register_simple("thames", -1, NULL, 0);
-+	if (IS_ERR(drm_dev))
-+		return PTR_ERR(drm_dev);
-+
-+	return register_rpmsg_driver(&thames_rpmsg_driver);
-+}
-+
-+static void __exit thames_unregister(void)
-+{
-+	unregister_rpmsg_driver(&thames_rpmsg_driver);
-+
-+	platform_device_unregister(drm_dev);
-+}
-+
-+module_init(thames_register);
-+module_exit(thames_unregister);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("DRM driver for Texas Instrument's C7x accelerator cores");
-+MODULE_AUTHOR("Tomeu Vizoso");
-+MODULE_ALIAS("rpmsg:" THAMES_SERVICE_NAME);
-diff --git a/drivers/accel/thames/thames_drv.h b/drivers/accel/thames/thames_drv.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e03203eab8b88686ca91c10b45e55df1ea3d2e77
---- /dev/null
-+++ b/drivers/accel/thames/thames_drv.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
-+#ifndef __THAMES_DRV_H__
-+#define __THAMES_DRV_H__
-+
-+#include <drm/drm_mm.h>
-+#include <drm/gpu_scheduler.h>
-+
-+#include "thames_device.h"
-+
-+struct thames_file_priv {
-+	struct thames_device *tdev;
-+
-+	struct drm_sched_entity sched_entity;
-+
-+	u32 context_id;
-+	bool context_valid;
-+};
-+
-+#endif
-diff --git a/drivers/accel/thames/thames_ipc.h b/drivers/accel/thames/thames_ipc.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..60297b4bc2ffd990315cb735a96a23429d390f43
---- /dev/null
-+++ b/drivers/accel/thames/thames_ipc.h
-@@ -0,0 +1,204 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/
-+ *
-+ * This header defines the RPMSG message structures exchanged between
-+ * the Linux kernel (host) and the C7x DSP (remote) firmware for the
-+ * Thames DRM/accel driver.
-+ */
-+
-+#ifndef _THAMES_IPC_H
-+#define _THAMES_IPC_H
-+
-+#ifdef __KERNEL__
-+#include <linux/types.h>
-+#else
-+#include <stdint.h>
-+typedef uint8_t __u8;
-+typedef uint16_t __u16;
-+typedef uint32_t __u32;
-+typedef uint64_t __u64;
-+#endif
-+
-+#define THAMES_SERVICE_NAME "thames-service"
-+
-+/**
-+ * @THAMES_MSG_TYPE: Simplified message type enumeration
-+ */
-+enum thames_msg_type {
-+	/* --- Host (Kernel) -> Remote (DSP) --- */
-+	THAMES_MSG_PING = 0x100, /* Ping message to test communication */
-+	THAMES_MSG_CONTEXT_OP, /* Create/destroy context */
-+	THAMES_MSG_BO_OP, /* Map/unmap buffer objects */
-+	THAMES_MSG_SUBMIT_JOB, /* Submit job for execution */
-+
-+	/* --- Remote (DSP) -> Host (Kernel) --- */
-+	THAMES_MSG_PING_RESPONSE = 0x200,
-+	THAMES_MSG_CONTEXT_OP_RESPONSE,
-+	THAMES_MSG_BO_OP_RESPONSE,
-+	THAMES_MSG_SUBMIT_JOB_RESPONSE,
-+};
-+
-+/**
-+ * @THAMES_CONTEXT_OP: Context operation types
-+ */
-+enum thames_context_op {
-+	THAMES_CONTEXT_CREATE = 0,
-+	THAMES_CONTEXT_DESTROY,
-+};
-+
-+/**
-+ * @THAMES_BO_OP: Buffer Object operation types
-+ */
-+enum thames_bo_op {
-+	THAMES_BO_MAP = 0,
-+	THAMES_BO_UNMAP,
-+};
-+
-+/**
-+ * @THAMES_RESP_STATUS: Response status codes
-+ */
-+enum thames_resp_status {
-+	THAMES_RESP_SUCCESS = 0,
-+	THAMES_RESP_ERR_GENERIC = 1,
-+	THAMES_RESP_ERR_NOMEM = 2,
-+	THAMES_RESP_ERR_INVAL = 3,
-+	THAMES_RESP_ERR_NO_CTX = 4,
-+	THAMES_RESP_ERR_MMU = 5,
-+	THAMES_RESP_ERR_JOB_TIMEOUT = 6,
-+};
-+
-+/**
-+ * struct thames_msg_hdr - Common header for all RPMSG messages
-+ * @type: Message type from enum thames_msg_type
-+ * @seq:  Sequence number for request/response matching
-+ * @len:  Total message length including header
-+ */
-+struct thames_msg_hdr {
-+	__u32 type;
-+	__u32 seq;
-+	__u32 len;
-+	__u32 reserved;
-+};
-+
-+/*
-+ * ===================================================================
-+ * Host (Kernel) -> Remote (DSP) Messages
-+ * ===================================================================
-+ */
-+
-+/**
-+ * struct thames_msg_ping - Ping message to test communication
-+ * @hdr:        Common message header
-+ * @ping_data:  Optional ping data (timestamp, sequence, etc.)
-+ */
-+struct thames_msg_ping {
-+	struct thames_msg_hdr hdr;
-+	__u32 ping_data;
-+};
-+
-+/**
-+ * struct thames_msg_context_op - Context create/destroy operations
-+ * @hdr:           Common message header
-+ * @op:            Operation type (CREATE/DESTROY)
-+ * @context_id:    Context ID
-+ */
-+struct thames_msg_context_op {
-+	struct thames_msg_hdr hdr;
-+	uint32_t op; /* enum thames_context_op */
-+	uint32_t context_id;
-+};
-+
-+/**
-+ * struct thames_msg_bo_op - Buffer Object map/unmap operations
-+ * @hdr:        Common message header
-+ * @op:         Operation type (MAP/UNMAP)
-+ * @context_id: Context ID that this BO belongs to
-+ * @bo_id:      Buffer Object ID for tracking
-+ * @vaddr:      Virtual address where BO should be mapped on DSP
-+ * @paddr:      Physical address of the BO
-+ * @size:       Size of the BO in bytes
-+ */
-+struct thames_msg_bo_op {
-+	struct thames_msg_hdr hdr;
-+	uint32_t op; /* enum thames_bo_op */
-+	uint32_t context_id;
-+	uint32_t bo_id;
-+	uint64_t vaddr;
-+	uint64_t paddr;
-+	uint64_t size;
-+};
-+
-+/**
-+ * struct thames_msg_submit_job - Submit job for execution
-+ * @hdr:         Common message header
-+ * @context_id:  Context to run job in
-+ * @job_id:      Host-generated job tracking ID
-+ * @kernel_iova: IOVA of kernel code BO (first byte = first instruction)
-+ * @kernel_size: Size of kernel code in bytes
-+ * @args_iova:   IOVA of arguments BO (array of uint64_t values)
-+ * @args_size:   Size of arguments BO in bytes
-+ */
-+struct thames_msg_submit_job {
-+	struct thames_msg_hdr hdr;
-+	uint32_t context_id;
-+	uint32_t job_id;
-+	uint64_t kernel_iova;
-+	uint64_t kernel_size;
-+	uint64_t args_iova;
-+	uint64_t args_size;
-+};
-+
-+/*
-+ * ===================================================================
-+ * Remote (DSP) -> Host (Kernel) Messages
-+ * ===================================================================
-+ */
-+
-+/**
-+ * struct thames_msg_response - Generic response to commands
-+ * @hdr:    Common message header (seq matches request)
-+ * @status: Status code from enum thames_resp_status
-+ * @data:   Optional response data (context-dependent)
-+ */
-+struct thames_msg_response {
-+	struct thames_msg_hdr hdr;
-+	uint32_t status;
-+	uint32_t data;
-+};
-+
-+/*
-+ * ===================================================================
-+ * Buffer Size Calculations
-+ * ===================================================================
-+ */
-+
-+/* Calculate the maximum message size by finding the largest structure */
-+#define THAMES_MSG_SIZE_PING sizeof(struct thames_msg_ping)
-+#define THAMES_MSG_SIZE_CONTEXT_OP sizeof(struct thames_msg_context_op)
-+#define THAMES_MSG_SIZE_BO_OP sizeof(struct thames_msg_bo_op)
-+#define THAMES_MSG_SIZE_SUBMIT_JOB sizeof(struct thames_msg_submit_job)
-+#define THAMES_MSG_SIZE_RESPONSE sizeof(struct thames_msg_response)
-+
-+/* Helper macros to find maximum of multiple values */
-+#define THAMES_MAX2(a, b) ((a) > (b) ? (a) : (b))
-+#define THAMES_MAX3(a, b, c) THAMES_MAX2(THAMES_MAX2(a, b), c)
-+#define THAMES_MAX5(a, b, c, d, e) THAMES_MAX2(THAMES_MAX3(a, b, c), THAMES_MAX2(d, e))
-+
-+/* Maximum size of any Thames IPC message */
-+#define THAMES_IPC_MAX_MSG_SIZE                                                              \
-+	THAMES_MAX5(THAMES_MSG_SIZE_PING, THAMES_MSG_SIZE_CONTEXT_OP, THAMES_MSG_SIZE_BO_OP, \
-+		    THAMES_MSG_SIZE_SUBMIT_JOB, THAMES_MSG_SIZE_RESPONSE)
-+
-+/* RPMSG buffer size - should accommodate largest message + some padding */
-+#define THAMES_RPMSG_BUFFER_SIZE ((THAMES_IPC_MAX_MSG_SIZE + 15) & ~15) /* 16-byte aligned */
-+
-+/* Compile-time size checks - use BUILD_BUG_ON in kernel code */
-+#ifdef __KERNEL__
-+#define THAMES_ASSERT_MSG_SIZE(msg_type) BUILD_BUG_ON(sizeof(struct msg_type) > 64)
-+#else
-+#define THAMES_ASSERT_MSG_SIZE(msg_type) \
-+	_Static_assert(sizeof(struct msg_type) <= 64, #msg_type " too large")
-+#endif
-+
-+#endif /* _THAMES_IPC_H */
-diff --git a/drivers/accel/thames/thames_rpmsg.c b/drivers/accel/thames/thames_rpmsg.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..ebc34f49353e5e7959734da8e8a935573c130e79
---- /dev/null
-+++ b/drivers/accel/thames/thames_rpmsg.c
-@@ -0,0 +1,155 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+
-+#include <linux/dev_printk.h>
-+#include <linux/err.h>
-+#include <linux/completion.h>
-+#include <linux/jiffies.h>
-+#include <linux/rpmsg.h>
-+
-+#include "thames_rpmsg.h"
-+#include "thames_core.h"
-+#include "thames_device.h"
-+#include "thames_ipc.h"
-+
-+#define THAMES_PING_TEST_PATTERN 0xDEADBEEF
-+#define THAMES_PING_TIMEOUT_MS 5000
-+
-+static int thames_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int len, void *priv,
-+				 u32 src)
-+{
-+	struct thames_msg_hdr *hdr = (struct thames_msg_hdr *)data;
-+	struct thames_core *core = priv;
-+
-+	dev_dbg(&rpdev->dev, "Received response on core %d with length %d\n", core->index, len);
-+
-+	if (len < sizeof(struct thames_msg_hdr)) {
-+		dev_err(&rpdev->dev, "Received message too short: %d bytes", len);
-+		return -EINVAL;
++		dev_err(tdev->ddev.dev, "No cores available\n");
++		ret = -ENODEV;
++		goto err_free_id;
 +	}
 +
-+	switch (hdr->type) {
-+	case THAMES_MSG_PING_RESPONSE: {
-+		struct thames_msg_response *response = (struct thames_msg_response *)data;
-+
-+		dev_dbg(&rpdev->dev,
-+			"Received PING response: status=%u, data=0x%x, expected_data=0x%x, seq=%u, expected_seq=%u\n",
-+			response->status, response->data, core->rpmsg_ctx.ping_test.expected_data,
-+			hdr->seq, core->rpmsg_ctx.ping_test.sequence);
-+
-+		if (hdr->seq != core->rpmsg_ctx.ping_test.sequence) {
-+			dev_err(&rpdev->dev,
-+				"PING response sequence mismatch: got %u, expected %u\n", hdr->seq,
-+				core->rpmsg_ctx.ping_test.sequence);
-+			ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-+			return -EINVAL;
++	for (i = 0; i < tdev->num_cores; i++) {
++		ret = thames_context_create_on_core(priv, &tdev->cores[i]);
++		if (ret) {
++			dev_err(tdev->ddev.dev, "Failed to create context on core %d: %d\n", i,
++				ret);
++			goto err_destroy_contexts;
 +		}
-+
-+		if (response->data != core->rpmsg_ctx.ping_test.expected_data) {
-+			dev_err(&rpdev->dev,
-+				"PING response data mismatch: got 0x%x, expected 0x%x\n",
-+				response->data, core->rpmsg_ctx.ping_test.expected_data);
-+			core->rpmsg_ctx.ping_test.success = false;
-+			complete(&core->rpmsg_ctx.ping_test.completion);
-+			ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-+			return -EINVAL;
-+		}
-+
-+		core->rpmsg_ctx.ping_test.success = (response->status == THAMES_RESP_SUCCESS);
-+		complete(&core->rpmsg_ctx.ping_test.completion);
-+
-+		ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-+
-+		break;
 +	}
 +
-+	default:
-+		dev_warn(&rpdev->dev, "Unknown message type: %u\n", hdr->type);
-+		break;
-+	}
-+
++	priv->context_valid = true;
 +	return 0;
++
++err_destroy_contexts:
++	for (i = i - 1; i >= 0; i--)
++		thames_context_destroy_on_core(priv, &tdev->cores[i]);
++err_free_id:
++	ida_free(&tdev->ctx_ida, priv->context_id);
++	return ret;
 +}
 +
-+static int thames_rpmsg_send_raw(struct thames_core *core, const void *data, size_t len)
++void thames_context_destroy(struct thames_file_priv *priv)
 +{
-+	if (!core->rpmsg_ctx.endpoint) {
-+		dev_err(core->dev, "RPMSG endpoint not available");
-+		return -ENODEV;
-+	}
++	struct thames_device *tdev = priv->tdev;
++	int i;
 +
-+	return rpmsg_send(core->rpmsg_ctx.endpoint, (void *)data, len);
++	if (!priv->context_valid)
++		return;
++
++	for (i = 0; i < tdev->num_cores; i++)
++		thames_context_destroy_on_core(priv, &tdev->cores[i]);
++
++	ida_free(&tdev->ctx_ida, priv->context_id);
++	priv->context_valid = false;
 +}
 +
-+int thames_rpmsg_init(struct thames_core *core)
++static int thames_bo_map_to_core(struct thames_gem_object *bo, struct thames_file_priv *file_priv,
++				 struct thames_core *core, u64 vaddr, u64 paddr, u64 size,
++				 u32 flags)
 +{
-+	struct rpmsg_device *rpdev = core->rpdev;
-+	struct rpmsg_channel_info chinfo = {};
-+
-+	strscpy(chinfo.name, rpdev->id.name, sizeof(chinfo.name));
-+	chinfo.src = RPMSG_ADDR_ANY; /* Let rpmsg assign an address */
-+	chinfo.dst = RPMSG_ADDR_ANY;
-+
-+	core->rpmsg_ctx.endpoint = rpmsg_create_ept(rpdev, thames_rpmsg_callback, core, chinfo);
-+	if (!core->rpmsg_ctx.endpoint) {
-+		dev_err(core->dev, "Failed to create RPMSG endpoint for core %d", core->index);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
-+void thames_rpmsg_fini(struct thames_core *core)
-+{
-+	if (core->rpmsg_ctx.endpoint) {
-+		rpmsg_destroy_ept(core->rpmsg_ctx.endpoint);
-+		core->rpmsg_ctx.endpoint = NULL;
-+	}
-+}
-+
-+int thames_rpmsg_send_ping(struct thames_core *core, u32 ping_data, u32 *sequence)
-+{
-+	struct thames_msg_ping ping_msg = {};
-+
-+	ping_msg.hdr.type = THAMES_MSG_PING;
-+	ping_msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
-+	ping_msg.hdr.len = sizeof(ping_msg);
-+	ping_msg.hdr.reserved = 0;
-+	ping_msg.ping_data = ping_data;
-+
-+	*sequence = ping_msg.hdr.seq;
-+
-+	return thames_rpmsg_send_raw(core, &ping_msg, sizeof(ping_msg));
-+}
-+
-+int thames_rpmsg_ping_test(struct thames_core *core)
-+{
-+	const u32 test_data = THAMES_PING_TEST_PATTERN;
++	struct thames_device *tdev = file_priv->tdev;
 +	int ret;
-+	unsigned long timeout;
 +
-+	core->rpmsg_ctx.ping_test.expected_data = test_data;
-+	core->rpmsg_ctx.ping_test.success = false;
-+	init_completion(&core->rpmsg_ctx.ping_test.completion);
++	ret = thames_rpmsg_send_map_bo(core, file_priv->context_id, bo->id, vaddr, paddr, size);
++	if (ret)
++		dev_warn(tdev->ddev.dev, "Failed to map buffer on core %d: %d", core->index, ret);
 +
-+	ret = thames_rpmsg_send_ping(core, test_data, &core->rpmsg_ctx.ping_test.sequence);
-+	if (ret) {
-+		dev_err(core->dev, "Failed to send PING message to core %d: %d", core->index, ret);
-+		return ret;
++	return ret;
++}
++
++static int thames_bo_map_to_device(struct thames_gem_object *bo, struct thames_file_priv *file_priv)
++{
++	struct thames_device *tdev = file_priv->tdev;
++	struct sg_table *sgt;
++	dma_addr_t dma_addr;
++	int i, ret;
++
++	if (bo->iova)
++		return 0;
++
++	if (!file_priv->context_valid)
++		return -EINVAL;
++
++	if (!tdev->num_cores)
++		return -ENODEV;
++
++	sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
++	if (IS_ERR(sgt))
++		return PTR_ERR(sgt);
++
++	dma_addr = sg_dma_address(sgt->sgl);
++	if (!dma_addr) {
++		ret = -EINVAL;
++		goto err_put_pages;
 +	}
 +
-+	timeout = msecs_to_jiffies(THAMES_PING_TIMEOUT_MS);
-+	ret = wait_for_completion_timeout(&core->rpmsg_ctx.ping_test.completion, timeout);
-+	if (ret == 0) {
-+		dev_err(core->dev, "PING test timed out - DSP core %d not responding", core->index);
-+		return -ETIMEDOUT;
++	bo->iova = thames_alloc_vaddr(tdev, bo, bo->base.base.size);
++	if (!bo->iova) {
++		ret = -ENOMEM;
++		goto err_put_pages;
 +	}
 +
-+	if (!core->rpmsg_ctx.ping_test.success) {
-+		dev_err(core->dev, "PING test failed - incorrect PONG response from DSP core %d",
-+			core->index);
-+		return -EIO;
++	bo->context_id = file_priv->context_id;
++
++	for (i = 0; i < tdev->num_cores; i++) {
++		ret = thames_bo_map_to_core(bo, file_priv, &tdev->cores[i], bo->iova, dma_addr,
++					    bo->base.base.size, THAMES_BO_PERM_RWX);
++		if (ret) {
++			while (--i >= 0)
++				thames_rpmsg_send_unmap_bo(&tdev->cores[i], bo->context_id, bo->id);
++			goto err_free_vaddr;
++		}
 +	}
 +
 +	return 0;
++
++err_free_vaddr:
++	thames_free_vaddr(tdev, bo);
++	bo->iova = 0;
++err_put_pages:
++	dma_resv_lock(bo->base.base.resv, NULL);
++	drm_gem_shmem_put_pages_locked(&bo->base);
++	dma_resv_unlock(bo->base.base.resv);
++	return ret;
 +}
-diff --git a/drivers/accel/thames/thames_rpmsg.h b/drivers/accel/thames/thames_rpmsg.h
++
++static void thames_bo_unmap_from_device(struct thames_gem_object *bo, struct thames_device *tdev)
++{
++	int i, ret, failed_unmaps = 0;
++
++	if (!bo->iova)
++		return;
++
++	for (i = 0; i < tdev->num_cores; i++) {
++		ret = thames_rpmsg_send_unmap_bo(&tdev->cores[i], bo->context_id, bo->id);
++		if (ret) {
++			dev_err(tdev->ddev.dev, "Failed to unmap BO %u from core %d: %d\n", bo->id,
++				i, ret);
++			failed_unmaps++;
++		}
++	}
++
++	if (failed_unmaps)
++		drm_WARN(&tdev->ddev, failed_unmaps > 0,
++			 "BO %u: %d core(s) failed unmap, potential DSP-side leak\n", bo->id,
++			 failed_unmaps);
++
++	thames_free_vaddr(tdev, bo);
++	bo->iova = 0;
++
++	dma_resv_lock(bo->base.base.resv, NULL);
++	drm_gem_shmem_put_pages_locked(&bo->base);
++	dma_resv_unlock(bo->base.base.resv);
++}
++
++static void thames_gem_bo_free(struct drm_gem_object *obj)
++{
++	struct thames_gem_object *bo = to_thames_bo(obj);
++	struct thames_device *tdev = to_thames_device(obj->dev);
++
++	drm_WARN_ON(obj->dev, refcount_read(&bo->base.pages_use_count) > 1);
++
++	if (bo->iova)
++		thames_bo_unmap_from_device(bo, tdev);
++
++	ida_free(&tdev->bo_ida, bo->id);
++
++	drm_gem_free_mmap_offset(&bo->base.base);
++	drm_gem_shmem_free(&bo->base);
++}
++
++static const struct drm_gem_object_funcs thames_gem_funcs = {
++	.free = thames_gem_bo_free,
++	.print_info = drm_gem_shmem_object_print_info,
++	.pin = drm_gem_shmem_object_pin,
++	.unpin = drm_gem_shmem_object_unpin,
++	.get_sg_table = drm_gem_shmem_object_get_sg_table,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
++	.mmap = drm_gem_shmem_object_mmap,
++	.vm_ops = &drm_gem_shmem_vm_ops,
++};
++
++struct drm_gem_object *thames_gem_create_object(struct drm_device *dev, size_t size)
++{
++	struct thames_device *tdev = to_thames_device(dev);
++	struct thames_gem_object *obj;
++	int bo_id;
++
++	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
++	if (!obj)
++		return ERR_PTR(-ENOMEM);
++
++	obj->base.base.funcs = &thames_gem_funcs;
++
++	bo_id = ida_alloc_min(&tdev->bo_ida, 1, GFP_KERNEL);
++	if (bo_id < 0) {
++		kfree(obj);
++		return ERR_PTR(bo_id);
++	}
++	obj->id = bo_id;
++
++	return &obj->base.base;
++}
++
++int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct thames_file_priv *file_priv = file->driver_priv;
++	struct drm_thames_bo_create *args = data;
++	struct drm_gem_shmem_object *mem;
++	struct thames_gem_object *bo;
++	int cookie, ret;
++
++	if (!drm_dev_enter(ddev, &cookie))
++		return -ENODEV;
++
++	if (args->handle || args->iova) {
++		ret = -EINVAL;
++		goto err_exit;
++	}
++
++	if (!args->size || (args->flags & ~THAMES_BO_FLAGS)) {
++		ret = -EINVAL;
++		goto err_exit;
++	}
++
++	mem = drm_gem_shmem_create(ddev, args->size);
++	if (IS_ERR(mem))
++		return PTR_ERR(mem);
++
++	bo = to_thames_bo(&mem->base);
++
++	ret = drm_gem_handle_create(file, &mem->base, &args->handle);
++	drm_gem_object_put(&mem->base);
++	if (ret) {
++		dev_err(ddev->dev, "Failed to create gem handle: %d", ret);
++		goto err_free;
++	}
++
++	ret = thames_bo_map_to_device(bo, file_priv);
++	if (ret) {
++		dev_err(ddev->dev, "Failed to map buffer to DSP on creation: %d", ret);
++		goto err_free;
++	}
++
++	args->size = bo->base.base.size;
++	args->iova = bo->iova;
++
++	drm_dev_exit(cookie);
++
++	return 0;
++
++err_free:
++	drm_gem_shmem_object_free(&mem->base);
++
++err_exit:
++	drm_dev_exit(cookie);
++
++	return ret;
++}
++
++int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_mmap_offset *args = data;
++	struct drm_gem_object *obj;
++
++	if (args->pad)
++		return -EINVAL;
++
++	obj = drm_gem_object_lookup(file, args->handle);
++	if (!obj)
++		return -ENOENT;
++
++	args->offset = drm_vma_node_offset_addr(&obj->vma_node);
++	drm_gem_object_put(obj);
++
++	return 0;
++}
+diff --git a/drivers/accel/thames/thames_gem.h b/drivers/accel/thames/thames_gem.h
 new file mode 100644
-index 0000000000000000000000000000000000000000..6d5195453b8d3eac2c333b7ac03e469b2744fb78
+index 0000000000000000000000000000000000000000..785843c40a89a9e84ab634aad77e9ec46111693e
 --- /dev/null
-+++ b/drivers/accel/thames/thames_rpmsg.h
-@@ -0,0 +1,27 @@
++++ b/drivers/accel/thames/thames_gem.h
+@@ -0,0 +1,41 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
 +
-+#ifndef __THAMES_RPMSG_H__
-+#define __THAMES_RPMSG_H__
++#ifndef __THAMES_GEM_H__
++#define __THAMES_GEM_H__
 +
-+#include <linux/completion.h>
-+#include <linux/rpmsg.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_mm.h>
 +
-+struct thames_core;
++struct thames_device;
 +
-+int thames_rpmsg_init(struct thames_core *core);
-+void thames_rpmsg_fini(struct thames_core *core);
++struct thames_gem_object {
++	struct drm_gem_shmem_object base;
 +
-+int thames_rpmsg_send_ping(struct thames_core *core, u32 ping_data, u32 *sequence);
-+int thames_rpmsg_send_create_context(struct thames_core *core, u32 context_id);
-+int thames_rpmsg_send_destroy_context(struct thames_core *core, u32 context_id);
++	struct thames_file_priv *driver_priv;
++
++	struct drm_mm_node mm;
++
++	u32 id;
++	u32 context_id;
++	u64 iova;
++	size_t size;
++	size_t offset;
++};
++
++struct drm_gem_object *thames_gem_create_object(struct drm_device *dev, size_t size);
++
++int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file *file);
++
++int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file);
++
++int thames_context_create(struct thames_file_priv *priv);
++
++void thames_context_destroy(struct thames_file_priv *priv);
++
++static inline struct thames_gem_object *to_thames_bo(struct drm_gem_object *obj)
++{
++	return container_of(to_drm_gem_shmem_obj(obj), struct thames_gem_object, base);
++}
++
++#endif
+diff --git a/drivers/accel/thames/thames_rpmsg.c b/drivers/accel/thames/thames_rpmsg.c
+index ebc34f49353e5e7959734da8e8a935573c130e79..a25465295a177877c5ca2b3c93f52d8288863797 100644
+--- a/drivers/accel/thames/thames_rpmsg.c
++++ b/drivers/accel/thames/thames_rpmsg.c
+@@ -63,6 +63,14 @@ static int thames_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int len
+ 		break;
+ 	}
+ 
++	case THAMES_MSG_CONTEXT_OP_RESPONSE:
++		ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
++		break;
++
++	case THAMES_MSG_BO_OP_RESPONSE:
++		ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
++		break;
++
+ 	default:
+ 		dev_warn(&rpdev->dev, "Unknown message type: %u\n", hdr->type);
+ 		break;
+@@ -122,6 +130,67 @@ int thames_rpmsg_send_ping(struct thames_core *core, u32 ping_data, u32 *sequenc
+ 	return thames_rpmsg_send_raw(core, &ping_msg, sizeof(ping_msg));
+ }
+ 
++int thames_rpmsg_send_create_context(struct thames_core *core, u32 context_id)
++{
++	struct thames_msg_context_op msg = {};
++
++	msg.hdr.type = THAMES_MSG_CONTEXT_OP;
++	msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
++	msg.hdr.len = sizeof(msg);
++	msg.op = THAMES_CONTEXT_CREATE;
++	msg.context_id = context_id;
++
++	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
++}
++
++int thames_rpmsg_send_destroy_context(struct thames_core *core, u32 context_id)
++{
++	struct thames_msg_context_op msg = {};
++
++	msg.hdr.type = THAMES_MSG_CONTEXT_OP;
++	msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
++	msg.hdr.len = sizeof(msg);
++	msg.op = THAMES_CONTEXT_DESTROY;
++	msg.context_id = context_id;
++
++	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
++}
++
 +int thames_rpmsg_send_map_bo(struct thames_core *core, u32 context_id, u32 bo_id, u64 vaddr,
-+			     u64 paddr, u64 size);
-+int thames_rpmsg_send_unmap_bo(struct thames_core *core, u32 context_id, u32 bo_id);
-+int thames_rpmsg_send_submit_job(struct thames_core *core, u32 context_id, u32 job_id,
-+				 u64 kernel_iova, u64 kernel_size, u64 args_iova, u64 args_size,
-+				 u32 *sequence);
++			     u64 paddr, u64 size)
++{
++	struct thames_msg_bo_op msg = {};
 +
-+int thames_rpmsg_ping_test(struct thames_core *core);
++	msg.hdr.type = THAMES_MSG_BO_OP;
++	msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
++	msg.hdr.len = sizeof(msg);
++	msg.op = THAMES_BO_MAP;
++	msg.context_id = context_id;
++	msg.bo_id = bo_id;
++	msg.vaddr = vaddr;
++	msg.paddr = paddr;
++	msg.size = size;
 +
-+#endif /* __THAMES_RPMSG_H__ */
++	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
++}
++
++int thames_rpmsg_send_unmap_bo(struct thames_core *core, u32 context_id, u32 bo_id)
++{
++	struct thames_msg_bo_op msg = {};
++
++	msg.hdr.type = THAMES_MSG_BO_OP;
++	msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
++	msg.hdr.len = sizeof(msg);
++	msg.op = THAMES_BO_UNMAP;
++	msg.context_id = context_id;
++	msg.bo_id = bo_id;
++	msg.vaddr = 0;
++	msg.paddr = 0;
++	msg.size = 0;
++
++	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
++}
++
+ int thames_rpmsg_ping_test(struct thames_core *core)
+ {
+ 	const u32 test_data = THAMES_PING_TEST_PATTERN;
 
 -- 
 2.52.0
