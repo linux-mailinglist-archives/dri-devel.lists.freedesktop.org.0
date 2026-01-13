@@ -2,135 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41254D161DA
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 02:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432A0D162DA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 02:35:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F19610E0FA;
-	Tue, 13 Jan 2026 01:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFC910E190;
+	Tue, 13 Jan 2026 01:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cl3yAOyy";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bAS+R6r8";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="s5el5HDF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F156110E0FA
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:07 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60CN56501935377
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=J/0cnCYpDBos+7nwSFiIuXvo
- +vrGW9jjlT38b0YSnCo=; b=cl3yAOyyWwhcHORodfqsQLgbb7Ch2B7xKZSnlKuR
- t4Qe0xREyUzz2t2V353PmvKDUBZNx50pMikiU0vkqS9Nz0uCvhYGQvMSL2dsW69W
- o2SbgK8ATBv18DcjEx8fa0TNtD9Nqjm8/5vOXg+313zwBbECXQRq+p59B8e+2CPI
- XymJOCYhMfPS/yGQTR/SzTYKE+J8yC6C/WAa8UZ9G3SjlSiVLciyKq0tFy5V/9/J
- SCJwJlxbGNFlDYbNo9Y3wlQh4BSRLQ7dEPasRgyjMwGeJXUKRfpIqKRE0w/VMgC3
- z522A1aWZI4o1PKN/Or9o2kgKwIb+EZPt5fRLGNwKUi/pA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bn6cngyj9-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:06 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8b22d590227so867912985a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jan 2026 17:14:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768266844; x=1768871644;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=J/0cnCYpDBos+7nwSFiIuXvo+vrGW9jjlT38b0YSnCo=;
- b=bAS+R6r8UnOgBOe7BpTjAHc2DuIOay3wZE/NamszEInreMYAkQf46NcQrO61ZjNf0S
- M4g1H1qztVoZyptd/yk9FwHPWk6sMRABRIeGcQp2tpTYCT/8n5GNIoVNvjmLp3iY54sB
- 2V+nbfmN4wJ/M8GXskgrkI5Zm485h5kB0SZkjp/u9z9iBjAO4lntGV7dbASshk767BnX
- l8bH37b/7iOZg/J9kAPCoIlVLO0/sFCkJPoDrdtMLe7xn4oEOKL2+ZL0eeFJEj8YRY1V
- uzg1wCpo2i4bVVeUedWIheB3eO/prfTnlk5K0MmtyciWxCZYYJR3E1yirPJqaP94xs6z
- rSRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768266844; x=1768871644;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J/0cnCYpDBos+7nwSFiIuXvo+vrGW9jjlT38b0YSnCo=;
- b=NIpl8sAVDipG908rDuG50uWr+MQuX921LEU5YthooufWe+MvTrQj4Oa4/razzIvKiw
- YCweKjEQYwNQThVqnWe5ji9Pe3tzZwwBE1+ZembCwidjFlByVmTwCL9zIkUIKfkK46J5
- qMEZ4uqK8WAayAVulZ7TX9Av/H3UNwDguRLfk52jMJyyNikRcxJtDOVrqTVoCjb1/Buu
- PyJlI+sqoUG8deChYJCWeAixvTXyER8bubRKjcs8AsE7KyXMuLmrt7MBI06qxNdyOcpv
- q9PGoT4/SRGAHqhOjlZQrFaV7Du0XQ02jMaoUoGWaVf2UlKRUwTYvcFxhbCH61Q65EJv
- Gt3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWias4y01x/Vn4Sdq0c9sIwYuIhUmKCHqSjxeB9vr5+3/lkfq1Vy5KbecmhnQxmuNBIGb9fB+2tJuE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAY5ygefyTLWnE8HNk3/DohdGC2c5J+MsxhRMWDL6jubQZCrFi
- Y0Qd5C9FzyeJsfBlZ4aYzvhUj0LJdmrtgW4a9264hJ4/YXMriSamG9/VWrhkRZ10HiyFT2x3rNx
- 2f3m+4a2FEJskP3VW0RQ/6T+oNstb2qz1yQ/X/asACP5G5PGYDJRlwtqFaERkvxaCcaBz/6c=
-X-Gm-Gg: AY/fxX6uj1PyrwJYSCuraxcOlF4rk3I/nOahF9CVnkHvp4K+jYooulvA8kwLjw0m/OY
- D60crMr2QD//FekX8IZBfrQEdH3ALFewpeMIMShPKGl4MNlix2NDCt5T+GkFooIihZKiKvf63ew
- XjEkDFYK4SJclslzjhIx/IRHBT0vkokev1gRC2ruknUFVAtkThHPAqLze4eXKIaGShp34JMg46E
- sh3uQQGXC8oBD/CEsIkPbXsqIyhQVaGRxY631JhGfva+IbAUGL6/vmu/VZpnRskUQCbEYkGfQg2
- Y/ByY6rV3hB9L8HKZVVEZmcCWepLDn9CyGsC68qoOdAdrnImrBtP8LCS0MugqzfE2S6sfVstZZY
- qdQn8ZQs4S5Sl3rUAW0IFUCaF/q883nQu8mdcr+XVpcABq1Mc/oHE/tqF7kcrvtOVlfJ98BTzPN
- AFaIfkXtGIowOYm7Y2wgWm7Ms=
-X-Received: by 2002:a05:620a:2a07:b0:8b2:271e:a560 with SMTP id
- af79cd13be357-8c3893e7e2bmr2315927385a.72.1768266844330; 
- Mon, 12 Jan 2026 17:14:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF4WlkP4sNqdgzyvpCMNJE4qaOKFUaJCa4aduSzPBbjzyb10EW/oKcBiBwhOQ9DebVVAgpZZg==
-X-Received: by 2002:a05:620a:2a07:b0:8b2:271e:a560 with SMTP id
- af79cd13be357-8c3893e7e2bmr2315923785a.72.1768266843790; 
- Mon, 12 Jan 2026 17:14:03 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59b6a2b8330sm4926075e87.10.2026.01.12.17.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jan 2026 17:14:03 -0800 (PST)
-Date: Tue, 13 Jan 2026 03:14:01 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Alexey Minnekhanov <alexeymin@minlexx.ru>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alexey Minnekhanov <alexeymin@postmarketos.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] drm/msm: drop DPU 3.x support from the MDP5 driver
-Message-ID: <yxp6k6bjscuxwm5mz2ev2647ewe7mycus7dszehtrfr7qhxx25@nptailaparnc>
-References: <20251228-mdp5-drop-dpu3-v4-0-7497c3d39179@oss.qualcomm.com>
- <bb889140-5ddb-485a-bb50-739f68297838@minlexx.ru>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010048.outbound.protection.outlook.com
+ [40.93.198.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 836A610E190;
+ Tue, 13 Jan 2026 01:35:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F3iKDErvKvpbAzDpBf4aFc1MAu9xpaow+pFDe4DH4phbs5EiZILWR1nz7YSesA4J3tfnSPajOtgZ8/vK2CQhAr4aHXuMAQBb1UWPrrBYy5xLeXdJH1xUCVfAaXKVYm/uJwue7fyfKtIN/Nhl1Wr3iBPuyw0OOswVN98iDbYFMK0mk2ApKpRaFtF0n7Tnh6h++f34u/Wv3p2LD3y07ArWj53bzj4BxWNKAcwfD3U789GwxYkQhqpCthHjQcLYazwpEyYGqAj3Wo7uD7ZryOwvjK5YrZlE8Mud0SAENvFiQhGrIjI/6VMxIgwSIPVCprm2pWJtsOIacoa2hvwR6by3NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ig2WzQNs4uZD/mPYk47IqnKWC1PBrIvc3N79qdaDHXQ=;
+ b=Eel801OR577Ku4DmiPOes82vDoERrlIaER2I2TsyPukWY9LFAheC9PHThG9+ET2WF5uGIW/bL1y7/DCJ4RXTHFqeyi6wVhpc8jBpuZyQrQvX0tVpuFqgt4OOUGu4qwQbTN21aD0Pl+Xd8ycufOeE3d0LzyX7UYZi7I0pWJwPi8vsDjDGHDXVnWKjpeQu9/oVBfc/jCT82mM1o8B321ydE6LiAK623/iuvzS/iYiWsojsHIBQFHdfubPm6N6RWBq878FTCQmIVXfzM5XSn4IbKpWdapu86tKqCi2ubpW1SXo8pG9eyoGOveoppRECBgRzatzHaF6VtbO+cjDwnu5ulg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ig2WzQNs4uZD/mPYk47IqnKWC1PBrIvc3N79qdaDHXQ=;
+ b=s5el5HDFuUhDzgC8ZR2BGvsNJtkoGthg87zDxCkKhoaTmKcF8foNFCyt1NrhUwN0pqn1mHiIe77XcOCKH7LO2XBGL4ffWV76H+uwiLmowMZPY5q2XDKH5vpbH7EtvwukqXmrXUhYTla9yE4XMBc3qvzHjrSu/m1np8bdxRb9UaUdWffuugHtYwfKFsIN71Mhb1C9oeZisvtQ65wqpkT3MTLF32+1enARkmb3nauZBFgbnL8gfDwP5h9fiwfoZDua/6nzC+uVwZrWDFJXNUZdAmJY47DK0iyxiOpyu9lXDQPRHT/0ChXNyHYfBr0uMnxjVT4yHT/ZCmFG/aqUO+jVwQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ MN0PR12MB5884.namprd12.prod.outlook.com (2603:10b6:208:37c::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.7; Tue, 13 Jan 2026 01:35:36 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
+ 01:35:36 +0000
+Date: Tue, 13 Jan 2026 12:35:31 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Balbir Singh <balbirs@nvidia.com>, 
+ Francois Dugast <francois.dugast@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ Zi Yan <ziy@nvidia.com>, David Hildenbrand <david@kernel.org>, 
+ Oscar Salvador <osalvador@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ linux-mm@kvack.org, 
+ linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/7] mm/zone_device: Add
+ free_zone_device_folio_prepare() helper
+Message-ID: <bgbjzeqbvdrlusnt2gexc4joosukgxddca5w5zzq6dz44rjkfq@nt2qd7eu5cak>
+References: <20260111205820.830410-1-francois.dugast@intel.com>
+ <20260111205820.830410-3-francois.dugast@intel.com>
+ <706ba3a6-5be2-46d7-9e7d-d613f2e061cc@nvidia.com>
+ <aWRLeoUJAYAWbLD3@lstrano-desk.jf.intel.com>
+ <k25qmqrfmhzkls2ngdaq4wdk3xtl3epv4z3dvukon5yj2cb2hl@yci7xdpvauh7>
+ <aWWQhOD8g8oLz1vX@lstrano-desk.jf.intel.com>
+ <ntawk3mmrg2qihe24dk34pevtlgj3cdxnshau3wgyi5lygtuvo@jcsz5hmt4xth>
+ <aWWaxakpRiapWw5X@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <bb889140-5ddb-485a-bb50-739f68297838@minlexx.ru>
-X-Proofpoint-GUID: BY5mz58W9ZjvHnXVtJD19T1XC3flrUp5
-X-Authority-Analysis: v=2.4 cv=KK5XzVFo c=1 sm=1 tr=0 ts=69659c5e cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ZEkBDfZtAAAA:8 a=vlXmtpXO02sfSNYNR6MA:9
- a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=IqjDwHP2KxQYjTbYCZGP:22
-X-Proofpoint-ORIG-GUID: BY5mz58W9ZjvHnXVtJD19T1XC3flrUp5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDAwOCBTYWx0ZWRfX+195RJV3YZta
- wpo57RBQgYpzkbHJF4mZ9lqJDTv9qxp6/mtXo1dbPUCxy4fW1B4XzqGPwRl80D7+Vc/gRf7nw8l
- 2fjoydGotCtccH5Zo9VhVbbpk5LjiHqxmdEOhaIfLRrc4VMjTMPKilkAJwrCXIiEqfFFHZ7IOt8
- BhN8my6xURV2QD+XCPRweW2frDww1EFdUEktYmPHDwtC8uPf+l3a4F3v6kg13nah//0qb1wTx7O
- hn6lqTLswBbPecy6VMaKXAR+fE1JfySi6yNU2B+GYbrJSggzQoGuqPRZ54bxCoTPyng/htmxnqN
- liN/bCWQSePEwu2dkImS15aCKz2jCQIm7k6rkEGLbzCfz21MRto+KaJFGHysfj7MH86C/nJOdX1
- t2ViZuPWd9f2PhvtbVBE5uRhH+i8UVykNKCKpdc/MKmdnGErkbAE99lCZmwGBNq62YpRRAs4HCa
- 2EyeQpahxIjL9a/ls3w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-12_07,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
- phishscore=0 clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601130008
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aWWaxakpRiapWw5X@lstrano-desk.jf.intel.com>
+X-ClientProxiedBy: SY6PR01CA0117.ausprd01.prod.outlook.com
+ (2603:10c6:10:1b8::18) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MN0PR12MB5884:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd500d79-5428-4d5b-ee36-08de52440caf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RWg3U2g0bmdZcURmVWpMSVhVN1FrMjVIZGFJVUdML3lEQTlZMUppUW9CKzV3?=
+ =?utf-8?B?SFJtWUxCRWNSYlE0ZXVOdFhuUXJHSjJ5QXUzK0sydjltOXVCMm0vQlN2ejZy?=
+ =?utf-8?B?YVpKc21mb2dBSGxNVkt2anIyWE4wbFcxaDZxSGxCb2M1SCtOa1hrUjZwSW5p?=
+ =?utf-8?B?Mm5ldEh0VlBkWVBYUm5DVDF0R3NKN01kUXBrRXlsS1dTOHF3SGFNOHJCQjlT?=
+ =?utf-8?B?U2ovT1FiMWxhdVdNeVhHR1RPd1VvZU0rOVpybXNtTUhyUm4rSXkrV3VoTjNZ?=
+ =?utf-8?B?WEZXRU12Y2V0WXRFTTIyYjhqYWsxbGhrUEF3ZXZoRGVRM2MxV2h6cHJsTWtK?=
+ =?utf-8?B?RjNZb1Rzb1Z6OXRpd3ZwN3pmZlQyNUJYSGdPTGpwSkJiaWJjMS9McmNMc2JP?=
+ =?utf-8?B?bVh1UlZ1RjlYaTNEMzIxNG9vcEN5T2phUUY1TnpLREVwOVBRVnJMaVNRdFpW?=
+ =?utf-8?B?ZXcxbFNYSVhQNGwzR2kxekZ4aXJRR2ZJanVockxpS3JkeFVMY0RhNVVuQ21n?=
+ =?utf-8?B?YnhlZXRhS0hoNGNnT0UvS3J3YjBiN1ZFR2NFREtVZGtIUVVyMmZJWU9UYVox?=
+ =?utf-8?B?ZnlQN1F4ZkNGazgyTU9uRFZlWGM0NHVodmFLSkdqekttV2VSSkNjWjV5QnQx?=
+ =?utf-8?B?MzIzWFR0TGw2SnZxalRlWW1jU1YvZWIwVmlyZXQxM1d4L0NvTkhoVXJRc3Zj?=
+ =?utf-8?B?c0ZPQjlDUTdtN3lRYnVTQWdsbDV6MU5vWG1uSk5rejhabHAwL2VaZHRqYzVS?=
+ =?utf-8?B?OWhySDJITmRiN0VzeWtUS0ZuV2MybzU0RTBIaVQvd2p5UWkvK3Nja0tSRld6?=
+ =?utf-8?B?OWRHcUpYV0xaZlUxQjlJU21sRHJHdU15Q0ZacGIzWTYra2NPY2ZGcWM3UTQ1?=
+ =?utf-8?B?OVlKNjhRTEtnMGs4d1pQVVk5VkUxc2tjczJ2N3gwcHduTkpGTHRINlR2Mk9T?=
+ =?utf-8?B?WHpaYllWQVBIaEpGajdCKzc5OE4xdlBEWGZhT1NBZGNxSmlGK2NMRmlVcXlz?=
+ =?utf-8?B?TWs2MlE4d0NmaWxiU3Z6NUIxMzBXdHpoaUpxZ1RFL3hZc3JkbHBrMjdNaXNh?=
+ =?utf-8?B?TnhPcjFSL3VTYmlkTGl1c2tDV3Z4ZnJPOEJTcGFnQnEvVCs4TTRadW5GRnE3?=
+ =?utf-8?B?TjVablFHNjh5bXluZVAvUXFiK1ZMT0xDcUZqZ1BxT0poNVN3MG90WWFvdngr?=
+ =?utf-8?B?aENSZEVtM28vU01oUVRLZXlNbjh3R0k1K1kzRFRydDZkNERqdTJFbFg0c0ZU?=
+ =?utf-8?B?cnhtbmJxeHBvVy9nZHNIaUJQTGY2b09oN29kVVY2K0NZaWxLUy9lSmdRQnJP?=
+ =?utf-8?B?VjgyaHpjY2czZzdJVE56TkMwZjgzWlZLZ010NXdldW94Q3NMUTlNU29KK0ZR?=
+ =?utf-8?B?NGdsQUZzQ1Q0QzJwcVFRckpmYkR2WXAvQ0xCcis4cGJWRDdtNTQzTm5nTXlp?=
+ =?utf-8?B?ODlaYTF1SkhKUDNzYWRQYVBmdGZzMVNCSkNtQXp1N05nZ2hjN3JXcFNVZU1l?=
+ =?utf-8?B?ZFdDU1VHaHh0R1RIYzdQdFFOeElRZXBHSElJL0VLTDZIWmJ1TFd0UUV2ajgx?=
+ =?utf-8?B?YTlWTDBkeG9IRnRjYmhBUXF2eWd6TzBIUWRxWUVjOHdMQ0NLRVJSeHF5Zkhu?=
+ =?utf-8?B?TUNIYW93SXh0L2JGRVJ2d1Ard2R1dVVndWozVk9LTkIza2IxK3E1VytROWtN?=
+ =?utf-8?B?QTNRT281V2h0S3REbTd4NG9jTDR1a2drUWdZckFVYkFFVG5qZ09CVTBrU0ty?=
+ =?utf-8?B?M1ZEczVwcXZYWkFXQ25FaWFOSG8zUTNtNS93RTl4OUNsMS95R0pYdlB5UEtr?=
+ =?utf-8?B?L3QxZ3I3T2NsZFJvUmZJcXEvUDhUTjNzdkhJTHphRnVXeHB4ak84Q05DRUNy?=
+ =?utf-8?B?bWZTYzVKMUpLbjJTOHA1a2V3QitBV05icW9ObFAzOHNRMC9TdUJZdXNnY2ln?=
+ =?utf-8?Q?Ybrp8vJ7DAoC3HOP3Zr8hzqNI3TT9oWn?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qlo5cG1VeDBMcGZ1SjFGM1VEZXdPQzZhMFNLd29SQ1NOZlg1SDZNTzJOaFVu?=
+ =?utf-8?B?SllHbVBDSUQyNVRyY0xLenBVR2ltdjlIUC9KTm1VUy9oZXZEOGpnTXR1cDBm?=
+ =?utf-8?B?YkdqWm1JeHdrb2pjbWlzSnNZcVF4bFVGUkdHRW1Ebnp5T21paHlydFhDQUw3?=
+ =?utf-8?B?UU5BQm1mMTc0ODZIU1BzeUV5azBnZVM5RUhmMTkxNDk0a0FUMHJINlk5TlMy?=
+ =?utf-8?B?dmFPQ1BUeUNHdi9oVHhTN0g4ckNkTzJmUDhpTXFVbWVXTk1tWks1VU0vZ0Rh?=
+ =?utf-8?B?NnFvVkdqZ09WZERwcVdJcUlGaGdocURpbExJVGFxbFIvMEgzQzliNkw3Z0NJ?=
+ =?utf-8?B?RDE5ZjBkbjNDVEx6NHYyVFFMRi91bXB1ZXA2U3lVOW5tUGZQKzJkZGdyRU4w?=
+ =?utf-8?B?ZmEzb2w3a0lLU1ZQVDVjeUZjQ3FzT0xRVnFidnpBdVc2MGVqbjZxMHlnODVj?=
+ =?utf-8?B?VVgrTWFGK3VrZlpDdnVIWW14Y3U4ZlRRdEhGcUVZdVFkTStVK044WFAzcmt6?=
+ =?utf-8?B?UkVtWVM4bllacGsvWGxJb2lGZGtiOEdNM3FxeTFWNDluOHd6WUo3U1NsSTFv?=
+ =?utf-8?B?ZURnQkhoelpTcFk2ZGQyV3dpYk5PbGw3N0ozY0NSell3eG9yQWFmZ0xtSTV6?=
+ =?utf-8?B?Wmcrb0oxNzNyQ1RKRmVSenJSaHRDOGhqOVlLVW9xMTF6SUErZkVIL2o1N1h5?=
+ =?utf-8?B?K1J3MFdFZHNiVURIdVdRdlNtYkRsS2xTd2V4NDFKNysydmxCVmZBNmtLbjNI?=
+ =?utf-8?B?VXJPeEgzZW56K2pmWFdhdVZjUlR3L3NsWlFMLzNjYUQ0RWcwSCsvM0duQXQy?=
+ =?utf-8?B?dGdTQlVmVjRad002eHVXQXNoOUNhaEs2NmtIdXdSNVFURCtlSnlVcnB5a0Nz?=
+ =?utf-8?B?a2pCSnZ5ZUJtWGxMb1ZxZXY0S0ZlbmMwdDl5T3ZSQU83czZPZGYrN3p4TW5o?=
+ =?utf-8?B?Z0E4MWdLSHh4K2crbml1RThtS0lWM1JGaWhoeDdiM293VmdVSGhPb1Z5UkVK?=
+ =?utf-8?B?cG5WbkE4NmY4OERqUmhPTEpOMUxJNHdMVXcvQlJoaXFscTg0d0NFVzFSU0Zz?=
+ =?utf-8?B?V0drUHpEOGdVVUZUOGNwRkJjMnZBem1hakhEU3ZDbXZQODQwZzlLWndyeFcr?=
+ =?utf-8?B?M1ZUZTJuakpGK255V25lcVU5bVZYclExRVl2WnVIeW5ZTzdzaGNPNEtNajdJ?=
+ =?utf-8?B?Q0huUVJBZ2ZmYzNKaU5aNy9RSkpnS3NKWnFmL2lUUHhvYlR4NUZxMEpqdlpV?=
+ =?utf-8?B?Z0xlcTBPcXRlTktFdHJuWU1tRE4wNG5ZRm4waVhvd1FESjZ3ZHRFUU9sTjlv?=
+ =?utf-8?B?UGZEdlJydU5lU0JDZnFPeFFLd0RsbkFRN2x3b1k3OFZQc2RKaGNZS1NKVXZo?=
+ =?utf-8?B?VXo5dVlWZ0NvVWdxZ3U3MW91TUlmR1FOOUw4Z2VVcFEvblRQbDg4L0hUVTdS?=
+ =?utf-8?B?OG9kQkNBeFlOZGROd2E5VGw2K2pOTDNHL0tMRXBJeEFHTFg4K0VydnNiSDlZ?=
+ =?utf-8?B?aFB4c01pWkF3VDRFcDBSalhtd1J0a3BXOFRvdFB5d1hqQU5wS0lKREN3S1lX?=
+ =?utf-8?B?N0JQQWdOaVd3NGx1cWlvbWtaemJmdzQxOGx5SmdENnpSU1hlZktmb2gzeG53?=
+ =?utf-8?B?VHkyTjVMbXoveDl4azJLZExzUW5vaFpCV0I3VWRIWmZyWDVIbVMvSlVTSWs1?=
+ =?utf-8?B?ckZNV2dJeWZiWklTL2VmU2JHL0xkZDYxZFZIcG0xbzNWOGZFZWw1NEVZbkxK?=
+ =?utf-8?B?eUZUdzdPckJCYWNNSUJ4N2VuKzVPT0doQ3ZHZTFLOGJsRTRZeDdBT2Z6OGw2?=
+ =?utf-8?B?N2tmOW5BWEdaWStsbnFkU1h4YUR0NXZPbkpxeW8xUnlLYnI2ZnFjanR0M01F?=
+ =?utf-8?B?ZTNlL2NoL2NRK2lBTEFNbUxkV3dqUG15eHRjamRNeEZ2QVlOdFgrOTFqWlJn?=
+ =?utf-8?B?cW4xUDdKaVlQMjlFeERzbnlkSk0wTHd0WTBjTzZZdU9lcklzYlVlcGVsaDRJ?=
+ =?utf-8?B?R3FNeFJoeTh1SndMRnlvZ09iOExyVmdHcXJlaE9ZZWJBVG1RM0FLbnVsaE1a?=
+ =?utf-8?B?MUQrNUE5OVZnRWZ4aW1YQkxTK2NvOGdYeGd4YmtkVndMQ2lBNmd2NnVqc2RU?=
+ =?utf-8?B?T1YvYWJ2YTZHUlFBUzZ6R2xaa3R4Q0wyYW5KUk9TMlN1SGVuQktsQ1orbTZT?=
+ =?utf-8?B?RFhtZlJjbVRUNjhjZllSNFVIMDBBemxtd09lakx6YzlXa3NpNHBZcCsyUmNF?=
+ =?utf-8?B?SXF3UW51bDhzdng1cDB3TkdOc2xOUFZPWjc1UXNHYWpNUlJHbWlHbFNPV3dj?=
+ =?utf-8?B?cDVyVitkdVZjbmpPeUlrY1ljUUROK0ZOZ1o0aW9hWDJXQkl0WWxNQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd500d79-5428-4d5b-ee36-08de52440caf
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 01:35:36.0152 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3bohnMu76FRjpNgL2XnRLxkEyA7wHpyaY1iy06xKwYTY5jkGXY2Cr9DeyldHddAmRbuBAtp8MOZW1RHKj/okPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5884
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,56 +185,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 03:02:33AM +0300, Alexey Minnekhanov wrote:
-> On 12/28/25 7:02 AM, Dmitry Baryshkov wrote:
-> > Fix commands pannels support on DPU 3.x platforms and drop support for
-> > those platforms (MSM8998, SDM660 / SDM636, SDM630) from the MDP5 driver.
+On 2026-01-13 at 12:07 +1100, Matthew Brost <matthew.brost@intel.com> wrote...
+> On Tue, Jan 13, 2026 at 11:43:51AM +1100, Alistair Popple wrote:
+> > On 2026-01-13 at 11:23 +1100, Matthew Brost <matthew.brost@intel.com> wrote...
+> > > On Tue, Jan 13, 2026 at 10:58:27AM +1100, Alistair Popple wrote:
+> > > > On 2026-01-12 at 12:16 +1100, Matthew Brost <matthew.brost@intel.com> wrote...
+> > > > > On Mon, Jan 12, 2026 at 11:44:15AM +1100, Balbir Singh wrote:
+> > > > > > On 1/12/26 06:55, Francois Dugast wrote:
+> > > > > > > From: Matthew Brost <matthew.brost@intel.com>
+> > > > > > > 
+> > > > > > > Add free_zone_device_folio_prepare(), a helper that restores large
+> > > > > > > ZONE_DEVICE folios to a sane, initial state before freeing them.
+> > > > > > > 
+> > > > > > > Compound ZONE_DEVICE folios overwrite per-page state (e.g. pgmap and
+> > > > > > > compound metadata). Before returning such pages to the device pgmap
+> > > > > > > allocator, each constituent page must be reset to a standalone
+> > > > > > > ZONE_DEVICE folio with a valid pgmap and no compound state.
+> > > > > > > 
+> > > > > > > Use this helper prior to folio_free() for device-private and
+> > > > > > > device-coherent folios to ensure consistent device page state for
+> > > > > > > subsequent allocations.
+> > > > > > > 
+> > > > > > > Fixes: d245f9b4ab80 ("mm/zone_device: support large zone device private folios")
+> > > > > > > Cc: Zi Yan <ziy@nvidia.com>
+> > > > > > > Cc: David Hildenbrand <david@kernel.org>
+> > > > > > > Cc: Oscar Salvador <osalvador@suse.de>
+> > > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > > > > Cc: Balbir Singh <balbirs@nvidia.com>
+> > > > > > > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > > > > > > Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> > > > > > > Cc: Vlastimil Babka <vbabka@suse.cz>
+> > > > > > > Cc: Mike Rapoport <rppt@kernel.org>
+> > > > > > > Cc: Suren Baghdasaryan <surenb@google.com>
+> > > > > > > Cc: Michal Hocko <mhocko@suse.com>
+> > > > > > > Cc: Alistair Popple <apopple@nvidia.com>
+> > > > > > > Cc: linux-mm@kvack.org
+> > > > > > > Cc: linux-cxl@vger.kernel.org
+> > > > > > > Cc: linux-kernel@vger.kernel.org
+> > > > > > > Suggested-by: Alistair Popple <apopple@nvidia.com>
+> > > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > > > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> > > > > > > ---
+> > > > > > >  include/linux/memremap.h |  1 +
+> > > > > > >  mm/memremap.c            | 55 ++++++++++++++++++++++++++++++++++++++++
+> > > > > > >  2 files changed, 56 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> > > > > > > index 97fcffeb1c1e..88e1d4707296 100644
+> > > > > > > --- a/include/linux/memremap.h
+> > > > > > > +++ b/include/linux/memremap.h
+> > > > > > > @@ -230,6 +230,7 @@ static inline bool is_fsdax_page(const struct page *page)
+> > > > > > >  
+> > > > > > >  #ifdef CONFIG_ZONE_DEVICE
+> > > > > > >  void zone_device_page_init(struct page *page, unsigned int order);
+> > > > > > > +void free_zone_device_folio_prepare(struct folio *folio);
+> > > > > > >  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
+> > > > > > >  void memunmap_pages(struct dev_pagemap *pgmap);
+> > > > > > >  void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
+> > > > > > > diff --git a/mm/memremap.c b/mm/memremap.c
+> > > > > > > index 39dc4bd190d0..375a61e18858 100644
+> > > > > > > --- a/mm/memremap.c
+> > > > > > > +++ b/mm/memremap.c
+> > > > > > > @@ -413,6 +413,60 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn)
+> > > > > > >  }
+> > > > > > >  EXPORT_SYMBOL_GPL(get_dev_pagemap);
+> > > > > > >  
+> > > > > > > +/**
+> > > > > > > + * free_zone_device_folio_prepare() - Prepare a ZONE_DEVICE folio for freeing.
+> > > > > > > + * @folio: ZONE_DEVICE folio to prepare for release.
+> > > > > > > + *
+> > > > > > > + * ZONE_DEVICE pages/folios (e.g., device-private memory or fsdax-backed pages)
+> > > > > > > + * can be compound. When freeing a compound ZONE_DEVICE folio, the tail pages
+> > > > > > > + * must be restored to a sane ZONE_DEVICE state before they are released.
+> > > > > > > + *
+> > > > > > > + * This helper:
+> > > > > > > + *   - Clears @folio->mapping and, for compound folios, clears each page's
+> > > > > > > + *     compound-head state (ClearPageHead()/clear_compound_head()).
+> > > > > > > + *   - Resets the compound order metadata (folio_reset_order()) and then
+> > > > > > > + *     initializes each constituent page as a standalone ZONE_DEVICE folio:
+> > > > > > > + *       * clears ->mapping
+> > > > > > > + *       * restores ->pgmap (prep_compound_page() overwrites it)
+> > > > > > > + *       * clears ->share (only relevant for fsdax; unused for device-private)
+> > > > > > > + *
+> > > > > > > + * If @folio is order-0, only the mapping is cleared and no further work is
+> > > > > > > + * required.
+> > > > > > > + */
+> > > > > > > +void free_zone_device_folio_prepare(struct folio *folio)
+> > > > 
+> > > > I don't really like the naming here - we're not preparing a folio to be
+> > > > freed, from the core-mm perspective the folio is already free. This is just
+> > > > reinitialising the folio metadata ready for the driver to reuse it, which may
+> > > > actually involve just recreating a compound folio.
+> > > > 
+> > > > So maybe zone_device_folio_reinitialise()? Or would it be possible to
+> > > 
+> > > zone_device_folio_reinitialise - that works for me... but seem like
+> > > everyone has a opinion. 
 > > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> > Changes in v4:
-> > - Inverted logic in dpu_encoder_phys_cmd_wait_for_commit_done(), check
-> >    for the feature rather than the lack of it.
-> > - Link to v3: https://lore.kernel.org/r/20251224-mdp5-drop-dpu3-v3-0-fd7bb8546c30@oss.qualcomm.com
+> > Well of course :) There are only two hard problems in programming and
+> > I forget the other one. But I didn't want to just say I don't like
+> > free_zone_device_folio_prepare() without offering an alternative, I'd be open
+> > to others.
 > > 
-> > Changes in v3:
-> > - Fixed commit message (Marijn)
-> > - Reordered CTL_START checks to be more logical (Marijn)
-> > - Link to v2: https://lore.kernel.org/r/20251218-mdp5-drop-dpu3-v2-0-11299f1999d2@oss.qualcomm.com
-> > 
-> > Changes in v2:
-> > - Fixed CTL_START interrupt handling on DPU 3.x
-> > - Link to v1: https://lore.kernel.org/r/20251211-mdp5-drop-dpu3-v1-1-0a0186d92757@oss.qualcomm.com
-> > 
-> > ---
-> > Dmitry Baryshkov (3):
-> >        drm/msm/dpu: drop intr_start from DPU 3.x catalog files
-> >        drm/msm/dpu: fix CMD panels on DPU 1.x - 3.x
-> >        drm/msm/mdp5: drop support for MSM8998, SDM630 and SDM660
-> > 
-> >   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |   5 -
-> >   .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |   5 -
-> >   .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |   5 -
-> >   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   7 +-
-> >   drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           | 314 ---------------------
-> >   drivers/gpu/drm/msm/msm_drv.c                      |  16 +-
-> >   6 files changed, 17 insertions(+), 335 deletions(-)
-> > ---
-> > base-commit: 4ba14a6add891fe9b2564e3049b7447de3256399
-> > change-id: 20250926-mdp5-drop-dpu3-38bc04d44103
-> > 
-> > Best regards,
 > 
-> Thanks!
+> zone_device_folio_reinitialise is good with me.
 > 
-> This fixes DPU with command mode panel on Sony Xperia XA2
-> (sdm630-sony-nile-pioneer) and still works on video mode panels on
-> whole bunch of sdm660/636-xiaomi phones and tablet. The whole series
+> > > 
+> > > > roll this into a zone_device_folio_init() type function (similar to
+> > > > zone_device_page_init()) that just deals with everything at allocation time?
+> > > > 
+> > > 
+> > > I don’t think doing this at allocation actually works without a big lock
+> > > per pgmap. Consider the case where a VRAM allocator allocates two
+> > > distinct subsets of a large folio and you have a multi-threaded GPU page
+> > > fault handler (Xe does). It’s possible two threads could call
+> > > zone_device_folio_reinitialise at the same time, racing and causing all
+> > > sorts of issues. My plan is to just call this function in the driver’s
+> > > ->folio_free() prior to returning the VRAM allocation to my driver pool.
+> > 
+> > This doesn't make sense to me (at least as someone who doesn't know DRM SVM
+> > intimately) - the folio metadata initialisation should only happen after the
+> > VRAM allocation has occured.
+> > 
+> > IOW the VRAM allocator needs to deal with the locking, once you have the VRAM
+> > physical range you just initialise the folio/pages associated with that range
+> > with zone_device_folio_(re)initialise() and you're done.
+> > 
 > 
-> Tested-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
+> Our VRAM allocator does have locking (via DRM buddy), but that layer
 
-Thanks!
+I mean I assumed it did :-)
 
--- 
-With best wishes
-Dmitry
+> doesn’t have visibility into the folio or its pages. By the time we
+> handle the folio/pages in the GPU fault handler, there are no global
+> locks preventing two GPU faults from each having, say, 16 pages from the
+> same order-9 folio. I believe if both threads call
+> zone_device_folio_reinitialise/init at the same time, bad things could
+> happen.
+
+This is confusing to me. If you are getting a GPU fault it implies no page is
+mapped at a particular virtual address. The normal process (or at least the
+process I'm familiar with) for handling this is to allocate and map a page at
+the faulting virtual address. So in the scenario of two GPUs faulting on the
+same VA each thread would allocate VRAM using DRM buddy, presumably getting
+different physical pages, and so the zone_device_folio_init() call would be to
+different folios/pages.
+
+Then eventually one thread would succeed in creating the mapping from VA->VRAM
+and the losing thread would free the VRAM allocation back to DRM buddy.
+
+So I'm a bit confused by the above statement that two GPUs faults could each
+have the same pages or be calling zone_device_folio_init() on the same pages.
+How would that happen?
+
+> > Is the concern that reinitialisation would touch pages outside of the allocated
+> > VRAM range if it was previously a large folio?
+> 
+> No just two threads call zone_device_folio_reinitialise/init at the same
+> time, on the same folio.
+> 
+> If we call zone_device_folio_reinitialise in ->folio_free this problem
+> goes away. We could solve this with split_lock or something but I'd
+> prefer not to add lock for this (although some of prior revs did do
+> this, maybe we will revist this later).
+> 
+> Anyways - this falls in driver detail / choice IMO.
+
+Agreed.
+
+ - Alistair
+
+> Matt
+> 
+> > 
+> > > > > > > +{
+> > > > > > > +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
+> > > > > > > +	int order, i;
+> > > > > > > +
+> > > > > > > +	VM_WARN_ON_FOLIO(!folio_is_zone_device(folio), folio);
+> > > > > > > +
+> > > > > > > +	folio->mapping = NULL;
+> > > > > > > +	order = folio_order(folio);
+> > > > > > > +	if (!order)
+> > > > > > > +		return;
+> > > > > > > +
+> > > > > > > +	folio_reset_order(folio);
+> > > > > > > +
+> > > > > > > +	for (i = 0; i < (1UL << order); i++) {
+> > > > > > > +		struct page *page = folio_page(folio, i);
+> > > > > > > +		struct folio *new_folio = (struct folio *)page;
+> > > > > > > +
+> > > > > > > +		ClearPageHead(page);
+> > > > > > > +		clear_compound_head(page);
+> > > > > > > +
+> > > > > > > +		new_folio->mapping = NULL;
+> > > > > > > +		/*
+> > > > > > > +		 * Reset pgmap which was over-written by
+> > > > > > > +		 * prep_compound_page().
+> > > > > > > +		 */
+> > > > > > > +		new_folio->pgmap = pgmap;
+> > > > > > > +		new_folio->share = 0;	/* fsdax only, unused for device private */
+> > > > > > > +		VM_WARN_ON_FOLIO(folio_ref_count(new_folio), new_folio);
+> > > > > > > +		VM_WARN_ON_FOLIO(!folio_is_zone_device(new_folio), new_folio);
+> > > > > > 
+> > > > > > Does calling the free_folio() callback on new_folio solve the issue you are facing, or is
+> > > > > > that PMD_ORDER more frees than we'd like?
+> > > > > > 
+> > > > > 
+> > > > > No, calling free_folio() more often doesn’t solve anything—in fact, that
+> > > > > would make my implementation explode. I explained this in detail here [1]
+> > > > > to Zi.
+> > > > > 
+> > > > > To recap [1], my memory allocator has no visibility into individual
+> > > > > pages or folios; it is DRM Buddy layered on top of TTM BO. This design
+> > > > > allows VRAM to be allocated or evicted for both traditional GPU
+> > > > > allocations (GEMs) and SVM allocations.
+> > > > > 
+> > > > > Now, to recap the actual issue: if device folios are not split upon free
+> > > > > and are later reallocated with a different order in
+> > > > > zone_device_page_init, the implementation breaks. This problem is not
+> > > > > specific to Xe—Nouveau happens to always allocate at the same order, so
+> > > > > it works by coincidence. Reallocating at a different order is valid
+> > > > > behavior and must be supported.
+> > > > 
+> > > > I agree it's probably by coincidence but it is a perfectly valid design to
+> > > > always just (re)allocate at the same order and not worry about having to
+> > > > reinitialise things to different orders.
+> > > > 
+> > > 
+> > > I would agree with this statement too — it’s perfectly valid if a driver
+> > > always wants to (re)allocate at the same order.
+> > > 
+> > > Matt
+> > > 
+> > > >  - Alistair
+> > > > 
+> > > > > Matt
+> > > > > 
+> > > > > [1] https://patchwork.freedesktop.org/patch/697710/?series=159119&rev=3#comment_1282413
+> > > > > 
+> > > > > > > +	}
+> > > > > > > +}
+> > > > > > > +EXPORT_SYMBOL_GPL(free_zone_device_folio_prepare);
+> > > > > > > +
+> > > > > > >  void free_zone_device_folio(struct folio *folio)
+> > > > > > >  {
+> > > > > > >  	struct dev_pagemap *pgmap = folio->pgmap;
+> > > > > > > @@ -454,6 +508,7 @@ void free_zone_device_folio(struct folio *folio)
+> > > > > > >  	case MEMORY_DEVICE_COHERENT:
+> > > > > > >  		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->folio_free))
+> > > > > > >  			break;
+> > > > > > > +		free_zone_device_folio_prepare(folio);
+> > > > > > >  		pgmap->ops->folio_free(folio, order);
+> > > > > > >  		percpu_ref_put_many(&folio->pgmap->ref, nr);
+> > > > > > >  		break;
+> > > > > > 
+> > > > > > Balbir
