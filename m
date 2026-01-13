@@ -2,87 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765DED1840C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 11:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E88D178A0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 10:14:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1C110E323;
-	Tue, 13 Jan 2026 10:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7B010E485;
+	Tue, 13 Jan 2026 09:14:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eF8QegMr";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5FB310E323
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 10:58:13 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id
- 46e09a7af769-7c6cc44ff62so5896075a34.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 02:58:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768301893; x=1768906693;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645B710E485
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 09:14:05 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id
+ 5b1f17b1804b1-47d3ffa6720so67688805e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:14:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1768295644; x=1768900444; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MR0NoHyZdJndLOZGMkASZoG8F5TIOzALE+PpGAFfY78=;
- b=IsIZsRJ75epabrnRzfUwBM7wMfEwUvcWgm2ks4UaFo4gSVMNHlg/jugF6HIuuKEVtC
- 8T3CWrVsnUcy6INPmRW+vDw8D4QAPsks7o8quJnnEIM/iXqRCImtGRc3Cn4kMhf6b+WS
- lRAdJZBhtapEb4MH+H10yt/qOG2Y/4JSHZYbcJp8/bMU67hd/WQ80bXo2g7ymwLsOiqu
- b81oFQYGtMe/x9abaajFLpScOAHCI9577ymy99dJxOmkn7JJ0Mu6tlBIPVduFPyqZnmp
- 64cXn9BzFt7Uxo5bHYzLXzXojyiK+7LeAbNkOVr8zcryAvKcQrSmUyuOmcFqZt8C9jNQ
- 98nw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVULhSk5u9Nd7dGjNo/EPthG4JQ6E9hhUi8rZTdIcZDuOrWI1RYBVEYPphUZZYcv5KXwHe7Gu5RAj8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwV0vzlAB5R9HqI73p5m1lDbt8hv/H8q9z8sTljwJILpJAtik8h
- ptwWwWuiUt+Iu5/Vzdn9gg6MlmsDmkPLLZha8+d38sKZBMWVJvOIdswBvufFe+n+xOs=
-X-Gm-Gg: AY/fxX5H1v9iXCIZbgLoE28TznAW8X0TV6Wu+u9KQ9OgO0k14+mQXBSVrEZHWjLFdt1
- 1HJItVZmiQx8midn8nRJTPVWWIAQBE2/rWyMVpk0YzGqC0P7asROLDqx5EDLP1kAQfFxbMu9twH
- fJDGYLo0zqExakEUCQtRXZIVKielNPr5+icvBJSjhwGAnXwEpDSezDOVcoj6LIZJE941PVPbiu6
- MFvs2HupsTSkv5gGUizzqkLfdySpoMb/vFHMZscyakCk3BpUUUCczxXHw2q27RHuHqe+JlFejLd
- R9ZGPIMTvGaxuRUjLYpdEaH/yf0zTV24IWRcPqStZ8fcZfvkx26fCi/B2Pb11DaPuRDz0NzdQI2
- Bt6dJg6fIBv5Gx6WV5IuXuaPnOABDkNs+vLCvt8jQtzjdkC+iPbbvc25P4/Ww07JYImZ+cl+ZGc
- 0Sy+xNDHJuK1TE37bjOD/WEtnfg52bzmh4xSX6N4lgY4HxBJM8
-X-Google-Smtp-Source: AGHT+IHehMAvT4hUnkoXYjoLSl0ck7VVq/Fl8Go1ybdnZpTlCTdNfej5TclV1V/OnoYyKdljFBZxAA==
-X-Received: by 2002:a05:6122:1d0d:b0:563:72d8:ea6 with SMTP id
- 71dfb90a1353d-56372d810f9mr3984400e0c.10.1768295620786; 
- Tue, 13 Jan 2026 01:13:40 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
- [209.85.222.52]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5633a1ea810sm18870664e0c.5.2026.01.13.01.13.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jan 2026 01:13:40 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id
- a1e0cc1a2514c-9412edb5defso2042750241.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 01:13:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+qBYnn9AITFcgDyUAd6chC51lI2NgKWgU6aXmirNIH+TEhobLMe9yByeR/9G8sncs73+4doMOHbc=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:419e:b0:5df:ab05:d846 with SMTP id
- ada2fe7eead31-5ecbae4aedemr6860725137.40.1768295619640; Tue, 13 Jan 2026
- 01:13:39 -0800 (PST)
+ bh=6t77eX7yaBvcCOvnjldeAucp/yf03hkwDiK7NZl34Ao=;
+ b=eF8QegMr7OPfTfKArBf/2LNIs1h1lZI2RGdW9/4fUqrvnJQL8crY5xisILwa6jbBKv
+ PS8o9syrD87TwIXNmYGybtEnLYHgOFLqH2QiU4JxZ89+Ep4OFe5gxUGOmiPb/vvpqzKl
+ QO2UvGQvFZLMVZR+sMAIkQQ+zu8If11Wkc8lMlv1e/NjcyOnU3aDISVqBXXVOGtk7kMm
+ HljdJfLjRC58yM9mbmzj9MhsfwVqoWn8HyoOb9Y8VGFM+NQfL/9EH3HRL2vf+2nmTvcl
+ MvrviaGvpdhFbd4gftWZjn7oxIBpbv6xJNPACpxb7EcvyUm1VMiB8lczHFDprM2SmoDC
+ EHdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768295644; x=1768900444;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=6t77eX7yaBvcCOvnjldeAucp/yf03hkwDiK7NZl34Ao=;
+ b=eXPMSVp02gf4xsJjuvGEaCxXaLTJkf4SjEUM+R1HReU3X7s8aFokMPExSp/NPXSUAX
+ hhLpRpfnvKuOmI69LGZCoXDxXIDDeEnoc1MDGQhOHgDnLLJyg4TDu5QB4wZ8AQkHEJBR
+ dyRP7utCFCJj3fbLyP4nBEd7wGhSgyXI6VucW3hVIJQzM2P0PLzsxiLCB1U4J6jQKxLe
+ nClJJpXhKuTgJqb3aWCpy5Qpb2QrrMXn5KXNA9JrMVp2A1ybnNP1m+Q/WYIoN2NLD58R
+ 89TS4fTK+GzH+uneUgP0Y4+HkyT9lF7I0du0aI9TAeY+PXlBQMYqAHtpTENY7Lpz9VCX
+ 3gqg==
+X-Gm-Message-State: AOJu0YyhETuz76OALwNevrOIaI4VFbCioZa6Vjkw6YysahIXsz45Od7q
+ 7a1v+Rfz+0zS5EKryu3qtR2iA5LMuB4/Cf+aY5Lbux2hGlYOfn5aCG9AWwaqydCNHk4=
+X-Gm-Gg: AY/fxX628VLMpF8b5Bk3n1Z8kMRv9l1S3H/0MZ78ZkppnH/E1uZGn6ixKYEnl7bLZnU
+ CCbSp+JZk1cci1Oqj9EhTDcGa2mBNFRNFW1b0Lyt54YlXskojkGn0WbzGxRUyawkeT3zzW6AlmK
+ WZcQCct4yXo3OSW1LbELwstxZf3KQ5d7+HOwvG65Tvy0Fw9xPod+KTUCRAcaIsUPEa1aecWfDWq
+ 7BPhicFPEHwXdUm/fpcskZCAHvhxNnA8YEaM8VhVTT7ALbqUhalKd9/NfCX4dYDHZoTZsc6LW59
+ zHzzOmQ0djpuDfcwyBeRF2exUaK6oTWZjAtLZvWA+aKTbgLkjYi+g5EYwIMsdz+rBWXJC+agr5a
+ H4xBLJddgtvkHEnMIw3XbnQR9BO/7JERJvI2Guwqet/HRCftvtxdozH1457oGudK9+sdU237DQ2
+ LXYRD4vXOkOaxe4DSKd5o=
+X-Google-Smtp-Source: AGHT+IFdwglDB4crXEY7aXy9oh45LxhHLxaO2WfsMgiAukZiGDRTuNDlAiSJmqz3Kb/0VrBgLjUUog==
+X-Received: by 2002:a05:600c:3b15:b0:475:dd89:acb with SMTP id
+ 5b1f17b1804b1-47d84b3472amr233883255e9.22.1768295643794; 
+ Tue, 13 Jan 2026 01:14:03 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080::17ad:35a9])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47eda0ee80bsm11389945e9.4.2026.01.13.01.14.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jan 2026 01:14:03 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: dri-devel@lists.freedesktop.org, Marek Vasut <marex@nabladev.com>
+Cc: stable@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260110152750.73848-1-marex@nabladev.com>
+References: <20260110152750.73848-1-marex@nabladev.com>
+Subject: Re: [PATCH] drm/panel-simple: fix connector type for DataImage
+ SCF0700C48GGU18 panel
+Message-Id: <176829564314.3883041.15001190221335999378.b4-ty@linaro.org>
+Date: Tue, 13 Jan 2026 10:14:03 +0100
 MIME-Version: 1.0
-References: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Jan 2026 10:13:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVGsfCTzSSjh474Ohimad2W5h1Z=vNhS6zU=Lb9f5Zbxw@mail.gmail.com>
-X-Gm-Features: AZwV_Qhh8RJBBYa7gKoAKpUlBeVNsz1RZyqK3-3_U_RszPPYx3TukXyRJOwF8cM
-Message-ID: <CAMuHMdVGsfCTzSSjh474Ohimad2W5h1Z=vNhS6zU=Lb9f5Zbxw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Fork Waveshare panels
- into separate document
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Jessica Zhang <jesszhan0024@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Simona Vetter <simona@ffwll.ch>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,44 +94,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-On Tue, 13 Jan 2026 at 01:07, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Move the Waveshare panels description into separate document, so they
-> can be properly described with compatible = "waveshare,...", "panel-dpi"
-> and attached to "waveshare,dsi2dpi" bridge.
->
-> While these panels are described as DPI panels, they are generally part
-> of a larger unit in non-removable metal casing, so the actual internal
-> configuration is not known. It is likely that internally, those panels
-> are LVDS panels, connected to ICN6211 DSI-to-DPI bridge and then another
-> unknown DPI-to-LVDS bridge.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On Sat, 10 Jan 2026 16:27:28 +0100, Marek Vasut wrote:
+> The connector type for the DataImage SCF0700C48GGU18 panel is missing and
+> devm_drm_panel_bridge_add() requires connector type to be set. This leads
+> to a warning and a backtrace in the kernel log and panel does not work:
+> "
+> WARNING: CPU: 3 PID: 38 at drivers/gpu/drm/bridge/panel.c:379 devm_drm_of_get_bridge+0xac/0xb8
+> "
+> The warning is triggered by a check for valid connector type in
+> devm_drm_panel_bridge_add(). If there is no valid connector type
+> set for a panel, the warning is printed and panel is not added.
+> Fill in the missing connector type to fix the warning and make
+> the panel operational once again.
+> 
+> [...]
 
-Thanks for your patch!
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/waveshare,dpi.yaml
-> @@ -0,0 +1,32 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-scripts/checkpatch.pl:
-
-    WARNING: DT binding documents should be licensed (GPL-2.0-only OR
-BSD-2-Clause)
-    #68: FILE: Documentation/devicetree/bindings/display/panel/waveshare,dpi.yaml:1:
-
-which matches what panel-simple.yaml uses.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+[1/1] drm/panel-simple: fix connector type for DataImage SCF0700C48GGU18 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/6ab3d4353bf75005eaa375677c9fed31148154d6
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Neil
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
