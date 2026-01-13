@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02BED18AAD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CD6D18AF6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 13:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13B3210E4B5;
-	Tue, 13 Jan 2026 12:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE0610E282;
+	Tue, 13 Jan 2026 12:23:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fBrxRzSy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7DE10E33C
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:18:43 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <m.felsch@pengutronix.de>)
- id 1vfdM8-0000vB-Up; Tue, 13 Jan 2026 13:18:40 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Tue, 13 Jan 2026 13:18:38 +0100
-Subject: [PATCH 2/2] drm/panel: simple: add EDT ET057023UDBA panel
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DEB10E282
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 12:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768306989;
+ bh=pnRxY/EQjc17C4IKxtQInqRVkOlaBvQmWpjtbulXD6w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fBrxRzSy4XP0Snr6Qrrv3QFxQk5V0RldgIETdnjgWk4wMC6RlU//cWhi1V+GzWDZO
+ NRVnxuOti99dkXlA5MZdLHSdz7/0ETrXWBcwXSFQ8jKRghTFIeRoUOVD26QZXL+NgK
+ O9/QaDSc8g/Lb42FiqYh8MBHZybj/cVn0B1ki26m+P9BC4g9gqBooRQAmNL0Klw0FX
+ fTZIhfqUYarxH4iRGMNn3gB4qAa6lTISNAb5zpdSGAF53eV4V+1Jv/FWnx4Kq87bHt
+ ZYU4mcr4SjUWyX5rUMD1RlGDTn5U1Jw9Hcm3VlrSdnOLwxF4t5ozMC+1yfm+jbG7Na
+ thw9GGDrUN8dw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 67B2C17E10C8;
+ Tue, 13 Jan 2026 13:23:09 +0100 (CET)
+Date: Tue, 13 Jan 2026 13:23:03 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
+ <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v8 2/4] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+Message-ID: <20260113132303.0c35bb7a@fedora>
+In-Reply-To: <20260112-panthor-tracepoints-v8-2-63efcb421d22@collabora.com>
+References: <20260112-panthor-tracepoints-v8-0-63efcb421d22@collabora.com>
+ <20260112-panthor-tracepoints-v8-2-63efcb421d22@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-v6-18-topic-panel-simple-et057023udba-v1-2-54ad218ee52b@pengutronix.de>
-References: <20260113-v6-18-topic-panel-simple-et057023udba-v1-0-54ad218ee52b@pengutronix.de>
-In-Reply-To: <20260113-v6-18-topic-panel-simple-et057023udba-v1-0-54ad218ee52b@pengutronix.de>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
- Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: m.felsch@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,64 +69,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the EDT ET057023UDBA 5.7" 24-bit 640x480 DPI panel.
+On Mon, 12 Jan 2026 15:37:50 +0100
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+> The current IRQ helpers do not guarantee mutual exclusion that covers
+> the entire transaction from accessing the mask member and modifying the
+> mask register.
+> 
+> This makes it hard, if not impossible, to implement mask modification
+> helpers that may change one of these outside the normal
+> suspend/resume/isr code paths.
+> 
+> Add a spinlock to struct panthor_irq that protects both the mask member
+> and register. Acquire it in all code paths that access these, but drop
+> it before processing the threaded handler function. Then, add the
+> aforementioned new helpers: enable_events, and disable_events. They work
+> by ORing and NANDing the mask bits.
+> 
+> resume is changed to no longer have a mask passed, as pirq->mask is
+> supposed to be the user-requested mask now, rather than a mirror of the
+> INT_MASK register contents. Users of the resume helper are adjusted
+> accordingly, including a rather painful refactor in panthor_mmu.c.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h |  72 +++++++--
+>  drivers/gpu/drm/panthor/panthor_fw.c     |   3 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |   2 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c    | 247 ++++++++++++++++---------------
+>  drivers/gpu/drm/panthor/panthor_pwr.c    |   2 +-
+>  5 files changed, 187 insertions(+), 139 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 424f6cd1a814..0a29234ac58c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -84,11 +84,14 @@ struct panthor_irq {
+>  	/** @irq: IRQ number. */
+>  	int irq;
+>  
+> -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> +	/** @mask: Values to write to xxx_INT_MASK if active. */
+>  	u32 mask;
+>  
+>  	/** @state: one of &enum panthor_irq_state reflecting the current state. */
+>  	atomic_t state;
+> +
+> +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> +	spinlock_t mask_lock;
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0019de93be1b663f55b04160606363cd043ab38b..0f135eb35aa4302e9a33d91f29d1ad5c9959ced0 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2096,6 +2096,35 @@ static const struct panel_desc edt_et057090dhu = {
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
-+static const struct display_timing edt_et057023udba_timing = {
-+	.pixelclock = { 23200000, 24190000, 39640000 },
-+	.hactive = { 640, 640, 640 },
-+	.hfront_porch = { 20, 40, 200 },
-+	.hback_porch = { 87, 40, 1 },
-+	.hsync_len = { 1, 48, 87 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 5, 13, 200 },
-+	.vback_porch = { 31, 31, 29 },
-+	.vsync_len = { 1, 1, 3 },
-+	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW |
-+		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-+		 DISPLAY_FLAGS_SYNC_POSEDGE,
-+};
-+
-+static const struct panel_desc edt_et057023udba = {
-+	.timings = &edt_et057023udba_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 115,
-+		.height = 86,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
-+		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode edt_etm0700g0dh6_mode = {
- 	.clock = 33260,
- 	.hdisplay = 800,
-@@ -5112,6 +5141,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "edt,et057090dhu",
- 		.data = &edt_et057090dhu,
-+	}, {
-+		.compatible = "edt,et057023udba",
-+		.data = &edt_et057023udba,
- 	}, {
- 		.compatible = "edt,et070080dh6",
- 		.data = &edt_etm0700g0dh6,
-
--- 
-2.47.3
+nit: Can we move this mask_lock right after the mask field? 
 
