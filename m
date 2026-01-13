@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF34FD19AC9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA06D19AE0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jan 2026 16:00:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A1410E4EE;
-	Tue, 13 Jan 2026 15:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680C610E4EC;
+	Tue, 13 Jan 2026 15:00:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LC19LC3r";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="k3VPIdVh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B856B10E1D6
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:00:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id EB430600AE;
- Tue, 13 Jan 2026 15:00:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA9DC16AAE;
- Tue, 13 Jan 2026 15:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768316404;
- bh=bHL7bidi4XNXTo34ze3DKqMXsxi+U/ByKg+N3GwzUqA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LC19LC3rKkCG7NaBTHuROIQfK3vd9yt14mFBDpO9GVerhcLoRodOP1pYD9+hQjfoa
- PuSVtLA4lDp4Gk5C1voikCx3OAv3Xuml7CDLLnmj6NHqIkMDWO9qkAlV8Rc9LujA6k
- IRr8UM2tkQtq4IiTc96bdLC3iulmzKFTmKioeTLlt23OW+6qIRvnnlvpJVQgAMH5W3
- kkYYL91wlQEZgChebVYFplC8DawLk3avajI9Qa22tfMvp5EcyI/8O/xKIUEb2puax4
- 6H0nn2Q8PHhed1nulRBZDySZbSjnCw3bbvJGF+w1ISlrJxXleB+xslY0u45Z+dLLyO
- Vu1dgcLLAO/qw==
-Date: Tue, 13 Jan 2026 16:00:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Diederik de Haas <diederik@cknow-tech.com>,
- Maud Spierings <maud_spierings@hotmail.com>
-Subject: Re: [PATCH v2 3/4] drm/bridge: dw-hdmi-qp: Add high TMDS clock ratio
- and scrambling support
-Message-ID: <20260113-unselfish-russet-chicken-80d3c3@houat>
-References: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
- <20260113-dw-hdmi-qp-scramb-v2-3-ae7b2c58d24d@collabora.com>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE9910E1D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1768316441; x=1799852441;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FU3rckpTxcsZFc0dx5Y1O3dsUCp8S743x3ibSTos+Pw=;
+ b=k3VPIdVhinORQEOK9uI2JXN79zLTFVP5aYfMMUKFYrOuR6vbQw/o9eZP
+ voVVHbIs6nbm3MxSEoO+7KPxDnMWaLw/+QxaYnxzQ1+Lm/EewAriuCTXW
+ WK7Wkqk/HJB6+rWKDmk5cC0uABjDlU/sM8Sf4x/8M2+Ef2+0srZlwCc7d
+ 0vWp012xj6e5vECnIUcl/xw0WcF93y3NvVtUUX6DZDX2jh35pSaiCKibm
+ GCTIyW8xp9fkJdL3C6j9c0nBK6zBSUsvzA1R5WfO0PPy3bGd3i2wUn/A9
+ JZ5oDva1AswDhB3VN/RAILc1iXpxn85oZu1syX8/6d3iyiKN+i3AQ/5m5 Q==;
+X-CSE-ConnectionGUID: acGYMMOWTDmL0c/RchskRw==
+X-CSE-MsgGUID: kFfUb+MNRSekhOmMFmS7sg==
+X-IronPort-AV: E=Sophos;i="6.21,222,1763449200"; d="scan'208";a="52246893"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 08:00:39 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Tue, 13 Jan 2026 08:00:14 -0700
+Received: from [10.159.205.69] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 13 Jan 2026 08:00:10 -0700
+Message-ID: <708ef82c-1833-4817-88e0-c11f43b3ad4f@microchip.com>
+Date: Tue, 13 Jan 2026 16:00:10 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="obg4uifwe4lk2yjg"
-Content-Disposition: inline
-In-Reply-To: <20260113-dw-hdmi-qp-scramb-v2-3-ae7b2c58d24d@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/5] ARM: configs: at91_dt_defconfig: enable GFX2D
+ driver
+To: Cyrille Pitchen <cyrille.pitchen@microchip.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Russell King <linux@armlinux.org.uk>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20260113-cpitchen-mainline_gfx2d-v5-0-9cdab8fa699b@microchip.com>
+ <20260113-cpitchen-mainline_gfx2d-v5-5-9cdab8fa699b@microchip.com>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Content-Language: en-US, fr
+Organization: microchip
+In-Reply-To: <20260113-cpitchen-mainline_gfx2d-v5-5-9cdab8fa699b@microchip.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,127 +80,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 13/01/2026 at 14:10, Cyrille Pitchen wrote:
+> The GFX2D GPU is embedded in both SAM9X60 and SAM9X75; enable the
+> driver to use it.
+> 
+> Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
 
---obg4uifwe4lk2yjg
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/4] drm/bridge: dw-hdmi-qp: Add high TMDS clock ratio
- and scrambling support
-MIME-Version: 1.0
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-On Tue, Jan 13, 2026 at 12:26:20AM +0200, Cristian Ciocaltea wrote:
-> @@ -902,13 +981,74 @@ static void dw_hdmi_qp_bridge_atomic_disable(struct=
- drm_bridge *bridge,
-> =20
->  	hdmi->tmds_char_rate =3D 0;
-> =20
-> +	dw_hdmi_qp_disable_scramb(hdmi);
-> +
-> +	hdmi->curr_conn =3D NULL;
->  	hdmi->phy.ops->disable(hdmi, hdmi->phy.data);
->  }
-> =20
-> -static enum drm_connector_status
-> -dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector=
- *connector)
-> +static int dw_hdmi_qp_reset_link(struct dw_hdmi_qp *hdmi,
-> +				 struct drm_connector *conn,
-> +				 struct drm_modeset_acquire_ctx *ctx)
-> +{
-> +	struct drm_crtc *crtc;
-> +	u8 config;
-> +	int ret;
-> +
-> +	if (!conn->state)
-> +		return 0;
-> +
-> +	crtc =3D conn->state->crtc;
-> +	if (!crtc)
-> +		return 0;
-> +
-> +retry:
-> +	ret =3D drm_modeset_lock(&crtc->mutex, ctx);
-> +	if (ret)
-> +		goto check_err;
-> +
-> +	if (!crtc->state->active)
-> +		return 0;
-> +
-> +	if (conn->state->commit &&
-> +	    !try_wait_for_completion(&conn->state->commit->hw_done))
-> +		return 0;
-> +
-> +	ret =3D drm_scdc_readb(hdmi->bridge.ddc, SCDC_TMDS_CONFIG, &config);
-> +	if (ret < 0) {
-> +		dev_err(hdmi->dev, "Failed to read TMDS config: %d\n", ret);
-> +		return 0;
-> +	}
-> +
-> +	if (!!(config & SCDC_SCRAMBLING_ENABLE) =3D=3D hdmi->scramb_enabled)
-> +		return 0;
-> +
-> +	dev_dbg(hdmi->dev, "%s resetting crtc\n", __func__);
-> +
-> +	drm_atomic_helper_connector_hdmi_hotplug(conn, connector_status_connect=
-ed);
-> +
-> +	/*
-> +	 * Conform to HDMI 2.0 spec by ensuring scrambled data is not sent
-> +	 * before configuring the sink scrambling, as well as suspending any
-> +	 * TMDS transmission while changing the TMDS clock rate in the sink.
-> +	 */
-> +	ret =3D drm_atomic_helper_reset_crtc(crtc, ctx);
-> +
-> +check_err:
-> +	if (ret =3D=3D -EDEADLK) {
-> +		drm_modeset_backoff(ctx);
-> +		goto retry;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge,
-> +				    struct drm_connector *connector,
-> +				    struct drm_modeset_acquire_ctx *ctx)
->  {
->  	struct dw_hdmi_qp *hdmi =3D bridge->driver_private;
-> +	enum drm_connector_status status;
->  	const struct drm_edid *drm_edid;
-> =20
->  	if (hdmi->no_hpd) {
-> @@ -919,7 +1059,15 @@ dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge,=
- struct drm_connector *connec
->  			return connector_status_disconnected;
->  	}
-> =20
-> -	return hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
-> +	status =3D hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
-> +
-> +	dev_dbg(hdmi->dev, "%s status=3D%d scramb=3D%d\n", __func__,
-> +		status, hdmi->scramb_enabled);
-> +
-> +	if (status =3D=3D connector_status_connected && hdmi->scramb_enabled)
-> +		dw_hdmi_qp_reset_link(hdmi, connector, ctx);
-> +
-> +	return status;
->  }
+> ---
+>   arch/arm/configs/at91_dt_defconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+> index 4f1153098b16f4a93ff21f05ec73cc569f4ebe64..b38fb185670c05e74e09f6341128be5908c86451 100644
+> --- a/arch/arm/configs/at91_dt_defconfig
+> +++ b/arch/arm/configs/at91_dt_defconfig
+> @@ -144,6 +144,7 @@ CONFIG_VIDEO_OV2640=m
+>   CONFIG_VIDEO_OV7740=m
+>   CONFIG_DRM=y
+>   CONFIG_DRM_ATMEL_HLCDC=y
+> +CONFIG_DRM_MICROCHIP_GFX2D=y
+>   CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
+>   CONFIG_DRM_PANEL_SIMPLE=y
+>   CONFIG_DRM_PANEL_EDP=y
+> 
 
-We have drm_bridge_helper_reset_crtc() now, any reason you didn't use it?
-
-Maxime
-
---obg4uifwe4lk2yjg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaWZd7QAKCRAnX84Zoj2+
-dlp0AX4p2V7AchpI5eOf2uSzpRMW8pCKeTOAZ2dNExrrBfMPj660Ltr6w6d8et7J
-3KV99wsBgId9h0fMMjulQ3cULU3BgGvzBeZIpYskWi/riKxXPAOnwneatsZU93tf
-Xi3Evk4M9w==
-=fYIw
------END PGP SIGNATURE-----
-
---obg4uifwe4lk2yjg--
