@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A86D1C006
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 02:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A0DD1C00F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 02:58:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A3F10E5A2;
-	Wed, 14 Jan 2026 01:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA3A10E033;
+	Wed, 14 Jan 2026 01:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RtmP47QL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lHPMF5sX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
  [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C557F10E033
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:58:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90EF510E304
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:58:52 +0000 (UTC)
 Received: by mail-ot1-f65.google.com with SMTP id
- 46e09a7af769-7cfcbf34124so67811a34.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:58:48 -0800 (PST)
+ 46e09a7af769-7cfcb5b1e2fso92620a34.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:58:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768355928; x=1768960728; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768355932; x=1768960732; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6JUGCGjJm2Xj6X5n/nhoMCGHMBetXjpQki6LB/h6PNI=;
- b=RtmP47QLtr8xJ8v3wcCc0rEWMWztOuYLAJ1E7rMDG8WwwRInWkqmRoLeqleWbyeyff
- jDOv6r2B8hfrwh82Q1vYZd1flgR7HtVfyINmg9KhabrrQbAWjscxuoKXNGzXWsBPwizG
- 8nlRKU6Nq+zv9578UrnmlMG5geQBJPfpC4kYgM9T5nFhrgcDjsKe6V9SW9JphNiRsYIu
- M+AWJytpc8w4syDkjS06jGNPuYLHuKb32nN73VSAiq9inGERj+IK7BMBCDpyLgSKIXlD
- zY49GieBz3SQ+kpfNocMi67KSdOukzAAiqCp2xZPrkSkjnRLE2y6pFcRfdOhlb4MQflh
- kQHw==
+ bh=8i2B8ufAHD9sSahBAZkEx2yO1Ly/YjHLa83EmimubvQ=;
+ b=lHPMF5sX5rsOQQPdirjNhh4Q1YcSS0/U0cUzukZFP6R4KHxzcGI3GYjKJW34DaesgE
+ nUnNlfQo5xK0984cJIQi8PPAN6L04wJRnhaWG9RamiFVyAksa+17ZMxQEbLWlnGvJ4zl
+ TtZIDjuSPHGnUtklXl7OHgsxOLE+desk6kABGohCzSQdNjHDt9C1sZx+FVDAC/cAjt5d
+ ZSQBS9nPsnr9s377YB7nYW/isroRV5mFrIVu6cZXPn4SDK6GxaDcL5Nswp/Z0Rcyjv35
+ 1mFRpEgIWhzneVD7UymJqzW3hJKDGYj6N7TJTxM79JLZSRXFpHqie/Vz/vP63I3cPYsP
+ Ykcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768355928; x=1768960728;
+ d=1e100.net; s=20230601; t=1768355932; x=1768960732;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=6JUGCGjJm2Xj6X5n/nhoMCGHMBetXjpQki6LB/h6PNI=;
- b=nCqM18Dsy2i7WkkC+VfM4nhBsBh93gGtaqqLJsezApg1kwuFtN6C4P9B6TvT2fMElF
- f8YQ4+dLMhG6rZXcMMYhKz/x5BgFr/pOWMVFzhj16pZzIJ+0sBFrOdOW4cmGE6fUsJC/
- utbd3t06zELKIOaC1EhNiRkUn7xaBpRy/pJF1KEBJ0aXA0y5ys1bamlS3Wm/UYHmanml
- 5cnd+Y4rXuF5Xk7uWtWwoUfVlXTAMmUL5jyy2BFmdIbLpkKqOZ/Cn3PcdX8Ee2+elxoF
- ddRmfX5Zx5chXPXlI7a+abQYShi3V9Qd6CZiFLdnFp2HxVMlJfQ7G9wcGzpen8z3fUXX
- cPBg==
+ bh=8i2B8ufAHD9sSahBAZkEx2yO1Ly/YjHLa83EmimubvQ=;
+ b=kwEDZLOVJr4OulEnuSSx5H+A/nusiTmhGBkvxJJRame4tuoKBKifUbDtekpKAlnvDr
+ ygurBWLdDkgrEgUjZjFqVhoKmO699ScmEpQhYMtVblV3PCXV9yTAgBpq8cXbJbnlT4hj
+ E33UXVd9Xfh+D3V9aUwaSCPjlAgprWXwOPRypB9yAezd4xuDGbOlmITwtRhiSpVywBRV
+ nZZqdiElcgdwG4ZFrZjUzYfwKSAKM9nE2LTt0knOOxzPXGjXVlqtyv5uF2lIlZtgp2bo
+ yVBZVjl96LOtvQ4rz8g+hy45XLdrLMZjaIojgXzD/LHGPhhti9SQQo/QwN/cCfZOmQDf
+ u6Ww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGKAm+/36ywXEnyCTwepB2Q39ijTlIpeqr+HrgAV/+AJzATdDVoX93dSJNlV/1zd5lRZWME+CHkVo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBHxe90e6jdViYHzSVmFzGLS0VZcT5h3uKoAIeKBNrn8WtV8rw
- rTCVXOYJeqU26hKIzLGoUAkN4t7BZCbs7dYkJ1sNs5/WumreihLUk2+M
-X-Gm-Gg: AY/fxX4V+HftSrjt5QDOKtyCskMXDu6VHdKeHkd6h/8xnmQ1EZVBR6F//CVykH8GHLN
- Rbn1vBzNpPvrmNybdfhadcjBp7o+el3oACTPXPVene6f7yBHiD4xzHsY1hQMKUVyY763To77bLS
- U8pYAYApZTP4f6rqyaleZI+jm6Et5JrY2poybvnjzQSeYiJItrn38YIPo3u28l8bg/DCutzGi2K
- hZAykG2nJ3TRcSF5OtAYUudAx+a1dmNC/n9Rppx8UNsV9AN3p0VVmiBTCcvTlgd3GZ3lqlopNQ6
- 6CJPTQK49cT4yphj2UReoqYyDSMlF2oiVnOoFzyAH6Lav2pon5sgB8JZ5qhy+LlznW9cdUM3ppf
- YCVkIczJjwLkP/OWbqSyClZ5KB9BvF5Q6G8HfndTYhLGyfuCDV9Ru3LR4oL5qtGzymvlmO0jklg
- HkJS5AYHGfw6kWY1kp4e2JE3vyR8L9sBCXG/qz
-X-Received: by 2002:a9d:708f:0:b0:7c7:8280:9206 with SMTP id
- 46e09a7af769-7cfcb6b1274mr339324a34.38.1768355927952; 
- Tue, 13 Jan 2026 17:58:47 -0800 (PST)
+ AJvYcCXbWLeibyTYCPCOunUQYFJduCbRL70Nib88hQO5LY+2nEH/vgw2iIy+AHmXedkleGHdAdO4u/xEa/E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx++e2LelwD2OZY2XOdnZThDLy30ZuU93Hr1Dxq63eUMzUj0ooi
+ 1RYHFI+ptiXQWbHFKXLBnNVgEIWK/RqkDA79nYNxDZ4tMHWiue8GX14P1cbJ/SujABRjfA==
+X-Gm-Gg: AY/fxX6/4O0hqDClaf+miujkMkjf05+65EJ6znSb3OnGR/jmq1mSmyQpQjw+n98qZEq
+ zGdEZ/yQUETMjUEFwduWiIdcj/d3UQuHrzysIRvSs1xJfCqvGHJmPSf7v0yMHf390fKBr2zqbJe
+ ++kOfYnHRAuRRRFRXLV2b/MOpz7ssueTqNvHoR0t23hmTEw673DvtNLIzIv2DyJHYadviPDcJh+
+ kb663H+WmiN9IjPac3jZzil2QNUfboIlHcZCofO7bDeiwoxRSKM2StMZwjtI/cuIR0boj6ZXZ+7
+ kioiCrBDxYddZQdk9em1+0cmpMwZiICIUJ6KtLjATSyak8lNyS00AmrJDryuiP0H+5jRZVwAnPn
+ jtZGZY6l1pRq9GeqRyTO4IOGr0xQ0As03Cz9K1h91DSm2q0fsC6ohIy2cR88oc38w5vnVvZ3Maw
+ JBdQlespmtP4BEBITTvBWzV5V29Jd8SuQQ2rYx
+X-Received: by 2002:a05:6830:3148:b0:7c6:cf19:1dec with SMTP id
+ 46e09a7af769-7cfc8b73711mr1019391a34.33.1768355931685; 
+ Tue, 13 Jan 2026 17:58:51 -0800 (PST)
 Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 46e09a7af769-7ce4781c447sm16782299a34.9.2026.01.13.17.58.46
+ 46e09a7af769-7ce478d9c17sm17120860a34.22.2026.01.13.17.58.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 17:58:47 -0800 (PST)
+ Tue, 13 Jan 2026 17:58:51 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
@@ -76,10 +76,9 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, Jason Baron <jbaron@akamai.com>,
  Petr Mladek <pmladek@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
  linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [PATCH v8 01/31] dyndbg: factor ddebug_match_desc out from
- ddebug_change
-Date: Tue, 13 Jan 2026 18:57:17 -0700
-Message-ID: <20260114015815.1565725-2-jim.cromie@gmail.com>
+Subject: [PATCH v8 02/31] dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
+Date: Tue, 13 Jan 2026 18:57:18 -0700
+Message-ID: <20260114015815.1565725-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114015815.1565725-1-jim.cromie@gmail.com>
 References: <20260114015815.1565725-1-jim.cromie@gmail.com>
@@ -100,134 +99,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ddebug_change() is a big (~100 lines) function with a nested for loop.
-
-The outer loop walks the per-module ddebug_tables list, and does
-module stuff: it filters on a query's "module FOO*" and "class BAR",
-failures here skip the entire inner loop.
-
-The inner loop (60 lines) scans a module's descriptors.  It starts
-with a long block of filters on function, line, format, and the
-validated "BAR" class (or the legacy/_DPRINTK_CLASS_DFLT).
-
-These filters "continue" past pr_debugs that don't match the query
-criteria, before it falls through the code below that counts matches,
-then adjusts the flags and static-keys.  This is unnecessarily hard to
-think about.
-
-So move the per-descriptor filter-block into a boolean function:
-ddebug_match_desc(desc), and change each "continue" to "return false".
-This puts a clear interface in place, so any future changes are either
-inside, outside, or across this interface.
-
-also fix checkpatch complaints about spaces and braces.
+Add the stub macro for !DYNAMIC_DEBUG builds, after moving the
+original macro-defn down under the big ifdef.  Do it now so future
+changes have a cleaner starting point.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 83 +++++++++++++++++++++++++--------------------
- 1 file changed, 47 insertions(+), 36 deletions(-)
+ include/linux/dynamic_debug.h | 43 ++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 5a007952f7f2..eb5146bcfaca 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -171,6 +171,52 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
-  * callsites, normally the same as number of changes.  If verbose,
-  * logs the changes.  Takes ddebug_lock.
-  */
-+static bool ddebug_match_desc(const struct ddebug_query *query,
-+			      struct _ddebug *dp,
-+			      int valid_class)
-+{
-+	/* match site against query-class */
-+	if (dp->class_id != valid_class)
-+		return false;
-+
-+	/* match against the source filename */
-+	if (query->filename &&
-+	    !match_wildcard(query->filename, dp->filename) &&
-+	    !match_wildcard(query->filename,
-+			    kbasename(dp->filename)) &&
-+	    !match_wildcard(query->filename,
-+			    trim_prefix(dp->filename)))
-+		return false;
-+
-+	/* match against the function */
-+	if (query->function &&
-+	    !match_wildcard(query->function, dp->function))
-+		return false;
-+
-+	/* match against the format */
-+	if (query->format) {
-+		if (*query->format == '^') {
-+			char *p;
-+			/* anchored search. match must be at beginning */
-+			p = strstr(dp->format, query->format + 1);
-+			if (p != dp->format)
-+				return false;
-+		} else if (!strstr(dp->format, query->format)) {
-+			return false;
-+		}
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index ff44ec346162..98a36e2f94b6 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -92,27 +92,6 @@ struct ddebug_class_map {
+ 	enum class_map_type map_type;
+ };
+ 
+-/**
+- * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
+- * @_var:   a struct ddebug_class_map, passed to module_param_cb
+- * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
+- * @_base:  offset of 1st class-name. splits .class_id space
+- * @classes: class-names used to control class'd prdbgs
+- */
+-#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
+-	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
+-	static struct ddebug_class_map __aligned(8) __used		\
+-		__section("__dyndbg_classes") _var = {			\
+-		.mod = THIS_MODULE,					\
+-		.mod_name = KBUILD_MODNAME,				\
+-		.base = _base,						\
+-		.map_type = _maptype,					\
+-		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
+-		.class_names = _var##_classnames,			\
+-	}
+-#define NUM_TYPE_ARGS(eltype, ...)				\
+-        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
+-
+ /* encapsulate linker provided built-in (or module) dyndbg data */
+ struct _ddebug_info {
+ 	struct _ddebug *descs;
+@@ -137,6 +116,27 @@ struct ddebug_class_param {
+ #if defined(CONFIG_DYNAMIC_DEBUG) || \
+ 	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
+ 
++/**
++ * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
++ * @_var:   a struct ddebug_class_map, passed to module_param_cb
++ * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
++ * @_base:  offset of 1st class-name. splits .class_id space
++ * @classes: class-names used to control class'd prdbgs
++ */
++#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
++	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
++	static struct ddebug_class_map __aligned(8) __used		\
++		__section("__dyndbg_classes") _var = {			\
++		.mod = THIS_MODULE,					\
++		.mod_name = KBUILD_MODNAME,				\
++		.base = _base,						\
++		.map_type = _maptype,					\
++		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
++		.class_names = _var##_classnames,			\
 +	}
++#define NUM_TYPE_ARGS(eltype, ...)				\
++	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
 +
-+	/* match against the line number range */
-+	if (query->first_lineno &&
-+	    dp->lineno < query->first_lineno)
-+		return false;
-+	if (query->last_lineno &&
-+	    dp->lineno > query->last_lineno)
-+		return false;
-+
-+	return true;
-+}
-+
- static int ddebug_change(const struct ddebug_query *query,
- 			 struct flag_settings *modifiers)
- {
-@@ -203,42 +249,7 @@ static int ddebug_change(const struct ddebug_query *query,
- 		for (i = 0; i < dt->num_ddebugs; i++) {
- 			struct _ddebug *dp = &dt->ddebugs[i];
+ extern __printf(2, 3)
+ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
  
--			/* match site against query-class */
--			if (dp->class_id != valid_class)
--				continue;
--
--			/* match against the source filename */
--			if (query->filename &&
--			    !match_wildcard(query->filename, dp->filename) &&
--			    !match_wildcard(query->filename,
--					   kbasename(dp->filename)) &&
--			    !match_wildcard(query->filename,
--					   trim_prefix(dp->filename)))
--				continue;
--
--			/* match against the function */
--			if (query->function &&
--			    !match_wildcard(query->function, dp->function))
--				continue;
--
--			/* match against the format */
--			if (query->format) {
--				if (*query->format == '^') {
--					char *p;
--					/* anchored search. match must be at beginning */
--					p = strstr(dp->format, query->format+1);
--					if (p != dp->format)
--						continue;
--				} else if (!strstr(dp->format, query->format))
--					continue;
--			}
--
--			/* match against the line number range */
--			if (query->first_lineno &&
--			    dp->lineno < query->first_lineno)
--				continue;
--			if (query->last_lineno &&
--			    dp->lineno > query->last_lineno)
-+			if (!ddebug_match_desc(query, dp, valid_class))
- 				continue;
+@@ -303,6 +303,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
  
- 			nfound++;
+ #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt)
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) false
++#define DECLARE_DYNDBG_CLASSMAP(...)
+ 
+ #define dynamic_pr_debug(fmt, ...)					\
+ 	no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
 -- 
 2.52.0
 
