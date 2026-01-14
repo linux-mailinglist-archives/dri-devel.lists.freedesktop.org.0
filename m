@@ -2,65 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1217D1CFDC
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA4ED1D093
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0423E10E2BE;
-	Wed, 14 Jan 2026 08:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C319B10E2DE;
+	Wed, 14 Jan 2026 08:13:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="x88kuLUq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dKnddNdf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xi0azGMA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dKnddNdf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xi0azGMA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9908F10E2BE
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:02:45 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 4B0061A2857;
- Wed, 14 Jan 2026 08:02:44 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0E5C76074A;
- Wed, 14 Jan 2026 08:02:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 95556103C82AE; Wed, 14 Jan 2026 09:02:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768377762; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=OrlcgvLEASE7cgCAVQW4sEC2L2tinvXr+j0pOUZUjvY=;
- b=x88kuLUqFra37jp+2L7Hmyl1rJK9Luj34PccVPygGuBCC5mIUNebQlygEiXB90nJrOOq+B
- bdtRJbNiaHF/QALBf/DPpUr60ZpM5vhmVOXLlkv7oMKeKJQNP+BV4YdafCKgB1jDyaAPS2
- tq5kA2oEP25DWOWvI0u2Fyifk3icvqsLbMsUmjXV3ejO7GBvLUNaiqfEvB2ZkGbiC+5LTu
- zHYrpWi9KCbcQZYi3IgsxHlw0lA3zBo1u/c47qXxbQWSy3rWbbKhvEIWU87kPC41Ert43H
- A1ighEQjWb6vQJdU5S1OfOJxLVA3ZVpXbWi0B45Cr3vvnRFlbka6Iwu8FsX63Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Jan 2026 09:02:35 +0100
-Message-Id: <DFO5LHWDD7S2.19P595M4CWIPI@bootlin.com>
-Cc: <devicetree@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-To: "Marco Felsch" <m.felsch@pengutronix.de>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha
- Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Peng Fan"
- <peng.fan@nxp.com>, "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 2/3] drm/bridge: imx: Add i.MX93 parallel display
- format configuration support
-X-Mailer: aerc 0.20.1
-References: <20260113-v6-18-topic-imx93-parallel-display-v8-0-4abccdc473a5@pengutronix.de>
- <20260113-v6-18-topic-imx93-parallel-display-v8-2-4abccdc473a5@pengutronix.de>
-In-Reply-To: <20260113-v6-18-topic-imx93-parallel-display-v8-2-4abccdc473a5@pengutronix.de>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D2A10E2DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:13:52 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 43A535BD35;
+ Wed, 14 Jan 2026 08:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768378430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
+ b=dKnddNdfi1SrguprTn2tNrzypzJ9vy5/aDRpbCMxliU+vXB0HeyuyZy1tz38HBewCIq/xx
+ bzLeY/EwmpY4XBnm6uUqJULK6DLlNiEv6VswMMXbEw2CHKaSg8/msnVFIZODpbytEvz1r1
+ L4UYp/Etq68GMDuUvWyhdHseGcav1t0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768378430;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
+ b=xi0azGMACEmnv3JJqhoYDW83/4Bz2kFTvd59sVcIHutsFXxh7eXcrT6354LTK+ocE5V8Dw
+ lZSL6PiTH9pWJpBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768378430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
+ b=dKnddNdfi1SrguprTn2tNrzypzJ9vy5/aDRpbCMxliU+vXB0HeyuyZy1tz38HBewCIq/xx
+ bzLeY/EwmpY4XBnm6uUqJULK6DLlNiEv6VswMMXbEw2CHKaSg8/msnVFIZODpbytEvz1r1
+ L4UYp/Etq68GMDuUvWyhdHseGcav1t0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768378430;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
+ b=xi0azGMACEmnv3JJqhoYDW83/4Bz2kFTvd59sVcIHutsFXxh7eXcrT6354LTK+ocE5V8Dw
+ lZSL6PiTH9pWJpBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE2703EA63;
+ Wed, 14 Jan 2026 08:13:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id XAtXOD1QZ2lqRAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 14 Jan 2026 08:13:49 +0000
+Message-ID: <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
+Date: Wed, 14 Jan 2026 09:13:49 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
+ coreboot framebuffer
+To: Julius Werner <jwerner@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20260108145058.56943-1-tzimmermann@suse.de>
+ <20260108145058.56943-2-tzimmermann@suse.de>
+ <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
+ <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
+ <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
+ <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_SEVEN(0.00)[11];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,chromium.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.com:url,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,112 +152,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Marco, Liu,
+Hi
 
-On Tue Jan 13, 2026 at 8:07 PM CET, Marco Felsch wrote:
-> From: Liu Ying <victor.liu@nxp.com>
+Am 13.01.26 um 23:32 schrieb Julius Werner:
+>> Another question I have is why there's a separate device for the
+>> coreboot-table? Couldn't the kernel just create the coreboot bus and
+>> then populate it with the table entries? DT does that. If the
+>> coreboot-table device is really just the parent for the other deivce,
+>> that is incorrect, as I describe above.
+> To be honest I didn't write this code and probably don't understand it
+> well enough to answer that question (we should probably CC +Samuel,
+> who did). I assume that it was done to get the automatic matching of
+> the ACPI/DT entry that tells the kernel that a coreboot table exists.
+> If there's a better way to achieve that, feel free to change it.
+
+IDK. My take would have been to provide the coreboot table under 
+/sys/firmware; similar to DT. And then walk over it and create devices 
+for the known entries.
+
 >
-> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> field. Add a DRM bridge driver to support the display format configuratio=
-n.
+>> * the check on whether the CB_TAG_FRAMEBUFFER should be used or not by the
+>>    kernel should also be there (what Thomas did in patch 1/8) but instead
+>>    of omiting registering the coreboot device in the bus, the device could
+>>    be marked as "unused" or "disabled" (by adding a field to coreboot_device).
+> This sounds like a reasonable compromise. It still feels a bit odd to
+> me that the check whether other framebuffers exist happens during
+> parsing of the table rather than at the point where the table entry is
+> actually used by something, but if that's the easiest way to make it
+> work, I guess there's no harm in doing it there. (I'm still curious,
+> though, why can't you just do the check in corebootdrm_probe(), and
+> return -ENODEV if the other framebuffer is used? Wouldn't that be
+> equivalent to what the old driver did?)
+
+I have a new iteration of the series that creates a coreboot-framebuffer 
+platform device for at the same place that currently creates the 
+simple-framebuffer device (in framebuffer_probe()). So we can leave most 
+of the code it as. There are also a number of bugs that this is going to 
+fix. I'll post it soon.
+
+Best regards
+Thomas
+
 >
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> [m.felsch@pengutronix.de: port to v6.19-rc1]
-> [m.felsch@pengutronix.de: add review feedback (Alexander)]
-> [m.felsch@pengutronix.de: fix to short Kconfig description (checkpath)]
-> [m.felsch@pengutronix.de: use "GPL" instead of "GPL v2" (checkpatch)]
-> [m.felsch@pengutronix.de: add bus-width support]
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-
-I'm sorry to be reviewing at v8 only, I hadn't noticed this series before.
-
-> ---
->  drivers/gpu/drm/bridge/imx/Kconfig      |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile     |   1 +
->  drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 221 ++++++++++++++++++++++++++=
-++++++
->  3 files changed, 233 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/=
-imx/Kconfig
-> index b9028a5e5a065c3237b404111d8df57e8e017f9d..181ee87bc0f9f65ee0b6e5edb=
-b48ba808dfbb71f 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -99,4 +99,15 @@ config DRM_IMX93_MIPI_DSI
->  	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
->  	  processor.
->
-> +config DRM_IMX93_PARALLEL_DISP_FMT_CONFIG
-> +	tristate "NXP i.MX91/i.MX93 parallel display format configuration"
+>> * the coreboot_bus_match() function then can take this new field into
+>>    account and only match if (device->entry.tag == id->tag && !device->unused)
+>>    or something like that.
+>>
+>> That way no device will be removed from the bus and the corebootdrm driver
+>> will only be probed when the device has to actually be used by the kernel.
+>>
+>> --
+>> Best regards,
+>>
+>> Javier Martinez Canillas
+>> Core Platforms
+>> Red Hat
+>>
 
-Minor nit: this is a driver for a device, so calling it "configuration"
-seems weird. From the code it looks like a device converting the color
-format, so what about "NXP i.MX91/i.MX93 parallel display format
-converter"?
-
-[...]
-
-> +static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct imx93_pdfc *pdfc;
-> +	struct device_node *ep;
-> +	int err;
-> +
-> +	pdfc =3D devm_drm_bridge_alloc(dev, struct imx93_pdfc, bridge, &funcs);
-> +	if (IS_ERR(pdfc))
-> +		return PTR_ERR(pdfc);
-> +
-> +	pdfc->regmap =3D syscon_node_to_regmap(dev->of_node->parent);
-> +	if (IS_ERR(pdfc->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->regmap),
-> +				     "failed to get regmap\n");
-> +
-> +	/* No limits per default */
-> +	pdfc->phy_bus_width =3D 24;
-> +
-> +	/* Get output ep (port1/endpoint) */
-> +	ep =3D of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
-> +	if (ep) {
-> +		err =3D of_property_read_u32(ep, "bus-width", &pdfc->phy_bus_width);
-> +		of_node_put(ep);
-> +
-> +		/* bus-width is optional but it must have valid data if present */
-> +		if (err && err !=3D -EINVAL)
-> +			return dev_err_probe(dev, err,
-> +					     "failed to query bus-width\n");
-> +	}
-> +
-> +	pdfc->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	if (IS_ERR(pdfc->next_bridge))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->next_bridge),
-> +				     "failed to get next bridge\n");
-> +
-> +	pdfc->dev =3D dev;
-> +	pdfc->bridge.driver_private =3D pdfc;
-
-pdfc embeds the struct drm_bridge, which is the mandatory design since
-devm_drm_bridge_alloc() got added, so driver_private shouldn't be needed
-anymore. Most drivers have a bridge_to_foo() inline function using
-component_of() to get the private struct from the drm_bridge pointer,
-e.g. [0] and [1].
-
-[0] https://elixir.bootlin.com/linux/v6.18.5/source/drivers/gpu/drm/bridge/=
-simple-bridge.c#L39-L43
-[1] https://elixir.bootlin.com/linux/v6.18.5/source/drivers/gpu/drm/bridge/=
-ti-sn65dsi83.c#L287-L290
-
-A short discussion took place a few months ago about driver_private, kind
-of suggesting it might be removed after all drivers have switched to
-devm_drm_bridge_alloc(). I think we should at least not introduce new users
-of driver_private at least.
-
-Best regards,
-Luca
-
+-- 
 --
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
