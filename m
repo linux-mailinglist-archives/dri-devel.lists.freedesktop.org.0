@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6076D216DF
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 22:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36071D216F4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 22:49:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF1D710E695;
-	Wed, 14 Jan 2026 21:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9548510E698;
+	Wed, 14 Jan 2026 21:49:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="P6vtWoYC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dL7d3Q1A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 695FE10E695;
- Wed, 14 Jan 2026 21:48:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 105006001D;
- Wed, 14 Jan 2026 21:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94455C4CEF7;
- Wed, 14 Jan 2026 21:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1768427306;
- bh=sVjE+SfQsdIUMHLLdK2WZZMe9meeOIqp+vLdzF39rao=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=P6vtWoYCIlr2XYuGHN8Ct1JWv57QVflPPPZ09aqbdSf6sWvv6Psm4BbFl9dEKxvME
- 9IiuEcpRE83qTyXp72NniYCaihdkRtUtnm5MV6es8ZMUNP2zri1F+QO+WeYttAzUaW
- ul+FCK9Uuub6AWdHHLL0xvAdQEb3R2ZlrFvcN/18=
-Date: Wed, 14 Jan 2026 13:48:25 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Francois Dugast <francois.dugast@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Matthew
- Brost <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>, Alistair Popple
- <apopple@nvidia.com>, adhavan Srinivasan <maddy@linux.ibm.com>, Nicholas
- Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Hildenbrand <david@kernel.org>,
- Oscar Salvador <osalvador@suse.de>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
- Romanovsky <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Balbir Singh
- <balbirs@nvidia.com>, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-mm@kvack.org,
- linux-cxl@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-Id: <20260114134825.8bf1cb3e897c8e41c73dc8ae@linux-foundation.org>
-In-Reply-To: <20260114192111.1267147-2-francois.dugast@intel.com>
-References: <20260114192111.1267147-1-francois.dugast@intel.com>
- <20260114192111.1267147-2-francois.dugast@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECCC210E698
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 21:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768427367; x=1799963367;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hwHl5VbBy2oNNnHXb35Q9wtBVlA2YMJ5yPi1OfuYOFU=;
+ b=dL7d3Q1AtIzlaG/1BwYo/4wsi8wIDiexsdI9xL9PgzayFJjmh9Clxk+v
+ swneSqgXUPd0ym/DziYLp1No5a1WPeYLwRRMR22kluZskc0qSDy2D1wen
+ NQC+KnR1P8AcbxTtGNw7Vjjlh7OCFydjY1rPlhUcqDcmphOwFyBrNw8Hu
+ S9jSKbxYy1hSfOMNyUymJv9NAfAymS8Fs1+sQdb0ohD6mt+wGwANeXnsd
+ Vyi05YTW2z5tO9fAiUK1PiziGKUnHHjyCITlhwOyEMf5D1hYZoHtNcgtL
+ l6vZtY+doob3V6BUwoj9MoHWRpSIh6AZ8TCmaNvP/XUapCcj5Ypf2pPt0 Q==;
+X-CSE-ConnectionGUID: UImz5Is4Qt2Ni2JqVljNYQ==
+X-CSE-MsgGUID: bj7WcGb8S5yONKU8EqPqGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69656221"
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="69656221"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2026 13:49:27 -0800
+X-CSE-ConnectionGUID: F3zygsX7QceaUQ52sD1Yow==
+X-CSE-MsgGUID: 1h3G/NmmQdeKGBAQXEee9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="209645182"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 14 Jan 2026 13:49:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vg8jw-00000000H44-40sG;
+ Wed, 14 Jan 2026 21:49:20 +0000
+Date: Thu, 15 Jan 2026 05:49:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
+ briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot
+ framebuffers
+Message-ID: <202601150553.5KsVSXQr-lkp@intel.com>
+References: <20260108145058.56943-9-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108145058.56943-9-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +74,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Jan 2026 20:19:52 +0100 Francois Dugast <francois.dugast@intel.com> wrote:
+Hi Thomas,
 
-> Reinitialize metadata for large zone device private folios in
-> zone_device_page_init prior to creating a higher-order zone device
-> private folio. This step is necessary when the folio’s order changes
-> dynamically between zone_device_page_init calls to avoid building a
-> corrupt folio. As part of the metadata reinitialization, the dev_pagemap
-> must be passed in from the caller because the pgmap stored in the folio
-> page may have been overwritten with a compound head.
+kernel test robot noticed the following build errors:
 
-Thanks.  What are the worst-case userspace-visible effects of the bug?
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master chrome-platform/for-firmware-next v6.19-rc5 next-20260114]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/firmware-google-Do-sysfb-test-before-creating-coreboot-framebuffer/20260108-225542
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260108145058.56943-9-tzimmermann%40suse.de
+patch subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150553.5KsVSXQr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/sysfb/corebootdrm.c: In function 'corebootdrm_device_init':
+>> drivers/gpu/drm/sysfb/corebootdrm.c:225:15: error: implicit declaration of function 'devm_aperture_acquire_for_coreboot_device'; did you mean 'devm_aperture_acquire_for_platform_device'? [-Wimplicit-function-declaration]
+     225 |         ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               devm_aperture_acquire_for_platform_device
+
+
+vim +225 drivers/gpu/drm/sysfb/corebootdrm.c
+
+   162	
+   163	/*
+   164	 * Init / Cleanup
+   165	 */
+   166	
+   167	static int corebootdrm_device_init(struct corebootdrm_device *cdev, struct coreboot_device *cbdev)
+   168	{
+   169		const struct lb_framebuffer *fb = &cbdev->framebuffer;
+   170		struct drm_sysfb_device *sysfb = &cdev->sysfb;
+   171		struct drm_device *dev = &sysfb->dev;
+   172		const struct drm_format_info *format;
+   173		int width, height, pitch;
+   174		u64 address;
+   175		int width_mm = 0, height_mm = 0;
+   176		resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
+   177		struct resource *res, *mem = NULL;
+   178		void __iomem *screen_base;
+   179		struct drm_plane *primary_plane;
+   180		struct drm_crtc *crtc;
+   181		struct drm_encoder *encoder;
+   182		struct drm_connector *connector;
+   183		unsigned long max_width, max_height;
+   184		size_t nformats;
+   185		int ret;
+   186	
+   187		/*
+   188		 * Hardware settings
+   189		 */
+   190	
+   191		format = corebootdrm_get_format_fb(dev, fb);
+   192		if (!format)
+   193			return -EINVAL;
+   194		width = corebootdrm_get_width_fb(dev, fb);
+   195		if (width < 0)
+   196			return width;
+   197		height = corebootdrm_get_height_fb(dev, fb);
+   198		if (height < 0)
+   199			return height;
+   200		pitch = corebootdrm_get_pitch_fb(dev, format, width, fb);
+   201		if (pitch < 0)
+   202			return pitch;
+   203		address = corebootdrm_get_address_fb(dev, height, pitch, fb);
+   204		if (!address)
+   205			return -EINVAL;
+   206	
+   207		sysfb->fb_mode = drm_sysfb_mode(width, height, width_mm, height_mm);
+   208		sysfb->fb_format = format;
+   209		sysfb->fb_pitch = pitch;
+   210	
+   211		drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
+   212		drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, pitch=%d byte\n",
+   213			&format->format, width, height, pitch);
+   214	
+   215		/*
+   216		 * Memory management
+   217		 */
+   218	
+   219		fb_base = address;
+   220		fb_size = pitch * height;
+   221	
+   222		fb_pgbase = round_down(fb_base, PAGE_SIZE);
+   223		fb_pgsize = fb_base - fb_pgbase + round_up(fb_size, PAGE_SIZE);
+   224	
+ > 225		ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+   226		if (ret) {
+   227			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
+   228			return ret;
+   229		}
+   230	
+   231		drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
+   232	
+   233		mem = devm_request_mem_region(&cbdev->dev, fb_pgbase, fb_pgsize, dev_name(&cbdev->dev));
+   234		if (!mem) {
+   235			/*
+   236			 * We cannot make this fatal. Sometimes this comes from magic
+   237			 * spaces our resource handlers simply don't know about. Use
+   238			 * the I/O-memory resource as-is and try to map that instead.
+   239			 */
+   240			drm_warn(dev, "could not acquire memory region %pr\n", res);
+   241			mem = res;
+   242		}
+   243	
+   244		screen_base = devm_ioremap_wc(&cbdev->dev, fb_pgbase, fb_pgsize);
+   245		if (!screen_base)
+   246			return -ENOMEM;
+   247	
+   248		iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
+   249	
+   250		/*
+   251		 * Modesetting
+   252		 */
+   253	
+   254		ret = drmm_mode_config_init(dev);
+   255		if (ret)
+   256			return ret;
+   257	
+   258		max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
+   259		max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
+   260	
+   261		dev->mode_config.min_width = width;
+   262		dev->mode_config.max_width = max_width;
+   263		dev->mode_config.min_height = height;
+   264		dev->mode_config.max_height = max_height;
+   265		dev->mode_config.preferred_depth = format->depth;
+   266		dev->mode_config.funcs = &corebootdrm_mode_config_funcs;
+   267	
+   268		/* Primary plane */
+   269	
+   270		nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
+   271						       cdev->formats, ARRAY_SIZE(cdev->formats));
+   272	
+   273		primary_plane = &cdev->primary_plane;
+   274		ret = drm_universal_plane_init(dev, primary_plane, 0, &corebootdrm_primary_plane_funcs,
+   275					       cdev->formats, nformats,
+   276					       corebootdrm_primary_plane_format_modifiers,
+   277					       DRM_PLANE_TYPE_PRIMARY, NULL);
+   278		if (ret)
+   279			return ret;
+   280		drm_plane_helper_add(primary_plane, &corebootdrm_primary_plane_helper_funcs);
+   281		drm_plane_enable_fb_damage_clips(primary_plane);
+   282	
+   283		/* CRTC */
+   284	
+   285		crtc = &cdev->crtc;
+   286		ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
+   287						&corebootdrm_crtc_funcs, NULL);
+   288		if (ret)
+   289			return ret;
+   290		drm_crtc_helper_add(crtc, &corebootdrm_crtc_helper_funcs);
+   291	
+   292		/* Encoder */
+   293	
+   294		encoder = &cdev->encoder;
+   295		ret = drm_encoder_init(dev, encoder, &corebootdrm_encoder_funcs,
+   296				       DRM_MODE_ENCODER_NONE, NULL);
+   297		if (ret)
+   298			return ret;
+   299		encoder->possible_crtcs = drm_crtc_mask(crtc);
+   300	
+   301		/* Connector */
+   302	
+   303		connector = &cdev->connector;
+   304		ret = drm_connector_init(dev, connector, &corebootdrm_connector_funcs,
+   305					 DRM_MODE_CONNECTOR_Unknown);
+   306		if (ret)
+   307			return ret;
+   308		drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
+   309		drm_connector_set_panel_orientation_with_quirk(connector,
+   310							       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
+   311							       width, height);
+   312	
+   313		ret = drm_connector_attach_encoder(connector, encoder);
+   314		if (ret)
+   315			return ret;
+   316	
+   317		drm_mode_config_reset(dev);
+   318	
+   319		return 0;
+   320	}
+   321	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
