@@ -2,87 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17A9D2008B
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 17:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC44D200D6
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 17:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66FC110E012;
-	Wed, 14 Jan 2026 16:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7F910E595;
+	Wed, 14 Jan 2026 16:05:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="KOMtm1ZB";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="K2j/9HLn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C02210E012
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 16:03:16 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-43246af170aso659897f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768406595; x=1769011395;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ki1lLYztHBUL2cAjzv+IOytmx7cnlyYwYvN02RNUp4U=;
- b=KOMtm1ZBnegZ4YyZNShZ8vENmplJzjw4c30r3GsbZIzujkFyXc7wNTC5tYkP+/E/VA
- JgMDfw8fSX2409ubgOxcmZ/0kQ8eJuE/tUXXAtv9yzU30j98ESq/ITsDcpCw9tM61qJy
- rNu7kA5LP2EERkQkNcOkQEnqUppQ35jbV+uf2F0WvvFBoPrfDskCKU/lkRacODGO9p66
- JsiFEJ/7q7kC0a/9J2e4sNBXpBNtboWxkc+JVfCw0wrAE5Xtky4FouaAQ6pIJ78RIDF0
- abhRpWog5TyPy0gqr/4k8p0ldBW9dJN5tbJkHQotg2iXozpfsFFa+LchINYwaXKM0X+L
- bAUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768406595; x=1769011395;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ki1lLYztHBUL2cAjzv+IOytmx7cnlyYwYvN02RNUp4U=;
- b=K1UwkIBtOFQIw/3JsjbAsTU9yy6jZoZumzYGHiXr6eX8JOqCfDvQPOMCy0qBSoLn/1
- b1r6ZD6wkfrjqav4+FACVVK+4Jrg/0POuw9YyroEWhMrttUQvJQ3REIL0v52L9cT+Ezc
- J1x73XHh9NwFQZNY+4vIGts6JFRN5y8FxRX5li8CZ17UrljlIMxYX21waF1mQcrwIls3
- ll0MS9zXeLS8o9RW7SWJWxR31vBBwF179HDMT4MUqg6FNMvbl6w92PtwWH0sd6KMtCyz
- Rc7TdLRJrrxa4lCKR56DajO83SpoqINp64t8BdzIhWXsUx2mCr6CsJRXG6xAoM8rGPP8
- g0wg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUz8k1OZuFsAiqilT45CQPYI5l/cFbTzqNKgyUdMGHr2LSR8feQGru7AOZ5TXzcfC6g1QTwZ9JhUBc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhUnMTaqyLw9EhsOdMQCFxNk/NT++P3fAUSih98jR7UXecmkWn
- FT5LKHunIvDuFq8fkiw+FNQJ8+pjY9RiAulKhZNCXzuIrvC8PKqeBAG74RJbykj1lCM=
-X-Gm-Gg: AY/fxX5xEhLiDQIai3FEVmn+eVfwDQgJO9tjBJ1h5r7acW99Eurm16pFg30Wj39Snvy
- fEvxOhGFMEkj3zmnPthoGpmzGuZecdDntN4o1t71dad034lcSKnPMh+m5BJceUge8D5O9ziYmHw
- +0A0uQc+XYaIOVzNsVyvQdB/rtkQTIereGBKBsMTGlT1znNikYR1j0E8gvj9SPPUpbahgTp/9+Q
- 7N8JUQZWcQRXR/t7GjKK5HMMgRGigFvvejVZF5KlNbuZ36SXCglq7Up0HBlRnqLL+WDXV0INzTm
- cQiBu/6mdBqfLMvHULIUYunCxX0ws9L9BC1gL4WnRF7vN30I32jb+tdoM1Yx3ldL2mEsBeDILi6
- M7YTigWCmr9zzvMGyiJP3Q+tHzp2yj1IYq+DzB0GHnSTgR2NMYJSP1BHy6EkxPjyL0AEgdkTk7Y
- Vuouk2fs9ZPxXQXsJeUqT/mXBeZ2cPLvivnszsYf+Qp1513X1GQLYJ5fK/75xlHF17y2VduWCfr
- TJW2UOZUA0+YsXhGiGnsG7JxvWeuCbi5IAyWGlJhYU7LH6S8HtUuy5eGxPx9eJeQJToEsbO
-X-Received: by 2002:a5d:5f47:0:b0:431:397:4c4f with SMTP id
- ffacd0b85a97d-4342c0ac6e4mr4353689f8f.7.1768406595260; 
- Wed, 14 Jan 2026 08:03:15 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-434af6d90aasm40196f8f.29.2026.01.14.08.03.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jan 2026 08:03:14 -0800 (PST)
-Date: Wed, 14 Jan 2026 16:03:12 +0000
-From: Daniel Thompson <daniel@riscstar.com>
-To: tessolveupstream@gmail.com
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] backlight: gpio: add support for multiple GPIOs
- for backlight control
-Message-ID: <aWe-QA_grqNwnE4n@aspen.lan>
-References: <20260105085120.230862-1-tessolveupstream@gmail.com>
- <20260105085120.230862-3-tessolveupstream@gmail.com>
- <aVuN7zVUWJ1qsVh8@aspen.lan>
- <1fedb7d7-3a30-4f0f-961f-09613f2a95d0@gmail.com>
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012002.outbound.protection.outlook.com
+ [40.107.200.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBCB10E585;
+ Wed, 14 Jan 2026 16:05:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=utALMFP830atfSQhzJqQ2GTJe2fD7mrZbLtANXiSDxPPhTqMUAoEZ8k6vny88zmQF9gG5eEqM6LmG44ILiwdbRKWH0DHCKlDtLiA/Z34OSOXmTRj6OC8dmD1wavedbpdaVyplrvxEFZi/H93QyRzcWBOQ5sEcme4UOh7jDoj7MmU3kwNzSXl7wL7OUMlKe/5GpRMOxowwugHnXK3GRBq8rTQSYmlvZjYwuOb8I3pqLiAMxY60KH5ur9JHQefF2tfPyswVIQEzBtlBDOOAX2uojqERe+bl2gMa23UOkUCfYXN0kVTf8w1psHu1UcbdzyCLEeJcFL4tk0ieHtm9OgJPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XAcYq4qHEecpl89LkQjJ/zWrzFvhqTuXZ1/Oi6c2LKU=;
+ b=t4EPyZRXAkNOBX7yQQEuTHgmzPDLP2MdfTfEzXAZjW1+BmRkb3qVis5kkmpMwt4phRcOTLNI+/ItkuLEuAoirSJJxy5J5muAOc/zjDJkTySNXySGv8zGlMhRNaQY4RNqTVCvje6ruYeCxeFfwwWweG5XHbjbOlbNNqvfIRZUEtkqlrEP1+NX5205pRFkqgp4s6ualFLdYrbMi9Kbo6YiV2VsfBa8hMnXr+Vgd6RioiyisQ0E5CBrX/kml648CsDkcq80ORwm4qApdckr8/g9ywUK2F/Vek8UV92OgEpHWBEWrUQPHtj7X6HKIRlfY3YTRkUEL602d/HEhIHK243VeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XAcYq4qHEecpl89LkQjJ/zWrzFvhqTuXZ1/Oi6c2LKU=;
+ b=K2j/9HLnyceczvCihshirtu4CO8rYHAW3Pj1ZcQiqcF5Fk/Lz14QguFl1H7cHudW0KC6G91vEX8wcqJDAoFJm2MNJExZXtZVLXPGRjdstTyoKJZOG1p3kEvubWhGgGCju5Cf6A7/EQyrwby+7h8/lb+VRN2UDOu7wtBdITOM4/ndA8+BadLf4IlYnRk5HsumzM6D32Fxek+t5Jj2/T92VU+wplDIv/YorjvfEqy3CkfN3VMGXsgEEYzzKHROE/AE1zcouPDnRXUQc62x4OyWEhgscfu95hYMmnivSCK5nNm/codwAWQF09YEw0dTIAcd0BMNKN34MXUZqZBN1OAeUw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12)
+ by BN5PR12MB9487.namprd12.prod.outlook.com (2603:10b6:408:2aa::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Wed, 14 Jan
+ 2026 16:05:17 +0000
+Received: from PH0PR12MB8800.namprd12.prod.outlook.com
+ ([fe80::f79d:ddc5:2ad7:762d]) by PH0PR12MB8800.namprd12.prod.outlook.com
+ ([fe80::f79d:ddc5:2ad7:762d%4]) with mapi id 15.20.9520.003; Wed, 14 Jan 2026
+ 16:05:14 +0000
+From: Yury Norov <ynorov@nvidia.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Yury Norov <ynorov@nvidia.com>
+Subject: [PATCH] drm/amdkfd: simplify svm_range_unmap_from_gpus()
+Date: Wed, 14 Jan 2026 11:05:10 -0500
+Message-ID: <20260114160512.831773-1-ynorov@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN9PR03CA0352.namprd03.prod.outlook.com
+ (2603:10b6:408:f6::27) To PH0PR12MB8800.namprd12.prod.outlook.com
+ (2603:10b6:510:26f::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1fedb7d7-3a30-4f0f-961f-09613f2a95d0@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR12MB8800:EE_|BN5PR12MB9487:EE_
+X-MS-Office365-Filtering-Correlation-Id: bea6736e-03e9-488a-296c-08de5386b404
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|10070799003|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zxUgCkOotdtTO9SL45rUW1t1hlZcq9nHDGjbQIGSV6FCcfFuG7NS/nr4vD42?=
+ =?us-ascii?Q?ZijOWIIIBjc0qc+4BPiXQKCkd5K76pXk4bwkKx2wjBqeUTUnpAe/AVR2cjMW?=
+ =?us-ascii?Q?UuBGbhoNmaoas+9QyKRO4Xp5AF3+Ze0oVK4ihpRjiiO9NAlBIbB56rYYL44/?=
+ =?us-ascii?Q?3d5F6i9taiPbXDmVV9QvNA0Ks44vB+je8gnAdAvQ8DnCjxW/70pgDYAqFr2C?=
+ =?us-ascii?Q?ENaWuBBVL8JjB1UH7SXGlbnAkKL7hOP60E3l+7AkPnOqTwPcwAVgW9OmmUFm?=
+ =?us-ascii?Q?wrJGgR2GPF5LP7p9Y4se3aewvU6pJOBZhT9qU3wSeQSqHkrMvGuUv2CaZIxl?=
+ =?us-ascii?Q?VHc64QEW2fAstuXlDoJz7qhU1K4ZAphQYWuupcoOyYj3Y/dwp8WPylFZ0Rx0?=
+ =?us-ascii?Q?JmCVriV0JWrsGBTEIlbr/bqA1g3CbkRfPQIq1UneeXLj+Ol00NQygsD7cZDe?=
+ =?us-ascii?Q?ZBFQy02h9DkSmsroqYU9vCJh3ZuI8S5XXx9DA/n8+iGE8web74suNiKNkRmF?=
+ =?us-ascii?Q?xoqOkqlWjDc69kAlARLzWaIrqsBOVE7+nllNuKazsKTFf7PsPq7lJtcTaNlS?=
+ =?us-ascii?Q?TRpemZwMJmG6+II3G0Hjgva/KuFl5HPh8PlLQOcqwpFoXPFrxXLR+8lhHdC6?=
+ =?us-ascii?Q?CZDHkDblls+8XkwpHAMaxxcYUhI1sumxv5mge6Cio8KChcLDUL1R+8/8g2w9?=
+ =?us-ascii?Q?p8A3esYjaIr/HuADD7ZlLHBsNYEIcKd4icChTb/fCVejUG0wBWxescWC+CrN?=
+ =?us-ascii?Q?I42iviuwRpjzpKJEUWY99jGSklWID2ujMfEOv/WZtTdXLKjts3QkesHH9yXG?=
+ =?us-ascii?Q?+FKavW6Dg7eClHyRiyJ4457En9ouSZG2Bp+s2i4HwYq+1rpMhoC9uzQh4UI7?=
+ =?us-ascii?Q?ZJxNfxHZjv+PJ4GNyQkS87shL21+fpfdJVJ7jrcxkclGM2AqFzGB4I4yi5m9?=
+ =?us-ascii?Q?y180iav9vU0T2ePImjTIN5XmgDcTMttnXdWl75QeVzXtkxRDgPrGtVmbdb2c?=
+ =?us-ascii?Q?5ovy6haXlaiPZBdgB93jWuTx+cv9R4B6m6sUp7N0YFzUMlG02BvNIO0/oN6k?=
+ =?us-ascii?Q?PZmqmP1hU9m1GttT0598lh86Zg2DkkudmbPBvKOmXBwnUTbEbEdZZUIXZjmg?=
+ =?us-ascii?Q?QoKfkM6CPAXU+nXqiyRfDVNiZYNSg6c1O8F6uB9E4d6AUoOY46N0bffK4dui?=
+ =?us-ascii?Q?a+J1A7l3aWwvxBCkUSFZkE1mwid+41C91qWzTbqXgcjZnRfkZAfTVrPxyemd?=
+ =?us-ascii?Q?uRbSy9a+ptnUxmSMVnTnG01n5oTSbbzDha7Nz55zbeoKjkEnYrQOXpxga28y?=
+ =?us-ascii?Q?NDr4zQPr80g0EQ3ESoCSs/kO/XYSvONAd/22a7LZ0bhiRlFIk2Sc3J9BsATp?=
+ =?us-ascii?Q?aUL7nucePWj6g8nchxhQ+WKB0kc8wsvzBqPVmL0IiYTepXDmyZF87/tXYpHI?=
+ =?us-ascii?Q?P2YVHWdNHEFfvJZO7Bh+zT+svXYGtqzWTsaXi50Z+IXySYv7Yk4qTKO+kRjv?=
+ =?us-ascii?Q?Vl8TubrUzM06j02ijxeu6gk1Pdd91y0RIdQfCpzIyLejYmM6p9YdfEYZlS7A?=
+ =?us-ascii?Q?GN2Lwt1lwQ5FOBya6so=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR12MB8800.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(10070799003)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1I2zAEu97slNn+U8u70P52S4z0XZljEh7l4fy/kdLeeLAUeqKjiPd7q5Mt0f?=
+ =?us-ascii?Q?a5w8RJQjlbHXazGxR9T2i8aFFEXXgw+q/aiA0OlqqgeItawQx6b6P9GfoiLX?=
+ =?us-ascii?Q?cbQlluciEls2trqDU2Gi/RI3IdSm29D9aqRq10Uq5VkvrenpHH6/R3bkw2lU?=
+ =?us-ascii?Q?r7/XwE2nmOlC8N10tH73hRlI8iR4LuHSTtvUabt/VxthDEKsCejR1w+DPSWc?=
+ =?us-ascii?Q?GTnociEdHB6Mf+wbGFY7xhfhB64dWRxn0YvYyouSZu56ZS3o5/H8osOKiqS3?=
+ =?us-ascii?Q?r7sJ9aYOTyU82ck3LeGgk6Hy11VvLgFne7LqUP1hA1Kmp4PEONsCz9z2sCxT?=
+ =?us-ascii?Q?YrYKsVvufuKiLDSjDC2fhOlL38NzCLI4FmFEW2Afp6chwmttvjnTjBH6Xrm1?=
+ =?us-ascii?Q?Xd7BUZCnT3R4SCkdLHeXWjOGWQm/4IEQmiXclPvjyKkGlSd87lttd4lBY4S5?=
+ =?us-ascii?Q?tihWuoSs6NwIAnWir0I9HycXTYiVeqSfSBUEtRxeghJCxiTck41XmW/BPaFb?=
+ =?us-ascii?Q?1qLa0NnBWgjzDFFHbAu6Qluy+ZSwnG39hQhBYjjWHMcJia07FfQ5PoijhM6U?=
+ =?us-ascii?Q?rQhqRdSrlYgcNfVxf6zcbkQiJwwrw4ET52PljssV8Xmmcpm4pgjDezjOu4ZU?=
+ =?us-ascii?Q?TV3EoZiVUNLwmF0Lx/cgV/tCuHnnYA663WXqesYW4utBfc6q3Q2AXwv59Xi4?=
+ =?us-ascii?Q?fmbdC2ojzRiYBvQ8Cd17w/o2UlqZ9v/gVxVLRX767hTvdvpsTZo9oAAOqhfx?=
+ =?us-ascii?Q?dnqZnv5rwCt5GfLv2o0V5TlvXZ2WkSLs9DHPPvUPgzdjZCTYQpkCEbn6oSKj?=
+ =?us-ascii?Q?pNUVRgGEx/VcIG9AjzIqgTpD6VmG1qeOcJpItmVdc64Fy4oDy4m8UibzjX17?=
+ =?us-ascii?Q?zJ/fA/NkjwMBcC4jRgtU29nsYbSlmkbe/6Tq8IJowqyceCx30PD4zuNrhpBP?=
+ =?us-ascii?Q?jnhXchc7hCmFW0uFYsf6vjv3kEGDAU+lku4GQiZoBjyZbW3vID0Bn+olq0y6?=
+ =?us-ascii?Q?yehP7gL9Ff3sAZvdAZgTUPwxQV4DMSBYVlxGHPLyl7UxM2mThahekrNJVge5?=
+ =?us-ascii?Q?U5mLUfOYyKQK8nqilYYGVxDWEw4vUjrgS183X5I86ept/jBbzG0uckC1WRKG?=
+ =?us-ascii?Q?mMhxsEtu0qlVG1uHae8uFcydRgy+2kTXpgq66d0EJrcbHN63CnLJ6NW1VVWR?=
+ =?us-ascii?Q?zPXvpgo/J7Rsbp67S2LzXD+6Gq9zZBDSHZlMh6EI2atEkW4r6+uqiI2S1rvK?=
+ =?us-ascii?Q?6sqShlL9kwmbrwr762eJ/aCI3qakz1goNrAmEbyXYSfvuS8LpjL1idPjSol5?=
+ =?us-ascii?Q?0ifUZmWpLR1N/aCXQy29PjxVdKg2pBaqcHvNeb+dcdP8Rs2TxEzSe6XdVRtv?=
+ =?us-ascii?Q?ISpJNp5/UocwJnOsq3mx0WV3dYIa+EKjou8BRNhjOdp7pEkGiMe90VLe/oBs?=
+ =?us-ascii?Q?Mg23Rh/QIIfnw//tqDA5K31quQdx1dSzjpj21upLhld7GRgczimk5g1qatwN?=
+ =?us-ascii?Q?v3Jr/veLrDaSAW+cDsBEVILQDVDXluQkASD6AyNtAEjow95h7MDd2in5qsPr?=
+ =?us-ascii?Q?KUXm9GSiKVey5ZeJ1QImry7nolf7AqWpWVS4NOOS3M223nl1mXMODRHmZZmO?=
+ =?us-ascii?Q?YY28OGEI8kCf557bApBQpzZQjm+7cTYkPM7V9GxJJWN1WucYI5Ft4XbLHi1+?=
+ =?us-ascii?Q?a5KIBer/TnAC3m/364tzxmTwJj5IIalYKq2LFwfAv9PqdmBQ0I9SnZnvuVHD?=
+ =?us-ascii?Q?oA+8YYVAZ3GRFgmw6FLJxT4MT4tNQ2mY0HK/zk1udzw3KJwOiX1U?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bea6736e-03e9-488a-296c-08de5386b404
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB8800.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 16:05:14.6353 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kvpzr+PrtCUp7ED0ny/tCYNrPkJg+HJNjlhki0ogGdZMr791FXoRngNjUcopeyKZv21XlXmMZnXG2eOm32LmPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9487
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,84 +153,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 12:47:26PM +0530, tessolveupstream@gmail.com wrote:
->
->
-> On 05-01-2026 15:39, Daniel Thompson wrote:
-> > On Mon, Jan 05, 2026 at 02:21:20PM +0530, Sudarshan Shetty wrote:
-> >> Extend the gpio-backlight driver to handle multiple GPIOs instead of a
-> >> single one. This allows panels that require driving several enable pins
-> >> to be controlled by the backlight framework.
-> >>
-> >> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
-> >> ---
-> >>  drivers/video/backlight/gpio_backlight.c | 61 +++++++++++++++++-------
-> >>  1 file changed, 45 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> >> index 728a546904b0..037e1c111e48 100644
-> >> --- a/drivers/video/backlight/gpio_backlight.c
-> >> +++ b/drivers/video/backlight/gpio_backlight.c
-> >> @@ -17,14 +17,18 @@
-> >>
-> >>  struct gpio_backlight {
-> >>  	struct device *dev;
-> >> -	struct gpio_desc *gpiod;
-> >> +	struct gpio_desc **gpiods;
-> >> +	unsigned int num_gpios;
-> >
-> > Why not use struct gpio_descs for this?
-> >
-> > Once you do that, then most of the gbl->num_gpios loops can be replaced with
-> > calls to the array based accessors.
-> >
->
-> Based on your feedback, I have updated the implementation to use
-> struct gpio_descs and array-based accessors, as recommended like
-> below:
->
-> git diff drivers/video/backlight/gpio_backlight.c
-> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> index 037e1c111e48..e99d7a9dc670 100644
-> --- a/drivers/video/backlight/gpio_backlight.c
-> +++ b/drivers/video/backlight/gpio_backlight.c
-> @@ -14,22 +14,37 @@
->  #include <linux/platform_device.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
-> +#include <linux/bitmap.h>
->
->  struct gpio_backlight {
->         struct device *dev;
-> -       struct gpio_desc **gpiods;
-> +       struct gpio_descs *gpiods;
->         unsigned int num_gpios;
->  };
->
->  static int gpio_backlight_update_status(struct backlight_device *bl)
->  {
->         struct gpio_backlight *gbl = bl_get_data(bl);
-> -       unsigned int i;
-> +       unsigned int n = gbl->num_gpios;
->         int br = backlight_get_brightness(bl);
-> +       unsigned long *value_bitmap;
-> +       int words = BITS_TO_LONGS(n);
-> +
-> +       value_bitmap = kcalloc(words, sizeof(unsigned long), GFP_KERNEL);
+The function calls bitmap_or() followed by for_each_set_bit().
+Switch it to the dedicated for_each_or_bit() and drop the temporary
+bitmap.
 
-Not sure you need a kcalloc() here. If you want to support more than 32
-GPIOs then you can pre-allocate space with a devm_kcalloc() in the probe
-method rather than reallocate every time it is used.
+Signed-off-by: Yury Norov <ynorov@nvidia.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-To be honest I don't really mind putting a hard limit on the maximum
-gpl->num_gpios (so you can just use a local variable) and having no
-allocation at all.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index 79ea138897fc..eed76b13d191 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -1344,7 +1344,6 @@ static int
+ svm_range_unmap_from_gpus(struct svm_range *prange, unsigned long start,
+ 			  unsigned long last, uint32_t trigger)
+ {
+-	DECLARE_BITMAP(bitmap, MAX_GPU_INSTANCE);
+ 	struct kfd_process_device *pdd;
+ 	struct dma_fence *fence = NULL;
+ 	struct kfd_process *p;
+@@ -1362,11 +1361,9 @@ svm_range_unmap_from_gpus(struct svm_range *prange, unsigned long start,
+ 		prange->mapped_to_gpu = false;
+ 	}
+ 
+-	bitmap_or(bitmap, prange->bitmap_access, prange->bitmap_aip,
+-		  MAX_GPU_INSTANCE);
+ 	p = container_of(prange->svms, struct kfd_process, svms);
+ 
+-	for_each_set_bit(gpuidx, bitmap, MAX_GPU_INSTANCE) {
++	for_each_or_bit(gpuidx, prange->bitmap_access, prange->bitmap_aip, MAX_GPU_INSTANCE) {
+ 		pr_debug("unmap from gpu idx 0x%x\n", gpuidx);
+ 		pdd = kfd_process_device_from_gpuidx(p, gpuidx);
+ 		if (!pdd) {
+-- 
+2.43.0
 
-
-> Could you please share your thoughts on whether this approach
-> aligns with your expectations?
-
-Looks like it is going in the right direction, yes.
-
-
-Daniel.
