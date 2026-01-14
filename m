@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A31D20AB4
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 18:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D63D20B65
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 19:01:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5B110E61F;
-	Wed, 14 Jan 2026 17:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102AF10E658;
+	Wed, 14 Jan 2026 18:01:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="u11fS0Mh";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="waolrKMs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazhn15013060.outbound.protection.outlook.com
- [52.102.133.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C95AB10E61F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 17:53:49 +0000 (UTC)
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazhn15010019.outbound.protection.outlook.com
+ [52.102.146.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 900BD10E658
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 18:01:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SzFzslyThE5ssibh8jele4hdAaxl8V8lbxZMRDDCW0Y/ExN6qzvMgoYYuwiFj+vgjbU2QBD2CBNU46DuvVjaKXKWMDKe9vj+MtQg97gxNvScsv/A8Cwz3gJdkDkDLe3CQ/BXgPJQ6NtlbdKTuhdSI2x9tbBiOOhZ7BmclthDzazQ103FgS/zMfe6hNd3AIjxKdV+1hzdBjReIsOjqoy54TzsDxDP9xrLZuU8tU8lRK0b3OBRtQHwl3J2hQ4b3xSw3NAdObVRDxLLrRoiUSJUGxT+2e9MC8NGc4RBruCkrHt5pjS84S8OsIuay34D5AM9nDRR/8LKWJ/G5QtdRkXwqQ==
+ b=rgPYrwVBd+sAxcZzDUtXRJMr7xRe45tNMkDj0ycU9lzOgLdU6hqPXzUYuaJCsV4Zu2v26rJeSX/GAg0HSUbS9zbwn3UujP0ozrfgCln9JN/q4K5vdvr7Yb+6EASlbDwMcnI/OHXXRczIXZ1V6mkK/jcqj5TjLxkaLofcytQiR8pVRhYmHr1dsD8LxNIYvCtUezBZX0DIn94Ujz9g+t1brUpTy5KVK4/tfwJI/dT6sdOe6ncl5C2nhwfNq7WlEpKbJq4XvO8QISoCawywELvkciJ2DPNJPLqC79kkBG5EiS8Ug0yLRMnfwl0eo+y7WUxiAAzYugwh8NPHm7cC8/YVyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JQnvywff7wkwvXpqcEbTNMsS7mGtvWlFE6qbpAYERng=;
- b=xFKMT+NzFyiGyQUcDAVxdQ8kN4S3uXXixXB8kUbMs1QDMcNefAGSDSU3jP0ne1FTjJFH4ON59m1Qyz5o2mbqXx7moxwrensjsYK9wi1wEYNxpsBnqOu0g/MC4lcbFjXIACAekrBzoCxg98gitNlZlLRuasyOzxKLPjWjc0jyxKTMoqUK/QWRt+MX/aZz08Iz9U2cqY/yeOWjgg0k6tTSx0wui4FjeIwOC6D2wzlpkQpf9nrmVttNXLhH5gQFkTIuqemVsxJk2jynXEnqcvoRMn7VWi5R/BylpVklWejGr1r7MXLalvfH9fryfsvH4AQ1IkYbVao3VaSQAufwGKPRMA==
+ bh=V/yuBBaDAznftGhhFsXmsET3hkGuuS/ENIedWO8VvpY=;
+ b=J8cshxXT/PXFHtWk9CUZixSAi2NwJ2Un9tMhfjyDFnk/GJoPMrYzjv+tj645n8OlXY0f6yUERu6JX1u7ewFZMR6hwA9QgKw/3ZPoooqWsLeDZ8Gs0EnQLFcfYQph48tgwHkNR51Ls34C5kBCtpwgQauSycl9EQ5abBJVD+OkRwYyAZ+TIanXG9NADmkSWG//SYeHKjaL8zkGkNoG/IrYfdSjjKzStATta9ZT38DZYR6lR98x6fj+aL4WHwP1BtIAC+wzea7dV3HTxV3aHuUpuegObEw7EHvJMFulnIwzEZRDAwLn4NscnJFeU3+MiSLEVoTgUouDC3hqP+6plTqv8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=ti.com;
+ 198.47.23.195) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JQnvywff7wkwvXpqcEbTNMsS7mGtvWlFE6qbpAYERng=;
- b=u11fS0MhAfvGPijb5D4m/ja/2+haI9y2BolfDvqNC7CtzI9kOD+Jt8HmdOLk7xMjGzyuon88VEiER4wFlNzLFYunMzhqY8OCJpla7tlplmWgPRAP6qYR20yXGzZU0I6TssdNyMYI1y2KpD//31v+JpHOTPEZkx8aaQZm/1a3TNE=
-Received: from DM6PR02CA0059.namprd02.prod.outlook.com (2603:10b6:5:177::36)
- by SA1PR10MB5736.namprd10.prod.outlook.com (2603:10b6:806:232::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Wed, 14 Jan
- 2026 17:53:46 +0000
-Received: from CY4PEPF0000E9DB.namprd05.prod.outlook.com
- (2603:10b6:5:177:cafe::93) by DM6PR02CA0059.outlook.office365.com
- (2603:10b6:5:177::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.5 via Frontend Transport; Wed,
- 14 Jan 2026 17:53:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ bh=V/yuBBaDAznftGhhFsXmsET3hkGuuS/ENIedWO8VvpY=;
+ b=waolrKMsxJF5mP5CAwCNmDGFpDeZceMFhrfqfmXObXNlKxzfJhmJOHEuKA+aWjczXs3VT6Vo3MmNFdoArjvvB0yE34Nlzy2ViA3pUJFbrPPIQpYlk2+95wY8+t+Nw6b86xEXgwXEzw7NwF2rzZ5OgDHEEdqGAZ4vVZjvxLYHFQg=
+Received: from BYAPR11CA0051.namprd11.prod.outlook.com (2603:10b6:a03:80::28)
+ by IA3PR10MB8323.namprd10.prod.outlook.com (2603:10b6:208:583::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Wed, 14 Jan
+ 2026 18:01:43 +0000
+Received: from CO1PEPF000066E7.namprd05.prod.outlook.com
+ (2603:10b6:a03:80:cafe::e4) by BYAPR11CA0051.outlook.office365.com
+ (2603:10b6:a03:80::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.4 via Frontend Transport; Wed,
+ 14 Jan 2026 18:01:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CY4PEPF0000E9DB.mail.protection.outlook.com (10.167.241.74) with Microsoft
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ CO1PEPF000066E7.mail.protection.outlook.com (10.167.249.9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.1 via Frontend Transport; Wed, 14 Jan 2026 17:53:44 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9520.1 via Frontend Transport; Wed, 14 Jan 2026 18:01:42 +0000
+Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
- 2026 11:53:10 -0600
-Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 12:01:42 -0600
+Received: from DLEE206.ent.ti.com (157.170.170.90) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
- 2026 11:53:06 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
- (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 12:01:34 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE206.ent.ti.com
+ (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 14 Jan 2026 11:53:06 -0600
+ Transport; Wed, 14 Jan 2026 12:01:34 -0600
 Received: from [10.249.42.149] ([10.249.42.149])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60EHr5sR059224;
- Wed, 14 Jan 2026 11:53:05 -0600
-Message-ID: <d9b0d6d5-6f1a-4cb0-a8ab-5e3fdaf33fa5@ti.com>
-Date: Wed, 14 Jan 2026 11:53:05 -0600
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60EI1XDc196359;
+ Wed, 14 Jan 2026 12:01:34 -0600
+Message-ID: <7628b04f-df46-47cc-a33d-c40650b256e7@ti.com>
+Date: Wed, 14 Jan 2026 12:01:33 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add
- memory pool for DSP i/o buffers
+Subject: Re: [PATCH v2 2/5] accel/thames: Add driver for the C7x DSPs in TI
+ SoCs
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
  "Randolph Sapp" <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, Andrei
  Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, Vignesh
@@ -89,73 +89,73 @@ CC: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
  <linux-doc@vger.kernel.org>, <linux-media@vger.kernel.org>,
  <linaro-mm-sig@lists.linaro.org>
 References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
- <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+ <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
 Content-Language: en-US
 From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+In-Reply-To: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DB:EE_|SA1PR10MB5736:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6764148e-862c-4732-1fa4-08de5395dcad
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066E7:EE_|IA3PR10MB8323:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7093ad7f-5d98-4c27-6dd9-08de5396f971
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|34020700016|1800799024|82310400026|36860700013|376014|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?blF3cFljZWdib2FHOWNKekRBSDhNQ25jdDNQSHhiQmRlcWdrZzZJanFCVitq?=
- =?utf-8?B?OXlNVmxwSStPSktpb21TNFp0aVVoZ2dwZGdRcnlnRHQ5MSs3TzZtcTdzUE9l?=
- =?utf-8?B?bUExTW5NTHhpTjl4TFk4aHRWVzF5dzdwazRBOXF2QnNnNnAvNGVFL1VsTW1h?=
- =?utf-8?B?eEJhbUUxZmVoN2hiMW9MVVUvQTVhRmFIcVZUVE10MTZDQjRoeVBVb2dQQjFk?=
- =?utf-8?B?eTIxZWNrRFBicnVpSU5MdjR4NTM1YjMwbDNhQUZqdlVJZVpDOGZCRFRyb2Jn?=
- =?utf-8?B?Rk8xb3R2U2V1c1JhVFUvNWJSUThWVGVpTThud2ZoNkRoZTRETlh0RS94eldX?=
- =?utf-8?B?YjVjYUNZUWtOeHlsdDhFMytkK0RTQWlZVmVCNWJTZ0NpVUwyREVxRC9IcWQ2?=
- =?utf-8?B?V3crQlVFVG0waEpuT0JPc0NNNjI0UWdjVnRPZGJNS04xTHkrUmxmZVVLZWZR?=
- =?utf-8?B?T2pkeWdkc2Q2SGFCSUNSRFFONmszZGh2QVJVSC9pMWUwNjk2cWVJUDNJSlJH?=
- =?utf-8?B?UWdQS2oraHdjNURObGczOUtiWHVIZlBkaWQxdjhmMFNRTjdVOGZEaXIvVHF6?=
- =?utf-8?B?RkZVZlczYkQxbDV1SUVXbFZ2dkNIMXAyenJrOVpJRWxNbEY2WDhYUmo1QW5M?=
- =?utf-8?B?YkNnSVh2SVJCRVZOMExreUhSWDJFOXE4RkdkOSsxQjNGSnFlRDN6TXFybjE0?=
- =?utf-8?B?Rmh0clRSbllESFlHeTZXVjBueTJKRHN3amN1NkN1Q0JMdVpuUlFDcDJOMFlZ?=
- =?utf-8?B?SE0rQmJCMGdIZzlvTDFjQWJZa0F5ZWRUTlU2ZXJLMzhkSFAzeE5nakxOODdh?=
- =?utf-8?B?dkg0ZXRMdlVLRkIxVWQvNWM4aEFwcWVBVUs1TGkxN0Y5YjVieEZKbTBSZFpC?=
- =?utf-8?B?Y2hwT0dMTWJxTUV4TXptMlZCQ3AvQTAxT0NncnpJRlhxL2NWRDVkblQyRnJZ?=
- =?utf-8?B?elpjdnZzT1VlUDliS0dNbHJRdG9HNm9NdEVDNzZydkdoQTlQLy9GN1h1dDVE?=
- =?utf-8?B?QzRVVWovclY0Q3FIaXkySHpQbCtMS1JOUGZVQTFZMWR4YUVXNi9UNHdmaVJr?=
- =?utf-8?B?SkxEOS9BSWs1YXlvVTE1cmJqYnRBWFlBZVVLU05sbzNkR3NPcFJ0STBOcmlp?=
- =?utf-8?B?RHVJUzlqNW8xSWxQbHNDWW0xU2xGZ2RCeWg1Mzdja1VuQkZsNGl1MWZEZGlo?=
- =?utf-8?B?SWhsZGlISjBLdzA2VzVvWjR3dysxVVh6Z0ZpMzdLZG4rdVVYdHNoMlhIR3FQ?=
- =?utf-8?B?elEzYkxSZWN1RkMwcVpMNk5RamtjYVpHOTdRSjVZbTFIYmtvV0N4bm1keTNv?=
- =?utf-8?B?Z0xlSjlQZnVKUXlyZ2NFdzMwOGlYTTZVdzZNQ1Y1aXc5Y01ZTnlSdG1Wamwy?=
- =?utf-8?B?MHZPaDBSYnBDZE92cTgrZkp2MnRvMnpnZG9pVVN4bjZ0VkViSHlOMlVFbHNZ?=
- =?utf-8?B?YlFiVWxackdIallOK0tJdmkzSjVDUFBSeUc4TVdnSEtBMzhaN2xSdEpyWitt?=
- =?utf-8?B?aFpWVmFHUE13bm4ybW42U0E5YmY5NEZ2ZVM0emNMb1lRdkU3YXpUR3RPbGtX?=
- =?utf-8?B?dG91cTE2SWVRdTY2MXZvVllnVStoR0FPY0w0dGhtNHBZREtrdStWOTlzYlFL?=
- =?utf-8?B?T2pzNk9MSUtGcXJzc1Q3NHU5N1AyOVhTdzlFRHZXYzJFS0ozNEx2ZVM0TElG?=
- =?utf-8?B?RUtLVVZVNTRSV1d4Q3VaaFZQQllIdndyaFdvc3NnakRmV0NnWWczNENoc0pC?=
- =?utf-8?B?MEFtK1orRytEUlcwTWx2ay9FalpUYjZlSjh2aDREOE5lcC9nUHhIbi9maU1F?=
- =?utf-8?B?OWs3TFU5MTRKZEZ3TjF0TnRzdnRIT3VJbjVnV1BSRjlua3NhNDVJbjZveHRH?=
- =?utf-8?B?VlZuZkhCVThkeFA0Qll0cGdnMlBWRzFSc0doVml0dWQzdDgzQURMbUNoWnQ0?=
- =?utf-8?B?RnBSYXBpYWdzOThuVnJRL3VXU3YyZzJBN2ExOWNqc2xvbXlTTUlxeFVaODAx?=
- =?utf-8?B?eUloZWF4SXg2eDRjSytXOUxyOWFUeTlDSng3TTF5NlpvZVU1aVZhMmkrRkZK?=
- =?utf-8?B?LzQ3QjB3aldEc1JhTUNJek40bDFEOTRhN092d29UMFZOYnNyR0dEeXJMVC8z?=
- =?utf-8?B?em5KdUErY2FiZ0JCdndXKzBGbjkyMEY5RkV0Skd3UDMzSmNVTnZKaE1IeGFP?=
- =?utf-8?B?VWxEM3N4ei9uT2FMakVlM2llM1l1b3pWZXoydzBFZFkxalpPSzFSbmp4bnA5?=
- =?utf-8?Q?BOxv3DHy+2ejvODsEehrQzpB1CUVtjOId1pVAN5kRw=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(7416014)(34020700016)(1800799024)(82310400026)(36860700013)(376014)(921020)(12100799066);
+ ARA:13230040|82310400026|7416014|36860700013|34020700016|1800799024|376014|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sm81cXhEYUFvV0V0T3BCSFgwMG5GalYvdFA5TVdRM2JzM2EycVBBclI5cHB6?=
+ =?utf-8?B?MXpFWWQ0azRWcThUYXlwUXdvYnBEZDFFZTJ4UExBaWNRcTVHbHkyQlk4YjlM?=
+ =?utf-8?B?YlFSYW0vbHh2NmRxREVXMmVhdmdESGlHOXNqNXYxdUFucGswSGFLOHl4QjVM?=
+ =?utf-8?B?TVF2SnpPNktyTE9hT3piUFRYdDZRUG1BUGFyYlpDRkh5bC9sZi91cC9YaGpM?=
+ =?utf-8?B?WGQzQmVPTmVJVkZCTU5SVG9wMFpHM1YwWDU5bDBWTzNaN0hBckRyRnRJeXlB?=
+ =?utf-8?B?K1hud2FjWlFrUzgxRDQrUVUyakFOa1JXQkk4ZTg3aDI1eFFQT2dKZ3VIblpO?=
+ =?utf-8?B?VHRSTkFORThuRGJBS21wYWRJdnBURktnZVkyUWJNL09WVWhieVB1MzgvOG44?=
+ =?utf-8?B?MVhSaml3YUFaUVYwUTlBSm5lZU5GM1hTSUgrWmFxM0FrQ05KVDBHbEh0eG1t?=
+ =?utf-8?B?Zk5WRDlnelRQZzZ4K01ieGFwN2crZHlwVjhYQmFvVEhmOGN1dUI5b0krUTF5?=
+ =?utf-8?B?QUN3U3pXNUpLZGVGSUF6am9wRUNHdlpyTVdMcjdQbC9tMWdLL2RGd3VWbytl?=
+ =?utf-8?B?R1FnZisxZFRMNFVZYUZJdkttczdDZXdUeERFQ1dPbkllZ0xoNDlDMWZJOFBC?=
+ =?utf-8?B?MTdDNUNKajZzcjlUUmJ4RTNIeDV4NEFMMXA4Y1RiRnVjMlNhOVo5M1ZYZkpn?=
+ =?utf-8?B?M1VmYTdpREtkVHgyMzhGaHcvcjJOSWtLcGMvSUtBUnBaV21RL3RkV3ptbk9I?=
+ =?utf-8?B?KzBPMk1PTWg0YmhYUC80bk9GYTJ1SFQ0TnV6OEgvaE1YeWluTlhtNHIwQUZu?=
+ =?utf-8?B?dklsY0luV3N1dFByalJMVnF1VXhsVGxEWWo0YjE3eHFrRnpoMzNwVUd0VVgv?=
+ =?utf-8?B?NE9hTUpmem1qVDBpQ1pQZGo3QnhJSWFqZGZZRWk3WTk3SFNxM2FIZUM2SGVt?=
+ =?utf-8?B?M3hTN29pQ3o3SDN0T2hkamExL25QbUsvYXJnOGwvNXlxSEdJeWxCUkFDWWx2?=
+ =?utf-8?B?OFJmelZMQWtiQTdJQlZ5di9BWFNSNmV4VkpuVjlDNjRlQTZyM2xQYVg5dm1Q?=
+ =?utf-8?B?YVV0ZFFqN1U2bDBLaktpcVJrL0kwQ21TMWt6UmxLSGtObm9mWTRoUDN6T1h1?=
+ =?utf-8?B?b1hOaUx0aVkzM2FJaGJpVDM5SHRhV1lGczhTTzd6alR3WDBBcDRCTkwzRkFB?=
+ =?utf-8?B?R3NSdGk0eHh5eFdpMmFpSmMvTk9DOURBRkxyVkt1c0VvR3RKZzZLSGttblBi?=
+ =?utf-8?B?ZEtTYm80cm5uNFdMV3B4SXNrVjRvNlU3bVMrcFFkN2wrQWxKTDFkUnk5UnVq?=
+ =?utf-8?B?cld5Wkh1WitSK25lb2FtL204SEVqMFNOTVJWeTB2T3Z3STZNRjN6dnoxRkpY?=
+ =?utf-8?B?Rzc2bzkxbWFCRW1QS1dqZUxubllYSC9abzViekJBVGR5K2F6aTRjcTkrNkpX?=
+ =?utf-8?B?NzNtNFBjZW0vWVdPeGxXYldFRUdTSWYwMTA4M3dxb1RxT3dnN1VBYUhKaGVw?=
+ =?utf-8?B?d3h5WFJsc0luckxuU3F3cTRlc3ZzMnRFd0wxVlFkaEh5djBYa1dvczhodEsr?=
+ =?utf-8?B?cVBhSUo2QVVmZ2hkbGtFN1VoaTVUUm4yVTAxbU1PVEUzWnpJSmZGQzNiaGlD?=
+ =?utf-8?B?Y3BsSGdzOXU3c0pURUxhaGZ4dU9LOGZmaGlYRVo3Y0ptd1NTaFF5S3pia25R?=
+ =?utf-8?B?aVAwUk5EN1pRVDl3YmUweDJBVTUweU04d0xsQ1E1YzcwL0FjUzdlSEtIek5E?=
+ =?utf-8?B?d0dvTHIwak5ETlYxam5acXg0aXNidFV6K3FLOHZUYVdxMWk2TnVrSjB2MHpZ?=
+ =?utf-8?B?L25RSHNwd2ZoV1FJcURtWHdHUW1sV251RHBzWFdwMjFLMGxQQkdtMy91eHZU?=
+ =?utf-8?B?YS9hdDdqZUc4SEhZMStIWGFqM3FrSmRZaXBnS0pSbjk2Vit4YkJaT1czWVE3?=
+ =?utf-8?B?cEw2SlBWbzViV2RXOXZocC8yeVZDaXllVFZFbjFJV2FodHMyVmhlYzdraWZQ?=
+ =?utf-8?B?U0ZUbjRScFJjMUtnQXZic0hrL3ZiVlVIZFlQZkR0Z3E5K0FnUUVsc0Zqb2FO?=
+ =?utf-8?B?NXVwZGZJdWczMWcwZEFsSUFsRG5MOS8xM1pYeHlscUJZd0lmVHhyNkNpYnc2?=
+ =?utf-8?B?L0xTc3g1YlM5T0pXUi8xRGdyZnR3QmNVdWdaUW94VlBjRTFKTk9UTVVySnEr?=
+ =?utf-8?Q?E5fVoL49n8Td/uiAHMicOck=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230040)(82310400026)(7416014)(36860700013)(34020700016)(1800799024)(376014)(921020)(12100799066);
  DIR:OUT; SFP:1501; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 17:53:44.9811 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6764148e-862c-4732-1fa4-08de5395dcad
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 18:01:42.7078 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7093ad7f-5d98-4c27-6dd9-08de5396f971
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9DB.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
+ Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000066E7.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5736
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8323
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,62 +172,202 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 1/14/26 2:46 AM, Tomeu Vizoso wrote:
-> This memory region is used by the DRM/accel driver to allocate addresses
-> for buffers that are used for communication with the DSP cores and for
-> their intermediate results.
+> Some SoCs from Texas Instruments contain DSPs that can be used for
+> general compute tasks.
+> 
+> This driver provides a drm/accel UABI to userspace for submitting jobs
+> to the DSP cores and managing the input, output and intermediate memory.
 > 
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->   arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
+>   Documentation/accel/thames/index.rst |  28 +++++
+>   MAINTAINERS                          |   9 ++
+>   drivers/accel/Kconfig                |   1 +
+>   drivers/accel/Makefile               |   3 +-
+>   drivers/accel/thames/Kconfig         |  26 +++++
+>   drivers/accel/thames/Makefile        |   9 ++
+>   drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
+>   drivers/accel/thames/thames_core.h   |  53 +++++++++
+>   drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
+>   drivers/accel/thames/thames_device.h |  46 ++++++++
+>   drivers/accel/thames/thames_drv.c    | 155 ++++++++++++++++++++++++++
+>   drivers/accel/thames/thames_drv.h    |  21 ++++
+>   drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++++++++
+>   drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
+>   drivers/accel/thames/thames_rpmsg.h  |  27 +++++
+>   15 files changed, 984 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-> index 3fbff927c4c08bce741555aa2753a394b751144f..b80d2a5a157ad59eaed8e57b22f1f4bce4765a85 100644
-> --- a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-> +++ b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-> @@ -42,6 +42,11 @@ c7x_0_memory_region: memory@a3100000 {
->   		no-map;
->   	};
+> diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/thames/index.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ca8391031f226f7ef1dc210a356c86acbe126c6f
+> --- /dev/null
+> +++ b/Documentation/accel/thames/index.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +============================================================
+> + accel/thames Driver for the C7x DSPs from Texas Instruments
+> +============================================================
+> +
+> +The accel/thames driver supports the C7x DSPs inside some Texas Instruments SoCs
+> +such as the J722S. These can be used as accelerators for various workloads,
+> +including machine learning inference.
+> +
+> +This driver controls the power state of the hardware via :doc:`remoteproc </staging/remoteproc>`
+> +and communicates with the firmware running on the DSP via :doc:`rpmsg_virtio </staging/rpmsg_virtio>`.
+> +The kernel driver itself allocates buffers, manages contexts, and submits jobs
+> +to the DSP firmware. Buffers are mapped by the DSP itself using its MMU,
+> +providing memory isolation among different clients.
+> +
+> +The source code for the firmware running on the DSP is available at:
+> +https://gitlab.freedesktop.org/tomeu/thames_firmware/.
+> +
+> +Everything else is done in userspace, as a Gallium driver (also called thames)
+> +that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+> +
+> +If there is more than one core that advertises the same rpmsg_virtio service
+> +name, the driver will load balance jobs between them with drm-gpu-scheduler.
+> +
+> +Hardware currently supported:
+> +
+> +* J722S
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dc731d37c8feeff25613c59fe9c929927dadaa7e..a3fc809c797269d0792dfe5202cc1b49f6ff57e9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7731,6 +7731,15 @@ F:	Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+>   F:	drivers/accel/rocket/
+>   F:	include/uapi/drm/rocket_accel.h
 >   
-> +	c7x_iova_pool: iommu-pool@a7000000 {
-> +		reg = <0x00 0xa7000000 0x00 0x18200000>;
-> +		no-map;
+> +DRM ACCEL DRIVER FOR TI C7x DSPS
+> +M:	Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Supported
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	Documentation/accel/thames/
+> +F:	drivers/accel/thames/
+> +F:	include/uapi/drm/thames_accel.h
+> +
+>   DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
+>   M:	Oded Gabbay <ogabbay@kernel.org>
+>   L:	dri-devel@lists.freedesktop.org
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index bdf48ccafcf21b2fd685ec963e39e256196e6e17..cb49c71cd4e4a4220624f7041a75ba950a1a2ee1 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -30,5 +30,6 @@ source "drivers/accel/habanalabs/Kconfig"
+>   source "drivers/accel/ivpu/Kconfig"
+>   source "drivers/accel/qaic/Kconfig"
+>   source "drivers/accel/rocket/Kconfig"
+> +source "drivers/accel/thames/Kconfig"
+>   
+>   endif
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index 1d3a7251b950f39e2ae600a2fc07a3ef7e41831e..8472989cbe22746f1e7292d2401fa0f7424a6c15 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
+>   obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+>   obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+>   obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+> -obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+> \ No newline at end of file
+> +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+> +obj-$(CONFIG_DRM_ACCEL_THAMES)		+= thames/
+> \ No newline at end of file
+> diff --git a/drivers/accel/thames/Kconfig b/drivers/accel/thames/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..50e0b6ac2a16a942ba8463333991f5b0161b99ac
+> --- /dev/null
+> +++ b/drivers/accel/thames/Kconfig
+> @@ -0,0 +1,26 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config DRM_ACCEL_THAMES
+> +	tristate "Thames (support for TI C7x DSP accelerators)"
+> +	depends on DRM_ACCEL
+> +	depends on TI_K3_R5_REMOTEPROC || COMPILE_TEST
 
-Could you expand on why this carveout is needed? The C7 NPU has a full
-MMU and should be able to work with any buffer Linux allocates from any
-address, even non-contiguous buffers too.
+COMPILE_TEST part shouldn't be needed here, TI_K3_R5_REMOTEPROC can be built
+under COMPILE_TEST so TI_K3_R5_REMOTEPROC would just be enabled to test.
 
-Communication should already happen over the existing RPMSG channels
-without needing extra buffers. And space for intermediate results
-should be provided dynamically by the drivers (I believe that would
-match how GPUs without dedicated memory handle getting intermediate
-buffers space from system memory these days, but do correct me if
-I'm wrong about that one).
+> +	depends on RPMSG
+> +	depends on MMU
+> +	select DRM_SCHED
+> +	select DRM_GEM_SHMEM_HELPER
+> +	help
+> +	  Choose this option if you have a Texas Instruments SoC that contains
+> +	  C7x DSP cores that can be used as compute accelerators. This includes
+> +	  SoCs such as the AM62A, J721E, J721S2, and J784S4.
+> +
+> +	  The C7x DSP cores can be used for general-purpose compute acceleration
+> +	  and are exposed through the DRM accel subsystem.
+> +
+> +	  The interface exposed to userspace is described in
+> +	  include/uapi/drm/thames_accel.h and is used by the Thames userspace
+> +	  driver in Mesa3D.
+> +
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called thames.
+> diff --git a/drivers/accel/thames/Makefile b/drivers/accel/thames/Makefile
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7ccd8204f0f5ea800f30e84b319f355be948109d
+> --- /dev/null
+> +++ b/drivers/accel/thames/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +obj-$(CONFIG_DRM_ACCEL_THAMES) := thames.o
+> +
+> +thames-y := \
+> +	thames_core.o \
+> +	thames_device.o \
+> +	thames_drv.o \
+> +	thames_rpmsg.o
+> diff --git a/drivers/accel/thames/thames_core.c b/drivers/accel/thames/thames_core.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..92af1d68063116bcfa28a33960cbe829029fc1bf
+> --- /dev/null
+> +++ b/drivers/accel/thames/thames_core.c
+> @@ -0,0 +1,155 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
+> +
+> +#include "linux/remoteproc.h"
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/completion.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/rpmsg.h>
+> +
+> +#include "thames_core.h"
+> +#include "thames_device.h"
+> +#include "thames_rpmsg.h"
+> +
+> +/* Shift to convert bytes to megabytes (divide by 1048576) */
+> +#define THAMES_BYTES_TO_MB_SHIFT 20
+
+Seems unused/unneeded.
+
+[...]
+
+> +
+> +static const struct rpmsg_device_id thames_rpmsg_id_table[] = { { .name = THAMES_SERVICE_NAME },
+> +								{} };
+> +
+
+Some odd formatting here.
+
+> +static struct rpmsg_driver thames_rpmsg_driver = {
+> +	.drv = {
+> +		.name = "thames",
+> +		.owner = THIS_MODULE,
+
+Above line shoulnd't be needed.
 
 Andrew
-
-> +	};
-> +
->   	c7x_1_dma_memory_region: memory@a4000000 {
->   		compatible = "shared-dma-pool";
->   		reg = <0x00 0xa4000000 0x00 0x100000>;
-> @@ -151,13 +156,15 @@ &main_r5fss0_core0 {
->   &c7x_0 {
->   	mboxes = <&mailbox0_cluster2 &mbox_c7x_0>;
->   	memory-region = <&c7x_0_dma_memory_region>,
-> -			<&c7x_0_memory_region>;
-> +			<&c7x_0_memory_region>,
-> +			<&c7x_iova_pool>;
->   	status = "okay";
->   };
->   
->   &c7x_1 {
->   	mboxes = <&mailbox0_cluster3 &mbox_c7x_1>;
->   	memory-region = <&c7x_1_dma_memory_region>,
-> -			<&c7x_1_memory_region>;
-> +			<&c7x_1_memory_region>,
-> +			<&c7x_iova_pool>;
->   	status = "okay";
->   };
-> 
-
