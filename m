@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CFCD21B14
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 00:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0532FD21BF1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 00:22:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 232DF10E0F6;
-	Wed, 14 Jan 2026 23:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F057A10E1CE;
+	Wed, 14 Jan 2026 23:21:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MU4n/EU/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ml7I8rsG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A51810E0F6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 23:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768431845;
- bh=k/H84ZAimFi0KfIy/wlzQXUdUmqhcfPQQZxK4bTJAXQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MU4n/EU/pvW255gJDSpmtZtyMrfn7hgkdGIJXmWxtyvel/mZkltOC3oPVXhhkdP9y
- TDewfdrIucj9pDiXZPWubkJu8a9PkuX4+l7Gyjg3hY00nuRg+mNiO2Lok5bPKXRFs8
- JxIMo0+uocxPUiKhygD9zjgC+aHKxUwO6KQA1pfF1p/HkkPE6NV6GiW/aMpfud5Ezb
- MddmX2ejMn3sryZoDS6BPZ8n8j2CqTaFtH3PPrqs5UqodfdIQP8pA3jeMuYomiHFy6
- xAUNDzJNF3SXCExndjvCSI/8WWiLYLVgATbeNTsOxH9PWPE7uLsqsLgDr1FrrIERZv
- yHYq89K/cu3Sw==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B4C1517E0699;
- Thu, 15 Jan 2026 00:04:04 +0100 (CET)
-Message-ID: <301e7c8f-5a68-45c4-a18d-60e0545efdf0@collabora.com>
-Date: Thu, 15 Jan 2026 01:04:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm/bridge: Add ->detect_ctx hook and
- drm_bridge_detect_ctx()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- Diederik de Haas <diederik@cknow-tech.com>,
- Maud Spierings <maud_spierings@hotmail.com>
-References: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
- <20260113-dw-hdmi-qp-scramb-v2-1-ae7b2c58d24d@collabora.com>
- <DFO89S1NDME1.1644YSMOMAAJ6@bootlin.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <DFO89S1NDME1.1644YSMOMAAJ6@bootlin.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B35E10E1CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 23:21:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 47CE46000A;
+ Wed, 14 Jan 2026 23:21:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2305C4CEF7;
+ Wed, 14 Jan 2026 23:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768432917;
+ bh=RRb+AYRR2cz5AJx/EsMIw4sXqanuM6N6ZqbK7konFe8=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=ml7I8rsGIehs6Qi/oZBUvUGwDDWnUpmvOvACAaijfbQf8C+ZWGtnskgsLMJGqHTn4
+ J+MeBkS4kiBwtnrW5n8bN7p4kZsuz7XiFEGiNmXTojoOv4pZY/Gd7Tcd5zVdvuKmh4
+ vZ57hxwDOmBe+9Z3GRTesSgfJR8YHAJRiZziWrkFwxlCP12YlSCYJsxCcwk1DfH9nm
+ JJq0e6R7UHzlE4P6Lt7y4ftsd/XtCTTZh3O3TDoBAXLzwT+0gUhTL1qoaVIfW5N2rB
+ lqACP6CtsV/3aAXWfxpH9+aga3tzp3K2Mllso3w1aQ82GSOoRw+l8PMb8TSVgxuohs
+ MIdJQjp/njx/w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Thu, 15 Jan 2026 00:21:51 +0100
+Message-Id: <DFOP5BY09539.AFY5L5FV1HNV@kernel.org>
+To: "Lyude Paul" <lyude@redhat.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v6 7/8] rust: Introduce iosys_map bindings
+Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <linux-kernel@vger.kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun
+ Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Viresh Kumar" <viresh.kumar@linaro.org>,
+ "FUJITA Tomonori" <fujita.tomonori@gmail.com>, "Krishna Ketan Rai"
+ <prafulrai522@gmail.com>, "Tamir Duberstein" <tamird@gmail.com>, "Xiangfei
+ Ding" <dingxiangfei2009@gmail.com>, "Zhi Wang" <zhiw@nvidia.com>, "Matthew
+ Maurer" <mmaurer@google.com>, "Alexandre Courbot" <acourbot@nvidia.com>
+References: <20251202220924.520644-1-lyude@redhat.com>
+ <20251202220924.520644-8-lyude@redhat.com>
+In-Reply-To: <20251202220924.520644-8-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,161 +69,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+(Cc: Zhi, Matt, Alex)
 
-On 1/14/26 12:08 PM, Luca Ceresoli wrote:
-> Hello Cristian,
-> 
-> On Mon Jan 12, 2026 at 11:26 PM CET, Cristian Ciocaltea wrote:
->> Add an atomic variant of the ->detect callback and a new helper to call
->> the hook while passing an optional drm_modeset_acquire_ctx reference.
->>
->> When both ->detect_ctx and ->detect are defined, the latter is ignored.
->> If acquire_ctx is unset, the function takes care of the locking,
->> while also handling EDEADLK.
->>
->> Tested-by: Diederik de Haas <diederik@cknow-tech.com>
->> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/drm_bridge.c | 58 ++++++++++++++++++++++++++++++++++++++++++++
->>  include/drm/drm_bridge.h     | 30 +++++++++++++++++++++++
->>  2 files changed, 88 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
->> index 6dcf8f6d3ecf..0ef12bf98011 100644
->> --- a/drivers/gpu/drm/drm_bridge.c
->> +++ b/drivers/gpu/drm/drm_bridge.c
->> @@ -1344,6 +1344,64 @@ drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
->>  }
->>  EXPORT_SYMBOL_GPL(drm_bridge_detect);
->>
->> +/**
->> + * drm_bridge_detect_ctx - check if anything is attached to the bridge output
->> + * @bridge: bridge control structure
->> + * @connector: attached connector
->> + * @ctx: acquire_ctx, or NULL to let this function handle locking
->> + *
->> + * If the bridge supports output detection, as reported by the
->> + * DRM_BRIDGE_OP_DETECT bridge ops flag, call &drm_bridge_funcs.detect_ctx
->> + * or &drm_bridge_funcs.detect for the bridge and return the connection status.
->> + * Otherwise return connector_status_unknown.
->> + *
->> + * When both @ctx and &drm_bridge_funcs.detect_ctx are not set, this helper
->> + * function is equivalent to drm_bridge_detect() above.
->> + *
->> + * RETURNS:
->> + * The detection status on success, or connector_status_unknown if the bridge
->> + * doesn't support output detection.
->> + * If @ctx is set, it might also return -EDEADLK.
->> + */
->> +int drm_bridge_detect_ctx(struct drm_bridge *bridge,
->> +			  struct drm_connector *connector,
->> +			  struct drm_modeset_acquire_ctx *ctx)
-> 
-> Shouldn't this new function return the same type as detect, i.e. enum
-> drm_connector_status?
+On Tue Dec 2, 2025 at 11:03 PM CET, Lyude Paul wrote:
+> This introduces a set of bindings for working with iosys_map in rust code=
+.
+> The design of this is heavily based off the design for both the io and
+> dma_map bindings for Rust.
 
-No, because it might also return an error, as documented in the RETURNS section.
-Please also check the comments below.
+I already had a chat with Lyude about this, but also want to post it here. =
+I
+have mainly two comment on this:
 
-> 
-> Otherwise (see below)...
-> 
->> +{
->> +	if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
->> +		return connector_status_unknown;
->> +
->> +	if (bridge->funcs->detect_ctx) {
->> +		struct drm_modeset_acquire_ctx br_ctx;
->> +		int ret;
->> +
->> +		if (ctx)
->> +			return bridge->funcs->detect_ctx(bridge, connector, ctx);
->> +
->> +		drm_modeset_acquire_init(&br_ctx, 0);
->> +retry:
->> +		ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex,
->> +				       &br_ctx);
->> +		if (!ret)
->> +			ret = bridge->funcs->detect_ctx(bridge, connector, &br_ctx);
->> +
->> +		if (ret == -EDEADLK) {
->> +			drm_modeset_backoff(&br_ctx);
->> +			goto retry;
->> +		}
->> +
->> +		if (ret < 0)
->> +			ret = connector_status_unknown;
->> +
->> +		drm_modeset_drop_locks(&br_ctx);
->> +		drm_modeset_acquire_fini(&br_ctx);
->> +
->> +		return ret;
->> +	}
->> +
->> +	return bridge->funcs->detect(bridge, connector);
-> 
-> ...here you're converting an enum into an int, which is ok-isk but not
-> ideal.
+  (1) The backing memory of iosys_map may be a device resource and hence ha=
+s to
+      be protected against (bus) device / driver unbind.
 
-We already have a similar approach with drm_connector_helper_funcs.detect_ctx()
-which is expected to return drm_connector_status or the error from
-drm_modeset_lock().
+  (2) The idea for the generic I/O infrastructure is to support arbitrary I=
+/O
+      backends rather than only MMIO. For instance, this can also be PCI
+      configuration space, I2C, SPI, etc., but also DMA, VRAM, system memor=
+y,
+      etc.
 
-> 
->> --- a/include/drm/drm_bridge.h
->> +++ b/include/drm/drm_bridge.h
->> @@ -664,6 +664,33 @@ struct drm_bridge_funcs {
->>  	enum drm_connector_status (*detect)(struct drm_bridge *bridge,
->>  					    struct drm_connector *connector);
->>
->> +	/**
->> +	 * @detect_ctx:
->> +	 *
->> +	 * Check if anything is attached to the bridge output.
->> +	 *
->> +	 * This callback is optional, if not implemented the bridge will be
->> +	 * considered as always having a component attached to its output.
->> +	 * Bridges that implement this callback shall set the
->> +	 * DRM_BRIDGE_OP_DETECT flag in their &drm_bridge->ops.
->> +	 *
->> +	 * This is the atomic version of &drm_bridge_funcs.detect.
-> 
-> I may be missing something, but I'm a bit puzzled by the "atomic" word
-> here. For other funcs in this struct there's the old non-atomic func X and
-> the new atomic_X func that receives a pointer to struct drm_atomic_state.
-> 
-> Here I think you are using "atomic" with a more generic meaning. Maybe we'd
-> better use another wording to not confuse readers?
+      For this, there is a patch series from Zhi [1] splitting up the curre=
+nt
+      I/O structures into traits that we will land soon.
 
-This is once again consistent with drm_connector_helper_funcs.detect_ctx()
-stating:
+      We will also have macros analogous to dma_read!() and dma_write!() fo=
+r the
+      generic I/O infrastructure, which Matt also works on for his QC SoC
+      driver.
 
-  "This is the atomic version of &drm_connector_funcs.detect."
+      This will allow us to unify all kinds of I/O operations into a single
+      interface, supporting the read!() and write!() accessors for values, =
+the
+      register!() macro and raw accessors, such as e.g. read32().
 
-I'm open for changes, but then we should probably do this across all relevant
-funcs, beyond current struct scope.
+      With this we will have something that is way more powerful than iosys=
+_map
+      and makes this abstraction obsolete.
 
->> +	 *
->> +	 * To avoid races against concurrent connector state updates, the
->> +	 * helper libraries always call this with ctx set to a valid context,
->> +	 * and &drm_mode_config.connection_mutex will always be locked with
->> +	 * the ctx parameter set to this ctx. This allows taking additional
->> +	 * locks as required.
->> +	 *
->> +	 * RETURNS:
->> +	 *
->> +	 * &drm_connector_status indicating the bridge output status,
->> +	 * or the error code returned by drm_modeset_lock(), -EDEADLK.
->> +	 */
->> +	int (*detect_ctx)(struct drm_bridge *bridge,
->> +			  struct drm_connector *connector,
->> +			  struct drm_modeset_acquire_ctx *ctx);
-> 
-> As above, shouldn't this new func return the same type as detect?
+So instead of introducing an abstraction for iosys_map we should just imple=
+ment
+the corresponding I/O backends based on [1].
 
-Nope, as explained above.
-
-Thanks,
-Cristian
+[1] https://lore.kernel.org/all/20260113092253.220346-3-zhiw@nvidia.com/
