@@ -2,96 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3407FD1D9A4
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F99D1D9B0
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9121F10E5E6;
-	Wed, 14 Jan 2026 09:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6B10E2A4;
+	Wed, 14 Jan 2026 09:39:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JLzesBQl";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CWRajWEU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XwW6/XG2";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HeVj4Kyp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B9410E5E6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:38:56 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09E110E2A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60E7j9DD2497478
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:38:56 GMT
+ 60E7jFmb2081702
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- HaaIfuet+WloNaLSPkAqR4z1R5fxpgk8RlbsTuisYMA=; b=JLzesBQlYUcf9Ggd
- pr7OxN+d21DBV4892AwsKQZ/j2eY7rkxmYgeEVwod0XuXJq/NTPnLsCcJaR+IRjV
- GGJ9Itb4jKAdpx8B2sEKaPrRIDFKvpkh0YQu6ns3mtQxuPngVNY20wmfYsDXwFKW
- Z7kL04sUU1Wv3uX7/aZLU3PQMjxtslYZ8eolgGgI7aQ/uVpOhZzbi1+3YU9VGq8k
- x9pma2MOwRi/KKL3UlBIO9MUUsGTbvzsdvImCaDokX080aRm+ZFUjlhZlUqMN9Bq
- 4nkK3uiuRU2le7B7t88TMt4ZMOhnnQaSSSW41U2mIF0EuworIY3Id3XGL1IF37aB
- CfBwtQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bp16x1qfc-1
+ bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=; b=XwW6/XG2vIXEXkjF
+ SvKwsdKwUQiSBz0Hfw4Q7KAT0DF+bf0qYMNkgomj9n6KpYDJOWTjxh6Yy3LN530y
+ 7S7SYuTlJ1AocYPGzYaf9l8U32ZmUn2lN6b/jSzfBOjZMm8zrQ3jmfPE4ky7mFiZ
+ T0AlUccn5iEn8+qoY/aP1nJHVGvpVBYmqjNQAk/3otJRdr9e44TPcdYfnF95H41H
+ yTb2QR1sueH4Mc5wTH843T8ClCK+fYcbV5PsMsFSvpPL0j4x0MncReJaMvlKyV76
+ PuT2JJq0dv7JN1ic4gafb04oh642Q7CxZWk36w0K+g4cTv6SFjbsn+kQgA+SZqdX
+ 4XXHWA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnu58tr61-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:38:56 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8c536c9d2f7so534585a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:38:56 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c5265d479dso27381285a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768383535; x=1768988335;
+ d=oss.qualcomm.com; s=google; t=1768383557; x=1768988357;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HaaIfuet+WloNaLSPkAqR4z1R5fxpgk8RlbsTuisYMA=;
- b=CWRajWEUEFj2nbkE1p5iWbwHWnalLoHeiyq0QQzC0LJ72abo8KvNy00VzEPyHDxlK3
- /pAPpGlK56L1LBx9U+DY/OQ1VQwek9po+8K2hRRZ+F43egxwqfxTjs0QZH+d6cwSaVCy
- IJZJqmw8aXOEyP4bzkehFh3ExuOHk7xewPjy2/6QrXeOyQ9/cbKJAsTm0mueocnYpvUW
- 7asiBbdZtGWDe+4PyY6Vy4t9kLx5ed5hR0gq2K32Xd5G36qu9RBKpPeFzQdkjnlXeUWu
- jlp99MoM3sOPNWhCokW7wvEkzCS+CIl70vElVNAbOIzk0wzQJiBma5GwVcsq7Vm1867k
- dkpA==
+ bh=bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=;
+ b=HeVj4KypY+a7JaAfIT3OjAvKJBN5l+SjdADx/0s88xtNuQtsdcQX8Di49Pmf8f2uKo
+ zUX+/QQHQJXp+DjNEGRGmmaw/x5OExh8v8dh57ovCNSnAOjhxpD/upAU7wrRu19XE2cc
+ csYC5yAER3EEgUBwuuPi4rnqhw8LsM2NRJ9NtkPWnTSHW1AC2cvGu/ELPuqrxct6nh5j
+ QqD6XajFgSDLwxXyDVrF1emZUp4B7XtEy9CWok6BgZF6+YtLW5AjSckMfFRxpVCOgkMt
+ zgBz4MOq9sZNPPgh/HWdH/F0ro1fzHvB6CCHDRxNIM+0Ps2YukJwTWTnI/iN+uJHX62W
+ hxnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768383535; x=1768988335;
+ d=1e100.net; s=20230601; t=1768383557; x=1768988357;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HaaIfuet+WloNaLSPkAqR4z1R5fxpgk8RlbsTuisYMA=;
- b=CAd0uy3y4fS4rJM2834Gr9rDf1JH7OnDwC6dnoTDYK/r6LwAI9vFAscbF3INehN3D5
- b+PYYnRv5YeoUq89qQ3HDvn2LNJlTngVN5Fiwg03EEl2Mja3cNzdfbysus/xU1DHG+GD
- V0cGfYtTKPydD10xW6UeULCkikFfU5gffzr+VBNrOPpXb93Rm11ya0FRB9M2xV475k4s
- htVWDHa2ZymBLafdlCst5+sce+je6y1Aa5idPThZ30j85tHB0lAbPOpIdklWJeLCf7Jz
- riP7XN7ewHMWLu7VAQqpPo8Y40hLQ/fAvU1Yy8mX8a6qdD4b153EmK2SQROqNPmYtCYt
- Ls1Q==
+ bh=bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=;
+ b=pK2lTvUZmzTteN8z5e/WVqmB4klSwB+m8LfWdvYl228Z6FmAr8IlP2/di0Fs8D9ari
+ SEtggVmFI3lu/i/MBKgStBkNIztMFUzKo6kpTdkIZdbXFUVBrtWQScEM/UK4VJovmXop
+ Y65TLK1Y8cAk1lMRqJ54Mc5DnMnFIe2Vx6aHHDM8WL+ddR8TaoSb+XnKOPjaBjVbhXsl
+ bVYcZwm+XGT/DwwgYrOF2AkYzgYRypBHG0FpWeXlz2WC+2su8OYxf2YObAUX3HLsvpUN
+ eZ5ctQioV5HbJrZ3dm3hewGVWSMofbABLfEDLT9HzCEN+jrYC/0v/ToM75Qrb+Kk7EE+
+ lwAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUN1x6WqkE3sz9n61jauoynPwfb1dnq5LbFFdIxEURCP14iPHcM02UWxNHenSW2+d9VX67YIny/r0o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4I5kNu8M4O5uKeLsfVfUYuviWyjmiiN0pYuYieoi2+cffs9N0
- 2E81sOZ3GNYAewBpGUTREwptObnEb3a+NCbIrlMNPmop0SnLv/zqUbzE8HjMxKguelPM9iyqMC6
- wxMeW+V8e+WVIpBiHae5QkkQAGOmQp0mIsXTYqv0jKIJoIHVbHoGMySezmFQoLrCltBdaYws=
-X-Gm-Gg: AY/fxX5vV9Xzck2VryQD3IlvtotNWTg4mXKRJeGcLpRvFsHCX8WHww9jRKE0MW9i8JJ
- 7DPyjvfQOVo7+hrfuPI1GRfgQFMkj7Nl62S4rLEyJShs6470Hr8pu9JXDzxHD+atXQvkAt8kYCg
- cTygQfHIaxTvkxXhkHckGfg0cKVPQO/yV9OLutYLpoTlvxMviK3/J3fH6h77/k6pNU2/Kn5n5eo
- VhfeMwz/5aHLhlQ//+k+JRuDD42BocQnpmLVVsPUmm2mMs3IvGkRpV9yVlgt8af4o+evLqsJq6l
- LLnn0ULdcVG1K/TFLCmDmK4vKACKoyFkSDuoV1PPURGkWGVmYDoZp163uVYrC0axfArH1dcXCwT
- 58LzYywnS0gKLlCPIhrWjKC7dO83Te6qTyZ7Ysk5vIHlaL8iYdWjFK4YM85BC1dr7Oho=
-X-Received: by 2002:a05:620a:bc3:b0:8b9:fa81:5282 with SMTP id
- af79cd13be357-8c52fb16342mr214671885a.3.1768383535322; 
- Wed, 14 Jan 2026 01:38:55 -0800 (PST)
-X-Received: by 2002:a05:620a:bc3:b0:8b9:fa81:5282 with SMTP id
- af79cd13be357-8c52fb16342mr214669185a.3.1768383534889; 
- Wed, 14 Jan 2026 01:38:54 -0800 (PST)
+ AJvYcCVNWFtWcHtbeVerwoW3kcNFEFLJ8fsFyJ7qflUIDWpuxG3PgGQeTlbVNxo5k4jp0KZtX8W9P2dUrVg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoSuQyf0rt5p+4M8lqlmR4BpZnooj1034ROs3iGj6dKd/8AjEB
+ ZfA+0ffhJ99SWOhsuBRsWhOuJ4TEQVec35IFJRcFAzQh79VA8ya4cqn5SvEMDoH3C1iAoJD+eK3
+ BZLQ+ozaK8PgUxG150xpO6AF7DVDCs8qL/wLdQUFdQ10afrSsyeQpWgOXirYBMfAoBrBA07U=
+X-Gm-Gg: AY/fxX6tXw3hnhtLE/8R1OFBMaq/nGffHPRzBVxCEstHxtbaWgW+47ESFfW3pTDGEcZ
+ jmhvxG7h2b9TqbqXW2FIeE87wpnoo7lvdmv6vhHkOHxoup8l3RU3M8ugvP1/C9Yw9ZXUxr/FCaA
+ FI1bkxx9kggwgW025Z+4k3CZTGjyLeX3L+y/rcTq+wVveh7nD4PJgQS1U1sX1tsRbnvGLYazR/m
+ I0XyGet86ph8gFWoYIpDHjxz4jR+OX4K3pF3Zg0mUKpty4YIiXXXGgChtNiA1mGHZjtXnnQyoct
+ xmdyNiRVbrATp2AlT7PdEhXkKKZg6Yx5GmH8OXfksEvd89DxgGuqPBtlSNtX4V+kU075DTdW4oE
+ kRp1MQns2YPfR2aBB7gZJyoH4KrpXV0ABMtJhu7CHUaczK+Bx+KOFiwN/01qvOaHJaK4=
+X-Received: by 2002:a05:620a:7010:b0:8b2:9aba:e86e with SMTP id
+ af79cd13be357-8c52fbeb24bmr205578785a.10.1768383557379; 
+ Wed, 14 Jan 2026 01:39:17 -0800 (PST)
+X-Received: by 2002:a05:620a:7010:b0:8b2:9aba:e86e with SMTP id
+ af79cd13be357-8c52fbeb24bmr205577085a.10.1768383556843; 
+ Wed, 14 Jan 2026 01:39:16 -0800 (PST)
 Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6507b8c4c15sm22444115a12.4.2026.01.14.01.38.52
+ a640c23a62f3a-b86ebfd08b2sm1288984566b.25.2026.01.14.01.39.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 01:38:54 -0800 (PST)
-Message-ID: <87699223-c2ab-4aa8-821b-aefe7d2c6b29@oss.qualcomm.com>
-Date: Wed, 14 Jan 2026 10:38:51 +0100
+ Wed, 14 Jan 2026 01:39:16 -0800 (PST)
+Message-ID: <c64cd28b-58f6-4d91-a3c2-eb54effbe898@oss.qualcomm.com>
+Date: Wed, 14 Jan 2026 10:39:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/11] media: iris: retrieve UBWC platform configuration
+Subject: Re: [PATCH v2 04/11] media: iris: don't specify min_acc_length in the
+ source code
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
@@ -109,34 +110,34 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
- <20260113-iris-ubwc-v2-3-4346a6ef07a9@oss.qualcomm.com>
+ <20260113-iris-ubwc-v2-4-4346a6ef07a9@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260113-iris-ubwc-v2-3-4346a6ef07a9@oss.qualcomm.com>
+In-Reply-To: <20260113-iris-ubwc-v2-4-4346a6ef07a9@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: a8Jv2ogIg_0Kqdc4i2kIQrRkzbRRc9V7
-X-Proofpoint-ORIG-GUID: a8Jv2ogIg_0Kqdc4i2kIQrRkzbRRc9V7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3OCBTYWx0ZWRfX6PsyFlmdmYHh
- 0HLvC4CbtVx3AY3fUCJokb/jNq7UmaGfSIJNXdcVCg9ItL2KBPpr4emtcLdDV5pQDXst9k82aE8
- IpDCCW39bimUYJpDeiJlNFVUa/Km0QkktrJCyDeY2YzWeN/TkoZDoutals8eOZ4vFwcY2J3z4wh
- 22yEefmbxeMYmgbRvERIxJpLJFLLgI5P8d1aDY6JpSYnN0bgOx93zDtZY4LDxx2iZmNDtXQrIhg
- EYQD4/jBrvVHnipcdu0zpa6uqM1A75XGpf3JiHOzejDRz2XoulQvTON/ESPAYrCg+q4nYQoEfK+
- jWOhzZyPyFsXacDftnVusRFIAqlZOidSQF/60qx4pdr7krXQzsOFSbm2L2kmmW6NMOqE96XqJoh
- 126xXx7tUo+U9y4FHzEpFOyFqvkn10gs1XIFeC+LJdZ6b0k/DXm1yAbbQc6WKwW29b2rAtQmI7h
- IGHTdik1b+VQ7UBpOFQ==
-X-Authority-Analysis: v=2.4 cv=JvT8bc4C c=1 sm=1 tr=0 ts=69676430 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3OCBTYWx0ZWRfX1qRUWN5pwOMI
+ CW5kBYaOx2pY9jsJYSyobuv3HhndW1RX5/4S13rglPPcUQ6sa1EX7ydvsP+0Jar+48gNTHc9SxB
+ u4MF1C6fUGYrc/oByuvX7HwgDlhz53MnqmaZoXy8Vs5TtYUWr2Gg+hyo9S2Mf6HS0pnQDTtxVAS
+ cpNEMwVeyb36knI8bz2Q7kzapKRIfhXx6SW3RThTXa0+ujzPOxK3nIvlUrxtxDuEwdkZhzNTY+a
+ foDTbF9MWYWXy66bt0Fg+IOTp+10880fEmno/yU3uWc1N9tLwrJi+yYx4SwHB7uu7qTCmmbFZCE
+ gABH8DSMsp9rB1oxIlVyGTF7yCj2MiMVqALy6XYXFIE/sXreLPztyGS28PZ91fEGyfRfjZmXpK+
+ dhrEnJeWLxp28i98ty9X5gdr1T1oSfEPvGYWU3NEsBaWNtQcesA0YCoes/qiWWs7VeFMN0UyvP1
+ AeRngMWicD6w3gaonZA==
+X-Authority-Analysis: v=2.4 cv=BZnVE7t2 c=1 sm=1 tr=0 ts=69676446 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=cAxcSLUL-m0wKPm7p5wA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=BAgg1nNj1X2pGIFylwwA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
  a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: URXdpoZkkMTNCSDFDSHBQsDlczHMRdrX
+X-Proofpoint-GUID: URXdpoZkkMTNCSDFDSHBQsDlczHMRdrX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-14_03,2026-01-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0 priorityscore=1501
- clxscore=1015 impostorscore=0 malwarescore=0 phishscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140078
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -155,9 +156,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 1/13/26 5:57 PM, Dmitry Baryshkov wrote:
-> Specifying UBWC data in each driver doesn't scale and is prone to
-> errors. Request UBWC data from the central database in preparation to
-> using it through the rest of the driver.
+> The min_acc length can be calculated from the platform UBWC
+> configuration. Use the freshly introduced helper and calculate min_acc
+> length based on the platform UBWC configuration instead of specifying it
+> directly in the source.
 > 
 > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
