@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10E3D1FAE3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2259D1FA40
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C68D10E354;
-	Wed, 14 Jan 2026 15:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4007310E253;
+	Wed, 14 Jan 2026 15:12:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB59110E354
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:17:53 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id
- d75a77b69052e-4ed82ee9e57so116353331cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:17:53 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B907210E253
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:12:37 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5efa4229bd2so3468398137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:12:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768403873; x=1769008673;
+ d=1e100.net; s=20230601; t=1768403557; x=1769008357;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y2PPCiljP8mKTN3qlK3gNrjsm5ZPU3Yx8SKu0rtGmFo=;
- b=Eq7G8LKnK6E1pQr7VwTCG41DCWqUSB4GPMCYAc2jcIHYqAkG8WOKi/lAn22JOSSElu
- 2iOdbYI3b1qnQT4HcpdE2U18K4P1CegyL/lFeXzBp7ACW7qqvR/zbR0rkVy8YRqgIgd3
- 1u4AZYyNfeMKe5ZR628ZvsgiKCZBsEp1vHNsqhdIwyQ6NK1tjk1TNgTvb9487tVv85sL
- ZeOGVKnyIAGhw8nKCZRpDYXUouVz4A27XjqzxMo95/pVcn3mh8dydmd4eqep809b8vYs
- W2aOEWCPxymZCUTvtVFMTRwNDL0AzPZc40spPFi59auRy0Ad5kozFWj+/zXjewC/UKgb
- LdoQ==
+ bh=cTf4Ia98cnNEFdpDb8exU9CBi6eG0s42SPNHJEcig2U=;
+ b=ub4cGBvgLRL9209VyVxfEAN0jRq26GlRLTHIgVaxwGCQ6ofxjs+hxKkswYON5w9tiF
+ 1vifS971O2Aogw5g6uMl+BbdLKPCxx6HMNN9tSieN0iyu9WSUxeIzeqb3h0dGPnIPHEq
+ AkltAaZVTUsHUOOwsDnS/4Pjx5AM8YrsPY+UPrurhHgqz9IMK8smy21WWf+wwxH9JqY+
+ RdE70ZSqQqTQ03LE6G4BqYoWiuY2xzUZOGR0qh/pupAFecNOB/GvNHaKnKgpfzbA31B4
+ OLdW0nAMz1ApIV6pl1avyM3xClzPzM1+s7zu6ldAxF8ZyFr9KdPjYJmEtmOCMsTa+lId
+ WWtw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMJ4LITZvL5JHASJEfkmCSmQEbYaJHwL/3sqlhyGQV7NmQ8myhzT9R3aXAMz0vbYgSMQohnGS/LlI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOqCFS34Bn+A0yRwq4h0s9eKlJc5mrAjksltgtainBI9uRzTqN
- oBOPQptcQonKmninOQnlGm4SakRX3IECF6dW9GkauqQq0455SQ0ATMMyGkKKenXzx3g=
-X-Gm-Gg: AY/fxX6M8IigPotZXIAFhBz9Wb+IYwXuFokqP1Aq6BbJ2Rf7pFNYw+EdfeV39FI3Z2t
- 04a9uxxXicLxwcJYaAb14LMMXmsrvkzShedJzV5gvtS/iXQseBUyCqDtjNKN2EmKnp7+CKyf7/e
- r2QxRGWz6ofgY5TbINDZgJPvwMQIcRhllaWqbD8oZjKn3Ruk9tCVQaTloEQ78XAgL9OGfCa7Eti
- AF98vCpL2in07JmowOMooqVYeIiaV/GCo0hYJs6cr8Lz7RFsIjzI0ZymA8bgY2vUptSR3W7RC5J
- +d50AWoHOZIQieVeao8X3AE1mfXEaNljl+hoH7Yx3IKrOnxm4VMO2hxhHLm5z/2JR6Z0YwphRMe
- YJExl5iQcCstIJrdB0qWQ8+lg5EYqgyJf2USoOmhKVlA5RovtJ0QSCoa/5IDagvq0OP1CUEpVg1
- LMIXsaUyv7VyVRaf/XDGqRGhDAUSUVl1wpHFW9rlFTIK5xGmD0tFBG
-X-Received: by 2002:a05:622a:5a11:b0:4ff:b2cd:5ec4 with SMTP id
- d75a77b69052e-501482784b2mr37440551cf.43.1768403872603; 
- Wed, 14 Jan 2026 07:17:52 -0800 (PST)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
- [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-50148ee394esm15751331cf.33.2026.01.14.07.17.52
+ AJvYcCV4FYf0gYoWXAsQd7eBzF3yORlTRVb04XbtYrrSqVwrPMQhLFNIZ9cD266HJ2sMcdu4TU3u1FIwWF4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxfIYafTVJLKrjogahAzoEwhtZ2MC90WUQpB/Sy/ykL4K9DbeFN
+ H1EvFhTvPyZs1z/RWYU/Kd0wkSfyh2xDFSpT0zThTJ3PyyQh/wBrFxn+TG8dQR+p
+X-Gm-Gg: AY/fxX7NSLN5y2UYaQDAYcipoZvWwQv+Ka7mDbbEMpHhz20b+9cUOCaX3mZr7LWbzd+
+ A43ljWeNxnRfhjwdTkEZotKGSoWg4Iutia1jlv6muOLRmh5W5wjI9ZhmIxmTY+SI1mK6Xb2+kdY
+ oeMurDzXTJOZLgMI9GwZmZB6/0vN+BmRZT9X8MVJHB797WXvVzxyFh1l7Dr+mmqT/agUa1z7GjF
+ x0PYECYCus9hMpEtM4Ybs4XGIhXsiKUV3c4NwxUqnR7KGjAv0OpDBjOJjlphzsIQaNcKbrkBBfb
+ g/Yj9fKFGpmeEt9PfZx9zwE8z12biZmN8HBHHpaubhLomQ2IQEeoLyX0mEGzlIXTuVmotWo2OZt
+ HHgx5y+09M6EWo/T+14ipEvlPdE8tN7Xb7hBsPsx4zSMY3cbZka4snTkbufOpKSgMhlVWEdLfgb
+ 0X7NO8h+bJsv6nDfMNU8ukhjyej5Q5iln6okzpO5K6SlxOGehb
+X-Received: by 2002:a05:6102:dc8:b0:5ef:a2d0:a099 with SMTP id
+ ada2fe7eead31-5f17f4041a9mr1209926137.1.1768403556400; 
+ Wed, 14 Jan 2026 07:12:36 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
+ [209.85.217.51]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5ef15be79c6sm16486333137.12.2026.01.14.07.12.36
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 07:17:52 -0800 (PST)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-50150bc7731so3783041cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:17:52 -0800 (PST)
+ Wed, 14 Jan 2026 07:12:36 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id
+ ada2fe7eead31-5eeff7e8bb3so4079033137.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:12:36 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV7ovQyo9GMNchYIZX/LElOT6cQLWeNa+RFgHdDIo/ntbjQ3YZndjLexrxYQwbBo+rBFRc8e04Ta8M=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:46a2:b0:563:687f:360c with SMTP id
- 71dfb90a1353d-563a08080a7mr1323779e0c.0.1768403490712; Wed, 14 Jan 2026
- 07:11:30 -0800 (PST)
+ AJvYcCXoET/zE2YvF+zbF65FMXLeL05DQVhx6HCfDkU0MIGtTHMdQhAn/YC1IsGgVjFb1ZU2vuXn833Jb80=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:644d:b0:5db:ca9e:b57c with SMTP id
+ ada2fe7eead31-5f17f58e48cmr1339389137.27.1768403555913; Wed, 14 Jan 2026
+ 07:12:35 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <7b30184db6564f61742594c83c3da072d15a2576.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <7b30184db6564f61742594c83c3da072d15a2576.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <b77b95de299de70ca78f62274d2bfbbff8bfa0ac.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <b77b95de299de70ca78f62274d2bfbbff8bfa0ac.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 16:11:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXj0_rNtvgDGnaE=pnenFpHi_Aa6dx-Ej6-42oweEv0Kg@mail.gmail.com>
-X-Gm-Features: AZwV_QhWXdjW_YU4fjdNyqOSb6ulXkw-i8mzGwj6hWPbLAjpoXOZB9H0uqSzcLg
-Message-ID: <CAMuHMdXj0_rNtvgDGnaE=pnenFpHi_Aa6dx-Ej6-42oweEv0Kg@mail.gmail.com>
-Subject: Re: [PATCH 16/22] media: dt-bindings: media: renesas,fcp: Document
- RZ/G3E SoC
+Date: Wed, 14 Jan 2026 16:12:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWwvY61-cei8_6Z_TCs7EKmY0Wj_pV0Gymq8k4KxYSeAQ@mail.gmail.com>
+X-Gm-Features: AZwV_QgBsmdOL1CsIZxC91XqWUZahJaPBp6OhsrHXMfNCw9hk5svX0lNu6KcuTU
+Message-ID: <CAMuHMdWwvY61-cei8_6Z_TCs7EKmY0Wj_pV0Gymq8k4KxYSeAQ@mail.gmail.com>
+Subject: Re: [PATCH 17/22] arm64: dts: renesas: r9a09g047: Add fcpvd0 node
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
  biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -101,11 +100,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 26 Nov 2025 at 15:10, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> The FCPVD block on the RZ/G3E SoC is identical to the one found on the
-> RZ/G2L SoC.
->
-> No driver changes are required, as `renesas,fcpv` will be used as a
-> fallback compatible string on the RZ/G3E SoC.
+> Add fcpvd0 node to RZ/G3E SoC DTSI.
 >
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
