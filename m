@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F475D1C07E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 03:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8026BD1C084
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 03:00:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B664210E5B4;
-	Wed, 14 Jan 2026 02:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D19E10E5C1;
+	Wed, 14 Jan 2026 02:00:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eNyEhGLN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y+ykY2kf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA95610E5B4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 02:00:32 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id
- 006d021491bc7-65e94e128beso229838eaf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:00:32 -0800 (PST)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6DC210E5C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 02:00:37 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id
+ 5614622812f47-45c60ead7e1so1071978b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 18:00:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768356032; x=1768960832; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768356037; x=1768960837; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ii1VafhOMs6l+h1e+D2giL8132vNQ2TDoma8/MEoG3Y=;
- b=eNyEhGLNZxXSQGTpp3M1QPbMz17ryzviOfszMrqPyHB+5dau2LC29RYvs+MWOnjjzQ
- AIb16JRZD0kH9lzyxJk/icBcbBCDqSPerUcT1Ij1SenIdemaWFf5prfQh7WvZvztBQwd
- K/mQQG3JJtZhTpnN98ydTYD1IQnHbf/CoGYP3PfWjYfC48vjWrv5EIKKjiQc9RtVVdEh
- 1UnDtslbk9Xj+8b9OiGB034M+7IlkrjKieZ8x6VDcyHCRhD21abyLAxhcR26vE9Uev2k
- WXcSixfuHYBPr0ZUAXiGzjPMGifKMqfyld4jUHXTlGzcmbP0TiVJtMOTGjnvWWXorvF+
- ep7Q==
+ bh=M3hNaVpAB+vi7bZ5p4r2BEr0xFTlYHYJVlfyEjZdNd0=;
+ b=Y+ykY2kfNUi7Xntbh64fvguUDaurJmAqWbGPWkLFDraty9eSGnWqhHH2r3qBlx2lRR
+ ecw/KVXc86awSi1QZU4CaIh5gpOP+R+YcDbkZi0Mzg2/Ob2nX14cdpHD7vZPz+hifhFC
+ CydmA2LZFbtNdx0h1pHcUTA7b5I0yt3DDgc8B1Xp78PCpZCRAoZ1/YyFi/HywT4Wjflh
+ 1aJ/rSWHKp3QXPeVl6xHo8GA2R5YjMDpdycignLiHXynjiv3yJ+zgfpV1T5CTV7grYlb
+ 6LORguCqCJKJlcl0jTrymcB4nOVSUk2Iezr6RIOInjUCrlSRY9wk2r3hBKUUZRBATRR6
+ rSkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768356032; x=1768960832;
+ d=1e100.net; s=20230601; t=1768356037; x=1768960837;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Ii1VafhOMs6l+h1e+D2giL8132vNQ2TDoma8/MEoG3Y=;
- b=nxWQZjlRLfvSV0y4UxRPeE05N7nqnDIhzcfXsYdr9aqDv9JXhMyfIqqgkjfc2Eg6Sa
- cV9rNExXk7tzR5oYMZcS2H870OCVwxXPrpRon8PCvtCmVwZCVpXJVSz/4mZAF/14U/iI
- 8ADaZpCoihreks3AlSdJm+HEdtU9YVpmkq5M9sP1EAiEk72IWsIQlOGVlk1SpFLCYxVq
- WuJdc0FMSdDIO9ST6ESEYTkqY+IW/wylJ+jjfdzPBTKfmXFV51LlF1LvkiqUDricKXEr
- iAvg5zkfIWEBBjm+p2G5m9LXJshZmMDrje2aw6Awaj74YdvYwUhfkz25OvA5TaLH40Xw
- 8FeQ==
+ bh=M3hNaVpAB+vi7bZ5p4r2BEr0xFTlYHYJVlfyEjZdNd0=;
+ b=DNz+7pXLAZ1LQlbEt+/0Lh337Ma3MySJ1wSdM87e3k051YSDE9na+dUr8ku+DbC4NL
+ Qcv3F+xS/XVRfKqUZfIlCYG+CTobgNThPEAj7TUGuLIeuASjtKWq8t3sMn+iHeD06oIO
+ arYkZk4tJz9otQt6tSt37cpAXRt9ULjkh9XynNIb6pUxHzSt1jSHXcuchOBOUCv7Hj9+
+ /DecvN8f4zTTS1kg7IsVXju92cjx6VfkZB6ICIeXsFX0mXrg/wgAApM18rHhnr2wfA9o
+ Y1+Oq/e5nHrG+WHs0lMT7fWU0oe0Gvl+2TSYPlY28HZYqmv8Ov6vb/ZFnm6GA95MXwbK
+ P9dw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIS6aym62+4HznEaX2qWSckoMUM8aK1QPkVYK6RXBRBT5n8hpeeHV4A7tQ1ZpMZKk+NdMviofdqcM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5HtQYmQJEk5WabCDYhQxBPghV2HReaJzJELeAYIq350bOzDcv
- MqlOgC4FJ5T6NJIP/H6hV+G7LqWuFHBD931aFMsCZtGl5drrz4G3diRP
-X-Gm-Gg: AY/fxX5wI3A/+QVmMq3BIlwH9EACZHrrMB7cX74uqYllIdvnSzxuYq/i3v6E68xLLwj
- L0Ay6f6JQ0xZdcbFtU4m5Nqbs3+iLkU7am0pQqmbC+L/eGzrYpDeEtpefa+ZIjdZWLK4T3J06iP
- r/huMnNc+XdnY2jebkOTb7+tF6Y1dt/Z8+VQwuE2KrD4Vuo07pbJYRyRjkDE/Vpv9Z6TBtfdZ3h
- +WtJk1/4CQ7yE7pR5bU392YTf4tZzxboOBHW49Htd0Xkw7oPAlzQ6voMTsvHdhkN2FuDlVf4mzJ
- h5Ljr6hDVsHbPTKoZzd2F6BTKpGpZ+14XonWU3slne61nUVdhQvRDHw/fnAGJs7MeBIGqXGXeTI
- WfGCIOALPPW7GArtA+JS9/VbyDDhonueTjYDzFtGg8+X1g84If6IFP/IegjvdI6OM1OMfIbMRyb
- utFOM3Ld6bxx58uVLMp6zVSvBKmeTZyuYl3OsS
-X-Received: by 2002:a05:6820:c00e:b0:661:45:9b7f with SMTP id
- 006d021491bc7-661010be2a1mr505522eaf.39.1768356031942; 
- Tue, 13 Jan 2026 18:00:31 -0800 (PST)
+ AJvYcCXXVaJm+KJtJUNSZ4ANvJ6tssWjKnGLfEPFayN3vwqkov2WSoP/WnBqENEcIoSUo/Hka5mVNhcYU+4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxu5WW/RUIGjBvNNR+75X7BfPoDNfbeS4aJWzYwGYYWUifDswcy
+ 1ynhWU+cDxO0eN7ynmdTdtfrH1UMpt1EdtpvYql3j2VkAWWZghGgonzI
+X-Gm-Gg: AY/fxX76jLVpPPKs82L98EGQmBUuwcQAhaNIdgTE1ca6qpFnK8Dpw7fhAjHp+Punh+/
+ gbVu4UnTIj3H8iT3oGG2X2b/O2EFRPeqNw3eRYil8tD5IWRr5/+WgfBVDEeLLcMLSAmJZmZLH08
+ YqJ3MKYJDNpKcE289d2Wv7bTOTIUTMXEWaJsi1XsbvHXmiQiF4aDsMGtgEtAkoC8sEgNhjiONIM
+ lsMlG9pFui/N1IiJ5h++ZtAEgYoMtspchxt1oLMUf1tTqELm0dnCtHc1AghyfBmFPNlEeSfPqn/
+ trbTepDANrEqCzdOecryuKUKU0svPouZ2pkZlAeXKGOGXJILVm3iDCzh4msOcU1a3kVzc9klTus
+ Hc2z4c0PxQBN+Un5JWCULgtu5r1Ap1zYWXoMS1rTvuNNq0kyUsI3Z9ARFwriRX3tehmWyAFikao
+ 8LtjVaphY+zJgZWTxSXKHA8CgPSZSqO3KDmvKNOJLHJFNUfVw=
+X-Received: by 2002:a05:6808:178c:b0:45a:55e6:12aa with SMTP id
+ 5614622812f47-45c7157ac7emr579179b6e.53.1768356036240; 
+ Tue, 13 Jan 2026 18:00:36 -0800 (PST)
 Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 006d021491bc7-65f48cb03d4sm9629865eaf.12.2026.01.13.18.00.30
+ 5614622812f47-45a5e2894e0sm10347195b6e.13.2026.01.13.18.00.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 18:00:31 -0800 (PST)
+ Tue, 13 Jan 2026 18:00:35 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
@@ -76,9 +76,9 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, Jason Baron <jbaron@akamai.com>,
  Petr Mladek <pmladek@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
  linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [PATCH v8 27/31] dyndbg: split multi-query strings with %
-Date: Tue, 13 Jan 2026 18:57:43 -0700
-Message-ID: <20260114015815.1565725-28-jim.cromie@gmail.com>
+Subject: [PATCH v8 28/31] selftests-dyndbg: add test_mod_submod
+Date: Tue, 13 Jan 2026 18:57:44 -0700
+Message-ID: <20260114015815.1565725-29-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114015815.1565725-1-jim.cromie@gmail.com>
 References: <20260114015815.1565725-1-jim.cromie@gmail.com>
@@ -99,108 +99,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit
-85f7f6c0edb8 ("dynamic_debug: process multiple debug-queries on a line")
+This new test-fn runs 3 module/submodule modprobe scenarios, variously
+using both the generic dyndbg=<queries> modprobe arg, and the
+test-module's classmap-params to manipulate the test-mod*'s pr_debugs.
+In all cases, the current flag-settings are counted and tested vs
+expectations.
 
-Multi-query commands have been allowed:
+The 3rd scenario recapitulates the DRM_USE_DYNAMIC_DEBUG=y failure.
 
-  modprobe drm dyndbg="class DRM_UT_CORE +p; class DRM_UT_KMS +p"
-  modprobe drm dyndbg=<<EOX
-     class DRM_UT_CORE +p
-     class DRM_UT_KMS +p
-  EOX
+1. 2 modprobes (super then sub), with separate dyndbg=class-settings
+   check module specific flag settings
 
-More recently, the need for quoting was avoided by treating a comma
-like a space/token-terminator:
+2. modprobe submod, supermod is auto-loaded
+   set supermod class-params
+   check expected enablements in super & submod
 
-  modprobe drm dyndbg=class,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
+3. modprobe super, with param=setting (like drm.debug=0x1ef)
+   modprobe submod
+   validate submod's class'd pr_debugs get properly enabled
 
-That works, but it needs the escaped semicolon, which is a shell
-special-char (one of the bash control operators), so it is brittle
-when passed in/down/around scripts.  In particular, it fails when
-passed to vng (virtme-ng).
+The test uses multi-queries, with both commas and percents (to avoid
+spaces and quoting).  This is the main reason the test wasn't earlier
+in the patchset, closer to the classmap patches its validating.
 
-So this patch adds '%' to the existing ';' and '\n' multi-command
-separators, which is more shell-friendly, so you can more fully avoid
-quoting and escaping hassles.
-
-NOTE: it does break format matching on '%' patterns:
-
-bash-5.2# ddcmd 'format "find-me: %foo" +p'
-[  203.900581] dyndbg: read 26 bytes from userspace
-[  203.900883] dyndbg: query 0: "format "find-me: " mod:*
-[  203.901118] dyndbg: unclosed quote: find-me:
-[  203.901355] dyndbg: tokenize failed
-[  203.901529] dyndbg: query 1: "foo" +p" mod:*
-[  203.901957] dyndbg: split into words: "foo"" "+p"
-[  203.902243] dyndbg: op='+' flags=0x1 maskp=0xffffffff
-[  203.902458] dyndbg: expecting pairs of match-spec <value>
-[  203.902703] dyndbg: query parse failed
-[  203.902871] dyndbg: processed 2 queries, with 0 matches, 2 errs
-bash: echo: write error: Invalid argument
-
-The '%' splits the input into 2 queries, and both fail.  Given the
-limited utility of matching against the working parts of a format
-string "foo: %d bar %s", nothing is actually lost here.
-
-selftests-dyndbg: test_percent_splitting
-
-This does basic testing of classmaps using '%' separated
-multi-queries.  It modprobes test_dynamic_debug with several classes
-enabled, and counts to verify that the expected sites show the
-enablement in the control file.
+With some tedium, the tests could be refactored to split out early
+tests which avoid multi-cmds, and test only the class-params.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       |  8 ++++---
- lib/dynamic_debug.c                           |  2 +-
- .../dynamic_debug/dyndbg_selftest.sh          | 24 +++++++++++++++++++
- 3 files changed, 30 insertions(+), 4 deletions(-)
+ .../dynamic_debug/dyndbg_selftest.sh          | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 350d93834e19..89ee15d7ae58 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -85,10 +85,12 @@ by spaces, tabs, or commas.  So these are all equivalent::
-   :#> ddcmd '  file   svcsock.c     line  1603 +p  '
-   :#> ddcmd file,svcsock.c,line,1603,+p
- 
--Command submissions are bounded by a write() system call.
--Multiple commands can be written together, separated by ``;`` or ``\n``::
-+Command submissions are bounded by a write() system call.  Multiple
-+commands can be written together, separated by ``%``, ``;`` or ``\n``::
- 
--  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
-+  :#> ddcmd func foo +p % func bar +p
-+  :#> ddcmd func foo +p \; func bar +p
-+  :#> ddcmd "func foo +p ; func bar +p"
-   :#> ddcmd <<"EOC"
-   func pnpacpi_get_resources +p
-   func pnp_assign_mem +p
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 5ac7248d51bb..c50836c262b4 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -626,7 +626,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
- 	int i, errs = 0, exitcode = 0, rc, nfound = 0;
- 
- 	for (i = 0; query; query = split) {
--		split = strpbrk(query, ";\n");
-+		split = strpbrk(query, "%;\n");
- 		if (split)
- 			*split++ = '\0';
- 
 diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-index c7bf521f36ee..513f6cb1db1d 100755
+index 513f6cb1db1d..09937dca3056 100755
 --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
 +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-@@ -256,9 +256,33 @@ function comma_terminator_tests {
-     ddcmd =_
+@@ -279,10 +279,83 @@ function test_percent_splitting {
+     ifrmmod test_dynamic_debug
  }
  
-+function test_percent_splitting {
-+    echo -e "${GREEN}# TEST_PERCENT_SPLITTING - multi-command splitting on % ${NC}"
++function test_mod_submod {
++    echo -e "${GREEN}# TEST_MOD_SUBMOD ${NC}"
 +    if [ $LACK_TMOD -eq 1 ]; then
 +	echo "SKIP - test requires test-dynamic-debug.ko"
 +	return
@@ -208,24 +148,74 @@ index c7bf521f36ee..513f6cb1db1d 100755
 +    ifrmmod test_dynamic_debug_submod
 +    ifrmmod test_dynamic_debug
 +    ddcmd =_
-+    modprobe test_dynamic_debug dyndbg=class,D2_CORE,+pf%class,D2_KMS,+pt%class,D2_ATOMIC,+pm
++
++    # modprobe with class enablements
++    modprobe test_dynamic_debug \
++	dyndbg=class,D2_CORE,+pf%class,D2_KMS,+pt%class,D2_ATOMIC,+pm
++
++    check_match_ct '\[test_dynamic_debug\]' 23 -r
 +    check_match_ct =pf 1
 +    check_match_ct =pt 1
 +    check_match_ct =pm 1
-+    check_match_ct test_dynamic_debug 23 -r
-+    # add flags to those callsites
-+    ddcmd class,D2_CORE,+mf%class,D2_KMS,+lt%class,D2_ATOMIC,+ml
++
++    modprobe test_dynamic_debug_submod
++    check_match_ct test_dynamic_debug_submod 23 -r
++    check_match_ct '\[test_dynamic_debug\]' 23 -r
++    check_match_ct test_dynamic_debug 46 -r
++
++    # no enablements propagate here
++    check_match_ct =pf 1
++    check_match_ct =pt 1
++    check_match_ct =pm 1
++
++    # change classes again, this time submod too
++    ddcmd class,D2_CORE,+mf%class,D2_KMS,+lt%class,D2_ATOMIC,+ml "# add some prefixes"
 +    check_match_ct =pmf 1
 +    check_match_ct =plt 1
 +    check_match_ct =pml 1
-+    check_match_ct test_dynamic_debug 23 -r
++    #  submod changed too
++    check_match_ct =mf 1
++    check_match_ct =lt 1
++    check_match_ct =ml 1
++
++    # now work the classmap-params
++    # fresh start, to clear all above flags (test-fn limits)
++    ifrmmod test_dynamic_debug_submod
++    ifrmmod test_dynamic_debug
++    modprobe test_dynamic_debug_submod # get supermod too
++
++    echo 1 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
++    echo 4 > /sys/module/test_dynamic_debug/parameters/p_level_num
++    # 2 mods * ( V1-3 + D2_CORE )
++    check_match_ct =p 8
++    echo 3 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
++    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
++    # 2 mods * ( D2_CORE, D2_DRIVER )
++    check_match_ct =p 4
++    echo 0x16 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
++    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
++    # 2 mods * ( D2_DRIVER, D2_KMS, D2_ATOMIC )
++    check_match_ct =p 6
++
++    # recap DRM_USE_DYNAMIC_DEBUG regression
++    ifrmmod test_dynamic_debug_submod
++    ifrmmod test_dynamic_debug
++    # set super-mod params
++    modprobe test_dynamic_debug p_disjoint_bits=0x16 p_level_num=5
++    check_match_ct =p 7
++    modprobe test_dynamic_debug_submod
++    # see them picked up by submod
++    check_match_ct =p 14
++    ifrmmod test_dynamic_debug_submod
 +    ifrmmod test_dynamic_debug
 +}
 +
  tests_list=(
      basic_tests
++    # these require test_dynamic_debug*.ko
      comma_terminator_tests
-+    test_percent_splitting
+     test_percent_splitting
++    test_mod_submod
  )
  
  # Run tests
