@@ -2,102 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB24D21305
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 21:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7F4D21353
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 21:43:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13ECA10E688;
-	Wed, 14 Jan 2026 20:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DA610E36E;
+	Wed, 14 Jan 2026 20:43:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hmrZVOIY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="etJouZgf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A5310E688
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 20:33:14 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-5014b5d8551so78161cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:33:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768422793; cv=none;
- d=google.com; s=arc-20240605;
- b=WLsublEAI8t7zVWQv25ZfcCyGp0HDhSPbqG77s7PgDGZmuK7mnZzJpVS5t/QHVva+N
- qPopi7/MQB5bgj79gVlS+DszeYzczE4OE4WpnlaDnR1af3tvGTpoOCH2t5GkbbKlkc/A
- RXEPahZsGrgCbtTHiguNf9caC/Zmb4IIW5F87l9yXOyOdJeAkF89DFSop1YeZ7snMZqT
- sCbgdFasHftaYAut3CUtD5vHKTCTOfJ73fJz01S6uSJBiUvZB7XyPrLJqYrcRjrEHiHW
- usGPOjNJwPq0Bn1nrSosdrpZ50arfdPB28r+hJVnsNO4m7tdFpbVaMFPdqm1UZJ0B2cl
- 7gQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
- fh=lYUK2QzEGQ3WDVSj2lryPGYS94THcnwu2ROxNj3dcRs=;
- b=YKx8Nw0xXeMtNnnGWWCwRsNQuDnPFtvG4vqgFd7FZOyLlo7qphWnjWxQ3ol2Rmfw2H
- DD3gmcenS/6ix0kozQ+9RPGbpsUbd8g9MwL6cJoxmWy/4XmktRNTvw3QtzBf27Em9+Ot
- p92C1uOZxIKqK0ggNvlqyThY5Q9eD+dx5mv3pRC46QGw3geOPVksk4vCGzBJM4ceEylT
- 1dKUP3FZMSADJPtd4ZvPiglXao0I+Qd/WbLR0vqWy2/XRE/dARzKosD6bdxLoq6WMals
- NbQTDn13zMk0kxaijklQSqQpQVKGyFDsjjFOzaeIsrczridfW+G+9BGA8UHKxcIy1KmB
- 3DXw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1768422793; x=1769027593;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
- b=hmrZVOIYF+muvhTj9OcIuzBKCXEg6pbrV2x88ITvDSn7eljYFspJQ7e/FwcK4F4OB9
- /xeDOtVsFNrI4B+ShfWxQNk/Lhz7uYW9TxyLyxMEJf0CpHcKtI/T8paGbTUsBuxNrbnh
- OWPYdsX8yCvk6o4F+Tyx6ZPN3v+qVWUt5tplw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768422793; x=1769027593;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
- b=YvvAr8M//A7iI2aX7pUSnrIWD2GG+l0GvIVxMppSaQC4lgRqQqGU89HeLtvqOj2Zh6
- RmRnDKI/kE633kz+wcM/mIdr20g1vJnoucdqt2Jn8/c+hwLCqNm/Gd6uY38pTrhXGokX
- BVnLz4i2fr+lljQarrVcvhRcWZlCsSLHFdmH4TDCEHWtJrz+oEGmix45BkBYKEoo3TDg
- 9wMwnKsGoMBh8So096N9zP+eGmyezAVwU0WpQ2ihUT/AeuJ+8qsnDeDewvJMz7GniUM4
- BY71M5cBdCHtQG0nJ9r+5SbyfrrGzNsV32vMPE31FqL8UCGoBkNDNGBsapadBT/Jg1aL
- 2B0Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU6UK6HoNjL5ODi7XSCD6H/KvtMR4/3YfyylWbp2g6hWvQvtWqptABDHBYdIX4Z5qzCayoK2OtxHjY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywn6nnmxRLskWwofBsVI2rApparOtxwiQ9VoLEQeI76cUw93eJR
- 6faB99H1FuTVPWEWCqP3HbfI8W40nF6CRgNA6aOX3tZC/d7q8ZTlB/46dtklu54lQxpPc0CJOlb
- +p4C9g1iZ3uIYrkGE0Ynk1Dc2onXI9LiLPregZtIr
-X-Gm-Gg: AY/fxX7pMm1ihjb7wlaNQ9Igj7HKYKVBWt53N504MgxSrmEzEJIBNSkRHRcAsbMBjdX
- 8I1+ANgHS/qF50wUgHfWX0YVclaqOfCg2L8oszcFlw1eEktKjbSzFx7s+O1gOYdAsAL2qTaM+gs
- sPUOJPjlghNX4dqwSJ0qSdBNvKH6SFXwc1tMFYP84NV0uOa3GvA0LdF+0dDKluTCbyJfu2lASUW
- xIvB5RvEnuPwbxyZYfLowUi6TBD/BkLTmBiNsnFnU6UK4tQ91nd0+G/aoErV9qzS3WcZD7Ew7MP
- SADq8pvjz3GkOH6rt/xe5v2U
-X-Received: by 2002:a05:622a:4b0f:b0:501:5180:3c90 with SMTP id
- d75a77b69052e-502009984cfmr1248501cf.15.1768422792691; Wed, 14 Jan 2026
- 12:33:12 -0800 (PST)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35AA10E36E
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 20:43:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2081D6001D;
+ Wed, 14 Jan 2026 20:43:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BBDC4CEF7;
+ Wed, 14 Jan 2026 20:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768423416;
+ bh=qfichP7xshYGFSCR4CwpNABFHfqMVK0zW00HFV+0Ppc=;
+ h=From:Date:Subject:To:Cc:From;
+ b=etJouZgfLTBrE3zutq1WvgULMAXLMPLYRA1OB+IkohMIN+G/kuGNOZLMDFORxfiHA
+ qCr2G2zT8hu3QOp291w6wr+JwiE13yamT81agkXb1n1Psu5sqZHuB/84IsC4ZcVIYb
+ WYUKmZO0rio1CHfSSs69jl+BmzoBtBowsRNS5a5Om9Bt54j5+wEWV0oruv0XdCTV0H
+ YiM7WAqLqeeXs+XqDFfydl8+Rp57F0khLMVYJrAmV2qaXx1GCjYXotoIRoNsXnJo6g
+ YIcE4g9CYEIg6AErCkaqySM7i7Ip7RpTR0FR1Ad2YiUhqi6RQ2H/xosLiOfivHbMky
+ 1v4i0DEL3cMxQ==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Wed, 14 Jan 2026 13:43:31 -0700
+Subject: [PATCH] drm/panel: ilitek-ili9882t: Remove duplicate initializers
+ in tianma_il79900a_dsc
 MIME-Version: 1.0
-References: <20260108145058.56943-1-tzimmermann@suse.de>
- <20260108145058.56943-2-tzimmermann@suse.de>
- <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
- <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
- <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
- <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com>
- <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
-In-Reply-To: <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
-From: Julius Werner <jwerner@chromium.org>
-Date: Wed, 14 Jan 2026 12:32:59 -0800
-X-Gm-Features: AZwV_QjVwzBhyPz60Pd4NCPrZZoJImvApT5iRWKTNbJvb1nRjPpq98n5BJnB29I
-Message-ID: <CAODwPW9vkYdqtHbVbwrrJ5P7Hp=6N7HwrSGiog1DwzuNSruSOA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
- coreboot framebuffer
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Julius Werner <jwerner@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Samuel Holland <samuel@sholland.org>, tzungbi@kernel.org,
- briannorris@chromium.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, chrome-platform@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260114-panel-ilitek-ili9882t-fix-override-init-v1-1-1d69a2b096df@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNwQ6CMBBEf4Xs2U26lQj4K8YDwqCrpJBtJSaEf
+ 7foafKSmTcrRZgi0rlYybBo1ClkkENB3aMNd7D2mck7f3IiJc9twMg6asJrj6aufeJBPzwtMNM
+ +L4Im9gJppDwOVeUo22ZDLv2eLtc/x/ftiS7tetq2L8ZhFAiLAAAA
+X-Change-ID: 20260114-panel-ilitek-ili9882t-fix-override-init-21e19143f770
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4540; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=qfichP7xshYGFSCR4CwpNABFHfqMVK0zW00HFV+0Ppc=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJnp/79pL5Mv6jR+3VjU5eS10X0q68sN/FzCwn07l7p6p
+ 37+Pm9vRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZiIBz8jQ5Me8yLnjy4Mn2Iq
+ p92dIuZrPefAk4yqufafJy89Ksf2rZ+R4cc3/9MpU6p3uOe+r2e1ZWVSaHpgyl6Rm8mq5S1y9sB
+ OTgA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,19 +75,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> IDK. My take would have been to provide the coreboot table under
-> /sys/firmware; similar to DT. And then walk over it and create devices
-> for the known entries.
+Clang warns (or errors with CONFIG_WERROR=y / W=e):
 
-We have established userspace infrastructure relying on the current
-sysfs layout (at least the `cbmem-XXXXXXXX` nodes), so while you may
-be right that there may have been better approaches to do this to
-begin with, I would much prefer if we can stick with what's there now.
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:95:16: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+     95 |         .vbr_enable = 0,
+        |                       ^
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:90:16: note: previous initialization is here
+     90 |         .vbr_enable = false,
+        |                       ^~~~~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:97:19: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+     97 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+        |                          ^~~~~~~~~~~~~~~~~~~~~~~
+  include/drm/display/drm_dsc.h:22:38: note: expanded from macro 'DSC_RC_MODEL_SIZE_CONST'
+     22 | #define DSC_RC_MODEL_SIZE_CONST             8192
+        |                                             ^~~~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:91:19: note: previous initialization is here
+     91 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+        |                          ^~~~~~~~~~~~~~~~~~~~~~~
+  include/drm/display/drm_dsc.h:22:38: note: expanded from macro 'DSC_RC_MODEL_SIZE_CONST'
+     22 | #define DSC_RC_MODEL_SIZE_CONST             8192
+        |                                             ^~~~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:132:25: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+    132 |         .initial_scale_value = 32,
+        |                                ^~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:126:25: note: previous initialization is here
+    126 |         .initial_scale_value = 32,
+        |                                ^~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:133:20: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+    133 |         .nfl_bpg_offset = 3511,
+        |                           ^~~~
+  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:108:20: note: previous initialization is here
+    108 |         .nfl_bpg_offset = 1402,
+        |                           ^~~~
 
-> I have a new iteration of the series that creates a coreboot-framebuffer
-> platform device for at the same place that currently creates the
-> simple-framebuffer device (in framebuffer_probe()). So we can leave most
-> of the code it as. There are also a number of bugs that this is going to
-> fix. I'll post it soon.
+GCC would warn about this in the same manner but its version,
+-Woverride-init, is disabled for a normal kernel build in
+scripts/Makefile.warn. For clang, -Wextra in drivers/gpu/drm/Makefile
+turns it back but GCC respects turning it off earlier in the command
+line.
 
-Sounds good, thanks!
+Of all the duplicate fields in the initializer, only nfl_bpg_offset is a
+different value. Clear up the duplicate initializers, keeping the
+'false' value for .vbr_enable, as it is bool, and the second value for
+.nfl_bpg_offset, assuming it is the correct one since it was the one
+tested in the original change.
+
+Fixes: 65ce1f5834e9 ("drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC 120Hz mode")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index 370424ddfc80..8b2bfb7d3638 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -88,11 +88,9 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+ 	.native_422 = false,
+ 	.simple_422 = false,
+ 	.vbr_enable = false,
+-	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+ 	.pic_width = 1600,
+ 	.pic_height = 2560,
+ 	.convert_rgb = 0,
+-	.vbr_enable = 0,
+ 	.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
+ 	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+ 	.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
+@@ -105,7 +103,6 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+ 	.initial_offset = 6144,
+ 	.rc_quant_incr_limit0 = 11,
+ 	.rc_quant_incr_limit1 = 11,
+-	.nfl_bpg_offset = 1402,
+ 	.rc_range_params = {
+ 		{ 0,  4, DSC_BPG_OFFSET(2)},
+ 		{ 0,  4, DSC_BPG_OFFSET(0)},
+@@ -123,7 +120,6 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+ 		{ 9, 12, DSC_BPG_OFFSET(-12)},
+ 		{12, 13, DSC_BPG_OFFSET(-12)},
+ 	},
+-	.initial_scale_value = 32,
+ 	.slice_chunk_size = 800,
+ 	.initial_dec_delay = 657,
+ 	.final_offset = 4320,
+
+---
+base-commit: b36178488d479e9a53bbef2b01280378b5586e60
+change-id: 20260114-panel-ilitek-ili9882t-fix-override-init-21e19143f770
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
+
