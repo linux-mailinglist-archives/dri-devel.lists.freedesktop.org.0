@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050ECD1EA3D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B84ED1EA4F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5F110E578;
-	Wed, 14 Jan 2026 12:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BD510E586;
+	Wed, 14 Jan 2026 12:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YJTJh68a";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Vkjqv8WL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E977410E578
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=GSEQCzndpMCTzZAiElbDw0E8ooqH9Iv/C1Bw0XbM1/4=; b=YJTJh68aWzrZwZ47DWwKJG7Eha
- 4tmnURY7cqRMZVdvqPSVMAf5a+XIuXekwSYreq8LqNWKg01dxTeJJ5RCySnJn+hlT2a7R2MvbjEaI
- fe5K7PBSIOm9Gj+tVzuuoT6UNG7Mw8IpqX202IeAlBS/E+wKF+kSnhulCJZCn6bReC4/DuvL0GIAI
- 59trsW9munV1V1oqX+qOlYLHhf5CtMjhfv09p5CYd8XxFuPGGJOaFY9lldZuax7H3ziNdn0VndmRK
- +hhqRndk2XqcBNhc/aJM+DjLMyKV0dBiF2Mn9izwoT0mMWTEpZv/tiYE2UVaBR3DABvoDMcMaMdk4
- 2QbHI0EQ==;
-Received: from [187.36.210.68] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
- (Exim) id 1vfzdm-005GCf-8h; Wed, 14 Jan 2026 13:06:22 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- kernel-dev@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v2] arm64: dts: broadcom: bcm2712: Add V3D device node
-Date: Wed, 14 Jan 2026 09:04:58 -0300
-Message-ID: <20260114120610.82531-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.52.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B65FD10E604
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768392444;
+ bh=2beE3e0kVcmEYa0zaIysPOw/L2ABDyyl1I4nqC0V1rA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Vkjqv8WLar4Dwl5IyVXV3g5xUpMPM0JfWxXz2iUJ2tGlugQV7Wf8A79fRNxJ88fdN
+ +hMG8FCh4CT4MPM4/RkUC429JYwfZzvV5WL6LlTxdHauIQnXwC/wvI7G1qEV2ezVMW
+ pVbAVZZBNCAcWH6wYUML+1UPTdulL/gtolHX/ybZSx4XrRKUoT3vipGT6K1J3v5fv9
+ 5fv/MTw41L06827HyP/pnYTCw4ju2CMBa1gDQPsR9n/8CvchIe8nlEb57QFYm5St5T
+ eNNHBghSkmzcSSA/DrbT3joOA22TzjH0Y2jG+vsQfoQffjXFutH+KFBYNl/c9D7vhf
+ BRw2jhRk1K+nQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C794217E13F9;
+ Wed, 14 Jan 2026 13:07:23 +0100 (CET)
+Date: Wed, 14 Jan 2026 13:07:17 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, nd@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Mihail
+ Atanassov <mihail.atanassov@arm.com>
+Subject: Re: [PATCH v6 4/7] drm/panthor: Introduce sampling sessions to
+ handle userspace clients
+Message-ID: <20260114130717.4818e9d1@fedora>
+In-Reply-To: <20251215171453.2506348-5-lukas.zapolskas@arm.com>
+References: <20251215171453.2506348-1-lukas.zapolskas@arm.com>
+ <20251215171453.2506348-5-lukas.zapolskas@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commits 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
-and 6fd9487147c4 ("drm/v3d: add brcm,2712-v3d as a compatible V3D device")
-added driver support for V3D on BCM2712, but the corresponding device
-tree node is still missing.
+On Mon, 15 Dec 2025 17:14:50 +0000
+Lukas Zapolskas <lukas.zapolskas@arm.com> wrote:
 
-Add the V3D device tree node to the BCM2712 DTS.
+> +/**
+> + * PANTHOR_PERF_EM_BITS - Number of bits in a user-facing enable mask. This must correspond
+> + *                        to the maximum number of counters available for selection on the newest
+> + *                        Mali GPUs (128 as of the Mali-Gx15).
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
+This statement worries me a bit. It seems to imply that we might have
+more than 128 counters per block at some point, and the way the uAPI is
+designed, it's going to be annoying to extend. Maybe we should come up
+with an approach that would account for this from the start, like:
 
----
-v1 -> v2:
+- Moving drm_panthor_perf_block_header::enable_mask in its own
+  drm_panthor_perf_block_enable_header_mask whose size can be
+  determined from perf_info::counters_per_block
 
-- Rebased on top of linux-next (Stefan Wahren)
-- Fixed node's address (2000000 -> 1002000000) (Stefan Wahren)
-- Link to v1: https://lore.kernel.org/linux-devicetree/20260113192902.48046-2-mcanal@igalia.com/
----
- .../boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi    |  4 ++++
- arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 14 ++++++++++++++
- 2 files changed, 18 insertions(+)
+- having the enable mask settings passed through an array of
+  struct drm_panthor_perf_enable_counter_section looking something like
+  that:
 
-diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
-index 7d4742ebe247..97522c6803c5 100644
---- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
-+++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
-@@ -247,3 +247,7 @@ &pcie1 {
- &pcie2 {
- 	status = "okay";
- };
-+
-+&v3d {
-+	clocks = <&firmware_clocks 5>;
-+};
-diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-index 330a121ebfcb..661668ef7419 100644
---- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-+++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: (GPL-2.0 OR MIT)
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/soc/bcm2835-pm.h>
- 
- / {
- 	compatible = "brcm,bcm2712";
-@@ -642,6 +643,19 @@ mip1: msi-controller@1000131000 {
- 			msi-ranges = <&gicv2 GIC_SPI 247 IRQ_TYPE_EDGE_RISING 8>;
- 			brcm,msi-offset = <8>;
- 		};
-+
-+		v3d: gpu@1002000000 {
-+			compatible = "brcm,2712-v3d";
-+			reg = <0x10 0x02000000 0x00 0x4000>,
-+			      <0x10 0x02008000 0x00 0x6000>,
-+			      <0x10 0x02030800 0x00 0x0700>;
-+			reg-names = "hub", "core0", "sms";
-+
-+			power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
-+			resets = <&pm BCM2835_RESET_V3D>;
-+			interrupts = <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
-+		};
- 	};
- 
- 	vc4: gpu {
--- 
-2.52.0
+/** @struct drm_panthor_perf_enable_counter_section - Describes a counter section to enable */
+struct drm_panthor_perf_enable_counter_section {
+	/** @block_type: block type this section refers to */
+	__u8 block_type;
 
+	/**
+	 * @block_counter_offset: counter offset in the block type
+	 *
+	 * This must bit 64 aligned, and block_counter_offset + 64 must be
+	 * <= drm_panthor_perf_info::counters_per_block
+	 */
+	__u8 block_counter_offset;
+
+	/** @padding: MBZ. */
+	__u16 padding;
+
+	/**
+	 * @enable_mask: enable mask to set for this portion of the counter block.
+	 *
+	 * The targeted counters are [@block_counter_offset, @block_counter_offset + 63].
+	 */
+	__u64 enable_mask;
+};
+
+struct drm_panthor_perf_block_setup {
+	...
+        __u64 sample_freq_ns;
+
+	/// All xxx_enable[2] fields are replaced by the following array.
+
+	/** @enable_sections: Sections of the counter blocks to enable. */
+	struct drm_panthor_obj_array enable_sections;
+}
+
+
+> + */
+> +#define PANTHOR_PERF_EM_BITS (BITS_PER_TYPE(u64) * 2)
