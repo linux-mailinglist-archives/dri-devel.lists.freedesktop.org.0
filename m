@@ -2,84 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB59FD1D419
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E675D1D43A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE66E10E24F;
-	Wed, 14 Jan 2026 08:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6E1610E3F4;
+	Wed, 14 Jan 2026 08:52:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MNEyTEk5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gaij+tPX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B74A310E24F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:52:01 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-432d256c2a9so4625317f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:52:01 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6C2510E3F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:52:37 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-47774d3536dso5526425e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1768380720; x=1768985520; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1768380756; x=1768985556; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=czF6PTDIQWWTPWMDuy3R+oHXMU3U5aJaxuYuzJaZsqw=;
- b=MNEyTEk5JZb0NFTyMe7xt86VUhtfeT3A45TvtebfQUYAisWRyBYxXlm89fU39sSIPb
- u652F2HNebrq6iUyPjJYAkand6bujsEG4BMc2/XT4L7tq7U8Eg3EZOePKykZxVgqWowr
- suCciYlu2lS2IyLmkJcczR774/DUEssLSTSGG+JD5MCIWgwo6C+N/POY5qPQD3RexKSP
- fUybCr0sZHKD69hOTk98ASUrq1zDZpC1GBUOnxJ3fGU0DDYmCT0QEFt86beu+fFOKI/y
- VXzzhjKoFMukxZu2Y218fvZBwi0x95xfJQpc8/rRw/9sMsftnBam47P82llWHVN7GrXa
- Prig==
+ :reply-to; bh=1bpcWnB4BcZSj7q9wPAqZQeLTaJp0K4KOi9eIDlDf/I=;
+ b=gaij+tPXQ4FbfvWvQYyhPcx0bK53TUKDSryzPPQD4rGd1ZEelg+Tjg1qEGkNrQCV7m
+ sMUf2/g5aQ9ZqfWtqxe5HSPjeMVsxDE/LkFOk7HXLby0asDH2qBYrJO/mfCfy/86OBVY
+ xuPUg1+076stZfVyAUSJ55p5KC/f57yj+E0jUGUUhASr9aVvRUOGSbokaQe2PlHwswce
+ VWp69H7OoUd9mIeeJvXvzuNvs8Kmr/p0CRt+K2P6ogMwxKp7FiA48yddDiaMuXQJ3TvN
+ t+OyyxdehMIYvXBJSVLQ58hBW4pRjYlwd2tppxTZRmiXIIXVFHxAHmzknLyhfGOJaunN
+ uHHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768380720; x=1768985520;
+ d=1e100.net; s=20230601; t=1768380756; x=1768985556;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=czF6PTDIQWWTPWMDuy3R+oHXMU3U5aJaxuYuzJaZsqw=;
- b=Qj0A9uxs3mmuT2b0eslYxkR0C7yJP5Z5X4XUVu7AOZZi+eW0h7uJxTlZakDcccD9lL
- 8CTa3u3IuDuYkzhqJFkiNqGdxxodPf0aU6d7SIVmWQhaBkWL97+OFH2vTQsDZD+RlEmo
- HLsWANR8Y+/t9C/OOYkT7zjdCFQgUzV1U/N29X9+Cq6ml/5pJ42Pee/ayscjbNPOLZXQ
- Ui5kz+eQli0hHrDnIMOzR/O8gMxBCDtnhZqsrrd/SrPmIsdGadDrk6AQRj9c5lSsn8dR
- 3Gcbq2RA0pljdepOw+TNjYKudT+KYFNPVIE8dJ/mNbyOwBY6FHD+qcYYukww8TbpIcx8
- pU0Q==
-X-Gm-Message-State: AOJu0Yz5gEfafDyakWZLKEeY54iijdGTgUpDUUgLvdMxWxDLEFAL13F0
- kPpXdbpfu4ieQ1hClssgfy8tPvRrDSP9mk001R+DFp2gdWlcAODY2Hrdf4VnTZMliy4=
-X-Gm-Gg: AY/fxX5qrT788SnBdPPlCnCXlNl9yJ0UqPMvaHiSeLpjFi6Zoa7Jy20/L6IOCqGI4s0
- pbUiBmBCCabuiJYq0957k5HSWYa1527znRi2+OZCerQQ4fBtHE1s4aIEspvdg7oS/xx7/uRMoFg
- 3rrCcJqqKV/oruNsId4Ar2Cw/z3GeA3KQp8rjOHXR9J5UVubx5DxfDpP9IZW6H0OjTkUHVsol5d
- eYQaU7fU3HYIsSz0LvKBO8QCxkqYrJn7TXRf1wvCrxit+8WSMzO3xOBxckaI5iBD0p9BMWYKfYk
- 5h/jqyrur6cEMq1I615+pNSas2x/NTBvs68rD3cqw5nT5ZvaQH8Xpusv/M5Tkr4TeZ0e6zuJpGj
- euuxs18lM4CRhh+oD6z9J8EDF68tJE84PZ6vcWASRTOQ6yf3g4fdd/k9AorFxzVRoo1V/IxpLYg
- SyTu/7bNhWPUr3V4NGe0S7bunht/lNGnz7oVrjMM9t3Oj6wBBt2GYYlSjKR6AcRyQ=
-X-Received: by 2002:a5d:5d0a:0:b0:432:84ef:841f with SMTP id
- ffacd0b85a97d-4342c548710mr1806889f8f.38.1768380720110; 
- Wed, 14 Jan 2026 00:52:00 -0800 (PST)
+ bh=1bpcWnB4BcZSj7q9wPAqZQeLTaJp0K4KOi9eIDlDf/I=;
+ b=jxrEtYfP29dXfgOICIebwtVHvcF3YynfTPqeVpYfCXAoeNGIimE5L8W/Jm7Br+wZ41
+ Ac+WzVOrN07s6SomhTy+ccw3bZNpxjbMrrpqebz9vuOWz5wsjYq9+f9Oj7DB9c9U7V/e
+ HVH+Lc6ZqErnQ1LPfLKjnKEkJo96FeBkQYysozeSEB2zVKVhn58//Y6r3o9Ri8up0eOe
+ qhN3wHf4EmoZdANBLkIQj+AqBGVzk3GS6s/ov7NCDQbzHOBb3vOvYG2Tc4FoiwlCtsL8
+ XFz3VoNSfTAKYzY4tkIIC0rUgYIIXof7Nl1naRa43ASgTYXpRvgqMQri/eabySsC3KzG
+ 5ZbQ==
+X-Gm-Message-State: AOJu0YwVJSftVOMUqn00cEvnjzDY54zdejCb1GtoWXYq97mn85xPG1yq
+ 4drApNHm6xUTP1dV6zNqahHkKD8FMWxWrKZlUA9iwL2qqI9GLx5ey6HuQgH+B5G74yc=
+X-Gm-Gg: AY/fxX7VWYv+zwYqt+86hJluUNAWtwLa5+qMYekJmMJ1OmxNHvhbwy+xlz3+EkkKFll
+ Q++t7hryKXOKvXjJvcil3MIUs2YbKrRlpq5a1ziWtT7LJwV7+VGyZcrRPDNnmjyIGnxlUK4mmAP
+ PaBrpn/c2ycVqjvpD5EsVfaQ1xs5jCuLxiiGDHFXbTcLny+UxIZ5rBebdj7wnFYGId9xyIktH/Q
+ YW2k8K5gEGcPOp5Iz4YjOaP4me0u70zPvqJBROyosDNi8FHrKRpdTHctD9V1Tu903UEScwEEO2d
+ WujaNx92bS1Tza2QriOJL8hZiTtt8+MpF9bJLG9AWc/fFLbDXDy0kdjRjEUygsIEQ3aREuYYzso
+ s04b/LnCBj+bwcGEFH3ZvwPKBceFRY9g7k6r6BOW6lZIWCtQdDufoY52U17X3a5i7UX8zX9ZrgE
+ g22zP1x631DkuoRYr4rC0tKvD6Yy6BJUHYUXhw9Sh/RYM7YCNpVNviqyN5uaA5QGI=
+X-Received: by 2002:a05:600c:16d3:b0:47e:e0b3:2437 with SMTP id
+ 5b1f17b1804b1-47ee0b329d3mr22429865e9.5.1768380756155; 
+ Wed, 14 Jan 2026 00:52:36 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:b357:7e03:65d5:1450?
  ([2a01:e0a:3d9:2080:b357:7e03:65d5:1450])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-432bd5df9afsm51750726f8f.24.2026.01.14.00.51.59
+ 5b1f17b1804b1-47ee0b89ee0sm18634095e9.1.2026.01.14.00.52.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 00:51:59 -0800 (PST)
-Message-ID: <d5cc7760-95b4-4d46-91fa-d7266b0645d5@linaro.org>
-Date: Wed, 14 Jan 2026 09:51:58 +0100
+ Wed, 14 Jan 2026 00:52:35 -0800 (PST)
+Message-ID: <6a68b64d-27d3-474a-9c40-5a9973444395@linaro.org>
+Date: Wed, 14 Jan 2026 09:52:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] drm/panel: simple: add EDT ET057023UDBA panel
-To: Marco Felsch <m.felsch@pengutronix.de>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH 3/6] drm/panel: jd9365da: Support for Anbernic RG-DS Panel
+To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@pengutronix.de
-References: <20260113-v6-18-topic-panel-simple-et057023udba-v1-0-54ad218ee52b@pengutronix.de>
- <20260113-v6-18-topic-panel-simple-et057023udba-v1-2-54ad218ee52b@pengutronix.de>
+ dmitry.torokhov@gmail.com, simona@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ jesszhan0024@gmail.com, jagan@edgeble.ai, heiko@sntech.de,
+ conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ aweinzerl13@yahoo.com, Chris Morgan <macromorgan@hotmail.com>
+References: <20260113195721.151205-1-macroalpha82@gmail.com>
+ <20260113195721.151205-4-macroalpha82@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,7 +103,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260113-v6-18-topic-panel-simple-et057023udba-v1-2-54ad218ee52b@pengutronix.de>
+In-Reply-To: <20260113195721.151205-4-macroalpha82@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,65 +122,327 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/26 13:18, Marco Felsch wrote:
-> Add support for the EDT ET057023UDBA 5.7" 24-bit 640x480 DPI panel.
+On 1/13/26 20:57, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> Add support for both panels used in the Anbernic RG-DS. These panels
+> are physically identical and differ only with a single instruction
+> in the init sequence. The init sequence commands suggest it uses
+> an identical controller as the jd9365da.
+> 
+> Additionally, allow specifying per-panel dsi->mode_flags that can
+> override the default values.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Co-developed-by: Alexander Weinzerl <aweinzerl13@yahoo.com>
+> Signed-off-by: Alexander Weinzerl <aweinzerl13@yahoo.com>
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
+>   .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 271 +++++++++++++++++-
+>   1 file changed, 269 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 0019de93be1b663f55b04160606363cd043ab38b..0f135eb35aa4302e9a33d91f29d1ad5c9959ced0 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2096,6 +2096,35 @@ static const struct panel_desc edt_et057090dhu = {
->   	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> index 063ed9646d53..5386a06fcd08 100644
+> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> @@ -33,6 +33,7 @@ struct jadard_panel_desc {
+>   	unsigned int backlight_off_to_display_off_delay_ms;
+>   	unsigned int display_off_to_enter_sleep_delay_ms;
+>   	unsigned int enter_sleep_to_reset_down_delay_ms;
+> +	unsigned long mode_flags;
 >   };
 >   
-> +static const struct display_timing edt_et057023udba_timing = {
-> +	.pixelclock = { 23200000, 24190000, 39640000 },
-> +	.hactive = { 640, 640, 640 },
-> +	.hfront_porch = { 20, 40, 200 },
-> +	.hback_porch = { 87, 40, 1 },
-> +	.hsync_len = { 1, 48, 87 },
-> +	.vactive = { 480, 480, 480 },
-> +	.vfront_porch = { 5, 13, 200 },
-> +	.vback_porch = { 31, 31, 29 },
-> +	.vsync_len = { 1, 1, 3 },
-> +	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-> +		 DISPLAY_FLAGS_SYNC_POSEDGE,
+>   struct jadard {
+> @@ -1113,6 +1114,258 @@ static const struct jadard_panel_desc melfas_lmfbx101117480_desc = {
+>   	.enter_sleep_to_reset_down_delay_ms = 100,
+>   };
+>   
+> +static int anbernic_rgds_init_cmds(struct jadard *jadard)
+> +{
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
+> +	struct drm_panel *panel = &jadard->panel;
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x0);
+> +
+> +	jadard_enable_standard_cmds(&dsi_ctx);
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x6a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x6a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xbf);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0xbf);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0xfe);
+> +
+> +	if (of_device_is_compatible(panel->dev->of_node,
+> +				    "anbernic,rg-ds-display-top"))
+> +		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x05);
+> +	else
+> +		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x09);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0xf7);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0x3c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x42, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x11);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x45, 0x78);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x6d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x7f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x56);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x43);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x34);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x2f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x22);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x25);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x43);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x33);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x3a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x2d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6c, 0x28);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x1b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x0b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x7f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x71, 0x56);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x72, 0x43);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x73, 0x34);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x74, 0x2f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x22);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x79, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7a, 0x25);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7b, 0x43);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7c, 0x33);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x3a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x2d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x28);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x1b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x0b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x00);
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x5e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x50);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x06, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x57);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x08, 0x77);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x48);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0a, 0x48);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0b, 0x4a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x4a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x46);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x10, 0x46);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x13, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x5e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x50);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x41);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x57);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x77);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x49);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x49);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x21, 0x4b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x4b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x45);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x45);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x47);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x26, 0x47);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x28, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2c, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2d, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2e, 0x1e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2f, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x30, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x31, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x32, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x17);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x17);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x36, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x0b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x0b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0x09);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x09);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x42, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x1e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x45, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x46, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x47, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x49, 0x17);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4a, 0x17);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4b, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4c, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4d, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4e, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4f, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x50, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x51, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x52, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x53, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x54, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0xe9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x73);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x0b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0xe9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0xda);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0xfc);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x83, 0xf4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x87, 0x10);
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xb3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x48);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x58);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x0f);
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x1d);
+> +
+> +	jd9365da_switch_page(&dsi_ctx, 0x00);
+> +	mipi_dsi_msleep(&dsi_ctx, 120);
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 120);
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 10);
+> +
+> +	return dsi_ctx.accum_err;
 > +};
 > +
-> +static const struct panel_desc edt_et057023udba = {
-> +	.timings = &edt_et057023udba_timing,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 115,
-> +		.height = 86,
+> +static const struct jadard_panel_desc anbernic_rgds_display_desc = {
+> +	.mode = {
+> +		.clock		= (640 + 260 + 220 + 260) * (480 + 10 + 2 + 16) * 60 / 1000,
+> +
+> +		.hdisplay	= 640,
+> +		.hsync_start	= 640 + 260,
+> +		.hsync_end	= 640 + 260 + 220,
+> +		.htotal		= 640 + 260 + 220 + 260,
+> +
+> +		.vdisplay	= 480,
+> +		.vsync_start	= 480 + 10,
+> +		.vsync_end	= 480 + 10 + 2,
+> +		.vtotal		= 480 + 10 + 2 + 16,
+> +
+> +		.width_mm	= 68,
+> +		.height_mm	= 87,
+> +		.type		= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +		.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
 > +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
-> +		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
-> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +	.init = anbernic_rgds_init_cmds,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +		      MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
 > +};
 > +
->   static const struct drm_display_mode edt_etm0700g0dh6_mode = {
->   	.clock = 33260,
->   	.hdisplay = 800,
-> @@ -5112,6 +5141,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "edt,et057090dhu",
->   		.data = &edt_et057090dhu,
-> +	}, {
-> +		.compatible = "edt,et057023udba",
-> +		.data = &edt_et057023udba,
->   	}, {
->   		.compatible = "edt,et070080dh6",
->   		.data = &edt_etm0700g0dh6,
-> 
+>   static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
+>   {
+>   	struct device *dev = &dsi->dev;
+> @@ -1126,8 +1379,14 @@ static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
+>   		return PTR_ERR(jadard);
+>   
+>   	desc = of_device_get_match_data(dev);
+> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> -			  MIPI_DSI_MODE_NO_EOT_PACKET;
+> +
+> +	if (desc->mode_flags)
+> +		dsi->mode_flags = desc->mode_flags;
+> +	else
+> +		dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> +				  MIPI_DSI_MODE_VIDEO_BURST |
+> +				  MIPI_DSI_MODE_NO_EOT_PACKET;
+> +
+>   	dsi->format = desc->format;
+>   	dsi->lanes = desc->lanes;
+>   
+> @@ -1176,6 +1435,14 @@ static void jadard_dsi_remove(struct mipi_dsi_device *dsi)
+>   }
+>   
+>   static const struct of_device_id jadard_of_match[] = {
+> +	{
+> +		.compatible = "anbernic,rg-ds-display-bottom",
+> +		.data = &anbernic_rgds_display_desc
+> +	},
+> +	{
+> +		.compatible = "anbernic,rg-ds-display-top",
+> +		.data = &anbernic_rgds_display_desc
+> +	},
+>   	{
+>   		.compatible = "chongzhou,cz101b4001",
+>   		.data = &cz101b4001_desc
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
