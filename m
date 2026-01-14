@@ -2,88 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7BA5D1FC2D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A48D1FE9A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB4A10E10D;
-	Wed, 14 Jan 2026 15:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB78F10E2C2;
+	Wed, 14 Jan 2026 15:47:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PeErgJ/t";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 311C210E10D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:31:58 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-8b2ec756de0so949264985a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:31:58 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A706110E2C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1768405631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gzUsW5No6dGH8ZciSrcNEaMmqaGyJ5Qr5Ou1SRqIt3k=;
+ b=PeErgJ/tmV0XNSk70zoPZN7G7MFkKlkdRGHB6QgyWQ7WX6quAbctiiH6P5pVwjhrxU7OR0
+ zGHmef8a9zi57wUL8tXCzVEFJg9GJxLcAGWZN2V6wV61cN1iZrHg3hjNfaP66nDe04Lwwm
+ 82v1KxsDalTkcOHfHWZo8//bat3waMg=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-636-mFPuL0OQPAetsbMgEKlzxw-1; Wed, 14 Jan 2026 10:47:09 -0500
+X-MC-Unique: mFPuL0OQPAetsbMgEKlzxw-1
+X-Mimecast-MFC-AGG-ID: mFPuL0OQPAetsbMgEKlzxw_1768405629
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-50147745917so42690481cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:47:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768404717; x=1769009517;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h9PHoycvBsjA0Sy0VbLTIHVLWHYGM3MD8TXsWVqyh2U=;
- b=U00TSoCZ3Mgm9jnXVE01OpN8XfI2HVhZMO2JmeNCqk5baTwfb3iwBoZCCNgtziLAw+
- qosBUX5O5LO2CJziMyhiRMFv4mFborAgnaChF/fhpQDkE0U07a7gf5HVEPZxOAowrF8v
- lsUbJG6UtojTNm2QZDFcaM1pD01AprMiVdKXZiytxnyG5pGsn9LhfL21Cwg42o/wL1ue
- Mc+l6yLYl9NTJedxvfuFRL3lvj0QJmRMgvq9SKzbIBvtthTqeVgbb80oNyqeR7i3QlF0
- QGPGWZtMqmWfL/W5FOuHlkZH/MFgvIXszidfnmkWVLuM/mBudNtS4S0jwvBHKAdK8dph
- rViw==
+ d=1e100.net; s=20230601; t=1768405629; x=1769010429;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gzUsW5No6dGH8ZciSrcNEaMmqaGyJ5Qr5Ou1SRqIt3k=;
+ b=L2nvyAQ5r0k8ejmIcYpYFc/V+f29SK+Iorj52xiBcFPIQIVQPl0Vz9dGyxYzfRbUou
+ W2BrSoKp8JU5asVl9/Juqocr8A0QjUUD4h3aETaHGCv56UNbv1wjDsR3V90yvzXMWMZ0
+ yXdalgnqHZctrl1a83lAAPsrWE9+1PByw4Vq50Hs5k9ACFe5+Fhje4Qzzxs2tSKETQ7h
+ VPPGux5f/5MXNN+aMpWdSYemRZs4ptP4g1hEEpNsjx4rbOOblileeKlUtkuAOyvcq+4r
+ IzP1UNtumlZWGlwjIoCCAmT3nJ4MhtTOfmhHLxJqwXzA5fPtL5b9XXb6g+SF1PPTWQ6m
+ VNWA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6e33QO7GNhZu017ZxIlWeTXVqmbRhv6qBrlopFa3hIgtVOjd0BkRULeEH21b/6oSD/POMq7Kv2ok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTS8uQLqkUVazppeUanKt6XCPBs6RZ43cF5Wj0H1V2BXgBgjSQ
- OluEx5EPPi8F+NfW3beStX6hQrq4+xGtqdm2JjhuLcGj+WznO5dT56rtzYKt6gg3
-X-Gm-Gg: AY/fxX5OhfrTAhu6xMWQmtby3/IhuLio6f/xdQM2OJopTOnsk31sF0oUbL5gXqypJaA
- VvzQERRsS/xuv5mm4MJHCKF14JImK4zpVGY+IOA/0fcvZ4Uw5VLeUiH9SHKgpYQKIeS0GPl4i3p
- IMz+8YGhgj7f8zvU9plDYYQHAtJbu8yr8rtpSnEKI1vgjv93y3sum6l80ryAeNGJNDpKtFKPg8n
- 0Wfj4P4d8uTO0j0dbcAsqkOa6fHohd7gJAAax9NpJJaTjWSpE1dOv7KkazmsgY36VN5yqopH/Qr
- McrFl2pFOXKNGYVFqyCV1FEH4JfLAAkRPK3v7ovtNhGyt8gNRlhpmOTjHAaCiIBNiganxCTRuBd
- 6AskCD7Kh/+PrNOMuqtFUnWR18vuk2Xr+HuYIfgOYR/oX3ZDLQIdSKTH3acJroVGj9xVlnfZQZv
- dsqrOfpyHlvcjxKe6HsXbbEvNQ2V6oQBPvDPzx0xQOw+/kcB+N
-X-Received: by 2002:a05:620a:7112:b0:8b2:e958:740c with SMTP id
- af79cd13be357-8c52fbb9e22mr383577185a.72.1768404717006; 
- Wed, 14 Jan 2026 07:31:57 -0800 (PST)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com.
- [209.85.219.44]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c530b72b61sm181713485a.26.2026.01.14.07.31.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 07:31:56 -0800 (PST)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-8888a444300so86215306d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:31:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVc9Sj/ES1ELXD5FlH1ncjOixOuiIuuhIYvmuUxuqXeHDTAgdf0V9dw8a04pDb8Jh9+IymbVW+S71M=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:c05:b0:5f1:5c43:936a with SMTP id
- ada2fe7eead31-5f17f5b855bmr1345435137.25.1768404199242; Wed, 14 Jan 2026
- 07:23:19 -0800 (PST)
+ AJvYcCXBc0DGXgYsODoVhkuBV+HnkHxhblNu+YEcxQC8vjJQ6/RoszHVM2htHbvDxQHuCWoVnVaC6WXJKFI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoEWI33Z1z6iEiftWWCaVoV7c5PUAr3IRuy7M8kj8DqOqzH/Ru
+ eBpdtgQIAKSXb8JzUzLGVEBSxct6hIdO/GlWlCwNZUYuTXR2zjW9wI4AUYXytXNCG3EhAgSPMNo
+ qOwMn9CFGLFmXWcIzmIVD2QiqdayyuTnCX13gdmXiyz2oyp9V9sK+WxaJrzOCjneP+f2fkQ==
+X-Gm-Gg: AY/fxX7Ta9RuYApbzusMcQSHadG1L4r/8HBFLZoZVSiGyI416JaISbR4olAKt3+lINq
+ XvTw1pWBVmOg0y7sskRxOioCU1v9B6cpu3NcWhD4fscAegpmDl3zPz5DM0byqgjuN95tN+P7XGk
+ q8PnB9QA37hIi9pKgCOOvY/Y8D/02aybA09zndh3KrMYOdLpSYrNnGvtGQ4Hca6LFYdnluOHmja
+ LQoWAJb8o7XWNTeV7zI2W0XX2smnNdDBRKmOxF9U1lRISJjlOQ/psySJzZuvNCULcBLKcctySfF
+ YbXCDFCahR3PFO58kNOSszNZHaDpaR+evskn9qA6DdJzxGVc9YOzZ3ed42CGv5O5ui/z7YupW4e
+ oYV+svKHhMDX6l20WZy6OCamT4ALgDrQ8O2RiyOr65JcS7hL8mlA=
+X-Received: by 2002:a05:6214:1242:b0:889:7c5b:8134 with SMTP id
+ 6a1803df08f44-89274367e44mr36520866d6.27.1768405629304; 
+ Wed, 14 Jan 2026 07:47:09 -0800 (PST)
+X-Received: by 2002:a05:6214:1242:b0:889:7c5b:8134 with SMTP id
+ 6a1803df08f44-89274367e44mr36520486d6.27.1768405628751; 
+ Wed, 14 Jan 2026 07:47:08 -0800 (PST)
+Received: from localhost (pool-100-17-20-16.bstnma.fios.verizon.net.
+ [100.17.20.16]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-890772682besm179575456d6.50.2026.01.14.07.47.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Jan 2026 07:47:08 -0800 (PST)
+Date: Wed, 14 Jan 2026 10:47:07 -0500
+From: Eric Chanudet <echanude@redhat.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Maxime Ripard <mripard@redhat.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] dma-buf: system_heap: account for system heap
+ allocation in memcg
+Message-ID: <urjkdpeypk2uln6lkfi3fd54aqjlrirq23idl7wrnouuhox5rh@amxjnxrqs4lq>
+References: <20260113-dmabuf-heap-system-memcg-v2-0-e85722cc2f24@redhat.com>
+ <20260113-dmabuf-heap-system-memcg-v2-2-e85722cc2f24@redhat.com>
+ <7a0fcf24-09de-4f6e-8a0b-7b631b1315bb@amd.com>
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 16:23:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
-X-Gm-Features: AZwV_QheoOAURJQgELAszsWwxDhSryviUTqnKNYp1N8Uc4IoJlBrWL72cLThIqU
-Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
-Subject: Re: [PATCH 21/22] arm64: dts: renesas: r9a09g047: Add DU{0,
- 1} and DSI nodes
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
- biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7a0fcf24-09de-4f6e-8a0b-7b631b1315bb@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: nHgcyXQFWQVVB7HqfyAfqJhk1CD6kkc1VRz4rCHSAVA_1768405629
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,124 +108,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tommaso,
+On Wed, Jan 14, 2026 at 11:38:27AM +0100, Christian König wrote:
+> On 1/13/26 22:32, Eric Chanudet wrote:
+> > The system dma-buf heap lets userspace allocate buffers from the page
+> > allocator. However, these allocations are not accounted for in memcg,
+> > allowing processes to escape limits that may be configured.
+> > 
+> > Pass __GFP_ACCOUNT for system heap allocations, based on the
+> > dma_heap.mem_accounting parameter, to use memcg and account for them.
+> > 
+> > Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> > ---
+> >  drivers/dma-buf/heaps/system_heap.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> > index 4c782fe33fd497a74eb5065797259576f9b651b6..139b50df64ed4c4a6fdd69f25fe48324fbe2c481 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -52,6 +52,8 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
+> >  static const unsigned int orders[] = {8, 4, 0};
+> >  #define NUM_ORDERS ARRAY_SIZE(orders)
+> >  
+> > +extern bool mem_accounting;
+> 
+> Please define that in some header. Apart from that looks good technically.
 
-On Wed, 26 Nov 2025 at 15:11, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add DU0, DU1, DSI nodes to RZ/RZG3E SoC DTSI.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Thank you for the review, I can move it to linux/dma-heap.h in a v3
+since it's intended for other heaps as well.
 
-Thanks for your patch!
+> But after the discussion it sounds more and more like we don't want to account device driver allocated memory in memcg at all.
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+From the threads in v1 I thought adding the switch left open a
+consideration to use memcg with driver allocated memory for userspace,
+even with the known caveats that implies. Re-reading your last reply[1],
+that's not quite the case it sounds like.
 
-> +
-> +               du0: du0@16460000 {
+Best,
 
-display@
+[1] https://lore.kernel.org/all/e38d87d3-a114-43f9-be93-03e9b9f40844@amd.com/
 
-> +                       compatible = "renesas,r9a09g047-du0";
-
-I doubt this compatible value will survive review...
-
-> +                       reg = <0 0x16460000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 882 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0xed>,
-> +                                <&cpg CPG_MOD 0xee>,
-> +                                <&cpg CPG_MOD 0xef>;
-> +                       clock-names = "aclk", "pclk", "vclk";
-> +                       power-domains = <&cpg>;
-> +                       resets = <&cpg 0xdc>;
-> +                       renesas,vsps = <&vspd0 0>;
-> +                       status = "disabled";
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       du0_out_dsi0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       du0_out_lvds0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@2 {
-> +                                       reg = <2>;
-> +                                       du0_out_lvds1: endpoint {
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +
-> +               du1: du1@16490000 {
-
-display@
-
-> +                       compatible = "renesas,r9a09g047-du1";
-
-I doubt this compatible value will survive review...
-
-> +                       reg = <0 0x16490000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 922 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0x1a8>,
-> +                                <&cpg CPG_MOD 0x1a9>,
-> +                                <&cpg CPG_MOD 0x1aa>;
-> +                       clock-names = "aclk", "pclk", "vclk";
-> +                       power-domains = <&cpg>;
-> +                       resets = <&cpg 0x11e>;
-> +                       renesas,vsps = <&vspd1 0>;
-> +                       status = "disabled";
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       du1_out_dsi0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       du1_out_lvds0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@2 {
-> +                                       reg = <2>;
-
-I expect this will become "port@3" and "reg = <3>" with a unified compatible
-value?
-
-> +                                       du1_out_rgb0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                       };
-> +               };
-> +
->                 fcpvd0: fcp@16470000 {
->                         compatible = "renesas,r9a09g047-fcpvd",
->                                      "renesas,fcpv";
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> Regards,
+> Christian.
+> 
+> 
+> > +
+> >  static int dup_sg_table(struct sg_table *from, struct sg_table *to)
+> >  {
+> >  	struct scatterlist *sg, *new_sg;
+> > @@ -320,14 +322,17 @@ static struct page *alloc_largest_available(unsigned long size,
+> >  {
+> >  	struct page *page;
+> >  	int i;
+> > +	gfp_t flags;
+> >  
+> >  	for (i = 0; i < NUM_ORDERS; i++) {
+> >  		if (size <  (PAGE_SIZE << orders[i]))
+> >  			continue;
+> >  		if (max_order < orders[i])
+> >  			continue;
+> > -
+> > -		page = alloc_pages(order_flags[i], orders[i]);
+> > +		flags = order_flags[i];
+> > +		if (mem_accounting)
+> > +			flags |= __GFP_ACCOUNT;
+> > +		page = alloc_pages(flags, orders[i]);
+> >  		if (!page)
+> >  			continue;
+> >  		return page;
+> > 
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Eric Chanudet
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
