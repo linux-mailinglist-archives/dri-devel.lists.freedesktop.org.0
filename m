@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFCED1D371
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837C3D1D377
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD92210E393;
-	Wed, 14 Jan 2026 08:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13B310E3A0;
+	Wed, 14 Jan 2026 08:47:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC73410E393
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:47:14 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-b7ffbf4284dso1221339566b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:47:14 -0800 (PST)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9FD010E3A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:47:16 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-64d02c01865so1845446a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:47:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768380433; x=1768985233;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BM8f7jH0taMvYnkaVr76MNplqROK/eiMRxPqXZYuq2Y=;
- b=wx2R0sfTJ+iClivOF7xjrEvTPjlN20M3oihhp6462hMvjVaJPdXINgMVgsNPvtXhB0
- fJYmEpgcAFXuqKlMwkk7dnlScJLImm5BPTJG51JMGLBFl1pXICmnezedL312tmIOe1kf
- x0+RkJGIHAjCWUjIic2IeSX52UfNitmaStIS5D7PyZcUWxCeb+YVwR43EJV8AZWCI8AD
- 88WMTasyM0PzdZTIzI+zXbOJaOnWzVPdE8Ngq5VhLBsVtdvCCDECzjJVNacKlgq6tU2K
- oDQK9Jwxxqwmz9ls6+sEDCXRcfXrA948LgHZn2HmOuOG+exByatrccnLgvkaZk8yK2Jy
- cfbQ==
+ d=1e100.net; s=20230601; t=1768380435; x=1768985235;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=s8k0pXMV1y8Iq4ImwhXf2ahDkvy9IQZJDHOXmgWjWKM=;
+ b=vv/f2b2V3p8k3YrjKtOuocogjwHuLpNbyxZphX8kgx0VeGaPZ98ozfBmAjsE/3OGPv
+ ZwhU8Ex6NPpfHtzxbdVdsjTCdJgNMfUt8U/S7ewffev2FIXoPd96qHQPWfSmKEOMktuD
+ /xYEWQNuu0cxFWP9EBl9Uk2ZfhzME4+/oaTV2GeET/sq4XVjKV1wuZglUITz8fD7ZCOI
+ 38ACilBRlBWOwBxtZs6xwZaZPocILpwuGMYy45kM7kYW8TylIFsYr20C26o3MqHURjUY
+ EuV4gLxTrTVBFV8tRZ9NS8Pi11KutGEBGi0hfDIG9hAoyLq97JsGuaoQc3PXxKVYIdBW
+ RIBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFrrJHiht5TCGYxacMvtMQmVBjCSE35xeUE2/uZbC9keA5J3Cn3mYebg2iGCKP9EBrr0XM1DFz+g0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7xhXHIoemwApeRJ70pjL1wexjSF0amwvh/24KSYOkEyzd3hFP
- UZ3zyjDoRtKCtoyxg6b4sJW/uKWlC0D//vB0uhHclGKoGr9OQF3Op3a2
-X-Gm-Gg: AY/fxX4g8yOINFyOLc1K2Y6N+24iGwu/8qNViuvfwRq994P++i5RDPs3iDIEV/b+h35
- kz0ekPwG5otYghsngWgS04FNHnS17gA88FzpXlzwXucuw/ISOE3Gvfu9elcfVERMPLQaI4mes+t
- Y4/14ADtXlNg7Ox8P6qjiT0orOrjNxKMOhDio/O4KuoX/IfomIDWYe37sxg09R16rq8pFgNAWDD
- ZOdLjnqM2ac8vhE0HkVr5xLPzvcpuiNNaWIVVjciH+lyx0AwesmUT0XABp6wZBJA8QdT+IjRKj1
- wiHADsrDeJetvD33fPZtPLP1VVZnv12hAWW5bu2MHJ3qmBtQQTmKtK+30eIzSC7q36h5O05G6vt
- +hmVjdpgQt+a9BvESVHkuFLiLZ681FBxQut5pWXY/HJbg4mltRCjGpx5p88zeWbYHO8EwtLjzw0
- 9HxM6KqqemrTU814pEg1YhmA0nXzOvAKPfW2UvwmzwgYMyyA==
-X-Received: by 2002:a17:907:2da0:b0:b83:972c:77fe with SMTP id
- a640c23a62f3a-b876770a4famr96020166b.2.1768380432976; 
- Wed, 14 Jan 2026 00:47:12 -0800 (PST)
+ AJvYcCWzBapTej+appumSCCBhmSWqkzBbvOe0WXuOutpNn8DdXlTWM4rWuX3pFIhtUREUgTAETp5sRMfNAY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxGjhxC2alx65W/RVkpCV5VA6M5lMuEkpAqZq+5rofL1/pajbw
+ oX8vIGK3Lg1ibkAcWCWNmm47fBjmAn/woArE8aapr3ViZOzEFlRkuTA3
+X-Gm-Gg: AY/fxX7PnwDkops7Qcm/a1p/C4pBX00wBd23gxtqFaShvdBe8OsCfwHHbS05TfscLsJ
+ pddxkjlGYyH16o2+9qw2iisCl1TeAfqszUMNiCC/yCk4Y2Hbi1Lz3DwCkRy4PI64nCPPM1V6b0a
+ cO5FSx5m6YV+6o7Rc4I+/BaYuvA8xie3nvlzoKW5UACDtSrqOtP4ldDWFPL37uNAm9Tqm60FcSN
+ PJJ+nZb86PW5Heten7yVIYMTayAE2cuk73j5251A7fCbWsaE5EsRh+kDGpiFYD4GfMM9KOn9qB8
+ phKjsJ39wq8MjiyLVwVtkuStikhc5rCUiml+Qx3CAA6bJeo6teqFvHiCEC1rdqrn3ivwH443zlT
+ SkKOznR5F/wRLT7c/YhaKnW3wuO2oMew+QVoLLk6qPRSjDnOeD7GYLCNsml9DHa9F20BScuHD/D
+ k08BrT4K4bEes0g0lnoMKKSpWS/d7ZLh0YAgmFKVLoVece58FKzASdDifk
+X-Received: by 2002:a05:6402:1474:b0:64b:82c8:e7b7 with SMTP id
+ 4fb4d7f45d1cf-653ec45985emr1298237a12.24.1768380435183; 
+ Wed, 14 Jan 2026 00:47:15 -0800 (PST)
 Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.10
+ 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jan 2026 00:47:12 -0800 (PST)
+ Wed, 14 Jan 2026 00:47:14 -0800 (PST)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: [PATCH v2 0/5] New DRM accel driver for Texas Instruments' C7x
- DSPs
-Date: Wed, 14 Jan 2026 09:46:47 +0100
-Message-Id: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
+Date: Wed, 14 Jan 2026 09:46:48 +0100
+Subject: [PATCH v2 1/5] arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add
+ memory pool for DSP i/o buffers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPdXZ2kC/2WMQQ7CIBBFr9LMWgwDxgZX3sN0QcoosygYoERtu
- LvYrcv3/8vbIFNiynAZNkhUOXMMHdRhgNnb8CDBrjMoqc4SUYvi7UJZaH1CNVrlDDro8jPRnV9
- 76DZ19pxLTO+9W/G3/iUqCimM0Ub2w+hxvpa40Fr5E3M8Biowtda+r3H/yaIAAAA=
-X-Change-ID: 20260113-thames-334127a2d91d
+Message-Id: <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
+In-Reply-To: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
  Randolph Sapp <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, 
  Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
@@ -91,70 +89,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds a new DRM/Accel driver that supports the C7x DSPs
-inside some Texas Instruments SoCs such as the J722S. These can be used
-as accelerators for various workloads, including machine learning
-inference.
-
-This driver controls the power state of the hardware via remoteproc and
-communicates with the firmware running on the DSP via rpmsg_virtio.  The
-kernel driver itself allocates buffers, manages contexts, and submits
-jobs to the DSP firmware. Buffers are mapped by the DSP itself using its
-MMU, providing memory isolation among different clients.
-
-The source code for the firmware running on the DSP is available at:
-https://gitlab.freedesktop.org/tomeu/thames_firmware/.
-
-Everything else is done in userspace, as a Gallium driver (also called
-thames) that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
-
-If there is more than one core that advertises the same rpmsg_virtio
-service name, the driver will load balance jobs between them with
-drm-gpu-scheduler.
-
-Userspace portion of the driver: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39298
+This memory region is used by the DRM/accel driver to allocate addresses
+for buffers that are used for communication with the DSP cores and for
+their intermediate results.
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
-Changes in v2:
-- Add thames_accel.h UAPI header (Robert Nelson).
-- Link to v1: https://lore.kernel.org/r/20260113-thames-v1-0-99390026937c@tomeuvizoso.net
+ arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
----
-Tomeu Vizoso (5):
-      arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add memory pool for DSP i/o buffers
-      accel/thames: Add driver for the C7x DSPs in TI SoCs
-      accel/thames: Add IOCTLs for BO creation and mapping
-      accel/thames: Add IOCTL for job submission
-      accel/thames: Add IOCTL for memory synchronization
+diff --git a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
+index 3fbff927c4c08bce741555aa2753a394b751144f..b80d2a5a157ad59eaed8e57b22f1f4bce4765a85 100644
+--- a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
+@@ -42,6 +42,11 @@ c7x_0_memory_region: memory@a3100000 {
+ 		no-map;
+ 	};
+ 
++	c7x_iova_pool: iommu-pool@a7000000 {
++		reg = <0x00 0xa7000000 0x00 0x18200000>;
++		no-map;
++	};
++
+ 	c7x_1_dma_memory_region: memory@a4000000 {
+ 		compatible = "shared-dma-pool";
+ 		reg = <0x00 0xa4000000 0x00 0x100000>;
+@@ -151,13 +156,15 @@ &main_r5fss0_core0 {
+ &c7x_0 {
+ 	mboxes = <&mailbox0_cluster2 &mbox_c7x_0>;
+ 	memory-region = <&c7x_0_dma_memory_region>,
+-			<&c7x_0_memory_region>;
++			<&c7x_0_memory_region>,
++			<&c7x_iova_pool>;
+ 	status = "okay";
+ };
+ 
+ &c7x_1 {
+ 	mboxes = <&mailbox0_cluster3 &mbox_c7x_1>;
+ 	memory-region = <&c7x_1_dma_memory_region>,
+-			<&c7x_1_memory_region>;
++			<&c7x_1_memory_region>,
++			<&c7x_iova_pool>;
+ 	status = "okay";
+ };
 
- Documentation/accel/thames/index.rst               |  28 ++
- MAINTAINERS                                        |   9 +
- .../boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi      |  11 +-
- drivers/accel/Kconfig                              |   1 +
- drivers/accel/Makefile                             |   3 +-
- drivers/accel/thames/Kconfig                       |  26 ++
- drivers/accel/thames/Makefile                      |  11 +
- drivers/accel/thames/thames_core.c                 | 161 +++++++
- drivers/accel/thames/thames_core.h                 |  53 +++
- drivers/accel/thames/thames_device.c               |  93 +++++
- drivers/accel/thames/thames_device.h               |  46 ++
- drivers/accel/thames/thames_drv.c                  | 180 ++++++++
- drivers/accel/thames/thames_drv.h                  |  21 +
- drivers/accel/thames/thames_gem.c                  | 405 ++++++++++++++++++
- drivers/accel/thames/thames_gem.h                  |  45 ++
- drivers/accel/thames/thames_ipc.h                  | 204 +++++++++
- drivers/accel/thames/thames_job.c                  | 463 +++++++++++++++++++++
- drivers/accel/thames/thames_job.h                  |  51 +++
- drivers/accel/thames/thames_rpmsg.c                | 276 ++++++++++++
- drivers/accel/thames/thames_rpmsg.h                |  27 ++
- include/uapi/drm/thames_accel.h                    | 189 +++++++++
- 21 files changed, 2300 insertions(+), 3 deletions(-)
----
-base-commit: 27927a79b3c6aebd18f38507a8160294243763dc
-change-id: 20260113-thames-334127a2d91d
-
-Best regards,
 -- 
-Tomeu Vizoso <tomeu@tomeuvizoso.net>
+2.52.0
 
