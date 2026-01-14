@@ -2,92 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06592D1EDB3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364C3D1ED3E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:40:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8F6610E203;
-	Wed, 14 Jan 2026 12:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E5510E128;
+	Wed, 14 Jan 2026 12:40:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Dm2TZgAR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A706210E203
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:44:15 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-81f3fcdb556so2166183b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 04:44:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768394655; x=1768999455;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hj+1g0xoern/NZa0KoVGvEg+BidqfC0JY8V0QW/WQj4=;
- b=ZmOZ8fRRq9Wzzt509c/racPj7/004+xrUPEhkiJGeSRVlEOEosPZBRJIH4dyx+2qu6
- j9tUCvUEt8K//RGCnjwqw5h0DwhJyGgAqr8g8LHrG58O3HiKG0u1yH4aiDy5bRCGoJqi
- kNCZxkeTg+15CLQVYa4mWD7EbR2hsYgD9vYOyfcTy7KGguwRw5yu6IYAG87eXIRkS0lR
- 0CPZ4zVp35tO665533rjdxFmYBPhoWMm6xViMGcS4Iy8c079inAvUznnPpyIHG79j6Vj
- Gmy9eo5+t1eA9wY9fIqJ6YqwVW9CjB3Zmj0Yhj0Z8FntM/xsOYsjx2rZhA3b6JxKC4xQ
- 9Tng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURPuzx61/CQRwFkgzjCyDFblCaI6GjwSXBe5twmtteZudwiJ+W86Rv/F4Lrh+XPNewz/IsDyDx6LM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxueDt03SV7DZTwu6373aL2dK0iiyS6P9dqTDdaE8oZewL+0wTf
- 84qPfPWDKswogEgva7Vbx0cmyJHvEjy2ruD34gdZEu3U1QtkD0Rj1KzbmV9cfC4p
-X-Gm-Gg: AY/fxX4wU+DuACJLBlqQ55nCd4LxUzlDuFKEi0Pz754v2HeLqhXk/hyKyjpHNxo2Cp+
- XwEL+Kr7a25ykpi2FWoKd862XgddMMybrsP+QgUa7dkpcwMnkbId5oay0jlcQpXSLvZ1dttuVxW
- skOuFjYcEPWgOnKPTEqkYQ/77hd880AGo2OJt5FUZtXvme1QTYQAzciSHklimKpuxJXvfkXvRtk
- 2plmz/Bd/acGR8RLvsDZTta9rH8GNUG8GQAmaNLA39EnM+VG2R92x1EIgwJHmlqouN2UiB3JVaG
- r0Dx8RVxLmVfemCwaglpNhjRbgzh+ukbEBudTey0AG6L3jHovfXJbRr1E37n2j0+mRYqq6wM67j
- GMdYrdcU3VmZKIiASqAoc60LMFYrn1q4E97zO1nyTI0W5GUIMlEbGPBOQ+lywkDjZWGhIpTxz7w
- YwcigmeF8Ugmlt5k+0jIpfz+R/GftCvN8D6pTyRW7lVYV0s1s=
-X-Received: by 2002:a05:6a20:3d90:b0:35e:7605:56a4 with SMTP id
- adf61e73a8af0-38bed1c471dmr3061246637.51.1768394655064; 
- Wed, 14 Jan 2026 04:44:15 -0800 (PST)
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com.
- [74.125.82.47]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c4cca06b77bsm22804504a12.33.2026.01.14.04.44.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 04:44:14 -0800 (PST)
-Received: by mail-dl1-f47.google.com with SMTP id
- a92af1059eb24-12336c0a8b6so371801c88.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 04:44:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUX4CsD4i/bB8KgvJ5TWBdMOicl3gpSP/gVBD80VMpyAVmnVgtizaiH7PyaduxrUGYgHIBKgLtpNlc=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:3e0f:b0:5ea:67f4:c1ad with SMTP id
- ada2fe7eead31-5f17f5c4c79mr942660137.21.1768394289171; Wed, 14 Jan 2026
- 04:38:09 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <20251203-shrew-of-original-tempering-8a8cfc@quoll>
- <aTA-Hj6DvjN4zeK6@tom-desktop>
-In-Reply-To: <aTA-Hj6DvjN4zeK6@tom-desktop>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 13:37:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
-X-Gm-Features: AZwV_Qj82EmcdFo9GBygajeXpLdMczZEl-yzaqrHERtstQ_T42ZqMwts5Zu_4K4
-Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas, rzg2l-du: Add support
- for RZ/G3E SoC
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com, 
- linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB3C10E128
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:40:37 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4drm1F5T3Cz9v3Z;
+ Wed, 14 Jan 2026 13:40:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1768394434; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YYwk5I7lCjtpTJxINlVPUjkdn63pKMy0eMV22ROGxik=;
+ b=Dm2TZgAR7SeAtIzgfB4iUY8y+nae71U4SBJLnH4xKBERkjFeAOQ4Vbbh8cw4dAjtdIotE2
+ pOk82rr3hoT9fx9YP1lHVY2YqsSca0+hHU4umkuTbpILHEu1IAHzMKrR2eqXCmI53hIYfr
+ +TzXAyV+VSJEJtjTkiS5rCWl2oSMtkcfl899ctRCxN+EQX2nuD1Rs54GluqxHmDKK/gHhy
+ hqVUqmtmUtPiP5fQhy/rfIi3lYcpr/p/ZPkk1FUbZzkx+UmiUTB5U6Tgg1IqZK3mQwczrm
+ hqQJfXFIRZFpsQteyldJs3an+dC3DdV/Lo+I0ibDBzjNCRfCvY6Fs/GdP34eOQ==
+Message-ID: <6afa04f1f5f0908216e9b2bdca26cdd5954ddf69.camel@mailbox.org>
+Subject: Re: [PATCH 10/10] drm/sched: use inline locks for the
+ drm-sched-fence v2
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ phasta@kernel.org, tursulin@ursulin.net, matthew.brost@intel.com, 
+ sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Date: Wed, 14 Jan 2026 13:40:28 +0100
+In-Reply-To: <b9c8ec64-ed96-4eaf-9e30-a98dfdd26b5a@gmail.com>
+References: <20260113152125.47380-1-christian.koenig@amd.com>
+ <20260113152125.47380-11-christian.koenig@amd.com>
+ <c8c362d73d4f2cff9be685184186a6f3368939f1.camel@mailbox.org>
+ <b9c8ec64-ed96-4eaf-9e30-a98dfdd26b5a@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: 19447328edda3a80dec
+X-MBO-RS-META: uoerzmctcnsz5dy4t6i8okrcdaps8uxf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,58 +66,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tommaso,
+On Wed, 2026-01-14 at 12:30 +0100, Christian K=C3=B6nig wrote:
+> On 1/13/26 17:12, Philipp Stanner wrote:
+> > On Tue, 2026-01-13 at 16:16 +0100, Christian K=C3=B6nig wrote:
+> > > Using the inline lock is now the recommended way for dma_fence implem=
+entations.
+> > >=20
+> > > For the scheduler fence use the inline lock for the scheduled fence p=
+art
+> > > and then the lock from the scheduled fence as external lock for the f=
+inished fence.
+> > >=20
+> > > This way there is no functional difference, except for saving the spa=
+ce
+> > > for the separate lock.
+> > >=20
+> > > v2: re-work the patch to avoid any functional difference
+> >=20
+> > *cough cough*
+> >=20
+> > >=20
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/scheduler/sched_fence.c | 6 +++---
+> > > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ----
+> > > =C2=A02 files changed, 3 insertions(+), 7 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/dr=
+m/scheduler/sched_fence.c
+> > > index 724d77694246..112677231f9a 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> > > @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(str=
+uct drm_sched_entity *entity,
+> > > =C2=A0
+> > > =C2=A0	fence->owner =3D owner;
+> > > =C2=A0	fence->drm_client_id =3D drm_client_id;
+> > > -	spin_lock_init(&fence->lock);
+> > > =C2=A0
+> > > =C2=A0	return fence;
+> > > =C2=A0}
+> > > @@ -230,9 +229,10 @@ void drm_sched_fence_init(struct drm_sched_fence=
+ *fence,
+> > > =C2=A0	fence->sched =3D entity->rq->sched;
+> > > =C2=A0	seq =3D atomic_inc_return(&entity->fence_seq);
+> > > =C2=A0	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_schedul=
+ed,
+> > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_c=
+ontext, seq);
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, entity->fence_context, =
+seq);
+> > > =C2=A0	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished=
+,
+> > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_c=
+ontext + 1, seq);
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_spinlock(&fence->sc=
+heduled),
+> >=20
+> > I think while you are correct that this is no functional difference, it
+> > is still a bad idea which violates the entire idea of your series:
+> >=20
+> > All fences are now independent from each other and the fence context =
+=E2=80=93
+> > except for those two.
+> >=20
+> > Some fences are more equal than others ;)
+>=20
+> Yeah, I was going back and forth once more if I should keep this patch at=
+ all or just drop it.
+>=20
+> > By implementing this, you would also show to people browsing the code
+> > that it can be a good idea or can be done to have fences share locks.
+> > Do you want that?
+>=20
+> Good question. For almost all cases we don't want this, but once more the=
+ scheduler is special.
+>=20
+> In the scheduler we have two fences in one, the scheduled one and the fin=
+ished one.
+>=20
+> So here it technically makes sense to have this construct to be defensive=
+.
+>=20
+> But on the other hand it has no practical value because it still doesn't =
+allow us to unload the scheduler module. We would need a much wider rework =
+for being able to do that.
+>=20
+> So maybe I should just really drop this patch or at least keep it back un=
+til we had time to figure out what the next steps are.
+>=20
+> > As far as I have learned from you and our discussions, that would be a
+> > very bombastic violation of the sacred "dma-fence-rules".
+>=20
+> Well using the inline fence is "only" a strong recommendation. It's not a=
+s heavy as the signaling rules because when you mess up those you can easil=
+y kill the whole system.
+>=20
+> > I believe it's definitely worth sacrificing some bytes so that those
+> > two fences get fully decoupled. Who will have it on their radar that
+> > they are special? Think about future reworks.
+>=20
+> This doesn't even save any bytes, my thinking was more that this is the m=
+ore defensive approach should anybody use the spinlock pointer from the sch=
+eduler fence to do some locking.
+>=20
 
-On Wed, 3 Dec 2025 at 14:42, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> On Wed, Dec 03, 2025 at 09:23:53AM +0100, Krzysztof Kozlowski wrote:
-> > On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> > > The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
-> > > Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
-> > > Processor (VSPD), and Display Unit (DU).
-> > >
-> > >  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> > >  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> > >
-> > > Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> > > and 'renesas,r9a09g047-du1'.
-> >
-> > LCDC0/1 but compatibles du0/du1...
-> >
-> > What are the differences between DU0 and DU1? Just different outputs? Is
-> > the programming model the same?
->
-> The hardware configurations are different: these are two distinct hardware blocks.
->
-> Based on the block diagrams shown in Figures 9.4-2 (LCDC1) and 9.4-1 (LCDC0),
-> the only difference concerns the output, but this variation is internal to the
-> hardware blocks themselves.
-> Therefore, LCDC0 and LCDC1 are not identical blocks, and their programming models
-> differ as a result.
->
-> In summary, although most of the internal functions are the same, the two blocks
-> have output signals connected to different components within the SoC.
-> This requires different hardware configurations and inevitably leads to different
-> programming models for LCDC0 and LCDC1.
+Using the scheduler's internal locks is not legal (anymore). With the
+sched_fence it's a bit special though because that is the
+synchronization object for the driver, actually. So I don't know
+either.
 
-Isn't that merely an SoC integration issue?
-Are there any differences in programming LCDC0 or LCDC1 for the
-common output types supported by both (single channel LVDS and 4-lane
-MIPI-DSI)?
+I would say either separate the locks, or drop the patch as you
+suggest.
 
-Of there are no such differences, both instances should use the same
-compatible value.
 
-Gr{oetje,eeting}s,
+P.
 
-                        Geert
+> > Besides that, no objections from my side.
+>=20
+> Thanks,
+> Christian.
+>=20
+> >=20
+> >=20
+> > P.
+> >=20
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 entity->fence_context + 1, se=
+q);
+> > > =C2=A0}
+> > > =C2=A0
+> > > =C2=A0module_init(drm_sched_fence_slab_init);
+> > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.=
+h
+> > > index 78e07c2507c7..ad3704685163 100644
+> > > --- a/include/drm/gpu_scheduler.h
+> > > +++ b/include/drm/gpu_scheduler.h
+> > > @@ -297,10 +297,6 @@ struct drm_sched_fence {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * belongs to.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > =C2=A0	struct drm_gpu_scheduler	*sched;
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /**
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @lock: the lock u=
+sed by the scheduled and the finished fences.
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > -	spinlock_t			lock;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /**
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @owner: job =
+owner for debugging
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >=20
+>=20
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
