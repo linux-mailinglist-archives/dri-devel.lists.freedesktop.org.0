@@ -2,94 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F49D1BC25
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 00:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B17D1BC43
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 01:00:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614EC10E197;
-	Tue, 13 Jan 2026 23:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D3B10E568;
+	Wed, 14 Jan 2026 00:00:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RUdyrFge";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uc+7oYGl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0210410E197
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 23:56:21 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-bcfd82f55ebso129835a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 15:56:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768348581; x=1768953381; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lTJ4ynp0616z3o5YCO8drlc0gRhwdrvhHZGbi702ovM=;
- b=RUdyrFge0LwQIC/k4hUzLWcvWGXiJfD07/54WcMMgc3jOup70gI4OWXxw6PSRXKaQm
- g4LHFvQGkqtkgvmV5QBIDodV9unS2QKtm5xqe0DyVyR0dmnHXSnQufigmQ5TdUbVg9OG
- tugJ/Pr3/EYAKlBr0M7QNum7MZb/JOtp06/2wh3bCMRv8rW1uUwvLzfpUfPPtgdQ5ZFI
- PQsgHQOSIZvm1DvPmkcgBw6+HStTSTwrqASfQCfTJaoMGRW3g/NLIggSEZ8KNZU7dVLu
- TiBbPdtfStL5/lqaXzVMCBzpyBatiftEeFV/f2uIkZeL11QsdT8AP7L/SL/9AL9jaKM+
- 6DIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768348581; x=1768953381;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lTJ4ynp0616z3o5YCO8drlc0gRhwdrvhHZGbi702ovM=;
- b=qKlvcn8kO6uO2J4gAKuEWLftTw4/MYjKmnxkd+mOafRjuqIgPljg8bJwPWFLnFiC/T
- uVwf/NRGX7a/9QTRCPrimj18YhQ/sQ6tMTAn1ADP9WjuxDC5D1Jqzo2TEcqN8izU0F6f
- ceX/S4StoaFkRzqaOD0yBso2uIPzzZw2637BmnRITt0zeojLKtfBI6ABsFwihOiDHDUd
- Ch42YSiel/clMGahxh1ezOAGbGPQvZuOKGGRN27aOW+i6l9JdKBArV059VqAwFK5Hb5V
- zX87kk84xqB3OuXGVF6OwM1S6AHcUUgP9mc6GsvWU0T2houNUlZrGglQqBOtcg+FLD2n
- 0FwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUzL5woP78hqcaeTlzak1ty/GIR3Znj0GKySEds0gYkcD3N07Lqris5l+Y85s81DXuJ+rYd4kcOxLc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1aENwIfUGdafx/rBNV6eqdWJfGvoa1Fkk1Freb+JhMuilZ7wx
- A/0DYDsj2Aw06E27kRqLwGFvMwuXKMKhCVIo13bSBa5i2bYCU/FMLV7q
-X-Gm-Gg: AY/fxX5x7g5L/m2RXRsATqxg6qmMBbkoL+7LHueZk36Khe6uLr23ZP8ycShMSzItWkC
- wEkp3iKaRoT9fFQGN9m1RNSThyhHgmoXNtppAC+z30etZ4e7rKFGzmBzvrF9dmiMJKXFmhiqXvs
- CzLaN5vW7LXXFVq7la37Zt5u9LiJzFF/mpyOLBaQ8hQvM10zzTiItg9A/WAPiQX3HhMzA1feEFz
- 2gqCe9oMCGMoz0finkSKw02Pz3fAhui9dtQEEBX7O+Xv+vSFJSAVdDgyXPFskBpqr7CohFBFYn0
- cCfwSZiUtlDPjEvk6j5Uaw7yEZRAx3/7fGoW3iwwEgbCh3aa4xaUvThn4mlqZq+rM9JXQvdfFo8
- fC5bbXGDbalmP1uBudJ91Ro1AQ8G4i28m/Or1WDlXkLFiFbtszWf0YHIerEVHq8PxxYWPJm8Sxe
- lE9hOkKBE=
-X-Received: by 2002:a17:903:1246:b0:295:4d97:84f9 with SMTP id
- d9443c01a7336-2a599e24201mr6546515ad.26.1768348581296; 
- Tue, 13 Jan 2026 15:56:21 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3cd4be5sm213300025ad.99.2026.01.13.15.56.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 15:56:20 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id D0A1042BEE9B; Wed, 14 Jan 2026 06:56:17 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/bridge: Separate of_drm_find_bridge() preconditions list
-Date: Wed, 14 Jan 2026 06:56:15 +0700
-Message-ID: <20260113235615.11124-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66E9B10E37F;
+ Wed, 14 Jan 2026 00:00:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DE8AB43EFC;
+ Wed, 14 Jan 2026 00:00:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49891C116C6;
+ Wed, 14 Jan 2026 00:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768348843;
+ bh=bXLpO8c9ZBsExdS2sHYGwKNmU+WKPGSgvNzVCoVhZYw=;
+ h=From:Date:Subject:To:Cc:From;
+ b=uc+7oYGl75Lz8ht0DyVesshS8Yxx8aV8Q5h8oU6t3D0pXEnrrYsOoDnIfNxYZWEAK
+ sKLjVwY+F26AjkDiYsPs48ilC/mpxdZyeu771qPN7rWgSJcQ1bVuFnzq3XgNarTihr
+ ZFZJQQqvrJqqVsZHSZxnWhVRAbMdOS3qo9R5/+gdHfVIoZxWnLLJ5HlPe1TaK4o2D/
+ JCzZyekCygyNVTctCkGUqRkXalu1iLiV5xRi/6MwoOMJd+36uBH5LQv21/gOHG2efc
+ vfyzx0VI86PRsewPyNn8IvmFshLL1Z2boB4YULGLO/DkLa46lkYZN0OpXq2dtODf0z
+ zqjvzP5w9bIRA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Tue, 13 Jan 2026 17:00:31 -0700
+Subject: [PATCH v2] drm/msm/dp: Avoid division by zero in
+ msm_dp_ctrl_config_msa()
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1531; i=bagasdotme@gmail.com;
- s=Zp7juWIhw0R1; h=from:subject;
- bh=CsKxxMggD5gAIH4iN5w7k0YXhOegkNTLZgVCXdo1cIY=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJlptw0PLyy8EmhwcM7b0Ivhqe3FMgvO6Mk/WT5Dqecca
- +rbdSyKHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZhIjRLDX2HVhiW1XvmNO77f
- D7WYwyPkMOuny7pdd0+q5218eCzypTYjw6yukFmXZe66/5oQVZB/UWvKjmVXbFaWlEbOjJoezyb
- jygMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260113-drm-msm-dp_ctrl-avoid-zero-div-v2-1-f1aa67bf6e8e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OQQ6CMBBFr0Jm7ZgWlBBX3sMQQ9sRRoGSKTYq4
+ e4CXsDlS17++xMEEqYAp2QCociBfb9AukvANlVfE7JbGFKV5kqrAp102IUO3XC1o7RYRc8OPyQ
+ eHUc0dHT2oKyxuoBlZBC68WsLXMofh6e5kx3X1dVoOIxe3tuDqFfv71jUqDGvCkfGmkxl2flB0
+ lO791JDOc/zF71BhHzfAAAA
+X-Change-ID: 20260108-drm-msm-dp_ctrl-avoid-zero-div-be5dc40cbc18
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, kernel test robot <lkp@intel.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3616; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=bXLpO8c9ZBsExdS2sHYGwKNmU+WKPGSgvNzVCoVhZYw=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJlpd1aoxTJt9GOdJFio/Oh2+SfpdJ6yrfuVjVbubGvh0
+ dnYotjfUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACZi2cvIcKvp5KZbV//qR/CL
+ Hz0W67YnpkImbJ//Xhklhe+K32MF5jMyzCy40il6SIfjYPjSRomXN1ISjsyPvPzoYOPOdStPzrq
+ vxQsA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,36 +77,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sphinx reports htmldocs warnings:
+An (admittedly problematic) optimization change in LLVM 20 [1] turns
+known division by zero into the equivalent of __builtin_unreachable(),
+which invokes undefined behavior if it is encountered in a control flow
+graph, destroying code generation. When compile testing for x86_64,
+objtool flags an instance of this optimization triggering in
+msm_dp_ctrl_config_msa(), inlined into msm_dp_ctrl_on_stream():
 
-Documentation/gpu/drm-kms-helpers:197: drivers/gpu/drm/drm_bridge.c:1521: ERROR: Unexpected indentation. [docutils]
-Documentation/gpu/drm-kms-helpers:197: drivers/gpu/drm/drm_bridge.c:1523: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+  drivers/gpu/drm/msm/msm.o: warning: objtool: msm_dp_ctrl_on_stream(): unexpected end of section .text.msm_dp_ctrl_on_stream
 
-Fix them by separating preconditions list in of_drm_find_bridge()
-kernel-doc comment from previous paragraph.
+The zero division happens if the else branch in the first if statement
+in msm_dp_ctrl_config_msa() is taken because pixel_div is initialized to
+zero and it is not possible for LLVM to eliminate the else branch since
+rate is still not known after inlining into msm_dp_ctrl_on_stream().
 
-Fixes: 9da0e06abda87b ("drm/bridge: deprecate of_drm_find_bridge()")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20260105155735.3b4012b6@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Transform the if statements into a switch statement with a default case
+with the existing error print and an early return to avoid the invalid
+division. Add a comment to note this helps the compiler, even though the
+case is known to be unreachable. With this, pixel_dev's default zero
+initialization can be dropped, as it is dead with this change.
+
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+Link: https://github.com/llvm/llvm-project/commit/37932643abab699e8bb1def08b7eb4eae7ff1448 [1]
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601081959.9UVJEOfP-lkp@intel.com/
+Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+- Transform existing if statement structure into a switch case with a
+  default case that early returns, avoiding the invalid division
+  (Konrad, Dmitry). Add a commment about the reachability of the default
+  case.
+- Drop the default zero initialization of pixel_div, as it is no longer
+  used due to the new switch statement.
+- Link to v1: https://patch.msgid.link/20260108-drm-msm-dp_ctrl-avoid-zero-div-v1-1-6a8debcb3033@kernel.org
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 6dcf8f6d3ecfa6..b788c4279add5b 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1518,6 +1518,7 @@ EXPORT_SYMBOL(of_drm_find_and_get_bridge);
-  * The bridge returned by this function is not refcounted. This is
-  * dangerous because the bridge might be deallocated even before the caller
-  * has a chance to use it. To use this function you have to do one of:
-+ *
-  * - get a reference with drm_bridge_get() as soon as possible to
-  *   minimize the race window, and then drm_bridge_put() when no longer
-  *   using the pointer
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index cbcc7c2f0ffc..94411870a5e0 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -2395,20 +2395,32 @@ static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
+ 			       bool is_ycbcr_420)
+ {
+ 	u32 pixel_m, pixel_n;
+-	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
++	u32 mvid, nvid, pixel_div, dispcc_input_rate;
+ 	u32 const nvid_fixed = DP_LINK_CONSTANT_N_VALUE;
+ 	u32 const link_rate_hbr2 = 540000;
+ 	u32 const link_rate_hbr3 = 810000;
+ 	unsigned long den, num;
+ 
+-	if (rate == link_rate_hbr3)
++	switch (rate) {
++	case link_rate_hbr3:
+ 		pixel_div = 6;
+-	else if (rate == 162000 || rate == 270000)
+-		pixel_div = 2;
+-	else if (rate == link_rate_hbr2)
++		break;
++	case link_rate_hbr2:
+ 		pixel_div = 4;
+-	else
++		break;
++	case 162000:
++	case 270000:
++		pixel_div = 2;
++		break;
++	default:
++		/*
++		 * This cannot be reached but the compiler is not able to know
++		 * that statically so return early to avoid a possibly invalid
++		 * division.
++		 */
+ 		DRM_ERROR("Invalid pixel mux divider\n");
++		return;
++	}
+ 
+ 	dispcc_input_rate = (rate * 10) / pixel_div;
+ 
 
-base-commit: c40b50c3cfbe274f054c6a2d2fa62cd7c4650460
+---
+base-commit: 66691e272e40c91305f1704695e0cb340cd162ff
+change-id: 20260108-drm-msm-dp_ctrl-avoid-zero-div-be5dc40cbc18
+
+Best regards,
 -- 
-An old man doll... just what I always wanted! - Clara
+Nathan Chancellor <nathan@kernel.org>
 
