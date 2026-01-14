@@ -2,142 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CF4D20A96
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 18:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A31D20AB4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 18:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E25CA10E11E;
-	Wed, 14 Jan 2026 17:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5B110E61F;
+	Wed, 14 Jan 2026 17:53:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="kbU4u535";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="u11fS0Mh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1860D10E11E
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 17:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1768413125; x=1769017925; i=markus.elfring@web.de;
- bh=4+GzhEB3tryEr+JL1CkKR8i+GAo7vGKj/DIOKGFcAeY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=kbU4u535kWEOaVqR/4eqIHaX8i/jVHYgSg3KyE7BNOXIE05A67H/5hi/+SLbEwYd
- XCZiigIhJPInFCe4mjmfoHwVaWKh+htKI3dl9u2flGp5ZIwSdEepawXJPiAGyCHVC
- AaZ32dt2LsnDfVt13iienaN+uVNAs1fzL/GdaOEqSwKm6Tk1zEZ+jjwOzDnb8slOr
- 6n2UDY9jgRl4B/+QJwit6o7baE6n6ySgaJiWZn5RB1pRZoeA/GR/BkCZotSYPEG3h
- DwGVxXVyl9rX5BnYAdspIIYk6VblCejuTH9lTOE3QP07JLFxg6QKcrMwcwXeteRMH
- B/qztrmsAhOwtimmww==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.218]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1McIga-1wGFCb2Gp2-00eLSM; Wed, 14
- Jan 2026 18:52:05 +0100
-Message-ID: <b356d642-6cb9-4c64-a66e-26b6e6fcd19c@web.de>
-Date: Wed, 14 Jan 2026 18:51:59 +0100
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazhn15013060.outbound.protection.outlook.com
+ [52.102.133.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C95AB10E61F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 17:53:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SzFzslyThE5ssibh8jele4hdAaxl8V8lbxZMRDDCW0Y/ExN6qzvMgoYYuwiFj+vgjbU2QBD2CBNU46DuvVjaKXKWMDKe9vj+MtQg97gxNvScsv/A8Cwz3gJdkDkDLe3CQ/BXgPJQ6NtlbdKTuhdSI2x9tbBiOOhZ7BmclthDzazQ103FgS/zMfe6hNd3AIjxKdV+1hzdBjReIsOjqoy54TzsDxDP9xrLZuU8tU8lRK0b3OBRtQHwl3J2hQ4b3xSw3NAdObVRDxLLrRoiUSJUGxT+2e9MC8NGc4RBruCkrHt5pjS84S8OsIuay34D5AM9nDRR/8LKWJ/G5QtdRkXwqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JQnvywff7wkwvXpqcEbTNMsS7mGtvWlFE6qbpAYERng=;
+ b=xFKMT+NzFyiGyQUcDAVxdQ8kN4S3uXXixXB8kUbMs1QDMcNefAGSDSU3jP0ne1FTjJFH4ON59m1Qyz5o2mbqXx7moxwrensjsYK9wi1wEYNxpsBnqOu0g/MC4lcbFjXIACAekrBzoCxg98gitNlZlLRuasyOzxKLPjWjc0jyxKTMoqUK/QWRt+MX/aZz08Iz9U2cqY/yeOWjgg0k6tTSx0wui4FjeIwOC6D2wzlpkQpf9nrmVttNXLhH5gQFkTIuqemVsxJk2jynXEnqcvoRMn7VWi5R/BylpVklWejGr1r7MXLalvfH9fryfsvH4AQ1IkYbVao3VaSQAufwGKPRMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JQnvywff7wkwvXpqcEbTNMsS7mGtvWlFE6qbpAYERng=;
+ b=u11fS0MhAfvGPijb5D4m/ja/2+haI9y2BolfDvqNC7CtzI9kOD+Jt8HmdOLk7xMjGzyuon88VEiER4wFlNzLFYunMzhqY8OCJpla7tlplmWgPRAP6qYR20yXGzZU0I6TssdNyMYI1y2KpD//31v+JpHOTPEZkx8aaQZm/1a3TNE=
+Received: from DM6PR02CA0059.namprd02.prod.outlook.com (2603:10b6:5:177::36)
+ by SA1PR10MB5736.namprd10.prod.outlook.com (2603:10b6:806:232::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Wed, 14 Jan
+ 2026 17:53:46 +0000
+Received: from CY4PEPF0000E9DB.namprd05.prod.outlook.com
+ (2603:10b6:5:177:cafe::93) by DM6PR02CA0059.outlook.office365.com
+ (2603:10b6:5:177::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.5 via Frontend Transport; Wed,
+ 14 Jan 2026 17:53:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CY4PEPF0000E9DB.mail.protection.outlook.com (10.167.241.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.1 via Frontend Transport; Wed, 14 Jan 2026 17:53:44 +0000
+Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
+ 2026 11:53:10 -0600
+Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
+ 2026 11:53:06 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 14 Jan 2026 11:53:06 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60EHr5sR059224;
+ Wed, 14 Jan 2026 11:53:05 -0600
+Message-ID: <d9b0d6d5-6f1a-4cb0-a8ab-5e3fdaf33fa5@ti.com>
+Date: Wed, 14 Jan 2026 11:53:05 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Andrei Aldea <a-aldea@ti.com>, "Andrew F. Davis" <afd@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jonathan Humphreys <j-humphreys@ti.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>,
- Oded Gabbay <ogabbay@kernel.org>, Randolph Sapp <rs@ti.com>,
- Rob Herring <robh@kernel.org>, Robert Nelson <robertcnelson@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Tero Kristo <kristo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Vignesh Raghavendra <vigneshr@ti.com>
-References: <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
-Subject: Re: [PATCH v2 4/5] accel/thames: Add IOCTL for job submission
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:TujjZXhmNMoZ1C2MKWjZBB0J/Wckqor+l9zn0S9SlMmQfuiPc3x
- 1s4kZqogPv1gWJVV75dUuJNVM4tv7lhcndMfiXfvIAVVqJ7s0gMS7Tk+9N+i9J0SJAXh8NO
- oxD642sDFoFgGfernCSwE/BRtbXSKdk5VwEHfjEIyceEZubz+4f9OAq+Mz5leYHW1ChBAQW
- FTkKrvlRF2U++Y2lDtPnQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:k91x8d4JPJk=;GMmbe1mCKTZLlg3zBtMEhc8Gq7g
- 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
- Z4UmZG/kFv+KPkTxUpt+JTlSYq5iWH3QsecMPP
+Subject: Re: [PATCH v2 1/5] arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add
+ memory pool for DSP i/o buffers
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
+ "Randolph Sapp" <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, Andrei
+ Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Robert Nelson
+ <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+CC: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-doc@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
+ <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DB:EE_|SA1PR10MB5736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6764148e-862c-4732-1fa4-08de5395dcad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|34020700016|1800799024|82310400026|36860700013|376014|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?blF3cFljZWdib2FHOWNKekRBSDhNQ25jdDNQSHhiQmRlcWdrZzZJanFCVitq?=
+ =?utf-8?B?OXlNVmxwSStPSktpb21TNFp0aVVoZ2dwZGdRcnlnRHQ5MSs3TzZtcTdzUE9l?=
+ =?utf-8?B?bUExTW5NTHhpTjl4TFk4aHRWVzF5dzdwazRBOXF2QnNnNnAvNGVFL1VsTW1h?=
+ =?utf-8?B?eEJhbUUxZmVoN2hiMW9MVVUvQTVhRmFIcVZUVE10MTZDQjRoeVBVb2dQQjFk?=
+ =?utf-8?B?eTIxZWNrRFBicnVpSU5MdjR4NTM1YjMwbDNhQUZqdlVJZVpDOGZCRFRyb2Jn?=
+ =?utf-8?B?Rk8xb3R2U2V1c1JhVFUvNWJSUThWVGVpTThud2ZoNkRoZTRETlh0RS94eldX?=
+ =?utf-8?B?YjVjYUNZUWtOeHlsdDhFMytkK0RTQWlZVmVCNWJTZ0NpVUwyREVxRC9IcWQ2?=
+ =?utf-8?B?V3crQlVFVG0waEpuT0JPc0NNNjI0UWdjVnRPZGJNS04xTHkrUmxmZVVLZWZR?=
+ =?utf-8?B?T2pkeWdkc2Q2SGFCSUNSRFFONmszZGh2QVJVSC9pMWUwNjk2cWVJUDNJSlJH?=
+ =?utf-8?B?UWdQS2oraHdjNURObGczOUtiWHVIZlBkaWQxdjhmMFNRTjdVOGZEaXIvVHF6?=
+ =?utf-8?B?RkZVZlczYkQxbDV1SUVXbFZ2dkNIMXAyenJrOVpJRWxNbEY2WDhYUmo1QW5M?=
+ =?utf-8?B?YkNnSVh2SVJCRVZOMExreUhSWDJFOXE4RkdkOSsxQjNGSnFlRDN6TXFybjE0?=
+ =?utf-8?B?Rmh0clRSbllESFlHeTZXVjBueTJKRHN3amN1NkN1Q0JMdVpuUlFDcDJOMFlZ?=
+ =?utf-8?B?SE0rQmJCMGdIZzlvTDFjQWJZa0F5ZWRUTlU2ZXJLMzhkSFAzeE5nakxOODdh?=
+ =?utf-8?B?dkg0ZXRMdlVLRkIxVWQvNWM4aEFwcWVBVUs1TGkxN0Y5YjVieEZKbTBSZFpC?=
+ =?utf-8?B?Y2hwT0dMTWJxTUV4TXptMlZCQ3AvQTAxT0NncnpJRlhxL2NWRDVkblQyRnJZ?=
+ =?utf-8?B?elpjdnZzT1VlUDliS0dNbHJRdG9HNm9NdEVDNzZydkdoQTlQLy9GN1h1dDVE?=
+ =?utf-8?B?QzRVVWovclY0Q3FIaXkySHpQbCtMS1JOUGZVQTFZMWR4YUVXNi9UNHdmaVJr?=
+ =?utf-8?B?SkxEOS9BSWs1YXlvVTE1cmJqYnRBWFlBZVVLU05sbzNkR3NPcFJ0STBOcmlp?=
+ =?utf-8?B?RHVJUzlqNW8xSWxQbHNDWW0xU2xGZ2RCeWg1Mzdja1VuQkZsNGl1MWZEZGlo?=
+ =?utf-8?B?SWhsZGlISjBLdzA2VzVvWjR3dysxVVh6Z0ZpMzdLZG4rdVVYdHNoMlhIR3FQ?=
+ =?utf-8?B?elEzYkxSZWN1RkMwcVpMNk5RamtjYVpHOTdRSjVZbTFIYmtvV0N4bm1keTNv?=
+ =?utf-8?B?Z0xlSjlQZnVKUXlyZ2NFdzMwOGlYTTZVdzZNQ1Y1aXc5Y01ZTnlSdG1Wamwy?=
+ =?utf-8?B?MHZPaDBSYnBDZE92cTgrZkp2MnRvMnpnZG9pVVN4bjZ0VkViSHlOMlVFbHNZ?=
+ =?utf-8?B?YlFiVWxackdIallOK0tJdmkzSjVDUFBSeUc4TVdnSEtBMzhaN2xSdEpyWitt?=
+ =?utf-8?B?aFpWVmFHUE13bm4ybW42U0E5YmY5NEZ2ZVM0emNMb1lRdkU3YXpUR3RPbGtX?=
+ =?utf-8?B?dG91cTE2SWVRdTY2MXZvVllnVStoR0FPY0w0dGhtNHBZREtrdStWOTlzYlFL?=
+ =?utf-8?B?T2pzNk9MSUtGcXJzc1Q3NHU5N1AyOVhTdzlFRHZXYzJFS0ozNEx2ZVM0TElG?=
+ =?utf-8?B?RUtLVVZVNTRSV1d4Q3VaaFZQQllIdndyaFdvc3NnakRmV0NnWWczNENoc0pC?=
+ =?utf-8?B?MEFtK1orRytEUlcwTWx2ay9FalpUYjZlSjh2aDREOE5lcC9nUHhIbi9maU1F?=
+ =?utf-8?B?OWs3TFU5MTRKZEZ3TjF0TnRzdnRIT3VJbjVnV1BSRjlua3NhNDVJbjZveHRH?=
+ =?utf-8?B?VlZuZkhCVThkeFA0Qll0cGdnMlBWRzFSc0doVml0dWQzdDgzQURMbUNoWnQ0?=
+ =?utf-8?B?RnBSYXBpYWdzOThuVnJRL3VXU3YyZzJBN2ExOWNqc2xvbXlTTUlxeFVaODAx?=
+ =?utf-8?B?eUloZWF4SXg2eDRjSytXOUxyOWFUeTlDSng3TTF5NlpvZVU1aVZhMmkrRkZK?=
+ =?utf-8?B?LzQ3QjB3aldEc1JhTUNJek40bDFEOTRhN092d29UMFZOYnNyR0dEeXJMVC8z?=
+ =?utf-8?B?em5KdUErY2FiZ0JCdndXKzBGbjkyMEY5RkV0Skd3UDMzSmNVTnZKaE1IeGFP?=
+ =?utf-8?B?VWxEM3N4ei9uT2FMakVlM2llM1l1b3pWZXoydzBFZFkxalpPSzFSbmp4bnA5?=
+ =?utf-8?Q?BOxv3DHy+2ejvODsEehrQzpB1CUVtjOId1pVAN5kRw=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(7416014)(34020700016)(1800799024)(82310400026)(36860700013)(376014)(921020)(12100799066);
+ DIR:OUT; SFP:1501; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 17:53:44.9811 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6764148e-862c-4732-1fa4-08de5395dcad
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9DB.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5736
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,24 +171,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/accel/thames/thames_job.c
-> @@ -0,0 +1,463 @@
-=E2=80=A6
-> +static int thames_job_push(struct thames_job *job)
-> +{
-=E2=80=A6
-> +	dev_dbg(tdev->ddev.dev, "Pushing job with %u in BOs and %u out BOs\n",=
- job->in_bo_count,
-> +		job->out_bo_count);
-> +	bos =3D kvmalloc_array(job->in_bo_count + job->out_bo_count, sizeof(vo=
-id *), GFP_KERNEL);
-> +	memcpy(bos, job->in_bos, job->in_bo_count * sizeof(void *));
-=E2=80=A6
+On 1/14/26 2:46 AM, Tomeu Vizoso wrote:
+> This memory region is used by the DRM/accel driver to allocate addresses
+> for buffers that are used for communication with the DSP cores and for
+> their intermediate results.
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>   arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
+> index 3fbff927c4c08bce741555aa2753a394b751144f..b80d2a5a157ad59eaed8e57b22f1f4bce4765a85 100644
+> --- a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
+> +++ b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
+> @@ -42,6 +42,11 @@ c7x_0_memory_region: memory@a3100000 {
+>   		no-map;
+>   	};
+>   
+> +	c7x_iova_pool: iommu-pool@a7000000 {
+> +		reg = <0x00 0xa7000000 0x00 0x18200000>;
+> +		no-map;
 
-Why was error detection for a memory allocation failure omitted (or overlo=
-oked)
-so far at this source code place?
+Could you expand on why this carveout is needed? The C7 NPU has a full
+MMU and should be able to work with any buffer Linux allocates from any
+address, even non-contiguous buffers too.
 
-Regards,
-Markus
+Communication should already happen over the existing RPMSG channels
+without needing extra buffers. And space for intermediate results
+should be provided dynamically by the drivers (I believe that would
+match how GPUs without dedicated memory handle getting intermediate
+buffers space from system memory these days, but do correct me if
+I'm wrong about that one).
+
+Andrew
+
+> +	};
+> +
+>   	c7x_1_dma_memory_region: memory@a4000000 {
+>   		compatible = "shared-dma-pool";
+>   		reg = <0x00 0xa4000000 0x00 0x100000>;
+> @@ -151,13 +156,15 @@ &main_r5fss0_core0 {
+>   &c7x_0 {
+>   	mboxes = <&mailbox0_cluster2 &mbox_c7x_0>;
+>   	memory-region = <&c7x_0_dma_memory_region>,
+> -			<&c7x_0_memory_region>;
+> +			<&c7x_0_memory_region>,
+> +			<&c7x_iova_pool>;
+>   	status = "okay";
+>   };
+>   
+>   &c7x_1 {
+>   	mboxes = <&mailbox0_cluster3 &mbox_c7x_1>;
+>   	memory-region = <&c7x_1_dma_memory_region>,
+> -			<&c7x_1_memory_region>;
+> +			<&c7x_1_memory_region>,
+> +			<&c7x_iova_pool>;
+>   	status = "okay";
+>   };
+> 
+
