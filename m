@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED908D1FAD1
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BA5D1FC2D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:32:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63E410E342;
-	Wed, 14 Jan 2026 15:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEB4A10E10D;
+	Wed, 14 Jan 2026 15:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
- [209.85.217.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63D310E342
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:17:15 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id
- ada2fe7eead31-5ec8781f5c9so4206463137.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:17:15 -0800 (PST)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 311C210E10D
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:31:58 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-8b2ec756de0so949264985a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:31:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768403835; x=1769008635;
+ d=1e100.net; s=20230601; t=1768404717; x=1769009517;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uKv1ovepy8byUAHhXrIcegwAZXFuolP4bDoWHXlYmv4=;
- b=jJhcSw9jnVOSt4GTJHq4m5JNIL9+PimUwXe3mKRK1bbjHRBoHXDuO1tNcFCKskyoAF
- kQ9GNyuhdllVMxZAk8x/FSLtrkr2sW0r+ro3Pr8wQl/R53V71H8DKWXv9YvpRi02R3+5
- uO9AThdHIGTXLwUoX4WnZYaMCj+YgzhJMZpYmSk+XlsKoH6DB7cCbmq2Y5Gqrk0HQTX0
- Q8vrIZ0o64Y9I7nAZ80iIwAD4Oa8VIK5MvDUyzWUog5rUQ3MZg1EZne09wCWCKXZREtN
- XjbVkgI7d2ghCGSm1GqvuM/eQrEJnssgUqd/PQtrfuVmlH28xJgp73IkAkeYqCz39rCG
- /ETg==
+ bh=h9PHoycvBsjA0Sy0VbLTIHVLWHYGM3MD8TXsWVqyh2U=;
+ b=U00TSoCZ3Mgm9jnXVE01OpN8XfI2HVhZMO2JmeNCqk5baTwfb3iwBoZCCNgtziLAw+
+ qosBUX5O5LO2CJziMyhiRMFv4mFborAgnaChF/fhpQDkE0U07a7gf5HVEPZxOAowrF8v
+ lsUbJG6UtojTNm2QZDFcaM1pD01AprMiVdKXZiytxnyG5pGsn9LhfL21Cwg42o/wL1ue
+ Mc+l6yLYl9NTJedxvfuFRL3lvj0QJmRMgvq9SKzbIBvtthTqeVgbb80oNyqeR7i3QlF0
+ QGPGWZtMqmWfL/W5FOuHlkZH/MFgvIXszidfnmkWVLuM/mBudNtS4S0jwvBHKAdK8dph
+ rViw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7tQyp62l4E2DDJ1qiSYT+A0DNb5DVXiy99xYL97G+3phg+RIyVciLme5+882fvfNtMqRdywSBipY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxz4IHzyGDt9ohWB4pqrhs7YjsVp3WXNr3mrdfws3H17E65fhBE
- 4n60rNsA/bPIsVzCa0dGGUdwNtVeBDgkYNIoMfLWd6/XTnk1FQEJiYIwE/U0+aAL
-X-Gm-Gg: AY/fxX7TQyWrw9Ux893o8UdQg0b0zLj/aFzgJPqIQUjW+ix3x3+JLDcPoyaIL2OW1+C
- mjR5cDx1XgjycqMUSGrrHE2CiBDtNttmAPsjnEI3uzapd+hXAScpj2ySLtB6GFE4HAbLi10gKVJ
- XmjTiURwiA6kZhzqZTrF2LuTPuvwb/qsDMu8gXeFAw8RF6xCNk3pJVrknzPYhyd0atWVcFdv+lP
- S73scRCoW9IOxUxiGhXBCcreZxIseCsjmAtMkWleYG0HnMIZp/W5v37umgPJbT9pMThgubiSvgL
- nBJZb3rRoU26WqUvBzOoVha1gaYMoEK9c0b9oCLapnx/znrI3DfOlB9+jKgO+QuD7EXW4mCMU+G
- 0g0xACpZW0IUKmb7mAnU9iackAdUX7WZj1iQJVJhcfAidXupzMa07Ig56sHwzjePcfeq0guJzAw
- Ws5ogjc4ZtUISrvWSjVbgiui0Fin9ESviC8lCuM+2k1tMzaR4D6iFZ
-X-Received: by 2002:a05:6102:5cc7:b0:5dd:b61a:a9c5 with SMTP id
- ada2fe7eead31-5f1833ab5demr985980137.0.1768403834747; 
- Wed, 14 Jan 2026 07:17:14 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com.
- [209.85.221.174]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5ec772af325sm23868883137.10.2026.01.14.07.17.12
+ AJvYcCU6e33QO7GNhZu017ZxIlWeTXVqmbRhv6qBrlopFa3hIgtVOjd0BkRULeEH21b/6oSD/POMq7Kv2ok=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTS8uQLqkUVazppeUanKt6XCPBs6RZ43cF5Wj0H1V2BXgBgjSQ
+ OluEx5EPPi8F+NfW3beStX6hQrq4+xGtqdm2JjhuLcGj+WznO5dT56rtzYKt6gg3
+X-Gm-Gg: AY/fxX5OhfrTAhu6xMWQmtby3/IhuLio6f/xdQM2OJopTOnsk31sF0oUbL5gXqypJaA
+ VvzQERRsS/xuv5mm4MJHCKF14JImK4zpVGY+IOA/0fcvZ4Uw5VLeUiH9SHKgpYQKIeS0GPl4i3p
+ IMz+8YGhgj7f8zvU9plDYYQHAtJbu8yr8rtpSnEKI1vgjv93y3sum6l80ryAeNGJNDpKtFKPg8n
+ 0Wfj4P4d8uTO0j0dbcAsqkOa6fHohd7gJAAax9NpJJaTjWSpE1dOv7KkazmsgY36VN5yqopH/Qr
+ McrFl2pFOXKNGYVFqyCV1FEH4JfLAAkRPK3v7ovtNhGyt8gNRlhpmOTjHAaCiIBNiganxCTRuBd
+ 6AskCD7Kh/+PrNOMuqtFUnWR18vuk2Xr+HuYIfgOYR/oX3ZDLQIdSKTH3acJroVGj9xVlnfZQZv
+ dsqrOfpyHlvcjxKe6HsXbbEvNQ2V6oQBPvDPzx0xQOw+/kcB+N
+X-Received: by 2002:a05:620a:7112:b0:8b2:e958:740c with SMTP id
+ af79cd13be357-8c52fbb9e22mr383577185a.72.1768404717006; 
+ Wed, 14 Jan 2026 07:31:57 -0800 (PST)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com.
+ [209.85.219.44]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8c530b72b61sm181713485a.26.2026.01.14.07.31.56
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 07:17:14 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id
- 71dfb90a1353d-56373f07265so3893481e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:17:12 -0800 (PST)
+ Wed, 14 Jan 2026 07:31:56 -0800 (PST)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-8888a444300so86215306d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:31:56 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWmSf0Ou7F//eL9VGQiRQ2f+BEHD6V+mtO+Soj28SE/5eygvkXZzXSUV1UcTtX61Iw9vsSgSq6/E/A=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:130c:b0:55a:be72:7588 with SMTP id
- 71dfb90a1353d-563a21caaf3mr947121e0c.11.1768403830849; Wed, 14 Jan 2026
- 07:17:10 -0800 (PST)
+ AJvYcCVc9Sj/ES1ELXD5FlH1ncjOixOuiIuuhIYvmuUxuqXeHDTAgdf0V9dw8a04pDb8Jh9+IymbVW+S71M=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:c05:b0:5f1:5c43:936a with SMTP id
+ ada2fe7eead31-5f17f5b855bmr1345435137.25.1768404199242; Wed, 14 Jan 2026
+ 07:23:19 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <554850e7cc0ed99ea2a0d47840fbd249d17faf6d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <554850e7cc0ed99ea2a0d47840fbd249d17faf6d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 16:16:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW6rsfeYjdqnxZxFrPe22aboPMwgzDVMtrfso5D3m4GhQ@mail.gmail.com>
-X-Gm-Features: AZwV_QglkbidH76AuWe3Sfdqyn2BD0tJQEne_GsvUMV72nBp7iQEpygHJH5KiHg
-Message-ID: <CAMuHMdW6rsfeYjdqnxZxFrPe22aboPMwgzDVMtrfso5D3m4GhQ@mail.gmail.com>
-Subject: Re: [PATCH 20/22] arm64: dts: renesas: r9a09g047: Add vspd1 node
+Date: Wed, 14 Jan 2026 16:23:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
+X-Gm-Features: AZwV_QheoOAURJQgELAszsWwxDhSryviUTqnKNYp1N8Uc4IoJlBrWL72cLThIqU
+Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
+Subject: Re: [PATCH 21/22] arm64: dts: renesas: r9a09g047: Add DU{0,
+ 1} and DSI nodes
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
  biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -102,45 +103,112 @@ Hi Tommaso,
 
 On Wed, 26 Nov 2025 at 15:11, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add vspd1 node to RZ/G3E SoC DTSI.
+> Add DU0, DU1, DSI nodes to RZ/RZG3E SoC DTSI.
 >
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
 Thanks for your patch!
 
-Please merge this with "[PATCH 18/22] arm64: dts: renesas: r9a09g047:
-Add vspd0 node", i.e. add all VSPD instances in one shot.
-
 > --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> @@ -1219,6 +1219,20 @@ fcpvd1: fcp@164a0000 {
->                         resets = <&cpg 0x11e>;
->                         power-domains = <&cpg>;
->                 };
+
 > +
-> +               vspd1: vsp@164b0000 {
+> +               du0: du0@16460000 {
 
-Please move this just below vsp@16480000, to preserve sort order
-(by unit address, grouped per device type).
+display@
 
-> +                       compatible = "renesas,r9a09g047-vsp2",
-> +                                    "renesas,r9a07g044-vsp2";
-> +                       reg = <0 0x164b0000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 921 IRQ_TYPE_LEVEL_HIGH>;
+> +                       compatible = "renesas,r9a09g047-du0";
+
+I doubt this compatible value will survive review...
+
+> +                       reg = <0 0x16460000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 882 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 0xed>,
+> +                                <&cpg CPG_MOD 0xee>,
+> +                                <&cpg CPG_MOD 0xef>;
+> +                       clock-names = "aclk", "pclk", "vclk";
+> +                       power-domains = <&cpg>;
+> +                       resets = <&cpg 0xdc>;
+> +                       renesas,vsps = <&vspd0 0>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                                       du0_out_dsi0: endpoint {
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       du0_out_lvds0: endpoint {
+> +                                       };
+> +                               };
+> +
+> +                               port@2 {
+> +                                       reg = <2>;
+> +                                       du0_out_lvds1: endpoint {
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               du1: du1@16490000 {
+
+display@
+
+> +                       compatible = "renesas,r9a09g047-du1";
+
+I doubt this compatible value will survive review...
+
+> +                       reg = <0 0x16490000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 922 IRQ_TYPE_LEVEL_HIGH>;
 > +                       clocks = <&cpg CPG_MOD 0x1a8>,
 > +                                <&cpg CPG_MOD 0x1a9>,
 > +                                <&cpg CPG_MOD 0x1aa>;
 > +                       clock-names = "aclk", "pclk", "vclk";
-> +                       resets = <&cpg 0x11e>;
 > +                       power-domains = <&cpg>;
-> +                       renesas,fcp = <&fcpvd1>;
-> +               };
->         };
->
->         stmmac_axi_setup: stmmac-axi-config {
+> +                       resets = <&cpg 0x11e>;
+> +                       renesas,vsps = <&vspd1 0>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                                       du1_out_dsi0: endpoint {
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       du1_out_lvds0: endpoint {
+> +                                       };
+> +                               };
+> +
+> +                               port@2 {
+> +                                       reg = <2>;
 
-For the contents:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I expect this will become "port@3" and "reg = <3>" with a unified compatible
+value?
+
+> +                                       du1_out_rgb0: endpoint {
+> +                                       };
+> +                               };
+> +
+> +                       };
+> +               };
+> +
+>                 fcpvd0: fcp@16470000 {
+>                         compatible = "renesas,r9a09g047-fcpvd",
+>                                      "renesas,fcpv";
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
