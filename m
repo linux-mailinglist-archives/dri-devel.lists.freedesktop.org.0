@@ -2,82 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FBED1E67C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 12:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCBBD1E6D6
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 12:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD2F10E0F8;
-	Wed, 14 Jan 2026 11:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831A010E603;
+	Wed, 14 Jan 2026 11:34:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F4zEEfGj";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FbIj0Ne7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C138C10E0F8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 11:30:54 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-5014f383df6so1386541cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 03:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768390253; x=1768995053; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cSdIXLKPTdi93G8U4R5SQcAFt9Fsb+Bvw+g/z/TUA64=;
- b=F4zEEfGj4Z4P6sk25dGMEMPa+0NJcN0eckEWxgHWJzgsKIjo00/R4kAGtAc3dRBjM6
- nB23Wy7aQltAcqBHNCza79yiBnwSpQGNJfLRMrx+WEjmsok7viq0c7158cDlw9qcBISB
- 3UnjIaMpjFmNjbcwJdtXM/MRj375r64dJ5PqS0sKPwvST5d9Sn7XqSq+nOJjoTNUIbP6
- wFcOePKWtz3j4kj85JZf5Z3VBL4e2qgDlLim98gx/IVFM8VtQxIwhEeVuwCsh6kDUUHr
- qs+376plLjIP/qcZVOQ1pbpdvkR7+aNH8IYA63ww8IdUGXGO/k59YuMUidi0owG+vGsI
- eA/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768390253; x=1768995053;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cSdIXLKPTdi93G8U4R5SQcAFt9Fsb+Bvw+g/z/TUA64=;
- b=Qvwb/6fb2YFe9/i9HvuYfaUo23rjuTy15msz+WPlDnPuLksOjikhEjXFBqdOyio5lG
- ay1YLAt+H4s7qzOeBJb9Tohb+W4S15Tt211R3zMEh+XNspf5cKN3BGDYJpa0mzCkHM2q
- mx8/arfrpgHHndn4MSUQtoh7/HZ6vtb9tHoEK1tQYdgL3nQndfnmxZZps/vlx/D2ucUp
- a6Mx2cFTUmt9HS7ivaGlxuN2bYWP6U1TC80LY+dw9+S2NQP69f2SOPLQmspMN3t7p1Kj
- Q6AJz/Op2F/OIXLtEPPwuMRAmGtZxVQ1L7R1soSpU2qwxICe2H1OOKm413IPYK8JRE9L
- C6fg==
-X-Gm-Message-State: AOJu0YwAxa1HQK/2Lp0eXXIytbWF8Tn3nW7CP7GsaLY2WtKsK7ZUMJQm
- c75wlIeIud7Vo/6kidTselS1gQ7rPeKquP1lGm3EWsDeI3pQXh9F0lvd
-X-Gm-Gg: AY/fxX4UU/P6KO0QcIv8kOkAk0GvOe9nrH0gte7Bz4Oo26sYBdIG5pY/DDerbyfODgP
- 01m/87pzzbYwmXY2K5KhpgK3mRgx0HemJYqPXN5lE9Jh/sTeL2erIMyJ+3Eg6XDH8fXP7X9nDow
- O6QsHQlJS22njkMxd929sntKiCPNJw+5TX/8a3AG58NgLSLhLmaHwwgdX5DyhVzPurMdG9e61Ef
- 1RXECecJ+NmkTOm9P18duHWOh0liGzmDI+nXbragN00ugxfz4EZoME2nCyO8glKFS86unS5XpZG
- 7/eK/jak0lSLEm+YrC+AhuyHqWwyg7+ZVMrsTR+L228xMW1X8ZorIhBUy14tx/C/OayrrzrdV5U
- MBUIQnto4Ov4Um2pOv6RtYW2TdDGvhhjol+k5AlZs6hFJXoh8Z6usj89ECxdnf+yIEw5yVroC/5
- PtGZaJQ51W9Zo0MJ+NFOmn6I+io0mh/4S7di1EdXzi+4s=
-X-Received: by 2002:a05:622a:144a:b0:4f3:5eb4:61d1 with SMTP id
- d75a77b69052e-50148474022mr26435121cf.54.1768390253383; 
- Wed, 14 Jan 2026 03:30:53 -0800 (PST)
-Received: from [10.254.120.192] (mkmvpn.amd.com. [165.204.54.211])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-50148eba456sm12429001cf.20.2026.01.14.03.30.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 14 Jan 2026 03:30:53 -0800 (PST)
-Message-ID: <b9c8ec64-ed96-4eaf-9e30-a98dfdd26b5a@gmail.com>
-Date: Wed, 14 Jan 2026 12:30:50 +0100
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0030510E167
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 11:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=date:from:to:cc:subject:message-id
+ :references:mime-version:content-type:in-reply-to; s=k1; bh=lr2j
+ aXKLTYSemiRd4WCZWM7A71D5r7zK+ViV8cSzJ+U=; b=FbIj0Ne7HcdUaAEP0iAU
+ A55rGJ0oyna5P19mF+Qqxxdtkv9Cgi3ikY/VAziIha2Ymf37Sh7GcN6qaW4QeEEo
+ sBd+8Q/J4ZH0/a8KKWXi52G6yRrBYbtJHOc1MKWYeouC1RokrNbBn26LBMwcnNgu
+ 8T93ffuZswv71EcU6CqAiK3f2JCJOYkgcxnkvqxbylojhjxtVsYe3sxNiK670Caz
+ EFvOqfSrAgjRTV+nnMfGbAdKt7v7gg/v17ziuAIKwmm1lI2cmH/CktRAautTnLuL
+ iGUMHmLaorf+k2EQ1TVUaIc7xjC+XNtiOXCvHeyQm9tY2O4ji9uDHLMak36lcI8j
+ 2w==
+Received: (qmail 2108427 invoked from network); 14 Jan 2026 12:34:35 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 14 Jan 2026 12:34:35 +0100
+X-UD-Smtp-Session: l3s3148p1@WxbafVdI0IsujnsM
+Date: Wed, 14 Jan 2026 12:34:30 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+ Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Wolfram Sang <wsa@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] i2c: qcom-geni: make sure I2C hub controllers can't use
+ SE DMA
+Message-ID: <aWd_RtYqGyUkjQao@ninjato>
+References: <20251029-topic-sm8x50-geni-i2c-hub-no-dma-v1-1-5e264258a5bd@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] drm/sched: use inline locks for the drm-sched-fence
- v2
-To: phasta@kernel.org, tursulin@ursulin.net, matthew.brost@intel.com,
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20260113152125.47380-1-christian.koenig@amd.com>
- <20260113152125.47380-11-christian.koenig@amd.com>
- <c8c362d73d4f2cff9be685184186a6f3368939f1.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <c8c362d73d4f2cff9be685184186a6f3368939f1.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="RMEH12Dl56iOtTld"
+Content-Disposition: inline
+In-Reply-To: <20251029-topic-sm8x50-geni-i2c-hub-no-dma-v1-1-5e264258a5bd@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,111 +64,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/26 17:12, Philipp Stanner wrote:
-> On Tue, 2026-01-13 at 16:16 +0100, Christian König wrote:
->> Using the inline lock is now the recommended way for dma_fence implementations.
->>
->> For the scheduler fence use the inline lock for the scheduled fence part
->> and then the lock from the scheduled fence as external lock for the finished fence.
->>
->> This way there is no functional difference, except for saving the space
->> for the separate lock.
->>
->> v2: re-work the patch to avoid any functional difference
-> 
-> *cough cough*
-> 
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>  drivers/gpu/drm/scheduler/sched_fence.c | 6 +++---
->>  include/drm/gpu_scheduler.h             | 4 ----
->>  2 files changed, 3 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index 724d77694246..112677231f9a 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>  
->>  	fence->owner = owner;
->>  	fence->drm_client_id = drm_client_id;
->> -	spin_lock_init(&fence->lock);
->>  
->>  	return fence;
->>  }
->> @@ -230,9 +229,10 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>  	fence->sched = entity->rq->sched;
->>  	seq = atomic_inc_return(&entity->fence_seq);
->>  	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->> -		       &fence->lock, entity->fence_context, seq);
->> +		       NULL, entity->fence_context, seq);
->>  	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->> -		       &fence->lock, entity->fence_context + 1, seq);
->> +		       dma_fence_spinlock(&fence->scheduled),
-> 
-> I think while you are correct that this is no functional difference, it
-> is still a bad idea which violates the entire idea of your series:
-> 
-> All fences are now independent from each other and the fence context –
-> except for those two.
-> 
-> Some fences are more equal than others ;)
 
-Yeah, I was going back and forth once more if I should keep this patch at all or just drop it.
+--RMEH12Dl56iOtTld
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> By implementing this, you would also show to people browsing the code
-> that it can be a good idea or can be done to have fences share locks.
-> Do you want that?
+On Wed, Oct 29, 2025 at 07:07:42PM +0100, Neil Armstrong wrote:
+> The I2C Hub controller is a simpler GENI I2C variant that doesn't
+> support DMA at all, add a no_dma flag to make sure it nevers selects
+> the SE DMA mode with mappable 32bytes long transfers.
+>=20
+> Fixes: cacd9643eca7 ("i2c: qcom-geni: add support for I2C Master Hub vari=
+ant")
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Reviewed-by: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>>
 
-Good question. For almost all cases we don't want this, but once more the scheduler is special.
+Applied to for-current, thanks!
 
-In the scheduler we have two fences in one, the scheduled one and the finished one.
 
-So here it technically makes sense to have this construct to be defensive.
+--RMEH12Dl56iOtTld
+Content-Type: application/pgp-signature; name="signature.asc"
 
-But on the other hand it has no practical value because it still doesn't allow us to unload the scheduler module. We would need a much wider rework for being able to do that.
+-----BEGIN PGP SIGNATURE-----
 
-So maybe I should just really drop this patch or at least keep it back until we had time to figure out what the next steps are.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlnf0YACgkQFA3kzBSg
+Kbb1YxAAmYs6M2P+MSlXvKQkXgfmS6UTFY09WDBcqX0ouXMPYG9zzTeTHlzkfvpK
+Unobt+53hHGH1nMTnsIHOroZvR7EPWJt+myTKU9CFzS6wc3w5Su0JqaOMr1lYcT1
+VaD8+QFvs6z2wJeng9NNZNDiF2LX4LaFF8zPG+i/0KdxS3QKm9YFtiL1zSPzMa7h
+S8tg9AyR2lDDcxJwXThfEFj8QF74/iQw+nBJ5R/kfl4OWqDtYsv28y/t2ITpCWEM
+09NKIOvyLhD/720LhLTuS7pjjHMJWynq99lYhsWOdhnD0ZZdVipiHAOxoowEZIzl
+523xsVuFcLGzZLFqV2yDQU65txj6z1n/S8ycjkEiS+6pLXFvQ/Vozz1MOXz+7+1n
+1AjbBFerjy8NxXHThvNYeneqx0sg9AwY79xLYa1EYTKYowlF2s8V028rCV3eIiuz
+odsft7r7rqWs2I795ZeDL0EN/L0wtIJIxu6dVbJmzkExRbW5wdzyk/D8lvH6sCbt
+aXcEl/DZpUyU4YCJluHyx5m/9jR7DjngfGfeYIwARk9+uqOjrjF+JFDIXguqaV4K
+UUankoMGnmHJGvJNy45ttbB3QZZY4bgwcvk9WXlByMA8JlQ3aLEb7yi6T+PnCsUJ
+JYqolaQBTWfCJyW/RNcRXtCDWFL4GBv2Ori4Y8rbqFTCO9B6Y+M=
+=3JmV
+-----END PGP SIGNATURE-----
 
-> As far as I have learned from you and our discussions, that would be a
-> very bombastic violation of the sacred "dma-fence-rules".
-
-Well using the inline fence is "only" a strong recommendation. It's not as heavy as the signaling rules because when you mess up those you can easily kill the whole system.
-
-> I believe it's definitely worth sacrificing some bytes so that those
-> two fences get fully decoupled. Who will have it on their radar that
-> they are special? Think about future reworks.
-
-This doesn't even save any bytes, my thinking was more that this is the more defensive approach should anybody use the spinlock pointer from the scheduler fence to do some locking.
-
-> Besides that, no objections from my side.
-
-Thanks,
-Christian.
-
-> 
-> 
-> P.
-> 
->> +		       entity->fence_context + 1, seq);
->>  }
->>  
->>  module_init(drm_sched_fence_slab_init);
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index 78e07c2507c7..ad3704685163 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -297,10 +297,6 @@ struct drm_sched_fence {
->>           * belongs to.
->>           */
->>  	struct drm_gpu_scheduler	*sched;
->> -        /**
->> -         * @lock: the lock used by the scheduled and the finished fences.
->> -         */
->> -	spinlock_t			lock;
->>          /**
->>           * @owner: job owner for debugging
->>           */
-> 
-
+--RMEH12Dl56iOtTld--
