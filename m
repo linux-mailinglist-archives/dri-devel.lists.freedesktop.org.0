@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364C3D1ED3E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D133D1EDD4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0E5510E128;
-	Wed, 14 Jan 2026 12:40:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Dm2TZgAR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C83610E604;
+	Wed, 14 Jan 2026 12:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB3C10E128
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:40:37 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4drm1F5T3Cz9v3Z;
- Wed, 14 Jan 2026 13:40:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1768394434; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YYwk5I7lCjtpTJxINlVPUjkdn63pKMy0eMV22ROGxik=;
- b=Dm2TZgAR7SeAtIzgfB4iUY8y+nae71U4SBJLnH4xKBERkjFeAOQ4Vbbh8cw4dAjtdIotE2
- pOk82rr3hoT9fx9YP1lHVY2YqsSca0+hHU4umkuTbpILHEu1IAHzMKrR2eqXCmI53hIYfr
- +TzXAyV+VSJEJtjTkiS5rCWl2oSMtkcfl899ctRCxN+EQX2nuD1Rs54GluqxHmDKK/gHhy
- hqVUqmtmUtPiP5fQhy/rfIi3lYcpr/p/ZPkk1FUbZzkx+UmiUTB5U6Tgg1IqZK3mQwczrm
- hqQJfXFIRZFpsQteyldJs3an+dC3DdV/Lo+I0ibDBzjNCRfCvY6Fs/GdP34eOQ==
-Message-ID: <6afa04f1f5f0908216e9b2bdca26cdd5954ddf69.camel@mailbox.org>
-Subject: Re: [PATCH 10/10] drm/sched: use inline locks for the
- drm-sched-fence v2
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- phasta@kernel.org, tursulin@ursulin.net, matthew.brost@intel.com, 
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Wed, 14 Jan 2026 13:40:28 +0100
-In-Reply-To: <b9c8ec64-ed96-4eaf-9e30-a98dfdd26b5a@gmail.com>
-References: <20260113152125.47380-1-christian.koenig@amd.com>
- <20260113152125.47380-11-christian.koenig@amd.com>
- <c8c362d73d4f2cff9be685184186a6f3368939f1.camel@mailbox.org>
- <b9c8ec64-ed96-4eaf-9e30-a98dfdd26b5a@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7742910E604
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:45:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10B0C1515;
+ Wed, 14 Jan 2026 04:45:09 -0800 (PST)
+Received: from [10.57.50.170] (unknown [10.57.50.170])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 482E43F632;
+ Wed, 14 Jan 2026 04:45:14 -0800 (PST)
+Message-ID: <abf8a1cd-488f-43d7-80f1-37ba8917b17b@arm.com>
+Date: Wed, 14 Jan 2026 12:45:07 +0000
 MIME-Version: 1.0
-X-MBO-RS-ID: 19447328edda3a80dec
-X-MBO-RS-META: uoerzmctcnsz5dy4t6i8okrcdaps8uxf
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Move RK3399 eDP pinctrl to
+ boards
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: heiko@sntech.de, neil.armstrong@linaro.org, dianders@chromium.org,
+ thierry.reding@gmail.com, sam@ravnborg.org, jesszhan0024@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <cover.1767111804.git.robin.murphy@arm.com>
+ <0b9488badb467ef83a0a464eeea921f59e32e6b0.1767111809.git.robin.murphy@arm.com>
+ <81fcd769-d7a5-e909-7105-23cd3d09e473@manjaro.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <81fcd769-d7a5-e909-7105-23cd3d09e473@manjaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,159 +49,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2026-01-14 at 12:30 +0100, Christian K=C3=B6nig wrote:
-> On 1/13/26 17:12, Philipp Stanner wrote:
-> > On Tue, 2026-01-13 at 16:16 +0100, Christian K=C3=B6nig wrote:
-> > > Using the inline lock is now the recommended way for dma_fence implem=
-entations.
-> > >=20
-> > > For the scheduler fence use the inline lock for the scheduled fence p=
-art
-> > > and then the lock from the scheduled fence as external lock for the f=
-inished fence.
-> > >=20
-> > > This way there is no functional difference, except for saving the spa=
-ce
-> > > for the separate lock.
-> > >=20
-> > > v2: re-work the patch to avoid any functional difference
-> >=20
-> > *cough cough*
-> >=20
-> > >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > ---
-> > > =C2=A0drivers/gpu/drm/scheduler/sched_fence.c | 6 +++---
-> > > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ----
-> > > =C2=A02 files changed, 3 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/dr=
-m/scheduler/sched_fence.c
-> > > index 724d77694246..112677231f9a 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(str=
-uct drm_sched_entity *entity,
-> > > =C2=A0
-> > > =C2=A0	fence->owner =3D owner;
-> > > =C2=A0	fence->drm_client_id =3D drm_client_id;
-> > > -	spin_lock_init(&fence->lock);
-> > > =C2=A0
-> > > =C2=A0	return fence;
-> > > =C2=A0}
-> > > @@ -230,9 +229,10 @@ void drm_sched_fence_init(struct drm_sched_fence=
- *fence,
-> > > =C2=A0	fence->sched =3D entity->rq->sched;
-> > > =C2=A0	seq =3D atomic_inc_return(&entity->fence_seq);
-> > > =C2=A0	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_schedul=
-ed,
-> > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_c=
-ontext, seq);
-> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, entity->fence_context, =
-seq);
-> > > =C2=A0	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished=
-,
-> > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_c=
-ontext + 1, seq);
-> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_spinlock(&fence->sc=
-heduled),
-> >=20
-> > I think while you are correct that this is no functional difference, it
-> > is still a bad idea which violates the entire idea of your series:
-> >=20
-> > All fences are now independent from each other and the fence context =
-=E2=80=93
-> > except for those two.
-> >=20
-> > Some fences are more equal than others ;)
->=20
-> Yeah, I was going back and forth once more if I should keep this patch at=
- all or just drop it.
->=20
-> > By implementing this, you would also show to people browsing the code
-> > that it can be a good idea or can be done to have fences share locks.
-> > Do you want that?
->=20
-> Good question. For almost all cases we don't want this, but once more the=
- scheduler is special.
->=20
-> In the scheduler we have two fences in one, the scheduled one and the fin=
-ished one.
->=20
-> So here it technically makes sense to have this construct to be defensive=
-.
->=20
-> But on the other hand it has no practical value because it still doesn't =
-allow us to unload the scheduler module. We would need a much wider rework =
-for being able to do that.
->=20
-> So maybe I should just really drop this patch or at least keep it back un=
-til we had time to figure out what the next steps are.
->=20
-> > As far as I have learned from you and our discussions, that would be a
-> > very bombastic violation of the sacred "dma-fence-rules".
->=20
-> Well using the inline fence is "only" a strong recommendation. It's not a=
-s heavy as the signaling rules because when you mess up those you can easil=
-y kill the whole system.
->=20
-> > I believe it's definitely worth sacrificing some bytes so that those
-> > two fences get fully decoupled. Who will have it on their radar that
-> > they are special? Think about future reworks.
->=20
-> This doesn't even save any bytes, my thinking was more that this is the m=
-ore defensive approach should anybody use the spinlock pointer from the sch=
-eduler fence to do some locking.
->=20
+On 2026-01-14 11:49 am, Dragan Simic wrote:
+> Hello Robin,
+> 
+> On Tuesday, December 30, 2025 18:20 CET, Robin Murphy <robin.murphy@arm.com> wrote:
+>> The EDP_HOTPLUG pin is optional, and muxed with other functions (notably
+>> HDMI CEC), so move its selection from the SoC DTSI to the boards which
+>> apparently want it, namely those which enable eDP without "force-hpd".
+>> By the same token we drop it from Pinebook Pro, which already uses
+>> "force-hpd", and according to the schematics does not have the pin wired
+>> at all.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi              | 2 --
+>>   arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi    | 2 ++
+>>   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts       | 2 --
+>>   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts | 2 ++
+>>   4 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> index 4dcceb9136b7..19a312baa9f1 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> @@ -2145,8 +2145,6 @@ edp: dp@ff970000 {
+>>   		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH 0>;
+>>   		clocks = <&cru PCLK_EDP>, <&cru PCLK_EDP_CTRL>, <&cru PCLK_VIO_GRF>;
+>>   		clock-names = "dp", "pclk", "grf";
+>> -		pinctrl-names = "default";
+>> -		pinctrl-0 = <&edp_hpd>;
+>>   		power-domains = <&power RK3399_PD_EDP>;
+>>   		resets = <&cru SRST_P_EDP_CTRL>;
+>>   		reset-names = "dp";
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+>> index 9d07353df52c..3f3cb0eb5809 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+>> @@ -241,6 +241,8 @@ &dmc {
+>>   };
+>>   
+>>   &edp {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&edp_hpd>;
+>>   	status = "okay";
+>>   
+>>   	/*
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
+>> index eaaca08a7601..dcab04863d28 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
+>> @@ -401,8 +401,6 @@ &cpu_l3 {
+>>   
+>>   &edp {
+>>   	force-hpd;
+>> -	pinctrl-names = "default";
+>> -	pinctrl-0 = <&edp_hpd>;
+>>   	status = "okay";
+>>   };
+>>   
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
+>> index a4ceafe6dd7a..80d6ea0eda84 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
+>> @@ -141,6 +141,8 @@ sdio_pwrseq: sdio-pwrseq {
+>>   };
+>>   
+>>   &edp {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&edp_hpd>;
+>>   	status = "okay";
+>>   };
+> 
+> Thanks for this patch!  These changes are looking good to me, and the
+> board dts files changed in this patch are the right ones, i.e. those that
+> enable the "edp" node without specifying the "force-hpd" property.
+> 
+> Additionally,"/omit-if-no-ref/" should be added to the "edp" pinctrl node
+> in rk3399-base.dtsi, to not include the "edp_hpd" pinctrl definition in
+> the board dtb files where that actuually isn't used.
 
-Using the scheduler's internal locks is not legal (anymore). With the
-sched_fence it's a bit special though because that is the
-synchronization object for the driver, actually. So I don't know
-either.
+Ah, indeed - I can't think of a realistic good reason for the pinctrl to 
+only be selected by an overlay rather than the base board, and even if 
+anyone did conjure up some such crazy modular system, they could always 
+change it back. Good thing I got distracted and didn't get round to 
+sending v2 last night :)
 
-I would say either separate the locks, or drop the patch as you
-suggest.
+> With the note above addressed, please feel free to include
+> 
+> Reviewed-by: Dragan Simic <dsimic@manjaro.org>
 
+Thanks!
 
-P.
-
-> > Besides that, no objections from my side.
->=20
-> Thanks,
-> Christian.
->=20
-> >=20
-> >=20
-> > P.
-> >=20
-> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 entity->fence_context + 1, se=
-q);
-> > > =C2=A0}
-> > > =C2=A0
-> > > =C2=A0module_init(drm_sched_fence_slab_init);
-> > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.=
-h
-> > > index 78e07c2507c7..ad3704685163 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -297,10 +297,6 @@ struct drm_sched_fence {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * belongs to.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > =C2=A0	struct drm_gpu_scheduler	*sched;
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /**
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @lock: the lock u=
-sed by the scheduled and the finished fences.
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > -	spinlock_t			lock;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /**
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @owner: job =
-owner for debugging
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >=20
->=20
+Robin.
 
