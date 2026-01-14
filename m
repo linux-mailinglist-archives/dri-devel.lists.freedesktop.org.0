@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF866D1C2D2
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 03:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6365D1C31E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 04:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8D7510E14C;
-	Wed, 14 Jan 2026 02:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA5BF10E214;
+	Wed, 14 Jan 2026 03:04:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="j9QIudcY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l++VmAaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49235.qiye.163.com (mail-m49235.qiye.163.com
- [45.254.49.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC1010E14C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 02:58:11 +0000 (UTC)
-Received: from [172.16.12.51] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 308f250c9;
- Wed, 14 Jan 2026 10:58:07 +0800 (GMT+08:00)
-Message-ID: <2d77eac3-c213-42d5-bf47-4e81b30f9f38@rock-chips.com>
-Date: Wed, 14 Jan 2026 10:58:07 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB75010E213;
+ Wed, 14 Jan 2026 03:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768359876; x=1799895876;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=54hOa1aigzaT/Ynyvhom+DsVGvswEPHDeqxOl2KkXts=;
+ b=l++VmAaENWht9GpBUq/zrgzrKx16IEedIP+n+TVkbb8Ct5s6710wVqLB
+ DQLdCqhQPrdZ0/nbcQ9EGSXMtsgKNwtcB0d8brU/nGHwcApCCfbz9L9M2
+ NxK2ghK89zoW3gqzqLL116ncV7HOQXFSD/CoHn4wM027ePQZQBsrF6CkH
+ f+O12jN/Ggwq2I1+VR5u9LsNClMF5jdDRb+kyjKwnxmb1Nd5w/wb/8DVy
+ wMpzWJUOz50yPMVqEVhcTHt18XBcrqzuxOA1IsxEr+lkqMPavgf9auE9t
+ 1W2TdpCps4jYKY+Rpie0D8vfrUNzdjSUVomidu8oxuFN2lUO9BrvcA/eF Q==;
+X-CSE-ConnectionGUID: 6EgEU1oqRiafb1NfuPxq1g==
+X-CSE-MsgGUID: z0Yhoc/XRBuUB2opC/3KIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69706002"
+X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; d="scan'208";a="69706002"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 19:04:36 -0800
+X-CSE-ConnectionGUID: 6hA0aO+yTqWOd+sf/UVfmA==
+X-CSE-MsgGUID: bdyAbgwTSAiDB/8VwjNYFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; d="scan'208";a="204829332"
+Received: from baandr0id001.iind.intel.com ([10.66.253.151])
+ by fmviesa008.fm.intel.com with ESMTP; 13 Jan 2026 19:04:33 -0800
+From: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+Subject: [PATCH v3] drm/i915/bios: Use get_unaligned_* for VBT block size
+Date: Wed, 14 Jan 2026 08:31:45 +0530
+Message-Id: <20260114030145.3039094-1-kaushlendra.kumar@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/rockchip: DRM_ROCKCHIP should depend on ARCH_ROCKCHIP
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <5db192d31cc51f027f107c01c01a353a0569ebf4.1768310045.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <5db192d31cc51f027f107c01c01a353a0569ebf4.1768310045.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9bba70697d03abkunmb3f2a1de1f8330
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkNOTFYaS0tCT0xJSkNMSBhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=j9QIudcYTQdvAa4MQgAhI4Fa8GsWXodzhvPhl5TmPHpdmhS0nTyCktPg0RIFRrgmZLLwRm/qqFGxNIFJfR8xsPugPJWrTrV2cA4CdA4+4le2+yxPG9jw1gMy1QgdTWuEIZsV8nlYaKcQoWgaYV3ADLUZV6io90Fwf5+U69oMxa0=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=BExGeWQxtEVNv6OQM+naThqTHzsblmqsaTZLZYeFiYk=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,37 +68,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/2026 9:15 PM, Geert Uytterhoeven wrote:
-> Rockchip display hardware is only available on Rockchip SoCs.  Hence add
-> a dependency on ARCH_ROCKCHIP, to prevent asking the user about this
-> driver when configuring a kernel without Rockchip platform support.
-> 
-> Before, this dependency was implicit through a hard dependency on
-> ROCKCHIP_IOMMU.
-> 
-> Fixes: 0244539f9a4f3b56 ("drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/rockchip/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 025bd770f499e6ed..1479b8c4ed40ad16 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -2,6 +2,7 @@
->  config DRM_ROCKCHIP
->  	tristate "DRM Support for Rockchip"
->  	depends on DRM
-> +	depends on ARCH_ROCKCHIP || COMPILE_TEST
->  	depends on ROCKCHIP_IOMMU || !ROCKCHIP_IOMMU
->  	depends on OF
->  	select DRM_CLIENT_SELECTION
+Replace pointer casts with get_unaligned_* helpers for VBT
+block size reads. This ensures endianness and alignment
+correctness in VBT parsing.
 
-Thank you for the fix.
+Signed-off-by: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+---
+v2: Fix include ordering, as per review
+v3: Update all instances in file, not just _get_blocksize
 
-Reviewed-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+ drivers/gpu/drm/i915/display/intel_bios.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+index 4b41068e9e35..91286fafa52b 100644
+--- a/drivers/gpu/drm/i915/display/intel_bios.c
++++ b/drivers/gpu/drm/i915/display/intel_bios.c
+@@ -27,6 +27,7 @@
+ 
+ #include <linux/debugfs.h>
+ #include <linux/firmware.h>
++#include <linux/unaligned.h>
+ 
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/display/drm_dsc_helper.h>
+@@ -85,9 +86,9 @@ static u32 _get_blocksize(const u8 *block_base)
+ {
+ 	/* The MIPI Sequence Block v3+ has a separate size field. */
+ 	if (*block_base == BDB_MIPI_SEQUENCE && *(block_base + 3) >= 3)
+-		return *((const u32 *)(block_base + 4));
++		return get_unaligned_le32(block_base + 4);
+ 	else
+-		return *((const u16 *)(block_base + 1));
++		return get_unaligned_le16(block_base + 1);
+ }
+ 
+ /* Get BDB block size give a pointer to data after Block ID and Block Size. */
+@@ -1791,9 +1792,9 @@ find_panel_sequence_block(struct intel_display *display,
+ 
+ 		current_id = *(data + index);
+ 		if (sequence->version >= 3)
+-			current_size = *((const u32 *)(data + index + 1));
++			current_size = get_unaligned_le32(data + index + 1);
+ 		else
+-			current_size = *((const u16 *)(data + index + 1));
++			current_size = get_unaligned_le16(data + index + 1);
+ 
+ 		index += header_size;
+ 
+@@ -1833,7 +1834,7 @@ static int goto_next_sequence(struct intel_display *display,
+ 			if (index + 4 > total)
+ 				return 0;
+ 
+-			len = *((const u16 *)(data + index + 2)) + 4;
++			len = get_unaligned_le16(data + index + 2) + 4;
+ 			break;
+ 		case MIPI_SEQ_ELEM_DELAY:
+ 			len = 4;
+@@ -1879,7 +1880,7 @@ static int goto_next_sequence_v3(struct intel_display *display,
+ 	 * includes MIPI_SEQ_ELEM_END byte, excludes the final MIPI_SEQ_END
+ 	 * byte.
+ 	 */
+-	size_of_sequence = *((const u32 *)(data + index));
++	size_of_sequence = get_unaligned_le32(data + index);
+ 	index += 4;
+ 
+ 	seq_end = index + size_of_sequence;
 -- 
-Best, 
-Chaoyi
+2.34.1
+
