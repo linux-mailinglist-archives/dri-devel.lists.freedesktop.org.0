@@ -2,97 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A48D1FE9A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AAAD1FF5D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 16:53:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB78F10E2C2;
-	Wed, 14 Jan 2026 15:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A153110E581;
+	Wed, 14 Jan 2026 15:53:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PeErgJ/t";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="nCTKLLGR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A706110E2C2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1768405631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gzUsW5No6dGH8ZciSrcNEaMmqaGyJ5Qr5Ou1SRqIt3k=;
- b=PeErgJ/tmV0XNSk70zoPZN7G7MFkKlkdRGHB6QgyWQ7WX6quAbctiiH6P5pVwjhrxU7OR0
- zGHmef8a9zi57wUL8tXCzVEFJg9GJxLcAGWZN2V6wV61cN1iZrHg3hjNfaP66nDe04Lwwm
- 82v1KxsDalTkcOHfHWZo8//bat3waMg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-mFPuL0OQPAetsbMgEKlzxw-1; Wed, 14 Jan 2026 10:47:09 -0500
-X-MC-Unique: mFPuL0OQPAetsbMgEKlzxw-1
-X-Mimecast-MFC-AGG-ID: mFPuL0OQPAetsbMgEKlzxw_1768405629
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-50147745917so42690481cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:47:09 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F35810E581
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 15:53:39 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-47775fb6cb4so49137445e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:53:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768406017; x=1769010817;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mrePS2BeC/5/zU5iIVNiA/HxBMqtaGmBB9n2hBMQrA0=;
+ b=nCTKLLGRjJvEgDkHJvR8ALDKlxrsQhM+reV0eVp6fo67mTywc3c7P4H1oWxIJQeL/a
+ 298YQXEnbjoLTnmfAF4t3ij798DiVoCYvm9NaBqAtPpiRIurHlGsvxRlO0m3Dl4OB4Q8
+ UOxV24OKRhvGWNiYYcS95SUomwXC1j7kVMwlDkSZ3xdY0tX+X6zUsXJ9GtZpNihvoDVR
+ MpkRioHYzFWF7KrLvL3YY4j6exsyeq2EX52krKnR+hNjqsWh6V/L3gktGfHQn2OIt/xT
+ PIxFRN19dqDtPoRMlzbiZjL7TUlBxPTebnXWm1XKDfiWcq9XorT9Z3c0XsXSA5rdC+Fv
+ 83Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768405629; x=1769010429;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gzUsW5No6dGH8ZciSrcNEaMmqaGyJ5Qr5Ou1SRqIt3k=;
- b=L2nvyAQ5r0k8ejmIcYpYFc/V+f29SK+Iorj52xiBcFPIQIVQPl0Vz9dGyxYzfRbUou
- W2BrSoKp8JU5asVl9/Juqocr8A0QjUUD4h3aETaHGCv56UNbv1wjDsR3V90yvzXMWMZ0
- yXdalgnqHZctrl1a83lAAPsrWE9+1PByw4Vq50Hs5k9ACFe5+Fhje4Qzzxs2tSKETQ7h
- VPPGux5f/5MXNN+aMpWdSYemRZs4ptP4g1hEEpNsjx4rbOOblileeKlUtkuAOyvcq+4r
- IzP1UNtumlZWGlwjIoCCAmT3nJ4MhtTOfmhHLxJqwXzA5fPtL5b9XXb6g+SF1PPTWQ6m
- VNWA==
+ d=1e100.net; s=20230601; t=1768406017; x=1769010817;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mrePS2BeC/5/zU5iIVNiA/HxBMqtaGmBB9n2hBMQrA0=;
+ b=U/Atp6/b4vxKjRGaVzBB5JswuBULrVfUp7p8y/bIMRexXq5OIBBzSeHVHftkiBMjr1
+ cFVruDTLp8Yra2rygCWhCyLJGqea1pxg8B/hYLyvOYKGhHvUDUv83k5tnskyf9PHym2I
+ bTqg0ilpI56j/+a7kxhZ29RjwJoET4g2b2cHQLP7uHrrqW5Vyw8LqpnB/Yh0ic7wopct
+ skFla94agRAVPMGOKaeQ6LnGM95sl0RQHqenEX45ARgtw+7qc3RihyH5+Vt7mMVJhh+G
+ HewIvby/X2e+4FEB74Ht1dQaU+Lm3C6TA5EHqcoGY4wP/KhO6Tpr1Zok0Qgr/jwN+i5g
+ AWgg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBc0DGXgYsODoVhkuBV+HnkHxhblNu+YEcxQC8vjJQ6/RoszHVM2htHbvDxQHuCWoVnVaC6WXJKFI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoEWI33Z1z6iEiftWWCaVoV7c5PUAr3IRuy7M8kj8DqOqzH/Ru
- eBpdtgQIAKSXb8JzUzLGVEBSxct6hIdO/GlWlCwNZUYuTXR2zjW9wI4AUYXytXNCG3EhAgSPMNo
- qOwMn9CFGLFmXWcIzmIVD2QiqdayyuTnCX13gdmXiyz2oyp9V9sK+WxaJrzOCjneP+f2fkQ==
-X-Gm-Gg: AY/fxX7Ta9RuYApbzusMcQSHadG1L4r/8HBFLZoZVSiGyI416JaISbR4olAKt3+lINq
- XvTw1pWBVmOg0y7sskRxOioCU1v9B6cpu3NcWhD4fscAegpmDl3zPz5DM0byqgjuN95tN+P7XGk
- q8PnB9QA37hIi9pKgCOOvY/Y8D/02aybA09zndh3KrMYOdLpSYrNnGvtGQ4Hca6LFYdnluOHmja
- LQoWAJb8o7XWNTeV7zI2W0XX2smnNdDBRKmOxF9U1lRISJjlOQ/psySJzZuvNCULcBLKcctySfF
- YbXCDFCahR3PFO58kNOSszNZHaDpaR+evskn9qA6DdJzxGVc9YOzZ3ed42CGv5O5ui/z7YupW4e
- oYV+svKHhMDX6l20WZy6OCamT4ALgDrQ8O2RiyOr65JcS7hL8mlA=
-X-Received: by 2002:a05:6214:1242:b0:889:7c5b:8134 with SMTP id
- 6a1803df08f44-89274367e44mr36520866d6.27.1768405629304; 
- Wed, 14 Jan 2026 07:47:09 -0800 (PST)
-X-Received: by 2002:a05:6214:1242:b0:889:7c5b:8134 with SMTP id
- 6a1803df08f44-89274367e44mr36520486d6.27.1768405628751; 
- Wed, 14 Jan 2026 07:47:08 -0800 (PST)
-Received: from localhost (pool-100-17-20-16.bstnma.fios.verizon.net.
- [100.17.20.16]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-890772682besm179575456d6.50.2026.01.14.07.47.07
+ AJvYcCVkWmRq1h/BDjE5wSSrtiItKujLQODfBFyY28nEdSJ4DruIpAbRbiwvTIOTSBwAEvtLWaU6YXLBf7g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIy83wNqjA7DJkbigWfn6xbfMgty+xXI3qACbAVYJGvCmi+OXy
+ lTcD+ac9CSACwRmh5lZ/pwmYWq5d1dfBpssRR7mzPtW8XEs4Nf8aOmu7LtlPyQ6lNJg=
+X-Gm-Gg: AY/fxX4X3tzu04W4lCxY7HkI6HJj1Y2UOZg7HaN+7ENm7S74XdnTIhh/PZvTij0RJ9b
+ 34kbtrTfzkf35VGcuw2E0SzcaNQpzmbVFLfa/Jg5W/hCL2uePFjIq8jg1POqKEpfbQ/4MByNPUP
+ d3TPdsytECnOe6QZxo/IfAecQVdLczlcnRf9/fQgqR4QVqkdVHhAJXf5avZ0A3awHNUu0BBSWFH
+ FdAtRMckAIiyPTHcai3n5P94QWyHen45ET+6UqYhAsVrmzSMSXyHXN2V0rILuUvNCPnoBkda4qH
+ l/mOk3/YTzmR0qDaqkGvMIGMbf3lCqeEPIemvw/4TUP+3J7/NylVH9QPCkxH0KxM37Hj0UlkHEe
+ ty/Fc7YypVjmeM2ZvGJ+YzRfaumUSFYCLjnpxRhNZ6FMwc+uhx81DfiqYojp1FxxC8qtuQdaMRZ
+ InodczcWhTtrvQKQ0Aa/tM6dPa01quiops+IOSS1rFzi3HKM/nXVHGUz3pihp0D7CUBuX/P2w3A
+ sdK5CVG5Y2b1b9jBq7UGPHCfoM1VafIzPvE8y8DVRI0Kwny1dwlv2DC1n2AvKHWjciLY6PczMpS
+ tm2LbVw=
+X-Received: by 2002:a05:600c:4515:b0:45c:4470:271c with SMTP id
+ 5b1f17b1804b1-47ee339455dmr35015355e9.18.1768406016823; 
+ Wed, 14 Jan 2026 07:53:36 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-432bd5ee870sm51184009f8f.36.2026.01.14.07.53.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jan 2026 07:47:08 -0800 (PST)
-Date: Wed, 14 Jan 2026 10:47:07 -0500
-From: Eric Chanudet <echanude@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Maxime Ripard <mripard@redhat.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dma-buf: system_heap: account for system heap
- allocation in memcg
-Message-ID: <urjkdpeypk2uln6lkfi3fd54aqjlrirq23idl7wrnouuhox5rh@amxjnxrqs4lq>
-References: <20260113-dmabuf-heap-system-memcg-v2-0-e85722cc2f24@redhat.com>
- <20260113-dmabuf-heap-system-memcg-v2-2-e85722cc2f24@redhat.com>
- <7a0fcf24-09de-4f6e-8a0b-7b631b1315bb@amd.com>
+ Wed, 14 Jan 2026 07:53:36 -0800 (PST)
+Date: Wed, 14 Jan 2026 15:53:34 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: tessolveupstream@gmail.com
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: backlight: gpio-backlight: allow
+ multiple GPIOs
+Message-ID: <aWe7_hFpmO0E2sJe@aspen.lan>
+References: <20260105085120.230862-1-tessolveupstream@gmail.com>
+ <20260105085120.230862-2-tessolveupstream@gmail.com>
+ <aVuKdAyXfWLs-WJI@aspen.lan>
+ <c182df66-8503-49cf-8d1d-7da17214b843@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <7a0fcf24-09de-4f6e-8a0b-7b631b1315bb@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nHgcyXQFWQVVB7HqfyAfqJhk1CD6kkc1VRz4rCHSAVA_1768405629
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c182df66-8503-49cf-8d1d-7da17214b843@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,78 +99,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 14, 2026 at 11:38:27AM +0100, Christian König wrote:
-> On 1/13/26 22:32, Eric Chanudet wrote:
-> > The system dma-buf heap lets userspace allocate buffers from the page
-> > allocator. However, these allocations are not accounted for in memcg,
-> > allowing processes to escape limits that may be configured.
-> > 
-> > Pass __GFP_ACCOUNT for system heap allocations, based on the
-> > dma_heap.mem_accounting parameter, to use memcg and account for them.
-> > 
-> > Signed-off-by: Eric Chanudet <echanude@redhat.com>
-> > ---
-> >  drivers/dma-buf/heaps/system_heap.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> > index 4c782fe33fd497a74eb5065797259576f9b651b6..139b50df64ed4c4a6fdd69f25fe48324fbe2c481 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -52,6 +52,8 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
-> >  static const unsigned int orders[] = {8, 4, 0};
-> >  #define NUM_ORDERS ARRAY_SIZE(orders)
-> >  
-> > +extern bool mem_accounting;
-> 
-> Please define that in some header. Apart from that looks good technically.
+On Tue, Jan 13, 2026 at 10:15:53AM +0530, tessolveupstream@gmail.com wrote:
+>
+>
+> On 05-01-2026 15:25, Daniel Thompson wrote:
+> > On Mon, Jan 05, 2026 at 02:21:19PM +0530, Sudarshan Shetty wrote:
+> >> Update the gpio-backlight binding to support configurations that require
+> >> more than one GPIO for enabling/disabling the backlight.
+> >>
+> >> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
+> >> ---
+> >>  .../bindings/leds/backlight/gpio-backlight.yaml      | 12 +++++++++++-
+> >>  1 file changed, 11 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> >> index 584030b6b0b9..1483ce4a3480 100644
+> >> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> >> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> >> @@ -17,7 +17,8 @@ properties:
+> >>
+> >>    gpios:
+> >>      description: The gpio that is used for enabling/disabling the backlight.
+> >> -    maxItems: 1
+> >> +    minItems: 1
+> >> +    maxItems: 2
+> >
+> > Why 2?
+> >
+>
+> In the current design, the LVDS panel has a single backlight that
+> is controlled by two GPIOs. Initially, It described as two separate
+> backlight devices using the same gpio-backlight driver, since the
+> existing driver supports only one GPIO per instance.
+>
+> So the maintainer suggested to extend the gpio-backlight driver
+> and bindings to support multiple GPIOs.
+> https://lore.kernel.org/all/q63bdon55app4gb2il5e7skyc6z2amcnaiqbqlhen7arkxphtb@3jejbelji2ti/
 
-Thank you for the review, I can move it to linux/dma-heap.h in a v3
-since it's intended for other heaps as well.
+Right. So, once we support multiple GPIOs then why limit it to 2?
 
-> But after the discussion it sounds more and more like we don't want to account device driver allocated memory in memcg at all.
 
-From the threads in v1 I thought adding the switch left open a
-consideration to use memcg with driver allocated memory for userspace,
-even with the known caveats that implies. Re-reading your last reply[1],
-that's not quite the case it sounds like.
-
-Best,
-
-[1] https://lore.kernel.org/all/e38d87d3-a114-43f9-be93-03e9b9f40844@amd.com/
-
-> 
-> Regards,
-> Christian.
-> 
-> 
-> > +
-> >  static int dup_sg_table(struct sg_table *from, struct sg_table *to)
-> >  {
-> >  	struct scatterlist *sg, *new_sg;
-> > @@ -320,14 +322,17 @@ static struct page *alloc_largest_available(unsigned long size,
-> >  {
-> >  	struct page *page;
-> >  	int i;
-> > +	gfp_t flags;
-> >  
-> >  	for (i = 0; i < NUM_ORDERS; i++) {
-> >  		if (size <  (PAGE_SIZE << orders[i]))
-> >  			continue;
-> >  		if (max_order < orders[i])
-> >  			continue;
-> > -
-> > -		page = alloc_pages(order_flags[i], orders[i]);
-> > +		flags = order_flags[i];
-> > +		if (mem_accounting)
-> > +			flags |= __GFP_ACCOUNT;
-> > +		page = alloc_pages(flags, orders[i]);
-> >  		if (!page)
-> >  			continue;
-> >  		return page;
-> > 
-> 
-
--- 
-Eric Chanudet
-
+Daniel.
