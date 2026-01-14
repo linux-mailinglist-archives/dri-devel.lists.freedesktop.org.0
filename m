@@ -2,144 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FC0D1CC4C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 08:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A7DD1CC58
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 08:13:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C54A210E362;
-	Wed, 14 Jan 2026 07:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6361510E173;
+	Wed, 14 Jan 2026 07:13:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CYCGXGCX";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="khjzWNWB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OhmQLF+u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1973510E173
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:12:38 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60E65xdW1872424
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:12:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Fq4a38fiWnx2ftPjHIPdlFRol4VhEcllxEgvdPr2E2A=; b=CYCGXGCXwtBGAyv4
- ZbtZWa5OLlMJxC3Wmi9roBToVjfhdOnA6LlX10cPNqohCnu0wJnG+FlnMtAg6ucH
- l2alwITHDMLsxWM2hN0OHk3CM0srY6hvxXau2TJA2lWl3vzvOYzXwj8iMGjPlgHA
- EBABpf/7G7z7HytjIor/TBm18e58ekPD5DpX9cmQ3J6fzGTHnx6zXM8agkhNWP4r
- MKPLWm/sAfs4DV6UTVwz4PSewnfAAgG0Y9rU7tCE0RR6QMTlEIG7TpBl7l7DJzvf
- WIWUHB0pNIe1C7III50BqKA58bYOSvXQCqWLhJG3b870B5a4BXv8u4mlgY80doj4
- 0mVb6A==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnu58t61u-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:12:37 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-c56848e6f45so2562872a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 23:12:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768374757; x=1768979557;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Fq4a38fiWnx2ftPjHIPdlFRol4VhEcllxEgvdPr2E2A=;
- b=khjzWNWBqYP9cT/WY4Nprp33VqPkTzsmIMB4beMxOVN506Sw902xwiy7HF5lGtBQ1U
- +V18RorRUWsEmYNYA3gGeTbcwPwsOixi8A7aEmlFPGyOe3FFwqd159BgD3iUdqR1tziF
- hV/lCJ/45upOPDHbuMjQfPGCfwPE5xJByFaJ47ov/voPQrMXAY4XRSFFYMJp0wShxg43
- hGpXDdvSCHeDFlQOEKTTT0ahxROLUKUen45W6uqG0TF25vvA8CAhPHZFs5atvz1b2MDg
- gxV01HACDJRtWXKd3ssduYUd4NhOqMHLwI/91J2VZrMUSuX9GyWkZgW2uvTH8eregSD3
- 89hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768374757; x=1768979557;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Fq4a38fiWnx2ftPjHIPdlFRol4VhEcllxEgvdPr2E2A=;
- b=oZF20Nf0IXDW+WxrQ8jxqQpwoV7T0O4dfOK+BkQk8axSUYC+05OrHPQJJuXKYoT5CJ
- cMgwFG57M1XtZj9wLKokS5SGNiuN7I/KaQ4z949KCMihkV7Gv++pexhkvLI4bGrZb0dF
- fs7tSws9Nf/kwC5u0Oi8JAFrdWa4s+zg3G8E9UVEkEhiUv/EIhgesi9rVnz8IQKeGY1A
- SCF6asd3Xlj4DNZBUwv7mBmW0Wqqw3P8CBSclRsxwn1H1MtsWD6+llUqpKRKFYNJKsRB
- FX47QYYnrY7Uwe4HR/g6K+G4+rDxOTPBtKy0uxejhVD0jJeubSa9hVUiAQsqxbVKJSGX
- VzHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1rmBBgwrb3oXBz9OYUucM8uBCxVh1eNoqWRU5LuIhhMMWDHJi+cP0ZSNNtTrFvLI3IgLvqhHN4lo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnxG+wNxdcA6r1Ko9Z2Q7evQ6WvWWo5lXDo4H31aqRcx3BxQZM
- t5klC7fK3Y34K83tCnL/z3k9SVssVes+vQxZ9BKtugHNFAb9XTzQCek37FzPtdwwvEycC4MXasV
- P93t5+zfer3fVJoxrM+GsCZ5/DicwXq/8dCenJ5V8EvCTu8UVZ4ImPWaax5Ru7VsFX9Mz7Ho=
-X-Gm-Gg: AY/fxX6myYjgsNbasYu1YqrVnx0CuDYBPlBBwFz0M9K14uFSHq/SGc8YWdTQHWogv50
- KF862Ogzdvje40yUAQknZ5zl4ekrv6zwB1qny8MDEnpaPnbNj5op+2JyReywmrDp3YBXy8hhUIt
- x+RXaWjqrV49toprRKEYHw1QFEYYM7hwpBEkZyLmnIu5ugFImKbVb3214UtHmijbHv+9AtiWici
- 7M4KdicLWfGua7k6bsAnYpN3eJ2DM5+rHznx+zZcpngv5kSLOEijkhP9DpQ6EAGH9WfYjm9o7Lh
- Kv/cBDMQb8/S2t4LwFGVoLjIopan260h8Ouy5blRou0M7jUgsrtuY6D0fCCHEcdw7NrC1860iV8
- jSIvcO7xN9nkXfZlqsK+ZGRm5e0LTdtfCheiKsOUlW+hQ
-X-Received: by 2002:a17:903:b0f:b0:2a0:d364:983b with SMTP id
- d9443c01a7336-2a599e5cb87mr14570375ad.60.1768374756704; 
- Tue, 13 Jan 2026 23:12:36 -0800 (PST)
-X-Received: by 2002:a17:903:b0f:b0:2a0:d364:983b with SMTP id
- d9443c01a7336-2a599e5cb87mr14570035ad.60.1768374756186; 
- Tue, 13 Jan 2026 23:12:36 -0800 (PST)
-Received: from [10.206.109.90] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3c49299sm215214325ad.42.2026.01.13.23.12.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jan 2026 23:12:35 -0800 (PST)
-Message-ID: <82f03ed2-bec6-01c8-8ede-d4c4c406cdd6@oss.qualcomm.com>
-Date: Wed, 14 Jan 2026 12:42:27 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F4810E173
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 07:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768374803; x=1799910803;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=B1i3RGrMn24RmFoQ6OZ5PlSAfVLwdXHdm5Wr+tCH83k=;
+ b=OhmQLF+uq29NmoudNB7Dz7/niZAm1UKm3/9iyCM+V2LsJejYA0Pst7Nu
+ 92nWcosHcXRtDuQDmsRa+lVR8/3geo/TYckotk5sAP6zvYhwezuXKG2a7
+ dn9DHSsv5zoJprRaVh8x1W4zz6G4j9mXdEKlN9gnIO93K/BzqXXQYNBpf
+ f7SFg65wSMbgd5FNbkg6YKnvp4w82vjOuC/tHzD6UiA0uV4MoFUaFqj/5
+ N3x41WjouL5Ks4CL3wDyLn9LjKQLlsxoB0RPnbghVlYpi8ag3Q4pR0VYT
+ A8nnDOhCi+n1g9fyjMalUwSyWyvaXl6t+Oth0SHN0Lr5ATnVg42iUpj3M Q==;
+X-CSE-ConnectionGUID: 4e9AMEpcQ8yt6Y0dUxGMqQ==
+X-CSE-MsgGUID: ++BT2DvaQ167cIuFQGL3dA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69577187"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; d="scan'208";a="69577187"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2026 23:13:22 -0800
+X-CSE-ConnectionGUID: rdcFbvxzTmKOdXk1PYbxcw==
+X-CSE-MsgGUID: LFZsELyYRUSJLhQCO+80AA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 13 Jan 2026 23:13:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vfv49-00000000Fya-46Ny;
+ Wed, 14 Jan 2026 07:13:17 +0000
+Date: Wed, 14 Jan 2026 15:13:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, tursulin@ursulin.net, matthew.brost@intel.com,
+ sumit.semwal@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 05/10] dma-buf: inline spinlock for fence protection v4
+Message-ID: <202601141412.WQDwevjM-lkp@intel.com>
+References: <20260113152125.47380-6-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 03/11] media: iris: retrieve UBWC platform configuration
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
- <20260113-iris-ubwc-v2-3-4346a6ef07a9@oss.qualcomm.com>
-Content-Language: en-US
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20260113-iris-ubwc-v2-3-4346a6ef07a9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA1NSBTYWx0ZWRfX7YD/Xfgau5MA
- jojsB7Iuf3Nh1BsGYblp4VpM2uVIyu4DCmLYken2Lba9bhHACjjz4U5w7lzazLE2CpmqvV9A2o0
- dEbPJQyZEcQTBGrCQk3vqZxjTM9IbGJny5dsVyIwoyqlAlvTtCTAwt1s9oR1nlrXooeJ/iypq7I
- RgipXNxVeRabojjnHAUhhxZ0ycaOSkW7mgG10BsKOlt05cQ60Atcpa2QWBjTPEYeQzrYpmkCE8B
- n2ITebztJodX15rqFHG2PQrJxGVqKWU0rr1LlbqQcbIOo2Dzmr46EleQIGR6ukhQiyIY/xyEVXh
- qIwn2e/86NTLUL/uf/2Qr7svRidqqBQVubQ8p5+OX4/sZojlLQJeardO0vZuvxdkb+JiJuYcScn
- Lwyh+JC3tkWMFjyEENXLSz9R6p8ypu/UkflUkmxCBo6yXNqqheb7d3Zt1OBMiAiuOkbFrSqX0/R
- Cwt3FMcq3gbiJldhZLg==
-X-Authority-Analysis: v=2.4 cv=BZnVE7t2 c=1 sm=1 tr=0 ts=696741e5 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=Hb1tMkpcLnUKv6SOSUkA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: cmyQPdJF3DQdyuEieVxiB7_Im6DEOYer
-X-Proofpoint-GUID: cmyQPdJF3DQdyuEieVxiB7_Im6DEOYer
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_02,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140055
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113152125.47380-6-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,88 +71,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip next-20260114]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_is_initialized-function/20260114-001656
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260113152125.47380-6-christian.koenig%40amd.com
+patch subject: [PATCH 05/10] dma-buf: inline spinlock for fence protection v4
+config: x86_64-buildonly-randconfig-004-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141412.WQDwevjM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141412.WQDwevjM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141412.WQDwevjM-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/segment.h:6,
+                    from arch/x86/include/asm/ptrace.h:5,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from include/linux/sched.h:13,
+                    from include/linux/kthread.h:6,
+                    from drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:6:
+   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c: In function '__dma_fence_signal__notify':
+>> drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:151:34: error: 'struct dma_fence' has no member named 'lock'
+     151 |         lockdep_assert_held(fence->lock);
+         |                                  ^~
+   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
+     205 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ^~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |                        ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:151:9: note: in expansion of macro 'lockdep_assert_held'
+     151 |         lockdep_assert_held(fence->lock);
+         |         ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/debugobjects.h:6,
+                    from drivers/gpu/drm/i915/i915_active.c:7:
+   drivers/gpu/drm/i915/i915_active.c: In function '__i915_active_fence_set':
+>> drivers/gpu/drm/i915/i915_active.c:1048:32: error: 'struct dma_fence' has no member named 'lock'
+    1048 |         spin_lock_irqsave(fence->lock, flags);
+         |                                ^~
+   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+   drivers/gpu/drm/i915/i915_active.c:1048:9: note: in expansion of macro 'spin_lock_irqsave'
+    1048 |         spin_lock_irqsave(fence->lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_active.c:1050:38: error: 'struct dma_fence' has no member named 'lock'
+    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
+         |                                      ^~
+   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
+     221 |         _raw_spin_lock_nested(lock, subclass)
+         |                               ^~~~
+   drivers/gpu/drm/i915/i915_active.c:1050:17: note: in expansion of macro 'spin_lock_nested'
+    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_active.c:1064:41: error: 'struct dma_fence' has no member named 'lock'
+    1064 |                         spin_unlock(prev->lock);
+         |                                         ^~
+   drivers/gpu/drm/i915/i915_active.c:1067:45: error: 'struct dma_fence' has no member named 'lock'
+    1067 |                 spin_unlock_irqrestore(fence->lock, flags);
+         |                                             ^~
+   drivers/gpu/drm/i915/i915_active.c:1072:40: error: 'struct dma_fence' has no member named 'lock'
+    1072 |                 spin_lock_irqsave(fence->lock, flags);
+         |                                        ^~
+   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+   drivers/gpu/drm/i915/i915_active.c:1072:17: note: in expansion of macro 'spin_lock_irqsave'
+    1072 |                 spin_lock_irqsave(fence->lock, flags);
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_active.c:1074:46: error: 'struct dma_fence' has no member named 'lock'
+    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
+         |                                              ^~
+   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
+     221 |         _raw_spin_lock_nested(lock, subclass)
+         |                               ^~~~
+   drivers/gpu/drm/i915/i915_active.c:1074:25: note: in expansion of macro 'spin_lock_nested'
+    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_active.c:1091:33: error: 'struct dma_fence' has no member named 'lock'
+    1091 |                 spin_unlock(prev->lock); /* serialise with prev->cb_list */
+         |                                 ^~
+   drivers/gpu/drm/i915/i915_active.c:1094:37: error: 'struct dma_fence' has no member named 'lock'
+    1094 |         spin_unlock_irqrestore(fence->lock, flags);
+         |                                     ^~
+   In file included from drivers/gpu/drm/i915/i915_active.c:1174:
+   drivers/gpu/drm/i915/selftests/i915_active.c: In function 'active_flush':
+>> drivers/gpu/drm/i915/selftests/i915_active.c:326:28: error: 'struct dma_fence' has no member named 'lock'
+     326 |         spin_lock_irq(fence->lock);
+         |                            ^~
+   drivers/gpu/drm/i915/selftests/i915_active.c:328:30: error: 'struct dma_fence' has no member named 'lock'
+     328 |         spin_unlock_irq(fence->lock); /* serialise with fence->cb_list */
+         |                              ^~
 
 
-On 1/13/2026 10:27 PM, Dmitry Baryshkov wrote:
-> Specifying UBWC data in each driver doesn't scale and is prone to
-> errors. Request UBWC data from the central database in preparation to
-> using it through the rest of the driver.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/media/platform/qcom/iris/Kconfig      | 1 +
->  drivers/media/platform/qcom/iris/iris_core.h  | 4 ++++
->  drivers/media/platform/qcom/iris/iris_probe.c | 5 +++++
->  3 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-> index 3c803a05305a..39b06de6c3e6 100644
-> --- a/drivers/media/platform/qcom/iris/Kconfig
-> +++ b/drivers/media/platform/qcom/iris/Kconfig
-> @@ -5,6 +5,7 @@ config VIDEO_QCOM_IRIS
->          select V4L2_MEM2MEM_DEV
->          select QCOM_MDT_LOADER if ARCH_QCOM
->          select QCOM_SCM
-> +        select QCOM_UBWC_CONFIG
->          select VIDEOBUF2_DMA_CONTIG
->          help
->            This is a V4L2 driver for Qualcomm iris video accelerator
-> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-> index fb194c967ad4..d10a03aa5685 100644
-> --- a/drivers/media/platform/qcom/iris/iris_core.h
-> +++ b/drivers/media/platform/qcom/iris/iris_core.h
-> @@ -30,6 +30,8 @@ enum domain_type {
->  	DECODER	= BIT(1),
->  };
->  
-> +struct qcom_ubwc_cfg_data;
-> +
->  /**
->   * struct iris_core - holds core parameters valid for all instances
->   *
-> @@ -52,6 +54,7 @@ enum domain_type {
->   * @resets: table of iris reset clocks
->   * @controller_resets: table of controller reset clocks
->   * @iris_platform_data: a structure for platform data
-> + * @ubwc_cfg: UBWC configuration for the platform
->   * @state: current state of core
->   * @iface_q_table_daddr: device address for interface queue table memory
->   * @sfr_daddr: device address for SFR (Sub System Failure Reason) register memory
-> @@ -95,6 +98,7 @@ struct iris_core {
->  	struct reset_control_bulk_data		*resets;
->  	struct reset_control_bulk_data		*controller_resets;
->  	const struct iris_platform_data		*iris_platform_data;
-> +	const struct qcom_ubwc_cfg_data		*ubwc_cfg;
->  	enum iris_core_state			state;
->  	dma_addr_t				iface_q_table_daddr;
->  	dma_addr_t				sfr_daddr;
-> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> index 9bc9b34c2576..85e531b35ecf 100644
-> --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> @@ -10,6 +10,7 @@
->  #include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/reset.h>
-> +#include <linux/soc/qcom/ubwc.h>
->  
->  #include "iris_core.h"
->  #include "iris_ctrls.h"
-> @@ -248,6 +249,10 @@ static int iris_probe(struct platform_device *pdev)
->  
->  	core->iris_platform_data = of_device_get_match_data(core->dev);
->  
-> +	core->ubwc_cfg = qcom_ubwc_config_get_data();
-> +	if (IS_ERR(core->ubwc_cfg))
-> +		return PTR_ERR(core->ubwc_cfg);
-> +
->  	ret = devm_request_threaded_irq(core->dev, core->irq, iris_hfi_isr,
->  					iris_hfi_isr_handler, IRQF_TRIGGER_HIGH, "iris", core);
->  	if (ret)
-> 
+vim +151 drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
 
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+0152b3b3f49b36 Chris Wilson 2019-05-08  144  
+0152b3b3f49b36 Chris Wilson 2019-05-08  145  static void
+f2cb60e9a3881e Chris Wilson 2019-08-17  146  __dma_fence_signal__notify(struct dma_fence *fence,
+f2cb60e9a3881e Chris Wilson 2019-08-17  147  			   const struct list_head *list)
+0152b3b3f49b36 Chris Wilson 2019-05-08  148  {
+0152b3b3f49b36 Chris Wilson 2019-05-08  149  	struct dma_fence_cb *cur, *tmp;
+0152b3b3f49b36 Chris Wilson 2019-05-08  150  
+0152b3b3f49b36 Chris Wilson 2019-05-08 @151  	lockdep_assert_held(fence->lock);
+0152b3b3f49b36 Chris Wilson 2019-05-08  152  
+f2cb60e9a3881e Chris Wilson 2019-08-17  153  	list_for_each_entry_safe(cur, tmp, list, node) {
+0152b3b3f49b36 Chris Wilson 2019-05-08  154  		INIT_LIST_HEAD(&cur->node);
+0152b3b3f49b36 Chris Wilson 2019-05-08  155  		cur->func(fence, cur);
+0152b3b3f49b36 Chris Wilson 2019-05-08  156  	}
+0152b3b3f49b36 Chris Wilson 2019-05-08  157  }
+0152b3b3f49b36 Chris Wilson 2019-05-08  158  
 
-Thanks,
-Dikshita
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
