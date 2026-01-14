@@ -2,144 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F99D1D9B0
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66639D1DB7D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6B10E2A4;
-	Wed, 14 Jan 2026 09:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B89CD10E3AF;
+	Wed, 14 Jan 2026 09:52:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XwW6/XG2";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HeVj4Kyp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ihyXgY2Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09E110E2A4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60E7jFmb2081702
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=; b=XwW6/XG2vIXEXkjF
- SvKwsdKwUQiSBz0Hfw4Q7KAT0DF+bf0qYMNkgomj9n6KpYDJOWTjxh6Yy3LN530y
- 7S7SYuTlJ1AocYPGzYaf9l8U32ZmUn2lN6b/jSzfBOjZMm8zrQ3jmfPE4ky7mFiZ
- T0AlUccn5iEn8+qoY/aP1nJHVGvpVBYmqjNQAk/3otJRdr9e44TPcdYfnF95H41H
- yTb2QR1sueH4Mc5wTH843T8ClCK+fYcbV5PsMsFSvpPL0j4x0MncReJaMvlKyV76
- PuT2JJq0dv7JN1ic4gafb04oh642Q7CxZWk36w0K+g4cTv6SFjbsn+kQgA+SZqdX
- 4XXHWA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnu58tr61-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:39:18 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8c5265d479dso27381285a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768383557; x=1768988357;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=;
- b=HeVj4KypY+a7JaAfIT3OjAvKJBN5l+SjdADx/0s88xtNuQtsdcQX8Di49Pmf8f2uKo
- zUX+/QQHQJXp+DjNEGRGmmaw/x5OExh8v8dh57ovCNSnAOjhxpD/upAU7wrRu19XE2cc
- csYC5yAER3EEgUBwuuPi4rnqhw8LsM2NRJ9NtkPWnTSHW1AC2cvGu/ELPuqrxct6nh5j
- QqD6XajFgSDLwxXyDVrF1emZUp4B7XtEy9CWok6BgZF6+YtLW5AjSckMfFRxpVCOgkMt
- zgBz4MOq9sZNPPgh/HWdH/F0ro1fzHvB6CCHDRxNIM+0Ps2YukJwTWTnI/iN+uJHX62W
- hxnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768383557; x=1768988357;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bW7hurFHBkMVJEHuJgTkpaD0kO00VP7nzaajP+IP9SQ=;
- b=pK2lTvUZmzTteN8z5e/WVqmB4klSwB+m8LfWdvYl228Z6FmAr8IlP2/di0Fs8D9ari
- SEtggVmFI3lu/i/MBKgStBkNIztMFUzKo6kpTdkIZdbXFUVBrtWQScEM/UK4VJovmXop
- Y65TLK1Y8cAk1lMRqJ54Mc5DnMnFIe2Vx6aHHDM8WL+ddR8TaoSb+XnKOPjaBjVbhXsl
- bVYcZwm+XGT/DwwgYrOF2AkYzgYRypBHG0FpWeXlz2WC+2su8OYxf2YObAUX3HLsvpUN
- eZ5ctQioV5HbJrZ3dm3hewGVWSMofbABLfEDLT9HzCEN+jrYC/0v/ToM75Qrb+Kk7EE+
- lwAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNWFtWcHtbeVerwoW3kcNFEFLJ8fsFyJ7qflUIDWpuxG3PgGQeTlbVNxo5k4jp0KZtX8W9P2dUrVg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoSuQyf0rt5p+4M8lqlmR4BpZnooj1034ROs3iGj6dKd/8AjEB
- ZfA+0ffhJ99SWOhsuBRsWhOuJ4TEQVec35IFJRcFAzQh79VA8ya4cqn5SvEMDoH3C1iAoJD+eK3
- BZLQ+ozaK8PgUxG150xpO6AF7DVDCs8qL/wLdQUFdQ10afrSsyeQpWgOXirYBMfAoBrBA07U=
-X-Gm-Gg: AY/fxX6tXw3hnhtLE/8R1OFBMaq/nGffHPRzBVxCEstHxtbaWgW+47ESFfW3pTDGEcZ
- jmhvxG7h2b9TqbqXW2FIeE87wpnoo7lvdmv6vhHkOHxoup8l3RU3M8ugvP1/C9Yw9ZXUxr/FCaA
- FI1bkxx9kggwgW025Z+4k3CZTGjyLeX3L+y/rcTq+wVveh7nD4PJgQS1U1sX1tsRbnvGLYazR/m
- I0XyGet86ph8gFWoYIpDHjxz4jR+OX4K3pF3Zg0mUKpty4YIiXXXGgChtNiA1mGHZjtXnnQyoct
- xmdyNiRVbrATp2AlT7PdEhXkKKZg6Yx5GmH8OXfksEvd89DxgGuqPBtlSNtX4V+kU075DTdW4oE
- kRp1MQns2YPfR2aBB7gZJyoH4KrpXV0ABMtJhu7CHUaczK+Bx+KOFiwN/01qvOaHJaK4=
-X-Received: by 2002:a05:620a:7010:b0:8b2:9aba:e86e with SMTP id
- af79cd13be357-8c52fbeb24bmr205578785a.10.1768383557379; 
- Wed, 14 Jan 2026 01:39:17 -0800 (PST)
-X-Received: by 2002:a05:620a:7010:b0:8b2:9aba:e86e with SMTP id
- af79cd13be357-8c52fbeb24bmr205577085a.10.1768383556843; 
- Wed, 14 Jan 2026 01:39:16 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b86ebfd08b2sm1288984566b.25.2026.01.14.01.39.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 01:39:16 -0800 (PST)
-Message-ID: <c64cd28b-58f6-4d91-a3c2-eb54effbe898@oss.qualcomm.com>
-Date: Wed, 14 Jan 2026 10:39:13 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A3410E3AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768384354; x=1799920354;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=agacMnmeYUrLp/UPUCqfFq2xNpFBHamuE1mee+9eS5o=;
+ b=ihyXgY2Yp6aK9WEijsnSyN0GWCWRG8oYhjw6jxaHcpW/MnZGpINiwnXF
+ K4xdWcYmRBptqwwhYSFxr22zhqaEHieu3YLKx/o6Q4koJnJo2Xgx+pLjt
+ ocCcXTaJndeEyV67slZYBb/ux6jQ+a7BvRYwY85jIDwg10m5QAc0J4iCG
+ RjvItKkkloCgnRlCJmQH729eXsOn4ZGtWbprM+GXtTR/koE1bkeI3io9O
+ qrk2JfXbjHNjamKtBxaVrfX+pWInKPmKQkNjj66da6oZmFn4a/7EdHZFB
+ sqGdIXrR4PLwDNSSRXPJl25xFAfFDQwWIHUKasW42rZJ8XkP8hks4q9T0 A==;
+X-CSE-ConnectionGUID: LUdnjsFQTRaITbzcdfSmww==
+X-CSE-MsgGUID: IXHM9OujQFS2VNadmXcEHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69588711"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; d="scan'208";a="69588711"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2026 01:52:33 -0800
+X-CSE-ConnectionGUID: G9bV8ggqSX+hh14WYQFw1A==
+X-CSE-MsgGUID: 8kzsbPJvTpGz2kACxGG3Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; d="scan'208";a="205058563"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 01:52:31 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vfxYC-00000000GAy-3Pky;
+ Wed, 14 Jan 2026 09:52:28 +0000
+Date: Wed, 14 Jan 2026 17:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, tursulin@ursulin.net, matthew.brost@intel.com,
+ sumit.semwal@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 01/10] dma-buf: protected fence ops by RCU v5
+Message-ID: <202601141704.EpvIhy4M-lkp@intel.com>
+References: <20260113152125.47380-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/11] media: iris: don't specify min_acc_length in the
- source code
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
- <20260113-iris-ubwc-v2-4-4346a6ef07a9@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260113-iris-ubwc-v2-4-4346a6ef07a9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3OCBTYWx0ZWRfX1qRUWN5pwOMI
- CW5kBYaOx2pY9jsJYSyobuv3HhndW1RX5/4S13rglPPcUQ6sa1EX7ydvsP+0Jar+48gNTHc9SxB
- u4MF1C6fUGYrc/oByuvX7HwgDlhz53MnqmaZoXy8Vs5TtYUWr2Gg+hyo9S2Mf6HS0pnQDTtxVAS
- cpNEMwVeyb36knI8bz2Q7kzapKRIfhXx6SW3RThTXa0+ujzPOxK3nIvlUrxtxDuEwdkZhzNTY+a
- foDTbF9MWYWXy66bt0Fg+IOTp+10880fEmno/yU3uWc1N9tLwrJi+yYx4SwHB7uu7qTCmmbFZCE
- gABH8DSMsp9rB1oxIlVyGTF7yCj2MiMVqALy6XYXFIE/sXreLPztyGS28PZ91fEGyfRfjZmXpK+
- dhrEnJeWLxp28i98ty9X5gdr1T1oSfEPvGYWU3NEsBaWNtQcesA0YCoes/qiWWs7VeFMN0UyvP1
- AeRngMWicD6w3gaonZA==
-X-Authority-Analysis: v=2.4 cv=BZnVE7t2 c=1 sm=1 tr=0 ts=69676446 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=BAgg1nNj1X2pGIFylwwA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: URXdpoZkkMTNCSDFDSHBQsDlczHMRdrX
-X-Proofpoint-GUID: URXdpoZkkMTNCSDFDSHBQsDlczHMRdrX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_03,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140078
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260113152125.47380-2-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,17 +73,379 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/26 5:57 PM, Dmitry Baryshkov wrote:
-> The min_acc length can be calculated from the platform UBWC
-> configuration. Use the freshly introduced helper and calculate min_acc
-> length based on the platform UBWC configuration instead of specifying it
-> directly in the source.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
+Hi Christian,
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+kernel test robot noticed the following build warnings:
 
-Konrad
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip next-20260114]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_is_initialized-function/20260114-001656
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260113152125.47380-2-christian.koenig%40amd.com
+patch subject: [PATCH 01/10] dma-buf: protected fence ops by RCU v5
+config: x86_64-randconfig-122-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141704.EpvIhy4M-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141704.EpvIhy4M-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141704.EpvIhy4M-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence-unwrap.c: note: in included file:
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/dma-buf/dma-fence-array.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/dma-buf/dma-fence-chain.c: note: in included file (through include/linux/dma-fence-chain.h):
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/dma-buf/dma-resv.c: note: in included file (through include/linux/dma-resv.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/dma-buf/dma-fence.c:1042:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char const [noderef] __rcu *timeline @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1042:38: sparse:     expected char const [noderef] __rcu *timeline
+   drivers/dma-buf/dma-fence.c:1042:38: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1043:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char const [noderef] __rcu *driver @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1043:36: sparse:     expected char const [noderef] __rcu *driver
+   drivers/dma-buf/dma-fence.c:1043:36: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1160:44: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1160:44: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1160:44: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1162:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1162:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1162:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1193:46: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1193:46: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1193:46: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1195:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1195:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1195:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_fence.h):
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+>> include/trace/events/dma_fence.h:42:1: sparse: sparse: dereference of noderef expression
+--
+>> drivers/gpu/drm/drm_crtc.c:161:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/drm_crtc.c:161:9: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/drm_crtc.c:161:9: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/drm_syncobj.c: note: in included file (through include/linux/sync_file.h):
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/ttm/ttm_bo.c:1203:31: sparse: sparse: symbol 'ttm_swap_ops' was not declared. Should it be static?
+>> drivers/gpu/drm/ttm/ttm_bo.c:226:27: sparse: sparse: dereference of noderef expression
+--
+   drivers/gpu/drm/scheduler/sched_fence.c:241:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/scheduler/sched_fence.c:241:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpu/drm/scheduler/sched_fence.c:242:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/scheduler/sched_fence.c:242:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpu/drm/scheduler/sched_fence.c:242:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/scheduler/sched_fence.c:242:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> drivers/gpu/drm/scheduler/sched_fence.c:198:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/scheduler/sched_fence.c:198:20: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/scheduler/sched_fence.c:198:20: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/scheduler/sched_fence.c:201:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/scheduler/sched_fence.c:201:20: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/scheduler/sched_fence.c:201:20: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/radeon/radeon_fence.c:73:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/radeon_fence.c:73:40: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/radeon_fence.c:73:40: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/radeon_fence.c:95:31: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/radeon_fence.c: note: in included file:
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/radeon/radeon_display.c: note: in included file:
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/radeon/radeon_sync.c: note: in included file:
+>> drivers/gpu/drm/radeon/radeon.h:2492:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/radeon/radeon.h:2492:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
+   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:499:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
+   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c: note: in included file (through include/linux/dma-fence-chain.h):
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93:20: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93:20: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/i915/gem/i915_gem_busy.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/gem/i915_gem_busy.c: note: in included file (through drivers/gpu/drm/i915/gt/intel_engine.h):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/gem/i915_gem_busy.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/gem/i915_gem_busy.c: note: in included file (through drivers/gpu/drm/i915/gt/intel_engine.h):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/i915/gem/i915_gem_wait.c: note: in included file (through drivers/gpu/drm/i915/gt/intel_engine.h):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/gem/i915_gem_wait.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through include/linux/dma-fence-array.h):
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+>> include/linux/dma-fence.h:717:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:717:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through drivers/gpu/drm/i915/i915_active.h, drivers/gpu/drm/i915/gt/intel_context.h, ...):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through drivers/gpu/drm/i915/i915_active.h, drivers/gpu/drm/i915/gt/intel_context.h, ...):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through include/linux/dma-fence-array.h):
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   include/linux/dma-fence.h:706:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   include/linux/dma-fence.h:706:27: sparse:    struct dma_fence_ops const *
+   drivers/gpu/drm/i915/i915_request.c: note: in included file (through drivers/gpu/drm/i915/i915_active.h, drivers/gpu/drm/i915/gt/intel_context.h, ...):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+--
+   drivers/gpu/drm/i915/display/intel_display_rps.c: note: in included file (through drivers/gpu/drm/i915/display/intel_display_types.h):
+   include/linux/pwm.h:13:1: sparse: sparse: bad integer constant expression
+   include/linux/pwm.h:13:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+   drivers/gpu/drm/i915/display/intel_display_rps.c: note: in included file (through drivers/gpu/drm/i915/gt/intel_engine.h, drivers/gpu/drm/i915/i915_drv.h):
+>> drivers/gpu/drm/i915/i915_request.h:369:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/gpu/drm/i915/i915_request.h:369:27: sparse:    struct dma_fence_ops const *
+
+vim +717 include/linux/dma-fence.h
+
+976b6d97c62347 Christian König 2022-01-19  708  
+976b6d97c62347 Christian König 2022-01-19  709  /**
+976b6d97c62347 Christian König 2022-01-19  710   * dma_fence_is_chain - check if a fence is from the chain subclass
+976b6d97c62347 Christian König 2022-01-19  711   * @fence: the fence to test
+976b6d97c62347 Christian König 2022-01-19  712   *
+976b6d97c62347 Christian König 2022-01-19  713   * Return true if it is a dma_fence_chain and false otherwise.
+976b6d97c62347 Christian König 2022-01-19  714   */
+976b6d97c62347 Christian König 2022-01-19  715  static inline bool dma_fence_is_chain(struct dma_fence *fence)
+976b6d97c62347 Christian König 2022-01-19  716  {
+976b6d97c62347 Christian König 2022-01-19 @717  	return fence->ops == &dma_fence_chain_ops;
+976b6d97c62347 Christian König 2022-01-19  718  }
+976b6d97c62347 Christian König 2022-01-19  719  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
