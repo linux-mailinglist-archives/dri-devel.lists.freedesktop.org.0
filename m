@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837C3D1D377
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A6D1D37D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 09:47:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E13B310E3A0;
-	Wed, 14 Jan 2026 08:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75DD710E3A7;
+	Wed, 14 Jan 2026 08:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FD010E3A0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:47:16 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-64d02c01865so1845446a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:47:16 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3FB10E3A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:47:27 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-64b9b0b4d5dso17832576a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 00:47:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768380435; x=1768985235;
+ d=1e100.net; s=20230601; t=1768380445; x=1768985245;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=s8k0pXMV1y8Iq4ImwhXf2ahDkvy9IQZJDHOXmgWjWKM=;
- b=vv/f2b2V3p8k3YrjKtOuocogjwHuLpNbyxZphX8kgx0VeGaPZ98ozfBmAjsE/3OGPv
- ZwhU8Ex6NPpfHtzxbdVdsjTCdJgNMfUt8U/S7ewffev2FIXoPd96qHQPWfSmKEOMktuD
- /xYEWQNuu0cxFWP9EBl9Uk2ZfhzME4+/oaTV2GeET/sq4XVjKV1wuZglUITz8fD7ZCOI
- 38ACilBRlBWOwBxtZs6xwZaZPocILpwuGMYy45kM7kYW8TylIFsYr20C26o3MqHURjUY
- EuV4gLxTrTVBFV8tRZ9NS8Pi11KutGEBGi0hfDIG9hAoyLq97JsGuaoQc3PXxKVYIdBW
- RIBw==
+ bh=MFgbGKta1WWetg8kikPQgA/0YVVbzxRzodQq2Gmv8S8=;
+ b=CLmVGKgjDlvZ62tIpNArYVyw2MdMk8j+rqipr7oA+S632Q+2N9fQSPy9nJVQa7evyR
+ utptudmvi8HlpbJJE+JzV71ycJpEPc9Ze6eQEnfYSyIAdN9hizui8vtho/HKSDS6DWEC
+ Z9aL4LHNN3zzjNjZTZZYQCS3xY0LsCDUKOEJcSsvuSRZxTYgcAkEXPkUWNMPdh+1HAIV
+ Gv5glwm2NZu67R8fIGL6BA+bPzWSceXyjIrmwS+XwlG/TYKzyQ32BO/qGFnEKythKcj/
+ riQbzsLqgvpB1ihSa24M9WjIQ05+FI560hSeKj2mquzv6ql4+nsoYInNSiTjVIAKfOLS
+ kdiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzBapTej+appumSCCBhmSWqkzBbvOe0WXuOutpNn8DdXlTWM4rWuX3pFIhtUREUgTAETp5sRMfNAY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxGjhxC2alx65W/RVkpCV5VA6M5lMuEkpAqZq+5rofL1/pajbw
- oX8vIGK3Lg1ibkAcWCWNmm47fBjmAn/woArE8aapr3ViZOzEFlRkuTA3
-X-Gm-Gg: AY/fxX7PnwDkops7Qcm/a1p/C4pBX00wBd23gxtqFaShvdBe8OsCfwHHbS05TfscLsJ
- pddxkjlGYyH16o2+9qw2iisCl1TeAfqszUMNiCC/yCk4Y2Hbi1Lz3DwCkRy4PI64nCPPM1V6b0a
- cO5FSx5m6YV+6o7Rc4I+/BaYuvA8xie3nvlzoKW5UACDtSrqOtP4ldDWFPL37uNAm9Tqm60FcSN
- PJJ+nZb86PW5Heten7yVIYMTayAE2cuk73j5251A7fCbWsaE5EsRh+kDGpiFYD4GfMM9KOn9qB8
- phKjsJ39wq8MjiyLVwVtkuStikhc5rCUiml+Qx3CAA6bJeo6teqFvHiCEC1rdqrn3ivwH443zlT
- SkKOznR5F/wRLT7c/YhaKnW3wuO2oMew+QVoLLk6qPRSjDnOeD7GYLCNsml9DHa9F20BScuHD/D
- k08BrT4K4bEes0g0lnoMKKSpWS/d7ZLh0YAgmFKVLoVece58FKzASdDifk
-X-Received: by 2002:a05:6402:1474:b0:64b:82c8:e7b7 with SMTP id
- 4fb4d7f45d1cf-653ec45985emr1298237a12.24.1768380435183; 
- Wed, 14 Jan 2026 00:47:15 -0800 (PST)
+ AJvYcCWst9yU0Nrx30ZWMeEST40DF38oUmCTC6gQYQZ5w7+pVR6znMyxebSXcxJNcEFXJPPPMJGeu2PryyQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9fbPPAGrAYPEmSEEmQIuyyvMYx77n5oEEnSw0hvuHCdLyqlcm
+ 91Ml4rOf7QNZ4DZGX2mOu3vfsUis/914K2HdQXK9mHoxPi6KzxftXZ+/
+X-Gm-Gg: AY/fxX6CrbfFFJfQbxEdXdIJ30/T8fFiqfNUHdLoveT0/MFc1RHthMHOyZhRFzYQMy+
+ 2Eyc2KTdh4rRHRhSnxlE0Lp/xWhKIbIUKAzFxG0iREjEbVIhmID0WpyFTDOQg9Gl2JqkO16Kx5A
+ fZ22rcKeXBGa6fjkWO/7M8CCTHPXA8BXPNz3d/DUWwT9EoV2N2N1uO/deT3cvKmmE93T0MnV3Uw
+ c9e9l63FZG7Yu7mwc8QM2PEMMC8XJk73ttykgvutNYGe7Sqb6YzjPtUof5VWV9pMm4hHZwMMbaf
+ ZZuOkmvR8AehPF5zi+X1FNjZ/SaQ/7r3owCXgR6bsAmN1aT9mnDzGsvC/+7JQeFBBdm7pVhjcL0
+ qDAVYREpfe6juR1JQrlPy3IdOZis3dbR6oH1CJ5tYOpXKeZI/JQy+weYW3jsuTw7d2K/UJnP3l+
+ axJ3HuJrPh5KCnsAqqN7OrMB5mGU0YCxI8rCQHkV8fVm7016D0YhwSMf3s
+X-Received: by 2002:a05:6402:790:b0:640:e75a:f95d with SMTP id
+ 4fb4d7f45d1cf-653ec12583bmr1081734a12.15.1768380445470; 
+ Wed, 14 Jan 2026 00:47:25 -0800 (PST)
 Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.13
+ 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jan 2026 00:47:14 -0800 (PST)
+ Wed, 14 Jan 2026 00:47:25 -0800 (PST)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Wed, 14 Jan 2026 09:46:48 +0100
-Subject: [PATCH v2 1/5] arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add
- memory pool for DSP i/o buffers
+Date: Wed, 14 Jan 2026 09:46:52 +0100
+Subject: [PATCH v2 5/5] accel/thames: Add IOCTL for memory synchronization
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+Message-Id: <20260114-thames-v2-5-e94a6636e050@tomeuvizoso.net>
 References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 In-Reply-To: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
@@ -89,49 +88,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This memory region is used by the DRM/accel driver to allocate addresses
-for buffers that are used for communication with the DSP cores and for
-their intermediate results.
+The DSP cores have their own access to the memory bus, and it isn't
+cache coherent with the CPUs.
+
+Add IOCTLs so userspace can mark when the caches need to be flushed, and
+also when a writer job needs to be waited for before the buffer can be
+accessed from the CPU.
+
+Initially based on the same IOCTLs from the Etnaviv driver.
+
+v2:
+- Add thames_accel.h UAPI header (Robert Nelson).
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/accel/thames/thames_drv.c |  2 ++
+ drivers/accel/thames/thames_gem.c | 52 +++++++++++++++++++++++++++++++++++++++
+ drivers/accel/thames/thames_gem.h |  4 +++
+ include/uapi/drm/thames_accel.h   | 31 +++++++++++++++++++++++
+ 4 files changed, 89 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-index 3fbff927c4c08bce741555aa2753a394b751144f..b80d2a5a157ad59eaed8e57b22f1f4bce4765a85 100644
---- a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-@@ -42,6 +42,11 @@ c7x_0_memory_region: memory@a3100000 {
- 		no-map;
- 	};
+diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
+index 1ff01428e6c80765cb741ae45c67971b7b0f28c8..6993d503139d3aaef830cdf5cfcf38476c5f9d99 100644
+--- a/drivers/accel/thames/thames_drv.c
++++ b/drivers/accel/thames/thames_drv.c
+@@ -76,6 +76,8 @@ static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
+ 	THAMES_IOCTL(BO_CREATE, bo_create),
+ 	THAMES_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset),
+ 	THAMES_IOCTL(SUBMIT, submit),
++	THAMES_IOCTL(BO_PREP, bo_prep),
++	THAMES_IOCTL(BO_FINI, bo_fini),
+ };
  
-+	c7x_iova_pool: iommu-pool@a7000000 {
-+		reg = <0x00 0xa7000000 0x00 0x18200000>;
-+		no-map;
-+	};
+ DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
+diff --git a/drivers/accel/thames/thames_gem.c b/drivers/accel/thames/thames_gem.c
+index 5a01ddaeb2448117d400a79e53d2c6123ecb5390..4ded8fab0f3ff6f75a1446c5661fdbc68f1f2ac7 100644
+--- a/drivers/accel/thames/thames_gem.c
++++ b/drivers/accel/thames/thames_gem.c
+@@ -351,3 +351,55 @@ int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_
+ 
+ 	return 0;
+ }
 +
- 	c7x_1_dma_memory_region: memory@a4000000 {
- 		compatible = "shared-dma-pool";
- 		reg = <0x00 0xa4000000 0x00 0x100000>;
-@@ -151,13 +156,15 @@ &main_r5fss0_core0 {
- &c7x_0 {
- 	mboxes = <&mailbox0_cluster2 &mbox_c7x_0>;
- 	memory-region = <&c7x_0_dma_memory_region>,
--			<&c7x_0_memory_region>;
-+			<&c7x_0_memory_region>,
-+			<&c7x_iova_pool>;
- 	status = "okay";
++int thames_ioctl_bo_prep(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_prep *args = data;
++	struct drm_gem_object *gem_obj;
++	struct drm_gem_shmem_object *shmem_obj;
++	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
++	long ret = 0;
++
++	if (args->reserved != 0)
++		return -EINVAL;
++
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
++
++	ret = dma_resv_wait_timeout(gem_obj->resv, DMA_RESV_USAGE_WRITE, true, timeout);
++	if (!ret)
++		ret = timeout ? -ETIMEDOUT : -EBUSY;
++
++	shmem_obj = &to_thames_bo(gem_obj)->base;
++
++	dma_sync_sgtable_for_cpu(ddev->dev, shmem_obj->sgt, DMA_FROM_DEVICE);
++
++	drm_gem_object_put(gem_obj);
++
++	return ret;
++}
++
++int thames_ioctl_bo_fini(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_fini *args = data;
++	struct drm_gem_shmem_object *shmem_obj;
++	struct thames_gem_object *thames_obj;
++	struct drm_gem_object *gem_obj;
++
++	if (args->reserved != 0)
++		return -EINVAL;
++
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
++
++	thames_obj = to_thames_bo(gem_obj);
++	shmem_obj = &thames_obj->base;
++
++	dma_sync_sgtable_for_device(ddev->dev, shmem_obj->sgt, DMA_TO_DEVICE);
++
++	drm_gem_object_put(gem_obj);
++
++	return 0;
++}
+diff --git a/drivers/accel/thames/thames_gem.h b/drivers/accel/thames/thames_gem.h
+index 785843c40a89a9e84ab634aad77e9ec46111693e..e5a8278e98c578c2903cf23aea1bf887be0389e8 100644
+--- a/drivers/accel/thames/thames_gem.h
++++ b/drivers/accel/thames/thames_gem.h
+@@ -29,6 +29,10 @@ int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file
+ 
+ int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file);
+ 
++int thames_ioctl_bo_prep(struct drm_device *ddev, void *data, struct drm_file *file);
++
++int thames_ioctl_bo_fini(struct drm_device *ddev, void *data, struct drm_file *file);
++
+ int thames_context_create(struct thames_file_priv *priv);
+ 
+ void thames_context_destroy(struct thames_file_priv *priv);
+diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
+index 5b35e50826ed95bfcc3709bef33416d2b6d11c70..07477087211c14721298ff52a1f3d253a6e65d58 100644
+--- a/include/uapi/drm/thames_accel.h
++++ b/include/uapi/drm/thames_accel.h
+@@ -31,6 +31,12 @@ enum drm_thames_ioctl_id {
+ 
+ 	/** @DRM_THAMES_SUBMIT: Submit a job and BOs to run. */
+ 	DRM_THAMES_SUBMIT,
++
++	/** @DRM_THAMES_BO_PREP: Prepare a BO for CPU access after DSP writes. */
++	DRM_THAMES_BO_PREP,
++
++	/** @DRM_THAMES_BO_FINI: Finish CPU access and prepare BO for DSP access. */
++	DRM_THAMES_BO_FINI,
  };
  
- &c7x_1 {
- 	mboxes = <&mailbox0_cluster3 &mbox_c7x_1>;
- 	memory-region = <&c7x_1_dma_memory_region>,
--			<&c7x_1_memory_region>;
-+			<&c7x_1_memory_region>,
-+			<&c7x_iova_pool>;
- 	status = "okay";
+ /**
+@@ -127,6 +133,27 @@ struct drm_thames_submit {
+ 	__u32 pad;
  };
+ 
++/**
++ * struct drm_thames_bo_prep - ioctl argument for preparing a BO for CPU access.
++ *
++ * This invalidates CPU caches and waits for pending DSP operations to complete.
++ */
++struct drm_thames_bo_prep {
++	__u32 handle;
++	__u32 reserved;
++	__s64 timeout_ns;	/* absolute */
++};
++
++/**
++ * struct drm_thames_bo_fini - ioctl argument for finishing CPU access to a BO.
++ *
++ * This flushes CPU caches to make CPU writes visible to the DSP.
++ */
++struct drm_thames_bo_fini {
++	__u32 handle;
++	__u32 reserved;
++};
++
+ /**
+  * DRM_IOCTL_THAMES() - Build a thames IOCTL number
+  * @__access: Access type. Must be R, W or RW.
+@@ -149,6 +176,10 @@ enum {
+ 		DRM_IOCTL_THAMES(WR, BO_MMAP_OFFSET, bo_mmap_offset),
+ 	DRM_IOCTL_THAMES_SUBMIT =
+ 		DRM_IOCTL_THAMES(WR, SUBMIT, submit),
++	DRM_IOCTL_THAMES_BO_PREP =
++		DRM_IOCTL_THAMES(WR, BO_PREP, bo_prep),
++	DRM_IOCTL_THAMES_BO_FINI =
++		DRM_IOCTL_THAMES(WR, BO_FINI, bo_fini),
+ };
+ 
+ #if defined(__cplusplus)
 
 -- 
 2.52.0
