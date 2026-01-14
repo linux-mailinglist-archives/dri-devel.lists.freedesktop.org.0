@@ -2,85 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439B6D2022A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 17:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF7D20211
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 17:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC7110E613;
-	Wed, 14 Jan 2026 16:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4441410E273;
+	Wed, 14 Jan 2026 16:16:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="YUSsRZsx";
+	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="C5BSC+GX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A80510E610
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 16:16:48 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-b8765b80a52so2016166b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 08:16:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1768407407; x=1769012207;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OwbdqD4esV5rFpOMyfingdbEhuuUPk8cb1Cjg4dlWpk=;
- b=YUSsRZsxXoeoyGSyPSZtPP56NOCSjY1whyg40pGUVEMu1XVdtmHeLlHzGsvmIXeHgV
- UozeQnzKpLZTD36M68pnMLFC2E8lyI4ph2B4UGg2uz65oHw6h8UmWPw76p3gZ9ni21Ip
- fzfJrVFnJWwbr48+KTo+2NATVbjZvFcp/RXAo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768407407; x=1769012207;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=OwbdqD4esV5rFpOMyfingdbEhuuUPk8cb1Cjg4dlWpk=;
- b=lYwXd6W5TMpM+gXrsTrWwDallcI1e0ds7Oqr6ocQmb/TIwD7cHdnZ76kQogQTccETo
- QH/SriqAjCdKiDxY1hHnQK3XwlP+H/KXufMNhf+LtDzZdDnXAH19/sDLwokF4Cm5XkbA
- oyf2GlkhJKHFDkZkmJBbzm5QDJ0qS0o5WATQc69SJu4u3HAe3fpf0wLSYyD+eQF2MV4Z
- QCK2lYQQhDAgyF0dNRoGsDF2bCkubxyQGdjX61Ti6cMw8lnUgn7nIE+6lJ8aR+sjVdwm
- j/Nfok1WzdOvBAv2Cw7NDQvj7HddXBov6jQV+mdkcJJHqFsABI7RWOCFyJzDoXJ0OHAX
- eYJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9jxgA5BCFWIZVYd7HrSXiQvc46mrKE86B36Uze79d4cKwaDptXM0ruGZsRV5RHjZ2A6HWwKVp0zU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywa9W3dOio+Ow4+xbi+KcCvbwu4+8+nkbmcsGNYxIFxyGlvAfpf
- ldfBlY/B9tiG+jvS6vz6Hyi30PWNbkLCAaoNkSpYa7+0tgbomAeOlqIFR300WVDCB3c=
-X-Gm-Gg: AY/fxX4DcxzSMgn1w36UM0GW+pmBVn2XGNnFyCALxMcx+9aKMjS01CpKLvyWJjGy21z
- uPtHfq4OjKq5Bf6CuV4aMZctbJMW5h1Thus1yGEQkHf+zZuxO9adFVZjOjmEJb1UGpKspm/+i53
- 4VNm+muhzZys5BKAJ0bQYXe5KpBWBj0wYL+6jI130F+9dvZkICH501kBp8NjB1h86SlD+6j9P+K
- iSnthwdUljgVIFkUlh0ArALDBr6Y6CH9jEtEGjyY1HQciHy6cyfpork7LeZPp+Y6+rRHh7tSKSN
- Fe1I/Ik8JMDB6iDKFTMfRK63d00k3v0p+lH0l1ySc0Vm06qH8P/GvPXx5PTSqjMfUHQfqrnuxez
- +4gkr9ayu0yDpIeYrpdk32h/RwR7flCNHQ2dlley5VwfgJfl3Q946IkjJRYQ+kcZqK8k6YdvN+2
- xxqnl9qk8Wab3Vizh+DuQPpMTIDRretzct6UrGz4LHkZu+b5M+3/O83y/ijwoQ5Pv8glGs4gvUb
- xp85dpZ7/MX0GoblkIHXR5wgL55kaRnKnA6XbzeLfjeAmFyHIcu91bP13cOmyzYxAzOdQ==
-X-Received: by 2002:a17:907:97cc:b0:b79:fe73:3b18 with SMTP id
- a640c23a62f3a-b87676a0ec8mr194194266b.22.1768407406765; 
- Wed, 14 Jan 2026 08:16:46 -0800 (PST)
-Received: from dario-ThinkPad-P14s-Gen-5.amarulasolutions.com
- (93-47-52-235.ip111.fastwebnet.it. [93.47.52.235])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b876dd0e9ffsm152281566b.37.2026.01.14.08.16.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jan 2026 08:16:46 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azolkn19011069.outbound.protection.outlook.com [52.103.23.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 066CB10E585
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 16:16:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iiKQrpbsJRvvcqpWaZVIbInS/TsTX5soGPtnFOKTluAJ7UcFYlMoPNCxvXvsac54uCRixW+6WnKp6hKCeRI+voTczvGnsTzQRHauzsUk5D8jVVocv/eSRNg4t2eSD8NRLX2OkAkBQvvfl5OdF89LMDqXa3/RiF1YIIA4S2sYHGtnEc99onwe3+abYiukZJl7EWntXoSgul75f1RER/IKV+hSRow8h+eSx76yjpU1sDzkQeY8VKiMcBpmmYZWZFjWM9WJfAuikVkoXf9JNOEOQgwE1IXfqH85P8WNSJEy4yDKjpfqlMRdD38+7zwDTn98FkI9P3x1LxLCcu9Tm1uvZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yqLLPrQJARBCtf9IpQ2+zX7BzGKVvWxE9LNXzj1MnLU=;
+ b=l5s5EZQmZNeCWLFCcz4d5Ox+uryOsu10cq/c0+8Uc0PXqR5GGM4E6WBop6AGGwOxODlz1yWcTYo4ZNEyEyRHXuwb4bANE55bKv2CeDMVyTibMzs3rxP+hVjQg9iosoY7Lo8rL2eYBcr3jBscaSTgrAHG+jqqO909I2pLZUHoMfHehuXGfmOmn2ebFjDVEtYs23dFc8gUp+lfVtbeMhdWgmZiHITuyj39VpWMbEU+44Y5CYmTmfd9KRZPDRKnpbEoELGtKTVcwaSKSEs3LhfsbLUkEJg0PZPsKVSkKZbg+Y5DnXbEDUSeWczWkdqPCc6TQJLl9nnIIjckSBfrAcPA+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yqLLPrQJARBCtf9IpQ2+zX7BzGKVvWxE9LNXzj1MnLU=;
+ b=C5BSC+GX08ZpeIqtzW8vsjfrZYBbowARX+vtQk4DfeCBPpoRmRmQWBYXmxm8jvQBMX/j/zS23FZuVzdWn+vR+V060bLXxeetdjrlZTZZ8B94thps9amkhdkrVtKekrRQJB8dVisqAf5yHHwGfuulOfAOF3u/jKUkYC/k5toubCYxT3wr8Bl/Tz8tPI3BwAn7imOc5xIkI7eEQe5/iWjoVglQ8LW+ExWd1jwUZnUCJoRMJIMq7FVlOUIYGgAn/Gem5kFNA6oZmXM+woyVuLdfKqvMi5z7xFHsKZNJEmFDG7rBRkzlI8qDxN36DXGOEXBHQTqhJMdFGbpIFmqHpwNyAw==
+Received: from SN6PR1901MB4654.namprd19.prod.outlook.com (2603:10b6:805:b::18)
+ by IA1PR19MB7229.namprd19.prod.outlook.com (2603:10b6:208:42e::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Wed, 14 Jan
+ 2026 16:16:28 +0000
+Received: from SN6PR1901MB4654.namprd19.prod.outlook.com
+ ([fe80::57b1:b92:26fc:c937]) by SN6PR1901MB4654.namprd19.prod.outlook.com
+ ([fe80::57b1:b92:26fc:c937%3]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
+ 16:16:28 +0000
+Date: Wed, 14 Jan 2026 10:16:25 -0600
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Diederik de Haas <diederik@cknow-tech.com>,
+ Maud Spierings <maud_spierings@hotmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/panel: ilitek-ili9806e: add Rocktech
- RK050HR345-CT106A SPI panel
-Date: Wed, 14 Jan 2026 17:16:19 +0100
-Message-ID: <20260114161636.1076706-5-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260114161636.1076706-1-dario.binacchi@amarulasolutions.com>
-References: <20260114161636.1076706-1-dario.binacchi@amarulasolutions.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v2 0/4] Add HDMI 2.0 support to DW HDMI QP TX
+Message-ID: <SN6PR1901MB465494AAFA4090D8806D7B12A58FA@SN6PR1901MB4654.namprd19.prod.outlook.com>
+References: <20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com>
+ <0b28ae6d-295d-4958-9571-190fedd95efe@collabora.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b28ae6d-295d-4958-9571-190fedd95efe@collabora.com>
+X-ClientProxiedBy: SA0PR11CA0012.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::17) To SN6PR1901MB4654.namprd19.prod.outlook.com
+ (2603:10b6:805:b::18)
+X-Microsoft-Original-Message-ID: <aWfBWejGjvumqvZ-@wintermute.localhost.fail>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR1901MB4654:EE_|IA1PR19MB7229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96546c94-ed4b-4a54-39f1-08de5388453f
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|6090799003|461199028|5072599009|39105399006|15080799012|23021999003|8060799015|19110799012|3412199025|440099028|41105399003|40105399003|56899033;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?POtFJ9px6YzoUcstx3V/DBnVxCvpQxuqIwG92HFT9Yf/uUgpx+shO3I2mH3x?=
+ =?us-ascii?Q?bt1hqGI8r/5yTZPpT8Kr5mk8AQD/qQEXleYm9ldUqTp4LTxjE4OUPDD9xWRM?=
+ =?us-ascii?Q?kLXUdMyJTrJT6T8/xlMcBK25C5UA0D77b2Y799dNGmqYxEjtwMJk0JMoca9q?=
+ =?us-ascii?Q?tVHrHBbCzjVyj7ptuBFvX3dVfihKLH2R7hQ7qoqXG99nzFg+SvBD3VJVnEuW?=
+ =?us-ascii?Q?AZkgaqkoqZSOzYgNLzXVBP7YVBs4q/kPx0p75RU52WI7UiMTS1MfBoBKWQzx?=
+ =?us-ascii?Q?Mlbodd+mR91yj4JT7DyjAcT3vCyHDXH0Tu9q2s6UBj48S3tzju+YN2sFlPVA?=
+ =?us-ascii?Q?aonYjFzIq708GhQ/t9aACS8cFHbzQhrjME4klIrmtJ0shKfjWiECMo3cdo8d?=
+ =?us-ascii?Q?hTikhyATS/qDcN1uxxA4zJnxiAJjQ1qtroNhi6jHI+zIhkVoRT0rTF15ds58?=
+ =?us-ascii?Q?ayQJUisi4Qu1ufg6IBVilQFJ3vBz1t2ogWJ8esrCbM545wEuIq8uHS/SAbak?=
+ =?us-ascii?Q?z/trOL9o8dk+ilgZAIaFAdbiXgq0e0MFkh/Vb7kFTAbKX8LvKgeGPfI8Ewcd?=
+ =?us-ascii?Q?Xh/MmmRXFOzRf9yAFLlYRtvkD+G0Iw+0CyFf/xSwv0ljazIykyXBV8uFEGT9?=
+ =?us-ascii?Q?1srWA8l04NB5JOJzfIz1paje8nw7Pvz/ALkkI0p9C222epW73o/KLxMh1WQu?=
+ =?us-ascii?Q?o/RyTIp/r97QfqY8Ml48u7qcRHQGLTjikCZ2QfdSiGYWOTVBEUugGddNuyQs?=
+ =?us-ascii?Q?WXpow69fkf7IvRHdujTjpVF9LktkprY/bCAyYkgFbg4pM1S7MWg+xvP4RPXV?=
+ =?us-ascii?Q?5vGirIm+xcLAEx5Csu/vCIW+tXFs2MJnSZQdZ3jeDvOEmxcOH5fWUqed73SA?=
+ =?us-ascii?Q?kZcbxdw3Mk2owantq8GZIOxhsUO0Pfq7E+EDV6mCWZA0MjD0/8pI+IDcT8PP?=
+ =?us-ascii?Q?uzw+ikvr7QU4RuJYFhJvlLED3nc9f+rQRvgx70xPHkpBAoCnCDnLvcPlaPDj?=
+ =?us-ascii?Q?AvNE7eAomEo6MxK1ZB7ZWZ4LTCHv0m2bqerRqFajRpQuJ+6Zyh94sn1XmNz8?=
+ =?us-ascii?Q?cfBNbCrRgV+7bFKze1JkaBCXGF5AH7AE0W3MeaP7RyYfuL6WSDYVleHwdio+?=
+ =?us-ascii?Q?f3+JSa4Oux/KvS52mCO1vEvq7uBPZa5z8STFzrYtf9ZjYRxj7bBNRNeN2Dau?=
+ =?us-ascii?Q?eR7F5Id2JBy+GViSbOB2j5XuFfRmoxsiI33JdJuJd9ikylTEvA+NzO91iZk?=
+ =?us-ascii?Q?=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xq9bTnpg7TUxkTAeDRsqiKayLjj6l45YGeokbNKPmloP2PqkD8Ar/jJz3JZM?=
+ =?us-ascii?Q?jWA5s/HVj2fXqrBWXMIhTYcELnr56RBhE4GJWKb8NUhcbV8dluVcQyDKLcS1?=
+ =?us-ascii?Q?RT+Uh7FF0WQcl6qi90I63+b25Out3V4j854XCK5QQJV/wWT8xBJG0u6u2nZA?=
+ =?us-ascii?Q?eveto10qzat1GVO8TU1N3hvAjifTVxD5/gyuzcEdh6VDnvcLLaDRkeL7Z4e0?=
+ =?us-ascii?Q?3EIGlEWs7zcZ37OdL8nGSoRK6d/5BDhvJE6cKdBPfEn2tJ9ihPvOK2yVZfsk?=
+ =?us-ascii?Q?fwpW0Qi+H5SOhg4AOtD+mkQ2z9Xw89vLqu2Of/e2NV/mWLZnyT8z6NlpdFMb?=
+ =?us-ascii?Q?Rvg7kzzTNjYErQJuDANLPt3Y8pzEI2YIRcWwsotnJX8aoifxO9VQIWM2p5ev?=
+ =?us-ascii?Q?LcNPzkuMSjYO7DOeMx24mSaHR73tNZPJSI6vF3o+c+gmgrWE/rGE7ikURuSw?=
+ =?us-ascii?Q?jai3CF14C2lq9oyvbX2JkHj7vKnJX2SokHsFzuvcLY5MQf30fxVnEza1/B0c?=
+ =?us-ascii?Q?AKcBAU9DiS73VCNDjijIXjbeTMQgaie/LmxiXPt2ru+bjpU+5mSWJBAZAam+?=
+ =?us-ascii?Q?6Dv6rBrlbNPOIS8cYE+8LLO6GddaZp9BzL3y6RJyPkwGG4JehQElPDpfhmoX?=
+ =?us-ascii?Q?TqYb4FQujNcA/yntIIVIb4PgX4ym/j3nsZzMmJYSwZRASuxNH9mTCmmYwf55?=
+ =?us-ascii?Q?FJ5GibyDzeQ4rSrAV4J6IecQxSBEanlXL2VdwwYrfjxg9xqKW1BANUxhnDSR?=
+ =?us-ascii?Q?jTIUe+hHESX/G9oqlsI/oIbsKluBzrJTWO67CBOJWvaKj2StMHOYq8lkntSY?=
+ =?us-ascii?Q?aXHhsAPoCbr8HPMd8Oy7fsBqf84sJXka29bmRRyxOd1ccsvSVWzlpBk6B6j/?=
+ =?us-ascii?Q?728Cm7vZZkLiB4VLagX9uNa1nNL0Wik4JvEPemt4UbhUbZ68aAXbLGQOfIMs?=
+ =?us-ascii?Q?stHe+fY20sdaV4jqratrSUxZt0I27SusIK0bKroR1pYIQBI+vZQLc+kQHhQm?=
+ =?us-ascii?Q?4n2Kja08XUCfB2PhSsW6veVToP+tEBuSPbqbfa4ObGpgapFVk6CU3OV10l7B?=
+ =?us-ascii?Q?9q6ulQj1Scm2BVA+OixJfsaojvEeh/4IyG8kgCI+ayr2OMih4TAI3nFYspDO?=
+ =?us-ascii?Q?G4n00i9LGUrzqJlGh7Q0FSMl/qH9xGHogP2I1wJozZ0D2YFvm1GzBdGqW1ky?=
+ =?us-ascii?Q?91p76Lc2lhoHjqt6Xscb1rl3Q0t4HzLW1ya7yM6sf3uZMgMzmkqiir6WQVmJ?=
+ =?us-ascii?Q?Aehbu0fNTctvtSKypnAAd57W5BtgYvTO172LW5wF/PvzsOgQyA1SGdDTvXcv?=
+ =?us-ascii?Q?UMzHVTj2M3CtgCphGppI0AhiT2lKxb0mhnsBuSIchbgZHb26fBBdU3gt5IjE?=
+ =?us-ascii?Q?v/082jjW4Efxuph5+QzHvwTuGErs8MiPnJKEaprkbzK5s700HA=3D=3D?=
+X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-6f20a.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96546c94-ed4b-4a54-39f1-08de5388453f
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1901MB4654.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 16:16:28.3152 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB7229
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,496 +147,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Rocktech RK050HR345-CT106A panel based on the
-Ilitek ILI9806E controller using the SPI bus.
+On Tue, Jan 13, 2026 at 12:40:46AM +0200, Cristian Ciocaltea wrote:
+> On 1/13/26 12:26 AM, Cristian Ciocaltea wrote:
+> > This patch series provides the missing support for high TMDS clock ratio
+> > and scrambling to DW HDMI QP TX library, required for handling HDMI 2.0
+> > display modes on RK3576 & RK3588 SoCs.
+> > 
+> > In order to allow addressing the SCDC status lost on sink disconnects,
+> > it adds an atomic variant of the drm_bridge_funcs.detect callback and a
+> > new drm_bridge_detect_ctx() helper, which is further used in
+> > drm_bridge_connector to switch to ->detect_ctx hook.
+> > 
+> > Furthermore, it optimizes HPD event handling in dw_hdmi_qp Rockchip
+> > platform driver to run the detect cycle on the affected connector only.
+> > 
+> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> > ---
+> > Changes in v2:
+> > - Collected Tested-by tags from Diederik and Maud
+> > - Rebased onto latest drm-misc-next
+> > - Ensured the recently introduced 'no-hpd' support for dealing with
+> >   unconnected/repurposed/broken HPD pin is limited to HDMI 1.4 rates
+> 
+> Chris, could you please confirm no-hpd is still functional with this series on
+> your Gameforce Ace board when testing with a HDMI 2.0 display?
+> 
+> Thanks,
+> Cristian
+> 
 
-The driver is designed to be easily extensible to support other panels
-with different initialization sequences and display timings by
-providing a specific descriptor structure for each model.
+I can confirm no-hpd still works with this series, but I don't have an
+HDMI 2.0 monitor to test with.
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-
----
-
-Changes in v2:
-- Introduce DRM_PANEL_ILITEK_ILI9806E_CORE hidden kconfig option.
-- Split core and DSI logic.
-- Restore vdd-supply as required for both DSI and SPI types in the
-  dt-bindings.
-- Dop useless settings in case of rocktech,rk050hr345-ct106a in the
-  dt-bindings.
-
- MAINTAINERS                                   |   1 +
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../drm/panel/panel-ilitek-ili9806e-core.c    |  31 +-
- .../gpu/drm/panel/panel-ilitek-ili9806e-spi.c | 323 ++++++++++++++++++
- 5 files changed, 353 insertions(+), 13 deletions(-)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 67117d8cf483..5d2000f10643 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7912,6 +7912,7 @@ F:	drivers/gpu/drm/panel/panel-ilitek-ili9805.c
- 
- DRM DRIVER FOR ILITEK ILI9806E PANELS
- M:	Michael Walle <mwalle@kernel.org>
-+M:	Dario Binacchi <dario.binacchi@amarulasolutions.com>
- S:	Maintained
- F:	drivers/gpu/drm/panel/panel-ilitek-ili9806e-*
- 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 333e981eda96..d1cb04e838c5 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -270,6 +270,16 @@ config DRM_PANEL_ILITEK_ILI9806E_DSI
- 	  Say Y if you want to enable support for panels based on the
- 	  Ilitek ILI9806E controller using DSI.
- 
-+config DRM_PANEL_ILITEK_ILI9806E_SPI
-+	tristate "Ilitek ILI9806E-based RGB SPI panel"
-+	depends on SPI
-+	select DRM_PANEL_ILITEK_ILI9806E_CORE
-+	select DRM_MIPI_DBI
-+	select VIDEOMODE_HELPERS
-+	help
-+	  Say Y if you want to enable support for panels based on the
-+	  Ilitek ILI9806E controller using SPI.
-+
- config DRM_PANEL_ILITEK_ILI9881C
- 	tristate "Ilitek ILI9881C-based panels"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 13034cadb8d8..3697687651fe 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9805) += panel-ilitek-ili9805.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E_CORE) += panel-ilitek-ili9806e-core.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E_DSI) += panel-ilitek-ili9806e-dsi.o
-+obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E_SPI) += panel-ilitek-ili9806e-spi.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9882T) += panel-ilitek-ili9882t.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c
-index c088685d9d85..be2cf1440155 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c
-@@ -11,6 +11,7 @@
- #include <linux/export.h>
- #include <linux/gpio/consumer.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -20,15 +21,11 @@ struct ili9806e {
- 	void *transport;
- 	struct drm_panel panel;
- 
-+	unsigned int num_supplies;
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset_gpio;
- };
- 
--static const char * const regulator_names[] = {
--	"vdd",
--	"vccio",
--};
--
- void *ili9806e_get_transport(struct drm_panel *panel)
- {
- 	struct ili9806e *ctx = container_of(panel, struct ili9806e, panel);
-@@ -44,7 +41,7 @@ int ili9806e_power_on(struct device *dev)
- 
- 	gpiod_set_value(ctx->reset_gpio, 1);
- 
--	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	ret = regulator_bulk_enable(ctx->num_supplies, ctx->supplies);
- 	if (ret) {
- 		dev_err(dev, "regulator bulk enable failed: %d\n", ret);
- 		return ret;
-@@ -65,7 +62,7 @@ int ili9806e_power_off(struct device *dev)
- 
- 	gpiod_set_value(ctx->reset_gpio, 1);
- 
--	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	ret = regulator_bulk_disable(ctx->num_supplies, ctx->supplies);
- 	if (ret)
- 		dev_err(dev, "regulator bulk disable failed: %d\n", ret);
- 
-@@ -78,7 +75,8 @@ int ili9806e_probe(struct device *dev, void *transport,
- 		  int connector_type)
- {
- 	struct ili9806e *ctx;
--	int i, ret;
-+	bool set_prepare_prev_first = false;
-+	int ret;
- 
- 	ctx = devm_kzalloc(dev, sizeof(struct ili9806e), GFP_KERNEL);
- 	if (!ctx)
-@@ -87,11 +85,16 @@ int ili9806e_probe(struct device *dev, void *transport,
- 	dev_set_drvdata(dev, ctx);
- 	ctx->transport = transport;
- 
--	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++)
--		ctx->supplies[i].supply = regulator_names[i];
-+	ctx->supplies[ctx->num_supplies++].supply = "vdd";
-+	if (of_device_is_compatible(dev->of_node,
-+				    "densitron,dmt028vghmcmi-1d") ||
-+	    of_device_is_compatible(dev->of_node,
-+				    "ortustech,com35h3p70ulc")) {
-+		ctx->supplies[ctx->num_supplies++].supply = "vccio";
-+		set_prepare_prev_first = true;
-+	}
- 
--	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
--				      ctx->supplies);
-+	ret = devm_regulator_bulk_get(dev, ctx->num_supplies, ctx->supplies);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "failed to get regulators\n");
- 
-@@ -106,7 +109,9 @@ int ili9806e_probe(struct device *dev, void *transport,
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get backlight\n");
- 
--	ctx->panel.prepare_prev_first = true;
-+	if (set_prepare_prev_first)
-+		ctx->panel.prepare_prev_first = true;
-+
- 	drm_panel_add(&ctx->panel);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c
-new file mode 100644
-index 000000000000..9d10b0d28f52
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c
-@@ -0,0 +1,323 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * SPI interface to the Ilitek ILI9806E panel.
-+ *
-+ * Copyright (c) 2026 Amarula Solutions, Dario Binacchi <dario.binacchi@amarulasolutions.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include "panel-ilitek-ili9806e-core.h"
-+
-+struct ili9806e_spi_panel {
-+	struct spi_device *spi;
-+	struct mipi_dbi dbi;
-+	const struct ili9806e_spi_panel_desc *desc;
-+};
-+
-+struct ili9806e_spi_panel_desc {
-+	const struct drm_display_mode *display_mode;
-+	u32 bus_format;
-+	u32 bus_flags;
-+	void (*init_sequence)(struct ili9806e_spi_panel *ctx);
-+};
-+
-+static int ili9806e_spi_off(struct ili9806e_spi_panel *ctx)
-+{
-+	struct mipi_dbi *dbi = &ctx->dbi;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_ENTER_SLEEP_MODE, 0x00);
-+
-+	return 0;
-+}
-+
-+static int ili9806e_spi_unprepare(struct drm_panel *panel)
-+{
-+	struct ili9806e_spi_panel *ctx = ili9806e_get_transport(panel);
-+	struct device *dev = &ctx->spi->dev;
-+	int ret;
-+
-+	ili9806e_spi_off(ctx);
-+
-+	ret = ili9806e_power_off(dev);
-+	if (ret)
-+		dev_err(dev, "power off failed: %d\n", ret);
-+
-+	return 0;
-+}
-+
-+static int ili9806e_spi_prepare(struct drm_panel *panel)
-+{
-+	struct ili9806e_spi_panel *ctx = ili9806e_get_transport(panel);
-+	struct device *dev = &ctx->spi->dev;
-+	int ret;
-+
-+	ret = ili9806e_power_on(dev);
-+	if (ret)
-+		return ret;
-+
-+	if (ctx->desc->init_sequence)
-+		ctx->desc->init_sequence(ctx);
-+
-+	return 0;
-+}
-+
-+static int ili9806e_spi_get_modes(struct drm_panel *panel,
-+			      struct drm_connector *connector)
-+{
-+	struct ili9806e_spi_panel *ctx = ili9806e_get_transport(panel);
-+	const struct ili9806e_spi_panel_desc *desc = ctx->desc;
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, desc->display_mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	connector->display_info.bus_flags = desc->bus_flags;
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &desc->bus_format, 1);
-+
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs ili9806e_spi_funcs = {
-+	.unprepare = ili9806e_spi_unprepare,
-+	.prepare   = ili9806e_spi_prepare,
-+	.get_modes = ili9806e_spi_get_modes,
-+};
-+
-+static int ili9806e_spi_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct ili9806e_spi_panel *ctx;
-+	int err;
-+
-+	ctx = devm_kzalloc(dev, sizeof(struct ili9806e_spi_panel), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->spi = spi;
-+	ctx->desc = device_get_match_data(dev);
-+
-+	err = mipi_dbi_spi_init(spi, &ctx->dbi, NULL);
-+	if (err)
-+		return dev_err_probe(dev, err, "MIPI DBI init failed\n");
-+
-+	return ili9806e_probe(dev, ctx, &ili9806e_spi_funcs,
-+			      DRM_MODE_CONNECTOR_DPI);
-+}
-+
-+static void ili9806e_spi_remove(struct spi_device *spi)
-+{
-+	ili9806e_remove(&spi->dev);
-+}
-+
-+static void rk050hr345_ct106a_init(struct ili9806e_spi_panel *ctx)
-+{
-+	struct mipi_dbi *dbi = &ctx->dbi;
-+
-+	/* Switch to page 1 */
-+	mipi_dbi_command(dbi, 0xff, 0xff, 0x98, 0x06, 0x04, 0x01);
-+	/* Interface Settings */
-+	mipi_dbi_command(dbi, 0x08, 0x10);
-+	mipi_dbi_command(dbi, 0x21, 0x01);
-+	/* Panel Settings */
-+	mipi_dbi_command(dbi, 0x30, 0x01);
-+	mipi_dbi_command(dbi, 0x31, 0x00);
-+	/* Power Control */
-+	mipi_dbi_command(dbi, 0x40, 0x15);
-+	mipi_dbi_command(dbi, 0x41, 0x44);
-+	mipi_dbi_command(dbi, 0x42, 0x03);
-+	mipi_dbi_command(dbi, 0x43, 0x09);
-+	mipi_dbi_command(dbi, 0x44, 0x09);
-+	mipi_dbi_command(dbi, 0x50, 0x78);
-+	mipi_dbi_command(dbi, 0x51, 0x78);
-+	mipi_dbi_command(dbi, 0x52, 0x00);
-+	mipi_dbi_command(dbi, 0x53, 0x3a);
-+	mipi_dbi_command(dbi, 0x57, 0x50);
-+	/* Timing Control */
-+	mipi_dbi_command(dbi, 0x60, 0x07);
-+	mipi_dbi_command(dbi, 0x61, 0x00);
-+	mipi_dbi_command(dbi, 0x62, 0x08);
-+	mipi_dbi_command(dbi, 0x63, 0x00);
-+	/* Gamma Settings */
-+	mipi_dbi_command(dbi, 0xa0, 0x00);
-+	mipi_dbi_command(dbi, 0xa1, 0x03);
-+	mipi_dbi_command(dbi, 0xa2, 0x0b);
-+	mipi_dbi_command(dbi, 0xa3, 0x0f);
-+	mipi_dbi_command(dbi, 0xa4, 0x0b);
-+	mipi_dbi_command(dbi, 0xa5, 0x1b);
-+	mipi_dbi_command(dbi, 0xa6, 0x0a);
-+	mipi_dbi_command(dbi, 0xa7, 0x0a);
-+	mipi_dbi_command(dbi, 0xa8, 0x02);
-+	mipi_dbi_command(dbi, 0xa9, 0x07);
-+	mipi_dbi_command(dbi, 0xaa, 0x05);
-+	mipi_dbi_command(dbi, 0xab, 0x03);
-+	mipi_dbi_command(dbi, 0xac, 0x0e);
-+	mipi_dbi_command(dbi, 0xad, 0x32);
-+	mipi_dbi_command(dbi, 0xae, 0x2d);
-+	mipi_dbi_command(dbi, 0xaf, 0x00);
-+	mipi_dbi_command(dbi, 0xc0, 0x00);
-+	mipi_dbi_command(dbi, 0xc1, 0x03);
-+	mipi_dbi_command(dbi, 0xc2, 0x0e);
-+	mipi_dbi_command(dbi, 0xc3, 0x10);
-+	mipi_dbi_command(dbi, 0xc4, 0x09);
-+	mipi_dbi_command(dbi, 0xc5, 0x17);
-+	mipi_dbi_command(dbi, 0xc6, 0x09);
-+	mipi_dbi_command(dbi, 0xc7, 0x07);
-+	mipi_dbi_command(dbi, 0xc8, 0x04);
-+	mipi_dbi_command(dbi, 0xc9, 0x09);
-+	mipi_dbi_command(dbi, 0xca, 0x06);
-+	mipi_dbi_command(dbi, 0xcb, 0x06);
-+	mipi_dbi_command(dbi, 0xcc, 0x0c);
-+	mipi_dbi_command(dbi, 0xcd, 0x25);
-+	mipi_dbi_command(dbi, 0xce, 0x20);
-+	mipi_dbi_command(dbi, 0xcf, 0x00);
-+
-+	/* Switch to page 6 */
-+	mipi_dbi_command(dbi, 0xff, 0xff, 0x98, 0x06, 0x04, 0x06);
-+	/* GIP settings */
-+	mipi_dbi_command(dbi, 0x00, 0x21);
-+	mipi_dbi_command(dbi, 0x01, 0x09);
-+	mipi_dbi_command(dbi, 0x02, 0x00);
-+	mipi_dbi_command(dbi, 0x03, 0x00);
-+	mipi_dbi_command(dbi, 0x04, 0x01);
-+	mipi_dbi_command(dbi, 0x05, 0x01);
-+	mipi_dbi_command(dbi, 0x06, 0x80);
-+	mipi_dbi_command(dbi, 0x07, 0x05);
-+	mipi_dbi_command(dbi, 0x08, 0x02);
-+	mipi_dbi_command(dbi, 0x09, 0x80);
-+	mipi_dbi_command(dbi, 0x0a, 0x00);
-+	mipi_dbi_command(dbi, 0x0b, 0x00);
-+	mipi_dbi_command(dbi, 0x0c, 0x0a);
-+	mipi_dbi_command(dbi, 0x0d, 0x0a);
-+	mipi_dbi_command(dbi, 0x0e, 0x00);
-+	mipi_dbi_command(dbi, 0x0f, 0x00);
-+	mipi_dbi_command(dbi, 0x10, 0xe0);
-+	mipi_dbi_command(dbi, 0x11, 0xe4);
-+	mipi_dbi_command(dbi, 0x12, 0x04);
-+	mipi_dbi_command(dbi, 0x13, 0x00);
-+	mipi_dbi_command(dbi, 0x14, 0x00);
-+	mipi_dbi_command(dbi, 0x15, 0xc0);
-+	mipi_dbi_command(dbi, 0x16, 0x08);
-+	mipi_dbi_command(dbi, 0x17, 0x00);
-+	mipi_dbi_command(dbi, 0x18, 0x00);
-+	mipi_dbi_command(dbi, 0x19, 0x00);
-+	mipi_dbi_command(dbi, 0x1a, 0x00);
-+	mipi_dbi_command(dbi, 0x1b, 0x00);
-+	mipi_dbi_command(dbi, 0x1c, 0x00);
-+	mipi_dbi_command(dbi, 0x1d, 0x00);
-+	mipi_dbi_command(dbi, 0x20, 0x01);
-+	mipi_dbi_command(dbi, 0x21, 0x23);
-+	mipi_dbi_command(dbi, 0x22, 0x45);
-+	mipi_dbi_command(dbi, 0x23, 0x67);
-+	mipi_dbi_command(dbi, 0x24, 0x01);
-+	mipi_dbi_command(dbi, 0x25, 0x23);
-+	mipi_dbi_command(dbi, 0x26, 0x45);
-+	mipi_dbi_command(dbi, 0x27, 0x67);
-+	mipi_dbi_command(dbi, 0x30, 0x01);
-+	mipi_dbi_command(dbi, 0x31, 0x11);
-+	mipi_dbi_command(dbi, 0x32, 0x00);
-+	mipi_dbi_command(dbi, 0x33, 0xee);
-+	mipi_dbi_command(dbi, 0x34, 0xff);
-+	mipi_dbi_command(dbi, 0x35, 0xbb);
-+	mipi_dbi_command(dbi, 0x36, 0xca);
-+	mipi_dbi_command(dbi, 0x37, 0xdd);
-+	mipi_dbi_command(dbi, 0x38, 0xac);
-+	mipi_dbi_command(dbi, 0x39, 0x76);
-+	mipi_dbi_command(dbi, 0x3a, 0x67);
-+	mipi_dbi_command(dbi, 0x3b, 0x22);
-+	mipi_dbi_command(dbi, 0x3c, 0x22);
-+	mipi_dbi_command(dbi, 0x3d, 0x22);
-+	mipi_dbi_command(dbi, 0x3e, 0x22);
-+	mipi_dbi_command(dbi, 0x3f, 0x22);
-+	mipi_dbi_command(dbi, 0x40, 0x22);
-+	mipi_dbi_command(dbi, 0x52, 0x10);
-+	mipi_dbi_command(dbi, 0x53, 0x10);
-+
-+	/* Switch to page 7 */
-+	mipi_dbi_command(dbi, 0xff, 0xff, 0x98, 0x06, 0x04, 0x07);
-+	mipi_dbi_command(dbi, 0x17, 0x22);
-+	mipi_dbi_command(dbi, 0x02, 0x77);
-+	mipi_dbi_command(dbi, 0xe1, 0x79);
-+	mipi_dbi_command(dbi, 0xb3, 0x10);
-+
-+	/* Switch to page 0 */
-+	mipi_dbi_command(dbi, 0xff, 0xff, 0x98, 0x06, 0x04, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, 0x00); // 0x36
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE); // 0x11
-+
-+	msleep(120);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+
-+	msleep(120);
-+}
-+
-+static const struct drm_display_mode rk050hr345_ct106a_mode = {
-+	.width_mm    = 62,
-+	.height_mm   = 110,
-+	.clock       = 27000,
-+	.hdisplay    = 480,
-+	.hsync_start = 480 + 10,
-+	.hsync_end   = 480 + 10 + 10,
-+	.htotal      = 480 + 10 + 10 + 10,
-+	.vdisplay    = 854,
-+	.vsync_start = 854 + 10,
-+	.vsync_end   = 854 + 10 + 10,
-+	.vtotal      = 854 + 10 + 10 + 10,
-+	.flags       = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	.type        = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER,
-+};
-+
-+static const struct ili9806e_spi_panel_desc rk050hr345_ct106a_desc = {
-+	.init_sequence = rk050hr345_ct106a_init,
-+	.display_mode = &rk050hr345_ct106a_mode,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-+		     DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+};
-+
-+static const struct of_device_id ili9806e_spi_of_match[] = {
-+	{ .compatible = "rocktech,rk050hr345-ct106a", .data = &rk050hr345_ct106a_desc },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ili9806e_spi_of_match);
-+
-+static const struct spi_device_id ili9806e_spi_ids[] = {
-+	{ "rk050hr345-ct106a", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, ili9806e_spi_ids);
-+
-+static struct spi_driver ili9806e_spi_driver = {
-+	.driver = {
-+		.name = "ili9806e-spi",
-+		.of_match_table = ili9806e_spi_of_match,
-+	},
-+	.probe = ili9806e_spi_probe,
-+	.remove = ili9806e_spi_remove,
-+	.id_table = ili9806e_spi_ids,
-+};
-+module_spi_driver(ili9806e_spi_driver);
-+
-+MODULE_AUTHOR("Dario Binacchi <dario.binacchi@amarulasolutions.com>");
-+MODULE_DESCRIPTION("Ilitek ILI9806E LCD SPI Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
-
+Thank you,
+Chris
