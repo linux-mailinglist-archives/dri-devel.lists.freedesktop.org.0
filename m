@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259D8D1BE59
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 02:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA42D1BFE8
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 02:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C3410E58E;
-	Wed, 14 Jan 2026 01:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33B510E370;
+	Wed, 14 Jan 2026 01:52:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W9AVi85s";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Cg3L0u0h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B74D10E58E
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:19:24 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-2a0d5c365ceso54616255ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jan 2026 17:19:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768353564; x=1768958364; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=dlOXF98nQWsAI+xBrlydKqrONWGhVbP1fEx5oYHqnV4=;
- b=W9AVi85sDEJbTOgAFaPOBECgMhjcPTc3GdLuEpAsEqvG11XenJHcZRYxVqokq5J6kR
- HWhCjYN7rB2slcDRh+tS0NxcWznkcHvm4oxYNiUErb2rtKEOAHLZXbhDnGVfN1KOaKsq
- QhWtjTkjBk8rxBU2jP4J+/F1D/GsfPPSDti5sT3F76RIMPo/HqACFsuRbbcfku5IZNfY
- eLE/2YU9buTydHH/Y6ooGODoI1YxVX6uhblFk0oqy0KNHAgG5jsUuJT9kdyeBRpr28Lb
- kBbmqwpQZMOiG1IN7lVV4iP9l94gsyNtBEZAlwHJQIurT5gllTNMHRLELBqJMj8H3zJZ
- C7Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768353564; x=1768958364;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dlOXF98nQWsAI+xBrlydKqrONWGhVbP1fEx5oYHqnV4=;
- b=bFHnmkSC4HuK63W2d8fwNo+5EymQwvj932EkASJnwrqdvomHFBKgexeUaFGEOif3SS
- y6XD3K2wxjEXRcb0F5dQTu5msqaB/JqMIKZzd6BZublO98q5UDXxHL8Y/XWjS6yKvcay
- UqE2oKPmPlIqmMd5niMteaQ09oagEk+mPV62DgJmn29ELI4Ry8Nqx84bX19ch3KphgJu
- s/pvnl0TaAolg7oiOMw9HNuQhnANpqNMN4Zr/l/B5BNE6u+E6FRg3boITPYzWfz6uc+U
- rrzAVz3+W2B5vuFseRXR6M4tPFhL6P3bJ+KcBK8bFCNGYst5FZ3346CqpatsIzUhzPJz
- X0gQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDRTwHuQPdqwx9lP/8jjFAPIrbABn5rCYOaVe/VTm6uSKFkqZKVrG4kPFnKvg2b2cgdS8qnosYzG4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9dgQSEumTkRGR53ZeclBbaC92YHO13f96KGnuAjUKwrKYBbB/
- cY2aT5WVe+gou755ygYik/B61iL+/5zEocvWU5ZQY66x1vIEVurYTab1ztEUJgeg
-X-Gm-Gg: AY/fxX59byPhG2qTNe3qDCjFjIwJ9q3AGM1y3C2r/JTtUpZ+rhf+bklSw5Psg1PvHL1
- sZqn/bZbTSuAXJhTrbuzuYGTe6dCfi06L8SQJylRRr551X2qbZ6xB8cTUQgn1D9bogZ977WYo/e
- kcuMeCewYFQeyV0ef3Sx6/PuLWfrALwX7b/Ec1OSXYPYywEGoSFedujEykKZNp58XrZEtm6Y4/u
- zKLdmIpr2AQDtXheTURVdsP0qgZuSohBMe7OzJXvvyc83O8lWnXqwHKemXfKRTu7r452M9g735j
- IRj+HVLN4QcXM0SfVPf/RdRJwwAGplR1EwYKr05d1o9KpqDUypml8gYi34HKyF5dy3weIlh1ojX
- /HfQWls3CKCkvB2k76DpGrMWe/KSBhhETPjttlCUQdUzcLGKQ2YCwdt58+VqdfNXRMTPPndk6jy
- /3rO6t
-X-Received: by 2002:a17:902:c410:b0:29e:a615:f508 with SMTP id
- d9443c01a7336-2a599e23086mr9306655ad.28.1768353563768; 
- Tue, 13 Jan 2026 17:19:23 -0800 (PST)
-Received: from localhost ([2001:67c:1562:8007::aac:4468])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a3e3cb2e26sm208067015ad.48.2026.01.13.17.19.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jan 2026 17:19:23 -0800 (PST)
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dma-buf: set SB_I_NOEXEC and SB_I_NODEV on dmabuf filesystem
-Date: Wed, 14 Jan 2026 09:19:16 +0800
-Message-ID: <20260114011917.241196-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.51.0
+X-Greylist: delayed 530 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Jan 2026 01:52:38 UTC
+Received: from smtp-usa2.onexmail.com (smtp-usa2.onexmail.com [35.173.142.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D680E10E370
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1768355548;
+ bh=JtDaMTrCVYTenPyLUxDxSKCKTU8w9pk7EHSNHOX9HKM=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=Cg3L0u0hboIF4wstkHorc3g5jr+YuKOCscxlx/2J8OilxdjLhfWju8HXw6VgG5Kyd
+ jwGNk5lHlRyXnGzZJrmSatWHU1QVCY2RafGCt6FrQa5ioutVvXud6mCTtCqGh/FbO7
+ BcRY60Ub2aAxE6jU/nrxOoDc48yj9ZIxFv6WOsK4=
+X-QQ-mid: esmtpgz12t1768354962tdb7ab234
+X-QQ-Originating-IP: C3zBYr1GJh9vpI3rU4BSSw305QsfwgZ2bJEwtEh/f9c=
+Received: from [172.16.12.51] ( [58.22.7.114]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 14 Jan 2026 09:42:40 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7794570359675995168
+Message-ID: <C5D30204B8186D5B+5f2f87f2-3fff-403e-a439-847fda61e2d8@airkyi.com>
+Date: Wed, 14 Jan 2026 09:42:39 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] Add DisplayPort support for rk3576
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Andy Yan <andyshrk@163.com>, heiko@sntech.de,
+ dmitry.baryshkov@oss.qualcomm.com, krzk+dt@kernel.org, conor+dt@kernel.org,
+ cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
+ mripard@kernel.org, hjc@rock-chips.com, robh@kernel.org,
+ tzimmermann@suse.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>
+References: <20260109080054.228671-1-andyshrk@163.com> <aWa8mvBkTrKhZBFo@venus>
+Content-Language: en-US
+From: Chaoyi Chen <kernel@airkyi.com>
+In-Reply-To: <aWa8mvBkTrKhZBFo@venus>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MDqtQ4jGWXAGzSwxoNjzr4ylGj8sv4UG3Hmp2c6q6H49+wTLWkvy9OXT
+ 62UujZZ7yzrs/XXoTuoJdGf8z7TrLBEh7IBZjvdpN3zQ/XGvEPjOC+1fChrmk3NfFuPAkT/
+ jyLmVAVffJtvJ3WoWydYt81ToKWsjDIxkPVAA9wEevKZlstHSJ5INPH5mKdQAinU1kb5idA
+ XGYzZrmUaHKq+nQ5kaUbTuRQz2fNGuhTy02GYPXy6bvBa2Mp6KXG3a10o4MN7apn+3dwMkp
+ 2SL7aK9iVQnl6ePVq4RP2AqftHf0GmbNLckkmJh9mof3kr9UCqEXU3ZC2J9YO2LbRcbXSNx
+ +aj3OCmfNj5E7lIqllwfHYyjOgmjI7GIxefd+LgS8a5vO60U6IUh+X1bqeol91zquzzFCgp
+ kaZu+wnudqF3mGPf3wHRW0JCgB6LS3aUZJTh9+ZVfTP+eaeSJcJhZrsFgNXrGpp7o0t6SRF
+ qyxoHta47riBNvVKHSYfjxKRoMhj9AVpvAThu452HuDBMO0Q/UtgnpU1raKDt6TlVkaYGdE
+ Ak8i5H6YygCF0tN99w7kglui/VwHOOKjt9qlzAkfIwM8IIyHO6og076UAOHqP2gPnTSsvgy
+ +VNgBeXyGSfLm5MQtEbsLrBOJf+TkMrb074tPSdcv/86VaH370Uoyi8OPF5OYqfzc5jEZ9C
+ AZJGPkAlDjw+5x4YY3t3LcXzKivmfLyDMve2UEIc4S6aFtprHm7Cj2WlOYFhRonV5X/RBqf
+ jK+B2vGHwZSu+iUN/pyRbQc8nGSJ33CFZjA5MrwR8A6beJkkFe4Rngpq+jo0RMBElUiZeOT
+ rNDqlb51+KEPfTjDGu7B2e/m3AO32NhmEQeMexolmsu/EArjMZ61ultvtct2kFcJQCLkhPg
+ Ha0h53hOEMs6U8G0kBQ5s9X0TL5nL2MZNMG+IJ9DygHPOX5F91PcJTtDB9nDjYofdGIMxWH
+ NgvENirkLjEGTDuepE6iSrlnMO+BLM6z17UlMDaw9/JeT9m+oHUjfF8t5
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,44 +85,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VFS now warns if an inode flagged with S_ANON_INODE is located on a
-filesystem that does not have SB_I_NOEXEC set. dmabuf inodes are
-created using alloc_anon_inode(), which sets S_ANON_INODE.
+Hi Sebastian,
 
-This triggers a warning in path_noexec() when a dmabuf is mmapped, for
-example by GStreamer's v4l2src element.
+On 1/14/2026 5:51 AM, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Fri, Jan 09, 2026 at 04:00:43PM +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> The DisplayPort found on RK3576 is very similar to that of RK3588,
+>> but work in qual pixel mode and support for MST.
+>>
+>> This patch series aims to add basic display output, not include
+>> audio and MST, which will be the work for the next stage.
+>>
+>> Only test with 2 lane standard DP port output now.
+> 
+> This is a nice minimal series :) I got it working to some degree on
+> the RK3576 Sige5 USB-C port. The display connection detection is
+> _very_ unstable, but that part is handled by the TypeC Port Manager
+> and unrelated to the DP controller (and already an issue on the RK3588
+> based Rock 5B). IF the display is detected (i.e. USB-C side worked
+> properly), the DP controller managed to do proper output too. Thus
+> I believe this should be merged. I plan to look into the TCPM issues
+> in the meantime.
 
-[   60.061328] WARNING: CPU: 2 PID: 2803 at fs/exec.c:125 path_noexec+0xa0/0xd0
-...
-[   60.061637]  do_mmap+0x2b5/0x680
+Based on experience with other platforms, I suspect that some HPD events
+are not being properly propagated to the DP driver. This might be worth 
+looking into.
 
-The warning was introduced by commit 1e7ab6f67824 ("anon_inode: rework
-assertions") which added enforcement that anonymous inodes must be on
-filesystems with SB_I_NOEXEC set.
-
-Fix this by setting SB_I_NOEXEC and SB_I_NODEV on the dmabuf filesystem
-context, following the same pattern as commit ce7419b6cf23d ("anon_inode:
-raise SB_I_NODEV and SB_I_NOEXEC") and commit 98f99394a104c ("secretmem:
-use SB_I_NOEXEC").
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
----
- drivers/dma-buf/dma-buf.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index a4d8f2ff94e46..dea79aaab10ce 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -221,6 +221,8 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
- 	if (!ctx)
- 		return -ENOMEM;
- 	ctx->dops = &dma_buf_dentry_ops;
-+	fc->s_iflags |= SB_I_NOEXEC;
-+	fc->s_iflags |= SB_I_NODEV;
- 	return 0;
- }
- 
 -- 
-2.51.0
+Best, 
+Chaoyi
 
