@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B75D1EB10
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06592D1EDB3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 13:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6268310E58C;
-	Wed, 14 Jan 2026 12:18:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VtHY2A2P";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F6610E203;
+	Wed, 14 Jan 2026 12:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F240E10E58C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:18:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B27CA43C65;
- Wed, 14 Jan 2026 12:18:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3159C16AAE;
- Wed, 14 Jan 2026 12:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768393102;
- bh=kphkpO43U3xs8Hu/vDSQXNFGwyRGtpggdrrNZNCgHek=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=VtHY2A2PoHXvJAI3LMSsL+HyLEeHCtSGgKPp6a+dXtGF+CLsybGNKbmvKBUBWia3N
- WzDOaC8LZwddJrTiwDuAvztJ2Cj6lbzW1QhIsPa2Yj7gshUYGiE+UnyC+TOrtdMm/g
- w1z2AAwKhhUC2jnihuALXEURtgZdp20+biBdG4c3/EUMr7V2orcFxiAsimeIxtOnKS
- fLsmHd7cMnVsC8ycZcOC8GfU+l75TBXsIJOO7clPXSbuJAuxBDrzz2EjRR1ts6eoAt
- WlTQrxGaNTudz8vRy+m7KhkdV2QM6ewUI891wPgHouxLWeGmg1Hv3j8OlX/YjyDn48
- v0y4wibp7fC8w==
-Date: Wed, 14 Jan 2026 14:18:19 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Ankit Agrawal <ankita@nvidia.com>,
- Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: types: reuse common =?utf-8?Q?phys=5Fv?=
- =?utf-8?Q?ec_type_instead_of_DMABUF_open=E2=80=91coded?= variant
-Message-ID: <20260114121819.GB10680@unreal>
-References: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A706210E203
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 12:44:15 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-81f3fcdb556so2166183b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 04:44:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768394655; x=1768999455;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hj+1g0xoern/NZa0KoVGvEg+BidqfC0JY8V0QW/WQj4=;
+ b=ZmOZ8fRRq9Wzzt509c/racPj7/004+xrUPEhkiJGeSRVlEOEosPZBRJIH4dyx+2qu6
+ j9tUCvUEt8K//RGCnjwqw5h0DwhJyGgAqr8g8LHrG58O3HiKG0u1yH4aiDy5bRCGoJqi
+ kNCZxkeTg+15CLQVYa4mWD7EbR2hsYgD9vYOyfcTy7KGguwRw5yu6IYAG87eXIRkS0lR
+ 0CPZ4zVp35tO665533rjdxFmYBPhoWMm6xViMGcS4Iy8c079inAvUznnPpyIHG79j6Vj
+ Gmy9eo5+t1eA9wY9fIqJ6YqwVW9CjB3Zmj0Yhj0Z8FntM/xsOYsjx2rZhA3b6JxKC4xQ
+ 9Tng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCURPuzx61/CQRwFkgzjCyDFblCaI6GjwSXBe5twmtteZudwiJ+W86Rv/F4Lrh+XPNewz/IsDyDx6LM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxueDt03SV7DZTwu6373aL2dK0iiyS6P9dqTDdaE8oZewL+0wTf
+ 84qPfPWDKswogEgva7Vbx0cmyJHvEjy2ruD34gdZEu3U1QtkD0Rj1KzbmV9cfC4p
+X-Gm-Gg: AY/fxX4wU+DuACJLBlqQ55nCd4LxUzlDuFKEi0Pz754v2HeLqhXk/hyKyjpHNxo2Cp+
+ XwEL+Kr7a25ykpi2FWoKd862XgddMMybrsP+QgUa7dkpcwMnkbId5oay0jlcQpXSLvZ1dttuVxW
+ skOuFjYcEPWgOnKPTEqkYQ/77hd880AGo2OJt5FUZtXvme1QTYQAzciSHklimKpuxJXvfkXvRtk
+ 2plmz/Bd/acGR8RLvsDZTta9rH8GNUG8GQAmaNLA39EnM+VG2R92x1EIgwJHmlqouN2UiB3JVaG
+ r0Dx8RVxLmVfemCwaglpNhjRbgzh+ukbEBudTey0AG6L3jHovfXJbRr1E37n2j0+mRYqq6wM67j
+ GMdYrdcU3VmZKIiASqAoc60LMFYrn1q4E97zO1nyTI0W5GUIMlEbGPBOQ+lywkDjZWGhIpTxz7w
+ YwcigmeF8Ugmlt5k+0jIpfz+R/GftCvN8D6pTyRW7lVYV0s1s=
+X-Received: by 2002:a05:6a20:3d90:b0:35e:7605:56a4 with SMTP id
+ adf61e73a8af0-38bed1c471dmr3061246637.51.1768394655064; 
+ Wed, 14 Jan 2026 04:44:15 -0800 (PST)
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com.
+ [74.125.82.47]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c4cca06b77bsm22804504a12.33.2026.01.14.04.44.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Jan 2026 04:44:14 -0800 (PST)
+Received: by mail-dl1-f47.google.com with SMTP id
+ a92af1059eb24-12336c0a8b6so371801c88.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 04:44:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUX4CsD4i/bB8KgvJ5TWBdMOicl3gpSP/gVBD80VMpyAVmnVgtizaiH7PyaduxrUGYgHIBKgLtpNlc=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3e0f:b0:5ea:67f4:c1ad with SMTP id
+ ada2fe7eead31-5f17f5c4c79mr942660137.21.1768394289171; Wed, 14 Jan 2026
+ 04:38:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <20251203-shrew-of-original-tempering-8a8cfc@quoll>
+ <aTA-Hj6DvjN4zeK6@tom-desktop>
+In-Reply-To: <aTA-Hj6DvjN4zeK6@tom-desktop>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Jan 2026 13:37:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
+X-Gm-Features: AZwV_Qj82EmcdFo9GBygajeXpLdMczZEl-yzaqrHERtstQ_T42ZqMwts5Zu_4K4
+Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
+Subject: Re: [PATCH 10/22] dt-bindings: display: renesas, rzg2l-du: Add support
+ for RZ/G3E SoC
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com, 
+ linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,31 +103,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 07, 2026 at 11:14:14AM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> After commit fcf463b92a08 ("types: move phys_vec definition to common header"),
-> we can use the shared phys_vec type instead of the DMABUF‑specific
-> dma_buf_phys_vec, which duplicated the same structure and semantics.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
-> Alex,
-> 
-> According to diffstat, VFIO is the subsystem with the largest set of changes,
-> so it would be great if you could take it through your tree.
-> 
-> The series is based on the for-7.0/blk-pvec shared branch from Jens:
-> https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=for-7.0/blk-pvec
-> 
-> Thanks
-> ---
+Hi Tommaso,
 
-Alex,
+On Wed, 3 Dec 2025 at 14:42, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> On Wed, Dec 03, 2025 at 09:23:53AM +0100, Krzysztof Kozlowski wrote:
+> > On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
+> > > The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
+> > > Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
+> > > Processor (VSPD), and Display Unit (DU).
+> > >
+> > >  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
+> > >  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
+> > >
+> > > Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
+> > > and 'renesas,r9a09g047-du1'.
+> >
+> > LCDC0/1 but compatibles du0/du1...
+> >
+> > What are the differences between DU0 and DU1? Just different outputs? Is
+> > the programming model the same?
+>
+> The hardware configurations are different: these are two distinct hardware blocks.
+>
+> Based on the block diagrams shown in Figures 9.4-2 (LCDC1) and 9.4-1 (LCDC0),
+> the only difference concerns the output, but this variation is internal to the
+> hardware blocks themselves.
+> Therefore, LCDC0 and LCDC1 are not identical blocks, and their programming models
+> differ as a result.
+>
+> In summary, although most of the internal functions are the same, the two blocks
+> have output signals connected to different components within the SoC.
+> This requires different hardware configurations and inevitably leads to different
+> programming models for LCDC0 and LCDC1.
 
-Could you please move this patch forward? We have the RDMA series [1] that
-depends on this rename, and I would like to base it on the shared branch.
+Isn't that merely an SoC integration issue?
+Are there any differences in programming LCDC0 or LCDC1 for the
+common output types supported by both (single channel LVDS and 4-lane
+MIPI-DSI)?
 
-[1] https://lore.kernel.org/all/20260108-dmabuf-export-v1-0-6d47d46580d3@nvidia.com/
+Of there are no such differences, both instances should use the same
+compatible value.
 
-Thanks
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
