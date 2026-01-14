@@ -2,80 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF47CD1D8C9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA954D1D986
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 10:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E710710E1E5;
-	Wed, 14 Jan 2026 09:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122E510E08F;
+	Wed, 14 Jan 2026 09:38:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZIR3aNnG";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OtkWwGXU";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1FD10E1E5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:32:21 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id
- a1e0cc1a2514c-93a9f6efe8bso2523954241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:32:21 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C9310E5E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:37:59 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60E7jCgL2789550
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:37:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=; b=ZIR3aNnGGldnQyYj
+ UhaMs10N5GTIacsoOSvFIWOeLuRRwZ5lobaveKIaeJqCzbLnTbjlFbEnlU2937KW
+ 0YqvSPUNXI9VDRqIFskq+hODjYuz/Pg79uq6nLJae8XoAxJmyBo84agJAN+fZSEv
+ Jg4J27UNoujc8JxEC0JkAOnJXhnBqMnXG5sGh0khnD5AUy6AEAnXFSJBpjJqpNxH
+ IE8I5ccvOt4NcHW7BNECeGDM9cUwz8PEEKi6QL/X7ypTLNF6fVQNDpe1B72KbrQG
+ ZDTojSWdrqhF3TEmt2bw/W+4FQb47Bm8usqHOPq/sWjccDAxe0Nvwx+LaqrHU0Xm
+ U3uedQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnw7vab7y-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 09:37:59 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-501468a59d6so3665171cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768383478; x=1768988278;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=;
+ b=OtkWwGXUIuh8f1fJh/nRgVUU21udlWsSe5dQ0dR/8yfe3Tvjo0H/UZpruCcp4tj5TF
+ 9L5RwuvEe550MQVklNTtjIPOc2LxfReD/YPggX1ZVEZTC9gvmffOYvRIowcyGTYwGHTp
+ g/WmE93xX0Z23tZQcc7MbtE2t77eOrrd74x51CqJX6l4Xez+E999aK58e6knxYZagJxr
+ xTU40z64RiSaSqTJRuTjh21VRKRTUaoaTuDqjXhnll/gOS4Np/M1TIJmwAR1giCK98id
+ ih50GBAcIKuIDXbkPGes3aNjc33R3JNO63w39jjgPYH3KT9DNX9KxhVKAahbnDRrRHmv
+ +1YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768383140; x=1768987940;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8zDJce+CzgnUUMSOqtY7/Bi9afy0UIdZaZUJnldMOyg=;
- b=ZKoRBiTcB9hAAaQjFX37dD7UNw+COgQn5EV2Kr9p2tCzCxs99FpZkadrjsChsmST24
- MPv71LRidtHjC5WZiHG7ruJBBzkItzzg7k3MKkhhIHmbVmXy3AX8xAE1DxBcWZZ4/aEj
- pkDnRP97Ns3NTe/HvKbhDSQAcZW9UI278hJrugy6956fwksp3fuA1gVRQbKW//ZHl1rQ
- TDu+1+ozHFVafmbo51D40tqmOqoOQOzriuce1CSq88jGm9MQKPr4MA3pIHN5K0TWhzld
- mcFdLFXhZwavwRkUPWQ8sjzQaDTReewQVPKQskUk5L2gxo4yA4gCIp99LeC6zpA4X+k/
- a/rg==
-X-Gm-Message-State: AOJu0Yyb0dcv1InDVwhmzT5D5dhpzoE8Jm1aTFMziZNAFURW1EdXhTZe
- NB0iHwLRTfae7m4jMcX449RG8Kc5H8kUFzeRHjwRoyddgY6UCnxShyo5l9k6wuxk
-X-Gm-Gg: AY/fxX6S7ELvQes4ynSsNhO5s/2fjUpLcCPmCAyCZ2Cf7Y9a0ZpQt30VxEKVdJQQF16
- 71yYoS/gbAwgqnZ5psNFTwXDcKNQhTOYs/ydU7TDN24ws5k3WyRArhXNMZev929Gbj9t9uyniKa
- ut1IXnj5qWMZKdnCD4y6OJmeEJbFLMz2BDKeQNKIhD0nJg+KAZRi89xyPdoDCS4ax+syFRX7sUb
- fvDSLoT3vfRFJ9qNq5HpOi+Vf1G5eq8yySe3b3rmzBb1HW8n0+rrQQJRXk0khfEqsOtKMj1pl6z
- hT9IQxdMKt725ziEyHeLXXb5zIFMHpHmC1Cfi8elHFxHZOJ4XH23tba6TZk9MytDOy5a610uSrb
- LI1EMvQavjvCvsUubOY9hgVW2XMEggoEjs6cArStKsncLWvvDJn7/kxNQEQ+h1XOLy3OOp779na
- VyetMeFNcuhXJ4T7Ws1Gi3aqxlbhv2f7gutDbuzgM53l25NuT+
-X-Received: by 2002:a05:6102:3f12:b0:5df:99d3:d9a5 with SMTP id
- ada2fe7eead31-5f17f3efc60mr620618137.4.1768383139785; 
- Wed, 14 Jan 2026 01:32:19 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
- [209.85.217.49]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-944121ef3fcsm21954298241.0.2026.01.14.01.32.18
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20230601; t=1768383478; x=1768988278;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=;
+ b=V5ZVXDOmQe074q+3vcJ8XourZI3dd7liePmVbRtsUmoyBBf8fhthBy7/oZ9xtRUsZN
+ 4jl3gX8d3ropwxsWA4QvJvPo6eGyZtlv4U++zNYw7F20j4mbtf5l9fgn540phW8Fq+dD
+ hT+LTdykgjyS28EFI96jBuzwEaVKFzDrDH7056UFFSIxBkzVMXTXVZ/ESxpkppB6PCJa
+ K5OPMW5YJxSUMfecz6mi78JeIiAvUO2GwY1nNwkNYrZA83S4yIB48U5R58JMVFQt7r8Z
+ rNXLKKrMbNBK32+rAVFwHnSN5UEocobrMdE5HiH+fdBmmbyHiY7uguMoXN6aP1mQ/rM1
+ wkXg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUc0x/ypvHHvOX6KKA+W/oMqLG6ndcjD8wWdqWmtZOXpFY+PMxSPhmfcMXKQg4/vZPaEyBbEWveHWc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjwW4rRmnewUgxNSejXjcDe5++K12t29ojPoKQa0NycUPjEUUh
+ +dSGMHyN2gGfgHj2azOPGTbdcxF4NVXIHy+DW39F7Lme7M5s5ve0xjpdzqoYtjCvXiJ9Lk/Gugd
+ NIekkng5OytpnWZQLJwsIj4v+ZPR5CnFTKpfvertZXJtwmbLJi+wLv18eJf5JVZK1KvcAFD0=
+X-Gm-Gg: AY/fxX7W9j59zuhMt3FEWok193hF11tmcKkv5CgNI/Fqdc3MHDA1wLL0UkKKS7uVnct
+ iePaek5arAw6h2Z6JHQUBTAJamVEjLAUt42sAd/17H7j4AAS5HCDee0anHR3g1wrO+o/zCw4hg+
+ G3hjyRsLt0urU5wzE+gA+G9azD+E9cUKf+uWDjYxoLq+ehaEuNM4Bttl0UUqyX1zZn9OBFdfvDc
+ cWrp8aiXWbcmvE8Vog/CGdQ/whwLCSCjrUchjqR0tbD21R0DIOwtMm00/nhy6HmPpV1TL9iktTx
+ RyOLbetATTpxt0io7jGQHvXzCt/WLtKTQbimJLPmDp3VdkRj2kjlrThxMMDI6ARtmbt5ssP+zXZ
+ YtN4iJQbSgkvq5fWsVfagBroT2tAkaJI+wwBK5PMnjk8xkG+bDpImWp0YZsAeXMzUKmQ=
+X-Received: by 2002:ac8:7d85:0:b0:4ff:b754:3a52 with SMTP id
+ d75a77b69052e-5014816e52emr21627171cf.0.1768383478301; 
+ Wed, 14 Jan 2026 01:37:58 -0800 (PST)
+X-Received: by 2002:ac8:7d85:0:b0:4ff:b754:3a52 with SMTP id
+ d75a77b69052e-5014816e52emr21626971cf.0.1768383477873; 
+ Wed, 14 Jan 2026 01:37:57 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-6507b8c3f89sm22240499a12.5.2026.01.14.01.37.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jan 2026 01:32:18 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id
- ada2fe7eead31-5eea9fbe4a4so2025715137.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 01:32:18 -0800 (PST)
-X-Received: by 2002:a05:6102:3f11:b0:5dd:b2a1:a5a4 with SMTP id
- ada2fe7eead31-5f17f3f0042mr733928137.5.1768383138240; Wed, 14 Jan 2026
- 01:32:18 -0800 (PST)
+ Wed, 14 Jan 2026 01:37:57 -0800 (PST)
+Message-ID: <44d2ba08-e760-4f7d-bd87-6ef3a5415ebb@oss.qualcomm.com>
+Date: Wed, 14 Jan 2026 10:37:55 +0100
 MIME-Version: 1.0
-References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
- <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 10:32:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
-X-Gm-Features: AZwV_QiKgVRnWvbmqW5MDnkyAYhxg5wrvIwNyBPnn7EJexnd8UAobHHJuJB4uzo
-Message-ID: <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4 DSI
- data lanes
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Joseph Guo <qijian.guo@nxp.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/11] soc: qcom: ubwc: add helper to get min_acc length
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
+ <20260113-iris-ubwc-v2-2-4346a6ef07a9@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260113-iris-ubwc-v2-2-4346a6ef07a9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3OCBTYWx0ZWRfX+jjK833ie8IE
+ F7CHfxxlvbC0ou4YJtsIYloKYMe5PviBFI1gGAATISk5XrFyk/WY+mZlOZEugGwV2dHQDPDlWsl
+ fYQa8mVydiJCEO6d37h6/uxun0rmw23fcmmgqe6snWhrGcgU4a9i9FNIWmB12jVy6wPx9ADdsA0
+ rI/lSwwt/k9SZl3i//M6GhKqdeMg28zIBohptVtF7UxB529PEvWMHbm/uifFZQr3yu42d3lWv78
+ FVHWRU4ltVeE0PaMTIHq+hM7VgiVDMq07hyAsS2yVz4GKNUnsNTNkCIeAUfTdTiFFSNJlPKNKJl
+ fLyf4tg5C02M5S1wSatXSbgni98bHrWHJ+xN+Fu7MLLe1DQA/eZV+9E7XKrKm506Ryl1fENy33X
+ LA1SwlW2Uv0kLOvykcdFALXPKixStH6eOeLDxyc/Kn8OczfosDvYeHEQi75Y6U1ZXV974IEYBi+
+ gp/39xJ8EjlFBFaQNMQ==
+X-Authority-Analysis: v=2.4 cv=PJ0COPqC c=1 sm=1 tr=0 ts=696763f7 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=4J1ihs_Kgnsqm2W37X4A:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: im_Xdhhr8aSZLVL4cxikr_o0fieH_c-z
+X-Proofpoint-ORIG-GUID: im_Xdhhr8aSZLVL4cxikr_o0fieH_c-z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-14_03,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601140078
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,67 +155,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On 1/13/26 5:57 PM, Dmitry Baryshkov wrote:
+> MDSS and GPU drivers use different approaches to get min_acc length.
+> Add helper function that can be used by all the drivers.
+> 
+> The helper reflects our current best guess, it blindly copies the
+> approach adopted by the MDSS drivers and it matches current values
+> selected by the GPU driver.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-On Tue, 13 Jan 2026 at 00:48, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Parse the data lane count out of DT. Limit the supported data lanes
-> to 1..4 which is the maximum available DSI pairs on the connector of
-> any known panels which may use this bridge. Internally, this bridge
-> is an ChipOne ICN6211 which loads its register configuration from a
-> dedicated storage and its I2C does not seem to be accessible. The
-> ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
->
-> To avoid any breakage on old DTs where the parsing of data lanes from
-> DT may fail, fall back to the original hard-coded value of 2 lanes and
-> warn user.
->
-> The lane configuration is preconfigured in the bridge for each of the
-> WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
-> others seem to use 2-lane configuration. This is a hardware property,
-> so the actual count should come from DT.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Thanks for your patch!
+Konrad
 
-> --- a/drivers/gpu/drm/bridge/waveshare-dsi.c
-> +++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-> @@ -66,7 +66,11 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
->                           MIPI_DSI_CLOCK_NON_CONTINUOUS;
->         dsi->format = MIPI_DSI_FMT_RGB888;
-> -       dsi->lanes = 2;
-> +       dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
-> +       if (dsi->lanes < 0) {
-> +               dev_warn(dev, "Invalid DSI lane count %d, falling back to 2 lanes\n", dsi->lanes);
-
-"Invalid or missing"?
-
-BTW, I doubt the kerneldoc for drm_of_get_data_lanes_count_ep()
-is correct:
-
- * Return:
- * * min..max - positive integer count of "data-lanes" elements
- * * -EINVAL - the "data-mapping" property is unsupported
- * * -ENODEV - the "data-mapping" property is missing
-
-1. s/data-mapping/data-lanes/,
-2. of_property_count_u32_elems() never returns -ENODEV?
-
-> +               dsi->lanes = 2; /* Old DT backward compatibility */
-> +       }
->
->         ret = devm_mipi_dsi_attach(dev, dsi);
->         if (ret < 0)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
