@@ -2,62 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DB9D20F87
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 20:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A2DD21009
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jan 2026 20:21:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD2EE10E679;
-	Wed, 14 Jan 2026 19:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9AA10E673;
+	Wed, 14 Jan 2026 19:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="TrjKq+vQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c5BfR4D6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5035210E15D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 19:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=MqYY9HoGox5VJhwTh0fKFFPWA1fKcL3f/K/VaXSx/pQ=; b=TrjKq+vQePymuAoxR+5z1RQxz6
- CLbbYgQCRyLwYwFhevpQgzdNUiSSmd2pWZTEav9dqY+vchO0hlVsJmIlU67i3o2S5055FUZkodK3z
- 5KQfjqRoWWd6jIxr7+wyclxu/3HL+K2s5S2PNDMKzeuwh55Gi/4hv1t9U4EQQgpE8G865ra4Uqdbe
- TUMSZlgL4G/5Sk7wJLTQR7v02zb32YQcY1ri6RcKmgnWzfWtbs82DzxbmigDAOmxdnKAb1WzuSRqK
- EnBALR97rIR0sHT6uFrMor4EQ67y/KuyqV6tSeZg5ZjUx9orExAWeTnT9NYg6KqUgF/oCZYZKFQnM
- hYqZgedA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vg6CS-0000000AQO2-1ik6; Wed, 14 Jan 2026 19:06:36 +0000
-Message-ID: <6ec2b90e-c6e9-444d-926a-68d19f42acba@infradead.org>
-Date: Wed, 14 Jan 2026 11:06:34 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] accel/thames: Add IOCTL for job submission
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
- "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>,
- Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3097F10E66F;
+ Wed, 14 Jan 2026 19:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768418502; x=1799954502;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0Xr44qIt4aDZeFOuXJUWqKFpNwHw/ty79qHlHFXr8ng=;
+ b=c5BfR4D6eHlFOp+wLlCQ/3b8mecEzY7wm+duto/Aeoug8l5SU6D0fTKp
+ eWJGEZT2ySN1UltpxjYuq26QzXK7wA1gzIr3jM5edagmJqfncLu6xH40D
+ IxKOv0JHg3DR7HSHLAKkFuowLgsN5RJVqySFXgu5+c6c0p0hohE7+Ah76
+ XXrSmhapXXVS5wMvlz5Xl/hx4rkw9BOGaYyUCLz0IZJSgwJ5tFdCc+WXs
+ vvGeMRexwjFpcL6g18sYXmqiw/Fxd8SPdPmBMqdI6ZNM+pIZZH63oGN51
+ 3vAJ3eZj/YvVUubuxxypV87L1EZeqMmss52utftJe8iV3vyzhoc96oXal w==;
+X-CSE-ConnectionGUID: p45Yt6h5QbOq4hn+Xmmvxw==
+X-CSE-MsgGUID: 9owP4Wf8QMa8cRTM4UZILA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="87305653"
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="87305653"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2026 11:21:41 -0800
+X-CSE-ConnectionGUID: 36cRy4BqT3ukGV7yMf/R4Q==
+X-CSE-MsgGUID: oSiZugMJQPWWWoPWHLMztA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="236006778"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO fdugast-desk.intel.com)
+ ([10.245.244.85])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2026 11:21:33 -0800
+From: Francois Dugast <francois.dugast@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Francois Dugast <francois.dugast@intel.com>, Zi Yan <ziy@nvidia.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
- <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Balbir Singh <balbirs@nvidia.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v5 0/5] Enable THP support in drm_pagemap
+Date: Wed, 14 Jan 2026 20:19:51 +0100
+Message-ID: <20260114192111.1267147-1-francois.dugast@intel.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,103 +96,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use Balbir Singh's series for device-private THP support [1] and previous
+preparation work in drm_pagemap [2] to add 2MB/THP support in xe. This leads
+to significant performance improvements when using SVM with 2MB pages.
 
+[1] https://lore.kernel.org/linux-mm/20251001065707.920170-1-balbirs@nvidia.com/
+[2] https://patchwork.freedesktop.org/series/151754/
 
-On 1/14/26 12:46 AM, Tomeu Vizoso wrote:
-> Using the DRM GPU scheduler infrastructure, with a scheduler for each
-> core.
-> 
-> Contexts are created in all cores, and buffers mapped to all of them as
-> well, so all cores are ready to execute any job.
-> 
-> The job submission code was initially based on Panfrost.
-> 
-> v2:
-> - Add thames_accel.h UAPI header (Robert Nelson).
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  drivers/accel/thames/Makefile       |   1 +
->  drivers/accel/thames/thames_core.c  |   6 +
->  drivers/accel/thames/thames_drv.c   |  19 ++
->  drivers/accel/thames/thames_job.c   | 463 ++++++++++++++++++++++++++++++++++++
->  drivers/accel/thames/thames_job.h   |  51 ++++
->  drivers/accel/thames/thames_rpmsg.c |  52 ++++
->  include/uapi/drm/thames_accel.h     |  54 +++++
->  7 files changed, 646 insertions(+)
-> 
+v2:
+- rebase on top of multi-device SVM
+- add drm_pagemap_cpages() with temporary patch
+- address other feedback from Matt Brost on v1
 
+v3:
+The major change is to remove the dependency to the mm/huge_memory
+helper migrate_device_split_page() that was called explicitely when
+a 2M buddy allocation backed by a large folio would be later reused
+for a smaller allocation (4K or 64K). Instead, the first 3 patches
+provided by Matthew Brost ensure large folios are split at the time
+of freeing.
 
-> diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
-> index 0a5a5e5f6637ab474e9effbb6db29c1dd95e56b5..5b35e50826ed95bfcc3709bef33416d2b6d11c70 100644
-> --- a/include/uapi/drm/thames_accel.h
-> +++ b/include/uapi/drm/thames_accel.h
+v4:
+- add order argument to folio_free callback
+- send complete series to linux-mm and MM folks as requested (Zi Yan
+  and Andrew Morton) and cover letter to anyone receiving at least
+  one of the patches (Liam R. Howlett)
 
-> @@ -75,6 +78,55 @@ struct drm_thames_bo_mmap_offset {
->  	__u64 offset;
->  };
->  
-> +/**
-> + * struct drm_thames_job - A job to be run on the NPU
-> + *
-> + * The kernel will schedule the execution of this job taking into account its
-> + * dependencies with other jobs. All tasks in the same job will be executed
-> + * sequentially on the same core, to benefit from memory residency in SRAM.
-> + */
+v5:
+- update zone_device_page_init() in patch #1 to reinitialize large
+  zone device private folios
 
-Please make these comments full-fledged kernel-doc comments.
-E.g.:
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Logan Gunthorpe <logang@deltatee.com>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Balbir Singh <balbirs@nvidia.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-cxl@vger.kernel.org
+Cc: nvdimm@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
 
-> +struct drm_thames_job {
-> +	/** Input: BO handle for kernel. */
+Francois Dugast (3):
+  drm/pagemap: Unlock and put folios when possible
+  drm/pagemap: Add helper to access zone_device_data
+  drm/pagemap: Enable THP support for GPU memory migration
 
-	/** @kernel: input: BO handle for kernel. */
+Matthew Brost (2):
+  mm/zone_device: Reinitialize large zone device private folios
+  drm/pagemap: Correct cpages calculation for migrate_vma_setup
 
-> +	__u32 kernel;
-> +
-> +	/** Input: Size in bytes of the compiled kernel. */
-> +	__u32 kernel_size;
-> +
-> +	/** Input: BO handle for params BO. */
-> +	__u32 params;
-> +
-> +	/** Input: Size in bytes of the params BO. */
-> +	__u32 params_size;
-> +
-> +	/** Input: Pointer to a u32 array of the BOs that are read by the job. */
-> +	__u64 in_bo_handles;
-> +
-> +	/** Input: Pointer to a u32 array of the BOs that are written to by the job. */
-> +	__u64 out_bo_handles;
-> +
-> +	/** Input: Number of input BO handles passed in (size is that times 4). */
-> +	__u32 in_bo_handle_count;
-> +
-> +	/** Input: Number of output BO handles passed in (size is that times 4). */
-> +	__u32 out_bo_handle_count;
-> +};
-> +
-> +/**
-> + * struct drm_thames_submit - ioctl argument for submitting commands to the NPU.
-> + *
-> + * The kernel will schedule the execution of these jobs in dependency order.
-> + */
-
-Same here.
-
-> +struct drm_thames_submit {
-> +	/** Input: Pointer to an array of struct drm_thames_job. */
-> +	__u64 jobs;
-> +
-> +	/** Input: Number of jobs passed in. */
-> +	__u32 job_count;
-> +
-> +	/** Reserved, must be zero. */
-> +	__u32 pad;
-> +};
-> +
-
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |   2 +-
+ drivers/gpu/drm/drm_gpusvm.c             |   7 +-
+ drivers/gpu/drm/drm_pagemap.c            | 158 ++++++++++++++++++-----
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |   2 +-
+ include/drm/drm_pagemap.h                |  15 +++
+ include/linux/memremap.h                 |   9 +-
+ lib/test_hmm.c                           |   4 +-
+ mm/memremap.c                            |  20 ++-
+ 9 files changed, 180 insertions(+), 39 deletions(-)
 
 -- 
-~Randy
+2.43.0
 
