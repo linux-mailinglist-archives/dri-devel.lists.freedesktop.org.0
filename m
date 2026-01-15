@@ -2,88 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5082DD28900
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5689AD28916
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1041810E1E4;
-	Thu, 15 Jan 2026 20:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C0D10E1C4;
+	Thu, 15 Jan 2026 20:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SSEvRnx+";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Xw+6PLjP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A2B10E1C4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:57:01 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-5014acad6f2so22071cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 12:57:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768510621; cv=none;
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E22010E1C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:58:54 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-50299648ae9so20181cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 12:58:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768510733; cv=none;
  d=google.com; s=arc-20240605;
- b=gOz1KbtowMbidctWdFkycOY8pkD0l//tNnuD2wTXEmqvXBnC5QNSVuj1WUp+oLjCT7
- ADkwlxwkNdtzKwhysFMGTmXkvwVnn4wt0x8ANcQrz3CQpJq72uQCQBmIcXsIRRO5Z3s2
- 8Iz02bKKmX8eGxv82f1lGAX94AWs4gWQa00C3NVqTf2jCfcjQpbmXWOaNLc8W83DtfMB
- 7STGOxNdlRpRY8SGKZUBn3klFfNxy6cIwh7rbhcUDYROW2rrG3H/+fKTVCmyF55dzBOU
- gK9ST6GZOwqM3VpsvzacPvnJ0y3TmIJpNOdzewFvjIkn746mVi3FjluhMOx0G4/U4/7Q
- f1HQ==
+ b=WUoipmt/pOk3V8wTdblXhwIG2CX2sDhaawnuXjJaWFIC+M8Tmm2DWTJ5vv9tyf536j
+ qYQ4YkEx5FAdIwes8G1z74fOMpAE9fWYYL9Gu76RTat3B/i4SeSbFJYczceOIB6xVf/a
+ fFyXIZRBBC0CgHXZj61X5DC8KmKFs+OjQ7Jp8M4/vmZ44BMs/JOvaRUgA71UZPuHKXnT
+ pJkoPkkIt9bbq7uY4QZzUQiuUkTGMej8Rrl4khY1I9gMaONHEyCNNACIalPx/1/ykbMl
+ l6FIFZwQ0+ujRI4sFTQIT8Ob3/7z/1xwAJ5l9XPsKS63qv4cdCyC99dyxZJFTBTjVIWJ
+ qW3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature;
- bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
- fh=rmAECzOfm074slKcvvTICaqGUrvOebFUcjhISF9aCPo=;
- b=QHvs+M5PCvwgVJdsC/6oqpRW2LE8sD/YqD0bNxQ5TDKmsr4kwy3LL9FCflXEiyYr5N
- 6NGC9bcg0BAFmu+3SlSJxSOgnEHxb9Sw2UU7FR2LZS8ydYGxvM5I5pqcqVHpibKI0/tx
- m2qGird1ERSvs5gBbNGtGNPCW9sSG2Cuq6xwDRbmFsCzEMlNXSONAMsYgDBN3IQrPY/c
- hh4VxYmQrX/Evxe7DvOf9RHwNsBe9GMDN1hxSSidD1gT+UEAyYRiO75RwEtiNwA6TE/m
- 6XwpKtprAhSmt2ROhMRYY3VMVT03ZEG46Gp3DIQ30q0mNTAguPQ6dQF/VSkDTR2nm21Z
- IbdQ==; darn=lists.freedesktop.org
+ bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
+ fh=goKis6DXU4paQoZORREVcxlIrKXa+ubD5Uc/ENyb1sY=;
+ b=T0MifemvOQE4nVuBEXgA8W6r6W7evO0hLMiPPHFdIsOd9pK+/6KDhtvsfaTBYTEdLi
+ w3L5jKNYZJl92iSTFXC80kla21ThkIchK9gqin4marafMCK1evaofjP2cktvsbaGmzn6
+ J/+SAncVpfIsWA7w6WAIa1eJFAhoHYLcHFc/+F3ayIUL2yvyw+Z7G62OxzzSX+kbxLWC
+ HVVjCeVChqyFsIm6ESGPYbNF6lW+LMmlmxviA7BPwqRy8bN4peCkrbggSmP19YbDlJ6o
+ lIjQ67Jy3h92qi4vX2upL2h3cM1MEcYr9cDvNSGRgxppvmnQEs5NaF3No4SOws0lQo6D
+ yIsQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1768510621; x=1769115421;
+ d=chromium.org; s=google; t=1768510733; x=1769115533;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
- b=SSEvRnx+pnZXXAMp+Ba83OuUftWz9jxAlLYXuKWmx56ANUWm6zSaIlp1nMklTQzKKV
- eACqoa1WTS4sqAJTsLV8upSCZCIea5u4cdstaXtRloOcKUfOR9QJ6Y2kzIhT/oJPScnd
- 5vZiHwWaVhnNtC/RtyH1lOCIDnAbFXIjsG3fY=
+ bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
+ b=Xw+6PLjPjU38zVBKo51mB5qB/xJv3oW61w9WfwfM/GxqBeVPVGl5wr1XP0YWuAsbzf
+ ZBsLua/Fr6XIcOt+/tJHlbiw69X60kriDosiNdanq3C0X+NxJIeXq4EWviPKxYvnfv+4
+ QTFmmH7iqVdvYw32WPZfsHGxfT4ztqmRrqSGM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768510621; x=1769115421;
+ d=1e100.net; s=20230601; t=1768510733; x=1769115533;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
- b=Uj0igpGGjV2F1apzVMx88yWYlOz35d9+MSygFch3GkirIVtwrucXwvL6+tqu6NVE/S
- smgvadeVWOr/EfSZZKnI9+HgXCUuTwD8y5drn4h1XZv5kGGCfQ90/sVwDp0IqIpwMLC3
- 4CRQ1jXhufixPU2bexHuEcoeLdr+SbHW0KoYTBFAa1e2RKBTOzGLxoHEy+pRCxBcjLq5
- GkBKCBuiGyAAEuXj1bIzApA/lPC2M+yr1+ifHdsVOTggMkGjnGN44mVOZ2kWbfHCJMrK
- bzOP+MTj3Sd1cfCoe1Z7biwL6JqqzkxgrFg25wVtqXGWAqGIvTK2v9gGAVToCSqfGzi+
- Ulnw==
+ bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
+ b=Y4x7tS9epgYcxvTa0sRjgqSJrQIP/8dmOBl2FdTGc+I2kxEtcD+tQUird/JtphwP3U
+ HdZKQ8AY/So99iy5uI1lu08hTCW9TK4cfbGsnrWghV2npBJFWUb0Z9SE2cHeie/WZcHY
+ XmfBuaHmQljH/CtAjjHDCVhIqe+IkF/jwFTaOvFg0y7BHiZ+mcQnWUVBb2WNGfMXhVa0
+ rdjFOFEFSB38a3ocYJxvyzn2vV7cKuC0ps1DLZT1ao528AZxHdcCp6Kbz4NmE6vhCqGX
+ paMPssToZONP+z1IbrPkDXFyQy1BxrV18Qe7Sxk4iHqyUUgsUjOisRlaISXWOk6c6Aje
+ KZug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrq8kMd0aU9jT0b8v0huvTGD+DzlrZn6CKrbB0OfIm6LYbmquCFKjwqouzIhN6FcjfV9TN9AroEig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdUyW1w99fVVo/AW0ttH0JCcO2T/DexsA/iaeMYvX4YdgCEfRH
- Tm/OlR6bZkqugdRc56+wulSx7eNAFHoqS+MduM78to/WNWBRrR4h/m/zLqgkmgUrRVeHhqZxAVp
- UhScHx05W4Pah7o0Nkzpns3eSQ1+iEaGSpJYR+YhL
-X-Gm-Gg: AY/fxX5VenLheJue8DhzKHZJK7GOJShKN0hKA1NWyVb89MATTwvgI0Yg3ayhx9Z/Uvx
- sHP8CLXolSdOSUnnIGgv0l91VGz6Ev+FiA04vVgwm4XJh8tkwGWRzv6ENU1atKymPpxM5poGai7
- 1nys9zeprVO0pkc3cOY22wSAi9UghGTzIkF2n7iEGUuzWvDeb3gCQZ8WWupA/kleInt5c4nDoFm
- 7aNNc428QzW4rholpzCUkfvhAPiL4Ig2/FCPuDh1ARSvlaLEtbCy3WsJW5/r8SPNus9A2+fjOj/
- 8oEu2FBvrxEvK5UH0PuuV6koww==
-X-Received: by 2002:ac8:5d08:0:b0:4ff:bf96:db86 with SMTP id
- d75a77b69052e-502a23dc15emr2080621cf.16.1768510620599; Thu, 15 Jan 2026
- 12:57:00 -0800 (PST)
+ AJvYcCXssMhmXI9YzbRCtAs+wxlg9hew/uksmIJgID0okLy8GNQnNsPJisWcBLoRdJh3+KmslmRxE73VdPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxc2JvB6kokt7o26bRA9tcnBR8Sdy4CYWztKZ+cBiFpQI8MSPij
+ 1Fll1bNsmNA92mjEY67BbqEckDaQHTDfWNHr6ZsVNZgdYIlQEmGORWf9QONdjpQz3usb1uewvzc
+ kyVoloBlTib9vWvZIHiud7T71byRvYqtk91fRmewI
+X-Gm-Gg: AY/fxX5b5TXpK2YBwt7/YDfXFvG0KbntBxz1XQZSBz1oII+LXfxDVqJDC44YMntpQ3v
+ Too2L6FA59DzhKVKTDdC1+r5QULiZnbNuwljk4Vm54TnVltaJYkwa6fOpwQbMT6aA+0zHsDMtPi
+ Csxt1iecxoeRlEKyRQ4E/5+ciio7/vSIv5i20Pq4s+0TbIg9Y3qmMOY1ueWRiA2T20Hmkaw+/FM
+ 9Ww2RlupsojYQU9pvv7zLfIcVr3QmptL2azZiRU9wYvEDher+u1xzqRYHnkrSeHzsdAMr+uNIkC
+ wMno+w/CRqGhy+svHjg2plb+Ng==
+X-Received: by 2002:ac8:7e8d:0:b0:4ff:cb25:998b with SMTP id
+ d75a77b69052e-502a23874c7mr2282841cf.12.1768510732990; Thu, 15 Jan 2026
+ 12:58:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-10-tzimmermann@suse.de>
-In-Reply-To: <20260115082128.12460-10-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 From: Julius Werner <jwerner@chromium.org>
-Date: Thu, 15 Jan 2026 12:56:48 -0800
-X-Gm-Features: AZwV_Qg5K_5_9lpK3wrMnXsEAg9k1xj0wh4ZSps8vZ_Tg0OFv5Ka7-vAGXG0iEA
-Message-ID: <CAODwPW_uDHQHpcMYd-tu0Ld5e+7MQ5OVUtUgM8hnrg8crY22vA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/12] firmware: google: Pack structures for coreboot
- table entries
+Date: Thu, 15 Jan 2026 12:58:40 -0800
+X-Gm-Features: AZwV_QgAvNKXMipZU3vFetTFrWbMaSg3BOdWiKKlVxjbyY9-74HfW16m0dIEsTE
+Message-ID: <CAODwPW8g5sn6nJkZbj-rc_7PkgT9qVcQeLg=ARba5w5MQEHDcA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
  javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com, 
@@ -105,13 +103,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Is this necessary? The coreboot table entries are 4 byte aligned, so
-only the uint64_t fields are a problem. In coreboot we solve this by
-not packing the structure and instead using something like this:
+Whole series looks good to me in general, so you can call it
 
-typedef __aligned(4) uint64_t cb_uint64_t;
+Acked-by: Julius Werner <jwerner@chromium.org>
 
-I think the same solution could work in the kernel? Packing the
-structure makes all alignment assumptions go away which can cause some
-architectures to generate really bad code, so I've learned to try to
-avoid it where possible.
+But I'm only really familiar with coreboot and don't have the
+expertise for all these DRM interfaces, so I hope someone else can do
+a detailed review.
