@@ -2,100 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073FBD24047
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 11:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5342FD240BB
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 12:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566DB10E73D;
-	Thu, 15 Jan 2026 10:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B52510E133;
+	Thu, 15 Jan 2026 11:02:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nxqUG7n/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K7VwqNzq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2SUUTLsr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGIcw6rx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
- [209.85.221.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78B210E73C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:51:35 +0000 (UTC)
-Received: by mail-vk1-f169.google.com with SMTP id
- 71dfb90a1353d-56378a18ba4so266983e0c.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 02:51:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768474295; x=1769079095;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ki7PmTjePRuEfFjGffE5fBihup/8aCNWyf/0N1CI9Sw=;
- b=sRR+ZZm1rT62M9+ks8k1m/2H6luVmewjRiGr2GCdIcA2h09jclTqXgdajnQCouIEPK
- ByyicmtmGMZRwJRTtnjg5sITlyqMNYqYuPLyeQOsH6SrEL2VIP/H5dTc+4Bp3kX/p19E
- mhVxUWPIqvHFPSHZe+wzOW5fjEsT0EmTcQSS94KP8zUvbnO442UOndXzGDQZhZTuaWVa
- v7R2rK/aBN7fUIb1OWC6q52B5plOdHqmnV4rKKpiQedwtXBnMXP1liQoh/TeHV8PEKAe
- g1L16vXOCEChlzu5VRgYThVK9EY0YLE2zrgRJ+KiPxSJ0qUKw3ppnJpZH7UlLEGf7g9V
- xpwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpGeBoP8AFm0840e2egHF3Z4u3/CKn2aEJE52V4CHpxsXQ68EB20UW0fUsdCd2fYq/Xi/Z7RtfH8E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyj0nUd7V8yrZ+OmGTmT3aeGdQev6V2jllssIzzvMswKAXlOjyP
- cDlM5bzbtHrnJxs5t36WgXipNDryHck++C1OdSm0MuiXppDffQKQ5xl3w6kdoxTnOiU=
-X-Gm-Gg: AY/fxX7Z6/uQVoIWVYcgMzivu8hkCqIguK3s0XYC45L6+xj4xxedSAvtRs5ESK20X25
- XDoiXRTgtotvQr6q6hSigMl4AMtjYu0gcUdWYaqopDKQMdHQrMQJ01wECDB3AYzEC7h5UoWVuIV
- epEKDyqNxF72H9cDFwBZE0dcl/UC45S5cn8vpbVuGVn7ZbhItrCvmVYy+ypcDau98X5MVdSeiQq
- 7L7ZE1HZ09gUTCnWoKIeC8vzGSnmhthVmlvQLxgFGailLJecVEkUz1mn71cFREkPkvcS//1N/dp
- zz98TYM6IlYqRmtz4rwI+UjMrkY2ZR2We9MaGgraeprk2fqUrcgyPKKlwkCIOT59DGJTR7DWkq3
- zrajwdrxUe1RFLyWx+TCaHJWQ6ECSbIcRH4EJS3N0IhKF8QhhoVGxw7oz9I2ZCta4E7H7R647qO
- tW6c7+ojs94LjMuSkh2suoKbg8+zisak98INqZ5Hq3BODf+FQ+
-X-Received: by 2002:a05:6122:3114:b0:563:4d66:359c with SMTP id
- 71dfb90a1353d-563a08046eemr2173114e0c.0.1768474294538; 
- Thu, 15 Jan 2026 02:51:34 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
- [209.85.222.49]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5636106e953sm19865725e0c.8.2026.01.15.02.51.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jan 2026 02:51:33 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-9371f6f2813so245697241.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 02:51:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6LiD0zDtU3UHFvTGdso0yvbj2QlvudjwI/v1FY3VJaSmkK+MsYUycSTfKNci+wEfAz3K1YNHNk0Q=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:6887:b0:5db:e851:9389 with SMTP id
- ada2fe7eead31-5f17f3f875bmr2192851137.3.1768474292003; Thu, 15 Jan 2026
- 02:51:32 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D93C10E73A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 11:02:36 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DF8933368D;
+ Thu, 15 Jan 2026 11:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768474955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=b1iB/X+y4KnDjsmYQDJWINso6ydXpMkq0JbeHKY3Meo=;
+ b=nxqUG7n/Ba/Vk3Vqbkd8x5uE/t4wEWS544KTjenz2rOM0peNllN0a38ZWieXEOZ1ZFou0L
+ lN6udrw2wxFodxzeU9E9PsRCWhP4U8rDt1q4rvJYNkUEUXjHx2C7auuV9IxYSy2PvcZIm9
+ NjPSz1C/ie8PgZ8Ez7FIU3l3L6zAtTI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768474955;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=b1iB/X+y4KnDjsmYQDJWINso6ydXpMkq0JbeHKY3Meo=;
+ b=K7VwqNzq0jmKB/Hg2XSEsg4X9oh1lKMI5p9DaxDa720VTsrHC7IGQQZLAIfYFsjYSIv4YC
+ T1EcWnuTzsT7ZPAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768474954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=b1iB/X+y4KnDjsmYQDJWINso6ydXpMkq0JbeHKY3Meo=;
+ b=2SUUTLsrsfMv42Ft91rhkIDo2rk92wh538czRVUyYyhaujd4nQVEYC8liZ8OzrzjT70MFV
+ yVqAUmNhn40Aym9gonJ+CxaNA6RsLfJBjWJ/ek9BvP2iwk5qhk8+3NYMy8YnVdRezxE6VX
+ XQDyRuG98TpqmGHwggqedCHdzatVedQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768474954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=b1iB/X+y4KnDjsmYQDJWINso6ydXpMkq0JbeHKY3Meo=;
+ b=mGIcw6rx1saRlGWP8hEX15UAN8hPBMuYD4JhTqBQKI5gC/C8zxyomKzetVtgeitnCQ0pI0
+ /0WXUfg85ko2azDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAFBB3EA63;
+ Thu, 15 Jan 2026 11:02:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id aqgBNEnJaGnnJQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 11:02:33 +0000
+Message-ID: <97993761-5884-4ada-b345-9fb64819e02a@suse.de>
+Date: Thu, 15 Jan 2026 12:02:33 +0100
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <20251203-shrew-of-original-tempering-8a8cfc@quoll>
- <aTA-Hj6DvjN4zeK6@tom-desktop>
- <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
- <TY3PR01MB11346DF85F8F7EA9ADDED16EB868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAMuHMdUhke83ZVXxDQE_Dt1HRwyGeoMq1pYmEP47WOgR_vYNtA@mail.gmail.com>
- <TY3PR01MB113463EE3F22A0E0E6C97DC40868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAMuHMdVP4M6mS6itgN13QG_w7rxUo6wUbA2cbWU38=vPA0XLhw@mail.gmail.com>
- <TY3PR01MB11346DB362955A62D2A2E828A868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346DB362955A62D2A2E828A868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Jan 2026 11:51:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXmzxO1A-7OBdcEmkOY3XNZ9hh=13wfcOrh+A8+Au0kGw@mail.gmail.com>
-X-Gm-Features: AZwV_QhxPxYEyoRCedfJ4RqRUDbD--3dA-NRn1itW-sJznM5g4jpJVdKBvOoCkI
-Message-ID: <CAMuHMdXmzxO1A-7OBdcEmkOY3XNZ9hh=13wfcOrh+A8+Au0kGw@mail.gmail.com>
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas, rzg2l-du: Add support
- for RZ/G3E SoC
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Tommaso Merciai <tomm.merciai@gmail.com>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] Recover sysfb after DRM probe failure
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Ard Biesheuvel <ardb@kernel.org>, Ce Sun <cesun102@amd.com>,
+ Chia-I Wu <olvaffe@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Dave Airlie <airlied@redhat.com>, Deepak Rawat <drawat.floss@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hansg@kernel.org>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Helge Deller <deller@gmx.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, linux-efi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lyude Paul <lyude@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- "magnus.damm" <magnus.damm@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ spice-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
+References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
+ <c816f7ed-66e0-4773-b3d1-4769234bd30b@suse.de>
+ <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[43];
+ TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ R_RATELIMIT(0.00)[to_ip_from(RLxtqcp3yg5i7i9mi6syp13ijk)];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,kernel.org,gmail.com,redhat.com,collabora.com,chromium.org,gmx.de,linux.intel.com,vger.kernel.org,intel.com,ffwll.ch,ursulin.net,lists.linux.dev];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo, suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,119 +172,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi,
 
-On Thu, 15 Jan 2026 at 11:34, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Thu, 15 Jan 2026 at 11:10, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > > From: Geert Uytterhoeven <geert@linux-m68k.org> On Thu, 15 Jan 2026
-> > > > at 08:48, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org> On Wed, 3 Dec
-> > > > > > 2025 at 14:42, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > > > > > On Wed, Dec 03, 2025 at 09:23:53AM +0100, Krzysztof Kozlowski wrote:
-> > > > > > > > On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> > > > > > > > > The RZ/G3E Soc has 2 LCD controller (LCDC), contain a
-> > > > > > > > > Frame Compression Processor (FCPVD), a Video Signal
-> > > > > > > > > Processor (VSPD), Video Signal Processor (VSPD), and Display Unit (DU).
-> > > > > > > > >
-> > > > > > > > >  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> > > > > > > > >  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> > > > > > > > >
-> > > > > > > > > Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> > > > > > > > > and 'renesas,r9a09g047-du1'.
-> > > > > > > >
-> > > > > > > > LCDC0/1 but compatibles du0/du1...
-> > > > > > > >
-> > > > > > > > What are the differences between DU0 and DU1? Just different
-> > > > > > > > outputs? Is the programming model the same?
-> > > > > > >
-> > > > > > > The hardware configurations are different: these are two distinct hardware blocks.
-> > > > > > >
-> > > > > > > Based on the block diagrams shown in Figures 9.4-2 (LCDC1) and
-> > > > > > > 9.4-1 (LCDC0), the only difference concerns the output, but
-> > > > > > > this variation is internal to the hardware blocks themselves.
-> > > > > > > Therefore, LCDC0 and LCDC1 are not identical blocks, and their
-> > > > > > > programming models differ as a result.
-> > > > > > >
-> > > > > > > In summary, although most of the internal functions are the
-> > > > > > > same, the two blocks have output signals connected to different components within the SoC.
-> > > > > > > This requires different hardware configurations and inevitably
-> > > > > > > leads to different programming models for LCDC0 and LCDC1.
-> > > > > >
-> > > > > > Isn't that merely an SoC integration issue?
-> > > > > > Are there any differences in programming LCDC0 or LCDC1 for the
-> > > > > > common output types supported by both (single channel LVDS and 4-lane MIPI-DSI)?
-> > > > >
-> > > > > Dual LVDS case, dot clock from LCDC0 is used in both LCDC's.
-> > > >
-> > > > For the single dual-channel LVDS output on LCDC0, or for using two
-> > > > independent LVDS outputs on both instances? How is this handled?
-> > >
-> > > Dual-channel LVDS output on LCDC0, we use the data from LCDC0.
-> >
-> > That's the "dual-link" case below? But that case doesn't use LCDC1 at all, so how can "dot clock from
-> > LCDC0 is used in both LCDC's" be true?
+apologies for the delay. I wanted to reply and then forgot about it.
+
+Am 10.01.26 um 05:52 schrieb Zack Rusin:
+> On Fri, Jan 9, 2026 at 5:34 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 29.12.25 um 22:58 schrieb Zack Rusin:
+>>> Almost a rite of passage for every DRM developer and most Linux users
+>>> is upgrading your DRM driver/updating boot flags/changing some config
+>>> and having DRM driver fail at probe resulting in a blank screen.
+>>>
+>>> Currently there's no way to recover from DRM driver probe failure. PCI
+>>> DRM driver explicitly throw out the existing sysfb to get exclusive
+>>> access to PCI resources so if the probe fails the system is left without
+>>> a functioning display driver.
+>>>
+>>> Add code to sysfb to recever system framebuffer when DRM driver's probe
+>>> fails. This means that a DRM driver that fails to load reloads the system
+>>> framebuffer driver.
+>>>
+>>> This works best with simpledrm. Without it Xorg won't recover because
+>>> it still tries to load the vendor specific driver which ends up usually
+>>> not working at all. With simpledrm the system recovers really nicely
+>>> ending up with a working console and not a blank screen.
+>>>
+>>> There's a caveat in that some hardware might require some special magic
+>>> register write to recover EFI display. I'd appreciate it a lot if
+>>> maintainers could introduce a temporary failure in their drivers
+>>> probe to validate that the sysfb recovers and they get a working console.
+>>> The easiest way to double check it is by adding:
+>>>    /* XXX: Temporary failure to test sysfb restore - REMOVE BEFORE COMMIT */
+>>>    dev_info(&pdev->dev, "Testing sysfb restore: forcing probe failure\n");
+>>>    ret = -EINVAL;
+>>>    goto out_error;
+>>> or such right after the devm_aperture_remove_conflicting_pci_devices .
+>> Recovering the display like that is guess work and will at best work
+>> with simple discrete devices where the framebuffer is always located in
+>> a confined graphics aperture.
+>>
+>> But the problem you're trying to solve is a real one.
+>>
+>> What we'd want to do instead is to take the initial hardware state into
+>> account when we do the initial mode-setting operation.
+>>
+>> The first step is to move each driver's remove_conflicting_devices call
+>> to the latest possible location in the probe function. We usually do it
+>> first, because that's easy. But on most hardware, it could happen much
+>> later.
+> Well, some drivers (vbox, vmwgfx, bochs and currus-qemu) do it because
+> they request pci regions which is going to fail otherwise. Because
+> grabbining the pci resources is in general the very first thing that
+> those drivers need to do to setup anything, we
+> remove_conflicting_devices first or at least very early.
+
+To my knowledge, requesting resources is more about correctness than a 
+hard requirement to use an I/O or memory range. Has this changed?
+
+
 >
-> That is a typo. Sorry for that.
+> I also don't think it's possible or even desirable by some drivers to
+> reuse the initial state, good example here is vmwgfx where by default
+> some people will setup their vm's with e.g. 8mb ram, when the vmwgfx
+> loads we allow scanning out from system memory, so you can set your vm
+> up with 8mb of vram but still use 4k resolutions when the driver
+> loads, this way the suspend size of the vm is very predictable (tiny
+> vram plus whatever ram was setup) while still allowing a lot of
+> flexibility.
 
-Np.
+If there's no initial state to switch from, the first modeset can fail 
+while leaving the display unusable. There's no way around that. Going 
+back to the old state is not an option unless the driver has been 
+written to support this.
 
-> > What am I missing?
+The case of vmwgfx is special, but does not effect the overall problem. 
+For vmwgfx, it would be best to import that initial state and support a 
+transparent modeset from vram to system memory (and back) at least 
+during this initial state.
+
+
 >
-> Dual-link case, LVDS_TOP_CLK_CH0, LVDS_TOP_CLK_DOT_CH0 used to drive both the LVDS channels.
-> In this case, the clks LVDS_TOP_CLK_CH1, LVDS_TOP_CLK_DOT_CH1 are not used.
+> In general I think however this is planned it's two or three separate series:
+> 1) infrastructure to reload the sysfb driver (what this series is)
+> 2) making sure that drivers that do want to recover cleanly actually
+> clean out all the state on exit properly,
+> 3) abstracting at least some of that cleanup in some driver independent way
 
-These are clock inputs to the LVDS module, hence do not matter for
-programming the LCDC?
-
-> > > We have the following use cases:
-> > >
-> > > Single-link(ch0 only):
-> > >   This mode outputs the image data of LCDC0 to LVDS (ch0). In this mode,
-> > >   LVDS (ch1) is not used.
-> > >
-> > > Single-link(ch1 only):
-> > >   This mode outputs the image data of LCDC1 to LVDS (ch1).
-> > >   In this mode, LVDS (ch0) is not used.
-> > >
-> > > Single-link(2ch):
-> > >   In this mode, the image data of LCDC0 is output to LVDS (ch0) and the
-> > >   image data of LCDC1 is output to LVDS (ch1).
-> > >   Since LVDS (ch0) and LVDS (ch1) are not synchronously related, they
-> > >   can be output in different image formats and can be operated asynchronously.
-> > >
-> > > Single-link(Multi)
-> > >   In this mode, the image data of LCDC0 is output to both LVDS (ch0) and
-> > >   LVDS (ch1). LVDS (ch0) and LVDS (ch1) operate synchronously.
-> > >
-> > > Dual-link:
-> > >   In this mode, the input image data from LCDC0 is separated into Even pixels and
-> > >   Odd pixels, and the output is distributed to LVDS ch0 and ch1.
-> > >
-> > >
-> > > > Don't you need a companion property to link them together?
-> > >
-> > > Yes, We use companion property for Dual channel LVDS(Dual-Link) use case.
-> > > >
-> > > > Is this similar to dual-channel LVDS on R-Car E3 and RZ/G2E?
-> > >
-> > > Yes.
-> >
-> > OK, "companion" is in the renesas,lvds bindings, which are not yet updated for RZ/G3E? Do you need it
-> > in "renesas,rzg2l-du", too?
+That's really not going to work. For example, in the current series, you 
+invoke devm_aperture_remove_conflicting_pci_devices_done() after 
+drm_mode_reset(), drm_dev_register() and drm_client_setup(). Each of 
+these calls can modify hardware state. In the case of _register() and 
+_setup(), the DRM clients can perform a modeset, which destroys the 
+initial hardware state. Patch 1 of this series removes the sysfb 
+device/driver entirely. That should be a no-go as it significantly 
+complicates recovery. For example, if the native drivers failed from an 
+allocation failure, the sysfb device/driver is not likely to come back 
+either. As the very first thing, the series should state which failures 
+is is going to resolve, - failed hardware init, - invalid initial 
+modesetting, - runtime errors (such ENOMEM, failed firmware loading), - 
+others? And then specify how a recovery to sysfb could look in each 
+supported scenario. In terms of implementation, make any transition 
+between drivers gradually. The native driver needs to acquire the 
+hardware resource (framebuffer and I/O apertures) without unloading the 
+sysfb driver. Luckily there's struct drm_device.unplug, which does that. 
+[1] Flipping this field disables hardware access for DRM drivers. All 
+sysfb drivers support this. To get the sysfb drivers ready, I suggest 
+dedicated helpers for each drivers aperture. The aperture helpers can 
+use these callback to flip the DRM driver off and on again. For example, 
+efidrm could do this as a minimum: int efidrm_aperture_suspend() { 
+dev->unplug = true; remove_resource(/*framebuffer aperture*/) return 0 } 
+int efidrm_aperture_resume() { insert_resource(/*framebuffer aperture*/) 
+dev->unplug = false; return 0 } struct aperture_funcs 
+efidrm_aperture_funcs { .suspend = efidrm_aperture_suspend, .resume = 
+efidrm_aperture_resume, } Pass this struct when efidrm acquires the 
+framebuffer aperture, so that the aperture helpers can control the 
+behavior of efidrm. With this, a multi-step takeover from sysfb to 
+native driver can be tried. It's still a massive effort that requires an 
+audit of each driver's probing logic. There's no copy-paste pattern 
+AFAICT. I suggest to pick one simple driver first and make a prototype. 
+Let me also say that I DO like the general idea you're proposing. But if 
+it was easy, we would likely have done it already. Best regards Thomas
 >
-> Not required. Without that it works like RZ/G2E.
-
-Hence the two LCDC instances are identical and independent, thus can
-use the same compatible value?
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> z
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
