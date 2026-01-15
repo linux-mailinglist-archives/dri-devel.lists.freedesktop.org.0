@@ -2,32 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080E1D24BD5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28B0D24C53
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6425710E0E3;
-	Thu, 15 Jan 2026 13:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB0E10E75C;
+	Thu, 15 Jan 2026 13:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A8810E0E3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:32:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B4DA260195;
- Thu, 15 Jan 2026 13:32:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22BDC116D0;
- Thu, 15 Jan 2026 13:32:03 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Juston Li <justonli@chromium.org>, Lucas De Marchi <demarchi@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH resend] gpu/trace: TRACE_GPU_MEM should depend on DRM
-Date: Thu, 15 Jan 2026 14:32:00 +0100
-Message-ID: <598987a3785b1d3914a0b1ca25d1d464ee2e68dd.1768483636.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7975A10E75C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:40:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74283FEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 05:40:13 -0800 (PST)
+Received: from e142607.local (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ E53303F59E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 05:40:19 -0800 (PST)
+Date: Thu, 15 Jan 2026 13:39:23 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v1 3/9] drm/panthor: Move panthor_gems_debugfs_init() to
+ panthor_gem.c
+Message-ID: <aWjuCzjIgkTkzOID@e142607>
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-4-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260109130801.1239558-4-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,31 +61,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GPU memory usage tracepoints are only used by DRM GPU drivers.
-Hence add a dependency on DRM, to prevent asking the user about this
-functionality when configuring a kernel without DRM GPU support.
+On Fri, Jan 09, 2026 at 02:07:55PM +0100, Boris Brezillon wrote:
+> There's no reason for panthor_drv to know about panthor_gem.c internals,
+> so let's move the GEM debugfs init logic to panthor_gem.c.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Fixes: 5d95cbf21a4a550f ("gpu/trace: make TRACE_GPU_MEM configurable")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Used by DRM_MSM (which selects TRACE_GPU_MEM) and DRM_XE (when
-TRACE_GPU_MEM is enabled manually).
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
- drivers/gpu/trace/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Best regards,
+Liviu
 
-diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
-index cd3d19c4a201c9c6..7f405ce7df5a0a42 100644
---- a/drivers/gpu/trace/Kconfig
-+++ b/drivers/gpu/trace/Kconfig
-@@ -2,6 +2,7 @@
- 
- config TRACE_GPU_MEM
- 	bool "Enable GPU memory usage tracepoints"
-+	depends on DRM || COMPILE_TEST
- 	default n
- 	help
- 	  Choose this option to enable tracepoints for tracking
--- 
-2.43.0
-
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 26 +-----------------------
+>  drivers/gpu/drm/panthor/panthor_gem.c | 29 +++++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gem.h |  3 +--
+>  3 files changed, 29 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 165dddfde6ca..52c27a60c84a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1635,34 +1635,10 @@ static const struct file_operations panthor_drm_driver_fops = {
+>  };
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -static int panthor_gems_show(struct seq_file *m, void *data)
+> -{
+> -	struct drm_info_node *node = m->private;
+> -	struct drm_device *dev = node->minor->dev;
+> -	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+> -
+> -	panthor_gem_debugfs_print_bos(ptdev, m);
+> -
+> -	return 0;
+> -}
+> -
+> -static struct drm_info_list panthor_debugfs_list[] = {
+> -	{"gems", panthor_gems_show, 0, NULL},
+> -};
+> -
+> -static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> -{
+> -	drm_debugfs_create_files(panthor_debugfs_list,
+> -				 ARRAY_SIZE(panthor_debugfs_list),
+> -				 minor->debugfs_root, minor);
+> -
+> -	return 0;
+> -}
+> -
+>  static void panthor_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_mmu_debugfs_init(minor);
+> -	panthor_gems_debugfs_init(minor);
+> +	panthor_gem_debugfs_init(minor);
+>  }
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index b61908fd508a..13e9dd3764fa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -9,6 +9,8 @@
+>  #include <linux/err.h>
+>  #include <linux/slab.h>
+>  
+> +#include <drm/drm_debugfs.h>
+> +#include <drm/drm_file.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/panthor_drm.h>
+>  
+> @@ -683,8 +685,8 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>  		totals->reclaimable += resident_size;
+>  }
+>  
+> -void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> -				   struct seq_file *m)
+> +static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +					  struct seq_file *m)
+>  {
+>  	struct gem_size_totals totals = {0};
+>  	struct panthor_gem_object *bo;
+> @@ -704,4 +706,27 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>  	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+>  		   totals.size, totals.resident, totals.reclaimable);
+>  }
+> +
+> +static int panthor_gem_show_bos(struct seq_file *m, void *data)
+> +{
+> +	struct drm_info_node *node = m->private;
+> +	struct drm_device *dev = node->minor->dev;
+> +	struct panthor_device *ptdev =
+> +		container_of(dev, struct panthor_device, base);
+> +
+> +	panthor_gem_debugfs_print_bos(ptdev, m);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct drm_info_list panthor_gem_debugfs_list[] = {
+> +	{ "gems", panthor_gem_show_bos, 0, NULL },
+> +};
+> +
+> +void panthor_gem_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panthor_gem_debugfs_list,
+> +				 ARRAY_SIZE(panthor_gem_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +}
+>  #endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 22519c570b5a..94b2d17cf032 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -203,8 +203,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> -				   struct seq_file *m);
+> +void panthor_gem_debugfs_init(struct drm_minor *minor);
+>  #endif
+>  
+>  #endif /* __PANTHOR_GEM_H__ */
+> -- 
+> 2.52.0
+> 
