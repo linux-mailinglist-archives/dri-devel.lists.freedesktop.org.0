@@ -2,187 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F63FD23D67
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 11:10:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B2CD23D76
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 11:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBE810E1BA;
-	Thu, 15 Jan 2026 10:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E0710E733;
+	Thu, 15 Jan 2026 10:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="J3frrNa3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YHLU/2MH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010047.outbound.protection.outlook.com [52.101.228.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B93010E1BA
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:10:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G0Bgi2baOO6pGA0AXcG/+3ovXhuPga1ja4eSW4bb7MbA+BcgcEXF9/FGAaUhT7EXCNl/5sje1gzRC5UWOC1uyWV9I+XY9LSAZ7tGefGbca69Tj686c/rnYTMNWyKXM2tALg6RtbJJ0NWS+eCod1jh5cNE6n4ZrLRiu+IjhAdQcFqX79n91Dw2faFuWYAELg6RnD5+scFhTQxXwyrRV3uktAjzth+/8VcB0BbbKyXsjHksNwz4xXenmDIFvDU80s0hKuA83DaKBcFwb+18GMM9zQ64vg8uxiObQT5cMv6RXMbng6LWetLCgD+pcHJMnG2IpJGKEl5u3HBS7aYwtd+nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vqcX7Qt6iy82roh3V1v7AMlcXkXFsYK67SJoJ1mgQdo=;
- b=XHhjDARWBvWiasyfT0H2ilOKQCZ5MIy7HT9u7rv+8uMBBUY7pCYUBQ+3Fx9qPE9ashhoUlA5tsGkcRkDu5Jwd6Y/geu9rYsS8rHP1a+VpFExHlUQtkMiTH/RnIFB/3NppWatb2VIaBFJYFnC8Ld/gff/quXvc9edP1JNgc6GE/zBU80kOvXoSEKPqMd52q4pO2+T0gvwUUu4kqtcAhLpb9hG6iM5itfaqu1XetuunIq9JsZqKin3gfljlZFOIyHiJb+pxYIAhrF+jUGzdCf0j/xUVp8k8mHSJMQKa/7H+EyM8AyU2cWRTo20CjZaGr9SBbkRpMBkSqdxriFvB2ZRGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vqcX7Qt6iy82roh3V1v7AMlcXkXFsYK67SJoJ1mgQdo=;
- b=J3frrNa35IZemMhJrFMMDt+vTjXEZQI3DOR0MVxC6cS7eYUn/PbNQ+Nhm8FdzkUcOqATuYeFeHkTAll/NZLU7jujdL3HwWKnX8aLQn3Rhx18OYwg+5uw9bDGDTUcbzWEN7IM0AipF4lITOYN2m6fIAiP+IEWSShv0iaaPunyOg0=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OSZPR01MB6845.jpnprd01.prod.outlook.com (2603:1096:604:137::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 10:10:22 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 10:10:21 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: geert <geert@linux-m68k.org>, laurent.pinchart
- <laurent.pinchart@ideasonboard.com>
-CC: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Tommaso Merciai <tomm.merciai@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, laurent.pinchart
- <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- magnus.damm <magnus.damm@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>
-Subject: RE: [PATCH 10/22] dt-bindings: display: renesas, rzg2l-du: Add support
- for RZ/G3E SoC
-Thread-Topic: [PATCH 10/22] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Thread-Index: AQHcXt5Sr0mFHG5nfkaeppwNYIyqH7UPnpSAgABY1gCAQfATAIABPySwgAAMWgCAABDyMA==
-Date: Thu, 15 Jan 2026 10:10:21 +0000
-Message-ID: <TY3PR01MB113463EE3F22A0E0E6C97DC40868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <20251203-shrew-of-original-tempering-8a8cfc@quoll>
- <aTA-Hj6DvjN4zeK6@tom-desktop>
- <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
- <TY3PR01MB11346DF85F8F7EA9ADDED16EB868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAMuHMdUhke83ZVXxDQE_Dt1HRwyGeoMq1pYmEP47WOgR_vYNtA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUhke83ZVXxDQE_Dt1HRwyGeoMq1pYmEP47WOgR_vYNtA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB6845:EE_
-x-ms-office365-filtering-correlation-id: c5d3958a-b849-46b2-fe05-08de541e4b1e
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?dkV4QmQvR1c5VURoNWJPNTk0bXlHY202YUNrczVRR0Fwdk01aWVNUHpPVDR2?=
- =?utf-8?B?NjJ6dkhNUkRpOE5LZHE4MEwrNS9PTkg0NFNQUVAwdGlSZCtEbUxsV1c1Uzhh?=
- =?utf-8?B?MitZTWdXRUtFNlhwcVhoV1JLTURmY3lRWnZYTlZESkROK0JiNzdndEVCUHNi?=
- =?utf-8?B?c25ScklSVC8yV2UxWHdQK2JkNUVwT1R2ZEp4bUhxN2dEVDVwL3RVTnNJZ1Rl?=
- =?utf-8?B?ZHBsNFZodVVVVGhHL2dObU1iUXFTNlQvUkxlWlJ1WmNnUnY4MEttNUlGaHB5?=
- =?utf-8?B?bU5GMWRLYkZKOGFXV3FtOHMzT0FKMGhnWDdLd1FLamZrTnZjOEhPVE55Y2Ns?=
- =?utf-8?B?cXBKUTI3SUQzQ2gvdzV0OTZ2bS9BbDBCMVJXeUQvNTJsYnM4QUR5MG5YV0Ja?=
- =?utf-8?B?MjBxdWQ5N3FIdmtzaE1aYVRMVEd5M1VNTXhPOTllWlpnb253ZnpRZGs0QTF2?=
- =?utf-8?B?V0d6VGNMUEM0bmJYRzByUFl0ME03UDJVM0RHMlZNNjMwZktqZkk5SEROWVcw?=
- =?utf-8?B?cm1lN0JIR0JENXU4cEs2ZUcyeEZlSmRYZ1pHbEdvaGxDWnA0OXlad1VUVGtG?=
- =?utf-8?B?dWFkMkR1L2JBZ2hFRFdhYXpFNFZnRlVndVRtWEpsR0hkdzR0QnRnQy9QV1Nt?=
- =?utf-8?B?a1o3MVRUMjI0UGp0TGVZQ25lV21YQ1FkS3l2UmVqL3R0NEE5RDB3NWdjcXJs?=
- =?utf-8?B?TkdEOHZiWWRYRG5TZEtpc0ZvZjNqbE1HYWJhMWJVcXhmMk9ZeStWZHV0UEg1?=
- =?utf-8?B?ZVExN2F6TDIxbVJQZlV3dTFzc0diQWx3ajA4WmVMKzFBTURnZDVUTUx5MHYr?=
- =?utf-8?B?dGp2eFdLVDRMWDB3elF1WGpPSHZtM1lacjZFMWR6UXg5bkE4NVJYRitEc1pZ?=
- =?utf-8?B?WDAwYXE4MkczaWlmUTlBUjMyZk1wWUJEMkg4dyt1a29XUnBWUzQ2SC9UWWJ3?=
- =?utf-8?B?Wm1aT1RiRTAyVGNWL3VqdGVzRmszVmJoTlh2dWYwM1JkOU5JQ1JDVVVDTHha?=
- =?utf-8?B?dTJvQ1Z2WXdoNXlGRXhra1Vta1FLYS95MG9Rdkcxa0FSbm4zVzYrL0x2WXVv?=
- =?utf-8?B?TG5yQVFQcDl5VHpuVmpSNnNOSUZ1L3JNSzJ5Y09iY2RoUVFQT0htN21kbDFH?=
- =?utf-8?B?RUF2WERSVVdDM0dwVHlzS0hJcWdNWUllQmJxeUIrRHhDSnBsNzZnaEtjR2lw?=
- =?utf-8?B?ZXYxWnZOdHR3alNRT3doVW41NEZleDUvODhBbTFRNFJ6eElvR01nVlBoUU5J?=
- =?utf-8?B?QllZOVNYcDRCaW1XS1R4ZXVKSnYzOHZzZjFSeUVHRGhaSUhCWGdXMktsZDBE?=
- =?utf-8?B?SVpEc080NmRWOWtZNkROMjdnR0NXb0d5S3NhNlVtUXlONHBtV2FDRndVQzdS?=
- =?utf-8?B?VUNvcVJPVFFFYm5MZmJ2dU1hTGVWcFV5akVUaG5MZHFjVm9hcVJNZTNZSEZs?=
- =?utf-8?B?RGlSRTFaN0ZkMW05UzFrSktjcUpONXR1ZGFubzZlckNWb3JqTitXNnpncU5D?=
- =?utf-8?B?TzRYclpTVVJJeDhVckoxTmErUDJ5WXRrdzM5YlEvK1J3RFh2aWtpakI1M1pY?=
- =?utf-8?B?bTBxUmNmQS9YbmFNVDFLbmlZY1lidktsK2F6bmxzL242YW1NV2ZXMVFUYnJp?=
- =?utf-8?B?ZDI1SGkxS2pIeURiTW5ZbE5uOHBWa0NkaEhMTk9OTi9IMmI1VWhxSU8vcGFI?=
- =?utf-8?B?Z1RQTkJ2QWZWSFB1Wm45TkFJYjE5Y1NDVzlGdmR6VlJDR1p4TDl2d2doRFJT?=
- =?utf-8?B?QmJuSllPV0h1ZHJMbU9FWXFVVmxFMk1yMEQvTjQ1SGVwSWtJZUI5N0MrcExa?=
- =?utf-8?B?R3pTc0tQOWdyRTdsd05Nb1d3clF2Q3B5ZXgvSWhMVEYxR2hzZi84SEVNNitj?=
- =?utf-8?B?b2N3ZnNoUFR1RGU4RHdHTWVmWE1UaUI2YWpEb0Y0Q3JxMmpyOGZoajRod0RN?=
- =?utf-8?B?K1cvTnZWN01oODRqekFyY2ZrbHVPTFYzVWNvTmZEczFmK1NIL0pzd25IdlVx?=
- =?utf-8?B?ME1wV21ySDA4MmE5V2VNTGJNaTJTVm42bWRjZndsUTluUFdNMjc1NXowVmVT?=
- =?utf-8?B?TGt5MzBDRXRrVWF1QjlUKzJ0NjNMdjFkL0ZQQ2E5dFJhZ0orbERWTTJ6aW1Y?=
- =?utf-8?B?UWFqRnBQVmx2aG9nVW03bjZlUjZYVldvQXZGdm1pVysxRmwySDhuOHh1N2tz?=
- =?utf-8?Q?o+AZKNqEXnzjZwa4TQwbb/Y=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZmpndXZmaWxDd3BTSGVYdUxic1l5TXI0TE8vTGVRRUNNaTlMYUkvTVFSSDMv?=
- =?utf-8?B?TmdwM09LaEJXcVNXSUkxOW82dDJXcnRJRk1EMFhQN055c0hvUk1aeis1RXll?=
- =?utf-8?B?b1RkYWgrQmtVOHMyRytqQ05Pa1RGWVFreUE1MStYRW9oazFHdVFQeXd4eWJr?=
- =?utf-8?B?NWxkTWt3dUYvL2dGMTQ1VmJyazVMTkdsS1RPVWJsRmZmOC9BR21ISStzcGFT?=
- =?utf-8?B?VjUvQjQ0eE5uc2tCWW1HS1M2ekR5azdIRXA0dk5QaVpHMzJZelNwNXdqenpB?=
- =?utf-8?B?RU55dGU0Ti9ZSWNmUytMaHJYM2xEZ21xZGRTTEtKaE0yUklON09hL3N2MTVV?=
- =?utf-8?B?L0JqVGJEMlBKbFY1c085TjI3UklGTEZCNXY3ZmZMa2l3dUhNY0N0UG1Nd1F1?=
- =?utf-8?B?K2FUR0Q5anRxejFkNU5GZEVqelp1bVltY3UvZHBQR3hEaU9aamIxZ3EyMXZw?=
- =?utf-8?B?ekE4SGx3dmJpdmRmeU1SbW5VV2NUU25tTXVLN21pR1ZxdjRjRExNYXUrT2tm?=
- =?utf-8?B?Zm45V09MM1RId1pweXF6RlhBY3pwUllaYWNwTlM1aWZHZVhaRnZLb1M2aWJR?=
- =?utf-8?B?Q0t2U24xcjBIMThDM3dRcVRGU1ZicWhPNndGbWFuV2RlMndxUFVoSHE0S2li?=
- =?utf-8?B?bytvWExCOXhuMk0vQ2c5dmxzNHk2Y1lKOXRkQkpiZjNYak9kdHBRakxrMWYz?=
- =?utf-8?B?Nmh6ZVR5TVR2bUdVOThGRFZKYVFSczB6QTRrMXFGTXlLbi9BaGxod1RvaDMv?=
- =?utf-8?B?UWFPa0c1SFgyN1hOa09YemFVVmhrRG9jUE5BSjMzcTZFWXNEN3dpT29xVFp2?=
- =?utf-8?B?R2dxY1lGU0YyNys1V05IdkFldlNYcGhWLy90ekk4WVhPelBPQkl6UDdVVzlo?=
- =?utf-8?B?dGduUnZGVDJVRENNU2dTM3VXcEs2WnJ5Z3N3bGtaWW9PeTd2WEJOVXlpS1hN?=
- =?utf-8?B?K0M4amx0aUZVOE9hL0hObFo3bUNURGlXWVY2NVlTaXhDQnprdmdJSk9iaE9K?=
- =?utf-8?B?UitTSkhKNFA1Vll0VUpkMkJUZVdGZThtUGl0V2R5RXNEWk9sZ21BdGhTaTJY?=
- =?utf-8?B?amFwdXRUN2pZeVowZDR6TE9YKytpVW52ZVdaaGg0N2tieGFnQUluMGkrTE9C?=
- =?utf-8?B?M2E2cW5GcFA1RnRNU2ZvUXpSWW5keXdqdkhCQlowQkdtRDcvKytMQmdRQTVU?=
- =?utf-8?B?d3FIV1A4eVVTRmlpdGJtUDZMbFBRSDB0RSttdXJtdXlLSFBCQldRRWU1V2Iy?=
- =?utf-8?B?ZXBIMVFmRHpOeHMxcGl1SXRmZnV3SlhyQmYyUFVMNHVVMDVGdXU1VVZZWVNY?=
- =?utf-8?B?RUtocjRWVzJJMVlXTEUzUVJRVklrU0taUjN5WDFJNWEvS2NLS0hmemkra0NZ?=
- =?utf-8?B?Y0QwYUFYUUxEOXRXT1RUaE04T3U3Nm1yaTNTTjNrMnR2aWRIL1NRTnIreWp2?=
- =?utf-8?B?OUpKYXIwVW1jSTAyOWxBV0xBR1hPUzIzK0Uvb0VHVFRKWE1iLzJkaWJUSFFh?=
- =?utf-8?B?Q0pPZGxuaDI0eVFRa09HNUZjVGdwOVZ5QnJ2R1A3Mmg4L3UxMkdacGw3TkRT?=
- =?utf-8?B?cmR4QlJuVGdqV1VjT3NmcUVWbkhGcFFpd2hqYXp2NERWM3B0aEtiSDg0Zllp?=
- =?utf-8?B?ZkV0WHBVNjZyWUVJVGFuTjRUc3l5SEFGSFArTzcyTWRoZUF5V3RyY2NCZHc4?=
- =?utf-8?B?R3FqMENjc3k1S25jUWxIbHNEU0FpcHBxWVNKRWRRa2FWb2tWOGtSNEdCS2pS?=
- =?utf-8?B?Y05JeU9sNTJkcGFUNThralYraUNjNmI3YmJuR0FnTUdzN1hKb3RQSGNYeDRx?=
- =?utf-8?B?d3BNSGhiaC9nWHlaSHBlSXFBNmZDb3d5UHBZVE5wWW1XUkZ4RTZJUXBPZTZo?=
- =?utf-8?B?Qlhlb0UrZjgrcjlkclMxaVZWVHY2R25pRmxoTzc4OTY2bk9FMDQ0R0pYNjRO?=
- =?utf-8?B?ajVzRU5vT1lhZXBkT0hkV29qK1ZSRXN1dGsvVkR3TmVJRTRBZVRFRjkyNHNN?=
- =?utf-8?B?bVVuaURTMWVxUkhGbzIrQVZSUHh5RHJBazIrUE5xRkJFcGdTZzJwQU42OWlK?=
- =?utf-8?B?a0dYUkU5aWwrVEJXeUcreGliSzZhTXJFdDA4bDhLU0I2RmJQU2RYMFZYd3Ew?=
- =?utf-8?B?NllONWlWUGhPYlhHYXI0ZkJOOXdCZXJYaGhmblQ1YzlsY0VtQm9IVUswUnFT?=
- =?utf-8?B?OThUREErbEp1MGhYdVl2am1hZ1VoN0oyVGdRWmladVVOcjlxWDBzRWxOeGtl?=
- =?utf-8?B?NDRsK0NRZkJtbHcvL1RwSnFWaVZIbnhwQ3dhWGlDUXpXUm43R1oxZFNnVnhq?=
- =?utf-8?B?RmdTTkpIYmc3WVY5OHZ0QWVGMTBaWVFCckY3cGFBQ3RsNHR5bml1Zz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
+ [74.125.224.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC9A10E733
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:10:49 +0000 (UTC)
+Received: by mail-yx1-f41.google.com with SMTP id
+ 956f58d0204a3-6420c0cf4abso544536d50.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 02:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1768471848; x=1769076648; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Rkv8ikQUARN/N/Kkx850hQ4m0bkxMdUFAMwwE3tHVbI=;
+ b=YHLU/2MHE+jCASL0Sjk8Nc7jlxMruXcByWRrI3nIl/+JL+ymVzz21bXDHFM+tIiDI0
+ 0XNK0oAt+eFJ4KN+y6LCUYgmBJxTkAv4fE7Q2V6sxcDaKJ8rFfCtv83TQz6KN8D8nTbk
+ mUzM0u7Rha6Nyq976B2g7TIj+INZyJNM4SaQviQaP9FOK6mGhyWSeuRKic6DnPNcoXd8
+ J873HNAsyF+zB1ZmOMetX3bU1qoV+lD70V3LCc1hHv0MIz19RPbx0OKoR/zqUyUC4gBL
+ dp9iL2PsTwdBxegkalsBXXXavEnb6UMU64MSqz5i+O1V8rTiW8Vdk/Wh4J7qtm/PMo/M
+ 3VGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768471848; x=1769076648;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Rkv8ikQUARN/N/Kkx850hQ4m0bkxMdUFAMwwE3tHVbI=;
+ b=o2GkqAyKZ1Q3nMCGVLWTAzEOjT+VLVRFKnGBYm5xoaSAjRLeohaP4pI2Y4LZOrsLrb
+ 6AIrxn7fY0szd3nS4ZG5qFUCZmm/++ihW1Ht0/UNJbaCy7tDhXTL9dZbKWfoGKnDHF9y
+ 2Q1ZE2Qdy6b8sh+piCKP5VlVabcuiK5rBPSNaiWv3glaXzGs98BCZlksNZT87Sig662+
+ NwiN/9ynUlguLkNVSqHUtBJucDwqgmL9o1xjFqQh8BMe48+1+sWEbooHw89HwLCoLb1X
+ a1jiRgoXhHS7aKRqSuwzpasRTvE9WeadeANzm+HNut5NnyF7ldciudWZ2v+Jvlo4+Y4g
+ jzOw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKxe7eIHg+EtcpK+YpyZ84q8ZfVS2BVNTpw68S06Q4p6LMcpDSM3DKMNz9NiPIb8I7v433Lw0tsg8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7G43Zbq1YH7cOhaRjJh3GhPG1WgTw7OP9wbL1R6wrEploEBGS
+ PqpvxjIR/ciWbC9oZpq7bSKZdyreRc9WlJWza49u4lv01IE5U53Tgxs9fxeNOK1ujh4ajoln3VY
+ /FdJhOtBgGy+RRIa381g4XiWwB+audD2jU1LGf/+QPw==
+X-Gm-Gg: AY/fxX4+9UVDnvSReRJOsE8U19HWex6QjVPVr0UHblZk39LS1iBGDyVTxFTfqt9MEEO
+ v7RSutw+cqho3SPXrAoqsCAwTHmM0XWDUWTM6Dkr8100vPt4DQ/9XBoZas5c2S4APqLKXy+YZzn
+ TqHzn9oW0DNZAKtCQeIx9BTnJGGxwO/G2LpZWp3XUd8MeEn1E7ftcXWNauU/FRM0z+l36xqm7k9
+ V8tEuvGNGjNy8zqb92DaADbutmitbvpg4dmEO4Yn+/0XLZ4/Zu+X5f3ipmpcLUNy3M4ddGO+xta
+ LA4=
+X-Received: by 2002:a05:690e:1898:b0:63f:b366:98c9 with SMTP id
+ 956f58d0204a3-64903b45c7fmr3328872d50.46.1768471848192; Thu, 15 Jan 2026
+ 02:10:48 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5d3958a-b849-46b2-fe05-08de541e4b1e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2026 10:10:21.8694 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4oRuTkDaWoXr2BnNDHAwBvkIZaV5mcoNIVjroyJPeoWPKaKgcR5qe/CC048zNoCKYcepLSm9Z7Y1xNu8r+z5Deildd+RxjrOIC9qMQ6eU7o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6845
+References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
+ <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-9-ff6232e3472f@linaro.org>
+ <CABymUCNY9uo0Cm0KgM9yChuxJ22=Y-4JjHj7cEh5ByX8Nr3y-w@mail.gmail.com>
+ <nvd4eksgcmeqlfwp4jc27fpuzi6otdhzcefdbmj7a2xgv2bqwr@r6rytxs7ibj3>
+ <CABymUCP2yAQptCGCBX0X75iRSkKkfctiEaxUH7_eOpspR55_Kg@mail.gmail.com>
+ <uh75cutkn4opgjbwebpqvhq4xfzep3jnsblaevpgs3gchg264k@gzgydmui2653>
+ <CABymUCPkfYHhtxEqN7KgBPHEvYh=NRotutJ=eiLm=ZUB85t-Qw@mail.gmail.com>
+In-Reply-To: <CABymUCPkfYHhtxEqN7KgBPHEvYh=NRotutJ=eiLm=ZUB85t-Qw@mail.gmail.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Thu, 15 Jan 2026 18:10:36 +0800
+X-Gm-Features: AZwV_QgmurEtZGqCC-J87iEhyC8ARZYKkLKMsRCGKhZjRYi4rTUDAlAEEHYZ7nE
+Message-ID: <CABymUCM_KAAunMSUSXXUWMy45y4yTv4iV5WGo4DG-xv=ExMahA@mail.gmail.com>
+Subject: Re: [PATCH v16 09/10] drm/msm/dpu: support plane splitting in
+ quad-pipe case
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,91 +96,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IC0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
-ay5vcmc+DQo+IFNlbnQ6IDE1IEphbnVhcnkgMjAyNiAwODoyNA0KPiBTdWJqZWN0OiBSZTogW1BB
-VENIIDEwLzIyXSBkdC1iaW5kaW5nczogZGlzcGxheTogcmVuZXNhcyxyemcybC1kdTogQWRkIHN1
-cHBvcnQgZm9yIFJaL0czRSBTb0MNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBUaHUsIDE1IEph
-biAyMDI2IGF0IDA4OjQ4LCBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+IHdy
-b3RlOg0KPiA+ID4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9y
-Zz4gT24gV2VkLCAzIERlYyAyMDI1DQo+ID4gPiBhdCAxNDo0MiwgVG9tbWFzbyBNZXJjaWFpIDx0
-b21tYXNvLm1lcmNpYWkueHJAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4gPiBPbiBXZWQs
-IERlYyAwMywgMjAyNSBhdCAwOToyMzo1M0FNICswMTAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOg0KPiA+ID4gPiA+IE9uIFdlZCwgTm92IDI2LCAyMDI1IGF0IDAzOjA3OjIyUE0gKzAxMDAs
-IFRvbW1hc28gTWVyY2lhaSB3cm90ZToNCj4gPiA+ID4gPiA+IFRoZSBSWi9HM0UgU29jIGhhcyAy
-IExDRCBjb250cm9sbGVyIChMQ0RDKSwgY29udGFpbiBhIEZyYW1lDQo+ID4gPiA+ID4gPiBDb21w
-cmVzc2lvbiBQcm9jZXNzb3IgKEZDUFZEKSwgYSBWaWRlbyBTaWduYWwgUHJvY2Vzc29yDQo+ID4g
-PiA+ID4gPiAoVlNQRCksIFZpZGVvIFNpZ25hbCBQcm9jZXNzb3IgKFZTUEQpLCBhbmQgRGlzcGxh
-eSBVbml0IChEVSkuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gIC0gTENEQzAgc3VwcG9ydHMg
-RFNJIGFuZCBMVkRTIChzaW5nbGUgb3IgZHVhbC1jaGFubmVsKSBvdXRwdXRzLg0KPiA+ID4gPiA+
-ID4gIC0gTENEQzEgc3VwcG9ydHMgRFNJLCBMVkRTIChzaW5nbGUtY2hhbm5lbCksIGFuZCBSR0Ig
-b3V0cHV0cy4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBBZGQgdGhlbiB0d28gbmV3IFNvQy1z
-cGVjaWZpYyBjb21wYXRpYmxlIHN0cmluZ3MgJ3JlbmVzYXMscjlhMDlnMDQ3LWR1MCcNCj4gPiA+
-ID4gPiA+IGFuZCAncmVuZXNhcyxyOWEwOWcwNDctZHUxJy4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-IExDREMwLzEgYnV0IGNvbXBhdGlibGVzIGR1MC9kdTEuLi4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-IFdoYXQgYXJlIHRoZSBkaWZmZXJlbmNlcyBiZXR3ZWVuIERVMCBhbmQgRFUxPyBKdXN0IGRpZmZl
-cmVudA0KPiA+ID4gPiA+IG91dHB1dHM/IElzIHRoZSBwcm9ncmFtbWluZyBtb2RlbCB0aGUgc2Ft
-ZT8NCj4gPiA+ID4NCj4gPiA+ID4gVGhlIGhhcmR3YXJlIGNvbmZpZ3VyYXRpb25zIGFyZSBkaWZm
-ZXJlbnQ6IHRoZXNlIGFyZSB0d28gZGlzdGluY3QgaGFyZHdhcmUgYmxvY2tzLg0KPiA+ID4gPg0K
-PiA+ID4gPiBCYXNlZCBvbiB0aGUgYmxvY2sgZGlhZ3JhbXMgc2hvd24gaW4gRmlndXJlcyA5LjQt
-MiAoTENEQzEpIGFuZA0KPiA+ID4gPiA5LjQtMSAoTENEQzApLCB0aGUgb25seSBkaWZmZXJlbmNl
-IGNvbmNlcm5zIHRoZSBvdXRwdXQsIGJ1dCB0aGlzDQo+ID4gPiA+IHZhcmlhdGlvbiBpcyBpbnRl
-cm5hbCB0byB0aGUgaGFyZHdhcmUgYmxvY2tzIHRoZW1zZWx2ZXMuDQo+ID4gPiA+IFRoZXJlZm9y
-ZSwgTENEQzAgYW5kIExDREMxIGFyZSBub3QgaWRlbnRpY2FsIGJsb2NrcywgYW5kIHRoZWlyDQo+
-ID4gPiA+IHByb2dyYW1taW5nIG1vZGVscyBkaWZmZXIgYXMgYSByZXN1bHQuDQo+ID4gPiA+DQo+
-ID4gPiA+IEluIHN1bW1hcnksIGFsdGhvdWdoIG1vc3Qgb2YgdGhlIGludGVybmFsIGZ1bmN0aW9u
-cyBhcmUgdGhlIHNhbWUsDQo+ID4gPiA+IHRoZSB0d28gYmxvY2tzIGhhdmUgb3V0cHV0IHNpZ25h
-bHMgY29ubmVjdGVkIHRvIGRpZmZlcmVudCBjb21wb25lbnRzIHdpdGhpbiB0aGUgU29DLg0KPiA+
-ID4gPiBUaGlzIHJlcXVpcmVzIGRpZmZlcmVudCBoYXJkd2FyZSBjb25maWd1cmF0aW9ucyBhbmQg
-aW5ldml0YWJseQ0KPiA+ID4gPiBsZWFkcyB0byBkaWZmZXJlbnQgcHJvZ3JhbW1pbmcgbW9kZWxz
-IGZvciBMQ0RDMCBhbmQgTENEQzEuDQo+ID4gPg0KPiA+ID4gSXNuJ3QgdGhhdCBtZXJlbHkgYW4g
-U29DIGludGVncmF0aW9uIGlzc3VlPw0KPiA+ID4gQXJlIHRoZXJlIGFueSBkaWZmZXJlbmNlcyBp
-biBwcm9ncmFtbWluZyBMQ0RDMCBvciBMQ0RDMSBmb3IgdGhlDQo+ID4gPiBjb21tb24gb3V0cHV0
-IHR5cGVzIHN1cHBvcnRlZCBieSBib3RoIChzaW5nbGUgY2hhbm5lbCBMVkRTIGFuZCA0LWxhbmUg
-TUlQSS1EU0kpPw0KPiA+DQo+ID4gRHVhbCBMVkRTIGNhc2UsIGRvdCBjbG9jayBmcm9tIExDREMw
-IGlzIHVzZWQgaW4gYm90aCBMQ0RDJ3MuDQo+IA0KPiBGb3IgdGhlIHNpbmdsZSBkdWFsLWNoYW5u
-ZWwgTFZEUyBvdXRwdXQgb24gTENEQzAsIG9yIGZvciB1c2luZyB0d28gaW5kZXBlbmRlbnQgTFZE
-UyBvdXRwdXRzIG9uIGJvdGgNCj4gaW5zdGFuY2VzPyBIb3cgaXMgdGhpcyBoYW5kbGVkPw0KDQpE
-dWFsLWNoYW5uZWwgTFZEUyBvdXRwdXQgb24gTENEQzAsIHdlIHVzZSB0aGUgZGF0YSBmcm9tIExD
-REMwLg0KDQpXZSBoYXZlIHRoZSBmb2xsb3dpbmcgdXNlIGNhc2VzOg0KDQpTaW5nbGUtbGluayhj
-aDAgb25seSk6DQogIFRoaXMgbW9kZSBvdXRwdXRzIHRoZSBpbWFnZSBkYXRhIG9mIExDREMwIHRv
-IExWRFMgKGNoMCkuIEluIHRoaXMgbW9kZSwNCiAgTFZEUyAoY2gxKSBpcyBub3QgdXNlZC4NCg0K
-U2luZ2xlLWxpbmsoY2gxIG9ubHkpOg0KICBUaGlzIG1vZGUgb3V0cHV0cyB0aGUgaW1hZ2UgZGF0
-YSBvZiBMQ0RDMSB0byBMVkRTIChjaDEpLg0KICBJbiB0aGlzIG1vZGUsIExWRFMgKGNoMCkgaXMg
-bm90IHVzZWQuDQoNClNpbmdsZS1saW5rKDJjaCk6DQogIEluIHRoaXMgbW9kZSwgdGhlIGltYWdl
-IGRhdGEgb2YgTENEQzAgaXMgb3V0cHV0IHRvIExWRFMgKGNoMCkgYW5kIHRoZQ0KICBpbWFnZSBk
-YXRhIG9mIExDREMxIGlzIG91dHB1dCB0byBMVkRTIChjaDEpLg0KICBTaW5jZSBMVkRTIChjaDAp
-IGFuZCBMVkRTIChjaDEpIGFyZSBub3Qgc3luY2hyb25vdXNseSByZWxhdGVkLCB0aGV5DQogIGNh
-biBiZSBvdXRwdXQgaW4gZGlmZmVyZW50IGltYWdlIGZvcm1hdHMgYW5kIGNhbiBiZSBvcGVyYXRl
-ZCBhc3luY2hyb25vdXNseS4NCg0KU2luZ2xlLWxpbmsoTXVsdGkpDQogIEluIHRoaXMgbW9kZSwg
-dGhlIGltYWdlIGRhdGEgb2YgTENEQzAgaXMgb3V0cHV0IHRvIGJvdGggTFZEUyAoY2gwKSBhbmQN
-CiAgTFZEUyAoY2gxKS4gTFZEUyAoY2gwKSBhbmQgTFZEUyAoY2gxKSBvcGVyYXRlIHN5bmNocm9u
-b3VzbHkuDQoNCkR1YWwtbGluazoNCiAgSW4gdGhpcyBtb2RlLCB0aGUgaW5wdXQgaW1hZ2UgZGF0
-YSBmcm9tIExDREMwIGlzIHNlcGFyYXRlZCBpbnRvIEV2ZW4gcGl4ZWxzIGFuZA0KICBPZGQgcGl4
-ZWxzLCBhbmQgdGhlIG91dHB1dCBpcyBkaXN0cmlidXRlZCB0byBMVkRTIGNoMCBhbmQgY2gxLg0K
-DQoNCj4gRG9uJ3QgeW91IG5lZWQgYSBjb21wYW5pb24gcHJvcGVydHkgdG8gbGluayB0aGVtIHRv
-Z2V0aGVyPw0KDQpZZXMsIFdlIHVzZSBjb21wYW5pb24gcHJvcGVydHkgZm9yIER1YWwgY2hhbm5l
-bCBMVkRTKER1YWwtTGluaykgdXNlIGNhc2UuDQoNCj4gDQo+IElzIHRoaXMgc2ltaWxhciB0byBk
-dWFsLWNoYW5uZWwgTFZEUyBvbiBSLUNhciBFMyBhbmQgUlovRzJFPw0KDQpZZXMuDQoNCj4gT24g
-dGhlc2UgU29DcyB3ZSBoYXZlIGEgc2luZ2xlIGNvbWJpbmVkIGRldmljZSBub2RlIGZvciBhbGwg
-RFUgaW5zdGFuY2VzICh3aGljaCBjb21lcyB3aXRoIGl0cyBvd24gc2V0DQo+IG9mIGlzc3Vlcywg
-ZS5nLiBSdW50aW1lIFBNIGFuZCBDbG9jayBEb21haW4gaGFuZGxpbmcpLg0KDQpCdXQgaW4gb3Vy
-IGNhc2UsIGl0IGhhcyAyIHNlcGFyYXRlIGluZGVwZW5kZW50IExDREMgSVAncyB0byBhbGxvdyBh
-bGwgdGhlIHBvc3NpYmxlIG91dHB1dHMgYXMgbWVudGlvbmVkIGFib3ZlLg0KDQo+IA0KPiA+IFN0
-YW5kYWxvbmUgTFZEUyBhbmQgRFNJIHRoZSBwcm9ncmFtbWluZyBmbG93IGlzIHNhbWUuDQo+IA0K
-PiBPSy4NCj4gDQo+ID4gPiBPZiB0aGVyZSBhcmUgbm8gc3VjaCBkaWZmZXJlbmNlcywgYm90aCBp
-bnN0YW5jZXMgc2hvdWxkIHVzZSB0aGUgc2FtZSBjb21wYXRpYmxlIHZhbHVlLg0KPiA+DQo+ID4g
-VGhlbiB3ZSBuZWVkIHRvIHVzZSBhIHByb3BlcnR5IGNhbGxlZCBkaXNwbGF5LWlkLCB0byBkZXNj
-cmliZSB0aGUNCj4gPiBzdXBwb3J0ZWQgb3V0cHV0IHR5cGVzIGluIGJpbmRpbmdzLCByaWdodD8/
-DQo+ID4NCj4gPiBEaXNwbGF5LWlkPTAge0xWRFMsIERTSSkNCj4gDQo+IExWRFMgdHdpY2U/DQoN
-CkxDREMwIHN1cHBvcnRzIERTSSBhbmQgTFZEUyAoc2luZ2xlIG9yIGR1YWwtY2hhbm5lbCkgb3V0
-cHV0cy4NCg0KPiANCj4gPiBEaXNwbGF5LWlkPTEge0xWRFMsIERTSSwgRFBJKQ0KDQpMQ0RDMSBz
-dXBwb3J0cyBEU0ksIExWRFMgKHNpbmdsZS1jaGFubmVsKSwgYW5kIFJHQiBvdXRwdXRzLg0KDQo+
-IA0KPiBOb3QgbmVjZXNzYXJpbHk6IGlmIHRoaXMgaXMgcHVyZWx5IGRpZmZlcmVudCBTb0MgaW50
-ZWdyYXRpb24gcGVyIGluc3RhbmNlLCBkZXNjcmliaW5nIGFsbCBwb3NzaWJsZQ0KPiBvcHRpb25z
-IGlzIGZpbmUuDQo+IA0KPiBCdXQgSSdkIGxpa2UgdG8gZGVmZXIgdG8gTGF1cmVudCBmb3IgdGhl
-IGRldGFpbHMuLi4NCg0KT0suIEdsYWQgdG8gaGVhciBmcm9tIExhdXJlbnQncyBpbnB1dCBmb3Ig
-dGhpcyBhbmQgWzFdDQoNClsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yZW5lc2Fz
-LXNvYy9jb3Zlci4xNzY0MTY1NzgzLmdpdC50b21tYXNvLm1lcmNpYWkueHJAYnAucmVuZXNhcy5j
-b20vVC8jbTI5MWYwMmEwZWUwNzRkNTE1OTcwNWIxOWQyZDI5ZmZhNDFlZjRlYWENCg0KDQpDaGVl
-cnMsDQpCaWp1DQo=
+Jun Nie <jun.nie@linaro.org> =E4=BA=8E2026=E5=B9=B41=E6=9C=8815=E6=97=A5=E5=
+=91=A8=E5=9B=9B 17:57=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=
+=B41=E6=9C=8815=E6=97=A5=E5=91=A8=E5=9B=9B 17:39=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Thu, Jan 15, 2026 at 05:34:28PM +0800, Jun Nie wrote:
+> > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
+=B9=B41=E6=9C=8815=E6=97=A5=E5=91=A8=E5=9B=9B 00:12=E5=86=99=E9=81=93=EF=BC=
+=9A
+> > > >
+> > > > On Wed, Jan 14, 2026 at 10:48:17PM +0800, Jun Nie wrote:
+> > > > > Jun Nie <jun.nie@linaro.org> =E4=BA=8E2025=E5=B9=B49=E6=9C=8818=
+=E6=97=A5=E5=91=A8=E5=9B=9B 21:30=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > >
+> > > > > > The content of every half of screen is sent out via one interfa=
+ce in
+> > > > > > dual-DSI case. The content for every interface is blended by a =
+LM
+> > > > > > pair in quad-pipe case, thus a LM pair should not blend any con=
+tent
+> > > > > > that cross the half of screen in this case. Clip plane into pip=
+es per
+> > > > > > left and right half screen ROI if topology is quad pipe case.
+> > > > > >
+> > > > > > The clipped rectangle on every half of screen is futher handled=
+ by two
+> > > > > > pipes if its width exceeds a limit for a single pipe.
+> > > > > >
+> > > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > Reviewed-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  11 +++
+> > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |   2 +
+> > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 137 ++++++++++++++=
++++++++---------
+> > > > > >  3 files changed, 110 insertions(+), 40 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers=
+/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > index d825eb8e40ae8bd456ede6269951339e3053d0d3..e925d93b38feac0=
+594d735fdc2c5b9fd5ae83e6a 100644
+> > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > @@ -1604,6 +1604,17 @@ int dpu_crtc_vblank(struct drm_crtc *crt=
+c, bool en)
+> > > > > >         return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > +/**
+> > > > > > + * dpu_crtc_get_num_lm - Get mixer number in this CRTC pipelin=
+e
+> > > > > > + * @state: Pointer to drm crtc state object
+> > > > > > + */
+> > > > > > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *=
+state)
+> > > > > > +{
+> > > > > > +       struct dpu_crtc_state *cstate =3D to_dpu_crtc_state(sta=
+te);
+> > > > > > +
+> > > > > > +       return cstate->num_mixers;
+> > > > > > +}
+> > > > > > +
+> > > > > >  #ifdef CONFIG_DEBUG_FS
+> > > > > >  static int _dpu_debugfs_status_show(struct seq_file *s, void *=
+data)
+> > > > > >  {
+> > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers=
+/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > > > > index 94392b9b924546f96e738ae20920cf9afd568e6b..6eaba5696e8e6bd=
+1246a9895c4c8714ca6589b10 100644
+> > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > > > > @@ -267,4 +267,6 @@ static inline enum dpu_crtc_client_type dpu=
+_crtc_get_client_type(
+> > > > > >
+> > > > > >  void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event)=
+;
+> > > > > >
+> > > > > > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *=
+state);
+> > > > > > +
+> > > > > >  #endif /* _DPU_CRTC_H_ */
+> > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/driver=
+s/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > > index 5ae58352cbee1251a0140879f04fc7c304cae674..89a5feb6308bcac=
+537562c3dc4e61c16c92e460c 100644
+> > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > > @@ -824,8 +824,12 @@ static int dpu_plane_atomic_check_nosspp(s=
+truct drm_plane *plane,
+> > > > > >         struct dpu_plane_state *pstate =3D to_dpu_plane_state(n=
+ew_plane_state);
+> > > > > >         struct dpu_sw_pipe_cfg *pipe_cfg;
+> > > > > >         struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> > > > > > +       struct dpu_sw_pipe_cfg init_pipe_cfg;
+> > > > > >         struct drm_rect fb_rect =3D { 0 };
+> > > > > > +       const struct drm_display_mode *mode =3D &crtc_state->ad=
+justed_mode;
+> > > > > >         uint32_t max_linewidth;
+> > > > > > +       u32 num_lm;
+> > > > > > +       int stage_id, num_stages;
+> > > > > >
+> > > > > >         min_scale =3D FRAC_16_16(1, MAX_UPSCALE_RATIO);
+> > > > > >         max_scale =3D MAX_DOWNSCALE_RATIO << 16;
+> > > > > > @@ -848,13 +852,10 @@ static int dpu_plane_atomic_check_nosspp(=
+struct drm_plane *plane,
+> > > > > >                 return -EINVAL;
+> > > > > >         }
+> > > > > >
+> > > > > > -       /* move the assignment here, to ease handling to anothe=
+r pairs later */
+> > > > > > -       pipe_cfg =3D &pstate->pipe_cfg[0];
+> > > > > > -       r_pipe_cfg =3D &pstate->pipe_cfg[1];
+> > > > > > -       /* state->src is 16.16, src_rect is not */
+> > > > > > -       drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_stat=
+e->src);
+> > > > > > +       num_lm =3D dpu_crtc_get_num_lm(crtc_state);
+> > > > > >
+> > > > > > -       pipe_cfg->dst_rect =3D new_plane_state->dst;
+> > > > > > +       /* state->src is 16.16, src_rect is not */
+> > > > > > +       drm_rect_fp_to_int(&init_pipe_cfg.src_rect, &new_plane_=
+state->src);
+> > > > > >
+> > > > > >         fb_rect.x2 =3D new_plane_state->fb->width;
+> > > > > >         fb_rect.y2 =3D new_plane_state->fb->height;
+> > > > > > @@ -879,35 +880,94 @@ static int dpu_plane_atomic_check_nosspp(=
+struct drm_plane *plane,
+> > > > > >
+> > > > > >         max_linewidth =3D pdpu->catalog->caps->max_linewidth;
+> > > > > >
+> > > > > > -       drm_rect_rotate(&pipe_cfg->src_rect,
+> > > > > > +       drm_rect_rotate(&init_pipe_cfg.src_rect,
+> > > > > >                         new_plane_state->fb->width, new_plane_s=
+tate->fb->height,
+> > > > > >                         new_plane_state->rotation);
+> > > > > >
+> > > > > > -       if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidt=
+h) ||
+> > > > > > -            _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pi=
+pe_cfg) > max_mdp_clk_rate) {
+> > > > > > -               if (drm_rect_width(&pipe_cfg->src_rect) > 2 * m=
+ax_linewidth) {
+> > > > > > -                       DPU_DEBUG_PLANE(pdpu, "invalid src " DR=
+M_RECT_FMT " line:%u\n",
+> > > > > > -                                       DRM_RECT_ARG(&pipe_cfg-=
+>src_rect), max_linewidth);
+> > > > > > -                       return -E2BIG;
+> > > > > > +       /*
+> > > > > > +        * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topolog=
+y, 2 mixer pair
+> > > > > > +        * configs for left and right half screen in case of 4:=
+4:2 topology.
+> > > > > > +        * But we may have 2 rect to split wide plane that exce=
+eds limit with 1
+> > > > > > +        * config for 2:2:1. So need to handle both wide plane =
+splitting, and
+> > > > > > +        * two halves of screen splitting for quad-pipe case. C=
+heck dest
+> > > > > > +        * rectangle left/right clipping first, then check wide=
+ rectangle
+> > > > > > +        * splitting in every half next.
+> > > > > > +        */
+> > > > > > +       num_stages =3D (num_lm + 1) / 2;
+> > > > >
+> > > > > Hi Dmitry,
+> > > > > Because the plane is checked before crtc is checked in the drm fr=
+amework. While
+> > > > > the topology is decided in crtc check. Thus num_lm is 0 when this=
+ function is
+> > > > > called for the first time. As a result, the below iteration is no=
+t run
+> > > > > at all and leads
+> > > > >  to iommu warning.
+> > > >
+> > > > How does it lead to IOMMU warnings?
+> > >
+> > > Because the pipe is not configured with width/height etc when the ite=
+ration is
+> > > skipped. I have not found the root cause so far. But per the null IOM=
+MU iova
+> > > value, suppose it is due to DMA buffer not being prepared when DMA is=
+ started.
+> >
+> > I'd think, that corresponding SRC regs are either garbage or zero progr=
+ammed.
+>
+> You are right in that. Sorry for my words is not accurate. I mean the
+> DMA buffer is not
+> feed to DMA engine correctly.
+> >
+> > >
+> > > >
+> > > > > Do you suggest to change drm framework with adding extra crtc che=
+ck before
+> > > > > plane check, or you prefer the below line here?
+> > > > >
+> > > > > num_stages =3D max(1, (num_lm + 1) / 2);
+> > > >
+> > > > DRM framework provides enough hooks to be able to influence the ord=
+er or
+> > > > operations without changing the framework. But, I'd like to point o=
+ut
+> > > > that for the virtual plane case we already perform plane operations
+> > > > from dpu_crtc_atomic_check(). You can employ the same approach.
+> > >
+> > > Thanks for the suggestion! I see dpu_assign_plane_resources() is call=
+ed
+> > > from crtc side, which avoids the plane splitting before topology deci=
+sion.
+> > > To use this method, it looks like we are enabling the virtual plane b=
+y default.
+> > > Because the virtual plane differs from the traditional method only wi=
+th the
+> > > plane splitting and resource preparation. Can we just enable the virt=
+ual
+> > > plane by default in this situation?
+> >
+> > In which situation? It is a global switch. And we need to be able to
+> > work with it turned off, until corresponding code is dropped.
+>
+> I mean the situation that the plane SSPP allocation and related resource
+> preparation shall be deferred until crtc calling the plane API. In this w=
+ay,
+> the traditional plane management is almost identical with the virtual
+> plane method. Or could you point out what shall differ for the two method=
+s
+> after we deferred the preparation? Thanks!
+
+You just want to have different SSPP number limit for the 2 methods?
+>
+> Jun
+> >
+> > >
+> > > Jun
+> > >
+> > > >
+> > > >
+> > > > --
+> > > > With best wishes
+> > > > Dmitry
+> >
+> > --
+> > With best wishes
+> > Dmitry
