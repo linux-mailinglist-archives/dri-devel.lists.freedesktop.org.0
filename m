@@ -2,132 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3852BD22F99
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BAFD22FD8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 09:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9426C10E6F2;
-	Thu, 15 Jan 2026 07:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8BA210E11F;
+	Thu, 15 Jan 2026 08:03:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="35Xti4CW";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="G7XmnIeY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012016.outbound.protection.outlook.com [40.107.209.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E7310E6F2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 07:59:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ypag3VfJ48D9DQXo6U3UvJ27BL9/daB9yeOKkSVYnuHLfi0Kj4utJoA9TzfVR5BCzPgzfetKAYPI0AEh+GzacdvI492uYUsa8eZ8vh9SiKg95l51cliszCRzVBc7q1sc1GTqMzPXuEKdlciP9d3XklSfCGRcMX0Go8idaK2xs0yWGcGu/xRtyHP5eRRne69qKBSFwL1kxd7B3jwZ+S6amwucSihqIzULQV2u9ChwmlNdbtetmfhwsp/KzPIzmy22uXuuHG7ZGmG7Mz8o75R+/QY9lMwZ7VXXFmexUCBsr/QTM0aQgIzFv3t4TY5F/oEvwF4gJpVD2j0g2uALWS/X4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AsXdTSgqNmnPyGco6olO0bpQqz/wL/En26ePVSjE01w=;
- b=lYvKmwBE9OMynaNfsyk7zEjzaAb3t4g9cf8m4uLICdmKq3XQs4QFV7GD925AOnzXs0vB6q1Q9NlWDHu6WtFmkiijas+fk17px1YguycxlTxo8XJ7ukEVZebFOqdFQfDl1sat1953VloD+IbP7JgyUvNq/fZkH2r5Ke4W8D/7C5aXVIj6EITn6weXSGRk22V7n4SJUHmQrdXDRBfnLYKTwP+z9W+M6ZcrgBtf6mpB9dqqNl6EW1kIcZ7kQa4oONGSTKlV7nP+xEKkWCTQ69tUmgXgONVQLaWFksWXnKA1x9nl7mLu77844Cr1yAJBxUoYsKza6V72lH7JHuAUqf0ONQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AsXdTSgqNmnPyGco6olO0bpQqz/wL/En26ePVSjE01w=;
- b=35Xti4CWo5EJW2T4IEOOZhgJqBuCpp6gawFhGrz3ljhRWlLbgadM4xNSp0TNqXSxBYbxfbCZmC8L3FLZMGewOJCYIq/n4yODjKWhCwi+tKjAmx0nQdpI5a7o1l9jKu4mQL80Oh41tAaagFi9GMeIlJtjUdYH0JjQluziT4GAzFc=
-Received: from BL1PR13CA0164.namprd13.prod.outlook.com (2603:10b6:208:2bd::19)
- by CY5PR12MB6648.namprd12.prod.outlook.com (2603:10b6:930:3e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Thu, 15 Jan
- 2026 07:59:33 +0000
-Received: from MN1PEPF0000F0E1.namprd04.prod.outlook.com
- (2603:10b6:208:2bd:cafe::7b) by BL1PR13CA0164.outlook.office365.com
- (2603:10b6:208:2bd::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.2 via Frontend Transport; Thu,
- 15 Jan 2026 07:59:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MN1PEPF0000F0E1.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.1 via Frontend Transport; Thu, 15 Jan 2026 07:59:33 +0000
-Received: from honglei-remote.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 15 Jan
- 2026 01:59:29 -0600
-From: Honglei Huang <honglei1.huang@amd.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- <Ray.Huang@amd.com>
-CC: Gurchetan Singh <gurchetansingh@chromium.org>,
- <odaki@rsg.ci.i.u-tokyo.ac.jp>, Chia-I Wu <olvaffe@gmail.com>,
- <dri-devel@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, Honglei Huang <Honglei1.Huang@amd.com>
-Subject: [PATCH v4 5/5] drm/virtio: advertise base userptr feature to userspace
-Date: Thu, 15 Jan 2026 15:58:51 +0800
-Message-ID: <20260115075851.173318-6-honglei1.huang@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260115075851.173318-1-honglei1.huang@amd.com>
-References: <20260115075851.173318-1-honglei1.huang@amd.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5BF10E11F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:03:01 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4801c1ad878so966005e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:03:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1768464180; x=1769068980; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xcbLu2kQiM96qvHxOV6cgsDqK/+n86xJwLTUNrTYpaE=;
+ b=G7XmnIeYwvSSy5874kcfctUmRLorwtyrCbxZSuv1mNxYUgxRPhprjpWG80ChvQe0i9
+ YKpCPrpgSKEOLe7BPeG0vucVMBOwLmZGTX63qt9ws0McDk3OMwr/BO+GfAVaKZO51q9O
+ 5GmWYuvEVRGsNXcIIqIaLTiGoNC3rIf2NVJF28cEG5QaaxTeYpHIcCIbzmYVEZvxo6AA
+ v+TezUISg27eBM/i5C3DrxvxR/Ic+ulfwCcmWRvZB4r59Tfx69MXa2DtB5C1ueMwGAR9
+ GuDaW3z9Uha/qzIVq3/VPEhaQYhcib7lmlvY19T3MQhES197cIZ3KuQUsB/C/A7XbsNI
+ JCcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768464180; x=1769068980;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xcbLu2kQiM96qvHxOV6cgsDqK/+n86xJwLTUNrTYpaE=;
+ b=auzxkYApGqV6J+32vfPh9Gel81abzvqJZPqnhPBLKa1e/oOHS18ox34YPAh7qnJwk0
+ dy0/Kj4YVAkinkLOp7CzEASCxuI8cSRiTqqMAbqQJDjHBuy5IAG/vAV2OfrYQT2Dyhqj
+ EjdudKp4O5CkHzVDgIVL9WYxSBLbtDKVoWdVcz/hLFnKYUhswW93hvxQQ5E4KrXF4wyZ
+ oF68cVhhVhEKNWapvb0Vcq6NXifOxXscfObPbjsxC3U6889JsDJn3nnmpp55Av8/GQun
+ sNwa1D6Dniy/9dJTkt2KJVaU+3eCbzHYn9TjJO3szv/EmZNnArPHnZs1mncPgBjPrESD
+ 0gVA==
+X-Gm-Message-State: AOJu0Yw2L/Em0cpkH7TomESic4wDS2Us9A8kXL/8Uq/x2ebaaVEJX6JL
+ bq+Q5q1Kbvmp0hRUwrLX/o1EOD2s675IDAkTlR8B2uNzVSq2c7LGzKSRiNF7LWszLEg=
+X-Gm-Gg: AY/fxX51uYCSPo8t48jMZhekF+JXUg/vbRGJ0U8erE6j/MC9ToFQV8sBQ+l3C8/VT+M
+ GrS0MphUo67fPzmbDGr/ZEpZ5gBnuolAzMrNorROeHPQYzkVtmpUXOZlIGtT30IeyrBF9avjs1B
+ kNSLzNwG9EjshPwGgjKkAKiliA74O9sc6ufwipn7F10dkD1JUkE9pC0HFcP1gnG6gJvv/XhdF8d
+ K/yU0EfwlfV+ubONeq/TRQCNhTax6SEg09fRgzMGfHsFpfRaVt9XwxJojlBOi4hXrXlZeUI0nIt
+ 01SvMAP/8aw6qzRB0OeTkmPzwX16OYYketZW3PM/Fae/Lu8HXWbcHuBorwUs15U6sFR3k75ViTa
+ MKXpdW8zwx8Ay09FFIkVDBGodoO5csVABoY9eEPusXJs6MjASNRsal5GpSzq0soUQvvYN5T50d6
+ j0PjRJxu4+f35aMkW84U9BlNBeL1GCfvu3
+X-Received: by 2002:a05:600c:4e0f:b0:47d:4fbe:e6cc with SMTP id
+ 5b1f17b1804b1-47ee32fc6f7mr64282815e9.13.1768464179538; 
+ Thu, 15 Jan 2026 00:02:59 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47f428cebdcsm32679625e9.12.2026.01.15.00.02.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jan 2026 00:02:59 -0800 (PST)
+Message-ID: <42d9230d-d39b-4ffd-aa73-112a984bd50b@ursulin.net>
+Date: Thu, 15 Jan 2026 08:02:58 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/10] dma-buf/selftests: test RCU ops and inline lock v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20260113152125.47380-1-christian.koenig@amd.com>
+ <20260113152125.47380-7-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20260113152125.47380-7-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E1:EE_|CY5PR12MB6648:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0986f37c-2bf7-426c-6a46-08de540c04d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|7416014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JQtIH1JsFbSr25ewKZJTP/lyRv21FMqcSWYo4JShkw8wEQ74d6bIVdyIIWVj?=
- =?us-ascii?Q?T8Ft9+jqNCN+Yb+hjiCt2f3OvwzsOovWbHADWjbQ/PBf0XitW11eDpDtp3vb?=
- =?us-ascii?Q?Uf0uzQ9VT5eGviAtKw79A3ux1CfguoQ75gl2ykHJSsP+AqIRTe2qpVrex0ds?=
- =?us-ascii?Q?1UHD6UpNBhdI83Nahvab9vVUrkeOpVDHGyOG0vS2Mm0Ib/TOaFbUIhPEA45r?=
- =?us-ascii?Q?qY2WqrxLTiDUERnLob31kZy4IcXqvmEYGeirznKiiDy9sH4mqJ2tBx1eWy9D?=
- =?us-ascii?Q?8uc98XGkWGuVKwHanr/uYQFTXykPN203nuCoG1J19YqDrCeGyqCOOe9Wc3oz?=
- =?us-ascii?Q?C7/B84+wODs66RX96p8TE4zlQtpDK/qg/2hoq81NlkqkEy9Yis7GvB1AcjiK?=
- =?us-ascii?Q?ZscGOE4HAOS+qFlVzxDM0YeVwRFZXaOGUrnMQsog/OaZBUeeemlf2HGRQbyu?=
- =?us-ascii?Q?zjfZjnJqg7nX0CDladHfIKZDj2HGN7TXG6HcI1Pfzx99X07Coc9A9GCCudpR?=
- =?us-ascii?Q?lHYNV1ItRkgVbkh9aM1GKEJvRwHxdWDoLxVTbfllGUEjfWuei7L4ITtYkjPM?=
- =?us-ascii?Q?7RO6OA8gq2FHLKPyFqU7TYXJBdLMknVp4GRXQksS75nWsfFwDic0/x8wGyKJ?=
- =?us-ascii?Q?VcDIkk/XSwIEetDFzDSBuqS8mq9C3UKeAEnBCXoXULd6bTSeUMOOdMB0wkKj?=
- =?us-ascii?Q?02ez9ikowBqyq8FkKmIuQQ9/dsiBKN7c8Fto3SoexLoJL9Na4tV30OArx9jH?=
- =?us-ascii?Q?+j2B7T9SxwfsQJmAitp+8GP6N+IO/Wr8BrIeyhjfEj/zbmJCivjwXbcIdYc0?=
- =?us-ascii?Q?RavXRimIugRpeA5dbNM032dVvk0q4QUrECWhQ3bi8NLkTgMELr2ZjOG7F8o+?=
- =?us-ascii?Q?qJzLXkHYdI/06vDd3WUZVfJtwb0Nb4jVOshLtFDGLCG8lM7PRU3pf1GaH/31?=
- =?us-ascii?Q?ADzlhUQYjm3t8KNzl+6bQT8Kq6CfEbFsEEEneorB9EzLv5q+3ydYGSgLUxz+?=
- =?us-ascii?Q?PW9EQe2AjigwJFMIBdR6NiYwjmQAjG9JZMsDmzU/ODLEYdDmIGehyWKfjpXH?=
- =?us-ascii?Q?+jd9cxthh2I7upk8PCg0JnMMIO6yBDq+XdmaU0T5lCzKZhWDX4AeS3VTRUvv?=
- =?us-ascii?Q?WzMsm0habK+eTspgbj+xga9OZsq0r/DNzFtDLdxxmjLp02eYVlueErpK7ONC?=
- =?us-ascii?Q?KGS9lX14hnFL8Pir0LEm9tu7jUgAXAIUZr3FOp6I6F0MuP90AFCOk8ihAdRg?=
- =?us-ascii?Q?Y6+2B3b8OI2ftWTFpNasuQ3m9e90DtJ4+t4+IP7MDl4iEOES5XdCyk3Uz/fs?=
- =?us-ascii?Q?TZYY9hDN6f84J0c8yuaTDboSpnHa9frV/kjiWbT0Md5pHxVeBO2fvadw8VTH?=
- =?us-ascii?Q?qZ9HVkrKMVZ9twyQzPBiPKPXIvVm8ZlmvAkf/bDuGD7+BZuGf8XGBG71Jj9V?=
- =?us-ascii?Q?8xkmS2+JzeUIuEnCQ3Lci1SwDfq6YMRJytwjXBXLP297DlGRgOUezlkyCito?=
- =?us-ascii?Q?2E0Fw6ePJDf/mdWMqd+huEjUgSu9tWFs3D/i1u0iwAMO1ydUuhlhdz6Ab2Ld?=
- =?us-ascii?Q?xTZIsgxB4pmT9cxfI+4A97Ui4lH/EyfotrVE7pW9mDnbvc8boRFpTZJQcuYx?=
- =?us-ascii?Q?8F80jaRDOIpBs7R3cBiKWwo0oi/EBJ1mK7zFqIGtqIJF/7fBYwup4811Smhu?=
- =?us-ascii?Q?/p17VA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:59:33.0250 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0986f37c-2bf7-426c-6a46-08de540c04d6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E1.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6648
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,57 +91,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Honglei Huang <Honglei1.Huang@amd.com>
 
-Integrate userptr functionality into the blob resource creation path:
+On 13/01/2026 15:16, Christian König wrote:
+> Drop the mock_fence and the kmem_cache, instead use the inline lock and
+> test if the ops are properly dropped after signaling.
+> 
+> v2: move the RCU check to the end of the test
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/st-dma-fence.c | 44 ++++++++--------------------------
+>   1 file changed, 10 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+> index 5d0d9abc6e21..0d9d524d79b6 100644
+> --- a/drivers/dma-buf/st-dma-fence.c
+> +++ b/drivers/dma-buf/st-dma-fence.c
+> @@ -14,43 +14,26 @@
+>   
+>   #include "selftest.h"
+>   
+> -static struct kmem_cache *slab_fences;
+> -
+> -static struct mock_fence {
+> -	struct dma_fence base;
+> -	struct spinlock lock;
+> -} *to_mock_fence(struct dma_fence *f) {
+> -	return container_of(f, struct mock_fence, base);
+> -}
+> -
+>   static const char *mock_name(struct dma_fence *f)
+>   {
+>   	return "mock";
+>   }
+>   
+> -static void mock_fence_release(struct dma_fence *f)
+> -{
+> -	kmem_cache_free(slab_fences, to_mock_fence(f));
+> -}
+> -
+>   static const struct dma_fence_ops mock_ops = {
+>   	.get_driver_name = mock_name,
+>   	.get_timeline_name = mock_name,
+> -	.release = mock_fence_release,
+>   };
+>   
+>   static struct dma_fence *mock_fence(void)
+>   {
+> -	struct mock_fence *f;
+> +	struct dma_fence *f;
+>   
+> -	f = kmem_cache_alloc(slab_fences, GFP_KERNEL);
+> +	f = kmalloc(sizeof(*f), GFP_KERNEL);
+>   	if (!f)
+>   		return NULL;
+>   
+> -	spin_lock_init(&f->lock);
+> -	dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
+> -
+> -	return &f->base;
+> +	dma_fence_init(f, &mock_ops, NULL, 0, 0);
+> +	return f;
+>   }
+>   
+>   static int sanitycheck(void *arg)
+> @@ -100,6 +83,11 @@ static int test_signaling(void *arg)
+>   		goto err_free;
+>   	}
+>   
+> +	if (rcu_dereference_protected(f->ops, true)) {
+> +		pr_err("Fence ops not cleared on signal\n");
+> +		goto err_free;
+> +	}
+> +
+>   	err = 0;
+>   err_free:
+>   	dma_fence_put(f);
+> @@ -540,19 +528,7 @@ int dma_fence(void)
+>   		SUBTEST(test_stub),
+>   		SUBTEST(race_signal_callback),
+>   	};
+> -	int ret;
+>   
+>   	pr_info("sizeof(dma_fence)=%zu\n", sizeof(struct dma_fence));
+> -
+> -	slab_fences = KMEM_CACHE(mock_fence,
+> -				 SLAB_TYPESAFE_BY_RCU |
+> -				 SLAB_HWCACHE_ALIGN);
+> -	if (!slab_fences)
+> -		return -ENOMEM;
+> -
+> -	ret = subtests(tests, NULL);
+> -
+> -	kmem_cache_destroy(slab_fences);
+> -
+> -	return ret;
+> +	return subtests(tests, NULL);
+>   }
 
-- Add userptr flags to VIRTGPU_BLOB_FLAG_USE_MASK for validation
-- Route userptr requests to virtio_gpu_userptr_create()
-- Pass userptr address from ioctl to params structure
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-With this change, userspace can create userptr blob resources by setting
-VIRTGPU_BLOB_FLAG_USE_USERPTR flag and providing a valid userptr address.
+Regards,
 
-Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
----
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index c33c05736..e49f5c89b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -36,7 +36,9 @@
- 
- #define VIRTGPU_BLOB_FLAG_USE_MASK (VIRTGPU_BLOB_FLAG_USE_MAPPABLE | \
- 				    VIRTGPU_BLOB_FLAG_USE_SHAREABLE | \
--				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE)
-+				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE | \
-+				    VIRTGPU_BLOB_FLAG_USE_USERPTR | \
-+				    VIRTGPU_BLOB_FLAG_USERPTR_RDONLY)
- 
- /* Must be called with &virtio_gpu_fpriv.struct_mutex held. */
- static void virtio_gpu_create_context_locked(struct virtio_gpu_device *vgdev,
-@@ -489,6 +491,7 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
- 	params->size = rc_blob->size;
- 	params->blob = true;
- 	params->blob_flags = rc_blob->blob_flags;
-+	params->userptr = rc_blob->userptr;
- 	return 0;
- }
- 
-@@ -527,8 +530,10 @@ static int virtio_gpu_resource_create_blob_ioctl(struct drm_device *dev,
- 				      vfpriv->ctx_id, NULL, NULL);
- 	}
- 
--	if (guest_blob)
-+	if (guest_blob && !params.userptr)
- 		ret = virtio_gpu_object_create(vgdev, &params, &bo, NULL);
-+	else if (guest_blob && params.userptr)
-+		ret = virtio_gpu_userptr_create(vgdev, file, &params, &bo);
- 	else if (!guest_blob && host3d_blob)
- 		ret = virtio_gpu_vram_create(vgdev, &params, &bo);
- 	else
--- 
-2.34.1
+Tvrtko
 
