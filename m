@@ -2,146 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4618BD284BF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AD7D284D5
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2781010E7C5;
-	Thu, 15 Jan 2026 20:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C5010E255;
+	Thu, 15 Jan 2026 20:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NBbcOpvn";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="h3dxbwyd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ObUr8nA3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F7410E284
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:05:48 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60FFYGNN2866206
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:05:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- mEUYQxV96PnR8jNNyLBEH4rtFWeaUZ6wJwqJC8OGj6Q=; b=NBbcOpvnUfE/+xRo
- /JctWD51ZYlKt+wisjifw7TeAA99aUyoW/4r2kfNw9AnoeZDPuVaN1zG14to5qiY
- lq9JHTNbPr08dg/h8ZjxbJHueGmcHDtQqBIFX4rfDY/uVoZ7hugIi4rGFmIa1eOd
- /KGZ66OpNiQ/lUsVCOXwJx+FzutTMoBv1kvPUXfm6CdZnefJskkcai7u90G55Oq3
- HMzy3KnCl6yV/5jk6oGs1PRtwsd9Q3cANGrUhkfBdSs3lcE+btvvcj9P1T8I3UsA
- KZp/TTpVNbzLDQMDlnWzvv/5c+cGGWiN+YYOrHW5RiXidUiaEzHLIfS9MLWvtUGa
- fophKw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bptu2japu-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:05:47 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-8c1cffa1f2dso624972185a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 12:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768507547; x=1769112347;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=mEUYQxV96PnR8jNNyLBEH4rtFWeaUZ6wJwqJC8OGj6Q=;
- b=h3dxbwydapBeo0Mblbpn3cb/hBkwYLl/d4N4BzaahyyrQHX9iCC+kpYXsToyRW3xDr
- PZp+n7xoMH76JU11UUeL9Spm1Yae62puDDThbKV1QhrgnyrXGJmUbyG9EJdNmz6DyqGH
- 54bWDLNxepjsw8ZdhW19++r+gAuKAKkdHPCe907wRrKT8iGygW8MvSg2aiytB4IETC/P
- KdpXDyvjZoJyDm+B1ycpZqQcq05Zp3wF+Cwp+6Xr2Qt3B7mwioYjGLu3nAmHAn50BLqh
- 9h/HMWi/1+GxIak3e8U6Wq5sYXkeowzbJuEotNHGJJIH9ku7UzROpLSUpqt1nICsn3iB
- lGDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768507547; x=1769112347;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=mEUYQxV96PnR8jNNyLBEH4rtFWeaUZ6wJwqJC8OGj6Q=;
- b=GdnECJ1KKgo1GAw0NdlF0rQ9Xf/cq7rRx0PYSp3777Tx65n8zF4hSi+8ajFAXgBcU2
- 7eL5lyxj0m5UC3bA6wHE2fhnPooAczrTX+vMezddA3jYE9x4TFQRQG/mv0ofU4ZosRhl
- gZbgwllxhLOJYodkzZnwpCAON+vEDiXVqap2gjgTuNVI20zy7kGkbhbehybdK19Lk2ED
- M5A4cR48mNoCdv4fJyvRHZNrn+R9F7/CMRBBVjlgj3q1pPtxJJqLdXJfs5fx8JH6kcJ1
- jThx2vLTyoV+T/AzreFHDB9QaoK+Do5FLstMFf6lky+80+STa65976aZ1Z3rUFLiMQQ6
- VaIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWeEEV7kd2ExrEu8Fuwjn5gP/pywOGv4XYPK+aIjp428USSVe+CzkrcW9v+qvOUzVdzboRzcGkcqrk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKjiAQPXugnvdMdX9ohOV2PxVsdzB5+Ho722K7Woyk1HCaWPYt
- Bt8NAYII4T2fvXEaeaDi06TWkQV5kwXzb51wueCoDHn1h1NHrvlrC20nNePMaO0PKYytndDqspD
- fAPBlzX2RlyZxKe+r4nSnJ3d/nQufHN5tjQ3Hj4VopRC9pOE5ic9ZOc4zyqLLmGK7Br/9hxw=
-X-Gm-Gg: AY/fxX7mKz5JJwiZ2hwv2Ou3vfmi/xuhlPpUxGakAybJmhzVvC7Ie9q0k8jbHVsQMTT
- Ay2JbEW9wjM4zdjZPyotCKQu8Gq7YOWMPVH5vzPU/zkvPJbF0nH3cfQ0wGcL4QRGF4LYzfn3t5o
- h+MYN3Lryjp4nY9CZlQfl3quJ2F0g35S4hbk7dJzGi9VPZwoYQKoBStg3dxnvN4vLPrmRE8m4d1
- KM2PTPq4h7Iq7xhoRHGUR6R8GdviC4nOVa6wRPwkl1tdVkJNnF+q7IN4NBvQN0Uh5IzSFyViBvV
- 1nypqF58U4offisbDA/KUdCTPe8f8Z6pV1TNP2wTr3cLy4xU/a8d6QEQ3AKcOmfPm0ELXcjxeiu
- irqRLOFI2IKXfQ4FE+MpkAJgXvdswqWcqcvNV7tn1SrQbXjYgsnwHV5CL9wKkbWP1jtQBnKeoRt
- zdcWHOP4G3CVJXDVh4GhHk7ew=
-X-Received: by 2002:a05:620a:44d3:b0:8ac:70cd:8727 with SMTP id
- af79cd13be357-8c589b97336mr642832685a.11.1768507547125; 
- Thu, 15 Jan 2026 12:05:47 -0800 (PST)
-X-Received: by 2002:a05:620a:44d3:b0:8ac:70cd:8727 with SMTP id
- af79cd13be357-8c589b97336mr642825485a.11.1768507546536; 
- Thu, 15 Jan 2026 12:05:46 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-38384e790casm1381901fa.29.2026.01.15.12.05.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jan 2026 12:05:44 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 15 Jan 2026 22:05:39 +0200
-Subject: [PATCH 2/2] drm/msm/dpu: try reserving the DSPP-less LM first
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F20E10E255
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:06:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1768507562; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nYcjWrwglm1B709uun3vpJlFuUs4SrYuHPzgjt0JIw2Atvjqk1C+pzlv/OwyFq8I4vX1EVNrJI3Rnz7+QP+JBv8a7XoFyRBAP9uTliiEbmsW9HATst/0i1albk/wrdo47R3uYd405aq3wxLlX8t0eL7bN0SAW20ezkK3vFDv0Nk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1768507562;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=MbIA+mLJos8CVGabXte3ym4TbULYWz0GYAfjGThHvpo=; 
+ b=dZb2drQoCAuNw6EE327hYuXLmlv5MeEE8UiHOZnASH+LFDtm9VTCn9bkz6sPXhHhLbNOeLaKU1zzN9f2p3oe4N6ORxwDtuq+e2xB1KQOUY0A3Zg22lsKFYFmsn/q9jVzurdtk1PTJDBKjLKt/bSf1JFAxyKGD9Tm2/WwCNzd3cE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768507562; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=MbIA+mLJos8CVGabXte3ym4TbULYWz0GYAfjGThHvpo=;
+ b=ObUr8nA3AGymEotyNaHeeJjbwrfmStNjuK45D/OLTVZisaK8avk+bR2r7S4omoNX
+ iZoenaLTcF5i9+8J0cNf7GWtiKliR5wCcEumWkHBjX83Fv1Im1n55J9DQQjLfTupPfD
+ MEMBZRXMzgFYuT5WfiW6xWKkUnIC0gg2gUXD5DQs=
+Received: by mx.zohomail.com with SMTPS id 1768507560095147.02504663673642;
+ Thu, 15 Jan 2026 12:06:00 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v9 2/4] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+Date: Thu, 15 Jan 2026 21:05:54 +0100
+Message-ID: <2543019.CQOukoFCf9@workhorse>
+In-Reply-To: <20260115161757.00f7f6df@fedora>
+References: <20260115-panthor-tracepoints-v9-0-e13e4f7d01dc@collabora.com>
+ <20260115-panthor-tracepoints-v9-2-e13e4f7d01dc@collabora.com>
+ <20260115161757.00f7f6df@fedora>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-dpu-fix-dspp-v1-2-b73152c147b3@oss.qualcomm.com>
-References: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
-In-Reply-To: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3109;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=F6xYL/L+rt7LV4dkOFjr+7V2E+S4X2JsuEZcSii4Ri8=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ2amx6T0XMXHt5W2C0ulpAcnvv4znSnHVbeJgbHqxbKkq
- UfFtcI6GY1ZGBi5GGTFFFl8ClqmxmxKDvuwY2o9zCBWJpApDFycAjAR/Vj2f6r9LJ76Ajmz18wy
- ez7hZ3H681ct9uXzGdeEvnt4RPXzxPq5T103lH/OeP3+T862zR7q3Clij2ezLn90a1dQSc+xOTH
- 7J65wm3vzNQ+b6cpod4kQn3CRuXflz72+GfXvU/byspY/5QJaMul7ai+f8lGK+M74NT9zyfefEx
- yYAvIEJtusLpHUemdR0C6bXR8UNudc4vRFftErWR9U6L1YvDW38mB8VdnW9FvcfwxliypbF4nbh
- Jvr5+7duO2t+ZLqEJ+japNMIovKche9n2Rh5TInjsVHUFL2wNuEJwanusQLkqsUWd0SxBn2RzR2
- s5maHD7qIHc3V9T213Vr92ye7o5zR1geaGy+s6PbIXQSAA==
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE1NyBTYWx0ZWRfX8Gcap62RIxVB
- X+A9/lip1Nm6jZ5ZDcn2brBXjyG+6N/6cPdcsoldoN4QcTnJZIYwMusAgbDt2uuBVFwKak88qlG
- MqV++R6m+EIvp78b8UdnZa2b2Rv2EXlEnbOkgU72d7fUR4J44VnO7myzocVJF3/sEQo/tjMreL0
- zZVBrFJWDflFSN5OsLNWI6Hdt8n+/YdrxEpmDkeoGbpEeQ92xI7o3MpI+DNQSU6dsfwRaNYbqWy
- RZjIDyVoFBQe95LKiM3Itkimb3UZFnjX28ksUIuHn4RlSSyFcNHo05uvKUBW1YCHKHqkmoJEP/s
- qO/x4Jpofqw8CSwlzUj1kR+IxuNizIAqNNytLzEQ/YAKWvqViv2TE8IBbuBfoQzkqUSy9onmoR7
- xI94ypgGImzarMd1HvWM4amd06fwg1VXJ342Ypel4OXBMzz0dYrwCEqkqHJ+mS35LbriHn3IfXN
- +mx78e9UKZ/L0jAjQtw==
-X-Proofpoint-ORIG-GUID: xlr30N2RovVmQ3MKU4k3eWJR_XJeCSMb
-X-Authority-Analysis: v=2.4 cv=W6Y1lBWk c=1 sm=1 tr=0 ts=6969489b cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=8oFmcx1cRZW0fiqr4cUA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: xlr30N2RovVmQ3MKU4k3eWJR_XJeCSMb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_06,2026-01-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601150157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,101 +72,415 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On most of the platforms only some mixers have connected DSPP blocks.
-If DSPP is not required for the CRTC, try looking for the LM with no
-DSSP block, leaving DSPP-enabled LMs to CRTCs which actually require
-those.
+On Thursday, 15 January 2026 16:17:57 Central European Standard Time Boris Brezillon wrote:
+> On Thu, 15 Jan 2026 14:59:00 +0100
+> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+> 
+> > The current IRQ helpers do not guarantee mutual exclusion that covers
+> > the entire transaction from accessing the mask member and modifying the
+> > mask register.
+> > 
+> > This makes it hard, if not impossible, to implement mask modification
+> > helpers that may change one of these outside the normal
+> > suspend/resume/isr code paths.
+> > 
+> > Add a spinlock to struct panthor_irq that protects both the mask member
+> > and register. Acquire it in all code paths that access these, but drop
+> > it before processing the threaded handler function. Then, add the
+> > aforementioned new helpers: enable_events, and disable_events. They work
+> > by ORing and NANDing the mask bits.
+> > 
+> > resume is changed to no longer have a mask passed, as pirq->mask is
+> > supposed to be the user-requested mask now, rather than a mirror of the
+> > INT_MASK register contents. Users of the resume helper are adjusted
+> > accordingly, including a rather painful refactor in panthor_mmu.c.
+> > 
+> > In panthor_mmu.c, the bespoke mask modification is excised, and replaced
+> > with enable_events/disable_events in as_enable/as_disable.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.h | 74 +++++++++++++++++++++++++-------
+> >  drivers/gpu/drm/panthor/panthor_fw.c     |  3 +-
+> >  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c    | 47 ++++++++++----------
+> >  drivers/gpu/drm/panthor/panthor_pwr.c    |  2 +-
+> >  5 files changed, 87 insertions(+), 41 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 2bf9a8434dc5..42580968adb3 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -84,9 +84,12 @@ struct panthor_irq {
+> >  	/** @irq: IRQ number. */
+> >  	int irq;
+> >  
+> > -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> > +	/** @mask: Values to write to xxx_INT_MASK if active. */
+> >  	u32 mask;
+> >  
+> > +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> > +	spinlock_t mask_lock;
+> > +
+> >  	/** @state: one of &enum panthor_irq_state reflecting the current state. */
+> >  	atomic_t state;
+> >  };
+> > @@ -422,6 +425,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+> >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> >  	enum panthor_irq_state state;								\
+> >  												\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> 
+> That's me being old school, but I prefer to have a scoped_guard()
+> around the INT_MASK write happening at the end to reflect exactly the
+> data you're protecting against concurrent access. Unless mask_lock also
+> covers the state changes, in which case the documentation should
+> reflect that.
+> 
+> 
+> Also, _irqsave() in an interrupt context is redundant, I think, but
+> it's less of an issue, I guess.
+> 
+> > +												\
+> >  	state = atomic_read(&pirq->state);							\
+> >  	if (state == PANTHOR_IRQ_STATE_SUSPENDED || state == PANTHOR_IRQ_STATE_SUSPENDING)	\
+> >  		return IRQ_NONE;								\
+> > @@ -438,11 +443,16 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> >  	enum panthor_irq_state state;								\
+> >  	irqreturn_t ret = IRQ_NONE;								\
+> > +	u32 mask;										\
+> >  												\
+> > -	atomic_cmpxchg(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE, PANTHOR_IRQ_STATE_PROCESSING);	\
+> > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > +		mask = pirq->mask;								\
+> > +		atomic_cmpxchg(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE,				\
+> > +			       PANTHOR_IRQ_STATE_PROCESSING);					\
+> 
+> Okay, it seems like it's the <mask,state> pair the lock protects.
+> There's probably a good reason which I'm missing, so it's probably
+> worth adding a comment somewhere to explain the locking scheme.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 52 +++++++++++++++++++++++++---------
- 1 file changed, 38 insertions(+), 14 deletions(-)
+The reason why I try to do state changes inside the lock rather than
+keeping the critical section to a minimum is that it reduces the number
+of <mask,state> combinations that are visible to other code paths to
+a minimum. If I didn't do it here for example, I'd have to deal with
+the cognitive load of a situation where one thread is going through
+_suspend, and I need to make sure that no matter the order the state
+changes become visible to this thread, we don't misbehave.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 7e77d88f8959..451a4fcf3e65 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -350,28 +350,26 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
- 	return true;
- }
- 
--static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
--			       struct dpu_global_state *global_state,
--			       uint32_t crtc_id,
--			       struct msm_display_topology *topology)
-+static bool dpu_rm_find_lms(struct dpu_rm *rm,
-+			    struct dpu_global_state *global_state,
-+			    uint32_t crtc_id, bool skip_dspp,
-+			    struct msm_display_topology *topology,
-+			    int *lm_idx, int *pp_idx, int *dspp_idx)
- 
- {
--	int lm_idx[MAX_BLOCKS];
--	int pp_idx[MAX_BLOCKS];
--	int dspp_idx[MAX_BLOCKS] = {0};
- 	int i, lm_count = 0;
- 
--	if (!topology->num_lm) {
--		DPU_ERROR("zero LMs in topology\n");
--		return -EINVAL;
--	}
--
- 	/* Find a primary mixer */
- 	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
- 			lm_count < topology->num_lm; i++) {
- 		if (!rm->mixer_blks[i])
- 			continue;
- 
-+		if (skip_dspp && to_dpu_hw_mixer(rm->mixer_blks[i])->cap->dspp) {
-+			DPU_DEBUG("Skipping LM_%d, skipping LMs with DSPPs\n", i);
-+			continue;
-+		}
-+
- 		/*
- 		 * Reset lm_count to an even index. This will drop the previous
- 		 * primary mixer if failed to find its peer.
-@@ -410,12 +408,38 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 		}
- 	}
- 
--	if (lm_count != topology->num_lm) {
-+	return lm_count == topology->num_lm;
-+}
-+
-+static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
-+			       struct dpu_global_state *global_state,
-+			       uint32_t crtc_id,
-+			       struct msm_display_topology *topology)
-+
-+{
-+	int lm_idx[MAX_BLOCKS];
-+	int pp_idx[MAX_BLOCKS];
-+	int dspp_idx[MAX_BLOCKS] = {0};
-+	int i;
-+	bool found;
-+
-+	if (!topology->num_lm) {
-+		DPU_ERROR("zero LMs in topology\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Try using non-DSPP LM blocks first */
-+	found = dpu_rm_find_lms(rm, global_state, crtc_id, !topology->num_dspp,
-+				topology, lm_idx, pp_idx, dspp_idx);
-+	if (!found && !topology->num_dspp)
-+		found = dpu_rm_find_lms(rm, global_state, crtc_id, false,
-+					topology, lm_idx, pp_idx, dspp_idx);
-+	if (!found) {
- 		DPU_DEBUG("unable to find appropriate mixers\n");
- 		return -ENAVAIL;
- 	}
- 
--	for (i = 0; i < lm_count; i++) {
-+	for (i = 0; i < topology->num_lm; i++) {
- 		global_state->mixer_to_crtc_id[lm_idx[i]] = crtc_id;
- 		global_state->pingpong_to_crtc_id[pp_idx[i]] = crtc_id;
- 		global_state->dspp_to_crtc_id[dspp_idx[i]] =
+I'm fairly sure that example would be okay in this case, but the
+problem is more that I have to think about it at all. Doing a state
+change within the lock means that we know we're not going to spin
+at the lock after already proclaiming to the world that our state
+changed. Similarly, doing it within the lock rather than after the
+lock means that we won't get an inopportune interleave with something
+else after modifying the mask and dropping the lock but before changing
+the state atomic.
 
--- 
-2.47.3
+Saying that the lock protects the state atomic also isn't 100% true
+because suspend writes to it outside the lock. It's allowed to do that
+as a SUSPENDING->SUSPENDED transition that isn't mutually exclusive
+with someone else doing mask related things is fine, as we're
+already done with the mask by then, and nobody will mess with it
+if we're SUSPENDING.
+
+> > +	}											\
+> >  												\
+> >  	while (true) {										\
+> > -		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> > +		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & mask);		\
+> >  												\
+> >  		if (!status)									\
+> >  			break;									\
+> > @@ -451,10 +461,16 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  		ret = IRQ_HANDLED;								\
+> >  	}											\
+> >  												\
+> > -	state = atomic_read(&pirq->state);							\
+> > -	if (state != PANTHOR_IRQ_STATE_SUSPENDED && state != PANTHOR_IRQ_STATE_SUSPENDING) {	\
+> > -		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> > -		atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);				\
+> > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > +		state = atomic_read(&pirq->state);						\
+> > +		if (state != PANTHOR_IRQ_STATE_SUSPENDED &&					\
+> > +		    state != PANTHOR_IRQ_STATE_SUSPENDING) {					\
+> > +			/* Only restore the bits that were used and are still enabled */	\
+> > +			gpu_write(ptdev, __reg_prefix ## _INT_MASK,				\
+> > +				  gpu_read(ptdev, __reg_prefix ## _INT_MASK) |			\
+> > +				  (mask & pirq->mask));						\
+> > +			atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);			\
+> > +		}										\
+> >  	}											\
+> >  												\
+> >  	return ret;										\
+> > @@ -462,19 +478,21 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> >  												\
+> >  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+> >  {												\
+> > -	pirq->mask = 0;										\
+> > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> > -	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDING);					\
+> > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> > +		atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDING);				\
+> > +	}											\
+> >  	synchronize_irq(pirq->irq);								\
+> >  	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDED);					\
+> >  }												\
+> >  												\
+> > -static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+> > +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq)			\
+> >  {												\
+> > -	pirq->mask = mask;									\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > +												\
+> >  	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);					\
+> > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
+> > +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
+> > +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+> >  }												\
+> >  												\
+> >  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> > @@ -483,13 +501,39 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> >  {												\
+> >  	pirq->ptdev = ptdev;									\
+> >  	pirq->irq = irq;									\
+> > -	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+> > +	pirq->mask = mask;									\
+> > +	spin_lock_init(&pirq->mask_lock);							\
+> > +	panthor_ ## __name ## _irq_resume(pirq);						\
+> >  												\
+> >  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+> >  					 panthor_ ## __name ## _irq_raw_handler,		\
+> >  					 panthor_ ## __name ## _irq_threaded_handler,		\
+> >  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+> >  					 pirq);							\
+> > +}												\
+> > +												\
+> > +static inline void panthor_ ## __name ## _irq_enable_events(struct panthor_irq *pirq, u32 mask)	\
+> > +{												\
+> > +	enum panthor_irq_state state;								\
+> > +												\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > +												\
+> > +	state = atomic_read(&pirq->state);							\
+> > +	pirq->mask |= mask;									\
+> > +	if (state != PANTHOR_IRQ_STATE_SUSPENDED || state != PANTHOR_IRQ_STATE_SUSPENDING)	\
+> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> > +}												\
+> > +												\
+> > +static inline void panthor_ ## __name ## _irq_disable_events(struct panthor_irq *pirq, u32 mask)\
+> > +{												\
+> > +	enum panthor_irq_state state;								\
+> > +												\
+> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > +												\
+> > +	state = atomic_read(&pirq->state);							\
+> > +	pirq->mask &= ~mask;									\
+> > +	if (state != PANTHOR_IRQ_STATE_SUSPENDED || state != PANTHOR_IRQ_STATE_SUSPENDING)	\
+> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> >  }
+> >  
+> >  extern struct workqueue_struct *panthor_cleanup_wq;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > index a64ec8756bed..0e46625f7621 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > @@ -1080,7 +1080,8 @@ static int panthor_fw_start(struct panthor_device *ptdev)
+> >  	bool timedout = false;
+> >  
+> >  	ptdev->fw->booted = false;
+> > -	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
+> > +	panthor_job_irq_enable_events(&ptdev->fw->irq, ~0);
+> 
+> We don't change the mask after initialization AFAICT, so I'm not sure
+> this _enable_events() is needed.
+
+The mask is initialized to 0. I think I can drop this, as long as it's
+fine that the mask bits are enabled as soon as the IRQ is requested,
+since the IRQ request helper resumes it.
+
+> > +	panthor_job_irq_resume(&ptdev->fw->irq);
+> >  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
+> >  
+> >  	if (!wait_event_timeout(ptdev->fw->req_waitqueue,
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > index 057e167468d0..9304469a711a 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > @@ -395,7 +395,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+> >   */
+> >  void panthor_gpu_resume(struct panthor_device *ptdev)
+> >  {
+> > -	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+> > +	panthor_gpu_irq_resume(&ptdev->gpu->irq);
+> >  	panthor_hw_l2_power_on(ptdev);
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 198d59f42578..a1b7917a31b1 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -562,9 +562,21 @@ static u64 pack_region_range(struct panthor_device *ptdev, u64 *region_start, u6
+> >  	return region_width | *region_start;
+> >  }
+> >  
+> > +static u32 panthor_mmu_as_fault_mask(struct panthor_device *ptdev, u32 as)
+> > +{
+> > +	return BIT(as);
+> > +}
+> > +
+> > +/* Forward declaration to call helpers within as_enable/disable */
+> > +static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status);
+> > +PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+> > +
+> >  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+> >  				 u64 transtab, u64 transcfg, u64 memattr)
+> >  {
+> > +	panthor_mmu_irq_enable_events(&ptdev->mmu->irq,
+> > +				       panthor_mmu_as_fault_mask(ptdev, as_nr));
+> > +
+> >  	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
+> >  	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
+> >  	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
+> > @@ -580,6 +592,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
+> >  
+> >  	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+> >  
+> > +	panthor_mmu_irq_disable_events(&ptdev->mmu->irq,
+> > +				       panthor_mmu_as_fault_mask(ptdev, as_nr));
+> 
+> I'd move that at the end, when everything else in this function
+> succeeded.
+
+That would be a functional change from what the behaviour was prior to
+moving disable_events into as_disable.
+
+> 
+> > +
+> >  	/* Flush+invalidate RW caches, invalidate RO ones. */
+> >  	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
+> >  				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
+> > @@ -612,11 +627,6 @@ static u32 panthor_mmu_fault_mask(struct panthor_device *ptdev, u32 value)
+> >  	return value & GENMASK(15, 0);
+> >  }
+> >  
+> > -static u32 panthor_mmu_as_fault_mask(struct panthor_device *ptdev, u32 as)
+> > -{
+> > -	return BIT(as);
+> > -}
+> > -
+> >  /**
+> >   * panthor_vm_has_unhandled_faults() - Check if a VM has unhandled faults
+> >   * @vm: VM to check.
+> > @@ -670,6 +680,7 @@ int panthor_vm_active(struct panthor_vm *vm)
+> >  	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
+> >  	int ret = 0, as, cookie;
+> >  	u64 transtab, transcfg;
+> > +	u32 fault_mask;
+> >  
+> >  	if (!drm_dev_enter(&ptdev->base, &cookie))
+> >  		return -ENODEV;
+> > @@ -743,14 +754,13 @@ int panthor_vm_active(struct panthor_vm *vm)
+> >  	/* If the VM is re-activated, we clear the fault. */
+> >  	vm->unhandled_fault = false;
+> >  
+> > -	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+> > -	 * before enabling the AS.
+> > +	/* Unhandled pagefault on this AS, clear the fault and enable the AS,
+> > +	 * which re-enables interrupts.
+> >  	 */
+> > -	if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as)) {
+> > -		gpu_write(ptdev, MMU_INT_CLEAR, panthor_mmu_as_fault_mask(ptdev, as));
+> > -		ptdev->mmu->as.faulty_mask &= ~panthor_mmu_as_fault_mask(ptdev, as);
+> > -		ptdev->mmu->irq.mask |= panthor_mmu_as_fault_mask(ptdev, as);
+> > -		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
+> > +	fault_mask = panthor_mmu_as_fault_mask(ptdev, as);
+> > +	if (ptdev->mmu->as.faulty_mask & fault_mask) {
+> > +		gpu_write(ptdev, MMU_INT_CLEAR, fault_mask);
+> > +		ptdev->mmu->as.faulty_mask &= ~fault_mask;
+> >  	}
+> >  
+> >  	/* The VM update is guarded by ::op_lock, which we take at the beginning
+> > @@ -1698,7 +1708,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> >  	while (status) {
+> >  		u32 as = ffs(status | (status >> 16)) - 1;
+> >  		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
+> > -		u32 new_int_mask;
+> >  		u64 addr;
+> >  		u32 fault_status;
+> >  		u32 exception_type;
+> > @@ -1716,8 +1725,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> >  		mutex_lock(&ptdev->mmu->as.slots_lock);
+> >  
+> >  		ptdev->mmu->as.faulty_mask |= mask;
+> > -		new_int_mask =
+> > -			panthor_mmu_fault_mask(ptdev, ~ptdev->mmu->as.faulty_mask);
+> >  
+> >  		/* terminal fault, print info about the fault */
+> >  		drm_err(&ptdev->base,
+> > @@ -1741,11 +1748,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> >  		 */
+> >  		gpu_write(ptdev, MMU_INT_CLEAR, mask);
+> >  
+> > -		/* Ignore MMU interrupts on this AS until it's been
+> > -		 * re-enabled.
+> > -		 */
+> > -		ptdev->mmu->irq.mask = new_int_mask;
+> > -
+> 
+> I guess we need a _diable_events(mask) to replace this.
+
+Nope! It lives in as_disable now, which is called a bit further down
+(outside of the patch context window. Maybe I should play with b4's
+settings to ensure the end of functions is visible in the context).
+
+> >  		if (ptdev->mmu->as.slots[as].vm)
+> >  			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
+> >  
+> > @@ -1760,7 +1762,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> >  	if (has_unhandled_faults)
+> >  		panthor_sched_report_mmu_fault(ptdev);
+> >  }
+> > -PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+> >  
+> >  /**
+> >   * panthor_mmu_suspend() - Suspend the MMU logic
+> > @@ -1805,7 +1806,7 @@ void panthor_mmu_resume(struct panthor_device *ptdev)
+> >  	ptdev->mmu->as.faulty_mask = 0;
+> >  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> >  
+> > -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> > +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+> >  }
+> >  
+> >  /**
+> > @@ -1859,7 +1860,7 @@ void panthor_mmu_post_reset(struct panthor_device *ptdev)
+> >  
+> >  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> >  
+> > -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> > +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+> >  
+> >  	/* Restart the VM_BIND queues. */
+> >  	mutex_lock(&ptdev->mmu->vm.lock);
+> > diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
+> > index 57cfc7ce715b..ed3b2b4479ca 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_pwr.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
+> > @@ -545,5 +545,5 @@ void panthor_pwr_resume(struct panthor_device *ptdev)
+> >  	if (!ptdev->pwr)
+> >  		return;
+> >  
+> > -	panthor_pwr_irq_resume(&ptdev->pwr->irq, PWR_INTERRUPTS_MASK);
+> > +	panthor_pwr_irq_resume(&ptdev->pwr->irq);
+> >  }
+> > 
+> 
+> 
+
+
+
 
