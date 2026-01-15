@@ -2,61 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA36D240C4
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 12:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39437D237F4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 10:28:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7403010E73B;
-	Thu, 15 Jan 2026 11:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E6210E717;
+	Thu, 15 Jan 2026 09:28:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="Yi7RdSec";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cWtbIack";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Hf5UFYMp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4020 seconds by postgrey-1.36 at gabe;
- Thu, 15 Jan 2026 10:29:23 UTC
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC3C10E023
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:29:23 +0000 (UTC)
-Received: from [133.11.54.205] (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
- (authenticated bits=0)
- by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 60F9KMVP007868
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 15 Jan 2026 18:21:42 +0900 (JST)
- (envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=LGFqAj8v6WdBrMCPG//9ioSBolgDFMSOBS8r4ka1X7I=; 
- c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
- h=Message-ID:Date:Subject:To:From;
- s=rs20250326; t=1768468903; v=1;
- b=Yi7RdSecJdFrZZL7vMGyntOcDjsBWle2MiT4qx7eyGuD9ySh3SMH1X4bdrLTXHcw
- 3ENzByecMhDe0I8Fq0uu+Rt62R/ZhwVWaAKPqiR015qAOmOjym/a2Oj26RBYLhxV
- 6geAw/Nz81K8tAhsDh+LsDV6QP9LadpsKiNf5Yrlof5J4J6Pw6bRbYXrxm2pEL9R
- VqjGHnh2h1it+xHC9FpZ+PSdT/vbvRiwhReoUtCS141atxTu4KFmU29gnlgYjaLT
- +Qb9ZnczL0y98QEqx8EC6r6XtNDP1W6wFvQ/JmXL0YwzPhvRgiUVm0wIkrXOQE4L
- cD5hSa6n3dzBh8ryPoCsVA==
-Message-ID: <5b66df7d-374c-4e9c-88d5-bb514f9a7725@rsg.ci.i.u-tokyo.ac.jp>
-Date: Thu, 15 Jan 2026 18:20:22 +0900
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D992789321
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:11 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60F6g2H3783428
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=FV3nONimYsR0PrhxI5KPJUKAwXWGm5Fx9h2
+ vmS9IGy8=; b=cWtbIack/GPOswRmiz/IdCY4Ooq2WW+TUMInLIpoDDcH/s1bxxT
+ zha1Ql0Fh3C2ZVHfgivUTuElxgxhUa95MhhNpCZy810ftY8Ko/r4Bg0NFwjyFljw
+ AOCBoUqL3rvn03KTAd3Ex2y4T74H8fCre1JqPBKRc/DYLsBGa+647/Nww6RbGbB1
+ iMpONPNwjRD3xlxd1BPvoLPpBANKvvItX0A0XPkjFQ+DXgUNRA9WMHNgFIjNEFID
+ aEmVdx35X15dBKCQxSNwWO4PDEMEaLec3Sb2KMEBHN0nd6W3+A7I+7NX3ithsl3n
+ 4vPI8o5KI3h1uCvwml9hozATYke3QHI5w+Q==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbj5kbpn-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:10 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-88a360b8096so17958946d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 01:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768469290; x=1769074090;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FV3nONimYsR0PrhxI5KPJUKAwXWGm5Fx9h2vmS9IGy8=;
+ b=Hf5UFYMpgZj92ZSn2bktSzS853ICqNj66Wwx/dtSwNVA5bEytLcQAp44wdfmKdprMG
+ KrGCzB3JTAg994O/YHhrswcsl+pgIai4FGDsGmlbMi9W8j0J3c9lVgY3nTM+0Y7vz+DA
+ n8iThxXVe9YTpM/FQALQEqSqt1fQYQSUBOwKG3LR75Rqxql6c7yvXzrYV3jm1S9P5NXS
+ KarpoCcwZYIyjpp916loXCm7+iWr7oYAtrlWqw5y6TSGiHbMlWm/1wGxidxC9zAMUUax
+ 0kF9m1qX2vJLBbVxpGJ+LpINMMwKxoH/9iZkUfMdjtgY00QaDFApUGhmR3IAyq+ld6KT
+ X0LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768469290; x=1769074090;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FV3nONimYsR0PrhxI5KPJUKAwXWGm5Fx9h2vmS9IGy8=;
+ b=C77Bl+QsKOTpN5KSHmxUzbQcdMMdclPLvIVKVyKi/fRs+D599V9QnnjHgRQpBbD8qb
+ 0F9VmMCIOmXRGUArUfHvroOQUmyba3xvAjbSRMeZU+eqSAnpXwToqJBWBg9CGEdxuoeR
+ 9xuDUo60Lakgr2O1Qe07I+WZo8XtP/MaBOp7IdroxJVCejgT8WKGbhA6vgPXjmAmClRr
+ 5iYkXUQcOBWK3Q5FguAdM4e+oJhkNQ4jO34UbpEtrP0jUx5prvsj2LzKRvUfx5WFXQ4g
+ YWatVzMrdZEzsxAEI2isfa00SCd5NHznRUyjNKNHGWIXXfXEbPgDO4XsEUaW3hhfqDXt
+ LUNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfNP7AEIC2XlkRWCxjYEJAwMWqCWoDNiZZ2NhIuwS6mjPQENxK2t28ksgCbGD5qcIKt0zPbQAosQE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1jNPgFgfRE93a+6tvUGf7TUKnyhHm4+c6KpOD1XG18CyfHGsX
+ 7XETjgQZMGhpgR2HI7dMdQhw19jIQ/KSXVMuDF4euyM8iuNMoQNPXOw2JXekaPYr1MXkbFcVEVr
+ aOXh8FiRh/dRsSxp0zLl0y9+jY6x8bOM4lt/iCAi95QXOs6o/GXkOImHX7DKidohPuacKzvk=
+X-Gm-Gg: AY/fxX7IdVuu+OYb+8R3KfMepKSpIInacf6q3ODe+9vYxK47seOq1yy+jYWg3PCqfYy
+ XXECbCPVbmAhxb93x0Sjcg88/uuCLc3LIKKefHDmJLtb0Xo7oa7OyaETkCOL3s/Z0UyVIKJtI8I
+ zOFESy5CLgIjF8fNdJ/n/wI2FxS2IgxaY1KNQB/T/kQG0Tp/ASpAy95v/dlfr09ku+pvsNJ7vf9
+ hX7FC5JWV8/oLGwjZosKWC6gPpIy50JSAYeT3gC4a5OEwqG2OYkrz3YWAp3NqEKrQ44piGYkORn
+ 7UxVas0+9/M0v6vjuzSrlkEocGDea60MlxOCR12GpUbC6oaGmKbbomgPncNWLwOwqq9efuhdQP/
+ nPdV3aROp5rO5i7s8uMhTyZQOJ3a5u8PhyoPAWI8HUyoTexcuCrr+oYSVA+5t39pGsB0=
+X-Received: by 2002:ad4:5baa:0:b0:87c:2967:fd32 with SMTP id
+ 6a1803df08f44-89274387480mr77132426d6.22.1768469290189; 
+ Thu, 15 Jan 2026 01:28:10 -0800 (PST)
+X-Received: by 2002:ad4:5baa:0:b0:87c:2967:fd32 with SMTP id
+ 6a1803df08f44-89274387480mr77132276d6.22.1768469289733; 
+ Thu, 15 Jan 2026 01:28:09 -0800 (PST)
+Received: from yuanjiey.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
+ [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-892668a2419sm64388416d6.30.2026.01.15.01.28.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jan 2026 01:28:09 -0800 (PST)
+From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
+To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, neil.armstrong@linaro.org,
+ konrad.dybcio@oss.qualcomm.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: [PATCH v6 00/12] drm/msm: Add support for Kaanapali
+Date: Thu, 15 Jan 2026 17:27:37 +0800
+Message-Id: <20260115092749.533-1-yuanjie.yang@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] virtio-gpu: Add userptr support for compute
- workloads
-To: Honglei Huang <honglei1.huang@amd.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Ray.Huang@amd.com
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- Honglei Huang <honghuan@amd.com>
-References: <20260115075851.173318-1-honglei1.huang@amd.com>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260115075851.173318-1-honglei1.huang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Thu, 15 Jan 2026 11:03:08 +0000
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA2NSBTYWx0ZWRfX5lLNZn4SkELs
+ TCpmhfyAHvQjt5bfvPhTUCFFG9Ku4kNgaUbTeYEy8rZR+mzmAo84JDI0++VYKJ8RJSLBHz1cPOA
+ joL5BOEpDqcBLTNcvWY6L6q/qhwd8hkd8eSJ09tIesVwvGTUIyChAGP4iTMVv/JKOcIxgaOiglK
+ mguFmaAp4J/Glg8t7zQPm19powRHxdPoG00J9ovILxJAn3IStcsvbpx6q5nVwkWSJPYheFoXwuZ
+ 8vqKCzoZT5vwOWEK3B6we/CAvmcoSeQ1ekiqtE+Sj5S5zbWTojuHRLEE/hpAyisn14A+gTy4dcI
+ bXJULkqfYUXpuyJA43Eyj5/W49Vb5dahOQkaZfRpRxFKv2H3AVXYNLqZ6pHH0SX3sC6ywtJi/Ge
+ DKAc6f30rUSun++CglnW7ysCID25FJG5bCCH74TopvrSa4E/mMF35NlLwhaDAMPtvudOgqvq3Cf
+ PZdMmlw0zhkZvPVI/fw==
+X-Proofpoint-ORIG-GUID: 7CJgIimegu4Rl3KmpQqPvtTQmX3_QX7x
+X-Proofpoint-GUID: 7CJgIimegu4Rl3KmpQqPvtTQmX3_QX7x
+X-Authority-Analysis: v=2.4 cv=aapsXBot c=1 sm=1 tr=0 ts=6968b32a cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=qC_FGOx9AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=oHaaim5x4gMG4YHD5WcA:9
+ a=1HOtulTD9v-eNWfpl4qZ:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_02,2026-01-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601150065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,98 +140,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2026/01/15 16:58, Honglei Huang wrote:
-> From: Honglei Huang <honghuan@amd.com>
-> 
-> Hello,
-> 
-> This series adds virtio-gpu userptr support to enable ROCm native
-> context for compute workloads. The userptr feature allows the host to
-> directly access guest userspace memory without memcpy overhead, which is
-> essential for GPU compute performance.
-> 
-> The userptr implementation provides buffer-based zero-copy memory access.
-> This approach pins guest userspace pages and exposes them to the host
-> via scatter-gather tables, enabling efficient compute operations.
+From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-This description looks identical with what 
-VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST does so there should be some 
-explanation how it makes difference.
+The Kaanapali MDSS has some differences compared to the SM8750 MDSS:
+- DSI PHY/DSI base address have some changes.
+- DPU 13.0:
+  - SSPP layout has a great change.
+  - interrupt INTF layout has some changes.
 
-I have already pointed out this when reviewing the QEMU patches[1], but 
-I note that here too, since QEMU is just a middleman and this matter is 
-better discussed by Linux and virglrenderer developers.
+This patchset contains DSI PHY, DSI Controller, DPU & MDSS bindings
+in addition to the driver changes.
 
-[1] 
-https://lore.kernel.org/qemu-devel/35a8add7-da49-4833-9e69-d213f52c771a@amd.com/
+We have already tested the display functionality using the Kaanapali-mtp
+device on the Kaanapali branch of kernel-qcom repository.
+Test command: "modetest -r -v"
+kernel-qcom repository: https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/tree/kaanapali
 
-> 
-> Key features:
-> - Zero-copy memory access between guest userspace and host GPU
-> - Read-only and read-write userptr support
-> - Runtime feature detection via VIRTGPU_PARAM_RESOURCE_USERPTR
-> - ROCm capset support for ROCm stack integration
-> - Proper page lifecycle management with FOLL_LONGTERM pinning
-> 
-> Patches overview:
-> 1. Add VIRTIO_GPU_CAPSET_ROCM capability for compute workloads
-> 2. Add virtio-gpu API definitions for userptr blob resources
-> 3. Extend DRM UAPI with comprehensive userptr support
-> 4. Implement core userptr functionality with page management
-> 5. Integrate userptr into blob resource creation and advertise to userspace
-> 
-> Performance: In popular compute benchmarks, this implementation achieves
-> approximately 70% efficiency compared to bare metal OpenCL performance on
-> AMD V2000 hardware, achieves 92% efficiency on AMD W7900 hardware.
-> 
-> Testing: Verified with ROCm stack and OpenCL applications in VIRTIO virtualized
-> environments.
-> - Full OPENCL CTS tests passed on ROCm 5.7.0 in V2000 platform.
-> - Near 70% percentage of OPENCL CTS tests passed on ROCm 7.0 W7900 platform.
-> - most HIP catch tests passed on ROCm 7.0 W7900 platform.
-> - Some AI applications enabled on ROCm 7.0 W7900 platform.
-> 
-> V4 changes:
->      - Renamed VIRTIO_GPU_CAPSET_HSAKMT to VIRTIO_GPU_CAPSET_ROCM
->      - Remove userptr feature probing cause it can reuse the guest
->        blob resource code path, reduce patch count from 6 to 5
->      - Updated corresponding commit messages
->      - Consolidated userptr feature detection in final patch
->      - Update corresponding cover letter content
-> 
-> V3 changes:
->      - Split into focused patches for easier review
->      - Removed complex interval tree userptr management
->      - Simplified resource creation without deduplication
->      - Added VIRTGPU_PARAM_RESOURCE_USERPTR for feature detection
->      - Improved UAPI documentation and error handling
->      - Enhanced code quality with proper cleanup paths
->      - Removed MMU notifier dependencies for simplicity
->      - Fixed resource lifecycle management issues
-> 
-> V2: - Split add HSAKMT context and blob userptr resource to two patches.
->      - Remove MMU notifier related patches, cause use not moveable user space
->        memory with MMU notifier is not a good idea.
->      - Remove HSAKMT context check when create context, let all the context
->        support the userptr feature.
->      - Remove MMU notifier related content in cover letter.
->      - Add more comments  for patch 6 in cover letter.
-> 
-> Honglei Huang (5):
->    drm/virtio-gpu: Add VIRTIO_GPU_CAPSET_ROCM capability
->    virtio-gpu api: add blob userptr resource
->    drm/virtgpu api: add blob userptr resource
->    drm/virtio: implement userptr support for zero-copy memory access
->    drm/virtio: advertise base userptr feature to userspace
-> 
->   drivers/gpu/drm/virtio/Makefile          |   3 +-
->   drivers/gpu/drm/virtio/virtgpu_drv.h     |  33 ++++
->   drivers/gpu/drm/virtio/virtgpu_ioctl.c   |   9 +-
->   drivers/gpu/drm/virtio/virtgpu_object.c  |   6 +
->   drivers/gpu/drm/virtio/virtgpu_userptr.c | 231 +++++++++++++++++++++++
->   include/uapi/drm/virtgpu_drm.h           |   9 +
->   include/uapi/linux/virtio_gpu.h          |   7 +
->   7 files changed, 295 insertions(+), 3 deletions(-)
->   create mode 100644 drivers/gpu/drm/virtio/virtgpu_userptr.c
-> 
+Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+---
+Changes in v6:
+- rebase on linux-next tag: next-20260115
+- rebase and fix merge conflict "dt-bindings: display/msm: dsi-phy-7nm: Add Kaanapali DSI PHY"
+- rename _dpu_hw_setup_qos_lut_v13 to dpu_hw_setup_qos_lut_v13 and put it to dpu_hw_util.c
+- fix wrong indentation in dpu_hw_sspp_init_v13
+- Link to v5: https://lore.kernel.org/all/20260108085659.790-1-yuanjie.yang@oss.qualcomm.com/
+
+Changes in v5:
+- move sspp v13 related change from refactor patch to sspp v13 patch
+- move sspp ubwc change to dpu_hw_sspp_setup_format
+- split wb change into a patch
+- Link to v4: https://lore.kernel.org/all/20251222102400.1109-1-yuanjie.yang@oss.qualcomm.com/
+
+Changes in v4:
+- fix qcom,kaanapali-mdss.yaml compile error
+- reorganize SSPP patch order
+- fix Dmitry ohter comment
+- rebase on top of msm-next
+- Link to v3: https://lore.kernel.org/all/20251215083854.577-1-yuanjie.yang@oss.qualcomm.com/
+
+Changes in v3:
+- split SSPP refactor patch
+- add devicetree email list
+- fix Dmitry comment
+- rebase on top of msm-next
+- Link to v2: https://lore.kernel.org/all/20251125064758.7207-1-yuanjie.yang@oss.qualcomm.com/
+
+Changes in v2:
+- Drop panel patch
+- adjust patch order (bindings then drivers)
+- add dpu_hw_ssppv13.c to complete kaanapali SSPP function
+- fix bindings example dts compile error
+- fix other comment
+- rebase on top of msm-next
+- Link to v1: https://lore.kernel.org/all/20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com/
+
+---
+Yuanjie Yang (12):
+  dt-bindings: display/msm: qcom,kaanapali-dpu: Add Kaanapali
+  dt-bindings: display/msm: dsi-phy-7nm: Add Kaanapali DSI PHY
+  dt-bindings: display/msm: dsi-controller-main: Add Kaanapali
+  dt-bindings: display/msm: qcom,kaanapali-mdss: Add Kaanapali
+  drm/msm/mdss: Add support for Kaanapali
+  drm/msm/dsi/phy: Add support for Kaanapali
+  drm/msm/dsi: Add support for Kaanapali
+  drm/msm/dpu: Add interrupt registers for DPU 13.0.0
+  drm/msm/dpu: Refactor SSPP to compatible DPU 13.0.0
+  drm/msm/dpu: Add Kaanapali SSPP sub-block support
+  drm/msm/dpu: Add Kaanapali WB support
+  drm/msm/dpu: Add support for Kaanapali DPU
+
+ .../display/msm/dsi-controller-main.yaml      |   2 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml     |   1 +
+ .../display/msm/qcom,kaanapali-mdss.yaml      | 297 +++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml |   1 +
+ drivers/gpu/drm/msm/Makefile                  |   1 +
+ .../disp/dpu1/catalog/dpu_13_0_kaanapali.h    | 492 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  41 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  15 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  89 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 124 +++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  56 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c   | 321 ++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  18 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c             |  13 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     |  23 +
+ drivers/gpu/drm/msm/msm_mdss.c                |  10 +-
+ 22 files changed, 1475 insertions(+), 54 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
+
+-- 
+2.34.1
 
