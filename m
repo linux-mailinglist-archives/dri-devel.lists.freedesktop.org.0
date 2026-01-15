@@ -2,138 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269DDD23DA0
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 11:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAC3D23DA9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 11:12:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F77110E734;
-	Thu, 15 Jan 2026 10:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A699410E731;
+	Thu, 15 Jan 2026 10:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CPzvQv0t";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RaFEu0kq";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="bxaN1m3E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E831010E731
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:12:08 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60F6fjMR1850838
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:12:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7KiZ+TnHo2tA4f2TfOgmaOGzuxQPX0E0QWOJIMh7jkk=; b=CPzvQv0t+5jnexkT
- oncy2Dbo1565GT+hNtQto9snPQEMr9aGXSogDWnSmLM0rvXtqjlcj4d0P/Z/Ll23
- Ipu4g6vGVDgmG2Y4Yb5iSF2c+JoI6CwccJM4MCiMLQ//wBdV0f0Jwa9SCcYwMRjw
- b0Y/3nXzcI/O0L/Z+l7uhJKy1MPqXk8AeomlRxG2RXUUUfMmIc2I1uoluqxt0KeD
- 3NClpsRLn3DRfEfVEvNfi6mWT6kE9d66PC8aToyA8JwqNXLXA8QRKps/W/Ksgao4
- scn9KUBEUpSES9Za7PTZCv/fVf4XliY/U6KQxeibei6uQ8mzf+fYHlzZB3TWi4wI
- Pa7Rww==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bprej12d1-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:12:08 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-501476535f8so2366741cf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 02:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768471927; x=1769076727;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7KiZ+TnHo2tA4f2TfOgmaOGzuxQPX0E0QWOJIMh7jkk=;
- b=RaFEu0kq6JqmB+su6wb4SbI17MkZxicuaLJRFjLXFu8u1xXHNi22msy3xd+0I17bDm
- JRY23S5GEJmm9LD09Vu5QO+HfFVDcFNkg7nEfItWDY81xPVj9e+MjL3k//eavW7KXuHH
- fAS366a0Hh6MMjea8r/xIHsgxjgUsGj1hFMY4tXE99XX0tUvGRonX2STADNifVQROGA/
- aYk37CaFoqkqns62MQ86QUxwKHdUBBjSo/iYmJnSBRXcRSCoWjhJ/qSvBGSoC5qyQXXd
- q0akxs2TUkfai+iwM5B5Rv4/W6xW7zDNdIHY0IhCplsbf102XcoajPcvsd8XHD+mTOrg
- 2IEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768471927; x=1769076727;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7KiZ+TnHo2tA4f2TfOgmaOGzuxQPX0E0QWOJIMh7jkk=;
- b=iHw4t9q+godmlZsXMHwt+wSl5bx09QqBBSyTDuN37F+wMJsGQIfBjpkuJcOTu0y+la
- Nk7zleOj3zeHsQ/GlSaw0AMznWVdreUJX/BL003IMETELrWfHRyNfv2EUfxJdltf5sRz
- 1Ops1k+HK6YvYVp+06OFQRicEPKiObYeE7Oo1ZAi8dZeoW8/GSssruqjYo//1IAv39rh
- IHMcr9xdAhqsmFI2FpzPV9nActBQUX1OkoFPVjy7iCYguIWq0YFEhbj8T9BGYYrN4Ja2
- lr9sFZRHUhfGO1nWaLEJIIyCtqPdZfe2W3MTqZsjUrxgvFQPjrbxzo9avmm9rsaNLF+l
- +Lyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXua+UfzFKOkmE79TOudM/UZQ+RDZ4HbWY4eQv2u4XmJUqcPjTLBeYIxldjjpIhZSh2V7X2Vq9tEc0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzauA84YciQiAitx2HDpcP0qjMAaRWuxizCWwy+0MqmJQcqZ+H0
- 2dh18HaXnu+CLfHm7sDH2jwtn6Qkdw7Ts6RJ0onNMaVN+sYFDcqBK6dzdTBLpsewX1TuyNA/wz2
- 43QW9TruSRGYLoVzEtPOIbPtyS/zkp4w926AepbQiEZwT724yRFSlTNXKRtrQ+0F7ooSClic=
-X-Gm-Gg: AY/fxX66hdSXzhEUeRVAdhc9wpZN+sh75yrvmC1n74TD409GGZCsbzfPlJDarQPRNcd
- JyIrT7CcT2G3a+r/XfSyLyaL5XZHhJJVLkiX7WxUPl/ZZekpPHAPKriRVykh78uZ0cuynpC1eXl
- ACY/V4W1Ic1j26Lk4b7+1GmUkLMhnwB+YDxi6bdhFsdxqjuuyEAzWCljH+misnOKKeYHjSrr+hZ
- 3/oW79q+E+kFCkLjJyi0sk+WYMhLXU+CTetJlPyYZmE6lB/CKmvBofDwsGJrdT75kWmRdf8xe+u
- KI4cTJy/lg1Flm3dlZAeCJFG4GMZgnzKDbK60HhRRzvuZZPjoFpLA10b+8RhzsycDXIzUet4PlR
- ve/c6hxvHG84ubhZwCC+1B8eQX1PD7PKPlcaN/QnxHm0FulbukBJ780YgenkwJufgDkE=
-X-Received: by 2002:a05:622a:1454:b0:4f1:ac43:8122 with SMTP id
- d75a77b69052e-501481e98a2mr65006211cf.1.1768471927098; 
- Thu, 15 Jan 2026 02:12:07 -0800 (PST)
-X-Received: by 2002:a05:622a:1454:b0:4f1:ac43:8122 with SMTP id
- d75a77b69052e-501481e98a2mr65005841cf.1.1768471926686; 
- Thu, 15 Jan 2026 02:12:06 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b842a563f0esm2816455266b.60.2026.01.15.02.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jan 2026 02:12:06 -0800 (PST)
-Message-ID: <d98339f8-7296-4daa-b625-0908ecd3e65c@oss.qualcomm.com>
-Date: Thu, 15 Jan 2026 11:12:03 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1880810E731
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 10:12:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1768471942; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JMM9eHi7lYWkxDsFYe5i7wRig9Ijjr7ciIyE7Eg2vS4MX5ECEk/qadPMVfVD1OeQYwQ9rbIGJKrS8apb2F8sLbGsaLeK1C6w2xv8nnveCUJF/qc0RpioOtQfcK1PFAI8Kh/v5CF5+U5NV8mvHhzh3mreKdt8RVifw9hfJyj39K0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1768471942;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HBO1BqypUQt71ZpPQagz3HDzPvmRARCaYIuYNm9smIo=; 
+ b=Tcy1ki/XxLX6HpVBgu2KVNaS3ZrrtiAWTVwzrAO86ahkofMa1XMA5rqGK0ThhybDElpAaHKVcoNE3cBaVDtDF3m+wEzktNPI+rjmsapNX8PbR0Nu/CZUH+r1fdtfhJ9kiaBPyUDN/K4vLVafGq9JNAJnwClNcquzWDi3pkNAQyY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768471942; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=HBO1BqypUQt71ZpPQagz3HDzPvmRARCaYIuYNm9smIo=;
+ b=bxaN1m3EhWROrhfF+tD10WfBjd60mUzE2kI9L/tQp572AdD7wu1KeA9ruCE/xKWQ
+ qKd//HwQCK4qT3HLq2JQHMgHdjFwOi/CFXuaZUCtv4dZyzUvlNDPuG7hn8ydpR44KqM
+ PwJB7pg8D1Wl46Y1Ge4hcvZImIq9yjvKGZEe6CUs=
+Received: by mx.zohomail.com with SMTPS id 1768471940586299.03631657866254;
+ Thu, 15 Jan 2026 02:12:20 -0800 (PST)
+Message-ID: <88f6b45d-64e9-49d3-9480-c85b8636f339@collabora.com>
+Date: Thu, 15 Jan 2026 13:12:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] drm/msm/dp: Drop EV_USER_NOTIFICATION
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-References: <20260115-hpd-refactor-v3-0-08e2f3bcd2e0@oss.qualcomm.com>
- <20260115-hpd-refactor-v3-5-08e2f3bcd2e0@oss.qualcomm.com>
- <17990836-4278-4c5b-afa4-eb631930ba2a@oss.qualcomm.com>
- <22a3ab11-9151-41cf-a0f2-8509abbd3d27@oss.qualcomm.com>
+Subject: Re: [PATCH 05/12] drm/virtio: Add sysfb restore on probe failure
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
+ <20251229215906.3688205-6-zack.rusin@broadcom.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <22a3ab11-9151-41cf-a0f2-8509abbd3d27@oss.qualcomm.com>
+In-Reply-To: <20251229215906.3688205-6-zack.rusin@broadcom.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA3MyBTYWx0ZWRfXxNkJV9sc/mpI
- 7jmcjrojqF3NRiEmrgEHavTLFZh6gDxS9WpoK/V4sA17ISn3C4y1EXrwA7wHtFKiA66+8ICgQfs
- PXIzLb9g+vrsVtJVTm5vSC7ooo/4km3AIlS19OPXyf+ttqHH9T6yh4nL849StnR8H6kPgUFNUxi
- ZY0RUwIJ+83dD653kvsujD5RLdOf2ZWmuZTVBSm6GIUndNvWLWnW+BXgNyk/Gc6mzYWq9cp5gKF
- Z1ZCKzmce2BeB2Shwso9d84T8/WFFeA1+ojv1jT9gOXgTWleWkOJFgkVpBicmlRKnMmLPcR2gsS
- 7oXeddbFLY7oIlJekBZ8SEmpvExGCjVnnBcdqY9RF8ct6xTmLg4dP6zfcE5NPT0Zv5RdGPrlh8j
- tSe0ih2O25x1bfFifVgWIr01VmQL0mIm8ZPUWqXpnF/oM9wPYs9/74xSqkdhsM37Kaowd8tj+dH
- mNfefVf6ciKNzyBZmiA==
-X-Proofpoint-ORIG-GUID: hIAK7fBEt2UrHkEJCqt5w3J9aKIlG096
-X-Authority-Analysis: v=2.4 cv=Rc+dyltv c=1 sm=1 tr=0 ts=6968bd78 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=_hlmpyr-2oR44aeFeVMA:9
- a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-GUID: hIAK7fBEt2UrHkEJCqt5w3J9aKIlG096
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- clxscore=1015 bulkscore=0 malwarescore=0 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150073
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,28 +72,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/26 10:42 AM, Dmitry Baryshkov wrote:
+On 12/30/25 00:58, Zack Rusin wrote:
+> Register a devm action on the virtio device to restore the system
+> framebuffer (efifb/simpledrm) if the driver's probe fails after
+> removing the firmware framebuffer.
 > 
+> Unlike PCI drivers, virtio-gpu cannot use the
+> devm_aperture_remove_conflicting_pci_devices() helper because the
+> PCI device is managed by the virtio-pci driver, not by virtio-gpu.
+> When virtio-gpu probe fails, the PCI device remains bound to
+> virtio-pci, so devm actions registered on the PCI device won't fire.
 > 
-> On 15/01/2026 11:41, Konrad Dybcio wrote:
->> On 1/15/26 8:29 AM, Dmitry Baryshkov wrote:
->>> From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->>>
->>> Currently, we queue an event for signalling HPD connect/disconnect. This
->>> can mean a delay in plug/unplug handling and notifying DRM core when a
->>> hotplug happens.
->>>
->>> Drop EV_USER_NOTIFICATION and signal the IRQ event as part of hotplug
->>> handling.
->>
->> IIUC, the drm_helper_hpd_irq_event() -> drm_bridge_hpd_notify() change
->> also prevents us from checking *all* connectors if we get *any* HPD?
+> Instead, register the sysfb restore action on the virtio device
+> (&vdev->dev) which will be released if virtio-gpu probe fails.
+> Cancel the action after successful probe since the driver is now
+> responsible for display output.
 > 
-> _unnecessarily_ checking all connectors if we know that HPD was here.
+> This only applies to VGA devices where aperture_remove_conflicting_pci_devices()
+> is called to remove the firmware framebuffer.
+> 
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: David Airlie <airlied@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> Cc: Chia-I Wu <olvaffe@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: virtualization@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c | 29 ++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> index a5ce96fb8a1d..13cc8396fc78 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  #include <linux/poll.h>
+> +#include <linux/sysfb.h>
+>  #include <linux/vgaarb.h>
+>  #include <linux/wait.h>
+>  
+> @@ -52,6 +53,11 @@ static int virtio_gpu_modeset = -1;
+>  MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+>  module_param_named(modeset, virtio_gpu_modeset, int, 0400);
+>  
+> +static void virtio_gpu_restore_sysfb(void *unused)
+> +{
+> +	sysfb_restore();
+> +}
+> +
+>  static int virtio_gpu_pci_quirk(struct drm_device *dev)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> @@ -75,6 +81,7 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
+>  {
+>  	struct drm_device *dev;
+>  	int ret;
+> +	bool sysfb_restore_registered = false;
+>  
+>  	if (drm_firmware_drivers_only() && virtio_gpu_modeset == -1)
+>  		return -EINVAL;
+> @@ -97,6 +104,21 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
+>  		ret = virtio_gpu_pci_quirk(dev);
+>  		if (ret)
+>  			goto err_free;
+> +
+> +		/*
+> +		 * For VGA devices, register sysfb restore on the virtio device.
+> +		 * We can't use devm_aperture_remove_conflicting_pci_devices()
+> +		 * because the PCI device is managed by virtio-pci, not us.
+> +		 * Register on &vdev->dev so it fires if our probe fails.
+> +		 */
+> +		if (pci_is_vga(to_pci_dev(vdev->dev.parent))) {
+> +			ret = devm_add_action_or_reset(&vdev->dev,
+> +						       virtio_gpu_restore_sysfb,
+> +						       NULL);
+> +			if (ret)
+> +				goto err_free;
+> +			sysfb_restore_registered = true;
+> +		}
+>  	}
+>  
+>  	dma_set_max_seg_size(dev->dev, dma_max_mapping_size(dev->dev) ?: UINT_MAX);
+> @@ -110,6 +132,13 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
+>  
+>  	drm_client_setup(vdev->priv, NULL);
+>  
+> +	/*
+> +	 * Probe succeeded - cancel sysfb restore. We're now responsible
+> +	 * for display output.
+> +	 */
+> +	if (sysfb_restore_registered)
+> +		devm_remove_action(&vdev->dev, virtio_gpu_restore_sysfb, NULL);
+> +
+>  	return 0;
+>  
+>  err_deinit:
 
-Yeah that's what I had in mind
+Acked-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Acked-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
-Konrad
+-- 
+Best regards,
+Dmitry
 
