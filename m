@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6073DD25722
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64234D257EC
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:51:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA3F210E795;
-	Thu, 15 Jan 2026 15:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 796C110E0A4;
+	Thu, 15 Jan 2026 15:51:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lxMLZ+sM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CATtqpnv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5163010E795;
- Thu, 15 Jan 2026 15:42:58 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5E510E0A4;
+ Thu, 15 Jan 2026 15:51:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 14EBB41A2B;
- Thu, 15 Jan 2026 15:42:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD181C116D0;
- Thu, 15 Jan 2026 15:42:56 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 21E966001A;
+ Thu, 15 Jan 2026 15:51:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91462C116D0;
+ Thu, 15 Jan 2026 15:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768491777;
- bh=Vvu0/TPmWVy6yatxjIes5gxfTU9U/IRZqj1fb8T9FCs=;
+ s=k20201202; t=1768492281;
+ bh=2J+TdHYzgTN2yJ0X77D7zcdhxU/R5+WXQmkIRo4Fh4I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lxMLZ+sMFx9z01Wj67Yk/ayjOT+zk9ITI70cCjFSNr8XYvNNWuYN0tYmPfaOHQGD1
- qyfEfkQ+MzFOqTHr0s0u69COb4lujVHOzdXSSJxTBWi+PlkoohpaKAdgxvMr9KG112
- Z4Rif6zXRfy0PPVFJuTaqAnRbNxaZ+NRxPViZXfWwPz2uo1vEmN+50qS1m+6g0hitG
- xI7w2YBz8ZutpXjm/l8/J59EMhl2c7YDSGQUWXiZftbBbS+w2rM9Jn4i8UuKn66m8J
- lMsDoaQpUJGGQ0GmhVsDs3tctWeCxEMxj3en/rdgSTLbKWQ1vNaB6cdNkjOqlD/mNe
- owzYmF4QF1a7g==
-Date: Thu, 15 Jan 2026 09:42:54 -0600
+ b=CATtqpnvyUSTzVUskfKuk+1AkSMhYULNXK6ZBPxcTgncNdl/+GqnT8UexbclGODTY
+ bLF6vnZr4FDnPT+a07kRrxDse86bhNKKbFvRn0+su4/fK2cOFLhXLrb+W3m8cYeaqQ
+ VksToyaWJqNDDRDuAecnhtM4+cMW3KJGgdnsqCtU9yxQxAgTxuwgtNq0fRqpZeg6DX
+ JzlxF0NdtQUfW49cR5gerXxVycoV8P7dDmTK6n8BE1x6wOb9zHe7JoWJnzy+7EvhCh
+ POfl0FhZpgaWWdTOlszHcFhTY38QeHHWzYaBXrhKqZPxpO3wONznIgg/RQ+oTmwHgK
+ JWJhGExvR1yPg==
+Date: Thu, 15 Jan 2026 09:51:18 -0600
 From: Bjorn Andersson <andersson@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -40,16 +40,15 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Subject: Re: [PATCH v3 5/8] drm/msm/dp: Drop EV_USER_NOTIFICATION
-Message-ID: <ztriduhwhimeztfdgijai2qeii2giaosb6qizhj4skxg6k5uq4@bi6vomgv3whj>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/8] drm/msm/dp: drop event data
+Message-ID: <34tjg54i2hhwb22iwcm6za6buxdges6yynaftta6lww3yrvflr@ybob2zocugee>
 References: <20260115-hpd-refactor-v3-0-08e2f3bcd2e0@oss.qualcomm.com>
- <20260115-hpd-refactor-v3-5-08e2f3bcd2e0@oss.qualcomm.com>
+ <20260115-hpd-refactor-v3-6-08e2f3bcd2e0@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115-hpd-refactor-v3-5-08e2f3bcd2e0@oss.qualcomm.com>
+In-Reply-To: <20260115-hpd-refactor-v3-6-08e2f3bcd2e0@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +64,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 09:29:10AM +0200, Dmitry Baryshkov wrote:
-> From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+On Thu, Jan 15, 2026 at 09:29:11AM +0200, Dmitry Baryshkov wrote:
+> With EV_USER_NOTIFICATION gone event's data is no longer useful. Drop
+> it, removing also the argument from event handlers.
 > 
-> Currently, we queue an event for signalling HPD connect/disconnect. This
-> can mean a delay in plug/unplug handling and notifying DRM core when a
-> hotplug happens.
-> 
-> Drop EV_USER_NOTIFICATION and signal the IRQ event as part of hotplug
-> handling.
-> 
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 28 ++++++++--------------------
->  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->  drivers/gpu/drm/msm/dp/dp_drm.c     |  2 ++
->  3 files changed, 11 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 3184066adb15..e0b424ac861a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -58,7 +58,6 @@ enum {
->  	EV_HPD_PLUG_INT,
->  	EV_IRQ_HPD_INT,
->  	EV_HPD_UNPLUG_INT,
-> -	EV_USER_NOTIFICATION,
->  };
->  
->  #define EVENT_TIMEOUT	(HZ/10)	/* 100ms */
-> @@ -343,17 +342,6 @@ static const struct component_ops msm_dp_display_comp_ops = {
->  	.unbind = msm_dp_display_unbind,
->  };
->  
-> -static void msm_dp_display_send_hpd_event(struct msm_dp *msm_dp_display)
-> -{
-> -	struct msm_dp_display_private *dp;
-> -	struct drm_connector *connector;
-> -
-> -	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
-> -
-> -	connector = dp->msm_dp_display.connector;
-> -	drm_helper_hpd_irq_event(connector->dev);
-> -}
-> -
->  static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *dp,
->  					    bool hpd)
->  {
-> @@ -377,7 +365,11 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
->  
->  	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
->  			dp->msm_dp_display.connector_type, hpd);
-> -	msm_dp_display_send_hpd_event(&dp->msm_dp_display);
-> +
-> +	drm_bridge_hpd_notify(dp->msm_dp_display.bridge,
-> +			      hpd ?
-> +			      connector_status_connected :
-> +			      connector_status_disconnected);
-
-Last time we tried this, we where out of sync with the link_ready in
-detect. So, I'm still wondering about that if (!link_ready) return
-disconnected; in the detect function.
-
-With a reliable detect method, this looks good though.
 
 Reviewed-by: Bjorn Andersson <andersson@kernel.org>
 
 Regards,
 Bjorn
 
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 39 +++++++++++++++++--------------------
+>  1 file changed, 18 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index e0b424ac861a..e93de362dd39 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -69,7 +69,6 @@ enum {
 >  
->  	return 0;
+>  struct msm_dp_event {
+>  	u32 event_id;
+> -	u32 data;
+>  	u32 delay;
+>  };
+>  
+> @@ -218,7 +217,7 @@ static struct msm_dp_display_private *dev_get_dp_display_private(struct device *
 >  }
-> @@ -437,7 +429,7 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
 >  
->  	msm_dp_link_reset_phy_params_vx_px(dp->link);
->  
-> -	msm_dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
-> +	msm_dp_display_send_hpd_notification(dp, true);
->  
->  end:
->  	return rc;
-> @@ -506,7 +498,7 @@ static int msm_dp_display_notify_disconnect(struct device *dev)
+>  static int msm_dp_add_event(struct msm_dp_display_private *msm_dp_priv, u32 event,
+> -						u32 data, u32 delay)
+> +			    u32 delay)
 >  {
->  	struct msm_dp_display_private *dp = dev_get_dp_display_private(dev);
+>  	unsigned long flag;
+>  	struct msm_dp_event *todo;
+> @@ -236,7 +235,6 @@ static int msm_dp_add_event(struct msm_dp_display_private *msm_dp_priv, u32 even
+>  	todo = &msm_dp_priv->event_list[msm_dp_priv->event_pndx++];
+>  	msm_dp_priv->event_pndx %= DP_EVENT_Q_MAX;
+>  	todo->event_id = event;
+> -	todo->data = data;
+>  	todo->delay = delay;
+>  	wake_up(&msm_dp_priv->event_q);
+>  	spin_unlock_irqrestore(&msm_dp_priv->event_lock, flag);
+> @@ -576,7 +574,7 @@ static int msm_dp_display_usbpd_attention_cb(struct device *dev)
+>  	return rc;
+>  }
 >  
-> -	msm_dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
-> +	msm_dp_display_send_hpd_notification(dp, false);
+> -static int msm_dp_hpd_plug_handle(struct msm_dp_display_private *dp, u32 data)
+> +static int msm_dp_hpd_plug_handle(struct msm_dp_display_private *dp)
+>  {
+>  	u32 state;
+>  	int ret;
+> @@ -602,7 +600,7 @@ static int msm_dp_hpd_plug_handle(struct msm_dp_display_private *dp, u32 data)
 >  
+>  	if (state == ST_DISCONNECT_PENDING) {
+>  		/* wait until ST_DISCONNECTED */
+> -		msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0, 1); /* delay = 1 */
+> +		msm_dp_add_event(dp, EV_HPD_PLUG_INT, 1);
+>  		mutex_unlock(&dp->event_mutex);
+>  		return 0;
+>  	}
+> @@ -644,7 +642,7 @@ static void msm_dp_display_handle_plugged_change(struct msm_dp *msm_dp_display,
+>  							plugged);
+>  }
+>  
+> -static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u32 data)
+> +static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp)
+>  {
+>  	u32 state;
+>  	struct platform_device *pdev = dp->msm_dp_display.pdev;
+> @@ -706,7 +704,7 @@ static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u32 data)
 >  	return 0;
 >  }
-> @@ -527,7 +519,7 @@ static int msm_dp_display_handle_port_status_changed(struct msm_dp_display_priva
->  		drm_dbg_dp(dp->drm_dev, "sink count is zero, nothing to do\n");
->  		if (dp->hpd_state != ST_DISCONNECTED) {
->  			dp->hpd_state = ST_DISCONNECT_PENDING;
-> -			msm_dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
-> +			msm_dp_display_send_hpd_notification(dp, false);
->  		}
->  	} else {
->  		if (dp->hpd_state == ST_DISCONNECTED) {
-> @@ -1121,10 +1113,6 @@ static int hpd_event_thread(void *data)
->  		case EV_IRQ_HPD_INT:
->  			msm_dp_irq_hpd_handle(msm_dp_priv, todo->data);
+>  
+> -static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
+> +static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp)
+>  {
+>  	u32 state;
+>  
+> @@ -724,7 +722,7 @@ static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
+>  
+>  	if (state == ST_MAINLINK_READY || state == ST_DISCONNECT_PENDING) {
+>  		/* wait until ST_CONNECTED */
+> -		msm_dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 */
+> +		msm_dp_add_event(dp, EV_IRQ_HPD_INT, 1);
+>  		mutex_unlock(&dp->event_mutex);
+>  		return 0;
+>  	}
+> @@ -1079,7 +1077,6 @@ static int hpd_event_thread(void *data)
+>  			todo_next = &msm_dp_priv->event_list[msm_dp_priv->event_pndx++];
+>  			msm_dp_priv->event_pndx %= DP_EVENT_Q_MAX;
+>  			todo_next->event_id = todo->event_id;
+> -			todo_next->data = todo->data;
+>  			todo_next->delay = todo->delay - 1;
+>  
+>  			/* clean up older event */
+> @@ -1105,13 +1102,13 @@ static int hpd_event_thread(void *data)
+>  
+>  		switch (todo->event_id) {
+>  		case EV_HPD_PLUG_INT:
+> -			msm_dp_hpd_plug_handle(msm_dp_priv, todo->data);
+> +			msm_dp_hpd_plug_handle(msm_dp_priv);
 >  			break;
-> -		case EV_USER_NOTIFICATION:
-> -			msm_dp_display_send_hpd_notification(msm_dp_priv,
-> -						todo->data);
-> -			break;
+>  		case EV_HPD_UNPLUG_INT:
+> -			msm_dp_hpd_unplug_handle(msm_dp_priv, todo->data);
+> +			msm_dp_hpd_unplug_handle(msm_dp_priv);
+>  			break;
+>  		case EV_IRQ_HPD_INT:
+> -			msm_dp_irq_hpd_handle(msm_dp_priv, todo->data);
+> +			msm_dp_irq_hpd_handle(msm_dp_priv);
+>  			break;
 >  		default:
 >  			break;
+> @@ -1212,19 +1209,19 @@ static irqreturn_t msm_dp_display_irq_handler(int irq, void *dev_id)
+>  			dp->msm_dp_display.connector_type, hpd_isr_status);
+>  		/* hpd related interrupts */
+>  		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK)
+> -			msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+> +			msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0);
+>  
+>  		if (hpd_isr_status & DP_DP_IRQ_HPD_INT_MASK) {
+> -			msm_dp_add_event(dp, EV_IRQ_HPD_INT, 0, 0);
+> +			msm_dp_add_event(dp, EV_IRQ_HPD_INT, 0);
 >  		}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index cc6e2cab36e9..60094061c102 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -16,6 +16,7 @@ struct msm_dp {
->  	struct platform_device *pdev;
->  	struct drm_connector *connector;
->  	struct drm_bridge *next_bridge;
-> +	struct drm_bridge *bridge;
->  	bool link_ready;
->  	bool audio_enabled;
->  	bool power_on;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index e4622c85fb66..f935093c4df4 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -340,6 +340,8 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
+>  
+>  		if (hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK) {
+> -			msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> -			msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0, 3);
+> +			msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0);
+> +			msm_dp_add_event(dp, EV_HPD_PLUG_INT, 3);
 >  		}
+>  
+>  		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
+> -			msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> +			msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0);
+>  
+>  		ret = IRQ_HANDLED;
+>  	}
+> @@ -1649,7 +1646,7 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
 >  	}
 >  
-> +	msm_dp_display->bridge = bridge;
-> +
->  	return 0;
->  }
+>  	if (dp->is_edp)
+> -		msm_dp_hpd_plug_handle(msm_dp_display, 0);
+> +		msm_dp_hpd_plug_handle(msm_dp_display);
 >  
+>  	mutex_lock(&msm_dp_display->event_mutex);
+>  	if (pm_runtime_resume_and_get(&dp->pdev->dev)) {
+> @@ -1722,7 +1719,7 @@ void msm_dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>  	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+>  
+>  	if (dp->is_edp)
+> -		msm_dp_hpd_unplug_handle(msm_dp_display, 0);
+> +		msm_dp_hpd_unplug_handle(msm_dp_display);
+>  
+>  	mutex_lock(&msm_dp_display->event_mutex);
+>  
+> @@ -1844,7 +1841,7 @@ void msm_dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>  		return;
+>  
+>  	if (!msm_dp_display->link_ready && status == connector_status_connected)
+> -		msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+> +		msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0);
+>  	else if (msm_dp_display->link_ready && status == connector_status_disconnected)
+> -		msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> +		msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0);
+>  }
 > 
 > -- 
 > 2.47.3
