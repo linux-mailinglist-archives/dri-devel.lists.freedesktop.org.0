@@ -2,215 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03755D22E73
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FDFD22E8B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686D710E6C7;
-	Thu, 15 Jan 2026 07:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F5710E6C1;
+	Thu, 15 Jan 2026 07:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JIbC4FfT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yaycvtx+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37FA10E6C2;
- Thu, 15 Jan 2026 07:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768463014; x=1799999014;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=dabcjbrpJEaxdBBLzSHK0Hbk70BNMmWEIJBTE25kgBg=;
- b=JIbC4FfTme29n5t4y+64034NlwCjJLDFTfsxb7wVooSiMDVlBTOUf8l1
- pLWXnk33Uru4QK0GFoxfLcWTAoZagb2+obmtCsOAGMdBUgVIG6knSH5tf
- m58orwnOaLECvwe7VpWmerBRLS5NbureYfQCeiLoG6qBgdyE9vBLwPoOq
- ECJsFhWwRYyWWQRr7/97HUXKfaHp+sUnYvKkZrC25rDr5dkKeApuIXShc
- YbzKyURswpMx/ujQPb/Y02dXLrxKHdmLILLJQXv2GXBFeS1hss4zpKBbf
- QNzdi6ELP1Tm1YZvVpcza2MV0YDjc7C8Fd5Th+Ny5a3lADf9MUR6Q0AtL A==;
-X-CSE-ConnectionGUID: P0EYk1ZsQfWvdJcTFYbbHQ==
-X-CSE-MsgGUID: K8MN0398RIeTO9I909vtvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73398188"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="73398188"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 23:43:33 -0800
-X-CSE-ConnectionGUID: CgWvbbnZTBCmAYFH3ctXtw==
-X-CSE-MsgGUID: xEZe4xHZTmGVocW49TpMqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="236143592"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 23:43:31 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 23:43:31 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 14 Jan 2026 23:43:31 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.19) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 23:43:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gEL7j6C6LEbDUfZkgYsPlPJh/2mphvjALNti6q/C5pB+yNQZlKzqbjk5d8oXhCjavoAzGY8WYkPpiHtkSkks3gYJzc2Sw0cizD/3HmQXfx1LGSk0tgaKxZ2ZmuyS1Tp2b/uNRx/8jrgWHCrMkRcBd6GOaqrzx6+t0qHGu2PtdQ5MqqNNSxtoQr3ATRENYVMq7sS7KqFJ4l/T3JFmudNoInz+XS926tFm8Cpng3sbXyAlsIF0HTKkOPGZeEy4OWLJGNjcfEtmDwYGH07Pzrz1yhSeY7yR7JAvYHRqo86M5nPwBEAmg3+GLQIPykE1ot58PTE/OssjwGVRjDyoD+t1mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v+OFQgNrqDCI4noKRxOauwk0weXLhSep0zw3Dev13DI=;
- b=qsYM0rWcSN7qbbLv++UlQ0mDmSvDgyTb2UQ3YkcblUaFBsQXaiPpXK3221mWOjfUYjKJVuqbIxskl7L9Vc30SkGzeaw7Y2FGmSq9cmRtTupey8MUylqOqz6nlNd85cpPGZg6bPgNSuFArHCdjYtylgu2NKmEFtw7kD9CBLHxWs1b2S2Jpiw9I9ceUFy99bln4op+MV7Z8ESdaSTp+KH+eDsDWJRbTlGVZHjqbNve5SHmRuVowHt0q6wVohPaEyWEXt6DLgm+lYIukepxuVASIJaVAOU09OpCSfzNvSlSoWlSrYBqqmxJxouMlC5TBZ/4uNV+EVUwovdc/5RZwenpJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MW4PR11MB6715.namprd11.prod.outlook.com (2603:10b6:303:20e::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Thu, 15 Jan
- 2026 07:43:22 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Thu, 15 Jan 2026
- 07:43:21 +0000
-Date: Wed, 14 Jan 2026 23:43:18 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-CC: Francois Dugast <francois.dugast@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Zi Yan
- <ziy@nvidia.com>, adhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy
- (CS GROUP)" <chleroy@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
- Hildenbrand" <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, "Andrew
- Morton" <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, "Leon
- Romanovsky" <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Balbir Singh
- <balbirs@nvidia.com>, <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>, 
- <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-mm@kvack.org>,
- <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v5 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-ID: <aWiall34yq5Eupkf@lstrano-desk.jf.intel.com>
-References: <20260114192111.1267147-1-francois.dugast@intel.com>
- <20260114192111.1267147-2-francois.dugast@intel.com>
- <6spceodgfobizdaziju4yvvfydwvvik2wjyoyfuglozq533rgl@vmkotau3m3kw>
- <aWiBy3nZ4FrPYURF@lstrano-desk.jf.intel.com>
- <aWiGtlKI3LOtjUl6@lstrano-desk.jf.intel.com>
- <pgz2mhy4si2tu4iwusabjxxi4nctz3lamnpbg7773a2mp7srph@bz3ovwxuyakq>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <pgz2mhy4si2tu4iwusabjxxi4nctz3lamnpbg7773a2mp7srph@bz3ovwxuyakq>
-X-ClientProxiedBy: SJ0PR05CA0176.namprd05.prod.outlook.com
- (2603:10b6:a03:339::31) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AED510E6C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 07:45:34 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-42fb2314eb0so400395f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 23:45:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768463133; x=1769067933; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sx9HvTuC/nWJTqeXB5NCIb7B2MpOD8Vg8GMhrdv3oCU=;
+ b=Yaycvtx+qQcbkA6tys2d3nhWsutS0ecFrRv9QYrEPTYjuLPuJ8ePTJ9ARM1PbgqbRb
+ 89oGF/qeLjZHO+lz/w7pvBZISr3QbS/lnX+FWGCPZqUJnXqJ6AKIdta50JeDSJB2MyUA
+ OnwkkH96gIsyfuw5vPb4ljoIUxn964T3MeWrIduwJa9DH1rVJpvdXHOsAo5x/sBipol5
+ 1A/p4j6K0612TN5pi5LhM6X/U/yWnOmkHZFq8Q9hCFWNBuOMyUo9+3dqcbZqO+olsfrb
+ 1Ffa4csuE6FjyCS63Hh/lxDOicpzWHma78RxNh1xyYFSUIFt4iQG3tiXL4oCpz3ueErS
+ hgUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768463133; x=1769067933;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=sx9HvTuC/nWJTqeXB5NCIb7B2MpOD8Vg8GMhrdv3oCU=;
+ b=KbX5/F32rLtwNQRGAJPc9ogKZ4s/eS4xCZGLpMsEjUWSHsnHmvfRtnViv5zFGmV8+g
+ 3YiwMzEEKAUBdUO6wIi0YuHrUjKnzMkjUH+r+Iylchg6h+3C+mmbdykAxLuwOYta3onk
+ xxSi9CvoJyegca3PaiTV2AgtmtPARLQLpgYakV3wxUdRVR/9qoLDHv31mD/bZF0v0AX+
+ ftavJ3zwk3Cc8TSl9BXMcT8aJw+2rnn29NJ5NHJMNPRdiHmeSFeDwXTKLAYAMgfKhk3a
+ CUU545QfqwB6U+3foRcG/HKRMIQ1+TjHpL5VdO9Z48vIjILx3nrDWkZTFTZYrc1ZlC3/
+ p0zg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdirFSCQ74Y8CaOyg6hHjsOsj3pki6tHjgaqN8O8UdhooiNNDaz1IIJ8ESr6Pq0qHl430XcA6Jz7U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9dnciqXXVh6oOJtJnf0COMHmLsJ0k51MMc6qZWaaa2BnvvAVO
+ lUtXAiv/oloixfgb5TTc44a0VQUOE/W5sxq3+3KoR5HSy4CrHwr2hrJLFcG5BvAoogzCHy7hUMn
+ jp+btEg3fDBJ+NjfVYtPlBmLAGzUVkcc=
+X-Gm-Gg: AY/fxX5lo9cjcvVWrtBsy66U2P9jS5Hh++sGAq3rS7DhXA3MLq2nkgpYRnYPPwIANyg
+ 78rWbFhF65SYmR6GpBt2RBNKsQiUolbz2KK2gNkBV67gEY2hZQtry5cXxZt4ncoAe3/RVN+LqoB
+ cjE8YlpG+6byvnoEUh403zpN4HQqnjZMoNKAtWPKBcYpS4ORwvvfIokRJCW7KRvBofHeqSocJnB
+ O8ur1zM3X5p0KUtUlT9izccf3QYzI8bnAH+3z9D7A+0a5ErMXFou4OhEpMVvkFal8ljcniN
+X-Received: by 2002:a05:6000:25ca:b0:430:f301:3e6c with SMTP id
+ ffacd0b85a97d-4342c5422f0mr5713481f8f.34.1768463132683; Wed, 14 Jan 2026
+ 23:45:32 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6715:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5576fdc0-3ecc-434c-e294-08de5409c1b0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?THZZSzRMeVdkRXNyc1ZNTWNNak9DdEVubjRLNWw2N29uQWI4RXQya2FKWnh0?=
- =?utf-8?B?UUJTOHg2MUUxVnVLMlVkUy9XUjBMZXdINEFoWDJHL1MzNCtEdS9BYzFzVXhn?=
- =?utf-8?B?VTc4LzJVQXFJczVHdVdrR0JqOUJpZUZXRFpxR0h5dGlnMXNycFQvQVMvN0dt?=
- =?utf-8?B?RmlnT3BIdlBSMEhSRE9QWEt2bjVvUVlpVkR2dU8ydVFlbFJXYlBBNXB3QnFP?=
- =?utf-8?B?RWtpN1R4ZWdHc2dFZFdlSWZtRVBZMXVRM1ArNkpNUnVsOGdLQWZRT2g0WkdH?=
- =?utf-8?B?VGRON25kVXlMREpiZFAvclZLNlJmSUl5SUx0Yml4TU0xUjk0TEV2QWEyaElz?=
- =?utf-8?B?YTBSS2F5bGJnR0dIZytEOENwNE40b24zSlVYYVlLcnJCMnpFcGFobjVmZGwx?=
- =?utf-8?B?V3RzTmZuWm9SZ1JjbEY4NnJCK0JTT1BvZzFRN0hoazk2YjhoMmRiNmYzcGZu?=
- =?utf-8?B?c2orNllSdUwxSndJa2xrTWh3eGJZc09LMklpVGo3Um1ybExmbnQydlZCM3k0?=
- =?utf-8?B?b1d6dldNcWxRNS9OZFZFc203ZWhEd1o2clFLb1Y1L3Q5MUpFb3l3eGVVVlNn?=
- =?utf-8?B?cDhCb3luanVBejlGVG1Dams1OUM1NDVrUHFLWWVqSHJ4eDdOMnNrRDRKUnNw?=
- =?utf-8?B?Q3V6UHNDSHl0dXk5ejV5R205TXVNWWgxcU8xaUxLcTJ1TmVRa29rbElMVkRW?=
- =?utf-8?B?S3pKZXExQzc0b1ZsRDRxQ1psOGhvTGhLczFseUlzdlJHZmU3ZU53dTRzQzRU?=
- =?utf-8?B?bi9VRzdhcENDOGNIZUNMeXJqeWpvVzBXdDdBL241a0VzSWFsdW41RDNXQ09i?=
- =?utf-8?B?TFBlQ3lUWjNVUkpwc3dvVzdrMmwxRUtReFRrdmQ0NXRWY0ZVY25QUnF4RVBz?=
- =?utf-8?B?YkxMM05yUnRDQVZ6S2JHYWovcHc3TkJYQVhXK3FpQzk2Y0VLS1A4dU5QVm1t?=
- =?utf-8?B?ZUpPUXBrTHNkekgydUVTb3lmSVNEbGhTYk53SStMenlrczgxM1dzUE03eXB3?=
- =?utf-8?B?Q0t3L1NFVHlVOVNpOTBYckljSFExL1J2OU9LWEhzcWUwWnlJYVcrUmhIYUY0?=
- =?utf-8?B?RmIyQXVabDR6cExRdkhHRlpSNHZKUWcrc2ZvZTBrNlRiWXFDQUFlSWhoYkhv?=
- =?utf-8?B?VnRHeEtUOUp6TkhRK3oySitYY1R1NzZkaFlkbGJFV2l2Nll6Qm12NUlSYzUz?=
- =?utf-8?B?Y215SEhoWitHN05wTVFZVG8zSDY2dStkaG52L0xPYzQ4dTQ0b2NBQ3ZOTWM2?=
- =?utf-8?B?Wlg2ek9hV3o2bHd4K2p2SEVHMGxpTC9pT0ZTVXhBUmx3RVltbmMrV0hkeFA2?=
- =?utf-8?B?M09hY3l3OWp5SEI4U1k3dXAzTXloZFZ5c05CMTJ0bjg4bmt1alBrSzZBSjVT?=
- =?utf-8?B?RXoxbS9iYjgxeFU4elErNXpHNlRRRVppblorZHJHTzA1S3FiU01aTENYVUp5?=
- =?utf-8?B?TG9sQ3RMVlhiSUZ2NG9WT29SQkhNd0pqcjUzZmVzdURiTVJhdzBzSEVlaFBm?=
- =?utf-8?B?QjFjd2orRHh3SzZsN3dkZWI1YmlsOWNsUG5SN0s0VDZDSVkrY3NhaFdtQjZi?=
- =?utf-8?B?WVZaTEYwTzA2K1M2SmJOaElRVVV1Zzhlbkg2WXZhQTd4dUphdGI5N2l4SHZC?=
- =?utf-8?B?aS9TQVlGeDQwK1NYN0VmOWxVTitEU0V4UEpOU2hwMnJrdUdtcmRsYitPeERz?=
- =?utf-8?B?UTJTdDRTT1FJcFFvcnYyZ2pveFBmdm9HakFFazgrOHd2Vkd2b05jeG9rZHp5?=
- =?utf-8?B?clhrSVh3bFdzZmp6YTJydGpFcWZYT2lJSi95SkxZMzRwUFUzakFLWDdtSVJk?=
- =?utf-8?B?a3orb0hpRVB6VjZQc3NpRjV3bG1OZVdGcE5tRHk1bGgrTm9KV2UrZ2tobmg4?=
- =?utf-8?B?WEFGN0I1MnoxRDAwbVVBTWVtRFBxZ0F4MnhHUUwzTG53UTBKQWtPUFA1U3hK?=
- =?utf-8?B?UWpDZ0h3ZlRucHNHNnovUWQ2MVNCb2MwanBBMlNTUC9XVXhTMEhYNTZncHV1?=
- =?utf-8?B?L3Y1czBVdlYwUXdsOU43VFlQbHpnaGpESmlvNVF5SVFwNjRzaVk2RjYwQzV1?=
- =?utf-8?Q?3niVlg?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXhFSGd6N0I5N3pVL2xJSnJZejNEWXRuU3BzWlZkOFpWbW9sd1ZJNCtRZ1dv?=
- =?utf-8?B?NmtUcTVXdDhLM0pNSkl2bDgraFhORUVKd1hTYlE1K0t4OGdRSEtUd0swUWRV?=
- =?utf-8?B?T2p3RG1ieXVTYWN1RG05SDI0cUZlbThyMDQxcFdTS2FreGsrajhHMC9tN1NJ?=
- =?utf-8?B?ekxRcGgxS2hxem5mcGtqVHUzQnNrZnRDNC9Lc2pvOTJmMVZRT3JMc2MyZUp1?=
- =?utf-8?B?cjRjQ0dzOUxDQkJXT1BUUWV2ejZWbXlFKy9kazR5enNSR1VCcE1PNWVJUDNi?=
- =?utf-8?B?VWI1SUJRWmp5eExyUDhiZjN2VHBRL3kwK2ZWR0FzZE0rRUJsOTVjZ01nNzJQ?=
- =?utf-8?B?NENxaGRWNnI1RDE2RTRPYmFHWi95eEs1TXg2YVVqbFdBNDBFMnFHbnhrWTlU?=
- =?utf-8?B?SDN3aHpsK2Y4NG9EQVVESXJmSUozRHlZZWZ5UWRaWlExWmZhOThsdytDSlA0?=
- =?utf-8?B?VWpQb3htUTRLYWJYWXYzeVJ1a1l4QUVHYXFZQ0hFRFUyQjBMdGx6b0k1ZFBy?=
- =?utf-8?B?UDQ1MG5iSDYwVys5WGpuNFVSRXFSUlh6cENXOHNmM0g5K3gzRFp6VGZYSTJa?=
- =?utf-8?B?U0hZaFI5UmdheEVza2JqcmZoVHhzS0t1bEtrcHdPNE0rWmhCNG5NMGR1WHZQ?=
- =?utf-8?B?QzVsbWNBV3lZUFkwNnNMM0JyTGRyT0RtVzNVQ3pRN1FvNnpLNG9CUlRRUFpr?=
- =?utf-8?B?Qk1lY3RDdmFyTVVFbC92amNNS29ISDhXUUl1YThnYXM2U0VLckxtQTlleXMw?=
- =?utf-8?B?ekE3YWNDbkpXMXpKUWxzL0JmVkpNYTc3eVdYRHpPMGJZU2dKYkxEM1M3MG9h?=
- =?utf-8?B?TFh2bjJTVU11aWdGWWc1SlVZTWVDZGpzSkFpMURsRlRHUGZta2M3QjBZWWVj?=
- =?utf-8?B?ZFR3R1BhT3gwWWw1S1BxUHhKcVBzWU5kak8yekFhcGtHSkg2TEJncFY2RG02?=
- =?utf-8?B?QmNvTEZUNXlDOWFYUm1HZ3VFK1B4ZzVmcWNNc213d1QyZU8xNVNTdnRheDAw?=
- =?utf-8?B?dVVBb3Z0VDM4LzFGMG1MN25lOStRVUZZR3dDTzBPbGdHMjVnS2RTakIvMis3?=
- =?utf-8?B?bTVVUWV3OTBWQW5RV3VSSkRiVmtySXpMcWJxQzVNNUlzbWwrWlJiUHRtYW5k?=
- =?utf-8?B?MzFSQXlQaHg3eUdkOVgvaituNElFRkdWT1d2WUlMeCt1V3V1L0s5Tm00Nzh6?=
- =?utf-8?B?WW5kUytKb2taeVkyTFc1YjM5ckZmNVZ1djNvRUIvZnFDWStQQmwvbnNOZHp4?=
- =?utf-8?B?bzQ4RE1ud0V3UUZSeGpwb0RXL1kveHpTbVUzeWY0S0xTYlYzZEVOZ29JZXVh?=
- =?utf-8?B?dUhEZFA2T25HV3ExSEtwMkgrYWRyY3ZNZ0JEL3NsZVIxVlVLeFp1cTY5bm53?=
- =?utf-8?B?OXdOMnYwL1dRVVJNeW81TmRxSDF5T25ESEx3eUVvTFl4OEZTbXFsb1VBM3o3?=
- =?utf-8?B?Wm1vVXJmNHhuR2R6SFU3M1dRejBpalBHYlp0ZDZCdDVRK3JhVnRBZ3FsekhK?=
- =?utf-8?B?bUFpQ1BDeEw3RlZHY0xpNzhkaUlXUGRQa01DdFo0UDVTZ0p4VUZVS3JjdG5p?=
- =?utf-8?B?cm1tQVZYRkI4enlDSjlsMXlHdjIyQmdKbVZLbHhLT2o2c1JJZW0xSjNSL243?=
- =?utf-8?B?dCtHZzI1TkUvRlJxNVExbldnQmsvSmZXYzNyZGVFUTN6bXZIVnFhZWtseG8z?=
- =?utf-8?B?QTRhRk1XMXg3YUFnajB0UUJNWVB5UFBmNTI3cmt0NlY3NCtpSm9NQTVPSDNx?=
- =?utf-8?B?LzZWaFgwcmpFOU43a1FNY2NCUUI1L1A5eVJIQ2VxSFZoUnpOZnp3dGo4UHYy?=
- =?utf-8?B?TG1mNXZ4ZlVpLzlKMVc0MFl2T1NsUklDNUc2K2x0K0NTbEJJd2dzblhWd1lx?=
- =?utf-8?B?NHlxczFtcGFWSDE4T1dXelVaa2VIT2pMcVJPbVh1Njl2YVo3RGxQd3RXcFJF?=
- =?utf-8?B?OUlmdC9pejhJTFcvMFNqV0d1RXNMTUVwbnowUCtEZG43MHJlTDUza2hBYmFN?=
- =?utf-8?B?MzFkcHJtV0duZXRwRldEK2pyVCtFRHN0dmY5VmdsQ0l3OSt1M2YyWXBsK2pu?=
- =?utf-8?B?UVptMHowdmVhZkJXb3lmSndqbXpDNDZQalZhMXNnVGFOU2h3aHk2d05hdnV6?=
- =?utf-8?B?Z295WStKZ1RsVXlxRDVpVFRXZTArZWJWVm4weWhkUkNOd2FJbFJJMUl2U0ph?=
- =?utf-8?B?bHoyc2ZrTkhOcUFCMllYTlhNYWNhRXJSWHVmTGFEN0ozTmZVNEozU0pvVDdy?=
- =?utf-8?B?MXI5bVFXM1NlZG5NTWxvOTZNSjdXelpxZnkyOHJKZEVZTWdKWmtIOHRLS2Za?=
- =?utf-8?B?MG41UEFwMWpUbUJOejdDS0R2NDlKeExsRVNrZXdrd2djd3orcjB3UWIxbmtD?=
- =?utf-8?Q?Tez++52etbJPuhEc=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5576fdc0-3ecc-434c-e294-08de5409c1b0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:43:21.6182 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nA7IC39vqsHSFk0hgF9BoeZ/3o4kA25yKcRxSQICvZCNKuh1SIF2fWCfesQKLJypzFs8iZDpQXE8HEBfbGKq8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6715
-X-OriginatorOrg: intel.com
+References: <20251204061703.5579-1-clamor95@gmail.com>
+ <20251204061703.5579-4-clamor95@gmail.com>
+ <9411928.T7Z3S40VBb@senjougahara>
+In-Reply-To: <9411928.T7Z3S40VBb@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 15 Jan 2026 09:45:21 +0200
+X-Gm-Features: AZwV_QghD6FXe-dPVjxSUHWWVRcMlfFVLJpdZ72C5Ypff7V3j-uUvEj-3slTUkw
+Message-ID: <CAPVz0n3fwQNb2JozBx8G+r=txrENf1g3We5-P+sYJWepDJqU2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4 RESEND] gpu/drm: tegra: dsi: add support for
+ Tegra20/Tegra30
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -226,329 +96,299 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 06:07:08PM +1100, Alistair Popple wrote:
-> On 2026-01-15 at 17:18 +1100, Matthew Brost <matthew.brost@intel.com> wrote...
-> > On Wed, Jan 14, 2026 at 09:57:31PM -0800, Matthew Brost wrote:
-> > > On Thu, Jan 15, 2026 at 04:27:26PM +1100, Alistair Popple wrote:
-> > > > On 2026-01-15 at 06:19 +1100, Francois Dugast <francois.dugast@intel.com> wrote...
-> > > > > From: Matthew Brost <matthew.brost@intel.com>
-> > > > > 
-> > > > > Reinitialize metadata for large zone device private folios in
-> > > > > zone_device_page_init prior to creating a higher-order zone device
-> > > > > private folio. This step is necessary when the folio’s order changes
-> > > > > dynamically between zone_device_page_init calls to avoid building a
-> > > > > corrupt folio. As part of the metadata reinitialization, the dev_pagemap
-> > > > > must be passed in from the caller because the pgmap stored in the folio
-> > > > > page may have been overwritten with a compound head.
-> > > > 
-> > > > Thanks for fixing, a couple of minor comments below.
-> > > > 
-> > > > > Cc: Zi Yan <ziy@nvidia.com>
-> > > > > Cc: Alistair Popple <apopple@nvidia.com>
-> > > > > Cc: adhavan Srinivasan <maddy@linux.ibm.com>
-> > > > > Cc: Nicholas Piggin <npiggin@gmail.com>
-> > > > > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > > > > Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-> > > > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > > > Cc: David Airlie <airlied@gmail.com>
-> > > > > Cc: Simona Vetter <simona@ffwll.ch>
-> > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > Cc: Lyude Paul <lyude@redhat.com>
-> > > > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > > > Cc: David Hildenbrand <david@kernel.org>
-> > > > > Cc: Oscar Salvador <osalvador@suse.de>
-> > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > > Cc: Leon Romanovsky <leon@kernel.org>
-> > > > > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > > > > Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-> > > > > Cc: Vlastimil Babka <vbabka@suse.cz>
-> > > > > Cc: Mike Rapoport <rppt@kernel.org>
-> > > > > Cc: Suren Baghdasaryan <surenb@google.com>
-> > > > > Cc: Michal Hocko <mhocko@suse.com>
-> > > > > Cc: Balbir Singh <balbirs@nvidia.com>
-> > > > > Cc: linuxppc-dev@lists.ozlabs.org
-> > > > > Cc: kvm@vger.kernel.org
-> > > > > Cc: linux-kernel@vger.kernel.org
-> > > > > Cc: amd-gfx@lists.freedesktop.org
-> > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > Cc: nouveau@lists.freedesktop.org
-> > > > > Cc: linux-mm@kvack.org
-> > > > > Cc: linux-cxl@vger.kernel.org
-> > > > > Fixes: d245f9b4ab80 ("mm/zone_device: support large zone device private folios")
-> > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> > > > > ---
-> > > > >  arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
-> > > > >  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  2 +-
-> > > > >  drivers/gpu/drm/drm_pagemap.c            |  2 +-
-> > > > >  drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
-> > > > >  include/linux/memremap.h                 |  9 ++++++---
-> > > > >  lib/test_hmm.c                           |  4 +++-
-> > > > >  mm/memremap.c                            | 20 +++++++++++++++++++-
-> > > > >  7 files changed, 32 insertions(+), 9 deletions(-)
-> > > > > 
-> > > > > diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > > > index e5000bef90f2..7cf9310de0ec 100644
-> > > > > --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > > > +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > > > @@ -723,7 +723,7 @@ static struct page *kvmppc_uvmem_get_page(unsigned long gpa, struct kvm *kvm)
-> > > > >  
-> > > > >  	dpage = pfn_to_page(uvmem_pfn);
-> > > > >  	dpage->zone_device_data = pvt;
-> > > > > -	zone_device_page_init(dpage, 0);
-> > > > > +	zone_device_page_init(dpage, &kvmppc_uvmem_pgmap, 0);
-> > > > >  	return dpage;
-> > > > >  out_clear:
-> > > > >  	spin_lock(&kvmppc_uvmem_bitmap_lock);
-> > > > > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > > > index af53e796ea1b..6ada7b4af7c6 100644
-> > > > > --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > > > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > > > @@ -217,7 +217,7 @@ svm_migrate_get_vram_page(struct svm_range *prange, unsigned long pfn)
-> > > > >  	page = pfn_to_page(pfn);
-> > > > >  	svm_range_bo_ref(prange->svm_bo);
-> > > > >  	page->zone_device_data = prange->svm_bo;
-> > > > > -	zone_device_page_init(page, 0);
-> > > > > +	zone_device_page_init(page, page_pgmap(page), 0);
-> > > > >  }
-> > > > >  
-> > > > >  static void
-> > > > > diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> > > > > index 03ee39a761a4..c497726b0147 100644
-> > > > > --- a/drivers/gpu/drm/drm_pagemap.c
-> > > > > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > > > > @@ -201,7 +201,7 @@ static void drm_pagemap_get_devmem_page(struct page *page,
-> > > > >  					struct drm_pagemap_zdd *zdd)
-> > > > >  {
-> > > > >  	page->zone_device_data = drm_pagemap_zdd_get(zdd);
-> > > > > -	zone_device_page_init(page, 0);
-> > > > > +	zone_device_page_init(page, zdd->dpagemap->pagemap, 0);
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > > > index 58071652679d..3d8031296eed 100644
-> > > > > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > > > @@ -425,7 +425,7 @@ nouveau_dmem_page_alloc_locked(struct nouveau_drm *drm, bool is_large)
-> > > > >  			order = ilog2(DMEM_CHUNK_NPAGES);
-> > > > >  	}
-> > > > >  
-> > > > > -	zone_device_folio_init(folio, order);
-> > > > > +	zone_device_folio_init(folio, page_pgmap(folio_page(folio, 0)), order);
-> > > > >  	return page;
-> > > > >  }
-> > > > >  
-> > > > > diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> > > > > index 713ec0435b48..e3c2ccf872a8 100644
-> > > > > --- a/include/linux/memremap.h
-> > > > > +++ b/include/linux/memremap.h
-> > > > > @@ -224,7 +224,8 @@ static inline bool is_fsdax_page(const struct page *page)
-> > > > >  }
-> > > > >  
-> > > > >  #ifdef CONFIG_ZONE_DEVICE
-> > > > > -void zone_device_page_init(struct page *page, unsigned int order);
-> > > > > +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-> > > > > +			   unsigned int order);
-> > > > >  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> > > > >  void memunmap_pages(struct dev_pagemap *pgmap);
-> > > > >  void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
-> > > > > @@ -234,9 +235,11 @@ bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
-> > > > >  
-> > > > >  unsigned long memremap_compat_align(void);
-> > > > >  
-> > > > > -static inline void zone_device_folio_init(struct folio *folio, unsigned int order)
-> > > > > +static inline void zone_device_folio_init(struct folio *folio,
-> > > > > +					  struct dev_pagemap *pgmap,
-> > > > > +					  unsigned int order)
-> > > > >  {
-> > > > > -	zone_device_page_init(&folio->page, order);
-> > > > > +	zone_device_page_init(&folio->page, pgmap, order);
-> > > > >  	if (order)
-> > > > >  		folio_set_large_rmappable(folio);
-> > > > >  }
-> > > > > diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> > > > > index 8af169d3873a..455a6862ae50 100644
-> > > > > --- a/lib/test_hmm.c
-> > > > > +++ b/lib/test_hmm.c
-> > > > > @@ -662,7 +662,9 @@ static struct page *dmirror_devmem_alloc_page(struct dmirror *dmirror,
-> > > > >  			goto error;
-> > > > >  	}
-> > > > >  
-> > > > > -	zone_device_folio_init(page_folio(dpage), order);
-> > > > > +	zone_device_folio_init(page_folio(dpage),
-> > > > > +			       page_pgmap(folio_page(page_folio(dpage), 0)),
-> > > > > +			       order);
-> > > > >  	dpage->zone_device_data = rpage;
-> > > > >  	return dpage;
-> > > > >  
-> > > > > diff --git a/mm/memremap.c b/mm/memremap.c
-> > > > > index 63c6ab4fdf08..6f46ab14662b 100644
-> > > > > --- a/mm/memremap.c
-> > > > > +++ b/mm/memremap.c
-> > > > > @@ -477,10 +477,28 @@ void free_zone_device_folio(struct folio *folio)
-> > > > >  	}
-> > > > >  }
-> > > > >  
-> > > > > -void zone_device_page_init(struct page *page, unsigned int order)
-> > > > > +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-> > > > > +			   unsigned int order)
-> > > > >  {
-> > > > > +	struct page *new_page = page;
-> > > > > +	unsigned int i;
-> > > > > +
-> > > > >  	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
-> > > > >  
-> > > > > +	for (i = 0; i < (1UL << order); ++i, ++new_page) {
-> > > > > +		struct folio *new_folio = (struct folio *)new_page;
-> > > > > +
-> > > > > +		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
-> > > > 
-> > > > This seems odd to me, mainly due to the "magic" number. Why not just clear
-> > > > the flags entirely? Or at least explicitly just clear the flags you care about
-> > > > which would remove the need for the comment and  should let you use the proper
-> > > > PageFlag functions.
-> > > > 
-> > > 
-> > > I'm copying this from folio_reset_order [1]. My paranoia about touching
-> > > anything related to struct page is high, so I did the same thing
-> > > folio_reset_order does here.
-> 
-> So why not just use folio_reset_order() below?
-> 
-> > > 
-> > > [1] https://elixir.bootlin.com/linux/v6.18.5/source/include/linux/mm.h#L1075
-> > > 
-> > 
-> > This immediately hangs my first SVM test...
-> > 
-> > diff --git a/mm/memremap.c b/mm/memremap.c
-> > index 6f46ab14662b..ef8c56876cf5 100644
-> > --- a/mm/memremap.c
-> > +++ b/mm/memremap.c
-> > @@ -488,7 +488,7 @@ void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-> >         for (i = 0; i < (1UL << order); ++i, ++new_page) {
-> >                 struct folio *new_folio = (struct folio *)new_page;
-> > 
-> > -               new_page->flags.f &= ~0xffUL;   /* Clear possible order, page head */
-> > +               new_page->flags.f = 0;
-> >  #ifdef NR_PAGES_IN_LARGE_FOLIO
-> >                 ((struct folio *)(new_page - 1))->_nr_pages = 0;
-> 
-> This seems wrong to me - I saw your reply to Balbir but for an order-0 page
-> isn't this going to access a completely different, possibly already allocated,
-> page?
-> 
+=D1=87=D1=82, 15 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 09:02 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Thursday, December 4, 2025 3:17=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > Tegra20 and Tegra30 are fully compatible with existing tegra DSI driver
+> > apart from clock configuration and PAD calibration which are addressed =
+by
+> > this patch.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/gpu/drm/tegra/drm.c |  2 +
+> >  drivers/gpu/drm/tegra/dsi.c | 88 ++++++++++++++++++++++++-------------
+> >  drivers/gpu/drm/tegra/dsi.h | 15 +++++++
+> >  3 files changed, 74 insertions(+), 31 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> > index 4596073fe28f..5d64cd57e764 100644
+> > --- a/drivers/gpu/drm/tegra/drm.c
+> > +++ b/drivers/gpu/drm/tegra/drm.c
+> > @@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, hos=
+t1x_drm_suspend,
+> >
+> >  static const struct of_device_id host1x_drm_subdevs[] =3D {
+> >       { .compatible =3D "nvidia,tegra20-dc", },
+> > +     { .compatible =3D "nvidia,tegra20-dsi", },
+> >       { .compatible =3D "nvidia,tegra20-hdmi", },
+> >       { .compatible =3D "nvidia,tegra20-gr2d", },
+> >       { .compatible =3D "nvidia,tegra20-gr3d", },
+> >       { .compatible =3D "nvidia,tegra30-dc", },
+> > +     { .compatible =3D "nvidia,tegra30-dsi", },
+> >       { .compatible =3D "nvidia,tegra30-hdmi", },
+> >       { .compatible =3D "nvidia,tegra30-gr2d", },
+> >       { .compatible =3D "nvidia,tegra30-gr3d", },
+> > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> > index 8e80c7efe8b4..d079aa7d2a85 100644
+> > --- a/drivers/gpu/drm/tegra/dsi.c
+> > +++ b/drivers/gpu/drm/tegra/dsi.c
+> > @@ -53,6 +53,10 @@ to_dsi_state(struct drm_connector_state *state)
+> >       return container_of(state, struct tegra_dsi_state, base);
+> >  }
+> >
+> > +struct tegra_dsi_config {
+> > +     u32 dsi_version;
+>
+> Rather than a dsi_version field, we should have something that describes =
+the difference. e.g. 'bool has_multiple_pad_controls' being true for the "V=
+1" hardware.
+>
 
-No — it accesses itself (new_page). It just uses some odd memory tricks
-for this, which I agree isn’t the best thing I’ve ever written, but it
-was the least-worst idea I had. I didn’t design the folio/page field
-aliasing; I understand why it exists, but it still makes my head hurt.
+I used versioning from downstream dsi sources, where with addition of
+Tegra114 support older DSI controller got v0 and newer v1, but if you
+find 'has_multiple_pad_controls' more suitable I have no objections.
 
-folio->_nr_pages is page + 1 for reference (new_page after this math).
-Again, if I touched this memory directly in new_page, it’s most likely
-memcg_data, but that is hidden behind a Kconfig.
+> > +};
+> > +
+> >  struct tegra_dsi {
+> >       struct host1x_client client;
+> >       struct tegra_output output;
+> > @@ -82,6 +86,8 @@ struct tegra_dsi {
+> >       /* for ganged-mode support */
+> >       struct tegra_dsi *master;
+> >       struct tegra_dsi *slave;
+> > +
+> > +     const struct tegra_dsi_config *config;
+> >  };
+> >
+> >  static inline struct tegra_dsi *
+> > @@ -663,39 +669,46 @@ static int tegra_dsi_pad_enable(struct tegra_dsi =
+*dsi)
+> >  {
+> >       u32 value;
+> >
+> > -     value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDI=
+O(0);
+> > -     tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> > +     if (dsi->config->dsi_version =3D=3D TEGRA_DSI_V1) {
+> > +             /*
+> > +              * XXX Is this still needed? The module reset is deassert=
+ed right
+> > +              * before this function is called.
+> > +              */
+> > +             tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+> > +             tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+> > +             tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+> > +             tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+> > +             tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+> > +
+> > +             value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL=
+_VS1_PDIO(0);
+> > +             tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> > +
+> > +             value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+> > +                     DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+> > +                     DSI_PAD_OUT_CLK(0x0);
+> > +             tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+> > +
+> > +             value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_=
+CLK(0x3) |
+> > +                     DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+> > +             tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+> > +     } else {
+> > +             value =3D DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTROL_=
+LPDNADJ(0x1) |
+> > +                     DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_=
+SLEWDNADJ(0x6) |
+> > +                     DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTROL_=
+PDIO(0) |
+> > +                     DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PUL=
+LDN_ENAB(0);
+> > +             tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> > +     }
+> >
+> >       return 0;
+> >  }
+> >
+> >  static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
+> >  {
+> > -     u32 value;
+> >       int err;
+> >
+> > -     /*
+> > -      * XXX Is this still needed? The module reset is deasserted right
+> > -      * before this function is called.
+> > -      */
+> > -     tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+> > -     tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+> > -     tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+> > -     tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+> > -     tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+> > -
+> >       /* start calibration */
+> >       tegra_dsi_pad_enable(dsi);
+> >
+> > -     value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+> > -             DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+> > -             DSI_PAD_OUT_CLK(0x0);
+> > -     tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+> > -
+> > -     value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3)=
+ |
+> > -             DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+> > -     tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+> > -
+> >       err =3D tegra_mipi_start_calibration(dsi->mipi);
+> >       if (err < 0)
+> >               return err;
+> > @@ -1577,6 +1590,7 @@ static int tegra_dsi_probe(struct platform_device=
+ *pdev)
+> >       if (!dsi)
+> >               return -ENOMEM;
+> >
+> > +     dsi->config =3D of_device_get_match_data(&pdev->dev);
+> >       dsi->output.dev =3D dsi->dev =3D &pdev->dev;
+> >       dsi->video_fifo_depth =3D 1920;
+> >       dsi->host_fifo_depth =3D 64;
+> > @@ -1615,7 +1629,7 @@ static int tegra_dsi_probe(struct platform_device=
+ *pdev)
+> >               goto remove;
+> >       }
+> >
+> > -     dsi->clk_lp =3D devm_clk_get(&pdev->dev, "lp");
+> > +     dsi->clk_lp =3D devm_clk_get_optional(&pdev->dev, "lp");
+> >       if (IS_ERR(dsi->clk_lp)) {
+> >               err =3D dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
+> >                                   "cannot get low-power clock\n");
+> > @@ -1636,10 +1650,12 @@ static int tegra_dsi_probe(struct platform_devi=
+ce *pdev)
+> >               goto remove;
+> >       }
+> >
+> > -     err =3D tegra_dsi_setup_clocks(dsi);
+>
+> > -     if (err < 0) {
+> > -             dev_err(&pdev->dev, "cannot setup clocks\n");
+> > -             goto remove;
+> > +     if (dsi->config->dsi_version =3D=3D TEGRA_DSI_V1) {
+>
+> And 'has_mux_parent_clk', perhaps? Not a very good name, if you come up w=
+ith something better feel free to use it.
 
-This just blindly implementing part of folio_reset_order which clears
-_nr_pages.
+Noted
 
+>
+> I checked, and looks like Tegra30 in fact allows DSIA/DSIB to be muxed to=
+ either PLL_D or PLL_D2, it is just not modelled in the clock driver. The s=
+ame applies to all of Tegra114, 124, and 210, but only Tegra114 has it pres=
+ently modelled as a mux whereas 124 and 210 have a gate. The TRMs for 124 a=
+nd 210 specify that only PLL_D can be used in the mux bit documentation so =
+the bit is probably dysfunctional on those chips.
+>
+> The correct solution, hence, I think is to have that config field, and it=
+ be false for Tegra20, 124, and 210; and true for Tegra30, and 114. Then im=
+plement the mux clock in the Tegra30 clock driver.
+>
+> However, I would settle for setting it to false for both Tegra20 and Tegr=
+a30 and leaving a comment next to the Tegra30 entry describing the situatio=
+n (the mux clock is not currently modelled).
+>
+
+I clearly understand your point. I agree regarding setting it to false
+for both Tegra20 and Tegra30 and leaving a comment for Tegra30, it
+seems to be the optimal solution. Later on if there would be such
+need, Tegra30 can get its mux too.
+
+A little note regarding mux on Tegra124/210, it seems that bit is not
+dysfunctional but behavior is intentional to diverge PLLD and D2 as
+"internal" and "external" main display clock. At least this is what I
+have concluded while working with Tegra display controller stuff.
+
+> Cheers,
+> Mikko
+>
+
+Thank you for your review!
+
+Best regards,
+Svyatoslav R.
+
+> > +             err =3D tegra_dsi_setup_clocks(dsi);
+> > +             if (err < 0) {
+> > +                     dev_err(&pdev->dev, "cannot setup clocks\n");
+> > +                     goto remove;
+> > +             }
+> >       }
+> >
+> >       dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> > @@ -1703,11 +1719,21 @@ static void tegra_dsi_remove(struct platform_de=
+vice *pdev)
+> >       tegra_mipi_free(dsi->mipi);
+> >  }
+> >
+> > +static const struct tegra_dsi_config tegra20_dsi_config =3D {
+> > +     .dsi_version =3D TEGRA_DSI_V0,
+> > +};
+> > +
+> > +static const struct tegra_dsi_config tegra114_dsi_config =3D {
+> > +     .dsi_version =3D TEGRA_DSI_V1,
+> > +};
+> > +
+> >  static const struct of_device_id tegra_dsi_of_match[] =3D {
+> > -     { .compatible =3D "nvidia,tegra210-dsi", },
+> > -     { .compatible =3D "nvidia,tegra132-dsi", },
+> > -     { .compatible =3D "nvidia,tegra124-dsi", },
+> > -     { .compatible =3D "nvidia,tegra114-dsi", },
+> > +     { .compatible =3D "nvidia,tegra210-dsi", .data =3D &tegra114_dsi_=
+config },
+> > +     { .compatible =3D "nvidia,tegra132-dsi", .data =3D &tegra114_dsi_=
+config },
+> > +     { .compatible =3D "nvidia,tegra124-dsi", .data =3D &tegra114_dsi_=
+config },
+> > +     { .compatible =3D "nvidia,tegra114-dsi", .data =3D &tegra114_dsi_=
+config },
+> > +     { .compatible =3D "nvidia,tegra30-dsi", .data =3D &tegra20_dsi_co=
+nfig },
+> > +     { .compatible =3D "nvidia,tegra20-dsi", .data =3D &tegra20_dsi_co=
+nfig },
+> >       { },
+> >  };
+> >  MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
+> > diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
+> > index f39594e65e97..5049ec7813c7 100644
+> > --- a/drivers/gpu/drm/tegra/dsi.h
+> > +++ b/drivers/gpu/drm/tegra/dsi.h
+> > @@ -95,6 +95,16 @@
+> >  #define DSI_TALLY_LRX(x)             (((x) & 0xff) <<  8)
+> >  #define DSI_TALLY_HTX(x)             (((x) & 0xff) <<  0)
+> >  #define DSI_PAD_CONTROL_0            0x4b
+> > +/* DSI V0 */
+> > +#define DSI_PAD_CONTROL_PULLDN_ENAB(x)       (((x) & 0x1) << 28)
+> > +#define DSI_PAD_CONTROL_SLEWUPADJ(x) (((x) & 0x7) << 24)
+> > +#define DSI_PAD_CONTROL_SLEWDNADJ(x) (((x) & 0x7) << 20)
+> > +#define DSI_PAD_CONTROL_PREEMP_EN(x) (((x) & 0x1) << 19)
+> > +#define DSI_PAD_CONTROL_PDIO_CLK(x)  (((x) & 0x1) << 18)
+> > +#define DSI_PAD_CONTROL_PDIO(x)              (((x) & 0x3) << 16)
+> > +#define DSI_PAD_CONTROL_LPUPADJ(x)   (((x) & 0x3) << 14)
+> > +#define DSI_PAD_CONTROL_LPDNADJ(x)   (((x) & 0x3) << 12)
+> > +/* DSI V1 */
+> >  #define DSI_PAD_CONTROL_VS1_PDIO(x)  (((x) & 0xf) <<  0)
+> >  #define DSI_PAD_CONTROL_VS1_PDIO_CLK (1 <<  8)
+> >  #define DSI_PAD_CONTROL_VS1_PULLDN(x)        (((x) & 0xf) << 16)
+> > @@ -140,4 +150,9 @@ enum tegra_dsi_format {
+> >       TEGRA_DSI_FORMAT_24P,
+> >  };
+> >
+> > +enum tegra_dsi_version {
+> > +     TEGRA_DSI_V0,
+> > +     TEGRA_DSI_V1,
+> > +};
+> > +
 > >  #endif
-> > 
-> > I can walk through exactly which flags need to be cleared, but my
-> > feeling is that likely any flag that the order field overloads and can
-> > possibly encode should be cleared—so bits 0–7 based on the existing
-> > code.
-> > 
-> > How about in a follow-up we normalize setting / clearing the order flag
-> > field with a #define and an inline helper?
-> 
-> Ie: Would something like the following work:
-> 
-> 		ClearPageHead(new_page);
-
-Any of these bit could possibly be set the order field in a folio, which
-modifies page + 1 flags field.
-
-	PG_locked,		/* Page is locked. Don't touch. */
-	PG_writeback,		/* Page is under writeback */
-	PG_referenced,
-	PG_uptodate,
-	PG_dirty,
-	PG_lru,
-	PG_head,		/* Must be in bit 6 */
-	PG_waiters,		/* Page has waiters, check its waitqueue. Must be bit #7 and in the same byte as "PG_locked" */
-
-So a common order-9 (2MB) folio would have PG_locked | PG_uptodate set.
-Now we get stuck on the next page lock because PG_locked is set.
-Offhand, I don’t know if different orders—which set different bits—cause
-any nasty issues either. So I figured the safest thing was clear any
-bits which folio order can set within subsequent page's memory flags
-like folio_reset_order does.
-
-> 		clear_compound_head(new_page);
-> 		folio_reset_order(new_folio);
-> 
-> Which would also deal with setting _nr_pages.
+> >
 >
-
-folio_reset_order(new_folio) would set _nr_pages in the memory that is
-new_page + 1. So let's say that page has a ref count + memcg_data, now
-that memory is corrupted and will crash the kernel.
-
-All of the above is why is took me multiple hours to write 6 lines of
-code :).
- 
-> > Matt
-> > 
-> > > > > +#ifdef NR_PAGES_IN_LARGE_FOLIO
-> > > > > +		((struct folio *)(new_page - 1))->_nr_pages = 0;
-> > > > > +#endif
-> > > > > +		new_folio->mapping = NULL;
-> > > > > +		new_folio->pgmap = pgmap;	/* Also clear compound head */
-> > > > > +		new_folio->share = 0;   /* fsdax only, unused for device private */
-> > > > 
-> > > > It would be nice if the FS DAX code actually used this as well. Is there a
-> > > > reason that change was dropped from the series?
-> > > > 
-> > > 
-> > > I don't have a test platform for FS DAX. In prior revisions, I was just
-> > > moving existing FS DAX code to a helper, which I felt confident about.
-> > > 
-> > > This revision is slightly different, and I don't feel comfortable
-> > > modifying FS DAX code without a test platform. I agree we should update
-> > > FS DAX, but that should be done in a follow-up with coordinated testing.
-> 
-> Fair enough, I figured something like this might be your answer :-) You
-> could update it and ask people with access to such a system to test it though
-> (unfortunately my setup has bit-rotted beyond repair).
-> 
-> But I'm ok leaving to for a future change.
 >
-
-I did a quick grep in fs/dax.c and don’t see zone_device_page_init
-called there. It probably could be used if it’s creating compound pages
-and drop the open-coded reinit when shared == 0, but yeah, that’s not
-something I can blindly code without testing.
-
-I can try to put something together for people to test soonish.
-
-Matt
-
-> > > 
-> > > Matt 
-> > > 
-> > > > > +		VM_WARN_ON_FOLIO(folio_ref_count(new_folio), new_folio);
-> > > > > +		VM_WARN_ON_FOLIO(!folio_is_zone_device(new_folio), new_folio);
-> > > > > +	}
-> > > > > +
-> > > > >  	/*
-> > > > >  	 * Drivers shouldn't be allocating pages after calling
-> > > > >  	 * memunmap_pages().
-> > > > > -- 
-> > > > > 2.43.0
-> > > > > 
+>
+>
