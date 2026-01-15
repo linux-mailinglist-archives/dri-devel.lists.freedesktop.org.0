@@ -2,125 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A80D231D9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 09:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F1D231EA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 09:29:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C23F010E6EF;
-	Thu, 15 Jan 2026 08:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBC510E6F7;
+	Thu, 15 Jan 2026 08:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ERbyeOQr";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Dx+4i75a";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="afbY9jeP";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JdsS+9ft";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6B910E6E9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:06 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 643C610E6F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:32 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60F6gFoj783893
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:05 GMT
+ 60F6g8GA1692941
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3c
- zaujsZWs=; b=ERbyeOQraVp3bYKkwM9mHfgiFOq/Q8cm95J0RTeZTfZ3y+2KoYm
- c0EsFrd+j+NkRi0NaANa7BGEJXhfLKwla0G8X71Erf0QPrHWzdQGCOIRJZG7FWjX
- NY8mPaqFT9LNAz1ZLkvrjXpwrhNWwEbxxQ5uUD76H05U7H2TuEnHARSO3YjDTFIN
- ODUI9/GHY90VnliOse/tHQBc71vPzx1ZgPdbsxIeZW37xGuf+FvRQilJTy4NtZQu
- Oe3cGD23VIC0lZmNe6hFO0lmSCmeGqDsCAmkP2fWV8fKiA02LMMGOH2K9SwB9eBM
- dEh3wMQYDVUQGFvA+FjOQWyyOdTdB6L9mrg==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbj5k5x0-1
+ cc:content-transfer-encoding:date:from:in-reply-to:message-id
+ :mime-version:references:subject:to; s=qcppdkim1; bh=gXRRzI8PFSG
+ Xkse4fblghbMDCYBL2rAyR0rE6A7MHy0=; b=afbY9jePQLJ4T8Riy9B6Fz6uBKl
+ 9aJtbGD5R+Gx9wsLEotDYHrdQMhqjlLFvk4XxvKxmQfEk+3NMteHJ6ko3XKi33dU
+ lCeHLZxtfJW174Eg/bmF6gmbYTqfDmPd2TyQdFSEmTnrQDLcEBbDvtDzDAPbU9Td
+ geTNliMi5lgOILPcKXmLRY+hr+XwvjrgNQ3+btaVxCuhoobC1GHYw33JaSX0QRjL
+ A//cpllfpTxDz+x8qe5RqiJdWLPw6iNNNerk946RMqEt0axc7oobAcdZ+6z/aQSD
+ gVFy6qjEjT5WYR0sIy8U3MU8JxV3e0v7Rxyu1+6EEsZh76tcHT0Kh2Z5WyA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bp931kwjh-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:05 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b471737e673so1026707a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:29:05 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:31 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-81e7fd70908so1379219b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:29:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768465744; x=1769070544;
+ d=oss.qualcomm.com; s=google; t=1768465771; x=1769070571;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3czaujsZWs=;
- b=Dx+4i75aNNeqVxSb/ZNSy/EWnpKwCt0RbXbFJ+3JSKTmRUbC5bP7VwbXrm014HHa7q
- YaAmUUT8IWu1g6inAqSxceRQg8FLqXS7i0qiPOQ2+uQHiVorup3Acp3YNY5Wr8k6f1nj
- RwcI9EgDgAQ7SXEkF9fshHgGKumaiyQphm2Heh6wlTWhX/32r5RO8psDjgJYChsUxgI4
- eQislky0phcO+Ttta2Z3nv2hqcAGhus6RwwqEYt6uKbnKjbW0Evp98ecdT+ag5pl5PkT
- PeBnZ+lNjCIb+ad/FubQsr23q97nSyKPFnH37MJ7Te2taXbEsTFQ5XsA9zSZaLXaQ2O7
- yz3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768465744; x=1769070544;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3czaujsZWs=;
- b=FPIUa2mPNh1KKJDloj+UorJ47bWYzrgarzbGNNwxkdrp8FvldU3SxbJqkiIn8KsfnS
- oRpHksIXdx2c4ECks2NJzeMg51JdRy97H1k/lCcg0LtVFi5dbJSZU3jkBMWegQGywiuo
- 0g/KnBZrnp1LMSSkzB3NdxLsK1v+YyJxu+3hQVjRQ4Hhfo6g1QZgovag7BEYyTlRvIAa
- fcApBR77FHfKFpK8Ygs1Fsn7wf5VZHdku7T29700UUzFg6kJqaFoEKwtM7gLuC92Wo6/
- bZYsoe6xPeJchm4M3R+0O3HIM0ZB2Dx21PvnuT1hWiYmSDrN/WMBgGb46mEqybY7y5j+
- hNRQ==
+ bh=gXRRzI8PFSGXkse4fblghbMDCYBL2rAyR0rE6A7MHy0=;
+ b=JdsS+9ftNAQ6W6/tTGP0f1uLN88SXkyo5+hlE5bZe+NeuBsFvF8/+G2lAGvko7D5nT
+ /0fpHm7MnEQ9DnyDuFVwM8nTUCV1J0qZiduXna0IukYHzx/4KftaPRGjkqTz7zA9kVMz
+ T6HYREJr7uVl8+dYCik9ae/1pLQ4X9F3Qs40xQ03wMbPqZWsh/zUH6oCxWQ9WouAMLcj
+ lp2DqL/mNzflmOPD4qVTOoAMIk0rYbkeG0fTnvMGe4M/fPP1ehVHTUuRrC0u4VFIDF4O
+ PDKKOiBgQqm9/JfGxBH76ZUHvc/5yj3phPn/k7f7HcCZJ4U6o62kBl/7YyiIoGAtHRhX
+ t8Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768465771; x=1769070571;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=gXRRzI8PFSGXkse4fblghbMDCYBL2rAyR0rE6A7MHy0=;
+ b=pm5GyIVxJWXKS+A092rrs8RkTvMExg8eNSHO3oOMbAUahWJ5J/vslvWN5bxsnI9xUV
+ MMJCTI5/c8mhagA2imAuou65JgIqSJMZjc2Kutc+MMDsFmsTS2Rwn3BpRrIYdB46K3rB
+ y78eluzbq5AphOm+eIcrihsvVb0uBL8+UUyqfVsZEMnQFrQENT2RrLOSH9T6UvXPmmY3
+ tiYRInBr/iM+p5mACLZ5F+VRd0XyhxZWZYcX5bE1g09ow3f/lrjQnL42OuHBpnYWPHjA
+ T2mPFrawHVHagTb8zBaaRZG6aiWnaT19xGZTt6Uk9kRXViCp7BQ4FZNAVUHtQ+Ip1Jfu
+ 0BUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4a6xJ5r0QtTq2e3ZaUnGFC7FZDcfEYQ1bzFf6463Q168Hv1QwU0x1rrqycMiDBjHxZFHzdkfAACc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIUIhE64aQxgOygXSHKHLQF8S7R1S3CcZuD59X4Klr265U6aej
- D3bqeg1egbb4pUkzx7WfJVtcCOtaL9z8Ohnl8UFsM9vPBNULe1gOJy6F1+nGSrbGDASKb89sBDy
- fr31KU/yTPCFyOkkkzl7dUkpA6smBmVCXraOWYIP3laOIJs3swAxHKfF8A9JqoMGlqjt77ww=
-X-Gm-Gg: AY/fxX7JUWRnxpNgv+ucaKvNtgAtUHsx0iH1lp9trnXaCz5mviO5cIoG43jqVD9Pg1y
- yzrjj1Tab3RE+omv0MQJqYRB2Lqo9rIl5HCarEgLnMmj7kTCq41z440pHbpbCrtNf++GfaNNc+/
- NRHS5xnTRbA+jSneY5uEqyD+fDwmUy1kYqYTNssgSnf9hOjBgf8n5MaxMPFdKiwCTmHJDdEb8mZ
- AGZgDUQ3EAe+4WW2OdUdrMnrHkSU/0HHSTJSoYaucJ6RN0fhxE7Ds19Ilzywwc32CuhuXaXQHV1
- 48HuW77nFYiCQNKh9RxoGrcuk4vji0AoFmD0oZMLUfByFmCg4PKKlbgYJRZkryCME9abkVSQD+b
- /TCX159eStze0nvKpA5lB2SMoVxWTb47OUdUE6+lr
-X-Received: by 2002:a05:6a20:7f89:b0:347:9ae1:cffb with SMTP id
- adf61e73a8af0-38bed0d2c3bmr5834702637.24.1768465744445; 
- Thu, 15 Jan 2026 00:29:04 -0800 (PST)
-X-Received: by 2002:a05:6a20:7f89:b0:347:9ae1:cffb with SMTP id
- adf61e73a8af0-38bed0d2c3bmr5834682637.24.1768465743922; 
- Thu, 15 Jan 2026 00:29:03 -0800 (PST)
+ AJvYcCUNEWYt3Nct3WlkwCHxkxK9QSu8dwcT1GK+BkeI6v7G8/nVFcsCQl6Qo6KZB0+LdXYYupK+NdQspbg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykKTb11MrnhOi8hh79bX/ELyYv7MyMs8LWAceytNRJLCDi30Cp
+ WdaDBScTDk+S8fLainT4voeb8Fb2aIXnQ5PY3w6Croo2vDYrDb8eIa6cl2WFbsMoW2drBnjAzQS
+ kbsYTBlyTvjPoWVO2TSUrMt65Adwc0DefeJX97cCdVw3Q/SeYgJxA0IYD1boRJSmA8kmfDsc=
+X-Gm-Gg: AY/fxX5y2xdmmukWoAO8MHse1zY7g1Oj3xOXCjjvkVQLN2NoYRbylGW+ABO+B7EeiXr
+ qc2o21NFyz9EjAc1Fx9nippEA0knrGr7ytEkVORfhLtibFwgCrEq1AmV9SjXFhZq9j1UchEl1Kb
+ MLGRVs6bt6Xf+nmcaYh2SKa36wnKjAQMjcnJ30sPCSz/sRk2LLXh2zHLmVGUGNB+Bxms+0YIhps
+ 6/IejTGZ7dKKRGa5l5Cvkzfz+b4AFnWEbgfwsJsGd1Fmg02HKcXZR+sq4QyKhrRz0sVzVYiirY8
+ sgrpljKmFNEOkHN9qliyFX2Cw6RVnmoJNDkm7xt4MhrG/AGhHMLQu/hVUR/oYfDGlROXq5n3a7H
+ RMKUIYMf2P0i0ZCi2UhC8Mqg0PYw95JtR44yRs0CN
+X-Received: by 2002:a05:6a00:349a:b0:81e:c91c:70c5 with SMTP id
+ d2e1a72fcca58-81f83cc6427mr4776806b3a.29.1768465771060; 
+ Thu, 15 Jan 2026 00:29:31 -0800 (PST)
+X-Received: by 2002:a05:6a00:349a:b0:81e:c91c:70c5 with SMTP id
+ d2e1a72fcca58-81f83cc6427mr4776785b3a.29.1768465770602; 
+ Thu, 15 Jan 2026 00:29:30 -0800 (PST)
 Received: from QCOM-SocCW5bzXR.qualcomm.com ([202.46.23.19])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-81f8e69d1e7sm1773296b3a.58.2026.01.15.00.28.56
+ d2e1a72fcca58-81f8e69d1e7sm1773296b3a.58.2026.01.15.00.29.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jan 2026 00:29:03 -0800 (PST)
+ Thu, 15 Jan 2026 00:29:30 -0800 (PST)
 From: Jianping Li <jianping.li@oss.qualcomm.com>
 To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
  gregkh@linuxfoundation.org, linux-arm-msm@vger.kernel.org
-Cc: Jianping Li <jianping.li@oss.qualcomm.com>, thierry.escande@linaro.org,
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, thierry.escande@linaro.org, 
  abelvesa@kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- ekansh.gupta@oss.qualcomm.com
-Subject: [PATCH v2 0/4] Add missing bug fixes
-Date: Thu, 15 Jan 2026 16:28:47 +0800
-Message-Id: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
+ stable@kernel.org, Jianping Li <jianping.li@oss.qualcomm.com>
+Subject: [PATCH v2 1/4] misc: fastrpc: Add NULL check to fastrpc_buf_free to
+ prevent crash
+Date: Thu, 15 Jan 2026 16:28:48 +0800
+Message-Id: <20260115082851.570-2-jianping.li@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
+References: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA1NyBTYWx0ZWRfX0ryHp9YrVgST
- qC7HiZ1NJzsWhGfADptu/8DNXCoKPKtUp26P564pdf9X5uOHGrkg3o9g7IytXFeHajLMQa3qUce
- Kk0XFOzbxU10vSiCaDnnrm3nJbitWYDHxjx/c7934HDqvDb5JJ3VuKTqLHc15wX3KcuMXZAG1M7
- 5H6PzAFSj1sHnQoPJ9KVFtlTK65/zcFubbAaBTmB4HOTAl9ROKRQrLAHS8JYvxMluTT4F7dUUAX
- nR4vSZlaPhcBjJfPo4b0UNT9JCWryqzoYiWkPoRFz+NSXA0UoXtB8OeqGJpFyHicVWMwshk6v7y
- FV3WwdNzKR+Rr7fiy9n0TTQfyKNgHzV7h5gbgF5SDwjPiXWYVX1ur+XXwqL1vvBXgJP7I71xLzF
- uzAITm553xZMMNGBiSVYQiUDE3v5WJuu2j/kuv8z1j9lP4ymrYaPuCQ4oeRFldKFA8QS0b4iYJf
- KAAykxkIX/nTF3wKRQQ==
-X-Proofpoint-ORIG-GUID: QTTHqTQH9t33JYWehn4zyIuPCIaH0cI0
-X-Proofpoint-GUID: QTTHqTQH9t33JYWehn4zyIuPCIaH0cI0
-X-Authority-Analysis: v=2.4 cv=aapsXBot c=1 sm=1 tr=0 ts=6968a551 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+X-Authority-Analysis: v=2.4 cv=BOW+bVQG c=1 sm=1 tr=0 ts=6968a56b cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=gfRWkJ0A9WzxxLvKSxYA:9 a=zZCYzV9kfG8A:10
- a=3WC7DwWrALyhR5TkjVHa:22
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=ZnmZ8TzD_GdZzTgawW0A:9
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: j8o7U8IXBfizVdaLWjUeTfFJ2ALj23Vo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA1NyBTYWx0ZWRfX5p6HEIbsbK9F
+ HFVpVW7nvXOfCznNWxLuZM1044aaHm2JklncKboiuA5BuuEZXi0jEqOdiwax7eu+kd3sDg0C7DL
+ 4qij9IPj4bpYGYglrgCKeEv/0wEZk9Pe9zV1mRdWyYh43G2eNa72SfNr2zQoua5zHspPgwV1DaS
+ tSOnusFR7nyoH+XGD803Isvy57CvdX8iDneDljDDOYZfck/xhQ4onoOXVvpPNe3IDkB01r+66AD
+ iRqmVgKPlEWGVGpNNhjrQS46vOcO1iir8yunfokV03qbejjmbMg/QA6wR9A4BHjlV0d2EbnUB5m
+ 0DMixzXvYjcYgPfk2CCj7OqFTfu5NrX7olkrqmA8jlGe91mRgLY2skxO/D2Q8Y8gNQMQRP43FR+
+ 983dqEgBTOz9wAct5ZriygKsEWyQEbdQdjRKGyGMxLQE/jU07xf/gbvtVTG931SPB/O/hfLelk1
+ aINBdbq9l7zbwX0J43w==
+X-Proofpoint-GUID: j8o7U8IXBfizVdaLWjUeTfFJ2ALj23Vo
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-15_02,2026-01-14_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601150057
+ suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
+ adultscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,28 +139,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing bug fixes in memory areas. This patch series carries
-following fixes:
-- Add proper checks to fastrpc_buf_free to avoid potential issues.
-- Add multiple fixes for remote heap which is used by Audio PD.
-Patch [v1]: https://lore.kernel.org/all/20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com/
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 
-Changes in v2:
-  - Remove the if check outside fastrpc_buf_free
-  - Store the spinlock pointer in the struct fastrpc_buf instead
-  - Allocate entire reserved memory to audio PD through remote heap
+The fastrpc_buf_free function currently does not handle the case where
+the input buffer pointer (buf) is NULL. This can lead to a null pointer
+dereference, causing a crash or undefined behavior when the function
+attempts to access members of the buf structure. Add a NULL check to
+ensure safe handling of NULL pointers and prevent potential crashes.
 
-Ekansh Gupta (3):
-  misc: fastrpc: Add NULL check to fastrpc_buf_free to prevent crash
-  misc: fastrpc: Fix initial memory allocation for Audio PD memory pool
-  misc: fastrpc: Remove buffer from list prior to unmap operation
+Fixes: c68cfb718c8f9 ("misc: fastrpc: Add support for context Invoke method")
+Cc: stable@kernel.org
+Co-developed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Signed-off-by: Jianping Li <jianping.li@oss.qualcomm.com>
+---
+ drivers/misc/fastrpc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Jianping Li (1):
-  misc: fastrpc: Allocate entire reserved memory for Audio PD in probe
-
- drivers/misc/fastrpc.c | 135 ++++++++++++++++++++++-------------------
- 1 file changed, 71 insertions(+), 64 deletions(-)
-
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 4f5a79c50f58..515a43c9d95d 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -414,6 +414,9 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
+ 
+ static void fastrpc_buf_free(struct fastrpc_buf *buf)
+ {
++	if (!buf)
++		return;
++
+ 	dma_free_coherent(buf->dev, buf->size, buf->virt,
+ 			  fastrpc_ipa_to_dma_addr(buf->fl->cctx, buf->dma_addr));
+ 	kfree(buf);
+@@ -510,8 +513,7 @@ static void fastrpc_context_free(struct kref *ref)
+ 	for (i = 0; i < ctx->nbufs; i++)
+ 		fastrpc_map_put(ctx->maps[i]);
+ 
+-	if (ctx->buf)
+-		fastrpc_buf_free(ctx->buf);
++	fastrpc_buf_free(ctx->buf);
+ 
+ 	spin_lock_irqsave(&cctx->lock, flags);
+ 	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
+@@ -1591,8 +1593,7 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
+ 	list_del(&fl->user);
+ 	spin_unlock_irqrestore(&cctx->lock, flags);
+ 
+-	if (fl->init_mem)
+-		fastrpc_buf_free(fl->init_mem);
++	fastrpc_buf_free(fl->init_mem);
+ 
+ 	list_for_each_entry_safe(ctx, n, &fl->pending, node) {
+ 		list_del(&ctx->node);
+@@ -2492,8 +2493,7 @@ static void fastrpc_rpmsg_remove(struct rpmsg_device *rpdev)
+ 	list_for_each_entry_safe(buf, b, &cctx->invoke_interrupted_mmaps, node)
+ 		list_del(&buf->node);
+ 
+-	if (cctx->remote_heap)
+-		fastrpc_buf_free(cctx->remote_heap);
++	fastrpc_buf_free(cctx->remote_heap);
+ 
+ 	of_platform_depopulate(&rpdev->dev);
+ 
 -- 
 2.43.0
 
