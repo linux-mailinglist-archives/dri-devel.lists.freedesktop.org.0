@@ -2,85 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD313D22ECA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859C4D22F4B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:55:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 212AD10E6CD;
-	Thu, 15 Jan 2026 07:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFA210E6DB;
+	Thu, 15 Jan 2026 07:55:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iDFOIc5w";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="STyAFe2Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="duq7QlO6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="STyAFe2Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="duq7QlO6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F9710E6CD
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 07:49:18 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-430f57cd471so361512f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 23:49:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768463357; x=1769068157; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GtxAoaTpJU6r++xlIpmAaAG/bZOXfH9n2gzVC3kL6Pc=;
- b=iDFOIc5w4Gs0aYprfSb2E015o8joezMVJBVkXtPl+uy2HLuG5ZKFU4NNEBk9gije5k
- WtkxsulIkNdaHS3ux1s5zNkC9BsnLX1E53BdJiPdlFCvVa63CJLlYLZxaZueBOQbaRMd
- UkxQTwYGui/P/Wn6KqP9zgfmFeRDnzSR8iwtRFILyXGsokYP1xGfFIC14H0B4y5lIplq
- CWSDMuTBPK05+wiRI8lTtoKUyHe5J6julnZccQRDfipyrGkJAXgn5ly8Kq9KN8Hq/Hzs
- /NEX9J0UkXsHYpmQsj2IZs+UkYne1c+bbjVE9bQEgnOdH5POqET5r0qfp0ChIp2SBbsf
- SK9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768463357; x=1769068157;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=GtxAoaTpJU6r++xlIpmAaAG/bZOXfH9n2gzVC3kL6Pc=;
- b=UFqfUUuyEhLGG8lGpiVTXVxVQPTDZwTJrz0xpfhV+6sIj+z5lFzLy4IxgGU8TaZy7s
- JFNghlflFcb2ddvvD7GIjkk7wCm79hA4VusthZDwmm2Wl3BbX91yJkCqK3OJr3F3/lSZ
- 1dSGRKL4aVSGvEAoapoRX1B/8LbzeK5vC13mJtcm2tFo6jTg+e8YzQ/JqAYERJjRPeYe
- rbDPzqJImnZQhiNAn7kWed/Z5kfSMQDL1Uoig9QGQVSrRfrULi5dvP60Y/bhjdMTZeuT
- 9FWMpG0AOzYP2VnGX5uKr0378qfDdCb8wjrMke7Mz4/N1F5Ht0hgcsKNs81JsFEuGSv9
- sNBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7TW+SsZ6iBwYmqk3kjAPXe31RMKv8txWpQxTuwoOexrYK6wuCm8UoEbfvlzPAQ/uLzcJgPWPvfr0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHjpKXgOil4eI5SGzV+N+fNNLWDBYsGcacpLs7f2lCaXNYTvoQ
- /MhwAasciSs6b7WBzxiQgfr46qChBj2PScIUTlIErv+OA2KATa2CFfS0rqaSs6xOZIoduK1PmdO
- MbhfHrZc4869JueZxLdeBG+odZ/v6vKU=
-X-Gm-Gg: AY/fxX636tOArBWfCID9dNZJRXdVQjKCoWddcaHQLulYQqE3WZNRwZsNaaJYm63Ve3i
- QazvdGTYtUX7hBw59Slt8YaXaJVXmsoJsH5Bg6xW0ciAmrT5hmO8U7ZOmd6oBhTdJ9ad+aPh0+p
- 7VLR/NC/ss2sOyT/gutFfRjOWRDQXp71aA2Ylq8W1wIJ/d1yMBv33eQyYYhI3y9vKu6xml0syXJ
- lYBPz2P8pjlEjY9G31RQry1cb1sNj08ZEvhWfLttx5Jzg5GVcY0NhdTd7/mwdZVWpxvx/gZ
-X-Received: by 2002:a5d:5d86:0:b0:432:8504:b8a9 with SMTP id
- ffacd0b85a97d-4342c571e43mr6373650f8f.62.1768463356624; Wed, 14 Jan 2026
- 23:49:16 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1B810E6DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 07:55:15 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0354D5BCE8;
+ Thu, 15 Jan 2026 07:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768463714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uu2xYv9TK65U2dNAnIb1F5lVgy1KSPMAxFLRTYqu7ds=;
+ b=STyAFe2ZxpkOz0PrmlEzJUn6DlhI1xjx0wzGlg2v6pTD7poAfSNsMmZOj2DXNh7L7rbJD7
+ chOBjdDu+ag5zUMnhi2b7AVgC+MmTJJ/FNCMVtMtPLSnphXgz/oLcqmeqtDttH2O69Qnv4
+ 175sBcnKX6NFTezuiWWx/bNSckPN3Gk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768463714;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uu2xYv9TK65U2dNAnIb1F5lVgy1KSPMAxFLRTYqu7ds=;
+ b=duq7QlO6nKze6B+NcdR5EfVCwS/M9q6P6F+L7FOmgn+gm3Mni2vNPVo17vYBsVFe0zyLhn
+ 00MHk/1bGkGSbCCQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=STyAFe2Z;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=duq7QlO6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768463714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uu2xYv9TK65U2dNAnIb1F5lVgy1KSPMAxFLRTYqu7ds=;
+ b=STyAFe2ZxpkOz0PrmlEzJUn6DlhI1xjx0wzGlg2v6pTD7poAfSNsMmZOj2DXNh7L7rbJD7
+ chOBjdDu+ag5zUMnhi2b7AVgC+MmTJJ/FNCMVtMtPLSnphXgz/oLcqmeqtDttH2O69Qnv4
+ 175sBcnKX6NFTezuiWWx/bNSckPN3Gk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768463714;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uu2xYv9TK65U2dNAnIb1F5lVgy1KSPMAxFLRTYqu7ds=;
+ b=duq7QlO6nKze6B+NcdR5EfVCwS/M9q6P6F+L7FOmgn+gm3Mni2vNPVo17vYBsVFe0zyLhn
+ 00MHk/1bGkGSbCCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE1D33EA63;
+ Thu, 15 Jan 2026 07:55:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id reRbKGCdaGmRagAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 07:55:12 +0000
+Message-ID: <1b83803a-b51f-4cc0-a836-b4417bfd6537@suse.de>
+Date: Thu, 15 Jan 2026 08:55:12 +0100
 MIME-Version: 1.0
-References: <20251204061703.5579-1-clamor95@gmail.com>
- <20251204061703.5579-3-clamor95@gmail.com>
- <7012249.lOV4Wx5bFT@senjougahara>
-In-Reply-To: <7012249.lOV4Wx5bFT@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 15 Jan 2026 09:49:05 +0200
-X-Gm-Features: AZwV_Qi0zcbXk0tsiK_qJ_9rRb1cx2nEQ98pWwmRVMmkpOG8O8-PqPUPy2GYvG0
-Message-ID: <CAPVz0n3JEHtUOq4qaZbqPu97NXdYxx_=5im4rxoEWi8EbKmKEw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4 RESEND] gpu/drm: tegra: dsi: move prepare function
- to the top of encoder enable
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
+ FB_DEVICE is disabled
+To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
+ kernel test robot <lkp@intel.com>
+References: <20260113045909.336931-1-chintanlike@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260113045909.336931-1-chintanlike@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org,intel.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[10]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.com:url,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 0354D5BCE8
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,65 +158,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=87=D1=82, 15 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 07:54 Mikk=
-o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thursday, December 4, 2025 3:17=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > The tegra_dsi_prepare function performs hardware setup and should be
-> > called before any register readings or there will be a risk of device
-> > hangup on register access. To avoid this situation, tegra_dsi_prepare m=
-ust
-> > be called at the beginning of tegra_dsi_encoder_enable.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  drivers/gpu/drm/tegra/dsi.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-> > index 278bf2c85524..8e80c7efe8b4 100644
-> > --- a/drivers/gpu/drm/tegra/dsi.c
-> > +++ b/drivers/gpu/drm/tegra/dsi.c
-> > @@ -914,6 +914,12 @@ static void tegra_dsi_encoder_enable(struct drm_en=
-coder *encoder)
-> >       u32 value;
-> >       int err;
-> >
-> > +     err =3D tegra_dsi_prepare(dsi);
-> > +     if (err < 0) {
-> > +             dev_err(dsi->dev, "failed to prepare: %d\n", err);
-> > +             return;
-> > +     }
-> > +
-> >       /* If the bootloader enabled DSI it needs to be disabled
-> >        * in order for the panel initialization commands to be
-> >        * properly sent.
-> > @@ -923,12 +929,6 @@ static void tegra_dsi_encoder_enable(struct drm_en=
-coder *encoder)
-> >       if (value & DSI_POWER_CONTROL_ENABLE)
-> >               tegra_dsi_disable(dsi);
-> >
-> > -     err =3D tegra_dsi_prepare(dsi);
-> > -     if (err < 0) {
-> > -             dev_err(dsi->dev, "failed to prepare: %d\n", err);
-> > -             return;
-> > -     }
-> > -
-> >       state =3D tegra_dsi_get_state(dsi);
-> >
-> >       tegra_dsi_set_timeout(dsi, state->bclk, state->vrefresh);
-> >
->
-> The section of code before the tegra_dsi_prepare call was removed in 'Rev=
-ert "drm/tegra: dsi: Clear enable register if powered by bootloader"', so t=
-his patch should no longer be necessary.
->
-> Mikko
->
+Hi
 
-You are correct. I have found this when rebasing onto v6.18 which was
-much later then this series was resent. Obviously, this patch would be
-dropped on the next resend/v3. Sorry for inconvenience.
+Am 13.01.26 um 05:59 schrieb Chintan Patel:
+> Replace direct accesses to info->dev with fb_dbg() and fb_info()
+> helpers to avoid build failures when CONFIG_FB_DEVICE=n.
+>
+> Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+>
+> Changes in v6:
+> - Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
+> - Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
+>    handle the debug/info context.
+> - Drop __func__ usage per review feedback(suggested by greg k-h)
+> - Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+>    (suggested by Andy Shevchenko)
+>
+> Changes in v5:
+> - Initial attempt to replace info->dev accesses using
+>    dev_of_fbinfo() helper
+> ---
+>   drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 8a5ccc8ae0a1..1b3b62950205 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+>   	unsigned int val;
+>   	int ret = 1;
+>   
+> -	dev_dbg(info->dev,
+> -		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+> -		__func__, regno, red, green, blue, transp);
+> +	fb_dbg(info,
+> +	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
+> +	       regno, red, green, blue, transp);
+>   
+>   	switch (info->fix.visual) {
+>   	case FB_VISUAL_TRUECOLOR:
+> @@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+>   	struct fbtft_par *par = info->par;
+>   	int ret = -EINVAL;
+>   
+> -	dev_dbg(info->dev, "%s(blank=%d)\n",
+> -		__func__, blank);
+> +	fb_dbg(info, "blank=%d\n", blank);
+>   
+>   	if (!par->fbtftops.blank)
+>   		return ret;
+> @@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+>   	if (spi)
+>   		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+>   			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+> -	dev_info(fb_info->dev,
+> -		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+> -		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> -		 fb_info->fix.smem_len >> 10, text1,
+> -		 HZ / fb_info->fbdefio->delay, text2);
+> +	fb_info(fb_info,
+> +		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+> +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> +		fb_info->fix.smem_len >> 10, text1,
+> +		HZ / fb_info->fbdefio->delay, text2);
 
->
->
+As discussed before, this should become fb_dbg().  Drivers should not 
+print status reports unless they do not work as expected.
+
+Best regards
+Thomas
+
+>   
+>   	/* Turn on backlight if available */
+>   	if (fb_info->bl_dev) {
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
