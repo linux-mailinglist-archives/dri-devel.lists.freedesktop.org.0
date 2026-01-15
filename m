@@ -2,34 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6279DD254D4
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248C8D254D9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:25:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A0110E78B;
-	Thu, 15 Jan 2026 15:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D0610E78E;
+	Thu, 15 Jan 2026 15:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6BA710E78B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D4E10E78B
  for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 15:24:55 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.felsch@pengutronix.de>)
- id 1vgPDS-0003hw-42; Thu, 15 Jan 2026 16:24:54 +0100
+ id 1vgPDS-0003hw-Bo; Thu, 15 Jan 2026 16:24:54 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v9 0/3] Add i.MX91/93 parallel display support
-Date: Thu, 15 Jan 2026 16:24:50 +0100
-Message-Id: <20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de>
+Date: Thu, 15 Jan 2026 16:24:51 +0100
+Subject: [PATCH v9 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
+ subnode to schema and example
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMIGaWkC/5XNTWrDMBCG4asErTNFP5Zsd9V7lCzk0TgZcGwhu
- cYh+O5RAoVAukiX3zA871VkSkxZfO6uItHCmaexjHa/E3jy45GAQ9lCS22VlgoWB6qBeYqMwOe
- 1NRB98sNAAwTOcfAXaG3falN1vUMUBYqJel4fke9D2SfO85Quj+bi7td/8eVFQt1J60iR7RR9R
- RqPP3OaRl4/Aol7Y6mfXf2WWxdXI5JRwVVONn+6za/rpFLmLbcpbuU7xIBVbbx9cbdtuwHx9Ql
- AiQEAAA==
-X-Change-ID: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+Message-Id: <20260115-v6-18-topic-imx93-parallel-display-v9-1-2c5051e4b144@pengutronix.de>
+References: <20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de>
+In-Reply-To: <20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
  Sascha Hauer <s.hauer@pengutronix.de>, 
@@ -68,83 +65,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Liu Ying <victor.liu@nxp.com>
 
-this patchset adds the driver, dt-bindings and dt integration required
-to drive a parallel display on the i.MX93.
+i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
+configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+field. Document the Parallel Display Format Configuration(PDFC) subnode
+and add the subnode to example.
 
-Since the i.MX91 register layout equals the one from the i.MX93, I added
-the support for both but tested only the i.MX93 case.
-
-This patchset depends on:
- - https://lore.kernel.org/all/20251201-v6-18-topic-imx93-blkctrl-v1-0-b57a72e60105@pengutronix.de/
-
-@Conor Dooley
-I dropped your r-b tag since I added the 'bus-width' property.
-
-Regards,
-  Marco
-
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+[m.felsch@pengutronix.de: port to v6.18-rc1]
+[m.felsch@pengutronix.de: add bus-width]
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changes in v9:
-- Link to v8: https://lore.kernel.org/r/20260113-v6-18-topic-imx93-parallel-display-v8-0-4abccdc473a5@pengutronix.de
-- dt-bindings: drop unncessary changes (Frank)
-- imx93-pdfc: drop bridge.driver_private usage (Luca)
-- Kconfig: Adapt Kconfig symbol and prompt (Luca)
+ .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 78 ++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-Changes in v8:
-- Link to v7: https://lore.kernel.org/r/20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de
-- dt-bindings: add nxp,imx91-pdfc compatible (Liu)
-- dt-bindings: use video-interfaces.yaml# (Liu)
-- dt-bindings: s/data lanes/data lines/ (Liu)
-- dt-bindings: drop 'reg' poperty
-- dt-bindings: drop #address-cells, #size-cells
-- imx93-pdfc: drop drm/drm_print.h include (Liu)
-- imx93-pdfc: s/exist/exists/ (Liu)
-- imx93-pdfc: drop MEDIA_BUS_FMT_FIXED from imx93_pdfc_bus_output_fmts
-- imx93-pdfc: imx93_pdfc_bus_output_fmt_supported: make fmt const
-- imx93-pdfc: Rework input-fmt selection to always fallback to a sane
-              default.
-- imx93-pdfc: imx93_pdfc_bridge_atomic_check: make use of
-	      imx93_pdfc_bus_output_fmt_supported() 
-- imx93-pdfc: drop 'reg' dt-property usage
-- imx93-pdfc: imx93_pdfc_bridge_probe: pass -1 for endpoint reg value (Liu)
+diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+index 34aea58094e55365a2f9c86092f637e533f954ff..d828c2e82965c7a4cd69a67136047d83c96b0a35 100644
+--- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
++++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+@@ -40,6 +40,58 @@ properties:
+     minItems: 8
+     maxItems: 10
+ 
++  dpi-bridge:
++    type: object
++    additionalProperties: false
++
++    properties:
++      compatible:
++        enum:
++          - nxp,imx91-pdfc
++          - nxp,imx93-pdfc
++
++      ports:
++        $ref: /schemas/graph.yaml#/properties/ports
++
++        properties:
++          port@0:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: Input port node to receive pixel data.
++
++          port@1:
++            $ref: /schemas/graph.yaml#/$defs/port-base
++            unevaluatedProperties: false
++            description: Output port node to downstream pixel data receivers.
++
++            properties:
++              endpoint:
++                $ref: /schemas/media/video-interfaces.yaml#
++                unevaluatedProperties: false
++
++                properties:
++                  bus-width:
++                    enum: [ 16, 18, 24 ]
++                    description:
++                      Specify the physical parallel bus width.
++
++                      This property is optional if the display bus-width
++                      matches the SoC bus-width, e.g. a 18-bit RGB666 (display)
++                      is connected and all 18-bit data lines are muxed to the
++                      parallel-output pads.
++
++                      This property must be set to 18 to cut only the LSBs
++                      instead of the MSBs in case a 24-bit RGB888 display is
++                      connected and only the lower 18-bit data lanes are muxed
++                      to the parallel-output pads.
++
++        required:
++          - port@0
++          - port@1
++
++    required:
++      - compatible
++      - ports
++
+ allOf:
+   - if:
+       properties:
+@@ -112,4 +164,30 @@ examples:
+                clock-names = "apb", "axi", "nic", "disp", "cam",
+                              "pxp", "lcdif", "isi", "csi", "dsi";
+       #power-domain-cells = <1>;
++
++      dpi-bridge {
++        compatible = "nxp,imx93-pdfc";
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++
++            pdfc_from_lcdif: endpoint {
++              remote-endpoint = <&lcdif_to_pdfc>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++
++            pdfc_to_panel: endpoint {
++              remote-endpoint = <&panel_from_pdfc>;
++              bus-width = <18>;
++            };
++          };
++        };
++      };
+     };
 
-Changes in v7:
-- Link to v6: https://lore.kernel.org/r/20251201-v6-18-topic-imx93-parallel-display-v6-0-7b056e1e5b1e@pengutronix.de
-- Add missing bits.h and bitfield.h headers (lkp)
-
-Changes in v6:
-- Link to v5: https://lore.kernel.org/all/20250304082434.834031-1-victor.liu@nxp.com/
-- Add bus-width support
-- rebase onto v6.18-rc1
-- add review feedback (Alexander)
-- driver license "GPL v2" -> "GPL" (checkpatch)
-- make use of reg of-property
-- fix to short Kconfig description (checkpath)
-- add OF integration
-
----
-Liu Ying (2):
-      dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC subnode to schema and example
-      drm/bridge: imx: Add i.MX93 parallel display format configuration support
-
-Marco Felsch (1):
-      arm64: dts: imx93: Add parallel display output nodes
-
- .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml |  78 +++++++
- arch/arm64/boot/dts/freescale/imx91_93_common.dtsi |  54 +++++
- arch/arm64/boot/dts/freescale/imx93.dtsi           |  12 ++
- drivers/gpu/drm/bridge/imx/Kconfig                 |  11 +
- drivers/gpu/drm/bridge/imx/Makefile                |   1 +
- drivers/gpu/drm/bridge/imx/imx93-pdfc.c            | 226 +++++++++++++++++++++
- 6 files changed, 382 insertions(+)
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
-
-Best regards,
 -- 
-Marco Felsch <m.felsch@pengutronix.de>
+2.47.3
 
