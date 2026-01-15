@@ -2,192 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE06CD25893
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57903D259F4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 17:11:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0886210E797;
-	Thu, 15 Jan 2026 15:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F1010E79E;
+	Thu, 15 Jan 2026 16:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yoOsjCWX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ql9TU4nD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010011.outbound.protection.outlook.com
- [52.101.193.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 202BC10E037;
- Thu, 15 Jan 2026 15:58:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E533310E188;
+ Thu, 15 Jan 2026 16:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768493465; x=1800029465;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=KKNZPUqFw7HFZxD3P0dNskJm5+e2BjL/HfKTPrymRPk=;
+ b=Ql9TU4nDpgjd9BZUqcf8xe8Ibh4S87qhy2SOXveKZomJq7TuwrDK7PHs
+ 4mk0QoNz4kPnVSjKQlaN4M4m6kg41qSpc8KXWJJQa9+evyagofFMW8OjN
+ JhEVCEmdMiVlzVsDfENhRQ1SuGS/tR3BlOBY3gIGIv1833eg9isk+NK5q
+ 490sPGNVLOC5j8q+Qan1S+PKhjbA5U4BQNjWnY2NZQBbZcoxAXoNWr4iG
+ ibhclQAhoHspBcresmj+d7MOzWHzMKb9JB21oJjz3P6pmfWGrqVFFpcuS
+ Z/owKK/Ek8qx362TBJSRPzY8OtBdKV5iJKw/1ErBliT3xmBFOf2KxHpG/ g==;
+X-CSE-ConnectionGUID: glo2ZTVBR0iJak0ySNFpHg==
+X-CSE-MsgGUID: ygmGcxyFRpiMW0914G+4Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="81247516"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="81247516"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 08:11:04 -0800
+X-CSE-ConnectionGUID: Ak6r8JZIStKpWw6jt7SUnA==
+X-CSE-MsgGUID: gaxdyBmYQO2fBEtiDMTOFQ==
+X-ExtLoop1: 1
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 08:11:03 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 15 Jan 2026 08:11:02 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Thu, 15 Jan 2026 08:11:02 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.30) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 15 Jan 2026 08:11:02 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tdrcscu86pefir6hlnQsIuwih5RiDiEmpSfhbcnbuTxS9azkJCIaBFEsCTKw36YdnLlM6ix4N2QZ5IiU31Z9fw19RQPz20B5d6DiOqj9v/+6CHQ82HhVeIng7HxCuWA7ykdzUmoh3F5kus8TkALVOV7zUDRJosJ0CtkEBRptMSa0ZwsxlGdY+LPwvSXiN+WXlbDmHVvs6SkfG8MAao2M0AJ45rqg9LH8Q+hf7SLiLQcY3yVF3z75eAg+k8fbgmYJnTnbcz5hDHo3zVRd9QtqL5REIb8zhUApdyVKTCNN5n61EAWimxgNflDahNJIMQoG1EfL9p5hc/agwFL9Q3kA/A==
+ b=RtDS6vfJU6PkwJ6O6xfgQi+zZVIc1jzunmdOOlx/PkkAeAH4Juw2vMsR5V+1/9b+B8rLM9iPvkNi1bnX/jArTCQ3ABbt3t9UDiB5IK2v/QHVt9Kd5Q53VuVPyjfcoV0GqIBaEYNCYJlWjxBBfSH8sMfSR5lFNiQ18MQx96L/zobW5Na6PLSlNQmQ+yMebaKIXOEqcjtVzBYc0iLMWH8+zW3IGaP8mpsUy7qQo+9EHJ+3Xa1psusl+CCH/dCpzDGK5BIKYHOmwoYGaNKKmzHLougPW4pn5QAclOHDkYXEYayMcitYBkAEBTcjps520vqTDcxxL+4mQkuJbhTxAxVoBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ny6Y3XZbe4GhcQgC2/euPtCvQi0K2eKyJGQUaZnUazE=;
- b=CAWYlzrfRJcA2I4mg6MJtuPX+qRfzNtSxaUC5wuPrXaNjxydbaabAt7/bfF/mRBsjdPjxp3J8HwJvm8b2ONdfCAbicZtGGGVMKlyXFaalJqYy5ieRM39pS6DQ3qxr0Z6cOy7w95ZD5BHnJBzVopUYalJXvqB0wP7KADfySrToStYwia3AM3SOAks6xUMD0YsdyXQf2KeOYGoycUJeTRYXjHDEb2BIZD5ZIr5/ZNWrkFokfYLmALllEIDXc+TjwlxGysaxVQy2ZxK4FpqLaJjVuJl62CWD2Oig10wpIUYrBSKKm31rzvafH/6VvWL1LK4a78ZI7QJ6xTdQsrmbqxVEg==
+ bh=PLe27EyIsK+c85/2OS6x6qB5DC7js4kPq1syHlrWMSU=;
+ b=ED3jh1DowBkEVo9zKZ3pmjMoxvzgB2TkLUC8qTR4Q5JRkSyxh17kqHi4RBqo8xGgA4riQVxTv+FOclnlV26Oajw/ZUTT0v7lBG+thOe8fndvrTxCw4GjmTPnkOiG+cK1aSXy/nsiJFTlhIHI6jPC/DsdnnwopSFjLKdn+vlAt001NMvNNvtNLLb6zq+YrrEMgMuj36CFgeb4aQKcRzMep35uzkh/Z0Fx0sayYBwwXseOSCxhWhoAjToEYafm3GyvLWCOEaRZ0dzIyzeh1azOKc7QTYly2wx07iSo6okX/JgtAmx7OaHw4HDm3//UEAs8w9R0V+4SII53K3f4oHGwhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ny6Y3XZbe4GhcQgC2/euPtCvQi0K2eKyJGQUaZnUazE=;
- b=yoOsjCWXqOnIaBkwgZndsIB6MQX1cK99N8i+gPz37mAiVUBNAdZHoTRIwsPrycj6x5PDn39pznLtJIDmCQEll27oEUGNJvERuhh7sc1H6uVRNgMhTM4wZ1QUwW9fOaTpRcp45AnxPUUwKBLk9aZ1jV+FrVRjgGz0FRTHpKCDMe8=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN2PR12MB4237.namprd12.prod.outlook.com (2603:10b6:208:1d6::7)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by CH3PR11MB8708.namprd11.prod.outlook.com (2603:10b6:610:1be::5)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Thu, 15 Jan
- 2026 15:58:28 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 15:58:28 +0000
-Message-ID: <9025bacb-c7ed-4d21-b826-0cb0bf4311ac@amd.com>
-Date: Thu, 15 Jan 2026 16:58:17 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] Recover sysfb after DRM probe failure
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, Alex Deucher
- <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Ard Biesheuvel <ardb@kernel.org>, Ce Sun <cesun102@amd.com>,
- Chia-I Wu <olvaffe@gmail.com>, Danilo Krummrich <dakr@kernel.org>,
- Dave Airlie <airlied@redhat.com>, Deepak Rawat <drawat.floss@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hansg@kernel.org>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Helge Deller <deller@gmx.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lijo Lazar <lijo.lazar@amd.com>, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- spice-devel@lists.freedesktop.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
-References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
- <c816f7ed-66e0-4773-b3d1-4769234bd30b@suse.de>
- <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
- <97993761-5884-4ada-b345-9fb64819e02a@suse.de>
- <9058636d-cc18-4c8f-92cf-782fd8f771af@amd.com>
- <4ee824d5-8ea0-4ae1-8bcb-5f8cbae37fc8@suse.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <4ee824d5-8ea0-4ae1-8bcb-5f8cbae37fc8@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR4P281CA0301.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f6::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Thu, 15 Jan
+ 2026 16:10:58 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9499.005; Thu, 15 Jan 2026
+ 16:10:58 +0000
+Date: Thu, 15 Jan 2026 11:10:54 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, "Oded
+ Gabbay" <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-intel-next
+Message-ID: <aWkRjqiDTWu4zY3X@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0049.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::24) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4237:EE_
-X-MS-Office365-Filtering-Correlation-Id: c40f6f14-90de-41c5-23dd-08de544eec2d
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CH3PR11MB8708:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c804819-59de-49cc-ce56-08de5450ab57
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MHN0SWN0N1dkZjFWbm1naVY1WFJKbW1HUWR0R2lmQm91SVBOUjZ5ZnE1TlJC?=
- =?utf-8?B?eEhiZGNFMURjek1GT3VYelZ1alNCOUtMVGtrU3JtbkdYN1VGelhXaTFmazFN?=
- =?utf-8?B?alkxUWgvckNJRVBldGYzY1Yza3lhV0h5eHRXUXUrNFdnckIzMEoyTFBJK0pU?=
- =?utf-8?B?eXcwbmlzdWtBUmFwQXdkaERFNEJKRnBiSTFXZUd1Zm9Cd255NGZPREFCV0hM?=
- =?utf-8?B?SjdsZ2lVTzJGZHBpeHhEdzhZdnErTFMxZ0FVVUlzVzNic0RmUjBvVmZaaURC?=
- =?utf-8?B?clkrbU9EeEE5MlV4ODRGN0tqRFQwcWxLNXdLZHFKamNQekw0L3VuMmZ1dXJR?=
- =?utf-8?B?UTBSM25VZi8xa2wxblpLQ0ZxaWRab0lCMU14L3grdGNHZ3ZLdVNZazNBbkVC?=
- =?utf-8?B?U2JpbHFlRExrbnhBbXpUUytiaWphV0x4WnpoaHQraDZIa1BDT2ZTVWNTbjc2?=
- =?utf-8?B?WUxRMHNCYW9Lc3pOMmU4aFdHZmViMFRnL1FZZDV6Q2E3UGtVNi9mR1VEaEtS?=
- =?utf-8?B?eHlrQndVQWJ5OVZYclBpaENUYTBzdW0vTTRzR3A0VEIrSUtManVDb3k5aEs0?=
- =?utf-8?B?ZDlUdlY5a0o5dkcvUDNsNlNBaDJUaXU4dmJldCt4YnY5aHRwZVRJSGpyKzFW?=
- =?utf-8?B?czRTM0JEYkFaWm02dFJGZzRVYnFETXFISDBHZXJISkxmRDM4UVRFVklpdWVz?=
- =?utf-8?B?QllCWWM4cDdWb09kOGNQRzUwV3hIWXU1T0ZiSG1nbGdxeHl0QkxWcmpML091?=
- =?utf-8?B?WlhuTk1jK1c1YTlySjZ4QzRodXVTcGxIS1lqL0lZa0hCaDNmNmNjTkhNL1Yy?=
- =?utf-8?B?aEpWVkc2UGJRK2w4WmphRTRoejh2K2d5aUV0R1JzVGNDN25RRllIYWhRcUVn?=
- =?utf-8?B?L0RaZjZPVGw5cWJxUlpldEZ2VHJ3ODI5Q2JudWZKOU11Lyt0Zk5ybTJIUFVY?=
- =?utf-8?B?VHBsMWMrVTM1ZjV0Q2h5Q2s2alFYYVl2RGcvTFhoUGk4VDI0SWNvVUVUVGs2?=
- =?utf-8?B?cjhzQk4ybFR4UzZsTXJuMHl3R1llK3RkUEJ6dDk2YXo4L1dtd1l0UXNFVm5K?=
- =?utf-8?B?TFhTY1BLOEtHN3BtTTFTb1A1c1BITGZiWDFIQlBTMURmdGh4VFF0dGJNNFdN?=
- =?utf-8?B?a2Q3eDljM2daK0ZXNWYxYnJwalFjNmtiTHQ0dllMRmxWa0N1MUJTNEJwWVlr?=
- =?utf-8?B?d3JLeDBNSUxId2lDNVZGdC9PNnNFYmZMNld0VGpvdUF1a0hlVXVrMnZ5ZGRL?=
- =?utf-8?B?aXRlR0kyY1M1QWtkQTZYcG1WTzJOdnRQNDk3Y0xXdUFOUmJIVFMvMndFb3Fu?=
- =?utf-8?B?UHJjaGxuU004VXJzVC95S2tkRVVKT3lMeThrNlVPZjRScEZMRkdVRXEwVTZl?=
- =?utf-8?B?RHg5QmUzTGFXblZtRE5YVFdDa3o0eXdvVUNxYjJ2OFFhcEsyaXl2UHBNSUQv?=
- =?utf-8?B?RUxXWlNlWkFFTVVydEExREFiQ08wdldTekZVNDY4ajJYNGx6OHY5WTcwZFQw?=
- =?utf-8?B?aW5vVzFSMG0vSlR2Vi8vNTU4RkwyN3NDc051ektOd01pdnlzdjRTanMvbDAz?=
- =?utf-8?B?QU11MXV6MDFWdWhuSHFqR1Iwb0FCdllyTzZPanA0dmpDTVdTTFBsRUdhRHdj?=
- =?utf-8?B?UUJDbngvTnN6YWR2cXNWdEl1b0k2NmV5bWlRd084MW8wQTBvN3IxeE1qY2Ux?=
- =?utf-8?B?aTZyZi9XQUNPMFZkR1BBSm1KN0lDZVd5RDNBcmJVSXhCMFlMNmZnT0Y3TjRt?=
- =?utf-8?B?ZU8zVkgxdTJ3TzN4ekJ4Y09JNWFKb1ZvSEJpRlZQeHc1TWJOaENzZm9hYUhx?=
- =?utf-8?B?ZmJDcjV4Vm5GMmFYN1M5Q2pjV0hXVTFocW81MkxiWVF3OTFkUWZCRHpDSktr?=
- =?utf-8?B?OVdtVXcycjdNVG9vTmk0WHhURVh0YjJCdFVUZGhNMU5PWGdtVW00eCtxOVU0?=
- =?utf-8?B?ZUYrSkMraE1xZXM3MWdLYSs3RnBTN3lUMEg3NjEwcHgzc1JCc2s1c3lhS3Zy?=
- =?utf-8?B?ODMwSlJoTnZRNVZmSFoybWRCcnJPMWhNQ3RQZ0RCdGR6N1ZZd3BzQnhxUWNv?=
- =?utf-8?B?N3Z3WnlBdWN5MFdvOGswZXFYb0Z5eWpMT1JKVkRuY0JSK095alVjSjdjaWVR?=
- =?utf-8?Q?45Bk=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?9r2+kUGkxchgD2D72q/4irjZHl43PU+0SkK92ziIeWT98+G3dlElfEKA0b?=
+ =?iso-8859-1?Q?Flnsgl0OC3d7rl/qvjmI3ft008Cl2smng5ypY1/h0SPcgWOEuEUYh344by?=
+ =?iso-8859-1?Q?9X/Z2Oe3OTItPrgPnfo0IwJkKNCIsunF4w7qbzzfHKpZ1ycu8ky+EoAP03?=
+ =?iso-8859-1?Q?SvKJkld9zIE8ndRO9CbClhOtsWaD/3YeJ8xshppXisIcp/Qoj4kdDt4gS3?=
+ =?iso-8859-1?Q?Iip+odiE6LcRoNnDjCQMZm2/8R4QsSSNrnnqnJcREQZUo+5mwXoZYWxxHf?=
+ =?iso-8859-1?Q?1n8lGTsp6+LnFk8GvN3cBfBh2fzVswzMYxl744HjwKSLPiW2Mlm+MYxyF5?=
+ =?iso-8859-1?Q?qzdzZcGWqXAzZB7kohiX8h6VBS2AZLMaXbceJkFXdSxJ39+xNxFWxCHMmJ?=
+ =?iso-8859-1?Q?4DuPDYBuJjKCLmgQpgqqNp3Ri7lmDUj1T1/C2xgap+qlNSjnHTNXvBJsi9?=
+ =?iso-8859-1?Q?z/R/vtZKDgMqmt33gb4rz03ok1N1fT7nTtWbTCAqCUqVXcxhhVU4U4NRHA?=
+ =?iso-8859-1?Q?g6P1OqBej7zgnL21lWG/QYyLfLRr81Let8IyeHt69xEPTkRYcUGnGLSA1N?=
+ =?iso-8859-1?Q?P+1hs0H7qE+mJezDwV9PW+qDdolv+t/2olJ46EaR6jhaTl8fYWU89J8SNM?=
+ =?iso-8859-1?Q?SfoXAKV2z6cGcFifA5R3oVBv0tLk8ELtCGWylPcz9dE49go1zsEBlEKCdM?=
+ =?iso-8859-1?Q?6W8K4ZeMJkmkXYy8tVgV2/1ZHAIvJ9WKeOA7s4og5jw5OtCqOmivI3qd66?=
+ =?iso-8859-1?Q?jARC8EJZAXNmafs0IzLomY+56wxxv8I8jkWP8nYUpsTX7ySwEPpzQoggGo?=
+ =?iso-8859-1?Q?08xMpC4x8VdcaDJTdHDD3Rt4arkzlAL2dGVFr9pEFyEnIzxYgdotlUz4ph?=
+ =?iso-8859-1?Q?N1zK3dNdoIb8jxB26rODudadB4ZNZp6RAmID45Ar8qnI7oh0Pcncadp7rF?=
+ =?iso-8859-1?Q?3PUE1/vXI8EBGoCPfq7KDhF183ccLkSLEoxOIASZpi6LQ3DLdquwt3Kpoy?=
+ =?iso-8859-1?Q?EE80pgchqxPOUvfT4+DUPJZHMhI89EGq34WXH0HZ2NGpaj06wBsvCMmAN8?=
+ =?iso-8859-1?Q?FU1uVOXji3ZYh9QhJI84+civOye0/6RrILxxdEVgPOR2p2y2lpMXZu3vOx?=
+ =?iso-8859-1?Q?7+vQdPMyp/hy/ysvq/BbJB8Eyvwjo4L/BEdoaIhqsJpzitO0bnuWP7QPJd?=
+ =?iso-8859-1?Q?+1HlPZc08WnN7sJZcyRkwKTZk67BuCfVFHjW+W/qg8KEnTj4vWRMXWfYTE?=
+ =?iso-8859-1?Q?NWRZrpfVq41ZLke69OeXaObGWl9bD7fqW9c7pbpkdNAW4p37CDzQQMFftO?=
+ =?iso-8859-1?Q?6H8C55/SSeKbtmKcg/Z0TP6g3sRIivkWQWiS9WmBczE+ap3qH8b6tusaDq?=
+ =?iso-8859-1?Q?foCUQ1t3mz/cJ8Y73dQJfxzW2kYX0oZVizuIuIzWJ0r10MF4yXy7oqmXBl?=
+ =?iso-8859-1?Q?yA7UaCNEmQFzlidelG5EPiqPffcUjTpzv8eXqYGkJP2pBJrCR8VMYKapJu?=
+ =?iso-8859-1?Q?RSVhFTZhb2vfVkANPMJuTNBIi4oLEphuC0ENo2TBVpPNQxy0CWDteU3mGi?=
+ =?iso-8859-1?Q?96lOylpYlCNCnj5HER5IGUERz3ad?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0l6SFlIREFkYllKUDZxUGduemhZd2R4QlY2LytQRCtkTFROSzdDWE04eFBj?=
- =?utf-8?B?VUhPcGVvOXMrMWpFSnh2bmtvKzF3aEYxRWVtNEJLbmRMQ1JmZUpSVjMvOUR5?=
- =?utf-8?B?c1g1cmgwSE42OGRRSHUyUzhaNXFUa0dVMDhCNEhNdnN3azlkVW5NbmxpOHJH?=
- =?utf-8?B?MU9jclNiYWRSdnpGVkxkWFZISHNrd0xjaTg1SEJRbzAvQ2xqcHl4MUMyelh1?=
- =?utf-8?B?bnlPUW1YZUVRWSt6bU5PRVYrTWp4VHQvOVIwOFlJVlplNWhrT00rWU0ydWha?=
- =?utf-8?B?VFhoTElZeU9tN0Vya0ozc244OTFaUHBzeU55V2VBN2ZwUUtJTnpPSDVsN1JP?=
- =?utf-8?B?NXdkeStMdnU3TFJNRWxyK0pBK2s4VjVXKytnYm02TVNtY1BVTDliRmVnUWpv?=
- =?utf-8?B?S2Rqbmtrc2NIMUFkdkQwOU9sb1YvbHB5bHNWUjk1cjBEQjhKeUVSdHRVOVdE?=
- =?utf-8?B?aVBHOGhoVkFidkZlMHhWU0xDSi9jQXlHNnFPeUxpem5SYTFUTHlWRldFbDVI?=
- =?utf-8?B?cGU4RkxNVFd5bXV1UW5uQVhxQXczZW93ZGErTFdGcEZNZTZNTjVSY04zUHZZ?=
- =?utf-8?B?QUsrM0JBSGkvOVJtY2s2eXY2UytEYytmVTh3TVBpSzI3NmloRkgwYnIvWkVQ?=
- =?utf-8?B?VjcyK0NkODBzL1RjbXBJSkR2RkM1YldTb1NOYWFKQ3BkTitlMDBpUklEbGsz?=
- =?utf-8?B?N0ZDRGpzS3ROV2ovb3Yrb09HQzFTRXd0cjRiNTc0bDF4NnFOd3JicEkxSTdZ?=
- =?utf-8?B?Qms4UlByNkZ5eXpyNUhIRVpCSTZQSVU0YmQ4R0FQd2NtZFJVZXBuYVZRTVpP?=
- =?utf-8?B?NHlqbnRQWklFL2JwM0NnVjdwQlRvblFsYUpMRTZOSC91eTFDNVBoUEg4RnVP?=
- =?utf-8?B?YjFsVk9ZM0M2bS9YZHgvNDcvYmpXZFN1UHR6Z3ppbEp5V2dqeVpZajdlRCtk?=
- =?utf-8?B?Sk1LcGQvdTM3V1BvRUpFZm9IMzZBSkFhR0gxaWlDTWs5V29wVGMwZWN3QWNJ?=
- =?utf-8?B?Yk5tNEQxVmhqcy9BL0syN1lTZk9ZTS9uL0lWZWZWQ1daSWFnRWdKK0FmRldl?=
- =?utf-8?B?cGpPTEN4STBQS1l5ZmdkRGdCL3JSblV5UitiY2hrZFN4eWhia2M0MWo4Z3Rv?=
- =?utf-8?B?Mno2YXo5VlFMRlRtVGNhV3hzUFBGZ3VUTDNURk5TdzBreHJlSzBSajZGRU54?=
- =?utf-8?B?NXNSTlBKRDM0d2dBYlJaVjBJUURoQU5mSmF4Nk1GalVER2J5TEN2Y2pzMVZW?=
- =?utf-8?B?R29pZWZ1ZHBlR2M5KzMzb295L0Q2aEthaTdWNG11OEhNd1VSbG1VM3JLamNK?=
- =?utf-8?B?YXhPbjNxSEJnUjE5YmVEcjkrRG1HVTZEQkFaR1BCYmxLUFFGWUtvM0Q4RjJ6?=
- =?utf-8?B?YUMxdkxacXVwQ2o3L2MydlZkekE1dFJFeEVDNk1zZ3pjNFdRdGxFUUdIemRl?=
- =?utf-8?B?VThxUU56eXJrbGtoTmM4Z250bkwyVTJlYjRlVmR1RHJUNkZVbVBpcTFHSGxK?=
- =?utf-8?B?RWFDR2tTQ2tZeWp1WFJmTWhkMkh5djVzSHZBSFI0STR4M1Y3OUxGd2pELys0?=
- =?utf-8?B?SE5JVCtJRVcwZndJWHYxQkljRWN3LzZITGU0a1BrM1NvSjRrNmgxK2VxSVl0?=
- =?utf-8?B?VXV4UUZGeWtIRm9yelBWbzFCbnhjNFh3dnpNeGYvOEMwR1VQdGN0WUVWK3pn?=
- =?utf-8?B?RFJxU0xtdUFZQUFDdGU0UVBQSFNwdzBQWldVS3puMjBRS0t3WE1lVDNYRVo0?=
- =?utf-8?B?dXBSTi85ZExGemJCWVFFM0tlWnpCekxyeDV1QmJNVGU1NlBIcW03UDdFRncx?=
- =?utf-8?B?NDEwTzd5djZLTUM3S3BzVWFuOGFGTFdtdzBNaSs0ZkhWSkxQeWFkdUF2QWI1?=
- =?utf-8?B?WS9GNTJMUGEvNjNwTkpPemF6aE5PUjFKUkxSS04wd1g5QVM4dGtPYS9ZRlhI?=
- =?utf-8?B?MHRaL2pGRWo0U01SU3VEWnZXRlRnMURmMmVweGxzYk4rSU9MVWlLYjBsV0F0?=
- =?utf-8?B?RFFFQUNWb2RwUUYrWWlkbmhsSkVJTGVrWktGaUVtMFBENG5GOVdiL1NaVXhS?=
- =?utf-8?B?cGNoeUFzeDcvSEd0eE1CbmRBZk5ndDkvcWNVYTNiK1dsd3FCa0hMNUpZSHNu?=
- =?utf-8?B?RXVOVFhCYXRvZzB0aEQrNDNWblFBY3Z1eXRhUjFNeWMwdU0wcm1CRHJNTDZ3?=
- =?utf-8?B?K2hxbnRFeHcyQldSUVZ2djAyTUJRa3pLM3hXR294QUhjUUtGc2xER0ZOK1Ba?=
- =?utf-8?B?ZHdudm9nTTZhY1BtUWlxYTFMVm1zZlB4dS94NmRyZkZacUdnaFRkMCtyQTU5?=
- =?utf-8?Q?Ht3SFRPKSW0RPC+RU0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c40f6f14-90de-41c5-23dd-08de544eec2d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?qRslAE7L5qIAY92PLUlwYLFQknEkF67mtbp9Tt1et8nXd9eD9ejBWX2W4g?=
+ =?iso-8859-1?Q?ZHGR6g0KQKFL8xj7Ps1QsXPB9XM0aZe1cOfF568YIyLhQ/TC//M76cuZDa?=
+ =?iso-8859-1?Q?sRFu8slzrzqQiYij1TkeqxwPa9TyC3NZvxGWx+R/TlqP7KNLwH02Gq6KXG?=
+ =?iso-8859-1?Q?BJGeaoMu/mIotb0WWx+5TCfI/y1gtJrINAktBAEVqrWfND04Lqu/SxFJYY?=
+ =?iso-8859-1?Q?uJViTt9xwXumgstBp8TtV8tx0+2uD4dI7GN7vAnJsxKPXynKG7odc6Op6I?=
+ =?iso-8859-1?Q?bEZVZNaOnQjIv1BH7nzZqCNJw0xpYOI0z//DQg3wZbJc17hgnkVtptXfMB?=
+ =?iso-8859-1?Q?Wl70q37AUR7djxqcvEeLVgyx+V1hH0PkF2ASWuqe8qGX7DCSbRhI3pSuag?=
+ =?iso-8859-1?Q?JFTjruMYjS6zVDZ+Rde6mNYMZrsJVldDu3C5SAL4v+La0ZHsK8shZnQ1Ul?=
+ =?iso-8859-1?Q?OVtimrVY5/4HhoyBa4IhvG4b9QH1vS2tRVq45pF6ThNjV0EXaiMm3H9BHV?=
+ =?iso-8859-1?Q?jwc6JDJUUJRMp6YxuDFXeMQhC5z6GNc5vrEs7XxOwliQN0PE985u4RusxS?=
+ =?iso-8859-1?Q?dCYt1abYAWnZt2hs0NPjnw3B1nhg2DHIkASEri2gHy/tXC6kc49htA4Bmh?=
+ =?iso-8859-1?Q?XxqG4KZBi0iJMj2lusCTPnbjVWu/M8D6QUDz5KisQSIu4sZWZiDUD5ctSu?=
+ =?iso-8859-1?Q?T5xQZMX3k3BDoktBdVijNYBMH3kWAFhu5QvZOYFD8BHmiyh7NjvjbPHjxu?=
+ =?iso-8859-1?Q?kaKTSCAkTyhsftz18nt+WG5hXuOcfn0KlJxxhE4XieFIA7J7pkO3Y2neOl?=
+ =?iso-8859-1?Q?hIT/Gdvl+OxAphJPPs7Go61JSwOCkVqajIeDbKW1Qc5C2bjL0tjHFtDTtE?=
+ =?iso-8859-1?Q?8qanVv/QkuUaoVyBE3NrGaXnB+X8NIjo4i48kvVqsa5OLdSo+sYctQ7XHA?=
+ =?iso-8859-1?Q?h7Tey4NLbB/FU3ddmxT1prTWdrfmetYM8FUu3aEKRIIGnHmv3J1ZoGmDpi?=
+ =?iso-8859-1?Q?+We3aOygSFEaveUuv3wpMe/WfpV6yvJMfE/5BpEwm2Z3YABHxvaHGGGm41?=
+ =?iso-8859-1?Q?NPEdz2Ry072T+xg1f3jPU1NhrnKc5E1jJuU+j9NINDVDiS6e4Rj6jTZM9s?=
+ =?iso-8859-1?Q?XGGMxNo6UXM4ZlG1MKWsG296MMFFbZovC7GUyl/C8U/yw+AxaTh/zhyCsn?=
+ =?iso-8859-1?Q?KyGqt46D6I69qVXFbo5cauYieRlSGzq+asIUEDc1AyNsQYo1VvuFmOhx/l?=
+ =?iso-8859-1?Q?3whsatXFuFd1Xw4whHMZKNF8Pmi84TlBRY/c1GEVwOEtOjIPMTv5hRY1Jb?=
+ =?iso-8859-1?Q?kG0UXS2hESCii4KiyZXyY1SHPW5FILVd/8zHWSS/vV6MGytMppVAL9CeYI?=
+ =?iso-8859-1?Q?jQInQy8oBjrAUHCvRZMbPeR5/I7ziGQhfbA7zmsMpNIyjljzL3Z30YwZOZ?=
+ =?iso-8859-1?Q?wLO1Rq0scDcw6EQ1DLEg49Y9m5+8Toan9/wWWnh26pla6+Q8QJVv3va5eq?=
+ =?iso-8859-1?Q?yAJO264+/xO6JJYm/cG6Q8mnU3HkW1fbDtzOCpzka4i34V3z2CPOc0ZDUc?=
+ =?iso-8859-1?Q?ilwNEt7NwzVQDFNQ94sqT7OaIfkyDB4C+o/HZmDnXIJCvgOG46Xoq1b6lp?=
+ =?iso-8859-1?Q?vhurFlkfgUfTQ0kBnciz08eInuS+r+ZL5eZEIylpHkLPEAXmrZYzS+1Amm?=
+ =?iso-8859-1?Q?PUkvYod+R2UGyNKhR3ct0u4XkJqMjA1nGWtYeA1vs/GzZJcTE9EusRFgYk?=
+ =?iso-8859-1?Q?5blekkoOjihiZ5ml0asQiNUOY4IzkXjR2QTd8GKPhMk+hAB6xgfAOS++HX?=
+ =?iso-8859-1?Q?C8eOBZj/ug=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c804819-59de-49cc-ce56-08de5450ab57
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 15:58:28.3850 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 16:10:58.5510 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KxoOeCQliB0W2zqtxJhhW9V5fZh8He/NZl4fJJ/x6mPQ98GeRDJz7uBYLkkgoC8B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4237
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3cL0ZyvWFELxuAF+G+vLOwSgGRAYFaA15ImlHQ1aeaRKWZa6vNkO4y0mrIMZL8hLJuoJ4+ol7Ga1WTPnTwv1bw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8708
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -203,211 +187,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/26 15:54, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 15.01.26 um 15:39 schrieb Christian K=C3=B6nig:
->> Sorry to being late, but I only now realized what you are doing here.
->>
->> On 1/15/26 12:02, Thomas Zimmermann wrote:
->>> Hi,
->>>
->>> apologies for the delay. I wanted to reply and then forgot about it.
->>>
->>> Am 10.01.26 um 05:52 schrieb Zack Rusin:
->>>> On Fri, Jan 9, 2026 at 5:34=E2=80=AFAM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
->>>>> Hi
->>>>>
->>>>> Am 29.12.25 um 22:58 schrieb Zack Rusin:
->>>>>> Almost a rite of passage for every DRM developer and most Linux user=
-s
->>>>>> is upgrading your DRM driver/updating boot flags/changing some confi=
-g
->>>>>> and having DRM driver fail at probe resulting in a blank screen.
->>>>>>
->>>>>> Currently there's no way to recover from DRM driver probe failure. P=
-CI
->>>>>> DRM driver explicitly throw out the existing sysfb to get exclusive
->>>>>> access to PCI resources so if the probe fails the system is left wit=
-hout
->>>>>> a functioning display driver.
->>>>>>
->>>>>> Add code to sysfb to recever system framebuffer when DRM driver's pr=
-obe
->>>>>> fails. This means that a DRM driver that fails to load reloads the s=
-ystem
->>>>>> framebuffer driver.
->>>>>>
->>>>>> This works best with simpledrm. Without it Xorg won't recover becaus=
-e
->>>>>> it still tries to load the vendor specific driver which ends up usua=
-lly
->>>>>> not working at all. With simpledrm the system recovers really nicely
->>>>>> ending up with a working console and not a blank screen.
->>>>>>
->>>>>> There's a caveat in that some hardware might require some special ma=
-gic
->>>>>> register write to recover EFI display. I'd appreciate it a lot if
->>>>>> maintainers could introduce a temporary failure in their drivers
->>>>>> probe to validate that the sysfb recovers and they get a working con=
-sole.
->>>>>> The easiest way to double check it is by adding:
->>>>>> =C2=A0=C2=A0=C2=A0 /* XXX: Temporary failure to test sysfb restore -=
- REMOVE BEFORE COMMIT */
->>>>>> =C2=A0=C2=A0=C2=A0 dev_info(&pdev->dev, "Testing sysfb restore: forc=
-ing probe failure\n");
->>>>>> =C2=A0=C2=A0=C2=A0 ret =3D -EINVAL;
->>>>>> =C2=A0=C2=A0=C2=A0 goto out_error;
->>>>>> or such right after the devm_aperture_remove_conflicting_pci_devices=
- .
->>>>> Recovering the display like that is guess work and will at best work
->>>>> with simple discrete devices where the framebuffer is always located =
-in
->>>>> a confined graphics aperture.
->>>>>
->>>>> But the problem you're trying to solve is a real one.
->>>>>
->>>>> What we'd want to do instead is to take the initial hardware state in=
-to
->>>>> account when we do the initial mode-setting operation.
->>>>>
->>>>> The first step is to move each driver's remove_conflicting_devices ca=
-ll
->>>>> to the latest possible location in the probe function. We usually do =
-it
->>>>> first, because that's easy. But on most hardware, it could happen muc=
-h
->>>>> later.
->>>> Well, some drivers (vbox, vmwgfx, bochs and currus-qemu) do it because
->>>> they request pci regions which is going to fail otherwise. Because
->>>> grabbining the pci resources is in general the very first thing that
->>>> those drivers need to do to setup anything, we
->>>> remove_conflicting_devices first or at least very early.
->>> To my knowledge, requesting resources is more about correctness than a =
-hard requirement to use an I/O or memory range. Has this changed?
->> Nope that is not correct.
->>
->> At least for AMD GPUs remove_conflicting_devices() really early is neces=
-sary because otherwise some operations just result in a spontaneous system =
-reboot.=C2=A0=C2=A0=C2=A0
->=20
-> Here I was only talking about avoiding calls to request_resource() and si=
-milar interfaces.
->=20
->>
->> For example resizing the PCIe BAR giving access to VRAM or disabling VGA=
- emulation (which AFAIK is used for EFI as well) is only possible when the =
-VGA or EFI framebuffer driver is kicked out first.
->=20
-> Yeah, that's what I expected.
->=20
->>
->> And disabling VGA emulation is among the absolutely first steps you do t=
-o take over the scanout config.
->=20
-> Assuming the driver (or driver author) is careful, is it possible to only=
- read state from AMD hardware at such an early time?
+Hi Dave and Sima,
 
-I'm not an expert for that particular stuff but I strongly don't think so.
+This is likely our last drm-xe-next PR towards 7.0. But perhaps
+an extra one coming in the beginning of next week depending on
+how the THP patches and a few other cases goes.
 
-Basically the VGA emulation is firmware which "owns" the CRTC registers and=
- might modify them at any time unless it's turned off first.
+It is important to highlight that this PR brings a revert of a
+flag in the new multi-queue uAPI that had been added in the first
+PR of this round. After that PR, with multiple uAPI changes, I
+scrutinized them and found out this flag was not used nor planned
+to be used. Hence, I requested the removal before the 7.0 deadline.
 
-So you can't even use data/index pairs of registers etc...
+Thanks,
+Rodrigo.
 
-> We usually do remove_conflicting_devices() as the first thing in most dri=
-ver's probe function. As a first step, it would be helpful to postpone itto=
- a later point.
+drm-intel-next-2026-01-15-1:
+UAPI Changes:
+ - Remove unused KEEP_ACTIVE flag in the new multi queue uAPI (Niranjana)
+ - Expose new temperature attributes in HWMON (Karthik)
 
-Well from what I knew that won't work in a lot of cases.
+Driver Changes:
+ - Force i2c into polling mode when in survivability (Raag)
+ - Validate preferred system memory placement in xe_svm_range_validate (Brost)
+ - Adjust page count tracepoints in shrinker (Brost)
+ - Fix a couple drm_pagemap issues with multi-GPU (Brost)
+ - Define GuC firmware for NVL-S (Roper)
+ - Handle GT resume failure (Raag)
+ - Improve wedged mode handling (Lukasz)
+ - Add missing newlines to drm_warn messages (Osama)
+ - Fix WQ_MEM_RECLAIM passed as max_active to alloc_workqueue (Marco)
+ - Page-reclaim fixes and PRL stats addition (Brian)
+ - Fix struct guc_lfd_file_header kernel-doc (Jani)
+ - Allow compressible surfaces to be 1-way coherent (Xin)
+ - Fix DRM scheduler layering violations in Xe (Brost)
+ - Minor improvements to MERT code (Michal)
+ - Privatize struct xe_ggtt_node (Maarten)
+ - Convert wait for lmem init into an assert (Bala)
+ - Enable GSC loading and PXP for PTL (Daniele)
+ - Replace use of system_wq with tlb_inval->timeout_wq (Marco)
+ - VRAM addr range bit expansion (Fei)
+ - Cleanup unused header includes (Roper)
+The following changes since commit 35ec71285c9311395b14bedc60fa94f6b7e24d2d:
 
-I mean what we could do on non-AMD HW is to remove the conflicting driver, =
-play with the HW and if we find that this didn't worked reset the HW using =
-a PCI function level reset and try to load the EFI or whatever driver again=
-. But that has a rather low chance of working reliable I would say.
+  drm/i915/pc8: Add parent interface for PC8 forcewake tricks (2025-12-19 21:28:48 +0200)
 
-The problem with AMD GPUs is that the PCI function level reset is broken to=
- begin with (which already caused us tons of headache in the case of pass t=
-hrough).
+are available in the Git repository at:
 
-Regards,
-Christian.
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-2026-01-15-1
 
->=20
->>
->> So I absolutely clearly have to reject the amdgpu patch in this series, =
-that will break tons of use cases.
->=20
-> Don't worry, we're still in the early ideation phase.
->=20
-> Best regards
-> Thomas
->=20
->>
->> Regards,
->> Christian.
->>
->>>> I also don't think it's possible or even desirable by some drivers to
->>>> reuse the initial state, good example here is vmwgfx where by default
->>>> some people will setup their vm's with e.g. 8mb ram, when the vmwgfx
->>>> loads we allow scanning out from system memory, so you can set your vm
->>>> up with 8mb of vram but still use 4k resolutions when the driver
->>>> loads, this way the suspend size of the vm is very predictable (tiny
->>>> vram plus whatever ram was setup) while still allowing a lot of
->>>> flexibility.
->>> If there's no initial state to switch from, the first modeset can fail =
-while leaving the display unusable. There's no way around that. Going back =
-to the old state is not an option unless the driver has been written to sup=
-port this.
->>>
->>> The case of vmwgfx is special, but does not effect the overall problem.=
- For vmwgfx, it would be best to import that initial state and support a tr=
-ansparent modeset from vram to system memory (and back) at least during thi=
-s initial state.
->>>
->>>
->>>> In general I think however this is planned it's two or three separate =
-series:
->>>> 1) infrastructure to reload the sysfb driver (what this series is)
->>>> 2) making sure that drivers that do want to recover cleanly actually
->>>> clean out all the state on exit properly,
->>>> 3) abstracting at least some of that cleanup in some driver independen=
-t way
->>> That's really not going to work. For example, in the current series, yo=
-u invoke devm_aperture_remove_conflicting_pci_devices_done() after drm_mode=
-_reset(), drm_dev_register() and drm_client_setup(). Each of these calls ca=
-n modify hardware state. In the case of _register() and _setup(), the DRM c=
-lients can perform a modeset, which destroys the initial hardware state. Pa=
-tch 1 of this series removes the sysfb device/driver entirely. That should =
-be a no-go as it significantly complicates recovery. For example, if the na=
-tive drivers failed from an allocation failure, the sysfb device/driver is =
-not likely to come back either. As the very first thing, the series should =
-state which failures is is going to resolve, - failed hardware init, - inva=
-lid initial modesetting, - runtime errors (such ENOMEM, failed firmware loa=
-ding), - others? And then specify how a recovery to sysfb could look in eac=
-h supported scenario. In terms of implementation, make any transition betwe=
-en drivers
->>> gradually. The native driver needs to acquire the hardware resource (fr=
-amebuffer and I/O apertures) without unloading the sysfb driver. Luckily th=
-ere's struct drm_device.unplug, which does that. [1] Flipping this field di=
-sables hardware access for DRM drivers. All sysfb drivers support this. To =
-get the sysfb drivers ready, I suggest dedicated helpers for each drivers a=
-perture. The aperture helpers can use these callback to flip the DRM driver=
- off and on again. For example, efidrm could do this as a minimum: int efid=
-rm_aperture_suspend() { dev->unplug =3D true; remove_resource(/*framebuffer=
- aperture*/) return 0 } int efidrm_aperture_resume() { insert_resource(/*fr=
-amebuffer aperture*/) dev->unplug =3D false; return 0 } struct aperture_fun=
-cs efidrm_aperture_funcs { .suspend =3D efidrm_aperture_suspend, .resume =
-=3D efidrm_aperture_resume, } Pass this struct when efidrm acquires the fra=
-mebuffer aperture, so that the aperture helpers can control the behavior of=
- efidrm. With this, a multi-
->>> step takeover from sysfb to native driver can be tried. It's still a ma=
-ssive effort that requires an audit of each driver's probing logic. There's=
- no copy-paste pattern AFAICT. I suggest to pick one simple driver first an=
-d make a prototype. Let me also say that I DO like the general idea you're =
-proposing. But if it was easy, we would likely have done it already. Best r=
-egards Thomas
->>>> z
->=20
+for you to fetch changes up to d30f75d2dba913754dbacb982b19b783a30253ea:
 
+  drm/i915/dp: Simplify computing the DSC compressed BPP for DP-MST (2026-01-13 18:42:21 +0200)
+
+----------------------------------------------------------------
+UAPI Changes:
+ - Remove unused KEEP_ACTIVE flag in the new multi queue uAPI (Niranjana)
+ - Expose new temperature attributes in HWMON (Karthik)
+
+Driver Changes:
+ - Force i2c into polling mode when in survivability (Raag)
+ - Validate preferred system memory placement in xe_svm_range_validate (Brost)
+ - Adjust page count tracepoints in shrinker (Brost)
+ - Fix a couple drm_pagemap issues with multi-GPU (Brost)
+ - Define GuC firmware for NVL-S (Roper)
+ - Handle GT resume failure (Raag)
+ - Improve wedged mode handling (Lukasz)
+ - Add missing newlines to drm_warn messages (Osama)
+ - Fix WQ_MEM_RECLAIM passed as max_active to alloc_workqueue (Marco)
+ - Page-reclaim fixes and PRL stats addition (Brian)
+ - Fix struct guc_lfd_file_header kernel-doc (Jani)
+ - Allow compressible surfaces to be 1-way coherent (Xin)
+ - Fix DRM scheduler layering violations in Xe (Brost)
+ - Minor improvements to MERT code (Michal)
+ - Privatize struct xe_ggtt_node (Maarten)
+ - Convert wait for lmem init into an assert (Bala)
+ - Enable GSC loading and PXP for PTL (Daniele)
+ - Replace use of system_wq with tlb_inval->timeout_wq (Marco)
+ - VRAM addr range bit expansion (Fei)
+ - Cleanup unused header includes (Roper)
+
+----------------------------------------------------------------
+Ankit Nautiyal (16):
+      drm/i915/vdsc: Account for DSC slice overhead in intel_vdsc_min_cdclk()
+      drm/i915/display: Abstract pipe/trans/cursor offset calculation
+      drm/i915/display: Add APIs to be used by gvt to get the register offsets
+      drm/i915/gvt: Add header to use display offset functions in macros
+      drm/i915/gvt: Change for_each_pipe to use pipe_valid API
+      drm/i915/gvt: Use the appropriate header for the DPLL macro
+      drm/i915/gvt/display_helper: Get rid of #ifdef/#undefs
+      drm/i915/intel_alpm: Fix the SPDX identifier comment
+      drm/i915/intel_cx0_phy: Fix the SPDX identifier comment
+      drm/i915/intel_cx0_phy_regs: Fix the SPDX identifier comment
+      drm/i915/intel_display_params: Fix the SPDX identifier comment
+      drm/i915/intel_dsb: Fix the SPDX identifier comment
+      drm/i915/intel_dsb_buffer: Fix the SPDX identifier comment
+      drm/i915/intel_gvt_api: Fix the SPDX identifier comment
+      drm/i915/intel_lt_phy: Fix the SPDX identifier comment
+      drm/i915/lt_phy_regs: Fix the SPDX identifier comment
+
+Ben Dooks (1):
+      drm/i915/guc: make 'guc_hw_reg_state' static as it isn't exported
+
+Gustavo Sousa (3):
+      drm/i915/display_wa: Keep enum intel_display_wa sorted
+      drm/i915/cdclk: Implement Wa_13012396614
+      drm/i915/cdclk: Incorporate Xe3_LPD changes for CD2X divider
+
+Imre Deak (19):
+      drm/i915/dp: Drop unused timeslots param from dsc_compute_link_config()
+      drm/i915/dp: Factor out align_max_sink_dsc_input_bpp()
+      drm/i915/dp: Factor out align_max_vesa_compressed_bpp_x16()
+      drm/i915/dp: Align min/max DSC input BPPs to sink caps
+      drm/i915/dp: Align min/max compressed BPPs when calculating BPP limits
+      drm/i915/dp: Drop intel_dp parameter from intel_dp_compute_config_link_bpp_limits()
+      drm/i915/dp: Pass intel_output_format to intel_dp_dsc_sink_{min_max}_compressed_bpp()
+      drm/i915/dp: Pass mode clock to dsc_throughput_quirk_max_bpp_x16()
+      drm/i915/dp: Factor out compute_min_compressed_bpp_x16()
+      drm/i915/dp: Factor out compute_max_compressed_bpp_x16()
+      drm/i915/dp: Add intel_dp_mode_valid_with_dsc()
+      drm/i915/dp: Unify detect and compute time DSC mode BW validation
+      drm/i915/dp: Use helpers to align min/max compressed BPPs
+      drm/i915/dp: Simplify computing DSC BPPs for eDP
+      drm/i915/dp: Simplify computing DSC BPPs for DP-SST
+      drm/i915/dp: Simplify computing forced DSC BPP for DP-SST
+      drm/i915/dp: Unify computing compressed BPP for DP-SST and eDP
+      drm/i915/dp: Simplify eDP vs. DP compressed BPP computation
+      drm/i915/dp: Simplify computing the DSC compressed BPP for DP-MST
+
+Jani Nikula (30):
+      drm/i915: move display/intel_plane_initial.c to i915_initial_plane.c
+      drm/xe/display: rename xe_plane_initial.c to xe_initial_plane.c
+      drm/i915: rename intel_plane_initial.h to intel_initial_plane.h
+      drm/{i915, xe}: move initial plane calls to parent interface
+      drm/{i915, xe}: deduplicate intel_initial_plane_config() between i915 and xe
+      drm/{i915, xe}: deduplicate plane_config_fini() between i915 and xe
+      drm/{i915, xe}: start deduplicating intel_find_initial_plane_obj() between i915 and xe
+      drm/i915: return plane_state from intel_reuse_initial_plane_obj()
+      drm/xe: return plane_state from intel_reuse_initial_plane_obj()
+      drm/i915: further deduplicate intel_find_initial_plane_obj()
+      drm/{i915, xe}: deduplicate intel_alloc_initial_plane_obj() FB modifier checks
+      drm/{i915,xe}: deduplicate initial plane setup
+      drm/{i915, xe}: pass struct drm_plane_state instead of struct drm_crtc to ->setup
+      drm/{i915, xe}: pass struct drm_device instead of drm_device to ->alloc_obj
+      drm/i915: drop dependency on struct intel_display from i915 initial plane
+      drm/xe/display: drop i915_utils.h
+      drm/i915: remove unused dev_priv local variable
+      drm/xe/compat: remove unused forcewake get/put macros
+      drm/xe/compat: convert uncore macro to static inlines
+      drm/i915/display: use to_intel_uncore() to avoid i915_drv.h
+      drm/i915: drop i915 param from i915_fence{, _context}_timeout()
+      drm/xe: remove compat i915_drv.h and -Ddrm_i915_private=xe_device hack
+      drm/i915/utils: drop unnecessary ifdefs
+      drm/i915/display: remove accidentally added empty file
+      drm/i915/gvt: sort and group include directives
+      drm/i915/gvt: include sched_policy.h only where needed
+      drm/i915/gvt: reduce include of gt/intel_engine_regs.h
+      drm/i915/gvt: reduce include of vfio.h
+      drm/i915/gvt: include intel_display_limits.h where needed
+      mei: late_bind: fix struct intel_lb_component_ops kernel-doc
+
+Mitul Golani (12):
+      drm/i915/display: Add source param for dc balance
+      drm/i915/vrr: Add VRR DC balance registers
+      drm/i915/vrr: Add DC Balance params to crtc_state
+      drm/i915/vrr: Add state dump for DC Balance params
+      drm/i915/vrr: Add compute config for DC Balance params
+      drm/i915/vrr: Add function to check if DC Balance Possible
+      drm/i915/vrr: Add function to reset DC balance accumulated params
+      drm/i915/display: Add DC Balance flip count operations
+      drm/i915/vrr: Write DC balance params to hw registers
+      drm/i915/display: Wait for VRR PUSH status update
+      drm/i915/display: Add function to configure event for dc balance
+      drm/i915/vrr: Enable DC Balance
+
+Suraj Kandpal (4):
+      drm/i915/cx0: Use the consolidated HDMI tables
+      drm/i915/ltphy: Remove state verification for LT PHY fields
+      drm/i915/ltphy: Compare only certain fields in state verify function
+      drm/i915/ltphy: Provide protection against unsupported modes
+
+Tvrtko Ursulin (1):
+      drm/xe: Fix ggtt fb alignment
+
+Ville Syrjälä (6):
+      drm/i915/dmc: Add pipe dmc registers and bits for DC Balance
+      drm/i915/vrr: Add functions to read out vmin/vmax stuff
+      drm/i915/vblank: Extract vrr_vblank_start()
+      drm/i915/vrr: Implement vblank evasion with DC balancing
+      drm/i915/dsb: Add pipedmc dc balance enable/disable
+      drm/i915/vrr: Pause DC Balancing for DSB commits
+
+ drivers/gpu/drm/i915/Makefile                      |   6 +-
+ drivers/gpu/drm/i915/display/i9xx_wm.c             |  17 +-
+ drivers/gpu/drm/i915/display/intel_alpm.h          |   4 +-
+ drivers/gpu/drm/i915/display/intel_bw.c            |  19 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c         |  60 ++-
+ drivers/gpu/drm/i915/display/intel_connector.c     |   2 -
+ .../gpu/drm/i915/display/intel_crtc_state_dump.c   |   8 +
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c       |  13 +-
+ drivers/gpu/drm/i915/display/intel_cx0_phy.h       |   2 +-
+ drivers/gpu/drm/i915/display/intel_cx0_phy_regs.h  |   4 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  46 +-
+ .../gpu/drm/i915/display/intel_display_device.h    |  18 +
+ .../gpu/drm/i915/display/intel_display_driver.c    |   4 +-
+ .../gpu/drm/i915/display/intel_display_params.h    |   2 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |   3 +-
+ .../gpu/drm/i915/display/intel_display_reg_defs.h  |  15 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |  11 +
+ drivers/gpu/drm/i915/display/intel_display_utils.h |   4 -
+ drivers/gpu/drm/i915/display/intel_display_wa.c    |  14 +-
+ drivers/gpu/drm/i915/display/intel_display_wa.h    |  12 +-
+ drivers/gpu/drm/i915/display/intel_dmc.c           |  25 +
+ drivers/gpu/drm/i915/display/intel_dmc.h           |   5 +
+ drivers/gpu/drm/i915/display/intel_dmc_regs.h      |  60 +++
+ drivers/gpu/drm/i915/display/intel_dp.c            | 515 ++++++++++-----------
+ drivers/gpu/drm/i915/display/intel_dp.h            |  17 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |  77 +--
+ drivers/gpu/drm/i915/display/intel_dram.c          |  42 +-
+ drivers/gpu/drm/i915/display/intel_dsb.c           |  31 +-
+ drivers/gpu/drm/i915/display/intel_dsb.h           |   4 +-
+ drivers/gpu/drm/i915/display/intel_dsb_buffer.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_gvt_api.c       |  43 ++
+ drivers/gpu/drm/i915/display/intel_gvt_api.h       |  21 +
+ drivers/gpu/drm/i915/display/intel_initial_plane.c | 193 ++++++++
+ ...intel_plane_initial.h => intel_initial_plane.h} |   6 +-
+ drivers/gpu/drm/i915/display/intel_lt_phy.c        |  54 +--
+ drivers/gpu/drm/i915/display/intel_lt_phy.h        |   4 +-
+ drivers/gpu/drm/i915/display/intel_lt_phy_regs.h   |   4 +-
+ drivers/gpu/drm/i915/display/intel_plane_initial.c | 442 ------------------
+ drivers/gpu/drm/i915/display/intel_rom.c           |   8 +-
+ drivers/gpu/drm/i915/display/intel_vblank.c        |  46 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c          |  35 +-
+ drivers/gpu/drm/i915/display/intel_vrr.c           | 281 ++++++++++-
+ drivers/gpu/drm/i915/display/intel_vrr.h           |  10 +
+ drivers/gpu/drm/i915/display/intel_vrr_regs.h      |  68 +++
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c        |   2 +-
+ drivers/gpu/drm/i915/gvt/aperture_gm.c             |   5 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c               |   2 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c              |  26 +-
+ drivers/gpu/drm/i915/gvt/debugfs.c                 |   4 +-
+ drivers/gpu/drm/i915/gvt/display.c                 |  23 +-
+ drivers/gpu/drm/i915/gvt/display.h                 |   2 +-
+ drivers/gpu/drm/i915/gvt/display_helpers.h         |  37 ++
+ drivers/gpu/drm/i915/gvt/dmabuf.c                  |   6 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.h                  |   7 +-
+ drivers/gpu/drm/i915/gvt/edid.c                    |   1 +
+ drivers/gpu/drm/i915/gvt/execlist.c                |   2 +-
+ drivers/gpu/drm/i915/gvt/fb_decoder.c              |  14 +-
+ drivers/gpu/drm/i915/gvt/fb_decoder.h              |   2 -
+ drivers/gpu/drm/i915/gvt/firmware.c                |   4 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                     |   9 +-
+ drivers/gpu/drm/i915/gvt/gvt.h                     |  26 +-
+ drivers/gpu/drm/i915/gvt/handlers.c                |  21 +-
+ drivers/gpu/drm/i915/gvt/interrupt.c               |   5 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c                   |  24 +-
+ drivers/gpu/drm/i915/gvt/mmio.c                    |  13 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.h            |   5 -
+ drivers/gpu/drm/i915/gvt/opregion.c                |   3 +-
+ drivers/gpu/drm/i915/gvt/page_track.c              |   3 +-
+ drivers/gpu/drm/i915/gvt/sched_policy.c            |   3 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c               |   8 +-
+ drivers/gpu/drm/i915/gvt/trace.h                   |   2 +-
+ drivers/gpu/drm/i915/gvt/trace_points.c            |   2 +
+ drivers/gpu/drm/i915/gvt/vgpu.c                    |   6 +-
+ drivers/gpu/drm/i915/i915_config.c                 |   3 +-
+ drivers/gpu/drm/i915/i915_config.h                 |  10 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |   2 +
+ drivers/gpu/drm/i915/i915_gpu_error.c              |   2 +-
+ drivers/gpu/drm/i915/i915_initial_plane.c          | 290 ++++++++++++
+ drivers/gpu/drm/i915/i915_initial_plane.h          |   9 +
+ drivers/gpu/drm/i915/i915_request.c                |   3 +-
+ drivers/gpu/drm/i915/i915_utils.h                  |   4 -
+ drivers/gpu/drm/i915/intel_gvt.c                   |  13 +-
+ drivers/gpu/drm/i915/intel_gvt_mmio_table.c        |   4 +-
+ drivers/gpu/drm/xe/Makefile                        |   6 +-
+ .../gpu/drm/xe/compat-i915-headers/i915_config.h   |   5 +-
+ drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h  |  22 -
+ .../gpu/drm/xe/compat-i915-headers/i915_utils.h    |   7 -
+ .../gpu/drm/xe/compat-i915-headers/intel_uncore.h  |  11 +-
+ drivers/gpu/drm/xe/display/xe_display.c            |   2 +
+ drivers/gpu/drm/xe/display/xe_fb_pin.c             |   2 +-
+ drivers/gpu/drm/xe/display/xe_initial_plane.c      | 189 ++++++++
+ drivers/gpu/drm/xe/display/xe_initial_plane.h      |   9 +
+ drivers/gpu/drm/xe/display/xe_plane_initial.c      | 321 -------------
+ include/drm/intel/display_parent_interface.h       |  17 +
+ include/drm/intel/intel_lb_mei_interface.h         |   3 +-
+ 95 files changed, 2017 insertions(+), 1443 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_gvt_api.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_gvt_api.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_initial_plane.c
+ rename drivers/gpu/drm/i915/display/{intel_plane_initial.h => intel_initial_plane.h} (60%)
+ delete mode 100644 drivers/gpu/drm/i915/display/intel_plane_initial.c
+ create mode 100644 drivers/gpu/drm/i915/gvt/display_helpers.h
+ create mode 100644 drivers/gpu/drm/i915/i915_initial_plane.c
+ create mode 100644 drivers/gpu/drm/i915/i915_initial_plane.h
+ delete mode 100644 drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
+ delete mode 100644 drivers/gpu/drm/xe/compat-i915-headers/i915_utils.h
+ create mode 100644 drivers/gpu/drm/xe/display/xe_initial_plane.c
+ create mode 100644 drivers/gpu/drm/xe/display/xe_initial_plane.h
+ delete mode 100644 drivers/gpu/drm/xe/display/xe_plane_initial.c
