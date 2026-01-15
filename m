@@ -2,50 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28B0D24C53
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE84DD24C47
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB0E10E75C;
-	Thu, 15 Jan 2026 13:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CB610E75E;
+	Thu, 15 Jan 2026 13:39:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZziHddup";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7975A10E75C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:40:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74283FEC
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 05:40:13 -0800 (PST)
-Received: from e142607.local (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- E53303F59E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 05:40:19 -0800 (PST)
-Date: Thu, 15 Jan 2026 13:39:23 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v1 3/9] drm/panthor: Move panthor_gems_debugfs_init() to
- panthor_gem.c
-Message-ID: <aWjuCzjIgkTkzOID@e142607>
-References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
- <20260109130801.1239558-4-boris.brezillon@collabora.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7336B10E75F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:39:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E35CE44057
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:39:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB677C2BCB1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768484395;
+ bh=mrAbzAWxr60dAFBMUskJrOYI7tum+hisLhbJRq6FwWM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZziHddupwweaDJHKB4QPDQsEU/zifxtBTtF2Aszv7k8FMgBOh+/UgJZAm7gnsd1+S
+ MDMIt6yw5kr4GVTIvjLvwZ83aCmimHfRs2MycQ0LaxXCOlbTGXDE7WGDe3qk5wJaKT
+ f3mZBoRADLMYpH3zNxqDPqP37fhA7bVcQqfejpGg/JP8XUBLG5IkYAfY69LAFlJYto
+ R7rUd/c2gDx1L9Cxfz1FWsXRrq5jUj9JNFUVvxXWYvHSZi90APdQ9EXkKROIHzdIcW
+ AkdjWGIc3kFueo2+WypYz4CQcUlpvaT3nR/PWMddvha6Rj+Gxo73nI8xHRrJYUzKXe
+ RHqgjzNs+h5lg==
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-7cfd8ca8191so186379a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 05:39:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHr2LJmVXQd/wAd5JU7OZLDlCFkMaDcQ2uYyhADcijbZMxQ5CElVlD87Cjgfey7ewNQYR2eYvZ6e4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHupgUUhjYUnEFOA0kiC0Jfz0o3v4lN5aIR1uiTABlrOiE/9ES
+ WyRpPB0wnqcKmzQ5nAuQsBHeJOCxRdiLgJnW3LqUKcyibzMhBMvQbmqysDxqpw44A7J9hRUDMxA
+ HdkyGtliYhK98DDrVeF02euA1dNrEvOc=
+X-Received: by 2002:a05:6820:229b:b0:660:fd8d:9567 with SMTP id
+ 006d021491bc7-661006caf58mr4486708eaf.42.1768484394669; Thu, 15 Jan 2026
+ 05:39:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260109130801.1239558-4-boris.brezillon@collabora.com>
+References: <2256082.irdbgypaU6@rafael.j.wysocki>
+ <CAJZ5v0gdj6Oe=LSJX8+6JbxTt42W3RkabLDWh=VqEkjUvAWxow@mail.gmail.com>
+ <aWjbPpkDd_SORcfC@e142607>
+In-Reply-To: <aWjbPpkDd_SORcfC@e142607>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 15 Jan 2026 14:39:43 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0i+uXsCRk7kxLb8t+96k-SOJY-wEwNvYBXTdMKWSCdR9w@mail.gmail.com>
+X-Gm-Features: AZwV_QjYJ0BHmX3LmoNRKoKvX64bvSOuZN1goYZbg_jJwN3xZNHgDMdAG5htFnI
+Message-ID: <CAJZ5v0i+uXsCRk7kxLb8t+96k-SOJY-wEwNvYBXTdMKWSCdR9w@mail.gmail.com>
+Subject: Re: [RESEND][PATCH v1] drm: Discard pm_runtime_put() return value
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, imx@lists.linux.dev, 
+ LKML <linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Brian Norris <briannorris@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,129 +87,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 09, 2026 at 02:07:55PM +0100, Boris Brezillon wrote:
-> There's no reason for panthor_drv to know about panthor_gem.c internals,
-> so let's move the GEM debugfs init logic to panthor_gem.c.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Thu, Jan 15, 2026 at 1:20=E2=80=AFPM Liviu Dudau <liviu.dudau@arm.com> w=
+rote:
+>
+> On Wed, Jan 14, 2026 at 01:03:25PM +0100, Rafael J. Wysocki wrote:
+> > On Thu, Jan 8, 2026 at 4:38=E2=80=AFPM Rafael J. Wysocki <rafael@kernel=
+.org> wrote:
+> > >
+> > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > >
+> > > Multiple DRM drivers use the pm_runtime_put() return value for printi=
+ng
+> > > debug or even error messages and all of those messages are at least
+> > > somewhat misleading.
+> > >
+> > > Returning an error code from pm_runtime_put() merely means that it ha=
+s
+> > > not queued up a work item to check whether or not the device can be
+> > > suspended and there are many perfectly valid situations in which that
+> > > can happen, like after writing "on" to the devices' runtime PM "contr=
+ol"
+> > > attribute in sysfs for one example.  It also happens when the kernel
+> > > has been configured with CONFIG_PM unset.
+> > >
+> > > For this reason, modify all of those drivers to simply discard the
+> > > pm_runtime_put() return value which is what they should be doing.
+> > >
+> > > This will facilitate a planned change of the pm_runtime_put() return
+> > > type to void in the future.
+> > >
+> > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> > > ---
+> > >
+> > > This patch is requisite for converting pm_runtime_put() into a void
+> > > function.
+> > >
+> > > If you decide to pick it up, please let me know.
+> > >
+> > > Otherwise, an ACK or equivalent will be appreciated, but also the lac=
+k
+> > > of specific criticism will be eventually regarded as consent.
+> > >
+> > > Originally posted here:
+> > >
+> > > https://lore.kernel.org/linux-pm/3045480.e9J7NaK4W3@rafael.j.wysocki/
+> >
+> > This is the last patch from the "discard pm_runtime_put() return
+> > values" lot that has not been applied yet, AFAICS, so this is the last
+> > call for objections or concerns related to it.
+>
+> I think you can go ahead and apply it, I don't see how the imx8 driver wi=
+ll
+> be affected by the lack of debug messages.
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 26 +-----------------------
->  drivers/gpu/drm/panthor/panthor_gem.c | 29 +++++++++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_gem.h |  3 +--
->  3 files changed, 29 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 165dddfde6ca..52c27a60c84a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1635,34 +1635,10 @@ static const struct file_operations panthor_drm_driver_fops = {
->  };
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static int panthor_gems_show(struct seq_file *m, void *data)
-> -{
-> -	struct drm_info_node *node = m->private;
-> -	struct drm_device *dev = node->minor->dev;
-> -	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
-> -
-> -	panthor_gem_debugfs_print_bos(ptdev, m);
-> -
-> -	return 0;
-> -}
-> -
-> -static struct drm_info_list panthor_debugfs_list[] = {
-> -	{"gems", panthor_gems_show, 0, NULL},
-> -};
-> -
-> -static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> -{
-> -	drm_debugfs_create_files(panthor_debugfs_list,
-> -				 ARRAY_SIZE(panthor_debugfs_list),
-> -				 minor->debugfs_root, minor);
-> -
-> -	return 0;
-> -}
-> -
->  static void panthor_debugfs_init(struct drm_minor *minor)
->  {
->  	panthor_mmu_debugfs_init(minor);
-> -	panthor_gems_debugfs_init(minor);
-> +	panthor_gem_debugfs_init(minor);
->  }
->  #endif
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index b61908fd508a..13e9dd3764fa 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -9,6 +9,8 @@
->  #include <linux/err.h>
->  #include <linux/slab.h>
->  
-> +#include <drm/drm_debugfs.h>
-> +#include <drm/drm_file.h>
->  #include <drm/drm_print.h>
->  #include <drm/panthor_drm.h>
->  
-> @@ -683,8 +685,8 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
->  		totals->reclaimable += resident_size;
->  }
->  
-> -void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-> -				   struct seq_file *m)
-> +static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-> +					  struct seq_file *m)
->  {
->  	struct gem_size_totals totals = {0};
->  	struct panthor_gem_object *bo;
-> @@ -704,4 +706,27 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
->  	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
->  		   totals.size, totals.resident, totals.reclaimable);
->  }
-> +
-> +static int panthor_gem_show_bos(struct seq_file *m, void *data)
-> +{
-> +	struct drm_info_node *node = m->private;
-> +	struct drm_device *dev = node->minor->dev;
-> +	struct panthor_device *ptdev =
-> +		container_of(dev, struct panthor_device, base);
-> +
-> +	panthor_gem_debugfs_print_bos(ptdev, m);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct drm_info_list panthor_gem_debugfs_list[] = {
-> +	{ "gems", panthor_gem_show_bos, 0, NULL },
-> +};
-> +
-> +void panthor_gem_debugfs_init(struct drm_minor *minor)
-> +{
-> +	drm_debugfs_create_files(panthor_gem_debugfs_list,
-> +				 ARRAY_SIZE(panthor_gem_debugfs_list),
-> +				 minor->debugfs_root, minor);
-> +}
->  #endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index 22519c570b5a..94b2d17cf032 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -203,8 +203,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
->  
->  #ifdef CONFIG_DEBUG_FS
-> -void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
-> -				   struct seq_file *m);
-> +void panthor_gem_debugfs_init(struct drm_minor *minor);
->  #endif
->  
->  #endif /* __PANTHOR_GEM_H__ */
-> -- 
-> 2.52.0
-> 
+Applied then, thanks!
