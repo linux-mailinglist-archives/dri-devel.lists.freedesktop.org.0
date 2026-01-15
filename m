@@ -2,211 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C523D223E2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 04:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D674D22582
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 05:05:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 161C710E235;
-	Thu, 15 Jan 2026 03:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E6610E187;
+	Thu, 15 Jan 2026 04:05:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gc7LfMcW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MswurlFW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38B110E235;
- Thu, 15 Jan 2026 03:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768446472; x=1799982472;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=4jgoPE4wzBEkUzKafNaWuMuuajX+TC7OaeFY+SJuv8Y=;
- b=gc7LfMcWX2CXZKx8i6D8s5xPvE1qjYYnYBfrjB+DS4xFgLTMo7zAYcC1
- q+7owXrYYtzs7DbTBu5zN5Qd7cc6SFKfDx/wVPx9Hy2WCK0G9UmFk660L
- p0n9ujkFmBKgF+TrVPy/4RwrA1+641ie8XVhW0KPV3DN97eqRM9Hd8My+
- Qk2GOkqbYuSV68sqoww8iyDn/55OZMto8uLiHFaAxuZmrmDAVHeWwMGsi
- GCRARLk7vSWlW8vW+86ou1eiAPa08B489isZgPr3t7F54OlRLoJAlYQZk
- 2Fn6kHFFUYE//WEmWX85cg8anUI+cPWt+7kc6Jqz69yz4D5BMkMqcBVmW Q==;
-X-CSE-ConnectionGUID: CSr/THP5TDe8P9mnMdSneQ==
-X-CSE-MsgGUID: veayRtuWTqe8WAOjeSehHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73595600"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="73595600"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 19:07:51 -0800
-X-CSE-ConnectionGUID: mmMXr+SMRhy/FMhXJszDjg==
-X-CSE-MsgGUID: 5Yn+CapXSCybrq2EOcolbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="204633044"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 19:07:51 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 19:07:50 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 14 Jan 2026 19:07:50 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.38) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 19:07:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wyMBcHfCcQ8rwOcI6kD7D2kOOQO2SGOCmDGJJXrf9STPbrVSeEzL1Kqdl/FCvDiGp3Dikudu7JfGpphBm4kko0wl1mCSxLP+Np7HsSAN5yqwQ/YflkZXyr8tou/Xi4LUUQrEeBIFFcmQc66ek5QadrvhwZs8frkm5T0AJkRBQ+hitYxSKdMJGf85lkpAd65teAmcmzEp+fXCch+UMUV9wIQghGxB7AtVKtu+LYWhMgIPvdkh2XkTDhY5Gpcz/F6QbAhEmYDOr8RdV8tBi+MWo3SD31BI21X6G1U8ix6oAEOSgAO1udSTBp/MUXvpgqwmWm+p3MAhGR+2dqvoQmtgvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E23lywpoOmVr6gXuG1SD8JTVMqItivsJAude19JYDw4=;
- b=iYynMPzzEiZfeURJCw5TxYab2CKLUV8u1rmtAt+OIwOsKgYdnwGHXGlyRVxbq9GOBvYLzpZR5LBL1TNg9UzpOgf6RqtspBQaqhZBXTbsInpJ2K50urGok59Vkk/Qc6FiKVpF6W9Nj6DXfRtSgQyIEHmo+SFjGqa8dOtSDa6xQB18tKxjmQ1JEakY2CpjWBXdHFCPLfbc/yYDk/4ZqEo6JS0erbged77LNmFoYNAwbEQGY2fDE4mhJuSwYwAfNy2RHtKdmrKkcUSLjCxU+VhvEuZTZmQl7dNW76D305x9G0fYTjlVbCgm0EevS5fFFsTdaWBWTXrv0vtQZNje0RO1ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ5PPFE5BD61D44.namprd11.prod.outlook.com
- (2603:10b6:a0f:fc02::85a) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 03:07:42 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Thu, 15 Jan 2026
- 03:07:41 +0000
-Date: Wed, 14 Jan 2026 19:07:37 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-CC: Francois Dugast <francois.dugast@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Zi Yan
- <ziy@nvidia.com>, Alistair Popple <apopple@nvidia.com>, adhavan Srinivasan
- <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman
- <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
- Hildenbrand" <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, "Jason
- Gunthorpe" <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, Michal Hocko <mhocko@suse.com>, "Balbir
- Singh" <balbirs@nvidia.com>, <linuxppc-dev@lists.ozlabs.org>,
- <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
- <linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v5 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-ID: <aWhZ+eVZQ5oHMK0u@lstrano-desk.jf.intel.com>
-References: <20260114192111.1267147-1-francois.dugast@intel.com>
- <20260114192111.1267147-2-francois.dugast@intel.com>
- <20260114190154.c05e460ebf4054828430633f@linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260114190154.c05e460ebf4054828430633f@linux-foundation.org>
-X-ClientProxiedBy: BY3PR05CA0004.namprd05.prod.outlook.com
- (2603:10b6:a03:254::9) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2751F10E187
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 04:05:03 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-2a0d5c365ceso3723975ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jan 2026 20:05:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768449902; x=1769054702; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UKefXX9KTkiQnQU4SrQGPHAT+zK2SvRI2HKryej3vYE=;
+ b=MswurlFWNXPbVT3YQvD1BgpAQtvMIlVK3bWxi/QJRkFmf0rlF3p5RXU7FndsE8jQFG
+ akegs7IXG1QElHW4p/Xl4uvRVQV/wMdvvsDV3gzA9m11jNv6anN08q4iPv6s+5sYFOrL
+ VmpZdGd8tOs5xjl9Z2Czb6A2En4jqHcZYBZ7EmSSHYM04PQ+La/3HKK/5ZEmtdBns36p
+ MI3V+aCL/O6yjVAUOZ7J44Tj+C1I9/VmJgHFHuVdPfV3NC/p7buLlYX3DJC8VMHnbqht
+ sRscTgHfLW5h8otdIaUOg1Hftyyte4477zk2brq2oCYqfKMCxiRk6Z8zQmlBYpqdCd1h
+ +/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768449902; x=1769054702;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UKefXX9KTkiQnQU4SrQGPHAT+zK2SvRI2HKryej3vYE=;
+ b=C2O3QdQH2TcBpHHuRVDb9GCV/QIVmvEp6sx0hA9NKNIcWb2erLFR7N355bGWCJHfQO
+ iH7qBYag5pHD/wwVCd6CIee+BtSfJDoHW8rmxYZxCreRwiQVhWC7ZyubqX8TSTSI0TQ0
+ vNRIimkHXqOxqs5y7oWngL9LMZ6uwKJ2xXYWYCiTZRylwwyuitM8rNFv+eHFaJ+fW9qQ
+ YHoNcN5Lx/7M0QcQqq8RVaqxLscSI+3CyVUQA7JzIfdKAnV2isuy3g0crNNjDTobbcYk
+ 2ZwPaSVRov8+Ti29tfFKFUTcCBaiUPy2gMuO8/8HzkTL4dRw+4FjCCee8s+ewK6FoeDP
+ v/ZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNBvgtxVKnq1dsgtbYkSAKYJjKsuBg3osB5OSLpyJsghPWwUI41LDYBLwIWMdEBURWwBORLLYtfPY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPXK1fmNA0Jbjn09qT0eoizoZ/ZFoJZ2BIo6i5AcT7TxKwWmZd
+ VascCUfsaayiabT43eSHtKzaAW2oBYw44YwRpr2arqUtwqQcfSIj8Mzl
+X-Gm-Gg: AY/fxX7MlN8FlZW1nelysigs9d+4aCDg1DEQ7qschlip8e2Qr+XTuj4vC51SfCAQGXV
+ VhDH0ajIX8bBgKcmttRTqorUUBCs+QU9JFBxOYkXn/X2ErMVsSrTTgpioDkhC7A9XsE4TM1EOjE
+ dHGq1zBt3eZ0l3qKDli3/cYDrUevFV46BGVqrXzXaPoZZm+4ooteW2Xf+FCZc4fKjxa1ROQJg5E
+ jypW/BSdNzy5F6ptLiHfh1n6kUNSi65P4eSzrCRQ92jqkTN81/VQbZbmvwtNTrjA/Jn3DNsaBhf
+ Ssfy8WazWVHC9nN0xUMzg7uRFLK2Usq1ETVVuOBYQ/9lqjFUhsPSQC/WdaNIMAIQC7a4IxbBHqZ
+ wbjKYf7v7Zxfawl0F/1t8qTXeTsOQQcIo8Mwpc5J1qirCnEykWox2pWS9i6nLRFO/UKNtwEzEa8
+ oW40KD8WReEmqZWShzH6C0F7FJ0JEm8SdZQEqa3UxEm2ZbBIxaNPrLYPvreevQ
+X-Received: by 2002:a17:902:da82:b0:298:55c8:eb8d with SMTP id
+ d9443c01a7336-2a599e2411bmr51391755ad.35.1768449902516; 
+ Wed, 14 Jan 2026 20:05:02 -0800 (PST)
+Received: from ?IPV6:2601:1c0:5780:9200:e9f3:c6f4:5dd4:2565?
+ ([2601:1c0:5780:9200:e9f3:c6f4:5dd4:2565])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a3e3cb2d79sm244924275ad.56.2026.01.14.20.05.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Jan 2026 20:05:01 -0800 (PST)
+Message-ID: <ed199efe-f6b2-426e-b679-ef1f019e6433@gmail.com>
+Date: Wed, 14 Jan 2026 20:05:01 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ5PPFE5BD61D44:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16acbd5c-edbf-4142-a4ee-08de53e33f10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dm5IVEMzT3ZXUWdjTzN3VVU5em5SbE15YTI4dnNlSkkzVGdXMTlKOWNjWm9l?=
- =?utf-8?B?YVdWYnN6eFlMU2lGUk9yOWNmT2NKWVZZUkRFK1J1bkVHT1ErTFBOd0xCL1NH?=
- =?utf-8?B?OEt0M3BmVzZycHdjK2pmSTFRd2FaYm1KMmV1Mml4Mkljd0Y0a0Vpd1M5a2xn?=
- =?utf-8?B?Y0o4ejZUWEZXZE05V0lFcmJ1c2tNekhxVURDSGkwT3NydW5vU0dhR2czd3JH?=
- =?utf-8?B?YUNtQTVNUlo1Ym8vT1RMaDZjT01NcnVxRWR4OU1URFRLRXArdHRHMTJyYmVs?=
- =?utf-8?B?MElCRUMxYWZwOUFtMExmUFdJWG9KRXliWlQvRHBoUTd6Z296WDhDc1RKWEZ0?=
- =?utf-8?B?TmpiUVpkSjV5OTFiNjF6L2NVSXlncjIrNnZpWDNzem5QUkg0enNMZkNMcFFk?=
- =?utf-8?B?M3k1SG9sWXVUMXM2R2NQK0VaMk1hRFcvK1gxQlUzeVNZZ0JseGtqUGdEckJj?=
- =?utf-8?B?U1lSeTU1c244bzJIMGZBaC9zRm1taDdnYngzcE1haGRXZC9UelF1elFmMzV4?=
- =?utf-8?B?THpWYmkrTm84L3pjYTRWQ3p3U0tZTldHemNTV2NYM1BnQjNaSzRxOHhhMWRj?=
- =?utf-8?B?VDRLRm9CRGV4emdQWldmNXVnZ1h0cXpSZzJXUXc4ODdHVEJydTZMQVRPQ1dz?=
- =?utf-8?B?bXU3RFB3Ym9NNXViQlpDMWRENGdLY1pPZW1yUEt4UEhsbHltcTdmaUZFMktx?=
- =?utf-8?B?bzdRTzZydTFLMEkxdWRVMWI5Z0ZWdDUyb2dWYVh1dTVMbFpWWnFXVG1ybm5m?=
- =?utf-8?B?cHRsT3l0RjU5ZlNHdmxCUVhOanZLeE80TDFsMGIvUWdOanY3dHplVFBlNDl3?=
- =?utf-8?B?ZWxublIzSFBtNm9IYWxqTDliUXRuKzNveldiRXM1ek82SEhQYW41U1F1ZGNP?=
- =?utf-8?B?TWFSWDlNVmhOd0ZRbWkwQ3BTUXpKQThVV0F3cXRJK2V0NFV2d094b1I4WER6?=
- =?utf-8?B?eFEyTS9mekJ4U0FEczlTUzZPZWhya29yZlVjTHE2aGtydFJlVS9nYnE2Sm5O?=
- =?utf-8?B?UGtOMDBHcno1YlRDQTJJNUJrcXJEYXJOdklvTEdxUUJ3YjdnSSt3Z2lkY2Rw?=
- =?utf-8?B?bzZ3MHBGRkt6Z09XYVdwWlhCdFNGTWh6eHFSTHJpYUUyclU3aEpEOHdNZ0M3?=
- =?utf-8?B?RDRDUE9rTG9YMGlET3h2RzlpbUFzNkVMODRuOHZsOGJaVTQxalpYNzBnSjFo?=
- =?utf-8?B?VmxlZ0c4dTU1N1dJcVBVbEs4S3NKUHQzUVNXVTBUM0phZVd1RUFobWFSTm1r?=
- =?utf-8?B?b3J3Z2JQUFRxbGp4ZFpKeWcwTWxpcENPTnNabnlCOHpEZXpreVB6alYvNVVU?=
- =?utf-8?B?QnJvdy8vUkRaZ3BDMXF0RXZoSWIrVkI0MXd4ZSthNXRtZUZFNFQyR0t3dUFw?=
- =?utf-8?B?UmNRdTA0amhVRys4MEVwQW8ySGx4d0VKdWpZaFNnM1g5UThDKzZXNW9RY0JY?=
- =?utf-8?B?bFJPT3I1UUZ3K1NlK1pjUXdjZ0ZNWk1OVmJxSVJpK0ZobVArRW9GUGZQcit4?=
- =?utf-8?B?TGNoV28vRmo4dUFVSHVRalFXaWhPc2x4STBvR1VCTUhwUzNkckRUWUJYSjZF?=
- =?utf-8?B?dmZUNVltVWJRUXR1OVZLbXdvaEJCUUFJQVFOVXlwbFhaN3dIcFRJQngxeCtR?=
- =?utf-8?B?bG1SMFJ6bXdvMWdhdG55bTFQTGNBRmNUOTY1ZmVselBrek82QkJzemtVQkNa?=
- =?utf-8?B?VFhmZFNmVzA0V3FSOHNtQll3bUpaVHpCd2xab0I5RGltQXhva1A4dzRzcjZO?=
- =?utf-8?B?NnBSYlFXVEFzTHJIb0Vrd3hnc05ITU9xMm9TSmdUdkp5R25xRmtpMml1cXB3?=
- =?utf-8?B?S1d5Q1c1MDZmdks4cmxMbzBZUE41M0haK0xPTTJROG1TRGRGeHVENktwKzNO?=
- =?utf-8?B?N3BTbEpCb2FMWHhjdEZXTUZ0TXZyR0tGVmhPMHo4SjBNV0JYa3lIVVBDRDB2?=
- =?utf-8?B?cXBZN2MwcEJPUkFiTHJBRTV0SkhYTFZWT0NtakppVEJDZ05NSm9SZm5Ma2Zx?=
- =?utf-8?B?eVNzTy94UFNlZUJzOHBuM0toWDlmWGlablBlajVya3cxTFhlMGFJK2VOWU9R?=
- =?utf-8?B?N3VaVFM4TFFHbFNPTHFHZnhra1BzeGU0YW9jRVJHVlJubUdMbGhGc1pPY092?=
- =?utf-8?Q?4txc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VElyN1NWYWNwcmE2MVZuaEJ5a2toYUFpVzUyRkpYczFENUczQ3hVOEY2TXlk?=
- =?utf-8?B?SmJaRWRNb0J2SzRBOTV4NUFudHFDVldMcmRUeUljWnFYK0Q2UTVtSU0yUkJq?=
- =?utf-8?B?UHA5UlhtWDVDSXlYWDdxTlgwV1dzZG41ZEFkS2NFS3BMNWtldUczdm5zNFFP?=
- =?utf-8?B?bWVMTkhvWWQxVXNhSHZGV2V5SkVLMWQyUmJyaU5lUG8veGNwQnlGTnlTSERK?=
- =?utf-8?B?ZlRzRCsvZ284UXZZaGxhOXBpN3pvYng1T3FPMW94SnBlQklCdEowUk9tNUdv?=
- =?utf-8?B?WnJrajZlc3FKcEpTSGNFSnZTUGVvSExqVHRSZ3l6cDd2bWU2dWVhdjVUSjAv?=
- =?utf-8?B?aDRuS3RGRFFtcC90V0prU0ZlTFFlMC9KVlpuUHFUR2t2N1QrOG9ETjk4MkhF?=
- =?utf-8?B?ZGNBaVoyUnJPVDF5VW42bE4wUVJMODBvOEhmUEV1aDlFMDJsYndDTjdxZ091?=
- =?utf-8?B?anFIdTgvWm5WSWVSNU53bVl1cVA1a09sdG0wU0hYRGhJU3lqc0J5UDYzQ0xo?=
- =?utf-8?B?V25SMCs0NWd3NThyck5naHpQN0NHUDA3cmthU1JBWFZYYlJpdXBabmZDTURG?=
- =?utf-8?B?a3I2YzZBT1J4R1QzK3N6alVQY2NaRmZ2Vld2a3V3Q2dNZDJTWllUTlk4RkxS?=
- =?utf-8?B?dmkwNU9KTlhHQjRva3U0aVpsYUJYM2JNSVJTRjZlSE94eHZHbWZWeUlERS9l?=
- =?utf-8?B?RG1LUTdNOWNadmJVanZ1LzVkY0J3clF0SVZiZndzL3IrUmYzOGNkUDdpTzdQ?=
- =?utf-8?B?NXZnTE1Oc2tWM1c3TW9IOGVjeDJaeUNEcDROcE11bk1tLzd4TG1IS1huVHZr?=
- =?utf-8?B?T3ZFZ3JtSEdJM3Q1MFNHNThGcU9uSUZ3K1Rsck9OT25pSWNwaWhwekpuZXQv?=
- =?utf-8?B?RS9RcnRyVUU0akYvai92bEhpNUhiaW5Td3VyVStUbHoyNlIvN0FPQkNZRVdJ?=
- =?utf-8?B?QTM0ZmdPblhoYVFBVEN6NFEvb29ubE5qOVhXTjZZM3JFRWVZaVBiZ1RoYVNy?=
- =?utf-8?B?MVF3QjN2SHpBb04zNVF1VGlmUzQrV0tqcHUvSk1HMUtWV1Y2TUtDeGVQT0hS?=
- =?utf-8?B?dS8wREd6elFGcEVXcEgrRHdBeVYzYm82Y0dhNXdFaXpneWZMU1o2aU5KcnFw?=
- =?utf-8?B?MDZBUWJ0aUp0S0Q2UXAzbENwK2hLcjYrWG5zcG9OWFY5SG1MaDRQRWVaOS9n?=
- =?utf-8?B?ZWh1cE90dUJuTDdUMkE2ZWZYcS9hek0zaEJ1TXpiRzNzRStCVE9wZnRXTzNv?=
- =?utf-8?B?MXB1K2U0T1dlSzIwZzQ0WmxXbXN4RlRWc09rWVEzWGlNeG1RUCt5dlRrR3Bz?=
- =?utf-8?B?YXBNVE1tcEZlbFJud2xhbmhoYXBlQW5BTUdRM3JUc3N2M2M2bTBjaWsvRXhW?=
- =?utf-8?B?QTU4dStOdlI4bnhZa0dlOXFQcTNZNUVJWWlibWY5RTZKVjFDcnZwbGtaeDRG?=
- =?utf-8?B?aksrc0huWXV0UG5rT0FxdEdoN08rWkd3dWtwUE1WNFluMU56anBqSVJJL0RE?=
- =?utf-8?B?SFJIOWhVakwzSFIzQ1RsNURoTXc0bHhYVER1VEE2bHZFOXpadnpDaCtmRXE2?=
- =?utf-8?B?aktMMjNXRGs3NEFleHJXNnVWWlZBbnpZVENweVFVckJ3Q2RTdFhDREZCbWVs?=
- =?utf-8?B?U1ZZSXZVeVA0SFVCazM1cmgvYkxTbEpZZndISWVqQmhqUExtZ2lWY2JkL3ZT?=
- =?utf-8?B?dmxJTEVIM241OXBlai9ydHN5Yk1ZbkhWTTZlSHdSNlFBeWIrcXNSS2pZQUdP?=
- =?utf-8?B?b09JSjAxa2NOYWwyVlNNUHc1cERlclVaWDZRcUhOZi9lSktzaVFZWWpGM21y?=
- =?utf-8?B?Skh5UHl6Vm1kT2lXRmZMSmR3RWFqWG5XVkp2TDZBNHZyRit5UDArZnVTbDhv?=
- =?utf-8?B?clJlTzc3N1QwY2RyQ3IxM1hDQ0Y4NUpqNldOOG9YeGwxSUtOK0ZLMWJBS1pk?=
- =?utf-8?B?ZlhvSTMxVEY5cXBsb0I4SUhCcUljNnNxZ3oxejg2Z1JXbjBVRE5iNXhGMDBR?=
- =?utf-8?B?WVZyZzFYZkg0Y1pPa2FBTTMvRVV6azg3V3RRVk53U25LaktuOWJpS09Ydkha?=
- =?utf-8?B?L3J1VmJOMmxQTUZ0QTRjZHJ5NmdTL2ZuekxlM1pvY1B0eFRzOGZjckoyK2JP?=
- =?utf-8?B?Zy93Y011d2k1c1NPNHhZNTVRZE1mYkU2NGg4cCtVWTBmU2FuMGlOdW9mRW04?=
- =?utf-8?B?QUFBcjFYZ3FPNi9veTdxcEkxMmFHWFN0SkZvWDg4V2tiUXZoNVVGY1pCMXBt?=
- =?utf-8?B?TitZeW1mRnBveStTelZJRG1QcEtKOGh5dmxscWQrVkJTNkhqMWVSRG5DSHhl?=
- =?utf-8?B?N28vWmVvREpOdzM1ZUVBV2tvNE8vVjd5dXk1SExyUXg1eG9SR2VCV1UxNG84?=
- =?utf-8?Q?3hu/wpDGG3DauTPY=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16acbd5c-edbf-4142-a4ee-08de53e33f10
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 03:07:41.5523 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XNEaIYVvLSrxr2X0idMoPPkIumXNj6OhZY+RARnhXGd0ooS4iRq6nfAfZoq7OtrEN8VWXK7J83OXsSkmtGSIiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFE5BD61D44
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
+ FB_DEVICE is disabled
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, andy@kernel.org, deller@gmx.de,
+ kernel test robot <lkp@intel.com>
+References: <20260113045909.336931-1-chintanlike@gmail.com>
+ <2026011341-chomp-protegee-6be5@gregkh>
+ <a2d5cc20-5160-4294-bda1-3d5b645ec787@suse.de>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <a2d5cc20-5160-4294-bda1-3d5b645ec787@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,41 +99,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 14, 2026 at 07:01:54PM -0800, Andrew Morton wrote:
-> On Wed, 14 Jan 2026 20:19:52 +0100 Francois Dugast <francois.dugast@intel.com> wrote:
-> 
-> > From: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > Reinitialize metadata for large zone device private folios in
-> > zone_device_page_init prior to creating a higher-order zone device
-> > private folio. This step is necessary when the folio’s order changes
-> > dynamically between zone_device_page_init calls to avoid building a
-> > corrupt folio. As part of the metadata reinitialization, the dev_pagemap
-> > must be passed in from the caller because the pgmap stored in the folio
-> > page may have been overwritten with a compound head.
-> > 
-> > --- a/drivers/gpu/drm/drm_pagemap.c
-> > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > @@ -201,7 +201,7 @@ static void drm_pagemap_get_devmem_page(struct page *page,
-> >  					struct drm_pagemap_zdd *zdd)
-> >  {
-> >  	page->zone_device_data = drm_pagemap_zdd_get(zdd);
-> > -	zone_device_page_init(page, 0);
-> > +	zone_device_page_init(page, zdd->dpagemap->pagemap, 0);
-> >  }
-> 
-> drivers/gpu/drm/drm_pagemap.c:200:40: error: 'struct drm_pagemap_zdd' has no member named 'dpagemap'
-> 
-> I guess this was accidentally fixed in a later patch?
-> 
 
-Ah, no. This is because we merged some in drm-tip which is not 6.19,
-this is based on the drm-tip branch.
 
-> Please let's decide whether to fast-track the [1/N] fix into mainline
-> and if so, prepare something which compiles!
+On 1/14/26 03:38, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.01.26 um 07:16 schrieb Greg KH:
+>> On Mon, Jan 12, 2026 at 08:59:09PM -0800, Chintan Patel wrote:
+>>> Replace direct accesses to info->dev with fb_dbg() and fb_info()
+>>> helpers to avoid build failures when CONFIG_FB_DEVICE=n.
+>> Why is there a fb_* specific logging helper?  dev_info() and dev_dbg()
+>> should be used instead.
+> 
+> Fbdev is entirely inconsistent about its logging. There's dev_*(), 
+> there's pr_*(), and even printk(). The problem with dev_*() logging is 
+> that devices are not always available. The HW device can be NULL and 
+> might not be all that useful in practice. The Fbdev software device is 
+> often not even compiled in nowadays. (This patch is about that problem.) 
+> Hence the next best option is to make fb_*() logging helpers that 
+> address these problems. They are based on pr_*() and print the 
+> framebuffer index, which should always be available after 
+> register_framebuffer().
+> 
+>>
 
-Maybe we just take this through the MM repo then? I suppose I should
-send out patch which applies to the MM repo? I just cloned that repo.
+Thanks Andy and Thomas.
 
-Matt
+I’ll update the commit message to clearly describe the underlying issue.
+
+I’ll also split the changes as suggested in 2 patches and send v7:
+1) a patch focused purely on fixing the compilation issue by avoiding
+    info->dev dereferences (using fb_dbg() where logging remains), and
+2) a follow-up cleanup that removes or downgrades the framebuffer
+    registration message to debug level.
+
+I’ll rework the series accordingly and resend.
+
+Thanks for the guidance.
+
+
