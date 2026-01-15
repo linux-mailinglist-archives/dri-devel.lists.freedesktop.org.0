@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A670D26F67
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFABFD26871
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2A10E208;
-	Thu, 15 Jan 2026 17:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4598410E7B3;
+	Thu, 15 Jan 2026 17:36:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rFBLmJ3S";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="w2KY3pHZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE76C10E208
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:57:52 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B7510E7B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:36:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E67636016B;
- Thu, 15 Jan 2026 17:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE42C116D0;
- Thu, 15 Jan 2026 17:57:51 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 95C6E435B0;
+ Thu, 15 Jan 2026 17:36:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E16C16AAE;
+ Thu, 15 Jan 2026 17:36:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1768499871;
- bh=rJJS4vxndoCTbCEG2PF2ki+wcRMpD6RV0CVl3F4vPbU=;
+ s=korg; t=1768498577;
+ bh=1UQgR+y9q/y5mjquLJ8qbpgrHFmvF5pK24VEjbvReRA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rFBLmJ3SABnJKanU/3z3giBPTZQCi44/oRNpGKtGhiIppqVWOe9tiAUWHBjFrBYs9
- kp/HCM0ZqJNDADNBzvPRMKOokH+D+u8pd7nl3yv21sr6Bf7iI3FA61Q6ndT2TbXI32
- HNkYX4W6vyySAFbN1ty5APXUkB9tN2n3QjQpDjqE=
+ b=w2KY3pHZI8B5Pi0Yt/Ma0RfqTDYoE80PbBkqijnEGiRISj5pPotmYHVT3J0xJZxsF
+ NcX/5MppYuhJ3KSiH4y9jkiTkX6kE4o2ww+S6o51fH7+kI6ccFa4VZwYKaKlZsSIfa
+ hO1Utov2r78gCR5AwJufCWwLGDz4fgLY1BiCtKmo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Zack Rusin <zack.rusin@broadcom.com>,
- Kuzey Arda Bulut <kuzeyardabulut@gmail.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- dri-devel@lists.freedesktop.org, Ian Forbes <ian.forbes@broadcom.com>,
- Sasha Levin <sashal@kernel.org>,
- Shivani Agarwal <shivani.agarwal@broadcom.com>
-Subject: [PATCH 5.10 345/451] drm/vmwgfx: Fix a null-ptr access in the cursor
- snooper
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Stefan Christ <contact@stefanchrist.eu>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 480/554] drm/gma500: Remove unused helper
+ psb_fbdev_fb_setcolreg()
 Date: Thu, 15 Jan 2026 17:49:06 +0100
-Message-ID: <20260115164243.375415711@linuxfoundation.org>
+Message-ID: <20260115164303.682571701@linuxfoundation.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260115164230.864985076@linuxfoundation.org>
-References: <20260115164230.864985076@linuxfoundation.org>
+In-Reply-To: <20260115164246.225995385@linuxfoundation.org>
+References: <20260115164246.225995385@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,81 +61,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
-From: Zack Rusin <zack.rusin@broadcom.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 5ac2c0279053a2c5265d46903432fb26ae2d0da2 ]
+[ Upstream commit be729f9de6c64240645dc80a24162ac4d3fe00a8 ]
 
-Check that the resource which is converted to a surface exists before
-trying to use the cursor snooper on it.
+Remove psb_fbdev_fb_setcolreg(), which hasn't been called in almost
+a decade.
 
-vmw_cmd_res_check allows explicit invalid (SVGA3D_INVALID_ID) identifiers
-because some svga commands accept SVGA3D_INVALID_ID to mean "no surface",
-unfortunately functions that accept the actual surfaces as objects might
-(and in case of the cursor snooper, do not) be able to handle null
-objects. Make sure that we validate not only the identifier (via the
-vmw_cmd_res_check) but also check that the actual resource exists before
-trying to do something with it.
+Gma500 commit 4d8d096e9ae8 ("gma500: introduce the framebuffer support
+code") added the helper psb_fbdev_fb_setcolreg() for setting the fbdev
+palette via fbdev's fb_setcolreg callback. Later
+commit 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for
+fb_ops") set several default helpers for fbdev emulation, including
+fb_setcmap.
 
-Fixes unchecked null-ptr reference in the snooping code.
+The fbdev subsystem always prefers fb_setcmap over fb_setcolreg. [1]
+Hence, the gma500 code is no longer in use and gma500 has been using
+drm_fb_helper_setcmap() for several years without issues.
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: c0951b797e7d ("drm/vmwgfx: Refactor resource management")
-Reported-by: Kuzey Arda Bulut <kuzeyardabulut@gmail.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Stefan Christ <contact@stefanchrist.eu>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
-Link: https://lore.kernel.org/r/20250917153655.1968583-1-zack.rusin@broadcom.com
+Cc: <stable@vger.kernel.org> # v4.10+
+Link: https://elixir.bootlin.com/linux/v6.16.9/source/drivers/video/fbdev/core/fbcmap.c#L246 # [1]
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://lore.kernel.org/r/20250929082338.18845-1-tzimmermann@suse.de
+[ adapted patch from fbdev.c to framebuffer.c where the function was named psbfb_setcolreg() instead of psb_fbdev_fb_setcolreg() ]
 Signed-off-by: Sasha Levin <sashal@kernel.org>
-[Shivani: Modified to apply on v5.10.y-v6.1.y]
-Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |   17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/gma500/framebuffer.c |   42 -----------------------------------
+ 1 file changed, 42 deletions(-)
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1520,6 +1520,7 @@ static int vmw_cmd_dma(struct vmw_privat
- 		       SVGA3dCmdHeader *header)
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -35,47 +35,6 @@ static const struct drm_framebuffer_func
+ 	.create_handle = drm_gem_fb_create_handle,
+ };
+ 
+-#define CMAP_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
+-
+-static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
+-			   unsigned blue, unsigned transp,
+-			   struct fb_info *info)
+-{
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct drm_framebuffer *fb = fb_helper->fb;
+-	uint32_t v;
+-
+-	if (!fb)
+-		return -ENOMEM;
+-
+-	if (regno > 255)
+-		return 1;
+-
+-	red = CMAP_TOHW(red, info->var.red.length);
+-	blue = CMAP_TOHW(blue, info->var.blue.length);
+-	green = CMAP_TOHW(green, info->var.green.length);
+-	transp = CMAP_TOHW(transp, info->var.transp.length);
+-
+-	v = (red << info->var.red.offset) |
+-	    (green << info->var.green.offset) |
+-	    (blue << info->var.blue.offset) |
+-	    (transp << info->var.transp.offset);
+-
+-	if (regno < 16) {
+-		switch (fb->format->cpp[0] * 8) {
+-		case 16:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		case 24:
+-		case 32:
+-			((uint32_t *) info->pseudo_palette)[regno] = v;
+-			break;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static vm_fault_t psbfb_vm_fault(struct vm_fault *vmf)
  {
- 	struct vmw_buffer_object *vmw_bo = NULL;
-+	struct vmw_resource *res;
- 	struct vmw_surface *srf = NULL;
- 	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdSurfaceDMA);
- 	int ret;
-@@ -1555,18 +1556,24 @@ static int vmw_cmd_dma(struct vmw_privat
- 
- 	dirty = (cmd->body.transfer == SVGA3D_WRITE_HOST_VRAM) ?
- 		VMW_RES_DIRTY_SET : 0;
--	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface,
--				dirty, user_surface_converter,
--				&cmd->body.host.sid, NULL);
-+	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface, dirty,
-+				user_surface_converter, &cmd->body.host.sid,
-+				NULL);
- 	if (unlikely(ret != 0)) {
- 		if (unlikely(ret != -ERESTARTSYS))
- 			VMW_DEBUG_USER("could not find surface for DMA.\n");
- 		return ret;
- 	}
- 
--	srf = vmw_res_to_srf(sw_context->res_cache[vmw_res_surface].res);
-+	res = sw_context->res_cache[vmw_res_surface].res;
-+	if (!res) {
-+		VMW_DEBUG_USER("Invalid DMA surface.\n");
-+		return -EINVAL;
-+	}
- 
--	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->base, header);
-+	srf = vmw_res_to_srf(res);
-+	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->base,
-+			     header);
- 
- 	return 0;
- }
+ 	struct vm_area_struct *vma = vmf->vma;
+@@ -147,7 +106,6 @@ static int psbfb_mmap(struct fb_info *in
+ static const struct fb_ops psbfb_unaccel_ops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_setcolreg = psbfb_setcolreg,
+ 	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+ 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
 
 
