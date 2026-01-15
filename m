@@ -2,131 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329B9D28861
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577D1D288AF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 21:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2FA10E7CE;
-	Thu, 15 Jan 2026 20:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A67E10E257;
+	Thu, 15 Jan 2026 20:54:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WRmGzlVM";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kelC/F6G";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aqSYeVaY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B10810E1C4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:49:40 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60FFY9F82673513
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:49:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=THQFNIkFF3/t/NDKgOjpetPz
- WnPIDkihaT7sa0eZps4=; b=WRmGzlVM+uUghOVU4tiq16Yd7CkPTrD8BiGmPC0+
- Djv9x6RlWhQVp1X0FwN19BSbWOEwthQq2C+0/2WsVeb91WE20RE1TbrYtayEiXxy
- 5JmdbH0Awngc1LRAVxgIKKmVlUG0wzpijOxjyDeIyReiEyJLzLyllM/F9HE606+x
- ZvYS1AQDm+/S4VyuRy2gv7l8KdI9amBvOQG9SKbm0ZcbM5Kcz68yYhRhvWGkSDuH
- /1dWdPjg3zEFkknurbv+qH8KqSx7AIaJnY4q4ABCOxzwCzSV9Ory6I6Tt/yxe+CH
- UvMOjNls0VorwqDEYZfdIXzpOh9oH+Kxwhr9thhNpmktpw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpyduhjna-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 20:49:39 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8c52dcf85b2so518666285a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 12:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768510179; x=1769114979;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=THQFNIkFF3/t/NDKgOjpetPzWnPIDkihaT7sa0eZps4=;
- b=kelC/F6GXrTzIJpPNTerKqmmucEOlyPJBZn8tDb4mfu/E55tOUZIeUMJjDNr1ngqha
- JS7gss+6QSVKbZBYfp8AnniIXd2/RBBOTnVpunNoKwLCJ66QXty56XrQ305yVPuYGd0O
- zj/KmJB7HBPmF8vZuD4lsQQRUX9E8GbINNLeb4WlQhwQ8sys5JozEzkHgSh74D4J3PQp
- VIjxusKtPjdklnd/e5NXKt440IrdW7gECeZJF/J4VxdIg3/cMom0GcyOXszTViGF6kqN
- 87/WUxubg0gGcRcXmNjVEc86SNzmQXQdN3d0SjUgPz0WMf069dWzWSaRdAAXCN1mYy4r
- JKJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768510179; x=1769114979;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=THQFNIkFF3/t/NDKgOjpetPzWnPIDkihaT7sa0eZps4=;
- b=nV+pS93OEk+KhXDjd6g25zZuHhnJ9CPexQawKm4K5bMNnwUYkqf8KerQ4VF9JVJS+H
- wLD8bgOD2W9Aq8M0Dg7O+rYzEyoMQ4xYSN9w9XODT+Isz9xAxygFvZpurS5Kq/OKxM0p
- WI2eZ5BBT9Jxq153sxRchBVJqUOcuUhxtRhqNjdMxDNiytb9IMCQGmW8q/iysGLvmAFT
- mnZ6+UIlyOnUNbT1UlrJDwnpQlcAtCrB7fnWeKZaRJh90fMGPHS3MS+nX30uC2h0yhS9
- NeR6dxH5xlUM2dB6x7RfVWXmsNovnsXnGUhY8o9WqxFQ5EOovW2nhQ0n9iJnBte3Cvbu
- GvAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHJVaoUJs/SLxR9ICBUK3mBYuFAK9bwVSqQsJAEgtzrZta6lUuraKUmqoAHH4IeMX6z724N1mLJEQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzA7umMumU5NbxwdCqOabnJHpg0Afc84fqnlxdNq+myKORTmm4V
- lE/OfyZkhHNoUP//dAgT5vN7i35pUig0W9VTi5x0qx1m74ykAVgEBlkSCLrsCFT6r/oUOIpTVIy
- IQuxAmLv8k91xpzv08NddKPT8IAaVrhpo4DU/pmlbuuyC5eeg9UkUVlTl9j5OIN+SfR84g24=
-X-Gm-Gg: AY/fxX5I9Mwf9NpXaC4az+tyu73cAOSkU4GiM/zITOXGLJ8Xb4Ajryh0P+5jOezcdCF
- V0Foy3CPaf2y5RecY0J/OoD8twvhuj0q28zg+N7oJUWq0z/8bOoHvVz6zDHRQA+6NkbS+xeUWjh
- jP303pfF8j9fRNEa40OLRjXtJWOFBmpOPAC7GZLuaMJW+2scFPb9/EdPRZSZfEPgRu5CAYq9U2n
- pTRXioAk/5ckAUqJQHc2Vdf8KlFU1YP8U0vgAlw/SDL7UUbtzD8aE6LnWAfHqVSP8uv+W/osInr
- kDSoiOKE3NzGbnouL1xZRXnO+ZUcljP4516+3zLUgmlTEBXW2W/Z249WN6ybXgwslnKLNvxYvq+
- 6OeDW7s+FbQfF7/qL9n72G8PuENrRBOw5CdjdY11wKh3YoX8MPAbjHtSJoet7b9v2lhZHcxEXfO
- 7kpcSywhx6+3ODLartEYRfeNg=
-X-Received: by 2002:a05:620a:46a6:b0:8b2:dcea:fc78 with SMTP id
- af79cd13be357-8c6a68d3711mr108034485a.16.1768510179044; 
- Thu, 15 Jan 2026 12:49:39 -0800 (PST)
-X-Received: by 2002:a05:620a:46a6:b0:8b2:dcea:fc78 with SMTP id
- af79cd13be357-8c6a68d3711mr108031085a.16.1768510178524; 
- Thu, 15 Jan 2026 12:49:38 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59baf39776dsm142269e87.46.2026.01.15.12.49.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jan 2026 12:49:37 -0800 (PST)
-Date: Thu, 15 Jan 2026 22:49:36 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jianping Li <jianping.li@oss.qualcomm.com>
-Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org, linux-arm-msm@vger.kernel.org,
- thierry.escande@linaro.org, abelvesa@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, ekansh.gupta@oss.qualcomm.com
-Subject: Re: [PATCH v2 4/4] misc: fastrpc: Allocate entire reserved memory
- for Audio PD in probe
-Message-ID: <ewiz36hwffy4egxpm7z3icvk4vd4fp7ktnny2vyiuzcsmzft5x@nsfvnpip26nd>
-References: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
- <20260115082851.570-5-jianping.li@oss.qualcomm.com>
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013060.outbound.protection.outlook.com
+ [40.93.201.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6B510E109;
+ Thu, 15 Jan 2026 20:54:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nPTLcasqQG0nAzMR4VsFJlZOTtRNhH/u4IwJZ8QSVaG0dYmMqQ279JF6lrjYdoP4ie9u0QDlwRf04Et9H020EXKrQ18BfqZl+wZkfXpCf8TQU1iojogI7MHOmGzgpLE3SoH6EWiPCQJ+6Z2huSyZ+IaN1r8MtiUr5zEKizd4aARTUZt1H38XiyQOxI+u2YDRh+rZcCAMSFibsyKKmH9K7vhuBNmLNpBJTV3hOuPWCMx+wWWJ/X8nRd23KdB0385nRbfosbALDj2Ql9dTKV7DCBbhSv67E9irQOWstkZCojAMCSS852LPSyGs8v/aVsRUfyyDfuVNDQvx3RjkxqGPrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bLOzhs+o9Ynx2oWAAF4QZV5yokhmfToeltOFCCtSZhE=;
+ b=Vt0QaTeO2XTEuKIqnHQJ0qBTklFKtXgNc+QUPEQP+VmjVksg8d5s3Wp/eQjYkI1S+liMc5SyouOIfHE0FZeHZlKygjUW7mSBr7HKFaqzofdhxCqk9qLA3O/kBFHUZVsUaOHMKtBQzosFj8RkwXSU17cfSuE+KvSs5o6cxjBsqAyPWmuyCaLfOJvILSU8mulFHqBnFnIjs/dJcxC8ySN9c6a8ksn7DhRgIc+OquA5Y9WwGjXU78R2vhltprYK0GujSmNg64Sl2vBcrwLbTF+xzO1w1hgDsfkjexhfI6dqFNFr0bBwiDir7PT0RLDn5Aj8uzuFWSpZ1wSRxVeN5f2ZFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bLOzhs+o9Ynx2oWAAF4QZV5yokhmfToeltOFCCtSZhE=;
+ b=aqSYeVaY5rXoWNUFCWAqZr4ZmAhUVjpp4WghMN5SePApR0wJjpENS1r15xG5/u7UjkDWmdQ7ccGcu608+invXx57UmvObifhggj/bAdMf4PQitxBcd40Ka3tGAPllm5LCsuZSTFLv2kcHFfulQNbt1bRKd51rOin0d0+aGrjpbk=
+Received: from BYAPR08CA0049.namprd08.prod.outlook.com (2603:10b6:a03:117::26)
+ by DS0PR12MB6463.namprd12.prod.outlook.com (2603:10b6:8:c5::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
+ 2026 20:54:22 +0000
+Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
+ (2603:10b6:a03:117:cafe::47) by BYAPR08CA0049.outlook.office365.com
+ (2603:10b6:a03:117::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Thu,
+ 15 Jan 2026 20:54:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Thu, 15 Jan 2026 20:54:21 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 15 Jan
+ 2026 14:54:17 -0600
+Received: from p8.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 15 Jan 2026 14:54:16 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.19
+Date: Thu, 15 Jan 2026 15:54:05 -0500
+Message-ID: <20260115205405.1890089-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115082851.570-5-jianping.li@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE2MyBTYWx0ZWRfX6tKkt/NeUO4t
- GQ46MRcpp5vbU2zJVKL+ZNrNG61UtfA/Tca1euClin/yvmp9X+nP5KMQ2xUWf/WRIiuERkjB1kd
- IZLN8LCkHKAo88OIJptoyJBB+v+ABaui9cica4HtfNxos7dhxk5p0c9kZAXtJk8KZIKKuoomBhx
- hatNLBOzV1/ygLTnHufiIBRA69I246wKzjIeHym30NSltMh0xAG8+kPtG9UK1JSk3KDCYwPEnO1
- AtTnMAzUNQ+qRDfudm6u67GsvQy+wL+PATY6qur1pR8MjIlah9mBBubx+FwCP5Sl7tSnpzwDEId
- kLhF/ZB/8HfZQzQPubbXumwkyoOKJZ+BkiyZmEaFkRxG0BCJD6jYau28KBeASIdy2ClmBfApl11
- coQd9p481xSx+ldvs+g/M9AaiohkRjYq8IBgZ7/YOQdoRCEuwxFveXVsfmDOos7I/Ht6QTYkXCW
- ISdWsxSvp2gxDdV/w3g==
-X-Proofpoint-ORIG-GUID: wRJzwQuzn_dR86DhqjaWoHU0b51ABUvt
-X-Authority-Analysis: v=2.4 cv=NafrFmD4 c=1 sm=1 tr=0 ts=696952e3 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=kNrQIcF38_EFy8roB68A:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: wRJzwQuzn_dR86DhqjaWoHU0b51ABUvt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_06,2026-01-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150163
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|DS0PR12MB6463:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d09b23d-1058-487b-a28b-08de5478422a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|36860700013|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+OM2dJE2ajIt5aFtnmEIS9Qb6tGt40Apnszj++judMdGW6baiOaNMxWbY6pc?=
+ =?us-ascii?Q?7+9CDrjEJSnKTr2EgdXNZrFSiJIwpnOwOP2xWnbHftyEkGOqz/OiYggnPHWL?=
+ =?us-ascii?Q?YQfPn690Mbhab45s5Dk3WA08O5mBCv8MdC4U5Q7EihTtzK2RLnFaNY3rSsg/?=
+ =?us-ascii?Q?sGw5mieFaKXJDDDHwVnTpcPyamhpxUgDFmWdnkXTc82xHd7H8HXtD8GSWzwF?=
+ =?us-ascii?Q?azpHNeCx4TzENxw1MWbyh9qb3kw0rDwuncjLeRLzRy/vdzMi1hffDRz5WSXL?=
+ =?us-ascii?Q?9GCTEBbPWeZLqXWUtgtok+tJxoK+lFaoaVLF0yQ8RO31CFRf8grHa4CVvD1C?=
+ =?us-ascii?Q?Le6aBRhKunS8blnRBLbTpuKHUuCMenSH/EEJoPhu4VoZn4Xdc9nnHH7WQrUh?=
+ =?us-ascii?Q?IxcAfqDLFNltMb9mrSptebGexC1+WX4+k8fFZiXLZWWQutP/RehCcvvx030R?=
+ =?us-ascii?Q?UO6A3jTZdtIfAOISupdUZ2gbN2GOHZm9a3vCnRxqF3PPUXxNPc4Lt2JKsItr?=
+ =?us-ascii?Q?WwGGCx7rGCGfGOwLNwB/yVcFSKeDkK2Qy5eJflZPG0tbG4EeZHagrY8+oC0L?=
+ =?us-ascii?Q?sEMIUyE+UoKe0C7n7NhEKKbiL9ZpiG2HtSnksWnt4KTqAc/mWG24kaWh0T0X?=
+ =?us-ascii?Q?z7ig/dBV6TfGuxl7xSr+46jtNywMCV4sLr4ITpx1x/ySpFNilXmux0xGCgt3?=
+ =?us-ascii?Q?YE4fkQ5IEZCb5SC72L9N2wCc4NGB6zvCxuVzrbx7pdd/DjcEFy/I7vAfSXCQ?=
+ =?us-ascii?Q?81lBldq6k8IlL1TLYeVvoB8RoMuJx1dC+H8BQCLqyE28NHT93z1vLHPNDImp?=
+ =?us-ascii?Q?ETPN+csKeDa+Z3EfQUx+QffPI2zHKDrex0MPWudvPqTW7xVuYmQdKBpka48K?=
+ =?us-ascii?Q?F7mqJxOT94dNXkhQt8kLRKMhE0c6HJMsOcXh5oyoeo7bJXhdH4I17NjLcwuK?=
+ =?us-ascii?Q?r0thC749FUWsNNFjAVN3YgMwZZ/V6MeuCHXwtE5FFm/VuzdZC93FrBjQ/G0k?=
+ =?us-ascii?Q?t9M7LmKhxu5oVOSvtYauu8+8Uoq8CgtwGwn+0NCC2Jwvty2k+CDhYZF3hGkS?=
+ =?us-ascii?Q?vVWIloDzFYwGhQrn4i1Z12kMzJgePM3V/nQcA+B05o4l4V7WX1KTX4crehFn?=
+ =?us-ascii?Q?M8RMORM2pGFFg4JOvBJ01Bft+n7eUn+oPPYk9IKi5z436CygFjZR76y3Hu1q?=
+ =?us-ascii?Q?QTUI+997kTmyj1188IydHCL61FvFH3A4o4SAIYhG1mSGtufRy7vGNHJ+nNF8?=
+ =?us-ascii?Q?XirpipCVT494xHvHn3lzZk6PuoJfb4/ntTtuGmlTTY828aigN1/FHgAOs5ZG?=
+ =?us-ascii?Q?O6deIZERM5oC7GwzNiDzKKQyipoUdTnpIlb4qrmLFVz4790nv+H4IoNZ1n61?=
+ =?us-ascii?Q?9TJwCMXoSem/ZRfpeqbNZKddI3fvxW13YHKHXlj/SkcDGOdk5lsnHZvSERLN?=
+ =?us-ascii?Q?l8oZf0/ZKGJMmNubWatnSNaJkCrd7+HEzg44z1mR/3LQzG2oUWzLOx9MH4f2?=
+ =?us-ascii?Q?3W4NjK2lWK57s/UIX7f6Lu7m7McerssU5kjHcWB6eOG+d6tn802A21nM9IlM?=
+ =?us-ascii?Q?judxNAArFM7hu9YFNi9WEOqBPqq2T/ItHIDD+WrlOOznfZ1qLrOboUZESchU?=
+ =?us-ascii?Q?Mw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 20:54:21.4742 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d09b23d-1058-487b-a28b-08de5478422a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000A6735.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6463
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,194 +135,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 04:28:51PM +0800, Jianping Li wrote:
-> The entire reserved-memory region is now assigned to DSP VMIDs during
-> channel setup and stored in cctx->remote_heap. Memory is reclaimed in
-> rpmsg_remove by revoking DSP permissions and freeing the buffer, tying
-> heap lifecycle to the rpmsg channel.
+Hi Dave, Simona,
 
-Why?
+Fixes for 6.19.
 
-> 
-> Signed-off-by: Jianping Li <jianping.li@oss.qualcomm.com>
-> ---
->  drivers/misc/fastrpc.c | 95 ++++++++++++++++++++----------------------
->  1 file changed, 45 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 833c265add5e..f9edca7a8de1 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -278,6 +278,8 @@ struct fastrpc_channel_ctx {
->  	struct kref refcount;
->  	/* Flag if dsp attributes are cached */
->  	bool valid_attributes;
-> +	/* Flag if audio PD init mem was allocated */
-> +	bool audio_init_mem;
->  	u32 dsp_attributes[FASTRPC_MAX_DSP_ATTRIBUTES];
->  	struct fastrpc_device *secure_fdevice;
->  	struct fastrpc_device *fdevice;
-> @@ -1304,7 +1306,6 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->  	struct fastrpc_phy_page pages[1];
->  	char *name;
->  	int err;
-> -	bool scm_done = false;
->  	struct {
->  		int client_id;
->  		u32 namelen;
-> @@ -1334,31 +1335,6 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->  	inbuf.client_id = fl->client_id;
->  	inbuf.namelen = init.namelen;
->  	inbuf.pageslen = 0;
-> -	if (!fl->cctx->remote_heap) {
-> -		err = fastrpc_remote_heap_alloc(fl, fl->sctx->dev, init.memlen,
-> -						&fl->cctx->remote_heap);
-> -		if (err)
-> -			goto err_name;
-> -
-> -		/* Map if we have any heap VMIDs associated with this ADSP Static Process. */
-> -		if (fl->cctx->vmcount) {
-> -			u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
-> -
-> -			err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
-> -							(u64)fl->cctx->remote_heap->size,
-> -							&src_perms,
-> -							fl->cctx->vmperms, fl->cctx->vmcount);
-> -			if (err) {
-> -				dev_err(fl->sctx->dev,
-> -					"Failed to assign memory with dma_addr %pad size 0x%llx err %d\n",
-> -					&fl->cctx->remote_heap->dma_addr,
-> -					fl->cctx->remote_heap->size, err);
-> -				goto err_map;
-> -			}
-> -			scm_done = true;
-> -			inbuf.pageslen = 1;
-> -		}
-> -	}
->  
->  	fl->pd = USER_PD;
->  
-> @@ -1370,8 +1346,15 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->  	args[1].length = inbuf.namelen;
->  	args[1].fd = -1;
->  
-> -	pages[0].addr = fl->cctx->remote_heap->dma_addr;
-> -	pages[0].size = fl->cctx->remote_heap->size;
-> +	if (!fl->cctx->audio_init_mem) {
-> +		pages[0].addr = fl->cctx->remote_heap->dma_addr;
-> +		pages[0].size = fl->cctx->remote_heap->size;
+The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
 
-Do we need a flag? Can't we assume that remote_heap is always to be
-allocated to the PD?
+  Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
 
-> +		fl->cctx->audio_init_mem = true;
-> +		inbuf.pageslen = 1;
-> +	} else {
-> +		pages[0].addr = 0;
-> +		pages[0].size = 0;
-> +	}
->  
->  	args[2].ptr = (u64)(uintptr_t) pages;
->  	args[2].length = sizeof(*pages);
-> @@ -1389,26 +1372,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->  
->  	return 0;
->  err_invoke:
-> -	if (fl->cctx->vmcount && scm_done) {
-> -		u64 src_perms = 0;
-> -		struct qcom_scm_vmperm dst_perms;
-> -		u32 i;
-> -
-> -		for (i = 0; i < fl->cctx->vmcount; i++)
-> -			src_perms |= BIT(fl->cctx->vmperms[i].vmid);
-> -
-> -		dst_perms.vmid = QCOM_SCM_VMID_HLOS;
-> -		dst_perms.perm = QCOM_SCM_PERM_RWX;
-> -		err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
-> -						(u64)fl->cctx->remote_heap->size,
-> -						&src_perms, &dst_perms, 1);
-> -		if (err)
-> -			dev_err(fl->sctx->dev, "Failed to assign memory dma_addr %pad size 0x%llx err %d\n",
-> -				&fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
-> -	}
-> -err_map:
-> -	fastrpc_buf_free(fl->cctx->remote_heap);
-> -err_name:
-> +	fl->cctx->audio_init_mem = false;
->  	kfree(name);
->  err:
->  	kfree(args);
-> @@ -2396,7 +2360,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  		}
->  	}
->  
-> -	if (domain_id == SDSP_DOMAIN_ID) {
-> +	if (domain_id == SDSP_DOMAIN_ID || domain_id == ADSP_DOMAIN_ID) {
->  		struct resource res;
->  		u64 src_perms;
->  
-> @@ -2408,6 +2372,15 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  				    data->vmperms, data->vmcount);
->  		}
->  
-> +		if (domain_id == ADSP_DOMAIN_ID) {
-> +			data->remote_heap =
-> +				kzalloc(sizeof(*data->remote_heap), GFP_KERNEL);
-> +			if (!data->remote_heap)
-> +				return -ENOMEM;
-> +
-> +			data->remote_heap->dma_addr = res.start;
-> +			data->remote_heap->size = resource_size(&res);
-> +		}
->  	}
->  
->  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
-> @@ -2488,10 +2461,13 @@ static void fastrpc_rpmsg_remove(struct rpmsg_device *rpdev)
->  	struct fastrpc_buf *buf, *b;
->  	struct fastrpc_user *user;
->  	unsigned long flags;
-> +	bool skip_free = false;
-> +	int err;
->  
->  	/* No invocations past this point */
->  	spin_lock_irqsave(&cctx->lock, flags);
->  	cctx->rpdev = NULL;
-> +	cctx->audio_init_mem = false;
->  	list_for_each_entry(user, &cctx->users, user)
->  		fastrpc_notify_users(user);
->  	spin_unlock_irqrestore(&cctx->lock, flags);
-> @@ -2505,7 +2481,26 @@ static void fastrpc_rpmsg_remove(struct rpmsg_device *rpdev)
->  	list_for_each_entry_safe(buf, b, &cctx->invoke_interrupted_mmaps, node)
->  		list_del(&buf->node);
->  
-> -	fastrpc_buf_free(cctx->remote_heap);
-> +	if (cctx->remote_heap) {
-> +		if (cctx->vmcount) {
-> +			u64 src_perms = 0;
-> +			struct qcom_scm_vmperm dst_perms;
-> +
-> +			for (u32 i = 0; i < cctx->vmcount; i++)
-> +				src_perms |= BIT(cctx->vmperms[i].vmid);
-> +
-> +			dst_perms.vmid = QCOM_SCM_VMID_HLOS;
-> +			dst_perms.perm = QCOM_SCM_PERM_RWX;
-> +
-> +			err = qcom_scm_assign_mem(cctx->remote_heap->dma_addr,
-> +						  cctx->remote_heap->size,
-> +						  &src_perms, &dst_perms, 1);
-> +			if (err)
-> +				skip_free = true;
-> +		}
-> +		if (!skip_free)
-> +			fastrpc_buf_free(cctx->remote_heap);
-> +	}
->  
->  	of_platform_depopulate(&rpdev->dev);
->  
-> -- 
-> 2.43.0
-> 
+are available in the Git repository at:
 
--- 
-With best wishes
-Dmitry
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.19-2026-01-15
+
+for you to fetch changes up to d04f73668bebbc5a44a2771ea92b6ec253148050:
+
+  drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module (2026-01-14 15:07:43 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.19-2026-01-15:
+
+amdgpu:
+- GC 9 PTE mtype fix
+- Non-DC display kernel panic helper fix
+- Merge fix
+- GART vram access fix
+- Userq fixes
+- PSR debugging fix
+- HDMI fixes
+- Backlight fix
+- SMU 14 fix
+- TLB flush fixes
+
+amdkfd:
+- KFD node cleanup for eGPU disconnect
+- Memory leak fix
+- MES evict process fix
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: make sure userqs are enabled in userq IOCTLs
+
+Haoxiang Li (1):
+      drm/amdkfd: fix a memory leak in device_queue_manager_init()
+
+Harish Kasiviswanathan (1):
+      drm/amdkfd: No need to suspend whole MES to evict process
+
+Ivan Lipski (1):
+      drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module
+
+Lu Yao (1):
+      drm/amdgpu: fix drm panic null pointer when driver not support atomic
+
+Mario Limonciello (1):
+      drm/amd/display: Bump the HDMI clock to 340MHz
+
+Mario Limonciello (AMD) (2):
+      drm/amd: Clean up kfd node on surprise disconnect
+      drm/amd/display: Show link name in PSR status message
+
+Peter Colberg (1):
+      Revert duplicate "drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces"
+
+Philip Yang (1):
+      drm/amdgpu: Fix gfx9 update PTE mtype flag
+
+Prike Liang (2):
+      drm/amdgpu: validate the flush_gpu_tlb_pasid()
+      Revert "drm/amdgpu: don't attach the tlb fence for SI"
+
+Srinivasan Shanmugam (1):
+      drm/amdgpu/userq: Fix fence reference leak on queue teardown v2
+
+Vivek Das Mohapatra (1):
+      drm/amd/display: Initialise backlight level values from hw
+
+Xiaogang Chen (1):
+      drm/amdgpu: Use correct address to setup gart page table for vram access
+
+Yang Wang (1):
+      drm/amd/pm: fix smu overdrive data type wrong issue on smu 14.0.2
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  8 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  7 ++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 12 --------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 11 +++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  4 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  4 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          | 16 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h          |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |  8 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  4 +--
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  8 ++---
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  | 31 ++++++++-----------
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 36 +++++++++++++++++++---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  5 ++-
+ drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h     |  2 +-
+ .../gpu/drm/amd/display/dc/link/link_detection.c   |  4 ++-
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  3 +-
+ 18 files changed, 116 insertions(+), 50 deletions(-)
