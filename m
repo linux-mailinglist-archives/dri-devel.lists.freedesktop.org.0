@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B29D269BF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7082FD26A11
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:42:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C0110E7B4;
-	Thu, 15 Jan 2026 17:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC8510E7B6;
+	Thu, 15 Jan 2026 17:42:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O3PF5a3e";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HaIYSOFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3204810E7B4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:40:49 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A600D10E7B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:42:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 08132433A2;
- Thu, 15 Jan 2026 17:40:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B0AC116D0;
- Thu, 15 Jan 2026 17:40:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A3D29601BC;
+ Thu, 15 Jan 2026 17:41:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF17C19422;
+ Thu, 15 Jan 2026 17:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768498848;
- bh=vdsPn0752ZUNlaPfpcfVirjmE9to0sS9ZCmiPv19dTc=;
+ s=k20201202; t=1768498919;
+ bh=tegX0Z/kfZv1/AcKJNcGxRXv024yyTYAJnUN/qrxplY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O3PF5a3eshlsBXUXlqRZeJ0irz0rLqZR3slSBrlLLEkXsssx6Iz9BwRG+XJZkSBU5
- pBE3zDZ8+U6SQcJuJvEada1Z5oTKZvq2x3LS+HaB4JELw6BZYmMT8BEdRyvdCad5Vf
- CSCBdyAKWvHg6GnbYGFuOf+Sub9mRnsfVj53sHjB6t9fYoHKYv8Heesr6P3n3dBaTi
- 2dkHQX5aYbsaGwrtgH2cS/b0W7LuBRN4AaGnGNGs/TTs42fWeOg6EdaGGYpzfv8OWP
- v67nLdMMwcdBoym4l29C2gnT1PeTHK0U4yQr5wV1BeEeFT0JEad4JwfJtFSJRO7edG
- kfzeEwoQV6bPg==
-Date: Thu, 15 Jan 2026 11:40:47 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Fork Waveshare panels
- into separate document
-Message-ID: <20260115174047.GA930768-robh@kernel.org>
-References: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
+ b=HaIYSOFkzGOX1FELeMIxNJBCUp2pBsmJr+vWtH9c22QOuR3bWR1i9x1arvu7BpZ5M
+ zJptP4/6imL6piFKD8gTvA+pOLriBbLiEyIF1E535zkpNchLbZjGjuE9UwN2CZ6cae
+ MnRw1IeoleGfz0rzIy8GO81+3hjwMen29CDZ0MdvCwF5RICh/RAWZTbVX3hWhlXzZn
+ bJchVcQWlc5Ar1XBcNmQtz14fBZleQsW62EVir1DibiN0LDmIb/ki5hKYI4+BISq38
+ KaGiLCo3RyZBKEkf+GTUN7n2UQQ4rMpGZeGTABOhGdizM3NqxRml61QpJcjoFmrhP8
+ zaXTszb+mFFXA==
+Date: Thu, 15 Jan 2026 11:41:58 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ sre@kernel.org, conor+dt@kernel.org, eleanor15x@gmail.com,
+ simona@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de,
+ krzk+dt@kernel.org, gregkh@linuxfoundation.org,
+ jserv@ccns.ncku.edu.tw, mripard@kernel.org,
+ linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ broonie@kernel.org, maarten.lankhorst@linux.intel.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ dmitry.torokhov@gmail.com, jirislaby@kernel.org,
+ lgirdwood@gmail.com, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 6/6] dt-bindings: display: google, goldfish-fb: Convert
+ to DT schema
+Message-ID: <176849890696.935461.15138796644724079676.robh@kernel.org>
+References: <20260113092602.3197681-1-visitorckw@gmail.com>
+ <20260113092602.3197681-7-visitorckw@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260113092602.3197681-7-visitorckw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,13 +67,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 13, 2026 at 01:05:30AM +0100, Marek Vasut wrote:
-> Move the Waveshare panels description into separate document, so they
-> can be properly described with compatible = "waveshare,...", "panel-dpi"
-> and attached to "waveshare,dsi2dpi" bridge.
 
-But why do we need "panel-dpi"? Adding that requires changing a DT. 
-Can't you make the kernel handle these compatible strings as a 
-"panel-dpi" without the compatible?
+On Tue, 13 Jan 2026 09:26:02 +0000, Kuan-Wei Chiu wrote:
+> Convert the Android Goldfish Framebuffer binding to DT schema format.
+> Update the example node name to 'display' to comply with generic node
+> naming standards.
+> 
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  .../bindings/display/google,goldfish-fb.txt   | 17 ---------
+>  .../bindings/display/google,goldfish-fb.yaml  | 38 +++++++++++++++++++
+>  2 files changed, 38 insertions(+), 17 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
+> 
 
-Rob
+Applied, thanks!
+
