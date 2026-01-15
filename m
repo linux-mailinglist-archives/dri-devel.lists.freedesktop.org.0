@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8B4D26828
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A670D26F67
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 18:57:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0EB110E7B2;
-	Thu, 15 Jan 2026 17:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2A10E208;
+	Thu, 15 Jan 2026 17:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HtJ5nq76";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rFBLmJ3S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E53210E7B2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:35:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE76C10E208
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 17:57:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A65BC601A1;
- Thu, 15 Jan 2026 17:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08AB6C116D0;
- Thu, 15 Jan 2026 17:35:12 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E67636016B;
+ Thu, 15 Jan 2026 17:57:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE42C116D0;
+ Thu, 15 Jan 2026 17:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1768498513;
- bh=CuQjundJQb6vx3EIMlIveNPl6Aabfx8Kuu9FZIBp4YM=;
+ s=korg; t=1768499871;
+ bh=rJJS4vxndoCTbCEG2PF2ki+wcRMpD6RV0CVl3F4vPbU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HtJ5nq76evpv6UtU6x8tYUBjnW4uJm+1wL1KKwCbec3TDLqdvecndqbMIR2BZwniq
- AYHBL1HMCzcQutklFFNLNo3WXl1fee6r8HSl1r+p7Crru6kitHsfF24eUWzsTLLQvg
- nFV+eJJPqjIKjUt3BPmxyD+m/yqiuArJywC0ZdKc=
+ b=rFBLmJ3SABnJKanU/3z3giBPTZQCi44/oRNpGKtGhiIppqVWOe9tiAUWHBjFrBYs9
+ kp/HCM0ZqJNDADNBzvPRMKOokH+D+u8pd7nl3yv21sr6Bf7iI3FA61Q6ndT2TbXI32
+ HNkYX4W6vyySAFbN1ty5APXUkB9tN2n3QjQpDjqE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -36,13 +36,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  dri-devel@lists.freedesktop.org, Ian Forbes <ian.forbes@broadcom.com>,
  Sasha Levin <sashal@kernel.org>,
  Shivani Agarwal <shivani.agarwal@broadcom.com>
-Subject: [PATCH 5.15 425/554] drm/vmwgfx: Fix a null-ptr access in the cursor
+Subject: [PATCH 5.10 345/451] drm/vmwgfx: Fix a null-ptr access in the cursor
  snooper
-Date: Thu, 15 Jan 2026 17:48:11 +0100
-Message-ID: <20260115164301.642687055@linuxfoundation.org>
+Date: Thu, 15 Jan 2026 17:49:06 +0100
+Message-ID: <20260115164243.375415711@linuxfoundation.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260115164246.225995385@linuxfoundation.org>
-References: <20260115164246.225995385@linuxfoundation.org>
+In-Reply-To: <20260115164230.864985076@linuxfoundation.org>
+References: <20260115164230.864985076@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,7 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -101,7 +101,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1525,6 +1525,7 @@ static int vmw_cmd_dma(struct vmw_privat
+@@ -1520,6 +1520,7 @@ static int vmw_cmd_dma(struct vmw_privat
  		       SVGA3dCmdHeader *header)
  {
  	struct vmw_buffer_object *vmw_bo = NULL;
@@ -109,7 +109,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	struct vmw_surface *srf = NULL;
  	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdSurfaceDMA);
  	int ret;
-@@ -1560,18 +1561,24 @@ static int vmw_cmd_dma(struct vmw_privat
+@@ -1555,18 +1556,24 @@ static int vmw_cmd_dma(struct vmw_privat
  
  	dirty = (cmd->body.transfer == SVGA3D_WRITE_HOST_VRAM) ?
  		VMW_RES_DIRTY_SET : 0;
