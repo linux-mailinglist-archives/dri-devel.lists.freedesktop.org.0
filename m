@@ -2,96 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14139D23262
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 09:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A80D231D9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 09:29:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0536810E6FA;
-	Thu, 15 Jan 2026 08:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C23F010E6EF;
+	Thu, 15 Jan 2026 08:29:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ERbyeOQr";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Dx+4i75a";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3219810E6FA
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:32:54 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-88a26ce6619so5216586d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:32:54 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6B910E6E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:06 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60F6gFoj783893
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3c
+ zaujsZWs=; b=ERbyeOQraVp3bYKkwM9mHfgiFOq/Q8cm95J0RTeZTfZ3y+2KoYm
+ c0EsFrd+j+NkRi0NaANa7BGEJXhfLKwla0G8X71Erf0QPrHWzdQGCOIRJZG7FWjX
+ NY8mPaqFT9LNAz1ZLkvrjXpwrhNWwEbxxQ5uUD76H05U7H2TuEnHARSO3YjDTFIN
+ ODUI9/GHY90VnliOse/tHQBc71vPzx1ZgPdbsxIeZW37xGuf+FvRQilJTy4NtZQu
+ Oe3cGD23VIC0lZmNe6hFO0lmSCmeGqDsCAmkP2fWV8fKiA02LMMGOH2K9SwB9eBM
+ dEh3wMQYDVUQGFvA+FjOQWyyOdTdB6L9mrg==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbj5k5x0-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 08:29:05 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-b471737e673so1026707a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:29:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768465744; x=1769070544;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3czaujsZWs=;
+ b=Dx+4i75aNNeqVxSb/ZNSy/EWnpKwCt0RbXbFJ+3JSKTmRUbC5bP7VwbXrm014HHa7q
+ YaAmUUT8IWu1g6inAqSxceRQg8FLqXS7i0qiPOQ2+uQHiVorup3Acp3YNY5Wr8k6f1nj
+ RwcI9EgDgAQ7SXEkF9fshHgGKumaiyQphm2Heh6wlTWhX/32r5RO8psDjgJYChsUxgI4
+ eQislky0phcO+Ttta2Z3nv2hqcAGhus6RwwqEYt6uKbnKjbW0Evp98ecdT+ag5pl5PkT
+ PeBnZ+lNjCIb+ad/FubQsr23q97nSyKPFnH37MJ7Te2taXbEsTFQ5XsA9zSZaLXaQ2O7
+ yz3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768465973; x=1769070773;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1768465744; x=1769070544;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6hVlaltCoWANklzhMp5xvIF6YsYsDq1BU+u4OGSDZeY=;
- b=oHeEdCunZJRP9/Qj3P9OlF0kAglH3aNYl4T2Sqwo4HwJpHyxcKQLKpM5IsKiEzKGHd
- Y+vm7bRghm83PFPpJfu0iZo8SG6GjWGuvFZ7PFjAqNwswQPf4x78Dc4CWJGX0tNKNVwX
- 1n5x48DrSoyxLfW27D5JNZIEqfkeoMyAlAW8u7szh1y4b5heOYycH4Zm9179ZZnfuvrT
- vDwPOFXxdBVf+GYQBZh57KTNZrp6z7lhb4jd4jH9x73Ie/rdX5jSJ1EaCt0GLpJMxMKF
- rJoSZ5NrRLQGN6JLekZimo72PpGmBUeYmBtGnPvUpfimv2eCJMAsCD0CNWqCtk0D/mRq
- DupQ==
+ bh=8wi0sGLhxJVBWYng52GyE/X8QfV6jCwL+3czaujsZWs=;
+ b=FPIUa2mPNh1KKJDloj+UorJ47bWYzrgarzbGNNwxkdrp8FvldU3SxbJqkiIn8KsfnS
+ oRpHksIXdx2c4ECks2NJzeMg51JdRy97H1k/lCcg0LtVFi5dbJSZU3jkBMWegQGywiuo
+ 0g/KnBZrnp1LMSSkzB3NdxLsK1v+YyJxu+3hQVjRQ4Hhfo6g1QZgovag7BEYyTlRvIAa
+ fcApBR77FHfKFpK8Ygs1Fsn7wf5VZHdku7T29700UUzFg6kJqaFoEKwtM7gLuC92Wo6/
+ bZYsoe6xPeJchm4M3R+0O3HIM0ZB2Dx21PvnuT1hWiYmSDrN/WMBgGb46mEqybY7y5j+
+ hNRQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDuqV6MGvKeQfU9zve+Ry+JVHDlelRHq88rxgZRqqncr42Lcwcbq0V4iEVNCoxIdebjKYFO5yor2k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgxooNhZezWqWEkcJ4gaVcvWEH4VyaQxUhWPYlNzSVQOD2CZvH
- XpsxbSR98cNGjqsRsasbguVklvVRQFDp1aXl+gk6RlC+bqiGRvXUCdsUq8kH14rf
-X-Gm-Gg: AY/fxX7oKYPYK6tc/6yKkCMButR+uEUDM9bJVxp/acjwBqfLKNIwtL6TgYcGdRsuIXp
- LIyUvmOS6xJqqOTi2gVlvuwWNCouW9GZWx8LzLg9p8InugCYKErZ1Q+cpirgytjfB+r+B99cpat
- FWd9qP48GeKsyQctea+uc35EKGJVTVcMjE3/3+5BCZn9Y/SO5m6xe/RgPcp94XZpg0EInVaHgpu
- /zx7dtmwj66qoLKHCdeVgS7BWNBal0uGAb9pjWdz1AyCxxua5Som4YZ7LGQvmZksgVcJUGdj2Wc
- ADFy4k1sWxclDtkHI6NsRCl5mM2mFn2IrdB70lPHUtv14e9doRngL4oP+KvzX3iwEadgT8SIORH
- WBF7aejPVO698XqqQ0arRQWd+h5eUNxFAOfUoLSW63qUERQpl8Ls6TIoDAKVREX2YKTp51LZZhB
- 2whUWQYOJIdny4E+baodaiI0DHboJJJEfrE1h3o+V5PDEfODPTpBFm
-X-Received: by 2002:a05:6214:23cc:b0:88a:449e:81a2 with SMTP id
- 6a1803df08f44-89275ae02admr64557126d6.4.1768465972798; 
- Thu, 15 Jan 2026 00:32:52 -0800 (PST)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com.
- [209.85.222.180]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-890770d2cf5sm194352906d6.1.2026.01.15.00.32.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jan 2026 00:32:52 -0800 (PST)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-8c0f13e4424so76416285a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 00:32:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5ZWAcdnnct0O5ZoP6Vr10mCCy4ogh6Ggt9kpKbU2RYY0ocjvYcQqJQ9PqMDov9NTWVJTvAugX7WU=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:304b:b0:5ee:a6f8:f925 with SMTP id
- ada2fe7eead31-5f183897017mr1662832137.8.1768465478084; Thu, 15 Jan 2026
- 00:24:38 -0800 (PST)
+ AJvYcCV4a6xJ5r0QtTq2e3ZaUnGFC7FZDcfEYQ1bzFf6463Q168Hv1QwU0x1rrqycMiDBjHxZFHzdkfAACc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIUIhE64aQxgOygXSHKHLQF8S7R1S3CcZuD59X4Klr265U6aej
+ D3bqeg1egbb4pUkzx7WfJVtcCOtaL9z8Ohnl8UFsM9vPBNULe1gOJy6F1+nGSrbGDASKb89sBDy
+ fr31KU/yTPCFyOkkkzl7dUkpA6smBmVCXraOWYIP3laOIJs3swAxHKfF8A9JqoMGlqjt77ww=
+X-Gm-Gg: AY/fxX7JUWRnxpNgv+ucaKvNtgAtUHsx0iH1lp9trnXaCz5mviO5cIoG43jqVD9Pg1y
+ yzrjj1Tab3RE+omv0MQJqYRB2Lqo9rIl5HCarEgLnMmj7kTCq41z440pHbpbCrtNf++GfaNNc+/
+ NRHS5xnTRbA+jSneY5uEqyD+fDwmUy1kYqYTNssgSnf9hOjBgf8n5MaxMPFdKiwCTmHJDdEb8mZ
+ AGZgDUQ3EAe+4WW2OdUdrMnrHkSU/0HHSTJSoYaucJ6RN0fhxE7Ds19Ilzywwc32CuhuXaXQHV1
+ 48HuW77nFYiCQNKh9RxoGrcuk4vji0AoFmD0oZMLUfByFmCg4PKKlbgYJRZkryCME9abkVSQD+b
+ /TCX159eStze0nvKpA5lB2SMoVxWTb47OUdUE6+lr
+X-Received: by 2002:a05:6a20:7f89:b0:347:9ae1:cffb with SMTP id
+ adf61e73a8af0-38bed0d2c3bmr5834702637.24.1768465744445; 
+ Thu, 15 Jan 2026 00:29:04 -0800 (PST)
+X-Received: by 2002:a05:6a20:7f89:b0:347:9ae1:cffb with SMTP id
+ adf61e73a8af0-38bed0d2c3bmr5834682637.24.1768465743922; 
+ Thu, 15 Jan 2026 00:29:03 -0800 (PST)
+Received: from QCOM-SocCW5bzXR.qualcomm.com ([202.46.23.19])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-81f8e69d1e7sm1773296b3a.58.2026.01.15.00.28.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jan 2026 00:29:03 -0800 (PST)
+From: Jianping Li <jianping.li@oss.qualcomm.com>
+To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org, linux-arm-msm@vger.kernel.org
+Cc: Jianping Li <jianping.li@oss.qualcomm.com>, thierry.escande@linaro.org,
+ abelvesa@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ ekansh.gupta@oss.qualcomm.com
+Subject: [PATCH v2 0/4] Add missing bug fixes
+Date: Thu, 15 Jan 2026 16:28:47 +0800
+Message-Id: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <20251203-shrew-of-original-tempering-8a8cfc@quoll>
- <aTA-Hj6DvjN4zeK6@tom-desktop>
- <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
- <TY3PR01MB11346DF85F8F7EA9ADDED16EB868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346DF85F8F7EA9ADDED16EB868CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Jan 2026 09:24:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUhke83ZVXxDQE_Dt1HRwyGeoMq1pYmEP47WOgR_vYNtA@mail.gmail.com>
-X-Gm-Features: AZwV_Qgxwq_ugUrK3ifMblmAkyp8fbq-QzkWqQkuoZnCA8EiRq61e2GRJHn8aQo
-Message-ID: <CAMuHMdUhke83ZVXxDQE_Dt1HRwyGeoMq1pYmEP47WOgR_vYNtA@mail.gmail.com>
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas, rzg2l-du: Add support
- for RZ/G3E SoC
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Tommaso Merciai <tomm.merciai@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- "magnus.damm" <magnus.damm@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA1NyBTYWx0ZWRfX0ryHp9YrVgST
+ qC7HiZ1NJzsWhGfADptu/8DNXCoKPKtUp26P564pdf9X5uOHGrkg3o9g7IytXFeHajLMQa3qUce
+ Kk0XFOzbxU10vSiCaDnnrm3nJbitWYDHxjx/c7934HDqvDb5JJ3VuKTqLHc15wX3KcuMXZAG1M7
+ 5H6PzAFSj1sHnQoPJ9KVFtlTK65/zcFubbAaBTmB4HOTAl9ROKRQrLAHS8JYvxMluTT4F7dUUAX
+ nR4vSZlaPhcBjJfPo4b0UNT9JCWryqzoYiWkPoRFz+NSXA0UoXtB8OeqGJpFyHicVWMwshk6v7y
+ FV3WwdNzKR+Rr7fiy9n0TTQfyKNgHzV7h5gbgF5SDwjPiXWYVX1ur+XXwqL1vvBXgJP7I71xLzF
+ uzAITm553xZMMNGBiSVYQiUDE3v5WJuu2j/kuv8z1j9lP4ymrYaPuCQ4oeRFldKFA8QS0b4iYJf
+ KAAykxkIX/nTF3wKRQQ==
+X-Proofpoint-ORIG-GUID: QTTHqTQH9t33JYWehn4zyIuPCIaH0cI0
+X-Proofpoint-GUID: QTTHqTQH9t33JYWehn4zyIuPCIaH0cI0
+X-Authority-Analysis: v=2.4 cv=aapsXBot c=1 sm=1 tr=0 ts=6968a551 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=gfRWkJ0A9WzxxLvKSxYA:9 a=zZCYzV9kfG8A:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_02,2026-01-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601150057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,83 +136,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Add missing bug fixes in memory areas. This patch series carries
+following fixes:
+- Add proper checks to fastrpc_buf_free to avoid potential issues.
+- Add multiple fixes for remote heap which is used by Audio PD.
+Patch [v1]: https://lore.kernel.org/all/20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com/
 
-On Thu, 15 Jan 2026 at 08:48, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Wed, 3 Dec 2025 at 14:42, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > On Wed, Dec 03, 2025 at 09:23:53AM +0100, Krzysztof Kozlowski wrote:
-> > > > On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> > > > > The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame
-> > > > > Compression Processor (FCPVD), a Video Signal Processor (VSPD),
-> > > > > Video Signal Processor (VSPD), and Display Unit (DU).
-> > > > >
-> > > > >  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> > > > >  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> > > > >
-> > > > > Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> > > > > and 'renesas,r9a09g047-du1'.
-> > > >
-> > > > LCDC0/1 but compatibles du0/du1...
-> > > >
-> > > > What are the differences between DU0 and DU1? Just different
-> > > > outputs? Is the programming model the same?
-> > >
-> > > The hardware configurations are different: these are two distinct hardware blocks.
-> > >
-> > > Based on the block diagrams shown in Figures 9.4-2 (LCDC1) and 9.4-1
-> > > (LCDC0), the only difference concerns the output, but this variation
-> > > is internal to the hardware blocks themselves.
-> > > Therefore, LCDC0 and LCDC1 are not identical blocks, and their
-> > > programming models differ as a result.
-> > >
-> > > In summary, although most of the internal functions are the same, the
-> > > two blocks have output signals connected to different components within the SoC.
-> > > This requires different hardware configurations and inevitably leads
-> > > to different programming models for LCDC0 and LCDC1.
-> >
-> > Isn't that merely an SoC integration issue?
-> > Are there any differences in programming LCDC0 or LCDC1 for the common output types supported by both
-> > (single channel LVDS and 4-lane MIPI-DSI)?
->
-> Dual LVDS case, dot clock from LCDC0 is used in both LCDC's.
+Changes in v2:
+  - Remove the if check outside fastrpc_buf_free
+  - Store the spinlock pointer in the struct fastrpc_buf instead
+  - Allocate entire reserved memory to audio PD through remote heap
 
-For the single dual-channel LVDS output on LCDC0, or for using two
-independent LVDS outputs on both instances? How is this handled?
-Don't you need a companion property to link them together?
+Ekansh Gupta (3):
+  misc: fastrpc: Add NULL check to fastrpc_buf_free to prevent crash
+  misc: fastrpc: Fix initial memory allocation for Audio PD memory pool
+  misc: fastrpc: Remove buffer from list prior to unmap operation
 
-Is this similar to dual-channel LVDS on R-Car E3 and RZ/G2E?
-On these SoCs we have a single combined device node for all DU instances
-(which comes with its own set of issues, e.g. Runtime PM and Clock
-Domain handling).
+Jianping Li (1):
+  misc: fastrpc: Allocate entire reserved memory for Audio PD in probe
 
-> Standalone LVDS and DSI the programming flow is same.
-
-OK.
-
-> > Of there are no such differences, both instances should use the same compatible value.
->
-> Then we need to use a property called display-id, to describe the supported
-> output types in bindings, right??
->
-> Display-id=0 {LVDS, DSI)
-
-LVDS twice?
-
-> Display-id=1 {LVDS, DSI, DPI)
-
-Not necessarily: if this is purely different SoC integration per
-instance, describing all possible options is fine.
-
-But I'd like to defer to Laurent for the details...
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ drivers/misc/fastrpc.c | 135 ++++++++++++++++++++++-------------------
+ 1 file changed, 71 insertions(+), 64 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
