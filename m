@@ -2,89 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3E1D23801
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 10:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F194FD2380A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 10:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB62610E71D;
-	Thu, 15 Jan 2026 09:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE0A10E71B;
+	Thu, 15 Jan 2026 09:28:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gNuYOHq9";
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XXXOndGx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Umef+Inq";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hoXqbmzU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B5110E720
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6556110E722
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:27 +0000 (UTC)
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60F6g06m1991718
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:19 GMT
+ 60F6fxHI1991697
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=Z3dXAwZWQrX
- iznkoQcO7REoUwgPXToMeXoe6XzLEAy4=; b=gNuYOHq9bGpDJAz+gDlrdBqizrr
- RjFNsg9vKfLdoNGUvmB7/bZWY8sihQcSIKiW3J1GMA1lBHRRLiiZXcbpURN7U0Pl
- VcC7nhD9PkNAjk1W7ApzMxeF7BCqdBA43ay2lGaJD5hmeSHkY6630KsHoKj9das9
- lxqJaqhovS6RxKzNvWypOGyENgW04kbnWmr0u90UhfAsMh14oVABl+jhIPOHbjsx
- M4hnQarsGvWr8VTG4HwGpobvnGk0wPApqo/+N7q9eiITysFcOFYq1me5p/juNDpL
- ieTlvS3ZC1W8DSnh5x6lGd2DGWk8R7AfrQvD6Xa51R2FqLzbiqZt+JtZ+Uw==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbdbudfv-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=tf4dNBy/KLh
+ WAf/5SoedaBN7FYWOkjyT2K3kQyqfwiU=; b=Umef+InqOBFJnu5Z+DcXMfZ8ZkI
+ llgTB2EeNIeb/ZplW98yyTUzhpYVrIy9m0v3OXsZN7fMwDeCXC10ZE53QdvqIY31
+ kS/Ar0b/Krd6+JITa+SWqjx+sL3NwMhlx/77ozO0inXGoh75HzuWiGjTi5BPUl6k
+ VvQ9/KUcLXojbalqEsS+yOUjUb0xA+5yf0MAv96WNXZrseN5TX952KBvlUYRNONR
+ refiu8rxvWbxH6MpdmnvrKu2fSICMwQdm1/WBGzi/9vw4vwuizUXEikbAMx8VcR3
+ ueT1T6jffJkQRCp4bGmia+G1cu2SWoYMKPZSrhf5gH7Bde2WgFDPYHX1N4A==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpbdbudg8-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:18 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-8804b991976so18100656d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 01:28:18 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 09:28:26 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-88a344b86f7so17306936d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 01:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768469298; x=1769074098;
+ d=oss.qualcomm.com; s=google; t=1768469306; x=1769074106;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Z3dXAwZWQrXiznkoQcO7REoUwgPXToMeXoe6XzLEAy4=;
- b=XXXOndGxwKBviiJYsm4rFbxbFcRCd6n1lA97qnEhflC0V5YBo5AadRnjxtLmXr1chC
- MhB/dJYxxV/tNTPN7DC8ZHtuLznhfLf4WHy3evuS3KzcaAI3Mo27o1e17wltPc+dMX81
- XDzxdNpcodMb/yITnLq/nXZQFuctIT200fwuz+4x3IsH/BiwfO7D+v9enXqyjmZyF5wk
- FS17XJbuwBoSdwUosNLi26k23Z79hu5BYIDWqcocBrkm46O3EKxD7MHuWQeSTAH5zGGs
- oznYAktvuRtd713rFjYT6mlaUC2x/vmsFK5SmQhjk/KnM/QB3keATvPTBGVyWfZFrROE
- AkYw==
+ bh=tf4dNBy/KLhWAf/5SoedaBN7FYWOkjyT2K3kQyqfwiU=;
+ b=hoXqbmzUXO2Z47jl0zItWMaXTXq/SFn3IveM/gV03lGQSmnltSKOiLBVnXRkLOuIue
+ 1VTwDLQclMgRglGsdX5JJhTDz9XseZdVVK1e8mJtZOLfPCd7+MieF7FXL/tSnUmMKU6e
+ +XJlvQo8pxQyZqeNkrhB0yi8Dmhypco5e9WrZ9LHyNajSmJ/HNDCHIdrhsAw/UlRu8SB
+ zWjI87SBfYan9k4Op9mj17u8K/tAF5rNwySvFqL6mHOSWDQG83X31AoMXTZFR5LWuLFI
+ 8dTXWRCc4O//VP7lo3ixDGEf3LzqKxsLfeIScjRF4GOEMxhbZK5QfABVLjmAxeuwUIZS
+ lZaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768469298; x=1769074098;
+ d=1e100.net; s=20230601; t=1768469306; x=1769074106;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Z3dXAwZWQrXiznkoQcO7REoUwgPXToMeXoe6XzLEAy4=;
- b=GkoprOSJKlGEoCdRXdO8DxQAvzRxIphx7Qy05oZu78H3IiqYn1ohh9mxuwPhjC2kiH
- aJXp/gRVkvrjwVlI/0ByjzVIM6rJPG2chrSJlQqYeWqB1cC4hsMyjUHJsbXaofvZmm5h
- I4HPjMIt5mk5HkyN2Qye66oWIibXyePU7zHPBQMTp4RC82mFHPLCj2MVeivvNwS+WeyD
- gMXhiT1NntjP3T9iCIaUEeUpKzrreJFk9Tt5L9vYsMvSO8a+JdutIO0TLjRFw/GkpGC1
- 6jJ7TMJ0YKDOC+JkvJo98vJ/WuZqSVoNoiCPFGt9RdbBonNM9O78nq71yA0cY+aX3+As
- 9Twg==
+ bh=tf4dNBy/KLhWAf/5SoedaBN7FYWOkjyT2K3kQyqfwiU=;
+ b=dm0A7YT26ABGQx9hGDsAg69i4TupQnzQI/1q959VUZxnbr2aI0eYk/cpZULNGvaX8J
+ +O1JO1laCWhgJil72EXxekBYDjbM+eliSL2K3n+i16zTiSds0o6kVtwfefn8XbPDZwIT
+ Rr+hCN6x/UIleJrCQvuF8UUNgoEQLUdaFnT2GEopK6MPqzpPQv2JO5hDdnjv8sT1hp4V
+ /0m3oIh+32hfzWn347BfxkXNMoTa6xn3CaKxKemwwilCu6rr+D85w7prtm0fMi4o718H
+ iJ7/X2cfi9t9aHGQz8I6PZCZo/PD/GoxCdnRD/sSX5KDfNQEP64O5N6MTm/SPJQbihnl
+ dSJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWHt26Vak50FyQjzoTI5FTIy8uE+W4SQXvrn7dfyW2mRBp/e+bYdZEfJtPZMput/ywE4CzSoajyHyU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpbF2OIRCVyb3ieNb1Qv9ao9br/QRuVKCBh27y1fWnEQptFbgq
- 2ibGIqbRenNxNsjPrMllxg4pfKCckTsfBAZO7qBQ1A04sY8cZSkVjK1WhIWn22Y/PFN4c6nWTLq
- bKyYt0wrtON4iuJJz1o5R2M+ShUMoW5zNGmWAllBERV9B3+zJ+SN6gNpQ+QGX8Xu3Ac12R0w=
-X-Gm-Gg: AY/fxX628WqJcJoWEcmF+P5WrdMvu6zu1dKTMnbFUu2NzhORRxYIljOfn0/jg2LEa05
- J8JK/+aBqJ7OLYXkKbcgTwegqVRMNJn3zxdtbNTmQEKyEOQX0hxjOFhPkQhpdWuQd/hrpUZM0fs
- lnAD542q4/Qv+xPr14PqBBCYajgajDV80BkTMTF4jliMCTlitxmz7ON4wGg5wp4IaTyqqpg0zPN
- hFRp3ZvVwt7RQpS7Ko8kJLWMmxFPK8JJBzwOExaWzYBTkWRG0nP2L6Y/dVzx0XLgary/PZMQla+
- NtpIo5zUkBSrmRrkMHCX5j3I7VpGxwUkKDBRyZ346gdrjuCxDOemUoH0WQNp5pLh4yJYqtbieyh
- ZWBEqPz+u3nxEWXf6+KyHFG9Q7h9BW+AKfVpFYVPIIyNP9RBzp1lTL5oHpunofbkMvUg=
-X-Received: by 2002:ad4:5961:0:b0:88a:3113:3ac3 with SMTP id
- 6a1803df08f44-89275ae069fmr74177516d6.10.1768469298137; 
- Thu, 15 Jan 2026 01:28:18 -0800 (PST)
-X-Received: by 2002:ad4:5961:0:b0:88a:3113:3ac3 with SMTP id
- 6a1803df08f44-89275ae069fmr74177046d6.10.1768469297587; 
- Thu, 15 Jan 2026 01:28:17 -0800 (PST)
+ AJvYcCW5eSMyM/qoZmuJ7kqHDVbep3i3Txv/GT+AZzuHpv5/NXH1wJ4G3YKsoqVSeW6aQkCu+CQ/byKdOtA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiUzTRXlNBarM8LwKAGaA305GGBeR8g7+UZ0TBm1AGJV9UMsxU
+ 7c4O2EtTwydYllEXk7I02hNdMkCQQlbGF/Ql7sYC0vUDzZ3OLkRr0smqtJQFgVQiKJY8abt1rii
+ etxKX3jmlWHx+HeWkXJ0DOjgX3mJxuzDM98Bzu/dejjimyJgCs22AIb+eyvgLTIzaesrSXMY=
+X-Gm-Gg: AY/fxX7DXxUOHm+aDJuhJwrpVwVZTmfGHW0NAByVqUfOodQR3pR5/lEyeO9NpWZBQ0k
+ lwklgkWpK54fjx1HIoEOByg25iju7oP1+uD9uexUFWe6EV/vjKVPQXTCFqmRH0om3Dj7RPrIAFP
+ 4e5Q1+x85RWG5znkFAypSItkrgSlT5izfbbJRpOSWWUBXqMPE35hSDKYqVIuiWX4jvMymSNZjx7
+ 4kxK20m/7hWYdiE7x2G/nIo+7bHHubtEkt0iWOCmN8EtYk8XH9pSlrJQQ3Q1oFL/fjP/1FfeWjY
+ CT+t5EDhUcshYagTDhk+V0Mm4iAr5jjpVzMwDa2ZZ9gygFT3bdiV5NLJ/3PkmNEprGFlC720CyL
+ SkmI00Z4dDNxUuFjnrMH2HhBhl7X3sKRuQCX6M3cmfcYZCqxpv2Sqt55FvkME5HRRXI8=
+X-Received: by 2002:a05:6214:21e1:b0:88a:42b1:2607 with SMTP id
+ 6a1803df08f44-892743de419mr94011456d6.36.1768469305647; 
+ Thu, 15 Jan 2026 01:28:25 -0800 (PST)
+X-Received: by 2002:a05:6214:21e1:b0:88a:42b1:2607 with SMTP id
+ 6a1803df08f44-892743de419mr94011076d6.36.1768469305230; 
+ Thu, 15 Jan 2026 01:28:25 -0800 (PST)
 Received: from yuanjiey.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
  [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-892668a2419sm64388416d6.30.2026.01.15.01.28.10
+ 6a1803df08f44-892668a2419sm64388416d6.30.2026.01.15.01.28.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jan 2026 01:28:17 -0800 (PST)
+ Thu, 15 Jan 2026 01:28:24 -0800 (PST)
 From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
 To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
  sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
@@ -95,31 +95,31 @@ To: robin.clark@oss.qualcomm.com, lumag@kernel.org, jesszhan0024@gmail.com,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
-Subject: [PATCH v6 01/12] dt-bindings: display/msm: qcom,
- kaanapali-dpu: Add Kaanapali
-Date: Thu, 15 Jan 2026 17:27:38 +0800
-Message-Id: <20260115092749.533-2-yuanjie.yang@oss.qualcomm.com>
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v6 02/12] dt-bindings: display/msm: dsi-phy-7nm: Add Kaanapali
+ DSI PHY
+Date: Thu, 15 Jan 2026 17:27:39 +0800
+Message-Id: <20260115092749.533-3-yuanjie.yang@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260115092749.533-1-yuanjie.yang@oss.qualcomm.com>
 References: <20260115092749.533-1-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=NvncssdJ c=1 sm=1 tr=0 ts=6968b332 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+X-Authority-Analysis: v=2.4 cv=NvncssdJ c=1 sm=1 tr=0 ts=6968b33a cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=LEfPF28z9Y6gGZEU5FYA:9
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: SDuUmllCXJKYFdXr1Yn8FYz9AZS73T0U
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA2NSBTYWx0ZWRfXzS07bAuiKHmz
- TaDEpkwxjKuVfx89Da8tZyqLLBtOCIEZjpbXajRcrSnsVpRBOsYFNHzqwYKWdbpKDYE3wvGResV
- DYs+oHBmgdGWaqWeC4TrD8AjG33AOxmaGMwcUflu8n+QFO0aUFBAoIStH3wdvQWO+f1b+b236i9
- juj3m2FDSCxv9wnHI9rjf04oRWFFcEtiHbXnwIAS6uBt+AUU/BQt0GSFEvWj9Q1Qr/9EwPYVE81
- RHmfHnFYOiws61KbmlSWwtaSMW0gFhpvDavPJ1YHeWDUGg9oln9nyWbjIC5Pi81oFoM2myMV7e1
- hlEzgaJjrga8tS0pX1lmqT6ph42wpf6/JAF+0Gsrlzb9jmXcF1rhiE73ZRR8HAc0FwAej7+0LXd
- uh/u6eveaCOFqOmdV0FYXAzPvGXiRIwaiypzQXewFejsmSP/+Ur36abva4Jy/O5UdDNhTWFRTqp
- rcumaOjhq1gnqBl/nyA==
-X-Proofpoint-GUID: SDuUmllCXJKYFdXr1Yn8FYz9AZS73T0U
+ a=EUspDBNiAAAA:8 a=vv4ZX1vSqPLa4hud_FIA:9 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: cgrD0LyCgIQwS_yUh29HceFlPoUOu5kF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA2NSBTYWx0ZWRfX3ulYSba99hGk
+ iv3VZ7gYKO/aBiZZSRtp9OW9Tv1+kvhNHMpt3wF5i0sw1tSYHj1997l7FLDRZi8fnlbBoTu5V2z
+ go0RrC14yHQNpsAdV6drOo7JWGtpKjX10/Piy6qeRZqTWTb+KF+ok/IukcSwt2ps7wQMw5iEXhe
+ Ng5JkSVHK05a+hkCrlkBrxtnrJR4msPnJap2UshHiPEWd46gOpcsr1eo6w+0Ej+hYgFTkgrw+9K
+ ZWyIJ+Jarue6DnFDB/dx2m7vj2IadKz4bRMpM+Dy9+0/ADU6tMc3f7bREUvKBz6VQQDPtXUfphR
+ rrQJJkI0sZhqGlaO2R5tLcmJLBXMk3FdnWB7ZjF97Y2P1aAtX0fgs4pzvZrh8uKnWHLDa/4bIjR
+ R48RXLHbnSoUj5Yt9PfdxGXbysnJqGO5QB/I+Y8MHGDT6/yeP20Lw1T0Vry4qQOg75Yn8od+omr
+ 1C10OOZAi3Lkn+iwZ3Q==
+X-Proofpoint-GUID: cgrD0LyCgIQwS_yUh29HceFlPoUOu5kF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-15_02,2026-01-14_01,2025-10-01_01
@@ -146,28 +146,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-Add DPU version 13.0 for Qualcomm Kaanapali Soc. The Kaanapali
-DPU and SM8750 have significant differences, including additions
-and removals of registers, as well as changes in register addresses.
+The DSI PHY registers on the Kaanapali platform differ from those
+on SM8750. So add DSI PHY for Kaanapali to compatible these changes.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 ---
- .../devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml         | 1 +
+ Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-index fe296e3186d0..e29c4687c3a2 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-@@ -16,6 +16,7 @@ properties:
-     oneOf:
-       - enum:
-           - qcom,glymur-dpu
-+          - qcom,kaanapali-dpu
-           - qcom,sa8775p-dpu
-           - qcom,sm8650-dpu
-           - qcom,sm8750-dpu
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index 7a83387502da..9a9a6c4abf43 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -19,6 +19,7 @@ properties:
+           - enum:
+               - qcom,dsi-phy-7nm
+               - qcom,dsi-phy-7nm-8150
++              - qcom,kaanapali-dsi-phy-3nm
+               - qcom,sa8775p-dsi-phy-5nm
+               - qcom,sar2130p-dsi-phy-5nm
+               - qcom,sc7280-dsi-phy-7nm
 -- 
 2.34.1
 
