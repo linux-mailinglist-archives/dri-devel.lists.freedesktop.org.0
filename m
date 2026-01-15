@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4166D252C6
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5A7D252C9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C32FC10E780;
-	Thu, 15 Jan 2026 15:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7226A10E783;
+	Thu, 15 Jan 2026 15:09:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QKmV2N9o";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="G4ilP2NU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E07710E77E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 15:09:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A925610E77E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 15:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=usAYZwTUFzLneAjj049fCVQaxekbr7OQImSyqQwAAb8=; b=QKmV2N9ougsEadbu//wloGQjlO
- ZZC2kzhNG6YaKEKImeIqKXoDqDG2WU3ugZYmZFjG7rWdZkq56tdKhBNFT+zTRynACcXhgeU9ytxzu
- CVMOioOorwBTJADBGJxWLubv5oeT/zbBMVYwvkc1C5NmJAo5tUatlBmk0XsiWBq7EZupxkTuHhv/u
- 5TueHFHfdCB0fHJPJrSosmmJ85lMrw8si5po55CmYzr+xBU1tAmtI9X8a5gQfI7LIAvQxLSPPUZVQ
- ygohxM4wh6NEaEJAuRqboGXEqCgKN/ES0M5OW/ei6kISxfBDFFLw8CZVvmNEZOk4GsoyvkRZbKX3d
- NhNvNRKQ==;
+ bh=z74plib8BOiCZhoQYe93NaxU3v7PwexZIGPsGLI5iM8=; b=G4ilP2NU5B8TjbWj3qSxbzV/Tv
+ UxxF4GQnrpN6xjvIPGr1Usn1zY1JKQ5YSqEgJEB2etw9aD4z2nh3qKJJ8OkbDYqbhZJ6kpxBuXHtY
+ 8w3JTzzK1JoLe2ljozI2qghjo2MmknHtbTTqEiZtSlaD7vFGsApl4lVlZTKf3v+mw4TRorg+s1Ms0
+ Y9qIPvKNKdhwXHc9/DZ+wuseumnZzjLcXoEfRp9jX1tvXwSb6yS34D6qs7Aiqps4cmYa2RPDQUuNz
+ 1qqoUy7uDLB2UegfzZVoeM2WCjbGy4ATo8EaAilR+Tq/sdVNVqgL19uog3sKTBbxv/cWbWl1w2Og/
+ ygVJEorQ==;
 Received: from [187.36.210.68] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
- (Exim) id 1vgOyk-005moL-Id; Thu, 15 Jan 2026 16:09:43 +0100
+ (Exim) id 1vgOyn-005moL-OU; Thu, 15 Jan 2026 16:09:46 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -39,10 +39,12 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH 1/2] drm/v3d: Replace IDR with XArray for perfmon tracking
-Date: Thu, 15 Jan 2026 12:05:09 -0300
-Message-ID: <20260115150903.92163-2-mcanal@igalia.com>
+Subject: [PATCH 2/2] drm/vc4: Replace IDR with XArray for perfmon tracking
+Date: Thu, 15 Jan 2026 12:05:10 -0300
+Message-ID: <20260115150903.92163-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260115150903.92163-2-mcanal@igalia.com>
+References: <20260115150903.92163-2-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,23 +68,24 @@ replacement. Replace the per-file IDR used to track perfmons with an
 XArray. This allows us to remove the external mutex that protects the
 IDR.
 
-While here, introduce the v3d_perfmon_delete() helper to consolidate
-the perfmon cleanup logic used by both v3d_perfmon_close_file() and
-v3d_perfmon_destroy_ioctl().
+While at it, introduce the vc4_perfmon_delete() helper to consolidate
+the perfmon cleanup logic used by both vc4_perfmon_close_file() and
+vc4_perfmon_destroy_ioctl(). Also, remove the redundant assignment of
+vc4file->dev to itself in vc4_perfmon_open_file().
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h     |  5 +--
- drivers/gpu/drm/v3d/v3d_perfmon.c | 55 +++++++++++--------------------
- 2 files changed, 21 insertions(+), 39 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h     |  5 +---
+ drivers/gpu/drm/vc4/vc4_perfmon.c | 49 ++++++++++++++-----------------
+ 2 files changed, 23 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 99a39329bb85..314213c26710 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -220,10 +220,7 @@ v3d_has_csd(struct v3d_dev *v3d)
- struct v3d_file_priv {
- 	struct v3d_dev *v3d;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 221d8e01d539..dbcc83b7df00 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -791,10 +791,7 @@ struct vc4_exec_info {
+ struct vc4_file {
+ 	struct vc4_dev *dev;
  
 -	struct {
 -		struct idr idr;
@@ -90,128 +93,123 @@ index 99a39329bb85..314213c26710 100644
 -	} perfmon;
 +	struct xarray perfmons;
  
- 	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
+ 	bool bin_bo_used;
+ };
+diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
+index 1ac80c0b258f..29e549342852 100644
+--- a/drivers/gpu/drm/vc4/vc4_perfmon.c
++++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
+@@ -95,10 +95,10 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
+ 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+ 		return NULL;
  
-diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-index 9a3fe5255874..41325ffc7f43 100644
---- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-+++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-@@ -290,24 +290,23 @@ struct v3d_perfmon *v3d_perfmon_find(struct v3d_file_priv *v3d_priv, int id)
- {
- 	struct v3d_perfmon *perfmon;
- 
--	mutex_lock(&v3d_priv->perfmon.lock);
--	perfmon = idr_find(&v3d_priv->perfmon.idr, id);
-+	xa_lock(&v3d_priv->perfmons);
-+	perfmon = xa_load(&v3d_priv->perfmons, id);
- 	v3d_perfmon_get(perfmon);
--	mutex_unlock(&v3d_priv->perfmon.lock);
-+	xa_unlock(&v3d_priv->perfmons);
+-	mutex_lock(&vc4file->perfmon.lock);
+-	perfmon = idr_find(&vc4file->perfmon.idr, id);
++	xa_lock(&vc4file->perfmons);
++	perfmon = xa_load(&vc4file->perfmons, id);
+ 	vc4_perfmon_get(perfmon);
+-	mutex_unlock(&vc4file->perfmon.lock);
++	xa_unlock(&vc4file->perfmons);
  
  	return perfmon;
  }
+@@ -110,37 +110,34 @@ void vc4_perfmon_open_file(struct vc4_file *vc4file)
+ 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+ 		return;
  
- void v3d_perfmon_open_file(struct v3d_file_priv *v3d_priv)
- {
--	mutex_init(&v3d_priv->perfmon.lock);
--	idr_init_base(&v3d_priv->perfmon.idr, 1);
-+	xa_init_flags(&v3d_priv->perfmons, XA_FLAGS_ALLOC1);
+-	mutex_init(&vc4file->perfmon.lock);
+-	idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
+-	vc4file->dev = vc4;
++	xa_init_flags(&vc4file->perfmons, XA_FLAGS_ALLOC1);
  }
  
--static int v3d_perfmon_idr_del(int id, void *elem, void *data)
-+static void v3d_perfmon_delete(struct v3d_file_priv *v3d_priv,
-+			       struct v3d_perfmon *perfmon)
+-static int vc4_perfmon_idr_del(int id, void *elem, void *data)
++static void vc4_perfmon_delete(struct vc4_file *vc4file,
++			       struct vc4_perfmon *perfmon)
  {
--	struct v3d_perfmon *perfmon = elem;
--	struct v3d_dev *v3d = (struct v3d_dev *)data;
-+	struct v3d_dev *v3d = v3d_priv->v3d;
+-	struct vc4_perfmon *perfmon = elem;
+-	struct vc4_dev *vc4 = (struct vc4_dev *)data;
++	struct vc4_dev *vc4 = vc4file->dev;
  
  	/* If the active perfmon is being destroyed, stop it first */
- 	if (perfmon == v3d->active_perfmon)
-@@ -317,19 +316,17 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
- 	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+ 	if (perfmon == vc4->active_perfmon)
+ 		vc4_perfmon_stop(vc4, perfmon, false);
  
- 	v3d_perfmon_put(perfmon);
+ 	vc4_perfmon_put(perfmon);
 -
 -	return 0;
  }
  
- void v3d_perfmon_close_file(struct v3d_file_priv *v3d_priv)
+ void vc4_perfmon_close_file(struct vc4_file *vc4file)
  {
--	struct v3d_dev *v3d = v3d_priv->v3d;
-+	struct v3d_perfmon *perfmon;
+ 	struct vc4_dev *vc4 = vc4file->dev;
++	struct vc4_perfmon *perfmon;
 +	unsigned long id;
  
--	mutex_lock(&v3d_priv->perfmon.lock);
--	idr_for_each(&v3d_priv->perfmon.idr, v3d_perfmon_idr_del, v3d);
--	idr_destroy(&v3d_priv->perfmon.idr);
--	mutex_unlock(&v3d_priv->perfmon.lock);
--	mutex_destroy(&v3d_priv->perfmon.lock);
-+	xa_for_each(&v3d_priv->perfmons, id, perfmon)
-+		v3d_perfmon_delete(v3d_priv, perfmon);
+ 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+ 		return;
+ 
+-	mutex_lock(&vc4file->perfmon.lock);
+-	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del, vc4);
+-	idr_destroy(&vc4file->perfmon.idr);
+-	mutex_unlock(&vc4file->perfmon.lock);
+-	mutex_destroy(&vc4file->perfmon.lock);
++	xa_for_each(&vc4file->perfmons, id, perfmon)
++		vc4_perfmon_delete(vc4file, perfmon);
 +
-+	xa_destroy(&v3d_priv->perfmons);
++	xa_destroy(&vc4file->perfmons);
  }
  
- int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
-@@ -341,6 +338,7 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 	struct v3d_perfmon *perfmon;
+ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
+@@ -152,6 +149,7 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
+ 	struct vc4_perfmon *perfmon;
  	unsigned int i;
  	int ret;
 +	u32 id;
  
- 	/* Number of monitored counters cannot exceed HW limits. */
- 	if (req->ncounters > DRM_V3D_MAX_PERF_COUNTERS ||
-@@ -366,18 +364,16 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 	refcount_set(&perfmon->refcnt, 1);
- 	mutex_init(&perfmon->lock);
+ 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+ 		return -ENODEV;
+@@ -185,17 +183,16 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
  
--	mutex_lock(&v3d_priv->perfmon.lock);
--	ret = idr_alloc(&v3d_priv->perfmon.idr, perfmon, V3D_PERFMONID_MIN,
--			V3D_PERFMONID_MAX, GFP_KERNEL);
--	mutex_unlock(&v3d_priv->perfmon.lock);
+ 	refcount_set(&perfmon->refcnt, 1);
+ 
+-	mutex_lock(&vc4file->perfmon.lock);
+-	ret = idr_alloc(&vc4file->perfmon.idr, perfmon, VC4_PERFMONID_MIN,
+-			VC4_PERFMONID_MAX, GFP_KERNEL);
+-	mutex_unlock(&vc4file->perfmon.lock);
 -
-+	ret = xa_alloc(&v3d_priv->perfmons, &id, perfmon,
-+		       XA_LIMIT(V3D_PERFMONID_MIN, V3D_PERFMONID_MAX),
++	ret = xa_alloc(&vc4file->perfmons, &id, perfmon,
++		       XA_LIMIT(VC4_PERFMONID_MIN, VC4_PERFMONID_MAX),
 +		       GFP_KERNEL);
  	if (ret < 0) {
- 		mutex_destroy(&perfmon->lock);
  		kfree(perfmon);
  		return ret;
  	}
  
 -	req->id = ret;
 +	req->id = id;
- 
++
  	return 0;
  }
-@@ -387,24 +383,13 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- {
- 	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
- 	struct drm_v3d_perfmon_destroy *req = data;
--	struct v3d_dev *v3d = v3d_priv->v3d;
- 	struct v3d_perfmon *perfmon;
  
--	mutex_lock(&v3d_priv->perfmon.lock);
--	perfmon = idr_remove(&v3d_priv->perfmon.idr, req->id);
--	mutex_unlock(&v3d_priv->perfmon.lock);
+@@ -215,14 +212,12 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+ 		return -ENODEV;
+ 	}
+ 
+-	mutex_lock(&vc4file->perfmon.lock);
+-	perfmon = idr_remove(&vc4file->perfmon.idr, req->id);
+-	mutex_unlock(&vc4file->perfmon.lock);
 -
-+	perfmon = xa_erase(&v3d_priv->perfmons, req->id);
++	perfmon = xa_erase(&vc4file->perfmons, req->id);
  	if (!perfmon)
  		return -EINVAL;
  
--	/* If the active perfmon is being destroyed, stop it first */
--	if (perfmon == v3d->active_perfmon)
--		v3d_perfmon_stop(v3d, perfmon, false);
--
--	/* If the global perfmon is being destroyed, set it to NULL */
--	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
--
--	v3d_perfmon_put(perfmon);
-+	v3d_perfmon_delete(v3d_priv, perfmon);
- 
+-	vc4_perfmon_put(perfmon);
++	vc4_perfmon_delete(vc4file, perfmon);
++
  	return 0;
  }
+ 
 -- 
 2.52.0
 
