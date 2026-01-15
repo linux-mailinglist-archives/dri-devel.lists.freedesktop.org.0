@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F397BD24AD9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D65D24B19
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 14:15:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60EA710E751;
-	Thu, 15 Jan 2026 13:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BCD510E02F;
+	Thu, 15 Jan 2026 13:15:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mzIp+Cq3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NSzkwAho";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213E810E02F;
- Thu, 15 Jan 2026 13:09:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A35A10E02F;
+ Thu, 15 Jan 2026 13:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768482596; x=1800018596;
+ t=1768482909; x=1800018909;
  h=from:date:to:cc:subject:in-reply-to:message-id:
  references:mime-version;
- bh=BIoZF2I3vLrEjrCUlhiCCI21F/oNWrL567DQHu3op14=;
- b=mzIp+Cq3htLHnyHmSBq3UVWt+24ChkVHMD7ROKQqdfNI2ZPvcRpGzB4M
- QCc+x8HeN4PECNN7zLvpG9BsfekE+GyOD7SxJeRAIzB0Pufit+YF0J7+Q
- y4cKVmyR2TpaD8yFzWl56YNtZCkbrkHeZgkvOv/HONZexo7vap6GnF6bA
- JUGc8t0jBXX9pQK78cq+R9Uc0CoGwc3rI03foN2tIXVEhFPP0/9V7DTF1
- 4D/ILk3zPeZ8baxc+9LKX0ee49QWfYnlTRoI/kOJ9fm9ffCvconharHKW
- IEnMSWXbIpLqMBpI0LxRt0zFqbch24TeldkI7noeX00WDbaEJnGssD41N A==;
-X-CSE-ConnectionGUID: IiHRwZfjRf27IzwbwjXX4Q==
-X-CSE-MsgGUID: y/RBJdbIQ4StNXBBz70eKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80509191"
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="80509191"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2026 05:09:56 -0800
-X-CSE-ConnectionGUID: qjjYCUKcS1yd4FBxmX3xWg==
-X-CSE-MsgGUID: iu+lCmgkS/+hABqthpSVLQ==
+ bh=NAQ/zSg6GXxRikkqlsstfGl2uLu71T/Xx4H5SHFFafo=;
+ b=NSzkwAhoWkQxxhQnVl4VWJFMEmRHmuzgpG4QjXeLA3I8jbBBO+jYXVSe
+ 3P9BWARiiey38xwDmXBuCuloQy2DLThhtjJqJg8rPoyuWI2TkGzXb4mlz
+ 0qDmLtRXjCpUWrx3AMD+lscG9iRrfnmbmj6VAYYZAdZ5gTEMLy4DR/koG
+ y0W8mRheyTeBK4A2Ye7IivIKyS+bpW6TxcMIYhkWUiPe/L9q+0qfmdzA7
+ CFhkW69c6vfp2sH9Q8e5ECr/2sB/10+6enpwoKu9RkyRisgO2hLw+xptQ
+ 9nvwa1RCNP9urZEs6m/6m50DeQLjLLmzKeNKE6cl1SRdW6pZUZM+uS7C7 Q==;
+X-CSE-ConnectionGUID: D5mpNn7XQZaFl3fF7/k9gQ==
+X-CSE-MsgGUID: MenmGG23Tty/AxkyE4oisA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69685846"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="69685846"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 05:15:09 -0800
+X-CSE-ConnectionGUID: Tj77cPJuRCOPwXAPgwmE8Q==
+X-CSE-MsgGUID: l8iG3PnbQNCJ/xf8Uy+u8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="205362164"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="235662931"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.244.248])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2026 05:09:53 -0800
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 05:15:05 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 15 Jan 2026 15:09:49 +0200 (EET)
+Date: Thu, 15 Jan 2026 15:15:01 +0200 (EET)
 To: "David E. Box" <david.e.box@linux.intel.com>
 cc: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
  irenic.rajneesh@gmail.com, srinivas.pandruvada@linux.intel.com, 
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  xi.pardee@linux.intel.comn, Hans de Goede <hansg@kernel.org>, 
  LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 3/4] platform/x86/intel/vsec: Return real error codes
- from registration path
-In-Reply-To: <20260107002153.63830-4-david.e.box@linux.intel.com>
-Message-ID: <417b4ba4-c0a5-1250-8099-e18142fe61ff@linux.intel.com>
+Subject: Re: [PATCH 4/4] platform/x86/intel/vsec: Plumb ACPI PMT discovery
+ tables through vsec
+In-Reply-To: <20260107002153.63830-5-david.e.box@linux.intel.com>
+Message-ID: <35e7afb6-2aad-1729-bb79-2c56a64c3277@linux.intel.com>
 References: <20260107002153.63830-1-david.e.box@linux.intel.com>
- <20260107002153.63830-4-david.e.box@linux.intel.com>
+ <20260107002153.63830-5-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-633248259-1768482589=:968"
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +73,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-633248259-1768482589=:968
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
 On Tue, 6 Jan 2026, David E. Box wrote:
 
-> Stop collapsing registration results into booleans. Make
-> intel_vsec_walk_header() return int and propagate the first non-zero erro=
-r
-> from intel_vsec_register_device(). intel_vsec_register() now returns that
-> error directly and 0 on success.
->=20
-> This preserves success behavior while surfacing meaningful errors instead
-> of hiding them behind a bool/-ENODEV, which makes debugging and probe
-> ordering issues clearer.
->=20
+> Newer platform will optionally expose PMT discovery via ACPI instead of PCI
+> BARs. Add a generic discovery source flag and carry ACPI discovery entries
+> alongside the existing PCI resource path so PMT clients can consume either.
+> 
+> Changes:
+>   - Add enum intel_vsec_disc_source { _PCI, _ACPI }.
+>   - Extend intel_vsec_platform_info and intel_vsec_device with source enum
+>     and ACPI discovery table pointer/
+>   - When src==ACPI, skip BAR resource setup and copy the ACPI discovery
+>     entries into the aux device.
+> 
+> No user-visible behavior change yet; this only wires ACPI data through vsec
+> in preparation for ACPI-enumerated PMT clients.
+> 
 > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
 > ---
->  drivers/platform/x86/intel/vsec.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/int=
-el/vsec.c
-> index b84bb92624ef..42471fd609b1 100644
+>  drivers/platform/x86/intel/vsec.c | 16 ++++++++++++++++
+>  include/linux/intel_vsec.h        | 20 +++++++++++++++++++-
+>  2 files changed, 35 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel/vsec.c
+> index 42471fd609b1..705672dcdd11 100644
 > --- a/drivers/platform/x86/intel/vsec.c
 > +++ b/drivers/platform/x86/intel/vsec.c
-> @@ -461,20 +461,19 @@ static int intel_vsec_register_device(struct device=
- *dev,
->  =09return -EAGAIN;
+> @@ -109,6 +109,7 @@ static void intel_vsec_dev_release(struct device *dev)
+>  
+>  	ida_free(intel_vsec_dev->ida, intel_vsec_dev->auxdev.id);
+>  
+> +	kfree(intel_vsec_dev->acpi_disc);
+>  	kfree(intel_vsec_dev->resource);
+>  	kfree(intel_vsec_dev);
 >  }
-> =20
-> -static bool intel_vsec_walk_header(struct device *dev,
-> -=09=09=09=09   struct intel_vsec_platform_info *info)
-> +static int intel_vsec_walk_header(struct device *dev,
-> +=09=09=09=09  struct intel_vsec_platform_info *info)
->  {
->  =09struct intel_vsec_header **header =3D info->headers;
-> -=09bool have_devices =3D false;
->  =09int ret;
-> =20
->  =09for ( ; *header; header++) {
->  =09=09ret =3D intel_vsec_register_device(dev, *header, info);
-> -=09=09if (!ret)
-> -=09=09=09have_devices =3D true;
-> +=09=09if (ret)
-> +=09=09=09return ret;
->  =09}
-> =20
-> -=09return have_devices;
-> +=09return 0;
->  }
-> =20
->  static bool intel_vsec_walk_dvsec(struct pci_dev *pdev,
-> @@ -582,10 +581,7 @@ int intel_vsec_register(struct device *dev,
->  =09if (!dev || !info || !info->headers)
->  =09=09return -EINVAL;
-> =20
-> -=09if (!intel_vsec_walk_header(dev, info))
-> -=09=09return -ENODEV;
-> -=09else
-> -=09=09return 0;
-> +=09return intel_vsec_walk_header(dev, info);
->  }
->  EXPORT_SYMBOL_NS_GPL(intel_vsec_register, "INTEL_VSEC");
-> =20
->=20
+> @@ -321,6 +322,10 @@ static int intel_vsec_add_dev(struct device *dev, struct intel_vsec_header *head
+>  	 * auxiliary device driver.
+>  	 */
+>  	for (i = 0, tmp = res; i < header->num_entries; i++, tmp++) {
+> +		/* This check doesn't apply to ACPI based discovery */
 
-Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+"This check" is somewhat vague, if it doesn't require a novel, it would be 
+better to write out what check.
 
---=20
+> +		if (info->src == INTEL_VSEC_DISC_ACPI)
+> +			break;
+> +
+>  		tmp->start = base_addr + header->offset + i * (header->entry_size * sizeof(u32));
+>  		tmp->end = tmp->start + (header->entry_size * sizeof(u32)) - 1;
+>  		tmp->flags = IORESOURCE_MEM;
+> @@ -339,6 +344,17 @@ static int intel_vsec_add_dev(struct device *dev, struct intel_vsec_header *head
+>  	intel_vsec_dev->base_addr = info->base_addr;
+>  	intel_vsec_dev->priv_data = info->priv_data;
+>  	intel_vsec_dev->cap_id = cap_id;
+> +	intel_vsec_dev->src = info->src;
+> +
+> +	if (info->src == INTEL_VSEC_DISC_ACPI) {
+> +		size_t bytes;
+> +
+> +		bytes = intel_vsec_dev->num_resources * sizeof(info->acpi_disc[0]);
+
+Should this use some overflow.h helper?
+
+> +
+> +		intel_vsec_dev->acpi_disc = kmemdup(info->acpi_disc, bytes, GFP_KERNEL);
+
+include for kmemdup() seems missing.
+
+> +		if (!intel_vsec_dev->acpi_disc)
+> +			return -ENOMEM;
+> +	}
+>  
+>  	if (header->id == VSEC_ID_SDSI)
+>  		intel_vsec_dev->ida = &intel_vsec_sdsi_ida;
+> diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
+> index 931ff42361a9..9d7795480c49 100644
+> --- a/include/linux/intel_vsec.h
+> +++ b/include/linux/intel_vsec.h
+> @@ -32,6 +32,11 @@
+>  struct resource;
+>  struct pci_dev;
+>  
+> +enum intel_vsec_disc_source {
+> +	INTEL_VSEC_DISC_PCI,	/* PCI, default */
+> +	INTEL_VSEC_DISC_ACPI,	/* ACPI */
+> +};
+> +
+>  enum intel_vsec_id {
+>  	VSEC_ID_TELEMETRY	= 2,
+>  	VSEC_ID_WATCHER		= 3,
+> @@ -102,6 +107,10 @@ struct vsec_feature_dependency {
+>   * @parent:    parent device in the auxbus chain
+>   * @headers:   list of headers to define the PMT client devices to create
+>   * @deps:      array of feature dependencies
+> + * @acpi_disc: ACPI discovery tables, each entry is two QWORDs
+> + *             in little-endian format as defined by the PMT ACPI spec.
+> + *             Valid only when @provider == INTEL_VSEC_PROV_ACPI.
+> + * @src:       source of discovery table data
+>   * @priv_data: private data, usable by parent devices, currently a callback
+>   * @caps:      bitmask of PMT capabilities for the given headers
+>   * @quirks:    bitmask of VSEC device quirks
+> @@ -112,6 +121,8 @@ struct intel_vsec_platform_info {
+>  	struct device *parent;
+>  	struct intel_vsec_header **headers;
+>  	const struct vsec_feature_dependency *deps;
+> +	u32 (*acpi_disc)[4];
+> +	enum intel_vsec_disc_source src;
+>  	void *priv_data;
+>  	unsigned long caps;
+>  	unsigned long quirks;
+> @@ -123,7 +134,12 @@ struct intel_vsec_platform_info {
+>   * struct intel_sec_device - Auxbus specific device information
+>   * @auxdev:        auxbus device struct for auxbus access
+>   * @dev:           struct device associated with the device
+> - * @resource:      any resources shared by the parent
+> + * @resource:      PCI discovery resources (BAR windows), one per discovery
+> + *                 instance. Valid only when @src == INTEL_VSEC_PROV_PCI
+> + * @acpi_disc:     ACPI discovery tables, each entry is two QWORDs
+> + *                 in little-endian format as defined by the PMT ACPI spec.
+> + *                 Valid only when @src == INTEL_VSEC_PROV_ACPI.
+> + * @src:           source of discovery table data
+>   * @ida:           id reference
+>   * @num_resources: number of resources
+>   * @id:            xarray id
+> @@ -136,6 +152,8 @@ struct intel_vsec_device {
+>  	struct auxiliary_device auxdev;
+>  	struct device *dev;
+>  	struct resource *resource;
+> +	u32 (*acpi_disc)[4];
+> +	enum intel_vsec_disc_source src;
+>  	struct ida *ida;
+>  	int num_resources;
+>  	int id; /* xa */
+> 
+
+-- 
  i.
 
---8323328-633248259-1768482589=:968--
