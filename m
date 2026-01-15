@@ -2,52 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5A7D252C9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99050D252DE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 16:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7226A10E783;
-	Thu, 15 Jan 2026 15:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDCE10E786;
+	Thu, 15 Jan 2026 15:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="G4ilP2NU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A/kfq7x/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A925610E77E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 15:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=z74plib8BOiCZhoQYe93NaxU3v7PwexZIGPsGLI5iM8=; b=G4ilP2NU5B8TjbWj3qSxbzV/Tv
- UxxF4GQnrpN6xjvIPGr1Usn1zY1JKQ5YSqEgJEB2etw9aD4z2nh3qKJJ8OkbDYqbhZJ6kpxBuXHtY
- 8w3JTzzK1JoLe2ljozI2qghjo2MmknHtbTTqEiZtSlaD7vFGsApl4lVlZTKf3v+mw4TRorg+s1Ms0
- Y9qIPvKNKdhwXHc9/DZ+wuseumnZzjLcXoEfRp9jX1tvXwSb6yS34D6qs7Aiqps4cmYa2RPDQUuNz
- 1qqoUy7uDLB2UegfzZVoeM2WCjbGy4ATo8EaAilR+Tq/sdVNVqgL19uog3sKTBbxv/cWbWl1w2Og/
- ygVJEorQ==;
-Received: from [187.36.210.68] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
- (Exim) id 1vgOyn-005moL-OU; Thu, 15 Jan 2026 16:09:46 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH 2/2] drm/vc4: Replace IDR with XArray for perfmon tracking
-Date: Thu, 15 Jan 2026 12:05:10 -0300
-Message-ID: <20260115150903.92163-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260115150903.92163-2-mcanal@igalia.com>
-References: <20260115150903.92163-2-mcanal@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 888E110E77E;
+ Thu, 15 Jan 2026 15:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768489841; x=1800025841;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=zJtKOUTDeVup7QvvLjg/CY50ojhXg1JVcSwyHLTVV5U=;
+ b=A/kfq7x/jx/HkHy4MC/gn/Yge3mC+1iBV7Z8atkoNLN3mdooZh9JdFf8
+ h4LSnaCfUJ/HCo4l0BCfLQlOW1IzcJtCh0oPAYarB3n1bYYuGqw+AGc3J
+ 2ugleA6uU3R8/6ojlkJ8Qlm+VnRF3UYtMekqSO6+UjaogTcLw1Ls3pvq/
+ ZXp7VDMwrhCym019CzudPArqrYF6sdgUbPwWokDGfCGibpqLI2XB59OpR
+ jFeWuO/4/pgTAIuhTJxtTJASHQhPI+PDJx22zOQk/g6AsQEQPpuBgeEoS
+ 9WuEkRy1Q7zA7dNwxTPCZxeL3l1JB55hEMbchw/K7mU7dZ7cJj8RcyECt g==;
+X-CSE-ConnectionGUID: lnR18X7xQGqYtErDZAtzyg==
+X-CSE-MsgGUID: w0YUhWm8TMqe0Lwk5K3rpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80439991"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="80439991"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 07:10:39 -0800
+X-CSE-ConnectionGUID: QlyxHSHiTzCEbE1DbfKHgA==
+X-CSE-MsgGUID: Hevrt8lZSOytYcWKGKE26Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; d="scan'208";a="205005261"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.53])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2026 07:10:28 -0800
+Date: Thu, 15 Jan 2026 17:10:24 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx@lists.freedesktop.org, Ard Biesheuvel <ardb@kernel.org>,
+ Ce Sun <cesun102@amd.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Deepak Rawat <drawat.floss@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hansg@kernel.org>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Helge Deller <deller@gmx.de>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, linux-efi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona@ffwll.ch>, spice-devel@lists.freedesktop.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
+Subject: Re: [PATCH 00/12] Recover sysfb after DRM probe failure
+Message-ID: <aWkDYO1o9T1BhvXj@intel.com>
+References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
+ <c816f7ed-66e0-4773-b3d1-4769234bd30b@suse.de>
+ <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
+ <97993761-5884-4ada-b345-9fb64819e02a@suse.de>
+ <9058636d-cc18-4c8f-92cf-782fd8f771af@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9058636d-cc18-4c8f-92cf-782fd8f771af@amd.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,153 +106,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IDR interface is deprecated and the XArray API is the recommended
-replacement. Replace the per-file IDR used to track perfmons with an
-XArray. This allows us to remove the external mutex that protects the
-IDR.
+On Thu, Jan 15, 2026 at 03:39:00PM +0100, Christian König wrote:
+> Sorry to being late, but I only now realized what you are doing here.
+> 
+> On 1/15/26 12:02, Thomas Zimmermann wrote:
+> > Hi,
+> > 
+> > apologies for the delay. I wanted to reply and then forgot about it.
+> > 
+> > Am 10.01.26 um 05:52 schrieb Zack Rusin:
+> >> On Fri, Jan 9, 2026 at 5:34 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >>> Hi
+> >>>
+> >>> Am 29.12.25 um 22:58 schrieb Zack Rusin:
+> >>>> Almost a rite of passage for every DRM developer and most Linux users
+> >>>> is upgrading your DRM driver/updating boot flags/changing some config
+> >>>> and having DRM driver fail at probe resulting in a blank screen.
+> >>>>
+> >>>> Currently there's no way to recover from DRM driver probe failure. PCI
+> >>>> DRM driver explicitly throw out the existing sysfb to get exclusive
+> >>>> access to PCI resources so if the probe fails the system is left without
+> >>>> a functioning display driver.
+> >>>>
+> >>>> Add code to sysfb to recever system framebuffer when DRM driver's probe
+> >>>> fails. This means that a DRM driver that fails to load reloads the system
+> >>>> framebuffer driver.
+> >>>>
+> >>>> This works best with simpledrm. Without it Xorg won't recover because
+> >>>> it still tries to load the vendor specific driver which ends up usually
+> >>>> not working at all. With simpledrm the system recovers really nicely
+> >>>> ending up with a working console and not a blank screen.
+> >>>>
+> >>>> There's a caveat in that some hardware might require some special magic
+> >>>> register write to recover EFI display. I'd appreciate it a lot if
+> >>>> maintainers could introduce a temporary failure in their drivers
+> >>>> probe to validate that the sysfb recovers and they get a working console.
+> >>>> The easiest way to double check it is by adding:
+> >>>>    /* XXX: Temporary failure to test sysfb restore - REMOVE BEFORE COMMIT */
+> >>>>    dev_info(&pdev->dev, "Testing sysfb restore: forcing probe failure\n");
+> >>>>    ret = -EINVAL;
+> >>>>    goto out_error;
+> >>>> or such right after the devm_aperture_remove_conflicting_pci_devices .
+> >>> Recovering the display like that is guess work and will at best work
+> >>> with simple discrete devices where the framebuffer is always located in
+> >>> a confined graphics aperture.
+> >>>
+> >>> But the problem you're trying to solve is a real one.
+> >>>
+> >>> What we'd want to do instead is to take the initial hardware state into
+> >>> account when we do the initial mode-setting operation.
+> >>>
+> >>> The first step is to move each driver's remove_conflicting_devices call
+> >>> to the latest possible location in the probe function. We usually do it
+> >>> first, because that's easy. But on most hardware, it could happen much
+> >>> later.
+> >> Well, some drivers (vbox, vmwgfx, bochs and currus-qemu) do it because
+> >> they request pci regions which is going to fail otherwise. Because
+> >> grabbining the pci resources is in general the very first thing that
+> >> those drivers need to do to setup anything, we
+> >> remove_conflicting_devices first or at least very early.
+> > 
+> > To my knowledge, requesting resources is more about correctness than a hard requirement to use an I/O or memory range. Has this changed?
+> 
+> Nope that is not correct.
+> 
+> At least for AMD GPUs remove_conflicting_devices() really early is necessary because otherwise some operations just result in a spontaneous system reboot.	
+> 
+> For example resizing the PCIe BAR giving access to VRAM or disabling VGA emulation (which AFAIK is used for EFI as well) is only possible when the VGA or EFI framebuffer driver is kicked out first.
+> 
+> And disabling VGA emulation is among the absolutely first steps you do to take over the scanout config.
 
-While at it, introduce the vc4_perfmon_delete() helper to consolidate
-the perfmon cleanup logic used by both vc4_perfmon_close_file() and
-vc4_perfmon_destroy_ioctl(). Also, remove the redundant assignment of
-vc4file->dev to itself in vc4_perfmon_open_file().
+It's similar for Intel. For us VGA emulation won't be used for
+EFI boot, but we still can't have the previous driver poking
+around in memory while the real driver is initializing. The
+entire memory layout may get completely shuffled so there's
+no telling where such memory accesses would land.
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vc4/vc4_drv.h     |  5 +---
- drivers/gpu/drm/vc4/vc4_perfmon.c | 49 ++++++++++++++-----------------
- 2 files changed, 23 insertions(+), 31 deletions(-)
+And I suppose reBAR is a concern for us as well.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 221d8e01d539..dbcc83b7df00 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -791,10 +791,7 @@ struct vc4_exec_info {
- struct vc4_file {
- 	struct vc4_dev *dev;
- 
--	struct {
--		struct idr idr;
--		struct mutex lock;
--	} perfmon;
-+	struct xarray perfmons;
- 
- 	bool bin_bo_used;
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-index 1ac80c0b258f..29e549342852 100644
---- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-+++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-@@ -95,10 +95,10 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return NULL;
- 
--	mutex_lock(&vc4file->perfmon.lock);
--	perfmon = idr_find(&vc4file->perfmon.idr, id);
-+	xa_lock(&vc4file->perfmons);
-+	perfmon = xa_load(&vc4file->perfmons, id);
- 	vc4_perfmon_get(perfmon);
--	mutex_unlock(&vc4file->perfmon.lock);
-+	xa_unlock(&vc4file->perfmons);
- 
- 	return perfmon;
- }
-@@ -110,37 +110,34 @@ void vc4_perfmon_open_file(struct vc4_file *vc4file)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
--	mutex_init(&vc4file->perfmon.lock);
--	idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
--	vc4file->dev = vc4;
-+	xa_init_flags(&vc4file->perfmons, XA_FLAGS_ALLOC1);
- }
- 
--static int vc4_perfmon_idr_del(int id, void *elem, void *data)
-+static void vc4_perfmon_delete(struct vc4_file *vc4file,
-+			       struct vc4_perfmon *perfmon)
- {
--	struct vc4_perfmon *perfmon = elem;
--	struct vc4_dev *vc4 = (struct vc4_dev *)data;
-+	struct vc4_dev *vc4 = vc4file->dev;
- 
- 	/* If the active perfmon is being destroyed, stop it first */
- 	if (perfmon == vc4->active_perfmon)
- 		vc4_perfmon_stop(vc4, perfmon, false);
- 
- 	vc4_perfmon_put(perfmon);
--
--	return 0;
- }
- 
- void vc4_perfmon_close_file(struct vc4_file *vc4file)
- {
- 	struct vc4_dev *vc4 = vc4file->dev;
-+	struct vc4_perfmon *perfmon;
-+	unsigned long id;
- 
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
--	mutex_lock(&vc4file->perfmon.lock);
--	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del, vc4);
--	idr_destroy(&vc4file->perfmon.idr);
--	mutex_unlock(&vc4file->perfmon.lock);
--	mutex_destroy(&vc4file->perfmon.lock);
-+	xa_for_each(&vc4file->perfmons, id, perfmon)
-+		vc4_perfmon_delete(vc4file, perfmon);
-+
-+	xa_destroy(&vc4file->perfmons);
- }
- 
- int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
-@@ -152,6 +149,7 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_perfmon *perfmon;
- 	unsigned int i;
- 	int ret;
-+	u32 id;
- 
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
-@@ -185,17 +183,16 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 
- 	refcount_set(&perfmon->refcnt, 1);
- 
--	mutex_lock(&vc4file->perfmon.lock);
--	ret = idr_alloc(&vc4file->perfmon.idr, perfmon, VC4_PERFMONID_MIN,
--			VC4_PERFMONID_MAX, GFP_KERNEL);
--	mutex_unlock(&vc4file->perfmon.lock);
--
-+	ret = xa_alloc(&vc4file->perfmons, &id, perfmon,
-+		       XA_LIMIT(VC4_PERFMONID_MIN, VC4_PERFMONID_MAX),
-+		       GFP_KERNEL);
- 	if (ret < 0) {
- 		kfree(perfmon);
- 		return ret;
- 	}
- 
--	req->id = ret;
-+	req->id = id;
-+
- 	return 0;
- }
- 
-@@ -215,14 +212,12 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- 		return -ENODEV;
- 	}
- 
--	mutex_lock(&vc4file->perfmon.lock);
--	perfmon = idr_remove(&vc4file->perfmon.idr, req->id);
--	mutex_unlock(&vc4file->perfmon.lock);
--
-+	perfmon = xa_erase(&vc4file->perfmons, req->id);
- 	if (!perfmon)
- 		return -EINVAL;
- 
--	vc4_perfmon_put(perfmon);
-+	vc4_perfmon_delete(vc4file, perfmon);
-+
- 	return 0;
- }
- 
 -- 
-2.52.0
-
+Ville Syrjälä
+Intel
