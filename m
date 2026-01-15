@@ -2,213 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCD3D2285F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 07:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B819D22B1B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 08:02:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 299F510E6B5;
-	Thu, 15 Jan 2026 06:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915A110E13E;
+	Thu, 15 Jan 2026 07:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LGJH9RTP";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Nl6UN1zq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB1610E39E;
- Thu, 15 Jan 2026 06:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768457924; x=1799993924;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=C1wwCFKEbd7oq7gtV7p+/p8SbsD1zFTs3eVDEgo0m9k=;
- b=LGJH9RTP566VwHFeFl2Ors0ksQukgFV+d3sU4OrtID3sZC7AxQQ2MaD8
- opD/vd9jf7emT4x/Sp2VASZI0zWNT93IftIVFxj56Y3eZF8BWL/Wgqogs
- UAG8H8ha5Zo9kYHMLTDuu6FEfwWI0aEmqPTS0PegsSxQNlZLZ3/pQEHQz
- 9IRPO8eHpwhfx2FutHDyJBl082keUV2Vc2NaIMOzy0yjLq5ApoBrdMvrG
- jsXWmJl/SRem8yyH8FuuR4spyNsr5JvF5dxZwtoUonbj4o9AZVxdTMNew
- Lox9iktfYV597WBAun+U/MEDdovUzyge0FDL/284tVMiWMCU2pBcsn03j w==;
-X-CSE-ConnectionGUID: N6Azi9pmSRCoSDYamtRuVA==
-X-CSE-MsgGUID: ESoiIRddRmqFRdw6L8RY8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="81206842"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="81206842"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 22:18:42 -0800
-X-CSE-ConnectionGUID: aV59PU2vRVSgwdJIWEBZEg==
-X-CSE-MsgGUID: JUy+odj0ThiQ46um/JADHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; d="scan'208";a="227962956"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2026 22:18:42 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 22:18:41 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 14 Jan 2026 22:18:41 -0800
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.18) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 14 Jan 2026 22:18:40 -0800
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013019.outbound.protection.outlook.com
+ [40.93.201.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5124410E13E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 07:02:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hvLfDfUejTmdxCRYsLWeZ3tHhYRa+iHhp/i6p7bbgVlCF6nxwVq3d9L206LL/CafKRnIkev/XGrgXxdpBrGPbWF7PYymYf4sAVqwjkRq/11Z8fm30ek8moJMegcZbCRtUBdGKfxpwsfk47NM9EEvt4L4OcWH3PCo8GhIdkJd2oCWxZtmZa2DeWM4V/v3bWIdaQiUiFS8oMSRZntSvLq63d8ivZP+0ZfUF9CNqjHjgDEKxC0LyHHOBiWA1VeTm0n2AGMY995Nhy39LIQAutjBkmZr7JIlyQG2ch00jc5PJg6sqiN2p8wEzgdwWzK17soH48movV0rj3F6BzfYPNE9JA==
+ b=vmXSQgelwA4mVEz+NdyyIgcyfdzENaACZEVkDco4ATmwaeFFqXQUHjj1ul6qLFnskVZBbcUfS7OLIEaKEHEktVDLV+Ro+l9X87QJ8/yQUFpcfBye4385GDr+H6jkDIeORkq6ElD47eD8CP8mdrvjN6HtFv8dM6Hx61RL/kYwC60a4mBRrU2HYyjOCguasW+hdA9h6Da6N7pairQh8P/Fra5wpAyZ59eotKE32YemUjAaJZ4sxNrYqBW1cUMDIXnyaN++feDWFYaFwsJNbVRhsaXMoasMETM+IxuzZ80neNWZaVco9yzowwJ0bpsjh9PB7QQhfJOEHp7I6JPak12bzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HbHItWup/RRXoaCY27KPQ7sJiy4jTLj9qx0rPveuAHE=;
- b=KOXIIiwMz3PFQucckSlAwWnvQTakhewknWYgVnaLqb5f3/XMhn//LWOWJ/GPQ3uf28aaYcve02W5/acsV6pJD4uAPD/CXiFlxhmGNLCFCf3HhkkKmz/6H0tM2rTaDpwANkXrnlI3B2I4c7o94h4sVQ5GXUWEzCLbh2X2jQcxBKfJEPglvT73FFGu13KcA3z0flh92bpYNjO6Lrbqf6kmWp2/kY0brQHslJUbBQLuMl5fT17qgF5x7VZ93GzaLOBgdwyEcSaRuvwYyHm89M6beQahPO74N5goZnK2+6ld5Paely/uW1NrsR6P/sxy7uT0rW6FJD6K1Rp1g1VoX9pGIg==
+ bh=renm9du4FSxE6Fz31886PP5edb2pTqDhuw4Z3sEXpus=;
+ b=gxye+/g6Td6Ht/WS/MDix+kzPfpwZi6XeSquu4AN6fJAnCxQG0lyg56jrlPT3hfR0WaNlqL4z74zcF7+K4AchDYdB+a/6lIGMCj+4JK8GhneTpGwLGdzswUgngUpxZZUjDaHFBfkVjmnXCHkvtDWTij3QAUwbPeTXjcyYD73keYvh08zCFN6xsLr0LB6prF3LbdRiVi3pl4HsrGGfE0XLMj00aktAa//CE3ya7joz4eSX5Utg/yp675YR6xCYuefySmq9YEbQVRM/rCgTduF6oRNNabQ3PsDcrLqwysOVQL8wKgmEErF5TkZX4JVUigUWPkAzXhIP/1xffj0GR7k0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=renm9du4FSxE6Fz31886PP5edb2pTqDhuw4Z3sEXpus=;
+ b=Nl6UN1zqjNejsnHpc78BO1RwJaZ8/fh0WbuTuL/eWUTpa550Gc5HKU+pd0QeJe4lb4xkJ/rXme9X63eJiVTGvmr2gxMT2QZq/K48PCjdh1csKJhJ7End6OrkrtZNEOYTn8P58jWL6W7LiZhxsGfA+4A896CiHFTgVf0vrXeD3MZSwPMgBWHyf76nlNA0UsN6PuISjXO53rcIGA2K9KeXfPE1f7Rc66Mz1owbsTUQoyDxkX9BOgDkaUcvqAKiKupRvxNvZQ94p4R5g1RvrIlqKbS+3SbQtD2gqoyC6urUmpjgSaBoFqsxbDs6IGRglyEq1n0r5PMubhK2yb0CZDeenQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CY5PR11MB6344.namprd11.prod.outlook.com (2603:10b6:930:3b::6) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by SJ2PR12MB8942.namprd12.prod.outlook.com (2603:10b6:a03:53b::8)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 06:18:33 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Thu, 15 Jan 2026
- 06:18:33 +0000
-Date: Wed, 14 Jan 2026 22:18:30 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-CC: Francois Dugast <francois.dugast@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Zi Yan
- <ziy@nvidia.com>, adhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy
- (CS GROUP)" <chleroy@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
- Hildenbrand" <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, "Andrew
- Morton" <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, "Leon
- Romanovsky" <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Balbir Singh
- <balbirs@nvidia.com>, <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>, 
- <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-mm@kvack.org>,
- <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v5 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-ID: <aWiGtlKI3LOtjUl6@lstrano-desk.jf.intel.com>
-References: <20260114192111.1267147-1-francois.dugast@intel.com>
- <20260114192111.1267147-2-francois.dugast@intel.com>
- <6spceodgfobizdaziju4yvvfydwvvik2wjyoyfuglozq533rgl@vmkotau3m3kw>
- <aWiBy3nZ4FrPYURF@lstrano-desk.jf.intel.com>
+ 2026 07:02:49 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::1f16:244a:2a9d:2c93]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::1f16:244a:2a9d:2c93%3]) with mapi id 15.20.9499.002; Thu, 15 Jan 2026
+ 07:02:49 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/4 RESEND] gpu/drm: tegra: dsi: add support for
+ Tegra20/Tegra30
+Date: Thu, 15 Jan 2026 16:02:46 +0900
+Message-ID: <9411928.T7Z3S40VBb@senjougahara>
+In-Reply-To: <20251204061703.5579-4-clamor95@gmail.com>
+References: <20251204061703.5579-1-clamor95@gmail.com>
+ <20251204061703.5579-4-clamor95@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aWiBy3nZ4FrPYURF@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: BYAPR07CA0102.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::43) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+X-ClientProxiedBy: TY4P286CA0059.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:371::6) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY5PR11MB6344:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6557f931-04eb-4354-f428-08de53fde8e5
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|SJ2PR12MB8942:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0485e5b-37d9-4ab5-c4fc-08de5404183a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?a2JtS3NNQ0RRbDJwQmhxYVVKWjN6WW1mQkN5MlpBMzZoMStaL0cySnl4Y3Ri?=
- =?utf-8?B?dk1McldsdVZxVmx5WWZLTlBCUERVU0dIZ2c4TnFpcElvcUJWc21QZHFicnFC?=
- =?utf-8?B?M0pPelZveWVxWjRMVHJRc3doczhVUVkrcThqVzlwbmNEQ2NBMVphQncxYTFl?=
- =?utf-8?B?bnA3ZUZPQ0k3UmlpcDdpZVh1NDJzNEN1OGRlRlNlRUtBY2IxUUpEZDZVME92?=
- =?utf-8?B?OEcxOXhpTnR3TURZazJnYjZEcEFjZFNUdU9VbTNhakluYWVnWjQ1OGcrSVQz?=
- =?utf-8?B?bGdRN29RYzM0Q0JzSUt1bXBOcG83aUIzNE9XK3loUGNSMExLM1FOOUttcWk3?=
- =?utf-8?B?MnZTZ3FuMlZrMkE0cStFeGsvUEowdFIxM2MzaGttMzR6VjIxeFIxVC93dWxZ?=
- =?utf-8?B?SlJSVkZRZUdKM0lvZHJHbDBOaXFjSVJhNWtPTWhHTURBbkdJb3UreU13RHZs?=
- =?utf-8?B?TVp2eWdTMWZGNVJVamtzdlVjZGQwRU1Tb0doYktUL0xpemhNSkkwTk9hWENk?=
- =?utf-8?B?L1dKeGN2K3o1WlprYUtDbzEwajZZdEFHWmxYZXVEemFBUVNYQmZlWC92UVhJ?=
- =?utf-8?B?bnk2N2dVS3hOYzZIZmMvSXZCK21KV2lFVXB4akhXQmYzaUtqSEE3UUlzUzBn?=
- =?utf-8?B?eUo4UmNQZkhWQzJ1YWk2T1dmMlVCVVZxdGVrdldQNmNpNjJBd3EzanI5T0li?=
- =?utf-8?B?cXBlakl2MjQ4QTZMcVIwS0JEZUxiaGs3S0FyVm51U04rYmlDczVUUm1Nd1JN?=
- =?utf-8?B?ZVNEMVZaVEFlU1pDeXpvMWRpS3lMbHZBdVVYLzlTdGttSlR6UjRBQjBlYWdV?=
- =?utf-8?B?MUd3czk5aGxpTFBaTTdqZmxqZ0xpRE1aa0c4aHJUb0FOQTgzQU5XOXhDWHRj?=
- =?utf-8?B?VmljTjFhdVpzRlFUekhSRFFrdTcxbHhSSHBEL0thbDlQRFl1cEREZVJ3aXVa?=
- =?utf-8?B?MCszay9yUXBnUXAyTjJjTUNURHRkZGsyZ0dQOFJaTnJUS1FUcnU4ZFBuWnRx?=
- =?utf-8?B?WXFvTURpOU1wVmxqMDFvOTE4UW1pMUxWeHdnK0REVk8wcVVlMkhSVlVYU3BI?=
- =?utf-8?B?SzVNNkNJREZFaGtjVFJpaVhKUFRYVUticlprcVVHb1FDUmI1bmtOVUZSaG54?=
- =?utf-8?B?OFFRQ2VQT3VDUng2UEZtTWRlWE5jb29NeFZjOXFJV2FVYVc4ZFMzWElUdnRp?=
- =?utf-8?B?blVrZzVhcmdoWGlhelNaYlpiU1Qyb0Nmb2QxRU5SQkV0aVdHUU95QXFmY2J4?=
- =?utf-8?B?ZG1HMUdoQW1idko1ZEl0RHlJWUFNc3lIRitBUkRYbkVvK3pXN05kVDdoMnlF?=
- =?utf-8?B?WTMvTk9tNUFLRFJ2RDNEZ1Z5QWExd3V2OHhKWlpLMjY3ZTVWOTAwS2NZOG91?=
- =?utf-8?B?N0NwMFpjaGhIT2VjeUZmTHFnVGlFUmo4L25XcUdPQ3hzWk1ZY1J5WEwxTWhF?=
- =?utf-8?B?V2RubnJ6MXU0MnpwMHVJR2FqZUVwbjc5TzhXTkR2RStjOEdrMEJQTDg0YnRl?=
- =?utf-8?B?dDFSNmh3S1IzYW9uUkl2dSs0VnhmT3Nmc21wenZPUHNEWmdrYVNLSEtYTEY0?=
- =?utf-8?B?cTZmU21rWGRzN21pMUdqU0kwNE1CNjAwSlNVWjFlV1N3ZDIyanVJL0tpWHpy?=
- =?utf-8?B?Q25jSDhjRWkzZFBjVzkyYktpY2h1SEUxcmJGWFh1dSsrbXp3eEZWcm81blgr?=
- =?utf-8?B?dnE5UU5nQmJpQXFaRkVmSmx4eTE2dHIxU2RteXNCVlByb0FQRTBOMXVwQUtU?=
- =?utf-8?B?WHM5bXZ0dUFGc1VwU3lIM0ozcndQYkd0VHZwdGxDbmhRUDA0dnBBTlhCN1Zu?=
- =?utf-8?B?MUhxeEswekg4VHRoV24vS0ZDczhGUWZHQjQySmZqRndCVXJ3M3BQb084K0VD?=
- =?utf-8?B?YU9pNVhlVGdnemMycTZXbUtxcU1EWnRIOVlTRFEvMklta2JvL1QwblF3czdS?=
- =?utf-8?B?VEc1aTh6RFBKTDdheW9VZEFSa3g4cG9PekExaG5aMHN0M3NvUzFlQWIvOFI5?=
- =?utf-8?B?bzdRZjZxVTlGTjJJTE1BWkhDSmRqTjd3QjZOYUJYTXd6d1k4NU1QcWdxVDda?=
- =?utf-8?Q?YaVxUF?=
+ ARA:13230040|1800799024|366016|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?anRvbGpUcjVlcXEyZVNzc2lXUW52dGNoazZsazJEUlBBVHFxaEF2SkZtc25t?=
+ =?utf-8?B?cEhkYVJmckN4TDM2aisvNDk4Zmk4UWRQcmZLdHVVdjdrSTU2Wlg4bGFNbG9s?=
+ =?utf-8?B?Y2JnU2RNTVZCMWJKdnhybXE4VTdYNndNS1VJTi9UTEZJYlJpTlVoOUk0Qm5t?=
+ =?utf-8?B?Rm14WTNEME9ZZTdpUFgrSE91dXMzVC9HM21CSlJaeklaNHo5eXlJOCtXQ3JJ?=
+ =?utf-8?B?SEszdCs4czA2K0QwVStPS1VIZW9uZUM2eXVROXJvTlpubWQ4cExDYWNTOHor?=
+ =?utf-8?B?US9tMm9XczNMOWdlVk9uKzdkWCs0c09iLytRVU9hQkNTaGx4NVpQUWs5WUZG?=
+ =?utf-8?B?eGxTWDdhcHRROUt4d2ZnQ0FTQ3g4ak5tdXdOYnVrNnZ5WWxMZzFRREQrWTA1?=
+ =?utf-8?B?VndDRS92VDBpeDlmTEFoaXYyTWlPbktkNHlYcTBMRDEyREJpdE4zZjVwSFl5?=
+ =?utf-8?B?TnF2enU2NkhTL01zcjFhaDZPT2Y3WnB0YzNjR01ZU0hKdU1yYndSUXEvN1Nm?=
+ =?utf-8?B?TFhZRGNZVWRFeVdoQWQwQndGeklHVlAxMFQ5OXJkOFh1NmV4YnFMQ1d3eGpv?=
+ =?utf-8?B?NzVkOUl2ZXpwOXhlSXZVM0p2Z2k4ZEZwcmlYZWpPbmdFaS9raCthSGxPYytJ?=
+ =?utf-8?B?bG1TSk94Rnd6WXBUY2tYOUUrS21hbks4VG00bmw3YnUyM2hTQVFtbXp5azdQ?=
+ =?utf-8?B?bDUyYlFXSXZUcnY4VHk5ZjI1cDVia2pSWUZ2SktXWFdYM0d1UWYvVk56Mm1I?=
+ =?utf-8?B?TlhFY2o4WnA4V0N2NWhXQ1UzRzI2UUplQjc1Qk54TDg0TlNWU3g4VUd5V1J1?=
+ =?utf-8?B?b2RuenI2VlZDTXZLd0xObUlpK08ybmxybG9HbnhKZko4SzRQRGVIcjFNUFVq?=
+ =?utf-8?B?NUd1TGh3WFg4dmwwU2lYZW9oZld3dzdUMUN6bTVXTENQRWpOYlhMeUl6WnFG?=
+ =?utf-8?B?RFBLL2E1SEl0NklNYnJLLzlnRjltdUpNbXhhYjlsdDBXVEJwU3lvWlFTRnJO?=
+ =?utf-8?B?L0JtWHFuaW52YTJpR0pUZm9KemIyRE9HZXRUcGpCcEJWLzA4Sm9UYWNVdGZE?=
+ =?utf-8?B?WmcvTmhndUxmUXgwRXowbFdlVk9wa0t5OFUrdHJTaDhybHBrK3RSeDRmY2Ey?=
+ =?utf-8?B?dFRQTHZWTXpteTk0ZkJtV2NxZk5Ha09sTWJaSDNrTThhOHhyeUFkeEtRTkNV?=
+ =?utf-8?B?cURuVWROR2tRZ0ZkcEp2dmF3MWJZbE5HY2ZkVEZQZi9NMmR1SkVaL1lGTG9F?=
+ =?utf-8?B?TEdha1dlVFVxSHFIS2Z0VHdKREQ5aGYwUFY2UmV3Rnc1cDQxWVJJUFFqZlZ4?=
+ =?utf-8?B?aFBhUzVDa2h1ZkRrd0JZSmNkelNoQ2VLZUlXUER6WkFMYlk3WmRjUmIrbkVC?=
+ =?utf-8?B?Mk90cWNNd3hiL3J6c3Jsc2I3RTBzMDgyWmw4WG9KcFFEdzBoSjNHTjZFVXVM?=
+ =?utf-8?B?a1prWEgzeWdHYk85cEUzd2U3YmNOcnR2bDlLSG5OOFZQWTdBVVpkUE1XbjI0?=
+ =?utf-8?B?RC9SZXJEMkl6enoxYm1KTW1YWXd3MndRTTh2emkzVVRPeFVKclI0Z0ZGZjUz?=
+ =?utf-8?B?S1hsZVJDMUNhS01YazYvc1JHcGU4QVBtYk9ER2Fsb25kRjh5dHJkYUFiZ2Rv?=
+ =?utf-8?B?SjFFckp3SXBDUUM1aG0wakJ3TU5tNWw3SXIxaDhmMW9LRmZXQ3ZjQXRVQ2NY?=
+ =?utf-8?B?c054K1BCamQzVnJFVkZNZWtGbGZIcHlUMkZrNnpnWHg2VUw0UHhuR2prMTFT?=
+ =?utf-8?B?SmQ1Wi9IN3JFZkJiemVDN2lsRnJMRjQ1cFBHcE1mMlhtZVVyRVFkb2FXY2dC?=
+ =?utf-8?B?YTdEeDVhRFhxc2FpRzVZU2hoQXI4VWxXQzdiV1E4dE5sR3ZxbFJOdGVmQmtk?=
+ =?utf-8?B?Y25IZUZsa0lzWFVTN1MzN0JBcXFRT2VJbm91UFUzRExrK3NNcmppbzUxRHRU?=
+ =?utf-8?B?b2psYjNBam51RDdIS2xGM1FlcG9FTG9rTWNYUlIvc2RLVnU3TWdReHVEWm9N?=
+ =?utf-8?B?aWFaYlZTTzQ4M0hMWks0M0VnQjU1V1RwYVhpWlgzRmkvT2V2bGVqalhMaVFw?=
+ =?utf-8?B?NTNjeFVuaUlJM2tkNXM3Wm9ORWhZSGxoNFBNWEEzbzRXK1JRUkJURFZ1eFls?=
+ =?utf-8?B?aDBYMHFTbUtRRk1jMGF0aDNKTFlKTXp1dkR3THZXQVhDSHRobHN6QS9TNTZR?=
+ =?utf-8?B?WEE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YW15MXg2emZoYXFNc1FjRWpuSE9ueTZ0QXRWOCtjSFpyaVU4V3FMTmtOVVJI?=
- =?utf-8?B?QjZ2YmZCY2Y3RXhkK1NMQ3VnSDFPUWtOQ0NvMEdPVmF3QjhIaVNQSklwQUl3?=
- =?utf-8?B?NWQ5RlRncWxEVjA3MnErWitRUGJhbmNMNkdqWWRtWCt3cE56cVB4UFNjbFFI?=
- =?utf-8?B?TnkrelRJaHNOUEtIb2JFVmhXcnV5TzROVnBRbmo2YXhTL2d3Ym9YZi81T24x?=
- =?utf-8?B?b1dHVW1qdjY5NytOK3BjVGkydXB4NlN1OU0wTG1RM29WSHZlcDR3bHlDWGRD?=
- =?utf-8?B?ckQvZmQrU2tFdno4QS83ZGNYZXYza1g5Q1Q1MnlLbUVwdU8wR1RkdEM3MGhG?=
- =?utf-8?B?WTZjOHZGT3B3UVAwTndmRjJwVitMMWZySEwzNFRTMjlFWE83TzVXTnM0cmky?=
- =?utf-8?B?K1ZxcktPK3JtYWx3Ni80ckdYSGJFYVFnZGNnM3lURXlNRVFvMFVGUG9iUm9R?=
- =?utf-8?B?M0RsWGg4TWVvekhiRXNLaGpPZXNqTkJCZ2NZMEdQU3dQNmt1VmFqekpRQ1BG?=
- =?utf-8?B?d0hXamp1REFXbVV2NEMvckhmdk52WmdqV2F1ZGU3dzRNRE5DMEpVTEd0d0pX?=
- =?utf-8?B?UVhaeWJUUnZqczUrL1JpNnd4Ui90UjZ0cXhYMnNSNUNVWmlReGtjaVExbjhr?=
- =?utf-8?B?OFJ1ZW9ieEZFWGFTWnhGb1dkUVlyWENMUkdEWHhIQkl6SkpVbjBrRDk3L1Z6?=
- =?utf-8?B?bXp6VFJ2d2I5TllMSUhQSXRleVE2NjBpNlZHRHVxUUdlNFpNUEdrS0x2RzV1?=
- =?utf-8?B?ZnZkQXVpckZJTVN1MWg2czVVWVRPZGxDaWZQV0haL0dnRTBHbTFhUllpaEN3?=
- =?utf-8?B?SzFoZG96d0t6dkZqZDgrdDJJQ2V0a3gyL3E5ODJnbmVpOFhyYkxvYTgrczlp?=
- =?utf-8?B?dlZIMk4yYjArcXRvNFBIRWQzK3g4ckxaejFWc05WYllGMTY1NkFXOElNS3lG?=
- =?utf-8?B?Z2o1UE95OHhMTUNaNWkrNTd3MHoxZnpsT2lHclI4aktNWEVhTEhaZ3YxUkwx?=
- =?utf-8?B?dWE0T0pBQWJaaWFzeDdWZGxibVphZVphNDZhN3VvT3NrMWhUendYUEc3Tm5p?=
- =?utf-8?B?dGU5U2VaUi9SdkY1NmRVcWNSTkdkTTFzeGFMVkxxY3RPY2dwSEtTK0NpWGlP?=
- =?utf-8?B?STVQQWFNaUVKYW1SaTB3Mi85NHoweU9DSW1WOHJ0bW9BckxQMEpRKzIrZi9q?=
- =?utf-8?B?dDdqcTdKTm1xOCt3TjZQMGNTTUdIV0hEZjREMWN3SVl2RmVxZUFUZXI0UkJr?=
- =?utf-8?B?WUsrZkQ5R054YTh6WmhxRWgycWV3MzBZZmxCektlZHR2cjlnb2JDU3V6ZzBF?=
- =?utf-8?B?aklrZmhGN1dQTzdxbWd0TnR6OUUraHIyL1Q0eDZXSTNmWk5YekJSV3IxRWZS?=
- =?utf-8?B?RUJxODA2SVVUOHJ0N3RJZSs3TzliQkg2dVIzZ0dHemVUeVB1TzM4UzVMbi9l?=
- =?utf-8?B?aXlLVjVWTWJCN2JPV21nZ2MrY2FKSzlPaUtmTW5yRHB0RVJ3L3JXaHVqdFlr?=
- =?utf-8?B?WkJnQ2lJL210TEZ2S3hWbjQ4V3BUTlpBQkl4QS9vazN4ZlVTYjRuMVpDV0Vm?=
- =?utf-8?B?T2ZVd1dLYS9DV05IMEJwYjdiUkUvTzBud1F5SXh5ZUdzRGpwL09tenpyUE1S?=
- =?utf-8?B?bHFpTVJldzRlSmk1UVFhQzJqeVMxYkxVbFZYZzQvWUtQbTkzeWJFSWpHUFI1?=
- =?utf-8?B?TzdxdlQ3MkxQMlhUZ0lmWnhTaHY5bUZoU1BBODB5UDZxM2FQVWw1M2JMUEEz?=
- =?utf-8?B?VUZQNVU5ajRMRDdoZ054ZjVnMENCenFobERFK0MyUUlXR2FzR1F2T3hhdFNH?=
- =?utf-8?B?VUNCeGRYWFFpL0N4UGRxMDhwTUw2NTRyZWJVU0FpUjU5MUlCUUFvSU9pSnUz?=
- =?utf-8?B?UXRDc1dWL0pUZk1QNnBLTWZEOUVjRGczN3ZiL1R0dGQ0ZytSRU9hUWptQzNr?=
- =?utf-8?B?MEJNUVM1bWc2aHNWZzc5ZlFBbCtiRS9SSnE1YXREWkp2Zk92MEJJYnZWazBM?=
- =?utf-8?B?WE1iVXVocWJhR0xvWDZrVGx2WGxUZGV2RWdZSmJBZWxyUXR4WVEyejdUN2JJ?=
- =?utf-8?B?NXBBTUo1a3ZKandJNkVHK1NWbThpOGVrUU5uZ3BISC9iU3UyU2dHVzlKbVFJ?=
- =?utf-8?B?ZlBJMzdscGxIY2ppT1V1ZkNRT2dHbWRla3JhWnMydDRpNThWbFZsUVdsclV4?=
- =?utf-8?B?MFlKZTRTd1BQUzdPakJXRld1TndXMXZFdS9uaXJ1L1hRMHl4Y3VKWW15dlJO?=
- =?utf-8?B?bjZZa2h0bzcrZk1Dajh4akxPdkN4bHVDSmpIZkdlUU0zRjVzY1V6L1ZaMkJX?=
- =?utf-8?B?N2VVUTUxMHd2eXVJRHlxUTJ3amwva1VrUy9tYzk0eEpsOFllaUo3K21FbGI1?=
- =?utf-8?Q?8wODi/HwlPjsd+i8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6557f931-04eb-4354-f428-08de53fde8e5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MU1keFMzQ01ZVlcwbXFzUys5UmNMZitkM3VwZHVmWStFZlEyWlYzdlNtMHJr?=
+ =?utf-8?B?c3FGUDRlUXNBZ095TmxHRnlaR2wzUlBtdzJVcFpPUUhvQmh0bzhhZG44RFor?=
+ =?utf-8?B?RTNpK1JBOHJTbldveXlERTYrZDNSZm9BTnhwa2dnVGRJRHRLcGZ5Lzg5R1Y0?=
+ =?utf-8?B?UUMyN0R0Nlk0TkhQNjNSeDBLbjFFUjBxVmMrSU04SXU4MGN5Si9VQmNPb1pC?=
+ =?utf-8?B?SXlDN2RNSHFYb0xQNFZub01pUW1pVFFscHZHdU9EK3I3V21Pc2kxbVc1Ykt0?=
+ =?utf-8?B?a09vNS9PZHdENVdsYkdPVFM0aGg0QURrQnVOaU5iNXBhNEl6L25oQkYxZzhv?=
+ =?utf-8?B?VmZqajJLUThvSmNLRmhibSs5NVdpZWJjVFFSa3BVRUJlQndoZVJKYW9GRjFL?=
+ =?utf-8?B?K1RlUUswUlpxS2FaMFZ0ZUZaVFRkVkRwakpaYjdoemtyZTlhdmlnOU9lOHJr?=
+ =?utf-8?B?SlFzZmlKNEFkeG8zMTNSZWVtNXd5Z1p3UFNlN0pKd0RyNkJmWXJRaTBpdGxF?=
+ =?utf-8?B?RnltV215SFJidk40TmtqMHplZjF1WHZzRHhRSkZ4dzlQdjlPc2poOC94UG5w?=
+ =?utf-8?B?VVlHbjMvaC9YUXFVZDV4UWk1UE9zbEFCVXo4V0xPS0k5Y1V2NlZZUnQzbit6?=
+ =?utf-8?B?K3V5c3VocVpoTUJmY3dNdzk5bVNJd2gyRkNWcWE5bGx4T0pabm5waEF3cTQr?=
+ =?utf-8?B?NCtRWjFvY3lLYTRxV25YckZhMk9oaXlGKzdrQUJCSXhUM25OMHh3cG1hN2ZT?=
+ =?utf-8?B?Y29udmhEVTYxaUZGNU9TRTVhb2MvQmo4Y3JhQTRiMDBrUHgvQm5mZFhnNlc5?=
+ =?utf-8?B?cHdrRnlLeHhQdXNvOEswN29MUnlGOXVKRXY3dEtIU1RrWFFEYnpTeU9VWFlF?=
+ =?utf-8?B?aFllZTdLZmQwNTNsSXZKSXVoamZkbTVOTHNzZmFCdVgxRlFSQklzYW90QXRB?=
+ =?utf-8?B?SWh1VHdiVEZBTUs5ZlNpZVA1TUlPdURpaHBzM3ZVOWtwMUdiUjNMaXdCRE4y?=
+ =?utf-8?B?RWRZTzVadWhObS8zMzY2eDVJUCs4WjNCNDhUS3N6ZnI1ODVUREhTT2E0dWkr?=
+ =?utf-8?B?ZmlDU0VUNmh6N2NPVXp4Rkl4WE5lNnB4NGNuZUcxYldHQWVYOUJnSmhYRUl5?=
+ =?utf-8?B?T0FuSFljdGxwbkhiV1Vta24yMDhkVUUwYkhxQ1AxZUNVOUsxMjFHOG9KOVN1?=
+ =?utf-8?B?ajJiRnhnZlVPRitXNVdMUUJFWHMzYnBieUhnTlBtdHJLTHd5VkNZZm9ZTVJv?=
+ =?utf-8?B?V2F1REpYbmF6Rkk2K3NCRU13RUo3bnUwcTlXam9NR0pTNUVIckk5MTdwTnhh?=
+ =?utf-8?B?VzhGSGVIdmtzaDVNM1FReXdIaG1jdGVSaHBudFIyTDFoai9xWE02aTZDcHNI?=
+ =?utf-8?B?QVJMV3NLZGhpNUR0ZjBQNXRrZy9sRjltL0NDWk5WWHlyemY5SFdXc1NySW1t?=
+ =?utf-8?B?SG9PY1FXUjNkNlV1NnIyM1lwTS93V3FKREZKakhrWDBrWkZOSVFKaVQvVGhi?=
+ =?utf-8?B?alVsejlacEk2bnNmcnk3RkUwalRRVUFqUDV6Q3FxbDAzb0Z5OXpzQVk0ZlJF?=
+ =?utf-8?B?Q1hVL0VJNHVVNlhVRkZEdzd4aEczeERTbHk4clVmbnFKaWhtSVJWTjExem85?=
+ =?utf-8?B?RHRkb0VzYko0RXJwcG8xWDRsNzRQUzd5UTIrU3JwZlZEVXczM1RpMGNOeDdt?=
+ =?utf-8?B?elZQZUxmTTJFbFIrM3N6RndCQWwvak91U1hPWGpuVWhibUVvaDNRb0NMSk9R?=
+ =?utf-8?B?V3JpZE1tTEp6c1htYkJSOWEraXVBUlpweWhPaXJaTkpadkYrc29iT3U4Z2dD?=
+ =?utf-8?B?OE5qQnlHK1ZNMUJvSDlqUExZZnhLWEw0Wm5WelIrQjVjUC94NURCZTkzL1Er?=
+ =?utf-8?B?N1ZJTk8wdzBaeDIrUGJ0WkRNVkI4M0xxQUVCQzVkbkJyS2FlMmt3c0pXS2Nq?=
+ =?utf-8?B?UHRWcGpVN3dTNnJEbnhaSk5lRDdzYlZBellMcENLT0dWVG5LU1ROZ2YwZmpX?=
+ =?utf-8?B?ZW9UU0ZpbnNEWUIwa3kya3YrVDZ5aGpYZ0xYNm5YY3RSZFlWd3BYZXEyNWMx?=
+ =?utf-8?B?NkpWL1dWcU9nVVNVUHpQeEFpcWtscTg2TzJKR3ZOMy8vMmhFTXFwTWF6dE9o?=
+ =?utf-8?B?ZURhamZ3aGJ3RWlXWkNCYVpUZG9Bbjhvcm40aG1uY2pON0xIaFdzdFpaOEg0?=
+ =?utf-8?B?dktLYXo4clZaYkVxd2VNL3hEZ3NNenJFOWFMR094V0JBUnVVajRLM0NFWjVw?=
+ =?utf-8?B?R24vWXFBL0N1SmFwK2Erdlc2bjNnYy9DZXFDbkhOa3ZTYnlFN3ZuQThFY0Ft?=
+ =?utf-8?B?VWwzaHB5TjZpdiswSCtiellqRXltdmsraHl2SWU4RS9yS3VIeTIyUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0485e5b-37d9-4ab5-c4fc-08de5404183a
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 06:18:33.3998 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:02:49.7602 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aF2PulZYF12FOyeTecPzHCdLaFGGKWI4ziRnUmbrDKEBXsd8X2k198meu1m3YiEWXQW8BV0CZhdrE96MIv71AQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6344
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: ckhtOTLT5Q7PGlV4QOWG+0hq7kmFB2PyuHuBzUl2qgSJD4bOf4iZMGQkWors4yJyoBBhmjkqjrRu65MKcIbndQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8942
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -224,253 +182,262 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 14, 2026 at 09:57:31PM -0800, Matthew Brost wrote:
-> On Thu, Jan 15, 2026 at 04:27:26PM +1100, Alistair Popple wrote:
-> > On 2026-01-15 at 06:19 +1100, Francois Dugast <francois.dugast@intel.com> wrote...
-> > > From: Matthew Brost <matthew.brost@intel.com>
-> > > 
-> > > Reinitialize metadata for large zone device private folios in
-> > > zone_device_page_init prior to creating a higher-order zone device
-> > > private folio. This step is necessary when the folio’s order changes
-> > > dynamically between zone_device_page_init calls to avoid building a
-> > > corrupt folio. As part of the metadata reinitialization, the dev_pagemap
-> > > must be passed in from the caller because the pgmap stored in the folio
-> > > page may have been overwritten with a compound head.
-> > 
-> > Thanks for fixing, a couple of minor comments below.
-> > 
-> > > Cc: Zi Yan <ziy@nvidia.com>
-> > > Cc: Alistair Popple <apopple@nvidia.com>
-> > > Cc: adhavan Srinivasan <maddy@linux.ibm.com>
-> > > Cc: Nicholas Piggin <npiggin@gmail.com>
-> > > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > > Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-> > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > Cc: David Airlie <airlied@gmail.com>
-> > > Cc: Simona Vetter <simona@ffwll.ch>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: Lyude Paul <lyude@redhat.com>
-> > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > Cc: David Hildenbrand <david@kernel.org>
-> > > Cc: Oscar Salvador <osalvador@suse.de>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > Cc: Leon Romanovsky <leon@kernel.org>
-> > > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > > Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-> > > Cc: Vlastimil Babka <vbabka@suse.cz>
-> > > Cc: Mike Rapoport <rppt@kernel.org>
-> > > Cc: Suren Baghdasaryan <surenb@google.com>
-> > > Cc: Michal Hocko <mhocko@suse.com>
-> > > Cc: Balbir Singh <balbirs@nvidia.com>
-> > > Cc: linuxppc-dev@lists.ozlabs.org
-> > > Cc: kvm@vger.kernel.org
-> > > Cc: linux-kernel@vger.kernel.org
-> > > Cc: amd-gfx@lists.freedesktop.org
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: nouveau@lists.freedesktop.org
-> > > Cc: linux-mm@kvack.org
-> > > Cc: linux-cxl@vger.kernel.org
-> > > Fixes: d245f9b4ab80 ("mm/zone_device: support large zone device private folios")
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> > > ---
-> > >  arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
-> > >  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  2 +-
-> > >  drivers/gpu/drm/drm_pagemap.c            |  2 +-
-> > >  drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
-> > >  include/linux/memremap.h                 |  9 ++++++---
-> > >  lib/test_hmm.c                           |  4 +++-
-> > >  mm/memremap.c                            | 20 +++++++++++++++++++-
-> > >  7 files changed, 32 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > index e5000bef90f2..7cf9310de0ec 100644
-> > > --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> > > @@ -723,7 +723,7 @@ static struct page *kvmppc_uvmem_get_page(unsigned long gpa, struct kvm *kvm)
-> > >  
-> > >  	dpage = pfn_to_page(uvmem_pfn);
-> > >  	dpage->zone_device_data = pvt;
-> > > -	zone_device_page_init(dpage, 0);
-> > > +	zone_device_page_init(dpage, &kvmppc_uvmem_pgmap, 0);
-> > >  	return dpage;
-> > >  out_clear:
-> > >  	spin_lock(&kvmppc_uvmem_bitmap_lock);
-> > > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > index af53e796ea1b..6ada7b4af7c6 100644
-> > > --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> > > @@ -217,7 +217,7 @@ svm_migrate_get_vram_page(struct svm_range *prange, unsigned long pfn)
-> > >  	page = pfn_to_page(pfn);
-> > >  	svm_range_bo_ref(prange->svm_bo);
-> > >  	page->zone_device_data = prange->svm_bo;
-> > > -	zone_device_page_init(page, 0);
-> > > +	zone_device_page_init(page, page_pgmap(page), 0);
-> > >  }
-> > >  
-> > >  static void
-> > > diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-> > > index 03ee39a761a4..c497726b0147 100644
-> > > --- a/drivers/gpu/drm/drm_pagemap.c
-> > > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > > @@ -201,7 +201,7 @@ static void drm_pagemap_get_devmem_page(struct page *page,
-> > >  					struct drm_pagemap_zdd *zdd)
-> > >  {
-> > >  	page->zone_device_data = drm_pagemap_zdd_get(zdd);
-> > > -	zone_device_page_init(page, 0);
-> > > +	zone_device_page_init(page, zdd->dpagemap->pagemap, 0);
-> > >  }
-> > >  
-> > >  /**
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > index 58071652679d..3d8031296eed 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > @@ -425,7 +425,7 @@ nouveau_dmem_page_alloc_locked(struct nouveau_drm *drm, bool is_large)
-> > >  			order = ilog2(DMEM_CHUNK_NPAGES);
-> > >  	}
-> > >  
-> > > -	zone_device_folio_init(folio, order);
-> > > +	zone_device_folio_init(folio, page_pgmap(folio_page(folio, 0)), order);
-> > >  	return page;
-> > >  }
-> > >  
-> > > diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> > > index 713ec0435b48..e3c2ccf872a8 100644
-> > > --- a/include/linux/memremap.h
-> > > +++ b/include/linux/memremap.h
-> > > @@ -224,7 +224,8 @@ static inline bool is_fsdax_page(const struct page *page)
-> > >  }
-> > >  
-> > >  #ifdef CONFIG_ZONE_DEVICE
-> > > -void zone_device_page_init(struct page *page, unsigned int order);
-> > > +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-> > > +			   unsigned int order);
-> > >  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> > >  void memunmap_pages(struct dev_pagemap *pgmap);
-> > >  void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
-> > > @@ -234,9 +235,11 @@ bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
-> > >  
-> > >  unsigned long memremap_compat_align(void);
-> > >  
-> > > -static inline void zone_device_folio_init(struct folio *folio, unsigned int order)
-> > > +static inline void zone_device_folio_init(struct folio *folio,
-> > > +					  struct dev_pagemap *pgmap,
-> > > +					  unsigned int order)
-> > >  {
-> > > -	zone_device_page_init(&folio->page, order);
-> > > +	zone_device_page_init(&folio->page, pgmap, order);
-> > >  	if (order)
-> > >  		folio_set_large_rmappable(folio);
-> > >  }
-> > > diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> > > index 8af169d3873a..455a6862ae50 100644
-> > > --- a/lib/test_hmm.c
-> > > +++ b/lib/test_hmm.c
-> > > @@ -662,7 +662,9 @@ static struct page *dmirror_devmem_alloc_page(struct dmirror *dmirror,
-> > >  			goto error;
-> > >  	}
-> > >  
-> > > -	zone_device_folio_init(page_folio(dpage), order);
-> > > +	zone_device_folio_init(page_folio(dpage),
-> > > +			       page_pgmap(folio_page(page_folio(dpage), 0)),
-> > > +			       order);
-> > >  	dpage->zone_device_data = rpage;
-> > >  	return dpage;
-> > >  
-> > > diff --git a/mm/memremap.c b/mm/memremap.c
-> > > index 63c6ab4fdf08..6f46ab14662b 100644
-> > > --- a/mm/memremap.c
-> > > +++ b/mm/memremap.c
-> > > @@ -477,10 +477,28 @@ void free_zone_device_folio(struct folio *folio)
-> > >  	}
-> > >  }
-> > >  
-> > > -void zone_device_page_init(struct page *page, unsigned int order)
-> > > +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-> > > +			   unsigned int order)
-> > >  {
-> > > +	struct page *new_page = page;
-> > > +	unsigned int i;
-> > > +
-> > >  	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
-> > >  
-> > > +	for (i = 0; i < (1UL << order); ++i, ++new_page) {
-> > > +		struct folio *new_folio = (struct folio *)new_page;
-> > > +
-> > > +		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
-> > 
-> > This seems odd to me, mainly due to the "magic" number. Why not just clear
-> > the flags entirely? Or at least explicitly just clear the flags you care about
-> > which would remove the need for the comment and  should let you use the proper
-> > PageFlag functions.
-> > 
-> 
-> I'm copying this from folio_reset_order [1]. My paranoia about touching
-> anything related to struct page is high, so I did the same thing
-> folio_reset_order does here.
-> 
-> [1] https://elixir.bootlin.com/linux/v6.18.5/source/include/linux/mm.h#L1075
-> 
+On Thursday, December 4, 2025 3:17=E2=80=AFPM Svyatoslav Ryhel wrote:
+> Tegra20 and Tegra30 are fully compatible with existing tegra DSI driver
+> apart from clock configuration and PAD calibration which are addressed by
+> this patch.
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/drm.c |  2 +
+>  drivers/gpu/drm/tegra/dsi.c | 88 ++++++++++++++++++++++++-------------
+>  drivers/gpu/drm/tegra/dsi.h | 15 +++++++
+>  3 files changed, 74 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index 4596073fe28f..5d64cd57e764 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, host1=
+x_drm_suspend,
+> =20
+>  static const struct of_device_id host1x_drm_subdevs[] =3D {
+>  	{ .compatible =3D "nvidia,tegra20-dc", },
+> +	{ .compatible =3D "nvidia,tegra20-dsi", },
+>  	{ .compatible =3D "nvidia,tegra20-hdmi", },
+>  	{ .compatible =3D "nvidia,tegra20-gr2d", },
+>  	{ .compatible =3D "nvidia,tegra20-gr3d", },
+>  	{ .compatible =3D "nvidia,tegra30-dc", },
+> +	{ .compatible =3D "nvidia,tegra30-dsi", },
+>  	{ .compatible =3D "nvidia,tegra30-hdmi", },
+>  	{ .compatible =3D "nvidia,tegra30-gr2d", },
+>  	{ .compatible =3D "nvidia,tegra30-gr3d", },
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index 8e80c7efe8b4..d079aa7d2a85 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -53,6 +53,10 @@ to_dsi_state(struct drm_connector_state *state)
+>  	return container_of(state, struct tegra_dsi_state, base);
+>  }
+> =20
+> +struct tegra_dsi_config {
+> +	u32 dsi_version;
 
-This immediately hangs my first SVM test...
+Rather than a dsi_version field, we should have something that describes th=
+e difference. e.g. 'bool has_multiple_pad_controls' being true for the "V1"=
+ hardware.
 
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 6f46ab14662b..ef8c56876cf5 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -488,7 +488,7 @@ void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-        for (i = 0; i < (1UL << order); ++i, ++new_page) {
-                struct folio *new_folio = (struct folio *)new_page;
+> +};
+> +
+>  struct tegra_dsi {
+>  	struct host1x_client client;
+>  	struct tegra_output output;
+> @@ -82,6 +86,8 @@ struct tegra_dsi {
+>  	/* for ganged-mode support */
+>  	struct tegra_dsi *master;
+>  	struct tegra_dsi *slave;
+> +
+> +	const struct tegra_dsi_config *config;
+>  };
+> =20
+>  static inline struct tegra_dsi *
+> @@ -663,39 +669,46 @@ static int tegra_dsi_pad_enable(struct tegra_dsi *d=
+si)
+>  {
+>  	u32 value;
+> =20
+> -	value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
+> -	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> +	if (dsi->config->dsi_version =3D=3D TEGRA_DSI_V1) {
+> +		/*
+> +		 * XXX Is this still needed? The module reset is deasserted right
+> +		 * before this function is called.
+> +		 */
+> +		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+> +		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+> +		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+> +		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+> +		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+> +
+> +		value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
+> +		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> +
+> +		value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+> +			DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+> +			DSI_PAD_OUT_CLK(0x0);
+> +		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+> +
+> +		value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
+> +			DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+> +		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+> +	} else {
+> +		value =3D DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTROL_LPDNADJ(0x1) =
+|
+> +			DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_SLEWDNADJ(0x6) |
+> +			DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTROL_PDIO(0) |
+> +			DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PULLDN_ENAB(0);
+> +		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> +	}
+> =20
+>  	return 0;
+>  }
+> =20
+>  static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
+>  {
+> -	u32 value;
+>  	int err;
+> =20
+> -	/*
+> -	 * XXX Is this still needed? The module reset is deasserted right
+> -	 * before this function is called.
+> -	 */
+> -	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+> -	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+> -	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+> -	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+> -	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+> -
+>  	/* start calibration */
+>  	tegra_dsi_pad_enable(dsi);
+> =20
+> -	value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+> -		DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+> -		DSI_PAD_OUT_CLK(0x0);
+> -	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+> -
+> -	value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
+> -		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+> -	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+> -
+>  	err =3D tegra_mipi_start_calibration(dsi->mipi);
+>  	if (err < 0)
+>  		return err;
+> @@ -1577,6 +1590,7 @@ static int tegra_dsi_probe(struct platform_device *=
+pdev)
+>  	if (!dsi)
+>  		return -ENOMEM;
+> =20
+> +	dsi->config =3D of_device_get_match_data(&pdev->dev);
+>  	dsi->output.dev =3D dsi->dev =3D &pdev->dev;
+>  	dsi->video_fifo_depth =3D 1920;
+>  	dsi->host_fifo_depth =3D 64;
+> @@ -1615,7 +1629,7 @@ static int tegra_dsi_probe(struct platform_device *=
+pdev)
+>  		goto remove;
+>  	}
+> =20
+> -	dsi->clk_lp =3D devm_clk_get(&pdev->dev, "lp");
+> +	dsi->clk_lp =3D devm_clk_get_optional(&pdev->dev, "lp");
+>  	if (IS_ERR(dsi->clk_lp)) {
+>  		err =3D dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
+>  				    "cannot get low-power clock\n");
+> @@ -1636,10 +1650,12 @@ static int tegra_dsi_probe(struct platform_device=
+ *pdev)
+>  		goto remove;
+>  	}
+> =20
+> -	err =3D tegra_dsi_setup_clocks(dsi);
 
--               new_page->flags.f &= ~0xffUL;   /* Clear possible order, page head */
-+               new_page->flags.f = 0;
- #ifdef NR_PAGES_IN_LARGE_FOLIO
-                ((struct folio *)(new_page - 1))->_nr_pages = 0;
- #endif
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "cannot setup clocks\n");
+> -		goto remove;
+> +	if (dsi->config->dsi_version =3D=3D TEGRA_DSI_V1) {
 
-I can walk through exactly which flags need to be cleared, but my
-feeling is that likely any flag that the order field overloads and can
-possibly encode should be cleared—so bits 0–7 based on the existing
-code.
+And 'has_mux_parent_clk', perhaps? Not a very good name, if you come up wit=
+h something better feel free to use it.
 
-How about in a follow-up we normalize setting / clearing the order flag
-field with a #define and an inline helper?
+I checked, and looks like Tegra30 in fact allows DSIA/DSIB to be muxed to e=
+ither PLL_D or PLL_D2, it is just not modelled in the clock driver. The sam=
+e applies to all of Tegra114, 124, and 210, but only Tegra114 has it presen=
+tly modelled as a mux whereas 124 and 210 have a gate. The TRMs for 124 and=
+ 210 specify that only PLL_D can be used in the mux bit documentation so th=
+e bit is probably dysfunctional on those chips.
 
-Matt
+The correct solution, hence, I think is to have that config field, and it b=
+e false for Tegra20, 124, and 210; and true for Tegra30, and 114. Then impl=
+ement the mux clock in the Tegra30 clock driver.
 
-> > > +#ifdef NR_PAGES_IN_LARGE_FOLIO
-> > > +		((struct folio *)(new_page - 1))->_nr_pages = 0;
-> > > +#endif
-> > > +		new_folio->mapping = NULL;
-> > > +		new_folio->pgmap = pgmap;	/* Also clear compound head */
-> > > +		new_folio->share = 0;   /* fsdax only, unused for device private */
-> > 
-> > It would be nice if the FS DAX code actually used this as well. Is there a
-> > reason that change was dropped from the series?
-> > 
-> 
-> I don't have a test platform for FS DAX. In prior revisions, I was just
-> moving existing FS DAX code to a helper, which I felt confident about.
-> 
-> This revision is slightly different, and I don't feel comfortable
-> modifying FS DAX code without a test platform. I agree we should update
-> FS DAX, but that should be done in a follow-up with coordinated testing.
-> 
-> Matt 
-> 
-> > > +		VM_WARN_ON_FOLIO(folio_ref_count(new_folio), new_folio);
-> > > +		VM_WARN_ON_FOLIO(!folio_is_zone_device(new_folio), new_folio);
-> > > +	}
-> > > +
-> > >  	/*
-> > >  	 * Drivers shouldn't be allocating pages after calling
-> > >  	 * memunmap_pages().
-> > > -- 
-> > > 2.43.0
-> > > 
+However, I would settle for setting it to false for both Tegra20 and Tegra3=
+0 and leaving a comment next to the Tegra30 entry describing the situation =
+(the mux clock is not currently modelled).
+
+Cheers,
+Mikko
+
+> +		err =3D tegra_dsi_setup_clocks(dsi);
+> +		if (err < 0) {
+> +			dev_err(&pdev->dev, "cannot setup clocks\n");
+> +			goto remove;
+> +		}
+>  	}
+> =20
+>  	dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> @@ -1703,11 +1719,21 @@ static void tegra_dsi_remove(struct platform_devi=
+ce *pdev)
+>  	tegra_mipi_free(dsi->mipi);
+>  }
+> =20
+> +static const struct tegra_dsi_config tegra20_dsi_config =3D {
+> +	.dsi_version =3D TEGRA_DSI_V0,
+> +};
+> +
+> +static const struct tegra_dsi_config tegra114_dsi_config =3D {
+> +	.dsi_version =3D TEGRA_DSI_V1,
+> +};
+> +
+>  static const struct of_device_id tegra_dsi_of_match[] =3D {
+> -	{ .compatible =3D "nvidia,tegra210-dsi", },
+> -	{ .compatible =3D "nvidia,tegra132-dsi", },
+> -	{ .compatible =3D "nvidia,tegra124-dsi", },
+> -	{ .compatible =3D "nvidia,tegra114-dsi", },
+> +	{ .compatible =3D "nvidia,tegra210-dsi", .data =3D &tegra114_dsi_config=
+ },
+> +	{ .compatible =3D "nvidia,tegra132-dsi", .data =3D &tegra114_dsi_config=
+ },
+> +	{ .compatible =3D "nvidia,tegra124-dsi", .data =3D &tegra114_dsi_config=
+ },
+> +	{ .compatible =3D "nvidia,tegra114-dsi", .data =3D &tegra114_dsi_config=
+ },
+> +	{ .compatible =3D "nvidia,tegra30-dsi", .data =3D &tegra20_dsi_config }=
+,
+> +	{ .compatible =3D "nvidia,tegra20-dsi", .data =3D &tegra20_dsi_config }=
+,
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
+> diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
+> index f39594e65e97..5049ec7813c7 100644
+> --- a/drivers/gpu/drm/tegra/dsi.h
+> +++ b/drivers/gpu/drm/tegra/dsi.h
+> @@ -95,6 +95,16 @@
+>  #define DSI_TALLY_LRX(x)		(((x) & 0xff) <<  8)
+>  #define DSI_TALLY_HTX(x)		(((x) & 0xff) <<  0)
+>  #define DSI_PAD_CONTROL_0		0x4b
+> +/* DSI V0 */
+> +#define DSI_PAD_CONTROL_PULLDN_ENAB(x)	(((x) & 0x1) << 28)
+> +#define DSI_PAD_CONTROL_SLEWUPADJ(x)	(((x) & 0x7) << 24)
+> +#define DSI_PAD_CONTROL_SLEWDNADJ(x)	(((x) & 0x7) << 20)
+> +#define DSI_PAD_CONTROL_PREEMP_EN(x)	(((x) & 0x1) << 19)
+> +#define DSI_PAD_CONTROL_PDIO_CLK(x)	(((x) & 0x1) << 18)
+> +#define DSI_PAD_CONTROL_PDIO(x)		(((x) & 0x3) << 16)
+> +#define DSI_PAD_CONTROL_LPUPADJ(x)	(((x) & 0x3) << 14)
+> +#define DSI_PAD_CONTROL_LPDNADJ(x)	(((x) & 0x3) << 12)
+> +/* DSI V1 */
+>  #define DSI_PAD_CONTROL_VS1_PDIO(x)	(((x) & 0xf) <<  0)
+>  #define DSI_PAD_CONTROL_VS1_PDIO_CLK	(1 <<  8)
+>  #define DSI_PAD_CONTROL_VS1_PULLDN(x)	(((x) & 0xf) << 16)
+> @@ -140,4 +150,9 @@ enum tegra_dsi_format {
+>  	TEGRA_DSI_FORMAT_24P,
+>  };
+> =20
+> +enum tegra_dsi_version {
+> +	TEGRA_DSI_V0,
+> +	TEGRA_DSI_V1,
+> +};
+> +
+>  #endif
+>=20
+
+
+
+
