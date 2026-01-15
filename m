@@ -2,139 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A9CD289CC
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 22:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88BFD289D3
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jan 2026 22:06:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29FEA10E7C7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2982510E7C2;
 	Thu, 15 Jan 2026 21:05:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kt2BpJnn";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Bdwc1rP5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="l13oVhuM";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YmaTpQmt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A966C10E229
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:53 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E53A10E7C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:54 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60FFYGKk2866215
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:52 GMT
+ 60FFYV8a2174880
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0yRH0jhM+jYWwNefo6O7EEWAY8TK9lDYV3nnRimBBgE=; b=kt2BpJnnIOPLzb/t
- T2pQToVIm4jefcFKAFEYgb0B3YH+X5CDOVZEUiMybZNAXiR/gI9BELDAiclL/ekt
- w78XrUzdrmPmC4w2FvkjprATZ8djSOYZE/CbPO0Pq3Wlf0U4AjIasTLI9o8LeB7M
- VRBOYqCMmZXrM7oITIn+IW/RXRICEZrRXolJ5BJE3LPxyKUjX60tP1Ry9sn+WgNb
- xpDmcjD/3GyabZdva9bylTKTgtHuiXheAKseI2cZ2X3+F45KNjaL8in/KoIQwmm9
- eNxeAmTXXGEuUSu2rQT2MXjRc9g1juOY/1umNc+EETJorixJ5pTg9yvN2YYzZomm
- DVk7Ww==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bptu2jfga-1
+ jC8lA6B0ipWoMHR75M2AQCJx5qPi+JNV6zZXo9VKefg=; b=l13oVhuMfVG9bJJC
+ o3w4j4Dcm0fBhXvn/AW1LW9YGKandwyzAVGNoUQ+UDhD4dmAjY+hp07mdC9S1fCk
+ tAWdHZRNFtvV8YjYzEPhMhZ2EvOLvKTWgNW7wu/Vj3ofVOrkNnfDrFOo3w6VocS4
+ gBQGUxTl4kw1R3etUcDHof9VLHHrRAYtAu9MC0dopweshkNjAeEBUHBBltr4uF8V
+ qxVH/iUYv4FDWbYFYtAFXAoW8IgNeVAt6X4YL10bDJjGojxo+i99xmiCeTMn4B0P
+ cfur3HRG5GThOS/DIrNEjrXPGtwUx9kpy3RVld6F8THH9cLvG/8H7J42G9pSPFXL
+ YkShlQ==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq1xh97me-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:52 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8c5e166fb75so335628985a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:05:52 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 21:05:54 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-88a47331c39so30843466d6.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 13:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768511152; x=1769115952;
+ d=oss.qualcomm.com; s=google; t=1768511153; x=1769115953;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0yRH0jhM+jYWwNefo6O7EEWAY8TK9lDYV3nnRimBBgE=;
- b=Bdwc1rP58dwC5yZkqX+kzylYGitkZvPiqcywdiT7jiH+6fCnzliaNl1YlpFyavUcpb
- bp9QI9Nkdji2l9luOXxefNgQcHzj7uUy2xWgVQdstC9vluC2c8EKJRYaHhzi1suFo0kF
- V9K0Z6J7TP/wGMcD6L/p6HbD3e/SmLOCPzDFOL1tjb8SCKZJvZ/govQQ27TIZ6cVZaM1
- 9cxtJW3ixLtEDf3R6j9a+TlEa8hO97MifhPgFDEVsMiqv1Y/8s27AawYsLI3iP/K0wZu
- 1gjvoE/4nPUrDNMcOgP7efPXV2pdPCLKQxoV5WKn7qGVA1h/eoMi4ZLTDadprayC+nzy
- 6ObQ==
+ bh=jC8lA6B0ipWoMHR75M2AQCJx5qPi+JNV6zZXo9VKefg=;
+ b=YmaTpQmtLlD8VxTE46Jc5PPVSNFGSZsO8AhC7YQHOEoyB3dIG/NcnFTCgqMCDn7uxu
+ idWB4yIR7koTYMEvjzlGoXJJ64J1kYQnCQ5XdU5fzECaO/3WoNR+ikqMuVDHiqD9N+mn
+ wFjtR/8Q6FGa8PfuAizAiGZMSWN/mGLS4lWoHNr98/UhUAF9dxz/GTm8NPMfG+Ro0V8a
+ 3bBSVA6STOPXgB4hEnK0AuvXawtUu+PtTtYQbtpvWUFn0bYDIcmg5Mlr0aUzQC7fQx6m
+ YI4cVh95q7c9+Z+xrVzA8zsu/Qoee38HUbk93Bhnb8o9n4bVtRhxFlxvUJ8/ph1fuU44
+ +cjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768511152; x=1769115952;
+ d=1e100.net; s=20230601; t=1768511153; x=1769115953;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=0yRH0jhM+jYWwNefo6O7EEWAY8TK9lDYV3nnRimBBgE=;
- b=b/fNUGmcvasw9UpgLUTqbpWPvnC5UThFlJBH2qieQol5xix43qcyVW93DV1ovFSakL
- nsq0GwXK8CDa+NaP0UepZG5z0OEBEea18MZCbVCuGAwko46K9EBSelNGxdFwSITnKCy4
- HxWgyaMpuVkTLJ18xualm8p4o4JxGO7Js7sLaCiyZsPw653m+bKuetBw9mOGwTOaizv2
- aDrefSC7O+fjBTP9in1FDWIuFMwmkuYBMkKEFmrb5QIcU/A04321pj+5EzRoBoyKgFPH
- ij/MDl0eL6leepa3gekh9F84Y0jMzTdmVZoOM6YdU40lrEgH9H2mSAgDtXGrL55cvq0r
- Ko4w==
+ bh=jC8lA6B0ipWoMHR75M2AQCJx5qPi+JNV6zZXo9VKefg=;
+ b=vggWbtWE2s3eaPgbA9NvoAfD9kPZSuOQ9kHBKC1Qb40JAe5owE5rNwpTMXjqhEp60B
+ 4Fxyload6ICFpxvaaIu+Uj6NpVwZGO3A6QqSQj//idHWMLWTDEBtoMVSqvlsfGIW0Cv9
+ BA9wBCHML/hhjb0ZnfJ8KA8zRbFvk1aXuJoOoK0s33v4CLmcT9wMSuoYyEOu1pTKN1/7
+ gT4cXN2MgAVfCWhdKqeF23SfJMpyEGR9HD37oScznTnGUiDhgQ+CxTTYH7FQFBHvFq5S
+ AjbBHmHYzCiME4YJ7KAxPlfNQ8aQwteW4U+wIFx+9vE4YhsEn8/njInnE1KYwB4TxoS0
+ RPtA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVKWvu3ustlqBFSRrvYJu2LzV3G/fou7tsNM81POt4+/iMAaXirUWk50EIHXOOud598skRQ+M/riXs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCE6XdDLkIU/OwIAgS1JINN/hZZ7jePWfqsgTr2jn24DnRrsPB
- 6gRDBJw9f7EjQL6WCkdtDqk8inJK2LZOygiWPulgfkCSBjiqKDyY7gMznxjb5ZtIEgk+sPPd45a
- JG/VmD+Yq+1Dgvg2c6Rjm/zDWzCj9DV1lBjxrqWz0X2s/qKXH7g4P5TaBNpvp6NdB7sNck08=
-X-Gm-Gg: AY/fxX4f3nlsewWQiHzobGofkTlYV1ow6B28Lyi61FS94ukz43yBKY9GcMlubbKb8t3
- BhZujIz7mBoSci6OXKu3wpOYXxJ0zZ8vr6iK87l5z7mraS8JftEyX715aaN2BEj4eUUFKKWmxKI
- lzFhv3Gk9Kak3Xiv8Ag4klrSTl6ngweqJkMqFe1ZX1nV7YJmiU2V0ANxh6D8KqjWAuM8BTP3rGM
- Sz0IshNKVfxU0/S6s3zJ1HbNP/042HL4318EtXvlSRrgaLrTeHjluobHMA8cJO7bdq1bWBZYW6I
- 3CXoE/2A8OHAC83KSmnAqnQHdSLVat1AYWUQzHoAQIADSR/dhlzU4F1BHmAr/dip9xE8sqsCjMh
- 6AyS8NfAuU4pb6SNI1OcnXNQ7M5IuMmQd+hKw5/B4CfWdTfYs+nfu8N/NftxLt26kXg6IoYlGAx
- YXDaCOUOx09xSM7/DGuUF+lcU=
-X-Received: by 2002:a05:620a:4155:b0:8a2:bff5:40d9 with SMTP id
- af79cd13be357-8c6a66d1590mr131378385a.16.1768511152117; 
- Thu, 15 Jan 2026 13:05:52 -0800 (PST)
-X-Received: by 2002:a05:620a:4155:b0:8a2:bff5:40d9 with SMTP id
- af79cd13be357-8c6a66d1590mr131373485a.16.1768511151666; 
- Thu, 15 Jan 2026 13:05:51 -0800 (PST)
+ AJvYcCVTUT4J2bDyV0J1HemKovwRbpyVJwiWWP3thTAMHF581DUTnqv4zCNPxjw8u9jYtNjh8wbgwqiUNGQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywi+Tzc0SJCsC4M33dLaI/DEb4aWERMTvvRBE3mB77ae9e4XR/E
+ O+Zb47wBjpEoEheLyKHLcUX09C5rJZyJni25uqIfMMshE6X8ll8804od9BmiC0+iBFFeDv3nTAP
+ nuYIVqtEd3J/Y5DlthxihBuceIhrRuDwoULwub9/Cmde4FeeljG4ymSArloM24vsv/RHItc0=
+X-Gm-Gg: AY/fxX5v73UPbux1zhqIDX7YfiBFkL0okxoKruUma9xFBD3P7yGAaT/ar9+a0AH1Eps
+ TcQ99HcXSDFfb3vYpk14DlTe2l3J1EH3yR/6Sc6Zc324q4U3McYa0Q1oOQqKtu/nXtlviX+RAd+
+ scHhdLEQ9t9q9P5pnlNlER/cuherTNYrLBVeeRTaRZQZ8AsGGU9MwbO5P5K7xlHmD/I2yNeADtQ
+ HokQ6IzfbwUZfj7CVnGYBfIRxQ3vvXuYShQviWV71pJoRsJWIpgHAywmJo6TeI+g0PhPoEopx0L
+ 21tHfRNDjqH2MdW6t5MLMdspTxSAIE4JhpKQ/qCsj2cV7vMLo55OdF4eyiyKFqATe8q3+FoR3rb
+ X54nXy57zkJTRPqrhRiMhxDvzxeS3awyoNFbHi468qov5V/zWSb33kny0kqseOEADRbIK2+Z81R
+ yn7VsHMghKOdKNmRBmTnML4+Q=
+X-Received: by 2002:a05:620a:4610:b0:8b2:ed29:f15f with SMTP id
+ af79cd13be357-8c6a68d9299mr104181285a.21.1768511153495; 
+ Thu, 15 Jan 2026 13:05:53 -0800 (PST)
+X-Received: by 2002:a05:620a:4610:b0:8b2:ed29:f15f with SMTP id
+ af79cd13be357-8c6a68d9299mr104176285a.21.1768511153011; 
+ Thu, 15 Jan 2026 13:05:53 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59baf397672sm155740e87.61.2026.01.15.13.05.50
+ 2adb3069b0e04-59baf397672sm155740e87.61.2026.01.15.13.05.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jan 2026 13:05:50 -0800 (PST)
+ Thu, 15 Jan 2026 13:05:52 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dale Whinham <daleyo@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20de=20Bretagne?= <jerome.debretagne@gmail.com>,
- Steev Klimaszewski <threeway@gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dp: Enable support for eDP v1.4+ link rates
- table
-Date: Thu, 15 Jan 2026 23:05:49 +0200
-Message-ID: <176851111169.3933955.17203821768730103962.b4-ty@oss.qualcomm.com>
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/msm: remove some dead code
+Date: Thu, 15 Jan 2026 23:05:50 +0200
+Message-ID: <176851027323.3933285.5242543959069807337.b4-ty@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251218-drm-msm-edp14-v2-1-2e56c2338ab1@gmail.com>
-References: <20251218-drm-msm-edp14-v2-1-2e56c2338ab1@gmail.com>
+In-Reply-To: <aWAMIhZLxUcecbLd@stanley.mountain>
+References: <aWAMIhZLxUcecbLd@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE2NSBTYWx0ZWRfX0RsSCoeOqIxu
- R9m40cURbSLRhXHEzPDIDn8zUUi3ps7Zvi9lr3EBXA/MYSncjpolWXGQQkUTKhF5/8WtPdV4X8H
- En69SL/9sMdBaiFPc0La9k8xROVvyd6WS5KiVWg4wG169m5Ghy4PkS9LrAjLm4Jyp1og5/8Heqe
- UsuO1mlm0mHbfypYCkPahs0WDBsKE6gabTkWKQsnvkfGuhRq06SBTRsWBz2Cw18v9Hn/Tf+DhFA
- kKpY4FAjITrEG3fbJuqgI7iOwGSLDUscBTBo10ZTty96S6m5WfY57UKQ2tTTfmATY6642aGhe5v
- 4Xz7bS59RPRebpo6j8lXDCxus4Ta+F1wlC2bpuugr5DV913UFUGhqIyjUJp27C65q/Ffi4fm4tX
- elRqVJFINxMIjcyz7R8Lb7FLg/AyyFlNaX2B3JMgfMM+glB/eGJmlwYTn5ug4qkzCqIdBCi6LKQ
- LCnqz2O9aGe/a9MVsQQ==
-X-Proofpoint-ORIG-GUID: nsUjz3ii0GVXcjky7ULeAisVNEgOeO1v
-X-Authority-Analysis: v=2.4 cv=W6Y1lBWk c=1 sm=1 tr=0 ts=696956b0 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-ORIG-GUID: Pjin45f3Rcq7BJCpJ01mB0NTX3xNslq2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE2NSBTYWx0ZWRfX3wRdMtMBVd8l
+ miaoLx8oRzR74ZJj0cHgE6ICgt6NMVXFvuEw5z1XaxoavzwE5LSmymRDN+pE635bcLX3it6iaBd
+ rkZJG8/N0tQFwAduU5+miwxQhc9NajJV2VSrjkTfm1KMVupvcrCQxQtQhmaW7lsxR8twVjmr2zf
+ z9sCb2y6EfXAHuMDiLQGUMImPJjhlBQmAb10+odT68bU9aieXQaYh3Q4WYN2jVIXHyraKO1/UHI
+ PhNmHNtShr04BYUSe8mnQ6wdeID5ZB2fTGocm0vxEc5JutnMvj87+f8oOPVFNzUlPRo2gf/bdNJ
+ aKDH8nuTPE/qTESuGAnNwMq/wHju49aWuWa8t6DzbIbEGaNydU0Ct7S7VM/VofAkOyO9z+boH+/
+ MFviZN2G3HzH2K5RmHqdHeQuj6jM+ePcu006Cw4PjIjfKwoi8dIQkQW8A9lNG9/yMPpAVAdLCiR
+ KIKIv0Ipmk3xsVuBA4Q==
+X-Authority-Analysis: v=2.4 cv=TdWbdBQh c=1 sm=1 tr=0 ts=696956b2 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=e5mUnYsNAAAA:8 a=uNR7pAaoB_IQ8-4UisQA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: nsUjz3ii0GVXcjky7ULeAisVNEgOeO1v
+ a=e5mUnYsNAAAA:8 a=vfcw8cltYcJMyB0lYhkA:9 a=QEXdDO2ut3YA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: Pjin45f3Rcq7BJCpJ01mB0NTX3xNslq2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-15_06,2026-01-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601150165
+ clxscore=1015 phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,20 +147,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Dec 2025 00:19:32 +0000, Dale Whinham wrote:
-> The MSM DRM driver currently does not support panels which report their
-> supported link rates via the SUPPORTED_LINK_RATES table.
-> 
-> For panels which do not offer the optional eDP v1.3 fallback via
-> MAX_LINK_RATE, this will cause a panel probe failure (e.g. Samsung
-> ATNA30DW01-1 as found in Microsoft Surface Pro 11).
+On Thu, 08 Jan 2026 22:57:22 +0300, Dan Carpenter wrote:
+> This is supposed to test for integer overflow but it is wrong and
+> unnecessary.  The size_add()/mul() macros return SIZE_MAX when there is
+> an integer overflow.  This code saves the SIZE_MAX to a u64 and then
+> tests if the result is greater than SIZE_MAX which it never will be.
+> Fortunately, when we try to allocate SIZE_MAX bytes the allocation
+> will fail.  We even pass __GFP_NOWARN so the allocation fails
+> harmlessly and quietly.
 > 
 > [...]
 
 Applied to msm-next, thanks!
 
-[1/1] drm/msm/dp: Enable support for eDP v1.4+ link rates table
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/ed100aa239be
+[1/1] drm/msm: remove some dead code
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/37d2e108de4d
 
 Best regards,
 -- 
