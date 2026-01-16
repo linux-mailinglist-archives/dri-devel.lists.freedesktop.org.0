@@ -2,162 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779C5D2D95E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C237D2DC90
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 09:13:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFF410E820;
-	Fri, 16 Jan 2026 07:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD4110E825;
+	Fri, 16 Jan 2026 08:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="R04uVWab";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MZ1Ehz5Y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R04uVWab";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MZ1Ehz5Y";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Z7V3VKNK";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MIrMQgPt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1167210E81F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:58:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BB3173368D;
- Fri, 16 Jan 2026 07:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768550309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tEBnbJXoSEVNx2d1sg+6yp9TJGIDCgDTADCnwPCP7K0=;
- b=R04uVWabAymZykGlX+71SwYrLQ6fCzyjOgy+9ATKoaBXltpvMrjIlYpv5Q3yl4hyqJQqQk
- ic0hgpJzRhcu/XCONdInAYct22wQf9B2hRKDGAhcBsOhViR6cCBFk0lM9YwDMZwWYtbOhZ
- 3CIEsweVt1ZK6QNpJiQvBRvHy9sHwyI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768550309;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tEBnbJXoSEVNx2d1sg+6yp9TJGIDCgDTADCnwPCP7K0=;
- b=MZ1Ehz5YNpca9ytNX4G/92HJJlPCJPBDy2lqLRB9ZcbIoy5+YWZTdll3DfwqPiZkbmZXaV
- ibH4XxwwepxK2qBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768550309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tEBnbJXoSEVNx2d1sg+6yp9TJGIDCgDTADCnwPCP7K0=;
- b=R04uVWabAymZykGlX+71SwYrLQ6fCzyjOgy+9ATKoaBXltpvMrjIlYpv5Q3yl4hyqJQqQk
- ic0hgpJzRhcu/XCONdInAYct22wQf9B2hRKDGAhcBsOhViR6cCBFk0lM9YwDMZwWYtbOhZ
- 3CIEsweVt1ZK6QNpJiQvBRvHy9sHwyI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768550309;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tEBnbJXoSEVNx2d1sg+6yp9TJGIDCgDTADCnwPCP7K0=;
- b=MZ1Ehz5YNpca9ytNX4G/92HJJlPCJPBDy2lqLRB9ZcbIoy5+YWZTdll3DfwqPiZkbmZXaV
- ibH4XxwwepxK2qBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF64F3EA63;
- Fri, 16 Jan 2026 07:58:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gp4oKaTvaWk8ZAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Jan 2026 07:58:28 +0000
-Message-ID: <f3643c19-c250-4927-b39d-37d2494c7c84@suse.de>
-Date: Fri, 16 Jan 2026 08:58:28 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21CAE10E823
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:13:34 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60FMbVaK1240876
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:13:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ynv1j8bv353Wqu7/JmPfEjOt++cda3rF60jsZo4KcPI=; b=Z7V3VKNKHJhUAO17
+ zYFlMHFCLBDCTS+GA434B3Py7yo154XZGAc8biYfQCqc89bYvzEHopXnx/S0S2/n
+ GM7TCmUIwtECS16q6NWlBVSg09COKQHFkIXIdjAG3E1LIWhdPzOjKueIwJxaK3ez
+ jh0U2Wm/oBQMKrWzVhMlxS6+Ks8FWmCroQnK4KOJ6oOa1rsJwZQ8V7RC/o036dcH
+ yDle2aU3Ob6oWP56jD3PZ6k7Hm+h51DyQpjOtJ/+KDHSAj56ln+wH7xD3fbaP8N+
+ 6OK8gCq+6ViUADkGBbVjpYul3UJGS5oRHYUSwok9gviBf+mi7hzZ5Z9HqvUHVbWa
+ fJ81QA==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq96ssbpx-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:13:33 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-c5454bf50e0so3291380a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 00:13:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768551213; x=1769156013;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ynv1j8bv353Wqu7/JmPfEjOt++cda3rF60jsZo4KcPI=;
+ b=MIrMQgPtlQA1TcvoT6tveysqYa2/btJvVmbtzNv/2rn+zvcbsT5YaSrJDPnQ/DUdHs
+ NQsVUpetn4pijlryHK77iuWCiQlFGouvEvoz/9TIabF0KO0HGV0NGDcl5jpUFwoL+bzl
+ IbXxr96Wlt8E0iwC07eABOpuPRNVcZMAX6eFrru5b/8+zNKLPjhxe3rHYJb2wC2ldn5v
+ X4VYAswrn65upb75JM+imPxD0zotW9nYECFdkiC2/XqmSvJLhIca0wx0PjML0cECAgob
+ uNDLRnPTagzr3nDeUCwpg3R9gesEP1duZdCxAeecrnTmcoO4Z7NzR+fzS3/brXDcF3Ax
+ pVcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768551213; x=1769156013;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ynv1j8bv353Wqu7/JmPfEjOt++cda3rF60jsZo4KcPI=;
+ b=lHLDIuqZUVOMOiP5fbWonaCkZGwB2DAnXlUkKlZxpYGmZ6VOyqX0NgUgjFMseaL9vS
+ 4H/q+R1x+7G6+O1ZAY3PKGcBYShJ7Asa3UjAByx/k0xS7mBAbVH/cffnsPvGlJxomIbg
+ GQtNS8VU15MNwPeNmJxLXsPzrY5t1G2b2NEZVjBxFMD9NBUqGIuuIg0K6r+9PAJ4kw4a
+ lqN59f7w8bkxCPsjnyQPgK5upstvX7wNCBIMX5h/c2S9Lic8sh5wYyW3xxD/3T/KZ3bL
+ qQw7t3S/vI1nPSsy7TP2bFFTSO40BUDwxx5isPYfxEuojeXH7cKeswkUWXonB4/Bttxt
+ Apnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxVRY/cio54/mRK1CnfnqFrxC0U2Y9ng52cNnlHHoCj3EH/MswkvEVQ3q5ZEXfKMJVzkKNJV14fXk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9d3AfB5uIXDAaSQtTghXAnXU0JAWVia83HPkXm0CEVgji2/zP
+ XHII4ZPjIDTt8ptycywpZfpuD3SEcVurD1MVBUm4Xf+MauhccPlyN+LZY5UXptzaSULGXTOAr0l
+ PIQu6bjOipVvGcBxuJa12yro4dKDo/SWsqC/DO4fLCmbOdvlX3uDFSSSssgLyJO919AQYog6D9i
+ PaGT4=
+X-Gm-Gg: AY/fxX5f/uKsXFdv/FuogkkYY7hRQ9VYnoExUDN+fRRr2OwCuFn2PY3i52xdOdBtr+Q
+ yOMENV4Ox8lfXiVFOgT3/jIzxw88Qma36yMvSE8o2YSnKrmsh1SE3j64BF2LKo08OynjNqKF8Rg
+ vz8Bdh469ej/m0awmxfvZ3odme/ycI55xWFPoQzZT06tC9gI1kqTwVkCSQFXu5vHYK5HhnffQkw
+ SvQpteanbMf8ZzkfweV9hv9EpKbwuYsViXakjB6dNv1Es0VL1EvONtqP/Swww+2JtxQq1L/RD36
+ JNMVOmgZhj4dmDt3Ynzhza7gJunGLxE408zJkLNIPG2Ij/4JH9wQfvka9ZjAwgUNuhCcScoiI9g
+ JN5huBZKAK9mDp5/DuXPksq1yzG3DmkbfYIqYHtfejSphNnSIl6ols4CUWQzPI98kCXJt
+X-Received: by 2002:a05:6a21:600e:b0:38d:f745:4d4a with SMTP id
+ adf61e73a8af0-38e00dd9766mr1992667637.78.1768551212594; 
+ Fri, 16 Jan 2026 00:13:32 -0800 (PST)
+X-Received: by 2002:a05:6a21:600e:b0:38d:f745:4d4a with SMTP id
+ adf61e73a8af0-38e00dd9766mr1992637637.78.1768551212076; 
+ Fri, 16 Jan 2026 00:13:32 -0800 (PST)
+Received: from ?IPV6:2401:4900:889d:214b:d73:b128:21b8:6188?
+ ([2401:4900:889d:214b:d73:b128:21b8:6188])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c5edf354b24sm1338540a12.28.2026.01.16.00.13.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jan 2026 00:13:31 -0800 (PST)
+Message-ID: <d3274681-c437-4ec1-918e-10e49cbcc676@oss.qualcomm.com>
+Date: Fri, 16 Jan 2026 13:43:21 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] Recover sysfb after DRM probe failure
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, Alex Deucher
- <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Ard Biesheuvel <ardb@kernel.org>, Ce Sun <cesun102@amd.com>,
- Chia-I Wu <olvaffe@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Dave Airlie <airlied@redhat.com>, Deepak Rawat <drawat.floss@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hansg@kernel.org>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Helge Deller <deller@gmx.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lijo Lazar <lijo.lazar@amd.com>, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Lyude Paul <lyude@redhat.com>,
+Subject: Re: [PATCH v6 0/8] Support for Adreno 612 GPU - Respin
+To: rob.clark@oss.qualcomm.com
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- spice-devel@lists.freedesktop.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
-References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
- <c816f7ed-66e0-4773-b3d1-4769234bd30b@suse.de>
- <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
- <97993761-5884-4ada-b345-9fb64819e02a@suse.de>
- <CABQX2QMn_dTh2h44LRwB7+RxGqK3Jn+QCx38xWrzpNJG5SZ9-Q@mail.gmail.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <jie.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Qingqing Zhou <quic_qqzhou@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251231-qcs615-spin-2-v6-0-da87debf6883@oss.qualcomm.com>
+ <CACSVV0006wVK-JWweuNYAfu-a9rtn=zp93sey1srPieGEaJWRg@mail.gmail.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CABQX2QMn_dTh2h44LRwB7+RxGqK3Jn+QCx38xWrzpNJG5SZ9-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <CACSVV0006wVK-JWweuNYAfu-a9rtn=zp93sey1srPieGEaJWRg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_DN_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[43];
- TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLxtqcp3yg5i7i9mi6syp13ijk)];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,kernel.org,gmail.com,redhat.com,collabora.com,chromium.org,gmx.de,linux.intel.com,vger.kernel.org,intel.com,ffwll.ch,ursulin.net,lists.linux.dev];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url]
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-Proofpoint-ORIG-GUID: C_2k-6UeiPt4nmQYcSCD1AuFMmDtiIi_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA2MCBTYWx0ZWRfX38SAd79+TprX
+ FRAkV9PnFwRtMd9VfMpvjyzkgrSMs7Ad1h2ocjA78Tk9lL58w5SNrmButf8CTGU/jdTsCr+FFgk
+ nD3siYNe81B9cvcMA8bMbeqPBA3s9KFK/8nG9YZ/ttooofLD4MGHW1kTZKZyIOn9ce7KSZ6w4Kh
+ oqUq7lWh+kYSTROuyVlqzYyzGykDRXeywrcMSAiz3mvHdHN5TvzK+htqKv87lciVXYFtYNJ1CMv
+ wk+qEEQCJaoPfPlNiKnLfvVUX3vSgfzb8OrC6ztvIXkU/lDhut0Cdw3949cPMukAtjqKleTvCyc
+ E2rUQnTdOPvhUyfbJwo+LqRUpEANzVYAvkm4HirT4FtytmkgwbApPiZInLhuVYdMwnzONJmTbmI
+ ymV+gvOpcDNZysygw6k5ACHl22oI37iZRVFk0tgULXpnS+uXjIU+ftznQp3Gqj5jmNmh4F5+t/k
+ IgQJLVNcaA5GonLOSBA==
+X-Proofpoint-GUID: C_2k-6UeiPt4nmQYcSCD1AuFMmDtiIi_
+X-Authority-Analysis: v=2.4 cv=M9tA6iws c=1 sm=1 tr=0 ts=6969f32d cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=ruhtLSfl90xYY3NouLkA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_02,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,82 +162,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 1/16/2026 3:52 AM, Rob Clark wrote:
+> On Wed, Dec 31, 2025 at 12:45 AM Akhil P Oommen
+> <akhilpo@oss.qualcomm.com> wrote:
+>>
+>> This is a respin of an old series [1] that aimed to add support for
+>> Adreno 612 GPU found in SM6150/QCS615 chipsets. In this version, we
+>> have consolidated the previously separate series for DT and driver
+>> support, along with some significant rework.
+>>
+>> Regarding A612 GPU, it falls under ADRENO_6XX_GEN1 family and is a cut
+>> down version of A615 GPU. A612 has a new IP called Reduced Graphics
+>> Management Unit or RGMU, a small state machine which helps to toggle
+>> GX GDSC (connected to CX rail) to implement the IFPC feature. Unlike a
+>> full-fledged GMU, the RGMU does not support features such as clock
+>> control, resource voting via RPMh, HFI etc. Therefore, we require linux
+>> clock driver support similar to gmu-wrapper implementations to control
+>> gpu core clock and GX GDSC.
+>>
+>> In this series, the description of RGMU hardware in devicetree is more
+>> complete than in previous version. However, the RGMU core is not
+>> initialized from the driver as there is currently no need for it. We do
+>> perform a dummy load of RGMU firmware (now available in linux-firmware)
+>> to ensure that enabling RGMU core in the future won't break backward
+>> compatibility for users.
+>>
+>> Due to significant changes compared to the old series, all R-b tags have
+>> been dropped. Please review with fresh eyes.
+>>
+>> Last 3 patches are for Bjorn and the rest are for Rob Clark for pick up.
+> 
+> I guess you meant the last 4 patches are for Bjorn?
 
-Am 16.01.26 um 04:59 schrieb Zack Rusin:
-> On Thu, Jan 15, 2026 at 6:02 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> That's really not going to work. For example, in the current series, you
->> invoke devm_aperture_remove_conflicting_pci_devices_done() after
->> drm_mode_reset(), drm_dev_register() and drm_client_setup().
-> That's perfectly fine,
-> devm_aperture_remove_conflicting_pci_devices_done is removing the
-> reload behavior not doing anything.
->
-> This series, essentially, just adds a "defer" statement to
-> aperture_remove_conflicting_pci_devices that says
->
-> "reload sysfb if this driver unloads".
->
-> devm_aperture_remove_conflicting_pci_devices_done just cancels that defer.
+Yes, that is correct. I missed updating this sentence after including
+the GPU cooling related dt patch.
 
-Exactly. And if that reload happens after the hardware state has been 
-changed, the result is undefined.
+-Akhil
 
->
-> You could ask why have
-> devm_aperture_remove_conflicting_pci_devices_done at all then and it's
-> because I didn't want to change the default behavior of anything.
->
-> There are three cases:
-> 1) Driver fails to load before
-> aperture_remove_conflicting_pci_devices, in which case sysfb is still
-> active and there's no problem,
-> 2) Driver fails to load after aperture_remove_conflicting_pci_devices,
-> in which case sysfb is gone and the screen is blank
-> 3) Driver is unloaded after the probe succeeded. igt tests this too.
->
-> Without devm_aperture_remove_conflicting_pci_devices_done we'd try to
-> reload sysfb in #3, which, in general makes sense to me and I'd
-> probably remove it in my drivers, but there might be people or tests
-> (again, igt does it and we don't need to flip-flop between sysfb and
-> the driver there) that depend on specifically that behavior of not
-> having anything driving fb so I didn't want to change it.
->
-> So with this series the worst case scenario is that the driver that
-> failed after aperture_remove_conflicting_pci_devices changed the
-> hardware state so much that sysfb can't recover and the fb is blank.
-> So it was blank before and this series can't fix it because the driver
-> in its cleanup routine will need to do more unwinding for sysfb to
-> reload (i.e. we'd need an extra patch to unwind the driver state).
-
-The current recovery/reload is not reliable in any case. A number of 
-high-profile devs have also said that it doesn't work with their driver. 
-The same is true for ast. So the current approach is not going to happen.
-
-> There also might be the case of some crazy behavior, e.g. pci bar
-> resize in the driver makes the vga hardware crash or something, in
-> which case, yea, we should definitely skip this patch, at least until
-> those drivers properly cleanup on exit.
-
-There's nothing crazy here. It's standard probing code.
-
-If you want to to move forward, my suggestion is to look at the proposal 
-with the aperture_funcs callbacks that control sysfb device access. And 
-from there, build a full prototype with one or two drivers.
-
-Best regards
-Thomas
-
-
->
-> z
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+> 
+> BR,
+> -R
+> 
+>>
+>> [1] Driver: https://lore.kernel.org/lkml/20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com/
+>>     Devicetree: https://lore.kernel.org/lkml/fu4rayftf3i4arf6l6bzqyzsctomglhpiniljkeuj74ftvzlpo@vklca2giwjlw/
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>> ---
+>> Changes in v6:
+>> - Move the rgmu register range update from patch#8 to patch#6.
+>> - Capture trailers
+>> - Link to v5: https://lore.kernel.org/r/20251226-qcs615-spin-2-v5-0-354d86460ccb@oss.qualcomm.com
+>>
+>> Changes in v5:
+>> - Rebase on v6.19-rc2
+>> - Make the reg list in A612 GPU's binding doc stricter (Krzysztof)
+>> - Link to v4: https://lore.kernel.org/r/20251204-qcs615-spin-2-v4-0-f5a00c5b663f@oss.qualcomm.com
+>>
+>> Changes in v4:
+>> - Rebased on top of next-20251204 tag
+>> - Added a new patch to simplify gpu dt schema (Krzysztof)
+>> - Added a new patch for GPU cooling support (Gaurav)
+>> - Updated the gpu/gmu register range in DT to be more accurate
+>> - Remove 290Mhz corner for GPU as that is not present in downstream
+>> - Link to v3: https://lore.kernel.org/r/20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com
+>>
+>> Changes in v3:
+>> - Rebased on top of next-20251121 tag
+>> - Drop a612 driver support patch as it got picked up
+>> - Rename rgmu.yaml -> qcom,adreno-rgmu.yaml (Krzysztof)
+>> - Remove reg-names property for rgmu node (Krzysztof)
+>> - Use 'gmu' instead of 'rgmu' as node name (Krzysztof)
+>> - Describe cx_mem and cx_dgc register ranges (Krzysztof)
+>> - A new patch to retrieve gmu core reg resource by id
+>> - Link to v2: https://lore.kernel.org/r/20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com
+>>
+>> Changes in v2:
+>> - Rebased on next-20251105
+>> - Fix hwcg configuration (Dan)
+>> - Reuse a few gmu-wrapper routines (Konrad)
+>> - Split out rgmu dt schema (Krzysztof/Dmitry)
+>> - Fixes for GPU dt binding doc (Krzysztof)
+>> - Removed VDD_CX from rgmu dt node. Will post a separate series to
+>> address the gpucc changes (Konrad)
+>> - Fix the reg range size for adreno smmu node and reorder the properties (Konrad)
+>> - Link to v1: https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com
+>>
+>> ---
+>> Akhil P Oommen (3):
+>>       drm/msm/a6xx: Retrieve gmu core range by index
+>>       dt-bindings: display/msm: gpu: Simplify conditional schema logic
+>>       dt-bindings: display/msm: gpu: Document A612 GPU
+>>
+>> Gaurav Kohli (1):
+>>       arm64: dts: qcom: talos: Add GPU cooling
+>>
+>> Jie Zhang (3):
+>>       dt-bindings: display/msm/rgmu: Document A612 RGMU
+>>       arm64: dts: qcom: talos: Add gpu and rgmu nodes
+>>       arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
+>>
+>> Qingqing Zhou (1):
+>>       arm64: dts: qcom: talos: add the GPU SMMU node
+>>
+>>  .../devicetree/bindings/display/msm/gpu.yaml       |  89 +++++++++---
+>>  .../bindings/display/msm/qcom,adreno-rgmu.yaml     | 126 +++++++++++++++++
+>>  MAINTAINERS                                        |   1 +
+>>  arch/arm64/boot/dts/qcom/qcs615-ride.dts           |   8 ++
+>>  arch/arm64/boot/dts/qcom/talos.dtsi                | 149 +++++++++++++++++++++
+>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  14 +-
+>>  6 files changed, 357 insertions(+), 30 deletions(-)
+>> ---
+>> base-commit: 2408853dde584f01950a0f976b743739cce30eca
+>> change-id: 20251015-qcs615-spin-2-ed45b0deb998
+>>
+>> Best regards,
+>> --
+>> Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>
 
