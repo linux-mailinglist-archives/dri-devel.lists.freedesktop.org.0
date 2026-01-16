@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7175D2F0A3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CFBD2F0C5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:51:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD7010E843;
-	Fri, 16 Jan 2026 09:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F99D10E840;
+	Fri, 16 Jan 2026 09:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xl9fu/wE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jMRYqRa1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1738F10E840;
- Fri, 16 Jan 2026 09:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768557055; x=1800093055;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=rGnuuiGHTCK33n12B8lS8ws8dXFlcVUBexrpfI0qXH0=;
- b=Xl9fu/wEIoO1aKVADaMDKSC4u565sicDH8U8BVHtYY7HIkyXkXw8OpMN
- 8VfV+09p5u+mKjNJaQnfZpm86h5EdFSGuOh0U1ne86MkTNSAgYnTKUHAN
- 9Ldg94lUIQmmiLvtGbp8QrWFVXws9/WVSdKq8gxO8pL96jRXvvz64dDHd
- OtRBpRfJtc10+hqRj0NuaPIHl7AWuxEHfDjAH6gNop2QGNlqMbEMxKlB0
- UAsf7N2KJZYzsxGooo7QPrAGjfRy7lO2JCYIZwiwmhrCyeag6xFYkJwGZ
- Vf+GEjdWUa5TH2pKwkGv8kcb6MI/h5+HfPK/515PfCANYCRLQJNtcl5Fv A==;
-X-CSE-ConnectionGUID: k7cif0KASyCXo7eiNpEpNQ==
-X-CSE-MsgGUID: ZYyRCbQaTTKMsoqXx4jw7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80987496"
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; d="scan'208";a="80987496"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 01:50:54 -0800
-X-CSE-ConnectionGUID: JX+nYLThTNGpaL+oGubYAA==
-X-CSE-MsgGUID: lnj2SeAwSX6+MEk3w6U9aA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; d="scan'208";a="235893561"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.205])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 01:50:50 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Kaushlendra Kumar <kaushlendra.kumar@intel.com>, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Kaushlendra Kumar
- <kaushlendra.kumar@intel.com>
-Subject: Re: [PATCH] drm/i915/crtc: Guard vblank wait when CRTC lookup fails
-In-Reply-To: <20260116062203.1650454-1-kaushlendra.kumar@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260116062203.1650454-1-kaushlendra.kumar@intel.com>
-Date: Fri, 16 Jan 2026 11:50:46 +0200
-Message-ID: <6f7ad8bd5d41e50176d98cfb658aaa7b77f63cd0@intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A4810E840
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:51:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D913C43391;
+ Fri, 16 Jan 2026 09:51:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DEEC116C6;
+ Fri, 16 Jan 2026 09:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768557085;
+ bh=G0lAoXNnE8zHbc7Q4sP6bIThkQm+fl35P4QPoHmhG5c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jMRYqRa1lzkXrJsLQTDXxWE7gIOkK/AZR3GEY3WR4k5DbqQo9Yxav5qlMduZpOWck
+ ap5IP7rG5NJD5ET7kr9xQUuQokctiIC/II4Ds+Fo+f9MQlLpk0ckKGRZd5x2iStQEF
+ VSgqz4wyvSVCf6J8Z1k+TMW35ob5fxlnokkFnufEprvIaIiHvUm34oUNp/lDfiY05G
+ LqFdiSxFVxjVWUlYHvf6QH2cRmcVH6PJU3CJTFTv8wKOSIxVnh1ZP3NzjRfc7nzQgf
+ S3e0/MdWBvhPWWrAlqVKTZDixAm05nK0/+DPzBSDHSChqjTxgw2tKhjsNhNQiG1SqI
+ sFZFdgxV7YzBw==
+Date: Fri, 16 Jan 2026 09:51:21 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+ samuel@sholland.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
+Message-ID: <aWoKGXtYPMm71K9a@google.com>
+References: <20260115082128.12460-1-tzimmermann@suse.de>
+ <aWoBQGckP3q8KcDX@google.com>
+ <07efafb2-30bf-4d45-a53f-114272c1a1b1@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <07efafb2-30bf-4d45-a53f-114272c1a1b1@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,35 +61,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jan 2026, Kaushlendra Kumar <kaushlendra.kumar@intel.com> wrote:
-> intel_crtc_for_pipe() may return NULL in teardown/error paths.
-> Add a NULL check in intel_wait_for_vblank_if_active() to avoid
-> dereferencing a missing CRTC and rare NULL deref panics.
+On Fri, Jan 16, 2026 at 10:19:03AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 16.01.26 um 10:13 schrieb Tzung-Bi Shih:
+> > On Thu, Jan 15, 2026 at 08:57:10AM +0100, Thomas Zimmermann wrote:
+> > > Coreboot implements framebuffer support via simple-framebuffer. Provide a
+> > > dedicated DRM driver. Keep the simple-framebuffer code for now.
+> > > 
+> > > For each firmware's provided framebuffer, we prefer a dedicated DRM driver
+> > > tailored towards the platform's feature set. The coreboot framebuffer
+> > > device currently creates a simple-framebuffer device for the provided
+> > > framebuffer aperture. But simple-framebuffer is for DeviceTree nodes; not
+> > > for coreboot. The simple-framebuffer infrastructure should be phased out
+> > > for non-DT use cases. Coreboot is one of the final users of the code
+> > > (besides n64).
+> > > 
+> > > Patches 1 to 5 start by fixing problems in the coreboot framebuffer
+> > > implementation. There is a possible dangling pointer, the memory is
+> > > marked as busy, the device hierarchy is incorrect, and a few minor things.
+> > > 
+> > > Patches 6 to 9 prepare the coreboot support for use by external drivers.
+> > > Specifically, structures for the entries os the coreboot payload table
+> > > have to be exported.
+> > > 
+> > > Patches 10 to 12 add corebootdrm, a DRM driver for the new
+> > > coreboot-framebuffer platform device. Corebootdrm follows the pattern
+> > > established by similar drivers. It also uses the same sysfb helpers. It
+> > > is therefore fairly small. With patch 11, it has feature parity with
+> > > simpledrm on the old simple-framebuffer. Patch 12 adds support for panel-
+> > > orientation flags that coreboot makes available.
+> > What would you suggest to submit the patches (e.g., which patches submit
+> > through which tree)?  Do they have build-time dependencies?
+> 
+> The patches have no dependencies besides the coreboot and DRM frameworks
+> they operate in. DRM moves a lot faster than coreboot, and you likely don't
+> have the latest DRM in the coreboot tree. So I'd take them via DRM, if
+> possible.
 
-Do you have the backtrace?
+Let's take this way.  I'll try to review the patches and provide my A-b tag
+too if possible.
 
-BR,
-Jani.
+> Note that there will be at least one more update to this series to address
+> review comments.
 
->
-> Fixes: 92e9624ad946 ("drm/i915/crtc: un-inline some crtc functions and move to intel_crtc.[ch]")
-> Signed-off-by: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_crtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-> index 9d2a23c96c61..9eb158737c1c 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-> @@ -74,7 +74,7 @@ void intel_wait_for_vblank_if_active(struct intel_display *display,
->  {
->  	struct intel_crtc *crtc = intel_crtc_for_pipe(display, pipe);
->  
-> -	if (crtc->active)
-> +	if (crtc && crtc->active)
->  		intel_crtc_wait_for_next_vblank(crtc);
->  }
-
--- 
-Jani Nikula, Intel
+Sure, no rush.
