@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A58D38785
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894D3D3878A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BA210E92A;
-	Fri, 16 Jan 2026 20:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D589F10E92F;
+	Fri, 16 Jan 2026 20:29:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MCqRg5ov";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hm+HJXvo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010020.outbound.protection.outlook.com [52.101.85.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FDB10E926;
- Fri, 16 Jan 2026 20:28:08 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012037.outbound.protection.outlook.com [52.101.53.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF8BF10E92B;
+ Fri, 16 Jan 2026 20:29:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xOxSbHOl7X0/6JnAbytiqa4g0Qz1/iXC3sxCrKwXh4YDrogsBF+56sDhgajAvpS+JIvSWrBD3dbVbkESBaclufYwPStANzKxyRrqglTCwNUGDAg4rl68txGdf+hPijqT04UyHg1Zqddcl6wu8LhZpJQCHa7rfdyLanTTDqtk7YMQPo+10YyZDfX9r9ST9UuQ2ctDHV42MrAU6sRJQxspEsMbyiY1kruFcA9KNBxR0psB+ejkP+EQ/+H3alFX6nn8f/jPQYQOzgdyePbZ5duUM7gpzTyFSS40948yA0sH/+m9BgkD1i4lII9XlMZ/QJqKZVOfVOOev5GRXQs9TVhVNg==
+ b=EM3rVEUvJpvIrMIsQ6zuGkuHGpe7PLXRKYDwk0z3norENxhK1GOkcmkXzsGWDqfGC3TNo0F9tBc8t0HE19W67aBDRxB3BX5wINdWsqevo5oFFchC1eQnOmnBxq9T+qJVzkiYjSVo+bKP3fjG2U195+YV6Lh38ckUznwTi4EUjwCsdVUgnVmOAxGO2SNlLWr/fWyhH0OXJ+UgTnrfKHntofJbupDgpNEAyt5gmEaHZdB+stM3ykXOVVYupOBMj4fXzbvgnliNh49GNZWP/DlJMmfiSVP4yFWKiK00BYsVdn3KhJcM2zS40RGAGxwVeNyhKdLqZEW0udKgNuG8t+oUoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eVR2AoMqB0HkUoLxzzsVTu38jt4IA1bFppVlpuNiHuA=;
- b=v9SGPInHGLoho79b9mM+QQAshmp7pBMOWnvxWhjZmFeQLr5EqqUXj1FU/WAV9mA/C77ET+PE5ixHsGEkgd70FQq+yUzCff2430ADRWv7wUbpeofY7CwEKyknr6/I4NsMQPjrXLwRzG6W8HVxlSmZ9VeixZhaU+NV9z7gGXK0ye2DetQX1avt2+nsbU9UVuHxHz1VYYlUoaexU+9wss0iCcsLCwZg5T3+ER+wmZyKEX7Z4+8UaciNMFDHaQck1orJr/d16W+eIf58rIn/VHAfLfI7TZ9rVceqf4R+Z2+Tcs/wQnajRLknsmvZ5MVLYus4zw/JVRho5dOPtMYcffop7A==
+ bh=pmKclf6KLN4gbAEUb8zRbNo8eFCwSAtiPHgsWUvcjf0=;
+ b=oP1clDBYG2HQppZAU8NjRibaKLxwA+NfNAtKEEyB3WntVypn2EAFFelI4kyVl5YJ5ntn08nW/mqvX8r8ZYbn48D5mdKI1eLIPkcti0rpLrCL26IGy6kynum1N8uGhJOKBkhVOA7uT8cYOP7oqKjn8sxrqA0/sn/5OV+g8Axvn3agBYMeNpfQowmW3JN010yKtsxN1Z1uAHQ9wUORTx2jKKJ31w/bAwPBZl40+i4F95i58HICb+0wsfGsllGCgAYjBVKRu+fTeVqxsLMY69MNBAq4STIqbsRNRq3wcAx3iCxC5kQ7HwR6vhy0fV0yk4Qc86u1um3XcqnuCvuQ/llihw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVR2AoMqB0HkUoLxzzsVTu38jt4IA1bFppVlpuNiHuA=;
- b=MCqRg5ov6bvGx3GZ0xI6DLoRVmWESTXtGGhiLHHZGGwS+YAE7ivCTl5olRvX4INqBYZ+Wkw3SXqZd7/oJqcadLkp+uLoc/Tx1pPkavLNMzDcvFhn4HRepMR3gO93onllz7EvKrLHLolz4NrlzgCXyhCE3Sr+il1HSy3Xw7rWkV0=
+ bh=pmKclf6KLN4gbAEUb8zRbNo8eFCwSAtiPHgsWUvcjf0=;
+ b=hm+HJXvoLXRF3OpvNYq5jow++3gcvYy40OmRWzfa11r4LdPcD2el70KZRU8lLVoiazPwxEM7FZOHq3FXHy6+0DjPgoBHLTySj+OdDsYmxvZ10ZKWG3Mc4NsQHXmSRV9SMS/EPNphHs9FOsZcxNNn9Wh3lnauiRdCQO8CHagw8oI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8)
- by PH7PR12MB6882.namprd12.prod.outlook.com (2603:10b6:510:1b8::12)
+ by LV8PR12MB9690.namprd12.prod.outlook.com (2603:10b6:408:296::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.9; Fri, 16 Jan
- 2026 20:28:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
+ 2026 20:29:34 +0000
 Received: from BL1PR12MB5126.namprd12.prod.outlook.com
  ([fe80::c3e7:1bc5:2b91:1cfe]) by BL1PR12MB5126.namprd12.prod.outlook.com
  ([fe80::c3e7:1bc5:2b91:1cfe%4]) with mapi id 15.20.9499.005; Fri, 16 Jan 2026
- 20:28:05 +0000
-Message-ID: <a18c26d2-0664-4eb8-914b-52667fcc63f0@amd.com>
-Date: Fri, 16 Jan 2026 15:27:59 -0500
+ 20:29:34 +0000
+Message-ID: <81f336dc-3450-4ffb-9682-5098950c28f9@amd.com>
+Date: Fri, 16 Jan 2026 15:29:28 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] drm/amd/display: extend delta clamping logic to
- CM3 LUT helper
+Subject: Re: [RFC PATCH 1/2] drm/amd/display: fix wrong color value mapping on
+ DCN32 shaper LUT
 To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, simona@ffwll.ch,
  siqueira@igalia.com, sunpeng.li@amd.com
 Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20251208234741.293037-1-mwen@igalia.com>
- <20251208234741.293037-3-mwen@igalia.com>
+ <20251208234741.293037-2-mwen@igalia.com>
 Content-Language: en-US
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20251208234741.293037-3-mwen@igalia.com>
+In-Reply-To: <20251208234741.293037-2-mwen@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: YQBPR01CA0105.CANPRD01.PROD.OUTLOOK.COM
@@ -63,100 +63,100 @@ X-ClientProxiedBy: YQBPR01CA0105.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:208:312::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|PH7PR12MB6882:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d88b5c3-4a96-47dd-d398-08de553dc0d7
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|LV8PR12MB9690:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20689962-6f64-40b5-dccf-08de553df5db
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3VwU2FLOHJtR1BKbkJQbHg1UzhnU0pwTHpOcmNRbk0wd1E5Z2o4VktpSlQx?=
- =?utf-8?B?cG1TWndJQ2NPcVBBSm82dmFqVUlHUTlTUjdUNjU5d3dPTU5pa0hJUXY0TDZp?=
- =?utf-8?B?K1g3QzBVQTBiZzEzakk0UlZFRGZiMnoyb1hUakM4TWk2UGJ6UlhTWHBZRHpH?=
- =?utf-8?B?cEcxdFVxejFXVkFnZXM3QThDSWswUTJHTzJGcDlBQStVcFljMnZOZzY5YW9N?=
- =?utf-8?B?U0FjU0xYMGpRbElFZCtvRDBjd25wOFpKZVRTTFpDSDJaWHRLdzVpd1BncXdk?=
- =?utf-8?B?dllGRFluU25JTVZ0MFAwbXhvKzdwaTdyZUVtTFhialVJU2t0aFdlaXZ5VU1B?=
- =?utf-8?B?U1Zhd01hZGR2ZEcxNE5yRE44L0hFRkIvY05abDZqeEg3UEk1NTJNV2RGcDhJ?=
- =?utf-8?B?eFl4dFRhUmJpYjFLcVV0THEreWc1dUNYSFdNUlEyekcvNmovUUNaRGNlZnp1?=
- =?utf-8?B?L21FazMwNUtWR1BwNUI4NjZubVM3MWxhVkhOZlVSQ24xR2FPNmZPbWdkRFN0?=
- =?utf-8?B?bVliSXAvc0k2ZHJXK2NyckVOQ0NpZVhhVWVDQWI0UWRBQ2pKb0szYW9xNk1F?=
- =?utf-8?B?UTBBTVVUckgzRGhDdUxmR2VFeGdVaWcwdExtdkYvdVV6U2ppODZtRGVPY1Mx?=
- =?utf-8?B?QktoVlVQaEhScGVSeW54TkNaNlFla2hLbU9NRFR1Qm05eWhPaHVHclltSVp1?=
- =?utf-8?B?RlhqME5EVmtDb2M5czQ2ZlJYQ05qdTY1YWYxeStHbE1mZ1lDUGdrMWxSa3Zo?=
- =?utf-8?B?WC92WWhYak1lUmxlT3k2akdxaGpVT01lS2N0ViswZVJhYXN0bnY5K3gwdlNV?=
- =?utf-8?B?S203d3ZzaHVMU1krT0ljaDZXS3UrN09rYittN3M4S0tDK08zVGZyYkFERXln?=
- =?utf-8?B?b2pBMy9tUU54VTBjU2MySjhlUHBtc0hqZGRWbUYwZURsUDlYK1hyVUduTVZk?=
- =?utf-8?B?L1JzYnJkSjliUWVqaEJsdFJBbmJ5THpTdkZid3M3QU5MMy9yTW0wSHZlRWtH?=
- =?utf-8?B?T0pUOVJNVVVFdkswMEpjUWtGVG9nTUlQaEVGaFoxMXM4NE0rWG96eVd6SzUv?=
- =?utf-8?B?V3I4bmNVT1kyYk15TXV5ZXg5VVJ5YWtvWXZQUFMraloyVDJEd0FsN3VBTnRN?=
- =?utf-8?B?WTJiZGgyaVhVODZpdDFFbDZOTnpIelBXUWRNRFRXbVFxbkRpdHRCeGY4ZGo1?=
- =?utf-8?B?OHBUZi91UlgvcVBXTWw0YUs5UzZ5NzNZbXlqdmtaN3FiUWt1TkZZcDNvSGVZ?=
- =?utf-8?B?bVZJL1BQdXo1QzNjQ2hDRVZWRTVUNC9kTkhVTFZPZzN2ckNueFlFQTBBZXFq?=
- =?utf-8?B?R0ZLeSt0TlZJQmRBOU94cU1FdFNGRHIzREJhbXlZRGkxNHNNMU43TFRGc1gy?=
- =?utf-8?B?SWp0Z3dmNTczUHRtMTR4amRKNFlXOHNjZ3pjck5kdUJyYkJydXZJY0Q4MXdN?=
- =?utf-8?B?SXlGVEdzZlBXZXk0eU91NVlndW5yekV5a1VjZUZIcXYwak9kV1dpYXVISGs0?=
- =?utf-8?B?eVJZQXBKSVU4LzFOMWNxN0NreXhxWWdCOGRyRGxZWUhoUHhzYzA0Vm0wZUZi?=
- =?utf-8?B?cElCL1RsTEhwK3Z5ZWZTS1VNaFN2WlR4OFNzTDVBUndiNmN4T2dXWW85U0ZL?=
- =?utf-8?B?dTl4Y0pOSWpLWlVpQWdXUXB4Y0JzS2QxdVRBM1MyZTkxdU1MUWtCSXl0aUJi?=
- =?utf-8?B?YWdub2VpTkNyRTBvcnhRTnY5U2Y0dHErSm9LK0oxeEM2UnlRRWlNamIvZ0I0?=
- =?utf-8?B?MzlscDFwTno3cWEyK1Y0Sk1vaFFNUWh2Q1JKUURkVWEralE0YzQ4WDJwejB1?=
- =?utf-8?B?V1B1dW9lR3hUVFROaHNXT2JNZkZXQk9GMXBQaWtVeXYzMy90ZkErZzkwSFZs?=
- =?utf-8?B?YVJlQW80azhOMlMvKzNER0ZvSnlmdkdrdkZYUUpab2NmcytpaStrcnNBRmJJ?=
- =?utf-8?B?bXg0OUwyUHhHOHIyNUU0ZjVZNDN3SjNXZUhWdHNEOEtpYm1sSWFqYjNMWFQ3?=
- =?utf-8?B?QzMzNTZZTWpEVjd2VzZrYjkxTml3TVh5S0hrKzdTZFpjZldMM21lM3pRZktN?=
- =?utf-8?B?bVB6V0xVMjlxMmF4NzllUHMya1BhczFpWVRhWC85aTBvR3MzWnkyT1d5VGF3?=
- =?utf-8?Q?ahAc=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWhxaEt2dEl0NVQ1Unk1Q09JL0x2QWVpU3psd2Q3SytnU01yTmY4aE85Z1NU?=
+ =?utf-8?B?R3ZEZnpMY0w5MFZKZEVjZnVQc2xaNURDRDU4R0FLZnBRdTQvUzQ3c01RWml3?=
+ =?utf-8?B?cjBRUVBVQUxWVEt1eU8wc2hQdVBuTW5LME5oV2pQSzcrL2lHN0t0LzFob2Vx?=
+ =?utf-8?B?Wld3WGphYXM2U2VvbS9KTHA2OEIzMDlyUU0zUi9tOHcvY0JmdEw1blJGMlNr?=
+ =?utf-8?B?ZjVRSjZBQzVEUmNWd1JoSEJZYnpXV2RBR3JqRldneDdCVXBKdW81TG8vcVdJ?=
+ =?utf-8?B?LzdtS0xqU1o4QXVhdno2NnFkcFBVZk5jZk50UmxHOUZhYnkrZ293VWVuOGhT?=
+ =?utf-8?B?WGswNmlvZVA3SUtLWk9EWEFkVHZ4b25pTnE4Mi9mUlM2dTlqcHRMV0RzeDlr?=
+ =?utf-8?B?dkFzSEphTi80eDhXYUt5bXc3RzNmeUhKNXJhQnRSdXpldlJ3MmhwU0lGOGNM?=
+ =?utf-8?B?WjFtTlpmYks0SkxJb21FSmIyYXlZZlVMbmdKSThPSE1QZFN1dEg4b1dTTlhJ?=
+ =?utf-8?B?N05HVWxBMVowY2VIb2l5NUZNNlZLYkhleEEvOERsZ2hmK0ZGR3E2OGwyTHYy?=
+ =?utf-8?B?OEI2VUJ2cWNuQitHL09VR01OM0haanRNdVh4QjBDbWY0NkExOEk3VWcxbDBh?=
+ =?utf-8?B?VE4yNWJnN3owVExGVFVONTZDUG5iMkUzU0o0aWZOemdCdW9qY0QrQzh5OW5R?=
+ =?utf-8?B?eFJsbTduQ2tSUVU3RTVRcjREaWl3T3VrcG04N0UrNTEwdkpxRCsyRDE0VlNS?=
+ =?utf-8?B?RmVoZUJya2gxVUsveWRyZkpNM21nMHpkS3BONzNmdzJqQmdCTUxGRDlpQlZx?=
+ =?utf-8?B?Nm81cSs0N3dUMkhaQWYwNFovWGx2TWJuMnE5bzAzNzU2V1E2Z2VxU3dUYk9O?=
+ =?utf-8?B?cFl0YzdGaFI1WUptdlpqZ3dHRmZJSWxxQlNFVmhRT0Jud1VQcis5WXpQWnA3?=
+ =?utf-8?B?SGIzalhFcDZZTzNGS0Z2blNBZUNENVZYU3hNZ3FLL2pWTnEyYm9ra2dkVWQw?=
+ =?utf-8?B?dHFIblFmd1JvcFhHbnpuS29uM1hiai9lbEErMTU3dDBpemE3dUJ5amNVVUFI?=
+ =?utf-8?B?bVhWZ013MCtqa1dER3RqOUtxN1dVdlBMK2xsK014NFNXckNTNGJabVYzMTV5?=
+ =?utf-8?B?NURyVXcvR29IS2tiOW51K2Z5RnFvaTZkdlZERmlwQjFKcGZSTmJPVzV2VFI3?=
+ =?utf-8?B?YzRESHB5UDd2eTRWT2lQOUdHOWg1ajgwU3NKOGd2UmJydzBWcCs5NXNiQnVZ?=
+ =?utf-8?B?SndnV2w4Y3ZVWDVTU1BhYTlWSWY3VTFuNUZQV0xRdHNSWjRsSDE2RTBORURy?=
+ =?utf-8?B?Sm9VcXdMaXlRd25yYmUyLzl3ZStBSzlHeGVSZVh2TjczenlMVjA4QTd1SUJ2?=
+ =?utf-8?B?bHUxYnUxVGJsV1VCbm1BSHRPWkhPSHI3M1BkY2Y2VUhlSkEwVWJ5akdVRys3?=
+ =?utf-8?B?Z0ZncVhZeHhSZytEVUxmcUlrVnBBMVUzd2NhNEpmdGNRNTFGMVVIbldsU1hP?=
+ =?utf-8?B?YWxkR2p1eFV2NjZPU0wyNUlyYmlOYllqMWovZFFwNktpc1RoVWFIZCttY0ow?=
+ =?utf-8?B?WFY2UE1lR2lsaXIrMDg3MlVab0dPQWtGcGNDbmhnOCtRNjBJS1VEemU5R3hu?=
+ =?utf-8?B?Y3F1cUduMnhjS1FDUFcvN2gvMFZ0amVUdGtiSGsxUEg3eXJJY2xpWTdXNW5u?=
+ =?utf-8?B?VkwrS3ZzbzFOckQ1SW9DcS9GVWhKL3JLWEsvVjllRG9NNzBuOURPM0d1Z0F4?=
+ =?utf-8?B?OTVwc3hqOUZmeGtUamdKZVdIQ2lPMGJVbWVPcnFSNDh5eTJxVlJsd1NVT1la?=
+ =?utf-8?B?akplVnZQckVtT0pMKzJxZk5ybmNLejVYM3VhZTFHOUQ1R2Myb3FXZVgyUDFx?=
+ =?utf-8?B?Ukt0eG1TN0dBUENab2k0TmY1bk5tSnh4ci80VkloZk43ekJ5eEJtWFcwT3pa?=
+ =?utf-8?B?ZHRZUFZvbDZwaHREN3JId2RycVBYMTlXU1l5UDBOcVhTZ3NRNHc0MVcvWllj?=
+ =?utf-8?B?T0dUTFo0bjNEVTZyMWN3N0xHc05abE9pZCtOK2taN0NmaTI5V2EzclVJWlZ5?=
+ =?utf-8?B?QzFkL05lQ0FuVGxJYnhiTGRqWWRMNW1saXJaaHlUb2JkbWRPaExJWEVNSENY?=
+ =?utf-8?Q?bzcY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL1PR12MB5126.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUxqeUY2SHVmYzRjWjZvRmpNUnFMbHBuNTRkL21QZFBUbWJFQXNPUFgrM0JO?=
- =?utf-8?B?VE9aM3N5RklxVUhNOGk1MzVQYXgxb2VsTkkvdVZXb1JYMWlvbHpJbTdPTnV5?=
- =?utf-8?B?azg1Z0dIWUI1QmhtZWVQZUNZRWdXYWpiQjIrTEwxVXNwNVJvQUhWc1BVVjBl?=
- =?utf-8?B?VThyK3dWZy9yTG1Qa1dPcW5VeHFEQkkxN0tGTDNBVGsvQllJbmxRc1BJT3oy?=
- =?utf-8?B?RnI2cFY2QkxmaGdxb282cHhWcC9YeGFMb0NSMENvbmJQSk80NmdZeHROZ0Ur?=
- =?utf-8?B?OVhodEsrL0lFelhJd1l0akFieUFkd3BvZWF2eFlXeW5ZZVA4emsxZ1Y1SEZO?=
- =?utf-8?B?WFdSQzdZV01sY0JkaUcvMGJDbGlYY1cxSzlBRGxkVisrVThXSGZ3ZG4xSXdj?=
- =?utf-8?B?UWFCT1NJTFFPSlJnZ05LSGVZQ3ZnV0F5V09IeWV0d0U0aStxenR1OWhzU0k1?=
- =?utf-8?B?VzgwWTlKQzhqZ1E3ZVozV0ZCck5WQndsb09PTVVYcXhJMDRaczFZaThZQjRC?=
- =?utf-8?B?WkRIczRGdm5ydUJLdmZUZzc0VVg4VVZaOC9rWnNDd2VacStla2tLdllvUjdC?=
- =?utf-8?B?aWxLT2dSZjZLd1RxS1dsSXYrRHdYUGlJektjQVk3dTd3YlpXdHUxRUREUHlx?=
- =?utf-8?B?REJyZ3lZbGR0WUNJN3k0UE1MWWRDaHhnS3lwVURDRWNiL3JNbFp1L1BuNmxm?=
- =?utf-8?B?OUNNTUZJeUVWQVc4WkVhOE9MK2hQZFZ5MmxZeGJKWVdoTEZ0WHozTE9hQTZ4?=
- =?utf-8?B?WlNvMElDVHJvcVFWSjRoNDVYTGxIWDdvUDdpejc4OUFKSmZVb2FLR0JjWkRB?=
- =?utf-8?B?Rmw3dHFmRzNNRUdPa2ZtZ0FTVlRXZitEZTY0WTd5OXFOYWxUei9SR0NSQVc4?=
- =?utf-8?B?VXYwRGlCNDY4UEtBeUxNaFdKY01CM2lPOTJhbnUzTGIzSTlBcjRiNHdQblYz?=
- =?utf-8?B?UklXc1kxL0h6U2pTU3RPTmtDNXlmWkdpZ0J4YWVJOVJGaS9BdkhBY0tRSUNm?=
- =?utf-8?B?cy9zMlRZV0NCcDhEK0x0Q2N1SXpYbVkzVzczRkg2cGlHTnJZNExBaDlWNmJQ?=
- =?utf-8?B?aGFpNWFCM2oyZVY0Sy96blhaZDBDRGlXNnZCVnZ2TEZ1eHpJOVdPYUt5MXh1?=
- =?utf-8?B?YldqdnRvR0VobUpYcmRqdlBVRm9rcWIxY29yUUFoMC9TTkNBRWRTalhDUGtJ?=
- =?utf-8?B?ck5sNFFhYmlyN2FNcU91NFNyQzNubnlaWHpYM3NRTk5ieUxKT1ZoK0o2ajdh?=
- =?utf-8?B?V1pwclBQVEtoWDdIcW4vdDJCRlBJbHhFdStJZ3lSaXQ5L2UvM212Si9XQzNo?=
- =?utf-8?B?UlBzK1ZRYldwUTRJK2hLdGZ0TTlMZDFmQlNOTHFhMUtVT2Q0RlB0OTMvWGJF?=
- =?utf-8?B?Qi9TOUdzZDR3akhKbElyakFIM0Z4QWxwc0NmMHlKNjJQMDBuZDZhTEFzdktv?=
- =?utf-8?B?TlhGamdLRlF1eUtxTUt6SzlIai9aT0tSZ3RrODVqQWlLTlh5aGlqSUt4aDFP?=
- =?utf-8?B?aWJJbjI3Ti9jU0V2L0pMZ3k4SFZzbnNWTW9MZ0tRdFY3dTJ2T3RaMGRWQjhs?=
- =?utf-8?B?Q0o1ako2T1BGTlVVcG1UazBobDJ0cXhmbjgrVGFha1pidnd4dTZhamxqdzRT?=
- =?utf-8?B?Z1pLdEJDVmJ1MUxSNkF6c29mV0psaEphcEJ3aFcwZjlUT1IwbHpPdFdvc094?=
- =?utf-8?B?ZzA5UTJCancvTnZmcmErTDJ4R0RVT21TUXhCZTJxczcrdTBtMS9jRkl6ZXFa?=
- =?utf-8?B?R3VqTm5tUHlKK2NFUVFIL2lHTUhHZFRGRk5xOEEzMVA4WlR2amRXcGloM0or?=
- =?utf-8?B?U2t0TnkzVGhNTFlNaWZhRHROMTdhV1JaUUJrOVFjWnZZTzdSaXpFeWJ6WnZR?=
- =?utf-8?B?ZkZ2NnVhTGZybnRWNWxNVVdpbHJUbEZMN05wbHVwYUE2L3dwdVYwVExDVVht?=
- =?utf-8?B?RWx5RklEKzRqTFNvc1cwWWJ3ekhhbDAzSUpURFZ5Q2t3TXJtcU9BUmZ1bmFx?=
- =?utf-8?B?c2hlYkpFRDVyUHhBMld3cUh3YkhudHpWOEkvbHhEN25yMGVtUnhzVm02R1pU?=
- =?utf-8?B?Z3BFWXBFcHdzVkpCS2U2SG11RW14a2NHdEQxeEl5bmt6NjRhMnhjSy9XWHNM?=
- =?utf-8?B?MUVVN2NTemN4VlU5aXgrcFB5SHFJdHI4T1RMNHNtK1VLeTJ6S1NxNkNEalFS?=
- =?utf-8?B?dFlPc1d5WTBPL3R4d0xCVHJuMkxKRnU4VzcrSm03TlhvN0kxLy9xZ2xzSVhI?=
- =?utf-8?B?NDRGbUtSY2xGVmk2NXJHL2cySUJuektLaDlrVjkvWkhuMUVsZnU0Ulp6bVhy?=
- =?utf-8?B?bmpYNzJPTVlhVnFQTkpoNVdtbFhuaVI3bmdLTEF1c0ZBQUJ6T3JyUT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmhIYXhadTk4RHV2Z2xmcStnd1JlUGc1SEJoUloweEwvS1UzNXhvdjVxNXc1?=
+ =?utf-8?B?NlZYTkp2anoxTnRFZnZHZEgwWHdVcXFsNVNxbmI3YVpoZEZrOEdkTU1qVDI0?=
+ =?utf-8?B?OHcydTUyeEJSKzJPaDYzUjNqKzRVUUN1REsrdG02YUtVb0dHUHFqRlNFdVh5?=
+ =?utf-8?B?cmkyM0pVcGEwSkdER3BLb2VXd1UvcDAzdGNHS2xZdzNpMnF0R2U1MXM3bWFB?=
+ =?utf-8?B?RXBkRDMrSjU1bnFvN3VVU3grQ0E5K0J6RXNoVjA1cXZNcy9xaERpc1lwSFBa?=
+ =?utf-8?B?cTRkek9EdlJyMmlvRTE2amM5VnNvMjBEa09tZ21PL3YwM3hZUnFsZy9QZWQx?=
+ =?utf-8?B?YW03dHJXOW5NZXZveVR6cHJ2N2hKR2tvWERFK2kxdWF5REtxN1RDK1NGS3Az?=
+ =?utf-8?B?Z2UzSGFMMTNxbzRORzJZa1RuRlJ1VWdTTTRpUXI3QmtocEZpWnlyNDhUSXB5?=
+ =?utf-8?B?ZEhCOSt5UWRvQ2ZFMytzOFhxZmFZY2V3YXNEd3pqcGVzZy9VRTVPQjV4WWRh?=
+ =?utf-8?B?dWtSY0Y1eU9jVGd1QWF5RVJZRkVTNnlCbnNoRUR2bkxLV05BenhCbUVMc3JJ?=
+ =?utf-8?B?VVFwY0Z6SUt6cnFYcXpjU2trVjU1a0NzOVdyNUNxUlVQUG9sdkVFSmlONzBL?=
+ =?utf-8?B?Vm05d2tGcHVLdmVYelBrL01ObVlIVjhJejVONi9QQndPNGgxL05DRVRRWGZI?=
+ =?utf-8?B?SEpRRmpJT3lzaXMxT3F3TmFETjUrQkR4Mmw3ZVRqY0lYUEE1eU1Jb1Z6RUpt?=
+ =?utf-8?B?Mk52QlcxcFplM3BmNGtobWVQYzZCclAybjZISCtES1E1M2Vwb2hWK1Q4ZkJv?=
+ =?utf-8?B?SjMvdTlnUFhyTU9ac3g4NGNqaThoNU9MVTEzUGhoMXVnN0tmbHlud1FJTWxu?=
+ =?utf-8?B?bUN4d2VsVlBHd085MDRBdWlnWjVFQnQ0Z21LWjErU3BjREFTS3dDNEIrYmlG?=
+ =?utf-8?B?MkkvOFEvbFYrY0RxRS9jRmZvZUVJL1ZIdzRjUGNsMXJ3R29BMmZxRnduZW5j?=
+ =?utf-8?B?RndGYVkzQU9yekxORnY0NVE5ZnVSS29SaXJqY1dqSnYzM3FJdU5FNlB4bzRS?=
+ =?utf-8?B?VEpBaCtkNUtiQWFhQnkzbG9nekNza0xLTTdJczFMRzg4WjQzS3o4aWJvQlVx?=
+ =?utf-8?B?RXViM3d4S0hJa21uOVNIR1ZBYVNiSUp1SWowUmZPdVpnRlY5T2xmMzJ4NU9j?=
+ =?utf-8?B?MG5HbWxWdXRrWGlpT20wazJPUTI3QXF4dGVUMTk5djl2UUJTQnRoUmxNcEpB?=
+ =?utf-8?B?anphZldPaVFSckFmM0N5ZWxpOGdzV0RnYzd1T2FMcGpnZFg0T3lpTzU1c3hX?=
+ =?utf-8?B?aDBmYlFrY2VRQk5sOXRKTWR6V2ZqQi8wVGZRaGFFbDdUYWVXNlhCUlNraHFo?=
+ =?utf-8?B?ZnM4WkxSdDRpZmdPUDVOMVRtaGE0RzJ4SmpkV3AxU01sZk1vc2c1N2VDSDhh?=
+ =?utf-8?B?K09QUHBnaUlKcUR1U1Foam1OU24veCtjQnBhbk9Yd0JjdHlpU2hUWDJyaS9s?=
+ =?utf-8?B?SWhGb3htVjd6VDRVT3dZSHZUdDVyMm9mVEJPblNwM2lXV1ZVbVJISTZuakNz?=
+ =?utf-8?B?SlJHSCtpYjZTT20rRG1uUlUvRnhGZG9KalA0c250SExhZVFqVEl6RkRFUmln?=
+ =?utf-8?B?aUhxcGJvNjNycUI4VzkzSmkzY0JlWUJCaVc2clFrY1JPaUt3V1U1SnYyUDhE?=
+ =?utf-8?B?dHpJMmwrbEZ4QzJxem5sYkJVN2I3YnhUVEFzanR2MVZpSytjWUVZMHFuMkIx?=
+ =?utf-8?B?bHk0dGJobWJoeThtUHBPUmY3ZGlCZ29qcW1MSUZNZDRRNzZKajM5QzMvdkVJ?=
+ =?utf-8?B?R0VCdHNScm0rb0RlR0VuNGsxVy9yc04wZXE4N2tzMHpTQTVwelozMkkvOTl6?=
+ =?utf-8?B?MVdRVWdiRlNpRWpyRHVjTzk2QXFwVEZnWVo1Rno4WlFoa0diYm9CSDBScnZO?=
+ =?utf-8?B?TEJnVCtDSjdhWWhjUWVNZ0Uvem1RR1pKUS9oaUdISktWOWlvOGxnSHJYMUQ2?=
+ =?utf-8?B?Y2lDNFdGRGZrTHVpUlJvYlgvazlYdE0rUDQ1VXhTTHF5bVNBN1hrQ0VRVHFl?=
+ =?utf-8?B?NjBlL1RIb2NlWjhPUnBHcjJDMEF5YmZzUnNMMTVTM0FOSkNoV1o3L1AwSVVX?=
+ =?utf-8?B?NlJVMU5mSGw0SW9WQmZBV1pNQ0RlSW40NWpKdUM5dXpBQW5vQ212eDVPRUp2?=
+ =?utf-8?B?RVpyK3lqTFUyc0ZFME55QkQrR3FyeW5sR2pTakVobUhFT2hBb2ErWUNFdk15?=
+ =?utf-8?B?UUN5Mk9JclZzRXo4WEk1c0M0SjVDc01TWEhqSUhHSmpkVnI2cXdTZXBRWFEz?=
+ =?utf-8?B?bjVRbm9mOVB2eE5ZQUdSNlVEVkNFc29rYlRqZCtlWVBlS2loRWhHQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d88b5c3-4a96-47dd-d398-08de553dc0d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20689962-6f64-40b5-dccf-08de553df5db
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5126.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:28:05.2651 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:29:34.0452 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VRHTXlFaM3XVKC/o7TupnrxE/E+ZTL5YDTQS2YAmLhe+awjOBIFHOEu45LhDnDcm48YpuFhlQss7TU7Tgiti5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6882
+X-MS-Exchange-CrossTenant-UserPrincipalName: mr3ftH7AA7iaFjSwi1sRCTHemhraLF+hUmdydE74RrDsIyEtUDwElskdr78818qzQlRM0ncqwkK31d4a8kXvRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9690
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,229 +175,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2025-12-08 18:44, Melissa Wen wrote:
-> Commit 27fc10d1095f ("drm/amd/display: Fix the delta clamping for shaper
-> LUT") fixed banding when using plane shaper LUT in DCN10 CM helper.  The
-> problem is also present in DCN30 CM helper, fix banding by extending the
-> same bug delta clamping fix to CM3.
+> We've seen some shimmer points on DCN32 when using the steamOS color
+> pipeline for HDR on gaming. Looks like black values being wrongly mapped
+> to red/blue/green values. Fiz that by using the exact number of
+> hw_points computed in the LUT segmentation. Probably the whole logic
+> that adds +1 to the latest points should be revisited.
 > 
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+I haven't had a chance to trace the hw_points logic but am
+inclined to take the patch if it fixes things. My only concern
+is that it reverts part of Kruno's change to increase the points
+by 1 so I wonder if it could break something else subtly.
+
+Alex Hung will follow up and get back on it.
 
 Harry
 
 > ---
->  .../amd/display/dc/dcn30/dcn30_cm_common.c    | 30 +++++++++++++++----
->  .../display/dc/dwb/dcn30/dcn30_cm_common.h    |  2 +-
->  .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   |  9 +++---
->  .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 17 ++++++-----
->  .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 16 +++++-----
->  5 files changed, 49 insertions(+), 25 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-> index ba20575be214..b1c2c8da1937 100644
+> index 0690c346f2c5..ba20575be214 100644
 > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
 > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-> @@ -105,9 +105,12 @@ void cm_helper_program_gamcor_xfer_func(
->  #define NUMBER_REGIONS     32
->  #define NUMBER_SW_SEGMENTS 16
+> @@ -225,7 +225,7 @@ bool cm3_helper_translate_curve_to_hw_format(
 >  
-> -bool cm3_helper_translate_curve_to_hw_format(
-> -				const struct dc_transfer_func *output_tf,
-> -				struct pwl_params *lut_params, bool fixpoint)
-> +#define DC_LOGGER \
-> +		ctx->logger
-> +
-> +bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
-> +					     const struct dc_transfer_func *output_tf,
-> +					     struct pwl_params *lut_params, bool fixpoint)
->  {
->  	struct curve_points3 *corner_points;
->  	struct pwl_result_data *rgb_resulted;
-> @@ -248,6 +251,10 @@ bool cm3_helper_translate_curve_to_hw_format(
->  	if (fixpoint == true) {
->  		i = 1;
->  		while (i != hw_points + 2) {
-> +			uint32_t red_clamp;
-> +			uint32_t green_clamp;
-> +			uint32_t blue_clamp;
-> +
->  			if (i >= hw_points) {
->  				if (dc_fixpt_lt(rgb_plus_1->red, rgb->red))
->  					rgb_plus_1->red = dc_fixpt_add(rgb->red,
-> @@ -260,9 +267,20 @@ bool cm3_helper_translate_curve_to_hw_format(
->  							rgb_minus_1->delta_blue);
->  			}
+>  	// DCN3+ have 257 pts in lieu of no separate slope registers
+>  	// Prior HW had 256 base+slope pairs
+> -	lut_params->hw_points_num = hw_points + 1;
+> +	lut_params->hw_points_num = hw_points;
 >  
-> -			rgb->delta_red_reg   = dc_fixpt_clamp_u0d10(rgb->delta_red);
-> -			rgb->delta_green_reg = dc_fixpt_clamp_u0d10(rgb->delta_green);
-> -			rgb->delta_blue_reg  = dc_fixpt_clamp_u0d10(rgb->delta_blue);
-> +			rgb->delta_red   = dc_fixpt_sub(rgb_plus_1->red,   rgb->red);
-> +			rgb->delta_green = dc_fixpt_sub(rgb_plus_1->green, rgb->green);
-> +			rgb->delta_blue  = dc_fixpt_sub(rgb_plus_1->blue,  rgb->blue);
-> +
-> +			red_clamp = dc_fixpt_clamp_u0d14(rgb->delta_red);
-> +			green_clamp = dc_fixpt_clamp_u0d14(rgb->delta_green);
-> +			blue_clamp = dc_fixpt_clamp_u0d14(rgb->delta_blue);
-> +
-> +			if (red_clamp >> 10 || green_clamp >> 10 || blue_clamp >> 10)
-> +				DC_LOG_ERROR("Losing delta precision while programming shaper LUT.");
-> +
-> +			rgb->delta_red_reg   = red_clamp & 0x3ff;
-> +			rgb->delta_green_reg = green_clamp & 0x3ff;
-> +			rgb->delta_blue_reg  = blue_clamp & 0x3ff;
->  			rgb->red_reg         = dc_fixpt_clamp_u0d14(rgb->red);
->  			rgb->green_reg       = dc_fixpt_clamp_u0d14(rgb->green);
->  			rgb->blue_reg        = dc_fixpt_clamp_u0d14(rgb->blue);
-> diff --git a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-> index b86347c9b038..95f9318a54ef 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-> @@ -59,7 +59,7 @@ void cm_helper_program_gamcor_xfer_func(
->  	const struct pwl_params *params,
->  	const struct dcn3_xfer_func_reg *reg);
->  
-> -bool cm3_helper_translate_curve_to_hw_format(
-> +bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
->  	const struct dc_transfer_func *output_tf,
->  	struct pwl_params *lut_params, bool fixpoint);
->  
-> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-> index 81bcadf5e57e..f2d4cd527874 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-> @@ -239,7 +239,7 @@ bool dcn30_set_blend_lut(
->  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
->  		blend_lut = &plane_state->blend_tf.pwl;
->  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
-> -		result = cm3_helper_translate_curve_to_hw_format(
-> +		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
->  				&plane_state->blend_tf, &dpp_base->regamma_params, false);
->  		if (!result)
->  			return result;
-> @@ -334,8 +334,9 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
->  	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
->  		params = &plane_state->in_transfer_func.pwl;
->  	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
-> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
-> -				&dpp_base->degamma_params, false))
-> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +							&plane_state->in_transfer_func,
-> +							&dpp_base->degamma_params, false))
->  		params = &dpp_base->degamma_params;
->  
->  	result = dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
-> @@ -406,7 +407,7 @@ bool dcn30_set_output_transfer_func(struct dc *dc,
->  				params = &stream->out_transfer_func.pwl;
->  			else if (pipe_ctx->stream->out_transfer_func.type ==
->  					TF_TYPE_DISTRIBUTED_POINTS &&
-> -					cm3_helper_translate_curve_to_hw_format(
-> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
->  					&stream->out_transfer_func,
->  					&mpc->blender_params, false))
->  				params = &mpc->blender_params;
-> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-> index b213a2ac827a..27abc08918bc 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-> @@ -486,8 +486,9 @@ bool dcn32_set_mcm_luts(
->  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
->  		lut_params = &plane_state->blend_tf.pwl;
->  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
-> -		result = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
-> -				&dpp_base->regamma_params, false);
-> +		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +								 &plane_state->blend_tf,
-> +								 &dpp_base->regamma_params, false);
->  		if (!result)
->  			return result;
->  
-> @@ -502,8 +503,9 @@ bool dcn32_set_mcm_luts(
->  	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
->  		// TODO: dpp_base replace
->  		ASSERT(false);
-> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
-> -				&dpp_base->shaper_params, true);
-> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +							&plane_state->in_shaper_func,
-> +							&dpp_base->shaper_params, true);
->  		lut_params = &dpp_base->shaper_params;
->  	}
->  
-> @@ -543,8 +545,9 @@ bool dcn32_set_input_transfer_func(struct dc *dc,
->  	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
->  		params = &plane_state->in_transfer_func.pwl;
->  	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
-> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
-> -				&dpp_base->degamma_params, false))
-> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +							&plane_state->in_transfer_func,
-> +							&dpp_base->degamma_params, false))
->  		params = &dpp_base->degamma_params;
->  
->  	dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
-> @@ -575,7 +578,7 @@ bool dcn32_set_output_transfer_func(struct dc *dc,
->  				params = &stream->out_transfer_func.pwl;
->  			else if (pipe_ctx->stream->out_transfer_func.type ==
->  					TF_TYPE_DISTRIBUTED_POINTS &&
-> -					cm3_helper_translate_curve_to_hw_format(
-> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
->  					&stream->out_transfer_func,
->  					&mpc->blender_params, false))
->  				params = &mpc->blender_params;
-> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-> index 2fbc22afb89c..5eda7648d0d2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-> @@ -430,7 +430,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
->  		if (mcm_luts.lut1d_func->type == TF_TYPE_HWPWL)
->  			m_lut_params.pwl = &mcm_luts.lut1d_func->pwl;
->  		else if (mcm_luts.lut1d_func->type == TF_TYPE_DISTRIBUTED_POINTS) {
-> -			rval = cm3_helper_translate_curve_to_hw_format(
-> +			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
->  					mcm_luts.lut1d_func,
->  					&dpp_base->regamma_params, false);
->  			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
-> @@ -450,7 +450,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
->  			m_lut_params.pwl = &mcm_luts.shaper->pwl;
->  		else if (mcm_luts.shaper->type == TF_TYPE_DISTRIBUTED_POINTS) {
->  			ASSERT(false);
-> -			rval = cm3_helper_translate_curve_to_hw_format(
-> +			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
->  					mcm_luts.shaper,
->  					&dpp_base->regamma_params, true);
->  			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
-> @@ -627,8 +627,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
->  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
->  		lut_params = &plane_state->blend_tf.pwl;
->  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
-> -		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
-> -				&dpp_base->regamma_params, false);
-> +		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +							       &plane_state->blend_tf,
-> +							       &dpp_base->regamma_params, false);
->  		lut_params = rval ? &dpp_base->regamma_params : NULL;
->  	}
->  	result = mpc->funcs->program_1dlut(mpc, lut_params, mpcc_id);
-> @@ -639,8 +640,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
->  		lut_params = &plane_state->in_shaper_func.pwl;
->  	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
->  		// TODO: dpp_base replace
-> -		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
-> -				&dpp_base->shaper_params, true);
-> +		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-> +							       &plane_state->in_shaper_func,
-> +							       &dpp_base->shaper_params, true);
->  		lut_params = rval ? &dpp_base->shaper_params : NULL;
->  	}
->  	result &= mpc->funcs->program_shaper(mpc, lut_params, mpcc_id);
-> @@ -674,7 +676,7 @@ bool dcn401_set_output_transfer_func(struct dc *dc,
->  				params = &stream->out_transfer_func.pwl;
->  			else if (pipe_ctx->stream->out_transfer_func.type ==
->  					TF_TYPE_DISTRIBUTED_POINTS &&
-> -					cm3_helper_translate_curve_to_hw_format(
-> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
->  					&stream->out_transfer_func,
->  					&mpc->blender_params, false))
->  				params = &mpc->blender_params;
+>  	k = 0;
+>  	for (i = 1; i < MAX_REGIONS_NUMBER; i++) {
 
