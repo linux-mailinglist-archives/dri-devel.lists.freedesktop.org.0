@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5280CD2963E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 01:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9141D296B6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 01:36:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6E010E7CC;
-	Fri, 16 Jan 2026 00:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB8B10E0B4;
+	Fri, 16 Jan 2026 00:36:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uHowNiP9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bHfqrQdE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851A110E049;
- Fri, 16 Jan 2026 00:14:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F01F843A80;
- Fri, 16 Jan 2026 00:14:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C564AC116D0;
- Fri, 16 Jan 2026 00:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768522474;
- bh=AJVJaIau4oUE8+USI5LB6aUb5QRcK7sa1qDRt8591bI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uHowNiP9qCHOA92hm4tcQ0MWft9mQiNxQYzPJtuz6EMr6Mmh+QbT5G/4ITxn83YSA
- doR7AZWZyoyBxLar5gja86cWgGPjYsQNaevJt+7NeISlzc0GbkJpHY5HaCOe20ET5l
- j32C7erP4BCTqQv48GtH34YP1TfT+KXQeLW6CsXZfAjTJubSNpwJPLbcVxiuVxSjQ+
- ELxOBDYCK1ynyGJRNfEXBDGQ3AElOPYz56KKyQIiiGC1GcvagpTsNPq5LQyK7B1IAG
- Dp8YfuwWw3hcUbJQN0ubNYQcOqxys7bLTBdrgBD/BrjhX3usMljh1CtJni7Cochle3
- Mwn4xpKDO7+xg==
-Date: Thu, 15 Jan 2026 16:14:34 -0800
-From: Kees Cook <kees@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Kenneth Feng <kenneth.feng@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] drm/amd/pm: Avoid multiple
- -Wflex-array-member-not-at-end warnings
-Message-ID: <202601151612.79AAC91869@keescook>
-References: <Z678TNhCbTk363Tw@kspp>
- <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
- <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
- <CADnq5_M5Jv4A5CXAKY2Qd-dhrfmecnauRtVY_ghSsut7i=KNww@mail.gmail.com>
- <d07b4edc-6048-4c10-b8ac-dcccd5a932d3@embeddedor.com>
- <d43dac3e-122d-4c16-9c1e-760eac91b8da@embeddedor.com>
- <CADnq5_Mqa2HWWKrAYTAfjdvEQTMUeB1MBnhtRxJZjXLWcz1nmg@mail.gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9983410E0B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 00:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768523763;
+ bh=E+ekq3M7DK/UcfRaVUQRzGbW3dunWhCit0SKY6nqEyg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=bHfqrQdE1WGwOpXNIvHjOQcJEDLG4ohndq2hePP/J2IIck8iITLyjz1e88tu6a+Ig
+ sZFiajmLam3kyXSa8DuZQUzShB70oiNeVRaV20cGLb6aVCdprZYWNK802knnB6rM2b
+ NPxr3EQGdnYKJUUkx8ze8QUrovSxOsvgnKebQp0DufRTJ3TgYJeW0YGiOeJFU6T6Z/
+ jZ1VJ85hSNjOgNLMG0fPy/0dSQ0refrO52Ijx+Nw9B1BplOldE+f6l8QU9Dz5viAVS
+ z9Kh3Rr7HaAtSlrQzLeQIkxMo9XPNifMOBZXRME+8DDtthZg9/v+TenLcTq9UgdRUe
+ O6YnQjhF1JZUQ==
+Received: from [192.168.0.79] (unknown
+ [IPv6:2804:14d:72b4:81ae:67c:16ff:fe57:b5a3])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: dwlsalmeida)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id AB3D117E12FE;
+ Fri, 16 Jan 2026 01:36:00 +0100 (CET)
+From: Daniel Almeida <daniel.almeida@collabora.com>
+Subject: [PATCH 0/4] rust: Add ARef support for work items
+Date: Thu, 15 Jan 2026 21:35:56 -0300
+Message-Id: <20260115-aref-workitem-v1-0-9883e00f0509@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_Mqa2HWWKrAYTAfjdvEQTMUeB1MBnhtRxJZjXLWcz1nmg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOyHaWkC/x2MQQqAIBAAvyJ7TlDJir4SHczWWiINjQqkvycdh
+ 2EmQ8JImKBnGSJelCj4ArJiYFfjF+Q0FwYlVCOk1NxEdPwOcaMTdy6cbrF2UyetgdIcxdLz/4b
+ xfT/hWnKiXwAAAA==
+X-Change-ID: 20260115-aref-workitem-0f57e4fb81ca
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Daniel Almeida <daniel.almeida@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,35 +70,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 13, 2025 at 08:57:58AM -0400, Alex Deucher wrote:
-> On Wed, Aug 13, 2025 at 1:12 AM Gustavo A. R. Silva
-> <gustavo@embeddedor.com> wrote:
-> >
-> > Hi!
-> >
-> > On 22/04/25 23:58, Gustavo A. R. Silva wrote:
-> > >
-> > >
-> > > On 16/04/25 09:04, Alex Deucher wrote:
-> > >> Can you resend, I can't seem to find the original emails.
-> > >> Additionally, all of the NISLANDS structures are unused in amdgpu, so
-> > >> those could be removed.
-> >
-> > I'm taking a look at this, and it seems that those NISLANDS structs are actually
-> > needed in amdgpu code. For instance, `struct si_power_info` contains a member
-> > of the type of `struct ni_power_info`, and this latter struct contains a
-> > member of the type of `NISLANDS_SMC_STATETABLE`, thus `NISLANDS_SMC_SWSTATE`
-> > and `NISLANDS_SMC_HW_PERFORMANCE_LEVEL` are needed, and so on.
-> >
-> > So, it seems that all those structs should stay. What do you think?
-> 
-> They are not used for programming the hardware.  They were just
-> inherited from radeon.  All of the NI SMC stuff can be dropped.
+This series adds ARef<T> support for both regular and delayed work items. 
 
-(Looking through patchwork...)
+- Patches 1 and 3 actually implement the support in workqueue.rs
+- Patches 2 and 4 adds a corresponding implementation in drm::Device that
+  dispatches the calls to the underlying T::Data.
 
-It's not obvious for me how to drop that stuff. It seems pretty
-integral? What's wanted here?
+This was tested on Tyr, and is actually needed in order to obtain a
+&drm::Device when handling work items. This is then needed in order to
+allocate GEM objects inside the work handler that processes the tiler OOM
+(out of memory) events. The current series sets the stage so that the above
+is possible in the future.
 
+This is currently based on v6.19-rc5. I hope we can land all four commits
+on a single tree, but otherwise let me know whether I should split the
+workqueue.rs changes from the drm::Device ones and rebase accordingly.
+
+---
+Daniel Almeida (4):
+      rust: workqueue: add support for ARef<T>
+      rust: drm: dispatch work items to the private data
+      rust: workqueue: add delayed work support for ARef<T>
+      rust: drm: dispatch delayed work items to the private data
+
+ rust/kernel/drm/device.rs | 66 ++++++++++++++++++++++++++++++--
+ rust/kernel/workqueue.rs  | 96 ++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 152 insertions(+), 10 deletions(-)
+---
+base-commit: 0f61b1860cc3f52aef9036d7235ed1f017632193
+change-id: 20260115-aref-workitem-0f57e4fb81ca
+
+Best regards,
 -- 
-Kees Cook
+Daniel Almeida <daniel.almeida@collabora.com>
+
