@@ -2,94 +2,182 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E92D30BFD
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 12:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC11D30CED
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 13:02:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E03D10E1EF;
-	Fri, 16 Jan 2026 11:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B225B10E86F;
+	Fri, 16 Jan 2026 12:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MoVXVYiR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DHCCd12v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E4E10E11B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 11:57:13 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 707C13D7;
- Fri, 16 Jan 2026 12:56:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1768564604;
- bh=gzXWVjxlE3pxqOkbbUIRSOdX23bLsGvo0+Fty0Ll28s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MoVXVYiRhqnzyvGq0QSzMfQ2EsvRBhU1eiLusQNAALyC/e0B0Wva+9ntDyF5TlPCq
- ADxf4/TRcbnvkgj1/Dsos6kaOBI9k0WGLny/mNS8xetbr9wSCgGp3QL23pjCwvzw+W
- UXi6N1vatkYnDt+L4QVa/CWMxGiiZFTdXPRLpwCo=
-Message-ID: <e319d432-8687-462d-9bce-660de01c6696@ideasonboard.com>
-Date: Fri, 16 Jan 2026 13:57:08 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE31610E11B;
+ Fri, 16 Jan 2026 12:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768564968; x=1800100968;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=7L219SglN/PEzlCqEYsKUF6B+kD5zZoHqeYkExHmC/g=;
+ b=DHCCd12vFmI40iS/Yoahmar3jnnGG1MHU/jvvwh5CLxn6nOkVUJvzLIe
+ LLkBmxaUGAoBHvFwzX5oKj8u+GF1X/n4blDkhoVZJfxFrs1A7Ofj3h/yu
+ GRNMvrChgCHG6wtXmHa8Gw7jJHCkOYEbbI8LQ3hVYJkbrkqbKynnB7HaX
+ JSGGBHGwX60ri5VPJs2cFy21x5t13HESkJt5eoo+fbigPpc+JIVjO9unS
+ PCoxNv9IAGubr7izyW5paCHBs29scMFeFFJixBvVZ13aiuW7VFdhQbGeX
+ vDzgQRfEM7LfS0JN/ju6ENE1bT4Ak/I/8CBWRYJaibnSsD4dhklHIWC7W w==;
+X-CSE-ConnectionGUID: ziYjqQhfQqmOf7lucADLTw==
+X-CSE-MsgGUID: Be5IE093SJiPdPzq2c9Z1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80521160"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="80521160"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2026 04:02:47 -0800
+X-CSE-ConnectionGUID: Rm7HLIksSkqu3a0rQ4yOSw==
+X-CSE-MsgGUID: /r0/po+uSim0n3MEaFikvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="242772568"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2026 04:02:47 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 16 Jan 2026 04:02:46 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Fri, 16 Jan 2026 04:02:46 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.31)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 16 Jan 2026 04:02:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vhbk9GL3CDq5VPyNdRMKEZTupdWMddI9WNFOf4mnxyQPC/+P754+EUa4jWLNPXoeuYJVahw1MoK379sOQTeuNNLXibP9ffRBRvzsL0NepLRUxmeyjwlY7Uj+FJAzXmW2nirJxA9UGETkSSA6ycG6sVozbX8tW9ouO70doZJuL+DDDGI2z6u7vyn4HgftkaBMkvQvvmpKEuTI8PY08spU7xtfeyqpCjKJH44v1X+lzziUsEFOH5+JOISgNNIZHuHy7QtrHKca717CYnYUERdGe/tW0oZrOa27cOIzt0NqSGR22Ya2CKxHVkCA/QLwUPDAYxWLqQnMg5XjsJ50Itwv+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=usPasjRE/H5V2+nkLHoYwXlpGP6jy12WA++GuX/bN1c=;
+ b=Mr/ohyTE8A+YNQmP7KXMPfHIq8mi+qsEB+s6tUV0yJ9UR2dTTaMo8bS82tu4utcjmgrteEGQ2hXuF4XsBn+vrCDzkRLvSUSFXg/ntXDyQjw6SZ0Wk9f5JcgKNfj5cpNr501JofmIZpbyjTNIymn8okt6aMuIRyOWIhf66JSlwnQZ8PHPU7g9/dxIgAADQYpr6SFpTqGLeR9hmcWoEdQYJ80zx0U4ur0p7gqMza94v+zlHPN00mQtyHyNLPT/gXth+ckEyK2mwmKca3cvtbtdbKDMDnEE0Qk8va83EbJFHAotbjHEsO2zPTdqvhLd2+RqGCx7jAxikMwGWpKIrWNxIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY8PR11MB7828.namprd11.prod.outlook.com (2603:10b6:930:78::8)
+ by DS0PR11MB7559.namprd11.prod.outlook.com (2603:10b6:8:146::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 12:02:41 +0000
+Received: from CY8PR11MB7828.namprd11.prod.outlook.com
+ ([fe80::1171:db4d:d6ad:3277]) by CY8PR11MB7828.namprd11.prod.outlook.com
+ ([fe80::1171:db4d:d6ad:3277%3]) with mapi id 15.20.9520.006; Fri, 16 Jan 2026
+ 12:02:41 +0000
+Date: Fri, 16 Jan 2026 13:02:31 +0100
+From: Francois Dugast <francois.dugast@intel.com>
+To: Balbir Singh <balbirs@nvidia.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Matthew Brost <matthew.brost@intel.com>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>, Alistair Popple
+ <apopple@nvidia.com>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v6 4/5] drm/pagemap: Correct cpages calculation for
+ migrate_vma_setup
+Message-ID: <aWoo16A5-Nj5-iNy@fdugast-desk>
+References: <20260116111325.1736137-1-francois.dugast@intel.com>
+ <20260116111325.1736137-5-francois.dugast@intel.com>
+ <32ad0dee-0604-411b-b99a-b1bfd8ba89ed@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <32ad0dee-0604-411b-b99a-b1bfd8ba89ed@nvidia.com>
+Organization: Intel Corporation
+X-ClientProxiedBy: DB9PR01CA0011.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:1d8::16) To CY8PR11MB7828.namprd11.prod.outlook.com
+ (2603:10b6:930:78::8)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/bridge: cdns-dsi: Split pm_ops into runtime_pm and
- system_sleep ops
-To: Abhash Kumar Jha <a-kumar2@ti.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, s-jain1@ti.com, p-mantena@ti.com,
- aradhya.bhatia@linux.dev, p.zabel@pengutronix.de, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, devarsht@ti.com,
- u-kumar1@ti.com
-References: <20260112091210.3505622-1-a-kumar2@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20260112091210.3505622-1-a-kumar2@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR11MB7828:EE_|DS0PR11MB7559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72ad7258-4088-45d0-c693-08de54f726a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9+VyKAJLw8+OaS28TsB/j1pPdDreMnFlqpkQWqOM3BoTcQihzPllf8ZWN2eJ?=
+ =?us-ascii?Q?gJ5bq/7/5GAgBO/DC+79PC7OPKhgIxH0zG0SyQyNcOFgEJo86vD5HuKEATP2?=
+ =?us-ascii?Q?3WE2ME3LeEzZqNX0bpLSeAz4N9ulXRAjOT+vm4o+BR+IzZp8AFKTmnvCkcvO?=
+ =?us-ascii?Q?Nwx3YjsRh9aVxcaxc+qjP6AOoozMDkfe9ZQlfWlj2dkiuziAK3635Vz2lB33?=
+ =?us-ascii?Q?ejyPMqzsnrhZczx/F/otW/KG72tc0FR4ZUxpNYbW/xcp2UJ/xQ1nxbv/dmta?=
+ =?us-ascii?Q?falCAjMHDN9ZDBsASlOcODlVD8adeiN/EjPtAUz7X5v31kNhsaPQXxZR9pK3?=
+ =?us-ascii?Q?9b/uVwUyTQTL2hn3KMfhLlDYJUU+gQLLwGnf/1V0l7qQ+TXBSdlH82PXUwLd?=
+ =?us-ascii?Q?br2jSSRfs6uu1IKj56yuhnpOhI3gSeybnnemjZSnwpYZPzIncWRuBJ820X+U?=
+ =?us-ascii?Q?ylxHQcrpoXv3EJNldrs5/Krz5sx6BjIrbDAIBaMeHmyGTptMAvz42WPX1M3y?=
+ =?us-ascii?Q?4UVW3rI9L+dUmdDdVSmUbMinIpigzzzHhmA4yxwcbQN4VUtQg9bmqrOTSh2d?=
+ =?us-ascii?Q?a3xCjc2mSCxrc05qN28eWmYtvi42yHSRayUFNqg/HHq3+YhJNX2O3Char/gb?=
+ =?us-ascii?Q?tl2pUlfXx//kEEO6uni9w+BtTtAlwjN/vh+SuiVIqvUP9s8/Oib5hRf2d+j5?=
+ =?us-ascii?Q?suKDaQ2KD39B58KI8YF3ZFuG+/vrtlrtYe9us+a10TFKFRoEjiJ5C3fzC1Az?=
+ =?us-ascii?Q?/TePoMzugovpiPNYf3QhOAqARwUKKTJqJR18R8fNEC1SK7WJYzKwU9jEBykx?=
+ =?us-ascii?Q?nUlSr1zS17JDM1t9Aq7UhBWg6O1fZ6t14IHp1Aq2lwdd0Z4MMnovSheR7bO/?=
+ =?us-ascii?Q?1Y8XILNHerKwsM0x9pKFK7n181famWGv7Pkl/AMQnJQRKeeInM7+S96Lrktz?=
+ =?us-ascii?Q?oS0t7q8ZiYLhnN6fDqyVMbpNRsDxXoBtz9O5gTfGXWaFXYrbdoGuSXznerPb?=
+ =?us-ascii?Q?/6AultKn7o+Ctq1KJlowYIDnsHtdmzkPa8lHjJ6JV/Yn07v6k6ixmZSqnBmM?=
+ =?us-ascii?Q?4asTpEIk77M3xdXU6KPLJFwUBzWDGYYm228UBt5xW79vEH1C2TZDSWCd1Ub+?=
+ =?us-ascii?Q?jiqkG6ljj+7dfnlwmTcnxY3WBTZA1P8jy1AztKDd2xMdwBZ+201GcPUTRmyP?=
+ =?us-ascii?Q?Tb+69iz46MXgQKY76r+zcImbUAKkj/wuhZII04SvoUWdBVHEYgeR3E/ohffq?=
+ =?us-ascii?Q?MV+t9eVI8k2F/XSlqFjS5rur1oR7zOjm2a1o/Y4mgJN22xL1TbzCeeQ4qtEw?=
+ =?us-ascii?Q?UmWPdqejn6Z0B0nXORbgNwyGlLw/EN7FFhw4xKp1nMo614j1NjRTR12TpI8r?=
+ =?us-ascii?Q?JUeGZz+aLL6+010KTGZteoFWRGNpf9+mhwNh59B/NEMXKeymKugMzgFVKcaR?=
+ =?us-ascii?Q?2DX3jRjFYRyFix5aHCXL2kbX8S5JJiRPUJwIwqQVf7RbaqwPAFHfFIc8j6SJ?=
+ =?us-ascii?Q?uO6RfnTY1AFpcd5J8A7h+zIlUtDQ8W7Os6JVpGuTP0irsQPxglbdo81zi5io?=
+ =?us-ascii?Q?uxOVFanu1oh8/ywDm3o=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY8PR11MB7828.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ykHJ6p68EvOdAxlgM0csfbyyCPIJTLja14I37A1vCU+AD3LGUU148Sejyu2q?=
+ =?us-ascii?Q?Qghvk/W3tNsrzHPGgDLoq1d68xW70o8aF3z9Tgg/lxuX3RkSvq9SuUjj/PGX?=
+ =?us-ascii?Q?gXuMZkvbAInmn7Go+fyRjsHKAqA3LZkKd2mWXeR94MxE9TVsVShywVR6uCu+?=
+ =?us-ascii?Q?lMHc+frYL3DHjRUiWlEjkv/b/dtCmCkajjJ7/6S+zCXmytRs2TSeSc13iOhi?=
+ =?us-ascii?Q?RmNCV1xHUF2sQU2xbf5Dpyoqb8257XRmp5i/w/MFzsZxLjqhhn2bAGzYzfOo?=
+ =?us-ascii?Q?Xk0xOU4Ii7Z3X4MuIJZ4oCuKrRwMFY8B0kexi/3ORCW+4CDHThN2SNMuuzxY?=
+ =?us-ascii?Q?9RG9roXztkywsf+R+Q5tYlSgyN2sMhymEcoByQYeaWQf0KDPsGV7pEpS2DcE?=
+ =?us-ascii?Q?8CJL7uCiGpexJRUpS/0AfIYWSCfEP+qxV6bi8VWJ5DilmfhdxCizISjTgoHp?=
+ =?us-ascii?Q?fxDaBn+2FYJe3pBkO3v4ytvXzqC6zm43upvjnNDMemwd3d8sqjgm2L2veAk7?=
+ =?us-ascii?Q?nDj6IYzq+2Pjem8iNh5ykDu7OnhtSktonO3FKJ0TMBLsZwS40aK75qyrDVtc?=
+ =?us-ascii?Q?WqJsBfKhQUWd2ejxoUmrwQ1x+Og8gA5cxmBjIo2nvRhB5bDVzCKajwF6cfNy?=
+ =?us-ascii?Q?ZZ4RnK5C31kUX9/ZJpaRSJLrwaFnwqoqijxhKorKJ0crtUsr8qnQmbZOBD1F?=
+ =?us-ascii?Q?3mzPLJfutVYqIZunwUS58KKHdR+ZP8xV+nxdkJPrKTUWPMFpxw8xU9pOqOyw?=
+ =?us-ascii?Q?riPvBB/020ThXEB33WWLn8y1PebKE7vpaJvDcQhepY/F0cpHUk6kvlHcGx02?=
+ =?us-ascii?Q?pwM67kAA5HnRy9PDklu0xYmEZ2w/MrszCVGCHt/kSVmAgwQThrzk3AAr7EUp?=
+ =?us-ascii?Q?dccXiJ77Sx1LEyVqS64CPMspWymkUYebf9widxfi5fk9ENZYCP2pfm29kgrk?=
+ =?us-ascii?Q?N9olrbdijAiGU7Ez0TBa1egV2ddwgfh0zBzv5qvRvsfmqso7qmidQMkvedqZ?=
+ =?us-ascii?Q?bYvE2vNj8Rno1nAi2Yy2/Me+/nP/cYsFU204UGIAduZ3iaImDqrvXfDTmMhJ?=
+ =?us-ascii?Q?3WMFELLVp75iGLCYMSJuO1DBD/UKynALfaoICsP/lTBB1Q4twCvoHjfLRvQC?=
+ =?us-ascii?Q?vcn+I0bHPJu6xsJMUrnFcWrqUvN9wQMLni/gTXTOd7+PVMxwrEIe6g0A5JAr?=
+ =?us-ascii?Q?MXNJCIDXjMP2dttRG5iGfMF36yE3SX7E2bIWlcm6g6sw6r+ndwL8mRIabhng?=
+ =?us-ascii?Q?8x8yLisBf8sLLucX/TwdlesFWCFMPcR4+FW+HG/9v0YYGUAIn/6DGSKbjZca?=
+ =?us-ascii?Q?vOpgjMzWyouQsJ3yti0qRKxRr9l7mZ9xzU0x5DpoQN3SjkglrDkTfUZi9g6c?=
+ =?us-ascii?Q?CuBfpoZBiq3Ubai412Jb6DKYqCq+j5j+h4VQ7J6kWRGRjcv2oOWNHBaMQefT?=
+ =?us-ascii?Q?Hf2YyqS8U6YtV1OxiVWrCE8ww76TvBsgOp+kZ6m9bd2i0dT4CNyLsmgHWVAZ?=
+ =?us-ascii?Q?kT97Ycr0y8vD8j0uH7XccV/62Umf1qA7ViecDekHJ67KsgW6NIbvYwObpR70?=
+ =?us-ascii?Q?H/YUF/de1LgCfqV3/63KidjgQ7gosZT+MCzVfxzFxTc/dBFPkIh8kdQ6gfby?=
+ =?us-ascii?Q?p/KW9fa4JQ4Vd1+Ysi1d2b5kh1gfOw3WnzL3UBh+ooBbqJJM7UiXkoxJYSt9?=
+ =?us-ascii?Q?9ircP3k6t5FmKxMq+yS2VSR6D9/x3W8OhODbxb5U/Y9JaekVYwWeFylJ5Ycf?=
+ =?us-ascii?Q?z3wAANtzH4ylCbLn3lnb3pXWJA4SqPg=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72ad7258-4088-45d0-c693-08de54f726a1
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7828.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 12:02:41.6209 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q4Rb3XORGh1DKxczprzacpR6AmMfhCprAD99iZ2CLhGYlsq1ON8/6+7hEQZee9Htn2OuJP7ldYeJx/aJfhOZQ9/Qa3WVEzNSOQZ02T5XCc0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7559
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,96 +193,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 12/01/2026 11:12, Abhash Kumar Jha wrote:
-> If runtime-pm has already suspended the device and a system suspend
-> occurs, then we see a kernel crash when disabling and unpreparing the
-> clocks.
+On Fri, Jan 16, 2026 at 10:37:15PM +1100, Balbir Singh wrote:
+> On 1/16/26 22:10, Francois Dugast wrote:
+> > From: Matthew Brost <matthew.brost@intel.com>
+> > 
+> > cpages returned from migrate_vma_setup represents the total number of
+> > individual pages found, not the number of 4K pages. The math in
+> > drm_pagemap_migrate_to_devmem for npages is based on the number of 4K
+> > pages, so cpages != npages can fail even if the entire memory range is
+> > found in migrate_vma_setup (e.g., when a single 2M page is found).
+> > Add drm_pagemap_cpages, which converts cpages to the number of 4K pages
+> > found.
+> > 
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: David Hildenbrand <david@kernel.org>
+> > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> > Cc: Vlastimil Babka <vbabka@suse.cz>
+> > Cc: Mike Rapoport <rppt@kernel.org>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Michal Hocko <mhocko@suse.com>
+> > Cc: Zi Yan <ziy@nvidia.com>
+> > Cc: Alistair Popple <apopple@nvidia.com>
+> > Cc: Balbir Singh <balbirs@nvidia.com>
+> > Cc: linux-mm@kvack.org
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Reviewed-by: Francois Dugast <francois.dugast@intel.com>
+> > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_pagemap.c | 38 ++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 37 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+> > index 61c6ca59df81..801da343f0a6 100644
+> > --- a/drivers/gpu/drm/drm_pagemap.c
+> > +++ b/drivers/gpu/drm/drm_pagemap.c
+> > @@ -452,6 +452,41 @@ static int drm_pagemap_migrate_range(struct drm_pagemap_devmem *devmem,
+> >  	return ret;
+> >  }
+> >  
+> > +/**
+> > + * drm_pagemap_cpages() - Count collected pages
+> > + * @migrate_pfn: Array of migrate_pfn entries to account
+> > + * @npages: Number of entries in @migrate_pfn
+> > + *
+> > + * Compute the total number of minimum-sized pages represented by the
+> > + * collected entries in @migrate_pfn. The total is derived from the
+> > + * order encoded in each entry.
+> > + *
+> > + * Return: Total number of minimum-sized pages.
+> > + */
+> > +static int drm_pagemap_cpages(unsigned long *migrate_pfn, unsigned long npages)
+> > +{
+> > +	unsigned long i, cpages = 0;
+> > +
+> > +	for (i = 0; i < npages;) {
+> > +		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
+> > +		struct folio *folio;
+> > +		unsigned int order = 0;
+> > +
+> > +		if (page) {
+> > +			folio = page_folio(page);
+> > +			order = folio_order(folio);
+> > +			cpages += NR_PAGES(order);
+> > +		} else if (migrate_pfn[i] & MIGRATE_PFN_COMPOUND) {
+> > +			order = HPAGE_PMD_ORDER;
+> > +			cpages += NR_PAGES(order);
+> > +		}
+> > +
+> > +		i += NR_PAGES(order);
+> > +	}
+> > +
+> > +	return cpages;
+> > +}
+> > +
+> >  /**
+> >   * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
+> >   * @devmem_allocation: The device memory allocation to migrate to.
+> > @@ -564,7 +599,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+> >  		goto err_free;
+> >  	}
+> >  
+> > -	if (migrate.cpages != npages) {
+> > +	if (migrate.cpages != npages &&
+> > +	    drm_pagemap_cpages(migrate.src, npages) != npages) {
+> >  		/*
+> >  		 * Some pages to migrate. But we want to migrate all or
+> >  		 * nothing. Raced or unknown device pages.
 > 
-> Use pm_runtime_force_suspend/resume in system_sleep pm callbacks to let
-> runtime-pm take care of the coordination between system suspend and
-> itself. This ensures that they do not interfere with each other.
-> 
-> Signed-off-by: Abhash Kumar Jha <a-kumar2@ti.com>
-> ---
-> Hi,
-> 
-> If a device is runtime_pm suspended and a system wide suspend is triggered,
-> we see a kernel crash. Hence split the power management ops into separate
-> system_sleep and runtime_pm ops.
-> 
-> Changes in v2:
-> - Improve the commit description and subject.
-> - Link to v1: https://lore.kernel.org/all/20260109060312.2853133-1-a-kumar2@ti.com/
+> I thought I did for the previous revision, but
 
-See:
-
-https://lore.kernel.org/all/20250512083215.436149-1-ivitro%40gmail.com/
-
-I think that's a better fix.
-
- Tomi
+You did for patch #2, it was kept in this revision.
 
 > 
-> Thanks,
-> Abhash
-> 
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 32 +++++++++++++------
->  1 file changed, 23 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 09b289f0fcbf..25eaf0192013 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -1230,7 +1230,18 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
->  	.transfer = cdns_dsi_transfer,
->  };
->  
-> -static int __maybe_unused cdns_dsi_resume(struct device *dev)
-> +static int cdns_dsi_runtime_suspend(struct device *dev)
-> +{
-> +	struct cdns_dsi *dsi = dev_get_drvdata(dev);
-> +
-> +	clk_disable_unprepare(dsi->dsi_sys_clk);
-> +	clk_disable_unprepare(dsi->dsi_p_clk);
-> +	reset_control_assert(dsi->dsi_p_rst);
-> +
-> +	return 0;
-> +}
-> +
-> +static int cdns_dsi_runtime_resume(struct device *dev)
->  {
->  	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->  
-> @@ -1241,18 +1252,21 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-> +static int cdns_dsi_suspend(struct device *dev)
->  {
-> -	struct cdns_dsi *dsi = dev_get_drvdata(dev);
-> +	return pm_runtime_force_suspend(dev);
-> +}
->  
-> -	clk_disable_unprepare(dsi->dsi_sys_clk);
-> -	clk_disable_unprepare(dsi->dsi_p_clk);
-> -	reset_control_assert(dsi->dsi_p_rst);
-> -	return 0;
-> +static int cdns_dsi_resume(struct device *dev)
-> +{
-> +	return pm_runtime_force_resume(dev);
->  }
->  
-> -static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
-> -			    NULL);
-> +static const struct dev_pm_ops cdns_dsi_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(cdns_dsi_runtime_suspend,
-> +			cdns_dsi_runtime_resume, NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume)
-> +};
->  
->  static int cdns_dsi_drm_probe(struct platform_device *pdev)
->  {
+> Reviewed-by: Balbir Singh <balbirs@nvidia.com>
 
+Thanks Balbir!
+
+Francois
