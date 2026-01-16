@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CA2D2FBBD
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 11:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D73D2FF39
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 11:56:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3269688F94;
-	Fri, 16 Jan 2026 10:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E7610E860;
+	Fri, 16 Jan 2026 10:56:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G8KWyAek";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aQRvMtG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13CDE88F94;
- Fri, 16 Jan 2026 10:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768560217; x=1800096217;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=L0lytLGMbujuZg+wBdouHk2nzLvJCJL5TeiQkzFCsbY=;
- b=G8KWyAekit1XCkOWiV2Z5YgAmWsbdUdbZPYsnMq6l6dWp9yl9y+HZmR9
- Yz86eXx/Bnkao3gSpGoiTlV5BCVcCGtZijSKOGnv4spAOLE5WFYDJyIBD
- YIJ5J64eUjwS8UZ4P/wsNJBl3Xxs+SLXlR0C7tcUBalXrZ/Oe47tej7vw
- /xLfKv1R+NnKyR6BugyRsTTMx1M1IlSXlq20sgh1/aMMf3QU19mqVgZiJ
- zhxiiClVbNMhQJipVscsDMolh5nX7k+CgU4Xwo0bgLfiH3ACLm8GzVB2L
- d/1KgcoDJcEZt50qSSC0SqRBRrNFH1qhyuqp/LcQTDqxlgzWEzyNhnarf w==;
-X-CSE-ConnectionGUID: aP7FDccOSsa/Gub2OCGU2A==
-X-CSE-MsgGUID: kkcFg81wRK2LkpSVqYjC0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="87292976"
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; d="scan'208";a="87292976"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 02:43:36 -0800
-X-CSE-ConnectionGUID: aLO6LASYTmOVfJQX2XCTvA==
-X-CSE-MsgGUID: hLd/cwkqSKuD90ysnWpX4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; d="scan'208";a="205493856"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.99])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 02:43:31 -0800
-Date: Fri, 16 Jan 2026 12:43:28 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: Re: [PATCH v5 4/6] kernel.h: include linux/instruction_pointer.h
- explicitly
-Message-ID: <aWoWUNZM2lq9XlWO@smile.fi.intel.com>
-References: <20260116042510.241009-1-ynorov@nvidia.com>
- <20260116042510.241009-5-ynorov@nvidia.com>
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A310A10E862
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 10:56:16 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-64bea6c5819so3205787a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 02:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768560975; x=1769165775; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s7DoksDpFPnlJ6YY9IWEVIqBsN/FrhlIGvYVSfP8/oE=;
+ b=aQRvMtG51eg3w1v7gEyRi2PHTu7UQJmXWkKIHJskCOtqRnk4CjRsgW+htKFT3YJ1eE
+ F1tIfKXCTC4ccYvWTFR6dhMt8hQDIdEhWhd6SIQ5gt6g355InfWMnU64gCQIy0ngpPdQ
+ 3nwSFdizWqg2JlWB+dJT+NbnvkxCOimuSMUffsB8x2H8VIouJ5f0pVLA5NVIQnSj6LTT
+ gKslsR/f72mUM/S/BI4TLtoHsvN4A8buVeojb3hsXTatoEtlwsJA/yOde7A8DOmxjmsu
+ 57+/mWDSKmcwMQQNkRvSxAE4fmG19SH8//71YJAviai4EeHMaWAajm3FAxLGJIYV3gje
+ CVjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768560975; x=1769165775;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=s7DoksDpFPnlJ6YY9IWEVIqBsN/FrhlIGvYVSfP8/oE=;
+ b=jSCjCtIK4RQ33OLt0VmK1nzU6mTUM9DcE5q8fopMzsbZ8VGTD/dFUxuiBXW0u7Pdy8
+ Ykp391V5pmXDjtFO4ZfweKyREG8+k3RyQmaLQ4kMpsYxI1ayzbxtrH27Z+9h0MOTIjQp
+ 1MkAdiSxDq/U3MISv0Fk8BSsE/h2Dh76ZZxr6MQ4pkKod10+NUkmfr7zL378rfVn/Mzi
+ 1mwDTxzTtOTdPOyAWnZBsWJ88iITG0parRdkA1AJp5JU+VVA1LYX0k+RVwwi0/en9zYh
+ yWT0jG9zG9WrLl4QEJTKteHp17T+d9/+6CvBSxptc4ilNuGVF+SXSwILLN5WgqEENqSz
+ Rd7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9KdYYbjg/Wvm0a/xCdRpwJ7eIE6Du3V5vXaTtKA+DpFw1129MOModEcnX9bHL08x4aQMK/yFZz14=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYvd2VYjHxYRuhT72aciQsqOHf7sIuRWgFoOj2w3gawvbNgLUJ
+ znNUplYJ669Mr/aNmKG4bmwjESpLtq9Vo6ZH3Cy+Zp9roVFGlgd0wZvBG5HbukW9uEPTGOwX5VL
+ LlW6HeBmj4vFdGlpb+7nLNXXp5RJVyKI=
+X-Gm-Gg: AY/fxX5RhykmUOb+hzz6VH1k4fzejsqmPK1bHROfi1L/qObrWvE4lbwgra+6UFTuvNO
+ q5s5IZG9uP0WbxCQhkaTYreIT+mX+TamUQY+vZyujVY/L9fDT+J/wH6TESKQLlFlgtp3YktOQTY
+ rgdhbSb4TLAow2pT9Iu2kOxpqbeH9TxM06566HabY0z5SXq7foY70eS4gw94TlplcaGsSs4NFoi
+ 6FapEkYu6IV79rbC5rvWODv2bJfe9UJ+4CXaeLz4++/jwCAZOUVTwGYmRO3quEqcxV9RG3X60di
+ 9UFeSkwD3SEBC3r4FxRtXhbWBuZnuoxluLV6mof/NFtWxQdpILKU0eHwt19sOj3N2gZKuCWbusD
+ MhkvXb+h5c1Afihh/ypMFOT0hOegJqGPdBdMG
+X-Received: by 2002:a17:907:724d:b0:b87:124c:5f54 with SMTP id
+ a640c23a62f3a-b87932b6908mr228135666b.59.1768560974807; Fri, 16 Jan 2026
+ 02:56:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260116042510.241009-5-ynorov@nvidia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260114120610.82531-1-mcanal@igalia.com>
+ <121ede67-dbfc-4b79-8076-04693e9d3d53@gmail.com>
+ <59cdede3-7757-4fe1-bb94-e7a93eea7611@igalia.com>
+In-Reply-To: <59cdede3-7757-4fe1-bb94-e7a93eea7611@igalia.com>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Fri, 16 Jan 2026 10:56:03 +0000
+X-Gm-Features: AZwV_Qh3vURpqiUWdDMv2MS1A-8fDyVxPzhEs3rm4JOXQLN-4xJ2oEQjFFmdjQk
+Message-ID: <CALeDE9PGzTe4LXnDJcyhh_ietWkrf8Sp7xX=X6pZvdCWLx2huw@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: broadcom: bcm2712: Add V3D device node
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Stefan Wahren <wahrenst@gmx.net>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +93,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 11:25:07PM -0500, Yury Norov wrote:
-> In preparation for decoupling linux/instruction_pointer.h and
-> linux/kernel.h, include instruction_pointer.h explicitly where needed.
+On Fri, 16 Jan 2026 at 10:15, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+>
+> Hi Peter,
+>
+> On 16/01/26 00:53, Peter Robinson wrote:
+> > Hi Maira,
+> >
+> > On 14/01/2026 12:04, Ma=C3=ADra Canal wrote:
+> >> Commits 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x"=
+)
+> >> and 6fd9487147c4 ("drm/v3d: add brcm,2712-v3d as a compatible V3D
+> >> device")
+> >> added driver support for V3D on BCM2712, but the corresponding device
+> >> tree node is still missing.
+> >>
+> >> Add the V3D device tree node to the BCM2712 DTS.
+> >>
+> >> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> >>
+> >> ---
+> >> v1 -> v2:
+> >>
+> >> - Rebased on top of linux-next (Stefan Wahren)
+> >> - Fixed node's address (2000000 -> 1002000000) (Stefan Wahren)
+> >> - Link to v1: https://lore.kernel.org/linux-
+> >> devicetree/20260113192902.48046-2-mcanal@igalia.com/
+> >> ---
+> >>   .../boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi    |  4 ++++
+> >>   arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 14 ++++++++++++=
+++
+> >>   2 files changed, 18 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi b/
+> >> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> >> index 7d4742ebe247..97522c6803c5 100644
+> >> --- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> >> +++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> >> @@ -247,3 +247,7 @@ &pcie1 {
+> >>   &pcie2 {
+> >>       status =3D "okay";
+> >>   };
+> >> +
+> >> +&v3d {
+> >> +    clocks =3D <&firmware_clocks 5>;
+> >
+> > Looking at the upstream DT [1] I think this also needs a clock-names en=
+try.
+>
+> Differently from the `hvs` node [1] you sent (which specifies clock-
+> names), the `v3d` binding [2] doesn't have a clock-names property.
+> Therefore, it is not needed.
 
-LGTM, assuming no build breakages
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+There's a name in the clk driver [1] so maybe the bindings should be update=
+d?
 
--- 
-With Best Regards,
-Andy Shevchenko
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/clk/bcm/clk-raspberrypi.c#n26
 
-
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
+> [2]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>
+> Best regards,
+> - Ma=C3=ADra
+>
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+> > tree/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi#n233
+> >
+> >> +};
+> >> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/
+> >> boot/dts/broadcom/bcm2712.dtsi
+> >> index 330a121ebfcb..661668ef7419 100644
+> >> --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> >> +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> >> @@ -1,5 +1,6 @@
+> >>   // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> >>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >> +#include <dt-bindings/soc/bcm2835-pm.h>
+> >>   / {
+> >>       compatible =3D "brcm,bcm2712";
+> >> @@ -642,6 +643,19 @@ mip1: msi-controller@1000131000 {
+> >>               msi-ranges =3D <&gicv2 GIC_SPI 247 IRQ_TYPE_EDGE_RISING =
+8>;
+> >>               brcm,msi-offset =3D <8>;
+> >>           };
+> >> +
+> >> +        v3d: gpu@1002000000 {
+> >> +            compatible =3D "brcm,2712-v3d";
+> >> +            reg =3D <0x10 0x02000000 0x00 0x4000>,
+> >> +                  <0x10 0x02008000 0x00 0x6000>,
+> >> +                  <0x10 0x02030800 0x00 0x0700>;
+> >> +            reg-names =3D "hub", "core0", "sms";
+> >> +
+> >> +            power-domains =3D <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
+> >> +            resets =3D <&pm BCM2835_RESET_V3D>;
+> >> +            interrupts =3D <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
+> >> +                     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
+> >> +        };
+> >>       };
+> >>       vc4: gpu {
+>
