@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E60AD32416
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F75DD324B5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:04:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E46D710E8A2;
-	Fri, 16 Jan 2026 14:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BC710E8AA;
+	Fri, 16 Jan 2026 14:04:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lI2DWG8b";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MD34V6Es";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B344610E8A5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 14:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768572051;
- bh=3eDS3faub+zjDq/eSImYA3ZVGr6/NBgQJtbARkEasVQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lI2DWG8bL7/uWn3TsM4wW+0HzKSZa3TF08OXHJbrE90TkVBiiE0tnt2nKZ84jTUPC
- fSbxj44p8gYy4JaMFKMpW+GsnA9AMM6/yjQADLuwrpm/dTud/fhXy37fSGK7LB2slT
- /Up6mGmAgzDNPhXkg9ZU/j+KTdQrKf5c7XA/v+KB8GYva4yg+BmF0oPdp9DfOS4Uq3
- 4CwpaLQz465mrE8HXxd9S896LwpoEK5fzZqGmxpHnuze53Bht2NTR2T6/omiuRVW2e
- a/JLK1EDPPYCWnzIoQp/n/m8DpV9qRO0EfgjXIKo7CxGENo5gNOM3LMKO+i75fI3MI
- TAvkNFk7KYxfg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DB5B517E0B8E;
- Fri, 16 Jan 2026 15:00:50 +0100 (CET)
-Date: Fri, 16 Jan 2026 15:00:44 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
- <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3373410E8A8;
+ Fri, 16 Jan 2026 14:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768572244; x=1800108244;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Kbhyq+SBAS20jDfUYkCsufjC2PTkpWj3iHsn46XYUBQ=;
+ b=MD34V6EsSmiUvzHNj1oX7vrOT1BBCJ/YpIfAp8ZNa6fb43j2mamJWrP/
+ 4pdC/LmwQuPHruWT3+yG2Xx0vv1sRRi8Dy1v6nZFPhwoOQUuIRc07pUJ6
+ 6go+x1mUighkZU36G0deZ2yO/IAb57wLI88EpHf1nyk1SglXmpDxWHnC/
+ 4N9abOB9S45MCEcH5mXuthbiY4ir0+5egx0fjH3tQNd7N/UGGO0qnQ0EC
+ 4px7le2HFfD2c08vh7ntjjNBdo1SIUixLJu2+G0t+UlS4eSfWVzPiCKWT
+ i2he7tSSTJRf3qub40Rkn/zzGkMqgQRn1ZYmL6Od7RqNSuB8kQ32/q7gB g==;
+X-CSE-ConnectionGUID: mSKaIi22RgaR5LQ+MezHvA==
+X-CSE-MsgGUID: xth2DGjhTcWaLuUA9K38Sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="95362878"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="95362878"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2026 06:04:04 -0800
+X-CSE-ConnectionGUID: eh1KU9icSp6d5wMXcSvD+g==
+X-CSE-MsgGUID: Fb2CGsrGRAW+ZwwaMjJqIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="210111413"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 06:04:01 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vgkQh-00000000KuW-2xDy;
+ Fri, 16 Jan 2026 14:03:59 +0000
+Date: Fri, 16 Jan 2026 22:03:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 4/4] drm/panthor: Add gpu_job_irq tracepoint
-Message-ID: <20260116150044.0e45c232@fedora>
-In-Reply-To: <20260116-panthor-tracepoints-v10-4-d925986e3d1b@collabora.com>
-References: <20260116-panthor-tracepoints-v10-0-d925986e3d1b@collabora.com>
- <20260116-panthor-tracepoints-v10-4-d925986e3d1b@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com, simona@ffwll.ch,
+ airlied@gmail.com, jani.nikula@linux.intel.com,
+ ville.syrjala@linux.intel.com, Leo Li <sunpeng.li@amd.com>
+Subject: Re: [PATCH v3 1/2] drm: Introduce drm_crtc_vblank_prepare()
+Message-ID: <202601162107.idPiWG44-lkp@intel.com>
+References: <20260109192027.116325-1-sunpeng.li@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109192027.116325-1-sunpeng.li@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,115 +72,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jan 2026 13:57:33 +0100
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+Hi,
 
-> Mali's CSF firmware triggers the job IRQ whenever there's new firmware
-> events for processing. While this can be a global event (BIT(31) of the
-> status register), it's usually an event relating to a command stream
-> group (the other bit indices).
-> 
-> Panthor throws these events onto a workqueue for processing outside the
-> IRQ handler. It's therefore useful to have an instrumented tracepoint
-> that goes beyond the generic IRQ tracepoint for this specific case, as
-> it can be augmented with additional data, namely the events bit mask.
-> 
-> This can then be used to debug problems relating to GPU jobs events not
-> being processed quickly enough. The duration_ns field can be used to
-> work backwards from when the tracepoint fires (at the end of the IRQ
-> handler) to figure out when the interrupt itself landed, providing not
-> just information on how long the work queueing took, but also when the
-> actual interrupt itself arrived.
-> 
-> With this information in hand, the IRQ handler itself being slow can be
-> excluded as a possible source of problems, and attention can be directed
-> to the workqueue processing instead.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+kernel test robot noticed the following build errors:
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c    | 13 +++++++++++++
->  drivers/gpu/drm/panthor/panthor_trace.h | 28 ++++++++++++++++++++++++++++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0e46625f7621..5a904ca64525 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -26,6 +26,7 @@
->  #include "panthor_mmu.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
-> +#include "panthor_trace.h"
->  
->  #define CSF_FW_NAME "mali_csffw.bin"
->  
-> @@ -1060,6 +1061,12 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  
->  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
-> +	u32 duration;
-> +	u64 start = 0;
-> +
-> +	if (tracepoint_enabled(gpu_job_irq))
-> +		start = ktime_get_ns();
-> +
->  	gpu_write(ptdev, JOB_INT_CLEAR, status);
->  
->  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-> @@ -1072,6 +1079,12 @@ static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
->  		return;
->  
->  	panthor_sched_report_fw_events(ptdev, status);
-> +
-> +	if (tracepoint_enabled(gpu_job_irq) && start) {
-> +		if (check_sub_overflow(ktime_get_ns(), start, &duration))
-> +			duration = U32_MAX;
-> +		trace_gpu_job_irq(ptdev->base.dev, status, duration);
-> +	}
->  }
->  PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
-> index 5bd420894745..6ffeb4fe6599 100644
-> --- a/drivers/gpu/drm/panthor/panthor_trace.h
-> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
-> @@ -48,6 +48,34 @@ TRACE_EVENT_FN(gpu_power_status,
->  	panthor_hw_power_status_register, panthor_hw_power_status_unregister
->  );
->  
-> +/**
-> + * gpu_job_irq - called after a job interrupt from firmware completes
-> + * @dev: pointer to the &struct device, for printing the device name
-> + * @events: bitmask of BIT(CSG id) | BIT(31) for a global event
-> + * @duration_ns: Nanoseconds between job IRQ handler entry and exit
-> + *
-> + * The panthor_job_irq_handler() function instrumented by this tracepoint exits
-> + * once it has queued the firmware interrupts for processing, not when the
-> + * firmware interrupts are fully processed. This tracepoint allows for debugging
-> + * issues with delays in the workqueue's processing of events.
-> + */
-> +TRACE_EVENT(gpu_job_irq,
-> +	TP_PROTO(const struct device *dev, u32 events, u32 duration_ns),
-> +	TP_ARGS(dev, events, duration_ns),
-> +	TP_STRUCT__entry(
-> +		__string(dev_name, dev_name(dev))
-> +		__field(u32, events)
-> +		__field(u32, duration_ns)
-> +	),
-> +	TP_fast_assign(
-> +		__assign_str(dev_name);
-> +		__entry->events		= events;
-> +		__entry->duration_ns	= duration_ns;
-> +	),
-> +	TP_printk("%s: events=0x%x duration_ns=%d", __get_str(dev_name),
-> +		  __entry->events, __entry->duration_ns)
-> +);
-> +
->  #endif /* __PANTHOR_TRACE_H__ */
->  
->  #undef TRACE_INCLUDE_PATH
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20260110-032355
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260109192027.116325-1-sunpeng.li%40amd.com
+patch subject: [PATCH v3 1/2] drm: Introduce drm_crtc_vblank_prepare()
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162107.idPiWG44-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162107.idPiWG44-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601162107.idPiWG44-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "drm_crtc_vblank_prepare" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
