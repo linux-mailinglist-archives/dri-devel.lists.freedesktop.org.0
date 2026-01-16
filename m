@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EC2D32CF3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DBBD32D74
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:47:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2680210E8AC;
-	Fri, 16 Jan 2026 14:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0AD10E8AD;
+	Fri, 16 Jan 2026 14:47:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JHn9hny+";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pOm744By";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13E4F10E0A3;
- Fri, 16 Jan 2026 14:45:39 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9523510E8AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 14:47:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BE0CE41708;
- Fri, 16 Jan 2026 14:45:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2066EC116C6;
- Fri, 16 Jan 2026 14:45:38 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A754860150;
+ Fri, 16 Jan 2026 14:47:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09282C116C6;
+ Fri, 16 Jan 2026 14:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1768574738;
- bh=dLIP3yuCXQig06JmGi7Dt5CFTqwxB/97u4nRMJ/85o8=;
+ s=korg; t=1768574865;
+ bh=NmY6f/3++srymFtkQFv5iqmHppCm9HzuPAroq8sLV+0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JHn9hny+KZc4fD/9N3/yGG4Ed/hhHgyo20Xlcfi6MQ0Tz8Px4xYfrMnWeTFClUuk8
- 00EV1D5wpqvfLr0GiQqLHyQcyukMIVymVzBr7dJCpGoIs5JGJ4g4MAMNMBZDsazQuO
- 3bfpoDTbahXMz2Ln32On0kIkEny+5/uDL7Cww21E=
-Date: Fri, 16 Jan 2026 15:45:36 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: Re: [PATCH v5 3/6] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to
- sysfs.h
-Message-ID: <2026011629-recognize-municipal-2a89@gregkh>
-References: <20260116042510.241009-1-ynorov@nvidia.com>
- <20260116042510.241009-4-ynorov@nvidia.com>
+ b=pOm744ByqRtqzwg0ncDID5yzmiFLYAyfuZQnFxz1nUOfRZyNZpG74HHT07eF7XE4n
+ 7txNc0cHhHmobnzxhK21mhoXFsVYN04TNz0MtNeftlGzBDJWxjRVdcN7NFCZhKg5QL
+ krSGx/52Mki3qjBaCiRe6opdag4NRJ8RYTxEL/VE=
+Date: Fri, 16 Jan 2026 15:47:42 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Xingjing Deng <micro6947@gmail.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+Message-ID: <2026011637-statute-showy-2c3f@gregkh>
+References: <20260113143445.889031-1-xjdeng@buaa.edu.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116042510.241009-4-ynorov@nvidia.com>
+In-Reply-To: <20260113143445.889031-1-xjdeng@buaa.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +57,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 11:25:06PM -0500, Yury Norov wrote:
-> The macro is related to sysfs, but is defined in kernel.h. Move it to
-> the proper header, and unload the generic kernel.h.
+On Tue, Jan 13, 2026 at 10:34:45PM +0800, Xingjing Deng wrote:
+> In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
+> reserved memory to the configured VMIDs, but its return value was not
+> checked.
 > 
-> Now that the macro is removed from kernel.h, linux/moduleparam.h is
-> decoupled, and kernel.h inclusion can be removed.
+> Fail the probe if the SCM call fails to avoid continuing with an
+> unexpected/incorrect memory permission configuration
 > 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access to the DSP")
+> Cc: stable@vger.kernel.org # 6.11-rc1
+> Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> 
 > ---
->  Documentation/filesystems/sysfs.rst |  2 +-
->  include/linux/kernel.h              | 12 ------------
->  include/linux/moduleparam.h         |  2 +-
->  include/linux/sysfs.h               | 13 +++++++++++++
->  4 files changed, 15 insertions(+), 14 deletions(-)
+> 
+> v4:
+> - Format the indentation
+> - Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
+> 
+> v3:
+> - Add missing linux-kernel@vger.kernel.org to cc list.
+> - Standarlize changelog placement/format.
+> - Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
+> 
+> v2:
+> - Add Fixes: and Cc: stable tags.
+> - Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xjdeng@buaa.edu.cn/T/#u
+> 
+> Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> ---
+>  drivers/misc/fastrpc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index cbb12db110b3..9c41b51d80ee 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -2339,10 +2339,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  			src_perms = BIT(QCOM_SCM_VMID_HLOS);
+>  
+>  			err = qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
+> -				    data->vmperms, data->vmcount);
+> +				    				data->vmperms, data->vmcount);
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I'm all for coding style cleanups, but don't mix that into a patch that
+does something else.  Also, please indent this properly, checkpatch
+should complain about this.
+
+
+>  			if (err) {
+>  				dev_err(rdev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
+> -					res.start, resource_size(&res), err);
+> +						res.start, resource_size(&res), err);
+
+Same here, that's not right.
+
+And I don't see the real change here, are you sure you generated this
+properly?  This just looks like coding style cleanups, which do not
+match the changelog text.
+
+thanks,
+
+greg k-h
