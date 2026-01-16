@@ -2,189 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FECD3877A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:26:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A58D38785
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:28:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E11A210E92C;
-	Fri, 16 Jan 2026 20:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53BA210E92A;
+	Fri, 16 Jan 2026 20:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E2ReKfYW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MCqRg5ov";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F8E10E92B;
- Fri, 16 Jan 2026 20:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768595214; x=1800131214;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=QHNo1oON0AVykyqnySAdggvv0Rgi31iYXr+0pu9R8v4=;
- b=E2ReKfYWochcqlmuiew011XVWHyCvLFmQK62E+A8UUz6zNPP6BVmPgvc
- Gq5YcYpjoNg2VF+u59YMaKoxvhhysCtyQwz5Ghxd+IHwT2O+90gHMj0CX
- U1GNDaK9FFKXNcV6ujYIxYUv10eogrEfnUVz1Ss9pbiRk7y9jl6cSvDXi
- ooqx/bIX6kG8Oyg8L2GXRmmHLn8Qx6unwXBAcCfeGcIZQss1HZlTOdYzV
- +/3KjlzcYvQAtzfk1i1z2OUymPeEZDsl4fQBX4vxWSBb0tpypDUc04cT6
- L23jC8JtwAOn2BJ96dfJ8cvSk6iTD2mzBSTJD2RJU0zV9M5CQtBxtz+Ed w==;
-X-CSE-ConnectionGUID: vvA4ZUV6Tbe4t/BpFVIeGw==
-X-CSE-MsgGUID: zdv+cGgFRWW7gmQC9r1NBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="72501281"
-X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; d="scan'208";a="72501281"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 12:26:54 -0800
-X-CSE-ConnectionGUID: 26dZvuMrTR6STiKLhd8PlA==
-X-CSE-MsgGUID: J4mahC57Tb2oMKkirKJ2HA==
-X-ExtLoop1: 1
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 12:26:53 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 16 Jan 2026 12:26:52 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Fri, 16 Jan 2026 12:26:52 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.25) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 16 Jan 2026 12:26:52 -0800
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010020.outbound.protection.outlook.com [52.101.85.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19FDB10E926;
+ Fri, 16 Jan 2026 20:28:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oKJI7BPcnKp/aMtzBy8UpxSKXvyZBlQBy+9t+g7fxGgvuET7IaUuR+j1F9U+vFPYfC7e2p6Gq+ZxIRUc7Y0SY+rw1uqp5R/PdPwtzJZpmLw25a4dRL8mvIsBSV8luMQ0SdxcJobUPBkx8rGkGSY4VM5R/w8AEL+T2E9SvEsxe3BlD6pIJG5liCHoah41DHYIYjKsx5FPBXVFt0W4/8E5QgMkG/Cpxj9h2EenwqztGbCAzpxP9+JEOb5SIPEIg5OmeWgmlc81Je+hsJyPg5vrazVIxiMvTkUnxbZ1HVtOIxeb+Krrgm4GfsZIDW5uKcyIa660YnyuydYiMWfnlYE94Q==
+ b=xOxSbHOl7X0/6JnAbytiqa4g0Qz1/iXC3sxCrKwXh4YDrogsBF+56sDhgajAvpS+JIvSWrBD3dbVbkESBaclufYwPStANzKxyRrqglTCwNUGDAg4rl68txGdf+hPijqT04UyHg1Zqddcl6wu8LhZpJQCHa7rfdyLanTTDqtk7YMQPo+10YyZDfX9r9ST9UuQ2ctDHV42MrAU6sRJQxspEsMbyiY1kruFcA9KNBxR0psB+ejkP+EQ/+H3alFX6nn8f/jPQYQOzgdyePbZ5duUM7gpzTyFSS40948yA0sH/+m9BgkD1i4lII9XlMZ/QJqKZVOfVOOev5GRXQs9TVhVNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gqY/+rJNH/FgnMDKu6pets/YSii/fvnt07KDjQeJuFQ=;
- b=FvB4UdW1fMqXyX9ebIoUbCg3dkNqrAjrqwu3N9VQ1nSIhjWzDvaptejM+WqxQWCJ0fVsRGgLMO17Q5GF9ZNCp669FbBy15Nd0oP54KkJ3XoFAiQqTxbWqp/YGoyz4VPgubjt9VX23DVAWIqMLOcAKrYn2N6qY/RLBMDudeKNctnm3DGL7mUcrqQEwEdAcRBglB/irISg1vFNwKLUdxK3H0bSs+vCZUI/0GFeYNGUUp9Ri7ISeduqZfKxDVbobuFzfUVrMXyboiK5qlN+vJmF2RqfmPrugXysWLndFOSSXrjayVNQDckhXqNTHiKKNBa41VUjrSXwfN1TaVuAETTT+g==
+ bh=eVR2AoMqB0HkUoLxzzsVTu38jt4IA1bFppVlpuNiHuA=;
+ b=v9SGPInHGLoho79b9mM+QQAshmp7pBMOWnvxWhjZmFeQLr5EqqUXj1FU/WAV9mA/C77ET+PE5ixHsGEkgd70FQq+yUzCff2430ADRWv7wUbpeofY7CwEKyknr6/I4NsMQPjrXLwRzG6W8HVxlSmZ9VeixZhaU+NV9z7gGXK0ye2DetQX1avt2+nsbU9UVuHxHz1VYYlUoaexU+9wss0iCcsLCwZg5T3+ER+wmZyKEX7Z4+8UaciNMFDHaQck1orJr/d16W+eIf58rIn/VHAfLfI7TZ9rVceqf4R+Z2+Tcs/wQnajRLknsmvZ5MVLYus4zw/JVRho5dOPtMYcffop7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVR2AoMqB0HkUoLxzzsVTu38jt4IA1bFppVlpuNiHuA=;
+ b=MCqRg5ov6bvGx3GZ0xI6DLoRVmWESTXtGGhiLHHZGGwS+YAE7ivCTl5olRvX4INqBYZ+Wkw3SXqZd7/oJqcadLkp+uLoc/Tx1pPkavLNMzDcvFhn4HRepMR3gO93onllz7EvKrLHLolz4NrlzgCXyhCE3Sr+il1HSy3Xw7rWkV0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by LV4PR11MB9465.namprd11.prod.outlook.com (2603:10b6:408:2da::19)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8)
+ by PH7PR12MB6882.namprd12.prod.outlook.com (2603:10b6:510:1b8::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
- 2026 20:26:45 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
- 20:26:45 +0000
-Date: Fri, 16 Jan 2026 15:26:38 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-CC: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>, Jakub Kicinski
- <kuba@kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <aravind.iddamsetty@linux.intel.com>,
- <anshuman.gupta@intel.com>, <joonas.lahtinen@linux.intel.com>,
- <lukas@wunner.de>, <simona.vetter@ffwll.ch>, <airlied@gmail.com>,
- <pratik.bari@intel.com>, <joshua.santosh.ranjan@intel.com>,
- <ashwin.kumar.kulkarni@intel.com>, <shubham.kumar@intel.com>, Lijo Lazar
- <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, "David S.
- Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
- <edumazet@google.com>, <netdev@vger.kernel.org>, Jeff Hugo
- <jeff.hugo@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/4] drm/ras: Introduce the DRM RAS infrastructure
- over generic netlink
-Message-ID: <aWqe_ulADqRZBQj_@intel.com>
-References: <20251205083934.3602030-6-riana.tauro@intel.com>
- <20251205083934.3602030-7-riana.tauro@intel.com>
- <aTiWNkGmwFsxY-iO@intel.com>
- <b986eb03-0887-4eb2-a7a7-50ef63e51096@oss.qualcomm.com>
- <aWFruAO06O93ADjU@intel.com>
- <19fd4d44-b7d6-4bc2-9255-3d5159ec1435@intel.com>
- <919c0b7e-83d7-45e8-ae96-d9fb7a10995c@oss.qualcomm.com>
- <3297a59b-a788-43aa-945d-e89592c9ba8d@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3297a59b-a788-43aa-945d-e89592c9ba8d@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0079.namprd03.prod.outlook.com
- (2603:10b6:a03:331::24) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.9; Fri, 16 Jan
+ 2026 20:28:05 +0000
+Received: from BL1PR12MB5126.namprd12.prod.outlook.com
+ ([fe80::c3e7:1bc5:2b91:1cfe]) by BL1PR12MB5126.namprd12.prod.outlook.com
+ ([fe80::c3e7:1bc5:2b91:1cfe%4]) with mapi id 15.20.9499.005; Fri, 16 Jan 2026
+ 20:28:05 +0000
+Message-ID: <a18c26d2-0664-4eb8-914b-52667fcc63f0@amd.com>
+Date: Fri, 16 Jan 2026 15:27:59 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/2] drm/amd/display: extend delta clamping logic to
+ CM3 LUT helper
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, simona@ffwll.ch,
+ siqueira@igalia.com, sunpeng.li@amd.com
+Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251208234741.293037-1-mwen@igalia.com>
+ <20251208234741.293037-3-mwen@igalia.com>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20251208234741.293037-3-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0105.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:3::41) To BL1PR12MB5126.namprd12.prod.outlook.com
+ (2603:10b6:208:312::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|LV4PR11MB9465:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b4e48a8-1df3-4b07-7967-08de553d9123
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|PH7PR12MB6882:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d88b5c3-4a96-47dd-d398-08de553dc0d7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?N9el2AuowSOeEyPjij3kZf00YNGYyOxZlmuT1XwV7Xjf46jhyxtO7I+82u?=
- =?iso-8859-1?Q?CHr0n/qpz3aywWCFt14NbwyR1zanzvHRNvHYGkX3LYcnPm7ptYzbxWpIfn?=
- =?iso-8859-1?Q?m6BruddAi14VBfkxcardqcKkZsIUnn6sR/YggHP5wEoxGOFw/mLkdJ7TjX?=
- =?iso-8859-1?Q?VNEfdh+jFHcDMwEsIA5yL5XqpsUWw/Vq98EgqTgTMIBSdpf7FSNgwf9pwX?=
- =?iso-8859-1?Q?RfPyLkmSNvzI5pqE4k44ZfLDnHflh1d0Q3XZy2V4UygFM4RBUFrEdfwB4s?=
- =?iso-8859-1?Q?1VTMapi97P3m5ZGpJpz8MI6Pi/xV8jP8pFNfbhWG826rQQlMge9om88Ro9?=
- =?iso-8859-1?Q?pBplxsBGazO2Re2l557eAOQYxxHcUq+Q+D7Rd1eYlE651KS1dqZB17GxER?=
- =?iso-8859-1?Q?9uo7q2ba7GM9Uj2a0ZoNbdRf7Oa9KnB3QxHb/b0SgX0DwJAEc8pJWuPakO?=
- =?iso-8859-1?Q?bPqi4izVLNOSfUzgQP+uu3mqKA3k418Gdngu7nN/th9KLiTjeN6AwxEqk9?=
- =?iso-8859-1?Q?Yf8vehndgUp9nc0BWJmyCL9iFS843G50AlPHLzLEMYLeXDrZvG5/B+6/gV?=
- =?iso-8859-1?Q?LP6IndnOpyKH7IIbQc6KUR37HKjhja/jky3l6V3X+YoLmhPwhziuAN1zVu?=
- =?iso-8859-1?Q?bUTaVnkxmcx/vHImP1LncHP+mbNCs69lD9Et7M6Ul8RhH9KImqaUXyg+rg?=
- =?iso-8859-1?Q?H4XSCRBPxaxWqw7TK5/d7jHIqI2rd6dj6LPhNpLxp82d26ac6FgWw0rwmi?=
- =?iso-8859-1?Q?8yMF+PONE51vNlco8J7Zd+2W+S5L3iS1NZg9oC03vm0wrYH3vPSG32dPlf?=
- =?iso-8859-1?Q?o45Aj80VHyZr0hCR9H+MauCISn/KRZblbina25E1cwMZWH7PQ3g/p2FP+Y?=
- =?iso-8859-1?Q?fQ7wDs5L1Xy1MN9EnqSDYvoyhrHW+qFEL3u7E/sdwT/Qw/1mHGCD1YuGnh?=
- =?iso-8859-1?Q?4rsveWL9TqqX26h56jv996pmVDzCUiBXPxGzz8Lx9grIiBfRvPQK8TT3KU?=
- =?iso-8859-1?Q?uhLcoKvR4MXX1Cu0fBG63cgyXs1JNL1LM5VTNKG/TdW9aA7ltOD/bhKdIV?=
- =?iso-8859-1?Q?XbV8C1y4JnEi4v52UdtqGWYS1bbTF9xLTaKcPn2TsMexQbArp/lSjV2KdS?=
- =?iso-8859-1?Q?Wde3N0ZeJT0BzjBKnwDxZuBQJfs9akrDOT7yPZwGe/vAOXFHjCET2QcoJF?=
- =?iso-8859-1?Q?HmMNpjG0ZV1RQddyi99bb2gEpwd2Ew3JO6vUV5SdGv9BbmDSBtAXKoIBO0?=
- =?iso-8859-1?Q?zv8k4BN9kAMSoKKTup9mr9R1EtHhiRSYse58l73qdsO1YX9T/7SzYzpM26?=
- =?iso-8859-1?Q?RGbYxIIodiAWbox49A0jSZMFUt2z6XmdlVvmS/af0w4n3TX1b3yiCq7ELh?=
- =?iso-8859-1?Q?MxqoH6joxqJ3A7vEZA0VGwFHCBdewqDRSzE+qIdxVPPXrqHlbj23g40enC?=
- =?iso-8859-1?Q?XgOtMzX97lpRzYJ5QNazJ81F+XqjIgaIOT2z4gaA8gNXMw7fPJCYJLz/IX?=
- =?iso-8859-1?Q?A41HTt95hg6cNHqxOGqMBw4+JIEoXJeBCFBkN+7NFMY+e+GHF0T2ykkJ6z?=
- =?iso-8859-1?Q?H8j81MAledc8lfae+7ieHoOI2n9ugZD3xAzYO/l3m4Nc4VWUsfPCKBSaOO?=
- =?iso-8859-1?Q?cwvU6/reSPgFo=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3VwU2FLOHJtR1BKbkJQbHg1UzhnU0pwTHpOcmNRbk0wd1E5Z2o4VktpSlQx?=
+ =?utf-8?B?cG1TWndJQ2NPcVBBSm82dmFqVUlHUTlTUjdUNjU5d3dPTU5pa0hJUXY0TDZp?=
+ =?utf-8?B?K1g3QzBVQTBiZzEzakk0UlZFRGZiMnoyb1hUakM4TWk2UGJ6UlhTWHBZRHpH?=
+ =?utf-8?B?cEcxdFVxejFXVkFnZXM3QThDSWswUTJHTzJGcDlBQStVcFljMnZOZzY5YW9N?=
+ =?utf-8?B?U0FjU0xYMGpRbElFZCtvRDBjd25wOFpKZVRTTFpDSDJaWHRLdzVpd1BncXdk?=
+ =?utf-8?B?dllGRFluU25JTVZ0MFAwbXhvKzdwaTdyZUVtTFhialVJU2t0aFdlaXZ5VU1B?=
+ =?utf-8?B?U1Zhd01hZGR2ZEcxNE5yRE44L0hFRkIvY05abDZqeEg3UEk1NTJNV2RGcDhJ?=
+ =?utf-8?B?eFl4dFRhUmJpYjFLcVV0THEreWc1dUNYSFdNUlEyekcvNmovUUNaRGNlZnp1?=
+ =?utf-8?B?L21FazMwNUtWR1BwNUI4NjZubVM3MWxhVkhOZlVSQ24xR2FPNmZPbWdkRFN0?=
+ =?utf-8?B?bVliSXAvc0k2ZHJXK2NyckVOQ0NpZVhhVWVDQWI0UWRBQ2pKb0szYW9xNk1F?=
+ =?utf-8?B?UTBBTVVUckgzRGhDdUxmR2VFeGdVaWcwdExtdkYvdVV6U2ppODZtRGVPY1Mx?=
+ =?utf-8?B?QktoVlVQaEhScGVSeW54TkNaNlFla2hLbU9NRFR1Qm05eWhPaHVHclltSVp1?=
+ =?utf-8?B?RlhqME5EVmtDb2M5czQ2ZlJYQ05qdTY1YWYxeStHbE1mZ1lDUGdrMWxSa3Zo?=
+ =?utf-8?B?WC92WWhYak1lUmxlT3k2akdxaGpVT01lS2N0ViswZVJhYXN0bnY5K3gwdlNV?=
+ =?utf-8?B?S203d3ZzaHVMU1krT0ljaDZXS3UrN09rYittN3M4S0tDK08zVGZyYkFERXln?=
+ =?utf-8?B?b2pBMy9tUU54VTBjU2MySjhlUHBtc0hqZGRWbUYwZURsUDlYK1hyVUduTVZk?=
+ =?utf-8?B?L1JzYnJkSjliUWVqaEJsdFJBbmJ5THpTdkZid3M3QU5MMy9yTW0wSHZlRWtH?=
+ =?utf-8?B?T0pUOVJNVVVFdkswMEpjUWtGVG9nTUlQaEVGaFoxMXM4NE0rWG96eVd6SzUv?=
+ =?utf-8?B?V3I4bmNVT1kyYk15TXV5ZXg5VVJ5YWtvWXZQUFMraloyVDJEd0FsN3VBTnRN?=
+ =?utf-8?B?WTJiZGgyaVhVODZpdDFFbDZOTnpIelBXUWRNRFRXbVFxbkRpdHRCeGY4ZGo1?=
+ =?utf-8?B?OHBUZi91UlgvcVBXTWw0YUs5UzZ5NzNZbXlqdmtaN3FiUWt1TkZZcDNvSGVZ?=
+ =?utf-8?B?bVZJL1BQdXo1QzNjQ2hDRVZWRTVUNC9kTkhVTFZPZzN2ckNueFlFQTBBZXFq?=
+ =?utf-8?B?R0ZLeSt0TlZJQmRBOU94cU1FdFNGRHIzREJhbXlZRGkxNHNNMU43TFRGc1gy?=
+ =?utf-8?B?SWp0Z3dmNTczUHRtMTR4amRKNFlXOHNjZ3pjck5kdUJyYkJydXZJY0Q4MXdN?=
+ =?utf-8?B?SXlGVEdzZlBXZXk0eU91NVlndW5yekV5a1VjZUZIcXYwak9kV1dpYXVISGs0?=
+ =?utf-8?B?eVJZQXBKSVU4LzFOMWNxN0NreXhxWWdCOGRyRGxZWUhoUHhzYzA0Vm0wZUZi?=
+ =?utf-8?B?cElCL1RsTEhwK3Z5ZWZTS1VNaFN2WlR4OFNzTDVBUndiNmN4T2dXWW85U0ZL?=
+ =?utf-8?B?dTl4Y0pOSWpLWlVpQWdXUXB4Y0JzS2QxdVRBM1MyZTkxdU1MUWtCSXl0aUJi?=
+ =?utf-8?B?YWdub2VpTkNyRTBvcnhRTnY5U2Y0dHErSm9LK0oxeEM2UnlRRWlNamIvZ0I0?=
+ =?utf-8?B?MzlscDFwTno3cWEyK1Y0Sk1vaFFNUWh2Q1JKUURkVWEralE0YzQ4WDJwejB1?=
+ =?utf-8?B?V1B1dW9lR3hUVFROaHNXT2JNZkZXQk9GMXBQaWtVeXYzMy90ZkErZzkwSFZs?=
+ =?utf-8?B?YVJlQW80azhOMlMvKzNER0ZvSnlmdkdrdkZYUUpab2NmcytpaStrcnNBRmJJ?=
+ =?utf-8?B?bXg0OUwyUHhHOHIyNUU0ZjVZNDN3SjNXZUhWdHNEOEtpYm1sSWFqYjNMWFQ3?=
+ =?utf-8?B?QzMzNTZZTWpEVjd2VzZrYjkxTml3TVh5S0hrKzdTZFpjZldMM21lM3pRZktN?=
+ =?utf-8?B?bVB6V0xVMjlxMmF4NzllUHMya1BhczFpWVRhWC85aTBvR3MzWnkyT1d5VGF3?=
+ =?utf-8?Q?ahAc=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5126.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?8SFnfBYF2gobvTrAMA0TmcJu36vOBn5knhz5EP2sH6ES9ZBHFKGQ0fulSI?=
- =?iso-8859-1?Q?cY4Y0Y9LUQUc1ZTqqt14pE1eF7k8lEC8Uqxf9bhNbDNowMr/+V2NIJ390X?=
- =?iso-8859-1?Q?7epSYH9fLQ13fwDbkBI1ge/Dc4sjErrGD8SQLeBF1VS5VnpOAIwCdNSMte?=
- =?iso-8859-1?Q?wG4fteB0dJpT5KtaUNjzMQmhIVmyk52gN2hfH8E1w+8104rnF0gKaLE+Vo?=
- =?iso-8859-1?Q?eK4AGzPhPwQKPnAP6M4Zg2YDZmFayM+REL2oJJPVweo8UqRRfRA8WJNpbi?=
- =?iso-8859-1?Q?x/7AflAgg+vBEcCX5/iMyg/BTXB5p2iOFW88On1r3Rb3RtgBJarvyCaCtG?=
- =?iso-8859-1?Q?uAgMv3xGFsyE0pBLBrBdNqmO4luxrjZw53H4KHx3/834jHXkb/hpv5vtKt?=
- =?iso-8859-1?Q?bSKQJkmD7W05KfGgbGdNOkA2k+8lJ6URrWixftd4OBaV6Pzdixmu+kyI7+?=
- =?iso-8859-1?Q?dnQ2rvn8LG2uIDd9j83Vjf6ngQ5UYr1N4Z/dBn+bSO2D3fF0CNGTroN3j/?=
- =?iso-8859-1?Q?6dxq3IyC229mJEeem6Rf79vUPeiRd+6lhiKE5lVfg/qdhU1OFUHSS9Y64b?=
- =?iso-8859-1?Q?9hMy7e5iCA55D04HkOG760f/oteJGjfm/rsdtI9sqO1lgeA8r0Gt9VaDlD?=
- =?iso-8859-1?Q?iMlKk2LFpNZSk4jPGvfwrvvc/DridPDtfo9r+3DtYiDg0+2fzGnmnV2LzM?=
- =?iso-8859-1?Q?L8yusjZrroFV6pMHq26hXGMYVsbAB4v+I1/2HN6q+55eMYWsmx4DnaFEKU?=
- =?iso-8859-1?Q?065/IzdeLlbmBGqphPPlgDbYTo5rGj4oN4Sr2HqJENjEzB9EXGELmK/RPt?=
- =?iso-8859-1?Q?pydab2/zGymMLhBZy8TXAP7IHZ1C9k5yUXEc7U77fTzRG8dXH/yObu2DRk?=
- =?iso-8859-1?Q?gxGMZBRl+D5BCg1JVJonyJdCCCksHC4Y5IDyAmgtaBBMvQk69icBrexSSu?=
- =?iso-8859-1?Q?6LvL9iSriIBQiUI5S2zeOOzO8oVHtthgYOPGVhHoF2t1l/XcsJn4jop4xu?=
- =?iso-8859-1?Q?/XUJMDO5S7xUfRaxF71tXNsiteXeEBQ7ovrmcacV6aboVXd+4FspqJYCMO?=
- =?iso-8859-1?Q?NcrP2jWWsApEJ3nEEwW0cpV/iDCX1H3EWeQYWDWPvmQFLH7z+9oo7hbGDc?=
- =?iso-8859-1?Q?S8aWT0hwBMO/PmlEV5ajot0cHHrgOur2RA93IZxH4SUmX9Qu3baGBgtkh+?=
- =?iso-8859-1?Q?vg6uT9gH9uBRat8v4jMo4CTzpvWl+pathb4L973S4CkrDMvxeftCOGa6KH?=
- =?iso-8859-1?Q?8PnM5aSqxGfaKrxOn/hF1IGwgjzvIR1pIfj0jiEXU54mmN6iztK+3zYemB?=
- =?iso-8859-1?Q?CFTjbYPiv1WlRmnPXl3wSEecjsbhYGek1OTDgXjha9O7ufIiifYWGncH0E?=
- =?iso-8859-1?Q?59Svi5SZsvZoc84DkuUiahX+JLh9No0Ljnxl+aRJty6NOCsjOCAQPelBMr?=
- =?iso-8859-1?Q?/I9dSN8oje/ATgZ2lWHTeSxOsfR4o5K0Ybte7OiWaoe7JNMQyymbVoCII2?=
- =?iso-8859-1?Q?sCQsgG00q7s3H0gZQeOPH3ig2PpSGhfcuezBrg6IjSJ/1Mg5T3lT6Wy0st?=
- =?iso-8859-1?Q?fPq2fegrx8DircD+aSykwmeMSbgeEp2gTaXjbvOkwzi4z1HUO/IeAnKEYG?=
- =?iso-8859-1?Q?ypq94ZLNU2S3Ql0ZSu6R/SL3OoSgVc29Dx2gQGaxaxzMUya4EHRsztR5o0?=
- =?iso-8859-1?Q?YN34l9aADMIdL1OFeu/sa3us+q5mbSqnwEuNDAQIM6A4UAWY37VQ1Z7CSe?=
- =?iso-8859-1?Q?DSwD6HXWn9/DZYRVDUyHZDLghQntQKMZGfpUzSyMe9k2P2LDJjLeGvQD85?=
- =?iso-8859-1?Q?2k4NeQZ68w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b4e48a8-1df3-4b07-7967-08de553d9123
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUxqeUY2SHVmYzRjWjZvRmpNUnFMbHBuNTRkL21QZFBUbWJFQXNPUFgrM0JO?=
+ =?utf-8?B?VE9aM3N5RklxVUhNOGk1MzVQYXgxb2VsTkkvdVZXb1JYMWlvbHpJbTdPTnV5?=
+ =?utf-8?B?azg1Z0dIWUI1QmhtZWVQZUNZRWdXYWpiQjIrTEwxVXNwNVJvQUhWc1BVVjBl?=
+ =?utf-8?B?VThyK3dWZy9yTG1Qa1dPcW5VeHFEQkkxN0tGTDNBVGsvQllJbmxRc1BJT3oy?=
+ =?utf-8?B?RnI2cFY2QkxmaGdxb282cHhWcC9YeGFMb0NSMENvbmJQSk80NmdZeHROZ0Ur?=
+ =?utf-8?B?OVhodEsrL0lFelhJd1l0akFieUFkd3BvZWF2eFlXeW5ZZVA4emsxZ1Y1SEZO?=
+ =?utf-8?B?WFdSQzdZV01sY0JkaUcvMGJDbGlYY1cxSzlBRGxkVisrVThXSGZ3ZG4xSXdj?=
+ =?utf-8?B?UWFCT1NJTFFPSlJnZ05LSGVZQ3ZnV0F5V09IeWV0d0U0aStxenR1OWhzU0k1?=
+ =?utf-8?B?VzgwWTlKQzhqZ1E3ZVozV0ZCck5WQndsb09PTVVYcXhJMDRaczFZaThZQjRC?=
+ =?utf-8?B?WkRIczRGdm5ydUJLdmZUZzc0VVg4VVZaOC9rWnNDd2VacStla2tLdllvUjdC?=
+ =?utf-8?B?aWxLT2dSZjZLd1RxS1dsSXYrRHdYUGlJektjQVk3dTd3YlpXdHUxRUREUHlx?=
+ =?utf-8?B?REJyZ3lZbGR0WUNJN3k0UE1MWWRDaHhnS3lwVURDRWNiL3JNbFp1L1BuNmxm?=
+ =?utf-8?B?OUNNTUZJeUVWQVc4WkVhOE9MK2hQZFZ5MmxZeGJKWVdoTEZ0WHozTE9hQTZ4?=
+ =?utf-8?B?WlNvMElDVHJvcVFWSjRoNDVYTGxIWDdvUDdpejc4OUFKSmZVb2FLR0JjWkRB?=
+ =?utf-8?B?Rmw3dHFmRzNNRUdPa2ZtZ0FTVlRXZitEZTY0WTd5OXFOYWxUei9SR0NSQVc4?=
+ =?utf-8?B?VXYwRGlCNDY4UEtBeUxNaFdKY01CM2lPOTJhbnUzTGIzSTlBcjRiNHdQblYz?=
+ =?utf-8?B?UklXc1kxL0h6U2pTU3RPTmtDNXlmWkdpZ0J4YWVJOVJGaS9BdkhBY0tRSUNm?=
+ =?utf-8?B?cy9zMlRZV0NCcDhEK0x0Q2N1SXpYbVkzVzczRkg2cGlHTnJZNExBaDlWNmJQ?=
+ =?utf-8?B?aGFpNWFCM2oyZVY0Sy96blhaZDBDRGlXNnZCVnZ2TEZ1eHpJOVdPYUt5MXh1?=
+ =?utf-8?B?YldqdnRvR0VobUpYcmRqdlBVRm9rcWIxY29yUUFoMC9TTkNBRWRTalhDUGtJ?=
+ =?utf-8?B?ck5sNFFhYmlyN2FNcU91NFNyQzNubnlaWHpYM3NRTk5ieUxKT1ZoK0o2ajdh?=
+ =?utf-8?B?V1pwclBQVEtoWDdIcW4vdDJCRlBJbHhFdStJZ3lSaXQ5L2UvM212Si9XQzNo?=
+ =?utf-8?B?UlBzK1ZRYldwUTRJK2hLdGZ0TTlMZDFmQlNOTHFhMUtVT2Q0RlB0OTMvWGJF?=
+ =?utf-8?B?Qi9TOUdzZDR3akhKbElyakFIM0Z4QWxwc0NmMHlKNjJQMDBuZDZhTEFzdktv?=
+ =?utf-8?B?TlhGamdLRlF1eUtxTUt6SzlIai9aT0tSZ3RrODVqQWlLTlh5aGlqSUt4aDFP?=
+ =?utf-8?B?aWJJbjI3Ti9jU0V2L0pMZ3k4SFZzbnNWTW9MZ0tRdFY3dTJ2T3RaMGRWQjhs?=
+ =?utf-8?B?Q0o1ako2T1BGTlVVcG1UazBobDJ0cXhmbjgrVGFha1pidnd4dTZhamxqdzRT?=
+ =?utf-8?B?Z1pLdEJDVmJ1MUxSNkF6c29mV0psaEphcEJ3aFcwZjlUT1IwbHpPdFdvc094?=
+ =?utf-8?B?ZzA5UTJCancvTnZmcmErTDJ4R0RVT21TUXhCZTJxczcrdTBtMS9jRkl6ZXFa?=
+ =?utf-8?B?R3VqTm5tUHlKK2NFUVFIL2lHTUhHZFRGRk5xOEEzMVA4WlR2amRXcGloM0or?=
+ =?utf-8?B?U2t0TnkzVGhNTFlNaWZhRHROMTdhV1JaUUJrOVFjWnZZTzdSaXpFeWJ6WnZR?=
+ =?utf-8?B?ZkZ2NnVhTGZybnRWNWxNVVdpbHJUbEZMN05wbHVwYUE2L3dwdVYwVExDVVht?=
+ =?utf-8?B?RWx5RklEKzRqTFNvc1cwWWJ3ekhhbDAzSUpURFZ5Q2t3TXJtcU9BUmZ1bmFx?=
+ =?utf-8?B?c2hlYkpFRDVyUHhBMld3cUh3YkhudHpWOEkvbHhEN25yMGVtUnhzVm02R1pU?=
+ =?utf-8?B?Z3BFWXBFcHdzVkpCS2U2SG11RW14a2NHdEQxeEl5bmt6NjRhMnhjSy9XWHNM?=
+ =?utf-8?B?MUVVN2NTemN4VlU5aXgrcFB5SHFJdHI4T1RMNHNtK1VLeTJ6S1NxNkNEalFS?=
+ =?utf-8?B?dFlPc1d5WTBPL3R4d0xCVHJuMkxKRnU4VzcrSm03TlhvN0kxLy9xZ2xzSVhI?=
+ =?utf-8?B?NDRGbUtSY2xGVmk2NXJHL2cySUJuektLaDlrVjkvWkhuMUVsZnU0Ulp6bVhy?=
+ =?utf-8?B?bmpYNzJPTVlhVnFQTkpoNVdtbFhuaVI3bmdLTEF1c0ZBQUJ6T3JyUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d88b5c3-4a96-47dd-d398-08de553dc0d7
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5126.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:26:45.2680 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:28:05.2651 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l/VebNPxmpyk8L1IjEdTyQHkatUsO8mnYB6JJY+PdaA6SQudQV3wDtym3fXUeEaXHkJMkQrJcThmfpFWBLPOuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV4PR11MB9465
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: VRHTXlFaM3XVKC/o7TupnrxE/E+ZTL5YDTQS2YAmLhe+awjOBIFHOEu45LhDnDcm48YpuFhlQss7TU7Tgiti5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6882
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,264 +172,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 16, 2026 at 11:26:36AM +0530, Riana Tauro wrote:
-> 
-> 
-> On 1/16/2026 5:09 AM, Zack McKevitt wrote:
-> > 
-> > 
-> > On 1/13/2026 1:20 AM, Riana Tauro wrote:
-> > > > > > > diff --git
-> > > > > > > a/Documentation/netlink/specs/drm_ras.yaml b/
-> > > > > > > Documentation/netlink/specs/drm_ras.yaml
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..be0e379c5bc9
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/netlink/specs/drm_ras.yaml
-> > > > > > > @@ -0,0 +1,130 @@
-> > > > > > > +# SPDX-License-Identifier: ((GPL-2.0 WITH
-> > > > > > > Linux-syscall-note) OR BSD-3-Clause)
-> > > > > > > +---
-> > > > > > > +name: drm-ras
-> > > > > > > +protocol: genetlink
-> > > > > > > +uapi-header: drm/drm_ras.h
-> > > > > > > +
-> > > > > > > +doc: >-
-> > > > > > > +  DRM RAS (Reliability, Availability,
-> > > > > > > Serviceability) over Generic Netlink.
-> > > > > > > +  Provides a standardized mechanism for DRM drivers
-> > > > > > > to register "nodes"
-> > > > > > > +  representing hardware/software components capable
-> > > > > > > of reporting error counters.
-> > > > > > > +  Userspace tools can query the list of nodes or
-> > > > > > > individual error counters
-> > > > > > > +  via the Generic Netlink interface.
-> > > > > > > +
-> > > > > > > +definitions:
-> > > > > > > +  -
-> > > > > > > +    type: enum
-> > > > > > > +    name: node-type
-> > > > > > > +    value-start: 1
-> > > > > > > +    entries: [error-counter]
-> > > > > > > +    doc: >-
-> > > > > > > +         Type of the node. Currently, only error-counter nodes are
-> > > > > > > +         supported, which expose reliability
-> > > > > > > counters for a hardware/software
-> > > > > > > +         component.
-> > > > > > > +
-> > > > > > > +attribute-sets:
-> > > > > > > +  -
-> > > > > > > +    name: node-attrs
-> > > > > > > +    attributes:
-> > > > > > > +      -
-> > > > > > > +        name: node-id
-> > > > > > > +        type: u32
-> > > > > > > +        doc: >-
-> > > > > > > +             Unique identifier for the node.
-> > > > > > > +             Assigned dynamically by the DRM RAS
-> > > > > > > core upon registration.
-> > > > > > > +      -
-> > > > > > > +        name: device-name
-> > > > > > > +        type: string
-> > > > > > > +        doc: >-
-> > > > > > > +             Device name chosen by the driver at registration.
-> > > > > > > +             Can be a PCI BDF, UUID, or module name if unique.
-> > > > > > > +      -
-> > > > > > > +        name: node-name
-> > > > > > > +        type: string
-> > > > > > > +        doc: >-
-> > > > > > > +             Node name chosen by the driver at registration.
-> > > > > > > +             Can be an IP block name, or any name
-> > > > > > > that identifies the
-> > > > > > > +             RAS node inside the device.
-> > > > > > > +      -
-> > > > > > > +        name: node-type
-> > > > > > > +        type: u32
-> > > > > > > +        doc: Type of this node, identifying its function.
-> > > > > > > +        enum: node-type
-> > > > > > > +  -
-> > > > > > > +    name: error-counter-attrs
-> > > > > > > +    attributes:
-> > > > > > > +      -
-> > > > > > > +        name: node-id
-> > > > > > > +        type: u32
-> > > > > > > +        doc:  Node ID targeted by this error counter operation.
-> > > > > > > +      -
-> > > > > > > +        name: error-id
-> > > > > > > +        type: u32
-> > > > > > > +        doc: Unique identifier for a specific error
-> > > > > > > counter within an node.
-> > > > > > > +      -
-> > > > > > > +        name: error-name
-> > > > > > > +        type: string
-> > > > > > > +        doc: Name of the error.
-> > > > > > > +      -
-> > > > > > > +        name: error-value
-> > > > > > > +        type: u32
-> > > > > > > +        doc: Current value of the requested error counter.
-> > > > > > > +
-> > > > > > > +operations:
-> > > > > > > +  list:
-> > > > > > > +    -
-> > > > > > > +      name: list-nodes
-> > > > > > > +      doc: >-
-> > > > > > > +           Retrieve the full list of currently
-> > > > > > > registered DRM RAS nodes.
-> > > > > > > +           Each node includes its dynamically
-> > > > > > > assigned ID, name, and type.
-> > > > > > > +           **Important:** User space must call this
-> > > > > > > operation first to obtain
-> > > > > > > +           the node IDs. These IDs are required for all subsequent
-> > > > > > > +           operations on nodes, such as querying error counters.
-> > > > > 
-> > > > > I am curious about security implications of this design.
-> > > > 
-> > > > hmm... very good point you are raising here.
-> > > > 
-> > > > This current design relies entirely in the CAP_NET_ADMIN.
-> > > > No driver would have the flexibility to choose anything differently.
-> > > > Please notice that the flag admin-perm is hardcoded in this yaml file.
-> > > > 
-> > > > > If the complete
-> > > > > list of RAS nodes is visible for any process on the system
-> > > > > (and one wants to
-> > > > > avoid requiring CAP_NET_ADMIN), there should be some way to enforce
-> > > > > permission checks when performing these operations if desired.
-> > > > 
-> > > > Right now, there's no way that the driver would choose not avoid
-> > > > requiring
-> > > > CAP_NET_ADMIN...
-> > > > 
-> > > > Only way would be the admin to give the cap_net_admin to the tool with:
-> > > > 
-> > > > $ sudo setcap cap_net_admin+ep /bin/drm_ras_tool
-> > > > 
-> > > > but not ideal and not granular anyway...
-> > > > 
-> > > > > 
-> > > > > For example, this might be implemented in the driver's definition of
-> > > > > callback functions like query_error_counter; some drivers
-> > > > > may want to ensure
-> > > > > that the process can in fact open the file descriptor
-> > > > > corresponding to the
-> > > > > queried device before serving a netlink request. Is it
-> > > > > enough for a driver
-> > > > > to simply return -EPERM in this case? Any driver that doesnt
-> > > > > wish to protect
-> > > > > its RAS nodes need not implement checks in their callbacks.
-> > > > 
-> > > > Fair enough. If we want to give the option to the drivers, then we need:
-> > > > 
-> > > > 1. to first remove all the admin-perm flags below and leave the
-> > > > driver to
-> > > > pick up their policy on when to return something or -EPERM.
-> > > > 2. Document this security responsibility and list a few possibilities.
-> > > > 3. In our Xe case here I believe the easiest option is to use
-> > > > something like:
-> > > > 
-> > > > struct scm_creds *creds = NETLINK_CREDS(cb->skb);
-> > > > if (!gid_eq(creds->gid, GLOBAL_ROOT_GID))
-> > > >      return -EPERM
-> > > 
-> > > The driver currently does not have access to the callback or the
-> > > skbuffer. Sending these details as param to driver won't be right as
-> > > drm_ras needs to handle all the netlink buffers.
-> > > 
-> > > How about using pre_doit & start calls? If driver has a pre callback
-> > > , it's the responsibility of the driver to check permissions/any-pre
-> > > conditions, else the CAP_NET_ADMIN permission will be checked.
-> > > 
-> > > @Zack / @Rodrigo thoughts?
-> > > @Zack Will this work for your usecase?
-> > > 
-> > > yaml
-> > > +    dump:
-> > > +        pre: drm-ras-nl-pre-list-nodes
-> > > 
-> > > 
-> > > drm_ras.c :
-> > > 
-> > > +       if (node->pre_list_nodes)
-> > > +                return node->pre_list_nodes(node);
-> > > +
-> > > +        return check_permissions(cb->skb);  //Checks creds
-> > > 
-> > > Thanks
-> > > Riana
-> > > 
-> > 
-> > I agree that a pre_doit is probably the best solution for this.
-> > 
-> > Not entirely sure what a driver specific implementation would look like
-> > yet, but I think that as long as the driver callback has a way to access
-> > the 'current' task_struct pointer corresponding to the user process then
-> > this approach seems like the best option from the netlink side.
-> > 
-> > Since this is mostly a concern for our specific use case, perhaps we can
-> > incorporate this functionality in our change down the road when we
-> > expand the interface for telemetry?
 
-Yes, as it can be changed transparently, let's do that...
 
+On 2025-12-08 18:44, Melissa Wen wrote:
+> Commit 27fc10d1095f ("drm/amd/display: Fix the delta clamping for shaper
+> LUT") fixed banding when using plane shaper LUT in DCN10 CM helper.  The
+> problem is also present in DCN30 CM helper, fix banding by extending the
+> same bug delta clamping fix to CM3.
 > 
-> 
-> Yeah using pre_doit we can allow driver to make decisions based on
-> the private data or driver specific permissions. However we will need to
-> check the CAP_NET_ADMIN when no driver callback is implemented in the
-> netlink layer as a default .
-> 
-> Thank you, you can incorporate the changes when you add telemetry nodes.
-> 
-> For now, I will retain the admin-perm in flags.
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 
-Cool then, when they come with their case we remove it and force in the
-pre_doit as well.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-ack..
+Harry
 
+> ---
+>  .../amd/display/dc/dcn30/dcn30_cm_common.c    | 30 +++++++++++++++----
+>  .../display/dc/dwb/dcn30/dcn30_cm_common.h    |  2 +-
+>  .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   |  9 +++---
+>  .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 17 ++++++-----
+>  .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 16 +++++-----
+>  5 files changed, 49 insertions(+), 25 deletions(-)
 > 
-> I will address the rest of the review comments and send out a new revision
-> shortly.
-> 
-> Thank you
-> Riana
-> 
-> 
-> > 
-> > Let me know what you think.
-> > 
-> > Zack
-> > 
-> > > > 
-> > > > or something like that?!
-> > > > 
-> > > > perhaps drivers could implement some form of cookie or pre-
-> > > > authorization with
-> > > > ioctls or sysfs, and then store in the priv?
-> > > > 
-> > > > Thoughts?
-> > > > Other options?
-> > > > 
-> > > > > 
-> > > > > I dont see any such permissions checks in your driver
-> > > > > implementation which
-> > > > > is understandable given that it may not be necessary for
-> > > > > your use cases.
-> > > > > However, this would be a concern for our driver if we were
-> > > > > to adopt this
-> > > > > interface.
-> > > > 
-> > > > yeap, this case was entirely with admin-perm, so not needed at all...
-> > > > But I see your point and this is really not giving any flexibility to
-> > > > other drivers.
-> > > > 
-> > 
-> > > > > > > 
-> > > > > 
-> > > > > Thanks,
-> > > > > 
-> > > > > Zack
-> > > > > 
-> > > 
-> > 
-> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
+> index ba20575be214..b1c2c8da1937 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
+> @@ -105,9 +105,12 @@ void cm_helper_program_gamcor_xfer_func(
+>  #define NUMBER_REGIONS     32
+>  #define NUMBER_SW_SEGMENTS 16
+>  
+> -bool cm3_helper_translate_curve_to_hw_format(
+> -				const struct dc_transfer_func *output_tf,
+> -				struct pwl_params *lut_params, bool fixpoint)
+> +#define DC_LOGGER \
+> +		ctx->logger
+> +
+> +bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
+> +					     const struct dc_transfer_func *output_tf,
+> +					     struct pwl_params *lut_params, bool fixpoint)
+>  {
+>  	struct curve_points3 *corner_points;
+>  	struct pwl_result_data *rgb_resulted;
+> @@ -248,6 +251,10 @@ bool cm3_helper_translate_curve_to_hw_format(
+>  	if (fixpoint == true) {
+>  		i = 1;
+>  		while (i != hw_points + 2) {
+> +			uint32_t red_clamp;
+> +			uint32_t green_clamp;
+> +			uint32_t blue_clamp;
+> +
+>  			if (i >= hw_points) {
+>  				if (dc_fixpt_lt(rgb_plus_1->red, rgb->red))
+>  					rgb_plus_1->red = dc_fixpt_add(rgb->red,
+> @@ -260,9 +267,20 @@ bool cm3_helper_translate_curve_to_hw_format(
+>  							rgb_minus_1->delta_blue);
+>  			}
+>  
+> -			rgb->delta_red_reg   = dc_fixpt_clamp_u0d10(rgb->delta_red);
+> -			rgb->delta_green_reg = dc_fixpt_clamp_u0d10(rgb->delta_green);
+> -			rgb->delta_blue_reg  = dc_fixpt_clamp_u0d10(rgb->delta_blue);
+> +			rgb->delta_red   = dc_fixpt_sub(rgb_plus_1->red,   rgb->red);
+> +			rgb->delta_green = dc_fixpt_sub(rgb_plus_1->green, rgb->green);
+> +			rgb->delta_blue  = dc_fixpt_sub(rgb_plus_1->blue,  rgb->blue);
+> +
+> +			red_clamp = dc_fixpt_clamp_u0d14(rgb->delta_red);
+> +			green_clamp = dc_fixpt_clamp_u0d14(rgb->delta_green);
+> +			blue_clamp = dc_fixpt_clamp_u0d14(rgb->delta_blue);
+> +
+> +			if (red_clamp >> 10 || green_clamp >> 10 || blue_clamp >> 10)
+> +				DC_LOG_ERROR("Losing delta precision while programming shaper LUT.");
+> +
+> +			rgb->delta_red_reg   = red_clamp & 0x3ff;
+> +			rgb->delta_green_reg = green_clamp & 0x3ff;
+> +			rgb->delta_blue_reg  = blue_clamp & 0x3ff;
+>  			rgb->red_reg         = dc_fixpt_clamp_u0d14(rgb->red);
+>  			rgb->green_reg       = dc_fixpt_clamp_u0d14(rgb->green);
+>  			rgb->blue_reg        = dc_fixpt_clamp_u0d14(rgb->blue);
+> diff --git a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
+> index b86347c9b038..95f9318a54ef 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
+> @@ -59,7 +59,7 @@ void cm_helper_program_gamcor_xfer_func(
+>  	const struct pwl_params *params,
+>  	const struct dcn3_xfer_func_reg *reg);
+>  
+> -bool cm3_helper_translate_curve_to_hw_format(
+> +bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
+>  	const struct dc_transfer_func *output_tf,
+>  	struct pwl_params *lut_params, bool fixpoint);
+>  
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
+> index 81bcadf5e57e..f2d4cd527874 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
+> @@ -239,7 +239,7 @@ bool dcn30_set_blend_lut(
+>  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
+>  		blend_lut = &plane_state->blend_tf.pwl;
+>  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
+> -		result = cm3_helper_translate_curve_to_hw_format(
+> +		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+>  				&plane_state->blend_tf, &dpp_base->regamma_params, false);
+>  		if (!result)
+>  			return result;
+> @@ -334,8 +334,9 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
+>  	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
+>  		params = &plane_state->in_transfer_func.pwl;
+>  	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
+> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
+> -				&dpp_base->degamma_params, false))
+> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +							&plane_state->in_transfer_func,
+> +							&dpp_base->degamma_params, false))
+>  		params = &dpp_base->degamma_params;
+>  
+>  	result = dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
+> @@ -406,7 +407,7 @@ bool dcn30_set_output_transfer_func(struct dc *dc,
+>  				params = &stream->out_transfer_func.pwl;
+>  			else if (pipe_ctx->stream->out_transfer_func.type ==
+>  					TF_TYPE_DISTRIBUTED_POINTS &&
+> -					cm3_helper_translate_curve_to_hw_format(
+> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
+>  					&stream->out_transfer_func,
+>  					&mpc->blender_params, false))
+>  				params = &mpc->blender_params;
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> index b213a2ac827a..27abc08918bc 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> @@ -486,8 +486,9 @@ bool dcn32_set_mcm_luts(
+>  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
+>  		lut_params = &plane_state->blend_tf.pwl;
+>  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
+> -		result = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
+> -				&dpp_base->regamma_params, false);
+> +		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +								 &plane_state->blend_tf,
+> +								 &dpp_base->regamma_params, false);
+>  		if (!result)
+>  			return result;
+>  
+> @@ -502,8 +503,9 @@ bool dcn32_set_mcm_luts(
+>  	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>  		// TODO: dpp_base replace
+>  		ASSERT(false);
+> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+> -				&dpp_base->shaper_params, true);
+> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +							&plane_state->in_shaper_func,
+> +							&dpp_base->shaper_params, true);
+>  		lut_params = &dpp_base->shaper_params;
+>  	}
+>  
+> @@ -543,8 +545,9 @@ bool dcn32_set_input_transfer_func(struct dc *dc,
+>  	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
+>  		params = &plane_state->in_transfer_func.pwl;
+>  	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
+> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
+> -				&dpp_base->degamma_params, false))
+> +		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +							&plane_state->in_transfer_func,
+> +							&dpp_base->degamma_params, false))
+>  		params = &dpp_base->degamma_params;
+>  
+>  	dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
+> @@ -575,7 +578,7 @@ bool dcn32_set_output_transfer_func(struct dc *dc,
+>  				params = &stream->out_transfer_func.pwl;
+>  			else if (pipe_ctx->stream->out_transfer_func.type ==
+>  					TF_TYPE_DISTRIBUTED_POINTS &&
+> -					cm3_helper_translate_curve_to_hw_format(
+> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
+>  					&stream->out_transfer_func,
+>  					&mpc->blender_params, false))
+>  				params = &mpc->blender_params;
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+> index 2fbc22afb89c..5eda7648d0d2 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+> @@ -430,7 +430,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
+>  		if (mcm_luts.lut1d_func->type == TF_TYPE_HWPWL)
+>  			m_lut_params.pwl = &mcm_luts.lut1d_func->pwl;
+>  		else if (mcm_luts.lut1d_func->type == TF_TYPE_DISTRIBUTED_POINTS) {
+> -			rval = cm3_helper_translate_curve_to_hw_format(
+> +			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
+>  					mcm_luts.lut1d_func,
+>  					&dpp_base->regamma_params, false);
+>  			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
+> @@ -450,7 +450,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
+>  			m_lut_params.pwl = &mcm_luts.shaper->pwl;
+>  		else if (mcm_luts.shaper->type == TF_TYPE_DISTRIBUTED_POINTS) {
+>  			ASSERT(false);
+> -			rval = cm3_helper_translate_curve_to_hw_format(
+> +			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
+>  					mcm_luts.shaper,
+>  					&dpp_base->regamma_params, true);
+>  			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
+> @@ -627,8 +627,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
+>  	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
+>  		lut_params = &plane_state->blend_tf.pwl;
+>  	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
+> -		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
+> -				&dpp_base->regamma_params, false);
+> +		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +							       &plane_state->blend_tf,
+> +							       &dpp_base->regamma_params, false);
+>  		lut_params = rval ? &dpp_base->regamma_params : NULL;
+>  	}
+>  	result = mpc->funcs->program_1dlut(mpc, lut_params, mpcc_id);
+> @@ -639,8 +640,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
+>  		lut_params = &plane_state->in_shaper_func.pwl;
+>  	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>  		// TODO: dpp_base replace
+> -		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+> -				&dpp_base->shaper_params, true);
+> +		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +							       &plane_state->in_shaper_func,
+> +							       &dpp_base->shaper_params, true);
+>  		lut_params = rval ? &dpp_base->shaper_params : NULL;
+>  	}
+>  	result &= mpc->funcs->program_shaper(mpc, lut_params, mpcc_id);
+> @@ -674,7 +676,7 @@ bool dcn401_set_output_transfer_func(struct dc *dc,
+>  				params = &stream->out_transfer_func.pwl;
+>  			else if (pipe_ctx->stream->out_transfer_func.type ==
+>  					TF_TYPE_DISTRIBUTED_POINTS &&
+> -					cm3_helper_translate_curve_to_hw_format(
+> +					cm3_helper_translate_curve_to_hw_format(stream->ctx,
+>  					&stream->out_transfer_func,
+>  					&mpc->blender_params, false))
+>  				params = &mpc->blender_params;
+
