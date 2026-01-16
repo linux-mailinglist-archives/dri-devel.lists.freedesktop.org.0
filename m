@@ -2,76 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B0BD3880A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7B5D3883B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 22:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6A410E93D;
-	Fri, 16 Jan 2026 20:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4587710E0C7;
+	Fri, 16 Jan 2026 21:17:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Oy7md8OT";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="E8oBCFmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72A9D10E93D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:56:01 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id
- 4fb4d7f45d1cf-64bea6c5819so4181940a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 12:56:01 -0800 (PST)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4185010E07B
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 21:17:58 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-b86f69bbe60so372438966b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 13:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1768596960; x=1769201760; darn=lists.freedesktop.org; 
- h=content-disposition:mime-version:mail-followup-to:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8l6bF8VxQIJbr4jHnLKCpr3u0k50ekTMa10uEgswMOo=;
- b=Oy7md8OTrqhkcDGcd1lycIDeEatuCZgL4bNYjCx6cXy8XEuOKXooWHLRGUvd3sa1Xq
- OUzdZYb+VsI0D4nQietoGcSzMNLJQ6nmsm+ZZSPFl9JMi6Z+FbqntqsoqvD2EjaPIm8M
- 7NFXX2eiXe/nii68IxSmvFmj0tFlHvrHJuDxs=
+ d=chromium.org; s=google; t=1768598276; x=1769203076;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zh2i9RwRJ6Lxco73X8lyH7Nz37zmZB2KCKN1wlIMXxw=;
+ b=E8oBCFmTrbIi1xk0MLQvSNoVJngHOMF+xRuN7TOTX7/n7B3Or0ldxBbdoCX7hJfWq3
+ KqU58uQp0xIUHOJ2g43xpMYgXyxhbEJZGXON9sG/ZTQbDB99VIba6fQAr9A3xSgDyXte
+ u5Wcy+NWnjT4m+oqWlGJi2ManZjD7lqsWMuhg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768596960; x=1769201760;
- h=content-disposition:mime-version:mail-followup-to:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8l6bF8VxQIJbr4jHnLKCpr3u0k50ekTMa10uEgswMOo=;
- b=acq1CvsMyqFx9Lh3fkf6fqH/zR4kXqWZL4xNZufAlTgaC6Z2QHohTOS40SlIu0KW6M
- MP/kDsW2b6KRAkTqNiUM2f0vqGWIr2Ik3cUSdufssblPBIdq6vIhe5GqUHCtawOWti52
- msQ3mByJz49TjnWJmjIiwWPwu9643jehS5nHhV8ATm0ZvCW29tAVkM8pM5BX1dw+hBaS
- ak0yg/DhmPSdh2MKpR9834w+VVBfc8JroRmgjkCKshSOhpw5oHZNWQjzb8+nscY5/3sw
- hqS5Cl1FioIRd34D7B2/qjLpU2sAIAZs9m5sXIZMPf0RbfVdhK64KbhRS21dlSpoJIQH
- nHFg==
-X-Gm-Message-State: AOJu0Yy+a1KdJxLK2VOWJSlUbhI6x72Q/JsLJXJXlR/GylPmyksUgEY0
- 2ADki1MCtWu1b5C9YDOhvOH81y2TPUyawNZ/Va5gOO3va/3wNlAtDUmWPpKqiiCEEM6+5Uu7Lat
- bd9ebr4rUbQ==
-X-Gm-Gg: AY/fxX7L9MHUBG/qwZz1gQjyoQZLqME+eKicLKfh8Atfi/ibbdzeeYWOc/9+6NO4nvr
- iQWnOlDDp7XaQFUa0zssEix9eWL4TM106hneO08BOBx4TJBsibAJWvFCBeHbijPvSGtwpaUn5nS
- 2drdmOcAwDG0NRw40kP+mGdcsWfwegC7FuNmcI0S/cCKc+3470mZkZg9TXdAwqD8rej6G/cQfZO
- 18HQB4iwE3oe6IVTnwN2SX8bTjDdWvOOl5PGhRwgUC5VNcttLNrCHpW324iIQAKy8D5YYgZ2lUh
- oMMIqPAVxtgvsZfA8Zpd5zdRLd1Qzw8pu79c6WJymvOrC3FNcyb9+wqY8Aq1tLDL4UYGxYdPTkw
- s+6kYrGRkvWuPfpl2RukvoH/MJ/H5E6fT/O8uoPxzjfL1r86H9CsVMy97xXA7DoMwC5IucRaX5l
- xk1KrONn10vfX14raZGsBZOLo=
-X-Received: by 2002:a05:6402:26cb:b0:653:e391:6f34 with SMTP id
- 4fb4d7f45d1cf-65452bcc0damr3072360a12.23.1768596958655; 
- Fri, 16 Jan 2026 12:55:58 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65452bce213sm3368155a12.2.2026.01.16.12.55.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 12:55:58 -0800 (PST)
-Date: Fri, 16 Jan 2026 21:55:56 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Dave Airlie <airlied@gmail.com>
-Subject: [PULL] drm-fixes for 6.19-rc6
-Message-ID: <aWql3MQyfEsKAqPT@phenom.ffwll.local>
-Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Dave Airlie <airlied@gmail.com>
+ d=1e100.net; s=20230601; t=1768598276; x=1769203076;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=zh2i9RwRJ6Lxco73X8lyH7Nz37zmZB2KCKN1wlIMXxw=;
+ b=bcp74m/kxSUN+c4pFHTZHpOVvrRm7FqIhzztqsS8JoUlxhyD8zXALaWQTZPKJGffbE
+ CZVh4//9RI89EG1xfzO6AUglKYEVvWIIlyRBOKkS1GJUx1VlQOdv19602NtXAOo+ho03
+ wf3pwV71oNn+rZguSCSsCRoU75+dFVePwIa8j6kZGmtP/rXUuSw07kbF4P5fU8VehdOn
+ sYrPna1CCDQYJAMcRa6NsErO37EKKY/uUYmaIkbu769CfSa3EuOZOxwDjDOJA6EHqAbU
+ KMZt1FELV208xLhEVKOZNRQPxDvB/DvFSnq4z+XZ9aHgeMY5/fj/JJNxaS8yNVIsfSc3
+ pNvQ==
+X-Gm-Message-State: AOJu0YxoGTYnYfLfYKM1y0p8PHEp+dXr4kuLq8eBpH4MIlj0ZNvJNGXl
+ 82TYTQIH92xxCI51AlOAyBoPZhPVBa475QEyY8bg43taRuFjh724MLms6Sgxpf0XcHL7o7E2sdp
+ hOSs=
+X-Gm-Gg: AY/fxX7I4ggPwG1RuqLKKUeZUd9Tfb4eVCwSImPIJ2FiROIlxJPv5+nFttax/2Nth0M
+ 8tKekpCXB47AmTIemfJVOgKnCZVb97aGsgSA/SQN3dbC57yBZOtVDG8sDYLm5udAVpr1BPzuuTo
+ VpQKmvJqj9mBLYEKqmnNjrALY0qbqQ7ZnE43u3V1Wuy4mL60TVcYiaYB3vzpWTTaY7I70qOvoBq
+ 1M9USW6Z6kt1DfT3Wz4A8LYG9PO3mbqN50dOGAZ01pst+los41ZP3wv0+PITt0EgicujWw8EQoG
+ 7SblEJPJdpn4CeoUrAA0iyhixCxMHYxmobHrtRnaim/GC9aIOho9rfaKQOJMEKG+IVvKQ4ng/tw
+ 8ivYcJm+DyXOUmTjlj941xymeuNj0LTK96s42u6I94OJYKqGKGgX9HC6G3/FnRmpv+qDNTE8ITP
+ 2uJEHWjIYQjTtVP83fJPzYO5rnJFYeSum6mmno/O4QFHD6hPL17Q==
+X-Received: by 2002:a17:907:940b:b0:b73:6d56:f3ff with SMTP id
+ a640c23a62f3a-b87968f60f9mr320295566b.20.1768598275706; 
+ Fri, 16 Jan 2026 13:17:55 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
+ [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-654533cc5d6sm3353512a12.22.2026.01.16.13.17.54
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jan 2026 13:17:54 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-42fb0fc5aa4so2039522f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 13:17:54 -0800 (PST)
+X-Received: by 2002:a05:6000:186b:b0:430:f255:14b3 with SMTP id
+ ffacd0b85a97d-4356a082ecamr4625786f8f.43.1768598273880; Fri, 16 Jan 2026
+ 13:17:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Operating-System: Linux phenom 6.17.10+deb14-amd64 
+References: <20260116185936.25283-1-alejandro@quihel.net>
+In-Reply-To: <20260116185936.25283-1-alejandro@quihel.net>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 16 Jan 2026 13:17:42 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xfyzx0-Y3hnxGWE5X0GhKyDdMsCp6T2c=amd3DLRGMHQ@mail.gmail.com>
+X-Gm-Features: AZwV_Qi5TtL8DgQ3BMze2tYs5fG9S0waVHY_lHjh1_ffbfEQ9AIlU-j4pCjAYKA
+Message-ID: <CAD=FV=Xfyzx0-Y3hnxGWE5X0GhKyDdMsCp6T2c=amd3DLRGMHQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: panel-edp: Add Tianma TL160ADMP17
+To: Alejandro Quintanar <alejandro@quihel.net>
+Cc: dri-devel@lists.freedesktop.org, neil.armstrong@linaro.org, 
+ jesszhan0024@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,196 +96,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi,
 
-We've had nothing aside of a compiler noise fix until today, when the amd
-and drm-misc fixes PRs showed up after Dave already went into w/e mode. So
-it's on me to push these out, since there's a bunch of important fixes in
-here I think that shouldn't be delayed for a week.
+On Fri, Jan 16, 2026 at 11:02=E2=80=AFAM Alejandro Quintanar
+<alejandro@quihel.net> wrote:
+>
+> Add support for the Tianma TL160ADMP17 panel (EDID manufacturer ID 'TMA',
+> product ID 0x2033). This is a 16" 2560x1600 panel with 60Hz/120Hz refresh
+> rates found in the Lenovo ThinkBook 16 Gen 7 (21NH).
+>
+> Without this entry, the panel-edp driver prints:
+>   "Unknown panel TMA 0x2033, using conservative timings"
+>
+> Signed-off-by: Alejandro Quintanar <alejandro@quihel.net>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 415b89489..d3dffbfee 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -2084,6 +2084,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081=
+116HHD028001-51D"),
+>
+>         EDP_PANEL_ENTRY('T', 'M', 'A', 0x0811, &delay_200_500_e80_d50, "T=
+M140VDXP01-04"),
+> +       EDP_PANEL_ENTRY('T', 'M', 'A', 0x2033, &delay_200_500_e50, "TL160=
+ADMP17"),
+>         EDP_PANEL_ENTRY('T', 'M', 'A', 0x2094, &delay_200_500_e50_d100, "=
+TL140VDMS03-01"),
 
-drm-fixes-2026-01-16:
-drm-fixes for 6.19-rc6
+Thanks for the patch! A few things:
 
-Core Changes:
-- take gem lock when preallocating in gpuvm.
-- add single byte read fallback to dp for broken usb-c adapters
-- remove duplicate drm_sysfb declarations
+1. Can you include the EDID in the commit message? We've been trying
+to do this to help make sure we know what display was used in case we
+need to reference it in the future.
 
-Driver Changes:
-- i915: compiler noise fix
-- amdgpu/amdkfd: pile of fixes all over
-- vmwgfx: v10 cursor regression fix, other fixes
-- rockchip: waiting for cfgdone regression fix, other fixes
-- gud: fix oops on disconnect
-- simple-panel: regression fix when connector is not set, fix for
-  DataImage SCF0700C48GGU18
-- nouveau: cursor handling locking fix
+2. Do you actually have a datasheet for the panel, or are you making
+guesses about the timings?
 
-Cheers, Sima
+3. Given that the panel below has similar timings but also have a
+"disable" timing of 100ms, are you certain you don't also need that?
 
-The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
-
-  Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2026-01-16
-
-for you to fetch changes up to 9dd1f5f3eb8cb175e2f7fd2a685bdb6b1bd2a726:
-
-  Merge tag 'drm-misc-fixes-2026-01-16' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes (2026-01-16 20:27:21 +0100)
-
-----------------------------------------------------------------
-drm-fixes for 6.19-rc6
-
-Core Changes:
-- take gem lock when preallocating in gpuvm.
-- add single byte read fallback to dp for broken usb-c adapters
-- remove duplicate drm_sysfb declarations
-
-Driver Changes:
-- i915: compiler noise fix
-- amdgpu/amdkfd: pile of fixes all over
-- vmwgfx: v10 cursor regression fix, other fixes
-- rockchip: waiting for cfgdone regression fix, other fixes
-- gud: fix oops on disconnect
-- simple-panel: regression fix when connector is not set, fix for
-  DataImage SCF0700C48GGU18
-- nouveau: cursor handling locking fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: make sure userqs are enabled in userq IOCTLs
-
-Alice Ryhl (1):
-      drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()
-
-Andy Yan (2):
-      drm/rockchip: vop2: Add delay between poll registers
-      drm/rockchip: vop2: Only wait for changed layer cfg done when there is pending cfgdone bits
-
-Bartlomiej Kubik (1):
-      drm/vmwgfx: Fix kernel-doc warnings for vmwgfx_fence
-
-Ben Dooks (1):
-      drm/i915/guc: make 'guc_hw_reg_state' static as it isn't exported
-
-Chia-Lin Kao (AceLan) (1):
-      drm/dp: Add byte-by-byte fallback for broken USB-C adapters
-
-Cristian Ciocaltea (1):
-      drm/rockchip: dw_hdmi_qp: Switch to gpiod_set_value_cansleep()
-
-Dave Airlie (1):
-      Merge tag 'drm-intel-fixes-2026-01-15' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-
-Haoxiang Li (2):
-      drm/vmwgfx: Fix an error return check in vmw_compat_shader_add()
-      drm/amdkfd: fix a memory leak in device_queue_manager_init()
-
-Harish Kasiviswanathan (1):
-      drm/amdkfd: No need to suspend whole MES to evict process
-
-Ian Forbes (2):
-      drm/vmwgfx: Fix KMS with 3D on HW version 10
-      drm/vmwgfx: Merge vmw_bo_release and vmw_bo_free functions
-
-Ivan Lipski (1):
-      drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module
-
-Lu Yao (1):
-      drm/amdgpu: fix drm panic null pointer when driver not support atomic
-
-Ludovic Desroches (1):
-      drm/panel: simple: restore connector_type fallback
-
-Lyude Paul (2):
-      drm/nouveau/disp/nv50-: Set lock_core in curs507a_prepare
-      drm/nouveau/kms/nv50-: Assert we hold nv50_disp->lock in nv50_head_flush_*
-
-Marek Vasut (1):
-      drm/panel-simple: fix connector type for DataImage SCF0700C48GGU18 panel
-
-Mario Limonciello (1):
-      drm/amd/display: Bump the HDMI clock to 340MHz
-
-Mario Limonciello (AMD) (2):
-      drm/amd: Clean up kfd node on surprise disconnect
-      drm/amd/display: Show link name in PSR status message
-
-Peter Colberg (1):
-      Revert duplicate "drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces"
-
-Philip Yang (1):
-      drm/amdgpu: Fix gfx9 update PTE mtype flag
-
-Prike Liang (2):
-      drm/amdgpu: validate the flush_gpu_tlb_pasid()
-      Revert "drm/amdgpu: don't attach the tlb fence for SI"
-
-Sebastian Reichel (1):
-      drm/bridge: dw-hdmi-qp: Fix spurious IRQ on resume
-
-Shenghao Yang (1):
-      drm/gud: fix NULL fb and crtc dereferences on USB disconnect
-
-Simona Vetter (2):
-      Merge tag 'amd-drm-fixes-6.19-2026-01-15' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2026-01-16' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-
-Srinivasan Shanmugam (1):
-      drm/amdgpu/userq: Fix fence reference leak on queue teardown v2
-
-Thomas Zimmermann (1):
-      drm/sysfb: Remove duplicate declarations
-
-Vivek Das Mohapatra (1):
-      drm/amd/display: Initialise backlight level values from hw
-
-Xiaogang Chen (1):
-      drm/amdgpu: Use correct address to setup gart page table for vram access
-
-Yang Wang (1):
-      drm/amd/pm: fix smu overdrive data type wrong issue on smu 14.0.2
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   8 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  12 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  11 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          |  16 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h          |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |   8 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   8 +-
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  31 +++---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  36 ++++++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   5 +-
- drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h     |   2 +-
- .../gpu/drm/amd/display/dc/link/link_detection.c   |   4 +-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |   3 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |   9 ++
- drivers/gpu/drm/drm_gpuvm.c                        |  75 +++++++++-----
- drivers/gpu/drm/gud/gud_pipe.c                     |  20 ++--
- drivers/gpu/drm/i915/i915_gpu_error.c              |   2 +-
- drivers/gpu/drm/nouveau/dispnv50/curs507a.c        |   1 +
- drivers/gpu/drm/nouveau/dispnv50/head.c            |   5 +
- drivers/gpu/drm/panel/panel-simple.c               | 110 ++++++++++-----------
- drivers/gpu/drm/panthor/panthor_mmu.c              |  10 --
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     |  14 ++-
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |  17 +++-
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h           |   9 --
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |  22 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |  10 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  14 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c             |   4 +-
- include/drm/bridge/dw_hdmi_qp.h                    |   1 +
- include/drm/display/drm_dp_helper.h                |  57 +++++++----
- 35 files changed, 333 insertions(+), 213 deletions(-)
-
--- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+-Doug
