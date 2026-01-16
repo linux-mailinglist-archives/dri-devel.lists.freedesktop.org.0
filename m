@@ -2,93 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A6ED2D37A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB79D2D389
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE9B10E811;
-	Fri, 16 Jan 2026 07:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E65710E812;
+	Fri, 16 Jan 2026 07:30:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="G8A/Jbza";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE8910E811
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:30:18 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4801bc32725so7371915e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 23:30:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768548616; cv=none;
- d=google.com; s=arc-20240605;
- b=B9W+RWBrhTc1+VCH1uCAlH3M8XlsPjCdK6DMZ8gZk1G89vZNbIL80lDwSb+4Xkc4jq
- Emmn8n65iBCV7lxdJiqdI5kk9juCgvb8SLOJSOjCKPhpMURIrCm/zroEFknZR7knXqEr
- Pihm4B8WSuGhPM+Plt6BrMupVqZnVAUKPsnamcVoaGoalBILVYY65hATi4e+PFPrG6d4
- JrJsmZ4YKDPJdoZoR0Z9EkZQXraAopkisdH2J0I4qN8rQS2fRXIgASpTKgVrvcU3Iqy5
- VQOoOTqqR4jhX7+rU9hMgx9+0uUCjI02gktPpk9KWi2nFJq2W0sxxrZQpoPKIiymQuPN
- 4Z/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=d3UkvK/UrzMfNZY0ft7sX23k0dZ6g9gY8ZU4S2UCJcw=;
- fh=NMdtmZo4OfZDsWuIsWCsGYj5n+nvjcQwOGP1a6qEx5E=;
- b=hCd39c1XXEVhT69CINXuKzdUIdaYHU1X+5IR9ri7qwywlyl+NAKZy2QtUMw5tt9r1d
- OeNZjuUfeKnWzs7Z11IE0rPSfJtOV3oyqMXjPAgpu7MM9BpLuq3xyZ3LviHSBDNI+cNt
- cfvbletW2pF/IMxuOzb2qVb6DhTIel7kHH9sazpTFg7SjynpANDKX+BD4eVhXq5+wR+P
- VczSnRv22bfqA60PXXtus3NsR7yQ8CUqz3ZgucsE3tuAOmWV6IipU47jRRSsHXiYS2gk
- IMw4wJyNTkYQgWkRJqhXNSNQYvfetaSbM9punolArOjEif+wUn1RGyCzUsrLRWYdNUBy
- H+BQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1768548616; x=1769153416;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d3UkvK/UrzMfNZY0ft7sX23k0dZ6g9gY8ZU4S2UCJcw=;
- b=G8A/JbzaNX6Yze5CatsJH3uC8zxSlzEJx9rGf8XhxyeqYeziHog9DZl6D//7iorxt/
- YvkZdbkxVyjJ6Omd5Z88oGd5vWukiAlSjPNAuIxP08zLSDcZhRRqauY/R+wauUzlMapq
- +FlCE0GI1lploJKhw+Js4mZE+R4jZBDQPaexTn+SXw74Zigv6BN3FY2aw/4lHGtYlwy9
- ke3jmLT4FJzPy2Ocnaf/H9wDGXolvff88n9UnC3Lc3v72YHimdBdp7QEnZX8iaNgwLfz
- mjnBuZKpYZgwo+RIWXYt4uTfZ+iJVQNdeV3mzBjfROtfJ4TPB7g4hqB3YdUgu1Ouyr5r
- Hixw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768548616; x=1769153416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=d3UkvK/UrzMfNZY0ft7sX23k0dZ6g9gY8ZU4S2UCJcw=;
- b=F1IKkIe6ZnGNw8oSU4aZXRk3J3Lv5AwsHBiY+hWie2yLCdTisCWUq2fWgczQVc2Y07
- JaOpPJQ4CDfnTwNuZFQpj9tnUSLc1Cxtgg7bEUXMmMtpLgretYLpBC4FuDOOjd1hdvRB
- FCKGzHSj2+wTIIsP+E2zHSqIyy/ft+fpnkgmyXfELhi2x37tOp1HDexctb+MZ9M7Iah7
- GhxzkgaQY84qQ00cSSgSI/bVCBOdyADx9V6iM52cUezTEdtWxzHoKrCNceGtU6mbP9gb
- zex8ggVN0cUroCvy7hgE5BpzRsE0JoW/m/gqegB4RUX5krLk5sCFm8ACRKg9MPGCXN+o
- J1jQ==
-X-Gm-Message-State: AOJu0YxJSy/6LNnG+uDmi0EK2pmgGPtc8t/ruUsh3jPoruxTDVH8jYyc
- 6F7OHMlngA8gq6BZARQQnlBs6aqUnsQipP8qhSCgAc6pTkz1n0tmD2Psl4Dzp4TmgQzhdQ8tCpm
- lsb35veiUHOBGPS9jSuV8h6JtME0vv3qrEPkoAapr
-X-Gm-Gg: AY/fxX7qncChBBsi95tFTpxJdVT6NQhoWKN9nQIE4lJ7PIlBz9NUdBAPlo85lVZZrYl
- kY+5y8ZZxpFkpZL+rN2MaJz6VWaNI2f/rX3nz8h/eLGcBB0dyxpSlc/LZnAq7ZXMdBvtNWRsC7K
- 2VIa5/FANhFxA+8lZ0Fm8X3uOBn0rjIT2OCw/mqe5tQ07FiKEi2dlFZoAnLhm/ayO/eOx7tzqt/
- aEL6i9Phda2YVF0llwn5Blb0U9tzNaJCdRNBt3qcFhEBSjf+PqvePo/2ZoyX0t3uXBr2ZKRjE5p
- FBxNkg4fMmSpM/bEcUu/gSxoGQ==
-X-Received: by 2002:a05:600c:8285:b0:477:8a2a:1244 with SMTP id
- 5b1f17b1804b1-4801eac3169mr14925195e9.11.1768548616379; Thu, 15 Jan 2026
- 23:30:16 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCFE10E812
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:30:30 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7798E3368D;
+ Fri, 16 Jan 2026 07:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+ b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
+ SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
+ DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768548629;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+ b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
+ 1n53sX67ZoW5QWDg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ysSXB+uI;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xC71ZXC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+ b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
+ SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
+ DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768548629;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+ b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
+ 1n53sX67ZoW5QWDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2165C3EA63;
+ Fri, 16 Jan 2026 07:30:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YzTxBhTpaWmSSgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jan 2026 07:30:28 +0000
+Message-ID: <fcc432e7-308b-4d8f-8c26-355409f1bd94@suse.de>
+Date: Fri, 16 Jan 2026 08:30:27 +0100
 MIME-Version: 1.0
-References: <20260115212355.201628-1-deborah.brouwer@collabora.com>
-In-Reply-To: <20260115212355.201628-1-deborah.brouwer@collabora.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 16 Jan 2026 08:30:03 +0100
-X-Gm-Features: AZwV_Qiqq34HbecPsnhk5yodxBLniUuuBEzQYg-DpfBJqj72hySwzPxuWpztHpg
-Message-ID: <CAH5fLggE4fxs3iT7ZbtZPJEFUKsBAuzWqeDsvx-PUVyPiE9BfQ@mail.gmail.com>
-Subject: Re: [PATCH] rust: drm: tyr: use read_poll_timeout
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- daniel.almeida@collabora.com, boris.brezillon@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+To: Julius Werner <jwerner@chromium.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
+ samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20260115082128.12460-1-tzimmermann@suse.de>
+ <20260115082128.12460-6-tzimmermann@suse.de>
+ <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.51
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+ DKIM_TRACE(0.00)[suse.de:+]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo, suse.com:url]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7798E3368D
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,19 +156,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 10:24=E2=80=AFPM Deborah Brouwer
-<deborah.brouwer@collabora.com> wrote:
->
-> The L2 power-on sequence and soft reset in Tyr previously relied on fixed
-> sleeps followed by a single register check, since polling helpers were no=
-t
-> available in Rust at the time.
->
-> Now that read_poll_timeout() is available, poll the relevant registers
-> until the hardware reports readiness or a timeout is reached.
->
-> This avoids unnecessary delays on start-up.
->
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+Hi
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Am 15.01.26 um 21:54 schrieb Julius Werner:
+> Not really sure I understand this part? The code in coreboot_table.c
+> creates the device that represents the entry in the table. The code in
+> framebuffer-coreboot.c (which this Kconfig guards) contains the code
+> that creates the device which will be the actual framebuffer. Doesn't
+> it make sense for that part to depend on a framebuffer backend being
+> available?
+
+Corebootdrm already depends on the CONFIG_GOOGLE_FRAMEBUFFER, which is 
+standard behavior for all kernel drivers (i.e., drivers depending on 
+architectural options). Having dependencies in the other direction 
+creates a circular dependency, which Kconfig doesn't handle. But 
+generally speaking, what's the point of having that framebuffer backend 
+code then? I tried to remove it, but it is supposed to remain. But it 
+would not serve a purpose other than creating the platform device for 
+the actual driver. I'm confused about the reason for this design.
+
+Best regards
+Thomas
+
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
