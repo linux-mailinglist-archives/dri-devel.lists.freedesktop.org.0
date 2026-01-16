@@ -2,75 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525FDD385C7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A73D385EE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E96E10E117;
-	Fri, 16 Jan 2026 19:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF0910E16A;
+	Fri, 16 Jan 2026 19:32:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MihcfWZp";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="dlmZiRUW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A529C10E117
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:27:11 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-6505d141d02so3958384a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 11:27:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1768591630; x=1769196430; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cjMTrYrBrzeKqdwskRII283z1dzc+3pWLLZSVhN1rL0=;
- b=MihcfWZpypk9dsVu6gHi1AGiyyLlxTN3w+fSJKhK90OgjrvQZ/X87XY0Vp0YBC6az5
- 2hkC/g01ho5TVbbAr7FD5UDzko+Au9fkqkkGAXgjr31HqX4+y3xWvWcdboO9IBckH0SZ
- 7DNcLim09aT4mwYzfqDExDG/UkjYtZcFynJMw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768591630; x=1769196430;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cjMTrYrBrzeKqdwskRII283z1dzc+3pWLLZSVhN1rL0=;
- b=d4+hfeqHUpk9ISTgjCZP+IJI3t5LY32hlVnZtb/ORz5VMDO6I7D8eDcbAJvysFrifr
- opJOPRqTH4aZJ4MGbgZ7X5CLDk2W5nEh+W0Zi2+XD65yfnxIDJ3FrUVJkOMmtBqYxCEv
- lVq1xSSUdwFjsGCduyRK0lnaT5Ude3UmRhe6q6RDolvEmB/YksI/OOs1/qZd6JPmXM4C
- 3WzgeRDt7/v/ZImACfUYXr3UvT3yZnWx8oPvMCG9bvBnQezGau6pBbM4MFsd3sRDvqa3
- Q+acHmdV/Il5ksA9ZNIT/BgqT0bQ+Su0/jOka5xPDw5glpQDyhWcvTCBd0f60Y4lrFv0
- Qu2Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFh6SwEOEvHIkm/7qEfHgCctHHXqohXnKO4C0X3PB237dLPLHYlWBdt9U7gDEF0QdTKmtY0nmiDjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDs5DHeFGzBGB1TD7NZop2VBG07rSr0z3kH2cIJ/iOY1J7yQTE
- y4yKjkpXhPM4/nm8c85u0LYMS7x7/g71LlonNRfj+Na9lZIk0a1bZPY1JTHN4OuhknU=
-X-Gm-Gg: AY/fxX6Y+uheR6fFCQvBKE8k2hwb9nxwxlcB7IZi5cTYL9DcdttT1QwL4r7yB7u08tF
- 2V4csfK32iBwpLJ0wZDdp7fFTbDch9aRbXREyhRId18AWry0fzVqAoJK/6uW/C3JXwZc8NFVL4w
- AqfY9k+k/h+s6yE89oPJRt/2zUcy4laxfailwzxpvyqkGkCw0zdotQOa32jlwUlQsi8OFh2K6gY
- H13aU/3EY0lVlxGxYVMud+MF2J6pNnV5+FLbc0QFOb+VWKPN36U6EpilsXt3eVFl7J3fNjNXdwd
- ynjBlkzx1H5U4eCm7flCjOAZqG+CZN1n5QTIUR9ZL/U10KfcqW4JqYkzy9YaHqwh9OZe5FrIrHE
- t6GLkOwEYLL75h+EpRvkpTfODnNLylT2fNQQKYdUQ0E509byyTqyCrLiocRb5CjGIUr7seOa4yp
- AprvOYTKKeFoYh3fmL3yT7S3Y9WrvWpB3uIQ==
-X-Received: by 2002:a05:6402:23c4:b0:655:ad4d:66a2 with SMTP id
- 4fb4d7f45d1cf-655ad4d67eemr1941937a12.1.1768591629985; 
- Fri, 16 Jan 2026 11:27:09 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65452cdab55sm3233595a12.10.2026.01.16.11.27.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 11:27:09 -0800 (PST)
-Date: Fri, 16 Jan 2026 20:27:07 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, simona.vetter@ffwll.ch
-Subject: Re: [pull] amdgpu, amdkfd drm-fixes-6.19
-Message-ID: <aWqRC3xvwpeW7I6t@phenom.ffwll.local>
-References: <20260115205405.1890089-1-alexander.deucher@amd.com>
+Received: from TY3P286CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11010027.outbound.protection.outlook.com [52.101.229.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7EA10E16A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:32:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LsG04aTGi7naNxb7XhsWtAYi8Hu5AWjmlOXKk2ZosWNrtakURQMNItGbrKpquuiEPz52XFH6s9vCwF219ZpY/oYvhlGRK+6bCOG7cy2lrQwEHup+wQxhxQp/81D2xyQSkpYbYAm0nqrTH8q84a/BGCBQNThCKqU3x9CbuIoThp7HggBGC9cyrfzxJrAeVqLvkCIrTALI0QNFGTidZw8xDsbUF1Bf8okkkdUwUbLARkJY4F9ZXSjxByNO8ilgRVvbXtJYV38iomXlEMMsts04wHRNADfbhBqU0MOLxVgaj4jiwNkhMCYy16m9ZTrPqyeew2pxcKAD/f5GQqj2Jwrn3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WJEMEUIxop839QGbgbNe7gvsjV5UN4GmzgSarA9Ugwg=;
+ b=qjoSROSGJYNyDUh1uf8IqXv8TJVl0u/eT5pi8ipjBeAfLJRjAC9PuDyr8lCRV1y6QX0Qfwf92vAkXFbMbR1JQhbGSc+PuTWHKsBf1eGrMc8ccToXbCtfKuz6R+Jt4s5w3xCOPbPvMwmG5nRhlLaEW6aKfy6mvPzVAGMCmfWsBq3hPI3Ql1gfVLZzd0kNTXI2yEHAa9cZjfheyRrMermdbKGPGJIKVUsLkyzQXhRypCEWHPtY3vUC53lv+BX0SxDxyThAtLJBd5eL1X5UxR9ZeM/UfZPqXqfhfMCr5go37yhJ/PK3fXPmIeUDQNAf1UQiE1CBcUDKArvMvSOS4Bsc0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WJEMEUIxop839QGbgbNe7gvsjV5UN4GmzgSarA9Ugwg=;
+ b=dlmZiRUWejcbRts5FHw61jrih2/1ChoJYcxOddldtvUOQYxzKik6puBPsMN1a/0Y8q97vtmxCjBEJ3T3bTRNg+JLMiPENp43u5gCS39hePY56T/22vO+zW6l+Bwrht3cvWkTYUyY0ggcjNFMZECKSp7wV5wYzAQwtThXCiPjh8A=
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
+ by TYVPR01MB10732.jpnprd01.prod.outlook.com (2603:1096:400:2ad::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.8; Fri, 16 Jan
+ 2026 19:32:29 +0000
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 19:32:29 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: geert <geert@linux-m68k.org>
+CC: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v6 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Topic: [PATCH v6 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Index: AQHcXUO7FScFUVs6uE+xTE7uY45vjrVU17yAgACquRA=
+Date: Fri, 16 Jan 2026 19:32:29 +0000
+Message-ID: <OS3PR01MB83190C28CC87EB7CF17D8B188A8DA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251124131003.992554-1-chris.brandt@renesas.com>
+ <20251124131003.992554-2-chris.brandt@renesas.com>
+ <CAMuHMdU9cd3caJb8pk6S6anc_jNKnWMHoUmhezUwz7eBUmvAOQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdU9cd3caJb8pk6S6anc_jNKnWMHoUmhezUwz7eBUmvAOQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TYVPR01MB10732:EE_
+x-ms-office365-filtering-correlation-id: eb2953f3-5222-4cf4-61e1-08de5535fcbb
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?TXdsTktNNG4xMDZBbEw0RjluMEdDYmIrYTVVMGdSNE92MmhiSVFKQXdzZ09S?=
+ =?utf-8?B?REF3UWlIQkpoWnhrN3lKVXhOS0M1NGEyZHR2aEJSb1pYWUkvZXVoUlNjaFF0?=
+ =?utf-8?B?WVRheFR3QVMybHVCallqSC9IVm1XSXE3NUQ4ZWVyWEhocWdBcm1pWTB0YTJl?=
+ =?utf-8?B?VTZmUjNHVlFoZDhIR1hhVjc0dWlaTVFVZ3Q1aVFaY2k1MkkvTHhnZ1VSZk1Q?=
+ =?utf-8?B?K2dCRDc4NnhpZmYrMzdYV2JzM3JCWko1UDdIY1llTWVWTkgxMGRaaG1RaFN5?=
+ =?utf-8?B?anB1QThvMDhUNHVNaDFpNm4wb05IQ3NXNzdPUW9kNWZsTENaYks1cDFFOXZj?=
+ =?utf-8?B?Vnp6SWloam1yMThDQlZlRnhEa0hDYVozNGhCUUhIY1B6bEpRZVNNTVZHdDBM?=
+ =?utf-8?B?VkFoektpNGh6eGFIU3I1c0Nlc01USERyV24zaitiZHBQeUd6ZEJuWkdYQW13?=
+ =?utf-8?B?MzNrUjN5cU5wbmU4SDFPT3huTDFMT0VvYUFqa0xKamVOVStFelZyMmRBMGNk?=
+ =?utf-8?B?UFZ6YSt0S3V0U3BOSnZSTXhBV0dUdThJNkxHMldZMUl0bGM4TlpTcmprcHAy?=
+ =?utf-8?B?MUltNXlZNDZJeWVEcFc5UDdLL0ZyaGVMOWdCclpwOFdkUGVmYnZqKzBTWFhp?=
+ =?utf-8?B?YUo1Y1BFRkFjY3hSZlFpSUlLUG9pNG55N3gxV01QMjgvUml6TlZVd1VMRmdr?=
+ =?utf-8?B?WUx0eFRQckdHMFhwczZsbFJBMWxlWTFVMGtWSGt5M2MrTElnbU1qcVlFWHla?=
+ =?utf-8?B?R29DczlCaHVJTG1UUjFCeW5NRlROOTdHaHM5dDNZM3lSNFpXK1lvZEIyQXha?=
+ =?utf-8?B?WlJuTDRYeVhIZy9PT3J6ZVRrVjNPMnJ5OTJvOGVzYWxDQ3lqV0dhZFk2RGl1?=
+ =?utf-8?B?TjgxVG9TdXQ4MDlTb0NIWmFUR1dDcFo4bCtHRThFVU5xWHprNlUyT3ZSbWlN?=
+ =?utf-8?B?cVM2Rk9NU1hVK3dSSUNML0kwSEF6S3o5STJ5SzMrajB0TjZ0S0NqakNOamdz?=
+ =?utf-8?B?VjlPam81aG5FSi9EZ242ODZ2bjBGblJRb2NyVm5FaTAwZlNjem9qeTBuVng5?=
+ =?utf-8?B?L0NvbE5iWXc3d1R6dkNaaXZ1NU0xc3dONkN2cmsvSkhnQnRGN2tObkNQaWtq?=
+ =?utf-8?B?Y2ViT1E0VEJMNmhGaDhyT0hLMTRxREUycDM1QnFBdllCZi83c1pDYjNtNlp1?=
+ =?utf-8?B?MENlUzN4NHBOQWp0SnlReXN3MDlLaS8zaS9GWno2Z1N6Wm8wWGFzL0xReFlz?=
+ =?utf-8?B?NkVwd0ZndytJc1R1dy9iS0FuSzRqejFGYkdkN0YxRzVEbUJBSEYrWWMzWm41?=
+ =?utf-8?B?TmF3Y1V3cDJzVTJOWVR5anFPbCtQbkpzMVhseVQ0NC96anVKV1ZJVko3Uzls?=
+ =?utf-8?B?MU5PTHpFWktLeXRnWFpoMnNOYVNRTHExSTEyQnVYSEpFMHZ1OUFkZnczb1dM?=
+ =?utf-8?B?cW43U0doeFJwRTdJR2xCR2srYWhhbDdVY2xvY0RnVkdBZU5iMXhORVB1cStn?=
+ =?utf-8?B?eTcra3hwK2lMbEV3VGVWWnFhaDVsS29NcjIybVBuSlVNNWVMNkZNdmpJOENQ?=
+ =?utf-8?B?OWlJWVZEWHhlL1lrN2Uya2IvTitzRUpOR3BIYUEvdTNmTmhnUW9oT3NaeEJN?=
+ =?utf-8?B?MU1TL0cxZ2hWRFNaMmxKcHZ4VVI3UTNrTG1PMHZTakpsazdwY0RrWjdFdEdo?=
+ =?utf-8?B?S3RCeENiRFVEM1pYbnc5ZkhFVy9BS0IrUkhIVGRXdndPWGNDdUJ2OHJxb0Jl?=
+ =?utf-8?B?eDE1cFlXbWZxMXViTmF2ZEZvaS96M3pXZDVEVXBkL2VMU0J6R3NWM2lORUpi?=
+ =?utf-8?B?RFd6ZG9Ia1U4Zlp2b3prUmU5VE1WSEZySG1paThqQVNwSVFYQXoyQ1R1UEhK?=
+ =?utf-8?B?dGZzeThUdEpYQTVpMmpsQU1wd29mbW5FYnZ3cUQxVm1SVy9SZHY5cDhJMll3?=
+ =?utf-8?B?dndCeXYxK2tLSTlBWDM5aVUwNVJoQ3NZNkYzZlBDYjdVcURhWmpwL1d3aWth?=
+ =?utf-8?B?cHNadklIV2FvRkhVZWk4NzdCSnFneXNqOFNKZ2pNSWVzaGhyeS9heWtaeWpV?=
+ =?utf-8?B?cnhLcTJCV1NmQlZoYi9reWIzbER3WHljNkpsZHgwelhsTndOb0c2VE1YQkxz?=
+ =?utf-8?B?MzZja0p0aUdmQTh1dFhqSzBZWTgrSW5KNUxUL0FDQlNWQmFBWncvUjN2Y1Qx?=
+ =?utf-8?Q?WR2HnZXdLeDm4sCy2tKyHjQ=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aFJvWkIxdXpNTmo4UTZLNDF5RW83SzQ4NXdEK3N3encyeHBRQjVCemRWcWZM?=
+ =?utf-8?B?ak9JalRsc2xudUFxQkJLaDU4dktBSUNHRUxDc3V1SzVvMVQ4MVhLNnkwKzUz?=
+ =?utf-8?B?QmRlcnJsQVBHS1FPek5oai9XQXpyVC9Ub0hVSHhLU3J0VDRGV01vLzc2U0pW?=
+ =?utf-8?B?Ly93c1JJQm83YURmQlhPRk91ZDAzMHliV3ZpNG9kYnJld09nWS9TY2h1ZW9y?=
+ =?utf-8?B?SDEvWkYzbkNBdVRvNmZSMGRXOStIZU9aOFZKWGQzRm9OdFZXZ2ZpRUNna0pm?=
+ =?utf-8?B?Z2hJOGw2R0ZwVVVnakFUdllNMW12Q3dibHFRYU41RnFNc2RmUGZzL0h4VG4w?=
+ =?utf-8?B?YlZwQlMwZDRTZktaOVVGdG8welRESzNQWW1jVVlsK3hDcytzOFpHV2VTclZ3?=
+ =?utf-8?B?M2F2WmJLeDhMUWRkTjNsUXZlRFd1bkloNFY2QkphTjR2Y1hJZVVhNi80SDlR?=
+ =?utf-8?B?SHRUVllPN1VRVkZ2cTJLZFFGKzZvblpFU2gyZjYvMm9iSG1FWGZOdXQrcndG?=
+ =?utf-8?B?ZVlHR2RoWTN2NDNMdXcrWmNSVGJxMFF4YWFoK2RiR1lYZDQyUHZSOG5QQ3ZS?=
+ =?utf-8?B?TmxJZmlva25FU1YrZFlJZTB4RUpLMlFmMGZMMEM5aVQxSjFnT3ZOQ1c3ZFlM?=
+ =?utf-8?B?clFWTXhRTjdYa2piZE9CSUE0TkpKeiswZ2drSldyU3M3NzRjVVpxZ3ltWjZu?=
+ =?utf-8?B?RzgrV3pPYzlkRTA5eVJIY25QUm9UeXFLS2FjWllMc1MvYzNIUWFJTTlXaWRC?=
+ =?utf-8?B?OEhsVHRuamFwcitRY21Nclo5anM1dm9vRGpZOVJvRHJqTTdQWVVJTlVEVTd6?=
+ =?utf-8?B?cFl6dHhsVFl6eHhBbkV4SmthMEdwMldOYlpoaHp0Z1dVZkdld1ZLZGUyby9H?=
+ =?utf-8?B?U1JEREgyMXBEWTBLd1FwWTVSMFNLcUt4eXB2YUV3WDYyN29aMzdpeC82Y0hD?=
+ =?utf-8?B?ci96NHhXc0l6VDJLMGRhcHoyTUhScmxoeStVZDRWcEtvZXMvSXRoRGJ2QzJm?=
+ =?utf-8?B?SSt4UFdKWWJXR0IvWTNXc0JHSkhKUmR3OWdSMlYydEZnNGhKR3hLY3JYd0hp?=
+ =?utf-8?B?SVR4bVBJcXRIWDVnWEdEZXFvbkhUcTF3dlR3VCs0NGhTcThBcWMxR2t1R3Ay?=
+ =?utf-8?B?cnhvSnRQT2xPTnU4djJqVng0RlduRDlFTUZXdENZOHVtbkRiZ0h2ZVcyZWcr?=
+ =?utf-8?B?ekVTOTh3MFZPdVBXNkxHbnlZNDVnWlBOTC95TEhoYSs0cHprM3grOUUzUjlL?=
+ =?utf-8?B?VnlPaG9od3dDYVgyeE1KNFNTanprTlZ2NGFMV0d3b25CZ1dJRXIveU9aN3pk?=
+ =?utf-8?B?eDJPSzc1NWYxdjNOSTQrMVVhdGkzd1RvVmcwdVI0VXhZVmhuVzdZMWtsK1A3?=
+ =?utf-8?B?ZFpnRzZNa0M2QmFib0UwZ3BkUTV4Ri9qTm1yRDAyeDRhTVJRWEhBV2RHK2lC?=
+ =?utf-8?B?bHlqNEo3ZllMSTFyaU5EUGhNWWs3NEYwRU9vOHdhQUVnYnVZbnJTSDg3ZXJV?=
+ =?utf-8?B?dUMza0xDUnl1RWhSV1FvbldUT3d4RytDVEZ0ajZnUGVCWW1Oa0h3cHN5SlNs?=
+ =?utf-8?B?dnIydldNWmpUeG1KUk9Pajg4NDdJUzBNS1FadDNMcGl4dU1kYXJFVnVoaW5S?=
+ =?utf-8?B?V3lqOGlYRFZBYVhvZERJd28zSVVzWUFHZnA3eHBoa3VMLzl5bGRlNytPS2x5?=
+ =?utf-8?B?RjE5WVVLVTEyMUZXem1taVZicVQ3QzdwZWY3bEFLalkxT2wvaml5RndKTWpn?=
+ =?utf-8?B?MytRcWtneVNFV05ObE9DRVhEcHNWc3h0blhTNEpPaTZYSittK0RqWTFydlBD?=
+ =?utf-8?B?cEpZRThUV204YXZJK1YrSFY5YnBmNnlpRUJycVFtK0N1TnlWRXBTMzlUSlQ5?=
+ =?utf-8?B?cVd6REliN0o0SjBqSlh4QlJ4ZFd4dXVLNmkxZk0xQWRHNzZqNW00UHpEUUY0?=
+ =?utf-8?B?ekNhMXNFVXJXa2E4RUJxSUxTbWpCUDZkSzgvUk5pdW9MajQrVUNlYzJVQWFV?=
+ =?utf-8?B?TS9uS2hwSVVjc0tndHFRbnV1ODcyU0hqaEVTRUdnSkxMVFlSdllZdnBuYWdQ?=
+ =?utf-8?B?UnRQOFFDbVBVM2FMaG1kemZhUHVnZXorRW1FVFFwdWNsMSt1cXozU1BlWVRy?=
+ =?utf-8?B?TE5QQ01MbUZZcWNLZjArR2tiL3NpM1M0NWdNRWJhRmdvclp5SGdNaXJhL2RG?=
+ =?utf-8?B?TGVyNHEyNGg5elZiZHFpQzlsbVBUamtuUG1mMVdGREllMlZWMmdYd1A4Q3pl?=
+ =?utf-8?B?WWxSK3JGazVXK3Qwc21jR3hSTVpqUnEzckJJUm5uU2FOT2E0akp4NmFVb29p?=
+ =?utf-8?B?aEFmc0ZBTnRZRGIxa25xOE9wWEhVcFUvS1JCWkw5UmQ0R0hPWXU3dz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115205405.1890089-1-alexander.deucher@amd.com>
-X-Operating-System: Linux phenom 6.17.10+deb14-amd64 
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb2953f3-5222-4cf4-61e1-08de5535fcbb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2026 19:32:29.4567 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bLi7rZpVuCS/Jtyh8/1O+rtqXSRrNnA8TQF4GzI2f//2gTBQHjsH7MyPr4gWYokFY6biSO8A/5CSsJTaT6VFrCOzUvkplQn7DJMt/rNLLBA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10732
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,113 +185,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 15, 2026 at 03:54:05PM -0500, Alex Deucher wrote:
-> Hi Dave, Simona,
-> 
-> Fixes for 6.19.
-> 
-> The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
-> 
->   Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.19-2026-01-15
-> 
-> for you to fetch changes up to d04f73668bebbc5a44a2771ea92b6ec253148050:
-> 
->   drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module (2026-01-14 15:07:43 -0500)
-
-Pulled into drm-fixes, thanks!
-
-Cheers, Sima
-> 
-> ----------------------------------------------------------------
-> amd-drm-fixes-6.19-2026-01-15:
-> 
-> amdgpu:
-> - GC 9 PTE mtype fix
-> - Non-DC display kernel panic helper fix
-> - Merge fix
-> - GART vram access fix
-> - Userq fixes
-> - PSR debugging fix
-> - HDMI fixes
-> - Backlight fix
-> - SMU 14 fix
-> - TLB flush fixes
-> 
-> amdkfd:
-> - KFD node cleanup for eGPU disconnect
-> - Memory leak fix
-> - MES evict process fix
-> 
-> ----------------------------------------------------------------
-> Alex Deucher (1):
->       drm/amdgpu: make sure userqs are enabled in userq IOCTLs
-> 
-> Haoxiang Li (1):
->       drm/amdkfd: fix a memory leak in device_queue_manager_init()
-> 
-> Harish Kasiviswanathan (1):
->       drm/amdkfd: No need to suspend whole MES to evict process
-> 
-> Ivan Lipski (1):
->       drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module
-> 
-> Lu Yao (1):
->       drm/amdgpu: fix drm panic null pointer when driver not support atomic
-> 
-> Mario Limonciello (1):
->       drm/amd/display: Bump the HDMI clock to 340MHz
-> 
-> Mario Limonciello (AMD) (2):
->       drm/amd: Clean up kfd node on surprise disconnect
->       drm/amd/display: Show link name in PSR status message
-> 
-> Peter Colberg (1):
->       Revert duplicate "drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces"
-> 
-> Philip Yang (1):
->       drm/amdgpu: Fix gfx9 update PTE mtype flag
-> 
-> Prike Liang (2):
->       drm/amdgpu: validate the flush_gpu_tlb_pasid()
->       Revert "drm/amdgpu: don't attach the tlb fence for SI"
-> 
-> Srinivasan Shanmugam (1):
->       drm/amdgpu/userq: Fix fence reference leak on queue teardown v2
-> 
-> Vivek Das Mohapatra (1):
->       drm/amd/display: Initialise backlight level values from hw
-> 
-> Xiaogang Chen (1):
->       drm/amdgpu: Use correct address to setup gart page table for vram access
-> 
-> Yang Wang (1):
->       drm/amd/pm: fix smu overdrive data type wrong issue on smu 14.0.2
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  8 +++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  7 ++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 12 --------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 11 +++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  4 +--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  4 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          | 16 ++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h          |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |  8 +++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  4 +--
->  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  8 ++---
->  .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  | 31 ++++++++-----------
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 36 +++++++++++++++++++---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  5 ++-
->  drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h     |  2 +-
->  .../gpu/drm/amd/display/dc/link/link_detection.c   |  4 ++-
->  .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  3 +-
->  18 files changed, 116 insertions(+), 50 deletions(-)
-
--- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+SGkgR2VlcnQsDQoNCk9uIEZyaSwgSmFuIDE2LCAyMDI2IDQ6MTkgQU0sIEdlZXJ0IFV5dHRlcmhv
+ZXZlbiB3cm90ZToNCg0KPiAuLi4gdGhpcyBkaXZpc2lvbiBuZWVkcyB0byBiZSB1cGRhdGVkIHRv
+IERJVl9VNjRfUk9VTkRfQ0xPU0VTVCwgdG8gZml4IGJ1aWxkIGZhaWx1cmVzIG9uIDMyLWJpdCwg
+YXMgcmVwb3J0ZWQgYnkgdGhlIGtlcm5lbCB0ZXN0IHJvYm90Lg0KPiBJIHdpbGwgZm9sZCBpbiB0
+aGUgZml4Lg0KDQpUaGFuayB5b3UgIQ0KDQpDaGVlcnMNCg0KQ2hyaXMNCg0K
