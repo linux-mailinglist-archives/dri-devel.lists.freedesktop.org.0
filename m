@@ -2,86 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EBCD2A733
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 03:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81C9D2A989
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 04:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8718F10E013;
-	Fri, 16 Jan 2026 02:59:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4DE410E201;
+	Fri, 16 Jan 2026 03:14:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g5raMIjh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BkEqDP5y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A3710E013
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 02:59:19 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2a0bae9aca3so10707805ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 18:59:19 -0800 (PST)
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA8B10E201
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 03:14:32 +0000 (UTC)
+Received: by mail-dl1-f52.google.com with SMTP id
+ a92af1059eb24-123387e3151so77569c88.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jan 2026 19:14:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768533272; cv=none;
+ d=google.com; s=arc-20240605;
+ b=SB/UGTFZELhT4QiuwCmxHLbabVup8M2eG6hfFX1oC5euaN5/rG5y6mONyHKiSQ+2VK
+ Rg9CwlV1HuBFwHG8Fsv+CWOtsc+MSkWL32SoY6D+JIXb9BRIK6cUVO3mrsmKOw7Y5JKe
+ CdBmI4cidgSzsTpY6riAFC2cr+82WG8z8BU7vE5GqfAFO4scdHQSiWQ3kRe45wjtLNgp
+ 55lAXID2Ug31PKWSHdB/VSLFivwI83xLLXWWoSWoygjK71EbWjJXxOI/12Dpz89jKdNj
+ PSyu0hOSeOhkPBhqsJHdi7+qqX9FHHAhUitZ7nL5PQvhEeHaGl3wUp2zW1LE3FxvrDsG
+ cPUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=y8uyqOJ2QcHQe+ruRr+rUSDi8IHNCrdMbjlnyzSx4RA=;
+ fh=sybKbF/Z79rVKfQZUVB24wCew+F0Puqu/kzyTTJVTw8=;
+ b=WZFvWXovM2qsRgK1qslqlYbktzqN32Fx3Ccu+wv1rEZNjEzLXGvoKLs0yR6axe5klg
+ 2d16roWhkvwRz9qRWCN/LMox++lgltRUIsBtQlwqZBsY6UDX/2qETRneOHfzdIJ1B95R
+ DX/Y6s5l3yNPbdkuJXEude7yvs1CFIUSgh8W0geGNXdjHKmwPhlMYRbqL+soYu5Z0jpj
+ PIIhmvCvMY5267fyFjD0uHzgWUUe1oilTZrI73MWI3k82HtCizZ6Z/XOSlqRjCnJ1A+/
+ iZ/CpKSIo5chQ8M0L841Y3irBS65iReSUuAmZDa6HA8j74ptDoEq2rvQrqc8bhObjxuI
+ VZ+Q==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768532358; x=1769137158; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jBXP1VuxQoMfLKXTRMl7z4tgIk8pmLomI71jMyiZNEM=;
- b=g5raMIjh4TOa4+cKaOEgmUrYecM74JZJdlIZ2cXqkfvu4rS17oSSbKZ1+wjySzikDI
- 2d5bPOfFRpmjXysE+BwZ1JUqrtK1SDOVyi6lJEA1IIVwXdCqYs/uf+i9Hk7l13NDTIJn
- u4H8YahA7TcArRzWjmr7Lrt5euZYUlLB/76V6neD9r9LNmH1OlG/VXqdJiS5PubeNMVb
- 4MxUyuIoaqDSEsG46B4BWS9lCwY+VVtW0UG0P+f3TxJ5RGoJyi1Zuyq3nyfxDp/I6ORZ
- 9d+O6jbXvPRMc2YcaW6BU8i7zIQkxGZO8uqsPeKQKWeoNEAt6GETYV6nQYT7pAVajXd1
- sPEg==
+ d=gmail.com; s=20230601; t=1768533272; x=1769138072; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y8uyqOJ2QcHQe+ruRr+rUSDi8IHNCrdMbjlnyzSx4RA=;
+ b=BkEqDP5yy6hAHUOEyS/LiFgxFuac4wRsX/g5ZaEAoUpxR4xrZJVyeLpZ8Uw8wqLMYg
+ PSh5YYlmMoiqrf1OL3fspozz+9mAu7cvdFu0ZTDywvfdEpOOIDOBSfH8o9Z2V6t9n1Yz
+ MY2Y6AqHSiOY4TqILJhmI/lws22PKDcVB93+3uWkrafrktHatqPdT7kqTf7yeS+cELSE
+ wjbBXTyMEpVIOuNktfJ+zJOK8SyRPcj+3CD5wK3MWP467ObQrY+p6BRVAKXtJtS3zyGN
+ th1RveEyQX81T1l4gyg2zNQ61rdwo3e8za368N03Fk3pYnYKPi693o0WvcFYc2dGAdiT
+ RM7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768532358; x=1769137158;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jBXP1VuxQoMfLKXTRMl7z4tgIk8pmLomI71jMyiZNEM=;
- b=p9Q9/wutpedxWVlmCzZCc0mvijezKVNO98qgkv4vNde7SX+tIpAvcrsWjH0lIT2SR3
- r8drjnmZaHEoSTyNXPgIo1kREKLQbzg05xW1QJrS8TWYOHlVwUV7CBjqyuCpYV2fcF8i
- Z3i1F1G3u2juamaHQ2s/eybALjeGUGbbU8D681ilhfjPtJbK5XYJqM+991RZ2eTBCnRs
- oUKd7BIA1kbsK7qsDHO1ALTWgBWjNv/INRCsECIYBIJkkxKNMKKICeMcM7AlqQ/Zj68q
- 9+yTHyb/NswcThCyaeQv2SEESXAymim3iTXZSJUOoi0OXaNogmffr7EUpE5KNk/TZ/14
- CxPQ==
+ d=1e100.net; s=20230601; t=1768533272; x=1769138072;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=y8uyqOJ2QcHQe+ruRr+rUSDi8IHNCrdMbjlnyzSx4RA=;
+ b=giozlwBtsVfAhzEGo71STZZ1/XIKMpvuNMwkssIp4++BvN147dNpEfEwYkGXeSAAfe
+ J1oXCWXn4vEedCJ2MXnfpjWKfVGn3G9Ocyl8WiLR5tekVitEBiYLqKdgfRD5kcZ7w47M
+ ZomWjOm8UDqMOb7WioWmqUy9x6zGChSbV112A+NrNZQH3ZUQLxxizb9doi8tjvko76zj
+ o9eUIHo+lLzp0hLX31ASZKL9WJTrS5ELLt+M03Pr/QlTwQLoz42wbM/kuJXgCglaSy9h
+ C2KRnVFKidoAaMbOxilDh9+FZfe5KMy2XA4oHccVWkKrwOsiJxRkzdutYy8SkikJZBvj
+ MdZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWO7brXnjcy01bXEIgcDooKO+AOlvtOv8A3eJmW+VEiuMH9fEQ0rz2OOLCkCRHGmrUN5OoyoICF+WA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVjCSs/f8SKvTNSgkOA/kNRS01glf9mRZw3HjhgwSlxcvPkFyo
- 4eZZjQsUeD6tfRXYBEvskm76v/m+ZkcxmsadgRsP9FnSJXufljunWoL7
-X-Gm-Gg: AY/fxX4OMBXxIFAbIK8pRy2mgettOjDONcbXId8P+YC/cNETKryq3MmBBqa7d3BtbWr
- cE74T5NB1IyD/BdD0EVwGMEeUZ6qpGxHX9hP+HW33ARIMP2zjE8bjOGld21tYbe0VzZMD43Q8B2
- rf0o9qbTf3OZNDvYU90xnwtl6NIsTVxn/A+BC4COykxxSAEbR+RRf30FlfcFTKv1bsyAw9eAKAQ
- XTvBuVqTsR4mmSLkGMQdQDikuxQ24Rl18sZWtDO/YuBZARgr09V7QWIRuFRDSumh71vk5gAXDb1
- ZF8lshvKGnXiRk9khMjXFmCRir47SnBfOv3KYpTGzh6k9Kqy3anI69h1EGFvIkQhoZph+pk5ntO
- a01/Ft2zYzr3r2TDzPfP39f9/VjEsyybYsjm/ADr2OIUIROgN/n1e+Bc3locW0Cl44+nSBFQGIM
- ccD0VU/EGNMMog2glEXl+IAvcax+s49Bns6lB96Et9uH9pa9ID15OBpFM3Bujg
-X-Received: by 2002:a17:902:d503:b0:267:a5df:9b07 with SMTP id
- d9443c01a7336-2a7175189a1mr15351925ad.12.1768532358494; 
- Thu, 15 Jan 2026 18:59:18 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:2698:b2e5:53ba:f374?
- ([2601:1c0:5780:9200:2698:b2e5:53ba:f374])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a7193fc8d9sm5947415ad.79.2026.01.15.18.59.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jan 2026 18:59:18 -0800 (PST)
-Message-ID: <c7e6fe1c-ff46-4541-ab6c-6dd776924f95@gmail.com>
-Date: Thu, 15 Jan 2026 18:59:16 -0800
+ AJvYcCVkFilafGOqlDPQr1jfcKF9wxNAkLjx92ZytXvAT61N6DZRBZnDcI1MORd/8Xh34mVCP5uIEmRGpZo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJgKUhR67BtJztkCyuXwi2Tez+ISsx6GVSH1Dtvw01FMC1kAxp
+ cjFqIVzeOHYK8xnxxUHJWMV2Um09NbfSXOwuSPdBmCWTVJ1gcNFOS40YSkVCwcUbnIKlr56DrI2
+ J3Om0ff3oFPF4FGubb99qCTFYlPQql3g=
+X-Gm-Gg: AY/fxX6J7EMvDGuBW9WURVbnA6fvY0UdLtcNhRfB1tCk7NxP0c7tuYrWfFfHMiT+0wV
+ zBLG59J0YJX+r6B0x0wXgUQD6lQTocj8BTvSb2yITK7OgOsEDEsU6+SBFk2HzGoYNylrPJDZUlg
+ uzog+wdjQGqN9scrBmYqYWTbf35keDAB7nZDi2stGXHGrD0jxV7BJO0z8gR6tv7aAnSUEiYoTsI
+ XV4CO0IlGDccJII6hhu/fIVis3AfG1gPkUP6w85JfygQLwciyy9f18aDeA6K0TR9Msvx2N8
+X-Received: by 2002:a05:7022:3b83:b0:11e:3e9:3e9c with SMTP id
+ a92af1059eb24-1244a817bd4mr782142c88.7.1768533271804; Thu, 15 Jan 2026
+ 19:14:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
- FB_DEVICE is disabled
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
- kernel test robot <lkp@intel.com>
-References: <20260113045909.336931-1-chintanlike@gmail.com>
- <1b83803a-b51f-4cc0-a836-b4417bfd6537@suse.de>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <1b83803a-b51f-4cc0-a836-b4417bfd6537@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <Z678TNhCbTk363Tw@kspp>
+ <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
+ <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
+ <CADnq5_M5Jv4A5CXAKY2Qd-dhrfmecnauRtVY_ghSsut7i=KNww@mail.gmail.com>
+ <d07b4edc-6048-4c10-b8ac-dcccd5a932d3@embeddedor.com>
+ <d43dac3e-122d-4c16-9c1e-760eac91b8da@embeddedor.com>
+ <CADnq5_Mqa2HWWKrAYTAfjdvEQTMUeB1MBnhtRxJZjXLWcz1nmg@mail.gmail.com>
+ <202601151612.79AAC91869@keescook>
+In-Reply-To: <202601151612.79AAC91869@keescook>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 15 Jan 2026 22:14:20 -0500
+X-Gm-Features: AZwV_QhaEijQPE2R1uX7dLX9VVSiTVRCUmrApYg-eiHu8Z06MK5pP2UxHwM2ZZU
+Message-ID: <CADnq5_O4SQEmXxod8y+_9zBW1uBRJL7WpyJkcTUo1B7Pa7Yj-g@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/pm: Avoid multiple
+ -Wflex-array-member-not-at-end warnings
+To: Kees Cook <kees@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Kenneth Feng <kenneth.feng@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,96 +117,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 15, 2026 at 7:14=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> On Wed, Aug 13, 2025 at 08:57:58AM -0400, Alex Deucher wrote:
+> > On Wed, Aug 13, 2025 at 1:12=E2=80=AFAM Gustavo A. R. Silva
+> > <gustavo@embeddedor.com> wrote:
+> > >
+> > > Hi!
+> > >
+> > > On 22/04/25 23:58, Gustavo A. R. Silva wrote:
+> > > >
+> > > >
+> > > > On 16/04/25 09:04, Alex Deucher wrote:
+> > > >> Can you resend, I can't seem to find the original emails.
+> > > >> Additionally, all of the NISLANDS structures are unused in amdgpu,=
+ so
+> > > >> those could be removed.
+> > >
+> > > I'm taking a look at this, and it seems that those NISLANDS structs a=
+re actually
+> > > needed in amdgpu code. For instance, `struct si_power_info` contains =
+a member
+> > > of the type of `struct ni_power_info`, and this latter struct contain=
+s a
+> > > member of the type of `NISLANDS_SMC_STATETABLE`, thus `NISLANDS_SMC_S=
+WSTATE`
+> > > and `NISLANDS_SMC_HW_PERFORMANCE_LEVEL` are needed, and so on.
+> > >
+> > > So, it seems that all those structs should stay. What do you think?
+> >
+> > They are not used for programming the hardware.  They were just
+> > inherited from radeon.  All of the NI SMC stuff can be dropped.
+>
+> (Looking through patchwork...)
+>
+> It's not obvious for me how to drop that stuff. It seems pretty
+> integral? What's wanted here?
 
+All of the NI stuff has been removed.  You can rebase your patch.
 
-On 1/14/26 23:55, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.01.26 um 05:59 schrieb Chintan Patel:
->> Replace direct accesses to info->dev with fb_dbg() and fb_info()
->> helpers to avoid build failures when CONFIG_FB_DEVICE=n.
->>
->> Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency 
->> optional")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN- 
->> lkp@intel.com
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->>
->> Changes in v6:
->> - Switch debug/info logging to fb_dbg() and fb_info()(suggested by 
->> Thomas Zimmermann)
->> - Drop dev_of_fbinfo() usage in favor of framebuffer helpers that 
->> implicitly
->>    handle the debug/info context.
->> - Drop __func__ usage per review feedback(suggested by greg k-h)
->> - Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE 
->> dependency optional")
->>    (suggested by Andy Shevchenko)
->>
->> Changes in v5:
->> - Initial attempt to replace info->dev accesses using
->>    dev_of_fbinfo() helper
->> ---
->>   drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
->>   1 file changed, 9 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/ 
->> fbtft/fbtft-core.c
->> index 8a5ccc8ae0a1..1b3b62950205 100644
->> --- a/drivers/staging/fbtft/fbtft-core.c
->> +++ b/drivers/staging/fbtft/fbtft-core.c
->> @@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, 
->> unsigned int red,
->>       unsigned int val;
->>       int ret = 1;
->> -    dev_dbg(info->dev,
->> -        "%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
->> -        __func__, regno, red, green, blue, transp);
->> +    fb_dbg(info,
->> +           "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
->> +           regno, red, green, blue, transp);
->>       switch (info->fix.visual) {
->>       case FB_VISUAL_TRUECOLOR:
->> @@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct 
->> fb_info *info)
->>       struct fbtft_par *par = info->par;
->>       int ret = -EINVAL;
->> -    dev_dbg(info->dev, "%s(blank=%d)\n",
->> -        __func__, blank);
->> +    fb_dbg(info, "blank=%d\n", blank);
->>       if (!par->fbtftops.blank)
->>           return ret;
->> @@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info 
->> *fb_info)
->>       if (spi)
->>           sprintf(text2, ", spi%d.%d at %d MHz", spi->controller- 
->> >bus_num,
->>               spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
->> -    dev_info(fb_info->dev,
->> -         "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->> -         fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
->> -         fb_info->fix.smem_len >> 10, text1,
->> -         HZ / fb_info->fbdefio->delay, text2);
->> +    fb_info(fb_info,
->> +        "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->> +        fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
->> +        fb_info->fix.smem_len >> 10, text1,
->> +        HZ / fb_info->fbdefio->delay, text2);
-> 
-> As discussed before, this should become fb_dbg().  Drivers should not 
-> print status reports unless they do not work as expected.
-
-Agree - I will send 2 patches(series) as per feedback 1) a patch focused 
-purely on fixing the compilation issue by avoiding info->dev 
-dereferences (using fb_dbg() where logging remains), and
-2) a follow-up cleanup that downgrades the framebuffer
-     registration message to debug level.
-
-> Best regards
-> Thomas
-> 
->>       /* Turn on backlight if available */
->>       if (fb_info->bl_dev) {
-> 
-
+Alex
