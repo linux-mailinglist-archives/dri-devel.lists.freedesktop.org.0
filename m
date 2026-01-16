@@ -2,174 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A73D385EE
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B65AD385F3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:34:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF0910E16A;
-	Fri, 16 Jan 2026 19:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050DD10E25A;
+	Fri, 16 Jan 2026 19:34:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="dlmZiRUW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LHmQriv2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010027.outbound.protection.outlook.com [52.101.229.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7EA10E16A
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:32:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LsG04aTGi7naNxb7XhsWtAYi8Hu5AWjmlOXKk2ZosWNrtakURQMNItGbrKpquuiEPz52XFH6s9vCwF219ZpY/oYvhlGRK+6bCOG7cy2lrQwEHup+wQxhxQp/81D2xyQSkpYbYAm0nqrTH8q84a/BGCBQNThCKqU3x9CbuIoThp7HggBGC9cyrfzxJrAeVqLvkCIrTALI0QNFGTidZw8xDsbUF1Bf8okkkdUwUbLARkJY4F9ZXSjxByNO8ilgRVvbXtJYV38iomXlEMMsts04wHRNADfbhBqU0MOLxVgaj4jiwNkhMCYy16m9ZTrPqyeew2pxcKAD/f5GQqj2Jwrn3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WJEMEUIxop839QGbgbNe7gvsjV5UN4GmzgSarA9Ugwg=;
- b=qjoSROSGJYNyDUh1uf8IqXv8TJVl0u/eT5pi8ipjBeAfLJRjAC9PuDyr8lCRV1y6QX0Qfwf92vAkXFbMbR1JQhbGSc+PuTWHKsBf1eGrMc8ccToXbCtfKuz6R+Jt4s5w3xCOPbPvMwmG5nRhlLaEW6aKfy6mvPzVAGMCmfWsBq3hPI3Ql1gfVLZzd0kNTXI2yEHAa9cZjfheyRrMermdbKGPGJIKVUsLkyzQXhRypCEWHPtY3vUC53lv+BX0SxDxyThAtLJBd5eL1X5UxR9ZeM/UfZPqXqfhfMCr5go37yhJ/PK3fXPmIeUDQNAf1UQiE1CBcUDKArvMvSOS4Bsc0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WJEMEUIxop839QGbgbNe7gvsjV5UN4GmzgSarA9Ugwg=;
- b=dlmZiRUWejcbRts5FHw61jrih2/1ChoJYcxOddldtvUOQYxzKik6puBPsMN1a/0Y8q97vtmxCjBEJ3T3bTRNg+JLMiPENp43u5gCS39hePY56T/22vO+zW6l+Bwrht3cvWkTYUyY0ggcjNFMZECKSp7wV5wYzAQwtThXCiPjh8A=
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
- by TYVPR01MB10732.jpnprd01.prod.outlook.com (2603:1096:400:2ad::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.8; Fri, 16 Jan
- 2026 19:32:29 +0000
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
- 19:32:29 +0000
-From: Chris Brandt <Chris.Brandt@renesas.com>
-To: geert <geert@linux-m68k.org>
-CC: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v6 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH v6 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHcXUO7FScFUVs6uE+xTE7uY45vjrVU17yAgACquRA=
-Date: Fri, 16 Jan 2026 19:32:29 +0000
-Message-ID: <OS3PR01MB83190C28CC87EB7CF17D8B188A8DA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-References: <20251124131003.992554-1-chris.brandt@renesas.com>
- <20251124131003.992554-2-chris.brandt@renesas.com>
- <CAMuHMdU9cd3caJb8pk6S6anc_jNKnWMHoUmhezUwz7eBUmvAOQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdU9cd3caJb8pk6S6anc_jNKnWMHoUmhezUwz7eBUmvAOQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TYVPR01MB10732:EE_
-x-ms-office365-filtering-correlation-id: eb2953f3-5222-4cf4-61e1-08de5535fcbb
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?TXdsTktNNG4xMDZBbEw0RjluMEdDYmIrYTVVMGdSNE92MmhiSVFKQXdzZ09S?=
- =?utf-8?B?REF3UWlIQkpoWnhrN3lKVXhOS0M1NGEyZHR2aEJSb1pYWUkvZXVoUlNjaFF0?=
- =?utf-8?B?WVRheFR3QVMybHVCallqSC9IVm1XSXE3NUQ4ZWVyWEhocWdBcm1pWTB0YTJl?=
- =?utf-8?B?VTZmUjNHVlFoZDhIR1hhVjc0dWlaTVFVZ3Q1aVFaY2k1MkkvTHhnZ1VSZk1Q?=
- =?utf-8?B?K2dCRDc4NnhpZmYrMzdYV2JzM3JCWko1UDdIY1llTWVWTkgxMGRaaG1RaFN5?=
- =?utf-8?B?anB1QThvMDhUNHVNaDFpNm4wb05IQ3NXNzdPUW9kNWZsTENaYks1cDFFOXZj?=
- =?utf-8?B?Vnp6SWloam1yMThDQlZlRnhEa0hDYVozNGhCUUhIY1B6bEpRZVNNTVZHdDBM?=
- =?utf-8?B?VkFoektpNGh6eGFIU3I1c0Nlc01USERyV24zaitiZHBQeUd6ZEJuWkdYQW13?=
- =?utf-8?B?MzNrUjN5cU5wbmU4SDFPT3huTDFMT0VvYUFqa0xKamVOVStFelZyMmRBMGNk?=
- =?utf-8?B?UFZ6YSt0S3V0U3BOSnZSTXhBV0dUdThJNkxHMldZMUl0bGM4TlpTcmprcHAy?=
- =?utf-8?B?MUltNXlZNDZJeWVEcFc5UDdLL0ZyaGVMOWdCclpwOFdkUGVmYnZqKzBTWFhp?=
- =?utf-8?B?YUo1Y1BFRkFjY3hSZlFpSUlLUG9pNG55N3gxV01QMjgvUml6TlZVd1VMRmdr?=
- =?utf-8?B?WUx0eFRQckdHMFhwczZsbFJBMWxlWTFVMGtWSGt5M2MrTElnbU1qcVlFWHla?=
- =?utf-8?B?R29DczlCaHVJTG1UUjFCeW5NRlROOTdHaHM5dDNZM3lSNFpXK1lvZEIyQXha?=
- =?utf-8?B?WlJuTDRYeVhIZy9PT3J6ZVRrVjNPMnJ5OTJvOGVzYWxDQ3lqV0dhZFk2RGl1?=
- =?utf-8?B?TjgxVG9TdXQ4MDlTb0NIWmFUR1dDcFo4bCtHRThFVU5xWHprNlUyT3ZSbWlN?=
- =?utf-8?B?cVM2Rk9NU1hVK3dSSUNML0kwSEF6S3o5STJ5SzMrajB0TjZ0S0NqakNOamdz?=
- =?utf-8?B?VjlPam81aG5FSi9EZ242ODZ2bjBGblJRb2NyVm5FaTAwZlNjem9qeTBuVng5?=
- =?utf-8?B?L0NvbE5iWXc3d1R6dkNaaXZ1NU0xc3dONkN2cmsvSkhnQnRGN2tObkNQaWtq?=
- =?utf-8?B?Y2ViT1E0VEJMNmhGaDhyT0hLMTRxREUycDM1QnFBdllCZi83c1pDYjNtNlp1?=
- =?utf-8?B?MENlUzN4NHBOQWp0SnlReXN3MDlLaS8zaS9GWno2Z1N6Wm8wWGFzL0xReFlz?=
- =?utf-8?B?NkVwd0ZndytJc1R1dy9iS0FuSzRqejFGYkdkN0YxRzVEbUJBSEYrWWMzWm41?=
- =?utf-8?B?TmF3Y1V3cDJzVTJOWVR5anFPbCtQbkpzMVhseVQ0NC96anVKV1ZJVko3Uzls?=
- =?utf-8?B?MU5PTHpFWktLeXRnWFpoMnNOYVNRTHExSTEyQnVYSEpFMHZ1OUFkZnczb1dM?=
- =?utf-8?B?cW43U0doeFJwRTdJR2xCR2srYWhhbDdVY2xvY0RnVkdBZU5iMXhORVB1cStn?=
- =?utf-8?B?eTcra3hwK2lMbEV3VGVWWnFhaDVsS29NcjIybVBuSlVNNWVMNkZNdmpJOENQ?=
- =?utf-8?B?OWlJWVZEWHhlL1lrN2Uya2IvTitzRUpOR3BIYUEvdTNmTmhnUW9oT3NaeEJN?=
- =?utf-8?B?MU1TL0cxZ2hWRFNaMmxKcHZ4VVI3UTNrTG1PMHZTakpsazdwY0RrWjdFdEdo?=
- =?utf-8?B?S3RCeENiRFVEM1pYbnc5ZkhFVy9BS0IrUkhIVGRXdndPWGNDdUJ2OHJxb0Jl?=
- =?utf-8?B?eDE1cFlXbWZxMXViTmF2ZEZvaS96M3pXZDVEVXBkL2VMU0J6R3NWM2lORUpi?=
- =?utf-8?B?RFd6ZG9Ia1U4Zlp2b3prUmU5VE1WSEZySG1paThqQVNwSVFYQXoyQ1R1UEhK?=
- =?utf-8?B?dGZzeThUdEpYQTVpMmpsQU1wd29mbW5FYnZ3cUQxVm1SVy9SZHY5cDhJMll3?=
- =?utf-8?B?dndCeXYxK2tLSTlBWDM5aVUwNVJoQ3NZNkYzZlBDYjdVcURhWmpwL1d3aWth?=
- =?utf-8?B?cHNadklIV2FvRkhVZWk4NzdCSnFneXNqOFNKZ2pNSWVzaGhyeS9heWtaeWpV?=
- =?utf-8?B?cnhLcTJCV1NmQlZoYi9reWIzbER3WHljNkpsZHgwelhsTndOb0c2VE1YQkxz?=
- =?utf-8?B?MzZja0p0aUdmQTh1dFhqSzBZWTgrSW5KNUxUL0FDQlNWQmFBWncvUjN2Y1Qx?=
- =?utf-8?Q?WR2HnZXdLeDm4sCy2tKyHjQ=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aFJvWkIxdXpNTmo4UTZLNDF5RW83SzQ4NXdEK3N3encyeHBRQjVCemRWcWZM?=
- =?utf-8?B?ak9JalRsc2xudUFxQkJLaDU4dktBSUNHRUxDc3V1SzVvMVQ4MVhLNnkwKzUz?=
- =?utf-8?B?QmRlcnJsQVBHS1FPek5oai9XQXpyVC9Ub0hVSHhLU3J0VDRGV01vLzc2U0pW?=
- =?utf-8?B?Ly93c1JJQm83YURmQlhPRk91ZDAzMHliV3ZpNG9kYnJld09nWS9TY2h1ZW9y?=
- =?utf-8?B?SDEvWkYzbkNBdVRvNmZSMGRXOStIZU9aOFZKWGQzRm9OdFZXZ2ZpRUNna0pm?=
- =?utf-8?B?Z2hJOGw2R0ZwVVVnakFUdllNMW12Q3dibHFRYU41RnFNc2RmUGZzL0h4VG4w?=
- =?utf-8?B?YlZwQlMwZDRTZktaOVVGdG8welRESzNQWW1jVVlsK3hDcytzOFpHV2VTclZ3?=
- =?utf-8?B?M2F2WmJLeDhMUWRkTjNsUXZlRFd1bkloNFY2QkphTjR2Y1hJZVVhNi80SDlR?=
- =?utf-8?B?SHRUVllPN1VRVkZ2cTJLZFFGKzZvblpFU2gyZjYvMm9iSG1FWGZOdXQrcndG?=
- =?utf-8?B?ZVlHR2RoWTN2NDNMdXcrWmNSVGJxMFF4YWFoK2RiR1lYZDQyUHZSOG5QQ3ZS?=
- =?utf-8?B?TmxJZmlva25FU1YrZFlJZTB4RUpLMlFmMGZMMEM5aVQxSjFnT3ZOQ1c3ZFlM?=
- =?utf-8?B?clFWTXhRTjdYa2piZE9CSUE0TkpKeiswZ2drSldyU3M3NzRjVVpxZ3ltWjZu?=
- =?utf-8?B?RzgrV3pPYzlkRTA5eVJIY25QUm9UeXFLS2FjWllMc1MvYzNIUWFJTTlXaWRC?=
- =?utf-8?B?OEhsVHRuamFwcitRY21Nclo5anM1dm9vRGpZOVJvRHJqTTdQWVVJTlVEVTd6?=
- =?utf-8?B?cFl6dHhsVFl6eHhBbkV4SmthMEdwMldOYlpoaHp0Z1dVZkdld1ZLZGUyby9H?=
- =?utf-8?B?U1JEREgyMXBEWTBLd1FwWTVSMFNLcUt4eXB2YUV3WDYyN29aMzdpeC82Y0hD?=
- =?utf-8?B?ci96NHhXc0l6VDJLMGRhcHoyTUhScmxoeStVZDRWcEtvZXMvSXRoRGJ2QzJm?=
- =?utf-8?B?SSt4UFdKWWJXR0IvWTNXc0JHSkhKUmR3OWdSMlYydEZnNGhKR3hLY3JYd0hp?=
- =?utf-8?B?SVR4bVBJcXRIWDVnWEdEZXFvbkhUcTF3dlR3VCs0NGhTcThBcWMxR2t1R3Ay?=
- =?utf-8?B?cnhvSnRQT2xPTnU4djJqVng0RlduRDlFTUZXdENZOHVtbkRiZ0h2ZVcyZWcr?=
- =?utf-8?B?ekVTOTh3MFZPdVBXNkxHbnlZNDVnWlBOTC95TEhoYSs0cHprM3grOUUzUjlL?=
- =?utf-8?B?VnlPaG9od3dDYVgyeE1KNFNTanprTlZ2NGFMV0d3b25CZ1dJRXIveU9aN3pk?=
- =?utf-8?B?eDJPSzc1NWYxdjNOSTQrMVVhdGkzd1RvVmcwdVI0VXhZVmhuVzdZMWtsK1A3?=
- =?utf-8?B?ZFpnRzZNa0M2QmFib0UwZ3BkUTV4Ri9qTm1yRDAyeDRhTVJRWEhBV2RHK2lC?=
- =?utf-8?B?bHlqNEo3ZllMSTFyaU5EUGhNWWs3NEYwRU9vOHdhQUVnYnVZbnJTSDg3ZXJV?=
- =?utf-8?B?dUMza0xDUnl1RWhSV1FvbldUT3d4RytDVEZ0ajZnUGVCWW1Oa0h3cHN5SlNs?=
- =?utf-8?B?dnIydldNWmpUeG1KUk9Pajg4NDdJUzBNS1FadDNMcGl4dU1kYXJFVnVoaW5S?=
- =?utf-8?B?V3lqOGlYRFZBYVhvZERJd28zSVVzWUFHZnA3eHBoa3VMLzl5bGRlNytPS2x5?=
- =?utf-8?B?RjE5WVVLVTEyMUZXem1taVZicVQ3QzdwZWY3bEFLalkxT2wvaml5RndKTWpn?=
- =?utf-8?B?MytRcWtneVNFV05ObE9DRVhEcHNWc3h0blhTNEpPaTZYSittK0RqWTFydlBD?=
- =?utf-8?B?cEpZRThUV204YXZJK1YrSFY5YnBmNnlpRUJycVFtK0N1TnlWRXBTMzlUSlQ5?=
- =?utf-8?B?cVd6REliN0o0SjBqSlh4QlJ4ZFd4dXVLNmkxZk0xQWRHNzZqNW00UHpEUUY0?=
- =?utf-8?B?ekNhMXNFVXJXa2E4RUJxSUxTbWpCUDZkSzgvUk5pdW9MajQrVUNlYzJVQWFV?=
- =?utf-8?B?TS9uS2hwSVVjc0tndHFRbnV1ODcyU0hqaEVTRUdnSkxMVFlSdllZdnBuYWdQ?=
- =?utf-8?B?UnRQOFFDbVBVM2FMaG1kemZhUHVnZXorRW1FVFFwdWNsMSt1cXozU1BlWVRy?=
- =?utf-8?B?TE5QQ01MbUZZcWNLZjArR2tiL3NpM1M0NWdNRWJhRmdvclp5SGdNaXJhL2RG?=
- =?utf-8?B?TGVyNHEyNGg5elZiZHFpQzlsbVBUamtuUG1mMVdGREllMlZWMmdYd1A4Q3pl?=
- =?utf-8?B?WWxSK3JGazVXK3Qwc21jR3hSTVpqUnEzckJJUm5uU2FOT2E0akp4NmFVb29p?=
- =?utf-8?B?aEFmc0ZBTnRZRGIxa25xOE9wWEhVcFUvS1JCWkw5UmQ0R0hPWXU3dz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05B610E25A;
+ Fri, 16 Jan 2026 19:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768592062; x=1800128062;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=U3O+T+iLXb0giBjJetcAYQUBfHiHL0Y0fMElJAUxCM0=;
+ b=LHmQriv2EtM024T4Qe0PhMGez4kaXhPqPDITHCTlybNbTgbGZp033Flx
+ IXrvyU9ejo5j1VpaCjEZyBg5MiCJUTwa7GqtuSBXzJl+Ntw8UWO6jhAML
+ pPBAspvtceDkyWL+q+MHQQ1xwEHqj7vBp6yFbr4JOY7C2CidIavhggRbW
+ Uu8Cs8Rmjv2py4sQ4hA3StsJPxz5+D870+iVKlWMO3st7OjpdrqHYU5Bd
+ 71GwqdHJVI2rgJ+LOaan59V3XtzSl7hCHpa7I76ItT9wiDKj8eoYp3t6G
+ 8HYT5LTzXo57DMgZAWJfAYD8yAr+8Cf5bq29dRb+z1XfX2wwtsPVBrCln g==;
+X-CSE-ConnectionGUID: 1l6oxNrWR8C2Dlw0HljB2g==
+X-CSE-MsgGUID: W/vOSyPtSfas5fEFIBWsxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69959963"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="69959963"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2026 11:34:21 -0800
+X-CSE-ConnectionGUID: feKgUSvxSV6ixLFaW9dlJQ==
+X-CSE-MsgGUID: 203SMtdHRVOkdAkhOjccOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="204936344"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.228])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2026 11:34:18 -0800
+From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Subject: [PATCH v3] drm/i915/selftests: Defer signalling the request fence
+Date: Fri, 16 Jan 2026 20:33:55 +0100
+Message-ID: <20260116193354.80806-2-krzysztof.niemiec@intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb2953f3-5222-4cf4-61e1-08de5535fcbb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2026 19:32:29.4567 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bLi7rZpVuCS/Jtyh8/1O+rtqXSRrNnA8TQF4GzI2f//2gTBQHjsH7MyPr4gWYokFY6biSO8A/5CSsJTaT6VFrCOzUvkplQn7DJMt/rNLLBA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10732
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,8 +72,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgR2VlcnQsDQoNCk9uIEZyaSwgSmFuIDE2LCAyMDI2IDQ6MTkgQU0sIEdlZXJ0IFV5dHRlcmhv
-ZXZlbiB3cm90ZToNCg0KPiAuLi4gdGhpcyBkaXZpc2lvbiBuZWVkcyB0byBiZSB1cGRhdGVkIHRv
-IERJVl9VNjRfUk9VTkRfQ0xPU0VTVCwgdG8gZml4IGJ1aWxkIGZhaWx1cmVzIG9uIDMyLWJpdCwg
-YXMgcmVwb3J0ZWQgYnkgdGhlIGtlcm5lbCB0ZXN0IHJvYm90Lg0KPiBJIHdpbGwgZm9sZCBpbiB0
-aGUgZml4Lg0KDQpUaGFuayB5b3UgIQ0KDQpDaGVlcnMNCg0KQ2hyaXMNCg0K
+The i915_active selftests live_active_wait and live_active_retire
+operate on an i915_active attached to a mock, empty request, created as
+part of test setup. A fence is attached to this request to control when
+the request is processed. The tests then wait for the completion of the
+active with __i915_active_wait(), and the test is considered successful
+if this results in setting a variable in the active callback.
+
+However, the behavior of __i915_active_wait() is such that if the
+refcount for the active is 0, the function is almost completely skipped;
+waiting on a already completed active yields no effect. This includes a
+subsequent call to the retire() function of the active (which is the
+callback that the test is interested about, and which dictates whether
+its successful or not). So, if the active is completed before the
+aforementioned call to __i915_active_wait(), the test will fail.
+
+Most of the test runs in a single thread, including creating the
+request, creating the fence for it, signalling that fence, and calling
+__i915_active_wait(). However, the request itself is handled
+asynchronously. This creates a race condition where if the request is
+completed after signalling the fence, but before waiting on its active,
+the active callback will not be invoked, failing the test.
+
+Defer signalling the request's fence, to ensure the main test thread
+gets to call __i915_active_wait() before request completion.
+
+v3:
+- Embed the variables inside the live_active struct (Andi)
+- Move the schedule_delayed_work call closer to the wait (Andi)
+- Implement error handling in case an error state - the wait has
+  finished, but the deferred work didn't run - is somehow achieved (Andi)
+
+v2:
+- Clarify the need for a fix a little more (Krzysztof K., Janusz)
+
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14808
+Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_active.c | 47 +++++++++++++++++---
+ 1 file changed, 41 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/selftests/i915_active.c b/drivers/gpu/drm/i915/selftests/i915_active.c
+index 0d89d70b9c36..2052a3c2e563 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_active.c
++++ b/drivers/gpu/drm/i915/selftests/i915_active.c
+@@ -19,6 +19,10 @@ struct live_active {
+ 	struct i915_active base;
+ 	struct kref ref;
+ 	bool retired;
++
++	struct i915_sw_fence *submit;
++	struct delayed_work work;
++	bool work_finished;
+ };
+ 
+ static void __live_get(struct live_active *active)
+@@ -74,11 +78,19 @@ static struct live_active *__live_alloc(struct drm_i915_private *i915)
+ 	return active;
+ }
+ 
++static void __live_submit_work_handler(struct work_struct *work)
++{
++	struct delayed_work *d_work = container_of(work, struct delayed_work, work);
++	struct live_active *active = container_of(d_work, struct live_active, work);
++	i915_sw_fence_commit(active->submit);
++	heap_fence_put(active->submit);
++	active->work_finished = true;
++}
++
+ static struct live_active *
+ __live_active_setup(struct drm_i915_private *i915)
+ {
+ 	struct intel_engine_cs *engine;
+-	struct i915_sw_fence *submit;
+ 	struct live_active *active;
+ 	unsigned int count = 0;
+ 	int err = 0;
+@@ -87,8 +99,11 @@ __live_active_setup(struct drm_i915_private *i915)
+ 	if (!active)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	submit = heap_fence_create(GFP_KERNEL);
+-	if (!submit) {
++	INIT_DELAYED_WORK(&active->work, __live_submit_work_handler);
++	active->work_finished = false;
++
++	active->submit = heap_fence_create(GFP_KERNEL);
++	if (!active->submit) {
+ 		kfree(active);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+@@ -107,7 +122,7 @@ __live_active_setup(struct drm_i915_private *i915)
+ 		}
+ 
+ 		err = i915_sw_fence_await_sw_fence_gfp(&rq->submit,
+-						       submit,
++						       active->submit,
+ 						       GFP_KERNEL);
+ 		if (err >= 0)
+ 			err = i915_active_add_request(&active->base, rq);
+@@ -132,8 +147,6 @@ __live_active_setup(struct drm_i915_private *i915)
+ 	}
+ 
+ out:
+-	i915_sw_fence_commit(submit);
+-	heap_fence_put(submit);
+ 	if (err) {
+ 		__live_put(active);
+ 		active = ERR_PTR(err);
+@@ -154,6 +167,8 @@ static int live_active_wait(void *arg)
+ 	if (IS_ERR(active))
+ 		return PTR_ERR(active);
+ 
++	schedule_delayed_work(&active->work, msecs_to_jiffies(500));
++
+ 	__i915_active_wait(&active->base, TASK_UNINTERRUPTIBLE);
+ 	if (!READ_ONCE(active->retired)) {
+ 		struct drm_printer p = drm_err_printer(&i915->drm, __func__);
+@@ -164,6 +179,15 @@ static int live_active_wait(void *arg)
+ 		err = -EINVAL;
+ 	}
+ 
++	if (!active->work_finished) {
++		struct drm_printer p = drm_err_printer(&i915->drm, __func__);
++
++		drm_printf(&p, "active->work hasn't finished, something went\
++				terribly wrong\n");
++		err = -EINVAL;
++		cancel_delayed_work_sync(&active->work);
++	}
++
+ 	__live_put(active);
+ 
+ 	if (igt_flush_test(i915))
+@@ -184,6 +208,8 @@ static int live_active_retire(void *arg)
+ 	if (IS_ERR(active))
+ 		return PTR_ERR(active);
+ 
++	schedule_delayed_work(&active->work, msecs_to_jiffies(500));
++
+ 	/* waits for & retires all requests */
+ 	if (igt_flush_test(i915))
+ 		err = -EIO;
+@@ -197,6 +223,15 @@ static int live_active_retire(void *arg)
+ 		err = -EINVAL;
+ 	}
+ 
++	if (!active->work_finished) {
++		struct drm_printer p = drm_err_printer(&i915->drm, __func__);
++
++		drm_printf(&p, "active->work hasn't finished, something went\
++				terribly wrong\n");
++		err = -EINVAL;
++		cancel_delayed_work_sync(&active->work);
++	}
++
+ 	__live_put(active);
+ 
+ 	return err;
+-- 
+2.45.2
+
