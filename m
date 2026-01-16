@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC5FD32C93
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EC2D32CF3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:45:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A00DE10E8AB;
-	Fri, 16 Jan 2026 14:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2680210E8AC;
+	Fri, 16 Jan 2026 14:45:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="K1yC3wA6";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JHn9hny+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBAC10E8AB
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 14:41:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1768574476; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LnSj/SBpPgwlqC/pTiyO/PaY2pzQ/4KesumefifE7g/DB9vXPXSvgkuZAn3txjbRtbARAAEJxhkZbKfknSXj0OcyXlWR/X/1Y2KP3K2LUevHfU+rkffjXKJMQzBZDPq+UQwoO8YyY1QL77BA1Jv5RQ7xW6QKqUHHPk4yRdHRlVA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1768574476;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=NbsMjfAm8Ysrq+yLoTmaeRgUki8y5apISJJJdwZuxaA=; 
- b=KPPzSdowq1LGW3Z6myZ2qD1nPvk8/pjChB1763qtG9RhY3LW4I0oFoQzj0LDSIJVIHQXjXSAD3gKD2Q8kAnFogpc10WgxUT1BEsye28ycGv3APLhIVYul28giOaGCArMXeJTn63Nm+F85UqxzMlKjaDsxOpzjZ6e+iYnFQiKpaU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768574476; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=NbsMjfAm8Ysrq+yLoTmaeRgUki8y5apISJJJdwZuxaA=;
- b=K1yC3wA6YsKUcPPP2Yvap5/+/GxXQk1QB86gNSeGfG3egF7dBW4hPXwOO9AJuEGk
- c4tBCmbjV3XQAWLWsDMgO2ca0RDVnzJDhssICgRDVW2uwQzi6HPXwc1e2JbxY7gnfSz
- Dd6vGJqHpvxZzX+MmAeGOsFy4GfZHsPdXDLnajkw=
-Received: by mx.zohomail.com with SMTPS id 1768574474564548.2088433723058;
- Fri, 16 Jan 2026 06:41:14 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 2/4] drm/panthor: Extend IRQ helpers for mask
- modification/restoration
-Date: Fri, 16 Jan 2026 15:41:08 +0100
-Message-ID: <13685405.O9o76ZdvQC@workhorse>
-In-Reply-To: <20260116144158.4a3fcdcc@fedora>
-References: <20260116-panthor-tracepoints-v10-0-d925986e3d1b@collabora.com>
- <20260116-panthor-tracepoints-v10-2-d925986e3d1b@collabora.com>
- <20260116144158.4a3fcdcc@fedora>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E4F10E0A3;
+ Fri, 16 Jan 2026 14:45:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BE0CE41708;
+ Fri, 16 Jan 2026 14:45:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2066EC116C6;
+ Fri, 16 Jan 2026 14:45:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1768574738;
+ bh=dLIP3yuCXQig06JmGi7Dt5CFTqwxB/97u4nRMJ/85o8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JHn9hny+KZc4fD/9N3/yGG4Ed/hhHgyo20Xlcfi6MQ0Tz8Px4xYfrMnWeTFClUuk8
+ 00EV1D5wpqvfLr0GiQqLHyQcyukMIVymVzBr7dJCpGoIs5JGJ4g4MAMNMBZDsazQuO
+ 3bfpoDTbahXMz2Ln32On0kIkEny+5/uDL7Cww21E=
+Date: Fri, 16 Jan 2026 15:45:36 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Subject: Re: [PATCH v5 3/6] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to
+ sysfs.h
+Message-ID: <2026011629-recognize-municipal-2a89@gregkh>
+References: <20260116042510.241009-1-ynorov@nvidia.com>
+ <20260116042510.241009-4-ynorov@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116042510.241009-4-ynorov@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,106 +72,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 16 January 2026 14:41:58 Central European Standard Time Boris Brezillon wrote:
-> On Fri, 16 Jan 2026 13:57:31 +0100
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+On Thu, Jan 15, 2026 at 11:25:06PM -0500, Yury Norov wrote:
+> The macro is related to sysfs, but is defined in kernel.h. Move it to
+> the proper header, and unload the generic kernel.h.
 > 
-> > The current IRQ helpers do not guarantee mutual exclusion that covers
-> > the entire transaction from accessing the mask member and modifying the
-> > mask register.
-> > 
-> > This makes it hard, if not impossible, to implement mask modification
-> > helpers that may change one of these outside the normal
-> > suspend/resume/isr code paths.
-> > 
-> > Add a spinlock to struct panthor_irq that protects both the mask member
-> > and register. Acquire it in all code paths that access these, but drop
-> > it before processing the threaded handler function. Then, add the
-> > aforementioned new helpers: enable_events, and disable_events. They work
-> > by ORing and NANDing the mask bits.
-> > 
-> > resume is changed to no longer have a mask passed, as pirq->mask is
-> > supposed to be the user-requested mask now, rather than a mirror of the
-> > INT_MASK register contents. Users of the resume helper are adjusted
-> > accordingly, including a rather painful refactor in panthor_mmu.c.
-> > 
-> > In panthor_mmu.c, the bespoke mask modification is excised, and replaced
-> > with enable_events/disable_events in as_enable/as_disable.
-> > 
-> > Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> Now that the macro is removed from kernel.h, linux/moduleparam.h is
+> decoupled, and kernel.h inclusion can be removed.
 > 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Just one question below.
-> 
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.h | 86 ++++++++++++++++++++++++++------
-> >  drivers/gpu/drm/panthor/panthor_fw.c     |  3 +-
-> >  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
-> >  drivers/gpu/drm/panthor/panthor_mmu.c    | 47 ++++++++---------
-> >  drivers/gpu/drm/panthor/panthor_pwr.c    |  2 +-
-> >  5 files changed, 98 insertions(+), 42 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > index 8597b388cc40..8664adb1febf 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > @@ -84,9 +84,19 @@ struct panthor_irq {
-> >  	/** @irq: IRQ number. */
-> >  	int irq;
-> >  
-> > -	/** @mask: Current mask being applied to xxx_INT_MASK. */
-> > +	/** @mask: Values to write to xxx_INT_MASK if active. */
-> >  	u32 mask;
-> >  
-> > +	/**
-> > +	 * @mask_lock: protects modifications to _INT_MASK and @mask.
-> > +	 *
-> > +	 * In paths where _INT_MASK is updated based on a state
-> > +	 * transition/check, it's crucial for the state update/check to be
-> > +	 * inside the locked section, otherwise it introduces a race window
-> > +	 * leading to potential _INT_MASK inconsistencies.
-> > +	 */
-> > +	spinlock_t mask_lock;
-> > +
-> >  	/** @state: one of &enum panthor_irq_state reflecting the current state. */
-> >  	atomic_t state;
-> >  };
-> > @@ -425,13 +435,14 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
-> >  	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
-> >  		return IRQ_NONE;								\
-> >  												\
-> > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
-> > +	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
-> >  	old_state = atomic_cmpxchg(&pirq->state,						\
-> >  				   PANTHOR_IRQ_STATE_ACTIVE,					\
-> >  				   PANTHOR_IRQ_STATE_PROCESSING);				\
-> >  	if (old_state != PANTHOR_IRQ_STATE_ACTIVE)						\
-> >  		return IRQ_NONE;								\
-> >  												\
-> > -	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
-> 
-> Is moving this INT_MASK=0 before the atomic_cmpxchg() is really
-> required. It's harmless of course, because of the lock surrounding the
-> state + INT_MASK update, but I was wondering if there was another
-> reason for doing that that I'm missing.
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+>  Documentation/filesystems/sysfs.rst |  2 +-
+>  include/linux/kernel.h              | 12 ------------
+>  include/linux/moduleparam.h         |  2 +-
+>  include/linux/sysfs.h               | 13 +++++++++++++
+>  4 files changed, 15 insertions(+), 14 deletions(-)
 
-That was your change, not mine. :) It surprised me as well but I
-looked at how this plays out, and in essence it shouldn't make
-a difference. Every state where we're not IRQ_STATE_ACTIVE, the mask
-will already be 0.
-
-If I need to send a v11 for other reasons, I can
-revert this change though if it was accidental.
-
-> 
-> >  	return IRQ_WAKE_THREAD;									\
-> >  }												\
-> 
-> 
-
-
-
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
