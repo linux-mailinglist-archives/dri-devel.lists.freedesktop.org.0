@@ -2,100 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C905CD31775
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 14:02:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AFCD32EFA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1905E10E880;
-	Fri, 16 Jan 2026 13:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6928910E8B5;
+	Fri, 16 Jan 2026 14:55:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d9ccm9ah";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="n1dQMUtD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB9B10E880
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 13:02:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BE62D416DB;
- Fri, 16 Jan 2026 13:02:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4F24C16AAE;
- Fri, 16 Jan 2026 13:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768568575;
- bh=hs23aGA9nPZgg3NP9F7KC1TEBZJku4a9mF8gKyV8IDw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=d9ccm9ahnHfhGsnCiUYRt6BlFDVEDEegtOEWAQ8QicmbZM9XLbhnTm5Z2dA1LRC/v
- MrUEaPobAPWN7GGwVH/KlvaArm0KK6FOpWapOxpbHhMX/o7cZz/rdSBcd9DEzSqIpU
- FiPDoAouDZ4ik7ugZtCkYWy9d4RwH1OHZvrfp6zbqM5hqy2aEkwB0DwvXImMRVSAf9
- aYy4MvgfBkH8DD0LQ1azQyZWOaZtzIlskaQkWm0lsA9WbaV+NVemZRNe10YFu21nI0
- ep9eTqh+jCEy6bsBMbM8zCGcd5hI4rSUbpJ/kTn+2C/VRR8nYRMmnRIDyYF0Tt2p9e
- rh4tTs06Ayydw==
-Message-ID: <5341693c-12fd-428f-b742-ff24d3c1a0cc@kernel.org>
-Date: Fri, 16 Jan 2026 14:02:50 +0100
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8134D10E10C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:54:53 +0000 (UTC)
+Received: from [133.11.54.205] (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
+ (authenticated bits=0)
+ by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 60G8s9Dt038331
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 16 Jan 2026 17:54:15 +0900 (JST)
+ (envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=vMaN48b+DmtoUknmJ5ekzd+XKSx2hXy5fgMpMnhoDAY=; 
+ c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+ h=Message-ID:Date:Subject:To:From;
+ s=rs20250326; t=1768553655; v=1;
+ b=n1dQMUtDEijf6li7u4nt1WVL5eMiEQ/i92FXHXxXOpFjVL9YZnk87/P0qCx/dP3l
+ nKn5nbLLDw+g1sidJdqJ2KWVbvRgIDibwsoPcsCCYUv8K8SPS4XmwlhNMDhysPwI
+ pm1MKds06WAeZN4kNOaEWqTL5J3RNE9pQ9W5zAYfHOGvtHme0SNJx5LYIdHBhU6C
+ CGJC7K0HeGVUYytmAGFz1Tl9fugZ7CznASSqlFARhMgoPGORk6Opvz9I7PjXTe7M
+ W2bc+zu9X7CLZa75T//Owxi4yJ2awRKBNYqVWVv2CjXN03CN4lfaqA3I9olFcjha
+ pswJhwgVEFE2AJF+b+4HRw==
+Message-ID: <cc444faa-af80-4bab-ac3b-a013fef4a695@rsg.ci.i.u-tokyo.ac.jp>
+Date: Fri, 16 Jan 2026 17:54:09 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: dts: broadcom: bcm2712: Add V3D device node
-To: Peter Robinson <pbrobinson@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com
-References: <20260114120610.82531-1-mcanal@igalia.com>
- <121ede67-dbfc-4b79-8076-04693e9d3d53@gmail.com>
- <59cdede3-7757-4fe1-bb94-e7a93eea7611@igalia.com>
- <CALeDE9PGzTe4LXnDJcyhh_ietWkrf8Sp7xX=X6pZvdCWLx2huw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v4 0/5] virtio-gpu: Add userptr support for compute
+ workloads
+To: Honglei Huang <honghuan@amd.com>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Honglei Huang <honglei1.huang@amd.com>,
+ David Airlie <airlied@redhat.com>, Ray.Huang@amd.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>
+References: <20260115075851.173318-1-honglei1.huang@amd.com>
+ <5b66df7d-374c-4e9c-88d5-bb514f9a7725@rsg.ci.i.u-tokyo.ac.jp>
+ <2ae03f22-740d-4a48-b5f3-114eef92fb29@amd.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CALeDE9PGzTe4LXnDJcyhh_ietWkrf8Sp7xX=X6pZvdCWLx2huw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <2ae03f22-740d-4a48-b5f3-114eef92fb29@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 16 Jan 2026 14:55:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,25 +73,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/01/2026 11:56, Peter Robinson wrote:
->>>> +
->>>> +&v3d {
->>>> +    clocks = <&firmware_clocks 5>;
+On 2026/01/16 16:20, Honglei Huang wrote:
+> 
+> 
+> On 2026/1/15 17:20, Akihiko Odaki wrote:
+>> On 2026/01/15 16:58, Honglei Huang wrote:
+>>> From: Honglei Huang <honghuan@amd.com>
 >>>
->>> Looking at the upstream DT [1] I think this also needs a clock-names entry.
+>>> Hello,
+>>>
+>>> This series adds virtio-gpu userptr support to enable ROCm native
+>>> context for compute workloads. The userptr feature allows the host to
+>>> directly access guest userspace memory without memcpy overhead, which is
+>>> essential for GPU compute performance.
+>>>
+>>> The userptr implementation provides buffer-based zero-copy memory 
+>>> access.
+>>> This approach pins guest userspace pages and exposes them to the host
+>>> via scatter-gather tables, enabling efficient compute operations.
 >>
->> Differently from the `hvs` node [1] you sent (which specifies clock-
->> names), the `v3d` binding [2] doesn't have a clock-names property.
->> Therefore, it is not needed.
+>> This description looks identical with what 
+>> VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST does so there should be some 
+>> explanation how it makes difference.
+>>
+>> I have already pointed out this when reviewing the QEMU patches[1], 
+>> but I note that here too, since QEMU is just a middleman and this 
+>> matter is better discussed by Linux and virglrenderer developers.
+>>
+>> [1] https://lore.kernel.org/qemu-devel/35a8add7-da49-4833-9e69- 
+>> d213f52c771a@amd.com/
+>>
 > 
-> There's a name in the clk driver [1] so maybe the bindings should be updated?
+> Thanks for raising this important point about the distinction between
+> VIRTGPU_BLOB_FLAG_USE_USERPTR and VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST.
+> I might not have explained it clearly previously.
+> 
+> The key difference is memory ownership and lifecycle:
+> 
+> BLOB_MEM_HOST3D_GUEST:
+>    - Kernel allocates memory (drm_gem_shmem_create)
+>    - Userspace accesses via mmap(GEM_BO)
+>    - Use case: Graphics resources (Vulkan/OpenGL)
+> 
+> BLOB_FLAG_USE_USERPTR:
+>    - Userspace pre-allocates memory (malloc/mmap)
 
-That's a clock provider, not consumer.
+"Kernel allocates memory" and "userspace pre-allocates memory" is a bit 
+ambiguous phrasing. Either way, the userspace requests the kernel to map 
+memory with a system call, brk() or mmap().
+
+>    - Kernel only get existing pages
+>    - Use case: Compute workloads (ROCm/CUDA) with large datasets, like
+> GPU needs load a big model file 10G+, UMD mmap the fd file, then give 
+> the mmap ptr into userspace then driver do not need a another copy.
+> But if the shmem is used, the userspace needs copy the file data into a 
+> shmem mmap ptr there is a copy overhead.
+> 
+> Userptr:
+> 
+> file -> open/mmap -> userspace ptr -> driver
+> 
+> shmem:
+> 
+> user alloc shmem ──→ mmap shmem ──→ shmem userspace ptr -> driver
+>                                                ↑
+>                                                │ copy
+>                                                │
+> file ──→ open/mmap ──→ file userptr ──────────┘
+> 
+> 
+> For compute workloads, this matters significantly:
+>    Without userptr: malloc(8GB) → alloc GEM BO → memcpy 8GB → compute → 
+> memcpy 8GB back
+>    With userptr:    malloc(8GB) → create userptr BO → compute (zero-copy)
+
+Why don't you alloc GEM BO first and read the file into there?
 
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/bcm/clk-raspberrypi.c#n26
+> The explicit flag serves three purposes:
+> 
+> 1. Although both send scatter-gather entries to host. The flag makes the 
+> intent unambiguous.
 
+Why will the host care?
 
+> 
+> 2. Ensures consistency between flag and userptr address field.
 
-Best regards,
-Krzysztof
+Addresses are represented with the nr_entries and following struct 
+virtio_gpu_mem_entry entries, whenever 
+VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB or 
+VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING is used. Having a special flag 
+introduces inconsistency.
+
+> 
+> 3. Future HMM support: There is a plan to upgrade userptr implementation 
+> to use Heterogeneous Memory Management for better GPU coherency and 
+> dynamic page migration. The flag provides a clean path to future upgrade.
+
+How will the upgrade path with the flag and the one without the flag 
+look like, and in what aspect the upgrade path with the flag is "cleaner"?
+
+> 
+> I understand the concern about API complexity. I'll defer to the virtio- 
+> gpu maintainers for the final decision on whether this design is 
+> acceptable or if they prefer an alternative approach.
+
+It is fine to have API complexity. The problem here is the lack of clear 
+motivation and documentation.
+
+Another way to put this is: how will you explain the flag in the virtio 
+specification? It should say "the driver MAY/SHOULD/MUST do something" 
+and/or "the device MAY/SHOULD/MUST do something", and then Linux and 
+virglrenderer can implement the flag accordingly.
+
+Regards,
+Akihiko Odaki
