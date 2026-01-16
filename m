@@ -2,90 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB79D2D389
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD4FD2D40D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E65710E812;
-	Fri, 16 Jan 2026 07:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1933B10E815;
+	Fri, 16 Jan 2026 07:32:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hHaNNV5W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5VvTbr9e";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hHaNNV5W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5VvTbr9e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCCFE10E812
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:30:30 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F5510E815
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:32:54 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7798E3368D;
- Fri, 16 Jan 2026 07:30:29 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 22C3A5BCC6;
+ Fri, 16 Jan 2026 07:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1768548773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
- b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
- SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
- DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+ bh=WK7Yl69hCsc2h8SMZCE6Lz3MQ29y/xsGPH1bYgFehjA=;
+ b=hHaNNV5WL6n4fMK/uqml/EgXbVus7+9fUeNgD4u4nOyNkIB0Fy5qy0xBRtdjHrca4nPDkc
+ kXwjX15lbg67wAEJLvC5CU3sFd8l1qlkzJNR15Bd7A2Gc5VnaJ2X8+8iUWKTF9gilqcDkK
+ Fs3If16uklUAHX49YfkRzaELt3VlBUc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768548629;
+ s=susede2_ed25519; t=1768548773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
- b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
- 1n53sX67ZoW5QWDg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ysSXB+uI;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xC71ZXC0
+ bh=WK7Yl69hCsc2h8SMZCE6Lz3MQ29y/xsGPH1bYgFehjA=;
+ b=5VvTbr9eNgma5bT2/FwEsmZId7pLLrifLp3ptiJEgbBj2F8OJiXFjhXsqVPPIXZ0Xt1zCs
+ y2D/Pbl9ZgWsWiCw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hHaNNV5W;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5VvTbr9e
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1768548773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
- b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
- SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
- DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+ bh=WK7Yl69hCsc2h8SMZCE6Lz3MQ29y/xsGPH1bYgFehjA=;
+ b=hHaNNV5WL6n4fMK/uqml/EgXbVus7+9fUeNgD4u4nOyNkIB0Fy5qy0xBRtdjHrca4nPDkc
+ kXwjX15lbg67wAEJLvC5CU3sFd8l1qlkzJNR15Bd7A2Gc5VnaJ2X8+8iUWKTF9gilqcDkK
+ Fs3If16uklUAHX49YfkRzaELt3VlBUc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768548629;
+ s=susede2_ed25519; t=1768548773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
- b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
- 1n53sX67ZoW5QWDg==
+ bh=WK7Yl69hCsc2h8SMZCE6Lz3MQ29y/xsGPH1bYgFehjA=;
+ b=5VvTbr9eNgma5bT2/FwEsmZId7pLLrifLp3ptiJEgbBj2F8OJiXFjhXsqVPPIXZ0Xt1zCs
+ y2D/Pbl9ZgWsWiCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2165C3EA63;
- Fri, 16 Jan 2026 07:30:28 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 351CB3EA63;
+ Fri, 16 Jan 2026 07:32:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YzTxBhTpaWmSSgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Jan 2026 07:30:28 +0000
-Message-ID: <fcc432e7-308b-4d8f-8c26-355409f1bd94@suse.de>
-Date: Fri, 16 Jan 2026 08:30:27 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NaS4CqPpaWkITQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jan 2026 07:32:51 +0000
+Message-ID: <b58b857c-3464-4be7-92eb-ca7c1261b0d1@suse.de>
+Date: Fri, 16 Jan 2026 08:32:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+Subject: Re: [PATCH v2 09/12] firmware: google: Pack structures for coreboot
+ table entries
 To: Julius Werner <jwerner@chromium.org>
 Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
  samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
  dri-devel@lists.freedesktop.org
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-6-tzimmermann@suse.de>
- <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+ <20260115082128.12460-10-tzimmermann@suse.de>
+ <CAODwPW_uDHQHpcMYd-tu0Ld5e+7MQ5OVUtUgM8hnrg8crY22vA@mail.gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -112,7 +113,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+In-Reply-To: <CAODwPW_uDHQHpcMYd-tu0Ld5e+7MQ5OVUtUgM8hnrg8crY22vA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -4.51
@@ -134,11 +135,11 @@ X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
  RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo, suse.com:url]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.com:url]
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7798E3368D
+X-Rspamd-Queue-Id: 22C3A5BCC6
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -158,26 +159,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 15.01.26 um 21:54 schrieb Julius Werner:
-> Not really sure I understand this part? The code in coreboot_table.c
-> creates the device that represents the entry in the table. The code in
-> framebuffer-coreboot.c (which this Kconfig guards) contains the code
-> that creates the device which will be the actual framebuffer. Doesn't
-> it make sense for that part to depend on a framebuffer backend being
-> available?
+Am 15.01.26 um 21:56 schrieb Julius Werner:
+> Is this necessary? The coreboot table entries are 4 byte aligned, so
+> only the uint64_t fields are a problem. In coreboot we solve this by
+> not packing the structure and instead using something like this:
+>
+> typedef __aligned(4) uint64_t cb_uint64_t;
 
-Corebootdrm already depends on the CONFIG_GOOGLE_FRAMEBUFFER, which is 
-standard behavior for all kernel drivers (i.e., drivers depending on 
-architectural options). Having dependencies in the other direction 
-creates a circular dependency, which Kconfig doesn't handle. But 
-generally speaking, what's the point of having that framebuffer backend 
-code then? I tried to remove it, but it is supposed to remain. But it 
-would not serve a purpose other than creating the platform device for 
-the actual driver. I'm confused about the reason for this design.
+Well OK. It's just a safety measure anyway. From what I can tell, it 
+makes no difference with the current entries.
 
 Best regards
 Thomas
 
+>
+> I think the same solution could work in the kernel? Packing the
+> structure makes all alignment assumptions go away which can cause some
+> architectures to generate really bad code, so I've learned to try to
+> avoid it where possible.
 
 -- 
 --
