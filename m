@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC05D37A38
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371F0D37A39
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B8710E914;
-	Fri, 16 Jan 2026 17:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C87010E910;
+	Fri, 16 Jan 2026 17:33:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KAPTPmnn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="m+wPxr6s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D451910E912
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:28 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E4010E910
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:31 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id C09B91A28A2;
- Fri, 16 Jan 2026 17:33:27 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id AEF4B4E42117;
+ Fri, 16 Jan 2026 17:33:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 95A02606F9;
- Fri, 16 Jan 2026 17:33:27 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7A4EF606F9;
+ Fri, 16 Jan 2026 17:33:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 1134310B688E1; Fri, 16 Jan 2026 18:33:24 +0100 (CET)
+ with ESMTPSA id B9A1110B681F3; Fri, 16 Jan 2026 18:33:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768584806; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1768584809; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=IPtDTV3UxlBAHCLMExW04W6Gb1rrw7CzH5qBCtmWqiA=;
- b=KAPTPmnnjRUqFzYQwlXrdMQ+txz0ssC2vFdma/o8WJHrCIABQVM0Ofy0BoP6lHmRFgl21Z
- V3djt9VSZXNAhv1Bo9Bacf9ceoZSc6GRONleOsY11fUK6Fo+CAvYndv+A2hNgov0waPRi/
- hggNJU1ptHojmhF2njIOEGx7pG/DlnZOQuL4CaQRK2oHvC+zDyCAcvkkgEFdchA1mbATKD
- MILG36rIOmXr8raaVFwuCXv/qcdtJymaJh1kUWo2ASv6ri3w20prmnu5jc8Dh+uLZSItNP
- t444gsnAK03aqV7+Pu0UNEX1ZRuYGcAefe1ZVZUcGBmUMEx0NOXLstvX5r9fOg==
+ bh=CZGuLlcCDhUQzMpgbzcJjOknGYU49cHjJL/LspbQFv4=;
+ b=m+wPxr6s1B1ZEDZXmHaVjHcdy1wES6LaXUzBc+SfMYn67bMCf5i6K5y/+1haIL3StlkdiH
+ /M8WCvnArISU6u276Z4YEY6AbGn6RLuEBgtfP++NelIhyfzJ/bLbtdy9jYz5q23vayV4x7
+ 49k1fa+mXo9dDLWRECGYQPwHzs1zqvXwk03HZqSeUqGnMha9+oFHAp+wzo65PiavsMRnX/
+ 1ekLX+c8o99JhdohxPopmxmj3Hcks0Z6oF2TS7MPx2q+cnnv7JqUJDkcB+6ELiuJhxTbJp
+ UtI+us2zqB2odkpP4ZciaQzsJfvzumTuRWmpH9lzL8E3gfJvzWh1qGbWQs0Khg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 16 Jan 2026 18:32:40 +0100
-Subject: [PATCH 5/6] drm: rcar-du: encoder: convert to
- of_drm_find_and_get_bridge()
+Date: Fri, 16 Jan 2026 18:32:41 +0100
+Subject: [PATCH 6/6] drm/omap: dss: convert to of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-5-e34b38f50d27@bootlin.com>
+Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-6-e34b38f50d27@bootlin.com>
 References: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 In-Reply-To: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -79,109 +78,74 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-We need to handle the two cases: when a panel_bridge is added and when it
-isn't. So:
+omapdss_device_init_output() can take one bridge pointer in out->bridge or
+two pointers in out->bridge and out->next_bridge. Ensure each has a
+corresponding drm_bridge_get() and add drm_bridge_put() calls in the
+cleanup code.
 
- * in the 'else' case a panel_bridge is not added and bridge is found: use
-   of_drm_find_and_get_bridge() to get a reference to the found bridge
- * in the 'then' case a panel_bridge is found using a devm function which
-   already takes a refcount and will put it on removal, but we need to take
-   another so the following code in this function always get exactly one
-   reference that it needs to put
+Also slightly change the initial code assigning out->panel and out->bridge
+to ensure and clarify that either out->panel or out->bridge is set in the
+function prologue, not both. If both were set, the 'if (out->panel){...}'
+code that follows would overwrite out->bridge without having put the
+reference.
 
-In order to put the reference, add the needed drm_bridge_put() calls in the
-existing cleanup function.
+Finally, take a reference in case a panel_bridge is added using
+drm_panel_bridge_add(). This ensures we always need to put a reference,
+which came either from of_drm_find_and_get_bridge() or by the
+drm_panel_bridge_add+drm_bridge_get() branch.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 28 ++++++++++++++++++-----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h |  1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c     |  2 ++
- 3 files changed, 25 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/output.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-index 7ecec7b04a8d..5789fc75092f 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-@@ -51,7 +51,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- {
- 	struct rcar_du_encoder *renc;
- 	struct drm_connector *connector;
--	struct drm_bridge *bridge;
-+	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
- 	int ret;
- 
- 	/*
-@@ -69,20 +69,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
--		if (IS_ERR(bridge))
--			return PTR_ERR(bridge);
-+		if (IS_ERR(bridge)) {
-+			// Inhibit the cleanup action on an ERR_PTR
-+			ret = PTR_ERR(bridge);
-+			bridge = NULL;
-+			return ret;
-+		}
-+
-+		drm_bridge_get(bridge);
- 	} else {
--		bridge = of_drm_find_bridge(enc_node);
-+		bridge = of_drm_find_and_get_bridge(enc_node);
- 		if (!bridge)
- 			return -EPROBE_DEFER;
- 
- 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
- 		    output == RCAR_DU_OUTPUT_LVDS1)
--			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
-+			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = drm_bridge_get(bridge);
- 
- 		if (output == RCAR_DU_OUTPUT_DSI0 ||
- 		    output == RCAR_DU_OUTPUT_DSI1)
--			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
-+			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = drm_bridge_get(bridge);
+diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
+index 7378e855c278..ca891aba3820 100644
+--- a/drivers/gpu/drm/omapdrm/dss/output.c
++++ b/drivers/gpu/drm/omapdrm/dss/output.c
+@@ -30,11 +30,13 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		return 0;
  	}
  
- 	/*
-@@ -135,3 +141,13 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+-	out->bridge = of_drm_find_bridge(remote_node);
+ 	out->panel = of_drm_find_panel(remote_node);
+ 	if (IS_ERR(out->panel))
+ 		out->panel = NULL;
  
- 	return drm_connector_attach_encoder(connector, &renc->base);
++	if (!out->panel)
++		out->bridge = of_drm_find_and_get_bridge(remote_node);
++
+ 	of_node_put(remote_node);
+ 
+ 	if (out->panel) {
+@@ -49,7 +51,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 			goto error;
+ 		}
+ 
+-		out->bridge = bridge;
++		out->bridge = drm_bridge_get(bridge);
+ 	}
+ 
+ 	if (local_bridge) {
+@@ -59,7 +61,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		}
+ 
+ 		out->next_bridge = out->bridge;
+-		out->bridge = local_bridge;
++		out->bridge = drm_bridge_get(local_bridge);
+ 	}
+ 
+ 	if (!out->bridge) {
+@@ -79,6 +81,9 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ 	if (out->bridge && out->panel)
+ 		drm_panel_bridge_remove(out->next_bridge ?
+ 					out->next_bridge : out->bridge);
++
++	drm_bridge_put(out->next_bridge);
++	drm_bridge_put(out->bridge);
  }
-+
-+void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu)
-+{
-+	int i;
-+
-+	for (i = 0; i < RCAR_DU_MAX_LVDS; i++)
-+		drm_bridge_put(rcdu->lvds[i]);
-+	for (i = 0; i < RCAR_DU_MAX_DSI; i++)
-+		drm_bridge_put(rcdu->dsi[i]);
-+}
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-index e5ec8fbb3979..b2b5e93f30f8 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-@@ -25,5 +25,6 @@ struct rcar_du_encoder {
- int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 			 enum rcar_du_output output,
- 			 struct device_node *enc_node);
-+void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu);
  
- #endif /* __RCAR_DU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index 6294443f6068..15d301ab5eef 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -836,6 +836,8 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
- 
- 	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
- 		platform_device_put(rcdu->cmms[i]);
-+
-+	rcar_du_encoder_cleanup(rcdu);
- }
- 
- int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ void dss_mgr_set_timings(struct omap_dss_device *dssdev,
 
 -- 
 2.52.0
