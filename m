@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A185D296C5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 01:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FD9D297A5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 02:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B71C910E7D7;
-	Fri, 16 Jan 2026 00:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9394410E192;
+	Fri, 16 Jan 2026 01:00:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MCFiBk19";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="galtRY90";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B4E10E7D7
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 00:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768523773;
- bh=dd+gf/jKyogh1Q1ivowg9YoTCKDzuqKUdBLw/sUwIr4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MCFiBk19KSyzj3GNb4YQJWZ+yHiLyG5SCkvs8n4GwaC519KqFbMWcPQ4LlJ3aW8RA
- Vyjtg1PDih0R4um/Cn46Lxxedl/TETvzArrwf5qkmvb8dasAGZ6y+vkRRJLJE4au99
- 6HMC7Xr75RfS08YIFTE8ZRVIJyiqnViBexaZZyR610IXJq3xkU61jBuvC3uyMnrnK1
- +2gkg6Bht0x20HmH0v9P/XPZL4YLuxhqKF1q2cQlMaatQNUQ+Z8k8Y2w7SDkFTq/sp
- zpEzQFKvx08vIzj+Dfz7lVk3xzdwBRNaZ4oygUuPwGfK3tpte17IUPHuvNKPMbT3Lp
- 1Vq/bPpNCDQHQ==
-Received: from [192.168.0.79] (unknown
- [IPv6:2804:14d:72b4:81ae:67c:16ff:fe57:b5a3])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: dwlsalmeida)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 63D8C17E138B;
- Fri, 16 Jan 2026 01:36:11 +0100 (CET)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Thu, 15 Jan 2026 21:36:00 -0300
-Subject: [PATCH 4/4] rust: drm: dispatch delayed work items to the private data
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 526E410E192
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 01:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ME
+ f0DHBWe9wPAEndIy61oCPwiRgDkfJY9Tvwbfp9TWI=; b=galtRY90/scvUYiiqi
+ R1/BDctSZsJyCULal6+W/axAI5CMzUGIw3sof82uUF7JrrmZTlZZC1d2ALOQ39YI
+ BvCNy19aIN90CRYfdMxBTXkQPwuZiOxDUmkTI2YR5aSvvuGQ/DE8/sWUpRQje9Hz
+ im+5Wk0Juf7PIlHwhyZFRVxA8=
+Received: from ProDesk-480.. (unknown [])
+ by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
+ _____wDXRJeKjWlpWfAVGQ--.9426S2; 
+ Fri, 16 Jan 2026 08:59:59 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: hjc@rock-chips.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH] drm/rockchip: vop2: Add mode valid callback for crtc
+Date: Fri, 16 Jan 2026 08:59:49 +0800
+Message-ID: <20260116005953.286225-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-aref-workitem-v1-4-9883e00f0509@collabora.com>
-References: <20260115-aref-workitem-v1-0-9883e00f0509@collabora.com>
-In-Reply-To: <20260115-aref-workitem-v1-0-9883e00f0509@collabora.com>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Daniel Almeida <daniel.almeida@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDXRJeKjWlpWfAVGQ--.9426S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFykGr1kGFy5KF1DtryUAwb_yoW8XF15pa
+ 17ArWYgr4rKFZFgFn7JF4DCw1akw1ayayxJrs3Ww13uFyftr4DX3WrC34DCry3XFy7Ga43
+ KrnFyFW5AF1I9w7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrl1kUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7Q87mWlpjY+34wAA3W
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,45 +60,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Much like the patch that dispatched (regular) work items, we also need to
-dispatch delayed work items in order not to trigger the orphan rule. This
-allows a drm::Device<T> to dispatch the delayed work to T::Data.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Filter the mode that can't output by the crtc.
+
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 ---
- rust/kernel/drm/device.rs | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index c760a743e1df..ad0447e8763f 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -12,7 +12,7 @@
-     prelude::*,
-     sync::aref::{ARef, AlwaysRefCounted},
-     types::Opaque,
--    workqueue::{HasWork, Work, WorkItem},
-+    workqueue::{HasDelayedWork, HasWork, Work, WorkItem},
- };
- use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
- 
-@@ -273,3 +273,15 @@ unsafe fn work_container_of(ptr: *mut Work<Device<T>, ID>) -> *mut Self {
-         unsafe { crate::container_of!(data_ptr, Self, data) }
-     }
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 498df0ce4680..74fba29bfff3 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1439,6 +1439,17 @@ static void vop2_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	vop2_crtc_disable_irq(vp, VP_INT_FS_FIELD);
  }
-+
-+// SAFETY: Our `HasWork<T, ID>` implementation returns a `work_struct` that is
-+// stored in the `work` field of a `delayed_work` with the same access rules as
-+// the `work_struct` owing to the bound on `T::Data: HasDelayedWork<Device<T>,
-+// ID>`, which requires that `T::Data::raw_get_work` return a `work_struct` that
-+// is inside a `delayed_work`.
-+unsafe impl<T, const ID: u64> HasDelayedWork<Device<T>, ID> for Device<T>
-+where
-+    T: drm::Driver,
-+    T::Data: HasDelayedWork<Device<T>, ID>,
+ 
++static enum drm_mode_status vop2_crtc_mode_valid(struct drm_crtc *crtc,
++						 const struct drm_display_mode *mode)
 +{
++	struct vop2_video_port *vp = to_vop2_video_port(crtc);
++
++	if (mode->hdisplay > vp->data->max_output.width)
++		return MODE_BAD_HVALUE;
++
++	return MODE_OK;
 +}
-
++
+ static bool vop2_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				 const struct drm_display_mode *mode,
+ 				 struct drm_display_mode *adj_mode)
+@@ -1884,6 +1895,7 @@ static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
+ 	.mode_fixup = vop2_crtc_mode_fixup,
++	.mode_valid = vop2_crtc_mode_valid,
+ 	.atomic_check = vop2_crtc_atomic_check,
+ 	.atomic_begin = vop2_crtc_atomic_begin,
+ 	.atomic_flush = vop2_crtc_atomic_flush,
 -- 
-2.52.0
+2.43.0
 
