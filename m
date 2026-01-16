@@ -2,62 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33C0D32222
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 14:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F01D32229
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 14:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 649E310E8A0;
-	Fri, 16 Jan 2026 13:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 556E610E8A4;
+	Fri, 16 Jan 2026 13:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JraaNnca";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="rF6ADrav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5EAD10E89F;
- Fri, 16 Jan 2026 13:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768571589; x=1800107589;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DT/E4BgkqYQY28FJUE+qldgJ4WbSC4j4l/OQFFrGl4o=;
- b=JraaNncalAmbF4+rBmkXcmvU6TUvvnrY4jAfXUcUff5PCqjhyIJTBQ2m
- tLkCAfeblinDjWoyfOQz8Kx6tCnufF0loEB9/EFjjz0WYzOqpVkx+PTYJ
- 13jegGlpO08dkBn+VuVqAKc10GvmJmaT3zfCCWW24OhUIlkM+iBJqp3bA
- 9P6j3RqHJ64jemmGTNVBKjQK9HWvOzZHl9XWsCNrz6eJYaHHnZC/Eb4Ft
- 5fokDqvJRfAccRuby0WhOzk8Mg0SAtC7jzjFhfmHh3sv1GbNREwtyYp1g
- iy20lEQJwnxwwd5tbteiCF522rzpduVU3nElsPk9egx6NKH64FgRXVWWM g==;
-X-CSE-ConnectionGUID: lgcVh5eURh6m07DP2AxI4g==
-X-CSE-MsgGUID: SI7Avt+dTXuFSzr2jKaCFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69780858"
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="69780858"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 05:53:05 -0800
-X-CSE-ConnectionGUID: 0vHhAGUDQYS0P5v64xPltA==
-X-CSE-MsgGUID: ZigddSHuT9inTQ1M30X5ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; d="scan'208";a="205527646"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 16 Jan 2026 05:53:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vgkG3-00000000Kts-0g2Q;
- Fri, 16 Jan 2026 13:52:59 +0000
-Date: Fri, 16 Jan 2026 21:52:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com, simona@ffwll.ch,
- airlied@gmail.com, jani.nikula@linux.intel.com,
- ville.syrjala@linux.intel.com, Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH v3 2/2] drm/amd/display: Implement prepare_vblank_enable
- callback
-Message-ID: <202601162111.x5OKj7WN-lkp@intel.com>
-References: <20260109192027.116325-2-sunpeng.li@amd.com>
+Received: from CWXP265CU008.outbound.protection.outlook.com
+ (mail-ukwestazon11020089.outbound.protection.outlook.com [52.101.195.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD8210E8A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 13:53:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gdeZdkqERTuhrZ8bEF00KxgdA5yzRopujpIptSPX3DfI7lTLMz0IhOfjH/mrPj8KwHD+Ska7fy+iN77nFtcX8NBFItMlyKxOe6Wdbnk+ANvYlbXk8Bha4XRQJkK3fW/2dzfbyrXHlNy0c+CD9nCNzSWiWUdGcRSIWX/bkannWvKVpISDjHSfTnynjUD13m71NE77gUzTkQW68AUhAD31XRxCFJ2mAf7H88URva7X3Z8zKnA9EETvnPUOyhn9Y/TCrKydyQ21VgbLwMBnXpx+pTPcHZf8lHYDlMntRqZfgd1iQfw9njLoUyVJuullJZTxkInD2pFBGPf2DbdgZ7XmeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3rYjiJb8TZBwCZ3DioqZDO/AB5eMdSNWJueRCyjqDGo=;
+ b=FPIJ6Od0shrSNZJv5Ds+Gzdg24o61NysnRQyUJXnDv8nQhYhFNnt+17jW64RuHu/DzgHfSGmQkyO3SQDLLqL6cxGzb63OGuYEKXy9t8dINvDCyNcEd7aPGYRtNAamsa4BadF/sT4sU7a2fcHDtiZZpI6WFiECKaelQ9i+zHKGj79oKHuV8UYbyF2dSf2nudWarhYl7eggler0fP5OeRJ7+SJVf1RwWg0iRlfLfUsnuDsEN2lt6vt2/dyAYVazd5HPB4ntAsAd/c0XWzcjCHNQ7hmi4MTgEGtD2x2ROvKcN9XdTsaJP2YCp8nm+7y2SXe0swLmI5/N0oUsztCJRDibg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3rYjiJb8TZBwCZ3DioqZDO/AB5eMdSNWJueRCyjqDGo=;
+ b=rF6ADravmVECXRby1DzGBsLP+lv74SYumeLX6IV374qMTWVXFvRUGRCEivkmiJUqAThTBbEbmpcZ0Ug7Jg0/JNeHxY5KPoT3GvWLvb0kxInOcd/OhsSPHab9w4T76PkVtTTXed4Onj1XjbJP+qg/uPEYLqkvfe2CPBrm2vJhT2w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO4P265MB3631.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1bf::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
+ 2026 13:53:10 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9520.006; Fri, 16 Jan 2026
+ 13:53:10 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 16 Jan 2026 13:53:10 +0000
+Message-Id: <DFQ2B06J0U0T.M8K7D98WCZYI@garyguo.net>
+Cc: "Dirk Behme" <dirk.behme@gmail.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Steven Price" <steven.price@arm.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH] rust/drm: tyr: Convert to the register!() macro
+From: "Gary Guo" <gary@garyguo.net>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>, "Gary Guo"
+ <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260114-tyr-register-v1-1-7deb1b33627a@collabora.com>
+ <f7ff8b11-b1a5-4537-9227-e42a3a40aa96@gmail.com>
+ <A04F0357-896E-4ACC-BC0E-DEE8608CE518@collabora.com>
+ <DFQ16QS1RAEL.1Z0ESXE0MBA7G@garyguo.net>
+ <25EE982E-B03D-4C50-B973-34AC4FFA96B6@collabora.com>
+In-Reply-To: <25EE982E-B03D-4C50-B973-34AC4FFA96B6@collabora.com>
+X-ClientProxiedBy: LO4P302CA0009.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c2::17) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109192027.116325-2-sunpeng.li@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB3631:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccb8a65d-214d-4ef5-4eef-08de550695cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YWU1MFpDTVQwaHMweUpSWWJaVnhIUFZzY0NkV2thYWxWWTlrVHRqVWhqRFhU?=
+ =?utf-8?B?elVSVHV2a1piUnlpSjlrR0hCOVM5S0RtaXpqbnl0dm13cCtwcDhFY2s3Nmlu?=
+ =?utf-8?B?SDE0L3IvdkkrZkM2emh3eVZNS0hQMzQ2d3hUeDVhSmFhNjBGWHRIbGVqN0lY?=
+ =?utf-8?B?c3k5S0JGMlN3NmdXaHlxUk1aNHZyOUIzSkg4VVQ2cnA4enBsOVlXa1hIakg4?=
+ =?utf-8?B?OVFPSStPQWljZDJVb01EV2ZxV1VCbEZuZXJ4MW5JMTVnQlNYZ0FBbDg1bDRS?=
+ =?utf-8?B?NWk2ZEZoTytZRXpTd2ZpdGJLVDNLUzBneGkvbTYwNG5xaXJ3YnZJWGVUNUVE?=
+ =?utf-8?B?bkV5YUJiZlk1VGtaWm9CdU5YbVp6MVJUQ2ZvcjA4STVoNVZ5SGxHV2NWZ2NI?=
+ =?utf-8?B?ckl2Yi9RNlE3OGxFWTI5bFNvV1cxQzVVclZmdTFTVm9WdTJuR3RLMy9udWlH?=
+ =?utf-8?B?ZS9tTjhIVy9SdGJBeEozaktkSGdFbDBwaG5vK3RDS0puQVl3QU44b2hNWE9h?=
+ =?utf-8?B?MnA5OWVrejFESUc3NGg5UE9DMURheFdIVksrMk1ySmNEQkd0c0RCM09DbVhy?=
+ =?utf-8?B?K2lGUmtTMmFnb2VaZnlpSmVtMG85MDdFL3hWTWNUWGhOd3hvdTJGR3R5WDlr?=
+ =?utf-8?B?RG11Qjg2ZGJMZVBxVnB1QXJOaU9UOG1VS1MzNkhUUUhwSzE2eUtoUlFaSGVi?=
+ =?utf-8?B?NUNYNXpLUVZUZk0zRk12TDJTWFJkbk8rRWdMWExIQnhsN1NBQkxYMHo5TmlJ?=
+ =?utf-8?B?SXRvT0dTN1AzR1dkdlFucWhqQVBTcjlSZ2laWjNvS1pGZnJYYmNiTzcyUkZx?=
+ =?utf-8?B?S1c0cUdrekhUSVF4MG1WeXVGRkloR2JoKzM3ZzdENEpaeUdQdk9XQ0Z2czY2?=
+ =?utf-8?B?aFFnN0lxYW1ZRVJ2bUJwclBHc3FWT2ZFaDc0NnFPSkN4aHJLZDJEMlRwSnFO?=
+ =?utf-8?B?MVg1TCtEeFNzNnZ2N2VMa0lHbDROTHhrbXFWZzZtcC90QUQwSGtqbWVMRTRK?=
+ =?utf-8?B?ZXJGajZKYXpEeml2M2ZpSk5kV3BNeHpXNGxiS2J0QWhXQjJEamJrS2ltN1N2?=
+ =?utf-8?B?WVMrOGwrVEE0alZkUGZ0SzhEMjIvTXVYcTlGbmt3cys5bCtrVnhsN08rdU5w?=
+ =?utf-8?B?L1pVdndqY2krcjRraXZZK2QrVis1VFBnZkR0NitiK2NINTNKaWwrMk5aOCs1?=
+ =?utf-8?B?Q3JtUHBwU1BFTFB4VjVXa1l6ekpPMEtxRklacHg2d2cvOFZtMG1lVXRSY2dD?=
+ =?utf-8?B?blJCSUFDdTExNUx3akZGQU8yRHRDVGJVVElRbXYwWURvc2xOK3IwNnFYa1Rh?=
+ =?utf-8?B?Z3RkdGZQOWI1VXlVUmsvam4vR01ZMlpOUmpHWjZDS25kZEFaU3ZTbzlQVWhS?=
+ =?utf-8?B?RXF5blJHM3U3KzdqKzBzZlM3SVRDYWFkT3NtUitaRGlGenkzeGc3TFplWkFP?=
+ =?utf-8?B?L09FdVVtd2FhdXh4MDJCT05ZNkN0dE0xZ3QrYnhPbWxBK0lUd1Ixd3dUWlRZ?=
+ =?utf-8?B?aDlMUHBwN1pGd1daQzZZNmswYnh2NC9Wd3RIVE1oUUNvT2F6OUJSTzZrMkdp?=
+ =?utf-8?B?czNRZ2VwdDliV3NPY09aRkE2dXFJNFJGV05uRXowQlpxeDZxQlcxRyt2V2Fs?=
+ =?utf-8?B?U2RuNzFrY1Q1RnZKa0o3MDRyb0wrT2VVRVlEUXh2VGdZK2xibDZqc0FLb2Jq?=
+ =?utf-8?B?ZjhHWXltZXBoWHRUOWF1WmtPZE0xbnlKTTJscXpZVnZ4bThZUkZBbENkZTBm?=
+ =?utf-8?B?eVhYc2JYMWRvOGs1NTFtcWE3OGk4aTVCNW5xRTdEOHhxeDdhMGFsSUtDcHlN?=
+ =?utf-8?B?cTRLYmxrbUtEY3ZUUGwxQmZCU1MxWjZBN0ErYXpSMTBVT1ZsV1N1QmdxV0FW?=
+ =?utf-8?B?cmptdkZudmJOcytqZCtQcmtJQUVtUFZsZVhNYjdkcFp6cXBpb2FWbnNSclZh?=
+ =?utf-8?B?cGhLYlBsckZ5TkFXQjdDODR4OTNyWTBxK3J6d3NCM2hEbG1uSnNJZ1JHL0w0?=
+ =?utf-8?B?WkFNbjRtaEtUc2xOR2QrSzlPRlJyc2ppL3JiQm5KNGo2UVYwQXpQVnQ0ZElN?=
+ =?utf-8?B?cGdFQm5wK1AwS2htUTU4RUpqOUlTRmxTS2I5ZWtZUCtHMVFic1B2YWZvMmsr?=
+ =?utf-8?Q?fnKM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WTV4MW5QQlFLM0h6ZUVMWlVFQklUT0V6NnM0TjVrQkxHdDYrUDFhZy9EUkR3?=
+ =?utf-8?B?RFJqeDgzRVlQT3dlMk5UK0NGV0Vmajc3T0JIZlNLZkN0bkxERFV3WHR2Rmpr?=
+ =?utf-8?B?Q2czSDg0VERTUGU0Wk5GcWg3VHplWWo3MkUxSVNrZ3VKWVNRa0k2L2lBZlFX?=
+ =?utf-8?B?SFJOUUVaSCtnb0hlUzVEczA4ZDZobGVrb1pRVHk5bEhZejVWZFpjWXlMQWxF?=
+ =?utf-8?B?SHRZTC9wYit4NThXTjZ3VDZZV0pkZkNhL0c1eTRjSmZRVjBlZ21oRkdvcWlp?=
+ =?utf-8?B?ZnFaSDVvUXJyNng0dGo0ZCtlcmVqZURzVU9FbFViYjJmaFpjMmhIN1hzSDBh?=
+ =?utf-8?B?Qk93emNOdklvM2g4NjA3MmVRTElUSXQ0SWRORitxMHdqTzVZdVVsQVJzWnc5?=
+ =?utf-8?B?YmdqZGI4Y3dweTdoaW1rQi9hSW45bm0wVlNpZldJelRJT3JPTEw2R08xTVhJ?=
+ =?utf-8?B?KzV0M3lVYWRnWElkWDd2VVVrOUw1MUZXZW4veXBTRE5TVVZ3RWkvNFhxcWpI?=
+ =?utf-8?B?RzVhT0Fiek1tLzQ4WERRS05VT25ZM1VzZmhQY0xvalNINjJ0U3hQUWhsZW5s?=
+ =?utf-8?B?UVVyT284SmJhTE5iWllpTXF0bjgwQms5QzBsN2VqY3lPOGhjK1Z4dzNGWjk0?=
+ =?utf-8?B?cDJyQ3Y2SlFESkJpTjd1dXpVZ1VuVVlVSi9XU1d2a2h3N2NUVmtnOUllNDBm?=
+ =?utf-8?B?TEp2bE5EMkNsVEs4SFBFRUJ4dnhrOWFCemwrVENzK1M2ZjNZU2lVS256cVhr?=
+ =?utf-8?B?T0V0eWx6Z09sb1psZ1hQRjk4U2J0d2E0bC8zbk1jZ1lKUVpFZGxUWURNWXB1?=
+ =?utf-8?B?bFU3UWdoWWJsNTc3VncwcVl4ZE5LeXhRWWhNSkREYXpoNHdPVVYvS1l4YkVr?=
+ =?utf-8?B?Vjk4N05IYXp6eUFPVVRXSVZzTGt1Y1Q4TVd2MC8wQjVCUjNsVVVXSjNmS2w2?=
+ =?utf-8?B?MTBsRXpJRDhYL0hmZEJXU3d2VFVONFFkUEJhajdXVVhyWmJGNHB3MWtlazRI?=
+ =?utf-8?B?Vzk1MGtPTmNPaVQwU3lrK2tuWC8vRVlMTFdMYUNRR0RxeGxBdTk3dkZwU0k3?=
+ =?utf-8?B?ZnliOUw5bWtCb3JWR2EwbWdTUUlRbzRCenhNdDRRbDNMdkJsTHRIT3I5YldP?=
+ =?utf-8?B?NSt5MFJNV3VwRzFqRDlZYjU0NVA1d20ySnVUUHlyT3dRUmY1ZGt5VzZpZy9L?=
+ =?utf-8?B?OFIzczc5eU5nMHFGRnVEN0p6OVpZYXV0NC9zYTUrQ0J4ZHN4WFhpK1RQbmw5?=
+ =?utf-8?B?S0diTnd6Z0hBS3RTOS9yOVhqTlRjTTgzZGdnZlkvK21DVnZCVkk1bnpoaExY?=
+ =?utf-8?B?ei9ENlcwWW9BaGpCMGNZeUd2bWMvMk5JMDA3bnprclk4Q1RoZFZzbmgrVGUv?=
+ =?utf-8?B?N0xONWFXSWJsUHo1MzFNWXB4SC8xQ2R0QitBS1hiaWZiWTZ2dmZyS2pjWE1t?=
+ =?utf-8?B?THlPUGVib2d4SXJMaDY3M05QMWdic0l5L1RUWnloZlZKcG95OWNta1JTd1hT?=
+ =?utf-8?B?VnlBM1pYcVQxSDZyZHlVOW1UQUJOOGdJWXZNaGg0Y2VITGpWSll2Q0g0Ly9p?=
+ =?utf-8?B?NU02alh0MWVYM0xOc3BaWjNaR29KRmJjN2hXTmZMWjdhNEw5eVNrOUUzMzNy?=
+ =?utf-8?B?RnAzT3hmb3YzMEFvR1pHSlI5d0hsaTEybUtGT1J5MzRoZzNCck9mWGFZVUQ3?=
+ =?utf-8?B?aEt4Z3A2dWlpWUNFTTZ0OS93ek1lNk5Od1plZFM3a0Faa0pYazZKSUlmaEYw?=
+ =?utf-8?B?Z2dWdXY0TUViMGdtUHBmK2VHMTUxRzRJMDZuTU55a3huVzFtMUZQUC8raFB0?=
+ =?utf-8?B?K3lEcWhXVEdsMXNmeGNaWi9XUURtZ1JDYXhMVTg4c1NPMHJIM1F0RU15Ykpr?=
+ =?utf-8?B?Y2dsWW03NG1LaFZlVzlkblhIOWxKc3JUZUhHTmNpQjlQME1QMkkrVXFBVTJq?=
+ =?utf-8?B?WWR6MmwwRzdTWkRhaXdtUkJIMHltUDUrSHY1S0lRUkZXZ0wyZWxvRDhLd28x?=
+ =?utf-8?B?YzJsVi90elJhTjF6OG5IZmd2dHZUL0hYbnpjUy9uMldIcHBZRExzdTNDTDJ2?=
+ =?utf-8?B?OXMyUVdoOUVnVHlFbWtwTDgyZWg5SXcrNzErRktOeU9UVncySVZZdWNuRGc1?=
+ =?utf-8?B?QU1YT1JNbXgxVHBzQnZ5V0U2MCswWnlNUndrY2hQU1laL0pyVTk5NEExUnpm?=
+ =?utf-8?B?K1UybW5uOWFrWWxYVzZsdjVHL2FoelU0NEFHRUFYbHlVenkxbVY3dGNHa25C?=
+ =?utf-8?B?UHlpZGFVR3d0OHlwKzZNU3NBSzI5N3lzQ1RuaXpjcUhqRnVsZVBZYU04bUox?=
+ =?utf-8?B?QVRrMzhqYjJCV2ZXemFzWEZFaDFYdjNLY1NTZ25CQjdScFBZQytMQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccb8a65d-214d-4ef5-4eef-08de550695cb
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 13:53:10.5418 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gVWWS+N38XAP7pCkeiIBxj0ydBuZij8RO6w4R1ZtZjqp6sjWMsLCfJEs1m18Lwmc51oAMocZr0gSMQhTbj/Bqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB3631
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,186 +182,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri Jan 16, 2026 at 1:38 PM GMT, Daniel Almeida wrote:
+>
+>>>>=20
+>>>> Is there any reason why you replace the UPPERCASE register names with
+>>>> CamelCase ones?
+>>>>=20
+>>>> I was under the impression that we want to use UPPERCASE for register
+>>>> names. Like in nova
+>>>>=20
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
+e/drivers/gpu/nova-core/regs.rs
+>>>=20
+>>> Not really. UPPERCASE for non-const items will trigger the linter. The =
+Nova
+>>> people chose to #[allow] this to align with OpenRM and, IIRC from the L=
+PC
+>>> discussions, their registers are automatically generated from some inte=
+rnal
+>>> docs.
+>>>=20
+>>> We have only a few, we can simply convert them to CamelCase.
+>>=20
+>> Frankly, register names do look nicer in UPPER_CASE, especially that the=
+y're in
+>> many cases, packed with acronyms.
+>>=20
+>> Best,
+>> Gary
+>>=20
+>
+> I don=E2=80=99t have an opinion here, to be honest. I think CamelCase doe=
+s make it
+> easier on the eyes since our register names look quite simple,
 
-kernel test robot noticed the following build errors:
+You're on the lucky side! Most hardware don't enjoy that, especially if
+you want to match register names with the ones documented on the datasheet.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip next-20260115]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> specially when
+> compared to Nova. However, I can switch to UPPER_CASE and add an
+> #![allow(non_camel_case_types)] if more people chime in.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20260110-032355
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260109192027.116325-2-sunpeng.li%40amd.com
-patch subject: [PATCH v3 2/2] drm/amd/display: Implement prepare_vblank_enable callback
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162111.x5OKj7WN-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162111.x5OKj7WN-lkp@intel.com/reproduce)
+I wonder if we should just such allow `non_camel_case_types` to the registe=
+r
+macro? I don't have an opinion on whether we want to enforce using UPPER_CA=
+SE,
+but at least I think we should allow it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601162111.x5OKj7WN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/drm/drm_crtc.h:28,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:27:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c: In function 'amdgpu_dm_crtc_set_crc_source':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:38: error: 'dm' undeclared (first use in this function); did you mean 'dc'?
-     659 |                 scoped_guard(mutex, &dm->dc_lock) {
-         |                                      ^~
-   include/linux/cleanup.h:433:34: note: in definition of macro '__scoped_guard'
-     433 |         for (CLASS(_name, scope)(args);                                 \
-         |                                  ^~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:17: note: in expansion of macro 'scoped_guard'
-     659 |                 scoped_guard(mutex, &dm->dc_lock) {
-         |                 ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:38: note: each undeclared identifier is reported only once for each function it appears in
-     659 |                 scoped_guard(mutex, &dm->dc_lock) {
-         |                                      ^~
-   include/linux/cleanup.h:433:34: note: in definition of macro '__scoped_guard'
-     433 |         for (CLASS(_name, scope)(args);                                 \
-         |                                  ^~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:17: note: in expansion of macro 'scoped_guard'
-     659 |                 scoped_guard(mutex, &dm->dc_lock) {
-         |                 ^~~~~~~~~~~~
-
-
-vim +659 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c
-
-   542	
-   543	int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
-   544	{
-   545		enum amdgpu_dm_pipe_crc_source source = dm_parse_crc_source(src_name);
-   546		enum amdgpu_dm_pipe_crc_source cur_crc_src;
-   547		struct drm_crtc_commit *commit;
-   548		struct dm_crtc_state *crtc_state;
-   549		struct drm_device *drm_dev = crtc->dev;
-   550	#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
-   551		struct amdgpu_device *adev = drm_to_adev(drm_dev);
-   552		struct amdgpu_display_manager *dm = &adev->dm;
-   553	#endif
-   554		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
-   555		struct drm_dp_aux *aux = NULL;
-   556		bool enable = false;
-   557		bool enabled = false;
-   558		int ret = 0;
-   559	
-   560		if (source < 0) {
-   561			DRM_DEBUG_DRIVER("Unknown CRC source %s for CRTC%d\n",
-   562					 src_name, crtc->index);
-   563			return -EINVAL;
-   564		}
-   565	
-   566		ret = drm_modeset_lock(&crtc->mutex, NULL);
-   567		if (ret)
-   568			return ret;
-   569	
-   570		spin_lock(&crtc->commit_lock);
-   571		commit = list_first_entry_or_null(&crtc->commit_list,
-   572						  struct drm_crtc_commit, commit_entry);
-   573		if (commit)
-   574			drm_crtc_commit_get(commit);
-   575		spin_unlock(&crtc->commit_lock);
-   576	
-   577		if (commit) {
-   578			/*
-   579			 * Need to wait for all outstanding programming to complete
-   580			 * in commit tail since it can modify CRC related fields and
-   581			 * hardware state. Since we're holding the CRTC lock we're
-   582			 * guaranteed that no other commit work can be queued off
-   583			 * before we modify the state below.
-   584			 */
-   585			ret = wait_for_completion_interruptible_timeout(
-   586				&commit->hw_done, 10 * HZ);
-   587			if (ret)
-   588				goto cleanup;
-   589		}
-   590	
-   591		enable = amdgpu_dm_is_valid_crc_source(source);
-   592		crtc_state = to_dm_crtc_state(crtc->state);
-   593		spin_lock_irq(&drm_dev->event_lock);
-   594		cur_crc_src = acrtc->dm_irq_params.crc_src;
-   595		spin_unlock_irq(&drm_dev->event_lock);
-   596	
-   597		/*
-   598		 * USER REQ SRC | CURRENT SRC | BEHAVIOR
-   599		 * -----------------------------
-   600		 * None         | None        | Do nothing
-   601		 * None         | CRTC        | Disable CRTC CRC, set default to dither
-   602		 * None         | DPRX        | Disable DPRX CRC, need 'aux', set default to dither
-   603		 * None         | CRTC DITHER | Disable CRTC CRC
-   604		 * None         | DPRX DITHER | Disable DPRX CRC, need 'aux'
-   605		 * CRTC         | XXXX        | Enable CRTC CRC, no dither
-   606		 * DPRX         | XXXX        | Enable DPRX CRC, need 'aux', no dither
-   607		 * CRTC DITHER  | XXXX        | Enable CRTC CRC, set dither
-   608		 * DPRX DITHER  | XXXX        | Enable DPRX CRC, need 'aux', set dither
-   609		 */
-   610		if (dm_is_crc_source_dprx(source) ||
-   611		    (source == AMDGPU_DM_PIPE_CRC_SOURCE_NONE &&
-   612		     dm_is_crc_source_dprx(cur_crc_src))) {
-   613			struct amdgpu_dm_connector *aconn = NULL;
-   614			struct drm_connector *connector;
-   615			struct drm_connector_list_iter conn_iter;
-   616	
-   617			drm_connector_list_iter_begin(crtc->dev, &conn_iter);
-   618			drm_for_each_connector_iter(connector, &conn_iter) {
-   619				if (!connector->state || connector->state->crtc != crtc)
-   620					continue;
-   621	
-   622				if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
-   623					continue;
-   624	
-   625				aconn = to_amdgpu_dm_connector(connector);
-   626				break;
-   627			}
-   628			drm_connector_list_iter_end(&conn_iter);
-   629	
-   630			if (!aconn) {
-   631				DRM_DEBUG_DRIVER("No amd connector matching CRTC-%d\n", crtc->index);
-   632				ret = -EINVAL;
-   633				goto cleanup;
-   634			}
-   635	
-   636			aux = (aconn->mst_output_port) ? &aconn->mst_output_port->aux : &aconn->dm_dp_aux.aux;
-   637	
-   638			if (!aux) {
-   639				DRM_DEBUG_DRIVER("No dp aux for amd connector\n");
-   640				ret = -EINVAL;
-   641				goto cleanup;
-   642			}
-   643	
-   644			if ((aconn->base.connector_type != DRM_MODE_CONNECTOR_DisplayPort) &&
-   645					(aconn->base.connector_type != DRM_MODE_CONNECTOR_eDP)) {
-   646				DRM_DEBUG_DRIVER("No DP connector available for CRC source\n");
-   647				ret = -EINVAL;
-   648				goto cleanup;
-   649			}
-   650	
-   651		}
-   652	
-   653		/*
-   654		 * Reading the CRC requires the vblank interrupt handler to be
-   655		 * enabled. Keep a reference until CRC capture stops.
-   656		 */
-   657		enabled = amdgpu_dm_is_valid_crc_source(cur_crc_src);
-   658		if (!enabled && enable) {
- > 659			scoped_guard(mutex, &dm->dc_lock) {
-   660				dc_exit_ips_for_hw_access(dm->dc);
-   661				ret = drm_crtc_vblank_get(crtc);
-   662			}
-   663	
-   664			if (ret)
-   665				goto cleanup;
-   666		}
-   667	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Gary
