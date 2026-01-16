@@ -2,170 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E6ED385AB
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525FDD385C7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEB110E25F;
-	Fri, 16 Jan 2026 19:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E96E10E117;
+	Fri, 16 Jan 2026 19:27:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="Mo+68MVr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Oj286jig";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rTK0cGo1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fZ6A3sjl";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MihcfWZp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1C610E91C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:17:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8084C33699;
- Fri, 16 Jan 2026 19:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1768591044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
- b=Mo+68MVrcphyHUMmUlW76Ea+IsmX87ibhv7WIG7yqlPQbMBV6bacUF1uDNdefDYPXE5LtZ
- NWFrlDlvXLchecXoIBohgRX0CtpRYvHwENNvD/NQ5JLxx+H89GoDT9MJHrJHbp75Kwv7yV
- s8DTUjmNPC47SAG3Go3HG11sGVtN+p0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1768591044;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
- b=Oj286jigOR0MEqC+M/Sg6/yRSSNYgmTKItEDIVykS1qj8qDWAvzuxdd2jgg22+SAUnUt+F
- xVlgq40gtnt/FgAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1768591043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
- b=rTK0cGo13Lnb3UHlVksaG/Tvwtp5cVmYRGk3/NxeEipVJk2HKo4DGENgtF6P4ohfHFgl24
- nYqzuIJ3uepxhLKDkkgtMRvMC0YHa9qtv+6mlENtQODsN5FnNoA91JEZNKv33hagRw9MwM
- 8hIdlBl7xl4h98om58DpHaZA/tSZsAM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1768591043;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
- b=fZ6A3sjlOuoCcXiAId99hN+SdJvIBtJ9iF/7w7p/MGNiuyOUn2LXgyzUpzyrH/OhgGVRSa
- Y4+YVjsFVyGZfZAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 334C03EA63;
- Fri, 16 Jan 2026 19:17:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cWpiCsOOamnQBgAAD6G6ig
- (envelope-from <vbabka@suse.cz>); Fri, 16 Jan 2026 19:17:23 +0000
-Message-ID: <8006ea5f-8845-436a-a2d7-125399428762@suse.cz>
-Date: Fri, 16 Jan 2026 20:17:22 +0100
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A529C10E117
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:27:11 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-6505d141d02so3958384a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 11:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1768591630; x=1769196430; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cjMTrYrBrzeKqdwskRII283z1dzc+3pWLLZSVhN1rL0=;
+ b=MihcfWZpypk9dsVu6gHi1AGiyyLlxTN3w+fSJKhK90OgjrvQZ/X87XY0Vp0YBC6az5
+ 2hkC/g01ho5TVbbAr7FD5UDzko+Au9fkqkkGAXgjr31HqX4+y3xWvWcdboO9IBckH0SZ
+ 7DNcLim09aT4mwYzfqDExDG/UkjYtZcFynJMw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768591630; x=1769196430;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cjMTrYrBrzeKqdwskRII283z1dzc+3pWLLZSVhN1rL0=;
+ b=d4+hfeqHUpk9ISTgjCZP+IJI3t5LY32hlVnZtb/ORz5VMDO6I7D8eDcbAJvysFrifr
+ opJOPRqTH4aZJ4MGbgZ7X5CLDk2W5nEh+W0Zi2+XD65yfnxIDJ3FrUVJkOMmtBqYxCEv
+ lVq1xSSUdwFjsGCduyRK0lnaT5Ude3UmRhe6q6RDolvEmB/YksI/OOs1/qZd6JPmXM4C
+ 3WzgeRDt7/v/ZImACfUYXr3UvT3yZnWx8oPvMCG9bvBnQezGau6pBbM4MFsd3sRDvqa3
+ Q+acHmdV/Il5ksA9ZNIT/BgqT0bQ+Su0/jOka5xPDw5glpQDyhWcvTCBd0f60Y4lrFv0
+ Qu2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFh6SwEOEvHIkm/7qEfHgCctHHXqohXnKO4C0X3PB237dLPLHYlWBdt9U7gDEF0QdTKmtY0nmiDjc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDs5DHeFGzBGB1TD7NZop2VBG07rSr0z3kH2cIJ/iOY1J7yQTE
+ y4yKjkpXhPM4/nm8c85u0LYMS7x7/g71LlonNRfj+Na9lZIk0a1bZPY1JTHN4OuhknU=
+X-Gm-Gg: AY/fxX6Y+uheR6fFCQvBKE8k2hwb9nxwxlcB7IZi5cTYL9DcdttT1QwL4r7yB7u08tF
+ 2V4csfK32iBwpLJ0wZDdp7fFTbDch9aRbXREyhRId18AWry0fzVqAoJK/6uW/C3JXwZc8NFVL4w
+ AqfY9k+k/h+s6yE89oPJRt/2zUcy4laxfailwzxpvyqkGkCw0zdotQOa32jlwUlQsi8OFh2K6gY
+ H13aU/3EY0lVlxGxYVMud+MF2J6pNnV5+FLbc0QFOb+VWKPN36U6EpilsXt3eVFl7J3fNjNXdwd
+ ynjBlkzx1H5U4eCm7flCjOAZqG+CZN1n5QTIUR9ZL/U10KfcqW4JqYkzy9YaHqwh9OZe5FrIrHE
+ t6GLkOwEYLL75h+EpRvkpTfODnNLylT2fNQQKYdUQ0E509byyTqyCrLiocRb5CjGIUr7seOa4yp
+ AprvOYTKKeFoYh3fmL3yT7S3Y9WrvWpB3uIQ==
+X-Received: by 2002:a05:6402:23c4:b0:655:ad4d:66a2 with SMTP id
+ 4fb4d7f45d1cf-655ad4d67eemr1941937a12.1.1768591629985; 
+ Fri, 16 Jan 2026 11:27:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-65452cdab55sm3233595a12.10.2026.01.16.11.27.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jan 2026 11:27:09 -0800 (PST)
+Date: Fri, 16 Jan 2026 20:27:07 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, simona.vetter@ffwll.ch
+Subject: Re: [pull] amdgpu, amdkfd drm-fixes-6.19
+Message-ID: <aWqRC3xvwpeW7I6t@phenom.ffwll.local>
+References: <20260115205405.1890089-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Francois Dugast <francois.dugast@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>,
- adhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
- <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Balbir Singh <balbirs@nvidia.com>,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
-References: <20260116111325.1736137-1-francois.dugast@intel.com>
- <20260116111325.1736137-2-francois.dugast@intel.com>
- <20260116174947.GA1134434@nvidia.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
- AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJnyBr8BQka0IFQAAoJECJPp+fMgqZkqmMQ
- AIbGN95ptUMUvo6aAdhxaOCHXp1DfIBuIOK/zpx8ylY4pOwu3GRe4dQ8u4XS9gaZ96Gj4bC+
- jwWcSmn+TjtKW3rH1dRKopvC07tSJIGGVyw7ieV/5cbFffA8NL0ILowzVg8w1ipnz1VTkWDr
- 2zcfslxJsJ6vhXw5/npcY0ldeC1E8f6UUoa4eyoskd70vO0wOAoGd02ZkJoox3F5ODM0kjHu
- Y97VLOa3GG66lh+ZEelVZEujHfKceCw9G3PMvEzyLFbXvSOigZQMdKzQ8D/OChwqig8wFBmV
- QCPS4yDdmZP3oeDHRjJ9jvMUKoYODiNKsl2F+xXwyRM2qoKRqFlhCn4usVd1+wmv9iLV8nPs
- 2Db1ZIa49fJet3Sk3PN4bV1rAPuWvtbuTBN39Q/6MgkLTYHb84HyFKw14Rqe5YorrBLbF3rl
- M51Dpf6Egu1yTJDHCTEwePWug4XI11FT8lK0LNnHNpbhTCYRjX73iWOnFraJNcURld1jL1nV
- r/LRD+/e2gNtSTPK0Qkon6HcOBZnxRoqtazTU6YQRmGlT0v+rukj/cn5sToYibWLn+RoV1CE
- Qj6tApOiHBkpEsCzHGu+iDQ1WT0Idtdynst738f/uCeCMkdRu4WMZjteQaqvARFwCy3P/jpK
- uvzMtves5HvZw33ZwOtMCgbpce00DaET4y/UzsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
- J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
- /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
- IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
- X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
- wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
- PVAiT6fnzIKmZAUCZ8gcVAUJFhTonwAKCRAiT6fnzIKmZLY8D/9uo3Ut9yi2YCuASWxr7QQZ
- lJCViArjymbxYB5NdOeC50/0gnhK4pgdHlE2MdwF6o34x7TPFGpjNFvycZqccSQPJ/gibwNA
- zx3q9vJT4Vw+YbiyS53iSBLXMweeVV1Jd9IjAoL+EqB0cbxoFXvnjkvP1foiiF5r73jCd4PR
- rD+GoX5BZ7AZmFYmuJYBm28STM2NA6LhT0X+2su16f/HtummENKcMwom0hNu3MBNPUOrujtW
- khQrWcJNAAsy4yMoJ2Lw51T/5X5Hc7jQ9da9fyqu+phqlVtn70qpPvgWy4HRhr25fCAEXZDp
- xG4RNmTm+pqorHOqhBkI7wA7P/nyPo7ZEc3L+ZkQ37u0nlOyrjbNUniPGxPxv1imVq8IyycG
- AN5FaFxtiELK22gvudghLJaDiRBhn8/AhXc642/Z/yIpizE2xG4KU4AXzb6C+o7LX/WmmsWP
- Ly6jamSg6tvrdo4/e87lUedEqCtrp2o1xpn5zongf6cQkaLZKQcBQnPmgHO5OG8+50u88D9I
- rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
- dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
- m6M14QORSWTLRg==
-In-Reply-To: <20260116174947.GA1134434@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[38]; RCVD_TLS_ALL(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,intel.com,nvidia.com,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,linux-foundation.org,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
- R_RATELIMIT(0.00)[to_ip_from(RLzhxcfrrwnfnqtbioy5kgo5ee)];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115205405.1890089-1-alexander.deucher@amd.com>
+X-Operating-System: Linux phenom 6.17.10+deb14-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,70 +86,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/26 18:49, Jason Gunthorpe wrote:
-> On Fri, Jan 16, 2026 at 12:10:16PM +0100, Francois Dugast wrote:
->> -void zone_device_page_init(struct page *page, unsigned int order)
->> +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
->> +			   unsigned int order)
->>  {
->> +	struct page *new_page = page;
->> +	unsigned int i;
->> +
->>  	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
->>  
->> +	for (i = 0; i < (1UL << order); ++i, ++new_page) {
->> +		struct folio *new_folio = (struct folio *)new_page;
->> +
->> +		/*
->> +		 * new_page could have been part of previous higher order folio
->> +		 * which encodes the order, in page + 1, in the flags bits. We
->> +		 * blindly clear bits which could have set my order field here,
->> +		 * including page head.
->> +		 */
->> +		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
->> +
->> +#ifdef NR_PAGES_IN_LARGE_FOLIO
->> +		/*
->> +		 * This pointer math looks odd, but new_page could have been
->> +		 * part of a previous higher order folio, which sets _nr_pages
->> +		 * in page + 1 (new_page). Therefore, we use pointer casting to
->> +		 * correctly locate the _nr_pages bits within new_page which
->> +		 * could have modified by previous higher order folio.
->> +		 */
->> +		((struct folio *)(new_page - 1))->_nr_pages = 0;
->> +#endif
+On Thu, Jan 15, 2026 at 03:54:05PM -0500, Alex Deucher wrote:
+> Hi Dave, Simona,
 > 
-> This seems too weird, why is it in the loop?  There is only one
-> _nr_pages per folio.
+> Fixes for 6.19.
+> 
+> The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
+> 
+>   Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.19-2026-01-15
+> 
+> for you to fetch changes up to d04f73668bebbc5a44a2771ea92b6ec253148050:
+> 
+>   drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module (2026-01-14 15:07:43 -0500)
 
-I suppose we could be getting say an order-9 folio that was previously used
-as two order-8 folios? And each of them had their _nr_pages in their head
-and we can't know that at this point so we have to reset everything?
+Pulled into drm-fixes, thanks!
 
-AFAIU this would not be a problem if the clearing of the previous state was
-done upon freeing, as e.g. v4 did, but I think you also argued it meant
-processing the pages when freeing and then again at reallocation, so it's
-now like this instead?
+Cheers, Sima
+> 
+> ----------------------------------------------------------------
+> amd-drm-fixes-6.19-2026-01-15:
+> 
+> amdgpu:
+> - GC 9 PTE mtype fix
+> - Non-DC display kernel panic helper fix
+> - Merge fix
+> - GART vram access fix
+> - Userq fixes
+> - PSR debugging fix
+> - HDMI fixes
+> - Backlight fix
+> - SMU 14 fix
+> - TLB flush fixes
+> 
+> amdkfd:
+> - KFD node cleanup for eGPU disconnect
+> - Memory leak fix
+> - MES evict process fix
+> 
+> ----------------------------------------------------------------
+> Alex Deucher (1):
+>       drm/amdgpu: make sure userqs are enabled in userq IOCTLs
+> 
+> Haoxiang Li (1):
+>       drm/amdkfd: fix a memory leak in device_queue_manager_init()
+> 
+> Harish Kasiviswanathan (1):
+>       drm/amdkfd: No need to suspend whole MES to evict process
+> 
+> Ivan Lipski (1):
+>       drm/amd/display: Add an hdmi_hpd_debounce_delay_ms module
+> 
+> Lu Yao (1):
+>       drm/amdgpu: fix drm panic null pointer when driver not support atomic
+> 
+> Mario Limonciello (1):
+>       drm/amd/display: Bump the HDMI clock to 340MHz
+> 
+> Mario Limonciello (AMD) (2):
+>       drm/amd: Clean up kfd node on surprise disconnect
+>       drm/amd/display: Show link name in PSR status message
+> 
+> Peter Colberg (1):
+>       Revert duplicate "drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces"
+> 
+> Philip Yang (1):
+>       drm/amdgpu: Fix gfx9 update PTE mtype flag
+> 
+> Prike Liang (2):
+>       drm/amdgpu: validate the flush_gpu_tlb_pasid()
+>       Revert "drm/amdgpu: don't attach the tlb fence for SI"
+> 
+> Srinivasan Shanmugam (1):
+>       drm/amdgpu/userq: Fix fence reference leak on queue teardown v2
+> 
+> Vivek Das Mohapatra (1):
+>       drm/amd/display: Initialise backlight level values from hw
+> 
+> Xiaogang Chen (1):
+>       drm/amdgpu: Use correct address to setup gart page table for vram access
+> 
+> Yang Wang (1):
+>       drm/amd/pm: fix smu overdrive data type wrong issue on smu 14.0.2
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  8 +++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  7 ++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 12 --------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 11 +++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  4 +++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          | 16 ++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h          |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |  8 +++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  8 ++---
+>  .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  | 31 ++++++++-----------
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 36 +++++++++++++++++++---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  5 ++-
+>  drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h     |  2 +-
+>  .../gpu/drm/amd/display/dc/link/link_detection.c   |  4 ++-
+>  .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  3 +-
+>  18 files changed, 116 insertions(+), 50 deletions(-)
 
-Or maybe you mean that stray _nr_pages in some tail page from previous
-lifetimes can't affect the current lifetime in a wrong way for something
-looking at said page? I don't know immediately.
-
-> This is mostly zeroing some memory in the tail pages? Why?
-> 
-> Why can't this use the normal helpers, like memmap_init_compound()?
-> 
->  struct folio *new_folio = page
-> 
->  /* First 4 tail pages are part of struct folio */
->  for (i = 4; i < (1UL << order); i++) {
->      prep_compound_tail(..)
->  }
-> 
->  prep_comound_head(page, order)
->  new_folio->_nr_pages = 0
-> 
-> ??
-> 
-> Jason
-
+-- 
+Simona Vetter
+Software Engineer
+http://blog.ffwll.ch
