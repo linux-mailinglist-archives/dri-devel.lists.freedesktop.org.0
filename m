@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B04D37A36
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC05D37A38
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E2BD10E164;
-	Fri, 16 Jan 2026 17:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B8710E914;
+	Fri, 16 Jan 2026 17:33:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nHWU4I0+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KAPTPmnn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8610410E910
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D451910E912
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:28 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 774021A28A7;
- Fri, 16 Jan 2026 17:33:25 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id C09B91A28A2;
+ Fri, 16 Jan 2026 17:33:27 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 4C875606F9;
- Fri, 16 Jan 2026 17:33:25 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 95A02606F9;
+ Fri, 16 Jan 2026 17:33:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0B9F610B688EC; Fri, 16 Jan 2026 18:33:20 +0100 (CET)
+ with ESMTPSA id 1134310B688E1; Fri, 16 Jan 2026 18:33:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768584803; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1768584806; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=GMcadQbEAhLIcK+wFfr5iTPjY0nkzGM3bzuOMc2uZCs=;
- b=nHWU4I0+KxmgIAhJj+X+1QvYlCO+E9NOovnKwgGx+IUuRkMoMOfeP+9FEeg3wGxe0S6B1h
- pNhC3bvl/d1es3WQnFfQeXJX4d19PIkVVoU0IOtehR1/YN7/4T2oaJP6p8YzcTLS/t9hh1
- ZjX+zAUFAucjU8RvPToqcBv0EvKRNeOPyiFA63JGeLUEUXWBDk/wP+P9JGyKPM0yOV2Erv
- 6XNyv3eX1Fzr8GsEtMBRn51+mm51hRnsF3etAj6SFvEvLn53VjHLdJ46iBGUNe5M+Onxru
- kp25OLSHFDYuDQ+3xgj5htmztvHgvh7zv3VWkOngMUqbGAergZMi3+3oXJfrXA==
+ bh=IPtDTV3UxlBAHCLMExW04W6Gb1rrw7CzH5qBCtmWqiA=;
+ b=KAPTPmnnjRUqFzYQwlXrdMQ+txz0ssC2vFdma/o8WJHrCIABQVM0Ofy0BoP6lHmRFgl21Z
+ V3djt9VSZXNAhv1Bo9Bacf9ceoZSc6GRONleOsY11fUK6Fo+CAvYndv+A2hNgov0waPRi/
+ hggNJU1ptHojmhF2njIOEGx7pG/DlnZOQuL4CaQRK2oHvC+zDyCAcvkkgEFdchA1mbATKD
+ MILG36rIOmXr8raaVFwuCXv/qcdtJymaJh1kUWo2ASv6ri3w20prmnu5jc8Dh+uLZSItNP
+ t444gsnAK03aqV7+Pu0UNEX1ZRuYGcAefe1ZVZUcGBmUMEx0NOXLstvX5r9fOg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 16 Jan 2026 18:32:39 +0100
-Subject: [PATCH 4/6] drm/mcde: dsi: convert to of_drm_find_and_get_bridge()
+Date: Fri, 16 Jan 2026 18:32:40 +0100
+Subject: [PATCH 5/6] drm: rcar-du: encoder: convert to
+ of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-4-e34b38f50d27@bootlin.com>
+Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-5-e34b38f50d27@bootlin.com>
 References: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 In-Reply-To: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -78,89 +79,109 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-We need to handle the two cases: when a panel is found and when it isn't,
-even though the latter is not supported. So:
+We need to handle the two cases: when a panel_bridge is added and when it
+isn't. So:
 
- * in case a panel is not found and bridge is, get a reference to the
-   found bridge
- * in case a panel is found, get a reference to the panel_bridge when it
-   is added, so the following code always get exactly one reference that
-   it needs to put
+ * in the 'else' case a panel_bridge is not added and bridge is found: use
+   of_drm_find_and_get_bridge() to get a reference to the found bridge
+ * in the 'then' case a panel_bridge is found using a devm function which
+   already takes a refcount and will put it on removal, but we need to take
+   another so the following code in this function always get exactly one
+   reference that it needs to put
 
-Finally, use the next_bridge pointer in struct drm_bridge in order to
-simplify putting the reference.
+In order to put the reference, add the needed drm_bridge_put() calls in the
+existing cleanup function.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/mcde/mcde_dsi.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 28 ++++++++++++++++++-----
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c     |  2 ++
+ 3 files changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 3faebe571fc2..bd2135fd4293 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -40,7 +40,6 @@ struct mcde_dsi {
- 	struct mcde *mcde;
- 	struct drm_bridge bridge;
- 	struct drm_panel *panel;
--	struct drm_bridge *bridge_out;
- 	struct mipi_dsi_host dsi_host;
- 	struct mipi_dsi_device *mdsi;
- 	const struct drm_display_mode *mode;
-@@ -1060,7 +1059,7 @@ static int mcde_dsi_bridge_attach(struct drm_bridge *bridge,
- 	}
- 
- 	/* Attach the DSI bridge to the output (panel etc) bridge */
--	return drm_bridge_attach(encoder, d->bridge_out, bridge, flags);
-+	return drm_bridge_attach(encoder, d->bridge.next_bridge, bridge, flags);
- }
- 
- static const struct drm_bridge_funcs mcde_dsi_bridge_funcs = {
-@@ -1076,7 +1075,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 	struct mcde_dsi *d = dev_get_drvdata(dev);
- 	struct device_node *child;
- 	struct drm_panel *panel = NULL;
--	struct drm_bridge *bridge = NULL;
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+index 7ecec7b04a8d..5789fc75092f 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+@@ -51,7 +51,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ {
+ 	struct rcar_du_encoder *renc;
+ 	struct drm_connector *connector;
+-	struct drm_bridge *bridge;
 +	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
+ 	int ret;
  
- 	if (!of_get_available_child_count(dev->of_node)) {
- 		dev_info(dev, "unused DSI interface\n");
-@@ -1112,7 +1111,8 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 				PTR_ERR(panel));
- 			panel = NULL;
+ 	/*
+@@ -69,20 +69,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
  
--			bridge = of_drm_find_bridge(child);
-+			drm_bridge_put(bridge); // In case of multiple matching loops
-+			bridge = of_drm_find_and_get_bridge(child);
- 			if (!bridge) {
- 				dev_err(dev, "failed to find bridge\n");
- 				of_node_put(child);
-@@ -1127,6 +1127,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 			dev_err(dev, "error adding panel bridge\n");
- 			return PTR_ERR(bridge);
- 		}
+ 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+ 							 DRM_MODE_CONNECTOR_DPI);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
++		if (IS_ERR(bridge)) {
++			// Inhibit the cleanup action on an ERR_PTR
++			ret = PTR_ERR(bridge);
++			bridge = NULL;
++			return ret;
++		}
++
 +		drm_bridge_get(bridge);
- 		dev_info(dev, "connected to panel\n");
- 		d->panel = panel;
- 	} else if (bridge) {
-@@ -1138,7 +1139,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 		return -ENODEV;
+ 	} else {
+-		bridge = of_drm_find_bridge(enc_node);
++		bridge = of_drm_find_and_get_bridge(enc_node);
+ 		if (!bridge)
+ 			return -EPROBE_DEFER;
+ 
+ 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+ 		    output == RCAR_DU_OUTPUT_LVDS1)
+-			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
++			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = drm_bridge_get(bridge);
+ 
+ 		if (output == RCAR_DU_OUTPUT_DSI0 ||
+ 		    output == RCAR_DU_OUTPUT_DSI1)
+-			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
++			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = drm_bridge_get(bridge);
  	}
  
--	d->bridge_out = bridge;
-+	d->bridge.next_bridge = drm_bridge_get(bridge);
+ 	/*
+@@ -135,3 +141,13 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
  
- 	/* Create a bridge for this DSI channel */
- 	d->bridge.of_node = dev->of_node;
-@@ -1158,7 +1159,7 @@ static void mcde_dsi_unbind(struct device *dev, struct device *master,
- 	struct mcde_dsi *d = dev_get_drvdata(dev);
- 
- 	if (d->panel)
--		drm_panel_bridge_remove(d->bridge_out);
-+		drm_panel_bridge_remove(d->bridge.next_bridge);
- 	regmap_update_bits(d->prcmu, PRCM_DSI_SW_RESET,
- 			   PRCM_DSI_SW_RESET_DSI0_SW_RESETN, 0);
+ 	return drm_connector_attach_encoder(connector, &renc->base);
  }
++
++void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu)
++{
++	int i;
++
++	for (i = 0; i < RCAR_DU_MAX_LVDS; i++)
++		drm_bridge_put(rcdu->lvds[i]);
++	for (i = 0; i < RCAR_DU_MAX_DSI; i++)
++		drm_bridge_put(rcdu->dsi[i]);
++}
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
+index e5ec8fbb3979..b2b5e93f30f8 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
+@@ -25,5 +25,6 @@ struct rcar_du_encoder {
+ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 			 enum rcar_du_output output,
+ 			 struct device_node *enc_node);
++void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu);
+ 
+ #endif /* __RCAR_DU_ENCODER_H__ */
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+index 6294443f6068..15d301ab5eef 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+@@ -836,6 +836,8 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
+ 
+ 	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
+ 		platform_device_put(rcdu->cmms[i]);
++
++	rcar_du_encoder_cleanup(rcdu);
+ }
+ 
+ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 
 -- 
 2.52.0
