@@ -2,70 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480A3D33A87
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:04:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D4ED33B62
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F1010E902;
-	Fri, 16 Jan 2026 17:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B115710E906;
+	Fri, 16 Jan 2026 17:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SpF4N0bB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FP4WSqif";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 950A910E902
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:04:04 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id A0FB5C1F1FD;
- Fri, 16 Jan 2026 17:03:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 70AC6606F9;
- Fri, 16 Jan 2026 17:04:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0CDBC10B68CC8; Fri, 16 Jan 2026 18:03:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768583042; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=17sg1MEtS3JEHC+aKMPbN0je70cbqKxiScHC7KFqQ6I=;
- b=SpF4N0bBcN3OLgzywqK54Yy0Qcqn5lCD2SZbtl/jWePDWxYtRlku8fEtsCcs375eOccqgf
- 4FteQFLpdF25i0rFkRoNZtWBldDt34rVGuJeb5bfJPrF6/f5CTdw9i5cgdyJuX4+ZYm0zT
- cltRWJVdbq6LgTagfdf4qqCx0eujHZaMwyPnNlzLmZYaZU9wfo6xBNSvvzVTL/Owte9AoI
- QyjHqZ+1xhmtRyUlrnsiqe0QBWPtJwc7rfFQ3evM5ArTXRy2wgiy0YIej7ePUCbQ42196E
- FpeNeyKKr9t77af3zWahZWEWLQoQMh2hKePv5I3PQnASOgQzsrIRipmEmEe4PA==
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Fri, 16 Jan 2026 18:02:25 +0100
-Subject: [PATCH v4 25/25] rm/tilcdc: Add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011036.outbound.protection.outlook.com [40.107.208.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE6E10E909
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:10:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A9QhN2yyddtWSU/IZF3yTRg3zNlCurcEPqtK4n/5Q5L2ZRX7GpkAWAacaPxH+p9USBvPHGGix+8VrvyLl7pI2g4vFtKSsm8PTuQqlyDj+B2EvmeugL65y8bL94N2pQjIaxE4/kpeKwxKrji5WgcYQqGgvKgySO/UxM5bziOXN2FMpR6wa/fZLX0xt+oMOuTsI+KkMQ390gtXyI6XoFg434pkiPRWzQqo0L143ceTOYA2uu4O95wfWvhabuO24spxfFIES98YyMc/N2IpIu6uzdSHFK9tI/7UvDvNF9O/RGjep5+qmLwDXv/GQf1Li7HKgcHfgCdaOxWpnv0Zj+Cbog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7VuSbtZk2928t/QX8KrxsGRTJfY+QHJyKnr04xQbDmI=;
+ b=VxwQJqhXF1xr+KQ5j8wmNx+G7+aIi0vpHl+tXm8Eyx0/xlwzlqR+fJlBRa2TCg61RDIUFyKN4ur7b3kF28IY8X0yG8ccK9fyHc3CRM8Okx3jZQejAL3n3RPFxTNIISbWsSUvMGOMxwP6CUqpVk2XkCM27ScCfJtpgY6gEvnPcRGcaUTIuWkNKQ8aCECw5IrGTsGS3GJiCVnMk1Eeo4YFTX8Jo8iCz7TdhXXyD7JM0KWrVOuIHZBsfZx99jgOdGrp0VP0b3JO+b3NpBJ2Xqmt4hTu8MkS57FlS20m2lLqVOdYqzji7wxpjBv0IsIGyMG4lYylr/Z9ywuNw/hcLO4/5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=schreibt.jetzt smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7VuSbtZk2928t/QX8KrxsGRTJfY+QHJyKnr04xQbDmI=;
+ b=FP4WSqifBcTSLAudlkRuTyCKCTQFKBzCl3rBqcoVgfez72zGEzunh7JkHCJVb978kQynF604Hbj3oYMpy4i7QbLZ7juk8TimFkdyuC2rvfB98qMqmefANVzAzx4/CS9ocOw0LXVLWDXhnN4HWOfFZrY1M7SC5fdIDOyohymBnfw=
+Received: from SN6PR01CA0012.prod.exchangelabs.com (2603:10b6:805:b6::25) by
+ DS7PR12MB6238.namprd12.prod.outlook.com (2603:10b6:8:96::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.7; Fri, 16 Jan 2026 17:10:43 +0000
+Received: from SN1PEPF000397B1.namprd05.prod.outlook.com
+ (2603:10b6:805:b6:cafe::a) by SN6PR01CA0012.outlook.office365.com
+ (2603:10b6:805:b6::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.7 via Frontend Transport; Fri,
+ 16 Jan 2026 17:10:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF000397B1.mail.protection.outlook.com (10.167.248.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 17:10:42 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Fri, 16 Jan
+ 2026 11:10:38 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 16 Jan
+ 2026 11:01:27 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Fri, 16 Jan 2026 09:01:27 -0800
+Message-ID: <0a7f0ae1-3ce6-c701-6217-422d2728027c@amd.com>
+Date: Fri, 16 Jan 2026 09:01:27 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-feature_tilcdc-v4-25-2c1c22143087@bootlin.com>
-References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
-In-Reply-To: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
- Bajjuri Praneeth <praneeth@ti.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miguel Gazquez <miguel.gazquez@bootlin.com>, 
- Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: amdxdna breaks suspend (was: Re: [PATCH v5 2/8] iommu: Remove
+ IOMMU_DEV_FEAT_SVA)
+Content-Language: en-US
+To: Linus Heckemann <linus@schreibt.jetzt>, Alex Deucher
+ <alexdeucher@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>
+CC: Min Ma <min.ma@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <iommu@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20250418080130.1844424-1-baolu.lu@linux.intel.com>
+ <20250418080130.1844424-3-baolu.lu@linux.intel.com>
+ <ygaqzsib7bc.fsf@localhost> <20251230011916.GB23056@nvidia.com>
+ <yga3445n4wt.fsf@localhost>
+ <CADnq5_NH0DiyE0M44AzaEQhmSksj13wVwEK_Y2JHj3OLEPs9Mg@mail.gmail.com>
+ <20260116160210.GN961588@nvidia.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20260116160210.GN961588@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B1:EE_|DS7PR12MB6238:EE_
+X-MS-Office365-Filtering-Correlation-Id: cce7bc36-87a7-42d0-666b-08de55222e2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|36860700013|376014|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c000RThPamtJZlZrN2RYK29WYnNwcDYySC81MGk2TXVhOGRDenNyRXV3Mzk2?=
+ =?utf-8?B?eis2RmREa1JzOG5QWE9VTENlN0t6eXpZL3ZIaDkxK3NKMHdGRWdqK3A5a1ox?=
+ =?utf-8?B?bm42MExtNi80QmNNV2djWkZGeXFTa3gyQ3p5NG81NHdrKzYzZEgrdDRXVGJr?=
+ =?utf-8?B?c010bGx3d1RXaW9paEQydkQyWGFtVXFvZi9SdW5PM2hWZEtGWGpleXNPQ21I?=
+ =?utf-8?B?bk1LNDZtakdQVStpVHBJdjJtNmJLVzRBS21rMFNjRGRvMEtIeU5qMk5pVUhU?=
+ =?utf-8?B?V1VFYVlDb3JraE5RVDVRakY2TnV5Q0Z5U3ZMQ2dLSmp1bkNVUXJ3SWtqd0ha?=
+ =?utf-8?B?U1FIUlRqNVlaQXlVcGJuN2lGZXpJTlgxUWUrUHZWZmxwOEREd2FaUTNCcmhY?=
+ =?utf-8?B?MEw0VnJadndGT0V3K01uSmZWWGpqT0taOEFPSld5aWdlMTBiaGdTVjYxREtK?=
+ =?utf-8?B?ZldSdWRJb0hiLzdqZ3dZSWRnbmZoZ2JpenY5ZG02Rmt2RG42aElDWTk5cDZy?=
+ =?utf-8?B?Yi9JUzFVdTBiSFFGc08wN2lqTC9ZWXAwSDlYUk95YnhZMmtkMWw0eVhZenpO?=
+ =?utf-8?B?WmhJWnN2SHZHYnQvMlQ5b0VVNWpkRzJQODdKVGlUK0x5dlh1MmZFb1pza0U3?=
+ =?utf-8?B?YXgrTkFlYzU1OXF6Vm5KZCtqbXF0dWdOWU4zUU00OGhKK1ZSY3NCd0NleUZr?=
+ =?utf-8?B?M3BKUkRmcWlKVzZaM1BaTVFMeGIwZTlOQmxOM2tpbFY0SlFmNk02VUpOZWN5?=
+ =?utf-8?B?MU5VY1VnOVEzczJrY1ZvQmIraTY4Mjl5RTRKcUp1bWpHN2tHOVBCSlZxMXpx?=
+ =?utf-8?B?WTJQQ2h4aFd4OENURkVJOVQ1dFBhQlJIMXNNWGxCUWhhc25BVkRkNTMrbzcr?=
+ =?utf-8?B?MXVoNkpjcFJLN2ZXMEt5UGRaa21zbDRnVC8yVHE5a1I5c1d5QnBXQzc5ajli?=
+ =?utf-8?B?aEhuQlYrUFQ3QzVHb1dzcElwZ01nRGUyVHZEdTI1SElSaVY3UUpCR0FSeFVZ?=
+ =?utf-8?B?dUJMVWROTy84VER4R0REUnVwTEM0ZmVMMm9OYm84cHFMUy9IZmhOUU82aE5B?=
+ =?utf-8?B?R0xJZlFZVEdjcU5VUkJ0aVdhQjVoeUhvOFRYNWFSTnlod1laUDZOelV1MDVy?=
+ =?utf-8?B?WWJ0WUdDTmRrZmVjR01WQzg5MzQwTlozSkNZWWFYZFFrSFVVTC9Vc3Y3Skta?=
+ =?utf-8?B?QzZaRzRyR0ZuakwrUkxZM1V4enVEMW1xWUhCR3hYdUNJZlZia2ZnZzVKZTRw?=
+ =?utf-8?B?d0R3aUlFWkg0THhEaFJyVlFBQXZFbXpOb21CbHdRQld1TFZoWXNwN1Zxdkh3?=
+ =?utf-8?B?cFNTZ0hIc3IvTWJLTDJUSTR0Y0hhWWwyaU9FWlpKdjA5RGpyY28rQ1JYakcr?=
+ =?utf-8?B?bHo1d3I4bFAzb0wyYlpzNWduTDdKVXdBc09qZHdRd09pV3dscWdEUE5sMndh?=
+ =?utf-8?B?cDlMZGVMVkQ2bmZ1Znp1ZFJVSnpTaVY2eGJiOGo5N2wxWGR3NFpWU1NKQ0dR?=
+ =?utf-8?B?R3EwSEkxNWVqemhWWVVSVUJoVU9xKzV4T3AycWFROTBRb3g3aFI1Z0VtcytE?=
+ =?utf-8?B?MGZGTWdaaSsvbnh6bG5PWUFkalA4ZVhZNWdTRFF4MDhaTG50MWJpREtGNVpa?=
+ =?utf-8?B?Nk1YeDhXUm5SSGg2TForeWJnc2d3UzdZM2hWbnRrKzNzRWhrUkxjek9WYjV5?=
+ =?utf-8?B?SjV3UGxKMnlkN0ZlK1ZGK0gvbFUxenFyQ3cxcTBUK1NWaGlYUVpWMDkyL2ZC?=
+ =?utf-8?B?aEFOYjM3Zkx0RGUyNHdqRU1TVTgrb2g1eEhzcGNCYkhxV3hCQldRZHlKc1Jr?=
+ =?utf-8?B?VWY1aEFrZ1U1Umk2czJUbWszTXdyZVZkaUlVWE1WYTVWTmZUSENPQ0pVOFlk?=
+ =?utf-8?B?T3FWTFA3ZGNGWDc0RGpLNTdDTmxYSXliNC83NWF0cmlERFJNVzd4TjUvV2Nq?=
+ =?utf-8?B?bElNaWxOR0duY2owVzdTWENVVTZmemtnU1A1U2RTZzkzblphQi8vTTdVUmQ2?=
+ =?utf-8?B?aHAybFZ6U0gvRnNFRmxrbEJnazFuRVVJYUNEVUd5OHBNK2JlL2lSODNXd3hs?=
+ =?utf-8?B?MVFZdm5oMzZ0MjcwNTBQVXdQdDFDbVA4ZVpGSEhNRWZhcVNmWTI4WXhmcytV?=
+ =?utf-8?B?REpLUVNxS0NaUTZ5UFd2MVpXL29CYm9iUlNOaGdsdWhhbGZFLzkwbXRteDFv?=
+ =?utf-8?B?UDkvOEF6WGt0dzBtQzNJK1NyMW9jdU5iNlk4S3FYRGVISnBPMytmS1Qxd3l4?=
+ =?utf-8?B?Y1E4S3QzZ0syNURGaXZ3Z20rUGRnPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(13003099007)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 17:10:42.4560 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cce7bc36-87a7-42d0-666b-08de55222e2e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397B1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6238
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,113 +160,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the driver to use the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag when
-attaching bridges. This modernizes the driver by delegating connector
-creation to the bridge subsystem through drm_bridge_connector_init()
-instead of manually searching for connectors created by the bridge.
 
-The custom tilcdc_encoder_find_connector() function is removed and
-replaced with the standard drm_bridge_connector infrastructure, which
-simplifies the code and aligns with current DRM bridge best practices.
+On 1/16/26 08:02, Jason Gunthorpe wrote:
+> On Fri, Jan 16, 2026 at 10:27:56AM -0500, Alex Deucher wrote:
+>> On Fri, Jan 16, 2026 at 10:12 AM Linus Heckemann <linus@schreibt.jetzt> wrote:
+>>> Jason Gunthorpe <jgg@nvidia.com> writes:
+>>>
+>>>> On Thu, Dec 25, 2025 at 10:05:59PM +0100, Linus Heckemann wrote:
+>>>>> It appears the code removed here was not in fact entirely dead; my 2024
+>>>>> gpd win mini ("G1617-01", with a Ryzen 8840U) fails to suspend
+>>>>> correctly, and I bisected the issue to this commit.
+>>>> The only behavior change this patch had that could be relavent to a
+>>>> Ryzen was in drivers/accel/amdxdna/aie2_pci.c - are you using this
+>>>> driver?
+>>>>
+>>>> Prior to this patch amdxdna would have failed to load in configs
+>>>> without an iommu as iommu_dev_enable_feature() would have
+>>>> failed. After this patch it will load successfully.
 
-This change is safe as there are now no in-tree devicetrees that
-connect tilcdc to bridges which do not support the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+I am wondering if the amdxdna loads firmware successfully or the loading 
+actually failed?
 
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
----
+When running under a hypervisor, we have observed that amdxdna firmware 
+loading failures can cause issues. And a quick fix was recently 
+upstreamed. Please see:
 
-Changes in v4:
-- Select missing DRM_BRIDGE_CONNECTOR and DRM_DISPLAY_HELPER config
-  dependency in Kconfig
----
- drivers/gpu/drm/tilcdc/Kconfig          |  2 ++
- drivers/gpu/drm/tilcdc/tilcdc_encoder.c | 37 ++++++++++++++-------------------
- 2 files changed, 18 insertions(+), 21 deletions(-)
+https://github.com/torvalds/linux/commit/7bbf6d15e935abbb3d604c1fa157350e84a26f98
 
-diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
-index a36e809f984cd..80f53bdd0ace0 100644
---- a/drivers/gpu/drm/tilcdc/Kconfig
-+++ b/drivers/gpu/drm/tilcdc/Kconfig
-@@ -6,9 +6,11 @@ config DRM_TILCDC
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_DMA_HELPER
- 	select DRM_BRIDGE
-+	select DRM_BRIDGE_CONNECTOR
- 	select DRM_PANEL_BRIDGE
- 	select VIDEOMODE_HELPERS
- 	select BACKLIGHT_CLASS_DEVICE
-+	select DRM_DISPLAY_HELPER
- 	help
- 	  Choose this option if you have an TI SoC with LCDC display
- 	  controller, for example AM33xx in beagle-bone, DA8xx, or
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-index 546fe7e6ee815..680a2ac6ab594 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-@@ -8,45 +8,40 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_of.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "tilcdc_drv.h"
- #include "tilcdc_encoder.h"
- 
--static
--struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
--						    struct drm_encoder *encoder)
--{
--	struct drm_connector *connector;
--
--	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
--		if (drm_connector_has_possible_encoder(connector, encoder))
--			return connector;
--	}
--
--	drm_err(ddev, "No connector found for %s encoder (id %d)\n",
--		encoder->name, encoder->base.id);
--
--	return NULL;
--}
--
- static
- int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
- {
- 	struct tilcdc_drm_private *priv = ddev_to_tilcdc_priv(ddev);
-+	struct drm_connector *connector;
- 	int ret;
- 
- 	priv->encoder->base.possible_crtcs = BIT(0);
- 
--	ret = drm_bridge_attach(&priv->encoder->base, bridge, NULL, 0);
-+	ret = drm_bridge_attach(&priv->encoder->base, bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		return ret;
- 
--	priv->connector = tilcdc_encoder_find_connector(ddev, &priv->encoder->base);
--	if (!priv->connector)
--		return -ENODEV;
-+	connector = drm_bridge_connector_init(ddev, &priv->encoder->base);
-+	if (IS_ERR(connector)) {
-+		drm_err(ddev, "bridge_connector create failed\n");
-+		return PTR_ERR(connector);
-+	}
-+
-+	ret = drm_connector_attach_encoder(connector, &priv->encoder->base);
-+	if (ret) {
-+		drm_err(ddev, "attaching encoder to connector failed\n");
-+		return ret;
-+	}
- 
-+	priv->connector = connector;
- 	return 0;
- }
- 
+Are you running under a hypervisor, like xen dom0?
 
--- 
-2.43.0
 
+Thanks,
+
+Lizhi
+
+>>>>
+>>>> If so then that driver presmuably doesn't have working power
+>>>> management in your system.
+>>> You're right, blacklisting the amdxdna driver fixes suspend, thanks for
+>>> the pointer!
+>>>
+>>> @Min Ma, Lizhi Hou, dri-devel: do you have any insight into why this
+>>> might be happening?
+>> The xdna driver requires SVA and the IOMMU.
+> It should probably call device_iommu_mapped() during probe then
+>
+> Jason
