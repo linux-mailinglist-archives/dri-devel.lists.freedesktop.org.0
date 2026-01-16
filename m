@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4AED37A34
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58905D37A35
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E62F010E91A;
-	Fri, 16 Jan 2026 17:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B1610E918;
+	Fri, 16 Jan 2026 17:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="00DqBXZ6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="A9nNee/q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2E910E164
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E92110E91E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:33:23 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 516501A28AA;
- Fri, 16 Jan 2026 17:33:19 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 39F281A28A2;
+ Fri, 16 Jan 2026 17:33:22 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 255C5606F9;
- Fri, 16 Jan 2026 17:33:19 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0EF58606F9;
+ Fri, 16 Jan 2026 17:33:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 805F510B686BE; Fri, 16 Jan 2026 18:33:15 +0100 (CET)
+ with ESMTPSA id 32EFE10B686C1; Fri, 16 Jan 2026 18:33:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768584797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1768584800; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=XWvPrNM51DRgWiT+4jttnUuVuHPq0djc3tV/ZM+m9o0=;
- b=00DqBXZ6UzRS/aLVK8QYcupDhaJq22/amgLzGzGLat9m1McDxVvnZWaWYcempf+fR2a7HU
- 1R6db19pMLi01HSus6kmbRMWs/XSQw/2qo/zarYhZA8kvD4EpezBG7BqINkxFFuFcwPPXy
- DeEjCoebOCKMgVHlvy0yDC6g/7xQvtlgWRG4reDyXaMNy75RXZDajrLlr2XRWEswvdEz7B
- SigPnEoirPQSC/Q9geO34Zjs9IucigYxXvu8XDoh98A6jN+M5TdwtpeROD0zvcOXl2rEYX
- QgfolNwhVT1pd/X+VHTjgGr0ADW4FhlpydZ4OBkMjTW+Kw4FNp+Hlz9ZFhP3Gw==
+ bh=JT9tt5+vYn3tFfsnu8u8PU5Tm0hiFHW/bTFd3Um4N54=;
+ b=A9nNee/qOpnUVD2WtdF3s+ntVaBnalIdxUrWhBAOVWYK8A9JkH8SGy9jJyEZISOfp/xNBi
+ aJAgRnBAeiSypskHt48RCbtHRZ3LuYnwhXw2H0DlzgLIlXy1Vo5tiKNBrn9i1nTn6P5DK+
+ X6qPQpTn0cGxo1COQrpOoBPrmektQEQVyKjCYu2ruemb56iS9CNBIaPsfApeBkFR1e9lfx
+ 3lbdZTh+aD+BE62caxX363CQD7SlnZ682uZP4EW7m/TLzDjXtmRGCcDh+6PlGYkC1x3Kd/
+ 3g97XosijAtgCfvN4PN0ZOmcOtNP6BcMiWuvr1P6dJQ9S/zeMgSPav0h6zvmLQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 16 Jan 2026 18:32:37 +0100
-Subject: [PATCH 2/6] drm/kmb/dsi: convert to of_drm_find_and_get_bridge()
+Date: Fri, 16 Jan 2026 18:32:38 +0100
+Subject: [PATCH 3/6] drm/mcde: dsi: warn in case of multiple subnodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-2-e34b38f50d27@bootlin.com>
+Message-Id: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-3-e34b38f50d27@bootlin.com>
 References: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 In-Reply-To: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -74,32 +74,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_find_and_get_bridge() which gets a bridge reference.
+mcde_dsi_bind() has a loop over all subnodes looking for a panel, but does
+not exit when a match is found and only stores the last match. However this
+will be problematic when introducing refcounting on the struct drm_device
+pointer in a following commit, because of_drm_find_and_get_bridge() would
+get a reference to multiple bridges.
 
-This driver has global variables for the DSI host and DSI device, and code
-to allocate them on probe but no code to free them when on remove. So it
-does not at all support removal, and not even multiple instances. For this
-reason putting the reference would be pointless here.
+Assuming there is no real reason for looking for multiple panels, add a
+warning so it gets noticed in case the assumption is wrong.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/kmb/kmb_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index faf38ca9e44c..8c8908c3bf32 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -251,7 +251,7 @@ int kmb_dsi_host_bridge_init(struct device *dev)
- 		return -EINVAL;
- 	}
- 	/* Locate drm bridge from the hdmi encoder DT node */
--	adv_bridge = of_drm_find_bridge(encoder_node);
-+	adv_bridge = of_drm_find_and_get_bridge(encoder_node);
- 	of_node_put(dsi_out);
- 	of_node_put(encoder_node);
- 	if (!adv_bridge) {
+---
+
+I think the correct thing to do would be adding a break statement when
+there is a match. However I don't have knowledge of this driver and the
+hardware, thus this patch is a prudential alternative, not changing the
+behaviour.
+---
+ drivers/gpu/drm/mcde/mcde_dsi.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+index a3423459dd7a..3faebe571fc2 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi.c
++++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+@@ -1103,6 +1103,9 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 
+ 	/* Look for a panel as a child to this node */
+ 	for_each_available_child_of_node(dev->of_node, child) {
++		/* There should be only one panel subnode */
++		WARN_ON(panel || bridge);
++
+ 		panel = of_drm_find_panel(child);
+ 		if (IS_ERR(panel)) {
+ 			dev_err(dev, "failed to find panel try bridge (%ld)\n",
 
 -- 
 2.52.0
