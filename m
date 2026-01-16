@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F27D33A81
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480A3D33A87
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 18:04:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39C510E8FD;
-	Fri, 16 Jan 2026 17:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2F1010E902;
+	Fri, 16 Jan 2026 17:04:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="i4hfWcEV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SpF4N0bB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939B210E8FD
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:04:01 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 950A910E902
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 17:04:04 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 84C0D1A28EC;
- Fri, 16 Jan 2026 17:04:00 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id A0FB5C1F1FD;
+ Fri, 16 Jan 2026 17:03:36 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 53339606F9;
- Fri, 16 Jan 2026 17:04:00 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 70AC6606F9;
+ Fri, 16 Jan 2026 17:04:03 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id F029D10B68CC0; Fri, 16 Jan 2026 18:03:54 +0100 (CET)
+ with ESMTPSA id 0CDBC10B68CC8; Fri, 16 Jan 2026 18:03:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768583038; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1768583042; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=Uo3AvkfjrdalsyUZuA1OMe08gwk1pI/nU7JxApdIRbQ=;
- b=i4hfWcEVfR4HfSen5S+TqcZ2cUv/xDL1m6+GISfKL5Sj4pR1U7vhJfHxTtF+FGkCnvsWuk
- /ymgDztu0iQyHy8lo3nhzIerj2bj5gP/tbTZc4uYIuaAULIuaumN/8dra+YQJlVQ1xyswq
- lTeeyg125CzwiaahEC7mJAlP93hS3m+JjyOsUnHHUKfNkTPNbL4GvmX3supziLI3ud9r3k
- P/bd7bIsPYfqWmSQKcqI7BoKebL3ZXs1/A3CQZn1CHSsaZDOK3tvSX8fEpVLXcOftJ3TcI
- czSMZVc5pL9XtFOVXeZOlcGkp4lHHlGXitqyF4zWAPEEfGOmNY8Km4HnQ8hDDQ==
+ bh=17sg1MEtS3JEHC+aKMPbN0je70cbqKxiScHC7KFqQ6I=;
+ b=SpF4N0bBcN3OLgzywqK54Yy0Qcqn5lCD2SZbtl/jWePDWxYtRlku8fEtsCcs375eOccqgf
+ 4FteQFLpdF25i0rFkRoNZtWBldDt34rVGuJeb5bfJPrF6/f5CTdw9i5cgdyJuX4+ZYm0zT
+ cltRWJVdbq6LgTagfdf4qqCx0eujHZaMwyPnNlzLmZYaZU9wfo6xBNSvvzVTL/Owte9AoI
+ QyjHqZ+1xhmtRyUlrnsiqe0QBWPtJwc7rfFQ3evM5ArTXRy2wgiy0YIej7ePUCbQ42196E
+ FpeNeyKKr9t77af3zWahZWEWLQoQMh2hKePv5I3PQnASOgQzsrIRipmEmEe4PA==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Fri, 16 Jan 2026 18:02:24 +0100
-Subject: [PATCH v4 24/25] drm/bridge: tda998x: Add support for
+Date: Fri, 16 Jan 2026 18:02:25 +0100
+Subject: [PATCH v4 25/25] rm/tilcdc: Add support for
  DRM_BRIDGE_ATTACH_NO_CONNECTOR
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-feature_tilcdc-v4-24-2c1c22143087@bootlin.com>
+Message-Id: <20260116-feature_tilcdc-v4-25-2c1c22143087@bootlin.com>
 References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
 In-Reply-To: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -81,199 +81,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to allow display
-controller drivers to create their own connectors. This modernizes the
-driver to work with the current DRM bridge framework.
+Convert the driver to use the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag when
+attaching bridges. This modernizes the driver by delegating connector
+creation to the bridge subsystem through drm_bridge_connector_init()
+instead of manually searching for connectors created by the bridge.
 
-The implementation includes:
-- Refactoring detection and EDID reading into bridge-usable helpers
-- Adding bridge operations: edid_read, detect, hpd_enable, hpd_disable
-- Setting appropriate bridge ops (DRM_BRIDGE_OP_EDID, DRM_BRIDGE_OP_DETECT,
-  DRM_BRIDGE_OP_HPD) and connector type (HDMIA)
-- Skipping connector creation when DRM_BRIDGE_ATTACH_NO_CONNECTOR is set
-- Handling conditional connector cleanup in bridge_detach
+The custom tilcdc_encoder_find_connector() function is removed and
+replaced with the standard drm_bridge_connector infrastructure, which
+simplifies the code and aligns with current DRM bridge best practices.
 
-The driver maintains backward compatibility by continuing to create its
-own connector when the flag is not set.
+This change is safe as there are now no in-tree devicetrees that
+connect tilcdc to bridges which do not support the
+DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
- drivers/gpu/drm/bridge/tda998x_drv.c | 96 +++++++++++++++++++++++++++++++-----
- 1 file changed, 85 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tda998x_drv.c b/drivers/gpu/drm/bridge/tda998x_drv.c
-index fad3c9bfda383..d9b388165de15 100644
---- a/drivers/gpu/drm/bridge/tda998x_drv.c
-+++ b/drivers/gpu/drm/bridge/tda998x_drv.c
-@@ -1193,16 +1193,22 @@ static int tda998x_audio_codec_init(struct tda998x_priv *priv,
+Changes in v4:
+- Select missing DRM_BRIDGE_CONNECTOR and DRM_DISPLAY_HELPER config
+  dependency in Kconfig
+---
+ drivers/gpu/drm/tilcdc/Kconfig          |  2 ++
+ drivers/gpu/drm/tilcdc/tilcdc_encoder.c | 37 ++++++++++++++-------------------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
+index a36e809f984cd..80f53bdd0ace0 100644
+--- a/drivers/gpu/drm/tilcdc/Kconfig
++++ b/drivers/gpu/drm/tilcdc/Kconfig
+@@ -6,9 +6,11 @@ config DRM_TILCDC
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_BRIDGE
++	select DRM_BRIDGE_CONNECTOR
+ 	select DRM_PANEL_BRIDGE
+ 	select VIDEOMODE_HELPERS
+ 	select BACKLIGHT_CLASS_DEVICE
++	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Choose this option if you have an TI SoC with LCDC display
+ 	  controller, for example AM33xx in beagle-bone, DA8xx, or
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
+index 546fe7e6ee815..680a2ac6ab594 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
+@@ -8,45 +8,40 @@
  
- /* DRM connector functions */
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_simple_kms_helper.h>
  
--static enum drm_connector_status
--tda998x_connector_detect(struct drm_connector *connector, bool force)
-+static enum drm_connector_status tda998x_conn_detect(struct tda998x_priv *priv)
- {
--	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
- 	u8 val = cec_read(priv, REG_CEC_RXSHPDLEV);
+ #include "tilcdc_drv.h"
+ #include "tilcdc_encoder.h"
  
- 	return (val & CEC_RXSHPDLEV_HPD) ? connector_status_connected :
- 			connector_status_disconnected;
- }
- 
-+static enum drm_connector_status
-+tda998x_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
-+
-+	return tda998x_conn_detect(priv);
-+}
-+
- static const struct drm_connector_funcs tda998x_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -1276,11 +1282,10 @@ static int read_edid_block(void *data, u8 *buf, unsigned int blk, size_t length)
- 	return ret;
- }
- 
--static int tda998x_connector_get_modes(struct drm_connector *connector)
-+static const struct drm_edid *tda998x_edid_read(struct tda998x_priv *priv,
-+						struct drm_connector *connector)
- {
--	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
- 	const struct drm_edid *drm_edid;
--	int n;
- 
- 	/*
- 	 * If we get killed while waiting for the HPD timeout, return
-@@ -1298,6 +1303,16 @@ static int tda998x_connector_get_modes(struct drm_connector *connector)
- 	if (priv->rev == TDA19988)
- 		reg_set(priv, REG_TX4, TX4_PD_RAM);
- 
-+	return drm_edid;
-+}
-+
-+static int tda998x_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
-+	const struct drm_edid *drm_edid;
-+	int n;
-+
-+	drm_edid = tda998x_edid_read(priv, connector);
- 	drm_edid_connector_update(connector, drm_edid);
- 	cec_notifier_set_phys_addr(priv->cec_notify,
- 				   connector->display_info.source_physical_address);
-@@ -1365,10 +1380,8 @@ static int tda998x_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
- 
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
--		return -EINVAL;
+-static
+-struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
+-						    struct drm_encoder *encoder)
+-{
+-	struct drm_connector *connector;
+-
+-	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
+-		if (drm_connector_has_possible_encoder(connector, encoder))
+-			return connector;
 -	}
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+		return 0;
- 
- 	return tda998x_connector_init(priv, bridge->dev);
- }
-@@ -1377,7 +1390,8 @@ static void tda998x_bridge_detach(struct drm_bridge *bridge)
+-
+-	drm_err(ddev, "No connector found for %s encoder (id %d)\n",
+-		encoder->name, encoder->base.id);
+-
+-	return NULL;
+-}
+-
+ static
+ int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
  {
- 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
+ 	struct tilcdc_drm_private *priv = ddev_to_tilcdc_priv(ddev);
++	struct drm_connector *connector;
+ 	int ret;
  
--	drm_connector_cleanup(&priv->connector);
-+	if (priv->connector.dev)
-+		drm_connector_cleanup(&priv->connector);
- }
+ 	priv->encoder->base.possible_crtcs = BIT(0);
  
- static enum drm_mode_status tda998x_bridge_mode_valid(struct drm_bridge *bridge,
-@@ -1677,6 +1691,59 @@ static void tda998x_bridge_mode_set(struct drm_bridge *bridge,
- 	mutex_unlock(&priv->audio_mutex);
- }
+-	ret = drm_bridge_attach(&priv->encoder->base, bridge, NULL, 0);
++	ret = drm_bridge_attach(&priv->encoder->base, bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret)
+ 		return ret;
  
-+static const struct drm_edid *
-+tda998x_bridge_edid_read(struct drm_bridge *bridge,
-+			 struct drm_connector *connector)
-+{
-+	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
-+	const struct drm_edid *drm_edid;
-+	const struct edid *edid;
-+
-+	drm_edid = tda998x_edid_read(priv, connector);
-+	if (!drm_edid) {
-+		dev_dbg(&priv->hdmi->dev, "failed to get edid\n");
-+		return NULL;
+-	priv->connector = tilcdc_encoder_find_connector(ddev, &priv->encoder->base);
+-	if (!priv->connector)
+-		return -ENODEV;
++	connector = drm_bridge_connector_init(ddev, &priv->encoder->base);
++	if (IS_ERR(connector)) {
++		drm_err(ddev, "bridge_connector create failed\n");
++		return PTR_ERR(connector);
 +	}
 +
-+	/*
-+	 * FIXME: This should use connector->display_info.has_audio from
-+	 * a path that has read the EDID and called
-+	 * drm_edid_connector_update().
-+	 */
-+	edid = drm_edid_raw(drm_edid);
-+
-+	dev_dbg(&priv->hdmi->dev, "got edid: width[%d] x height[%d]\n",
-+		edid->width_cm, edid->height_cm);
-+
-+	priv->sink_has_audio = drm_detect_monitor_audio(edid);
-+	cec_notifier_set_phys_addr_from_edid(priv->cec_notify, edid);
-+
-+	return drm_edid;
-+}
-+
-+static enum drm_connector_status
-+tda998x_bridge_detect(struct drm_bridge *bridge,
-+		      struct drm_connector *connector)
-+{
-+	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
-+
-+	return tda998x_conn_detect(priv);
-+}
-+
-+static void tda998x_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
-+
-+	cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
-+}
-+
-+static void tda998x_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
-+
-+	cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
-+}
-+
- static const struct drm_bridge_funcs tda998x_bridge_funcs = {
- 	.attach = tda998x_bridge_attach,
- 	.detach = tda998x_bridge_detach,
-@@ -1684,6 +1751,10 @@ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
- 	.disable = tda998x_bridge_disable,
- 	.mode_set = tda998x_bridge_mode_set,
- 	.enable = tda998x_bridge_enable,
-+	.edid_read = tda998x_bridge_edid_read,
-+	.detect = tda998x_bridge_detect,
-+	.hpd_enable = tda998x_bridge_hpd_enable,
-+	.hpd_disable = tda998x_bridge_hpd_disable,
- };
++	ret = drm_connector_attach_encoder(connector, &priv->encoder->base);
++	if (ret) {
++		drm_err(ddev, "attaching encoder to connector failed\n");
++		return ret;
++	}
  
- /* I2C driver functions */
-@@ -1872,6 +1943,7 @@ tda998x_probe(struct i2c_client *client)
- 
- 		/* enable HPD irq */
- 		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
-+		priv->bridge.ops = DRM_BRIDGE_OP_HPD;
- 	}
- 
- 	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
-@@ -1932,6 +2004,8 @@ tda998x_probe(struct i2c_client *client)
- 	priv->bridge.of_node = dev->of_node;
- #endif
- 
-+	priv->bridge.ops |= DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-+	priv->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	drm_bridge_add(&priv->bridge);
- 
++	priv->connector = connector;
  	return 0;
+ }
+ 
 
 -- 
 2.43.0
