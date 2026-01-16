@@ -2,160 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD27FD2F123
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048CED2F174
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:54:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 120F610E845;
-	Fri, 16 Jan 2026 09:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229A310E1B3;
+	Fri, 16 Jan 2026 09:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="LXRcXGq1";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="cGW/y1xI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022084.outbound.protection.outlook.com [52.101.96.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996AB10E844
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:53:04 +0000 (UTC)
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazhn15010016.outbound.protection.outlook.com [52.102.128.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E912610E1B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:54:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bBFVHC9WCEclA+VQ8RIfKXtWUa2f59+Q6hZz8Dzkg97oRerb9uBO72wP+wMOVaG6lnx5mWj1DSeYB41lfI0kydpe5/WBxBxQ3IDCdPzROzZcXx0apDeraki+jMrRGIzkYWVQTqSgWP45tj/oT1uUgAtm5K46P/d+3SnUVqLeywVkMUrcchL6TdpXnz93C7bnwQxnzQdxp9Z7EcPNv06EAaSwEEzfxjvMiRufZOJealRdsOa1JuzD1RptQzKyqUaHSjOx/Jh5l8VV3GH3naomrYlFClDj2cKkg4HOtzdFDFKXDlhtFAfktwDsoxnI84C9M7iXKGcCBinBozgBIf7vzg==
+ b=qpGSeIWCiO4R6uVwyO53U7VGOVTMoOchTPY1GuqRBrVO4TAhA6BQtMiyxdid9Pq7VmgMiGnkdu9byDoKzvDKn1SsbUbnuGd79O0RF9MYeuFh7Vwk2aFsY/5xIikKeKLonUr96Gn6R5SMIMEuvAOjIwtM412F7+AbM3tJDNj4TJDfcMHhV+9szlcCL2xzklW4KZuo+satAfKcAtmw562OyDvEr2afnbtexKunTpqvkuL/iqNk2xnARmrNBwsxjHRAkoRY6n6tNDbgX8y+XBOITV9o6a9HQFmk1JjgCmNDRwJ96ptztqvOsNP9F4ypgTzAHBDoNuzUjUsemuBViBedQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fFdFgNjD7xKAOMuiDhwbi7FknwIpq2HmuxYUuxu09rY=;
- b=toFpaIWbPb9y5CjLdjSaDh6z41aghrHbWXArk388HSUZDtcg5lbcVC4GSkK95TLkxPw4A03gLrVfDatgEFjJq1CUJa0ixmRMZWqsN3wppkhNTjXuXx8k3gW0+LeBMfZqA+f5ecKgg/r3AmoXET7rG3QH5z4jR2Ri8gk+YK44IcUJmhlg2Wh++ddMw+eJQSpsACEhsD2DVSZK3paWsu7aW4ATQgPQVUikQ5+WFUSCbxlb0aMcNaIVh15L7JQ80ilowMuldkaiTDGSLNbwzC8MMZQEG09ikE3TBXab/DOEV0ZCwKR57ePM9ij8nGdv5NS19y4wSutq93+R3FsCsp3dag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ bh=ZxKsNYyppTV2lSuFj9BY5Ny4idLS0mOmwECCp6pYlr4=;
+ b=x/ZbAD8ksrjsNENpLWh+5pJkkFnFbbaGsNlfezdjx8DT2j0vuv2Ij4nvlp0osvud6KG/MlzPE7QEaUwaWlL+2R4tSIQHK6+X/HKvPmKvBBixAggL1M/COgJzjYClanBYrMrzyRDyF5MEK4o8qe5gVZV7345CKMlHIHMnxlR6rXSC5oMk6g95uCAIz8FoUArpOsnyIgN+XxayeLyUWmgboih1sxp9o/y6k4bNNmWTJ0KNSS+umFxt7ULkyrzkAQsEzQ5jGbKE9jRJzdM66m6bMB6q409Bd6rJTAaxOFk3vCRrQkUVDgpcDWw1Z4T6XPMI+zuy60Pcs2L0l+Zpalmixw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFdFgNjD7xKAOMuiDhwbi7FknwIpq2HmuxYUuxu09rY=;
- b=LXRcXGq1s2livD4IPr2fiyhWAvwv+/OCuqkXD4t6Y+wgR5opGTRnv5K8o5GAo0rsiBN+8b8k+xex8jz3RP9zDaGECugereFpWO0yghPTp+SAa7mkhJRHVz5XlarbWEfKCiJmVvP/sXzHust0yrrH5cbAFjN1m8Yf+r3isqUEdnU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB5995.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:29c::11)
+ bh=ZxKsNYyppTV2lSuFj9BY5Ny4idLS0mOmwECCp6pYlr4=;
+ b=cGW/y1xIvE8MbLqlpp2PUP2GVG49KoCiXx11gp4v+eRD4LIm/u31H43fLE9xEnuRUUtRyJeH+278X9Jvw4dtvwv5wuC4nfEt/UYUjqlB3HrsHjuy8/9rmvh/VXx0ihfb1HGNLRi3eCcWTnzJCFbapFfn7mIO5rtK5PMLXhbE8mc=
+Received: from BL0PR02CA0063.namprd02.prod.outlook.com (2603:10b6:207:3d::40)
+ by CY5PR10MB6045.namprd10.prod.outlook.com (2603:10b6:930:3e::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
- 2026 09:53:00 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9520.006; Fri, 16 Jan 2026
- 09:53:00 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Jan 2026 09:52:59 +0000
-Message-Id: <DFPX7463MNIN.2VZN1M9SRXBNE@garyguo.net>
-Subject: Re: [PATCH] rust: drm: tyr: use read_poll_timeout
-From: "Gary Guo" <gary@garyguo.net>
-To: "Deborah Brouwer" <deborah.brouwer@collabora.com>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>
-Cc: <daniel.almeida@collabora.com>, <aliceryhl@google.com>,
- <boris.brezillon@collabora.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.21.0
-References: <20260115212355.201628-1-deborah.brouwer@collabora.com>
-In-Reply-To: <20260115212355.201628-1-deborah.brouwer@collabora.com>
-X-ClientProxiedBy: LO4P265CA0122.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c6::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Fri, 16 Jan
+ 2026 09:54:14 +0000
+Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
+ (2603:10b6:207:3d:cafe::80) by BL0PR02CA0063.outlook.office365.com
+ (2603:10b6:207:3d::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.7 via Frontend Transport; Fri,
+ 16 Jan 2026 09:54:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 09:54:14 +0000
+Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 16 Jan
+ 2026 03:54:13 -0600
+Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE201.ent.ti.com
+ (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 16 Jan
+ 2026 03:54:13 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 16 Jan 2026 03:54:13 -0600
+Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60G9s6ST2958972;
+ Fri, 16 Jan 2026 03:54:07 -0600
+From: Swamil Jain <s-jain1@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <aradhya.bhatia@linux.dev>,
+ <mwalle@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>,
+ <u-kumar1@ti.com>, <s-jain1@ti.com>
+Subject: [PATCH v4 0/3] Add Display support for AM62P SoC
+Date: Fri, 16 Jan 2026 15:24:03 +0530
+Message-ID: <20260116095406.2544565-1-s-jain1@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB5995:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18fe803d-6926-48ef-6e9c-08de54e5089a
+X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|CY5PR10MB6045:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c50e2d3-90b1-46e8-8749-08de54e534ae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|366016|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1VtanlwVWZMYVU2cUxnSVloTFdHTUxocCttcmZqZkpFeVlkYVV2LzZLcUo3?=
- =?utf-8?B?WDcvcW0xdkZPaTlVNXp0SDhqLzRNMU5YeldRYlFRTFB6S1M5UmxJN3ZtRzVN?=
- =?utf-8?B?d3dOWGdzWVF0dWxGN1dyOEtObzFqdUE5SHY5dmJ4aVA4Sm0xMkpCUDExRTU1?=
- =?utf-8?B?Ty8wUTBKbUVqODgzazFESXEwMjNyR1VsMkNDZnJPa2I0eUxzV1FhTjR0bktF?=
- =?utf-8?B?NFY5SUcxNTErT3o4VkRUeVJ4TjFkVFE3bFV2cXM3aFBIaHFNaVlBcFgrSmJW?=
- =?utf-8?B?RFg0L3hJN2FKZUJCNTdTL0F6dTl0ekhiZmZNRGh6T3NyaGhGOGM0RUdueUhW?=
- =?utf-8?B?QnR6L2NsVHBUNktlZkZ3ajhBdUtCTDBvZ3RGMXJqYkpXSTJqRjJTME9IdVR2?=
- =?utf-8?B?NEtCcUR5TXRwcWVPbGZZNEM0dFQ4Ni83MEY1WjcvaFpGclFYRnN1a08rcDJH?=
- =?utf-8?B?Z1pFL3RqdTFKYVo4SUdMajB6cTlmYWFaL0VJeTdHc1RVYkRPb0hrUXJGSE1o?=
- =?utf-8?B?ZnpZYjVJSEcxSHEwUG1Bbno0SCtsbzNOditqZGlCYWQxTVZ5Z1h2ZmREL1RW?=
- =?utf-8?B?UDFVYXMrM1ZOb0hsR2I3SEI1TDdKRTBuSWUrTmpWMEVNRksxL281TGViMUZl?=
- =?utf-8?B?d0M4enJoTnVuVTVleEwwb0IrbFV2eHQ0Zk1BbUY5NEJJVUxyTHNFQU5TMWpG?=
- =?utf-8?B?SUtZYksvMTltSW43MFdabWF0Z1pObVBscnJTWWFzN0t1T2lzcXdDV3NXL2J4?=
- =?utf-8?B?MWE5eXk1b295QUprYUVlcXMwSjN3T20yVkNGZXlFcGpoVmlaWVIxMkFLTFIx?=
- =?utf-8?B?ZXVpZlBrWFZRN2tLOWEvQzVJR2U1aFd4RThiaXVqZUJObll2Rm92L2MvWUt4?=
- =?utf-8?B?OFA1eVJ5WkNaZ2V5VFNyNmpPVUY2eEVxVkFsZWJHek9VbDhXYzdud2gwaXNH?=
- =?utf-8?B?dUlHbFh6cHpFVnN2SlhPSHQ3bE5PSVJldjhkTkttSWt3M3NvbmgwNkNhTmpD?=
- =?utf-8?B?SXJQK0tiQ3RTREh6UGNraExLWEJpdHVqMFY2ZHhVZlFrelJLMC9TWXJ4UDNz?=
- =?utf-8?B?Uy9acGttOFhLWENZK0toYVlKektzcWtJaFhmam43alRjZXFib3I0NGNBcUlz?=
- =?utf-8?B?L0xKdGV3eDRJUzg3ejNwZjBKdGttNE5FMXR1SWFqaXNxQnhHTmdWR3NkdUJD?=
- =?utf-8?B?K3U5NFAvRkJWUzhiSHE5SkU2dHpWVGpxR3YvbjRhYzV0UkpCbVZLOWFjZTEv?=
- =?utf-8?B?T2JXdDAvK2pkSXozV24zeXRFTlRxM1NoWWZCRWk0THVlVGUvZWlObGZHWWVp?=
- =?utf-8?B?V0xDV1ZkVVN1OHdyWEVmRERsQkNWQnc4NXZ2MjA1UjVNRGxVakxJNC8rdmZ5?=
- =?utf-8?B?S0lEcWNZR3RzWXRjK1JRT3V2d1FBNjUxQ3h0VDVqUUJ6MndPMEZQQ2xJR3Fa?=
- =?utf-8?B?WWVaNC9lMldpRzZ6aE4xRmQ3eFROSGR3R05mSHJ3YWZOSkRManhpODhKWnYr?=
- =?utf-8?B?WDRpTXprdkNKVG9XMGI0cCtzOFFVZEJzbzNrSWtCQXdYS21TVlR5dVBqaVR6?=
- =?utf-8?B?Y3QxY1BtUTU5dWdQNHRNWlBuZEFDTEZUWU04WWxNdUV0cWlwZjBDT09HVU5T?=
- =?utf-8?B?MHNkZ1ZPU0t1RFJXc0xGbUN1NlpmOGt2VG03L1MvUUpqaVZ5Y21RanFVbzJu?=
- =?utf-8?B?WEtMeUFiMXUvWHNzYXJqNm9PRmFPUUNxKzdWSzJNLzdHYVVlTVFkYzhUZXhr?=
- =?utf-8?B?ODE3TmZ1RkNFSk1EMFUxalF1b2J0bWoyWDlSRlN5SGpqeXRnaG15Mlgwczkr?=
- =?utf-8?B?MFJlOXU0bXdLdzU5S211d2lpK3MyeVhnaUE3dkVUK2dUQWVUeUlYSHlEd3V3?=
- =?utf-8?B?T3RMMTRKV2hFOFQwR0pQaDZQUmtjbUdOV2NLQ2k0RHpwMmZhdlZ3QXZENWhu?=
- =?utf-8?B?NGxISVJBTUlpWlZ0enZMcG1FY2oyZ0Zha2R1OEFGc2hEMS9uM3RodTg1NnI4?=
- =?utf-8?B?YWtCME94UE8zR1F5WXdILzhzZGJoWW5wUDFrRC9aTThXTWVFZ1dxbnhWNWFJ?=
- =?utf-8?B?VjliSUFIWkphSWNSTXBnS1JaMnd3RmJlcU5LOHgyRnFUMTlKU25adFFuQ2da?=
- =?utf-8?Q?0zco=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7053199007); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjJsaHMwR0U3bnczcFBqbWNVS2hpdms1UnpxM2hUNnNYc1hXeEFKK3plb25K?=
- =?utf-8?B?dXgvRVdEVHpRTHdOa3kvVUhEWW1iWWdKSHcreDFyQmF3ZHVzbUc5RTdqVW5O?=
- =?utf-8?B?eDd4WkN5ZFVxYjhCN29NMm9SbFp3NXhxMXkyNU9vdFlVLytJVXNtL3Izc21z?=
- =?utf-8?B?UjhPd2wxWWIwZktjR3V2ejg0MVZCWXpST0hLREZBTzdUcVdSdWpzWTZ5YzZK?=
- =?utf-8?B?ZENGOC8rNmxwV2UrU1FUT295aEd2c1hKcFV1T2lKUjRjdEMxSzZLbGdnaXZP?=
- =?utf-8?B?S3NZbkZmVnBqdm9OZ1FEOFJwKzRsVDNCVlJNVTV0d0FSRUJiZEVVRHlVcjJU?=
- =?utf-8?B?SVNnUG5ZaGlSNHZvQ1JVM0NGWUhYRFMzQjBkSGtTNEIxV0h5STAxNzA0MzZ1?=
- =?utf-8?B?d3VnbHFCalB4bGtPeW9RNHRIUnQzWlhrVHQ1SFI2eDZMT0liNjJ1bDF4VmRS?=
- =?utf-8?B?elI2NW1UMktUa1dBUFBjajFERUlTcTVCekI0MTZUK0NTZ042Sm9iNzA3VUU1?=
- =?utf-8?B?N3VhZEpVb2hxTFd0M1hYZ0lGV3M2UlVzVGpLYVB4Z1NUdnB2T0VzUzJLSW02?=
- =?utf-8?B?alc5WW5Ya2pENTQwM0tyLzcwaSthTHB0bWtrTkVWWEFmMGpKSUg1WlNwTENn?=
- =?utf-8?B?aE9FN2s3WWc3UGdCTFVjY0VmbllMRmpyY3lmM0lMVlBYVkJXM0lpblBaekU5?=
- =?utf-8?B?VU5kYTRsYnZBRzk0cndPZUFUS2FJM2hEakplMlVLWGJPemxtUzJPT0Nkc0tu?=
- =?utf-8?B?a2RNbFhqNVNVYS9iN3NJL25hbERKSFowZzNUaTZrbTgrNzhMY2VKTkU0Z1lS?=
- =?utf-8?B?WmEvU0Z5WkFVU2lVVUJpWTBvdEF5NktOQlhaODhIWTBnWS9kd29ld1lyZmtM?=
- =?utf-8?B?eDlIckR3UTFvYnUweERwZ1RzQnhpYWVVNnBtZWI1dHoyRzdYR2U0OWEzVVhy?=
- =?utf-8?B?STJRNEVaajUvVmxJZjREb2JSUG9aczFVQnNPWHRjcWt2ODNxQnVLNGZVd2F2?=
- =?utf-8?B?TmJzclZLOU1RM2p5aUtOK1ljQmNWRHR2eTFlSkhNejVYU1hMWkNibmxUdnlD?=
- =?utf-8?B?Y3JMd3J0WFJLODJYWmIxS0ZwUExwZGg3TmxpeDk1d0QvNUxJSUN1WVc3T05m?=
- =?utf-8?B?ZVZ5Y2lkYktHZXZFZFlid204L2UyNjBLem1GTFRVVjlhSUlPa0tCTVdWL2x1?=
- =?utf-8?B?UDFsckw2c203MlIvQ0ZieTAxUVZ5Q3ZRRXQxSlgrekdhL3lyUXFVQXlXMmI4?=
- =?utf-8?B?SEh3L21LNDFBV1RzeU1udXlxanZLUzR0MktKWVE0bDBPRmdFVHN3UCtucGtz?=
- =?utf-8?B?YThzQ0owUWUwRitGR29URE15QnNOZTM2ZGhpT0Q2SWtETHc4Z014RU12bnBo?=
- =?utf-8?B?dmkxL25VS2xpSFU4SURuMFJ6MGF5NFNDbEdEZjdKdWVIUEhyUytNbEx2QmR6?=
- =?utf-8?B?RUlTNmtGMFlkSU9XZERQbFZQYTdyWWFHdjVjV0FHcW41bFM3S0RRR0tVVTYz?=
- =?utf-8?B?TXgvSUdZUEF1NjVHTENzNFlCcGowbmNIVktMSnZzZTMxNzdjTUxJNFZlNWtu?=
- =?utf-8?B?WEFqZHRuUWdPQ0ZvYUQwYUFIeU5DSzNlc1pWcGZ0UzhLVzB3N0pHc0FPOE8y?=
- =?utf-8?B?d1RMOHlQbnRoV05weVlPSTkyV3lXZTYwaEJ3M3pVM2lIZGNHcnlOTm5VYWNw?=
- =?utf-8?B?RTlZdkNFdXVTTTdXUGVNSk9DT2E3UHI1em94UVMrazFUMStIem1BU2hqRk9h?=
- =?utf-8?B?L2IxaFd2RW1CWlZXclQrTTVpM2djWTQrU0d6VU9HQzRRNjh1dDdMSnc4eXFy?=
- =?utf-8?B?K3kwc1QzS2pGbzJnSVVkb0JCOURnVEtzbU82YUlSK2lCaCtxTEMwb0FFcWdT?=
- =?utf-8?B?SnlMaFFRaW5wQkN1TENFTTZxTk9lM3ZCUVRveWVRRnRDeXkvUkJHNXVDT2Rq?=
- =?utf-8?B?R1JGWExZTjFRdHlnVTlsbkxRbVNsUHpBcExsL29GYlZNWmM1MzNLUjhPbXVh?=
- =?utf-8?B?YU1oYVBabU9xYnl4aUhzT0N6enpnTUIyajlUd3FYOUlKZFVKcDFrWjNFYUEx?=
- =?utf-8?B?ZlA3TVYvOWRtWDVOb3FDQ2RvejN5VzdJZVQ5eGxTU3pFbkZZMmhYVjQ3ME9S?=
- =?utf-8?B?VDcrV2JZUHJZZ1JOT3JWQ0NKam1aVzhGbHp3TVdNYytWWUhWWVJ4OHpVeUEr?=
- =?utf-8?B?czBwaGFLc3VSYmJFejJUanVxUU51blU1Smh3SSszR3hCNmZTNXBkUjN1Z1A4?=
- =?utf-8?B?S05QbUdjdDdJT2NVRit3V2xiZUZLREpOOWg4Q0ZhOFY4WGdLcVRPV29USlVM?=
- =?utf-8?B?U2crUFFMdXBQQ2dFTTI1eUUzOGRGbU5BcURveVMzZ0s4MTdnQ1VFUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18fe803d-6926-48ef-6e9c-08de54e5089a
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 09:53:00.2985 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: co2vzUxLC1yD7b62U7Dyhx4ynfbcVidgrkcJktCGnidcDLOnveVwvphkiTdY4LKdjBIi6MFDvbePDIUHUcHhGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB5995
+ ARA:13230040|1800799024|7416014|376014|36860700013|34020700016|82310400026|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Gor+ux1IGv6t9Dk36pnZVWTpooFel/gs3AxHs7DV4tMogJ6o5rT3a5cM36Vu?=
+ =?us-ascii?Q?hkiQH7NkmrTkrwubZxPPovbH/yoicAm9mUvcZmcOSnOvhGQ+Gj0SpXEmUrV5?=
+ =?us-ascii?Q?jldhnsWBrrlkSNCrG/VaCBsSmxcK/8sp8ZUN2PnZ31Uaxirke5OdqJcSfX2+?=
+ =?us-ascii?Q?wn02Gs/1LBUdhxQQPWT03X42FIYJDSYFRCsM2UPIJ+FEzjFQTT+HNsI4Gold?=
+ =?us-ascii?Q?e2uiW/2KzRPg7n6uMxnhB0bqgTiVlF/oCgdUlCXM0Kc/YX1QIgzqQAWN9h9x?=
+ =?us-ascii?Q?MDqOD2E/2WDy+0q+9yOAgA4Yg0QcGDfLEzA6YtItH49/H2ybILsZpQ8PE+IW?=
+ =?us-ascii?Q?yEYpg7PhDRbyrLE1TEcpkwyvX6Y/9iAFpqUPUj6WLYg5KyxV07zcsytQktT+?=
+ =?us-ascii?Q?GBxndP7gP31SLkQvmpOwSNvhBHQdNy5SAbObAfnlylI6DLj52sSXWmwkOSrN?=
+ =?us-ascii?Q?3v0YlwnkAN674XHLNUt0Qd9NHOvnBEN24HVWVFMw3SdL9DdmSamO9FtbO56h?=
+ =?us-ascii?Q?xO1n0Yd/8xmjiyhnAPhQFKK0FdwPnr7T9NGfshX9EEAESKfDeqJos7RwGfbN?=
+ =?us-ascii?Q?J1jUUgbUSXVPRjhbeLTLTAwItl73BE12oDDWTHcsO6xYpy4v73Pqsv6pHsNh?=
+ =?us-ascii?Q?KUqWEfL7wYo/COV/75EY8bUx+l0xd4mWj+ClTbxZXqvsNj2AGGv8StJlFmjX?=
+ =?us-ascii?Q?BYl+BrgWBSnNIqwTRGbLCfGuUbMYtP/fjCKeeZxLx6n+AR9Fj7+xqRn2k4F0?=
+ =?us-ascii?Q?HA1h7vySzMyx7stMDQult244ARLNbuTzvBMp+e/qqK8x0QodNjfUlMiGEGGK?=
+ =?us-ascii?Q?cwoQXBZACzK1wZtlgjNaZWin+oZxr5lZwuSH1Yhiu9+j9AQ6/TIGfIm9ry1m?=
+ =?us-ascii?Q?gYLOWNSWvVDB6ihJyw9+bm3ijSodGtrhpNRxYTQyRD+SIms9RvmJkL6GFRZy?=
+ =?us-ascii?Q?bgEL8THupvgnTecbzdoEdnn+eZxW9nT9kdDy4vIjb2PmF1jNDZaYmUZSPy7R?=
+ =?us-ascii?Q?jg1yxxqLco3nDo1MR2qE2upxWjkUdm5tfoBvjSYGKqRUQBnSBppx/5arREPv?=
+ =?us-ascii?Q?1GXUsH/wqVw06tQBZAriLG2jdlJQibMAPcbWDR47sySY61Z3g37hmvFdQAhj?=
+ =?us-ascii?Q?tipeAmnIVn+BeI1V+aGJuxQGXHmWasSoWPCpT/+/xAv9xVf4yryzQarkk9rp?=
+ =?us-ascii?Q?gBJTYu9vnRHSGBgb1ctmldelSSvH/cyL5f+Du/3iV590uTWWQy0EFB/MblGA?=
+ =?us-ascii?Q?zeaH646MDI1E1EzI3TkgC5weKxfv/QlXrphrL0f+ubaUoqq23rfnirHG9lEA?=
+ =?us-ascii?Q?EdJwfRUx0wNkqHpWBsnn5AMrCdXI0BOMBTHDD8kp72bc6g23lnYXZ5+J1pIV?=
+ =?us-ascii?Q?Yy+zWnpo1nFMZQjKui8YHJhMhEmUXg9bGd8NHoTzkhwTQy3VwJgj/mwSupe7?=
+ =?us-ascii?Q?085dt5pOSRC5TUfbmT8PkJXuEXlfVd4pmu8W+GYL1mwxeO8yGFWWpQCANjiT?=
+ =?us-ascii?Q?nYvDxruv9TUosgvfbQvH0+sAaJLX/FUw1vhY89S8fWVD5CUADg5zcaH6etp3?=
+ =?us-ascii?Q?Cyi0Xo4yUq4nxWiQj5tYnl5Gcg59KMxQE54+hFwB+QbIz2HaRaejiZsvLI6T?=
+ =?us-ascii?Q?1kwKWeGrqWtYn92kW95m0NZ6x6A5t7s2HqrbK9WqwS0uWhnHIlpj+p/n0s1L?=
+ =?us-ascii?Q?Mhkz24hdzKuAivXk8ScmJUGMDk4=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(34020700016)(82310400026)(921020)(12100799066);
+ DIR:OUT; SFP:1501; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 09:54:14.0124 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c50e2d3-90b1-46e8-8749-08de54e534ae
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
+ Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0002256F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6045
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,114 +150,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Jan 15, 2026 at 9:23 PM GMT, Deborah Brouwer wrote:
-> The L2 power-on sequence and soft reset in Tyr previously relied on fixed
-> sleeps followed by a single register check, since polling helpers were no=
-t
-> available in Rust at the time.
->
-> Now that read_poll_timeout() is available, poll the relevant registers
-> until the hardware reports readiness or a timeout is reached.
->
-> This avoids unnecessary delays on start-up.
->
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
->  drivers/gpu/drm/tyr/driver.rs | 18 +++++++++---------
->  drivers/gpu/drm/tyr/gpu.rs    | 16 +++++++++-------
->  2 files changed, 18 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.r=
-s
-> index f0da58932702..60d01e3f101b 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -8,6 +8,7 @@
->  use kernel::devres::Devres;
->  use kernel::drm;
->  use kernel::drm::ioctl;
-> +use kernel::io::poll;
->  use kernel::new_mutex;
->  use kernel::of;
->  use kernel::platform;
-> @@ -67,19 +68,18 @@ unsafe impl Sync for TyrData {}
->  fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Resul=
-t {
->      regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
-> =20
-> -    // TODO: We cannot poll, as there is no support in Rust currently, s=
-o we
-> -    // sleep. Change this when read_poll_timeout() is implemented in Rus=
-t.
-> -    kernel::time::delay::fsleep(time::Delta::from_millis(100));
-> -
-> -    if regs::GPU_IRQ_RAWSTAT.read(dev, iomem)? & regs::GPU_IRQ_RAWSTAT_R=
-ESET_COMPLETED =3D=3D 0 {
-> -        dev_err!(dev, "GPU reset failed with errno\n");
-> +    if let Err(e) =3D poll::read_poll_timeout(
-> +        || regs::GPU_IRQ_RAWSTAT.read(dev, iomem),
-> +        |status| *status & regs::GPU_IRQ_RAWSTAT_RESET_COMPLETED !=3D 0,
-> +        time::Delta::from_millis(1),
-> +        time::Delta::from_millis(100),
-> +    ) {
->          dev_err!(
->              dev,
-> -            "GPU_INT_RAWSTAT is {}\n",
-> +            "GPU reset failed, GPU_IRQ_RAWSTAT is {}\n",
->              regs::GPU_IRQ_RAWSTAT.read(dev, iomem)?
->          );
-> -
-> -        return Err(EIO);
-> +        return Err(e);
->      }
-> =20
->      Ok(())
-> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
-> index 6c582910dd5d..2ec56f763cc6 100644
-> --- a/drivers/gpu/drm/tyr/gpu.rs
-> +++ b/drivers/gpu/drm/tyr/gpu.rs
-> @@ -4,9 +4,10 @@
->  use kernel::device::Bound;
->  use kernel::device::Device;
->  use kernel::devres::Devres;
-> +use kernel::io::poll;
->  use kernel::platform;
->  use kernel::prelude::*;
-> -use kernel::time;
-> +use kernel::time::Delta;
->  use kernel::transmute::AsBytes;
-> =20
->  use crate::driver::IoMem;
-> @@ -206,13 +207,14 @@ fn from(value: u32) -> Self {
->  pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &Devres<IoMem>) ->=
- Result {
->      regs::L2_PWRON_LO.write(dev, iomem, 1)?;
-> =20
-> -    // TODO: We cannot poll, as there is no support in Rust currently, s=
-o we
-> -    // sleep. Change this when read_poll_timeout() is implemented in Rus=
-t.
-> -    kernel::time::delay::fsleep(time::Delta::from_millis(100));
-> -
-> -    if regs::L2_READY_LO.read(dev, iomem)? !=3D 1 {
-> +    if let Err(e) =3D poll::read_poll_timeout(
-> +        || regs::L2_READY_LO.read(dev, iomem),
-> +        |status| *status =3D=3D 1,
-> +        Delta::from_millis(1),
-> +        Delta::from_millis(100),
-> +    ) {
+Display Controller Overview:
+TI's AM62P[1] SoC has two instances of TI's Display Subsystem (DSS).
+Each instance contains two video ports. Combined, both instances support
+up to three independent video streams: OLDI, DPI, and DSI.
 
-This can be
+This series:
+  1. Updates bindings (PATCH 1/3)
+    - Adds "ti,am62p-dss" compatible string
+    - Modifies power-domain requirements
+  2. Updates driver (PATCH 2/3 and 3/3)
+    - Adds power management for attached PM domains
+    - Enables AM62P DSS support by adding compatible to the driver
 
-    poll::read_poll_timeout(...).inspect_err(|_| dev_err!(...))?;
+Note:
+  - Device-tree changes will be submitted after this series is merged.  
+  - The device-tree patches are available here[2]
 
-Best,
-Gary
+[1]: https://www.ti.com/product/AM62P
+[2]: https://github.com/swamiljain/linux-next/tree/AM62P_J722S_DSS_v1
+---
+Changelog:
+v3->v4:
+  - PATCH 1/3 - Cosmetic changes in commit message
+              - Explain why 2 power-domains can be used in am62p-dss
+              - Remove redundant explanation
+              - Add item description for power-domains property
+              - Define constraints properly by removing min/maxItems
+  - PATCH 2/3 - Remove err_oldi_deinit if tidss_oldi_init() fails
+              - Pick up T-By tag
+  - PATCH 3/3 - No change
 
->          dev_err!(dev, "Failed to power on the GPU\n");
-> -        return Err(EIO);
-> +        return Err(e);
->      }
-> =20
->      Ok(())
+Link to v3: 
+https://lore.kernel.org/all/20260107174525.1702585-1-s-jain1@ti.com/
+
+v2->v3:
+  - PATCH 1/3 - Add a broader range for top-level constraints in the 
+                bindings to resolve dt_biniding_check conflicts
+  - PATCH 2/3 - Remove and modify some comments
+              - Use IS_ERR_OR_NULL() instead od checking for both NULL
+                and IS_ERR()
+              - Changes in error handling paths
+  - PATCH 3/3 - Pick R-by tag
+
+Link to v2:
+https://lore.kernel.org/all/20251125165942.2586341-1-s-jain1@ti.com/
+
+v1->v2:
+  - PATCH 1/3: - Remove unnecessary example
+               - Use "am62p-dss" compatible check for multiple
+                 power-domains
+  - PATCH 2/3:   Add Signed-off-by tag
+
+Link to v1:
+https://lore.kernel.org/all/20251114064336.3683731-1-s-jain1@ti.com/
+---
+
+Devarsh Thakkar (1):
+  drm/tidss: Power up attached PM domains on probe
+
+Swamil Jain (2):
+  dt-bindings: display: ti,am65x-dss: Add am62p dss compatible
+  drm: tidss: tidss_drv: Add support for AM62P display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 37 ++++++++-
+ drivers/gpu/drm/tidss/tidss_drv.c             | 83 ++++++++++++++++++-
+ drivers/gpu/drm/tidss/tidss_drv.h             |  4 +
+ 3 files changed, 118 insertions(+), 6 deletions(-)
 
